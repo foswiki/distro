@@ -61,6 +61,10 @@ sub check_current_value {
         );
     }
 
+    return
+      if ( $Foswiki::cfg{isBOOTSTRAPPING} )
+      ;    #Spec check not needed if no config yet.
+
     my $specChanged;
     foreach my $ext ( Foswiki::Configure::Load::specChanged() ) {
         my $specfile = ( $ext eq 'the core' ) ? 'Foswiki.spec' : 'Config.spec';

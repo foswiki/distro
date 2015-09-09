@@ -81,7 +81,7 @@ msgstr "%1 加入群組 %2。"
 # $date,
 # $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
 msgid "%1 cannot be removed from %2"
 msgstr "%1 不能自 %2 移除"
 
@@ -218,7 +218,7 @@ msgstr "取消(&C)"
 msgid "&History"
 msgstr "歷史(&H)"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "&Sequential"
 msgstr "連續(&S)"
 
@@ -616,7 +616,7 @@ msgid "Access check on %1 failed"
 msgstr "訪問檢查%1失敗"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:29
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid "Access keys"
 msgstr "快捷鍵"
 
@@ -676,7 +676,7 @@ msgstr "增加一個 %1 設定到 WebPreferences"
 msgid "Admin Foswiki User Authentication"
 msgstr "Foswiki 管理員認證"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:27
+#: PatternSkin/data/System/WebLeftBarExample.txt:28
 msgid "Admin Maintenance"
 msgstr "管理員維護"
 
@@ -927,12 +927,12 @@ msgstr ""
 "WebPreferences 中 =ALLOWWEBVIEW= 的相關限制。"
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
 msgid "CHANGE not permitted by %1"
 msgstr "%1 不能變更"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "%2 不能變更 %1"
 
@@ -964,7 +964,7 @@ msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時）"
 msgid "Cancel"
 msgstr "取消"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:46
+#: PatternSkin/templates/edit.pattern.tmpl:35 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
 msgid "Cancel editing and discard changes"
 msgstr "取消編輯並放棄變更"
@@ -993,7 +993,7 @@ msgstr "無法將 %1 改名為 %2，因 %2 已經存在。"
 msgid "Case sensitive"
 msgstr "區分字母大小寫"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:36
+#: PatternSkin/data/System/WebLeftBarExample.txt:37
 msgid "Categories"
 msgstr "類別"
 
@@ -1072,7 +1072,6 @@ msgid "Changed by:"
 msgstr "變更者："
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
 msgstr "改變於"
 
@@ -1157,7 +1156,6 @@ msgstr "欄"
 msgid "Come on in"
 msgstr "來吧"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
@@ -1179,7 +1177,7 @@ msgstr "未登入，禁止評論"
 msgid "Commenting is disabled while running from the command line"
 msgstr "命令列模式中，禁止評論"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
 msgid "Compare revisions"
 msgstr "比較版本"
 
@@ -1214,7 +1212,7 @@ msgid ""
 "assistance."
 msgstr "聯絡 <a href=\\'mailto:%1\\'>網站管理員</a> 尋求協助。"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 msgid "Context"
 msgstr "內文"
 
@@ -1375,12 +1373,12 @@ msgstr "日期"
 msgid "Dear %1"
 msgstr "親愛的 %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Debug"
 msgstr "除錯"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:120
-#: NatEditPlugin/templates/edit.natedit.tmpl:156
+#: NatEditPlugin/templates/edit.natedit.tmpl:114
+#: NatEditPlugin/templates/edit.natedit.tmpl:150
 msgid "Default"
 msgstr "預設"
 
@@ -1686,7 +1684,7 @@ msgstr "移除群組使用者錯誤"
 msgid "Escape markup"
 msgstr "轉義標記"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:125
+#: NatEditPlugin/templates/edit.natedit.tmpl:119
 msgid "Everybody"
 msgstr "每個人"
 
@@ -1694,7 +1692,7 @@ msgstr "每個人"
 msgid "Evil person"
 msgstr "駭客"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:23
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
 msgid "Exit"
 msgstr "離開"
 
@@ -1743,7 +1741,7 @@ msgstr "尋找 %1 的子題..."
 msgid "Find topics that link to %1 ..."
 msgstr "找連到 %1 的主題..."
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:19
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
 msgid "First"
 msgstr "名"
 
@@ -1765,7 +1763,7 @@ msgstr ""
 "要求的文章]]。"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
-#: PatternSkin/templates/edit.pattern.tmpl:23
+#: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "強制新版本"
 
@@ -1884,7 +1882,7 @@ msgstr "好格式"
 msgid "Group"
 msgstr "群組"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:932
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr "群組不存在，且不能建立"
@@ -1893,7 +1891,7 @@ msgstr "群組不存在，且不能建立"
 msgid "Group name"
 msgstr "群組名稱"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
 msgid "Group names must end in Group"
 msgstr "群組名稱必須以 Group 結尾"
 
@@ -2358,16 +2356,16 @@ msgstr "加入 %1"
 msgid "Jump"
 msgstr "到"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to first revision"
 msgstr "移至第一個版本"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr "跳至最新的版本 (%1)"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:135
-#: NatEditPlugin/templates/edit.natedit.tmpl:166
+#: NatEditPlugin/templates/edit.natedit.tmpl:129
+#: NatEditPlugin/templates/edit.natedit.tmpl:160
 msgid "Just me"
 msgstr "只有我"
 
@@ -2379,12 +2377,11 @@ msgstr "文本對齊"
 msgid "Keyword search"
 msgstr "關鍵字搜尋"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
 msgid "Last"
 msgstr "姓"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
 msgstr "最後的編輯者"
 
@@ -2687,7 +2684,7 @@ msgstr "新子網名稱:"
 msgid "Newer revision:"
 msgstr "新版本:"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 #: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr "下一個"
@@ -2749,8 +2746,8 @@ msgstr "未指定使用者"
 msgid "No users to reset passwords for."
 msgstr "沒有用戶重設密碼."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:140
-#: NatEditPlugin/templates/edit.natedit.tmpl:171
+#: NatEditPlugin/templates/edit.natedit.tmpl:134
+#: NatEditPlugin/templates/edit.natedit.tmpl:165
 msgid "Nobody"
 msgstr "無人"
 
@@ -2907,7 +2904,7 @@ msgstr "輸入不同的附件名稱（非必要）:"
 msgid "Optionally enter a different topic name:"
 msgstr "輸入不同的主題名稱（非必要）:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Options"
 msgstr "選項"
 
@@ -2964,8 +2961,8 @@ msgstr "密碼不相同"
 msgid "Pending registration not found"
 msgstr "無等待註冊"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:100
-#: NatEditPlugin/templates/edit.natedit.tmpl:102
+#: NatEditPlugin/templates/edit.natedit.tmpl:94
+#: NatEditPlugin/templates/edit.natedit.tmpl:96
 msgid "Permissions"
 msgstr "權限"
 
@@ -3145,7 +3142,7 @@ msgstr "預覽"
 msgid "Preview your changes"
 msgstr "預覽您的變更"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 #: core/templates/searchformat.tmpl:21
 msgid "Previous"
 msgstr "上一個"
@@ -3211,7 +3208,7 @@ msgstr "拒絕轉址"
 msgid "Redo previous change"
 msgstr "重做前入改變"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
@@ -3228,8 +3225,8 @@ msgstr "註冊者"
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr "目前登入者註冊的電子信箱"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:130
-#: NatEditPlugin/templates/edit.natedit.tmpl:161
+#: NatEditPlugin/templates/edit.natedit.tmpl:124
+#: NatEditPlugin/templates/edit.natedit.tmpl:155
 msgid "Registered users"
 msgstr "註冊的使用者"
 
@@ -3283,7 +3280,7 @@ msgstr "相關主題:"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:689
+#: core/data/System/CommandAndCGIScripts.txt:690
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3358,7 +3355,7 @@ msgstr "改名，移動或刪除子網"
 msgid "Rename/Move"
 msgstr "改名/移動"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr "呈現風格"
 
@@ -3479,7 +3476,6 @@ msgid "Review recent changes in:"
 msgstr "檢視最近的更新在:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "修訂版"
@@ -3496,7 +3492,7 @@ msgstr "修訂版"
 msgid "S = Save, C = Cancel"
 msgstr "S = 存檔，C = 取消"
 
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr "S = 存檔，Q = 快速存檔，K = 存檔並繼續編輯，P = 預覽，C = 取消"
@@ -3669,7 +3665,7 @@ msgstr "選擇本地的新檔來更新附件"
 msgid "Select all topics"
 msgstr "全選"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr "選擇一個較早（左）和一個較晚（右）的版本比較"
 
@@ -3689,7 +3685,7 @@ msgstr "選擇群組加入:"
 msgid "Select topic parent"
 msgstr "選擇父主題"
 
-#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:42
+#: PatternSkin/templates/edit.pattern.tmpl:46 core/templates/edit.tmpl:42
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "在您輸入的底部選擇、複製、貼上您的簽名文字"
 
@@ -3705,7 +3701,7 @@ msgstr "本站不支援新用戶註冊。"
 msgid "Send mail"
 msgstr "寄信"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Sequential"
 msgstr "連續的"
 
@@ -3721,7 +3717,7 @@ msgstr "設定新的父主題"
 msgid "Set new topic parent"
 msgstr "設定新父主題"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 msgid "Show %1 revisions up to revision %2"
 msgstr "檢視 %1 的版本 %2"
 
@@ -3734,7 +3730,7 @@ msgstr "顯示附件說明"
 msgid "Show help"
 msgstr "顯示說明"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "顯示修訂版 %1 - %2 (出自 %3)"
 
@@ -3742,7 +3738,7 @@ msgstr "顯示修訂版 %1 - %2 (出自 %3)"
 msgid "Shrink edit box"
 msgstr "縮小編輯框"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Side by side"
 msgstr "並列"
 
@@ -3818,8 +3814,8 @@ msgstr "選擇列降序排序"
 msgid "Spaces are replaced by underscores"
 msgstr "空格以下劃線取代"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:145
-#: NatEditPlugin/templates/edit.natedit.tmpl:176
+#: NatEditPlugin/templates/edit.natedit.tmpl:139
+#: NatEditPlugin/templates/edit.natedit.tmpl:170
 msgid "Specific users/groups"
 msgstr "特別使用者/群組"
 
@@ -3828,7 +3824,7 @@ msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr "選 =全= 代表所有子網，或以逗號分隔的子網清單： %1"
 
 #: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
-#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr "開始簡報"
 
@@ -4550,7 +4546,6 @@ msgid "Topic data"
 msgstr "主題資料"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 msgid "Topic history"
 msgstr "主題歷史"
 
@@ -4631,7 +4626,7 @@ msgstr "再試一次"
 msgid "URL"
 msgstr "網址"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr "每個更改前後的不變段落"
 
@@ -4764,12 +4759,12 @@ msgstr ""
 "才載入內容，否則請參考各子網的 WebChanges 主題。"
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "使用者 ％1 無變更 %2 的權限。"
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1113
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
 #: core/lib/Foswiki/UserMapping.pm:371
 msgid "User %1 not in group, cannot be removed"
 msgstr "使用者 %1 不在群組中，無法移除"
@@ -4817,20 +4812,20 @@ msgid "Users"
 msgstr "用戶"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:874
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
 msgid "Users cannot be added to %1"
 msgstr "使用者無法加入 %1"
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1083
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
 msgid "Users cannot be removed from %1"
 msgstr "使用者無法自 ％1 移除"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:153
+#: NatEditPlugin/templates/edit.natedit.tmpl:147
 msgid "Users who may edit:"
 msgstr "能編輯的使用者:"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:111
 msgid "Users who may view:"
 msgstr "能瀏覽的使用者:"
 
@@ -4872,11 +4867,11 @@ msgstr "檢視差異"
 msgid "View differences"
 msgstr "檢視差異"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View earlier"
 msgstr "檢視較早的版本"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View later"
 msgstr "檢視較晚的版本"
 
@@ -4910,7 +4905,7 @@ msgstr "檢視範本"
 msgid "View topic"
 msgstr "檢視主題"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "檢視主題完整修訂史"
 
@@ -5021,7 +5016,7 @@ msgstr "誰"
 msgid "Who is requesting this, actually?"
 msgstr "到底是誰提出這個要求？"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr "全頁"
 
@@ -5316,7 +5311,7 @@ msgid ""
 "mail system."
 msgstr "您的註冊確認電子郵件寄送失敗，或在郵件系統中等待寄出。"
 
-#: PatternSkin/templates/edit.pattern.tmpl:48
+#: PatternSkin/templates/edit.pattern.tmpl:46
 msgid "Your signature to copy/paste"
 msgstr "複製/貼上您的簽名"
 
@@ -5408,8 +5403,8 @@ msgstr "變更，更新，前一個版本，移動，刪除..."
 msgid "close display options"
 msgstr "關閉顯示選項"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:118
-#: NatEditPlugin/templates/edit.natedit.tmpl:154
+#: NatEditPlugin/templates/edit.natedit.tmpl:112
+#: NatEditPlugin/templates/edit.natedit.tmpl:148
 msgid "default as defined in the %1"
 msgstr "預設定義於 %1 內"
 
@@ -5442,7 +5437,6 @@ msgid "fields are required."
 msgstr "必填欄位。"
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
-#: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "説明"
 
@@ -5500,7 +5494,7 @@ msgstr "或"
 msgid "preview"
 msgstr "預覽"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:123
+#: NatEditPlugin/templates/edit.natedit.tmpl:117
 msgid "public view access"
 msgstr "公開瀏覽"
 
@@ -5512,16 +5506,16 @@ msgstr "還原"
 msgid "restore form"
 msgstr "還原自"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:133
-#: NatEditPlugin/templates/edit.natedit.tmpl:164
+#: NatEditPlugin/templates/edit.natedit.tmpl:127
+#: NatEditPlugin/templates/edit.natedit.tmpl:158
 msgid "restrict access to %1"
 msgstr "限制使用至 %1"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:128
+#: NatEditPlugin/templates/edit.natedit.tmpl:122
 msgid "restrict read access to users that have an account on this site"
 msgstr "限制閱讀權限於有本站帳號的使用者"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:159
+#: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "restrict write access to users that have an account on this site"
 msgstr "限制寫入權限於有本站帳號的使用者"
 
@@ -5539,16 +5533,16 @@ msgstr "修訂版 %1"
 msgid "set preferences"
 msgstr "設定屬性"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:143
-#: NatEditPlugin/templates/edit.natedit.tmpl:174
+#: NatEditPlugin/templates/edit.natedit.tmpl:137
+#: NatEditPlugin/templates/edit.natedit.tmpl:168
 msgid "specify a list of users and/or groups"
 msgstr "指定一個使用者與/或群組清單"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:138
+#: NatEditPlugin/templates/edit.natedit.tmpl:132
 msgid "strictly deny any access to this topic"
 msgstr "嚴格禁止訪問本主題"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:169
+#: NatEditPlugin/templates/edit.natedit.tmpl:163
 msgid "strictly deny write access to this topic"
 msgstr "嚴格禁止編輯本主題"
 
@@ -5629,7 +5623,7 @@ msgstr "title='退訂主題' accesskey='s' >&s 退訂"
 msgid "title='View complete topic history' accesskey='h'>&History"
 msgstr "title='瀏覽完整主題歷史' accesskey='h'>&H 歷史"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:12
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='瀏覽主題' accesskey='v'>瀏覽(&V)"
@@ -5642,7 +5636,7 @@ msgstr "title='檢視源碼' accesskey='v'>&V 檢視源碼"
 msgid "user list truncated"
 msgstr "用戶列表被刪節"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37
+#: PatternSkin/templates/edit.pattern.tmpl:35
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='取消' accesskey='c'"
 
@@ -5650,19 +5644,19 @@ msgstr "value='取消' accesskey='c'"
 msgid "value='Discard' accesskey='d'"
 msgstr "value='放棄' accesskey='d'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:35
+#: PatternSkin/templates/edit.pattern.tmpl:33
 msgid "value='Preview' accesskey='p'"
 msgstr "value='預覽' accesskey='p'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:31
+#: PatternSkin/templates/edit.pattern.tmpl:29
 msgid "value='Quiet save' accesskey='q'"
 msgstr "value='快速存檔' accesskey='q'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:33
+#: PatternSkin/templates/edit.pattern.tmpl:31
 msgid "value='Save and Continue' accesskey='k'"
 msgstr "value='存檔並繼續編輯' accesskey='k'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:29
+#: PatternSkin/templates/edit.pattern.tmpl:27
 msgid "value='Save' accesskey='s'"
 msgstr "value='存檔' accesskey='s'"
 

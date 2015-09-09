@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-07-31 13:04+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,7 +76,7 @@ msgid "%1 added to the %2 group."
 msgstr "%1 ajouté au groupe %2."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
 msgid "%1 cannot be removed from %2"
 msgstr "%1 ne peut être retiré de %2"
 
@@ -211,7 +211,7 @@ msgstr "Annuler"
 msgid "&History"
 msgstr "&Historique"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "&Sequential"
 msgstr "À la &suite"
 
@@ -646,7 +646,7 @@ msgid "Access check on %1 failed"
 msgstr "L'accès à %1 a été refusé"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:29
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid "Access keys"
 msgstr "Raccourcis clavier"
 
@@ -706,7 +706,7 @@ msgstr "Ajout d'un paramètre %1 dans WebPreferences"
 msgid "Admin Foswiki User Authentication"
 msgstr "Authentification administrateur de Foswiki"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:27
+#: PatternSkin/data/System/WebLeftBarExample.txt:28
 msgid "Admin Maintenance"
 msgstr "Maintenance"
 
@@ -976,12 +976,12 @@ msgstr ""
 "ligne =ALLOWWEBVIEW= de la page WebPreferences."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
 msgid "CHANGE not permitted by %1"
 msgstr "Modification (CHANGE) non permise par %1"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "Modification (CHANGE) de %1 non permise par %2"
 
@@ -1015,7 +1015,7 @@ msgstr ""
 msgid "Cancel"
 msgstr "Annuler"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:46
+#: PatternSkin/templates/edit.pattern.tmpl:35 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
 msgid "Cancel editing and discard changes"
 msgstr "Annuler et abandonner les modifications"
@@ -1044,7 +1044,7 @@ msgstr "Impossible de renommer %1 en %2, qui existe déjà."
 msgid "Case sensitive"
 msgstr "Sensible à la casse"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:36
+#: PatternSkin/data/System/WebLeftBarExample.txt:37
 msgid "Categories"
 msgstr "Catégories"
 
@@ -1123,7 +1123,6 @@ msgid "Changed by:"
 msgstr "Modifié par :"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
 msgstr "Modifié le"
 
@@ -1216,7 +1215,6 @@ msgstr "Colonnes"
 msgid "Come on in"
 msgstr "Entrez"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
@@ -1239,7 +1237,7 @@ msgid "Commenting is disabled while running from the command line"
 msgstr ""
 "Les commentaires sont désactivés dans le fonctionnement en ligne de commande"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
 msgid "Compare revisions"
 msgstr "Comparer les versions"
 
@@ -1278,7 +1276,7 @@ msgstr ""
 "Contactez <a href=\\'mailto:%1\\'>l'administrateur de votre site</a> pour de "
 "l'aide supplémentaire."
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 msgid "Context"
 msgstr "Contexte"
 
@@ -1446,12 +1444,12 @@ msgstr "Date"
 msgid "Dear %1"
 msgstr "Cher·e %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Debug"
 msgstr "Debug"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:120
-#: NatEditPlugin/templates/edit.natedit.tmpl:156
+#: NatEditPlugin/templates/edit.natedit.tmpl:114
+#: NatEditPlugin/templates/edit.natedit.tmpl:150
 msgid "Default"
 msgstr "Défaut"
 
@@ -1781,7 +1779,7 @@ msgstr "Erreurs lors de la suppression de membres de groupes"
 msgid "Escape markup"
 msgstr "Echapper le code"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:125
+#: NatEditPlugin/templates/edit.natedit.tmpl:119
 msgid "Everybody"
 msgstr "Tout le monde"
 
@@ -1789,7 +1787,7 @@ msgstr "Tout le monde"
 msgid "Evil person"
 msgstr "Personne mal intentionnée"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:23
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
 msgid "Exit"
 msgstr "Quitter"
 
@@ -1839,7 +1837,7 @@ msgstr "Chercher les pages qui sont des filles de %1..."
 msgid "Find topics that link to %1 ..."
 msgstr "Chercher les pages qui contiennent un lien pointant vers %1..."
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:19
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
 msgid "First"
 msgstr "Début"
 
@@ -1862,7 +1860,7 @@ msgstr ""
 "Cross-site request forgery sur Wikipedia]]."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
-#: PatternSkin/templates/edit.pattern.tmpl:23
+#: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Forcer le passage à une nouvelle version"
 
@@ -1989,7 +1987,7 @@ msgstr "Conseils pour la rédaction collaborative (GoodStyle)"
 msgid "Group"
 msgstr "Groupe"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:932
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr "Le groupe n'existe pas et la création n'est pas permise"
@@ -1998,7 +1996,7 @@ msgstr "Le groupe n'existe pas et la création n'est pas permise"
 msgid "Group name"
 msgstr "Nom du groupe"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
 msgid "Group names must end in Group"
 msgstr "Les noms de groupes doivent se terminer par Group"
 
@@ -2513,16 +2511,16 @@ msgstr "Rejoindre %1"
 msgid "Jump"
 msgstr "Aller à"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to first revision"
 msgstr "Aller à la première révision"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr "Aller à la dernière révision (%1)"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:135
-#: NatEditPlugin/templates/edit.natedit.tmpl:166
+#: NatEditPlugin/templates/edit.natedit.tmpl:129
+#: NatEditPlugin/templates/edit.natedit.tmpl:160
 msgid "Just me"
 msgstr "Seulement moi"
 
@@ -2534,12 +2532,11 @@ msgstr "Justifier le texte"
 msgid "Keyword search"
 msgstr "Recherche de mots clés par radical (keyword search)"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
 msgid "Last"
 msgstr "Fin"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
 msgstr "Dernière modification par"
 
@@ -2844,7 +2841,7 @@ msgstr "Nouveau nom du web :"
 msgid "Newer revision:"
 msgstr "Nouvelle version :"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 #: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr "Suivant"
@@ -2909,8 +2906,8 @@ msgid "No users to reset passwords for."
 msgstr ""
 "Aucun nom d'utilisateur fourni pour la réinitialisation de mots de passe."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:140
-#: NatEditPlugin/templates/edit.natedit.tmpl:171
+#: NatEditPlugin/templates/edit.natedit.tmpl:134
+#: NatEditPlugin/templates/edit.natedit.tmpl:165
 msgid "Nobody"
 msgstr "Personne"
 
@@ -3074,7 +3071,7 @@ msgstr "Éventuellement, entrez un autre nom de fichier attaché :"
 msgid "Optionally enter a different topic name:"
 msgstr "Éventuellement, entrez un autre nom de page :"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Options"
 msgstr "Options"
 
@@ -3131,8 +3128,8 @@ msgstr "Les mots de passe ne concordent pas"
 msgid "Pending registration not found"
 msgstr "Inscription en cours non trouvée"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:100
-#: NatEditPlugin/templates/edit.natedit.tmpl:102
+#: NatEditPlugin/templates/edit.natedit.tmpl:94
+#: NatEditPlugin/templates/edit.natedit.tmpl:96
 msgid "Permissions"
 msgstr "Permissions"
 
@@ -3321,7 +3318,7 @@ msgstr "Prévisualiser"
 msgid "Preview your changes"
 msgstr "Prévisualiser vos changements"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 #: core/templates/searchformat.tmpl:21
 msgid "Previous"
 msgstr "Précédent"
@@ -3388,7 +3385,7 @@ msgstr "Redirection interdite"
 msgid "Redo previous change"
 msgstr "Refaire le changement précédent"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
@@ -3405,8 +3402,8 @@ msgstr "Inscription"
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr "Adresses e-mail enregistrées pour l'utilisateur actuellement connecté"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:130
-#: NatEditPlugin/templates/edit.natedit.tmpl:161
+#: NatEditPlugin/templates/edit.natedit.tmpl:124
+#: NatEditPlugin/templates/edit.natedit.tmpl:155
 msgid "Registered users"
 msgstr "Utilisateurs inscrits"
 
@@ -3463,7 +3460,7 @@ msgstr "Pages liées :"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:689
+#: core/data/System/CommandAndCGIScripts.txt:690
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3540,7 +3537,7 @@ msgstr "Renommer, déplacer ou supprimer ce Web"
 msgid "Rename/Move"
 msgstr "Renommer/Déplacer"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr "Style d'affichage"
 
@@ -3669,7 +3666,6 @@ msgid "Review recent changes in:"
 msgstr "Pages modifiées récemment dans :"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Version"
@@ -3686,7 +3682,7 @@ msgstr "Versions"
 msgid "S = Save, C = Cancel"
 msgstr "S = Enregistrer, C = Annuler"
 
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr ""
@@ -3870,7 +3866,7 @@ msgstr ""
 msgid "Select all topics"
 msgstr "Tout sélectionner"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 "Sélectionner une version antérieure (gauche) et une version postérieure "
@@ -3892,7 +3888,7 @@ msgstr "Sélectionnez le groupe à rejoindre :"
 msgid "Select topic parent"
 msgstr "Choisissez la page mère"
 
-#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:42
+#: PatternSkin/templates/edit.pattern.tmpl:46 core/templates/edit.tmpl:42
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr ""
 "Sélectionnez, copiez et collez votre signature à la suite de vos "
@@ -3910,7 +3906,7 @@ msgstr "L'auto-inscription n'est pas supportée par ce site."
 msgid "Send mail"
 msgstr "Envoyer e-mail"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Sequential"
 msgstr "À la suite"
 
@@ -3926,7 +3922,7 @@ msgstr "Choisissez la nouvelle page mère"
 msgid "Set new topic parent"
 msgstr "Choisissez la nouvelle page mère"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 msgid "Show %1 revisions up to revision %2"
 msgstr "Afficher %1 versions jusqu'à la version %2"
 
@@ -3939,7 +3935,7 @@ msgstr "Montrer aide sur les fichiers attachés"
 msgid "Show help"
 msgstr "Afficher l'aide"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Liste des versions %1 - %2 (sur un total de %3)"
 
@@ -3947,7 +3943,7 @@ msgstr "Liste des versions %1 - %2 (sur un total de %3)"
 msgid "Shrink edit box"
 msgstr "Rétrécir le cadre d'édition"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Side by side"
 msgstr "Côte à côte"
 
@@ -4028,8 +4024,8 @@ msgstr "Tri décroissant des lignes sélectionnées"
 msgid "Spaces are replaced by underscores"
 msgstr "Les espaces sont remplacés par des tirets-bas (=_=)"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:145
-#: NatEditPlugin/templates/edit.natedit.tmpl:176
+#: NatEditPlugin/templates/edit.natedit.tmpl:139
+#: NatEditPlugin/templates/edit.natedit.tmpl:170
 msgid "Specific users/groups"
 msgstr "Utilisateurs/groupes spécifiques"
 
@@ -4040,7 +4036,7 @@ msgstr ""
 "virgules parmi : %1"
 
 #: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
-#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr "Démarrer présentation"
 
@@ -4853,7 +4849,6 @@ msgid "Topic data"
 msgstr "Données de la page"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 msgid "Topic history"
 msgstr "Historique de la page"
 
@@ -4938,7 +4933,7 @@ msgstr "Réessayer"
 msgid "URL"
 msgstr "URL"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr "Sections inchangées avant et après chaque modification"
 
@@ -5076,13 +5071,13 @@ msgstr ""
 "WebChanges sur chaque Web."
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr ""
 "L'utilisateur %1 n'a pas de permission de modification (CHANGE) sur %2."
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1113
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
 #: core/lib/Foswiki/UserMapping.pm:371
 msgid "User %1 not in group, cannot be removed"
 msgstr "Utilisateur %1 pas dans le groupe, ne peut être supprimé"
@@ -5132,20 +5127,20 @@ msgid "Users"
 msgstr "Utilisateurs"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:874
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
 msgid "Users cannot be added to %1"
 msgstr "On ne peut pas ajouter des utilisateur à %1"
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1083
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
 msgid "Users cannot be removed from %1"
 msgstr "Les utilisateurs ne peuvent pas être supprimés de %1"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:153
+#: NatEditPlugin/templates/edit.natedit.tmpl:147
 msgid "Users who may edit:"
 msgstr "Utilisateurs qui peuvent modifier :"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:111
 msgid "Users who may view:"
 msgstr "Utilisateurs qui peuvent voir :"
 
@@ -5190,11 +5185,11 @@ msgstr "Afficher les différences"
 msgid "View differences"
 msgstr "Afficher différences"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View earlier"
 msgstr "Voir précédentes"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View later"
 msgstr "Voir suivantes"
 
@@ -5228,7 +5223,7 @@ msgstr "Voir les modèles de formulaires disponibles"
 msgid "View topic"
 msgstr "Afficher la page"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "Afficher l&#39;intégralité de l&#39;historique"
 
@@ -5354,7 +5349,7 @@ msgstr "Qui"
 msgid "Who is requesting this, actually?"
 msgstr "Qui est à l'origine de la requête, en réalité ?"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr "Page entière"
 
@@ -5702,7 +5697,7 @@ msgstr ""
 "La vérification a votre inscription par e-mail a échoué, ou elle est en "
 "cours d'acheminement par le système de messagerie."
 
-#: PatternSkin/templates/edit.pattern.tmpl:48
+#: PatternSkin/templates/edit.pattern.tmpl:46
 msgid "Your signature to copy/paste"
 msgstr "Votre signature, à copier/coller"
 
@@ -5800,8 +5795,8 @@ msgstr "changer, mettre à jour, versions précédentes, déplacer, effacer..."
 msgid "close display options"
 msgstr "fermer options d'affichage"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:118
-#: NatEditPlugin/templates/edit.natedit.tmpl:154
+#: NatEditPlugin/templates/edit.natedit.tmpl:112
+#: NatEditPlugin/templates/edit.natedit.tmpl:148
 msgid "default as defined in the %1"
 msgstr "défaut tel que définit dans %1"
 
@@ -5834,7 +5829,6 @@ msgid "fields are required."
 msgstr "sont des champs devant être remplis."
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
-#: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "aide"
 
@@ -5892,7 +5886,7 @@ msgstr "ou"
 msgid "preview"
 msgstr "prévisualiser"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:123
+#: NatEditPlugin/templates/edit.natedit.tmpl:117
 msgid "public view access"
 msgstr "accès public"
 
@@ -5904,17 +5898,17 @@ msgstr "restaurer"
 msgid "restore form"
 msgstr "restaurer formulaire"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:133
-#: NatEditPlugin/templates/edit.natedit.tmpl:164
+#: NatEditPlugin/templates/edit.natedit.tmpl:127
+#: NatEditPlugin/templates/edit.natedit.tmpl:158
 msgid "restrict access to %1"
 msgstr "restreindre l'accès à %1"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:128
+#: NatEditPlugin/templates/edit.natedit.tmpl:122
 msgid "restrict read access to users that have an account on this site"
 msgstr ""
 "restreindre l'accès en lecture aux utilisateurs qui ont un compte sur ce site"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:159
+#: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "restrict write access to users that have an account on this site"
 msgstr ""
 "restreindre l'accès en écriture aux utilisateurs qui ont un compte sur ce "
@@ -5934,16 +5928,16 @@ msgstr "version %1"
 msgid "set preferences"
 msgstr "définir les options"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:143
-#: NatEditPlugin/templates/edit.natedit.tmpl:174
+#: NatEditPlugin/templates/edit.natedit.tmpl:137
+#: NatEditPlugin/templates/edit.natedit.tmpl:168
 msgid "specify a list of users and/or groups"
 msgstr "spécifier une liste d'utilisateurs et/ou de groupes"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:138
+#: NatEditPlugin/templates/edit.natedit.tmpl:132
 msgid "strictly deny any access to this topic"
 msgstr "interdire strictement tout accès à cette page"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:169
+#: NatEditPlugin/templates/edit.natedit.tmpl:163
 msgid "strictly deny write access to this topic"
 msgstr "interdire strictement l'accès en écriture à cette page"
 
@@ -6035,7 +6029,7 @@ msgstr ""
 "title='Afficher l&#39;intégralité de l&#39;historique de la page' "
 "accesskey='h'>&Historique"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:12
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Voir la page' accesskey='v'>&Voir la page"
@@ -6050,7 +6044,7 @@ msgstr ""
 msgid "user list truncated"
 msgstr "liste incomplète"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37
+#: PatternSkin/templates/edit.pattern.tmpl:35
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='Annuler' accesskey='c'"
 
@@ -6058,19 +6052,19 @@ msgstr "value='Annuler' accesskey='c'"
 msgid "value='Discard' accesskey='d'"
 msgstr "value='Abandonner' accesskey='d'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:35
+#: PatternSkin/templates/edit.pattern.tmpl:33
 msgid "value='Preview' accesskey='p'"
 msgstr "value='Prévisualiser' accesskey='p'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:31
+#: PatternSkin/templates/edit.pattern.tmpl:29
 msgid "value='Quiet save' accesskey='q'"
 msgstr "value='Enregistrer sans notification' accesskey='q'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:33
+#: PatternSkin/templates/edit.pattern.tmpl:31
 msgid "value='Save and Continue' accesskey='k'"
 msgstr "value='Enregistrer et continuer de modifier' accesskey='k'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:29
+#: PatternSkin/templates/edit.pattern.tmpl:27
 msgid "value='Save' accesskey='s'"
 msgstr "value='Enregistrer' accesskey='s'"
 

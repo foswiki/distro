@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1439475374" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1441729129" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
 %TOC%
 
@@ -56,6 +56,7 @@ is sufficient.
 
 |  Copyright &copy;: | 2007-2015 Michael Daum http://michaeldaumconsulting.com |
 |  Change History: | |
+|  08 Sep 2015 | Remove RevCommentPlugin hooks from templates,  Hide ToipcTitle when unused. |
 |  30 Aug 2015 | fixed default implementation for =topictitle= |
 |  29 Jul 2015 | added missing image in documentation |
 |  06 Mar 2015 | fixed permissions editor |
@@ -177,4 +178,4 @@ is sufficient.
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1439475374" size="64487" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1441729129" size="64487" user="ProjectContributor" version="1"}%

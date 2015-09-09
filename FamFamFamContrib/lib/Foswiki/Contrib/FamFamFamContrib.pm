@@ -4,8 +4,8 @@ package Foswiki::Contrib::FamFamFamContrib;
 use strict;
 use warnings;
 
-our $VERSION = '1.7';
-our $RELEASE = '1.7';
+our $VERSION = '1.8';
+our $RELEASE = '1.8';
 our $SHORTDESCRIPTION =
   'FamFamFam Silk is a smooth, free icon set, containing over 2000 icons';
 

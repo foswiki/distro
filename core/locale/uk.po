@@ -81,7 +81,7 @@ msgid "%1 added to the %2 group."
 msgstr "%1 переміщена з %2 до %3 користувачем %4"
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
 #, fuzzy
 msgid "%1 cannot be removed from %2"
 msgstr "%1 переміщена з %2 до %3 користувачем %4"
@@ -225,7 +225,7 @@ msgstr "Відмінити"
 msgid "&History"
 msgstr "Історія"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #, fuzzy
 msgid "&Sequential"
 msgstr "Послідовно"
@@ -660,7 +660,7 @@ msgid "Access check on %1 failed"
 msgstr "Перевірка доступу для %1 закінчилася невдало"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:29
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid "Access keys"
 msgstr "Швидкі клавіші"
 
@@ -730,7 +730,7 @@ msgstr "Додавання змінної %1 у [[WebPreferences][Парамет
 msgid "Admin Foswiki User Authentication"
 msgstr "Ідентифікація користувача TWiki"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:27
+#: PatternSkin/data/System/WebLeftBarExample.txt:28
 msgid "Admin Maintenance"
 msgstr "Адміністрування"
 
@@ -1006,12 +1006,12 @@ msgstr ""
 "=ALLOWWEBVIEW= зі [[WebPreferences][Параметрів розділу]]."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -1044,7 +1044,7 @@ msgstr ""
 msgid "Cancel"
 msgstr "Відміна"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:46
+#: PatternSkin/templates/edit.pattern.tmpl:35 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
 msgid "Cancel editing and discard changes"
 msgstr "Відмінити редагування і відмовитися від змін"
@@ -1074,7 +1074,7 @@ msgstr "Неможливо перейменувати %1 у %2 оскільки 
 msgid "Case sensitive"
 msgstr "З урахуванням регістра"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:36
+#: PatternSkin/data/System/WebLeftBarExample.txt:37
 msgid "Categories"
 msgstr "Категорії"
 
@@ -1162,7 +1162,6 @@ msgid "Changed by:"
 msgstr "Змінений(і) "
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 #, fuzzy
 msgid "Changed on"
 msgstr "Змінено"
@@ -1255,7 +1254,6 @@ msgstr ""
 msgid "Come on in"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
@@ -1277,7 +1275,7 @@ msgstr ""
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
 msgid "Compare revisions"
 msgstr "Порівняти редакції"
 
@@ -1313,7 +1311,7 @@ msgid ""
 "assistance."
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 #, fuzzy
 msgid "Context"
 msgstr "Країна:"
@@ -1490,12 +1488,12 @@ msgstr "Дата"
 msgid "Dear %1"
 msgstr "Любий(а) %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Debug"
 msgstr "Відладка"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:120
-#: NatEditPlugin/templates/edit.natedit.tmpl:156
+#: NatEditPlugin/templates/edit.natedit.tmpl:114
+#: NatEditPlugin/templates/edit.natedit.tmpl:150
 #, fuzzy
 msgid "Default"
 msgstr "Шаблон за умовчанням"
@@ -1840,7 +1838,7 @@ msgstr "Помилка збереження сторінки"
 msgid "Escape markup"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:125
+#: NatEditPlugin/templates/edit.natedit.tmpl:119
 msgid "Everybody"
 msgstr ""
 
@@ -1849,7 +1847,7 @@ msgstr ""
 msgid "Evil person"
 msgstr "Змінити особисті дані"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:23
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
 msgid "Exit"
 msgstr ""
 
@@ -1900,7 +1898,7 @@ msgstr "Знайти теми, що посилаються на %1 ..."
 msgid "Find topics that link to %1 ..."
 msgstr "Знайти теми, що посилаються на %1 ..."
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:19
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
 #, fuzzy
 msgid "First"
 msgstr "Ім'я:"
@@ -1922,7 +1920,7 @@ msgid ""
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
-#: PatternSkin/templates/edit.pattern.tmpl:23
+#: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Створити нову редакцію"
 
@@ -2052,7 +2050,7 @@ msgstr ""
 msgid "Group"
 msgstr "Групи"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:932
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -2062,7 +2060,7 @@ msgstr ""
 msgid "Group name"
 msgstr "Назва теми"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
 msgid "Group names must end in Group"
 msgstr ""
 
@@ -2561,17 +2559,17 @@ msgstr ""
 msgid "Jump"
 msgstr "Перейти"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "Jump to first revision"
 msgstr "Порівняти редакції"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:135
-#: NatEditPlugin/templates/edit.natedit.tmpl:166
+#: NatEditPlugin/templates/edit.natedit.tmpl:129
+#: NatEditPlugin/templates/edit.natedit.tmpl:160
 msgid "Just me"
 msgstr ""
 
@@ -2584,13 +2582,12 @@ msgstr ""
 msgid "Keyword search"
 msgstr "Змінити пошук"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
 #, fuzzy
 msgid "Last"
 msgstr "Прізвище:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 #, fuzzy
 msgid "Last edited by"
 msgstr "Останньому хто редагував"
@@ -2915,7 +2912,7 @@ msgstr "Нове ім'я розділу:"
 msgid "Newer revision:"
 msgstr "Молодша редакція:"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 #: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr ""
@@ -2984,8 +2981,8 @@ msgstr ""
 msgid "No users to reset passwords for."
 msgstr "Нікому скидати паролі."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:140
-#: NatEditPlugin/templates/edit.natedit.tmpl:171
+#: NatEditPlugin/templates/edit.natedit.tmpl:134
+#: NatEditPlugin/templates/edit.natedit.tmpl:165
 msgid "Nobody"
 msgstr ""
 
@@ -3152,7 +3149,7 @@ msgstr "Введіть іншу назву теми, якщо це необхі�
 msgid "Optionally enter a different topic name:"
 msgstr "Введіть іншу назву теми, якщо це необхідно:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 #, fuzzy
 msgid "Options"
 msgstr "Дія"
@@ -3216,8 +3213,8 @@ msgstr "Паролі не співпадають"
 msgid "Pending registration not found"
 msgstr "Відсутнє визначення форми %1"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:100
-#: NatEditPlugin/templates/edit.natedit.tmpl:102
+#: NatEditPlugin/templates/edit.natedit.tmpl:94
+#: NatEditPlugin/templates/edit.natedit.tmpl:96
 #, fuzzy
 msgid "Permissions"
 msgstr "Редакції"
@@ -3431,7 +3428,7 @@ msgstr "попередній перегляд"
 msgid "Preview your changes"
 msgstr "Огляд недавніх змін у:"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 #: core/templates/searchformat.tmpl:21
 msgid "Previous"
 msgstr ""
@@ -3503,7 +3500,7 @@ msgstr ""
 msgid "Redo previous change"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
@@ -3520,8 +3517,8 @@ msgstr "Реєструватися"
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:130
-#: NatEditPlugin/templates/edit.natedit.tmpl:161
+#: NatEditPlugin/templates/edit.natedit.tmpl:124
+#: NatEditPlugin/templates/edit.natedit.tmpl:155
 #, fuzzy
 msgid "Registered users"
 msgstr "Реєструватися"
@@ -3580,7 +3577,7 @@ msgstr "Зв'язані теми"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:689
+#: core/data/System/CommandAndCGIScripts.txt:690
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3664,7 +3661,7 @@ msgstr "Перейменувати, перемістити або вилучит
 msgid "Rename/Move"
 msgstr "Перейменувати/перемістити"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr ""
 
@@ -3791,7 +3788,6 @@ msgid "Review recent changes in:"
 msgstr "Огляд недавніх змін у:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Редакція"
@@ -3809,7 +3805,7 @@ msgstr "Редакції"
 msgid "S = Save, C = Cancel"
 msgstr "S = зберегти, C = відміна"
 
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr ""
@@ -4000,7 +3996,7 @@ msgstr ""
 msgid "Select all topics"
 msgstr "Вибрати усе"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
@@ -4024,7 +4020,7 @@ msgstr "Встановити нового батька для теми"
 msgid "Select topic parent"
 msgstr "Встановити нового батька для теми"
 
-#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:42
+#: PatternSkin/templates/edit.pattern.tmpl:46 core/templates/edit.tmpl:42
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "Виділіть, скопіюйте та вставте свій підпис знизу під Вашим записом"
 
@@ -4040,7 +4036,7 @@ msgstr ""
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Sequential"
 msgstr "Послідовно"
 
@@ -4056,7 +4052,7 @@ msgstr ""
 msgid "Set new topic parent"
 msgstr "Встановити нового батька для теми"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 #, fuzzy
 msgid "Show %1 revisions up to revision %2"
 msgstr "Проглянути попередню редакцію"
@@ -4071,7 +4067,7 @@ msgstr "Показать прикрепленные файлы"
 msgid "Show help"
 msgstr "Показати підказку"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr ""
 
@@ -4079,7 +4075,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Стиснути вікно редагування"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Side by side"
 msgstr "У дві колонки"
 
@@ -4158,8 +4154,8 @@ msgstr ""
 msgid "Spaces are replaced by underscores"
 msgstr "Пропуски замінені знаками підкреслення"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:145
-#: NatEditPlugin/templates/edit.natedit.tmpl:176
+#: NatEditPlugin/templates/edit.natedit.tmpl:139
+#: NatEditPlugin/templates/edit.natedit.tmpl:170
 msgid "Specific users/groups"
 msgstr ""
 
@@ -4168,7 +4164,7 @@ msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
 
 #: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
-#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr ""
 
@@ -4934,7 +4930,6 @@ msgid "Topic data"
 msgstr "Назва теми"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 #, fuzzy
 msgid "Topic history"
 msgstr "Заголовок теми"
@@ -5019,7 +5014,7 @@ msgstr "Спробувати ще раз"
 msgid "URL"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr ""
 
@@ -5153,12 +5148,12 @@ msgid ""
 msgstr ""
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr ""
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1113
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
 #: core/lib/Foswiki/UserMapping.pm:371
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
@@ -5209,20 +5204,20 @@ msgid "Users"
 msgstr "Користувачі"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:874
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
 msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1083
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
 msgid "Users cannot be removed from %1"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:153
+#: NatEditPlugin/templates/edit.natedit.tmpl:147
 msgid "Users who may edit:"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:111
 msgid "Users who may view:"
 msgstr ""
 
@@ -5268,12 +5263,12 @@ msgstr "Подивитися відмінності"
 msgid "View differences"
 msgstr "Подивитися відмінності"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "View earlier"
 msgstr "Проглянути шаблони"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "View later"
 msgstr "Проглянути шаблони"
@@ -5310,7 +5305,7 @@ msgstr "Проглянути шаблони"
 msgid "View topic"
 msgstr "Проглянути тему"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "Проглянути повну історію змін сторінки"
 
@@ -5429,7 +5424,7 @@ msgstr "Хто"
 msgid "Who is requesting this, actually?"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr ""
 
@@ -5754,7 +5749,7 @@ msgid ""
 "mail system."
 msgstr ""
 
-#: PatternSkin/templates/edit.pattern.tmpl:48
+#: PatternSkin/templates/edit.pattern.tmpl:46
 #, fuzzy
 msgid "Your signature to copy/paste"
 msgstr "Ваш підпис для копіювання/вставки:"
@@ -5852,8 +5847,8 @@ msgstr "змінити, поновити, попередні редакції, �
 msgid "close display options"
 msgstr "Інші операції..."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:118
-#: NatEditPlugin/templates/edit.natedit.tmpl:154
+#: NatEditPlugin/templates/edit.natedit.tmpl:112
+#: NatEditPlugin/templates/edit.natedit.tmpl:148
 #, fuzzy
 msgid "default as defined in the %1"
 msgstr "Форма повинна бути визначена на сторінці теми %1"
@@ -5889,7 +5884,6 @@ msgid "fields are required."
 msgstr " - ці поля необхідно заповнити."
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
-#: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "допомога"
 
@@ -5948,7 +5942,7 @@ msgstr "або"
 msgid "preview"
 msgstr "попередній перегляд"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:123
+#: NatEditPlugin/templates/edit.natedit.tmpl:117
 #, fuzzy
 msgid "public view access"
 msgstr "У всіх загальнодоступних розділах"
@@ -5963,16 +5957,16 @@ msgstr "Відновити"
 msgid "restore form"
 msgstr "Відновити тему"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:133
-#: NatEditPlugin/templates/edit.natedit.tmpl:164
+#: NatEditPlugin/templates/edit.natedit.tmpl:127
+#: NatEditPlugin/templates/edit.natedit.tmpl:158
 msgid "restrict access to %1"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:128
+#: NatEditPlugin/templates/edit.natedit.tmpl:122
 msgid "restrict read access to users that have an account on this site"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:159
+#: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "restrict write access to users that have an account on this site"
 msgstr ""
 
@@ -5992,16 +5986,16 @@ msgstr "(редакція)"
 msgid "set preferences"
 msgstr "(встановити параметри)"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:143
-#: NatEditPlugin/templates/edit.natedit.tmpl:174
+#: NatEditPlugin/templates/edit.natedit.tmpl:137
+#: NatEditPlugin/templates/edit.natedit.tmpl:168
 msgid "specify a list of users and/or groups"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:138
+#: NatEditPlugin/templates/edit.natedit.tmpl:132
 msgid "strictly deny any access to this topic"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:169
+#: NatEditPlugin/templates/edit.natedit.tmpl:163
 msgid "strictly deny write access to this topic"
 msgstr ""
 
@@ -6097,7 +6091,7 @@ msgstr "title='Редагувати текст цієї теми' accesskey='e'>
 msgid "title='View complete topic history' accesskey='h'>&History"
 msgstr "title='Проглянути повну історію змін сторінки' accesskey='h'>Історія"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:12
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Проглядання теми' accesskey='v'>Подивитися тему"
@@ -6113,7 +6107,7 @@ msgstr ""
 msgid "user list truncated"
 msgstr ""
 
-#: PatternSkin/templates/edit.pattern.tmpl:37
+#: PatternSkin/templates/edit.pattern.tmpl:35
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='Відмінити' accesskey='c'"
 
@@ -6121,19 +6115,19 @@ msgstr "value='Відмінити' accesskey='c'"
 msgid "value='Discard' accesskey='d'"
 msgstr "value='Відмовитися' accesskey='d'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:35
+#: PatternSkin/templates/edit.pattern.tmpl:33
 msgid "value='Preview' accesskey='p'"
 msgstr "value='Передперегляд' accesskey='p'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:31
+#: PatternSkin/templates/edit.pattern.tmpl:29
 msgid "value='Quiet save' accesskey='q'"
 msgstr "value='Зберегти без повідомлення' accesskey='q'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:33
+#: PatternSkin/templates/edit.pattern.tmpl:31
 msgid "value='Save and Continue' accesskey='k'"
 msgstr "value='Зберегти та продовжити' accesskey='k'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:29
+#: PatternSkin/templates/edit.pattern.tmpl:27
 msgid "value='Save' accesskey='s'"
 msgstr "value='Зберегти' accesskey='s"
 

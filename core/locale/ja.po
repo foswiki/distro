@@ -81,7 +81,7 @@ msgstr "%1は%2グループに追加しました。"
 #   $date,
 #   $by)
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
 #, fuzzy
 msgid "%1 cannot be removed from %2"
 msgstr "%1 は%2から外されました。"
@@ -231,7 +231,7 @@ msgstr "キャンセル"
 msgid "&History"
 msgstr "履歴"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #, fuzzy
 msgid "&Sequential"
 msgstr "順次"
@@ -660,7 +660,7 @@ msgid "Access check on %1 failed"
 msgstr "%1のアクセスチェックに失敗しました"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:29
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid "Access keys"
 msgstr "アクセスキー"
 
@@ -730,7 +730,7 @@ msgstr " %1 設定をWebPreferencesに追加します"
 msgid "Admin Foswiki User Authentication"
 msgstr "Admin Foswiki ユーザー認証"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:27
+#: PatternSkin/data/System/WebLeftBarExample.txt:28
 msgid "Admin Maintenance"
 msgstr "管理者メンテナンス"
 
@@ -1005,12 +1005,12 @@ msgstr ""
 "=ALLOWWEBVIEW= の関係制限を削除してください"
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -1042,7 +1042,7 @@ msgstr " %1 のメールアドレスが確認できません(パスワードの�
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:46
+#: PatternSkin/templates/edit.pattern.tmpl:35 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
 msgid "Cancel editing and discard changes"
 msgstr "編集と変更を取り消します"
@@ -1072,7 +1072,7 @@ msgstr "%2 は既に存在していますので、%1を%2にリネームでき�
 msgid "Case sensitive"
 msgstr "大文字と小文字を区別します"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:36
+#: PatternSkin/data/System/WebLeftBarExample.txt:37
 msgid "Categories"
 msgstr "カテゴリー"
 
@@ -1156,7 +1156,6 @@ msgid "Changed by:"
 msgstr "変更元："
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 #, fuzzy
 msgid "Changed on"
 msgstr "変更しました"
@@ -1245,7 +1244,6 @@ msgstr ""
 msgid "Come on in"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
@@ -1267,7 +1265,7 @@ msgstr ""
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
 msgid "Compare revisions"
 msgstr "バージョン比較"
 
@@ -1303,7 +1301,7 @@ msgid ""
 "assistance."
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 #, fuzzy
 msgid "Context"
 msgstr "次へ"
@@ -1479,12 +1477,12 @@ msgstr "日付"
 msgid "Dear %1"
 msgstr "尊敬する %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Debug"
 msgstr "デバッグ"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:120
-#: NatEditPlugin/templates/edit.natedit.tmpl:156
+#: NatEditPlugin/templates/edit.natedit.tmpl:114
+#: NatEditPlugin/templates/edit.natedit.tmpl:150
 #, fuzzy
 msgid "Default"
 msgstr "デフォルトテンプレート"
@@ -1822,7 +1820,7 @@ msgstr "トピックの保存に失敗しました"
 msgid "Escape markup"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:125
+#: NatEditPlugin/templates/edit.natedit.tmpl:119
 msgid "Everybody"
 msgstr ""
 
@@ -1831,7 +1829,7 @@ msgstr ""
 msgid "Evil person"
 msgstr "個人データを編集します"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:23
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
 msgid "Exit"
 msgstr ""
 
@@ -1882,7 +1880,7 @@ msgstr "%1へリンクするトピックを検索します..."
 msgid "Find topics that link to %1 ..."
 msgstr "%1へリンクするトピックを検索します..."
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:19
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
 #, fuzzy
 msgid "First"
 msgstr "名字："
@@ -1904,7 +1902,7 @@ msgid ""
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
-#: PatternSkin/templates/edit.pattern.tmpl:23
+#: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "強制新バージョン"
 
@@ -2031,7 +2029,7 @@ msgstr ""
 msgid "Group"
 msgstr "グループ"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:932
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -2041,7 +2039,7 @@ msgstr ""
 msgid "Group name"
 msgstr "トピック名"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
 msgid "Group names must end in Group"
 msgstr ""
 
@@ -2533,17 +2531,17 @@ msgstr ""
 msgid "Jump"
 msgstr "ジャンプ"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "Jump to first revision"
 msgstr "トピックをこの改訂版に回復します"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:135
-#: NatEditPlugin/templates/edit.natedit.tmpl:166
+#: NatEditPlugin/templates/edit.natedit.tmpl:129
+#: NatEditPlugin/templates/edit.natedit.tmpl:160
 msgid "Just me"
 msgstr ""
 
@@ -2557,13 +2555,12 @@ msgstr "サブスクリプトテキスト"
 msgid "Keyword search"
 msgstr "検索を変更します"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
 #, fuzzy
 msgid "Last"
 msgstr "名："
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 #, fuzzy
 msgid "Last edited by"
 msgstr "最新編集者"
@@ -2890,7 +2887,7 @@ msgstr "新ウェブ名:"
 msgid "Newer revision:"
 msgstr "新バージョン："
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 #: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr ""
@@ -2959,8 +2956,8 @@ msgstr ""
 msgid "No users to reset passwords for."
 msgstr "パスワードをリセットするユーザーがありません。"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:140
-#: NatEditPlugin/templates/edit.natedit.tmpl:171
+#: NatEditPlugin/templates/edit.natedit.tmpl:134
+#: NatEditPlugin/templates/edit.natedit.tmpl:165
 msgid "Nobody"
 msgstr ""
 
@@ -3124,7 +3121,7 @@ msgstr "又は違うトピック名をご入力ください："
 msgid "Optionally enter a different topic name:"
 msgstr "又は違うトピック名をご入力ください："
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 #, fuzzy
 msgid "Options"
 msgstr "変更"
@@ -3188,8 +3185,8 @@ msgstr "パスワードが違います"
 msgid "Pending registration not found"
 msgstr "フォーム定義%1が失われました"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:100
-#: NatEditPlugin/templates/edit.natedit.tmpl:102
+#: NatEditPlugin/templates/edit.natedit.tmpl:94
+#: NatEditPlugin/templates/edit.natedit.tmpl:96
 #, fuzzy
 msgid "Permissions"
 msgstr "アクセス権限無し:"
@@ -3384,7 +3381,7 @@ msgstr "プレビュー"
 msgid "Preview your changes"
 msgstr "変更をプレビューします"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 #: core/templates/searchformat.tmpl:21
 #, fuzzy
 msgid "Previous"
@@ -3459,7 +3456,7 @@ msgstr "アクセスが拒否されました"
 msgid "Redo previous change"
 msgstr "変更をプレビューします"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
@@ -3476,8 +3473,8 @@ msgstr "登録"
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:130
-#: NatEditPlugin/templates/edit.natedit.tmpl:161
+#: NatEditPlugin/templates/edit.natedit.tmpl:124
+#: NatEditPlugin/templates/edit.natedit.tmpl:155
 #, fuzzy
 msgid "Registered users"
 msgstr "登録"
@@ -3534,7 +3531,7 @@ msgstr "関連トピック："
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:689
+#: core/data/System/CommandAndCGIScripts.txt:690
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3617,7 +3614,7 @@ msgstr "このウェブをリネーム、移動、削除します:"
 msgid "Rename/Move"
 msgstr "リネーム/移動"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr ""
 
@@ -3744,7 +3741,6 @@ msgid "Review recent changes in:"
 msgstr "最新変更されたトピックをレビューします："
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "改訂"
@@ -3762,7 +3758,7 @@ msgstr "改訂"
 msgid "S = Save, C = Cancel"
 msgstr ""
 
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr ""
@@ -3951,7 +3947,7 @@ msgstr "新しいファイルを選択して添付ファイルを更新します
 msgid "Select all topics"
 msgstr "全て選択"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
@@ -3975,7 +3971,7 @@ msgstr "親トピックを選択してください："
 msgid "Select topic parent"
 msgstr "親トピックを選択してください："
 
-#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:42
+#: PatternSkin/templates/edit.pattern.tmpl:46 core/templates/edit.tmpl:42
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr ""
 "シグネチャ-のテキストをエントリの最下部に選択/コピー/貼り付けしてください"
@@ -3992,7 +3988,7 @@ msgstr ""
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Sequential"
 msgstr "シーケンシャル"
 
@@ -4008,7 +4004,7 @@ msgstr "新しい親トピックを設定します"
 msgid "Set new topic parent"
 msgstr "新しい親トピックを設定します"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 #, fuzzy
 msgid "Show %1 revisions up to revision %2"
 msgstr "前のトピックバージョンを確認します"
@@ -4023,7 +4019,7 @@ msgstr "添付ファイルを表示します"
 msgid "Show help"
 msgstr "ヘルプを表示します"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr ""
 
@@ -4031,7 +4027,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "編集枠を縮小します"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Side by side"
 msgstr "並列"
 
@@ -4108,8 +4104,8 @@ msgstr ""
 msgid "Spaces are replaced by underscores"
 msgstr "スペースをアンダースコアで置き換えました"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:145
-#: NatEditPlugin/templates/edit.natedit.tmpl:176
+#: NatEditPlugin/templates/edit.natedit.tmpl:139
+#: NatEditPlugin/templates/edit.natedit.tmpl:170
 msgid "Specific users/groups"
 msgstr ""
 
@@ -4118,7 +4114,7 @@ msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
 
 #: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
-#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr ""
 
@@ -4875,7 +4871,6 @@ msgid "Topic data"
 msgstr "トピックのメタデータ"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 #, fuzzy
 msgid "Topic history"
 msgstr "トピック履歴を確認します"
@@ -4958,7 +4953,7 @@ msgstr "再?"
 msgid "URL"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr ""
 
@@ -5093,13 +5088,13 @@ msgid ""
 msgstr ""
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
 #, fuzzy
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "%1には%2 *%3*にアクセスする権限がありません。"
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1113
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
 #: core/lib/Foswiki/UserMapping.pm:371
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
@@ -5150,20 +5145,20 @@ msgid "Users"
 msgstr "ユーザー"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:874
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
 msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1083
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
 msgid "Users cannot be removed from %1"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:153
+#: NatEditPlugin/templates/edit.natedit.tmpl:147
 msgid "Users who may edit:"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:111
 msgid "Users who may view:"
 msgstr ""
 
@@ -5209,12 +5204,12 @@ msgstr "差異を確認します"
 msgid "View differences"
 msgstr "差異を確認します"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "View earlier"
 msgstr "テンプレートを確認します"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "View later"
 msgstr "テンプレートを確認します"
@@ -5251,7 +5246,7 @@ msgstr "テンプレートを確認します"
 msgid "View topic"
 msgstr "トピックを確認します"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "トータルトピックヒストリーを確認します"
 
@@ -5371,7 +5366,7 @@ msgstr "誰"
 msgid "Who is requesting this, actually?"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr ""
 
@@ -5682,7 +5677,7 @@ msgid ""
 "mail system."
 msgstr ""
 
-#: PatternSkin/templates/edit.pattern.tmpl:48
+#: PatternSkin/templates/edit.pattern.tmpl:46
 #, fuzzy
 msgid "Your signature to copy/paste"
 msgstr "あなたの複製/貼り付けのためのシグネチャー"
@@ -5780,8 +5775,8 @@ msgstr "変更、更新、前のバージョン、移動、削除……"
 msgid "close display options"
 msgstr "もっと多くのトピックアクション"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:118
-#: NatEditPlugin/templates/edit.natedit.tmpl:154
+#: NatEditPlugin/templates/edit.natedit.tmpl:112
+#: NatEditPlugin/templates/edit.natedit.tmpl:148
 #, fuzzy
 msgid "default as defined in the %1"
 msgstr "フォームはトピック%1の中に定義されます"
@@ -5816,7 +5811,6 @@ msgid "fields are required."
 msgstr "フィールドは必須入力です"
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
-#: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "ヘルプ"
 
@@ -5875,7 +5869,7 @@ msgstr "又は"
 msgid "preview"
 msgstr "(プレビュー)"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:123
+#: NatEditPlugin/templates/edit.natedit.tmpl:117
 #, fuzzy
 msgid "public view access"
 msgstr "全てのパブリックウェブ"
@@ -5890,16 +5884,16 @@ msgstr "回復"
 msgid "restore form"
 msgstr "フォームを編集します"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:133
-#: NatEditPlugin/templates/edit.natedit.tmpl:164
+#: NatEditPlugin/templates/edit.natedit.tmpl:127
+#: NatEditPlugin/templates/edit.natedit.tmpl:158
 msgid "restrict access to %1"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:128
+#: NatEditPlugin/templates/edit.natedit.tmpl:122
 msgid "restrict read access to users that have an account on this site"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:159
+#: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "restrict write access to users that have an account on this site"
 msgstr ""
 
@@ -5919,16 +5913,16 @@ msgstr "(改訂 %1)"
 msgid "set preferences"
 msgstr "(プロパティ設定)"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:143
-#: NatEditPlugin/templates/edit.natedit.tmpl:174
+#: NatEditPlugin/templates/edit.natedit.tmpl:137
+#: NatEditPlugin/templates/edit.natedit.tmpl:168
 msgid "specify a list of users and/or groups"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:138
+#: NatEditPlugin/templates/edit.natedit.tmpl:132
 msgid "strictly deny any access to this topic"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:169
+#: NatEditPlugin/templates/edit.natedit.tmpl:163
 msgid "strictly deny write access to this topic"
 msgstr ""
 
@@ -6022,7 +6016,7 @@ msgstr "title='このトピックの印刷用バージョン' accesskey='p'>印�
 msgid "title='View complete topic history' accesskey='h'>&History"
 msgstr "title='トピックの履歴を確認します' accesskey='h'>履歴"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:12
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='トピックを確認します' accesskey='v'>トピック確認"
@@ -6037,7 +6031,7 @@ msgstr ""
 msgid "user list truncated"
 msgstr ""
 
-#: PatternSkin/templates/edit.pattern.tmpl:37
+#: PatternSkin/templates/edit.pattern.tmpl:35
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='キャンセル' accesskey='c'"
 
@@ -6045,19 +6039,19 @@ msgstr "value='キャンセル' accesskey='c'"
 msgid "value='Discard' accesskey='d'"
 msgstr "value='破棄' accesskey='d'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:35
+#: PatternSkin/templates/edit.pattern.tmpl:33
 msgid "value='Preview' accesskey='p'"
 msgstr "value='プレビュー' accesskey='p'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:31
+#: PatternSkin/templates/edit.pattern.tmpl:29
 msgid "value='Quiet save' accesskey='q'"
 msgstr "value='静かな保存' accesskey='q'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:33
+#: PatternSkin/templates/edit.pattern.tmpl:31
 msgid "value='Save and Continue' accesskey='k'"
 msgstr "value='保存して続けます' accesskey='k'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:29
+#: PatternSkin/templates/edit.pattern.tmpl:27
 msgid "value='Save' accesskey='s'"
 msgstr "value='保存' accesskey='s'"
 

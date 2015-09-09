@@ -10,8 +10,8 @@ use Foswiki::AccessControlException ();
 
 # =========================
 #   Simple decimal version,  no leading "v"
-our $VERSION           = "1.12";
-our $RELEASE           = '1.12';
+our $VERSION           = "1.13";
+our $RELEASE           = '1.13';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'Shows a complete history of a topic';
 

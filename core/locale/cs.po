@@ -75,7 +75,7 @@ msgid "%1 added to the %2 group."
 msgstr "%1 přidáno do %2 skupiny."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
 msgid "%1 cannot be removed from %2"
 msgstr "%1 nemůže být odstraněn z %2"
 
@@ -206,7 +206,7 @@ msgstr "&Cancel (ponechej beze změny)"
 msgid "&History"
 msgstr "Historie"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "&Sequential"
 msgstr "&Postupně"
 
@@ -633,7 +633,7 @@ msgid "Access check on %1 failed"
 msgstr "Přístup k %1 byl odepřen"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:29
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid "Access keys"
 msgstr "Přístupový klíč"
 
@@ -694,7 +694,7 @@ msgstr "Přidávám proměnnou %1 do WebPreferences"
 msgid "Admin Foswiki User Authentication"
 msgstr "Administrátor Foswiki ověření uživatele"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:27
+#: PatternSkin/data/System/WebLeftBarExample.txt:28
 msgid "Admin Maintenance"
 msgstr "Administrátorská údržba"
 
@@ -960,12 +960,12 @@ msgstr ""
 "WebPreferences."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
 msgid "CHANGE not permitted by %1"
 msgstr "Změna nepovolena díky %1"
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "Změna nepovolena pro %1 díky %2"
 
@@ -998,7 +998,7 @@ msgstr ""
 msgid "Cancel"
 msgstr "Přerušit"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:46
+#: PatternSkin/templates/edit.pattern.tmpl:35 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
 msgid "Cancel editing and discard changes"
 msgstr "Zrušit editování a zahodit změny"
@@ -1027,7 +1027,7 @@ msgstr "Nelze přejmenovat %1 do %2 protože už existuje."
 msgid "Case sensitive"
 msgstr "Citlivé na velikost"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:36
+#: PatternSkin/data/System/WebLeftBarExample.txt:37
 msgid "Categories"
 msgstr "Kategorie"
 
@@ -1106,7 +1106,6 @@ msgid "Changed by:"
 msgstr "Změněno kým:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
 msgstr "Změněno na"
 
@@ -1194,7 +1193,6 @@ msgstr "Sloupce"
 msgid "Come on in"
 msgstr "Přejdi k"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
@@ -1216,7 +1214,7 @@ msgstr "Vytváření komentářů není možné, pokud nejste přihlášeni"
 msgid "Commenting is disabled while running from the command line"
 msgstr "Vytváření komentářů není možné, pokud jste v režimu příkazové řádky"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
 msgid "Compare revisions"
 msgstr "Porovnejte revize"
 
@@ -1255,7 +1253,7 @@ msgstr ""
 "Pro další pomoc, kontaktujte <a href=\\'mailto:%1\\'>vašeho web "
 "administrátora</a>."
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 msgid "Context"
 msgstr "Kontext"
 
@@ -1421,12 +1419,12 @@ msgstr "Datum"
 msgid "Dear %1"
 msgstr "Vážený %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Debug"
 msgstr "Ladění"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:120
-#: NatEditPlugin/templates/edit.natedit.tmpl:156
+#: NatEditPlugin/templates/edit.natedit.tmpl:114
+#: NatEditPlugin/templates/edit.natedit.tmpl:150
 msgid "Default"
 msgstr "Výchozí"
 
@@ -1748,7 +1746,7 @@ msgstr "Chyby při odebírání členů ze skupin"
 msgid "Escape markup"
 msgstr "Znak [Esc]ape"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:125
+#: NatEditPlugin/templates/edit.natedit.tmpl:119
 msgid "Everybody"
 msgstr "Každý"
 
@@ -1756,7 +1754,7 @@ msgstr "Každý"
 msgid "Evil person"
 msgstr "Zlá osoba"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:23
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
 msgid "Exit"
 msgstr "Ukončit"
 
@@ -1806,7 +1804,7 @@ msgstr "Najít články které odkazují na %1 ..."
 msgid "Find topics that link to %1 ..."
 msgstr "Najít články které odkazují na %1 ..."
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:19
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
 msgid "First"
 msgstr "První"
 
@@ -1829,7 +1827,7 @@ msgstr ""
 "Wikipedia]]."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
-#: PatternSkin/templates/edit.pattern.tmpl:23
+#: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Vynucení nové revize"
 
@@ -1953,7 +1951,7 @@ msgstr "DobrýStyl"
 msgid "Group"
 msgstr "Skupina"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:932
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr "Skupina neexistuje a vytvoření není povoleno"
@@ -1962,7 +1960,7 @@ msgstr "Skupina neexistuje a vytvoření není povoleno"
 msgid "Group name"
 msgstr "Jméno skupiny"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
 msgid "Group names must end in Group"
 msgstr "Názvy skupin musí končit na Skupina"
 
@@ -2456,16 +2454,16 @@ msgstr "Přidej se k %1"
 msgid "Jump"
 msgstr "Přejdi na"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to first revision"
 msgstr "Přejděte na první revizi"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr "Přejděte na poslední revizi (%1)"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:135
-#: NatEditPlugin/templates/edit.natedit.tmpl:166
+#: NatEditPlugin/templates/edit.natedit.tmpl:129
+#: NatEditPlugin/templates/edit.natedit.tmpl:160
 msgid "Just me"
 msgstr "Pouze já"
 
@@ -2477,12 +2475,11 @@ msgstr "Zarovnej text"
 msgid "Keyword search"
 msgstr "Hledání dle klíčového slova"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
 msgid "Last"
 msgstr "Poslední"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
 msgstr "Poslední editor"
 
@@ -2790,7 +2787,7 @@ msgstr "Nové jméno webu:"
 msgid "Newer revision:"
 msgstr "Novější revize:"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 #: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr "Následující"
@@ -2857,8 +2854,8 @@ msgstr "Nebylo uvedeno jméno uživatele"
 msgid "No users to reset passwords for."
 msgstr "Žádní uživatelé k resetování hesla."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:140
-#: NatEditPlugin/templates/edit.natedit.tmpl:171
+#: NatEditPlugin/templates/edit.natedit.tmpl:134
+#: NatEditPlugin/templates/edit.natedit.tmpl:165
 msgid "Nobody"
 msgstr "Nikdo"
 
@@ -3020,7 +3017,7 @@ msgstr "Volitelně vložte odlišné jméno přílohy:"
 msgid "Optionally enter a different topic name:"
 msgstr "Volitelně vložte odlišné jméno článku:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Options"
 msgstr "Vlastnosti"
 
@@ -3077,8 +3074,8 @@ msgstr "Hesla si neodpovídají"
 msgid "Pending registration not found"
 msgstr "Probíhající registrace nenalezena"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:100
-#: NatEditPlugin/templates/edit.natedit.tmpl:102
+#: NatEditPlugin/templates/edit.natedit.tmpl:94
+#: NatEditPlugin/templates/edit.natedit.tmpl:96
 msgid "Permissions"
 msgstr "Oprávnění"
 
@@ -3263,7 +3260,7 @@ msgstr "Náhled"
 msgid "Preview your changes"
 msgstr "Zobrazit náhled změn"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 #: core/templates/searchformat.tmpl:21
 msgid "Previous"
 msgstr "Předchozí"
@@ -3330,7 +3327,7 @@ msgstr "Přesměrování zamítnuto"
 msgid "Redo previous change"
 msgstr "Opakuj předchozí změnu"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
@@ -3347,8 +3344,8 @@ msgstr "Registruj"
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr "Registrovaná e-mailová adresa aktuálně přihlášeného uživatele"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:130
-#: NatEditPlugin/templates/edit.natedit.tmpl:161
+#: NatEditPlugin/templates/edit.natedit.tmpl:124
+#: NatEditPlugin/templates/edit.natedit.tmpl:155
 msgid "Registered users"
 msgstr "Registrovaní uživatelé"
 
@@ -3405,7 +3402,7 @@ msgstr "Související články:"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:689
+#: core/data/System/CommandAndCGIScripts.txt:690
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3484,7 +3481,7 @@ msgstr "Přejmenovat, přesunout nebo smazat tento web"
 msgid "Rename/Move"
 msgstr "Přejmenovat/Přesunout"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr "Styl zobrazení"
 
@@ -3608,7 +3605,6 @@ msgid "Review recent changes in:"
 msgstr "Zkontrolujte poslední změny v:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Revize"
@@ -3625,7 +3621,7 @@ msgstr "Verze"
 msgid "S = Save, C = Cancel"
 msgstr "S = Ulož, C = Ponechej beze změny"
 
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr ""
@@ -3804,7 +3800,7 @@ msgstr "Vyberte nový lokální soubor pro změnu přílohy"
 msgid "Select all topics"
 msgstr "Vyber vše"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr "Pro porovnání vyber starší revizi (nalevo) a novější (napravo)"
 
@@ -3824,7 +3820,7 @@ msgstr "Vyberte skupinu pro přidání:"
 msgid "Select topic parent"
 msgstr "Vyberte nadřízený článek"
 
-#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:42
+#: PatternSkin/templates/edit.pattern.tmpl:46 core/templates/edit.tmpl:42
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "Vyberte, zkopírujte a vložte Váš podpis na konec Vašeho zápisu"
 
@@ -3840,7 +3836,7 @@ msgstr "Samo registrace není tímto webem podporována."
 msgid "Send mail"
 msgstr "Zašli mail"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Sequential"
 msgstr "Sekvenčně"
 
@@ -3856,7 +3852,7 @@ msgstr "Nastavit nový nadřízený článek"
 msgid "Set new topic parent"
 msgstr "Nastavit nový nadřízený článek"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 msgid "Show %1 revisions up to revision %2"
 msgstr "Zobraz %1 revizí až do revize %2"
 
@@ -3870,7 +3866,7 @@ msgstr "Ukaž přílohy"
 msgid "Show help"
 msgstr "Ukaž nápovědu"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Zobrazuji revize %1 - %2 (mimo %3)"
 
@@ -3878,7 +3874,7 @@ msgstr "Zobrazuji revize %1 - %2 (mimo %3)"
 msgid "Shrink edit box"
 msgstr "Zmenšit editovací oblast"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Side by side"
 msgstr "Vedle sebe"
 
@@ -3957,8 +3953,8 @@ msgstr "Seřadit vybrané řádky sestupně"
 msgid "Spaces are replaced by underscores"
 msgstr "Mezery jsou nahrazeny podtržítky"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:145
-#: NatEditPlugin/templates/edit.natedit.tmpl:176
+#: NatEditPlugin/templates/edit.natedit.tmpl:139
+#: NatEditPlugin/templates/edit.natedit.tmpl:170
 msgid "Specific users/groups"
 msgstr "Vybraní uživatelé/skupiny"
 
@@ -3968,7 +3964,7 @@ msgstr ""
 "Uveďte =all= pro všechny weby, nebo čárkou oddělený seznam webů  od: %1"
 
 #: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
-#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr "Spusť prezentaci"
 
@@ -4738,7 +4734,6 @@ msgid "Topic data"
 msgstr "Data která tvoří článek"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 msgid "Topic history"
 msgstr "Historie článku"
 
@@ -4822,7 +4817,7 @@ msgstr "Zkuste znova"
 msgid "URL"
 msgstr "URL"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr "Části beze změn před a po každé změně"
 
@@ -4959,12 +4954,12 @@ msgstr ""
 "skutečně potřebujete, jinak si prohlédněte změny webu na každém z nich."
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr "Uživatel %1 nemá právo měnit %2."
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1113
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
 #: core/lib/Foswiki/UserMapping.pm:371
 msgid "User %1 not in group, cannot be removed"
 msgstr "Uživatel %1 není v žádné skupině, a nemůže být proto vyjmut"
@@ -5013,20 +5008,20 @@ msgid "Users"
 msgstr "Uživatelé"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:874
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
 msgid "Users cannot be added to %1"
 msgstr "Uživatelé nemohou být přidáni do %1"
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1083
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
 msgid "Users cannot be removed from %1"
 msgstr "Uživatelé nemohou být odebráni z %1"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:153
+#: NatEditPlugin/templates/edit.natedit.tmpl:147
 msgid "Users who may edit:"
 msgstr "Uživatelé, kteří mohou editovat:"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:111
 msgid "Users who may view:"
 msgstr "Uživatelé, kteří mohou prohlížet:"
 
@@ -5070,11 +5065,11 @@ msgstr "Zobraz rozdíly"
 msgid "View differences"
 msgstr "Zobraz rozdíly"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View earlier"
 msgstr "Zobraz dřívější"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View later"
 msgstr "Zobraz pozdější"
 
@@ -5108,7 +5103,7 @@ msgstr "Zobraz šablony"
 msgid "View topic"
 msgstr "Ukaž článek"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "Ukaž celou historii článku"
 
@@ -5226,7 +5221,7 @@ msgstr "Kdo"
 msgid "Who is requesting this, actually?"
 msgstr "Kdo toto vlastně požaduje?"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr "Celá stránka"
 
@@ -5556,7 +5551,7 @@ msgstr ""
 "Váš registrační verifikační email buď nebyl odeslán, nebo teprve čeká na "
 "odeslání."
 
-#: PatternSkin/templates/edit.pattern.tmpl:48
+#: PatternSkin/templates/edit.pattern.tmpl:46
 msgid "Your signature to copy/paste"
 msgstr "Váš podpis pro kopírování/vložení"
 
@@ -5653,8 +5648,8 @@ msgstr "změnit, aktualizovat, předchozí revize, přesunout, vymazat..."
 msgid "close display options"
 msgstr "zavři nastavení pro zobrazení"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:118
-#: NatEditPlugin/templates/edit.natedit.tmpl:154
+#: NatEditPlugin/templates/edit.natedit.tmpl:112
+#: NatEditPlugin/templates/edit.natedit.tmpl:148
 msgid "default as defined in the %1"
 msgstr "Výchozí, jak je definováno v %1"
 
@@ -5687,7 +5682,6 @@ msgid "fields are required."
 msgstr "pole jsou povinná."
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
-#: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "nápověda"
 
@@ -5746,7 +5740,7 @@ msgstr "nebo"
 msgid "preview"
 msgstr "náhled"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:123
+#: NatEditPlugin/templates/edit.natedit.tmpl:117
 msgid "public view access"
 msgstr "Veřejný přístup pro prohlížení"
 
@@ -5758,16 +5752,16 @@ msgstr "obnov"
 msgid "restore form"
 msgstr "obnov formulář"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:133
-#: NatEditPlugin/templates/edit.natedit.tmpl:164
+#: NatEditPlugin/templates/edit.natedit.tmpl:127
+#: NatEditPlugin/templates/edit.natedit.tmpl:158
 msgid "restrict access to %1"
 msgstr "zakaž přístup k %1"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:128
+#: NatEditPlugin/templates/edit.natedit.tmpl:122
 msgid "restrict read access to users that have an account on this site"
 msgstr "zakaž právo čtení všem uživatelům majícím účet na tomto webu"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:159
+#: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "restrict write access to users that have an account on this site"
 msgstr "zakaž právo zápisu všem uživatelům majícím účet na tomto webu"
 
@@ -5785,16 +5779,16 @@ msgstr "revize %1"
 msgid "set preferences"
 msgstr "nastavit předvolby"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:143
-#: NatEditPlugin/templates/edit.natedit.tmpl:174
+#: NatEditPlugin/templates/edit.natedit.tmpl:137
+#: NatEditPlugin/templates/edit.natedit.tmpl:168
 msgid "specify a list of users and/or groups"
 msgstr "definuj seznam uživatelů a/nebo skupin"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:138
+#: NatEditPlugin/templates/edit.natedit.tmpl:132
 msgid "strictly deny any access to this topic"
 msgstr "striktně zakaž jakýkoli přístup na tento článek"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:169
+#: NatEditPlugin/templates/edit.natedit.tmpl:163
 msgid "strictly deny write access to this topic"
 msgstr "striktně zakaž jakoukoli editaci tohoto článku"
 
@@ -5880,7 +5874,7 @@ msgstr "title='Odhlaš se z odběru tohoto článku' accesskey='s'>Un&subscribe"
 msgid "title='View complete topic history' accesskey='h'>&History"
 msgstr "title='Ukaž celou historii článku' accesskey='h'>&History"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:12
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Zobraz článek' accesskey='v'>&Zobraz článek"
@@ -5894,7 +5888,7 @@ msgstr ""
 msgid "user list truncated"
 msgstr "neúplný uživatelský seznam"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37
+#: PatternSkin/templates/edit.pattern.tmpl:35
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='Přerušit' accesskey='c'"
 
@@ -5902,19 +5896,19 @@ msgstr "value='Přerušit' accesskey='c'"
 msgid "value='Discard' accesskey='d'"
 msgstr "value='Zruš' accesskey='d'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:35
+#: PatternSkin/templates/edit.pattern.tmpl:33
 msgid "value='Preview' accesskey='p'"
 msgstr "value='Ukázka' accesskey='p'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:31
+#: PatternSkin/templates/edit.pattern.tmpl:29
 msgid "value='Quiet save' accesskey='q'"
 msgstr "value='Ulož bez propagování do RSS a pokračuj' accesskey='q'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:33
+#: PatternSkin/templates/edit.pattern.tmpl:31
 msgid "value='Save and Continue' accesskey='k'"
 msgstr "value='Ulož a pokračuj' accesskey='k'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:29
+#: PatternSkin/templates/edit.pattern.tmpl:27
 msgid "value='Save' accesskey='s'"
 msgstr "value='Ulož' accesskey='s'"
 

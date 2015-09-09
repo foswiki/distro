@@ -77,7 +77,7 @@ msgid "%1 added to the %2 group."
 msgstr "%1 μετακινήθηκε από το %2 την %3 ανά %4"
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1091
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
 msgid "%1 cannot be removed from %2"
 msgstr ""
 
@@ -219,7 +219,7 @@ msgstr "&C Ακύρωση"
 msgid "&History"
 msgstr "&H Ιστορικό"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #, fuzzy
 msgid "&Sequential"
 msgstr "Διαδοχική"
@@ -656,7 +656,7 @@ msgid "Access check on %1 failed"
 msgstr "Απέτυχε ο έλεγχος πρόσβασης στο %1"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:29
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid "Access keys"
 msgstr "Πλήκτρα πρόσβασης"
 
@@ -723,7 +723,7 @@ msgstr "Προσθέτω μια %1 μεταβλητή στις WebPreferences"
 msgid "Admin Foswiki User Authentication"
 msgstr "Ταυτοποίηση Χρήστη Διαχειριστή του Foswiki"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:27
+#: PatternSkin/data/System/WebLeftBarExample.txt:28
 msgid "Admin Maintenance"
 msgstr "Συντήρηση Διαχειριστή"
 
@@ -1005,12 +1005,12 @@ msgstr ""
 "περιορισμό =ALLOWWEBVIEW= στις WebPreferences."
 
 #. ($user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:904
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:906
 msgid "CHANGE not permitted by %1"
 msgstr ""
 
 #. (( $groupName, $user)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:938
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
@@ -1044,7 +1044,7 @@ msgstr ""
 msgid "Cancel"
 msgstr "Ακύρωση"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37 core/templates/edit.tmpl:46
+#: PatternSkin/templates/edit.pattern.tmpl:35 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
 msgid "Cancel editing and discard changes"
 msgstr "Ακύρωση της επεξεργασίας και απόρριψη των αλλαγών"
@@ -1074,7 +1074,7 @@ msgstr "Δεν μπορώ να μετονομάσω το %1 σε %2 γιατί �
 msgid "Case sensitive"
 msgstr "Διάκριση κεφαλαίων-πεζών"
 
-#: PatternSkin/data/System/WebLeftBarExample.txt:36
+#: PatternSkin/data/System/WebLeftBarExample.txt:37
 msgid "Categories"
 msgstr "Κατηγορίες"
 
@@ -1159,7 +1159,6 @@ msgid "Changed by:"
 msgstr "Τροποποιήθηκε από"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 #, fuzzy
 msgid "Changed on"
 msgstr "Τροποποιήθηκε"
@@ -1253,7 +1252,6 @@ msgstr ""
 msgid "Come on in"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:56 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
@@ -1275,7 +1273,7 @@ msgstr ""
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
 msgid "Compare revisions"
 msgstr "Συγκρίνετε τις αναθεωρήσεις"
 
@@ -1313,7 +1311,7 @@ msgid ""
 "assistance."
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 msgid "Context"
 msgstr ""
 
@@ -1487,12 +1485,12 @@ msgstr "Ημερομηνία"
 msgid "Dear %1"
 msgstr "Αγαπητέ %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Debug"
 msgstr "Debug"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:120
-#: NatEditPlugin/templates/edit.natedit.tmpl:156
+#: NatEditPlugin/templates/edit.natedit.tmpl:114
+#: NatEditPlugin/templates/edit.natedit.tmpl:150
 #, fuzzy
 msgid "Default"
 msgstr "Προεπιλεγμένο πρότυπο"
@@ -1836,7 +1834,7 @@ msgstr ""
 msgid "Escape markup"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:125
+#: NatEditPlugin/templates/edit.natedit.tmpl:119
 msgid "Everybody"
 msgstr ""
 
@@ -1845,7 +1843,7 @@ msgstr ""
 msgid "Evil person"
 msgstr "Επεξεργασία προσωπικών δεδομένων"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:23
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
 msgid "Exit"
 msgstr ""
 
@@ -1896,7 +1894,7 @@ msgstr "Βρείτε θέματα με συνδέσμους προς το %1 ...
 msgid "Find topics that link to %1 ..."
 msgstr "Βρείτε θέματα με συνδέσμους προς το %1 ..."
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:19
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
 #, fuzzy
 msgid "First"
 msgstr "Μικρό Όνομα:"
@@ -1918,7 +1916,7 @@ msgid ""
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
-#: PatternSkin/templates/edit.pattern.tmpl:23
+#: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Εξαναγκασμός νέας αναθεώρησης"
 
@@ -2046,7 +2044,7 @@ msgstr ""
 msgid "Group"
 msgstr "Ομάδες"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:932
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:934
 #: core/lib/Foswiki/UserMapping.pm:351
 msgid "Group does not exist and create not permitted"
 msgstr ""
@@ -2056,7 +2054,7 @@ msgstr ""
 msgid "Group name"
 msgstr "Ονομασία θέματος"
 
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:878
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:880
 msgid "Group names must end in Group"
 msgstr ""
 
@@ -2563,17 +2561,17 @@ msgstr ""
 msgid "Jump"
 msgstr "Μεταπήδησε"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "Jump to first revision"
 msgstr "Επαναφορά θέματος σε αυτή την αναθεώρηση:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:135
-#: NatEditPlugin/templates/edit.natedit.tmpl:166
+#: NatEditPlugin/templates/edit.natedit.tmpl:129
+#: NatEditPlugin/templates/edit.natedit.tmpl:160
 msgid "Just me"
 msgstr ""
 
@@ -2586,12 +2584,11 @@ msgstr ""
 msgid "Keyword search"
 msgstr "Τροποποίηση αναζήτησης"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
 msgid "Last"
 msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 #, fuzzy
 msgid "Last edited by"
 msgstr "Τελευταίος συντάκτης"
@@ -2916,7 +2913,7 @@ msgstr "Νέο όνομα ιστού:"
 msgid "Newer revision:"
 msgstr "Νεότερη αναθεώρηση:"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:22
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 #: core/templates/searchformat.tmpl:22
 msgid "Next"
 msgstr ""
@@ -2983,8 +2980,8 @@ msgstr ""
 msgid "No users to reset passwords for."
 msgstr "No users to reset passwords for."
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:140
-#: NatEditPlugin/templates/edit.natedit.tmpl:171
+#: NatEditPlugin/templates/edit.natedit.tmpl:134
+#: NatEditPlugin/templates/edit.natedit.tmpl:165
 msgid "Nobody"
 msgstr ""
 
@@ -3153,7 +3150,7 @@ msgstr "Προαιρετικά εισάγετε μια διαφορετική ο
 msgid "Optionally enter a different topic name:"
 msgstr "Προαιρετικά εισάγετε μια διαφορετική ονομασία του θέματος:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 #, fuzzy
 msgid "Options"
 msgstr "Ενέργεια"
@@ -3217,8 +3214,8 @@ msgstr "Οι κωδικοί πρόσβασης δεν ταιριάζουν"
 msgid "Pending registration not found"
 msgstr "Η εγγραφή Νέου Χρήστη δεν υποστηρίζεται"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:100
-#: NatEditPlugin/templates/edit.natedit.tmpl:102
+#: NatEditPlugin/templates/edit.natedit.tmpl:94
+#: NatEditPlugin/templates/edit.natedit.tmpl:96
 #, fuzzy
 msgid "Permissions"
 msgstr "Αναθεωρήσεις"
@@ -3419,7 +3416,7 @@ msgstr "προεπισκόπηση"
 msgid "Preview your changes"
 msgstr "Επισκόπηση των πρόσφατων αλλαγών σε:"
 
-#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 #: core/templates/searchformat.tmpl:21
 msgid "Previous"
 msgstr ""
@@ -3492,7 +3489,7 @@ msgstr ""
 msgid "Redo previous change"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1209
 msgid "Refresh"
@@ -3509,8 +3506,8 @@ msgstr "Εγγραφή"
 msgid "Registered e-mail addresses for currently logged in user"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:130
-#: NatEditPlugin/templates/edit.natedit.tmpl:161
+#: NatEditPlugin/templates/edit.natedit.tmpl:124
+#: NatEditPlugin/templates/edit.natedit.tmpl:155
 #, fuzzy
 msgid "Registered users"
 msgstr "Εγγραφή"
@@ -3570,7 +3567,7 @@ msgstr "Σχετιζόμενα θέματα"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:689
+#: core/data/System/CommandAndCGIScripts.txt:690
 #: core/data/System/FormattedSearch.txt:400
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3652,7 +3649,7 @@ msgstr "Μετονομασία, μετακίνηση ή διαγραφή αυτ�
 msgid "Rename/Move"
 msgstr "Μετονομασία / Μετακίνηση"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr ""
 
@@ -3777,7 +3774,6 @@ msgid "Review recent changes in:"
 msgstr "Επισκόπηση των πρόσφατων αλλαγών σε:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Αναθεώρηση"
@@ -3795,7 +3791,7 @@ msgstr "Αναθεωρήσεις"
 msgid "S = Save, C = Cancel"
 msgstr "S = Αποθήκευση, C = Ακύρωση"
 
-#: PatternSkin/templates/edit.pattern.tmpl:68
+#: PatternSkin/templates/edit.pattern.tmpl:66
 msgid ""
 "S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
 msgstr ""
@@ -3982,7 +3978,7 @@ msgstr "Επιλέξτε ένα νέο τοπικό αρχείο για να ε�
 msgid "Select all topics"
 msgstr "Επιλογή όλων"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
@@ -4003,7 +3999,7 @@ msgstr ""
 msgid "Select topic parent"
 msgstr "Επιλέξτε γονεϊκό θέμα:"
 
-#: PatternSkin/templates/edit.pattern.tmpl:48 core/templates/edit.tmpl:42
+#: PatternSkin/templates/edit.pattern.tmpl:46 core/templates/edit.tmpl:42
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr ""
 "Επιλέξτε, αντιγράψτε και επικολλήστε το κείμενο της υπογραφής σας στο κάτω "
@@ -4022,7 +4018,7 @@ msgstr "Η εγγραφή Νέου Χρήστη δεν υποστηρίζετα�
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Sequential"
 msgstr "Διαδοχική"
 
@@ -4038,7 +4034,7 @@ msgstr "Ορισμός νέου γονέα"
 msgid "Set new topic parent"
 msgstr "Ορισμός νέου γονέα θέματος"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 #, fuzzy
 msgid "Show %1 revisions up to revision %2"
 msgstr "Επισκόπηση προηγούμενης αναθεώρησης θέματος"
@@ -4053,7 +4049,7 @@ msgstr "Βοήθεια για τα συννημένα"
 msgid "Show help"
 msgstr "Εμφάνιση βοήθειας"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr ""
 
@@ -4061,7 +4057,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Μείωσε το πλαίσιο επεξεργασίας"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
 msgid "Side by side"
 msgstr "Δίπλα-δίπλα"
 
@@ -4141,8 +4137,8 @@ msgstr ""
 msgid "Spaces are replaced by underscores"
 msgstr "Τα κενά αντικαθίστανται από underscores"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:145
-#: NatEditPlugin/templates/edit.natedit.tmpl:176
+#: NatEditPlugin/templates/edit.natedit.tmpl:139
+#: NatEditPlugin/templates/edit.natedit.tmpl:170
 msgid "Specific users/groups"
 msgstr ""
 
@@ -4151,7 +4147,7 @@ msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
 
 #: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
-#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr ""
 
@@ -4931,7 +4927,6 @@ msgid "Topic data"
 msgstr "Ονομασία θέματος"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 #, fuzzy
 msgid "Topic history"
 msgstr "Προβολή ιστορικού θέματος"
@@ -5019,7 +5014,7 @@ msgstr "Προσπαθήστε πάλι"
 msgid "URL"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr ""
 
@@ -5151,12 +5146,12 @@ msgid ""
 msgstr ""
 
 #. (( $user, $groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1124
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1126
 msgid "User %1 does not have CHANGE permission on %2."
 msgstr ""
 
 #. ($cuid)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1113
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1115
 #: core/lib/Foswiki/UserMapping.pm:371
 #, fuzzy
 msgid "User %1 not in group, cannot be removed"
@@ -5207,20 +5202,20 @@ msgid "Users"
 msgstr "Χρήστες"
 
 #. ($Group)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:874
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:876
 msgid "Users cannot be added to %1"
 msgstr ""
 
 #. ($groupName)
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1083
+#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1085
 msgid "Users cannot be removed from %1"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:153
+#: NatEditPlugin/templates/edit.natedit.tmpl:147
 msgid "Users who may edit:"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:117
+#: NatEditPlugin/templates/edit.natedit.tmpl:111
 msgid "Users who may view:"
 msgstr ""
 
@@ -5266,12 +5261,12 @@ msgstr "Προβολή διαφορών"
 msgid "View differences"
 msgstr "Προβολή διαφορών"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "View earlier"
 msgstr "Προβολή προτύπων"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "View later"
 msgstr "Προβολή προτύπων"
@@ -5308,7 +5303,7 @@ msgstr "Προβολή προτύπων"
 msgid "View topic"
 msgstr "Προβολή θέματος"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "Προβολή συνολικού ιστορικού του θέματος"
 
@@ -5427,7 +5422,7 @@ msgstr "Ποιος"
 msgid "Who is requesting this, actually?"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr ""
 
@@ -5757,7 +5752,7 @@ msgstr ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
 
-#: PatternSkin/templates/edit.pattern.tmpl:48
+#: PatternSkin/templates/edit.pattern.tmpl:46
 msgid "Your signature to copy/paste"
 msgstr "Η υπογραφή σου για αντιγραφή / επικόλληση:"
 
@@ -5852,8 +5847,8 @@ msgstr "αλλαγή, ενημέρωση, προηγούμενες αναθεω�
 msgid "close display options"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:118
-#: NatEditPlugin/templates/edit.natedit.tmpl:154
+#: NatEditPlugin/templates/edit.natedit.tmpl:112
+#: NatEditPlugin/templates/edit.natedit.tmpl:148
 #, fuzzy
 msgid "default as defined in the %1"
 msgstr "The form should be defined in the topic %1"
@@ -5888,7 +5883,6 @@ msgid "fields are required."
 msgstr "απαιτούνται πεδία."
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
-#: PatternSkin/templates/edit.pattern.tmpl:23
 msgid "help"
 msgstr "βοήθεια"
 
@@ -5948,7 +5942,7 @@ msgstr "ή"
 msgid "preview"
 msgstr "προεπισκόπηση"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:123
+#: NatEditPlugin/templates/edit.natedit.tmpl:117
 #, fuzzy
 msgid "public view access"
 msgstr "Όλους τους δημόσιους Ιστούς"
@@ -5963,16 +5957,16 @@ msgstr "Επαναφορά"
 msgid "restore form"
 msgstr "Επαναφορά θέματος"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:133
-#: NatEditPlugin/templates/edit.natedit.tmpl:164
+#: NatEditPlugin/templates/edit.natedit.tmpl:127
+#: NatEditPlugin/templates/edit.natedit.tmpl:158
 msgid "restrict access to %1"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:128
+#: NatEditPlugin/templates/edit.natedit.tmpl:122
 msgid "restrict read access to users that have an account on this site"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:159
+#: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "restrict write access to users that have an account on this site"
 msgstr ""
 
@@ -5992,16 +5986,16 @@ msgstr "(αναθεώρηση %1)"
 msgid "set preferences"
 msgstr "(ορισμός προτιμήσεων)"
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:143
-#: NatEditPlugin/templates/edit.natedit.tmpl:174
+#: NatEditPlugin/templates/edit.natedit.tmpl:137
+#: NatEditPlugin/templates/edit.natedit.tmpl:168
 msgid "specify a list of users and/or groups"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:138
+#: NatEditPlugin/templates/edit.natedit.tmpl:132
 msgid "strictly deny any access to this topic"
 msgstr ""
 
-#: NatEditPlugin/templates/edit.natedit.tmpl:169
+#: NatEditPlugin/templates/edit.natedit.tmpl:163
 msgid "strictly deny write access to this topic"
 msgstr ""
 
@@ -6102,7 +6096,7 @@ msgstr ""
 msgid "title='View complete topic history' accesskey='h'>&History"
 msgstr "title='Προβολή συνολικού ιστορικού θέματος' accesskey='h'>&History"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:12
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Προβολή θέματος' accesskey='v'>&View topic"
@@ -6118,7 +6112,7 @@ msgstr ""
 msgid "user list truncated"
 msgstr "user list truncated"
 
-#: PatternSkin/templates/edit.pattern.tmpl:37
+#: PatternSkin/templates/edit.pattern.tmpl:35
 msgid "value='Cancel' accesskey='c'"
 msgstr "value='Cancel' accesskey='c'"
 
@@ -6126,19 +6120,19 @@ msgstr "value='Cancel' accesskey='c'"
 msgid "value='Discard' accesskey='d'"
 msgstr "value='Discard' accesskey='d'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:35
+#: PatternSkin/templates/edit.pattern.tmpl:33
 msgid "value='Preview' accesskey='p'"
 msgstr "value='Preview' accesskey='p'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:31
+#: PatternSkin/templates/edit.pattern.tmpl:29
 msgid "value='Quiet save' accesskey='q'"
 msgstr "value='Quiet save' accesskey='q'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:33
+#: PatternSkin/templates/edit.pattern.tmpl:31
 msgid "value='Save and Continue' accesskey='k'"
 msgstr "value='Save and Continue' accesskey='k'"
 
-#: PatternSkin/templates/edit.pattern.tmpl:29
+#: PatternSkin/templates/edit.pattern.tmpl:27
 msgid "value='Save' accesskey='s'"
 msgstr "value='Save' accesskey='s'"
 
