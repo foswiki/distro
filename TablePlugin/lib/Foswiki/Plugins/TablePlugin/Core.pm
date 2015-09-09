@@ -389,7 +389,7 @@ sub _parseAttributes {
     _storeAttribute( 'columnWidthsListRef',
         _arrayRefFromParam( $inParams->{columnwidths} ),
         $inCollection );
-    _storeAttribute( 'vAlign', $inParams->{valign} || 'top', $inCollection );
+    _storeAttribute( 'vAlign',       $inParams->{valign},       $inCollection );
     _storeAttribute( 'dataVAlign',   $inParams->{datavalign},   $inCollection );
     _storeAttribute( 'headerVAlign', $inParams->{headervalign}, $inCollection );
     _storeAttribute( 'headerBgSorted',
@@ -673,8 +673,8 @@ sub _processTableRow {
                     my $nRows = scalar(@curTable);
                     my $rspan = $rowspan[$col] + 1;
                     if ( $rspan > 1 ) {
-                        $curTable[ $nRows - $rspan ][$col]->{attrs}->{rowspan} =
-                          $rspan;
+                        $curTable[ $nRows - $rspan ][$col]->{attrs}->{rowspan}
+                          = $rspan;
                     }
                     undef( $rowspan[$col] );
                 }
@@ -1307,10 +1307,10 @@ sub _createCssStyles {
             $selector =~ s/xhover/hover/go;    # remove sorting hack
                  # TODO: optimize by combining identical rules
             if ( $selector eq '#' ) {
-                push @styles, "$tableSelector {$selectors}";
+                push @styles, "body $tableSelector {$selectors}";
             }
             else {
-                push @styles, "$tableSelector $selector {$selectors}";
+                push @styles, "body $tableSelector $selector {$selectors}";
             }
         }
     }

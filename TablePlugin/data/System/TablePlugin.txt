@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1441799782" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Table Plugin
 
@@ -193,6 +193,7 @@ Sort icons in the header are read from %SYSTEMWEB%.DocumentGraphics.
 
 %TABLE{columnwidths="10%,90%"}%
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  09 Sep 2015 | 1.150: Foswikitask:Item13688 - fixed css precedence for table css emitted by !TablePlugin; removed hard-coded vertical alignment |
 |  28 May 2013 | 1.142: Foswikitask:Item12480 - memory leak amasses css styles from all visited pages |
 |  28 Nov 2012 | 1.141: Foswikitask:Item12233 - Don't generate table sort links when rendering static html. |
 |  06 Apr 2012 | 1.140: Arthur Clemens: Foswikitask:Item11354 adds warning message when =include= parameter fails. |
