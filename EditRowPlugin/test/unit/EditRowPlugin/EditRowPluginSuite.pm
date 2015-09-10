@@ -52,6 +52,7 @@ LL %RED%Some red text%ENDCOLOR%
 LL 
 TABLE_0:
 | A | B |
+LL 
 TABLE_1:
 %EDITTABLE{ format="| text, 5, init | text, 20, init |"
 fool="cap"
@@ -91,6 +92,7 @@ INPUT
     $this->assert_equals( <<'EXPECTED', $data );
 TABLE_0:
 | A | B |
+LL 
 TABLE_1:
 %EDITTABLE{ format="| text, 5, init | text, 20, init |"
 fool="cap"
@@ -126,7 +128,7 @@ INPUT
     );
     $this->assert( $in =~ s/<!-- STARTINCLUDE.*?-->\s*(.*)\s*<!--.*/$1/s, $in );
 
-    $this->assert( $in =~ s/^(<form[^>]*>)\s*(.*?)<\/form>$/$2/s, $in );
+    $this->assert( $in =~ s/^\s*(<form[^>]*>)\s*(.*?)<\/form>$/$2/s, $in );
 
     my $f = $1;
     $f =~ s/action=(["']).*?\1/action="valid"/;
@@ -226,7 +228,8 @@ INPUT
             $this->{test_topic}, $this->{test_topicObject}
         )
     );
-    $this->assert( $in =~ s/<!-- STARTINCLUDE.*?-->\s*(.*)\s*<!--.*/$1/s, $in );
+    $this->assert( $in =~ s/\s*<!-- STARTINCLUDE.*?-->\s*(.*)\s*<!--.*/$1/s,
+        $in );
 
     $this->assert( $in =~ s/^(<form[^>]*>)\s*(.*?)<\/form>$/$2/s, $in );
 
@@ -507,6 +510,7 @@ INPUT
         }
     }
     $this->assert_equals( <<'EXPECTED', $data );
+LL 
 TABLE_0:
 %EDITTABLE{ format="| text, 5, init | text, 20, init |"
 fool="cap"

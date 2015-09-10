@@ -45,13 +45,12 @@ INPUT
     $this->assert_equals( <<'EXPECTED', $data );
 TABLE_0:
 | A | B |
+| C | D |
+LL 
 TABLE_1:
 %TABLE{ format="| text, 5, init | text, 20, init |"
 fool="cap"
 }%
-| C | D |
-LL 
-TABLE_2:
 | E | F |
 EXPECTED
 }

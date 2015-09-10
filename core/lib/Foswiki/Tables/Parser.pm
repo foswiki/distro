@@ -85,8 +85,9 @@ interact with tables during a static parse e.g. special macros such
 as %EDITTABLE.
 
 If early_line returns a positive result, then the parser will open a
-table on the next line, whether or not it is a table line,
-and any non-whitespace left in $line will be inserted as text.
+table on the next line, whether or not it is a table line, *BUT ONLY
+IF* the early_line handler for that next line returns 0. Any
+non-whitespace left in $line will be inserted as text.
 
 If it returns a negative result, then any non-whitespace left in
 $line will be inserted as text, but no other processing will be performed.
@@ -115,7 +116,7 @@ sub parse {
     my $in_table = 0;
 
     # Are we to create a table even if the next line isn't a table line?
-    my $always_create_table = 0;
+    my $require_new_table = 0;
 
     # Depth of tag scopes
     my %scope = ( verbatim => 0, literal => 0, include => 0 );
@@ -153,52 +154,34 @@ sub parse {
             next LINE;
         }
 
-        my $analysis = 0;
+        my $analysis          = 0;
+        my $dont_change_table = 0;
 
         if ( !_in_blocking_scope( \%scope ) ) {
             print STDERR "Processing $line\n" if TRACE;
 
             # Call the per-line event. This handles macros.
             $analysis = &$dispatch( 'early_line', $line, $in_table );
-            if ($analysis) {
 
-                print STDERR "early_line returned $analysis\n" if TRACE;
+            if ( $analysis > 0 ) {
 
-                # If early_line returns > 0, then a new table is to be
-                # created *even if the next line isn't a table line*
-                # (delimited by |). This is so EDITTABLE and
-                # equivalent can either latch on to a following table
-                # or create a new table just by virtue of the macro
-                # being present.
+                # A macro, such as EDITTABLE, is forcing creation
+                # of a new table.
+                print STDERR "early_line > 0, open new table, line is '$line'\n"
+                  if TRACE;
 
-                # If early_line returns < 0, then the text remaining on
-                # the line after early_line processing will *not* close
-                # any open table and will . This is what happens
-                # when a TABLE macro is seen.
+                # fall through to allow dispatch of line event,
+                # which will close the current table and open a
+                # new one (because $require_new_table is true)
+                $require_new_table = 1;
+            }
+            elsif ( $analysis < 0 ) {
+                print STDERR "early_line < 0, ignore macro, line is '$line'\n"
+                  if TRACE;
 
-                if ( $analysis > 0 ) {
-                    print STDERR "open new table, line is '$line'\n" if TRACE;
-                    if ($in_table) {
-
-                        # open table has been terminated
-                        print STDERR "Close TABLE\n" if TRACE;
-                        $in_table = 0;
-                        &$dispatch('close_table');
-
-                        # fall through to allow dispatch of line event
-                    }
-                    $always_create_table = 1;
-
-                    # Skip blank lines that are inhabited only by
-                    # macros that early_line as > 0. Thus a macro
-                    # like EDITTABLE don't imply a blank line
-                    # (whereas a TABLE macro on a line of it's own
-                    # *does* imply a blank line)
-                    next LINE unless $line =~ /\S/;
-                }
-                elsif (TRACE) {
-                    print STDERR "ignore macro, line is '$line'\n" if TRACE;
-                }
+                # Don't handle $require_new_table yet if this is a
+                # blank line
+                $dont_change_table = 1 unless $line =~ /\S/;
             }
 
             if ( $line =~ m/^\s*\|.*(\|\s*|\\)$/ ) {
@@ -207,7 +190,7 @@ sub parse {
 
                 # A table has been encountered, we don't need to
                 # force it.
-                $always_create_table = 0;
+                $require_new_table = 0;
 
                 if ( $line =~ s/\\$// ) {
 
@@ -287,7 +270,7 @@ sub parse {
         elsif (TRACE) {
             print STDERR "blocked: $line\n";
         }
-        if ($in_table) {
+        if ( $in_table && !$dont_change_table ) {
 
             # open table has been terminated
             print STDERR "Close TABLE\n" if TRACE;
@@ -296,14 +279,14 @@ sub parse {
 
             # fall through to allow dispatch of line event
         }
-        if ($always_create_table) {
+        if ( $require_new_table && !$dont_change_table ) {
 
             # Something encountered by the early_line handler
             # requires the immediate creation of a new table.
             print STDERR "*Force* Open TABLE\n" if TRACE;
             &$dispatch('open_table');
-            &$dispatch('close_table');
-            $always_create_table = 0;
+            $in_table          = 1;
+            $require_new_table = 0;
         }
 
         unless ( $analysis < 0 && $line !~ /\S/ ) {
@@ -317,7 +300,7 @@ sub parse {
         print STDERR "Close TABLE (mop-up)\n" if TRACE;
         &$dispatch('close_table');    #
     }
-    if ($always_create_table) {
+    if ($require_new_table) {
 
         print STDERR "*Force* Open TABLE (mop-up)\n" if TRACE;
         &$dispatch('open_table');

@@ -234,9 +234,9 @@ IN
 LL 'Testing testing 1 2 3'
 EL Spot  the dog
 <table>
-</table>
 LL 'Spot  the dog'
 ELE
+</table>
 LL 'Hugh  Pugh'
 LL 'Barney McGrew'
 EOF
