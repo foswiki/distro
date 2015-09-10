@@ -104,7 +104,7 @@ This is an example of a simple AJAX comment submission.
                         $(form).find('[type=submit]').removeAttr('disabled', 'disabled');
                         $(form).find('[type=submit]').removeClass('foswikiButtonDisabled');
                         $("body").css("cursor", "default");
-                        $(form).find("input[type=text], textarea").val("");
+                        $(form)[0].reset();
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         if (jqXHR.responseText)
