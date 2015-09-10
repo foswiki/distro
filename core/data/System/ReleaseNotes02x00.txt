@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1441730975" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1441852445" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0.1
 
@@ -46,7 +46,7 @@ Foswiki is released under the GNU General Public License.
 %ENDTWISTY{}%
    * Foswiki 2.0.0 was built on 04 Jul 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 48 Feature Requests.
    * Foswiki 2.0.1 was built on 03 Aug 2015. It is a release that contains 28 fixes and 3 enhancements.
-   * Foswiki 2.0.2 was built on 08 Sep 2015. It is a release that contains 19 fixes and 2 enhancements.
+   * Foswiki 2.0.2 was built on 10 Sep 2015. It is a release that contains 21 fixes and 2 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -1013,6 +1013,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13560][Item13560]] | Configure does not set initial values when extensions are installed with an external package manager. |
 | [[%BUGS%/Item13561][Item13561]] | PERL type configuation settings lose their formatting when LocalSite.cfg is saved. |
 | [[%BUGS%/Item13570][Item13570]] | EditRowPlugin has a number of issues coexisting with %TABLE tags. |
+| [[%BUGS%/Item13576][Item13576]] | CommentPlugin doesn't clear input after posting. |
 | [[%BUGS%/Item13583][Item13583]] | Login form is populated with incorrect path info, results in redirect failures. |
 | [[%BUGS%/Item13593][Item13593]] | Foswiki 2.0 is 350% slower doing query SEARCH compared to 1.1.9. |
 | [[%BUGS%/Item13598][Item13598]] | Error renaming a symlinked web. |
@@ -1029,6 +1030,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13676][Item13676]] | Add jquery-2.1.4 and 1.11.3 to cure a Safari bug. |
 | [[%BUGS%/Item13682][Item13682]] | Implemented API doc update per Development.DocumentAlreadySupportedFuncQueryOptions. |
 | [[%BUGS%/Item13685][Item13685]] | SlideShowPlugin no longer allows scrolling down when the page is a little longer than the display |
+| [[%BUGS%/Item13688][Item13688]] | Fixed css precedence for tables, so it isn't overwritten by the default styles. |
 
 
 ---+++ Enhancements
