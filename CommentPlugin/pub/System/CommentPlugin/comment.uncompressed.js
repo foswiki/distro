@@ -92,6 +92,7 @@ This is an example of a simple AJAX comment submission.
                     type: "POST",
                     data: $(form).serialize(),
                     beforeSend: function() {
+                        $(form).find("input[type=text], textarea").attr('disabled', 'disabled');
                         $(form).find('[type=submit]').attr('disabled', 'disabled');
                         $(form).find('[type=submit]').addClass('foswikiButtonDisabled');
                     },
@@ -99,6 +100,7 @@ This is an example of a simple AJAX comment submission.
                         var position = jqXHR.getResponseHeader(
                             'X-Foswiki-Comment');
                         addComment(position, data, form);
+                        $(form).find("input[type=text], textarea").removeAttr('disabled', 'disabled');
                         $(form).find('[type=submit]').removeAttr('disabled', 'disabled');
                         $(form).find('[type=submit]').removeClass('foswikiButtonDisabled');
                         $("body").css("cursor", "default");
@@ -108,6 +110,7 @@ This is an example of a simple AJAX comment submission.
                             alert("Error: " + jqXHR.responseText);
                         else
                             alert("Error: " + errorThrown);
+                        $(form).find("input[type=text], textarea").removeAttr('disabled', 'disabled');
                         $(form).find('[type=submit]').removeAttr('disabled', 'disabled');
                         $(form).find('[type=submit]').removeClass('foswikiButtonDisabled');
                         $("body").css("cursor", "default");
@@ -121,7 +124,7 @@ This is an example of a simple AJAX comment submission.
                                 $(this).val("?" + nonce);
                             });
                         }
-                          $(form).find("[name=comment]").val("");
+                          $(form).find("input[type=text], textarea").val("");
                     }
                 });
                 return false;
