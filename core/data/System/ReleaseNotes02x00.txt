@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1441852445" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1441909866" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0.1
 
@@ -44,9 +44,9 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*. It contains 4 fixes.
    * Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 44 fixes and 4 enhancements..
 %ENDTWISTY{}%
-   * Foswiki 2.0.0 was built on 04 Jul 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 48 Feature Requests.
+   * Foswiki 2.0.0 was built on 04 Jul 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 59 Feature Requests.
    * Foswiki 2.0.1 was built on 03 Aug 2015. It is a release that contains 28 fixes and 3 enhancements.
-   * Foswiki 2.0.2 was built on 10 Sep 2015. It is a release that contains 21 fixes and 2 enhancements.
+   * Foswiki 2.0.2 was built on 10 Sep 2015. It is a release that contains 21 fixes and 3 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -57,8 +57,19 @@ Foswiki 2.0 is shipped with the following: ( __New to Foswiki 2.0__ )
    * *Skins:* PatternSkin
    * *Compatibility support* - TWikiCompatibilityPlugin
 </noautolink>
-#Release02x00Changes
 
+---++ Known issues
+For up-to-date information, see [[http://foswiki.org/Support/KnownIssuesOfFoswiki02x00][Known issues of Foswiki 2.0]]
+
+---+++ Use of non-default ={Store}{Encoding}=
+
+*WARNING* About {Store}{Encoding}. if you intend to use high-bit characters in attachment filenames (such as umlauts and accents) then links to these
+attachments on Foswiki pages *will not work*. This is because Foswiki works internally using UNICODE, but the store saves files to disk using your chosen
+{Store}{Encoding}. The solution is to convert your store to UTF8 at the earliest opportunity.
+
+See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
+
+#Release02x00Changes
 ---++ Important changes in 2.0.2
 
 ---+++ API Change in Foswiki::Func
@@ -442,56 +453,70 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 
 ---++ Foswiki Release 2.0 Details
 ---+++ New Features
+<noautolink>
+(This list was updated with more complete information in Release 2.0.2)
 | *Feature* | *Summary* |
-| [[Foswiki:Development.AddAWayToShiftHeadingLevels][AddAWayToShiftHeadingLevels]] | Add a =headershift= parameter to adjusted included header levels |
-| [[Foswiki:Development.AddDefaultTopicParameterToINCLUDE][AddDefaultTopicParameterToINCLUDE]] | allow a list of topics to be specified so that we can use INCLUDE to allow customisation of shipped topic elements. |
-| [[Foswiki:Development.AddDefaultValueToSTARTSECTION][AddDefaultValueToSTARTSECTION]] | Add default value to STARTSECTION |
-| [[Foswiki:Development.AddENDINCLUDEandSTOPSECTION][AddENDINCLUDEandSTOPSECTION]] | Let's make an ENDINCLUDE to be consistent with ENDSECTION |
-| [[Foswiki:Development.AddNatEditToCore][AddNatEditToCore]] | Let's add Foswiki:Extensions.NatEditPlugin to the core |
-| [[Foswiki:Development.AddOperatorsToQueries][AddOperatorsToQueries]] | Add missing operators to query search and %IF |
-| [[Foswiki:Development.AddRegistrationValidationHandler][AddRegistrationValidationHandler]] | Add a plugins handler for registration validation |
-| [[Foswiki:Development.AddRequestSetToCore][AddRequestSetToCore]] | Add ?Set+ etc to the core |
-| [[Foswiki:Development.AddTimeFeaturesToAttachmentLinks][AddTimeFeaturesToAttachmentLinks]] | Add date formatting tokens to attachment links |
-| [[Foswiki:Development.AddUpdatesPluginToDefaultRelease][AddUpdatesPluginToDefaultRelease]] | Add Foswiki:Extensions.UpdatesPlugin to default release |
-| [[Foswiki:Development.AddWebParamToAllCgiScripts][AddWebParamToAllCgiScripts]] | add a defaultweb= parameter to all cgi scripts |
-| [[Foswiki:Development.AdminApprovalOfNewUsers][AdminApprovalOfNewUsers]] | Should be able to audit new registrations |
-| [[Foswiki:Development.AJAXOnDemandCheckersForConfigure][AJAXOnDemandCheckersForConfigure]] | Update configure to allow Ajax based (fast) checking |
-| [[Foswiki:Development.AllowGuestsToUseRESTAsDefault][AllowGuestsToUseRESTAsDefault]] | Remove =rest= from the default list of ={AuthScripts}= |
-| [[Foswiki:Development.CancelButtonsShouldUseViewScript][CancelButtonsShouldUseViewScript]] | Never POST to a save script for purposes of cancelling an update |
-| [[Foswiki:Development.ConsistentFormFieldValues][ConsistentFormFieldValues]] | Consistently displaying form field values |
-| [[Foswiki:Development.ControlFoswikiTemporaryFileLocations][ControlFoswikiTemporaryFileLocations]] | Explicitly control the storage location of temporary files used by Foswiki |
-| [[Foswiki:Development.DemandParseTables][DemandParseTables]] | Demand-parsing of tables would solve several outstanding problems |
-| [[Foswiki:Development.DeprecateApacheHtpasswdModule][DeprecateApacheHtpasswdModule]] | Deprecate !ApacheHtpasswd Module |
-| [[Foswiki:Development.EngineContribsAsCoreExtensions][EngineContribsAsCoreExtensions]] | Ship Foswiki:Extensions.FastCGIEngineContrib and Foswiki:Extensions.ModPerlEngineContrib as core extensions |
-| [[Foswiki:Development.Enhancei18nArchitecture][Enhancei18nArchitecture]] | Enable internationalisation of plugins |
-| [[Foswiki:Development.EscapeTmlInEditor][EscapeTmlInEditor]] | Add a little UI to make it easier to escape TML |
-| [[Foswiki:Development.FallBackToTopicWhenTrailingSpaceAndNoSuchSubweb][FallBackToTopicWhenTrailingSpaceAndNoSuchSubweb]] | Fallback To Topic When URL has Trailing Space And No Subweb exists but topic does |
-| [[Foswiki:Development.FasterAccessToCreatorData][FasterAccessToCreatorData]] | Store creator and create date in metadata to improve performance |
-| [[Foswiki:Development.HideIrrelevantConfigureOptions][HideIrrelevantConfigureOptions]] | Configure has too many options, and often they are irrelevant |
-| [[Foswiki:Development.HtmlAttributesShouldUseSingleQuotes][HtmlAttributesShouldUseSingleQuotes]] | HTML attributes should use single quotes |
-| [[Foswiki:Development.ImplementAddMeToAdminButton][ImplementAddMeToAdminButton]] | Implement the UI suggested by Crawford in the Foswiki:Development.AddFurtherControlsOnSudo proposal |
-| [[Foswiki:Development.IncreaseCacheControlMaxAgeForSystemWeb][IncreaseCacheControlMaxAgeForSystemWeb]] | Increase =max-age= for static webs |
-| [[Foswiki:Development.IntroduceForceDefaultUrlHostToggle][IntroduceForceDefaultUrlHostToggle]] | Sometimes its necessary to force the hostname set in {DefaultUrlHost}. |
-| [[Foswiki:Development.LinksInPreview][LinksInPreview]] | It would be useful to have links enabled in edit previews |
-| [[Foswiki:Development.MakeStartPageCOnfigurable][MakeStartPageCOnfigurable]] | Add Foswiki:Extensions.HomePagePlugin as a core extension |
-| [[Foswiki:Development.MoveCPANLibToSeparateContrib][MoveCPANLibToSeparateContrib]] | Move foswiki core lib/CPAN into its own !CpanContrib |
-| [[Foswiki:Development.MultiStoreRefactor][MultiStoreRefactor]] | Restructure the Store backend to be pluggable. |
-| [[Foswiki:Development.OneStepUserDeletion][OneStepUserDeletion]] | Create mechanism for easy user deletion - Move Foswiki:Extensions.AntiWikiSpamPlugin remove user code to core. |
-| [[Foswiki:Development.PluggableAccessControlImplementation][PluggableAccessControlImplementation]] | Pluggable Access Control Implementation |
-| [[Foswiki:Development.ProtectConfigureUsingHtigestByDefault][ProtectConfigureUsingHtigestByDefault]] | Improve default protection of configure script |
-| [[Foswiki:Development.RedesignLoggerAPI][RedesignLoggerAPI]] | Modernize the Log API |
-| [[Foswiki:Development.RefactorACLCheckOnResultSetAsFilter][RefactorACLCheckOnResultSetAsFilter]] | Refactor ACL Check and Pager on !ResultSet As Filter |
-| [[Foswiki:Development.RemoveDeprecatedEmptyDENYRule][RemoveDeprecatedEmptyDENYRule]] | Finish off the deprecation of the empty DENY* Rules started back on TWiki |
-| [[Foswiki:Development.RemoveTaintCheckingFromFoswiki][RemoveTaintCheckingFromFoswiki]] | Remove the -T flag from the foswiki scripts |
-| [[Foswiki:Development.ReplaceEditTablePluginWithEditRowPlugin][ReplaceEditTablePluginWithEditRowPlugin]] | replace edit table plugin with edit row plugin |
-| [[Foswiki:Development.RequirePerl588][RequirePerl588]] | Move to 5.8.8 for various reasons |
-| [[Foswiki:Development.ShipSubscribePluginWithFoswiki01x01][ShipSubscribePluginWithFoswiki01x01]] | Ship the Foswiki:Extensions.SubscribePlugin with Foswiki 2.0 |
-| [[Foswiki:Development.SpecFileSyntaxEnhancements][SpecFileSyntaxEnhancements]] | Simplify and extend the syntax of Config.spec files |
-| [[Foswiki:Development.SupportBlockquoteAndIndenting][SupportBlockquoteAndIndenting]] | Support =&lt;blockquote&gt;= and paragraph indenting in Foswiki:Extensions.TinyMCEPlugin |
-| [[Foswiki:Development.SupportShorterACRONYMS][SupportShorterACRONYMS]] | We need support in my company for two letter ACRONYMS |
-| [[Foswiki:Development.TopicAddressing][TopicAddressing]] | Consistent methods for breaking apart topic names/"addresses" |
-| [[Foswiki:Development.UnifyUnitTests][UnifyUnitTests]] | Move to a single Unit Test suite that runs on multiple branches. |
-| [[Foswiki:Development.Use401ForCookieAuth][Use401ForCookieAuth]] | Return 401 instead of 200 for auth failures |
+| [[%FEAT%/AJAXOnDemandCheckersForConfigure][AJAXOnDemandCheckersForConfigure]] | Update configure to allow Ajax based (fast) checking. |
+| [[%FEAT%/AddAWayToShiftHeadingLevels][AddAWayToShiftHeadingLevels]] | Add a =headershift= parameter to adjusted included header levels. |
+| [[%FEAT%/AddDefaultTopicParameterToINCLUDE][AddDefaultTopicParameterToINCLUDE]] | Allow a list of topics to be specified so that we can use INCLUDE to allow customisation of shipped topic elements. |
+| [[%FEAT%/AddDefaultValueToSTARTSECTION][AddDefaultValueToSTARTSECTION]] | Add default value to STARTSECTION. |
+| [[%FEAT%/AddENDINCLUDEandSTOPSECTION][AddENDINCLUDEandSTOPSECTION]] | Add an ENDINCLUDE macro to be consistent with ENDSECTION. |
+| [[%FEAT%/AddEarlyPluginHandler][AddEarlyPluginHandler]] | Add a preload handler for plugins. |
+| [[%FEAT%/AddMetaParentTopic][AddMetaParentTopic]] | Add topic="xyz" parameter to %<nop>META{"parent" ... |
+| [[%FEAT%/AddNatEditToCore][AddNatEditToCore]] | Add NatEdit as a default extension. |
+| [[%FEAT%/AddOperatorsToQueries][AddOperatorsToQueries]] | Add missing operators to query search and %IF. |
+| [[%FEAT%/AddRegistrationValidationHandler][AddRegistrationValidationHandler]] | Add a plugins handler for registration validation. |
+| [[%FEAT%/AddRequestSetToCore][AddRequestSetToCore]] | Add ?Set+ etc to the core |
+| [[%FEAT%/AddTimeFeaturesToAttachmentLinks][AddTimeFeaturesToAttachmentLinks]] | Add date formatting tokens to attachment links. |
+| [[%FEAT%/AddUpdatesPluginToDefaultRelease][AddUpdatesPluginToDefaultRelease]] | Add UpdatesPlugin to default release. |
+| [[%FEAT%/AddWebParamToAllCgiScripts][AddWebParamToAllCgiScripts]] | Add a defaultweb= parameter to all CGI scripts. |
+| [[%FEAT%/AdminApprovalOfNewUsers][AdminApprovalOfNewUsers]] | Add audit feature for new registrations. |
+| [[%FEAT%/AllowGuestsToUseRESTAsDefault][AllowGuestsToUseRESTAsDefault]] | Remove =rest= from the default list of AuthScripts. |
+| [[%FEAT%/AllowLoginUsingEmailAddress][AllowLoginUsingEmailAddress]] | Allow Login using an Email address as the login name. |
+| [[%FEAT%/CancelButtonsShouldUseViewScript][CancelButtonsShouldUseViewScript]] | Never POST to a save script for purposes of cancelling an update. |
+| [[%FEAT%/ConfigureScript][ConfigureScript]] | Configure Extension autoinstaller should be able to uninstall. |
+| [[%FEAT%/ConsistentFormFieldValues][ConsistentFormFieldValues]] | Consistently display of form field values. |
+| [[%FEAT%/ControlFoswikiTemporaryFileLocations][ControlFoswikiTemporaryFileLocations]] | Explicitly control the storage location of temporary files used by Foswiki. |
+| [[%FEAT%/ConvertToModernPerlVersionStrings][ConvertToModernPerlVersionStrings]] | Convert to modern perl version strings. |
+| [[%FEAT%/DemandParseTables][DemandParseTables]] | Demand-parsing of tables would solve several outstanding problems. |
+| [[%FEAT%/DeprecateApacheHtpasswdModule][DeprecateApacheHtpasswdModule]] | Deprecate ApacheHtpasswd Module. |
+| [[%FEAT%/EngineContribsAsCoreExtensions][EngineContribsAsCoreExtensions]] | Ship FastCGIEngineContrib and ModPerlEngineContrib as core extensions. |
+| [[%FEAT%/Enhancei18nArchitecture][Enhancei18nArchitecture]] | Enable internationalisation of plugins. |
+| [[%FEAT%/EscapeTmlInEditor][EscapeTmlInEditor]] | Add a little UI to make it easier to escape TML. |
+| [[%FEAT%/FallBackToTopicWhenTrailingSpaceAndNoSuchSubweb][FallBackToTopicWhenTrailingSpaceAndNoSuchSubweb]] | Fallback To Topic when URL has Trailing Space And No Subweb exists but topic does. |
+| [[%FEAT%/FasterAccessToCreatorData][FasterAccessToCreatorData]] | Store creator and create date in metadata to improve performance. |
+| [[%FEAT%/HideIrrelevantConfigureOptions][HideIrrelevantConfigureOptions]] | Configure has too many options, and often they are irrelevant. |
+| [[%FEAT%/HtmlAttributesShouldUseSingleQuotes][HtmlAttributesShouldUseSingleQuotes]] | HTML attributes should use single quotes. |
+| [[%FEAT%/ImplementAddMeToAdminButton][ImplementAddMeToAdminButton]] | Implement the UI suggested in [[%FEAT%/AddFurtherControlsOnSudo][AddFurtherControlsOnSudo]] proposal |
+| [[%FEAT%/IncreaseCacheControlMaxAgeForSystemWeb][IncreaseCacheControlMaxAgeForSystemWeb]] | Increase =max-age= for static webs. |
+| [[%FEAT%/IntroduceForceDefaultUrlHostToggle][IntroduceForceDefaultUrlHostToggle]] | Sometimes its necessary to force the hostname set in {DefaultUrlHost}. |
+| [[%FEAT%/IsManagingEmailsShouldBeConfigurable][IsManagingEmailsShouldBeConfigurable]] | Would be nice if managing emails in HtPasswdUser.pm was configurable. |
+| [[%FEAT%/LinksInPreview][LinksInPreview]] | It would be useful to have links enabled in edit previews. |
+| [[%FEAT%/MacroToListInstalledFormFieldTypes][MacroToListInstalledFormFieldTypes]] | Add Macro to list installed FormField types. |
+| [[%FEAT%/MakeStartPageCOnfigurable][MakeStartPageCOnfigurable]] | Add HomePagePlugin as a core extension. |
+| [[%FEAT%/MeasureAndReportScriptTiming][MeasureAndReportScriptTiming]] | Measure and report Script timing. |
+| [[%FEAT%/MoveCPANLibToSeparateContrib][MoveCPANLibToSeparateContrib]] | Move foswiki core lib/CPAN into its own CpanContrib. |
+| [[%FEAT%/MultiStoreRefactor][MultiStoreRefactor]] | Refactor the Store to allow multiple plugable backends. |
+| [[%FEAT%/OneStepUserDeletion][OneStepUserDeletion]] | Create mechanism for easy user deletion - Move AntiWikiSpamPlugin remove user code to core. |
+| [[%FEAT%/PluggableAccessControlImplementation][PluggableAccessControlImplementation]] | Pluggable Access Control Implementation. |
+| [[%FEAT%/RedesignLoggerAPI][RedesignLoggerAPI]] | Modernize the Log API. |
+| [[%FEAT%/RefactorACLCheckOnResultSetAsFilter][RefactorACLCheckOnResultSetAsFilter]] | Refactor ACL checks and pager on ResultSet as a filter. |
+| [[%FEAT%/RemoveDeprecatedEmptyDENYRule][RemoveDeprecatedEmptyDENYRule]] | Finish off the deprecation of the empty DENY* Rules started back on TWiki. |
+| [[%FEAT%/RemoveTaintCheckingFromFoswiki][RemoveTaintCheckingFromFoswiki]] | Remove the -T flag from the foswiki scripts. |
+| [[%FEAT%/ReplaceConfigureWithConfigurePlugin][ReplaceConfigureWithConfigurePlugin]] | Foswiki should with no or very minimal configuration. |
+| [[%FEAT%/ReplaceEditTablePluginWithEditRowPlugin][ReplaceEditTablePluginWithEditRowPlugin]] | Replace EditTablePlugin with EditRowPlugin. |
+| [[%FEAT%/RequirePerl588][RequirePerl588]] | Require minimum Perl 5.8.8 for various reasons. |
+| [[%FEAT%/SMIMESupportInMail][SMIMESupportInMail]] | Add SMIME support in email. |
+| [[%FEAT%/SettingAndGettingVariablesUsingMacros][SettingAndGettingVariablesUsingMacros]] | Set variables using macros. |
+| [[%FEAT%/ShipSubscribePluginWithFoswiki01x01][ShipSubscribePluginWithFoswiki01x01]] | Ship the SubscribePlugin with Foswiki 2.0. |
+| [[%FEAT%/SpecFileSyntaxEnhancements][SpecFileSyntaxEnhancements]] | Configure .spec file syntax needs improvments. |
+| [[%FEAT%/SupportBlockquoteAndIndenting][SupportBlockquoteAndIndenting]] | Support =&lt;blockquote&gt;= and paragraph indenting in TinyMCEPlugin. |
+| [[%FEAT%/SupportShorterACRONYMS][SupportShorterACRONYMS]] | We need support in my company for two letter ACRONYMS. |
+| [[%FEAT%/TopicAddressing][TopicAddressing]] | Consistent methods for breaking apart topic names/addresse". |
+| [[%FEAT%/UnicodeSupport][UnicodeSupport]] | Investigate Unicode support for Foswiki. |
+| [[%FEAT%/UnifyUnitTests][UnifyUnitTests]] | Move to a single Unit Test suite that runs on multiple branches. |
+| [[%FEAT%/Use401ForCookieAuth][Use401ForCookieAuth]] | Return 401 instead of 200 for auth failures. |
+</noautolink>
 
 ---+++ Fixes
 <noautolink>
@@ -1032,11 +1057,11 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13685][Item13685]] | SlideShowPlugin no longer allows scrolling down when the page is a little longer than the display |
 | [[%BUGS%/Item13688][Item13688]] | Fixed css precedence for tables, so it isn't overwritten by the default styles. |
 
-
 ---+++ Enhancements
 
 | [[%BUGS%/Item13674][Item13674]] | Separate downgrade maps in jquery.wikiword. |
 | [[%BUGS%/Item13675][Item13675]] | Add min-height and reload-after feature to jquery.loader. |
+| [[%BUGS%/Item13695][Item13695]] | TABLE macro does not support css unit sizes. (em, cm, in, pt, ...)  |
 
 </noautolink>
 
@@ -1044,6 +1069,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 
 <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
    * Set BUGS = http://foswiki.org/Tasks
+   * Set FEAT = http://foswiki.org/Development
 -->
 
 *Related Topic:* ReleaseHistory

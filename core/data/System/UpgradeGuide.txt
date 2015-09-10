@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1438012719" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1441909866" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -92,6 +92,12 @@ If these steps are not done, users will have to clear their cache, or "shift-rel
 *Choose the character encoding to be used in your site.*
    * Previous versions of Foswiki defaulted to =iso-8859-1= encoding (The "Latin Alphabet 1, intended for US and Western European languages).
    * Foswiki 2.0 defaults to =UTF-8= encoding, which provides better support for international character sets.
+
+<div class="foswikiHelp">
+*WARNING* If you do not use the utf-8 ={Store}{Encoding}= and you intend to use, (or have existing) high-bit characters in attachment filenames
+(such as umlauts and accents) then links to these attachments on Foswiki pages *will not work*. This is because Foswiki works internally using UNICODE, but
+the store saves files to disk using your chosen {Store}{Encoding}. The solution is to convert your store to UTF8 at the earliest opportunity.
+</div>
 
 You _must_ match the prior encoding, or convert old data to the new encoding if you intend to use topics created on an older version of Foswiki. There are two common use cases:
    * Case 1: Your existing site is already using =utf-8= encoding.  *Character set conversion is not needed*.  Proceed to chosing your store.
