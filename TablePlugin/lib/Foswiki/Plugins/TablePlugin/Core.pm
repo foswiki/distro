@@ -57,7 +57,7 @@ my $CHAR_SORT_BOTH;
 
 my $SORT_DIRECTION;
 
-my $PATTERN_ATTRIBUTE_SIZE = qr'([0-9]+)(px|%)*'o;
+my $PATTERN_ATTRIBUTE_SIZE = qr'([0-9]+)(em|ex|ch|rem|vw|vh|vmin|vmax|%)?'o;
 
 my $TABLE_RULES = {};
 $TABLE_RULES->{all}->{TD}        = $TABLE_RULES->{all}->{TH} =
