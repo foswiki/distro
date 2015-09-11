@@ -237,7 +237,7 @@ EL Spot  the dog
 LL 'Spot  the dog'
 ELE
 </table>
-LL 'Hugh  Pugh'
+LL 'Hugh NO_TABLE Pugh'
 LL 'Barney McGrew'
 EOF
 EXPECTED

@@ -130,12 +130,13 @@ for table decorators (such as %EDITTABLE) will be unavailable.
 sub parse {
     my ( $this, $text, $meta ) = @_;
 
-    $this->{meta}         = $meta;
-    $this->{active_table} = undef;    # Open table
-    $this->{active_row}   = undef;    # Open row
-    $this->{pending_spec} = [];       # attributes
-    $this->{nTables}      = 0;        # number of tables read so far
-    $this->{result}       = [];       # tables and lines of text
+    $this->{meta}          = $meta;
+    $this->{active_table}  = undef;    # Open table
+    $this->{active_row}    = undef;    # Open row
+    $this->{on_open_spec}  = [];       # attributes
+    $this->{on_close_spec} = [];       # attributes
+    $this->{nTables}       = 0;        # number of tables read so far
+    $this->{result}        = [];       # tables and lines of text
 
     # Dispatch Foswiki::Parser::Table events to this "class"
     my $dispatch = sub {
@@ -222,11 +223,19 @@ sub _early_line {
     my $make_table = $this->adjustSpec( $macro, $attrs );
 
     # Remember what we just discovered for when the next table is
-    # encountered.
-    push(
-        @{ $this->{pending_spec} },
-        { raw => $spec, tag => $macro, attrs => $attrs }
-    );
+    # opened or closed
+    if ( $make_table > 0 ) {
+        push(
+            @{ $this->{on_open_spec} },
+            { raw => $spec, tag => $macro, attrs => $attrs }
+        );
+    }
+    else {
+        push(
+            @{ $this->{on_close_spec} },
+            { raw => $spec, tag => $macro, attrs => $attrs }
+        );
+    }
 
     return $make_table;    # processing complete, goto next line
 }
@@ -247,15 +256,15 @@ sub line {
 sub open_table {
     my ( $this, $line ) = @_;
 
-    $this->{active_table} = $this->{table_class}->new( $this->{pending_spec} );
-
-    # Throw away the params
-    $this->{pending_spec} = [];
+    $this->{active_table} = $this->{table_class}->new( $this->{on_open_spec} );
+    $this->{on_open_spec} = [];
 }
 
 # Parser event handler
 sub close_table {
     my ($this) = @_;
+    $this->{active_table}->addSpecs( $this->{on_close_spec} );
+    $this->{on_close_spec} = [];
     push( @{ $this->{result} }, $this->{active_table} );
     $this->{active_table}->number( $this->{nTables}++ );
     undef $this->{active_table};

@@ -83,13 +83,22 @@ sub new {
         {
             rows   => [],
             number => undef,
-            specs  => $specs
+            specs  => []
         },
         $class
     );
 
     $this->{colTypes} = [];
-    foreach my $spec ( @{ $this->{specs} } ) {
+
+    $this->addSpecs($specs);
+
+    return $this;
+}
+
+sub addSpecs {
+    my ( $this, $specs ) = @_;
+
+    foreach my $spec ( @{$specs} ) {
         if ( $spec->{attrs}->{format} ) {
             $this->{colTypes} = $this->parseFormat( $spec->{attrs}->{format} );
         }
@@ -101,9 +110,8 @@ sub new {
         if ( defined $spec->{attrs}->{footerrows} ) {
             $this->{footerrows} = $spec->{attrs}->{footerrows};
         }
+        push( @{ $this->{specs} }, $spec );
     }
-
-    return $this;
 }
 
 =begin TML

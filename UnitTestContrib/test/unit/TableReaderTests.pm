@@ -43,14 +43,17 @@ INPUT
         }
     }
     $this->assert_equals( <<'EXPECTED', $data );
+LL %TABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%
 TABLE_0:
+%TABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%
 | A | B |
 | C | D |
 LL 
 TABLE_1:
-%TABLE{ format="| text, 5, init | text, 20, init |"
-fool="cap"
-}%
 | E | F |
 EXPECTED
 }
@@ -89,13 +92,16 @@ INPUT
     # the early_line handler can't rewrite the input stream. The best we
     # can do is make sure nothing is lost.
     $this->assert_equals( <<'EXPECTED', $data );
-LL rubbishjunk
+LL rubbish%TABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%junk
 TABLE_0:
 %TABLE{ format="| text, 5, init | text, 20, init |"
 fool="cap"
 }%
+%TABLE%
 | A | B |
-LL tripegarbage
+LL tripe%TABLE%garbage
 LL tommyrot
 EXPECTED
 }

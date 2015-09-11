@@ -104,6 +104,167 @@ TABLE_2:
 EXPECTED
 }
 
+sub test_table_EDITTABLE_TABLE_table {
+    my $this = shift;
+
+    require Foswiki::Plugins::EditRowPlugin::TableParser;
+    $this->assert( !$@, $@ );
+    my $parser = Foswiki::Plugins::EditRowPlugin::TableParser->new();
+
+    my $in = <<INPUT;
+| A | B |
+%EDITTABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%
+%TABLE{columnwidths="10,20"}%
+| C | D |
+INPUT
+    my $result = $parser->parse( $in, $this->{test_topicObject} );
+
+    my $data = '';
+    foreach my $r (@$result) {
+        if ( ref($r) ) {
+            $data .= $r->getID . ":\n" . $r->stringify();
+        }
+        else {
+            $data .= "LL $r\n";
+        }
+    }
+    $this->assert_equals( <<'EXPECTED', $data );
+TABLE_0:
+| A | B |
+LL 
+LL %TABLE{columnwidths="10,20"}%
+TABLE_1:
+%EDITTABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%
+%TABLE{columnwidths="10,20"}%
+| C | D |
+EXPECTED
+}
+
+sub test_TABLE_EDITTABLE_table {
+    my $this = shift;
+
+    require Foswiki::Plugins::EditRowPlugin::TableParser;
+    $this->assert( !$@, $@ );
+    my $parser = Foswiki::Plugins::EditRowPlugin::TableParser->new();
+
+    my $in = <<INPUT;
+%TABLE{columnwidths="10,20"}%
+%EDITTABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%
+| A | B |
+INPUT
+    my $result = $parser->parse( $in, $this->{test_topicObject} );
+
+    my $data = '';
+    foreach my $r (@$result) {
+        if ( ref($r) ) {
+            $data .= $r->getID . ":\n" . $r->stringify();
+        }
+        else {
+            $data .= "LL $r\n";
+        }
+    }
+    $this->assert_equals( <<'EXPECTED', $data );
+LL %TABLE{columnwidths="10,20"}%
+LL 
+TABLE_0:
+%EDITTABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%
+%TABLE{columnwidths="10,20"}%
+| A | B |
+EXPECTED
+}
+
+sub test_table_empty_TABLE_EDITTABLE_table {
+    my $this = shift;
+
+    require Foswiki::Plugins::EditRowPlugin::TableParser;
+    $this->assert( !$@, $@ );
+    my $parser = Foswiki::Plugins::EditRowPlugin::TableParser->new();
+
+    my $in = <<INPUT;
+| A | B |
+
+%TABLE{columnwidths="10,20"}%
+%EDITTABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%
+| C | D |
+INPUT
+    my $result = $parser->parse( $in, $this->{test_topicObject} );
+
+    my $data = '';
+    foreach my $r (@$result) {
+        if ( ref($r) ) {
+            $data .= $r->getID . ":\n" . $r->stringify();
+        }
+        else {
+            $data .= "LL $r\n";
+        }
+    }
+    $this->assert_equals( <<'EXPECTED', $data );
+TABLE_0:
+| A | B |
+LL 
+LL %TABLE{columnwidths="10,20"}%
+LL 
+TABLE_1:
+%EDITTABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%
+%TABLE{columnwidths="10,20"}%
+| C | D |
+EXPECTED
+}
+
+sub test_table_TABLE_table_EDITTABLE_table {
+    my $this = shift;
+
+    require Foswiki::Plugins::EditRowPlugin::TableParser;
+    $this->assert( !$@, $@ );
+    my $parser = Foswiki::Plugins::EditRowPlugin::TableParser->new();
+
+    my $in = <<INPUT;
+| A | B |
+%TABLE{columnwidths="10,20"}%
+| C | D |
+%EDITTABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%
+| E | F |
+INPUT
+    my $result = $parser->parse( $in, $this->{test_topicObject} );
+
+    my $data = '';
+    foreach my $r (@$result) {
+        if ( ref($r) ) {
+            $data .= $r->getID . ":\n" . $r->stringify();
+        }
+        else {
+            $data .= "LL $r\n";
+        }
+    }
+    $this->assert_equals( <<'EXPECTED', $data );
+LL %TABLE{columnwidths="10,20"}%
+TABLE_0:
+%TABLE{columnwidths="10,20"}%
+| A | B |
+| C | D |
+LL 
+TABLE_1:
+%EDITTABLE{ format="| text, 5, init | text, 20, init |"
+fool="cap"
+}%
+| E | F |
+EXPECTED
+}
+
 sub test_simple_view {
     my $this = shift;
     require Foswiki::Plugins::EditRowPlugin::View;

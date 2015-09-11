@@ -87,7 +87,8 @@ sub new {
     $attrs->{js} ||= Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_JS');
     if ( !defined $attrs->{js} ) {
         $attrs->{require_js} ||=
-          Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_REQUIRE_JS');
+          Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_REQUIRE_JS')
+          || 0;
         if ( defined $attrs->{require_js} ) {
             $attrs->{js} =
               Foswiki::Func::isTrue( $attrs->{require_js} )

@@ -116,10 +116,11 @@ sub process {
 
             my $saveUrl =
               Foswiki::Func::getScriptUrl( 'EditRowPlugin', 'save', 'rest' );
+
             $line .= "<form action='$saveUrl' method='POST' name='erp_form_"
               . $table->getID() . "'>";
 
-            # js="assumed" doesn't actually use the form, execept as a
+            # js="assumed" doesn't actually use the form, except as a
             # vehicle for validation. js="assumed" extracts the necessary
             # from the erp-data attached to the table.
             unless ( $table->{attrs}->{js} eq 'assumed' ) {

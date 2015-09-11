@@ -159,6 +159,7 @@ sub parse {
 
         if ( !_in_blocking_scope( \%scope ) ) {
             print STDERR "Processing $line\n" if TRACE;
+            my $origline = $line;
 
             # Call the per-line event. This handles macros.
             $analysis = &$dispatch( 'early_line', $line, $in_table );
@@ -180,8 +181,12 @@ sub parse {
                   if TRACE;
 
                 # Don't handle $require_new_table yet if this is a
-                # blank line
+                # blank line (or just contains a TABLE macro)
                 $dont_change_table = 1 unless $line =~ /\S/;
+
+                # SMELL: have to retain the original macros for other
+                # plugins
+                $line = $origline;
             }
 
             if ( $line =~ m/^\s*\|.*(\|\s*|\\)$/ ) {
