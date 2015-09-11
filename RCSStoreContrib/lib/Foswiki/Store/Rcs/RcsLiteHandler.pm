@@ -268,7 +268,7 @@ sub _ensureRead {
     }
 
     my $fh;
-    unless ( open( $fh, '<', _encode( $this->{rcsFile} ) ) ) {
+    unless ( open( $fh, '<', _encode( $this->{rcsFile}, 1 ) ) ) {
 
         #warn( 'Failed to open ' . $this->{rcsFile} . ': ' . $!);
         $this->{state} = 'nocommav';
@@ -552,8 +552,11 @@ sub _writeMe {
     my ($this) = @_;
     my $out;
 
-    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->{rcsFile} ) );
-    unless ( open( $out, '>', _encode( $this->{rcsFile} ) ) ) {
+    chmod(
+        $Foswiki::cfg{Store}{filePermission},
+        _encode( $this->{rcsFile}, 1 )
+    );
+    unless ( open( $out, '>', _encode( $this->{rcsFile}, 1 ) ) ) {
         throw Error::Simple(
             'Cannot open ' . $this->{rcsFile} . ' for write: ' . $! );
     }
@@ -562,7 +565,10 @@ sub _writeMe {
         _write( $this, $out );
         close($out);
     }
-    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->{rcsFile} ) );
+    chmod(
+        $Foswiki::cfg{Store}{filePermission},
+        _encode( $this->{rcsFile}, 1 )
+    );
 }
 
 # implements Rcs::Handler
@@ -844,7 +850,9 @@ sub getRevisionAtTime {
 
     $this->_ensureRead( -1, 1 );    # read history only
     if ( $this->{state} eq 'nocommav' ) {
-        return ( $date >= ( stat( _encode( $this->{file} ) ) )[9] ) ? 1 : undef;
+        return ( $date >= ( stat( _encode( $this->{file}, 1 ) ) )[9] )
+          ? 1
+          : undef;
     }
 
     my $version = $this->{head};
@@ -856,7 +864,7 @@ sub getRevisionAtTime {
     if ( $version == $this->{head} && !$this->noCheckinPending() ) {
 
         # Check the file date
-        $version++ if ( $date >= ( stat( _encode( $this->{file} ) ) )[9] );
+        $version++ if ( $date >= ( stat( _encode( $this->{file}, 1 ) ) )[9] );
     }
     return $version;
 }

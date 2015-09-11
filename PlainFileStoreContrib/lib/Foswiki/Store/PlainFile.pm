@@ -100,12 +100,12 @@ BEGIN {
         # silently converting to utf-8. But we want to explicitly
         # control the encoding in the {Store}{Encoding}!=undef case,
         # so we have no choice but to override.
-        *_unlink = sub { unlink( _encode( $_[0] ) ); };
-        *_e      = sub { -e _encode( $_[0] ); };
-        *_d      = sub { -d _encode( $_[0] ); };
-        *_r      = sub { -r _encode( $_[0] ); };
-        *_stat   = sub { stat( _encode( $_[0] ) ); };
-        *_utime  = sub { utime( $_[0], $_[1], _encode( $_[2] ) ); };
+        *_unlink = sub { unlink( _encode( $_[0], 1 ) ); };
+        *_e = sub { -e _encode( $_[0], 1 ); };
+        *_d = sub { -d _encode( $_[0], 1 ); };
+        *_r = sub { -r _encode( $_[0], 1 ); };
+        *_stat = sub { stat( _encode( $_[0], 1 ) ); };
+        *_utime = sub { utime( $_[0], $_[1], _encode( $_[2], 1 ) ); };
     }
     else {
         *_decode = sub { };
@@ -350,7 +350,7 @@ sub moveWeb {
 sub testAttachment {
     my ( $this, $meta, $att, $test ) = @_;
     ASSERT($att) if DEBUG;
-    my $fn = _encode( _latestFile( $meta, $att ) );
+    my $fn = _encode( _latestFile( $meta, $att ), 1 );
     return eval "-$test '$fn'";
 }
 
@@ -466,7 +466,7 @@ sub saveAttachment {
     _saveStream( $latest, $stream );
     my $hf = _historyFile( $meta, $name, $rn );
     _mkPathTo($hf);
-    File::Copy::copy( _encode($latest), _encode($hf) )
+    File::Copy::copy( _encode( $latest, 1 ), _encode( $hf, 1 ) )
       or die "PlainFile: failed to copy $latest to $hf: $!";
 
     my $comment;
@@ -517,7 +517,7 @@ sub saveTopic {
     # doesn't matter, so long as it's >= $latest)
     my $hf = _historyFile( $meta, undef, $rn );
     _mkPathTo($hf);
-    File::Copy::copy( _encode($latest), _encode($hf) )
+    File::Copy::copy( _encode( $latest, 1 ), _encode( $hf, 1 ) )
       or die "PlainFile: failed to copy $latest to $hf: $!";
     if ( $options->{forcedate} ) {
         _utime( $options->{forcedate}, $options->{forcedate}, $latest )  # touch
@@ -566,7 +566,7 @@ sub repRev {
     _saveFile( $latest, Foswiki::Serialise::serialise( $meta, 'Embedded' ) );
 
     _mkPathTo($hf);
-    File::Copy::copy( _encode($latest), _encode($hf) )
+    File::Copy::copy( _encode( $latest, 1 ), _encode( $hf, 1 ) )
       or die "PlainFile: failed to copy $latest to $hf: $!";
     my $mf = _metaFile( $meta, undef, $rn );
     _writeMetaFile( $mf, $cUID, $options{comment} );
@@ -630,7 +630,7 @@ sub delRev {
     my $thf = _latestFile($meta);
 
     # Copy it up to the latest file, then refresh the time on the history
-    File::Copy::copy( _encode($hf), _encode($thf) )
+    File::Copy::copy( _encode( $hf, 1 ), _encode( $thf, 1 ) )
       or die "PlainFile: failed to copy to $thf: $!";
     _utime( undef, undef, $hf )    # touch
       or die "PlainFile: could not touch $hf: $!";
@@ -730,7 +730,7 @@ sub eachAttachment {
     my ( $this, $meta ) = @_;
 
     my $dh;
-    my $ed = _encode( _getPub($meta) );
+    my $ed = _encode( _getPub($meta), 1 );
     opendir( $dh, $ed )
       or return new Foswiki::ListIterator( [] );
     my @list =
@@ -747,7 +747,7 @@ sub eachTopic {
     my ( $this, $meta ) = @_;
 
     my $dh;
-    opendir( $dh, _encode( _getData( $meta->web ) ) )
+    opendir( $dh, _encode( _getData( $meta->web ), 1 ) )
       or return ();
 
     # the name filter is used to ensure we don't return filenames
@@ -775,7 +775,7 @@ sub eachWeb {
     my @list;
     my $dh;
 
-    if ( opendir( $dh, _encode($dir) ) ) {
+    if ( opendir( $dh, _encode( $dir, 1 ) ) ) {
         @list = map {
 
             # Tradeoff: correct validation of every web name, which allows
@@ -817,14 +817,15 @@ sub remove {
 
         # Topic or attachment
         _unlink( _latestFile( $meta, $attachment ) );
-        _rmtree( _encode( _historyDir( $meta, $attachment ) ) );
-        _rmtree( _encode( _getPub($meta) ) ) unless ($attachment);  # topic only
+        _rmtree( _encode( _historyDir( $meta, $attachment ), 1 ) );
+        _rmtree( _encode( _getPub($meta), 1 ) )
+          unless ($attachment);    # topic only
     }
     else {
 
         # Web
-        _rmtree( _encode( _getData($meta) ) );
-        _rmtree( _encode( _getPub($meta) ) );
+        _rmtree( _encode( _getData($meta), 1 ) );
+        _rmtree( _encode( _getPub($meta),  1 ) );
     }
 
     return unless ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 );
@@ -893,7 +894,7 @@ sub getRevisionAtTime {
 
     my $hd = _historyDir($meta);
     my $d;
-    unless ( opendir( $d, _encode($hd) ) ) {
+    unless ( opendir( $d, _encode( $hd, 1 ) ) ) {
         return 1 if ( $time >= ( _stat( _latestFile($meta) ) )[9] );
         return undef;
     }
@@ -942,7 +943,7 @@ sub setLease {
 # Implement Foswiki::Store
 sub removeSpuriousLeases {
     my ( $this, $web ) = @_;
-    my $webdir = _encode( _getData($web) . '/' );
+    my $webdir = _encode( _getData($web) . '/', 1 );
     if ( opendir( my $W, $webdir ) ) {
 
         # Don't need to decode the dir entires, we're not passing them back
@@ -990,7 +991,7 @@ sub _getPub {
 sub _loadRevs {
     my ( $revs, $dir ) = @_;
     my $d;
-    opendir( $d, _encode($dir) ) or die "PlainFile: '$dir': $!";
+    opendir( $d, _encode( $dir, 1 ) ) or die "PlainFile: '$dir': $!";
 
     # Read, untaint, sort in reverse. No need to decode because we
     # know we've only got ascii numbers
@@ -1118,8 +1119,7 @@ sub _saveDamage {
         && _e("$latest,v") )
     {
         my $path =
-          Encode::encode_utf8( $Foswiki::cfg{DataDir} ) . "/"
-          . $meta->getPath();
+          _encode( $Foswiki::cfg{DataDir} . "/" . $meta->getPath(), 1 );
         die <<DONE;
 PlainFileStore is selected but you have ,v files present in the directory tree, Save aborted to avoid loss of topic history.
 Did you remember to convert the store?  The administrator should review tools/bulk_copy.pl,  or select an RCS based store.
@@ -1152,7 +1152,7 @@ DONE
 
     my $hf = _historyFile( $meta, $attachment, $rev );
     _mkPathTo($hf);
-    File::Copy::copy( _encode($latest), _encode($hf) )
+    File::Copy::copy( _encode( $latest, 1 ), _encode( $hf, 1 ) )
       or die "PlainFile: failed to copy to $hf: $!";
 }
 
@@ -1340,7 +1340,7 @@ sub _readTextFile {
 
     # Note: we don't use an IO layer here in case there is an encoding
     # error in the file being read; we want to PERLQQ those.
-    open( $IN_FILE, '<', _encode($name) )
+    open( $IN_FILE, '<', _encode( $name, 1 ) )
       or die "PlainFile: failed to read $name: $!";
     binmode($IN_FILE);
     local $/ = undef;
@@ -1373,7 +1373,7 @@ sub _openBinaryStream {
         $path = _latestFile( $meta, $att );
         _mkPathTo($path) if ( $mode =~ m/>/ );
     }
-    unless ( open( $stream, $mode, _encode($path) ) ) {
+    unless ( open( $stream, $mode, _encode( $path, 1 ) ) ) {
         die("PlainFile: open stream $mode '$path' failed: $!");
     }
     binmode $stream;
@@ -1384,7 +1384,7 @@ sub _openBinaryStream {
 sub _saveFile {
     my ( $file, $text ) = @_;
     _mkPathTo($file);
-    my $efile = _encode($file);
+    my $efile = _encode( $file, 1 );
     my $fh;
     open( $fh, '>', $efile )
       or die("PlainFile: failed to create file $file: $!");
@@ -1408,7 +1408,7 @@ sub _saveStream {
 
     _mkPathTo($file);
     my $F;
-    my $efile = _encode($file);
+    my $efile = _encode( $file, 1 );
     open( $F, '>', $efile ) or die "PlainFile: open $file failed: $!";
     binmode($F) or die "PlainFile: failed to binmode $file: $!";
     my $text;
@@ -1427,8 +1427,8 @@ sub _moveFile {
     die "PlainFile: move target $to already exists" if _e $to;
     _mkPathTo($to);
     my $ok;
-    my $efrom = _encode($from);
-    $ok = File::Copy::Recursive::rmove( $efrom, _encode($to) );
+    my $efrom = _encode( $from, 1 );
+    $ok = File::Copy::Recursive::rmove( $efrom, _encode( $to, 1 ) );
     $ok or die "PlainFile: move $from to $to failed: $!";
 }
 
@@ -1440,19 +1440,19 @@ sub _copyFile {
     die "PlainFile: move target $to already exists" if _e $to;
     _mkPathTo($to);
     my $ok;
-    my $efrom = _encode($from);
+    my $efrom = _encode( $from, 1 );
     if ( -d $efrom ) {
-        $ok = File::Copy::Recursive::dircopy( $efrom, _encode($to) );
+        $ok = File::Copy::Recursive::dircopy( $efrom, _encode( $to, 1 ) );
     }
     else {
-        $ok = File::Copy::copy( $efrom, _encode($to) );
+        $ok = File::Copy::copy( $efrom, _encode( $to, 1 ) );
     }
     $ok or die "PlainFile: copy $from to $to failed: $!";
 }
 
 # Make all directories above the path
 sub _mkPathTo {
-    my $file = _encode(shift);
+    my $file = _encode( shift, 1 );
 
     ASSERT( File::Spec->file_name_is_absolute($file), $file ) if DEBUG;
 
@@ -1516,7 +1516,7 @@ sub _rmtree {
 
 # Get the timestamp on a file. 0 indicates the file was not found.
 sub _getTimestamp {
-    my $file = _encode(shift);
+    my $file = _encode( shift, 1 );
 
     my $date = 0;
     if ( -e $file ) {

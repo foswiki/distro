@@ -58,8 +58,8 @@ BEGIN {
 
         *_decode = \&Foswiki::Store::decode;
         *_encode = \&Foswiki::Store::encode;
-        *_stat   = sub { stat( _encode( $_[0] ) ); };
-        *_unlink = sub { unlink( _encode( $_[0] ) ); };
+        *_stat   = sub { stat( _encode( $_[0], 1 ) ); };
+        *_unlink = sub { unlink( _encode( $_[0], 1 ) ); };
     }
     else {
         *_decode = sub { return $_[0] };

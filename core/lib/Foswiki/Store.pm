@@ -262,20 +262,33 @@ sub decode {
 
 =begin TML
 
----++ StaticMethod encode($unicode) -> $octets
+---++ StaticMethod encode($unicode, CROAK) -> $octets
 
 Utility function to encode a perl character string into
 a string of octets encoded using the currently selected
-{Store}{Encoding} (or UTF-8 if none is set). May die if
-=$unicode= cannot be represented in the {Store}{Encoding}.
+{Store}{Encoding} (or UTF-8 if none is set).
+
+If CROAK is true, it will die if =$unicode= cannot be
+represented in the {Store}{Encoding}.  Set this for filename
+encoding.   Leave false for content encoding.
+
+If CROAK is false, then characters that cannot be represented
+will be converted to named entities if possible, otherwise
+numeric entities.
 
 =cut
 
 sub encode {
     return $_[0] unless defined $_[0];
     my $s = $_[0];
-    return Encode::encode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
-        $s, sub { HTML::Entities::encode_entities( chr(shift) ) } );
+    if ( $_[1] ) {
+        return Encode::encode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
+            $s, Encode::FB_CROAK );
+    }
+    else {
+        return Encode::encode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
+            $s, sub { HTML::Entities::encode_entities( chr(shift) ) } );
+    }
 }
 
 1;

@@ -99,7 +99,7 @@ sub _search {
         if (
             open(
                 $file, "<:encoding($enc)",
-                Foswiki::Store::encode("$sDir/$topic.txt")
+                Foswiki::Store::encode( "$sDir/$topic.txt", 1 )
             )
           )
         {

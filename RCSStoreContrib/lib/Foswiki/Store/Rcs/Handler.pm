@@ -60,8 +60,8 @@ BEGIN {
     *_encode = \&Foswiki::Store::encode;
     *_stat   = \&Foswiki::Store::Rcs::Store::_stat;
     *_unlink = \&Foswiki::Store::Rcs::Store::_unlink;
-    *_e      = sub { -e _encode( $_[0] ) };
-    *_d      = sub { -d _encode( $_[0] ) };
+    *_e      = sub { -e _encode( $_[0], 1 ) };
+    *_d      = sub { -d _encode( $_[0], 1 ) };
 }
 
 our $json = JSON->new->utf8(1)->pretty(0);
@@ -176,7 +176,7 @@ sub mkPathTo {
 
     my ( $this, $file ) = @_;
 
-    $file = _encode( Foswiki::Sandbox::untaintUnchecked($file) );
+    $file = _encode( Foswiki::Sandbox::untaintUnchecked($file), 1 );
 
     ASSERT( File::Spec->file_name_is_absolute($file) ) if DEBUG;
 
@@ -574,7 +574,7 @@ Return a topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'WebNotify' )
 sub getTopicNames {
     my $this = shift;
     my $dh;
-    opendir( $dh, _encode("$Foswiki::cfg{DataDir}/$this->{web}") )
+    opendir( $dh, _encode( "$Foswiki::cfg{DataDir}/$this->{web}", 1 ) )
       or return ();
 
     # the name filter is used to ensure we don't return filenames
@@ -633,7 +633,7 @@ sub getWebNames {
     my @tmpList;
     my $dh;
     my $webid = "$Foswiki::cfg{WebPrefsTopicName}.txt";
-    my $edir  = _encode($dir);
+    my $edir = _encode( $dir, 1 );
     if ( opendir( $dh, $edir ) ) {
         @tmpList = map {
             Foswiki::Sandbox::untaint( _decode($_),
@@ -765,8 +765,8 @@ sub remove {
     if ( !$this->{topic} ) {
 
         # Web
-        _rmtree( _encode "$Foswiki::cfg{DataDir}/$this->{web}" );
-        _rmtree( _encode "$Foswiki::cfg{PubDir}/$this->{web}" );
+        _rmtree( _encode( "$Foswiki::cfg{DataDir}/$this->{web}", 1 ) );
+        _rmtree( _encode( "$Foswiki::cfg{PubDir}/$this->{web}",  1 ) );
     }
     else {
 
@@ -775,7 +775,10 @@ sub remove {
         _unlink( $this->{rcsFile} );
         if ( !$this->{attachment} ) {
             _rmtree(
-                _encode "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}" );
+                _encode(
+                    "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}", 1
+                )
+            );
         }
     }
 }
@@ -840,7 +843,8 @@ sub copyTopic {
     my $dh;
     if (
         opendir(
-            $dh, _encode("$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}")
+            $dh,
+            _encode( "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}", 1 )
         )
       )
     {
@@ -1026,7 +1030,7 @@ some store implementations when a topic is created, but never saved.
 
 sub removeSpuriousLeases {
     my ($this) = @_;
-    my $web = _encode("$Foswiki::cfg{DataDir}/$this->{web}");
+    my $web = _encode( "$Foswiki::cfg{DataDir}/$this->{web}", 1 );
     if ( opendir( my $W, $web ) ) {
         foreach my $f ( readdir($W) ) {
             my $file = $web . '/' . $f;
@@ -1042,7 +1046,7 @@ sub removeSpuriousLeases {
 
 sub test {
     my ( $this, $test ) = @_;
-    my $f = _encode( $this->{file} );
+    my $f = _encode( $this->{file}, 1 );
     return eval "-$test '$f'";
 }
 
@@ -1054,7 +1058,7 @@ sub saveStream {
 
     $this->mkPathTo( $this->{file} );
     my $F;
-    my $efile = _encode( $this->{file} );
+    my $efile = _encode( $this->{file}, 1 );
     open( $F, '>', $efile )
       || throw Error::Simple(
         'Rcs::Handler: open ' . $this->{file} . ' failed: ' . $! );
@@ -1077,7 +1081,7 @@ sub _copyFile {
     my ( $this, $from, $to ) = @_;
 
     $this->mkPathTo($to);
-    unless ( File::Copy::copy( _encode($from), _encode($to) ) ) {
+    unless ( File::Copy::copy( _encode( $from, 1 ), _encode( $to, 1 ) ) ) {
         throw Error::Simple(
             'Rcs::Handler: copy ' . $from . ' to ' . $to . ' failed: ' . $! );
     }
@@ -1087,7 +1091,7 @@ sub _moveFile {
     my ( $this, $from, $to ) = @_;
     ASSERT( _e $from ) if DEBUG;
     $this->mkPathTo($to);
-    unless ( File::Copy::move( _encode($from), _encode($to) ) ) {
+    unless ( File::Copy::move( _encode( $from, 1 ), _encode( $to, 1 ) ) ) {
         throw Error::Simple(
             'Rcs::Handler: move ' . $from . ' to ' . $to . ' failed: ' . $! );
     }
@@ -1098,7 +1102,7 @@ sub saveFile {
     my ( $this, $name, $text ) = @_;
     $this->mkPathTo($name);
     my $fh;
-    open( $fh, '>', _encode($name) )
+    open( $fh, '>', _encode( $name, 1 ) )
       or throw Error::Simple(
         'Rcs::Handler: failed to create file ' . $name . ': ' . $! );
     flock( $fh, LOCK_EX )
@@ -1124,7 +1128,7 @@ sub readFile {
     my $IN_FILE;
 
     # Note: no IO layer; we want to trap encoding errors
-    if ( open( $IN_FILE, '<', _encode($name) ) ) {
+    if ( open( $IN_FILE, '<', _encode( $name, 1 ) ) ) {
         binmode($IN_FILE);
         local $/ = undef;
         $data = <$IN_FILE>;
@@ -1137,7 +1141,7 @@ sub readFile {
 sub mkTmpFilename {
     my $tmpdir = File::Spec->tmpdir();
     my $file = _mktemp( 'foswikiAttachmentXXXXXX', $tmpdir );
-    return File::Spec->catfile( $tmpdir, _encode($file) );
+    return File::Spec->catfile( $tmpdir, _encode( $file, 1 ) );
 }
 
 # Adapted from CPAN - File::MkTemp
@@ -1147,7 +1151,7 @@ sub _mktemp {
 
     ASSERT( @_ == 1 || @_ == 2 || @_ == 3 ) if DEBUG;
 
-    ( $template, $dir, $ext ) = map { _encode($_) } @_;
+    ( $template, $dir, $ext ) = map { _encode( $_, 1 ) } @_;
     @template = split( //, $template );
 
     ASSERT( $template =~ /XXXXXX$/ ) if DEBUG;
@@ -1325,7 +1329,7 @@ sub openStream {
                   . ' failed: '
                   . 'Read requested on directory.' );
         }
-        unless ( open( $stream, $mode, _encode $this->{file} ) ) {
+        unless ( open( $stream, $mode, _encode( $this->{file}, 1 ) ) ) {
             throw Error::Simple( 'Rcs::Handler: stream open '
                   . $this->{file}
                   . ' failed: '
@@ -1434,9 +1438,9 @@ Get list of attachment names actually stored for topic.
 
 sub getAttachmentList {
     my $this = shift;
-    my $dir = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
+    my $dir  = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
     my $dh;
-    my $ed = _encode($dir);
+    my $ed = _encode( $dir, 1 );
     opendir( $dh, $ed ) || return ();
     my @files =
       map { _decode($_) }
@@ -1573,7 +1577,7 @@ sub readChanges {
     my ($this) = @_;
 
     my $file = "$Foswiki::cfg{DataDir}/$this->{web}/.changes";
-    return () unless ( -r _encode($file) );
+    return () unless ( -r _encode( $file, 1 ) );
 
     my $all_lines =
       Foswiki::Sandbox::untaintUnchecked( $this->readFile($file) );
