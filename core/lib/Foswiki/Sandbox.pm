@@ -32,6 +32,7 @@ use strict;
 use warnings;
 use Assert;
 use Error qw( :try );
+use Encode;
 
 use File::Spec ();
 use File::Temp ();
@@ -311,6 +312,31 @@ sub sanitizeAttachmentName {
     $fileName =~ s!^.*[\\/]!!;  # Get rid of leading directory components
 
     my $origName = $fileName;
+
+    # Check that on non-utf8 systems, the requested filename can be supported
+    # by the store encoding.  If not supported, throw an error, rather than
+    # attempting to scrub it to a usable name.
+    if (   $Foswiki::cfg{Store}{Encoding}
+        && $Foswiki::cfg{Store}{Encoding} ne 'utf-8'
+        && $fileName =~ m/[^[:ascii:]]+/ )
+    {
+        try {
+            my $encoded =
+              Encode::encode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
+                $fileName, Encode::FB_CROAK );
+            $fileName =
+              $origName;    # Restore the original name, encode consumes it.
+        }
+        catch Error with {
+            throw Foswiki::OopsException(
+                'attention',
+                def    => 'unsupported_filename',
+                params => [
+                    ( "$fileName", $Foswiki::cfg{Store}{Encoding} || 'utf-8' )
+                ]
+            );
+        };
+    }
 
     # Change spaces to underscore
     $fileName =~ s/ /_/g;

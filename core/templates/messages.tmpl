@@ -248,6 +248,11 @@ registermessages.tmpl
 %TMPL:P{"oktopicaction"}%
 %TMPL:END%
 %{==============================================================================}%
+%TMPL:DEF{"unsupported_filename"}%
+---+++ %MAKETEXT{"The filename you are attempting to upload ([_1]) contains characters not supported by the configured encoding ([_2])." args="<code>%PARAM1%</code>, <code>%PARAM2%</code>"}%
+%MAKETEXT{"Please go back in your browser and upload using a different filename."}%
+%TMPL:END%
+%{==============================================================================}%
 %TMPL:DEF{"zero_size_upload"}%
 ---+++ %MAKETEXT{"Either you did not specify a file name, or the file you are trying to upload [_1] has no content. You may not upload an empty file." args="<code>%PARAM1%</code>"}%
 %MAKETEXT{"Please go back in your browser and check again."}%

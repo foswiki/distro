@@ -1,6 +1,7 @@
 package UploadScriptTests;
 use strict;
 use warnings;
+use utf8;
 
 use FoswikiFnTestCase;
 our @ISA = qw( FoswikiFnTestCase );
@@ -259,6 +260,68 @@ sub test_illegal_upload {
         $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
         $this->assert_str_equals( "upload_name_changed", $e->{def} );
     };
+}
+
+sub test_unsupported_characters {
+    my $this = shift;
+    local $/ = undef;
+    my $data = 'asdfasdf';
+    $Foswiki::cfg{Store}{Encoding} = 'iso-8859-1';
+    my $badfilename = 'AśčÁŠŤśěž.txt';
+    try {
+        $this->do_upload(
+            $badfilename,
+            $data,
+            undef,
+            hidefile         => 0,
+            filecomment      => 'Elucidate the goose',
+            createlink       => 0,
+            changeproperties => 0
+        );
+        $this->assert(0);
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( $badfilename,           $e->{params}[0] );
+        $this->assert_str_equals( "unsupported_filename", $e->{def} );
+    };
+
+    return;
+}
+
+sub test_supported_nonascii {
+    my $this = shift;
+    local $/ = undef;
+    my $data = 'asdfasdf';
+    $Foswiki::cfg{Store}{Encoding} = 'iso-8859-1';
+    my $filename = '¢£é.txt';
+    my $isoname  = "\xa2\xa3\xe9.txt";
+    my $result   = $this->do_upload(
+        $filename,
+        $data,
+        undef,
+        hidefile         => 0,
+        filecomment      => 'Elucidate the goose',
+        createlink       => 0,
+        changeproperties => 0
+    );
+    $this->assert_matches( qr/^Status: 302/ms, $result );
+    $this->assert(
+        open(
+            my $F,
+            '<',
+"$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/$isoname"
+        )
+    );
+    $this->assert_str_equals( "asdfasdf", <$F> );
+    $this->assert( close($F) );
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+
+    # Check the meta
+    my $at = $meta->get( 'FILEATTACHMENT', $filename );
+    $this->assert($at);
+    $this->assert_str_equals( 'Elucidate the goose', $at->{comment} );
 
     return;
 }
