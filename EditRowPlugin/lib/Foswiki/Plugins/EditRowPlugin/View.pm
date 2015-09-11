@@ -30,7 +30,8 @@ sub process {
     my $query = Foswiki::Func::getCgiQuery();
     return 0 unless $query;
 
-    return 0 if Foswiki::Func::getPreferencesFlag('EDITROWPLUGIN_DISABLE');
+    return 0
+      if Foswiki::Func::getPreferencesFlag('EDITROWPLUGIN_DISABLE') =~ /full/;
 
     Foswiki::Plugins::JQueryPlugin::registerPlugin( 'EditRow',
         'Foswiki::Plugins::EditRowPlugin::JQuery' );
