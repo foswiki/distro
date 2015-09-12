@@ -856,27 +856,49 @@ It takes the href/src location from the link, re-encodes it into the
 sub _reEncodePubLink {
     my ( $wholeLink, $url ) = @_;
 
-    #    my $origLink = $wholeLink;
+    #    my $origLink = $wholeLink;   # For debug printing
 
     # Extract just the path component, truncating any querystring
-    my $path = substr( $url, 0, index( $url, '?' ) );
+    my $qPos = index( $url, '?' );
+    if ( $qPos >= 0 ) {
+        $url = substr( $url, 0, $qPos );
+    }
 
     # Decode the path back to utf-8
-    my $decoded = Foswiki::urlDecode($path);
+    my $decoded = Foswiki::urlDecode($url);
+
+    # if ascii, just return unmodified
+    return $wholeLink if $decoded !~ m/[^[:ascii:]]+/;
+
+    # Extract out the file system path for further checking
+    ( my $storePath ) = $decoded =~ m/^$Foswiki::cfg{PubUrlPath}(\/.*)$/;
+    return $wholeLink unless $storePath;    #Nothing to check?
+
+    # If file exists with utf-8 encoding, do nothing
+    my $tmpPath = "$Foswiki::cfg{PubDir}$storePath";
+    return $wholeLink
+      if ( -e Encode::encode( 'utf-8', $tmpPath, Encode::FB_WARN ) );
 
     # re-encode the decoded URL into the {Store}{Encoding}
     my $text = Foswiki::Store::encode($decoded);
 
+    ($storePath) = $text =~ m/^$Foswiki::cfg{PubUrlPath}(\/.*)$/;
+    return $wholeLink unless $storePath;    #Nothing to check?
+
+    # if the file doesn't exist, then either oddball encoding, or
+    # maybe a real broken link.  Just return unchanged.
+    return $wholeLink unless ( -e $Foswiki::cfg{PubDir} . $storePath );
+
     # Entity-encode non-ASCII high character and other restricted characters.
     $text =~ s{([^0-9a-zA-Z-_.:~!*#/])}{sprintf('%%%02x',ord($1))}ge;
 
-    # Replace the url in the link.
-    $wholeLink =~ s/\Q$path\E/$text/;
+    # Replace the urlpath in the link.
+    $wholeLink =~ s/\Q$url\E/$text/;
 
     #    if ( $origLink ne $wholeLink ) {
     #        print STDERR "REWRITING: $origLink\n";
-    #        print STDERR "URL $url\n";
-    #        print STDERR "       TO $wholeLink\n\n";
+    #        print STDERR "     PATH: $url\n";
+    #        print STDERR "       TO: $wholeLink\n\n";
     #    }
 
     return $wholeLink;
