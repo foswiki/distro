@@ -316,16 +316,14 @@ sub sanitizeAttachmentName {
     # Check that on non-utf8 systems, the requested filename can be supported
     # by the store encoding.  If not supported, throw an error, rather than
     # attempting to scrub it to a usable name.
+    # SMELL: This ought to be handled in Foswiki.pm.
     if (   $Foswiki::cfg{Store}{Encoding}
         && $Foswiki::cfg{Store}{Encoding} ne 'utf-8'
         && $fileName =~ m/[^[:ascii:]]+/ )
     {
         try {
-            my $encoded =
-              Encode::encode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
-                $fileName, Encode::FB_CROAK );
-            $fileName =
-              $origName;    # Restore the original name, encode consumes it.
+            require Foswiki::Store;
+            my $encoded = Foswiki::Store::encode( $fileName, 1 );
         }
         catch Error with {
             throw Foswiki::OopsException(
