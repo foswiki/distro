@@ -749,6 +749,17 @@ sub writeCompletePage {
     # Call final handler
     $this->{plugins}->dispatch( 'completePageHandler', $text, $hdr );
 
+    if (   $Foswiki::cfg{Store}{Encoding}
+        && $Foswiki::cfg{Store}{Encoding} ne 'utf-8' )
+    {
+        $text =~
+s#(<(?:a|link) .*?href=(["'])(?:$Foswiki::cfg{DefaultUrlHost})?($Foswiki::cfg{PubUrlPath}/?.*?)\2.*?/?>)#_reEncodePubLink($1, $3)#ge;
+        $text =~
+s#(<(?:audio|iframe|img|script|source|track|video) .*?src=(["'])(?:$Foswiki::cfg{DefaultUrlHost})?($Foswiki::cfg{PubUrlPath}/?.*?)\2.*?/?>)#_reEncodePubLink($1, $3)#ge;
+        $text =~
+s#(<object .*?data=(["'])(?:$Foswiki::cfg{DefaultUrlHost})?($Foswiki::cfg{PubUrlPath}/?.*?)\2.*?/?>)#_reEncodePubLink($1, $3)#ge;
+    }
+
     # cache final page, but only view and rest
     my $cachedPage;
     if ( $contentType ne 'text/plain' ) {
@@ -831,6 +842,45 @@ BOGUS
     else {
         $this->{response}->print($text);
     }
+}
+
+=begin TML
+---++ private _reEncodePubLink( $wholeLink, $url )
+
+This routine is called for each pub link found in the complete page.
+It takes the href/src location from the link, re-encodes it into the
+{Store}{Encoding} and then replaces it back into the whole link.
+
+=cut
+
+sub _reEncodePubLink {
+    my ( $wholeLink, $url ) = @_;
+
+    #    my $origLink = $wholeLink;
+
+    # Extract just the path component, truncating any querystring
+    my $path = substr( $url, 0, index( $url, '?' ) );
+
+    # Decode the path back to utf-8
+    my $decoded = Foswiki::urlDecode($path);
+
+    # re-encode the decoded URL into the {Store}{Encoding}
+    my $text = Foswiki::Store::encode($decoded);
+
+    # Entity-encode non-ASCII high character and other restricted characters.
+    $text =~ s{([^0-9a-zA-Z-_.:~!*#/])}{sprintf('%%%02x',ord($1))}ge;
+
+    # Replace the url in the link.
+    $wholeLink =~ s/\Q$path\E/$text/;
+
+    #    if ( $origLink ne $wholeLink ) {
+    #        print STDERR "REWRITING: $origLink\n";
+    #        print STDERR "URL $url\n";
+    #        print STDERR "       TO $wholeLink\n\n";
+    #    }
+
+    return $wholeLink;
+
 }
 
 # PRIVATE
