@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435689678" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1442032214" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -65,7 +65,8 @@ diff lib/Foswiki/Store/Rcs/RcsLiteHandler.pm lib/Foswiki/Store/Rcs/RcsLiteHandle
 
 |  Dependencies: | %$DEPENDENCIES% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  1.0.0 (10 May 2013): | Initial version, abstracted from core |
+|  1.01 (11 Sep 2015): | Item13697: Reject unsupported characters from web/topic and attachment filenames. |
+|  1.00 (10 May 2013): | Initial version, abstracted from core |
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%

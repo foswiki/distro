@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1441729129" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1442032214" version="1"}%
 ---+!! PlainFileStoreContrib
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -66,7 +66,8 @@ Many thanks to the following sponsors for supporting this work
    * [[http://www.taxonomy.org.au][TRIN]], The Taxonomy Research & Information Network
 
 |  Change History: | |
-|  1.42   (08 Sep 2015) | Released with Foswiki 2.0.2. Item13598 - Rename of symlinked web fails. |
+|  1.42   (08 Sep 2015) | Released with Foswiki 2.0.2. Foswikitask:Item13598 - Rename of symlinked web fails<br />
+                          Foswikitask:Item13697: Reject unsuported characters from web/topic and attachment filenames |
 |  1.41   (27 Jul 2015) | Released with Foswiki 2.0.1<br/>\
                           Foswikitask:Item13516: Correct issues with attachment transfer, and when source store is Foswiki 2.0<br />\
                           Foswikitask:Item13541: Don't return directory names when listing attachments<br />\
