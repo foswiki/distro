@@ -1388,6 +1388,22 @@ sub isValidTopicName {
     my ( $name, $nonww ) = @_;
 
     return 0 unless defined $name && $name ne '';
+
+    # Make sure any name is supported by the Store encoding
+    if (   $Foswiki::cfg{Store}{Encoding}
+        && $Foswiki::cfg{Store}{Encoding} ne 'utf-8'
+        && $name =~ m/[^[:ascii:]]+/ )
+    {
+        my $badName = 0;
+        try {
+            Foswiki::Store::encode( $name, 1 );
+        }
+        catch Error with {
+            $badName = 1;
+        };
+        return 0 if $badName;
+    }
+
     return 1 if ( $name =~ m/^$regex{topicNameRegex}$/ );
     return 0 unless $nonww;
     return 0 if $name =~ m/$cfg{NameFilter}/;
