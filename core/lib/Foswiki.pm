@@ -867,6 +867,9 @@ sub _reEncodePubLink {
     # Decode the path back to utf-8
     my $decoded = Foswiki::urlDecode($url);
 
+    # something didn't work right,  undo the decode and keep going
+    $decoded = $url if ( index( $decoded, chr(0xFFFD) ) > 0 );
+
     # if ascii, just return unmodified
     return $wholeLink if $decoded !~ m/[^[:ascii:]]+/;
 
