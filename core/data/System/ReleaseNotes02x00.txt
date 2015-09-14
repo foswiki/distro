@@ -52,7 +52,7 @@ Foswiki is released under the GNU General Public License.
 
 Foswiki 2.0 is shipped with the following: ( __New to Foswiki 2.0__ )
 <noautolink>
-   * *Plugins:* AutoViewTemplatePlugin, CommentPlugin, __ConfigurePlugin__, __EditRowPlugin__, EmptyPlugin, HistoryPlugin, __HomePagePlugin__, InterwikiPlugin, JQueryPlugin, __NatEditPlugin__, PreferencesPlugin, RenderListPlugin, SlideShowPlugin, SmiliesPlugin, SpreadSheetPlugin, __SubscribePlugin__, TablePlugin, TinyMCEPlugin, TwistyPlugin, __UpdatesPlugin__, WysiwygPlugin
+   * *Plugins:* AutoViewTemplatePlugin, CommentPlugin, __ConfigurePlugin__, __EditRowPlugin__, EmptyPlugin, HistoryPlugin, __HomePagePlugin__, InterwikiPlugin, JQueryPlugin, __NatEditPlugin__, PreferencesPlugin, PubLinkFixupPlugin, RenderListPlugin, SlideShowPlugin, SmiliesPlugin, SpreadSheetPlugin, __SubscribePlugin__, TablePlugin, TinyMCEPlugin, TwistyPlugin, __UpdatesPlugin__, WysiwygPlugin
    * *Contribs:* CompareRevisionsAddOn, FamFamFamContrib, __FastCGIEngineContrib__, __JEditableContrib__, JSCalendarContrib, __JsonRpcContrib__, MailerContrib, __ModPerlEngineContrib__, __PlainFileStoreContrib__, __RCSStoreContrib__, TipsContrib, TopicUserMappingContrib
    * *Skins:* PatternSkin
    * *Compatibility support* - TWikiCompatibilityPlugin
@@ -64,8 +64,12 @@ For up-to-date information, see [[http://foswiki.org/Support/KnownIssuesOfFoswik
 ---+++ Use of non-default ={Store}{Encoding}=
 
 *WARNING* About {Store}{Encoding}. if you intend to use high-bit characters in attachment filenames (such as umlauts and accents) then links to these
-attachments on Foswiki pages *will not work*. This is because Foswiki works internally using UNICODE, but the store saves files to disk using your chosen
-{Store}{Encoding}. The solution is to convert your store to UTF8 at the earliest opportunity.
+attachments on Foswiki pages *will not work* without modification. This is because Foswiki works internally using UNICODE, but the store saves files to disk using your chosen
+{Store}{Encoding}. Running the Store with other than =utf-8= encoding is considered a transitional step and not recommended for long-term operation.
+The *strongly recommended* solution is to convert your store to UTF8 at the earliest opportunity.
+
+A partial workaround is implemented in the PubLinkFixupPlugin This Plugin will attempt to rewrite broken links.  This _generally_ gets linked images and other attachments working.
+However the TinyMCEPlugin is still unable to render image links.
 
 See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
 

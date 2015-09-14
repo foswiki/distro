@@ -4,7 +4,7 @@
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
 -->
----+!! Empty Plugin
+---+!! Pub Link Fixup Plugin
 
 %SHORTDESCRIPTION%
 
