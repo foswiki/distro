@@ -20,6 +20,7 @@
 !include ../PatternSkin/lib/Foswiki/Contrib/PatternSkin
 !include ../PlainFileStoreContrib/lib/Foswiki/Contrib/PlainFileStoreContrib
 !include ../PreferencesPlugin/lib/Foswiki/Plugins/PreferencesPlugin
+!include ../PubLinkFixupPlugin/lib/Foswiki/Plugins/PubLinkFixupPlugin
 !include ../RCSStoreContrib/lib/Foswiki/Contrib/RCSStoreContrib
 !include ../RenderListPlugin/lib/Foswiki/Plugins/RenderListPlugin
 !include ../SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin

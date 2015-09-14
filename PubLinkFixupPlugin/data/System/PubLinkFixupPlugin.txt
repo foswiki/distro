@@ -1,0 +1,49 @@
+%META:TOPICINFO{author="ProjectContributor" date="1442191889" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Plugins"}%
+<!--
+One line description, required for extensions repository catalog.
+   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
+-->
+---+!! Empty Plugin
+
+%SHORTDESCRIPTION%
+
+%TOC%
+
+This plugin performs pub link fixup of the generated HTML page.  If Foswiki is configured with a
+non-utf-8 ={Store}{Encoding}=, then links to /pub files will be generated with the incorrect encoding.
+
+Even on non-utf-8 sites, Foswiki operates fully with UNICODE and utf-8 encoding in the core and on
+the web interface.  /pub attachment links will be generated assuming the filesnames are utf-8 encoded.
+This plugin provides a completePageHandler that finds utf-8 encoded links to /pub attachments and
+re-encodes them to the {Store}{Encoding}.
+
+Enable this plugin to perform the link fixup.  It can be safely enabled regardless of the ={Store}{Encoding}=.
+If the Plugin detects that the ={Store}{Encoding}= is =utf-8=, it quietly disables its =completePageHandler=.
+
+This is __not__ a complete fix to the issue.  It is still strongly recommended that sites convert
+their Store to utf-8 to avoid these types of encoding issues.
+
+---++ Preferences
+
+This plugin has one expert setting.
+   * ={Plugins}{PubLinkFixupPlugin}{Debug}=. Enable to record before/after of each rewritten link to the Foswiki debug log.
+
+---++ Installation
+%$INSTALL_INSTRUCTIONS%
+
+---++ Info
+
+|  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  1.00 (14 Sep 2015): | Initial version |
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="GeorgeClark"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Copyright" value="%$CREATEDYEAR%, GeorgeClark, All Rights Reserved"}%
+%META:FIELD{name="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Repository" value="https://github.com/foswiki/%$ROOTMODULE%"}%
+%META:FIELD{name="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

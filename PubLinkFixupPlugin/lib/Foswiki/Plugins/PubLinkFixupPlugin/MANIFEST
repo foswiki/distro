@@ -1,0 +1,5 @@
+!noci
+data/System/PubLinkFixupPlugin.txt 0644
+lib/Foswiki/Plugins/PubLinkFixupPlugin.pm 0644
+lib/Foswiki/Plugins/PubLinkFixupPlugin/Config.spec 0644
+lib/Foswiki/Configure/Checkers/Plugins/PubLinkFixupPlugin/Enabled.pm 0644

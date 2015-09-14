@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/PubLinkFixupPlugin.md5
+/PubLinkFixupPlugin.sha1
+/PubLinkFixupPlugin.tgz
+/PubLinkFixupPlugin.txt
+/PubLinkFixupPlugin.zip
+/PubLinkFixupPlugin_installer
+/PubLinkFixupPlugin_installer.pl
