@@ -61,6 +61,9 @@ sub restTmpl {
       || '';
     $result = Foswiki::Func::renderText( $result, $web ) if $doRender;
 
+    # Item13667: clean up html that could disturb jquery-ui
+    $result =~ s/<!--[^\[<].*?-->//g;
+
     my $response = $session->{response};
 
     if ( $result eq "" ) {
