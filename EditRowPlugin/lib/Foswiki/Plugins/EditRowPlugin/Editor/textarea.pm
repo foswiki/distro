@@ -33,9 +33,9 @@ sub htmlEditor {
             class   => 'erpJS_input',
             rows    => $rows,
             columns => $cols,
-            name    => $cell->getElementName(),
-            value   => $tmptext
-        }
+            name    => $cell->getElementName()
+        },
+        $tmptext
     );
 }
 
