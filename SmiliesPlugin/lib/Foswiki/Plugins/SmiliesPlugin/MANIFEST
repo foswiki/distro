@@ -93,3 +93,28 @@ pub/System/SmiliesPlugin/Makefile 0644
 pub/System/SmiliesPlugin/smilies.css 0644
 pub/System/SmiliesPlugin/smilies.css.gz 0644
 pub/System/SmiliesPlugin/smilies.uncompressed.css 0644
+#
+# Legacy ICONs distributed for easier upgrades:
+#
+pub/System/SmiliesPlugin/biggrin.gif 0644
+pub/System/SmiliesPlugin/confused.gif 0644
+pub/System/SmiliesPlugin/cool.gif 0644
+pub/System/SmiliesPlugin/devil.gif 0644
+pub/System/SmiliesPlugin/devilwink.gif 0644
+pub/System/SmiliesPlugin/eek.gif 0644
+pub/System/SmiliesPlugin/frown.gif 0644
+pub/System/SmiliesPlugin/indifferent.gif 0644
+pub/System/SmiliesPlugin/love.gif 0644
+pub/System/SmiliesPlugin/mad.gif 0644
+pub/System/SmiliesPlugin/no.gif 0644
+pub/System/SmiliesPlugin/redface.gif 0644
+pub/System/SmiliesPlugin/rolleyes.gif 0644
+pub/System/SmiliesPlugin/sealed.gif 0644
+pub/System/SmiliesPlugin/smile.gif 0644
+pub/System/SmiliesPlugin/thumbs.gif 0644
+pub/System/SmiliesPlugin/tongue.gif 0644
+pub/System/SmiliesPlugin/wink.gif 0644
+pub/System/SmiliesPlugin/yes.gif 0644
+#
+# Untracked files:
+
