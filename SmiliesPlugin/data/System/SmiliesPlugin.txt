@@ -126,7 +126,8 @@ You can override the default settings for the plugin by defining the following [
 ---++ Plugin Info
 
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  17 Sep 2015: (2.03) | Foswikitask:Item13726: Restore legacy icons to avoid broken links. |
+|  17 Sep 2015: (2.03) | Foswikitask:Item13725: Remove height from css for better compatibilty.<br/>\
+                         Foswikitask:Item13726: Restore legacy icons to avoid broken links. |
 |  25 Jun 2015: (2.02) | Foswikitask:Item13475: Restore skull markup.  Released with Foswiki 2.0. |
 |  27 Feb 2014: | modernized code and icon set |
 |  05 Oct 2012: | use single quotes to enable use of smilies within Macros |
