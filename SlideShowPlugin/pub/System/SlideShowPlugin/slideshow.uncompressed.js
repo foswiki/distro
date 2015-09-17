@@ -70,6 +70,7 @@
         case 37: // right
           switchSlide(-1);
           return false;
+        case 32: // space
         case 39: // left
           switchSlide(1);
           return false;
