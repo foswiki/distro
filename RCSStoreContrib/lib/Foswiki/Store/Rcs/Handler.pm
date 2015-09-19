@@ -30,10 +30,12 @@ use strict;
 use warnings;
 use Assert;
 
-use IO::File   ();
-use File::Copy ();
-use File::Spec ();
-use File::Path ();
+use IO::File              ();
+use File::Copy            ();
+use File::Copy::Recursive ();
+use File::Spec            ();
+use File::Path            ();
+
 use Fcntl qw( :DEFAULT :flock SEEK_SET );
 use Encode ();
 use JSON   ();
@@ -1091,7 +1093,7 @@ sub _moveFile {
     my ( $this, $from, $to ) = @_;
     ASSERT( _e $from ) if DEBUG;
     $this->mkPathTo($to);
-    unless ( File::Copy::move( _encode( $from, 1 ), _encode( $to, 1 ) ) ) {
+    unless ( File::Copy::Recursive::rmove( _encode($from, 1), _encode($to, 1) ) ) {
         throw Error::Simple(
             'Rcs::Handler: move ' . $from . ' to ' . $to . ' failed: ' . $! );
     }

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1442032214" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1442706096" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -65,12 +65,13 @@ diff lib/Foswiki/Store/Rcs/RcsLiteHandler.pm lib/Foswiki/Store/Rcs/RcsLiteHandle
 
 |  Dependencies: | %$DEPENDENCIES% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  1.01 (11 Sep 2015): | Item13697: Reject unsupported characters from web/topic and attachment filenames. |
+|  1.01 (11 Sep 2015): | Foswikitask:Item13697: Reject unsupported characters from web/topic and attachment filenames.<br/>\
+                         Foswikitask:Item13728: Rename fails for symlinked attachments. |
 |  1.00 (10 May 2013): | Initial version, abstracted from core |
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2015 Foswiki Contributors, All Rights Reserved"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
