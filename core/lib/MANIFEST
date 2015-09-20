@@ -4,6 +4,7 @@
 !include ../CommentPlugin/lib/Foswiki/Plugins/CommentPlugin
 !include ../ConfigurePlugin/lib/Foswiki/Plugins/ConfigurePlugin
 !include ../EditRowPlugin/lib/Foswiki/Plugins/EditRowPlugin
+!include ../EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin
 !include ../EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin
 !include ../FamFamFamContrib/lib/Foswiki/Contrib/FamFamFamContrib
 !include ../FastCGIEngineContrib/lib/Foswiki/Contrib/FastCGIEngineContrib

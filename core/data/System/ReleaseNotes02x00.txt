@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1442032214" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1442711560" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0.1
 
@@ -46,7 +46,7 @@ Foswiki is released under the GNU General Public License.
 %ENDTWISTY{}%
    * Foswiki 2.0.0 was built on 04 Jul 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 59 Feature Requests.
    * Foswiki 2.0.1 was built on 03 Aug 2015. It is a release that contains 28 fixes and 3 enhancements.
-   * Foswiki 2.0.2 was built on 10 Sep 2015. It is a release that contains 23 fixes and 3 enhancements.
+   * Foswiki 2.0.2 was built on 10 Sep 2015. It is a release that contains 28 fixes and 4 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -84,6 +84,14 @@ A new optional flag can be set which will tell the API to add the utf-8 encoding
 ---+++ Query search performance
 
 A major performance issue was discovered and resolved.  Some query searches can see as much as a 350% improvement in performance.
+
+---+++ EditTablePlugin has been restored as an optional extension
+
+Due to a number of compatibility bugs between the new EditRowPlugin and existing =%<nop>TABLE%= and =%<nop>EDITTABLE%= macros, Foswiki now includes both plugins.  New sites will
+automatically get the new EditRowPlugin.  Sites with existing dependency on custom formatted tables can enable the EditTablePlugin and disable the EditRowPlugin.  For the
+current list of known issues with the EditRowPlugin see [[http://foswiki.org/Tasks/EditRowPlugin][EditRowPlugin Tasks]]
+
+*Caution:* Both extensions should not be enabled at the same time.
 
 ---+++ New configuration wizard
 
@@ -1062,12 +1070,18 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13688][Item13688]] | Fixed css precedence for tables, so it isn't overwritten by the default styles. |
 | [[%BUGS%/Item13696][Item13696]] | With non-utf-8 store, pub URLs still use utf-8 encoding of filenames and are unreachable. |
 | [[%BUGS%/Item13697][Item13697]] | With non-utf-8 store, it's possible to create unreachable topics and attachments. |
+| [[%BUGS%/Item13698][Item13698]] | Unable to move attachments if target topic is not a WikiWord. |
+| [[%BUGS%/Item13710][Item13710]] | JQueryPlugin (6.13) version of jquery.foswiki.js fails in 1.1.9 installation. |
+| [[%BUGS%/Item13725][Item13725]] | SmiliesPlugin can be made a little easier to upgrade with simple css change. |
+| [[%BUGS%/Item13726][Item13726]] | SmiliesPlugin icon files have all changed file name and that causes broken links for legacy sites. |
+| [[%BUGS%/Item13728][Item13728]] | Rename fails across symlinked directories. |
 
 ---+++ Enhancements
 
 | [[%BUGS%/Item13674][Item13674]] | Separate downgrade maps in jquery.wikiword. |
 | [[%BUGS%/Item13675][Item13675]] | Add min-height and reload-after feature to jquery.loader. |
 | [[%BUGS%/Item13695][Item13695]] | TABLE macro does not support css unit sizes. (em, cm, in, pt, ...)  |
+| [[%BUGS%/Item13723][Item13723]] | SlideShowPlugin: Add "next slide" navigation with spacebar |
 
 </noautolink>
 

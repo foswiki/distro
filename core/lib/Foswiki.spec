@@ -2262,120 +2262,125 @@ $Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 # path are listed at the end and are flagged as errors in the
 # {PluginsOrder} check.
 
-# **BOOLEAN LABEL="PreferencesPlugin"
-$Foswiki::cfg{Plugins}{PreferencesPlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="PreferencesPlugin Module"**
-$Foswiki::cfg{Plugins}{PreferencesPlugin}{Module} = 'Foswiki::Plugins::PreferencesPlugin';
-
-# **BOOLEAN LABEL="SmiliesPlugin"
-$Foswiki::cfg{Plugins}{SmiliesPlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="SmiliesPlugin Module"**
-$Foswiki::cfg{Plugins}{SmiliesPlugin}{Module} = 'Foswiki::Plugins::SmiliesPlugin';
+# **BOOLEAN LABEL="AutoViewTemplatePlugin"**
+$Foswiki::cfg{Plugins}{AutoViewTemplatePlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="AutoViewTemplatePlugin Module"**
+$Foswiki::cfg{Plugins}{AutoViewTemplatePlugin}{Module} = 'Foswiki::Plugins::AutoViewTemplatePlugin';
 
 # **BOOLEAN LABEL="CommentPlugin"**
 $Foswiki::cfg{Plugins}{CommentPlugin}{Enabled} = 1;
 # **STRING EXPERT LABEL="CommentPlugin Module"**
 $Foswiki::cfg{Plugins}{CommentPlugin}{Module} = 'Foswiki::Plugins::CommentPlugin';
 
-# **BOOLEAN LABEL="SpreadSheetPlugin"**
-$Foswiki::cfg{Plugins}{SpreadSheetPlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="SpreadSheetPlugin Module"**
-$Foswiki::cfg{Plugins}{SpreadSheetPlugin}{Module} = 'Foswiki::Plugins::SpreadSheetPlugin';
+# **BOOLEAN LABEL="CompareRevisionsAddon"**
+$Foswiki::cfg{Plugins}{CompareRevisionsAddonPlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="CompareRevisionsAddonPlugin Module"**
+$Foswiki::cfg{Plugins}{CompareRevisionsAddonPlugin}{Module} = 'Foswiki::Plugins::CompareRevisionsAddonPlugin';
 
-# **BOOLEAN LABEL="InterwikiPlugin"**
-$Foswiki::cfg{Plugins}{InterwikiPlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="InterwikiPlugin Module"**
-$Foswiki::cfg{Plugins}{InterwikiPlugin}{Module} = 'Foswiki::Plugins::InterwikiPlugin';
-
-# **BOOLEAN LABEL="NatEditPlugin"**
-$Foswiki::cfg{Plugins}{NatEditPlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="NatEditPlugin Module"**
-$Foswiki::cfg{Plugins}{NatEditPlugin}{Module} = 'Foswiki::Plugins::NatEditPlugin';
-
-# **BOOLEAN LABEL="TablePlugin"**
-$Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="TablePlugin Module"**
-$Foswiki::cfg{Plugins}{TablePlugin}{Module}  = 'Foswiki::Plugins::TablePlugin';
+# **BOOLEAN LABEL="ConfigurePlugin"**
+$Foswiki::cfg{Plugins}{ConfigurePlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="ConfigurePlugin Module"**
+$Foswiki::cfg{Plugins}{ConfigurePlugin}{Module} = 'Foswiki::Plugins::ConfigurePlugin';
 
 # **BOOLEAN LABEL="EditRowPlugin"**
 $Foswiki::cfg{Plugins}{EditRowPlugin}{Enabled} = 1;
 # **STRING EXPERT LABEL="EditRowPlugin Module"**
 $Foswiki::cfg{Plugins}{EditRowPlugin}{Module} = 'Foswiki::Plugins::EditRowPlugin';
 
-# **BOOLEAN LABEL="SlideShowPlugin"**
-$Foswiki::cfg{Plugins}{SlideShowPlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="SlideShowPlugin Module"**
-$Foswiki::cfg{Plugins}{SlideShowPlugin}{Module} = 'Foswiki::Plugins::SlideShowPlugin';
-
-# **BOOLEAN LABEL="TwistyPlugin"**
-$Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="TwistyPlugin Module"**
-$Foswiki::cfg{Plugins}{TwistyPlugin}{Module} = 'Foswiki::Plugins::TwistyPlugin';
-
-# **BOOLEAN LABEL="TinyMCEPlugin"**
-$Foswiki::cfg{Plugins}{TinyMCEPlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="TinyMCEPlugin Module"**
-$Foswiki::cfg{Plugins}{TinyMCEPlugin}{Module} = 'Foswiki::Plugins::TinyMCEPlugin';
-
-# **BOOLEAN LABEL="WysiwygPlugin"**
-$Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="WysiwygPlugin Module"**
-$Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} = 'Foswiki::Plugins::WysiwygPlugin';
-
-# **BOOLEAN LABEL="TWikiCompatibilityPlugin"**
-$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 0;
-# **STRING EXPERT LABEL="TWikiCompatibilityPlugin Module"**
-$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} = 'Foswiki::Plugins::TWikiCompatibilityPlugin';
-
-# **BOOLEAN LABEL="AutoViewTemplatePlugin"**
-$Foswiki::cfg{Plugins}{AutoViewTemplatePlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="AutoViewTemplatePlugin Module"**
-$Foswiki::cfg{Plugins}{AutoViewTemplatePlugin}{Module} = 'Foswiki::Plugins::AutoViewTemplatePlugin';
-
-# **BOOLEAN LABEL="CompareRevisionsAddon"**
-$Foswiki::cfg{Plugins}{CompareRevisionsAddonPlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="CompareRevisionsAddonPlugin Module"**
-$Foswiki::cfg{Plugins}{CompareRevisionsAddonPlugin}{Module} = 'Foswiki::Plugins::CompareRevisionsAddonPlugin';
+# **BOOLEAN LABEL="EditTablePlugin"**
+$Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled} = 0;
+# **STRING EXPERT LABEL="EditTablePlugin Module"**
+$Foswiki::cfg{Plugins}{EditTablePlugin}{Module} = 'Foswiki::Plugins::EditTablePlugin';
 
 # **BOOLEAN LABEL="HistoryPlugin"**
 $Foswiki::cfg{Plugins}{HistoryPlugin}{Enabled} = 1;
 # **STRING EXPERT LABEL="HistoryPlugin Module"**
 $Foswiki::cfg{Plugins}{HistoryPlugin}{Module} = 'Foswiki::Plugins::HistoryPlugin';
 
+# **BOOLEAN LABEL="HomePagePlugin"**
+$Foswiki::cfg{Plugins}{HomePagePlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="HomePagePlugin Module"**
+$Foswiki::cfg{Plugins}{HomePagePlugin}{Module} = 'Foswiki::Plugins::HomePagePlugin';
+
+# **BOOLEAN LABEL="InterwikiPlugin"**
+$Foswiki::cfg{Plugins}{InterwikiPlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="InterwikiPlugin Module"**
+$Foswiki::cfg{Plugins}{InterwikiPlugin}{Module} = 'Foswiki::Plugins::InterwikiPlugin';
+
 # **BOOLEAN LABEL="JQueryPlugin"**
 $Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled} = 1;
 # **STRING EXPERT LABEL="JQueryPlugin Module"**
 $Foswiki::cfg{Plugins}{JQueryPlugin}{Module} = 'Foswiki::Plugins::JQueryPlugin';
-
-# **BOOLEAN LABEL="RenderListPlugin"**
-$Foswiki::cfg{Plugins}{RenderListPlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="RenderListPlugin Module"**
-$Foswiki::cfg{Plugins}{RenderListPlugin}{Module} = 'Foswiki::Plugins::RenderListPlugin';
 
 # **BOOLEAN LABEL="MailerContribPlugin"**
 $Foswiki::cfg{Plugins}{MailerContribPlugin}{Enabled} = 1;
 # **STRING EXPERT LABEL="MailerContribPlugin Module"**
 $Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} = 'Foswiki::Plugins::MailerContribPlugin';
 
+# **BOOLEAN LABEL="NatEditPlugin"**
+$Foswiki::cfg{Plugins}{NatEditPlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="NatEditPlugin Module"**
+$Foswiki::cfg{Plugins}{NatEditPlugin}{Module} = 'Foswiki::Plugins::NatEditPlugin';
+
+# **BOOLEAN LABEL="PreferencesPlugin"
+$Foswiki::cfg{Plugins}{PreferencesPlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="PreferencesPlugin Module"**
+$Foswiki::cfg{Plugins}{PreferencesPlugin}{Module} = 'Foswiki::Plugins::PreferencesPlugin';
+
+# **BOOLEAN LABEL="RenderListPlugin"**
+$Foswiki::cfg{Plugins}{RenderListPlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="RenderListPlugin Module"**
+$Foswiki::cfg{Plugins}{RenderListPlugin}{Module} = 'Foswiki::Plugins::RenderListPlugin';
+
+# **BOOLEAN LABEL="SlideShowPlugin"**
+$Foswiki::cfg{Plugins}{SlideShowPlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="SlideShowPlugin Module"**
+$Foswiki::cfg{Plugins}{SlideShowPlugin}{Module} = 'Foswiki::Plugins::SlideShowPlugin';
+
+# **BOOLEAN LABEL="SmiliesPlugin"
+$Foswiki::cfg{Plugins}{SmiliesPlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="SmiliesPlugin Module"**
+$Foswiki::cfg{Plugins}{SmiliesPlugin}{Module} = 'Foswiki::Plugins::SmiliesPlugin';
+
+# **BOOLEAN LABEL="SpreadSheetPlugin"**
+$Foswiki::cfg{Plugins}{SpreadSheetPlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="SpreadSheetPlugin Module"**
+$Foswiki::cfg{Plugins}{SpreadSheetPlugin}{Module} = 'Foswiki::Plugins::SpreadSheetPlugin';
+
 # **BOOLEAN LABEL="SubscribePlugin"**
 $Foswiki::cfg{Plugins}{SubscribePlugin}{Enabled} = 1;
 # **STRING EXPERT LABEL="SubscribePlugin Module"**
 $Foswiki::cfg{Plugins}{SubscribePlugin}{Module} = 'Foswiki::Plugins::SubscribePlugin';
+
+# **BOOLEAN LABEL="TablePlugin"**
+$Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="TablePlugin Module"**
+$Foswiki::cfg{Plugins}{TablePlugin}{Module}  = 'Foswiki::Plugins::TablePlugin';
+
+# **BOOLEAN LABEL="TinyMCEPlugin"**
+$Foswiki::cfg{Plugins}{TinyMCEPlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="TinyMCEPlugin Module"**
+$Foswiki::cfg{Plugins}{TinyMCEPlugin}{Module} = 'Foswiki::Plugins::TinyMCEPlugin';
+
+# **BOOLEAN LABEL="TWikiCompatibilityPlugin"**
+$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 0;
+# **STRING EXPERT LABEL="TWikiCompatibilityPlugin Module"**
+$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} = 'Foswiki::Plugins::TWikiCompatibilityPlugin';
+
+# **BOOLEAN LABEL="TwistyPlugin"**
+$Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="TwistyPlugin Module"**
+$Foswiki::cfg{Plugins}{TwistyPlugin}{Module} = 'Foswiki::Plugins::TwistyPlugin';
 
 # **BOOLEAN LABEL="UpdatesPlugin"**
 $Foswiki::cfg{Plugins}{UpdatesPlugin}{Enabled} = 1;
 # **STRING EXPERT LABEL="UpdatesPlugin Module"**
 $Foswiki::cfg{Plugins}{UpdatesPlugin}{Module} = 'Foswiki::Plugins::UpdatesPlugin';
 
-# **BOOLEAN LABEL="HomePagePlugin"**
-$Foswiki::cfg{Plugins}{HomePagePlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="HomePagePlugin Module"**
-$Foswiki::cfg{Plugins}{HomePagePlugin}{Module} = 'Foswiki::Plugins::HomePagePlugin';
-
-# **BOOLEAN LABEL="ConfigurePlugin"**
-$Foswiki::cfg{Plugins}{ConfigurePlugin}{Enabled} = 1;
-# **STRING EXPERT LABEL="ConfigurePlugin Module"**
-$Foswiki::cfg{Plugins}{ConfigurePlugin}{Module} = 'Foswiki::Plugins::ConfigurePlugin';
+# **BOOLEAN LABEL="WysiwygPlugin"**
+$Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
+# **STRING EXPERT LABEL="WysiwygPlugin Module"**
+$Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} = 'Foswiki::Plugins::WysiwygPlugin';
 
 #---+++ Install, Update or Remove extensions
 # **STRING 80 LABEL="Extensions Repositories"\
