@@ -200,7 +200,7 @@ Test if the Plugin is correctly installed:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  19 Sep 2015: | 4.44: Foswikitask:Item13730: Escape braces in regular expressions for Perl 5.22 compatibility. |
+|  19 Sep 2015: | 4.44: Foswikitask:Item13730: EditTablePlugin uses unescaped braces and calls CGI::param in list context. |
 |  28 Nov 2012: | 4.43: Foswikitask:Item11267: Convert to perl version strings.  Release with Foswiki 1.1.6 |
 |  06 Apr 2012: | 4.42: Foswikitask:Item11445: References to =Sandbox= should use %<nop>SANDBOXWEB% macro. Release with Foswiki 1.1.5. |
 |  05 Dec 2011: | 4.41: Version released with Foswiki 1.1.4. Minor code and documentation cleanup. |

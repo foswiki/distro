@@ -285,7 +285,7 @@ sub processText {
 
         my $tableChanges =
           Foswiki::Plugins::EditTablePlugin::EditTableData::createTableChangesMap(
-            $query->param('ettablechanges') )
+            $query->multi_param('ettablechanges') )
           ; # a mapping of rows and their changed state; keys are row numbers (starting with 0), values are row states: 0 (not changed), 1 (row to be added), -1 (row to be deleted); the map is created using the param 'ettablechanges'; the map is created and updated in EDIT mode, and used in SAVE mode.
 
         my $tableStats = $editTableData->getTableStatistics($tableChanges);
