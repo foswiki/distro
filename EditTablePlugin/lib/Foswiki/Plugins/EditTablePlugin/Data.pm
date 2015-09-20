@@ -14,9 +14,9 @@ Helper class parses tables to take out table texts, and stores table cell data.
 
 my $RENDER_HACK = "\n<nop>\n";
 
-our $PATTERN_EDITTABLEPLUGIN = qr'(%EDITTABLE{([^\n]*)}%)'
+our $PATTERN_EDITTABLEPLUGIN = qr'(%EDITTABLE\{([^\n]*)\}%)'
   ; # NOTE: greedy match to catch macros inside the parameters - but this requires special handling of TABLE tags directly follow the EDITTABLE tags (on the same line) - see _placeTABLEtagOnSeparateLine
-our $PATTERN_TABLEPLUGIN = qr'%TABLE(?:{(.*)})?%';
+our $PATTERN_TABLEPLUGIN = qr'%TABLE(?:\{(.*)\})?%';
 
 =begin TML
 
@@ -261,7 +261,7 @@ sub _placeTABLEtagOnSeparateLine {
     my ($tagLine) = @_;
 
     # unprotect TABLE and put in on a new line
-    $tagLine =~ s/%TABLE{/\n%TABLE{/g;
+    $tagLine =~ s/%TABLE\{/\n%TABLE{/g;
 
     return "%EDITTABLE{$tagLine}%";
 }

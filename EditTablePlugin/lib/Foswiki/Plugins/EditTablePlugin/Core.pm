@@ -69,10 +69,10 @@ my $PATTERN_EDITTABLEPLUGIN =
   $Foswiki::Plugins::EditTablePlugin::Data::PATTERN_EDITTABLEPLUGIN;
 my $PATTERN_TABLEPLUGIN =
   $Foswiki::Plugins::EditTablePlugin::Data::PATTERN_TABLEPLUGIN;
-my $PATTERN_EDITCELL               = qr'%EDITCELL{(.*?)}%';
+my $PATTERN_EDITCELL               = qr'%EDITCELL\{(.*?)\}%';
 my $PATTERN_TABLE_ROW_FULL         = qr'^(\s*)\|.*\|\s*$';
 my $PATTERN_TABLE_ROW              = qr'^(\s*)\|(.*)';
-my $PATTERN_SPREADSHEETPLUGIN_CALC = qr'%CALC(?:{(.*?)})?%';
+my $PATTERN_SPREADSHEETPLUGIN_CALC = qr'%CALC(?:\{(.*?)\})?%';
 my $SPREADSHEETPLUGIN_CALC_SUBSTITUTION =
   "<span class='editTableCalc'>CALC</span>";
 my $MODE = {
@@ -257,7 +257,7 @@ sub processText {
               $editTableData->{'pretag'} . $editTableData->{'posttag'};
 
             # expand macros in tagline without creating infinite recursion:
-            $editTableTag =~ s/%EDITTABLE{/%TMP_ETP_STUB_TAG{/;
+            $editTableTag =~ s/%EDITTABLE\{/%TMP_ETP_STUB_TAG{/;
             $editTableTag = Foswiki::Func::expandCommonVariables($editTableTag);
 
             # put tag back
@@ -393,13 +393,13 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr++, $doE
         {
             _debug("editTableTag before changing TABLE tag=$editTableTag");
             my $TABLE_EDIT_TAGS = 'disableallsort="on" databg="#fff"';
-            if ( $editTableTag !~ /%TABLE{.*?}%/ ) {
+            if ( $editTableTag !~ /%TABLE\{.*?\}%/ ) {
 
                 # no TABLE tag at all
                 $editTableTag .= "%TABLE{$TABLE_EDIT_TAGS}%";
             }
-            elsif ( $editTableTag !~ /%TABLE{.*?$TABLE_EDIT_TAGS.*?}%/ ) {
-                $editTableTag =~ s/(%TABLE{.*?)(}%)/$1 $TABLE_EDIT_TAGS$2/;
+            elsif ( $editTableTag !~ /%TABLE\{.*?$TABLE_EDIT_TAGS.*?\}%/ ) {
+                $editTableTag =~ s/(%TABLE\{.*?)(\}%)/$1 $TABLE_EDIT_TAGS$2/;
             }
             _debug("editTableTag after changing TABLE tag=$editTableTag");
         }
@@ -408,8 +408,8 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr++, $doE
         # We split it again to make editing easier for the user
         # If the two were originally one line - they now become two unless
         # there was white space between them
-        $editTableTag =~ s/(%EDITTABLE{.*?}%)(%TABLE{.*?}%)/$1\n$2/;
-        $editTableTag =~ s/(%TABLE{.*?}%)(%EDITTABLE{.*?}%)/$1\n$2/;
+        $editTableTag =~ s/(%EDITTABLE\{.*?\}%)(%TABLE\{.*?\}%)/$1\n$2/;
+        $editTableTag =~ s/(%TABLE\{.*?\}%)(%EDITTABLE\{.*?\}%)/$1\n$2/;
 
         $resultText = "$editTableTag\n$resultText";
 
@@ -2029,7 +2029,7 @@ sub getHeaderAndFooterCount {
 
     # expand macros in tagline without creating infinite recursion,
     # so delete EDITTABLE as we won't need it here
-    $tag =~ s/%EDITTABLE{/_DELETED_/;
+    $tag =~ s/%EDITTABLE\{/_DELETED_/;
     $tag = Foswiki::Func::expandCommonVariables($tag);
 
     my $headerRowCount = 0;
