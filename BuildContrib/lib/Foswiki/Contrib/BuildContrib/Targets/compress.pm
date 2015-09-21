@@ -353,7 +353,7 @@ sub _uglifyjs {
         $cmd .= " -o $to";
     }
 
-    $cmd .= ' --ascii';
+    $cmd .= ' -b beautify=false,ascii-only=true ';
 
     warn "$cmd\n";
     my $out = `$cmd`;
