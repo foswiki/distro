@@ -448,7 +448,7 @@ $.NatEditor.prototype.initGui = function() {
   if (typeof(tinyMCE) !== 'undefined') {
     self.container.addClass("ui-natedit-wysiwyg-enabled");
   }
-  if (foswiki.getPreference("FarbtasticEnabled")) {
+  if (foswiki.getPreference("NatEditPlugin").FarbtasticEnabled) {
     self.container.addClass("ui-natedit-colorpicker-enabled");
   }
 
@@ -1556,7 +1556,7 @@ $.NatEditor.prototype.insertLink = function(opts) {
       return; // nop
     }
 
-    if (opts.file.match(/\.(bmp|png|jpe?g|gif|svg)$/i) && foswiki.getPreference("ImagePluginEnabled")) {
+    if (opts.file.match(/\.(bmp|png|jpe?g|gif|svg)$/i) && foswiki.getPreference("NatEditPlugin").ImagePluginEnabled) {
       markup = '%IMAGE{"'+opts.file+'"';
       if (opts.web != self.opts.web || opts.topic != self.opts.topic) {
         markup += ' topic="';

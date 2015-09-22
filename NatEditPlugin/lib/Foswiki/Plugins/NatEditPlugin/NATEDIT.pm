@@ -84,13 +84,14 @@ sub init {
     Foswiki::Func::addToZone(
         "script", "NATEDIT::PREFERENCES",
         <<'HERE', "JQUERYPLUGIN::FOSWIKI::PREFERENCES" );
-<script>jQuery.extend(foswiki.preferences, { 
-  'NatEditEngine': '%NATEDIT_ENGINE{default="raw"}%',
-  'MathEnabled': %IF{"context MathModePluginEnabled or context MathJaxPluginEnabled" then="true" else="false"}%,
-  'ImagePluginEnabled': %IF{"context ImagePluginEnabled" then="true" else="false"}%,
-  'TopicInteractionPluginEnabled': %IF{"context TopicInteractionPluginEnabled" then="true" else="false"}%,
-  'FarbtasticEnabled': %IF{"context FarbtasticEnabled" then="true" else="false"}%
-});</script>
+<script class='$zone $id foswikiPreferences' type='text/json'>{ 
+  "NatEditPlugin": {
+    "MathEnabled": %IF{"context MathModePluginEnabled or context MathJaxPluginEnabled" then="true" else="false"}%,
+    "ImagePluginEnabled": %IF{"context ImagePluginEnabled" then="true" else="false"}%,
+    "TopicInteractionPluginEnabled": %IF{"context TopicInteractionPluginEnabled" then="true" else="false"}%,
+    "FarbtasticEnabled": %IF{"context FarbtasticEnabled" then="true" else="false"}%
+  }
+}</script>
 HERE
 }
 
