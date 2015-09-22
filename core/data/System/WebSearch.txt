@@ -291,7 +291,7 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
       header="$n"
       format="$percntIF{
         \"(defined $item AND $'$item') AND ('$item' != 'recurse' OR {EnableHierarchicalWebs})\"
-        then=\"   $item=\\"$percntURLPARAM{\"$item\" encode=\"quote\"}$percnt\\"$n\"
+        then=\"   $item=\\"$percntURLPARAM{\"$item\" encode=\"safe quote\"}$percnt\\"$n\"
       }$percnt"
       separator=""
    }%}%
