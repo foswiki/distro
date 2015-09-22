@@ -1030,7 +1030,13 @@ returns undef if no error
 
 sub passwordError {
     my ( $this, $cUID ) = @_;
-    return $this->_getMapping($cUID)->passwordError();
+
+    my $error = $this->_getMapping($cUID)->passwordError();
+    $error =~ s/&/&amp;/g;
+    $error =~ s/</&lt;/g;
+    $error =~ s/>/&gt;/g;
+
+    return $error;
 }
 
 =begin TML
