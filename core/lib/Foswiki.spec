@@ -55,7 +55,7 @@
 # Enable this parameter to force foswiki to ignore the hostname in the
 # URL entered by the user.  Foswiki will generate all links using the
 # {DefaultUrlHost}.
-# 
+#
 # By default, foswiki will use whatever URL that was entered by the
 # user to generate links. The only exception is the special =localhost=
 # name, which will be automatically replaced by the {DefaultUrlHost}.
@@ -72,7 +72,7 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 # and some IP addresses) you need to tell Foswiki that redirecting to them
 # is OK. Foswiki uses redirection as part of its normal mode of operation
 # when it changes between editing and viewing.
-# 
+#
 # To prevent Foswiki from being used in phishing attacks and to protect it
 # from middleman exploits, the security setting {AllowRedirectUrl} is by
 # default disabled, restricting redirection to other domains. If a redirection
@@ -107,7 +107,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # ). If it is, replace this with the base path of your wiki (the value of
 # {ScriptUrlPath} with the =/bin= suffix removed, so you'll have to leave
 # this field empty if your wiki lives at the top level).
-# 
+#
 # More information:
 # [[http://foswiki.org/Support/ShorterUrlCookbook][Shorter URL Cookbook]]
 # $Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
@@ -130,7 +130,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # *SCRIPTHASH*
 
 # ---++ File System Paths
-# Configure the file system locations of key Foswiki directories here.  These are usually guessed 
+# Configure the file system locations of key Foswiki directories here.  These are usually guessed
 # correctly during bootstrap. Other file locations are configured within their related sections.
 # **PATH LABEL="Script Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions.'" CHECK="noemptyok perms:Dx,'(.txt|.cfg)$'" **
 # This is the file system path used to access the Foswiki bin directory.
@@ -144,7 +144,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 
 # **PATH LABEL="Data Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:rwDpd,'(,v|,pfv)$',r" **
 # Topic files store (file path, not URL). For example =/usr/local/foswiki/data=.
-# This directory must not be web accessible. 
+# This directory must not be web accessible.
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
 # **PATH LABEL="Tools Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
@@ -386,6 +386,58 @@ $Foswiki::cfg{Validation}{MaxKeysPerSession} = 1000;
 # forgery.
 $Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 
+# ---++ HTTP Security Headers
+# Enable security headers for secure web applications.
+
+# **BOOLEAN LABEL="Deny Frame Options" CHECK="undefok emptyok" EXPERT**
+# Set the X-Frame-Options header to "DENY":
+# This header can prevent your application responses from being loaded within
+# frame or iframe HTML elements. This is to prevent clickjacking
+# requests where your application response is displayed on another website,
+# within an invisible iframe, which then hijacks the user's request when they
+# click a link on your website.
+$Foswiki::cfg{Http}{DenyFrameOptions} = 1;
+
+# **STRING LABEL="Strict Transport Security" CHECK="undefok emptyok" EXPERT**
+# Require all resources to be loaded via SSL.
+# This header instructs the requester to load all content from the domain via
+# HTTPS and not load any content unless there is a valid ssl certificate. This
+# header can help prevent man-in-middle attacks as it ensures that all HTTP
+# requests and responses are encrypted. The Strict-Transport-Security header has
+# a max-age parameter that defines how long in seconds to enforce the policy for.
+$Foswiki::cfg{Http}{StrictTransportSecurity} = "max-age=3600";
+
+# **STRING LABEL="Content Security Policy" CHECK="undefok emptyok" EXPERT**
+# Set the content security policy.
+# The CSP header sets a whitelist of domains from which content can be safely
+# loaded. This prevents most types of XSS attack, assuming the malicious content
+# is not hosted by a whitelisted domain. For example this specifies that all
+# content should only be loaded from the responding domain: "default-src 'self'"
+# WARNING: 'unsafe-eval' is currently still required by Foswiki.
+$Foswiki::cfg{Http}{ContentSecurityPolicy} = "default-src 'self' 'unsafe-inline' 'unsafe-eval'";
+
+# **STRING LABEL="Content Type Options" CHECK="undefok emptyok" EXPERT**
+# IE-only header to disable mime sniffing.
+# This is an IE only header that is used to disable mime sniffing. The
+# vulnerability is that IE will auto-execute any script code contained in a file
+# when IE attempts to detect the file type.
+$Foswiki::cfg{Http}{ContentTypeOptions} = "nosniff";
+
+# **STRING LABEL="Download Options" CHECK="undefok emptyok" EXPERT**
+# IE-only header that prevents it from opening an HTML file directly on download.
+# This is another IE-only header that prevents IE from opening an HTML file
+# directly on download from a website. The security issue here is, if a browser
+# opens the file directly, it can run as if it were part of the site.
+$Foswiki::cfg{Http}{DownloadOptions} = "noopen";
+
+# **STRING LABEL="XSS Protection" CHECK="undefok emptyok" EXPERT**
+# Turn on its XSS filter.
+# This header was introduced in IE8 as part of the
+# cross-site-scripting (XSS) filter functionality (more here). Additionally it
+# has an optional setting called "mode" that can force IE to block the entire
+# page if an XSS attempt is detected.
+$Foswiki::cfg{Http}{XSSProtection} = "1; mode=block";
+
 #---++ Login
 # Foswiki supports different ways of handling how a user asks, or is asked,
 # to log in.
@@ -429,7 +481,7 @@ $Foswiki::cfg{AuthScripts} =
 $Foswiki::cfg{LegacyRESTSecurity} = $FALSE;
 
 # **REGEX LABEL="Authenticated Scripts Pattern" EXPERT**
-# Regular expression matching the scripts that should be allowed to accept the 
+# Regular expression matching the scripts that should be allowed to accept the
 # =username= and =password= parameters other than the login script. Older
 # versions of Foswiki would accept the username and password parameter on any
 # script. The =login= and =logon= script will always accept the username and
@@ -554,7 +606,7 @@ $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 
 # **BOOLEAN LABEL="Enable Deprecated Empty Deny" EXPERT **
 # Optionally restore the deprecated empty =DENY= ACL behavior.
-# If this setting is enabled, the "Empty" =DENY= ACL is interpreted as 
+# If this setting is enabled, the "Empty" =DENY= ACL is interpreted as
 # "Deny nobody", which is equivalent to "Allow all".
 # It is recommended that this setting remain disabled,  and that
 # these rules be replaced with the  * wildcard on the =ALLOW= setting:
@@ -562,7 +614,7 @@ $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 #    * Set DENYTOPICVIEW =        Should be replaced with:
 #    * Set ALLOWTOPICVIEW = *
 # </verbatim>
-# See =tools/convertTopicSettings.pl= for a utility to migrate to the 
+# See =tools/convertTopicSettings.pl= for a utility to migrate to the
 # new ACL format.
 $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = $FALSE;
 
@@ -681,7 +733,7 @@ $Foswiki::cfg{Htpasswd}{DetectModification} = $FALSE;
 # manager. This specifies the type of password hash to generate when
 # writing entries to =.htpasswd=. It is also used when reading password
 # entries unless {Htpasswd}{AutoDetect} is enabled.
-# 
+#
 # The choices in order of strongest to lowest strength:
 #    * =(HTTPS)= - Any encoding over an HTTPS SSL connection.
 #      (Not an option here.)
@@ -763,7 +815,7 @@ $Foswiki::cfg{Password} = '';
 # box appears during the user registration process, and is used to tell
 # the User Mapping module whether to map login names to wikinames or not
 # (if it supports mappings, that is).
-# 
+#
 # Note: TopicUserMapping stores the login name in the WikiUsers topic.
 # Changing this value on a system with established users can cause login
 # issues.
@@ -801,7 +853,7 @@ $Foswiki::cfg{Register}{Approvers} = '';
 # will be cleared after this amount of time. The default is 6 hours
 # (21600 seconds).
 #
-# *Note:* By default, registration expiry is done "on the fly" 
+# *Note:* By default, registration expiry is done "on the fly"
 # during the registration process.  For best performance, you can
 # set {Register}{ExpireAfter} to a negative number, which will mean
 # that Foswiki won't try to clean up expired registrations during
@@ -1082,7 +1134,7 @@ $Foswiki::cfg{AntiSpam}{EmailPadding} = '';
 # can disable this option. If you prefer to store email addresses directly
 # in user topics, see the TopicUserMapping expert settings under the
 # UserMapping tab.
-# 
+#
 # Note that if this option is set, then the =%USERINFO= macro will only expand
 # the =$wikiname=, =$wikiusername= and =$isgroup= tokens.
 # All other tokens are ignored for non-admin users.
@@ -1091,7 +1143,7 @@ $Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
 # **BOOLEAN LABEL="Obfuscate Emails"**
 # By default Foswiki will also manipulate e-mail addresses to reduce the
 #  harvesting of e-mail addresses. Foswiki will encode all non-alphanumeric
-# characters to their HTML entity equivalent. for example @ becomes &&lt;nop&gt;#64; 
+# characters to their HTML entity equivalent. for example @ becomes &&lt;nop&gt;#64;
 # This is not completely effective, however it can prevent some primitive
 # spambots from seeing the addresses.
 $Foswiki::cfg{AntiSpam}{EntityEncode} = $TRUE;
@@ -1268,9 +1320,9 @@ $Foswiki::cfg{UserInterfaceInternationalisation} = $FALSE;
 # This can result in a significant performance improvement for I18N,
 # but has also been reported to cause issues on some systems.  So for
 # now this is considered experimental.
-# 
+#
 # Note that if string files are edited, you must re-run configure to recompile
-# modified files.  Disable this option to prevent compiling of string files. 
+# modified files.  Disable this option to prevent compiling of string files.
 #
 # Configure automatically detects out-of-date =.mo= files and recompiles
 # them whenever it is run.  Configure removes =.mo= files when this option
@@ -1294,9 +1346,9 @@ $Foswiki::cfg{UseLocale} = $FALSE;
 # Site-wide locale - used by Foswiki and external programs such as grep, and to
 # specify the language in which content must be presented
 # for the user's web browser.
-# 
+#
 # Note that {Site}{Locale} is ignored unless {UseLocale} is set.
-# 
+#
 # Locale names are not standardised. On Unix/Linux check 'locale -a' on
 # your system to see which locales are supported by your system.
 #
@@ -1305,7 +1357,7 @@ $Foswiki::cfg{UseLocale} = $FALSE;
 # **SELECT gmtime,servertime LABEL="Display Time Values" **
 # Set the timezone (this only effects the display of times,
 # all internal storage is still in GMT). May be gmtime or servertime
-# 
+#
 # This item is also used by configure to test if your perl supports early dates.
 # Foswiki will still work fine on older versions of perl, but wiki
 # applications that use dates somewhere prior to 1970 might encounter issues.
@@ -1675,12 +1727,12 @@ $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 # ={'System' => ''}=.
 # You can also set =max-age=28800= (for 8 hours), or any other of the
 # =Cache-Control= directives.
-# 
+#
 # Setting the CacheControl to '' also allows you to manage this from your web
 # server (which will not over-ride the setting provided by the application),
 # thus enabling web server based caching policies. When the user receives a
 # browser-cache topic, they can force a refresh using ctrl-r
-# 
+#
 # This hash must be explicitly set per web or sub-web.
 $Foswiki::cfg{BrowserCacheControl} = {};
 
@@ -1703,7 +1755,7 @@ $Foswiki::cfg{HttpCompress} = $FALSE;
 # {MergeHeadAndScriptZones} is provided to maintain compatibility with
 # legacy extensions that use =ADDTOHEAD= to add =script= markup and require
 # content that is now in the =script= zone.
-# 
+#
 # Normally, dependencies between individual =ADDTOZONE= statements are
 # resolved within each zone. However, if {MergeHeadAndScriptZones} is
 # enabled, then =head= content which requires an =id= that only exists
@@ -1778,7 +1830,7 @@ $Foswiki::cfg{WebMasterEmail} = '';
 # provide your gmail email address and password for authentication, and use
 # auto-configuration.
 #
-# After providing a server name, and optional username & password below, press Auto-configure email. If it works, email will be enabled.  You can then send a test email to further verify operation. 
+# After providing a server name, and optional username & password below, press Auto-configure email. If it works, email will be enabled.  You can then send a test email to further verify operation.
 $Foswiki::cfg{SMTP}{MAILHOST} = '';
 
 # **STRING 30 LABEL="SMTP Username" DISPLAY_IF="{SMTP}{MAILHOST}!=''"**
@@ -1856,7 +1908,7 @@ $Foswiki::cfg{SMTP}{SENDERHOST} = '';
 
 # **BOOLEAN LABEL="Enable Verify Server Certificate" \
 #           DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod})" CHECK="iff:'{EnableEmail} && {Email}{MailMethod} =~ /^Net::SMTP/'"**
-# Verify that server's certificate contains the expected hostname when using 
+# Verify that server's certificate contains the expected hostname when using
 # an SSL (or STARTTLS) connection.
 # This verifies the identity of the server to which mail is sent.
 $Foswiki::cfg{Email}{SSLVerifyServer} = $FALSE;
@@ -1957,7 +2009,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 # S/MIME certificate and install it. If you use this option, you will
 # have to arrange for your users' e-mail clients to trust this certificate.
 # This type of certificate is adequate for a small user base and for testing.
-# 
+#
 # *Certificate Authority signed certificates:*
 # The =Generate S/MIME CSR= button is used to create private key and
 # a _Certificate Signing Request_ (CSR) for use by your private Certificate
@@ -2129,12 +2181,12 @@ $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 3600;
 # is still active, they will get a warning. Leases are released
 # automatically when the topic is saved; otherwise they remain active
 # for {LeaseLength} seconds from when the edit started (or was checkpointed).
-# 
+#
 # Note: Leases are *not* locks; they are purely advisory. Leases
 # can always be broken, but they are valuable if you want to avoid merge
 # conflicts (for example you use highly structured data in your topic text and
 # want to avoid ever having to deal with conflicts)
-# 
+#
 # Since Foswiki 1.0.6, Foswiki pages that can be used to POST to the
 # server have a validation key, that must be sent to the server for the
 # post to succeed. These validation keys can only be used once, and expire
@@ -2161,7 +2213,7 @@ $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 # One of UNIX WINDOWS VMS DOS MACINTOSH OS2
 # This is automatically calculated in the code based on the value of
 # {DetailedOS}. It is used to group OS's into generic groups based on their
-# behaviours - for example, 
+# behaviours - for example,
 #
 # $Foswiki::cfg{OS} = '';
 

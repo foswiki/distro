@@ -287,10 +287,38 @@ sub printHeaders {
     # make sure we always generate a status for the response
     $this->{headers}->{Status} = $this->status()
       if ( $this->status() && !defined( $this->headers->{Status} ) );
+
+    # enable security headers
+    if ( defined $Foswiki::cfg{Http} ) {
+        $this->{headers}{"X-Frame-Options"} = "DENY"
+          if $Foswiki::cfg{Http}{DenyFrameOptions};
+
+        $this->{headers}{"Strict-Transport-Security"} =
+          $Foswiki::cfg{Http}{StrictTransportSecurity}
+          if $Foswiki::cfg{Http}{StrictTransportSecurity};
+
+        $this->{headers}{"X-Content-Type-Options"} =
+          $Foswiki::cfg{Http}{ContentTypeOptions}
+          if $Foswiki::cfg{Http}{ContentTypeOptions};
+
+        $this->{headers}{"X-Download-Options"} =
+          $Foswiki::cfg{Http}{DownloadOptions}
+          if $Foswiki::cfg{Http}{DownloadOptions};
+
+        $this->{headers}{"X-XSS-Protection"} =
+          $Foswiki::cfg{Http}{XSSProtection}
+          if $Foswiki::cfg{Http}{XSSProtection};
+
+        $this->{headers}{"Content-Security-Policy"} =
+          $Foswiki::cfg{Http}{ContentSecurityPolicy}
+          if $Foswiki::cfg{Http}{ContentSecurityPolicy};
+    }
+
     foreach my $header ( keys %{ $this->{headers} } ) {
         $hdr .= $header . ': ' . Foswiki::encode_utf8($_) . $CRLF
           foreach $this->getHeader($header);
     }
+
     $hdr .= $CRLF;
     return $hdr;
 }
