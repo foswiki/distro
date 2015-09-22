@@ -1032,6 +1032,9 @@ sub passwordError {
     my ( $this, $cUID ) = @_;
 
     my $error = $this->_getMapping($cUID)->passwordError();
+
+    return unless defined $error;
+
     $error =~ s/&/&amp;/g;
     $error =~ s/</&lt;/g;
     $error =~ s/>/&gt;/g;
