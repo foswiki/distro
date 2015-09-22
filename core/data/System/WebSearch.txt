@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1432417054" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1442930527" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %IF{
 	"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" 
@@ -238,23 +238,23 @@
 	then="<h2>%MAKETEXT{"Search results"}%</h2>
 $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$percent"
 }%%SEARCH{
-	"%URLPARAM{"search" encode="quote"}%"
+	"%URLPARAM{"search" encode="safe quote"}%"
 	type="%URLPARAM{"type" default="word"}%"
-	scope="%URLPARAM{"scope" encode="quote"}%"
-	web="%URLPARAM{"web" encode="quote"}%"%IF{
+	scope="%URLPARAM{"scope" encode="safe quote"}%"
+	web="%URLPARAM{"web" encode="safe quote"}%"%IF{
 		"{EnableHierarchicalWebs}"
-		then="recurse=\"%URLPARAM{"recurse" encode="quote"}%\""
+		then="recurse=\"%URLPARAM{"recurse" encode="safe quote"}%\""
 	}%
-    topic="%URLPARAM{"searchtopic" encode="quote"}%"
-	excludetopic="%URLPARAM{"excludetopic" encode="quote"}%"
-	nosearch="%URLPARAM{"nosearch" encode="quote"}%"
-	casesensitive="%URLPARAM{"casesensitive" encode="quote"}%"
-	nosummary="%URLPARAM{"nosummary" encode="quote"}%"
-	nototal="%URLPARAM{"nototal" encode="quote"}%"
-	order="%URLPARAM{"order" encode="quote"}%"
-	reverse="%URLPARAM{"reverse" encode="quote"}%"
+    topic="%URLPARAM{"searchtopic" encode="safe quote"}%"
+	excludetopic="%URLPARAM{"excludetopic" encode="safe quote"}%"
+	nosearch="%URLPARAM{"nosearch" encode="safe quote"}%"
+	casesensitive="%URLPARAM{"casesensitive" encode="safe quote"}%"
+	nosummary="%URLPARAM{"nosummary" encode="safe quote"}%"
+	nototal="%URLPARAM{"nototal" encode="safe quote"}%"
+	order="%URLPARAM{"order" encode="safe quote"}%"
+	reverse="%URLPARAM{"reverse" encode="safe quote"}%"
 	pager="on"
-	limit="%URLPARAM{"limit" encode="quote" default="%DEFAULTPAGESIZE%"}%"
+	limit="%URLPARAM{"limit" encode="safe quote" default="%DEFAULTPAGESIZE%"}%"
 	pagesize="%DEFAULTPAGESIZE%"
 	zeroresults="%IF{
 		"defined search and $search!=''"
@@ -284,7 +284,7 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
 %MAKETEXT{"To display the above search results in a topic, copy-paste the following markup:"}%
 <pre class='tml'>
 %<nop>SEARCH{
-   "%URLPARAM{"search" encode="quote"}%"
+   "%URLPARAM{"search" encode="safe quote"}%"
    type="%URLPARAM{"type" default="%SEARCHDEFAULTTTYPE%"}%"%FORMAT{
       "scope,web,recurse,nosearch,casesensitive,nosummary,nototal,order,reverse,limit,search"
       type="string"
