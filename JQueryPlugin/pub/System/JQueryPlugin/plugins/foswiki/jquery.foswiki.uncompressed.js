@@ -234,5 +234,15 @@ var foswiki = foswiki || {
   $(function() {
     /* Remove 'has no javascript' class from body element (written in template). */
     $('body').removeClass('foswikiNoJs').addClass("foswikiJs");
+
+    /* load foswiki preferences */
+    $(".foswikiPreferences").each(function() {
+      $.extend(foswiki.preferences, $.parseJSON($(this).html()));
+    });
+
+    /* special treatment for NAMEFILTER */
+    if (typeof(foswiki.preferences.NAMEFILTER) !== 'undefined') {
+      foswiki.preferences.NAMEFILTER = new RegExp(foswiki.preferences.NAMEFILTER, "g");
+    }
   });
 }(jQuery));

@@ -5,6 +5,7 @@ use warnings;
 use Foswiki::Func;
 use Foswiki::Plugins;
 use Foswiki::Plugins::JQueryPlugin::Plugin;
+use JSON();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
@@ -66,9 +67,7 @@ sub init {
         $prefs =
 'PUBURL, PUBURLPATH, SCRIPTSUFFIX, SCRIPTURL, SCRIPTURLPATH, SERVERTIME, SKIN, SYSTEMWEB, TOPIC, USERNAME, USERSWEB, WEB, WIKINAME, WIKIUSERNAME, NAMEFILTER';
         $prefs .= ', TWISTYANIMATIONSPEED'
-          if $Foswiki::cfg{Plugins}{TwistyPlugin}
-          {Enabled};    # can't use context during init
-
+          if $Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled};
     }
 
     # init NAMEFILTER
@@ -78,25 +77,16 @@ sub init {
     }
 
     # add exported preferences to head
-    my @prefs = ();
+    my %prefs = ();
     foreach my $pref ( split( /\s*,\s*/, $prefs ) ) {
-        if ( $pref eq 'NAMEFILTER' ) {
-            push @prefs,
-                '    "'
-              . $pref
-              . '": /%ENCODE{"%'
-              . $pref
-              . '%" type="quote"}%/g';
-        }
-        else {
-            push @prefs,
-              '    "' . $pref . '": "%ENCODE{"%' . $pref . '%" type="quote"}%"';
-        }
+        $prefs{$pref} =
+          Foswiki::Func::expandCommonVariables( '%' . $pref . '%' );
     }
+
     my $text =
-"<script type='text/javascript'>\njQuery.extend(foswiki, {\n \"preferences\": {\n"
-      . join( ",\n", @prefs )
-      . "\n}});\n</script>";
+        "<script class='\$zone \$id foswikiPreferences' type='text/config'>"
+      . JSON::to_json( \%prefs, { pretty => 1 } )
+      . "</script>";
 
     Foswiki::Func::addToZone( "script", "JQUERYPLUGIN::FOSWIKI::PREFERENCES",
         $text, "JQUERYPLUGIN::FOSWIKI" );
