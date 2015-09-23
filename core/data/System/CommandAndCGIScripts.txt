@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1438746314" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443040360" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -503,7 +503,7 @@ The =save= script performs a range of save-related functions.
 | =text= | New text of the topic | |
 | =topicparent= | Sets the parent topic. Set to =none= to remove parent. Set to topic name to change parent, leave empty to keep existing parent. | _keep existing parent_ |
 | =Local+name= | create/set a local META:PREFERENCE called =name= | |
-| =Set+name= |  create/set a normal topic META:PREFERENCE called =name= | |
+| =Set+name= | create/set a normal topic META:PREFERENCE called =name= | |
 | =Unset+name= | remove a META:PREFERENCE call =name= | |
 | =Default+name= | gives a default for =name=. If =name= is set to this value, then the preference will be removed. %X% Requires a corresponding =Set+name= or =Local+name= to work. | |
 | _&lt;any name&gt;_ | If the topic has a form with a field called _&lt;any name&gt;_, it will set the value of that field. | |

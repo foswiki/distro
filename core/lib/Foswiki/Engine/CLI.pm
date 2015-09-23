@@ -37,10 +37,10 @@ sub run {
     while ( scalar(@args) ) {
         my $name;
         my $arg = shift @args;
-        if ( $arg =~ m/^-?([a-z0-9_]+)=(.*)$/i ) {
+        if ( $arg =~ m/^-?([a-z0-9_+]+)=(.*)$/i ) {
             ( $name, $arg ) = ( TAINT($1), TAINT($2) );
         }
-        elsif ( $arg =~ m/^-([a-z0-9_]+)/i ) {
+        elsif ( $arg =~ m/^-([a-z0-9_+]+)/i ) {
             ( $name, $arg ) = ( TAINT($1), shift(@args) );
         }
         if ( $name && $name eq 'user' ) {
@@ -121,7 +121,7 @@ sub write {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
