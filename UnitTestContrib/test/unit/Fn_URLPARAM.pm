@@ -108,14 +108,14 @@ sub test_encode {
     $this->{request}->param( -name => 'foo', -value => '<evil "script">\'\"%' );
     $str =
       $this->{test_topicObject}
-      ->expandMacros('%URLPARAM{"foo" default="bar" encode="quote safe"}%');
+      ->expandMacros('%URLPARAM{"foo" default="bar" encode="quote, safe"}%');
     $this->assert_str_equals(
         '&#60;evil \&#34;script\&#34;&#62;&#39;\\\\&#34;&#37;', $str );
 
     $this->{request}->param( -name => 'foo', -value => '<evil "script">\'\"%' );
     $str =
       $this->{test_topicObject}
-      ->expandMacros('%URLPARAM{"foo" default="bar" encode="safe quote"}%');
+      ->expandMacros('%URLPARAM{"foo" default="bar" encode="safe, quote"}%');
     $this->assert_str_equals(
         '&#60;evil &#34;script&#34;&#62;&#39;\\&#34;&#37;', $str );
 }

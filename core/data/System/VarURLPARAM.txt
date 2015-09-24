@@ -8,15 +8,21 @@ Returns the value of the named parameter in the URL or HTTP POST request.
      | ="name"= | The name of a URL parameter | required |
      | =default= | Default value, used if the parameter is not present | =""= |
      | =newline= | Convert newlines in textarea to other delimiters | |
-     | =encode= | Control how special characters are encoded <br /> ="off"= - No encoding. Avoid using this when possible. See the security warning below. <br /> ="entity"= - Encode special characters into HTML entities. See [[VarENCODE][ENCODE]] for more details. <br /> ="safe"= - Encode characters ='"&lt;&gt;%= into HTML entities. <br /> ="url"= - Encode special characters for URL parameter use, like a double quote into =%22= <br /> ="quote"= - Escape double quotes with backslashes (=\"=), does not change other characters; required when feeding URL parameters into other macros. you can combine several encodings together, and they will be applied in the order you specify e.g. =encode="quote safe" | =safe= |
+     | =encode= | Control how special characters are encoded <br /> ="off"= - No encoding. Avoid using this when possible. See the security warning below. <br />\
+                  ="entity"= - Encode special characters into HTML entities. See [[VarENCODE][ENCODE]] for more details. <br /> \
+                  ="safe"= - Encode characters ='"&lt;&gt;%= into HTML entities. <br />\
+                  ="url"= - Encode special characters for URL parameter use, like a double quote into =%22= <br />\
+                  ="quote"= - Escape double quotes with backslashes (=\"=), does not change other characters; required when feeding URL parameters into other macros. \
+                  You can combine several encodings together, and they will be applied in the order you specify e.g. =encode="safe, quote"= | =safe= |
      | =multiple= | If set, gets all selected elements of a =&lt;select multiple="multiple"&gt;= tag. Can be set to a format string, with =$item= indicating the element, e.g. =multiple="Option: $item"= (also supports the standard [[format tokens]]) | first element |
      | =separator= | Separator between multiple selections. Only relevant if multiple is specified | =$n= (new line) |
 ---++ Examples
 =%<nop>URLPARAM{"skin"}%= returns =print= for a =.../view/%WEB%/%INCLUDINGTOPIC%?skin=print= URL
+
 <div class="foswikiHelp">
 %H% URL parameters passed into HTML form fields must be [[VarENCODE][entity encoded]].
 
-%H% Double quotes in URL parameters must be escaped when passed into other macros.%BR% Example: =%<nop>SEARCH{ "%<nop>URLPARAM{ "search" encode="quote safe" }%" noheader="on" }%=
+%H% Double quotes in URL parameters must be escaped when passed into other macros.%BR% Example: =%<nop>SEARCH{ "%<nop>URLPARAM{ "search" encode="safe, quote" }%" noheader="on" }%=
 
 %H% When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.
 

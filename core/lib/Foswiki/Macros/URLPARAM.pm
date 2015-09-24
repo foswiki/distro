@@ -66,7 +66,7 @@ sub _handleURLPARAMValue {
 
     if ( defined $value ) {
         $value =~ s/\r?\n/$newLine/g if ( defined $newLine );
-        foreach my $e ( split( /\s+/, $encode ) ) {
+        foreach my $e ( split( /\s*,\s*/, $encode ) ) {
             if ( $e =~ m/entit(y|ies)/i ) {
                 $value = entityEncode($value);
             }
