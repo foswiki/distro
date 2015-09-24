@@ -84,7 +84,7 @@ sub init {
     }
 
     my $text =
-        "<script class='\$zone \$id foswikiPreferences' type='text/config'>"
+        "<script class='\$zone \$id foswikiPreferences' type='text/json'>"
       . JSON::to_json( \%prefs, { pretty => 1 } )
       . "</script>";
 
