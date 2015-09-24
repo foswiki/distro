@@ -36,9 +36,6 @@ Overrides global settings in layout.css, style.css and colors.css
 	background-color:#fff;
 }
 #patternTopBar,
-#patternClearHeaderCenter,
-#patternClearHeaderLeft,
-#patternClearHeaderRight,
 #patternTopBarContents {
 	height:64px;
 	overflow:hidden;

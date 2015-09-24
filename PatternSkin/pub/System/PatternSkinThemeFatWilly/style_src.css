@@ -482,18 +482,12 @@ th {
 
 
 #patternTopBar,
-#patternClearHeaderCenter,
-#patternClearHeaderLeft,
-#patternClearHeaderRight,
 #patternTopBarContents,
 #patternTopBarContentsWrapper {
 	height:96px; /* top bar height; make room for header columns */
 	overflow:hidden;
 }
 
-#patternClearHeaderLeft {
-	height:127px; /* 96 + 31 (height patternTopBarButtons) */
-}
 #patternMain {
 	float:left;
 	overflow:hidden;

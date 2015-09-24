@@ -267,6 +267,7 @@ select {
 	border-color:#adcaed;
 }
 
+#patternSideBar,
 #patternWrapper {
 	background:#fff;
 }
@@ -832,9 +833,6 @@ tr.foswikiDiffDebug .foswikiDiffDeletedText {
 #patternTopBarButtons {
 	background:#2a549d url(header-left.gif) no-repeat scroll 0 100%;
 }
-#patternClearHeaderLeft {
-	background-color:#2A549D;
-}
 #patternTopBarButtons li a {
 	background:#8bb6e5 url(menu_background.gif) repeat-x scroll 0 0;
 	color:#00346b;
@@ -847,11 +845,6 @@ tr.foswikiDiffDebug .foswikiDiffDeletedText {
 }
 
 /* sidebar */
-#patternSideBar {
-	background-image:url(header.gif);
-	background-repeat:repeat-x;
-	background-position:0 0;
-}
 #patternSideBarContents .patternWebIndicator,
 #patternSideBarContents h2,
 #patternSideBarContents h2 a:link,
