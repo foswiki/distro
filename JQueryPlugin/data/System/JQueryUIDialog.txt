@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1425507277" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443076902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -146,7 +146,6 @@ $("#mydialog").bind("dialogclose", function() {
 <a href="#dialog" class="jqUIDialogLink">Login</a>
 
 <div id="dialog" title="%MAKETEXT{"Login"}%" class="jqUIDialog {modal:true, position:'center top', width:'auto', show: {effect: 'drop', direction: 'up', duration:'fast'}, hide:{ effect: 'drop', direction: 'up', duration:'fast' }}">
-<!-- position:'top' would be nicer but doesn't work for some reasons -->
   <table class='foswikiLayoutTable'>
     <tr>
       <th>%MAKETEXT{"Name:"}%</th>
