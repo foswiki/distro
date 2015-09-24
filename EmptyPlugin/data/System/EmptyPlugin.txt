@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426439233" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443123313" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <!--
 One line description, required for extensions repository catalog.
@@ -11,6 +11,10 @@ One line description, required for extensions repository catalog.
 %TOC%
 
 Learn how to create your own plugin in %SYSTEMWEB%.DevelopingPlugins.
+Documentation for Plugin API is in [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Plugins::EmptyPlugin][PerlDoc for EmptyPlugin.pm]].
+
+<div class="foswikiHelp">%T% Note that EmptyPlugin is documentation only.  Its
+settings are ignored by =configure= and it cannot be enabled.</div>
 
 ---++ Preferences
 
