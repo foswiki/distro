@@ -6889,4 +6889,79 @@ HERE
     return;
 }
 
+sub verify_decode_options {
+    my $this = shift;
+
+    my $search = <<'HERE';
+%SEARCH{
+    "%ENCODE{"'" type="entities"}%"
+    type="literal"
+    decode="entity"
+    scope="all"
+    web="TestCases"
+}%
+HERE
+    my $result = $this->{test_topicObject}->expandMacros($search);
+
+    # Should get the default search order (or an error message, perhaps?)
+    $this->assert( 0, $result )
+      unless $result =~ /Number of topics: <span>(\d+)<\/span>/;
+    $this->assert( 0, $result )
+      unless $result =~ /Searched: <b><noautolink>'<\/noautolink><\/b>/;
+
+    $search = <<'HERE';
+%SEARCH{
+    "%ENCODE{"' \" < > and %" type="safe"}%"
+    type="literal"
+    decode="safe"
+    scope="all"
+    web="TestCases"
+}%
+HERE
+    $result = $this->{test_topicObject}->expandMacros($search);
+
+    # Should get the default search order (or an error message, perhaps?)
+    $this->assert( 0, $result )
+      unless $result =~ /Number of topics: <span>(\d+)<\/span>/;
+    $this->assert( 0, $result )
+      unless $result =~
+      /Searched: <b><noautolink>' " &lt; &gt; and %<\/noautolink><\/b>/;
+
+    $search = <<'HERE';
+%SEARCH{
+    "%ENCODE{"'" type="url"}%"
+    type="literal"
+    decode="url"
+    scope="all"
+    web="TestCases"
+}%
+HERE
+    $result = $this->{test_topicObject}->expandMacros($search);
+
+    # Should get the default search order (or an error message, perhaps?)
+    $this->assert( 0, $result )
+      unless $result =~ /Number of topics: <span>(\d+)<\/span>/;
+    $this->assert( 0, $result )
+      unless $result =~ /Searched: <b><noautolink>'<\/noautolink><\/b>/;
+
+    $search = <<'HERE';
+%SEARCH{
+    "%ENCODE{"%ENCODE{"'" type="url"}%" type="entities"}%"
+    type="literal"
+    decode="entities, url"
+    scope="all"
+    web="TestCases"
+}%
+HERE
+    $result = $this->{test_topicObject}->expandMacros($search);
+
+    # Should get the default search order (or an error message, perhaps?)
+    $this->assert( 0, $result )
+      unless $result =~ /Number of topics: <span>(\d+)<\/span>/;
+    $this->assert( 0, $result )
+      unless $result =~ /Searched: <b><noautolink>'<\/noautolink><\/b>/;
+
+    return;
+}
+
 1;

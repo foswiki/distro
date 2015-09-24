@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443119042" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ SEARCH -- search content
 Inline search, shows a search result embedded in a topic
@@ -24,6 +24,7 @@ A topic, a topic with asterisk wildcards, or a list of topics separated by comma
      | =date= | limits the results to those pages with latest edit time in the given [[TimeSpecifications#TimeIntervals][time interval]].  | |
      | =reverse= | If ="on"= will reverse the direction of the search. Does only apply to key specified by =order=. | =off= |
      | =casesensitive= | If ="on"= perform a case sensitive search. (For =type=query= searches, =casesensitive= is always =on=.  See QuerySearch for more flexible case comparison options) | =off= |
+     | =decode= | Reverse any encoding done to protect search terms by =%<nop>URLPARAM{}%= macro. Comma separated list of encodings, entered in reverse order of the =URLPARAM= macro arguments. Supported decoding types are =entity%VBAR%entities, safe and url=. | |
      | =bookview= | If ="on", perform a BookView search, e.g. show complete topic text. Very resource demanding. Use only with small result sets | =off= |
      | =nonoise= | If ="on"=, shorthand for =nosummary="on" nosearch="on" nototal="on" zeroresults="off" noheader="on" noempty="on"= | =off= |
      | =nosummary= | Show topic title only, no content summary | =off= |

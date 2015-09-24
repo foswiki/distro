@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443119042" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ENCODE -- encode characters in a string
 Encode character sequences in ="string"=, by mapping characters (or sequences of characters) to an alternative character (or sequence of characters). This macro can be used to encode strings for use in URLs, to encode to HTML entities, to protect quotes, and for as many other uses as you can imagine.
@@ -12,9 +12,10 @@ Encode character sequences in ="string"=, by mapping characters (or sequences of
 If =ENCODE= is called with no optional parameters (e.g. =%<nop>ENCODE{"string"}%=) then the default =type="url"= encoding will be used.
 ---++ Predefined encodings
 Unless otherwise specified, the =type= parameter encodes the following "special characters" 
-   * all non-printable ASCII characters below space, except newline (="\n"=) and carriage return (="\r"=)
-   * HTML special characters ="<"=, =">"=, ="&"=, single quote (='=) and double quote (="=)
-   * TML special characters ="%"=, ="["=, ="]"=, ="@"=, ="_"=, ="*"=, ="="= and ="|"=
+   * =type= not specified:
+      * all non-printable ASCII characters below space, except newline (="\n"=) and carriage return (="\r"=)
+      * HTML special characters ="<"=, =">"=, ="&"=, single quote (='=) and double quote (="=)
+      * TML special characters ="%"=, ="["=, ="]"=, ="@"=, ="_"=, ="*"=, ="="= and ="|"=
    * =type="entity"= or =type="entities"= Encode special characters into HTML entities, like a double quote into =&amp;#034;=. Does *not* encode =\n= (newline).
    * =type="html"= As =type="entity"= except it also encodes =\n= (newline)
    * =type="safe"= Encode just the characters ='"&lt;&gt;%= into HTML entities.

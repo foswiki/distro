@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1442930527" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443119042" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %IF{
 	"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" 
@@ -238,7 +238,7 @@
 	then="<h2>%MAKETEXT{"Search results"}%</h2>
 $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$percent"
 }%%SEARCH{
-	"%URLPARAM{"search" encode="safe, quote"}%"
+	"%URLPARAM{"search" encode="entities, quote"}%" decode="entities"
 	type="%URLPARAM{"type" default="word"}%"
 	scope="%URLPARAM{"scope" encode="safe, quote"}%"
 	web="%URLPARAM{"web" encode="safe, quote"}%"%IF{
@@ -284,7 +284,7 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
 %MAKETEXT{"To display the above search results in a topic, copy-paste the following markup:"}%
 <pre class='tml'>
 %<nop>SEARCH{
-   "%URLPARAM{"search" encode="safe, quote"}%"
+   "%URLPARAM{"search" encode="entities, quote"}%"
    type="%URLPARAM{"type" default="%SEARCHDEFAULTTTYPE%"}%"%FORMAT{
       "scope,web,recurse,nosearch,casesensitive,nosummary,nototal,order,reverse,limit,search"
       type="string"

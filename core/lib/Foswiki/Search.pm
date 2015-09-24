@@ -307,7 +307,36 @@ sub searchWeb {
 
     my $revSort = Foswiki::isTrue( $params{reverse} );
     $params{scope} = $params{scope} || '';
+
     my $searchString = defined $params{search} ? $params{search} : '';
+
+    # Reverse encoding done by %URPARAM{ ... encode=  }% if requested
+    if ( length($searchString) && defined $params{decode} ) {
+        foreach my $e ( split( /\s*,\s*/, $params{decode} ) ) {
+            if ( $e =~ m/entit(y|ies)/i ) {
+                $searchString = Foswiki::entityDecode($searchString);
+            }
+            elsif ( $e =~ m/^quotes?$/i ) {
+
+                #nop - reversing of quote escaping not needed?
+            }
+            elsif ( $e =~ m/^url$/i ) {
+
+                $searchString = Foswiki::urlDecode($searchString);
+            }
+            elsif ( $e =~ m/^safe$/i ) {
+
+                # entity decode ' " < > and %
+                #  &#39;&#34;&#60;&#62;&#37;
+                $searchString =~ s/(&#(39|34|60|62|37);)/chr($2)/ge;
+            }
+            else {
+                throw Error::Simple(
+'Unknown decode type requested: Valid types are entity, entities, safe and url.'
+                );
+            }
+        }
+    }
 
     $params{includeTopics} = $params{topic} || '';
     $params{type}          = $params{type}  || '';
