@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1441364028" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1443077395" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -123,6 +123,7 @@ reduce bandwidth and speed up interactive performance.
 %$DEPENDENCIES%
 
 ---++ Change History
+|  24 Sep 2015: | (6.30) - reworked the way how preferences are propagated from backend to javascript not to use unsafe inline scripts anymore |
 |  04 Sep 2015: | (6.20) - improvements to jquery.wikiword, jquery.loader; adding html5-data capabilities to plugin initialization; added jquery-1.11.3 and jquery-2.1.4 |
 |  16 Jun 2015: | (6.13) - Item13460: JQICON fails to render !FontAwesome icons. |
 |  30 Apr 2015: | (6.11) - Item13389: datepicker initializaiton problem; datepicker z-index problem; pushy tooltips not hidden when typing into an input field; error in jquery.foswiki api getPubUrlPath |
