@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1417294557" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443185186" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQREQUIRE{"chili, ui, ui::autocomplete" warn="off"}%
@@ -63,7 +63,7 @@ loads the =topic= section of this topic, which expands to the topic list.
   "^%URLPARAM{"term" default="does not exist"}%.*"
   type="regex"
   scope="topic"
-  format="<nop>%URLPARAM{"format" encode="quote" default="{\\"label\\":\\"$topic\\", \\"value\\":\\"$topic\\"}"}%"
+  format="<nop>%URLPARAM{"format" encode="safe,quote" default="{\\"label\\":\\"$topic\\", \\"value\\":\\"$topic\\"}"}%"
   separator=","
   limit="%URLPARAM{"limit" default="10"}%"
   nonoise="on"

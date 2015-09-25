@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1288964903" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443185186" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsContrib"}%
 ---+ Tips
 
@@ -7,7 +7,7 @@ Tips are tips and hints contributed by users. Use this form to search for tips. 
 <form action="%SCRIPTURL%/view%SCRIPTSUFFIX%/%WEB%/%TOPIC%">
 Search (perl regular expression): <input name="searchfor" type="text" value="%URLPARAM{"searchfor" default="Enter search keywords here"}%" size="100" />
 </form>
-%SEARCH{ "%URLPARAM{"searchfor" encode="quote" default="search results go here"}%" topic="*TipTopic*" type="keyword" web="%SYSTEMWEB%, %USERSWEB%" format="   * [[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]:$n()   $summary(noheader, 100)$n()$percntCALC{$SETM(total, +1)}$percnt"}%
+%SEARCH{ "%URLPARAM{"searchfor" encode="entities, quote" default="search results go here"}%" decode="entities" topic="*TipTopic*" type="keyword" web="%SYSTEMWEB%, %USERSWEB%" format="   * [[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]:$n()   $summary(noheader, 100)$n()$percntCALC{$SETM(total, +1)}$percnt"}%
 
 Total: %CALC{$GET(total)}% tips
 

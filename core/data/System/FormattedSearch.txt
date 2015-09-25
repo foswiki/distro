@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435757231" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443185186" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Formatted Search
 Customize the display of search results.
@@ -347,7 +347,8 @@ Use an HTML form and an embedded formatted search on the same topic. You can lin
 %STARTSECTION{"example7_results"}%
 <div class="search_results">
 %SEARCH{
-   "%URLPARAM{"q" encode="quote"}%"
+   "%URLPARAM{"q" encode="entity, quote"}%"
+   decode="entity"
    type="keyword"
    nosearch="on"
    format="<div class='search_hit'> [[$web.$topic]]

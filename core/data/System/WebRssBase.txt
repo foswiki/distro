@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1440080166" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443185186" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ RSS News Feeds
 %JQREQUIRE{"chili"}%
@@ -51,18 +51,19 @@ The part below is included by each <nop>WebRss topic:
   <items>
     <rdf:Seq>
 %SEARCH{
-  "%URLPARAM{"search" encode="quote" default=".*" }%"
-  web="%URLPARAM{"web" encode="quote" default="%BASEWEB%" }%"
-  excludetopic="%URLPARAM{"excludetopic" encode="quote" default="%STATISTICSTOPIC%" }%"
-  type="%URLPARAM{"type" encode="quote" default="regex" }%"
+  "%URLPARAM{"search" encode="entities, quote" default=".*" }%"
+  decode="entities"
+  web="%URLPARAM{"web" encode="safe, quote" default="%BASEWEB%" }%"
+  excludetopic="%URLPARAM{"excludetopic" encode="safe, quote" default="%STATISTICSTOPIC%" }%"
+  type="%URLPARAM{"type" encode="safe, quote" default="regex" }%"
   nosearch="on"
   order="modified"
   reverse="on"
   nototal="on"
-  limit="%URLPARAM{"limit" encode="quote" default="16" }%"
-  scope="%URLPARAM{"scope" encode="quote" default="text" }%"
-  casesensitive="%URLPARAM{"casesensitive" encode="quote" default="on" }%"
-  date="%URLPARAM{"date" encode="quote" default="" }%"
+  limit="%URLPARAM{"limit" encode="safe, quote" default="16" }%"
+  scope="%URLPARAM{"scope" encode="safe, quote" default="text" }%"
+  casesensitive="%URLPARAM{"casesensitive" encode="safe, quote" default="on" }%"
+  date="%URLPARAM{"date" encode="safe, quote" default="" }%"
   format="      <rdf:li rdf:resource=\"%SCRIPTURL{"view"}%/$web/$topic\" />"
  }%
     </rdf:Seq>
@@ -74,18 +75,19 @@ The part below is included by each <nop>WebRss topic:
   <url>%WIKILOGOIMG%</url>
 </image>
 %SEARCH{
-  "%URLPARAM{"search" encode="quote" default=".*" }%"
-  web="%URLPARAM{"web" encode="quote" default="%BASEWEB%" }%"
-  excludetopic="%URLPARAM{"excludetopic" encode="quote" default="%STATISTICSTOPIC%" }%"
-  type="%URLPARAM{"type" encode="quote" default="regex" }%"
+  "%URLPARAM{"search" encode="entities, quote" default=".*" }%"
+  decode="entities"
+  web="%URLPARAM{"web" encode="safe, quote" default="%BASEWEB%" }%"
+  excludetopic="%URLPARAM{"excludetopic" encode="safe, quote" default="%STATISTICSTOPIC%" }%"
+  type="%URLPARAM{"type" encode="safe, quote" default="regex" }%"
   nosearch="on"
   order="modified"
   reverse="on"
   nototal="on"
-  limit="%URLPARAM{"limit" encode="quote" default="16" }%"
-  scope="%URLPARAM{"scope" encode="quote" default="text" }%"
-  casesensitive="%URLPARAM{"casesensitive" encode="quote" default="on" }%"
-  date="%URLPARAM{"date" encode="quote" default="" }%"
+  limit="%URLPARAM{"limit" encode="safe, quote" default="16" }%"
+  scope="%URLPARAM{"scope" encode="safe, quote" default="text" }%"
+  casesensitive="%URLPARAM{"casesensitive" encode="safe, quote" default="on" }%"
+  date="%URLPARAM{"date" encode="safe, quote" default="" }%"
   format="<item rdf:about=\"%SCRIPTURL{"view"}%/$web/$topic\">$n  <title>$topic</title>$n  <link>%SCRIPTURL{"view"}%/$web/$topic</link>$n  <description>$summary (last changed by <nop>$wikiname)</description>$n  <dc:date>$isodate</dc:date>$n  <dc:contributor>$n    <rdf:Description link=\"%SCRIPTURL{"view"}%?topic=$wikiusername\">$n      <rdf:value>$username</rdf:value>$n    </rdf:Description>$n  </dc:contributor>$n</item>"
 }%
 %STOPINCLUDE%

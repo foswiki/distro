@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443185186" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ ATOM News Feeds
 
@@ -42,18 +42,19 @@ Below part is included by each <nop>WebAtom topic:
 <id>%SCRIPTURL{"view"}%/%BASEWEB%</id>
 <rights>%WEBRSSCOPYRIGHT%</rights>%CALC{$SET(c,0)}%
 %SEARCH{
-  "%URLPARAM{"search" encode="quote" default=".*" }%"
-  web="%URLPARAM{"web" encode="quote" default="%BASEWEB%" }%"
-  excludetopic="%URLPARAM{"excludetopic" encode="quote" default="%STATISTICSTOPIC%" }%"
-  type="%URLPARAM{"type" encode="quote" default="regex" }%"
+  "%URLPARAM{"search" encode="entities, quote" default=".*" }%"
+  decode="entities"
+  web="%URLPARAM{"web" encode="safe, quote" default="%BASEWEB%" }%"
+  excludetopic="%URLPARAM{"excludetopic" encode="safe, quote" default="%STATISTICSTOPIC%" }%"
+  type="%URLPARAM{"type" encode="safe, quote" default="regex" }%"
   nosearch="on"
   order="modified"
   reverse="on"
   nototal="on"
-  limit="%URLPARAM{"limit" encode="quote" default="16" }%"
-  scope="%URLPARAM{"scope" encode="quote" default="text" }%"
-  casesensitive="%URLPARAM{"casesensitive" encode="quote" default="on" }%"
-  date="%URLPARAM{"date" encode="quote" default="" }%"
+  limit="%URLPARAM{"limit" encode="safe, quote" default="16" }%"
+  scope="%URLPARAM{"scope" encode="safe, quote" default="text" }%"
+  casesensitive="%URLPARAM{"casesensitive" encode="safe, quote" default="on" }%"
+  date="%URLPARAM{"date" encode="safe, quote" default="" }%"
   format="$percentCALC{$IF($GET(c)>0, , <updated>$isodate</updated>$CHAR(10))$SETM(c, +1)}$percent<entry>$n <title>$topic</title>$n <link rel=\"alternate\" type=\"text/html\" href=\"%SCRIPTURL{"view"}%/$web/$topic?t=$isodate\"/>$n <id>%SCRIPTURL{"view"}%/$web/$topic</id>$n <updated>$isodate</updated>$n <summary>$summary (last changed by <nop>$wikiname)</summary>$n <author>$n  <name><nop>$wikiname</name></author>$n</entry>"
 }%
 %STOPINCLUDE%
