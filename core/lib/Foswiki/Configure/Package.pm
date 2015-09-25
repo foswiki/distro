@@ -1610,8 +1610,14 @@ sub _parseManifest {
     my $tattach    = '';
     my $canCheckin = 0;
 
-# DO NOT Let the Extensions installer save over .htpasswd or modify the server installation.
-    if ( $file =~ m/\/\.ht(?:access|passwd)$/ ) {
+# DO NOT Let the Extensions installer save over .htpasswd, any .changes file or modify the server installation.
+    if (
+           substr( $file, -10 ) eq '/.htpasswd'
+        || substr( $file, -10 ) eq '/.htaccess'
+        || (   substr( $file, 0, 5 ) eq 'data/'
+            && substr( $file, -9 ) eq '/.changes' )
+      )
+    {
         $reporter->WARN(
 "Extension installer will not install $file. Server configuration file."
         );

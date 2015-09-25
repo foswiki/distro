@@ -1002,6 +1002,7 @@ __DATA__
 bin/shbtest1,0755,1a9a1da563535b2dad241d8571acd170,
 data/mimedata,0644,1a9a1da563535b2dad241d8571acd170,
 data/.htpasswd,0644,1a9a1da563535b2dad241d8571acd170,
+data/Sandbox/.changes,0644,1a9a1da563535b2dad241d8571acd170,
 data/Sandbox/TestTopic1.txt,0644,1a9a1da563535b2dad241d8571acd170,Documentation (noci)
 data/Sandbox/TestTopic43.txt,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
 data/Sandbox/Subweb/TestTopic43.txt,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
@@ -1089,6 +1090,10 @@ Blah blah
 Test file data
 DONE
     _makefile( "$tempdir/data", "mimedata", <<'DONE');
+Blah blah
+Test file data
+DONE
+    _makefile( "$tempdir/data/Sandbox", ".changes", <<'DONE');
 Blah blah
 Test file data
 DONE
@@ -1266,9 +1271,11 @@ DONE
 
     $this->sniff(
         warnings =>
-'Extension installer will not install data/.htpasswd. Server configuraiton file.',
+'Extension installer will not install data/.htpasswd. Server configuration file.',
         warnings =>
-'Extension installer will not install pub/.htaccess. Server configuraiton file.',
+'Extension installer will not install data/Sandbox/.changes. Server configuration file.',
+        warnings =>
+'Extension installer will not install pub/.htaccess. Server configuration file.',
     );
 
     $this->sniff(
@@ -1353,9 +1360,11 @@ DONE
 
     $this->sniff(
         warnings =>
-'Extension installer will not install data/.htpasswd. Server configuraiton file.',
+'Extension installer will not install data/.htpasswd. Server configuration file.',
         warnings =>
-'Extension installer will not install pub/.htaccess. Server configuraiton file.',
+'Extension installer will not install data/Sandbox/.changes. Server configuration file.',
+        warnings =>
+'Extension installer will not install pub/.htaccess. Server configuration file.',
     );
 
     $this->sniff(
