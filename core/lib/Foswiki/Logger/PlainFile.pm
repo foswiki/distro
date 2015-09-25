@@ -85,7 +85,7 @@ our %nextCheckDue = (
 # Symbols used so we can override during unit testing
 our $dontRotate = 0;
 sub _time { time() }
-sub _stat { stat(@_); }
+sub _stat { @_ ? stat( $_[0] ) : stat() }
 
 sub new {
     my $class = shift;
