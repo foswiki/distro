@@ -904,6 +904,7 @@ sub _install {
         # copy the file directly.
         if (
             $file =~ m/^data/    # File for the data directory
+            && ( $file !~ m/^data\/mime.types$/ )
             && $Foswiki::Plugins::SESSION
             && (
                 -e "$target,v"         # rcs history file exists
@@ -1604,7 +1605,7 @@ sub _parseManifest {
     my $ttopic  = '';
     my $tattach = '';
 
-    if ( $file =~ m/^data\/.*/ ) {
+    if ( ( $file =~ m/^data\/.*/ ) && ( $file !~ m/^data\/mime.types$/ ) )  {
         ( $tweb, $ttopic ) = $file =~ m/^data\/(.*)\/(.*?).txt$/;
         unless ( defined $tweb
             && defined $ttopic
