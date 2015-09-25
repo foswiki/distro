@@ -171,11 +171,25 @@ sub test_Util_mapTarget {
     $Foswiki::cfg{TrashWebName} = $this->{trash_web};
     $Foswiki::cfg{UsersWebName} = 'Main';
 
+    # Verify file in root of pub
+
+    my $file = 'pub/rootfile.gif';
+    my $results =
+      Foswiki::Configure::Package::_mapTarget( "/var/www/foswiki/", "$file" );
+    $this->assert_str_equals( "$this->{rootdir}pub/rootfile.gif", $results );
+
+    # Verify file in root of data
+
+    $file = 'data/mime.types';
+    $results =
+      Foswiki::Configure::Package::_mapTarget( "/var/www/foswiki/", "$file" );
+    $this->assert_str_equals( "$this->{rootdir}data/mime.types", $results );
+
     # Remap system web
 
     $Foswiki::cfg{SystemWebName} = 'Fizbin';
-    my $file = 'pub/System/System/MyAtt.gif';
-    my $results =
+    $file = 'pub/System/System/MyAtt.gif';
+    $results =
       Foswiki::Configure::Package::_mapTarget( "/var/www/foswiki/", "$file" );
     $this->assert_str_equals( "$this->{rootdir}pub/Fizbin/System/MyAtt.gif",
         $results );
@@ -986,9 +1000,13 @@ our $VERSION = '2.1';
 __DATA__
 <<<< MANIFEST >>>>
 bin/shbtest1,0755,1a9a1da563535b2dad241d8571acd170,
+data/mimedata,0644,1a9a1da563535b2dad241d8571acd170,
+data/.htpasswd,0644,1a9a1da563535b2dad241d8571acd170,
 data/Sandbox/TestTopic1.txt,0644,1a9a1da563535b2dad241d8571acd170,Documentation (noci)
 data/Sandbox/TestTopic43.txt,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
 data/Sandbox/Subweb/TestTopic43.txt,0644,4dcabc1c8044e816f3c3d1a071ba1bc5,Documentation
+pub/pubfile,0644,1a9a1da563535b2dad241d8571acd170,
+pub/.htaccess,0644,1a9a1da563535b2dad241d8571acd170,
 pub/Sandbox/TestTopic1/file.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a, (noci)
 pub/Sandbox/TestTopic43/file.att,0664,1a9a1da563535b2dad241d8571acd170,
 pub/Sandbox/TestTopic43/file2.att,0664,ede33d5e092a0cb2fa00d9146eed5f9a,
@@ -1061,6 +1079,23 @@ sub _makePackage {
     my $foot = ($alt) ? $INSTALL_ONLYIF : $INSTALL_FOOT;
     print $fh $foot;
     close($fh) or die "Couldn't close: $!\n";
+
+    _makefile( "$tempdir/pub", "pubfile", <<'DONE');
+Blah blah
+Test file data
+DONE
+    _makefile( "$tempdir/pub", ".htaccess", <<'DONE');
+Blah blah
+Test file data
+DONE
+    _makefile( "$tempdir/data", "mimedata", <<'DONE');
+Blah blah
+Test file data
+DONE
+    _makefile( "$tempdir/data", ".htpasswd", <<'DONE');
+Blah blah
+Test file data
+DONE
     _makefile( "$tempdir/data/Sandbox", "TestTopic1.txt", <<'DONE');
 %META:TOPICINFO{author="BaseUserMapping_333" comment="reprev" date="1267729185" format="1.1" reprev="1.1" version="1.1"}%
 Test rev 132412341234
@@ -1230,6 +1265,13 @@ DONE
     $this->sniff();
 
     $this->sniff(
+        warnings =>
+'Extension installer will not install data/.htpasswd. Server configuraiton file.',
+        warnings =>
+'Extension installer will not install pub/.htaccess. Server configuraiton file.',
+    );
+
+    $this->sniff(
         notes =>
           "Installed:  bin/shbtest1 as $Foswiki::cfg{ScriptDir}/shbtest1",
         notes =>
@@ -1238,6 +1280,7 @@ DONE
 "Installed:  data/Sandbox/TestTopic1.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/TestTopic1.txt",
         notes =>
 "Installed:  data/Sandbox/TestTopic43.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/TestTopic43.txt",
+        notes => "Installed:  data/mimedata as $Foswiki::cfg{DataDir}/mimedata",
         notes =>
 "Installed:  pub/Sandbox/Subweb/TestTopic43/file3.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/Subweb/TestTopic43/file3.att",
         notes =>
@@ -1248,6 +1291,7 @@ DONE
 "Installed:  pub/Sandbox/TestTopic43/file.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/TestTopic43/file.att",
         notes =>
 "Installed:  pub/Sandbox/TestTopic43/file2.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/TestTopic43/file2.att",
+        notes => "Installed:  pub/pubfile as $Foswiki::cfg{PubDir}/pubfile",
         notes =>
           "Installed:  tools/shbtest2 as $Foswiki::cfg{ToolsDir}/shbtest2",
         notes =>
@@ -1256,14 +1300,15 @@ DONE
 
     my @mfiles = $pkg->_listFiles();
     $this->assert_num_equals(
-        10,
+        12,
         scalar @mfiles,
         'Unexpected number of files in manifest'
     );    # 5 files in manifest
 
     my @ifiles = $pkg->_listFiles('1');
+
     $this->assert_num_equals(
-        10,
+        12,
         scalar @ifiles,
         'Unexpected number of files installed'
     );    # and 5 files installed
@@ -1293,7 +1338,6 @@ DONE
     # Install a 2nd time - files should be created when checkin is requested.
     #
     _makePackage( $tempdir, $extension );
-
     my $pkg2 = Foswiki::Configure::Package->new(
         root     => $root,
         module   => 'MyPlugin',
@@ -1306,6 +1350,13 @@ DONE
 
     $this->assert( $pkg2->install($reporter) );
     $this->sniff();
+
+    $this->sniff(
+        warnings =>
+'Extension installer will not install data/.htpasswd. Server configuraiton file.',
+        warnings =>
+'Extension installer will not install pub/.htaccess. Server configuraiton file.',
+    );
 
     $this->sniff(
         notes =>
@@ -1322,10 +1373,12 @@ DONE
 "Attached:   pub/Sandbox/TestTopic43/file.att to $this->{sandbox_web}/TestTopic43",
         notes =>
 "Attached:   pub/Sandbox/TestTopic43/file2.att to $this->{sandbox_web}/TestTopic43",
+        notes => "Installed:  data/mimedata as $Foswiki::cfg{DataDir}/mimedata",
         notes =>
 "Installed:  pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/Subweb/TestTopic43/subdir-1.2.3/file4.att",
         notes =>
 "Installed:  pub/Sandbox/TestTopic1/file.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/TestTopic1/file.att",
+        notes => "Installed:  pub/pubfile as $Foswiki::cfg{PubDir}/pubfile",
         notes =>
           "Installed:  tools/shbtest2 as $Foswiki::cfg{ToolsDir}/shbtest2",
         notes =>
@@ -1335,7 +1388,7 @@ DONE
     my @ifiles2 = $pkg2->_listFiles('1');
 
     $this->assert_num_equals(
-        15,
+        17,
         scalar @ifiles2,
         'Unexpected number of files installed on 2nd install: ' . @ifiles2
     );    # + 3 rcs files after checkin

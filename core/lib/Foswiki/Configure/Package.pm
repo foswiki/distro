@@ -886,10 +886,13 @@ sub _install {
 
         # Move or copy the file.
 
-        next unless ( -f "$dir/$file" );    # Exists as a file.
+        unless ( -f "$dir/$file" ) {    # Exists as a file.
+            $reporter->WARN("Source missing $dir/$file - Skipping file");
+            next;
+        }
 
         my $installed = $manifest->{$file}->{I}
-          || '';                            # Set to 1 if file already installed
+          || '';                        # Set to 1 if file already installed
         next if ($installed);
         $manifest->{$file}->{I} =
           1;    # Set this to installed (assuming it all works)
@@ -903,7 +906,8 @@ sub _install {
         # work in CLI environment, so we are forced to skip this and just
         # copy the file directly.
         if (
-            $file =~ m/^data/    # File for the data directory
+            $file =~ m/^data/                      # File for the data directory
+            && $file =~ m/^data\/(.*)\/(\w+).txt$/ # and is a topic
             && $Foswiki::Plugins::SESSION
             && (
                 -e "$target,v"         # rcs history file exists
@@ -920,7 +924,8 @@ sub _install {
             )
           )
         {
-            my ( $web, $topic ) = $file =~ m/^data\/(.*)\/(\w+).txt$/;
+            my $web   = $1;
+            my $topic = $2;
             my ( $tweb, $ttopic ) = _getMappedWebTopic($file);
 
             #SMELL  Should not try to check in if target web is missing?
@@ -1600,29 +1605,47 @@ sub _parseManifest {
     }
     $file =~ s/^"(.+)"$/$1/;
 
-    my $tweb    = '';
-    my $ttopic  = '';
-    my $tattach = '';
+    my $tweb       = '';
+    my $ttopic     = '';
+    my $tattach    = '';
+    my $canCheckin = 0;
 
-    if ( $file =~ m/^data\/.*/ ) {
-        ( $tweb, $ttopic ) = $file =~ m/^data\/(.*)\/(.*?).txt$/;
-        unless ( defined $tweb
+# DO NOT Let the Extensions installer save over .htpasswd or modify the server installation.
+    if ( $file =~ m/\/\.ht(?:access|passwd)$/ ) {
+        $reporter->WARN(
+"Extension installer will not install $file. Server configuration file."
+        );
+        return;
+    }
+
+    if ( $file =~ m/^data\/.*/ && $file =~ m/^data\/(.*)\/(.*?).txt$/ ) {
+        $tweb   = $1;
+        $ttopic = $2;
+        if (   defined $tweb
             && defined $ttopic
             && length($tweb) > 0
             && length($ttopic) > 0 )
         {
+            $canCheckin = 1;
+        }
+        else {
             $reporter->WARN("$file is not a topic - file will be bypassed");
         }
     }
-    if ( $file =~ m/^pub\/.*/ ) {
-        ( $tweb, $ttopic, $tattach ) = $file =~ m/^pub\/(.*)\/(.*?)\/([^\/]+)$/;
-        unless ( defined $tweb
+    if ( $file =~ m/^pub\/.*/ && $file =~ m/^pub\/(.*)\/(.*?)\/([^\/]+)$/ ) {
+        $tweb    = $1;
+        $ttopic  = $2;
+        $tattach = $3;
+        if (   defined $tweb
             && defined $ttopic
             && defined $tattach
             && length($tweb) > 0
             && length($ttopic) > 0
             && length($tattach) > 0 )
         {
+            $canCheckin = 1;
+        }
+        else {
             $reporter->WARN(
                     "Unable to identify attachment $file name or location"
                   . " - file will be bypassed" );
@@ -1630,13 +1653,17 @@ sub _parseManifest {
         }
     }
 
-    $this->{_manifest}->{$file}->{ci}    = ( $desc =~ s/\(noci\)// ? 0 : 1 );
+    $this->{_manifest}->{$file}->{ci} =
+      ( ( !$canCheckin || $desc =~ s/\(noci\)// ) ? 0 : 1 );
     $this->{_manifest}->{$file}->{perms} = $perms;
-    $this->{_manifest}->{$file}->{md5}   = $md5 || '';
+    $this->{_manifest}->{$file}->{md5} = $md5 || '';
+
+    # SMELL: The {topic} field isn't used by Package. But it should be.
     $this->{_manifest}->{$file}->{topic} = "$tweb\t$ttopic\t$tattach";
     $this->{_manifest}->{$file}->{desc}  = $desc;
     $this->{_manifest}->{ATTACH}->{"$tweb/$ttopic"}->{$tattach} = $file
       if $tattach;
+
 }
 
 # Parse the manifest line into the manifest hash.
