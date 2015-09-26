@@ -1,8 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426068062" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443271635" format="1.1" version="1"}%
 | *Name:* | *Type:* | *Size:* | *Values:* | *Tooltip message:* |
 | Author | text | 60 | | |
 | Version | text | 60 | | Numerical version number e.g. 1.2 |
 | Release | text | 60 | | Release identifier (usually the date) |
+| Description | text | 60 | | one line description of the module |
 | Repository | text | 60 | | e.g. https://github.com/foswiki/EmptyPlugin |
 | Copyright | text | 60 | | e.g. 2015, The Artist, All Rights Reserved |
 | License | text | 60 | | e.g GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
