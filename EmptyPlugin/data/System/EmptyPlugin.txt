@@ -1,12 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1443123313" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
-<!--
-One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
 ---+!! Empty Plugin
-
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 %TOC%
 
@@ -36,17 +31,21 @@ clashes with other extensions that may try to use the same name.
 ---++ Installation
 %$INSTALL_INSTRUCTIONS%
 
----++ Info
+---++ Dependencies
+%$DEPENDENCIES%
 
-Dependencies: %$DEPENDENCIES%
+---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
+| | |
 
 %META:FORM{name="PackageForm"}%
-%META:FIELD{name="Author" title="Author" value="%$CREATED_AUTHOR%"}%
-%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
-%META:FIELD{name="Copyright" value="%$CREATEDYEAR%, %$CREATED_AUTHOR%, All Rights Reserved"}%
+%META:FIELD{name="Author" title="Author" value="%25$CREATED_AUTHOR%25"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Copyright" value="%25$CREATEDYEAR%25, %25$CREATED_AUTHOR%25, All Rights Reserved"}%
 %META:FIELD{name="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
-%META:FIELD{name="Repository" value="https://github.com/foswiki/%$ROOTMODULE%"}%
-%META:FIELD{name="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
-%META:FIELD{name="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Repository" value="https://github.com/foswiki/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
