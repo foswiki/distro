@@ -452,11 +452,7 @@ sub searchWeb {
     my $nonoise = Foswiki::isTrue( $params{nonoise} );
     my $noSearch = Foswiki::isTrue( $params{nosearch}, $nonoise );
     unless ($noSearch) {
-        my $searchStr = $searchString;
-        $searchStr =~ s/&/&amp;/g;
-        $searchStr =~ s/</&lt;/g;
-        $searchStr =~ s/>/&gt;/g;
-
+        my $searchStr = Foswiki::entityEncode($searchString);
         $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/g;
         &$callback( $cbdata, $tmplSearch );
     }
