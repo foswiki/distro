@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1439226079" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443276646" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -58,11 +58,12 @@ Install apache and rcs: ==apt-get install apache2 rcs==
 | IO::Socket::IP | =libio-socket-ip-perl= | First shipped perl 5.19.8 |
 | IO::Socket::SSL | =libio-socket-ssl-perl= | |
 | JSON | =libjson-perl= | |
+| Locale::Maketext | =liblocale-maketext-perl= |  |
 | Locale::Maketext::Lexicon | =liblocale-maketext-lexicon-perl= | Optional, needed for internationalization |
 | Locale::Msgfmt | =liblocale-msgfmt-perl= | Optional, needed for internationalization |
 | LWP | =libwww-perl= | |
 | URI | =liburi-perl= | |
-| version | =libversion-perl= | First shipped perl 5.10.1, must be version 0.77 or newer |
+| version | =libversion-perl= | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 
 Note: to install all the above: =apt-get install= %CALC{"$LISTJOIN($sp,$LIST(R2:C2..R100:C2))"}% 
 
@@ -114,11 +115,13 @@ Install apache2, rcs, and perl-CPAN
 | IO::Socket::IP | =perl-IO-Socket-IP= | First shipped perl 5.19.8 |
 | IO::Socket::SSL | =perl-IO-Socket-SSL= | |
 | JSON | =perl-JSON= | |
+| Locale::Language | =perl-Locale-Codes= |  |
+| Locale::Maketext | =perl-Locale-Maketext= |  |
 | Locale::Maketext::Lexicon | =perl-Locale-Maketext-Lexicon= | Optional, needed for internationalization |
 | Locale::Msgfmt | =perl-Locale-Msgfmt= | Optional, needed for internationalization |
 | LWP | =perl-libwww-perl= | |
 | URI | =perl-URI= | |
-| version | =perl-Perl-Version= | Must be version 0.77 or newer |
+| version | =perl-Perl-Version= | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 
 ---++++!! Optional dependencies
 
@@ -164,10 +167,11 @@ Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 | IO::Socket::IP | =dev-perl/IO-Socket-IP= | |
 | IO::Socket::SSL | =dev-perl/IO-Socket-SSL= | Optional, support encrypted email connection: STARTTLS or SSL |
 | JSON | =dev-perl/JSON= | |
+| Locale::Maketext | =dev-perl/locale-maketext= |  |
 | Locale::Maketext::Lexicon | =dev-perl/locale-maketext-lexicon= | Optional, needed for internationalization |
 | Locale::Msgfmt | =dev-perl/Locale-Msgfmt= | Optional, needed for internationalization |
 | LWP | =dev-perl/libwww-perl= | |
-| version | =perl-core/version= | Must be version 0.77 or newer, included with perl |
+| version | =perl-core/version= | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 | URI | =dev-perl/URI= | |
 * Packages in =perl-core/= generally are installed with perl. May be directly installed if updated versions are available.
 
@@ -197,7 +201,7 @@ If run as root, the modules will be installed in the System perl.   Otherwise th
 
 <verbatim>
 curl -L http://cpanmin.us | perl - App::cpanminus    (optional - install cpanminus if not available )
-cpanm Algorithm::Diff Archive::Tar Authen::SASL CGI CGI::Session Crypt::PasswdMD5 DBI DBD::mysql DBD::Pg DBD::SQLite Digest::SHA Error Encode File::Copy::Recursive HTML::Parser HTML::Tree IO::Socket::IP IO::Socket::SSL JSON Locale::Maketext::Lexicon Locale::Msgfmt LWP version URI
+cpanm Algorithm::Diff Archive::Tar Authen::SASL CGI CGI::Session Crypt::PasswdMD5 DBI DBD::mysql DBD::Pg DBD::SQLite Digest::SHA Error Encode File::Copy::Recursive HTML::Parser HTML::Tree IO::Socket::IP IO::Socket::SSL JSON Locale::Maketext  Locale::Maketext::Lexicon Locale::Msgfmt LWP version URI
 </verbatim>
 
 If you want to install the dependendencies into a specified location, add the ="-l"= option to cpanm, and add the lib path to =bin/LocalLib.cfg=.   The dependencies will be installed under the specified location, in the =lib/perl5= subdirectory.
