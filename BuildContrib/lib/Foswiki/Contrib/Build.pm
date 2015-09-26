@@ -988,10 +988,17 @@ sub filter_txt {
 
             # Hack to support those who edit topics using Foswiki, where
             # % gets encoded as %25 in field values
-            $text =~ s/%25\$(\w+)%25/&_expand($this,$1)/ge;
+            $text =~ s/%25\$(\w+)%25/&_encode(&_expand($this,$1))/ge;
             return $text;
         }
     );
+}
+
+sub _encode {
+    my $datum = shift;
+
+    $datum =~ s/([%"\r\n{}])/'%'.sprintf('%02x',ord($1))/ge;
+    return $datum;
 }
 
 sub _expand {

@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1438970857" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1443271504" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Foswiki Developer Environment
 <a href="http://wikiring.com" class="foswikiRight"><img src="%ATTACHURLPATH% \logo.gif" title="WikiRing: Professional Wiki Innovation and Support" /></a>
 
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 %TOC%
 
@@ -643,10 +643,7 @@ histories are preserved.
 
 If you want your installer to do anything else then you will need to write a [[#InstallScripts][POSTINSTALL script]].
 
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
-%JQREQUIRE{"chili"}%
--->
+<!-- %JQREQUIRE{"chili"}% -->
 
 ---++ Installation Instructions
 You are strongly recommended to use this Contrib to help split your code development away from your live Foswiki environment, as described [[#DevelopmentModel][above]].
@@ -663,10 +660,11 @@ See the repository for full change history.
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Description" title="Release" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Copyright" value="Foswiki Contributors 2004-2015, All Rights Reserved"}%
 %META:FIELD{name="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Home" value="http://foswiki.org/Extensions/BuildContrib"}%
 %META:FIELD{name="Support" value="http://foswiki.org/Support/BuildContrib"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1438970857" size="1343" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1438970857" size="14169" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1443271504" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1443271504" size="14169" user="ProjectContributor" version="1"}%

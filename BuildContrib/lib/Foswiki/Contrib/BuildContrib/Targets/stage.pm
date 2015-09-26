@@ -37,14 +37,15 @@ sub form_repair {
 
             # Extract form data from text
             my %data = (
-                Author     => "ProjectContributor",
-                Release    => '%$RELEASE%',
-                Version    => '%$VERSION%',
-                Copyright  => '',
-                License    => '',
-                Home       => 'http://foswiki.org/Extensions/%$ROOTMODULE%',
-                Support    => 'http://foswiki.org/Support/%$ROOTMODULE%',
-                Repository => 'https://github.com/foswiki/%$ROOTMODULE%'
+                Author      => "ProjectContributor",
+                Release     => '%$RELEASE%',
+                Version     => '%$VERSION%',
+                Description => '%$SHORTDESCRIPTION%',
+                Copyright   => '',
+                License     => '',
+                Home        => 'http://foswiki.org/Extensions/%$ROOTMODULE%',
+                Support     => 'http://foswiki.org/Support/%$ROOTMODULE%',
+                Repository  => 'https://github.com/foswiki/%$ROOTMODULE%'
             );
             my $form = "\n\%META:FORM{name=\"PackageForm\"}%\n";
             foreach my $field ( sort keys %data ) {
@@ -69,6 +70,13 @@ sub form_repair {
                     $data{$field} = $1;
                     $data{$field} =~ s/(["\r\n])/'%'.sprintf('%02x',ord($1))/ge;
                 }
+
+                if ( $text =~ s/^   * Set SHORTDESCRIPTION = (.*)$//m ) {
+                    $data{$field} = $1;
+                    $data{$field} =~ s/(["\r\n])/'%'.sprintf('%02x',ord($1))/ge;
+                }
+
+                $text =~ s/\%SHORTDESCRIPTION%/%FORMFIELD{"Description"}%/g;
 
                 #print STDERR "FIELD $field DATA $data{$field}\n";
                 print STDERR "WARNING: no Copyright set in the PackageForm.\n"
