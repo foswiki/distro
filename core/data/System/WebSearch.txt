@@ -286,7 +286,7 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
 %<nop>SEARCH{
    "%URLPARAM{"search" encode="entities, quote"}%"
    type="%URLPARAM{"type" default="%SEARCHDEFAULTTTYPE%"}%"%FORMAT{
-      "scope,web,recurse,nosearch,casesensitive,nosummary,nototal,order,reverse,limit,search"
+      "scope,web,recurse,nosearch,casesensitive,nosummary,nototal,order,reverse,limit"
       type="string"
       header="$n"
       format="$percntIF{
