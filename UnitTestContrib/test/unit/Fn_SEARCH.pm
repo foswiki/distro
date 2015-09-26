@@ -2889,7 +2889,7 @@ sub verify_Search_expression {
       $this->{test_topicObject}->expandMacros(
         '%SEARCH{"TestForm.Ecks~\'Bl>ah*\'" type="query" nototal="on"}%');
     my $expected = $this->toSiteCharSet(<<'HERE');
-<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>TestForm.Ecks~'Bl&gt;ah*'</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>TestForm.Ecks~&#39;Bl&#62;ah&#42;&#39;</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 HERE
 
     $this->assert_str_equals( $expected, $actual );
@@ -2898,7 +2898,7 @@ HERE
       $this->{test_topicObject}->expandMacros(
         '%SEARCH{"TestForm.Ecks = \'B/lah*\'" type="query" nototal="on"}%');
     $expected = $this->toSiteCharSet(<<'HERE');
-<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>TestForm.Ecks = 'B/lah*'</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>TestForm.Ecks &#61; &#39;B/lah&#42;&#39;</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 HERE
     $this->assert_str_equals( $expected, $actual );
 
@@ -6907,7 +6907,7 @@ HERE
     $this->assert( 0, $result )
       unless $result =~ /Number of topics: <span>(\d+)<\/span>/;
     $this->assert( 0, $result )
-      unless $result =~ /Searched: <b><noautolink>'<\/noautolink><\/b>/;
+      unless $result =~ /Searched: <b><noautolink>&#39;<\/noautolink><\/b>/;
 
     $search = <<'HERE';
 %SEARCH{
@@ -6925,7 +6925,7 @@ HERE
       unless $result =~ /Number of topics: <span>(\d+)<\/span>/;
     $this->assert( 0, $result )
       unless $result =~
-      /Searched: <b><noautolink>' " &lt; &gt; and %<\/noautolink><\/b>/;
+/Searched: <b><noautolink>&#39; &#34; &#60; &#62; and &#37;<\/noautolink><\/b>/;
 
     $search = <<'HERE';
 %SEARCH{
@@ -6942,7 +6942,7 @@ HERE
     $this->assert( 0, $result )
       unless $result =~ /Number of topics: <span>(\d+)<\/span>/;
     $this->assert( 0, $result )
-      unless $result =~ /Searched: <b><noautolink>'<\/noautolink><\/b>/;
+      unless $result =~ /Searched: <b><noautolink>&#39;<\/noautolink><\/b>/;
 
     $search = <<'HERE';
 %SEARCH{
@@ -6959,7 +6959,7 @@ HERE
     $this->assert( 0, $result )
       unless $result =~ /Number of topics: <span>(\d+)<\/span>/;
     $this->assert( 0, $result )
-      unless $result =~ /Searched: <b><noautolink>'<\/noautolink><\/b>/;
+      unless $result =~ /Searched: <b><noautolink>&#39;<\/noautolink><\/b>/;
 
     return;
 }
