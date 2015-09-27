@@ -1035,11 +1035,7 @@ sub passwordError {
 
     return unless defined $error;
 
-    $error =~ s/&/&amp;/g;
-    $error =~ s/</&lt;/g;
-    $error =~ s/>/&gt;/g;
-
-    return $error;
+    return Foswiki::entityEncode($error);
 }
 
 =begin TML
