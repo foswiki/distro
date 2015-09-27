@@ -46,7 +46,7 @@ sub set_up {
 sub tear_down {
     my $this = shift;
     $this->SUPER::tear_down();
-    File::Path::rmtree( $this->{tempdir} );    # Cleanup any old tests
+    eval { File::Path::rmtree( $this->{tempdir} ) };    # Cleanup any old tests
 
     return;
 }

@@ -96,7 +96,7 @@ sub tear_down {
     $this->removeWebFixture( $this->{session}, $this->{test_web} );
     $this->removeWebFixture( $this->{session}, $this->{trash_web} );
     $this->removeWebFixture( $this->{session}, $this->{sandbox_web} );
-    rmtree( $this->{tempdir} );    # Cleanup any old tests
+    eval { rmtree( $this->{tempdir} ) };    # Cleanup any old tests
     $this->SUPER::tear_down();
 
     return;
@@ -552,7 +552,7 @@ sub test_Util_listDir {
     my $this = shift;
 
     my $tempdir = $this->{tempdir} . '/test_Util_ListDir';
-    rmtree($tempdir);    # Cleanup any old tests
+    eval { rmtree($tempdir) };    # Cleanup any old tests
 
     mkpath($tempdir);
     mkpath( $tempdir . "/asdf" );
@@ -585,7 +585,7 @@ sub test_Util_listDir {
     $this->assert_num_equals( 3, $count,
         "listDir returned incorrect number of directories" );
 
-    rmtree($tempdir);
+    eval { rmtree($tempdir) };
 
     @dir   = Foswiki::Configure::FileUtil::listDir("$tempdir");
     $count = @dir;
@@ -655,7 +655,7 @@ DONE
     _doLocationTest( $this, $tempdir, "#!/usr/bin/perl -wT ", "/usr/bin/perl" );
 
     $Foswiki::cfg{ScriptDir} = $holddir;
-    rmtree($tempdir);    # Cleanup any old tests
+    eval { rmtree($tempdir) };    # Cleanup any old tests
 
     return;
 }
@@ -912,7 +912,7 @@ sub test_Package_makeBackup {
     chop $root;
 
     my $tempdir = $this->{tempdir} . '/test_util_installFiles';
-    rmtree($tempdir);    # Clean up old files if left behind
+    eval { rmtree($tempdir) };    # Clean up old files if left behind
     mkpath($tempdir);
 
     my $extension = "MyPlugin";
@@ -1156,7 +1156,7 @@ sub test_Package_dependencies {
     my $err    = '';
 
     my $tempdir = $this->{tempdir} . '/test_util_installFiles';
-    rmtree($tempdir);    # Clean up old files if left behind
+    eval { rmtree($tempdir) };    # Clean up old files if left behind
     mkpath($tempdir);
 
     _makefile( $tempdir, "obsolete.pl", <<'DONE');
@@ -1219,7 +1219,7 @@ sub test_Package_sub_install {
     my $err    = '';
 
     my $tempdir = $this->{tempdir} . '/test_util_installFiles';
-    rmtree($tempdir);    # Clean up old files if left behind
+    eval { rmtree($tempdir) };    # Clean up old files if left behind
     mkpath($tempdir);
 
     _makefile( $tempdir, "obsolete.pl", <<'DONE');
@@ -1521,7 +1521,7 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)[- ]+perl m
     $pkg2->finish();
     undef $pkg2;
 
-    rmtree($tempdir);
+    eval { rmtree($tempdir) };
 
     return;
 }
@@ -1531,7 +1531,7 @@ sub test_Package_install {
     my $root = $this->{rootdir};
 
     my $tempdir = $this->{tempdir} . '/test_util_installFiles';
-    rmtree($tempdir);    # Clean up old files if left behind
+    eval { rmtree($tempdir) };    # Clean up old files if left behind
     mkpath($tempdir);
 
     _makefile( $tempdir, "obsolete.pl", <<'DONE');
@@ -1647,7 +1647,7 @@ qr/Foswiki::Plugins::RequiredTriggeredModule version >=0.1 required[- ]+perl mod
     $pkg->finish();
     undef $pkg;
 
-    rmtree($tempdir);
+    eval { rmtree($tempdir) };
 
     return;
 }
@@ -1659,7 +1659,7 @@ sub test_Util_createArchive_shellZip {
     my $rslt;
 
     my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
-    rmtree($tempdir);    # Clean up old files if left behind
+    eval { rmtree($tempdir) };    # Clean up old files if left behind
 
     my $extension = "MyPlugin";
     my $extbkup   = "$extension-backup-20100329-123456";
@@ -1710,7 +1710,7 @@ sub test_Util_createArchive_shellTar {
     my $rslt;
 
     my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
-    rmtree($tempdir);              # Clean up old files if left behind
+    eval { rmtree($tempdir) };     # Clean up old files if left behind
 
     my $extension = "MyPlugin";
     my $extbkup   = "$extension-backup-20100329-123456";
@@ -1762,7 +1762,7 @@ sub test_Util_createArchive_perlTar {
     my $rslt;
 
     my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
-    rmtree($tempdir);    # Clean up old files if left behind
+    eval { rmtree($tempdir) };    # Clean up old files if left behind
 
     my $extension = "MyPlugin";
     my $extbkup   = "$extension-backup-20100329-123456";
@@ -1805,7 +1805,7 @@ sub test_Util_createArchive_perlZip {
     my $rslt;
 
     my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
-    rmtree($tempdir);              # Clean up old files if left behind
+    eval { rmtree($tempdir) };     # Clean up old files if left behind
 
     my $extension = "MyPlugin";
     my $extbkup   = "$extension-backup-20100329-123456";
@@ -1851,7 +1851,7 @@ sub test_Package_loadInstaller {
     my $root = $this->{rootdir};
 
     my $tempdir = $this->{tempdir} . '/test_Package_loadInstaller';
-    rmtree($tempdir);    # Clean up old files if left behind
+    eval { rmtree($tempdir) };    # Clean up old files if left behind
     mkpath($tempdir);
 
     my $repository = {
@@ -1942,7 +1942,7 @@ sub test_Package_errors {
     my $root = $this->{rootdir};
 
     my $tempdir = $this->{tempdir} . '/test_Package_loadInstaller';
-    rmtree($tempdir);    # Clean up old files if left behind
+    eval { rmtree($tempdir) };    # Clean up old files if left behind
     mkpath($tempdir);
 
     my $repository = {
@@ -2003,7 +2003,7 @@ sub test_Package_errors_zip {
     my $root = $this->{rootdir};
 
     my $tempdir = $this->{tempdir} . '/test_Package_loadInstaller';
-    rmtree($tempdir);    # Clean up old files if left behind
+    eval { rmtree($tempdir) };    # Clean up old files if left behind
     mkpath($tempdir);
 
     my $repository = {

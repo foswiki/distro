@@ -32,7 +32,7 @@ sub set_up {
 sub tear_down {
     my $this = shift;
 
-    File::Path::rmtree($logDir);
+    eval { File::Path::rmtree($logDir) };
     $this->SUPER::tear_down();
 
     return;
