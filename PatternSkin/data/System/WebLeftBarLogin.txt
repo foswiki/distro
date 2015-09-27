@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1442793997" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443365665" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebLeftBarExample"}%
 %STARTINCLUDE%<div class="patternLeftBarPersonal">
 <ul id="patternLeftBarUserActions">
@@ -11,7 +11,7 @@
   else="%IF{"{AdminUserWikiName}='%WIKINAME%'" then="<li class='patternLogOut'>%JQICON{"lock"}%[[%SCRIPTURL{"view"}%/%BASEWEB%/%BASETOPIC%?logout=1][Logout]]</li>"}%"
 }%%IF{
   "$ LOGIN != '' and not context authenticated" 
-  then="<li class='patternLogIn'>%JQICON{"key"}% $percntLOGIN$percnt</li> %IF{
+  then="<li class='patternLogIn'>%JQICON{"key"}%$percntLOGIN$percnt</li> %IF{
       "context registration_supported AND context registration_enabled" 
       then="<li>%JQICON{"add"}%[[%SYSTEMWEB%.UserRegistration][%MAKETEXT{"Register"}%]]</li>"
     }%"
