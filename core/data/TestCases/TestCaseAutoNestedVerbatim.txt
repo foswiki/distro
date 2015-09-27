@@ -46,8 +46,8 @@ Function is
 Admire the pretty fishes.
 Usage:
 &lt;verbatim&gt;
-	 my $fishes &#61; &#95;marine();
-	 if ( $fishes-&gt;{&#34;big mouth rass&#34;} ) {
+	 my &#36;fishes &#61; &#95;marine();
+	 if ( &#36;fishes-&gt;{&#34;big mouth rass&#34;} ) {
 &lt;/verbatim&gt;
 </pre>
 Lorem ipsum is pig latin for "that's my lorry, that is".

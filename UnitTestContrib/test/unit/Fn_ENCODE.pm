@@ -86,6 +86,86 @@ sub test_encode {
 
 }
 
+sub test_coverage {
+    my $this = shift;
+
+    my $str;
+
+    foreach my $chr ( 1 .. 127 ) {
+        $str .= chr($chr);
+    }
+
+# Entities encoding using Foswiki::entityEncode
+#   * all non-printable 7-bit chars (< \x1f), except \n (\xa) and \r (\xd)
+#   * HTML special characters '>', '<', '&', ''' and '"'.                      60, 62, 38, 39, 34
+#   * TML special characters '%', '|', '[', ']', '@', '_', '$', '*' and '='    37, 124, 91, 93, 64, 95, 36, 42, 61
+
+    my $results = Foswiki::entityEncode($str);
+    $this->assert_str_equals(
+"&#1;&#2;&#3;&#4;&#5;&#6;&#7;&#8;&#9;'0a'&#11;&#12;'0d'&#14;&#15;&#16;&#17;&#18;&#19;&#20;&#21;&#22;&#23;&#24;&#25;&#26;&#27;&#28;&#29;&#30;&#31; !&#34;#&#36;&#37;&#38;&#39;()&#42;+,-./0123456789:;&#60;&#61;&#62;?&#64;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#91;\\&#93;^&#95;`abcdefghijklmnopqrstuvwxyz{&#124;}~'7f'",
+        hexdump($results)
+    );
+
+# Same encoding, using the %ENCODE macro
+#SMELL:  Hex 01-02 are special markers used in render and don't encode correctly
+    $results =
+      $this->{test_topicObject}
+      ->expandMacros( '%ENCODE{"' . $str . '" type="entities"}%' );
+
+    $this->assert_str_equals(
+"&#39;&#34;&#3;&#4;&#5;&#6;&#7;&#8;&#9;'0a'&#11;&#12;'0d'&#14;&#15;&#16;&#17;&#18;&#19;&#20;&#21;&#22;&#23;&#24;&#25;&#26;&#27;&#28;&#29;&#30;&#31; !&#34;#&#36;&#37;&#38;&#39;()&#42;+,-./0123456789:;&#60;&#61;&#62;?&#64;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#91;\\&#93;^&#95;`abcdefghijklmnopqrstuvwxyz{&#124;}~'7f'",
+        hexdump($results)
+    );
+
+    # HTML encoding,  same as entities,  adds CR & LF  0x10, 0x13
+    $results =
+      $this->{test_topicObject}
+      ->expandMacros( '%ENCODE{"' . $str . '" type="html"}%' );
+
+    $this->assert_str_equals(
+"&#39;&#34;&#3;&#4;&#5;&#6;&#7;&#8;&#9;&#10;&#11;&#12;&#13;&#14;&#15;&#16;&#17;&#18;&#19;&#20;&#21;&#22;&#23;&#24;&#25;&#26;&#27;&#28;&#29;&#30;&#31; !&#34;#&#36;&#37;&#38;&#39;()&#42;+,-./0123456789:;&#60;&#61;&#62;?&#64;ABCDEFGHIJKLMNOPQRSTUVWXYZ&#91;\\&#93;^&#95;`abcdefghijklmnopqrstuvwxyz{&#124;}~'7f'",
+        hexdump($results)
+    );
+
+# URL encoding, Tuned for Foswiki: HEX encodes *all* characters except 0-9a-zA-Z-_.:~!*#/
+    $results =
+      $this->{test_topicObject}
+      ->expandMacros( '%ENCODE{"' . $str . '" type="url"}%' );
+
+    $this->assert_str_equals(
+"%27%22%03%04%05%06%07%08%09%0a%0b%0c%0d%0e%0f%10%11%12%13%14%15%16%17%18%19%1a%1b%1c%1d%1e%1f%20!%22#%24%25%26%27%28%29*%2b%2c-./0123456789:%3b%3c%3d%3e%3f%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5b%5c%5d%5e_%60abcdefghijklmnopqrstuvwxyz%7b%7c%7d~%7f",
+        hexdump($results)
+    );
+
+    # Default encoding should be URL encoding
+    my $defaultResult =
+      $this->{test_topicObject}->expandMacros( '%ENCODE{"' . $str . '"}%' );
+
+    $this->assert_str_equals( $results, $defaultResult );
+
+    # safe encoding,  Only encodes <>%'"
+    $results =
+      $this->{test_topicObject}
+      ->expandMacros( '%ENCODE{"' . $str . '" type="safe"}%' );
+
+    $this->assert_str_equals(
+"&#39;&#34;'03''04''05''06''07''08''09''0a''0b''0c''0d''0e''0f''10''11''12''13''14''15''16''17''18''19''1a''1b''1c''1d''1e''1f' !&#34;#\$&#37;&&#39;()*+,-./0123456789:;&#60;=&#62;?\@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~'7f'",
+        hexdump($results)
+    );
+
+}
+
+sub hexdump {
+    my $hex = '';
+    foreach my $ch ( split( //, $_[0] ) ) {
+        $hex .=
+          ( $ch lt "\x20" || $ch gt "\x7e" )
+          ? "'" . unpack( "H2", $ch ) . "'"
+          : $ch;
+    }
+    return $hex;
+}
+
 sub test_old_new_1 {
     my $this = shift;
     my $in   = <<'THIS';

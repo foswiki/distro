@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443119042" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443368900" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ ENCODE -- encode characters in a string
 Encode character sequences in ="string"=, by mapping characters (or sequences of characters) to an alternative character (or sequence of characters). This macro can be used to encode strings for use in URLs, to encode to HTML entities, to protect quotes, and for as many other uses as you can imagine.
@@ -11,16 +11,15 @@ Encode character sequences in ="string"=, by mapping characters (or sequences of
      | =new= | comma-separated list of replacement tokens. The elements in this list match 1:1 with the elements in the =old= list. Again, the standard [[format tokens]] may be used. An empty element in the =new= list will result in the corresponding token in the =old= list being deleted from the string. If the =new= list is shorter than the =old= list it will be extended to the same length using the empty element. Tokens do not have to be unique. <div class="foswikiHelp">%X% %INCLUDE{"%TOPIC%" section="oldnewwarning"}% (see examples below)</div> | May not be used with =type=; required if =old= is used |
 If =ENCODE= is called with no optional parameters (e.g. =%<nop>ENCODE{"string"}%=) then the default =type="url"= encoding will be used.
 ---++ Predefined encodings
-Unless otherwise specified, the =type= parameter encodes the following "special characters" 
-   * =type= not specified:
-      * all non-printable ASCII characters below space, except newline (="\n"=) and carriage return (="\r"=)
+Unless otherwise specified, the =type= parameter encodes the following "special characters"
+   * =type="entity"= or =type="entities"= Encode special characters into HTML entities, like a double quote into %ENCODE{"%ENCODE{"\"" type="entity"}%" type="entity"}%
+      * all non-printable ASCII characters below space, except newline (="\n"=) and carriage return (="\r"=).
       * HTML special characters ="<"=, =">"=, ="&"=, single quote (='=) and double quote (="=)
-      * TML special characters ="%"=, ="["=, ="]"=, ="@"=, ="_"=, ="*"=, ="="= and ="|"=
-   * =type="entity"= or =type="entities"= Encode special characters into HTML entities, like a double quote into =&amp;#034;=. Does *not* encode =\n= (newline).
-   * =type="html"= As =type="entity"= except it also encodes =\n= (newline)
+      * TML special characters ="%"=, ="["=, ="]"=, ="@"=, ="_"=, ="*"=, ="="=, ="$"= and ="|"=
+   * =type="html"= As =type="entity"= except it also encodes =\n= (newline) and carriage return (="\r"=).
    * =type="safe"= Encode just the characters ='"&lt;&gt;%= into HTML entities.
    * =type="quote"= or =type="quotes"= Escapes double quotes with backslashes (=\"=), does not change any other characters
-   * =type="url"= Encode special characters for use in URL parameters, like a double quote into =%ENCODE{"\""}%=
+   * ==type="url"== (default) Encode special characters for use in URL parameters, like a double quote into =%ENCODE{"\""}%=.
 ---+ Examples
    * =%<nop>ENCODE{"spaced name"}%= expands to %ENCODE{"spaced name"}%
    * =%<nop>ENCODE{"| Blah | | More blah |" old="|,$n" new="&amp;#124;,&lt;br /&gt;"}% expands to =%ENCODE{"| Blah | | More blah |" old="|,$n" new="&#124;,<br />"}%=

@@ -352,7 +352,7 @@ Same as last test
 ---+ 2 webs, default outputting
 ---++ Expected
 <!-- expected expand rex old Tmwiki default multi-weboutput 2 webs -->
-<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>WebPreferences$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>WebPreferences&#36;</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 
 <h4 class="foswikiSearchResultsHeader" style="border-color:@REX([a-z]+|\#[0-9a-fA-F]{6})"><b>Results from <nop>System web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
 <div class="foswikiSearchResult"><div class="foswikiTopRow"> 
@@ -389,7 +389,7 @@ Same as last test
 ---+ 4 webs, default outputting
 ---++ Expected
 <!-- expected expand rex old Tmwiki default multi-weboutput 4 webs -->
-<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>WebPreferences$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>WebPreferences&#36;</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 
 <h4 class="foswikiSearchResultsHeader" style="border-color:@REX([a-z]+|\#[0-9a-fA-F]{6})"><b>Results from Main web</b> retrieved at @TIME (@REX(GMT|Local)</h4> 
 <div class="foswikiSearchResult"><div class="foswikiTopRow"> 

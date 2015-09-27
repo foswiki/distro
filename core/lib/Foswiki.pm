@@ -2919,12 +2919,15 @@ with some keyboards..."
 
 This method encodes:
    * all non-printable 7-bit chars (< \x1f), except \n (\xa) and \r (\xd)
-   * HTML special characters '>', '<', '&', ''' and '"'.
-   * TML special characters '%', '|', '[', ']', '@', '_',
+   * HTML special characters '>', '<', '&', ''' (single quote) and '"' (double quote).
+   * TML special characters '%', '|', '[', ']', '@', '_', '*', '$' and "="
 
 $extras is an optional param that may be used to include *additional*
 characters in the set of encoded characters. It should be a string
 containing the additional chars.
+
+This internal function is available for use by expanding the =%ENCODE= macro,
+or the =%URLPARAM= macro, specifying =type="entities"= or =type="entity"=.
 
 =cut
 
@@ -2934,9 +2937,11 @@ sub entityEncode {
 
     # Safe on utf8 binary strings, as none of the characters has bit 7 set
     $text =~
-      s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|$extra])/'&#'.ord($1).';'/ge;
+s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&\$'*<=>@\]_\|$extra])/'&#'.ord($1).';'/ge;
     return $text;
 }
+
+#s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&\$'*<=>@[_\|$extra])/'&#'.ord($1).';'/ge;
 
 =begin TML
 
@@ -2973,6 +2978,9 @@ RFC 1738, Dec. '94:
 
 However this function is tuned for use with Foswiki. As such, it
 encodes *all* characters except 0-9a-zA-Z-_.:~!*#/
+
+This internal function is available for use by expanding the =%ENCODE= macro,
+specifying =type="url"=.  It is also the default encoding used by the =%URLPARAM= macro. 
 
 =cut
 
