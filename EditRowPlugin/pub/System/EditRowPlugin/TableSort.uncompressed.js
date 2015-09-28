@@ -98,7 +98,7 @@ function sortTable(el, init) {
     var index = 0;
     $rows.each(function() {
         $(this)
-            .children("th,td").eq(col) // get sorted column
+            .children("th,td").eq(col - 1) // get sorted column
             .addClass("foswikiSortedCol "
                       + "foswikiSorted"
                       + (rev ? "Descending" : "Ascending")
@@ -223,6 +223,8 @@ function compareValues(v1, v2) {
         }
     }
     // Compare the two values.
+    v1 = v1.normalize("NFKD");
+    v2 = v2.normalize("NFKD");
     if (v1 == v2)
         return 0;
     if (v1 > v2)
