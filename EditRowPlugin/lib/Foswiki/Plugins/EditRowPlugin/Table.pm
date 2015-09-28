@@ -98,7 +98,7 @@ sub new {
     }
     $attrs->{js} ||= 'preferred';
 
-    $attrs->{buttons} ||= "left";
+    $attrs->{buttons} ||= "right";
 
     $this->{attrs} = $attrs;
 
@@ -675,8 +675,7 @@ sub deleteRowCmd {
     my $row =
         $urps->{erp_row} >= 0
       ? $urps->{erp_row}
-      : $this->totalRows() + $urps->{erp_row};
-
+      : $this->totalRows() + $urps->{erp_row} - 1;
     return unless $this->deleteRow($row);
 
     return if $urps->{erp_row} < 0;    # full table edit?

@@ -108,6 +108,16 @@ sub process {
         $table = $_;
         $table->{editable} = 0 if $editIsDisabled;
         $table->{attrs}->{js} = 'ignored' if $jsIsDisabled;
+
+        # spit out macros eaten by early_line, but not processed by
+        # this plugin, so other plugins can detect and process
+        # them (e.g. %TABLE)
+        foreach my $spec ( @{ $table->{specs} } ) {
+            next
+              if $spec->{tag} eq $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro};
+            $line .= $spec->{raw};
+        }
+
         if (   $table->{editable}
             && $active_topic   eq $urps->{erp_topic}
             && $table->getID() eq $urps->{erp_table} )

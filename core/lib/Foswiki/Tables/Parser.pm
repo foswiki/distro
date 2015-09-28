@@ -164,12 +164,15 @@ sub parse {
             # Call the per-line event. This handles macros.
             $analysis = &$dispatch( 'early_line', $line, $in_table );
 
+            print STDERR
+"early_line $analysis, it=$in_table, rnt=$require_new_table, dct=$dont_change_table, line '$line' => "
+              if TRACE && $analysis;
+
             if ( $analysis > 0 ) {
 
                 # A macro, such as EDITTABLE, is forcing creation
                 # of a new table.
-                print STDERR "early_line > 0, open new table, line is '$line'\n"
-                  if TRACE;
+                print STDERR "open new table\n" if TRACE;
 
                 # fall through to allow dispatch of line event,
                 # which will close the current table and open a
@@ -177,16 +180,12 @@ sub parse {
                 $require_new_table = 1;
             }
             elsif ( $analysis < 0 ) {
-                print STDERR "early_line < 0, ignore macro, line is '$line'\n"
-                  if TRACE;
+                print STDERR "ignore macro\n" if TRACE;
 
                 # Don't handle $require_new_table yet if this is a
                 # blank line (or just contains a TABLE macro)
+                $require_new_table = 1 unless $in_table;
                 $dont_change_table = 1 unless $line =~ /\S/;
-
-                # SMELL: have to retain the original macros for other
-                # plugins
-                $line = $origline;
             }
 
             if ( $line =~ m/^\s*\|.*(\|\s*|\\)$/ ) {
@@ -294,7 +293,7 @@ sub parse {
             $require_new_table = 0;
         }
 
-        unless ( $analysis < 0 && $line !~ /\S/ ) {
+        unless ( $analysis && $line !~ /\S/ ) {
             print STDERR "Dispatch $line\n" if TRACE;
             &$dispatch( 'line', _rewrite( $line, \@comments ) );
         }

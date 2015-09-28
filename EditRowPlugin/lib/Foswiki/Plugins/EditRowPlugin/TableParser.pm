@@ -45,6 +45,7 @@ sub parse {
     my @result;
     foreach my $t ( @{ $this->{result} } ) {
         if ( UNIVERSAL::isa( $t, 'Foswiki::Tables::Table' ) ) {
+
             $t->{meta} = $meta;
             if ( defined( $t->{attrs}->{header} ) ) {
 

@@ -54,7 +54,7 @@ sub new {
     # pad out the cols to the width of the format
     my $ncols = scalar( @{ $table->{colTypes} } );
     while ( defined $cols && scalar(@$cols) < $ncols ) {
-        push( @$cols, '' );
+        push( @$cols, '  ' );
     }
     $this->{cols} = [];
     $this->setRow($cols) if $cols;

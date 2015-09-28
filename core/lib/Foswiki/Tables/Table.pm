@@ -466,7 +466,7 @@ sub addRow {
         if ( $this->totalRows() ) {
             my $count = scalar( @{ $this->{rows}->[0]->{cols} } );
             while ( scalar(@vals) < $count ) {
-                push( @vals, '' );
+                push( @vals, '  ' );
             }
         }
         push( @vals, '' ) unless scalar(@vals);
