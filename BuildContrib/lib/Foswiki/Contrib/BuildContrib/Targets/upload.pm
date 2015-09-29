@@ -405,7 +405,7 @@ sub _uploadTopic {
     $form->{text} = <<EXTRA. $form->{text};
 <!--
 This topic is part of the documentation for $this->{project} and is
-automatically generated from Subversion. You can edit it, but if you do,
+automatically generated from git. You can edit it, but if you do,
 please make sure the maintainer of the extension knows about your changes,
 otherwise your edits might be lost the next time the topic is uploaded.
 

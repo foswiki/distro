@@ -1,9 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1443271504" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443532867" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Foswiki Developer Environment
 <a href="http://wikiring.com" class="foswikiRight"><img src="%ATTACHURLPATH% \logo.gif" title="WikiRing: Professional Wiki Innovation and Support" /></a>
-
 %FORMFIELD{"Description"}%
+
 
 %TOC%
 
@@ -402,7 +402,7 @@ MANIFESTs can also include other extensions that have been packaged using
 
 This will include the !WysiwygPlugin in the release package.
 
-Note that there is a script in the Foswiki =tools= directory called =check_manifest.pl= that can be run at any time to check the contents of your MANIFEST against what is checked into Subversion.
+Note that there is a script in the Foswiki =tools= directory called =check_manifest.pl= that can be run at any time to check the contents of your MANIFEST against what is checked into git.
 
 ---+++++ =!include= _&lt;path to extension MANIFEST* file &gt;_
 When the target is a file, and not a directory, !BuildContrib will recursively
@@ -504,7 +504,7 @@ The easiest way to write a new build script is to use the
 =create_new_extension.pl= script, which is part of the !BuildContrib.
    1 Create your plugin source tree
       * =perl create_new_extension.pl !BathPlugin=
-      * if you are working in a Subversion checkout, move the directory just created up one level to be at the same level as =core=.
+      * if you are working in a git checkout, move the directory just created up one level to be at the same level as =core=.
    1 Edit =lib/Foswiki/Plugins/BathPlugin.pm= as required to create your
      plugin functionality
    1 Edit =lib/Foswiki/Plugins/BathPlugin/MANIFEST= and make sure it lists
@@ -650,21 +650,21 @@ You are strongly recommended to use this Contrib to help split your code develop
 
 %$INSTALL_INSTRUCTIONS%
 
----++ Contrib Info
+---++ Info
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH% \wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - __Working together to improve your wiki experience__!
 
 See the repository for full change history.
 
 
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1443532867" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1443532867" size="14169" user="ProjectContributor" version="1"}%
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
-%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors 2004-2015, All Rights Reserved"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/BuildContrib"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
-%META:FIELD{name="Description" title="Release" value="%25$SHORTDESCRIPTION%25"}%
-%META:FIELD{name="Copyright" value="Foswiki Contributors 2004-2015, All Rights Reserved"}%
-%META:FIELD{name="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
-%META:FIELD{name="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Home" value="http://foswiki.org/Extensions/BuildContrib"}%
-%META:FIELD{name="Support" value="http://foswiki.org/Support/BuildContrib"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1443271504" size="1343" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="" comment="logo" date="1443271504" size="14169" user="ProjectContributor" version="1"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/BuildContrib"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%

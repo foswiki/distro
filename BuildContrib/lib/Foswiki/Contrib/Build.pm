@@ -120,11 +120,11 @@ BEGIN {
 
         my $env = $ENV{'FOSWIKI_LIBS'};
         die <<ARGH unless $env;
-We don't seem to be building in a configured subversion checkout, and
+We don't seem to be building in a configured git checkout, and
 FOSWIKI_LIBS is not defined. I cannot determine how to find the Foswiki
 libraries required to support the build system.
 
-BuildContrib must either be run within a full subversion checkout
+BuildContrib must either be run within a full git checkout
 that has both LocalLib.cfg and LocalSite.cfg, or the environment variable
 FOSWIKI_LIBS must point to a configured Foswiki.
 
