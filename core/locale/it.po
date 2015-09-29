@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-08-25 18:27+0200\n"
+"PO-Revision-Date: 2015-09-29 19:03+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
-"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/it/>\n"
+"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1653,7 +1653,7 @@ msgstr "Modifica preferenze per questa pagina..."
 #: EditTablePlugin/data/System/EditTablePlugin.txt:164
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
-msgstr "Edit questa tabella"
+msgstr "Modifica questa tabella"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
@@ -3239,9 +3239,10 @@ msgid "Please go back in your browser and try again."
 msgstr "Ritorna indietro nel browser e riprova."
 
 #: core/templates/messages.tmpl:253
-#, fuzzy
 msgid "Please go back in your browser and upload using a different filename."
-msgstr "Torna _indietro_ nel browser e prova con un altro nome."
+msgstr ""
+"Si prega di tornare indietro nel proprio browser per caricare il file "
+"utilizzando un nome differente."
 
 #: core/templates/registermessages.tmpl:279
 msgid ""
@@ -3713,7 +3714,7 @@ msgstr "Salva ed esci"
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
 msgid "Save table"
-msgstr "Slava tabella"
+msgstr "Salva la tabella"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
 #: core/templates/registerfailednotremoved.tmpl:19
@@ -4391,6 +4392,8 @@ msgid ""
 "The filename you are attempting to upload (%1) contains characters not "
 "supported by the configured encoding (%2)."
 msgstr ""
+"Il nome del file che si sta tentando di caricare (%1) contiene dei caratteri "
+"non supportati dalla codifica configurata (%2)."
 
 #: core/templates/messages.tmpl:282
 msgid "The following topics are locked for edit, and cannot be moved:"
@@ -5215,9 +5218,8 @@ msgid "Warning! Confirmation required"
 msgstr "Attenzione! È richiesta una conferma"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:170
-#, fuzzy
 msgid "Warning: 'include' topic does not exist!"
-msgstr "NOTA: questa pagina  non esiste"
+msgstr "Attenzione: la pagina 'include'  non esiste!"
 
 #: core/templates/messages.tmpl:369
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
@@ -5267,9 +5269,8 @@ msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "NOTA: la pagina <nop>%1 \\'include\\' non esiste!"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
-#, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "NOTA: questa pagina  non esiste"
+msgstr "Attenzione: la pagina  \\'include\\' non esiste!"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
