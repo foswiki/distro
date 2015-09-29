@@ -19,6 +19,7 @@ HTML::Parser,>=3.28,cpan,Required, for WysiwygPlugin.
 HTML::Tree,>=3.23,cpan,Required. for CompareRevisionsAddOn.
 IO::Socket::IP,>=0.14,cpan,Optional, for IPv6.
 IO::Socket::SSL,>=1.80,cpan,Optional, for outbound SSL/TLS connections, eg. e-mail.
+Locale::Language,>=0,cpan,Optional, required if {UserInterfaceInternationalisation} is enabled in configuration.
 Locale::Maketext::Lexicon,>=0,cpan,Optional, required if {UserInterfaceInternationalisation} is enabled in configuration.
 Locale::Msgfmt,>=0,cpan,Optional, used to compress the language files in locale directory if enabled.
 LWP,>=0,cpan,Optional, needed by the Configure Extensions installer,for external URL based INCLUDEs and URL item verification.

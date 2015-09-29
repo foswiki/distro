@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1440462484" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443497722" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Installation Guide Part 2
 ---++!! Post-Installation Configuration and Tuning
@@ -171,7 +171,7 @@ In Foswiki, the WYSIWYG editor is used by default in edit mode. An _Edit wiki te
 
 There are actually two different _wiki text_ editors available now on Foswiki 2,0:
    $ _NatEdit_, The "Natural Editor": This is the new !JavaScript enabled _wiki text_ editor.  This editor allows the user to directly edit the TML, but provide a !JavaScript assist, to help in learning TML.
-   $ _raw editor_:  This is the original _wiki text editor_ included with Foswiki 1.0 and 1.1.  It can be used without !JavaScript, provided that _Security & Authentication_ Validation tab is configured for _embedded_ or _none_.     The _raw editor_ can be enabled per user by overriding the SKIN, and removing =natedit= from the default setting =natedit, pattern= in their user topic:  =   * Set SKIN = pattern=
+   $ _raw editor_:  This is the original _wiki text editor_ included with Foswiki 1.0 and 1.1.  It can be used without !JavaScript, provided that _Security & Authentication_ Validation tab is configured for _embedded_ or _none_.     The _raw editor_ can be enabled per user by overriding the SKIN, and removing =natedit= from the default setting =natedit, pattern= in their user topic:  =&nbsp;&nbsp;&nbsp;* Set SKIN = pattern=
 
 If you prefer to use the wiki text editor by default and have a separate WYSIWYG button, then you can modify the templates that define the edit screen as described in Foswiki:Support.FaqHowToMakeRawEditDefault.
 
@@ -195,6 +195,7 @@ To update an extension, simply re-run the installer. If prompted, tell it to dow
 <div class='foswikiHelp'>%X% If the extensions installer is not run, (for example, installing using unzip, debian/RPM packages or git clone), you must run the =Plugins= wizard to import and save the new configuration settings.
    * From the configure web interface, a warning message should be generated under Extensions tab,  click the =Import extension settings= button.
    * *or* from the CLI, run =tools/configure -wizard Plugins -save=
+      * To auto-enable the extension, include =-args ENABLE=1= on the command.
 </div>
 
 %X%Caution: Users of the debian =.deb= or =.rpm= packages should only use the system package tools when installing extensions.
@@ -221,8 +222,7 @@ The simplest way is to visit [[%SCRIPTURL{configure}%][configure -&gt; Extension
    * The [SomeExtension]_installer and archive will be downloaded if required.
    * When the =_installer= is run, it will install the Extension and dependencies similar to the =configure= interface except:
       * You will be given the option to use local archives if available in the root of the Foswiki installation
-      * You will be given the option to resolve CPAN dependencies after the Extensions and dependencies are installed.
-      * Any other dependencies still need to be manually resolved.
+      * CPAN and other dependencies need to be manually resolved.
    * Plugins will be automatically enabled and the configuration saved. Add the =-noenable= option to save the configuration with the plugin(s) disabled.
 
 ---+++++ When installing extensions from the command line: (no Internet access)
@@ -239,7 +239,7 @@ The simplest way is to visit [[%SCRIPTURL{configure}%][configure -&gt; Extension
    * Most extensions can have their archives expanded from the root of the foswiki installation.
    * If web and topic names are non-standard, files will need to be manually copied.
    * If scripts are included, the "shebang" line might need to be adjusted.
-   * Run the Extension merge wizard: =tools/configure -wizard Plugins -method merge -save=
+   * It is critical to always run the Plugins merge wizard after manually installing any extensions, or updating any ="*.spec"= file.:<br/> =tools/configure -wizard Plugins -save= <br/> To automatically enable extensions, add  =-args ENABLE=1= to the command. 
 
 ---+++++!! When using either the web or shell installation tools:
    * The =[SomeExtension]_installer= module is saved in =working/configure/pkgdata=.
@@ -279,6 +279,10 @@ The backup can be extracted from the root directory of the Foswiki installation.
 tar -zxvf * working/configure/backup/[Extension}-backup-[yyyymmdd]-[hhmmss].tgz
 # or
 unzip working/configure/backup/[Extension}-backup-[yyyymmdd]-[hhmmss].zip</verbatim>
+
+*Always* run the =tools/configure -wizard Plugins -save= utility after manually changing any extension. This ensures that Foswiki is running with the
+latest =Config.spec= / =Foswiki.spec= configuration information.
+
 
 %STOPINCLUDE%
 ---
