@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-07-30 20:21+0200\n"
+"PO-Revision-Date: 2015-09-29 20:18+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -692,7 +692,7 @@ msgstr "Leden toevoegen..."
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
 msgid "Add row"
-msgstr "Rij erbij"
+msgstr "Rij toevoegen"
 
 #: core/data/Main/GroupViewTemplate.txt:189
 msgid "Add user management options to this topic."
@@ -3227,7 +3227,6 @@ msgid "Please go back in your browser and try again."
 msgstr "Ga terug met je browser en probeer het opnieuw."
 
 #: core/templates/messages.tmpl:253
-#, fuzzy
 msgid "Please go back in your browser and upload using a different filename."
 msgstr "Ga _terug_ met je browser en probeer een andere naam."
 
@@ -5159,7 +5158,7 @@ msgstr "Waarschuwing! Bevestiging is nodig"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:170
 msgid "Warning: 'include' topic does not exist!"
-msgstr "Let op: ingevoegde pagina bestaat niet!"
+msgstr "Let op: ingevoegde pagina (met 'include') bestaat niet!"
 
 #: core/templates/messages.tmpl:369
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
@@ -5210,9 +5209,8 @@ msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Let op: ingevoegde pagina <nop>%1 (met \\'include\\') bestaat niet!"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
-#, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "Let op: ingevoegde pagina bestaat niet!"
+msgstr "Let op: ingevoegde pagina (met \\'include\\') bestaat niet!"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
