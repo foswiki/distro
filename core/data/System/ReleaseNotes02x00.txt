@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1442711560" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443536427" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0.1
 
@@ -46,7 +46,7 @@ Foswiki is released under the GNU General Public License.
 %ENDTWISTY{}%
    * Foswiki 2.0.0 was built on 04 Jul 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 59 Feature Requests.
    * Foswiki 2.0.1 was built on 03 Aug 2015. It is a release that contains 28 fixes and 3 enhancements.
-   * Foswiki 2.0.2 was built on 10 Sep 2015. It is a release that contains 28 fixes and 4 enhancements.
+   * Foswiki 2.0.2-RC1 was built on 29 Sep 2015. It is a release that contains 49 fixes and 5 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -63,13 +63,13 @@ For up-to-date information, see [[http://foswiki.org/Support/KnownIssuesOfFoswik
 
 ---+++ Use of non-default ={Store}{Encoding}=
 
-*WARNING* About {Store}{Encoding}. if you intend to use high-bit characters in attachment filenames (such as umlauts and accents) then links to these
-attachments on Foswiki pages *will not work* without modification. This is because Foswiki works internally using UNICODE, but the store saves files to disk using your chosen
+*WARNING* About {Store}{Encoding}: If you intend to use high-bit characters in attachment filenames (such as umlauts and accents), then links to these
+attachments on Foswiki pages *will not work* on a non-utf-8 Store without modification. This is because Foswiki works internally using UNICODE, but the store saves files to disk using your chosen
 {Store}{Encoding}. Running the Store with other than =utf-8= encoding is considered a transitional step and not recommended for long-term operation.
 The *strongly recommended* solution is to convert your store to UTF8 at the earliest opportunity.
 
 A partial workaround is implemented in the PubLinkFixupPlugin This Plugin will attempt to rewrite broken links.  This _generally_ gets linked images and other attachments working.
-However the TinyMCEPlugin is still unable to render image links.
+However the TinyMCEPlugin is still unable to render image links while editing a topic.
 
 See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
 
@@ -87,11 +87,9 @@ A major performance issue was discovered and resolved.  Some query searches can 
 
 ---+++ EditTablePlugin has been restored as an optional extension
 
-Due to a number of compatibility bugs between the new EditRowPlugin and existing =%<nop>TABLE%= and =%<nop>EDITTABLE%= macros, Foswiki now includes both plugins.  New sites will
-automatically get the new EditRowPlugin.  Sites with existing dependency on custom formatted tables can enable the EditTablePlugin and disable the EditRowPlugin.  For the
-current list of known issues with the EditRowPlugin see [[http://foswiki.org/Tasks/EditRowPlugin][EditRowPlugin Tasks]]
-
-*Caution:* Both extensions should not be enabled at the same time.
+Foswiki now includes both the EditRowPlugin and the older EditTablePlugin.  New sites will
+automatically get the new EditRowPlugin.  Sites who prefer the older extension can enable the EditTablePlugin and disable the EditRowPlugin.
+*Caution:* Both extensions should not be enabled at the same time. Note that the EditTablePlugin is deprecated and receives minimal maintenance.
 
 ---+++ New configuration wizard
 
@@ -1045,43 +1043,65 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13545][Item13545]] | =bulk_copy.pl= should omit System web by default. |
 
 ---++ Foswiki Release 2.0.2 Details
----+++ Fixes
+---++ Fixes
 
-| [[%BUGS%/Item13560][Item13560]] | Configure does not set initial values when extensions are installed with an external package manager. |
+| [[%BUGS%/Item12179][Item12179]] | JQueryPlugin::FOSWIKI: not properly escaping NAMEFILTER preference. |
+| [[%BUGS%/Item13560][Item13560]] | configure does not set initial values when extensions are installed with an external package manager. |
 | [[%BUGS%/Item13561][Item13561]] | PERL type configuation settings lose their formatting when LocalSite.cfg is saved. |
-| [[%BUGS%/Item13570][Item13570]] | EditRowPlugin has a number of issues coexisting with %TABLE tags. |
-| [[%BUGS%/Item13576][Item13576]] | CommentPlugin doesn't clear input after posting. |
-| [[%BUGS%/Item13583][Item13583]] | Login form is populated with incorrect path info, results in redirect failures. |
+| [[%BUGS%/Item13570][Item13570]] | EditRowPlugin does not work on page with TABLE macro. |
+| [[%BUGS%/Item13576][Item13576]] | Submitting a comment in COMMENT tag does not clear the comment field. |
+| [[%BUGS%/Item13583][Item13583]] | Login form populated with incorrect path info. |
 | [[%BUGS%/Item13593][Item13593]] | Foswiki 2.0 is 350% slower doing query SEARCH compared to 1.1.9. |
-| [[%BUGS%/Item13598][Item13598]] | Error renaming a symlinked web. |
+| [[%BUGS%/Item13598][Item13598]] | Error renaming a symlinked web using PlainFile Store. |
 | [[%BUGS%/Item13601][Item13601]] | Page cache pollution by illegal path components. |
 | [[%BUGS%/Item13602][Item13602]] | JQuery::UI recursive loop opening tabs after a login redirect back to the page. |
-| [[%BUGS%/Item13609][Item13609]] | =bulk_copy.pl= fails on perl 5.10.1 - Encode constants are not exported. |
+| [[%BUGS%/Item13609][Item13609]] | bulk_copy.pl fails on perl 5.10.1 - Encode constants are not exported. |
 | [[%BUGS%/Item13610][Item13610]] | The CLI tools/configure is unable to run checker validation routines. |
 | [[%BUGS%/Item13617][Item13617]] | Error in default topictitle implementation. |
 | [[%BUGS%/Item13625][Item13625]] | AutoViewTemplatePlugin: reports Invalid template name ( Warning: Can't find named section viewtemplate in topic...) when used in "section" mode and no section exists. |
-| [[%BUGS%/Item13629][Item13629]] | Hide "Title" field in natedit when unused |
-| [[%BUGS%/Item13631][Item13631]] | Configure reports false permission errors on some advanced file systems. use filetest 'access'; to get better checking. |
+| [[%BUGS%/Item13629][Item13629]] | Hide "Title" field in natedit when unused. |
+| [[%BUGS%/Item13631][Item13631]] | Configure reports false permission errors on some advanced file systems. Solution: use filetest 'access'; |
 | [[%BUGS%/Item13635][Item13635]] | Incorrect warning that Updates exist for up-to-date extensions. |
 | [[%BUGS%/Item13654][Item13654]] | Foswiki::Func::saveFile was changed in Foswiki 2.0 to use utf-8 encoding. |
+| [[%BUGS%/Item13662][Item13662]] | EditRowPlugin does not leave at least one space in an empty cell. |
+| [[%BUGS%/Item13667][Item13667]] | Templates with leading comments disturb jquery-ui. |
 | [[%BUGS%/Item13676][Item13676]] | Add jquery-2.1.4 and 1.11.3 to cure a Safari bug. |
 | [[%BUGS%/Item13682][Item13682]] | Implemented API doc update per Development.DocumentAlreadySupportedFuncQueryOptions. |
-| [[%BUGS%/Item13685][Item13685]] | SlideShowPlugin no longer allows scrolling down when the page is a little longer than the display |
-| [[%BUGS%/Item13688][Item13688]] | Fixed css precedence for tables, so it isn't overwritten by the default styles. |
-| [[%BUGS%/Item13696][Item13696]] | With non-utf-8 store, pub URLs still use utf-8 encoding of filenames and are unreachable. |
-| [[%BUGS%/Item13697][Item13697]] | With non-utf-8 store, it's possible to create unreachable topics and attachments. |
+| [[%BUGS%/Item13685][Item13685]] | SlideShowPlugin no longer allows scrolling down when the page is a little longer than the display. |
+| [[%BUGS%/Item13692][Item13692]] | EditRowPlugin puts the edit button the wrong place when EDITTABLE comes before TABLE. |
+| [[%BUGS%/Item13693][Item13693]] | EditRowPlugin deletes macros from text area fields. |
+| [[%BUGS%/Item13696][Item13696]] | Some attachments can be unreachable with non-UTF8 store encoding. |
+| [[%BUGS%/Item13697][Item13697]] | With iso-8859-1 store, it's possible to create unreachable topics and attachments. |
 | [[%BUGS%/Item13698][Item13698]] | Unable to move attachments if target topic is not a WikiWord. |
-| [[%BUGS%/Item13710][Item13710]] | JQueryPlugin (6.13) version of jquery.foswiki.js fails in 1.1.9 installation. |
+| [[%BUGS%/Item13707][Item13707]] | PatternSkin themes are not working. |
+| [[%BUGS%/Item13710][Item13710]] | JQueryPlugin (6.13) version of jquery.foswiki.js fails in 1.1.9 installation. BuildContrib corrupts compressed javascript. |
+| [[%BUGS%/Item13711][Item13711]] | EditRowPlugin makes TablePlugin apply its formatting to the wrong column. |
+| [[%BUGS%/Item13714][Item13714]] | EditRowPlugin adding and deleting rows fails in TestCases/TestCaseEditTableJavaScript. |
+| [[%BUGS%/Item13715][Item13715]] | EditRowPlugin does not always handle the EDITTABLE macro correctly case 2. |
+| [[%BUGS%/Item13717][Item13717]] | EditRowPlugin creates massive copies of macros when you edit tables. |
+| [[%BUGS%/Item13720][Item13720]] | EditRowPlugin make the headline sort mark up the wrong column as the sorted. |
+| [[%BUGS%/Item13721][Item13721]] | Return EditTablePlugin to the 2.0.2 MANIFEST. |
 | [[%BUGS%/Item13725][Item13725]] | SmiliesPlugin can be made a little easier to upgrade with simple css change. |
 | [[%BUGS%/Item13726][Item13726]] | SmiliesPlugin icon files have all changed file name and that causes broken links for legacy sites. |
-| [[%BUGS%/Item13728][Item13728]] | Rename fails across symlinked directories. |
+| [[%BUGS%/Item13728][Item13728]] | Rename fails across symlinked directories in RCS Store. |
+| [[%BUGS%/Item13730][Item13730]] | EditTablePlugin uses unescaped braces and calls CGI::param in list context. |
+| [[%BUGS%/Item13731][Item13731]] | WebLeftBarLogin breaks TML syntax of first line of included personal web left bar. |
+| [[%BUGS%/Item13738][Item13738]] | Disallow expand macros in the Search-box. |
+| [[%BUGS%/Item13739][Item13739]] | LoginName is not validated and presents XSS path. |
+| [[%BUGS%/Item13741][Item13741]] | URLPARAM macro needs safe+quote encoding option. |
+| [[%BUGS%/Item13743][Item13743]] | Configure expects any MANIFEST entry in a dir called "data" as a .txt file, |
+| [[%BUGS%/Item13744][Item13744]] | Document that EmptyPlugin is documentation only, and cannot be enabled. |
+| [[%BUGS%/Item13745][Item13745]] | Set+ Unset+ save script arguments are unusable from the CLI engine. |
+| [[%BUGS%/Item13749][Item13749]] | Perl's "stat()" will not work with with array arg and other Perl 5.23 compatibilty issues. |
+| [[%BUGS%/Item13757][Item13757]] | Move SHORTDESCRIPTION into PackageForm. |
 
----+++ Enhancements
+---++ Enhancements
 
 | [[%BUGS%/Item13674][Item13674]] | Separate downgrade maps in jquery.wikiword. |
 | [[%BUGS%/Item13675][Item13675]] | Add min-height and reload-after feature to jquery.loader. |
-| [[%BUGS%/Item13695][Item13695]] | TABLE macro does not support css unit sizes. (em, cm, in, pt, ...)  |
-| [[%BUGS%/Item13723][Item13723]] | SlideShowPlugin: Add "next slide" navigation with spacebar |
+| [[%BUGS%/Item13695][Item13695]] | TABLE does not support css unit sizes.  (em, cm, in, pt, ...). |
+| [[%BUGS%/Item13723][Item13723]] | Add "next slide" navigation with spacebar to SlideShowPlugin. |
+| [[%BUGS%/Item13758][Item13758]] | Align icons in left bar. |
 
 </noautolink>
 
