@@ -46,7 +46,7 @@ Foswiki is released under the GNU General Public License.
 %ENDTWISTY{}%
    * Foswiki 2.0.0 was built on 04 Jul 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 59 Feature Requests.
    * Foswiki 2.0.1 was built on 03 Aug 2015. It is a release that contains 28 fixes and 3 enhancements.
-   * Foswiki 2.0.2-RC1 was built on 29 Sep 2015. It is a release that contains 49 fixes and 5 enhancements.
+   * Foswiki 2.0.2-RC1 was built on 29 Sep 2015. It is a release that contains 58 fixes and 5 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -1048,16 +1048,21 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item12179][Item12179]] | JQueryPlugin::FOSWIKI: not properly escaping NAMEFILTER preference. |
 | [[%BUGS%/Item13560][Item13560]] | configure does not set initial values when extensions are installed with an external package manager. |
 | [[%BUGS%/Item13561][Item13561]] | PERL type configuation settings lose their formatting when LocalSite.cfg is saved. |
+| [[%BUGS%/Item12569][Item12569]] | Sorting of umlauts in tables is incorrect.  (Partial fix to EditRowPlugin). |
 | [[%BUGS%/Item13570][Item13570]] | EditRowPlugin does not work on page with TABLE macro. |
 | [[%BUGS%/Item13576][Item13576]] | Submitting a comment in COMMENT tag does not clear the comment field. |
 | [[%BUGS%/Item13583][Item13583]] | Login form populated with incorrect path info. |
 | [[%BUGS%/Item13593][Item13593]] | Foswiki 2.0 is 350% slower doing query SEARCH compared to 1.1.9. |
 | [[%BUGS%/Item13598][Item13598]] | Error renaming a symlinked web using PlainFile Store. |
+| [[%BUGS%/Item13600][Item13600]] | Wrong parent topic set when WikiUsers topic is initially created. |
 | [[%BUGS%/Item13601][Item13601]] | Page cache pollution by illegal path components. |
 | [[%BUGS%/Item13602][Item13602]] | JQuery::UI recursive loop opening tabs after a login redirect back to the page. |
+| [[%BUGS%/Item13603][Item13603]] | When running =check_current_value= from =tools/configure -check=, no checker output is reported. |
+| [[%BUGS%/Item13608][Item13608]] | Regression - jquery.wikiword does not transliterate unicode chars to ASCII. |
 | [[%BUGS%/Item13609][Item13609]] | bulk_copy.pl fails on perl 5.10.1 - Encode constants are not exported. |
 | [[%BUGS%/Item13610][Item13610]] | The CLI tools/configure is unable to run checker validation routines. |
 | [[%BUGS%/Item13617][Item13617]] | Error in default topictitle implementation. |
+| [[%BUGS%/Item13619][Item13619]] | References to non-default RevCommentPlugin removed from the templates. |
 | [[%BUGS%/Item13625][Item13625]] | AutoViewTemplatePlugin: reports Invalid template name ( Warning: Can't find named section viewtemplate in topic...) when used in "section" mode and no section exists. |
 | [[%BUGS%/Item13629][Item13629]] | Hide "Title" field in natedit when unused. |
 | [[%BUGS%/Item13631][Item13631]] | Configure reports false permission errors on some advanced file systems. Solution: use filetest 'access'; |
@@ -1065,9 +1070,13 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13654][Item13654]] | Foswiki::Func::saveFile was changed in Foswiki 2.0 to use utf-8 encoding. |
 | [[%BUGS%/Item13662][Item13662]] | EditRowPlugin does not leave at least one space in an empty cell. |
 | [[%BUGS%/Item13667][Item13667]] | Templates with leading comments disturb jquery-ui. |
+| [[%BUGS%/Item13669][Item13669]] | Macros topic is no longer a good reference for a quick lookup of macro syntax. |
+| [[%BUGS%/Item13672][Item13672]] | EditRowPlugin not working on mod_perl systems. |
 | [[%BUGS%/Item13676][Item13676]] | Add jquery-2.1.4 and 1.11.3 to cure a Safari bug. |
 | [[%BUGS%/Item13682][Item13682]] | Implemented API doc update per Development.DocumentAlreadySupportedFuncQueryOptions. |
 | [[%BUGS%/Item13685][Item13685]] | SlideShowPlugin no longer allows scrolling down when the page is a little longer than the display. |
+| [[%BUGS%/Item13686][Item13686]] | New topics get AdminToolsCategory as parent. |
+| [[%BUGS%/Item13688][Item13688]] | TablePlugin injected css is overwritten by the default style sheets disabling any table attributes. |
 | [[%BUGS%/Item13692][Item13692]] | EditRowPlugin puts the edit button the wrong place when EDITTABLE comes before TABLE. |
 | [[%BUGS%/Item13693][Item13693]] | EditRowPlugin deletes macros from text area fields. |
 | [[%BUGS%/Item13696][Item13696]] | Some attachments can be unreachable with non-UTF8 store encoding. |
@@ -1099,7 +1108,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 
 | [[%BUGS%/Item13674][Item13674]] | Separate downgrade maps in jquery.wikiword. |
 | [[%BUGS%/Item13675][Item13675]] | Add min-height and reload-after feature to jquery.loader. |
-| [[%BUGS%/Item13695][Item13695]] | TABLE does not support css unit sizes.  (em, cm, in, pt, ...). |
+| [[%BUGS%/Item13695][Item13695]] | TABLE does not support css unit sizes. (em, cm, in, pt, ...). |
 | [[%BUGS%/Item13723][Item13723]] | Add "next slide" navigation with spacebar to SlideShowPlugin. |
 | [[%BUGS%/Item13758][Item13758]] | Align icons in left bar. |
 
