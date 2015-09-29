@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-07-30 20:23+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/da/>\n"
+"PO-Revision-Date: 2015-09-29 20:45+0200\n"
+"Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -390,13 +390,12 @@ msgstr ""
 "adresse."
 
 #: core/templates/attachagain.tmpl:19
-#, fuzzy
 msgid ""
 "*Attach new file:* If you select a different file in the browser, it is this "
 "that will be updated or added."
 msgstr ""
-"*Lokal fil:* Hvis du vælger en anden fil i feltet _Lokal fil:_, er det denne "
-"fil der vil blive opdateret eller tilføjet."
+"*Vedhæft ny fil:* Hvis du vælger en anden fil i browseren, er det denne fil "
+"der vil blive opdateret eller tilføjet."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -699,9 +698,8 @@ msgstr "Tilføj medlemmer..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
-#, fuzzy
 msgid "Add row"
-msgstr "Tilføj formular"
+msgstr "Tilføj række"
 
 #: core/data/Main/GroupViewTemplate.txt:189
 msgid "Add user management options to this topic."
@@ -1474,9 +1472,8 @@ msgstr "Slet vedhæftet fil %1"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:168
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:983
-#, fuzzy
 msgid "Delete last row"
-msgstr "Slet side"
+msgstr "Slet sidste række"
 
 #: core/templates/more.tmpl:50
 msgid "Delete topic"
@@ -1650,9 +1647,8 @@ msgstr "Opdatér side-indstillinger for denne side..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:164
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
-#, fuzzy
 msgid "Edit this table"
-msgstr "Editér tabel"
+msgstr "Editér denne tabel"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
@@ -2157,13 +2153,12 @@ msgstr ""
 "sådan en side, så bliver du bedt om a bekræfte forespørgslen."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
-#, fuzzy
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
 msgstr ""
-"Hvis registrering ikke er deaktiveret pga. fejl, kan administratorer stadig "
-"registrere brugere ved at anvende"
+"Hvis registrering ikke er deaktiveret på grund af fejl, så kan "
+"administratorer stadig registrere brugere ved hjælp af %1."
 
 #: core/templates/messages.tmpl:302
 msgid ""
@@ -2675,9 +2670,8 @@ msgid "More Actions on Topic %1"
 msgstr "Flere muligheder med siden %1"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:23
-#, fuzzy
 msgid "More actions for %1:"
-msgstr "Flere muligheder med siden %1"
+msgstr "Flere muligheder for siden %1:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:45
 msgid "More character formats"
@@ -2858,9 +2852,8 @@ msgid "No changes"
 msgstr "Ingen ændringer"
 
 #: core/templates/backlinks.tmpl:28
-#, fuzzy
 msgid "No child topics found."
-msgstr "Ingen dattersider"
+msgstr "Ingen dattersider er fundet."
 
 #: core/templates/registermessages.tmpl:366
 #: core/templates/registermessages.tmpl:417
@@ -3047,7 +3040,7 @@ msgstr ""
 #: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
 #: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
 msgid "Operation %1 failed with an internal error"
-msgstr ""
+msgstr "Operationen %1 fejlede ved en intern fejl"
 
 #: core/templates/renamedelete.tmpl:23
 msgid "Optionally change attachment name:"
@@ -3209,7 +3202,6 @@ msgid "Please go back in your browser and check again."
 msgstr "Benyt venligst tilbage-knappen i browseren og forsøg igen."
 
 #: core/templates/messages.tmpl:85
-#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or clear the only-WikiWord box"
@@ -3241,10 +3233,10 @@ msgid "Please go back in your browser and try again."
 msgstr "Benyt venligst tilbage-knappen i browseren og forsøg igen."
 
 #: core/templates/messages.tmpl:253
-#, fuzzy
 msgid "Please go back in your browser and upload using a different filename."
 msgstr ""
-"Benyt venligst tilbage-knappen i browseren og forsøg igen med et nyt navn."
+"Benyt venligst tilbage-knappen i browseren og forsøg igen med et andet "
+"filnavn."
 
 #: core/templates/registermessages.tmpl:279
 msgid ""
@@ -3346,7 +3338,7 @@ msgstr "Spørgsmål:"
 #: EditTablePlugin/data/System/EditTablePlugin.txt:166
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:975
 msgid "Quiet save"
-msgstr ""
+msgstr "Gem og fortsæt"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:11
@@ -3710,9 +3702,8 @@ msgstr "Gem og gå tilbage"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
-#, fuzzy
 msgid "Save table"
-msgstr "Gemt i:"
+msgstr "Gem tabel"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
 #: core/templates/registerfailednotremoved.tmpl:19
@@ -3860,9 +3851,8 @@ msgid "Select a new local file to update attachment"
 msgstr "Vælg en ny lokal fil til at opdatere denne vedhæftede fil"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#, fuzzy
 msgid "Select all topics"
-msgstr "Vælg alle"
+msgstr "Vælg alle sider"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
@@ -3925,7 +3915,6 @@ msgid "Show %1 revisions up to revision %2"
 msgstr "Vis version %1 op til version %2"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
-#, fuzzy
 msgid "Show attachments help"
 msgstr "Hjælp til vedhæftede filer"
 
@@ -4249,7 +4238,7 @@ msgstr "Administratoren for dette side har slået adgangskode-håndtering fra."
 
 #: core/data/System/WebPreferences.txt:11
 msgid "The Free and Open Source Wiki."
-msgstr ""
+msgstr "The Free and Open Source Wiki."
 
 #: core/templates/messages.tmpl:421
 msgid ""
@@ -4685,9 +4674,8 @@ msgid "This site requires at least %1 character passwords"
 msgstr "Dette site kræver at en adgangskode har mindst %1 karakterer"
 
 #: core/data/System/UserName.txt:9
-#, fuzzy
 msgid "This system is configured to use usernames."
-msgstr "Dette system er konfigureret til at anvende brugernavne"
+msgstr "Dette system er konfigureret til at anvende brugernavne."
 
 #: core/templates/messages.tmpl:389
 msgid "This system is not configured to support user login. Return to [[%1]]."
@@ -4739,7 +4727,6 @@ msgid "To attachment:"
 msgstr "Til vedhæftet fil:"
 
 #: core/templates/registerapprove.tmpl:14
-#, fuzzy
 msgid "To block this registration, visit %2"
 msgstr "For at blokere denne registrering se %2"
 
@@ -5209,9 +5196,8 @@ msgid "Warning! Confirmation required"
 msgstr "Advarsel! Bekræftelse krævet"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:170
-#, fuzzy
 msgid "Warning: 'include' topic does not exist!"
-msgstr "Advarsel: \\'include\\'-siden <nop>%1 findes ikke!"
+msgstr "BEMÆRK: 'include'-siden er ikke oprettet endnu!"
 
 #: core/templates/messages.tmpl:369
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
@@ -5261,9 +5247,8 @@ msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Advarsel: \\'include\\'-siden <nop>%1 findes ikke!"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
-#, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "Advarsel: \\'include\\'-siden <nop>%1 findes ikke!"
+msgstr "BEMÆRK: \\'include\\'-siden er ikke oprettet endnu!"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
@@ -5597,7 +5582,7 @@ msgstr "Din e-mail-adresse vil blive holdt fortrolig."
 
 #: core/templates/oopslanguagechanged.tmpl:14
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
-msgstr ""
+msgstr "Sproget er ændret til %1. [[%2][Klik for at fortsætte]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
 msgid "Your name as displayed by %1."
@@ -5685,12 +5670,11 @@ msgstr ""
 "Din brugerregistrering fejlede fordi den ikke bestod validerings tests."
 
 #: core/templates/registermessages.tmpl:220
-#, fuzzy
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
 "[[%1][Klik her]] for vejledning for at oprette et gyldigt brugernavn på "
-"denne side"
+"denne side."
 
 #: core/templates/messages.tmpl:220
 msgid "[[%1][Debug topic text]]."
