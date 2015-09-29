@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-19 14:54+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2015-09-29 20:45+0200\n"
+"Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/da/>\n"
 "Language: da\n"
@@ -3374,7 +3374,7 @@ msgstr "Administratoren for dette side har slået adgangskode-håndtering fra."
 
 #: core/data/System/WebPreferences.txt:12
 msgid "The Free and Open Source Wiki."
-msgstr ""
+msgstr "The Free and Open Source Wiki."
 
 #: core/templates/messages.tmpl:351
 msgid "The activation code %1 is invalid."
@@ -4054,7 +4054,7 @@ msgstr "Advarsel! Bekræftelse krævet"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:170
 msgid "Warning: 'include' topic does not exist!"
-msgstr "BEMÆRK: 'incluce'-siden er ikke oprettet endnu"
+msgstr "BEMÆRK: 'include'-siden er ikke oprettet endnu!"
 
 #: core/templates/messages.tmpl:604
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
@@ -4101,7 +4101,7 @@ msgstr "Advarsel: \\'include\\'-siden <nop>%1 findes ikke!"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "BEMÆRK: \\'incluce\\'-siden er ikke oprettet endnu"
+msgstr "BEMÆRK: \\'include\\'-siden er ikke oprettet endnu!"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
