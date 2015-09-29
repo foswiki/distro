@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-08-25 18:27+0200\n"
+"PO-Revision-Date: 2015-09-29 19:03+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/it/>\n"
@@ -2969,7 +2969,7 @@ msgstr ""
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
 msgid "Save table"
-msgstr "Salva tabella"
+msgstr "Salva la tabella"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:249
 #: core/templates/registerfailednotremoved.tmpl:18
@@ -4077,7 +4077,7 @@ msgstr "Attenzione! È richiesta una conferma"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:170
 msgid "Warning: 'include' topic does not exist!"
-msgstr "Attenzione: la pagina 'include' non esiste!"
+msgstr "Attenzione: la pagina 'include'  non esiste!"
 
 #: core/templates/messages.tmpl:604
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
@@ -4124,7 +4124,7 @@ msgstr "NOTA: la pagina <nop>%1 \\'include\\' non esiste!"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "NOTA: la pagina \\'include\\' non esiste!"
+msgstr "Attenzione: la pagina  \\'include\\' non esiste!"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
