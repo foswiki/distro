@@ -98,7 +98,7 @@ msgstr "%1 heeft een lijst van andere Foswiki gebruikers"
 msgid "%1 has been approved and registered with e-mail %2"
 msgstr "%1 is goedgekeurd en geregistreerd met e-mail %2"
 
-#: core/templates/messages.tmpl:331
+#: core/templates/messages.tmpl:336
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
@@ -135,11 +135,11 @@ msgstr "%1 is geen geldige naam voor een nieuw web"
 msgid "%1 is currently logged in"
 msgstr "%1 is op dit moment ingelogd"
 
-#: core/templates/messages.tmpl:299
+#: core/templates/messages.tmpl:304
 msgid "%1 is currently set to %2"
 msgstr "%1 is op dit moment %2"
 
-#: core/templates/messages.tmpl:329
+#: core/templates/messages.tmpl:334
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 is [[%2][%3]] aan het bewerken."
 
@@ -159,7 +159,7 @@ msgstr "%1 is geen geldige waarde voor de parameter %2"
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 is de standaard pagina voor verwijderde bijlagen."
 
-#: core/templates/messages.tmpl:338
+#: core/templates/messages.tmpl:343
 msgid "%1 may still be editing %2."
 msgstr "%1 is mogelijk %2 nog aan het bewerken."
 
@@ -191,7 +191,7 @@ msgstr "%1 om web-specifieke instellingen aan te passen"
 msgid "%1 to start working on the new web"
 msgstr "%1 om te beginnen in het nieuwe web"
 
-#: core/templates/messages.tmpl:448 core/templates/messages.tmpl:461
+#: core/templates/messages.tmpl:453 core/templates/messages.tmpl:466
 msgid "%1 topic does not exist"
 msgstr "Pagina %1 bestaat niet"
 
@@ -296,7 +296,7 @@ msgstr "(verwijder bijlage)"
 msgid "(delete)"
 msgstr "(verwijderen)"
 
-#: core/templates/messages.tmpl:508
+#: core/templates/messages.tmpl:513
 msgid "(disabled)"
 msgstr "(gedeactiveerd)"
 
@@ -567,7 +567,7 @@ msgstr ""
 "Een =.txt= extensie is om veiligheidsredenen aan enkele bestandsnamen "
 "toegevoegd"
 
-#: core/templates/messages.tmpl:418 core/templates/messages.tmpl:429
+#: core/templates/messages.tmpl:423 core/templates/messages.tmpl:434
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -588,7 +588,7 @@ msgstr ""
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Een bevestigings e-mail is verstuurd naar %1"
 
-#: core/templates/messages.tmpl:422 core/templates/messages.tmpl:433
+#: core/templates/messages.tmpl:427 core/templates/messages.tmpl:438
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -598,7 +598,7 @@ msgstr ""
 "als %1. Let op dat de naam van het web niet verkeerd is gespeld op de vorige "
 "pagina; repareer de link als het nodig mocht zijn."
 
-#: core/templates/messages.tmpl:376
+#: core/templates/messages.tmpl:381
 msgid ""
 "A new system-generated password for your username '%1' (!WikiName %2) has "
 "been sent to your registered e-mail address. If your e-mail address is no "
@@ -636,7 +636,7 @@ msgstr ""
 msgid "Access Denied"
 msgstr "Geen toegang"
 
-#: core/templates/messages.tmpl:389
+#: core/templates/messages.tmpl:394
 msgid "Access check on %1 failed"
 msgstr "Toegangscontrole op %1 niet gelukt"
 
@@ -654,7 +654,7 @@ msgstr "Sneltoetsen:"
 msgid "Action"
 msgstr "Actie"
 
-#: core/templates/messages.tmpl:391
+#: core/templates/messages.tmpl:396
 msgid "Action %1: %2 by user %3."
 msgstr "Actie %1: %2 door gebruiker %3."
 
@@ -688,6 +688,11 @@ msgstr "Leden toevoegen"
 #: core/data/Main/GroupViewTemplate.txt:163
 msgid "Add members..."
 msgstr "Leden toevoegen..."
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:167
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
+msgid "Add row"
+msgstr "Rij erbij"
 
 #: core/data/Main/GroupViewTemplate.txt:189
 msgid "Add user management options to this topic."
@@ -833,7 +838,7 @@ msgstr "Voeg nieuwe bijlage toe"
 msgid "Attachment"
 msgstr "Bijlage"
 
-#: core/templates/messages.tmpl:468
+#: core/templates/messages.tmpl:473
 msgid "Attachment '%1' does not exist"
 msgstr "Bijlage '%1' bestaat niet"
 
@@ -978,18 +983,20 @@ msgstr "CHANGE (wijzigen) is niet toegestaan door %1"
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "CHANGE (wijzigen) voor %1 is niet toegestaan door %2"
 
-#: core/templates/messages.tmpl:372 core/templates/registermessages.tmpl:278
+#: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:278
 msgid "Can't find user %1"
 msgstr "Kan gebruiker %1 niet vinden"
 
-#: core/templates/messages.tmpl:374
+#: core/templates/messages.tmpl:379
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
 "Kan geen e-mailadres vinden voor %1 (vereist voor instellen van wachtwoord)"
 
+#: EditTablePlugin/data/System/EditTablePlugin.txt:169
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:177
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:35
 #: JQueryPlugin/data/System/VarBUTTON.txt:44
@@ -1138,7 +1145,7 @@ msgstr "Wijzigingen"
 msgid "Changes from r%1 to r%2"
 msgstr "Wijzigingen van r%1 naar r%2"
 
-#: core/templates/messages.tmpl:295
+#: core/templates/messages.tmpl:300
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
 msgstr ""
 "Kijk je configuratie instellingen na voor {TemplateDir} en {TemplatePath}."
@@ -1202,7 +1209,7 @@ msgstr "Kleur %1 heeft een ongeldig formaat"
 msgid "Columns"
 msgstr "Kolommen"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
 msgid "Come on in"
 msgstr "Kom binnen"
 
@@ -1251,10 +1258,10 @@ msgstr ""
 msgid "Conflict"
 msgstr "Conflict"
 
-#: core/templates/messages.tmpl:395 core/templates/messages.tmpl:402
-#: core/templates/messages.tmpl:407 core/templates/messages.tmpl:444
-#: core/templates/messages.tmpl:457 core/templates/messages.tmpl:464
-#: core/templates/messages.tmpl:473 core/templates/registermessages.tmpl:109
+#: core/templates/messages.tmpl:400 core/templates/messages.tmpl:407
+#: core/templates/messages.tmpl:412 core/templates/messages.tmpl:449
+#: core/templates/messages.tmpl:462 core/templates/messages.tmpl:469
+#: core/templates/messages.tmpl:478 core/templates/registermessages.tmpl:109
 msgid "Contact %1 if you have any questions."
 msgstr "Neem bij vragen contact op met %1."
 
@@ -1269,7 +1276,7 @@ msgstr ""
 msgid "Context"
 msgstr "Context"
 
-#: core/templates/messages.tmpl:287
+#: core/templates/messages.tmpl:292
 msgid "Continue and try to rename web?"
 msgstr "Doorgaan om het web te hernoemen?"
 
@@ -1320,11 +1327,11 @@ msgstr ""
 msgid "Could not create the new web %1"
 msgstr "Kon het nieuwe %1 web niet aanmaken"
 
-#: core/templates/messages.tmpl:293
+#: core/templates/messages.tmpl:298
 msgid "Could not find template"
 msgstr "Kon template niet vinden"
 
-#: core/templates/messages.tmpl:382
+#: core/templates/messages.tmpl:387
 msgid "Could not perform search. Error was: %1"
 msgstr "Kon geen zoekactie uitvoeren. Foutmelding was: %1"
 
@@ -1386,7 +1393,7 @@ msgstr "De groep bestaat niet, en het aanmaken ervan is niet gespecificeerd"
 msgid "Create personal sidebar"
 msgstr "Persoonlijke navigatie aanmaken"
 
-#: core/templates/messages.tmpl:442
+#: core/templates/messages.tmpl:447
 msgid "Create the topic"
 msgstr "Maak deze pagina aan"
 
@@ -1455,6 +1462,11 @@ msgstr "Verwijder"
 #: core/templates/renameattachmentdelete.tmpl:28
 msgid "Delete attachment %1"
 msgstr "Bijlage %1 verwijderen"
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:168
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:983
+msgid "Delete last row"
+msgstr "Laatste rij weg"
 
 #: core/templates/more.tmpl:50
 msgid "Delete topic"
@@ -1558,7 +1570,7 @@ msgstr ""
 msgid "During rename of web %1 to %2 an error was found."
 msgstr "Tijdens het hernoemen van web %1 naar %2 is een fout opgetreden."
 
-#: core/templates/messages.tmpl:263 core/templates/oopssaveerr.tmpl:16
+#: core/templates/messages.tmpl:268 core/templates/oopssaveerr.tmpl:16
 msgid ""
 "During save of %1 an error was found by the version control system. Please "
 "notify your %2 administrator."
@@ -1570,27 +1582,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "E-mail succesvol gewijzigd!"
 
-#: core/templates/messages.tmpl:476
+#: core/templates/messages.tmpl:481
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "ENCODE mislukt - =type= kan niet worden gebruikt naast =old= en =new= "
 
-#: core/templates/messages.tmpl:478
+#: core/templates/messages.tmpl:483
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "ENCODE mislukt - zowel =old= als =new= moeten worden ingevoerd"
 
-#: core/templates/messages.tmpl:480
+#: core/templates/messages.tmpl:485
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "ENCODE mislukt - '%PARAM1%' staat ook in =old= "
 
-#: core/templates/messages.tmpl:486
+#: core/templates/messages.tmpl:491
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "EXPAND mislukt - toegang tot '%PARAM1%' ontzegd"
 
-#: core/templates/messages.tmpl:482
+#: core/templates/messages.tmpl:487
 msgid "EXPAND failed - no macro"
 msgstr "EXPAND mislukt - geen macro"
 
-#: core/templates/messages.tmpl:484
+#: core/templates/messages.tmpl:489
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "EXPAND mislukt - pagina '%PARAM1%' bestaat niet"
 
@@ -1624,6 +1636,11 @@ msgstr "Hulp bij bewerken"
 #: core/templates/more.tmpl:17
 msgid "Edit settings for this topic..."
 msgstr "Bewerk instellingen voor deze pagina..."
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:164
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
+msgid "Edit this table"
+msgstr "Bewerk deze tabel"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
@@ -1664,7 +1681,7 @@ msgid "Either the name is invalid, or it refers to a non-existant topic."
 msgstr ""
 "Of de naam is niet geldig, of dit verwijst naar een niet-bestaande pagina."
 
-#: core/templates/messages.tmpl:252
+#: core/templates/messages.tmpl:257
 msgid ""
 "Either you did not specify a file name, or the file you are trying to upload "
 "%1 has no content. You may not upload an empty file."
@@ -1716,7 +1733,7 @@ msgstr ""
 msgid "Enter users or groups to add to this group"
 msgstr ""
 
-#: core/templates/messages.tmpl:496
+#: core/templates/messages.tmpl:501
 msgid "Error encountered loading the plugin. See errors below."
 msgstr "Fout bij het laden van de plugin. Zie meldingen hieronder."
 
@@ -1728,15 +1745,15 @@ msgstr "Fout tijdens het registeren van een nieuwe gebruiker"
 msgid "Error registering user %1"
 msgstr "Fout tijdens het registeren van gebruiker %1"
 
-#: core/templates/messages.tmpl:262
+#: core/templates/messages.tmpl:267
 msgid "Error saving topic"
 msgstr "Fout tijdens het bewaren van de pagina"
 
-#: core/templates/messages.tmpl:352
+#: core/templates/messages.tmpl:357
 msgid "Error: File attachment at %1,%2 does not exist"
 msgstr "Foutmelding: Bijlage in %1,%2 bestaat niet"
 
-#: core/templates/messages.tmpl:356
+#: core/templates/messages.tmpl:361
 msgid ""
 "Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
 "=text/css=)"
@@ -1744,7 +1761,7 @@ msgstr ""
 "Foutmelding: Contenttype wordt niet ondersteund: %1 (Moet zijn =text/html=, "
 "=text/plain= of =text/css=)"
 
-#: core/templates/messages.tmpl:354
+#: core/templates/messages.tmpl:359
 msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
 msgstr ""
 "Foutmelding: Protocol wordt niet ondersteund. (Moet zijn 'http://domain/...')"
@@ -1789,7 +1806,7 @@ msgstr "Defecte plugins"
 msgid "Failed to add user: "
 msgstr "Toevoegen van gebruiker is niet gelukt: "
 
-#: core/templates/messages.tmpl:378
+#: core/templates/messages.tmpl:383
 msgid "Failed to include URL %1"
 msgstr "Opnemen van URL %1 is niet gelukt"
 
@@ -1932,8 +1949,8 @@ msgstr "Abonneer je op wijzigingen op deze zoekvraag"
 msgid "Globe"
 msgstr "Wereld"
 
-#: core/templates/foswiki.tmpl:113 core/templates/messages.tmpl:323
-#: core/templates/messages.tmpl:471 core/templates/registermessages.tmpl:369
+#: core/templates/foswiki.tmpl:113 core/templates/messages.tmpl:328
+#: core/templates/messages.tmpl:476 core/templates/registermessages.tmpl:369
 msgid "Go back"
 msgstr "Terug"
 
@@ -1945,13 +1962,13 @@ msgstr ""
 "Ga terug met je browser en vul de informatie bij de verplichte velden in "
 "voor dat je opslaat"
 
-#: core/templates/messages.tmpl:269 core/templates/oopssaveerr.tmpl:20
+#: core/templates/messages.tmpl:274 core/templates/oopssaveerr.tmpl:20
 msgid "Go back in your browser and save your changes locally."
 msgstr ""
 "Ga terug met je browser en bewaar je wijzigingen lokaal (bijvoorbeeld op je "
 "harde schijf)."
 
-#: core/templates/messages.tmpl:493
+#: core/templates/messages.tmpl:498
 msgid ""
 "Go back to the previous page, and enable Cookies and !JavaScript before "
 "trying again"
@@ -2140,7 +2157,7 @@ msgstr ""
 "Beheerders kunnen gebruikers registreren met %1 - als registratie niet is "
 "geblokkeerd door foutmeldingen."
 
-#: core/templates/messages.tmpl:297
+#: core/templates/messages.tmpl:302
 msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
@@ -2158,7 +2175,7 @@ msgstr ""
 "Als deze pagina niet bestaat kun je deze aanmaken, of anders loop deze na op "
 "fouten."
 
-#: core/templates/messages.tmpl:314
+#: core/templates/messages.tmpl:319
 msgid ""
 "If you are developing a Foswiki application, see %1 for a description of the "
 "correct parameters."
@@ -2170,7 +2187,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr "Als je niet zeker weet wat dit betekent, lees dan %1"
 
-#: core/templates/messages.tmpl:420 core/templates/messages.tmpl:431
+#: core/templates/messages.tmpl:425 core/templates/messages.tmpl:436
 msgid "If you came here by clicking on a question mark link"
 msgstr "Als je hier bent gekomen via een directe creatielink"
 
@@ -2215,7 +2232,7 @@ msgstr ""
 "Als je nog geen wachtwoord hebt ingesteld, of als je het wachtwoord opnieuw "
 "wilt instellen, ga dan naar %1"
 
-#: core/templates/messages.tmpl:312
+#: core/templates/messages.tmpl:317
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
@@ -2223,7 +2240,7 @@ msgstr ""
 "Als je een link naar deze pagina hebt ontvangen in een e-mail of gewoon deze "
 "pagina wilt bekijken, [[%1][breek af]] om naar %2 te gaan."
 
-#: core/templates/messages.tmpl:441
+#: core/templates/messages.tmpl:446
 msgid "If you want to create the topic"
 msgstr "Als je deze pagina wilt aanmaken"
 
@@ -2233,7 +2250,7 @@ msgid ""
 "a plus sign"
 msgstr ""
 
-#: core/templates/messages.tmpl:436
+#: core/templates/messages.tmpl:441
 msgid "If you would like to create this web"
 msgstr "Als je dit web wilt aanmaken"
 
@@ -2323,7 +2340,7 @@ msgstr "Onjuiste [[%1][WikiNamen:]]"
 msgid "Incorrect [[%1][username]]"
 msgstr "Onjuiste [[%1][Gebruikersnaam]]"
 
-#: core/templates/messages.tmpl:310
+#: core/templates/messages.tmpl:315
 msgid "Incorrect parameters to the =%1= script"
 msgstr "Onjuiste parameters aan het =%1= script"
 
@@ -2427,7 +2444,7 @@ msgstr "Ongeldig e-mailadres"
 msgid "Invalid topic name."
 msgstr "ongeldige paginanaam."
 
-#: core/templates/messages.tmpl:333
+#: core/templates/messages.tmpl:338
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -2634,7 +2651,7 @@ msgstr "Ontbrekende velden"
 msgid "Missing action command"
 msgstr "Ontbrekende actieopdracht"
 
-#: core/templates/messages.tmpl:414
+#: core/templates/messages.tmpl:419
 msgid "Missing or illegal web name"
 msgstr "Ontbrekende of illegale web naam"
 
@@ -2739,7 +2756,7 @@ msgstr "Mijn links"
 msgid "My Profile"
 msgstr ""
 
-#: core/lib/Foswiki/Search.pm:1255
+#: core/lib/Foswiki/Search.pm:1280
 msgid "NEW"
 msgstr "NIEUW"
 
@@ -2751,7 +2768,7 @@ msgstr "Naam van de kopie"
 msgid "Name of new web is missing"
 msgstr "Naam van het nieuwe web ontbreekt"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Name:"
 msgstr "Naam:"
 
@@ -2759,7 +2776,7 @@ msgstr "Naam:"
 msgid "Navigate to a similar topic"
 msgstr "Ga naar een vergelijkbare pagina"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:161
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
 msgid "Never mind"
 msgstr "Laat maar"
 
@@ -2846,7 +2863,7 @@ msgstr "Geen leden"
 msgid "No pending registration was found for the verification code %1."
 msgstr ""
 
-#: core/templates/messages.tmpl:350
+#: core/templates/messages.tmpl:355
 msgid "No permission to view %1"
 msgstr "Geen permissie om %1 te bekijken"
 
@@ -2862,7 +2879,7 @@ msgstr ""
 msgid "No topics to update."
 msgstr "Geen pagina's om te bij te werken."
 
-#: core/templates/messages.tmpl:319 core/templates/registermessages.tmpl:399
+#: core/templates/messages.tmpl:324 core/templates/registermessages.tmpl:399
 msgid "No username specified"
 msgstr "Geen gebruikersnaam aangegeven"
 
@@ -2964,7 +2981,7 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr "OK, ik ben het nog steeds!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
 msgstr "OK"
@@ -2985,7 +3002,7 @@ msgstr ""
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "Alleen beheerders mogen andere accounts verwijderen."
 
-#: core/templates/messages.tmpl:405
+#: core/templates/messages.tmpl:410
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr ""
 "Alleen leden van de %1 hebben de mogelijkheid deze actie uit te voeren."
@@ -3076,7 +3093,7 @@ msgstr "Wachtwoord opnieuw instellen niet gelukt"
 msgid "Password reset failed."
 msgstr "Wachtwoord opnieuw instellen niet gelukt."
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:156
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 msgid "Password:"
 msgstr "Wachtwoord:"
@@ -3174,7 +3191,7 @@ msgstr ""
 msgid "Please go _back_ in your browser and try a new name."
 msgstr "Ga _terug_ met je browser en probeer een andere naam."
 
-#: core/templates/messages.tmpl:253
+#: core/templates/messages.tmpl:258
 msgid "Please go back in your browser and check again."
 msgstr "Ga terug met je browser en probeer het opnieuw."
 
@@ -3209,6 +3226,11 @@ msgstr ""
 msgid "Please go back in your browser and try again."
 msgstr "Ga terug met je browser en probeer het opnieuw."
 
+#: core/templates/messages.tmpl:253
+#, fuzzy
+msgid "Please go back in your browser and upload using a different filename."
+msgstr "Ga _terug_ met je browser en probeer een andere naam."
+
 #: core/templates/registermessages.tmpl:279
 msgid ""
 "Please make sure you spelled the [[%1][username]] correctly and try again. "
@@ -3217,7 +3239,7 @@ msgstr ""
 "Let dat je de [[%1][gebruikersnaam]] juist hebt gespeld en probeer opnieuw. "
 "Als je niet verder kan, mail %2."
 
-#: core/templates/messages.tmpl:490
+#: core/templates/messages.tmpl:495
 msgid "Please notify your %1 administrator."
 msgstr "Stel je %1 beheerder op de hoogte."
 
@@ -3235,11 +3257,11 @@ msgstr ""
 msgid "Plugin handlers"
 msgstr ""
 
-#: core/templates/messages.tmpl:506
+#: core/templates/messages.tmpl:511
 msgid "Plugin module did not return true. See errors below."
 msgstr ""
 
-#: core/templates/messages.tmpl:498
+#: core/templates/messages.tmpl:503
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 
@@ -3303,6 +3325,11 @@ msgstr "Query Search"
 #: core/data/System/FrequentlyAskedQuestions.txt:72
 msgid "Question:"
 msgstr "Vraag:"
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:166
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:975
+msgid "Quiet save"
+msgstr "Stil bewaren"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:11
@@ -3421,10 +3448,10 @@ msgstr "Gerelateerde pagina&#39;s:"
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:690
-#: core/data/System/FormattedSearch.txt:400
+#: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
-#: core/templates/messages.tmpl:397 core/templates/messages.tmpl:410
+#: core/templates/messages.tmpl:402 core/templates/messages.tmpl:415
 msgid "Related topics:"
 msgstr "Gerelateerde pagina&#39;s:"
 
@@ -3665,6 +3692,11 @@ msgstr "Bewaren en verder bewerken"
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
 msgid "Save and exit"
 msgstr ""
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:165
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
+msgid "Save table"
+msgstr "Bewaren"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
 #: core/templates/registerfailednotremoved.tmpl:19
@@ -4094,7 +4126,7 @@ msgstr ""
 msgid "Table"
 msgstr "Tabel"
 
-#: core/templates/messages.tmpl:454
+#: core/templates/messages.tmpl:459
 msgid "Template %1 does not exist"
 msgstr "Template %1 bestaat niet"
 
@@ -4148,7 +4180,7 @@ msgstr "Die gebruiker is al geactiveerd"
 msgid "The %1 topic already exists"
 msgstr "Pagina %1 bestaat al"
 
-#: core/templates/messages.tmpl:428
+#: core/templates/messages.tmpl:433
 msgid "The %1 web does not exist"
 msgstr "Het %1 web bestaat nog niet"
 
@@ -4179,7 +4211,7 @@ msgstr "Het %1 web van %2."
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
 msgstr "Het %1 web van Foswiki, de Vrije en Open Source Wiki."
 
-#: core/templates/messages.tmpl:306
+#: core/templates/messages.tmpl:311
 msgid "The =%1= script can only be called with POST method."
 msgstr "Het =%1= script kan alleen worden aangeroepen met een POST."
 
@@ -4195,7 +4227,7 @@ msgstr "De beheerder heeft het wijzigen van wachtwoord uitgeschakeld."
 msgid "The Free and Open Source Wiki."
 msgstr "De Vrije en Open Source Wiki."
 
-#: core/templates/messages.tmpl:416
+#: core/templates/messages.tmpl:421
 msgid ""
 "The Web/Topic path: '%1' has missing components, or contains invalid "
 "characters."
@@ -4256,7 +4288,7 @@ msgstr ""
 "De aanvaller probeert jouw rechten te gebruiken, bijvoorbeeld om "
 "administator rechten te krijgen."
 
-#: core/templates/messages.tmpl:342
+#: core/templates/messages.tmpl:347
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
@@ -4319,7 +4351,7 @@ msgstr ""
 "pagina handmatig aanpassen om een e-mail toe te voegen. Deze hoeft niet "
 "hetzelfde te zijn als het adres dat door Foswiki wordt gebruikt."
 
-#: core/templates/messages.tmpl:370
+#: core/templates/messages.tmpl:375
 msgid "The entry for user %1 was missing in the password system."
 msgstr "De ingang voor gebruiker %1 ontbrak in het wachtwoordsysteem."
 
@@ -4327,19 +4359,25 @@ msgstr "De ingang voor gebruiker %1 ontbrak in het wachtwoordsysteem."
 msgid "The file has been uploaded and attached properly to the %1 topic."
 msgstr "Het bestand is geupload en succesvol bijgevoegd bij pagina %1."
 
-#: core/templates/messages.tmpl:277
+#: core/templates/messages.tmpl:252
+msgid ""
+"The filename you are attempting to upload (%1) contains characters not "
+"supported by the configured encoding (%2)."
+msgstr ""
+
+#: core/templates/messages.tmpl:282
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr ""
 "De volgende pagina&#39;s zijn vergrendeld voor bewerken, en kunnen niet "
 "verplaatst worden:"
 
-#: core/templates/messages.tmpl:283
+#: core/templates/messages.tmpl:288
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr ""
 "De volgende pagina&#39;s verwijzen naar pagina&#39;s in dit web, maar worden "
 "op dit moment bewerkt:"
 
-#: core/templates/messages.tmpl:280
+#: core/templates/messages.tmpl:285
 msgid ""
 "The following topics refer to topics in this web, but you are denied access "
 "to them:"
@@ -4351,7 +4389,7 @@ msgstr ""
 msgid "The form should be defined in the topic %1"
 msgstr "Het formulier zou moeten zijn gedefinieerd in pagina %1"
 
-#: core/templates/messages.tmpl:340
+#: core/templates/messages.tmpl:345
 msgid "The lease on this topic expired %1 ago."
 msgstr "De tijdelijke vergrendeling is %1 geleden verlopen."
 
@@ -4440,7 +4478,7 @@ msgstr ""
 "Het is hun bedoeling om schadelijke data te bewaren door een request te "
 "sturen aan jouw server, gebruik makend van je browser en online identiteit."
 
-#: core/templates/messages.tmpl:273
+#: core/templates/messages.tmpl:278
 msgid "There are problems with renaming this web:"
 msgstr "Er zijn problemen met het hernoemen van dit web:"
 
@@ -4617,7 +4655,7 @@ msgstr "Deze site vereist wachtwoorden met ten minste %1 tekens"
 msgid "This system is configured to use usernames."
 msgstr "Dit systeem is geconfigureerd om gebruikersnaamen te gebruiken."
 
-#: core/templates/messages.tmpl:384
+#: core/templates/messages.tmpl:389
 msgid "This system is not configured to support user login. Return to [[%1]]."
 msgstr ""
 
@@ -4678,7 +4716,7 @@ msgstr ""
 msgid "To edit the topic anyway, click "
 msgstr "Om de pagina toch te bewerken, klik "
 
-#: core/templates/messages.tmpl:393
+#: core/templates/messages.tmpl:398
 msgid "To login as another user please do so [[%1][here]]."
 msgstr ""
 
@@ -4702,7 +4740,7 @@ msgstr "Naar web"
 msgid "To web:"
 msgstr "Naar web:"
 
-#: core/templates/messages.tmpl:489
+#: core/templates/messages.tmpl:494
 msgid "Too many recursions parsing template %1"
 msgstr "Teveel recursie tijdens het verwerken van template %1"
 
@@ -4857,7 +4895,7 @@ msgstr "Gebruiker en/of wachtwoord niet bekend"
 msgid "Unrecognized action command %1"
 msgstr "Actieopdracht %1 niet bekend"
 
-#: core/templates/messages.tmpl:400
+#: core/templates/messages.tmpl:405
 msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
@@ -4927,11 +4965,11 @@ msgstr "Voeg meerdere bijlagen toe met 1 zip bestand"
 msgid "Upload up to %1 KB."
 msgstr "Uploaden is mogelijk tot %1 KB."
 
-#: core/templates/messages.tmpl:258
+#: core/templates/messages.tmpl:263
 msgid "Uploaded file %1 exceeds limit of %2 KB"
 msgstr "Geupload bestand %1 overschrijdt limiet van %2 KB"
 
-#: core/templates/messages.tmpl:257
+#: core/templates/messages.tmpl:262
 msgid "Uploaded file is too big"
 msgstr "Geupload bestand is te groot"
 
@@ -5119,27 +5157,31 @@ msgstr "Bekijk brontekst zonder opmaak (v)"
 msgid "Warning! Confirmation required"
 msgstr "Waarschuwing! Bevestiging is nodig"
 
-#: core/templates/messages.tmpl:364
+#: EditTablePlugin/data/System/EditTablePlugin.txt:170
+msgid "Warning: 'include' topic does not exist!"
+msgstr "Let op: ingevoegde pagina bestaat niet!"
+
+#: core/templates/messages.tmpl:369
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr ""
 "Waarschuwing: Kan %1 niet herhaald invoegen; de pagina is al ingevoegd. %2"
 
-#: core/templates/messages.tmpl:366
+#: core/templates/messages.tmpl:371
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
 "Waarschuwing: Kan '%1' niet invoegen; het bestandspad is leeg of bevat "
 "illegale karakters."
 
-#: core/templates/messages.tmpl:362
+#: core/templates/messages.tmpl:367
 msgid "Warning: Can't find named section %3 in topic %1.%2"
 msgstr "Waarschuwing: Kan sectie %3 in pagina %1.%2 niet vinden"
 
-#: core/templates/messages.tmpl:360
+#: core/templates/messages.tmpl:365
 msgid "Warning: Can't find topic %1.%2"
 msgstr "Waarschuwing: Kan pagina %1.%2 niet vinden"
 
-#: core/templates/messages.tmpl:358
+#: core/templates/messages.tmpl:363
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Waarschuwing: kan web %1 voor pagina %2 niet vinden"
 
@@ -5153,7 +5195,7 @@ msgstr ""
 "Waarschuwing: kon geen bevestigings e-email versturen; versturen van e-mail "
 "is uitgeschakeld"
 
-#: core/templates/messages.tmpl:380
+#: core/templates/messages.tmpl:385
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 "Waarschuwing: Op deze site is het niet toegestaan om %<nop>INCLUDE% van URLs "
@@ -5163,11 +5205,16 @@ msgstr ""
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr ""
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:439
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:440
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Let op: ingevoegde pagina <nop>%1 (met \\'include\\') bestaat niet!"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:465
+#: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
+#, fuzzy
+msgid "Warning: \\'include\\' topic does not exist!"
+msgstr "Let op: ingevoegde pagina bestaat niet!"
+
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Let op: tabeldefinitie in \\'include\\' pagina %1 bestaat niet!"
 
@@ -5273,11 +5320,11 @@ msgstr "Je bent al geregistreerd."
 msgid "You are also listed in the %1 topic"
 msgstr "Je staat ook vermeld op pagina %1"
 
-#: core/templates/messages.tmpl:274
+#: core/templates/messages.tmpl:279
 msgid "You are denied access to the following topics in the web:"
 msgstr "Je hebt geen toegang tot the volgende pagina&#39;s in web:"
 
-#: core/templates/messages.tmpl:344
+#: core/templates/messages.tmpl:349
 msgid ""
 "You are encouraged to go ahead and edit - unless you intend to change data "
 "in a form attached to the topic. If %1 actually _does_ save while you are "
@@ -5310,15 +5357,15 @@ msgstr ""
 "gebruiken om nieuwe webs aan te maken) kies dan een naam die begint met een "
 "liggende streep (underscore) en met alleen alfanumerieke tekens."
 
-#: core/templates/messages.tmpl:469
+#: core/templates/messages.tmpl:474
 msgid "You are trying to access an attachment that does not exist."
 msgstr "Je probeert om toegang te krijgen tot een bijlage die niet bestaat."
 
-#: core/templates/messages.tmpl:455
+#: core/templates/messages.tmpl:460
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr "Je probeert een pagina aan te maken van een template dat niet bestaat."
 
-#: core/templates/messages.tmpl:449
+#: core/templates/messages.tmpl:454
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
@@ -5326,11 +5373,11 @@ msgstr ""
 "Je probeert een bewerking te doen op een pagina die niet bestaat (actie "
 "'%1')."
 
-#: core/templates/messages.tmpl:462
+#: core/templates/messages.tmpl:467
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Je probeert een pagina die niet bestaat ter hernoemen."
 
-#: core/templates/messages.tmpl:437
+#: core/templates/messages.tmpl:442
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -5371,7 +5418,7 @@ msgstr ""
 "Je kunt je gebruikersnaam niet wijzigen. Je moet je administrator vragen om "
 "dit te doen."
 
-#: core/templates/messages.tmpl:492
+#: core/templates/messages.tmpl:497
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
@@ -5434,7 +5481,7 @@ msgstr ""
 "Je moet een geldige groepnaam aangeven, als je leden uit een groep wil "
 "verwijderen."
 
-#: core/templates/messages.tmpl:321
+#: core/templates/messages.tmpl:326
 msgid "You need to specify a valid member to add to a group."
 msgstr ""
 
@@ -5657,11 +5704,11 @@ msgstr "standaard zoals gedefinieerd in de %1"
 msgid "diff"
 msgstr "Wijzigingen"
 
-#: core/templates/messages.tmpl:301
+#: core/templates/messages.tmpl:306
 msgid "don't forget to check your Topic Settings"
 msgstr "vergeet niet om je pagina voorkeurinstellingen na te kijken"
 
-#: core/templates/messages.tmpl:504
+#: core/templates/messages.tmpl:509
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr "earlyInitPlugin is mislukt. Zie meldingen hieronder."
 
@@ -5702,7 +5749,7 @@ msgstr "brontekst zonder opmaak"
 msgid "indicates mandatory fields"
 msgstr "velden zijn verplicht"
 
-#: core/templates/messages.tmpl:500 core/templates/messages.tmpl:502
+#: core/templates/messages.tmpl:505 core/templates/messages.tmpl:507
 msgid "initPlugin was not defined. See errors below."
 msgstr "initPlugin is niet gedefinieerd. Zie meldingen hieronder."
 
@@ -6015,9 +6062,6 @@ msgstr "waarom wordt mij om een bevestiging gevraagd"
 #~ "Een meer uitgebreide lijst van wijzigingen is te zien in [[%1]"
 #~ "[Wijzigingen]]."
 
-#~ msgid "Add row"
-#~ msgstr "Rij erbij"
-
 #~ msgid "Bathing problem"
 #~ msgstr "Probleem met baden"
 
@@ -6028,14 +6072,8 @@ msgstr "waarom wordt mij om een bevestiging gevraagd"
 #~ msgid "Current parent:"
 #~ msgstr "Huidige bovenliggende pagina:"
 
-#~ msgid "Delete last row"
-#~ msgstr "Laatste rij weg"
-
 #~ msgid "Edit text"
 #~ msgstr "Bewerk tekst"
-
-#~ msgid "Edit this table"
-#~ msgstr "Bewerk deze tabel"
 
 #~ msgid "Error: %1"
 #~ msgstr "Foutmelding: %1"
@@ -6056,12 +6094,6 @@ msgstr "waarom wordt mij om een bevestiging gevraagd"
 #~ msgid "Problem filling bath"
 #~ msgstr "Probleem met het vullen van het bad"
 
-#~ msgid "Quiet save"
-#~ msgstr "Stil bewaren"
-
-#~ msgid "Save table"
-#~ msgstr "Bewaren"
-
 #, fuzzy
 #~ msgid "Show"
 #~ msgstr "Toon help"
@@ -6073,9 +6105,6 @@ msgstr "waarom wordt mij om een bevestiging gevraagd"
 
 #~ msgid "Warning"
 #~ msgstr "Waarschuwing"
-
-#~ msgid "Warning: 'include' topic does not exist!"
-#~ msgstr "Let op: ingevoegde pagina bestaat niet!"
 
 #, fuzzy
 #~ msgid "You cannot register on this site."
