@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-08-12 13:32+0200\n"
+"PO-Revision-Date: 2015-09-29 20:21+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -692,9 +692,8 @@ msgstr "jeSwI&&#39;pu&&#39; chel..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
-#, fuzzy
 msgid "Add row"
-msgstr "Form chel"
+msgstr "tlhegh SaS chel"
 
 #: core/data/Main/GroupViewTemplate.txt:189
 msgid "Add user management options to this topic."
@@ -1472,9 +1471,8 @@ msgstr "tep %1 polHa&&#39;"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:168
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:983
-#, fuzzy
 msgid "Delete last row"
-msgstr "ghItlh polHa&&#39;"
+msgstr "tlhegh SaS Qav teq"
 
 #: core/templates/more.tmpl:50
 msgid "Delete topic"
@@ -1648,9 +1646,8 @@ msgstr "ghItlhvam <nop>DuHmey choH..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:164
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
-#, fuzzy
 msgid "Edit this table"
-msgstr "choHlaH vay&&#39;"
+msgstr "Table-vam choH"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
@@ -3243,7 +3240,6 @@ msgid "Please go back in your browser and try again."
 msgstr "&&#39;Internet janlIjDaq yIchegh &&#39;ej yInIDqa&&#39;."
 
 #: core/templates/messages.tmpl:253
-#, fuzzy
 msgid "Please go back in your browser and upload using a different filename."
 msgstr "&&#39;Internet janlIjDaq _yIchegh_ &&#39;ej latlh pong yInID."
 
@@ -3716,9 +3712,8 @@ msgstr "pol &&#39;ej mej"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
-#, fuzzy
 msgid "Save table"
-msgstr "naDev pol:"
+msgstr "Table pol"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
 #: core/templates/registerfailednotremoved.tmpl:19
@@ -5160,9 +5155,8 @@ msgid "Warning! Confirmation required"
 msgstr "Qu&&#39;vatlh! bI&&#39;ol net poQ"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:170
-#, fuzzy
 msgid "Warning: 'include' topic does not exist!"
-msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh <nop>%1 tu&&#39;lu&&#39;be&&#39;!"
+msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh  tu&&#39;lu&&#39;be&&#39;!"
 
 #: core/templates/messages.tmpl:369
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
@@ -5211,9 +5205,8 @@ msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh <nop>%1 tu&&#39;lu&&#39;be&&#39;!"
 
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:992
-#, fuzzy
 msgid "Warning: \\'include\\' topic does not exist!"
-msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh <nop>%1 tu&&#39;lu&&#39;be&&#39;!"
+msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh tu&&#39;lu&&#39;be&&#39;!"
 
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
