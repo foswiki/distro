@@ -51,19 +51,17 @@ Foswiki is released under the GNU General Public License.
 ---++ Pre-installed Extensions
 
 Foswiki 2.0 is shipped with the following: ( __New to Foswiki 2.0__ )
-<noautolink>
    * *Plugins:* AutoViewTemplatePlugin, CommentPlugin, __ConfigurePlugin__, __EditRowPlugin__, EmptyPlugin, HistoryPlugin, __HomePagePlugin__, InterwikiPlugin, JQueryPlugin, __NatEditPlugin__, PreferencesPlugin, PubLinkFixupPlugin, RenderListPlugin, SlideShowPlugin, SmiliesPlugin, SpreadSheetPlugin, __SubscribePlugin__, TablePlugin, TinyMCEPlugin, TwistyPlugin, __UpdatesPlugin__, WysiwygPlugin
    * *Contribs:* CompareRevisionsAddOn, FamFamFamContrib, __FastCGIEngineContrib__, __JEditableContrib__, JSCalendarContrib, __JsonRpcContrib__, MailerContrib, __ModPerlEngineContrib__, __PlainFileStoreContrib__, __RCSStoreContrib__, TipsContrib, TopicUserMappingContrib
    * *Skins:* PatternSkin
    * *Compatibility support* - TWikiCompatibilityPlugin
-</noautolink>
 
 ---++ Known issues
 For up-to-date information, see [[http://foswiki.org/Support/KnownIssuesOfFoswiki02x00][Known issues of Foswiki 2.0]]
 
 ---+++ Use of non-default ={Store}{Encoding}=
 
-*WARNING* About {Store}{Encoding}: If you intend to use high-bit characters in attachment filenames (such as umlauts and accents), then links to these
+*WARNING* About ={Store}{Encoding}=: If you intend to use high-bit characters in attachment filenames (such as umlauts and accents), then links to these
 attachments on Foswiki pages *will not work* on a non-utf-8 Store without modification. This is because Foswiki works internally using UNICODE, but the store saves files to disk using your chosen
 {Store}{Encoding}. Running the Store with other than =utf-8= encoding is considered a transitional step and not recommended for long-term operation.
 The *strongly recommended* solution is to convert your store to UTF8 at the earliest opportunity.
@@ -79,7 +77,7 @@ See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
 ---+++ API Change in Foswiki::Func
 Attention plugin authors:  The default behaviour of =Foswiki::Func::saveFile()= and =Foswiki::Func::readFile()=
 has been reverted to Foswiki 1.x behavior. Data is written and read as raw bytes. utf-8 encoding is not applied.
-A new optional flag can be set which will tell the API to add the utf-8 encoding layer.  See [[%SYSTEMWEB%.PerlDoc?module=Foswiki::Func#Plugin_45specific_file_handling]] for more details.
+A new optional flag can be set which will tell the API to add the utf-8 encoding layer.  See [[%FO%/System/PerlDoc?module=Foswiki::Func#Plugin_45specific_file_handling][Foswiki::Func file handling documentation]] for more details.
 
 ---+++ Query search performance
 
@@ -150,7 +148,7 @@ The long-deprecated =[<nop>[http://foswiki.org Spaced title]]= link format has b
 ---+++ Deprecated =AllowInlineScript= configuration setting removed
 
 The =$Foswiki::cfg{AllowInlineScript}= setting has been removed.  Inline scripts are always allowed.
-Extensions like the Foswiki:Extensions.SafeWikiPlugin can be optionally used to control !JavaScript within topics.
+Extensions like the [[%FO%/Extensions.SafeWikiPlugin][SafeWikiPlugin]] can be optionally used to control !JavaScript within topics.
 
 ---+++ Deprecation of empty DENY rules
 
@@ -227,7 +225,7 @@ Most features of the EditTablePlugin are supported, with the exception of the
 The EditRowPlugin also enhances features previously provided by
 the TablePlugin. The EditRowPlugin adds client side !JavaScript based sorting of tables, which has significant performance advantages.
 (Client-side sorting is provided only for tables on pages with an active %EDIT
-table or row macro.  The Foswiki:Extensions.JQTablePlugin is able to
+table or row macro.  The [[%FO%/Extensions.JQTablePlugin][JQTablePlugin]] is able to
 completely eliminate server side table sorting.)
 
 The TablePlugin and EditRowPlugin can be used together, with one exception.
@@ -268,29 +266,29 @@ preserved during edit.   The Foswiki core has been fully converted to utf-8 and 
 
 <div class='foswikiHelp'>%X% *ACTION REQUIRED* If you are upgrading an existing system, you
 should review the existing data and determine if migration to utf-8 should be performed.
-See the Foswiki:System.UpgradeGuide for more details. Note that the topic and
+See the [[%FO%/System.UpgradeGuide][UpgradeGuide]] for more details. Note that the topic and
 attachment name filters no longer filter international characters, so migration to utf-8 is
 strongly recommended.
 
 Due to the extensive internal changes, extensions may require changes for
 compatibility with this release.
-   * See Foswiki:Support.Utf8MigrationConsiderations for guidance on upgrading local extensions
-   * See Foswiki:Tasks.Item13483 for known extensions compatibility issues.
+   * See [[%FO%/Support.Utf8MigrationConsiderations][Utf8MigrationConsiderations]] for guidance on upgrading local extensions
+   * See [[%BUGS%/Item13483][Item13483]] for known extensions compatibility issues.
 </div>
 
 ---+++ Perl libraries and paths
 
 Foswiki no longer ships Perl CPAN libraries for use as a last resort. If it is not possible or convenient to install perl libraries, then
-install the Foswiki:Extensions.CpanContrib to get pre-built libraries for Foswiki to use.
+install the [[%FO%/Extensions.CpanContrib][CpanContrib]] to get pre-built libraries for Foswiki to use.
 
 The setup of the perl =@INC= path has been simplified, and the =foswiki/bin/LocalLib.cfg=
 setting for =$CPANBASE= has been completely eliminated.  A simple method of
 adding libraries to the top of the @INC path is provided in the new example
-=foswiki/bin/LocalLib.txt= shipped with foswiki.
+=foswiki/bin/LocalLib.cfg.txt= shipped with foswiki.
 
 <div class='foswikiHelp'>%X% *ACTION REQUIRED* If you are upgrading an existing system and
 have created a custom =foswiki/bin/LocalLib.cfg=, you should tailor a new
-copy using the updated =foswiki/bin/LocalLib.cfg.txt= <sticky>&nbsp;</sticky> (Note that on most systems, =foswiki/bin/LocalLib.txt= is not required.</div>
+copy using the updated =foswiki/bin/LocalLib.cfg.txt= <sticky>&nbsp;</sticky> (Note that on most systems, =foswiki/bin/LocalLib.cfg= is not required.)</div>
 
 ---+++ Authentication, Authorization and Security
 
@@ -416,7 +414,7 @@ Because this could lead to indeterminate behaviour, the syntax is now more contr
 
 ---+++ Major change to ICON macro and templates
 
-Foswiki:Development.HtmlAttributesShouldUseSingleQuotes has changed the ICON
+[[%FO%/Development.HtmlAttributesShouldUseSingleQuotes][HtmlAttributesShouldUseSingleQuotes]] has changed the ICON
 macro to generate singe quotes by default.  This has no impact unless the
 %ICON macro is being expanded inside a single-quote delimited macro.
 
@@ -435,7 +433,7 @@ The utility to migrate between stores is =tools/bulk_copy.pl=. Be sure to backup
 perl -I ../lib bulk_copy.pl --help</verbatim>
 
 <div class="foswikiHelp">%X% *Caution:*  There are known limitations to
-=bulk_copy.pl=.  See the Foswiki:System.UpgradeGuide for details. Hidden files
+=bulk_copy.pl=.  See the [[%FO%/System.UpgradeGuide][Upgrade Guide]] for details. Hidden files
 (filenames with underscore (_) or dot (.) prefix) will not be copied.
 If your installation contains these types of files, then =bulk_copy.pl= should
 not be used!</div>
@@ -458,7 +456,7 @@ As of this release,
    * Other languages are 60% complete or lower.
    * A new translation has been added: Klingon, 94% translated.
 
-For more details on translation status,  see Foswiki:Community.TranslationTeam and [[http://translate.foswiki.org/projects/foswiki][Foswiki's Weblate translation server]].
+For more details on translation status,  see [[%FO%/Community.TranslationTeam][TranslationTeam]] and [[http://translate.foswiki.org/projects/foswiki][Foswiki's Weblate translation server]].
 Foswiki thanks the Translators for their efforts.  If you are interesting in helping with the translation, please contact foswiki-translations@lists.sourceforge.net.
 
 ---++ Foswiki Release 2.0 Details
@@ -1119,6 +1117,8 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
    * Set BUGS = http://foswiki.org/Tasks
    * Set FEAT = http://foswiki.org/Development
+   * Set FO = http://foswiki.org
+   * Set NOAUTOLINK = 1
 -->
 
 *Related Topic:* ReleaseHistory
