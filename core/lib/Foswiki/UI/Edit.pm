@@ -253,8 +253,9 @@ sub init_edit {
                     'accessdenied',
                     status => 403,
                     def    => 'no_such_topic_template',
-                    web    => $invalidTemplateWeb,
-                    topic  => $invalidTemplateTopic
+                    web    => $web,
+                    topic  => $topic,
+                    params => [ $invalidTemplateWeb, $invalidTemplateTopic ],
                 );
             }
         }
@@ -279,8 +280,9 @@ sub init_edit {
                 'accessdenied',
                 status => 403,
                 def    => 'no_such_topic_template',
-                web    => $templateWeb,
-                topic  => $templateTopic
+                web    => $web,
+                topic  => $topic,
+                params => [ $templateWeb, $templateTopic ],
             );
         }
 
