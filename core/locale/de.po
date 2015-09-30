@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-09-30 12:20+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"Last-Translator: Markus Ueberall <ueberall@projektzentrisch.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -4462,7 +4462,7 @@ msgstr "Die Leihfrist dieses Topics endete vor %1."
 
 #: core/templates/messages.tmpl:97
 msgid "The name of the topic (%1) contained invalid characters."
-msgstr "Der Name für das Topic (%1) enthält ungültige Zeichen."
+msgstr "Der Topic-Name (%1) enthält unzulässige Zeichen."
 
 #: core/templates/messages.tmpl:90
 msgid "The name of the topic must not be empty."
