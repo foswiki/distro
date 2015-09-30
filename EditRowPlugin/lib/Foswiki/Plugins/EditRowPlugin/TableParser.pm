@@ -121,7 +121,8 @@ sub adjustSpec {
         }
     }
 
-    return $macro eq 'EDITTABLE' ? 1 : -1;
+    return $macro eq
+      ( $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro} || 'EDITTABLE' ) ? 1 : -1;
 }
 
 1;
