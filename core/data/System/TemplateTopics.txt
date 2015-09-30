@@ -1,9 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443573973" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 #TemplateTopics
 ---+ Template topics
 
-_Template topics are topics that define the default text for new topics._
+Foswiki uses several types of templates. __Template topics are topics that define the default text for new topics.__
+
+(If you are looking for templates used to display existing topics, see SkinTemplates.  These are combined with DataForms
+for custom presentation of topic data (View Template) and custom editing (Edit Template).
 
 %TOC%
 

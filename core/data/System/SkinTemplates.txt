@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1443573973" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+ Skin Templates
@@ -12,7 +12,9 @@ The framework used to render output.
 
 _Skin Templates_ are plain text with embedded _template directives_,
 [[Macros][macros]] and [[SkinTemplateTokens][tokens]] that are expanded by
-Foswiki to build an output, usually HTML. 
+Foswiki to build an output page, usually HTML.
+
+(If you are looking for the template used as 'starter text' for new topics.  see TemplateTopics.)
 
 #HtmlTemplates
 Skin templates are used when composing the output from all actions, such as
@@ -326,12 +328,12 @@ see what PatternSkin defines.
 
 %STOPINCLUDE%
 
-%META:FILEATTACHMENT{name="oopsmore_diff_debug.gif" attr="h" comment="" date="1437500521" size="3205" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default.css.gz" attr="h" comment="" date="1437500521" size="2072" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base.css.gz" attr="h" comment="" date="1437500521" size="1331" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_sidebyside.gif" attr="h" comment="" date="1437500521" size="1994" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base_src.css" attr="h" comment="" date="1437500521" size="6780" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base.css" attr="h" comment="" date="1437500521" size="5196" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_sequential.gif" attr="h" comment="" date="1437500521" size="3464" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default_src.css" attr="h" comment="" date="1437500521" size="11093" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default.css" attr="h" comment="" date="1437500521" size="8209" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_debug.gif" attr="h" comment="" date="1443573973" size="3205" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default.css.gz" attr="h" comment="" date="1443573973" size="2072" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base.css.gz" attr="h" comment="" date="1443573973" size="1331" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_sidebyside.gif" attr="h" comment="" date="1443573973" size="1994" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base_src.css" attr="h" comment="" date="1443573973" size="6780" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base.css" attr="h" comment="" date="1443573973" size="5196" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_sequential.gif" attr="h" comment="" date="1443573973" size="3464" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default_src.css" attr="h" comment="" date="1443573973" size="11093" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default.css" attr="h" comment="" date="1443573973" size="8209" user="ProjectContributor" version="1"}%
