@@ -223,8 +223,10 @@ function compareValues(v1, v2) {
         }
     }
     // Compare the two values.
-    v1 = v1.normalize("NFKD");
-    v2 = v2.normalize("NFKD");
+    if (typeof v1 === "string")
+        v1 = v1.normalize("NFKD");
+    if (typeof v2 === "string")
+        v2 = v2.normalize("NFKD");
     if (v1 == v2)
         return 0;
     if (v1 > v2)
