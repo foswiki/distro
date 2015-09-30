@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-30 12:20+0200\n"
-"Last-Translator: Markus Ueberall <ueberall@projektzentrisch.de>\n"
+"PO-Revision-Date: 2015-09-30 12:21+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -4489,7 +4489,7 @@ msgstr "Das neue Web wurde angelegt"
 #: core/templates/registermessages.tmpl:301
 msgid "The password you entered in the *old password* field is incorrect."
 msgstr ""
-"Das Passwort, welches Sie in *altes Passwort* eingegeben haben, ist falsch."
+"Das Passwort, welches Sie bei *altes Passwort* eingegeben haben, ist falsch."
 
 #: core/templates/registermessages.tmpl:308
 msgid ""
@@ -4558,7 +4558,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:278
 msgid "There are problems with renaming this web:"
-msgstr "Es gibt Probleme beim Umbenennen des Webs:"
+msgstr "Es gibt Probleme beim Umbenennen dieses Webs:"
 
 #: core/templates/registermessages.tmpl:185
 msgid "There has been a problem adding your user id to the Password system."
