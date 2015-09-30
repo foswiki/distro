@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-30 12:12+0200\n"
-"Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
+"PO-Revision-Date: 2015-09-30 12:14+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -3663,11 +3663,11 @@ msgstr ""
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
-msgstr "Ergebnisse vom %1 web"
+msgstr "Ergebnisse aus dem %1-Web"
 
 #: core/templates/search.text.tmpl:4
 msgid "Results from %1 web:"
-msgstr "Ergebnisse aus dem Web %1:"
+msgstr "Ergebnisse aus dem %1-Web:"
 
 #: core/templates/registermessages.tmpl:362
 msgid "Return to %1"
@@ -3758,7 +3758,7 @@ msgstr "Tabelle speichern"
 #: core/templates/registerfailedremoved.tmpl:20
 #: core/templates/registernotifyadmin.tmpl:17
 msgid "Saved to:"
-msgstr "Speichern nach:"
+msgstr "Gespeichert nach:"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:14
 #: PatternSkin/data/Main/WebLeftBarExample.txt:9
@@ -3778,7 +3778,7 @@ msgstr "Suchen"
 
 #: core/templates/backlinksallwebs.tmpl:6
 msgid "Search %1 Web only"
-msgstr "Nur %1 Web durchsuchen"
+msgstr "Nur %1-Web durchsuchen"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:10
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
@@ -3800,7 +3800,7 @@ msgstr "Nach Updates suchen"
 
 #: core/data/System/WebSearch.txt:34
 msgid "Search in %1 Web"
-msgstr "%1 Web durchsuchen"
+msgstr "%1-Web durchsuchen"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:23
 msgid "Search in all webs"
@@ -3812,7 +3812,7 @@ msgstr "Nach mehr Topics in diesem Web suchen"
 
 #: core/data/System/WebSearch.txt:54
 msgid "Search options"
-msgstr "Such-Optionen"
+msgstr "Suchoptionen"
 
 #: core/templates/searchbookview.tmpl:7
 msgid "Search result"
@@ -3832,7 +3832,7 @@ msgstr "Das %1 Web nach Unter-Topics von diesem Topic durchsuchen."
 
 #: core/templates/more.tmpl:89
 msgid "Search the %1 Web for topics that link to here"
-msgstr "Das %1 Web nach Topics durchsuchen, die hierher verweisen"
+msgstr "Das %1-Web nach Topics durchsuchen, die hierher verweisen"
 
 #: core/data/System/WebSearch.txt:100 core/data/System/WebSearch.txt:130
 msgid "Search where:"
@@ -3972,7 +3972,7 @@ msgstr "Hilfe anzeigen"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
-msgstr "Zeige Revisionen %1 - %2 (von %3)"
+msgstr "Zeige Revisionen %1 – %2 (von %3)"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Shrink edit box"
@@ -4009,7 +4009,7 @@ msgid ""
 "twice when you click on a link. It you did this, it is possible that you "
 "actually *have* registered successfully."
 msgstr ""
-"Manche Mail-Programme haben einen Fehler der bewirkt dass die gleiche "
+"Manche Mailprogramme haben einen Fehler, der bewirkt dass die gleiche "
 "Anfrage zweimal verschickt wird, wenn man auf einen Link klickt. Falls dies "
 "der Fall ist, könnte es sein, dass Sie bereits erfolgreich registriert "
 "wurden."
