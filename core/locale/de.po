@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-30 12:19+0200\n"
-"Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
+"PO-Revision-Date: 2015-09-30 12:20+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -4422,7 +4422,7 @@ msgstr "Der Eintrag für Benutzer %1 fehlt im Passwortsystem."
 #: core/templates/messages.tmpl:238
 msgid "The file has been uploaded and attached properly to the %1 topic."
 msgstr ""
-"Die Datei wurde hochgeladen und ordnungsgemäß an das %1 Topic angehängt."
+"Die Datei wurde hochgeladen und ordnungsgemäß an das %1-Topic angehängt."
 
 #: core/templates/messages.tmpl:252
 msgid ""
@@ -4435,14 +4435,14 @@ msgstr ""
 #: core/templates/messages.tmpl:282
 msgid "The following topics are locked for edit, and cannot be moved:"
 msgstr ""
-"Die folgenden Topics sind für das Editieren gesperrt und können nicht "
+"Die folgenden Topics sind für das Bearbeiten gesperrt und können nicht "
 "verschoben werden:"
 
 #: core/templates/messages.tmpl:288
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr ""
 "Die folgenden Topics verweisen auf Topics in diesem Web, werden jedoch "
-"gerade editiert:"
+"gerade bearbeitet:"
 
 #: core/templates/messages.tmpl:285
 msgid ""
@@ -4458,7 +4458,7 @@ msgstr "Das Formular sollte in Topic %1 definiert werden"
 
 #: core/templates/messages.tmpl:345
 msgid "The lease on this topic expired %1 ago."
-msgstr "Die Leihfrist von diesem Topic endete vor %1."
+msgstr "Die Leihfrist dieses Topics endete vor %1."
 
 #: core/templates/messages.tmpl:97
 msgid "The name of the topic (%1) contained invalid characters."
