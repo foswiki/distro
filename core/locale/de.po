@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-30 12:21+0200\n"
-"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
+"PO-Revision-Date: 2015-09-30 12:22+0200\n"
+"Last-Translator: Markus Ueberall <ueberall@projektzentrisch.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -4594,7 +4594,7 @@ msgstr "Beim Hinzufügen zur Gruppe %2 sind Fehler aufgetreten. %1 "
 
 #: core/templates/registermessages.tmpl:425
 msgid "There were errors removing %1 from the %2 group."
-msgstr "Beim Entfernen von %1 aus der Gruppe %2 sind Fehler aufgetreten."
+msgstr "Es gab Probleme beim Entfernen von %1 aus der Gruppe %2. "
 
 #: core/data/System/UserName.txt:25
 msgid "These steps may not be applicable to your system."
