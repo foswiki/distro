@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-30 12:22+0200\n"
-"Last-Translator: Markus Ueberall <ueberall@projektzentrisch.de>\n"
+"PO-Revision-Date: 2015-09-30 12:24+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -4607,7 +4607,7 @@ msgstr "Dieser WikiName wird bereits verwendet."
 # Punkt setzen?
 #: core/templates/messages.tmpl:228
 msgid "This can be automatically upgraded by:"
-msgstr "Dieses kann automatisch aktualisiert werden von:"
+msgstr "Dies kann automatisch aktualisiert werden von:"
 
 #: core/templates/messages.tmpl:211
 msgid "This could be for several reasons:"
@@ -4641,9 +4641,9 @@ msgid ""
 "list:"
 msgstr ""
 "Dies ist ein Abonnement-Service, um automatisch per E-Mail benachrichtigt zu "
-"werden, wenn ein Topic im %1 Web sich geändert hat. Um sich für diesen "
-"Service anzumelden fügen Sie einfach ihren %2 in alphabetischer Reihenfolge "
-"zu dieser Liste hinzu:"
+"werden, wenn Topics in diesem %1-Web verändert werden. Um sich für diesen "
+"Dienst anzumelden, fügen Sie einfach Ihren %2 in alphabetischer Reihenfolge "
+"zu dieser Liste hinzu."
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
 msgid ""
@@ -4683,12 +4683,11 @@ msgid ""
 "TrashAttachment."
 msgstr ""
 "Dies ist der Abfall (Trash). Hier können Sie gelöschte Topics "
-"wiederherstellen; gelöschte Anhänge befinden sich in im Topic "
-"TrashAttachment."
+"wiederherstellen; gelöschte Anhänge befinden sich im Topic TrashAttachment."
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
-msgstr "Aus folgendem Grund ist die Konvertierung deaktiviert:"
+msgstr "Die Konvertierung ist aus folgendem Grund deaktiviert:"
 
 #: core/templates/login.tmpl:33
 msgid ""
@@ -4765,10 +4764,11 @@ msgid ""
 "especially if you made any changes to form fields."
 msgstr ""
 "Diese Änderungen wurden mit Ihren zusammengeführt und Rev %1 erzeugt. "
-"Textfelder werden zusammengeführt, aber andere Daten wie Formularfelder "
-"könnten von den anderen Änderungen überschrieben worden sein. Bitte "
-"untersuchen Sie das Topic, um sicher zu gehen, dass es in Ordnung ist; "
-"insbersondere wenn Sie Änderungen an den Formularfeldern vorgenommen haben."
+"Textfelder werden zusammengeführt worden sein, aber andere Daten wie "
+"Formularfelder könnten von den anderen Änderungen überschrieben worden sein. "
+"Bitte untersuchen Sie das Topic, um sicher zu gehen, dass alles in Ordnung "
+"ist; tun Sie dies insbesondere dann, wenn Sie Änderungen an den "
+"Formularfeldern vorgenommen haben."
 
 #: core/data/System/WikiName.txt:11
 msgid ""
