@@ -90,27 +90,20 @@ sub render {
             my $attrs = {};
             unless ( $opts->{js} eq 'ignored' ) {
 
-                my $table = $this->{row}->{table};
-                if (
-                    !(
-                        $table->{TABLE}
-                        && Foswiki::isTrue( $table->{TABLE}->{disableallsort} )
-                    )
-                  )
+                my $table  = $this->{row}->{table};
+                my $tattrs = $table->{attrs};
+                unless ( Foswiki::isTrue( $tattrs->{disableallsort} )
+                    || !Foswiki::isTrue( $tattrs->{sort}, 1 ) )
                 {
 
                     $attrs->{class} = 'interactive_sort';
-                    my $table = $this->{row}->{table};
-                    my $sort  = {};
-                    if ( $table->{TABLE} ) {
-                        my $TABLE = $table->{TABLE};
-                        $sort->{reverse} =
-                          0 + ( $TABLE->{initdirection} eq "up" );
-                        $sort->{col} =
-                            $TABLE->{initsort}
-                          ? $TABLE->{initsort} + $table->{dead_cols}
-                          : 0;
-                    }
+                    my $sort = {};
+                    $sort->{reverse} =
+                      0 + ( ( $tattrs->{initdirection} || 'down' ) eq 'up' );
+                    $sort->{col} =
+                        $tattrs->{initsort}
+                      ? $tattrs->{initsort} + $table->{dead_cols}
+                      : 0;
                     $attrs->{"data-sort"} = $json->encode($sort);
                 }
             }
@@ -143,8 +136,8 @@ sub render {
 
                     if ( $render_opts->{need_tabledata} ) {
                         my %td = $this->{row}->{table}->getParams();
-                        $td{TABLE} = $this->{row}->{table}->{TABLE}
-                          if $this->{row}->{table}->{TABLE};
+                        $td{TABLE} = $this->{row}->{table}->{attrs}->{TABLE}
+                          if $this->{row}->{table}->{attrs}->{TABLE};
                         my $tabd = $json->encode( \%td );
                         $tabd =~ s/([|])/sprintf('&#%02d', ord($1))/ge;
                         $sopts->{'data-erp-tabledata'} = $tabd;

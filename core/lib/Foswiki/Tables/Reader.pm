@@ -263,7 +263,7 @@ sub open_table {
 # Parser event handler
 sub close_table {
     my ($this) = @_;
-    $this->{active_table}->addSpecs( $this->{on_close_spec} );
+    $this->{active_table}->addTagSpecs( $this->{on_close_spec} );
     $this->{on_close_spec} = [];
     push( @{ $this->{result} }, $this->{active_table} );
     $this->{active_table}->number( $this->{nTables}++ );

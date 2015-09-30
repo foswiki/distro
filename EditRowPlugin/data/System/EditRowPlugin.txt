@@ -256,6 +256,8 @@ an =initsort= parameter, it is likely to cause great confusion, as the table wil
 re-sorted each time a row is opened for edit, and when the table is edited in full table
 mode.
 
+All parameters to an applicable =%TABLE= macro are respected. If the same setting is repeated in the EDITTABLE tag, then that takes precedence *even if the TABLE tag is later in the text*.
+
 ---+++ !EditTablerowPlugin
 Provides the vertical row editing interface like
 !EditTablerowPlugin, with the row being edited shown in context in the table.

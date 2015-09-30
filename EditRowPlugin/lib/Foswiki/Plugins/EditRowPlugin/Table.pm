@@ -45,20 +45,11 @@ our %editors = ( _default => Foswiki::Plugins::EditRowPlugin::Editor->new() );
 sub new {
     my ( $class, $specs ) = @_;
 
-    my $attrs;
-    foreach my $spec (@$specs) {
-        $attrs = $spec->{attrs}
-          if ( $spec->{tag} eq
-            ( $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro} || 'EDITTABLE' ) );
-    }
+    my $this =
+      $class->SUPER::new( $specs,
+        $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro} || 'EDITTABLE' );
 
-    # if headerislabel true but no headerrows, set headerrows = 1
-    if ( $attrs->{headerislabel} && !defined( $attrs->{headerrows} ) ) {
-        $attrs->{headerrows} =
-          Foswiki::isTrue( $attrs->{headerislabel} ) ? 1 : 0;
-    }
-
-    my $this = $class->SUPER::new($specs);
+    my $attrs = $this->{attrs};
     $this->{editable} = $attrs->{isEditable};
 
     # EditTablePlugin compatibility; headerrows trumps headerislabel
@@ -103,6 +94,11 @@ sub new {
     $this->{attrs} = $attrs;
 
     return $this;
+}
+
+sub addSpecs {
+    my ( $this, $spec ) = @_;
+
 }
 
 # Override Foswiki::Tables::Table
