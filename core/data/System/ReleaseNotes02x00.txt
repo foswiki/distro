@@ -46,7 +46,7 @@ Foswiki is released under the GNU General Public License.
 %ENDTWISTY{}%
    * Foswiki 2.0.0 was built on 04 Jul 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 59 Feature Requests.
    * Foswiki 2.0.1 was built on 03 Aug 2015. It is a release that contains 28 fixes and 3 enhancements.
-   * Foswiki 2.0.2-RC1 was built on 29 Sep 2015. It is a release that contains 58 fixes and 5 enhancements.
+   * Foswiki 2.0.2-RC2 was built on 30 Sep 2015. It is a release that contains 58 fixes and 6 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -1109,6 +1109,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13695][Item13695]] | TABLE does not support css unit sizes. (em, cm, in, pt, ...). |
 | [[%BUGS%/Item13723][Item13723]] | Add "next slide" navigation with spacebar to SlideShowPlugin. |
 | [[%BUGS%/Item13758][Item13758]] | Align icons in left bar. |
+| [[%BUGS%/Item13764][Item13764]] | CommentPlugin should entity encode anonymous comments. |
 
 </noautolink>
 
