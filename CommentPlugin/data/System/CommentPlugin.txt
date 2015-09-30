@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1441852445" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1443575942" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Comment Plugin
 
@@ -208,7 +208,26 @@ Example comment:
 </verbatim>
 
 ---+++ The =OUTPUT= template
-The =OUTPUT= template defines the format for the text that actually gets embedded into the topic. All the usual macros are available in the =PROMPT= definition, but note that they get expanded _when the comment is inserted in the text_, so time, date and username will refer to the time and date when the comment was made, and the user who made it.
+The =OUTPUT= template defines the format for the text that actually gets embedded into the topic. All the usual macros are available in the =PROMPT= definition,
+but note that a subset of macros are expanded _when the comment is inserted in the text_, so time, date and username will refer to the time and date when the comment was made, and the user who made it.
+
+The expanded variables are:
+   * =%<nop>DATE%= Signature-format date [[VarDATE]]
+   * =%<nop>SERVERTIME%= See [[VarSERVERTIME]]
+   * =%<nop>GMTIME%= See [[VarGMTIME]]
+   * =%<nop>USERNAME%= Base login name - [[VarUSERNAME]]
+   * =%<nop>WIKINAME%= Wiki name - [[VarWIKINAME]]
+   * =%<nop>WIKIUSERNAME%= Wiki name with prepended web - [[VarWIKIUSERNAME]]
+   * =%<nop>URLPARAM{...}%= - Parameters to the current CGI query - [[VarURLPARAM]]
+   * =%<nop>NOP%= No-op - [[VarNOP]]
+
+All other Macros are inserted into the topic un-expanded and are expanded by standard rendering when the topic containing the comment is viewed.
+
+In addition to Macros, there is one "token" expanded during output.  =$encodeguest= will be set to "off" when the commenting user is logged in, and set to "entity" for anonymous comments.
+This is used in combination with the =%<nop>URLPARAM%= macro.  Any user input from untrusted users should be entity encoded.  For example:
+<verbatim>
+%TMPL:DEF{outputoneliner}%   * %URLPARAM{"comment" encode="$encodeguest"}% -- %WIKIUSERNAME% - %GMTIME{"$day $month $year"}%%TMPL:END%
+</verbatim>
 
 There are also four position tags that are used to indicate where the comment should be placed, relative to the location defined in the =%COMMENT= tag:
 
@@ -254,7 +273,8 @@ This plugin has been significantly changed from the =10 April 2011= version ship
 Another great extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Change History: | |
-|  2.7 (10 Sep 2015) | Foswikitask:Item13576: Disable fields during submit, then clear input fields after comment is posted. |
+|  2.7 (29 Sep 2015) | Foswikitask:Item13576: Disable fields during submit, then clear input fields after comment is posted.<br/>\
+                       Foswikitask:Item13764: Entity encode any comments by guest users. |
 |  2.6 (24 Jul 2015) | Foswikitask:Item13502: Expand macros when returning an inline Ajax response. |
 |  2.5 (24 Jun 2015) | Foswikitask:Item13474: Unicode fix |
 |  2.4 (14 Jun 2015) | Foswikitask:Item13423: Perl 5.20 deprecations<br />\
@@ -303,8 +323,8 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/CommentPlugin"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CommentPlugin"}%
-%META:FILEATTACHMENT{name="comment.uncompressed.css" attr="h" comment="" date="1441852445" size="70" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.js" attr="h" comment="" date="1441852445" size="1931" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.css" attr="h" comment="" date="1441852445" size="60" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.uncompressed.js" attr="h" comment="" date="1441852445" size="5134" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1441852445" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.css" attr="h" comment="" date="1443575942" size="70" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.js" attr="h" comment="" date="1443575942" size="1931" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.css" attr="h" comment="" date="1443575942" size="60" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.js" attr="h" comment="" date="1443575942" size="5134" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1443575942" size="1343" user="ProjectContributor" version="1"}%

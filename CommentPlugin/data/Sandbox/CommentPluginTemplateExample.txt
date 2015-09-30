@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420148640" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443575942" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
 ---+!! Template Example
 
@@ -29,7 +29,7 @@ Example template topic for [[%SANDBOXWEB%.CommentPluginExamples#TemplateTopic][C
 %GMTIME{"#CommentDate$epoch"}%
 %WIKIUSERNAME% - %DATE%:
 
-%URLPARAM{"comment" encode="off"}%
+%URLPARAM{"comment" encode="$encodeguest"}%
 
 --- 
 %TMPL:END%

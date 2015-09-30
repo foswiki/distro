@@ -278,6 +278,9 @@ sub comment {
         $position = $1;
     }
 
+    my $encodeguest = ( Foswiki::Func::isGuest() ) ? 'entity' : 'off';
+    $output =~ s/\$encodeguest/$encodeguest/g;
+
     # Expand common variables in the template, but don't expand other
     # tags.
     $output = Foswiki::Func::expandVariablesOnTopicCreation($output);

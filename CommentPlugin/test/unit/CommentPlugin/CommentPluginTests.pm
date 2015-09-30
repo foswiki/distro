@@ -779,8 +779,9 @@ HERE
             $this->{session}
         );
     };
-    print STDERR ( $responseText || '' ), ' )', ( $stdout || '' ), ' E',
-      ( $stderr || '' ) . "\n";
+
+    #print STDERR ( $responseText || '' ), ' )', ( $stdout || '' ), ' E',
+    #  ( $stderr || '' ) . "\n";
     $this->assert_matches( qr"AccessControlException", $@ );
 
     # Now make sure we *can* change it, given COMMENT access
@@ -924,11 +925,132 @@ qr/<input type="hidden" name="redirectto" value="$this->{test_web}.$this->{test_
     return;
 }
 
+sub test_comment_encoding_notguest {
+    my $this = shift;
+
+    $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 1;
+
+    my $sample = <<HERE;
+   * Set DENYTOPICCHANGE = $this->{test_user_wikiname}
+   * Set DENYTOPICVIEW = $this->{test_user_wikiname}
+   * Set ALLOWTOPICCOMMENT = *
+%COMMENT%
+HERE
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+        $sample );
+
+    # Compose the query
+    my $comm  = "This is the %TOPIC% comment";
+    my $query = Unit::Request->new(
+        {
+            'comment_action' => 'save',
+            'comment_type'   => 'above',
+            'comment'        => $comm,
+            topic            => "$this->{test_web}.$this->{test_topic}",
+        }
+    );
+    $query->path_info("/CommentPlugin/comment");
+
+    $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
+
+    my ( $responseText, $result, $stdout, $stderr );
+
+    # Now make sure we *can* change it, given COMMENT access
+    $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'COMMENT';
+
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+
+    # invoke the save handler
+    eval {
+        ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
+            rest => $this->getUIFn('rest'),
+            $this->{session}
+        );
+    };
+    $this->assert( !$@, $@ );
+    $this->assert_matches( qr/Status: 302/, $responseText );
+
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $text =~ s/- \d\d [A-Z][a-z]{2} \d{4}/- DATE/;
+    $this->assert_str_equals( <<HERE, $text );
+   * Set DENYTOPICCHANGE = $this->{test_user_wikiname}
+   * Set DENYTOPICVIEW = $this->{test_user_wikiname}
+   * Set ALLOWTOPICCOMMENT = *
+
+
+This is the %TOPIC% comment
+
+-- $this->{users_web}.$this->{test_user_wikiname} - DATE
+%COMMENT%
+HERE
+}
+
+sub test_comment_encoding_guest {
+    my $this = shift;
+
+    $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 1;
+
+    my $sample = <<HERE;
+   * Set DENYTOPICCHANGE = $this->{test_user_wikiname}
+   * Set DENYTOPICVIEW = $this->{test_user_wikiname}
+   * Set ALLOWTOPICCOMMENT = *
+%COMMENT%
+HERE
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+        $sample );
+
+    # Compose the query
+    my $comm  = "This is the %TOPIC% comment";
+    my $query = Unit::Request->new(
+        {
+            'comment_action' => 'save',
+            'comment_type'   => 'above',
+            'comment'        => $comm,
+            topic            => "$this->{test_web}.$this->{test_topic}",
+        }
+    );
+    $query->path_info("/CommentPlugin/comment");
+
+    $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
+
+    my ( $responseText, $result, $stdout, $stderr );
+
+    # Now make sure we *can* change it, given COMMENT access
+    $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'COMMENT';
+
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
+
+    # invoke the save handler
+    eval {
+        ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
+            rest => $this->getUIFn('rest'),
+            $this->{session}
+        );
+    };
+    $this->assert( !$@, $@ );
+    $this->assert_matches( qr/Status: 302/, $responseText );
+
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $text =~ s/- \d\d [A-Z][a-z]{2} \d{4}/- DATE/;
+    $this->assert_str_equals( <<HERE, $text );
+   * Set DENYTOPICCHANGE = $this->{test_user_wikiname}
+   * Set DENYTOPICVIEW = $this->{test_user_wikiname}
+   * Set ALLOWTOPICCOMMENT = *
+
+
+This is the &#37;TOPIC&#37; comment
+
+-- $this->{users_web}.$Foswiki::cfg{DefaultUserWikiName} - DATE
+%COMMENT%
+HERE
+}
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
