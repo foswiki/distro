@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-30 12:08+0200\n"
-"Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
+"PO-Revision-Date: 2015-09-30 12:12+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -2923,7 +2923,7 @@ msgstr "Kein Benutzername angegeben"
 
 #: core/templates/registermessages.tmpl:167
 msgid "No users to reset passwords for."
-msgstr "Keine Benutzer um das Passwort zurück zu setzen."
+msgstr "Keine Benutzer, deren Passwort zurückzusetzen wäre."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:134
 #: NatEditPlugin/templates/edit.natedit.tmpl:165
@@ -2947,7 +2947,7 @@ msgid ""
 "Note that any URLs that refer to the attachment will be broken after this "
 "move."
 msgstr ""
-"Beachten Sie, dass alle URLs die auf diesen Anhang zeigen, nach dem "
+"Beachten Sie, dass alle URLs, die auf diesen Anhang zeigen, nach dem "
 "Verschieben nicht mehr funktionieren."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
@@ -2964,9 +2964,10 @@ msgid ""
 "past this screen. This is normally the case, but if something doesn't work, "
 "this is where to look first."
 msgstr ""
-"Hinweis: Sie müssen Cookies und JavaScript in Ihrem Browser aktiviert haben, "
-"um von dieser Meldung aus weiterzukommen. Normalerweise ist das der Fall, "
-"aber wenn Sie Probleme haben sollten, schauen Sie am besten zuerst danach."
+"Hinweis: Sie müssen Cookies und !JavaScript in Ihrem Browser aktiviert "
+"haben, um von dieser Meldung aus weiterzukommen. Normalerweise ist das der "
+"Fall, aber wenn Sie Probleme haben sollten, schauen Sie am besten zuerst "
+"danach."
 
 #: core/data/System/WebNotifyHelp.txt:3
 msgid "Notification help"
@@ -3057,7 +3058,7 @@ msgid ""
 "Oops: we could not recognize you. Try again or [[%1][reset your password]]."
 msgstr ""
 "Oops: Wir konnten Sie nicht authentifizieren. Versuchen Sie es erneut oder "
-"[[%1][setzen Sie ihr Passwort zurück]]."
+"[[%1][setzen Sie Ihr Passwort zurück]]."
 
 #. ('populateNewWeb')
 #. ('save')
@@ -3084,7 +3085,7 @@ msgstr "Optional den Topic-Namen ändern:"
 
 #: core/templates/renameattachmentdelete.tmpl:34
 msgid "Optionally enter a different attachment name:"
-msgstr "Optional geben Sie einen anderen Namen für den Anhang ein:"
+msgstr "Optional einen anderen Namen für den Anhang eingeben:"
 
 #: core/templates/renameattachmentdelete.tmpl:32
 msgid "Optionally enter a different topic name:"
@@ -3100,7 +3101,7 @@ msgstr "Name der Organisation:"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
 msgid "Organisation website:"
-msgstr "Webseite der Organisation:"
+msgstr "Website der Organisation:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:75
 msgid "Outdent"
@@ -3162,7 +3163,7 @@ msgstr "Sammelstelle für gelöschte Topics und Anhänge."
 
 #: core/data/Trash/TrashAttachment.txt:3
 msgid "Placeholder for trashed attachments"
-msgstr "Platzhalter für weggeworfene Anhänge"
+msgstr "Platzhalter für gelöschte Anhänge"
 
 #: core/templates/registermessages.tmpl:378
 #: core/templates/registermessages.tmpl:427
@@ -3178,7 +3179,7 @@ msgstr "Bitte bestätigen Sie Ihr Passwort."
 #: core/templates/registermessages.tmpl:200
 #: core/templates/registermessages.tmpl:87
 msgid "Please contact %1 if you have any questions."
-msgstr "Bitte wenden Sie sich an %1 wenn Sie Fragen haben."
+msgstr "Bitte wenden Sie sich an %1, wenn Sie Fragen haben."
 
 #: core/templates/registermessages.tmpl:11
 #: core/templates/registermessages.tmpl:131
@@ -3195,7 +3196,7 @@ msgstr "Bitte korrigieren Sie Ihre Angaben, bevor Sie fortfahren."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
 msgid "Please enter a WikiName."
-msgstr "Bitte geben Sie einen WikiNamen an."
+msgstr "Bitte geben Sie einen [[WikiName]]n an."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
 msgid "Please enter a login username."
@@ -3305,7 +3306,7 @@ msgstr "Plugin-Handler"
 #: core/templates/messages.tmpl:511
 msgid "Plugin module did not return true. See errors below."
 msgstr ""
-"Plugin-Modul hat nicht true zurückgeliefert. Siehe Fehlermeldungen unten."
+"Plugin-Modul hat nicht „true“ zurückgeliefert. Siehe Fehlermeldungen unten."
 
 #: core/templates/messages.tmpl:503
 msgid "Plugin module was not defined. Check configuration. See errors below."
@@ -3392,12 +3393,12 @@ msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
 "more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
-"Lesen Sie %1, um einen schnellen Überblick über die Kollaborations-Plattform "
+"Lesen Sie %1, um einen schnellen Überblick über die Kollaborationsplattform "
 "zu bekommen. Für mehr Informationen lesen Sie das TwentyMinuteTutorial."
 
 #: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
 msgid "Read on"
-msgstr "Weiter lesen"
+msgstr "Weiterlesen"
 
 #: core/data/Sandbox/WebHome.txt:53
 msgid "Recently changed topics"
@@ -3455,7 +3456,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:82
 msgid "Registration codes can only be used once."
-msgstr "Der Registrierungs-Code kann nur einmal verwendet werden."
+msgstr "Der Registrierungscode kann nur einmal verwendet werden."
 
 #: core/templates/registerdenied.tmpl:9
 msgid "Registration for %1 has been denied"
@@ -3481,7 +3482,7 @@ msgstr "Mit regulären Ausdrücken suchen"
 
 #: core/data/System/UserName.txt:44
 msgid "Related Topics for Administrators:"
-msgstr "Relevante Topics für Administratoren:"
+msgstr "Verwandte Topics für Administratoren:"
 
 #: core/data/System/SiteTools.txt:149
 #: core/data/System/SkinTemplateTokens.txt:180
