@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-30 12:14+0200\n"
-"Last-Translator: Jan Krüger <krueger@modell-aachen.de>\n"
+"PO-Revision-Date: 2015-09-30 12:16+0200\n"
+"Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -4021,7 +4021,7 @@ msgid ""
 "work on, what help they'd like, etc."
 msgstr ""
 "Manche verwandeln es in ein persönliches Portal mit Verweisen zu ihren "
-"Lieblingsseiten, Informationen über ihre Arbeit, wobei Sie gerne Hilfe "
+"Lieblingsseiten, Informationen über ihre Arbeit, wobei sie gerne Hilfe "
 "hätten, etc."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:106
@@ -4076,7 +4076,7 @@ msgstr "Präsentation starten"
 
 #: NatEditPlugin/templates/workflowedit.natedit.tmpl:3
 msgid "State change from *%1* to *%2* (see [[%3][workflow definition]])."
-msgstr "Statuswechsel von *%1* zu *%1* (siehe [[%3]]Workflow-Definition]])."
+msgstr "Statuswechsel von *%1* zu *%2* (siehe [[%3]]Workflow-Definition]])."
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:13
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
@@ -4110,7 +4110,7 @@ msgstr "Übermitteln"
 #: core/templates/registernotify.tmpl:19
 #: core/templates/registernotifyadmin.tmpl:13
 msgid "Submitted content:"
-msgstr "Übertragender Inhalt:"
+msgstr "Übertragener Inhalt:"
 
 #: SubscribePlugin/templates/subscribe.tmpl:39
 #: SubscribePlugin/templates/subscribe.tmpl:6
@@ -4180,7 +4180,7 @@ msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
 msgstr ""
-"TIPP: Um nach Topics zu suchen die =\"SOAP\"=, =\"WSDL\"= und den Begriff ="
+"TIPP: Um nach Topics zu suchen, die =\"SOAP\"=, =\"WSDL\"= und den Begriff ="
 "\"web service\"= beinhalten, in denen aber nicht =\"shampoo\"= vorkommt, "
 "schreiben Sie:"
 
@@ -4223,7 +4223,7 @@ msgid ""
 "Thank you for registering in the %1 collaboration platform. Please save this "
 "e-mail for future reference."
 msgstr ""
-"Danke für ihre Registrierung für die %1 Kollaborations-Plattform. Bitte "
+"Danke für Ihre Registrierung für die %1 Kollaborationsplattform. Bitte "
 "speichern Sie diese E-Mail als zukünftige Referenz."
 
 #: core/templates/registerconfirm.tmpl:10
@@ -4231,8 +4231,8 @@ msgid ""
 "Thank you for registering in the %1 collaboration platform. Your "
 "verification code is %2."
 msgstr ""
-"Danke für ihre Registrierung für die %1 Kollaborations-Plattform. Ihr "
-"Verifizierungs-Code lautet %2."
+"Danke für Ihre Registrierung für die %1-Kollaborationsplattform. Ihr "
+"Verifizierungscode lautet %2."
 
 #: core/templates/registermessages.tmpl:103
 msgid "That user has already been activated"
@@ -4244,7 +4244,7 @@ msgstr "Das Topic %1 existiert bereits"
 
 #: core/templates/messages.tmpl:433
 msgid "The %1 web does not exist"
-msgstr "Das %1 Web existiert nicht"
+msgstr "Das %1-Web existiert nicht"
 
 #: core/data/Sandbox/WebHome.txt:3
 msgid ""
@@ -4253,10 +4253,10 @@ msgid ""
 "jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
 "page and sign and date it with your %4."
 msgstr ""
-"Das %1 Web ist ein sogenannter Sandkasten, den Sie für Testzwecke nutzen "
-"können. Jeder ist eingeladen Inhalte zu erstellen und zu löschen. Es wird "
-"empfohlen %2 durchzuschauen, um einen Überblick über das %3 Werkzeug zu "
-"bekommen. Es gehört zum guten Ton am Ende eines Kommentars seine Signatur "
+"Das %1-Web ist ein sogenannter Sandkasten, den Sie für Testzwecke nutzen "
+"können. Jeder ist eingeladen, Inhalte zu erstellen und zu löschen. Es wird "
+"empfohlen, %2 durchzuschauen, um einen Überblick über das %3-Werkzeug zu "
+"bekommen. Es gehört zum guten Ton, am Ende eines Kommentars seine Signatur "
 "mit Datum und dem %4 zu hinterlassen."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
@@ -4271,16 +4271,15 @@ msgstr "Das %1 Web auf %2."
 #: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:4
 #: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:6
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
-msgstr "Das %1 Web von Foswiki, dem Freien Open Source Wiki."
+msgstr "Das %1-Web von Foswiki, dem Freien Open-Source-Wiki."
 
 #: core/templates/messages.tmpl:311
 msgid "The =%1= script can only be called with POST method."
-msgstr "Das =%1= Skript kann nur mit der POST Methode verwendet werden."
+msgstr "Das =%1= Skript kann nur mit der POST-Methode verwendet werden."
 
 #: core/templates/registermessages.tmpl:19
 msgid "The Administrator has disabled new user registration."
-msgstr ""
-"Der Administrator hat die Registrierung für neue Benutzer abgeschaltet."
+msgstr "Der Administrator hat die Registrierung neuer Benutzer abgeschaltet."
 
 #: core/templates/registermessages.tmpl:129
 msgid "The Administrator has disabled password changes."
@@ -4295,8 +4294,8 @@ msgid ""
 "The Web/Topic path: '%1' has missing components, or contains invalid "
 "characters."
 msgstr ""
-"Warnung: Konnte das INCLUDE '%1' nicht durchführen, weil der Pfad leer ist "
-"oder unerlaubte Zeichen beinhaltet."
+"Warnung: Konnte das INCLUDE '%1' nicht durchführen: Der Pfad ist leer oder "
+"beinhaltet unerlaubte Zeichen."
 
 #: core/templates/registermessages.tmpl:115
 msgid ""
