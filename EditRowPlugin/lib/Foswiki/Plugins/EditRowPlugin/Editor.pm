@@ -60,7 +60,6 @@ sub htmlEditor {
             value => $unexpandedValue
         }
     );
-    return '';
 }
 
 =begin TML

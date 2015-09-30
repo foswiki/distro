@@ -522,7 +522,9 @@ sub _getColsFromURPs {
                 $val = $editor->forceValue( $colDef, $cell, $row - $headRows );
             }
         }
-        push( @cols, defined $val ? $val : '' );
+
+        # Keep existing value if $val is undef
+        $cols[$i] = defined $val ? $val : $cell->{text};
     }
     return \@cols;
 }

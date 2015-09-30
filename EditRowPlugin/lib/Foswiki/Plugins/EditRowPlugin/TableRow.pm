@@ -55,6 +55,9 @@ sub setRow {
     foreach my $val (@$cols) {
         if ( $n < scalar( @{ $this->{cols} } ) ) {
 
+            # Skip undef cols, leave old value in place
+            next unless defined $val;
+
             # Restore the EDITCELL from the old value, if present
             if (   $val !~ /%EDITCELL\{.*?\}%/
                 && $this->{cols}->[$n]->{text} =~ /(%EDITCELL\{.*?\}%)/ )
