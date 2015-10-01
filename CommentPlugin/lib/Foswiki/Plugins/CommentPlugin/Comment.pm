@@ -9,7 +9,7 @@ use Foswiki;
 use Foswiki::Plugins;
 use Foswiki::Store;
 use Foswiki::Attrs;
-use CGI qw( -any );
+use CGI;
 
 package Foswiki::Plugins::CommentPlugin::Comment;
 

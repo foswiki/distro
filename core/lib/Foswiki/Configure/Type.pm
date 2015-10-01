@@ -18,7 +18,7 @@ package Foswiki::Configure::Type;
 use strict;
 use warnings;
 
-use CGI qw( :any );
+use CGI;
 
 use Foswiki::Configure::Types::UNKNOWN;
 

@@ -261,7 +261,7 @@ if ($@) {
     unshift( @INC, File::Spec->catfile( @root, 'lib' ) );
 }
 
-::_loadBasicModule('CGI qw(:any)');
+::_loadBasicModule('CGI');
 
 $| = 1;    # no buffering on STDOUT
 
