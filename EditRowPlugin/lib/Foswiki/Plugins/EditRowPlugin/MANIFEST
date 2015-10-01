@@ -2,6 +2,7 @@
 data/System/EditRowPlugin.txt 0755
 data/System/EditRowPluginExamples.txt 0644
 lib/Foswiki/Configure/Checkers/Plugins/EditRowPlugin/Enabled.pm 0644
+lib/Foswiki/Configure/Checkers/Plugins/EditRowPlugin/Macro.pm 0644
 lib/Foswiki/Plugins/EditRowPlugin/DEPENDENCIES 0644
 lib/Foswiki/Plugins/EditRowPlugin.pm 0644
 lib/Foswiki/Plugins/EditRowPlugin/Config.spec 0644

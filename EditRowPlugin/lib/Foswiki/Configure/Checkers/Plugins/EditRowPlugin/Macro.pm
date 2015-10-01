@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Checkers::Plugins::EditRowPlugin::Enabled;
+package Foswiki::Configure::Checkers::Plugins::EditRowPlugin::Macro;
 
 use strict;
 use warnings;
@@ -10,39 +10,25 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check {
     my ( $this, $value ) = @_;
 
-    my $resp;
-
     if (   $Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled}
         && $Foswiki::cfg{Plugins}{EditRowPlugin}{Enabled} )
     {
-        if (   $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro}
-            && $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro} eq 'EDITTABLE' )
-        {
-            $resp = $this->ERROR(<<MESSAGE);
-={Plugins}{EditRowPlugin}{Macro}= is currently set to EDITTABLE and will conflict
-with the EditTablePlugin.  Recommend changing it to EDITROW, or disable the EditTablePlugin
+
+        if ( $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro} eq 'EDITTABLE' ) {
+            return $this->ERROR(<<MESSAGE);
+You have enabled the EditTablePlugin. You must not use the =EDITTABLE= macro
+for the EditRowPlugin as it conflicts with the EditTablePlugin.  Consider changing this to =EDITROW=
+or some other macro that does not conflict.
 MESSAGE
         }
-        $resp .= $this->WARN(<<MESSAGE);
-Enabling both EditTablePlugin and EditRowPlugin is considered experimental.
-MESSAGE
     }
-    if ( $Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled} ) {
-        $resp .= $this->WARN(<<MESSAGE);
-EditTablePlugin is being phased out and replaced by EditRowPlugin.
-Please consider switching
-MESSAGE
-    }
-    return $resp if ($resp);
-
-    return $this->NOTE("This plugin replaces EditTablePlugin");
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2012-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
