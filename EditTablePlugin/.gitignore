@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/EditTablePlugin.md5
+/EditTablePlugin.sha1
+/EditTablePlugin.tgz
+/EditTablePlugin.txt
+/EditTablePlugin.zip
+/EditTablePlugin_installer
+/EditTablePlugin_installer.pl
