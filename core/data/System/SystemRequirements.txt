@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443276646" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443658129" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -31,6 +31,9 @@ perl tools/dependencies
 </verbatim>
 
 ---++ Specific distribution details
+
+*Find the closest match to your installed system. and click on the "Show ..."
+link to reveal the details.
 
 <noautolink>
 ---+++!! Ubuntu and other Debian derived distributions

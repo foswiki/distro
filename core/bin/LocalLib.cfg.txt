@@ -2,6 +2,9 @@
 #
 # LocalLib.cfg: local path settings for Foswiki
 
+# If your shared hosting site uses cPanel, you may need to uncomment the following:
+# use cPanelUserConfig;
+
 use vars qw( $foswikiLibPath $CPANBASE );
 
 #development and debugging settings
