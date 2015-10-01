@@ -31,6 +31,8 @@ sub URLPARAM {
                         expandStandardEscapes($_)
                     } @valueArray;
                 }
+
+                # SMELL: the $separator is not being encoded
                 $value = join(
                     $separator,
                     map {
@@ -57,26 +59,25 @@ sub _handleURLPARAMValue {
 
     if ( defined $value ) {
         $value =~ s/\r?\n/$newLine/g if ( defined $newLine );
-        if ( $encode =~ /^entit(y|ies)$/i ) {
-            $value = entityEncode($value);
-        }
-        elsif ( $encode =~ /^quotes?$/i ) {
-            $value =~
-              s/\"/\\"/go;    # escape quotes with backslash (Bugs:Item3383 fix)
-        }
-        elsif ( $encode =~ /^(off|none)$/i ) {
+        foreach my $e ( split( /\s*,\s*/, $encode ) ) {
+            if ( $e =~ m/entit(y|ies)/i ) {
+                $value = entityEncode($value);
+            }
+            elsif ( $e =~ m/^quotes?$/i ) {
+                $value =~
+                  s/\"/\\"/g; # escape quotes with backslash (Bugs:Item3383 fix)
+            }
+            elsif ( $e =~ m/^url$/i ) {
 
-            # no encoding
-        }
-        elsif ( $encode =~ /^url$/i ) {
+                # Legacy, see ENCODE
+                #$value =~ s/\r*\n\r*/<br \/>/;
+                $value = urlEncode($value);
+            }
+            elsif ( $e =~ m/^safe$/i ) {
 
-            # Legacy, see ENCODE
-            #$value =~ s/\r*\n\r*/<br \/>/;
-            $value = urlEncode($value);
-        }
-        else {    # safe or default
-                  # entity encode ' " < > and %
-            $value =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
+                # entity encode ' " < > and %
+                $value =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
+            }
         }
     }
     unless ( defined $value ) {
@@ -85,7 +86,7 @@ sub _handleURLPARAMValue {
     }
 
     # Block expansion of %URLPARAM in the value to prevent recursion
-    $value =~ s/%URLPARAM{/%<nop>URLPARAM{/g;
+    $value =~ s/%URLPARAM\{/%<nop>URLPARAM{/g;
     return $value;
 }
 
