@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1443536427" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 2.0.1
+---+!! Foswiki Release 2.0.2
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -46,7 +46,7 @@ Foswiki is released under the GNU General Public License.
 %ENDTWISTY{}%
    * Foswiki 2.0.0 was built on 04 Jul 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 59 Feature Requests.
    * Foswiki 2.0.1 was built on 03 Aug 2015. It is a release that contains 28 fixes and 3 enhancements.
-   * Foswiki 2.0.2-RC2 was built on 30 Sep 2015. It is a release that contains 58 fixes and 6 enhancements.
+   * Foswiki 2.0.2 was built on 01 Oct 2015. It is a release that contains 65 fixes and 6 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -1101,6 +1101,13 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13745][Item13745]] | Set+ Unset+ save script arguments are unusable from the CLI engine. |
 | [[%BUGS%/Item13749][Item13749]] | Perl's "stat()" will not work with with array arg and other Perl 5.23 compatibilty issues. |
 | [[%BUGS%/Item13757][Item13757]] | Move SHORTDESCRIPTION into PackageForm. |
+| [[%BUGS%/Item13764][Item13764]] | CommentPlugin should entity encode comments from guest users. |
+| [[%BUGS%/Item13765][Item13765]] | EditRowPlugin TestCaseEditTableMacrosInSettings removes content of footer and label type cells. |
+| [[%BUGS%/Item13767][Item13767]] | EditRowPlugin does not completely turn off sorting by clicking header when TABLE has sort="off". |
+| [[%BUGS%/Item13769][Item13769]] | EditRowPlugin sorting only works the first time you click a header and will not reverse sort when clicking same again |
+| [[%BUGS%/Item13770][Item13770]] | EditRowPlugin treats bold text in footer row as something related to sort but without function. |
+| [[%BUGS%/Item13771][Item13771]] | EditRowPlugin has hardcoded its Macro in TableParser.pm. |
+| [[%BUGS%/Item13772][Item13772]] | Oops message for edit templatetopic incorectly processing parameters. |
 
 ---++ Enhancements
 
