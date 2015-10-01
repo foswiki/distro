@@ -266,8 +266,22 @@ Provides the vertical row editing interface like
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  3.311 (08 Sep 2015) | Foswikitask:Item13672: EditRowPlugin doesn't save under mod_perl<br/>\
-                         Foswikitask:Item13570: Multiple issues coexisting with %TABLE macros |
+|  3.311 (30 Sep 2015) | Foswikitask:Item13672 EditRowPlugin doesn't save under mod_perl<br/>\
+                         Foswikitask:Item13570 EditRowPlugin does not work on page with TABLE macro.<br/>\
+                         Foswikitask:Item13662 EditRowPlugin does not leave at least one space in an empty cell.<br/>\
+                         Foswikitask:Item13672 EditRowPlugin not working on mod_perl systems.<br/>\
+                         Foswikitask:Item13692 EditRowPlugin puts the edit button the wrong place when EDITTABLE comes before TABLE.<br/>\
+                         Foswikitask:Item13693 EditRowPlugin deletes macros from text area fields.<br/>\
+                         Foswikitask:Item13711 EditRowPlugin makes TablePlugin apply its formatting to the wrong column.<br/>\
+                         Foswikitask:Item13714 EditRowPlugin adding and deleting rows fails in TestCases/TestCaseEditTableJavaScript.<br/>\
+                         Foswikitask:Item13715 EditRowPlugin does not always handle the EDITTABLE macro correctly case 2.<br/>\
+                         Foswikitask:Item13717 EditRowPlugin creates massive copies of macros when you edit tables.<br/>\
+                         Foswikitask:Item13720 EditRowPlugin make the headline sort mark up the wrong column as the sorted.<br/>\
+                         Foswikitask:Item13765 EditRowPlugin TestCaseEditTableMacrosInSettings removes content of footer and label type cells.<br/>\
+                         Foswikitask:Item13767 EditRowPlugin does not completely turn off sorting by clicking header when TABLE has sort="off".<br/>\
+                         Foswikitask:Item13769 EditRowPlugin sorting only works the first time you click a header and will not reverse sort when clicking same again.<br/>\
+                         Foswikitask:Item13770 EditRowPlugin treats bold text in footer row as something related to sort but without function.<br/>\
+                         Foswikitask:Item13771 EditRowPlugin has hardcoded its Macro in TableParser.pm. |
 |  3.200 (30 Mar 2015) | Foswikitask:Item13309: fixed for compatibility with !TablePlugin |
 |  3.100 (18 Dec 2014) | Foswikitask:Item12855: Core extensions should require JQueryPlugin 6.00<br />\
                          Foswikitask:Item13125: Support Request multi_param<br />\
