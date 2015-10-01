@@ -272,6 +272,8 @@ package Foswiki;
 # We keep the actual config, and the default from Foswiki.spec, separate
 my ( %cfg, $defaultCfg );
 
+$CGI::LIST_CONTEXT_WARN = 0;
+
 # Declared in Foswiki to support checkers
 our $query = new CGI;
 

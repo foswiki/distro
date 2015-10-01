@@ -22,6 +22,7 @@ use Assert;
 use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
 use Foswiki::Response        ();
+$CGI::LIST_CONTEXT_WARN = 0;
 
 # ****
 # CGI.pm has a private class called CGITempFile which is used to hold
