@@ -212,7 +212,7 @@ This will copy all webs, topics and attachments __except for the contents of the
 Before proceeding with conversion, verify that the above limitations are not
 applicable to your installation.   If they are,  you will currently need to:
    * Stay on the RCS style store
-   * Use CharsetConverterContrib to change encoding if desired.
+   * Use !CharsetConverterContrib to change encoding if desired.
 
 ---+++ Manual copy steps (not recommended)
 These steps can be used to manually migrate data when not changing the Store
