@@ -186,7 +186,7 @@ sub expandValue {
     }
     elsif ( defined( $_[0] ) ) {
         while (
-            $_[0] =~ s/(\$Foswiki::cfg{[[A-Za-z0-9{}]+})/_handleExpand($1)/ge )
+            $_[0] =~ s/(\$Foswiki::cfg\{[[A-Za-z0-9{}]+\})/_handleExpand($1)/ge )
         {
         }
     }

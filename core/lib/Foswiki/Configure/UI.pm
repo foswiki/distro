@@ -170,8 +170,8 @@ $item is passed on to the checker's constructor.
 sub loadChecker {
     my ( $keys, $item ) = @_;
     my $id = $keys;
-    $id =~ s/}{/::/g;
-    $id =~ s/[}{]//g;
+    $id =~ s/\}\{/::/g;
+    $id =~ s/[\}\{]//g;
     $id =~ s/'//g;
     $id =~ s/-/_/g;
     my $checkClass = 'Foswiki::Configure::Checkers::' . $id;

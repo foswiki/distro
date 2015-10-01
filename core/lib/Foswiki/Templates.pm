@@ -99,7 +99,7 @@ sub _expandTrivialTemplate {
     my ( $this, $text ) = @_;
 
     # SMELL: unchecked implicit untaint?
-    $text =~ /%TMPL\:P{(.*)}%/;
+    $text =~ /%TMPL\:P\{(.*)\}%/;
     my $attrs = new Foswiki::Attrs($1);
 
     # Can't expand context-dependant templates
@@ -194,7 +194,7 @@ sub tmplP {
         }
         $val =~ s/%TMPL:PREV%/%TMPL:P{"$template:_PREV"}%/g;
         no warnings 'recursion';
-        $val =~ s/%TMPL:P{(.*?)}%/$this->expandTemplate($1)/ge;
+        $val =~ s/%TMPL:P\{(.*?)\}%/$this->expandTemplate($1)/ge;
         use warnings 'recursion';
     }
 
@@ -257,8 +257,8 @@ sub readTemplate {
     }
 
     # SMELL: unchecked implicit untaint?
-    while ( $text =~ /%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/s ) {
-        $text =~ s/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/
+    while ( $text =~ /%TMPL\:INCLUDE\{[\s\"]*(.*?)[\"\s]*\}%/s ) {
+        $text =~ s/%TMPL\:INCLUDE\{[\s\"]*(.*?)[\"\s]*\}%/
           _readTemplateFile( $this, $1, $skins, $web ) || ''/ge;
     }
 
@@ -280,7 +280,7 @@ sub readTemplate {
         if (/^(%TMPL\:)$/) {
             $delim = $1;
         }
-        elsif ( (/^DEF{[\s\"]*(.*?)[\"\s]*}%(.*)/s) && ($1) ) {
+        elsif ( (/^DEF\{[\s\"]*(.*?)[\"\s]*\}%(.*)/s) && ($1) ) {
 
             # handle %TMPL:DEF{key}%
             if ($key) {
@@ -339,7 +339,7 @@ sub readTemplate {
     }
 
     # handle %TMPL:P{"..."}% recursively
-    $result =~ s/(%TMPL\:P{.*?}%)/_expandTrivialTemplate( $this, $1)/geo;
+    $result =~ s/(%TMPL\:P\{.*?\}%)/_expandTrivialTemplate( $this, $1)/geo;
 
     # SMELL: legacy - leading spaces to tabs, should not be required
     $result =~ s|^(( {3})+)|"\t" x (length($1)/3)|geom;
@@ -526,7 +526,7 @@ sub _decomment {
 
     # Kill comments, marked by %{ ... }%
     # (and remove whitespace either side of the comment)
-    $text =~ s/\s*%{.*?}%\s*//sg;
+    $text =~ s/\s*%\{.*?\}%\s*//sg;
     return $text;
 }
 

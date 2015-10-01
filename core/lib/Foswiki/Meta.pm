@@ -3370,7 +3370,7 @@ sub summariseChanges {
     return '' if ( $orev == $nrev );    # same rev, no differences
 
     my $nstring = $this->stringify();
-    $nstring =~ s/^%META:TOPICINFO{.*?}%//ms;
+    $nstring =~ s/^%META:TOPICINFO\{.*?\}%//ms;
 
     #print "SSSSSS nstring\n($nstring)\nSSSSSS\n\n";
 
@@ -3388,7 +3388,7 @@ sub summariseChanges {
     }
 
     my $ostring = $oldTopicObject->stringify();
-    $ostring =~ s/^%META:TOPICINFO{.*?}%$//ms;
+    $ostring =~ s/^%META:TOPICINFO\{.*?\}%$//ms;
 
     #print "SSSSSS ostring\n$ostring\nSSSSSS\n\n";
 
@@ -3583,7 +3583,7 @@ sub setEmbeddedStoreForm {
     my $format = $EMBEDDING_FORMAT_VERSION;
 
     # head meta-data
-    $text =~ s/^(%META:(TOPICINFO){(.*)}%\n)/
+    $text =~ s/^(%META:(TOPICINFO)\{(.*)\}%\n)/
       $this->_readMETA($1, $2, $3)/e
       ;    #NO THIS CANNOT BE /g - TOPICINFO is _only_ valid as the first line!
     my $ti = $this->get('TOPICINFO');
@@ -3610,7 +3610,7 @@ sub setEmbeddedStoreForm {
     if ( $format !~ /^[\d.]+$/ || $format < 1.1 ) {
         require Foswiki::Compatibility;
         if (
-            $text =~ s/^%META:([^{]+){(.*)}%\n/
+            $text =~ s/^%META:([^\{]+)\{(.*)\}%\n/
               Foswiki::Compatibility::readSymmetricallyEncodedMETA(
                   $this, $1, $2 ); ''/gem
           )
@@ -3620,7 +3620,7 @@ sub setEmbeddedStoreForm {
     }
     else {
         if (
-            $text =~ s/^(%META:([^{]+){(.*)}%\n)/
+            $text =~ s/^(%META:([^\{]+)\{(.*)\}%\n)/
 					if ($2 ne 'TOPICINFO') {
 							#TOPICINFO is only valid on the first line
         		      		$this->_readMETA($1, $2, $3)

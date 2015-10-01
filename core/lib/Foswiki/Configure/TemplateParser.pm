@@ -189,7 +189,7 @@ commenting out, this seems just 'to work'
 =cut
 
         }
-        $text =~ s/%INCLUDE{(.*?)}%/$this->getResource($1)/ges;
+        $text =~ s/%INCLUDE\{(.*?)\}%/$this->getResource($1)/ges;
         while ( my ( $k, $v ) = each %vars ) {
             $text =~ s/\%$k%/$v/gs;
         }

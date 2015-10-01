@@ -265,7 +265,7 @@ sub _getTOPICINFO {
         local $/ = "\n";
         my $ti = <$f>;
         close($f);
-        if ( defined $ti && $ti =~ /^%META:TOPICINFO{(.*)}%/ ) {
+        if ( defined $ti && $ti =~ /^%META:TOPICINFO\{(.*)\}%/ ) {
             require Foswiki::Attrs;
             my $a = Foswiki::Attrs->new($1);
 
@@ -325,7 +325,7 @@ sub _saveDamage {
     # If this is a topic, adjust the TOPICINFO
     if ( defined $this->{topic} && !defined $this->{attachment} ) {
         my $rev = -e $this->{rcsFile} ? $this->getLatestRevisionID() : 1;
-        $t =~ s/^%META:TOPICINFO{(.*)}%$//m;
+        $t =~ s/^%META:TOPICINFO\{(.*)\}%$//m;
         $t =
             '%META:TOPICINFO{author="'
           . $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID

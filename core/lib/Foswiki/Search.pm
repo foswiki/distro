@@ -540,7 +540,7 @@ sub loadTemplates {
 # SMELL: the only META tags in a template will be METASEARCH
 # Why the heck are they being filtered????
 #TODO: write a unit test that uses topic based templates with META's in them and if ok, remove.
-    $tmpl =~ s/\%META{.*?}\%//go;    # remove %META{'parent'}%
+    $tmpl =~ s/\%META\{.*?\}\%//go;    # remove %META{'parent'}%
 
     # Split template into 5 sections
     my ( $tmplHead, $tmplSearch, $tmplTable, $tmplNumber, $tmplTail ) =
@@ -1214,7 +1214,7 @@ s{(\$rev|\$wikiusername|\$wikiname|\$username|\$createlongdate|\$iso|\$longdate|
 #TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
 
             # defuse SEARCH in current topic to prevent loop
-            $text =~ s/%SEARCH{.*?}%/SEARCH{...}/go;
+            $text =~ s/%SEARCH\{.*?\}%/SEARCH{...}/go;
         }
         $out =~ s/\$text/$text/gos;
     }
