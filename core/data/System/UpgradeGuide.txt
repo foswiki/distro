@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1441909866" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1443667119" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -204,7 +204,7 @@ This will copy all webs, topics and attachments __except for the contents of the
       * Any filename beginning with an asterisk. (This appears to be historical, with no common use).
    * Files in pub that are not associated with a topic attachment META are not copied. (ex. files manually copied into the pub directories).
       * Auto attachments are not copied if the ={RCS}{AutoAttachPubFiles}= feature is not enabled.
-      * Auto attached files in the RCS store will be converted to regular attachments in the PlainFile store. The PlainFile store does not support auto attachments..
+      * Auto attached files in the RCS store will be converted to regular attachments in the !PlainFile store. The !PlainFile store does not support auto attachments..
    * Files in _subdirectories_ of topic attachments are not copied. (ex. image caches, javascript & css subdirectories, etc.) This is common in the System web.
    * All topic revisions must have the same encoding.  If ={Site}{CharSet}= was changed after history exists, the history will not convert correctly and the copy may fail.
 </div>
