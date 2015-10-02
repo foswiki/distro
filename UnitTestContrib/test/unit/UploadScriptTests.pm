@@ -10,6 +10,7 @@ use Unit::Request();
 use Foswiki::UI::Upload();
 use CGI();
 use Error qw( :try );
+use File::Temp;
 
 my $UI_FN;
 my $FORM = { name => 'BogusForm' };
@@ -55,17 +56,16 @@ sub do_upload {
     my $query = Unit::Request->new( \%args );
     $query->method('POST');
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
-    my $tmpfile = CGITempFile->new(0)
-      ; #<-- returns undef on OSX with 3.15 version of CGI module (works on 3.42)
-    my $fh = Fh->new( $fn, $tmpfile->as_string, 0 );
+    my $fh      = File::Temp->new();
+    my $tmpfile = $fh->filename;
     print $fh $data;
     seek( $fh, 0, 0 );
     $query->param( -name => 'filepath', -value => $fn );
     my %uploads = ();
     require Foswiki::Request::Upload;
-    $uploads{$fh} = Foswiki::Request::Upload->new(
+    $uploads{$fn} = Foswiki::Request::Upload->new(
         headers => {},
-        tmpname => $tmpfile->as_string
+        tmpname => $tmpfile
     );
     $query->uploads( \%uploads );
 
