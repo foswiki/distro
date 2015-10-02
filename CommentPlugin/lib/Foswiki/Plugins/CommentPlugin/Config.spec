@@ -1,6 +1,6 @@
 # ---+ Extensions
 # ---++ CommentPlugin
-# **SELECT CHANGE,COMMENT LABEL="Permission Required for Save"**
+# **SELECT CHANGE,COMMENT **
 # Access control permissions that are required to be able to add a comment
 # to a topic. CHANGE is the default, the same as for an adit, but you can
 # also select COMMENT which will check e.g. ALLOWTOPICCOMMENT. This lets you
