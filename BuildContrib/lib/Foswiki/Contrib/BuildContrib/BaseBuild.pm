@@ -89,10 +89,12 @@ sub readManifest {
         next if $line =~ /^\s*(?:#|$)/;
         if ( $line =~ /^!include\s+(\S+)\s*$/ ) {
             my $incFile = $1;
-            if ( -f $incFile ) {
+
+            #print STDERR "Processing nested manifest $incFile\n";
+            if ( -f $baseDir . '/' . $incFile ) {
                 my ( $nfiles, $notherModules, $noptions ) =
                   Foswiki::Contrib::BuildContrib::BaseBuild::readManifest(
-                    $baseDir, '', $incFile, sub { exit(1) } );
+                    $baseDir, "$baseDir/", $incFile, sub { exit(1) } );
                 push @files,        @$nfiles;
                 push @otherModules, @$notherModules;
                 %options = ( %options, %$noptions );
@@ -162,13 +164,18 @@ sub readManifest {
                 close $fh;
                 $n->{md5} = $md5->hexdigest;
             }
-            else {
-                warn "File $name does not exist on disk!";
+            elsif ( -l "$baseDir/$name" ) {
+                warn
+"WARNING: File $name is a symbolic link - may not work on all target platforms";
+            }
+            elsif ( !-d "$baseDir/$name" ) {
+                warn "WARNING: File $name does not exist on disk!";
             }
             push( @files, $n );
         }
     }
     close $pf;
+
     return ( \@files, \@otherModules, \%options );
 }
 

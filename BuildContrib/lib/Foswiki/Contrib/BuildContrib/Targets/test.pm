@@ -15,6 +15,8 @@
 #
 package Foswiki::Contrib::Build;
 
+use strict;
+
 =begin TML
 
 ---++++ target_test
@@ -56,7 +58,16 @@ MESSY
     print "Running tests in $tests\n";
     $this->pushd($testdir);
     $this->{-v} = 1;    # to get the command printed
-    $this->sys_action( 'perl', '-w', @inc, $testrunner, $tests );
+
+    # $this->sys_action( 'perl', '-w', @inc, $testrunner, $tests );
+    # sys_action hides the output, so we use system() instead.
+    # exec() never returns, but that's OK in this case.
+    my @cmd = ( 'perl', '-w', @inc, $testrunner, $tests );
+    if ( $this->{-v} || $this->{-n} ) {
+        my $cmd = join( ' ', map { /\s/ ? "\"$_\"" : $_ } @cmd );
+        print "Running: $cmd\n";
+    }
+    system(@cmd);
     $this->popd();
 }
 

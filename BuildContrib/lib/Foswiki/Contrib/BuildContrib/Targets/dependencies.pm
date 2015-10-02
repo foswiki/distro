@@ -15,6 +15,7 @@
 #
 package Foswiki::Contrib::Build;
 
+use strict;
 use B::PerlReq;
 
 =begin TML
@@ -85,6 +86,7 @@ sub target_dependencies {
     }
 
     my $inc = '-I' . join( ' -I', @INC );
+    my $basedir = $this->{basedir};
     foreach my $pmfile (@queue) {
         die         unless defined $basedir;
         die         unless defined $inc;

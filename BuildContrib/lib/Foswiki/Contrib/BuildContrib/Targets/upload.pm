@@ -1,6 +1,6 @@
 #
-# Copyright (C) 2004-2012 C-Dot Consultants - All rights reserved
-# Copyright (C) 2008-2010 Foswiki Contributors
+# Copyright (C) 2004-2015 C-Dot Consultants - All rights reserved
+# Copyright (C) 2008-2015 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -58,6 +58,32 @@ my $lastUpload = 0;    # time of last upload (0 means none yet)
         my ( $this, $realm, $uri ) = @_;
         return $this->{builder}->getCredentials( $uri->host() );
     }
+}
+
+sub recover_form {
+
+    #my ($text, $form) = @_;
+    my $sawn = 0;
+
+    while ( $_[0] =~
+s/(^|\n)%META:FIELD\{name="([^"]*?)"[^}]*?value="([^"]*?)"[^}]*?}%(\n|$)/$1/s
+      )
+    {
+        my $name = $2;
+        my $val  = $3;
+
+        # decode the value
+        $val =~ s/%([\da-f]{2})/chr(hex($1))/gei;
+
+        # Trim null values or we end up damaging the form
+        if ( defined $val && length($val) ) {
+            $_[1]->{$name} = $val;
+        }
+        $sawn++;
+    }
+    $_[0] =~ s/(^|\n)%META:FORM\{name=[^}]*?}%(\n|$)/$1/s;
+
+    return $sawn;
 }
 
 =begin TML
@@ -181,9 +207,17 @@ END
     # Get the old form data and attach it to the update
     print "Downloading $topic to recover form\n";
     my $response = $userAgent->get("$url?raw=all");
+    my $etype    = "Contrib";
+    if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
+        $etype = $1 unless $1 eq 'AddOn';
+    }
 
-    my %newform;
-    my $formExists = 0;
+    my %form = (
+        formtemplate  => 'PackageForm',
+        ExtensionType => $etype . 'Package',
+        SupportUrl    => 'Support.' . $this->{project},
+        DemoUrl       => 'http://'
+    );
 
     # SMELL: There appears to be no way to distinguish if Foswiki didn't
     # find the topic and returns the topic creator form, or if the GET
@@ -192,9 +226,19 @@ END
     # For now, look to see if there is a newtopicform present. If found,
     # it means that the get should be treated as a NOT FOUND.
 
-    unless ( $response->is_success()
+    if ( $response->is_success()
         && !( $response->content() =~ m/<form name="newtopicform"/s ) )
     {
+        print "Recovering form from $topic\n";
+
+        # SMELL: would be better to use Foswiki::Meta to do this
+        unless ( recover_form( $response->content(), \%form ) ) {
+            print STDERR "======= WARNING =======\n";
+            print STDERR
+"A default package form was created.  Please verify the setting on the uploaded topic\n";
+        }
+    }
+    else {
         if ( !$response->is_success ) {
             print 'Failed to GET old topic ', $response->request->uri,
               ' -- ', $response->status_line, "\n";
@@ -205,50 +249,17 @@ END
         {
             print "Downloading $topic from $alturl to recover form\n";
             $response = $userAgent->get("$alturl?raw=all");
-            unless ( $response->is_success ) {
-                print 'Failed to GET old topic from Alternate location',
-                  $response->request->uri,
-                  $newform{formtemplate} = 'PackageForm';
-                if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
-                    $newform{ExtensionType} = $1 . 'Package';
+            if (   $response->is_success
+                && !( $response->content() =~ m/<form name="newtopicform"/s )
+                && recover_form( $response->content(), \%form ) )
+            {
+            }
+            else {
+                unless ( $response->is_success ) {
+                    print 'Failed to GET old topic from Alternate location',
+                      $response->request->uri,
+                      ;
                 }
-            }
-        }
-    }
-    if ( $response->is_success()
-        && !( $response->content() =~ m/<form name="newtopicform"/s ) )
-    {
-        print "Recovering form from $topic\n";
-
-        # SMELL: would be better to use Foswiki::Meta to do this
-        foreach my $line ( split( /\n/, $response->content() ) ) {
-
-            if ( $line =~ m/%META:FIELD{name="(.*?)".*?value="(.*?)"/ ) {
-                my $name = $1;
-                my $val  = $2;
-
-                # URL-decode the value
-                $val =~ s/%([\da-f]{2})/chr(hex($1))/gei;
-
-                # Trim null values or we end up damaging the form
-                if ( defined $val && length($val) ) {
-                    $newform{$name} = $val;
-                }
-            }
-            elsif ( $line =~ /META:FORM{name="PackageForm/ ) {
-                $newform{formtemplate} = 'PackageForm';
-                $formExists = 1;
-            }
-        }
-
-        # Assign a package form and set some basic defaults
-        if ( !$formExists ) {
-            $newform{formtemplate} ||= 'PackageForm';
-            if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
-                $newform{ExtensionType} ||= $1 . 'Package';
-                $newform{ExtensionType} =~ s/^AddOn/Contrib/;
-                $newform{SupportUrl} = 'Support.' . $this->{project};
-                $newform{DemoUrl}    = 'http://';
                 print STDERR "======= WARNING =======\n";
                 print STDERR
 "A default package form was created.  Please verify the setting on the uploaded topic\n";
@@ -256,9 +267,17 @@ END
         }
     }
 
-    $newform{text} = $topicText;
+    #print STDERR "========= Form from web =========\n";
+    #foreach my $k ( keys %form ) {
+    #    next if ( $k eq 'text' );
+    #    print STDERR sprintf("%-26s %s\n", $k, $form{$k});
+    #}
+    #print STDERR "=================================\n";
 
-    $this->_uploadTopic( $userAgent, $user, $pass, $topic, \%newform );
+    # Override what is read from the web with the form in the new topic
+    recover_form( $topicText, \%form );
+    $form{text} = $topicText;
+    $this->_uploadTopic( $userAgent, $user, $pass, $topic, \%form );
 
     # Upload any 'Var*.txt' topics published by the extension
     my $dataDir = $this->{basedir} . '/data/System';
@@ -266,7 +285,7 @@ END
         foreach my $f ( grep( /^Var\w+\.txt$/, readdir DIR ) ) {
             if ( open( IN_FILE, '<', $this->{basedir} . '/data/System/' . $f ) )
             {
-                %newform = ( text => <IN_FILE> );
+                my %newform = ( text => <IN_FILE> );
                 close(IN_FILE);
                 $f =~ s/\.txt$//;
                 $this->_uploadTopic( $userAgent, $user, $pass, $f, \%newform );
@@ -361,7 +380,7 @@ sub _uploadTopic {
     print STDERR "========= Form Data for review =========\n";
     foreach my $k ( keys %$form ) {
         next if ( $k eq 'text' );
-        printf "%-26s %s\n", $k, $form->{$k};
+        print STDERR sprintf( "%-26s %s\n", $k, $form->{$k} );
     }
     print STDERR "========================================\n";
 
@@ -386,7 +405,7 @@ sub _uploadTopic {
     $form->{text} = <<EXTRA. $form->{text};
 <!--
 This topic is part of the documentation for $this->{project} and is
-automatically generated from Subversion. You can edit it, but if you do,
+automatically generated from git. You can edit it, but if you do,
 please make sure the maintainer of the extension knows about your changes,
 otherwise your edits might be lost the next time the topic is uploaded.
 
@@ -471,6 +490,11 @@ sub _strikeone {
 
 sub _postForm {
     my ( $this, $userAgent, $user, $pass, $url, $form ) = @_;
+
+    if ( $this->{-N} ) {
+        print STDERR "SKIPPING UPLOAD because -N was on the command line\n";
+        return;
+    }
 
     my $pause = GLACIERMELT - ( time - $lastUpload );
     if ( $pause > 0 ) {

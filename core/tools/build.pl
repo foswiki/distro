@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl 
 #
 # Build for Foswiki
 # Crawford Currie & Sven Dowideit
@@ -7,6 +7,7 @@
 # the distribution.
 
 use strict;
+use warnings;
 
 BEGIN {
     use File::Spec;
@@ -45,10 +46,52 @@ sub new {
     my $nocheck;      #set to bypass git repo check
     my $name;
 
+    my $uglify = `echo ''|uglifyjs --version 2>&1`;
+    if ($?) {
+        print "$uglify\n";
+        print "Install node.js 'uglifyjs' (npm --global install uglifyjs)\n";
+        die "Building a release not possible. js compressor is missing.";
+    }
+    else {
+        print "Building with $uglify\n";
+    }
+
+    my $cssmin = `echo ''|cssmin -h 2>&1`;
+    if ($?) {
+        print "$cssmin\n";
+        print "Install node.js 'cssmin' (npm --global install cssmin)\n";
+        die "Building a release not possible. CSS minifier is missing.";
+    }
+    else {
+        print "Building with node.js cssmin\n";
+    }
+
+    while ( scalar(@ARGV) > 1 ) {
+        my $arg = pop(@ARGV);
+        if ( $arg eq '-auto' ) {
+
+            #build a name from major.minor.patch.-auto.gitrev
+            my $rev = `git rev-parse --short HEAD`;
+            chomp $rev;
+            $name = 'Foswiki-' . getCurrentFoswikiRELEASE() . '-auto' . $rev;
+            $name =~ s/\s*$//g;
+            $autoBuild = 1;
+        }
+        if ( $arg eq '-commit' ) {
+
+            # Commit the changes back to the repo
+            $commit = 1;
+        }
+        if ( $arg eq '-nocheck' ) {
+
+            $nocheck = 1;
+        }
+    }
+
     if ( my $gitdir = findPathToDir('.git') ) {
         print "detected git installation at $gitdir\n";
 
-     # Verify that all files are committed and all commits are pushed to github TODO
+ # Verify that all files are committed and all commits are pushed to github TODO
         my $gitstatus = `git status -uno`;
         unless ($nocheck) {
             die
@@ -58,28 +101,6 @@ sub new {
     }
     else {
         die "no .git dir detected, svn is ***OBSOLETE***, aborting!\n";
-    }
-
-    if ( scalar(@ARGV) > 1 ) {
-        $name = pop(@ARGV);
-        if ( $name eq '-auto' ) {
-
-            #build a name from major.minor.patch.-auto.gitrev
-            my $rev = `git rev-parse --short HEAD`;
-            $name      = 'Foswiki-' . getCurrentFoswikiRELEASE() . '-auto' . $rev;
-            $autoBuild = 1;
-        }
-        if ( $name eq '-commit' ) {
-
-            # Commit the changes back to the repo
-            $commit = 1;
-            $name   = undef;
-        }
-        if ( $name eq '-nocheck' ) {
-
-            $nocheck = 1;
-            $name    = undef;
-        }
     }
 
     print <<END;
@@ -93,22 +114,26 @@ END
     my @olds = sort grep { /^FoswikiRelease\d+x\d+x\d+$/ }
       split( '\n', `git tag` );
 
-    unless ($autoBuild) {
+    my $content;
+    open( PM, '<', "../lib/Foswiki.pm" ) || die $!;
 
-        open( PM, '<', "../lib/Foswiki.pm" ) || die $!;
+    {
         local $/ = undef;
-        my $content = <PM>;
+        $content = <PM>;
         close(PM);
+    }
 
-        my $VERSION;
-        my ($version) = $content =~ m/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/sm;
-        substr( $version, 0, 0, 'use version 0.77; ' )
-          if ( $version =~ /version/ );
-        eval $version if ($version);
+    my $VERSION;
+    my ($version) = $content =~ m/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/sm;
+    substr( $version, 0, 0, 'use version 0.77; ' )
+      if ( $version =~ /version/ );
+    eval $version if ($version);
 
-        my $RELEASE;
-        my ($release) = $content =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*?);/sm;
-        eval $release if ($release);
+    my $RELEASE;
+    my ($release) = $content =~ m/^\s*(?:our)?\s*(\$RELEASE\s*=.*?);/sm;
+    eval $release if ($release);
+
+    unless ($autoBuild) {
 
         print <<END;
 
@@ -217,16 +242,28 @@ s/^\s*(?:use\ version.*?;)?\s*(?:our)?\s*(\$VERSION\s*=.*?);/    use version 0.7
             # Note; the commit is unconditional, because we *must* update
             # Foswiki.pm before building.
             my $tim = 'BUILD ' . $name . ' at ' . gmtime() . ' GMT';
-	    my $cmd = "git commit -m 'Item000: $tim' ../lib/Foswiki.pm";
+            my $cmd = "git commit -m 'Item000: $tim' ../lib/Foswiki.pm";
 
-	    print `$cmd` if $commit;
-	    print "$cmd\n";
-	    die $@ if $@;
+            print `$cmd` if $commit;
+            print "$cmd\n";
+            die $@ if $@;
         }
         else {
+
             # This is a rebuild, just use the same name.
             $name = "$RELEASE";
         }
+    }
+    else {
+
+        my $rev = `git log --abbrev=12 --format=format:"Commit: %h - %ci" -1`;
+        my $br  = `git branch`;
+        ($br) = $br =~ m/^\* (.*)$/m;
+
+        $content =~ s/(\$RELEASE\s*=\s*').*?(')/$1Branch: $br $rev$2/;
+        open( PM, '>', "../lib/Foswiki.pm" ) || die $!;
+        print PM $content;
+        close(PM);
     }
 
     # make sure the project name (and hence the files we generate)
@@ -395,8 +432,10 @@ sub stage_gendocs {
 
     # generate the POD documentation
     print "Building automatic documentation to $this->{tmpDir}...";
-    $this->cp( "$this->{tmpDir}/AUTHORS",
+    $this->cp( "$this->{basedir}/AUTHORS",
         "$this->{tmpDir}/pub/System/ProjectContributor/AUTHORS" );
+    $this->cp( "$this->{basedir}/pub/System/DocumentGraphics/viewtopic.png",
+        "$this->{tmpDir}/viewtopic.png" );
 
 #SMELL: these should probably abort the build if they return errors / oopies
 #replaced by the simpler INSTALL.html
@@ -404,14 +443,14 @@ sub stage_gendocs {
     print
 `cd $this->{basedir}/bin ; ./view -topic System.ReleaseHistory -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseHistory.html`;
     print
-`cd $this->{basedir}/bin ; ./view -topic System.ReleaseNotes01x01 -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseNotes01x01.html`;
+`cd $this->{basedir}/bin ; ./view -topic System.ReleaseNotes02x00 -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseNotes02x00.html`;
     print
 `cd $this->{basedir}/bin ; ./view -topic System.UpgradeGuide -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/UpgradeGuide.html`;
     print
-`cd $this->{basedir}/bin ; ./view -topic System.InstallationGuidePart1 -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/INSTALL.html`;
+`cd $this->{basedir}/bin ; ./view -topic System.InstallationGuide -skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/INSTALL.html`;
     $this->filter_txt(
-        "$this->{tmpDir}/ReleaseNotes01x01.html",
-        "$this->{tmpDir}/ReleaseNotes01x01.html"
+        "$this->{tmpDir}/ReleaseNotes02x00.html",
+        "$this->{tmpDir}/ReleaseNotes02x00.html"
     );
     print "Automatic documentation built\n";
 }

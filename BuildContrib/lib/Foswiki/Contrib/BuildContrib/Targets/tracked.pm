@@ -15,14 +15,20 @@
 #
 package Foswiki::Contrib::Build;
 
-sub _filter_tracked_pm {
+use strict;
+
+our $DEFAULTCUSTOMERDB = "$ENV{HOME}/customerDB";
+
+sub _tracked_filter_file {
     my ( $this, $from, $to ) = @_;
     $this->filter_file(
         $from, $to,
         sub {
             my ( $this, $text ) = @_;
             $text =~ s/%\$RELEASE%/$this->{RELEASE}/gm;
-            $text =~ s/%\$TRACKINGCODE%/$this->{TRACKINGCODE}/gm;
+            if ( $text =~ s/%\$TRACKINGCODE%/$this->{TRACKINGCODE}/gm ) {
+                print "TRACKINGCODE expanded in $to\n";
+            }
             return $text;
         }
     );
@@ -72,10 +78,16 @@ sub target_tracked {
         close(F);
     }
 
-    warn "$customer tracking code $customers{$customer}\n";
+    print STDERR "$customer tracking code $customers{$customer}\n";
+    $this->{RELEASE} =~ s/%\$TRACKINGCODE%/$this->{TRACKINGCODE}/g;
 
-    push( @stageFilters, { RE => qr/\.pm$/, filter => '_filter_tracked_pm' } );
-
+    # Assume that target_stage is going to be run, and push new filters
+    push( @Foswiki::Contrib::Build::stageFilters,
+        { RE => qr/\.pm$/, filter => '_tracked_filter_file' } );
+    push( @Foswiki::Contrib::Build::stageFilters,
+        { RE => qr/\.txt$/, filter => '_tracked_filter_file' } );
+    push( @Foswiki::Contrib::Build::stageFilters,
+        { RE => qr/\.(css|js)$/, filter => '_tracked_filter_file' } );
     $this->build('release');
 }
 

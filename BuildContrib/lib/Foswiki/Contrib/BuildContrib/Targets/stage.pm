@@ -15,10 +15,81 @@
 #
 package Foswiki::Contrib::Build;
 
-my @stageFilters = (
-    { RE => qr/\.txt$/, filter => 'filter_txt' },
-    { RE => qr/\.pm$/,  filter => 'filter_pm' },
-);
+use strict;
+
+our @stageFilters;
+
+sub form_repair {
+    my ( $this, $from, $to ) = @_;
+
+    $this->filter_file(
+        $from, $to,
+        sub {
+            my ( $this, $text ) = @_;
+
+            if ( $text =~ m/([^[:ascii:]])/ ) {
+                print STDERR
+                  "WARNING: Non-ASCII character ($1) detected in $from\n";
+            }
+
+            # Don't replace existing form
+            return $text if $text =~ /^\%META:FORM\{/m;
+
+            # Extract form data from text
+            my %data = (
+                Author      => "ProjectContributor",
+                Release     => '%$RELEASE%',
+                Version     => '%$VERSION%',
+                Description => '%$SHORTDESCRIPTION%',
+                Copyright   => '',
+                License     => '',
+                Home        => 'http://foswiki.org/Extensions/%$ROOTMODULE%',
+                Support     => 'http://foswiki.org/Support/%$ROOTMODULE%',
+                Repository  => 'https://github.com/foswiki/%$ROOTMODULE%'
+            );
+            my $form = "\n\%META:FORM{name=\"PackageForm\"}%\n";
+            foreach my $field ( sort keys %data ) {
+
+                #print STDERR "Looking for $field\n";
+                if (
+                    $text =~ s{
+                          \n\|\s*                                 # Start of table row
+                          (?:Plugin\s+)?                          # Optional plugin prefix
+                          $field                                  # The field being searched
+                             (?:\(?s\)?)?                         # Possible plural: eg. Authors / Author(s)
+                             (?:\s?\&copy;)?                      # Copyright symbol (Copyright &copy;)
+                             (?:\s?\(C\))?                        #  - or Copyright (C)
+                             :?                                   # optional colon :
+                          \s*\|\s*                                # Table delimiter
+                            (.*?)                                 # Capture the data
+                          \s*\|\n                                 # End of table row
+                          }
+                          {\n}ix    # Remove the data - copy to the form
+                  )
+                {
+                    $data{$field} = $1;
+                    $data{$field} =~ s/(["\r\n])/'%'.sprintf('%02x',ord($1))/ge;
+                }
+
+                if ( $text =~ s/^   * Set SHORTDESCRIPTION = (.*)$//m ) {
+                    $data{$field} = $1;
+                    $data{$field} =~ s/(["\r\n])/'%'.sprintf('%02x',ord($1))/ge;
+                }
+
+                $text =~ s/\%SHORTDESCRIPTION%/%FORMFIELD{"Description"}%/g;
+
+                #print STDERR "FIELD $field DATA $data{$field}\n";
+                print STDERR "WARNING: no Copyright set in the PackageForm.\n"
+                  if ( $field eq 'Copyright' && !$data{$field} );
+                print STDERR "WARNING: no License set in the PackageForm.\n"
+                  if ( $field eq 'License' && !$data{$field} );
+                $form .= "\%META:FIELD{name=\"$field\" ";
+                $form .= "title=\"$field\" value=\"$data{$field}\"}%\n";
+            }
+            return $text . $form;
+        }
+    );
+}
 
 =begin TML
 
@@ -31,6 +102,11 @@ sub target_stage {
     my $this    = shift;
     my $project = $this->{project};
 
+    push( @stageFilters,
+        { RE => qr/$project\.txt$/, filter => 'form_repair' } );
+    push( @stageFilters, { RE => qr/\.txt$/, filter => 'filter_txt' } );
+    push( @stageFilters, { RE => qr/\.pm$/,  filter => 'filter_pm' } );
+
     $this->{tmpDir} ||= File::Temp::tempdir( CLEANUP => 1 );
     File::Path::mkpath( $this->{tmpDir} );
 
@@ -39,9 +115,11 @@ sub target_stage {
     foreach my $file ( @{ $this->{files} } ) {
         foreach my $filter (@stageFilters) {
             if ( $file->{name} =~ /$filter->{RE}/ ) {
+
+                #print "FILTER $file->{name} $filter->{RE} $filter->{filter}\n";
                 my $fn = $filter->{filter};
                 $this->$fn(
-                    $this->{basedir} . '/' . $file->{name},
+                    $this->{tmpDir} . '/' . $file->{name},
                     $this->{tmpDir} . '/' . $file->{name}
                 );
             }
@@ -53,20 +131,22 @@ sub target_stage {
             $this->{basedir} . '/' . $project . '.txt'
         );
     }
+
     $this->apply_perms( $this->{files}, $this->{tmpDir} );
 
     if ( $this->{other_modules} ) {
         my $libs = join( ':', @INC );
         foreach my $module ( @{ $this->{other_modules} } ) {
 
-            die "$basedir / $module does not exist, cannot build $module\n"
-              unless ( -e "$basedir/$module" );
+            die
+"$Foswiki::Contrib::Build::basedir / $module does not exist, cannot build $module\n"
+              unless ( -e "$Foswiki::Contrib::Build::basedir/$module" );
 
             warn "Installing $module in $this->{tmpDir}\n";
 
             #SMELL: uses legacy TWIKI_ exports
             my $cmd =
-"export FOSWIKI_HOME=$this->{tmpDir}; export FOSWIKI_LIBS=$libs; export TWIKI_HOME=$this->{tmpDir}; export TWIKI_LIBS=$libs; cd $basedir/$module; perl build.pl handsoff_install";
+"export FOSWIKI_HOME=$this->{tmpDir}; export FOSWIKI_LIBS=$libs; export TWIKI_HOME=$this->{tmpDir}; export TWIKI_LIBS=$libs; cd $Foswiki::Contrib::Build::basedir/$module; perl build.pl handsoff_install";
 
             #warn "***** running $cmd \n";
             print `$cmd`;

@@ -1,6 +1,6 @@
 #
-# Copyright (C) 2004-2012 C-Dot Consultants - All rights reserved
-# Copyright (C) 2008-2012 Foswiki Contributors
+# Copyright (C) 2004-2014 C-Dot Consultants - All rights reserved
+# Copyright (C) 2008-2014 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@ package Foswiki::Contrib::Build;
 
 use Foswiki::Contrib::BuildContrib::BaseBuild;
 use Error qw(:try);
-use CGI qw(:any);
+use CGI ();
 
 =begin TML
 
@@ -120,11 +120,11 @@ BEGIN {
 
         my $env = $ENV{'FOSWIKI_LIBS'};
         die <<ARGH unless $env;
-We don't seem to be building in a configured subversion checkout, and
+We don't seem to be building in a configured git checkout, and
 FOSWIKI_LIBS is not defined. I cannot determine how to find the Foswiki
 libraries required to support the build system.
 
-BuildContrib must either be run within a full subversion checkout
+BuildContrib must either be run within a full git checkout
 that has both LocalLib.cfg and LocalSite.cfg, or the environment variable
 FOSWIKI_LIBS must point to a configured Foswiki.
 
@@ -210,7 +210,7 @@ sub new {
     my $n    = 0;
     my $done = 0;
     while ( $n <= $#ARGV ) {
-        if ( $ARGV[$n] =~ /^-/o ) {
+        if ( $ARGV[$n] =~ m/^-/ ) {
             $this->{ $ARGV[$n] } = 1;
         }
         else {
@@ -232,10 +232,10 @@ sub new {
     #SMELL: Hardcoded project classification
     # where the sub-modules live
     $this->{libdir} = $libpath;
-    if ( $this->{project} =~ /Plugin$/ ) {
+    if ( $this->{project} =~ m/Plugin$/ ) {
         $this->{libdir} .= "/$targetProject/Plugins";
     }
-    elsif ( $this->{project} =~ /(Contrib|Skin|AddOn)$/ ) {
+    elsif ( $this->{project} =~ m/(Contrib|Skin|AddOn)$/ ) {
         $this->{libdir} .= "/$targetProject/Contrib";
     }
 
@@ -270,7 +270,7 @@ sub new {
             $badVersion = 1 if ( $version =~ m/\$Date|\$Rev/ );
 
             substr( $version, 0, 0, 'use version 0.77; ' )
-              if ( $version =~ /version/ );
+              if ( $version =~ m/version/ );
 
             eval $version     if ($version);
             eval $release     if ($release);
@@ -333,7 +333,7 @@ sub new {
         #the core DEPENDENCIES is in the lib dir, not the tools dir
         $dependencies = findRelative( $libpath, 'DEPENDENCIES' );
     }
-    $this->_loadDependenciesFrom($dependencies);
+    $this->_loadDependenciesFrom($dependencies) if $dependencies;
 
     # Pull in dependencies from other modules
     if ( $this->{other_modules} ) {
@@ -346,7 +346,7 @@ sub new {
 
                 $this->_loadDependenciesFrom($depsfile);
             }
-            catch Error::Simple with {
+            catch Error with {
                 warn "WARNING: no dependencies in $basedir/$module " . shift;
             };
         }
@@ -359,9 +359,9 @@ sub new {
         $rawdeps .=
 "$dep->{name},$dep->{version},$dep->{trigger},$dep->{type},$dep->{description}\n";
         my $v = $dep->{version};
-        $v =~ s/&/&amp;/go;
-        $v =~ s/>/&gt;/go;
-        $v =~ s/</&lt;/go;
+        $v =~ s/&/&amp;/g;
+        $v =~ s/>/&gt;/g;
+        $v =~ s/</&lt;/g;
         my $cells =
             CGI::td( { align => 'left' }, $dep->{name} )
           . CGI::td( { align => 'left' }, $v )
@@ -395,8 +395,8 @@ sub new {
         }
         print STDERR <<ERROR;
 
-SVN keword based version string detected.  \$Date or \$Rev detected.
-SVN revision strings are no longer supported.
+\$VERSION string containing \$Date or \$Rev detected.
+Keyword-based \$VERSION strings are no longer supported.
 Please update to a real Perl version string.
 
 ERROR
@@ -439,7 +439,9 @@ ERROR
     }
 
     my $config = $this->_loadConfig();
-    my $rep    = $config->{repositories}->{ $this->{project} };
+    my $rep    = $config->{repositories}->{'default'};
+    $rep = $config->{repositories}->{ $this->{project} }
+      if defined $config->{repositories}->{ $this->{project} };
     if ($rep) {
         $this->{UPLOADTARGETPUB}    = $rep->{pub};
         $this->{UPLOADTARGETSCRIPT} = $rep->{script};
@@ -531,7 +533,7 @@ sub _addDependency {
         my $b = $dep{version};
         $a =~ s/[<>=]//g;
         $b =~ s/[<>=]//g;
-        if ( $a =~ /^[0-9.]+$/ && $b =~ /^[0-9.]+$/ ) {
+        if ( $a =~ m/^[0-9.]+$/ && $b =~ m/^[0-9.]+$/ ) {
             if ( $a < $b ) {
                 $existing[0]->{version} = $dep{version};
             }
@@ -550,12 +552,13 @@ sub _loadDependenciesFrom {
     if ( -f $depsFile ) {
         open( PF, '<', $depsFile ) || die 'Failed to open ' . $depsFile;
         while ( my $line = <PF> ) {
-            if ( $line =~ /^\s*$/ || $line =~ /^\s*#/ ) {
+            if ( $line =~ m/^\s*$/ || $line =~ m/^\s*#/ ) {
             }
-            elsif ( $line =~ /^ONLYIF\s*(\(.*\))\s*$/ ) {
+            elsif ( $line =~ m/^ONLYIF\s*(\(.*\))\s*$/ ) {
                 $condition = $1;
             }
-            elsif ( $line =~ m/^(\w+)\s+(\w*)\s*(.*)$/o ) {
+            elsif ( $line =~ m/^(\w+)\s+(\w*)\s*(.*)$/ ) {
+                die "Badly formatted ONLYIF" if $1 eq 'ONLYIF';
                 $this->_addDependency(
                     name        => $1,
                     type        => $2,
@@ -565,7 +568,7 @@ sub _loadDependenciesFrom {
                 );
                 $condition = 1;
             }
-            elsif ( $line =~ m/^([^,]+),([^,]*),\s*(\w*)\s*,\s*(.+)$/o ) {
+            elsif ( $line =~ m/^([^,]+),([^,]*),\s*(\w*)\s*,\s*(.+)$/ ) {
                 $this->_addDependency(
                     name        => $1,
                     version     => $2,
@@ -629,7 +632,7 @@ sub _get_repo_information {
                 if ( -f $file ) {
                     push @files, $file;
                 }
-                elsif ( $file =~ /\/$/ )
+                elsif ( $file =~ m/\/$/ )
                 {    # Directory, create if it does not exist
                     File::Path::mkpath($file);
                 }
@@ -652,7 +655,7 @@ sub _get_repo_information {
                     my $log = $this->sys_action( @command, @files );
                     my $getDate = 0;
                     foreach my $line ( split( "\n", $log ) ) {
-                        if ( $line =~ /^Last Changed Rev: (\d+)/ ) {
+                        if ( $line =~ m/^Last Changed Rev: (\d+)/ ) {
                             $getDate = 0;
                             if ( $1 > $max ) {
                                 $max     = $1;
@@ -661,7 +664,7 @@ sub _get_repo_information {
                         }
                         elsif ($getDate
                             && $line =~
-/(?:^Text Last Updated|Last Changed Date): ([\d-]+) ([\d:]+) ([-+\d]+)?/m
+m/(?:^Text Last Updated|Last Changed Date): ([\d-]+) ([\d:]+) ([-+\d]+)?/m
                           )
                         {
                             $maxd = Foswiki::Time::parseTime(
@@ -675,14 +678,14 @@ sub _get_repo_information {
                 {
                     @command = qw(git log -1 --pretty=medium --date=iso --);
                     my $log = $this->sys_action( @command, @files );
-                    if ( $log =~ /^\s+git-svn-id: \S+\@(\d+)\s/m ) {
+                    if ( $log =~ m/^\s+git-svn-id: \S+\@(\d+)\s/m ) {
                         $max = $1 if $1 > $max;
                     }
                     else {
                         die 'You have un-published changes.'
                           . ' Please "git svn dcommit"';
                     }
-                    if ( $log =~ /^Date:\s+([\d-]+) ([\d:]+) ([-+\d]+)?/m ) {
+                    if ( $log =~ m/^Date:\s+([\d-]+) ([\d:]+) ([-+\d]+)?/m ) {
                         $maxd = Foswiki::Time::parseTime("$1T$2$3");
                     }
                 }
@@ -723,7 +726,7 @@ sub filter_file {
     open( $fh, '<', $from ) || die 'No source topic ' . $from . ' for filter';
     local $/ = undef;
     my $text = <$fh>;
-    $text = $this->$sub($text) unless $from =~ /Dependency.pm$/;
+    $text = $this->$sub($text) unless $from =~ m/Dependency.pm$/;
     close($fh);
 
     unless ( $this->{-n} ) {
@@ -741,15 +744,15 @@ sub ask {
     my $reply;
     local $/ = "\n";
 
-    $q .= '?' unless $q =~ /\?\s*$/;
+    $q .= '?' unless $q =~ m/\?\s*$/;
 
     my $yorn = 'y/n';
     if ( defined $default ) {
-        if ( $default =~ /y/i ) {
+        if ( $default =~ m/y/i ) {
             $default = 'yes';
             $yorn    = 'Y/n';
         }
-        elsif ( $default =~ /n/i ) {
+        elsif ( $default =~ m/n/i ) {
             $default = 'no';
             $yorn    = 'y/N';
         }
@@ -760,13 +763,13 @@ sub ask {
     print $q. ' [' . $yorn . '] ';
 
     while ( ( $reply = <STDIN> ) !~ /^[yn]/i ) {
-        if ( $reply =~ /^\s*$/ && defined($default) ) {
+        if ( $reply =~ m/^\s*$/ && defined($default) ) {
             $reply = $default;
             last;
         }
         print "Please answer yes or no\n";
     }
-    return ( $reply =~ /^y/i ) ? 1 : 0;
+    return ( $reply =~ m/^y/i ) ? 1 : 0;
 }
 
 sub prompt {
@@ -882,7 +885,12 @@ sub cp {
         print 'cp ' . $from . ' ' . $to . "\n";
     }
     unless ( $this->{-n} ) {
-        if ( -d $from ) {
+        if ( -l $from ) {
+            my $link = readlink($from);
+            symlink( $link, $to )
+              || warn "Warning: Failed to create link from $to to $link: $!";
+        }
+        elsif ( -d $from ) {
             unless ( -e $to ) {
                 mkdir($to) || warn 'Warning: Failed to make ' . $to . ': ' . $!;
             }
@@ -976,10 +984,21 @@ sub filter_txt {
 # Item10629: Must preserve version for CompareRevisionAddOnDemoTopic, or nothing to demo
             $text =~ s/^(%META:TOPICINFO\{.*version=").*?(".*\}%)$/${1}1$2/m
               unless $from =~ m/CompareRevisionsAddOnDemoTopic.txt$/;
-            $text =~ s/%\$(\w+)%/&_expand($this,$1)/geo;
+            $text =~ s/%\$(\w+)%/&_expand($this,$1)/ge;
+
+            # Hack to support those who edit topics using Foswiki, where
+            # % gets encoded as %25 in field values
+            $text =~ s/%25\$(\w+)%25/&_encode(&_expand($this,$1))/ge;
             return $text;
         }
     );
+}
+
+sub _encode {
+    my $datum = shift;
+
+    $datum =~ s/([%"\r\n{}])/'%'.sprintf('%02x',ord($1))/ge;
+    return $datum;
 }
 
 sub _expand {
@@ -1013,7 +1032,7 @@ sub filter_pm {
         $from, $to,
         sub {
             my ( $this, $text ) = @_;
-            $text =~ s/\$Rev(:\s*\d+)?\s*\$/\$Rev\: $this->{VERSION} \$/gso;
+            $text =~ s/\$Rev(:\s*\d+)?\s*\$/\$Rev\: $this->{VERSION} \$/gs;
             return $text;
         }
     );

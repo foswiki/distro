@@ -15,6 +15,8 @@
 #
 package Foswiki::Contrib::Build;
 
+use strict;
+
 =begin TML
 
 ---++++ target_handsoff_install

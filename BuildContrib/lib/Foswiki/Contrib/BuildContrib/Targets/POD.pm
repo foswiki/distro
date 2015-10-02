@@ -15,6 +15,8 @@
 #
 package Foswiki::Contrib::Build;
 
+use strict;
+
 # Build POD documentation. This target defines =%$POD%= - it
 # does not generate any output. The target will be invoked
 # automatically if =%$POD%= is used in a .txt file. POD documentation

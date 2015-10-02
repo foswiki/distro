@@ -1,10 +1,12 @@
 !noci
-data/System/BuildContrib.txt 0444 Description
+data/System/BuildContrib.txt 0664 Description
 lib/Foswiki/Contrib/Build.pm 0444 Code module
+lib/Foswiki/Contrib/BuildContrib/DEPENDENCIES 0644
 lib/Foswiki/Contrib/BuildContrib.pm 0444 Dummy module for version strings
 lib/Foswiki/Contrib/BuildContrib/BaseBuild.pm 0444 Common functionality for build programs
 lib/Foswiki/Contrib/BuildContrib/build.pl 0444 Build script
 lib/Foswiki/Contrib/BuildContrib/Targets/manifest.pm 0444
+lib/Foswiki/Contrib/BuildContrib/Targets/gitignore.pm 0444
 lib/Foswiki/Contrib/BuildContrib/Targets/tidy.pm 0444
 lib/Foswiki/Contrib/BuildContrib/Targets/tracked.pm 0444
 lib/Foswiki/Contrib/BuildContrib/Targets/release.pm 0444
@@ -22,6 +24,7 @@ lib/Foswiki/Contrib/BuildContrib/Targets/dependencies.pm 0444
 lib/Foswiki/Contrib/BuildContrib/Targets/installer.pm 0444
 lib/Foswiki/Contrib/BuildContrib/Targets/POD.pm 0444
 lib/Foswiki/Contrib/BuildContrib/TEMPLATE_installer.pl 0444 Installer template
+lib/Perl/Tidy.pm
 pub/System/BuildContrib/logo.gif 0444 Image
 create_new_extension.pl 0555 Wizard for creating new extensions
 pub/System/BuildContrib/wikiringlogo20x20.png 0660

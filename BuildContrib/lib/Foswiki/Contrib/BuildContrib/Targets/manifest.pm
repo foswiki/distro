@@ -15,6 +15,8 @@
 #
 package Foswiki::Contrib::Build;
 
+use strict;
+
 my $collector;
 
 =begin TML
@@ -28,7 +30,8 @@ sub target_manifest {
     my $this = shift;
 
     $collector = $this;
-    my $manifest = findRelative( $buildpldir, 'MANIFEST' );
+    my $manifest =
+      findRelative( $Foswiki::Contrib::Build::buildpldir, 'MANIFEST' );
     if ( $manifest && -e $manifest ) {
         open( F, '<', $manifest )
           || die 'Could not open existing ' . $manifest;
@@ -38,7 +41,7 @@ sub target_manifest {
         close(F);
     }
     else {
-        $manifest = $buildpldir . '/MANIFEST';
+        $manifest = $Foswiki::Contrib::Build::buildpldir . '/MANIFEST';
     }
     require File::Find;
     $collector->{manilist} = ();
@@ -66,14 +69,14 @@ sub _manicollect {
     elsif (
            !-d
         && /^\w.*\w$/
-        && !/^(DEPENDENCIES|MANIFEST|(PRE|POST)INSTALL|build\.pl)$/
+        && !/^(TIDY|DEPENDENCIES|MANIFEST|(PRE|POST)INSTALL|build\.pl)$/
         && !/\.bak$/
         && !/^$collector->{project}_installer(\.pl)?$/
 
-        # Item10188: Ignore build output, but still want data/System/Project.txt
-        # $basedir in \Q...\E makes it a literal string (ignore regex chars)
+# Item10188: Ignore build output, but still want data/System/Project.txt
+# $Foswiki::Contrib::Build::basedir in \Q...\E makes it a literal string (ignore regex chars)
         && not $File::Find::name =~
-        /\Q$basedir\E\W$collector->{project}\.(md5|zip|tgz|txt|sha1)$/
+/\Q$Foswiki::Contrib::Build::basedir\E\W$collector->{project}\.(md5|zip|tgz|txt|sha1)$/
       )
     {
         my $n     = $File::Find::name;

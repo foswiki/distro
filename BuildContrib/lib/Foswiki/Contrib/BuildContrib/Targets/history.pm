@@ -15,13 +15,15 @@
 #
 package Foswiki::Contrib::Build;
 
+use strict;
+
 =begin TML
 
 #HistoryTarget
-Updates the history in the plugin/contrib topic from the subversion checkin history.
+Updates the history in the plugin/contrib topic from the git checkin history.
    * Requires a line like | Change History:| NNNN: descr | in the topic, where NNN is an SVN rev no and descr is the description of the checkin.
    * Automatically changes ItemNNNN references to links to the bugs web.
-   * Must be run in a subversion checkout area!
+   * Must be run in a git checkout area!
 This target works in the current checkout area; it still requires a checkin of the updated plugin. Note that history items checked in against Item000 are *ignored* (not included in the history).
 
 =cut
