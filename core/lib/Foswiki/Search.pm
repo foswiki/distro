@@ -428,13 +428,10 @@ sub searchWeb {
     # Ommit any text before search results if either nosearch or nonoise is on
     my $nonoise = Foswiki::isTrue( $params{nonoise} );
     my $noSearch = Foswiki::isTrue( $params{nosearch}, $nonoise );
-    unless ($noSearch) {
-        my $searchStr = $searchString;
-        $searchStr =~ s/&/&amp;/go;
-        $searchStr =~ s/</&lt;/go;
-        $searchStr =~ s/>/&gt;/go;
 
-        $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/go;
+    unless ($noSearch) {
+        my $searchStr = Foswiki::entityEncode($searchString);
+        $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/g;
         &$callback( $cbdata, $tmplSearch );
     }
 

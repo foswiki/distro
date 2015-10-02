@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="BaseUserMapping_333" date="1246078286" format="1.1" version="1.1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443744445" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! %TOPIC%
 Description: Automated formatted search tests verifying refactor of format= functionality in foswiki 1.1
@@ -11,7 +11,7 @@ The major risk is the default formatting where web's are separated - for paging 
 ---++ default search formatting - 1 expand rex old Tmwiki default multi-weboutput 4 webs
 ---+++ Expected
 <!-- expected 1 expand rex old Tmwiki default multi-weboutput 4 webs -->
-<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences|WebTopicList|WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
+<div class="foswikiSearchResultsHeader"><span>Searched: <b><noautolink>(WebPreferences&#124;WebTopicList&#124;WebHome)$</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span></div>
 
 <h4 class="foswikiSearchResultsHeader" style="border-color:yellow"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local)</h4>
 <div class="foswikiSearchResult"><div class="foswikiTopRow">
