@@ -1,5 +1,6 @@
 !noci
 lib/Foswiki/Contrib/TipsContrib.pm 0444
+lib/Foswiki/Contrib/TipsContrib/DEPENDENCIES 0444
 data/System/TipsContrib.txt 0644
 data/System/TipTopic001.txt 0644
 data/System/TipTopic002.txt 0644
