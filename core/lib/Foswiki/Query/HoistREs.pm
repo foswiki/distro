@@ -258,7 +258,7 @@ sub _hoistDOT {
                     node  => 'text',
                     regex => '^%'
                       . $lhs
-                      . '{.*\\b'
+                      . '\\{.*\\b'
                       . $rhs
                       . "=\\\"\000RHS\001\\\""
                 };
@@ -274,7 +274,7 @@ sub _hoistDOT {
                 return {
                     node => 'text',
                     regex =>
-"^%META:FIELD{name=\\\"$rhs\\\".*\\bvalue=\\\"\000RHS\001\\\""
+"^%META:FIELD\\{name=\\\"$rhs\\\".*\\bvalue=\\\"\000RHS\001\\\""
                 };
             }
 
@@ -303,7 +303,7 @@ sub _hoistDOT {
             return {
                 node => 'text',
                 regex =>
-"^%META:FIELD{name=\\\"$node->{params}[0]\\\".*\\bvalue=\\\"\0RHS\1\\\""
+"^%META:FIELD\\{name=\\\"$node->{params}[0]\\\".*\\bvalue=\\\"\0RHS\1\\\""
             };
         }
     }

@@ -41,16 +41,16 @@ sub search {
     }
 
     if ( $options->{casesensitive} ) {
-        $program =~ s/%CS{(.*?)\|.*?}%/$1/g;
+        $program =~ s/%CS\{(.*?)\|.*?\}%/$1/g;
     }
     else {
-        $program =~ s/%CS{.*?\|(.*?)}%/$1/g;
+        $program =~ s/%CS\{.*?\|(.*?)\}%/$1/g;
     }
     if ( $options->{files_without_match} ) {
-        $program =~ s/%DET{.*?\|(.*?)}%/$1/g;
+        $program =~ s/%DET\{.*?\|(.*?)\}%/$1/g;
     }
     else {
-        $program =~ s/%DET{(.*?)\|.*?}%/$1/g;
+        $program =~ s/%DET\{(.*?)\|.*?\}%/$1/g;
     }
     if ( $options->{wordboundaries} ) {
 
