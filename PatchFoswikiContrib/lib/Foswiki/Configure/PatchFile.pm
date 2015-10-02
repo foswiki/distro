@@ -4,12 +4,11 @@ package Foswiki::Configure::PatchFile;
 
 use strict;
 use warnings;
-use File::Copy               ();
-use File::Path               ();
-use File::Spec               ();
-use Foswiki::Time            ();
-use Text::Patch              ();
-use Foswiki::Configure::Util ();
+use File::Copy    ();
+use File::Path    ();
+use File::Spec    ();
+use Foswiki::Time ();
+use Text::Patch   ();
 use File::stat;
 
 =begin TML
@@ -225,7 +224,7 @@ sub checkPatch {
         next if ( $key eq 'identifier' );
         foreach my $md5 ( keys %{ $patchRef->{$key} } ) {
 
-            my $file = Foswiki::Configure::Util::mapTarget( $root, $key );
+            my $file = mapTarget( $root, $key );
             $msgs .= "| $key | | | Target Missing |\n" unless ( -f $file );
 
             my $origMD5 = _getMD5($file);
@@ -283,7 +282,7 @@ sub applyPatch {
         next if ( $key eq 'identifier' );
         foreach my $md5 ( keys %{ $patchRef->{$key} } ) {
 
-            my $file = Foswiki::Configure::Util::mapTarget( $root, $key );
+            my $file = mapTarget( $root, $key );
 
             my $fileMD5 = _getMD5($file);
             my $wantMD5 = ($reverse) ? $patchRef->{$key}{$md5}{patched} : $md5;
@@ -381,7 +380,7 @@ sub backupTargets {
         next if ( $key eq 'summary' );
         next if ( $key eq 'identifier' );
         next if ( $key eq 'error' );
-        my $file = Foswiki::Configure::Util::mapTarget( $root, $key );
+        my $file = mapTarget( $root, $key );
         next unless ( -f $file );
         foreach my $md5 ( keys %{ $patchRef->{$key} } ) {
             $bkupFiles{$key} = $file
@@ -415,8 +414,7 @@ sub backupTargets {
             $backup++;
         }
         my ( $rslt, $err );
-        ( $rslt, $err ) =
-          Foswiki::Configure::Util::createArchive( $bkupDir, $bkupPath, '1' );
+        ( $rslt, $err ) = createArchive( $bkupDir, $bkupPath, '1' );
         $rslt = "FAILED \n" . $err unless ($rslt);
         $msgs .= "Backup Archived as $rslt \n";
     }
@@ -428,11 +426,42 @@ sub backupTargets {
     return $msgs . "\n\n";
 
 }
+
+sub createArchive {
+
+    no warnings 'redefine';
+    eval { require Foswiki::Configure::Util };
+    unless ($@) {
+        *createArchive = \&Foswiki::Configure::Util::createArchive;
+        goto &Foswiki::Configure::Util::createArchive;
+    }
+    else {
+        *createArchive = \&Foswiki::Configure::FileUtil::createArchive;
+        goto &Foswiki::Configure::FileUtil::createArchive;
+    }
+    use warnings 'redefine';
+}
+
+sub mapTarget {
+
+    no warnings 'redefine';
+    eval { require Foswiki::Configure::Util };
+    unless ($@) {
+        *mapTarget = \&Foswiki::Configure::Util::mapTarget;
+        goto &Foswiki::Configure::Util::mapTarget;
+    }
+    else {
+        *mapTarget = \&Foswiki::Configure::Package::_mapTarget;
+        goto &Foswiki::Configure::Package::_mapTarget;
+    }
+    use warnings 'redefine';
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -12,7 +12,6 @@ use FindBin     ();
 use File::Path  ();
 use Digest::MD5 ();
 
-use Foswiki::Configure::Util      ();
 use Foswiki::Configure::PatchFile ();
 use File::Copy qw( copy );
 
@@ -273,13 +272,14 @@ DONE
             $this->assert_str_equals( $result{$key}{$md5}{status},
                 'NOT APPLIED' );
 
-            my $origFile = Foswiki::Configure::Util::mapTarget( '/tmp', $key );
+            my $origFile =
+              Foswiki::Configure::PatchFile::mapTarget( '/tmp', $key );
 
             # Override lib path so the patch won't apply to the live system
             my $savepath = $Foswiki::foswikiLibPath;
             $Foswiki::foswikiLibPath = '/tmp/lib';
             File::Path::mkpath($Foswiki::foswikiLibPath);
-            my $file = Foswiki::Configure::Util::mapTarget( '/tmp', $key );
+            my $file = Foswiki::Configure::PatchFile::mapTarget( '/tmp', $key );
             $Foswiki::foswikiLibPath = $savepath;
 
             my ( $fv, $fp, $fn ) = File::Spec->splitpath( $file, 0 );
