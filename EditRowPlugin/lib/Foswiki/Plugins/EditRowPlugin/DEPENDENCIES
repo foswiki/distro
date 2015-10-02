@@ -3,4 +3,4 @@ Foswiki::Plugins::JQueryPlugin,>=6.00,perl,JQuery
 Foswiki::Contrib::JEditableContrib,>0,perl,Required, JQuery plugin
 JSON,>=0,cpan,Required, for REST
 ONLYIF ( $Foswiki::Plugins::VERSION < 2.3)
-Foswiki::Contrib::TablesContrib,>1.03,perl,Required for Foswiki < 1.2.0
+Foswiki::Contrib::TablesContrib,>=1.05,perl,Required for Foswiki < 2.0

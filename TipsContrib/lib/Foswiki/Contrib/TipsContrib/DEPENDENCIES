@@ -1,1 +1,1 @@
-Foswiki::Plugins::SpreadSheetPlugin,>1.0,perl,Required.
+Foswiki::Plugins::SpreadSheetPlugin,>=1.20,perl,Required.
