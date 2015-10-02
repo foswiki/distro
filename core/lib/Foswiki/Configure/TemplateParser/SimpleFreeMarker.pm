@@ -182,8 +182,8 @@ sub _operator_list {
             my $listItem = $contents;
 
             # get property
-            $listItem =~ s/\${$local\}/$item/g;
-            $listItem =~ s/\${$local\.(.*?)\}/
+            $listItem =~ s/\$\{$local\}/$item/g;
+            $listItem =~ s/\$\{$local\.(.*?)\}/
               defined $item->{$1} ? $item->{$1} : ''/ge;
             $list .= $listItem;
         }

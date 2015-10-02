@@ -467,7 +467,7 @@ HERE
     # Clean out deprecated settings, so they don't occlude the
     # replacements
     foreach my $key ( keys %Foswiki::Configure::Load::remap ) {
-        $this->{content} =~ s/\$Foswiki::cfg$key\s*=.*?;\s*//sg;
+        $this->{content} =~ s/\$Foswiki::cfg\Q$key\E\s*=.*?;\s*//sg;
     }
 
     # Sort keys so it's possible to diff LSC files.
@@ -534,14 +534,14 @@ sub startVisit {
             # Substitute any existing value, or append if not there
 
             unless ( $this->{content} =~
-s/^\s*\$(?:Foswiki::)?cfg$keys\s*=.*?;\n/&_updateEntry($keys,$txt)/msge
+s/^\s*\$(?:Foswiki::)?cfg\Q$keys\E\s*=.*?;\n/&_updateEntry($keys,$txt)/msge
               )
             {
                 $this->{content} .= $txt;
             }
         }
         else {
-            $this->{content} =~ s/^\s*?\$(?:Foswiki::)?cfg$keys\s*=.*?;\n//msg;
+            $this->{content} =~ s/^\s*?\$(?:Foswiki::)?cfg\Q$keys\E\s*=.*?;\n//msg;
         }
     }
     return 1;
