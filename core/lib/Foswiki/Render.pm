@@ -48,26 +48,6 @@ our $REMARKER = "\0";
 # must be removed.  Used for email anti-spam encoding.
 our $REEND = "\1";
 
-# Characters that need to be %XX escaped in mailto URIs.
-our %ESCAPED = (
-    '<'    => '%3C',
-    '>'    => '%3E',
-    '#'    => '%23',
-    '"'    => '%22',
-    '%'    => '%25',
-    "'"    => '%27',
-    '{'    => '%7B',
-    '}'    => '%7D',
-    '|'    => '%7C',
-    '\\\\' => '%5C',
-    '^'    => '%5E',
-    '~'    => '%7E',
-    '`'    => '%60',
-    '?'    => '%3F',
-    '&'    => '%26',
-    '='    => '%3D',
-);
-
 # Temporary marker for <nop> tags. They are used as follows:
 #  - Hide all <nop>
 #  - Take out <input ..> tags
@@ -979,7 +959,7 @@ sub _mailLink {
     my ( $this, $text ) = @_;
 
     my $url = $text;
-    return $text if $url =~ /^(?:!|\<nop\>)/;
+    return $text if $url =~ m/^(?:!|\<nop\>)/;
 
 #use Email::Valid             ();
 #my $tmpEmail = $url;
@@ -988,24 +968,23 @@ sub _mailLink {
 #$errtxt =  "<b>INVALID</b> $tmpEmail " unless (Email::Valid->address($tmpEmail));
 
     # Any special characters in the user portion must be %hex escaped.
-    $url =~ s/^((?:mailto\:)?)?(.*?)(@.*?)$/'mailto:'._escape( $2 ).$3/msiex;
+    $url =~
+s/^((?:mailto\:)?)?(.*?)(@.*?)$/'mailto:'._escapeMailAddress( $2 ).$3/msie;
     my $lenLeft  = length($2);
     my $lenRight = length($3);
 
-# Per RFC 3696 Errata,  length restricted to 254 overall per RFC 2821 RCPT limits
+    # Per RFC 3696 Errata, length restricted to 254 overall
+    # per RFC 2821 RCPT limits
     return $text
       if ( $lenLeft > 64 || $lenRight > 254 || $lenLeft + $lenRight > 254 );
 
-    $url = 'mailto:' . $url unless $url =~ /^mailto:/i;
+    $url = 'mailto:' . $url unless $url =~ m/^mailto:/i;
     return _externalLink( $this, $url, $text );
 }
 
-sub _escape {
+sub _escapeMailAddress {
     my $txt = shift;
-
-    my $chars = join( '', keys(%ESCAPED) );
-    $txt =~ s/([$chars])/$ESCAPED{$1}/g;
-    $txt =~ s/[\s]/%20/g;    # Any folding white space
+    $txt =~ s/([<>#"%'{}\|\\\^~`\?&=]|\s)/sprintf('%%%02x', ord($1))/ge;
     return $txt;
 }
 
