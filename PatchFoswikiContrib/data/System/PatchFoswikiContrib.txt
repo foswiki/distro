@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443815948" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1443830494" format="1.1"  version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = File patch tool for Foswiki
@@ -11,9 +11,10 @@ One line description, required for extensions repository catalog.
 
 ---++ Usage
 
-This extension allows you to "hotfix" urgent issues on your Foswiki system.  It has been tested on Foswiki 1.1.0 and beyond.  It does not work on Foswiki 1.0.
+This extension allows you to "hotfix" urgent issues on your Foswiki system.  It has been tested on Foswiki 1.1.0 and beyond.  It does not work on Foswiki 1.0.x.
 
 When this extension is installed, it adds some required libraries to your Foswiki system, and includes a plugin to display an inventory of patches on the system.  This extension does not ship with any patches.
+this extension will be identified as a dependency of the actual patch, so that necessary infrastructure is installed.
 
 Patches are only applied if the target file is an _exact_ match to the original file.  There is no attempt to do "fuzzy" patching.
 
@@ -30,26 +31,32 @@ Before any file is patched, a backup is copied to =working/configure/backup/&lt;
 A separate version of a patch extension has to be built for each patch.  The only patches installed are those identified in the manifest of the Extension.  This extension adds some infrastructure that a future Foswiki could
 use to apply patches from configure.
 
----+++ Create a patch file
+---+++ Format of a patch file
 
 The format of the patch file is a collection of related patches, one for each
 version of a target file.  The patch file consists of
 
-   $ Summary: A general description of the patch.  It can be any number of lines long and will be reported in the installation log.
-   $ Patch Target =~~~PATCH fdeeb7f236608b7792ad0845bf2279f9:76e28354522a6d6cccc76c66f99d2424  lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.5)=:  Identifies a single version of a patch along with the md5 of the target file, the filename and a comment.
+   $ _Summary_: A general description of the patch.  It can be any number of lines long and will be reported in the installation log.
+   $ _Patch Target_: A single line used to specify exactly which file is to be patched.  Identifies a single version of a patch along with the md5 of the target file, the filename and a comment.
+ <verbatim>~~~PATCH fdeeb7f236608b7792ad0845bf2279f9:76e28354522a6d6cccc76c66f99d2424  lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.5)</verbatim>
       * =~~~PATCH= Identifies this as a patch
-      * =fdee..79f9= is the MD5 hash of the original version of the unpatched target file.
-      * =fdee..2424= is the MD5 hash of the patched version of the file.
+      * =fdee..79f9= is the 32 character MD5 hash of the original version of the unpatched target file.  If this matches the file, the patch is eligible to be installed.
+      * =76e2..2424= is the 32 character MD5 hash of the patched version of the file. If tthis matches the file, the patch is already applied and could be removed.
       * =lib/Foswiki...= The target file name
       * =(Comment)= A comment in optional parenthesis, such as the foswiki version that shipped this file..
-   $ The patch:  A patch in unified diff format =diff -Naur oldversionFile newVersionFile
+   $ _The patch_:  A patch in unified diff format, such as: =diff -Naur oldversionFile newVersionFile=
 
-To build a patch file,
+---+++ Creating the patch file,
    * For the "current release":
       * Calculate checksum of original released file: =md5sum lib/Foswiki/Target/File.pm >> Itemxxxx-xxx.patch=
       * Get a starting point from the fixing git patch: =git show [hash] lib/Foswiki/Target/File.pm >> Itemxxxx-xxx.patch=
       * Verify that this diff can be applied to the "released" version of the file
       * Edit the patch file buiding the ~~~PATCH record and remove the md5sum record
+
+This extension will processes all patches from a single file, or a patch can be
+build as separate patch files. If a site might be required to manually apply
+patches (for ex. the web interface is broken), separate files will be more
+compatible with the patch utility.
 
    * For each additional release that the patch will cover:
       * Calculate checksum of original file: =md5sum lib/Foswiki/Target/File.pm >> Itemxxxx-xxx.patch=
@@ -61,7 +68,53 @@ To build a patch file,
 
 
 ---++ Installation
-%$INSTALL_INSTRUCTIONS%
+
+Patches are applied during the =POSTINSTALL= exit, and removed in the =PREUNINSTALL= exit.  You must install this extension
+using the "Extension Installer" to get automatic patching. If this extension
+is installed by direct unzip / tar -x, or using pseudo_install.pl, patches will not be applied and will
+have to be manually patched using the =patch= tool.
+
+---+++ Manual installation
+
+=unzip= or =tar -x= the extension archive.  It can be extracted into the root
+of the foswiki installation if the directory paths use the default location.
+The structure of a typical patch:
+<verbatim>
+|-- data
+|    |-- System
+|          |-- PatchItem12345Contrib.txt
+|
+|-- lib
+|    |-- Foswiki
+|           |-- Contrib
+|                  |-- PatchItem12345Contrib.pm
+|                  |-- PatchItem12345Contrib
+|                         |-- DEPENDENCIES
+|                         |-- POSTINSTALL              (Executed by installer to apply the patches)
+|                         |-- PREUNINSTALL             (Executed by installer to removes the patches)
+|-- working
+     |-- configure
+            |-- patch
+                  |-- Item54321-001.patch
+                  |-- Item54321-002.patch
+                  |-- Item12345-001.patch
+                  |-- Item12345-002.patch
+                  |-- Item12345-003.patch
+</verbatim>
+
+The files in the =working/configure/patch= directory are the actual patches.
+If a collection of related files is patched in a single file, they can be manually applied by
+changing to the root of the install and running:
+<verbatim>
+patch -p0 < working/configure/patch/Item54321-001.patch
+</verbatim>
+
+By a "collection of related files",  =Item12345-001.patch= might contain
+patches for =lib/Foswiki.pm= and =lib/Foswiki/Render.pm=.   These could be
+appplied directly.   But if =Item12345-002.patch= contained different versions
+of patches for the same file,   ex.  =lib/Foswiki.pm= for 1.1.9, and
+=lib/Foswiki.pm= for 1.1.8, then the file would have to be split apart in
+order to apply it manually.
 
 ---++ Info
 
