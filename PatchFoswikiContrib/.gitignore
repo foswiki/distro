@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/PatchFoswikiContrib.md5
+/PatchFoswikiContrib.sha1
+/PatchFoswikiContrib.tgz
+/PatchFoswikiContrib.txt
+/PatchFoswikiContrib.zip
+/PatchFoswikiContrib_installer
+/PatchFoswikiContrib_installer.pl
