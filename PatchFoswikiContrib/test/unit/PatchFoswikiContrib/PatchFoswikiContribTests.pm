@@ -56,6 +56,7 @@ sub set_up {
     $Foswiki::cfg{TrashWebName}   = $this->{trash_web};
     $Foswiki::cfg{SandboxWebName} = $this->{sandbox_web};
 
+    $Foswiki::RELEASE = 'Foobar-1';
     return;
 }
 
@@ -89,7 +90,7 @@ Date:   Mon Nov 5 05:07:25 2012 +0000
 
     Item11267: Don't use "HEAD" to detect pseudo install.
 
-~~~PATCH 829239dd10279df7a8851299e5beeeb2:630427bf41c01c9428d1e8d0ad298690  lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm (Some comments
+~~~PATCH 829239dd10279df7a8851299e5beeeb2:630427bf41c01c9428d1e8d0ad298690  lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm (Foobar-1)
 --- lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm	2012-12-24 16:48:56.663587164 -0500
 +++ lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.new	2012-12-24 16:50:22.478548551 -0500
 @@ -14,9 +14,9 @@
@@ -108,7 +109,7 @@ Date:   Mon Nov 5 05:07:25 2012 +0000
     Item11267: Don't use "HEAD" to detect pseudo install.
 
 
-~~~PATCH 630427bf41c01c9428d1e8d0ad298690:829239dd10279df7a8851299e5beeeb2  lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm This  
+~~~PATCH 630427bf41c01c9428d1e8d0ad298690:829239dd10279df7a8851299e5beeeb2  lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm (Foobar-1)  
 --- lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm	2012-12-24 16:48:56.663587164 -0500
 +++ lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.new	2012-12-24 16:50:22.478548551 -0500
 @@ -14,9 +14,9 @@
@@ -127,7 +128,7 @@ Date:   Mon Nov 5 05:07:25 2012 +0000
     Item11267: Don't use "HEAD" to detect pseudo install.
 
  
-~~~PATCH 123427bf41c01c9428d1e8d0ad298690:123239dd10279df7a8851299e5beeeb2  lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm xother comments
+~~~PATCH 123427bf41c01c9428d1e8d0ad298690:123239dd10279df7a8851299e5beeeb2  lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm (Foobar-1) 
 --- lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm	2012-12-24 16:48:56.663587164 -0500
 +++ lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.new	2012-12-24 16:50:22.478548551 -0500
 @@ -14,9 +14,9 @@
@@ -139,11 +140,21 @@ DONE
     my %result = Foswiki::Configure::PatchFile::parsePatch(
         $this->{tempdir} . '/Item0000.patch' );
 
+    $Foswiki::RELEASE = 'Foobar-3';
     my $msgs =
       Foswiki::Configure::PatchFile::backupTargets( undef, \%result, 0 );
 
+    # N/A Release - patch should not be backed up
+    $this->assert_matches( qr/\| N\/A Release \|/ms,   $msgs );
+    $this->assert_matches( qr/\| Foobar-1 \|/ms,       $msgs );
+    $this->assert_matches( qr/^No files backed up./ms, $msgs );
+
+    $Foswiki::RELEASE = 'Foobar-1';
+    $msgs = Foswiki::Configure::PatchFile::backupTargets( undef, \%result, 0 );
+
     # NOT APPLIED patch should be backed up
     $this->assert_matches( qr/\| NOT APPLIED \|/ms, $msgs );
+    $this->assert_matches( qr/\| Foobar-1 \|/ms,    $msgs );
     $this->assert_matches( qr/^Backed up target: .*PatchTestTarget.pm/ms,
         $msgs );
     $this->assert_matches( qr/^Backup Archived.*configure\/backup\/Item000/ms,
@@ -211,7 +222,7 @@ Date:   Mon Nov 5 05:07:25 2012 +0000
     
 
 
-~~~PATCH 829239dd10279df7a8851299e5beeeb2:630427bf41c01c9428d1e8d0ad298690  lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm (Some comments
+~~~PATCH 829239dd10279df7a8851299e5beeeb2:630427bf41c01c9428d1e8d0ad298690  lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm (Foobar-1)
 --- lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm	2012-12-24 16:48:56.663587164 -0500
 +++ lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.new	2012-12-24 16:50:22.478548551 -0500
 @@ -14,9 +14,9 @@
@@ -261,7 +272,7 @@ DONE
     my $msgs = Foswiki::Configure::PatchFile::checkPatch( undef, \%result );
 
     $this->assert_equals(
-"| lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm | 829239dd10279df7a8851299e5beeeb2 | NOT APPLIED | Some comments |\n\n",
+"| lib/Foswiki/Contrib/PatchFoswikiContrib/PatchTestTarget.pm | 829239dd10279df7a8851299e5beeeb2 | NOT APPLIED | Foobar-1 |\n\n",
         $msgs
     );
 

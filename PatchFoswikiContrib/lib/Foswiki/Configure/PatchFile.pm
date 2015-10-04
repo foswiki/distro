@@ -24,7 +24,7 @@ Builds a hash describing the patch file.
    * {path/to/target/file}
       * {md5_of_target} = Will match the file version that can accept this patch.
          * {patched} = Expected MD5 of the patched file.
-         * {version} = Comment from PATCH record describing the target.  Parenthesis removed.
+         * {version} = Relese from PATCH record describing the target. Parenthesis removed. Must match $Foswiki::RELEASE
          * {patch} = The patch in unified diff format.
          * {status} = Set by checkPatch to one 3 possible values:
             * "N/A" - neither the old nor the new MD5 matches the file.
@@ -34,11 +34,11 @@ Builds a hash describing the patch file.
 Supports two differnt patch file record layouts:
 
 <verbatim>
-#             target file MD5                          relative path file         comment
-#~~~PATCH fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.5)
+#             target file MD5                          relative path file         RELEASE
+#~~~PATCH fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki-1.1.5)
 #
-#             target file MD5                    patched file MD5                   relative file path             comment
-#~~~PATCH fdeeb7f236608b7792ad0845bf2279f9:fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.5)
+#             target file MD5                    patched file MD5                   relative file path             RELEASE
+#~~~PATCH fdeeb7f236608b7792ad0845bf2279f9:fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki-1.1.5)
 </verbatim>
 
 =cut
@@ -74,13 +74,15 @@ sub parsePatch {
             my $desc;
             chomp $line;
             ( $md5, $target, $desc ) = split( ' ', substr( $line, 8 ), 3 );
-            $desc =~ s/^\(//g;    # Remove leading/trailing parenthesis
-            $desc =~ s/\)$//g;
 
             ( $md5, $newMD5 ) = split( ':', $md5, 2 );
             $foundPatch = _fixupFile($target);
             $patches{$foundPatch}{$md5}{patched} = $newMD5 || 'n/a';
-            $patches{$foundPatch}{$md5}{version} = $desc   || 'n/a';
+            if ( $desc && $desc =~ m/\(([^\)]+)\)/ ) {
+
+                # Description contains a release string.
+                $patches{$foundPatch}{$md5}{version} = $1 || 'n/a';
+            }
             next;
         }
         if ( $foundPatch eq 'summary' ) {
@@ -232,6 +234,11 @@ sub checkPatch {
                 $origMD5 eq $md5                             ? 'NOT APPLIED'
               : $origMD5 eq $patchRef->{$key}{$md5}{patched} ? 'PATCHED'
               :                                                'N/A';
+            if (   $patchRef->{$key}{$md5}{version}
+                && $patchRef->{$key}{$md5}{version} ne $Foswiki::RELEASE )
+            {
+                $match = "N/A Release";
+            }
             $patchRef->{$key}{$md5}{status} = $match;
             $msgs .=
               "| $key | $md5 | $match | $patchRef->{$key}{$md5}{version} |\n";
@@ -287,6 +294,9 @@ sub applyPatch {
             my $fileMD5 = _getMD5($file);
             my $wantMD5 = ($reverse) ? $patchRef->{$key}{$md5}{patched} : $md5;
             next unless ( $fileMD5 eq $wantMD5 );
+            next
+              if ( $patchRef->{$key}{$md5}{version}
+                && $patchRef->{$key}{$md5}{version} ne $Foswiki::RELEASE );
 
             $msgs .=
 "MD5 Matched - applying patch version $patchRef->{$key}{$md5}{version}.\n";
