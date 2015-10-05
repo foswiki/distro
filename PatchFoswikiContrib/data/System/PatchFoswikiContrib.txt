@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1443830494" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1444094021" format="1.1"  version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = File patch tool for Foswiki
@@ -38,12 +38,12 @@ version of a target file.  The patch file consists of
 
    $ _Summary_: A general description of the patch.  It can be any number of lines long and will be reported in the installation log.
    $ _Patch Target_: A single line used to specify exactly which file is to be patched.  Identifies a single version of a patch along with the md5 of the target file, the filename and a comment.
- <verbatim>~~~PATCH fdeeb7f236608b7792ad0845bf2279f9:76e28354522a6d6cccc76c66f99d2424  lib/Foswiki/Configure/Dependency.pm (Foswiki 1.1.5)</verbatim>
+ <verbatim>~~~PATCH fdeeb7f236608b7792ad0845bf2279f9:76e28354522a6d6cccc76c66f99d2424  lib/Foswiki/Configure/Dependency.pm (Foswiki-1.1.8,Foswiki-1.1.9)</verbatim>
       * =~~~PATCH= Identifies this as a patch
       * =fdee..79f9= is the 32 character MD5 hash of the original version of the unpatched target file.  If this matches the file, the patch is eligible to be installed.
       * =76e2..2424= is the 32 character MD5 hash of the patched version of the file. If tthis matches the file, the patch is already applied and could be removed.
       * =lib/Foswiki...= The target file name
-      * =(Comment)= A comment in optional parenthesis, such as the foswiki version that shipped this file..
+      * =(Foswiki-1.1.8,Foswiki-1.1.9)=  A comma separated list of releases that this patch covers.
    $ _The patch_:  A patch in unified diff format, such as: =diff -Naur oldversionFile newVersionFile=
 
 ---+++ Creating the patch file,

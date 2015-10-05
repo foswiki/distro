@@ -38,7 +38,7 @@ Supports two differnt patch file record layouts:
 #~~~PATCH fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki-1.1.5)
 #
 #             target file MD5                    patched file MD5                   relative file path             RELEASE
-#~~~PATCH fdeeb7f236608b7792ad0845bf2279f9:fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki-1.1.5)
+#~~~PATCH fdeeb7f236608b7792ad0845bf2279f9:fdeeb7f236608b7792ad0845bf2279f9  lib/Foswiki/Configure/Dependency.pm (Foswiki-1.1.5,Foswiki-1.1.6)
 </verbatim>
 
 =cut
@@ -235,7 +235,8 @@ sub checkPatch {
               : $origMD5 eq $patchRef->{$key}{$md5}{patched} ? 'PATCHED'
               :                                                'N/A';
             if (   $patchRef->{$key}{$md5}{version}
-                && $patchRef->{$key}{$md5}{version} ne $Foswiki::RELEASE )
+                && $patchRef->{$key}{$md5}{version} !~
+                m/\b\Q$Foswiki::RELEASE\E\b/ )
             {
                 $match = "N/A Release";
             }

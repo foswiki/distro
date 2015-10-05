@@ -71,7 +71,7 @@ sub _PATCHREPORT {
               Foswiki::Configure::PatchFile::checkPatch( undef, \%result );
 
             next
-              unless ( $ret =~ m/\|\s\Q$Foswiki::RELEASE\E\s\|/
+              unless ( $ret =~ m/\b\Q$Foswiki::RELEASE\E\b/
                 || $params->{_DEFAULT} eq 'all' );
             $resp .= $ret;
         }
