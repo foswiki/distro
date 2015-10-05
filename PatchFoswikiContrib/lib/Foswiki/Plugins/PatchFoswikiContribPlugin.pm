@@ -51,14 +51,14 @@ sub _PATCHREPORT {
     return '<div class="foswikiAlert">%X% Admin access only!</div>'
       unless Foswiki::Func::isAnAdmin();
 
-    my $ret;
+    my $resp;
 
     if ( opendir( my $d, "$Foswiki::cfg{WorkingDir}/configure/patch/" ) ) {
         foreach my $f ( grep { /\.patch$/ } sort readdir $d ) {
             my $patchFile = Foswiki::Sandbox::untaintUnchecked(
                 "$Foswiki::cfg{WorkingDir}/configure/patch/$f");
 
-            $ret .= "---+++ $f\n";
+            my $ret .= "---+++ $f\n";
             my %result = Foswiki::Configure::PatchFile::parsePatch($patchFile);
 
             $ret .= "<verbatim>$result{error}</verbatim>\n"
@@ -69,14 +69,19 @@ sub _PATCHREPORT {
             $ret .= "| *Patch target* | *MD5SUM* | *Status* | *Applies to* |\n";
             $ret .=
               Foswiki::Configure::PatchFile::checkPatch( undef, \%result );
+
+            next
+              unless ( $ret =~ m/\|\s\Q$Foswiki::RELEASE\E\s\|/
+                || $params->{_DEFAULT} eq 'all' );
+            $resp .= $ret;
         }
 
         closedir($d);
     }
 
-    $ret ||=
+    $resp ||=
       '<div class="foswikiAlert">%X% No patches found on this system!</div>';
-    return $ret;
+    return $resp;
 }
 
 1;
