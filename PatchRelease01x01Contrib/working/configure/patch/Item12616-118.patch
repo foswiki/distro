@@ -1,0 +1,148 @@
+~~~PATCH c67083bf1b9a7ab3a078b4ee1c5ef7f0:3be703fb43e105a1bd6f213befcb5a73 lib/Foswiki/Attach.pm (Foswiki-1.1.8)
+Date:   Sun Oct 27 00:54:37 2013 +0000
+
+    Item12616: Fix perl issues found on newer perl
+    
+diff --git lib/Foswiki/Attach.pm lib/Foswiki/Attach.pm
+index bb2396b..be9406b 100644
+--- lib/Foswiki/Attach.pm
++++ lib/Foswiki/Attach.pm
+@@ -199,7 +199,12 @@ sub _expandAttrs {
+         return $comment;
+     }
+     elsif ( $attr eq 'ATTRS' ) {
+-        return $info->{attr} or "&nbsp;";
++        if ( $info->{attr} ) {
++            return $info->{attr};
++        }
++        else {
++            return "&nbsp;";
++        }
+     }
+     elsif ( $attr eq 'FILE' ) {
+         return $file;
+
+~~~PATCH c802c86194dce0c24ebeaa7b15763fca:b541ba8bca195fbe2d4e6027b5a6da16 lib/Foswiki/Configure/Package.pm (Foswiki-1.1.8)
+diff --git lib/Foswiki/Configure/Package.pm lib/Foswiki/Configure/Package.pm
+index 67e7845..2769a21 100644
+--- lib/Foswiki/Configure/Package.pm
++++ lib/Foswiki/Configure/Package.pm
+@@ -674,7 +674,7 @@ sub _installAttachments {
+     my $feedback  = '';
+     my $errors    = '';
+ 
+-    foreach my $key ( keys %{ $this->{_manifest}{ATTACH}{$webTopic} } ) {
++    foreach my $key ( sort keys %{ $this->{_manifest}{ATTACH}{$webTopic} } ) {
+         my $file = $this->{_manifest}->{ATTACH}->{$webTopic}->{$key};
+         my $tfile =
+           Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
+@@ -890,7 +890,7 @@ sub listFiles {
+     my ( $this, $installed ) = @_;
+ 
+     my @files;
+-    foreach my $key ( keys( %{ $this->{_manifest} } ) ) {
++    foreach my $key ( sort keys( %{ $this->{_manifest} } ) ) {
+         next if ( $key eq 'ATTACH' );
+         if ($installed) {
+             my $target =
+@@ -902,7 +902,7 @@ sub listFiles {
+             push( @files, $key );
+         }
+     }
+-    return sort(@files);
++    return @files;
+ }
+ 
+ =begin TML
+@@ -988,7 +988,7 @@ sub uninstall {
+     }
+ 
+     # foreach file in the manifest, remove the file.
+-    foreach my $key ( keys( %{ $this->{_manifest} } ) ) {
++    foreach my $key ( sort keys( %{ $this->{_manifest} } ) ) {
+ 
+         next if ( $key eq 'ATTACH' );
+ 
+~~~PATCH ff22a5835959f797746b9d63ad28496c:d4b0fdea01ca7693f76ea2f2967271d4 lib/Foswiki/Search.pm (Foswiki-1.1.8)
+diff --git lib/Foswiki/Search.pm lib/Foswiki/Search.pm
+--- lib/Foswiki/Search.pm
++++ lib/Foswiki/Search.pm
+@@ -1137,6 +1137,19 @@ sub formatResult {
+         delete $customKeys->{$key};
+     }
+ 
++    #SMELL:  Because hash order is not predictable,  any user supplied
++    # format which might contain other $format tokens must be expanded first,
++    # otherwise the results are unpredictable.
++    # For example,  pagerformat contains $ntopics.  If $ntopics expands first,
++    # then pagerformat,  then ntopics will remain un-expanded in the output.
++    # Since key processing order is unpredictable, add any potentially nested
++    # keys here
++    foreach my $key ('\$pager') {
++        next unless defined $customKeys->{$key};
++        $out =~ s/$key/&{$customKeys->{$key}}()/ges;
++        delete $customKeys->{$key};
++    }
++
+     foreach my $key ( keys(%$customKeys) ) {
+         $out =~ s/$key/&{$customKeys->{$key}}()/ges;
+     }
+
+~~~PATCH f400737eb1e322eef9a028358a46a00d:b54897ee9e09a8a8c1297bcf2d2347e6 lib/Foswiki/UI/Register.pm (Foswiki-1.1.8)
+diff --git lib/Foswiki/UI/Register.pm lib/Foswiki/UI/Register.pm
+--- lib/Foswiki/UI/Register.pm
++++ lib/Foswiki/UI/Register.pm
+@@ -1176,7 +1176,8 @@ sub _populateUserTopicForm {
+     return ( $meta, '' ) unless $form;
+ 
+     foreach my $field ( @{ $form->getFields() } ) {
+-        foreach my $fd ( @{ $data->{form} } ) {
++        foreach my $fd ( sort { $a->{name} cmp $b->{name} } @{ $data->{form} } )
++        {
+             next unless $fd->{name} eq $field->{name};
+             next if $SKIPKEYS{ $fd->{name} };
+             my $item = $meta->get( 'FIELD', $fd->{name} );
+@@ -1198,7 +1199,7 @@ sub _populateUserTopicForm {
+         }
+     }
+     my $leftoverText = '';
+-    foreach my $fd ( @{ $data->{form} } ) {
++    foreach my $fd ( sort { $a->{name} cmp $b->{name} } @{ $data->{form} } ) {
+         unless ( $inform{ $fd->{name} } || $SKIPKEYS{ $fd->{name} } ) {
+             $leftoverText .= "   * $fd->{name}: $fd->{value}\n";
+         }
+@@ -1210,7 +1211,7 @@ sub _populateUserTopicForm {
+ sub _getRegFormAsTopicContent {
+     my $data = shift;
+     my $text;
+-    foreach my $fd ( @{ $data->{form} } ) {
++    foreach my $fd ( sort { $a->{name} cmp $b->{name} } @{ $data->{form} } ) {
+         next if $SKIPKEYS{ $fd->{name} };
+         my $title = $fd->{name};
+         $title =~ s/([a-z0-9])([A-Z0-9])/$1 $2/go;    # Spaced
+@@ -1291,7 +1292,7 @@ sub _buildConfirmationEmail {
+     #       like in multi-part mime - txt & html
+     my ( $before, $after ) = split( /%FORMDATA%/, $templateText );
+     $before .= $loginName;
+-    foreach my $fd ( @{ $data->{form} } ) {
++    foreach my $fd ( sort { $a->{name} cmp $b->{name} } @{ $data->{form} } ) {
+         my $name  = $fd->{name};
+         my $value = $fd->{value};
+ 
+@@ -1311,7 +1312,6 @@ sub _buildConfirmationEmail {
+     $templateText =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois;
+ 
+     # remove <nop> and <noautolink> tags
+-
+     return $templateText;
+ }
+ 
+@@ -1569,7 +1569,7 @@ sub _validateRegistration {
+         );
+     }
+     my @missing = ();
+-    foreach my $fd ( @{ $data->{form} } ) {
++    foreach my $fd ( sort { $a->{name} cmp $b->{name} } @{ $data->{form} } ) {
+         if ( ( $fd->{required} ) && ( !$fd->{value} ) ) {
+             push( @missing, $fd->{name} );
+         }

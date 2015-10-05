@@ -1,0 +1,20 @@
+Item12849: Add Wildcard ACL support in support of deprecating blank DENY ACLs
+
+This patch enables ALLOW and DENY ACLs to use the "*" wildcard to match any user
+
+~~~PATCH 640762f27a8c7837a5da83a473c5d86a:3ab413423c5fe7dc0e1a2b4bb65c7e88 lib/Foswiki/Users.pm (Foswiki-1.1.5)
+--- lib/Foswiki/Users.pm	2012-04-10 21:23:38.000000000 -0400
++++ lib/Foswiki/Users.pm	2014-04-11 20:08:30.264335895 -0400
+@@ -640,6 +640,11 @@
+ 
+     foreach my $ident (@$userlist) {
+ 
++        # The Wildcard match.  Any user matches the "*" identifier.
++        if ( $ident eq '*' ) {
++            return 1;
++        }
++
+         my $identCUID = $this->getCanonicalUserID($ident);
+ 
+         if ( defined $identCUID ) {
+

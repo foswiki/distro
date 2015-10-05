@@ -1,0 +1,69 @@
+commit 5e6b4d1f9540bb7b75705faf80e412fc0c66fe84
+Author: GeorgeClark <GeorgeClark@0b4bb1d4-4e5a-0410-9cc4-b2b747904278>
+Date:   Mon Nov 5 05:07:25 2012 +0000
+
+    Item11267: Don't use "HEAD" to detect pseudo install.
+    Note:  This patch fixes bug reported in Item12225
+    
+    A real, non-pseudo-installed extension will crash configure if a perl
+    version object is compared to an alpha string.
+    
+    9999.99_999 will be used to indicate a pseudo-installed release.
+    
+    git-svn-id: http://svn.foswiki.org/trunk@15909 0b4bb1d4-4e5a-0410-9cc4-b2b747904278
+
+~~~PATCH 76e28354522a6d6cccc76c66f99d2424:24ce3ef562c0021782b103c81774b980 lib/Foswiki/Configure/UIs/EXTENSIONS.pm (Foswiki-1.1.4)
+--- lib/Foswiki/Configure/UIs/EXTENSIONS.pm	2012-11-07 23:45:21.269274066 -0500
++++ lib/Foswiki/Configure/UIs/EXTENSIONS.pm.new	2012-11-07 23:46:39.844344573 -0500
+@@ -280,7 +280,7 @@
+         if ( $ext->{installedRelease} ) {
+ 
+             # The module is installed; check the version
+-            if ( $ext->{installedVersion} eq 'HEAD' ) {
++            if ( $ext->{installedVersion} eq '9999.99_999' ) {
+ 
+                 # pseudo-installed
+                 $install = 'pseudo-installed';
+
+~~~PATCH 4e525d29a245785ae810316835c18e62:221ccfdb31d41b8d376a5e095003e88d lib/Foswiki/Configure/Dependency.pm (Foswiki-1.1.4)
+--- lib/Foswiki/Configure/Dependency.pm 2011-12-20 10:33:22.000000000 -0500
++++ lib/Foswiki/Configure/Dependency.pm 2012-11-08 17:05:55.982213647 -0500
+@@ -220,7 +220,7 @@
+             if ( -l "$dir/$path" ) {
+ 
+                 # Assume pseudo-installed
+-                $this->{installedVersion} = 'HEAD';
++                $this->{installedVersion} = '9999.99_999';
+             }
+             last;
+         }
+
+commit be45aa83ccc16a570064d2512bd807a1b01b6dbd
+Author: GeorgeClark <GeorgeClark@0b4bb1d4-4e5a-0410-9cc4-b2b747904278>
+Date:   Mon Nov 26 04:32:23 2012 +0000
+
+    Item11267: Don't reinstall extensions
+    
+    Some existing extensions have dependencies based on SVN Rev strings.  New
+    modules as of 1.1.6, don't have the rev string available.
+    
+    Dependency.pm is changed to assume that if a dependency is trying to
+    compare a svn revision to an installed dotted decimal version, then the
+    dependency is automatically met.
+    
+    DEPENDENCY:  This patch must be applied AFTER Item11267-001.patch
+    
+    git-svn-id: http://svn.foswiki.org/branches/Release01x01@16103 0b4bb1d4-4e5a-0410-9cc4-b2b747904278
+
+~~~PATCH 221ccfdb31d41b8d376a5e095003e88d:70a6a0fd9f6a377f212beafc2e5758cd lib/Foswiki/Configure/Dependency.pm (Foswiki-1.1.4)
+--- lib/Foswiki/Configure/Dependency.pm	2012-11-28 11:43:17.827220321 -0500
++++ lib/Foswiki/Configure/Dependency.pm.new	2012-11-28 11:40:57.174840122 -0500
+@@ -459,6 +459,7 @@
+         #print STDERR "Expecting SVN comparison, but RELEASE was $baseType \n";
+         ( $baseType, @atuple ) = _decodeReleaseString($aVERSION)
+           if ( defined $aVERSION && $baseType ne 'svn' );
++        return 1 if ( $baseType eq 'tuple' );
+         return 0 unless ( $baseType eq 'svn' );
+ 
+     }
+

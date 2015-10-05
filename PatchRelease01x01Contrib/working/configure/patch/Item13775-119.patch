@@ -1,0 +1,87 @@
+Date:   Thu Oct 1 17:32:57 2015 -0400
+
+    Item13778: CGI -any pragma deprecated
+    Item13775: CGI param called in list context
+    
+    Backport Foswiki 2.0 fixes.
+
+~~~PATCH 7c40baa89e0be8228818f6b42d3be87d:6e6f8a38a0b3dc0f8a6151e24c61560a lib/Foswiki/Plugins/CommentPlugin/Comment.pm (Foswiki-1.1.9)
+diff --git lib/Foswiki/Plugins/CommentPlugin/Comment.pm lib/Foswiki/Plugins/CommentPlugin/Comment.pm
+index edbd86e..e1b09f9 100644
+---lib/Foswiki/Plugins/CommentPlugin/Comment.pm
++++lib/Foswiki/Plugins/CommentPlugin/Comment.pm
+@@ -9,7 +9,7 @@ use Foswiki;
+ use Foswiki::Plugins;
+ use Foswiki::Store;
+ use Foswiki::Attrs;
+-use CGI qw( -any );
++use CGI;
+ 
+ package Foswiki::Plugins::CommentPlugin::Comment;
+ 
+~~~PATCH 2e061b59d29a5d62d90b1bcf928a21fe:a00567e571b30d96f3adca6b79ef7eec lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm (Foswiki-1.1.9)
+diff --git lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
+index b2b8f84..8f39274 100644
+--- lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
++++ lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
+@@ -9,7 +9,7 @@ use warnings;
+ use Assert;
+ use Error (':try');
+ 
+-use CGI qw( :cgi -any );
++use CGI;
+ 
+ use Encode ();
+
+
+~~~PATCH f624dc0e15746d8a3db483dd349c7ab6:2076d8bd964801fa2ea97f300f732740 lib/Foswiki/Configure/Type.pm (Foswiki-1.1.9)
+diff --git lib/Foswiki/Configure/Type.pm lib/Foswiki/Configure/Type.pm
+index dad2f5d..aeddd50 100755
+--- lib/Foswiki/Configure/Type.pm
++++ lib/Foswiki/Configure/Type.pm
+@@ -18,7 +18,7 @@ package Foswiki::Configure::Type;
+ use strict;
+ use warnings;
+ 
+-use CGI qw( :any );
++use CGI;
+ 
+ use Foswiki::Configure::Types::UNKNOWN;
+ 
+~~~PATCH e9c4140355ca57fcf2da2bd52a2c9bfc:7cd56d88dbac1b12e3f291f8a66c3541 lib/Foswiki/Engine/CGI.pm (Foswiki-1.1.9)
+diff --git lib/Foswiki/Engine/CGI.pm lib/Foswiki/Engine/CGI.pm
+index 701fe01..7c832d7 100644
+--- lib/Foswiki/Engine/CGI.pm
++++ lib/Foswiki/Engine/CGI.pm
+@@ -22,6 +22,7 @@ use Assert;
+ use Foswiki::Request         ();
+ use Foswiki::Request::Upload ();
+ use Foswiki::Response        ();
++$CGI::LIST_CONTEXT_WARN = 0;
+ 
+ # ****
+ # CGI.pm has a private class called CGITempFile which is used to hold
+
+~~~PATCH cef0b79eede77bbb520b00fadd82ed0a:02656da767d320ee4e73f552588711c6 bin/configure (Foswiki-1.1.9)
+diff --git bin/configure bin/configure
+index 3be5c2e..69789a2 100755
+--- bin/configure
++++ bin/configure
+@@ -261,7 +261,7 @@ if ($@) {
+     unshift( @INC, File::Spec->catfile( @root, 'lib' ) );
+ }
+ 
+-::_loadBasicModule('CGI qw(:any)');
++::_loadBasicModule('CGI');
+ 
+ $| = 1;    # no buffering on STDOUT
+ 
+@@ -272,6 +272,8 @@ package Foswiki;
+ # We keep the actual config, and the default from Foswiki.spec, separate
+ my ( %cfg, $defaultCfg );
+ 
++$CGI::LIST_CONTEXT_WARN = 0;
++
+ # Declared in Foswiki to support checkers
+ our $query = new CGI;
+ 

@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/PatchRelease01x01Contrib.md5
+/PatchRelease01x01Contrib.sha1
+/PatchRelease01x01Contrib.tgz
+/PatchRelease01x01Contrib.txt
+/PatchRelease01x01Contrib.zip
+/PatchRelease01x01Contrib_installer
+/PatchRelease01x01Contrib_installer.pl

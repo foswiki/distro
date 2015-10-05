@@ -1,0 +1,21 @@
+Author: GeorgeClark <GeorgeClark@0b4bb1d4-4e5a-0410-9cc4-b2b747904278>
+Date:   Wed Feb 13 00:49:20 2012 +0000
+
+    Item12391: More validations   This patch applies to Foswiki 1.1.7
+
+
+~~~PATCH b5740da4993721b129abccec62701f12:1f8c3f72bb673b074f46d0277d1e6cf9 lib/Foswiki/Macros/MAKETEXT.pm (Foswiki-1.1.7)
+--- lib/Foswiki/Macros/MAKETEXT.pm	2012-12-23 10:44:07.000000000 -0500
++++ lib/Foswiki/Macros/MAKETEXT.pm	2013-02-13 10:02:44.795758093 -0500
+@@ -17,8 +17,8 @@
+     $str =~ s/\]/~]/g;
+ 
+     # restore already escaped stuff:
+-    $str =~ s/~~\[/~[/g;
+-    $str =~ s/~~\]/~]/g;
++    $str =~ s/~~+\[/~[/g;
++    $str =~ s/~~+\]/~]/g;
+ 
+     my $max         = 0;
+     my $min         = 1;
+
