@@ -9,8 +9,12 @@ One line description, required for extensions repository catalog.
 
 This extension installs fixes for the following critical issues:
 
+   * ==Item11267==: Fixes Item12225 - extension using new Version strings break configure. Applies to Foswiki 1.1.5 and earlier.
+   * ==Item12285==: Security fixes related to the Maketext vulnerability.  Applies to Foswiki 1.1.6 and earlier.
+   * ==Item12391==: More Maketext validations - Security issue applies to Foswiki 1.1.7 and earlier.
    * ==Item12414==: Newer versions of =File::Temp= cause die in =Foswiki::Sandbox::sysCommand()= (Fixed in Foswiki 1.1.9)
    * ==Item12616==: Warnings and Errors due to newer versions of perl. (Fixed in Foswiki 1.1.9)
+   * ==Item12849==: Add ACL * wildcard for backwards compatibilty with Foswiki 2.0.  Applies to all Foswiki 1.1 versions.
    * ==Item13775==: Warnings due to CGI::param called in list context.
    * ==Item13777==: Backport changes in URLPARAM and SEARCH for extension compatibility.
 
@@ -58,12 +62,14 @@ The structure of a typical patch:
 |-- working
     |-- configure
         |-- patch
-            |-- Item12414-001.patch
-            |-- Item12616-001.patch
-            |-- Item13775-001.patch
-            |-- Item13775-002.patch
-            |-- Item13777-001.patch
-            |-- Item13777-002.patch
+            |-- Item11267-110.patch    (A unique version of each patch for each applicable Foswiki version.)
+            |-- Item11267-111.patch
+            |-- Item11267-....patch
+            |-- Item12616-118.patch
+            |-- Item13775-118.patch
+            |-- Item13775-119.patch
+            |-- Item13777-118.patch
+            |-- Item13777-119.patch
 </verbatim>
 
 The files in the =working/configure/patch= directory are the actual patches.
