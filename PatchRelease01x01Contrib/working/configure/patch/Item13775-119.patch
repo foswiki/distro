@@ -34,7 +34,7 @@ index b2b8f84..8f39274 100644
  use Encode ();
 
 
-~~~PATCH f624dc0e15746d8a3db483dd349c7ab6:2076d8bd964801fa2ea97f300f732740 lib/Foswiki/Configure/Type.pm (Foswiki-1.1.9)
+~~~PATCH f624dc0e15746d8a3db483dd349c7ab6:2076d8bd964801fa2ea97f300f732740 lib/Foswiki/Configure/Type.pm (Foswiki-1.1.4,Foswiki-1.1.5,Foswiki-1.1.6,Foswiki-1.1.7,Foswiki-1.1.8,Foswiki-1.1.9)
 diff --git lib/Foswiki/Configure/Type.pm lib/Foswiki/Configure/Type.pm
 index dad2f5d..aeddd50 100755
 --- lib/Foswiki/Configure/Type.pm

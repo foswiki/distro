@@ -1,5 +1,5 @@
 
-~~~PATCH 5879fa7b665389d839ae149d551d8860:c151bafe3d209c0af44a534a64d9c9b8 lib/Foswiki/Sandbox.pm (Foswiki-1.1.8)
+~~~PATCH 5879fa7b665389d839ae149d551d8860:c151bafe3d209c0af44a534a64d9c9b8 lib/Foswiki/Sandbox.pm (Foswiki-1.1.6,Foswiki-1.1.7,Foswiki-1.1.8)
 Date:   Sat Mar 2 03:58:37 2013 +0000
 
     Item12414: tempfile is not an object method.

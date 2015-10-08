@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1443830494" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1444271674" format="1.1"  version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -12,7 +12,7 @@ This extension installs fixes for the following critical issues:
    * ==Item11267==: Fixes Item12225 - extension using new Version strings break configure. Applies to Foswiki 1.1.5 and earlier.
    * ==Item12285==: Security fixes related to the Maketext vulnerability.  Applies to Foswiki 1.1.6 and earlier.
    * ==Item12391==: More Maketext validations - Security issue applies to Foswiki 1.1.7 and earlier.
-   * ==Item12414==: Newer versions of =File::Temp= cause die in =Foswiki::Sandbox::sysCommand()= (Fixed in Foswiki 1.1.9)
+   * ==Item12414==: Newer versions of =File::Temp= cause die in =Foswiki::Sandbox::sysCommand()= (Applies to Foswiki-1.1.6, Foswiki-1.1.7 and Foswiki-1.1.8 )
    * ==Item12616==: Warnings and Errors due to newer versions of perl. (Fixed in Foswiki 1.1.9)
    * ==Item12849==: Add ACL * wildcard for backwards compatibilty with Foswiki 2.0.  Applies to all Foswiki 1.1 versions.
    * ==Item13775==: Warnings due to CGI::param called in list context.

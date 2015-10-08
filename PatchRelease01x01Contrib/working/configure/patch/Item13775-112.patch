@@ -1,0 +1,108 @@
+~~~PATCH fc3989f8d66b110ad39a91388dd6fde8:e8d31f4e70aa5b1f42e6e3703d35c6d2 bin/configure (Foswiki-1.1.2)
+diff --git a/bin/configure b/bin/configure
+index f114bf0..ba95cf4 100755
+--- a/bin/configure
++++ b/bin/configure
+@@ -227,7 +227,7 @@ HERE
+     }
+ }
+ 
+-foreach my $module ( 'FindBin', 'File::Spec', 'Config', 'CGI qw(:any)', ) {
++foreach my $module ( 'FindBin', 'File::Spec', 'Config', 'CGI', ) {
+     ::_loadBasicModule($module);
+ }
+ 
+@@ -271,6 +271,8 @@ package Foswiki;
+ # We keep the actual config, and the default from Foswiki.spec, separate
+ my ( %cfg, $defaultCfg );
+ 
++$CGI::LIST_CONTEXT_WARN = 0;
++
+ # Declared in Foswiki to support checkers
+ our $query = new CGI;
+ 
+~~~PATCH 4a9bb8a10d76686a2b59c9430bee46a1:e5c3f9958be1a30d98823eb369aeb1a5 lib/Foswiki/Configure/Type.pm (Foswiki-1.1.2)
+diff --git a/lib/Foswiki/Configure/Type.pm b/lib/Foswiki/Configure/Type.pm
+index edef99a..752008a 100644
+--- a/lib/Foswiki/Configure/Type.pm
++++ b/lib/Foswiki/Configure/Type.pm
+@@ -18,7 +18,7 @@ package Foswiki::Configure::Type;
+ use strict;
+ use warnings;
+ 
+-use CGI qw( :any );
++use CGI;
+ 
+ use Foswiki::Configure::Types::UNKNOWN;
+ 
+~~~PATCH 8dfe6a6b79b3b4979cdd455797f3f312:a622f9278e06a8a0c452539a541427e7 lib/Foswiki/Engine/CGI.pm (Foswiki-1.1.2)
+diff --git a/lib/Foswiki/Engine/CGI.pm b/lib/Foswiki/Engine/CGI.pm
+index c0e0c1a..feb3896 100644
+--- a/lib/Foswiki/Engine/CGI.pm
++++ b/lib/Foswiki/Engine/CGI.pm
+@@ -22,6 +22,7 @@ use Assert;
+ use Foswiki::Request         ();
+ use Foswiki::Request::Upload ();
+ use Foswiki::Response        ();
++$CGI::LIST_CONTEXT_WARN = 0;
+ 
+ sub run {
+     my $this = shift;
+
+~~~PATCH b0ad755d7523b7cb7637626eda24976c:80fd8fa1af3d3919840832cf7250f62e lib/Foswiki/Plugins/CommentPlugin/Comment.pm (Foswiki-1.1.2)
+diff --git a/lib/Foswiki/Plugins/CommentPlugin/Comment.pm b/lib/Foswiki/Plugins/CommentPlugin/Comment.pm
+index 0d9dbf7..b941ae1 100644
+--- a/lib/Foswiki/Plugins/CommentPlugin/Comment.pm
++++ b/lib/Foswiki/Plugins/CommentPlugin/Comment.pm
+@@ -9,7 +9,7 @@ use Foswiki;
+ use Foswiki::Plugins;
+ use Foswiki::Store;
+ use Foswiki::Attrs;
+-use CGI qw( -any );
++use CGI;
+ 
+ package Foswiki::Plugins::CommentPlugin::Comment;
+ 
+~~~PATCH e1de25ffe59ed44eab838c35ccbfd0d0:45e052d4316be6e9a45ce0327f3dab81 lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm (Foswiki-1.1.2)
+diff --git a/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm b/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
+index 9b87f8b..46fbc1b 100644
+--- a/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
++++ b/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
+@@ -9,7 +9,7 @@ use warnings;
+ use Assert;
+ use Error (':try');
+ 
+-use CGI qw( :cgi -any );
++use CGI;
+ 
+ use Encode ();
+ 
+~~~PATCH 2cee78938d8cdfa2cf329902be174551:7f003190a7b9340ac77ceb6750d16749 lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm (Foswiki-1.1.2)
+diff --git a/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm b/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm
+index 451eace..008f76e 100644
+--- a/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm
++++ b/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm
+@@ -19,7 +19,7 @@ TML syntax is not supported.
+ 
+ package Foswiki::Plugins::WysiwygPlugin::TML2HTML;
+ 
+-use CGI qw( -any );
++use CGI;
+ use Error qw( :try );
+ 
+ use Foswiki;
+
+~~~PATCH 949c8ab218a900b5fd6f08471df7df2e:5ceab0d59a00ad6777989d343e7f8501 lib/Foswiki/Contrib/MailerContrib.pm (Foswiki-1.1.2)
+diff --git a/lib/Foswiki/Contrib/MailerContrib.pm b/lib/Foswiki/Contrib/MailerContrib.pm
+index 4af2f54..988ffe9 100644
+--- a/lib/Foswiki/Contrib/MailerContrib.pm
++++ b/lib/Foswiki/Contrib/MailerContrib.pm
+@@ -16,7 +16,7 @@ use strict;
+ use warnings;
+ 
+ use URI ();
+-use CGI qw(-any);
++use CGI;
+ 
+ use Foswiki                                    ();
+ use Foswiki::Plugins                           ();

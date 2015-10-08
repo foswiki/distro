@@ -19,7 +19,7 @@ index edbd86e..e1b09f9 100644
  
  package Foswiki::Plugins::CommentPlugin::Comment;
  
-~~~PATCH 50bca0252137d02052a9937452d8578a:8897b17b6d65b8e38da3a0b558f004ee lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm (Foswiki-1.1.8)
+~~~PATCH 50bca0252137d02052a9937452d8578a:8897b17b6d65b8e38da3a0b558f004ee lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm (Foswiki-1.1.7,Foswiki-1.1.8)
 diff --git lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
 index b2b8f84..8f39274 100644
 --- lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
@@ -48,7 +48,7 @@ index dad2f5d..aeddd50 100755
  
  use Foswiki::Configure::Types::UNKNOWN;
  
-~~~PATCH 5fcc991653b93be4d6624814c32249e0:51e558f16927e130ef4d3c9343fbf1f9 lib/Foswiki/Engine/CGI.pm (Foswiki-1.1.8)
+~~~PATCH 5fcc991653b93be4d6624814c32249e0:51e558f16927e130ef4d3c9343fbf1f9 lib/Foswiki/Engine/CGI.pm (Foswiki-1.1.6,Foswiki-1.1.7,Foswiki-1.1.8)
 diff --git a/lib/Foswiki/Engine/CGI.pm b/lib/Foswiki/Engine/CGI.pm
 index 33fc31a..7bb1172 100644
 --- a/lib/Foswiki/Engine/CGI.pm
