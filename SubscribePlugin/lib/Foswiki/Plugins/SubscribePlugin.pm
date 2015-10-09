@@ -18,6 +18,11 @@ use Assert;
 use Error ':try';
 use JSON ();
 
+# SMELL: SubscribePlugin requires MailerContrib, which requires URI.  Require URI at compile time, so that SUBSCRIBE
+# is disabled if MailerContrib is missinng the dependency. Otherwise Foswiki crashes when trying to render the
+# SUBSCRIBE macro.
+use URI ();
+
 our $VERSION = '3.4';
 our $RELEASE = '27 Jul 2015';
 our $SHORTDESCRIPTION =
