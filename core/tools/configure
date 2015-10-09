@@ -29,7 +29,6 @@ use Encode;
 use Getopt::Long;
 use Pod::Usage   ();
 use Data::Dumper ();
-use JSON         ();
 
 # Assume we are in the tools dir, and we can find bin and lib from there
 use FindBin ();
