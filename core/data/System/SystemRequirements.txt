@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443658129" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1444356459" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -16,12 +16,12 @@ Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as
 | Perl | 5.8.8 or higher. A minimum of perl 5.12 is recommended. |
 | External programs | GNU =diff= 2.7 or higher, =fgrep=, and =egrep= (not required on Windows) |
 | Web server | Apache, Nginx and Lighttpd are all well supported; Apache sample configs are provided. For information on other servers, see Foswiki:Support.InstallingOnSpecificPlatforms. |
+
 Foswiki is designed to automatically detect the platform and generate a basic configuration the first time the =configure= script is run, but start from your expected default "view" URL, so that Foswiki can figure out your URL scheme.
 
-Use either the =bin/configure= web interface, or the =tools/configure= perl script, to configure Foswiki. This will explore and test critical dependencies and alert you when any are missing. For a detailed report, [[PerlDependencyReport][See PerlDependencyReport]].
+Prior versions of Foswiki shipped with the important CPAN modules. Foswiki 2.0 does not, and *you must ensure that the perl dependencies listed below are installed before attempting to use Foswiki.* For a detailed report, [[PerlDependencyReport][See PerlDependencyReport]] (admin access only!) or the shell script =tools/dependencies=.
 
-Prior versions of Foswiki shipped with the important CPAN modules, for use as a "last resort". Since they are needed only in rare situations,
-they were put into an optional extension. See Foswiki:Extensions.CpanContrib. Install this extension into your Foswiki installation directory if you cannot install Perl modules otherwise.
+If you are unable to install CPAN modules, see Foswiki:Extensions.CpanContrib. Install this extension into your Foswiki installation directory if you cannot install Perl modules otherwise.
 
 You can check the dependencies before Foswiki is fully operational with the following command.  It will list all potentially missing dependencies.  Not all listed dependences are required on all installations, Refer to the usage message that accompanies each missing dependency in the report.
 
@@ -32,8 +32,7 @@ perl tools/dependencies
 
 ---++ Specific distribution details
 
-*Find the closest match to your installed system. and click on the "Show ..."
-link to reveal the details.
+*Find the closest match to your installed system. and click on the "Show ..." link to reveal the details.*
 
 <noautolink>
 ---+++!! Ubuntu and other Debian derived distributions
@@ -195,13 +194,53 @@ After expanding the Foswiki archive, change the ownership of the files:
 
 %ENDTWISTY{}%
 
----+++!! Installation with cpanminus
+---+++!! Installation with CPAN
 
-%TWISTY{ showlink="Show =cpanm= details" hidelink="Hide =cpanm= details"}%
+%TWISTY{ showlink="Show =CPAN= details" hidelink="Hide =CPAN= details"}%
 
 Perl dependencies can also be installed on most systems using =cpanm=, aka =App::cpanminus=.  On most unix* systems, =cpanminus= can bootstrap itself using curl or wget.
 If run as root, the modules will be installed in the System perl.   Otherwise they are installed into the users local environment.
 
+%TABLE{sort="off"}%
+| *Perl Module* | *Notes* |
+| Algorithm::Diff | |
+| Apache2::Request | Required if using Apache 2 and mod_perl |
+| Archive::Tar  | *First shipped in perl 5.9.3 |
+| Authen::SASL  | Optional, needed for authenticated SMTP |
+| CGI | |
+| CGI::Session | |
+| Crypt::PasswdMD5 | |
+| Digest::SHA | Included with perl |
+| Error | |
+| Encode | |
+| File::Copy::Recursive | |
+| HTML::Parser | |
+| HTML::Tree | |
+| IO::Socket::IP | |
+| IO::Socket::SSL | Optional, support encrypted email connection: STARTTLS or SSL |
+| JSON | |
+| Locale::Maketext |  |
+| Locale::Maketext::Lexicon | Optional, needed for internationalization |
+| Locale::Msgfmt | Optional, needed for internationalization |
+| LWP | |
+| version | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
+| URI | |
+
+---++++!! Optional dependencies
+
+Install as needed.
+
+%TABLE{sort="off"}%
+| *Perl Module* | *Package to install* | *Notes* |
+| Apache2::Request | Required if using Apache 2 and mod_perl |
+| DBI | | Optional - Used for the Foswiki Page cache |
+| DBD::mysql | | Optional - Used for MySQL based Page Cache |
+| DBD::Pg | | Optional - Used for PostgreSQL based Page Cache |
+| DBD::SQLite | | Optional - Used for SQLite based Page Cache |
+
+---++++!! Installation using =cpanminus=
+
+See Foswiki:Support.HowToInstallCpanModules for more information.
 <verbatim>
 curl -L http://cpanmin.us | perl - App::cpanminus    (optional - install cpanminus if not available )
 cpanm Algorithm::Diff Archive::Tar Authen::SASL CGI CGI::Session Crypt::PasswdMD5 DBI DBD::mysql DBD::Pg DBD::SQLite Digest::SHA Error Encode File::Copy::Recursive HTML::Parser HTML::Tree IO::Socket::IP IO::Socket::SSL JSON Locale::Maketext  Locale::Maketext::Lexicon Locale::Msgfmt LWP version URI

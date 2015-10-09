@@ -37,7 +37,37 @@ use lib "$FindBin::Bin/../bin";
 use lib "$FindBin::Bin/../lib";
 
 use Assert;
-use Foswiki::Macros::PERLDEPENDENCYREPORT;
+
+$SIG{'__WARN__'} = sub {
+
+    # Is it a deprecation message?
+    if ( index( $_[0], 'will be removed' ) > 0 ) {
+        die @_;
+    }
+};
+
+my %missing;
+
+# Dependency report won't run at all without these:
+foreach (qw( JSON Error CGI CGI::Session )) {
+    eval "require $_";
+    $missing{$_} = $@ if $@;
+}
+
+if ( scalar %missing ) {
+    print STDERR
+"**** ERROR ****\nThe following critical dependencies are missing from your installation:\n";
+    foreach my $key ( sort keys %missing ) {
+        $missing{$key} =~ m/^(.*?(?:\@INC|CPAN\.))/;
+        print STDERR " ... $key: $1 \n";
+    }
+    print STDERR
+      "\nPlease install these modules and then re-run this dependency report\n";
+    print STDERR "to check the remaining dependencies.\n";
+    exit;
+}
+
+require Foswiki::Macros::PERLDEPENDENCYREPORT;
 
 # Command-line parameter handling
 

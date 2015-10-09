@@ -45,6 +45,7 @@ sub cliDependencyReport {
     $content =~ s/^\|/\n/g;
     $content =~ s/\|/\t/g;
     $content =~ s#<br ?/>#\n\t\t#g;
+    $content =~ s/CPAN://g;
     $content =~
 s#\s*<span class="foswikiAlert">%X% Possible missing dependency!</span>#$msg#g;
 
@@ -54,6 +55,7 @@ s#\s*<span class="foswikiAlert">%X% Possible missing dependency!</span>#$msg#g;
     $content =~ s/^\|/\n/g;
     $content =~ s/\|/\t/g;
     $content =~ s#<br ?/>#\n\t\t#g;
+    $content =~ s/CPAN://g;
     $content =~
 s#\s*<span class="foswikiAlert">%X% Possible missing dependency!</span>#$msg#g;
 
