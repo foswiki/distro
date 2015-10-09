@@ -40,7 +40,11 @@ package Foswiki::Configure::Package;
 use strict;
 use warnings;
 use Error qw(:try);
-use File::stat;
+use File::stat;    # Need to import functions!
+use File::Copy ();
+use File::Spec ();
+use File::Path ();
+use File::Temp ();
 use Assert;
 use Foswiki::Configure::Dependency ();
 use Foswiki::Configure::FileUtil   ();
