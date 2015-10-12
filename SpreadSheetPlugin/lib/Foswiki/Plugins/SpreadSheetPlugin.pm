@@ -9,16 +9,16 @@ use warnings;
 
 # =========================
 use vars qw(
-  $web $topic $user $installWeb $debug $skipInclude $doInit
+  $web $topic $user $installWeb $debug $skipInclude $doneInit
 );
 
-our $VERSION           = '1.20';
-our $RELEASE           = '1.20';
+our $VERSION           = '1.21';
+our $RELEASE           = '12 Oct 2015';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Add spreadsheet calculations like "$SUM($ABOVE())" to Foswiki tables and other topic text';
 
-$doInit = 0;
+$doneInit = 0;
 
 # =========================
 sub initPlugin {
@@ -42,7 +42,7 @@ sub initPlugin {
         "CALCULATE",
         sub {
             my ( $session, $attributes, $topic, $web ) = @_;
-            require Foswiki::Plugins::SpreadSheetPlugin::Calc;
+            init( $web, $topic, $debug );
             $Foswiki::Plugins::SpreadSheetPlugin::Calc::rPos = 0;
             $Foswiki::Plugins::SpreadSheetPlugin::Calc::cPos = 0;
             return Foswiki::Plugins::SpreadSheetPlugin::Calc::_doCalc(
@@ -61,8 +61,18 @@ sub initPlugin {
     Foswiki::Func::writeDebug(
         "- Foswiki::Plugins::SpreadSheetPlugin::initPlugin( $web.$topic ) is OK"
     ) if $debug;
-    $doInit = 1;
+
+    $doneInit = 0;
     return 1;
+}
+
+# =========================
+sub init {
+    return if $doneInit;
+    $doneInit = 1;
+
+    require Foswiki::Plugins::SpreadSheetPlugin::Calc;
+    Foswiki::Plugins::SpreadSheetPlugin::Calc::init(@_);
 }
 
 # =========================
@@ -84,12 +94,7 @@ sub commonTagsHandler {
         return;
     }
 
-    require Foswiki::Plugins::SpreadSheetPlugin::Calc;
-
-    if ($doInit) {
-        $doInit = 0;
-        Foswiki::Plugins::SpreadSheetPlugin::Calc::init( $web, $topic, $debug );
-    }
+    init( $web, $topic, $debug );
     Foswiki::Plugins::SpreadSheetPlugin::Calc::CALC(@_);
 }
 

@@ -1,6 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1438572634" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1444632336" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
+%FORMFIELD{"Description"}%
 
 This Plugin adds spreadsheet capabilities to %WIKITOOLNAME% topics. Formulae like ==%<nop>CALC{"$INT(7/3)"}%== are evaluated at page view time. They can be placed in table cells and outside of tables. In other words, this Plugin provides general formula evaluation capability, not just classic spreadsheet functions.
 
@@ -966,10 +967,6 @@ Above table is created manually. Another Plugin could build the table dynamicall
 ---++ Settings
 
 You can override some default settings in the plugin by setting the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
-
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
 | *Preference* | *Meaning* | *Default* |
 | =SPREADSHEETPLUGIN_DEBUG= | \
 Debug plugin: (See output in Foswiki logs) | 0 |
@@ -992,9 +989,8 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 %$INSTALL_INSTRUCTIONS%
    * Test if the "Total" in the first table in this topic is correct.
 
----++ Info
-
-|  Change History: | <!-- specify latest version first -->&nbsp; |
+---++ Change History
+|  12 Oct 2015: (1.21) | fixed memoryleak using CALCULATE in a persistent perl environment |
 |  27 Jul 2015: (1.20) | Copyright update, released with Foswiki 2.0.1 |
 |  28 May 2015: (1.19) | Foswikitask:item12739: Added ISDIGIT(), ISLOWER(), ISUPPER(), ISWIKIWORD() and FILTER() functions.<br />\
                   Foswikitask:Item13440: Document issues with BITXOR.  Foswiki unicode core won't support a simple byte based xor of strings. |
@@ -1072,9 +1068,10 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; 2001-2015 Peter Thoeny, TWiki.org, &copy; 2008-2015 TWiki:TWiki.TWikiContributor, &copy; 2015 Wave Systems Corp. &copy; 2008-2015 Foswiki Contributors "}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
-%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
