@@ -107,7 +107,7 @@ function _id_ify(id) {
     function RPC(method, message, params, report, $whirlyPlace) {
         var rpcid, $w;
         rpcid = _id_ify(message) + '_' + jsonRpc_reqnum++; // Get an id to uniquely identify the request
-        console.debug("Sending " + rpcid);
+        console && console.debug("Sending " + rpcid);
         if ($whirlyPlace) {
           $w = inline_whirly($whirlyPlace);
         }
@@ -119,7 +119,7 @@ function _id_ify(id) {
                 id: rpcid,
                 params: params,
                 error: function(jsonResponse, textStatus, xhr) {
-                    console.debug(rpcid + " failed");
+                    console && console.debug(rpcid + " failed");
                     if ($w) {
                       $w.remove();
                     }
@@ -134,7 +134,7 @@ function _id_ify(id) {
                     });
                 },
                 success: function(jsonResponse, textStatus, xhr) {
-                    console.debug(rpcid + " OK");
+                    console && console.debug(rpcid + " OK");
                     report(jsonResponse.result);
                     if ($w) {
                       $w.remove();
@@ -240,6 +240,10 @@ function _id_ify(id) {
                 $div.dialog({
                     modal: true,
                     width: 'auto',
+                    minWidth: 390,
+                    maxWidth: 700,
+                    minHeight: 390,
+                    maxHeight: 700,
                     buttons: {
                         Close: function() {
                             $div.dialog("close");
@@ -468,6 +472,10 @@ function _id_ify(id) {
         $dlg.dialog({
             title: "Validation",
             width: 'auto',
+            minWidth: 390,
+            maxWidth: 700,
+            minHeight: 390,
+            maxHeight: 700,
             modal: true,
             buttons: {
                 Close: function() {
@@ -580,7 +588,7 @@ function _id_ify(id) {
             $node.find(".button_box").append($button);
         }
         else {
-            console.debug("Useless FEEDBACK on " + spec.keys);
+            console && console.debug("Useless FEEDBACK on " + spec.keys);
         }
     }
 
@@ -793,7 +801,7 @@ if (0) {
             try {
                 cb($el, eval('(' + test + ')') ? true : false); /* SMELL eval is evil */
             } catch (err) {
-                console.debug(err);
+                console && console.debug(err);
             }
         };
         $.each(keys, function(index, k) {
