@@ -3226,21 +3226,56 @@ sub putBackBlocks {
 
     $newtag = $tag if ( !defined($newtag) );
 
-    foreach my $placeholder ( keys %$map ) {
-        if ( $placeholder =~ m/^$tag\d+$/ ) {
-            my $params = $map->{$placeholder}{params} || '';
-            my $val = $map->{$placeholder}{text};
-            $val = &$callback($val) if ( defined($callback) );
-            if ( $newtag eq '' ) {
-                $$text =~ s($OC$placeholder$CC)($val);
-            }
-            else {
-                $$text =~ s($OC$placeholder$CC)
-                           (<$newtag$params>$val</$newtag>);
-            }
-            delete( $map->{$placeholder} );
+    my $otext = $$text;
+    my $pos   = 0;
+    my $ntext = '';
+
+    while ( ( $pos = index( $otext, ${OC} . $tag, $pos ) ) >= 0 ) {
+
+        # Grab the text ahead of the marker
+        $ntext .= substr( $otext, 0, $pos );
+
+        # Length of the marker prefix
+        my $pfxlen = length( ${OC} . $tag );
+
+        # Ending marker position
+        my $epos = index( $otext, ${CC}, $pos );
+
+        # Tag instance
+        my $placeholder =
+          $tag . substr( $otext, $pos + $pfxlen, $epos - $pos - $pfxlen );
+
+  # Not all calls to putBack use a common map, so skip over any missing entries.
+        unless ( exists $map->{$placeholder} ) {
+            $ntext .= substr( $otext, $pos, $epos - $pos + 4 );
+            $otext = substr( $otext, $epos + 4 );
+            $pos = 0;
+            next;
         }
+
+        # Any params saved with the tag
+        my $params = $map->{$placeholder}{params} || '';
+
+        # Get replacement value
+        my $val = $map->{$placeholder}{text};
+        $val = &$callback($val) if ( defined($callback) );
+
+        # Append the new data and remove leading text + marker from original
+        if ( defined($val) ) {
+            $ntext .=
+              ( $newtag eq '' ) ? $val : "<$newtag$params>$val</$newtag>";
+        }
+        $otext = substr( $otext, $epos + 4 );
+
+        # Reset position for next pass
+        $pos = 0;
+
+        delete( $map->{$placeholder} );
     }
+
+    $ntext .= $otext;    # Append any remaining text.
+    $$text = $ntext;     # Replace the entire text
+
 }
 
 # Process Foswiki %TAGS{}% by parsing the input tokenised into

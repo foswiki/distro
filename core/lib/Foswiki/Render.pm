@@ -1738,14 +1738,50 @@ sub _replaceBlock {
 sub _putBackProtected {
     my ( $this, $text, $id, $map, $callback ) = @_;
     ASSERT( ref($map) eq 'HASH' ) if DEBUG;
+    my $otext = $$text;
 
-    foreach my $placeholder ( keys %$map ) {
-        next unless $placeholder =~ m/^$id\d+$/;
+    my $pos   = 0;
+    my $ntext = '';
+    while ( ( $pos = index( $otext, "<!--${REMARKER}$id", $pos ) ) >= 0 ) {
+
+        # Grab the text ahead of the marker
+        $ntext .= substr( $otext, 0, $pos );
+
+        # Length of the marker prefix
+        my $pfxlen = length("<!--${REMARKER}$id");
+
+        # Ending marker position
+        my $epos = index( $otext, "${REMARKER}-->", $pos );
+
+        # Tag instance
+        my $placeholder =
+          $id . substr( $otext, $pos + $pfxlen, $epos - $pos - $pfxlen );
+
+  # Not all calls to putBack use a common map, so skip over any missing entries.
+        unless ( exists $map->{$placeholder} ) {
+            $ntext .= substr( $otext, $pos, $epos - $pos + 4 );
+            $otext = substr( $otext, $epos + 4 );
+            $pos = 0;
+            next;
+        }
+
+        # Get replacement value
         my $val = $map->{$placeholder}{text};
         $val = &$callback($val) if ( defined($callback) );
-        $$text =~ s/<!--$REMARKER$placeholder$REMARKER-->/$val/;
+
+        # Append the new data and remove leading text + marker from original
+        $ntext .= $val if defined($val);
+        $otext = substr( $otext, $epos + 4 );
+
+        # Reset position for next pass
+        $pos = 0;
+
         delete( $map->{$placeholder} );
     }
+
+    $ntext .= $otext;    # Append any remaining text.
+    $$text = $ntext;     # Replace the entire text
+
 }
 
 1;
