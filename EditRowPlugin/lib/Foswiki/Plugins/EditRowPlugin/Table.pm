@@ -124,6 +124,11 @@ sub getTopic {
     return $this->{meta}->topic();
 }
 
+sub getTopicObject {
+    my $this = shift;
+    return $this->{meta};
+}
+
 # Calculate row labels
 sub _assignLabels {
     my $this  = shift;
@@ -455,11 +460,12 @@ sub getParams {
 
     $prefix ||= '';
 
-    # Get the active (most recent) version number for the topic with this table
-    my @ri = Foswiki::Func::getRevisionInfo( $this->getWeb, $this->getTopic );
+    my $meta = $this->getTopicObject();
+    my $info = $meta->getRevisionInfo();
+
     return (
         "${prefix}topic"   => $this->getWeb . '.' . $this->getTopic,
-        "${prefix}version" => "$ri[2]_$ri[0]",
+        "${prefix}version" => "$info->{version}_$info->{date}",
         "${prefix}table"   => $this->getID()
     );
 }

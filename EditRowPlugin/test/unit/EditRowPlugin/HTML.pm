@@ -16,6 +16,9 @@ sub loadExtraConfig {
     my $this = shift;
 
     $this->SUPER::loadExtraConfig();
+    $Foswiki::cfg{Plugins}{EditRowPlugin}{Enabled}   = 1;
+    $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro}     = 'EDITTABLE';
+    $Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled} = 0;
 }
 
 sub test_simple_view {

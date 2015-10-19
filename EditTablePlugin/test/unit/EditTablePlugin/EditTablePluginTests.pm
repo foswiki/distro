@@ -31,6 +31,8 @@ sub set_up {
     $Foswiki::cfg{AllowInlineScript} = 0;
     $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes} =
 'tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#334455" databg="#ddd,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
+    $Foswiki::cfg{Plugins}{EditRowPlugin}{Enabled} = 0;
+    $Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled} = 1;
 
     local $ENV{SCRIPT_NAME} = ''; #  required by fake sort URLs in expected text
 
