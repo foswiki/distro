@@ -47,6 +47,7 @@ sub set_up {
 HERE
 
     $this->writeTopic( $this->{target_web}, $this->{target_topic}, $table );
+
 }
 
 sub tear_down {
@@ -71,14 +72,29 @@ sub writeTopic {
 sub CALC {
     my $this = shift;
     my $str  = shift;
+    my $ne   = shift;
     my %args = (
         web   => 'Web',
         topic => 'Topic',
         @_,
     );
-    my $calc = '%CALC{"' . $str . '"}%';
-    return Foswiki::Plugins::SpreadSheetPlugin::Calc::CALC( $calc, $args{topic},
+    Foswiki::Plugins::SpreadSheetPlugin::Calc::init();
+
+    my $calcC = '%CALC{"' . $str . '"}%';
+    my $rsltC =
+      Foswiki::Plugins::SpreadSheetPlugin::Calc::CALC( $calcC, $args{topic},
         $args{web} );
+
+    my $calcR = '%CALCULATE{"' . $str . '"}%';
+    my $rsltR = Foswiki::Func::expandCommonVariables($calcR);
+
+    if ($ne) {
+        $this->assert_str_not_equals( $rsltC, $rsltR );
+    }
+    else {
+        $this->assert_equals( $rsltC, $rsltR );
+    }
+    return $rsltR;
 }
 
 #sub test_MAIN {}
@@ -148,9 +164,9 @@ sub test_BITXOR {
 # $this->assert_equals( $this->CALC('$HEXENCODE($BITXOR(Aa))'), 'BE9E' );
 # $this->assert_equals( $this->CALC('$HEXENCODE($BITXOR(1))'),  'CE' );
 
-    $this->assert_equals( '30', $this->CALC('$HEXENCODE($BITXOR(Aa))') )
+    $this->assert_equals( '0', $this->CALC('$BITXOR(Aa)') )
       ;    # non-numeric string,  returns 0
-    $this->assert_equals( '30', $this->CALC('$HEXENCODE($BITXOR(1))') )
+    $this->assert_equals( '0', $this->CALC('$BITXOR(1)') )
       ;    # Single entry, returns 0
 
     # Bitwise xor of integers.  12= b1100  7=b0111 = b1011 = 11
@@ -176,6 +192,20 @@ TABLE
 EXPECT
     chomp $expected;
     $this->assert_equals( $expected, $actual );
+}
+
+sub test_CALC_ENCODING {
+    my $this = shift;
+
+    Foswiki::Func::setPreferencesValue( 'SPREADSHEETPLUGIN_UNSAFECALC', 1 );
+    $this->assert( $this->CALC('$CHAR(60)')        eq '<' );
+    $this->assert( $this->CALC('$CHAR(62)')        eq '>' );
+    $this->assert( $this->CALC('$HEXDECODE(3C3E)') eq '<>' );
+    Foswiki::Func::setPreferencesValue( 'SPREADSHEETPLUGIN_UNSAFECALC', 0 );
+    $this->assert( $this->CALC('$CHAR(60)')        eq '&lt;' );
+    $this->assert( $this->CALC('$CHAR(62)')        eq '&gt;' );
+    $this->assert( $this->CALC('$HEXDECODE(3C3E)') eq '&lt;&gt;' );
+
 }
 
 sub test_CALCULATE {
@@ -600,8 +630,8 @@ sub test_GET_SET {
 %INCLUDE{$this->{target_web}.$this->{target_topic}}%
 
    * inc = %CALC{\$GET(inc)}%
-%CALC{\$SET(inc, asdf)}%
-   * now inc = %CALC{\$GET(inc)}%
+%CALCULATE{\$SET(inc, asdf)}%
+   * now inc = %CALCULATE{\$GET(inc)}%
 
 HERE
 
@@ -636,12 +666,6 @@ sub test_HEXDECODE_HEXENCODE {
 
 sub test_IF {
     my ($this) = @_;
-
-    #    warn '$IF not implemented';
-
-#    $this->assert( $this->CALC( '$IF($T(R1:C5) > 1000, Over Budget, OK)' ) eq 'OK' );	#==Over Budget== if value in R1:C5 is over 1000, ==OK== if not
-#    $this->assert( $this->CALC( '$IF($EXACT($T(R1:C2),), empty, $T(R1:C2))' ) eq '' );	#returns the content of R1:C2 or ==empty== if empty
-#    $this->assert( $this->CALC( '$SET(val, $IF($T(R1:C2) == 0, zero, $T(R1:C2)))' ) eq '?' );	#sets a variable conditionally
 
     my $topicText = <<"HERE";
 | 1 | | 3 | 4 | 2000 |
@@ -839,10 +863,10 @@ sub test_LISTMAP {
 sub test_LISTRAND {
     my ($this) = @_;
     my $list =
-'Apple, Orange, Bananna, Kiwi, Moe, Curly, Larry, Shemp, Cessna, Piper, Bonanza, Cirrus, Tesla, Ford, GM, Chrysler ';
-    my $rand1 = $this->CALC("\$LISTRAND($list)");
-    my $rand2 = $this->CALC("\$LISTRAND($list)");
-    my $rand3 = $this->CALC("\$LISTRAND($list)");
+'Apple, Orange, Bananna, Kiwi, Moe, Curly, Larry, Shemp, Cessna, Piper, Bonanza, Cirrus, Tesla, Ford, GM, Chrysler, Alpha, Bravo, Charlie, Delta, Echo, Foxtrot, Golf, Hotel, Juliet, Kilo, Lima ';
+    my $rand1 = $this->CALC( "\$LISTRAND($list)", 1 );
+    my $rand2 = $this->CALC( "\$LISTRAND($list)", 1 );
+    my $rand3 = $this->CALC( "\$LISTRAND($list)", 1 );
     $this->assert( $this->CALC("\$LISTSIZE($rand1)") == 1 );
     $this->assert( $this->CALC("\$LISTSIZE($rand2)") == 1 );
     $this->assert( $this->CALC("\$LISTSIZE($rand3)") == 1 );
@@ -850,15 +874,15 @@ sub test_LISTRAND {
 #SMELL: This might fail,  It is random, so it's possible the same response will come back more than once.
     $this->assert( ( $rand1 ne $rand2 ) or ( $rand2 ne $rand3 ) );
     $this->assert_matches(
-qr/Apple|Bananna|Orange|Kiwi|Moe|Curly|Larry|Shemp|Cessna|Piper|Bonanza|Cirrus|Tesla|Ford|GM|Chrysler/,
+qr/Apple|Bananna|Orange|Kiwi|Moe|Curly|Larry|Shemp|Cessna|Piper|Bonanza|Cirrus|Tesla|Ford|GM|Chrysler|Alpha|Bravo|Charlie|Delta|Echo|Foxtrot|Golf|Hotel|Juliet|Kilo|Lima/,
         $rand1
     );
     $this->assert_matches(
-qr/Apple|Bananna|Orange|Kiwi|Moe|Curly|Larry|Shemp|Cessna|Piper|Bonanza|Cirrus|Tesla|Ford|GM|Chrysler/,
+qr/Apple|Bananna|Orange|Kiwi|Moe|Curly|Larry|Shemp|Cessna|Piper|Bonanza|Cirrus|Tesla|Ford|GM|Chrysler|Alpha|Bravo|Charlie|Delta|Echo|Foxtrot|Golf|Hotel|Juliet|Kilo|Lima/,
         $rand2
     );
     $this->assert_matches(
-qr/Apple|Bananna|Orange|Kiwi|Moe|Curly|Larry|Shemp|Cessna|Piper|Bonanza|Cirrus|Tesla|Ford|GM|Chrysler/,
+qr/Apple|Bananna|Orange|Kiwi|Moe|Curly|Larry|Shemp|Cessna|Piper|Bonanza|Cirrus|Tesla|Ford|GM|Chrysler|Alpha|Bravo|Charlie|Delta|Echo|Foxtrot|Golf|Hotel|Juliet|Kilo|Lima/,
         $rand3
     );
 }
@@ -870,11 +894,11 @@ sub test_LISTREVERSE {
 }
 
 sub test_LISTSHUFFLE {
-    my ($this)   = @_;
-    my $list     = 'Apple, Orange, Apple, Kiwi, Moe, Curly, Larry, Shemp ';
-    my $shuffle1 = $this->CALC("\$LISTSHUFFLE($list)");
-    my $shuffle2 = $this->CALC("\$LISTSHUFFLE($shuffle1)");
-    my $shuffle3 = $this->CALC("\$LISTSHUFFLE($list)");
+    my ($this) = @_;
+    my $list = 'Apple, Orange, Apple, Kiwi, Moe, Curly, Larry, Shemp ';
+    my $shuffle1 = $this->CALC( "\$LISTSHUFFLE($list)",     1 );
+    my $shuffle2 = $this->CALC( "\$LISTSHUFFLE($shuffle1)", 1 );
+    my $shuffle3 = $this->CALC( "\$LISTSHUFFLE($list)",     1 );
     $this->assert( $this->CALC("\$LISTSIZE($shuffle1)") == 8 );
     $this->assert( $this->CALC("\$LISTSIZE($shuffle2)") == 8 );
     $this->assert( $this->CALC("\$LISTSIZE($shuffle3)") == 8 );
@@ -973,7 +997,7 @@ sub test_LOWER {
     $this->assert( $this->CALC('$LOWER(lOwErCaSe)')            eq 'lowercase' );
     $this->assert( $this->CALC('$LOWER()')                     eq '' );
     $this->assert( $this->CALC('$LOWER(`~!@#$%^&*_+{}|:"<>?)') eq
-          q(`~!@#$%^&*_+{}|:"<>?) );
+          q(`~!@#$%^&*_+{}|:"&lt;&gt;?) );
 }
 
 sub test_MAX {
@@ -1101,22 +1125,23 @@ sub test_PROPERSPACE {
 sub test_RAND {
     my ($this) = @_;
     for ( 1 .. 10 ) {
-        $this->assert( $this->CALC('$RAND(1)') < 1 );
-        $this->assert( $this->CALC('$RAND(2)') < 2 );
-        $this->assert( $this->CALC('$RAND(0.3)') < 0.3 );
+        $this->assert( $this->CALC( '$RAND(1)',   1 ) < 1 );
+        $this->assert( $this->CALC( '$RAND(2)',   1 ) < 2 );
+        $this->assert( $this->CALC( '$RAND(0.3)', 1 ) < 0.3 );
     }
 }
 
 sub test_RANDSTRING {
     my ($this) = @_;
     for ( 1 .. 20 ) {
-        $this->assert( length( $this->CALC('$RANDSTRING()') ) == 8 );
-        $this->assert(
-            $this->CALC('$RANDSTRING()') ne $this->CALC('$RANDSTRING()') );
+        $this->assert( length( $this->CALC( '$RANDSTRING()', 1 ) ) == 8 );
+        $this->assert( $this->CALC( '$RANDSTRING()', 1 ) ne
+              $this->CALC( '$RANDSTRING()', 1 ) );
         $this->assert_matches(
             qr/^[A-NP-Z1-9]{4},[A-NP-Z1-9]{4},[A-NP-Z1-9]{4},[A-NP-Z1-9]{4}$/,
             $this->CALC(
-                "\$RANDSTRING(A..NP..Z1..9, '''xxxx,xxxx,xxxx,xxxx''')")
+                "\$RANDSTRING(A..NP..Z1..9, '''xxxx,xxxx,xxxx,xxxx''')", 1
+            )
         );
     }
 }
@@ -1575,8 +1600,8 @@ sub test_UPPER {
     $this->assert( $this->CALC('$UPPER(UPPERCASE)')            eq 'UPPERCASE' );
     $this->assert( $this->CALC('$UPPER(uPpErCaSe)')            eq 'UPPERCASE' );
     $this->assert( $this->CALC('$UPPER()')                     eq '' );
-    $this->assert( $this->CALC('$UPPER(`~!@#$%^&*_+{}|:"<>?)') eq
-          q(`~!@#$%^&*_+{}|:"<>?) );
+    $this->assert( $this->CALC('$UPPER(`~!@#$%^&*_+{}|:"?<>)') eq
+          q(`~!@#$%^&*_+{}|:"?&lt;&gt;) );
 }
 
 sub test_VALUE {

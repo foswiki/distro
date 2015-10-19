@@ -10,6 +10,7 @@ package Foswiki::Plugins::SpreadSheetPlugin::Calc;
 
 use strict;
 use warnings;
+use HTML::Entities;
 use Time::Local;
 use Time::Local qw( timegm_nocheck timelocal_nocheck );    # Necessary for DOY
 
@@ -45,6 +46,8 @@ my %mon2num;
 }
 my $recurseFunc = \&_recurseFunc;
 
+my $unsafeCalc;
+
 # =========================
 sub init {
     ( $web, $topic, $debug ) = @_;
@@ -52,6 +55,9 @@ sub init {
     # initialize variables, once per page view
     %varStore    = ();
     $dontSpaceRE = "";
+
+    $unsafeCalc =
+      Foswiki::Func::getPreferencesFlag("SPREADSHEETPLUGIN_UNSAFECALC");
 
     # Module initialized
     Foswiki::Func::writeDebug(
@@ -173,6 +179,12 @@ sub _doCalc {
     $text =~ s/$escCloseP/\)/g;
     $text =~ s/$escNewLn/\n/g;
 
+    unless ($unsafeCalc) {
+
+        # encode < > to prevent html insertion
+        # SMELL: what about '"%
+        $text =~ s/([<>])/HTML::Entities::encode_entities($1)/ge;
+    }
     return $text;
 }
 
@@ -948,9 +960,9 @@ sub _COUNTITEMS {
         }
     }
     foreach my $key ( sort keys %items ) {
-        $result .= "$key: $items{ $key }<br /> ";
+        $result .= "$key: $items{ $key }%BR% ";
     }
-    $result =~ s|<br /> $||;
+    $result =~ s|%BR% $||;
     return $result;
 }
 

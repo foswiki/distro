@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1444632336" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1445262916" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
 %FORMFIELD{"Description"}%
@@ -982,6 +982,11 @@ Makes the TIME function assume input is local time \
 and converts the entered time to GMT unless the date has 'GMT' appended. \
 Note that this behavior creates problems for users using servers in time zones \
 to the east of Greenwich. The setting is present for compatibility. | 0 | 
+| =SPREADSHEETPLUGIN_UNSAFECALC= | \
+Permits =CALC= and =CALCULATE= macros to emit unencoded =&lt;= and =&gt;=. \
+If not enabled, =&lt;= will be encoded as =&amp;lt;= and =&gt;= will be encoded as =&amp;gt;= \
+It is strongly recommended that this be left undefined or disabled, especially if input \
+to the =CALC= / =CALCULATE= Macro includes any =URLPARAM= data. | 0 |
 
 Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DONTSPACE= preference for historical reasons.
 
@@ -990,7 +995,8 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
    * Test if the "Total" in the first table in this topic is correct.
 
 ---++ Change History
-|  12 Oct 2015: (1.21) | fixed memoryleak using CALCULATE in a persistent perl environment |
+|  15 Oct 2015: (1.21) | Foswikitask:Item13811: Fixed memory leak using CALCULATE in a persistent perl environment.<br />\
+                         Foswikitask:Item13796: Encode &lt; and &gt; when emitted by CALC or CALCULATE. |
 |  27 Jul 2015: (1.20) | Copyright update, released with Foswiki 2.0.1 |
 |  28 May 2015: (1.19) | Foswikitask:item12739: Added ISDIGIT(), ISLOWER(), ISUPPER(), ISWIKIWORD() and FILTER() functions.<br />\
                   Foswikitask:Item13440: Document issues with BITXOR.  Foswiki unicode core won't support a simple byte based xor of strings. |
