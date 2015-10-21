@@ -214,7 +214,7 @@ sub prepareUploads {
     if ( $this->{query}->isa('CGI') ) {
         foreach my $key ( keys %{ $this->{uploads} } ) {
             my $fname = $this->{query}->param($key);
-            my $ufname = foswiki::decode_utf8($fname);
+            my $ufname = Foswiki::decode_utf8($fname);
             $uploads{$ufname} = new Foswiki::Request::Upload(
                 headers => $this->{query}->uploadInfo($fname),
                 tmpname => $this->{query}->tmpFileName($fname),
