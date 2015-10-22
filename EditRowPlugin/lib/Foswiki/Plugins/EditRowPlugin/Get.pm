@@ -113,7 +113,7 @@ sub process {
     if ( !defined $result ) {
         $result = $mess || '';
     }
-    $response->body( JSON->new->allow_nonref->encode($result) );
+    $response->print( JSON->new->allow_nonref->encode($result) );
 
     return undef;
 }
