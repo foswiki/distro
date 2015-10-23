@@ -598,8 +598,8 @@ sub html {
             my $v = $attrs->{$k};
 
             # This is what CGI encodes, so....
-            $v =~ s/([&<>"\x8b\x9b'])/'&#'.ord($1).';'/ge;
-            $html .= " $k=\"$v\"";
+            $v =~ s/([&<>\x8b\x9b'])/'&#'.ord($1).';'/ge;
+            $html .= " $k='$v'";
         }
     }
     $innerHTML = '' unless defined $innerHTML;

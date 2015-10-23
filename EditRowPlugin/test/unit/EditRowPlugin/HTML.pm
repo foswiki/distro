@@ -66,7 +66,7 @@ HTML
         '#'       => "erp_TABLE_0"
     );
     my $expected = <<EXPECTED;
-<a name='erp_TABLE_0'></a><a href='$viewurl' title='Edit full table'><button type="button" name="erp_edit_TABLE_0" title="Edit full table" class="erp-edittable"></button></a><br />
+<a name='erp_TABLE_0'></a><a href='$viewurl' title='Edit full table'><button type='button' name='erp_edit_TABLE_0' title='Edit full table' class='erp-edittable'></button></a><br />
 EXPECTED
     $this->assert_html_equals( $expected, $1 );
     $in =~ s/&quot;1_\d+&quot;/&quot;VERSION&quot;/gs;
@@ -110,7 +110,7 @@ EXPECTED
         width   => "20em",
         loadurl => $loadurl,
         submit =>
-'<button class="ui-icon ui-icon-disk erp-button" type="submit"></button>',
+"<button class='ui-icon ui-icon-disk erp-button' type='submit'></button>",
         name => "CELLDATA",
         type => "text",
         col  => 0,

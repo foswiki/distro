@@ -22,8 +22,8 @@ BEGIN {
                 # SMELL: make the sort conditional on DEBUG
                 foreach my $k ( sort keys %$attrs ) {
                     my $v = $attrs->{$k};
-                    $v =~ s/([&<>"\x8b\x9b'])/'&#'.ord($1).';'/ge;
-                    $html .= " $k=\"$v\"";
+                    $v =~ s/([&<>\x8b\x9b'])/'&#'.ord($1).';'/ge;
+                    $html .= " $k='$v'";
                 }
             }
             $innerHTML = '' unless defined $innerHTML;
