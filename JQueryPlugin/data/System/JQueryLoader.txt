@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1416592207" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1445831953" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQPLUGINS{"loader"
@@ -82,7 +82,7 @@ events can be used to hook your own callbacks to be processed when they are fire
 ... if installed:
 
 %JQREQUIRE{"loader"}%
-<div class="jqLoader {section:'recentchanges', effect:'%URLPARAM{"effect" default="fade"}%'}" id="myLoader"></div>
+<div class="jqLoader {section:'recentchanges', effect:'%CALCULATE{$FILTER([^a-zA-Z0-9 ], %URLPARAM{"effect" default="fade" }%)}%'}" id="myLoader"></div>
 
 <div class="foswikiLeft">
   <label for="effect"><b>Effect:</b></label>
