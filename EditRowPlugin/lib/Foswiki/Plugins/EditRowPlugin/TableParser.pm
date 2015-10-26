@@ -110,7 +110,7 @@ sub adjustSpec {
 
             # override the format
             # undo the encoding
-            $format =~ s/-([a-z\d][a-z\d])/chr(hex($1))/gie;
+            $format =~ s/-([a-f\d][a-f\d])/chr(hex($1))/gie;
             $attrs->{format} = $format;
         }
         if ( defined( $this->{params}->{"${pf}_headerrows"} ) ) {
@@ -130,7 +130,7 @@ __END__
 
 Author: Crawford Currie http://c-dot.co.uk
 
-Copyright (c) 2012 Foswiki Contributors
+Copyright (c) 2012-2015 Foswiki Contributors
 All Rights Reserved. Foswiki Contributors are listed in the
 AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.

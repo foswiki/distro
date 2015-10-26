@@ -266,7 +266,8 @@ Provides the vertical row editing interface like
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  3.313 (21 Oct 2015) | Foswikitask:Item13834 Unable to edit cells containing utf-8 data.<br/>
+|  3.313 (26 Oct 2015) | Foswikitask:Item13834 Unable to edit cells containing utf-8 data.<br/> \
+                         Foswikitask:Item13815 Typo in regular expression.<br/> \
                          Foswikitask:Item13817 Performance issues with large tables. |
 |  3.312 (02 Oct 2015) | Foswikitask:Item13781 Update dependency on TablesContrib version for Foswiki 1.1 compatibility. |
 |  3.311 (30 Sep 2015) | Foswikitask:Item13672 EditRowPlugin doesn't save under mod_perl<br/>\
