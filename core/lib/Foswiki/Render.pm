@@ -215,6 +215,7 @@ sub getRenderedVersion {
 
     # Initial cleanup
     $text =~ s/\r//g;
+    $text =~ s/[\{\}]$REMARKER//g;
 
     # whitespace before <! tag (if it is the first thing) is illegal
     $text =~ s/^\s+(<![a-z])/$1/i;
@@ -342,8 +343,8 @@ sub getRenderedVersion {
     # Item1985: CDATA sections are not lone < and >
     $text =~ s/<(?!\!\[CDATA\[)/&lt\;/g;
     $text =~ s/(?<!\]\])>/&gt\;/g;
-    $text =~ s/{$REMARKER/</go;
-    $text =~ s/}$REMARKER/>/go;
+    $text =~ s/\{$REMARKER/</go;
+    $text =~ s/\}$REMARKER/>/go;
 
     # other entities
     $text =~ s/&(\w+);/$REMARKER$1;/g;              # "&abc;"

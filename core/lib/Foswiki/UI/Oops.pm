@@ -96,10 +96,14 @@ sub oops {
         $tmplName = $query->param('template');
         $def      = $query->param('def');
         while ( defined( my $param = $query->param( 'param' . $n ) ) ) {
+
+            # Don't accept internal render tokens in parameters
+            #$param =~ s/[\x00-\x03]//g;
             push( @params, $param );
             $n++;
         }
     }
+
     $tmplName ||= 'oops';
 
     # Item5324: Filter to block XSS
