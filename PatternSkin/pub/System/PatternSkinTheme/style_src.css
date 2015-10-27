@@ -1977,6 +1977,7 @@ textarea.foswikiTextareaRawView,
 textarea.foswikiEditTextarea {
   width: 100%;
   height: 100%;
+  font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
   min-height: 100px;
   padding: 5px;
   margin: 0;
