@@ -140,6 +140,8 @@ sub log {
     }
     elsif ( $Foswiki::cfg{isVALID} ) {
 
+        use filetest 'access';    # Try to get more meaningful diagnostics.
+
         # Only whine if there is a known good configuration (in which case
         # $Foswiki::cfg{Log}{Dir} will be set sensibly)
         if ( !-w $log ) {

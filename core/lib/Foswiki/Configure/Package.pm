@@ -224,6 +224,7 @@ sub option {
 
     sub _log {
         my $this = shift;
+        use filetest 'access';
 
         # Don't actually write any logs if simulating the install
         return if $this->{nolog};
@@ -872,6 +873,7 @@ sub _install {
 
     # foreach file in list, move it to the correct place
     foreach my $file (@names) {
+        use filetest 'access';
 
         if ( $file =~ m/^(:?bin|tools)\/[^\/]+$/ ) {
             my $perlLoc = Foswiki::Configure::FileUtil::getPerlLocation();
@@ -1033,6 +1035,8 @@ sub _installAttachments {
     my $twebTopic = shift;    # Mapped target web/topic
     my $meta      = shift;
 
+    use filetest 'access';
+
     #my $attached  = shift;    # Count of files attached,
 
     foreach my $key ( sort keys %{ $this->{_manifest}{ATTACH}{$webTopic} } ) {
@@ -1090,6 +1094,8 @@ sub _moveFile {
         $perms,    # File permissions
         $force     # Force copy even if simulate - used for the .tgz archive
     ) = @_;
+
+    use filetest 'access';
 
     my @path = split( /[\/\\]+/, $to, -1 );    # -1 allows directories
     pop(@path);
