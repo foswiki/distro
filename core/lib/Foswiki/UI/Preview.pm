@@ -72,7 +72,8 @@ sub preview {
     }
 
     my $text = $topicObject->text() || '';
-    $session->{plugins}->dispatch( 'afterEditHandler', $text, $topic, $web );
+    $session->{plugins}
+      ->dispatch( 'afterEditHandler', $text, $topic, $web, $topicObject );
 
     # Load the template for the view
     my $content  = $text;
