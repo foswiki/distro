@@ -133,7 +133,7 @@ sub test_coverage {
       ->expandMacros( '%ENCODE{"' . $str . '" type="url"}%' );
 
     $this->assert_str_equals(
-"%27%22%03%04%05%06%07%08%09%0a%0b%0c%0d%0e%0f%10%11%12%13%14%15%16%17%18%19%1a%1b%1c%1d%1e%1f%20!%22#%24%25%26%27%28%29*%2b%2c-./0123456789:%3b%3c%3d%3e%3f%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5b%5c%5d%5e_%60abcdefghijklmnopqrstuvwxyz%7b%7c%7d~%7f",
+"%27%22%03%04%05%06%07%08%09%0a%0b%0c%0d%0e%0f%10%11%12%13%14%15%16%17%18%19%1a%1b%1c%1d%1e%1f%20!%22%23%24%25%26%27%28%29*%2b%2c-./0123456789:%3b%3c%3d%3e%3f%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5b%5c%5d%5e_%60abcdefghijklmnopqrstuvwxyz%7b%7c%7d~%7f",
         hexdump($results)
     );
 

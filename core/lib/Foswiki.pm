@@ -2967,7 +2967,7 @@ Encode by converting characters that are reserved in URLs to
 their %NN equivalents. This method is used for encoding
 strings that must be embedded _verbatim_ in URLs; it cannot
 be applied to URLs themselves, as it escapes reserved
-characters such as = and ?.
+characters such as =, &, %, ;, # and ?.
 
 RFC 1738, Dec. '94:
     <verbatim>
@@ -2977,7 +2977,7 @@ RFC 1738, Dec. '94:
     </verbatim>
 
 However this function is tuned for use with Foswiki. As such, it
-encodes *all* characters except 0-9a-zA-Z-_.:~!*#/
+encodes *all* characters except 0-9a-zA-Z-_.:~!*/
 
 This internal function is available for use by expanding the =%ENCODE= macro,
 specifying =type="url"=.  It is also the default encoding used by the =%URLPARAM= macro. 
@@ -2988,7 +2988,7 @@ sub urlEncode {
     my $text = shift;
 
     $text = encode_utf8($text);
-    $text =~ s{([^0-9a-zA-Z-_.:~!*#/])}{sprintf('%%%02x',ord($1))}ge;
+    $text =~ s{([^0-9a-zA-Z-_.:~!*/])}{sprintf('%%%02x',ord($1))}ge;
 
     return $text;
 }
