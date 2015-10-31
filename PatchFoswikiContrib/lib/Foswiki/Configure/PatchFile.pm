@@ -297,7 +297,8 @@ sub applyPatch {
             next unless ( $fileMD5 eq $wantMD5 );
             next
               if ( $patchRef->{$key}{$md5}{version}
-                && $patchRef->{$key}{$md5}{version} ne $Foswiki::RELEASE );
+                && $patchRef->{$key}{$md5}{version} !~
+                m/\b\Q$Foswiki::RELEASE\E\b/ );
 
             $msgs .=
 "MD5 Matched - applying patch version $patchRef->{$key}{$md5}{version}.\n";
