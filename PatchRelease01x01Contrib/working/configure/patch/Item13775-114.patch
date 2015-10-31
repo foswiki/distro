@@ -5,7 +5,7 @@ Date:   Thu Oct 1 17:32:57 2015 -0400
     
     Backport Foswiki 2.0 fixes.
 
-~~~PATCH 7c40baa89e0be8228818f6b42d3be87d:6e6f8a38a0b3dc0f8a6151e24c61560a lib/Foswiki/Plugins/CommentPlugin/Comment.pm (Foswiki-1.1.8)
+~~~PATCH 864149f31c70f0bafd3485c632897650:e79e2d33874a7a1db9ba3fdf94b35c8d lib/Foswiki/Plugins/CommentPlugin/Comment.pm (Foswiki-1.1.4)
 diff --git lib/Foswiki/Plugins/CommentPlugin/Comment.pm lib/Foswiki/Plugins/CommentPlugin/Comment.pm
 index edbd86e..e1b09f9 100644
 --- lib/Foswiki/Plugins/CommentPlugin/Comment.pm
@@ -19,7 +19,7 @@ index edbd86e..e1b09f9 100644
  
  package Foswiki::Plugins::CommentPlugin::Comment;
  
-~~~PATCH 50bca0252137d02052a9937452d8578a:8897b17b6d65b8e38da3a0b558f004ee lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm (Foswiki-1.1.7,Foswiki-1.1.8)
+~~~PATCH a03d288688e27185675596c59ed2db16:65b5d181b21a37ca98a45fc1a229f650 lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm (Foswiki-1.1.4)
 diff --git lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
 index b2b8f84..8f39274 100644
 --- lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
@@ -34,7 +34,7 @@ index b2b8f84..8f39274 100644
  use Encode ();
  
 
-~~~PATCH f624dc0e15746d8a3db483dd349c7ab6:2076d8bd964801fa2ea97f300f732740 lib/Foswiki/Configure/Type.pm (Foswiki-1.1.8)
+~~~PATCH f624dc0e15746d8a3db483dd349c7ab6:2076d8bd964801fa2ea97f300f732740 lib/Foswiki/Configure/Type.pm (Foswiki-1.1.4)
 diff --git lib/Foswiki/Configure/Type.pm lib/Foswiki/Configure/Type.pm
 index dad2f5d..aeddd50 100755
 --- lib/Foswiki/Configure/Type.pm
@@ -48,7 +48,7 @@ index dad2f5d..aeddd50 100755
  
  use Foswiki::Configure::Types::UNKNOWN;
  
-~~~PATCH 5fcc991653b93be4d6624814c32249e0:51e558f16927e130ef4d3c9343fbf1f9 lib/Foswiki/Engine/CGI.pm (Foswiki-1.1.6,Foswiki-1.1.7,Foswiki-1.1.8)
+~~~PATCH 18544845f938401a061d27c3510db12a:d50d8819985fb897b06323d4967dc240 lib/Foswiki/Engine/CGI.pm (Foswiki-1.1.4)
 diff --git lib/Foswiki/Engine/CGI.pm lib/Foswiki/Engine/CGI.pm
 index 33fc31a..7bb1172 100644
 --- lib/Foswiki/Engine/CGI.pm
@@ -61,7 +61,7 @@ index 33fc31a..7bb1172 100644
  
  sub run {
      my $this = shift;
-~~~PATCH 411cfdf69c6d0f43a8c2d061f39b185a:1d44dd65ebbced901359bf220d429a98 bin/configure (Foswiki-1.1.8)
+~~~PATCH 12c821fd2496411c18ad1932794aa7e7:989ce3ed1153959b5d945c4b72941e27 bin/configure (Foswiki-1.1.4)
 diff --git bin/configure bin/configure
 index 3be5c2e..69789a2 100755
 --- bin/configure

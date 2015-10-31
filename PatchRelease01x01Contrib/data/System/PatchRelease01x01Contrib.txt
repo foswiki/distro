@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1444271674" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1446264082" format="1.1"  version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -71,6 +71,43 @@ The structure of a typical patch:
             |-- Item13777-118.patch
             |-- Item13777-119.patch
 </verbatim>
+
+The following patch files are included:
+| *Patch file* | *Modifies* | *Applies to Releases:* |
+|| Item11267:  New extension VERSION strings will crash configure ||
+| Item11267-001.patch | | |
+| Item11267-002.patch | | |
+|| Item12285: Maketext vulnerability ||
+| Item12285-112.patch | | |
+| Item12285-116.patch | | |
+|| Item12391: ||
+| Item12391-112.patch | | |
+| Item12391-116.patch | | |
+| Item12391-117.patch | | |
+| Item12414-118.patch | | |
+| Item12616-118.patch | | |
+| Item12849-110.patch | | |
+| Item12849-113.patch | | |
+| Item12849-114.patch | | |
+| Item12849-115.patch | | |
+| Item12849-119.patch | | |
+| Item13775: CGI removed the -any pragma. Patches: <br/>\
+<ul><li> =bin/configure= <br/>\
+<li> =lib/Foswiki/Configure/Type.pm= <br/>\
+<li> =lib/Foswiki/Engine/CGI.pm= <br/>\
+<li> =lib/Foswiki/Plugins/CommentPlugin/Comment.pm= <br/>\
+<li> =lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm= <br/>\
+<li> =lib/Foswiki/Contrib/MailerContrib.pm= <br/>\
+<li> =lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm= </ul> ||
+| Item13775-110.patch | 1.1.0 |
+| Item13775-111.patch | 1.1.1 |
+| Item13775-112.patch | 1.1.2 |
+| Item13775-118.patch | 1.1.8 |
+| Item13775-119.patch | 1.1.9 |
+|| Item13777: Encode URLPARAM to prevent xss ||
+| Item13777-118.patch | =lib/Foswiki/Macros/URLPARAM.pm= =lib/Foswiki/Search.pm= =data/System/WebSearch.txt= | 1.1.8 |
+| Item13777-119.patch | =lib/Foswiki/Macros/URLPARAM.pm= =lib/Foswiki/Search.pm= =data/System/WebSearch.txt= | 1.1.9 |
+
 
 The files in the =working/configure/patch= directory are the actual patches.
 If a collection of related files is patched in a single file, they can be manually applied by

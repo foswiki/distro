@@ -1,0 +1,78 @@
+~~~PATCH 178c84385cca86468cb71c01e8981712:9b70154085522feb0276846e28d3e787 bin/configure (Foswiki-1.1.5)
+diff --git bin/configure bin/configure
+--- bin/configure
++++ bin/configure
+@@ -261,7 +261,7 @@ if ($@) {
+     unshift( @INC, File::Spec->catfile( @root, 'lib' ) );
+ }
+ 
+-::_loadBasicModule('CGI qw(:any)');
++::_loadBasicModule('CGI');
+ 
+ $| = 1;    # no buffering on STDOUT
+ 
+@@ -272,6 +272,8 @@ package Foswiki;
+ # We keep the actual config, and the default from Foswiki.spec, separate
+ my ( %cfg, $defaultCfg );
+ 
++$CGI::LIST_CONTEXT_WARN = 0;
++
+ # Declared in Foswiki to support checkers
+ our $query = new CGI;
+ 
+~~~PATCH f624dc0e15746d8a3db483dd349c7ab6:2076d8bd964801fa2ea97f300f732740 lib/Foswiki/Configure/Type.pm (Foswiki-1.1.5)
+diff --git lib/Foswiki/Configure/Type.pm lib/Foswiki/Configure/Type.pm
+index dad2f5d..aeddd50 100644
+--- lib/Foswiki/Configure/Type.pm
++++ lib/Foswiki/Configure/Type.pm
+@@ -18,7 +18,7 @@ package Foswiki::Configure::Type;
+ use strict;
+ use warnings;
+ 
+-use CGI qw( :any );
++use CGI;
+ 
+ use Foswiki::Configure::Types::UNKNOWN;
+ 
+~~~PATCH 18544845f938401a061d27c3510db12a:d50d8819985fb897b06323d4967dc240 lib/Foswiki/Engine/CGI.pm (Foswiki-1.1.5)
+diff --git lib/Foswiki/Engine/CGI.pm lib/Foswiki/Engine/CGI.pm
+index 8160be9..4cbb577 100644
+--- lib/Foswiki/Engine/CGI.pm
++++ lib/Foswiki/Engine/CGI.pm
+@@ -22,6 +22,7 @@ use Assert;
+ use Foswiki::Request         ();
+ use Foswiki::Request::Upload ();
+ use Foswiki::Response        ();
++$CGI::LIST_CONTEXT_WARN = 0;
+ 
+ sub run {
+     my $this = shift;
+
+~~~PATCH 864149f31c70f0bafd3485c632897650:e79e2d33874a7a1db9ba3fdf94b35c8d lib/Foswiki/Plugins/CommentPlugin/Comment.pm (Foswiki-1.1.5)
+diff --git lib/Foswiki/Plugins/CommentPlugin/Comment.pm lib/Foswiki/Plugins/CommentPlugin/Comment.pm
+index e07bc70..904deeb 100644
+--- lib/Foswiki/Plugins/CommentPlugin/Comment.pm
++++ lib/Foswiki/Plugins/CommentPlugin/Comment.pm
+@@ -9,7 +9,7 @@ use Foswiki;
+ use Foswiki::Plugins;
+ use Foswiki::Store;
+ use Foswiki::Attrs;
+-use CGI qw( -any );
++use CGI;
+ 
+ package Foswiki::Plugins::CommentPlugin::Comment;
+ 
+~~~PATCH c67cb91a5c5d17a4d1b3a8ff82d123e7:5e531499741f78089d169232e15d0fbb lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm (Foswiki-1.1.5)
+diff --git lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
+index 7a497e1..29d9d63 100644
+--- lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
++++ lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
+@@ -9,7 +9,7 @@ use warnings;
+ use Assert;
+ use Error (':try');
+ 
+-use CGI qw( :cgi -any );
++use CGI;
+ 
+ use Encode ();
+ 
