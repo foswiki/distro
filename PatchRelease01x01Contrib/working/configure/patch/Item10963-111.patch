@@ -1,0 +1,270 @@
+~~~PATCH ebda758663bc6f5e2438aa9104f1fd4a:773bb3e7d5c62249507bb71e372fbe0b lib/Foswiki/Configure/Checkers/BasicSanity.pm (Foswiki-1.1.1)
+diff --git lib/Foswiki/Configure/Checkers/BasicSanity.pm lib/Foswiki/Configure/Checkers/BasicSanity.pm
+index 68ed3b1..85973c8 100644
+--- lib/Foswiki/Configure/Checkers/BasicSanity.pm
++++ lib/Foswiki/Configure/Checkers/BasicSanity.pm
+@@ -150,8 +150,8 @@ HERE
+     # If we got this far without definitions for key variables, then
+     # we need to default them. otherwise we get peppered with
+     # 'uninitialised variable' alerts later.
+-    foreach my $var qw( DataDir DefaultUrlHost PubUrlPath
+-      PubDir TemplateDir ScriptUrlPath LocalesDir ) {
++    foreach my $var (qw( DataDir DefaultUrlHost PubUrlPath
++      PubDir TemplateDir ScriptUrlPath LocalesDir )) {
+ 
+         # NOT SET tells the checker to try and guess the value later on
+         $Foswiki::cfg{$var} = 'NOT SET' unless defined $Foswiki::cfg{$var};
+~~~PATCH 761e2ab62309739b740cb506bd6f2cc3:38ea2341badcd7db89244af5c64ae3d6 lib/Foswiki/Configure/Dependency.pm (Foswiki-1.1.1)
+diff --git lib/Foswiki/Configure/Dependency.pm lib/Foswiki/Configure/Dependency.pm
+index ad20985..d4a86be 100644
+--- lib/Foswiki/Configure/Dependency.pm
++++ lib/Foswiki/Configure/Dependency.pm
+@@ -155,7 +155,7 @@ sub studyInstallation {
+ 
+     if ( !$this->{module} ) {
+         my $lib = ( $this->{name} =~ /Plugin$/ ) ? 'Plugins' : 'Contrib';
+-        foreach my $namespace qw(Foswiki TWiki) {
++        foreach my $namespace (qw(Foswiki TWiki)) {
+             my $path = $namespace . '::' . $lib . '::' . $this->{name};
+             eval "require $path";
+             unless ( $@ && $@ =~ m/^Can't locate $path/ ) {
+~~~PATCH c0c945f6acf6d3b213780f4aaa5f9056:194cbf178cf9fee4cba4bceb8c7c27cc lib/Foswiki/Configure/Load.pm (Foswiki-1.1.1)
+diff --git lib/Foswiki/Configure/Load.pm lib/Foswiki/Configure/Load.pm
+index f88faf9..ca7e4fb 100644
+--- lib/Foswiki/Configure/Load.pm
++++ lib/Foswiki/Configure/Load.pm
+@@ -95,8 +95,8 @@ GOLLYGOSH
+     # we need to default them. otherwise we get peppered with
+     # 'uninitialised variable' alerts later.
+ 
+-    foreach my $var qw( DataDir DefaultUrlHost PubUrlPath WorkingDir
+-      PubDir TemplateDir ScriptUrlPath LocalesDir ) {
++    foreach my $var (qw( DataDir DefaultUrlHost PubUrlPath WorkingDir
++      PubDir TemplateDir ScriptUrlPath LocalesDir )) {
+ 
+         # We can't do this, because it prevents Foswiki being run without
+         # a LocalSite.cfg, which we don't want
+~~~PATCH 06425305b66cb7681a8f64da88a7da10:5c7316e7359efb5bdb24ba24410c1a01 lib/Foswiki/Configure/Util.pm (Foswiki-1.1.1)
+diff --git lib/Foswiki/Configure/Util.pm lib/Foswiki/Configure/Util.pm
+index 1010d97..d0ac940 100644
+--- lib/Foswiki/Configure/Util.pm
++++ lib/Foswiki/Configure/Util.pm
+@@ -68,8 +68,8 @@ sub mapTarget {
+     my $sandbox = $Foswiki::cfg{SandboxWebName} || 'Sandbox';
+ 
+     foreach my $t
+-      qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
+-      ) {
++      (qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
++      )) {
+         my ( $val, $def ) = split( ':', $t );
+           if ( defined $Foswiki::cfg{$val} ) {
+             $file =~
+@@ -111,8 +111,8 @@ sub mapTarget {
+     }
+ 
+ # Canonical symbol mappings
+-#foreach my $w qw( SystemWebName TrashWebName UsersWebName SandboxWebName ) {  #Waiting for Item8744
+-    foreach my $w qw( SystemWebName TrashWebName UsersWebName ) {
++#foreach my $w (qw( SystemWebName TrashWebName UsersWebName SandboxWebName )) {  #Waiting for Item8744
++    foreach my $w (qw( SystemWebName TrashWebName UsersWebName )) {
+         if ( defined $Foswiki::cfg{$w} ) {
+             $file =~ s#^data/$w/#data/$Foswiki::cfg{$w}/#;
+             $file =~ s#^pub/$w/#pub/$Foswiki::cfg{$w}/#;
+@@ -174,8 +174,8 @@ sub getMappedWebTopic {
+     my $sandbox = $Foswiki::cfg{SandboxWebName} || 'Sandbox';
+ 
+     foreach my $t
+-      qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
+-      ) {
++      (qw( NotifyTopicName:WebNotify HomeTopicName:WebHome WebPrefsTopicName:WebPreferences
++      )) {
+         my ( $val, $def ) = split( ':', $t );
+           if ( defined $Foswiki::cfg{$val} ) {
+             $file =~
+@@ -204,8 +204,8 @@ sub getMappedWebTopic {
+     }
+ 
+ # Canonical symbol mappings
+-#foreach my $w qw( SystemWebName TrashWebName UsersWebName SandboxWebName ) {  #Waiting for Item8744
+-    foreach my $w qw( SystemWebName TrashWebName UsersWebName ) {
++#foreach my $w (qw( SystemWebName TrashWebName UsersWebName SandboxWebName ) {  #Waiting for Item8744
++    foreach my $w (qw( SystemWebName TrashWebName UsersWebName )) {
+         if ( defined $Foswiki::cfg{$w} ) {
+             $file =~ s#^data/$w/#$Foswiki::cfg{$w}/#;
+         }
+~~~PATCH ad0255323cd65cc74607ea97615a7c2b:afbd8318ef1c6740e5dd216d0b6fc1f8 lib/Foswiki/Func.pm (Foswiki-1.1.1)
+diff --git lib/Foswiki/Func.pm lib/Foswiki/Func.pm
+index 56af70b..e25e6f8 100644
+--- lib/Foswiki/Func.pm
++++ lib/Foswiki/Func.pm
+@@ -3318,8 +3318,8 @@ individual pages
+ *Deprecated* 28 Nov 2008 - use =getPreferencesValue= instead to determine
+ what permissions are set on the web, for example:
+ <verbatim>
+-foreach my $type qw( ALLOW DENY ) {
+-    foreach my $action qw( CHANGE VIEW ) {
++foreach my $type (qw( ALLOW DENY )) {
++    foreach my $action (qw( CHANGE VIEW )) {
+         my $pref = $type . 'WEB' . $action;
+         my $val = Foswiki::Func::getPreferencesValue( $pref, $web ) || '';
+         if( $val =~ /\S/ ) {
+@@ -3334,8 +3334,8 @@ foreach my $type qw( ALLOW DENY ) {
+ sub permissionsSet {
+     my ($web) = @_;
+ 
+-    foreach my $type qw( ALLOW DENY ) {
+-        foreach my $action qw( CHANGE VIEW RENAME ) {
++    foreach my $type (qw( ALLOW DENY )) {
++        foreach my $action (qw( CHANGE VIEW RENAME )) {
+             my $pref = $type . 'WEB' . $action;
+             my $val = getPreferencesValue( $pref, $web ) || '';
+             return 1 if ( $val =~ /\S/ );
+~~~PATCH 9c90271e4bc36bdff39263862fc93f00:920feaedf09a20ddcdbf4b7fa5593db2 lib/Foswiki/Macros/INCLUDE.pm (Foswiki-1.1.1)
+diff --git lib/Foswiki/Macros/INCLUDE.pm lib/Foswiki/Macros/INCLUDE.pm
+index 2aa8620..dbacc28 100644
+--- lib/Foswiki/Macros/INCLUDE.pm
++++ lib/Foswiki/Macros/INCLUDE.pm
+@@ -121,7 +121,7 @@ sub INCLUDE {
+ 
+     # Remove params, so they don't get expanded in the included page
+     my %control;
+-    for my $p qw(_DEFAULT pattern rev section raw warn) {
++    for my $p (qw(_DEFAULT pattern rev section raw warn)) {
+         $control{$p} = $params->remove($p);
+     }
+ 
+~~~PATCH 95f55301baa8fc2576640effe21098d1:8c421973a7bb141027b180aacce7ab27 lib/Foswiki/Plugins/TinyMCEPlugin.pm (Foswiki-1.1.1)
+diff --git lib/Foswiki/Plugins/TinyMCEPlugin.pm lib/Foswiki/Plugins/TinyMCEPlugin.pm
+index d2581e2..a85151d 100644
+--- lib/Foswiki/Plugins/TinyMCEPlugin.pm
++++ lib/Foswiki/Plugins/TinyMCEPlugin.pm
+@@ -64,7 +64,7 @@ sub initPlugin {
+ }
+ 
+ sub _notAvailable {
+-    for my $c qw(TINYMCEPLUGIN_DISABLE NOWYSIWYG) {
++    for my $c (qw(TINYMCEPLUGIN_DISABLE NOWYSIWYG)) {
+         return "Disabled by * Set $c = "
+           . Foswiki::Func::getPreferencesValue($c)
+           if Foswiki::Func::getPreferencesFlag($c);
+~~~PATCH 4da16b730c72ce8ad60e77a8b92ebb9e:90a1d8c8296135b81504dce574936ea6 lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Node.pm (Foswiki-1.1.1)
+diff --git lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Node.pm lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Node.pm
+index 9b59610..6ca6a88 100644
+--- lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Node.pm
++++ lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Node.pm
+@@ -352,7 +352,7 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
+     }
+ 
+     # Collapse adjacent tags
+-    foreach my $tag qw(noautolink verbatim literal) {
++    foreach my $tag (qw(noautolink verbatim literal)) {
+         $text =~ s#</$tag>(\s*)<$tag>#$1#gs;
+     }
+ 
+@@ -1280,13 +1280,13 @@ sub cleanNode {
+     my $a;
+ 
+     # Always delete these attrs
+-    foreach $a qw( lang _moz_dirty ) {
++    foreach $a (qw( lang _moz_dirty )) {
+         delete $this->{attrs}->{$a}
+           if ( defined( $this->{attrs}->{$a} ) );
+     }
+ 
+     # Delete these attrs if their value is empty
+-    foreach $a qw( class style ) {
++    foreach $a (qw( class style )) {
+         if ( defined( $this->{attrs}->{$a} )
+             && $this->{attrs}->{$a} !~ /\S/ )
+         {
+~~~PATCH e1de25ffe59ed44eab838c35ccbfd0d0:682f7bdba684fedcf7ecae46454e0d4d lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm (Foswiki-1.1.1)
+diff --git lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
+index 9b87f8b..a5732b7 100644
+--- lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
++++ lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
+@@ -81,7 +81,7 @@ sub beforeEditHandler {
+ 
+             # redirect
+             my $query = Foswiki::Func::getCgiQuery();
+-            foreach my $p qw( skin cover ) {
++            foreach my $p (qw( skin cover )) {
+                 my $arg = $query->param($p);
+                 if ( $arg && $arg =~ s/\b$skin\b// ) {
+                     if ( $arg =~ /^[\s,]*$/ ) {
+~~~PATCH a0d72e11518d09a94e9300d7805e2a60:9690cfa4c1e28c318b4c62ab0a07fdff lib/Foswiki/Request/Cache.pm (Foswiki-1.1.1)
+diff --git lib/Foswiki/Request/Cache.pm lib/Foswiki/Request/Cache.pm
+index 073188a..352c972 100644
+--- lib/Foswiki/Request/Cache.pm
++++ lib/Foswiki/Request/Cache.pm
+@@ -79,7 +79,7 @@ sub save {
+       . $!;
+ 
+     # Serialize some key info from the request
+-    foreach my $field qw(method path_info action) {
++    foreach my $field (qw(method path_info action)) {
+         print $F $field, '=', ( $req->$field() || '' ), "\n";
+         print STDERR "CACHE $uid> $field(" . ( $req->$field() || '' ) . ")\n"
+           if (TRACE_CACHE);
+~~~PATCH f92248f7257c97aff82e981fb2346528:c73504968c561b272a536d66d39a7b44 lib/Foswiki/Store/VC/Handler.pm (Foswiki-1.1.1)
+diff --git lib/Foswiki/Store/VC/Handler.pm lib/Foswiki/Store/VC/Handler.pm
+index 8168c5c..226fbfd 100644
+--- lib/Foswiki/Store/VC/Handler.pm
++++ lib/Foswiki/Store/VC/Handler.pm
+@@ -1118,7 +1118,7 @@ sub synchroniseAttachmentsList {
+         if ( $filesListedInMeta{$file} ) {
+ 
+             # Bring forward any missing yet wanted attributes
+-            foreach my $field qw(comment attr user version) {
++            foreach my $field (qw(comment attr user version)) {
+                 if ( $filesListedInMeta{$file}{$field} ) {
+                     $filesListedInPub{$file}{$field} =
+                       $filesListedInMeta{$file}{$field};
+@@ -1184,7 +1184,7 @@ Generate string representation for debugging
+ sub stringify {
+     my $this = shift;
+     my @reply;
+-    foreach my $key qw(web topic attachment file rcsFile) {
++    foreach my $key (qw(web topic attachment file rcsFile)) {
+         if ( defined $this->{$key} ) {
+             push( @reply, "$key=$this->{$key}" );
+         }
+~~~PATCH c841786015c4548b76d9a6a4e2a1826a:2b1d5210fc0102808d84e24a89201ab2 lib/Foswiki/UI/Save.pm (Foswiki-1.1.1)
+diff --git lib/Foswiki/UI/Save.pm lib/Foswiki/UI/Save.pm
+index 0619540..5da5808 100644
+--- lib/Foswiki/UI/Save.pm
++++ lib/Foswiki/UI/Save.pm
+@@ -417,8 +417,8 @@ sub save {
+     my $query = $session->{request};
+ 
+     my $saveaction = '';
+-    foreach my $action qw( save checkpoint quietsave cancel preview
+-      addform replaceform delRev repRev ) {
++    foreach my $action (qw( save checkpoint quietsave cancel preview
++      addform replaceform delRev repRev )) {
+         if ( $query->param( 'action_' . $action ) )
+         {
+             $saveaction = $action;
+@@ -510,7 +510,7 @@ WARN
+         $p{template} = $edittemplate if $edittemplate;
+ 
+         # Pass through selected parameters
+-        foreach my $pthru qw(redirectto skin cover nowysiwyg) {
++        foreach my $pthru (qw(redirectto skin cover nowysiwyg)) {
+             $p{$pthru} = $query->param($pthru);
+         }
+ 
+~~~PATCH 84be5bfffdeb8489345f0571cb0d4d7e:8de477474e7d29294ff0845c155a0f4a lib/Foswiki/WebFilter.pm (Foswiki-1.1.1)
+diff --git lib/Foswiki/WebFilter.pm lib/Foswiki/WebFilter.pm
+index 3606591..8813098 100644
+--- lib/Foswiki/WebFilter.pm
++++ lib/Foswiki/WebFilter.pm
+@@ -18,7 +18,7 @@ use warnings;
+ sub new {
+     my ( $class, $filter ) = @_;
+     my $this = bless( {}, $class );
+-    foreach my $f qw(user template public allowed) {
++    foreach my $f (qw(user template public allowed)) {
+         $this->{$f} = ( $filter =~ /\b$f\b/ );
+     }
+     return $this;

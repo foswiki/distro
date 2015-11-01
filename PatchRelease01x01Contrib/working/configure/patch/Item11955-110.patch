@@ -1,0 +1,18 @@
+~~~PATCH f59e95728ca96aef5580d8e22ce53668:780a36c6c93e6d224b70c31c7a999177 lib/Foswiki/Configure/Checker.pm (Foswiki-1.1.0)
+diff --git lib/Foswiki/Configure/Checker.pm lib/Foswiki/Configure/Checker.pm
+index 9c68673..de371e0 100644
+--- lib/Foswiki/Configure/Checker.pm
++++ lib/Foswiki/Configure/Checker.pm
+@@ -456,7 +456,11 @@ sub checkRCSProgram {
+             $err .= $this->ERROR( $prog
+                   . ' did not return a version number (or might not exist..)' );
+         }
+-        if ( $version =~ /^\d/ && $version < $rcsverRequired ) {
++
++        # Item11955 - '5.8.1' < 5.7 results in a warning (non-numeric compare)
++        # Best practice is to use CPAN:version, but isn't core until perl 5.10.
++        # So instead let's make the comparison work by stripping out sub-decimal
++        if ( $version =~ /\D(\d+(\.\d+)?)/ && $1 < $rcsverRequired ) {
+ 
+             # RCS too old
+             $err .=

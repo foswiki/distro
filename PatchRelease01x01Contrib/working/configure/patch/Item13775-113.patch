@@ -63,7 +63,7 @@ index c084d36..b3bd507 100644
  
  package Foswiki::Plugins::CommentPlugin::Comment;
  
-~~~PATCH edcfd084a20e16588d6f7c6de9ad56de:bd2ee6b9037bd05edd804022327569a0 lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm (Foswiki-1.1.3)
+~~~PATCH c1760276fd50845a3669e97adc00f605:1a1c349dc6b7f725f468e5b3a1527ea1 lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm (Foswiki-1.1.3)
 diff --git lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
 index ba54bd5..1d4775b 100644
 --- lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm

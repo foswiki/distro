@@ -1,0 +1,41 @@
+Item12225: Don't use "HEAD" to detect pseudo install.
+    
+    A real, non-pseudo-installed extension will crash configure if a perl
+    version object is compared to an alpha string.
+    
+    9999.99_999 will be used to indicate a pseudo-installed release.
+
+~~~PATCH 76e28354522a6d6cccc76c66f99d2424:24ce3ef562c0021782b103c81774b980 lib/Foswiki/Configure/UIs/EXTENSIONS.pm (Foswiki-1.1.1)
+--- lib/Foswiki/Configure/UIs/EXTENSIONS.pm	2012-11-07 23:45:21.269274066 -0500
++++ lib/Foswiki/Configure/UIs/EXTENSIONS.pm	2012-11-07 23:46:39.844344573 -0500
+@@ -280,7 +280,7 @@
+         if ( $ext->{installedRelease} ) {
+ 
+             # The module is installed; check the version
+-            if ( $ext->{installedVersion} eq 'HEAD' ) {
++            if ( $ext->{installedVersion} eq '9999.99_999' ) {
+ 
+                 # pseudo-installed
+                 $install = 'pseudo-installed';
+
+~~~PATCH 38ea2341badcd7db89244af5c64ae3d6:0fc59e4dd29ac426c8ac546d9651d109 lib/Foswiki/Configure/Dependency.pm (Foswiki-1.1.1)
+diff --git lib/Foswiki/Configure/Dependency.pm lib/Foswiki/Configure/Dependency.pm
+--- lib/Foswiki/Configure/Dependency.pm
++++ lib/Foswiki/Configure/Dependency.pm
+@@ -218,7 +218,7 @@ sub studyInstallation {
+             if ( -l "$dir/$path" ) {
+ 
+                 # Assume pseudo-installed
+-                $this->{installedVersion} = 'HEAD';
++                $this->{installedVersion} = '9999.99_999';
+             }
+             last;
+         }
+@@ -466,6 +466,7 @@ sub _compare_extension_versions {
+ 
+         # Didn't get a good RELEASE; fall back to subversion
+         return 0 unless defined $aVERSION;
++        return 1 if ( $aVERSION =~ /^v?\d+\.\d+/ ); # a Dotted Decimal version string
+         $aVERSION =~ s/^\s+//;
+         $aVERSION =~ s/\s+$//;
+         $aVERSION =~ s/^\$Rev: (\d+).*\$$/$1/;

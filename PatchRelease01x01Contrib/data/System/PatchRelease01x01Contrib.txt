@@ -7,16 +7,77 @@ One line description, required for extensions repository catalog.
 
 %SHORTDESCRIPTION%
 
+---++ Patched by this package:
+
 This extension installs fixes for the following critical issues:
 
-   * ==Item11267==: Fixes Item12225 - extension using new Version strings break configure. Applies to Foswiki 1.1.5 and earlier.
-   * ==Item12285==: Security fixes related to the Maketext vulnerability.  Applies to Foswiki 1.1.6 and earlier.
-   * ==Item12391==: More Maketext validations - Security issue applies to Foswiki 1.1.7 and earlier.
-   * ==Item12414==: Newer versions of =File::Temp= cause die in =Foswiki::Sandbox::sysCommand()= (Applies to Foswiki-1.1.6, Foswiki-1.1.7 and Foswiki-1.1.8 )
-   * ==Item12616==: Warnings and Errors due to newer versions of perl. (Fixed in Foswiki 1.1.9)
-   * ==Item12849==: Add ACL * wildcard for backwards compatibilty with Foswiki 2.0.  Applies to all Foswiki 1.1 versions.
-   * ==Item13775==: Warnings due to CGI::param called in list context.
-   * ==Item13777==: Backport changes in URLPARAM and SEARCH for extension compatibility.
+---+++ ==Item10963==: Perl 5.14 deprecated use of qw() without enclosing parenthesis (qw())
+   * Type of fix:  Perl Compatibility
+   * Affects version Foswiki-1.1.0 thru Foswiki-1-1-3
+   * Patches:<verbatim>
+        lib/Foswiki/Configure/Checkers/BasicSanity.pm
+        lib/Foswiki/Configure/Dependency.pm
+        lib/Foswiki/Configure/Load.pm
+        lib/Foswiki/Configure/Util.pm
+        lib/Foswiki/Func.pm
+        lib/Foswiki/Macros/INCLUDE.pm
+        lib/Foswiki/Plugins/TinyMCEPlugin.pm
+        lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Node.pm
+        lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
+        lib/Foswiki/Request/Cache.pm
+        lib/Foswiki/Store/VC/Handler.pm
+        lib/Foswiki/UI/Save.pm
+        lib/Foswiki/WebFilter.pm
+</verbatim>
+---+++ ==Item11955==: RCS x.x.x version strings cause configure errors.
+   * Type of fix:  System Compatibility
+   * Applies to Foswiki-1.1.0 thru Foswiki-1.1.5
+   * Patches: =lib/Foswiki/Configure/Checker.pm=
+---+++ ==Item12225==: Extension using new Version strings break configure.
+   * Type of fix: Foswiki Backwards Compatibility
+   * Applies to Foswiki-1.1.0 thru Foswiki 1.1.5.
+   * Patches:<verbatim>
+        lib/Foswiki/Configure/UIs/EXTENSIONS.pm
+        lib/Foswiki/Configure/Dependency.pm
+</verbatim>
+---+++  ==Item12285==: Security fixes related to the Maketext vulnerability.
+   * Type of fix: Security
+   * Applies to Foswiki-1.1.0 thru Foswiki 1.1.6.
+   * Patches: =lib/Foswiki/Macros/MAKETEXT.pm=
+---+++ ==Item12391==: More Maketext validations
+   * Type of fix: Security
+   * Applies to Foswiki 1.1.0 thru 1.1.7.
+   * Patches: =lib/Foswiki/Macros/MAKETEXT.pm=
+---+++ ==Item12414==: Newer versions of =File::Temp= cause die in =Foswiki::Sandbox::sysCommand()= 
+   * Type of fix:  Perl Compatibility
+   * Applies to Foswiki-1.1.6, Foswiki-1.1.7 and Foswiki-1.1.8
+   * Patches: =lib/Foswiki/Sandbox.pm=
+---+++ ==Item12616==: Warnings and Errors due to newer versions of perl.
+   * Type of fix:  Perl Compatibility
+   * Applies to Foswiki-1.1.7 and Foswiki-1.1.8
+   * Patches: <verbatim>
+        lib/Foswiki/Attach.pm
+        lib/Foswiki/Configure/Package.pm
+        lib/Foswiki/Search.pm
+        lib/Foswiki/UI/Register.pm
+</verbatim>
+---+++ ==Item12849==: Add ACL * wildcard for backwards compatibilty with Foswiki 2.0.
+   * Type of fix: Foswiki Backwards Compatibility
+   * Applies to all Foswiki 1.1 versions.
+   * Patches: =lib/Foswiki/Users.pm=
+---+++ ==Item13775==: Warnings due to CGI::param called in list context, and deprecation of =-any= pragma.
+   * Type of fix:  Perl Compatibility
+   * Applies to all Foswiki 1.1 versions
+   * Patches: <verbatim>
+        bin/configure
+        lib/Foswiki/Configure/Type.pm
+        lib/Foswiki/Engine/CGI.pm
+        lib/Foswiki/Plugins/CommentPlugin/Comment.pm
+        lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
+        lib/Foswiki/Contrib/MailerContrib.pm
+        lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm </verbatim>
+---+++ ==Item13777==: Backport changes in URLPARAM and SEARCH for extension compatibility.
+   * Type of fix: Foswiki Backwards Compatibility
 
 %TOC%
 
@@ -71,43 +132,6 @@ The structure of a typical patch:
             |-- Item13777-118.patch
             |-- Item13777-119.patch
 </verbatim>
-
-The following patch files are included:
-| *Patch file* | *Modifies* | *Applies to Releases:* |
-|| Item11267:  New extension VERSION strings will crash configure ||
-| Item11267-001.patch | | |
-| Item11267-002.patch | | |
-|| Item12285: Maketext vulnerability ||
-| Item12285-112.patch | | |
-| Item12285-116.patch | | |
-|| Item12391: ||
-| Item12391-112.patch | | |
-| Item12391-116.patch | | |
-| Item12391-117.patch | | |
-| Item12414-118.patch | | |
-| Item12616-118.patch | | |
-| Item12849-110.patch | | |
-| Item12849-113.patch | | |
-| Item12849-114.patch | | |
-| Item12849-115.patch | | |
-| Item12849-119.patch | | |
-| Item13775: CGI removed the -any pragma. Patches: <br/>\
-<ul><li> =bin/configure= <br/>\
-<li> =lib/Foswiki/Configure/Type.pm= <br/>\
-<li> =lib/Foswiki/Engine/CGI.pm= <br/>\
-<li> =lib/Foswiki/Plugins/CommentPlugin/Comment.pm= <br/>\
-<li> =lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm= <br/>\
-<li> =lib/Foswiki/Contrib/MailerContrib.pm= <br/>\
-<li> =lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm= </ul> ||
-| Item13775-110.patch | 1.1.0 |
-| Item13775-111.patch | 1.1.1 |
-| Item13775-112.patch | 1.1.2 |
-| Item13775-118.patch | 1.1.8 |
-| Item13775-119.patch | 1.1.9 |
-|| Item13777: Encode URLPARAM to prevent xss ||
-| Item13777-118.patch | =lib/Foswiki/Macros/URLPARAM.pm= =lib/Foswiki/Search.pm= =data/System/WebSearch.txt= | 1.1.8 |
-| Item13777-119.patch | =lib/Foswiki/Macros/URLPARAM.pm= =lib/Foswiki/Search.pm= =data/System/WebSearch.txt= | 1.1.9 |
-
 
 The files in the =working/configure/patch= directory are the actual patches.
 If a collection of related files is patched in a single file, they can be manually applied by
