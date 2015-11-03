@@ -106,9 +106,12 @@ This routine will read calculate MD5 of the passed filename.
 sub _getMD5 {
 
     my $filename = shift;
+    my $binfile  = shift;
 
+    local $/ = "\n";
     open( my $fh, '<', $filename ) or die "Can't open '$filename': $!";
     binmode($fh);
+    my $discard = <$fh> if $binfile;    # Skip the first record ???
     my $digest = Digest::MD5->new->addfile($fh)->hexdigest;
     close $fh;
     return $digest;
@@ -226,10 +229,12 @@ sub checkPatch {
         next if ( $key eq 'identifier' );
         foreach my $md5 ( keys %{ $patchRef->{$key} } ) {
 
+            my $binfile = 0;
+            $binfile = 1 if ( index( $key, 'bin/' ) == 0 );
             my $file = mapTarget( $root, $key );
             $msgs .= "| $key | | | Target Missing |\n" unless ( -f $file );
 
-            my $origMD5 = _getMD5($file);
+            my $origMD5 = _getMD5( $file, $binfile );
             my $match =
                 $origMD5 eq $md5                             ? 'NOT APPLIED'
               : $origMD5 eq $patchRef->{$key}{$md5}{patched} ? 'PATCHED'
@@ -290,9 +295,12 @@ sub applyPatch {
         next if ( $key eq 'identifier' );
         foreach my $md5 ( keys %{ $patchRef->{$key} } ) {
 
+            my $binfile = 0;
+            $binfile = 1 if ( index( $key, 'bin/' ) == 0 );
+
             my $file = mapTarget( $root, $key );
 
-            my $fileMD5 = _getMD5($file);
+            my $fileMD5 = _getMD5( $file, $binfile );
             my $wantMD5 = ($reverse) ? $patchRef->{$key}{$md5}{patched} : $md5;
             next unless ( $fileMD5 eq $wantMD5 );
             next
