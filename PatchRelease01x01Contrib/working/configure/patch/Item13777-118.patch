@@ -1,10 +1,8 @@
-Date:   Thu Oct 1 16:27:45 2015 -0400
+Item13777: back-port URLPARAM encode and SEARCH decode to Foswiki 1.1
 
-    Item13777: back-port URLPARAM encode and SEARCH decode
-    
-    to Foswiki 1.1
+Improved backwards compatibility of extensions written for Foswiki 2.0
 
-~~~PATCH 2884f6d1c1be099fb6a22f76d15ef117:8f04a3200f57c33c3eb953627a9d458e lib/Foswiki/Macros/URLPARAM.pm (Foswiki-1.1.8)
+~~~PATCH 2884f6d1c1be099fb6a22f76d15ef117:8f04a3200f57c33c3eb953627a9d458e lib/Foswiki/Macros/URLPARAM.pm (Foswiki-1.1.7,Foswiki-1.1.8)
 diff --git lib/Foswiki/Macros/URLPARAM.pm lib/Foswiki/Macros/URLPARAM.pm
 index 0a1ac5f..2a78654 100644
 --- lib/Foswiki/Macros/URLPARAM.pm
@@ -72,7 +70,7 @@ index 0a1ac5f..2a78654 100644
  }
  
 
-~~~PATCH d4b0fdea01ca7693f76ea2f2967271d4:0b19012f193153e7d2367c00cb1d86da lib/Foswiki/Search.pm (Foswiki-1.1.8)
+~~~PATCH d4b0fdea01ca7693f76ea2f2967271d4:0b19012f193153e7d2367c00cb1d86da lib/Foswiki/Search.pm (Foswiki-1.1.7,Foswiki-1.1.8)
 diff --git lib/Foswiki/Search.pm lib/Foswiki/Search.pm
 index b1042a4..ae41fdd 100644
 --- lib/Foswiki/Search.pm
@@ -130,7 +128,7 @@ index b1042a4..ae41fdd 100644
          &$callback( $cbdata, $tmplSearch );
      }
  
-~~~PATCH 32c7a6fe4966126d007c55a6d936c1c2:ce9c26f51e59733883f4e132a88d1e88 data/System/WebSearch.txt (Foswiki-1.1.8)
+~~~PATCH 32c7a6fe4966126d007c55a6d936c1c2:ce9c26f51e59733883f4e132a88d1e88 data/System/WebSearch.txt (Foswiki-1.1.7,Foswiki-1.1.8)
 diff --git data/System/WebSearch.txt data/System/WebSearch.txt
 index 91895d7..1553371 100644
 --- data/System/WebSearch.txt

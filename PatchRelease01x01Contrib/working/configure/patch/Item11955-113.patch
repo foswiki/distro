@@ -1,3 +1,8 @@
+Item11955: Configure fails with new RCS version, Argument "5.8.1" isn't numeric in numeric lt (<) 
+
+This patch must be applied to Foswiki 1.1.3 prior to upgrading RCS system tools. 
+Applies to Foswiki 1.1.0-1.1.4. Fixed in Foswiki 1.1.5
+
 ~~~PATCH 10963a703a4b5a6c3ab2bb4a32d6fd0d:81400a9ed8792d8ddf96835da2a98ace lib/Foswiki/Configure/Checker.pm (Foswiki-1.1.3)
 diff --git lib/Foswiki/Configure/Checker.pm lib/Foswiki/Configure/Checker.pm
 --- lib/Foswiki/Configure/Checker.pm

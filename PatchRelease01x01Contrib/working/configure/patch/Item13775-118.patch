@@ -1,13 +1,11 @@
-Date:   Thu Oct 1 17:32:57 2015 -0400
+Item13775: CGI::Param called in list context.
+Item13345: "any" pragma is deprecated in CGI-4.14 
 
-    Item13778: CGI -any pragma deprecated
-    Item13775: CGI param called in list context
-    
-    Backport Foswiki 2.0 fixes.
+This patch addresses two issues with recent versions of CGI.  Note that The fix for Item13775
+is a workaround.  The proper fix is too extensive for a patch and is included with Foswiki 2.0
 
 ~~~PATCH 7c40baa89e0be8228818f6b42d3be87d:6e6f8a38a0b3dc0f8a6151e24c61560a lib/Foswiki/Plugins/CommentPlugin/Comment.pm (Foswiki-1.1.8)
 diff --git lib/Foswiki/Plugins/CommentPlugin/Comment.pm lib/Foswiki/Plugins/CommentPlugin/Comment.pm
-index edbd86e..e1b09f9 100644
 --- lib/Foswiki/Plugins/CommentPlugin/Comment.pm
 +++ lib/Foswiki/Plugins/CommentPlugin/Comment.pm
 @@ -9,7 +9,7 @@ use Foswiki;
@@ -19,9 +17,8 @@ index edbd86e..e1b09f9 100644
  
  package Foswiki::Plugins::CommentPlugin::Comment;
  
-~~~PATCH 50bca0252137d02052a9937452d8578a:8897b17b6d65b8e38da3a0b558f004ee lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm (Foswiki-1.1.7,Foswiki-1.1.8)
+~~~PATCH 50bca0252137d02052a9937452d8578a:8897b17b6d65b8e38da3a0b558f004ee lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm (Foswiki-1.1.8)
 diff --git lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
-index b2b8f84..8f39274 100644
 --- lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
 +++ lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
 @@ -9,7 +9,7 @@ use warnings;
@@ -36,7 +33,6 @@ index b2b8f84..8f39274 100644
 
 ~~~PATCH f624dc0e15746d8a3db483dd349c7ab6:2076d8bd964801fa2ea97f300f732740 lib/Foswiki/Configure/Type.pm (Foswiki-1.1.8)
 diff --git lib/Foswiki/Configure/Type.pm lib/Foswiki/Configure/Type.pm
-index dad2f5d..aeddd50 100755
 --- lib/Foswiki/Configure/Type.pm
 +++ lib/Foswiki/Configure/Type.pm
 @@ -18,7 +18,7 @@ package Foswiki::Configure::Type;
@@ -48,9 +44,8 @@ index dad2f5d..aeddd50 100755
  
  use Foswiki::Configure::Types::UNKNOWN;
  
-~~~PATCH 5fcc991653b93be4d6624814c32249e0:51e558f16927e130ef4d3c9343fbf1f9 lib/Foswiki/Engine/CGI.pm (Foswiki-1.1.6,Foswiki-1.1.7,Foswiki-1.1.8)
+~~~PATCH 5fcc991653b93be4d6624814c32249e0:51e558f16927e130ef4d3c9343fbf1f9 lib/Foswiki/Engine/CGI.pm (Foswiki-1.1.8)
 diff --git lib/Foswiki/Engine/CGI.pm lib/Foswiki/Engine/CGI.pm
-index 33fc31a..7bb1172 100644
 --- lib/Foswiki/Engine/CGI.pm
 +++ lib/Foswiki/Engine/CGI.pm
 @@ -22,6 +22,7 @@ use Assert;
@@ -61,9 +56,9 @@ index 33fc31a..7bb1172 100644
  
  sub run {
      my $this = shift;
-~~~PATCH 411cfdf69c6d0f43a8c2d061f39b185a:1d44dd65ebbced901359bf220d429a98 bin/configure (Foswiki-1.1.8)
+
+~~~PATCH fde4a3c95313fb7ecd58b966e00e2594:823513365ce60838a70e45a578ee697a bin/configure (Foswiki-1.1.8)
 diff --git bin/configure bin/configure
-index 3be5c2e..69789a2 100755
 --- bin/configure
 +++ bin/configure
 @@ -261,7 +261,7 @@ if ($@) {
@@ -83,4 +78,32 @@ index 3be5c2e..69789a2 100755
 +
  # Declared in Foswiki to support checkers
  our $query = new CGI;
+
+~~~PATCH 35973a5676a6ff3694f783d062b783fc:37f340d98e9d20a883872636273ee5ff lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm (Foswiki-1.1.8)
+diff --git lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm
+--- lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm
++++ lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm
+@@ -19,7 +19,7 @@ TML syntax is not supported.
+ 
+ package Foswiki::Plugins::WysiwygPlugin::TML2HTML;
+ 
+-use CGI qw( -any );
++use CGI;
+ use Error qw( :try );
+ 
+ use Foswiki;
+
+~~~PATCH 1a1af64a0512ac6ffa9b083ab38b9584:9850692b6957c77f08d6fceadc7fdf65 lib/Foswiki/Contrib/MailerContrib.pm (Foswiki-1.1.8)
+diff --git lib/Foswiki/Contrib/MailerContrib.pm lib/Foswiki/Contrib/MailerContrib.pm
+--- lib/Foswiki/Contrib/MailerContrib.pm
++++ lib/Foswiki/Contrib/MailerContrib.pm
+@@ -16,7 +16,7 @@ use strict;
+ use warnings;
+ 
+ use URI ();
+-use CGI qw(-any);
++use CGI;
+ 
+ use Foswiki                                    ();
+ use Foswiki::Plugins                           ();
  

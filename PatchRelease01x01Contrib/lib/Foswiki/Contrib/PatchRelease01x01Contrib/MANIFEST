@@ -21,6 +21,9 @@ working/configure/patch/Item12391-112.patch 0664
 working/configure/patch/Item12391-116.patch 0664
 working/configure/patch/Item12391-117.patch 0664
 working/configure/patch/Item12414-118.patch 0664
+working/configure/patch/Item12616-110.patch 0664
+working/configure/patch/Item12616-114.patch 0664
+working/configure/patch/Item12616-116.patch 0664
 working/configure/patch/Item12616-117.patch 0664
 working/configure/patch/Item12616-118.patch 0664
 working/configure/patch/Item12849-110.patch 0664
@@ -38,6 +41,12 @@ working/configure/patch/Item13775-116.patch 0664
 working/configure/patch/Item13775-117.patch 0664
 working/configure/patch/Item13775-118.patch 0664
 working/configure/patch/Item13775-119.patch 0664
+working/configure/patch/Item13777-111.patch 0664
+working/configure/patch/Item13777-112.patch 0664
+working/configure/patch/Item13777-113.patch 0664
+working/configure/patch/Item13777-114.patch 0664
+working/configure/patch/Item13777-115.patch 0664
+working/configure/patch/Item13777-116.patch 0664
 working/configure/patch/Item13777-118.patch 0664
 working/configure/patch/Item13777-119.patch 0664
 

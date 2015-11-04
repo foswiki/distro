@@ -1,6 +1,7 @@
-Date:   Mon Dec 10 00:49:20 2012 +0000
+Item12285: Resolve MAKETEXT vulnerabilities CVE-2012-6329 and CVE-2012-6330. 
 
-    Item12285: Better validations.  This patch applies to Foswiki 1.1.0-1.1.2
+   Item12285 applies to Foswiki 1.1.0-1.1.6. This patch covers Foswiki 1.1.0-1.1.2
+   This patch superceded by Item12391.
 
 ~~~PATCH 72c86f0c71519caf6d26efbe174739f6:5218b3501c96c8e6017f4df81298ef5b lib/Foswiki/Macros/MAKETEXT.pm (Foswiki-1.1.0,Foswiki-1.1.1,Foswiki-1.1.2)
 --- lib/Foswiki/Macros/MAKETEXT.pm	2010-10-04 11:26:34.000000000 -0400

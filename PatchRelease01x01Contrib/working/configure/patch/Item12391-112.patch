@@ -1,7 +1,7 @@
-Author: GeorgeClark <GeorgeClark@0b4bb1d4-4e5a-0410-9cc4-b2b747904278>
-Date:   Wed Feb 13 00:49:20 2012 +0000
+Item12391: Fix for SecurityAlert CVE-2013-1666
 
-    Item12391: More validations   This patch applies to Foswiki 1.1.0-1.1.2 Post Item12285 patch
+   Item12391 applies to Foswiki 1.1.0-1.1.7. This patch covers Foswiki 1.1.0-1.1.2
+   This patch updates Item12285.
 
 ~~~PATCH 5218b3501c96c8e6017f4df81298ef5b:e89b823a46626febb00fe9f0f26ff332 lib/Foswiki/Macros/MAKETEXT.pm (Foswiki-1.1.0,Foswiki-1.1.1,Foswiki-1.1.2)
 --- lib/Foswiki/Macros/MAKETEXT.pm	2013-02-13 11:00:18.037967200 -0500

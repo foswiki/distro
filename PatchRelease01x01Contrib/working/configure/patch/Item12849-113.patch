@@ -1,6 +1,8 @@
 Item12849: Add Wildcard ACL support in support of deprecating blank DENY ACLs
 
-This patch enables ALLOW and DENY ACLs to use the "*" wildcard to match any user
+This patch enables ALLOW and DENY ACLs to use the "*" wildcard to match any user.  This is a 2.0 feature.
+Wildcard support is added to Foswiki 1.1.x to permit easier migration to Foswiki 2.0, and backwards compatibility
+for Extensions using the new feature.
 
 ~~~PATCH 3a40329f9e882fe958ec77991d845d5f:b776aa68d6fd19a166718dacd6f3e762 lib/Foswiki/Users.pm (Foswiki-1.1.1,Foswiki-1.1.2,Foswiki-1.1.3)
 --- lib/Foswiki/Users.pm	2010-10-25 17:58:13.000000000 -0400

@@ -1,9 +1,11 @@
-Item12225: Don't use "HEAD" to detect pseudo install.
+Item12225: Plugins using new version system break older versions Foswiki 
     
     A real, non-pseudo-installed extension will crash configure if a perl
     version object is compared to an alpha string.
     
     9999.99_999 will be used to indicate a pseudo-installed release.
+
+    Item12225 applies to Foswiki 1.1.0-1.1.5. Fixed in Foswiki 1.1.6
 
 ~~~PATCH d50361c444fd18201d45e65345ef6624:b9dd383f85691a3907b7a5449d56d91d lib/Foswiki/Configure/Dependency.pm (Foswiki-1.1.3)
 diff --git lib/Foswiki/Configure/Dependency.pm lib/Foswiki/Configure/Dependency.pm

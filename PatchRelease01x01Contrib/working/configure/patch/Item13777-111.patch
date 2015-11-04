@@ -1,0 +1,140 @@
+Item13777: back-port URLPARAM encode and SEARCH decode to Foswiki 1.1
+
+Improved backwards compatibility of extensions written for Foswiki 2.0
+
+~~~PATCH 569f9bd0060d426a072110758a756234:8f04a3200f57c33c3eb953627a9d458e lib/Foswiki/Macros/URLPARAM.pm (Foswiki-1.1.0,Foswiki-1.1.1) 
+diff --git a/lib/Foswiki/Macros/URLPARAM.pm b/lib/Foswiki/Macros/URLPARAM.pm
+index 3f4af38..2a78654 100644
+--- a/lib/Foswiki/Macros/URLPARAM.pm
++++ b/lib/Foswiki/Macros/URLPARAM.pm
+@@ -31,11 +31,13 @@ sub URLPARAM {
+                         expandStandardEscapes($_)
+                     } @valueArray;
+                 }
++
++                # SMELL: the $separator is not being encoded
+                 $value = join(
+                     $separator,
+                     map {
+                         _handleURLPARAMValue( $_, $newLine, $encode, $default )
+-                      } @valueArray
++                    } @valueArray
+                 );
+             }
+             else {
+@@ -53,29 +55,29 @@ sub URLPARAM {
+ }
+ 
+ sub _handleURLPARAMValue {
+-    my ($value, $newLine, $encode, $default) = @_;
++    my ( $value, $newLine, $encode, $default ) = @_;
+ 
+     if ( defined $value ) {
+         $value =~ s/\r?\n/$newLine/g if ( defined $newLine );
+-        if ( $encode =~ /^entit(y|ies)$/i ) {
+-            $value = entityEncode($value);
+-        }
+-        elsif ( $encode =~ /^quotes?$/i ) {
+-            $value =~
+-              s/\"/\\"/go;    # escape quotes with backslash (Bugs:Item3383 fix)
+-        }
+-        elsif ( $encode =~ /^(off|none)$/i ) {
++        foreach my $e ( split( /\s*,\s*/, $encode ) ) {
++            if ( $e =~ m/entit(y|ies)/i ) {
++                $value = entityEncode($value);
++            }
++            elsif ( $e =~ m/^quotes?$/i ) {
++                $value =~
++                  s/\"/\\"/g; # escape quotes with backslash (Bugs:Item3383 fix)
++            }
++            elsif ( $e =~ m/^url$/i ) {
+ 
+-            # no encoding
+-        }
+-        elsif ( $encode =~ /^url$/i ) {
+-            # Legacy, see ENCODE
+-            #$value =~ s/\r*\n\r*/<br \/>/; 
+-            $value = urlEncode($value);
+-        }
+-        else {                                # safe or default
+-                                              # entity encode ' " < > and %
+-            $value =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
++                # Legacy, see ENCODE
++                #$value =~ s/\r*\n\r*/<br \/>/;
++                $value = urlEncode($value);
++            }
++            elsif ( $e =~ m/^safe$/i ) {
++
++                # entity encode ' " < > and %
++                $value =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
++            }
+         }
+     }
+     unless ( defined $value ) {
+@@ -84,7 +86,7 @@ sub _handleURLPARAMValue {
+     }
+ 
+     # Block expansion of %URLPARAM in the value to prevent recursion
+-    $value =~ s/%URLPARAM{/%<nop>URLPARAM{/g;
++    $value =~ s/%URLPARAM\{/%<nop>URLPARAM{/g;
+     return $value;
+ }
+ 
+~~~PATCH aa6fd60c8b2111b0a32a6eae474fe475:ad3063fc260aa6c5e3e8cc0c39633613 lib/Foswiki/Search.pm (Foswiki-1.1.0,Foswiki-1.1.1)
+diff --git a/lib/Foswiki/Search.pm b/lib/Foswiki/Search.pm
+index 8da79bf..75fbbdb 100644
+--- a/lib/Foswiki/Search.pm
++++ b/lib/Foswiki/Search.pm
+@@ -311,6 +311,35 @@ sub searchWeb {
+     $params{scope} = $params{scope} || '';
+     my $searchString = defined $params{search} ? $params{search} : '';
+ 
++    # Reverse encoding done by %URPARAM{ ... encode=  }% if requested
++    if ( length($searchString) && defined $params{decode} ) {
++        foreach my $e ( split( /\s*,\s*/, $params{decode} ) ) {
++            if ( $e =~ m/entit(y|ies)/i ) {
++                $searchString = Foswiki::entityDecode($searchString);
++            }
++            elsif ( $e =~ m/^quotes?$/i ) {
++
++                #nop - reversing of quote escaping not needed?
++            }
++            elsif ( $e =~ m/^url$/i ) {
++
++                $searchString = Foswiki::urlDecode($searchString);
++            }
++            elsif ( $e =~ m/^safe$/i ) {
++
++                # entity decode ' " < > and %
++                #  &#39;&#34;&#60;&#62;&#37;
++                $searchString =~ s/(&#(39|34|60|62|37);)/chr($2)/ge;
++            }
++            else {
++                throw Error::Simple(
++'Unknown decode type requested: Valid types are entity, entities, safe and url.'
++                );
++            }
++        }
++    }
++
++
+     $params{includeTopics} = $params{topic} || '';
+     $params{type}          = $params{type}  || '';
+ 
+@@ -394,13 +423,10 @@ sub searchWeb {
+     # Ommit any text before search results if either nosearch or nonoise is on
+     my $nonoise = Foswiki::isTrue( $params{nonoise} );
+     my $noSearch = Foswiki::isTrue( $params{nosearch}, $nonoise );
+-    unless ($noSearch) {
+-        my $searchStr = $searchString;
+-        $searchStr =~ s/&/&amp;/go;
+-        $searchStr =~ s/</&lt;/go;
+-        $searchStr =~ s/>/&gt;/go;
+ 
+-        $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/go;
++    unless ($noSearch) {
++        my $searchStr = Foswiki::entityEncode($searchString);
++        $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/g;
+         &$callback( $cbdata, $tmplSearch );
+     }
+ 

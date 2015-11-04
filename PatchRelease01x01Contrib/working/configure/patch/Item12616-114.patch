@@ -1,0 +1,24 @@
+Item12616: Foswiki encounters perl errors in 5.18, 5.19 
+
+Note, In Foswiki versions 1.1.0-1.1.5, this is a partial patch. It resolves a crash in Attach,
+but does NOT address sort issues causesd by perl Hash order changes. Upgrade to Foswiki 1.1.9 or Foswiki 2.0 recommended.
+
+~~~PATCH a14f23171b51a773fb0cdc569da94496:1189e340924aeb627b9e734bfe1d0b34 lib/Foswiki/Attach.pm (Foswiki-1.1.4,Foswiki-1.1.5)
+diff --git lib/Foswiki/Attach.pm lib/Foswiki/Attach.pm
+index bb2396b..63eadc3 100644
+--- lib/Foswiki/Attach.pm
++++ lib/Foswiki/Attach.pm
+@@ -199,7 +199,12 @@ sub _expandAttrs {
+         return $comment;
+     }
+     elsif ( $attr eq 'ATTRS' ) {
+-        return $info->{attr} or "&nbsp;";
++        if ( $info->{attr} ) {
++            return $info->{attr};
++        }
++        else {
++            return "&nbsp;";
++        }
+     }
+     elsif ( $attr eq 'FILE' ) {
+         return $file;

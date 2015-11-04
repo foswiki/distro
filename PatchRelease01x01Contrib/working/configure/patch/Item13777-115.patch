@@ -1,0 +1,231 @@
+Item13777: back-port URLPARAM encode and SEARCH decode to Foswiki 1.1
+
+Improved backwards compatibility of extensions written for Foswiki 2.0
+
+~~~PATCH 32c7a6fe4966126d007c55a6d936c1c2:ce9c26f51e59733883f4e132a88d1e88  data/System/WebSearch.txt (Foswiki-1.1.5)
+diff --git data/System/WebSearch.txt data/System/WebSearch.txt
+index 91895d7..1553371 100644
+--- data/System/WebSearch.txt
++++ data/System/WebSearch.txt
+@@ -1,4 +1,4 @@
+-%META:TOPICINFO{author="ProjectContributor" date="1309486560" format="1.1" version="1"}%
++%META:TOPICINFO{author="ProjectContributor" date="1443745119" format="1.1" version="1"}%
+ %META:TOPICPARENT{name="WebHome"}%
+ %IF{
+ 	"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" 
+@@ -41,7 +41,7 @@
+ <input type='hidden' name='tab' value='%URLPARAM{"tab" default="search"}%' />
+ <div class='foswikiFormSteps'>
+ <div class='foswikiFormStep'>
+-<input type='text' class='foswikiInputField foswikiFocus' name='search' value='%URLPARAM{"search" encode="entity"}%' size='40' style='width:99%' />	
++<input type='text' class='foswikiInputField foswikiFocus' name='search' value='%URLPARAM{"search" encode="entity"}%' size='40' style='width:99%' placeholder='%MAKETEXT{"Search"}%' />	
+ </div>
+ <div class='foswikiFormStep'>
+ %TWISTY{
+@@ -237,25 +237,26 @@
+ 
+ %STARTSECTION{"searchresults"}%%IF{
+ 	"$'URLPARAM{search}'!=''"
+-	then="<h2>Search results</h2>
++	then="<h2>%MAKETEXT{"Search results"}%</h2>
+ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$percent"
+ }%%SEARCH{
+-	"%URLPARAM{"search" encode="quote"}%"
++	"%URLPARAM{"search" encode="entities, quote"}%" decode="entities"
+ 	type="%URLPARAM{"type" default="word"}%"
+-	scope="%URLPARAM{"scope" encode="quote"}%"
+-	web="%URLPARAM{"web" encode="quote"}%"%IF{
++	scope="%URLPARAM{"scope" encode="safe, quote"}%"
++	web="%URLPARAM{"web" encode="safe, quote"}%"%IF{
+ 		"{EnableHierarchicalWebs}"
+-		then="recurse=\"%URLPARAM{"recurse" encode="quote"}%\""
++		then="recurse=\"%URLPARAM{"recurse" encode="safe, quote"}%\""
+ 	}%
+-	excludetopic="%URLPARAM{"excludetopic" encode="quote"}%"
+-	nosearch="%URLPARAM{"nosearch" encode="quote"}%"
+-	casesensitive="%URLPARAM{"casesensitive" encode="quote"}%"
+-	nosummary="%URLPARAM{"nosummary" encode="quote"}%"
+-	nototal="%URLPARAM{"nototal" encode="quote"}%"
+-	order="%URLPARAM{"order" encode="quote"}%"
+-	reverse="%URLPARAM{"reverse" encode="quote"}%"
++    topic="%URLPARAM{"searchtopic" encode="safe, quote"}%"
++	excludetopic="%URLPARAM{"excludetopic" encode="safe, quote"}%"
++	nosearch="%URLPARAM{"nosearch" encode="safe, quote"}%"
++	casesensitive="%URLPARAM{"casesensitive" encode="safe, quote"}%"
++	nosummary="%URLPARAM{"nosummary" encode="safe, quote"}%"
++	nototal="%URLPARAM{"nototal" encode="safe, quote"}%"
++	order="%URLPARAM{"order" encode="safe, quote"}%"
++	reverse="%URLPARAM{"reverse" encode="safe, quote"}%"
+ 	pager="on"
+-	limit="%URLPARAM{"limit" encode="quote" default="%DEFAULTPAGESIZE%"}%"
++	limit="%URLPARAM{"limit" encode="safe, quote" default="%DEFAULTPAGESIZE%"}%"
+ 	pagesize="%DEFAULTPAGESIZE%"
+ 	zeroresults="%IF{
+ 		"defined search and $search!=''"
+@@ -272,7 +273,7 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
+ 	"'%URLPARAM{"regex"}%'='on' OR '%URLPARAM{"type"}%'='regex'"
+ 	then="regex"
+ 	else="word"
+-}%;excludetopic=%URLPARAM{"excludetopic" encode="url" default="%TOPIC%,WebHome,%STATISTICSTOPIC%"}%;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;recurse=%URLPARAM{"recurse" encode="url"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%'>%MAKETEXT{"Get notified on changes on this search"}%</a>%ENDSECTION{"searchfeedlink"}%
++}%;excludetopic=%URLPARAM{"excludetopic" encode="url" default="%TOPIC%,%HOMETOPIC%,%STATISTICSTOPIC%"}%;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;recurse=%URLPARAM{"recurse" encode="url"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%'>%MAKETEXT{"Get notified on changes on this search"}%</a>%ENDSECTION{"searchfeedlink"}%
+ 
+ 
+ %STARTSECTION{"querysearchexample"}%%IF{
+@@ -285,14 +286,14 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
+ %MAKETEXT{"To display the above search results in a topic, copy-paste the following markup:"}%
+ <pre class='tml'>
+ %<nop>SEARCH{
+-   "%URLPARAM{"search" encode="quote"}%"
++   "%URLPARAM{"search" encode="entities, quote"}%"
+    type="%URLPARAM{"type" default="%SEARCHDEFAULTTTYPE%"}%"%FORMAT{
+-      "scope,web,recurse,nosearch,casesensitive,nosummary,nototal,order,reverse,limit,search"
++      "scope,web,recurse,nosearch,casesensitive,nosummary,nototal,order,reverse,limit"
+       type="string"
+       header="$n"
+       format="$percntIF{
+         \"(defined $item AND $'$item') AND ('$item' != 'recurse' OR {EnableHierarchicalWebs})\"
+-        then=\"   $item=\\"$percntURLPARAM{\"$item\" encode=\"quote\"}$percnt\\"$n\"
++        then=\"   $item=\\"$percntURLPARAM{\"$item\" encode=\"safe, quote\"}$percnt\\"$n\"
+       }$percnt"
+       separator=""
+    }%}%
+@@ -302,7 +303,7 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
+ 
+ %STARTSECTION{"searchbyletterlink"}%%IF{
+ 	"$'URLPARAM{searchletter}'='%letter%'"
+-	then="%letter%"
++	then="<strong>%letter%</strong>"
+ 	else="<a href='%SCRIPTURLPATH{"search"}%/%BASEWEB%/%TOPIC%?scope=topic&amp;type=regex&amp;search=%5E%letter%;$percentINCLUDE{$quot%TOPIC%$quot section=$quotsearchparamsadvanced$quot}$percent;searchletter=%letter%;tab=az'>%letter%</a>"
+ }%%ENDSECTION{"searchbyletterlink"}%
+ 
+~~~PATCH 071c4fd865495c2b9e99b93bfdeeb236:8f04a3200f57c33c3eb953627a9d458e  lib/Foswiki/Macros/URLPARAM.pm (Foswiki-1.1.5)
+diff --git lib/Foswiki/Macros/URLPARAM.pm lib/Foswiki/Macros/URLPARAM.pm
+index 1bd368b..2a78654 100644
+--- lib/Foswiki/Macros/URLPARAM.pm
++++ lib/Foswiki/Macros/URLPARAM.pm
+@@ -31,11 +31,13 @@ sub URLPARAM {
+                         expandStandardEscapes($_)
+                     } @valueArray;
+                 }
++
++                # SMELL: the $separator is not being encoded
+                 $value = join(
+                     $separator,
+                     map {
+                         _handleURLPARAMValue( $_, $newLine, $encode, $default )
+-                      } @valueArray
++                    } @valueArray
+                 );
+             }
+             else {
+@@ -57,26 +59,25 @@ sub _handleURLPARAMValue {
+ 
+     if ( defined $value ) {
+         $value =~ s/\r?\n/$newLine/g if ( defined $newLine );
+-        if ( $encode =~ /^entit(y|ies)$/i ) {
+-            $value = entityEncode($value);
+-        }
+-        elsif ( $encode =~ /^quotes?$/i ) {
+-            $value =~
+-              s/\"/\\"/go;    # escape quotes with backslash (Bugs:Item3383 fix)
+-        }
+-        elsif ( $encode =~ /^(off|none)$/i ) {
++        foreach my $e ( split( /\s*,\s*/, $encode ) ) {
++            if ( $e =~ m/entit(y|ies)/i ) {
++                $value = entityEncode($value);
++            }
++            elsif ( $e =~ m/^quotes?$/i ) {
++                $value =~
++                  s/\"/\\"/g; # escape quotes with backslash (Bugs:Item3383 fix)
++            }
++            elsif ( $e =~ m/^url$/i ) {
+ 
+-            # no encoding
+-        }
+-        elsif ( $encode =~ /^url$/i ) {
++                # Legacy, see ENCODE
++                #$value =~ s/\r*\n\r*/<br \/>/;
++                $value = urlEncode($value);
++            }
++            elsif ( $e =~ m/^safe$/i ) {
+ 
+-            # Legacy, see ENCODE
+-            #$value =~ s/\r*\n\r*/<br \/>/;
+-            $value = urlEncode($value);
+-        }
+-        else {                # safe or default
+-                              # entity encode ' " < > and %
+-            $value =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
++                # entity encode ' " < > and %
++                $value =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
++            }
+         }
+     }
+     unless ( defined $value ) {
+@@ -85,7 +86,7 @@ sub _handleURLPARAMValue {
+     }
+ 
+     # Block expansion of %URLPARAM in the value to prevent recursion
+-    $value =~ s/%URLPARAM{/%<nop>URLPARAM{/g;
++    $value =~ s/%URLPARAM\{/%<nop>URLPARAM{/g;
+     return $value;
+ }
+ 
+~~~PATCH e2768a555b9c1d20d6aef080280bdcdc:94c42345d07ba61d2dce9418527c6470  lib/Foswiki/Search.pm (Foswiki-1.1.5)
+diff --git lib/Foswiki/Search.pm lib/Foswiki/Search.pm
+index bdf395d..2108cb7 100644
+--- lib/Foswiki/Search.pm
++++ lib/Foswiki/Search.pm
+@@ -311,6 +311,35 @@ sub searchWeb {
+     $params{scope} = $params{scope} || '';
+     my $searchString = defined $params{search} ? $params{search} : '';
+ 
++    # Reverse encoding done by %URPARAM{ ... encode=  }% if requested
++    if ( length($searchString) && defined $params{decode} ) {
++        foreach my $e ( split( /\s*,\s*/, $params{decode} ) ) {
++            if ( $e =~ m/entit(y|ies)/i ) {
++                $searchString = Foswiki::entityDecode($searchString);
++            }
++            elsif ( $e =~ m/^quotes?$/i ) {
++
++                #nop - reversing of quote escaping not needed?
++            }
++            elsif ( $e =~ m/^url$/i ) {
++
++                $searchString = Foswiki::urlDecode($searchString);
++            }
++            elsif ( $e =~ m/^safe$/i ) {
++
++                # entity decode ' " < > and %
++                #  &#39;&#34;&#60;&#62;&#37;
++                $searchString =~ s/(&#(39|34|60|62|37);)/chr($2)/ge;
++            }
++            else {
++                throw Error::Simple(
++'Unknown decode type requested: Valid types are entity, entities, safe and url.'
++                );
++            }
++        }
++    }
++
++
+     $params{includeTopics} = $params{topic} || '';
+     $params{type}          = $params{type}  || '';
+ 
+@@ -392,13 +421,10 @@ sub searchWeb {
+     # Ommit any text before search results if either nosearch or nonoise is on
+     my $nonoise = Foswiki::isTrue( $params{nonoise} );
+     my $noSearch = Foswiki::isTrue( $params{nosearch}, $nonoise );
+-    unless ($noSearch) {
+-        my $searchStr = $searchString;
+-        $searchStr =~ s/&/&amp;/go;
+-        $searchStr =~ s/</&lt;/go;
+-        $searchStr =~ s/>/&gt;/go;
+ 
+-        $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/go;
++    unless ($noSearch) {
++        my $searchStr = Foswiki::entityEncode($searchString);
++        $tmplSearch =~ s/%SEARCHSTRING%/$searchStr/g;
+         &$callback( $cbdata, $tmplSearch );
+     }
+ 

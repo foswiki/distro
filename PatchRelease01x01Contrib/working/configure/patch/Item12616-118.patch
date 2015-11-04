@@ -1,8 +1,8 @@
-~~~PATCH c67083bf1b9a7ab3a078b4ee1c5ef7f0:3be703fb43e105a1bd6f213befcb5a73 lib/Foswiki/Attach.pm (Foswiki-1.1.8)
-Date:   Sun Oct 27 00:54:37 2013 +0000
+Item12616: Foswiki encounters perl errors in 5.18, 5.19 
 
-    Item12616: Fix perl issues found on newer perl
-    
+Addresses a crash in Foswiki::Attach, and sort ordering issues caused by perl Hash order changes.
+
+~~~PATCH c67083bf1b9a7ab3a078b4ee1c5ef7f0:3be703fb43e105a1bd6f213befcb5a73 lib/Foswiki/Attach.pm (Foswiki-1.1.8)
 diff --git lib/Foswiki/Attach.pm lib/Foswiki/Attach.pm
 index bb2396b..be9406b 100644
 --- lib/Foswiki/Attach.pm

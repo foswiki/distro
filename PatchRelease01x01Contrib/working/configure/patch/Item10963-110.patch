@@ -1,3 +1,9 @@
+Item10963: perl 5.14 qw deprecation breaks Foswiki
+
+This patch must be applied to Foswiki 1.1.0 prior to moving to Perl 5.14
+Applies to Foswiki 1.1.0-1.1.3. Fixed in Foswiki 1.1.4
+
+
 ~~~PATCH ebda758663bc6f5e2438aa9104f1fd4a:773bb3e7d5c62249507bb71e372fbe0b lib/Foswiki/Configure/Checkers/BasicSanity.pm (Foswiki-1.1.0)
 diff --git lib/Foswiki/Configure/Checkers/BasicSanity.pm lib/Foswiki/Configure/Checkers/BasicSanity.pm
 index 68ed3b1..85973c8 100644

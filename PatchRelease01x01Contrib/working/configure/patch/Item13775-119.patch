@@ -1,68 +1,10 @@
-Date:   Thu Oct 1 17:32:57 2015 -0400
+Item13775: CGI::Param called in list context.
+Item13345: "any" pragma is deprecated in CGI-4.14 
 
-    Item13778: CGI -any pragma deprecated
-    Item13775: CGI param called in list context
-    
-    Backport Foswiki 2.0 fixes.
+This patch addresses two issues with recent versions of CGI.  Note that The fix for Item13775
+is a workaround.  The proper fix is too extensive for a patch and is included with Foswiki 2.0
 
-~~~PATCH 7c40baa89e0be8228818f6b42d3be87d:6e6f8a38a0b3dc0f8a6151e24c61560a lib/Foswiki/Plugins/CommentPlugin/Comment.pm (Foswiki-1.1.9)
-diff --git lib/Foswiki/Plugins/CommentPlugin/Comment.pm lib/Foswiki/Plugins/CommentPlugin/Comment.pm
-index edbd86e..e1b09f9 100644
----lib/Foswiki/Plugins/CommentPlugin/Comment.pm
-+++lib/Foswiki/Plugins/CommentPlugin/Comment.pm
-@@ -9,7 +9,7 @@ use Foswiki;
- use Foswiki::Plugins;
- use Foswiki::Store;
- use Foswiki::Attrs;
--use CGI qw( -any );
-+use CGI;
- 
- package Foswiki::Plugins::CommentPlugin::Comment;
- 
-~~~PATCH 2e061b59d29a5d62d90b1bcf928a21fe:a00567e571b30d96f3adca6b79ef7eec lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm (Foswiki-1.1.9)
-diff --git lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
-index b2b8f84..8f39274 100644
---- lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
-+++ lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
-@@ -9,7 +9,7 @@ use warnings;
- use Assert;
- use Error (':try');
- 
--use CGI qw( :cgi -any );
-+use CGI;
- 
- use Encode ();
-
-
-~~~PATCH f624dc0e15746d8a3db483dd349c7ab6:2076d8bd964801fa2ea97f300f732740 lib/Foswiki/Configure/Type.pm (Foswiki-1.1.4,Foswiki-1.1.5,Foswiki-1.1.6,Foswiki-1.1.7,Foswiki-1.1.8,Foswiki-1.1.9)
-diff --git lib/Foswiki/Configure/Type.pm lib/Foswiki/Configure/Type.pm
-index dad2f5d..aeddd50 100755
---- lib/Foswiki/Configure/Type.pm
-+++ lib/Foswiki/Configure/Type.pm
-@@ -18,7 +18,7 @@ package Foswiki::Configure::Type;
- use strict;
- use warnings;
- 
--use CGI qw( :any );
-+use CGI;
- 
- use Foswiki::Configure::Types::UNKNOWN;
- 
-~~~PATCH e9c4140355ca57fcf2da2bd52a2c9bfc:7cd56d88dbac1b12e3f291f8a66c3541 lib/Foswiki/Engine/CGI.pm (Foswiki-1.1.9)
-diff --git lib/Foswiki/Engine/CGI.pm lib/Foswiki/Engine/CGI.pm
-index 701fe01..7c832d7 100644
---- lib/Foswiki/Engine/CGI.pm
-+++ lib/Foswiki/Engine/CGI.pm
-@@ -22,6 +22,7 @@ use Assert;
- use Foswiki::Request         ();
- use Foswiki::Request::Upload ();
- use Foswiki::Response        ();
-+$CGI::LIST_CONTEXT_WARN = 0;
- 
- # ****
- # CGI.pm has a private class called CGITempFile which is used to hold
-
-~~~PATCH cef0b79eede77bbb520b00fadd82ed0a:02656da767d320ee4e73f552588711c6 bin/configure (Foswiki-1.1.9)
+~~~PATCH 926e4a6a7a1b492dd8a4948c3201f999:f2a6c930c857050248afa7765ce5e300 bin/configure (Foswiki-1.1.9)
 diff --git bin/configure bin/configure
 index 3be5c2e..69789a2 100755
 --- bin/configure
@@ -85,3 +27,89 @@ index 3be5c2e..69789a2 100755
  # Declared in Foswiki to support checkers
  our $query = new CGI;
  
+~~~PATCH f624dc0e15746d8a3db483dd349c7ab6:2076d8bd964801fa2ea97f300f732740 lib/Foswiki/Configure/Type.pm (Foswiki-1.1.9)
+diff --git lib/Foswiki/Configure/Type.pm lib/Foswiki/Configure/Type.pm
+index dad2f5d..aeddd50 100644
+--- lib/Foswiki/Configure/Type.pm
++++ lib/Foswiki/Configure/Type.pm
+@@ -18,7 +18,7 @@ package Foswiki::Configure::Type;
+ use strict;
+ use warnings;
+ 
+-use CGI qw( :any );
++use CGI;
+ 
+ use Foswiki::Configure::Types::UNKNOWN;
+ 
+~~~PATCH 7191a69b83be7b1fe3fd9551d1b632e0:aa891be34c556daabbef0174f5d298c0 lib/Foswiki/Contrib/MailerContrib.pm (Foswiki-1.1.9)
+diff --git lib/Foswiki/Contrib/MailerContrib.pm lib/Foswiki/Contrib/MailerContrib.pm
+index 5be0bbc..7ed95f4 100644
+--- lib/Foswiki/Contrib/MailerContrib.pm
++++ lib/Foswiki/Contrib/MailerContrib.pm
+@@ -16,7 +16,7 @@ use strict;
+ use warnings;
+ 
+ use URI ();
+-use CGI qw(-any);
++use CGI;
+ 
+ use Foswiki                                    ();
+ use Foswiki::Plugins                           ();
+~~~PATCH e9c4140355ca57fcf2da2bd52a2c9bfc:7cd56d88dbac1b12e3f291f8a66c3541 lib/Foswiki/Engine/CGI.pm (Foswiki-1.1.9)
+diff --git lib/Foswiki/Engine/CGI.pm lib/Foswiki/Engine/CGI.pm
+index 701fe01..7c832d7 100644
+--- lib/Foswiki/Engine/CGI.pm
++++ lib/Foswiki/Engine/CGI.pm
+@@ -22,6 +22,7 @@ use Assert;
+ use Foswiki::Request         ();
+ use Foswiki::Request::Upload ();
+ use Foswiki::Response        ();
++$CGI::LIST_CONTEXT_WARN = 0;
+ 
+ # ****
+ # CGI.pm has a private class called CGITempFile which is used to hold
+~~~PATCH 7c40baa89e0be8228818f6b42d3be87d:6e6f8a38a0b3dc0f8a6151e24c61560a lib/Foswiki/Plugins/CommentPlugin/Comment.pm (Foswiki-1.1.9)
+diff --git lib/Foswiki/Plugins/CommentPlugin/Comment.pm lib/Foswiki/Plugins/CommentPlugin/Comment.pm
+index edbd86e..e1b09f9 100644
+--- lib/Foswiki/Plugins/CommentPlugin/Comment.pm
++++ lib/Foswiki/Plugins/CommentPlugin/Comment.pm
+@@ -9,7 +9,7 @@ use Foswiki;
+ use Foswiki::Plugins;
+ use Foswiki::Store;
+ use Foswiki::Attrs;
+-use CGI qw( -any );
++use CGI;
+ 
+ package Foswiki::Plugins::CommentPlugin::Comment;
+ 
+~~~PATCH 2e061b59d29a5d62d90b1bcf928a21fe:828e64e76a7e98cbe59e11622a1f8c12 lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm (Foswiki-1.1.9)
+diff --git lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
+index b2b8f84..8f39274 100644
+--- lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
++++ lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm
+@@ -9,7 +9,7 @@ use warnings;
+ use Assert;
+ use Error (':try');
+ 
+-use CGI qw( :cgi -any );
++use CGI;
+ 
+ use Encode ();
+ 
+~~~PATCH 35973a5676a6ff3694f783d062b783fc:37f340d98e9d20a883872636273ee5ff lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm (Foswiki-1.1.9)
+diff --git lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm
+index f477393..138b203 100644
+--- lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm
++++ lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm
+@@ -19,7 +19,7 @@ TML syntax is not supported.
+ 
+ package Foswiki::Plugins::WysiwygPlugin::TML2HTML;
+ 
+-use CGI qw( -any );
++use CGI;
+ use Error qw( :try );
+ 
+ use Foswiki;
+
+
+

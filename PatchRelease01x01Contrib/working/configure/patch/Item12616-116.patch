@@ -2,9 +2,9 @@ Item12616: Foswiki encounters perl errors in 5.18, 5.19
 
 Addresses a crash in Foswiki::Attach, and sort ordering issues caused by perl Hash order changes.
 
-~~~PATCH c67083bf1b9a7ab3a078b4ee1c5ef7f0:3be703fb43e105a1bd6f213befcb5a73 lib/Foswiki/Attach.pm (Foswiki-1.1.7)
+~~~PATCH c67083bf1b9a7ab3a078b4ee1c5ef7f0:3be703fb43e105a1bd6f213befcb5a73 lib/Foswiki/Attach.pm (Foswiki-1.1.6)
 diff --git lib/Foswiki/Attach.pm lib/Foswiki/Attach.pm
-index bb2396b..be9406b 100644
+index bb2396b..63eadc3 100644
 --- lib/Foswiki/Attach.pm
 +++ lib/Foswiki/Attach.pm
 @@ -199,7 +199,12 @@ sub _expandAttrs {
@@ -21,10 +21,9 @@ index bb2396b..be9406b 100644
      }
      elsif ( $attr eq 'FILE' ) {
          return $file;
-
-~~~PATCH 17d316ab4659480ceafaae247cdeb7a5:c1eaadd202dc528b4abe6bf1427f9926 lib/Foswiki/Configure/Package.pm (Foswiki-1.1.7)
+~~~PATCH 7c41bb4ed3c7f01eaf0ba59a698b6eeb:e7e51a8b31e987c26cab7dfe6976d1d4 lib/Foswiki/Configure/Package.pm (Foswiki-1.1.6)
 diff --git lib/Foswiki/Configure/Package.pm lib/Foswiki/Configure/Package.pm
-index 67e7845..2769a21 100644
+index 4c82931..b2b467f 100644
 --- lib/Foswiki/Configure/Package.pm
 +++ lib/Foswiki/Configure/Package.pm
 @@ -674,7 +674,7 @@ sub _installAttachments {
@@ -36,7 +35,7 @@ index 67e7845..2769a21 100644
          my $file = $this->{_manifest}->{ATTACH}->{$webTopic}->{$key};
          my $tfile =
            Foswiki::Configure::Util::mapTarget( $this->{_root}, $file );
-@@ -890,7 +890,7 @@ sub listFiles {
+@@ -889,7 +889,7 @@ sub listFiles {
      my ( $this, $installed ) = @_;
  
      my @files;
@@ -45,7 +44,7 @@ index 67e7845..2769a21 100644
          next if ( $key eq 'ATTACH' );
          if ($installed) {
              my $target =
-@@ -902,7 +902,7 @@ sub listFiles {
+@@ -901,7 +901,7 @@ sub listFiles {
              push( @files, $key );
          }
      }
@@ -54,7 +53,7 @@ index 67e7845..2769a21 100644
  }
  
  =begin TML
-@@ -988,7 +988,7 @@ sub uninstall {
+@@ -987,7 +987,7 @@ sub uninstall {
      }
  
      # foreach file in the manifest, remove the file.
@@ -63,8 +62,9 @@ index 67e7845..2769a21 100644
  
          next if ( $key eq 'ATTACH' );
  
-~~~PATCH ff22a5835959f797746b9d63ad28496c:d4b0fdea01ca7693f76ea2f2967271d4 lib/Foswiki/Search.pm (Foswiki-1.1.7)
+~~~PATCH ff22a5835959f797746b9d63ad28496c:d4b0fdea01ca7693f76ea2f2967271d4 lib/Foswiki/Search.pm (Foswiki-1.1.6)
 diff --git lib/Foswiki/Search.pm lib/Foswiki/Search.pm
+index b1042a4..287e969 100644
 --- lib/Foswiki/Search.pm
 +++ lib/Foswiki/Search.pm
 @@ -1137,6 +1137,19 @@ sub formatResult {
@@ -87,9 +87,9 @@ diff --git lib/Foswiki/Search.pm lib/Foswiki/Search.pm
      foreach my $key ( keys(%$customKeys) ) {
          $out =~ s/$key/&{$customKeys->{$key}}()/ges;
      }
-
-~~~PATCH e20e2a32926d8ab9aac80ffe47b828a9:746f8f68b2d68d7de96aa63af15cd922 lib/Foswiki/UI/Register.pm (Foswiki-1.1.7)
+~~~PATCH 2e6a2adaa691439501881e4008028e77:8d9125d898a5d4f630c432fa83abeed2 lib/Foswiki/UI/Register.pm (Foswiki-1.1.6)
 diff --git lib/Foswiki/UI/Register.pm lib/Foswiki/UI/Register.pm
+index cd78dd1..2981e60 100644
 --- lib/Foswiki/UI/Register.pm
 +++ lib/Foswiki/UI/Register.pm
 @@ -1176,7 +1176,8 @@ sub _populateUserTopicForm {
@@ -137,7 +137,7 @@ diff --git lib/Foswiki/UI/Register.pm lib/Foswiki/UI/Register.pm
      return $templateText;
  }
  
-@@ -1569,7 +1569,7 @@ sub _validateRegistration {
+@@ -1562,7 +1562,7 @@ sub _validateRegistration {
          );
      }
      my @missing = ();
