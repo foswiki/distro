@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1443667119" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1446609046" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -78,7 +78,7 @@ If these steps are not done, users will have to clear their cache, or "shift-rel
 
 *Download the Foswiki distribution* from the following location: http://foswiki.org/Download &mdash; if you are installing your extensions manually, also download them from the repository where they are stored. (Default extensions are included in the Foswiki distribution).
 
-*Review Foswiki:SystemRequirements* and *Install missing Perl modules using your local package manager or CPAN.* Foswiki 2.0 no longer ships with CPAN modules. If you have access to the command line on the server, you can test for missing dependencies by running: =perl tools/dependencies=
+*Review Foswiki:System.SystemRequirements* and *Install missing Perl modules using your local package manager or CPAN.* Foswiki 2.0 no longer ships with CPAN modules. If you have access to the command line on the server, you can test for missing dependencies by running: =perl tools/dependencies=
 
 *Review the Release Notes and learn about the differences* between your old installation and the new release to which you are upgrading. Take note of any areas that affect your site and what special steps you may need to take.
    * Foswiki:System.ReleaseNotes01x01 if upgrading from a release prior to Foswiki 1.1.9, _and_
