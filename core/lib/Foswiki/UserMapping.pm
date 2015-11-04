@@ -566,11 +566,15 @@ sub validateRegistrationField {
 
     return $_[2] if ( lc( $_[1] ) eq 'loginname' );
 
-    if (   ( lc( $_[1] ) eq 'username' )
-        && length( $_[2] )
-        && !( $_[2] =~ m/$Foswiki::cfg{LoginNameFilterIn}/ ) )
-    {
-        throw Error::Simple( Foswiki::entityEncode("Invalid $_[1]") );
+    if ( lc( $_[1] ) eq 'username' ) {
+        if ( length( $_[2] )
+            && !( $_[2] =~ m/$Foswiki::cfg{LoginNameFilterIn}/ ) )
+        {
+            throw Error::Simple( Foswiki::entityEncode("Invalid $_[1]") );
+        }
+        else {
+            return $_[2];
+        }
     }
 
     # Don't check contents of password - it's never displayed.

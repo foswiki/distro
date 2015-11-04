@@ -641,6 +641,52 @@ sub test_NoUserAddToNewGroupCreate {
     return;
 }
 
+sub test_InvalidUserAddToNewGroupCreate {
+    my $this = shift;
+    my $ret;
+
+    $ret = $this->addUserToGroup(
+        {
+            'username'  => ['Bad<script>User'],
+            'groupname' => ['NewGroup'],
+            'create'    => [1],
+            'action'    => ['addUserToGroup']
+        }
+    );
+
+    $this->assert_equals( $ret->{status}, 500 );
+    $this->assert_equals( $ret->{def},    'problem_adding_to_group' );
+    $this->assert_matches( qr/Invalid username/, $ret->{params}[0] );
+
+    #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ) );
+
+    #need to reload to force Foswiki to reparse Groups :(
+    my $q = $this->{request};
+    $this->createNewFoswikiSession( undef, $q );
+
+    $this->assert(
+        Foswiki::Func::topicExists( $this->{users_web}, "NewGroup" ) );
+
+    $ret = $this->addUserToGroup(
+        {
+            'username'  => ['Us_aaUser'],
+            'groupname' => ['NewGroup'],
+            'create'    => [1],
+            'action'    => ['addUserToGroup']
+        }
+    );
+
+    #need to reload to force Foswiki to reparse Groups :(
+    $q = $this->{request};
+    $this->createNewFoswikiSession( undef, $q );
+
+    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", 'Us_aaUser' ) );
+
+    return;
+}
+
 sub test_NoUserAddToNewGroupCreateAsAdmin {
     my $this = shift;
     my $ret;
