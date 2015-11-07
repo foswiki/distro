@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443536427" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1446857887" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 2.0.2
+---+!! Foswiki Release 2.0.3
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -47,6 +47,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.0.0 was built on 04 Jul 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 59 Feature Requests.
    * Foswiki 2.0.1 was built on 03 Aug 2015. It is a release that contains 28 fixes and 3 enhancements.
    * Foswiki 2.0.2 was built on 01 Oct 2015. It is a release that contains 65 fixes and 5 enhancements.
+   * Foswiki 2.0.3-RC1 was built on 07 Nov 2015. It is a release that contains 16 fixes and 1 enhancement.
 
 ---++ Pre-installed Extensions
 
@@ -72,6 +73,26 @@ However the TinyMCEPlugin is still unable to render image links while editing a 
 See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
 
 #Release02x00Changes
+---++ Important changes in 2.0.3
+
+Foswiki 2.0.3 contains some important security related change to avoid certain XSS posibilites.
+
+---+++ SpreadSheetPlugin changes
+
+The CALC and CALCULATE macros now encode =&lt;= and =&gt;= as entities, which
+prevents some paths used to insert script tags. If your user's topics require
+CALC or CALCULATE to generate HTML, then you must enable the following
+setting:
+   * Set SPREADSHEETPLUGIN_UNSAFECALC=1
+This setting can be set in the topic, web, user or site perferences.
+
+---+++ Performance
+
+Foswiki 2.0.3 includes several performance improvements. Note however that the
+best performance will be achiveved by using Perl 5.20 or newer.  There are
+kknow performance issues using regular expressions against UNICODE strings in
+perl 5.18.x and older.
+
 ---++ Important changes in 2.0.2
 
 ---+++ API Change in Foswiki::Func
@@ -1116,6 +1137,31 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13695][Item13695]] | TABLE does not support css unit sizes. (em, cm, in, pt, ...). |
 | [[%BUGS%/Item13723][Item13723]] | Add "next slide" navigation with spacebar to SlideShowPlugin. |
 | [[%BUGS%/Item13758][Item13758]] | Align icons in left bar. |
+
+---++ Foswiki Release 2.0.3 Details
+---++ Fixes
+
+| [[%BUGS%/Item2212][Item2212]] | System.QuerySearch documentation links to missing topic. |
+| [[%BUGS%/Item13519][Item13519]] | Foswiki should clearly report missing dependencies. Don't crash with 500 Internal Server Error. |
+| [[%BUGS%/Item13781][Item13781]] | Dependencies of default extensions are out of date. |
+| [[%BUGS%/Item13796][Item13796]] | Topics that process URLPARAM input with CALC / CALCULATE macros can be used to inject script tags. |
+| [[%BUGS%/Item13807][Item13807]] | UI::Preview doesn't pass $topicObject to afterEditHandler. |
+| [[%BUGS%/Item13811][Item13811]] | SpreadSheetPlugin CALCULATE macro leaks information on fcgi / mod_perl sites. |
+| [[%BUGS%/Item13814][Item13814]] | raw=on&cover=print doesn't use a monospace font. |
+| [[%BUGS%/Item13816][Item13816]] | Configure doesn't work on IE9,  IE does not support console.log or console.debug. |
+| [[%BUGS%/Item13817][Item13817]] | EditRowPlugin performance issues with tables > 100 rows. |
+| [[%BUGS%/Item13830][Item13830]] | Attachments with special characters (umlauts) in Foswiki 2.0.2 with mod_perl, reported as missing or empty file. |
+| [[%BUGS%/Item13832][Item13832]] | Don't allow non-alphas as the effect name in jqLoader. |
+| [[%BUGS%/Item13833][Item13833]] | Don't allow internal render markers to be passed in parameters, or rendered in topic text. |
+| [[%BUGS%/Item13834][Item13834]] | EditRowPlugin cannot edit cells that contain Umlauts and other non-ASCII characters. |
+| [[%BUGS%/Item13837][Item13837]] | Foswiki::Func::getScriptUrl() generates broken URL if any parameters contain embedded # characters. |
+| [[%BUGS%/Item13838][Item13838]] | Need to use filetest access when testing for files not writable. |
+| [[%BUGS%/Item13839][Item13839]] | UserMapping: validateRegistrationField is too strict on usernames - unable to add users containing underscore. |
+
+---++ Enhancements
+
+| [[%BUGS%/Item13820][Item13820]] | The putBackBlocks and _putBackProtected routines are extremely inefficient. |
+
 
 </noautolink>
 
