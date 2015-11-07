@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437970011" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1446862490" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
 ---+ Subscribe Plugin
@@ -68,6 +68,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 |  Dependencies: | %$DEPENDENCIES% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  3.5 (06 Nov 2015) | Foswikitask:Item13519: Add dependency on URI due to MailerContrib dependency. |
 |  3.4 (27 Jul 2015) | Foswikitask:Item13450: Fix support for FamFamFam skin.  |
 |  3.3 (04 May 2015) | Foswikitask:Item13393: simplified implementation |
 |  3.2 (24 Nov 2014) | Foswikitask:Item12926: removed requirement for an HTML form wrapping the button |
@@ -87,7 +88,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="subscribe_plugin.js" attr="h" comment="" date="1437970011" size="713" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="subscribe_plugin.uncompressed.js" attr="h" comment="" date="1437970011" size="2378" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1437970011" size="21246" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1437970011" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="subscribe_plugin.js" attr="h" comment="" date="1446862490" size="713" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="subscribe_plugin.uncompressed.js" attr="h" comment="" date="1446862490" size="2378" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1446862490" size="21246" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1446862490" size="1343" user="ProjectContributor" version="1"}%
