@@ -1,0 +1,96 @@
+%META:TOPICINFO{author="ProjectContributor" date="1446857887" format="1.1"  version="1"}%
+%META:TOPICPARENT{name="UserDocumentationCategory"}%
+---+!! !QuerySearch Pattern Cookbook
+
+This topic provides tips on the usage of QuerySearch.
+%JQREQUIRE{"chili"}%
+%TOC%
+
+---++ Pattern 1: Show recent changes without user pages
+
+We have everything in the Main web. But the updates to the personal pages are not that interesting to others, so we want to remove these.
+
+We are looking for any page that does not have a form field "FirstName":
+
+<verbatim class='tml'>
+<dl>
+%SEARCH{
+"name~'*' AND NOT FirstName"
+web="Main"
+excludetopic="Web*,PersonalInfo,TWikiUsers"
+type="query"
+reverse="on"
+limit="15"
+order="modified"
+nonoise="on"
+format="<dt>[[$web.$topic][$topic(25,...)]]<br /><span class='foswikiGrayText foswikiSmall'>$date - <nop>$wikiname</span></dt>"
+}%
+</dl></verbatim>
+
+---++ Pattern 2: List the 5 most recent blog post comments
+
+The simple Plugins.BlogAddOn has 1 comment topic that gathers all comments on the blog post. It has no Data Form (the blog post has one: !BlogPostForm); the topic title is the name of the blog post + "Comments". How can we show the latest 5 comments?
+
+We are looking for a topic with the title "xxxxComments". It has a parent and the parent has a form named "BlogPostForm":
+
+<verbatim class='tml'>
+<dl>
+%SEARCH{
+"name~'*Comments' AND (parent.name/(form.name='BlogPostForm')).value"
+web="Main"
+type="query"
+limit="15"
+reverse="on"
+order="modified"
+nonoise="on"
+format="<dt>[[$web.$parent#BlogPostPrompt][$parent(30,...)]] ($rev)<br /><span class='foswikiGrayText foswikiSmall'>$date - <nop>$wikiname</span></dt>"
+}%
+</dl></verbatim>
+
+---++ Pattern 3: Search named form fields using interactive user-input text
+
+The code below searches through (two) named fields in all topics having the form 'MyPageForm'. A user search-form has input boxes for the search strings. The page calls itself recursively with results output to a table. The 'lc()' function forces case-insensitive lower case matching.
+<verbatim class='tml'>
+<noautolink> 
+<form method="post" action="%SCRIPTURLPATH{view}%/%INCLUDINGWEB%/%INCLUDINGTOPIC%">
+Field One: <input type="text" name="search_field_one" value="%URLPARAM{ "search_field_one" encode="entity" }%" size="15" /><br />
+Field Two: <input type="text" name="search_field_two" value="%URLPARAM{ "search_field_two" encode="entity" }%" size="15" /><br />
+<input type="submit" name="search_submit" value="Search">
+</form>
+</noautolink>
+
+| *Page Link* | *Field One* | *Field Two* | *Field Three* | *Field Four* |
+%SEARCH{
+search="(lc(FieldOne) ~ lc('%URLPARAM{"search_field_one" encode="quote"}%') AND 
+lc(FieldTwo) ~ lc('%URLPARAM{"search_field_two" encode="quote"}%'))"
+type="query"
+limit="150"
+excludetopic="Web*" 
+order="formfield(FieldOne),formfield(FieldTwo)"
+nonoise="on"
+format="| [[$topic]] | <i><b> $formfield(FieldOne)</b></i> | $formfield(FieldTwo) | $formfield(FieldThree) | $formfield(FieldFour) |"
+}%</verbatim>
+
+---++ Pattern 4: Search all topics with a form and a particular attachment
+
+This pattern is used in the FastReport. The =bin/configure= "Find and Install Extensions" needs to find all Extension topics that also have the =_installer= file used to install the Extension. In this application the returned format is very specific as it is parsed by the =bin/configure= application. The Query Search is used to find the matching topics. The formatted output uses a combination of Formfields (compatibility, classification and image) and regular expressions (description, version and release) to extract information from the topic.
+<verbatim>
+ %SEARCH{ 
+"form.name='PackageForm' AND attachments[name~'*_installer']" 
+type="query" 
+web="Extensions"
+nosearch="on" 
+nototal="on" 
+format="{ topic: $topic
+ description: $pattern(.*?\*\sSet\sSHORTDESCRIPTION\s\=([^\n\r]*).*)
+ compatibility: $formfield(Compatibility)
+ classification: $formfield(ExtensionClassification)
+ version:$pattern(.*?\n\|[\s\w-]*\s[Vv]ersion:\s*\|([^|]*)\|.*)
+ release:$pattern(.*?\n\|[\s\w-]*\s[Rr]elease:\s*\|([^|]*)\|.*)
+ image: $formfield(ImageUrl)
+ }$n"
+}%</verbatim>
+
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="DocumentationGroup"}%
+%META:PREFERENCE{name="PERMSET_CHANGE" title="PERMSET_CHANGE" type="Local" value="details"}%
+%META:PREFERENCE{name="PERMSET_CHANGE_DETAILS" title="PERMSET_CHANGE_DETAILS" type="Local" value="DocumentationGroup"}%

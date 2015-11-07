@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434785593" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1446857887" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Query Search
@@ -267,5 +267,5 @@ Search for topic based upon browser input
 <verbatim class="tml">
 %SEARCH{"lc(name)=~lc('.*%URLPARAM{"q"}%.*')" type="query"}%
 </verbatim>
-__Related Topics:__ SearchHelp, VarSEARCH, FormattedSearch, Foswiki:System/QuerySearchPatternCookbook
+__Related Topics:__ SearchHelp, VarSEARCH, FormattedSearch, QuerySearchPatternCookbook
 <!-- %JQREQUIRE{"chili"}% -->

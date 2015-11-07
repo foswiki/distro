@@ -142,6 +142,7 @@ data/System/ProjectContributor.txt 0644
 data/System/ProjectLogos.txt 0644
 data/System/PublishedAPI.txt 0644
 data/System/QuerySearch.txt 0644
+data/System/QuerySearchPatternCookbook.txt 0644
 data/System/ReferenceManual.txt 0644
 data/System/RegularExpression.txt 0644
 data/System/ReleaseHistory.txt 0644
