@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1446868059" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
 
@@ -88,3 +88,6 @@ The result would be
 ---
 *Related Topics:* VarINCLUDE, UserDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->
+
+
+%META:PREFERENCE{name="SPREADSHEETPLUGIN_UNSAFECALC" title="SPREADSHEETPLUGIN_UNSAFECALC" type="Set" value="1"}%

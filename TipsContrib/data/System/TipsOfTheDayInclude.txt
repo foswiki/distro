@@ -1,8 +1,14 @@
-%META:TOPICINFO{author="ProjectContributor" date="1438073971" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1446868059" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDayAdmin"}%
 ---+ Tips Of the Day Include
 
 This Page randomly picks a Tip of the day to display. The %HOMETOPIC% includes the part between the horizontal rules.
+
+<div class="foswikiHelp">Note: This topic uses the SpreadSheetPlugin to
+genereate HTML.  It requires that UNSAFECALC option be enabled, so that the
+CALC macros can output HTML.
+   * Set SPREADSHEETPLUGIN_UNSAFECALC=1
+</div>
 
 %STARTINCLUDE%
 <dirtyarea>

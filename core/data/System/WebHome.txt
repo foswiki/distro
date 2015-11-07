@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1446868059" format="1.1" version="1"}%
 ---+!! %MAKETEXT{"Welcome to the [_1] web" args="<nop>%WEB%"}%
 This is where Foswiki keeps system documentation, including
 documentation that is included with optional extensions.
@@ -45,3 +45,4 @@ This site is running Foswiki version *%WIKIVERSION%*, Release *%WIKIRELEASE%*,  
 <a href="http://foswiki.org"><img src="%PUBURLPATH%/%WEB%/ProjectLogos/foswiki-badge.png" alt="Foswiki badge" height="42" style="vertical-align:middle" /></a> Foswiki is developed as Free Software under the [[FAQGnuGeneralPublicLicense][GNU/GPL]]. Get the latest version from [[Foswiki:Download][Foswiki.org downloads]].
 
 
+%META:PREFERENCE{name="SPREADSHEETPLUGIN_UNSAFECALC" title="SPREADSHEETPLUGIN_UNSAFECALC" type="Set" value="1"}%

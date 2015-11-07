@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1446868059" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Tip Of The Day Administration
 
@@ -13,3 +13,5 @@
 <table border="0" width="200px"><tr><td>
 %INCLUDE{"TipsOfTheDayInclude" warn="off" }%
 </td></tr></table>
+
+%META:PREFERENCE{name="SPREADSHEETPLUGIN_UNSAFECALC" title="SPREADSHEETPLUGIN_UNSAFECALC" type="Set" value="1"}%
