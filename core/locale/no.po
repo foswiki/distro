@@ -3326,7 +3326,7 @@ msgstr ""
 "Les %1 for et raskt overblikk over denne samarbeidsplattformen. For å lære "
 "mer, se TwentyMinuteTutorial som er tilgjengelig fra samme sted."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Les videre"
 

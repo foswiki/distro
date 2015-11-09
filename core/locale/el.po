@@ -3492,7 +3492,7 @@ msgstr ""
 "συνεργασίας. To learn more, study the TwentyMinuteTutorial, which is "
 "accessible from the same link."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Διαβάστε κι άλλο"
 

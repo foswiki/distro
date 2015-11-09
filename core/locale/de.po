@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-09-30 12:24+0200\n"
 "Last-Translator: Christian Kern <translate-foswiki.der_poet@xoxy.net>\n"
-"Language-Team: German <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/de/>\n"
+"Language-Team: German <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3396,7 +3396,7 @@ msgstr ""
 "Lesen Sie %1, um einen schnellen Überblick über die Kollaborationsplattform "
 "zu bekommen. Für mehr Informationen lesen Sie das TwentyMinuteTutorial."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Weiterlesen"
 

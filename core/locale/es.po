@@ -3471,7 +3471,7 @@ msgstr ""
 "aprender más, estudie el TwentyMinuteTutorial, el cual está accesible por el "
 "mismo enlace."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Seguir leyendo"
 

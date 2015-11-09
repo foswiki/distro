@@ -3459,7 +3459,7 @@ msgstr ""
 "Lue %1 saadaksesi yleiskäsityksen wikistä. Oppiaksesi enemmän, lue "
 "TwentyMinuteTutorial, joka löytyy samasta linkistä."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Lue"
 

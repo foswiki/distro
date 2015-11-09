@@ -3330,7 +3330,7 @@ msgstr ""
 "spolupráci. Aby jste se naučil více, čtěte TwentyMinuteTutorial, který je "
 "odtud přístupný."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Pročtěte si"
 

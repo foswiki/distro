@@ -3473,7 +3473,7 @@ msgstr ""
 "Przejdź na stronę %1 w celu zapoznania się z platformą Foswiki. Więcej "
 "informacji jest dostępnych na stronie TwentyMinuteTutorial."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Przeczytaj"
 

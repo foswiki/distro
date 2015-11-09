@@ -3455,7 +3455,7 @@ msgstr ""
 "%1を読んで、このコラボレーションプラットフォームを大まかに理解してください。"
 "もっと沢山見たい場合は、%SYSTEMWEB%.TwentyMinuteTutorialを参照してください。"
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "読みます"
 

@@ -3385,7 +3385,7 @@ msgstr ""
 "快速浏览 %1 以对这个合作平台有个概念。进一步资料可以参考来自相同连结的 "
 "%SYSTEMWEB%.TwentyMinuteTutorial."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "阅读"
 

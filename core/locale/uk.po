@@ -3504,7 +3504,7 @@ msgstr ""
 "організації спільної роботи. Щоб дізнатися більше, вивчіть "
 "TwentyMinuteTutorial, доступний за тим же посиланням."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Прочитайте"
 

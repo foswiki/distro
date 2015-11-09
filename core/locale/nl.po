@@ -3347,7 +3347,7 @@ msgstr ""
 "meer informatie, bestudeer de TwentyMinuteTutorial, die toegankelijk is via "
 "dezelfde link."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Lees verder"
 
