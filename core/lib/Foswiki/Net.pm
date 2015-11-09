@@ -535,28 +535,16 @@ sub sendEmail {
     # is bad for configure.  Use RFC822-compliant date, which
     # requires a US (or C) locale for time (e.g month and day of week names).
 
-    require POSIX;
-    POSIX->import(qw(locale_h));
+    require Email::MIME;
+    my $email = $this->_fixEmail( Email::MIME->new($text) );
 
-    my $old_locale = POSIX::setlocale( LC_TIME() );
-    POSIX::setlocale( LC_TIME(), 'C' );
-    my $dateStr;
-    if ( $Foswiki::cfg{Email}{Servertime} ) {
-        $dateStr = POSIX::strftime( '%a, %d %b %Y %T %z', localtime(time) );
-    }
-    else {
-        $dateStr = POSIX::strftime( '%a, %d %b %Y %T ', gmtime(time) ) . 'GMT';
-    }
-    setlocale( LC_TIME(), $old_locale );
-
-    $text = "Date: " . $dateStr . "\n" . $text;
     my $errors   = '';
     my $back_off = 1;    # seconds, doubles on each retry
     my $try      = 0;
     while ( $retries-- ) {
         $try++;
         try {
-            &{ $this->{mailHandler} }( $this, $text );
+            &{ $this->{mailHandler} }( $this, $email );
             $retries = 0;
         }
         catch Error with {
@@ -611,15 +599,6 @@ sub sendEmail {
     }
 
     return $errors;
-}
-
-sub _fixLineLength {
-    my ($addrs) = @_;
-
-    # split up header lines that are too long
-    $addrs =~ s/(.{60}[^,]*,\s*)/$1\n        /g;
-    $addrs =~ s/\n\s*$//gs;
-    return $addrs;
 }
 
 # Inhale an entire file (certificate, key)
@@ -729,28 +708,81 @@ sub _smimeSignMessage {
         return;
     }
 
-    $_[0] = $smime->sign( $_[0] );
+    return $smime->sign( $_[0] );
+}
+
+# Convert text/* parts to utf8 and quoted-printable envelope attributes.
+sub _fixMimePart {
+    my ($part) = @_;
+
+    # Skip if it's a multipart.
+    return if $part->subparts;
+
+    if ( $part->content_type =~ /^text\//i ) {
+
+        # XXX It looks like Email::MIME has a bug with processing body
+        # texts when they heave utf8 flag on. The bug is preventing it from
+        # correctly change Content-Transfer-Encoding to anything but 8bit.
+        # Therefore this workaround: extract the body, make it empty, put
+        # it back when encoding is changed. // VadimBelman
+        my $body_text = $part->body;
+        $part->body_set('');
+        $part->encoding_set('quoted-printable');
+        $part->charset_set('utf-8');
+        $part->body_str_set($body_text);
+    }
+}
+
+# Prepare email to comply with requirements like correct charset, encoding,
+# multipart structure, etc.
+sub _fixEmail {
+    my $this  = shift;
+    my $email = shift;
+
+    $email->walk_parts( \&_fixMimePart );
+
+    require POSIX;
+    POSIX->import(qw(locale_h));
+
+    my $old_locale = POSIX::setlocale( LC_TIME() );
+    POSIX::setlocale( LC_TIME(), 'C' );
+    my $dateStr;
+    if ( $Foswiki::cfg{Email}{Servertime} ) {
+        $dateStr = POSIX::strftime( '%a, %d %b %Y %T %z', localtime(time) );
+    }
+    else {
+        $dateStr = POSIX::strftime( '%a, %d %b %Y %T ', gmtime(time) ) . 'GMT';
+    }
+    setlocale( LC_TIME(), $old_locale );
+
+    $email->{header}->header_set( Date => $dateStr );
+
+    # MIME-reencode headers.
+    my @header_pairs = $email->header_str_pairs;
+    my %all_headers;
+    while (@header_pairs) {
+        my ( $header, $value ) = ( shift @header_pairs, shift @header_pairs );
+        push @{ $all_headers{$header} }, $value;
+    }
+
+    foreach my $hdr_key ( keys %all_headers ) {
+        $email->header_str_set( $hdr_key, @{ $all_headers{$hdr_key} } );
+    }
+
+    if ( $Foswiki::cfg{Email}{EnableSMIME} ) {
+
+        # TODO That would be much better to teach _smimeSignMessage to work
+        # with pre-parsed email object. So far – this hack will do the job.
+        $email =
+          Email::MIME->new( $this->_smimeSignMessage( $email->as_string ) );
+    }
+
+    return $email;
 }
 
 # =======================================
 sub _sendEmailBySendmail {
-    my ( $this, $text ) = @_;
-
-    # send with sendmail
-    my ( $header, $body ) = split( "\n\n", $text, 2 );
-    $header =~
-s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geis;
-
-    $text = "$header\n\n$body";    # rebuild message
-
-    if ( $Foswiki::cfg{Email}{EnableSMIME} ) {
-        $this->_smimeSignMessage($text);
-
-        if ( $Foswiki::cfg{SMTP}{Debug} ) {    # Log only headers
-            $text =~ m/^(.*?\r?\n\r?\n)/s;
-            $header = "$1 ... Message contents ...\n";
-        }
-    }
+    my ( $this, $email ) = @_;
 
     # With feedback, unsaved values are tainted.
     # We don't have special priveleges (or shouldn't), and
@@ -764,12 +796,14 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geis;
     $mailer = $1;
 
     $this->_logMailError( 'debug',
-        "====== Sending to $mailer ======\n$header\n======EOM======" );
+            "====== Sending to $mailer ======\n"
+          . $email->header
+          . "\n======EOM======" );
 
     my $MAIL;
     open( $MAIL, '|-:encoding(utf-8)', $mailer )
       || $this->_logMailError( 'die', "Can't send mail using $mailer" );
-    print $MAIL $text;
+    print $MAIL $email->as_string;
     close($MAIL);
 
     # If you see 67 (17152) (== EX_NOUSER), then the mail is probably
@@ -790,32 +824,18 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geis;
 }
 
 sub _sendEmailByNetSMTP {
-    ( our $this, my $text ) = @_;
+
+    # XXX Check if our'ing of this has any impact on the functionality.
+    my ( $this, $email ) = @_;
 
     my $debug = $Foswiki::cfg{SMTP}{Debug} || 0;
 
     my $from = '';
     my @to   = ();
 
-    my ( $header, $body ) = split( "\n\n", $text, 2 );
+    my $header = $email->{header};
 
-    my @headerlines = split( /\r?\n/, $header );
-    $header =~ s/\nBCC\:[^\n]*//s;    #remove BCC line from header
-    $header =~
-s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/geis;
-
-    $text = "$header\n\n$body";       # rebuild message
-
-    $this->_smimeSignMessage($text) if ( $Foswiki::cfg{Email}{EnableSMIME} );
-
-    # extract 'From:'
-    my @arr = grep( /^From: /i, @headerlines );
-    if ( scalar(@arr) ) {
-        $from = $arr[0];
-        $from =~ s/^From:\s*//i;
-        $from =~
-          s/.*<(.*?)>.*/$1/;    # extract "user@host" out of "Name <user@host>"
-    }
+    $from = $header->header_raw('From');
     unless ($from) {
 
         # SMELL: should be a Foswiki::inlineAlert
@@ -823,28 +843,16 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     }
 
     # extract @to from 'To:', 'CC:', 'BCC:'
-    @arr = grep( /^To: /i, @headerlines );
-    my $tmp = '';
-    if ( scalar(@arr) ) {
-        $tmp = $arr[0];
-        $tmp =~ s/^To:\s*//i;
-        @arr = split( /,\s*/, $tmp );
-        push( @to, @arr );
+    foreach my $field (qw(To CC BCC)) {
+        require Email::Address;
+
+# Remove names part from addresses. I.e. convert "John Smith <jsmith@nowhere.com>"
+# to just jsmith@nowhere.com
+        push @to,
+          map { $_->address }
+          Email::Address->parse( $header->header_raw($field) );
     }
-    @arr = grep( /^CC: /i, @headerlines );
-    if ( scalar(@arr) ) {
-        $tmp = $arr[0];
-        $tmp =~ s/^CC:\s*//i;
-        @arr = split( /,\s*/, $tmp );
-        push( @to, @arr );
-    }
-    @arr = grep( /^BCC: /i, @headerlines );
-    if ( scalar(@arr) ) {
-        $tmp = $arr[0];
-        $tmp =~ s/^BCC:\s*//i;
-        @arr = split( /,\s*/, $tmp );
-        push( @to, @arr );
-    }
+
     if ( !( scalar(@to) ) ) {
 
         # SMELL: should be a Foswiki::inlineAlert
@@ -852,13 +860,6 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     }
 
     return unless ( scalar(@to) );
-
-    # Change SMTP protocol recipient format from
-    # "User Name <userid@domain>" to "userid@domain"
-    # for those SMTP hosts that need it just that way.
-    foreach (@to) {
-        s/^.*<(.*)>$/$1/;
-    }
 
     my $smtp = 0;
     my ( $ssl, $tls, $starttls );
@@ -962,14 +963,16 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     $ok &&= $smtp->mail($from);
     $ok &&= $smtp->to( @to, { SkipBad => 1 } );
 
+    my $raw_email = $email->as_string;
+
     if ( $ok && $debug ) {
         my $dbg = $smtp->debug(0);
-        $ok &&= $smtp->data($text);
+        $ok &&= $smtp->data($raw_email);
         $smtp->debug_print( 1, " ... Message contents ...\n" );
         $smtp->debug($dbg);
     }
     else {
-        $ok &&= $smtp->data($text);
+        $ok &&= $smtp->data($raw_email);
     }
     $ok &&= $smtp->dataend();
     my ( $code, $msg ) = ( $smtp->code, $smtp->message );

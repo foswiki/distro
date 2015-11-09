@@ -12,6 +12,7 @@ DBD::SQLite,>=0,cpan,Optional, used for the Foswiki Page Cache and SQLite
 Digest::SHA,>=0,cpan,Optional, may be required for password encryption.
 Crypt::Eksblowfish::Bcrypt,>0,cpan,Optional, only needed if Foswiki passwords should be encoded using bcrypt.
 Crypt::PasswdMD5,>=0,cpan,Required, for admin password hash and .htpasswd encoding.
+Email::MIME,>=1.936,cpan,Required for correct handling of email MIME structure.
 Encode,>=2.01,cpan,Required for international characters.
 Error,>=0.15,cpan,Required, for base Foswiki.
 HTML::Entities,>=1.25,cpan,Required, for WysiwygPlugin.
