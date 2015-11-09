@@ -46,7 +46,7 @@ my %mon2num;
 }
 my $recurseFunc = \&_recurseFunc;
 
-my $unsafeCalc;
+my $allowHTML;
 
 # =========================
 sub init {
@@ -56,8 +56,8 @@ sub init {
     %varStore    = ();
     $dontSpaceRE = "";
 
-    $unsafeCalc =
-      Foswiki::Func::getPreferencesFlag("SPREADSHEETPLUGIN_UNSAFECALC");
+    $allowHTML =
+      Foswiki::Func::getPreferencesFlag("SPREADSHEETPLUGIN_ALLOWHTML");
 
     # Module initialized
     Foswiki::Func::writeDebug(
@@ -179,7 +179,7 @@ sub _doCalc {
     $text =~ s/$escCloseP/\)/g;
     $text =~ s/$escNewLn/\n/g;
 
-    unless ($unsafeCalc) {
+    unless ($allowHTML) {
 
         # encode < > to prevent html insertion
         # SMELL: what about '"%

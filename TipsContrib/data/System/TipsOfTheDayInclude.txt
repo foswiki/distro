@@ -4,12 +4,6 @@
 
 This Page randomly picks a Tip of the day to display. The %HOMETOPIC% includes the part between the horizontal rules.
 
-<div class="foswikiHelp">Note: This topic uses the SpreadSheetPlugin to
-genereate HTML.  It requires that UNSAFECALC option be enabled, so that the
-CALC macros can output HTML.
-   * Set SPREADSHEETPLUGIN_UNSAFECALC=1
-</div>
-
 %STARTINCLUDE%
 <dirtyarea>
 <div class="tipsOfTheDay">
@@ -48,22 +42,20 @@ CALC macros can output HTML.
              $SET(pos, $FIND(., $GET(webtopic)))
              $SET(web, $REPLACE($GET(webtopic), $GET(pos), 100))
              $SET(topic, $REPLACE($GET(webtopic), 1, $GET(pos)))
-           }%%CALCULATE{
-            $NOP(%)SEARCH{
-               \"^$GET(topic)$\"
-               web=\"$GET(web)\"
-               topic=\"$GET($topic)\"
-               scope=\"topic\"
-               regex=\"on\"
-               nosearch=\"on\"
-               noheader=\"on\"
-               nototal=\"on\"
-               limit=\"1\"
-               format=\"<div class='tipsOfTheDayTitle'>[[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]</div>
+           }%%SEARCH{
+               "^%CALCULATE{"$GET(topic)"}%$"
+               web="%CALCULATE{"$GET(web)"}%"
+               topic="%CALCULATE{"$GET($topic)"}%"
+               scope="topic"
+               regex="on"
+               nosearch="on"
+               noheader="on"
+               nototal="on"
+               limit="1"
+               format="<div class='tipsOfTheDayTitle'>[[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]</div>
                   $summary(100, noheader)
-                  [[$web.$topic][%MAKETEXT{"Read on"}%&nbsp;<img src='%ICONURL{more-small}%' alt='Read more' title='Read on' />]]\"
-            }$NOP(%)
-         }%
+                  [[$web.$topic][%MAKETEXT{"Read on"}%&nbsp;<img src='%ICONURL{more-small}%' alt='Read more' title='Read on' />]]"
+            }%
       </div>
    </div>
 </div>

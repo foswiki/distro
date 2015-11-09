@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1445262916" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1446958002" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
 %FORMFIELD{"Description"}%
@@ -982,7 +982,7 @@ Makes the TIME function assume input is local time \
 and converts the entered time to GMT unless the date has 'GMT' appended. \
 Note that this behavior creates problems for users using servers in time zones \
 to the east of Greenwich. The setting is present for compatibility. | 0 | 
-| =SPREADSHEETPLUGIN_UNSAFECALC= | \
+| =SPREADSHEETPLUGIN_ALLOWHTML= | \
 Permits =CALC= and =CALCULATE= macros to emit unencoded =&lt;= and =&gt;=. \
 If not enabled, =&lt;= will be encoded as =&amp;lt;= and =&gt;= will be encoded as =&amp;gt;= \
 It is strongly recommended that this be left undefined or disabled, especially if input \

@@ -197,11 +197,11 @@ EXPECT
 sub test_CALC_ENCODING {
     my $this = shift;
 
-    Foswiki::Func::setPreferencesValue( 'SPREADSHEETPLUGIN_UNSAFECALC', 1 );
+    Foswiki::Func::setPreferencesValue( 'SPREADSHEETPLUGIN_ALLOWHTML', 1 );
     $this->assert( $this->CALC('$CHAR(60)')        eq '<' );
     $this->assert( $this->CALC('$CHAR(62)')        eq '>' );
     $this->assert( $this->CALC('$HEXDECODE(3C3E)') eq '<>' );
-    Foswiki::Func::setPreferencesValue( 'SPREADSHEETPLUGIN_UNSAFECALC', 0 );
+    Foswiki::Func::setPreferencesValue( 'SPREADSHEETPLUGIN_ALLOWHTML', 0 );
     $this->assert( $this->CALC('$CHAR(60)')        eq '&lt;' );
     $this->assert( $this->CALC('$CHAR(62)')        eq '&gt;' );
     $this->assert( $this->CALC('$HEXDECODE(3C3E)') eq '&lt;&gt;' );

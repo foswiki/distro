@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1446868059" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1446958002" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Tips Contrib Package
 
@@ -38,7 +38,7 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 ---++ Contrib Info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  06 Nov 2015: (1.26) | Foswikitask:Item13796: Set UNSAFECALC so that CALC macro can generate HTML. |
+|  06 Nov 2015: (1.26) | Foswikitask:Item13796: Rewrite TipsOfTheDayInclude to avoid generating HTML from the CALCULATE macro. |
 |  02 Oct 2015: (1.25) | Foswikitask:Item13781: Update dependency on SpreadSheetPlugin version for better Foswiki 1.1 compatibility |
 |  29 Sep 2015: (1.24) | Released with Foswiki 2.0.2 Foswikitask:Item13741: Encode search strings |
 |  15 Jul 2015: (1.22) | Released with Foswiki 2.0.1 Foswikitask:Item13526: Improve search performance. |

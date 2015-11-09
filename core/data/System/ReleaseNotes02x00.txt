@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1446857887" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1446958002" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0.3
 
@@ -83,7 +83,7 @@ The CALC and CALCULATE macros now encode =&lt;= and =&gt;= as entities, which
 prevents some paths used to insert script tags. If your user's topics require
 CALC or CALCULATE to generate HTML, then you must enable the following
 setting:
-   * Set SPREADSHEETPLUGIN_UNSAFECALC=1
+   * Set SPREADSHEETPLUGIN_ALLOWHTML=1
 This setting can be set in the topic, web, user or site perferences.
 
 ---+++ Performance
