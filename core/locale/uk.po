@@ -6,16 +6,16 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-06-21 22:03+0200\n"
-"Last-Translator: Anjey Lobas <anjey.lobas@gmail.com>\n"
+"PO-Revision-Date: 2015-11-10 00:07+0200\n"
+"Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 1.2.1\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.1\n"
 "X-Poedit-Language: Ukrainian\n"
 "X-Poedit-Country: UKRAINE\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -73,9 +73,8 @@ msgstr ""
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
-#, fuzzy
 msgid "%1 cannot be removed from %2"
-msgstr "%1 переміщена з %2 до %3 користувачем %4"
+msgstr "%1 не може бути видалено з %2"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
@@ -87,9 +86,8 @@ msgid "%1 has a list of other Foswiki users"
 msgstr "%1 містить список інших користувачів Foswiki"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
-#, fuzzy
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 зареєстрований з адресою електронної пошти %2"
+msgstr "%1 було підтверджено та зареєстровано з адресою %2"
 
 #: core/templates/messages.tmpl:578
 msgid ""
@@ -105,7 +103,7 @@ msgstr "%1 зареєстрований з адресою електронної
 
 #: core/templates/validate.tmpl:34
 msgid "%1 has received a suspicious change request from your browser."
-msgstr ""
+msgstr "%1 отримав підозрілий запит на зміну від Вашого браузера."
 
 #: core/templates/messages.tmpl:23
 msgid "%1 home"
@@ -124,36 +122,32 @@ msgid "%1 is currently set to %2"
 msgstr "%1 вже встановлено на %2"
 
 #: core/templates/messages.tmpl:576
-#, fuzzy
 msgid "%1 is editing [[%2][%3]]."
-msgstr "%1 редагує %2."
+msgstr "%1 редагує [[%2][%3]]."
 
 #: core/templates/messages.tmpl:49
 msgid "%1 is in at least one group and cannot be removed"
-msgstr "%1 входить як мінімум до однієї групи і не може бути вилучений"
+msgstr "%1 входить у щонайменше одну групу і не може бути вилучений"
 
 #: core/templates/messages.tmpl:126
-#, fuzzy
 msgid "%1 is not a valid form name"
-msgstr "'%1' неправильний %2 "
+msgstr "%1 є недозволеним ім'ям форми"
 
 #: core/templates/messages.tmpl:122
-#, fuzzy
 msgid "%1 is not a valid value for the %2 parameter"
-msgstr "'%1' неправильний %2 "
+msgstr "значення %1 не є дійсне для параметру %2"
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
-msgstr "%1 - сторінка за умовчанням для вилучених файлів"
+msgstr "%1 - сторінка за замовченням для вилучених файлів"
 
 #: core/templates/messages.tmpl:584
 msgid "%1 may still be editing %2."
 msgstr "%1 можливо все ще редагує %2."
 
 #: core/data/System/WebChanges.txt:3
-#, fuzzy
 msgid "%1 recent changes in %2 Web"
-msgstr "%1 недавні зміни в розділі %2"
+msgstr "%1 нещодавніх змін у розділі %2"
 
 #: core/templates/messages.tmpl:568
 #, fuzzy
@@ -166,7 +160,7 @@ msgstr "%1 щоб створити інший розділ"
 
 #: core/templates/messages.tmpl:21
 msgid "%1 to customize the web specific preferences"
-msgstr "%1 щоб налаштувати параметри для розділу"
+msgstr "%1 щоб налаштувати параметри розділу"
 
 #: core/templates/messages.tmpl:20
 msgid "%1 to start working on the new web"
@@ -177,15 +171,13 @@ msgid "%1 topic does not exist"
 msgstr "тема %1 не існує"
 
 #: core/templates/registerfailedremoved.tmpl:10
-#, fuzzy
 msgid "%1 tried to register with e-mail %2"
-msgstr "%1 зареєстрований з адресою електронної пошти %2"
+msgstr "%1 намагався зареєструватись за електронною адресою %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
 #: core/lib/Foswiki/Render.pm:269
-#, fuzzy
 msgid "%1 was renamed or moved from %2 on %3 by %4"
-msgstr "%1 переміщена з %2 до %3 користувачем %4"
+msgstr "%1 перейменовано або переміщено з %2 до %3 користувачем %4"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #, fuzzy
@@ -218,12 +210,12 @@ msgstr "Сторінку 'Створення Нової Теми' було пе�
 #: core/templates/login.tmpl:10
 #, fuzzy
 msgid "(%1 login)"
-msgstr "(%1 Ім'я)"
+msgstr "(логін %1)"
 
 #: core/templates/validate.tmpl:6
 #, fuzzy
 msgid "(%1 validation)"
-msgstr "(%1 перевірка)"
+msgstr "(перевірка %1)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:5 core/templates/rdiff.tmpl:4
 #, fuzzy
@@ -231,9 +223,9 @@ msgid "(%1 vs. %2)"
 msgstr "(%1 у порівнянні з %2)"
 
 #: core/templates/messages.tmpl:185
+#, fuzzy
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
-msgstr ""
-"(*Підказка:* Може варто б розмістити свою фотографію на особистій сторінці?)"
+msgstr "(*Пропозиція:* Може завантажити свою фотографію на особисту сторінку?)"
 
 #: core/data/System/WebSearch.txt:232
 msgid "(=all= to show all topics)"
@@ -241,11 +233,11 @@ msgstr "(введіть =all= для виводу без обмежень)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
 msgid "(This message will be removed automatically)"
-msgstr ""
+msgstr "(Це повідомлення буде видалено автоматично)"
 
 #: core/templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"
-msgstr "(доступ заборонений)"
+msgstr "(немає доступу)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:8 core/templates/attachnew.tmpl:2
 msgid "(attach)"
