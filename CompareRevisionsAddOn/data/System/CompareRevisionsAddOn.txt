@@ -1,5 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1398996897" format="1.1" version="1"}%
----+ Compare Revisions Add-On
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -24,7 +23,7 @@ The differences may be shown in two formats, either side-by-side or as an interw
    * Screenshot of side-by-side output: %BR%
      <div class="foswikiImage"><img src="%ATTACHURLPATH%/sidebyside.png" alt="sidebyside.png" width='582' height='565' /></div>
 
-These screenshots have been taken from %SANDBOXWEB%.CompareRevisionsAddOnDemoTopic.
+These screenshots have been taken from %SANDBOXWEB%.CompareRevisionsAddOnDemoTopic. (Foswiki no longer ships with the revision history files, so the demo is no longer operational.)
 
 The appearance can be affected by templates and skins.
 
@@ -133,12 +132,12 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 
 ---++ Add-On Info
 
-|  Plugin Author: | Foswiki:Main.KennethLavrsen |
-|  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2014 Kenneth Lavrsen and Foswiki Contributors |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
+|  Copyright &copy;: | 2006, !JChristophFuchs; 2008-2015 Kenneth Lavrsen and Foswiki Contributors |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  14 Jun 2015 (1.114)  | Foswikitask:Item13423: Perl 5.22 deprecations.  Foswikitask:Item13378: Support utf-8 internally. |
+|  18 Dec 2014 (1.113)  | Foswikitask:Item13068: Remove the CompareRevisionsAddOn demo, don't ship revision history<br />\
+                          Foswikitask:Item11737: Change hardcoded Main to %USERSWEB% <br \>\
+                          Foswikitask:Item12875: Implement controls on access to topic History |
 |  01 May 2014 (1.112)  | Foswikitask:Item12407: Don't decode entities during comparson. Convert to simple decimal version. |
 |  10 Feb 2014          | Foswikitask:Item12741: Formatting parameters not passed on the referenced scripts |
 |  23 Oct 2013 (1.1.11) | Foswikitask:Item12423: fix double encoding in header on UTF-8 sites |
@@ -146,7 +145,7 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 |  31 Jan 2013 (1.1.9) | Foswikitask:Item12337: Remove undocumented dependency on CPAN:HTML::TreeBuilder >= 4.0 |
 |  28 Nov 2012 (1.1.8) | Foswikitask:Item11267: Convert to perl version strings, <br />\
                          Foswikitask:Item11755: Compare breaks characterset encoding. <br />\
-                         Foswikitask:Item11930: Read settings from Main.SitePreferences |
+                         Foswikitask:Item11930: Read settings from %LOCALSITEPREFS% |
 |  06 Apr 2012 (1.1.7) | Foswikitask:Item11445: References to Sandbos should use %<nop>SANDBOXWEB% macro. Release with Foswiki 1.1.5. |
 |  05 Dec 2011 (1.1.6) | Release with Foswiki 1.1.4 - minor code and documentation cleanup. |
 |  28 May 2011 (1.1.6) | Foswikitask:Item10803 - Fix invalid Foswiki configuration affecting !ApacheLogin users introduced in =1.1.4= |
@@ -174,9 +173,17 @@ This Add-On comes pre-installed on Foswiki. You should only need to re-install i
 |  20 Jan 2005 | Initial version |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Add-on Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
-
 __Related Topic:__ %SYSTEMWEB%.ContributedAddOns
 
-%META:FILEATTACHMENT{name="interweave.png" attachment="interweave.png" attr="h" comment="" date="1398997008" path="interweave.png" size="24037" stream="interweave.png" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="sidebyside.png" attachment="sidebyside.png" attr="h" comment="" date="1398997008" path="sidebyside.png" size="35098" stream="interweave.png" user="ProjectContributor" version="1"}%
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.KennethLavrsen"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors,  2008-2015 All Rights Reserved"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FILEATTACHMENT{name="interweave.png" attr="h" comment="" date="1437500521" size="28786" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="sidebyside.png" attr="h" comment="" date="1437500521" size="48991" user="ProjectContributor" version="1"}%

@@ -18,8 +18,8 @@ use warnings;
 use Foswiki;
 
 # Keep this in sync with CompareRevsionsAddOn
-our $VERSION = '1.112';
-our $RELEASE = '1.112';
+our $VERSION = '1.114';
+our $RELEASE = '1.114';
 
 # Name of this Plugin, only used in this module
 our $pluginName = 'CompareRevisionsAddonPlugin';
@@ -52,7 +52,7 @@ sub commonTagsHandler {
         "- ${pluginName}::commonTagsHandler( $_[2].$_[1] )")
       if $debug;
 
-    $_[0] =~ s/%RDIFF2COMPARE{"?(.*?)"?}%/&_handleRdiff2Compare($1)/ge;
+    $_[0] =~ s/%RDIFF2COMPARE\{"?(.*?)"?\}%/&_handleRdiff2Compare($1)/ge;
 }
 
 sub _handleRdiff2Compare {
@@ -68,7 +68,7 @@ sub _handleRdiff2Compare {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -11,7 +11,7 @@
 %TMPL:END%
 
 
-%TMPL:DEF{"script:skintemplate"}%<style type="text/css" media="all">
+%TMPL:DEF{"CompareRevisionsAddOnStyles"}%%ADDTOZONE{"script" id="CompareRevisionsAddOnStyles" text="<style type=\"text/css\" media=\"all\">
 .craCompareAdd {
     background-color:#cfc;
 }
@@ -48,7 +48,10 @@ div.craInterweaveDiff {
 	border-left:#ccc solid 6px;
 	padding-left:10px;
 }
-</style>%TMPL:END%
+</style>"}%%TMPL:END%
+
+
+%TMPL:DEF{"defaultstyle"}%%TMPL:P{"CompareRevisionsAddOnStyles"}%%TMPL:PREV%%TMPL:END%
 
 
 %TMPL:DEF{"content"}%%TMPL:P{"rendercontent"}%

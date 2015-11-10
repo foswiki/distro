@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1399169357" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CompareRevisionsAddOn"}%
 
 ---+ !CompareRevisionsAddOn Plugin
@@ -39,7 +39,7 @@ Test: <nop>CompareRevisionsAddOnPlugin is %IF{"context CompareRevisionsAddOnPlug
 |  31 Jan 2013 (1.1.9) | Foswikitask:Item12337: Remove undocumented dependency on CPAN:HTML::TreeBuilder >= 4.0 |
 |  28 Nov 2012 (1.1.8) | Foswikitask:Item11267: Convert to perl version strings, <br />\
                          Foswikitask:Item11755: Compare breaks characterset encoding. <br />\
-                         Foswikitask:Item11930: Read settings from Main.SitePreferences |
+                         Foswikitask:Item11930: Read settings from %LOCALSITEPREFS% |
 |  06 Apr 2012 (1.1.7) | Foswikitask:Item11445: References to Sandbos should use %<nop>SANDBOXWEB% macro. Release with Foswiki 1.1.5. |
 |  05 Dec 2011 (1.1.6) | Release with Foswiki 1.1.4 - minor code and documentation cleanup. |
 |  28 May 2011 (1.1.6) | Foswikitask:Item10803 - Fix invalid Foswiki configuration affecting !ApacheLogin users introduced in =1.1.4= |
@@ -63,4 +63,4 @@ Test: <nop>CompareRevisionsAddOnPlugin is %IF{"context CompareRevisionsAddOnPlug
 |  Plugin Home: | http://foswiki.org/Extensions/CompareRevisionsAddOn |
 |  Support: | http://foswiki.org/Support/CompareRevisionsAddOn |
 
-__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
+__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, [[%SYSTEMWEB%.Plugins][Plugins]]
