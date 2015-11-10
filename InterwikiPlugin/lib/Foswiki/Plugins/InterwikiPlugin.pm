@@ -26,8 +26,8 @@ use warnings;
 use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
-use version; our $VERSION = version->declare("v1.1.7");
-our $RELEASE           = '1.1.7';
+our $VERSION           = '1.22';
+our $RELEASE           = '1.22';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION =
 'Link !ExternalSite:Page text to external sites based on aliases defined in a rules topic';
@@ -51,11 +51,10 @@ sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
 
     # Regexes for the Site:page format InterWiki reference
-    my $man = $Foswiki::regex{mixedAlphaNum};
-    my $ua  = $Foswiki::regex{upperAlpha};
     %interSiteTable = ();
-    $sitePattern    = "([$ua][$man]+)";
-    $pagePattern    = "((?:'[^']*')|(?:\"[^\"]*\")|(?:[${man}\_\~\%\/][$man"
+    $sitePattern    = "([[:upper:]][[:alnum:]]+)";
+    $pagePattern =
+        "((?:'[^']*')|(?:\"[^\"]*\")|(?:[[:alnum:]\_\~\%\/][[:alnum:]"
       . '"\'\.\/\+\_\~\,\&\;\:\=\!\?\%\#\@\-\(\)]*?))';
 
     # Get plugin preferences from InterwikiPlugin topic
@@ -84,23 +83,40 @@ sub initPlugin {
             );
             return 1;
         }
-        my $text =
-          Foswiki::Func::readTopicText( $interWeb, $interTopic, undef, 1 );
+        my ( $meta, $text ) =
+          Foswiki::Func::readTopic( $interWeb, $interTopic );
 
         # '| alias | URL | ...' table and extract into 'alias', "URL" list
-        $text =~
-s/^\|\s*$sitePattern\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|.*$/_map($1,$2,$3)/meg;
+        $text =~ s/
+              ^\|\s*              # Start of table
+              $sitePattern
+              \s*\|\s*            # Column separator
+              (.*?)               # URL
+              \s*\|\s*            # Column separator
+              (.*?)               # tooltip
+              (?:
+                  \s*\|\s*         # Colunmn separator
+                  ([^\|\n]+)       # Not a separator or end of line
+              )?
+              \s*\|.*?           # Last column separator
+            /_map($1,$2,$3,$4)/megx;
+
     }
 
     $sitePattern = "(" . join( "|", keys %interSiteTable ) . ")";
+
     return 1;
 }
 
 sub _map {
-    my ( $site, $url, $tooltip ) = @_;
+    my ( $site, $url, $tooltip, $format ) = @_;
     if ($site) {
         $interSiteTable{$site}{url}     = $url     || '';
         $interSiteTable{$site}{tooltip} = $tooltip || '';
+        if ( defined $format ) {
+            $format =~ s/\s*$//g;    # remove trailing spaces
+            $interSiteTable{$site}{format} = $format;
+        }
     }
     return '';
 }
@@ -127,7 +143,7 @@ sub _link {
     $postfix ||= '';
 
     my $upage = $page;
-    if ( $page =~ /^['"](.*)["']$/ ) {
+    if ( $page =~ m/^['"](.*)["']$/ ) {
         $page  = $1;
         $upage = Foswiki::urlEncode($1);
     }
@@ -137,9 +153,9 @@ sub _link {
         my $tooltip = $interSiteTable{$site}{tooltip};
         my $url     = $interSiteTable{$site}{url};
 
-        #$url .= $page unless ( $url =~ /\$page/ );
+        #$url .= $page unless ( $url =~ m/\$page/ );
 
-        if ( $url =~ /\$page/ ) {
+        if ( $url =~ m/\$page/ ) {
             $url =~ s/\$page/$upage/g;
         }
         else {
@@ -151,12 +167,12 @@ sub _link {
 
             # [[...]] or [[...][...]] interwiki link
             $text = '';
-            if ( $postfix =~ /^\]\[([^\]]+)/ ) {
+            if ( $postfix =~ m/^\]\[([^\]]+)/ ) {
                 $label = $1;
             }
         }
 
-        my $format = $interLinkFormat;
+        my $format = $interSiteTable{$site}{format} || $interLinkFormat;
         $format =~ s/\$url/$url/g;
         $format =~ s/\$tooltip/$tooltip/g;
         $format =~ s/\$label/$label/g;
@@ -167,6 +183,7 @@ sub _link {
     else {
         $text .= "$site\:$page$postfix";
     }
+    $text = Foswiki::Func::expandCommonVariables($text);
     return $text;
 }
 
@@ -181,7 +198,7 @@ sub _trimWhitespace {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

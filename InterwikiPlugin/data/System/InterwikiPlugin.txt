@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1302438808" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1436234283" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
 <!--
@@ -9,39 +9,50 @@ The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on ali
 
 %TOC%
 
----++ Syntax Rules
+---++ Link Syntax Rules
 
    * Enter ==ExternalSite:Page== to create a link that points to the ==Page== on the ==ExternalSite== server.
       * If ==Page== contains spaces, it can be enclosed in single or double quotes. Example: ==MySite:'My Photo.jpg'==.  Special characters contained within the quotes are URL encoded.
    * Enter ==[<nop>[ExternalSite:Page][any label]]== to specify a custom label.
-   * All ==ExternalSite== aliases are defined in the %SYSTEMWEB%.InterWikis topic.
-   * Add and edit aliases in %SYSTEMWEB%.InterWikis.
-   * Each entry must be of format: <br /> ==| External site alias | URL | Tooltip help text |==.
-   * Site aliases must start with an upper case letter and may contain alphanumeric letters.
-   * The URL and Tooltip Text may contain optional ==$page== fromatting tokens; the token gets expanded to the page name.
-<blockquote class="foswikiHelp">%H% For Foswiki and TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>Foswiki:Webname/<nop>SomePage==
+   * All ==ExternalSite== aliases are defined in the %SYSTEMWEB%.InterWikis topic or as specified by the =INTERWIKIPLUGIN_RULESTOPIC= topic list.
 
+---++ Definition Syntax Rules
+
+Add and edit aliases in %SYSTEMWEB%.InterWikis.%STARTSECTION{"aliasformat"}%
+   * Each entry must be 3 or 4 columns of format: <br /> ==| External site alias | URL | Tooltip help text | Optional INTERLINKFORMAT override |==.
+   * The Alias must start with an upper case letter and may contain alphanumeric characters.
+   * The URL and Tooltip Text may contain optional ==$page== formatting tokens; the token gets expanded to the page name.
+   * The URL may contain foswiki macros.  They are expanded when the URL is rendered.
+   * The Tooltip Text must __not__ contain:
+      * any HTML tags (including ==&lt;nop&gt;== escape code),
+      * any internal %SYSTEMWEB%.WikiWord links
+      * any external links.
+      * Hint: Escape =='WikiWords'== and =='$page'==.
+      * If the link format override is provided, it overrides the =INTERWIKIPLUGIN_INTERLINKFORMAT= for just that entry.
+<div class="foswikiHelp">%H% For Foswiki and TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>Foswiki:Webname/<nop>SomePage==
 Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
-</blockquote>
+</div>
 
-<blockquote class="foswikiHelp">%H% For links with paranthesis you will need to write as ==[<nop>[Wikipedia:Fork_(software_development)]]==, or quoted, as ==<nop>Wikipedia:'Fork_(software_development)'== as we assume that the closing paranthesis is not part of the link. For example, Wikipedia:'Fork_(software_development)' .
-</blockquote>
+<div class="foswikiHelp">
+%H% For links with paranthesis you will need to write as ==[<nop>[Wikipedia:Fork_(software_development)]]==, or quoted, as ==<nop>Wikipedia:'Fork_(software_development)'== as we assume that the closing paranthesis is not part of the link. For example, Wikipedia:'Fork_(software_development)' .
+</div>
+%ENDSECTION{"aliasformat"}%
 
 ---++ <nop>%TOPIC% Settings
 
-You can override the default settings using [[%SYSTEMWEB%.PreferenceSettings][preferences]]. These preferences can be set in your %USERSWEB%.SitePreferences, or in !WebPreferences, or in individual topics.
+You can override the default settings using [[%SYSTEMWEB%.PreferenceSettings][preferences]]. These preferences can be set in your %LOCALSITEPREFS%, or in any <nop>%WEBPREFSTOPIC%, or in individual topics.
 
 | *Preference* | *Use to* | *Default* |
 | =INTERWIKIPLUGIN_RULESTOPIC= | The topic(s) containing the inter-wiki rules. Can be a comma separated list. See %SYSTEMWEB%.InterWikis#AddingYourOwn for more details | %SYSTEMWEB%.InterWikis |
 | =INTERWIKIPLUGIN_INTERLINKFORMAT= | Set the interlink format | =&lt;a class="interwikiLink" href="$url" title="$tooltip" class="interwikiLink"&gt;&lt;noautolink&gt;$label&lt;/noautolink&gt;&lt;/a&gt;= |
-The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
+The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%STARTSECTION{"formattokens"}%
      | *Token* | *Meaning* |
      | $site | Site alias |
      | $page | Page (part after colon) |
      | $url | Site URL (might contain $page) |
      | $label | Equal to $site:$page |
      | $tooltip | Tooltip message |
-
+%ENDSECTION{"formattokens"}%
 
 ---++ Plugin Installation Instructions
 
@@ -51,12 +62,11 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
 
 ---++ Plugin Info
 
-|  Author: | Foswiki:%USERSWEB%.AndreaSterbini, TWiki:Main.PeterThoeny |
-|  Copyright: | &copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), 2007-2012 %SYSTEMWEB%.ProjectContributor |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  14 Jun 2014: (1.22)  | Foswikitask:Item13287: Foswikitask:Item13387: Regular expression enhancements, better UTF-8 support. |
+|  03 Oct 2014: (1.21)  | Foswikitask:Item13045: Add per-link override of INTERLINKFORMAT |
+|  24 May 2014: (1.20)  | Foswikitask:Item12819: Expand variables defined in !InterWiki links%BR% \
+                          Foswikitask:Item11587: Replace call to deprecated =Foswiki::Func::readTopicText()= |
 |  23 Oct 2013: (1.1.7) | Foswikitask:Item12555: Documentation updates |
 |  12 Nov 1012: (1.1.6) | update CPAN link to goto metacpan and remove some ancient links that have been broken for years. Convert to perl version strings |
 |  05 Dec 2011: (1.1.2) | Release with Foswiki 1.1.4 - Minor code and documentation cleanup |
@@ -89,7 +99,13 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:
 |  12 Jun 2001: | Added optional tool tips (IE only); added the link rules topic name variable; added flexible link patterns; optional ==$page== in URL |
 |  10 Jun 2001: | Changed rules topic to table-based syntax |
 |  20 Feb 2001: | TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny - Initial version |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
-
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), 2007-2015 %SYSTEMWEB%.ProjectContributor"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:%USERSWEB%.AndreaSterbini, TWiki:Main.PeterThoeny"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/InterwikiPlugin"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/InterwikiPlugin"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

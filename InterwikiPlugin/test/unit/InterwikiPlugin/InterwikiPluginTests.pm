@@ -46,7 +46,7 @@ sub test_link_from_local_rules_topic {
 <noautolink>
 | *Alias:* | *URL:* | *Tooltip Text:* |
 | Localrule | http://rule.invalid.url?page= | Local rule |
-</nautolink>
+</noautolink>
 HERE
 
     Foswiki::Func::setPreferencesValue( "INTERWIKIPLUGIN_RULESTOPIC",
@@ -73,7 +73,7 @@ sub test_link_from_inherted_rules_topic {
 | *Alias:* | *URL:* | *Tooltip Text:* |
 | Localrule | http://rule.invalid.url?page= | Local rule |
 | Wiki | http://foo.bar/cgi/wiki? | Redefined rule |
-</nautolink>
+</noautolink>
 HERE
 
     Foswiki::Func::setPreferencesValue( "INTERWIKIPLUGIN_RULESTOPIC",
@@ -115,7 +115,7 @@ sub test_cant_view_rules_topic {
 <noautolink>
 | *Alias:* | *URL:* | *Tooltip Text:* |
 | Localrule | http://rule.invalid.url?page= | Local rule |
-</nautolink>
+</noautolink>
 
    * Set DENYTOPICVIEW = %USERSWEB%.WikiGuest
 HERE
@@ -180,7 +180,7 @@ sub test_link_with_topic_name {
 <noautolink>
 | *Alias:* | *URL:* | *Tooltip Text:* |
 | WebHome | http://rule.invalid.url?page= | Local rule |
-</nautolink>
+</noautolink>
 HERE
 
     Foswiki::Func::setPreferencesValue( "INTERWIKIPLUGIN_RULESTOPIC",
@@ -196,6 +196,74 @@ HERE
     );
 }
 
+sub test_link_with_topic_macro {
+    my $this            = shift;
+    my $localRulesTopic = "LocalInterWikis";
+
+    Foswiki::Func::saveTopic( $this->{test_web}, $localRulesTopic, undef,
+        <<'HERE');
+---+++ Local rules
+<noautolink>
+| *Alias:* | *URL:* | *Tooltip Text:* |
+| WebHome | http://rule.invalid.url?page=%WEB%. | Local rule |  |
+</noautolink>
+HERE
+
+    Foswiki::Func::setPreferencesValue( "INTERWIKIPLUGIN_RULESTOPIC",
+        "$this->{test_web}.$localRulesTopic" );
+    Foswiki::Plugins::InterwikiPlugin::initPlugin(
+        $this->{test_web},  $this->{test_topic},
+        $this->{test_user}, $Foswiki::cfg{SystemWebName}
+    );
+
+    $this->assert_html_equals(
+"<a class=\"interwikiLink\" href=\"http://rule.invalid.url?page=$this->{test_web}.Topage\" title=\"Local rule\"><noautolink>WebHome:Topage</noautolink></a>",
+        Foswiki::Func::renderText( "WebHome:Topage", $this->{test_web} )
+    );
+}
+
+sub test_link_with_link_override {
+    my $this            = shift;
+    my $localRulesTopic = "LocalInterWikis";
+
+# This test doesn't make much sense,  but it verifies that a %MACRO% will expand,
+# and the results are generated with a different link format from the default.
+
+    Foswiki::Func::saveTopic( $this->{test_web}, $localRulesTopic, undef,
+        <<'HERE');
+---+++ Local rules
+<noautolink>
+| *Alias:* | *URL:* | *Tooltip Text:* |
+| Spaced | %SPACEOUT{"$page"}% | Local rule | <a href='http://Some.Site?param="$url"'>$url</a> |
+</noautolink>
+HERE
+
+    Foswiki::Func::setPreferencesValue( "INTERWIKIPLUGIN_RULESTOPIC",
+        "$this->{test_web}.$localRulesTopic" );
+    Foswiki::Plugins::InterwikiPlugin::initPlugin(
+        $this->{test_web},  $this->{test_topic},
+        $this->{test_user}, $Foswiki::cfg{SystemWebName}
+    );
+
+    if ( $this->check_dependency('Foswiki,<,1.2') ) {
+        $this->assert_html_equals(
+"<a href='http://Some.Site?param=\"ASpaced Out Page\"'>ASpaced Out Page</a>",
+            Foswiki::Func::renderText(
+                "Spaced:ASpacedOutPage", $this->{test_web}
+            )
+        );
+    }
+    else {
+        $this->assert_html_equals(
+"<a href='http://Some.Site?param=\"A Spaced Out Page\"'>A Spaced Out Page</a>",
+            Foswiki::Func::renderText(
+                "Spaced:ASpacedOutPage", $this->{test_web}
+            )
+        );
+    }
+}
+
+# http://foswiki.org/Tasks/Item10151
 # http://foswiki.org/Tasks/Item10151
 sub test_link_with_parentheses {
     my $this = shift;
@@ -328,7 +396,7 @@ sub test_link_with_quoted_string {
 <noautolink>
 | *Alias:* | *URL:* | *Tooltip Text:* |
 | Photo | http://www.example.com/photos/gallery.cgi?mode=view&photo= | Local rule |
-</nautolink>
+</noautolink>
 HERE
 
     Foswiki::Func::setPreferencesValue( "INTERWIKIPLUGIN_RULESTOPIC",
