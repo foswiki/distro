@@ -1,23 +1,20 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284973002" format="1.1" version="1"}%
-%META:TOPICPARENT{name="TwistyPlugin"}%
-
-#VarTWISTYBUTTON
----+++ TWISTYBUTTON
-*Shorthand version for TWISTYSHOW &amp; TWISTYHIDE*
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ TWISTYBUTTON -- Shorthand version for TWISTYSHOW &amp; TWISTYHIDE
 This is useful if both the show and the hide button take the same arguments.
-   * Supported parameters: all parameters supported by [[#VarTWISTYSHOW][TWISTY]], except for =noscript= and =class= (only used for 'toggle' content)
-   * Parameter differences:
-      * =mode=: button mode defaults to div
-   * Syntax: =%<nop>TWISTYBUTTON{id="myid" ... }%=
-   * Supported parameters:
-    | *Parameter* | *Value* | *Description* | *Remark* |
-    | =mode= | ="div"= or ="span"= | Specify if the *Twisty button* will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup. | optional, defaults to =&lt;div&gt;= |
-   * Example: <verbatim class="tml">%TWISTYBUTTON{
+---++ Parameters
+All parameters supported by [[VarTWISTYSHOW][TWISTY]], except for
+   * =noscript= and =class= (only used for 'toggle' content)
+   * =mode= button mode defaults to div
+
+---++ Examples
+<verbatim class="tml">%TWISTYBUTTON{
     id="myid"
     link="more"
   }%%TWISTYTOGGLE{
     id="myid"
   }%content%ENDTWISTYTOGGLE%</verbatim>
    * Expands as: %TWISTYBUTTON{id="myid" link="more"}%%TWISTYTOGGLE{id="myid"}%content%ENDTWISTYTOGGLE%
-   * Related: %INCLUDE{"VarTWISTY" section="related" includingtopic="%INCLUDINGTOPIC%"}%
-<!--%JQREQUIRE{"chili"}%-->
+---+ Related
+%SEARCH{"name=~'TWISTY' AND name!='%TOPIC%'" type="query" format="   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]" nonoise="on"}%
+

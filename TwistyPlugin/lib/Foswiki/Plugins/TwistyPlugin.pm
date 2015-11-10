@@ -17,8 +17,8 @@ use warnings;
 use vars qw( @twistystack $doneHeader $doneDefaults $twistyCount
   $prefMode $prefShowLink $prefHideLink $prefRemember);
 
-use version; our $VERSION = version->declare("v1.6.18");
-our $RELEASE = '1.6.18';
+our $VERSION = '1.62';
+our $RELEASE = '1.62';
 our $SHORTDESCRIPTION =
   'Twisty section Javascript library to open/close content dynamically';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -42,8 +42,6 @@ sub initPlugin {
     $doneHeader   = 0;
     $twistyCount  = 0;
 
-    _exportAnimationSpeed();
-
     Foswiki::Plugins::JQueryPlugin::registerPlugin( 'twisty',
         'Foswiki::Plugins::TwistyPlugin::TWISTY' );
     Foswiki::Func::registerTagHandler( 'TWISTYSHOW',      \&_TWISTYSHOW );
@@ -55,24 +53,6 @@ sub initPlugin {
     Foswiki::Func::registerTagHandler( 'ENDTWISTYTOGGLE', \&_ENDTWISTYTOGGLE );
 
     return 1;
-}
-
-sub _exportAnimationSpeed {
-
-    my $pref =
-         Foswiki::Func::getPreferencesValue('TWISTYANIMATIONSPEED')
-      || Foswiki::Func::getPluginPreferencesValue('TWISTYANIMATIONSPEED')
-      || '0';
-
-    # add TWISTYANIMATIONSPEED to the html head so
-    # that it may be used in the client JS with
-    # foswiki.getPreference('TWISTYANIMATIONSPEED')
-    Foswiki::Func::addToZone( "script", "TWISTYPLUGIN::META",
-        <<"HERE", "JQUERYPLUGIN::FOSWIKI::PREFERENCES" );
-<script type='text/javascript'>jQuery.extend(foswiki.preferences, { TWISTYANIMATIONSPEED: '$pref' });</script>
-HERE
-
-    return;
 }
 
 sub _setDefaults {
@@ -205,7 +185,7 @@ sub _createId {
     my ( $params, $inWeb, $inTopic ) = @_;
 
     my $id = $params->{'id'} || "twistyId$inWeb$inTopic";
-    $id =~ s/\//subweb/go;
+    $id =~ s/\//subweb/g;
 
     # Ensure uniqueness, or at least try to
     my $remember = $params->{'remember'} || $prefRemember;
@@ -265,9 +245,9 @@ sub _twistyBtn {
          $params->{ $twistyControlState . 'imgleft' }
       || $params->{'imgleft'}
       || '';
-    $img =~ s/['\"]//go;
-    $imgright =~ s/['\"]//go;
-    $imgleft =~ s/['\"]//go;
+    $img      =~ s/['\"]//g;
+    $imgright =~ s/['\"]//g;
+    $imgleft  =~ s/['\"]//g;
     my $imgTag =
       ( $img ne '' ) ? '<img src="' . $img . '" border="0" alt="" />' : '';
     my $imgRightTag =
@@ -338,9 +318,9 @@ sub _createHtmlProperties {
     push( @classList, $class ) if $class && !$isTrigger;
     push( @classList, 'twistyRememberSetting' )
       if Foswiki::Func::isTrue($remember);
-    push( @classList, 'twistyForgetSetting' )  if $remember eq 'off';
-    push( @classList, 'twistyStartHide' )      if $startHidden;
-    push( @classList, 'twistyStartShow' )      if $startShown;
+    push( @classList, 'twistyForgetSetting' ) if $remember eq 'off';
+    push( @classList, 'twistyStartHide' )     if $startHidden;
+    push( @classList, 'twistyStartShow' )     if $startShown;
     push( @classList, 'twistyFirstStartHide' ) if $firstStartHidden;
     push( @classList, 'twistyFirstStartShow' ) if $firstStartShown;
 
@@ -421,7 +401,7 @@ sub _readCookie {
     my $cgi    = CGI->new();
     my $cookie = $cgi->cookie('FOSWIKIPREF');
     my $tag    = $idTag;
-    $tag =~ s/^(.*)(hide|show|toggle)$/$1/go;
+    $tag =~ s/^(.*)(hide|show|toggle)$/$1/g;
     my $key = $TWISTYPLUGIN_COOKIE_PREFIX . $tag;
 
     return unless ( defined($key) && defined($cookie) );
@@ -469,7 +449,7 @@ sub _wrapInContainerDivIfNoJavascripClose {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

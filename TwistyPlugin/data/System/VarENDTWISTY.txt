@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284876785" format="1.1" version="1"}%
-%META:TOPICPARENT{name="TwistyPlugin"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ ENDTWISTY -- complements an opening TWISTY tag to close a twisty
+Closes an open twisty
+%STOPINCLUDE%
+---++ Related
+%SEARCH{"name=~'TWISTY' AND name!='%TOPIC%'" type="query" format="   * [[$topic][$pattern(.*?---\++ ([^\n]*).*)]]" nonoise="on"}%
 
-#VarENDTWISTY
----+++ ENDTWISTY
-*Twisty closure, complements the opening TWISTY tag.*
-   * Syntax: =%<nop>ENDTWISTY%=
-   * Related: %INCLUDE{"VarTWISTY" section="related" includingtopic="%INCLUDINGTOPIC%"}%
