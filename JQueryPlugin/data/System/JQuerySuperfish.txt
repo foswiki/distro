@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1369926831" format="1.1" reprev="1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1437500521" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"superfish"
@@ -22,19 +22,19 @@ Features:
    * drop shadows for capable browsers ? degrades gracefully for Internet Explorer 6. Can disable shadows completely via options object.
    * Can show the path to your current page while the menu is idle. The easiest way to understand this is to view the nav-bar example.
    * Optional callback functions. The 'this' keyword within the handlers you attach will refer to the animated ul sub-menu. From version 1.4 there are now three other optional callbacks allowing for further enhancements and functionality to be added without needing to alter the core Superfish code.
-   * See supersubs companion Javascript to automatically resize menus to fit their contents.
 %ENDSECTION{"summary"}%
 
 ---++ Examples
-%JQREQUIRE{"supersubs"}%
-
-%ADDTOZONE{"script" 
-    tag="SUPERFISH::DEMO" 
-    text="<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish.css' type='text/css'/>
-          <link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish-navbar.css' type='text/css'/>
-          <link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish-vertical.css' type='text/css'/>
-          <script type='text/javascript' src='%ATTACHURLPATH%/example.js'></script>"
-    requires="JQUERYPLUGIN::SUPERSUBS"
+%ADDTOZONE{"head" 
+   id="SUPERFISH::DEMO" 
+   text="<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish.css' type='text/css'/>
+         <link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish-navbar.css' type='text/css'/>
+         <link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/superfish/jquery.superfish-vertical.css' type='text/css'/>"
+}%
+%ADDTOZONE{"script"
+   id="SUPERFISH::DEMO" 
+   text="<script type='text/javascript' src='%ATTACHURLPATH%/example.js'></script>"
+   requires="JQUERYPLUGIN::SUPERFISH"
 }%
 
 ---+++ Using <nop>TreePlugin
@@ -83,7 +83,7 @@ Requires Foswiki:Extensions.TreePlugin
        </ul>
      </li>
      <li>
-       <a href="#">menu item</a>
+       <a href="#">menu item </a>
        <ul>
          <li><a href="#">menu item</a></li>
          <li><a href="#">menu item</a></li>
@@ -152,9 +152,6 @@ Requires Foswiki:Extensions.TreePlugin
      </li>
    </ul>
  </li>
- <li>
-   <a href="#">menu item</a>
- </li> 
 </ul>
 %CLEAR%
 
@@ -338,118 +335,9 @@ Requires Foswiki:Extensions.TreePlugin
 </ul>
 %CLEAR%
 
----++++ Supersubs
-
-<blockquote>
-This menu uses the optional Supersubs plugin (currently beta) to make the sub-menu widths variable. The fixed width set in the CSS is overridden and all menu items within a sub-menu are altered to match the width of their widest sibling. This is most commonly used to make all menu items fit on one line so that they are all of equal height.
-
-Note that Supersubs needs to be called before Superfish in the initialisation chain...</blockquote>
-
-<ul id="sample-menu-5" class="sf-menu">
-  <li class="current">
-    <a href="#a">menu item</a>
-    <ul>
-      <li>
-        <a href="#aa">menu item that is quite long</a>
-      </li>
-      <li class="current">
-        <a href="#ab">menu item</a>
-        <ul>
-          <li class="current"><a href="#">menu item that is even longer still!</a></li>
-          <li><a href="#aba">menu item</a></li>
-          <li><a href="#abb">menu item</a></li>
-          <li><a href="#abc">menu item</a></li>
-          <li><a href="#abd">menu item</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">menu item</a>
-        <ul>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">menu item</a>
-        <ul>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <a href="#">menu item</a>
-  </li>
-  <li>
-    <a href="#">menu item</a>
-    <ul>
-      <li>
-        <a href="#">menu item</a>
-        <ul>
-          <li><a href="#">short</a></li>
-          <li><a href="#">short</a></li>
-          <li><a href="#">short</a></li>
-          <li><a href="#">short</a></li>
-          <li><a href="#">short</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">menu item</a>
-        <ul>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">menu item</a>
-        <ul>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">menu item</a>
-        <ul>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">menu item</a>
-        <ul>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-          <li><a href="#">menu item</a></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <a href="#">menu item</a>
-  </li> 
-</ul>
-%CLEAR%
 
 <!--
    * Set NOWYSIWYG = 1
 -->
 
-%META:FILEATTACHMENT{name="example.js" attachment="example.js" attr="" comment="" date="1257681912" path="example.js" size="250" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="example.js" attr="h" comment="" date="1437500521" size="384" user="ProjectContributor" version="1"}%

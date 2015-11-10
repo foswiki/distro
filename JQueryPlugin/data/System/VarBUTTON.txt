@@ -1,31 +1,33 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284962225" format="1.1" version="1"}%
-%META:TOPICPARENT{name="JQueryPlugin"}%
-#VarBUTTON
----+++ BUTTON{"text" ...} -- renders a nice button 
-   * Parameters: 
-     | *Parameter:* | *Description:* | *Default:* |
-     | "text", value="text" | text to be put on this button | |
-     | accesskey | access key used for this button | | 
-     | class | extra class: use =foswikiRight= or =foswikiLeft= to specify aligment; \
+%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ BUTTON -- renders a nice button 
+---++ Parameters
+     %TABLE{sort="off"}%
+     | *Parameter* | *Description* | *Default* |
+     | ="text"= | text to be put on this button | |
+     | =value= | text to be put on this button | |
+     | =accesskey= | access key used for this button | | 
+     | =class= | extra class: use =foswikiRight= or =foswikiLeft= to specify aligment; \
                use =cyan=, =red=, =green= for different background colors; \
                use =simple= for a non-3D button | | 
-     | href | url of the click target | # | 
-     | icon | icon to be put on the left; note, this can be any icon attached to the  ={IconSearchPath}=; see also VarJQICON | | 
-     | id | html id for this button | | 
-     | onclick | javascript event triggered when clicking the button | | 
-     | onmouseout | javascript event triggered when the pointer leaves the button | | 
-     | onmouseover | javascript event triggered when the pointer hovers over the button | | 
-     | target | topic to open when clicking on the button | | 
-     | title | popup title displayed when hovering over the button | | 
-     | type | type of action to be performed; available actions are \
+     | =href= | url of the click target | # | 
+     | =icon= | icon to be put on the left; note, this can be any icon attached to the  ={IconSearchPath}=; see also VarJQICON | | 
+     | =id= | html id for this button | | 
+     | =onclick= | javascript event triggered when clicking the button | | 
+     | =onmouseout= | javascript event triggered when the pointer leaves the button | | 
+     | =onmouseover= | javascript event triggered when the pointer hovers over the button | | 
+     | =target= | topic to open when clicking on the button | | 
+     | =title= | popup title displayed when hovering over the button | | 
+     | =type= | type of action to be performed; available actions are \
               <ul>\
-                <li>button: (default) normal click button, target specified in =target= or =href= parameter </li>\
-                <li>clear: clears all input fields in the form that contains the button</li>\
-                <li>reset: resets all input fields in a form to their initial value </li>\
-                <li>submit: submits the form that contains the button</li>\
-                <li>save: same as =submit= but takes care of extra validation steps when saving a wiki topic </li>\
-              </ul> | button | 
-   * Example: <verbatim class="tml">%BUTTON{
+                <li> =button= - normal click button, target specified in =target= or =href= parameter </li>\
+                <li> =clear= - clears all input fields in the form that contains the button</li>\
+                <li> =reset= - resets all input fields in a form to their initial value </li>\
+                <li> =submit= - submits the form that contains the button</li>\
+                <li> =save= - same as =submit= but takes care of extra validation steps when saving a wiki topic </li>\
+              </ul> | =button= | 
+---++ Examples
+<verbatim class="tml">%BUTTON{
     "%MAKETEXT{"Submit"}%"
     onclick="confirm('Are your sure?')"
   }%
@@ -43,5 +45,7 @@
     icon="cross"
     target="%WEB%.%TOPIC%"
   }% %CLEAR%</div>
-   * Note: BUTTONS are floating to the left by default. Take care to add a =%<nop>CLEAR%= after the =%<nop>BUTTON{...}%= so that further content does not overlap with the button.
-   * Related: JQueryButton
+Note: BUTTONS are floating to the left by default. Take care to add a =%<nop>CLEAR%= after the =%<nop>BUTTON{...}%= so that further content does not overlap with the button.
+%STOPINCLUDE%
+---++ Related
+ JQueryButton

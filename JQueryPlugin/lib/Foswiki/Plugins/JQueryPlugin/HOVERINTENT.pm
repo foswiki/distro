@@ -28,10 +28,10 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name    => 'hoverIntent',
-            version => 'r7',
+            version => '1.8.0',
             author  => 'Brian Cherne',
             homepage =>
-              'http://cherne.net/brian/resources/jquery.hoverIntent.htm',
+              'http://cherne.net/brian/resources/jquery.hoverIntent.html',
             javascript => ['jquery.hoverIntent.js'],
         ),
         $class
@@ -45,7 +45,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

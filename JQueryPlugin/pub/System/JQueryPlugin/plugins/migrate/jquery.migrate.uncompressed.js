@@ -243,8 +243,13 @@ jQuery.uaMatch = function( ua ) {
 		/(webkit)[ \/]([\w.]+)/.exec( ua ) ||
 		/(opera)(?:.*version|)[ \/]([\w.]+)/.exec( ua ) ||
 		/(msie) ([\w.]+)/.exec( ua ) ||
+                /(trident).*; rv:([\w.]+)/.exec( ua ) ||
 		ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec( ua ) ||
 		[];
+
+        if (match[1] === 'trident') {
+          match[1] = 'msie';
+        }
 
 	return {
 		browser: match[ 1 ] || "",

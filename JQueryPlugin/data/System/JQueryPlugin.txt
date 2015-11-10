@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1378458912" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1446861611" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -117,15 +117,33 @@ reduce bandwidth and speed up interactive performance.
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
-<blockquote class="foswikiHelp"> %X% For Foswiki versions before 1.1, this plugin requires the Foswiki:Extensions.ZonePlugin to be installed. The !ZonePlugin is *not* required for Foswiki 1.1 or later.</blockquote>
+<div class="foswikiHelp"> %X% For Foswiki versions before 1.1, this plugin requires the Foswiki:Extensions.ZonePlugin to be installed. The !ZonePlugin is *not* required for Foswiki 1.1 or later.</div>
 
----++ Plugin Info
-|  Maintainer(s): | Michael Daum |
-|  Copyright: | 2007-2013 Foswiki Contributors http://foswiki.org |
-|  License: | GPL |
-|  Release: | %$RELEASE% |
-|  Version: | %$VERSION% |
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Dependencies
+%$DEPENDENCIES%
+
+---++ Change History
+|  06 Nov 2015: | (6.31) - Item13832: Filter the "effect" URLPARAM of JQueryLoader. |
+|  24 Sep 2015: | (6.30) - reworked the way how preferences are propagated from backend to javascript not to use unsafe inline scripts anymore |
+|  04 Sep 2015: | (6.20) - improvements to jquery.wikiword, jquery.loader; adding html5-data capabilities to plugin initialization; added jquery-1.11.3 and jquery-2.1.4 |
+|  16 Jun 2015: | (6.13) - Item13460: JQICON fails to render !FontAwesome icons. |
+|  30 Apr 2015: | (6.11) - Item13389: datepicker initializaiton problem; datepicker z-index problem; pushy tooltips not hidden when typing into an input field; error in jquery.foswiki api getPubUrlPath |
+|  23 Feb 2015: | (6.10) - Item13272: upgraded superfish and hoverintent, deprecated subpersubs |
+|  12 Jan 2015: | (6.01) - Item13205: added jquery-1.11.2 and jquery-2.1.3 |
+|  29 Nov 2014: | (6.01) - Item13123: Add PLACEHOLDER parameter to JQueryAjaxHelper topic selector. |
+|  25 Sep 2014: | (6.00) - Item13030: deprecate jquery.tmpl; added jsrender and a template loader |
+|  06 Jun 2014: | (5.11) - Item12933: make filtered characters configurable in JQueryWikiWord |
+|  21 Feb 2014: | (5.10) - Item12734: added jQuery-1.11, jQuery-2.10, jquery-ui-1.10.4; \
+                           reverted patch to jquery.ui.tooltip; \
+                           reapplied patch to jquery.ui.draggable preventing hopping modal dialogs and such; \
+                           fix hopping position of hepler element in jquery.ui.sortable; \
+                           now defaulting to the latest jQuery version |
+|  11 Dec 2013: | (5.00) - new modules fontawesome, ui::spinner; \
+                           upgraded slimbox and media module; \
+                           improvements to =foswiki= theme for jquery-ui; \
+                           modernize button module; \
+                           fixed dependencies of wikiword module; \
+                           new =tmpl= REST handler to load jquery templates asynchronously |
 |  08 Nov 2013: | (4.91) - Release with Foswiki 1.1.9 \
                   Item12650: Add config error for removed Themeswitcher plugin |
 |  23 Oct 2013: | (4.90) - Item12567: fix checking of version number in configure \
@@ -242,7 +260,7 @@ reduce bandwidth and speed up interactive performance.
                   improved documentation; \
                   fixed IE error in treeview; \
                   added post method to async mode of treeview; \
-                  moved %CLEAR to %SYSTEM.DefaultPreferences |
+                  moved %CLEAR to %SYSTEM.%WIKIPREFSTOPIC% |
 |  28 May 2010: | (3.60) removed pointless TOGGLE module; \
                   reworked handling of =meta= tags by merging =foswikilibs.js= with =jquery.foswiki= module; \
                   fixed IE7 error with floats inside tabpanes; \
@@ -319,6 +337,13 @@ reduce bandwidth and speed up interactive performance.
 |  15 Nov 2007: | use skin independent way to add javascript files to header |
 |  10 Oct 2007: | upgraded to jQuery-1.1.4; compressed js and css |
 |  12 Jul 2007: | initial package containing jQuery-1.1.3.1 |
-|  Dependencies: | %$DEPENDENCIES% |
-|  Home: | Foswiki:Extensions/%TOPIC% |
-|  Support: | Foswiki:Support/%TOPIC% |
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2007-2015 Foswiki Contributors http://foswiki.org"}%
+%META:FIELD{name="License" title="License" value="GPL"}%
+%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Support" title="Support" value="Foswiki:Support/%25$ROOTMODULE%25"}%

@@ -1,7 +1,7 @@
 /*
  * jQuery textbox list plugin 2.1
  *
- * Copyright (c) 2009-2013 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2009-2015 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -94,7 +94,9 @@
         var val = self.input.val();
         if (val) {
           $.log("TEXTBOXLIST: closing suggestion list");
-          self.input.autocomplete("close");
+          if (self.opts.autocomplete) {
+            self.input.autocomplete("close");
+          }
           self.select(val);
           event.preventDefault();
           return false;

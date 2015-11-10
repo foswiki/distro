@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Cycle',
-            version      => '2.9999.8',
+            version      => '3.0.3',
             author       => 'M. Alsup',
             homepage     => 'http://www.malsup.com/jquery/cycle',
             javascript   => [ 'jquery.cycle.js', 'jquery.cycle.init.js' ],
@@ -44,7 +44,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

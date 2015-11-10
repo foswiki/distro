@@ -24,7 +24,7 @@
       };
 
   // The actual plugin constructor 
-  function Empty(elem, options) { 
+  function Plugin(elem, options) { 
     var self = this;
 
     self.$elem = $(elem); 
@@ -34,7 +34,7 @@
     self.init(); 
   } 
 
-  Empty.prototype.init = function () { 
+  Plugin.prototype.init = function () { 
     var self = this;
     // Place initialization logic here 
     // You already have access to the DOM element and 
@@ -47,7 +47,7 @@
   $.fn[pluginName] = function (options) { 
     return this.each(function () { 
       if (!$.data(this, pluginName)) { 
-        $.data(this, pluginName, new Empty(this, options)); 
+        $.data(this, pluginName, new Plugin(this, options)); 
       } 
     }); 
   } 

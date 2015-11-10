@@ -14,6 +14,7 @@ SUBDIRS=\
   farbtastic \
   fluidfont \
   focus \
+  fontawesome \
   form \
   foswiki \
   gradient \
@@ -26,6 +27,7 @@ SUBDIRS=\
   media \
   metadata \
   migrate \
+	mousewheel \
   placeholder \
   pnotify \
   popupwindow \
@@ -35,6 +37,7 @@ SUBDIRS=\
   serialscroll \
   shrinkurls \
   simplemodal \
+	sprintf \
   slimbox \
   superfish \
   supersubs \
@@ -44,6 +47,8 @@ SUBDIRS=\
   tooltip \
   treeview \
   validate \
-  wikiword 
+  wikiword  \
+  render \
+	stars
 
 -include ../Makefile.include

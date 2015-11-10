@@ -1,27 +1,28 @@
-%META:TOPICINFO{author="ProjectContributor" date="1293749884" format="1.1" version="1"}%
-%META:TOPICPARENT{name="JQueryPlugin"}%
-#VarJQPLUGINS
----+++ JQPLUGINS{"plugins" ... } -- display a summary of available plugins
-   * Parameters:
-     | *Parameter:* | *Description:* | *Default:* |
-     | "plugins" | this is a regular expression that the plugin identifier must match to be displayed | |
-     | format | format string to render information for each matching plugin; known variables to be used in the format string are: \
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ JQPLUGINS -- display a summary of available plugins
+---++ Parameters
+     %TABLE{sort="off"}%
+     | *Parameter* | *Description* | *Default* |
+     | ="plugins"= | this is a regular expression that the plugin identifier must match to be displayed | |
+     | =format= | format string to render information for each matching plugin; known variables to be used in the format string are: \
        <ul>\
-         <li>active: state of the plugin: displays <span class='foswikiAlert'>(active)</span> when this plugin is loaded on the current page </li> \
-         <li>author: author of the plugin </li> \
-         <li>documentation: plugin documentation topic defaults to =%<nop>SYSTEMWEB%.JQuery$name= </li> \
-         <li>homepage: link to the hompeage of this third party plugin</li> \
-         <li>index: the current index in the list of all plugins being displayed </li> \
-         <li>name: name of the plugin as can be used in [[VarJQREQUIRE][JQREQUIRE]] </li> \
-         <li>summary: short description what this plugin does; most plugins provide this piece of information in the =summary= section of the documentation topic</li> \
-         <li>tags: list of TML macros this plugin implements </li> \
-         <li>version: version of the plugin as provided by the author of this plugin </li> \
+         <li> =$active= state of the plugin: displays <span class='foswikiAlert'>(active)</span> when this plugin is loaded on the current page </li> \
+         <li> =$author= author of the plugin </li> \
+         <li> =$documentation= plugin documentation topic defaults to =%<nop>SYSTEMWEB%.JQuery$name= </li> \
+         <li> =$homepage= link to the hompeage of this third party plugin</li> \
+         <li> =$index= the current index in the list of all plugins being displayed </li> \
+         <li> =$name= name of the plugin as can be used in [[VarJQREQUIRE][JQREQUIRE]] </li> \
+         <li> =$summary= short description what this plugin does; most plugins provide this piece of information in the =summary= section of the documentation topic</li> \
+         <li> =$tags= list of TML macros this plugin implements </li> \
+         <li> =$version= version of the plugin as provided by the author of this plugin </li> \
        </ul> | =&nbsp;&nbsp;&nbsp;1 &lt;a href="$homepage">$name&lt;/a> $active $version $author= |
-     | header | header string prepended to the output; empty when no plugin matches | |
-     | footer | footer string appended to the output; empty when no plugin matches | |
-     | separator | separator put between each plugin rendered in a row | =$n= |
-     | tagformat | format string to render a link to any tag documentation a plugin implements | =[<nop>[%<nop>SYSTEMWEB%.Var$tag][$tag]]= |
-   * Example: <verbatim class="tml"> %JQPLUGINS{
+     | =header= | header string prepended to the output; empty when no plugin matches | |
+     | =footer= | footer string appended to the output; empty when no plugin matches | |
+     | =separator= | separator put between each plugin rendered in a row | =$n= |
+     | =tagformat= | format string to render a link to any tag documentation a plugin implements | =[<nop>[%<nop>SYSTEMWEB%.Var$tag][$tag]]= |
+---++ Examples
+<verbatim class="tml"> %JQPLUGINS{
    "treeview|slimbox"
    header="   * JQuery Plugins:$n"
    format="      * [[$documentation][$name]] v$version was developed by [[$homepage][$author]]"
@@ -31,5 +32,7 @@
   header="   * JQuery Plugins:$n"
   format="      * [[$documentation][$name]] v$version was developed by [[$homepage][$author]]"
 }%
-   * Related: JQueryPlugin
+%STOPINCLUDE%
+---++ Related
+ JQueryPlugin
 <!--%JQREQUIRE{"chili"}%-->

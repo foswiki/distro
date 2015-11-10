@@ -1,32 +1,36 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284879813" format="1.1" version="1"}%
-%META:TOPICPARENT{name="JQueryPlugin"}%
-#VarJQICON
----+++ JQICON{"name" ...} -- render an image 
-   * This renders an icon image as found on an _icon search path_. The icon search path is [[%SCRIPTURLPATH{"configure"}%#JQueryPlugin$Extensions][configured]] in ={JQueryPlugin}{IconSearchPath}= and
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ JQICON -- render an image 
+Renders an icon image as found on an _icon search path_. The icon search path is [[%SCRIPTURLPATH{"configure"}%][configured]] Extensions tab, JQueryPlugin sub-tab in ={JQueryPlugin}{IconSearchPath}= and
      defaults to FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons'. The named icon will be picked
-     found first on this path of topics where icons are attached to. The JQICON leverages the general icon loading mechanism as implemented by the !JQueryPlugin
-     and used by [[VarBUTTON][BUTTON]] as well.
-   * Parameters:
-     | *Parameter:* | *Description:* | *Default:* |
-     | "name" | name of the icon to display | |
-     | class | additional css class for the img tag | | 
-     | alt | | alt attribute |
-     | title | title attribute | |
-     | format | format string used to render the icon; known variables to be used in the format string are: \
+     found first on this path of topics where icons are attached to. 
+     When the name of the icon starts with =fa-= like in =fa-bold= then icons are taken from the [[http://fontawesome.io/icons/][font-awesome]] iconset.
+     Note that these icons use a different way to be inserted them into the page making resizable for one.
+---++ Parameters
+     %TABLE{sort="off"}%
+     | *Parameter* | *Description* | *Default* |
+     | ="name"= | name of the icon to display | |
+     | =class= | additional css class for the img tag | | 
+     | =alt= | | alt attribute |
+     | =title= | title attribute | |
+     | =style= | css style format to be added to the image element |
+     | =format= | format string used to render the icon; known variables to be used in the format string are: \
                 <ul>\
+                 <li> =$iconName=: name as given to the =name= parameter</li> \
                  <li> =$iconPath=: url path</li> \
                  <li> =$iconClass=: css class as specified by the =class= parameter </li>\
+                 <li> =$iconStyle=: css styles as specified by the =style= parameter </li>\
                  <li> =$iconAlt=: alt attribute-value; if the =alt= parameter to JQICON is set, this expands to =alt='...'= </li> \
                  <li> =$iconTitle=: title attribute-value; if the =title= parameter to JQICON is set, this expands to =title='...'= </li> \
                 </ul> | =&lt;img src='$iconPath' class='$iconClass' $iconAlt$iconTitle/>= |
-   * Example:<verbatim class="tml">
-     %JQICON{"tick" alt="alternative content" title="this is a tick icon"}%
-     %JQICON{"cross"}%
-     %JQICON{"disk"}%
-     %JQICON{"star"}%
-     %JQICON{"lightbulb"}%
-     %JQICON{"camera"}%
-     %JQICON{"date"}%
+Example for famfamfam icons:<verbatim class="tml">
+%JQICON{"tick" alt="alternative content" title="this is a tick icon"}%
+%JQICON{"cross"}%
+%JQICON{"disk"}%
+%JQICON{"star"}%
+%JQICON{"lightbulb"}%
+%JQICON{"camera"}%
+%JQICON{"date"}%
      </verbatim> Produces:
      %JQICON{"tick" alt="alternative content" title="this is a tick icon"}% 
      %JQICON{"cross"}% 
@@ -34,6 +38,20 @@
      %JQICON{"star"}%
      %JQICON{"lightbulb"}%
      %JQICON{"camera"}%
-     %JQICON{"date"}%
-   * Related: [[VarJQICONPATH]], [[VarICON]], JQueryPlugin, FamFamFamSilkIcons
+     %JQICON{"date"}% 
+Example for font-awesome icons:<verbatim class="tml">
+%JQICON{"fa-pagelines" style="font-size:1em;color:#00BF00"}%
+%JQICON{"fa-pagelines" style="font-size:2em;color:#0FAF0F"}%
+%JQICON{"fa-pagelines" style="font-size:3em;color:#1F9C1F"}%
+%JQICON{"fa-pagelines" style="font-size:4em;color:#2D812D"}%
+%JQICON{"fa-pagelines" style="font-size:5em;color:#315C31"}%
+     </verbatim> Produces:
+     %JQICON{"fa-pagelines" style="font-size:1em;color:#00BF00"}% 
+     %JQICON{"fa-pagelines" style="font-size:2em;color:#0FAF0F"}% 
+     %JQICON{"fa-pagelines" style="font-size:3em;color:#1F9C1F"}% 
+     %JQICON{"fa-pagelines" style="font-size:4em;color:#2D812D"}% 
+     %JQICON{"fa-pagelines" style="font-size:5em;color:#315C31"}%
+%STOPINCLUDE%
+---++ Related
+ [[VarJQICONPATH][JQICONPATH]], [[VarICON][ICON]], JQueryPlugin, FamFamFamSilkIcons
 <!--%JQREQUIRE{"chili"}%-->

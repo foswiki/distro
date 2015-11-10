@@ -6,7 +6,7 @@ use Foswiki::Func                           ();
 
 use strict;
 use warnings;
-use constant DEBUG => 0;
+use constant TRACE => 0;
 
 =begin TML
 
@@ -22,13 +22,17 @@ abstract class for a jQuery plugin
 
    * =$class=: Plugin class
    * =...=: additional properties to be added to the object. i.e. 
-      * =name => 'pluginName'= (default unknown)
       * =author => 'pluginAuthor'= (default unknown)
-      * =version => 'pluginVersion'= (default unknown)
-      * =summary => 'pluginSummary'= (default undefined)
+      * =debug => 0 or 1= (default =$Foswiki::cfg{JQueryPlugin}{Debug}=)
+      * =dependencies => []=
       * =documentation => 'pluginDocumentation'= (default JQuery&lt;Name>)
       * =homepage => 'pluginHomepage'= (default unknown)
-      * =debug => 0 or 1= (default =$Foswiki::cfg{JQueryPlugin}{Debug}=)
+      * =javascript => []
+      * =name => 'pluginName'= (default unknown)
+      * =puburl= => 'pubUrl'= (default =%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/pluginname=)
+      * =summary => 'pluginSummary'= (default undefined)
+      * =tags= => []
+      * =version => 'pluginVersion'= (default unknown)
 
 =cut
 
@@ -42,24 +46,25 @@ sub new {
         # emit a deprecation warning
         print STDERR
 "$package constructor called with deprecated session object in $file:$line\n"
-          if DEBUG;
+          if TRACE;
         shift;    # ... it off the args
     }
 
     my $this = bless(
         {
-            debug => $Foswiki::cfg{JQueryPlugin}{Debug} || 0,
-            name => $class,
             author        => 'unknown',
-            version       => 'unknown',
-            summary       => undef,
+            css           => [],
+            debug         => $Foswiki::cfg{JQueryPlugin}{Debug} || 0,
+            dependencies  => [],
             documentation => undef,
             homepage      => 'unknown',
-            puburl        => '',
-            css           => [],
             javascript    => [],
-            dependencies  => [],
-            tags          => '',
+            name          => $class,
+            puburl        => '',
+            summary       => undef,
+            tags          => [],
+            version       => 'unknown',
+            idPrefix      => 'JQUERYPLUGIN',
             @_
         },
         $class
@@ -111,24 +116,38 @@ sub init {
     my @dependencies =
       ('JQUERYPLUGIN::FOSWIKI');    # jquery.foswiki is in there by default
     foreach my $dep ( @{ $this->{dependencies} } ) {
-        if ( $dep =~ /^(JQUERYPLUGIN|JavascriptFiles)/ )
+        if ( $dep =~ /^($this->{idPrefix}|JQUERYPLUGIN|JavascriptFiles)/ )
         {  # SMELL: there are some jquery modules that depend on non-jquery code
             push @dependencies, $dep;
         }
         else {
-            Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin($dep);
-            push @dependencies, 'JQUERYPLUGIN::' . uc($dep);
+            my $plugin =
+              Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin($dep);
+            if ($plugin) {
+                push @dependencies,
+                  $plugin->{idPrefix} . '::' . uc( $plugin->{name} );
+            }
+            else {
+                my $trace = '';
+
+                # require Devel::StackTrace;
+                # $trace = Devel::StackTrace->new()->as_string()."\n";
+
+                print STDERR "ERROR: can't load plugin for $dep\n" . $trace;
+            }
         }
     }
 
-    Foswiki::Func::addToZone(
-        'head', "JQUERYPLUGIN::" . uc( $this->{name} ),
-        $header, join( ', ', @dependencies )
-    );
-    Foswiki::Func::addToZone(
-        'script', "JQUERYPLUGIN::" . uc( $this->{name} ),
-        $footer, join( ', ', @dependencies )
-    );
+    Foswiki::Func::addToZone( 'head',
+        $this->{idPrefix} . '::' . uc( $this->{name} ),
+        $header, join( ', ', @dependencies ) );
+    Foswiki::Func::addToZone( 'script',
+        $this->{idPrefix} . '::' . uc( $this->{name} ),
+        $footer, join( ', ', @dependencies ) );
+
+    my $contextID = $this->{name} . 'Enabled';
+    $contextID =~ s/\W//g;
+    Foswiki::Func::getContext()->{$contextID} = 1;
 
     return 1;
 }
@@ -190,7 +209,7 @@ sub getSummary {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

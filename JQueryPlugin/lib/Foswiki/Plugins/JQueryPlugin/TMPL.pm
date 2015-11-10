@@ -1,9 +1,13 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::TMPL;
+
 use strict;
 use warnings;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
+use Foswiki::Func                          ();
+use Foswiki::Attrs                         ();
+use Foswiki::Plugins::JQueryPlugin::Plugin ();
+use Error::Simple                          ();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
@@ -28,10 +32,10 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name       => 'Tmpl',
-            version    => '1.0.0pre',
+            version    => '1.0.0pre_1',
             author     => 'Boris Moore',
             homepage   => 'http://github.com/jquery/jquery-tmpl',
-            javascript => ['jquery.tmpl.js'],
+            javascript => [ 'jquery.tmpl.js', 'jquery.tmpl-loader.js' ],
         ),
         $class
     );
@@ -44,7 +48,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

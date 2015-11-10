@@ -2,12 +2,29 @@
 jQuery(function($) {
   
   var datepickerDefaults = {
-    dateFormat:'yy-mm-dd',
-    firstDay: 1
+    dateFormat:'d M yy',
+    firstDay: 1,
+    showOn: 'button',
+    buttonText: "<i class='fa fa-calendar'></i>"
   };
 
-  $(".jqUIDatepicker").each(function() {
-    var $this = $(this), opts = $.extend({}, datepickerDefaults, $this.metadata());
-    $this.removeClass("jqUIDatepicker").datepicker(opts);    
+  $(".jqUIDatepicker").livequery(function() {
+    var $this = $(this), 
+        opts = $.extend({}, datepickerDefaults, $this.metadata(), $this.data()),
+        maxZIndex = 1;
+
+    $this.parents().each(function() {
+      var zIndex = parseInt($(this).css("z-index"), 10);
+      if (zIndex > maxZIndex) {
+        maxZIndex = zIndex;
+      }
+    });
+
+    $this.css({
+      "position": "relative",
+      "z-index": maxZIndex + 1
+    });
+    
+    $this.datepicker(opts);    
   });
 });

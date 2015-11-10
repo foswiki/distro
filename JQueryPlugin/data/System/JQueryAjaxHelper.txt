@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1358771265" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443185186" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQREQUIRE{"chili, ui, ui::autocomplete" warn="off"}%
@@ -17,6 +17,7 @@ example, the [[#Topic_selector][Topic selector]] example can be used
 in your own topics to define an HTML form input with the name =newtopic=
 by putting this in your topic:
 <verbatim class="tml">
+%JQREQUIRE{"ui::autocomplete"}%
 %INCLUDE{
  "%SYSTEMWEB%.JQueryAjaxHelper"
  section="topicselector"
@@ -42,11 +43,12 @@ loads the =topic= section of this topic, which expands to the topic list.
 *INCLUDE Parameters*
    * =INPUT_NAME=: name (and id) of HTML input field
    * =INPUT_VALUE=: preselected value
+   * =PLACEHOLDER=: example value
    * =EXCLUDE=: exclude expression to filter out unwanted topics, see the
      =excludetopic= parameter in VarSEARCH
 <verbatim class="tml">
 %STARTSECTION{"topicselector"}%<!-- topicselector  -->
-<input type="text" class="foswikiInputField" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text;contenttype=application/json;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
+<input type="text" class="foswikiInputField" name="%INPUT_NAME%" id="%INPUT_NAME%" %IF{"defined PLACEHOLDER" then="placeholder=\"%PLACEHOLDER%\""}% autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=topic;skin=text;contenttype=application/json;baseweb=%BASEWEB%;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
 <!-- //topicselector -->%ENDSECTION{"topicselector"}%
 </verbatim>
 
@@ -61,7 +63,7 @@ loads the =topic= section of this topic, which expands to the topic list.
   "^%URLPARAM{"term" default="does not exist"}%.*"
   type="regex"
   scope="topic"
-  format="<nop>%URLPARAM{"format" encode="quote" default="{\\"label\\":\\"$topic\\", \\"value\\":\\"$web.$topic\\"}"}%"
+  format="<nop>%URLPARAM{"format" encode="safe,quote" default="{\\"label\\":\\"$topic\\", \\"value\\":\\"$topic\\"}"}%"
   separator=","
   limit="%URLPARAM{"limit" default="10"}%"
   nonoise="on"
@@ -75,7 +77,7 @@ loads the =topic= section of this topic, which expands to the topic list.
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <h3 >Select a topic:</h3>
-%INCLUDE{"%TOPIC%" section="topicselector" INPUT_NAME="newtopic" EXCLUDE="FamFamFamMint*"}%
+%INCLUDE{"%TOPIC%" section="topicselector" INPUT_NAME="newtopic" EXCLUDE="FamFamFamMint*" PLACEHOLDER="(Begin typing topic name)" }%
 </div>
 </div>
 </form>
@@ -93,9 +95,10 @@ Foswiki:Extensions.FlexWebListPlugin. "}% </div>
 *INCLUDE Parameters*
    * =INPUT_NAME=: name of text input field
    * =INPUT_VALUE=: preselected value
+   * =PLACEHOLDER=: example value
 <verbatim class="tml">
 %STARTSECTION{"webselector"}%<!-- webselector  -->
-<input type="text" class="foswikiInputField" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=web;skin=text;contenttype=application/json;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
+<input type="text" class="foswikiInputField" name="%INPUT_NAME%" id="%INPUT_NAME%" %IF{"defined PLACEHOLDER" then="placeholder=\"%PLACEHOLDER%\""}% autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=web;skin=text;contenttype=application/json;%IF{"defined EXCLUDE" then="exclude=%EXCLUDE%"}%" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
 <!-- //webselector -->%ENDSECTION{"webselector"}%
 </verbatim>
 
@@ -133,13 +136,14 @@ Jump to specific topics.
 ---+++ Client section
 *INCLUDE Parameters*
    * =GLOBAL=: toggle search for topics in all webs on/off, defaults to off
+   * =PLACEHOLDER=: Example text
 <verbatim class="tml">
 %STARTSECTION{"jumpbox"}%<!-- jumpbox -->
 <input type="text" class="foswikiInputField jqJumpBox {%IF{
   "$GLOBAL = 'on'"
   then="global: true, baseweb:'all, -%TRASHWEB%', format:'&quot;$web.$topic&quot;'"
   else="global: false, baseweb:'%BASEWEB%', format:'&quot;$topic&quot;'"
-}%}" name="topic" autocomplete="off" size="60" />
+}%}" name="topic" %IF{"defined PLACEHOLDER" then="placeholder=\"%PLACEHOLDER%\""}% autocomplete="off" size="60" />
 %ADDTOZONE{"script"
   tag="jumpbox::js"
   section="jumpbox::js"
@@ -175,7 +179,7 @@ Uses the =[[#Topic_selector][topic]]= server section, defined above.
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <h3 >Local Jump:</h3>
-%INCLUDE{"%TOPIC%" section="jumpbox"}%
+%INCLUDE{"%TOPIC%" section="jumpbox" PLACEHOLDER="(Begin typing topic name)" }%
 </div>
 </div>
 </form>
@@ -184,7 +188,7 @@ Uses the =[[#Topic_selector][topic]]= server section, defined above.
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <h3 >Global Jump:</h3>
-%INCLUDE{"%TOPIC%" section="jumpbox" GLOBAL="on"}%
+%INCLUDE{"%TOPIC%" section="jumpbox" PLACEHOLDER="(Begin typing topic name)" GLOBAL="on"}%
 </div>
 </div>
 </form>
@@ -196,9 +200,10 @@ Uses the =[[#Topic_selector][topic]]= server section, defined above.
 *INCLUDE Parameters*
    * =INPUT_NAME=: name of text input field
    * =INPUT_VALUE=: preselected user
+   * =PLACEHOLDER=: example value 
 <verbatim class="tml">
 %STARTSECTION{"userselector"}%<!-- userselector -->
-<input type="text" class="foswikiInputField jqUserSelector" name="%INPUT_NAME%" id="%INPUT_NAME%" autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text;contenttype=application/json" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
+<input type="text" class="foswikiInputField jqUserSelector" name="%INPUT_NAME%" id="%INPUT_NAME%" %IF{"defined PLACEHOLDER" then="placeholder=\"%PLACEHOLDER%\""}% autocomplete="%SCRIPTURL{"view"}%/%SYSTEMWEB%/JQueryAjaxHelper?section=user;skin=text;contenttype=application/json" size="60" value="%IF{"defined INPUT_VALUE" then="%INPUT_VALUE%"}%" />
 %ADDTOZONE{"script"
   tag="userselector::js"
   section="userselector::js"
@@ -263,7 +268,8 @@ jQuery(function($){
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 <h3 >Find user:</h3>
-%INCLUDE{"%TOPIC%" section="userselector" INPUT_NAME="user" MULTI="true"}%
+%INCLUDE{"%TOPIC%" section="userselector" INPUT_NAME="user" MULTI="true"
+%PLACEHOLDER="(Begin typing wikiname)"}%
 </div>
 </div>
 </form>
@@ -285,7 +291,7 @@ or later).
 <script type=\"text/javascript\">
 jQuery(function($){
   $(\"#%ID%\").click(function() {
-     $.get(foswiki.getPreference('SCRIPTURL') + '/view/' + foswiki.getPreference('SYSTEMWEB') + '/JQueryAjaxHelper?section=query;topic=%SOURCE%;query=%QUERY%;skin=text',
+     $.get(foswiki.getPreference('SCRIPTURL') + '/view/' + foswiki.getPreference('SYSTEMWEB') + '/JQueryAjaxHelper?section=query;source=%SOURCE%;query=%QUERY%;skin=text',
          function(data) {
              // This is the function that will be executed when the
              // data is fetched
@@ -303,7 +309,7 @@ jQuery(function($){
    * =query=: query to perform
 <verbatim class="tml">
 %STARTSECTION{"query"}%<noautolink>%QUERY{
-  "%URLPARAM{"query" default="query missing"}%"
+  "'%URLPARAM{"source" default="%BASEWEB%.%BASETOPIC%"}%'/%URLPARAM{"query" default="query missing"}%"
   style="json"
 }%</noautolink>%ENDSECTION{"query"}%
 </verbatim>

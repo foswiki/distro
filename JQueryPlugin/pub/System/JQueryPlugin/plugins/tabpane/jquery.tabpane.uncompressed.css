@@ -78,8 +78,8 @@ ul.jqTabGroup a {
   background-position: left top;
   color:#111;
   margin:0px 0px 0px 0px;
-  padding:4px 8px 0px 18px;
-  height:24px;
+  padding:5px 8px 0px 18px;
+  height:23px;
   font-size:12px;
   line-height:100%;
 }
@@ -107,17 +107,35 @@ ul.jqTabGroup a {
 }
 
 /* limitted support for printouts */
+.jqTabPane.jqStatic .jqTab {
+  display:block;
+  border:0;
+  padding:0;
+}
+.jqTabPane.jqStatic .jqTabContents {
+  padding:0;
+}
+.jqTabPane.jqStatic .jqAjaxTab {
+  display:none;
+}
+.jqTabPane.jqStatic .jqTabLabel {
+  margin:1em 0;
+}
+
 @media print {
-  .jqTab {
+  .jqTabPane .jqTab {
     display:block;
+    border:0;
+    padding:0;
   }
-  .jqAjaxTab {
+  .jqTabPane .jqTabContents {
+    padding:0;
+  }
+  .jqTabPane .jqAjaxTab {
     display:none;
   }
   .jqTabLabel {
-    margin-top:1em;
-    margin-left:1em;
-    margin-right:1em;
+    margin:1em 0;
   }
 }
 

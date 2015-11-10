@@ -1,0 +1,163 @@
+%META:TOPICINFO{author="ProjectContributor" date="1437500521" format="1.1"  version="1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+!! %TOPIC%
+
+%JQPLUGINS{"render"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%TOC%
+
+%IMAGE{"logo-jsr.png"}%
+
+%STARTSECTION{"summary"}%
+This plugin brings modern template based javascript apps to Foswiki based on the libraries by Boris Moore. It is intended to supersede =jquery.tmpl=.
+JsRender is a light-weight but powerful templating engine, highly extensible, and optimized for high-performance pure string-based rendering, without DOM or jQuery dependency.
+%ENDSECTION{"summary"}%
+
+---++ Usage
+
+%JQREQUIRE{"chili"}%
+Have you ever found yourself writing code like this?
+
+<verbatim class="js">
+<script>
+var i = 1;
+
+$(arrayOfPersons).each(function () {
+   var person = this;
+   $("#container").append(
+      "<div>" + 
+      i++ + 
+      ": " + 
+      person.firstName + 
+      " " + 
+      person.lastName + 
+    "</div>");
+});
+</script>
+</verbatim>
+
+This is rather cumbersome and a nightmare to actually extend, even more so when you meet this kind of common jQuery code in real-life applications.
+Instead of "DOM plumbing" use a templates like this one:
+
+<verbatim class="js">
+<script id="personTemplate" type="text/x-jsrender ">
+  <div>{{:#index+1}}: {{:firstName}} {{:lastName}}</div>
+</script>
+</verbatim>
+
+This is straight forward and resembles the intended output much closer. Then make use of this template by expanding it for each =person= in your =arrayOfPersons=:
+
+<verbatim class="js">
+<script>
+   var result = $("#personTemplate").render(arrayOfPersons);
+   $("#container").html(result);
+</script>
+</verbatim>
+
+See how this works out:
+
+%JQREQUIRE{"render"}%
+
+<div id="container1"></div>
+
+<script id="personTemplate1" type="text/x-jsrender ">
+  <p>
+   #{{:#index+1}} <br />
+   <b>First Name:</b> {{:firstName}} <br />
+   <b>Last Name:</b> {{:lastName}}
+  </p>
+</script>
+
+<script>
+var arrayOfPersons = [
+   {
+      firstName:'David',
+      lastName:'Duchovny'
+   },
+   {
+      firstName:'Natascha',
+      lastName:'McElhone',
+   },
+   {
+      firstName:'Evan',
+      lastName:'Handler'
+   },
+   {
+      firstName:'Madeleine',
+      lastName:'Martin'
+   },
+   {
+      firstName:'Pamela',
+      lastName:'Adlon'
+   }
+];
+
+jQuery(function($) {
+   $("#container1").html($("#personTemplate1").render(arrayOfPersons));
+});
+</script>
+
+Whenever you'd like to use a different layout for the same data just use a different template. No big deal.
+Imagine doing the same using DOM plumbing...
+
+<verbatim class="js">
+<script id="personTemplate2" type="text/x-jsrender ">
+  <li>{{:firstName}} {{:lastName}}</li>
+</script>
+</verbatim>
+
+<ol id="container2"></ol>
+
+<script id="personTemplate2" type="text/x-jsrender ">
+  <li>{{:firstName}} {{:lastName}}</li>
+</script>
+
+<script>
+jQuery(function($) {
+   $("#container2").html($("#personTemplate2").render(arrayOfPersons));
+});
+</script>
+
+---++ Further reading
+
+   * http://www.jsviews.com
+   * [[http://borismoore.github.io/jsrender/demos/demos.html][JsRender Demos]]
+   * [[http://msdn.microsoft.com/en-us/magazine/hh882454.aspx][Using JsRender with JavaScript and HTML]]
+   * [[http://msdn.microsoft.com/en-us/magazine/hh975379.aspx][Advanced JsRender Templating Features]]
+
+---++ Syntax 
+
+!JsRender templates consist of HTML markup plus !JsRender tags, such as the ={{for ..}}= tag or ={{: ...}}=. 
+All !JsRender template tags are wrapped with double curly braces. The tag name can be followed by one or more parameters or expressions. 
+In the case of the ={{: }}= tag, the result of the expression would then be rendered. A template is used while looping over elements of a JSON array.
+In each iteration the template is used as a blueprint to process the current property of the JSON object under consideration. All expansions of a template
+are then concatenated.
+Templates can also be used to render just a single element. You don't necessarily need to pass an array as data. !JsRender can also take a single JSON object
+and return the rendered template.
+
+(see also http://www.jsviews.com/#jsrapi)
+
+| *Tag* | *Description* | *Example* |
+| ={{:&nbsp;pathOrExpr }}= | get the value of the data path or expression, and insert it into the rendered output as a string | ={{:address.street}}= |
+| ={{>&nbsp;pathOrExpr }}= | get the HTML-encoded value of the data path or expression, and insert it into the rendered output | ={{>address.street}}= |
+| ={{include&nbsp;tmpl&#61;nameOrExpr /}}= | template composition: Iinclude the referenced template: tmpl, rendered using the current data context | ={{:name}} lives in {{include tmpl&#61;"#addressTemplate"/}}= |
+| ={{for&nbsp;pathOrExpr }} <br /> ... {{/for}}= | template composition: render the block content of the ={{for}}= tag using the object or array specified by the path or expression as data context. | ={{for billing.address}} {{:city}} {{/for}}=  |
+| ={{for&nbsp;pathOrExpr tmpl&#61;nameOrExpr /}}= | template composition: render the referenced external template using the specified object or array | ={{for billing.address tmpl&#61;"addressTmpl" /}}= |
+| ={{props pathOrExpr}} <br /> ... {{/props}}= | template composition: iterate over the properties of the object, and render the block content of the {{props}} tag (or the referenced external template) once for each property -- using as data context ={key: propertyName, prop: propertyValue}= | ={{props billing.address}} {{:key}}: {{:prop}} {{/props}}= | 
+| ={{props&nbsp;pathOrExpr tmpl&#61;nameOrExpr /}}= | template composition: iterate over the properties of the object, and render the referenced external template once for each property -- using as data context ={key: propertyName, prop: propertyValue}= | ={{props billing.address tmpl&#61;"addressTmpl" /}}= |
+| ={{if&nbsp;pathOrExpr }} <br /> ... {{/if}}= | conditional inclusion: render the block content of the ={{if}}= tag only if the data-path or expression evaluates to true | ={{if nickname}} Nickname: {{:nickname}} {{/if}})= |
+| ={{if&nbsp;pathOrExpr tmpl&#61;nameOrExpr /}}= | conditional inclusion: render the referenced external template only if the data-path or expression evaluates to true | ={{if nickname tmpl&#61;"nicknameTemplate" /}}= | 
+| ={{if&nbsp;...}} <br /> ... {{else}} <br /> ... {{/if}}= | conditional inclusion: render the block content of the ={{if}}= tag if the expression is true, otherwise render the ={{else}}= block | ={{if nickname}} Nickname: {{:nickname}} {{else}} No nickname {/if}}= |
+| ={{if&nbsp;pathOrExpr1&nbsp;tmpl&#61;nameOrExpr1 }} <br /> {{else&nbsp;tmpl&#61;nameOrExpr2 }} <br /> {{/if}}= | conditional inclusion: render different templates depending on one or more expressions | ={{if nickname tmpl&#61;"nicknameTemplate"}} {{else tmpl="noNicknameTemplate"}} {{/if}} = |
+| ={{if&nbsp;pathOrExpr1 }} <br /> ... {{else&nbsp;pathOrExpr2}} <br /> ... {{else}} <br /> ... {{/if}}= | conditional blocks: render the first ={{if}}= or ={{else}}= block for which the expression is true; if none are true, and there is an ={{else}}= without an expression, render that block | ={{if nickname}} Nickname: {{:nickname}} {{else altnickname}} Alternate nickname: {{:altnickname}} {{else}} No nickname {{/if}}= |
+| ={{else ... }}= | acts as a separator, to divide the content of a tag into two or more different content blocks; ={{else}}= can be used with ={{if}}=, ={{for}}= or any custom tag | ={{for members}} Member Name: {{:name}} {{else}} There are currently no member {{/for}}= |
+| ={{<nop>!-- ... --}}= | comments to templates, or commenting out sections of a template | ={{!-- this is a comment --}}= |
+
+
+%META:FILEATTACHMENT{name="logo-jsr.png" attr="h" comment="" date="1437500521" size="1241" user="ProjectContributor" version="1"}%

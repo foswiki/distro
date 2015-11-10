@@ -1,16 +1,16 @@
 jQuery(function($) {
   var defaults = {
-    delay:700,
+    delay:1000,
     duration:200,
     showEffect:"fadeIn",
     hideEffect:"fadeOut",
     track:true,
     tooltipClass:'default',
     position: 'default',
-    defaultPosition: { 
-      my: "left+15 top+15", 
-      at: "left bottom", 
-      collision: "flipfit" 
+    defaultPosition: {
+      my: "left+15 top+15",
+      at: "left bottom",
+      collision: "flipfit"
     }
   };
 
@@ -49,39 +49,63 @@ jQuery(function($) {
 
     opts.show = $.extend(opts.show, {
       effect: opts.showEffect,
-      delay: opts.delay, 
+      delay: opts.delay,
       duration:opts.duration
     });
     opts.hide = $.extend(opts.hide, {
       effect: opts.hideEffect,
-      delay: opts.delay, 
+      delay: opts.delay,
       duration:opts.duration
     });
 
     if (typeof(opts.theme) !== 'undefined') {
       opts.tooltipClass = opts.theme;
     }
-  
+
     if (typeof(opts.position) === 'string') {
       switch(opts.position) {
-        case "bottom": 
-          opts.position = {"my":"center top", "at":"center bottom+10"}; 
+        case "bottom":
+          opts.position = {"my":"center top", "at":"center bottom+13"};
           opts.track = false;
           break;
-        case "top": 
-          opts.position = {"my":"center bottom", "at":"center top-10"}; 
+        case "top":
+          opts.position = {"my":"center bottom", "at":"center top-13"};
           opts.track = false;
           break;
-        case "right": 
-          opts.position = {"my":"left middle", "at":"right+10 middle"}; 
+        case "right":
+          opts.position = {"my":"left middle", "at":"right+13 middle"};
           opts.track = false;
           break;
-        case "left": 
-          opts.position = {"my":"right middle", "at":"left-10 middle"}; 
+        case "left":
+          opts.position = {"my":"right middle", "at":"left-13 middle"};
           opts.track = false;
           break;
-        default: 
-          opts.position = opts.defaultPosition;
+        case "top left":
+        case "left top":
+          opts.position = {"my":"right bottom", "at":"left-5 top-5"};
+          opts.track = false;
+          opts.arrow = false;
+          break;
+        case "top right":
+        case "right top":
+          opts.position = {"my":"left bottom", "at":"right+5 top-5"};
+          opts.track = false;
+          opts.arrow = false;
+          break;
+        case "bottom left":
+        case "left bottom":
+          opts.position = {"my":"right top", "at":"left-5 bottom+5"};
+          opts.track = false;
+          opts.arrow = false;
+          break;
+        case "bottom right":
+        case "right bottom":
+          opts.position = {"my":"left top", "at":"right+5 bottom+5"};
+          opts.track = false;
+          opts.arrow = false;
+          break;
+        default:
+          opts.position = $.extend({}, opts.defaultPosition, {at:opts.position});
       }
     }
     if (typeof(opts.position) === 'object') {

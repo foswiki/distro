@@ -1,5 +1,6 @@
 TARGET=\
   jquery-ui.js \
+  jquery.ui.spinner.init.js \
   jquery.ui.autocomplete.init.js \
   jquery.ui.resizable.init.js \
   jquery.ui.draggable.init.js \

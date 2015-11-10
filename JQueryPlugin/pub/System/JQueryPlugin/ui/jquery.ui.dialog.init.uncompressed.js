@@ -3,6 +3,7 @@ jQuery(function($) {
 
   var dialogDefaults = {
     width: 300,
+    cached:false,
     autoOpen:false,
     draggable:false,
     resizable:false,
@@ -17,11 +18,14 @@ jQuery(function($) {
   // dialog
   $(".jqUIDialog").livequery(function() {
     var $this = $(this), 
-        opts = $.extend({}, dialogDefaults, $this.metadata()),
+        opts = $.extend({}, dialogDefaults, $this.metadata(), $this.data()),
         buttons = [];
 
-    if ($this.data("autoOpen")) {
-      opts.autoOpen = true;
+    if (!opts.cached) {
+      opts.close = function() {
+        $this.dialog("destroy");
+        $this.remove();
+      }
     }
 
     $this.find(".jqUIDialogButton").each(function() {
@@ -39,13 +43,20 @@ jQuery(function($) {
 
       if ($button.is(".jqUIDialogClose")) {
         button.click = function() {
-          $(this).dialog("close");
+          $this.dialog("close");
+        };
+      }
+
+      if ($button.is(".jqUIDialogDestroy")) {
+        button.click = function() {
+          $this.dialog("destroy");
+          $this.remove();
         };
       }
 
       if ($button.is(".jqUIDialogSubmit")) {
         button.click = function() {
-          $(this).find("form:first").submit();
+          $this.find("form:first").submit();
         };
       }
       $.extend(button, $button.metadata());
@@ -72,19 +83,33 @@ jQuery(function($) {
       opts.draggable = false;
     }
 
-    $this.bind("dialogopen", function() {
-      var $container = $(this).parent();
-
-      // remove focus marker from first button
-      $container.find(".ui-dialog-buttonpane .ui-state-focus").removeClass("ui-state-focus");
-
-    });
-
     $this.removeClass("jqUIDialog").dialog(opts);
+    if (opts.alsoResize) {
+      $this.dialog("widget").bind("resize", function(ev, ui) {
+        var deltaHeight = ui.size.height - ui.originalSize.height || 0,
+            deltaWidth = ui.size.width - ui.originalSize.width || 0;
+        $this.find(opts.alsoResize).each(function() {
+          var elem = $(this),
+              elemHeight = elem.data("origHeight"),
+              elemWidth = elem.data("origWidth");
+
+          if (typeof(elemHeight) === 'undefined') {
+            elemHeight = elem.height();
+            elem.data("origHeight",elemHeight);
+          }
+          if (typeof(elemWidth) === 'undefined') {
+            elemWidth = elem.width();
+            elem.data("origWidth",elemWidth);
+          }
+          elem.height(elemHeight+deltaHeight);
+          elem.width(elemWidth+deltaWidth);
+        });
+      });
+    }
   });
 
   // dialog link
-  $(document).on("click.uidialoglink", ".jqUIDialogLink", function() {
+  $(document).on("click", ".jqUIDialogLink", function() {
     var $this = $(this), 
         href = $this.attr("href"),
         opts = $.extend({}, dialogLinkDefaults, $this.metadata());
@@ -102,13 +127,16 @@ jQuery(function($) {
           }
           if (opts.cache) {
             $this.attr("href", "#"+id);
-          } 
+            $content.data("cached", true);
+          } else {
+            $content.data("cached", false);
+          }
           $content.hide();
           $("body").append($content);
           $content.data("autoOpen", true);
         },
         error: function(xhr) {
-          alert("Error "+xhr.status+": "+xhr.statusText);
+          throw("ERROR: can't load dialog xhr=",xhr);
         }
       }); 
     } else {

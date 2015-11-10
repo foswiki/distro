@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Slimbox',
-            version      => '2.04',
+            version      => '2.05',
             author       => 'Christophe Beyls',
             homepage     => 'http://code.google.com/p/slimbox/',
             css          => ['slimbox2.css'],
@@ -69,7 +69,7 @@ sub init {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

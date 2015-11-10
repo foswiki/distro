@@ -13,9 +13,19 @@ Container for jQuery and plugins
 
 use Foswiki::Plugins                        ();
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
+use Foswiki::Request                        ();
 
-our $VERSION           = '4.91';
-our $RELEASE           = '4.91';
+BEGIN {
+    # Backwards compatibility for Foswiki 1.1.x
+    unless ( Foswiki::Request->can('multi_param') ) {
+        no warnings 'redefine';
+        *Foswiki::Request::multi_param = \&Foswiki::Request::param;
+        use warnings 'redefine';
+    }
+}
+
+our $VERSION           = '6.31';
+our $RELEASE           = '06 Nov 2015';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -31,7 +41,8 @@ sub initPlugin {
     # check for prerequisites
     unless ( defined(&Foswiki::Func::addToZone) ) {
         Foswiki::Func::writeWarning(
-            "ZonePlugin not installed/enabled...disabling JQueryPlugin");
+"ZonePlugin required for legacy Foswiki engines ... disabling JQueryPlugin"
+        );
         return 0;
     }
 
@@ -61,6 +72,16 @@ sub initPlugin {
         Foswiki::Func::setPreferencesValue( "CLEAR",
             "<span class='foswikiClear'></span>" );
     }
+
+    # jquery.tmpl
+    Foswiki::Func::registerRESTHandler(
+        'tmpl', \&handleRestTmpl,
+        authenticate => 0,             # Safe.  Expands templates.
+        validate     => 0,             # Doesn't update.
+        http_allow   => 'GET,POST',    # Can't update so doesn't matter
+        description =>
+          'Load and expand a template in current web/topic context.'
+    );
 
     return 1;
 }
@@ -105,13 +126,13 @@ sub createTheme {
 
 ---++ registerPlugin($pluginName, $class) -> $plugin
 
-API to register a jQuery plugin. this is of use for other Foswiki plugins
+API to register a jQuery plugin. This is of use for other Foswiki plugins
 to register their javascript modules as a jQuery plugin. Registering a plugin 'foobar'
 will make it available via =%<nop>JQREQUIRE{"foobar"}%=.
 
 Class will default to 'Foswiki::Plugins::JQueryPlugin::FOOBAR,
 
-The FOOBAR.pm stub must be derived from Foswiki::Plugins::JQueryPlugin::PLUGIN class.
+The FOOBAR.pm stub must be derived from Foswiki::Plugins::JQueryPlugin::Plugin class.
 
 =cut
 
@@ -145,8 +166,25 @@ Handles the =%<nop>BUTTON% tag.
 
 sub handleButton {
     my $session = shift;
+
     my $plugin = createPlugin( 'Button', $session );
     return $plugin->handleButton(@_) if $plugin;
+    return '';
+}
+
+=begin TML
+
+---++ handleRestTmpl($session, $params, $topic, $web) -> $result
+
+Handles the tmpl rest handler
+
+=cut
+
+sub handleRestTmpl {
+    my $session = shift;
+
+    my $plugin = createPlugin( 'render', $session );
+    return $plugin->restTmpl( $session, @_ ) if $plugin;
     return '';
 }
 
@@ -160,6 +198,7 @@ Handles the =%<nop>POPUPWINDOW% tag.
 
 sub handlePopUpWindow {
     my $session = shift;
+
     my $plugin = createPlugin( 'PopUpWindow', $session );
     return $plugin->handlePopUpWindow(@_) if $plugin;
     return '';
@@ -175,6 +214,7 @@ Handles the =%<nop>TOGGLE% tag.
 
 sub handleToggle {
     my $session = shift;
+
     my $plugin = createPlugin( 'Toggle', $session );
     return $plugin->handleToggle(@_) if $plugin;
     return '';
@@ -190,6 +230,7 @@ Handles the =%<nop>TABPANE% tag.
 
 sub handleTabPane {
     my $session = shift;
+
     my $plugin = createPlugin( 'Tabpane', $session );
     return $plugin->handleTabPane(@_) if $plugin;
     return '';
@@ -205,6 +246,7 @@ Handles the =%<nop>TAB% tag.
 
 sub handleTab {
     my $session = shift;
+
     my $plugin = createPlugin( 'Tabpane', $session );
     return $plugin->handleTab(@_) if $plugin;
     return '';
@@ -220,6 +262,7 @@ Handles the =%<nop>ENDTAB% tag.
 
 sub handleEndTab {
     my $session = shift;
+
     my $plugin = createPlugin( 'Tabpane', $session );
     return $plugin->handleEndTab(@_) if $plugin;
     return '';
@@ -235,6 +278,7 @@ Handles the =%<nop>ENDTABPANE% tag.
 
 sub handleEndTabPane {
     my $session = shift;
+
     my $plugin = createPlugin( 'Tabpane', $session );
     return $plugin->handleEndTabPane(@_) if $plugin;
     return '';
@@ -256,8 +300,7 @@ sub handleJQueryRequire {
     my $errorMsg = '';
     foreach my $pluginName ( split( /\s*,\s*/, $plugins ) ) {
         my $plugin = createPlugin( $pluginName, $session );
-        $errorMsg .=
-          "<div class='foswikiAlert'>Error: no such plugin $pluginName</div>"
+        $errorMsg .= _inlineError("No such plugin $pluginName")
           if !$plugin && $warn;
     }
 
@@ -278,10 +321,10 @@ sub handleJQueryTheme {
     my $themeName = $params->{_DEFAULT}
       || $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
 
-    my $warn = $params->{warn} || '';
+    my $warn = Foswiki::Func::isTrue( $params->{warn}, 1 );
 
-    return "<div class='foswikiAlert'>Error: no such theme $themeName</div>"
-      if !createTheme($themeName) && $warn ne 'off';
+    return _inlineError("No such theme $themeName")
+      if !createTheme($themeName) && $warn;
 
     return '';
 }
@@ -315,22 +358,41 @@ sub handleJQueryIcon {
     my $iconName  = $params->{_DEFAULT} || '';
     my $iconAlt   = $params->{alt}      || $iconName;
     my $iconTitle = $params->{title}    || '';
-    my $iconFormat = $params->{format}
-      || '<img src=\'$iconPath\' class=\'$iconClass\' $iconAlt$iconTitle/>';
-    my $iconPath =
-      Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($iconName);
+    my $iconFormat = $params->{format};
+    my $iconStyle  = $params->{style};
+    my $iconPath;
+    my $iconClass;
 
-    return '' unless $iconPath;
+    # fontawesome
+    if ( $iconName =~ m/^fa\-/ ) {
+        $iconFormat = '<i class=\'$iconClass\' $iconStyle $iconTitle></i>';
+        $iconPath   = '';
+        $iconClass  = "foswikiIcon jqIcon fa $iconName";
+        createPlugin("fontawesome");
+    }
 
-    my $iconClass = "foswikiIcon jqIcon";
+    # default img based
+    else {
+        $iconFormat =
+'<img src=\'$iconPath\' class=\'$iconClass $iconName\' $iconStyle $iconAlt$iconTitle/>'
+          unless $iconFormat;
+        $iconPath =
+          Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($iconName);
+        return '' unless $iconPath;
+
+        $iconClass = "foswikiIcon jqIcon";
+    }
+
     $iconClass .= " $params->{class}" if $params->{class};
 
     my $img = $iconFormat;
+    $img =~ s/\$iconName/$iconName/g;
     $img =~ s/\$iconPath/$iconPath/g;
     $img =~ s/\$iconClass/$iconClass/g;
-    $img =~ s/\$iconAlt/alt='$iconAlt' /g       if $iconAlt;
+    $img =~ s/\$iconStyle/style='$iconStyle'/g if $iconStyle;
+    $img =~ s/\$iconAlt/alt='$iconAlt' /g if $iconAlt;
     $img =~ s/\$iconTitle/title='$iconTitle' /g if $iconTitle;
-    $img =~ s/\$(iconAlt|iconTitle)//go;
+    $img =~ s/\$(iconAlt|iconTitle|iconStyle)//g;
 
     return $img;
 }
@@ -370,14 +432,21 @@ sub handleJQueryPlugins {
         $summary =~ s/^\s+//;
         $summary =~ s/\s+$//;
         my $tags = '';
-        if ( $theFormat =~ /\$tags/ ) {
-            my @tags = ();
-            foreach my $tag ( sort split( /\s*,\s*/, $plugin->{tags} ) ) {
+        if ( $theFormat =~ m/\$tags/ ) {
+            my @lines = ();
+            my @tags  = ();
+            if ( ref( $plugin->{tags} ) ) {
+                @tags = @{ $plugin->{tags} };
+            }
+            else {
+                @tags = split( /\s*,\s*/, $plugin->{tags} );
+            }
+            foreach my $tag ( sort @tags ) {
                 my $line = $theTagFormat;
                 $line =~ s/\$tag/$tag/g;
-                push @tags, $line if $line;
+                push @lines, $line if $line;
             }
-            $tags = join( ', ', @tags );
+            $tags = join( ', ', @lines );
         }
         my $active =
           defined( $plugin->{isInit} )
@@ -412,11 +481,16 @@ sub handleJQueryPlugins {
     return $theHeader . join( $theSeparator, @result ) . $theFooter;
 }
 
+sub _inlineError {
+    my $msg = shift;
+    return "<div class='foswikiAlert'>$msg</div>";
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

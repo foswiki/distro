@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1278071257" format="1.1" version="1"}%
-%META:TOPICPARENT{name="JQueryPlugin"}%
-#VarENDTABPANE
----+++ ENDTABPANE -- ending tag for tabpane widget
-   * This closes a previously opened TABPANE.
-   * no parameters
-   * Related: [[VarTAB]], [[VarENDTAB]], [[VarTABPANE]], JQueryPlugin, JQueryTabpane
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ ENDTABPANE -- ending tag for tabpane widget
+This closes a previously opened TABPANE.
+%STOPINCLUDE%
+---++ Related
+ [[VarTAB][TAB]], [[VarENDTAB][ENDTAB]], [[VarTABPANE][TABPANE]], JQueryPlugin, JQueryTabpane

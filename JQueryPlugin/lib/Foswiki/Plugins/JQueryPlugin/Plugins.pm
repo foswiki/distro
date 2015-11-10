@@ -3,7 +3,7 @@ package Foswiki::Plugins::JQueryPlugin::Plugins;
 
 use strict;
 use warnings;
-use Foswiki::Func;
+use Foswiki::Func();
 
 my @iconSearchPath;
 my %iconCache;
@@ -49,14 +49,45 @@ sub init {
     $currentTheme = $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
 
     # load jquery
-    my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion} || "jquery-1.8.3";
+    my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion}
+      || "jquery-2.1.4";
+
+    # test for the jquery library to be present
+    unless ( -e $Foswiki::cfg{PubDir} . '/'
+        . $Foswiki::cfg{SystemWebName}
+        . '/JQueryPlugin/'
+        . $jQuery
+        . '.js' )
+    {
+        Foswiki::Func::writeWarning(
+"CAUTION: jQuery $jQuery not found. please fix the {JQueryPlugin}{JQueryVersion} settings."
+        );
+        $jQuery = "jquery-2.1.4";
+    }
+
     $jQuery .= ".uncompressed" if $debug;
-    my $jQueryIE = $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs} || "";
-    $jQueryIE .= ".uncompressed" if $debug;
+
+    my $jQueryIE = $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs};
+    $jQueryIE = "jquery-1.11.3" unless defined $jQueryIE;
 
     my $code;
-
     if ($jQueryIE) {
+
+        # test for the jquery library to be present
+        unless ( -e $Foswiki::cfg{PubDir} . '/'
+            . $Foswiki::cfg{SystemWebName}
+            . '/JQueryPlugin/'
+            . $jQueryIE
+            . '.js' )
+        {
+            Foswiki::Func::writeWarning(
+"CAUTION: jQuery $jQueryIE not found. please fix the {JQueryPlugin}{JQueryVersionForOldIEs} settings."
+            );
+            $jQueryIE = "jquery-1.11.3";
+        }
+
+        $jQueryIE .= ".uncompressed" if $debug;
+
         $code = <<"HERE";
 <literal><!--[if lte IE 9]>
 <script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$jQueryIE.js'></script>
@@ -74,9 +105,14 @@ HERE
     }
 
     # switch on noconflict mode
-    $code .=
-      "<script type='text/javascript'>var \$j = jQuery.noConflict();</script>"
-      if $Foswiki::cfg{JQueryPlugin}{NoConflict};
+    if ( $Foswiki::cfg{JQueryPlugin}{NoConflict} ) {
+        my $noConflict = 'noconflict';
+        $noConflict .= ".uncompressed" if $debug;
+
+        $code .= <<"HERE";
+<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$noConflict.js'></script>
+HERE
+    }
 
     Foswiki::Func::addToZone( 'script', 'JQUERYPLUGIN', $code );
 
@@ -92,7 +128,7 @@ HERE
 
   # enable migrate for jQuery > 1.9.x as long as we still have 3rd party plugins
   # making use of deprecated and removed features
-    unless ( $defaultPlugins =~ /\bmigrate\b/i ) {
+    unless ( $defaultPlugins && $defaultPlugins =~ /\bmigrate\b/i ) {
         if ( $jQuery =~ /^jquery-(\d+)\.(\d+)\.(\d+)/ ) {
             my $jqVersion = $1 * 10000 + $2 * 100 + $3;
             if ( $jqVersion > 10900 ) {
@@ -168,7 +204,9 @@ sub registerPlugin {
     $class ||= $Foswiki::cfg{JQueryPlugin}{Plugins}{$pluginName}{Module}
       || 'Foswiki::Plugins::JQueryPlugin::' . uc($pluginName);
 
-    Foswiki::Func::getContext()->{ $pluginName . 'Enabled' } = 1;
+    my $contextID = $pluginName . 'Registered';
+    $contextID =~ s/\W//g;
+    Foswiki::Func::getContext()->{$contextID} = 1;
 
     return $plugins{ lc($pluginName) } = {
         'class'    => $class,
@@ -237,14 +275,15 @@ sub load {
     my $normalizedName = lc($pluginName);
     my $pluginDesc     = $plugins{$normalizedName};
 
-    return undef unless $pluginDesc;
+    return unless $pluginDesc;
 
     unless ( defined $pluginDesc->{instance} ) {
 
         eval "use $pluginDesc->{class};";
 
         if ($@) {
-            print STDERR "ERROR: can't load jQuery plugin $pluginName: $@\n";
+            Foswiki::Func::writeDebug(
+                "ERROR: can't load jQuery plugin $pluginName: $@");
             $pluginDesc->{instance} = 0;
         }
         else {
@@ -318,10 +357,6 @@ sub getIconUrlPath {
     my $iconPath = $iconCache{$iconName};
 
     unless ($iconPath) {
-        my $iconWeb = $Foswiki::cfg{SystemWebName};
-        my $pubSystemDir =
-          $Foswiki::cfg{PubDir} . '/' . $Foswiki::cfg{SystemWebName};
-
         foreach my $item (@iconSearchPath) {
             my ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName(
                 $Foswiki::cfg{SystemWebName}, $item );
@@ -363,7 +398,7 @@ sub getPlugins {
 
     my @plugins = ();
     foreach my $key ( sort keys %plugins ) {
-        next if $key eq 'empty';                      # skip this one
+        next if $key eq 'empty';
         next if $include && $key !~ /^($include)$/;
         my $pluginDesc = $plugins{$key};
         my $plugin     = load( $pluginDesc->{name} );
@@ -393,7 +428,7 @@ sub getRandom {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

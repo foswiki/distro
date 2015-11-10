@@ -30,7 +30,7 @@ sub new {
             name         => 'Chili',
             version      => '2.2_1',
             author       => 'Andrea Ercolino',
-            homepage     => 'http://noteslog.com/chili/',
+            homepage     => 'https://github.com/aercolino/Chili',
             javascript   => [ 'jquery.chili.js', 'jquery.chili.init.js' ],
             dependencies => [ 'metadata', 'livequery' ],
         ),
@@ -45,7 +45,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

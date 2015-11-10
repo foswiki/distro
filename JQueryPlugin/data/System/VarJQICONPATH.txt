@@ -1,9 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284879813" format="1.1" version="1"}%
-%META:TOPICPARENT{name="JQueryPlugin"}%
-#VarJQICONPATH
----+++ JQICONPATH{"name"} -- render the urlpath to an image 
-   * This is a shortcut for 
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ JQICONPATH -- render the urlpath to an image 
+This is a shortcut for 
      <verbatim class="tml">%JQICON{"name" format="$iconPath"}%</verbatim>
-   * Example: =%JQICONPATH{"tick"}%=
-   * Related: [[VarJQICON]], [[VarICONURL]], JQueryPlugin
+---++ Examples
+   * =%<nop>JQICONPATH{"tick"}%= expands to =%JQICONPATH{"tick"}%=
+%STOPINCLUDE%
+---++ Related
+ [[VarJQICON][JQICON]], [[VarICONURL][ICONURL]], JQueryPlugin
 <!--%JQREQUIRE{"chili"}%-->

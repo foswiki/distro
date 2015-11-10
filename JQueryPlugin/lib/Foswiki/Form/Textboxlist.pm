@@ -40,7 +40,7 @@ sub renderForEdit {
     my @values   = @{ $this->SUPER::getOptions() };
     my $metadata = '';
     if (@values) {
-        if ( scalar(@values) == 1 && $values[0] =~ /^https?:/ ) {
+        if ( scalar(@values) == 1 && $values[0] =~ m/^https?:/ ) {
             $metadata = "{autocomplete: '$values[0]'}";
         }
         else {
@@ -54,10 +54,11 @@ sub renderForEdit {
     my $field = CGI::textfield(
         -class =>
           $this->cssClasses("foswikiInputField jqTextboxList $metadata"),
-        -name  => $this->{name},
-        -size  => $this->{size},
-        -value => $value,
-        -id    => $this->{name},
+        -name     => $this->{name},
+        -size     => $this->{size},
+        -override => 1,
+        -value    => $value,
+        -id       => $this->{name},
     );
 
     return ( '', $field );
@@ -70,7 +71,7 @@ sub getOptions {
 
     # trick this in
     my @values          = ();
-    my @valuesFromQuery = $query->param( $this->{name} );
+    my @valuesFromQuery = $query->multi_param( $this->{name} );
     foreach my $item (@valuesFromQuery) {
 
         # Item10889: Coming from an "Warning! Confirmation required", often
@@ -89,7 +90,7 @@ sub getOptions {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

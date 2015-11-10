@@ -1,12 +1,12 @@
 /*!
- * jQuery UI CSS Framework 1.10.3
+ * jQuery UI CSS Framework 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Theming/API
+ * http://api.jqueryui.com/category/theming/
  */
 
 /* Layout helpers
@@ -92,14 +92,14 @@
 	height: 100%;
 }
 /*!
- * jQuery UI Accordion 1.10.3
+ * jQuery UI Accordion 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Accordion#theming
+ * http://api.jqueryui.com/accordion/#theming
  */
 .ui-accordion .ui-accordion-header {
 	display: block;
@@ -130,14 +130,14 @@
 	overflow: auto;
 }
 /*!
- * jQuery UI Autocomplete 1.10.3
+ * jQuery UI Autocomplete 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Autocomplete#theming
+ * http://api.jqueryui.com/autocomplete/#theming
  */
 .ui-autocomplete {
 	position: absolute;
@@ -146,14 +146,14 @@
 	cursor: default;
 }
 /*!
- * jQuery UI Button 1.10.3
+ * jQuery UI Button 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Button#theming
+ * http://api.jqueryui.com/button/#theming
  */
 .ui-button {
 	display: inline-block;
@@ -260,14 +260,14 @@ button.ui-button::-moz-focus-inner {
 	padding: 0;
 }
 /*!
- * jQuery UI Datepicker 1.10.3
+ * jQuery UI Datepicker 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Datepicker#theming
+ * http://api.jqueryui.com/datepicker/#theming
  */
 .ui-datepicker {
 	width: 17em;
@@ -318,9 +318,6 @@ button.ui-button::-moz-focus-inner {
 .ui-datepicker .ui-datepicker-title select {
 	font-size: 1em;
 	margin: 1px 0;
-}
-.ui-datepicker select.ui-datepicker-month-year {
-	width: 100%;
 }
 .ui-datepicker select.ui-datepicker-month,
 .ui-datepicker select.ui-datepicker-year {
@@ -438,16 +435,17 @@ button.ui-button::-moz-focus-inner {
 	border-left-width: 1px;
 }
 /*!
- * jQuery UI Dialog 1.10.3
+ * jQuery UI Dialog 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Dialog#theming
+ * http://api.jqueryui.com/dialog/#theming
  */
 .ui-dialog {
+	overflow: hidden;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -470,7 +468,7 @@ button.ui-button::-moz-focus-inner {
 	position: absolute;
 	right: .3em;
 	top: 50%;
-	width: 21px;
+	width: 20px;
 	margin: -10px 0 0 0;
 	padding: 1px;
 	height: 20px;
@@ -507,14 +505,14 @@ button.ui-button::-moz-focus-inner {
 	cursor: move;
 }
 /*!
- * jQuery UI Menu 1.10.3
+ * jQuery UI Menu 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Menu#theming
+ * http://api.jqueryui.com/menu/#theming
  */
 .ui-menu {
 	list-style: none;
@@ -586,14 +584,14 @@ button.ui-button::-moz-focus-inner {
 	float: right;
 }
 /*!
- * jQuery UI Progressbar 1.10.3
+ * jQuery UI Progressbar 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Progressbar#theming
+ * http://api.jqueryui.com/progressbar/#theming
  */
 .ui-progressbar {
 	height: 2em;
@@ -614,14 +612,12 @@ button.ui-button::-moz-focus-inner {
 	background-image: none;
 }
 /*!
- * jQuery UI Resizable 1.10.3
+ * jQuery UI Resizable 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
- *
- * http://docs.jquery.com/UI/Resizable#theming
  */
 .ui-resizable {
 	position: relative;
@@ -692,14 +688,12 @@ button.ui-button::-moz-focus-inner {
 	top: -5px;
 }
 /*!
- * jQuery UI Selectable 1.10.3
+ * jQuery UI Selectable 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
- *
- * http://docs.jquery.com/UI/Selectable#theming
  */
 .ui-selectable-helper {
 	position: absolute;
@@ -707,14 +701,14 @@ button.ui-button::-moz-focus-inner {
 	border: 1px dotted black;
 }
 /*!
- * jQuery UI Slider 1.10.3
+ * jQuery UI Slider 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Slider#theming
+ * http://api.jqueryui.com/slider/#theming
  */
 .ui-slider {
 	position: relative;
@@ -780,14 +774,14 @@ button.ui-button::-moz-focus-inner {
 	top: 0;
 }
 /*!
- * jQuery UI Spinner 1.10.3
+ * jQuery UI Spinner 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Spinner#theming
+ * http://api.jqueryui.com/spinner/#theming
  */
 .ui-spinner {
 	position: relative;
@@ -819,13 +813,13 @@ button.ui-button::-moz-focus-inner {
 	overflow: hidden;
 	right: 0;
 }
-/* more specificity required here to overide default borders */
+/* more specificity required here to override default borders */
 .ui-spinner a.ui-spinner-button {
 	border-top: none;
 	border-bottom: none;
 	border-right: none;
 }
-/* vertical centre icon */
+/* vertically center icon */
 .ui-spinner .ui-icon {
 	position: absolute;
 	margin-top: -8px;
@@ -845,14 +839,14 @@ button.ui-button::-moz-focus-inner {
 	background-position: -65px -16px;
 }
 /*!
- * jQuery UI Tabs 1.10.3
+ * jQuery UI Tabs 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Tabs#theming
+ * http://api.jqueryui.com/tabs/#theming
  */
 .ui-tabs {
 	position: relative;/* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
@@ -872,7 +866,7 @@ button.ui-button::-moz-focus-inner {
 	padding: 0;
 	white-space: nowrap;
 }
-.ui-tabs .ui-tabs-nav li a {
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
 	float: left;
 	padding: .5em 1em;
 	text-decoration: none;
@@ -881,13 +875,12 @@ button.ui-button::-moz-focus-inner {
 	margin-bottom: -1px;
 	padding-bottom: 1px;
 }
-.ui-tabs .ui-tabs-nav li.ui-tabs-active a,
-.ui-tabs .ui-tabs-nav li.ui-state-disabled a,
-.ui-tabs .ui-tabs-nav li.ui-tabs-loading a {
+.ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor,
+.ui-tabs .ui-tabs-nav li.ui-state-disabled .ui-tabs-anchor,
+.ui-tabs .ui-tabs-nav li.ui-tabs-loading .ui-tabs-anchor {
 	cursor: text;
 }
-.ui-tabs .ui-tabs-nav li a, /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
-.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active a {
+.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor {
 	cursor: pointer;
 }
 .ui-tabs .ui-tabs-panel {
@@ -897,12 +890,14 @@ button.ui-button::-moz-focus-inner {
 	background: none;
 }
 /*!
- * jQuery UI Tooltip 1.10.3
+ * jQuery UI Tooltip 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
+ *
+ * http://api.jqueryui.com/tooltip/#theming
  */
 .ui-tooltip {
 	padding: 8px;
@@ -916,14 +911,14 @@ body .ui-tooltip {
 	border-width: 2px;
 }
 /*!
- * jQuery UI CSS Framework 1.10.3
+ * jQuery UI CSS Framework 1.10.4
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Theming/API
+ * http://api.jqueryui.com/category/theming/
  *
  * To view and modify this theme, visit http://jqueryui.com/themeroller/
  */
@@ -993,7 +988,11 @@ body .ui-tooltip {
 .ui-state-hover a,
 .ui-state-hover a:hover,
 .ui-state-hover a:link,
-.ui-state-hover a:visited {
+.ui-state-hover a:visited,
+.ui-state-focus a,
+.ui-state-focus a:hover,
+.ui-state-focus a:link,
+.ui-state-focus a:visited {
 	color: #212121/*{fcHover}*/;
 	text-decoration: none;
 }

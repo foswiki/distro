@@ -84,7 +84,7 @@ sub handlePopUpWindow {
           Foswiki::Func::normalizeWebTopicName( $web, $topic );
         $url = Foswiki::Func::getViewUrl( $normalizedWeb, $normalizedTopic );
         push( @queryParts, "template=$template" ) if defined $template;
-        $url .= '?' . join( ';', @queryParts ) if scalar @queryParts;
+        $url .= '?' . join( ';', @queryParts ) if scalar(@queryParts);
     }
 
     my $width  = $params->{width}  || '600';
@@ -114,8 +114,8 @@ sub handlePopUpWindow {
     push( @options, "createnew:$createnew" )   if defined $createnew;
     push( @options, "center:$center" )         if defined $center;
 
-    # use '|' instead of ',' to be able to use inside MAKETEXT args
-    my $optionsStr = join( '|', @options );
+    # use ';' instead of ',' to be able to use inside MAKETEXT args
+    my $optionsStr = join( ';', @options );
 
     my $result = $LINK_STUB;
     $result =~ s/\$URL/$url/;
@@ -131,7 +131,7 @@ sub handlePopUpWindow {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

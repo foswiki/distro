@@ -27,13 +27,13 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Button',
-            version      => '1.3',
+            version      => '2.0',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             tags         => 'BUTTON',
             css          => ['jquery.button.css'],
             javascript   => ['jquery.button.init.js'],
-            dependencies => [ 'metadata', 'livequery' ],
+            dependencies => [ 'metadata', 'livequery', 'JQUERYPLUGIN::FORM' ],
         ),
         $class
     );
@@ -65,7 +65,7 @@ sub handleButton {
     my $theIconName    = $params->{icon} || '';
     my $theAccessKey   = $params->{accesskey};
     my $theId          = $params->{id} || '';
-    my $theClass       = $params->{class} || 'jqButtonDefault';
+    my $theClass       = $params->{class} || '';
     my $theStyle       = $params->{style} || '';
     my $theTarget      = $params->{target};
     my $theType        = $params->{type} || 'button';
@@ -88,38 +88,34 @@ sub handleButton {
     $theText = "<span> $theText </span>";
 
     if ($theTarget) {
-        my $url;
-
         if ( $theTarget =~ /^(http|\/).*$/ ) {
-            $url = $theTarget;
+            $theHref = $theTarget;
         }
         else {
             my ( $web, $topic ) =
               Foswiki::Func::normalizeWebTopicName( $theWeb, $theTarget );
-            $url = Foswiki::Func::getViewUrl( $web, $topic );
+            $theHref = Foswiki::Func::getViewUrl( $web, $topic );
         }
-        $theOnClick .= ";window.location.href=\"$url\";";
-    }
-
-    if ( $theType eq 'submit' ) {
-        $theOnClick .= ';jQuery(this).parents("form:first").submit();';
-    }
-    if ( $theType eq 'save' ) {
-        $theOnClick .=
-';var form = jQuery(this).parents("form:first"); if(typeof(foswikiStrikeOne) == "function") foswikiStrikeOne(form[0]); form.submit();';
-    }
-    if ( $theType eq 'reset' ) {
-        $theOnClick .= ';jQuery(this).parents("form:first").resetForm();';
-        Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');
-    }
-    if ( $theType eq 'clear' ) {
-        $theOnClick .= ';jQuery(this).parents("form:first").clearForm();';
-        Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');
     }
 
     my @class = ();
     push @class, 'jqButton';
     push @class, $theClass;
+
+    if ( $theType eq 'submit' ) {
+        push @class, 'jqSubmitButton';
+    }
+    if ( $theType eq 'save' ) {
+        push @class, 'jqSaveButton';
+    }
+    if ( $theType eq 'reset' ) {
+        push @class, 'jqResetButton';
+        Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');
+    }
+    if ( $theType eq 'clear' ) {
+        push @class, 'jqClearButton';
+        Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');
+    }
 
     my @callbacks = ();
     if ($theOnClick) {
@@ -165,7 +161,7 @@ sub _encode {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1315832827" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1430848859" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -12,20 +12,11 @@
 
 %STARTSECTION{"summary"}%
 jQuery templates contain markup with binding expressions ('Template tags'). Templates are applied to data objects or arrays, and rendered into the HTML DOM
-
-Documentation for the jQuery Templates plugin can be found on the jQuery documentation site: http://api.jquery.com/category/plugins/templates
-
-Note: The jQuery team has decided not to take this plugin past beta. It is no longer being actively developed or maintained. The docs remain here for the time being (for reference) until a suitable replacement template plugin is ready.
-
-For more on the history of this change, see [[http://blog.jquery.com/2011/04/16/official-plugins-a-change-in-the-roadmap/][Official Plugins: A Change in the Roadmap]] and [[http://www.borismoore.com/2011/10/jquery-templates-and-jsviews-roadmap.html][jQuery Templates and JsViews: The Roadmap]]
 %ENDSECTION{"summary"}%
-
-_Note: See tagged versions for stable Beta releases. Requires jquery version 1.4.2._
 
 ---++ Example
 %JQREQUIRE{"tmpl"}%
 
----+++ Local data
 This is a template stored in a script section of type =text/x-jquery-tmpl=. This is going to be used
 by jquery.tmpl in a loop over all data provided and render a list item for each by inserting the data
 from the array into this template and append it to the movie list
@@ -83,150 +74,3 @@ The result will be appended to the =movieList= element:
 </verbatim>
 
 <ul id="movieList"></ul> 
-
----+++ Remote data
-
-Below is a little movie application using the [[http://developer.netflix.com/docs/read/oData_Catalog][Open Data API of Netflix.com]] to query movies from their database. The returned json object is then formatted using a template similar to the
-above local data example.
-
-%JQREQUIRE{"blockui"}%
-
-<literal>
-<script type="text/javascript"> 
-(function($) {
-function getMovies(genre, skip, top) {
-  $.blockUI({"message": "<h1>Loading ...</h1>"});
-  $("#movieMessage").empty()
-  $.ajax({
-    dataType: "jsonp",
-    url: "http://odata.netflix.com/Catalog/Genres('"  + genre + "')/Titles",
-    data: {
-      "$format": "json",
-      "$skip": skip,
-      "$top": top,
-      "$orderby": "ReleaseYear desc"
-    },
-    jsonp: "$callback",
-    error: function(xhr, msg) {
-      $.unblockUI();
-      $("#movieMessage").append("<div class='foswikiErrorMessage'>Error: "+msg+"</div>");
-    },
-    success: function( data ) {
-      var movies = data.d; 
-      $.unblockUI();
-      $("#movieList2").empty().data("skip", skip);
-      $("#movieTemplate2").tmpl(movies).appendTo("#movieList2"); 
-      $("#movieNext").show();
-      if(skip == 0) {
-         $("#moviePrev").hide();
-      } else {
-         $("#moviePrev").show();
-      }
-    }
-  });
-}
-
-function getGenres() {
-  $("#movieMessage").empty()
-  $.ajax({
-    dataType: "jsonp",
-    url: "http://odata.netflix.com/Catalog/Genres",
-    data: {
-      "$format": "json"
-    },
-    jsonp: "$callback",
-    error: function(xhr, msg) {
-      $("#movieMessage").append("<div class='foswikiErrorMessage'>Error: "+msg+"</div>");
-    },
-    success: function( data ) {
-      var genres = data.d; 
-      $("#genreSelect").empty();
-      $("<option value=''>select one ...</option>").appendTo("#genreSelect");
-      $("#genreTemplate").tmpl(genres).appendTo("#genreSelect");
-     }
-  });
-}
-
-$(function() {
-  getGenres();
-
-  $("#genreSelect").change(function() {
-    var genre = $(this).val();
-    if (genre) {
-      getMovies(genre, 0, 5);
-    } else {
-      $("#movieList2").empty();
-      $("#movieNext, #moviePrev").hide();
-    }
-  });
-
-  $("#moviePrev").click(function() {
-    var skip = $("#movieList2").data("skip") || 0,
-        genre = $("#genreSelect").val();
-    skip -= 5;
-    if (skip < 0) {
-      skip = 0;
-    }
-    getMovies(genre, skip, 5); 
-    return false;
-  });
-  $("#movieNext").click(function() {
-    var skip = $("#movieList2").data("skip") || 0,
-        genre = $("#genreSelect").val();
-    getMovies(genre, skip+5, 5);
-    return false;
-  });
-});
-})(jQuery);
-</script> 
-<style>
-.foswikiImage.foswikiLeft {
-  margin:0px 1em 1em 0px;
-}
-.movieSynopsis {
-  margin-bottom:0.5em;
-}
-#moviePrev, #movieNext {
-  display:none;
-  text-decoration:none;
-}
-</style>
-</literal>
-
-<div class="foswikiFormSteps">
-<div class="foswikiFormStep">
-  <h3>Genre:</h3>
-  <select id="genreSelect" class="foswikiSelect">
-    <option value="">loading ...</option>
-  </select>
-</div>
-</div>
-
-<div id="movieList2"></div>
-<div id="pager">
-  <a href="#" id="movieNext" class="foswikiRight">%MAKETEXT{"Next"}% %JQICON{"arrow_right"}%</a>
-  <a href="#" id="moviePrev" class="foswikiLeft">%JQICON{"arrow_left"}% %MAKETEXT{"Previous"}%</a>
-  %CLEAR%
-</div>
-<div id="movieMessage"></div>
-
-<literal>
-<script id="genreTemplate" type="text/x-jquery-tmpl"> 
-<option>${Name}</option>
-</script>
-<script id="movieTemplate2" type="text/x-jquery-tmpl"> 
-<div class="movie">
-  <div class='foswikiImage foswikiLeft'>
-    <img src="${__metadata.media_src}" width="110" height="152" />
-  </div>
-  <h2><a href="${Url}">${Name} (${ReleaseYear})</a></h2>
-  <div class="movieSynopsis">
-     ${Synopsis}
-  </div>
-  <div class="foswikiRight">
-    &hellip; <a href="${Url}">more</a>
-  </div>
-  %CLEAR%
-</div>
-</script>
-</literal> 

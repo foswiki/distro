@@ -34,11 +34,12 @@ sub renderForEdit {
     $value ||= '#000';
 
     my $field = CGI::textfield(
-        -class => $this->cssClasses('foswikiInputField jqFarbtastic'),
-        -name  => $this->{name},
-        -size  => 11,
-        -value => $value,
-        -id    => $this->{name},
+        -class    => $this->cssClasses('foswikiInputField jqFarbtastic'),
+        -name     => $this->{name},
+        -size     => 11,
+        -override => 1,
+        -value    => $value,
+        -id       => $this->{name},
     );
 
     return ( '', $field );
@@ -49,9 +50,10 @@ sub renderForDisplay {
 
     Foswiki::Plugins::JQueryPlugin::createPlugin("farbtastic");
 
-    my $result =
-"<div class='jqFarbtasticFG' style='background-color:$value;width:$this->{size}em'>$value</div>";
-    $format =~ s/\$value/$result/g;
+    my $displayValue =
+"<span class='jqFarbtasticFG' style='background-color:$value;width:$this->{size}em'>$value</span>";
+    $format =~ s/\$value\(display\)/$displayValue/g;
+    $format =~ s/\$value/$value/g;
 
     return $this->SUPER::renderForDisplay( $format, $value, $attrs );
 }
@@ -60,7 +62,7 @@ sub renderForDisplay {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

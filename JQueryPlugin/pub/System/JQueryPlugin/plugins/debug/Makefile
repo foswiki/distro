@@ -1,2 +1,5 @@
-TARGET=jquery.debug.js jquery.debug.css $(JQUERYPLUGIN_LIB)/DEBUG.pm
+TARGET=\
+  jquery.debug.js \
+  jquery.debug.css \
+  $(JQUERYPLUGIN_LIB)/DEBUG.pm
 -include ../../Makefile.include

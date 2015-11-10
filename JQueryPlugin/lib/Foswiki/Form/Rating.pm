@@ -6,15 +6,25 @@ use warnings;
 
 use Foswiki::Form::ListFieldDefinition ();
 use Foswiki::Plugins::JQueryPlugin     ();
+use Foswiki::Func                      ();
+use JSON                               ();
+
 our @ISA = ('Foswiki::Form::ListFieldDefinition');
 
 sub new {
     my $class = shift;
     my $this  = $class->SUPER::new(@_);
-    $this->{size} ||= 0;
-    $this->{size} =~ s/\D//g;
-    $this->{size} ||= 0;
-    $this->{size} = 4 if ( $this->{size} < 1 );
+
+    my $options = $this->getOptions();
+    if ( $options && @$options ) {
+        $this->{size} = scalar(@$options);
+    }
+    else {
+        $this->{size} ||= 0;
+        $this->{size} =~ s/\D//g;
+        $this->{size} ||= 0;
+        $this->{size} = 5 if ( $this->{size} < 1 );
+    }
 
     return $this;
 }
@@ -23,6 +33,17 @@ sub finish {
     my $this = shift;
     $this->SUPER::finish();
     undef $this->{valueMap};
+    undef $this->{json};
+}
+
+sub json {
+    my $this = shift;
+
+    unless ( $this->{json} ) {
+        $this->{json} = JSON->new->allow_nonref;
+    }
+
+    return $this->{json};
 }
 
 sub getOptions {
@@ -32,103 +53,64 @@ sub getOptions {
     return $options if $options;
     $options = $this->SUPER::getOptions();
 
-    unless (@$options) {
-        for ( my $i = 1 ; $i <= $this->{size} ; $i++ ) {
-            push @$options, $i;
-        }
-        $this->{_options} = $options;
-        return $options;
-    }
+    unless ( $this->{valueMap} ) {
 
-    if ( $this->{type} =~ /\+values/ ) {
-        $this->{valueMap} = ();
-        $this->{_options} = ();
-        my $str;
-        foreach my $val (@$options) {
-            if ( $val =~ /^(.*?[^\\])=(.*)$/ ) {
-                $str = $1;
-                $val = $2;
-                $str =~ s/\\=/=/g;
+        # 2.0 does the value map for you in the superclass.
+        if ( $this->{type} =~ m/\+values/ ) {
+            $this->{valueMap} = ();
+            $this->{_options} = ();
+            my $str;
+            foreach my $val (@$options) {
+                if ( $val =~ m/^(.*?[^\\])=(.*)$/ ) {
+                    $str = $1;
+                    $val = $2;
+                    $str =~ s/\\=/=/g;
+                }
+                else {
+                    $str = $val;
+                }
+                $str =~ s/%([\da-f]{2})/chr(hex($1))/gei;
+                $this->{valueMap}{$val} = $str;
+                push @{ $this->{_options} }, $val;
             }
-            else {
-                $str = $val;
-            }
-            $this->{valueMap}{$val} = Foswiki::urlDecode($str);
-            push @{ $this->{_options} }, $val;
+            $options = $this->{_options};
         }
-        $options = $this->{_options};
     }
 
     return $options;
 }
 
-sub renderForEdit {
+sub getDataValues {
     my $this = shift;
 
-    # get args in a backwards compatible manor:
-    my $metaOrWeb = shift;
+    my $options = $this->getOptions();
+    my @vals    = ();
 
-    my $meta;
-    my $web;
-    my $topic;
-
-    if ( ref($metaOrWeb) ) {
-
-        # new: $this, $meta, $value
-        $meta  = $metaOrWeb;
-        $web   = $meta->web;
-        $topic = $meta->topic;
-    }
-    else {
-
-        # old: $this, $web, $topic, $value
-        $web   = $metaOrWeb;
-        $topic = shift;
-        ( $meta, undef ) = Foswiki::Func::readTopic( $web, $topic );
-    }
-
-    my $value = shift;
-
-    Foswiki::Plugins::JQueryPlugin::createPlugin("rating");
-
-    my $result = "<div class='jqRating {$this->{attributes}}'>\n";
-    my $found  = 0;
-
-    foreach my $item ( @{ $this->getOptions() } ) {
-
-        $result .=
-            '<input type="radio" autocomplete="off" name="'
-          . $this->{name} . '" '
-          . ' value="'
-          . $item . '" ';
-
-        $result .= 'title="' . $this->{valueMap}{$item} . '" '
-          if defined $this->{valueMap}{$item};
-
-        my $isNumeric = ( $value =~ /[^\-\+\.\d]|^$/ ) ? 0 : 1;
-
-        # value was found if it is well defined and > 0 and item >= value; a
-        # zero values is not marked as a star; instead it is stored in the
-        # hidden input field at the end; as a consequence any empty string
-        # value is normalized to a zero rating on save; note also, that values
-        # not matching the raster of allowed rating values are rounded up to
-        # the next matching value
-        if (
-               !$found
-            && defined($value)
-            && $value ne "\0"
-            && (   ( $isNumeric && $value > 0 && $item >= $value )
-                || ( !$isNumeric && $item eq $value ) )
-          )
+    foreach my $val (@$options) {
+        if ( $this->{type} =~ m/\+values/
+            && defined( $this->{valueMap}{$val} ) )
         {
-            $result .= 'checked="checked" ';
-            $found = 1;
+            push @vals, { $this->{valueMap}{$val} => $val };
         }
-
-        $result .= "/>\n";
+        else {
+            push @vals, $val;
+        }
     }
-    $result .= '<input type="hidden" name="' . $this->{name} . '" value="0" />';
-    $result .= "</div>\n";
+
+    return '' unless @vals;
+    return "data-values='" . $this->json->encode( \@vals ) . "'";
+}
+
+sub renderForEdit {
+    my ( $this, $topicObject, $value ) = @_;
+
+    Foswiki::Plugins::JQueryPlugin::createPlugin("stars");
+
+    my $result =
+"<input type='hidden' autocomplete='off' name='$this->{name}' value='$value' class='jqStars {$this->{attributes}}' "
+      . "data-num-stars='"
+      . $this->{size} . "' "
+      . $this->getDataValues() . ">";
 
     return ( '', $result );
 }
@@ -136,53 +118,31 @@ sub renderForEdit {
 sub renderForDisplay {
     my ( $this, $format, $value, $attrs ) = @_;
 
-    Foswiki::Plugins::JQueryPlugin::createPlugin("rating");
+    $format =~ s/\$value\(display\)/$this->renderDisplayValue($value)/ge;
+    $format =~ s/\$value/$value/g;
 
-    my $result = "<div class='jqRating {$this->{attributes}}'>\n";
-    my $found  = 0;
-
-    # add a random suffix in case we have multiple formfields of the same type
-    # on the same page
-    my $name = $this->{name} . int( rand(10000) );
-    foreach my $item ( @{ $this->getOptions() } ) {
-
-        $result .=
-            '<input type="radio" autocomplete="off" name="'
-          . $name . '" '
-          . ' value="'
-          . $item . '" ';
-
-        $result .= 'title="' . $this->{valueMap}{$item} . '" '
-          if $this->{valueMap}{$item};
-
-        $result .= 'disabled="disabled" ';
-
-        my $isNumeric = ( $value =~ /[^\-\+\.\d]|^$/ ) ? 0 : 1;
-
-        if (
-               !$found
-            && defined($value)
-            && $value ne "\0"
-            && (   ( $isNumeric && $value > 0 && $item >= $value )
-                || ( !$isNumeric && $item eq $value ) )
-          )
-        {
-            $result .= 'checked="checked" ';
-            $found = 1;
-        }
-        $result .= "/>\n";
-    }
-    $result .= "</div>\n";
-
-    $format =~ s/\$value/$result/g;
     return $this->SUPER::renderForDisplay( $format, $value, $attrs );
+}
+
+sub renderDisplayValue {
+    my ( $this, $value ) = @_;
+
+    Foswiki::Plugins::JQueryPlugin::createPlugin("stars");
+
+    my @htmlAttrs = ();
+
+    return
+"<input type='hidden' disabled autocomplete='off' name='$this->{name}' value='$value' class='jqStars {$this->{attributes}}' "
+      . "data-num-stars='"
+      . $this->{size} . "' "
+      . $this->getDataValues() . ">";
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

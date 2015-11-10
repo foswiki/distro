@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282570594" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1420822060" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"chili"
@@ -26,10 +26,10 @@ Features:
 ---++ Examples
 To enable chili add
 <verbatim class="tml">%JQREQUIRE{"chili"}%</verbatim>
-somewhere on the page, or add it to the ={JQueryPlugin}{DefaultPlugins}= list in the General Settings section of [[%SCRIPTURL{"configure"}%#JQueryPlugin$Extensions][the JQuery configuration]].  
+somewhere on the page, or add it to the ={JQueryPlugin}{DefaultPlugins}= list in the General Settings section of [[%SCRIPTURL{"configure"}%][the JQuery configuration]]  (Navigate to the =Extensions= tab,  =JQueryPlugin= sub-tab).  
 %JQREQUIRE{"chili"}%
 %IF{"context ChiliEnabled" else='
-_Note: The JQuery chili plugin does not appear to be enabled on your system. It is disabled by default due to some recent browser compatbility issues. Administrators: See the [[%SCRIPTURL{"configure"}%#JQueryPlugin$Extensions][configure JQuery tab]]_
+_Note: The JQuery chili plugin does not appear to be enabled on your system. It is disabled by default due to some recent browser compatbility issues. Administrators: See the [[%SCRIPTURL{"configure"}%][configure -> Extensions tab,  JQuery sub-tab]]_
 '}%
 
 Syntax can be highlighted using the *&lt;verbatim&gt;* tag and the <u>class</u> attribute:
@@ -42,7 +42,7 @@ Syntax can be highlighted using the *&lt;verbatim&gt;* tag and the <u>class</u> 
     <title>Hello World</title>
   </head>
   <body>
-    <font size="24px">Hello World</font>
+    <h1>Hello World</h1>
   </body>
 </html>
 

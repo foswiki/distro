@@ -1,14 +1,20 @@
-%META:TOPICINFO{author="ProjectContributor" date="1296209887" format="1.1" version="1"}%
-%META:TOPICPARENT{name="JQueryPlugin"}%
-#VarJQTHEME
----+++ JQTHEME{"name" ...} -- switch jQuery UI theme
-   * Foswiki's default UI theme is configured in  =$Foswiki::cfg{JQueryPlugin}{JQueryTheme}= and defaults to =base=.
-     Use [[%SCRIPTURLPATH{"configure"}%][configure]] to change this site wide. Use JQTHEME if you decide to use a different
-     theme on the current page. 
-   * Note: some Foswiki skins may come with their own jQuery UI matching the overall user experience of the web design. 
-   * Parameters:
-     | *Parameter:* | *Description:* | *Default:* |
-     | "name" | name of theme: !JQueryPlugin knows the following themes =base=, =lightness=, =redmod=, =smoothness=; \
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ JQTHEME -- switch jQuery UI theme
+Foswiki's default UI theme is configured in  =$Foswiki::cfg{JQueryPlugin}{JQueryTheme}= and defaults to =foswiki=.
+Use [[%SCRIPTURLPATH{"configure"}%][configure]] to change this site wide. Use JQTHEME if you decide to use a different
+ theme on the current page. 
+
+Some Foswiki skins may come with their own jQuery UI matching the overall user experience of the web design. 
+<div class="foswikiHelp">%H% in case of an error JQTHEME will produce an inline HTML error message. </div>
+
+---++ Parameters
+     %TABLE{sort="off"}%
+     | *Parameter* | *Description* | *Default* |
+     | ="name"= | name of theme: !JQueryPlugin knows the following themes =base=, =lightness=, =redmod=, =smoothness=; \
                 additional themes maybe created using the [[http://jqueryui.com/themeroller/][themeroller]] and installed to \
-                =%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$name= | base |
-   * Related: JQueryUI
+                =%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$name= | =foswiki= |
+     | =warn= | (on/off) allows you to switch off warnings when a theme was not found | =on= |
+%STOPINCLUDE%
+---++ Related
+ JQueryUI, [[VarJQREQUIRE][JQREQUIRE]]

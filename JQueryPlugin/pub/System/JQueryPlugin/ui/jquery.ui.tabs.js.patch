@@ -1,0 +1,28 @@
+diff --git a/JQueryPlugin/pub/System/JQueryPlugin/ui/jquery.ui.tabs.js b/JQueryPlugin/pub/System/JQueryPlugin/ui/jquery.ui.tabs.js
+index 1cc0e2c..8ebdac7 100644
+--- a/JQueryPlugin/pub/System/JQueryPlugin/ui/jquery.ui.tabs.js
++++ b/JQueryPlugin/pub/System/JQueryPlugin/ui/jquery.ui.tabs.js
+@@ -14,21 +14,14 @@
+  */
+ (function( $, undefined ) {
+ 
+-var tabId = 0,
+-	rhash = /#.*$/;
++var tabId = 0;
+ 
+ function getNextTabId() {
+ 	return ++tabId;
+ }
+ 
+ function isLocal( anchor ) {
+-	// support: IE7
+-	// IE7 doesn't normalize the href property when set via script (#9317)
+-	anchor = anchor.cloneNode( false );
+-
+-	return anchor.hash.length > 1 &&
+-		decodeURIComponent( anchor.href.replace( rhash, "" ) ) ===
+-			decodeURIComponent( location.href.replace( rhash, "" ) );
++        return $(anchor).attr("href")[0] === '#';
+ }
+ 
+ $.widget( "ui.tabs", {

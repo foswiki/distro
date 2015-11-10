@@ -27,12 +27,13 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name         => 'WikiWord',
-            version      => '2.1',
-            author       => 'Michael Daum',
-            homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
-            javascript   => ['jquery.wikiword.js'],
-            dependencies => ['livequery']
+            name       => 'WikiWord',
+            version    => '3.20',
+            author     => 'Michael Daum',
+            homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
+            javascript => ['wikiword.js'],
+            dependencies =>
+              [ 'JQUERYPLUGIN', 'FOSWIKI', 'livequery', 'metadata' ]
         ),
         $class
     );
@@ -45,7 +46,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -445,7 +445,7 @@ jQuery.validator.addMethod("extension", function(value, element, param) {
 jQuery.validator.addMethod(
   "wikiword", 
   function(value, element) {
-    return this.optional(element) || /^[A-Z]+[a-z]+[A-Z]+/.test(value);
+    return this.optional(element) || foswiki.RE.wikiword.test(value);
   }, 
   "WikiWord only please"
 ); 
