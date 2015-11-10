@@ -7,7 +7,7 @@ package BrowserTranslatorTests;
 use Encode;
 
 use FoswikiSeleniumTestCase();
-use TranslatorBase();
+use TranslatorBase;
 our @ISA = qw( FoswikiSeleniumTestCase TranslatorBase );
 
 use BrowserEditorInterface();
@@ -15,54 +15,29 @@ use Foswiki::Func();
 use Foswiki::Plugins::WysiwygPlugin::Handlers();
 use Foswiki::Plugins::WysiwygPlugin::Constants();
 
-# The following big table contains all the testcases. These are
-# used to add a bunch of functions to the symbol table of this
-# testcase, so they get picked up and run by TestRunner.
-
-# Each testcase is a subhash with fields as follows:
-# exec => $TML2HTML to test TML -> HTML, $HTML2TML to test HTML -> TML,
-#   $ROUNDTRIP to test TML-> ->TML, $CANNOTWYSIWYG to test
-#   notWysiwygEditable, all other bits are ignored.
-#   They may be OR'd togoether to perform multiple tests.
-#   For example: $TML2HTML | $HTML2TML to test both
-#   TML -> HTML and HTML -> TML
-# name => identifier (used to compose the testcase function name)
-# tml => source topic meta-language
-# html => expected html from expanding tml (not used in roundtrip tests)
-# finaltml => optional expected tml from translating html. If not there,
-# will use tml. Only use where round-trip can't be closed because
-# we are testing deprecated syntax.
-# expect_failure => $reason, for tests that don't pass yet.
+# See TranslatorTests for details of how these tests work
 my $data = [
     {
-        exec => $TranslatorBase::ROUNDTRIP | $TranslatorBase::HTML2TML |
-          $TranslatorBase::TML2HTML,
+        exec => ROUNDTRIP | HTML2TML | TML2HTML,
         name => 'linkAtStart',
         tml  => 'LinkAtStart',
-        html => '<p>'
-          . $TranslatorBase::linkon
-          . 'LinkAtStart'
-          . $TranslatorBase::linkoff . '</p>',
+        html => '<p>' . $LINKON . 'LinkAtStart' . $LINKOFF . '</p>',
     },
     {
-        exec => $TranslatorBase::ROUNDTRIP,
+        exec => ROUNDTRIP,
         name => 'otherWebLinkAtStart',
         tml  => 'OtherWeb.LinkAtStart',
-        html => $TranslatorBase::linkon
-          . 'OtherWeb.LinkAtStart'
-          . $TranslatorBase::linkoff,
+        html => $LINKON . 'OtherWeb.LinkAtStart' . $LINKOFF,
     },
     {
-        exec => $TranslatorBase::ROUNDTRIP,
-        name => 'currentWebLinkAtStart',
-        tml  => 'Current.LinkAtStart',
-        html => $TranslatorBase::linkon
-          . 'Current.LinkAtStart'
-          . $TranslatorBase::linkoff,
+        exec     => ROUNDTRIP,
+        name     => 'currentWebLinkAtStart',
+        tml      => 'Current.LinkAtStart',
+        html     => $LINKON . 'Current.LinkAtStart' . $LINKOFF,
         finaltml => 'Current.LinkAtStart',
     },
     {
-        exec => $TranslatorBase::ROUNDTRIP,
+        exec => ROUNDTRIP,
         name => 'simpleParas',
         html => '1st paragraph<p />2nd paragraph',
         tml  => <<'HERE',
@@ -73,7 +48,7 @@ HERE
     },
     {
         name => 'Item1798',
-        exec => $TranslatorBase::ROUNDTRIP,
+        exec => ROUNDTRIP,
         tml  => <<'HERE',
 | [[LegacyTopic1]] | Main.SomeGuy |
 %SEARCH{"legacy" nonoise="on" format="| [[\$topic]] | [[\$wikiname]] |"}%
@@ -87,41 +62,24 @@ THERE
     },
     {
         name     => 'numericEntityWithoutName',
-        exec     => $TranslatorBase::ROUNDTRIP,
+        exec     => ROUNDTRIP | CHARSETS,
         tml      => '&#9792;',
-        finaltml => _siteCharsetIsUTF8() ? chr(9792) : '&#x2640;',
+        finaltml => chr(9792),
     },
     {
         name     => 'numericEntityWithName',
-        exec     => $TranslatorBase::ROUNDTRIP,
+        exec     => ROUNDTRIP | CHARSETS,
         tml      => '&#945;',
         finaltml => '&alpha;',
     },
-
-    # This test's finaltml is correct for ISO-8859-1 and ISO-8859-15,
-    # but not necessarily any other charsets
-    (
-        (
-            not $Foswiki::cfg{Site}{CharSet}
-              or $Foswiki::cfg{Site}{CharSet} =~ /^iso-8859-15?$/i
-        )
-        ? {
-            name     => 'safeNamedEntity',
-            exec     => $TranslatorBase::ROUNDTRIP,
-            tml      => '&Aring;',
-            finaltml => chr(0xC5),
-          }
-        : ()
-    ),
-
     {
         name => 'namedEntity',
-        exec => $TranslatorBase::ROUNDTRIP,
+        exec => ROUNDTRIP,
         tml  => '&alpha;',
     },
     {
         name => 'startOfParagraph',
-        exec => $TranslatorBase::ROUNDTRIP,
+        exec => ROUNDTRIP,
         tml  => <<HERE,
 %STARTINCLUDE%
 ---+ Foswiki Contribs
@@ -134,7 +92,7 @@ HERE
     },
     {
         name => "ItemSVEN",
-        exec => $TranslatorBase::TML2HTML | $TranslatorBase::ROUNDTRIP,
+        exec => TML2HTML | ROUNDTRIP,
         tml  => <<'HERE',
 ---
 
@@ -149,9 +107,8 @@ HERE
     },
     {
         name => 'literalNbsp',
-        exec =>
-          $TranslatorBase::ROUNDTRIP,   # SMELL: fails $TranslatorBase::TML2HTML
-        tml => <<HERE,
+        exec => ROUNDTRIP | CHARSETS | TML2HTML,
+        tml  => <<HERE,
 <literal>&nbsp;</literal>
 HERE
         html => <<THERE,
@@ -160,7 +117,7 @@ THERE
     },
     {
         name => 'Item4855',
-        exec => $TranslatorBase::TML2HTML | $TranslatorBase::ROUNDTRIP,
+        exec => TML2HTML | ROUNDTRIP,
         tml  => <<HERE,
 | [[LegacyTopic1]] | Main.SomeGuy |
 %TABLESEP%
@@ -177,7 +134,7 @@ HERE
 THERE
     },
     {
-        exec => $TranslatorBase::ROUNDTRIP,
+        exec => ROUNDTRIP,
         name => 'Item6068NewlinesInPre',
         tml  => <<'HERE',
 <pre>
@@ -196,7 +153,7 @@ test
 HERE
     },
     {
-        exec => $TranslatorBase::ROUNDTRIP,
+        exec => ROUNDTRIP,
         name => 'Item6068NewlinesInPreInSticky',
         tml  => <<'HERE',
 <sticky><pre>
@@ -208,9 +165,8 @@ HERE
     },
     {
         name => "brTagInMacroFormat",
-        exec => $TranslatorBase::TML2HTML | $TranslatorBase::HTML2TML |
-          $TranslatorBase::ROUNDTRIP,
-        tml => <<'HERE',
+        exec => TML2HTML | HTML2TML | ROUNDTRIP,
+        tml  => <<'HERE',
 %JQPLUGINS{"scrollto"
   format="
     Homepage: $homepage <br />
@@ -228,7 +184,7 @@ HERE
            # http://merlin.lavrsen.dk/foswiki10/bin/view/Myweb/NewLineEatingTest
          # and then split into multiple tests to make analysing the result managable
         name => 'KennethsNewLineEatingTest1',
-        exec => $TranslatorBase::ROUNDTRIP,
+        exec => ROUNDTRIP,
         tml  => <<HERE,
 ---++ This is a test topic where TMCE eats new lines in some cases
 
@@ -241,7 +197,7 @@ HERE
     },
     {
         name => 'KennethsNewLineEatingTest8',
-        exec => $TranslatorBase::ROUNDTRIP,
+        exec => ROUNDTRIP,
         tml  => <<HERE,
 <nop>
    * Set CHANGEHISTORY = | Text | Number | Text with another Twiki variable |    
@@ -254,7 +210,7 @@ HERE
     },
     {
         name => 'KennethsNewLineEatingTest2',
-        exec => $TranslatorBase::ROUNDTRIP,
+        exec => ROUNDTRIP,
         tml  => <<HERE,
 ---+++ Some test headline.
 
@@ -281,7 +237,7 @@ HERE
     },
     {
         name => 'KennethsNewLineEatingTest3',
-        exec => $TranslatorBase::ROUNDTRIP,
+        exec => ROUNDTRIP,
         tml  => <<HERE,
 These two options are defined like this
 
@@ -314,7 +270,7 @@ HERE
     },
     {
         name => 'KennethsNewLineEatingTest4',
-        exec => $TranslatorBase::ROUNDTRIP,
+        exec => ROUNDTRIP,
         tml  => <<HERE,
 ---+++ More code right after headline
 
@@ -336,7 +292,7 @@ HERE
     },
     {
         name           => 'KennethsNewLineEatingTest5',
-        exec           => $TranslatorBase::ROUNDTRIP,
+        exec           => ROUNDTRIP,
         expect_failure => 'TODO: Item2174 reintroducing Item5702?',
         tml            => <<HERE,
 ---+++ Some stuff protected by literal
@@ -367,7 +323,7 @@ HERE
     },
     {
         name           => 'KennethsNewLineEatingTest6',
-        exec           => $TranslatorBase::ROUNDTRIP,
+        exec           => ROUNDTRIP,
         expect_failure => 'TODO: Item2174 reintroducing Item5702?',
         tml            => <<HERE,
 
@@ -409,7 +365,7 @@ HERE
     },
     {
         name           => 'KennethsNewLineEatingTest7',
-        exec           => $TranslatorBase::ROUNDTRIP,
+        exec           => ROUNDTRIP,
         expect_failure => 'TODO: Item2174 reintroducing Item5702?',
         tml            => <<HERE,
 
@@ -437,16 +393,11 @@ HERE
     },
 ];
 
-sub _siteCharsetIsUTF8 {
-    Foswiki::Plugins::WysiwygPlugin::Constants::reinitialiseForTesting();
-    return Foswiki::Plugins::WysiwygPlugin::Constants::encoding() =~ /^utf-?8/;
-}
-
 sub new {
     my $self = shift()->SUPER::new( 'BrowserTranslator', @_ );
 
     $self->{editor} = BrowserEditorInterface->new($self);
-    BrowserTranslatorTests->gen_compare_tests( 'verify', $data );
+    BrowserTranslatorTests->gen_compare_tests($data);
 
     return $self;
 }
@@ -455,7 +406,7 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    Foswiki::Plugins::WysiwygPlugin::Constants::reinitialiseForTesting();
+    Foswiki::Plugins::WysiwygPlugin::HTML2TML::WC::test_reset();
 }
 
 sub _init {
@@ -498,11 +449,9 @@ sub verify_editSaveTopicWithUnnamedUnicodeEntity {
     # common entity name
     my $testText     = "A \x{eb} B &#x2640; C";
     my $expectedText = $testText;
-    if ( _siteCharsetIsUTF8() ) {
-        $expectedText =~ s/\&\#x(\w+);/chr(hex($1))/ge;
-        $testText     = Encode::encode_utf8($testText);
-        $expectedText = Encode::encode_utf8($expectedText);
-    }
+    $expectedText =~ s/\&\#x(\w+);/chr(hex($1))/ge;
+    $testText     = Encode::encode_utf8($testText);
+    $expectedText = Encode::encode_utf8($expectedText);
 
     # Create the test topic
     my $topicName = $this->{test_topic} . "For9170";

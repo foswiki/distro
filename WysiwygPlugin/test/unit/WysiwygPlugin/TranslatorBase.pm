@@ -7,14 +7,26 @@ package TranslatorBase;
 
 use strict;
 use warnings;
+use Exporter;
+use FoswikiTestCase;
+
+our @ISA = qw( Exporter FoswikiTestCase );
+
+our @EXPORT =
+  qw(TML2HTML HTML2TML ROUNDTRIP CANNOTWYSIWYG CHARSETS RTFAIL T2HFAIL H2TFAIL MASK $PROTECTON $PROTECTOFF $LINKON $LINKOFF $NOP);
 
 # Bits for test type
 # Fields in test records:
-our $TML2HTML      = 1 << 0;    # test tml => html
-our $HTML2TML      = 1 << 1;    # test html => finaltml (default tml)
-our $ROUNDTRIP     = 1 << 2;    # test tml => => finaltml
-our $CANNOTWYSIWYG = 1 << 3;    # test that notWysiwygEditable returns true
-                                #   and make the ROUNDTRIP test expect failure
+use constant TML2HTML  => 1;               # test tml => html
+use constant HTML2TML  => TML2HTML << 1;   # test html => finaltml (default tml)
+use constant ROUNDTRIP => HTML2TML << 1;   # test tml => => finaltml
+use constant CANNOTWYSIWYG => ROUNDTRIP
+  << 1;    # test that notWysiwygEditable returns true
+           #   and make the ROUNDTRIP test expect failure
+use constant CHARSETS => CANNOTWYSIWYG << 1;    # Set to verify several charsets
+use constant RTFAIL  => CHARSETS << 1;    # ROUNDTRIP test is expected to fail
+use constant T2HFAIL => RTFAIL << 1;      # TML2HTML test is expected to fail
+use constant H2TFAIL => T2HFAIL << 1;     # HTML2TML test is expected to fail
 
 # Note: ROUNDTRIP is *not* the same as the combination of
 # HTML2TML and TML2HTML. The HTML and TML comparisons are both
@@ -41,17 +53,16 @@ our $CANNOTWYSIWYG = 1 << 3;    # test that notWysiwygEditable returns true
 #   automagically replaces all instances of 'blue' with 'beautiful'.
 
 # Bit mask for selected test types
-my $mask = $TML2HTML | $HTML2TML | $ROUNDTRIP | $CANNOTWYSIWYG;
+use constant MASK => TML2HTML | HTML2TML | ROUNDTRIP | CANNOTWYSIWYG;
 
-our $protecton  = '<span class="WYSIWYG_PROTECTED">';
-our $linkon     = '<span class="WYSIWYG_LINK">';
-our $protectoff = '</span>';
-our $linkoff    = '</span>';
-our $nop        = "$protecton<nop>$protectoff";
+our $PROTECTON  = '<span class="WYSIWYG_PROTECTED">';
+our $LINKON     = '<span class="WYSIWYG_LINK">';
+our $PROTECTOFF = '</span>';
+our $LINKOFF    = '</span>';
+our $NOP        = "$PROTECTON<nop>$PROTECTOFF";
 
 sub gen_compare_tests {
     my $class  = shift;
-    my $method = shift;
     my $data   = shift;
     my %picked = map { $_ => 1 } @_;
     for ( my $i = 0 ; $i < scalar(@$data) ; $i++ ) {
@@ -59,25 +70,28 @@ sub gen_compare_tests {
         if ( scalar(@_) ) {
             next unless ( $picked{ $datum->{name} } );
         }
-        if ( ( $mask & $datum->{exec} ) & $TML2HTML ) {
+
+        my $method = 'test';
+
+        if ( ( MASK & $datum->{exec} ) & TML2HTML ) {
             my $fn = $class . '::' . $method . 'TML2HTML_' . $datum->{name};
             no strict 'refs';
             *{$fn} = sub { my $this = shift; $this->compareTML_HTML($datum) };
             use strict 'refs';
         }
-        if ( ( $mask & $datum->{exec} ) & $HTML2TML ) {
+        if ( ( MASK & $datum->{exec} ) & HTML2TML ) {
             my $fn = $class . '::' . $method . 'HTML2TML_' . $datum->{name};
             no strict 'refs';
             *{$fn} = sub { my $this = shift; $this->compareHTML_TML($datum) };
             use strict 'refs';
         }
-        if ( ( $mask & $datum->{exec} ) & $ROUNDTRIP ) {
+        if ( ( MASK & $datum->{exec} ) & ROUNDTRIP ) {
             my $fn = $class . '::' . $method . 'ROUNDTRIP_' . $datum->{name};
             no strict 'refs';
             *{$fn} = sub { my $this = shift; $this->compareRoundTrip($datum) };
             use strict 'refs';
         }
-        if ( ( $mask & $datum->{exec} ) & $CANNOTWYSIWYG ) {
+        if ( ( MASK & $datum->{exec} ) & CANNOTWYSIWYG ) {
             my $fn =
               $class . '::' . $method . 'CANNOTWYSIWYG_' . $datum->{name};
             no strict 'refs';

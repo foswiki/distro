@@ -87,18 +87,20 @@ sub _resetStack {
 
 =pod
 
----++ ObjectMethod convert( $html ) -> $tml
+---++ ObjectMethod convert( $html, \%options ) -> $tml
 
 Convert a block of HTML text into TML.
 
+Options:
+   * expandVarsInURL
+   * xmltag
+
+IMPORTANT: $html is a perl internal string, *NOT* octets
+
 =cut
 
-sub debugEncode {
-    my $text = shift;
-    $text = WC::debugEncode($text);
-    $text =~ s/([^\x20-\x7E])/sprintf '\\x{%X}', ord($1)/ge;
-    return $text;
-}
+my @protectedByAttr;
+my @ignoreAttr;
 
 sub convert {
     my ( $this, $text, $options ) = @_;
@@ -106,11 +108,68 @@ sub convert {
     $this->{opts} = $options;
 
     my $opts = 0;
-    $opts = $WC::VERY_CLEAN
+    $opts = WC::VERY_CLEAN
       if ( $options->{very_clean} );
 
-    # $text is octets, encoded as per the $Foswiki::cfg{Site}{CharSet}
-    #print STDERR "input     [". debugEncode($text). "]\n\n";
+    # See the WysiwygPluginSettings for information on stickybits
+    my $pref = $options->{stickybits};
+    $pref = <<'DEFAULT' unless defined $pref;
+(?!img).*=id,lang,title,dir,on.*;
+a=accesskey,coords,shape,target;
+bdo=dir;
+br=clear;
+col=char,charoff,span,valign,width;
+colgroup=align,char,charoff,span,valign,width;
+dir=compact;
+div=align,style;
+dl=compact;
+font=size,face;
+h\d=align;
+hr=align,noshade,size,width;
+legend=accesskey,align;
+li=value;
+ol=compact,start,type;
+p=align;
+param=name,type,value,valuetype;
+pre=width;
+q=cite;
+table=align,bgcolor,.*?background-color:.*,frame,rules,summary,width;
+tbody=align,char,charoff,valign;
+td=abbr,align,axis,bgcolor,.*?background-color:.*,.*?border-color:.*,char,charoff,headers,height,nowrap,rowspan,scope,valign,width;
+tfoot=align,char,charoff,valign;
+th=abbr,align,axis,bgcolor,.*?background-color:.*,char,charoff,height,nowrap,rowspan,scope,valign,width,headers;
+thead=align,char,charoff,valign;
+tr=bgcolor,.*?background-color:.*,char,charoff,valign;
+ul=compact,type;
+DEFAULT
+
+    foreach my $def ( split( /;\s*/s, $pref ) ) {
+        my ( $re, $ats ) = split( /\s*=\s*/s, $def, 2 );
+        push(
+            @protectedByAttr,
+            {
+                tag   => qr/$re/i,
+                attrs => join( '|', split( /\s*,\s*/, $ats ) )
+            }
+        );
+    }
+
+    $pref = $options->{ignoreattrs};
+
+    if ( defined $pref ) {
+        foreach my $def ( split( /;\s*/s, $pref ) ) {
+            my ( $re, $ats ) = split( /\s*=\s*/s, $def, 2 );
+            push(
+                @ignoreAttr,
+                {
+                    tag   => qr/$re/i,
+                    attrs => join( '|', split( /\s*,\s*/, $ats ) )
+                }
+            );
+        }
+    }
+
+    #print STDERR "input     [". WC::encode_specials($text). "]\n\n";
 
     # Convert (safe) named entities back to the
     # site charset. Numeric entities are mapped straight to the
@@ -118,19 +177,6 @@ sub convert {
     # HTML::Entities::_decode_entities converts numeric entities
     # to Unicode codepoints, so first convert the text to Unicode
     # characters
-    if ( WC::encoding() =~ /^utf-?8/ ) {
-
-        # text is already UTF-8, so just decode
-        $text = Encode::decode_utf8($text);
-    }
-    else {
-
-        # convert to unicode codepoints
-        $text = Encode::decode( WC::encoding(), $text );
-    }
-
-    # $text is now Unicode characters
-    #print STDERR "unicoded  [". debugEncode($text). "]\n\n";
 
     # Make sure that & < > ' and " remain encoded, because the parser depends
     # on it. The safe-entities does not include the corresponding named
@@ -148,31 +194,15 @@ sub convert {
     $text =~ s/\&\#x22;/\&quot;/goi;
     $text =~ s/\&\#160;/\&nbsp;/goi;
 
+    # SMELL: Item11912 These are left behind by TMCE as zero width characters
+    # surrounding italics and bold inserted by Ctrl-i and Ctrl-b
+    # We really ought to have a better solution.  TMCE is supposed
+    # to handle this it the cleanup routine, but it doesn't happen,
+    # and cleanup routine has been deprecated.
+    $text =~ s/&#xFEFF;//g;    # TMCE 3.5.x
+    $text =~ s/&#x200B;//g;    # TMCE pre 3.5
+
     HTML::Entities::_decode_entities( $text, WC::safeEntities() );
-
-    #print STDERR "decodedent[". debugEncode($text). "]\n\n";
-
-    # HTML::Entities::_decode_entities is NOT aware of the site charset
-    # so it converts numeric entities to characters willy-nilly.
-    # Some of those were entities in the first place because the
-    # site character set cannot represent them.
-    # Convert them back to entities:
-    WC::convertNotRepresentabletoEntity($text);
-
-    #print STDERR "notrep2ent[". debugEncode($text). "]\n\n";
-
-    # $text is now Unicode characters that are representable
-    # in the site charset.
-    # Convert to the site charset:
-    if ( WC::encoding() =~ /^utf-?8/ ) {
-
-        # nothing to do, already in unicode
-    }
-    else {
-        $text = Encode::encode( WC::encoding(), $text );
-    }
-
-    #print STDERR "sitechrset[". debugEncode($text). "]\n\n";
 
     # get rid of nasties
     $text =~ s/\r//g;
@@ -187,24 +217,8 @@ sub convert {
     $this->_apply(undef);
     $text = $this->{stackTop}->rootGenerate($opts);
 
-    #print STDERR "parsed    [". debugEncode($text). "]\n\n";
+    $text =~ s/\s+$/\n/s;
 
-    # If the site charset is UTF8, we need to recode
-    if ( WC::encoding() =~ /^utf-?8/ ) {
-        $text = Encode::encode_utf8($text);
-
-        #print STDERR "re-encoded[". debugEncode($text). "]\n\n";
-    }
-
-    # $text is octets, encoded as per the $Foswiki::cfg{Site}{CharSet}
-
-    # SMELL: Item11912 These are left behind by TMCE as zero widht characters
-    # surrounding italics and bold inserted by Ctrl-i and Ctrl-b
-    # We really ought to have a better solution.  TMCE is supposed
-    # to handle this it the cleanup routine, but it doesn't happen,
-    # and cleanup routine has been deprecated.
-    $text =~ s/&#xFEFF;//g;    # TMCE 3.5.x
-    $text =~ s/&#x200B;//g;    # TMCE pre 3.5
     return $text;
 }
 
@@ -265,6 +279,40 @@ sub _closeTag {
     }
 }
 
+# Determine if sticky attributes prevent a tag being converted to
+# TML when this attribute is present.
+
+sub protectedByAttr {
+    my ( $tag, $attr ) = @_;
+
+    foreach my $row (@protectedByAttr) {
+        if ( $tag =~ /^$row->{tag}$/i ) {
+
+            if ( $attr =~ /^($row->{attrs})$/i ) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+# Determine if an attribute is to be ignored when deciding whether
+# to keep a tag as HTML or not.
+
+sub ignoreAttr {
+    my ( $tag, $attr ) = @_;
+
+    foreach my $row (@ignoreAttr) {
+        if ( $tag =~ /^$row->{tag}$/i ) {
+
+            if ( $attr =~ /^($row->{attrs})$/i ) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 sub _text {
     my ( $this, $text ) = @_;
     my $l = new Foswiki::Plugins::WysiwygPlugin::HTML2TML::Leaf($text);
@@ -309,7 +357,7 @@ sub _apply {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

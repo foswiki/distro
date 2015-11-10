@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WysiwygPlugin"}%
 ---+ Settings for WysiwygPlugin that are common to most editor integrations
 %STARTINCLUDE%
@@ -15,7 +16,7 @@ If the plugin detects an excluded construct in the topic, it will refuse to allo
 ---+++++ WYSIWYG_EDITABLE_CALLS - Exceptions to WYSIWYG_EXCLUDE
 If you excluded =calls= in =WYSIWYG_EXCLUDE=, you can still define a subset of macros that do *not* block edits. this is done in the *global* [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =WYSIWYG_EDITABLE_CALLS=, which should be a list of macro names separated by vertical bars, with no spaces, e.g: =* Set WYSIWYG_EDITABLE_CALLS = COMMENT|CALENDAR|INCLUDE=
 
-You should set =WYSIWYG_EXCLUDE= and =WYSIWYG_EDITABLE_CALLS= in %USERSWEB%.SitePreferences, or in %WEBPREFSTOPIC% for each web.
+You should set =WYSIWYG_EXCLUDE= and =WYSIWYG_EDITABLE_CALLS= in %LOCALSITEPREFS%, or in %WEBPREFSTOPIC% for each web.
 
 ---++++ WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS - Protect specific tags originally in the topic text
 The =WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS= preference tells the translator 
@@ -27,9 +28,10 @@ The default setting for this preference is defined within the plugin.
 It corresponds to =div, span=.
 
 This feature may be disabled by setting the preference to a single comma.
-Thi does _not_ guarantee that HTML markup will be removed; the conversion
+This does _not_ guarantee that HTML markup will be removed; the conversion
 of HTML tags to TML markup remains subject to the other controls provided
-by the !WysiwygPlugin, including the =WYSIWYGPLUGIN_STICKYBITS= preference,
+by the !WysiwygPlugin, including the =WYSIWYGPLUGIN_STICKYBITS= and
+=WYSIWYGPLUGIN_IGNOREATTRS= preferences,
 =&lt;sticky&gt;= blocks, =&lt;literal&gt;= blocks and the rules applied 
 to tables and lists.
 
@@ -123,5 +125,16 @@ in the plugin:
 -->
 
 If you edit using the plain-text editor, you can use the &lt;sticky&gt;..&lt;/sticky&gt; tags to delimit HTML (or TML) that you do *not* want to be WYSIWYG edited.
+
+---++++ WYSIWYGPLUGIN_IGNOREATTRS - Ignore tag attributes when deciding whether to keep a tag or not when converting HTML to TML. This is most useful when you
+have specific styling that you want to make sure you strip off.
+
+This preference takes the same format as =WYSIWYGPLUGIN_STICKYBITS=. It
+specifies tags and their attributes that are to be ignored when making the
+decision whether to keep the tag or not. For example, a =&lt;font face="Open Sans">= tag will normally be maintained in the TML. However setting
+=WYSIWYGPLUGIN_IGNOREATTRS= to =font=face= will result in it being removed.
+
+By default =WYSIWYGPLUGIN_IGNOREATTRS= is empty. =WYSIWYGPLUGIN_STICKYBITS=
+takes precedence over this setting.
 
 %STOPINCLUDE%

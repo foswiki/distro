@@ -5,6 +5,24 @@
 # act to express format requirements - for example, the need to have a
 # newline before some text, or the need for a space. Whitespace is then
 # collapsed down to the minimum that satisfies the format requirements.
+#
+# 10,000 foot overview:
+# _handleTAG functions are called on the Node object, passing
+# in an options bitmask and receiving back a bitmask of flags
+# and some TML text. The expansion is recursive, so the
+# TML returned is the expansion of the entire DOM tree
+# under the node. If the TML test is undef, that is taken as a
+# signal that the node cannot be converted to TML, in which
+# case _defaultTag is used to expand it as HTML. _defaultTag
+# is itself recursive, so sub-nodes may well be expanded as
+# TML. The options flags, and the flags returned from the
+# _handle function, are used to steer the expansion. As well
+# as the flags, there are special characters dropped into the
+# TML, for example for non-breaking space, or space that can
+# be collapsed etc.
+
+# VERY IMPORTANT: ALL STRINGS STORED IN NODES ARE UNICODE
+# (perl character strings)
 
 =pod
 
@@ -26,12 +44,12 @@ use warnings;
 
 use Foswiki::Func;    # needed for regular expressions
 use Assert;
-
-use vars qw( $reww );
-
-use Foswiki::Plugins::WysiwygPlugin::Constants;
-use Foswiki::Plugins::WysiwygPlugin::HTML2TML::WC;
 use HTML::Entities ();
+
+use Foswiki::Plugins::WysiwygPlugin::HTML2TML     ();
+use Foswiki::Plugins::WysiwygPlugin::HTML2TML::WC ();
+
+our $reww;
 
 my %jqueryChiliClass = map { $_ => 1 }
   qw( cplusplus csharp css bash delphi html java js
@@ -70,6 +88,7 @@ sub new {
 }
 
 # debug
+
 sub stringify {
     my ( $this, $shallow ) = @_;
     my $r = '';
@@ -78,7 +97,7 @@ sub stringify {
         foreach my $attr ( sort keys %{ $this->{attrs} } ) {
             $r .= " " . $attr . "='" . $this->{attrs}->{$attr} . "'";
         }
-        $r .= ' /' if $WC::SELFCLOSING{ lc( $this->{tag} ) };
+        $r .= ' /' if $WC::SELF_CLOSING{ $this->{tag} };
         $r .= '>';
     }
     if ($shallow) {
@@ -91,7 +110,7 @@ sub stringify {
             $kid = $kid->{next};
         }
     }
-    if ( $this->{tag} and not $WC::SELFCLOSING{ lc( $this->{tag} ) } ) {
+    if ( $this->{tag} and not $WC::SELF_CLOSING{ $this->{tag} } ) {
         $r .= '</' . $this->{tag} . '>';
     }
     return $r;
@@ -229,7 +248,7 @@ decisions on whether to allow TML conversion in lower nodes,
 and lower level nodes can constrain conversion in higher level
 nodes.
 
-$opts is a bitset. $WC::VERY_CLEAN will cause the generator
+$opts is a bitset. WC::VERY_CLEAN will cause the generator
 to drop unrecognised HTML (e.g. divs and spans that don't
 generate TML)
 
@@ -238,19 +257,19 @@ generate TML)
 sub rootGenerate {
     my ( $this, $opts ) = @_;
 
-    #print STDERR "Raw       [", WC::debugEncode($this->stringify()), "]\n\n";
+  #print STDERR "Raw       [", WC::encode_specials($this->stringify()), "]\n\n";
     $this->cleanParseTree();
 
-    #print STDERR "Cleaned   [", WC::debugEncode($this->stringify()), "]\n\n";
-    # Perform some transformations on the parse tree
+  #print STDERR "Cleaned   [", WC::encode_specials($this->stringify()), "]\n\n";
+  # Perform some transformations on the parse tree
     $this->_collapse();
 
-    #print STDERR "Collapsed [", WC::debugEncode($this->stringify()), "]\n\n";
+  #print STDERR "Collapsed [", WC::encode_specials($this->stringify()), "]\n\n";
 
     my ( $f, $text ) = $this->generate($opts);
 
     # Debug support
-    #print STDERR "Converted [",WC::debugEncode($text),"]\n";
+    #print STDERR "Converted [",WC::encode_specials($text),"]\n";
 
     # Move leading \n out of protected region. Delicate hack fix required to
     # maintain Foswiki variables at the start of lines.
@@ -276,8 +295,8 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
     # insert a <br /> before <p>  ...   It doesn't do that in 3.4.9
     #$text =~ s/<br( \/)?>$WC::NBBR/$WC::NBBR/g;    # Remove BR before P
 
-    #die "Converted ",WC::debugEncode($text),"\n";
-    #print STDERR "Conv2     [",WC::debugEncode($text),"]\n";
+    #die "Converted ",WC::encode_specials($text),"\n";
+    #print STDERR "Conv2     [",WC::encode_specials($text),"]\n";
 
     my @regions = split( /([$WC::PON$WC::POFF])/o, $text );
     my $protect = 0;
@@ -356,7 +375,7 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
         #    $tml =~ s/<br( \/)?>\n/\n/g;
         #}
 
-        #print STDERR " -> [",WC::debugEncode($tml),"]\n";
+        #print STDERR " -> [",WC::encode_specials($tml),"]\n";
         $text .= $tml;
     }
 
@@ -372,7 +391,7 @@ s/$WC::CHECKw(($WC::PON|$WC::POFF)?[$WC::CHECKn$WC::CHECKs$WC::NBSP $WC::NBBR])/
     $text =~ s/^\n*//s;
     $text =~ s/\s*$/\n/s;
 
-    #print STDERR "TML       [",WC::debugEncode($text),"]\n";
+    #print STDERR "TML       [",WC::encode_specials($text),"]\n";
 
     return $text;
 }
@@ -449,7 +468,7 @@ sub _collapse {
             && $node->{head} == $node->{tail} )
         {
             my $kid = $node->{head};
-            if ( uc( $kid->{tag} ) eq 'SPAN'
+            if (   $kid->{tag} eq 'span'
                 && $kid->hasClass('WYSIWYG_PROTECTED') )
             {
                 $kid->_remove();
@@ -458,9 +477,10 @@ sub _collapse {
             }
         }
 
- # Pressing return in a "foswikiDeleteMe" paragraph will cause the paragraph
- # to be split into a 2nd paragraph with the same class.   We only want to clean
- # the first one in the blockquote, and preserve the rest without the class.
+        # Pressing return in a "foswikiDeleteMe" paragraph will cause
+        # the paragraph to be split into a 2nd paragraph with the same
+        # class. We only want to clean the first one in the blockquote,
+        # and preserve the rest without the class.
         if (   $node->{tag} eq 'p'
             && $node->hasClass('foswikiDeleteMe')
             && $node->{parent}
@@ -482,12 +502,12 @@ sub _collapse {
         # If this is an emphasis (b, i, code, tt, strong) then
         # flatten out any child nodes that express the same emphasis.
         # This has to be done because Foswiki emphases are single level.
-        if ( $WC::EMPHTAG{ $node->{tag} } ) {
+        if ( $WC::EMPH_TAG{ $node->{tag} } ) {
             my $kid = $node->{head};
             while ($kid) {
-                if (   $WC::EMPHTAG{ $kid->{tag} }
-                    && $WC::EMPHTAG{ $kid->{tag} } eq
-                    $WC::EMPHTAG{ $node->{tag} } )
+                if (   $WC::EMPH_TAG{ $kid->{tag} }
+                    && $WC::EMPH_TAG{ $kid->{tag} } eq
+                    $WC::EMPH_TAG{ $node->{tag} } )
                 {
                     $kid = $kid->_inline();
                 }
@@ -513,7 +533,7 @@ sub _moveClassToSpan {
     my $class = shift;
 
     if (    $this->{tag}
-        and lc( $this->{tag} ) ne 'span'
+        and $this->{tag} ne 'span'
         and $this->_removeClass($class) )
     {
 
@@ -544,7 +564,7 @@ sub generate {
     }
 
     if ( $this->hasClass('TMLhtml') ) {
-        return $this->_defaultTag( $options & ~$WC::VERY_CLEAN );
+        return $this->_defaultTag( $options & ~WC::VERY_CLEAN );
     }
 
     my $tag = $this->{tag};
@@ -565,14 +585,14 @@ sub generate {
         return ( 0, '<literal>' . $text . '</literal>' );
     }
 
-    if ( $options & $WC::NO_HTML ) {
+    if ( $options & WC::NO_HTML ) {
 
         # NO_HTML implies NO_TML
         my $brats = $this->_flatten($options);
         return ( 0, $brats );
     }
 
-    if ( $options & $WC::NO_TML ) {
+    if ( $options & WC::NO_TML ) {
         return ( 0, $this->stringify() );
     }
 
@@ -582,7 +602,7 @@ sub generate {
 
     $this->_moveClassToSpan('WYSIWYG_TT');
     $this->_moveClassToSpan('WYSIWYG_COLOR')
-      if lc( $this->{tag} ) ne 'font';
+      if $this->{tag} ne 'font';
 
     # See if we have a TML translation function for this tag
     # the translation functions will work out the rendering
@@ -615,7 +635,7 @@ sub _flatten {
     my $flags = 0;
 
     my $protected =
-         ( $options & $WC::PROTECTED )
+         ( $options & WC::PROTECTED )
       || $this->hasClass('WYSIWYG_PROTECTED')
       || $this->hasClass('WYSIWYG_STICKY')
       || 0;
@@ -624,13 +644,13 @@ sub _flatten {
 
         # Expand brs, which are used in the protected encoding in place of
         # newlines, and protect whitespace
-        $options |= $WC::BR2NL | $WC::KEEP_WS;
+        $options |= WC::BR2NL | WC::KEEP_WS;
     }
 
     my $kid = $this->{head};
     while ($kid) {
         my ( $f, $t ) = $kid->generate($options);
-        if (   !( $options & $WC::KEEP_WS )
+        if (   !( $options & WC::KEEP_WS )
             && $text
             && $text =~ /\w$/
             && $t =~ /^\w/ )
@@ -647,21 +667,18 @@ sub _flatten {
     if ($protected) {
         $text =~ s/[$WC::PON$WC::POFF]//g;
 
-        unless ( $options & $WC::KEEP_ENTITIES ) {
+        unless ( $options & WC::KEEP_ENTITIES ) {
 
             # This will decode only those entities that
             # have a representation in the site charset.
             WC::decodeRepresentableEntities($text);
-
-            # &nbsp; decodes to \240, which we want to make a space.
-            $text =~ s/\240/$WC::NBSP/g;
         }
         $text =~ s/ /$WC::NBSP/g;
         $text =~ s/\n/$WC::NBBR/g;
         $text = $WC::PON . $text . $WC::POFF;
     }
 
-    $text = _trim($text) unless ( $options & $WC::KEEP_WS );
+    $text = _trim($text) unless ( $options & WC::KEEP_WS );
 
     return ( $flags, $text );
 }
@@ -688,7 +705,7 @@ sub _htmlParams {
                 # if cleaning aggressively, remove class attributes
                 # except for the JQuery "Chili" classes
                 next CLASS
-                  if (  $options & $WC::VERY_CLEAN
+                  if (  $options & WC::VERY_CLEAN
                     and not $jqueryChiliClass{$class}
                     and not $class =~ /^foswiki/ );
 
@@ -698,7 +715,7 @@ sub _htmlParams {
 
             $v = join( ' ', @classes );
         }
-        my $q = $v =~ /"/ ? "'" : '"';
+        my $q = $v =~ /'/ ? '"' : "'";    # Default to single qutoes in html
         push( @params, $k . '=' . $q . $v . $q );
     }
     my $p = join( ' ', @params );
@@ -713,7 +730,7 @@ sub _defaultTag {
     my $tag = $this->{tag};
     my $p = _htmlParams( $this->{attrs}, $options );
 
-    if ( $text =~ /^\s*$/ && $WC::SELFCLOSING{$tag} ) {
+    if ( $text =~ /^\s*$/ && $WC::SELF_CLOSING{$tag} ) {
         return ( $flags, '<' . $tag . $p . ' />' );
     }
     else {
@@ -727,11 +744,10 @@ sub _defaultTag {
 sub _isProtectedByAttrs {
     my $this = shift;
 
-    require Foswiki::Plugins::WysiwygPlugin::Handlers;
     foreach my $attr ( keys %{ $this->{attrs} } ) {
         next unless length( $this->{attrs}->{$attr} );    # ignore nulls
         return $attr
-          if Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr(
+          if Foswiki::Plugins::WysiwygPlugin::HTML2TML::protectedByAttr(
             $this->{tag}, $attr );
     }
     return 0;
@@ -796,7 +812,7 @@ sub _convertList {
         if ( $isdl && ( $kid->{tag} eq 'dt' ) ) {
 
             # DT, set the bullet type for subsequent DT
-            $basebullet = $kid->_flatten($WC::NO_BLOCK_TML);
+            $basebullet = $kid->_flatten(WC::NO_BLOCK_TML);
             $basebullet =~ s/[\s$WC::CHECKw$WC::CHECKs]+$//;
             $basebullet .= ':';
             $basebullet =~ s/$WC::CHECKn/ /g;
@@ -831,7 +847,7 @@ sub _convertList {
                     $t = $grandkid->_convertList( $indent . $WC::TAB );
                 }
                 else {
-                    ( $f, $t ) = $grandkid->generate($WC::NO_BLOCK_TML);
+                    ( $f, $t ) = $grandkid->generate(WC::NO_BLOCK_TML);
                     $t =~ s/$WC::CHECKn/ /g;
 
                     # Item5257: If this is the last child of the LI, trim
@@ -923,7 +939,7 @@ sub _isConvertableListItem {
         }
         else {
             ( $flags, $text ) = $kid->generate($options);
-            if ( $flags & $WC::BLOCK_TML ) {
+            if ( $flags & WC::BLOCK_TML ) {
                 return 0;
             }
         }
@@ -943,7 +959,7 @@ sub _isConvertableTable {
       if (
            defined $this->{attrs}->{style}
         && length $this->{attrs}->{style}
-        && Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr(
+        && Foswiki::Plugins::WysiwygPlugin::HTML2TML::protectedByAttr(
             'style', $this->{attrs}
         )
       );
@@ -1015,7 +1031,7 @@ sub _isConvertableTableRow {
             $kid->_removePWrapper();
             $kid->_moveClassToSpan('WYSIWYG_TT');
             $kid->_moveClassToSpan('WYSIWYG_COLOR');
-            ( $flags, $text ) = $kid->_flatten( $options | $WC::IN_TABLE );
+            ( $flags, $text ) = $kid->_flatten( $options | WC::IN_TABLE );
             $text = _TDtrim($text);
             $text = "*$text*" if length($text);
         }
@@ -1023,7 +1039,7 @@ sub _isConvertableTableRow {
             $kid->_removePWrapper();
             $kid->_moveClassToSpan('WYSIWYG_TT');
             $kid->_moveClassToSpan('WYSIWYG_COLOR');
-            ( $flags, $text ) = $kid->_flatten( $options | $WC::IN_TABLE );
+            ( $flags, $text ) = $kid->_flatten( $options | WC::IN_TABLE );
             $text = _TDtrim($text);
         }
         elsif ( !$kid->{tag} ) {
@@ -1035,7 +1051,7 @@ sub _isConvertableTableRow {
             # some other sort of (unexpected) tag
             return 0;
         }
-        return 0 if ( $flags & $WC::BLOCK_TML );
+        return 0 if ( $flags & WC::BLOCK_TML );
 
         if ( $kid->{attrs} ) {
             my $a = _deduceAlignment($kid);
@@ -1060,7 +1076,7 @@ sub _isConvertableTableRow {
 
                   if (
                     $key eq 'style'
-                    && Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr(
+                    && Foswiki::Plugins::WysiwygPlugin::HTML2TML::protectedByAttr(
                         $kid->{tag}, $atts{$key}
                     )
                   );
@@ -1211,8 +1227,8 @@ sub _H {
     my ( $this, $options, $depth ) = @_;
     my ( $flags, $contents ) = $this->_flatten($options);
     return ( 0, undef )
-      if ( ( $flags & $WC::BLOCK_TML )
-        || ( $flags & $WC::IN_TABLE ) );
+      if ( ( $flags & WC::BLOCK_TML )
+        || ( $flags & WC::IN_TABLE ) );
     my $notoc = '';
     if ( $this->hasClass('notoc') ) {
         $notoc = '!!';
@@ -1230,15 +1246,15 @@ sub _H {
       . $WC::CHECKs
       . $contents
       . $WC::CHECKn;
-    return ( $flags | $WC::BLOCK_TML, $res );
+    return ( $flags | WC::BLOCK_TML, $res );
 }
 
 # generate an emphasis
 sub _emphasis {
     my ( $this, $options, $ch ) = @_;
-    my ( $flags, $contents ) = $this->_flatten( $options | $WC::NO_BLOCK_TML );
+    my ( $flags, $contents ) = $this->_flatten( $options | WC::NO_BLOCK_TML );
     return ( 0, undef )
-      if ( !defined($contents) || ( $flags & $WC::BLOCK_TML ) );
+      if ( !defined($contents) || ( $flags & WC::BLOCK_TML ) );
 
     # Remove whitespace from either side of the contents, retaining the
     # whitespace
@@ -1264,7 +1280,6 @@ sub _emphasis {
     elsif ( $contents =~ /^([*_=]).*\1$/ ) {
         return ( 0, undef );
     }
-
     my $be = $this->_checkBeforeEmphasis();
     my $ae = $this->_checkAfterEmphasis();
     return ( 0, undef ) unless $ae && $be;
@@ -1308,6 +1323,9 @@ sub _checkBeforeEmphasis {
     return 1 unless $tb;
     return 1 if ( $tb->isBlockNode() );
     return 1 if ( $tb->{nodeType} == 3 && $tb->{text} =~ /[\s(*_=]$/ );
+
+    # Special case of a DT - Item13059 - DT terminates cleanly with :
+    return 1 if ( $this->{parent} && $this->{parent}->{tag} eq 'dt' );
     return 0;
 }
 
@@ -1343,6 +1361,9 @@ sub _checkAfterEmphasis {
     return 1 unless $tb;
     return 1 if ( $tb->isBlockNode() );
     return 1 if ( $tb->{nodeType} == 3 && $tb->{text} =~ /^[\s,.;:!?)*_=]/ );
+
+    # Special case of a DT - Item13059 - DT terminates cleanly with :
+    return 1 if ( $this->{parent} && $this->{parent}->{tag} eq 'dt' );
     return 0;
 }
 
@@ -1350,15 +1371,13 @@ sub _checkAfterEmphasis {
 sub _verbatim {
     my ( $this, $tag, $options ) = @_;
 
-    $options |= $WC::PROTECTED | $WC::KEEP_ENTITIES | $WC::BR2NL | $WC::KEEP_WS;
+    # KEEP_ENTITIES for literal and pre
+    $options |= WC::PROTECTED | WC::KEEP_ENTITIES | WC::BR2NL | WC::KEEP_WS;
     my ( $flags, $text ) = $this->_flatten($options);
 
-    # decode once, and once only. This will decode only those
-    # entities than have a representation in the site charset.
+    # Don't do this for literal or sticky
     WC::decodeRepresentableEntities($text);
 
-    # &nbsp; decodes to \240, which we want to make a space.
-    $text =~ s/\240/$WC::NBSP/g;
     my $p = _htmlParams( $this->{attrs}, $options );
 
     return ( $flags, "<$tag$p>$text</$tag>" );
@@ -1383,19 +1402,19 @@ sub _handleDOCTYPE { return ( 0, '' ); }
 
 sub _LIST {
     my ( $this, $options ) = @_;
-    if ( ( $options & $WC::NO_BLOCK_TML )
-        || !$this->_isConvertableList( $options | $WC::NO_BLOCK_TML ) )
+    if ( ( $options & WC::NO_BLOCK_TML )
+        || !$this->_isConvertableList( $options | WC::NO_BLOCK_TML ) )
     {
         return ( 0, undef );
     }
-    return ( $WC::BLOCK_TML, $this->_convertList($WC::TAB) );
+    return ( WC::BLOCK_TML, $this->_convertList($WC::TAB) );
 }
 
 # Performs initial cleanup of the parse tree before generation. Walks the
 # tree, making parent links and removing attributes that don't add value.
 # This simplifies determining whether a node is to be kept, or flattened
 # out.
-# $opts may include $WC::VERY_CLEAN
+# $opts may include WC::VERY_CLEAN
 sub cleanNode {
     my ( $this, $opts ) = @_;
     my $a;
@@ -1449,7 +1468,7 @@ sub cleanNode {
 sub _handleA {
     my ( $this, $options ) = @_;
 
-    my ( $flags, $text ) = $this->_flatten( $options | $WC::NO_BLOCK_TML );
+    my ( $flags, $text ) = $this->_flatten( $options | WC::NO_BLOCK_TML );
     if ( $text && $text =~ /\S/ && $this->{attrs}->{href} ) {
 
         # there's text and an href
@@ -1464,20 +1483,13 @@ sub _handleA {
             $origWikiword = $this->{attrs}->{'data-wikiword'};
         }
 
-# SMELL:  Item11814 - decoding corrupts URL's that must be encoded,  ex. embedded Newline
-# No unit test covers why the decode is required.  However restricting it to known
-# protocols fixes Item11814.  Need to figure out if this can just be removed?
-#if ( $href !~ /${WC::PROTOCOL}[^?]*/ ) {
-#    $href =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
-#}
-
         if ( $this->{context} && $this->{context}->{rewriteURL} ) {
             $href = $this->{context}->{rewriteURL}->( $href, $this->{context} );
         }
 
         $reww = Foswiki::Func::getRegularExpression('wikiWordRegex')
           unless $reww;
-        my $nop = ( $options & $WC::NOP_ALL ) ? '<nop>' : '';
+        my $nop = ( $options & WC::NOP_ALL ) ? '<nop>' : '';
 
         my $cleantext = $text;
         $cleantext =~ s/<nop>//g;
@@ -1572,9 +1584,9 @@ sub _handleBR {
     # 3. The previous node is an inline element node or text node
     # 4. The next node is an inline element or text node
     my $sep = "\n";
-    if ( $options & $WC::BR2NL ) {
+    if ( $options & WC::BR2NL ) {
     }
-    elsif ( $options & $WC::NO_BLOCK_TML ) {
+    elsif ( $options & WC::NO_BLOCK_TML ) {
         $sep = '<br />';
     }
     elsif ( $this->prevIsInline() ) {
@@ -1609,12 +1621,12 @@ sub _handleDFN      { return _flatten(@_); }
 sub _handleDIV {
     my ( $this, $options ) = @_;
 
-    if ( ( $options & $WC::NO_BLOCK_TML )
-        || !$this->_isConvertableIndent( $options | $WC::NO_BLOCK_TML ) )
+    if ( ( $options & WC::NO_BLOCK_TML )
+        || !$this->_isConvertableIndent( $options | WC::NO_BLOCK_TML ) )
     {
         return $this->_handleP($options);
     }
-    return ( $WC::BLOCK_TML, $this->_convertIndent($options) );
+    return ( WC::BLOCK_TML, $this->_convertIndent($options) );
 }
 
 sub _handleDL { return _LIST(@_); }
@@ -1661,7 +1673,7 @@ sub _handleFONT {
     delete $atts{class} if defined $atts{class} && $atts{class} =~ /^\s*$/;
     delete $atts{style} if defined $atts{style} && $atts{style} =~ /^[\s;]*$/;
     delete $atts{color} if defined $atts{color};
-    if ( defined $colour && !scalar keys %atts ) {
+    if ( defined $colour && !scalar( keys(%atts) ) ) {
         my $percentColour = $WC::HTML2TML_COLOURMAP{ uc($colour) };
         if ( defined $percentColour ) {
             my ( $f, $kids ) = $this->_flatten($options);
@@ -1669,9 +1681,22 @@ sub _handleFONT {
         }
     }
 
-    # Either the colour can't be mapped, or we can't do the conversion
-    # without loss of information
-    return ( 0, undef );
+    # Check if any of the attributes can be ignored
+    foreach my $a ( keys %atts ) {
+        delete $atts{$a}
+          if Foswiki::Plugins::WysiwygPlugin::HTML2TML::ignoreAttr(
+            $this->{tag}, $a );
+    }
+
+    if ( scalar( keys(%atts) ) ) {
+
+        # Either the colour can't be mapped, or we can't do the conversion
+        # without loss of attribute information
+        return ( 0, undef );
+    }
+
+    # We can ignore this
+    return $this->_flatten($options);
 }
 
 # FORM
@@ -1683,7 +1708,7 @@ sub _handleHR {
     my ( $this, $options ) = @_;
 
     my ( $f, $kids ) = $this->_flatten($options);
-    return ( $f, '<hr />' . $kids ) if ( $options & $WC::NO_BLOCK_TML );
+    return ( $f, '<hr />' . $kids ) if ( $options & WC::NO_BLOCK_TML );
 
     my $dashes = 3;
     if (    $this->{attrs}->{style}
@@ -1693,7 +1718,7 @@ sub _handleHR {
         $dashes = 3 if $dashes < 3;
         $dashes = 160 if $dashes > 160;    # Filter out probably-bad data
     }
-    return ( $f | $WC::BLOCK_TML,
+    return ( $f | WC::BLOCK_TML,
         $WC::CHECKn . ( '-' x $dashes ) . $WC::CHECKn . $kids );
 }
 
@@ -1712,25 +1737,24 @@ sub _handleIMG {
     # Hack out mce_src, which is TinyMCE-specific and causes indigestion
     # when the topic is reloaded
     delete $this->{attrs}->{mce_src} if defined $this->{attrs}->{mce_src};
-    if ( $this->{context} && $this->{context}->{rewriteURL} ) {
-        my $href = $this->{attrs}->{src};
-
-        # decode URL params in the href
-        $href =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
-        $href = &{ $this->{context}->{rewriteURL} }( $href, $this->{context} );
-        $this->{attrs}->{src} = $href;
-    }
 
     return ( 0, undef )
       unless $this->{context}
       && defined $this->{context}->{convertImage};
 
-    my $alt =
-      &{ $this->{context}->{convertImage} }
-      ( $this->{attrs}->{src}, $this->{context} );
+    my $href = $this->{attrs}->{src};
+    if ( $this->{context} && $this->{context}->{rewriteURL} ) {
+        my $new =
+          &{ $this->{context}->{rewriteURL} }( $href, $this->{context} );
+        if ( $new && $new ne $href ) {
+            $this->{attrs}->{src} = $href = $new;
+        }
+    }
+    my $alt = &{ $this->{context}->{convertImage} }( $href, $this->{context} );
     if ($alt) {
         return ( 0, $alt );
     }
+
     return ( 0, undef );
 }
 
@@ -1769,7 +1793,7 @@ sub _handleP {
         return $this->_verbatim( 'sticky', $options );
     }
     my ( $f, $kids ) = $this->_flatten($options);
-    return ( $f, '<p>' . $kids . '</p>' ) if ( $options & $WC::NO_BLOCK_TML );
+    return ( $f, '<p>' . $kids . '</p>' ) if ( $options & WC::NO_BLOCK_TML );
     my $prevNode = $this->{prev};
     if ( $prevNode and not $prevNode->{tag} ) {
         $prevNode = $prevNode->{prev};
@@ -1791,7 +1815,7 @@ sub _handleP {
         $pre = $WC::NBBR;
     }
     $pre = $WC::NBBR . $pre if $nbnl;
-    return ( $f | $WC::BLOCK_TML, $pre . $kids . $WC::NBBR );
+    return ( $f | WC::BLOCK_TML, $pre . $kids . $WC::NBBR );
 }
 
 # PARAM
@@ -1806,11 +1830,11 @@ sub _handlePRE {
     if ( $this->hasClass('WYSIWYG_STICKY') ) {
         return $this->_verbatim( 'sticky', $options );
     }
-    unless ( $options & $WC::NO_BLOCK_TML ) {
+    unless ( $options & WC::NO_BLOCK_TML ) {
         my ( $flags, $text ) =
-          $this->_flatten( $options | $WC::NO_TML | $WC::BR2NL | $WC::KEEP_WS );
+          $this->_flatten( $options | WC::NO_TML | WC::BR2NL | WC::KEEP_WS );
         my $p = _htmlParams( $this->{attrs}, $options );
-        return ( $WC::BLOCK_TML, "<$tag$p>$text</$tag>" );
+        return ( WC::BLOCK_TML, "<$tag$p>$text</$tag>" );
     }
     return ( 0, undef );
 }
@@ -1836,11 +1860,11 @@ sub _handleSPAN {
     }
 
     if ( _removeClass( \%atts, 'WYSIWYG_LINK' ) ) {
-        $options |= $WC::NO_BLOCK_TML;
+        $options |= WC::NO_BLOCK_TML;
     }
 
     if ( _removeClass( \%atts, 'WYSIWYG_TT' ) ) {
-        return _emphasis( @_, '=' );
+        return $this->_emphasis( $options, '=' );
     }
 
     # If we have WYSIWYG_COLOR and the colour can be mapped, then convert
@@ -1879,7 +1903,7 @@ sub _handleSPAN {
             #print STDERR "'$whitespace'\n";
             #require Data::Dumper;
             my ( $f, $kids ) =
-              $this->_flatten( $options | $WC::KEEP_WS | $WC::KEEP_ENTITIES );
+              $this->_flatten( $options | WC::KEEP_WS | WC::KEEP_ENTITIES );
 
             #die Data::Dumper::Dumper($kids);
             if ( $kids eq '&nbsp;' ) {
@@ -1921,18 +1945,27 @@ sub _handleSPAN {
         delete $atts{class};
     }
 
-    #    if ( $options & $WC::VERY_CLEAN ) {
+    #    if ( $options & WC::VERY_CLEAN ) {
     # remove style attribute if cleaning aggressively.
     #        delete $atts{style} if defined $atts{style};
     #    }
 
-    # ignore the span tag if there are no other attrs
-    if ( scalar( keys %atts ) == 0 ) {
-        return $this->_flatten($options);
+    # Check if any of the attributes can be ignored
+    foreach my $a ( keys %atts ) {
+        delete $atts{$a}
+          if Foswiki::Plugins::WysiwygPlugin::HTML2TML::ignoreAttr(
+            $this->{tag}, $a );
     }
 
-    # otherwise use the default generator.
-    return ( 0, undef );
+    if ( scalar( keys(%atts) ) ) {
+
+        # Either the colour can't be mapped, or we can't do the conversion
+        # without loss of attribute information
+        return ( 0, undef );
+    }
+
+    # We can ignore this
+    return $this->_flatten($options);
 }
 
 # STRIKE
@@ -1946,11 +1979,11 @@ sub _handleSTYLE { return ( 0, '' ); }
 
 sub _handleTABLE {
     my ( $this, $options ) = @_;
-    return ( 0, undef ) if ( $options & $WC::NO_BLOCK_TML );
+    return ( 0, undef ) if ( $options & WC::NO_BLOCK_TML );
 
     # Should really look at the table attrs, but to heck with it
 
-    return ( 0, undef ) if ( $options & $WC::NO_BLOCK_TML );
+    return ( 0, undef ) if ( $options & WC::NO_BLOCK_TML );
 
     my %atts = %{ $this->{attrs} };
 
@@ -1958,12 +1991,32 @@ sub _handleTABLE {
     #       print STDERR "Found TABLE Attr $key = $atts{$key} \n";
     #       }
 
-# Preserve HTML if non-default options are requested for padding, spacing, border.
+    # Preserve HTML if non-default options are requested for
+    # padding, spacing, border.
     return ( 0, undef )
-      if ( defined $atts{cellpadding} && $atts{cellpadding} ne '0' );
+      if (
+           defined $atts{cellpadding}
+        && $atts{cellpadding} ne '0'
+        && !Foswiki::Plugins::WysiwygPlugin::HTML2TML::ignoreAttr(
+            $this->{tag}, 'cellpadding'
+        )
+      );
     return ( 0, undef )
-      if ( defined $atts{cellspacing} && $atts{cellspacing} ne '1' );
-    return ( 0, undef ) if ( defined $atts{border} && $atts{border} ne '1' );
+      if (
+           defined $atts{cellspacing}
+        && $atts{cellspacing} ne '1'
+        && !Foswiki::Plugins::WysiwygPlugin::HTML2TML::ignoreAttr(
+            $this->{tag}, 'cellspacing'
+        )
+      );
+    return ( 0, undef )
+      if (
+           defined $atts{border}
+        && $atts{border} ne '1'
+        && !Foswiki::Plugins::WysiwygPlugin::HTML2TML::ignoreAttr(
+            $this->{tag}, 'border'
+        )
+      );
 
     #use Data::Dumper;
     #print STDERR Data::Dumper::Dumper( \%atts);
@@ -1971,15 +2024,14 @@ sub _handleTABLE {
     return 0
       if (
         defined $atts{style}
-        && Foswiki::Plugins::WysiwygPlugin::Handlers::protectedByAttr(
+        && Foswiki::Plugins::WysiwygPlugin::HTML2TML::protectedByAttr(
             'table', $atts{style}
         )
       );
 
     my @table;
     return ( 0, undef )
-      unless $this->_isConvertableTable( $options | $WC::NO_BLOCK_TML,
-        \@table );
+      unless $this->_isConvertableTable( $options | WC::NO_BLOCK_TML, \@table );
 
     my $text = $WC::CHECKn;
     foreach my $row (@table) {
@@ -1988,7 +2040,7 @@ sub _handleTABLE {
         $text .= $WC::CHECKn . '|' . join( '|', @$row ) . '|' . $WC::CHECKn;
     }
 
-    return ( $WC::BLOCK_TML, $text );
+    return ( WC::BLOCK_TML, $text );
 }
 
 # TBODY
@@ -2012,7 +2064,9 @@ sub _handleVAR { return _flatten(@_); }
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Author: Crawford Currie http://c-dot.co.uk
+
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

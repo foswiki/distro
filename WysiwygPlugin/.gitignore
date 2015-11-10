@@ -1,0 +1,11 @@
+################################################
+*,v
+*,pfv
+*.gz
+/WysiwygPlugin.md5
+/WysiwygPlugin.sha1
+/WysiwygPlugin.tgz
+/WysiwygPlugin.txt
+/WysiwygPlugin.zip
+/WysiwygPlugin_installer
+/WysiwygPlugin_installer.pl

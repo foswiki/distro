@@ -1,5 +1,6 @@
 !noci
 lib/Foswiki/Plugins/WysiwygPlugin/Constants.pm 0444 Perl module
+lib/Foswiki/Plugins/WysiwygPlugin/DEPENDENCIES 0644
 lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm 0444 Perl module
 lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/WC.pm 0444 Perl module
 lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Base.pm 0444 Perl module

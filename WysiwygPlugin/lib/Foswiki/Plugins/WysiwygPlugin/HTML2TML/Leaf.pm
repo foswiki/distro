@@ -10,6 +10,9 @@ A leaf node is text in the document.
 
 See also Foswiki::Plugins::WysiwygPlugin::TML2HTML::Node
 
+# VERY IMPORTANT: ALL STRINGS STORED IN NODES ARE UNICODE
+# (perl character strings)
+
 =cut
 
 package Foswiki::Plugins::WysiwygPlugin::HTML2TML::Leaf;
@@ -43,22 +46,24 @@ sub generate {
     my ( $this, $options ) = @_;
     my $t = $this->{text};
 
-    if ( !( $options & $WC::KEEP_WS ) ) {
+    if ( !( $options & WC::KEEP_WS ) ) {
         $t =~ s/\t/   /g;
         $t =~ s/\n/$WC::CHECKw/g;
         $t =~ s/  +/ /g;
         $t =~ s/ $/$WC::CHECKw/g;
     }
-    if ( $options & $WC::NOP_ALL ) {
+    if ( $options & WC::NOP_ALL ) {
 
         # escape all embedded wikiwords
         $t =~ s/$WC::STARTWW($Foswiki::regex{wikiWordRegex})/<nop>$1/go;
         $t =~ s/$WC::STARTWW($Foswiki::regex{abbrevRegex})/<nop>$1/go;
         $t =~ s/\[/<nop>[/g;
     }
-    unless ( $options & $WC::KEEP_ENTITIES ) {
+    unless ( $options & WC::KEEP_ENTITIES ) {
         $t =~ s/&($text_entities_re);/chr($text_entities{$1})/ego;
         $t =~ s/&nbsp;/$WC::NBSP/g;
+
+        # unicode code point 160 is $nbsp;
         $t =~ s/&#160;/$WC::NBSP/g;
     }
     return ( 0, $t );
@@ -77,7 +82,7 @@ sub isInline {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

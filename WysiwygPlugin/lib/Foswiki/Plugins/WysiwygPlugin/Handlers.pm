@@ -9,9 +9,7 @@ use warnings;
 use Assert;
 use Error (':try');
 
-use CGI;
-
-use Encode ();
+use CGI qw( :cgi );
 
 use Foswiki::Func                              ();    # The plugins API
 use Foswiki::Plugins                           ();    # For the API version
@@ -25,6 +23,24 @@ our %xmltagPlugin;
 our $SECRET_ID =
 'WYSIWYG content - do not remove this comment, and never use this identical text in your topics';
 
+sub toSiteCharSet {
+    my $string = shift;
+
+    return $string unless defined $string;
+
+    return $string if $Foswiki::UNICODE;
+
+    return $string
+      if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8/i );
+
+    # If the site charset is not utf-8, need to convert it
+    return Encode::encode(
+        $Foswiki::cfg{Site}{CharSet},
+        Encode::decode_utf8($string),
+        Encode::FB_PERLQQ
+    );
+}
+
 sub _SECRET_ID {
     $SECRET_ID;
 }
@@ -36,8 +52,10 @@ sub _OWEBTAG {
 
     return $web unless $query;
 
-    if ( defined( $query->param('templatetopic') ) ) {
-        my @split = split( /\./, $query->param('templatetopic') );
+    my $tt = $query->param('templatetopic');
+    if ( defined($tt) ) {
+        my @split =
+          split( /\./, toSiteCharSet($tt) );
 
         if ( $#split == 0 ) {
             return $web;
@@ -57,8 +75,10 @@ sub _OTOPICTAG {
 
     return $topic unless $query;
 
-    if ( defined( $query->param('templatetopic') ) ) {
-        my @split = split( /\./, $query->param('templatetopic') );
+    my $tt = $query->param('templatetopic');
+    if ( defined($tt) ) {
+        my @split =
+          split( /\./, toSiteCharSet($tt) );
 
         return $split[$#split];
     }
@@ -82,7 +102,7 @@ sub beforeEditHandler {
             # redirect
             my $query = Foswiki::Func::getCgiQuery();
             foreach my $p (qw( skin cover )) {
-                my $arg = $query->param($p);
+                my $arg = toSiteCharSet( $query->param($p) );
                 if ( $arg && $arg =~ s/\b$skin\b// ) {
                     if ( $arg =~ /^[\s,]*$/ ) {
                         $query->delete($p);
@@ -141,14 +161,10 @@ sub afterEditHandler {
     $_[0] = $text;
 }
 
-# Invoked to convert HTML to TML (best efforts)
+# Invoked to convert HTML to TML
+# $text is a foswiki string, i.e. octets encoded in utf8, and so is the result.
 sub TranslateHTML2TML {
-    my ( $text, $topic, $web ) = @_;
-
-    # $text must be in encoded in the site charset
-    ASSERT( $text !~ /[^\x00-\xff]/,
-        "only octets expected in input to TranslateHTML2TML" )
-      if DEBUG;
+    my ( $text, %opts ) = @_;
 
     unless ($html2tml) {
         require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
@@ -165,21 +181,22 @@ sub TranslateHTML2TML {
     my $bottom = '';
     $text =~ s/^(%META:[A-Z]+{.*?}%\r?\n)/$bottom = "$1$bottom";''/gem;
 
-    my $opts = {
-        web          => $web,
-        topic        => $topic,
-        convertImage => \&_convertImage,
-        rewriteURL   => \&postConvertURL,
-        very_clean   => 1,                  # aggressively polish saved HTML
-    };
+    # Apply defaults
+    $opts{convertImage} ||= \&_convertImage;
+    $opts{rewriteURL}   ||= \&postConvertURL;
 
-    $text = $html2tml->convert( $text, $opts );
+    # used by above callbacks
+    $opts{web}   ||= $Foswiki::Plugins::SESSION->{webName};
+    $opts{topic} ||= $Foswiki::Plugins::SESSION->{topicName};
 
-    $text =~ s/\s+$/\n/s;
+    $opts{very_clean} = 1;    # aggressively polish TML
+    $opts{stickybits} =
+      Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_STICKYBITS');
+    $opts{ignoreattrs} =
+      Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_IGNOREATTRS');
 
-    ASSERT( $text !~ /[^\x00-\xff]/,
-        "only octets expected in topic text output from TranslateHTML2TML" )
-      if DEBUG;
+    $text = $html2tml->convert( $text, \%opts );
+
     return $top . $text . $bottom;
 }
 
@@ -208,9 +225,12 @@ sub beforeCommonTagsHandler {
     my $web   = $_[2];
     my ( $meta, $text );
     my $altText = $query->param('templatetopic');
-    if ( $altText && Foswiki::Func::topicExists( $web, $altText ) ) {
-        ( $web, $topic ) =
-          Foswiki::Func::normalizeWebTopicName( $web, $altText );
+    if ($altText) {
+        $altText = toSiteCharSet($altText);
+        if ( Foswiki::Func::topicExists( $web, $altText ) ) {
+            ( $web, $topic ) =
+              Foswiki::Func::normalizeWebTopicName( $web, $altText );
+        }
     }
 
     $_[0] = _WYSIWYG_TEXT( $Foswiki::Plugins::SESSION, {}, $topic, $web );
@@ -225,7 +245,7 @@ sub _WYSIWYG_TEXT {
     # by other plugins, or by the extraction of verbatim blocks.
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
 
-    $text = TranslateTML2HTML( $text, $web, $topic );
+    $text = TranslateTML2HTML( $text, web => $web, topic => $topic );
 
     # Lift out the text to protect it from further Foswiki rendering. It will be
     # put back in the postRenderingHandler.
@@ -261,31 +281,24 @@ sub modifyHeaderHandler {
     }
 }
 
-# callback passed to the TML2HTML convertor
-sub getViewUrl {
-    my ( $web, $topic ) = @_;
-
-    # the Cairo documentation says getViewUrl defaults the web. It doesn't.
-    unless ( defined $Foswiki::Plugins::SESSION ) {
-        $web ||= $Foswiki::webName;
-    }
-
-    return Foswiki::Func::getViewUrl( $web, $topic );
-}
-
 # The subset of vars for which bidirection transformation is supported
 # in URLs only
 use vars qw( @VARS );
 
-# The set of macros that get "special treatment" in URLs
+# The set of macros that get "special treatment" in URLs,  They have to end up
+# sorted based on their expanded length.  To convert from URL to MACRO it has to
+# be based upon longest match.  So _populateVars replaces this with the appropriately
+# sorted array.
 @VARS = (
     '%ATTACHURL%',
     '%ATTACHURLPATH%',
     '%PUBURL%',
     '%PUBURLPATH%',
     '%SCRIPTURLPATH{"view"}%',
+    '%SCRIPTURLPATH{"viewfile"}%',
     '%SCRIPTURLPATH%',
     '%SCRIPTURL{"view"}%',
+    '%SCRIPTURL{"viewfile"}%',
     '%SCRIPTURL%',
     '%SCRIPTSUFFIX%',    # bit dodgy, this one
 );
@@ -299,26 +312,46 @@ sub _populateVars {
     local $Foswiki::Plugins::WysiwygPlugin::recursionBlock =
       1;                 # block calls to beforeCommonTagshandler
 
-    # Item9973: We call CGI::unescape() on the expanded value, because the
-    # content of the src attribute on an img tag is received from WYSIWYG that
-    # way. Without this expandVarsInURL can only match webs, topics, attachments
-    # named with ascii characters (international characters fail match).
     my @exp = split(
         /\0/,
-        CGI::unescape(
-            Foswiki::Func::expandCommonVariables(
-                join( "\0", @VARS ),
-                $opts->{topic}, $opts->{web}
-            )
+        Foswiki::Func::expandCommonVariables(
+            join( "\0", @VARS ),
+            $opts->{topic}, $opts->{web}
         )
     );
 
+    # Item13178: The mapping between URL and vars needs to be longest match
+    # so the list must be sorted by length of the value.  Also, null entries
+    # should be omitted from the mapping, as they cannot be reversed.
+    my %varh;
+    my @exph = @exp;
+    foreach my $k (@VARS) {
+        my $val = shift @exph;
+        $varh{$k} = $val if ( defined $val );
+    }
+
+    my @nvars;
+    my @nexp;
+
+    # Do the sort by length.
+    foreach
+      my $k ( sort { length( $varh{$b} ) <=> length( $varh{$a} ) } keys %varh )
+    {
+        next unless $varh{$k};    # Omit empty variables, can't be reversed.
+        push @nvars, $k;
+        push @nexp,  $varh{$k};
+    }
+
+    @VARS = @nvars;    # Replace the vars list with the length sorted list.
+
+    # and build the list of values in order of @nvars.
     for my $i ( 0 .. $#VARS ) {
         my $nvar = $VARS[$i];
-        $opts->{match}[$i] = $nvar;
-        $exp[$i] ||= '';
+        $opts->{match}[$i] = "\Q$nvar\E";
+        $nexp[$i] ||= '';    # Avoid undefined issues.
     }
-    $opts->{exp} = \@exp;
+    $opts->{exp} = \@nexp;
+
 }
 
 # callback passed to the TML2HTML convertor on each
@@ -336,6 +369,7 @@ sub expandVarsInURL {
 }
 
 # callback passed to the HTML2TML convertor
+# See also foswiki_tiny.js in TinyMCEPlugin,  which performs similar functions.
 sub postConvertURL {
     my ( $url, $opts ) = @_;
 
@@ -357,7 +391,11 @@ sub postConvertURL {
 
     for my $i ( 0 .. $#VARS ) {
         next unless $opts->{exp}->[$i];
-        $url =~ s/^$opts->{exp}->[$i]/$VARS[$i]/;
+
+        # URLs passed here will be URL-encoded, so
+        # we have to url-encode the test expression.
+        my $test = quotemeta( Foswiki::urlEncode( $opts->{exp}->[$i] ) );
+        $url =~ s/^$test/$VARS[$i]/g;
     }
 
     if ( $url =~ m#^%SCRIPTURL(?:PATH)?(?:{"view"}%|%/+view[^/]*)/+([/\w.]+)$#
@@ -369,19 +407,17 @@ sub postConvertURL {
 
         if ( $web && $web ne $opts->{web} ) {
 
-            #print STDERR "$orig -> $web+$topic$anchor\n";    #debug
             return $web . '.' . $topic . $anchor;
         }
 
-        #print STDERR "$orig -> $topic$anchor\n"; #debug
         return $topic . $anchor;
     }
 
-    #print STDERR "$orig -> $url$anchor$parameters\n"; #debug
-    return $url . $anchor . $parameters;
+    return $url . $parameters . $anchor;
 }
 
-# Callback used to convert an image reference into a Foswiki variable.
+# Callback used to convert an IMG reference into a Foswiki variable,
+# given the src= URL
 sub _convertImage {
     my ( $src, $opts ) = @_;
 
@@ -390,6 +426,7 @@ sub _convertImage {
     # block calls to beforeCommonTagshandler
     local $Foswiki::Plugins::WysiwygPlugin::recursionBlock = 1;
 
+    # SMELL: this is not documented anywhere; is it still useful?
     unless ($imgMap) {
         $imgMap = {};
         my $imgs = Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_ICONS');
@@ -493,167 +530,88 @@ sub addXMLTag {
     }
 }
 
+# Invoked to convert TML to HTML
+# $text is a foswiki string, i.e. octets encoded in utf8, and so is the result.
 sub TranslateTML2HTML {
-    my ( $text, $web, $topic, @extraConvertOptions ) = @_;
+    my ( $text, %opts ) = @_;
 
-    ASSERT( $text !~ /[^\x00-\xff]/,
-        "only octets expected in input to TranslateTML2HTML" )
-      if DEBUG;
-
-    # Translate the topic text to pure HTML.
     unless ($Foswiki::Plugins::WysiwygPlugin::tml2html) {
         require Foswiki::Plugins::WysiwygPlugin::TML2HTML;
         $Foswiki::Plugins::WysiwygPlugin::tml2html =
           new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
     }
-    my $html = $Foswiki::Plugins::WysiwygPlugin::tml2html->convert(
-        $_[0],
-        {
-            web             => $web,
-            topic           => $topic,
-            getViewUrl      => \&getViewUrl,
-            expandVarsInURL => \&expandVarsInURL,
-            xmltag          => \%Foswiki::Plugins::WysiwygPlugin::xmltag,
-            @extraConvertOptions,
+
+    # Apply defaults
+    $opts{web}             ||= $Foswiki::Plugins::SESSION->{webName};
+    $opts{topic}           ||= $Foswiki::Plugins::SESSION->{topicName};
+    $opts{expandVarsInURL} ||= \&expandVarsInURL;
+    $opts{xmltag}          ||= \%Foswiki::Plugins::WysiwygPlugin::xmltag;
+    my $keepblocks =
+      Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_PROTECT_TAG_BLOCKS');
+    if ( defined $keepblocks && $keepblocks ne 'NONE' ) {
+        $opts{keepblocks} = [];
+        foreach my $tag ( split /[,\s]+/, $keepblocks ) {
+            push( @{ $opts{keepblocks} }, $tag );
         }
-    );
-    ASSERT( $html !~ /[^\x00-\xff]/,
-        "only octets expected in output from TranslateTML2HTML" )
-      if DEBUG;
+    }
+    my $keeptags =
+      Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_PROTECT_EXISTING_TAGS');
+    if ( defined $keeptags && $keeptags ne 'NONE' ) {
+        $opts{keeptags} = [];
+        foreach ( split( /[,\s]+/, $keeptags ) ) {
+            push( @{ $opts{keeptags} }, $_ );
+        }
+    }
+    $opts{forcenoautolink} =
+      Foswiki::isTrue( Foswiki::Func::getPreferencesValue('NOAUTOLINK') );
+    $opts{isKnownColour} = \&_isKnownColour;
+
+    # SMELL: WTF is this? - CDot
+    $opts{supportsparaindent} =
+      Foswiki::Func::getContext()->{SUPPORTS_PARA_INDENT};
+    my $disabled =
+      Foswiki::Plugins::WysiwygPlugin::wysiwygEditingDisabledForThisContent(
+        $_[0] );
+    $opts{protectall} = $disabled ? 1 : 0;
+
+    my $html =
+      $Foswiki::Plugins::WysiwygPlugin::tml2html->convert( $_[0], \%opts );
+
+    if ( $opts{protectall} ) {
+        $html = CGI::div(
+            { class => 'WYSIWYG_WARNING foswikiBroadcastMessage' },
+            Foswiki::Func::renderText(
+                Foswiki::Func::expandCommonVariables( <<"WARNING" ) ) )
+*%MAKETEXT{"Conversion to HTML for WYSIWYG editing is disabled because of the topic content."}%*
+
+%MAKETEXT{"This is why the conversion is disabled:"}% $disabled
+
+%MAKETEXT{"(This message will be removed automatically)"}%
+WARNING
+          . CGI::div( { class => 'WYSIWYG_PROTECTED' }, $html );
+    }
+
     return $html;
 }
 
-# PACKAGE PRIVATE
-# Determine if sticky attributes prevent a tag being converted to
-# TML when this attribute is present.
-my @protectedByAttr;
+# Look in the Foswiki preferences to see if the named colour is
+# a preference mapped to an HTML colour
+sub _isKnownColour {
+    my $name = shift;
 
-sub protectedByAttr {
-    my ( $tag, $attr ) = @_;
+    my $epr = Foswiki::Func::getPreferencesValue($name);
 
-    unless ( scalar(@protectedByAttr) ) {
-
-        # See the WysiwygPluginSettings for information on stickybits
-        my $protection =
-          Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_STICKYBITS')
-          || <<'DEFAULT';
-(?!img).*=id,lang,title,dir,on.*;
-a=accesskey,coords,shape,target;
-bdo=dir;
-br=clear;
-col=char,charoff,span,valign,width;
-colgroup=align,char,charoff,span,valign,width;
-dir=compact;
-div=align,style;
-dl=compact;
-font=size,face;
-h\d=align;
-hr=align,noshade,size,width;
-legend=accesskey,align;
-li=value;
-ol=compact,start,type;
-p=align;
-param=name,type,value,valuetype;
-pre=width;
-q=cite;
-table=align,bgcolor,.*?background-color:.*,frame,rules,summary,width;
-tbody=align,char,charoff,valign;
-td=abbr,align,axis,bgcolor,.*?background-color:.*,.*?border-color:.*,char,charoff,headers,height,nowrap,rowspan,scope,valign,width;
-tfoot=align,char,charoff,valign;
-th=abbr,align,axis,bgcolor,.*?background-color:.*,char,charoff,height,nowrap,rowspan,scope,valign,width,headers;
-thead=align,char,charoff,valign;
-tr=bgcolor,.*?background-color:.*,char,charoff,valign;
-ul=compact,type;
-DEFAULT
-        foreach my $def ( split( /;\s*/s, $protection ) ) {
-            my ( $re, $ats ) = split( /\s*=\s*/s, $def, 2 );
-            push(
-                @protectedByAttr,
-                {
-                    tag   => qr/$re/i,
-                    attrs => join( '|', split( /\s*,\s*/, $ats ) )
-                }
-            );
-        }
+    # Match <font color="x" and style="color:x"
+    if (
+        defined $epr
+        && (   $epr =~ /color=["'](#?\w+)['"]/
+            || $epr =~ /color\s*:\s*(#?\w+)/
+            || $epr =~ /class=["']foswiki(${name})FG['"]/i )
+      )
+    {
+        return $1;
     }
-    foreach my $row (@protectedByAttr) {
-        if ( $tag =~ /^$row->{tag}$/i ) {
-
-            #print STDERR
-            #  "Matched $tag, looking for ^($row->{attrs})\$ in $attr\n";
-            if ( $attr =~ /^($row->{attrs})$/i ) {
-
-            #   print STDERR
-            #     "Protecting  $tag with $attr matches $row->{attrs} \n"; #debug
-                return 1;
-            }
-        }
-    }
-    return 0;
-}
-
-# Text that is taken from a web page and added to the parameters of an XHR
-# by JavaScript is UTF-8 encoded. This is because UTF-8 is the default encoding
-# for XML, which XHR was designed to transport.
-
-# This function is used to decode such parameters to the currently selected
-# Foswiki site character set.
-
-# Note that this transform is not as simple as an Encode::from_to, as
-# a number of unicode code points must be remapped for certain encodings.
-sub RESTParameter2SiteCharSet {
-    my ($text) = @_;
-
-    #print STDERR "octets in [". WC::debugEncode($text). "]\n\n";
-    # $text is supposed to contain octets that are valid UTF-8.
-    # $text should certainly not have any codes above 255.
-    ASSERT( $text !~ /[^\x00-\xff]/,
-        "only octets expected in input to RESTParameter2SiteCharSet" )
-      if DEBUG;
-
-    # $text might contain octets that are not valid UTF-8
-    # because it came from the browser, and so it might be hostile content.
-    # Encode::FB_PERLQQ makes decode_utf8 convert invalid octet sequences
-    # into a perl escape sequence, octet for octet (e.g. \xFF\x80),
-    # instead of throwing an exception. This defuses the invalid sequence.
-    $text = Encode::decode_utf8( $text, Encode::FB_PERLQQ );
-
-    # $text now contains unicode characters
-    #print STDERR "as utf-8  [". WC::debugEncode($text). "]\n\n";
-
-    if ( WC::encoding() =~ /^utf-?8/ ) {
-        $text = Encode::encode_utf8($text);
-    }
-    else {
-
-        # The site charset is a non-UTF-8 8-bit charset
-
-        WC::convertNotRepresentabletoEntity($text);
-
-# All characters that cannot be represented in the site charset are now encoded as entities
-# Named entities are used if available, otherwise numeric entities,
-# because named entities produce more readable TML
-
-      # Encode $text in the site charset
-      # The Encode::FB_HTMLCREF should not be needed, as all characters in $text
-      # are supposed to be representable in the site charset.
-        $text = Encode::encode( WC::encoding(), $text, Encode::FB_HTMLCREF );
-    }
-
-# $text is now encoded as per the site charset.
-# For UTF-8 - that means octets.
-# For non-UTF8, Unicode characters that cannot be represented in the site charset
-# are converted to HTML entities (preferring named entities to numeric entities)
-
-    # The return value is supposed to be according to the currently selected
-    # Foswiki site character set, encoded as octets.
-    # Thus, there should not be any codes above 255.
-    ASSERT( $text !~ /[^\x00-\xff]/,
-        "only octets expected in return value for RESTParameter2SiteCharSet" )
-      if DEBUG;
-
-    #print STDERR "octets out [". WC::debugEncode($text). "]\n\n";
-    return $text;
+    return undef;
 }
 
 # Text that is taken from a web page and added to the parameters of an XHR
@@ -663,15 +621,6 @@ sub RESTParameter2SiteCharSet {
 # This function generates such a response.
 sub returnRESTResult {
     my ( $response, $status, $text ) = @_;
-    ASSERT( $text !~ /[^\x00-\xff]/,
-        "only octets expected in input to returnRESTResult" )
-      if DEBUG;
-
-    $text = Encode::decode( WC::encoding(), $text, Encode::FB_HTMLCREF );
-
-    #print STDERR "unicodechr[". WC::debugEncode($text). "]\n\n";
-
-    $text = Encode::encode_utf8($text);
 
     # Foswiki 1.0 introduces the Foswiki::Response object, which handles all
     # responses.
@@ -717,11 +666,13 @@ sub returnRESTResult {
 # request.req.onreadystatechange = ...;
 # req.send(params);
 #
-sub _restTML2HTML {
+sub REST_TML2HTML {
     my ( $session, $plugin, $verb, $response ) = @_;
-    my $tml = Foswiki::Func::getCgiQuery()->param('text');
 
-    $tml = RESTParameter2SiteCharSet($tml);
+    my $tml = Foswiki::Func::getCgiQuery()->param('text');
+    $tml = toSiteCharSet($tml);
+
+    return '' unless $tml;
 
     # if the secret ID is present, don't convert again. We are probably
     # going 'back' to this page (doesn't work on IE :-( )
@@ -729,8 +680,7 @@ sub _restTML2HTML {
         return $tml;
     }
 
-    my $html =
-      TranslateTML2HTML( $tml, $session->{webName}, $session->{topicName} );
+    my $html = TranslateTML2HTML( toSiteCharSet($tml) );
 
     # Add the secret id to trigger reconversion. Doesn't work if the
     # editor eats HTML comments, so the editor may need to put it back
@@ -743,148 +693,40 @@ sub _restTML2HTML {
 }
 
 # Rest handler for use from Javascript
-sub _restHTML2TML {
+sub REST_HTML2TML {
     my ( $session, $plugin, $verb, $response ) = @_;
+
+    my $html = Foswiki::Func::getCgiQuery()->param('text');
+
+    return '' unless $html;
+
+    $html = toSiteCharSet($html);
+
+    $html =~ s/<!--$SECRET_ID-->//go;
     unless ($html2tml) {
         require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
 
         $html2tml = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
     }
-    my $html = Foswiki::Func::getCgiQuery()->param('text');
 
-#print STDERR "param     [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($html). "]\n\n";
-
-    $html = RESTParameter2SiteCharSet($html);
-
-#print STDERR "paraminSC [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($html). "]\n\n";
-
-    $html =~ s/<!--$SECRET_ID-->//go;
     my $tml = $html2tml->convert(
         $html,
         {
-            web          => $session->{webName},
-            topic        => $session->{topicName},
+            very_clean => 1,
+            stickybits =>
+              Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_STICKYBITS'),
+            ignoreattrs =>
+              Foswiki::Func::getPreferencesValue('WYSIWYGPLUGIN_IGNOREATTRS'),
             convertImage => \&_convertImage,
             rewriteURL   => \&postConvertURL,
-            very_clean   => 1,
+            web          => $session->{webName},      # used by callbacks
+            topic        => $session->{topicName},    # used by callbacks
         }
     );
 
-#print STDERR "tml inSc  [". Foswiki::Plugins::WysiwygPlugin::HTML2TML::debugEncode($tml). "]\n\n";
-
     returnRESTResult( $response, 200, $tml );
+
     return;    # to prevent further processing
-}
-
-# SMELL: foswiki supports proper REST usage of the upload script,
-# so debatable if this is required any more
-sub _restUpload {
-    my ( $session, $plugin, $verb, $response ) = @_;
-    my $query = Foswiki::Func::getCgiQuery();
-
-    # Item1458 ignore uploads not using POST
-    if ( $query && $query->method() && uc( $query->method() ) ne 'POST' ) {
-        returnRESTResult( $response, 405, "Method not Allowed" );
-        return;
-    }
-    my ( $web, $topic ) = ( $session->{webName}, $session->{topicName} );
-    my $hideFile    = $query->param('hidefile')    || '';
-    my $fileComment = $query->param('filecomment') || '';
-    my $createLink  = $query->param('createlink')  || '';
-    my $doPropsOnly = $query->param('changeproperties');
-    my $filePath    = $query->param('filepath')    || '';
-    my $fileName    = $query->param('filename')    || '';
-    if ( $filePath && !$fileName ) {
-        $filePath =~ m|([^/\\]*$)|;
-        $fileName = $1;
-    }
-    $fileComment =~ s/\s+/ /go;
-    $fileComment =~ s/^\s*//o;
-    $fileComment =~ s/\s*$//o;
-    $fileName =~ s/\s*$//o;
-    $filePath =~ s/\s*$//o;
-
-    unless (
-        Foswiki::Func::checkAccessPermission(
-            'CHANGE', Foswiki::Func::getWikiName(),
-            undef, $topic, $web
-        )
-      )
-    {
-        returnRESTResult( $response, 401, "Access denied" );
-        return;    # to prevent further processing
-    }
-
-    my ( $fileSize, $fileDate, $tmpFileName );
-
-    my $stream;
-    $stream = $query->upload('filepath') unless $doPropsOnly;
-    my $origName = $fileName;
-
-    unless ($doPropsOnly) {
-
-        # SMELL: call to unpublished function
-        ( $fileName, $origName ) =
-          Foswiki::Sandbox::sanitizeAttachmentName($fileName);
-
-        # check if upload has non zero size
-        if ($stream) {
-            my @stats = stat $stream;
-            $fileSize = $stats[7];
-            $fileDate = $stats[9];
-        }
-
-        unless ( $fileSize && $fileName ) {
-            returnRESTResult( $response, 500, "Zero-sized file upload" );
-            return;    # to prevent further processing
-        }
-
-        my $maxSize = Foswiki::Func::getPreferencesValue('ATTACHFILESIZELIMIT')
-          || 0;
-        $maxSize =~ s/\s+$//;
-        $maxSize = 0 unless ( $maxSize =~ /([0-9]+)/o );
-
-        if ( $maxSize && $fileSize > $maxSize * 1024 ) {
-            returnRESTResult( $response, 500, "OVERSIZED UPLOAD" );
-            return;    # to prevent further processing
-        }
-    }
-
-    # SMELL: use of undocumented CGI::tmpFileName
-    my $tfp = $query->tmpFileName( $query->param('filepath') );
-    my $error;
-    try {
-        Foswiki::Func::saveAttachment(
-            $web, $topic,
-            $fileName,
-            {
-                dontlog     => !$Foswiki::cfg{Log}{upload},
-                comment     => $fileComment,
-                hide        => $hideFile,
-                createlink  => $createLink,
-                stream      => $stream,
-                filepath    => $filePath,
-                filesize    => $fileSize,
-                filedate    => $fileDate,
-                tmpFilename => $tfp,
-            }
-        );
-    }
-    catch Error::Simple with {
-        $error = shift->{-text};
-    }
-    finally {
-        close($stream) if $stream;
-    };
-
-    if ($error) {
-        returnRESTResult( $response, 500, $error );
-        return;    # to prevent further processing
-    }
-
-    # Otherwise allow the rest dispatcher to write a 200
-    return "$origName attached to $web.$topic"
-      . ( $origName ne $fileName ? " as $fileName" : '' );
 }
 
 sub _unquote {
@@ -899,7 +741,7 @@ sub _unquote {
 }
 
 # Get, and return, a list of attachments using JSON
-sub _restAttachments {
+sub REST_attachments {
     my ( $session, $plugin, $verb, $response ) = @_;
     my ( $web, $topic ) = ( $session->{webName}, $session->{topicName} );
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
@@ -941,7 +783,7 @@ sub _restAttachments {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

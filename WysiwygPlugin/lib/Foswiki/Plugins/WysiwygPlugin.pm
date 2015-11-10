@@ -30,8 +30,8 @@ use Assert;
 our $SHORTDESCRIPTION  = 'Translator framework for WYSIWYG editors';
 our $NO_PREFS_IN_TOPIC = 1;
 
-use version; our $VERSION = version->declare("v1.1.16");
-our $RELEASE = '16 May 2013';
+our $VERSION = '1.31';
+our $RELEASE = '14 Jun 2015';
 
 our %xmltag;
 
@@ -42,7 +42,22 @@ our $recursionBlock;
 our %FoswikiCompatibility;
 
 # Set to 1 for reasons for rejection
-sub WHY { 0 }
+use constant WHY => 0;
+
+#simple Browser detection.
+our %defaultINIT_BROWSER = (
+    MSIE    => '',
+    OPERA   => '',
+    GECKO   => '"gecko_spellcheck" : true',
+    SAFARI  => '',
+    CHROME  => '',
+    UNKNOWN => '',
+);
+my $query;
+
+# Info about browser type
+my %browserInfo;
+my $browser;
 
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
@@ -64,23 +79,79 @@ sub initPlugin {
     Foswiki::Func::registerTagHandler( 'WYSIWYG_SECRET_ID',
         sub { _execute( '_SECRET_ID', @_ ) } );
 
+    # The WYSIWYG REST handlers all check for appropriate access.
+    # Core does not need to enforce access or validation.
+    my %opts = (
+        authenticate => 0,
+        validate     => 0,
+        http_allow   => 'GET,POST',
+    );
+
     Foswiki::Func::registerRESTHandler( 'tml2html',
-        sub { _execute( '_restTML2HTML', @_ ) } );
+        sub { _execute( 'REST_TML2HTML', @_ ) }, %opts );
     Foswiki::Func::registerRESTHandler( 'html2tml',
-        sub { _execute( '_restHTML2TML', @_ ) } );
-    Foswiki::Func::registerRESTHandler( 'upload',
-        sub { _execute( '_restUpload', @_ ) } );
+        sub { _execute( 'REST_HTML2TML', @_ ) }, %opts );
     Foswiki::Func::registerRESTHandler( 'attachments',
-        sub { _execute( '_restAttachments', @_ ) } );
+        sub { _execute( 'REST_attachments', @_ ) }, %opts );
 
     # Plugin correctly initialized
     return 1;
 }
 
+sub getBrowserName {
+    return $browser if ( defined($browser) );
+
+    $query = Foswiki::Func::getCgiQuery();
+    return unless ($query);
+
+    # Identify the browser from the user agent string
+    my $ua = $query->user_agent();
+    if ($ua) {
+        $browserInfo{isMSIE} = $ua =~ m/MSIE/;
+        $browserInfo{isMSIE5} = $browserInfo{isMSIE} && ( $ua =~ m/MSIE 5/ );
+        $browserInfo{isMSIE5_0} =
+          $browserInfo{isMSIE} && ( $ua =~ m/MSIE 5.0/ );
+        $browserInfo{isMSIE6} = $browserInfo{isMSIE} && $ua =~ m/MSIE 6/;
+        $browserInfo{isMSIE7} = $browserInfo{isMSIE} && $ua =~ m/MSIE 7/;
+        $browserInfo{isMSIE8} = $browserInfo{isMSIE} && $ua =~ m/MSIE 8/;
+        $browserInfo{isGecko}  = $ua =~ m/Gecko/;  # Will also be true on Safari
+        $browserInfo{isSafari} = $ua =~ m/Safari/; # Will also be true on Chrome
+        $browserInfo{isOpera}  = $ua =~ m/Opera/;
+        $browserInfo{isChrome} = $ua =~ m/Chrome/;
+        $browserInfo{isMac}    = $ua =~ m/Mac/;
+        $browserInfo{isNS7}  = $ua =~ m/Netscape\/7/;
+        $browserInfo{isNS71} = $ua =~ m/Netscape\/7.1/;
+    }
+
+    # The order of these conditions is important, because browsers
+    # spoof eachother
+    if ( $browserInfo{isChrome} ) {
+        $browser = 'CHROME';
+    }
+    elsif ( $browserInfo{isSafari} ) {
+        $browser = 'SAFARI';
+    }
+    elsif ( $browserInfo{isOpera} ) {
+        $browser = 'OPERA';
+    }
+    elsif ( $browserInfo{isGecko} ) {
+        $browser = 'GECKO';
+    }
+    elsif ( $browserInfo{isMSIE} ) {
+        $browser = 'MSIE';
+    }
+    else {
+        $browser = 'UNKNOWN';
+    }
+
+    return ( $browser, $defaultINIT_BROWSER{$browser} );
+}
+
 sub _execute {
     my $fn = shift;
 
-    require Foswiki::Plugins::WysiwygPlugin::Handlers;
+    eval "require Foswiki::Plugins::WysiwygPlugin::Handlers";
+    ASSERT( !$@, $@ ) if DEBUG;
     $fn = 'Foswiki::Plugins::WysiwygPlugin::Handlers::' . $fn;
     no strict 'refs';
     return &$fn(@_);
@@ -131,46 +202,47 @@ sub wysiwygEditingDisabledForThisContent {
         $calls_ok =~ s/\s//g;
 
         my $ok = 1;
-        if (   $exclusions =~ /calls/
-            && $_[0] =~ /%((?!($calls_ok){)[A-Z_]+{.*?})%/s )
+        if (   $exclusions =~ m/calls/
+            && $_[0] =~ m/%((?!($calls_ok){)[A-Z_]+{.*?})%/s )
         {
             print STDERR "WYSIWYG_DEBUG: has calls $1 (not in $calls_ok)\n"
               if (WHY);
             return "Text contains calls";
         }
-        if ( $exclusions =~ /(macros|variables)/ && $_[0] =~ /%([A-Z_]+)%/s ) {
+        if ( $exclusions =~ m/(macros|variables)/ && $_[0] =~ m/%([A-Z_]+)%/s )
+        {
             print STDERR "$exclusions WYSIWYG_DEBUG: has macros $1\n"
               if (WHY);
             return "Text contains macros";
         }
-        if (   $exclusions =~ /html/
-            && $_[0] =~ /<\/?((?!literal|verbatim|noautolink|nop|br)\w+)/i )
+        if (   $exclusions =~ m/html/
+            && $_[0] =~ m/<\/?((?!literal|verbatim|noautolink|nop|br)\w+)/i )
         {
             print STDERR "WYSIWYG_DEBUG: has html: $1\n"
               if (WHY);
             return "Text contains HTML";
         }
-        if ( $exclusions =~ /comments/ && $_[0] =~ /<[!]--/ ) {
+        if ( $exclusions =~ m/comments/ && $_[0] =~ m/<[!]--/ ) {
             print STDERR "WYSIWYG_DEBUG: has comments\n"
               if (WHY);
             return "Text contains comments";
         }
-        if ( $exclusions =~ /pre/ && $_[0] =~ /<pre\w/i ) {
+        if ( $exclusions =~ m/pre/ && $_[0] =~ m/<pre\w/i ) {
             print STDERR "WYSIWYG_DEBUG: has pre\n"
               if (WHY);
             return "Text contains PRE";
         }
-        if ( $exclusions =~ /script/ && $_[0] =~ /<script\W/i ) {
+        if ( $exclusions =~ m/script/ && $_[0] =~ m/<script\W/i ) {
             print STDERR "WYSIWYG_DEBUG: has script\n"
               if (WHY);
             return "Text contains script";
         }
-        if ( $exclusions =~ /style/ && $_[0] =~ /<style\W/i ) {
+        if ( $exclusions =~ m/style/ && $_[0] =~ m/<style\W/i ) {
             print STDERR "WYSIWYG_DEBUG: has style\n"
               if (WHY);
             return "Text contains style";
         }
-        if ( $exclusions =~ /table/ && $_[0] =~ /<table\W/i ) {
+        if ( $exclusions =~ m/table/ && $_[0] =~ m/<table\W/i ) {
             print STDERR "WYSIWYG_DEBUG: has table\n"
               if (WHY);
             return "Text contains table";
@@ -185,9 +257,9 @@ sub wysiwygEditingDisabledForThisContent {
     # Look for combinations of sticky and other markup that cause
     # problems together
     for my $tag ('literal') {
-        while ( $text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
+        while ( $text =~ m/<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
             my $inner = $1;
-            if ( $inner =~ /<sticky\b[^>]*>/i ) {
+            if ( $inner =~ m/<sticky\b[^>]*>/i ) {
                 print STDERR "WYSIWYG_DEBUG: <sticky> inside <$tag>\n"
                   if (WHY);
                 return "&lt;sticky&gt; inside &lt;$tag&gt;";
@@ -206,9 +278,9 @@ sub wysiwygEditingDisabledForThisContent {
     # Look for combinations of verbatim and other markup that cause
     # problems together
     for my $tag ('literal') {
-        while ( $text =~ /<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
+        while ( $text =~ m/<$tag\b[^>]*>(.*?)<\/$tag>/gsi ) {
             my $inner = $1;
-            if ( $inner =~ /$wasAVerbatimTag/i ) {
+            if ( $inner =~ m/$wasAVerbatimTag/i ) {
                 print STDERR "WYSIWYG_DEBUG: <verbatim> inside <$tag>\n"
                   if (WHY);
                 return "&lt;verbatim&gt; inside &lt;$tag&gt;";
@@ -222,12 +294,16 @@ sub wysiwygEditingDisabledForThisContent {
 sub wysiwygEditingNotPossibleForThisContent {
     eval {
         require Foswiki::Plugins::WysiwygPlugin::Handlers;
-        Foswiki::Plugins::WysiwygPlugin::Handlers::TranslateTML2HTML( $_[0],
-            'Fakewebname', 'FakeTopicName', dieOnError => 1 );
+        Foswiki::Plugins::WysiwygPlugin::Handlers::TranslateTML2HTML(
+            $_[0],
+            web        => 'Fakewebname',
+            topic      => 'FakeTopicName',
+            dieOnError => 1
+        );
     };
     if ($@) {
-        print STDERR
-          "WYSIWYG_DEBUG: TML2HTML conversion threw an exception: $@\n"
+        Foswiki::Func::writeDebug(
+            "WYSIWYG_DEBUG: TML2HTML conversion threw an exception: $@")
           if (WHY);
         return "TML2HTML conversion fails";
     }
@@ -299,7 +375,7 @@ sub modifyHeaderHandler {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
