@@ -3459,6 +3459,11 @@ sub addToZone {
         $thisZone->{$id} = $zoneID;
     }
 
+    # add class to script and link data
+    $data =~ s/<script\s+((?![^>]*class=))/<script class='\$zone \$id' $1/g;
+    $data =~ s/<link\s+((?![^>]class=))/<link class='\$zone \$id' $1/g;
+    $data =~ s/<style\s+((?![^>]*class=))/<style class='\$zone \$id' $1/g;
+
     # override previous properties
     $zoneID->{zone}            = $zone;
     $zoneID->{requires}        = \@requires;
