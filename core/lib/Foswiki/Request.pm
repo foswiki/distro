@@ -36,6 +36,16 @@ use Assert;
 use Error    ();
 use IO::File ();
 use CGI::Util qw(rearrange);
+use Time::HiRes ();
+
+sub getTime {
+    my $this     = shift;
+    my $endTime  = [Time::HiRes::gettimeofday];
+    my $timeDiff = Time::HiRes::tv_interval( $this->{start_time}, $endTime );
+    return $timeDiff;
+}
+
+
 
 =begin TML
 
@@ -69,6 +79,7 @@ sub new {
         remote_user    => undef,
         secure         => 0,
         server_port    => undef,
+        start_time     => [Time::HiRes::gettimeofday],
         uploads        => {},
         uri            => '',
     };
