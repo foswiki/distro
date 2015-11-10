@@ -9,98 +9,173 @@ use warnings;
 
 use Foswiki::Func ();
 
-use vars qw(
-  %smiliesUrls %smiliesEmotions
-  $smiliesPubUrl $allPattern $smiliesFormat );
+our %cache = ();
+our $current;
 
-use version; our $VERSION = version->declare("v1.1.6");
-our $RELEASE           = '28 Nov 2012';
+our $VERSION           = '2.03';
+our $RELEASE           = '17 Sep 2015';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'Render smilies like :-) as icons';
+our $doneHeader        = 0;
 
 sub initPlugin {
-    my ( $topic, $web, $user, $installWeb ) = @_;
 
-    # Get plugin preferences
-    $smiliesFormat = Foswiki::Func::getPreferencesValue('SMILIESPLUGIN_FORMAT')
-      || '<img src="$url" alt="$tooltip" title="$tooltip" border="0" />';
+    Foswiki::Func::registerTagHandler( 'SMILIES', \&_renderSmilies );
 
-    $topic = Foswiki::Func::getPreferencesValue('SMILIESPLUGIN_TOPIC')
-      || "$installWeb.SmiliesPlugin";
+    my $web   = $Foswiki::cfg{SystemWebName};
+    my $topic = Foswiki::Func::getPreferencesValue('SMILIESPLUGIN_TOPIC')
+      || "SmiliesPlugin";
 
-    $web = $installWeb;
-    if ( $topic =~ /(.+)\.(.+)/ ) {
-        $web   = $1;
-        $topic = $2;
-    }
+    $doneHeader = 0;
 
-    $allPattern = "(";
-    foreach (
-        split( /\n/, Foswiki::Func::readTopicText( $web, $topic, undef, 1 ) ) )
-    {
+    _loadSmilies( $web, $topic );
 
-        # smilie       url            emotion
-        if (
-m/^\s*\|\s*<nop>(?:\&nbsp\;)?([^\s|]+)\s*\|\s*%ATTACHURL%\/([^\s]+)\s*\|\s*"([^"|]+)"\s*\|\s*$/o
-          )
-        {
-            $allPattern .= "\Q$1\E|";
-            $smiliesUrls{$1}     = $2;
-            $smiliesEmotions{$1} = $3;
-        }
-    }
-    $allPattern =~ s/\|$//o;
-    $allPattern .= ")";
-    $smiliesPubUrl = Foswiki::Func::getPubUrlPath() . "/$web/$topic";
-
-    # Initialization OK
     return 1;
-}
-
-sub commonTagsHandler {
-
-    # my ( $text, $topic, $web ) = @_;
-    $_[0] =~ s/%SMILIES%/_allSmiliesTable()/geo;
 }
 
 sub preRenderingHandler {
 
-    #    my ( $text, \%removed ) = @_;
+    if ( $_[0] =~
+        s/(\s|^)$cache{$current}{pattern}(?=\s|$)/_renderSmily($1,$2)/ge )
+    {
+        _addToZone();
+    }
+}
 
-    $_[0] =~ s/(\s|^)$allPattern(?=\s|$)/_renderSmily($1,$2)/geo;
+sub _addToZone {
+    return if $doneHeader;
+    $doneHeader = 1;
+    Foswiki::Func::addToZone( "head", "SMILIESPLUGIN",
+"<link rel='stylesheet' href='%PUBURLPATH%/%SYSTEMWEB%/SmiliesPlugin/smilies.css' type='text/css' media='all' />"
+    );
+}
+
+sub _loadSmilies {
+    my ( $web, $topic, $force ) = @_;
+
+    ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $web, $topic );
+
+    $current = "$web.$topic";
+    return if !$force && defined $cache{$current};
+
+    $cache{$current} = ();
+
+    $cache{$current}{format} =
+      Foswiki::Func::getPreferencesValue('SMILIESPLUGIN_FORMAT')
+      || '<img class=\'smily\' src=\'$url\' alt=\'$tooltip\' title=\'$tooltip\' />';
+
+    $cache{$current}{pattern} = "(";
+    my $state = 0;
+    my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+    foreach my $line ( split( /\n/, $text || '' ) ) {
+
+        # | smily | image | description |
+        if ( $line =~ m/^\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*$/ ) {
+
+            my $alternatives = $1;
+            my $image        = $2;
+            my $desc         = $3;
+
+            if ( $alternatives =~ m/^\*/ ) {
+                $state = 1;
+                next;
+            }
+
+            $image =~ s/%ATTACHURL(PATH)?%//g;
+            $desc  =~ s/"//g;
+
+            next unless $alternatives && $image;
+
+            foreach my $key ( split( /\s+/, $alternatives ) ) {
+                $key =~ s/<nop>|\&nbsp;//g;
+                $cache{$current}{pattern} .= "\Q$key\E|";
+                $cache{$current}{image}{$key} = $image;
+                $cache{$current}{desc}{$key}  = $desc;
+                $cache{$current}{alts}{$key}  = $alternatives;
+            }
+        }
+        else {
+            last if $state == 1;
+        }
+    }
+
+    #$cache{$current}{pattern} =~ s/\|$//;
+    $cache{$current}{pattern} .= ")";
+    $cache{$current}{pubUrl} = Foswiki::Func::getPubUrlPath() . "/$web/$topic";
+
 }
 
 sub _renderSmily {
-    my ( $thePre, $theSmily ) = @_;
+    my ( $pre, $smily ) = @_;
 
-    return $thePre unless $theSmily;
+    return $pre unless $smily;
+    return $pre . _formatSmily( $cache{$current}{format}, $smily );
+}
 
-    my $text = $thePre . $smiliesFormat;
-    $text =~ s/\$emoticon/$theSmily/go;
-    $text =~ s/\$tooltip/$smiliesEmotions{$theSmily}/go;
-    $text =~ s/\$url/$smiliesPubUrl\/$smiliesUrls{$theSmily}/go;
+sub _formatSmily {
+    my ( $format, $smily ) = @_;
+
+    my $text = $format;
+
+    $text =~ s/\$key/<nop>$smily/g;
+    $text =~ s/\$alternatives/$cache{$current}{alts}{$smily}/g;
+    $text =~ s/\$emoticon/$smily/g;
+    $text =~ s/\$tooltip/$cache{$current}{desc}{$smily}/g;
+    $text =~
+      s/\$url/$cache{$current}{pubUrl}\/$cache{$current}{image}{$smily}/g;
 
     return $text;
 }
 
-sub _allSmiliesTable {
-    my $text = "| *What to Type* | *Graphic That Will Appear* | *Emotion* |\n";
+sub _renderSmilies {
+    my ( $session, $params ) = @_;
 
-    foreach my $k (
-        sort { $smiliesEmotions{$b} cmp $smiliesEmotions{$a} }
-        keys %smiliesEmotions
-      )
-    {
-        $text .= "| <nop>$k | $k | " . $smiliesEmotions{$k} . " |\n";
+    my $smily     = $params->{_DEFAULT};
+    my $header    = $params->{header};
+    my $format    = $params->{format};
+    my $footer    = $params->{footer} || '';
+    my $separator = $params->{separator} || '$n';
+
+    $header =
+'| *%MAKETEXT{"Notation"}%* | *%MAKETEXT{"Image"}%* | *%MAKETEXT{"Description"}%* |$n'
+      unless defined $header;
+
+    $format = '| $alternatives | $emoticon | $tooltip |' unless defined $format;
+
+    my @smilies = ();
+    if ( defined $smily ) {
+        push @smilies, $smily;
     }
-    return $text;
+    else {
+        @smilies =
+          sort {
+            lc( $cache{$current}{image}{$a} ) cmp
+              lc( $cache{$current}{image}{$b} )
+          }
+          keys %{ $cache{$current}{alts} };
+    }
+
+    my @result = ();
+    my %seen   = ();
+    foreach my $smily (@smilies) {
+        next if $seen{ $cache{$current}{alts}{$smily} };
+        push @result, _formatSmily( $format, $smily );
+        $seen{ $cache{$current}{alts}{$smily} } = 1;
+    }
+
+    return '' unless @result;
+
+    _addToZone();
+
+    return Foswiki::Func::decodeFormatTokens(
+        $header . join( $separator, @result ) . $footer );
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
