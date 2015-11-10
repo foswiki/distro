@@ -542,6 +542,7 @@ NONNY
 '%META:TOPICINFO{author="BaseUserMapping_666" comment="save topic" date=".*?" format="1.1" reprev="1" version="1"}%'
       . "\n"
       . $origtext;
+    $matchText =~ s/\{/\\{/g;
     $this->assert_matches( qr/$matchText/, $text2 );
 
     return;

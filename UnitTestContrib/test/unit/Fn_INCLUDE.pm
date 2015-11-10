@@ -164,7 +164,7 @@ Such a section!
 Out of scope
 THIS
     my $handledTopicText = $topicText;
-    $handledTopicText =~ s/%(START|END)SECTION{"suction"}%//g;
+    $handledTopicText =~ s/%(START|END)SECTION\{"suction"\}%//g;
 
     my ($inkyDink) =
       Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );

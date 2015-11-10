@@ -195,7 +195,7 @@ sub test_hoistSimple {
 
    #print STDERR "HoistS ",$query->stringify()," -> /",join(';', @filter),"/\n";
     $this->assert_str_equals(
-        '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
+        '^%META:FIELD\{name=\"number\".*\bvalue=\"99\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
     my $meta = $this->{meta};
@@ -212,7 +212,7 @@ sub test_hoistSimple2 {
 
    #print STDERR "HoistS ",$query->stringify()," -> /",join(';', @filter),"/\n";
     $this->assert_str_equals(
-        '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
+        '^%META:FIELD\{name=\"number\".*\bvalue=\"99\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
     my $meta = $this->{meta};
@@ -230,15 +230,15 @@ sub test_hoistCompound {
 
    #print STDERR "HoistC ",$query->stringify()," -> /",join(';', @filter),"/\n";
     $this->assert_str_equals(
-        '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
+        '^%META:FIELD\{name=\"number\".*\bvalue=\"99\"',
         $this->_getFilterElement( $filter, 'text', 0 )
     );
     $this->assert_str_equals(
-        '^%META:FIELD{name=\"string\".*\bvalue=\"String\"',
+        '^%META:FIELD\{name=\"string\".*\bvalue=\"String\"',
         $this->_getFilterElement( $filter, 'text', 1 )
     );
     $this->assert_str_equals(
-'^%META:TOPICMOVED{.*\bby=\"AlbertCamus\"|^%META:TOPICMOVED{.*\bby=\".*bert.*\"',
+'^%META:TOPICMOVED\{.*\bby=\"AlbertCamus\"|^%META:TOPICMOVED\{.*\bby=\".*bert.*\"',
         $this->_getFilterElement( $filter, 'text', 2 )
     );
     $this->assert_num_equals( 3,
@@ -258,15 +258,15 @@ sub test_hoistCompound2 {
 
    #print STDERR "HoistC ",$query->stringify()," -> /",join(';', @filter),"/\n";
     $this->assert_str_equals(
-'^%META:TOPICMOVED{.*\bby=\"AlbertCamus\"|^%META:TOPICMOVED{.*\bby=\".*bert.*\"',
+'^%META:TOPICMOVED\{.*\bby=\"AlbertCamus\"|^%META:TOPICMOVED\{.*\bby=\".*bert.*\"',
         $this->_getFilterElement( $filter, 'text', 0 )
     );
     $this->assert_str_equals(
-        '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
+        '^%META:FIELD\{name=\"number\".*\bvalue=\"99\"',
         $this->_getFilterElement( $filter, 'text', 1 )
     );
     $this->assert_str_equals(
-        '^%META:FIELD{name=\"string\".*\bvalue=\"String\"',
+        '^%META:FIELD\{name=\"string\".*\bvalue=\"String\"',
         $this->_getFilterElement( $filter, 'text', 2 )
     );
     $this->assert_num_equals( 3,
@@ -282,7 +282,7 @@ sub test_hoistAlias {
     my $queryParser = new Foswiki::Query::Parser();
     my $query       = $queryParser->parse($s);
     my $filter      = $this->_hoist($query);
-    $this->assert_str_equals( '^%META:TOPICINFO{.*\bdate=\"12345\"',
+    $this->assert_str_equals( '^%META:TOPICINFO\{.*\bdate=\"12345\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom => $meta, data => $meta );
@@ -296,7 +296,7 @@ sub test_hoistFormField {
     my $query       = $queryParser->parse($s);
     my $filter      = $this->_hoist($query);
     $this->assert_str_equals(
-        '^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
+        '^%META:FIELD\{name=\"number\".*\bvalue=\"99\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
     my $meta = $this->{meta};
@@ -423,7 +423,7 @@ sub test_hoist_OPMatchField1 {
     my $query       = $queryParser->parse($s);
     my $filter      = $this->_hoist($query);
     $this->assert_str_equals(
-        '^%META:FIELD{name=\"string\".*\bvalue=\".*rin.*\"',
+        '^%META:FIELD\{name=\"string\".*\bvalue=\".*rin.*\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
     my $meta = $this->{meta};
@@ -438,7 +438,7 @@ sub test_hoist_OPMatchField2 {
     my $query       = $queryParser->parse($s);
     my $filter      = $this->_hoist($query);
     $this->assert_str_equals(
-        '^%META:FIELD{name=\"string\".*\bvalue=\".*rin.*\"',
+        '^%META:FIELD\{name=\"string\".*\bvalue=\".*rin.*\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
     my $meta = $this->{meta};
@@ -453,7 +453,7 @@ sub test_hoist_OPMatchField3 {
     my $query       = $queryParser->parse($s);
     my $filter      = $this->_hoist($query);
     $this->assert_str_equals(
-        '^%META:FIELD{name=\"string\".*\bvalue=\"rin.*\"',
+        '^%META:FIELD\{name=\"string\".*\bvalue=\"rin.*\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
     my $meta = $this->{meta};
@@ -468,7 +468,7 @@ sub test_hoist_OPMatchField4 {
     my $query       = $queryParser->parse($s);
     my $filter      = $this->_hoist($query);
     $this->assert_str_equals(
-        '^%META:FIELD{name=\"string\".*\bvalue=\".*rin\"',
+        '^%META:FIELD\{name=\"string\".*\bvalue=\".*rin\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
     my $meta = $this->{meta};
@@ -483,7 +483,7 @@ sub test_hoist_OPMatchField5 {
     my $query       = $queryParser->parse($s);
     my $filter      = $this->_hoist($query);
     $this->assert_str_equals(
-        '^%META:FIELD{name=\"string\".*\bvalue=\"rin\"',
+        '^%META:FIELD\{name=\"string\".*\bvalue=\"rin\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
     my $meta = $this->{meta};
@@ -499,7 +499,7 @@ sub test_hoist_OPMatch_Item10352 {
 
     my $filter = $this->_hoist($query);
     $this->assert_str_equals(
-        '^%META:FIELD{name=\"string\".*\bvalue=\"St.(i|n).*\"',
+        '^%META:FIELD\{name=\"string\".*\bvalue=\"St.(i|n).*\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
     my $meta = $this->{meta};
@@ -531,7 +531,7 @@ sub test_hoist_OPMatch_Item10352_1 {
 
     my $filter = $this->_hoist($query);
     $this->assert_str_equals(
-        '^%META:FIELD{name=\"string\".*\bvalue=\".*String.*\"',
+        '^%META:FIELD\{name=\"string\".*\bvalue=\".*String.*\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
     my $meta = $this->{meta};
