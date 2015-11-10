@@ -190,6 +190,7 @@ sub rest {
 
     # Check the method is allowed
     if ( $record->{http_allow} && defined $req->method() ) {
+      unless ( $session->inContext('command_line') ) {
         my %allowed = map { $_ => 1 } split( /[,\s]+/, $record->{http_allow} );
         unless ( $allowed{ uc( $req->method() ) } ) {
             $res->header( -type => 'text/html', -status => '405' );
@@ -198,12 +199,14 @@ sub rest {
             $res->print($err);
             throw Foswiki::EngineException( 404, $err, $res );
         }
+      }
     }
 
     # Check someone is logged in
     if ( $record->{authenticate} ) {
         unless ( $session->inContext('authenticated')
-            || $Foswiki::cfg{LoginManager} eq 'none' )
+            || $Foswiki::cfg{LoginManager} eq 'none' 
+            || $session->inContext('command_line') )
         {
             $res->header( -type => 'text/html', -status => '401' );
             $err = "ERROR: (401) $pathInfo requires you to be logged in";
@@ -213,7 +216,11 @@ sub rest {
     }
 
     # Validate the request
-    if ( $record->{validate} ) {
+    if (   $record->{validate}
+        && $Foswiki::cfg{Validation}{Method} ne 'none'
+        && !$session->inContext('command_line') )
+    {
+
         my $nonce = $req->param('validation_key');
         if (
             !defined($nonce)
