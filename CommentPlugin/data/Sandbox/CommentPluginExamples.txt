@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1274992098" format="1.1" version="1"}%
-   * Top comment output 2 -- Main.ProjectContributor - 26 Nov 2006
-   * Top comment output 1 -- Main.ProjectContributor - 26 Nov 2006
+%META:TOPICINFO{author="ProjectContributor" date="1404921098" format="1.1" version="1"}%
+   * Top comment output 2 -- %USERSWEB%.ProjectContributor - 26 Nov 2006
+   * Top comment output 1 -- %USERSWEB%.ProjectContributor - 26 Nov 2006
 
 ---+!! <nop>CommentPlugin examples
 
@@ -16,13 +16,13 @@ See %SYSTEMWEB%.CommentPlugin
 
 Default comment output 1
 
--- Main.ProjectContributor - 26 Nov 2006
+-- %USERSWEB%.ProjectContributor - 26 Nov 2006
 
 
 
 Default comment output 2
 
--- Main.ProjectContributor - 26 Nov 2006
+-- %USERSWEB%.ProjectContributor - 26 Nov 2006
 
 %COMMENT{}%
 
@@ -49,12 +49,12 @@ Default comment output 2
 
 Above comment output 1
 
--- Main.ProjectContributor - 26 Nov 2006
+-- %USERSWEB%.ProjectContributor - 26 Nov 2006
 
 
 Above comment output 2
 
--- Main.ProjectContributor - 26 Nov 2006
+-- %USERSWEB%.ProjectContributor - 26 Nov 2006
 %COMMENT{type="above"}%
 
 
@@ -63,8 +63,8 @@ Above comment output 2
 ---+++ =below=
 
 %COMMENT{type="below"}%
-   * Below comment output 2 -- Main.ProjectContributor - 26 Nov 2006
-   * Below comment output 1 -- Main.ProjectContributor - 26 Nov 2006
+   * Below comment output 2 -- %USERSWEB%.ProjectContributor - 26 Nov 2006
+   * Below comment output 1 -- %USERSWEB%.ProjectContributor - 26 Nov 2006
 
 
 
@@ -85,12 +85,12 @@ Example with =inputsize="20"=:
 
 Threadmode comment output 1
 
--- Main.ProjectContributor - 26 Nov 2006
+-- %USERSWEB%.ProjectContributor - 26 Nov 2006
 
 
 Threadmode comment output 2
 
--- Main.ProjectContributor - 26 Nov 2006
+-- %USERSWEB%.ProjectContributor - 26 Nov 2006
 %COMMENT{type="threadmode"}%
 
 
@@ -100,12 +100,12 @@ Threadmode comment output 2
 
 %COMMENT{type="belowthreadmode"}%
 
----++++ Main.ProjectContributor - 26 Nov 2006 - 12:09
+---++++ %USERSWEB%.ProjectContributor - 26 Nov 2006 - 12:09
 
 Belowthreadmode comment output 2
 
 
----++++ Main.ProjectContributor - 26 Nov 2006 - 12:09
+---++++ %USERSWEB%.ProjectContributor - 26 Nov 2006 - 12:09
 
 Belowthreadmode comment output 1
 
@@ -115,16 +115,16 @@ Belowthreadmode comment output 1
 ---+++ =tableprepend=
 
 %COMMENT{type="tableprepend"}%
-| Tablepreprend comment output 2 | Main.ProjectContributor | 26 Nov 2006 - 11:03 |
-| Tablepreprend comment output 1 | Main.ProjectContributor | 26 Nov 2006 - 11:02 |
+| Tablepreprend comment output 2 | %USERSWEB%.ProjectContributor | 26 Nov 2006 - 11:03 |
+| Tablepreprend comment output 1 | %USERSWEB%.ProjectContributor | 26 Nov 2006 - 11:02 |
 
 
 
 
 ---+++ =tableappend=
 
-| Tableappend comment output 1 | Main.ProjectContributor | 26 Nov 2006 - 10:38 |
-| Tableappend comment output 2 | Main.ProjectContributor | 26 Nov 2006 - 10:39 |
+| Tableappend comment output 1 | %USERSWEB%.ProjectContributor | 26 Nov 2006 - 10:38 |
+| Tableappend comment output 2 | %USERSWEB%.ProjectContributor | 26 Nov 2006 - 10:39 |
 %COMMENT{type="tableappend"}%
 
 
@@ -132,8 +132,8 @@ Belowthreadmode comment output 1
 
 ---+++ =after=
 
-   * After comment output 1 -- Main.ProjectContributor - 26 Nov 2006
-   * After comment output 2 -- Main.ProjectContributor - 26 Nov 2006
+   * After comment output 1 -- %USERSWEB%.ProjectContributor - 26 Nov 2006
+   * After comment output 2 -- %USERSWEB%.ProjectContributor - 26 Nov 2006
 %COMMENT{type="after"}%
 
 
@@ -143,13 +143,13 @@ Belowthreadmode comment output 1
 
 (requires Foswiki:Extensions/ActionTrackerPlugin)
 
-%ACTION{ due="1-Dec-2007" creator="Main.ProjectContributor" uid="000001" state="open" created="26-Nov-2006" who="Main.ProjectContributor" }% <<EOF
+%ACTION{ due="1-Dec-2007" creator="%USERSWEB%.ProjectContributor" uid="000001" state="open" created="26-Nov-2006" who="%USERSWEB%.ProjectContributor" }% <<EOF
 Action comment output 1
-- Created by Main.ProjectContributor, 26 Nov 2006 - 10:58
+- Created by %USERSWEB%.ProjectContributor, 26 Nov 2006 - 10:58
 EOF
-%ACTION{ due="1-Jan-2008" creator="Main.ProjectContributor" uid="000003" state="open" created="26-Nov-2006" who="Main.ProjectContributor" }% <<EOF
+%ACTION{ due="1-Jan-2008" creator="%USERSWEB%.ProjectContributor" uid="000003" state="open" created="26-Nov-2006" who="%USERSWEB%.ProjectContributor" }% <<EOF
 Action comment output 2
-- Created by Main.ProjectContributor, 26 Nov 2006 - 10:58
+- Created by %USERSWEB%.ProjectContributor, 26 Nov 2006 - 10:58
 EOF
 %COMMENT{type="action"}%
 
@@ -158,8 +158,8 @@ EOF
 
 ---+++ =table=
 
-| 1 Dec 2007 | Main.ProjectContributor | Athens |
-| 1 Jan 2008 | Main.ProjectContributor | Beijing |
+| 1 Dec 2007 | %USERSWEB%.ProjectContributor | Athens |
+| 1 Jan 2008 | %USERSWEB%.ProjectContributor | Beijing |
 %COMMENT{type="table"}%
 
 
@@ -168,11 +168,11 @@ EOF
 ---+++ =toctalk=
 
 
----++++ 26 Nov 2006 - 00:45 Main.ProjectContributor: Toctalk output summary 1
+---++++ 26 Nov 2006 - 00:45 %USERSWEB%.ProjectContributor: Toctalk output summary 1
 Toctalk output message 1
 
 
----++++ 26 Nov 2006 - 11:09 Main.ProjectContributor: Toctalk output summary 2
+---++++ 26 Nov 2006 - 11:09 %USERSWEB%.ProjectContributor: Toctalk output summary 2
 Toctalk output message 2
 
 %COMMENT{type="toctalk"}%
@@ -207,19 +207,19 @@ _Comments:_
 
 
 
-
+#NoForm
 ---+++ =noform=
-Example of a custom form to save a comment to a new topic. When the topic is created the parent will be our %SANDBOXWEB% [[%SANDBOXWEB%.CommentPluginExampleComments][example topic]].
+Example of a custom form to save a comment to a new or existing topic. If topic is created, the parent will not be set..
 
-<form method="post" action="%SCRIPTURL{save}%/%SANDBOXWEB%/" enctype="application/x-www-form-urlencoded" name="noformcomment0" id="noformcomment0">
+<form method="post" action="%SCRIPTURL{rest}%/CommentPlugin/comment" enctype="application/x-www-form-urlencoded" name="noformcomment0" id="noformcomment0">
 <input type="hidden" name="topicparent" value="CommentPluginExampleComments" />
+<input type="hidden" name="topic" value="%BASEWEB%/%BASETOPIC%" />
+<input type="hidden" name="endPoint" value="%BASEWEB%/%BASETOPIC%#NoForm" />
 <input type="hidden" name="comment_action" value="save" />
-<input type="hidden" name="nonwikiword" value="off" />
-<input type="hidden" name="onlywikiname" value="on" />
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
 *New topic name:* %BR%
-<input class="foswikiInputField" %DISABLED% type="text" size="40" name="topic" id="topic" value="" /> <span class="foswikiGrayText">Enter a !WikiWord topic name</span>
+<input class="foswikiInputField" %DISABLED% type="text" size="40" name="comment_target" id="comment_target" value="" /> <span class="foswikiGrayText">Enter a !WikiWord topic name</span>
 </div>
 <div class="foswikiFormStep foswikiLast">
 *Topic text:* %BR%
@@ -237,7 +237,7 @@ Example of a form definition in a topic. The comment template is located in %SAN
 
 
 #CommentDate1176024819
-Main.ProjectContributor - 08 Apr 2007:
+%USERSWEB%.ProjectContributor - 08 Apr 2007:
 
 templatetopic example comment output 1
 
@@ -245,5 +245,5 @@ templatetopic example comment output 1
 %COMMENT{noform="on" type="example" templatetopic="%SANDBOXWEB%.CommentPluginTemplateExample" target="%TOPIC%" button="Add comment" }%
 
 ---
-   * Bottom comment output 1 -- Main.ProjectContributor - 26 Nov 2006
-   * Bottom comment output 2 -- Main.ProjectContributor - 26 Nov 2006
+   * Bottom comment output 1 -- %USERSWEB%.ProjectContributor - 26 Nov 2006
+   * Bottom comment output 2 -- %USERSWEB%.ProjectContributor - 26 Nov 2006

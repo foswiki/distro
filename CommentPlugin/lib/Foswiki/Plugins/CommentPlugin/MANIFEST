@@ -8,5 +8,12 @@ data/Sandbox/CommentPluginTemplateExample.txt 0644 Example of comment template t
 templates/comments.tmpl 0444 Master comment templates 
 lib/Foswiki/Plugins/CommentPlugin.pm 0444 Plugin Perl module 
 lib/Foswiki/Plugins/CommentPlugin/Comment.pm 0444 Plugin Perl module 
-
+lib/Foswiki/Plugins/CommentPlugin/Config.spec 0444 Configuration module
+lib/Foswiki/Plugins/CommentPlugin/JQuery.pm 0644
+lib/Foswiki/Configure/Checkers/Plugins/CommentPlugin/GuestCanComment.pm 0644
 pub/System/CommentPlugin/wikiringlogo20x20.png 0644
+pub/System/CommentPlugin/comment.css 0644
+pub/System/CommentPlugin/comment.js 0644
+pub/System/CommentPlugin/comment.uncompressed.css 0644
+pub/System/CommentPlugin/comment.uncompressed.js 0644
+

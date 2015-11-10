@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1274992098" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1443575942" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
 ---+!! Template Example
 
@@ -12,8 +12,9 @@ Example template topic for [[%SANDBOXWEB%.CommentPluginExamples#TemplateTopic][C
 <verbatim>
 %TMPL:DEF{FORM:example}%
 #TemplateTopicPrompt
-<form method="post" action="%SCRIPTURL{save}%/%BASEWEB%/%BASETOPIC%" enctype="application/x-www-form-urlencoded" name="examplecomment" id="examplecomment">
-<input type="hidden" name="redirectto" value="%BASEWEB%.%BASETOPIC%" />
+<form method="post" action="%SCRIPTURL{rest}%/CommentPlugin/comment" enctype="application/x-www-form-urlencoded" name="examplecomment" id="examplecomment">
+<input type="hidden" name="endPoint" value="%BASEWEB%.%BASETOPIC%#TemplateTopic" />
+<input type="hidden" name="topic" value="%BASEWEB%.%BASETOPIC%" />
 %COMMENTPROMPT%
 </form>
 %TMPL:END%
@@ -28,7 +29,7 @@ Example template topic for [[%SANDBOXWEB%.CommentPluginExamples#TemplateTopic][C
 %GMTIME{"#CommentDate$epoch"}%
 %WIKIUSERNAME% - %DATE%:
 
-%URLPARAM{"comment" encode="off"}%
+%URLPARAM{"comment" encode="$encodeguest"}%
 
 --- 
 %TMPL:END%

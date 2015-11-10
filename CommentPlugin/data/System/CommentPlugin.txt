@@ -1,9 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1302458625" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1443575942" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
-
 ---+!! Comment Plugin
 
-*Comment Plugin lets users quickly post comments to a page without an edit/preview/save cycle.*
+Comment Plugin lets users quickly post comments to a page without an edit/preview/save cycle.
 
 %TOC{title="On this page:"}%
 
@@ -16,6 +15,14 @@ Inserts an edit box into the page that allows users to type in and save comments
    * in both forward and reverse chronological order,  
    * signed or unsigned, dated or undated (as defined by a template),
    * in other topics, or other positions within the current topic.
+
+Supports the definition of custom templates for prompts and for formatting
+what is placed into topics.
+
+Supports custom access controls, allowing you to use it to add content to
+topics where the commenting user doesn't have CHANGE permissions.
+
+Uses Javascript (if available) to ensure feedback is as rapid as possible.
 
 ---++ Syntax
 #StandardAttrs
@@ -36,23 +43,9 @@ will add comments in the current topic, directly below the =%COMMENT= tag.
 ---++++ Location relative to an anchor
 The =target= attribute may specify a web, and may also specify an anchor within the target topic; for example, 
 <verbatim class="tml">
-%COMMENT{type="above" target="%MAINWEB%.PersonalRemarks#InsertHere"}%
+%COMMENT{type="above" target="%USERSWEB%.PersonalRemarks#InsertHere"}%
 </verbatim>
-This uses a standard in-topic anchor as the insertion location. See %SYSTEMWEB%.TextFormattingRules for more about Foswiki anchors.
-
----++++ Location relative to an arbitrary text string
-Getting more sophisticated, you can also specify a regular expression for the target location using the =location= parameter. The target topic is searched for the regular expression, and the comment inserted relative to the string that the search matched. For example,
-<verbatim class="tml">
-%COMMENT{type="above" location="Flights of Fancy"}%
-</verbatim>
-will place comments above the first occurrence of the string =Flights of Fancy= in the current topic.
-
-*Warning* of course, if a user's comment contains the string "Flights of Fancy" they may and up _changing the location_ for the next comment! Also, if you use a tag in the location, then you've just inserted another tag in the page that contains the =%COMMENT=! So be very careful how you specify the RE for =location=. Note that the RE is matched using Perl "multiple line" mode, so ^ and $ match the start of a line and the end of a line respectively. %BR%
-Also note that you cannot have the text =location="= just before the location.
-
-I look forward to someone leveraging this feature to create - for example - threaded conversations using =%COMMENT=.
-
-If you specify an anchor _and_ a =location=, the anchor will be ignored.
+This uses a standard in-topic anchor as the insertion location. See %SYSTEMWEB%.EditingShorthand for more about Foswiki anchors.
 
 ---+++ Default templates
 Templates are used to define the "comment style" i.e. how comments appear in the page. The default is to add comments in "Blog like" style using bulleted lists, with the most recent comment at the top, but many other styles are available such as tables or Wiki thread mode comments. It is easy to define your own customer styles as well.
@@ -83,7 +76,7 @@ Customization of the comment plugin requires
    * familiarity with HTML forms
    * some familiarity with the [[%SYSTEMWEB%.SkinTemplates][Skin Templates]].
 
-To define a comment type, you have to provide two simple template definitions in the template file; one for the prompt box, and one for the generated output. If we have a template type "mytype", these are named =PROMPT:mytype= and =OUTPUT:mytype= respectively. See =comments.tmpl= in the templates directory for examples.
+To define a comment type, you have to provide at least two simple template definitions in the template file; one for the prompt box, and one for the generated output. If we have a template type "mytype", these are named =PROMPT:mytype= and =OUTPUT:mytype= respectively. See =comments.tmpl= in the templates directory for examples.
 
 The plugin picks up these template definitions from a standard template file, =templates/comments.tmpl=. This allows different templates to be defined for different Foswiki skins.
 
@@ -97,7 +90,7 @@ This allows for several levels of customization:
    1 To override templates *for a specific skin*, add them to %SYSTEMWEB%.<nop>UserComments&lt;Skin&gt;Template (where &lt;Skin&gt; is the name of the skin with the first letter capitalized, e.g. Pattern)
 
 You can also define a *comment template in a topic*, by passing the topic location with =templatetopic=. For example:
-<blockquote>
+
 <verbatim class="tml">
 %COMMENT{
    type="blogpost"
@@ -108,10 +101,10 @@ You can also define a *comment template in a topic*, by passing the topic locati
 </verbatim>
 
 =templatetopic= accepts =topic= or =web.topic= syntax. See an example in [[%SANDBOXWEB%.CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
-</blockquote>
 
 
-<blockquote class="foswikiHelp"> %X% Templates are picked up by following the [[SkinTemplates#FindingTemplates][standard rules for locating template files]]. Note that you can use =%TMPL:INCLUDE= to include other files of templates.</blockquote>
+
+<div class="foswikiHelp"> %X% Templates are picked up by following the [[SkinTemplates#FindingTemplates][standard rules for locating template files]]. Note that you can use =%TMPL:INCLUDE= to include other files of templates.</div>
 
 ---+++ Customization example
 Provide both a =PROMPT= and an =OUTPUT= definition:
@@ -131,7 +124,10 @@ Call your custom comment with:
 ---+++ The =PROMPT= template
 The =PROMPT= template defines the contents of an HTML form that is used to capture the comment. This form invokes the comment generator when submitted. Parameters to the comment generator are defined using standard HTML input fields, such as =input=, =textarea= and =select=. The user enters values for these parameters, and these are then available when the =OUTPUT= template is expanded, in the form of <code>%<nop>URLPARAM%</code>s.
 
-Only the input fields of the form need be defined. The plugin automatically generates the <code>&lt;form&gt;</code> and <code>&lt;/form&gt;</code> tags, unless you specify =noform="on"=, in which case you have to provide them yourself. *Note* that you must define a "submit" button if you want the form to work!
+---+++ The =FORM= template
+The =FORM= template can optionally be provided if you want to explicitly
+define the form (the <code>&lt;form&gt;</code> and <code>&lt;/form&gt;</code> tHTML ags) that wraps around the =PROMPT= template. If you don't define
+a =FORM=template, one is automatically generated for you (unless the =noform="on"= parameter is given).
 
 #MoreAttrs
 ---++++ Providing attribute values
@@ -154,29 +150,38 @@ As well as support for all the usual macros in templates, the following special 
     | =%<nop>DISABLED%= | Set to 'disabled' when you cannot comment (e.g. in preview mode). |
     | =%<nop>MESSAGE%= | The text specified by =default=. This may be overridden by a helpful message when the prompt is DISABLED. |
 
-*EXPERT* Note that when a comment is saved, the =save= script is invoked on the target topic, with a number of parameters provided by the comment form. Normally the CommentPlugin will provide these fields in the form, but experts can also provide the fields themselves in order to get finer control over what is submitted, or you might want to define your own HTML forms that do comment submission. The parameters that the CommentPlugin recognizes are as follows:
+Within a =FORM= definition, the body of the prompt is expanded to replace
+the =%<nop>COMMENTPROMPT%= macro.
+
+*EXPERT* Note that when a comment is saved, the =rest= script is invoked on the target topic, with a number of parameters provided by the comment form. Normally the CommentPlugin will provide these fields in the form, but experts can also provide the fields themselves in order to get finer control over what is submitted, or you might want to define your own HTML forms that do comment submission. The parameters that the CommentPlugin recognises are as follows:
 | *CGI parameter* | *Description* |
 | =comment_action= | Must be =save= to get the CommentPlugin to perform |
 | =comment_type= | Type of the OUTPUT template |
 | =comment_index= | Zero-based index of the %COMMENT in the source topic. Used to place a post relative to an existing %COMMENT. |
 | =comment_anchor= | Anchor taken from the =target= spec |
-| =comment_location= | As passed to %COMMENT |
 | =comment_nonotify= | As passed to %COMMENT |
 | =comment_remove= | Zero-based index of a %COMMENT to remove from the target topic |
 | =comment_nopost= | As passed to %COMMENT |
 | =comment_templatetopic= | As passed to %COMMENT |
-Note that =comment_location= overrides =comment_anchor=, and both override =comment_index=. Example, shows an "I Approve" button that adds your approval signature to the end of the topic:
+| =comment_target= | Alternate save topic as passed to %COMMENT |
+Note that =comment_anchor= overrides =comment_index=. Example, shows an "I Approve" button that adds your approval signature to the end of the topic:
 <verbatim class="tml">
-<form method="post" action="%SCRIPTURL{save}%/%WEB%/%TOPIC%">
+<form method="post" action="%SCRIPTURL{restauth}%/CommentPlugin/comment" >
 <input type="submit" value="I Approve" />
+<input type="hidden" name="topic" value="%WEB%/%TOPIC%" />
+<input type="hidden" name="redirectto" value="%WEB%/%TOPIC%" />
 <input type="hidden" name="comment_action" value="save" />
 <input type="hidden" name="comment_type" value="bottom" />
 <input type="hidden" name="comment" value="I Approve" />
 </form>
 </verbatim>
 
----++++ Customization example with custom form template
+---++++ Customisation example with custom form template
+<div class="foswikiAlert"> %X% *This method has critical differences from the version shipped with Foswiki 1.1.4!* (Identified by %X%) </div>
 Write a custom form in a topic.
+   * %X% In the form, the =action= must be =%<nop>SCRIPTURL{"rest"}%/CommentPlugin/comment=.   The save script used in previous versions will not work.
+   * %X% In the form, the =topic= must be set to a valid, existing =Web.Topic=.  =topic= is validated by the =rest= script which will reject the request if invalid.
+   * %X% In the form, if the target topic will be provided by user input, use the =comment_target= input field to identify the target, otherwise it defaults to =topic= setting.  =comment_target= is more flexible and can omit the Web part.
    * In the form set the location of the prompt with =%<nop>COMMENTPROMPT%=; the prompt will be positioned here.
    * In %COMMENT use parameter =noform="on"=
    * In %COMMENT use parameter =templatetopic= to point to the topic with the form template
@@ -184,7 +189,8 @@ Write a custom form in a topic.
 Example form:
 <verbatim class="tml">
 %TMPL:DEF{FORM:example}%
-<form method="post" action="%SCRIPTURL{save}%/%BASEWEB%/%BASETOPIC%" enctype="application/x-www-form-urlencoded" name="examplecomment" id="examplecomment">
+<form method="post" action="%SCRIPTURL{rest}%/CommentPlugin/comment" enctype="application/x-www-form-urlencoded" name="examplecomment" id="examplecomment">
+<input type="hidden" name="topic"  value="%BASEWEB%/%BASETOPIC%" /> 
 <input type="hidden" name="redirectto" value="%BASEWEB%.%BASETOPIC%" />
 %COMMENTPROMPT%
 </form>
@@ -194,7 +200,6 @@ Example form:
 Example comment:
 <verbatim class="tml">
 %COMMENT{
-   noform="on"
    type="example"
    templatetopic="%SANDBOXWEB%.CommentPluginTemplateExample"
    target="%TOPIC%"
@@ -203,9 +208,28 @@ Example comment:
 </verbatim>
 
 ---+++ The =OUTPUT= template
-The =OUTPUT= template defines the format for the text that actually gets embedded into the topic. All the usual macros are available in the =PROMPT= definition, but note that they get expanded _when the comment is inserted in the text_, so time, date and username will refer to the time and date when the comment was made, and the user who made it.
+The =OUTPUT= template defines the format for the text that actually gets embedded into the topic. All the usual macros are available in the =PROMPT= definition,
+but note that a subset of macros are expanded _when the comment is inserted in the text_, so time, date and username will refer to the time and date when the comment was made, and the user who made it.
 
-There are also four position tags that are used to indicate where the comment should be placed, relative to the =location= defined in the =%COMMENT= tag:
+The expanded variables are:
+   * =%<nop>DATE%= Signature-format date [[VarDATE]]
+   * =%<nop>SERVERTIME%= See [[VarSERVERTIME]]
+   * =%<nop>GMTIME%= See [[VarGMTIME]]
+   * =%<nop>USERNAME%= Base login name - [[VarUSERNAME]]
+   * =%<nop>WIKINAME%= Wiki name - [[VarWIKINAME]]
+   * =%<nop>WIKIUSERNAME%= Wiki name with prepended web - [[VarWIKIUSERNAME]]
+   * =%<nop>URLPARAM{...}%= - Parameters to the current CGI query - [[VarURLPARAM]]
+   * =%<nop>NOP%= No-op - [[VarNOP]]
+
+All other Macros are inserted into the topic un-expanded and are expanded by standard rendering when the topic containing the comment is viewed.
+
+In addition to Macros, there is one "token" expanded during output.  =$encodeguest= will be set to "off" when the commenting user is logged in, and set to "entity" for anonymous comments.
+This is used in combination with the =%<nop>URLPARAM%= macro.  Any user input from untrusted users should be entity encoded.  For example:
+<verbatim>
+%TMPL:DEF{outputoneliner}%   * %URLPARAM{"comment" encode="$encodeguest"}% -- %WIKIUSERNAME% - %GMTIME{"$day $month $year"}%%TMPL:END%
+</verbatim>
+
+There are also four position tags that are used to indicate where the comment should be placed, relative to the location defined in the =%COMMENT= tag:
 
     | =%<nop>POS:TOP%= | If present, comments will be inserted *at the top of the topic* i.e. before any other text |
     | =%<nop>POS:BOTTOM%= | If present, comments will be inserted *at the end of the topic* i.e. after all existing text |
@@ -217,6 +241,9 @@ Note that these position tags are obviously mutually exclusive. If you define mo
     
 All the [[TemplateTopics#TemplateTopicsVars][usual macros]] that can be used in a topic template can also be used in an =OUTPUT= template.
 
+---+++ Custom access controls
+Using =configure=, the plugin can be configured to use a different access control domain than the default CHANGE. This allows you to use the plugin to add content to topics where the commenting user does not have CHANGE (or even VIEW) access.
+
 ---++ Settings
 <!-- Not used by the plugin
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -226,42 +253,58 @@ Two [[%SYSTEMWEB%.PreferenceSettings][preference settings]] are recognised by th
 | *Preference* | *Default* | *Description* |
 | =%<nop>COMMENTPLUGIN_TEMPLATES%= | =comments= | Name of template file in the 'templates' directory that contains the comment templates. The default 'comments.tmpl' automatically includes user templates from %SYSTEMWEB%.CommentPluginTemplate, which in turn includes %SYSTEMWEB%.UserCommentsTemplate. |
 | =%<nop>COMMENTPLUGIN_DEFAULT_TYPE%= | =above= | Default template type |
-These can be set in !%USERSWEB%.SitePreferences, in !WebPreferences, or in individual topics.
+These can be set in %LOCALSITEPREFS%, in each web's <nop>%WEBPREFSTOPIC%, or in individual topics.
 
 #Installation
----++ Plugin Installation Instructions
-   * This plugin is pre-installed in most releases. However if you need to upgrade the plugin for any reason:
-   * Download the archive file from the Extensions web (see below)
-   * Unpack the archive in your Foswiki installation directory.
-      * You may need to correct file permissions
-   * Run ==%TOPIC%_installer== to automatically check and install other modules that this module depends on, and enable the plugin.
-   * Alternatively,
-      * Manually resolve the dependencies listed below.
-      %$DEPENDENCIES%
-   * Use =configure= to enable the plugin
+---++ Installation Instructions
+%$INSTALL_INSTRUCTIONS%
 
 Note that if you want to use the =action= template then you must also:
    1 Install the Foswiki:Extensions/ActionTrackerPlugin;
    1 Put the !CommentPlugin *before* the !ActionTrackerPlugin in the ={PluginsOrder}= configuration option (in =configure=)
 
----++ Plugin Info
+---++ Upgrade Instructions
 
+This plugin has been significantly changed from the =10 April 2011= version shipped with Foswiki 1.1.4.  
+   * The plugin uses a =rest= handler to update topics.  By default this script does not require authentication, and can now permit anonymous commenting.  Examine the [[%SCRIPTURL{"configure"}%]] ( =Security and Authentication= tab, =Login= sub-tab ) configuration ={AuthScripts}= setting, and the scripts requiring authentication in the Apache configuration.
+   * The plugin no longer processes %COMMENT macros during save.  If you have developed any forms using the [[%SANDBOXWEB%.CommentPluginExamples#NoForm][=noform= and =templatetopic= examples]] they must be revised.
+
+---++ Info
 Another great extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
-|  Plugin Author: | Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk inspired by the work of TWiki:Main.DavidWeller and TWiki:Main.PeterMasiar |
-|  Copyright: | &copy; 2004, Foswiki:Main.CrawfordCurrie<br />&copy; 2004-2012 Foswiki:%SYSTEMWEB%.ProjectContributor |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Release: | %$RELEASE% |
-|  Version: | %$VERSION% |
 |  Change History: | |
-|  28 Nov 2012 (1.1.6) | Foswikitask:Item11267: Convert to perl version string. <br />\
-                         Foswikitask:Item12233: Don't generate comment links when rendering static html |
-|  06 Apr 2012 | Foswikitask:Item11655: CommentPlugin types table is missing some shipped types. |
-|  10 Apr 2011 | Foswikitask:Item10263: remove wrap="soft" to make templates validate. This version is shipped with Foswiki 1.1.3 |
+|  2.7 (29 Sep 2015) | Foswikitask:Item13576: Disable fields during submit, then clear input fields after comment is posted.<br/>\
+                       Foswikitask:Item13764: Entity encode any comments by guest users. |
+|  2.6 (24 Jul 2015) | Foswikitask:Item13502: Expand macros when returning an inline Ajax response. |
+|  2.5 (24 Jun 2015) | Foswikitask:Item13474: Unicode fix |
+|  2.4 (14 Jun 2015) | Foswikitask:Item13423: Perl 5.20 deprecations<br />\
+                        Foswikitask:Item13345: CGI deprecations<br />\
+                        Foswikitask:Item13287: Regular expression fixes<br />\
+                        Foswikitask:Item13125: CGI parm calling changes |
+|  2.3 (18 Dec 2014) | Foswikitask:Item12855: Core extensions should require JQueryPlugin 6.00<br />\
+                        Foswikitask:Item13125: CGI changes for multi-value parameters<br />\
+                        Foswikitask:Item13096: incorrect handling of unauthorised response<br />\
+                        Foswikitask:Item13105: Eliminate sort from tables in Macros<br />\
+                        Foswikitask:Item13106: removed blockquote where possible<br />\
+                        Foswikitask:Item13027: Most try..catch clauses were catching Error::Simple s/b Error<br />\
+                        Foswikitask:Item11737: Change hardcoded Main to =%<nop>USERSWEB%= Replace Sandbox with =%<nop>SANDBOXWEB%= <br />\
+                        Foswikitask:Item12900: Implement some session handling improvements |
+|  2.2 (26 Sep 2014) | Foswikitask:Item12931: add a highlight to JS-added comments; fix no-JS comments |
+|  2.1 (25 Apr 2014) | Foswikitask:Item10191: Recoded REST as a proper JQuery plugin, with correctly formatted insertions. Note that the old =location= parameter has been *removed*, as it never worked properly, could cause damage to topics, and could not work with client comments. If you were using it, apologies, but it had to go. Correct use of validation and authentication. Ready for 2.0. |
+|  2.0.3 (22 Feb 2012) | Foswikitask:Item11448 - Implement {GuestCanComment}. If enabled, guests can comment on topics that they can not edit. |
+|  2.0.2 (30 Jan 2012) 12887 | Foswikitask:Item11447 - "noform" examples not working - add comment_target parameter.|
+|  2.0.1 (15 Jan 2012) | Foswikitask:Item11443 - better handling if target topic or web do not exist. |
+|  10 Apr 2011 | Foswikitask:Item10263 - remove wrap="soft" to make templates validate. |
 |  19 Nov 2010 | Foswikitask:Item10050 - CommentPlugin prompt must not add newlines that prevent COMMENT inside TML tables |
+|  21 Oct 2010 | Foswikitask:Item3499 - support COMMENT (and other) ACL preferences%BR%\
+                 Foswikitask:Item9592 - added AJAX example%BR%\
+                 Foswikitask:Item9601 - Prevent uprev of topic for every comment%BR%\
+                 Foswikitask:Item4423 - Spreadsheet calculations do not execute within comment templates%BR%\
+                 Foswikitask:Item9568 (and others) - Redesigned core. Change commonTagsHandler to registered COMMENT macro, convert to REST handler instead of save script with beforeSaveHandler%BR%\
+                 Foswikitask:Item5897 - if COMMENT target topic is missing, it should be created. |
 |  21 Oct 2010 | Foswikitask:Item9857 - Restored the !CommentPluginTemplate to how it was before. All the changes done to make it look nice causes many errors. Never again add newlines, never again add trailing \ on existing templates. It does not always work. |
 |  31 Jul 2010 | Foswikitask:Item9415 - Documentation updates |
-|  27 May 2010 | Moved example topic %SANDBOXWEB%.CommentPluginExamples to %SANDBOXWEB% web. | 
+|  27 May 2010 | Moved example topic Sandbox.CommentPluginExamples to Sandbox web. | 
 |  24 Feb 2010 | Foswikitask:Item8611 - block comments resulting from calls to saveTopic from within an afterSaveHandler |
 |  12 Sep 2009 | Foswikitask:Item8269 - Targeting anchors broken by Item727 is fixed. |
 |  04 Jun 2009 | Foswikitask:Item1668 - The action template used with !ActionTrackerPlugin now uses new syntax ending with %ENDACTION. This makes each action item appear on a new line. Additionally new lines are now correctly saved as html br tags and not as html encoded br tag <br /> Foswikitask:Item1640 - Templates shipped with the plugin no longer encodes the user date entered when the date is saved so that it is possible for the user to use macros. |
@@ -269,9 +312,19 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  13 Jan 2009 | Foswikitask:Item736 - Make !CommentPlugin aware of CompareRevisionsAddOn bin script. |
 |  16 Dec 2008 | Foswiki version |
 |  06 Mar 2002 | initial commit |
-|  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
-*Related Topics:* %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk inspired by the work of TWiki:Main.DavidWeller and TWiki:Main.PeterMasiar"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2004, Foswiki:Main.CrawfordCurrie<br />&copy; 2004-2014 Foswiki:%25SYSTEMWEB%25.ProjectContributor"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/CommentPlugin"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CommentPlugin"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.css" attr="h" comment="" date="1443575942" size="70" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.js" attr="h" comment="" date="1443575942" size="1931" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.css" attr="h" comment="" date="1443575942" size="60" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.js" attr="h" comment="" date="1443575942" size="5134" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1443575942" size="1343" user="ProjectContributor" version="1"}%

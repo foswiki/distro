@@ -1,20 +1,23 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284873580" format="1.1" version="1"}%
-%META:TOPICPARENT{name="CommentPlugin"}%
-#VarCOMMENT
----+++ COMMENT{ _attributes_ } -- insert an edit box into the topic to easily add comments.
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ COMMENT -- insert an edit box into the topic to easily add comments.
 %STARTSECTION{"comment_attributes"}%
-   * A =%<nop>COMMENT%= without parameters shows a simple text box.
+---++ Parameters
    * The following standard attributes are recognized
+     %TABLE{sort="off"}%
      | *Name* | *Description* | *Default* |
-     | =type= | This is the name of the template to use for this comment. Comment templates are defined in a Foswiki template - see [[CommentPlugin#TemPlates][Customisation]], below. If this attribute is not defined, the type is whatever is defined by COMMENTPLUGIN_DEFAULT_TYPE, either in this topic or in your WebPreferences. | =below= |
-     | =default= | Default text to put into the textarea of the prompt. | |
+     | =type= | This is the name of the template to use for this comment. Comment templates are defined in a Foswiki template - see [[CommentPlugin#TemPlates][Customisation]], below. If this attribute is not defined, the type is whatever is defined by =COMMENTPLUGIN_DEFAULT_TYPE= [[PreferenceSettings][preference setting]]. | =below= |
+     | =default= | Default text to put into the prompt. | |
      | =target= | Name of the topic to add the comment to | the current topic |
-     | =location= | Regular expression specifying the comment location in the target topic. Read _carefully_ the CommentPlugin documentation! | |
      | =mode= | For compatibility with older versions only, synonymous with =type= | |
      | =nonotify= | Set to "on" to disable change notification for target topics | =off= |
-     | =noform= | Set to "on" to disable the automatic form that encloses your comment block - _remember_ to insert =&lt;form&gt;= tags yourself! See [[%SANDBOXWEB%.CommentPluginExamples#noform][CommentPluginExamples:noform]] for an example. | =off= |
+     | =noform= | Set to "on" to disable the automatic form that is generated around your comment prompt if you don't provide a =FORM= template. See [[%SANDBOXWEB%.CommentPluginExamples#noform][CommentPluginExamples:noform]] for an example. | =off= |
      | =nopost= | Set to "on" to disable insertion of the posted text into the topic. | =off= |
      | =remove= | Set to "on" to remove the comment prompt after the first time it is clicked. | =off= |
      | =button= | Button label text | =Add comment= |
 %ENDSECTION{"comment_attributes"}%
-   * See CommentPlugin for more information
+---++ Examples
+   * A =%<nop>COMMENT%= without parameters shows a simple text box.
+%STOPINCLUDE%
+---++ Related
+CommentPlugin
