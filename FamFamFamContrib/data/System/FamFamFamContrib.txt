@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1315161915" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1441729129" format="1.1" version="1"}%
 ---+!! !FamFamFamContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -12,10 +12,9 @@ One line description, required for extensions repository catalog.
 ---++ Usage
 
 The icons are attached to the FamFamFamFlagIcons  FamFamFamMiniIcons  FamFamFamMintIcons  
-FamFamFamSilkIcons FamFamFamSilkCompanion1Icons topics - 
-be *CAREFUL* those topics can cause your browser to run very slowly for a bit.
+FamFamFamSilkIcons FamFamFamSilkCompanion1Icons FamFamFamSilkGeoSilkIcons topics.
 
-At this point, the only way to access these Icons is using the url - see below.
+Some of these icons are used by the foswiki DocumentGraphics for the foswiki-wide =ICON= macro.
 
 __This Contrib is part of the foswiki 1.1 release__
 
@@ -53,6 +52,9 @@ eg
 ---+++ Silk preview FamFamFamSilkCompanion2Icons
 <img src="%ATTACHURLPATH%/silk-companion-II.png" alt="silk-companion-II.png"  />
 
+---+++ preview FamFamFamSilkGeoSilkIcons
+<img src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkGeoSilkIcons/geosilk.png" />
+
 ---+++ Foswiki Extra Icons FamFamFamFoswikiExtras
 %INCLUDE{%SYSTEMWEB%.FamFamFamFoswikiExtras}%
 
@@ -64,13 +66,14 @@ eg
 
 
 |  Icons Creator: | original Icons by Mark James http://www.famfamfam.com |
-|  Contrib Author(s): | Foswiki packaging by Sven Dowideit - SvenDowideit@fosiki.com a [[http://WikiRing.com][WikiRing]] founding partner |
-|  Copyright: | &copy; Mark James http://www.famfamfam.com and Damien Guard http://damieng.com and Chris Cagle http://www.cagintranet.com/ and Sven Dowideit http://fosiki.com |
-|  License: | [[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]] |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
+|  Contrib Author(s): | Foswiki packaging by Sven Dowideit - SvenDowideit@fosiki.com a [[http://WikiRing.com][WikiRing]] founding partner, Foswiki Contributors |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  28 Nov 2012 (1.4.5) | Released with Foswiki 1.1.6. Foswikitask:Item11267 - Convert to perl version strings. |
+|  08 Sep 2015 (1.8) | Foswikitask:Item13504: Correct minor typos and documentation issues. |
+|  14 Jun 2015 (1.7) | Foswikitask:Item13393: SubscribePlugin changes to FamFamFam templates. |
+|  18 Dec 2014 (1.6) | Foswikitask:Item12926: Convert to using html5 data attributes for validation tokens.<br />\
+                       Foswikitask:Item12913: Fix some MANIFEST issues<br />\
+                       Foswikitask:Item11411: Implement Foswiki:Development.HtmlAttributesShouldUseSingleQuotes |
+|  13 Mar 2012 (1.5)   | added 119 GeoSilk icons |
 |  06 Apr 2012 (1.4.4) | Released with Foswiki 1.1.5. Foswikitask:Item11383 - remove redundant %<nop>REVARG% from templates. |
 |  12 Dec 2011 (1.4.3) | Released with Foswiki 1.1.4. Foswikitask:Item11104 - Added =trash-small= icon to !DocumentGraphics.  Foswikitask:Item11016 - Print should pass through URL parameters. Foswikitask:Item11341 - Add a Cog icon. |
 |  03 May 2011 (1.4.1) | Foswikitask:Item10699 - Update METADATA for attachments |
@@ -94,14 +97,22 @@ eg
 |  Contrib Home: | http://foswiki.org/Extensions/FamFamFamContrib |
 |  Feedback: | http://foswiki.org/Extensions/FamFamFamContribDev |
 
-__Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
+__Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on twiki.org instead. -->
 
-
-%META:FILEATTACHMENT{name="silk-preview.jpg" attachment="silk-preview.jpg" attr="h" comment="Silk icons preview" date="1205882801" path="silk-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attachment="SilkCompanion1Thumb.png" attr="h" comment="Silk icons Companion 1 preview" date="1205882801" path="SilkCompanion1Thumb.png" size=""  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="silk-companion-II.png" attachment="silk-companion-II.png" attr="h" comment="Silk icons Companion 1 preview" date="1205882801" path="silk-companion-II.png" size=""  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mint-preview.jpg" attachment="mint-preview.jpg" attr="h" comment="Mint icons preview" date="1205882801" path="mint-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="flags-preview.jpg" attachment="flags-preview.jpg" attr="h" comment="Flags icons preview" date="1205882801" path="flags-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="mini-preview.jpg" attachment="mini-preview.jpg" attr="h" comment="Mini icons preview" date="1205882801" path="mini-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; Mark James http://www.famfamfam.com and Damien Guard http://damieng.com and Chris Cagle http://www.cagintranet.com/ and Sven Dowideit http://fosiki.com"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="License" title="License" value="[[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]]"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attr="h" comment="" date="1441729129" size="169896" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-companion-II.png" attr="h" comment="" date="1441729129" size="24969" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mini-preview.jpg" attr="h" comment="" date="1441729129" size="13799" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mint-preview.jpg" attr="h" comment="" date="1441729129" size="3242" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="flags-preview.jpg" attr="h" comment="" date="1441729129" size="14996" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-preview.jpg" attr="h" comment="" date="1441729129" size="22024" user="ProjectContributor" version="1"}%

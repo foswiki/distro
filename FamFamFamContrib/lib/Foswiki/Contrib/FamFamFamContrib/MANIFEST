@@ -1,6 +1,7 @@
 !noci
 templates/icons.tmpl 0444
 templates/view.famfamfam.tmpl 0444
+templates/subscribe.famfamfam.tmpl 0444
 
 data/System/DocumentGraphics.txt 0644 Documentation
 data/System/FamFamFamContrib.txt 0644 Documentation
@@ -11,6 +12,7 @@ data/System/FamFamFamMintIcons.txt 0644 Documentation
 data/System/FamFamFamSilkCompanion1Icons.txt 0644 Documentation
 data/System/FamFamFamSilkCompanion2Icons.txt 0644 Documentation
 data/System/FamFamFamSilkIcons.txt 0644 Documentation
+data/System/FamFamFamSilkGeoSilkIcons.txt 0644 geosilk icons
 
 lib/Foswiki/Contrib/FamFamFamContrib.pm 0644 Perl module
 
@@ -2802,3 +2804,124 @@ pub/System/FamFamFamSilkIcons/xhtml_valid.png 0644
 pub/System/FamFamFamSilkIcons/zoom_in.png 0644
 pub/System/FamFamFamSilkIcons/zoom_out.png 0644
 pub/System/FamFamFamSilkIcons/zoom.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/_readme.txt 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_arrow_left.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_arrow_right.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_black_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_black_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_blue_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_blue_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_goback.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_green_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_green_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_map.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_orange_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_orange_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_pink_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_pink_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_purple_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_purple_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_raster.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_red_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_red_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_start.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_stop.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_vector.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_yellow_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/bullet_yellow_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/cog_pause.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/cog_play.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/cog_stop.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/compass.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/database_copy.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/database_oracle.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/database_picture.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/database_raster.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/database_start.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/database_stop.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/database_vector.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/database_wrench.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/database_yellow.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/database_yellow_start.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/database_yellow_stop.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/decline.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/erase.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/folder_layer.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/geosilk.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/layers_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_blue.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_blue_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_blue_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_green.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_green_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_green_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_orange.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_orange_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_orange_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_pink.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_pink_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_pink_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_purple.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_purple_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_purple_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_red.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_red_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_red_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_yellow.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_yellow_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/line_yellow_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/map_save.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/map_wrench.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/marker.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/page_white_goback.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/page_white_map.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/page_white_palette.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/page_white_picture.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/page_white_raster.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/page_white_vector.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/palette_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/palette_remove.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/pan.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/postgis.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/raster.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/raster_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/raster_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/ruler.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/ruler_square.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/ruler_triangle.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/server_feed.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/server_gear.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/server_map.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/server_picture.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/server_raster.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/server_start.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/server_stop.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/server_table.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/server_vector.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_blue.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_blue_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_blue_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_feed.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_green.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_green_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_green_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_orange.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_orange_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_orange_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_pink.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_pink_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_pink_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_purple.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_purple_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_purple_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_red.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_red_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_red_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_yellow.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_yellow_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/shape_square_yellow_delete.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/star_grey.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/star_half_grey.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/vector.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/vector_add.png 0644
+pub/System/FamFamFamSilkGeoSilkIcons/vector_delete.png 0644

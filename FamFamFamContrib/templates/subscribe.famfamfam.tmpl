@@ -1,0 +1,7 @@
+%TMPL:DEF{spi:subscribe}%<a href="#" class="subscribe_link" data-topic="$topic" data-subscriber="$subscriber" data-remove="$remove" data-validation-key="?$nonce" rel="nofollow" title='%MAKETEXT{"Subscribe to this topic"}%' >
+<img alt='%MAKETEXT{"Subscribe to this topic (s)"}%' src='%PUBURL%/%SYSTEMWEB%/DocumentGraphics/notify.png' width='16' height='16' /></a>%TMPL:END%
+%{----------------------------------------
+Link for an "unsubscribe" request. Note that REST parameters are encoded in
+data-subscribe
+}%%TMPL:DEF{spi:unsubscribe}%<a href='#' class='subscribe_link' data-topic='$topic' data-subscriber='$subscriber' data-remove='$remove' data-validation-key='?$nonce' rel='nofollow' title='%MAKETEXT{"Unsubscribe from this topic"}%'>
+<img alt='%MAKETEXT{"Unsubscribe from this topic (s)"}%' src='%PUBURL%/%SYSTEMWEB%/DocumentGraphics/notify.png' width='16' height='16' /></a>%TMPL:END%

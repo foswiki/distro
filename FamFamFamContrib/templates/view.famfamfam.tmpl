@@ -1,45 +1,52 @@
 %TMPL:INCLUDE{"view"}%
 %TMPL:DEF{"top:toolbarbutton_edit"}%<span>
-	<a href="%SCRIPTURL{"edit"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%" title="%MAKETEXT{"Edit this topic text (e)"}%">
-		<img alt="%MAKETEXT{"Edit this topic text (e)"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/pencil.png" width="16" height="16" />
+	<a class='foswikiRequiresChangePermission' href='%SCRIPTURL{"edit"}%/%WEB%/%TOPIC%?t=%GMTIME{"$epoch"}%' title='%MAKETEXT{"Edit this topic text (e)"}%'>
+		<img alt='%MAKETEXT{"Edit this topic text (e)"}%' src='%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/pencil.png' width='16' height='16' />
 	</a></span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbutton_attach"}%<span>
-	<a href="%SCRIPTURL{"attach"}%/%WEB%/%TOPIC%" title="%MAKETEXT{"Attach an image or document to this topic; manage existing attachments (a)"}%">
-		<img alt="%MAKETEXT{"Attach an image or document to this topic; manage existing attachments (a)"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/attach.png" width="16" height="16" />
+	<a class='foswikiRequiresChangePermission' href='%SCRIPTURL{"attach"}%/%WEB%/%TOPIC%' title='%MAKETEXT{"Attach an image or document to this topic; manage existing attachments (a)"}%'>
+		<img alt='%MAKETEXT{"Attach an image or document to this topic; manage existing attachments (a)"}%' src='%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/attach.png' width='16' height='16' />
 	</a></span>%TMPL:END%
+	
+%TMPL:DEF{"top:toolbarbutton_subscribe"}%<span>
+    %SUBSCRIBE{render="icon" format="<a href='#' class='subscribe_link' data-topic='$topic' data-subscriber='$subscriber' data-remove='$remove' data-validation-key='?$nonce' rel='nofollow' title='%MAKETEXT{"Subscribe to this topic (s)"}%'>
+        <img alt='%MAKETEXT{"Subscribe to this topic (s)"}%' src='%PUBURL%/%SYSTEMWEB%/DocumentGraphics/notify.png' width='16' height='16' />
+    </a>" formatunsubscribe="<a href='#' class='subscribe_link' data-topic='$topic' data-subscriber='$subscriber' data-remove='$remove' data-validation-key='?$nonce' rel='nofollow' title='%MAKETEXT{"Unsubscribe from this topic (s)"}%'>
+        <img alt='%MAKETEXT{"Unsubscribe from this topic (s)"}%' src='%PUBURL%/%SYSTEMWEB%/DocumentGraphics/notify.png' width='16' height='16' />
+    </a>"}%</span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbutton_rdiff"}%<span>
-	<a href="%SCRIPTURL{"rdiff"}%/%WEB%/%TOPIC%?type=history" title="%MAKETEXT{"View sequential topic history"}%">
-		<img alt="%MAKETEXT{"View sequential topic history"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_stack.png" width="16" height="16" />
+	<a href='%SCRIPTURL{"rdiff"}%/%WEB%/%TOPIC%?type=history' title='%MAKETEXT{"View sequential topic history"}%'>
+		<img alt='%MAKETEXT{"View sequential topic history"}%' src='%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_stack.png' width='16' height='16' />
 	</a></span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbutton_raw"}%<span>
-	<a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?raw=on&rev=%REVINFO{"$rev"}%" title="%MAKETEXT{"View without formatting (v)"}%">
-		<img alt="%MAKETEXT{"View without formatting (v)"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/text_align_left.png" width="16" height="16" />
+	<a href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?raw=on&rev=%REVINFO{"$rev"}%' title='%MAKETEXT{"View without formatting (v)"}%'>
+		<img alt='%MAKETEXT{"View without formatting (v)"}%' src='%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/text_align_left.png' width='16' height='16' />
 	</a></span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbutton_create"}%<span>
-	<a href="%SCRIPTURL{"view"}%/%WEB%/WebCreateNewTopic?topicparent=%TOPIC%" title="%MAKETEXT{"Create new topic"}%">
-		<img alt="%MAKETEXT{"Create new topic"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_add.png" width="16" height="16" />
+	<a class='foswikiRequiresChangePermission' href='%SCRIPTURL{"view"}%/%WEB%/WebCreateNewTopic?topicparent=%TOPIC%' title='%MAKETEXT{"Create new topic"}%'>
+		<img alt='%MAKETEXT{"Create new topic"}%' src='%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_add.png' width='16' height='16' />
 	</a></span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbutton_print"}%<span>
-	<a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?cover=print;%QUERYSTRING%" title="%MAKETEXT{"Printable version of this topic (p)"}%">
-		<img alt="%MAKETEXT{"Printable version of this topic (p)"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/printer.png" width="16" height="16" />
+	<a href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?cover=print;%QUERYSTRING%' title='%MAKETEXT{"Printable version of this topic (p)"}%'>
+		<img alt='%MAKETEXT{"Printable version of this topic (p)"}%' src='%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/printer.png' width='16' height='16' />
 	</a></span>%TMPL:END%
 
 %TMPL:DEF{"top:toolbarbutton_more"}%<span>
-        <a href="%SCRIPTURL{"oops"}%/%WEB%/%TOPIC%?template=more&maxrev=%REVINFO{"$rev"}%&currrev=%REVINFO{"$rev"}%" title="%MAKETEXT{"More: delete or rename this topic; set parent topic; view and compare revisions (m)"}%">
-                <img alt="%MAKETEXT{"More: delete or rename this topic; set parent topic; view and compare revisions (m)"}%" src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/wrench.png" width="16" height="16" />
+        <a href='%SCRIPTURL{"oops"/%/%WEB%/%TOPIC%?template=more&maxrev=%REVINFO{"$rev"}%&currrev=%REVINFO{"$rev"}%' title='%MAKETEXT{"More: delete or rename this topic; set parent topic; view and compare revisions (m)"}%'>
+                <img alt='%MAKETEXT{"More: delete or rename this topic; set parent topic; view and compare revisions (m)"}%' src='%PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/wrench.png' width='16' height='16' />
 	</a></span>%TMPL:END%
-
-%{ TODO: add a conditional SubScribePlugin icon? }%
 
 %TMPL:DEF{"top:toolbarbuttons_inner"}%		%TMPL:P{
 			"top:toolbarbutton_edit"
 		}%%TMPL:P{
 			"top:toolbarbutton_attach"
+		}%%TMPL:P{
+			context="SubscribePluginAllowed" then="top:toolbarbutton_subscribe"
 		}%%TMPL:P{
 			"top:toolbarbutton_rdiff"
 		}%%TMPL:P{
@@ -55,6 +62,6 @@
 %TMPL:DEF{"authenticatedClass"}% foswikiAuthenticated%TMPL:END%
 %TMPL:DEF{"unauthenticatedClass"}% foswikiUnauthenticated%TMPL:END%
 
-%TMPL:DEF{"top:toolbarbuttons"}%<span class="foswikiToolBar foswikiRight%TMPL:P{context="authenticated" then="authenticatedClass" else="unauthenticatedClass"}%">
+%TMPL:DEF{"top:toolbarbuttons"}%<span class='foswikiToolBar foswikiRight%TMPL:P{context="authenticated" then="authenticatedClass" else="unauthenticatedClass"}%'>
 %TMPL:P{"top:toolbarbuttons_inner"}%
 		</span>%TMPL:END% 

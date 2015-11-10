@@ -1,33 +1,55 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FamFamFamContrib"}%
 ---+ %TOPIC%
 
-"Mint" icons are a small set of tiny PNG web icons, loosely-based on Shaun Inman's Mint  statistics software. 
+"Mint" icons are a small set of tiny PNG web icons, loosely-based on Shaun Inman's Mint  statistics software.
 Released on the same day as the product of the same name, they provide a few useful little icons in a particularly minty flavour.  
 
 ---++ Source
+
 These Icons come from http://www.famfamfam.com/lab/icons/mint/
 
 [[%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/readme.txt][readme]]
 
-
 ---++ Icons
 
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/application.png" alt="application.png" title="application.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/arrow_right_grey.png" alt="arrow_right_grey.png" title="arrow_right_grey.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/arrow_right_peppermint.png" alt="arrow_right_peppermint.png" title="arrow_right_peppermint.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/arrow_right_spearmint.png" alt="arrow_right_spearmint.png" title="arrow_right_spearmint.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/arrow_right_white.png" alt="arrow_right_white.png" title="arrow_right_white.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/disk.png" alt="disk.png" title="disk.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/help.png" alt="help.png" title="help.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/image_peppermint.png" alt="image_peppermint.png" title="image_peppermint.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/image_spearmint.png" alt="image_spearmint.png" title="image_spearmint.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page_peppermint.png" alt="page_peppermint.png" title="page_peppermint.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page.png" alt="page.png" title="page.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page_spearmint_down.png" alt="page_spearmint_down.png" title="page_spearmint_down.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page_spearmint.png" alt="page_spearmint.png" title="page_spearmint.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page_spearmint_up.png" alt="page_spearmint_up.png" title="page_spearmint_up.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/search.png" alt="search.png" title="search.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_grey.png" alt="sound_grey.png" title="sound_grey.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_spearmint.png" alt="sound_spearmint.png" title="sound_spearmint.png" />
-<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_white.png" alt="sound_white.png" title="sound_white.png" />
+<img alt='application.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/application.png' title='application.png' />
+<img alt='arrow_right_grey.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/arrow_right_grey.png' title='arrow_right_grey.png' />
+<img alt='arrow_right_peppermint.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/arrow_right_peppermint.png' title='arrow_right_peppermint.png' />
+<img alt='arrow_right_spearmint.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/arrow_right_spearmint.png' title='arrow_right_spearmint.png' />
+<img alt='arrow_right_white.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/arrow_right_white.png' title='arrow_right_white.png' />
+<img alt='disk.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/disk.png' title='disk.png' />
+<img alt='help.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/help.png' title='help.png' />
+<img alt='image_peppermint.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/image_peppermint.png' title='image_peppermint.png' />
+<img alt='image_spearmint.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/image_spearmint.png' title='image_spearmint.png' />
+<img alt='page_peppermint.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page_peppermint.png' title='page_peppermint.png' />
+<img alt='page.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page.png' title='page.png' />
+<img alt='page_spearmint_down.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page_spearmint_down.png' title='page_spearmint_down.png' />
+<img alt='page_spearmint.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page_spearmint.png' title='page_spearmint.png' />
+<img alt='page_spearmint_up.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page_spearmint_up.png' title='page_spearmint_up.png' />
+<img alt='search.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/search.png' title='search.png' />
+<img alt='sound_grey.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_grey.png' title='sound_grey.png' />
+<img alt='sound_spearmint.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_spearmint.png' title='sound_spearmint.png' />
+<img alt='sound_white.png' src='%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_white.png' title='sound_white.png' />
 
-See also: FamFamFamContrib, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamSilkIcons
+See also: FamFamFamContrib, DocumentGraphics, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamSilkIcons, FamFamFamSilkGeoSilkIcons
+
+%META:FILEATTACHMENT{name="arrow_right_white.png" attr="h" comment="" date="1437500521" size="234" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="page.png" attr="h" comment="" date="1437500521" size="252" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="image_spearmint.png" attr="h" comment="" date="1437500521" size="393" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="arrow_right_peppermint.png" attr="h" comment="" date="1437500521" size="240" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="image_peppermint.png" attr="h" comment="" date="1437500521" size="411" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="application.png" attr="h" comment="" date="1437500521" size="358" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="sound_grey.png" attr="h" comment="" date="1437500521" size="401" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="sound_white.png" attr="h" comment="" date="1437500521" size="390" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="sound_spearmint.png" attr="h" comment="" date="1437500521" size="409" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="help.png" attr="h" comment="" date="1437500521" size="510" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="arrow_right_grey.png" attr="h" comment="" date="1437500521" size="240" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="arrow_right_spearmint.png" attr="h" comment="" date="1437500521" size="240" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="search.png" attr="h" comment="" date="1437500521" size="423" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="disk.png" attr="h" comment="" date="1437500521" size="456" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="page_spearmint_up.png" attr="h" comment="" date="1437500521" size="375" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="page_peppermint.png" attr="h" comment="" date="1437500521" size="295" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="page_spearmint_down.png" attr="h" comment="" date="1437500521" size="375" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="page_spearmint.png" attr="h" comment="" date="1437500521" size="305" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="readme.txt" attr="h" comment="" date="1437500521" size="675" user="ProjectContributor" version="1"}%

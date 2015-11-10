@@ -1,27 +1,102 @@
-%META:TOPICINFO{author="ProjectContributor" date="1259999111" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICPARENT{name="FamFamFamContrib"}%
 ---+ %TOPIC%
 
-Mark James created a great set of 1,022 silky-smooth 16x16 true-colour 
+Mark James created a great set of 1,022 silky-smooth 16x16 true-colour
 icons in PNG format, aptly named [[FamFamFamSilkIcons][Silk Icons]].
 
-Introducing the Silk Companion II Icon Pack. 
-While developing a new CKEditor skin for GetSimple, I had a need for some extra Silk icons developed by Mark James at FamFamFam. 
-Out came 64 new silk-inspired icons. These icons are released under the same Creative Commons Attribution 3.0 License as the originals. 
+---++ !GeoSilk icon set by Rolando Pe&ntilde;ate
+
+http://projects.opengeo.org/geosilk
+
+The !GeoSilk icon set is derived from the Silk
+icon set by Mark James, the Silk Companion set
+by Damien Guard, and the uDig icons made by
+Jody Garnett of Refractions Research. It aims
+to extend the Silk icon set to address the
+needs of geospatial software.
 
 ---++ License
+
 This work is published under the
- [[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]] by Damien Guard.
+ [[http://creativecommons.org/licenses/by/3.0/][Creative Commons Attribution 3.0 License]] by Damien Guard.
 
 ---++ Source
+
 These Icons come from http://www.cagintranet.com/archive/download-famfamfam-silk-companion-2-icon-pack/
 
 [[%PUBURLPATH%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/readme_companion.txt][readme_companion (txt)]]
 
 ---++ Icons
-<div style="overflow:auto;padding:5px;border:1px solid #ddd">
-<img src="%ATTACHURLPATH%/silk-companion-II.png" alt="index_abc.png" />
+
+<div style='overflow: auto; padding: 5px; border: 1px solid #ddd;'>
+<img alt='index_abc.png' src='%ATTACHURLPATH%/silk-companion-II.png' />
 </div>
 
-See also: FamFamFamContrib, FamFamFamSilkIcons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons
+See also: FamFamFamContrib, DocumentGraphics, FamFamFamSilkIcons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons, FamFamFamSilkGeoSilkIcons
 
-%META:FILEATTACHMENT{name="silk-companion-II.png" attachment="silk-companion-II.png" attr="h"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="radio-checked.png" attr="h" comment="" date="1437500521" size="655" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="font_highlight_add.png" attr="h" comment="" date="1437500521" size="642" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="select-multiple-delete.png" attr="h" comment="" date="1437500521" size="439" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="font_highlight_delete.png" attr="h" comment="" date="1437500521" size="654" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="select.png" attr="h" comment="" date="1437500521" size="232" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="font_gray.png" attr="h" comment="" date="1437500521" size="587" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="select-multiple.png" attr="h" comment="" date="1437500521" size="268" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="radio-unchecked.png" attr="h" comment="" date="1437500521" size="610" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="border_edit_all.png" attr="h" comment="" date="1437500521" size="760" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="check-checked-green_add.png" attr="h" comment="" date="1437500521" size="825" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="silk-companion-II.png" attr="h" comment="" date="1437500521" size="24969" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="check-unchecked.png" attr="h" comment="" date="1437500521" size="499" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="border_delete_all.png" attr="h" comment="" date="1437500521" size="580" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="font_highlight.png" attr="h" comment="" date="1437500521" size="492" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="selection-blue.png" attr="h" comment="" date="1437500521" size="336" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="page_white_error.png" attr="h" comment="" date="1437500521" size="681" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="bullet-cog.png" attr="h" comment="" date="1437500521" size="561" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="bullets_black.png" attr="h" comment="" date="1437500521" size="317" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="radio-unchecked_add.png" attr="h" comment="" date="1437500521" size="751" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="font_green.png" attr="h" comment="" date="1437500521" size="420" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="check-checked-green_delete.png" attr="h" comment="" date="1437500521" size="840" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="layout-measurement.png" attr="h" comment="" date="1437500521" size="656" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="select-add.png" attr="h" comment="" date="1437500521" size="424" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="check-checked-gray_add.png" attr="h" comment="" date="1437500521" size="797" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="text-replace.png" attr="h" comment="" date="1437500521" size="647" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="radio-unchecked_delete.png" attr="h" comment="" date="1437500521" size="744" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="map-measurement.png" attr="h" comment="" date="1437500521" size="843" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="image-button.png" attr="h" comment="" date="1437500521" size="471" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="package_rename.png" attr="h" comment="" date="1437500521" size="850" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="select-multiple-add.png" attr="h" comment="" date="1437500521" size="444" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="selection-green.png" attr="h" comment="" date="1437500521" size="343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="lightbox.png" attr="h" comment="" date="1437500521" size="657" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="check-checked-gray.png" attr="h" comment="" date="1437500521" size="702" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="chart-ltr-bar-edit.png" attr="h" comment="" date="1437500521" size="939" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="color-swatch-background.png" attr="h" comment="" date="1437500521" size="302" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="check-unchecked_add.png" attr="h" comment="" date="1437500521" size="648" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="chart-ltr-bar.png" attr="h" comment="" date="1437500521" size="723" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="table-lock.png" attr="h" comment="" date="1437500521" size="691" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="clipboard_delete.png" attr="h" comment="" date="1437500521" size="677" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="picture-measurement.png" attr="h" comment="" date="1437500521" size="736" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="font_red.png" attr="h" comment="" date="1437500521" size="416" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="page_white_edit.png" attr="h" comment="" date="1437500521" size="734" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="photo-crop.png" attr="h" comment="" date="1437500521" size="647" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="table_edit_cell.png" attr="h" comment="" date="1437500521" size="597" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="font_highlight_edit.png" attr="h" comment="" date="1437500521" size="749" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="selection-red.png" attr="h" comment="" date="1437500521" size="334" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="radio-checked_delete.png" attr="h" comment="" date="1437500521" size="768" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="clipboard_empty.png" attr="h" comment="" date="1437500521" size="794" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="arrows_up_down.png" attr="h" comment="" date="1437500521" size="410" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="plus_minus.png" attr="h" comment="" date="1437500521" size="437" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="select-multiple-edit.png" attr="h" comment="" date="1437500521" size="573" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="add_delete.png" attr="h" comment="" date="1437500521" size="583" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="select-edit.png" attr="h" comment="" date="1437500521" size="569" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="chart-ltr-bar-delete.png" attr="h" comment="" date="1437500521" size="814" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="check-checked-gray_delete.png" attr="h" comment="" date="1437500521" size="805" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="table-row-add.png" attr="h" comment="" date="1437500521" size="632" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="picture_caption.png" attr="h" comment="" date="1437500521" size="611" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="radio-checked_add.png" attr="h" comment="" date="1437500521" size="778" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="check-unchecked_delete.png" attr="h" comment="" date="1437500521" size="653" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="check-checked-green.png" attr="h" comment="" date="1437500521" size="746" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="chart-ltr-bar-add.png" attr="h" comment="" date="1437500521" size="840" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="application-font.png" attr="h" comment="" date="1437500521" size="603" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="page_white_delete.png" attr="h" comment="" date="1437500521" size="621" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="select-delete.png" attr="h" comment="" date="1437500521" size="426" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="table-repair.png" attr="h" comment="" date="1437500521" size="706" user="ProjectContributor" version="1"}%

@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/FamFamFamContrib.md5
+/FamFamFamContrib.sha1
+/FamFamFamContrib.tgz
+/FamFamFamContrib.txt
+/FamFamFamContrib.zip
+/FamFamFamContrib_installer
+/FamFamFamContrib_installer.pl
