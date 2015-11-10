@@ -15,8 +15,8 @@ use Foswiki::Plugins ();    # For the API version
 
 use vars qw( @shelter );
 
-use version; our $VERSION = version->declare("v1.1.5");
-our $RELEASE = '1.1.5';
+our $VERSION = '1.16';
+our $RELEASE = '1.16';
 our $SHORTDESCRIPTION =
   'Allows editing of preferences using fields predefined in a form';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -44,7 +44,7 @@ sub beforeCommonTagsHandler {
     ### my ( $text, $topic, $web ) = @_;
     my $topic = $_[1];
     my $web   = $_[2];
-    return unless ( $_[0] =~ m/%EDITPREFERENCES(?:{(.*?)})?%/ );
+    return unless ( $_[0] =~ m/%EDITPREFERENCES(?:\{(.*?)\})?%/ );
 
     require CGI;
     require Foswiki::Attrs;
@@ -75,16 +75,16 @@ sub beforeCommonTagsHandler {
         my $insidecomment  = 0;
         my $insideverbatim = 0;
         foreach my $token ( split /(<!--|-->|<\/?verbatim\b[^>]*>)/, $_[0] ) {
-            if ( !$insideverbatim and $token =~ /<!--/ ) {
+            if ( !$insideverbatim and $token =~ m/<!--/ ) {
                 $insidecomment++;
             }
-            elsif ( !$insideverbatim and $token =~ /-->/ ) {
+            elsif ( !$insideverbatim and $token =~ m/-->/ ) {
                 $insidecomment-- if ( $insidecomment > 0 );
             }
-            elsif ( $token =~ /<verbatim/ ) {
+            elsif ( $token =~ m/<verbatim/ ) {
                 $insideverbatim++;
             }
-            elsif ( $token =~ /<\/verbatim/ ) {
+            elsif ( $token =~ m/<\/verbatim/ ) {
                 $insideverbatim-- if ( $insideverbatim > 0 );
             }
             elsif ( !$insidecomment and !$insideverbatim ) {
@@ -96,7 +96,7 @@ s/^($Foswiki::regex{setRegex})($Foswiki::regex{tagNameRegex})\s*\=(.*$(?:\n[ \t]
         }
         $_[0] = $outtext;
 
-        $_[0] =~ s/%EDITPREFERENCES({.*?})?%/
+        $_[0] =~ s/%EDITPREFERENCES(\{.*?\})?%/
           _generateControlButtons($web, $topic)/ge;
         my $viewUrl = Foswiki::Func::getScriptUrl( $web, $topic, 'viewauth' );
         my $startForm = CGI::start_form(
@@ -142,7 +142,7 @@ s/^($Foswiki::regex{setRegex})($Foswiki::regex{tagNameRegex})\s*\=(.*$(?:\n[ \t]
     }
 
     # implicit action="view", or drop through from "save" or "cancel"
-    $_[0] =~ s/%EDITPREFERENCES({.*?})?%/_generateEditButton($web, $topic)/ge;
+    $_[0] =~ s/%EDITPREFERENCES(\{.*?\})?%/_generateEditButton($web, $topic)/ge;
 }
 
 # Use the post-rendering handler to plug our formatted editor units
@@ -183,9 +183,9 @@ sub _generateEditField {
     }
     unless ($html) {
 
-        if ( $value =~ /\n/ ) {
+        if ( $value =~ m/\n/ ) {
             my $rows = 1;
-            $rows++ while $value =~ /\n/g;
+            $rows++ while $value =~ m/\n/g;
 
             # No form definition and there are newlines, default to textarea
             $html = CGI::textarea(
@@ -240,7 +240,7 @@ sub _generateEditButton {
     $text .= CGI::submit(
         -name  => 'edit',
         -value => 'Edit Preferences',
-        -class => 'foswikiButton'
+        -class => 'foswikiRequiresChangePermission foswikiButton'
     );
     $text .= CGI::end_form();
     $text =~ s/\n//sg;
@@ -283,7 +283,7 @@ sub _saveSet {
     if ($formDef) {
         my $fieldDef = _getField( $formDef, $name );
         my $type = $fieldDef->{type} || '';
-        if ( $type && $type =~ /^checkbox/ ) {
+        if ( $type && $type =~ m/^checkbox/ ) {
             my $val  = '';
             my $vals = $fieldDef->{value};
             foreach my $item (@$vals) {
@@ -311,7 +311,7 @@ sub _saveSet {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

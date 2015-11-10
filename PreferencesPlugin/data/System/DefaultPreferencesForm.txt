@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1421599902" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PreferencesPlugin"}%
 |*Name*|*Type*|*Size*|*Value*|*Tooltip message* |*Attributes*|
 | WEBBGCOLOR | text | 20 | #FFD8AA | HTML Color | S |
@@ -22,10 +23,10 @@
 | WEBLOGOIMG | text | 30 | %PUBURL%/%BASEWEB%/%WEBPREFSTOPIC%/%WEBLOGONAME% | URL of a logo image | S |
 | WEBLOGOURL | text | 30 | %SCRIPTURL%/view%SCRIPTSUFFIX%/%BASEWEB%/%HOMETOPIC% | URL under the logo | S |
 | WEBLOGOALT | text | 30 | Home | Logo tooltip text of the logo | S |
-| WIKILOGOIMG | text | 30 | %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.gif | URL of a logo image | S |
+| WIKILOGOIMG | text | 30 | %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png | URL of a logo image | S |
 | WIKILOGOURL | text | 30 | http://Foswiki.org/ | URL under the logo| S |
 | WIKILOGOALT | text | 30 | Powered by Foswiki | Logo tooltip text of the logo | S |
-| WIKIWEBLIST | textarea | | [[%MAINWEB%.%HOMETOPIC%][%MAINWEB%]] %SEP% [[%SYSTEMWEB%.%HOMETOPIC%][%SYSTEMWEB%]] %SEP% [[%SANDBOXWEB%.%HOMETOPIC%][%SANDBOXWEB%]] | | S |
+| WIKIWEBLIST | textarea | | [[%USERSWEB%.%HOMETOPIC%][%USERSWEB%]] %SEP% [[%SYSTEMWEB%.%HOMETOPIC%][%SYSTEMWEB%]] %SEP% [[%SANDBOXWEB%.%HOMETOPIC%][%SANDBOXWEB%]] | | S |
 | ATTACHFILESIZELIMIT | text | 30 | 3000 | Maximum size of attachments in KB, 0 for no limit | S |
 | BROADCASTMESSAGE | textarea| |  | Broadcast message on every page, for skins that support it. | S |
 | SEARCHDEFAULTTTYPE | select | 1 | keyword,literal,regex | Default type for search | S |

@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/PreferencesPlugin.md5
+/PreferencesPlugin.sha1
+/PreferencesPlugin.tgz
+/PreferencesPlugin.txt
+/PreferencesPlugin.zip
+/PreferencesPlugin_installer
+/PreferencesPlugin_installer.pl
