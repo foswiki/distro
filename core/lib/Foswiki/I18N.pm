@@ -54,6 +54,35 @@ sub _normalize_language_tag {
     return $tag;
 }
 
+sub _loadLexicon {
+    my ( $lang, $dir ) = @_;
+
+    $dir ||= $Foswiki::cfg{LocalesDir};
+
+    my $langFile = "$dir/$lang.po";
+
+    #print STDERR "langFile=$langFile\n";
+
+    # Use the compressed version if it exists
+    if ( $langFile =~ m/^(.*)\.po$/
+        && -f "$1.mo" )
+    {
+        $langFile = "$1.mo";
+    }
+    if ( -f $langFile ) {
+        unless (
+            eval {
+                Locale::Maketext::Lexicon->import(
+                    { $lang => [ Gettext => $langFile ] } );
+                1;
+            }
+          )
+        {
+            push( @initErrors, "I18N - Error loading language $lang: $@\n" );
+        }
+    }
+}
+
 # initialisation block
 BEGIN {
 
@@ -98,34 +127,17 @@ BEGIN {
               . "Install Locale::Maketext::Lexicon or turn off {UserInterfaceInternationalisation}"
         );
     }
-    foreach my $lang (@languages) {
-        my $langFile = "$Foswiki::cfg{LocalesDir}/$lang.po";
 
-        # Use the compressed version if it exists
-        if ( $langFile =~ m/^(.*)\.po$/
-            && -f "$1.mo" )
-        {
-            $langFile = "$1.mo";
-        }
-        if ( -f $langFile ) {
-            unless (
-                eval {
-                    Locale::Maketext::Lexicon->import(
-                        { $lang => [ Gettext => $langFile ] } );
-                    1;
-                }
-              )
-            {
-                push( @initErrors,
-                    "I18N - Error loading language $lang: $@\n" );
-            }
-        }
-        else {
-            push( @initErrors,
-"I18N - Ignoring enabled language $lang as $langFile does not exist.\n"
-            );
-        }
+    opendir( my $dh, "$Foswiki::cfg{LocalesDir}/" ) || next;
+    my @subDirs =
+      grep { !/^\./ && -d "$Foswiki::cfg{LocalesDir}/$_" } readdir $dh;
+    closedir $dh;
+
+    foreach my $lang (@languages) {
+        _loadLexicon($lang);
+        _loadLexicon( $lang, "$Foswiki::cfg{LocalesDir}/$_" ) foreach @subDirs;
     }
+
 }
 
 =begin TML
