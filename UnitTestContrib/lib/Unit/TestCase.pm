@@ -44,7 +44,7 @@ sub new {
 
 =begin TML
 
----+ ObjectMethod set_up()
+---++ ObjectMethod set_up()
 
 Called by the test environment before each test case, used to set up
 test fixtures.
@@ -410,7 +410,7 @@ Fail the test if $got != $expected. Comparison is deep. $message is optional.
 =cut
 
 sub assert_deep_equals {
-    my ( $this, $expected, $got, $mess, $sniffed ) = @_;
+    my ( $this, $expected, $got, $mess, $sniffed, @path ) = @_;
 
     $sniffed = {} unless $sniffed;
 
@@ -428,11 +428,14 @@ sub assert_deep_equals {
     if ( UNIVERSAL::isa( $expected, 'ARRAY' ) ) {
         $this->assert( UNIVERSAL::isa( $got, 'ARRAY' ) );
         $this->assert_equals( $#$expected, $#$got,
-            'Different size arrays: ' . ( $mess || '' ) );
+                'Different size arrays: '
+              . ( $mess || '' )
+              . " $#$got!=$#$expected at "
+              . join( '/', @path ) );
 
         for ( 0 .. $#$expected ) {
             $this->assert_deep_equals( $expected->[$_], $got->[$_], $mess,
-                $sniffed );
+                $sniffed, @path, '[]' );
         }
     }
     elsif ( UNIVERSAL::isa( $expected, 'HASH' ) ) {
@@ -440,7 +443,7 @@ sub assert_deep_equals {
         my %matched;
         for ( keys %$expected ) {
             $this->assert_deep_equals( $expected->{$_}, $got->{$_}, $mess,
-                $sniffed );
+                $sniffed, @path, "{$_}" );
             $matched{$_} = 1;
         }
         for ( keys %$got ) {
@@ -450,12 +453,28 @@ sub assert_deep_equals {
     elsif (UNIVERSAL::isa( $expected, 'REF' )
         || UNIVERSAL::isa( $expected, 'SCALAR' ) )
     {
-        $this->assert_equals( ref($expected), ref($got), $mess );
-        $this->assert_deep_equals( $$expected, $$got, $mess, $sniffed );
+        $this->assert_equals( ref($expected), ref($got),
+                _nundef( $mess, '' ) . ' '
+              . ref($expected) . '('
+              . _nundef($expected) . ') != '
+              . ref($got) . '('
+              . _nundef($got) . ') at '
+              . join( '/', @path ) );
+        $this->assert_deep_equals( $$expected, $$got, $mess, $sniffed, @path,
+            'ref' );
     }
     else {
-        $this->assert_equals( $expected, $got, $mess );
+        $this->assert_equals( $expected, $got,
+                _nundef( $mess, '' ) . "\n"
+              . _nundef($expected)
+              . "\n!=\n"
+              . _nundef($got) . "\nat "
+              . join( '/', @path ) );
     }
+}
+
+sub _nundef {
+    defined( $_[0] ) ? $_[0] : ( defined( $_[1] ) ? $_[1] : 'undef' );
 }
 
 =begin TML
@@ -509,7 +528,7 @@ sub expect_failure {
 
 =begin TML
 
----+ ObjectMethod assert_html_equals($expected, $got [,$message])
+---++ ObjectMethod assert_html_equals($expected, $got [,$message])
 
 HTML comparison. Correctly compares attributes in tags. Uses HTML::Parser
 which is tolerant of unbalanced tags, so the actual may have unbalanced
@@ -541,7 +560,7 @@ sub assert_html_equals {
 
 =begin TML
 
----+ ObjectMethod assert_html_matches($expected, $got [,$message])
+---++ ObjectMethod assert_html_matches($expected, $got [,$message])
 
 See if a block of HTML occurs in a larger
 block of HTML. Both blocks must be well-formed HTML.
@@ -564,7 +583,7 @@ sub assert_html_matches {
 
 =begin TML
 
----+ ObjectMethod assert_json_equals($expected, $got [,$message])
+---++ ObjectMethod assert_json_equals($expected, $got [,$message])
 
 Fail the test unless the two JSON data structures are equivalent.
 The message is optional.
@@ -584,7 +603,54 @@ sub assert_json_equals {
 
 =begin TML
 
----+ ObjectMethod captureSTD(\&fn, ...) -> ($stdout, $stderr, $result)
+---++ ObjectMethod assert_URI_equals($expected, $got [,$message])
+
+Test two (string) URIs for canonical equality.
+
+=cut
+
+sub assert_URI_equals {
+    my ( $this, $expected, $got, $mess ) = @_;
+
+    eval { require URI };
+    $this->assert( !$@, $@ );
+
+    if ( $expected =~ s/([?#].*)$// ) {
+        $expected .= _canonical_param_string($1);
+    }
+    if ( $got =~ s/([?#].*)$// ) {
+        $got .= _canonical_param_string($1);
+    }
+
+    #print "COMPARE $got == $expected\n";
+    my $e = URI->new($expected);
+    my $g = URI->new($got);
+    $this->assert( $g->eq($e), $mess );
+}
+
+sub _canonical_param_string {
+    my $str = shift;
+    $str =~ s/^\?//;
+    my %p;
+    if ( $str =~ s/#(.*)// ) {
+        $p{'#'} = $1;
+    }
+    foreach my $p ( split( /[;&]/, $str ) ) {
+        my ( $k, $v ) = split( /=/, $p, 2 );
+
+        # Normalise encoding
+        $k =~ s/%([\da-f]{2})/chr(hex($1))/gei;
+        $k =~ s/([^0-9a-zA-Z-_.:~!*'\/])/'%'.sprintf('%02x',ord($1))/ge;
+        $v =~ s/%([\da-f]{2})/chr(hex($1))/gei;
+        $v =~ s/([^0-9a-zA-Z-_.:~!*'\/])/'%'.sprintf('%02x',ord($1))/ge;
+        $p{$k} = $v;
+    }
+    return '?' . join( ';', map { "$_=$p{$_}" } sort keys %p );
+}
+
+=begin TML
+
+---++ ObjectMethod captureSTD(\&fn, ...) -> ($stdout, $stderr, $result)
 
 Invoke a function while grabbing stdout and stderr, so the output
 doesn't flood the console that you're running the unit test from.
@@ -640,6 +706,34 @@ sub captureSTD {
         close($f);
     };
     return ( $this->{stdout}, $this->{stderr}, $result );
+}
+
+=begin TML
+
+---++ StaticMethod encode_wide_chars($text) -> $text
+
+Given a string that may contain wide characters (which will break
+print) encode those characters using URL encoding.
+
+Note that if the current output encoding is an 8-bit character set
+(e.g. iso-8859-1) then this will munge characters with the high bit
+set even if they are printable. A necessary evil :-(
+
+=cut
+
+sub encode_wide_chars {
+    my @s = split( //, shift );
+
+    foreach (@s) {
+        my $n = ord($_);
+        if ( $n > 0xFF ) {
+            $_ = sprintf( '#%04x;', $n );
+        }
+        elsif ( $n != 10 && ( $n < 32 || $n > 127 ) ) {
+            $_ = sprintf( '#%02x;', $n );
+        }
+    }
+    return join( '', @s );
 }
 
 1;
