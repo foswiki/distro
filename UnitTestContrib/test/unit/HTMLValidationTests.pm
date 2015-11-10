@@ -51,6 +51,7 @@ sub loadExtraConfig {
 
     # $this - the Test::Unit::TestCase object
     $Foswiki::cfg{JQueryPlugin}{Plugins}{PopUpWindow}{Enabled} = 1;
+    $Foswiki::cfg{FeatureAccess}{Configure} = 'ScumBag';
 
     $this->SUPER::loadExtraConfig( $context, @args );
 
@@ -96,6 +97,9 @@ sub fixture_groups {
     my @scripts;
 
     foreach my $script ( keys( %{ $Foswiki::cfg{SwitchBoard} } ) ) {
+        next
+          unless $script =~
+m/^(attach|changes|compare|compareauth|configure|edit|jsonrpc|login|logon|manage|oops|preview|previewauth|rdiff|rdiffauth|register|rename|resetpasswd|rest|restauth|save|search|statistics|upload|viewauth|viewfile|viewfileauth)$/;
         push( @scripts, $script );
         next if ( defined( &{$script} ) );
 
@@ -208,8 +212,8 @@ sub call_UI_FN {
     # check STDERR is only a single line & that it contains that warning
     $this->assert(
         (
-            !$stderr || ( scalar( $stderr =~ /([\r\n]+)/g ) == 1
-                && $stderr =~ /error compiling class Foswiki::Form::Nuffin/ )
+            !$stderr || ( scalar( $stderr =~ m/([\r\n]+)/g ) == 1
+                && $stderr =~ m/error compiling class Foswiki::Form::Nuffin/ )
         ),
         "$SCRIPT_NAME errored: '$stderr'"
     ) if defined $stderr;
@@ -217,8 +221,8 @@ sub call_UI_FN {
     # Remove CGI header
     my $CRLF = "\015\012";    # "\r\n" is not portable
     my ( $header, $body );
-    if ( $responseText =~ /^(.*?)$CRLF$CRLF(.+)$/s
-        or ( $stdout && $stdout =~ /^(.*?)$CRLF$CRLF(.*)$/s ) )
+    if ( $responseText =~ m/^(.*?)$CRLF$CRLF(.+)$/s
+        or ( $stdout && $stdout =~ m/^(.*?)$CRLF$CRLF(.*)$/s ) )
     {
 
         # Response can be in stdout if the request is split, like for
@@ -232,7 +236,7 @@ sub call_UI_FN {
     }
 
     my $status = 666;
-    if ( $header =~ /^Status: (\d*).*/ms ) {
+    if ( $header =~ m/^Status: (\d*).*/ms ) {
         $status = $1;
     }
 
@@ -243,8 +247,6 @@ sub call_UI_FN {
     if ( $status == 666 ) {
         $status = 200;
     }
-    $this->assert_num_not_equals( 500, $status,
-        'exception thrown, or status not set properly' );
 
     return ( $status, $header, $body, $stdout, $stderr );
 }
@@ -301,15 +303,14 @@ sub add_attachments {
 }
 
 sub put_field {
-    my ( $meta, $name, $attributes, $title, $value ) = @_;
+    my ( $meta, $name, $title, $value ) = @_;
 
     $meta->putKeyed(
         'FIELD',
         {
-            name       => $name,
-            attributes => $attributes,
-            title      => $title,
-            value      => $value
+            name  => $name,
+            title => $title,
+            value => $value
         }
     );
 
@@ -320,19 +321,19 @@ sub add_form_and_data {
     my ( $this, $web, $topic, $form ) = @_;
     my ($meta) = Foswiki::Func::readTopic( $web, $topic );
     $meta->put( 'FORM', { name => $form } );
-    put_field( $meta, 'IssueName', 'M', 'Issue Name', '_An issue_' );
+    put_field( $meta, 'IssueName', 'Issue Name', '_An issue_' );
     put_field(
         $meta, 'IssueDescription', '',
         'Issue Description',
         '---+ Example problem'
     );
-    put_field( $meta, 'Issue1',       '',  'Issue 1:',      '*Defect*' );
-    put_field( $meta, 'Issue2',       '',  'Issue 2:',      'Enhancement' );
-    put_field( $meta, 'Issue3',       '',  'Issue 3:',      'Defect, None' );
-    put_field( $meta, 'Issue4',       '',  'Issue 4:',      'Defect' );
-    put_field( $meta, 'Issue5',       '',  'Issue 5:',      'Foo, Baz' );
-    put_field( $meta, 'State',        'H', 'State',         'Invisible' );
-    put_field( $meta, 'Anothertopic', '',  'Another topic', 'GRRR ' );
+    put_field( $meta, 'Issue1',       'Issue 1:',      '*Defect*' );
+    put_field( $meta, 'Issue2',       'Issue 2:',      'Enhancement' );
+    put_field( $meta, 'Issue3',       'Issue 3:',      'Defect, None' );
+    put_field( $meta, 'Issue4',       'Issue 4:',      'Defect' );
+    put_field( $meta, 'Issue5',       'Issue 5:',      'Foo, Baz' );
+    put_field( $meta, 'State',        'State',         'Invisible' );
+    put_field( $meta, 'Anothertopic', 'Another topic', 'GRRR ' );
     $meta->save();
     $meta->finish();
 
@@ -373,8 +374,17 @@ sub verify_switchboard_function {
     my ( $status, $header, $text ) =
       $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
 
+    unless ( $header =~ m/Content-type: text\/html\b/i ) {
+
+        # non-HTML script, no HTML to validate
+        $this->{tidy}->clear_messages();
+        return;
+    }
+
     $this->assert_num_equals( $expected_status{$SCRIPT_NAME} || 200, $status );
     if ( $status != 302 ) {
+        $this->assert_num_not_equals( 500, $status,
+            'exception thrown, or status not set properly' );
         $this->assert( $text,
             "no body for $SCRIPT_NAME\nSTATUS: $status\nHEADER: $header" );
         $this->assert_str_not_equals( '', $text,
@@ -392,7 +402,7 @@ sub verify_switchboard_function {
 
         #TODO: disable missing DOCTYPE issues - we've been
         if ( defined( $expect_non_html{$SCRIPT_NAME} )
-            and ( $output =~ /missing <\!DOCTYPE> declaration/ ) )
+            and ( $output =~ m/missing <\!DOCTYPE> declaration/ ) )
         {
 
             #$this->expect_failure();
@@ -401,15 +411,40 @@ sub verify_switchboard_function {
             );
         }
         else {
-            for ($output) {    # Remove OK warnings
-                               # Empty title, no easy fix and harmless
-                               # Empty style, see Item11608
-s/^$testcase \(\d+:\d+\) Warning: trimming empty <(?:h1|span|style|ins|noscript)>\n?$//gm;
-s/^$testcase \(\d+:\d+\) Warning: inserting implicit <(?:ins)>\n?$//gm;
-                s/^\s*$//;
+            my $warn = qr/$testcase \(\d+:\d+\) Warning:/;
+            for ($output) {
+
+                # Remove OK warnings
+                # Empty title, no easy fix and harmless
+                # Empty style, see Item11608
+s/^$warn trimming empty <(?:h1|span|style|ins|noscript)>\n?$//gm;
+                s/^$warn inserting implicit <(?:ins)>\n?$//gm;
+
+                # Remove warnings about HTML5 not being covered by
+                # HTML::Tidy properly, see Item13134
+                s/^$warn <a> proprietary attribute "data-.*$//gm;
+                s/^$warn <textarea> proprietary attribute "data-.*$//gm;
+                s/^$warn <input> proprietary attribute "placeholder".*$//gm;
+                s/^$warn <meta> proprietary attribute "charset".*$//gm;
+                s/^$warn <meta> lacks "content" attribute.*$//gm;
+                s/^$warn <[^>]+> proprietary attribute "class".*$//gm;
+
+                # These elements are no longer suppported in HTML5
+                s/^$warn <table> lacks "summary" attribute$//gm;
+
+                if ($Foswiki::UNICODE) {
+
+                    # With unicode core, links may include unicode
+                    # characters that *should* be url-encoded, but
+                    # often are not (though it's not seen as an
+                    # error by modern browsers)
+                    s/^$warn <a> escaping malformed.*$//gm;
+                }
+                s/^\s*$//s;
             }
+
             if ( defined( $expect_table_summary_warnings{$SCRIPT_NAME} )
-                and ( $output =~ /<table> lacks "summary" attribute/ ) )
+                and ( $output =~ m/<table> lacks "summary" attribute/ ) )
             {
                 for ($output) { # Remove missing table summary attribute warning
 s/^$testcase \(\d+:\d+\) Warning: <table> lacks "summary" attribute\n?$//gm;
@@ -422,7 +457,7 @@ s/^$testcase \(\d+:\d+\) Warning: <table> lacks "summary" attribute\n?$//gm;
             }
             else {                  # save the output html..
                 open( my $fh, '>', $outfile ) or die "Can't open $outfile: $!";
-                print $fh $text;
+                print $fh Encode::encode_utf8($text);
                 close $fh;
             }
             $this->assert_equals( '', $output,
@@ -562,6 +597,8 @@ sub test_edit_without_urlparam_presets {
 
     my ( $status, $header, $text ) =
       $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
+    $this->assert_num_not_equals( 500, $status,
+        'exception thrown, or status not set properly' );
     my $notchecked  = { checked  => 0 };
     my $notselected = { selected => 0 };
 
@@ -609,6 +646,9 @@ sub test_edit_with_urlparam_presets {
         undef,
         { Issue3 => ['c'], State => ['1'], Issue1 => ['y'], Issue5 => ['Bar'] }
     );
+    $this->assert_num_not_equals( 500, $status,
+        'exception thrown, or status not set properly' );
+
     my $notchecked  = { checked  => 0 };
     my $notselected = { selected => 0 };
 
