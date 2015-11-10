@@ -1,6 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1302458144" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1446958002" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
+%FORMFIELD{"Description"}%
 
 This Plugin adds spreadsheet capabilities to %WIKITOOLNAME% topics. Formulae like ==%<nop>CALC{"$INT(7/3)"}%== are evaluated at page view time. They can be placed in table cells and outside of tables. In other words, this Plugin provides general formula evaluation capability, not just classic spreadsheet functions.
 
@@ -33,22 +34,29 @@ The formula next to "Total" is ==%<nop>CALC{"$SUM( $ABOVE() )"}%==. <br /> (you 
 
 ---++ Syntax Rules
 
-The action of this Plugin is triggered by the ==%<nop>CALC{"..."}%== macro, which gets rendered according to the built-in function(s) found between the quotes.
+The action of this Plugin is triggered two macros:
+   * The ==%<nop>CALC{"..."}%== macro, which gets rendered according to the built-in function(s) found between the quotes.  This macro processes tables above it on the page, but must not span multiple lines.
+   * The ==%<nop>CALCULATE{"..."}%== macro can span multiple lines, but does not process tables on the page.
 
+For both macros:
    * Built-in function are of format ==$FUNCNAME(parameter)==
    * Functions may be nested, e.g. ==%<nop>CALC{"$SUM( R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0) )"}%==
    * Functions are evaluated from left to right, and from inside to outside if nested
    * The function parameter can be text; a mathematical formula; a cell address; or a range of cell addresses
    * Multiple parameters form a list; they are separated by a comma, followed by optional space, e.g. ==%<nop>CALC{"$SUM( 3, 5, 7 )"}%==
+   * Strings can be triple-quoted =='''some, string'''==.   This allows commas, parenthesis and newlines to be processed literally, rather than as part of the function syntax.
+      * e.g. ==%<nop>CALCULATE{$SUBSTITUTE('''(Almost), every day''', Almost, Mostly)}%== evaluates to:
+      * ==%CALCULATE{$SUBSTITUTE('''(Almost), every day''', Almost, Mostly)}%==
+   * Formulae can be placed in a FormattedSearch, but the CALC needs to be escaped. Learn how to [[#CalcInFormattedSearch][use a CALC in a formatted search]]
+
+   For the ==%<nop>CALC{"..."}%== macro only:
    * A table cell can be addressed as ==R1:C1==. Table address matrix:
      | ==R1:C1== | ==R1:C2== | ==R1:C3== | ==R1:C4== |
      | ==R2:C1== | ==R2:C2== | ==R2:C3== | ==R2:C4== |
    * A table cell range is defined by two cell addresses separated by ==".."==, e.g. "row 1 through 20, column 3" is: ==R1:C3..R20:C3==
-   * Lists can refer to values and/or table cell ranges, e.g. ==%<nop>CALC{"$SUM( 3, 5, $T(R1:C7), R1:C11..R1:C15 )"}%==
+   * Lists can refer to table cell ranges, as well as values, e.g. ==%<nop>CALC{"$SUM( 3, 5, $T(R1:C7), R1:C11..R1:C15 )"}%==
    * Formulae can only reference cells in the current or preceeding row of the current table; they may not reference cells below the current table row
    * Formulae can also be placed outside of tables; they can reference cells in the preceeding table
-   * Formulae can be placed in a FormattedSearch, but the CALC needs to be escaped. Learn how to [[#CalcInFormattedSearch][use a CALC in a formatted search]]
-
 
 ---++ Built-in Functions
 
@@ -80,18 +88,27 @@ Conventions for Syntax:
    * Example: ==%<nop>CALC{"$AVERAGE(R2:C5..R$ROW(-1):C5)"}%== returns the average of column 5, excluding the title row
    * Related: =[[#FuncLIST][$LIST()]]=, =[[#FuncMAX][$MAX()]]=, =[[#FuncMEDIAN][$MEDIAN()]]=, =[[#FuncMIN][$MIN()]]=
 
+#FuncBIN2DEC
+---+++ !BIN2DEC( num ) -- convert a binary number to decimal
+   * Syntax: ==$BIN2DEC( num )==
+   * Note: If the number contains invalid characters, they are removed, and the remaining bits are converted.
+   * Example: ==%<nop>CALCULATE{$BIN2DEC(1100100)}%== returns ==100==
+   * Example: ==%<nop>CALCULATE{$BIN2DEC(A121)}%== returns ==3==.  (The A and * 2 are removed, resulting in =BIN2DEC(11)=. )
+   * Related: =[[#FuncDEC2BIN][$DEC2BIN()]]=, =[[#FuncDEC2HEX][$DEC2HEX()]]=, =[[#FuncDEC2OCT][$DEC2OCT()]]=, =[[#FuncHEX2DEC][$HEX2DEC()]]=, =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncOCT2DEC][$OCT2DEC()]]=
+
 #FuncBITXOR
----+++ BITXOR( text ) or  BITXOR( integer, list ) -- bit-wise XOR
+---+++ <strike>BITXOR( text ) or</strike>  BITXOR( integer, list ) -- bit-wise XOR
 This function has two modes of operation.
    * If passed a list,  performs a bit-wise XOR of the integers in the list.
       * Syntax: ==$BITXOR( integer, list )==
       * Example: ==%<nop>CALC{"$BITXOR(7, 12)")% returns ==3== ( b0111 xor b1100 = b0011 )
-   * If passed a character string, operates in TWiki compatbility, performing a bitwise NOT operation on the string
+
+   * *Deprecated,  no longer functional* <strike>If passed a character string, operates in TWiki compatbility, performing a bitwise NOT operation on the string
       * Each bit of each character of =text= is flipped, useful to obfuscate text. Bit-XORing text twice will restore the original text.
       * Syntax: ==$BITXOR( text )==
       * Example: ==%<nop>CALC{"$BITXOR(A123)"}%== returns ==&Yuml;&Icirc;&Iacute;&Igrave;==
-      * Example: ==%<nop>CALC{"$BITXOR($BITXOR(anything))"}%== returns ==anything==
-   * Related: =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncLEFTTRING][$LEFTSTRING()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSUBSTITUTE][$SUBSTUTE][$SUBSTITUTE()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=, =[[#FuncXOR][$XOR()]]=
+      * Example: ==%<nop>CALC{"$BITXOR($BITXOR(anything))"}%== returns ==anything== </strike>
+   * Related: =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncLEFTTRING][$LEFTSTRING()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=, =[[#FuncXOR][$XOR()]]=
 
 #FuncCEILING
 ---+++ CEILING( num ) -- return the smallest integer following a number
@@ -135,6 +152,33 @@ This function has two modes of operation.
    * Example: ==%<nop>CALC{"$COUNTSTR($ABOVE())"}%== counts the number of non empty cells above the current cell
    * Example: ==%<nop>CALC{"$COUNTSTR($ABOVE(), DONE)"}%== counts the number of cells equal to ==DONE==
    * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncLIST][$LIST()]]=
+
+#FuncDEC2BIN
+---+++ !DEC2BIN( num, width ) -- convert a decimal number to binary
+   * Syntax: ==$DEC2BIN( num, _width_ )==
+   * Note: Invalid decimal values return '0'
+   * Example: ==%<nop>CALCULATE{$DEC2BIN(100)}%== returns ==1100100==
+   * Example: ==%<nop>CALCULATE{$DEC2BIN(9, 6)}%== returns ==001001==
+   * Example: ==%<nop>CALCULATE{$DEC2BIN(A4)}%== returns ==0==
+   * Related: =[[#FuncBIN2DEC][$BIN2DEC()]]=, =[[#FuncDEC2HEX][$DEC2HEX()]]=, =[[#FuncDEC2OCT][$DEC2OCT()]]=, =[[#FuncHEX2DEC][$HEX2DEC()]]=, =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncOCT2DEC][$OCT2DEC()]]=
+
+#FuncDEC2HEX
+---+++ !DEC2HEX( num, width ) -- convert a decimal number to hexadecimal
+   * Syntax: ==$DEC2HEX( num, _width_ )==
+   * Note: Invalid decimal values return '0'
+   * Example: ==%<nop>CALCULATE{$DEC2HEX(165)}%== returns ==A5==
+   * Example: ==%<nop>CALCULATE{$DEC2HEX(100, 4)}%== returns ==0064==
+   * Example: ==%<nop>CALCULATE{$DEC2HEX(A4)}%== returns ==0==
+   * Related: =[[#FuncBIN2DEC][$BIN2DEC()]]=, =[[#FuncDEC2BIN][$DEC2BIN()]]=, =[[#FuncDEC2OCT][$DEC2OCT()]]=, =[[#FuncHEX2DEC][$HEX2DEC()]]=, =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncOCT2DEC][$OCT2DEC()]]=
+
+#FuncDEC2OCT
+---+++ !DEC2OCT( num, width ) -- convert a decimal number to octal
+   * Syntax: ==$DEC2OCT( num, _width_ )==
+   * Note: Invalid decimal values return '0'
+   * Example: ==%<nop>CALCULATE{$DEC2OCT(58)}%== returns ==72==
+   * Example: ==%<nop>CALCULATE{$DEC2OCT(58, 4)}%== returns ==0072==
+   * Example: ==%<nop>CALCULATE{$DEC2OCT(A4)}%== returns ==0==
+   * Related: =[[#FuncBIN2DEC][$BIN2DEC()]]=, =[[#FuncDEC2BIN][$DEC2BIN()]]=, =[[#FuncDEC2HEX][$DEC2HEX()]]=, =[[#FuncHEX2DEC][$HEX2DEC()]]=, =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncOCT2DEC][$OCT2DEC()]]=
 
 #FuncDEF
 ---+++ DEF( list ) -- find first non-empty list item or cell
@@ -206,6 +250,19 @@ This function has two modes of operation.
    * Example: ==%<nop>CALC{"$FIND(f, fluffy, 2)"}%== returns ==4==
    * Example: ==%<nop>CALC{"$FIND(@, fluffy, 1)"}%== returns ==0==
    * Related: =[[#FuncINSERTSTRING][$INSERTSTRING()]]=, =[[#FuncLEFTSTRING][$LEFTSTRING()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSUBSTRING][$SUBSTRING()]]=, =[[#FuncSEARCH][$SEARCH()]]=
+
+#FuncFILTER
+---+++ FILTER( expression, text ) -- filter out characters from text
+   * Remove characters from a =text= string. The filter is applied multiple times.
+   * The =expression= can be a sequence of characters or a %SYSTEMWEB%.RegularExpression. Use tokens in the =expression= if needed: =$comma= for comma, =$sp= for space. The =text= may contain commas.
+   * Syntax: ==$FILTER( chars, text )==
+   * Example: ==%<nop>CALCULATE{$FILTER(f, fluffy)}%== returns ==luy== - filter out a character multiple times
+   * Example: ==%<nop>CALCULATE{$FILTER(an Franc, San Francisco)}%== returns ==Sisco== - cut a string
+   * Example: ==%<nop>CALCULATE{$FILTER($sp, Cat and Mouse)}%== returns ==CatandMouse== - remove all spaces
+   * Example: ==%<nop>CALCULATE{$FILTER([^0-9], Project-ID-1234)}%== returns ==1234== - filter in digits, e.g. keep only digits
+   * Example: ==%<nop>CALCULATE{$FILTER([^a-zA-Z0-9 ], Stupid mistake*%@^! Fixed)}%== returns ==Stupid mistake Fixed== - keep only alphanumeric characters and spaces
+   * Example: ==%<nop>CALCULATE{$FILTER([^a-zA-Z0-9], $PROPER(an EXELLENT idea.))}%== returns ==AnExcellentIdea== - turn a string into a %SYSTEMWEB%.WikiWord topic name
+   * Related: =[[#FuncFIND][$FIND()]]=, =[[#FuncINSERTSTRING][$INSERTSTRING()]]=, =[[#FuncLEFTSTRING][$LEFTSTRING()]]=, =[[#FuncPROPER][$PROPER()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSEARCH][$SEARCH()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncSUBSTRING][$SUBSTRING()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=, =[[#FuncTRIM][$TRIM()]]=
 
 #FuncFLOOR
 ---+++ FLOOR( num ) -- return the largest integer preceding a number
@@ -294,18 +351,26 @@ This function has two modes of operation.
    * Example: ==%<nop>CALC{"$GET(my_total)"}%== returns the value of the =my_total= variable
    * Related: =[[#FuncEXEC][$EXEC()]]=, =[[#FuncNOEXEC][$NOEXEC()]]=, =[[#FuncSET][$SET()]]=, =[[#FuncSETIFEMPTY][$SETIFEMPTY()]]=, =[[#FuncSETM][$SETM()]]=
 
+#FuncHEX2DEC
+---+++ !HEX2DEC( num ) -- convert a hexadecimal number to decimal
+   * Syntax: ==$HEX2DEC( num )==
+   * Note: Invalid characters are removed and the remaining characters are converted.
+   * Example: ==%<nop>CALCULATE{$HEX2DEC(A5)}%== returns ==165==
+   * Example: ==%<nop>CALCULATE{$HEX2DEC(1G5)}%== returns ==21==  (Calculates decimal of hex 15.)
+   * Related: =[[#FuncBIN2DEC][$BIN2DEC()]]=, =[[#FuncDEC2BIN][$DEC2BIN()]]=, =[[#FuncDEC2HEX][$DEC2HEX()]]=, =[[#FuncDEC2OCT][$DEC2OCT()]]=, =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncOCT2DEC][$OCT2DEC()]]=
+
 #FuncHEXDECODE
 ---+++ HEXDECODE( hexcode ) -- convert hexadecimal code to string
    * Decode a hexadecimal string, typically encoded with $HEXENCODE().
    * Syntax: ==$HEXDECODE( hexcode )==
-   * Example: ==%<nop>CALC{"$HEXDECODE(687474703A2F2F7477696B692E6F72672F)"}%== returns ==http://twiki.org/==
+   * Example: ==%<nop>CALC{"$HEXDECODE(687474703A2F2F666F7377696B692E6F72672F)"}%== returns ==http://foswiki.org/==
    * Related: =[[#FuncHEXENCODE][$HEXENCODE()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=
 
 #FuncHEXENCODE
 ---+++ HEXENCODE( text ) -- encode text into hexadecimal code
    * Each character of =text= is encoded into two hexadecimal numbers.
    * Syntax: ==$HEXENCODE( text )==
-   * Example: ==%<nop>CALC{"$HEXENCODE(<nop>http://twiki.org/)"}%== returns ==687474703A2F2F7477696B692E6F72672F==
+   * Example: ==%<nop>CALC{"$HEXENCODE(<nop>http://foswiki.org/)"}%== returns ==687474703A2F2F666F7377696B692E6F72672F==
    * Related: =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=
 
 #FuncIF
@@ -334,6 +399,40 @@ This function has two modes of operation.
    * Example: ==%<nop>CALC{"$INT(10 / 4)"}%== returns ==2==
    * Example: ==%<nop>CALC{"$INT($VALUE(09))"}%== returns ==9==
    * Related: =[[#FuncCEILING][$CEILING()]]=, =[[#FuncEVAL][$EVAL()]]=, =[[#FuncFLOOR][$FLOOR()]]=, =[[#FuncROUND][$ROUND()]]=, =[[#FuncVALUE][$VALUE()]]=
+
+#FuncISDIGIT
+---+++ ISDIGIT( text ) -- test for digits
+   * Test for one or more digits (0...9)
+   * Syntax: ==$ISDIGIT( text )==
+   * Example: ==%<nop>CALCULATE{$ISDIGIT(123)}%== returns ==1==
+   * Example: ==%<nop>CALCULATE{$ISDIGIT(-7)}%== returns ==0==
+   * Related: =[[#FuncABS][$ABS()]]=, =[[#FuncEMPTY][$EMPTY()]]=, =[[#FuncEVEN][$EVEN()]]=, =[[#FuncEXACT][$EXACT()]]=, =[[#FuncIF][$IF()]]=, =[[#FuncISDIGIT][$ISDIGIT()]]=, =[[#FuncMOD][$MOD()]]=, =[[#FuncODD][$ODD()]]=, =[[#FuncSIGN][$SIGN()]]=, =[[#FuncVALUE][$VALUE()]]=
+
+#FuncISLOWER
+---+++ ISLOWER( text ) -- test for lower case text
+   * Syntax: ==$ISLOWER( text )==
+   * Example: ==%<nop>CALCULATE{$ISLOWER(apple)}%== returns ==1==
+   * Example: ==%<nop>CALCULATE{$ISLOWER(apple tree)}%== returns ==0== (text contains a space character)
+   * Example: ==%<nop>CALCULATE{$ISLOWER(ORANGE)}%== returns ==0==
+   * Related: =[[#FuncEMPTY][$EMPTY()]]=, =[[#FuncEXACT][$EXACT()]]=, =[[#FuncLOWER][$LOWER()]]=, =[[#FuncIF][$IF()]]=, =[[#FuncISDIGIT][$ISDIGIT()]]=, =[[#FuncISUPPER][$ISUPPER()]]=, =[[#FuncISWIKIWORD][$ISWIKIWORD()]]=, =[[#FuncUPPER][$UPPER()]]=
+
+#FuncISUPPER
+---+++ ISUPPER( text ) -- test for upper case text
+   * Can be used to test for ACRONYMS
+   * Syntax: ==$ISUPPER( text )==
+   * Example: ==%<nop>CALCULATE{$ISUPPER(apple)}%== returns ==0==
+   * Example: ==%<nop>CALCULATE{$ISUPPER(ORANGE)}%== returns ==1==
+   * Example: ==%<nop>CALCULATE{$ISUPPER(ORANGE GARDEN)}%== returns ==0== (text contains a space character)
+   * Related: =[[#FuncEMPTY][$EMPTY()]]=, =[[#FuncEXACT][$EXACT()]]=, =[[#FuncLOWER][$LOWER()]]=, =[[#FuncIF][$IF()]]=, =[[#FuncISDIGIT][$ISDIGIT()]]=, =[[#FuncISLOWER][$ISLOWER()]]=, =[[#FuncISWIKIWORD][$ISWIKIWORD()]]=, =[[#FuncUPPER][$UPPER()]]=
+
+#FuncISWIKIWORD
+---+++ ISWIKIWORD( text ) -- test for !WikiWord
+   * A %SYSTEMWEB%.WikiWord has a sequence of UPPER, lower/digit, UPPER, optional mixed case alphanumeric characters
+   * Can be used together with =$ISUPPER()= to test for valid topic names
+   * Syntax: ==$ISWIKIWORD( text )==
+   * Example: ==%<nop>CALCULATE{$ISWIKIWORD(<nop>GoldenGate)}%== returns ==1==
+   * Example: ==%<nop>CALCULATE{$ISWIKIWORD(whiteRafting)}%== returns ==0==
+   * Related: =[[#FuncEMPTY][$EMPTY()]]=, =[[#FuncEXISTS][$EXISTS()]]=, =[[#FuncEXACT][$EXACT()]]=, =[[#FuncIF][$IF()]]=, =[[#FuncISDIGIT][$ISDIGIT()]]=, =[[#FuncISLOWER][$ISLOWER()]]=, =[[#FuncISUPPER][$ISUPPER()]]=, =[[#FuncPROPER][$PROPER()]]=, =[[#FuncPROPERSPACE][$PROPERSPACE()]]=
 
 #FuncLEFT
 ---+++ LEFT( ) -- address range of cells to the left of the current cell
@@ -364,7 +463,14 @@ This function has two modes of operation.
    * Convert the content of a range of cells into a flat list, delimited by comma. Cells containing commas are merged into the list
    * Syntax: ==$LIST( range )==
    * Example: ==%<nop>CALC{"$LIST($LEFT())"}%== returns ==Apples, Lemons, Oranges, Kiwis== assuming the cells to the left contain ==| Apples | Lemons, Oranges | Kiwis |==
-   * Related: =[[#FuncAVERAGE][$AVERAGE()]]=, =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncDEF][$DEF()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTJOIN][$LISTJOIN()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTTRUNCATE][$LISTTRUNCATE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncMAX][$MAX()]]=, =[[#FuncMEDIAN][$MEDIAN()]]=, =[[#FuncMIN][$MIN()]]=, =[[#FuncPRODUCT][$PRODUCT()]]=, =[[#FuncSPLIT][$SPLIT()]]=, =[[#FuncSUM][$SUM()]]=, =[[#FuncSUMDAYS][$SUMDAYS()]]=, =[[#FuncSUMPRODUCT][$SUMPRODUCT()]]=
+   * Related: =[[#FuncAVERAGE][$AVERAGE()]]=, =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncDEF][$DEF()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTJOIN][$LISTJOIN()]]=, =[[#FuncLISTEACH][$LISTEACH()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTTRUNCATE][$LISTTRUNCATE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncMAX][$MAX()]]=, =[[#FuncMEDIAN][$MEDIAN()]]=, =[[#FuncMIN][$MIN()]]=, =[[#FuncPRODUCT][$PRODUCT()]]=, =[[#FuncSPLIT][$SPLIT()]]=, =[[#FuncSUM][$SUM()]]=, =[[#FuncSUMDAYS][$SUMDAYS()]]=, =[[#FuncSUMPRODUCT][$SUMPRODUCT()]]=
+
+#FuncLISTEACH
+---+++ LISTEACH( formula, list ) -- evaluate and update each element of a list
+   * In the formula you can use ==$item== to indicate the element; ==$index== to show the index of the list, starting at 1. If ==$item== is omitted, the item is appended to the formula.
+   * Syntax: ==$LISTEACH( formula, list )==
+   * Example: ==%<nop>CALC{"$LISTEACH($index: $EVAL(2 * $item), 3, 5, 7, 11)"}%== returns ==1: 6, 2: 10, 3: 14, 4: 22==
+   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
 
 #FuncLISTIF
 ---+++ LISTIF( condition, list ) -- remove elements from a list that do not meet a condition
@@ -373,7 +479,7 @@ This function has two modes of operation.
    * Example: ==%<nop>CALC{"$LISTIF($item > 12, 14, 7, 25)"}%== returns ==14, 25==
    * Example: ==%<nop>CALC{"$LISTIF($NOT($EXACT($item,)), A, B, , E)"}%== returns non-empty elements ==A, B, E==
    * Example: ==%<nop>CALC{"$LISTIF($index > 2, A, B, C, D)"}%== returns ==C, D==
-   * Related: =[[#FuncEMPTY][$EMPTY()]]=, =[[#FuncEXACT][$EXACT()]]=, =[[#FuncIF][$IF()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
+   * Related: =[[#FuncEMPTY][$EMPTY()]]=, =[[#FuncEXACT][$EXACT()]]=, =[[#FuncIF][$IF()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTEACH][$LISTEACH()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
 
 #FuncLISTITEM
 ---+++ LISTITEM( index, list ) -- get one element of a list
@@ -381,7 +487,7 @@ This function has two modes of operation.
    * Syntax: ==$LISTITEM( index, list )==
    * Example: ==%<nop>CALC{"$LISTITEM(2, Apple, Orange, Apple, Kiwi)"}%== returns ==Orange==
    * Example: ==%<nop>CALC{"$LISTITEM(-1, Apple, Orange, Apple, Kiwi)"}%== returns ==Kiwi==
-   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
+   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTEACH][$LISTEACH()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
 
 #FuncLISTJOIN
 ---+++ LISTJOIN( separator, list ) -- convert a list into a string
@@ -392,61 +498,58 @@ This function has two modes of operation.
 
 #FuncLISTMAP
 ---+++ LISTMAP( formula, list ) -- evaluate and update each element of a list
-   * In the formula you can use ==$item== to indicate the element; ==$index== to show the index of the list, starting at 1. If ==$item== is omitted, the item is appended to the formula.
-   * Syntax: ==$LISTMAP( formula, list )==
-   * Example: ==%<nop>CALC{"$LISTMAP($index: $EVAL(2 * $item), 3, 5, 7, 11)"}%== returns ==1: 6, 2: 10, 3: 14, 4: 22==
-   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
+   * Note: LISTMAP has been renamed to LISTEACH.  LISTMAP is retained for compatibility. 
+   * Related: =[[#FuncLISTEACH][$LISTEACH()]]=
 
 #FuncLISTNONEMPTY
 ---+++ LISTNONEMPTY( list ) -- remove all empty elements from a list
    * Syntax: ==$LISTNONEMPTY( list )==
    * Example: ==%<nop>CALC{"$LISTNONEMPTY(, Apple, Orange, , Kiwi)"}%== returns ==Apple, Orange, Kiwi==
-   * Related: =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=
-
+   * Related: =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTEACH][$LISTEACH()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=
 
 #FuncLISTRAND
 ---+++ LISTRAND( list ) -- get one random element of a list
    * Syntax: ==$LISTRAND( list )==
    * Example: ==%<nop>CALC{"$LISTRAND(Apple, Orange, Apple, Kiwi)"}%== returns one of the four elements
-   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncRAND][$RAND()]]=, =[[#FuncSUM][$SUM()]]=
+   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTEACH][$LISTEACH()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncRAND][$RAND()]]=, =[[#FuncRAND][$RANDSTRING()]]=, =[[#FuncSUM][$SUM()]]=
 
 #FuncLISTREVERSE
 ---+++ LISTREVERSE( list ) -- opposite order of a list
    * Syntax: ==$LISTREVERSE( list )==
    * Example: ==%<nop>CALC{"$LISTREVERSE(Apple, Orange, Apple, Kiwi)"}%== returns ==Kiwi, Apple, Orange, Apple==
-   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
+   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTEACH][$LISTEACH()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
 
 #FuncLISTSIZE
 ---+++ LISTSIZE( list ) -- number of elements in a list
    * Syntax: ==$LISTSIZE( list )==
    * Example: ==%<nop>CALC{"$LISTSIZE(Apple, Orange, Apple, Kiwi)"}%== returns ==4==
-   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTJOIN][$LISTJOIN()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTTRUNCATE][$LISTTRUNCATE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSPLIT][$SPLIT()]]=, =[[#FuncSUM][$SUM()]]=
+   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTJOIN][$LISTJOIN()]]=, =[[#FuncLISTEACH][$LISTEACH()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTTRUNCATE][$LISTTRUNCATE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSPLIT][$SPLIT()]]=, =[[#FuncSUM][$SUM()]]=
 
 #FuncLISTSHUFFLE
 ---+++ LISTSHUFFLE( list ) -- shuffle element of a list in random order
    * Syntax: ==$LISTSHUFFLE( list )==
    * Example: ==%<nop>CALC{"$LISTSHUFFLE(Apple, Orange, Apple, Kiwi)"}%== returns the four elements in random order
-   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncRAND][$RAND()]]=, =[[#FuncSUM][$SUM()]]=
+   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTEACH][$LISTEACH()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncRAND][$RAND()]]=, =[[#FuncRAND][$RANDSTRING()]]=, =[[#FuncSUM][$SUM()]]=
 
 #FuncLISTSORT
 ---+++ LISTSORT( list ) -- sort a list
    * Sorts a list in ASCII order, or numerically if all elements are numeric
    * Syntax: ==$LISTSORT( list )==
    * Example: ==%<nop>CALC{"$LISTSORT(Apple, Orange, Apple, Kiwi)"}%== returns ==Apple, Apple, Kiwi, Orange==
-   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
+   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTEACH][$LISTEACH()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
 
 #FuncLISTTRUNCATE
 ---+++ LISTTRUNCATE( size, list ) -- truncate list to size
    * Specify the desired size of the list; use a negative number to count from the end of the list
    * Syntax: ==$LISTTRUNCATE( size, list )==
    * Example: ==%<nop>CALC{"$LISTTRUNCATE(2, Apple, Orange, Kiwi)"}%== returns ==Apple, Orange==
-   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
+   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTEACH][$LISTEACH()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncLISTUNIQUE][$LISTUNIQUE()]]=, =[[#FuncSUM][$SUM()]]=
 
 #FuncLISTUNIQUE
 ---+++ LISTUNIQUE( list ) -- remove all duplicates from a list
    * Syntax: ==$LISTUNIQUE( list )==
    * Example: ==%<nop>CALC{"$LISTUNIQUE(Apple, Orange, Apple, Kiwi)"}%== returns ==Apple, Orange, Kiwi==
-   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTMAP][$LISTMAP()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncSUM][$SUM()]]=
+   * Related: =[[#FuncCOUNTITEMS][$COUNTITEMS()]]=, =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=, =[[#FuncLISTIF][$LISTIF()]]=, =[[#FuncLISTITEM][$LISTITEM()]]=, =[[#FuncLISTEACH][$LISTEACH()]]=, =[[#FuncLISTREVERSE][$LISTREVERSE()]]=, =[[#FuncLISTSIZE][$LISTSIZE()]]=, =[[#FuncLISTSORT][$LISTSORT()]]=, =[[#FuncSUM][$SUM()]]=
 
 #FuncLN
 ---+++ LN( num ) -- natural logarithm of a number
@@ -512,6 +615,14 @@ This function has two modes of operation.
    * Example: ==%<nop>CALC{"$NOT(0)"}%== returns ==1==
    * Related: =[[#FuncAND][$AND()]]=, =[[#FuncEMPTY][$EMPTY()]]=, =[[#FuncIF][$IF()]]=, =[[#FuncOR][$OR()]]=
 
+#FuncOCT2DEC
+---+++ !OCT2DEC( num ) -- convert an octal number to decimal
+   * Syntax: ==$OCT2DEC( num )==
+   * Note: Invalid characters are removed, and the remaining characters are converted to decimal.
+   * Example: ==%<nop>CALCULATE{$OCT2DEC(54)}%== returns ==44==
+   * Example: ==%<nop>CALCULATE{$OCT2DEC(1G5)}%== returns ==13== (Decimal value of octal 15 )
+   * Related: =[[#FuncBIN2DEC][$BIN2DEC()]]=, =[[#FuncDEC2BIN][$DEC2BIN()]]=, =[[#FuncDEC2HEX][$DEC2HEX()]]=, =[[#FuncDEC2OCT][$DEC2OCT()]]=, =[[#FuncHEX2DEC][$HEX2DEC()]]=, =[[#FuncHEXDECODE][$HEXDECODE()]]=, =[[#FuncHEXENCODE][$HEXENCODE()]]=
+
 #FuncODD
 ---+++ ODD( num ) -- test for odd number
    * Syntax: ==$ODD( num )==
@@ -562,6 +673,14 @@ This function has two modes of operation.
    * Random number, evenly distributed between 0 and ==max==, or 0 and 1 if max is not specified
    * Syntax: ==$RAND( max )==
    * Related: =[[#FuncEVAL][$EVAL()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=
+
+#FuncRANDSTRING
+---+++ RANDSTRING( set, format ) -- random string & password generator
+   * Generate a random string from a ==set== of characters; the set may contain sequences like ==a..z==; default is ==a..zA..Z0..9_==. The ==format== defines the string length or the output format; specify a number to indicate the length of the random string; default is ==8== characters. Alternatively, specify a format string with ==x== as placeholders for random characters, such ==xxxx-xxxx-xxxx-xxxx==.
+   * Syntax: ==$RANDSTRING( _set_, _format_ )==
+   * Example: ==%<nop>CALCULATE{$RANDSTRING()}%== returns a random string with 8 characters composed of alphanumeric characters and underscores
+   * Example: ==%<nop>CALCULATE{$RANDSTRING(A..NP..Z1..9, xxxx-xxxx-xxxx-xxxx)}%== returns four sets of random strings, separated by dashes, where each set has four characters composed of uppercase letters and numbers, excluding letter O and number 0
+   * Related: =[[#FuncINSERTSTRING][$INSERTSTRING()]]=, =[[#FuncSUBSTRING][$SUBSTRING()]]=, =[[#FuncLISTRAND][$LISTRAND()]]=, =[[#FuncLISTSHUFFLE][$LISTSHUFFLE()]]=, =[[#FuncRAND][$RAND()]]=, =[[#FuncRAND][$RANDSTRING()]]=, =[[#FuncREPEAT][$REPEAT()]]=
 
 #FuncREPEAT
 ---+++ REPEAT( text, num ) -- repeat text a number of times
@@ -848,10 +967,6 @@ Above table is created manually. Another Plugin could build the table dynamicall
 ---++ Settings
 
 You can override some default settings in the plugin by setting the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
-
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
 | *Preference* | *Meaning* | *Default* |
 | =SPREADSHEETPLUGIN_DEBUG= | \
 Debug plugin: (See output in Foswiki logs) | 0 |
@@ -867,6 +982,11 @@ Makes the TIME function assume input is local time \
 and converts the entered time to GMT unless the date has 'GMT' appended. \
 Note that this behavior creates problems for users using servers in time zones \
 to the east of Greenwich. The setting is present for compatibility. | 0 | 
+| =SPREADSHEETPLUGIN_ALLOWHTML= | \
+Permits =CALC= and =CALCULATE= macros to emit unencoded =&lt;= and =&gt;=. \
+If not enabled, =&lt;= will be encoded as =&amp;lt;= and =&gt;= will be encoded as =&amp;gt;= \
+It is strongly recommended that this be left undefined or disabled, especially if input \
+to the =CALC= / =CALCULATE= Macro includes any =URLPARAM= data. | 0 |
 
 Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DONTSPACE= preference for historical reasons.
 
@@ -874,13 +994,16 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 %$INSTALL_INSTRUCTIONS%
    * Test if the "Total" in the first table in this topic is correct.
 
----++ Info
-
-|  Copyright: | Copyright (C) 2001-2012 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2012 Foswiki Contributors  |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
-|  Change History: | <!-- specify latest version first -->&nbsp; |
+---++ Change History
+|  15 Oct 2015: (1.21) | Foswikitask:Item13811: Fixed memory leak using CALCULATE in a persistent perl environment.<br />\
+                         Foswikitask:Item13796: Encode &lt; and &gt; when emitted by CALC or CALCULATE. |
+|  27 Jul 2015: (1.20) | Copyright update, released with Foswiki 2.0.1 |
+|  28 May 2015: (1.19) | Foswikitask:item12739: Added ISDIGIT(), ISLOWER(), ISUPPER(), ISWIKIWORD() and FILTER() functions.<br />\
+                  Foswikitask:Item13440: Document issues with BITXOR.  Foswiki unicode core won't support a simple byte based xor of strings. |
+|  02 Jan 2015: (1.18) | Foswikitask:Item12739: fixed use of uninitialized value, Add triple-quote for escaped strings,  Add RANDSTRING() function.<br />\
+                  Add the base conversion functions: <noautolink> DEC2BIN() BIN2DEC() DEC2HEX() HEX2DEC() DEC2OCT() and OCT2DEC().</noautolink> <br />\
+                  Add LISTEACH() as an alias for LISTMAP() |
+|  05 Nov 2012: | Foswikitask:Item8417: add VarCALCULATE macro to be used within the normal macro evaluation order. (name chosen for comaptibility ) |
 |  15 Oct 2012: | Foswikitask:Item12153: Use proper format of %<nop>SCRIPTURL% in CALC demo. |
 |  06 Apr 2012: (1.1.6) | Foswikitask:Item11523 - support $comma, $sp in SUBSTITUTE, REPLACE.<br />\
                   Foswikitask:Item11524 - Add FLOOR and CEILING macros. |
@@ -900,7 +1023,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  20 Sep 2009: | Minor documentation update. trunk and release branch code synced (mainly perltidy - all functional changes have been in sync). |
 |  17 Sep 2009: | Foswikitask:Item2087: SpreadSheetPlugin forgets about zeros being floats as well |
 |  11 May 2009: | Fixed the calculation of WORKINGDAYS. Changed the default behavior of TIME back to not converting dates to GMT as this creates surprising effects for users living to the east of Greenwich. Added SPREADSHEETPLUGIN_TIMEISLOCAL so users depending on the old behavior keep the old behavior if TIME. Added the feature 'local' to TIME so conversion behavior can be used on demand. |
-|  22 Apr 2009: | Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. <br />Foswikitask:Item5471: Fixed replacing 0 in REPLACE. Fixed FIND/SEARCH handling of empty strings and corrected documentation for SEARCH |
+|  22 Apr 2009: | Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%LOCALSITEPREFS% instead. <br />Foswikitask:Item5471: Fixed replacing 0 in REPLACE. Fixed FIND/SEARCH handling of empty strings and corrected documentation for SEARCH |
 |  29 Mar 2009: | Added $EMPTY(), $LEFTSTRING(), $RIGHTSTRING(), SUBSTRING(), and $INSERTSTRING() |
 |  06 Jan 2009: | Foswikitask:Item4835: Allow SUBSTITUTE and REPLACE to return values 0 and '' |
 |  16 Dec 2008: | Foswiki version - no new features |
@@ -944,9 +1067,17 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  01 Jun 2001: | Fixed insecure dependencies for $MIN() and $MAX() |
 |  16 Apr 2001: | Fixed div by 0 bug in $AVERAGE() |
 |  17 Mar 2001: | Initial version with $ABOVE(), $AVERAGE(), $COLUMN(), $COUNTITEMS(), $EVAL(), $INT(), $LEFT(), $LOWER(), $MAX(), $MIN(), $ROW(), $SUM(), $T(), $UPPER() |
-|  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 ---
-*Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.VarCALC
+*Related Topics:* %SYSTEMWEB%.%WIKIPREFSTOPIC%, %LOCALSITEPREFS%, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.VarCALC
 
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2001-2015 Peter Thoeny, TWiki.org, &copy; 2008-2015 TWiki:TWiki.TWikiContributor, &copy; 2015 Wave Systems Corp. &copy; 2008-2015 Foswiki Contributors "}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Version" title="Version" value="%$VERSION%"}%

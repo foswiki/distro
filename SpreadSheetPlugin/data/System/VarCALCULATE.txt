@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="ProjectContributor" date="1434574342" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ CALCULATE -- add spreadsheet formulae calls using standard Macro evaluation order.
+The =%<nop>CALCULATE{"formula"}%= macro is handled by the SpreadSheetPlugin. There are around 90 formulae, such as =$ABS()=, =$EXACT()=, =$EXISTS()=, =$GET()/$SET()=, =$IF()=, =$LOG()=, =$LOWER()=, =$PERCENTILE()=, =$TIME()=, =$VALUE()=. This macro is uses the normal (left to right, inside out) Macro expansion order. If you need to evaluate after expanding table data, see [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarCALC][CALC]]
+---++ Examples
+      * =%<nop>CALCULATE{"$EXISTS(<nop>Web.SomeTopic)"}%= returns =1= if the topic exists
+      * =%<nop>CALCULATE{"$UPPER(Collaboration)"}%= returns =COLLABORATION=
+---++ Related
+ [[VarCALC][CALC]], [[VarIF][IF]], SpreadSheetPlugin
+

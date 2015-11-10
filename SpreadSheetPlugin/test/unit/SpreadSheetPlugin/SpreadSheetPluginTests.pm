@@ -11,13 +11,9 @@ use Foswiki::Plugins::SpreadSheetPlugin();
 use Foswiki::Plugins::SpreadSheetPlugin::Calc();
 
 my %skip_tests = (
-    'SpreadSheetPluginTests::test_IF'       => '$IF not implemented',
-    'SpreadSheetPluginTests::test_LISTRAND' => '$LISTRAND not implemented',
-    'SpreadSheetPluginTests::test_LISTSHUFFLE' =>
-      '$LISTSHUFFLE not implemented',
-    'SpreadSheetPluginTests::test_SETIFEMPTY' => '$SETIFEMPTY not implemented',
-    'SpreadSheetPluginTests::test_T'          => '$T not implemented',
-    'SpreadSheetPluginTests::test_TODAY'      => '$TODAY not implemented',
+
+    'SpreadSheetPluginTests::test_T'     => '$T not implemented',
+    'SpreadSheetPluginTests::test_TODAY' => '$TODAY not implemented',
 );
 
 sub skip {
@@ -51,6 +47,7 @@ sub set_up {
 HERE
 
     $this->writeTopic( $this->{target_web}, $this->{target_topic}, $table );
+
 }
 
 sub tear_down {
@@ -75,19 +72,32 @@ sub writeTopic {
 sub CALC {
     my $this = shift;
     my $str  = shift;
+    my $ne   = shift;
     my %args = (
         web   => 'Web',
         topic => 'Topic',
         @_,
     );
-    my $calc = '%CALC{"' . $str . '"}%';
-    return Foswiki::Plugins::SpreadSheetPlugin::Calc::CALC( $calc, $args{topic},
+    Foswiki::Plugins::SpreadSheetPlugin::Calc::init();
+
+    my $calcC = '%CALC{"' . $str . '"}%';
+    my $rsltC =
+      Foswiki::Plugins::SpreadSheetPlugin::Calc::CALC( $calcC, $args{topic},
         $args{web} );
+
+    my $calcR = '%CALCULATE{"' . $str . '"}%';
+    my $rsltR = Foswiki::Func::expandCommonVariables($calcR);
+
+    if ($ne) {
+        $this->assert_str_not_equals( $rsltC, $rsltR );
+    }
+    else {
+        $this->assert_equals( $rsltC, $rsltR );
+    }
+    return $rsltR;
 }
 
 #sub test_MAIN {}
-#sub test_EXEC {}
-#sub test_NOEXEC {}
 
 sub test_ABOVE {
     my ($this) = @_;
@@ -150,10 +160,14 @@ sub test_AVERAGE {
 sub test_BITXOR {
     my ($this) = @_;
 
-    # TWiki compatibility - performs bitwise not of string for single argument
-    $this->assert_equals( $this->CALC('$HEXENCODE($BITXOR(Aa))'), 'BE9E' );
-    $this->assert_equals( $this->CALC('$HEXENCODE($BITXOR(1))'),  'CE' );
-    $this->assert_equals( $this->CALC('$BITXOR($BITXOR(Aa))'),    'Aa' );
+# TWiki compatibility (deprecated) - performs bitwise not of string for single argument
+# $this->assert_equals( $this->CALC('$HEXENCODE($BITXOR(Aa))'), 'BE9E' );
+# $this->assert_equals( $this->CALC('$HEXENCODE($BITXOR(1))'),  'CE' );
+
+    $this->assert_equals( '0', $this->CALC('$BITXOR(Aa)') )
+      ;    # non-numeric string,  returns 0
+    $this->assert_equals( '0', $this->CALC('$BITXOR(1)') )
+      ;    # Single entry, returns 0
 
     # Bitwise xor of integers.  12= b1100  7=b0111 = b1011 = 11
     $this->assert_equals( $this->CALC('$BITXOR(12, 7)'), '11' );
@@ -177,6 +191,42 @@ TABLE
 | 8 |
 EXPECT
     chomp $expected;
+    $this->assert_equals( $expected, $actual );
+}
+
+sub test_CALC_ENCODING {
+    my $this = shift;
+
+    Foswiki::Func::setPreferencesValue( 'SPREADSHEETPLUGIN_ALLOWHTML', 1 );
+    $this->assert( $this->CALC('$CHAR(60)')        eq '<' );
+    $this->assert( $this->CALC('$CHAR(62)')        eq '>' );
+    $this->assert( $this->CALC('$HEXDECODE(3C3E)') eq '<>' );
+    Foswiki::Func::setPreferencesValue( 'SPREADSHEETPLUGIN_ALLOWHTML', 0 );
+    $this->assert( $this->CALC('$CHAR(60)')        eq '&lt;' );
+    $this->assert( $this->CALC('$CHAR(62)')        eq '&gt;' );
+    $this->assert( $this->CALC('$HEXDECODE(3C3E)') eq '&lt;&gt;' );
+
+}
+
+sub test_CALCULATE {
+    my ($this) = @_;
+    my $macro = <<'DONE';
+%CALCULATE{
+  $LISTJOIN(
+      $n,
+      $LISTEACH(
+         | $index | $item |,
+         one, two, three
+      )
+  )
+}%
+DONE
+    my $actual   = Foswiki::Func::expandCommonVariables($macro);
+    my $expected = <<'DONE';
+| 1 | one |
+| 2 | two |
+| 3 | three |
+DONE
     $this->assert_equals( $expected, $actual );
 }
 
@@ -267,6 +317,67 @@ EXPECT
     $this->assert_equals( $expected, $actual );
 }
 
+sub test_DEC2BIN {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$DEC2BIN(12)'),    '1100' );
+    $this->assert_equals( $this->CALC('$DEC2BIN(100)'),   '1100100' );
+    $this->assert_equals( $this->CALC('$DEC2BIN(100,8)'), '01100100' );
+
+    # Width is a minimum, values not truncated.
+    $this->assert_equals( $this->CALC('$DEC2BIN(100,4)'), '1100100' );
+
+    # SMELL:  Invalid values return 0
+    $this->assert_equals( $this->CALC('$DEC2BIN(A4)'), '0' );
+}
+
+sub test_BIN2DEC {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$BIN2DEC(A121)'), '3' );
+
+    # SMELL: invalid characters removed,  remaining characters converted
+    $this->assert_equals( $this->CALC('$BIN2DEC(1100100)'), '100' );
+
+}
+
+sub test_DEC2HEX {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$DEC2HEX(12)'),    'C' );
+    $this->assert_equals( $this->CALC('$DEC2HEX(100)'),   '64' );
+    $this->assert_equals( $this->CALC('$DEC2HEX(100,4)'), '0064' );
+
+    # SMELL:  Invalid values return 0
+    $this->assert_equals( $this->CALC('$DEC2HEX(A4)'), '0' );
+}
+
+sub test_HEX2DEC {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$HEX2DEC(E)'),  '14' );
+    $this->assert_equals( $this->CALC('$HEX2DEC(64)'), '100' );
+    $this->assert_equals( $this->CALC('$HEX2DEC(A5)'), '165' );
+
+    # SMELL: non-hex characters are removed, then converted to decimal
+    $this->assert_equals( $this->CALC('$HEX2DEC(1G5)'), '21' );
+}
+
+sub test_DEC2OCT {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$DEC2OCT(12)'),    '14' );
+    $this->assert_equals( $this->CALC('$DEC2OCT(100)'),   '144' );
+    $this->assert_equals( $this->CALC('$DEC2OCT(100,4)'), '0144' );
+
+    # SMELL:  Invalid values return 0
+    $this->assert_equals( $this->CALC('$DEC2OCT(A4)'), '0' );
+}
+
+sub test_OCT2DEC {
+    my ($this) = @_;
+    $this->assert_equals( $this->CALC('$OCT2DEC(021)'), '17' );
+    $this->assert_equals( $this->CALC('$OCT2DEC(64)'),  '52' );
+
+    # SMELL: non-hex characters are removed, then converted to decimal
+    $this->assert_equals( $this->CALC('$OCT2DEC(1G5)'), '13' );
+}
+
 sub test_DEF {
     my ($this) = @_;
     $this->assert_equals( $this->CALC('$DEF(,1,2,3)'),     '1' );
@@ -336,6 +447,29 @@ sub test_EXACT {
     $this->assert( $this->CALC('$EXACT(  , )') == 1 );
 }
 
+sub test_EXEC {
+    my ($this) = @_;
+
+    my $topicText = <<'HERE';
+%CALC{"$SET(msg,$NOEXEC(Hi $GET(name)))"}%
+
+   * %CALC{"$SET(name, Tom)$EXEC($GET(msg))"}%
+   * %CALC{"$SET(name, Jerry)$EXEC($GET(msg))"}%
+HERE
+
+    my $actual = Foswiki::Func::expandCommonVariables($topicText);
+
+    my $expected = <<'HERE';
+
+
+   * Hi Tom
+   * Hi Jerry
+HERE
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
+}
+
 sub test_EXISTS {
     my ($this) = @_;
     $this->assert(
@@ -358,6 +492,17 @@ sub test_FIND {
     $this->assert( $this->CALC('$FIND(f, fluffy)') == 1 );
     $this->assert( $this->CALC('$FIND(f, fluffy, 2)') == 4 );
     $this->assert( $this->CALC('$FIND(@, fluffy, 1)') == 0 );
+}
+
+sub test_FILTER {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$FILTER(f, fluffy)') eq 'luy' );
+    $this->assert_equals( $this->CALC('$FILTER(an Franc, San Francisco)'),
+        'Sisco' );
+    $this->assert(
+        $this->CALC('$FILTER($sp, The quick brown)') eq 'Thequickbrown' );
+    $this->assert(
+        $this->CALC('$FILTER([^a-zA-Z0-9 ], Stupid mistake*%@^! Fixed)') );
 }
 
 sub test_FLOOR {
@@ -389,8 +534,21 @@ sub test_FORMAT {
 
 sub test_FORMATGMTIME {
     my ($this) = @_;
-    $this->assert( $this->CALC('$FORMATGMTIME(1041379200, $day $mon $year)') eq
-          '01 Jan 2003' );
+
+    $this->assert_equals( '01 Jan 1970 - 00 00 00',
+        $this->CALC('$FORMATGMTIME(0, $day $mon $year - $hour $min $sec)') );
+    $this->assert_equals( '31 Dec 1969 - 23 59 59',
+        $this->CALC('$FORMATGMTIME(-1, $day $mon $year - $hour $min $sec)') );
+    $this->assert_equals(
+        '19 Jan 2038 - 03 14 08',
+        $this->CALC(
+            '$FORMATGMTIME(2147483648, $day $mon $year - $hour $min $sec)')
+    );
+    $this->assert_equals(
+        '13 Dec 1901 - 20 45 51',
+        $this->CALC(
+            '$FORMATGMTIME(-2147483649, $day $mon $year - $hour $min $sec)')
+    );
 
     $this->assert_equals(
         '2004-W53-6',
@@ -406,8 +564,30 @@ sub test_FORMATGMTIME {
 
 sub test_FORMATTIME {
     my ($this) = @_;
-    $this->assert( $this->CALC('$FORMATTIME(0, $year/$month/$day GMT)') eq
-          '1970/01/01 GMT' );
+
+    $this->assert_equals(
+        '1970/01/01 00:00:00 GMT',
+        $this->CALC(
+            '$FORMATTIME(0, $year/$month/$day $hour:$minute:$second GMT)')
+    );
+    $this->assert_equals(
+        '1969/12/31 23:59:59 GMT',
+        $this->CALC(
+            '$FORMATTIME(-1, $year/$month/$day $hour:$minute:$second GMT)')
+    );
+    $this->assert_equals(
+        '2038/01/19 03:14:08 GMT',
+        $this->CALC(
+'$FORMATTIME(2147483648, $year/$month/$day $hour:$minute:$second GMT)'
+        )
+    );
+    $this->assert_equals(
+        '1901/12/13 20:45:51 GMT',
+        $this->CALC(
+'$FORMATTIME(-2147483649, $year/$month/$day $hour:$minute:$second GMT)'
+        )
+    );
+
     $this->assert_equals(
         '2004-W53-6 GMT',
         $this->CALC(
@@ -423,14 +603,24 @@ sub test_FORMATTIME {
 
 sub test_FORMATTIMEDIFF {
     my ($this) = @_;
-    $this->assert( $this->CALC('$FORMATTIMEDIFF(min, 1, 200)') eq '3 hours' );
-    $this->assert( $this->CALC('$FORMATTIMEDIFF(min, 2, 200)') eq
-          '3 hours and 20 minutes' );
-    $this->assert( $this->CALC('$FORMATTIMEDIFF(min, 1, 1640)') eq '1 day' );
-    $this->assert(
-        $this->CALC('$FORMATTIMEDIFF(min, 2, 1640)') eq '1 day and 3 hours' );
-    $this->assert( $this->CALC('$FORMATTIMEDIFF(min, 3, 1640)') eq
-          '1 day, 3 hours and 20 minutes' );
+
+    $this->assert_equals( '0 minutes',
+        $this->CALC('$FORMATTIMEDIFF(min, 1, 0)') );
+    $this->assert_equals( '3 hours',
+        $this->CALC('$FORMATTIMEDIFF(min, 1, 200)') );
+    $this->assert_equals( '3 hours and 20 minutes',
+        $this->CALC('$FORMATTIMEDIFF(min, 2, 200)') );
+    $this->assert_equals( '1 day',
+        $this->CALC('$FORMATTIMEDIFF(min, 1, 1640)') );
+    $this->assert_equals( '1 day and 3 hours',
+        $this->CALC('$FORMATTIMEDIFF(min, 2, 1640)') );
+    $this->assert_equals( '1 day, 3 hours and 20 minutes',
+        $this->CALC('$FORMATTIMEDIFF(min, 3, 1640)') );
+
+    $this->assert_equals( '0 minutes',
+        $this->CALC('$FORMATTIMEDIFF(min, 1, -0)') );
+    $this->assert_equals( '3 hours and 20 minutes',
+        $this->CALC('$FORMATTIMEDIFF(min, 2, -200)') );
 }
 
 sub test_GET_SET {
@@ -440,8 +630,8 @@ sub test_GET_SET {
 %INCLUDE{$this->{target_web}.$this->{target_topic}}%
 
    * inc = %CALC{\$GET(inc)}%
-%CALC{\$SET(inc, asdf)}%
-   * now inc = %CALC{\$GET(inc)}%
+%CALCULATE{\$SET(inc, asdf)}%
+   * now inc = %CALCULATE{\$GET(inc)}%
 
 HERE
 
@@ -476,11 +666,29 @@ sub test_HEXDECODE_HEXENCODE {
 
 sub test_IF {
     my ($this) = @_;
-    warn '$IF not implemented';
 
-#    $this->assert( $this->CALC( '$IF($T(R1:C5) > 1000, Over Budget, OK)' ) eq 'OK' );	#==Over Budget== if value in R1:C5 is over 1000, ==OK== if not
-#    $this->assert( $this->CALC( '$IF($EXACT($T(R1:C2),), empty, $T(R1:C2))' ) eq '' );	#returns the content of R1:C2 or ==empty== if empty
-#    $this->assert( $this->CALC( '$SET(val, $IF($T(R1:C2) == 0, zero, $T(R1:C2)))' ) eq '?' );	#sets a variable conditionally
+    my $topicText = <<"HERE";
+| 1 | | 3 | 4 | 2000 |
+
+   * %CALC{\$IF(\$T(R1:C5) > 1000, Over Budget, OK)}%
+   * %CALC{\$IF(\$EXACT(\$T(R1:C2),), empty, \$T(R1:C2))}%
+%CALC{\$SET(val, \$IF(\$T(R1:C3) == 3, three, \$T(R1:C2)))}%
+   * %CALC{\$GET(val)}%
+HERE
+
+    my $actual = Foswiki::Func::expandCommonVariables($topicText);
+
+    my $expected = <<'HERE';
+| 1 | | 3 | 4 | 2000 |
+
+   * Over Budget
+   * empty
+
+   * three
+HERE
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
+
 }
 
 sub test_INSERTSTRING {
@@ -495,6 +703,36 @@ sub test_INT {
     my ($this) = @_;
     $this->assert( $this->CALC('$INT(10 / 4)') == 2 );
     $this->assert( $this->CALC('$INT($VALUE(09))') == 9 );
+    $this->assert(
+        $this->CALC('$INT(10 / 0)') eq 'ERROR: Illegal division by zero' );
+}
+
+sub test_ISDIGIT {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$ISDIGIT(123)') );
+    $this->assert( !$this->CALC('$ISDIGIT(-34)') );
+    $this->assert( !$this->CALC('$ISDIGIT(18.23)') );
+}
+
+sub test_ISLOWER {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$ISLOWER(abcdefg)') );
+    $this->assert( !$this->CALC('$ISLOWER(abUPcdefg)') );
+    $this->assert( !$this->CALC('$ISLOWER(ab12cdefg)') );
+}
+
+sub test_ISUPPER {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$ISUPPER(ASDFASD)') );
+    $this->assert( !$this->CALC('$ISUPPER(WikiWord)') );
+    $this->assert( !$this->CALC('$ISUPPER(123ABC)') );
+}
+
+sub test_ISWIKIWORD {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$ISWIKIWORD(MyWikiWord)') );
+    $this->assert( $this->CALC('$ISWIKIWORD(MyWord23)') );
+    $this->assert( !$this->CALC('$ISWIKIWORD(fooBar)') );
 }
 
 sub test_LEFT {
@@ -623,7 +861,30 @@ sub test_LISTMAP {
 }
 
 sub test_LISTRAND {
-    warn '$LISTRAND not implemented';
+    my ($this) = @_;
+    my $list =
+'Apple, Orange, Bananna, Kiwi, Moe, Curly, Larry, Shemp, Cessna, Piper, Bonanza, Cirrus, Tesla, Ford, GM, Chrysler, Alpha, Bravo, Charlie, Delta, Echo, Foxtrot, Golf, Hotel, Juliet, Kilo, Lima ';
+    my $rand1 = $this->CALC( "\$LISTRAND($list)", 1 );
+    my $rand2 = $this->CALC( "\$LISTRAND($list)", 1 );
+    my $rand3 = $this->CALC( "\$LISTRAND($list)", 1 );
+    $this->assert( $this->CALC("\$LISTSIZE($rand1)") == 1 );
+    $this->assert( $this->CALC("\$LISTSIZE($rand2)") == 1 );
+    $this->assert( $this->CALC("\$LISTSIZE($rand3)") == 1 );
+
+#SMELL: This might fail,  It is random, so it's possible the same response will come back more than once.
+    $this->assert( ( $rand1 ne $rand2 ) or ( $rand2 ne $rand3 ) );
+    $this->assert_matches(
+qr/Apple|Bananna|Orange|Kiwi|Moe|Curly|Larry|Shemp|Cessna|Piper|Bonanza|Cirrus|Tesla|Ford|GM|Chrysler|Alpha|Bravo|Charlie|Delta|Echo|Foxtrot|Golf|Hotel|Juliet|Kilo|Lima/,
+        $rand1
+    );
+    $this->assert_matches(
+qr/Apple|Bananna|Orange|Kiwi|Moe|Curly|Larry|Shemp|Cessna|Piper|Bonanza|Cirrus|Tesla|Ford|GM|Chrysler|Alpha|Bravo|Charlie|Delta|Echo|Foxtrot|Golf|Hotel|Juliet|Kilo|Lima/,
+        $rand2
+    );
+    $this->assert_matches(
+qr/Apple|Bananna|Orange|Kiwi|Moe|Curly|Larry|Shemp|Cessna|Piper|Bonanza|Cirrus|Tesla|Ford|GM|Chrysler|Alpha|Bravo|Charlie|Delta|Echo|Foxtrot|Golf|Hotel|Juliet|Kilo|Lima/,
+        $rand3
+    );
 }
 
 sub test_LISTREVERSE {
@@ -633,7 +894,20 @@ sub test_LISTREVERSE {
 }
 
 sub test_LISTSHUFFLE {
-    warn '$LISTSHUFFLE not implemented';
+    my ($this) = @_;
+    my $list = 'Apple, Orange, Apple, Kiwi, Moe, Curly, Larry, Shemp ';
+    my $shuffle1 = $this->CALC( "\$LISTSHUFFLE($list)",     1 );
+    my $shuffle2 = $this->CALC( "\$LISTSHUFFLE($shuffle1)", 1 );
+    my $shuffle3 = $this->CALC( "\$LISTSHUFFLE($list)",     1 );
+    $this->assert( $this->CALC("\$LISTSIZE($shuffle1)") == 8 );
+    $this->assert( $this->CALC("\$LISTSIZE($shuffle2)") == 8 );
+    $this->assert( $this->CALC("\$LISTSIZE($shuffle3)") == 8 );
+
+#SMELL: This might fail,  It is random, so it's possible the same response will come back more than once.
+    $this->assert( $list     ne $shuffle1 );
+    $this->assert( $list     ne $shuffle2 );
+    $this->assert( $shuffle1 ne $shuffle2 );
+    $this->assert( $shuffle2 ne $shuffle3 );
 }
 
 sub test_LISTSIZE {
@@ -723,7 +997,7 @@ sub test_LOWER {
     $this->assert( $this->CALC('$LOWER(lOwErCaSe)')            eq 'lowercase' );
     $this->assert( $this->CALC('$LOWER()')                     eq '' );
     $this->assert( $this->CALC('$LOWER(`~!@#$%^&*_+{}|:"<>?)') eq
-          q(`~!@#$%^&*_+{}|:"<>?) );
+          q(`~!@#$%^&*_+{}|:"&lt;&gt;?) );
 }
 
 sub test_MAX {
@@ -749,7 +1023,8 @@ sub test_MOD {
 
 sub test_NOP {
     my ($this) = @_;
-    $this->assert( $this->CALC('$NOP(abcd)') eq 'abcd' );
+    $this->assert( $this->CALC('$NOP(abcd)')                   eq 'abcd' );
+    $this->assert( $this->CALC('$NOP($perabc$percntdef$quot)') eq '%abc%def"' );
 }
 
 sub test_NOT {
@@ -850,9 +1125,24 @@ sub test_PROPERSPACE {
 sub test_RAND {
     my ($this) = @_;
     for ( 1 .. 10 ) {
-        $this->assert( $this->CALC('$RAND(1)') < 1 );
-        $this->assert( $this->CALC('$RAND(2)') < 2 );
-        $this->assert( $this->CALC('$RAND(0.3)') < 0.3 );
+        $this->assert( $this->CALC( '$RAND(1)',   1 ) < 1 );
+        $this->assert( $this->CALC( '$RAND(2)',   1 ) < 2 );
+        $this->assert( $this->CALC( '$RAND(0.3)', 1 ) < 0.3 );
+    }
+}
+
+sub test_RANDSTRING {
+    my ($this) = @_;
+    for ( 1 .. 20 ) {
+        $this->assert( length( $this->CALC( '$RANDSTRING()', 1 ) ) == 8 );
+        $this->assert( $this->CALC( '$RANDSTRING()', 1 ) ne
+              $this->CALC( '$RANDSTRING()', 1 ) );
+        $this->assert_matches(
+            qr/^[A-NP-Z1-9]{4},[A-NP-Z1-9]{4},[A-NP-Z1-9]{4},[A-NP-Z1-9]{4}$/,
+            $this->CALC(
+                "\$RANDSTRING(A..NP..Z1..9, '''xxxx,xxxx,xxxx,xxxx''')", 1
+            )
+        );
     }
 }
 
@@ -954,7 +1244,22 @@ sub test_SEARCH {
 }
 
 sub test_SETIFEMPTY {
-    warn '$SETIFEMPTY not implemented';
+    my ($this) = @_;
+    my $topicText = <<"HERE";
+(%CALC{\$SET( result, here)}%%CALC{\$SETIFEMPTY(result, there)}%%CALC{\$SETIFEMPTY(another, there)}%)
+
+   * %CALC{\$GET(result)}%
+   * %CALC{\$GET(another)}%
+HERE
+    my $actual   = Foswiki::Func::expandCommonVariables($topicText);
+    my $expected = <<'EXPECT';
+()
+
+   * here
+   * there
+EXPECT
+    chomp $expected;
+    $this->assert_equals( $expected, $actual );
 }
 
 sub test_SETM {
@@ -1066,10 +1371,18 @@ sub test_SUBSTITUTE {
 
 sub test_SUBSTRING {
     my ($this) = @_;
-    $this->assert( $this->CALC('$SUBSTRING(abcdefghijk, 3, 5)') eq 'cdefg' );
+    $this->assert( $this->CALC('$SUBSTRING(abcdefg,hijk, 3, 5)') eq 'cdefg' );
     $this->assert(
-        $this->CALC('$SUBSTRING(abcdefghijk, 3, 20)') eq 'cdefghijk' );
-    $this->assert( $this->CALC('$SUBSTRING(abcdefghijk, -5, 3)') eq 'ghi' );
+        $this->CALC('$SUBSTRING(ab,cdefghijk, 4, 20)') eq 'cdefghijk' );
+    $this->assert( $this->CALC('$SUBSTRING(a,bcdefghijk, -5, 3)') eq 'ghi' );
+}
+
+sub test_MIDSTRING {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$MIDSTRING(abcdefghijk, 3, 5)') eq 'cdefg' );
+    $this->assert(
+        $this->CALC('$MIDSTRING(abcdefghijk, 3, 20)') eq 'cdefghijk' );
+    $this->assert( $this->CALC('$MIDSTRING(abcdefghijk, -5, 3)') eq 'ghi' );
 }
 
 sub test_SUM {
@@ -1080,6 +1393,13 @@ sub test_SUM {
 }
 
 sub test_SUMDAYS {
+    my ($this) = @_;
+    $this->assert( $this->CALC('$SUMDAYS(2w, 1, 2d, 4h)') == 13.5 );
+}
+
+sub test_DURATION {
+
+    # DURATION - Same as SUMDAYS - undocumented
     my ($this) = @_;
     $this->assert( $this->CALC('$SUMDAYS(2w, 1, 2d, 4h)') == 13.5 );
 }
@@ -1114,11 +1434,42 @@ sub test_T {
 
 sub test_TIME {
     my ($this) = @_;
+
+    $this->assert_equals( '0',         $this->CALC('$TIME(1970/01/01 GMT)') );
+    $this->assert_equals( '-31536000', $this->CALC('$TIME(1969/01/01 GMT)') );
+    $this->assert_equals( '0',
+        $this->CALC('$TIME(1970/01/01 - 00:00:00 GMT)') );
+    $this->assert_equals( '-1',
+        $this->CALC('$TIME(1969/12/31 - 23:59:59 GMT)') );
+    $this->assert_equals( '2147483648',
+        $this->CALC('$TIME(2038/01/19 - 03:14:08 GMT)') );
+    $this->assert_equals( '-2147483649',
+        $this->CALC('$TIME(1901/12/13 - 20:45:51 GMT)') );
+
     $this->assert_equals( '1066089600', $this->CALC('$TIME(2003/10/14 GMT)') );
     $this->assert_equals( '1066089600', $this->CALC('$TIME(DOY2003.287)') );
+
     $this->assert_equals(
         $this->CALC('$TIME(2003/12/31 - 23:59:59)'),
         $this->CALC('$TIME(DOY2003.365.23.59.59)')
+    );
+
+    # test year in 2 digit notation (00..79 => 20xx, 80..99 => 19xx)
+    $this->assert_equals(
+        '338947200',    # 28 Sep 1980
+        $this->CALC('$TIME(28 Sep 80 GMT)')
+    );
+    $this->assert_equals(
+        '938476800',    # 28 Sep 1999
+        $this->CALC('$TIME(28 Sep 99 GMT)')
+    );
+    $this->assert_equals(
+        '970099200',    # 28 Sep 2000
+        $this->CALC('$TIME(28 Sep 00 GMT)')
+    );
+    $this->assert_equals(
+        '3463084800',    # 28 Sep 2079
+        $this->CALC('$TIME(28 Sep 79 GMT)')
     );
 }
 
@@ -1145,8 +1496,79 @@ sub test_TIMEADD {
 
 sub test_TIMEDIFF {
     my ($this) = @_;
-    $this->assert(
-        $this->CALC('$TIMEDIFF($TIME(), $EVAL($TIME()+90), minute)') == 1.5 );
+
+    $this->assert_equals( '1.5',
+        $this->CALC('$TIMEDIFF($TIME(), $EVAL($TIME()+90), minute)') );
+
+    $this->assert_equals(
+        '1',
+        int(
+            $this->CALC(
+                '$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), years)'
+            )
+        )
+    );
+    $this->assert_equals(
+        '16',
+        int(
+            $this->CALC(
+                '$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), month)'
+            )
+        )
+    );
+    $this->assert_equals(
+        '487',
+        int(
+            $this->CALC(
+                '$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), days)')
+        )
+    );
+    $this->assert_equals(
+        '11688',
+        int(
+            $this->CALC(
+                '$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), hours)'
+            )
+        )
+    );
+    $this->assert_equals(
+        '701280',
+        int(
+            $this->CALC(
+'$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), minutes)'
+            )
+        )
+    );
+    $this->assert_equals(
+        '42076800',
+        int(
+            $this->CALC(
+'$TIMEDIFF($TIME(2008/09/28 GMT), $TIME(2010/01/28 GMT), seconds)'
+            )
+        )
+    );
+
+    $this->assert_equals(
+        '18',
+        int(
+            $this->CALC(
+                '$TIMEDIFF($TIME(1990/1/1 GMT), $TIME(2008/1/1 GMT), year)')
+        )
+    );
+    $this->assert_equals(
+        '38',
+        int(
+            $this->CALC(
+                '$TIMEDIFF($TIME(1970/1/1 GMT), $TIME(2008/1/1 GMT), year)')
+        )
+    );
+    $this->assert_equals(
+        '58',
+        int(
+            $this->CALC(
+                '$TIMEDIFF($TIME(1950/1/1 GMT), $TIME(2008/1/1 GMT), year)')
+        )
+    );
 }
 
 sub test_TODAY {
@@ -1165,14 +1587,21 @@ sub test_TRIM {
     $this->assert( $this->CALC('$TRIM( eat  spaces  )') eq 'eat spaces' );
 }
 
+sub test_unknown {
+    my ($this) = @_;
+
+    $this->assert( $this->CALC('$ANOTHER(value )') eq '' );
+    $this->assert( $this->CALC('$ANOTHER')         eq '$ANOTHER' );
+}
+
 sub test_UPPER {
     my ($this) = @_;
     $this->assert( $this->CALC('$UPPER(uppercase)')            eq 'UPPERCASE' );
     $this->assert( $this->CALC('$UPPER(UPPERCASE)')            eq 'UPPERCASE' );
     $this->assert( $this->CALC('$UPPER(uPpErCaSe)')            eq 'UPPERCASE' );
     $this->assert( $this->CALC('$UPPER()')                     eq '' );
-    $this->assert( $this->CALC('$UPPER(`~!@#$%^&*_+{}|:"<>?)') eq
-          q(`~!@#$%^&*_+{}|:"<>?) );
+    $this->assert( $this->CALC('$UPPER(`~!@#$%^&*_+{}|:"?<>)') eq
+          q(`~!@#$%^&*_+{}|:"?&lt;&gt;) );
 }
 
 sub test_VALUE {
@@ -1228,9 +1657,19 @@ sub test_XOR {
     $this->assert( $this->CALC('$XOR(10, 1)') == 0 );
 }
 
-# undocumented - same as $SUMDAYS
-#sub test_DURATION {
-#}
+sub test_triple_quote_escape {
+    my ($this) = @_;
+
+    $this->assert_equals( 'Good, early day',
+        $this->CALC("\$SUBSTITUTE('''Good, early morning''', morning, day)") );
+    $this->assert_equals( '(word)',
+        $this->CALC("\$SUBSTITUTE('''(text)''', text, word)") );
+
+    #Any strings with newlines need to be handled by the registered tag.
+    my $actual = Foswiki::Func::expandCommonVariables(
+        "%CALCULATE{\"\$SUBSTITUTE('''a\n(b)\nc''', b, word)\"}%");
+    $this->assert_equals( "a\n(word)\nc", $actual );
+}
 
 # deprecated and undocumented
 #sub test_MULT {
@@ -1240,15 +1679,11 @@ sub test_XOR {
 #sub test_MEAN {
 #}
 
-# undocumented (same as $SUBSTRING)
-#sub test_MIDSTRING {
-#}
-
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
