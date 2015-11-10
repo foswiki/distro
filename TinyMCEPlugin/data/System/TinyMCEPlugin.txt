@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1335534328" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! !TinyMCEPlugin
 <!--
@@ -42,7 +42,7 @@ First follow the installation instructions to install the Plugin:
 The default configuration of TinyMCEPlugin should prove sufficient for most users. The !TinyMCE editor itself is customised through a Javascript object holding a substantial number of initialisation parameters. In previous versions of TinyMCEPlugin, a text string making up the Javascript object was held in an ordinary Foswiki [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT= which should be removed and replaced with =TINYMCEPLUGIN_INIT_TOPIC= (described below) in most circumstances.
 
 ---+++ TINYMCEPLUGIN_INIT_TOPIC
-To make configuration easier and less error-prone, configuration is held in a topic section. The name of the topic is set in the [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT_TOPIC=, from which the [[VarSTARTSECTION][section]] named =TINYMCEPLUGIN_INIT= is used. =TINYMCEPLUGIN_INIT_TOPIC= is currently set to =%TINYMCEPLUGIN_INIT_TOPIC%=.
+To make configuration easier and less error-prone, configuration is held in a topic section. The name of the topic is set in the [[PreferenceSettings][preference variable]] =TINYMCEPLUGIN_INIT_TOPIC=, from which the [[VarSTARTSECTION][section]] named =TINYMCEPLUGIN_INIT= is used. =TINYMCEPLUGIN_INIT_TOPIC= is currently set to %=TINYMCEPLUGIN_INIT_TOPIC%.
 
 For a full explanation and guidance on configuration of available !TinyMCE options, see the [[http://wiki.moxiecode.com/index.php/TinyMCE:Configuration][Moxicode TinyMCE Wiki]]. 
 
@@ -81,9 +81,9 @@ Below is the default configuration. If it is to be modified, it should be copied
     then=", %TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS%"
 }%",
 "foswiki_plugin_urls" : {
-    "foswiki" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswiki/editor_plugin%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.js",
-    "foswikibuttons" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikibuttons/editor_plugin%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.js",
-    "foswikiimage" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikiimage/editor_plugin%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.js" },
+    "foswiki" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswiki/editor_plugin.js",
+    "foswikibuttons" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikibuttons/editor_plugin.js",
+    "foswikiimage" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/plugins/foswikiimage/editor_plugin.js" },
 "foswiki_secret_id" : "%WYSIWYG_SECRET_ID%",
 "foswiki_vars" : {
     "PUBURLPATH" : "%PUBURLPATH%",
@@ -165,7 +165,7 @@ Below is the default configuration. If it is to be modified, it should be copied
 "theme_advanced_resize_horizontal" : false,
 "theme_advanced_resizing" : true,
 "theme_advanced_path" : false,
-"theme_advanced_statusbar_location" : "bottom",
+"theme_advanced_statusbar_location" : "none",
 "skin" : "%IF{
     "defined 'TINYMCEPLUGIN_MCESKIN'"
     then="%TINYMCEPLUGIN_MCESKIN%"
@@ -179,18 +179,15 @@ Below is the default configuration. If it is to be modified, it should be copied
       then="\\"skin_variant\\" : \\"%STARTSECTION{"MCESKIN_VARIANT"}%silver%ENDSECTION{"MCESKIN_VARIANT"}%\\",$dollarn"
     }%"
 }%"keep_styles" : false,
-"content_css" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{
-    "$TINYMCEPLUGIN_DEBUG"
-    then="_src"
-}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
+"content_css" : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
 %ENDSECTION{"TINYMCEPLUGIN_INIT"}%
 </verbatim>
 %ENDTWISTY%
 
 Example:
-   * Create <nop>Main.TinyMCEPlugin, copying the text above
-   * Update the =TINYMCEPLUGIN_INIT_TOPIC= variable to point to the newly created topic, Eg. in Main.SitePreferences or <nop>MyWeb.WebPreferences:%BR%\
-   <verbatim class="tml">   * Set TINYMCEPLUGIN_INIT_TOPIC = Main.TinyMCEPlugin</verbatim>
+   * Create <nop>%USERSWEB%.TinyMCEPlugin, copying the text above
+   * Update the =TINYMCEPLUGIN_INIT_TOPIC= variable to point to the newly created topic, Eg. in %LOCALSITEPREFS% or any <nop>%WEBPREFSTOPIC%:%BR%\
+   <verbatim class="tml">   * Set TINYMCEPLUGIN_INIT_TOPIC = %USERSWEB%.TinyMCEPlugin</verbatim>
 
 ---+++ Settings
 | *Variable* | *Default* | *Description* |
@@ -214,7 +211,7 @@ Example:
 | =TINYMCEPLUGIN_MCESKIN_VARIANT= | %INCLUDE{"%TOPIC%" section="MCESKIN_VARIANT"}% | A !TinyMCE skin may have _variants_. =o2k7= skin has =silver= and =black= variants. |
 
 ---+++ Browser Specific Settings
-Additional options may be set for specific browsers. You can define extra options for MSIE, OPERA, GECKO and SAFARI. For example,
+Additional options may be set for specific browsers. You can define extra options for MSIE, OPERA, GECKO, UNKNOWN and SAFARI. For example,
 <verbatim class="tml">   * Set TINYMCEPLUGIN_INIT_MSIE = "paste_auto_cleanup_on_paste" : false </verbatim>
 The defaults are:
 <verbatim class="perl">
@@ -222,7 +219,8 @@ The defaults are:
     OPERA => '',
     GECKO => '"gecko_spellcheck" : true',
     SAFARI => '',
-    CHROME => ''
+    CHROME => '',
+    UNKNOWN => '',
 </verbatim>
 
 ---++ !TinyMCE Plugins & Toolbar Buttons
@@ -246,10 +244,10 @@ These plugins are enabled by default in the standard distribution of Foswiki.
 | [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/table][table]] | tablecontrols, [[http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/table#Table_controls.2Fbuttons][others]] | Refer to !TinyMCE documentation | |
 
 ---+++ Additional Plugins 
-To enable extra plugins, set the =TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS= variable in your [[%USERSWEB%.SitePreferences]].
+To enable extra plugins, set the =TINYMCEPLUGIN_ADDITIONAL_MCEPLUGINS= variable in your [[%LOCALSITEPREFS%]].
 If the plugin also offers a toolbar button, you will need to add it into the appropriate place in the =TINYMCEPLUGIN_ADDITIONAL_BUTTONS*= variables. 
 
-For example, to make use of the =emotions= and =wordcount= plugins add the following to [[%USERSWEB%.SitePreferences]]:
+For example, to make use of the =emotions= and =wordcount= plugins add the following to [[%LOCALSITEPREFS%]]:
 
 <pre class="tml">
 ---++ TinyMCE customisations
@@ -290,7 +288,7 @@ If a customised =TINYMCEPLUGIN_INIT= string is in use, it should be re-built bas
       * Description: The list symbol (number, bullet, etc) sometimes disappears from the item after being outdented. When this happens, it is also not possible to outdent the item another level.
       * Work-around: Position the cursor to the beginning of the line (where the symbol should appear) and press the enter key. The symbol should be restored and another outdent will be possible.
    * Foswikitask:Item9198 - After inserting new table at top of document: unable to position cursor above
-      * Work-around: Use 'Save and continue' or switch to WikiText and back to WYSIWYG again to allow WysiwygPlugin to add an empty =&lt;p/&gt;= above the table
+      * Work-around: Use 'Save and continue' or switch to TML editing and back to WYSIWYG again to allow WysiwygPlugin to add an empty =&lt;p/&gt;= above the table
    * Foswikitask:Item8085 - International characters (example, &Scaron;) are converted to HTML entities (IE. =&amp;Scaron;= or =&amp;#352;=)
       * Ensure you are using the latest version of WysiwygPlugin.
       * Work-around: Try changing the =TINYMCEPLUGIN_ENTITY_ENCODING= setting to =raw=. It's possible this may cause problems on older browsers.
@@ -305,21 +303,18 @@ Check regularly at Foswiki:Extensions.TinyMCEPlugin for updates.
 
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
-|  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
 |  Copyright: | &copy; 2007-2010 Crawford Currie http://c-dot.co.uk %BR%\
-                &copy; 2010-2012 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] |
-|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|             | This package also includes the complete sources for version 3.4.9 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
+                &copy; 2010-2014 [[%SYSTEMWEB%.ProjectContributor][Foswiki Contributors]] |
+|             | This package also includes the complete sources for version 3.5.7 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  21 Dec 2012 (1.2.9) | Foswikitask:Item12278: Changing a wikiword should not require visiting the TinyMCE link dialog. *Changes TINYMCEPLUGIN_INIT settings* |
-|  28 Nov 2012 (1.2.8) | Foswikitask:Item12201: Add missing syntax highlighting classes, and make menus more user friendly.<br />\
-                         Foswikitask:Item11267: Convert to perl version strings <br />\
-                         Foswikitask:Item11912: Clean up hex markers left behind by TinyMCEPlugin Editor |
-|  22 May 2012 (1.2.7) | Foswikitask:Item11802: Upgrade to !TinyMCE 3.4.9%BR%\
-                         Foswikitask:Item11722: Add watermark for hidden blocks%BR%\
-                         Foswikitask:Item9662: Set initial table defaults consistent with Foswiki defaults |
+|  1.30 | Foswikitask:Item12181: Upgrade to TinyMCE 3.5.11 |
+|  21 Dec 2012 (TBD)   | Foswikitask:Item12278: Changing a wikiword should not require visiting the TinyMCE link dialog. *Changes TINYMCEPLUGIN_INIT settings* |
+|  29 Oct 2012 (TBD)   | Foswikitask:Item12201: Add missing syntax highlighting classes, and make menus more user friendly. |
+|  1.2.9 | Foswikitask:Item12181: Upgrade to !TinyMCE 3.5.7 |
+|  1.2.8 | Foswikitask:Item8032: enable Foswiki:Extensions.WysiwygFormfieldsPlugin |
+|  1.2.7 | Foswikitask:Item11802: Upgrade to !TinyMCE 3.4.9%BR%\
+           Foswikitaks:Item11722: Add watermark for hidden blocks%BR%\
+           Foswikitask:Item9662: Set initial table defaults consistent with Foswiki defaults |
 |  23 Mar 2012 (1.2.6) | Foswikitask:Item11378: Strike-out =&lt;del&gt;=, =&lt;s&gt;= tags are lost in WYSIWYG transition %BR%\
                          Foswikitask:Item11367: Add Javascript callbacks to get notified after editor changes to/from Raw or WYSIWYG mode. %BR%\
                          Foswikitask:Item11368: Allow templates to control WYSIWYG button placement. %BR%\
@@ -409,8 +404,6 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  14543 | Added PROTECTED style, to allow protection of special text. Disable on unsupported browsers (untested) |
 |  14538 | First release |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Plugin Home: | Foswiki:Extensions.%TOPIC% |
-|  Support: | Foswiki:Support.%TOPIC% |
 
 Many thanks to the following sponsors for supporting this work:
    * [[http://ilog.fr][ILOG]]
@@ -419,6 +412,33 @@ Many thanks to the following sponsors for supporting this work:
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 
-%META:FILEATTACHMENT{name="tinymce.gif" attr="h" comment="screenshot"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="screenshot.png" attr="h" comment="" version="1"}%
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
+%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions.%25$ROOTMODULE%25"}%
+%META:FIELD{name="Support" title="Support" value="Foswiki:Support.%25$ROOTMODULE%25"}%
+%META:FILEATTACHMENT{name="wysiwyg.css.gz" attr="h" comment="" date="1437500521" size="390" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_tiny.uncompressed.js" attr="h" comment="" date="1437500521" size="18556" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_hidden_verbatim.gif" attr="h" comment="" date="1437500521" size="1654" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermarks.psd" attr="h" comment="" date="1437500521" size="427691" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_literal.gif" attr="h" comment="" date="1437500521" size="1029" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_protect_on_save.gif" attr="h" comment="" date="1437500521" size="1492" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki.uncompressed.js" attr="h" comment="" date="1437500521" size="4233" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_tiny.js.gz" attr="h" comment="" date="1437500521" size="2625" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wysiwyg_src.css" attr="h" comment="" date="1437500521" size="1007" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_verbatim.gif" attr="h" comment="" date="1437500521" size="1181" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wysiwyg.css" attr="h" comment="" date="1437500521" size="827" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.png" attr="h" comment="" date="1437500521" size="30118" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_hidden.gif" attr="h" comment="" date="1437500521" size="950" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki.js" attr="h" comment="" date="1437500521" size="1847" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki.js.gz" attr="h" comment="" date="1437500521" size="869" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="watermark_protect_forever.gif" attr="h" comment="" date="1437500521" size="1494" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="tinymce.gif" attr="h" comment="screenshot" date="1437500521" size="35155" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1437500521" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_tiny.js" attr="h" comment="" date="1437500521" size="8435" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1437500521" size="147" user="ProjectContributor" version="1"}%

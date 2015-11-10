@@ -69,12 +69,20 @@
 <tr class="even">
 <td class="first">
 <div>
+<a class="memberName" href="class_tinymce.dom.DOMUtils.html#addStyle">addStyle</a>(cssText:String):void</div>
+<div class="summary">Adds a style element at the top of the document with the specified cssText content.</div>
+</td>
+<td class="last">DOMUtils</td>
+</tr>
+<tr>
+<td class="first">
+<div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#bind">bind</a>(o:Element/Document/Window/Array/String, n:String, f:function, s:Object):function</div>
 <div class="summary">Adds an event handler to the specified object.</div>
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#create">create</a>(n:String, a:Object, h:String):Element</div>
@@ -82,7 +90,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#createHTML">createHTML</a>(n:String, a:Object, h:String):String</div>
@@ -90,7 +98,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#createRng">createRng</a>():DOMRange</div>
@@ -98,7 +106,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#decode">decode</a>(s:String):String</div>
@@ -106,7 +114,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#destroy">destroy</a>():void</div>
@@ -114,7 +122,7 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#encode">encode</a>(text:String):String</div>
@@ -122,11 +130,19 @@
 </td>
 <td class="last">DOMUtils</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.dom.DOMUtils.html#findCommonAncestor">findCommonAncestor</a>(a:Element, b:Element):Element</div>
 <div class="summary">Find the common ancestor of two elements.</div>
+</td>
+<td class="last">DOMUtils</td>
+</tr>
+<tr>
+<td class="first">
+<div>
+<a class="memberName" href="class_tinymce.dom.DOMUtils.html#fire">fire</a>(target:Node/Document/Window, name:String, evt:Object):Event</div>
+<div class="summary">Fires the specified event name with object on target.</div>
 </td>
 <td class="last">DOMUtils</td>
 </tr>
@@ -549,6 +565,21 @@
 <h4>Example</h4>
 <pre class="brush: js;"/>
 </div>
+<div class="memberDetails" id="addStyle">
+<h3>addStyle<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function addStyle(cssText:String):void</code>
+<div class="memberDescription">Adds a style element at the top of the document with the specified cssText content.
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">cssText:String</td>
+<td class="last">CSS Text style to add to top of head of document.</td>
+</tr>
+</table>
+</div>
 <div class="memberDetails" id="bind">
 <h3>bind<span class="memberType">method</span>
 </h3>
@@ -707,6 +738,31 @@ available if it's not it will fallback to the custom TinyMCE implementation.
 </table>
 <h4>Returns</h4>
 <div class="returns">Element - Common ancestor element of the two input elements.</div>
+</div>
+<div class="memberDetails" id="fire">
+<h3>fire<span class="memberType">method</span>
+</h3>
+<code class="syntax">public 
+						function fire(target:Node/Document/Window, name:String, evt:Object):Event</code>
+<div class="memberDescription">Fires the specified event name with object on target.
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">target:Node/Document/Window</td>
+<td class="last">Target element or object to fire event on.</td>
+</tr>
+<tr>
+<td class="first">name:String</td>
+<td class="last">Name of the event to fire.</td>
+</tr>
+<tr>
+<td class="first">evt:Object</td>
+<td class="last">Event object to send.</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">Event - Event object.</div>
 </div>
 <div class="memberDetails" id="get">
 <h3>get<span class="memberType">method</span>

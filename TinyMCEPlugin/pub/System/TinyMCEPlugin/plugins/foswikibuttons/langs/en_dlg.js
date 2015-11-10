@@ -13,5 +13,7 @@ tinyMCE.addI18n('en.foswikibuttons_dlg', {
     attach_file: "Upload new attachment",
     attach_comment: "Comment",
     attach_hide: "Hide attachment",
-    attach_error_autoinc: "Unable to attach files to an unsaved AUTOINC topic. Save the topic and try again."
+    attach_error_autoinc: "Unable to attach files to an unsaved AUTOINC topic. Save the topic and try again.",
+    zero_size_upload: "No data in upload - ignored",
+    upload_name_changed: "Warning: File name changed"
 });

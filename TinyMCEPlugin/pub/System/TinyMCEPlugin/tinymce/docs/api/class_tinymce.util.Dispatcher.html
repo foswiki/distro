@@ -46,7 +46,7 @@ All internal events inside TinyMCE uses this class.
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.util.Dispatcher.html#Dispatcher">Dispatcher</a>(s:Object)</div>
+<a class="memberName" href="class_tinymce.util.Dispatcher.html#Dispatcher">Dispatcher</a>(scope:Object)</div>
 <div class="summary">Constructs a new event dispatcher object.</div>
 </td>
 <td class="last">Dispatcher</td>
@@ -54,7 +54,7 @@ All internal events inside TinyMCE uses this class.
 <tr class="even">
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.util.Dispatcher.html#add">add</a>(cb:function, s:Object):function</div>
+<a class="memberName" href="class_tinymce.util.Dispatcher.html#add">add</a>(callback:function, s:Object):function</div>
 <div class="summary">Add an observer function to be executed when a dispatch call is done.</div>
 </td>
 <td class="last">Dispatcher</td>
@@ -62,7 +62,7 @@ All internal events inside TinyMCE uses this class.
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.util.Dispatcher.html#addToTop">addToTop</a>(cb:function, s:Object):function</div>
+<a class="memberName" href="class_tinymce.util.Dispatcher.html#addToTop">addToTop</a>(callback:function, scope:Object):function</div>
 <div class="summary">Add an observer function to be executed to the top of the list of observers.</div>
 </td>
 <td class="last">Dispatcher</td>
@@ -78,7 +78,7 @@ All internal events inside TinyMCE uses this class.
 <tr>
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.util.Dispatcher.html#remove">remove</a>(cb:function):function</div>
+<a class="memberName" href="class_tinymce.util.Dispatcher.html#remove">remove</a>(callback:function):function</div>
 <div class="summary">Removes an observer function.</div>
 </td>
 <td class="last">Dispatcher</td>
@@ -93,13 +93,13 @@ All internal events inside TinyMCE uses this class.
 <h3>Dispatcher<span class="memberType">constructor</span>
 </h3>
 <code class="syntax">public 
-						function Dispatcher(s:Object)</code>
+						function Dispatcher(scope:Object)</code>
 <div class="memberDescription">Constructs a new event dispatcher object.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">s:Object</td>
+<td class="first">scope:Object</td>
 <td class="last">Optional default execution scope for all observer functions.</td>
 </tr>
 </table>
@@ -108,13 +108,13 @@ All internal events inside TinyMCE uses this class.
 <h3>add<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function add(cb:function, s:Object):function</code>
+						function add(callback:function, s:Object):function</code>
 <div class="memberDescription">Add an observer function to be executed when a dispatch call is done.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">cb:function</td>
+<td class="first">callback:function</td>
 <td class="last">Callback function to execute when a dispatch event occurs.</td>
 </tr>
 <tr>
@@ -129,17 +129,17 @@ All internal events inside TinyMCE uses this class.
 <h3>addToTop<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function addToTop(cb:function, s:Object):function</code>
+						function addToTop(callback:function, scope:Object):function</code>
 <div class="memberDescription">Add an observer function to be executed to the top of the list of observers.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">cb:function</td>
+<td class="first">callback:function</td>
 <td class="last">Callback function to execute when a dispatch event occurs.</td>
 </tr>
 <tr>
-<td class="first">s:Object</td>
+<td class="first">scope:Object</td>
 <td class="last">Optional execution scope, defaults to the one specified in the class constructor.</td>
 </tr>
 </table>
@@ -167,13 +167,13 @@ All internal events inside TinyMCE uses this class.
 <h3>remove<span class="memberType">method</span>
 </h3>
 <code class="syntax">public 
-						function remove(cb:function):function</code>
+						function remove(callback:function):function</code>
 <div class="memberDescription">Removes an observer function.
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">cb:function</td>
+<td class="first">callback:function</td>
 <td class="last">Observer function to remove.</td>
 </tr>
 </table>

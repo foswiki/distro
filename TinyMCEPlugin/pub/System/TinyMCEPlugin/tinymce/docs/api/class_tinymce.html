@@ -304,7 +304,7 @@
 <tr class="even">
 <td class="first">
 <div>
-<a class="memberName" href="class_tinymce.html#extend">extend</a>(o:Object, e..n:Object):Object</div>
+<a class="memberName" href="class_tinymce.html#extend">extend</a>(obj:Object, ext..n:Object):Object</div>
 <div class="summary">
 <span class="static">[static] </span>Extends an object with the specified other object(s).</div>
 </td>
@@ -367,13 +367,22 @@
 <tr>
 <td class="first">
 <div>
+<a class="memberName" href="class_tinymce.html#isArray">isArray</a>(obj:Object):boolean</div>
+<div class="summary">
+<span class="static">[static] </span>Returns true/false if the object is an array or not.</div>
+</td>
+<td class="last">tinymce</td>
+</tr>
+<tr class="even">
+<td class="first">
+<div>
 <a class="memberName" href="class_tinymce.html#makeMap">makeMap</a>(items:Array/String, delim:String, map:Object):Object</div>
 <div class="summary">
 <span class="static">[static] </span>Makes a name/object map out of an array with names.</div>
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#map">map</a>(a:Array, f:function):Array</div>
@@ -382,7 +391,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#remove">remove</a>(e:<a href="class_tinymce.Editor.html">Editor</a>):<a href="class_tinymce.Editor.html">Editor</a>
@@ -391,7 +400,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#removeUnload">removeUnload</a>(f:function):function</div>
@@ -400,7 +409,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#resolve">resolve</a>(n:String, o:Object):Object</div>
@@ -409,7 +418,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#triggerSave">triggerSave</a>():void</div>
@@ -417,7 +426,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr>
+<tr class="even">
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#trim">trim</a>(s:String):String</div>
@@ -426,7 +435,7 @@
 </td>
 <td class="last">tinymce</td>
 </tr>
-<tr class="even">
+<tr>
 <td class="first">
 <div>
 <a class="memberName" href="class_tinymce.html#walk">walk</a>(o:Object, f:function, n:String, s:String):void</div>
@@ -830,17 +839,17 @@ The callback has the following format: cb(value, key_or_index).
 <h3>extend<span class="memberType">method</span>
 </h3>
 <code class="syntax">public static 
-						function extend(o:Object, e..n:Object):Object</code>
+						function extend(obj:Object, ext..n:Object):Object</code>
 <div class="memberDescription">Extends an object with the specified other object(s).
 </div>
 <h4>Parameters</h4>
 <table class="params">
 <tr>
-<td class="first">o:Object</td>
+<td class="first">obj:Object</td>
 <td class="last">Object to extend with new items.</td>
 </tr>
 <tr>
-<td class="first">e..n:Object</td>
+<td class="first">ext..n:Object</td>
 <td class="last">Object(s) to extend the specified object with.</td>
 </tr>
 </table>
@@ -981,6 +990,23 @@ If the function returns false the item will be excluded if it returns true it wi
 </table>
 <h4>Returns</h4>
 <div class="returns">Boolean - true/false if the object is of the specified type.</div>
+</div>
+<div class="memberDetails" id="isArray">
+<h3>isArray<span class="memberType">method</span>
+</h3>
+<code class="syntax">public static 
+						function isArray(obj:Object):boolean</code>
+<div class="memberDescription">Returns true/false if the object is an array or not.
+</div>
+<h4>Parameters</h4>
+<table class="params">
+<tr>
+<td class="first">obj:Object</td>
+<td class="last">Object to check.</td>
+</tr>
+</table>
+<h4>Returns</h4>
+<div class="returns">boolean - true/false state if the object is an array or not.</div>
 </div>
 <div class="memberDetails" id="makeMap">
 <h3>makeMap<span class="memberType">method</span>

@@ -113,9 +113,9 @@ tinymce.ControlManager.prototype.add = function(Control) {
 	/// <returns type="tinymce.ui.Control">Control instance that got passed in.</returns>
 }
 
-tinymce.ControlManager.prototype.createControl = function(n) {
+tinymce.ControlManager.prototype.createControl = function(name) {
 	/// <summary>Creates a control by name, when a control is created it will automatically add it to the control collection.</summary>
-	/// <param name="n" type="String">Control name to create for example "separator".</param>
+	/// <param name="name" type="String">Control name to create for example "separator".</param>
 	/// <returns type="tinymce.ui.Control">Control instance that got created and added.</returns>
 }
 
@@ -192,17 +192,18 @@ tinymce.ControlManager.prototype.destroy = function() {
 	/// <summary>Destroy.</summary>
 }
 
-tinymce.Editor = function(id, s) {
+tinymce.Editor = function(id, settings) {
 	/// <summary>This class contains the core logic for a TinyMCE editor.</summary>
 	/// <param name="id" type="String">Unique id for the editor.</param>
-	/// <param name="s" type="Object">Optional settings string for the editor.</param>
+	/// <param name="settings" type="Object">Optional settings string for the editor.</param>
+	/// <field name="settings" type="Object">Name/value collection with editor settings. // Get the value of the theme setting tinyMCE.activeEditor.windowManager.alert("You are using the " + tinyMCE.activeEditor.settings.theme + " theme");</field>
 	/// <field name="id" type="String">Editor instance id, normally the same as the div/textarea that was replaced.</field>
 	/// <field name="isNotDirty" type="Boolean">State to force the editor to return false on a isDirty call. function ajaxSave() {     var ed = tinyMCE.get('elm1');      // Save contents using some XHR call     alert(ed.getContent());      ed.isNotDirty = 1; // Force not dirty state }</field>
 	/// <field name="plugins" type="Object">Name/Value object containting plugin instances. // Execute a method inside a plugin directly tinyMCE.activeEditor.plugins.someplugin.someMethod();</field>
-	/// <field name="settings" type="Object">Name/value collection with editor settings. // Get the value of the theme setting tinyMCE.activeEditor.windowManager.alert("You are using the " + tinyMCE.activeEditor.settings.theme + " theme");</field>
 	/// <field name="documentBaseURI" type="tinymce.util.URI">URI object to document configured for the TinyMCE instance. // Get relative URL from the location of document_base_url tinyMCE.activeEditor.documentBaseURI.toRelative('/somedir/somefile.htm');  // Get absolute URL from the location of document_base_url tinyMCE.activeEditor.documentBaseURI.toAbsolute('somefile.htm');</field>
 	/// <field name="baseURI" type="tinymce.util.URI">URI object to current document that holds the TinyMCE editor instance. // Get relative URL from the location of the API tinyMCE.activeEditor.baseURI.toRelative('/somedir/somefile.htm');  // Get absolute URL from the location of the API tinyMCE.activeEditor.baseURI.toAbsolute('somefile.htm');</field>
 	/// <field name="contentCSS" type="Array">Array with CSS files to load into the iframe.</field>
+	/// <field name="contentStyles" type="Array">Array of CSS styles to add to head of document when the editor loads.</field>
 	/// <field name="windowManager" type="tinymce.WindowManager">Window manager reference, use this to open new windows and dialogs. // Shows an alert message tinyMCE.activeEditor.windowManager.alert('Hello world!');  // Opens a new dialog with the file.htm file and the size 320x240 // It also adds a custom parameter this can be retrieved by using tinyMCEPopup.getWindowArg inside the dialog. tinyMCE.activeEditor.windowManager.open({    url : 'file.htm',    width : 320,    height : 240 }, {    custom_param : 1 });</field>
 	/// <field name="theme" type="tinymce.Theme">Reference to the theme instance that was used to generate the UI. // Executes a method on the theme directly tinyMCE.activeEditor.theme.someMethod();</field>
 	/// <field name="controlManager" type="tinymce.ControlManager">Control manager instance for the editor. Will enables you to create new UI elements and change their states etc. // Disables the bold button tinyMCE.activeEditor.controlManager.setDisabled('bold', true);</field>
@@ -214,43 +215,6 @@ tinymce.Editor = function(id, s) {
 	/// <field name="formatter" type="tinymce.Formatter">Formatter instance.</field>
 	/// <field name="undoManager" type="tinymce.UndoManager">Undo manager instance, responsible for handling undo levels. // Undoes the last modification to the editor tinyMCE.activeEditor.undoManager.undo();</field>
 	/// <field name="initialized" type="Boolean">Is set to true after the editor instance has been initialized function isEditorInitialized(editor) {     return editor && editor.initialized; }</field>
-	/// <field name="onPreInit" type="tinymce.util.Dispatcher">Fires before the initialization of the editor. Editor instance.// Adds an observer to the onPreInit event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onPreInit.add(function(ed) {           console.debug('PreInit: ' + ed.id);       });    } });</field>
-	/// <field name="onBeforeRenderUI" type="tinymce.util.Dispatcher">Fires before the initialization of the editor. Editor instance.// Adds an observer to the onBeforeRenderUI event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {      ed.onBeforeRenderUI.add(function(ed, cm) {          console.debug('Before render: ' + ed.id);      });    } });</field>
-	/// <field name="onPostRender" type="tinymce.util.Dispatcher">Fires after the rendering has completed. Editor instance.// Adds an observer to the onPostRender event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onPostRender.add(function(ed, cm) {           console.debug('After render: ' + ed.id);       });    } });</field>
-	/// <field name="onLoad" type="tinymce.util.Dispatcher">Fires when the onload event on the body occurs. Editor instance.// Adds an observer to the onLoad event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onLoad.add(function(ed, cm) {           console.debug('Document loaded: ' + ed.id);       });    } });</field>
-	/// <field name="onInit" type="tinymce.util.Dispatcher">Fires after the initialization of the editor is done. Editor instance.// Adds an observer to the onInit event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onInit.add(function(ed) {           console.debug('Editor is done: ' + ed.id);       });    } });</field>
-	/// <field name="onRemove" type="tinymce.util.Dispatcher">Fires when the editor instance is removed from page. Editor instance.// Adds an observer to the onRemove event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onRemove.add(function(ed) {           console.debug('Editor was removed: ' + ed.id);       });    } });</field>
-	/// <field name="onActivate" type="tinymce.util.Dispatcher">Fires when the editor is activated. Editor instance.// Adds an observer to the onActivate event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onActivate.add(function(ed) {           console.debug('Editor was activated: ' + ed.id);       });    } });</field>
-	/// <field name="onDeactivate" type="tinymce.util.Dispatcher">Fires when the editor is deactivated. Editor instance.// Adds an observer to the onDeactivate event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onDeactivate.add(function(ed) {           console.debug('Editor was deactivated: ' + ed.id);       });    } });</field>
-	/// <field name="onClick" type="tinymce.util.Dispatcher">Fires when something in the body of the editor is clicked. Editor instance.W3C DOM Event instance.// Adds an observer to the onClick event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onClick.add(function(ed, e) {           console.debug('Editor was clicked: ' + e.target.nodeName);       });    } });</field>
-	/// <field name="onEvent" type="tinymce.util.Dispatcher">Fires when a registered event is intercepted. Editor instance.W3C DOM Event instance.// Adds an observer to the onEvent event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onEvent.add(function(ed, e) {          console.debug('Editor event occured: ' + e.target.nodeName);       });    } });</field>
-	/// <field name="onMouseUp" type="tinymce.util.Dispatcher">Fires when a mouseup event is intercepted inside the editor. Editor instance.W3C DOM Event instance.// Adds an observer to the onMouseUp event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onMouseUp.add(function(ed, e) {           console.debug('Mouse up event: ' + e.target.nodeName);       });    } });</field>
-	/// <field name="onMouseDown" type="tinymce.util.Dispatcher">Fires when a mousedown event is intercepted inside the editor. Editor instance.W3C DOM Event instance.// Adds an observer to the onMouseDown event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onMouseDown.add(function(ed, e) {           console.debug('Mouse down event: ' + e.target.nodeName);       });    } });</field>
-	/// <field name="onDblClick" type="tinymce.util.Dispatcher">Fires when a dblclick event is intercepted inside the editor. Editor instance.W3C DOM Event instance.// Adds an observer to the onDblClick event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onDblClick.add(function(ed, e) {          console.debug('Double click event: ' + e.target.nodeName);       });    } });</field>
-	/// <field name="onKeyDown" type="tinymce.util.Dispatcher">Fires when a keydown event is intercepted inside the editor. Editor instance.W3C DOM Event instance.// Adds an observer to the onKeyDown event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onKeyDown.add(function(ed, e) {           console.debug('Key down event: ' + e.keyCode);       });    } });</field>
-	/// <field name="onKeyUp" type="tinymce.util.Dispatcher">Fires when a keydown event is intercepted inside the editor. Editor instance.W3C DOM Event instance.// Adds an observer to the onKeyUp event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onKeyUp.add(function(ed, e) {           console.debug('Key up event: ' + e.keyCode);       });    } });</field>
-	/// <field name="onKeyPress" type="tinymce.util.Dispatcher">Fires when a keypress event is intercepted inside the editor. Editor instance.W3C DOM Event instance.// Adds an observer to the onKeyPress event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onKeyPress.add(function(ed, e) {           console.debug('Key press event: ' + e.keyCode);       });    } });</field>
-	/// <field name="onContextMenu" type="tinymce.util.Dispatcher">Fires when a contextmenu event is intercepted inside the editor. Editor instance.W3C DOM Event instance.// Adds an observer to the onContextMenu event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onContextMenu.add(function(ed, e) {            console.debug('Context menu event:' + e.target);       });    } });</field>
-	/// <field name="onSubmit" type="tinymce.util.Dispatcher">Fires when a form submit event is intercepted. Editor instance.W3C DOM Event instance.// Adds an observer to the onSubmit event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onSubmit.add(function(ed, e) {            console.debug('Form submit:' + e.target);       });    } });</field>
-	/// <field name="onReset" type="tinymce.util.Dispatcher">Fires when a form reset event is intercepted. Editor instance.W3C DOM Event instance.// Adds an observer to the onReset event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onReset.add(function(ed, e) {            console.debug('Form reset:' + e.target);       });    } });</field>
-	/// <field name="onPaste" type="tinymce.util.Dispatcher">Fires when a paste event is intercepted inside the editor. Editor instance.W3C DOM Event instance.// Adds an observer to the onPaste event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onPaste.add(function(ed, e) {            console.debug('Pasted plain text');       });    } });</field>
-	/// <field name="onPreProcess" type="tinymce.util.Dispatcher">Fires when the Serializer does a preProcess on the contents. Editor instance.PreProcess object.DOM node for the item being serialized.The specified output format normally "html".Is true if the process is on a getContent operation.Is true if the process is on a setContent operation.Is true if the process is on a cleanup operation.// Adds an observer to the onPreProcess event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onPreProcess.add(function(ed, o) {            // Add a class to each paragraph in the editor            ed.dom.addClass(ed.dom.select('p', o.node), 'myclass');       });    } });</field>
-	/// <field name="onPostProcess" type="tinymce.util.Dispatcher">Fires when the Serializer does a postProcess on the contents. Editor instance.PreProcess object.// Adds an observer to the onPostProcess event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onPostProcess.add(function(ed, o) {            // Remove all paragraphs and replace with BR            o.content = o.content.replace(/<p[^>]+>|<p>/g, '');            o.content = o.content.replace(/<\/p>/g, '<br />');       });    } });</field>
-	/// <field name="onBeforeSetContent" type="tinymce.util.Dispatcher">Fires before new contents is added to the editor. Using for example setContent. Editor instance.// Adds an observer to the onBeforeSetContent event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onBeforeSetContent.add(function(ed, o) {            // Replaces all a characters with b characters            o.content = o.content.replace(/a/g, 'b');       });    } });</field>
-	/// <field name="onBeforeGetContent" type="tinymce.util.Dispatcher">Fires before contents is extracted from the editor using for example getContent. Editor instance.W3C DOM Event instance.// Adds an observer to the onBeforeGetContent event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onBeforeGetContent.add(function(ed, o) {            console.debug('Before get content.');       });    } });</field>
-	/// <field name="onSetContent" type="tinymce.util.Dispatcher">Fires after the contents has been added to the editor using for example onSetContent. Editor instance.// Adds an observer to the onSetContent event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onSetContent.add(function(ed, o) {            // Replaces all a characters with b characters            o.content = o.content.replace(/a/g, 'b');       });    } });</field>
-	/// <field name="onGetContent" type="tinymce.util.Dispatcher">Fires after the contents has been extracted from the editor using for example getContent. Editor instance.// Adds an observer to the onGetContent event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onGetContent.add(function(ed, o) {           // Replace all a characters with b           o.content = o.content.replace(/a/g, 'b');       });    } });</field>
-	/// <field name="onLoadContent" type="tinymce.util.Dispatcher">Fires when the editor gets loaded with contents for example when the load method is executed. Editor instance.// Adds an observer to the onLoadContent event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onLoadContent.add(function(ed, o) {           // Output the element name           console.debug(o.element.nodeName);       });    } });</field>
-	/// <field name="onSaveContent" type="tinymce.util.Dispatcher">Fires when the editor contents gets saved for example when the save method is executed. Editor instance.// Adds an observer to the onSaveContent event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onSaveContent.add(function(ed, o) {           // Output the element name           console.debug(o.element.nodeName);       });    } });</field>
-	/// <field name="onNodeChange" type="tinymce.util.Dispatcher">Fires when the user changes node location using the mouse or keyboard. Editor instance.// Adds an observer to the onNodeChange event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onNodeChange.add(function(ed, cm, e) {           // Activates the link button when the caret is placed in a anchor element           if (e.nodeName == 'A')              cm.setActive('link', true);       });    } });</field>
-	/// <field name="onChange" type="tinymce.util.Dispatcher">Fires when a new undo level is added to the editor. Editor instance.// Adds an observer to the onChange event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) { 	  ed.onChange.add(function(ed, l) { 		  console.debug('Editor contents was modified. Contents: ' + l.content); 	  });    } });</field>
-	/// <field name="onBeforeExecCommand" type="tinymce.util.Dispatcher">Fires before a command gets executed for example "Bold". Editor instance.// Adds an observer to the onBeforeExecCommand event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onBeforeExecCommand.add(function(ed, cmd, ui, val) {           console.debug('Command is to be executed: ' + cmd);       });    } });</field>
-	/// <field name="onExecCommand" type="tinymce.util.Dispatcher">Fires after a command is executed for example "Bold". Editor instance.// Adds an observer to the onExecCommand event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onExecCommand.add(function(ed, cmd, ui, val) {           console.debug('Command was executed: ' + cmd);       });    } });</field>
-	/// <field name="onUndo" type="tinymce.util.Dispatcher">Fires when the contents is undo:ed. Editor instance.{Object} level Undo level object. @ example // Adds an observer to the onUndo event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onUndo.add(function(ed, level) {           console.debug('Undo was performed: ' + level.content);       });    } });</field>
-	/// <field name="onRedo" type="tinymce.util.Dispatcher">Fires when the contents is redo:ed. Editor instance.Undo level object.// Adds an observer to the onRedo event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onRedo.add(function(ed, level) {           console.debug('Redo was performed: ' +level.content);       });    } });</field>
-	/// <field name="onVisualAid" type="tinymce.util.Dispatcher">Fires when visual aids is enabled/disabled. Editor instance.// Adds an observer to the onVisualAid event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onVisualAid.add(function(ed, e, s) {           console.debug('onVisualAid event: ' + ed.id + ", State: " + s);       });    } });</field>
-	/// <field name="onSetProgressState" type="tinymce.util.Dispatcher">Fires when the progress throbber is shown above the editor. Editor instance.// Adds an observer to the onSetProgressState event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onSetProgressState.add(function(ed, b) {            if (b)                 console.debug('SHOW!');            else                 console.debug('HIDE!');       });    } });</field>
-	/// <field name="onSetAttrib" type="tinymce.util.Dispatcher">Fires after an attribute is set using setAttrib. Editor instance.// Adds an observer to the onSetAttrib event using tinyMCE.init tinyMCE.init({    ...    setup : function(ed) {       ed.onSetAttrib.add(function(ed, node, attribute, attributeValue) {            console.log('onSetAttrib tag');       });    } });</field>
 }
 
 tinymce.Editor.prototype.render = function() {
@@ -261,17 +225,13 @@ tinymce.Editor.prototype.init = function() {
 	/// <summary>Initializes the editor this will be called automatically when all plugins/themes and language packs are loaded by the re...</summary>
 }
 
-tinymce.Editor.prototype.setupIframe = function() {
+tinymce.Editor.prototype.initContentBody = function() {
 	/// <summary>This method get called by the init method ones the iframe is loaded.</summary>
 }
 
-tinymce.Editor.prototype.setupContentEditable = function() {
-	/// <summary>Sets up the contentEditable mode.</summary>
-}
-
-tinymce.Editor.prototype.focus = function(sf) {
+tinymce.Editor.prototype.focus = function(skip_focus) {
 	/// <summary>Focuses/activates the editor.</summary>
-	/// <param name="sf" type="Boolean">Skip DOM focus. Just set is as the active editor.</param>
+	/// <param name="skip_focus" type="Boolean">Skip DOM focus. Just set is as the active editor.</param>
 }
 
 tinymce.Editor.prototype.execCallback = function(n) {
@@ -305,10 +265,10 @@ tinymce.Editor.prototype.nodeChanged = function(o) {
 	/// <param name="o" type="Object">Optional object to pass along for the node changed event.</param>
 }
 
-tinymce.Editor.prototype.addButton = function(n, s) {
+tinymce.Editor.prototype.addButton = function(name, settings) {
 	/// <summary>Adds a button that later gets created by the ControlManager.</summary>
-	/// <param name="n" type="String">Button name to add.</param>
-	/// <param name="s" type="Object">Settings object with title, cmd etc.</param>
+	/// <param name="name" type="String">Button name to add.</param>
+	/// <param name="settings" type="Object">Settings object with title, cmd etc.</param>
 }
 
 tinymce.Editor.prototype.addCommand = function(name, callback, scope) {
@@ -443,17 +403,17 @@ tinymce.Editor.prototype.getBody = function() {
 	/// <returns type="Element" domElement="true">Iframe body element.</returns>
 }
 
-tinymce.Editor.prototype.convertURL = function(u, n, Tag) {
+tinymce.Editor.prototype.convertURL = function(url, name, elm) {
 	/// <summary>URL converter function this gets executed each time a user adds an img, a or any other element that has a URL in it.</summary>
-	/// <param name="u" type="string">URL to convert.</param>
-	/// <param name="n" type="string">Attribute name src, href etc.</param>
-	/// <param name="Tag" type="">name or HTML DOM element depending on HTML or DOM insert.</param>
+	/// <param name="url" type="string">URL to convert.</param>
+	/// <param name="name" type="string">Attribute name src, href etc.</param>
+	/// <param name="elm" type="">Tag name or HTML DOM element depending on HTML or DOM insert.</param>
 	/// <returns type="string">Converted URL string.</returns>
 }
 
-tinymce.Editor.prototype.addVisual = function(e) {
+tinymce.Editor.prototype.addVisual = function(elm) {
 	/// <summary>Adds visual aid for tables, anchors etc so they can be more easily edited inside the editor.</summary>
-	/// <param name="e" type="Element" domElement="true">Optional root element to loop though to find tables etc that needs the visual aid.</param>
+	/// <param name="elm" type="Element" domElement="true">Optional root element to loop though to find tables etc that needs the visual aid.</param>
 }
 
 tinymce.Editor.prototype.remove = function() {
@@ -562,8 +522,16 @@ tinymce.Formatter.prototype.canApply = function(name) {
 	/// <returns type="boolean">true/false if the specified format can be applied to the current selection/node.</returns>
 }
 
+tinymce.Formatter.prototype.formatChanged = function(formats, callback, similar) {
+	/// <summary>Executes the specified callback when the current selection matches the formats or not.</summary>
+	/// <param name="formats" type="String">Comma separated list of formats to check for.</param>
+	/// <param name="callback" type="function">Callback with state and args when the format is changed/toggled on/off.</param>
+	/// <param name="similar" type="Boolean">True/false state if the match should handle similar or exact formats.</param>
+}
+
 tinymce.UndoManager = function() {
 	/// <summary>This class handles the undo/redo history levels for the editor.</summary>
+	/// <field name="onBeforeAdd" type="tinymce.util.Dispatcher">This event will fire before a new undo level is added to the undo manager UndoManager instance that is going to add the new levelThe new level object containing a bookmark and contents</field>
 	/// <field name="onAdd" type="tinymce.util.Dispatcher">This event will fire each time a new undo level is added to the undo manager. UndoManager instance that got the new level.The new level object containing a bookmark and contents.</field>
 	/// <field name="onUndo" type="tinymce.util.Dispatcher">This event will fire when the user make an undo of a change. UndoManager instance that got the new level.The old level object containing a bookmark and contents.</field>
 	/// <field name="onRedo" type="tinymce.util.Dispatcher">This event will fire when the user make an redo of a change. UndoManager instance that got the new level.The old level object containing a bookmark and contents.</field>
@@ -643,6 +611,12 @@ tinymce.dom.DOMUtils = function(d, s) {
 	/// <summary>Utility class for various DOM manipulation and retrival functions.</summary>
 	/// <param name="d" type="Document">Document reference to bind the utility class to.</param>
 	/// <param name="s" type="settings">Optional settings collection.</param>
+}
+
+tinymce.dom.DOMUtils.prototype.isBlock = function(node) {
+	/// <summary>Returns true/false if the specified element is a block element or not.</summary>
+	/// <param name="node" type="">Element/Node to check.</param>
+	/// <returns type="Boolean">True/False state if the node is a block element or not.</returns>
 }
 
 tinymce.dom.DOMUtils.prototype.getRoot = function() {
@@ -812,6 +786,11 @@ tinymce.dom.DOMUtils.prototype.serializeStyle = function(o, name) {
 	/// <returns type="String">String representation of the style object for example: border: 1px solid red.</returns>
 }
 
+tinymce.dom.DOMUtils.prototype.addStyle = function(cssText) {
+	/// <summary>Adds a style element at the top of the document with the specified cssText content.</summary>
+	/// <param name="cssText" type="String">CSS Text style to add to top of head of document.</param>
+}
+
 tinymce.dom.DOMUtils.prototype.loadCSS = function(u) {
 	/// <summary>Imports/loads the specified CSS file into the document bound to the class.</summary>
 	/// <param name="u" type="String">URL to CSS file to load.</param>
@@ -896,12 +875,6 @@ tinymce.dom.DOMUtils.prototype.insertAfter = function(node, reference_node) {
 	/// <param name="node" type="Element" domElement="true">Element to insert after the reference.</param>
 	/// <param name="reference_node" type="">Reference element, element id or array of elements to insert after.</param>
 	/// <returns type="">Element that got added or an array with elements.</returns>
-}
-
-tinymce.dom.DOMUtils.prototype.isBlock = function(node) {
-	/// <summary>Returns true/false if the specified element is a block element or not.</summary>
-	/// <param name="node" type="">Element/Node to check.</param>
-	/// <returns type="Boolean">True/False state if the node is a block element or not.</returns>
 }
 
 tinymce.dom.DOMUtils.prototype.replace = function(n, o, k) {
@@ -990,6 +963,14 @@ tinymce.dom.DOMUtils.prototype.unbind = function(o, n, f) {
 	/// <returns type="">Bool state if true if the handler was removed or an array with states if multiple elements where passed in.</returns>
 }
 
+tinymce.dom.DOMUtils.prototype.fire = function(target, name, evt) {
+	/// <summary>Fires the specified event name with object on target.</summary>
+	/// <param name="target" type="">Target element or object to fire event on.</param>
+	/// <param name="name" type="String">Name of the event to fire.</param>
+	/// <param name="evt" type="Object">Event object to send.</param>
+	/// <returns type="Event">Event object.</returns>
+}
+
 tinymce.dom.Element = function(id, settings) {
 	/// <summary>Element class, this enables element blocking in IE.</summary>
 	/// <param name="id" type="String">Element ID to bind/execute methods on.</param>
@@ -1041,54 +1022,6 @@ tinymce.dom.Element.prototype.resizeBy = function(w, h) {
 tinymce.dom.Element.prototype.update = function(k) {
 	/// <summary>Updates the element blocker in IE6 based on the style information of the element.</summary>
 	/// <param name="k" type="String">Optional function key. Used internally.</param>
-}
-
-tinymce.dom.EventUtils = function() {
-	/// <summary>This class handles DOM events in a cross platform fasion it also keeps track of element and handler references to be abl...</summary>
-}
-
-tinymce.dom.EventUtils.prototype.add = function(o, n, f, s) {
-	/// <summary>Adds an event handler to the specified object.</summary>
-	/// <param name="o" type="">Object or element id string to add event handler to or an array of elements/ids/documents.</param>
-	/// <param name="n" type="">Name of event handler to add for example: click.</param>
-	/// <param name="f" type="function">Function to execute when the event occurs.</param>
-	/// <param name="s" type="Object">Optional scope to execute the function in.</param>
-	/// <returns type="function">Function callback handler the same as the one passed in.</returns>
-}
-
-tinymce.dom.EventUtils.prototype.remove = function(o, n, f) {
-	/// <summary>Removes the specified event handler by name and function from a element or collection of elements.</summary>
-	/// <param name="o" type="">Element ID string or HTML element or an array of elements or ids to remove handler from.</param>
-	/// <param name="n" type="String">Event handler name like for example: "click"</param>
-	/// <param name="f" type="function">Function to remove.</param>
-	/// <returns type="">Bool state if true if the handler was removed or an array with states if multiple elements where passed in.</returns>
-}
-
-tinymce.dom.EventUtils.prototype.clear = function(o) {
-	/// <summary>Clears all events of a specific object.</summary>
-	/// <param name="o" type="Object">DOM element or object to remove all events from.</param>
-}
-
-tinymce.dom.EventUtils.prototype.cancel = function(e) {
-	/// <summary>Cancels an event for both bubbeling and the default browser behavior.</summary>
-	/// <param name="e" type="Event">Event object to cancel.</param>
-	/// <returns type="Boolean">Always false.</returns>
-}
-
-tinymce.dom.EventUtils.prototype.stop = function(e) {
-	/// <summary>Stops propogation/bubbeling of an event.</summary>
-	/// <param name="e" type="Event">Event to cancel bubbeling on.</param>
-	/// <returns type="Boolean">Always false.</returns>
-}
-
-tinymce.dom.EventUtils.prototype.prevent = function(e) {
-	/// <summary>Prevent default browser behvaior of an event.</summary>
-	/// <param name="e" type="Event">Event to prevent default browser behvaior of an event.</param>
-	/// <returns type="Boolean">Always false.</returns>
-}
-
-tinymce.dom.EventUtils.prototype.destroy = function() {
-	/// <summary>Destroys the instance.</summary>
 }
 
 tinymce.dom.ScriptLoader = function() {
@@ -1221,6 +1154,12 @@ tinymce.dom.Selection.prototype.setNode = function(n) {
 tinymce.dom.Selection.prototype.getNode = function() {
 	/// <summary>Returns the currently selected element or the common ancestor element for both start and end of the selection.</summary>
 	/// <returns type="Element" domElement="true">Currently selected element or common ancestor element.</returns>
+}
+
+tinymce.dom.Selection.prototype.selectorChanged = function(selector, callback) {
+	/// <summary>Executes callback of the current selection matches the specified selector or not and passes the state and args to the ca...</summary>
+	/// <param name="selector" type="String">CSS selector to check for.</param>
+	/// <param name="callback" type="function">Callback with state and args when the selector is matches or not.</param>
 }
 
 tinymce.dom.Serializer = function(settings, dom, schema) {
@@ -1419,8 +1358,13 @@ tinymce.html.Schema.prototype.getBoolAttrs = function() {
 	/// <returns type="Object">Name/value lookup map for boolean attributes.</returns>
 }
 
-tinymce.html.Schema.prototype.getBoolAttrs = function() {
+tinymce.html.Schema.prototype.getBlockElements = function() {
 	/// <summary>Returns a map with block elements.</summary>
+	/// <returns type="Object">Name/value lookup map for block elements.</returns>
+}
+
+tinymce.html.Schema.prototype.getTextBlockElements = function() {
+	/// <summary>Returns a map with text block elements.</summary>
 	/// <returns type="Object">Name/value lookup map for block elements.</returns>
 }
 
@@ -1449,6 +1393,13 @@ tinymce.html.Schema.prototype.isValidChild = function(name, child) {
 	/// <param name="name" type="String">Element name to check for.</param>
 	/// <param name="child" type="String">Element child to verify.</param>
 	/// <returns type="Boolean">True/false if the element is a valid child of the specified parent.</returns>
+}
+
+tinymce.html.Schema.prototype.isValid = function(name, attr) {
+	/// <summary>Returns true/false if the specified element name and optional attribute is valid according to the schema.</summary>
+	/// <param name="name" type="String">Name of element to check.</param>
+	/// <param name="attr" type="String">Optional attribute name to check for.</param>
+	/// <returns type="Boolean">True/false if the element and attribute is valid.</returns>
 }
 
 tinymce.html.Schema.prototype.getElementRule = function(name) {
@@ -2622,34 +2573,35 @@ tinymce.util.Cookie.set = function(n, v, e, p, d, s) {
 	/// <param name="s" type="String">Is the cookie secure or not.</param>
 }
 
-tinymce.util.Cookie.remove = function(n, p) {
+tinymce.util.Cookie.remove = function(name, path, domain) {
 	/// <summary>Removes/deletes a cookie by name.</summary>
-	/// <param name="n" type="String">Cookie name to remove/delete.</param>
-	/// <param name="p" type="Strong">Optional path to remove the cookie from.</param>
+	/// <param name="name" type="String">Cookie name to remove/delete.</param>
+	/// <param name="path" type="Strong">Optional path to remove the cookie from.</param>
+	/// <param name="domain" type="Strong">Optional domain to restrict the cookie to.</param>
 }
 
-tinymce.util.Dispatcher = function(s) {
+tinymce.util.Dispatcher = function(scope) {
 	/// <summary>This class is used to dispatch event to observers/listeners.</summary>
-	/// <param name="s" type="Object">Optional default execution scope for all observer functions.</param>
+	/// <param name="scope" type="Object">Optional default execution scope for all observer functions.</param>
 }
 
-tinymce.util.Dispatcher.prototype.add = function(cb, s) {
+tinymce.util.Dispatcher.prototype.add = function(callback, s) {
 	/// <summary>Add an observer function to be executed when a dispatch call is done.</summary>
-	/// <param name="cb" type="function">Callback function to execute when a dispatch event occurs.</param>
+	/// <param name="callback" type="function">Callback function to execute when a dispatch event occurs.</param>
 	/// <param name="s" type="Object">Optional execution scope, defaults to the one specified in the class constructor.</param>
 	/// <returns type="function">Returns the same function as the one passed on.</returns>
 }
 
-tinymce.util.Dispatcher.prototype.addToTop = function(cb, s) {
+tinymce.util.Dispatcher.prototype.addToTop = function(callback, scope) {
 	/// <summary>Add an observer function to be executed to the top of the list of observers.</summary>
-	/// <param name="cb" type="function">Callback function to execute when a dispatch event occurs.</param>
-	/// <param name="s" type="Object">Optional execution scope, defaults to the one specified in the class constructor.</param>
+	/// <param name="callback" type="function">Callback function to execute when a dispatch event occurs.</param>
+	/// <param name="scope" type="Object">Optional execution scope, defaults to the one specified in the class constructor.</param>
 	/// <returns type="function">Returns the same function as the one passed on.</returns>
 }
 
-tinymce.util.Dispatcher.prototype.remove = function(cb) {
+tinymce.util.Dispatcher.prototype.remove = function(callback) {
 	/// <summary>Removes an observer function.</summary>
-	/// <param name="cb" type="function">Observer function to remove.</param>
+	/// <param name="callback" type="function">Observer function to remove.</param>
 	/// <returns type="function">The same function that got passed in or null if it wasn't found.</returns>
 }
 
@@ -2983,6 +2935,12 @@ tinymce.is = function(o, t) {
 	/// <returns type="Boolean">true/false if the object is of the specified type.</returns>
 }
 
+tinymce.isArray = function(obj) {
+	/// <summary>Returns true/false if the object is an array or not.</summary>
+	/// <param name="obj" type="Object">Object to check.</param>
+	/// <returns type="boolean">true/false state if the object is an array or not.</returns>
+}
+
 tinymce.makeMap = function(items, delim, map) {
 	/// <summary>Makes a name/object map out of an array with names.</summary>
 	/// <param name="items" type="">Items to make map out of.</param>
@@ -3019,10 +2977,10 @@ tinymce.inArray = function(a, v) {
 	/// <returns type="">Index of item inside the array inside an object. Or -1 if it wasn't found.</returns>
 }
 
-tinymce.extend = function(o, en) {
+tinymce.extend = function(obj, extn) {
 	/// <summary>Extends an object with the specified other object(s).</summary>
-	/// <param name="o" type="Object">Object to extend with new items.</param>
-	/// <param name="en" type="Object">Object(s) to extend the specified object with.</param>
+	/// <param name="obj" type="Object">Object to extend with new items.</param>
+	/// <param name="extn" type="Object">Object(s) to extend the specified object with.</param>
 	/// <returns type="Object">o New extended object, same reference as the input object.</returns>
 }
 
@@ -3080,5 +3038,4 @@ tinymce.explode = function(s, d) {
 	/// <param name="d" type="string">Delimiter to split by.</param>
 }
 
-tinymce.dom.Event = new tinymce.dom.EventUtils();
 tinyMCE = tinymce;

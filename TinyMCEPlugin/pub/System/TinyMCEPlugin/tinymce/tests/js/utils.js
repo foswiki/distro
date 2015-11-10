@@ -141,52 +141,7 @@ function type(chr) {
 	var editor = tinymce.activeEditor, keyCode, charCode, event = tinymce.dom.Event, evt, startElm;
 
 	function fakeEvent(target, type, evt) {
-		var event, preventDefault;
-
-		evt = evt || {};
-		evt.type = type;
-
-		if (target.fireEvent) {
-			var event = document.createEventObject();
-			tinymce.extend(event, evt);
-			target.fireEvent('on' + type, event);
-			return;
-		}
-
-		if (document.createEvent) {
-			try {
-				// Fails in Safari
-				event = document.createEvent('KeyEvents');
-				event.initKeyEvent(type, true, true, window, false, false, false, false, evt.keyCode, evt.charCode);
-				event.preventDefault();
-			} catch (ex) {
-				event = document.createEvent('Events');
-				event.initEvent(type, true, true);
-				event.keyCode = evt.keyCode;
-				event.charCode = evt.charCode;
-			}
-		} else {
-			event = document.createEvent('UIEvents');
-
-			if (event.initUIEvent)
-				event.initUIEvent(type, true, true, window, 1);
-
-			event.keyCode = evt.keyCode;
-			event.charCode = evt.charCode;
-		}
-
-		preventDefault = event.preventDefault;
-		event.preventDefault = function() {
-			if (preventDefault) {
-				preventDefault.call(this);
-			} else {
-				this.returnValue = false; // IE
-			}
-
-			evt.prevented = true;
-		};
-
-		target.dispatchEvent(event);
+		editor.dom.fire(target, type, evt);
 	};
 
 	// Numeric keyCode
@@ -214,7 +169,7 @@ function type(chr) {
 	fakeEvent(startElm, 'keydown', evt);
 	fakeEvent(startElm, 'keypress', evt);
 
-	if (!evt.prevented) {
+	if (!evt.isDefaultPrevented()) {
 		if (keyCode == 8) {
 			if (editor.getDoc().selection) {
 				var rng = editor.getDoc().selection.createRange();
@@ -222,6 +177,20 @@ function type(chr) {
 				rng.select();
 				rng.execCommand('Delete', false, null);
 			} else {
+				var rng = editor.selection.getRng();
+
+				if (rng.startContainer.nodeType == 1 && rng.collapsed) {
+					var nodes = rng.startContainer.childNodes, lastNode = nodes[nodes.length - 1];
+
+					// If caret is at <p>abc|</p> and after the abc text node then move it to the end of the text node
+					// Expand the range to include the last char <p>ab[c]</p> since IE 11 doesn't delete otherwise
+					if (rng.startOffset >= nodes.length - 1 && lastNode && lastNode.nodeType == 3 && lastNode.data.length > 0) {
+						rng.setStart(lastNode, lastNode.data.length - 1);
+						rng.setEnd(lastNode, lastNode.data.length);
+						editor.selection.setRng(rng);
+					}
+				}
+
 				editor.getDoc().execCommand('Delete', false, null);
 			}
 		} else if (typeof(chr) == 'string') {
@@ -229,6 +198,9 @@ function type(chr) {
 
 			if (rng.startContainer.nodeType == 3 && rng.collapsed) {
 				rng.startContainer.insertData(rng.startOffset, chr);
+				rng.setStart(rng.startContainer, rng.startOffset + 1);
+				rng.collapse(true);
+				editor.selection.setRng(rng);
 			} else {
 				rng.insertNode(editor.getDoc().createTextNode(chr));
 			}
@@ -239,8 +211,9 @@ function type(chr) {
 }
 
 function cleanHtml(html) {
-	html = html.toLowerCase().replace(/[\r\n]+/g, '');
-	html = html.replace(/ (sizcache|nodeindex|sizset)="[^"]*"/g, '');
+	html = html.toLowerCase().replace(/[\r\n]+/gi, '');
+	html = html.replace(/ (sizcache[0-9]+|sizcache|nodeindex|sizset[0-9]+|sizset|data\-mce\-expando|data\-mce\-selected)="[^"]*"/gi, '');
+	html = html.replace(/<span[^>]+data-mce-bogus[^>]+>[\u200B\uFEFF]+<\/span>|<div[^>]+data-mce-bogus[^>]+><\/div>/gi, '');
 
 	return html;
 }

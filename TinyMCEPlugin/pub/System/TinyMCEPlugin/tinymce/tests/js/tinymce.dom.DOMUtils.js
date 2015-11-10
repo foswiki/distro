@@ -1,5 +1,5 @@
 (function() {
-	var DOM = new tinymce.dom.DOMUtils(document, {keep_values : true});
+	var DOM = new tinymce.dom.DOMUtils(document, {keep_values : true, schema : new tinymce.html.Schema()});
 
 	test('parseStyle', 11, function() {
 		var dom;
@@ -228,13 +228,16 @@
 		DOM.remove('test');
 	});
 
-	test('is', 3, function() {
+	test('is', 5, function() {
 		DOM.add(document.body, 'div', {id : 'test'});
 		DOM.setHTML('test', '<div id="textX" class="test">test 1</div>');
 
 		ok(DOM.is(DOM.get('textX'), 'div'));
 		ok(DOM.is(DOM.get('textX'), 'div#textX.test'));
 		ok(!DOM.is(DOM.get('textX'), 'div#textX2'));
+
+		ok(DOM.is(DOM.get('textX'), '*'));
+		ok(!DOM.is(DOM.get('textX').childNodes[0], '*'));
 
 		DOM.remove('test');
 	});
@@ -639,6 +642,16 @@
 		ok(!DOM.isEmpty(DOM.get('test')), 'Element with comment.');
 
 		DOM.remove('test');
+	});
+
+	test('isEmpty on P with BR in EM', function() {
+		var elm = DOM.create('p', null, '<em><br></em>');
+		ok(DOM.isEmpty(elm, 'No children'));
+	});
+	
+	test('isEmpty on P with two BR in EM', function() {
+		var elm = DOM.create('p', null, '<em><br><br></em>');
+		equal(false, DOM.isEmpty(elm));
 	});
 
 	DOM.remove('test');
