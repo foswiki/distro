@@ -7,10 +7,20 @@ package Foswiki::Plugins::TablePlugin;
 
 use strict;
 use warnings;
+use Foswiki::Request ();
 
-# Simple decimal version, no leading "v"
-our $VERSION = '1.142';
-our $RELEASE = '1.142';
+BEGIN {
+    # Backwards compatibility for Foswiki 1.1.x
+    unless ( Foswiki::Request->can('multi_param') ) {
+        no warnings 'redefine';
+        *Foswiki::Request::multi_param = \&Foswiki::Request::param;
+        use warnings 'redefine';
+    }
+}
+
+# Simple decimal version, use parse method, no leading "v"
+our $VERSION = '1.151';
+our $RELEASE = '10 Sep 2015';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -59,8 +69,8 @@ sub preRenderingHandler {
     my $sort = Foswiki::Func::getPreferencesValue('TABLEPLUGIN_SORT')
       || 'all';
     return
-      unless ( $sort && $sort =~ /^(all|attachments)$/ )
-      || $_[0] =~ /%TABLE{.*?}%/;
+      unless ( $sort && $sort =~ m/^(all|attachments)$/ )
+      || $_[0] =~ m/%TABLE\{.*?\}%/;
 
     _readPluginSettings() if !%pluginAttributes;
 
@@ -188,7 +198,7 @@ sub _writeStyleToHead {
 $styleText
 </style>
 EOS
-    Foswiki::Func::addToHEAD( "TABLEPLUGIN_${web}_${topic}", $header );
+    Foswiki::Func::addToZone( "head", "TABLEPLUGIN_${web}_${topic}", $header );
 }
 
 =pod

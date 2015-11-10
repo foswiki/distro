@@ -10,6 +10,13 @@ use Foswiki::Plugins::TablePlugin ();
 use Foswiki::Time;
 use Error qw(:try);
 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
+
 my @curTable;
 my $translationToken;
 my $insideTABLE;
@@ -40,57 +47,18 @@ my $HEAD_ID_SPECIFIC_STYLE =
   'TABLEPLUGIN_specific';    # this name is part of the API, do not change
 
 my $PATTERN_TABLE = qr/%TABLE(?:{(.*?)})?%/;
-my $URL_ICON =
-    Foswiki::Func::getPubUrlPath() . '/'
-  . $Foswiki::cfg{SystemWebName}
-  . '/DocumentGraphics/';
-my $GIF_TABLE_SORT_ASCENDING = CGI::img(
-    {
-        src    => $URL_ICON . 'tablesortup.gif',
-        border => 0,
-        width  => 11,
-        height => 13,
-        alt    => 'Sorted ascending',
-        title  => 'Sorted ascending'
-    }
-);
+my $URL_ICON;
+my $GIF_TABLE_SORT_ASCENDING;
+my $GIF_TABLE_SORT_DESCENDING;
+my $GIF_TABLE_SORT_BOTH;
+my $CHAR_SORT_ASCENDING;
+my $CHAR_SORT_DESCENDING;
+my $CHAR_SORT_BOTH;
 
-my $GIF_TABLE_SORT_DESCENDING = CGI::img(
-    {
-        src    => $URL_ICON . 'tablesortdown.gif',
-        border => 0,
-        width  => 11,
-        height => 13,
-        alt    => 'Sorted descending',
-        title  => 'Sorted descending'
-    }
-);
+my $SORT_DIRECTION;
 
-my $GIF_TABLE_SORT_BOTH = CGI::img(
-    {
-        src    => $URL_ICON . 'tablesortdiamond.gif',
-        border => 0,
-        width  => 11,
-        height => 13,
-        alt    => 'Sort',
-        title  => 'Sort'
-    }
-);
-my $CHAR_SORT_ASCENDING = CGI::span( { class => 'tableSortIcon tableSortUp' },
-    $GIF_TABLE_SORT_ASCENDING );
-my $CHAR_SORT_DESCENDING =
-  CGI::span( { class => 'tableSortIcon tableSortDown' },
-    $GIF_TABLE_SORT_DESCENDING );
-my $CHAR_SORT_BOTH =
-  CGI::span( { class => 'tableSortIcon tableSortUp' }, $GIF_TABLE_SORT_BOTH );
-
-my $SORT_DIRECTION = {
-    'ASCENDING'  => 0,
-    'DESCENDING' => 1,
-    'NONE'       => 2,
-};
-
-my $PATTERN_ATTRIBUTE_SIZE = qr'([0-9]+)(px|%)*'o;
+my $PATTERN_ATTRIBUTE_SIZE =
+  qr'([0-9]+)(ch|cm|em|ex|in|mm|pc|pt|px|rem|vh|vmax|vmin|vw|%)?'o;
 
 my $TABLE_RULES = {};
 $TABLE_RULES->{all}->{TD}        = $TABLE_RULES->{all}->{TH} =
@@ -131,6 +99,55 @@ sub _init {
     $combinedTableAttrs   = {};
     $tableSpecificAttrs   = {};
     $styles               = {};
+    $URL_ICON =
+        Foswiki::Func::getPubUrlPath() . '/'
+      . $Foswiki::cfg{SystemWebName}
+      . '/DocumentGraphics/';
+    $GIF_TABLE_SORT_ASCENDING = CGI::img(
+        {
+            src    => $URL_ICON . 'tablesortup.gif',
+            border => 0,
+            width  => 11,
+            height => 13,
+            alt    => 'Sorted ascending',
+            title  => 'Sorted ascending'
+        }
+    );
+
+    $GIF_TABLE_SORT_DESCENDING = CGI::img(
+        {
+            src    => $URL_ICON . 'tablesortdown.gif',
+            border => 0,
+            width  => 11,
+            height => 13,
+            alt    => 'Sorted descending',
+            title  => 'Sorted descending'
+        }
+    );
+
+    $GIF_TABLE_SORT_BOTH = CGI::img(
+        {
+            src    => $URL_ICON . 'tablesortdiamond.gif',
+            border => 0,
+            width  => 11,
+            height => 13,
+            alt    => 'Sort',
+            title  => 'Sort'
+        }
+    );
+    $CHAR_SORT_ASCENDING = CGI::span( { class => 'tableSortIcon tableSortUp' },
+        $GIF_TABLE_SORT_ASCENDING );
+    $CHAR_SORT_DESCENDING =
+      CGI::span( { class => 'tableSortIcon tableSortDown' },
+        $GIF_TABLE_SORT_DESCENDING );
+    $CHAR_SORT_BOTH = CGI::span( { class => 'tableSortIcon tableSortUp' },
+        $GIF_TABLE_SORT_BOTH );
+
+    $SORT_DIRECTION = {
+        'ASCENDING'  => 0,
+        'DESCENDING' => 1,
+        'NONE'       => 2,
+    };
 }
 
 # called one time
@@ -155,7 +172,7 @@ sub _addDefaultStyles {
 
     # create CSS styles tables in general
     my ( $id, @styles ) = _createCssStyles( 1, $defaultAttrs );
-    _addHeadStyles( $HEAD_ID_DEFAULT_STYLE, @styles ) if scalar @styles;
+    _addHeadStyles( $HEAD_ID_DEFAULT_STYLE, @styles ) if scalar(@styles);
 }
 
 sub _resetReusedVariables {
@@ -219,7 +236,7 @@ sub _parseTableSpecificTableAttributes {
     my ( $id, @styles ) = _createCssStyles( 0, $tableSpecificAttrs );
     _debugData( "after _createCssStyles, id=$id; styles", \@styles );
 
-    _addHeadStyles( $id, @styles ) if scalar @styles;
+    _addHeadStyles( $id, @styles ) if scalar(@styles);
 
     return $currTablePre . '<nop>';
 }
@@ -348,7 +365,7 @@ sub _parseAttributes {
             push( @tableRulesList, $param );
         }
     }
-    $inCollection->{tableRules} = \@tableRulesList if scalar @tableRulesList;
+    $inCollection->{tableRules} = \@tableRulesList if scalar(@tableRulesList);
 
     # use 'rules' as table attribute only (not to define css styles)
     # but set to
@@ -373,7 +390,7 @@ sub _parseAttributes {
     _storeAttribute( 'columnWidthsListRef',
         _arrayRefFromParam( $inParams->{columnwidths} ),
         $inCollection );
-    _storeAttribute( 'vAlign', $inParams->{valign} || 'top', $inCollection );
+    _storeAttribute( 'vAlign',       $inParams->{valign},       $inCollection );
     _storeAttribute( 'dataVAlign',   $inParams->{datavalign},   $inCollection );
     _storeAttribute( 'headerVAlign', $inParams->{headervalign}, $inCollection );
     _storeAttribute( 'headerBgSorted',
@@ -594,6 +611,19 @@ sub _processTableRow {
         my $attr = {};
         $span = 1;
 
+        # Item13309: adjust for ERP empty column
+        if (  !$tableSpecificAttrs->{sort_adjusted}
+            && $colCount == 0
+            && /erpJS_willDiscard/ )
+        {
+            if ( $combinedTableAttrs->{initSort} ) {
+                $combinedTableAttrs->{initSort}++;
+                $sortCol++;
+            }
+
+            $tableSpecificAttrs->{sort_adjusted} = 1;
+        }
+
         #AS 25-5-01 Fix to avoid matching also single columns
         if (s/colspan$translationToken([0-9]+)//) {
             $span = $1;
@@ -607,10 +637,10 @@ sub _processTableRow {
         }
         if ( $l1 >= 2 ) {
             if ( $l2 <= 1 ) {
-                $attr->{align} = 'right';
+                $attr->{style} = 'text-align:right';
             }
             else {
-                $attr->{align} = 'center';
+                $attr->{style} = 'text-align:center';
             }
         }
         if ( $span <= 2 ) {
@@ -675,8 +705,11 @@ sub _processTableRow {
                       _appendSortedDescendingCssClass( $attr->{class} );
                 }
             }
-
             my $type = '';
+
+            # Fixup for EditRowPlugin - add ** if erpJS_sort
+            s/(.*)/*$1*/ if /erpJS_sort \{headrows: \d/;
+
             if (/^\s*\*(.*)\*\s*$/) {
                 $value = $1;
                 $type  = 'th';
@@ -690,7 +723,7 @@ sub _processTableRow {
                     if (@headerAlign) {
                         my $align =
                           @headerAlign[ $colCount % ( $#headerAlign + 1 ) ];
-                        $attr->{align} = $align;
+                        $attr->{style} = "text-align:$align";
                     }
                 }
 
@@ -724,7 +757,7 @@ sub _processTableRow {
                     if (@dataAlign) {
                         my $align =
                           @dataAlign[ $colCount % ( $#dataAlign + 1 ) ];
-                        $attr->{align} = $align;
+                        $attr->{style} = "text-align:$align";
                     }
                 }
 
@@ -1228,7 +1261,7 @@ sub _createCssStyles {
     # headeralign
     if ( defined $inAttrs->{headerAlignListRef} ) {
         my @headerAlign = @{ $inAttrs->{headerAlignListRef} };
-        if ( scalar @headerAlign == 1 ) {
+        if ( scalar(@headerAlign) == 1 ) {
             my $align = $headerAlign[0];
             my $attr  = 'text-align:' . $align;
             &$setAttribute( $tableSelector, 'th', $attr );
@@ -1249,7 +1282,7 @@ sub _createCssStyles {
     # dataAlign
     if ( defined $inAttrs->{dataAlignListRef} ) {
         my @dataAlign = @{ $inAttrs->{dataAlignListRef} };
-        if ( scalar @dataAlign == 1 ) {
+        if ( scalar(@dataAlign) == 1 ) {
             my $align = $dataAlign[0];
             my $attr  = 'text-align:' . $align;
             &$setAttribute( $tableSelector, 'td', $attr );
@@ -1275,10 +1308,10 @@ sub _createCssStyles {
             $selector =~ s/xhover/hover/go;    # remove sorting hack
                  # TODO: optimize by combining identical rules
             if ( $selector eq '#' ) {
-                push @styles, "$tableSelector {$selectors}";
+                push @styles, "body $tableSelector {$selectors}";
             }
             else {
-                push @styles, "$tableSelector $selector {$selectors}";
+                push @styles, "body $tableSelector $selector {$selectors}";
             }
         }
     }
@@ -1289,7 +1322,7 @@ sub _createCssStyles {
 sub _addHeadStyles {
     my ( $inId, @inStyles ) = @_;
 
-    return if !scalar @inStyles;
+    return if !scalar(@inStyles);
 
     $styles->{seendIds}->{$inId} = 1;
     if ( $inId eq $HEAD_ID_DEFAULT_STYLE ) {
@@ -1318,8 +1351,7 @@ sub _writeStyleToHead {
 $styleText
 </style>
 EOS
-    $header =~ s/(.*?)\s*$/$1/;    # remove last newline
-    Foswiki::Func::addToHEAD( $inId, $header, $HEAD_ID_DEFAULT_STYLE );
+    Foswiki::Func::addToZone( "head", $inId, $header, $HEAD_ID_DEFAULT_STYLE );
 }
 
 =pod
@@ -1347,14 +1379,15 @@ sub emitTable {
     _debug('emitTable');
 
     #Validate headerrows/footerrows and modify if out of range
-    if ( $combinedTableAttrs->{headerrows} > scalar @curTable ) {
+    if ( $combinedTableAttrs->{headerrows} > scalar(@curTable) ) {
         $combinedTableAttrs->{headerrows} =
-          scalar @curTable;    # limit header to size of table!
+          scalar(@curTable);    # limit header to size of table!
     }
     if ( $combinedTableAttrs->{headerrows} + $combinedTableAttrs->{footerrows} >
         @curTable )
     {
-        $combinedTableAttrs->{footerrows} = scalar @curTable -
+        $combinedTableAttrs->{footerrows} =
+          scalar(@curTable) -
           $combinedTableAttrs->{headerrows};    # and footer to whatever is left
     }
 
@@ -1801,16 +1834,16 @@ sub emitTable {
         "$singleIndent<thead>"
       . join( "", @headerRowList )
       . "$singleIndent</thead>";
-    $text .= $currTablePre . $thead if scalar @headerRowList;
+    $text .= $currTablePre . $thead if scalar(@headerRowList);
 
     my $tfoot =
         "$singleIndent<tfoot>"
       . join( "", @footerRowList )
       . "$singleIndent</tfoot>";
-    $text .= $currTablePre . $tfoot if scalar @footerRowList;
+    $text .= $currTablePre . $tfoot if scalar(@footerRowList);
 
     my $tbody;
-    if ( scalar @bodyRowList ) {
+    if ( scalar(@bodyRowList) ) {
         $tbody =
             "$singleIndent<tbody>"
           . join( "", @bodyRowList )
@@ -1824,7 +1857,7 @@ sub emitTable {
 "$singleIndent<tbody>$doubleIndent<tr style=\"display:none;\">$tripleIndent<td></td>$doubleIndent</tr>$singleIndent</tbody>\n";
     }
 
-    if ( scalar @messages ) {
+    if ( scalar(@messages) ) {
         $text =
             '<span class="foswikiAlert">'
           . Foswiki::Func::expandCommonVariables( join( "\n", @messages ) )
@@ -1856,13 +1889,15 @@ sub handler {
 
         # Copy existing values
         my ( @origSort, @origTable, @origUp );
-        @origSort  = $cgi->param('sortcol');
-        @origTable = $cgi->param('table');
-        @origUp    = $cgi->param('up');        # NOTE: internal parameter
+        @origSort  = $cgi->multi_param('sortcol');
+        @origTable = $cgi->multi_param('table');
+        @origUp    = $cgi->multi_param('up');        # NOTE: internal parameter
         $cgi->delete( 'sortcol', 'table', 'up' );
         $url = $cgi->url( -absolute => 1, -path => 1 ) . '?';
         my $queryString = $cgi->query_string();
-        $url .= $queryString . ';' if $queryString;
+        if ($queryString) {
+            $url .= $queryString . ';';
+        }
 
         # Restore parameters, so we don't interfere on the remaining execution
         $cgi->param( -name => 'sortcol', -value => \@origSort )  if @origSort;
@@ -1870,7 +1905,7 @@ sub handler {
         $cgi->param( -name => 'up',      -value => \@origUp )    if @origUp;
 
         $sortColFromUrl =
-          $cgi->param('sortcol');              # zero based: 0 is first column
+          $cgi->param('sortcol');    # zero based: 0 is first column
         if ( defined $sortColFromUrl && $sortColFromUrl !~ m/^[0-9]+$/ ) {
             $sortColFromUrl = 0;
         }

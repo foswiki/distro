@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/TablePlugin.md5
+/TablePlugin.sha1
+/TablePlugin.tgz
+/TablePlugin.txt
+/TablePlugin.zip
+/TablePlugin_installer
+/TablePlugin_installer.pl

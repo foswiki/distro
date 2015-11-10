@@ -1,13 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" date="1314465664" format="1.1" version="1"}%
-%META:TOPICPARENT{name="TablePlugin"}%
-#VarTABLE
----+++ TABLE{ _attributes_ } -- control attributes of tables and sorting of table columns
-   * The =%<nop>TABLE{}%= macro is handled by the TablePlugin
-   * Syntax: =%<nop>TABLE{ _attributes_ }%=
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ TABLE -- control attributes of tables and sorting of table columns
+The =%<nop>TABLE{}%= macro is handled by the TablePlugin
 %STARTSECTION{"table_attributes"}%
 ---++++ Attributes for tables
 %TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
-     | *Argument*         | *Comment*  | *Default&nbsp;value*  | *Example*  |
+     | *Parameter*         | *Description*  | *Default*  | *Example*  |
      | =tableborder=      | Table border width (pixels). | ="1"= | =tableborder="2"= |
      | =tablebordercolor= | Table border color . Is only visible when =cellspacing= is larger than 1, or =cellborder= is =0=, or =tablerules= is =none=, otherwise the cell borders overlap the table border. | <span class="foswikiGrayText">unspecified</span> | =tablebordercolor="#333"= |
      | =tableframe=       | Table frame, set to ="void"= (no sides), ="above"= (the top side only), ="below"= (the bottom side only), ="hsides"= (the top and bottom sides only), ="lhs"= (the left-hand side only), ="rhs"= (the right-hand side only), ="vsides"= (the right and left sides only), ="box"= (all four sides), ="border"= (all four sides). | <span class="foswikiGrayText">unspecified</span> | =tableframe="hsides"= |
@@ -22,7 +20,7 @@
 
 ---++++ Attributes for table sorting
 %TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
-     | *Argument*       | *Comment*  | *Default&nbsp;value*  | *Example*  |
+     | *Parameter*       | *Description*  | *Default*  | *Example*  |
      | =sort=           | Set the table sorting user interface (clickable column headers) ="on"= or ="off"=. | <span class="foswikiGrayText">unspecified</span> | =sort="on"= |
      | =initsort=       | Column to sort initially (use ="1"= for the first column). If specified, sorting is enabled; by setting =sort="off"= the sorting interface can be hidden. | <span class="foswikiGrayText">unspecified</span> | =initsort="2"= |
      | =initdirection=  | Initial sorting direction for =initsort=, set to  ="up"= (descending, or decreasing in value) or ="down"= (ascending, or increasing in value). | =down= | =initdirection="up"= |
@@ -30,7 +28,7 @@
 
 ---++++ Attributes for table cells
 %TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
-     | *Argument*       | *Comment*  | *Default&nbsp;value*  | *Example*  |
+     | *Argument*       | *Description*  | *Default*  | *Example*  |
      | =cellpadding=    | Cell padding (pixels). | <span class="foswikiGrayText">unspecified</span> | =cellpadding="0"= |
      | =cellspacing=    | Cell spacing (pixels). | <span class="foswikiGrayText">unspecified</span> | =cellspacing="3"= |
      | =cellborder=     | Cell border width (pixels). | <span class="foswikiGrayText">unspecified</span> | =cellborder="0"= |
@@ -39,7 +37,7 @@
 
 ---++++ Attributes for data cells
 %TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
-     | *Argument*       | *Comment*  | *Default&nbsp;value*  | *Example*  |
+     | *Parameter*       | *Description*  | *Default*  | *Example*  |
      | =datarules=    | Set to ="none"= (no rules), ="rows"= (rules will appear between rows only), ="cols"= (rules will appear between columns only), ="all"= (rules will appear between all rows and columns). Overrides =tablerules= for data cells. | <span class="foswikiGrayText">unspecified</span>  | =datarules="none"= |
      | =datavalign=     | Vertical alignment of data cells; overrides =valign=. | <span class="foswikiGrayText">unspecified</span>  | =datavalign="top"= |
      | =dataalign=      | Data cell alignment, one value for all columns, or a comma separated list for different alignment of individual columns. Set to ="left"=, ="center"=, ="right"= or ="justify"=. Overrides individual cell settings. | <span class="foswikiGrayText">unspecified</span>  | =dataalign="center"= |
@@ -49,7 +47,7 @@
 
 ---++++ Attributes for headers
 %TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
-     | *Argument*       | *Comment*  | *Default&nbsp;value*  | *Example*  |
+     | *Parameter*       | *Description*  | *Default*  | *Example*  |
      | =headerrules=    | Set to ="none"= (no rules), ="rows"= (rules will appear between rows only), ="cols"= (rules will appear between columns only), ="all"= (rules will appear between all rows and columns). Overrides =tablerules= for header cells. | <span class="foswikiGrayText">unspecified</span>  | =headerrules="none"= |
      | =headerbg=       | Header cell background colour. Specify ="none"= for no colour, that is to use the colour/background of the page the table is on. | ="#6b7f93"= | =headerbg="#999"= |
      | =headerbgsorted= | Header cell background colour of a sorted column. Specify ="none"= for no colour, that is to use the colour/background of the page the table is on. | the value of =headerbg= | =headerbgsorted="#32596c"= |
@@ -60,16 +58,19 @@
      
 ---++++ Other attributes
 %TABLE{tablewidth="100%" columnwidths="10%,45%,20%,25%" sort="off" headerbg="#f5f5f5" databg="#ffffff" headercolor="#333333"}%
-     | *Argument*       | *Comment*  | *Default&nbsp;value*  | *Example*  |
-     | =include=        | Other topic defining the =TABLE= parameters. The first =%<nop>TABLE%= in the topic is used. This is useful if you have many topics with the same table format and you want to update the format in one place. Use =topic= or =web.topic= notation. | <span class="foswikiGrayText">unspecified</span> | =include="Main.WebHome"= |
+     | *Parameter*       | *Description*  | *Default*  | *Example*  |
+     | =include=        | Other topic defining the =TABLE= parameters. The first =%<nop>TABLE%= in the topic is used. This is useful if you have many topics with the same table format and you want to update the format in one place. Use =topic= or =web.topic= notation. | <span class="foswikiGrayText">unspecified</span> | =include="%USERSWEB%.%HOMETOPIC%"= |
 
 %ENDSECTION{"table_attributes"}%
-   * Example:<verbatim class="tml">
- %TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%
+---++ Examples
+<verbatim class="tml">
+ %TABLE{ sort="off" tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%
  | *A1* | *B1* |
  | A2   | B2   |</verbatim>
-   * Expands as: %TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%
+   * Expands as: %TABLE{ sort="off" tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%
  | *A1* | *B1* |
  | A2   | B2   |
-   * Related: See TablePlugin for more details
+%STOPINCLUDE%
+---++ Related
+ See TablePlugin for more details
 <!--%JQREQUIRE{"chili"}%-->
