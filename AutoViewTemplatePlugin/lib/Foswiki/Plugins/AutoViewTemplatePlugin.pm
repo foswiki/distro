@@ -1,22 +1,12 @@
-# Plugin for Foswiki
-#
-# Copyright (C) 2008 Oliver Krueger <oliver@wiki-one.net>
-# All Rights Reserved.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# This piece of software is licensed under the GPLv2.
-
+# See bottom of file for license and copyright information
 package Foswiki::Plugins::AutoViewTemplatePlugin;
 
 use strict;
 use warnings;
 use vars qw( $debug $mode $override $isEditAction $pluginName);
 
-use version; our $VERSION = version->declare("v1.1.7");
-our $RELEASE           = '2012-12-16';
+our $VERSION           = '1.22';
+our $RELEASE           = '2015-08-18';
 our $SHORTDESCRIPTION  = 'Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -86,6 +76,20 @@ sub initPlugin {
     # only set the view template if there is anything to set
     return 1 unless $templateName;
 
+    my $tryname = $templateName;
+    $tryname =~ s/[^A-Za-z0-9_,.\/]//g;
+
+# SMELL:  See task Item13554: Template.pm silently ignores templates containing non-ASCII characters.
+    if ( $tryname ne $templateName ) {
+        Foswiki::Func::setPreferencesValue( 'FLASHNOTE',
+"${pluginName}: Invalid template name ($templateName) - contains non-ASCII characters."
+        );
+        Foswiki::Func::writeDebug(
+"- ${pluginName}: Template name ($templateName) ignored - contains non-ASCII characters."
+        );
+        return 1;
+    }
+
     # in edit mode, try to read the template to check if it exists
     if ( $isEditAction && !Foswiki::Func::readTemplate($templateName) ) {
         Foswiki::Func::writeDebug("- ${pluginName}: edit template not found")
@@ -138,7 +142,7 @@ sub _getTemplateFromSectionInclude {
 # SMELL: This can be done much faster, if the formdefinition topic is read directly
     my $sectionName = $isEditAction ? 'edittemplate' : 'viewtemplate';
     my $templateName =
-      "%INCLUDE{ \"$formweb.$formtopic\" section=\"$sectionName\"}%";
+"%INCLUDE{ \"$formweb.$formtopic\" section=\"$sectionName\" warn=\"off\"}%";
     $templateName =
       Foswiki::Func::expandCommonVariables( $templateName, $topic, $web );
 
@@ -157,7 +161,7 @@ sub _getTemplateFromTemplateExistence {
     my ( $templateWeb, $templateTopic ) =
       Foswiki::Func::normalizeWebTopicName( $web, $formName );
 
-    $templateWeb =~ s/\//\./go;
+    $templateWeb =~ s/\//\./g;
     my $templateName = $templateWeb . '.' . $templateTopic;
     $templateName =~ s/Form$//;
     $templateName .= $isEditAction ? 'Edit' : 'View';
@@ -169,7 +173,8 @@ sub _getTemplateFromTemplateExistence {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008 Oliver Krueger <oliver@wiki-one.net>
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

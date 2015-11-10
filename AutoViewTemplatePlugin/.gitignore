@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/AutoViewTemplatePlugin.md5
+/AutoViewTemplatePlugin.sha1
+/AutoViewTemplatePlugin.tgz
+/AutoViewTemplatePlugin.txt
+/AutoViewTemplatePlugin.zip
+/AutoViewTemplatePlugin_installer
+/AutoViewTemplatePlugin_installer.pl
