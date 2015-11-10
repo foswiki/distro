@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1430848859" format="1.1" version="1"}%
 ---+ %TOPIC%
 
 This is a 'mini' plugin that provides a =rest= handler for invoking the

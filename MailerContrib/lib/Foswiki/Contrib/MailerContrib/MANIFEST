@@ -1,4 +1,5 @@
 !noci
+lib/Foswiki/Contrib/MailerContrib/DEPENDENCIES
 lib/Foswiki/Contrib/MailerContrib/Config.spec 0444 Spec file for =configure=
 lib/Foswiki/Contrib/MailerContrib/WebNotify.pm 0444
 lib/Foswiki/Contrib/MailerContrib/Subscriber.pm 0444

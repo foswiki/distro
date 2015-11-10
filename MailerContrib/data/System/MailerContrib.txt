@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1395934404" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! Mailer Contrib
 <a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
@@ -39,7 +39,7 @@ The general format of a subscription is:
 
 _three spaces_ =*= _subscriber_ [ =:= _topics_ ]
 
-Where _subscriber_ can be a [[%SYSTEMWEB%.WikiName][WikiName]], an email address, or a group name. If _subscriber_ contains any characters that are not legal in an email address, then it must be enclosed in 'single' or "double" quotes. %X% *Note:* The guest user %USERSWEB%.WikiGuest does not have an email address mapped to it, and will never receive email regardless of the configuraion of that user.
+Where _subscriber_ can be a [[%SYSTEMWEB%.WikiName][WikiName]], an email address, or a group name. If _subscriber_ contains any characters that are not legal in an email address, then it must be enclosed in 'single' or "double" quotes. %X% *Note:* The guest user %USERSWEB%.WikiGuest does not have an email address mapped to it, and will never receive email regardless of the configuration of that user.
 
 _topics_ is an optional space-separated list of topics:
    * ... *without* a _Web._ prefix
@@ -89,9 +89,9 @@ A user may be listed many times in the <nop>%NOTIFYTOPIC% topic. Where a user ha
 
 If a _group_ is listed for notification, the group will be recursively expanded to the email addresses of all members.
 
-<blockquote class="foswikihelp"> *%X% Warning:* Because an email address is not linked to a user name, there is no way for Foswiki to check access controls for subscribers identified by email addresses. A subscriber identified by an email address alone will only be sent change notifications if the topic they are subscribed to is readable by guest users. You can limit which email addresses can be used in <nop>%NOTIFYTOPIC%, or even block use of emails altogther, using the ={MailerContrib}{EmailFilterIn}= setting in =configure=.</blockquote>
+<div class="foswikihelp"> *%X% Warning:* Because an email address is not linked to a user name, there is no way for Foswiki to check access controls for subscribers identified by email addresses. A subscriber identified by an email address alone will only be sent change notifications if the topic they are subscribed to is readable by guest users. You can limit which email addresses can be used in <nop>%NOTIFYTOPIC%, or even block use of emails altogther, using the ={MailerContrib}{EmailFilterIn}= setting in =configure=.</div>
 
-<blockquote class="foswikiHelp"> *%T% Tip:* List names in alphabetical order to make it easier to find the names.</blockquote>
+<div class="foswikiHelp"> *%T% Tip:* List names in alphabetical order to make it easier to find the names.</div>
 %STOPINCLUDE%
 
 In the future, it is intended that individual users will be able to control the frequency with which they are notified of topic changes, by changing a schedule specification in their home topic. However, at present, the notification schedule is controlled by the frequency of activation of the mailer.
@@ -99,6 +99,9 @@ In the future, it is intended that individual users will be able to control the 
 Note that when using the "news mode" =!= or =?= specifiers the entire topic text is mailed out as HTML. The newsletter template is used to generate the content in this email, using whichever skin is selected in the topic being mailed.
 
 In addition, the =%<nop>STARTPUBLISH%= and =%<nop>STOPPUBLISH%= markers used by Foswiki:Extensions.PublishPlugin to delimit the text to be published are respected in news mode.
+
+---+++ Per-user preferences
+When emails are generated, they take into account a _subset_ of the user preferences of the user being mailed to (where these can be determined from user topics in the wiki), allowing things like (for example) user language preferences to be taken into account. The subset of preferences that is respected is defined =configure= setting ={MailerContrib}{RespectUserPrefs}= and defaults to =LANGUAGE=.
 
 ---++ Foswiki/Contrib/MailerContrib code library
 The second part of the module is a code library that provides the services for other applications to modify the subscription topics through a clean, well documented API. This allows (for example) plugin developers to add (for example) a "Register me for this newsletter" button to their pages. Developers should refer to [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Contrib::MailerContrib::WebNotify][the documentation for the !WebNotify class]] as their starting point.
@@ -109,7 +112,7 @@ The second part of the module is a code library that provides the services for o
 *Additional settings*
    * You can change the regular expression that matches email addresses in <nop>%NOTIFYTOPIC% using the ={MailerContrib}{EmailFilterIn}= setting in =configure=. This allows you to limit the domains to which emails can be sent, or even block email addresses altogether.
 
-<blockquote class="foswikiHelp">%H% If you plan to use the "run from the web" feature, you *must* run =configure= and save at least once after installing for the first time.</blockquote>
+<div class="foswikiHelp">%H% If you plan to use the "run from the web" feature, you *must* run =configure= and save at least once after installing for the first time.</div>
 
 The mailer can be run from =cron= (or an equivalent off-line job scheduler), from the command-line, or from a web page. 
 
@@ -123,18 +126,22 @@ The script is used as follows:%BR%
 | =-q= | Don't print progress information |
 | =-nonews= | Skip the "news mode" (do not process subscriptions that include "!" or "?" following the topic) |
 | =-nochanges= | Only run the news mode. (only process subscriptions that include "!" or "?" following the topic) |
+| =-noreset= | Don't reset the timestamp after this run. The next run will repeat the same changes notified in this run |
+| =-nomail= | Don't actually send mail,  just show what would be done.  Be sure to include =-noreset= or the timestamp will be reset even though no mail was sent. |
 | <code style="white-space:nowrap"><i>web1 web2 ... webN</i></code> | List of webs to process, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
 
-<blockquote class="foswikiHelp">%X% Be careful what user you use to run this script. It will write the
+<div class="foswikiHelp">%X% Be careful what user you use to run this script. It will write the
 Foswiki log files, and if these log files are left in a state where they
-can't be written to by the Foswiki server, you may break your site.</blockquote>
+can't be written to by the Foswiki server, you may break your site.</div>
 
 ---+++ Setting up a cron job(s)
 You need to set up a =cron= (or equivalent) job to run the =tools/mailnotify= script.
 
 Setting up cron can be done in many ways. Below is an ultra-short overview which may be sufficient.
 
-<blockquote class="foswikiHelp">
+<div class="foswikiHelp">%X% To avoid issues with file permissions, *install the crontab as the web server user such as =nobody=, ==www-data= or =www=*. </div>
+
+<div class="foswikiHelp">
 Crontab syntax is 5 numbers followed by the command
 
 =A B C D E   command to be executed=
@@ -146,7 +153,7 @@ Crontab syntax is 5 numbers followed by the command
 An asterix '*' means any value
 
 If you choose to setup the cron by editing the system-wide =/etc/crontab= file, the syntax is =A B C D E username command-to-be-executed=
-</blockquote>
+</div>
 
 For example, assuming Foswiki was installed at =/usr/local/foswiki=, this cron entry:
 <verbatim class="bash">
@@ -168,14 +175,27 @@ will generate change notifications for all webs every night at midnight but will
 
 To learn more about cron and crontab, Google for =crontab=. 
 
-<blockquote class="foswikiHelp">%X% *Note:* Multiple instances of the =mailnotify= script are not allowed to be executed simutaneously. If you need to run the script multiple times with different options, make sure the cron jobs are scheduled so a previous run has finished before the next starts. You can also write a small script that runs =mailnotify= in sequence as described in Foswiki:Support.DuplicateNotificationsFromMailerCon.
+<div class="foswikiHelp">%X% *Note:* Multiple instances of the =mailnotify= script are not allowed to be executed simutaneously. If you need to run the script multiple times with different options, make sure the cron jobs are scheduled so a previous run has finished before the next starts. You can also write a small script that runs =mailnotify= in sequence as described in Foswiki:Support.DuplicateNotificationsFromMailerCon.
 
-%X% *Note:* Even if you run separate =-nonews= and =-nochanges= cron jobs, the subscriptions using the "?" feature will only show the topics that changed since last time the =mailnotify= script was run even if it was run with =-nonews=. Separate newsletter jobs work best with the unconditional "!" mode.</blockquote>
+%X% *Note:* Even if you run separate =-nonews= and =-nochanges= cron jobs, the subscriptions using the "?" feature will only show the topics that changed since last time the =mailnotify= script was run even if it was run with =-nonews=. Separate newsletter jobs work best with the unconditional "!" mode.</div>
 
 ---+++ Triggering mail notification from the browser
-You can also the mailer from within the browser, using a REST handler. For example, to notify changes in all webs, link to =%SCRIPTURL{rest}%/MailerContribPlugin/notify=. The URL parameters =webs=, =nonews=, =nochanges=, and =excludewebs= correspond to the different command-line parameters.
+You can also the mailer from within the browser, using a REST handler.
 
-Because there is a risk that a stupid person could lock up your server by
+For example, to notify changes in all webs, POST to =%<nop>SCRIPTURL{rest}%/MailerContribPlugin/notify=. The URL parameters =webs=, =nonews=, =nochanges=, and =excludewebs= correspond to the different command-line parameters.
+
+| =nonews=1= | Skip the "news mode" (do not process subscriptions that include "!" or "?" following the topic) |
+| =nochanges=1= | Only run the news mode. (only process subscriptions that include "!" or "?" following the topic) |
+| =noreset=1= | Don't reset the timestamp after this run. The next run will repeat the same changes notified in this run |
+| =nomail=1= | Don't actually send mail,  just show what would be done.  Be sure to include =-noreset= or the timestamp will be reset even though no mail was sent. |
+| <code style="white-space:nowrap"><i>webs=web1 web2 ... webN</i></code> | List of webs to process, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
+| <code style="white-space:nowrap"><i>excludewebs=web1 web2 ... webN</i></code> | List of webs to exclude, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
+
+<form name="mailnotify" action="%SCRIPTURLPATH{rest}%/MailerContribPlugin/notify" method="post">
+<input type="submit" class="foswikiSubmit" value="Run notify" />
+</form>
+(Admin authority required!)
+Because there is a risk that someone could lock up your server by
 firing multiple notification requests at it, the REST handler is only
 accessible to administrators.
 
@@ -188,24 +208,23 @@ The changes emails sent to subscribers are based on a Foswiki template called =m
 | =HTML:before= | Section of an HTML email before the changes |
 | =HTML:middle= | Repeated in an HTML email for each change |
 | =HTML:after= | Section of an HTML email after the changes |
+| =HTML:diff= | Topic diffs in HTML format |
 | =PLAIN:before= | Section of a plain text email before the changes |
 | =PLAIN:middle= | Repeated in a plain text email for each changes |
 | =PLAIN:after= | Section of a plain text email after the changes |
-| =DIFF:before= | Section of a plain text email before the changes |
-| =DIFF:middle= | Repeated in a plain text email for each changes |
-| =DIFF:after= | Section of a plain text email after the changes |
-| =MailNotifyBody= | All the above are embedded in this. %<nop>HTML_TEXT% expands to the HTML obtained by expanding the =HTML:*= templates, %<nop>PLAIN_TEXT% from the =PLAIN:*= templates, and %<nop>DIFF_TEXT from the =DIFF:*= templates%. |
+| =PLAIN:diff= | Topic diffs in plain text format |
+| =MailNotifyBody= | All the above are embedded in this. %<nop>HTML_TEXT% expands to the HTML obtained by expanding the =HTML:*= templates, %<nop>PLAIN_TEXT% from the =PLAIN:*= templates. The definitions may contain %<nop>DIFF_TEXT%. |
 The default template sends multipart emails containing both HTML and plaintext versions.
 
-<blockquote class="foswikiHelp"> %X% Avoid editing the distributed =mailnotify.tmpl= file, or you will regret it later when it gets overwritten when you upgrade Foswiki. Instead, you should either use a skin setting to choose the template file, or use the web part of the [[%SYSTEMWEB%.SkinTemplates#FindingTemplates][template search path rules]]. 
+<div class="foswikiHelp"> %X% Avoid editing the distributed =mailnotify.tmpl= file, or you will regret it later when it gets overwritten when you upgrade Foswiki. Instead, you should either use a skin setting to choose the template file, or use the web part of the [[%SYSTEMWEB%.SkinTemplates#FindingTemplates][template search path rules]]. 
    
-It is recommended to use the skin method, as it is easier to control, and requires less hacking around. Especially if you need to use the same tailoring for many (or all) webs.</blockquote>
+It is recommended to use the skin method, as it is easier to control, and requires less hacking around. Especially if you need to use the same tailoring for many (or all) webs.</div>
 
    * Simple global tailoring used in all webs using your normal default skin
       * Make a copy of =templates/mailnotify.tmpl= called =templates/mailnotify.skiname.tmpl=. For example, =templates/mailnotify.pattern.tmpl=, and modify this copy to your need. If you use the !NatSkin simply use =templates/mailnotify.nat.tmpl= instead
 
    * Using a dummy skin name globally
-      * In [[%USERSWEB%.SitePreferences]], define a setting =* Set SKIN = notifyskin,pattern= where the notifyskin is the dummy skin name and the pattern in this example is the real skin.
+      * In [[%LOCALSITEPREFS%]], define a setting =* Set SKIN = notifyskin,pattern= where the notifyskin is the dummy skin name and the pattern in this example is the real skin.
       * Create a =templates/mailnotify.notifyskin.tmpl= with your tailorings
    
    * Using a dummy skin name per web
@@ -247,12 +266,18 @@ Many thanks to the following sponsors for supporting this work:
    * [[http://www.windriver.com][Wind River]]
    * [[http://wikigardens.com][WikiGardens]]
 
-|  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright &copy;: | 2004, Wind River Systems; 2009-2013 Foswiki Contributors |
-|  License: | GPL |
-|  Version: | %$VERSION% |
-|  Release: | %$RELEASE% |
+|  Copyright &copy;: | 2004, Wind River Systems; 2009-2014 Foswiki Contributors |
 |  Change History: | |
+|  2.82  (14 Jun 2015) | Foswiki 2.0. Foswikitask:Item13423: Perl 5.22 deprecations<br />\
+                         Foswikitask:Item13378: Foswikitask:Item13387: utf-8 foswiki core<br />\
+                         Foswikitask:Item13323: use /usr/bin/env perl in scripts<br />\
+                         Foswikitask:Item13345: CGI deprecations.<br />\
+                         Foswikitask:Item13287: Regular expression updates<br />\
+                         Foswikitask:Item13125: CGI Changes<br />\
+                         Various documentation and copyright updates. |
+|  2.81  (16 Jun 2014) | Foswiki:Tasks/Item12839: Fully specify the REST security parameters. Foswiki:Tasks/Item12943: notify REST handler crashes with invalid array ref. |
+|  2.80  (28 Apr 2014) | Foswiki:Tasks/Item8425: support relative links better. Foswiki:Tasks/Item11507: support changing LANGUAGE via user preferences |
+|  2.70  (27 Mar 2014) | Foswiki:Tasks/Item12717: fix inconsistencies in template expansion of mailnotify |
 |  2.60  (25 Mar 2014) | Foswiki:Tasks/Item12786: fix flooding with unintended mails Foswiki:Tasks/Item12823: mark cron-generated mails as per RFC 3834, Foswiki:Tasks/Item12583: Convert to simple decimal version. |
 |  2.5.5 (27 Aug 2013) | Foswiki:Tasks/Item12525: fix removal of subscriptions |
 |  2.5.4 (25 Mar 2013) | Foswiki:Tasks/Item12447: correct support for character encodings |
@@ -274,8 +299,16 @@ Many thanks to the following sponsors for supporting this work:
 |  2.0.1 (23 Apr 2009) | Foswikitask:Item1501: Minor bug in logfile output fixed |
 |  2.0.0 (03 Dec 2008) | Re-released for the Foswiki project |
 |  8 Sep 2004 | 1.000 Initial (tm)wiki version |
-|  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Support: | http://foswiki.org/Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" user="ProjectContributor" date="1395772281" attr="h" comment="" version="1"}%
-%META:FILEATTACHMENT{name="logo.gif" user="ProjectContributor" date="1395772281" attr="h" comment="" version="1"}%
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="[[http://c-dot.co.uk][Crawford Currie]]"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="License" title="License" value="GPL"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" date="1437500521" size="11437" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1437500521" size="1343" user="ProjectContributor" version="1"}%

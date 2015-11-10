@@ -9,7 +9,7 @@ our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki::Contrib::MailerContrib();
 
-my $subWeb;
+my $testWeb2;
 
 my @specs;
 my $high_bit_disabled = 0;
@@ -30,7 +30,7 @@ my %expectedRevs = (
 
 my %finalText = (
     TestTopic1 =>
-"beedy-beedy-beedy oh dear, said TWiki, shortly before exploding into a million shards of white hot metal as the concentrated laser fire of a thousand angry public website owners poured into it.",
+"beedy-beedy-beedy oh dear, said Twiki, before exploding into a million shards of white hot metal as the concentrated laser fire of a thousand angry public website owners poured into it.",
     TestTopic11     => "fire laser beams",
     TestTopic111    => "Doctor Theopolis",
     TestTopic112    => "Buck, I'm dying",
@@ -42,10 +42,12 @@ my %finalText = (
     TestTopic21     => "smoke me a kipper, I'll be back for breakfast",
     TestTopicDenied => "   * Set ALLOWTOPICVIEW = TestUser1\n",
 
-    # High-bit chars - assumes {Site}{CharSet} is set for a high-bit
-    # encoding. No tests for multibyte encodings :-(
-    'RequêtesNon' => "makê it so, number onê",
-    'RequêtesOui' => "you're such a smêêêêêê heeee",
+    # High-bit chars
+    'RequÃªtesNon' => "makÃª it so, number onÃª",
+    'RequÃªtesOui' => "you're such a smÃªÃªÃªÃªÃªÃª heeee",
+
+    # High-byte encoding
+    'å®˜è©±' => 'å¤ªæ¥µæ‹³å¾ˆå¥½',
 );
 
 sub new {
@@ -63,10 +65,10 @@ sub set_up {
 
     my $text;
 
-    $subWeb = "$this->{test_web}/SubWeb";
+    $testWeb2 = "$this->{test_web}/SubWeb";
 
     # Will get torn down when the parent web dies
-    my $webObject = $this->populateNewWeb($subWeb);
+    my $webObject = $this->populateNewWeb($testWeb2);
     $webObject->finish();
 
     $this->registerUser( "tu1", "Test", "User1", "test1\@example.com" );
@@ -218,39 +220,30 @@ sub set_up {
             email     => "email11\@example.com",
             entry     => "email11\@example.com: FakeTestTopic1 FakeTestTopic11",
             topicsout => ""
+        },
+
+        # High-bit chars
+        {
+            name      => "High bit",
+            email     => "test1\@example.com",
+            entry     => "TestUser1 : RequÃªtes*",
+            topicsout => "RequÃªtesNon RequÃªtesOui",
+        },
+
+        # Multi-byte chars
+        {
+            name      => 'Multi byte',
+            email     => "test2\@example.com",
+            entry     => 'TestUser1 : å®˜è©±',
+            topicsout => 'å®˜è©±'
         }
     );
-
-    if (  !$Foswiki::cfg{Site}{CharSet}
-        || $Foswiki::cfg{Site}{CharSet} =~ /^iso-?8859/
-        || $Foswiki::cfg{Site}{CharSet} =~ /^utf-8/ )
-    {
-
-        # High-bit chars - assumes {Site}{CharSet} is set for a high-bit
-        # encoding. No tests for multibyte encodings :-(
-        push(
-            @specs,    # Francais
-            {
-                name      => "High bit",
-                email     => "test1\@example.com",
-                entry     => "TestUser1 : Requêtes*",
-                topicsout => "RequêtesNon RequêtesOui",
-            },
-        );
-    }
-    elsif ( !$high_bit_disabled ) {
-        print STDERR
-          "WARNING: High-bit tests disabled for $Foswiki::cfg{Site}{CharSet}\n";
-        $high_bit_disabled = 1;
-    }
 
     my $s = "";
     foreach my $spec (@specs) {
         $s .= "   * $spec->{entry}\n";
     }
-
-    # Create the same test data in two separate webs
-    foreach my $web ( $this->{test_web}, $subWeb ) {
+    foreach my $web ( $this->{test_web}, $testWeb2 ) {
         my ($meta) =
           Foswiki::Func::readTopic( $web, $Foswiki::cfg{NotifyTopicName} );
         $meta->put( "TOPICPARENT", { name => "$web.WebHome" } );
@@ -386,17 +379,28 @@ sub testSimple {
     my $this = shift;
 
     my @webs = ( $this->{test_web}, $this->{users_web} );
-    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, 0, undef, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify(
+        \@webs, undef,
+        news    => 1,
+        changes => 1,
+        mail    => 1
+    );
 
     #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
+
     $this->checkSpecs();
 }
 
 sub testSubweb {
     my $this = shift;
 
-    my @webs = ( $subWeb, $this->{users_web} );
-    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, 0, undef, 0, 0 );
+    my @webs = ( $testWeb2, $this->{users_web} );
+    Foswiki::Contrib::MailerContrib::mailNotify(
+        \@webs, undef,
+        news    => 1,
+        changes => 1,
+        mail    => 1
+    );
 
     #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
 
@@ -539,10 +543,15 @@ HERE
     $meta->text("Before\n${s}After");
     $meta->save();
     $meta->finish();
-    Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        0, undef, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify(
+        [ $this->{test_web} ],
+        undef,
+        news    => 1,
+        changes => 1,
+        mail    => 1
+    );
 
-    $this->assert( !scalar @FoswikiFnTestCase::mails,
+    $this->assert( !scalar(@FoswikiFnTestCase::mails),
         "Should not send any mail!" );
 }
 
@@ -564,8 +573,13 @@ HERE
     $meta->text("Before\n${s}After");
     $meta->save();
     $meta->finish();
-    Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        0, undef, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify(
+        [ $this->{test_web} ],
+        undef,
+        news    => 1,
+        changes => 1,
+        mail    => 1
+    );
 
     my %matched;
     foreach my $message (@FoswikiFnTestCase::mails) {
@@ -594,8 +608,13 @@ HERE
     $meta->text("Before\n${s}After");
     $meta->save();
     $meta->finish();
-    Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        0, undef, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify(
+        [ $this->{test_web} ],
+        undef,
+        news    => 1,
+        changes => 1,
+        mail    => 1
+    );
 
     my %matched;
     foreach my $message (@FoswikiFnTestCase::mails) {
@@ -661,8 +680,13 @@ sub testExpansion_1847 {
     $meta->finish();
 
     # Launch mailNotify
-    Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        0, undef, 0, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify(
+        [ $this->{test_web} ],
+        undef,
+        news    => 1,
+        changes => 1,
+        mail    => 1
+    );
 
     for my $message (@FoswikiFnTestCase::mails) {
         next unless $message;
@@ -1039,6 +1063,53 @@ sub test_doNotMatchPrefix {
             $defaultWeb, $who, $topicList
         )
     );
+}
+
+sub test_access_controls {
+    my $this = shift;
+
+    # TestUser1 can access r1, TestUser2 can access r2,
+    # TestUser3 can access both
+    Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
+        undef, <<BLAH);
+   * TestUser1: TestNoWayJose
+   * TestUser2: TestNoWayJose
+   * TestUser3: TestNoWayJose
+BLAH
+    Foswiki::Func::saveTopic( $this->{test_web}, "TestNoWayJose", undef,
+        "   * Set ALLOWTOPICVIEW = TestUser3, TestUser1\n" );
+    my $t0 = time;
+
+    # stamp the baseline
+    my $metadir = Foswiki::Func::getWorkArea('MailerContrib');
+    my $dirpath = $this->{test_web};
+    $dirpath =~ s#/#.#g;
+    $this->assert( open( F, '>', "$metadir/$dirpath" ),
+        "$metadir/$dirpath: $!" );
+    print F $t0;
+    close(F);
+
+    while ( time == $t0 ) {
+        sleep 1;
+    }
+    Foswiki::Func::saveTopic(
+        $this->{test_web}, "TestNoWayJose", undef,
+        "   * Set ALLOWTOPICVIEW = TestUser2, TestUser3\n",
+        { forcenewrevision => 1 }
+    );
+
+    Foswiki::Contrib::MailerContrib::mailNotify(
+        [ $this->{test_web} ], undef,
+        changes => 1,
+        mail    => 1,
+
+        #verbose => 1
+    );
+    $this->assert_num_equals( 1, scalar(@FoswikiFnTestCase::mails) );
+    my $m1 = $FoswikiFnTestCase::mails[0];
+    $this->assert_matches( qr/To: test3\@example.com/s, $m1 );
+    $this->assert( $m1 !~ /test1\@example.com/s );
+    $this->assert( $m1 !~ /test2\@example.com/s );
 }
 
 1;

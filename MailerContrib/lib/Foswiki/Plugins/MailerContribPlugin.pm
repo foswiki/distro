@@ -4,14 +4,21 @@ package Foswiki::Plugins::MailerContribPlugin;
 use strict;
 use warnings;
 
-our $VERSION           = '2.60';
-our $RELEASE           = '2.60';
+our $VERSION           = '2.82';
+our $RELEASE           = '2.82';
 our $SHORTDESCRIPTION  = 'Supports e-mail notification of changes';
 our $NO_PREFS_IN_TOPIC = 1;
 
 # Plugin init method, used to initialise handlers
 sub initPlugin {
-    Foswiki::Func::registerRESTHandler( 'notify', \&_restNotify );
+    Foswiki::Func::registerRESTHandler(
+        'notify', \&_restNotify,
+        authenticate => 1,
+        validate     => 1,
+        http_allow   => 'POST',
+        description =>
+          'Allow administrators to run the mailNotify process from the web.',
+    );
     return 1;
 }
 
@@ -29,14 +36,38 @@ sub _restNotify {
         local $| = 1;    # autoflush on
         require CGI;
         print CGI::header( -status => 200, -type => 'text/plain' );
-        my $query     = Foswiki::Func::getCgiQuery();
-        my $nonews    = $query->param('nonews');
-        my $nochanges = $query->param('nochanges');
-        my @exwebs    = split( ',', $query->param('excludewebs') || '' );
-        my @webs      = split( ',', $query->param('webs') || '' );
+
+        my $query   = Foswiki::Func::getCgiQuery();
+        my %options = (
+            verbose => 1,
+            news    => 1,
+            changes => 1,
+            reset   => 1,
+            mail    => 1
+        );
+
+        if ( $query->param('q') ) {
+            $options{verbose} = 0;
+        }
+        if ( $query->param('nonews') ) {
+            $options{news} = 0;
+        }
+        if ( $query->param('nochanges') ) {
+            $options{changes} = 0;
+        }
+        if ( $query->param('noreset') ) {
+            $options{reset} = 0;
+        }
+        if ( $query->param('nomail') ) {
+            $options{mail} = 0;
+        }
+
+        my @exwebs = split( ',', $query->param('excludewebs') || '' );
+        my @webs   = split( ',', $query->param('webs')        || '' );
+
         require Foswiki::Contrib::MailerContrib;
-        Foswiki::Contrib::MailerContrib::mailNotify( \@webs, 1, \@exwebs,
-            $nonews, $nochanges );
+        Foswiki::Contrib::MailerContrib::mailNotify( \@webs, \@exwebs,
+            %options );
     }
     return undef;
 }
@@ -45,7 +76,7 @@ sub _restNotify {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

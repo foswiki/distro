@@ -16,7 +16,9 @@ use strict;
 use warnings;
 
 use URI ();
-use CGI qw(-any);
+use CGI ();
+
+use Assert;
 
 use Foswiki                                    ();
 use Foswiki::Plugins                           ();
@@ -26,29 +28,28 @@ use Foswiki::Contrib::MailerContrib::WebNotify ();
 use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
-our $VERSION          = '2.60';
-our $RELEASE          = '2.60';
+our $VERSION          = '2.82';
+our $RELEASE          = '2.82';
 our $SHORTDESCRIPTION = 'Supports email notification of changes';
-
-our $verbose   = 0;
-our $nonews    = 0;
-our $nochanges = 0;
 
 # PROTECTED STATIC ensure the contrib is internally initialised
 sub initContrib {
     $Foswiki::cfg{MailerContrib}{EmailFilterIn} ||=
       $Foswiki::regex{emailAddrRegex};
+    $Foswiki::cfg{MailerContrib}{RespectUserPrefs} ||= 'LANGUAGE';
 }
 
 =begin TML
 
----++ StaticMethod mailNotify($webs, $verbose, $exwebs, $nonewsmode, $nochangesmode)
+---++ StaticMethod mailNotify($webs, $exwebs)
    * =$webs= - filter list of names webs to process. Wildcards (*) may be used.
-   * =$verbose= - true to get verbose (debug) output.
    * =$exwebs= - filter list of webs to exclude.
-   * =$nonewsmode= - the notify script was called with the =-nonews= option so we skip news mode
-   * =$nochangesmode= - the notify script was called with the =-nochanges= option
-
+   * =%options%
+      * =verbose= - true to get verbose (debug) output.
+      * =news= - true to process news
+      * =changes= - true to process changes
+      * =reset= - true to reset the clock after processing
+      * =mail= - true to send emails from this run 
 Main entry point.
 
 Process the Web<nop>Notify topics in each web and generate and issue
@@ -58,11 +59,7 @@ only be called by =mailnotify= scripts.
 =cut
 
 sub mailNotify {
-    my ( $webs, $noisy, $exwebs, $nonewsmode, $nochangesmode ) = @_;
-
-    $verbose   = $noisy;
-    $nonews    = $nonewsmode || 0;
-    $nochanges = $nochangesmode || 0;
+    my ( $webs, $exwebs, %options ) = @_;
 
     my $webstr;
     if ( defined($webs) ) {
@@ -86,10 +83,9 @@ sub mailNotify {
 
     initContrib();
 
-    my $report = '';
     foreach my $web ( Foswiki::Func::getListOfWebs('user ') ) {
-        if ( $web =~ /^($webstr)$/ && $web !~ /^($exwebstr)$/ ) {
-            _processWeb($web);
+        if ( $web =~ m/^($webstr)$/ && $web !~ /^($exwebstr)$/ ) {
+            _processWeb( $web, \%options );
         }
     }
 
@@ -105,6 +101,9 @@ Modify a user's subscription in =WebNotify= for a web.
    * =$who= - the user's wikiname
    * =$topicList= - list of topics to (un)subscribe to(from)
    * =$unsubscribe= - false to subscribe, true to unsubscribe
+
+The current user must be able to modify WebNotify, or an access control
+violation will be thrown.
 
 =cut
 
@@ -204,7 +203,7 @@ sub parsePageList {
     # $4: child depth
 
     while ( $spec =~
-s/^\s*([-+])?\s*((?:[$Foswiki::regex{mixedAlphaNum}]|[*.])+|'.*?'|".*?")([!?]?)\s*(?:\((\d+)\))?//
+s/^\s*([-+])?\s*((?:[[:alnum:]]|[*.])+|'.*?'|".*?")([!?]?)\s*(?:\((\d+)\))?//
       )
     {
         my ( $us, $webTopic, $options, $childDepth ) =
@@ -218,7 +217,7 @@ s/^\s*([-+])?\s*((?:[$Foswiki::regex{mixedAlphaNum}]|[*.])+|'.*?'|".*?")([!?]?)\
 
 # PRIVATE: Read the webnotify, and notify changes
 sub _processWeb {
-    my ( $web, $nonews, $nochanges ) = @_;
+    my ( $web, $options ) = @_;
 
     if ( !Foswiki::Func::webExists($web) ) {
 
@@ -226,31 +225,27 @@ sub _processWeb {
         return '';
     }
 
-    print "Processing $web\n" if $verbose;
-
-    my $report = '';
+    print "Processing $web\n" if $options->{verbose};
 
     # Read the webnotify and load subscriptions
     my $wn =
       Foswiki::Contrib::MailerContrib::WebNotify->new( $web,
         $Foswiki::cfg{NotifyTopicName}, 0 );
     if ( $wn->isEmpty() ) {
-        print "\t$web has no subscribers\n" if $verbose;
+        print "\t$web has no subscribers\n" if $options->{verbose};
     }
     else {
 
         # create a DB object for parent pointers
-        print $wn->stringify(1) if $verbose;
+        print $wn->stringify(1) if $options->{verbose};
         my $db = Foswiki::Contrib::MailerContrib::UpData->new($web);
-        $report .= _processSubscriptions( $web, $wn, $db );
+        _processSubscriptions( $web, $wn, $db, $options );
     }
-
-    return $report;
 }
 
 # Process subscriptions in $notify
 sub _processSubscriptions {
-    my ( $web, $notify, $db ) = @_;
+    my ( $web, $notify, $db, $options ) = @_;
 
     my $metadir = Foswiki::Func::getWorkArea('MailerContrib');
     my $notmeta = $web;
@@ -264,26 +259,26 @@ sub _processSubscriptions {
         close(F);
     }
 
-    if ($verbose) {
+    if ( $options->{verbose} ) {
         print "\tLast notification was at "
           . Foswiki::Time::formatTime( $timeOfLastNotify, 'iso' ) . "\n";
     }
 
     my $timeOfLastChange = 0;
 
-    # Hash indexed on email address, each entry contains a hash
-    # of topics already processed in the change set for this email.
+    # Hash indexed on name&email address, each entry contains a hash
+    # of topics already processed in the change set for this name&email.
     # Each subhash maps the topic name to the index of the change
     # record for this topic in the array of Change objects for this
-    # email in %changeset.
+    # name&email in %changeset.
     my %seenset;
 
-    # Hash indexed on email address, each entry contains an array
+    # Hash indexed on name&email address, each entry contains an array
     # indexed by the index stored in %seenSet. Each entry in the array
     # is a ref to a Change object.
     my %changeset;
 
-    # Hash indexed on topic name, mapping to email address, used to
+    # Hash indexed on topic name, mapping to name&email address, used to
     # record simple newsletter subscriptions.
     my %allSet;
 
@@ -291,7 +286,8 @@ sub _processSubscriptions {
     my $it = Foswiki::Func::eachChangeSince( $web, $timeOfLastNotify + 1 );
     while ( $it->hasNext() ) {
         my $change = $it->next();
-        next if $change->{more} && $change->{more} =~ /minor/;
+        next if $change->{minor};
+        next if $change->{more} && $change->{more} =~ m/minor/;
 
         next unless Foswiki::Func::topicExists( $web, $change->{topic} );
 
@@ -300,7 +296,7 @@ sub _processSubscriptions {
         print "\tChange to $change->{topic} at "
           . Foswiki::Time::formatTime( $change->{time}, 'iso' )
           . ". New revision is $change->{revision}\n"
-          if ($verbose);
+          if ( $options->{verbose} );
 
         # Formulate a change record, irrespective of
         # whether any subscriber is interested
@@ -320,122 +316,190 @@ sub _processSubscriptions {
     }
 
     # Now generate emails for each recipient
-    my $report = '';
-    if ( !$nochanges && scalar( keys %changeset ) ) {
-        $report .=
-          _sendChangesMails( $web, \%changeset,
-            Foswiki::Time::formatTime($timeOfLastNotify) );
+    my %email2meta;
+    if ( $options->{changes} && scalar( keys %changeset ) ) {
+        _sendChangesMails( $web, \%changeset,
+            Foswiki::Time::formatTime($timeOfLastNotify),
+            \%email2meta, $options );
     }
 
-    if ( !$nonews ) {
-        $report .= _sendNewsletterMails( $web, \%allSet );
+    if ( $options->{news} ) {
+        _sendNewsletterMails( $web, \%allSet, \%email2meta, $options );
     }
 
-    if ( $timeOfLastChange != 0 ) {
+    if ( $options->{reset} && $timeOfLastChange != 0 ) {
         if ( open( F, '>', $notmeta ) ) {
             print F $timeOfLastChange;
             close(F);
         }
     }
+}
 
-    return $report;
+# i18N doesn't change when we change LANGUAGE, so we have to stomp it.
+sub _stompI18N {
+    if ( $Foswiki::Plugins::SESSION->can('reset_i18n') ) {
+        $Foswiki::Plugins::SESSION->reset_i18n();
+    }
+    elsif ( $Foswiki::Plugins::SESSION->{i18n} ) {
+
+        # Muddy boots.
+        $Foswiki::Plugins::SESSION->i18n->finish();
+        undef $Foswiki::Plugins::SESSION->{i18n};
+    }
+}
+
+sub _loadUserPreferences {
+    my ( $name, $email, $email2meta, $oldPrefs ) = @_;
+
+    my $meta = $email2meta->{$email};
+    unless ( defined $meta ) {
+        my @wn = Foswiki::Func::emailToWikiNames($email);
+
+        # If the email maps to a single user, we can use their
+        # preferences.
+        # First check sanity of mappings.
+        if ( scalar(@wn) == 1 ) {
+            if ( $wn[0] ne $name ) {
+                my $mess = 'MailerContrib Warning: surprising mapping'
+                  . " $email => $wn[0] != $name";
+                Foswiki::Func::writeDebug($mess);
+            }
+            $name = $wn[0];
+        }
+        elsif ( !grep { /^$name$/ } @wn ) {
+            my $mess =
+                'MailerContrib Warning: missing mapping'
+              . " $email => ("
+              . join( ',', @wn )
+              . ") != $name";
+            Foswiki::Func::writeDebug($mess);
+        }
+        my ( $uw, $ut ) =
+          Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+            $name );
+        $meta = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $uw, $ut );
+        $email2meta->{$email} = $meta;
+    }
+    if ($meta) {
+        foreach my $k (
+            split( /[ ,]+/, $Foswiki::cfg{MailerContrib}{RespectUserPrefs} ) )
+        {
+
+            my $ov = Foswiki::Func::getPreferencesValue($k);
+            my $nv = $meta->getPreference($k);
+            if ( ( $nv || '' ) ne ( $ov || '' ) ) {
+                $oldPrefs->{$k} = $ov;
+                Foswiki::Func::setPreferencesValue( $k, $nv );
+                _stompI18N() if ( $k eq 'LANGUAGE' );
+            }
+        }
+    }
+}
+
+sub _restorePreferences {
+    my ($oldPrefs) = @_;
+
+    while ( my ( $k, $v ) = each %$oldPrefs ) {
+
+        # Really we'd like to clear the session pref, but there's
+        # no API to do that :-(
+        Foswiki::Func::setPreferencesValue( $k, $v );
+        _stompI18N() if ( $k eq 'LANGUAGE' );
+    }
 }
 
 # PRIVATE generate and send an email for each user
 sub _sendChangesMails {
-    my ( $web, $changeset, $lastTime ) = @_;
-    my $report = '';
+    my ( $web, $changeset, $lastTime, $email2meta, $options ) = @_;
 
-    # We read the mailnotify template in the context (skin and web) or the
+    # We read the mailnotify template in the context (skin and web) of the
     # WebNotify topic we are currently processing
     Foswiki::Func::pushTopicContext( $web, $Foswiki::cfg{NotifyTopicName} );
     my $skin = Foswiki::Func::getSkin();
     my $template = Foswiki::Func::readTemplate( 'mailnotify', $skin );
     Foswiki::Func::popTopicContext();
 
-    my $mailtmpl = Foswiki::Func::expandTemplate('MailNotifyBody');
-    $mailtmpl =
-      Foswiki::Func::expandCommonVariables( $mailtmpl,
-        $Foswiki::cfg{HomeTopicName}, $web );
-    if ( $Foswiki::cfg{MailerContrib}{RemoveImgInMailnotify} ) {
-
-        # change images to [alt] text if there, else remove image
-        $mailtmpl =~ s/<img\s[^>]*\balt=\"([^\"]+)[^>]*>/[$1]/gi;
-        $mailtmpl =~ s/<img\s[^>]*\bsrc=.*?[^>]>//gi;
-    }
-
     my $sentMails = 0;
 
-    foreach my $email ( keys %{$changeset} ) {
+    foreach my $name_email ( keys %{$changeset} ) {
+        my ( $name, $email ) = split( '&', $name_email, 2 );
 
-        my $mail = $mailtmpl;
+        my %oldPrefs;
+        _loadUserPreferences( $name, $email, $email2meta, \%oldPrefs );
+
+        my $mail =
+          Foswiki::Func::expandCommonVariables(
+            Foswiki::Func::expandTemplate('MailNotifyBody'),
+            $Foswiki::cfg{HomeTopicName}, $web );
+
+        if ( $Foswiki::cfg{MailerContrib}{RemoveImgInMailnotify} ) {
+
+            # change images to [alt] text if there, else remove image
+            $mail =~ s/<img\s[^>]*\balt=\"([^\"]+)[^>]*>/[$1]/gi;
+            $mail =~ s/<img\s[^>]*\bsrc=.*?[^>]>//gi;
+        }
 
         $mail =~ s/%EMAILTO%/$email/g;
-        $mail =~ s/%(HTML|PLAIN|DIFF)_TEXT%/
-          _generateChangeDetail($email, $changeset, $1, $web)/ge;
+        $mail =~ s/%(HTML|PLAIN)_TEXT%/
+             _generateChangeDetail($name_email, $changeset, $1, $web)/ge;
         $mail =~ s/%LASTDATE%/$lastTime/ge;
 
         my $base = $Foswiki::cfg{DefaultUrlHost} . $Foswiki::cfg{ScriptUrlPath};
-        $mail =~ s/(href=\")([^"]+)/$1.relativeURL($base,$2)/goei;
-        $mail =~ s/(action=\")([^"]+)/$1.relativeURL($base,$2)/goei;
+        $mail =~ s/(href=\")([^"]+)/$1.relativeURL($base,$2)/gei;
+        $mail =~ s/(action=\")([^"]+)/$1.relativeURL($base,$2)/gei;
 
         # remove <nop> and <noautolink> tags
-        $mail =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois;
+        $mail =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gis;
 
-        my $error = Foswiki::Func::sendEmail( $mail, 5 );
+        _restorePreferences( \%oldPrefs );
+
+        my $error;
+        if ( $options->{mail} ) {
+            $error = Foswiki::Func::sendEmail( $mail, 5 );
+        }
+        else {
+            print $mail if $options->{verbose};
+        }
 
         if ($error) {
             print STDERR "Error sending mail for $web: $error\n";
-            $report .= $error . "\n";
+            print "$error\n";
         }
         else {
-            print "Notified $email of changes in $web\n" if $verbose;
+            print "Notified $email of changes in $web\n" if $options->{verbose};
             $sentMails++;
         }
     }
-    $report .= "\t$sentMails change notifications from $web\n";
-
-    return $report;
+    print "\t$sentMails change notifications from $web\n"
+      if $options->{verbose};
 }
 
 sub _generateChangeDetail {
-    my ( $email, $changeset, $style, $web ) = @_;
+    my ( $name_email, $changeset, $style, $web ) = @_;
 
-    my @wns = Foswiki::Func::emailToWikiNames($email);
     my @ep = ( $Foswiki::cfg{HomeTopicName}, $web );
 
-    # If there is only one user with this email, we can load preferences
-    # for them by expanding preferences in the context of their home
-    # topic.
-    if (   scalar(@wns) == 1
-        && Foswiki::Func::topicExists( $Foswiki::cfg{UsersWebName}, $wns[0] )
-        && defined &Foswiki::Meta::load )
-    {
-        my ( $ww, $wt ) =
-          Foswiki::Func::normalizeWebTopicName( undef, $wns[0] );
-        my $userTopic =
-          Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $ww, $wt );
-        my $uStyle = $userTopic->getPreference('PREFERRED_MAIL_CHANGE_FORMAT');
-        $style = $uStyle if $uStyle && $uStyle =~ /^(HTML|PLAIN|DIFF)$/;
-    }
-
     my $template = Foswiki::Func::expandTemplate( $style . ':middle' );
-    my $text     = '';
+    my $diff_tmpl;
+    my $text = '';
+    my ( $name, $email ) = split( '&', $name_email, 2 );
     foreach my $change ( sort { $a->{TIME} cmp $b->{TIME} }
-        @{ $changeset->{$email} } )
+        @{ $changeset->{$name_email} } )
     {
         if ( $style eq 'HTML' ) {
             $text .= Foswiki::Func::expandCommonVariables(
-                $change->expandHTML($template), @ep );
+                $change->expandHTML( $template, $name ), @ep );
         }
         elsif ( $style eq 'PLAIN' ) {
             $text .= Foswiki::Func::expandCommonVariables(
-                $change->expandPlain($template), @ep );
+                $change->expandPlain( $template, $name ), @ep );
         }
-        elsif ( $style eq 'DIFF' ) {
+
+        if ( $text =~ m/%DIFF_TEXT%/ ) {
+            $diff_tmpl ||= Foswiki::Func::expandTemplate( $style . ':diff' );
 
             # Note: no macro expansion; this is a verbatim format
-            $text .= $change->expandDiff($template);
+            $text =~ s/%DIFF_TEXT%/$change->expandDiff($diff_tmpl)/ge;
         }
     }
     return Foswiki::Func::expandCommonVariables(
@@ -447,21 +511,25 @@ sub _generateChangeDetail {
 
 sub relativeURL {
     my ( $base, $link ) = @_;
-    return URI->new_abs( $link, URI->new($base) )->as_string;
+    if ( $link =~ "^#" ) {
+        return $link;
+    }
+    else {
+        return URI->new_abs( $link, URI->new($base) )->as_string;
+    }
 }
 
 sub _sendNewsletterMails {
-    my ( $web, $allSet ) = @_;
+    my ( $web, $allSet, $email2meta, $options ) = @_;
 
-    my $report = '';
     foreach my $topic ( keys %$allSet ) {
-        $report .= _sendNewsletterMail( $web, $topic, $allSet->{$topic} );
+        _sendNewsletterMail( $web, $topic, $allSet->{$topic}, $email2meta,
+            $options );
     }
-    return $report;
 }
 
 sub _sendNewsletterMail {
-    my ( $web, $topic, $emails ) = @_;
+    my ( $web, $topic, $name_emails, $email2meta, $options ) = @_;
     my $wikiName = Foswiki::Func::getWikiName();
 
     # SMELL: this code is almost identical to PublishContrib
@@ -497,7 +565,7 @@ sub _sendNewsletterMail {
     # Get the skin for this topic
     my $skin = Foswiki::Func::getSkin();
     Foswiki::Func::readTemplate( 'newsletter', $skin );
-    my $header = Foswiki::Func::expandTemplate('NEWS:header');
+    my $h_tmpl = Foswiki::Func::expandTemplate('NEWS:header');
     my $body   = Foswiki::Func::expandTemplate('NEWS:body');
     my $footer = Foswiki::Func::expandTemplate('NEWS:footer');
 
@@ -507,80 +575,92 @@ sub _sendNewsletterMail {
     # Handle standard formatting.
     $body =~ s/%TEXT%/$text/g;
 
-    # Don't render the header, it is preformatted
-    $header = Foswiki::Func::expandCommonVariables( $header, $topic, $web );
-    my $tmpl = "$body\n$footer";
-    $tmpl = Foswiki::Func::expandCommonVariables( $tmpl, $topic, $web );
-    $tmpl = Foswiki::Func::renderText( $tmpl, "", $meta );
-
-    # REFACTOR OPPORTUNITY: stop factor me into getTWikiRendering()
-    # SMELL: this code is identical to PublishContrib!
-
-    # New tags
-    my $newTmpl = '';
-    my $tagSeen = 0;
-    my $publish = 1;
-    foreach my $s ( split( /(%STARTPUBLISH%|%STOPPUBLISH%)/, $tmpl ) ) {
-        if ( $s eq '%STARTPUBLISH%' ) {
-            $publish = 1;
-            $newTmpl = '' unless ($tagSeen);
-            $tagSeen = 1;
-        }
-        elsif ( $s eq '%STOPPUBLISH%' ) {
-            $publish = 0;
-            $tagSeen = 1;
-        }
-        elsif ($publish) {
-            $newTmpl .= $s;
-        }
-    }
-    $tmpl = $header . $newTmpl;
-    $tmpl =~ s/.*?<\/nopublish>//gs;
-    $tmpl =~ s/%MAXREV%/$maxrev/g;
-    $tmpl =~ s/%CURRREV%/$maxrev/g;
-    $tmpl =~ s/%REVTITLE%//g;
-    $tmpl =~ s|( ?) *</*nop/*>\n?|$1|gois;
-
-    # Remove <base.../> tag
-    $tmpl =~ s/<base[^>]+\/>//;
-
-    # Remove <base...>...</base> tag
-    $tmpl =~ s/<base[^>]+>.*?<\/base>//;
-
-    # Rewrite absolute URLs
-    my $base = $Foswiki::cfg{DefaultUrlHost} . $Foswiki::cfg{ScriptUrlPath};
-    $tmpl =~ s/(href=\")([^"]+)/$1.relativeURL($base,$2)/goei;
-    $tmpl =~ s/(action=\")([^"]+)/$1.relativeURL($base,$2)/goei;
-
-    my $report    = '';
     my $sentMails = 0;
 
-    my %targets = map { $_ => 1 } @$emails;
+    foreach my $name_email (@$name_emails) {
 
-    foreach my $email ( keys %targets ) {
-        my $mail = $tmpl;
+        my ( $name, $email ) = split( '&', $name_email, 2 );
 
-        $mail =~ s/%EMAILTO%/$email/go;
+        # Set up user prefs
+        my %oldPrefs;
+        _loadUserPreferences( $name, $email, $email2meta, \%oldPrefs );
 
-        my $base = $Foswiki::cfg{DefaultUrlHost} . $Foswiki::cfg{ScriptUrlPath};
-        $mail =~ s/(href=\")([^"]+)/$1.relativeURL($base,$2)/goei;
-        $mail =~ s/(action=\")([^"]+)/$1.relativeURL($base,$2)/goei;
+        # Don't render the header, it is preformatted
+        my $header =
+          Foswiki::Func::expandCommonVariables( $h_tmpl, $topic, $web );
+        my $mail = "$body\n$footer";
+        $mail = Foswiki::Func::expandCommonVariables( $mail, $topic, $web );
+        $mail = Foswiki::Func::renderText( $mail, "", $meta );
+
+        # REFACTOR OPPORTUNITY: stop factor me into getTWikiRendering()
+        # SMELL: this code is identical to PublishContrib!
+
+        # New tags
+        my $newTmpl = '';
+        my $tagSeen = 0;
+        my $publish = 1;
+        foreach my $s ( split( /(%STARTPUBLISH%|%STOPPUBLISH%)/, $mail ) ) {
+            if ( $s eq '%STARTPUBLISH%' ) {
+                $publish = 1;
+                $newTmpl = '' unless ($tagSeen);
+                $tagSeen = 1;
+            }
+            elsif ( $s eq '%STOPPUBLISH%' ) {
+                $publish = 0;
+                $tagSeen = 1;
+            }
+            elsif ($publish) {
+                $newTmpl .= $s;
+            }
+        }
+        $mail = $header . $newTmpl;
+        $mail =~ s/.*?<\/nopublish>//gs;
+        $mail =~ s/%MAXREV%/$maxrev/g;
+        $mail =~ s/%CURRREV%/$maxrev/g;
+        $mail =~ s/%REVTITLE%//g;
+        $mail =~ s|( ?) *</*nop/*>\n?|$1|gis;
+
+        # Remove <base.../> tag
+        $mail =~ s/<base[^>]+\/>//;
+
+        # Remove <base...>...</base> tag
+        $mail =~ s/<base[^>]+>.*?<\/base>//;
+
+        # Rewrite absolute URLs
+        my $base =
+            $Foswiki::cfg{DefaultUrlHost}
+          . $Foswiki::cfg{ScriptUrlPath}
+          . "/view/"
+          . $web . "/"
+          . $topic;
+        $mail =~ s/(href=\")([^"]+)/$1.relativeURL($base,$2)/gei;
+        $mail =~ s/(action=\")([^"]+)/$1.relativeURL($base,$2)/gei;
+        $mail =~ s/%EMAILTO%/$email/g;
 
         # remove <nop> and <noautolink> tags
-        $mail =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois;
+        $mail =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gis;
 
-        my $error = Foswiki::Func::sendEmail( $mail, 5 );
+        _restorePreferences( \%oldPrefs );
+
+        my $error;
+        if ( $options->{mail} ) {
+            $error = Foswiki::Func::sendEmail( $mail, 5 );
+        }
+        else {
+            print $mail if $options->{verbose};
+        }
 
         if ($error) {
             print STDERR "Error sending mail for $web: $error\n";
-            $report .= $error . "\n";
+            print "$error\n";
         }
         else {
-            print "Sent newletter for $web to $email\n" if $verbose;
+            print "Sent newsletter $web.$topic to $email\n"
+              if $options->{verbose};
             $sentMails++;
         }
     }
-    $report .= "\t$sentMails newsletters from $web\n";
+    print "\t$sentMails newsletters from $web\n";
 
     Foswiki::Func::popTopicContext();
 
@@ -593,15 +673,13 @@ sub _sendNewsletterMail {
             $Foswiki::Plugins::SESSION->{SESSION_TAGS}{$macro} = $old{$macro};
         }
     }
-
-    return $report;
 }
 
 1;
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2015 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root
 of this distribution. NOTE: Please extend that file, not this notice.
 

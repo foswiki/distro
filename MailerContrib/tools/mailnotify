@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#! /usr/bin/env perl
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
@@ -26,27 +26,48 @@
 
 use strict;
 
+use File::Spec;
+
 BEGIN {
-    require 'setlib.cfg';
+    my ( $volume, $binDir, $action ) = File::Spec->splitpath(__FILE__);
+    $binDir .= '/' if $binDir;
+    my $setlib = File::Spec->catpath( $volume, "$binDir../bin", 'setlib.cfg' );
+    @INC = ( '.', grep { $_ ne '.' } @INC ) unless $binDir;
+    require $setlib;
 }
 
-my $verbose = 1;
-my @webs = ();
+my %options = (
+    verbose => 1,
+    news    => 1,
+    changes => 1,
+    reset   => 1,
+    mail    => 1
+);
+
+my @webs   = ();
 my @exwebs = ();
-my $nonews = 0;
-my $nochanges = 0;
 
 # Called from the command line
-foreach my $arg ( @ARGV ) {
-    if( $arg eq "-q" ) {
-        $verbose = 0;
-    } elsif ( $arg eq "-nonews" ) {
-        $nonews = 1;
-    } elsif ( $arg eq "-nochanges" ) {
-        $nochanges = 1;
-    } elsif ( $arg =~ m/^-(.*)/ ) {
+foreach my $arg (@ARGV) {
+    if ( $arg eq "-q" ) {
+        $options{verbose} = 0;
+    }
+    elsif ( $arg eq "-nonews" ) {
+        $options{news} = 0;
+    }
+    elsif ( $arg eq "-nochanges" ) {
+        $options{changes} = 0;
+    }
+    elsif ( $arg eq "-noreset" ) {
+        $options{reset} = 0;
+    }
+    elsif ( $arg eq '-nomail' ) {
+        $options{mail} = 0;
+    }
+    elsif ( $arg =~ m/^-(.*)/ ) {
         push( @exwebs, $1 );
-    } else {
+    }
+    else {
         push( @webs, $arg );
     }
 }
@@ -56,5 +77,4 @@ use Foswiki::Contrib::MailerContrib ();
 
 new Foswiki();
 
-Foswiki::Contrib::MailerContrib::mailNotify(
-    \@webs, $verbose, \@exwebs, $nonews, $nochanges );
+Foswiki::Contrib::MailerContrib::mailNotify( \@webs, \@exwebs, %options );

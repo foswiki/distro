@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/MailerContrib.md5
+/MailerContrib.sha1
+/MailerContrib.tgz
+/MailerContrib.txt
+/MailerContrib.zip
+/MailerContrib_installer
+/MailerContrib_installer.pl
