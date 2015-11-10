@@ -67,8 +67,10 @@ sub test_TWiki_web {
 
     $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 0;
 
-    $this->assert( !Foswiki::Func::webExists('TWiki') );
-    $this->assert( !TWiki::Func::webExists('TWiki') );
+    if ( $Foswiki::cfg{Store}{Implementation} =~ /Rcs/ ) {
+        $this->assert( !Foswiki::Func::webExists('TWiki') );
+        $this->assert( !TWiki::Func::webExists('TWiki') );
+    }
 
     $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 1;
 
@@ -142,7 +144,7 @@ sub test_getOopsUrl {
     my $url =
       TWiki::Func::getOopsUrl( 'Incy', 'Wincy', 'Spider', 'Hurble', 'Burble',
         'Wurble', 'Murble' );
-    $this->assert_str_equals(
+    $this->assert_URI_equals(
         TWiki::Func::getScriptUrl( 'Incy', 'Wincy', 'oops' )
           . "?template=Spider;param1=Hurble;param2=Burble;param3=Wurble;param4=Murble",
         $url
@@ -151,7 +153,7 @@ sub test_getOopsUrl {
         'Incy',   'Wincy',  'oopspider', 'Hurble',
         'Burble', 'Wurble', 'Murble'
     );
-    $this->assert_str_equals(
+    $this->assert_URI_equals(
         TWiki::Func::getScriptUrl( 'Incy', 'Wincy', 'oops' )
           . "?template=oopspider;param1=Hurble;param2=Burble;param3=Wurble;param4=Murble",
         $url

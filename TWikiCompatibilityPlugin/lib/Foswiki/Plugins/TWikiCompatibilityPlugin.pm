@@ -16,8 +16,8 @@ use warnings;
 require Foswiki::Func;       # The plugins API
 require Foswiki::Plugins;    # For the API version
 use vars qw($debug $pluginName);
-use version; our $VERSION = version->declare("v1.1.2");
-our $RELEASE           = '1.1.2';
+our $VERSION           = '1.12';
+our $RELEASE           = '1.12';
 our $SHORTDESCRIPTION  = 'Add TWiki personality to Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -120,7 +120,7 @@ sub augmentedTemplatePath {
         my @templatePath = ();
         foreach my $path (@cfgTemplatePath) {
             push( @templatePath, $path );
-            if ( $path =~ /^(.*)\$name(.*)$/ ) {
+            if ( $path =~ m/^(.*)\$name(.*)$/ ) {
 
                 #SMELL: hardcoded foswiki and twiki
                 push( @templatePath, "$1twiki$2" );
