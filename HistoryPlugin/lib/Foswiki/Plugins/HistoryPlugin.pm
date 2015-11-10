@@ -10,8 +10,8 @@ use Foswiki::AccessControlException ();
 
 # =========================
 #   Simple decimal version,  no leading "v"
-our $VERSION           = "1.11";
-our $RELEASE           = '1.11';
+our $VERSION           = "1.13";
+our $RELEASE           = '1.13';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'Shows a complete history of a topic';
 
@@ -65,7 +65,7 @@ sub _handleHistory {
     my $nrev = $params->{nrev} ? $params->{nrev} : 10;
 
     if ($versions) {
-        $versions =~ /([0-9\-]*)(\.\.)*([0-9\-]*)/;
+        $versions =~ m/([0-9\-]*)(\.\.)*([0-9\-]*)/;
         if ( defined $1 && length $1 ) {
             $rev1 = $1;
         }
@@ -191,7 +191,7 @@ sub _handleHeadFoot {
         $text =~ s/\$next({.*?})//g;
     }
     else {
-        while ( $text =~ /\$next({(.*?)})/ ) {
+        while ( $text =~ m/\$next({(.*?)})/ ) {
             my $args = $2 || '';
 
             my $newrev1 = $rev2 < $maxrev ? $rev2 + 1 : $rev2;
@@ -218,7 +218,7 @@ sub _handleHeadFoot {
         $text =~ s/\$previous({.*?})//g;
     }
     else {
-        while ( $text =~ /\$previous({(.*?)})/ ) {
+        while ( $text =~ m/\$previous({(.*?)})/ ) {
             my $args = $2 || '';
 
             my $newrev2 = $rev1 > 1 ? $rev1 - 1 : 1;
@@ -248,7 +248,7 @@ sub _handleHeadFoot {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

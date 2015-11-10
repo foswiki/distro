@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/HistoryPlugin.md5
+/HistoryPlugin.sha1
+/HistoryPlugin.tgz
+/HistoryPlugin.txt
+/HistoryPlugin.zip
+/HistoryPlugin_installer
+/HistoryPlugin_installer.pl
