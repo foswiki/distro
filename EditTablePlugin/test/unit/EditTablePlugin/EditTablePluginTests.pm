@@ -31,6 +31,8 @@ sub set_up {
     $Foswiki::cfg{AllowInlineScript} = 0;
     $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes} =
 'tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#334455" databg="#ddd,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
+    $Foswiki::cfg{Plugins}{EditRowPlugin}{Enabled} = 0;
+    $Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled} = 1;
 
     local $ENV{SCRIPT_NAME} = ''; #  required by fake sort URLs in expected text
 
@@ -766,8 +768,8 @@ INPUT
 <table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
 	<tbody>
 		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <table class="editTableInnerTable"><tr><td valign="top"><input type="radio" name="etcell1x1" value=":skull:" /> <img src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" alt="dead!" title="dead!" border="0" /> <br /> <input type="radio" name="etcell1x1" value=":cool:" /> <img src="$pubPathSystemWeb/SmiliesPlugin/cool.gif" alt="cool!" title="cool!" border="0" /> </td></tr></table> </td>
-			<td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <table class="editTableInnerTable"><tr><td valign="top"><input type="checkbox" name="etcell1x2x2" value=":skull:" checked="checked" /> <img src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" alt="dead!" title="dead!" border="0" /> <br /> <input type="checkbox" name="etcell1x2x3" value=":cool:" checked="checked" /> <img src="$pubPathSystemWeb/SmiliesPlugin/cool.gif" alt="cool!" title="cool!" border="0" /> </td></tr></table><input type="hidden" name="etcell1x2" value="Chkbx: etcell1x2x2 etcell1x2x3" /> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <table class="editTableInnerTable"><tr><td valign="top"><input type="radio" name="etcell1x1" value=":skull:" /> <img alt="dead, deadly, doom" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" title="dead, deadly, doom"> </img> <br /> <input type="radio" name="etcell1x1" value=":cool:" /> <img alt="cool" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/emoticon-0103-cool.gif" title="cool"> </img> </td></tr></table> </td>
+			<td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <table class="editTableInnerTable"><tr><td valign="top"><input type="checkbox" name="etcell1x2x2" value=":skull:" checked="checked" /> <img alt="dead, deadly, doom" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" title="dead, deadly, doom"> </img> <br /> <input type="checkbox" name="etcell1x2x3" value=":cool:" checked="checked" /> <img alt="cool" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/emoticon-0103-cool.gif" title="cool"> </img> </td></tr></table><input type="hidden" name="etcell1x2" value="Chkbx: etcell1x2x2 etcell1x2x3" /> </td>
 		</tr>
 	</tbody>
 </table>
@@ -2179,7 +2181,7 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_last {
 			<td  rowspan="1" class="foswikiTableCol1 foswikiLast"> 22 Jan 2008 </td>
 			<td  rowspan="1" class="foswikiTableCol2 foswikiLast"> Benny </td>
 			<td  rowspan="1" class="foswikiTableCol3 foswikiLast"> Vacation </td>
-			<td  rowspan="1" class="foswikiTableCol4 foswikiLast"> <img src="$pubPathSystemWeb/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" /> </td>
+			<td  rowspan="1" class="foswikiTableCol4 foswikiLast"> <img alt="smile" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/emoticon-0100-smile.gif" title="smile"> </img> </td>
 			<td  rowspan="1" class="foswikiTableCol5 foswikiLastCol foswikiLast"> %EXTRACT% </td>
 		</tr>
 	</tbody></table>
@@ -2255,7 +2257,7 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_first {
 			<td  rowspan="1" class="foswikiTableCol1 foswikiLast"> 22 Jan 2008 </td>
 			<td  rowspan="1" class="foswikiTableCol2 foswikiLast"> Benny </td>
 			<td  rowspan="1" class="foswikiTableCol3 foswikiLast"> Vacation </td>
-			<td  rowspan="1" class="foswikiTableCol4 foswikiLast"> <img src="$pubPathSystemWeb/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" /> </td>
+			<td  rowspan="1" class="foswikiTableCol4 foswikiLast"> <img alt="smile" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/emoticon-0100-smile.gif" title="smile"> </img> </td>
 			<td  rowspan="1" class="foswikiTableCol5 foswikiLastCol foswikiLast"> %EXTRACT% </td>
 		</tr>
 	</tbody></table>
