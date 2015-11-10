@@ -1,0 +1,97 @@
+html {
+  overflow:hidden !important; 
+  background:#fff;
+}
+.slideShow {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color:#fff;
+  overflow:hidden;
+  z-index:999;
+}
+.slideShowPane {
+  padding:0 1.5em;
+  height:100%;
+  position:relative;
+  -webkit-box-sizing:border-box; 
+     -moz-box-sizing:border-box;
+          box-sizing:border-box;
+  overflow-x:hidden;
+  overflow-y:auto;
+  background-color:#fff;
+}
+.slideText {
+  font-size:1.5em;
+  line-height:1.5;
+}
+.slideText > h1 {
+  font-size:1.6em;
+  line-height:2.0;
+  border-bottom:1px solid #eee;
+  margin:0 -1.5em;
+  padding:0 1.5em;
+}
+
+.slideShowNum {
+  margin-left:0.5em;
+}
+.slideShowFooter {
+  position:fixed;
+  padding:0;
+  bottom:0;
+  left:0;
+  width:100%;
+  background-color:#fff;
+}
+.slideShowFirstSlide .slideShowFirst,
+.slideShowFirstSlide .slideShowPrev,
+.slideShowLastSlide .slideShowLast,
+.slideShowLastSlide .slideShowNext {
+  filter:     alpha(opacity=50); /* IE 6,7,8 */
+  -ms-filter: "alpha(opacity=50)"; /* IE 8 */
+  opacity:0.5;
+}
+
+.slideShowCurrentSlide .slideShowFooter {
+  z-index:1000;
+}
+
+/* pattern fixes */
+#patternScreen #patternPage {
+  position:inherit;
+}
+
+@media print {
+  .slideShow {
+    position:relative;
+  }
+  .slideShowControls {
+    display:none;
+  }
+  .slideShowPane {
+    page-break-after:always;
+    padding:0;
+  }
+  .slideShowPane.slideShowLastSlide {
+    page-break-after:initial;
+  }
+  .slideShowFooter {
+    position:initial;
+  }
+  .slideShowNum {
+    position:absolute;
+    top:0;
+    right:0;
+    text-align:right;
+    color:#eee;
+  }
+  .slideText > h1 {
+    margin-left:0;
+    margin-right:0;
+    padding-left:0;
+    padding-right:0;
+  }
+}
