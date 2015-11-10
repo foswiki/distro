@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-10 00:07+0200\n"
+"PO-Revision-Date: 2015-11-10 01:04+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -255,7 +255,7 @@ msgstr "(введіть =all= для виводу без обмежень)"
 #: core/templates/backlinkchildren.tmpl:2
 #, fuzzy
 msgid "(Children in %1 Web)"
-msgstr "(зворотні посилання у розділі %1)"
+msgstr "(\"дітей\" у розділі %1)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
@@ -278,8 +278,9 @@ msgid "(backlinks in all Webs)"
 msgstr "(зворотні посилання у всіх розділах)"
 
 #: core/templates/searchbookview.tmpl:4
+#, fuzzy
 msgid "(book view)"
-msgstr ""
+msgstr "(книжковий вигляд)"
 
 #: core/templates/changeform.tmpl:3
 msgid "(change form)"
@@ -294,22 +295,21 @@ msgid "(changes)"
 msgstr "(зміни)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:3
-#, fuzzy
 msgid "(compare)"
-msgstr "(більше)"
+msgstr "(порівняти)"
 
 #: core/templates/renameattachmentdelete.tmpl:5
 msgid "(delete attachment)"
-msgstr "(вилучити файл)"
+msgstr "(вилучити прикріплення)"
 
 #: core/templates/renamedelete.tmpl:3
 msgid "(delete)"
-msgstr "(вилучити)"
+msgstr "(видалити)"
 
 #: core/templates/messages.tmpl:513
 #, fuzzy
 msgid "(disabled)"
-msgstr "Редагувати таблицю"
+msgstr "(вимкнено)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -324,8 +324,9 @@ msgid "(edit)"
 msgstr "(редагувати)"
 
 #: core/templates/login.tmpl:4
+#, fuzzy
 msgid "(login)"
-msgstr ""
+msgstr "(логін)"
 
 #: core/templates/more.tmpl:3
 msgid "(more)"
@@ -345,21 +346,23 @@ msgstr "(немає батька, тема-сирота)"
 #: core/lib/Foswiki/UI/Rename.pm:1261 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
+#, fuzzy
 msgid "(none)"
-msgstr "(порожньо/нічого)"
+msgstr "(жоден)"
 
 #: core/data/System/WebSearch.txt:118 core/data/System/WebSearch.txt:148
+#, fuzzy
 msgid "(otherwise search %1 Web only)"
 msgstr "(інакше тільки у розділі %1)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
+#, fuzzy
 msgid "(raw view)"
-msgstr ""
+msgstr "(перегляд raw)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
-#, fuzzy
 msgid "(redirect denied)"
-msgstr "(доступ заборонений)"
+msgstr "(перенаправлення заборонено)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -368,7 +371,7 @@ msgstr "(перейменувати)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42
 msgid "(revision %1)"
-msgstr "(редакція)"
+msgstr "(редакція %1)"
 
 #: core/templates/oopssaveerr.tmpl:7
 msgid "(save error)"
@@ -376,22 +379,25 @@ msgstr "(помилка збереження)"
 
 #: core/templates/registermessages.tmpl:121
 msgid "(single character first name)"
-msgstr "(одна буква з імені)"
+msgstr "(ім'я з однієї букви)"
 
 #: core/templates/registermessages.tmpl:120
 msgid "(single character last name)"
-msgstr "(одна буква з прізвища)"
+msgstr "(прізвище з однієї букви)"
 
 #: core/lib/Foswiki/UI/Rename.pm:1112
 msgid "(skipped)"
 msgstr "(пропущено)"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
+#, fuzzy
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
 "address."
 msgstr ""
+"*Адміністратори*: У цій формі можна змінити електронну адресу користувача. "
+"Введіть [[%1][коротке ім'я]] або [[%1][WikiName]] та нову адресу."
 
 #: core/templates/attachagain.tmpl:19
 #, fuzzy
@@ -399,8 +405,8 @@ msgid ""
 "*Attach new file:* If you select a different file in the browser, it is this "
 "that will be updated or added."
 msgstr ""
-"*Локальний файл:* Якщо Ви виберете інший файл у полі _Локальний файл:_, то "
-"файл буде оновлений або доданий."
+"*Додати новий файл:* Файл буде оновлено чи додано якщо Ви виберете інший у "
+"браузері."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -409,14 +415,13 @@ msgid ""
 "attachment history will be the comment when the file was uploaded."
 msgstr ""
 "*Змінити коментар:* Якщо Ви використовуєте _Змінити Властивості_ щоб змінити "
-"коментар, то коментар, показаний на сторінці, зміниться, проте коментар, що "
-"показується в історії прикріплених файлів, буде коментарем що відноситься до "
-"моменту завантаження файлу."
+"коментар, то коментар, показаний на сторінці, зміниться. Проте в історії "
+"прикріплених файлів буде показано той, що був заданий під час завантаження "
+"файлу."
 
 #: core/data/System/WikiSyntaxSummary.txt:11
-#, fuzzy
 msgid "*Formatting help:*"
-msgstr "Додаткова інформація по розмітці тексту"
+msgstr "*Допомога по форматуванню текста:*"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
 #, fuzzy
@@ -430,26 +435,23 @@ msgid ""
 "contact %1 for details of the Data Protection Policy of this web server "
 "before registering."
 msgstr ""
-"*Важливо:* інформація, вказана в цій формі буде збережена у базі даних "
+"*Важливо:* Інформація, що вказана в цій формі, буде збережена у базі даних "
 "сервера Foswiki. Ця база даних доступна всім, у кого є інтернет-доступ до "
-"сервера (паролі будуть зашифровані, і адреса електронної пошти буде трохи "
-"змінена для захисту від спаму). У Вашій країні або країні, де розташований "
-"сервер, можуть діяти закони про захист інформації, які регламентують роботу "
-"подібних баз даних. Якщо у Вас виникають сумніви, то, перш ніж "
-"реєструватися, Вам слід звернутися до %1 для консультації з питань політики "
-"конфіденційності і захисту даних на цьому сервері."
+"сервера (проте паролі будуть зашифровані, і адреса електронної пошти буде \""
+"замилена\" для захисту від спаму). У Вашій країні або країні, де "
+"розташований сервер, можуть діяти закони про захист інформації, які "
+"регламентують роботу подібних баз даних. Якщо у Вас виникають сумніви, то, "
+"перш ніж реєструватися, Вам слід звернутися до %1 для консультації з питань "
+"політики конфіденційності і захисту даних на цьому сервері."
 
 #: core/templates/attachagain.tmpl:17
-#, fuzzy
 msgid ""
 "*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
 "changed without uploading a file by pressing \"Change Properties only\"."
 msgstr ""
 "*Властивості:* Коментар та видимість (тобто чи приховано прикріплений файл) "
 "можуть бути змінені без завантаження файлу шляхом натиснення  \"Змінити "
-"тільки коментар і властивості\"; дивіться <a target=\"HiddenAttachment\" "
-"onclick=\"return launchWindow('%1','HiddenAttachment')\" href=\"%2\" "
-"rel='nofollow'>Прихований Файл</a>."
+"тільки властивості\"."
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
@@ -468,6 +470,8 @@ msgid ""
 "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
 "Yahoo]]="
 msgstr ""
+"*зовнішнє посилання* =http://yahoo.com= або =[<nop>[http://yahoo.com/]["
+"посилання на Yahoo]]="
 
 #: core/data/System/WikiSyntaxSummary.txt:14
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
@@ -491,6 +495,8 @@ msgstr "*абзаци* необхідно розділяти порожнім р
 #: core/data/System/WikiSyntaxSummary.txt:16
 msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
 msgstr ""
+"*внутрішні посилання* користуйтесь ім'ям топіку: =%1= або =[<nop>[%1][Наша "
+"домашня сторінка]]="
 
 #: core/lib/Foswiki/I18N/Extract.pm:98
 msgid "..."
@@ -498,35 +504,35 @@ msgstr "..."
 
 #: core/data/System/SiteChanges.txt:30
 msgid "1 hour ago"
-msgstr ""
+msgstr "годину тому"
 
 #: core/data/System/SiteChanges.txt:35
 msgid "1 week ago"
-msgstr ""
+msgstr "тиждень тому"
 
 #: core/data/System/SiteChanges.txt:32
 msgid "12 hours ago"
-msgstr ""
+msgstr "12 годин тому"
 
 #: core/data/System/SiteChanges.txt:36
 msgid "2 weeks ago"
-msgstr ""
+msgstr "2 тижні тому"
 
 #: core/data/System/SiteChanges.txt:33
 msgid "24 hours ago"
-msgstr ""
+msgstr "24 години тому"
 
 #: core/data/System/SiteChanges.txt:34
 msgid "3 days ago"
-msgstr ""
+msgstr "3 дні тому"
 
 #: core/data/System/SiteChanges.txt:37
 msgid "4 weeks ago"
-msgstr ""
+msgstr "4 тижні тому"
 
 #: core/data/System/SiteChanges.txt:31
 msgid "6 hours ago"
-msgstr ""
+msgstr "6 годин тому"
 
 #: core/data/System/WebChanges.txt:19
 msgid ""
@@ -537,8 +543,8 @@ msgid ""
 msgstr ""
 "<a href='%1'>RSS потік</a>, недавні зміни <a href='%2'>50</a>, <a href='%3' "
 "rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a href='%5' "
-"rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> теми, <a "
-"href='%7' rel='nofollow'>всі зміни</a>"
+"rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> тем, <a href='%"
+"7' rel='nofollow'>всі зміни</a>"
 
 #: core/templates/more.tmpl:90
 msgid "<em>in %1 web</em> only"
@@ -549,27 +555,34 @@ msgid "<em>in all public webs</em>"
 msgstr "<em>у всіх загальнодоступних розділах</em>"
 
 #: core/templates/registermessages.tmpl:63
+#, fuzzy
 msgid ""
 "<nop>%1 (%2) can be emailed to inform them that their registration has been "
 "rejected."
 msgstr ""
+"<nop>%1 (%2) може бути відправлено поштою щоб поінформувати що у реєстрації "
+"було відмовлено."
 
 #: core/templates/registermessages.tmpl:57
+#, fuzzy
 msgid ""
 "<nop>%1 <%2> has been emailed to inform them that their registration has "
 "been denied"
 msgstr ""
+"<nop>%1 <%2> було відправлено поштою щоб поінформувати що у реєстрації їм "
+"було відмовлено."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
-#, fuzzy
 msgid "<nop>WikiName:"
-msgstr "Назва теми"
+msgstr "Назва теми:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:40
 msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
+"<strong>Потрібне підтвердження!</strong> Натисніть OK зміна умисна<br />"
+"Натисніть Cancel якщо це не так"
 
 #: core/templates/messages.tmpl:244
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -581,8 +594,8 @@ msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
 msgstr ""
-"%1 поділений на розділи; кожен розділ представляє одну тематику або одну "
-"область взаємодії. Ви намагаєтеся %2 у неіснуючому розділі."
+"Foswiki поділено на розділи; кожен розділ представляє одну тему або одну "
+"область взаємодії. Ви намагаєтеся %1 у розділі що не існує."
 
 #: core/templates/messages.tmpl:154
 msgid ""
@@ -590,12 +603,12 @@ msgid ""
 "=#FFFF00=."
 msgstr ""
 "Визначення кольору починається з символу #, за яким слідують 6 "
-"шістнадцяткових цифр, наприклад, =#FFFF00=."
+"шістнадцяткових цифр, наприклад: =#FFFF00=."
 
 #. ($data->{Email})
 #: core/lib/Foswiki/UI/Register.pm:1284
 msgid "A confirmation e-mail has been sent to %1"
-msgstr "Лист підтвердження відправлений по електронній пошті: %1"
+msgstr "Підтвердження відправлено по електронній пошті до %1"
 
 #: core/templates/messages.tmpl:427 core/templates/messages.tmpl:438
 msgid ""
