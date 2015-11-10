@@ -77,7 +77,12 @@ sub prepareHeaders {
         delete $this->{user};
     }
     else {
-        $req->remoteUser( $Foswiki::cfg{AdminUserWikiName} );
+        if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
+            $req->remoteUser( $Foswiki::cfg{AdminUserLogin} );
+        }
+        else {
+            $req->remoteUser( $Foswiki::cfg{AdminUserWikiName} );
+        }
     }
 }
 
