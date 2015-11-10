@@ -1,12 +1,17 @@
-%META:TOPICINFO{author="ProjectContributor" date="1288964903" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1436997088" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsContrib"}%
 ---+ Tips Of The Day
 
 These are all tips of the day. They are located in the %SYSTEMWEB% web (official distribution tips) and %USERSWEB% web (custom tips).
 
-%SEARCH{ "^[Custom]*TipTopic[0-9A-Z]" web="%SYSTEMWEB%, %MAINWEB%" topic="*TipTopic*" scope="topic" type="regex" casesensitive="on" nosearch="on" nototal="on" format="   * [[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]:$n()   $summary(noheader, 100)$n()$percntCALC{$SETM(total, +1)}$percnt"}%
+---++ Custom (local) tips
+%SEARCH{ "^CustomTipTopic[0-9A-Z]" web="%USERSWEB%" topic="CustomTipTopic*" scope="topic" type="regex" casesensitive="on" nosearch="on" nototal="on" format="   * [[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]:$n()   $summary(noheader, 100)$n()$percntCALC{$SETM(ctotal, +1)}$percnt"}%
+-Total: %CALC{$GET(ctotal)}% Custom tips
 
-Total: %CALC{$GET(total)}% tips
+---++ System tips
+%SEARCH{ "^TipTopic[0-9A-Z]" web="%SYSTEMWEB%" topic="*TipTopic*" scope="topic" type="regex" casesensitive="on" nosearch="on" nototal="on" format="   * [[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]:$n()   $summary(noheader, 100)$n()$percntCALC{$SETM(stotal, +1)}$percnt"}%
+
+-Total: %CALC{$GET(stotal)}% System tips
 
 ---
 *See also:* [[TipsOfTheDayAdmin][Tips Of The Day Administration]]

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282144126" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1436997088" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Re-parenting a topic
 
@@ -8,7 +8,7 @@ To re-parent a page:
 To re-parent a topic: 
    1 Click *More topic actions* on the topic you wish to re-parent
    1 Navigate to *Set new topic parent*
-   1 Click *Pick from a list*
+   1 Begin typing a new parent topic name
    1 Select a new parent from the list
    1 Click on the *Set new parent* button
 

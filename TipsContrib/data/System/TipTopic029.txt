@@ -1,14 +1,14 @@
-%META:TOPICINFO{author="ProjectContributor" date="1281633033" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ <nop>RSS news feed of topic changes
 
 You can use an RSS news reader to find out what is new in a Foswiki web. This complements WebChanges that shows recent changes in a web, and WebNotify where people can subscribe to get notified of recent changes by e-mail.
 
-For the <nop>%MAINWEB% web, point your RSS news reader to:
+For the %USERSWEB% web, point your RSS news reader to:
 
-<code> %SCRIPTURL%/view%SCRIPTSUFFIX%/%MAINWEB%/WebRss </code>
+<code> %SCRIPTURL%/view%SCRIPTSUFFIX%/%USERSWEB%/WebRss </code>
 
-For other Foswiki webs, replace =/%MAINWEB%/= with the name of the web:
+For other Foswiki webs, replace =/%USERSWEB%/= with the name of the web:
 
 %WEBLIST{ format="   * <code> %SCRIPTURL%/view%SCRIPTSUFFIX%/$name/WebRss </code>" }%
 

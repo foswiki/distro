@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282144126" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1436997088" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
----+ Edit tables with !EditTablePlugin
+---+ Edit tables with !EditRowPlugin
  
-EditTablePlugin allows you to edit tables using edit fields and drop down boxes. Tables have an <input type="image" alt="Edit this table" src="%PUBURLPATH%/%SYSTEMWEB%/EditTablePlugin/edittable.gif" class="editTableEditImageButton"> button if preceeded by an =%<nop>EDITTABLE{...}%= macro. Each column can be a text field, a drop down box, a date field, etc. Multiple tables per topic are editable, but only one at a time can be edited.
+EditRowPlugin allows you to edit tables using edit fields and drop down boxes. Tables have an <input type="image" alt="Edit this table" src="%PUBURLPATH%/%SYSTEMWEB%/EditTablePlugin/edittable.gif" class="editTableEditImageButton"> button if preceeded by an =%<nop>EDITTABLE{...}%= macro. Each column can be a text field, a drop down box, a date field, etc. Multiple tables per topic are editable, but only one at a time can be edited.
 
-Example:
+Example: %IF{"'%TOPIC%' allows 'change'" else="_example is not active_"}%
 
 Syntax: =%<nop>EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, one, two, three, four | radio, 3,:-),:-I,:-( | label, 0, %<nop>SERVERTIME{"$day $mon $year $hour:$min"}% |" changerows="on" }%=
 %EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, one, two, three, four | radio, 3,:-),:-I,:-( | label, 0, %SERVERTIME{"$day $mon $year $hour:$min"}% |" changerows="on" }%
@@ -12,7 +12,9 @@ Syntax: =%<nop>EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, one, t
 | 1 | hello table | one | :-) | 26 Jun 2002 12:30 |
 | 2 |  | two | :-( | 27 Jun 2002 12:40 |
 
+Note that the EditRowPlugin replaces and is backwards compatible with the old
+!EditTablePlugin.
 
-[[EditTablePlugin][More Information...]]
+[[EditRowPlugin][More Information...]]
 
 [[TipsOfTheDay][See More Tips...]]

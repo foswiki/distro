@@ -1,17 +1,65 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284576818" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1446868059" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDayAdmin"}%
 ---+ Tips Of the Day Include
 
 This Page randomly picks a Tip of the day to display. The %HOMETOPIC% includes the part between the horizontal rules.
 
 %STARTINCLUDE%
-<div class="tipsOfTheDay"><div class="tipsOfTheDayContents">
-<strong class="tipsOfTheDayHeader">%ICON{tip}% Tip of the Day</strong>
-<div class="tipsOfTheDayText">%CALC{$SET(webtopic, $LISTRAND(%SEARCH{ "^[Custom]*TipTopic[0-9A-Z]" web="%SYSTEMWEB%, %MAINWEB%" topic="*TipTopic*" scope="topic" type="regex" casesensitive="on" nosearch="on" nototal="on" separator=", " format="$web.$topic" noheader="on" }%))$SET(pos, $FIND(., $GET(webtopic)))$SET(web, $REPLACE($GET(webtopic), $GET(pos), 100))$SET(topic, $REPLACE($GET(webtopic), 1, $GET(pos)))}%
-%CALC{$NOP(%)SEARCH{ \"^$GET(topic)$\" web=\"$GET(web)\" scope="topic" regex="on" nosearch=\"on\" noheader=\"on\" nototal=\"on\" limit=\"1\" format=\"<span class=\\"tipsOfTheDayTitle\\">[[%SCRIPTURL{view}%/$web/$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]</span><br /> $summary(100, noheader) [[%SCRIPTURL{view}%/$web/$topic][%MAKETEXT{"Read on"}%&nbsp;<img src=\\"%ICONURL{more-small}%\\" alt=\\"Read more\\" title=\\"Read on\\" />]]\"}$NOP(%)}%
+<dirtyarea>
+<div class="tipsOfTheDay">
+   <div class="tipsOfTheDayContents">
+      <h4 class="tipsOfTheDayHeader">%ICON{tip}% Tip of the Day</h4>
+      <div class="tipsOfTheDayText">
+           %CALCULATE{
+             $SET(webtopic, $LISTRAND(
+                  %SEARCH{
+                    "^TipTopic[0-9A-Z]"
+                    web="%SYSTEMWEB%"
+                    topic="TipTopic*"
+                    scope="topic"
+                    type="regex"
+                    casesensitive="on"
+                    nosearch="on"
+                    nototal="on"
+                    separator=", "
+                    format="$web.$topic"
+                    noheader="on"
+                  }%,
+                  %SEARCH{
+                    "^(Custom)?TipTopic[0-9A-Z]"
+                    web="%USERSWEB%"
+                    topic="CustomTipTopic*"
+                    scope="topic"
+                    type="regex"
+                    casesensitive="on"
+                    nosearch="on"
+                    nototal="on"
+                    separator=", "
+                    format="$web.$topic"
+                    noheader="on"
+                  }%
+                ))
+             $SET(pos, $FIND(., $GET(webtopic)))
+             $SET(web, $REPLACE($GET(webtopic), $GET(pos), 100))
+             $SET(topic, $REPLACE($GET(webtopic), 1, $GET(pos)))
+           }%%SEARCH{
+               "^%CALCULATE{"$GET(topic)"}%$"
+               web="%CALCULATE{"$GET(web)"}%"
+               topic="%CALCULATE{"$GET($topic)"}%"
+               scope="topic"
+               regex="on"
+               nosearch="on"
+               noheader="on"
+               nototal="on"
+               limit="1"
+               format="<div class='tipsOfTheDayTitle'>[[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]</div>
+                  $summary(100, noheader)
+                  [[$web.$topic][%MAKETEXT{"Read on"}%&nbsp;<img src='%ICONURL{more-small}%' alt='Read more' title='Read on' />]]"
+            }%
+      </div>
+   </div>
 </div>
-</div>
-</div>
+</dirtyarea>
 %STOPINCLUDE%
 
 ---

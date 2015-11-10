@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1281633033" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421599458" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Control table attributes with !TablePlugin
 
@@ -9,7 +9,7 @@ The TablePlugin gives extra control of table display:
    * Changing background color and text color for data cells - colors can _alternate_
    * Table attributes can be set and overridden in this order:
       * Default =TABLEATTRIBUTES= Plugin setting in this topic
-      * A =TABLEATTRIBUTES= preferences setting on site-level (%USERSWEB%.SitePreferences), web-level (any WebPreferences), or topic level. For example:
+      * A =TABLEATTRIBUTES= preferences setting on site-level (%LOCALSITEPREFS%), web-level (any %WEBPREFSTOPIC%), or topic level. For example:
          * =Set TABLEATTRIBUTES = tableborder="0" cellpadding="1" ...=
 
 To change table characteristics place =%<nop>TABLE{...}%= before the table.

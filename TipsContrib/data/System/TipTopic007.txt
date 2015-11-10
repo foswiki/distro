@@ -1,12 +1,13 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282144126" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1436997088" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Linking to a file attachment
 
-A link to a file attachment may be created in a few different ways: 
-   1 If using the WYSIWYG editor (TinyMCEPlugin), use the attach (paperclip) toolbar button to select an attachment on the "Insert link to attachment" tab and then press the "Insert link" button 
-   1 Use the =%<nop>ATTACHURL%= macro (see [[VarATTACHURL]]). This is the full URL for attachments in the current topic. For example: 
-   <!-- %JQREQUIRE{"chili"}% --><verbatim class="tml">%ATTACHURL%/image.gif</verbatim> 
-   1 To link to a file attachment in another topic, use the =%<nop>PUBURL%= macro (see [[VarPUBURL]]).  For example:  
-   <verbatim class="tml">%PUBURL%/%WEB%/OtherTopic/image.gif</verbatim> 
+A link to a file attachment may be created in a few different ways:
+   1 If using the WYSIWYG editor (TinyMCEPlugin), use the attach (paperclip) toolbar button to select an attachment on the "Insert link to attachment" tab and then press the "Insert link" button
+   1 Use the =%<nop>ATTACHURL%= macro (see [[VarATTACHURL]]). This is the full URL for attachments in the current topic. For example:
+   <!-- %JQREQUIRE{"chili"}% --><verbatim class="tml">%ATTACHURL%/image.gif</verbatim>
+   1 To link to a file attachment in another topic, use the =%<nop>PUBURL%= macro (see [[VarPUBURL]]).  For example:
+   <verbatim class="tml">%PUBURL{"foswiki-badge.png" web="%SYSTEMWEB%" topic="ProjectLogos"}%</verbatim>
+      %PUBURL{"foswiki-badge.png" web="%SYSTEMWEB%" topic="ProjectLogos"}%
 
 [[TipsOfTheDay][See More Tips...]]

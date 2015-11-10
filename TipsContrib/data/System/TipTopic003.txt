@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1282144126" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Raw Text link
 
-At the bottom of each page among the action links (assuming use of the default PatternSkin), there is a *View wiki text* link which shows how a topic looks in its raw WikiSyntax form. This allows you to view and copy raw text without having to edit.
+At the bottom of each page among the action links (assuming use of the default PatternSkin), there is a *View wiki text* link which shows how a topic looks in its raw TML form. This allows you to view and copy raw text without having to edit.
 
 [[TipsOfTheDay][See More Tips...]]
