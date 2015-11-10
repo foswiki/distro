@@ -1,10 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1284905286" format="1.1" version="1"}%
-%META:TOPICPARENT{name="RenderListPlugin"}%
-#VarRENDERLIST
----+++ RENDERLIST -- render bullet lists in a variety of formats
-   * The =%<nop>RENDERLIST%= macro is handled by the RenderListPlugin
-   * Syntax: =%<nop>RENDERLIST%=
-   * Example: <verbatim class="tml">%RENDERLIST{"org" focus="Sales.WestCoastTeam"}%
+%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ RENDERLIST -- render bullet lists in a variety of formats
+The =%<nop>RENDERLIST%= macro is handled by the RenderListPlugin
+---++ Examples
+<verbatim class="tml">%RENDERLIST{"org" focus="Sales.WestCoastTeam"}%
       * [[Eng.WebHome][Engineering]]
          * [[Eng.TechPubs][Tech Pubs]]
       * [[Sales.WestCoastTeam][Sales]]
@@ -18,5 +17,7 @@
          * [[Sales.EastCoastTeam][East Coast]]
          * [[Sales.WestCoastTeam][West Coast]]
 </div>
-   * Related: RenderListPlugin
+%STOPINCLUDE%
+---++ Related
+ RenderListPlugin
 <!--%JQREQUIRE{"chili"}%-->

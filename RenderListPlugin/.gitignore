@@ -1,0 +1,10 @@
+*,v
+*,pfv
+*.gz
+/RenderListPlugin.md5
+/RenderListPlugin.sha1
+/RenderListPlugin.tgz
+/RenderListPlugin.txt
+/RenderListPlugin.zip
+/RenderListPlugin_installer
+/RenderListPlugin_installer.pl

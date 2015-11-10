@@ -1,22 +1,5 @@
 # See bottom of file for license and copyright information
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-#
-# Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org
-# Copyright (C) 2008 Foswiki Contributors
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of this distribution.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# As per the GPL, removal of this notice is prohibited.
-# =========================
-
 # =========================
 package Foswiki::Plugins::RenderListPlugin
   ;    # change the package name and $pluginName!!!
@@ -30,8 +13,8 @@ use vars qw(
   $pubUrl $attachUrl
 );
 
-use version; our $VERSION = version->declare("v2.2.7");
-our $RELEASE           = '2.2.7';
+our $VERSION           = '2.27';
+our $RELEASE           = '2.27';
 our $pluginName        = 'RenderListPlugin';    # Name of this Plugin
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION = 'Render bullet lists in a variety of formats';
@@ -79,7 +62,7 @@ sub preRenderingHandler {
 
     # Render here, not in commonTagsHandler so that lists produced by
     # Plugins, TOC and SEARCH can be rendered
-    if ( $_[0] =~ /%RENDERLIST/o ) {
+    if ( $_[0] =~ m/%RENDERLIST/ ) {
         unless ( $_[0] =~
 s/%RENDERLIST\{(.*?)\}%\s*(([\n\r]+[^ ]{3}[^\n\r]*)*?)(([\n\r]+ {3}[^\n\r]*)+)/&handleRenderList($1, $2, $4)/ges
           )
@@ -129,7 +112,7 @@ sub handleRenderList {
 sub renderIconList {
     my ( $theType, $theParams, $theFocus, $theDepth, $theText ) = @_;
 
-    $theText =~ s/^[\n\r]*//os;
+    $theText =~ s/^[\n\r]*//s;
     my @tree       = ();
     my $level      = 0;
     my $type       = "";
@@ -140,7 +123,7 @@ sub renderIconList {
         $level = length($1);
         $type  = $2;
         $text  = $3;
-        if ( ($theFocus) && ( $focusIndex < 0 ) && ( $text =~ /$theFocus/ ) ) {
+        if ( ($theFocus) && ( $focusIndex < 0 ) && ( $text =~ m/$theFocus/ ) ) {
             $focusIndex = scalar(@tree);
         }
         push( @tree, { level => $level, type => $type, text => $text } );
@@ -156,9 +139,9 @@ sub renderIconList {
         # highlight node with focus and remove links
         $text = $nref->{'text'};
         $text =~
-          s/^([^\-]*)\[\[.*?\]\[(.*?)\]\]/$1$2/o;    # remove [[...][...]] link
-        $text =~ s/^([^\-]*)\[\[(.*?)\]\]/$1$2/o;    # remove [[...]] link
-        $text = "<b> $text </b>";                    # bold focus text
+          s/^([^\-]*)\[\[.*?\]\[(.*?)\]\]/$1$2/;    # remove [[...][...]] link
+        $text =~ s/^([^\-]*)\[\[(.*?)\]\]/$1$2/;    # remove [[...]] link
+        $text = "<b> $text </b>";                   # bold focus text
         $nref->{'text'} = $text;
 
         # remove uncles and siblings below current node
@@ -191,7 +174,7 @@ sub renderIconList {
 
     # limit depth of tree
     my $depth = $theDepth;
-    unless ( $depth =~ s/.*?([0-9]+).*/$1/o ) {
+    unless ( $depth =~ s/.*?([0-9]+).*/$1/ ) {
         $depth = 0;
     }
     if ($theFocus) {
@@ -210,12 +193,12 @@ sub renderIconList {
         @tree = @tmp;
     }
 
-    $theParams =~ s/%PUBURL%/$pubUrl/go;
-    $theParams =~ s/%ATTACHURL%/$attachUrl/go;
-    $theParams =~ s/%WEB%/$installWeb/go;
-    $theParams =~ s/%MAINWEB%/Foswiki::Func::getMainWebname()/geo;
-    $theParams =~ s/%TWIKIWEB%/$Foswiki::cfg{SystemWebName}/geo;
-    $theParams =~ s/%SYSTEMWEB%/$Foswiki::cfg{SystemWebName}/geo;
+    $theParams =~ s/%PUBURL%/$pubUrl/g;
+    $theParams =~ s/%ATTACHURL%/$attachUrl/g;
+    $theParams =~ s/%WEB%/$installWeb/g;
+    $theParams =~ s/%MAINWEB%/Foswiki::Func::getMainWebname()/ge;
+    $theParams =~ s/%TWIKIWEB%/$Foswiki::cfg{SystemWebName}/ge;
+    $theParams =~ s/%SYSTEMWEB%/$Foswiki::cfg{SystemWebName}/ge;
     my ( $showLead, $width, $height, $iconSp, $iconT, $iconI, $iconL, $iconImg )
       = split( /, */, $theParams );
     $width  = 16          unless ($width);
@@ -275,14 +258,14 @@ sub renderIconList {
                 $text .= "<td valign=\"top\">$iconSp</td>\n";
             }
             elsif ( $tree[$i]->{'text'} =~
-                /^\s*(<b>)?\s*((icon\:)?<img[^>]+>|icon\:[^\s]+)\s*(.*)/ )
+                m/^\s*(<b>)?\s*((icon\:)?<img[^>]+>|icon\:[^\s]+)\s*(.*)/ )
             {
 
                 # specific icon
                 $tree[$i]->{'text'} = $4;
                 $tree[$i]->{'text'} = "$1 $4" if ($1);
                 my $icon = $2;
-                $icon =~ s/^icon\://o;
+                $icon =~ s/^icon\://;
                 $icon = fixImageTag( $icon, $width, $height );
                 $text .= "<td valign=\"top\">$icon</td>\n";
             }
@@ -299,14 +282,14 @@ sub renderIconList {
 
             # tree theme type
             if ( $tree[$i]->{'text'} =~
-                /^\s*(<b>)?\s*((icon\:)?<img[^>]+>|icon\:[^\s]+)\s*(.*)/ )
+                m/^\s*(<b>)?\s*((icon\:)?<img[^>]+>|icon\:[^\s]+)\s*(.*)/ )
             {
 
                 # specific icon
                 $tree[$i]->{'text'} = $4;
                 $tree[$i]->{'text'} = "$1 $4" if ($1);
                 my $icon = $2;
-                $icon =~ s/^icon\://o;
+                $icon =~ s/^icon\://;
                 $icon = fixImageTag( $icon, $width, $height );
                 $text .= "<td valign=\"top\">$icon</td>\n";
                 $text .=
@@ -342,7 +325,8 @@ sub fixImageTag {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org 
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
