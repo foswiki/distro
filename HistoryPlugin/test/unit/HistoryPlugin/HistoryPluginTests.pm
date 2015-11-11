@@ -316,7 +316,7 @@ sub test_header {
     my $date        = $this->_getDate($topicObject);
 
     my $expected = <<EXPECTED;
-<nop><h2 id="header"> header </h2>
+<nop><h2> <a name="header"></a> header </h2>
 r4 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
 r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
 r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
@@ -351,7 +351,7 @@ sub test_footer {
 r3 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
 r2 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
 r1 - $date - <a href="$url/$this->{users_web}/ScumBag">ScumBag</a><br />
-<nop><h2 id="footer"> footer </h2>
+<nop><h2> <a name="footer"></a> footer </h2>
 EXPECTED
 
     my $actual = $topicObject->expandMacros(<<'ACTUAL');

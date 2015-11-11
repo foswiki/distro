@@ -1179,12 +1179,6 @@ Space"@blahSTUFFED.com</a>',
         my $actual = <<ACTUAL;
 $url
 ACTUAL
-        if ( $this->check_dependency('Foswiki,<,1.2') ) {
-
-            # URL encoding of whitespace was borked before 1.2
-            $expected =~ s/%0a/%20/g;
-            $expected =~ s/%3d/%3D/g;
-        }
 
         #print STDERR "EXPECTED $expected from $actual\n";
         $this->do_test( $expected, $actual );
