@@ -1,4 +1,4 @@
-#!/usr/bin/perl -wT
+#!/usr/bin/perl
 # See bottom of file for license and copyright information
 use strict;
 use warnings;
@@ -9,9 +9,12 @@ use File::Copy();
 use File::Spec();
 use FindBin();
 use Cwd();
+use Carp;
+use Error;
+$Error::Debug = 1;
 
 my $usagetext = <<'EOM';
-pseudo-install extensions into a SVN (or git) checkout
+pseudo-install extensions into a git checkout
 
 This is done by a link or copy of the files listed in the MANIFEST for the
 extension. The installer script is *not* called. It should be almost equivalent
@@ -25,46 +28,39 @@ by default). The default path includes current working directory & its parent.
 
 Usage: pseudo-install.pl -[G|C][feA][l|c|u] [-E<cfg> <module>] [all|default|
               developer|<module>|git://a.git/url, a@g.it:/url etc.]
+  -A[utoconf]  - make a simplistic LocalSite.cfg, using just the defaults in
+                 lib/Foswiki.spec
   -C[onfig]    - path to config file (default $HOME/.buildcontrib, or envar
                                               $FOSWIKI_PSEUDOINSTALL_CONFIG)
-  -G[enerate]  - generate default psuedo-install config in $HOME/.buildcontrib
-  -f[orce]     - force an action to complete even if there are warnings
-  -e[nable]    - automatically enable installed plugins in LocalSite.cfg
   -E<c> <extn> - include extra configuration values into LocalSite.cfg. <c>.cfg
                  file must exist in the same dir as <extn>'s Config.spec file
-  -m[anual]    - do not automatically enable installed plugins in LocalSite.cfg
-  -l[ink]      - create links %linkByDefault%
+  -G[enerate]  - generate default psuedo-install config in $HOME/.buildcontrib
+  -L[ist]      - list all the foswiki extensions that could be installed by asking
+                 all the extension repositories that are known from the .buildcontrib
+  -N[ohooks]   - Disable linking of git hooks. Not for foswiki repositories!
   -c[opy]      - copy instead of linking %copyByDefault%
+  -d[ebug]     - print an activity trace
+  -e[nable]    - automatically enable installed plugins in LocalSite.cfg
+  -f[orce]     - force an action to complete even if there are warnings
+  -l[ink]      - create links %linkByDefault%
+  -m[anual]    - do not automatically enable installed plugins in LocalSite.cfg
   -u[ninstall] - self explanatory (doesn't remove dirs)
   core         - install core (create and link derived objects)
   all          - install core + all extensions (big job)
   default      - install core + extensions listed in lib/MANIFEST
   developer    - core + default + key developer environment
   <module>...  - one or more extensions to install (by name or git URL)
-  -[A]utoconf  - make a simplistic LocalSite.cfg, using just the defaults in
-                 lib/Foswiki.spec
-  -[L]ist      - list all the foswiki extensions that could be installed by asking
-                 all the extension repositories that are known from the .buildcontrib
-  -[s]vn       - Create subversion connections for git-svn usage
-  -N[ohooks]   - Disable linking of git hooks. Not for foswiki repositories!
+  -s[vn]       - Create subversion connections for git-svn usage
 
 Examples:
   softlink and enable FirstPlugin and SomeContrib
       perl pseudo-install.pl -force -enable -link FirstPlugin SomeContrib
 
-  Check out a new trunk, create a default LocalSite.cfg, install and enable
-  all the plugins for the default distribution (and then run the unit tests)
-      svn co http://svn.foswiki.org/trunk
-      cd trunk/core
-      ./pseudo-install.pl -A developer
-      cd test/unit
-      ../bin/TestRunner.pl -clean FoswikiSuite.pm
-
   Create a git-repo-per-extension checkout: start by cloning core,
       git clone git://github.com/foswiki/core.git
       cd core
+      cd trunk/core
   Then, install extensions (missing modules automatically cloned & configured
-  for git-svn against svn.foswiki.org; 'master' branch is svn's trunk, see [1]):
       ./pseudo-install.pl developer
   Install & enable an extension from an abritrary git repo without enabling hooks
       ./pseudo-install.pl -e -N git@github.com:/me/MyPlugin.git
@@ -91,6 +87,7 @@ my $do_genconfig;
 my @extensions_path;
 my %extensions_extra_config;
 my $autoenable     = 0;
+my $debug          = 0;
 my $githooks       = 1;
 my $svnconnect     = 0;
 my $installing     = 1;
@@ -114,6 +111,9 @@ my %arg_dispatch   = (
     '-u' => sub {
         $install    = \&uninstall;
         $installing = 0;
+    },
+    '-d' => sub {
+        $debug = 1;
     },
     '-e' => sub {
         $autoenable = 1;
@@ -354,7 +354,7 @@ sub error {
 
 sub trace {
 
-    #warn "...", @_, "\n";
+    warn "...", @_, "\n" if $debug;
 
     return;
 }
@@ -473,7 +473,6 @@ sub installModuleByName {
     }
     if ( $manifest && -e $manifest ) {
         installFromMANIFEST( $module, $moduleDir, $manifest, $ignoreBlock );
-        update_gitignore_file($moduleDir);
     }
     else {
         $libDir = undef;
@@ -599,7 +598,7 @@ HERE
 sub do_commands {
     my ($commands) = @_;
 
-    #print $commands . "\n";
+    # print $commands . "\n";
     local $ENV{PATH} = untaint( $ENV{PATH} );
 
     return `$commands`;
@@ -763,7 +762,17 @@ sub installFromMANIFEST {
 
     open( my $df, '<', $manifest )
       or die "Cannot open manifest $manifest for reading: $!";
-    foreach my $file (<$df>) {
+    my @files = (<$df>);
+    close $df;
+
+    my $depfile = $manifest;
+    $depfile =~ s/MANIFEST/DEPENDENCIES/;
+    if ( -f $depfile ) {
+        $depfile =~ s/^$moduleDir\///;
+        push @files, $depfile . " 0644 \n";
+    }
+
+    foreach my $file (@files) {
         chomp($file);
         if ( $file =~ /^!include\s+(\S+)\s*$/ ) {
             my $incfile = $1;
@@ -796,16 +805,20 @@ sub installFromMANIFEST {
             my $found = -f File::Spec->catfile( $moduleDir, $file );
 
             unless ($found) {
+
+                # Generate alternate version *in the $moduleDir*
                 $found = generateAlternateVersion( $moduleDir, $dir, $file,
                     $CAN_LINK );
+                if ($found) {
+                    $install->( $moduleDir, $dir, $file, $ignoreBlock );
+                }
             }
             unless ($found) {
-                warn 'WARNING: Cannot find source file for '
+                warn 'WARNING: Cannot find or generate source file for '
                   . File::Spec->catfile( $moduleDir, $file ) . "\n";
             }
         }
     }
-    close $df;
 
     if ( -d File::Spec->catdir( $moduleDir, 'test', 'unit', $module ) ) {
         opendir( $df,
@@ -892,7 +905,8 @@ sub installFromMANIFEST {
             # Can't $_ eq '1;' because /^1;$/ is less picky about newlines
             next if /^1;$/;
             $localConfiguration .= $_;
-            if (m/^\$Foswiki::cfg{Plugins}{$module}{(\S+)}\s+=\s+(\S+);/) {
+            if (m/^\$Foswiki::cfg\{Plugins\}\{$module\}\{(\S+)\}\s+=\s+(\S+);/)
+            {
                 if ( $1 eq 'Enabled' ) {
                     $enabled = $2;
                 }
@@ -997,7 +1011,7 @@ sub linkOrCopy {
         $srcfile = _cleanPath($srcfile);
         $dstfile = _cleanPath($dstfile);
         symlink( $srcfile, $dstfile )
-          or die "Failed to link $srcfile as $dstfile: $!";
+          or carp "Failed to link $srcfile as $dstfile: $!";
         print "Linked $source as $target\n";
         $generated_files{$basedir}{$target} = 1;
     }
@@ -1013,70 +1027,78 @@ sub linkOrCopy {
     return;
 }
 
-# Tries to find out alternate versions of a file
-# So that file.js.gz and file.uncompressed.js get created
+# The source of a file listed in the MANIFEST was not found
+# Try to find a source or alternate, using file naming rules.
+# X.gz can be generated from X
+# X.Y can be linked to any of
+#    X.uncompressed.Y
+#    X_src.Y
+#    X.compressed.Y
+#    X.min.Y
+#    X.Y
+# (preference in that order)
+# $file is the file being looked for e.g. blah.js.gz
+# return 1 if the file was able to be generated
 sub generateAlternateVersion {
     my ( $moduleDir, $dir, $file, $link ) = @_;
-    my $found    = 0;
-    my $compress = 0;
-    trace( File::Spec->catfile( $moduleDir, $file ) . ' not found' );
 
-    if ( !$found && $file =~ /(.*)\.gz$/ ) {
-        $file     = $1;
-        $found    = ( -f File::Spec->catfile( $moduleDir, $1 ) );
-        $compress = 1;
-    }
-    if (  !$found
-        && $file =~ /^(.+)(\.(?:un)?compressed|_src|\.min)(\..+)$/
-        && -f File::Spec->catfile( $moduleDir, $1 . $3 ) )
-    {
-        linkOrCopy $moduleDir, $file, $1 . $3, $link;
-        $found++;
-    }
-    elsif ( !$found && $file =~ /^(.+)(\.[^\.]+)$/ ) {
-        my ( $src, $ext ) = ( $1, $2 );
-        for my $kind (qw( .uncompressed .compressed _src .min )) {
-            my $srcfile = $src . $kind . $ext;
+    trace( File::Spec->catfile( $moduleDir, $file )
+          . ' not found, trying to generate alternate' );
 
-            if ( -f File::Spec->catfile( $moduleDir, $srcfile ) ) {
-                linkOrCopy $moduleDir, $srcfile, $file, $link;
-                $found++;
-                last;
-            }
+    if ( $file =~ /(.*)\.gz$/ ) {
+        my $zource = $1;
+        unless ( -f File::Spec->catfile( $moduleDir, $zource )
+            || generateAlternateVersion( $moduleDir, $dir, $zource, $link ) )
+        {
+            # Failed
+            return 0;
         }
-    }
-    if ( $found && $compress ) {
-        trace "...compressing $file to create $file.gz";
+        $zource =
+          untaint( _cleanPath( File::Spec->catfile( $moduleDir, $zource ) ) );
+        trace "...compressing $zource to create $file";
         if ($internal_gzip) {
-            open( my $if, '<', _cleanPath($file) )
-              or die "Failed to open $file to read: $!";
+            open( my $if, '<', $zource )
+              or die "Failed to open $zource to zip: $!";
             local $/ = undef;
             my $text = <$if>;
             close($if);
 
             $text = Compress::Zlib::memGzip($text);
 
-            open( my $of, '>', _cleanPath($file) . ".gz" )
-              or die "Failed to open $file.gz to write: $!";
+            my $dezt =
+              untaint( _cleanPath( File::Spec->catfile( $moduleDir, $file ) ) );
+            open( my $of, '>', $dezt )
+              or die "Failed to open $dezt to write: $!";
             binmode $of;
             print $of $text;
             close($of);
-            $generated_files{$moduleDir}{"$file.gz"} = 1;
         }
         else {
 
             # Try gzip as a backup, if Compress::Zlib is not available
-            my $command =
-                "gzip -c "
-              . _cleanPath($file) . " > "
-              . _cleanPath($file) . ".gz";
+            my $command = "gzip -c $file > $file.gz";
             local $ENV{PATH} = untaint( $ENV{PATH} );
-            trace `$command`;
-            $generated_files{$moduleDir}{"$file.gz"} = 1;
+            trace $command . ' -> ' . `$command`;
+        }
+
+        $generated_files{$moduleDir}{$file} = 1;
+        return 1;
+    }
+
+    # otherwise, try and link to a matching .uncompressed, .min etc
+    if ( $file =~ /^(.+?)(.uncompressed|_src|.min|.compressed|)(\.[^.]+)$/ ) {
+        my ( $root, $mid, $ext ) = ( $1, $2 || '', $3 );
+        foreach my $type ( grep { $_ ne $mid }
+            ( '.uncompressed', '_src', '.min', '' ) )
+        {
+            if ( -f File::Spec->catfile( $moduleDir, "$root$type$ext" ) ) {
+                linkOrCopy $moduleDir, "$root$type$ext", $file, $link;
+                return 1;
+            }
         }
     }
 
-    return $found;
+    return 0;
 }
 
 # See also: just_link
@@ -1244,48 +1266,8 @@ sub Autoconf {
 
     if ( $force || ( !-e $localSiteCfg ) ) {
         unlink $localSiteCfg;    # So we can easily append
-        my @specFiles = (
-            File::Spec->catfile( $foswikidir, 'lib', 'Foswiki.spec' ),
-            map {
-                glob File::Spec->catfile( $foswikidir, 'lib', 'Foswiki', $_,
-                    '*', 'Config.spec' )
-            } qw( Plugins Contrib )
-        );
-        for my $file (@specFiles) {
-            open( my $f, '<', $file ) or die "Cannot autoconf $file: $!";
-            local $/ = undef;
-            my $localsite = <$f>;
-            close $f;
-
-     #assume that the commented out settings (DataDir etc) are only on one line.
-            $localsite =~ s/^# (\$Foswiki::cfg[^\n]*)/$1/mg;
-            $localsite =~ s/^#[^\n]*\n+//mg;
-            $localsite =~ s/\n\s+/\n/sg;
-            $localsite =~ s/__END__//g;
-            if ( $^O eq 'MSWin32' ) {
-
-                #oh wow, windows find is retarded
-                $localsite =~ s|^(-------.*)$||m;
-
-                #prefer non-grep SEARCH
-                $localsite =~
-s|^(.*)SearchAlgorithms::Forking(.*)$|$1SearchAlgorithms::PurePerl$2|m;
-
-                #RscLite
-                $localsite =~ s|^(.*)RcsWrap(.*)$|$1RcsLite$2|m;
-            }
-
-            $localsite =~ s|/home/httpd/foswiki|$foswikidir|g;
-
-            if ( open( my $ls, '>>', $localSiteCfg ) ) {
-                print $ls $localsite;
-                close $ls;
-                warn "Appended specs from $file to $localSiteCfg\n";
-            }
-            else {
-                error "failed to write to $localSiteCfg: $!\n\n";
-            }
-        }
+        local $ENV{PATH} = untaint( $ENV{PATH} );
+        trace `tools/configure -save -noprompt`;
     }
     else {
         error "won't overwrite $localSiteCfg without -force\n\n";
@@ -1422,15 +1404,13 @@ sub run {
     for my $arg (@ARGV) {
         if ( $arg eq 'all' ) {
             push( @modules, 'core' );
-            foreach my $dir (@extensions_path) {
-                opendir my $d, $dir or next;
-                push @modules, map { untaint($_) }
-                  grep {
-                    /(?:Tag|Plugin|Contrib|Skin|AddOn)$/
-                      && -d File::Spec->catdir( $dir, $_ )
-                  } readdir $d;
-                closedir $d;
-            }
+            require JSON;
+            my $page = 1;
+            print "Getting list of Foswiki extensions\n";
+            my $list = do_commands(
+                "curl -# http://foswiki.org/Extensions/JsonReport?skin=text");
+            $list = JSON::decode_json($list);
+            push @modules, map { $_->{name} } @$list;
         }
         elsif ( $arg eq 'default' || $arg eq 'developer' ) {
             open my $f, '<', File::Spec->catfile( 'lib', 'MANIFEST' )
@@ -1507,132 +1487,6 @@ sub exec_opts {
     return;
 }
 
-# input_files: a lookup hashref keyed by files relative to some moduleDir
-# old_rules: arrayref of lines in the exisiting moduleDir/.gitignore file
-# returns: array of old_rules appended with new files to ignore (that hopefully
-#          don't match any wildcard expressions in existing .gitignore)
-
-sub merge_gitignore {
-    my ( $input_files, $old_rules ) = @_;
-    my @merged_rules;
-    my @match_rules;
-    my %dropped_rules;
-
-    die "Bad parameter type (should be HASH): " . ref($input_files)
-      unless ( ref($input_files) eq 'HASH' );
-    die "Bad parameter type (should be ARRAY): " . ref($old_rules)
-      unless ( ref($old_rules) eq 'ARRAY' );
-
-    # @merged_rules is a version of @{$old_rules}, with any new files not
-    # matching existing wildcards, added to it
-    foreach my $old_rule ( @{$old_rules} ) {
-        chomp($old_rule);
-
-        # If the line is empty or a comment
-        if ( !$old_rule || $old_rule =~ /^\s*$/ || $old_rule =~ /^#/ ) {
-            push( @merged_rules, $old_rule );
-        }
-
-        # The line is a rule
-        else {
-            my $match_rule = $old_rule;
-
-            if ( $match_rule =~ /[\/\\]$/ ) {
-                $match_rule .= '*';
-            }
-
-            # If the line is a wildcard rule
-            if ( $match_rule =~ /\*/ ) {
-
-                # Normalise the rule
-                $old_rule   =~ s/^\s*//;
-                $old_rule   =~ s/\s*$//;
-                $match_rule =~ s/^\s*\!\s*(.*?)\s*$/$1/;
-
-                # It's a wildcard
-                push( @match_rules,  $match_rule );
-                push( @merged_rules, $old_rule );
-            }
-
-            # The line is a path/filename
-            else {
-
-                # we're installing, so keep all the old rules, or
-                # we're uninstalling, so keep files not being uninstalled
-                if ($installing) {
-                    if ( !exists $input_files->{$old_rule} ) {
-                        push( @merged_rules, $old_rule );
-                    }
-                }
-                else {
-                    $dropped_rules{$old_rule} = 1;
-                }
-            }
-        }
-    }
-
-    # Append new files not matching an existing wildcard
-    if ($installing) {
-        foreach my $file ( keys %{$input_files} ) {
-            next if ( $file =~ m#/.git/# ); # git hooks files don't get ignored.
-            if ( $file && $file =~ /[^\s]/ && !$dropped_rules{$file} ) {
-                my $nmatch_rules = scalar(@match_rules);
-                my $matched;
-                my $i = 0;
-
-                while ( !$matched && $i < $nmatch_rules ) {
-                    my @parts = split( /\*/, $match_rules[$i] );
-                    my $regex = qr/^\Q/ . join( qr/\E.*\Q/, @parts ) . qr/\E$/;
-
-                    $i += 1;
-                    $matched = ( $file =~ $regex );
-                }
-                if ( !$matched ) {
-                    push( @merged_rules, $file );
-                }
-            }
-        }
-    }
-
-    return @merged_rules;
-}
-
-sub update_gitignore_file {
-    my ($moduleDir) = @_;
-
-    # Only create a .gitignore if we're really in a git repo.
-    if (
-        exists $generated_files{$moduleDir}
-        && (   -d File::Spec->catdir( $moduleDir, '.git' )
-            || -d File::Spec->catdir( $moduleDir, '..', '.git' ) )
-      )
-    {
-        my $ignorefile = File::Spec->catfile( $moduleDir, '.gitignore' );
-        my @lines;
-
-        if ( open( my $fh, '<', $ignorefile ) ) {
-            @lines = <$fh>;
-            close($fh);
-        }
-        else {
-            @lines = ('*.gz');
-        }
-        @lines = merge_gitignore( $generated_files{$moduleDir}, \@lines );
-        $ignorefile = untaint($ignorefile);
-        if ( open( my $fh, '>', $ignorefile ) ) {
-            foreach my $line (@lines) {
-                print $fh $line . "\n";
-            }
-            close($fh) or error("Couldn't close $ignorefile");
-        }
-        else {
-            error("Couldn't open $ignorefile for writing, $!");
-        }
-    }
-
-    return;
-}
-
 # install the githooks.  If called with a module name  (ie.  "CommentPlugin")
 # then we might be in a .git "superproject" structure,  so look for a .git/modules/$module/hooks
 # directory.   otherwise a final call at the end will install into the primary .git/hooks location
@@ -1642,28 +1496,57 @@ sub update_githooks_dir {
     $module ||= '';
     use Cwd;
 
+    # "just in case"  core becomes a separate repo.
+    my @locations = qw(./.git);
+    if ($module) {
+
+        # Conventional and "submodule" repository locations
+        push @locations, ( "../$module/.git", "../.git/modules/$module" );
+    }
+    else {
+        # Root ('distro') repository location
+        push @locations, ("../.git");
+    }
+
     trace
-"UPDATE_GITHOOKS_DIR:  Called with   $moduleDir   module:  $module  current dir: "
+"UPDATE_GITHOOKS_DIR:  Called with   ($moduleDir)   module:  ($module)  current dir: "
       . Cwd::cwd() . "\n";
 
     my $hooks_src =
       File::Spec->catdir( Cwd::cwd(), 'tools', 'develop', 'githooks' );
 
     # Check for .git directories,  and copy in hooks if needed
-    foreach my $gitdir ( '.', '..' ) {
-        my $repo_hooks_tgt = File::Spec->catdir( $gitdir, '.git', 'hooks' );
-        my $gitmodule_hooks_tgt =
-          File::Spec->catdir( $gitdir, '.git', 'modules', $module, 'hooks' );
-
+    foreach my $gitdir (@locations) {
+        my $repo_hooks_tgt = File::Spec->catdir( $gitdir, 'hooks' );
         my $repo_target_dir =
-          File::Spec->catdir( $moduleDir, $gitdir, '.git', 'hooks' );
-        my $gitmodule_target_dir =
-          File::Spec->catdir( Cwd::cwd(), $gitdir, '.git', 'modules', $module,
-            'hooks' );
+          File::Spec->catdir( $moduleDir, $gitdir, 'hooks' );
 
-        trace
-          "Scanning $gitmodule_target_dir for hooks - source in $hooks_src \n";
+        next unless ( -d $gitdir );
 
+# Examine upstream for repo.
+# SMELL: We would do better to somehow detect repos that are forks from foswiki repos
+# So that when they submit git pull requests, the commit messages and tidy state is
+# hopefully complete.
+        my $curUrl;
+        if ( -d $gitdir ) {
+            $curUrl = do_commands(<<"HERE");
+git --git-dir $gitdir config --list
+HERE
+            unless ( $curUrl =~
+                m#^.*(.*?remote\..*\.url=.*?github\.com[:/]foswiki.*?)$#ms )
+            {
+                $curUrl =~ m/^.*(.*?remote\..*\.url=.*?)$/ms;
+                print STDERR
+"SKIPPING hooks for $gitdir,  Not a Foswiki project repository $1 \n";
+                next;
+            }
+            $curUrl = $1;
+
+        }
+
+        print STDERR "Installing hooks for repo: "
+          . _cleanPath($gitdir)
+          . " Git origin URL: $curUrl \n";
         foreach my $hook (
             qw( applypatch-msg commit-msg post-commit post-update pre-applypatch pre-commit pre-rebase prepare-commit-msg post-receive update)
           )
@@ -1672,21 +1555,6 @@ sub update_githooks_dir {
             trace "Installing hook: "
               . File::Spec->catfile( $hooks_src, $hook ) . "\n";
 
-            if ($module) {
-                trace "Checking for submodule for $module in: "
-                  . $gitmodule_target_dir . "\n";
-                if ( -d $gitmodule_target_dir ) {
-                    unlink _cleanPath(
-                        File::Spec->catfile( $gitmodule_target_dir, $hook ) )
-                      if (
-                        -e File::Spec->catfile( $gitmodule_target_dir, $hook )
-                      );
-                    linkOrCopy '',
-                      File::Spec->catfile( $hooks_src,            $hook ),
-                      File::Spec->catfile( $gitmodule_target_dir, $hook ),
-                      $CAN_LINK;
-                }
-            }
             trace "Checking for conventional repo:  $repo_target_dir\n";
             if ( -d $repo_target_dir ) {
                 trace " Trying to unlink "
@@ -1709,8 +1577,10 @@ exec_opts();
 init_config();
 init_extensions_path();
 run();
-update_gitignore_file($basedir);
-update_githooks_dir( $basedir, 'core' ) if ($githooks);
+update_githooks_dir($basedir) if ($githooks);
+
+my $geout = do_commands("perl $basedir/tools/git_excludes.pl");
+print "\n\n$geout\n";
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
