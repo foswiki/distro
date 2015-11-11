@@ -1266,8 +1266,50 @@ sub Autoconf {
 
     if ( $force || ( !-e $localSiteCfg ) ) {
         unlink $localSiteCfg;    # So we can easily append
-        local $ENV{PATH} = untaint( $ENV{PATH} );
-        trace `tools/configure -save -noprompt`;
+        my @specFiles = (
+            File::Spec->catfile( $foswikidir, 'lib', 'Foswiki.spec' ),
+            map {
+                glob File::Spec->catfile( $foswikidir, 'lib', 'Foswiki', $_,
+                    '*', 'Config.spec' )
+            } qw( Plugins Contrib )
+        );
+        for my $file (@specFiles) {
+            open( my $f, '<', $file ) or die "Cannot autoconf $file: $!";
+            local $/ = undef;
+            my $localsite = <$f>;
+            close $f;
+
+     #assume that the commented out settings (DataDir etc) are only on one line.
+            $localsite =~ s/^# (\$Foswiki::cfg[^\n]*)/$1/mg;
+            $localsite =~ s/^#[^\n]*\n+//mg;
+            $localsite =~ s/\$TRUE;/'1';/g;
+            $localsite =~ s/\$FALSE;/'0';/g;
+            $localsite =~ s/\n\s+/\n/sg;
+            $localsite =~ s/__END__//g;
+            if ( $^O eq 'MSWin32' ) {
+
+                #oh wow, windows find is retarded
+                $localsite =~ s|^(-------.*)$||m;
+
+                #prefer non-grep SEARCH
+                $localsite =~
+s|^(.*)SearchAlgorithms::Forking(.*)$|$1SearchAlgorithms::PurePerl$2|m;
+
+                #RscLite
+                $localsite =~ s|^(.*)RcsWrap(.*)$|$1RcsLite$2|m;
+            }
+
+            $localsite =~ s|/home/httpd/foswiki|$foswikidir|g;
+
+            if ( open( my $ls, '>>', $localSiteCfg ) ) {
+                print $ls $localsite;
+                close $ls;
+                warn "Appended specs from $file to $localSiteCfg\n";
+            }
+            else {
+                error "failed to write to $localSiteCfg: $!\n\n";
+            }
+        }
     }
     else {
         error "won't overwrite $localSiteCfg without -force\n\n";
