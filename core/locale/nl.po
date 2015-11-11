@@ -174,7 +174,7 @@ msgid "%1 tried to register with e-mail %2"
 msgstr "%1 probeerde te registreren met e-mail %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:269
+#: core/lib/Foswiki/Render.pm:249
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 is door %4 hernoemd of verplaatst van %2 in %3"
 
@@ -190,7 +190,7 @@ msgstr "&Afbreken"
 msgid "&History"
 msgstr "&Geschiedenis"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "&Sequential"
 msgstr "&Sequentieel"
 
@@ -222,7 +222,7 @@ msgstr "(*Suggestie:* Wat dacht je van een foto op je persoonlijke pagina?)"
 msgid "(=all= to show all topics)"
 msgstr "(=all= om alle pagina&#39;s te tonen)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr "(Dit bericht wordt automatisch verwijderd)"
 
@@ -833,7 +833,7 @@ msgstr "Let op"
 msgid "Attribute"
 msgstr "Kenmerk"
 
-#: MailerContrib/templates/mailnotify.tmpl:71
+#: MailerContrib/templates/mailnotify.tmpl:72
 msgid "Automated notification of topic changes"
 msgstr "Automatische kennisgeving van paginawijzigingen"
 
@@ -921,8 +921,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:33
-#: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: JQueryPlugin/data/System/VarBUTTON.txt:35
+#: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: PatternSkin/data/System/PatternSkinElements.txt:422
 #: PatternSkin/data/System/PatternSkinElements.txt:431
 #: PatternSkin/data/System/PatternSkinElements.txt:451
@@ -1009,11 +1009,11 @@ msgid "Change topic"
 msgstr "Wijzig pagina"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
+#, fuzzy
+msgid "Changed by:"
 msgstr "Gewijzigd door"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
 msgstr "Gewijzigd op"
 
@@ -1066,7 +1066,7 @@ msgstr "Kies een nieuw formulier voor %1"
 msgid "Clear all"
 msgstr "Vink uit"
 
-#: core/lib/Foswiki/Render.pm:254
+#: core/lib/Foswiki/Render.pm:234
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1074,8 +1074,8 @@ msgstr ""
 "Klik om de pagina terug te plaatsen naar de vorige locatie, met de optieom "
 "verwijzigen te wijzigen."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:471
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/data/System/TwistyPlugin.txt:466
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
 msgid "Close"
 msgstr "Sluiten"
 
@@ -1087,13 +1087,28 @@ msgstr "Kleur %1 heeft een ongeldig formaat"
 msgid "Come on in"
 msgstr "Kom binnen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Toelichting"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:152
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
+msgid "Commenting is disabled for static viewing"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
+msgid "Commenting is disabled when not in view context"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
+msgid "Commenting is disabled while not logged in"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
+msgid "Commenting is disabled while running from the command line"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:152
 msgid "Compare revisions"
 msgstr "Vergelijk revisies"
 
@@ -1124,7 +1139,7 @@ msgstr "Conflict"
 msgid "Contact %1 if you have any questions."
 msgstr "Neem bij vragen contact op met %1."
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 msgid "Context"
 msgstr "Context"
 
@@ -1136,7 +1151,7 @@ msgstr "Doorgaan om het web te hernoemen?"
 msgid "Continue to create the new page"
 msgstr "Ga verder om de pagina aan te maken"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1219,8 +1234,8 @@ msgstr "Groep aanmaken"
 msgid "Create new FAQ topic"
 msgstr "Nieuwe FAQ-pagina aanmaken"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:23
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:24
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:30
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 msgid "Create new topic"
 msgstr "Nieuwe pagina aanmaken"
 
@@ -1239,7 +1254,7 @@ msgstr "Maak deze pagina aan"
 #: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:82
+#: core/lib/Foswiki/Render.pm:62
 msgid "Create this topic"
 msgstr "Maak deze pagina aan"
 
@@ -1272,7 +1287,7 @@ msgstr "Datum"
 msgid "Dear %1"
 msgstr "Beste %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Debug"
 msgstr "Debuggen"
 
@@ -1308,6 +1323,11 @@ msgstr "Verwijder pagina..."
 #: PatternSkin/templates/attach.pattern.tmpl:57
 msgid "Describe the file so other people know what it is."
 msgstr "Beschrijf de bijlage zodat anderen weten wat het is."
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Description"
+msgstr "Vraag"
 
 #: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
@@ -1564,6 +1584,10 @@ msgstr "Fout tijdens het verwijderen van gebruikers van een groep"
 msgid "Evil person"
 msgstr "Kwaadwillend persoon"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+msgid "Exit"
+msgstr ""
+
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr "Defecte plugins"
@@ -1596,6 +1620,11 @@ msgstr "Vind soortgelijke pagina's"
 #: core/templates/more.tmpl:87 core/templates/more.tmpl:89
 msgid "Find topics that link to %1 ..."
 msgstr "Pagina's die verwijzen naar %1 ..."
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#, fuzzy
+msgid "First"
+msgstr "eerste"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 msgid "First name"
@@ -1664,7 +1693,7 @@ msgstr "Lees meer informatie over het toevoegen van bestanden"
 msgid "Get help on setting topic preferences"
 msgstr "Hulp bij pagina-instellingen"
 
-#: core/data/System/WebSearch.txt:275
+#: core/data/System/WebSearch.txt:276
 msgid "Get notified on changes on this search"
 msgstr "Abonneer je op wijzigingen op deze zoekvraag"
 
@@ -1805,8 +1834,8 @@ msgstr "Ik ben mijn wachtwoord vergeten"
 #: core/data/System/WebPreferences.txt:33
 msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
 msgstr ""
-"Idee&euml;n, verzoeken of problemen met betrekking tot %1? <a href='%2'>"
-"Stuur feedback</a>"
+"Idee&euml;n, verzoeken of problemen met betrekking tot %1? <a "
+"href='%2'>Stuur feedback</a>"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 msgid ""
@@ -1934,6 +1963,10 @@ msgstr ""
 "Als al je oude e-mail adressen niet meer in gebruik zijn (als je daar geen e-"
 "mail kunt ontvangen) en je je wachtwoord bent vergeten, neem dan contact op "
 "met %1 voor hulp."
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+msgid "Image"
+msgstr ""
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
@@ -2066,11 +2099,11 @@ msgstr ""
 msgid "Jump"
 msgstr "Direct naar pagina"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to first revision"
 msgstr "Spring naar de eerste revisie"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr "Spring naar de laatste revisie (%1)"
 
@@ -2078,8 +2111,12 @@ msgstr "Spring naar de laatste revisie (%1)"
 msgid "Keyword search"
 msgstr "Keyword zoeken"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#, fuzzy
+msgid "Last"
+msgstr "Achternaam"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
 msgstr "Laatst bewerkt door"
 
@@ -2126,7 +2163,7 @@ msgstr "Regel: %1 tot %2"
 msgid "Link"
 msgstr "Link"
 
-#: core/data/System/WebSearch.txt:315
+#: core/data/System/WebSearch.txt:316
 msgid "List topics that start with the letter:"
 msgstr "Toon alle pagina&#39;s die beginnen met de letter:"
 
@@ -2150,7 +2187,7 @@ msgstr "Log in om verder te gaan."
 msgid "Log on with your username and password"
 msgstr "Vul je gebruikersnaam en wachtwoord in"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
 #: core/templates/foswiki.tmpl:41
 msgid "Login"
 msgstr "Inloggen"
@@ -2226,13 +2263,13 @@ msgstr "Meer pagina acties"
 msgid "More topic actions..."
 msgstr "Meer pagina acties..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:470
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:89
+#: TwistyPlugin/data/System/TwistyPlugin.txt:465
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
 msgid "More..."
 msgstr "Meer..."
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:33
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:34
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:40
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:41
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
@@ -2270,13 +2307,9 @@ msgstr "Verplaats pagina naar web:"
 msgid "Move/Rename"
 msgstr "Verplaats/Hernoem"
 
-#: core/lib/Foswiki/Search.pm:1197
+#: core/lib/Foswiki/Search.pm:1223
 msgid "NEW"
 msgstr "NIEUW"
-
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
-msgid "Name"
-msgstr "Naam"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2285,6 +2318,11 @@ msgstr "Naam van de kopie"
 #: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
 msgstr "Naam van het nieuwe web ontbreekt"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#, fuzzy
+msgid "Name:"
+msgstr "Naam"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
@@ -2306,7 +2344,7 @@ msgstr "Aanmelden van nieuwe gebruikers wordt niet ondersteund"
 msgid "New e-mails (space-separated list)"
 msgstr "Nieuwe e-mails (spatie-gescheiden lijst)"
 
-#: MailerContrib/templates/mailnotify.tmpl:83
+#: MailerContrib/templates/mailnotify.tmpl:84
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Nieuwe of gewijzigde pagina&#39;s in %1, sinds %2:"
@@ -2337,7 +2375,7 @@ msgstr "Nieuwe webnaam:"
 msgid "Newer revision:"
 msgstr "Nieuwere revisie:"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:207
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 msgid "Next"
 msgstr "Volgende"
 
@@ -2384,6 +2422,11 @@ msgstr "Niet aangeraden bij het verwijderen van een pagina."
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
 msgid "Not sure this is right, please confirm!"
 msgstr "Niet zeker of dit klopt, bevestig alsjeblieft!"
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Notation"
+msgstr "Blijf op de hoogte"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2502,7 +2545,7 @@ msgstr "Voer eventueel een andere naam voor de bijlage in:"
 msgid "Optionally enter a different topic name:"
 msgstr "Voer eventueel een andere paginanaam in:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Options"
 msgstr "Opties"
 
@@ -2514,7 +2557,6 @@ msgstr "Naam van organisatie"
 msgid "Organisation website"
 msgstr "Website van organisatie"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:61
 msgid "Password"
@@ -2531,6 +2573,11 @@ msgstr "Wachtwoord kon niet worden veranderd"
 #: core/templates/messages.tmpl:235 core/templates/messages.tmpl:239
 msgid "Password reset failed"
 msgstr "Wachtwoord opnieuw instellen niet gelukt"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#, fuzzy
+msgid "Password:"
+msgstr "Wachtwoord"
 
 #: core/templates/messages.tmpl:174
 msgid "Passwords disabled"
@@ -2659,12 +2706,12 @@ msgstr "Anders klik je op Afbreken."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Klik op OK om te bevestigen dat jij deze wijziging wil maken."
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:208
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 msgid "Previous"
 msgstr "Vorige"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:28
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:29
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:35
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:36
 msgid "Printable version of this topic (p)"
 msgstr "Printbare versie van deze pagina (p)"
 
@@ -2672,7 +2719,7 @@ msgstr "Printbare versie van deze pagina (p)"
 msgid "Properties"
 msgstr "Eigenschappen"
 
-#: core/lib/Foswiki/Render.pm:262
+#: core/lib/Foswiki/Render.pm:242
 msgid "Put it back..."
 msgstr "Terugplaatsen..."
 
@@ -2706,7 +2753,7 @@ msgstr ""
 "meer informatie, bestudeer de TwentyMinuteTutorial, die toegankelijk is via "
 "dezelfde link."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Lees verder"
 
@@ -2726,8 +2773,8 @@ msgstr "Recent gewijzigde pagina's in alle Webs"
 msgid "Redirect Denied"
 msgstr "Redirect geweigerd"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
-#: JQueryPlugin/data/System/JQueryLoader.txt:93
+#: HistoryPlugin/templates/oopshistory.tmpl:107
+#: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "Verversen"
@@ -2769,8 +2816,6 @@ msgstr "Regular expression zoeken"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1012
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1025
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2847,7 +2892,7 @@ msgstr "Hernoem, verplaats of verwijder dit web"
 msgid "Rename/Move"
 msgstr "Hernoem/Verplaats"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr "Weergavestijl"
 
@@ -2936,12 +2981,11 @@ msgstr ""
 "Revisie %1 werd opgeslagen door %2 terwijl je nog aan het bewerken was."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:86
+#: MailerContrib/templates/mailnotify.tmpl:87
 msgid "Review recent changes in:"
 msgstr "Bekijk recente wijzigingen in:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Revisie"
@@ -2990,7 +3034,8 @@ msgstr "Opgeslagen in:"
 #: PatternSkin/data/_default/WebLeftBar.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
-#: core/data/System/WebSearch.txt:66 core/data/System/WebSearch.txt:85
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearch.txt:66
+#: core/data/System/WebSearch.txt:85
 msgid "Search"
 msgstr "Zoeken"
 
@@ -3025,6 +3070,11 @@ msgstr "Zoekopties"
 
 #: core/templates/searchbookview.tmpl:7
 msgid "Search result"
+msgstr "Zoekresultaten"
+
+#: core/data/System/WebSearch.txt:240
+#, fuzzy
+msgid "Search results"
 msgstr "Zoekresultaten"
 
 #: core/data/System/WebSearch.txt:215
@@ -3105,7 +3155,7 @@ msgstr "Kies een nieuw lokaal bestand om deze bijlage bij te werken"
 msgid "Select all"
 msgstr "Vink aan"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 "Kies een eerdere revisie (links) en een latere (rechts) om te vergelijken"
@@ -3122,7 +3172,7 @@ msgstr "Kopieer en plak je signatuur onderaan je toevoeging"
 msgid "Selections apply to search in \"text body\""
 msgstr "Gekozen opties hebben betrekking op zoeken in \"Tekst\""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Sequential"
 msgstr "Sequentieel"
 
@@ -3138,7 +3188,7 @@ msgstr "Stel bovenliggende pagina in"
 msgid "Set new topic parent"
 msgstr "Bovenliggende pagina instellen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 msgid "Show %1 revisions up to revision %2"
 msgstr "Bekijk %1 revisies tot en met revisie %2"
 
@@ -3147,7 +3197,7 @@ msgstr "Bekijk %1 revisies tot en met revisie %2"
 msgid "Show help"
 msgstr "Toon hulp"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Revisies %1 - %2 (van %3)"
 
@@ -3155,7 +3205,7 @@ msgstr "Revisies %1 - %2 (van %3)"
 msgid "Shrink edit box"
 msgstr "Tekstvak verkleinen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Side by side"
 msgstr "Naast elkaar"
 
@@ -3220,6 +3270,11 @@ msgstr ""
 "Gebruik =all= voor alle webs, of een door komma's gescheiden lijst van webs "
 "van: %1"
 
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
+msgid "Start presentation"
+msgstr ""
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
 #: PatternSkin/data/System/WebLeftBarExample.txt:13
@@ -3231,8 +3286,8 @@ msgstr "Statistieken"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:29
-#: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: JQueryPlugin/data/System/VarBUTTON.txt:31
+#: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:418
 #: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
@@ -3255,10 +3310,22 @@ msgid "Subscribe"
 msgstr "Abonneren"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/mailnotify.tmpl:90
 #: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Aanmelden / Afmelden in:"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
+#, fuzzy
+msgid "Subscribe to this topic"
+msgstr "Maak deze pagina aan"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#, fuzzy
+msgid "Subscribe to this topic (s)"
+msgstr "Printbare versie van deze pagina (p)"
 
 #: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
@@ -3641,12 +3708,18 @@ msgstr ""
 "gewijzigd. Om je aan te melden voeg je een _bullet point_ toe met je %2 in "
 "alfabetische volgorde van deze lijst:"
 
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr "Dit staat ook bekend als Cross-site Request Forgery, of CSRF."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:81
+#: MailerContrib/templates/mailnotify.tmpl:82
 msgid "This is an automated e-mail from %1."
 msgstr "Dit is een geautomatiseerde e-mail van %1."
 
@@ -3667,7 +3740,7 @@ msgstr ""
 "Dit is de Prullenmand. Hier kun je verwijderingen van pagina&#39;s ongedaan "
 "maken; verwijderde bijlagen staan in TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr "Waarom de omzetting is uitgeschakeld:"
 
@@ -3732,7 +3805,7 @@ msgstr "Titel"
 msgid "To attachment:"
 msgstr "Naar bijlage:"
 
-#: core/data/System/WebSearch.txt:285
+#: core/data/System/WebSearch.txt:286
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3806,7 +3879,6 @@ msgid "Topic data"
 msgstr "Pagina data"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 msgid "Topic history"
 msgstr "Paginageschiedenis"
 
@@ -3885,7 +3957,7 @@ msgstr "Totaal aantal treffers"
 msgid "Try Again"
 msgstr "Probeer opnieuw"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr "Onveranderde secties voor en na elke wijziging"
 
@@ -3896,6 +3968,18 @@ msgstr "Gebruiker en/of wachtwoord niet bekend"
 #: core/templates/messages.tmpl:40
 msgid "Unrecognized action command %1"
 msgstr "Actieopdracht %1 niet bekend"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
+#, fuzzy
+msgid "Unsubscribe from this topic"
+msgstr "title='Afmelden van deze pagina' accesskey='a'>&Afmelden"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:15
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:16
+#, fuzzy
+msgid "Unsubscribe from this topic (s)"
+msgstr "Printbare versie van deze pagina (p)"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
 msgid "Update"
@@ -4022,7 +4106,7 @@ msgstr "bekijken"
 msgid "View complete topic history"
 msgstr "Bekijk gehele paginageschiedenis"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:65
+#: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "View difference"
 msgstr "Bekijk verschillen"
 
@@ -4030,11 +4114,11 @@ msgstr "Bekijk verschillen"
 msgid "View differences"
 msgstr "Bekijk verschillen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View earlier"
 msgstr "Bekijk eerdere"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View later"
 msgstr "Bekijk latere"
 
@@ -4054,8 +4138,8 @@ msgstr "Bekijk revisie"
 msgid "View revision:"
 msgstr "Bekijk revisie:"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:20
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:21
 msgid "View sequential topic history"
 msgstr ""
 
@@ -4068,12 +4152,12 @@ msgstr "Bekijk templates"
 msgid "View topic"
 msgstr "Bekijk pagina"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "Bekijk totale paginageschiedenis"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:18
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:19
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:25
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:26
 msgid "View without formatting (v)"
 msgstr "Bekijk brontekst zonder opmaak (v)"
 
@@ -4125,7 +4209,7 @@ msgstr ""
 "Waarschuwing: Op deze site is het niet toegestaan om %<nop>INCLUDE% van URLs "
 "te gebruiken"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:440
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Let op: ingevoegde pagina <nop>%1 (met \\'include\\') bestaat niet!"
 
@@ -4133,7 +4217,7 @@ msgstr "Let op: ingevoegde pagina <nop>%1 (met \\'include\\') bestaat niet!"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Let op: ingevoegde pagina (met \\'include\\') bestaat niet!"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Let op: tabeldefinitie in \\'include\\' pagina %1 bestaat niet!"
 
@@ -4174,7 +4258,7 @@ msgstr "Wie"
 msgid "Who is requesting this, actually?"
 msgstr "Wie doet dit verzoek eigenlijk?"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr "Gehele pagina"
 
@@ -4532,7 +4616,7 @@ msgstr ""
 "[veelvoud van 3 spaties] * [spatie] Set [spatie] NAAMVANVARIABELE [spatie] = "
 "[waarde]"
 
-#: core/lib/Foswiki/I18N.pm:331
+#: core/lib/Foswiki/I18N.pm:343
 msgid "_language_name"
 msgstr "Nederlands"
 
@@ -4702,7 +4786,7 @@ msgstr "title='Bewerk wiki tekst' accesskey='w'>Be&werk wiki tekst"
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Bewerk deze paginatekst' accesskey='b'>&Bewerken"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:71
+#: CompareRevisionsAddOn/templates/compare.tmpl:74
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='verweven' accesskey='v'>&Verweven"
 
@@ -4722,17 +4806,17 @@ msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
 msgstr ""
-"title='Zoek in %1 Web naar pagina&#39;s die hierheen linken' accesskey='w'>"
-"Verwijzingen in &Web"
+"title='Zoek in %1 Web naar pagina&#39;s die hierheen linken' "
+"accesskey='w'>Verwijzingen in &Web"
 
 #: core/templates/viewtopicactionbuttons.tmpl:27
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr ""
-"title='Zoek in %1 Web naar pagina&#39;s die hierheen linken' accesskey='w'>"
-"Verwijzingen in &Web"
+"title='Zoek in %1 Web naar pagina&#39;s die hierheen linken' "
+"accesskey='w'>Verwijzingen in &Web"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:68
+#: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Naast elkaar' accesskey='n'>&Naast elkaar"
 
@@ -4744,7 +4828,7 @@ msgstr "title='Abonneer je op deze pagina' accesskey='a'>&Abonneren"
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
 msgstr "title='Afmelden van deze pagina' accesskey='a'>&Afmelden"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Bekijk pagina' accesskey='k'>Be&kijk pagina"
@@ -4854,9 +4938,6 @@ msgstr "waarom wordt mij om een bevestiging gevraagd"
 
 #~ msgid "Show"
 #~ msgstr "Tonen"
-
-#~ msgid "first"
-#~ msgstr "eerste"
 
 #~ msgid "last"
 #~ msgstr "laatste"

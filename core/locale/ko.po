@@ -5,8 +5,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-04-30 04:18+0200\n"
 "Last-Translator: Justin J. Kim <justin.joy.9to5@gmail.com>\n"
-"Language-Team: Korean <http://translate.foswiki.org/projects/foswiki"
-"/distribution-release-11/ko/>\n"
+"Language-Team: Korean <http://translate.foswiki.org/projects/foswiki/"
+"distribution-release-11/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -169,7 +169,7 @@ msgid "%1 tried to register with e-mail %2"
 msgstr "%1 님이 이메일 계정 %2 으로 등록하려 하였습니다"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:269
+#: core/lib/Foswiki/Render.pm:249
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr ""
 "%1 은 %4 님에 의하여 %3 에 %2 으로부터 이름이 변경되거나 이동 되었습니다."
@@ -186,7 +186,7 @@ msgstr "취소 &C"
 msgid "&History"
 msgstr "기록 &H"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "&Sequential"
 msgstr "&순차적"
 
@@ -218,7 +218,7 @@ msgstr "(*제안:* 귀하의 토픽에 귀하의 사진을 올리는 건 어떨�
 msgid "(=all= to show all topics)"
 msgstr "(=전부= 모든 토픽을 보기) "
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr "(이 메시지는 자동으로 삭제됩니다)"
 
@@ -817,7 +817,7 @@ msgstr "주의"
 msgid "Attribute"
 msgstr "특성"
 
-#: MailerContrib/templates/mailnotify.tmpl:71
+#: MailerContrib/templates/mailnotify.tmpl:72
 msgid "Automated notification of topic changes"
 msgstr "토픽 변경 자동 알림"
 
@@ -905,8 +905,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:33
-#: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: JQueryPlugin/data/System/VarBUTTON.txt:35
+#: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: PatternSkin/data/System/PatternSkinElements.txt:422
 #: PatternSkin/data/System/PatternSkinElements.txt:431
 #: PatternSkin/data/System/PatternSkinElements.txt:451
@@ -993,11 +993,11 @@ msgid "Change topic"
 msgstr "토픽 변경"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
+#, fuzzy
+msgid "Changed by:"
 msgstr "변경자"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
 msgstr "변경날짜"
 
@@ -1045,7 +1045,7 @@ msgstr "%1 에 대한 새 양식을 선택하십시오"
 msgid "Clear all"
 msgstr "모두 지우기"
 
-#: core/lib/Foswiki/Render.pm:254
+#: core/lib/Foswiki/Render.pm:234
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1053,8 +1053,8 @@ msgstr ""
 "토픽을 이전 장소로 이동하려면 클릭하십시오, 참조를 변경할 수 있는 옵션 포함"
 "됨."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:471
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/data/System/TwistyPlugin.txt:466
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
 msgid "Close"
 msgstr "닫기"
 
@@ -1066,13 +1066,28 @@ msgstr "%1 색상의 형식은 유효하지 않습니다"
 msgid "Come on in"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "댓글"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:152
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
+msgid "Commenting is disabled for static viewing"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
+msgid "Commenting is disabled when not in view context"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
+msgid "Commenting is disabled while not logged in"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
+msgid "Commenting is disabled while running from the command line"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:152
 msgid "Compare revisions"
 msgstr "수정 내용 비교"
 
@@ -1103,7 +1118,7 @@ msgstr "충돌"
 msgid "Contact %1 if you have any questions."
 msgstr "질문이 있으시면 %1 님에게 연락 하십시오."
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 msgid "Context"
 msgstr "본문"
 
@@ -1115,7 +1130,7 @@ msgstr "계속하고 웹의 이름변경을 시도하겠습니까?"
 msgid "Continue to create the new page"
 msgstr "계속하여 새 페이지를 생성"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1198,8 +1213,8 @@ msgstr "그룹 생성"
 msgid "Create new FAQ topic"
 msgstr "새 FAQ 토픽 생성"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:23
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:24
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:30
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 msgid "Create new topic"
 msgstr "새 토픽 생성"
 
@@ -1218,7 +1233,7 @@ msgstr "토픽 생성"
 #: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:82
+#: core/lib/Foswiki/Render.pm:62
 msgid "Create this topic"
 msgstr "이 토픽 생성"
 
@@ -1251,7 +1266,7 @@ msgstr "날짜"
 msgid "Dear %1"
 msgstr "안녕하세요, %1 님"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Debug"
 msgstr "디버그"
 
@@ -1287,6 +1302,11 @@ msgstr "토픽 지우기..."
 #: PatternSkin/templates/attach.pattern.tmpl:57
 msgid "Describe the file so other people know what it is."
 msgstr "다른 사람들이 내용을 알 수 있도록 파일을 설명해 주십시오."
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Description"
+msgstr "질문"
 
 #: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
@@ -1539,6 +1559,10 @@ msgstr "그룹에서 사용자 삭제 오류"
 msgid "Evil person"
 msgstr "범죄자"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+msgid "Exit"
+msgstr ""
+
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr "실패한 플러그인"
@@ -1571,6 +1595,11 @@ msgstr "유사한 토픽 찾기"
 #: core/templates/more.tmpl:87 core/templates/more.tmpl:89
 msgid "Find topics that link to %1 ..."
 msgstr "%1 으로 연결되는 토픽 찾기 ..."
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#, fuzzy
+msgid "First"
+msgstr "이름"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 msgid "First name"
@@ -1638,7 +1667,7 @@ msgstr "파일첨부 관련 도움말"
 msgid "Get help on setting topic preferences"
 msgstr "토픽 기본설정 조정 관련 도움말"
 
-#: core/data/System/WebSearch.txt:275
+#: core/data/System/WebSearch.txt:276
 msgid "Get notified on changes on this search"
 msgstr "이 검색내역에 변경 시 알림받기"
 
@@ -1894,6 +1923,10 @@ msgstr ""
 "이전 이메일 주소가 모두 유효하지 않거나 (더 이상 그 주소로 이메일 수신이 불가"
 "능하다면) 비밀번호를 분실하였다면, %1 님에게 연락하여 도움을 요청하십시오."
 
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+msgid "Image"
+msgstr ""
+
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 msgid "Image %1 of %2"
@@ -2021,11 +2054,11 @@ msgstr ""
 msgid "Jump"
 msgstr "점프"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to first revision"
 msgstr "첫 수정본으로 이동"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr "최신 수정본 (%1) 으로 이동"
 
@@ -2033,8 +2066,12 @@ msgstr "최신 수정본 (%1) 으로 이동"
 msgid "Keyword search"
 msgstr "키워드 검색"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#, fuzzy
+msgid "Last"
+msgstr "성"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
 msgstr "마지막 편집인"
 
@@ -2081,7 +2118,7 @@ msgstr "줄: %1 에서 %2"
 msgid "Link"
 msgstr "링크"
 
-#: core/data/System/WebSearch.txt:315
+#: core/data/System/WebSearch.txt:316
 msgid "List topics that start with the letter:"
 msgstr "이 글자로 시작하는 토픽 나열:"
 
@@ -2105,7 +2142,7 @@ msgstr "계속하려면 로그인하십시오."
 msgid "Log on with your username and password"
 msgstr "귀하의 사용자명과 비밀번호로 로그인하십시오"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
 #: core/templates/foswiki.tmpl:41
 #, fuzzy
 msgid "Login"
@@ -2183,17 +2220,19 @@ msgstr "추가 토픽 작업"
 msgid "More topic actions..."
 msgstr "더 많은 토픽 액션..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:470
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:89
+#: TwistyPlugin/data/System/TwistyPlugin.txt:465
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
 msgid "More..."
 msgstr "더 보기..."
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:33
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:34
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:40
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:41
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
-msgstr "더보기: 토픽 삭제 혹은 이름 변경; 부모 토픽 설정; 리비전 정보 보기 및 비교 (m)"
+msgstr ""
+"더보기: 토픽 삭제 혹은 이름 변경; 부모 토픽 설정; 리비전 정보 보기 및 비교 "
+"(m)"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:22
 #: core/templates/moveattachment.tmpl:55
@@ -2225,13 +2264,9 @@ msgstr "토픽을 다음 Web 으로 이동하기:"
 msgid "Move/Rename"
 msgstr "이동/이름변경"
 
-#: core/lib/Foswiki/Search.pm:1197
+#: core/lib/Foswiki/Search.pm:1223
 msgid "NEW"
 msgstr "신규"
-
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
-msgid "Name"
-msgstr ""
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2240,6 +2275,10 @@ msgstr "사본 명"
 #: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
 msgstr "새 웹의 이름이 없습니다"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+msgid "Name:"
+msgstr ""
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
@@ -2261,7 +2300,7 @@ msgstr "새 사용자 등록 지원되지 않음"
 msgid "New e-mails (space-separated list)"
 msgstr "새 이메일 (스페이스로 구분된 목록)"
 
-#: MailerContrib/templates/mailnotify.tmpl:83
+#: MailerContrib/templates/mailnotify.tmpl:84
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "%2 이후로 %1 내에서 신규 혹은 변경된 토픽:"
@@ -2290,7 +2329,7 @@ msgstr "새로운 Web 이름"
 msgid "Newer revision:"
 msgstr "새로운 리비전:"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:207
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 msgid "Next"
 msgstr "다음"
 
@@ -2337,6 +2376,11 @@ msgstr "토픽을 삭제할 때 권장되지 않습니다."
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
 msgid "Not sure this is right, please confirm!"
 msgstr "이것이 옳바른 것인지 확실치 않습니다, 확인 부탁드립니다!"
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Notation"
+msgstr "알림"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2453,7 +2497,7 @@ msgstr "대안으로 다른 첨부파일 명을 입력:"
 msgid "Optionally enter a different topic name:"
 msgstr "대안으로 다른 토픽명을 입력:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Options"
 msgstr "선택사항"
 
@@ -2465,7 +2509,6 @@ msgstr "조직명"
 msgid "Organisation website"
 msgstr "조직 웹사이트"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:61
 msgid "Password"
@@ -2482,6 +2525,11 @@ msgstr "비밀번호 변경이 불가능합니다."
 #: core/templates/messages.tmpl:235 core/templates/messages.tmpl:239
 msgid "Password reset failed"
 msgstr "비밀번호 초기화가 실패했습니다."
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#, fuzzy
+msgid "Password:"
+msgstr "비밀번호"
 
 #: core/templates/messages.tmpl:174
 #, fuzzy
@@ -2607,12 +2655,12 @@ msgstr "아니라면 취소를 누르십시오."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "이 수정이 의도한 바였다면 확인을 눌러주십시오."
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:208
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 msgid "Previous"
 msgstr "이전"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:28
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:29
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:35
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:36
 msgid "Printable version of this topic (p)"
 msgstr "이 토픽의 프린트가능 버전 (p)"
 
@@ -2620,7 +2668,7 @@ msgstr "이 토픽의 프린트가능 버전 (p)"
 msgid "Properties"
 msgstr "속성"
 
-#: core/lib/Foswiki/Render.pm:262
+#: core/lib/Foswiki/Render.pm:242
 msgid "Put it back..."
 msgstr "다시 돌려놓기..."
 
@@ -2654,7 +2702,7 @@ msgstr ""
 "용은 같은 링크에서 접근 가능한 TwentyMinuteTutorial -20분 학습- 을 통해 배워"
 "보십시오."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "계속 읽기"
 
@@ -2674,8 +2722,8 @@ msgstr "모든 웹에서 최근에 변경된 토픽"
 msgid "Redirect Denied"
 msgstr "리디렉션 거부됨"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
-#: JQueryPlugin/data/System/JQueryLoader.txt:93
+#: HistoryPlugin/templates/oopshistory.tmpl:107
+#: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "새로고침"
@@ -2716,8 +2764,6 @@ msgstr "정규 표현식 검색"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1012
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1025
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2794,7 +2840,7 @@ msgstr "이 웹의 이름 변경, 이동 혹은 삭제"
 msgid "Rename/Move"
 msgstr "이름 변경/이동"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr "렌더 스타일"
 
@@ -2880,12 +2926,11 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "수정 %1 은 %2 님이 귀하께서 편집 중 저장하셨습니다."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:86
+#: MailerContrib/templates/mailnotify.tmpl:87
 msgid "Review recent changes in:"
 msgstr "다음에서 최근 변경 내역 보기:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "수정"
@@ -2932,7 +2977,8 @@ msgstr "저장 장소:"
 #: PatternSkin/data/_default/WebLeftBar.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
-#: core/data/System/WebSearch.txt:66 core/data/System/WebSearch.txt:85
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearch.txt:66
+#: core/data/System/WebSearch.txt:85
 msgid "Search"
 msgstr "검색"
 
@@ -2967,6 +3013,11 @@ msgstr "검색 선택사항"
 
 #: core/templates/searchbookview.tmpl:7
 msgid "Search result"
+msgstr "검색 결과"
+
+#: core/data/System/WebSearch.txt:240
+#, fuzzy
+msgid "Search results"
 msgstr "검색 결과"
 
 #: core/data/System/WebSearch.txt:215
@@ -3045,7 +3096,7 @@ msgstr "첨부파일 갱신을 위해 새 지역 파일을 선택"
 msgid "Select all"
 msgstr "전부 선택"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr "비교할 예전 (좌측) 수정본과 추후 (우측) 수정본을 선택"
 
@@ -3061,7 +3112,7 @@ msgstr "귀하의 입력의 하단에 서명 문구를 선택, 복사, 붙여넣
 msgid "Selections apply to search in \"text body\""
 msgstr "선택사항은 \"text body\" 내부 검색에 적용"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Sequential"
 msgstr "순차적"
 
@@ -3077,7 +3128,7 @@ msgstr "새 부모 설정"
 msgid "Set new topic parent"
 msgstr "새로운 부모 토픽 설정"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 msgid "Show %1 revisions up to revision %2"
 msgstr "%2 수정본까지의 %1 개의 수정본 보기"
 
@@ -3086,7 +3137,7 @@ msgstr "%2 수정본까지의 %1 개의 수정본 보기"
 msgid "Show help"
 msgstr "도움말 보기"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "(%3 중) %1 - %2 수정본 표시 중"
 
@@ -3094,7 +3145,7 @@ msgstr "(%3 중) %1 - %2 수정본 표시 중"
 msgid "Shrink edit box"
 msgstr "편집상자 축소"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Side by side"
 msgstr "병렬"
 
@@ -3157,6 +3208,11 @@ msgstr ""
 "모든 웹은 =all= 로 지정하거나, 또는 다음에서 웹을 쉼표로 구분된 목록을 지정하"
 "십시오: %1"
 
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
+msgid "Start presentation"
+msgstr ""
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
 #: PatternSkin/data/System/WebLeftBarExample.txt:13
@@ -3168,8 +3224,8 @@ msgstr "통계"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:29
-#: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: JQueryPlugin/data/System/VarBUTTON.txt:31
+#: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:418
 #: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
@@ -3192,10 +3248,22 @@ msgid "Subscribe"
 msgstr "구독"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/mailnotify.tmpl:90
 #: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "구독/ 구독취소 :"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
+#, fuzzy
+msgid "Subscribe to this topic"
+msgstr "이 토픽 생성"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#, fuzzy
+msgid "Subscribe to this topic (s)"
+msgstr "이 토픽의 프린트가능 버전 (p)"
 
 #: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
@@ -3555,12 +3623,18 @@ msgstr ""
 "없습니다. 구독하려면 이 목록에 알파벳 순서대로 귀하의 %2 를 글머리 기호에 추"
 "가하십시오:"
 
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr "이는 사이트간 요청 사기, 혹은 CSRF 로도 알려져 있습니다."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:81
+#: MailerContrib/templates/mailnotify.tmpl:82
 msgid "This is an automated e-mail from %1."
 msgstr "%1 으로부터의 자동화된 이메일입니다."
 
@@ -3579,7 +3653,7 @@ msgstr ""
 "휴지통입니다. 여기에서 토픽을 복원할 수 있습니다; 삭제된 첨부파일은 "
 "TrashAttachment 에 있습니다."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr "이 대화가 비활성화 된 이유입니다:"
 
@@ -3642,7 +3716,7 @@ msgstr "제목"
 msgid "To attachment:"
 msgstr "첨부파일로:"
 
-#: core/data/System/WebSearch.txt:285
+#: core/data/System/WebSearch.txt:286
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3714,7 +3788,6 @@ msgid "Topic data"
 msgstr "토픽 데이터"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 msgid "Topic history"
 msgstr "토픽 기록"
 
@@ -3788,7 +3861,7 @@ msgstr "일치 갯수"
 msgid "Try Again"
 msgstr "재시도"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr "각 변경 이전과 이후에 변경되지 않은 섹션"
 
@@ -3799,6 +3872,18 @@ msgstr "인식되지 않은 사용자 혹은 비밀번호"
 #: core/templates/messages.tmpl:40
 msgid "Unrecognized action command %1"
 msgstr "인식되지 않은 명령어 %1"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
+#, fuzzy
+msgid "Unsubscribe from this topic"
+msgstr "title='이 토픽에 대한 구독 취소' accesskey='s'>구독취소(&s)"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:15
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:16
+#, fuzzy
+msgid "Unsubscribe from this topic (s)"
+msgstr "이 토픽의 프린트가능 버전 (p)"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
 msgid "Update"
@@ -3926,7 +4011,7 @@ msgstr "보기"
 msgid "View complete topic history"
 msgstr "토픽 기록 전체 보기"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:65
+#: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "View difference"
 msgstr "차이점 보기"
 
@@ -3934,11 +4019,11 @@ msgstr "차이점 보기"
 msgid "View differences"
 msgstr "차이 보기"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View earlier"
 msgstr "이전 보기"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View later"
 msgstr "추후 보기"
 
@@ -3958,8 +4043,8 @@ msgstr "수정본 보기"
 msgid "View revision:"
 msgstr "수정내역 보기:"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:20
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:21
 msgid "View sequential topic history"
 msgstr "토픽 기록 순차적 보기"
 
@@ -3972,12 +4057,12 @@ msgstr "템플릿 보기"
 msgid "View topic"
 msgstr "토픽 보기"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "토픽 기록 전체 보기"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:18
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:19
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:25
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:26
 msgid "View without formatting (v)"
 msgstr "서식적용없이 보기 (v)"
 
@@ -4024,7 +4109,7 @@ msgstr "경고: 확인 이메일 보낼 수 없음, 이메일이 비활성화 �
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "경고: 이 사이트는 URL의 %<nop>INCLUDE% 허용하지 않습니다"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:440
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr ""
 
@@ -4032,7 +4117,7 @@ msgstr ""
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "경고: \\'include\\' 토픽이 존재하지 않습니다!"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr ""
 
@@ -4073,7 +4158,7 @@ msgstr "작업자"
 msgid "Who is requesting this, actually?"
 msgstr "본 요청은 실제로 누가하고 있습니까?"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr "페이지 전체"
 
@@ -4413,7 +4498,7 @@ msgstr ""
 "[스페이스 3개의 배수] * [스페이스] 설정 [스페이스] VARIABLENAME [스페이스] = "
 "[값]"
 
-#: core/lib/Foswiki/I18N.pm:331
+#: core/lib/Foswiki/I18N.pm:343
 msgid "_language_name"
 msgstr "한글"
 
@@ -4571,8 +4656,8 @@ msgid ""
 "title='Delete or rename this topic; set parent topic; view and compare "
 "revisions' accesskey='m'>&More topic actions"
 msgstr ""
-"title='토픽 삭제 혹은 이름 변경; 부모 토픽 설정; 리비전 정보 보기 및 비교' accesskey='m'>더 많은 토픽 액션 "
-"(&M)"
+"title='토픽 삭제 혹은 이름 변경; 부모 토픽 설정; 리비전 정보 보기 및 비교' "
+"accesskey='m'>더 많은 토픽 액션 (&M)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
@@ -4582,7 +4667,7 @@ msgstr "title='위키 본문 편집' accesskey='w'>위키 본문 편집 &w"
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='이 토픽 편집' accesskey='e'>편집 &E"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:71
+#: CompareRevisionsAddOn/templates/compare.tmpl:74
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='상호연결됨' accesskey='i'>상호연결됨 &i"
 
@@ -4608,7 +4693,7 @@ msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr "title='여기에 연결된 토픽에 대한 %1 웹 검색' accesskey='b'>웹 &b"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:68
+#: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='나란히' accesskey='s'>나란히 &s"
 
@@ -4620,7 +4705,7 @@ msgstr "title='이 토픽 구독' accesskey='s'>구독 &S"
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
 msgstr "title='이 토픽에 대한 구독 취소' accesskey='s'>구독취소(&s)"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='토픽 보기' accesskey='v'>토픽보기 &V"

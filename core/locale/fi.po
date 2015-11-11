@@ -178,7 +178,7 @@ msgid "%1 tried to register with e-mail %2"
 msgstr "%1 yritti rekisteröityä sähköpostiosoitteella %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:269
+#: core/lib/Foswiki/Render.pm:249
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%4 on siirtänyt %1 sijainnista %2, sijaintiin %3"
 
@@ -195,7 +195,7 @@ msgstr "&Peru"
 msgid "&History"
 msgstr "&Historia"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "&Sequential"
 msgstr "&Peräkkäinen"
 
@@ -227,7 +227,7 @@ msgstr "(*Ehdotus:* Mitä jos lataisit kuvasi aiheeseesi?)"
 msgid "(=all= to show all topics)"
 msgstr "(=kaikki= näyttääksesi kaikki aiheet)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr "(Tämä viesti poistetaan automaattisesti)"
 
@@ -848,7 +848,7 @@ msgstr "Huomio"
 msgid "Attribute"
 msgstr "Attribuutti"
 
-#: MailerContrib/templates/mailnotify.tmpl:71
+#: MailerContrib/templates/mailnotify.tmpl:72
 msgid "Automated notification of topic changes"
 msgstr "Automaattinen ilmoitus aiheen muutoksista"
 
@@ -936,8 +936,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:33
-#: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: JQueryPlugin/data/System/VarBUTTON.txt:35
+#: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: PatternSkin/data/System/PatternSkinElements.txt:422
 #: PatternSkin/data/System/PatternSkinElements.txt:431
 #: PatternSkin/data/System/PatternSkinElements.txt:451
@@ -1026,11 +1026,11 @@ msgid "Change topic"
 msgstr "Muuta aihetta"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
+#, fuzzy
+msgid "Changed by:"
 msgstr "Muuttanut"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 #, fuzzy
 msgid "Changed on"
 msgstr "Muutettu"
@@ -1079,15 +1079,15 @@ msgstr "Valitse uusi malli %1"
 msgid "Clear all"
 msgstr "Tyhjennä kaikki"
 
-#: core/lib/Foswiki/Render.pm:254
+#: core/lib/Foswiki/Render.pm:234
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
 msgstr ""
 "Muuttaaksesi asetuksia, klikkaa siirtyäksesi takaisin edelliseen kohtaan."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:471
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/data/System/TwistyPlugin.txt:466
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
 msgid "Close"
 msgstr "Sulje"
 
@@ -1099,13 +1099,28 @@ msgstr "Värikoodi %1 ei ole oikein määritelty"
 msgid "Come on in"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Kommentti"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:152
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
+msgid "Commenting is disabled for static viewing"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
+msgid "Commenting is disabled when not in view context"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
+msgid "Commenting is disabled while not logged in"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
+msgid "Commenting is disabled while running from the command line"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:152
 msgid "Compare revisions"
 msgstr "Vertaa versioita"
 
@@ -1136,7 +1151,7 @@ msgstr "Ristiriita"
 msgid "Contact %1 if you have any questions."
 msgstr "Ota yhteyttä %1 jos sinulla on kysyttävää"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 #, fuzzy
 msgid "Context"
 msgstr "Konteksti:"
@@ -1149,7 +1164,7 @@ msgstr "Jatka ja yritä nimetä verkko uudelleen?"
 msgid "Continue to create the new page"
 msgstr "Jatka uuden sivun luontiin"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1232,8 +1247,8 @@ msgstr "Luo ryhmä"
 msgid "Create new FAQ topic"
 msgstr "Luo uusi FAQ-aihe"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:23
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:24
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:30
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 #, fuzzy
 msgid "Create new topic"
 msgstr "Luo uusi FAQ-aihe"
@@ -1253,7 +1268,7 @@ msgstr "Luo aihe"
 #: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:82
+#: core/lib/Foswiki/Render.pm:62
 msgid "Create this topic"
 msgstr "Luo tämä aihe"
 
@@ -1286,7 +1301,7 @@ msgstr "Päiväys"
 msgid "Dear %1"
 msgstr "Hyvä %1,"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Debug"
 msgstr "Debug"
 
@@ -1323,6 +1338,11 @@ msgstr "Poista aihe..."
 msgid "Describe the file so other people know what it is."
 msgstr ""
 "Anna tiedostolle kuvaus, jotta muut tietävät mikä tiedosto on kyseessä."
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Description"
+msgstr "Versio"
 
 #: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
@@ -1582,6 +1602,10 @@ msgstr "Virhe poistattaessa käyttäjiä ryhmästä"
 msgid "Evil person"
 msgstr "Muokkaa henkilökohtaisia tietoja"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+msgid "Exit"
+msgstr ""
+
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr "Epäonnistuneet liitännäiset"
@@ -1615,6 +1639,11 @@ msgstr "Etsi samankaltaisia aiheita"
 #: core/templates/more.tmpl:87 core/templates/more.tmpl:89
 msgid "Find topics that link to %1 ..."
 msgstr "Etsi aiheita, jotka linkittävät %1:een ..."
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#, fuzzy
+msgid "First"
+msgstr "Etunimi:"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 #, fuzzy
@@ -1682,7 +1711,7 @@ msgstr "sisältää tarkempaa tietoa liitetyistä tiedostoista"
 msgid "Get help on setting topic preferences"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:275
+#: core/data/System/WebSearch.txt:276
 msgid "Get notified on changes on this search"
 msgstr "Vastaanota huomautuksia muutoksista tässä etsinnässä"
 
@@ -1944,6 +1973,10 @@ msgstr ""
 "Jos kaikki vanhat sähköpostisi ovat ei-valideja (et voi vastaanottaa "
 "sähköpostia enää) ja olet unohtanut salasanasi, ota yhteyttä %1."
 
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+msgid "Image"
+msgstr ""
+
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 #, fuzzy
@@ -2070,12 +2103,12 @@ msgstr ""
 msgid "Jump"
 msgstr "Hyppää"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "Jump to first revision"
 msgstr "(versio %1)"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr ""
 
@@ -2084,8 +2117,12 @@ msgstr ""
 msgid "Keyword search"
 msgstr "Muuta hakua"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#, fuzzy
+msgid "Last"
+msgstr "Sukunimi:"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 #, fuzzy
 msgid "Last edited by"
 msgstr "Viimeisin muokkaaja"
@@ -2136,7 +2173,7 @@ msgstr "Rivi: %1 - %2"
 msgid "Link"
 msgstr "Linkki"
 
-#: core/data/System/WebSearch.txt:315
+#: core/data/System/WebSearch.txt:316
 msgid "List topics that start with the letter:"
 msgstr "Luettele aiheet jotka alkavat kirjaimella:"
 
@@ -2161,7 +2198,7 @@ msgstr ""
 msgid "Log on with your username and password"
 msgstr "Kirjoita käyttäjätunnus ja salasana"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
 #: core/templates/foswiki.tmpl:41
 #, fuzzy
 msgid "Login"
@@ -2242,13 +2279,13 @@ msgstr "Lisää aihetoimintoja..."
 msgid "More topic actions..."
 msgstr "Lisää aihetoimintoja..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:470
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:89
+#: TwistyPlugin/data/System/TwistyPlugin.txt:465
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
 msgid "More..."
 msgstr "Lisää..."
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:33
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:34
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:40
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:41
 #, fuzzy
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
@@ -2287,13 +2324,9 @@ msgstr "Siirrä aihe verkkoon:"
 msgid "Move/Rename"
 msgstr "Siirrä/nimeä uudelleen"
 
-#: core/lib/Foswiki/Search.pm:1197
+#: core/lib/Foswiki/Search.pm:1223
 msgid "NEW"
 msgstr "UUSI"
-
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
-msgid "Name"
-msgstr ""
 
 #: core/templates/more.tmpl:31
 #, fuzzy
@@ -2303,6 +2336,10 @@ msgstr "Kopion nimi:"
 #: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
 msgstr "Verkon nimi puuttuu"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+msgid "Name:"
+msgstr ""
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
@@ -2324,7 +2361,7 @@ msgstr "Uuden käyttäjän rekisteröinti ei tuettu"
 msgid "New e-mails (space-separated list)"
 msgstr "Uudet sähköpostiosoitteet (välilyönneillä eroteltu lista)"
 
-#: MailerContrib/templates/mailnotify.tmpl:83
+#: MailerContrib/templates/mailnotify.tmpl:84
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Uudet tai muokatut aiheet %1, sitten %2:"
@@ -2353,7 +2390,7 @@ msgstr "Uusi verkon nimi:"
 msgid "Newer revision:"
 msgstr "Uudempi versio:"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:207
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 msgid "Next"
 msgstr ""
 
@@ -2403,6 +2440,11 @@ msgstr "Ei suositeltu poistettaessa aihetta"
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
 msgid "Not sure this is right, please confirm!"
 msgstr ""
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Notation"
+msgstr "Huomautukset"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2521,7 +2563,7 @@ msgstr "Vaihtoehtoisesti syötä erilainen aiheen nimi:"
 msgid "Optionally enter a different topic name:"
 msgstr "Vaihtoehtoisesti syötä erilainen aiheen nimi:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 #, fuzzy
 msgid "Options"
 msgstr "Toiminto"
@@ -2536,7 +2578,6 @@ msgstr "Organisaation nimi:"
 msgid "Organisation website"
 msgstr "Organisaation nimi:"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:61
 msgid "Password"
@@ -2553,6 +2594,11 @@ msgstr "Salasanaa ei voitu muuttaa"
 #: core/templates/messages.tmpl:235 core/templates/messages.tmpl:239
 msgid "Password reset failed"
 msgstr "Salasanan resetointi epäonnistui."
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#, fuzzy
+msgid "Password:"
+msgstr "Salasana"
 
 #: core/templates/messages.tmpl:174
 #, fuzzy
@@ -2683,12 +2729,12 @@ msgstr "Paina Peruuta muussa tapauksessa."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Paina OK vahvistaaksesi tämän muutoksen tarkoituksellisuus."
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:208
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 msgid "Previous"
 msgstr ""
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:28
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:29
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:35
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:36
 #, fuzzy
 msgid "Printable version of this topic (p)"
 msgstr "title='Tulostettava versio aiheesta' accesskey='p'>Tulostettava versio"
@@ -2697,7 +2743,7 @@ msgstr "title='Tulostettava versio aiheesta' accesskey='p'>Tulostettava versio"
 msgid "Properties"
 msgstr "Ominaisuudet"
 
-#: core/lib/Foswiki/Render.pm:262
+#: core/lib/Foswiki/Render.pm:242
 #, fuzzy
 msgid "Put it back..."
 msgstr "laita takaisin"
@@ -2732,7 +2778,7 @@ msgstr ""
 "Lue %1 saadaksesi yleiskäsityksen wikistä. Oppiaksesi enemmän, lue "
 "TwentyMinuteTutorial, joka löytyy samasta linkistä."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Lue"
 
@@ -2754,8 +2800,8 @@ msgstr "Vastikään muuttuneet aiheet"
 msgid "Redirect Denied"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
-#: JQueryPlugin/data/System/JQueryLoader.txt:93
+#: HistoryPlugin/templates/oopshistory.tmpl:107
+#: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "Päivitä"
@@ -2794,8 +2840,6 @@ msgstr "Säännöllinen lauseke etsintä"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1012
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1025
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2874,7 +2918,7 @@ msgstr "Nimeä uudelleen, siirrä tai poista tämä verkko:"
 msgid "Rename/Move"
 msgstr "Nimeä uudelleen/siirrä"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr ""
 
@@ -2957,12 +3001,11 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "Rev %1 tallennettu käyttäjän %2 toimesta muokkauksesi aikana."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:86
+#: MailerContrib/templates/mailnotify.tmpl:87
 msgid "Review recent changes in:"
 msgstr "Esikatsele viimeisimpiä muutoksia:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Versio"
@@ -3012,7 +3055,8 @@ msgstr "Tallennettu:"
 #: PatternSkin/data/_default/WebLeftBar.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
-#: core/data/System/WebSearch.txt:66 core/data/System/WebSearch.txt:85
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearch.txt:66
+#: core/data/System/WebSearch.txt:85
 msgid "Search"
 msgstr "Etsi"
 
@@ -3049,6 +3093,11 @@ msgstr "Muut hakuoptiot"
 
 #: core/templates/searchbookview.tmpl:7
 msgid "Search result"
+msgstr "Haun tulos"
+
+#: core/data/System/WebSearch.txt:240
+#, fuzzy
+msgid "Search results"
 msgstr "Haun tulos"
 
 #: core/data/System/WebSearch.txt:215
@@ -3129,7 +3178,7 @@ msgstr "Valitse uusi paikallinen tiedosto päivittääksesi liite"
 msgid "Select all"
 msgstr "Valitse kaikki"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
@@ -3146,7 +3195,7 @@ msgstr "Valitse, kopioi ja liitä allekirjoitustekstisi artikkelin alaosaan"
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Sequential"
 msgstr "Peräkkäinen"
 
@@ -3162,7 +3211,7 @@ msgstr "Aseta uusi yläartikkeli"
 msgid "Set new topic parent"
 msgstr "Aseta uusi yläaihe"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 #, fuzzy
 msgid "Show %1 revisions up to revision %2"
 msgstr "Näytä aiheen edellinen versio"
@@ -3172,7 +3221,7 @@ msgstr "Näytä aiheen edellinen versio"
 msgid "Show help"
 msgstr "Näytä ohje"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr ""
 
@@ -3180,7 +3229,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Pienennä muokkauslaatikkoa"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Side by side"
 msgstr "Vierekkäin"
 
@@ -3243,6 +3292,11 @@ msgstr "Välilyönnit korvataan alaviivoilla"
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
 
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
+msgid "Start presentation"
+msgstr ""
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
 #: PatternSkin/data/System/WebLeftBarExample.txt:13
@@ -3254,8 +3308,8 @@ msgstr "Tilastot"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:29
-#: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: JQueryPlugin/data/System/VarBUTTON.txt:31
+#: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:418
 #: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
@@ -3278,10 +3332,22 @@ msgid "Subscribe"
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/mailnotify.tmpl:90
 #: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Merkitse / Peruuta:"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
+#, fuzzy
+msgid "Subscribe to this topic"
+msgstr "Luo tämä aihe"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#, fuzzy
+msgid "Subscribe to this topic (s)"
+msgstr "title='Tulostettava versio aiheesta' accesskey='p'>Tulostettava versio"
 
 #: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
@@ -3642,12 +3708,18 @@ msgstr ""
 "kaikista %1 webiin tulleista muutoksista. Jos haluat ilmoituksen itsellesi, "
 "lisää oma %2 listaan muokkaamalla tätä sivua:"
 
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:81
+#: MailerContrib/templates/mailnotify.tmpl:82
 msgid "This is an automated e-mail from %1."
 msgstr "Tämä on automaattinen sähköposti lähettäjältä %1"
 
@@ -3668,7 +3740,7 @@ msgstr ""
 "Tämä on roskakori. Täällä voit palauttaa aiheita; poistetut liitteet ovat "
 "TrashAttachment:ssä."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -3730,7 +3802,7 @@ msgstr "Aiheen otsikko"
 msgid "To attachment:"
 msgstr "Aiheen liitteet"
 
-#: core/data/System/WebSearch.txt:285
+#: core/data/System/WebSearch.txt:286
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3806,7 +3878,6 @@ msgid "Topic data"
 msgstr "Aiheen nimi"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 #, fuzzy
 msgid "Topic history"
 msgstr "Aiheen otsikko"
@@ -3885,7 +3956,7 @@ msgstr "Osumia kaikkiaan"
 msgid "Try Again"
 msgstr "Yritä uudelleen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr ""
 
@@ -3896,6 +3967,18 @@ msgstr "Tuntematon käyttäjä ja/tai salasana"
 #: core/templates/messages.tmpl:40
 msgid "Unrecognized action command %1"
 msgstr "Ei-tunnettu toimintokomento %1"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
+#, fuzzy
+msgid "Unsubscribe from this topic"
+msgstr "title='Tulostettava versio aiheesta' accesskey='p'>Tulostettava versio"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:15
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:16
+#, fuzzy
+msgid "Unsubscribe from this topic (s)"
+msgstr "title='Tulostettava versio aiheesta' accesskey='p'>Tulostettava versio"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
 #, fuzzy
@@ -4029,7 +4112,7 @@ msgstr "Näytä"
 msgid "View complete topic history"
 msgstr "Näytä aiheen täysi historia"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:65
+#: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "View difference"
 msgstr "Näytä eroavaisuudet"
 
@@ -4038,12 +4121,12 @@ msgstr "Näytä eroavaisuudet"
 msgid "View differences"
 msgstr "Näytä eroavaisuudet"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "View earlier"
 msgstr "Näytä sivupohjat"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "View later"
 msgstr "Näytä sivupohjat"
@@ -4065,8 +4148,8 @@ msgstr "Näytä versio:"
 msgid "View revision:"
 msgstr "Näytä versio:"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:20
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:21
 #, fuzzy
 msgid "View sequential topic history"
 msgstr "Näytä aiheen täysi historia"
@@ -4080,12 +4163,12 @@ msgstr "Näytä sivupohjat"
 msgid "View topic"
 msgstr "Näytä aihe"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "Näytä aiheen täysi historia"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:18
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:19
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:25
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:26
 #, fuzzy
 msgid "View without formatting (v)"
 msgstr "Näytä raaka teksti ilman muotoiluja"
@@ -4135,7 +4218,7 @@ msgstr ""
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Varoitus: Tämä sivusto ei salli URLien %<nop>INCLUDE%"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:440
 #, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Varoitus: Aihetta ei ole olemassa"
@@ -4144,7 +4227,7 @@ msgstr "Varoitus: Aihetta ei ole olemassa"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Varoitus: Aihetta ei ole olemassa"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
 #, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Varoitus: Aihetta ei ole olemassa"
@@ -4187,7 +4270,7 @@ msgstr "Kuka"
 msgid "Who is requesting this, actually?"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr ""
 
@@ -4538,7 +4621,7 @@ msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 msgstr "[3 väliä] * [väli] Set [väli] MUUTTUJANNIMI [väli] = [arvo]"
 
-#: core/lib/Foswiki/I18N.pm:331
+#: core/lib/Foswiki/I18N.pm:343
 msgid "_language_name"
 msgstr "Suomi"
 
@@ -4710,7 +4793,7 @@ msgstr "title='Muokkaa aiheen sisältöä' accesskey='e'>Muokkaa"
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Muokkaa aiheen sisältöä' accesskey='e'>Muokkaa"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:71
+#: CompareRevisionsAddOn/templates/compare.tmpl:74
 #, fuzzy
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='Näytä aihe' accesskey='v'>&Näytä aihe"
@@ -4741,7 +4824,7 @@ msgstr ""
 "title='Etsi verkosta %1 aiheita, jotka linkittävät tänne' "
 "accesskey='b'>Verkko"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:68
+#: CompareRevisionsAddOn/templates/compare.tmpl:71
 #, fuzzy
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Näytä aihe' accesskey='v'>&Näytä aihe"
@@ -4756,7 +4839,7 @@ msgstr "title='Muokkaa aiheen sisältöä' accesskey='e'>Muokkaa"
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
 msgstr "title='Tulostettava versio aiheesta' accesskey='p'>Tulostettava versio"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Näytä aihe' accesskey='v'>&Näytä aihe"

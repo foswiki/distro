@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-11-10 00:01+0200\n"
 "Last-Translator: Oliver Krüger <foswiki@oliverkrueger.de>\n"
-"Language-Team: German <http://translate.foswiki.org/projects/foswiki"
-"/distribution-release-11/de/>\n"
+"Language-Team: German <http://translate.foswiki.org/projects/foswiki/"
+"distribution-release-11/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -182,7 +182,7 @@ msgstr "%1 hat versucht, sich mit der E-Mail %2 zu registrieren"
 # $date,
 # $by)
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:269
+#: core/lib/Foswiki/Render.pm:249
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 wurde durch %4 von %2 nach %3 umbenannt oder verschoben"
 
@@ -198,7 +198,7 @@ msgstr "&Abbrechen"
 msgid "&History"
 msgstr "&Historie"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "&Sequential"
 msgstr "&Sequenziell"
 
@@ -230,7 +230,7 @@ msgstr "(*Vorschlag:* Wie wäre es, wenn Sie Ihr Foto an Ihre Seite anhängen?)"
 msgid "(=all= to show all topics)"
 msgstr "(=all= um alle Topics anzuzeigen)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr "(Diese Nachricht wird automatisch entfernt)"
 
@@ -431,8 +431,8 @@ msgid ""
 "*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
 "your text="
 msgstr ""
-"*Liste* 3 Leerzeichen, Sternchen, 1 Leerzeichen: "
-"=&&nbsp;&&nbsp;&&nbsp;*&&nbsp;Ihr Text="
+"*Liste* 3 Leerzeichen, Sternchen, 1 Leerzeichen: =&&nbsp;&&nbsp;&&nbsp;"
+"*&&nbsp;Ihr Text="
 
 #: core/data/System/WikiSyntaxSummary.txt:14
 msgid ""
@@ -445,8 +445,8 @@ msgstr ""
 #: core/data/System/WikiSyntaxSummary.txt:11
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
 msgstr ""
-"*Überschriften* 3 Bindestriche, 1 bis 6 Pluszeichen, 1 Leerzeichen: "
-"=---++&&nbsp;Ihre Überschrift="
+"*Überschriften* 3 Bindestriche, 1 bis 6 Pluszeichen, 1 Leerzeichen: =---+"
+"+&&nbsp;Ihre Überschrift="
 
 #: core/data/System/WikiSyntaxSummary.txt:12
 msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
@@ -844,7 +844,7 @@ msgstr "Achtung"
 msgid "Attribute"
 msgstr "Attribut"
 
-#: MailerContrib/templates/mailnotify.tmpl:71
+#: MailerContrib/templates/mailnotify.tmpl:72
 msgid "Automated notification of topic changes"
 msgstr "Automatische Benachrichtigung über Topicänderungen"
 
@@ -933,8 +933,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:33
-#: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: JQueryPlugin/data/System/VarBUTTON.txt:35
+#: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: PatternSkin/data/System/PatternSkinElements.txt:422
 #: PatternSkin/data/System/PatternSkinElements.txt:431
 #: PatternSkin/data/System/PatternSkinElements.txt:451
@@ -957,7 +957,8 @@ msgstr "Konnte Web %1 nicht anlegen, da es bereits vorhanden ist"
 
 #: core/templates/messages.tmpl:75 core/templates/messages.tmpl:81
 msgid "Cannot rename %1 to %2 because it already exists."
-msgstr "Konnte %1 nicht nach %2 umbenennen, da Letzteres bereits vorhanden ist."
+msgstr ""
+"Konnte %1 nicht nach %2 umbenennen, da Letzteres bereits vorhanden ist."
 
 #: core/data/System/WebSearch.txt:186
 msgid "Case sensitive"
@@ -1021,11 +1022,11 @@ msgid "Change topic"
 msgstr "Topic ändern"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
+#, fuzzy
+msgid "Changed by:"
 msgstr "Geändert von"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
 msgstr "Geändert am"
 
@@ -1077,7 +1078,7 @@ msgstr "Wählen Sie eine neue Formularvorlage für %1"
 msgid "Clear all"
 msgstr "Alles abwählen"
 
-#: core/lib/Foswiki/Render.pm:254
+#: core/lib/Foswiki/Render.pm:234
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1085,8 +1086,8 @@ msgstr ""
 "Klicken, um das Topic an seine vorherige Stelle zu verschieben, mit der "
 "Möglichkeit, die Querverweise zu ändern."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:471
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/data/System/TwistyPlugin.txt:466
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
 msgid "Close"
 msgstr "Schließen"
 
@@ -1098,13 +1099,28 @@ msgstr "Farbe %1 hat ein ungültiges Format"
 msgid "Come on in"
 msgstr "Treten Sie ein"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Kommentar"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:152
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
+msgid "Commenting is disabled for static viewing"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
+msgid "Commenting is disabled when not in view context"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
+msgid "Commenting is disabled while not logged in"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
+msgid "Commenting is disabled while running from the command line"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:152
 msgid "Compare revisions"
 msgstr "Vergleiche Revisionen"
 
@@ -1135,7 +1151,7 @@ msgstr "Konflikt"
 msgid "Contact %1 if you have any questions."
 msgstr "Kontaktieren Sie %1, wenn Sie Fragen haben."
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 msgid "Context"
 msgstr "Kontext"
 
@@ -1147,7 +1163,7 @@ msgstr "Wollen Sie fortfahren und versuchen, das Web umzubenennen?"
 msgid "Continue to create the new page"
 msgstr "Fahren Sie fort, um die neue Seite anzulegen"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1231,8 +1247,8 @@ msgstr "Gruppe anlegen"
 msgid "Create new FAQ topic"
 msgstr "Neues FAQ-Topic anlegen"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:23
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:24
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:30
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 msgid "Create new topic"
 msgstr "Neues Topic anlegen"
 
@@ -1252,7 +1268,7 @@ msgstr "Das Topic anlegen"
 #: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:82
+#: core/lib/Foswiki/Render.pm:62
 msgid "Create this topic"
 msgstr "Dieses Topic anlegen"
 
@@ -1285,7 +1301,7 @@ msgstr "Datum"
 msgid "Dear %1"
 msgstr "Hallo %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Debug"
 msgstr "Fehler beheben"
 
@@ -1322,6 +1338,11 @@ msgstr "Topic löschen..."
 msgid "Describe the file so other people know what it is."
 msgstr ""
 "Beschreiben Sie die Datei, damit andere Benutzer wissen, was sie beinhaltet."
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Description"
+msgstr "Frage"
 
 #: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
@@ -1584,6 +1605,10 @@ msgstr "Fehler beim Entfernen von Nutzern aus Gruppen"
 msgid "Evil person"
 msgstr "Böse Person"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+msgid "Exit"
+msgstr ""
+
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr "Fehlerhafte Plugins"
@@ -1618,6 +1643,11 @@ msgstr "Ähnliche Topics finden"
 #: core/templates/more.tmpl:87 core/templates/more.tmpl:89
 msgid "Find topics that link to %1 ..."
 msgstr "Topics finden, die auf %1 verweisen ..."
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#, fuzzy
+msgid "First"
+msgstr "erster"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 msgid "First name"
@@ -1685,7 +1715,7 @@ msgstr "Mehr erfahren über das Anhängen von Dateien"
 msgid "Get help on setting topic preferences"
 msgstr "Mehr erfahren über das Setzen von Topic-Einstellungen"
 
-#: core/data/System/WebSearch.txt:275
+#: core/data/System/WebSearch.txt:276
 msgid "Get notified on changes on this search"
 msgstr "Bei Änderungen bezüglich dieser Suche benachrichtigt werden"
 
@@ -1957,6 +1987,10 @@ msgstr ""
 "Falls Ihre alte E-Mail-Adresse ungültig ist und Sie Ihr Passwort vergessen "
 "haben, setzen Sie sich bitte für weitere Hilfe mit %1 in Verbindung."
 
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+msgid "Image"
+msgstr ""
+
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 msgid "Image %1 of %2"
@@ -2084,11 +2118,11 @@ msgstr ""
 msgid "Jump"
 msgstr "Springen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to first revision"
 msgstr "Zur ersten Revision"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr "Zur neuesten Revision (%1)"
 
@@ -2096,8 +2130,12 @@ msgstr "Zur neuesten Revision (%1)"
 msgid "Keyword search"
 msgstr "Stichwortsuche"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#, fuzzy
+msgid "Last"
+msgstr "Nachname"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
 msgstr "Zuletzt bearbeitet von"
 
@@ -2146,7 +2184,7 @@ msgstr "Zeile: %1 bis %2"
 msgid "Link"
 msgstr "Verweis"
 
-#: core/data/System/WebSearch.txt:315
+#: core/data/System/WebSearch.txt:316
 msgid "List topics that start with the letter:"
 msgstr "Auflistung aller Topics beginnend mit folgenden Buchstaben:"
 
@@ -2170,7 +2208,7 @@ msgstr "Anmelden, um fortzufahren."
 msgid "Log on with your username and password"
 msgstr "Melden Sie sich mit Ihrem Benutzernamen und Ihrem Passwort an"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
 #: core/templates/foswiki.tmpl:41
 msgid "Login"
 msgstr "Einloggen"
@@ -2246,13 +2284,13 @@ msgstr "Mehr Topic-Aktionen"
 msgid "More topic actions..."
 msgstr "Mehr Topic-Aktionen..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:470
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:89
+#: TwistyPlugin/data/System/TwistyPlugin.txt:465
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
 msgid "More..."
 msgstr "Mehr..."
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:33
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:34
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:40
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:41
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
@@ -2290,13 +2328,9 @@ msgstr "Topic in folgendes Web verschieben:"
 msgid "Move/Rename"
 msgstr "Verschieben/Umbenennen"
 
-#: core/lib/Foswiki/Search.pm:1197
+#: core/lib/Foswiki/Search.pm:1223
 msgid "NEW"
 msgstr "NEU"
-
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
-msgid "Name"
-msgstr "Benutzername"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2305,6 +2339,11 @@ msgstr "Name der Kopie"
 #: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
 msgstr "Der Name des neuen Webs fehlt"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#, fuzzy
+msgid "Name:"
+msgstr "Benutzername"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
@@ -2326,7 +2365,7 @@ msgstr "Die Registrierung für neue Benutzer wird nicht unterstützt"
 msgid "New e-mails (space-separated list)"
 msgstr "Neue E-Mails (Leerzeichen-separatisierte Liste)"
 
-#: MailerContrib/templates/mailnotify.tmpl:83
+#: MailerContrib/templates/mailnotify.tmpl:84
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Neue oder geänderte Topics in %1, seit %2:"
@@ -2357,7 +2396,7 @@ msgstr "Neuer Web-Name:"
 msgid "Newer revision:"
 msgstr "Neuere Revision:"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:207
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 msgid "Next"
 msgstr "Nächste"
 
@@ -2404,6 +2443,11 @@ msgstr "Nicht empfohlen, wenn Sie das Topic löschen."
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
 msgid "Not sure this is right, please confirm!"
 msgstr "Ist das wirklich richtig? Bitte bestätigen!"
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Notation"
+msgstr "Benachrichtigungen"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2522,7 +2566,7 @@ msgstr "Optional einen anderen Namen für den Anhang eingeben:"
 msgid "Optionally enter a different topic name:"
 msgstr "Optional geben Sie einen anderen Topic-Namen ein:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Options"
 msgstr "Optionen"
 
@@ -2534,7 +2578,6 @@ msgstr "Name der Organisation"
 msgid "Organisation website"
 msgstr "Webseite der Organisation"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:61
 msgid "Password"
@@ -2551,6 +2594,11 @@ msgstr "Passwort konnte nicht geändert werden"
 #: core/templates/messages.tmpl:235 core/templates/messages.tmpl:239
 msgid "Password reset failed"
 msgstr "Das Zurücksetzen des Passwortes ist fehlgeschlagen"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#, fuzzy
+msgid "Password:"
+msgstr "Passwort"
 
 #: core/templates/messages.tmpl:174
 msgid "Passwords disabled"
@@ -2686,12 +2734,12 @@ msgstr "Wählen Sie ansonsten Abbrechen."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Bitte bestätigen Sie mit OK, wenn diese Änderung beabsichtigt ist."
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:208
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 msgid "Previous"
 msgstr "Vorherige"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:28
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:29
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:35
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:36
 msgid "Printable version of this topic (p)"
 msgstr "Druckversion dieses Topics (p)"
 
@@ -2699,7 +2747,7 @@ msgstr "Druckversion dieses Topics (p)"
 msgid "Properties"
 msgstr "Eigenschaften"
 
-#: core/lib/Foswiki/Render.pm:262
+#: core/lib/Foswiki/Render.pm:242
 msgid "Put it back..."
 msgstr "Zurück verschieben..."
 
@@ -2732,7 +2780,7 @@ msgstr ""
 "Lesen Sie %1, um einen schnellen Überblick über die Kollaborationsplattform "
 "zu bekommen. Für mehr Informationen lesen Sie das TwentyMinuteTutorial."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Weiterlesen"
 
@@ -2752,8 +2800,8 @@ msgstr "Kürzlich geänderte Topics in allen Webs"
 msgid "Redirect Denied"
 msgstr "Weiterleitung verweigert"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
-#: JQueryPlugin/data/System/JQueryLoader.txt:93
+#: HistoryPlugin/templates/oopshistory.tmpl:107
+#: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "Neu laden"
@@ -2795,8 +2843,6 @@ msgstr "Mit regulären Ausdrücken suchen"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1012
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1025
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2873,7 +2919,7 @@ msgstr "Dieses Web umbenennen, verschieben oder löschen"
 msgid "Rename/Move"
 msgstr "Umbenennen/Verschieben"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr "Darstellungsart"
 
@@ -2965,12 +3011,11 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "Rev %1 wurde von %2 gespeichert, während Sie noch editierten."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:86
+#: MailerContrib/templates/mailnotify.tmpl:87
 msgid "Review recent changes in:"
 msgstr "Änderungen ansehen in:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Revision"
@@ -3019,7 +3064,8 @@ msgstr "Gespeichert nach:"
 #: PatternSkin/data/_default/WebLeftBar.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
-#: core/data/System/WebSearch.txt:66 core/data/System/WebSearch.txt:85
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearch.txt:66
+#: core/data/System/WebSearch.txt:85
 msgid "Search"
 msgstr "Suchen"
 
@@ -3054,6 +3100,11 @@ msgstr "Suchoptionen"
 
 #: core/templates/searchbookview.tmpl:7
 msgid "Search result"
+msgstr "Suchergebnis"
+
+#: core/data/System/WebSearch.txt:240
+#, fuzzy
+msgid "Search results"
 msgstr "Suchergebnis"
 
 #: core/data/System/WebSearch.txt:215
@@ -3135,7 +3186,7 @@ msgstr ""
 msgid "Select all"
 msgstr "Alles auswählen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 "Wählen Sie links eine ältere und rechts eine neuere Revision aus, um sie zu "
@@ -3153,7 +3204,7 @@ msgstr "Fügen Sie Ihre Signatur unter dem Text ein, indem Sie sie kopieren"
 msgid "Selections apply to search in \"text body\""
 msgstr "Gewählte Optionen beziehen sich auf die Suche im Text-Inhaltsbereich"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Sequential"
 msgstr "Sequenziell"
 
@@ -3169,7 +3220,7 @@ msgstr "Neues Ober-Topic zuordnen"
 msgid "Set new topic parent"
 msgstr "Neues Ober-Topic zuordnen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 msgid "Show %1 revisions up to revision %2"
 msgstr "Zeige %1 Revisionen bis Revision %2"
 
@@ -3178,7 +3229,7 @@ msgstr "Zeige %1 Revisionen bis Revision %2"
 msgid "Show help"
 msgstr "Hilfe anzeigen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Zeige Revisionen %1 – %2 (von %3)"
 
@@ -3186,7 +3237,7 @@ msgstr "Zeige Revisionen %1 – %2 (von %3)"
 msgid "Shrink edit box"
 msgstr "Editier-Box verkleinern"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Side by side"
 msgstr "Seite an Seite"
 
@@ -3252,6 +3303,11 @@ msgstr ""
 "Geben Sie =all= an für alle Webs oder eine durch Kommata getrennte Liste von "
 "Webs (folgende gibt es: %1)"
 
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
+msgid "Start presentation"
+msgstr ""
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
 #: PatternSkin/data/System/WebLeftBarExample.txt:13
@@ -3263,8 +3319,8 @@ msgstr "Statistiken"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:29
-#: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: JQueryPlugin/data/System/VarBUTTON.txt:31
+#: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:418
 #: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
@@ -3287,10 +3343,22 @@ msgid "Subscribe"
 msgstr "Abonnieren"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/mailnotify.tmpl:90
 #: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Abonnieren / Abbestellen in:"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
+#, fuzzy
+msgid "Subscribe to this topic"
+msgstr "Dieses Topic anlegen"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#, fuzzy
+msgid "Subscribe to this topic (s)"
+msgstr "Druckversion dieses Topics (p)"
 
 #: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
@@ -3677,6 +3745,12 @@ msgstr ""
 "Dienst anzumelden, fügen Sie einfach Ihren %2 in alphabetischer Reihenfolge "
 "zu dieser Liste hinzu:"
 
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr ""
@@ -3684,7 +3758,7 @@ msgstr ""
 "(CSRF)."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:81
+#: MailerContrib/templates/mailnotify.tmpl:82
 msgid "This is an automated e-mail from %1."
 msgstr "Dies ist eine automatisierte E-Mail von %1."
 
@@ -3705,7 +3779,7 @@ msgstr ""
 "Dies ist der Abfall (Trash). Hier können Sie gelöschte Topics "
 "wiederherstellen; gelöschte Anhänge befinden sich im Topic TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr "Die Konvertierung ist aus folgendem Grund deaktiviert:"
 
@@ -3772,7 +3846,7 @@ msgstr "Titel"
 msgid "To attachment:"
 msgstr "Zu Anhang:"
 
-#: core/data/System/WebSearch.txt:285
+#: core/data/System/WebSearch.txt:286
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3845,7 +3919,6 @@ msgid "Topic data"
 msgstr "Topic-Metadaten"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 msgid "Topic history"
 msgstr "Topic-Historie"
 
@@ -3922,7 +3995,7 @@ msgstr "Alle Treffer"
 msgid "Try Again"
 msgstr "Nochmal versuchen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr "Unveränderte Abschnitte vor und nach jeder Änderung"
 
@@ -3933,6 +4006,19 @@ msgstr "Benutzer und/oder Passwort nicht erkannt"
 #: core/templates/messages.tmpl:40
 msgid "Unrecognized action command %1"
 msgstr "Aktions Befehl %1 nicht erkannt"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
+#, fuzzy
+msgid "Unsubscribe from this topic"
+msgstr ""
+"title='Abonnement des Topics beenden' accesskey='s'>Abonnement beenden (&s)"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:15
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:16
+#, fuzzy
+msgid "Unsubscribe from this topic (s)"
+msgstr "Druckversion dieses Topics (p)"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
 msgid "Update"
@@ -4059,7 +4145,7 @@ msgstr "Ansehen"
 msgid "View complete topic history"
 msgstr "Komplette Topic-Historie ansehen"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:65
+#: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "View difference"
 msgstr "Unterschied anzeigen"
 
@@ -4067,11 +4153,11 @@ msgstr "Unterschied anzeigen"
 msgid "View differences"
 msgstr "Unterschiede anzeigen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View earlier"
 msgstr "Frühere anzeigen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View later"
 msgstr "Spätere anzeigen"
 
@@ -4091,8 +4177,8 @@ msgstr "Revision ansehen"
 msgid "View revision:"
 msgstr "Revision ansehen:"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:20
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:21
 msgid "View sequential topic history"
 msgstr "Topic-Historie ansehen"
 
@@ -4105,12 +4191,12 @@ msgstr "Vorlagen anzeigen"
 msgid "View topic"
 msgstr "Topic ansehen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "Topic-Historie ansehen"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:18
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:19
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:25
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:26
 msgid "View without formatting (v)"
 msgstr "Quelltext ohne Formatierung ansehen (v)"
 
@@ -4161,7 +4247,7 @@ msgstr ""
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Warnung: Diese Seite erlaubt kein %<nop>INCLUDE% von URLs"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:440
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Warnung: \\include\\'-Topic <nop>%1 existiert nicht!"
 
@@ -4169,7 +4255,7 @@ msgstr "Warnung: \\include\\'-Topic <nop>%1 existiert nicht!"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Warnung: \\'Include\\' Topic existiert nicht!"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Warnung: Tabellendefinition in \\'include\\'-Topic %1 existiert nicht!"
 
@@ -4211,7 +4297,7 @@ msgstr "Wer"
 msgid "Who is requesting this, actually?"
 msgstr "Wer genau stellt diese Anfrage gerade?"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr "Gesamte Seite"
 
@@ -4583,7 +4669,7 @@ msgstr ""
 "VARIABLENNAME [Leerzeichen] = [Wert]"
 
 # please enter the name of your language here (written in the native language):
-#: core/lib/Foswiki/I18N.pm:331
+#: core/lib/Foswiki/I18N.pm:343
 msgid "_language_name"
 msgstr "Deutsch"
 
@@ -4752,7 +4838,7 @@ msgstr "title='Wiki-Text bearbeiten' accesskey='w'>&Wiki-Text bearbeiten"
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Topic-Text editieren' accesskey='e'>&Editieren"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:71
+#: CompareRevisionsAddOn/templates/compare.tmpl:74
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='verwoben' accesskey='v'>verwoben (&v)"
 
@@ -4782,7 +4868,7 @@ msgstr ""
 "title='Das %1 Web nach Topics durchsuchen, die hierher verweisen' "
 "accesskey='b'>We&b"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:68
+#: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Seite-an-Seite' accesskey='s'>&Seite-an-Seite"
 
@@ -4795,7 +4881,7 @@ msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
 msgstr ""
 "title='Abonnement des Topics beenden' accesskey='s'>Abonnement beenden (&s)"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Topic anzeigen' accesskey='v'>Topic anzeigen (&v)"
@@ -4907,9 +4993,6 @@ msgstr "warum Sie zur Bestätigung aufgefordert werden"
 
 #~ msgid "Show"
 #~ msgstr "Anzeigen"
-
-#~ msgid "first"
-#~ msgstr "erster"
 
 #~ msgid "last"
 #~ msgstr "letzter"

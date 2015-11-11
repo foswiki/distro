@@ -9,9 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-09-30 08:27+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese "
-"<http://translate.foswiki.org/projects/foswiki/distribution-"
-"release-11/zh_TW/>\n"
+"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
+"foswiki/distribution-release-11/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -180,7 +179,7 @@ msgstr "%1 試著以電子郵件 %2 註冊"
 # $date,
 # $by)
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:269
+#: core/lib/Foswiki/Render.pm:249
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%4 將 %3 的 %2 更名或移到 %1"
 
@@ -196,7 +195,7 @@ msgstr "取消(&C)"
 msgid "&History"
 msgstr "歷史(&H)"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "&Sequential"
 msgstr "連續(&S)"
 
@@ -228,7 +227,7 @@ msgstr "(*建議：*上傳您的圖片?)"
 msgid "(=all= to show all topics)"
 msgstr "(=所有= 顯示所有主題)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr "(本訊息將自動移除)"
 
@@ -372,7 +371,9 @@ msgid ""
 "*Change comment:* If you use _Change Properties_ to change a comment, the "
 "comment shown in the topic will change, but the comment shown against the "
 "attachment history will be the comment when the file was uploaded."
-msgstr "*修改評論:* 若使用 _變更屬性_ 改變評論，文章的評論將會改變，但附件歷史中的評論仍為檔案上傳時的評論。"
+msgstr ""
+"*修改評論:* 若使用 _變更屬性_ 改變評論，文章的評論將會改變，但附件歷史中的評"
+"論仍為檔案上傳時的評論。"
 
 #: core/data/System/WikiSyntaxSummary.txt:8
 msgid "*Formatting help:*"
@@ -515,7 +516,9 @@ msgstr "因安全考量，部分檔案會加上 =.txt= 的副檔名"
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
-msgstr "Foswiki 網站分成多個子網；每個子網包含一個主題，一個合作計劃。您想瀏覽的 %1 子網不存在。"
+msgstr ""
+"Foswiki 網站分成多個子網；每個子網包含一個主題，一個合作計劃。您想瀏覽的 %1 "
+"子網不存在。"
 
 #: core/templates/messages.tmpl:143
 msgid ""
@@ -790,7 +793,7 @@ msgstr "注意"
 msgid "Attribute"
 msgstr "屬性"
 
-#: MailerContrib/templates/mailnotify.tmpl:71
+#: MailerContrib/templates/mailnotify.tmpl:72
 msgid "Automated notification of topic changes"
 msgstr "主題更新的自動通知"
 
@@ -874,8 +877,8 @@ msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時）"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:33
-#: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: JQueryPlugin/data/System/VarBUTTON.txt:35
+#: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: PatternSkin/data/System/PatternSkinElements.txt:422
 #: PatternSkin/data/System/PatternSkinElements.txt:431
 #: PatternSkin/data/System/PatternSkinElements.txt:451
@@ -962,11 +965,11 @@ msgid "Change topic"
 msgstr "改變主題"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
+#, fuzzy
+msgid "Changed by:"
 msgstr "變更者"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
 msgstr "改變於"
 
@@ -1014,14 +1017,14 @@ msgstr "為 %1 選個新表單"
 msgid "Clear all"
 msgstr "全部清除"
 
-#: core/lib/Foswiki/Render.pm:254
+#: core/lib/Foswiki/Render.pm:234
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
 msgstr "移動主題回以前的位置，有選項可修改引用。"
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:471
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/data/System/TwistyPlugin.txt:466
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
 msgid "Close"
 msgstr "關閉"
 
@@ -1033,13 +1036,29 @@ msgstr "顏色 %1包含無效格式"
 msgid "Come on in"
 msgstr "來吧"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "評論"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:152
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
+#, fuzzy
+msgid "Commenting is disabled for static viewing"
+msgstr "非瀏覽模式，禁止評論"
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
+msgid "Commenting is disabled when not in view context"
+msgstr "非瀏覽模式，禁止評論"
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
+msgid "Commenting is disabled while not logged in"
+msgstr "未登入，禁止評論"
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
+msgid "Commenting is disabled while running from the command line"
+msgstr "命令列模式中，禁止評論"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:152
 msgid "Compare revisions"
 msgstr "比較版本"
 
@@ -1068,7 +1087,7 @@ msgstr "衝突"
 msgid "Contact %1 if you have any questions."
 msgstr "如有問題，請聯繫 %1。"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 msgid "Context"
 msgstr "內文"
 
@@ -1080,7 +1099,7 @@ msgstr "繼續為子網改名?"
 msgid "Continue to create the new page"
 msgstr "繼續建立新頁面"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1158,8 +1177,8 @@ msgstr "建立群組"
 msgid "Create new FAQ topic"
 msgstr "建立新的熱門問答主題"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:23
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:24
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:30
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 msgid "Create new topic"
 msgstr "建立新主題"
 
@@ -1178,7 +1197,7 @@ msgstr "建立主題"
 #: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:82
+#: core/lib/Foswiki/Render.pm:62
 msgid "Create this topic"
 msgstr "建立這個主題"
 
@@ -1211,7 +1230,7 @@ msgstr "日期"
 msgid "Dear %1"
 msgstr "親愛的 %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Debug"
 msgstr "除錯"
 
@@ -1247,6 +1266,11 @@ msgstr "刪除主題..."
 #: PatternSkin/templates/attach.pattern.tmpl:57
 msgid "Describe the file so other people know what it is."
 msgstr "檔案說明，方便其他人瞭解檔案內容。"
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Description"
+msgstr "問題"
 
 #: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
@@ -1480,6 +1504,10 @@ msgstr "移除群組使用者錯誤"
 msgid "Evil person"
 msgstr "駭客"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+msgid "Exit"
+msgstr ""
+
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr "外掛失敗"
@@ -1513,6 +1541,11 @@ msgstr "尋找相似主題"
 msgid "Find topics that link to %1 ..."
 msgstr "找連到 %1 的主題..."
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#, fuzzy
+msgid "First"
+msgstr "第一"
+
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 msgid "First name"
 msgstr "名"
@@ -1522,7 +1555,9 @@ msgid ""
 "For more detailed information on cross-site request forgery, and the dangers "
 "it poses to you, see [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
-msgstr "有關跨網站偽要求的詳細資料，與可能帶給您的危險，參考 [[%1][維基百科上跨網站偽要求的文章]]。"
+msgstr ""
+"有關跨網站偽要求的詳細資料，與可能帶給您的危險，參考 [[%1][維基百科上跨網站偽"
+"要求的文章]]。"
 
 #: PatternSkin/templates/edit.pattern.tmpl:24
 msgid "Force new revision"
@@ -1576,7 +1611,7 @@ msgstr "取得附加檔案的說明"
 msgid "Get help on setting topic preferences"
 msgstr "取得主題設定的說明"
 
-#: core/data/System/WebSearch.txt:275
+#: core/data/System/WebSearch.txt:276
 msgid "Get notified on changes on this search"
 msgstr "得到此搜尋的修改通知"
 
@@ -1710,7 +1745,9 @@ msgid ""
 "If Foswiki can't find a registered e-mail for you in the secret database, "
 "you will be unable to reset your password or take advantage of email "
 "notifications of topic changes."
-msgstr "如果 Foswiki 在秘密資料庫中找不到您註冊的電子郵件，您將無法重設密碼或利用文件變更的電子郵件通知。"
+msgstr ""
+"如果 Foswiki 在秘密資料庫中找不到您註冊的電子郵件，您將無法重設密碼或利用文件"
+"變更的電子郵件通知。"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:9
 msgid ""
@@ -1814,6 +1851,10 @@ msgid ""
 msgstr ""
 "如果您的舊郵件地址失效（您無法收到任何郵件）而又忘記密碼的話，請聯繫 %1 協"
 "助。"
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+msgid "Image"
+msgstr ""
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
@@ -1933,11 +1974,11 @@ msgstr ""
 msgid "Jump"
 msgstr "到"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to first revision"
 msgstr "移至第一個版本"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr "跳至最新的版本 (%1)"
 
@@ -1945,8 +1986,12 @@ msgstr "跳至最新的版本 (%1)"
 msgid "Keyword search"
 msgstr "關鍵字搜尋"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#, fuzzy
+msgid "Last"
+msgstr "姓"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
 msgstr "最後的編輯者"
 
@@ -1993,7 +2038,7 @@ msgstr "行: %1 到 %2"
 msgid "Link"
 msgstr "連結"
 
-#: core/data/System/WebSearch.txt:315
+#: core/data/System/WebSearch.txt:316
 msgid "List topics that start with the letter:"
 msgstr "列出所有以某字母開頭的主題:"
 
@@ -2017,7 +2062,7 @@ msgstr "登入並繼續。"
 msgid "Log on with your username and password"
 msgstr "請輸入您的用戶名和密碼"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
 #: core/templates/foswiki.tmpl:41
 msgid "Login"
 msgstr "登入"
@@ -2093,13 +2138,13 @@ msgstr "更多主題功能"
 msgid "More topic actions..."
 msgstr "更多主題功能..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:470
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:89
+#: TwistyPlugin/data/System/TwistyPlugin.txt:465
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
 msgid "More..."
 msgstr "更多..."
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:33
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:34
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:40
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:41
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
@@ -2135,13 +2180,9 @@ msgstr "移動主題到子網:"
 msgid "Move/Rename"
 msgstr "移動/更名"
 
-#: core/lib/Foswiki/Search.pm:1197
+#: core/lib/Foswiki/Search.pm:1223
 msgid "NEW"
 msgstr "新"
-
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
-msgid "Name"
-msgstr "名"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2150,6 +2191,11 @@ msgstr "複本名稱"
 #: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
 msgstr "新子網名稱遺失"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#, fuzzy
+msgid "Name:"
+msgstr "名"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
@@ -2171,7 +2217,7 @@ msgstr "不支援新用戶註冊"
 msgid "New e-mails (space-separated list)"
 msgstr "新郵件地址 (用空白區隔的清單)"
 
-#: MailerContrib/templates/mailnotify.tmpl:83
+#: MailerContrib/templates/mailnotify.tmpl:84
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "自 %2 起，%1 中新的或變更過的主題:"
@@ -2200,7 +2246,7 @@ msgstr "新子網名稱:"
 msgid "Newer revision:"
 msgstr "新版本:"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:207
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 msgid "Next"
 msgstr "下一個"
 
@@ -2247,6 +2293,11 @@ msgstr "刪除主題時不建議。"
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
 msgid "Not sure this is right, please confirm!"
 msgstr "不確定是否正確，請確認！"
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Notation"
+msgstr "通知"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2359,7 +2410,7 @@ msgstr "輸入不同的附件名稱（非必要）:"
 msgid "Optionally enter a different topic name:"
 msgstr "輸入不同的主題名稱（非必要）:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Options"
 msgstr "選項"
 
@@ -2371,7 +2422,6 @@ msgstr "組織名稱"
 msgid "Organisation website"
 msgstr "組織網站"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:61
 msgid "Password"
@@ -2388,6 +2438,11 @@ msgstr "密碼無法修改"
 #: core/templates/messages.tmpl:235 core/templates/messages.tmpl:239
 msgid "Password reset failed"
 msgstr "密碼重設失敗"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#, fuzzy
+msgid "Password:"
+msgstr "密碼"
 
 #: core/templates/messages.tmpl:174
 msgid "Passwords disabled"
@@ -2510,12 +2565,12 @@ msgstr "其他，按「取消」。"
 msgid "Press OK to confirm that this change was intentional."
 msgstr "按「好」確認此修改是故意的。"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:208
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 msgid "Previous"
 msgstr "上一個"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:28
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:29
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:35
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:36
 msgid "Printable version of this topic (p)"
 msgstr "列印本主題 (p)"
 
@@ -2523,7 +2578,7 @@ msgstr "列印本主題 (p)"
 msgid "Properties"
 msgstr "屬性"
 
-#: core/lib/Foswiki/Render.pm:262
+#: core/lib/Foswiki/Render.pm:242
 msgid "Put it back..."
 msgstr "放回…"
 
@@ -2552,9 +2607,11 @@ msgstr "訂閱 RSS"
 msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
 "more, study the TwentyMinuteTutorial, which is accessible from the same link."
-msgstr "閱讀 %1 可快速對本合作平臺有個概念。想進一步瞭解，可以參考相同連結的 TwentyMinuteTutorial 。"
+msgstr ""
+"閱讀 %1 可快速對本合作平臺有個概念。想進一步瞭解，可以參考相同連結的 "
+"TwentyMinuteTutorial 。"
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "閱讀"
 
@@ -2574,8 +2631,8 @@ msgstr "所有子網內最近更新的主題"
 msgid "Redirect Denied"
 msgstr "拒絕轉址"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
-#: JQueryPlugin/data/System/JQueryLoader.txt:93
+#: HistoryPlugin/templates/oopshistory.tmpl:107
+#: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "更新"
@@ -2615,8 +2672,6 @@ msgstr "正則運算式搜尋"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1012
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1025
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2690,7 +2745,7 @@ msgstr "改名，移動或刪除子網"
 msgid "Rename/Move"
 msgstr "改名/移動"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr "呈現風格"
 
@@ -2706,7 +2761,9 @@ msgstr "請求驗證"
 msgid ""
 "Requested revision (%1) is illegal or invalid. It does not exist in history, "
 "or is the same or later than the current revision (%2)"
-msgstr "請求的版本 (%1) 不合法或不正確。它不存於記錄歷史，或與現在的版本 (%2) 相同或更新"
+msgstr ""
+"請求的版本 (%1) 不合法或不正確。它不存於記錄歷史，或與現在的版本 (%2) 相同或"
+"更新"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
@@ -2773,12 +2830,11 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "在您編輯期間，用戶 %2 以版本 %1 存檔。"
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:86
+#: MailerContrib/templates/mailnotify.tmpl:87
 msgid "Review recent changes in:"
 msgstr "檢視最近的更新在:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "修訂版"
@@ -2825,7 +2881,8 @@ msgstr "存到:"
 #: PatternSkin/data/_default/WebLeftBar.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
-#: core/data/System/WebSearch.txt:66 core/data/System/WebSearch.txt:85
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearch.txt:66
+#: core/data/System/WebSearch.txt:85
 msgid "Search"
 msgstr "搜尋"
 
@@ -2860,6 +2917,11 @@ msgstr "搜尋選項"
 
 #: core/templates/searchbookview.tmpl:7
 msgid "Search result"
+msgstr "搜尋結果"
+
+#: core/data/System/WebSearch.txt:240
+#, fuzzy
+msgid "Search results"
 msgstr "搜尋結果"
 
 #: core/data/System/WebSearch.txt:215
@@ -2938,7 +3000,7 @@ msgstr "選擇本地的新檔來更新附件"
 msgid "Select all"
 msgstr "全選"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr "選擇一個較早（左）和一個較晚（右）的版本比較"
 
@@ -2954,7 +3016,7 @@ msgstr "在您輸入的底部選擇、複製、貼上您的簽名文字"
 msgid "Selections apply to search in \"text body\""
 msgstr "選項適用於搜尋「文件內文」"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Sequential"
 msgstr "連續的"
 
@@ -2970,7 +3032,7 @@ msgstr "設定新的父主題"
 msgid "Set new topic parent"
 msgstr "設定新父主題"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 msgid "Show %1 revisions up to revision %2"
 msgstr "檢視 %1 的版本 %2"
 
@@ -2979,7 +3041,7 @@ msgstr "檢視 %1 的版本 %2"
 msgid "Show help"
 msgstr "顯示說明"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "顯示修訂版 %1 - %2 (出自 %3)"
 
@@ -2987,7 +3049,7 @@ msgstr "顯示修訂版 %1 - %2 (出自 %3)"
 msgid "Shrink edit box"
 msgstr "縮小編輯框"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Side by side"
 msgstr "並列"
 
@@ -3013,14 +3075,18 @@ msgid ""
 "Some mail tools have an error that causes them to send the same request "
 "twice when you click on a link. It you did this, it is possible that you "
 "actually *have* registered successfully."
-msgstr "有些郵件工具會在您點擊同一個連結後，錯誤地連續發送 2 次相同的請求 。若已如此操作，您可能*已經*註冊成功。"
+msgstr ""
+"有些郵件工具會在您點擊同一個連結後，錯誤地連續發送 2 次相同的請求 。若已如此"
+"操作，您可能*已經*註冊成功。"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:166
 #: core/templates/registernotify.tmpl:14
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
 "work on, what help they'd like, etc."
-msgstr "某些人將它變成個人的入口網站，內容包括最喜歡的連結、目前的工作、他們喜歡的事，等等。"
+msgstr ""
+"某些人將它變成個人的入口網站，內容包括最喜歡的連結、目前的工作、他們喜歡的"
+"事，等等。"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:24
 msgid "Sorry, Registration has been temporarily disabled"
@@ -3043,6 +3109,11 @@ msgstr "空格以下劃線取代"
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr "選 =全= 代表所有子網，或以逗號分隔的子網清單： %1"
 
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
+msgid "Start presentation"
+msgstr ""
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
 #: PatternSkin/data/System/WebLeftBarExample.txt:13
@@ -3054,8 +3125,8 @@ msgstr "統計"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:29
-#: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: JQueryPlugin/data/System/VarBUTTON.txt:31
+#: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:418
 #: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
@@ -3078,10 +3149,22 @@ msgid "Subscribe"
 msgstr "訂閱"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/mailnotify.tmpl:90
 #: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "訂閱/退訂:"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
+#, fuzzy
+msgid "Subscribe to this topic"
+msgstr "建立這個主題"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#, fuzzy
+msgid "Subscribe to this topic (s)"
+msgstr "列印本主題 (p)"
 
 #: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
@@ -3112,8 +3195,8 @@ msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
 msgstr ""
-"技巧：搜尋所有包含 =\"SOAP\"=, =\"WSDL\"=, 文字 =\"web service\"=，但不包含 =\"shampoo\"=  "
-"的主題:"
+"技巧：搜尋所有包含 =\"SOAP\"=, =\"WSDL\"=, 文字 =\"web service\"=，但不包含 ="
+"\"shampoo\"=  的主題:"
 
 #: core/templates/messages.tmpl:670
 msgid "Template %1 does not exist"
@@ -3170,7 +3253,8 @@ msgid ""
 "jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
 "page and sign and date it with your %4."
 msgstr ""
-"子網 %1 是個測試用的沙盤，歡迎任何人增加或刪除內容。建議先看 %2 以快速熟悉 %3 的工具。在頁面底端加上您的 %4 及簽名和日期是個好習慣。"
+"子網 %1 是個測試用的沙盤，歡迎任何人增加或刪除內容。建議先看 %2 以快速熟悉 "
+"%3 的工具。在頁面底端加上您的 %4 及簽名和日期是個好習慣。"
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
 #: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
@@ -3365,7 +3449,8 @@ msgstr "新增您的使用者帳號到密碼系統時出現錯誤。"
 msgid ""
 "There is a risk that someone may be trying to use your identity to change "
 "content on %1 without your knowledge."
-msgstr "有個風險，就是在您不知情的情況下，有人可能試著以您的身份變更 ％1 的內容。"
+msgstr ""
+"有個風險，就是在您不知情的情況下，有人可能試著以您的身份變更 ％1 的內容。"
 
 #: core/templates/messages.tmpl:394
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -3393,7 +3478,9 @@ msgid ""
 "registered addresses are used by Foswiki for sending you e-mails, including "
 "notifications of password changes. The addresses you register via this form "
 "are kept secret and will *not* be published anywhere on this site."
-msgstr "用本表單修改註冊郵件地址。系統會發送郵件至您的註冊郵箱，包括：密碼變更通知。表中的註冊郵件地址將會隱藏保密，並*不會*顯示於網站的其他網頁內。"
+msgstr ""
+"用本表單修改註冊郵件地址。系統會發送郵件至您的註冊郵箱，包括：密碼變更通知。"
+"表中的註冊郵件地址將會隱藏保密，並*不會*顯示於網站的其他網頁內。"
 
 #: core/data/Main/GroupViewTemplate.txt:122
 msgid "This group should not have members."
@@ -3414,12 +3501,18 @@ msgstr ""
 "的服務，所以您不用常常回來查看是否有更新。若要訂閱，請將您的 %2 依字母順序加"
 "入以下清單:"
 
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr "這就是跨站偽請求，或 CSRF。"
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:81
+#: MailerContrib/templates/mailnotify.tmpl:82
 msgid "This is an automated e-mail from %1."
 msgstr "這是一封由 %1 自動發的送電子郵件。"
 
@@ -3437,7 +3530,7 @@ msgid ""
 msgstr ""
 "這是垃圾區。您可以在這裏還回刪除的主題；刪除的附件放在 TrashAttachment 中。"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr "這是本對話被禁止的原因："
 
@@ -3496,7 +3589,7 @@ msgstr "標題"
 msgid "To attachment:"
 msgstr "到附件："
 
-#: core/data/System/WebSearch.txt:285
+#: core/data/System/WebSearch.txt:286
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3566,7 +3659,6 @@ msgid "Topic data"
 msgstr "主題資料"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 msgid "Topic history"
 msgstr "主題歷史"
 
@@ -3639,7 +3731,7 @@ msgstr "完全符合"
 msgid "Try Again"
 msgstr "再試一次"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr "每個更改前後的不變段落"
 
@@ -3650,6 +3742,18 @@ msgstr "無法識別用戶和/或密碼"
 #: core/templates/messages.tmpl:40
 msgid "Unrecognized action command %1"
 msgstr "無法識別的功能 %1"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
+#, fuzzy
+msgid "Unsubscribe from this topic"
+msgstr "title='退訂主題' accesskey='s' >&s 退訂"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:15
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:16
+#, fuzzy
+msgid "Unsubscribe from this topic (s)"
+msgstr "列印本主題 (p)"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
 msgid "Update"
@@ -3774,7 +3878,7 @@ msgstr "瀏覽"
 msgid "View complete topic history"
 msgstr "檢視主題完整修訂史"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:65
+#: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "View difference"
 msgstr "檢視差異"
 
@@ -3782,11 +3886,11 @@ msgstr "檢視差異"
 msgid "View differences"
 msgstr "檢視差異"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View earlier"
 msgstr "檢視較早的版本"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View later"
 msgstr "檢視較晚的版本"
 
@@ -3806,8 +3910,8 @@ msgstr "檢視修訂版"
 msgid "View revision:"
 msgstr "檢視修訂版:"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:20
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:21
 msgid "View sequential topic history"
 msgstr "依序檢視主題歷史紀錄"
 
@@ -3820,12 +3924,12 @@ msgstr "檢視範本"
 msgid "View topic"
 msgstr "檢視主題"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "檢視主題完整修訂史"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:18
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:19
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:25
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:26
 msgid "View without formatting (v)"
 msgstr "檢視源碼 (v)"
 
@@ -3870,7 +3974,7 @@ msgstr "警告: 無法寄送確認郵件，郵件已禁用"
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "警告: 本網站不允許 %<nop>INCLUDE% 連結"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:440
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "警告: \\'include\\' 的主題 <nop>%1 不存在！"
 
@@ -3878,7 +3982,7 @@ msgstr "警告: \\'include\\' 的主題 <nop>%1 不存在！"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "警告: \\'包含\\' 的主題不存在！"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "警告:  \\'include\\' 在主題 %1 內的表格定義不存在！"
 
@@ -3919,7 +4023,7 @@ msgstr "誰"
 msgid "Who is requesting this, actually?"
 msgstr "到底是誰提出這個要求？"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr "全頁"
 
@@ -4068,7 +4172,9 @@ msgid ""
 "You change your email address by setting the form field called Email in your "
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
-msgstr "您能在您的使用者主題表單的電子信箱欄位變更您的電子信箱。若這個欄位不存在，請尋找像這樣的一行設定:"
+msgstr ""
+"您能在您的使用者主題表單的電子信箱欄位變更您的電子信箱。若這個欄位不存在，請"
+"尋找像這樣的一行設定:"
 
 #: core/templates/messages.tmpl:162 core/templates/messages.tmpl:171
 #: core/templates/messages.tmpl:267
@@ -4233,7 +4339,7 @@ msgid ""
 msgstr "[3 個空格] * [空格] Set [空格] VARIABLENAME [空格] = [值]"
 
 # please enter the name of your language here (written in the native language):
-#: core/lib/Foswiki/I18N.pm:331
+#: core/lib/Foswiki/I18N.pm:343
 msgid "_language_name"
 msgstr "正體中文"
 
@@ -4401,7 +4507,7 @@ msgstr "title='編輯 Wiki 格式' accesskey='w'>編輯 &wiki 格式"
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='編輯主題' accesskey='e'>編輯(&E)"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:71
+#: CompareRevisionsAddOn/templates/compare.tmpl:74
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='交織' accesskey='i'>&interwoven 交織"
 
@@ -4425,7 +4531,7 @@ msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr "title='搜尋 %1 子網中連結至此的主題' accesskey='b'>子網 (We&b) 搜尋"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:68
+#: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='並列瀏覽' accesskey='s'>&s 並列"
 
@@ -4437,7 +4543,7 @@ msgstr "title='訂閱主題' accesskey='s'>&S 訂閱"
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
 msgstr "title='退訂主題' accesskey='s' >&s 退訂"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='瀏覽主題' accesskey='v'>瀏覽(&V)"
@@ -4541,9 +4647,6 @@ msgstr "為何您被要求確認"
 #~ msgid "Show"
 #~ msgstr "顯示"
 
-#~ msgid "first"
-#~ msgstr "第一"
-
 #~ msgid "last"
 #~ msgstr "最後"
 
@@ -4561,15 +4664,6 @@ msgstr "為何您被要求確認"
 
 #~ msgid "Edit text"
 #~ msgstr "編輯文本"
-
-#~ msgid "Commenting is disabled when not in view context"
-#~ msgstr "非瀏覽模式，禁止評論"
-
-#~ msgid "Commenting is disabled while not logged in"
-#~ msgstr "未登入，禁止評論"
-
-#~ msgid "Commenting is disabled while running from the command line"
-#~ msgstr "命令列模式中，禁止評論"
 
 #, fuzzy
 #~ msgid "Attachment metadata"

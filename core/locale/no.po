@@ -167,7 +167,7 @@ msgid "%1 tried to register with e-mail %2"
 msgstr "%1 forsøkte å registrere med epost %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:269
+#: core/lib/Foswiki/Render.pm:249
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 har endret navn eller flyttet fra %2 på %3 av %4"
 
@@ -183,7 +183,7 @@ msgstr "Avbryt (&c)"
 msgid "&History"
 msgstr "&Historikk"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "&Sequential"
 msgstr "&Sekvensiell"
 
@@ -215,7 +215,7 @@ msgstr "(*Forslag:* Hva med å laste opp ditt bilde til din side?)"
 msgid "(=all= to show all topics)"
 msgstr "(=alle= for å se alle sider)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr "(Denne meldingen blir fjernet automatisk)"
 
@@ -812,7 +812,7 @@ msgstr "Oppmerksomhet"
 msgid "Attribute"
 msgstr "Egenskap"
 
-#: MailerContrib/templates/mailnotify.tmpl:71
+#: MailerContrib/templates/mailnotify.tmpl:72
 msgid "Automated notification of topic changes"
 msgstr "Automatisk varsling av endringer på sider"
 
@@ -899,8 +899,8 @@ msgstr "Kan ikke finne epost adresse for %1 (nødvendig for å resette passord)"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:33
-#: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: JQueryPlugin/data/System/VarBUTTON.txt:35
+#: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: PatternSkin/data/System/PatternSkinElements.txt:422
 #: PatternSkin/data/System/PatternSkinElements.txt:431
 #: PatternSkin/data/System/PatternSkinElements.txt:451
@@ -987,11 +987,11 @@ msgid "Change topic"
 msgstr "Endre side"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
+#, fuzzy
+msgid "Changed by:"
 msgstr "Endret av"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
 msgstr "Endret den"
 
@@ -1040,7 +1040,7 @@ msgstr "Velg et nytt skjema for %1"
 msgid "Clear all"
 msgstr "Tøm alle"
 
-#: core/lib/Foswiki/Render.pm:254
+#: core/lib/Foswiki/Render.pm:234
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1048,8 +1048,8 @@ msgstr ""
 "Klikk for å flytte en side tilbake til tidligere lokasjon, med valgmulighet "
 "til å endre referanser."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:471
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/data/System/TwistyPlugin.txt:466
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
 msgid "Close"
 msgstr "Lukk"
 
@@ -1061,13 +1061,29 @@ msgstr "Farge %1 har ugyldig format"
 msgid "Come on in"
 msgstr "Kom inn"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Kommentar"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:152
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
+#, fuzzy
+msgid "Commenting is disabled for static viewing"
+msgstr "Kommentering er deaktivert foruten i visningskontekst"
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
+msgid "Commenting is disabled when not in view context"
+msgstr "Kommentering er deaktivert foruten i visningskontekst"
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
+msgid "Commenting is disabled while not logged in"
+msgstr "Kommentering er deaktivert uten innlogging"
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
+msgid "Commenting is disabled while running from the command line"
+msgstr "Kommentering er deaktivert ved kjøring fra kommandolinjen"
+
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:152
 msgid "Compare revisions"
 msgstr "Sammenlign versjoner"
 
@@ -1098,7 +1114,7 @@ msgstr "Konflikt"
 msgid "Contact %1 if you have any questions."
 msgstr "Kontakt %1 dersom du har spørsmål."
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 msgid "Context"
 msgstr "Kontekst"
 
@@ -1110,7 +1126,7 @@ msgstr "Fortsett og forsøk å navngi web?"
 msgid "Continue to create the new page"
 msgstr "Fortsett å lage ny side"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1194,8 +1210,8 @@ msgstr "Lag gruppe"
 msgid "Create new FAQ topic"
 msgstr "Lag ny FAQ side"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:23
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:24
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:30
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 msgid "Create new topic"
 msgstr "Lag ny side"
 
@@ -1214,7 +1230,7 @@ msgstr "Lag siden"
 #: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:82
+#: core/lib/Foswiki/Render.pm:62
 msgid "Create this topic"
 msgstr "Lag denne siden"
 
@@ -1247,7 +1263,7 @@ msgstr "Dato"
 msgid "Dear %1"
 msgstr "Kjære %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Debug"
 msgstr "Debug"
 
@@ -1283,6 +1299,11 @@ msgstr "Slett side..."
 #: PatternSkin/templates/attach.pattern.tmpl:57
 msgid "Describe the file so other people know what it is."
 msgstr "Beskriv filen slik at andre vet hva den er."
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Description"
+msgstr "Spørsmål"
 
 #: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
@@ -1532,6 +1553,10 @@ msgstr "Feil ved fjerning av brukere fra grupper"
 msgid "Evil person"
 msgstr "Ondsinnet person"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+msgid "Exit"
+msgstr ""
+
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr "Feilede plugins"
@@ -1564,6 +1589,11 @@ msgstr "Finn liknende sider"
 #: core/templates/more.tmpl:87 core/templates/more.tmpl:89
 msgid "Find topics that link to %1 ..."
 msgstr "Finn sider som linker til %1..."
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#, fuzzy
+msgid "First"
+msgstr "første"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 msgid "First name"
@@ -1631,7 +1661,7 @@ msgstr "Få hjelp om å legge ved filer"
 msgid "Get help on setting topic preferences"
 msgstr "Få hjelp med å sette egenskaper for sider"
 
-#: core/data/System/WebSearch.txt:275
+#: core/data/System/WebSearch.txt:276
 msgid "Get notified on changes on this search"
 msgstr "Få varsler om endringer på dette søket"
 
@@ -1893,6 +1923,10 @@ msgstr ""
 "epost der lenger) og du har glemt ditt passord, vennligst kontakt %1 for "
 "hjelp."
 
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+msgid "Image"
+msgstr ""
+
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 msgid "Image %1 of %2"
@@ -2019,11 +2053,11 @@ msgstr ""
 msgid "Jump"
 msgstr "Hopp"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to first revision"
 msgstr "Hopp til første versjon"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr "Gå til siste versjon (%1)"
 
@@ -2031,8 +2065,12 @@ msgstr "Gå til siste versjon (%1)"
 msgid "Keyword search"
 msgstr "Nøkkelord søk"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#, fuzzy
+msgid "Last"
+msgstr "Etternavn"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
 msgstr "Sist redigert av"
 
@@ -2079,7 +2117,7 @@ msgstr "Linje: %1 til %2"
 msgid "Link"
 msgstr "Link"
 
-#: core/data/System/WebSearch.txt:315
+#: core/data/System/WebSearch.txt:316
 msgid "List topics that start with the letter:"
 msgstr "List sider som starter med bokstaven:"
 
@@ -2103,7 +2141,7 @@ msgstr "Logg inn for å fortsette."
 msgid "Log on with your username and password"
 msgstr "Logg inn med ditt brukernavn og passord"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
 #: core/templates/foswiki.tmpl:41
 msgid "Login"
 msgstr "Logg Inn"
@@ -2179,13 +2217,13 @@ msgstr "Flere valg for siden"
 msgid "More topic actions..."
 msgstr "Flere valg for siden..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:470
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:89
+#: TwistyPlugin/data/System/TwistyPlugin.txt:465
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
 msgid "More..."
 msgstr "Mer..."
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:33
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:34
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:40
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:41
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
@@ -2223,13 +2261,9 @@ msgstr "Flytt side til web:"
 msgid "Move/Rename"
 msgstr "Flytt/Navngi"
 
-#: core/lib/Foswiki/Search.pm:1197
+#: core/lib/Foswiki/Search.pm:1223
 msgid "NEW"
 msgstr "NY"
-
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
-msgid "Name"
-msgstr "Navn"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2238,6 +2272,11 @@ msgstr "Navn på kopi"
 #: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
 msgstr "Navn på ny web mangler"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#, fuzzy
+msgid "Name:"
+msgstr "Navn"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
@@ -2259,7 +2298,7 @@ msgstr "Registrering av ny bruker er ikke supportert"
 msgid "New e-mails (space-separated list)"
 msgstr "Nye epostadresser (liste delt med mellomrom)"
 
-#: MailerContrib/templates/mailnotify.tmpl:83
+#: MailerContrib/templates/mailnotify.tmpl:84
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Nye eller endrede sider i %1, siden %2:"
@@ -2289,7 +2328,7 @@ msgstr "Nytt webnavn:"
 msgid "Newer revision:"
 msgstr "Nyere versjon:"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:207
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 msgid "Next"
 msgstr "Neste"
 
@@ -2336,6 +2375,11 @@ msgstr "Ikke anbefalt ved sletting av en side."
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
 msgid "Not sure this is right, please confirm!"
 msgstr "Er dette riktig? Vennligst bekreft!"
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Notation"
+msgstr "Varslinger"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2453,7 +2497,7 @@ msgstr "Eventuelt skriv et annet navn på vedlegg:"
 msgid "Optionally enter a different topic name:"
 msgstr "Eventuelt skriv et annet sidenavn:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Options"
 msgstr "Valg"
 
@@ -2465,7 +2509,6 @@ msgstr "Organisasjonsnavn"
 msgid "Organisation website"
 msgstr "Organisasjons nettsted"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:61
 msgid "Password"
@@ -2482,6 +2525,11 @@ msgstr "Passordet kunne ikke endres"
 #: core/templates/messages.tmpl:235 core/templates/messages.tmpl:239
 msgid "Password reset failed"
 msgstr "Tilbakestilling av passord feilet"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#, fuzzy
+msgid "Password:"
+msgstr "Passord"
 
 #: core/templates/messages.tmpl:174
 msgid "Passwords disabled"
@@ -2606,12 +2654,12 @@ msgstr "Ellers trykk Avbryt."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Trykk OK for å bekrefte at du virkelig mener å utføre denne endringen."
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:208
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 msgid "Previous"
 msgstr "Forrige"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:28
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:29
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:35
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:36
 msgid "Printable version of this topic (p)"
 msgstr "Utskriftsvennlig versjon av siden (p)"
 
@@ -2619,7 +2667,7 @@ msgstr "Utskriftsvennlig versjon av siden (p)"
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: core/lib/Foswiki/Render.pm:262
+#: core/lib/Foswiki/Render.pm:242
 msgid "Put it back..."
 msgstr "Tilbakestill..."
 
@@ -2652,7 +2700,7 @@ msgstr ""
 "Les %1 for et raskt overblikk over denne samarbeidsplattformen. For å lære "
 "mer, se TwentyMinuteTutorial som er tilgjengelig fra samme sted."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Les videre"
 
@@ -2672,8 +2720,8 @@ msgstr "Nylig endrede sider i alle web"
 msgid "Redirect Denied"
 msgstr "Viderekobling Nektet"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
-#: JQueryPlugin/data/System/JQueryLoader.txt:93
+#: HistoryPlugin/templates/oopshistory.tmpl:107
+#: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "Oppdater"
@@ -2715,8 +2763,6 @@ msgstr "Regulære uttrykk søk"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1012
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1025
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2793,7 +2839,7 @@ msgstr "Navngi, flytt eller slett denne web'en"
 msgid "Rename/Move"
 msgstr "Navngi/Flytt"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr "Visningsstil"
 
@@ -2880,12 +2926,11 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "Ver %1 ble lagret av %2, mens du fremdeles redigerte."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:86
+#: MailerContrib/templates/mailnotify.tmpl:87
 msgid "Review recent changes in:"
 msgstr "Gjennomse nylige endringer i:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Versjon"
@@ -2934,7 +2979,8 @@ msgstr "Lagret til:"
 #: PatternSkin/data/_default/WebLeftBar.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
-#: core/data/System/WebSearch.txt:66 core/data/System/WebSearch.txt:85
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearch.txt:66
+#: core/data/System/WebSearch.txt:85
 msgid "Search"
 msgstr "Søk"
 
@@ -2969,6 +3015,11 @@ msgstr "Søkemuligheter"
 
 #: core/templates/searchbookview.tmpl:7
 msgid "Search result"
+msgstr "Søkeresultat"
+
+#: core/data/System/WebSearch.txt:240
+#, fuzzy
+msgid "Search results"
 msgstr "Søkeresultat"
 
 #: core/data/System/WebSearch.txt:215
@@ -3049,7 +3100,7 @@ msgstr "Velg en ny local fil for å oppdatere vedlegget"
 msgid "Select all"
 msgstr "Velg alle"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 "Velg en tidligere (venstre) og senere (høyre) versjon for å sammenligne"
@@ -3066,7 +3117,7 @@ msgstr "Velg, kopier og lim inn din signaturtekst under ditt innlegg"
 msgid "Selections apply to search in \"text body\""
 msgstr "Valg gjelder søk i \"text\""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Sequential"
 msgstr "Sekvensiell"
 
@@ -3082,7 +3133,7 @@ msgstr "Sett ny forelder"
 msgid "Set new topic parent"
 msgstr "Set ny forelder for siden"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 msgid "Show %1 revisions up to revision %2"
 msgstr "Vis %1 versjoner til versjon %2"
 
@@ -3091,7 +3142,7 @@ msgstr "Vis %1 versjoner til versjon %2"
 msgid "Show help"
 msgstr "Vis hjelp"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Viser versjoner %1 - %2 (av %3)"
 
@@ -3099,7 +3150,7 @@ msgstr "Viser versjoner %1 - %2 (av %3)"
 msgid "Shrink edit box"
 msgstr "Krymp redigeringsboks"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Side by side"
 msgstr "Side ved side"
 
@@ -3163,6 +3214,11 @@ msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
 "Spesifiser =all= for alle web, eller en komma separert liste med web fra: %1"
 
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
+msgid "Start presentation"
+msgstr ""
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
 #: PatternSkin/data/System/WebLeftBarExample.txt:13
@@ -3174,8 +3230,8 @@ msgstr "Statistikk"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:29
-#: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: JQueryPlugin/data/System/VarBUTTON.txt:31
+#: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:418
 #: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
@@ -3198,10 +3254,22 @@ msgid "Subscribe"
 msgstr "Abonner"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/mailnotify.tmpl:90
 #: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Abbonner / Si opp i:"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
+#, fuzzy
+msgid "Subscribe to this topic"
+msgstr "Lag denne siden"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#, fuzzy
+msgid "Subscribe to this topic (s)"
+msgstr "Utskriftsvennlig versjon av siden (p)"
 
 #: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
@@ -3574,12 +3642,18 @@ msgstr ""
 "komme igjen og sjekke etter endringer hele tiden. For å abbonnere, legg til "
 "et punkt med din %2 i alfabetisk rekkefølge til denne listen:"
 
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr "Dette er også kjent som Cross-site Request Forgery, også kalt CSRF."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:81
+#: MailerContrib/templates/mailnotify.tmpl:82
 msgid "This is an automated e-mail from %1."
 msgstr "Dette er en automatisk epost fra %1."
 
@@ -3598,7 +3672,7 @@ msgstr ""
 "Dette er Trash. Her kan du ta tilbake slettede sider; slettede vedlegg "
 "finner du i TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr "Dette er grunnen til av konvertering er deaktivert:"
 
@@ -3662,7 +3736,7 @@ msgstr "Tittel"
 msgid "To attachment:"
 msgstr "For vedlegg:"
 
-#: core/data/System/WebSearch.txt:285
+#: core/data/System/WebSearch.txt:286
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3734,7 +3808,6 @@ msgid "Topic data"
 msgstr "Side data"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 msgid "Topic history"
 msgstr "Side historie"
 
@@ -3811,7 +3884,7 @@ msgstr "Totalt antall treff"
 msgid "Try Again"
 msgstr "Forsøk igjen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr "Uendrede seksjoner for og etter hver endring"
 
@@ -3822,6 +3895,18 @@ msgstr "Ukjent bruker og/eller passord"
 #: core/templates/messages.tmpl:40
 msgid "Unrecognized action command %1"
 msgstr "Ukjent handling %1"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
+#, fuzzy
+msgid "Unsubscribe from this topic"
+msgstr "title='Stopp abonnement på siden' accesskey='s'>&Stopp"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:15
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:16
+#, fuzzy
+msgid "Unsubscribe from this topic (s)"
+msgstr "Utskriftsvennlig versjon av siden (p)"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
 msgid "Update"
@@ -3948,7 +4033,7 @@ msgstr "Vis"
 msgid "View complete topic history"
 msgstr "Vis komplett side historikk"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:65
+#: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "View difference"
 msgstr "Vis differanse"
 
@@ -3956,11 +4041,11 @@ msgstr "Vis differanse"
 msgid "View differences"
 msgstr "Vis differanser"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View earlier"
 msgstr "Vis tidligere"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View later"
 msgstr "Vis senere"
 
@@ -3980,8 +4065,8 @@ msgstr "Vis versjon"
 msgid "View revision:"
 msgstr "Vis versjon:"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:20
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:21
 msgid "View sequential topic history"
 msgstr "Vis sekvensiell dokument historikk"
 
@@ -3994,12 +4079,12 @@ msgstr "Vis maler"
 msgid "View topic"
 msgstr "Vis side"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "Vis all side historikk"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:18
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:19
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:25
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:26
 msgid "View without formatting (v)"
 msgstr "Vis uten formatering (v)"
 
@@ -4047,7 +4132,7 @@ msgstr "Advarsel: Kunne ikke sende bekreftekses epost, epost er deaktivert"
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Advarsel: Denne webløsningen tillater ikke %<nop>INCLUDE% av URLs"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:440
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Advarsel: \\'include\\' siden <nop>%1 finnes ikke!"
 
@@ -4055,7 +4140,7 @@ msgstr "Advarsel: \\'include\\' siden <nop>%1 finnes ikke!"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Advarsel: \\'include\\' siden finnes ikke!"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Advarsel: tabelldefinisjon i \\'include\\' siden %1 finnes ikke!"
 
@@ -4096,7 +4181,7 @@ msgstr "Hvem"
 msgid "Who is requesting this, actually?"
 msgstr "Hvem ber om dette, egentlig?"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr "Hele siden"
 
@@ -4446,7 +4531,7 @@ msgstr ""
 "[3 mellomrom] * [mellomrom] Set [mellomrom] VARIABELNAVN [mellomrom] = "
 "[verdi]"
 
-#: core/lib/Foswiki/I18N.pm:331
+#: core/lib/Foswiki/I18N.pm:343
 msgid "_language_name"
 msgstr "Norsk"
 
@@ -4616,7 +4701,7 @@ msgstr "title='Rediger wiki tekst' accesskey='w'>Rediger &wiki tekst"
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Rediger teksten på denne siden' accesskey='e'>R&ediger"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:71
+#: CompareRevisionsAddOn/templates/compare.tmpl:74
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='Fletting' accesskey='i'>Flett&ing"
 
@@ -4642,7 +4727,7 @@ msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr "title='Søk i %1 web'en for sider som linker hit' accesskey='b'>We&b"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:68
+#: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Side ved side' accesskey='s'>Side ved &side"
 
@@ -4654,7 +4739,7 @@ msgstr "title='Abonner på denne siden' accesskey='s'>Rediger(&s)"
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
 msgstr "title='Stopp abonnement på siden' accesskey='s'>&Stopp"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Vis side' accesskey='v'>&Vis side"
@@ -4764,9 +4849,6 @@ msgstr "hvorfor du blir bedt om å bekrefte"
 #~ msgid "Show"
 #~ msgstr "Vis"
 
-#~ msgid "first"
-#~ msgstr "første"
-
 #~ msgid "last"
 #~ msgstr "siste"
 
@@ -4784,15 +4866,6 @@ msgstr "hvorfor du blir bedt om å bekrefte"
 
 #~ msgid "Edit text"
 #~ msgstr "Rediger tekst"
-
-#~ msgid "Commenting is disabled when not in view context"
-#~ msgstr "Kommentering er deaktivert foruten i visningskontekst"
-
-#~ msgid "Commenting is disabled while not logged in"
-#~ msgstr "Kommentering er deaktivert uten innlogging"
-
-#~ msgid "Commenting is disabled while running from the command line"
-#~ msgstr "Kommentering er deaktivert ved kjøring fra kommandolinjen"
 
 #~ msgid "Home"
 #~ msgstr "Hjem"

@@ -13,8 +13,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.1\n"
 "X-Poedit-Language: Ukrainian\n"
 "X-Poedit-Country: UKRAINE\n"
@@ -175,7 +175,7 @@ msgid "%1 tried to register with e-mail %2"
 msgstr "%1 намагався зареєструватись за електронною адресою %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:269
+#: core/lib/Foswiki/Render.pm:249
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 перейменовано або переміщено з %2 до %3 користувачем %4"
 
@@ -192,7 +192,7 @@ msgstr "Відмінити"
 msgid "&History"
 msgstr "Історія"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #, fuzzy
 msgid "&Sequential"
 msgstr "Послідовно"
@@ -231,7 +231,7 @@ msgstr "(*Пропозиція:* Може завантажити свою фот
 msgid "(=all= to show all topics)"
 msgstr "(введіть =all= для виводу без обмежень)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr "(Це повідомлення буде видалено автоматично)"
 
@@ -403,8 +403,8 @@ msgid ""
 msgstr ""
 "*Важливо:* Інформація, що вказана в цій формі, буде збережена у базі даних "
 "сервера Foswiki. Ця база даних доступна всім, у кого є інтернет-доступ до "
-"сервера (проте паролі будуть зашифровані, і адреса електронної пошти буде \""
-"замилена\" для захисту від спаму). У Вашій країні або країні, де "
+"сервера (проте паролі будуть зашифровані, і адреса електронної пошти буде "
+"\"замилена\" для захисту від спаму). У Вашій країні або країні, де "
 "розташований сервер, можуть діяти закони про захист інформації, які "
 "регламентують роботу подібних баз даних. Якщо у Вас виникають сумніви, то, "
 "перш ніж реєструватися, Вам слід звернутися до %1 для консультації з питань "
@@ -444,8 +444,8 @@ msgid ""
 "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
 "Yahoo]]="
 msgstr ""
-"*зовнішнє посилання* =http://yahoo.com= або =[<nop>[http://yahoo.com/]["
-"посилання на Yahoo]]="
+"*зовнішнє посилання* =http://yahoo.com= або =[<nop>[http://yahoo.com/]"
+"[посилання на Yahoo]]="
 
 #: core/data/System/WikiSyntaxSummary.txt:11
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
@@ -517,8 +517,8 @@ msgid ""
 msgstr ""
 "<a href='%1'>RSS потік</a>, недавні зміни <a href='%2'>50</a>, <a href='%3' "
 "rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a href='%5' "
-"rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> тем, <a href='%"
-"7' rel='nofollow'>всі зміни</a>"
+"rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> тем, <a "
+"href='%7' rel='nofollow'>всі зміни</a>"
 
 #: core/templates/more.tmpl:90
 msgid "<em>in %1 web</em> only"
@@ -533,8 +533,8 @@ msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
-"<strong>Потрібне підтвердження!</strong> Натисніть OK зміна умисна<br />"
-"Натисніть Cancel якщо це не так"
+"<strong>Потрібне підтвердження!</strong> Натисніть OK зміна умисна<br /"
+">Натисніть Cancel якщо це не так"
 
 #: core/templates/messages.tmpl:416
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -852,7 +852,7 @@ msgstr "Увага"
 msgid "Attribute"
 msgstr "Атрибут"
 
-#: MailerContrib/templates/mailnotify.tmpl:71
+#: MailerContrib/templates/mailnotify.tmpl:72
 msgid "Automated notification of topic changes"
 msgstr "Автоматичне повідомлення про зміни у темі"
 
@@ -940,8 +940,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:33
-#: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: JQueryPlugin/data/System/VarBUTTON.txt:35
+#: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: PatternSkin/data/System/PatternSkinElements.txt:422
 #: PatternSkin/data/System/PatternSkinElements.txt:431
 #: PatternSkin/data/System/PatternSkinElements.txt:451
@@ -1028,11 +1028,11 @@ msgid "Change topic"
 msgstr "Змінити тему"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
+#, fuzzy
+msgid "Changed by:"
 msgstr "Змінений(і) "
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 #, fuzzy
 msgid "Changed on"
 msgstr "Змінено"
@@ -1081,14 +1081,14 @@ msgstr "Виберіть нову форму для %1"
 msgid "Clear all"
 msgstr "Очистити усе"
 
-#: core/lib/Foswiki/Render.pm:254
+#: core/lib/Foswiki/Render.pm:234
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
 msgstr "Клікніть щоб повернути тему на попереднє місце зі зміною посилань."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:471
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/data/System/TwistyPlugin.txt:466
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
 msgid "Close"
 msgstr "Закрити"
 
@@ -1100,13 +1100,28 @@ msgstr "Колір %1 має неправильний формат"
 msgid "Come on in"
 msgstr "Давай, заходь"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Коментар"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:152
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
+msgid "Commenting is disabled for static viewing"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
+msgid "Commenting is disabled when not in view context"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
+msgid "Commenting is disabled while not logged in"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
+msgid "Commenting is disabled while running from the command line"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:152
 msgid "Compare revisions"
 msgstr "Порівняти редакції"
 
@@ -1138,7 +1153,7 @@ msgstr "Конфлікт"
 msgid "Contact %1 if you have any questions."
 msgstr "Зв'яжіться з %1 якщо у Вас є питання."
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 msgid "Context"
 msgstr "Контекст"
 
@@ -1150,7 +1165,7 @@ msgstr "Продовжити спробу перейменувати розді�
 msgid "Continue to create the new page"
 msgstr "Продовжити створення нової сторінки"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1235,8 +1250,8 @@ msgstr "Створити групу"
 msgid "Create new FAQ topic"
 msgstr "Створити нову тему FAQ"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:23
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:24
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:30
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 #, fuzzy
 msgid "Create new topic"
 msgstr "Створити нову тему"
@@ -1257,7 +1272,7 @@ msgstr "Створити тему"
 #: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:82
+#: core/lib/Foswiki/Render.pm:62
 msgid "Create this topic"
 msgstr "Створити цю тему"
 
@@ -1290,7 +1305,7 @@ msgstr "Дата"
 msgid "Dear %1"
 msgstr "Любий(а) %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Debug"
 msgstr "Відладка"
 
@@ -1326,6 +1341,11 @@ msgstr "Вилучити тему..."
 #: PatternSkin/templates/attach.pattern.tmpl:57
 msgid "Describe the file so other people know what it is."
 msgstr "Щоб інші люди знали що це за файл, опишіть його."
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Description"
+msgstr "Версія"
 
 #: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
@@ -1587,6 +1607,10 @@ msgstr ""
 msgid "Evil person"
 msgstr "Змінити особисті дані"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+msgid "Exit"
+msgstr ""
+
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr ""
@@ -1620,6 +1644,11 @@ msgstr ""
 #: core/templates/more.tmpl:87 core/templates/more.tmpl:89
 msgid "Find topics that link to %1 ..."
 msgstr "Знайти теми, що посилаються на %1 ..."
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#, fuzzy
+msgid "First"
+msgstr "Ім'я:"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 #, fuzzy
@@ -1688,7 +1717,7 @@ msgstr ""
 msgid "Get help on setting topic preferences"
 msgstr ""
 
-#: core/data/System/WebSearch.txt:275
+#: core/data/System/WebSearch.txt:276
 msgid "Get notified on changes on this search"
 msgstr ""
 
@@ -1951,6 +1980,10 @@ msgstr ""
 "отримувати на нього пошту) і Ви забули свій пароль, будь ласка, зв'яжіться "
 "%1 для того, щоб отримати допомогу."
 
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+msgid "Image"
+msgstr ""
+
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 #, fuzzy
@@ -2084,12 +2117,12 @@ msgstr ""
 msgid "Jump"
 msgstr "Перейти"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "Jump to first revision"
 msgstr "(редакція)"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr ""
 
@@ -2098,8 +2131,12 @@ msgstr ""
 msgid "Keyword search"
 msgstr "Змінити пошук"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#, fuzzy
+msgid "Last"
+msgstr "Прізвище:"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 #, fuzzy
 msgid "Last edited by"
 msgstr "Останньому хто редагував"
@@ -2150,7 +2187,7 @@ msgstr "Рядок: з %1 по %2"
 msgid "Link"
 msgstr "Посилання"
 
-#: core/data/System/WebSearch.txt:315
+#: core/data/System/WebSearch.txt:316
 msgid "List topics that start with the letter:"
 msgstr "Показати теми, що починаються з букви:"
 
@@ -2175,7 +2212,7 @@ msgstr ""
 msgid "Log on with your username and password"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
 #: core/templates/foswiki.tmpl:41
 #, fuzzy
 msgid "Login"
@@ -2256,13 +2293,13 @@ msgstr "Інші операції..."
 msgid "More topic actions..."
 msgstr "Інші операції..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:470
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:89
+#: TwistyPlugin/data/System/TwistyPlugin.txt:465
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
 msgid "More..."
 msgstr "Більше..."
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:33
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:34
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:40
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:41
 #, fuzzy
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
@@ -2301,13 +2338,9 @@ msgstr "Перемістити тему до розділу:"
 msgid "Move/Rename"
 msgstr "Перемістити / перейменувати"
 
-#: core/lib/Foswiki/Search.pm:1197
+#: core/lib/Foswiki/Search.pm:1223
 msgid "NEW"
 msgstr "НОВА"
-
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
-msgid "Name"
-msgstr ""
 
 #: core/templates/more.tmpl:31
 #, fuzzy
@@ -2317,6 +2350,10 @@ msgstr "Кількість тем:"
 #: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
 msgstr "Відсутнє ім'я нового розділу"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+msgid "Name:"
+msgstr ""
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 #, fuzzy
@@ -2339,7 +2376,7 @@ msgstr ""
 msgid "New e-mails (space-separated list)"
 msgstr "Нові адреси електронної пошти (список розділений пропусками)"
 
-#: MailerContrib/templates/mailnotify.tmpl:83
+#: MailerContrib/templates/mailnotify.tmpl:84
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Нові або змінені теми у %1, після %2:"
@@ -2368,7 +2405,7 @@ msgstr "Нове ім'я розділу:"
 msgid "Newer revision:"
 msgstr "Молодша редакція:"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:207
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 msgid "Next"
 msgstr ""
 
@@ -2418,6 +2455,11 @@ msgstr "Не рекомендовано при вилученні теми."
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
 msgid "Not sure this is right, please confirm!"
 msgstr ""
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Notation"
+msgstr "Повідомлення"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2535,7 +2577,7 @@ msgstr "Введіть іншу назву теми, якщо це необхі�
 msgid "Optionally enter a different topic name:"
 msgstr "Введіть іншу назву теми, якщо це необхідно:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 #, fuzzy
 msgid "Options"
 msgstr "Дія"
@@ -2550,7 +2592,6 @@ msgstr "Назва організації:"
 msgid "Organisation website"
 msgstr "Назва організації:"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:61
 msgid "Password"
@@ -2567,6 +2608,11 @@ msgstr "Пароль не може бути змінений"
 #: core/templates/messages.tmpl:235 core/templates/messages.tmpl:239
 msgid "Password reset failed"
 msgstr "Не вдалося скинути пароль"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#, fuzzy
+msgid "Password:"
+msgstr "Пароль"
 
 #: core/templates/messages.tmpl:174
 #, fuzzy
@@ -2710,12 +2756,12 @@ msgstr "Інакше натисніть Відмінити."
 msgid "Press OK to confirm that this change was intentional."
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:208
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 msgid "Previous"
 msgstr ""
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:28
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:29
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:35
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:36
 msgid "Printable version of this topic (p)"
 msgstr ""
 
@@ -2723,7 +2769,7 @@ msgstr ""
 msgid "Properties"
 msgstr "Властивості"
 
-#: core/lib/Foswiki/Render.pm:262
+#: core/lib/Foswiki/Render.pm:242
 #, fuzzy
 msgid "Put it back..."
 msgstr "повернути на місце"
@@ -2760,7 +2806,7 @@ msgstr ""
 "організації спільної роботи. Щоб дізнатися більше, вивчіть "
 "TwentyMinuteTutorial, доступний за тим же посиланням."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Прочитайте"
 
@@ -2782,8 +2828,8 @@ msgstr "Недавно змінені теми"
 msgid "Redirect Denied"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
-#: JQueryPlugin/data/System/JQueryLoader.txt:93
+#: HistoryPlugin/templates/oopshistory.tmpl:107
+#: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "Поновити"
@@ -2822,8 +2868,6 @@ msgstr "З використанням регулярних виразів"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1012
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1025
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2902,7 +2946,7 @@ msgstr "Перейменувати, перемістити або вилучит
 msgid "Rename/Move"
 msgstr "Перейменувати/перемістити"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr ""
 
@@ -2986,12 +3030,11 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "Поки Ви продовжуєте редагувати %2 була збережена редакція %1."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:86
+#: MailerContrib/templates/mailnotify.tmpl:87
 msgid "Review recent changes in:"
 msgstr "Огляд недавніх змін у:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Редакція"
@@ -3041,7 +3084,8 @@ msgstr "Збережено у:"
 #: PatternSkin/data/_default/WebLeftBar.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
-#: core/data/System/WebSearch.txt:66 core/data/System/WebSearch.txt:85
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearch.txt:66
+#: core/data/System/WebSearch.txt:85
 msgid "Search"
 msgstr "Пошук"
 
@@ -3081,6 +3125,11 @@ msgstr "Інші параметри пошуку:"
 #: core/templates/searchbookview.tmpl:7
 #, fuzzy
 msgid "Search result"
+msgstr "(результат пошуку)"
+
+#: core/data/System/WebSearch.txt:240
+#, fuzzy
+msgid "Search results"
 msgstr "(результат пошуку)"
 
 #: core/data/System/WebSearch.txt:215
@@ -3163,7 +3212,7 @@ msgstr ""
 msgid "Select all"
 msgstr "Вибрати усе"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
@@ -3180,7 +3229,7 @@ msgstr "Виділіть, скопіюйте та вставте свій під
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Sequential"
 msgstr "Послідовно"
 
@@ -3196,7 +3245,7 @@ msgstr ""
 msgid "Set new topic parent"
 msgstr "Встановити нового батька для теми"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 #, fuzzy
 msgid "Show %1 revisions up to revision %2"
 msgstr "Проглянути попередню редакцію"
@@ -3206,7 +3255,7 @@ msgstr "Проглянути попередню редакцію"
 msgid "Show help"
 msgstr "Показати підказку"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr ""
 
@@ -3214,7 +3263,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Стиснути вікно редагування"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Side by side"
 msgstr "У дві колонки"
 
@@ -3277,6 +3326,11 @@ msgstr "Пропуски замінені знаками підкресленн�
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
 
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
+msgid "Start presentation"
+msgstr ""
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
 #: PatternSkin/data/System/WebLeftBarExample.txt:13
@@ -3288,8 +3342,8 @@ msgstr "Статистика"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:29
-#: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: JQueryPlugin/data/System/VarBUTTON.txt:31
+#: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:418
 #: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
@@ -3312,10 +3366,22 @@ msgid "Subscribe"
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/mailnotify.tmpl:90
 #: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Підписатися / відписатися від:"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
+#, fuzzy
+msgid "Subscribe to this topic"
+msgstr "Створити цю тему"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#, fuzzy
+msgid "Subscribe to this topic (s)"
+msgstr "Створити цю тему"
 
 #: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
@@ -3679,12 +3745,18 @@ msgstr ""
 "підписатися просто додайте своє ВікіІм'я %2 до цього списку (в алфавітному "
 "порядку):"
 
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr ""
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:81
+#: MailerContrib/templates/mailnotify.tmpl:82
 msgid "This is an automated e-mail from %1."
 msgstr "Це автоматичне повідомлення від %1."
 
@@ -3703,7 +3775,7 @@ msgstr ""
 "Це Звалище. Тут Ви можете відновити раніше вилучені теми; вилучені файли "
 "знаходяться в TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -3765,7 +3837,7 @@ msgstr "Заголовок теми"
 msgid "To attachment:"
 msgstr "Прикріплені файли"
 
-#: core/data/System/WebSearch.txt:285
+#: core/data/System/WebSearch.txt:286
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3840,7 +3912,6 @@ msgid "Topic data"
 msgstr "Назва теми"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 #, fuzzy
 msgid "Topic history"
 msgstr "Заголовок теми"
@@ -3916,7 +3987,7 @@ msgstr "Всього збігів"
 msgid "Try Again"
 msgstr "Спробувати ще раз"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr ""
 
@@ -3927,6 +3998,18 @@ msgstr ""
 #: core/templates/messages.tmpl:40
 msgid "Unrecognized action command %1"
 msgstr "Нерозпізнана команда %1"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
+#, fuzzy
+msgid "Unsubscribe from this topic"
+msgstr "title='Редагувати текст цієї теми' accesskey='e'>Редагувати"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:15
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:16
+#, fuzzy
+msgid "Unsubscribe from this topic (s)"
+msgstr "title='Редагувати текст цієї теми' accesskey='e'>Редагувати"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
 #, fuzzy
@@ -4061,7 +4144,7 @@ msgstr "Проглянути"
 msgid "View complete topic history"
 msgstr "Проглянути повну історію змін сторінки"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:65
+#: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "View difference"
 msgstr "Подивитися відмінності"
 
@@ -4070,12 +4153,12 @@ msgstr "Подивитися відмінності"
 msgid "View differences"
 msgstr "Подивитися відмінності"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "View earlier"
 msgstr "Проглянути шаблони"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 #, fuzzy
 msgid "View later"
 msgstr "Проглянути шаблони"
@@ -4097,8 +4180,8 @@ msgstr "Молодша редакція:"
 msgid "View revision:"
 msgstr ""
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:20
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:21
 #, fuzzy
 msgid "View sequential topic history"
 msgstr "Проглянути повну історію змін сторінки"
@@ -4112,12 +4195,12 @@ msgstr "Проглянути шаблони"
 msgid "View topic"
 msgstr "Проглянути тему"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "Проглянути повну історію змін сторінки"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:18
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:19
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:25
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:26
 #, fuzzy
 msgid "View without formatting (v)"
 msgstr "Проглянути початковий текст, без форматування"
@@ -4168,7 +4251,7 @@ msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr ""
 "Увага: Цей сайт не дозволяє використовувати %<nop>INCLUDE% для URL адрес"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:440
 #, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Примітка: ця тема не існує"
@@ -4178,7 +4261,7 @@ msgstr "Примітка: ця тема не існує"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Примітка: ця тема не існує"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
 #, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Примітка: ця тема не існує"
@@ -4221,7 +4304,7 @@ msgstr "Хто"
 msgid "Who is requesting this, actually?"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr ""
 
@@ -4569,7 +4652,7 @@ msgstr ""
 "[кратне 3-м пропускам] * [пропуск] Set [пропуск] ІМ'ЯЗМІННОЇ [пропуск] = "
 "[значення]"
 
-#: core/lib/Foswiki/I18N.pm:331
+#: core/lib/Foswiki/I18N.pm:343
 msgid "_language_name"
 msgstr "Українська"
 
@@ -4744,7 +4827,7 @@ msgstr "title='Редагувати текст цієї теми' accesskey='e'>
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Редагувати текст цієї теми' accesskey='e'>Редагувати"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:71
+#: CompareRevisionsAddOn/templates/compare.tmpl:74
 #, fuzzy
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='Проглядання теми' accesskey='v'>Подивитися тему"
@@ -4772,7 +4855,7 @@ msgid ""
 msgstr ""
 "title='Шукати у розділі %1 теми, які сюди посилаються' accesskey='b'>Розділ"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:68
+#: CompareRevisionsAddOn/templates/compare.tmpl:71
 #, fuzzy
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Проглядання теми' accesskey='v'>Подивитися тему"
@@ -4787,7 +4870,7 @@ msgstr "title='Редагувати текст цієї теми' accesskey='e'>
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
 msgstr "title='Редагувати текст цієї теми' accesskey='e'>Редагувати"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Проглядання теми' accesskey='v'>Подивитися тему"

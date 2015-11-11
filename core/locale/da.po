@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-09-29 20:45+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
-"/distribution-release-11/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
+"distribution-release-11/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -178,7 +178,7 @@ msgstr "%1 prøvede at registrere med e-mail-adressen %2"
 #   $date,
 #   $by)
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:269
+#: core/lib/Foswiki/Render.pm:249
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 blev omdøbt eller flyttet fra %2 den %3 af %4"
 
@@ -194,7 +194,7 @@ msgstr "&Fortryd"
 msgid "&History"
 msgstr "&Historik"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "&Sequential"
 msgstr "&Sekventiel"
 
@@ -226,7 +226,7 @@ msgstr "(*Forslag:* Hvad med at uploade et billede af dig selv til din side?)"
 msgid "(=all= to show all topics)"
 msgstr "(=all= for at vise alle sider)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr "(Denne besked vil automatisk blive fjernet)"
 
@@ -393,8 +393,8 @@ msgid ""
 msgstr ""
 "*Vigtigt:* Informationen du opgiver i denne formular vil blive gemt på "
 "Foswiki-serveren. Informationen bliver tilgængelig for alle som kan nå "
-"serveren via webbet (dit password vil dog blive krypteret og skjult, og din e"
-"-mail-adresse vil blive vist forvansket for at afværge spam). Dit "
+"serveren via webbet (dit password vil dog blive krypteret og skjult, og din "
+"e-mail-adresse vil blive vist forvansket for at afværge spam). Dit "
 "oprindelsesland (eller det land hvor serveren befinder sig) kan have data- "
 "eller personbeskyttelseslove, der omfatter denne type information. Hvis du "
 "er i tvivl kan du kontakte %1 for nærmere detaljer angående "
@@ -832,7 +832,7 @@ msgstr "Bemærk"
 msgid "Attribute"
 msgstr "Attribut"
 
-#: MailerContrib/templates/mailnotify.tmpl:71
+#: MailerContrib/templates/mailnotify.tmpl:72
 msgid "Automated notification of topic changes"
 msgstr "Automatiseret notificering om opdateringer"
 
@@ -921,8 +921,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:33
-#: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: JQueryPlugin/data/System/VarBUTTON.txt:35
+#: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: PatternSkin/data/System/PatternSkinElements.txt:422
 #: PatternSkin/data/System/PatternSkinElements.txt:431
 #: PatternSkin/data/System/PatternSkinElements.txt:451
@@ -1009,11 +1009,11 @@ msgid "Change topic"
 msgstr "Opdatér side"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
+#, fuzzy
+msgid "Changed by:"
 msgstr "Ændret af"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
 msgstr "Ændret den"
 
@@ -1063,7 +1063,7 @@ msgstr "Vælg en ny formular for %1"
 msgid "Clear all"
 msgstr "Nulstil alle"
 
-#: core/lib/Foswiki/Render.pm:254
+#: core/lib/Foswiki/Render.pm:234
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
@@ -1071,8 +1071,8 @@ msgstr ""
 "Klik for at flytte siden tilbage til den oprindelige lokation, med mulighed "
 "for at opdatere referencer (links til siden fra andre steder)."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:471
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/data/System/TwistyPlugin.txt:466
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
 msgid "Close"
 msgstr "Luk"
 
@@ -1084,13 +1084,28 @@ msgstr "Farven %1 er et ugyldigt format"
 msgid "Come on in"
 msgstr "Velkommen ind"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Kommentar"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:152
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
+msgid "Commenting is disabled for static viewing"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
+msgid "Commenting is disabled when not in view context"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
+msgid "Commenting is disabled while not logged in"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
+msgid "Commenting is disabled while running from the command line"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:152
 msgid "Compare revisions"
 msgstr "Sammenlign versioner"
 
@@ -1121,7 +1136,7 @@ msgstr "Konflikt"
 msgid "Contact %1 if you have any questions."
 msgstr "Hvis du har spørgsmål, så kontakt venligst %1."
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 msgid "Context"
 msgstr "Kontekst"
 
@@ -1133,7 +1148,7 @@ msgstr "Fortsæt med at omdøbe webbet?"
 msgid "Continue to create the new page"
 msgstr "Fortsæt med at oprette den nye side"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1217,8 +1232,8 @@ msgstr "Opret gruppe"
 msgid "Create new FAQ topic"
 msgstr "Opret ny FAQ side"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:23
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:24
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:30
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 msgid "Create new topic"
 msgstr "Opret ny side"
 
@@ -1237,7 +1252,7 @@ msgstr "Opret siden"
 #: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:82
+#: core/lib/Foswiki/Render.pm:62
 msgid "Create this topic"
 msgstr "Opret denne side"
 
@@ -1270,7 +1285,7 @@ msgstr "Dato"
 msgid "Dear %1"
 msgstr "Kære %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Debug"
 msgstr "Debug"
 
@@ -1306,6 +1321,11 @@ msgstr "Slet side..."
 #: PatternSkin/templates/attach.pattern.tmpl:57
 msgid "Describe the file so other people know what it is."
 msgstr "Beskriv filen så andre får et indtryk af hvad den indeholder."
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Description"
+msgstr "Spørgsmål"
 
 #: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
@@ -1561,6 +1581,10 @@ msgstr "Fejl under fjernelse af brugere fra gruppe"
 msgid "Evil person"
 msgstr "Ond person"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+msgid "Exit"
+msgstr ""
+
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr "Fejlede plugins"
@@ -1593,6 +1617,11 @@ msgstr "Find lignende sider"
 #: core/templates/more.tmpl:87 core/templates/more.tmpl:89
 msgid "Find topics that link to %1 ..."
 msgstr "Find sider der refererer til %1 ..."
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#, fuzzy
+msgid "First"
+msgstr "første"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 msgid "First name"
@@ -1660,7 +1689,7 @@ msgstr "Få mere information om vedhæftning af filer"
 msgid "Get help on setting topic preferences"
 msgstr "Få hjælp til at definere side-indstillinger"
 
-#: core/data/System/WebSearch.txt:275
+#: core/data/System/WebSearch.txt:276
 msgid "Get notified on changes on this search"
 msgstr "Få notificering om ændringer i resultaterne af denne søgning"
 
@@ -1926,6 +1955,10 @@ msgstr ""
 "modtage e-mail på dem) og du har glemt din adgangskode, kontakt da venligst "
 "%1."
 
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+msgid "Image"
+msgstr ""
+
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 msgid "Image %1 of %2"
@@ -2056,11 +2089,11 @@ msgstr ""
 msgid "Jump"
 msgstr "Gå til"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to first revision"
 msgstr "Gå til første version"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr "Gå til nyeste version (%1)"
 
@@ -2068,8 +2101,12 @@ msgstr "Gå til nyeste version (%1)"
 msgid "Keyword search"
 msgstr "Nøgleordssøgning"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#, fuzzy
+msgid "Last"
+msgstr "Efternavn"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
 msgstr "Sidst opdateret af"
 
@@ -2116,7 +2153,7 @@ msgstr "Linje: %1 til %2"
 msgid "Link"
 msgstr "Link"
 
-#: core/data/System/WebSearch.txt:315
+#: core/data/System/WebSearch.txt:316
 msgid "List topics that start with the letter:"
 msgstr "Vis alle sider der starter med bogstavet:"
 
@@ -2140,7 +2177,7 @@ msgstr "Log ind for at fortsætte."
 msgid "Log on with your username and password"
 msgstr "Angiv venligst dit brugernavn og adgangskode"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
 #: core/templates/foswiki.tmpl:41
 msgid "Login"
 msgstr "Log ind"
@@ -2216,13 +2253,13 @@ msgstr "Flere muligheder med denne side"
 msgid "More topic actions..."
 msgstr "Flere muligheder med denne side..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:470
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:89
+#: TwistyPlugin/data/System/TwistyPlugin.txt:465
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
 msgid "More..."
 msgstr "Mere..."
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:33
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:34
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:40
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:41
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
@@ -2260,13 +2297,9 @@ msgstr "Flyt side til web:"
 msgid "Move/Rename"
 msgstr "Flyt/Omdøb"
 
-#: core/lib/Foswiki/Search.pm:1197
+#: core/lib/Foswiki/Search.pm:1223
 msgid "NEW"
 msgstr "NY"
-
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
-msgid "Name"
-msgstr "Navn"
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2275,6 +2308,11 @@ msgstr "Navn på kopien"
 #: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
 msgstr "Navnet på det nye web mangler"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#, fuzzy
+msgid "Name:"
+msgstr "Navn"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
@@ -2296,7 +2334,7 @@ msgstr "Brugerregistrering er ikke supporteret"
 msgid "New e-mails (space-separated list)"
 msgstr "Nye e-mail-addresser (adskil med mellemrum)"
 
-#: MailerContrib/templates/mailnotify.tmpl:83
+#: MailerContrib/templates/mailnotify.tmpl:84
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Nye eller ændrede sider i %1-webbet, siden %2:"
@@ -2327,7 +2365,7 @@ msgstr "Nyt web-navn:"
 msgid "Newer revision:"
 msgstr "Nyere version:"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:207
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 msgid "Next"
 msgstr "Næste"
 
@@ -2374,6 +2412,11 @@ msgstr "Anbefales ikke når der slettes en side."
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
 msgid "Not sure this is right, please confirm!"
 msgstr "Ikke sikker på dette er korrekt, venligst bekræft!"
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Notation"
+msgstr "Notificeringer"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2492,7 +2535,7 @@ msgstr "Benyt eventuelt et andet navn til vedhæftet fil (valgfrit):"
 msgid "Optionally enter a different topic name:"
 msgstr "Benyt eventuelt et andet sidenavn (valgfrit):"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Options"
 msgstr "Valgmuligheder"
 
@@ -2504,7 +2547,6 @@ msgstr "Organisationsnavn"
 msgid "Organisation website"
 msgstr "Organisationens webside"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:61
 msgid "Password"
@@ -2521,6 +2563,11 @@ msgstr "Adgangskoden kunne ikke opdateres"
 #: core/templates/messages.tmpl:235 core/templates/messages.tmpl:239
 msgid "Password reset failed"
 msgstr "Nulstilling af adgangskoden fejlede"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#, fuzzy
+msgid "Password:"
+msgstr "Adgangskode"
 
 #: core/templates/messages.tmpl:174
 msgid "Passwords disabled"
@@ -2650,12 +2697,12 @@ msgstr "Ellers vælg Fortryd."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Vælg OK for at bekræfte at denne ændring var tilsigtet."
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:208
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 msgid "Previous"
 msgstr "Forrige"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:28
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:29
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:35
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:36
 msgid "Printable version of this topic (p)"
 msgstr "Printbar version af denne side (p)"
 
@@ -2663,7 +2710,7 @@ msgstr "Printbar version af denne side (p)"
 msgid "Properties"
 msgstr "Egenskaber"
 
-#: core/lib/Foswiki/Render.pm:262
+#: core/lib/Foswiki/Render.pm:242
 msgid "Put it back..."
 msgstr "Flyt siden tilbage..."
 
@@ -2697,7 +2744,7 @@ msgstr ""
 "få en dybere indsigt i systemet kan du læse siden TwentyMinuteTutorial, som "
 "kan nås fra samme link."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Læs mere"
 
@@ -2717,8 +2764,8 @@ msgstr "Senest ændrede sider i alle webs"
 msgid "Redirect Denied"
 msgstr "Redirigering nægtet"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
-#: JQueryPlugin/data/System/JQueryLoader.txt:93
+#: HistoryPlugin/templates/oopshistory.tmpl:107
+#: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "Genopfrisk"
@@ -2760,8 +2807,6 @@ msgstr "Søg med regulære udtryk"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1012
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1025
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2837,7 +2882,7 @@ msgstr "Omdøb, flyt eller slet dette web"
 msgid "Rename/Move"
 msgstr "Omdøb/flyt"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr "Visningsstil"
 
@@ -2923,12 +2968,11 @@ msgid "Rev %1 was saved by %2, while you were still editing."
 msgstr "Version %1 blev gemt af %2 mens du foretog ændringer i siden."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:86
+#: MailerContrib/templates/mailnotify.tmpl:87
 msgid "Review recent changes in:"
 msgstr "Senest ændrede sider i:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Version"
@@ -2977,7 +3021,8 @@ msgstr "Gemt i:"
 #: PatternSkin/data/_default/WebLeftBar.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
-#: core/data/System/WebSearch.txt:66 core/data/System/WebSearch.txt:85
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearch.txt:66
+#: core/data/System/WebSearch.txt:85
 msgid "Search"
 msgstr "Søg"
 
@@ -3012,6 +3057,11 @@ msgstr "Søgemuligheder"
 
 #: core/templates/searchbookview.tmpl:7
 msgid "Search result"
+msgstr "Søgeresultat"
+
+#: core/data/System/WebSearch.txt:240
+#, fuzzy
+msgid "Search results"
 msgstr "Søgeresultat"
 
 #: core/data/System/WebSearch.txt:215
@@ -3092,7 +3142,7 @@ msgstr "Vælg en ny lokal fil til at opdatere denne vedhæftede fil"
 msgid "Select all"
 msgstr "Vælg alle"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 "Vælg en tidligere (venstre) and en senere (højre) version at sammenligne"
@@ -3109,7 +3159,7 @@ msgstr "Markér (triple-klik i feltet), og copy/paste din signatur til siden"
 msgid "Selections apply to search in \"text body\""
 msgstr "Det valgte virker for søgning i selve teksten på siden"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Sequential"
 msgstr "Sekventiel"
 
@@ -3125,7 +3175,7 @@ msgstr "Vælg ny forælder"
 msgid "Set new topic parent"
 msgstr "Vælg ny side-forælder"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 msgid "Show %1 revisions up to revision %2"
 msgstr "Vis version %1 op til version %2"
 
@@ -3134,7 +3184,7 @@ msgstr "Vis version %1 op til version %2"
 msgid "Show help"
 msgstr "Vis hjælp"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Viser versionerne %1 - %2 (ud af %3)"
 
@@ -3142,7 +3192,7 @@ msgstr "Viser versionerne %1 - %2 (ud af %3)"
 msgid "Shrink edit box"
 msgstr "Formindsk edit boks"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Side by side"
 msgstr "Side ved side"
 
@@ -3206,6 +3256,11 @@ msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
 "Angiv =all= for alle webs, eller en kommasepareret liste af webs fra: %1"
 
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
+msgid "Start presentation"
+msgstr ""
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
 #: PatternSkin/data/System/WebLeftBarExample.txt:13
@@ -3217,8 +3272,8 @@ msgstr "Statistik"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:29
-#: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: JQueryPlugin/data/System/VarBUTTON.txt:31
+#: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:418
 #: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
@@ -3241,10 +3296,22 @@ msgid "Subscribe"
 msgstr "Abonnér"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/mailnotify.tmpl:90
 #: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Abonnér / afmeld i:"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
+#, fuzzy
+msgid "Subscribe to this topic"
+msgstr "Opret denne side"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#, fuzzy
+msgid "Subscribe to this topic (s)"
+msgstr "Printbar version af denne side (p)"
 
 #: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
@@ -3620,12 +3687,18 @@ msgstr ""
 "tilbage og selv tjekke om noget er blevet ændret. For at skrive dig op, "
 "tilføj venligst en prik med dit %2 i alfabetisk orden til denne liste:"
 
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr "Dette er også kendt som Cross-site Request Forgery, or CSRF."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:81
+#: MailerContrib/templates/mailnotify.tmpl:82
 msgid "This is an automated e-mail from %1."
 msgstr "Dette er en automatisk e-mail notifikation fra %1."
 
@@ -3645,7 +3718,7 @@ msgstr ""
 "Dette er skraldespanden (Trash webbet). Her kan du gendanne slettede sider; "
 "slettede vedhæftede filer findes på siden TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr "Dette er årsagen til at konverteringen er deaktiveret:"
 
@@ -3654,8 +3727,8 @@ msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Dette er dit navn skrevet som !WikiWord, for eksempel !JohnSmith. "
-"[[%1][Register]] hvis du ikke har en bruger konto endnu."
+"Dette er dit navn skrevet som !WikiWord, for eksempel !JohnSmith. [[%1]"
+"[Register]] hvis du ikke har en bruger konto endnu."
 
 #: core/templates/renamedelete.tmpl:28
 msgid ""
@@ -3708,7 +3781,7 @@ msgstr "Overskrift"
 msgid "To attachment:"
 msgstr "Til vedhæftet fil:"
 
-#: core/data/System/WebSearch.txt:285
+#: core/data/System/WebSearch.txt:286
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3780,7 +3853,6 @@ msgid "Topic data"
 msgstr "Sidedata"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 msgid "Topic history"
 msgstr "Side-historik"
 
@@ -3856,7 +3928,7 @@ msgstr "Antal hits"
 msgid "Try Again"
 msgstr "Forsøg igen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr "Uændrede afsnit før og efter hver ændring"
 
@@ -3867,6 +3939,18 @@ msgstr "Ukendt brugernavn og/eller adgangskode"
 #: core/templates/messages.tmpl:40
 msgid "Unrecognized action command %1"
 msgstr "Ukendt action command %1"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
+#, fuzzy
+msgid "Unsubscribe from this topic"
+msgstr "title='Stop abonnement af denne side' accesskey='s'>&Stop abonnement"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:15
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:16
+#, fuzzy
+msgid "Unsubscribe from this topic (s)"
+msgstr "Printbar version af denne side (p)"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
 msgid "Update"
@@ -3993,7 +4077,7 @@ msgstr "Vis"
 msgid "View complete topic history"
 msgstr "Vis komplet historik for siden"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:65
+#: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "View difference"
 msgstr "Vis forskel"
 
@@ -4001,11 +4085,11 @@ msgstr "Vis forskel"
 msgid "View differences"
 msgstr "Vis forskelle"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View earlier"
 msgstr "Vis tidligere"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View later"
 msgstr "Vis senere"
 
@@ -4025,8 +4109,8 @@ msgstr "Vis version"
 msgid "View revision:"
 msgstr "Vis version:"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:20
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:21
 msgid "View sequential topic history"
 msgstr "Vis komplet historik for siden"
 
@@ -4039,12 +4123,12 @@ msgstr "Se skabeloner"
 msgid "View topic"
 msgstr "Vis side"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "Vis komplet historik for siden"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:18
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:19
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:25
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:26
 msgid "View without formatting (v)"
 msgstr "Vis uden formatering (v)"
 
@@ -4095,7 +4179,7 @@ msgstr ""
 "Advarsel: Dette websted tillader ikke brug af %<nop>INCLUDE% til inkludering "
 "af URL'er"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:440
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Advarsel: \\'include\\'-siden <nop>%1 findes ikke!"
 
@@ -4103,7 +4187,7 @@ msgstr "Advarsel: \\'include\\'-siden <nop>%1 findes ikke!"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "BEMÆRK: \\'include\\'-siden er ikke oprettet endnu!"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Advarsel: tabel-definitionen i \\'include\\'-siden %1 findes ikke!"
 
@@ -4144,7 +4228,7 @@ msgstr "Hvem"
 msgid "Who is requesting this, actually?"
 msgstr "Hvem beder rent faktisk om dette?"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr "Hele siden"
 
@@ -4450,8 +4534,8 @@ msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
 msgstr ""
-"Din(e) registrerede e-mail adresse(r) er opdateret til: "
-"<noautolink>%1</noautolink>."
+"Din(e) registrerede e-mail adresse(r) er opdateret til: <noautolink>%1</"
+"noautolink>."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 msgid ""
@@ -4505,7 +4589,7 @@ msgstr ""
 "[mellemrum] = [værdi]"
 
 # please enter the name of your language here (written in the native language):
-#: core/lib/Foswiki/I18N.pm:331
+#: core/lib/Foswiki/I18N.pm:343
 msgid "_language_name"
 msgstr "Dansk"
 
@@ -4675,7 +4759,7 @@ msgstr "title='Rediger Wikitekst' accesskey='w'>Rediger &wikitekst"
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Rediger denne sides tekst' accesskey='e'>&Rediger"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:71
+#: CompareRevisionsAddOn/templates/compare.tmpl:74
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "title='flettet ind' accesskey='i'>&flettet ind"
 
@@ -4705,7 +4789,7 @@ msgstr ""
 "title='Søg i %1-webbet efter sider der linker til denne side ' "
 "accesskey='b'>We&b"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:68
+#: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "title='Ved siden af' accesskey='s'>Ved &siden af"
 
@@ -4717,7 +4801,7 @@ msgstr "title='Abonnér på denne side' accesskey='s'>&Abonnér"
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
 msgstr "title='Stop abonnement af denne side' accesskey='s'>&Stop abonnement"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Vis side' accesskey='v'>&Vis side"
@@ -4826,9 +4910,6 @@ msgstr "for at få at vide hvorfor du bliver bedt om at bekræfte"
 
 #~ msgid "Show"
 #~ msgstr "Vis"
-
-#~ msgid "first"
-#~ msgstr "første"
 
 #~ msgid "last"
 #~ msgstr "sidste"

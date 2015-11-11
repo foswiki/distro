@@ -8,8 +8,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-04-01 22:07+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
-"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
-"/distribution-release-11/cs/>\n"
+"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki/"
+"distribution-release-11/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -168,7 +168,7 @@ msgid "%1 tried to register with e-mail %2"
 msgstr "%1 se pokusil o registraci s e-mailem %2"
 
 #. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",            $date, $by)
-#: core/lib/Foswiki/Render.pm:269
+#: core/lib/Foswiki/Render.pm:249
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 byl přejmenován nebo přesunut ze %2 na %3 za pomoci %4"
 
@@ -184,7 +184,7 @@ msgstr "&Cancel (ponechej beze změny)"
 msgid "&History"
 msgstr "Historie"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "&Sequential"
 msgstr "&Postupně"
 
@@ -216,7 +216,7 @@ msgstr "(*Doporučení:* Nechtěl by jste nahrát svojí fotografii ?)"
 msgid "(=all= to show all topics)"
 msgstr "(=all= pro všechny články)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:121
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
 msgstr "(Tato zpráva bude automaticky odstraněna)"
 
@@ -817,7 +817,7 @@ msgstr "Pozor"
 msgid "Attribute"
 msgstr "Vlastnosti"
 
-#: MailerContrib/templates/mailnotify.tmpl:71
+#: MailerContrib/templates/mailnotify.tmpl:72
 msgid "Automated notification of topic changes"
 msgstr "Automatické upozorňování na změny článku"
 
@@ -905,8 +905,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:33
-#: JQueryPlugin/data/System/VarBUTTON.txt:42
+#: JQueryPlugin/data/System/VarBUTTON.txt:35
+#: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: PatternSkin/data/System/PatternSkinElements.txt:422
 #: PatternSkin/data/System/PatternSkinElements.txt:431
 #: PatternSkin/data/System/PatternSkinElements.txt:451
@@ -993,11 +993,11 @@ msgid "Change topic"
 msgstr "Změna článku"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-msgid "Changed by"
+#, fuzzy
+msgid "Changed by:"
 msgstr "Změněno uživatelem"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#: HistoryPlugin/templates/oopshistory.tmpl:43
 msgid "Changed on"
 msgstr "Změněno na"
 
@@ -1045,15 +1045,15 @@ msgstr "Vyberte nový formulář pro %1"
 msgid "Clear all"
 msgstr "Vymaž vše"
 
-#: core/lib/Foswiki/Render.pm:254
+#: core/lib/Foswiki/Render.pm:234
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
 msgstr ""
 "Klikni na přesun článku zpět na předchozí umístění s možností změnit odkazy."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:471
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
+#: TwistyPlugin/data/System/TwistyPlugin.txt:466
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
 msgid "Close"
 msgstr "Zavřít"
 
@@ -1065,13 +1065,28 @@ msgstr "Barva %1 má nesprávný formát"
 msgid "Come on in"
 msgstr "Přejdi k"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Comment"
 msgstr "Komentář"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:123 core/templates/more.tmpl:152
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
+msgid "Commenting is disabled for static viewing"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
+msgid "Commenting is disabled when not in view context"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
+msgid "Commenting is disabled while not logged in"
+msgstr ""
+
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:76
+msgid "Commenting is disabled while running from the command line"
+msgstr ""
+
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:152
 msgid "Compare revisions"
 msgstr "Porovnejte revize"
 
@@ -1102,7 +1117,7 @@ msgstr "Konflikt"
 msgid "Contact %1 if you have any questions."
 msgstr "Kontaktujte %1 pokud máte nějaké otázky."
 
-#: HistoryPlugin/templates/oopshistory.tmpl:100
+#: HistoryPlugin/templates/oopshistory.tmpl:78
 msgid "Context"
 msgstr "Kontext"
 
@@ -1114,7 +1129,7 @@ msgstr "Pokračujte a zkuste přejmenovat web?"
 msgid "Continue to create the new page"
 msgstr "Pokračuj ve vytváření nové stránky"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1197,8 +1212,8 @@ msgstr "Vytvoř skupinu"
 msgid "Create new FAQ topic"
 msgstr "Vytvoř nový článek FAQ (často kladené dotazy)"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:23
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:24
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:30
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 msgid "Create new topic"
 msgstr "Vytvoř nový článek"
 
@@ -1217,7 +1232,7 @@ msgstr "Vytvořit článek"
 #: core/data/System/DefaultPreferences.txt:398
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:15
 #: core/data/System/WebCreateNewTopicComponents.txt:153
-#: core/lib/Foswiki/Render.pm:82
+#: core/lib/Foswiki/Render.pm:62
 msgid "Create this topic"
 msgstr "Vytvořit tento článek"
 
@@ -1250,7 +1265,7 @@ msgstr "Datum"
 msgid "Dear %1"
 msgstr "Vážený %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Debug"
 msgstr "Ladění"
 
@@ -1286,6 +1301,11 @@ msgstr "Vymazat článek..."
 #: PatternSkin/templates/attach.pattern.tmpl:57
 msgid "Describe the file so other people know what it is."
 msgstr "Popište soubor, tak aby ostatní lidé věděli o co jde."
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Description"
+msgstr "Otázka"
 
 #: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
@@ -1534,6 +1554,10 @@ msgstr "Chyba při odebírání uživatelů ze skupin."
 msgid "Evil person"
 msgstr "Zlá osoba"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:24
+msgid "Exit"
+msgstr ""
+
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
 msgstr "Zhavarované pluginy"
@@ -1566,6 +1590,11 @@ msgstr "Najít obdobné články"
 #: core/templates/more.tmpl:87 core/templates/more.tmpl:89
 msgid "Find topics that link to %1 ..."
 msgstr "Najít články které odkazují na %1 ..."
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:20
+#, fuzzy
+msgid "First"
+msgstr "první"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 msgid "First name"
@@ -1634,7 +1663,7 @@ msgstr "Získej nápovědu jak přikládat soubory"
 msgid "Get help on setting topic preferences"
 msgstr "Získej nápovědu jak nastavovat vlastnosti článku"
 
-#: core/data/System/WebSearch.txt:275
+#: core/data/System/WebSearch.txt:276
 msgid "Get notified on changes on this search"
 msgstr "Nechte se upozornit o změnách tohoto vyhledávání"
 
@@ -1896,6 +1925,10 @@ msgstr ""
 "Pokud je Vaše emailová adresa nefunkční (nemůžete odsud přijímat žádnou "
 "poštu) a zapomněl jste své heslo, pro pomoc kontaktujte %1."
 
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+msgid "Image"
+msgstr ""
+
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
 msgid "Image %1 of %2"
@@ -2023,11 +2056,11 @@ msgstr ""
 msgid "Jump"
 msgstr "Přejdi na"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to first revision"
 msgstr "Přejděte na první revizi"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "Jump to latest revision (%1)"
 msgstr "Přejděte na poslední revizi (%1)"
 
@@ -2035,8 +2068,12 @@ msgstr "Přejděte na poslední revizi (%1)"
 msgid "Keyword search"
 msgstr "Hledání dle klíčového slova"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:21
+#, fuzzy
+msgid "Last"
+msgstr "Příjmení"
+
 #: HistoryPlugin/templates/oopshistory.tmpl:31
-#: HistoryPlugin/templates/oopshistory.tmpl:44
 msgid "Last edited by"
 msgstr "Poslední editor"
 
@@ -2083,7 +2120,7 @@ msgstr "Řádek: %1 až %2"
 msgid "Link"
 msgstr "Odkaz"
 
-#: core/data/System/WebSearch.txt:315
+#: core/data/System/WebSearch.txt:316
 msgid "List topics that start with the letter:"
 msgstr "Články, které začínají písmenem:"
 
@@ -2107,7 +2144,7 @@ msgstr "Pro pokračování se přihlaste."
 msgid "Log on with your username and password"
 msgstr "Přihlašte se pomocí vášeho jména a hesla"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
 #: core/templates/foswiki.tmpl:41
 msgid "Login"
 msgstr "Přihlásit"
@@ -2183,13 +2220,13 @@ msgstr "Další akce pro práci s článkem"
 msgid "More topic actions..."
 msgstr "Další akce..."
 
-#: TwistyPlugin/data/System/TwistyPlugin.txt:470
-#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:89
+#: TwistyPlugin/data/System/TwistyPlugin.txt:465
+#: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:69
 msgid "More..."
 msgstr "Více..."
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:33
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:34
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:40
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:41
 msgid ""
 "More: delete or rename this topic; set parent topic; view and compare "
 "revisions (m)"
@@ -2227,13 +2264,9 @@ msgstr "Přesun článku do:"
 msgid "Move/Rename"
 msgstr "Přesunout/Přejmenovat"
 
-#: core/lib/Foswiki/Search.pm:1197
+#: core/lib/Foswiki/Search.pm:1223
 msgid "NEW"
 msgstr "NOVÝ"
-
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
-msgid "Name"
-msgstr ""
 
 #: core/templates/more.tmpl:31
 msgid "Name of copy"
@@ -2242,6 +2275,10 @@ msgstr "Jméno kopie"
 #: core/templates/messages.tmpl:111
 msgid "Name of new web is missing"
 msgstr "Chybí jméno nového webu"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+msgid "Name:"
+msgstr ""
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
@@ -2263,7 +2300,7 @@ msgstr "Registrace nových uživatelů není podporována"
 msgid "New e-mails (space-separated list)"
 msgstr "Nové emailové adresy (mezerou oddělený seznam)"
 
-#: MailerContrib/templates/mailnotify.tmpl:83
+#: MailerContrib/templates/mailnotify.tmpl:84
 #: MailerContrib/templates/mailnotify.tmpl:9
 msgid "New or changed topics in %1, since %2:"
 msgstr "Nový nebo změněný článek v %1, od %2:"
@@ -2292,7 +2329,7 @@ msgstr "Nové jméno webu:"
 msgid "Newer revision:"
 msgstr "Novější revize:"
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:207
+#: SlideShowPlugin/templates/view.slideshow.tmpl:23
 msgid "Next"
 msgstr "Následující"
 
@@ -2339,6 +2376,11 @@ msgstr "Nedoporučeno při mazání článku."
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:17
 msgid "Not sure this is right, please confirm!"
 msgstr "Je toto v pořádku? Prosím potvrďte!"
+
+#: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
+#, fuzzy
+msgid "Notation"
+msgstr "Oznámení"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2456,7 +2498,7 @@ msgstr "Volitelně vložte odlišné jméno přílohy:"
 msgid "Optionally enter a different topic name:"
 msgstr "Volitelně vložte odlišné jméno článku:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Options"
 msgstr "Vlastnosti"
 
@@ -2468,7 +2510,6 @@ msgstr "Jméno organizace:"
 msgid "Organisation website"
 msgstr "Webové stránky arganizace"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:61
 msgid "Password"
@@ -2485,6 +2526,11 @@ msgstr "Heslo nemohlo být změněno"
 #: core/templates/messages.tmpl:235 core/templates/messages.tmpl:239
 msgid "Password reset failed"
 msgstr "Znovunastavení hesla bylo neúspěšné"
+
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#, fuzzy
+msgid "Password:"
+msgstr "Heslo"
 
 #: core/templates/messages.tmpl:174
 msgid "Passwords disabled"
@@ -2613,12 +2659,12 @@ msgstr "Nebo stiskněte Přerušit."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Stiskněte OK jako potvrzení že tato změna byla mezinárodní."
 
-#: JQueryPlugin/data/System/JQueryTmpl.txt:208
+#: SlideShowPlugin/templates/view.slideshow.tmpl:22
 msgid "Previous"
 msgstr "Předchozí"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:28
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:29
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:35
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:36
 msgid "Printable version of this topic (p)"
 msgstr "Verze pro tisk (p)"
 
@@ -2626,7 +2672,7 @@ msgstr "Verze pro tisk (p)"
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: core/lib/Foswiki/Render.pm:262
+#: core/lib/Foswiki/Render.pm:242
 msgid "Put it back..."
 msgstr "Vrať to zpět ..."
 
@@ -2660,7 +2706,7 @@ msgstr ""
 "spolupráci. Aby jste se naučil více, čtěte TwentyMinuteTutorial, který je "
 "odtud přístupný."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Pročtěte si"
 
@@ -2680,8 +2726,8 @@ msgstr "Naposledy změněné články na všech webech"
 msgid "Redirect Denied"
 msgstr "Přesměrování zamítnuto"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
-#: JQueryPlugin/data/System/JQueryLoader.txt:93
+#: HistoryPlugin/templates/oopshistory.tmpl:107
+#: JQueryPlugin/data/System/JQueryLoader.txt:99
 #: core/lib/Foswiki/UI/Rename.pm:1144
 msgid "Refresh"
 msgstr "Obnov"
@@ -2722,8 +2768,6 @@ msgstr "Hledání pomocí regulárních výrazů"
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:45
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:43
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1012
-#: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1025
 #: core/data/Main/GroupViewTemplate.txt:19
 #: core/data/System/SkinTemplateViewTemplate.txt:8
 #: core/templates/messages.tmpl:623 core/templates/messages.tmpl:634
@@ -2800,7 +2844,7 @@ msgstr "Přejmenovat, přesunout nebo smazat tento web"
 msgid "Rename/Move"
 msgstr "Přejmenovat/Přesunout"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:96
+#: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
 msgstr "Styl zobrazení"
 
@@ -2887,12 +2931,11 @@ msgstr ""
 "Revize %1 byla uložena uživatelem %2, v době kdy Vy jste stále editoval."
 
 #: MailerContrib/templates/mailnotify.tmpl:44
-#: MailerContrib/templates/mailnotify.tmpl:86
+#: MailerContrib/templates/mailnotify.tmpl:87
 msgid "Review recent changes in:"
 msgstr "Zkontrolujte poslední změny v:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:29
-#: HistoryPlugin/templates/oopshistory.tmpl:42
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
 msgstr "Revize"
@@ -2940,7 +2983,8 @@ msgstr "Uloženo do:"
 #: PatternSkin/data/_default/WebLeftBar.txt:7
 #: PatternSkin/templates/foswiki.pattern01x00.tmpl:39
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
-#: core/data/System/WebSearch.txt:66 core/data/System/WebSearch.txt:85
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearch.txt:66
+#: core/data/System/WebSearch.txt:85
 msgid "Search"
 msgstr "Hledej"
 
@@ -2975,6 +3019,11 @@ msgstr "Možnosti prohledávání"
 
 #: core/templates/searchbookview.tmpl:7
 msgid "Search result"
+msgstr "Výsledek hledání"
+
+#: core/data/System/WebSearch.txt:240
+#, fuzzy
+msgid "Search results"
 msgstr "Výsledek hledání"
 
 #: core/data/System/WebSearch.txt:215
@@ -3055,7 +3104,7 @@ msgstr "Vyberte nový lokální soubor pro změnu přílohy"
 msgid "Select all"
 msgstr "Vyber vše"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:115
+#: HistoryPlugin/templates/oopshistory.tmpl:93
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr "Pro porovnání vyber starší revizi (nalevo) a novější (napravo)"
 
@@ -3071,7 +3120,7 @@ msgstr "Vyberte, zkopírujte a vložte Váš podpis na konec Vašeho zápisu"
 msgid "Selections apply to search in \"text body\""
 msgstr "Pro vyhledávání v textu jsou aktivována omezení"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Sequential"
 msgstr "Sekvenčně"
 
@@ -3087,7 +3136,7 @@ msgstr "Nastavit nový nadřízený článek"
 msgid "Set new topic parent"
 msgstr "Nastavit nový nadřízený článek"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:129
+#: HistoryPlugin/templates/oopshistory.tmpl:107
 msgid "Show %1 revisions up to revision %2"
 msgstr "Zobraz %1 revizí až do revize %2"
 
@@ -3096,7 +3145,7 @@ msgstr "Zobraz %1 revizí až do revize %2"
 msgid "Show help"
 msgstr "Ukaž nápovědu"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:119
+#: HistoryPlugin/templates/oopshistory.tmpl:97
 msgid "Showing revisions %1 - %2 (out of %3)"
 msgstr "Zobrazuji revize %1 - %2 (mimo %3)"
 
@@ -3104,7 +3153,7 @@ msgstr "Zobrazuji revize %1 - %2 (mimo %3)"
 msgid "Shrink edit box"
 msgstr "Zmenšit editovací oblast"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:97 core/templates/more.tmpl:161
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:161
 msgid "Side by side"
 msgstr "Vedle sebe"
 
@@ -3168,6 +3217,11 @@ msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
 "Uveďte =all= pro všechny weby, nebo čárkou oddělený seznam webů  od: %1"
 
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/templates/view.slideshow.tmpl:25
+msgid "Start presentation"
+msgstr ""
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
 #: PatternSkin/data/System/WebLeftBarExample.txt:13
@@ -3179,8 +3233,8 @@ msgstr "Statistiky"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:29
-#: JQueryPlugin/data/System/VarBUTTON.txt:38
+#: JQueryPlugin/data/System/VarBUTTON.txt:31
+#: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:418
 #: PatternSkin/data/System/PatternSkinElements.txt:427
 #: core/data/System/FrequentlyAskedQuestions.txt:79
@@ -3203,10 +3257,22 @@ msgid "Subscribe"
 msgstr "Přihlásit k odběru"
 
 #: MailerContrib/templates/mailnotify.tmpl:47
-#: MailerContrib/templates/mailnotify.tmpl:89
+#: MailerContrib/templates/mailnotify.tmpl:90
 #: MailerContrib/templates/newsletter.tmpl:21
 msgid "Subscribe / Unsubscribe in:"
 msgstr "Příhlásit/ Odhlásit z:"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
+#, fuzzy
+msgid "Subscribe to this topic"
+msgstr "Vytvořit tento článek"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#, fuzzy
+msgid "Subscribe to this topic (s)"
+msgstr "Verze pro tisk (p)"
 
 #: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
@@ -3574,12 +3640,18 @@ msgstr ""
 "článek v tomto %1 webu. Pro přihlášení, prosím přidejte odrážku s Vaším %2 v "
 "abecedním pořádku do tohoto seznamu:"
 
+#: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:217
+msgid ""
+"This is a temporary placeholder for your new comment. Refresh the topic to "
+"see the actual comment."
+msgstr ""
+
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
 msgstr "Toto je také známé pod názvem Cross-site Request Forgery (CSRF)."
 
 #: MailerContrib/templates/mailnotify.tmpl:7
-#: MailerContrib/templates/mailnotify.tmpl:81
+#: MailerContrib/templates/mailnotify.tmpl:82
 msgid "This is an automated e-mail from %1."
 msgstr "Toto je automatický email od %1."
 
@@ -3597,7 +3669,7 @@ msgid ""
 msgstr ""
 "Toto je Koš. Zde můžete obnovit články; smazané přílohy jsou v koši příloh."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:119
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid "This is why the conversion is disabled:"
 msgstr "Toto je důvod vypnuté konverze:"
 
@@ -3662,7 +3734,7 @@ msgstr "Název článku"
 msgid "To attachment:"
 msgstr "K příloze:"
 
-#: core/data/System/WebSearch.txt:285
+#: core/data/System/WebSearch.txt:286
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
@@ -3732,7 +3804,6 @@ msgid "Topic data"
 msgstr "Data která tvoří článek"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:27
-#: HistoryPlugin/templates/oopshistory.tmpl:40
 msgid "Topic history"
 msgstr "Historie článku"
 
@@ -3808,7 +3879,7 @@ msgstr "Celkem vyhovuje"
 msgid "Try Again"
 msgstr "Zkuste znova"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101
+#: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
 msgstr "Části beze změn před a po každé změně"
 
@@ -3819,6 +3890,18 @@ msgstr "Neznámý účet nebo heslo"
 #: core/templates/messages.tmpl:40
 msgid "Unrecognized action command %1"
 msgstr "Nerozeznaný příkaz akce: %1"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
+#, fuzzy
+msgid "Unsubscribe from this topic"
+msgstr "title='Odhlaš se z odběru tohoto článku' accesskey='s'>Un&subscribe"
+
+#: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:15
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:16
+#, fuzzy
+msgid "Unsubscribe from this topic (s)"
+msgstr "Verze pro tisk (p)"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
 msgid "Update"
@@ -3945,7 +4028,7 @@ msgstr "Náhled"
 msgid "View complete topic history"
 msgstr "Zobraz celou historii článku"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:65
+#: CompareRevisionsAddOn/templates/compare.tmpl:68
 msgid "View difference"
 msgstr "Zobraz rozdíly"
 
@@ -3953,11 +4036,11 @@ msgstr "Zobraz rozdíly"
 msgid "View differences"
 msgstr "Zobraz rozdíly"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View earlier"
 msgstr "Zobraz dřívější"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:37
+#: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View later"
 msgstr "Zobraz pozdější"
 
@@ -3977,8 +4060,8 @@ msgstr "Zobraz revize"
 msgid "View revision:"
 msgstr "Zobraz revize:"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:13
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:14
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:20
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:21
 msgid "View sequential topic history"
 msgstr "Zobraz celou historii článku tak jak šla za sebou"
 
@@ -3991,12 +4074,12 @@ msgstr "Zobraz šablony"
 msgid "View topic"
 msgstr "Ukaž článek"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "View total topic history"
 msgstr "Ukaž celou historii článku"
 
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:18
-#: FamFamFamContrib/templates/view.famfamfam.tmpl:19
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:25
+#: FamFamFamContrib/templates/view.famfamfam.tmpl:26
 msgid "View without formatting (v)"
 msgstr "Zobraz neformátovaný text (v)"
 
@@ -4043,7 +4126,7 @@ msgstr "Varování: Nemohu zaslat potvrzovací email, zasílání emailů je vyp
 msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
 msgstr "Varování: Tento server nepovoluje %<nop>INCLUDE% odkazů"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:423
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:440
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Varování: \\'include\\' článek <nop>%1 neexistuje!"
 
@@ -4051,7 +4134,7 @@ msgstr "Varování: \\'include\\' článek <nop>%1 neexistuje!"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Varování: \\'include\\' článek ještě neexistuje!"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Varování: definice tabulky v \\'include\\' článku %1 neexistuje!"
 
@@ -4092,7 +4175,7 @@ msgstr "Kdo"
 msgid "Who is requesting this, actually?"
 msgstr "Kdo toto vlastně požaduje?"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:103
+#: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
 msgstr "Celá stránka"
 
@@ -4439,7 +4522,7 @@ msgid ""
 msgstr ""
 "[násobek 3 mezer] * [mezera] Nastav [mezera] VARIABLENAME [mezera] = [mezera]"
 
-#: core/lib/Foswiki/I18N.pm:331
+#: core/lib/Foswiki/I18N.pm:343
 msgid "_language_name"
 msgstr "Čeština"
 
@@ -4609,7 +4692,7 @@ msgstr "nadpis='Edituj text tohoto článku' accesskey='w'>Edituj &wiki text"
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
 msgstr "title='Edituj text tohoto článku' accesskey='e'>&Edit"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:71
+#: CompareRevisionsAddOn/templates/compare.tmpl:74
 msgid "title='Interwoven' accesskey='i'>&interwoven"
 msgstr "nadpis='Proložený' klávesová zkratka='i'>&interwoven"
 
@@ -4636,7 +4719,7 @@ msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr "title='Hledej na webu %1 články které sem odkazují' accesskey='b'>We&b"
 
-#: CompareRevisionsAddOn/templates/compare.tmpl:68
+#: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Side by side' accesskey='s'>&side by side"
 msgstr "nadpis='Vedle sebe' klávesová zkratka='s'>&side by side"
 
@@ -4648,7 +4731,7 @@ msgstr "title='Přihlaš se k odběru tohoto článku' accesskey='s'>&Subscribe"
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
 msgstr "title='Odhlaš se z odběru tohoto článku' accesskey='s'>Un&subscribe"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:144
+#: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
 msgstr "title='Zobraz článek' accesskey='v'>&Zobraz článek"
@@ -4756,9 +4839,6 @@ msgstr "proč jste byl dotazován na potvrzení"
 
 #~ msgid "Show"
 #~ msgstr "Ukaž"
-
-#~ msgid "first"
-#~ msgstr "první"
 
 #~ msgid "last"
 #~ msgstr "poslední"
