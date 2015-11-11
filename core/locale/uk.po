@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-11 01:32+0200\n"
+"PO-Revision-Date: 2015-11-11 21:20+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -77,7 +77,7 @@ msgstr "Розділ %1"
 
 #: core/templates/registermessages.tmpl:387
 msgid "%1 added to the %2 group."
-msgstr "%1 додано до групи %2"
+msgstr "%1 додано до групи %2."
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
@@ -105,14 +105,13 @@ msgstr "%1 було підтверджено та зареєстровано з 
 msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
-msgstr ""
-"%1 редагував сторінку теми для %2 і блокування все ще активне для іншого %3"
+msgstr "%1 редагував тему для %2 і блокування все ще активне для іншого %3."
 
 #: core/templates/registermessages.tmpl:51
 msgid ""
 "%1 has been emailed to inform them that their registration has been "
 "successful"
-msgstr "%1 було поінформовано поштою про те, що їх успішно зареєстровано."
+msgstr "%1 було поінформовано поштою про те, що їх успішно зареєстровано"
 
 #: core/templates/registerfailednotremoved.tmpl:11
 #: core/templates/registernotifyadmin.tmpl:11
@@ -157,7 +156,7 @@ msgstr "значення %1 не є дійсне для параметру %2"
 
 #: core/templates/renameattachmentdelete.tmpl:41
 msgid "%1 is the default topic for deleted attachments."
-msgstr "%1 - сторінка за замовченням для вилучених файлів"
+msgstr "%1 - сторінка за замовченням для вилучених додатків."
 
 #: core/templates/messages.tmpl:343
 msgid "%1 may still be editing %2."
@@ -1148,7 +1147,7 @@ msgstr "Змінити тему"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
 msgid "Changed by:"
-msgstr "Змінив:"
+msgstr "Змінено:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 #, fuzzy
@@ -2250,8 +2249,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:117
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr ""
-"Якщо у Вас є питання по реєстрації, відправте повідомлення по електронній "
-"пошті: %1"
+"Якщо у Вас є питання щодо реєстрації, відправте повідомлення на адресу %1."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:66
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:39
@@ -2645,11 +2643,11 @@ msgstr "Надані Вами відомості:"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Log In"
-msgstr ""
+msgstr "Увійти"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:12
 msgid "Log Out"
-msgstr ""
+msgstr "Вийти"
 
 #: core/data/Main/GroupViewTemplate.txt:144
 msgid "Log in to continue."
@@ -3744,7 +3742,7 @@ msgstr ""
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
 #: core/templates/searchformat.tmpl:15
 msgid "Results from %1 web"
-msgstr "Результати по розділу \"%1\"."
+msgstr "Результати з розділу %1"
 
 #: core/templates/search.text.tmpl:4
 #, fuzzy
@@ -3950,7 +3948,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:209
 msgid "See %1 for information about Form Definitions."
-msgstr "Дивіться %1 для інформації про визначення форм"
+msgstr "Інформацію про визначення форм дивіться у %1."
 
 #: core/templates/registermessages.tmpl:380
 #: core/templates/registermessages.tmpl:389
