@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-10 01:04+0200\n"
+"PO-Revision-Date: 2015-11-11 01:32+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -585,15 +585,17 @@ msgstr ""
 
 #: core/data/System/WebTemplateTopics.txt:5
 msgid "A topic template defines the initial content of a newly created topic."
-msgstr ""
+msgstr "Шаблон топіку задає початковий зміст новоствореного топіку."
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:21
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
 msgstr ""
+"Топік з таким ім'ям вже існував та його було переміщено чи перейменовано у "
+"%1."
 
 #: core/data/System/WebSearch.txt:91
 msgid "A-Z"
-msgstr ""
+msgstr "А-Я"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -601,7 +603,7 @@ msgstr "Доступ заборонений"
 
 #: core/templates/messages.tmpl:618
 msgid "Access check on %1 failed"
-msgstr "Перевірка доступу для %1 закінчилася невдало"
+msgstr "Невдала перевірка доступу для %1"
 
 #: PatternSkin/templates/edit.pattern.tmpl:72
 msgid "Access keys"
@@ -610,7 +612,7 @@ msgstr "Швидкі клавіші"
 #: PatternSkin/templates/settings.pattern.tmpl:21
 #, fuzzy
 msgid "Access keys:"
-msgstr "Швидкі клавіші"
+msgstr "Клавіші доступу:"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -622,29 +624,25 @@ msgid "Action %1: %2."
 msgstr "Дія %1: %2."
 
 #: core/data/Main/WikiGroups.txt:64
-#, fuzzy
 msgid "Actions"
-msgstr "Дія"
+msgstr "Дії"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:455
-#, fuzzy
 msgid "Add"
-msgstr "Добавлено"
+msgstr "Додати"
 
 #: core/templates/addform.tmpl:1
 msgid "Add form"
 msgstr "Додати форму"
 
 #: core/data/Main/GroupViewTemplate.txt:240
-#, fuzzy
 msgid "Add members"
-msgstr "Додати рядок"
+msgstr "Додати членів"
 
 #: core/data/Main/GroupViewTemplate.txt:171
-#, fuzzy
 msgid "Add members..."
-msgstr "Додати рядок"
+msgstr "Додати членів..."
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
@@ -654,7 +652,7 @@ msgstr "Додати рядок"
 #: core/data/Main/GroupViewTemplate.txt:218
 #, fuzzy
 msgid "Add user management options to this topic."
-msgstr "Редагувати налаштування цієї теми"
+msgstr "Додати опції керування користувачами до цього топіку."
 
 #: core/data/Main/GroupViewTemplate.txt:236
 #, fuzzy
@@ -669,7 +667,7 @@ msgstr "Додавання змінної %1 у [[WebPreferences][Парамет
 #: core/templates/login.sudo.tmpl:3
 #, fuzzy
 msgid "Admin Foswiki User Authentication"
-msgstr "Ідентифікація користувача TWiki"
+msgstr "Ідентифікація адміністратора Foswiki"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:26
 msgid "Admin Maintenance"
@@ -677,9 +675,8 @@ msgstr "Адміністрування"
 
 #: core/data/Main/GroupViewTemplate.txt:146
 #: core/data/Main/GroupViewTemplate.txt:167
-#, fuzzy
 msgid "Administration"
-msgstr "Реєстрація"
+msgstr "Керування"
 
 #: core/data/System/WebSearch.txt:88
 msgid "Advanced search"
@@ -690,26 +687,25 @@ msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
 msgstr ""
-"Після відправки цієї форми адреса Вашої електронної пошти буде змінена, а "
-"потім Ви будете повернені до цієї ж форми."
+"Після відправки форми Ваша електронна адреса буде змінена і Вас поверне до "
+"цієї ж форми."
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:19
 msgid "After submitting this form your password will be changed."
 msgstr "Після відправки цієї форми Ваш пароль буде змінений."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:14
-#, fuzzy
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, system-"
 "generated password, and a link to a page where you can change it."
 msgstr ""
 "Після відправки цієї форми Ви отримаєте електронний лист з Вашим новим "
-"*згенерованим системою* паролем, і посилання на сторінку, де Ви можете "
-"змінити його."
+"паролем, який *згенеровано системою*, і посилання на сторінку, де Ви можете "
+"його змінити."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:21
 msgid "Ah, no!"
-msgstr ""
+msgstr "О, ні!"
 
 #: core/data/System/WebSearch.txt:120 core/data/System/WebSearch.txt:150
 msgid "All public webs"
@@ -720,121 +716,117 @@ msgid "Allow non <nop>WikiWord for the new topic name"
 msgstr "Дозволити не <nop>ВікіСлово для назви нової теми"
 
 #: core/templates/messages.tmpl:296
-#, fuzzy
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
 msgstr ""
-"Ви також можете повернутися до System.UserRegistration і вибрати інше ім'я "
-"користувача "
+"Ви також можете повернутися до %SYSTEMWEB%.UserRegistration і вибрати інше "
+"ім'я користувача."
 
 #: core/lib/Foswiki/UI/Rename.pm:205
-#, fuzzy
 msgid "An attachment with the same name already exists in this topic."
-msgstr "Файл вже на сторінці нової теми."
+msgstr "Файл з таким ім'ям вже додано до цієї теми."
 
 #: core/templates/messages.tmpl:283
 msgid ""
 "An e-mail could not be delivered. Please notify your %1 administrator, %2"
 msgstr ""
-"Повідомлення електронної пошти не може бути доставлене. Будь ласка, "
-"повідомте про це Вашого %1 адміністратора %2"
+"Повідомлення електронної пошти не може бути доставлене. Будь ласка %2, "
+"повідомте про це Вашого %1 адміністратора"
 
 #: core/templates/moveattachment.tmpl:49
 msgid ""
 "An error page will be shown if either of the topics are locked by another "
 "user."
 msgstr ""
-"Буде виведено повідомлення про помилку якщо хоч би одна із сторінок "
-"заблокована іншим користувачем"
+"Буде виведено повідомлення про помилку якщо хоч би одна із тем заблокована "
+"іншим користувачем."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
 "An evil person may try to use your login identity to change content in your "
 "wiki without your knowledge."
 msgstr ""
+"Зловмисник може намагатись використати Ваш логін щоб змінити вміст вікі без "
+"Вашого відома."
 
 #: core/templates/messages.tmpl:17
 msgid "And populated with topics from the base web"
-msgstr "І показані разом з темами з основного розділу"
+msgstr "Та наповнений темами з базового розділу"
 
 #: core/templates/changeform.tmpl:27
 msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr ""
+"Усі зміни, що Ви внесли до теми до того, як попали на цю сторінку, було "
+"збережено."
 
 #: core/templates/viewtopicactionbuttons.tmpl:67
 msgid "Attach"
-msgstr "Прикріпити файл"
+msgstr "Додати файл"
 
 #: core/templates/attach.tmpl:9
-#, fuzzy
 msgid "Attach a file"
-msgstr "Прикріпити новий файл"
+msgstr "Додати новий файл"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:8
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:9
-#, fuzzy
 msgid ""
 "Attach an image or document to this topic; manage existing attachments (a)"
 msgstr ""
-"title='Прикріпити зображення або документ до цієї сторінки' "
-"accesskey='a'>Прикріпити"
+"Додати зображення або документ до цієї теми; керувати додатками, які вже є "
+"(a)"
 
 #: PatternSkin/templates/attachnew.pattern.tmpl:2
 #: core/templates/attachnew.tmpl:4
 msgid "Attach file to %1"
-msgstr "Прикріпити файл %1"
+msgstr "Додати файл до %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:11
 msgid "Attach image or document on %1"
-msgstr "Прикріпити зображення або документ %1"
+msgstr "Додати зображення або документ до %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:40 core/templates/attach.tmpl:15
 #: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
 msgid "Attach new file"
-msgstr "Прикріпити новий файл"
+msgstr "Додати новий файл"
 
 #: core/templates/attachtables.tmpl:4
 msgid "Attachment"
-msgstr "Прикріплений файл"
+msgstr "Додаток"
 
 #: core/templates/messages.tmpl:682
 msgid "Attachment '%1' does not exist"
-msgstr "Файл '%1' не існує"
+msgstr "Додаток '%1' не існує"
 
 #: core/templates/messages.tmpl:62
 msgid "Attachment delete failed"
-msgstr "Файл не вилучено"
+msgstr "Не вдалось вилучити додаток"
 
 #: core/lib/Foswiki/UI/Rename.pm:172
-#, fuzzy
 msgid "Attachment does not exist."
-msgstr "Файл не існує"
+msgstr "Немає такого додатку."
 
 #: core/templates/attachtables.tmpl:42
-#, fuzzy
 msgid "Attachment history"
-msgstr "Прикріплені файли"
+msgstr "Історія додатків"
 
 #: core/templates/messages.tmpl:54
 msgid "Attachment move failed"
-msgstr "Не вдалося перемістити файл"
+msgstr "Не вдалося перемістити додаток"
 
 #: core/templates/moveattachment.tmpl:37
-#, fuzzy
 msgid "Attachment name:"
-msgstr "Прикріплений файл"
+msgstr "Ім'я додатку:"
 
 #: PatternSkin/templates/attachtables.pattern01x00.tmpl:6
 #: core/templates/attachtables.tmpl:16 core/templates/attachtables.tmpl:29
 msgid "Attachments"
-msgstr "Прикріплені файли"
+msgstr "Додатки"
 
 #: PatternSkin/templates/attachtables.pattern.tmpl:6
-#, fuzzy
 msgid "Attachments %1"
-msgstr "Прикріплені файли для %1"
+msgstr "Додатки %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:18
 msgid "Attachments help"
@@ -842,11 +834,12 @@ msgstr "Довідка щодо прикріплених файлів"
 
 #: core/templates/attach.tmpl:5
 msgid "Attachments of %1"
-msgstr "Прикріплені файли для %1"
+msgstr "Додатки на %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:67 core/templates/attach.tmpl:45
+#, fuzzy
 msgid "Attachments will not be shown in topic view page."
-msgstr "(Прикріплені файли не будуть показані на сторінці теми)."
+msgstr "Додатки не будуть показані на сторінці теми."
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
 #: core/templates/oopslanguagechanged.tmpl:13
@@ -861,7 +854,7 @@ msgstr "Атрибут"
 
 #: MailerContrib/templates/mailnotify.tmpl:71
 msgid "Automated notification of topic changes"
-msgstr "Автоматичне повідомлення про зміни на сторінці теми"
+msgstr "Автоматичне повідомлення про зміни у темі"
 
 #: core/data/_default/WebHome.txt:5
 msgid "Available Information"
@@ -870,15 +863,15 @@ msgstr "Доступна інформація"
 #: PatternSkin/templates/changeform.pattern.tmpl:13
 #: core/templates/changeform.tmpl:33
 msgid "Available form templates"
-msgstr ""
+msgstr "Доступні шаблони форм"
 
 #: core/data/System/WebTemplateTopics.txt:7
 msgid "Available templates in %1 Web:"
-msgstr ""
+msgstr "Доступні шаблони у розділі %1:"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "Back to topic"
-msgstr "Повернутися до теми"
+msgstr "Назад до теми"
 
 #: core/templates/more.tmpl:86 core/templates/viewtopicactionbuttons.tmpl:100
 msgid "Backlinks"
@@ -902,13 +895,15 @@ msgstr "Базовий розділ %1 відсутній або не існує
 
 #: core/data/System/WebSearch.txt:115 core/data/System/WebSearch.txt:145
 msgid "Both body and title"
-msgstr "У тексті сторінки і в заголовку"
+msgstr "Включно у тексті та заголовку"
 
 #: core/templates/changeform.tmpl:28
 msgid ""
 "But existing form data will be lost (you can always retrieve this data "
 "through the topic history)"
 msgstr ""
+"Але наявні дані у формі буде втрачено (Ви завжди можете знайти їх у історії "
+"теми)"
 
 #: core/data/Trash/WebHome.txt:7
 msgid ""
@@ -916,23 +911,23 @@ msgid ""
 "allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction "
 "in WebPreferences."
 msgstr ""
-"За умовчанням, проглядання розділу Сміття дозволене лише %1. Якщо Ви бажаєте "
-"дозволити всім користувачам проглядання цього розділу, видаліть обмеження  "
-"=ALLOWWEBVIEW= зі [[WebPreferences][Параметрів розділу]]."
+"За замовченням, проглядання розділу Сміття дозволене лише %1. Якщо Ви "
+"бажаєте дозволити всім користувачам проглядання цього розділу, видаліть "
+"обмеження  =ALLOWWEBVIEW= з [[WebPreferences][Параметрів розділу]]."
 
 #. ($user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:913
 msgid "CHANGE not permitted by %1"
-msgstr ""
+msgstr "Редагування не дозволено для %1"
 
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:947
 msgid "CHANGE not permitted for %1 by %2"
-msgstr ""
+msgstr "%2 не дозволив редагування для %1"
 
 #: core/templates/messages.tmpl:44 core/templates/messages.tmpl:608
 msgid "Can't find user %1"
-msgstr "Не вдалося знайти користувача %1"
+msgstr "Користувача %1 не знайдено"
 
 #: core/templates/messages.tmpl:609
 msgid "Can't get an e-mail address for %1 (required for password reset)"
@@ -969,7 +964,7 @@ msgstr "Неможливо створити розділ %1 оскільки в�
 
 #: core/templates/messages.tmpl:75 core/templates/messages.tmpl:81
 msgid "Cannot rename %1 to %2 because it already exists."
-msgstr "Неможливо перейменувати %1 у %2 оскільки %2 вже існує."
+msgstr "Неможливо перейменувати %1 у %2 оскільки він вже існує."
 
 #: core/data/System/WebSearch.txt:186
 msgid "Case sensitive"
@@ -980,9 +975,8 @@ msgid "Categories"
 msgstr "Категорії"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:3
-#, fuzzy
 msgid "Change E-mail Address"
-msgstr "Адреса електронної пошти:"
+msgstr "Змінити електронну адресу"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:3
 msgid "Change Password"
@@ -990,16 +984,15 @@ msgstr "Змінити  пароль"
 
 #: core/templates/validate.tmpl:24
 msgid "Change cannot be completed"
-msgstr ""
+msgstr "Зміни не можуть бути завершені"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:14
 msgid "Change comment and properties only"
 msgstr "Змінити тільки коментар і властивості"
 
 #: core/templates/renamebase.tmpl:14
-#, fuzzy
 msgid "Change from"
-msgstr "Змінити з:"
+msgstr "Змінити з"
 
 #: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
@@ -1008,23 +1001,19 @@ msgstr "Змінити мову"
 
 #: core/templates/renamewebbase.tmpl:43
 msgid "Change links in topics that refer to !%1 in any Web:"
-msgstr ""
-"Змінити посилання на сторінках тем, які посилаються на !%1 у всіх розділах:"
+msgstr "Змінити посилання у темах, які посилаються на !%1, у всіх розділах:"
 
 #: core/templates/renamewebbase.tmpl:40
 msgid "Change links in topics that refer to !%1 in the %2 Web:"
-msgstr ""
-"Змінити посилання на сторінках тем, які посилаються на !%1 у розділі %2:"
+msgstr "Змінити посилання у темах, які посилаються на !%1, у розділі %2:"
 
 #: core/templates/renamebase.tmpl:57
 msgid "Change links in topics that refer to %1 in any Web:"
-msgstr ""
-"Змінити посилання на сторінках тем, які посилаються на %1 у всіх розділах:"
+msgstr "Змінити посилання у темах, які посилаються на %1, у всіх розділах:"
 
 #: core/templates/renamebase.tmpl:53
 msgid "Change links in topics that refer to %1 in the %2 Web:"
-msgstr ""
-"Змінити посилання на сторінках тем, які посилаються на %1 у розділі %2:"
+msgstr "Змінити посилання у темах, які посилаються на %1, у розділі %2:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:32
 msgid "Change password"
@@ -1032,7 +1021,7 @@ msgstr "Змінити пароль"
 
 #: core/templates/attachagain.tmpl:21
 msgid "Change properties only"
-msgstr ""
+msgstr "Змінити лише властивості"
 
 #: core/templates/edit.tmpl:6
 msgid "Change topic"
@@ -1050,7 +1039,7 @@ msgstr "Змінено"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "Changed:"
-msgstr "Змінений(і):"
+msgstr "Змінено:"
 
 #: MailerContrib/templates/mailnotify.tmpl:11
 #: PatternSkin/data/Main/WebLeftBarExample.txt:9
@@ -1069,18 +1058,15 @@ msgstr "Зміни з r%1 по r%2"
 
 #: core/templates/messages.tmpl:464
 msgid "Check your configuration settings for {TemplateDir} and {TemplatePath}."
-msgstr ""
+msgstr "Перевірте значення конфігурації {TemplateDir} та {TemplatePath}."
 
 #: core/templates/renamebase.tmpl:45 core/templates/renamedelete.tmpl:34
 msgid "Checked topics will be updated to point to the new topic location."
-msgstr ""
-"Текст відмічених тем буде оновлений так, щоб вказувати на нове розташування "
-"теми."
+msgstr "Помічені теми буде оновлено так, щоб вказувати на нове розташування."
 
 #: core/templates/renameweb.tmpl:28
 msgid "Checked topics will be updated to point to the new web name."
-msgstr ""
-"Текст відмічених тем буде оновлений так, щоб вказувати на нове ім'я розділу."
+msgstr "Відмічені теми буде оновлено так, щоб вказувати на нове ім'я розділу."
 
 #: core/templates/more.tmpl:207
 msgid "Child topics in %1 web"
@@ -1099,9 +1085,7 @@ msgstr "Очистити усе"
 msgid ""
 "Click to move topic back to previous location, with option to change "
 "references."
-msgstr ""
-"Натисніть тут, щоб перемістити тему на колишнє місце з можливістю зміни "
-"посилань."
+msgstr "Клікніть щоб повернути тему на попереднє місце зі зміною посилань."
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:471
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:93
@@ -1114,7 +1098,7 @@ msgstr "Колір %1 має неправильний формат"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:159
 msgid "Come on in"
-msgstr ""
+msgstr "Давай, заходь"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:32
 #: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:24
@@ -1140,6 +1124,8 @@ msgid ""
 "Confirm your changes using Foswiki's [[%1][topic history comparison tool "
 "(diff)]]."
 msgstr ""
+"Затвердить зміни за допомогою [[%1][утіліти порівняння історії теми (diff)]] "
+"%WIKITOOLNAME%."
 
 #: core/templates/oopsleaseconflict.tmpl:6
 msgid "Conflict"
@@ -1153,37 +1139,34 @@ msgid "Contact %1 if you have any questions."
 msgstr "Зв'яжіться з %1 якщо у Вас є питання."
 
 #: HistoryPlugin/templates/oopshistory.tmpl:100
-#, fuzzy
 msgid "Context"
-msgstr "Країна:"
+msgstr "Контекст"
 
 #: core/templates/messages.tmpl:456
 msgid "Continue and try to rename web?"
-msgstr "Продовжити і спробувати перейменувати розділ?"
+msgstr "Продовжити спробу перейменувати розділ?"
 
 #: core/data/System/WebTopicCreator.txt:5
 msgid "Continue to create the new page"
-msgstr ""
+msgstr "Продовжити створення нової сторінки"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm:117
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
-msgstr ""
+msgstr "Перетворення у HTML для WYSIWYG вимкнено через зміст топіку."
 
 #: core/templates/more.tmpl:27
 msgid "Copy this topic (and all attachments) to a new topic."
-msgstr ""
+msgstr "Копіювати цю тему (та всі додатки) до нової теми."
 
 #: core/templates/more.tmpl:26
-#, fuzzy
 msgid "Copy topic"
-msgstr "До теми:"
+msgstr "Копіювати тему"
 
 #: core/templates/more.tmpl:36
-#, fuzzy
 msgid "Copy topic..."
-msgstr "До теми:"
+msgstr "Копіювати топік..."
 
 #: core/data/System/DefaultPreferences.txt:40
 msgid ""
@@ -1212,7 +1195,7 @@ msgstr "Неможливо знайти шаблон"
 
 #: core/templates/messages.tmpl:613
 msgid "Could not perform search. Error was: %1"
-msgstr ""
+msgstr "Пошук неможливий. Помилка: %1"
 
 #: core/templates/messages.tmpl:368
 msgid "Could not save %1."
@@ -1237,22 +1220,20 @@ msgstr "Створити нову тему в розділі %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:65 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
-msgstr "Створити посилання на прикріплений файл."
+msgstr "Створити посилання на додаток"
 
 #: core/data/Main/WikiGroups.txt:17
-#, fuzzy
 msgid "Create a new group"
-msgstr "Створити нову тему"
+msgstr "Створити нову групу"
 
 #: core/data/Main/WikiGroups.txt:42
-#, fuzzy
 msgid "Create group"
-msgstr "Створити нову тему"
+msgstr "Створити групу"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:45
 #, fuzzy
 msgid "Create new FAQ topic"
-msgstr "Створити нову тему"
+msgstr "Створити нову тему FAQ"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:23
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:24
@@ -1261,8 +1242,9 @@ msgid "Create new topic"
 msgstr "Створити нову тему"
 
 #: core/templates/messages.tmpl:536 core/templates/messages.tmpl:542
+#, fuzzy
 msgid "Create not specified and group does not exist"
-msgstr ""
+msgstr "Група не існує і створення не задане"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:20
 msgid "Create personal sidebar"
@@ -1281,7 +1263,7 @@ msgstr "Створити цю тему"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:23
 msgid "Create your account to edit pages on this site."
-msgstr ""
+msgstr "Зареєструйтесь щоб редагувати сторінки на цьому сайті."
 
 #: core/templates/messages.tmpl:403
 msgid "Creating a suitable Form Definition topic"
@@ -1343,17 +1325,17 @@ msgstr "Вилучити тему..."
 
 #: PatternSkin/templates/attach.pattern.tmpl:57
 msgid "Describe the file so other people know what it is."
-msgstr "Опишіть файл так, щоб інші люди зрозуміли що це."
+msgstr "Щоб інші люди знали що це за файл, опишіть його."
 
 #: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
-msgstr ""
+msgstr "Деталі у окремому вікні"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:7
 msgid ""
 "Did you spell the topic name correctly? Remember, a topic name is case "
 "sensitive."
-msgstr ""
+msgstr "Напис імені теми точний? Пам'ятайте що ім'я чутливе до регістру."
 
 #: core/templates/messages.tmpl:294
 msgid "Did you want to [[%1][reset %2's password]]?"
