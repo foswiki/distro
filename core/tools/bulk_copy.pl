@@ -669,7 +669,7 @@ else {
 # Error: "..  Date 2010/08/22 12:24:39 precedes 2015/11/10 18:55:55 in revision 1.1"
 
     if ( $Foswiki::cfg{Store}{Implementation} =~ m/RcsWrap$/ ) {
-        announce "Overriding target Store Implementaion to 'RcsLite'";
+        announce "Overriding target Store Implementation to 'RcsLite'";
         $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite';
     }
 
