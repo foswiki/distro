@@ -818,6 +818,11 @@ lib/Foswiki/Store/VC/Handler.pm 0444
 lib/Foswiki/Store/VC/RcsLiteHandler.pm 0444
 lib/Foswiki/Store/VC/RcsWrapHandler.pm 0444
 lib/Foswiki/Store/VC/Store.pm 0444
+lib/Foswiki/Tables/Cell.pm 0444
+lib/Foswiki/Tables/Parser.pm 0444
+lib/Foswiki/Tables/Reader.pm 0444
+lib/Foswiki/Tables/Row.pm 0444
+lib/Foswiki/Tables/Table.pm 0444
 lib/Foswiki/Templates.pm 0444
 lib/Foswiki/Time.pm 0444
 lib/Foswiki/UI.pm 0444

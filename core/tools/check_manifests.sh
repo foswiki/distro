@@ -1,0 +1,25 @@
+perl tools/check_manifest.pl
+cd ../AutoViewTemplatePlugin && perl ../core/tools/check_manifest.pl
+cd ../CompareRevisionsAddOn && perl ../core/tools/check_manifest.pl
+cd ../CommentPlugin && perl ../core/tools/check_manifest.pl
+cd ../EditTablePlugin && perl ../core/tools/check_manifest.pl
+cd ../EmptyPlugin && perl ../core/tools/check_manifest.pl
+cd ../FamFamFamContrib && perl ../core/tools/check_manifest.pl
+cd ../HistoryPlugin && perl ../core/tools/check_manifest.pl
+cd ../InterwikiPlugin && perl ../core/tools/check_manifest.pl
+cd ../JSCalendarContrib && perl ../core/tools/check_manifest.pl
+cd ../JQueryPlugin && perl ../core/tools/check_manifest.pl
+cd ../MailerContrib && perl ../core/tools/check_manifest.pl
+cd ../PatternSkin && perl ../core/tools/check_manifest.pl
+cd ../PreferencesPlugin && perl ../core/tools/check_manifest.pl
+cd ../RenderListPlugin && perl ../core/tools/check_manifest.pl
+cd ../SlideShowPlugin && perl ../core/tools/check_manifest.pl
+cd ../SmiliesPlugin && perl ../core/tools/check_manifest.pl
+cd ../SpreadSheetPlugin && perl ../core/tools/check_manifest.pl
+cd ../TablePlugin && perl ../core/tools/check_manifest.pl
+cd ../TinyMCEPlugin && perl ../core/tools/check_manifest.pl
+cd ../TipsContrib && perl ../core/tools/check_manifest.pl
+cd ../TopicUserMappingContrib && perl ../core/tools/check_manifest.pl
+cd ../TWikiCompatibilityPlugin && perl ../core/tools/check_manifest.pl
+cd ../TwistyPlugin && perl ../core/tools/check_manifest.pl
+cd ../WysiwygPlugin && perl ../core/tools/check_manifest.pl
