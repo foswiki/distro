@@ -14,6 +14,8 @@ BEGIN {
 sub ADDTOHEAD {
     my ( $this, $args, $topicObject ) = @_;
 
+    my $zones = $this->zones();
+
     my $_DEFAULT = $args->{_DEFAULT};
     my $text     = $args->{text};
     my $topic    = $args->{topic};
@@ -24,16 +26,16 @@ sub ADDTOHEAD {
 
         # prevent deep recursion
         $web =~ s/\//\./g;    # SMELL: unnecessary?
-        unless ( $this->{_addedToHEAD}{"$web.$topic"} ) {
+        unless ( $zones->{_addedToHEAD}{"$web.$topic"} ) {
             my $atom = Foswiki::Meta->load( $this, $web, $topic );
             $text = $atom->text();
-            $this->{_addedToHEAD}{"$web.$topic"} = 1;
+            $zones->{_addedToHEAD}{"$web.$topic"} = 1;
         }
     }
     $text = $_DEFAULT unless defined $text;
     $text = ''        unless defined $text;
 
-    $this->addToZone( 'head', $_DEFAULT, $text, $requires );
+    $this->zones()->addToZone( 'head', $_DEFAULT, $text, $requires );
     return '';
 }
 

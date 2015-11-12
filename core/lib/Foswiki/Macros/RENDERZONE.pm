@@ -14,6 +14,8 @@ BEGIN {
 sub RENDERZONE {
     my ( $this, $params, $topicObject ) = @_;
 
+    my $zones = $this->zones();
+
     # Note, that RENDERZONE is not expanded as soon as this function is called.
     # Instead, a placeholder is inserted into the page. Rendering the current
     # page continues as normal. That way all calls to ADDTOZONE will gather
@@ -22,9 +24,9 @@ sub RENDERZONE {
     # will be expanded at the very end within the Foswiki::writeCompletePage
     # method.
 
-    my $id = scalar( keys %{ $this->{_renderZonePlaceholder} } );
+    my $id = scalar( keys %{ $zones->{_renderZonePlaceholder} } );
 
-    $this->{_renderZonePlaceholder}{$id} = {
+    $zones->{_renderZonePlaceholder}{$id} = {
         params      => $params,
         topicObject => $topicObject,
     };

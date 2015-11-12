@@ -36,7 +36,8 @@ sub test_1 {
     my $expect = "";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->_renderZone( "test", { format => '$item' } );
+    my $result =
+      $this->{session}->zones->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -53,7 +54,8 @@ sub test_2 {
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
-      $this->{session}->_renderZone( "test", { format => '$item $id' } );
+      $this->{session}->zones()
+      ->_renderZone( "test", { format => '$item $id' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -69,10 +71,12 @@ sub test_3 {
     my $expect = "text";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->_renderZone( "test", { format => '$item' } );
+    my $result =
+      $this->{session}->zones()->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
-    $result = $this->{session}->_renderZone( "test", { format => '$item' } );
+    $result =
+      $this->{session}->zones()->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( '', $result );
 
     return;
@@ -90,7 +94,7 @@ sub test_4 {
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
       $this->{session}
-      ->_renderZone( "test", { format => 'item=$item id=$id' } );
+      ->zones()->_renderZone( "test", { format => 'item=$item id=$id' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -107,15 +111,16 @@ sub test_5 {
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
 
-    my $result = $this->{session}->_renderZone( "test", { format => '$item' } );
+    my $result =
+      $this->{session}->zones()->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( '', $result );
 
     my $result1 =
-      $this->{session}->_renderZone( "test1", { format => '$item' } );
+      $this->{session}->zones()->_renderZone( "test1", { format => '$item' } );
     $this->assert_equals( $expect, $result1 );
 
     my $result2 =
-      $this->{session}->_renderZone( "test2", { format => '$item' } );
+      $this->{session}->zones()->_renderZone( "test2", { format => '$item' } );
     $this->assert_equals( $expect, $result2 );
 
     $this->assert_equals( $result1, $result2 );
@@ -136,7 +141,8 @@ HERE
     my $expect = "text2";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->_renderZone( "test", { format => '$item' } );
+    my $result =
+      $this->{session}->zones()->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -155,7 +161,8 @@ HERE
     my $expect = "text1\ntext2";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->_renderZone( "test", { format => '$item' } );
+    my $result =
+      $this->{session}->zones()->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -176,7 +183,7 @@ HERE
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
       $this->{session}
-      ->_renderZone( "test", { format => '$item', separator => "" } );
+      ->zones()->_renderZone( "test", { format => '$item', separator => "" } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -195,7 +202,8 @@ HERE
     my $expect = "text2\ntext1";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->_renderZone( "test", { format => '$item' } );
+    my $result =
+      $this->{session}->zones()->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -215,7 +223,8 @@ HERE
     my $expect = "text2\ntext3\ntext1";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->_renderZone( "test", { format => '$item' } );
+    my $result =
+      $this->{session}->zones()->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -235,7 +244,7 @@ HERE
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
       $this->{session}
-      ->_renderZone( "test", { format => 'item=$item id=$id' } );
+      ->zones()->_renderZone( "test", { format => 'item=$item id=$id' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -255,7 +264,7 @@ HERE
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
       $this->{session}
-      ->_renderZone( "test", { format => 'item=$item id=$id' } );
+      ->zones()->_renderZone( "test", { format => 'item=$item id=$id' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -271,7 +280,7 @@ sub test_13 {
     my $expect = "text<!--id-->";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->_renderZone("test");
+    my $result = $this->{session}->zones()->_renderZone("test");
     $this->assert_equals( $expect, $result );
 
     return;
@@ -290,7 +299,8 @@ HERE
     my $expect = "text2\ntext1";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->_renderZone( "head", { format => '$item' } );
+    my $result =
+      $this->{session}->zones()->_renderZone( "head", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -309,7 +319,8 @@ HERE
     my $expect = "text2\ntext1";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->_renderZone( "head", { format => '$item' } );
+    my $result =
+      $this->{session}->zones()->_renderZone( "head", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -343,9 +354,11 @@ sub test_HEAD_merged_with_SCRIPT {
 HERE
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = "HEAD:\n" . $this->{session}->_renderZone( "head", );
+    my $result = "HEAD:\n" . $this->{session}->zones()->_renderZone( "head", );
     $result =
-      $result . "\nSCRIPT:" . $this->{session}->_renderZone( "script", );
+        $result
+      . "\nSCRIPT:"
+      . $this->{session}->zones()->_renderZone( "script", );
 
     foreach (
         'HEAD:.*?script::misc7<!--misc7-->.*?SCRIPT:$'
@@ -387,8 +400,11 @@ sub test_HEAD_split_from_SCRIPT {
 HERE
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = "HEAD:\n" . $this->{session}->_renderZone("head");
-    $result = $result . "\nSCRIPT:\n" . $this->{session}->_renderZone("script");
+    my $result = "HEAD:\n" . $this->{session}->zones()->_renderZone("head");
+    $result =
+        $result
+      . "\nSCRIPT:\n"
+      . $this->{session}->zones()->_renderZone("script");
 
     foreach (
         "HEAD:.*?SCRIPT:.*?script::misc7<!--misc7-->"
@@ -443,7 +459,7 @@ script_1<!--script1-->
 HERE
     chomp($expect);
     $tml = $this->{test_topicObject}->expandMacros($tml);
-    my $result = $this->{session}->_renderZones($tml);
+    my $result = $this->{session}->zones()->_renderZones($tml);
     $this->assert_str_equals( $expect, $result );
 
     return;
@@ -478,7 +494,7 @@ script_1<!--script1: requires= missing ids: head1--><!--script-->
 HERE
     chomp($expect);
     $tml = $this->{test_topicObject}->expandMacros($tml);
-    my $result = $this->{session}->_renderZones($tml);
+    my $result = $this->{session}->zones()->_renderZones($tml);
     $this->assert_str_equals( $expect, $result );
 
     return;
@@ -500,8 +516,11 @@ sub test_legacy_tag_param_compatibility {
  %ADDTOZONE{zone="script"  id="misc7" text="script::misc7"}%
 HERE
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = "HEAD:\n" . $this->{session}->_renderZone("head");
-    $result = $result . "\nSCRIPT:\n" . $this->{session}->_renderZone("script");
+    my $result = "HEAD:\n" . $this->{session}->zones()->_renderZone("head");
+    $result =
+        $result
+      . "\nSCRIPT:\n"
+      . $this->{session}->zones()->_renderZone("script");
 
     foreach (
         'HEAD:.*?head::misc7<!--misc7-->.*?SCRIPT:'
@@ -547,7 +566,7 @@ HERE
 HERE
     chomp($expect);
     $tml = $this->{test_topicObject}->expandMacros($tml);
-    my $result = $this->{session}->_renderZones($tml);
+    my $result = $this->{session}->zones()->_renderZones($tml);
     $this->assert_str_equals( $expect, $result );
 
     return;

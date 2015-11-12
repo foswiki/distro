@@ -2779,7 +2779,7 @@ sub addToZone {
     my $session = $Foswiki::Plugins::SESSION;
     ASSERT($session) if DEBUG;
 
-    $session->addToZone(@_);
+    $session->zones()->addToZone(@_);
 }
 
 =begin TML
