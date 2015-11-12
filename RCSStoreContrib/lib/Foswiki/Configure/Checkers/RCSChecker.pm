@@ -33,7 +33,7 @@ sub checkRCSProgram {
     }
     else {
         #SMELL: Old versions of RCS require -V, newer --version, and they complain
-        my $version = `$prog --version -V` || '';
+        my $version = `$prog --version -V 2&>1` || '';
         if (
             $version !~ /Can't exec/
 
