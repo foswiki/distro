@@ -487,7 +487,7 @@ sub checkRCSProgram {
         $err .= $key . ' is not set';
     }
     else {
-        my $version = `$prog -V` || '';
+        my $version = `$prog --version -V 2>&1` || '';
         if (
             $version !~ /Can't exec/
 
