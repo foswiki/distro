@@ -3625,6 +3625,7 @@ msgstr "Søgeresultater fra %1-webbet"
 msgid "Results from %1 web:"
 msgstr "Søgeresultater fra %1-webbet:"
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 msgid "Return to %1"
 msgstr "Tilbage til %1"
@@ -3636,10 +3637,6 @@ msgstr "Tilbage til %1 og angiv [[%2][WikiNavn]] eller [[%3][brugernavn]]."
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
 msgstr "Tilbage til %1."
-
-#: core/templates/registermessages.tmpl:348
-msgid "Return to [_0]"
-msgstr "Tilbage til [_0]"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 msgid "Retype new password:"
@@ -6017,6 +6014,9 @@ msgstr "vis"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "for at få at vide hvorfor du bliver bedt om at bekræfte"
+
+#~ msgid "Return to [_0]"
+#~ msgstr "Tilbage til [_0]"
 
 #~ msgid ""
 #~ "International (8-bit) characters are removed (replaced by US-ASCII "

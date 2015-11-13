@@ -3733,6 +3733,7 @@ msgstr "%1ウェブの結果"
 msgid "Results from %1 web:"
 msgstr "%1ウェブの結果"
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 #, fuzzy
 msgid "Return to %1"
@@ -3744,11 +3745,6 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
-msgstr "%1に戻る"
-
-#: core/templates/registermessages.tmpl:348
-#, fuzzy
-msgid "Return to [_0]"
 msgstr "%1に戻る"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
@@ -6109,6 +6105,10 @@ msgstr "ビュー"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Return to [_0]"
+#~ msgstr "%1に戻る"
 
 #~ msgid ""
 #~ "International (8-bit) characters are removed (replaced by US-ASCII "

@@ -3471,6 +3471,7 @@ msgstr "%1 子網中的結果"
 msgid "Results from %1 web:"
 msgstr "子網 %1 的結果:"
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 msgid "Return to %1"
 msgstr "回到 %1"
@@ -3482,10 +3483,6 @@ msgstr "回到 %1 且提供一個 [[%2][WikiName]] 或 [[%3][使用者]]。"
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
 msgstr "回到 %1。"
-
-#: core/templates/registermessages.tmpl:348
-msgid "Return to [_0]"
-msgstr "回到 [_0]"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 msgid "Retype new password:"
@@ -5712,6 +5709,9 @@ msgstr "瀏覽"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "為何您被要求確認"
+
+#~ msgid "Return to [_0]"
+#~ msgstr "回到 [_0]"
 
 #~ msgid ""
 #~ "International (8-bit) characters are removed (replaced by US-ASCII "

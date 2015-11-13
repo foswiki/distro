@@ -3740,6 +3740,7 @@ msgstr "Sökresultat från avdelning %1"
 msgid "Results from %1 web:"
 msgstr "Sökresultat från avdelning %1"
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 #, fuzzy
 msgid "Return to %1"
@@ -3751,11 +3752,6 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
-msgstr "Åter till %1."
-
-#: core/templates/registermessages.tmpl:348
-#, fuzzy
-msgid "Return to [_0]"
 msgstr "Åter till %1."
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
@@ -6155,6 +6151,10 @@ msgstr "visa"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "varför du blir ombedd att bekräfta"
+
+#, fuzzy
+#~ msgid "Return to [_0]"
+#~ msgstr "Åter till %1."
 
 #~ msgid ""
 #~ "International (8-bit) characters are removed (replaced by US-ASCII "

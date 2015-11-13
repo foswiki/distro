@@ -8,8 +8,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-11-10 23:26+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
-"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/cs/>\n"
+"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3594,6 +3594,7 @@ msgstr "Výsledky z webu %1"
 msgid "Results from %1 web:"
 msgstr "Výsledky z webu %1:"
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 msgid "Return to %1"
 msgstr "Návrat k %1"
@@ -3605,10 +3606,6 @@ msgstr "Návrat k %1 a doplnění [[%2][WikiName]] nebo [[%3][username]]."
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
 msgstr "Návrat do %1."
-
-#: core/templates/registermessages.tmpl:348
-msgid "Return to [_0]"
-msgstr "Návrat k [_0]"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 msgid "Retype new password:"
@@ -5961,6 +5958,9 @@ msgstr "náhled"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "proč jste byl dotazován na potvrzení"
+
+#~ msgid "Return to [_0]"
+#~ msgstr "Návrat k [_0]"
 
 #~ msgid ""
 #~ "International (8-bit) characters are removed (replaced by US-ASCII "

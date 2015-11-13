@@ -3633,6 +3633,7 @@ msgstr "Risultati dal Web %1"
 msgid "Results from %1 web:"
 msgstr "Risultati dal Web %1:"
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 msgid "Return to %1"
 msgstr "Ritorna a %1"
@@ -3644,10 +3645,6 @@ msgstr "Ritornare a %1 fornendo un  [[%2][NomeWiki]] o [[%3][nome utente]]."
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
 msgstr "Ritorna a %1."
-
-#: core/templates/registermessages.tmpl:348
-msgid "Return to [_0]"
-msgstr "Ritorna a [_0]"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 msgid "Retype new password:"
@@ -6048,6 +6045,9 @@ msgstr "vista"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "il motivo per cui ti è stato chiesto di confermare"
+
+#~ msgid "Return to [_0]"
+#~ msgstr "Ritorna a [_0]"
 
 #~ msgid ""
 #~ "International (8-bit) characters are removed (replaced by US-ASCII "

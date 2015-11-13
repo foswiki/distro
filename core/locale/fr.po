@@ -3657,6 +3657,7 @@ msgstr "Résultats dans le web %1"
 msgid "Results from %1 web:"
 msgstr "Résultats dans le Web %1 :"
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 msgid "Return to %1"
 msgstr "Retourner à %1"
@@ -3670,10 +3671,6 @@ msgstr ""
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
 msgstr "Retourner à %1."
-
-#: core/templates/registermessages.tmpl:348
-msgid "Return to [_0]"
-msgstr "Retourner à [_0]"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 msgid "Retype new password:"
@@ -6120,6 +6117,9 @@ msgstr "visualiser"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "pourquoi il vous est demandé de confirmer"
+
+#~ msgid "Return to [_0]"
+#~ msgstr "Retourner à [_0]"
 
 #~ msgid ""
 #~ "International (8-bit) characters are removed (replaced by US-ASCII "

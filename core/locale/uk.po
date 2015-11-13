@@ -13,8 +13,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.1\n"
 "X-Poedit-Language: Ukrainian\n"
 "X-Poedit-Country: UKRAINE\n"
@@ -436,8 +436,8 @@ msgid ""
 msgstr ""
 "*Важливо:* Інформація, що вказана в цій формі, буде збережена у базі даних "
 "сервера Foswiki. Ця база даних доступна всім, у кого є інтернет-доступ до "
-"сервера (проте паролі будуть зашифровані, і адреса електронної пошти буде \""
-"замилена\" для захисту від спаму). У Вашій країні або країні, де "
+"сервера (проте паролі будуть зашифровані, і адреса електронної пошти буде "
+"\"замилена\" для захисту від спаму). У Вашій країні або країні, де "
 "розташований сервер, можуть діяти закони про захист інформації, які "
 "регламентують роботу подібних баз даних. Якщо у Вас виникають сумніви, то, "
 "перш ніж реєструватися, Вам слід звернутися до %1 для консультації з питань "
@@ -469,8 +469,8 @@ msgid ""
 "*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
 "Yahoo]]="
 msgstr ""
-"*зовнішнє посилання* =http://yahoo.com= або =[<nop>[http://yahoo.com/]["
-"посилання на Yahoo]]="
+"*зовнішнє посилання* =http://yahoo.com= або =[<nop>[http://yahoo.com/]"
+"[посилання на Yahoo]]="
 
 #: core/data/System/WikiSyntaxSummary.txt:14
 msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
@@ -542,8 +542,8 @@ msgid ""
 msgstr ""
 "<a href='%1'>RSS потік</a>, недавні зміни <a href='%2'>50</a>, <a href='%3' "
 "rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a href='%5' "
-"rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> тем, <a href='%"
-"7' rel='nofollow'>всі зміни</a>"
+"rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> тем, <a "
+"href='%7' rel='nofollow'>всі зміни</a>"
 
 #: core/templates/more.tmpl:90
 msgid "<em>in %1 web</em> only"
@@ -580,8 +580,8 @@ msgid ""
 "<strong>Confirmation required!</strong> Press OK to confirm this change was "
 "intentional<br />Press Cancel otherwise"
 msgstr ""
-"<strong>Потрібне підтвердження!</strong> Натисніть OK зміна умисна<br />"
-"Натисніть Cancel якщо це не так"
+"<strong>Потрібне підтвердження!</strong> Натисніть OK зміна умисна<br /"
+">Натисніть Cancel якщо це не так"
 
 #: core/templates/messages.tmpl:244
 msgid "A =.txt= extension is appended to some filenames for security reasons"
@@ -1756,8 +1756,8 @@ msgstr "Введіть ім'я адміністратора вікі або як
 #: PatternSkin/data/System/WebCreateNewTopicComponents.txt:108
 msgid "Enter the topic name as WikiWord or check the allow non-Wiki Word box."
 msgstr ""
-"Введіть ім'я теми як Вікі<nop>Слово або ввімкніть дозвіл на "
-"не-Вікі<nop>Слова."
+"Введіть ім'я теми як Вікі<nop>Слово або ввімкніть дозвіл на не-"
+"Вікі<nop>Слова."
 
 #: core/data/Main/GroupViewTemplate.txt:209
 msgid "Enter users or groups to add to this group"
@@ -2160,8 +2160,8 @@ msgstr "Іконка"
 #: core/data/System/WebPreferences.txt:33
 msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
 msgstr ""
-"Є ідеї, запити або проблеми, пов'язані з %1? <a href='%2'>Зв'яжіться з "
-"нами</a>"
+"Є ідеї, запити або проблеми, пов'язані з %1? <a href='%2'>Зв'яжіться з нами</"
+"a>"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 msgid ""
@@ -2279,8 +2279,8 @@ msgid ""
 "If you want to search for a word in the stop word list, prefix the word with "
 "a plus sign"
 msgstr ""
-"Якщо бажаєте шукати слово, що стоїть у \"стоп-листі\", додайте значок \""
-"плюс\" на початок слова"
+"Якщо бажаєте шукати слово, що стоїть у \"стоп-листі\", додайте значок \"плюс"
+"\" на початок слова"
 
 #: core/templates/messages.tmpl:441
 msgid "If you would like to create this web"
@@ -3654,6 +3654,7 @@ msgstr "Результати з розділу %1"
 msgid "Results from %1 web:"
 msgstr "Результати з розділу %1:"
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 #, fuzzy
 msgid "Return to %1"
@@ -3668,10 +3669,6 @@ msgstr ""
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
 msgstr "Повернутись до %1."
-
-#: core/templates/registermessages.tmpl:348
-msgid "Return to [_0]"
-msgstr "Повернутись до %1"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 msgid "Retype new password:"
@@ -6041,6 +6038,9 @@ msgstr "Проглянути"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#~ msgid "Return to [_0]"
+#~ msgstr "Повернутись до %1"
 
 #~ msgid ""
 #~ "International (8-bit) characters are removed (replaced by US-ASCII "

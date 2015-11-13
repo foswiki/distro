@@ -3723,6 +3723,7 @@ msgstr "Резултати от раздел %1"
 msgid "Results from %1 web:"
 msgstr "Резултати от раздел %1"
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 #, fuzzy
 msgid "Return to %1"
@@ -3734,11 +3735,6 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
-msgstr "Върнете се към %1."
-
-#: core/templates/registermessages.tmpl:348
-#, fuzzy
-msgid "Return to [_0]"
 msgstr "Върнете се към %1."
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
@@ -6022,6 +6018,10 @@ msgstr "виж"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Return to [_0]"
+#~ msgstr "Върнете се към %1."
 
 #~ msgid ""
 #~ "International (8-bit) characters are removed (replaced by US-ASCII "
