@@ -79,7 +79,7 @@ sub GROUPINFO {
             }
 
             my $wname  = $this->{users}->getWikiName($cUID);
-            my $uname  = $this->{users}->getLoginName($cUID);
+            my $uname  = $this->{users}->getLoginName($cUID) || $wname;
             my $wuname = $this->{users}->webDotWikiName($cUID);
 
             $row =~ s/\$wikiname/$wname/ge;
