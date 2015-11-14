@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447301815" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447555848" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
----+!! Foswiki Release 1.1.9
+---+!! Foswiki Release 1.1.10
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -42,7 +42,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.7 was built 01 Feb 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 20 fixes and 4 enhancements.
    * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*.  It contains 4 fixes.
    * Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 44 fixes and 4 enhancements.
-   * Foswiki 1.1.10 was built 14 Nov 2013. It is a release that contains 7 fixes and 8 enhancements.
+   * Foswiki 1.1.10 was built 15 Nov 2013. It is a release that contains 6 fixes and 9 enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -65,6 +65,15 @@ Foswiki 2.0, with the exception of TopicUserMappingContrib and PatternSkin.
 The new version of these extensions are not compatible with Foswiki 1.1.
 
 Foswiki 1.1.10 does *not* contain fixes for other known security issues.  Upgrade to the latest Foswiki release is strongly recommended.
+
+---+++ SpreadSheetPlugin changes
+
+The CALC and CALCULATE macros now encode =&lt;= and =&gt;= as entities, which
+prevents some paths used to insert script tags. If your user's topics require
+CALC or CALCULATE to generate HTML, then you must enable the following
+setting:
+   * Set SPREADSHEETPLUGIN_ALLOWHTML=1
+This setting can be set in the topic, web, user or site perferences.
 
 ---++ Important changes in Foswiki 1.1.9
 
@@ -1970,6 +1979,7 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item12518][Item12518]] | add support for jquery-2.x without disturbing oldIEs. |
 | [[%BUGS%/Item12519][Item12519]] | upgrade superfish to latest version. |
 | [[%BUGS%/Item12600][Item12600]] | minor changes to jquery components. |
+</noautolink>
 
 #Rel01x01x10Details
 ---++ Foswiki Patch Release 1.1.10 Details
@@ -1981,20 +1991,19 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item13775][Item13775]] | CGI::Param called in list context - Workaround for Foswiki 1.1. |
 | [[%BUGS%/Item13776][Item13776]] | Perl 5.20 - 5.23 compatibility fixes for Fosiwiki 1.1. |
 | [[%BUGS%/Item13778][Item13778]] | CGI -any pragma deprecated.  Backport fixes to Foswiki 1.1 |
-| [[%BUGS%/Item13786][Item13786]] | Implemement wildcard ACLs into 1.1.10. |
 | [[%BUGS%/Item13789][Item13789]] | Backport CLI fix for 1.1.x, AllowLoginName blocks admin CLI access. |
 
 ---++ Enhancements
 
 | [[%BUGS%/Item13777][Item13777]] | Backport URLPARAM encode and SEARCH decode changes from Foswiki 2.0. |
+| [[%BUGS%/Item13786][Item13786]] | Implemement wildcard ACLs into 1.1.10. |
 | [[%BUGS%/Item13790][Item13790]] | Backport i18n for extensions to 1.1.x. |
 | [[%BUGS%/Item13791][Item13791]] | Backport CSS classes in script/link/style elements in zones for 1.1.x. |
 | [[%BUGS%/Item13792][Item13792]] | Backport profiling api in Request.pm to 1.1.x. |
-| [[%BUGS%/Item13793][Item13793]] | backport %CALCULATE macro and other SpreadSheetPlugin features for 1.1.x |
+| [[%BUGS%/Item13793][Item13793]] | Backport %CALCULATE macro and other SpreadSheetPlugin features for 1.1.x. |
 | [[%BUGS%/Item13794][Item13794]] | Backport fix to REST not to try to strike-one-validate when called from CLI. |
 | [[%BUGS%/Item13842][Item13842]] | Backport Foswiki::Tables::* modules into Release 1.1. |
 | [[%BUGS%/Item13844][Item13844]] | Sync master branch extensions into Release01x01 branch. |
-
 </noautolink>
 
 

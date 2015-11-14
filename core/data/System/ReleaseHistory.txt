@@ -1,12 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447301815" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447555848" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReferenceManual"}%
 %STARTINCLUDE%
 ---+ Appendix A: Foswiki Development Time-line
 
 %TOC%
----++ Foswiki Release 1.1.10 - 14 Nov 2015
+---++ Foswiki Release 1.1.10 - 15 Nov 2015
 
-Foswiki 1.1.10 was built 14 Nov 2015. It is a release that contains 7 fixes and 8 enhancements.
+Foswiki 1.1.10 was built 15 Nov 2013. It is a release that contains 6 fixes and 9 enhancements.
 
 ---++ Foswiki Release 1.1.9 - 19 Nov 2013
 
