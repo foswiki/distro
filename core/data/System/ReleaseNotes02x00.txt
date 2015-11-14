@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1446958002" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447555988" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0.3
 
@@ -47,7 +47,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.0.0 was built on 04 Jul 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 59 Feature Requests.
    * Foswiki 2.0.1 was built on 03 Aug 2015. It is a release that contains 28 fixes and 3 enhancements.
    * Foswiki 2.0.2 was built on 01 Oct 2015. It is a release that contains 65 fixes and 5 enhancements.
-   * Foswiki 2.0.3-RC1 was built on 07 Nov 2015. It is a release that contains 16 fixes and 1 enhancement.
+   * Foswiki 2.0.3 was built on 15 Nov 2015. It is a release that contains 16 fixes and 1 enhancement.
 
 ---++ Pre-installed Extensions
 
@@ -71,6 +71,14 @@ A partial workaround is implemented in the PubLinkFixupPlugin This Plugin will a
 However the TinyMCEPlugin is still unable to render image links while editing a topic.
 
 See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
+
+---+++ Store =bulk_copy.pl= utility
+
+A significant issue was discovered in prior versions of =tools/bulk_copy.pl=. If data was
+migrated from Foswiki 1.x, and the 2.0 system was configured to use the =RcsWrap= store,
+it's possible that the !WebPreferences files were reset back to the default settings, and other
+topics may have been skipped. Migrated !WebPreferences should be validated,
+especially access control settings.
 
 #Release02x00Changes
 ---++ Important changes in 2.0.3
