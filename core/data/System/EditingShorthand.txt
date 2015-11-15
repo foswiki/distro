@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1285750332" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447631181" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TextFormattingRules"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
@@ -109,7 +109,7 @@ __Bold italic__
 <tr valign="top">
 <td>
  *Bold Fixed Font:* %BR%
- Words get shown in ==bold fixed font== by enclosing them in ==<nop>== double equal signs.
+ Words get shown in ==bold fixed font== by enclosing them in <sticky><code><b>==</b></code></sticky> double equal signs.
 </td><td>
 <verbatim class="tml">
 ==Bold fixed==
