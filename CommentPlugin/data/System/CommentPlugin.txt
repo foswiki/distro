@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1443575942" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1447639365" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Comment Plugin
 
@@ -242,7 +242,13 @@ Note that these position tags are obviously mutually exclusive. If you define mo
 All the [[TemplateTopics#TemplateTopicsVars][usual macros]] that can be used in a topic template can also be used in an =OUTPUT= template.
 
 ---+++ Custom access controls
-Using =configure=, the plugin can be configured to use a different access control domain than the default CHANGE. This allows you to use the plugin to add content to topics where the commenting user does not have CHANGE (or even VIEW) access.
+Using =configure=, the plugin can be configured to use a different access control domain than the default CHANGE.
+This allows you to use the plugin to add content to topics where the commenting user does not have CHANGE (or even VIEW) access.
+
+<div class="foswikiHelp">%X% *Caution* If you configure this plugin to use =COMMENT= permission instead of =CHANGE=, you should ensure that every web has the desired
+default permission by configuring =ALLOWWEBCOMMENT= or =DENYWEBCOMMENT= in every !WebPreferences topic.  You should also configure appropriate defaults in the =_default= Template web.
+If default permissions are not configured, then commenting will be permitted.
+</div>
 
 ---++ Settings
 <!-- Not used by the plugin
@@ -273,6 +279,7 @@ This plugin has been significantly changed from the =10 April 2011= version ship
 Another great extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Change History: | |
+|  2.8 (15 Nov 2015) | Foswikitask:Item13852: Warn that COMMENT ACLs should be configured if enabled. Also suppress guest session warning on Foswiki 1.1. |
 |  2.7 (29 Sep 2015) | Foswikitask:Item13576: Disable fields during submit, then clear input fields after comment is posted.<br/>\
                        Foswikitask:Item13764: Entity encode any comments by guest users. |
 |  2.6 (24 Jul 2015) | Foswikitask:Item13502: Expand macros when returning an inline Ajax response. |
@@ -323,8 +330,8 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/CommentPlugin"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/CommentPlugin"}%
-%META:FILEATTACHMENT{name="comment.uncompressed.css" attr="h" comment="" date="1443575942" size="70" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.js" attr="h" comment="" date="1443575942" size="1931" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.css" attr="h" comment="" date="1443575942" size="60" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="comment.uncompressed.js" attr="h" comment="" date="1443575942" size="5134" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1443575942" size="1343" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.css" attr="h" comment="" date="1447639365" size="70" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.js" attr="h" comment="" date="1447639365" size="1931" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.css" attr="h" comment="" date="1447639365" size="60" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="comment.uncompressed.js" attr="h" comment="" date="1447639365" size="5134" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" date="1447639365" size="1343" user="ProjectContributor" version="1"}%
