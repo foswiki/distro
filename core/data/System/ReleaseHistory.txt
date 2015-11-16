@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447555988" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447641841" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 --- 
 History of Foswiki
@@ -9,7 +9,7 @@ History of Foswiki
 %TOC%
 ---++ Foswiki Release 2.0.3 - 15 Nov 2015
 
-Foswiki 2.0.3 was built on 15 Nov 2015. It is a release that contains 16 fixes and 1 enhancement.
+Foswiki 2.0.3 was built on 15 Nov 2015. It is a release that contains 17 fixes and 1 enhancement.
 
 ---++ Foswiki Release 2.0.2 - 01 Oct 2015
 
