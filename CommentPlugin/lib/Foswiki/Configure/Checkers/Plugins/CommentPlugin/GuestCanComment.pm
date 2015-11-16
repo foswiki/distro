@@ -22,7 +22,9 @@ by guests will not be possible.
 EOF
             );
         }
-        if ( !$Foswiki::cfg{Sessions}{EnableGuestSessions} ) {
+        if (  !$Foswiki::cfg{Sessions}{EnableGuestSessions}
+            && $Foswiki::VERSION > 2.0.0 )
+        {
             $msg .= $this->WARN(
                 <<'EOF'
 Guest sessions should be enabled so that Foswiki validation can be performed.
