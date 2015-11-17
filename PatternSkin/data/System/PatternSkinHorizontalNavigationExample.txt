@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1424432594" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin horizontal navigation example
 
@@ -37,3 +37,4 @@ Include main navigation with:
 </ul></div>%ENDSECTION{"main"}%
 
 <!-- %JQREQUIRE{"chili"}% -->
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

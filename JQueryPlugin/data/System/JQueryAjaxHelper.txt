@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443185186" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQREQUIRE{"chili, ui, ui::autocomplete" warn="off"}%
@@ -360,3 +360,4 @@ expand a TML expression in the given scope
 <verbatim class="tml">
 %STARTSECTION{"expand"}%%EXPAND{"$percnt%URLPARAM{"expression"}%$percnt" scope="%URLPARAM{"scope" default="%BASEWEB%.%BASETOPIC%"}%"}%%ENDSECTION{"expand"}%
 </verbatim>
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

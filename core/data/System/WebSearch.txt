@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443119042" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %IF{
 	"$'URLPARAM{tab}'='search' OR $'URLPARAM{tab}'='' AND NOT $TAB='advanced'" 
@@ -348,3 +348,4 @@ $percentINCLUDE{$quot%SYSTEMWEB%.%TOPIC%$quot section=$quotsearchfeed$quot}$perc
 <div class='foswikiClear'></div>
 </div>%ENDSECTION{"letterlist"}%
 </verbatim>
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

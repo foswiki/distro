@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443365665" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebLeftBarExample"}%
 %STARTINCLUDE%<div class="patternLeftBarPersonal">
 <ul id="patternLeftBarUserActions">
@@ -22,3 +22,4 @@
     else=\"<ul><li>%JQICON{"page_white_add"}%<a href='%SCRIPTURLPATH{edit}%/%USERSWEB%/%WIKINAME%LeftBar?templatetopic=%SYSTEMWEB%.WebLeftBarPersonalTemplate&amp;topicparent=%WIKINAME%'>%MAKETEXT{"Create personal sidebar"}%</a></li></ul>\"
  }$percnt"
 }%</div>%STOPINCLUDE%
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

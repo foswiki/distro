@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443185186" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ ATOM News Feeds
 
@@ -62,3 +62,4 @@ Below part is included by each <nop>WebAtom topic:
 -----
 
 *See also*: WebRssBase
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%
