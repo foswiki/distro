@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-15 01:03+0200\n"
+"PO-Revision-Date: 2015-11-18 00:33+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -21,9 +21,8 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: core/data/System/WikiName.txt:3
-#, fuzzy
 msgid "!WikiName"
-msgstr "Назва теми"
+msgstr "!ВікіІм&amp;я"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -57,7 +56,7 @@ msgstr "%1 %2 Сторінка %3 з %4 %5 %6"
 
 #: core/data/System/SiteChanges.txt:84
 msgid "%1 (default)"
-msgstr ""
+msgstr "%1 (за замовченням)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -71,7 +70,6 @@ msgid "%1 - Registration for %2 (%3)"
 msgstr "%1 - Реєстрація для %2 (%3)"
 
 #: PatternSkin/templates/view.pattern.tmpl:40
-#, fuzzy
 msgid "%1 Web"
 msgstr "Розділ %1"
 
@@ -205,45 +203,38 @@ msgstr "%1 перейменовано або переміщено з %2 до %3 
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
-msgstr "Відмінити"
+msgstr "&Скасувати"
 
 #: core/templates/foswiki.tmpl:138
 msgid "&History"
-msgstr "Історія"
+msgstr "&Історія"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:122
-#, fuzzy
 msgid "&Sequential"
-msgstr "Послідовно"
+msgstr "&Послідовно"
 
 #: core/templates/registermessages.tmpl:219
-#, fuzzy
 msgid "'%1' is not a valid [[%2][login username]]."
-msgstr "'%1' не є допустимим [[%2][логіном]]"
+msgstr "'%1' не є допустимим [[%2][логіном]]."
 
 # Review in context
 #: core/data/System/WebTopicCreator.txt:3
-#, fuzzy
 msgid "'Create New Topic' page has moved"
 msgstr "Сторінку 'Створення Нової Теми' було переміщено"
 
 #: core/templates/login.tmpl:10
-#, fuzzy
 msgid "(%1 login)"
 msgstr "(логін %1)"
 
 #: core/templates/validate.tmpl:6
-#, fuzzy
 msgid "(%1 validation)"
 msgstr "(перевірка %1)"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:5 core/templates/rdiff.tmpl:4
-#, fuzzy
 msgid "(%1 vs. %2)"
-msgstr "(%1 у порівнянні з %2)"
+msgstr "(%1 з %2)"
 
 #: core/templates/registermessages.tmpl:139
-#, fuzzy
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*Пропозиція:* Може завантажити свою фотографію на особисту сторінку?)"
 
@@ -252,9 +243,8 @@ msgid "(=all= to show all topics)"
 msgstr "(введіть =all= для виводу без обмежень)"
 
 #: core/templates/backlinkchildren.tmpl:2
-#, fuzzy
 msgid "(Children in %1 Web)"
-msgstr "(\"дітей\" у розділі %1)"
+msgstr "(Дітей у розділі %1)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
@@ -266,7 +256,7 @@ msgstr "(немає доступу)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:8 core/templates/attachnew.tmpl:2
 msgid "(attach)"
-msgstr "(прикріпити)"
+msgstr "(додати)"
 
 #: core/templates/backlinksweb.tmpl:2
 msgid "(backlinks in %1 Web)"
@@ -277,7 +267,6 @@ msgid "(backlinks in all Webs)"
 msgstr "(зворотні посилання у всіх розділах)"
 
 #: core/templates/searchbookview.tmpl:4
-#, fuzzy
 msgid "(book view)"
 msgstr "(книжковий вигляд)"
 
@@ -306,7 +295,6 @@ msgid "(delete)"
 msgstr "(видалити)"
 
 #: core/templates/messages.tmpl:513
-#, fuzzy
 msgid "(disabled)"
 msgstr "(вимкнено)"
 
@@ -323,7 +311,6 @@ msgid "(edit)"
 msgstr "(редагувати)"
 
 #: core/templates/login.tmpl:4
-#, fuzzy
 msgid "(login)"
 msgstr "(логін)"
 
@@ -345,19 +332,16 @@ msgstr "(немає батька, тема-сирота)"
 #: core/lib/Foswiki/UI/Rename.pm:1261 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
-#, fuzzy
 msgid "(none)"
 msgstr "(жоден)"
 
 #: core/data/System/WebSearch.txt:118 core/data/System/WebSearch.txt:148
-#, fuzzy
 msgid "(otherwise search %1 Web only)"
 msgstr "(інакше тільки у розділі %1)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
-#, fuzzy
 msgid "(raw view)"
-msgstr "(перегляд raw)"
+msgstr "(похідний текст)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
 msgid "(redirect denied)"
@@ -389,17 +373,15 @@ msgid "(skipped)"
 msgstr "(пропущено)"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:23
-#, fuzzy
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users [[%1][username]] or [[%1][WikiName]] and the new e-mail "
 "address."
 msgstr ""
 "*Адміністратори*: У цій формі можна змінити електронну адресу користувача. "
-"Введіть [[%1][коротке ім'я]] або [[%1][WikiName]] та нову адресу."
+"Введіть [[%1][коротке ім'я]] або [[%1][!ВікіІм&amp;я]] та нову адресу."
 
 #: core/templates/attachagain.tmpl:19
-#, fuzzy
 msgid ""
 "*Attach new file:* If you select a different file in the browser, it is this "
 "that will be updated or added."
@@ -423,7 +405,6 @@ msgid "*Formatting help:*"
 msgstr "*Допомога по форматуванню текста:*"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
-#, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -436,8 +417,8 @@ msgid ""
 msgstr ""
 "*Важливо:* Інформація, що вказана в цій формі, буде збережена у базі даних "
 "сервера Foswiki. Ця база даних доступна всім, у кого є інтернет-доступ до "
-"сервера (проте паролі будуть зашифровані, і адреса електронної пошти буде "
-"\"замилена\" для захисту від спаму). У Вашій країні або країні, де "
+"сервера (проте паролі будуть зашифровані, і адреса електронної пошти буде \""
+"замилена\" для захисту від спаму). У Вашій країні або країні, де "
 "розташований сервер, можуть діяти закони про захист інформації, які "
 "регламентують роботу подібних баз даних. Якщо у Вас виникають сумніви, то, "
 "перш ніж реєструватися, Вам слід звернутися до %1 для консультації з питань "
@@ -563,13 +544,12 @@ msgstr ""
 "було відмовлено."
 
 #: core/templates/registermessages.tmpl:57
-#, fuzzy
 msgid ""
 "<nop>%1 <%2> has been emailed to inform them that their registration has "
 "been denied"
 msgstr ""
 "<nop>%1 <%2> було відправлено поштою щоб поінформувати що у реєстрації їм "
-"було відмовлено."
+"було відмовлено"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
 msgid "<nop>WikiName:"
@@ -665,9 +645,8 @@ msgid "Access keys"
 msgstr "Швидкі клавіші"
 
 #: PatternSkin/templates/settings.pattern.tmpl:12
-#, fuzzy
 msgid "Access keys:"
-msgstr "Клавіші доступу:"
+msgstr "Швидкі клавіші:"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -675,7 +654,6 @@ msgid "Action"
 msgstr "Дія"
 
 #: core/templates/messages.tmpl:396
-#, fuzzy
 msgid "Action %1: %2 by user %3."
 msgstr "Дія %1: %2 користувачем %3."
 
@@ -716,12 +694,10 @@ msgid "Add row"
 msgstr "Додати рядок"
 
 #: core/data/Main/GroupViewTemplate.txt:189
-#, fuzzy
 msgid "Add user management options to this topic."
 msgstr "Додати опції керування користувачами до цього топіку."
 
 #: core/templates/messages.tmpl:231
-#, fuzzy
 msgid "Adding a %1 preference in WebPreferences"
 msgstr "Додавання змінної %1 у [[WebPreferences][Параметри розділу]]"
 
@@ -1681,12 +1657,10 @@ msgid "Edit topic preference settings"
 msgstr "Редагувати налаштування теми"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:48
-#, fuzzy
 msgid "Editable"
-msgstr "Редагувати таблицю"
+msgstr "Змінювання можливе"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:21
-#, fuzzy
 msgid "EditingShorthand"
 msgstr "Нотатки з редагування"
 
@@ -1719,9 +1693,8 @@ msgstr ""
 "можна завантажувати порожній файл."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
-#, fuzzy
 msgid "Email address:"
-msgstr "Адреса електронної пошти:"
+msgstr "Електронна адреса:"
 
 #: core/lib/Foswiki/UI/Passwords.pm:47
 msgid "Email has been disabled for this Foswiki installation"
@@ -1947,13 +1920,12 @@ msgid "Foswiki User Authentication"
 msgstr "Ідентифікація користувача"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:5
-#, fuzzy
 msgid ""
 "Foswiki checks all requests it receives from browsers, and tries to check "
 "that the persons using the browsers intentionally sent them."
 msgstr ""
-"%WIKITOOLNAME% перевіряє усі запити, що отримує від браузерів, та "
-"намагається перевірити чи користувач навмисно їх відправив."
+"Foswiki перевіряє усі запити, що отримує від браузерів, та намагається "
+"перевірити чи користувач навмисно їх відправив."
 
 #: core/templates/mailresetpassword.tmpl:3
 msgid "Foswiki password reset for %1"
@@ -2571,7 +2543,6 @@ msgid "Last modified time"
 msgstr "Час останньої зміни"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:313
-#, fuzzy
 msgid "Last name:"
 msgstr "Прізвище:"
 
@@ -3001,7 +2972,7 @@ msgstr "Нумерований список"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "OEmbed"
-msgstr ""
+msgstr "Вкладення об'єкту"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
@@ -3092,7 +3063,6 @@ msgid "Options"
 msgstr "Варіанти"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
-#, fuzzy
 msgid "Organisation name:"
 msgstr "Назва організації:"
 
@@ -3320,9 +3290,8 @@ msgid "Preferences for"
 msgstr "Налаштування для"
 
 #: core/templates/validate.tmpl:40
-#, fuzzy
 msgid "Press Cancel otherwise."
-msgstr "Інакше натисніть Відмінити."
+msgstr "Інакше натисніть Скасувати."
 
 #: core/templates/validate.tmpl:39
 msgid "Press OK to confirm that this change was intentional."
@@ -3601,7 +3570,6 @@ msgstr "Скидання або встановлення паролю не до�
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
 #: core/templates/more.tmpl:186
-#, fuzzy
 msgid "Restore"
 msgstr "Відновити"
 
@@ -3656,9 +3624,8 @@ msgstr "Результати з розділу %1:"
 
 #: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
-#, fuzzy
 msgid "Return to %1"
-msgstr "Повернутися до %1."
+msgstr "Повернутись до %1"
 
 #: core/templates/registermessages.tmpl:342
 msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
@@ -3709,11 +3676,8 @@ msgstr ""
 "C = відмінити"
 
 #: core/data/Sandbox/WebPreferences.txt:9
-#, fuzzy
 msgid "Sandbox test area to experiment in an unrestricted hands-on web."
-msgstr ""
-"Зона \"пісочниці\" призначена для експериментів у корисно-необмеженому "
-"розділі."
+msgstr "Зона \"пісочниці\" призначена для вільних експериментів."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:58
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
@@ -3825,7 +3789,6 @@ msgstr "Пошук у:"
 #: PatternSkin/templates/search.pattern.tmpl:21
 #: PatternSkin/templates/search.pattern01x00.tmpl:10
 #: core/templates/searchformat.tmpl:8
-#, fuzzy
 msgid "Searched:"
 msgstr "Шукали у:"
 
@@ -4013,7 +3976,7 @@ msgstr "Вибачте, реєстрація тимчасово вимкнена
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
 "Вибачте, підсистема паролей наразі не працює на запис. Зконтактуйте з %1, "
-"будь ласка."
+"будь ласка"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
 msgid "Sort ascending"
@@ -4181,9 +4144,8 @@ msgid "Text"
 msgstr "Текст"
 
 #: core/data/System/WebSearch.txt:105 core/data/System/WebSearch.txt:135
-#, fuzzy
 msgid "Text body"
-msgstr "У тексті"
+msgstr "У тлі тексту"
 
 #: core/templates/registermessages.tmpl:49
 msgid "Thank you for approving this registration"
@@ -4258,7 +4220,6 @@ msgstr ""
 "Source Wiki)."
 
 #: core/templates/messages.tmpl:311
-#, fuzzy
 msgid "The =%1= script can only be called with POST method."
 msgstr "Скріпт =%1= може виконуватись лише через метод POST."
 
@@ -4931,7 +4892,7 @@ msgstr "Спробувати ще"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:101
 msgid "URL"
-msgstr ""
+msgstr "URL-адреса"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:79
 msgid "Unchanged sections before and after each change"
@@ -5155,7 +5116,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:34
 msgid "Verbatim"
-msgstr ""
+msgstr "Фактичний (verbatim)"
 
 #: core/templates/attachtables.tmpl:43
 msgid "Version"
@@ -5186,9 +5147,8 @@ msgid "View differences"
 msgstr "Подивитись відмінності"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:24
-#, fuzzy
 msgid "View earlier"
-msgstr "Переглянути попереднью"
+msgstr "Переглянути попередню"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:24
 msgid "View later"
@@ -5325,7 +5285,6 @@ msgid "Webs"
 msgstr "Розділи"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:39
-#, fuzzy
 msgid "Webserver <em>running Foswiki</em>"
 msgstr "Веб-сервер, що <em>виконує Foswiki</em>"
 
@@ -5349,26 +5308,27 @@ msgstr "Хто"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:13
 msgid "Who is requesting this, actually?"
-msgstr ""
+msgstr "Хто насправді робить цей запит?"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:81
 msgid "Whole page"
-msgstr ""
+msgstr "Всю сторінку"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:2
 msgid "Why am I being asked to confirm?"
-msgstr ""
+msgstr "Чому у мене запитують підтвердження?"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid ""
 "Wiki administrators should read about the [[%1][SecurityFeatures topic on "
 "Foswiki.org]]."
 msgstr ""
+"Адміністратори вікі повинні прочитати про [[%1][особливості безпеки (тема "
+"SecurityFeatures на Foswiki.org)]]."
 
 #: core/data/System/WebSearch.txt:189
-#, fuzzy
 msgid "Word search"
-msgstr "Змінити пошук"
+msgstr "Пошук за словом"
 
 #: core/templates/messages.tmpl:18
 msgid "Would you like to go to:"
@@ -5376,31 +5336,29 @@ msgstr "Куди б Ви хотіли перейти:"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:50
 msgid "Yes"
-msgstr ""
+msgstr "Так"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:36
 msgid "You"
-msgstr ""
+msgstr "Ви"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
 "have forgotten your password, contact %1."
 msgstr ""
-"У Вас *повинен* бути хоч би одна правильно зареєстрована адреса електронної "
-"пошти, щоб можна було скинути Ваш пароль. Якщо жодна із зареєстрованих Вами "
-"адрес електронної пошти не є правильна і Ви забули свій пароль, пишіть %1."
+"Щоб мати можливість скинути пароль Вам *необхідно* мати хоча б одну "
+"правильно зареєстровану електронну адресу. Якщо жодна із зареєстрованих Вами "
+"адрес не є правильна і Ви забули свій пароль, зв'яжіться з %1."
 
 #: core/templates/registermessages.tmpl:193
-#, fuzzy
 msgid "You are already registered."
-msgstr "Ви вже зареєстровані"
+msgstr "Ви вже зареєстровані."
 
 #: core/templates/registermessages.tmpl:140
 msgid "You are also listed in the %1 topic"
-msgstr "Ви також перераховані на сторінці %1"
+msgstr "Вас також перераховано у темі %1"
 
 #: core/templates/messages.tmpl:279
 msgid "You are denied access to the following topics in the web:"
@@ -5415,11 +5373,10 @@ msgid ""
 "with %1 first."
 msgstr ""
 "Ви можете спокійно продовжити редагування - якщо тільки Ви не маєте наміру "
-"змінювати дані у формах, розміщених на сторінці. Навіть якщо %1 "
-"прямо_зараз_збереже цю сторінку, тоді як Ви редагуєте, внесені зміни будуть "
-"суміщені, і ніяка інформація втрачена не буде. Врахуйте, що дані форми не "
-"можуть бути суміщені так просто, і якщо це необхідно, ми рекомендуємо Вам  "
-"спочатку зафіксувати зміни %1."
+"змінювати дані у формах, доданих до теми. Навіть якщо %1 _дійсно_ збереже цю "
+"сторінку у той час, коли Ви ще редагуєте, усі зміни будуть суміщені і нічого "
+"не буде втрачено. Врахуйте, що дані форми не можуть бути суміщені так просто;"
+" тому, якщо це необхідно, ми радимо Вам  спочатку звіриться з %1."
 
 #: PatternSkin/templates/view.pattern.tmpl:36
 msgid "You are here:"
@@ -5433,42 +5390,37 @@ msgid ""
 "used as a base to create new webs) choose a name that starts with an "
 "underscore and has only alphanumeric characters."
 msgstr ""
-"Рекомендуємо Вам вибирати короткі імена, з числом символів менше 10, що "
-"починаються із заголовної букви і не містять інших символів, окрім букв і "
-"цифр. Якщо Ви маєте намір створити шаблон розділу (спеціальний розділ, який "
-"використовується тільки для створення на його основі нових розділів) "
-"вибирайте ім'я, що починається з символу підкреслення і не містить інших "
-"символів, окрім букв та цифр."
+"Радимо Вам обирати короткі імена – краще коротше 10 символів, – що "
+"починаються із заголовної букви і містять лише букви та цифри. Якщо Ви маєте "
+"намір створити шаблон розділу (тобто такий, що на його основі будуть "
+"створюватись нові розділи) то оберіть ім'я, що починається з символу "
+"підкреслення та містить тільки букви та цифри."
 
 #: core/templates/messages.tmpl:474
-#, fuzzy
 msgid "You are trying to access an attachment that does not exist."
-msgstr "Ви намагаєтеся %1 неіснуючий файл."
+msgstr "Ви намагаєтесь отримати доступ до додатку, який не існує."
 
 #: core/templates/messages.tmpl:460
-#, fuzzy
 msgid "You are trying to create a topic from a template that does not exist."
-msgstr "Ви намагаєтеся %1 тему, яка(ої) не існує."
+msgstr "Ви намагаєтесь створити тему з шаблону, якого не існує."
 
 #: core/templates/messages.tmpl:454
-#, fuzzy
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
-msgstr "Ви намагаєтеся %1 тему, яка(ої) не існує."
+msgstr "Ви намагаєтесь виконати дію на темі, якої не існує (дія '%1')."
 
 #: core/templates/messages.tmpl:467
-#, fuzzy
 msgid "You are trying to rename a topic that does not exist."
-msgstr "Ви намагаєтеся %1 тему, яка(ої) не існує."
+msgstr "Ви намагаєтесь перейменувати тему, якої не існує."
 
 #: core/templates/messages.tmpl:442
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
 msgstr ""
-"Ви можете [[%1][створити новий розділ]] якщо у Вас є на це права. Зв'яжіться "
-"з %2 якщо є питання."
+"Ви можете [[%1][створити новий розділ]] якщо Вам це дозволено. Зв'яжіться з %"
+"2 якщо є питання."
 
 #: core/templates/messages.tmpl:158
 msgid ""
@@ -5476,14 +5428,14 @@ msgid ""
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
 "teal, or aqua)"
 msgstr ""
-"Ви також можете використовувати назви стандартних для кольорів HTML (black, "
+"Ви також можете використовувати назви стандартних кольорів HTML (black, "
 "silver,  gray, white, maroon, red, purple, fuchsia, green, lime, olive, "
 "yellow, navy, blue, teal или aqua)"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:182
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
-msgstr "Ви можете змінити свій пароль при допомозі %1"
+msgstr "Ви можете змінити свій пароль за допомогою %1"
 
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
@@ -5491,22 +5443,28 @@ msgstr "Ви можете дати цьому розділу інше ім'я."
 
 #: core/templates/registermessages.tmpl:407
 #: core/templates/registermessages.tmpl:413
+#, fuzzy
 msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
+"Ви не можете додати користувачів до відсутньої групи якщо опцію створення не "
+"ввімкнено."
 
 #: core/data/System/UserName.txt:15
-#, fuzzy
 msgid ""
 "You cannot alter your username: you have to get the administrator to do this "
 "for you."
-msgstr "Можливо Ви повинні попросити адміністратора %1, зробити це."
+msgstr ""
+"Ви не можете змінювати власне ім'я користувача та маєте звернутись до "
+"адміністратора щоб він зробив це для Вас."
 
 #: core/templates/messages.tmpl:497
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
 msgstr ""
+"Ви не можете продовжувати через те, що у браузері вимкнено або куки, або "
+"!JavaScript."
 
 #: core/templates/registermessages.tmpl:194
 msgid "You cannot register twice, the name %1 is already registered."
@@ -5518,6 +5476,9 @@ msgid ""
 "user topic. If this form field does not exist it will look for a line like "
 "this:"
 msgstr ""
+"Зміна Вашої електронної адреси здійснюється через поле форми, що називається "
+"Email, у особистій темі. Якщо такого поля не існує то буде очікуватись рядок "
+"наступного вигляду:"
 
 #: core/templates/registermessages.tmpl:13
 #: core/templates/registermessages.tmpl:189
@@ -5531,49 +5492,50 @@ msgid ""
 "You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 msgstr ""
-"Ви можете спробувати попросити Вашого адміністратора Wiki змінити "
-"налаштування якщо вони не підходять Вашому оточенню."
+"Ви можете умовити Вашого адміністратора Wiki змінити налаштування якщо вони "
+"не відповідають Вашому робочому середовищу."
 
 #: core/templates/registermessages.tmpl:107
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
 msgstr ""
+"Можливо Ви клікнули посилання на перевірку реєстрації, яке вже відвідували."
 
 #: core/templates/registermessages.tmpl:334
 msgid "You may need to close your browser to make this change take effect."
-msgstr ""
-"Можливо, Вам доведеться закрити вікно Вашого браузера щоб ці зміни набули "
-"чинності."
+msgstr "Можливо, Вам доведеться закрити браузер щоб ця зміна набула чинності."
 
 #: core/templates/messages.tmpl:89
 msgid "You must pass a topic name."
-msgstr ""
+msgstr "Ви маєте надати ім'я теми."
 
 #: core/templates/registermessages.tmpl:367
 msgid "You need to specify a valid group name to add members to a group."
-msgstr ""
+msgstr "Вам необхідно точно визначити дійсну групу, щоб додати до неї членів."
 
 #: core/templates/registermessages.tmpl:418
 msgid "You need to specify a valid group name to remove members from a group."
-msgstr ""
+msgstr "Вам необхідно точно визначити дійсну групу, щоб вилучити з неї членів."
 
 #: core/templates/messages.tmpl:326
 msgid "You need to specify a valid member to add to a group."
-msgstr ""
+msgstr "Вам необхідно визначити дійсного користувача, щоб додати до групи."
 
 #: core/templates/registermessages.tmpl:401
 msgid "You need to specify a valid member to remove from a group."
 msgstr ""
+"Вам необхідно визначити дійсного користувача, щоб вилучити його із групи."
 
 #: core/templates/registerconfirm.tmpl:12
+#, fuzzy
 msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
-"Тепер необхідно підтвердити адресу Вашої електронної пошти. Ви можете "
-"зробити це, ввівши %1 у форму, представлену Вам при відправці даного "
-"повідомлення, або перейшовши за посиланням %2"
+"Тепер необхідно перевірити Вашу електронну адресу. Ви можете це зробити або "
+"через введення %1 до форми, що була показана Вам, коли це повідомлення було "
+"відправлено, або через відвідини %2"
 
 #: core/templates/messages.tmpl:233
 msgid "You will probably have to ask your administrator, %1, to do this."
@@ -5581,18 +5543,17 @@ msgstr "Можливо Ви повинні попросити адміністр
 
 #: core/templates/registermessages.tmpl:162
 msgid "You will receive an e-mail when your registration has been approved."
-msgstr ""
+msgstr "Ви отримаєте електронного листа коли реєстрацію буде підтверджено."
 
 #: core/data/System/UserName.txt:13
 msgid "Your [[%1][Wikiname]] is %2 and your username is =%3=."
-msgstr ""
+msgstr "%2 – це Ваше [[%1][ВікіІм'я]], а =%3= – Ваше ім'я користувача (логін)."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
-#, fuzzy
 msgid "Your [[%1][username]]:"
-msgstr "Невірні %1.WikiNames:"
+msgstr "Ваше [[%1][ім&amp;я користувача]]:"
 
 #: core/templates/registermessages.tmpl:147
 msgid ""
@@ -5606,35 +5567,33 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
 msgid "Your email address will be kept confidential."
-msgstr ""
+msgstr "Ваша електронна адреса буде конфіденційною."
 
 #: core/templates/oopslanguagechanged.tmpl:14
-#, fuzzy
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
-msgstr "Ваш пароль змінений на %1."
+msgstr "Вашу мову було змінено на %1. [[%2][Клікніть для продовження]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
+#, fuzzy
 msgid "Your name as displayed by %1."
-msgstr ""
+msgstr "Як %1 відобразить Ваше ім'я."
 
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
-msgstr ""
+msgstr "Ваше системне ім'я; зазвичай ім'я та прізвище поєднанні без пропуску."
 
 #: core/templates/mailresetpassword.tmpl:14
 msgid "Your password has been changed to %1."
 msgstr "Ваш пароль змінений на %1."
 
 #: core/templates/registermessages.tmpl:133
-#, fuzzy
 msgid "Your password has not been changed."
-msgstr "Ваш пароль змінений на %1."
+msgstr "Ваш пароль не було змінено."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:290
-#, fuzzy
 msgid "Your password must be at least %1 characters long."
-msgstr "Потрібно ввести пароль завдовжки не менше %1 символів"
+msgstr "Ваш пароль має бути щонайменше %1 символів."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
 #, fuzzy
@@ -5646,79 +5605,84 @@ msgstr "Ваш пароль:"
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
 msgstr ""
-"Ваша персональна сторінка %1 розташована в %2. Ви можете змінити її на свій "
+"Ваша особиста тема %1 розташована в %2. Ви можете змінювати її на свій "
 "розсуд:"
 
 #: core/templates/registermessages.tmpl:138
 msgid "Your personal Foswiki topic %1 has been created"
-msgstr ""
+msgstr "Було створено Вашу особисту тему Foswiki %1"
 
 #: core/templates/registermessages.tmpl:294
-#, fuzzy
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
-msgstr "Зареєстрована(і) Вами адреса(и) електронної пошти змінена(і) на: %1."
+msgstr ""
+"Зареєстрована(і) Вами електронні адреса(и) змінено на: "
+"<noautolink>%1</noautolink>."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 msgid ""
 "Your registered e-mails are used by Foswiki for sending you e-mails, include "
 "notifications of password changes."
 msgstr ""
+"Зареєстровані Вами електронні адреси Foswiki використовує для надсилання "
+"листів, включно зі сповіщеннями та змінами пароля."
 
 #: core/templates/registermessages.tmpl:160
 msgid "Your registration is pending approval by the system administrators."
-msgstr ""
+msgstr "Ваша реєстрація очікує на підтвердження від адміністраторів системи."
 
 #: core/templates/registermessages.tmpl:95
 msgid ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
 msgstr ""
+"Ваш лист із перевіркою реєстрації або не вдалося відправити, або він у черзі "
+"поштової системи."
 
 #: PatternSkin/templates/edit.pattern.tmpl:46
-#, fuzzy
 msgid "Your signature to copy/paste"
-msgstr "Ваш підпис для копіювання/вставки:"
+msgstr "Ваш підпис для копіювання/вставки"
 
 #: core/templates/edit.tmpl:42
 msgid "Your signature to copy/paste:"
 msgstr "Ваш підпис для копіювання/вставки:"
 
 #: core/templates/registermessages.tmpl:324
-#, fuzzy
 msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
 msgstr ""
-"Ваша система можливо не підтримує зміну паролів через Wiki. Зв'яжіться з "
-"адміністратором TWiki."
+"Ваша система можливо не підтримує зміну паролів через Foswiki. Зв'яжіться з "
+"адміністратором."
 
 #: core/templates/registermessages.tmpl:29
 msgid ""
 "Your user registration failed because it did not pass the validation tests."
-msgstr ""
+msgstr "Ваша реєстрація не пройшла перевірку а тому не вдалась."
 
 #: core/templates/registermessages.tmpl:220
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
+"Посібник з утворення дійсного ім'я користувача на цьому сайті [[%1]["
+"знаходиться тут]]."
 
 #: core/templates/messages.tmpl:220
 msgid "[[%1][Debug topic text]]."
-msgstr ""
+msgstr "[[%1][Відлагодження тексту теми]]."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "[[%1][username]]:"
-msgstr ""
+msgstr "[[%1][ім'я користувача]]:"
 
 #: NatEditPlugin/templates/settings.natedit.tmpl:30
 #: core/templates/settings.tmpl:27
 msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 msgstr ""
-"[кратне 3-м пропускам] * [пропуск] Set [пропуск] ІМ'ЯЗМІННОЇ [пропуск] = "
-"[значення]"
+"[пропусків кратно до 3-х] * [пропуск] Set [пропуск] ІМ&amp;ЯЗМІННОЇ [пропуск]"
+" = [значення]"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
 #: core/lib/Foswiki/I18N.pm:353
@@ -5727,31 +5691,31 @@ msgstr "Українська"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:173
 msgid "access denied on root"
-msgstr "доступ відхилений"
+msgstr "відмовлено у доступі до кореню"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:109
 msgid "access denied on topic"
-msgstr "доступ до теми відхилений"
+msgstr "у доступі до теми відмовлено"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:145
 msgid "access denied on web"
-msgstr "доступ до розділу відхилений"
+msgstr "у доступі до розділу відмовлено"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:183
 msgid "access not allowed on root"
-msgstr "доступ заборонений"
+msgstr "немає доступу до кореню"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:132
 msgid "access not allowed on topic"
-msgstr "доступ до теми заборонений"
+msgstr "немає доступу до теми"
 
 #: core/lib/Foswiki/Access/TopicACLAccess.pm:157
 msgid "access not allowed on web"
-msgstr "доступ до розділу заборонений"
+msgstr "немає доступу до розділу"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "accesskey='c'"
-msgstr ""
+msgstr "accesskey='с'"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "and"
@@ -5759,72 +5723,69 @@ msgstr "та"
 
 #: PatternSkin/templates/search.pattern.tmpl:6 core/templates/search.tmpl:9
 msgid "by %1 "
-msgstr ""
+msgstr "користувачем %1 "
 
 #: core/data/System/SiteChanges.txt:76
 msgid "change display options"
-msgstr ""
+msgstr "змінити налаштування відображення"
 
 #: core/templates/attachtables.tmpl:12
 msgid "change, update, previous revisions, move, delete..."
 msgstr "змінити, поновити, попередні редакції, перемістити, вилучити..."
 
 #: core/data/System/SiteChanges.txt:77
-#, fuzzy
 msgid "close display options"
-msgstr "Інші операції..."
+msgstr "закрити налаштування відображення"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:112
 #: NatEditPlugin/templates/edit.natedit.tmpl:148
-#, fuzzy
 msgid "default as defined in the %1"
-msgstr "Форма повинна бути визначена на сторінці теми %1"
+msgstr "замовчення, що задане у %1"
 
 #: core/data/System/SiteChanges.txt:64
+#, fuzzy
 msgid "diff"
-msgstr ""
+msgstr "різниця"
 
 #: core/templates/messages.tmpl:306
 msgid "don't forget to check your Topic Settings"
-msgstr "не забудьте перевірити налаштування Вашої персональної сторінки"
+msgstr "не забудьте перевірити налаштування Вашої особистої теми"
 
 #: core/templates/messages.tmpl:509
 msgid "earlyInitPlugin failed.  See errors below."
-msgstr ""
+msgstr "earlyInitPlugin не відпрацював. Дивіться помилки нижче."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:9
 #: NatEditPlugin/templates/form.natedit.tmpl:2
 #: PatternSkin/templates/formtables.pattern.tmpl:30
 #: core/templates/formtables.tmpl:27
-#, fuzzy
 msgid "edit"
-msgstr "(редагувати)"
+msgstr "редагувати"
 
 #: NatEditPlugin/templates/editform.natedit.tmpl:2
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
-#, fuzzy
 msgid "edit form"
-msgstr "(редагувати форму)"
+msgstr "редагувати форму"
 
 #: core/templates/messages.tmpl:170
 msgid "fields are required."
-msgstr "- ці поля необхідно заповнити."
+msgstr "- обов'язкові поля."
 
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "help"
-msgstr "допомога"
+msgstr "довідка"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"
-msgstr "Керівництво по хорошому стилю"
+msgstr "поради з хорошого стилю"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:24
 msgid "ignore case"
-msgstr ""
+msgstr "ігнорувати регістр"
 
 #: core/templates/more.tmpl:140
 msgid "in raw text format"
-msgstr "у вигляді початкового тексту"
+msgstr "у форматі похідного тексту"
 
 #: NatEditPlugin/templates/form.natedit.tmpl:4
 #: PatternSkin/templates/form.pattern.tmpl:3 core/templates/form.tmpl:3
@@ -5833,12 +5794,11 @@ msgstr "указує обов'язкові поля"
 
 #: core/templates/messages.tmpl:505 core/templates/messages.tmpl:507
 msgid "initPlugin was not defined. See errors below."
-msgstr ""
+msgstr "initPlugin відсутній. Дивіться помилки нижче."
 
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "last change"
-msgstr "Недавно змінені теми"
+msgstr "остання зміна"
 
 #: core/templates/attachtables.tmpl:12
 msgid "manage"
@@ -5846,11 +5806,11 @@ msgstr "управління"
 
 #: core/data/Trash/WebHome.txt:12
 msgid "more..."
-msgstr "більше..."
+msgstr "ще..."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:10
 msgid "new"
-msgstr ""
+msgstr "новий"
 
 #: MailerContrib/templates/mailnotify.tmpl:16
 msgid "now %1"
@@ -5872,80 +5832,73 @@ msgstr "попередній перегляд"
 #: NatEditPlugin/templates/edit.natedit.tmpl:117
 #, fuzzy
 msgid "public view access"
-msgstr "У всіх загальнодоступних розділах"
+msgstr "дозвіл на загальний перегляд"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:7
-#, fuzzy
 msgid "restore"
-msgstr "Відновити"
+msgstr "відновити"
 
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
-#, fuzzy
 msgid "restore form"
-msgstr "Відновити тему"
+msgstr "відновити з"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:127
 #: NatEditPlugin/templates/edit.natedit.tmpl:158
 msgid "restrict access to %1"
-msgstr ""
+msgstr "обмежити доступ до %1"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:122
 msgid "restrict read access to users that have an account on this site"
-msgstr ""
+msgstr "надати доступ на читання тільки для користувачів цього сайту"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:153
 msgid "restrict write access to users that have an account on this site"
-msgstr ""
+msgstr "надати доступ на запис тільки користувачам цього сайту"
 
 #: PatternSkin/templates/search.pattern.tmpl:27
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
 #: core/data/System/WebChanges.txt:3 core/templates/searchformat.tmpl:15
 msgid "retrieved at %1"
-msgstr "Знайдено в %1"
+msgstr "отримано з %1"
 
 #: core/templates/viewprint.tmpl:15
-#, fuzzy
 msgid "revision %1"
-msgstr "(редакція)"
+msgstr "редакція %1"
 
 #: core/templates/settings.tmpl:3
-#, fuzzy
 msgid "set preferences"
-msgstr "(встановити параметри)"
+msgstr "встановити параметри"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:137
 #: NatEditPlugin/templates/edit.natedit.tmpl:168
 msgid "specify a list of users and/or groups"
-msgstr ""
+msgstr "задати перелік користувачів та/або груп"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:132
 msgid "strictly deny any access to this topic"
-msgstr ""
+msgstr "строго обмежити любий доступ до цієї теми"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:163
 msgid "strictly deny write access to this topic"
-msgstr ""
+msgstr "строго обмежити дозвіл на запис до цієї теми"
 
 #: core/data/System/SiteChanges.txt:38
 msgid "the beginning"
-msgstr ""
+msgstr "початок"
 
 #: core/templates/viewtopicactionbuttons.tmpl:15
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
 msgstr ""
-"title='Прикріпити зображення або документ до цієї сторінки' "
-"accesskey='a'>Прикріпити"
+"title='Додати зображення або документ до цієї теми' accesskey='д'>&Додати"
 
 #: core/templates/viewtopicactionbuttons.tmpl:15
-#, fuzzy
 msgid "title='Attach an image or document to this topic'>Attach"
 msgstr ""
-"title='Прикріпити зображення або документ до цієї сторінки' "
-"accesskey='a'>Прикріпити"
+"title='Додати зображення або документ до цієї теми' accesskey='д'>&Додати"
 
 #: core/templates/viewtopicactionbuttons.tmpl:5
 msgid "title='Create new topic' accesskey='c'>&Create"
-msgstr "title='Створити нову тему' accesskey='c'>Створити"
+msgstr "title='Створити нову тему' accesskey='с'>&Створити"
 
 #: core/templates/viewtopicactionbuttons.tmpl:19
 msgid ""
@@ -5953,118 +5906,111 @@ msgid ""
 "revisions' accesskey='m'>&More topic actions"
 msgstr ""
 "title='Вилучити або перейменувати цю тему; встановити батьківську тему; "
-"подивитися і порівняти редакції' accesskey='m'>Інші дії над темою"
+"подивитися і порівняти редакції' accesskey='і'>&Інші дії над темою"
 
 #: core/templates/viewtopicactionbuttons.tmpl:10
-#, fuzzy
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Редагувати текст цієї теми' accesskey='e'>Редагувати"
+msgstr "title='Змінити текст теми' accesskey='р'>&Редагувати текст"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
-#, fuzzy
 msgid "title='Edit this topic text' >Edit"
-msgstr "title='Редагувати текст цієї теми' accesskey='e'>Редагувати"
+msgstr "title='Редагувати текст цієї теми'>Редагувати"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
-msgstr "title='Редагувати текст цієї теми' accesskey='e'>Редагувати"
+msgstr "title='Редагувати текст цієї теми' accesskey='р'>&Редагувати"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:74
-#, fuzzy
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='Проглядання теми' accesskey='v'>Подивитися тему"
+msgstr "title='Вплісти' accesskey='в'>&Вплісти"
 
 #: core/templates/viewtopicactionbuttons.tmpl:23
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
-msgstr ""
+msgstr "title='Версія теми для друку' accesskey='д'>Версія для &друку"
 
 #: core/templates/viewtopicactionbuttons.tmpl:30
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr ""
-"title='Знайти теми, що посилаються сюди, у всіх розділах' accesskey='l'>Всі "
-"розділи"
+"title='Знайти теми, що посилаються сюди, у всіх розділах' accesskey='р'>Всі "
+"&розділи"
 
 #: core/templates/viewtopicactionbuttons.tmpl:32
 msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
 msgstr ""
+"title='Шукати у розділі %1 на теми, що посилаються сюди' accesskey='з'>"
+"&Зворотні посилання"
 
 #: core/templates/viewtopicactionbuttons.tmpl:28
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr ""
-"title='Шукати у розділі %1 теми, які сюди посилаються' accesskey='b'>Розділ"
+"title='Шукати у розділі %1 на теми, які сюди посилаються' "
+"accesskey='р'>&Розділ"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
-#, fuzzy
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='Проглядання теми' accesskey='v'>Подивитися тему"
+msgstr "title='У дві колонки' accesskey='к'>Дві &колонки"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
-#, fuzzy
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='Редагувати текст цієї теми' accesskey='e'>Редагувати"
+msgstr "title='Підписатись до теми' accesskey='п'>&Підписка"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
-#, fuzzy
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='Редагувати текст цієї теми' accesskey='e'>Редагувати"
+msgstr "title='Відписатись від теми' accesskey='п'>Від&писатись"
 
 #: core/templates/viewtopicactionbuttons.tmpl:35
 #: core/templates/viewtopicactionbuttons.tmpl:37
-#, fuzzy
 msgid "title='View complete topic history' accesskey='h'>&History"
-msgstr "title='Проглянути повну історію змін сторінки' accesskey='h'>Історія"
+msgstr "title='Проглянути повну історію теми' accesskey='і'>&Історія"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:12
 msgid "title='View topic' accesskey='v'>&View topic"
-msgstr "title='Проглядання теми' accesskey='v'>Подивитися тему"
+msgstr "title='Проглядання теми' accesskey='п'>&Переглянути тему"
 
 #: core/templates/viewtopicactionbuttons.tmpl:41
-#, fuzzy
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
-msgstr ""
-"title='Проглянути початковий текст, без форматування' "
-"accesskey='v'>Початковий текст"
+msgstr "title='Проглянути тему без форматування' accesskey='п'>&Похідний текст"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:38
 msgid "user list truncated"
-msgstr ""
+msgstr "перелік користувачів урізано"
 
 #: PatternSkin/templates/edit.pattern.tmpl:35
 msgid "value='Cancel' accesskey='c'"
-msgstr "value='Відмінити' accesskey='c'"
+msgstr "value='Скасувати' accesskey='с'"
 
 #: PatternSkin/templates/preview.pattern.tmpl:19
 msgid "value='Discard' accesskey='d'"
-msgstr "value='Відмовитися' accesskey='d'"
+msgstr "value='Відмовитись' accesskey='в'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:33
 msgid "value='Preview' accesskey='p'"
-msgstr "value='Передперегляд' accesskey='p'"
+msgstr "value='Попередній перегляд' accesskey='п'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:29
 msgid "value='Quiet save' accesskey='q'"
-msgstr "value='Зберегти без повідомлення' accesskey='q'"
+msgstr "value='Тихо зберегти' accesskey='т'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:31
 msgid "value='Save and Continue' accesskey='k'"
-msgstr "value='Зберегти та продовжити' accesskey='k'"
+msgstr "value='Зберегти та продовжити' accesskey='б'"
 
 #: PatternSkin/templates/edit.pattern.tmpl:27
 msgid "value='Save' accesskey='s'"
-msgstr "value='Зберегти' accesskey='s"
+msgstr "value='Зберегти' accesskey='з'"
 
 #: core/templates/attachtables.tmpl:48
 msgid "view"
-msgstr "Проглянути"
+msgstr "проглянути"
 
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
-msgstr ""
+msgstr "чому у Вас запитують підтвердження"
 
 #~ msgid "Return to [_0]"
 #~ msgstr "Повернутись до %1"
