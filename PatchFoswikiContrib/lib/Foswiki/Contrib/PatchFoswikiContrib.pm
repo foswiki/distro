@@ -16,7 +16,7 @@ use warnings;
 
 # Keep in sync with lib/Foswiki/Plugins/PatchFoswikiContribPlugin.pm
 our $VERSION = '2.1';
-our $RELEASE = '02 Oct 2015';
+our $RELEASE = '15 Nov 2015';
 
 our $SHORTDESCRIPTION = 'Apply critical patches to Foswiki.';
 

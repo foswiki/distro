@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1444094021" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1447731781" format="1.1"  version="1"}%
 <!--
 One line description, required for extensions repository catalog.
    * Set SHORTDESCRIPTION = File patch tool for Foswiki
@@ -124,7 +124,7 @@ order to apply it manually.
 |  Dependencies: | %$DEPENDENCIES% |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  2.1 (02 Oct 2015) | Foswikitask:Item13759: Restructure to support internal changes in Foswiki 2.0. Update to latest CPAN libs. |
+|  2.1 (15 Nov 2015) | Foswikitask:Item13759: Restructure to support internal changes in Foswiki 2.0. Update to latest CPAN libs. |
 |  2.0 (22 Apr 2014) | Foswikitask:Item12863: Restructure PatchFoswikiContrib to remove obsolete patches originally shipped with the extension. |
 |  1.5 (26 Dec 2012) | Foswikitask:Item12312: Add reporting of patch status,%BR%\
                        Foswikitask:Item12314: Add feature to reverse a patch.%BR%\
