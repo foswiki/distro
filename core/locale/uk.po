@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-18 00:33+0200\n"
+"PO-Revision-Date: 2015-11-18 01:33+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -203,15 +203,15 @@ msgstr "%1 перейменовано або переміщено з %2 до %3 
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
-msgstr "&Скасувати"
+msgstr "Скасувати"
 
 #: core/templates/foswiki.tmpl:138
 msgid "&History"
-msgstr "&Історія"
+msgstr "Історія"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:122
 msgid "&Sequential"
-msgstr "&Послідовно"
+msgstr "Послідовно"
 
 #: core/templates/registermessages.tmpl:219
 msgid "'%1' is not a valid [[%2][login username]]."
@@ -535,12 +535,11 @@ msgid "<em>in all public webs</em>"
 msgstr "<em>у всіх загальнодоступних розділах</em>"
 
 #: core/templates/registermessages.tmpl:63
-#, fuzzy
 msgid ""
 "<nop>%1 (%2) can be emailed to inform them that their registration has been "
 "rejected."
 msgstr ""
-"<nop>%1 (%2) може бути відправлено поштою щоб поінформувати що у реєстрації "
+"<nop>%1 (%2) може бути поінформовано електронною поштою, що у реєстрації їм "
 "було відмовлено."
 
 #: core/templates/registermessages.tmpl:57
@@ -568,13 +567,12 @@ msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "Розширення =.txt= додано до деяких імен файлів з міркувань безпеки"
 
 #: core/templates/messages.tmpl:423 core/templates/messages.tmpl:434
-#, fuzzy
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
 msgstr ""
-"Foswiki поділено на розділи; кожен розділ представляє одну тему або одну "
-"область взаємодії. Ви намагаєтеся %1 у розділі що не існує."
+"Foswiki поділено на розділи; кожен розділ представляє одну предметну тему "
+"або одну область співпраці. Ви намагаєтеся виконати %1 у розділі що не існує."
 
 #: core/templates/messages.tmpl:154
 msgid ""
@@ -702,7 +700,6 @@ msgid "Adding a %1 preference in WebPreferences"
 msgstr "Додавання змінної %1 у [[WebPreferences][Параметри розділу]]"
 
 #: core/templates/login.sudo.tmpl:3
-#, fuzzy
 msgid "Admin Foswiki User Authentication"
 msgstr "Ідентифікація адміністратора Foswiki"
 
@@ -878,9 +875,8 @@ msgid "Attachments of %1"
 msgstr "Додатки на %1"
 
 #: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
-#, fuzzy
 msgid "Attachments will not be shown in topic view page."
-msgstr "Додатки не будуть показані на сторінці теми."
+msgstr "Додатки не будуть показані на сторінці перегляду теми."
 
 #: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
 #: core/templates/oopslanguagechanged.tmpl:11
@@ -935,9 +931,8 @@ msgid "Bad password"
 msgstr "Поганий пароль"
 
 #: SubscribePlugin/templates/subscribe.tmpl:27
-#, fuzzy
 msgid "Bad subscriber '%1'"
-msgstr "Невірний підписник '%1'"
+msgstr "Невірний користувач підписки '%1'"
 
 #: core/templates/messages.tmpl:143
 msgid "Base web %1 is missing or does not exist"
@@ -1086,7 +1081,7 @@ msgstr "Змінити з"
 #: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
-msgstr "Змінити мову"
+msgstr "Зміна мови"
 
 #: core/templates/renamewebbase.tmpl:43
 msgid "Change links in topics that refer to !%1 in any Web:"
@@ -1126,7 +1121,6 @@ msgid "Changed by:"
 msgstr "Змінено:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
-#, fuzzy
 msgid "Changed on"
 msgstr "Змінено"
 
@@ -1237,9 +1231,8 @@ msgid "Compare revisions"
 msgstr "Порівняти редакції"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
-#, fuzzy
 msgid "Confirm password:"
-msgstr "Ваш пароль:"
+msgstr "Підтвердить пароль:"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
@@ -1315,13 +1308,12 @@ msgstr ""
 "платформі співпраці є їх власністю."
 
 #: core/data/System/WebPreferences.txt:33
-#, fuzzy
 msgid ""
 "Copyright &&copy; by the contributing authors. All material on this site is "
 "the property of the contributing authors."
 msgstr ""
-"Авторські права &&copy; закріплені за авторами проекту. Всі матеріали по цій "
-"платформі співпраці є їх власністю."
+"Авторські права &&copy; закріплені за авторами, що беруть участь у проекти. "
+"Всі матеріали на цьому сайті є їх власністю."
 
 #: core/templates/messages.tmpl:164
 msgid "Could not create the new web %1"
@@ -1340,7 +1332,6 @@ msgid "Could not save %1."
 msgstr "Не вдалося зберегти %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
-#, fuzzy
 msgid "Country:"
 msgstr "Країна:"
 
@@ -1377,21 +1368,18 @@ msgid "Create group"
 msgstr "Створити групу"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
 msgid "Create new FAQ topic"
 msgstr "Створити нову тему FAQ"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
-#, fuzzy
 msgid "Create new topic"
 msgstr "Створити нову тему"
 
 #: core/templates/registermessages.tmpl:405
 #: core/templates/registermessages.tmpl:411
-#, fuzzy
 msgid "Create not specified and group does not exist"
-msgstr "Група не існує і створення не задане"
+msgstr "Група не існує і створення не ввімкнено"
 
 #: PatternSkin/data/System/WebLeftBarLogin.txt:22
 msgid "Create personal sidebar"
@@ -1511,9 +1499,8 @@ msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Ви хочете [[%1][скинути пароль %2]]?"
 
 #: core/templates/rdiff.tmpl:14
-#, fuzzy
 msgid "Difference Topic"
-msgstr "Відмінна тема"
+msgstr "Тема відмінностей"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:5
 #: PatternSkin/templates/rdiff.pattern.tmpl:11
@@ -1594,7 +1581,6 @@ msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "Збій ENCODE - мають бути обидва =old= та =new="
 
 #: core/templates/messages.tmpl:485
-#, fuzzy
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "Збій ENCODE - токен '%PARAM1%' повторено у =old= "
 
@@ -1652,7 +1638,6 @@ msgid "Edit this topic text (e)"
 msgstr "Редагувати текст цієї теми (e)"
 
 #: core/templates/more.tmpl:13
-#, fuzzy
 msgid "Edit topic preference settings"
 msgstr "Редагувати налаштування теми"
 
@@ -3815,7 +3800,7 @@ msgstr "Дивіться результат у %MAINWEB%.WikiGroups."
 
 #: core/data/System/WebIndex.txt:13
 msgid "See also the faster %1"
-msgstr "Дивіться швидший %1"
+msgstr "Перегляньте більш швидкий %1"
 
 #: core/data/System/WebTopicList.txt:6
 msgid "See also the verbose %1."
@@ -5859,7 +5844,7 @@ msgstr "надати доступ на запис тільки користув�
 #: PatternSkin/templates/search.pattern01x00.tmpl:16
 #: core/data/System/WebChanges.txt:3 core/templates/searchformat.tmpl:15
 msgid "retrieved at %1"
-msgstr "отримано з %1"
+msgstr "отримано о %1"
 
 #: core/templates/viewprint.tmpl:15
 msgid "revision %1"
@@ -5889,16 +5874,16 @@ msgstr "початок"
 #: core/templates/viewtopicactionbuttons.tmpl:15
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
 msgstr ""
-"title='Додати зображення або документ до цієї теми' accesskey='д'>&Додати"
+"title='Додати зображення або документ до цієї теми' accesskey='д'>Додати файл"
 
 #: core/templates/viewtopicactionbuttons.tmpl:15
 msgid "title='Attach an image or document to this topic'>Attach"
 msgstr ""
-"title='Додати зображення або документ до цієї теми' accesskey='д'>&Додати"
+"title='Додати зображення або документ до цієї теми' accesskey='д'>Додати файл"
 
 #: core/templates/viewtopicactionbuttons.tmpl:5
 msgid "title='Create new topic' accesskey='c'>&Create"
-msgstr "title='Створити нову тему' accesskey='с'>&Створити"
+msgstr "title='Створити нову тему' accesskey='с'>Створити"
 
 #: core/templates/viewtopicactionbuttons.tmpl:19
 msgid ""
@@ -5906,11 +5891,11 @@ msgid ""
 "revisions' accesskey='m'>&More topic actions"
 msgstr ""
 "title='Вилучити або перейменувати цю тему; встановити батьківську тему; "
-"подивитися і порівняти редакції' accesskey='і'>&Інші дії над темою"
+"подивитися і порівняти редакції' accesskey='і'>Інші дії над темою"
 
 #: core/templates/viewtopicactionbuttons.tmpl:10
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Змінити текст теми' accesskey='р'>&Редагувати текст"
+msgstr "title='Змінити текст теми' accesskey='р'>Редагувати текст"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
 msgid "title='Edit this topic text' >Edit"
@@ -5918,22 +5903,22 @@ msgstr "title='Редагувати текст цієї теми'>Редагув
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
-msgstr "title='Редагувати текст цієї теми' accesskey='р'>&Редагувати"
+msgstr "title='Редагувати текст цієї теми' accesskey='р'>Редагувати"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:74
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='Вплісти' accesskey='в'>&Вплісти"
+msgstr "title='Вплісти' accesskey='в'>Переплетіння"
 
 #: core/templates/viewtopicactionbuttons.tmpl:23
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
-msgstr "title='Версія теми для друку' accesskey='д'>Версія для &друку"
+msgstr "title='Версія теми для друку' accesskey='д'>Версія для друку"
 
 #: core/templates/viewtopicactionbuttons.tmpl:30
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
 msgstr ""
 "title='Знайти теми, що посилаються сюди, у всіх розділах' accesskey='р'>Всі "
-"&розділи"
+"розділи"
 
 #: core/templates/viewtopicactionbuttons.tmpl:32
 msgid ""
@@ -5941,40 +5926,40 @@ msgid ""
 "accesskey='b'>&Backlinks"
 msgstr ""
 "title='Шукати у розділі %1 на теми, що посилаються сюди' accesskey='з'>"
-"&Зворотні посилання"
+"Зворотні посилання"
 
 #: core/templates/viewtopicactionbuttons.tmpl:28
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
 msgstr ""
 "title='Шукати у розділі %1 на теми, які сюди посилаються' "
-"accesskey='р'>&Розділ"
+"accesskey='р'>Розділ"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='У дві колонки' accesskey='к'>Дві &колонки"
+msgstr "title='У дві колонки' accesskey='к'>Дві колонки"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='Підписатись до теми' accesskey='п'>&Підписка"
+msgstr "title='Підписатись до теми' accesskey='п'>Підписка"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='Відписатись від теми' accesskey='п'>Від&писатись"
+msgstr "title='Відписатись від теми' accesskey='п'>Відписатись"
 
 #: core/templates/viewtopicactionbuttons.tmpl:35
 #: core/templates/viewtopicactionbuttons.tmpl:37
 msgid "title='View complete topic history' accesskey='h'>&History"
-msgstr "title='Проглянути повну історію теми' accesskey='і'>&Історія"
+msgstr "title='Проглянути повну історію теми' accesskey='і'>Історія"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:12
 msgid "title='View topic' accesskey='v'>&View topic"
-msgstr "title='Проглядання теми' accesskey='п'>&Переглянути тему"
+msgstr "title='Проглядання теми' accesskey='п'>Переглянути тему"
 
 #: core/templates/viewtopicactionbuttons.tmpl:41
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
-msgstr "title='Проглянути тему без форматування' accesskey='п'>&Похідний текст"
+msgstr "title='Проглянути тему без форматування' accesskey='п'>Похідний текст"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:38
 msgid "user list truncated"
