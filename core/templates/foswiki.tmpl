@@ -56,8 +56,10 @@ but may be used in derived templates.
 <link rel="alternate" href="%SCRIPTURL{edit}%/%BASEWEB%/%BASETOPIC%?t=%GMTIME{"$epoch"}%" type="application/x-wiki" title="edit %BASETOPIC%" />
 <meta name="description" content="%TOPIC%" />
     <base href="%SCRIPTURL{%SCRIPTNAME%}%/%WEB%/%TOPIC%" /><!--[if IE]></base><![endif]-->
-%TMPL:P{"script"}%
 %TMPL:P{"defaultstyle"}%
+%RENDERZONE{"head"}%
+%RENDERZONE{"script"}%
+%TMPL:P{"script"}%
 </head>%TMPL:END%%{
 ---------------------------------------------------
 }%%TMPL:DEF{"titleaction"}%%TMPL:END%%{

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1441296766" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %INCLUDE{"%IF{"context can_login" then="%SYSTEMWEB%.WebLeftBarLogin" else="<nop>"}%" warn="off"}%
 
@@ -40,3 +40,4 @@ nonoise="on" format="   * [[$topic]]"}%
 %ENDSECTION{"topics"}%
 
 %INCLUDE{ "%SYSTEMWEB%.WebLeftBarWebsList" }%
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

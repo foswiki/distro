@@ -1,11 +1,26 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1447358768" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ HTTPS -- get HTTPS headers
+
 The same as =%<nop>HTTP%= but operates on the HTTPS environment variables present when the SSL protocol is in effect. Can be used to determine whether SSL is turned on.
+   * Called with the name of an HTTP request header field, returns its value. Capitalization and the use of hyphens versus underscores are not significant.
+   * Request headers are sent by the browser to the server. It is not possible to access the Response headers returned to the browser.
+   * Only returns headers permitted by site configuration.
+   * When called without a parameter, nothing is returned. See VarHTTPS for other options.
+<div class='foswikiHelp'>%X% The HTTP and HTTPS macros are deprecated as of Foswiki release 2.1. and will be removed in a future release.</div>
+
 ---++ Parameters
-   | *Parameter* | *Description* | *Default* |
-   | ="name"= | Name of the header to get | required |
+| *Parameter* | *Description* | *Default* |
+| ="name"= | Name of the header to get | optional |
+---++ Examples
+
+| *Write* | *Returns* | *Notes* |
+| =%<nop>HTTPS%= | %HTTPS% | Returns '1' if HTTPS is active |
+| =%<nop>HTTPS{"Accept-language"}%= | %HTTPS{"Accept-language"}% | |
+| =%<nop>HTTPS{"User-Agent"}%= | %HTTPS{"User-Agent"}% | |
+| =%<nop>HTTPS{"Cookie"}%= | %HTTPS{"Cookie"}% | Not allowed by default. |
+<div class='foswikiHelp'>%X% You can see the HTTP headers your browser sends to the server on a number of sites e.g. http://www.ericgiguere.com/tools/http-header-viewer.html</div>
 %STOPINCLUDE%
 ---++ Related
- [[VarHTTP][HTTP]], [[VarREMOTEADDR][REMOTE_ADDR]], [[VarREMOTEPORT][REMOTE_PORT]], [[VarREMOTEUSER][REMOTE_USER]]
 
+[[VarHTTP][HTTP]], [[VarREMOTEADDR][REMOTE_ADDR]], [[VarREMOTEPORT][REMOTE_PORT]], [[VarREMOTEUSER][REMOTE_USER]]

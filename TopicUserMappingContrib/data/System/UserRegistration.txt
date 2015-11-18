@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1447730097" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserToolsCategory"}%
 Register on this site
 <!--
@@ -24,4 +24,5 @@ To create a custom UserRegistration page for your site:
 Note: You cannot set macros in an included topic. Users visiting %SYSTEMWEB.UserRegistration will be viewing the results of an INCLUDE.
 </div>'}%
 
-%META:FILEATTACHMENT{name="js.js" attr="h" comment="" date="1437500521" size="198" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="js.js" attr="h" comment="" date="1447730097" size="198" user="ProjectContributor" version="1"}%
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

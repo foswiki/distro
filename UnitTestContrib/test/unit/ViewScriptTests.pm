@@ -241,7 +241,8 @@ sub test_render_raw {
 
     ( $text, $hdr ) =
       $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'text' );
-    $this->assert_equals( "$topic2", $text, "Unexpected output from raw=text" );
+    $this->assert_equals( "$topic2", "$text\n",
+        "Unexpected output from raw=text" );
     $this->assert_matches( qr#^Content-Type: text/plain#ms,
         $hdr, "raw=text should return text/plain - got $hdr" );
 
@@ -258,7 +259,7 @@ sub test_render_raw {
     ( $text, $hdr ) =
       $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'all' );
 
-    $this->assert_matches( qr#$topic2meta$topic2#, $text );
+    $this->assert_matches( qr#$topic2meta$topic2#, "$text\n" );
     $this->assert_matches( qr#^Content-Type: text/plain#ms,
         $hdr, "raw=all should return text/plain - got $hdr" );
 

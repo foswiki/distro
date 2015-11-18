@@ -3385,7 +3385,7 @@ msgstr ""
 "快速浏览 %1 以对这个合作平台有个概念。进一步资料可以参考来自相同连结的 "
 "%SYSTEMWEB%.TwentyMinuteTutorial."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "阅读"
 
@@ -3659,6 +3659,7 @@ msgstr "%1 子网中的结果"
 msgid "Results from %1 web:"
 msgstr "%1 子网中的结果"
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 #, fuzzy
 msgid "Return to %1"
@@ -3670,11 +3671,6 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
-msgstr "回到 %1."
-
-#: core/templates/registermessages.tmpl:348
-#, fuzzy
-msgid "Return to [_0]"
 msgstr "回到 %1."
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
@@ -5989,6 +5985,10 @@ msgstr "浏览"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "为何您被要求确认"
+
+#, fuzzy
+#~ msgid "Return to [_0]"
+#~ msgstr "回到 %1."
 
 #~ msgid ""
 #~ "International (8-bit) characters are removed (replaced by US-ASCII "

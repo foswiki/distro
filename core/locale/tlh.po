@@ -3359,7 +3359,7 @@ msgid ""
 "more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "latlh laD"
 
@@ -3632,6 +3632,7 @@ msgstr "%1 mIchDaq Dochmey&&#39;e&&#39; luSamlu&&#39;bogh"
 msgid "Results from %1 web:"
 msgstr "%1 mIch Dochmey&&#39;e&&#39; luSamlu&&#39;bogh:"
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 msgid "Return to %1"
 msgstr "%1Daq chegh"
@@ -3645,10 +3646,6 @@ msgstr ""
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
 msgstr "%1Daq chegh."
-
-#: core/templates/registermessages.tmpl:348
-msgid "Return to [_0]"
-msgstr "[_0]Daq chegh"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 msgid "Retype new password:"
@@ -5954,6 +5951,9 @@ msgstr "bej"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "qatlh naDev bI&&#39;olnIS"
+
+#~ msgid "Return to [_0]"
+#~ msgstr "[_0]Daq chegh"
 
 #~ msgid "Notes:"
 #~ msgstr "qeSmey:"

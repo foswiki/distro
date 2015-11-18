@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1447730097" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 <noautolink>
 <!--
@@ -471,4 +471,5 @@ format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
 -->
 </noautolink>
 
-%META:FILEATTACHMENT{name="validate.js" attr="h" comment="" date="1437500521" size="2027" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="validate.js" attr="h" comment="" date="1447730097" size="2027" user="ProjectContributor" version="1"}%
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

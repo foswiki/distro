@@ -1,16 +1,21 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1447358768" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ HTTP -- get HTTP headers
-   * Called with the name of an HTTP header field, returns its value. Capitalization and the use of hyphens versus underscores are not significant.
+   * Called with the name of an HTTP request header field, returns its value. Capitalization and the use of hyphens versus underscores are not significant.
+   * Request headers are sent by the browser to the server. It is not possible to access the Response headers returned to the browser.
+   * Only returns headers permitted by site configuration. Returns '' if the header is not allowed.
+   * When called without a parameter, nothing is returned.  See VarHTTPS for other options.
+<div class="foswikiHelp">%X% The HTTP and HTTPS macros are deprecated as of Foswiki release 2.1. and will be removed in a future release.</div>
 ---++ Parameters
 | *Name* | *Description* |
 | ="name"= | Name of the header to get |
 ---++ Examples
-     | =%<nop>HTTP%= | %HTTP% |
-     | =%<nop>HTTP{"Accept-language"}%= | %HTTP{"Accept-language"}% |
-     | =%<nop>HTTP{"User-Agent"}%= | %HTTP{"User-Agent"}% |
+     | *Write* | *Returns* | *Notes* |
+     | =%<nop>HTTP%= | %HTTP% | Always returns '' |
+     | =%<nop>HTTP{"Accept-language"}%= | %HTTP{"Accept-language"}% | |
+     | =%<nop>HTTP{"User-Agent"}%= | %HTTP{"User-Agent"}% | |
+     | =%<nop>HTTP{"Cookie"}%= | %HTTP{"Cookie"}% | Not allowed by default. |
    <div class="foswikiHelp">%X% You can see the HTTP headers your browser sends to the server on a number of sites e.g. http://www.ericgiguere.com/tools/http-header-viewer.html</div>
 %STOPINCLUDE%
 ---++ Related
  [[VarHTTPS][HTTPS]], [[VarREMOTEADDR][REMOTE_ADDR]], [[VarREMOTEPORT][REMOTE_PORT]], [[VarREMOTEUSER][REMOTE_USER]]
-

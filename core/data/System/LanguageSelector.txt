@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TimeSpecifications"}%
 ---+!! Language selection dropdown
 
@@ -37,3 +37,4 @@ Result:
     </noscript>
  </form>%ENDSECTION{"selector"}%
 </verbatim> -->
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

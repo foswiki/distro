@@ -3265,7 +3265,7 @@ msgid ""
 "more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr ""
 
@@ -3530,6 +3530,7 @@ msgstr "%1 için arama sonuçları"
 msgid "Results from %1 web:"
 msgstr ""
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 msgid "Return to %1"
 msgstr ""
@@ -3540,10 +3541,6 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
-msgstr ""
-
-#: core/templates/registermessages.tmpl:348
-msgid "Return to [_0]"
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27

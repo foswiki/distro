@@ -40,7 +40,7 @@ sub ADDTOZONE {
 #print STDERR "WARNING: ADDTOZONE was called for zone 'body' ... rerouting it to zone 'script' ... please fix your templates\n";
             $zone = 'script';
         }
-        $this->addToZone( $zone, $id, $text, $requires );
+        $this->zones()->addToZone( $zone, $id, $text, $requires );
     }
 
     return (DEBUG) ? "<!--A2Z:$id-->" : '';

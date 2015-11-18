@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443575942" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
 %META:TOPICPARENT{name="CommentPlugin"}%
 
 ---+!! Templates for CommentPlugin
@@ -331,3 +331,4 @@ Post to a different topic and return to here. The comment =target= is set in the
 Including UserCommentsTemplate ("Template" gets automatically appended to the name):
 
 %TMPL:INCLUDE{"UserComments"}%
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1420689155" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ %MAKETEXT{"Detailed topic list for [_1] Web" args="%BASEWEB%"}%
 %SEARCH{
@@ -11,3 +11,4 @@
   }%
 
 %MAKETEXT{"See also the faster [_1]" args="[[%BASEWEB%.WebTopicList][WebTopicList]]"}%
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

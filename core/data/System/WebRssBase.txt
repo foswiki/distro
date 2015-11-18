@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443185186" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ RSS News Feeds
 %JQREQUIRE{"chili"}%
@@ -95,3 +95,4 @@ The part below is included by each <nop>WebRss topic:
 -----
 
 *See also*: [[WebAtomBase]]
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

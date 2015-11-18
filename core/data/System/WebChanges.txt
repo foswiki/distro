@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ %MAKETEXT{"[_1] recent changes in [_2] Web" args="%URLPARAM{"limit" default="%DEFAULTPAGESIZE%"}%, <nop>%BASEWEB%"}% <span style="font-size: 50%">%MAKETEXT{"retrieved at [_1]" args="%DISPLAYTIME{"$hour:$min ($tz)"}%"}%</span>
 
@@ -17,3 +17,4 @@
 <strong><em>%MAKETEXT{"See also:"}%</em></strong>
 %ICON{rss-small}%
 %MAKETEXT{"<a href='[_1]'>RSS feed</a>, recent changes with <a href='[_2]'>50</a>, <a href='[_3]' rel='nofollow'>100</a>, <a href='[_4]' rel='nofollow'>200</a>, <a href='[_5]' rel='nofollow'>500</a>, <a href='[_6]' rel='nofollow'>1000</a> topics, <a href='[_7]' rel='nofollow'>all changes</a>" args="%SCRIPTURLPATH{"view"}%/%BASEWEB%/WebRss, %SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%, %SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?limit=100, %SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?limit=200, %SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?limit=500, %SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?limit=1000, %SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?limit=All"}%
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

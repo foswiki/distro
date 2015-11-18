@@ -1037,6 +1037,11 @@ $Foswiki::cfg{UsePathForRedirectCache} = $FALSE;
 $Foswiki::cfg{AccessibleENV} =
 '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD_PERL|FOSWIKI_ACTION|PATH_INFO)$';
 
+# **PERL LABEL="Accessible Headers" EXPERT**
+# Defines a list of headers that can be accessed by the HTTP and HTTPS macros.
+# Note: These macros are deprecated as of Release 2.1, and will be removed in a future release.
+$Foswiki::cfg{AccessibleHeaders} = ['Accept-Language', 'User-Agent'];
+
 #---++ Proxies
 # Some environments require outbound HTTP traffic to go through a proxy
 # server (for example http://proxy.your.company).

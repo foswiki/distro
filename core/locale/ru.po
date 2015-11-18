@@ -3511,7 +3511,7 @@ msgstr ""
 "организации совместной работы. Чтобы узнать больше, изучите "
 "TwentyMinuteTutorial, доступный по той же ссылке."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Прочтите"
 
@@ -3791,6 +3791,7 @@ msgstr "Результаты по разделу \"%1\"."
 msgid "Results from %1 web:"
 msgstr "Результаты по разделу \"%1\"."
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 #, fuzzy
 msgid "Return to %1"
@@ -3802,11 +3803,6 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
-msgstr "Вернуться к %1."
-
-#: core/templates/registermessages.tmpl:348
-#, fuzzy
-msgid "Return to [_0]"
 msgstr "Вернуться к %1."
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
@@ -6220,6 +6216,10 @@ msgstr "Просмотреть"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Return to [_0]"
+#~ msgstr "Вернуться к %1."
 
 #~ msgid ""
 #~ "International (8-bit) characters are removed (replaced by US-ASCII "

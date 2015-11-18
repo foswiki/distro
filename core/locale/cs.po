@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-05-22 22:11+0200\n"
+"PO-Revision-Date: 2015-11-10 23:26+0200\n"
 "Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki/"
 "distribution-master/cs/>\n"
@@ -49,7 +49,7 @@ msgstr "%1"
 
 #: core/templates/searchformat.tmpl:24
 msgid "%1 %2 Page %3 of %4 %5 %6"
-msgstr ""
+msgstr "%1 %2 Strana %3 of %4 %5 %6"
 
 #: core/data/System/SiteChanges.txt:84
 msgid "%1 (default)"
@@ -239,9 +239,8 @@ msgid "(=all= to show all topics)"
 msgstr "(=all= pro všechny články)"
 
 #: core/templates/backlinkchildren.tmpl:2
-#, fuzzy
 msgid "(Children in %1 Web)"
-msgstr "(zpětné odkazy v %1 Webu)"
+msgstr "(Odkazy z webu %1)"
 
 #: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "(This message will be removed automatically)"
@@ -379,13 +378,12 @@ msgstr ""
 "formuláře. Zadejte [[%1][username]] nebo [[%1][WikiName]] a nový e-mail."
 
 #: core/templates/attachagain.tmpl:19
-#, fuzzy
 msgid ""
 "*Attach new file:* If you select a different file in the browser, it is this "
 "that will be updated or added."
 msgstr ""
-"*Lokální soubor:* Pokud vyberete jiný soubor jako _lokální:_, tak to bude "
-"ten, který bude změněn nebo přidán."
+"*Vložit nový soubor:* Pokud vyberete jiný soubor v prohlížeči, tak to bude "
+"právě ten, který bude změněn nebo přidán."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -660,9 +658,8 @@ msgid "Add"
 msgstr "Přidat"
 
 #: core/data/Main/GroupViewTemplate.txt:203
-#, fuzzy
 msgid "Add Members to %1"
-msgstr "Přidat členy do"
+msgstr "Přidat členy do %1"
 
 #. ("$theWeb.$theTopic")
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:78
@@ -1448,9 +1445,8 @@ msgid "Delete"
 msgstr "Smazat"
 
 #: core/templates/renameattachmentdelete.tmpl:28
-#, fuzzy
 msgid "Delete attachment %1"
-msgstr "Smazat přílohu"
+msgstr "Smazat přílohu %1"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:168
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:983
@@ -1813,7 +1809,6 @@ msgid "Find similar topics"
 msgstr "Najít obdobné články"
 
 #: core/templates/more.tmpl:205
-#, fuzzy
 msgid "Find topics that are children of %1 ..."
 msgstr "Najít články které odkazují na %1 ..."
 
@@ -3330,7 +3325,7 @@ msgstr ""
 "spolupráci. Aby jste se naučil více, čtěte TwentyMinuteTutorial, který je "
 "odtud přístupný."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Pročtěte si"
 
@@ -3599,6 +3594,7 @@ msgstr "Výsledky z webu %1"
 msgid "Results from %1 web:"
 msgstr "Výsledky z webu %1:"
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 msgid "Return to %1"
 msgstr "Návrat k %1"
@@ -3610,10 +3606,6 @@ msgstr "Návrat k %1 a doplnění [[%2][WikiName]] nebo [[%3][username]]."
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
 msgstr "Návrat do %1."
-
-#: core/templates/registermessages.tmpl:348
-msgid "Return to [_0]"
-msgstr "Návrat k [_0]"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 msgid "Retype new password:"
@@ -5966,6 +5958,9 @@ msgstr "náhled"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "proč jste byl dotazován na potvrzení"
+
+#~ msgid "Return to [_0]"
+#~ msgstr "Návrat k [_0]"
 
 #~ msgid ""
 #~ "International (8-bit) characters are removed (replaced by US-ASCII "

@@ -11,21 +11,56 @@ BEGIN {
     }
 }
 
+# $https flag set when HTTPS macro is requested.
+
 sub HTTP {
-    my ( $this, $params ) = @_;
+    my ( $this, $params, $topicObject ) = @_;
     my $res;
-    if ( $params->{_DEFAULT} ) {
-        $res = $this->{request}->http( $params->{_DEFAULT} );
+    my $req = _validateRequest( $params->{_DEFAULT} );
+
+    my $https = ( substr( ( caller() )[1], -8 ) eq "HTTPS.pm" );
+
+    if ($https) {
+        return ''
+          unless (
+            !defined $req      # Requesting secure flag
+            || length($req)    # or requesting a specific header
+          );
+        $res = $this->{request}->https($req);
+    }
+    else {
+        return ''
+          unless (
+            defined $req       # Specifc header requested
+            && length($req)    # and passed validation
+          );
+        $res = $this->{request}->http($req);
     }
     $res = '' unless defined($res);
     return $res;
+}
+
+sub _validateRequest {
+
+    # Permit undef - used by HTTPS variant
+    return $_[0] unless defined $_[0];
+
+    # Nothing allowed if AccessibleHeaders is not defined
+    return '' unless ( scalar @{ $Foswiki::cfg{AccessibleHeaders} } );
+
+    foreach my $hdr ( @{ $Foswiki::cfg{AccessibleHeaders} } ) {
+        return $hdr if ( lc( $_[0] ) eq lc($hdr) );
+    }
+
+    # Nothing matched, return empty.
+    return '';
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

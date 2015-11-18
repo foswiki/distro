@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-09-29 20:45+0200\n"
 "Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3357,7 +3357,7 @@ msgstr ""
 "få en dybere indsigt i systemet kan du læse siden TwentyMinuteTutorial, som "
 "kan nås fra samme link."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Læs mere"
 
@@ -3625,6 +3625,7 @@ msgstr "Søgeresultater fra %1-webbet"
 msgid "Results from %1 web:"
 msgstr "Søgeresultater fra %1-webbet:"
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 msgid "Return to %1"
 msgstr "Tilbage til %1"
@@ -3636,10 +3637,6 @@ msgstr "Tilbage til %1 og angiv [[%2][WikiNavn]] eller [[%3][brugernavn]]."
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
 msgstr "Tilbage til %1."
-
-#: core/templates/registermessages.tmpl:348
-msgid "Return to [_0]"
-msgstr "Tilbage til [_0]"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 msgid "Retype new password:"
@@ -6017,6 +6014,9 @@ msgstr "vis"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "for at få at vide hvorfor du bliver bedt om at bekræfte"
+
+#~ msgid "Return to [_0]"
+#~ msgstr "Tilbage til [_0]"
 
 #~ msgid ""
 #~ "International (8-bit) characters are removed (replaced by US-ASCII "

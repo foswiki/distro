@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718139" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebPreferences"}%
 ---++!! Tools
 %INCLUDE{"%SYSTEMWEB%.RenameWeb"}%
@@ -11,3 +11,4 @@
    * [[%SYSTEMWEB%.Macros][Macros]] - what macros are and how to use them, including a list of common macros
    * [[%SYSTEMWEB%.AccessControl][AccessControl]] - explains how to restrict access by users or groups
 %ENDTWISTY%
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

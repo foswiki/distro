@@ -3459,7 +3459,7 @@ msgstr ""
 "Lue %1 saadaksesi yleiskäsityksen wikistä. Oppiaksesi enemmän, lue "
 "TwentyMinuteTutorial, joka löytyy samasta linkistä."
 
-#: TipsContrib/data/System/TipsOfTheDayInclude.txt:58
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
 msgstr "Lue"
 
@@ -3735,6 +3735,7 @@ msgstr "Tulokset %1 verkosta"
 msgid "Results from %1 web:"
 msgstr "Tulokset %1 verkosta"
 
+#: core/templates/registermessages.tmpl:348
 #: core/templates/registermessages.tmpl:362
 #, fuzzy
 msgid "Return to %1"
@@ -3746,11 +3747,6 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:296
 msgid "Return to %1."
-msgstr "Palaa %1"
-
-#: core/templates/registermessages.tmpl:348
-#, fuzzy
-msgid "Return to [_0]"
 msgstr "Palaa %1"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
@@ -6143,6 +6139,10 @@ msgstr "näytä"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "Miksi sinulta kysytään vahvistusta"
+
+#, fuzzy
+#~ msgid "Return to [_0]"
+#~ msgstr "Palaa %1"
 
 #~ msgid ""
 #~ "International (8-bit) characters are removed (replaced by US-ASCII "

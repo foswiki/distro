@@ -663,6 +663,16 @@ else {
 
     binmode( STDOUT, ':utf8' ) if $Foswiki::UNICODE;
 
+# SMELL: RcsWrap is unable to copy WebPreferences topics.  This topic gets created
+# when the target web is created. RCS "ci" prevents the copy of the actual topic
+# because it would set the timestamp into the past.
+# Error: "..  Date 2010/08/22 12:24:39 precedes 2015/11/10 18:55:55 in revision 1.1"
+
+    if ( $Foswiki::cfg{Store}{Implementation} =~ m/RcsWrap$/ ) {
+        announce "Overriding target Store Implementation to 'RcsLite'";
+        $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite';
+    }
+
     announce
       "Copying to $Foswiki::VERSION ($Foswiki::cfg{Store}{Implementation})";
 
