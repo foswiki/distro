@@ -974,7 +974,7 @@ $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 # files that were already uploaded, or files that were created directly
 # on the server.
 #
-$Foswiki::cfg{UploadFilter} = '^((?i)\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]htm[l]?(\..*)?|pl|py|cgi)?)$';
+$Foswiki::cfg{UploadFilter} = '^((?i)\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]?htm[l]?(\..*)?|pl|py|cgi)?)$';
 
 # **REGEX LABEL="Name Filter" EXPERT**
 # Filter-out regex for web names, topic names, usernames,

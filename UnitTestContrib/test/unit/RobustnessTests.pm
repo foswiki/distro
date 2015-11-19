@@ -175,22 +175,41 @@ sub test_sanitizeAttachmentName {
     }
 
     # Check that the upload filter is applied.
+    # SMELL:  Keep this regex in sync with the default regex in Foswiki.spec
     $Foswiki::cfg{UploadFilter} = qr(^(
-             \.htaccess
-         | .*\.(?i)(?:php[0-9s]?(\..*)?
-         | [sp]htm[l]?(\..*)?
-         | pl
-         | py
-         | cgi ))$)x;
+         (?i)\.htaccess                       # .htaccess needs to be case insensitive
+        | .*\.(?i)                            # Case insensitive
+           (?:php[0-9s]?(\..*)?               # PHP files can have a suffix
+            | [sp]?htm[l]?(\..*)?             # html, shtml, phtml, htm, shtm, phtm
+            | pl                              # Perl
+            | py                              # Python
+            | cgi                             # CGI Scripts
+        )?)$)x;
+
+    # Case sensitive, typical on Linux
     $this->assert_str_equals( ".htaccess.txt", _sanitize(".htaccess") );
-    for my $i (qw(php shtm phtml pl py cgi PHP SHTM PHTML PL PY CGI)) {
+
+    # Case insensitive (windows)
+    $this->assert_str_equals( ".HTacceSS.txt", _sanitize(".HTacceSS") );
+
+    # Trailing dot ignored on windows
+    $this->assert_str_equals( ".HTacceSS..txt", _sanitize(".HTacceSS.") );
+
+    for my $i (qw(php shtm phtml  html pl py cgi PHP SHTM PHTML PL PY CGI)) {
         my $j = "bog.$i";
         my $y = "$j.txt";
         $this->assert_str_equals( $y, _sanitize($j) );
     }
-    for my $i (qw(php phtm shtml PHP PHTM SHTML)) {
+    for my $i (qw(php php0 phtm shtml html PHP PHP0 PHTM SHTML)) {
         my $j = "bog.$i.s";
         my $y = "$j.txt";
+        $this->assert_str_equals( $y, _sanitize($j) );
+    }
+
+    # Trailing dots also get renamed
+    for my $i (qw(php phtm shtml html PHP py pl cgi PHTM SHTML)) {
+        my $j = "bog.$i.";
+        my $y = "bog.$i..txt";
         $this->assert_str_equals( $y, _sanitize($j) );
     }
 
