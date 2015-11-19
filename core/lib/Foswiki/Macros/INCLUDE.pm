@@ -89,7 +89,14 @@ m#^($Foswiki::regex{webNameRegex}\.|$Foswiki::regex{defaultWebNameRegex}\.|$Fosw
 
     # If link is only an anchor, leave it as is (Foswikitask:Item771)
     return "[[$link][$label]]" if $link =~ m/^#/;
-    return "[[$web.$link][$label]]";
+
+    if ( Foswiki::isValidTopicName( $link, 1 ) ) {
+        return "[[$web.$link][$label]]";
+    }
+    else {
+        # Just leave it alone,  not a valid topic, might be a Interwiki link.
+        return "[[$link][$label]]";
+    }
 }
 
 # generate an include warning
