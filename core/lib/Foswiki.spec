@@ -989,6 +989,11 @@ $Foswiki::cfg{NameFilter} = '[\\\\\\s\\*?~^\\$@%`"\'\\x26;:|\\x3c>\\[\\]#\\x00-\
 # removed.
 $Foswiki::cfg{AttachmentNameFilter} = '[\\\\\\*?~^\\$@%`"\'\\x26;|\\x3c>\\[\\]#\\x00-\\x1f]';
 
+# **BOOLEAN LABEL="Replace Attachment Spaces" EXPERT**
+# Enable this parameter if you want the old behavior of replacing spaces in an attachment filename
+# with underscores.
+$Foswiki::cfg{AttachmentReplaceSpaces} = $FALSE;
+
 # **BOOLEAN LABEL="Force unsafe Regular Expressions" EXPERT**
 # If this is set, then the search module will use more relaxed
 # rules governing regular expressions searches.

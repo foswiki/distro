@@ -337,7 +337,7 @@ sub sanitizeAttachmentName {
     }
 
     # Change spaces to underscore
-    $fileName =~ s/ /_/g;
+    $fileName =~ s/ /_/g if ( $Foswiki::cfg{AttachmentReplaceSpaces} );
 
     # See Foswiki.pm filenameInvalidCharRegex definition and/or Item11185
     #$fileName =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;

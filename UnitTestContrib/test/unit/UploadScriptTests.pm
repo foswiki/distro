@@ -127,6 +127,67 @@ sub test_simple_upload {
     return;
 }
 
+sub test_space_filename {
+    my $this = shift;
+    local $/ = undef;
+    my $result;
+
+    # Try the upload with ReplaceSpaces enabled (old Foswiki 1.x/2.0 behaviour)
+    # It should oops. but will still attach the file.
+    $Foswiki::cfg{AttachmentReplaceSpaces} = 1;
+    try {
+        $result = $this->do_upload(
+            'Flappa doodle.txt',
+            "BLAH",
+            undef,
+            hidefile         => 0,
+            filecomment      => 'Elucidate the goose',
+            createlink       => 0,
+            changeproperties => 0,
+        );
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( "upload_name_changed", $e->{def} );
+    };
+
+    # Try the upload again, without ReplaceSpaces enabled, (new behaviour)
+    # It should work, without any oops.
+    $Foswiki::cfg{AttachmentReplaceSpaces} = 0;
+    $result = $this->do_upload(
+        'Flappa doodle.txt',
+        "BLAH",
+        undef,
+        hidefile         => 0,
+        filecomment      => 'Stuff the goose',
+        createlink       => 0,
+        changeproperties => 0,
+    );
+
+    $this->assert_matches( qr/^Status: 302/ms, $result );
+    $this->assert(
+        open(
+            my $F,
+            '<',
+"$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/Flappa doodle.txt"
+        )
+    );
+    $this->assert_str_equals( "BLAH", <$F> );
+    $this->assert( close($F) );
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+
+    # Check the meta
+    my $at = $meta->get( 'FILEATTACHMENT', 'Flappa doodle.txt' );
+    $this->assert($at);
+    $this->assert_str_equals( 'Stuff the goose', $at->{comment} );
+
+    $at = $meta->get( 'FILEATTACHMENT', 'Flappa_doodle.txt' );
+    $this->assert($at);
+    $this->assert_str_equals( 'Elucidate the goose', $at->{comment} );
+    return;
+}
+
 sub test_noredirect_param {
     my $this = shift;
     local $/ = undef;
