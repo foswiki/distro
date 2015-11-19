@@ -870,6 +870,7 @@ $Foswiki::cfg{AccessibleCFG} = [
     '{AntiSpam}{EntityEncode}',
     '{AntiSpam}{HideUserDetails}',
     '{AntiSpam}{RobotsAreWelcome}',
+    '{AttachmentNameFilter}',
     '{AuthRealm}',
     '{AuthScripts}',
     '{Cache}{Enabled}',
@@ -976,11 +977,17 @@ $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 $Foswiki::cfg{UploadFilter} = '^((?i)\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]htm[l]?(\..*)?|pl|py|cgi)?)$';
 
 # **REGEX LABEL="Name Filter" EXPERT**
-# Filter-out regex for webnames, topic names, file attachment names, usernames,
+# Filter-out regex for web names, topic names, usernames,
 # include paths and skin names. This is a filter *out*, so if any of the
 # characters matched by this expression are seen in names, they will be
 # removed.
-$Foswiki::cfg{NameFilter} = '[\\\\\\s\\*?~^\\$@%`"\'\\x26;|\\x3c>\\[\\]#\\x00-\\x1f]';
+$Foswiki::cfg{NameFilter} = '[\\\\\\s\\*?~^\\$@%`"\'\\x26;:|\\x3c>\\[\\]#\\x00-\\x1f]';
+
+# **REGEX LABEL="Attachment Name Filter" EXPERT**
+# Filter-out regex file attachment names. This is a filter *out*, so if any of the
+# characters matched by this expression are seen in an attachment name, they will be
+# removed.
+$Foswiki::cfg{AttachmentNameFilter} = '[\\\\\\s\\*?~^\\$@%`"\'\\x26;|\\x3c>\\[\\]#\\x00-\\x1f]';
 
 # **BOOLEAN LABEL="Force unsafe Regular Expressions" EXPERT**
 # If this is set, then the search module will use more relaxed

@@ -182,7 +182,7 @@ standard Web/Topic/attachment level e.g
 Web/Topic/attachmentdir/subdir/attachment.gif. While such attachments cannot
 be created via the UI, they *can* be created manually on the server.
 
-The individual path components are filtered by $Foswiki::cfg{NameFilter}
+The individual path components are filtered by $Foswiki::cfg{AttachmentNameFilter}
 
 =cut
 
@@ -216,7 +216,7 @@ sub validateAttachmentName {
         else {
 
             # Filter nasty characters
-            $component =~ s/$Foswiki::cfg{NameFilter}//g;
+            $component =~ s/$Foswiki::cfg{AttachmentNameFilter}//g;
             push( @result, $component );
         }
     }
@@ -240,7 +240,7 @@ sub _cleanUpFilePath {
         if ( $component eq '..' ) {
             throw Error::Simple( 'relative path in filename ' . $string );
         }
-        elsif ( $component =~ m/$Foswiki::cfg{NameFilter}/ ) {
+        elsif ( $component =~ m/$Foswiki::cfg{AttachmentNameFilter}/ ) {
             throw Error::Simple( 'illegal characters in file name component "'
                   . $component
                   . '" of filename '
@@ -266,7 +266,7 @@ sub _cleanUpFilePath {
 ---++ StaticMethod normalizeFileName( $string ) -> $filename
 
 Throws an exception if =$string= contains filtered characters, as
-defined by =$Foswiki::cfg{NameFilter}=
+defined by =$Foswiki::cfg{AttachmentNameFilter}=
 
 The returned string is not tainted, but it may contain shell
 metacharacters and even control characters.
@@ -341,7 +341,7 @@ sub sanitizeAttachmentName {
 
     # See Foswiki.pm filenameInvalidCharRegex definition and/or Item11185
     #$fileName =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;
-    $fileName =~ s/$Foswiki::cfg{NameFilter}//g;
+    $fileName =~ s/$Foswiki::cfg{AttachmentNameFilter}//g;
 
     # Append .txt to some files
     $fileName =~ s/$Foswiki::cfg{UploadFilter}/$1\.txt/g;

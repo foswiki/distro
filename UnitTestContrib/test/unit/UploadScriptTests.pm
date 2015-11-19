@@ -563,7 +563,7 @@ sub test_imagelink {
     $this->assert( open( my $FILE, '<', $imageFile ) );
     my $data = do { local $/ = undef; <$FILE> };
     $this->assert( close($FILE) );
-    my $filename = 'bomb.png';
+    my $filename = 'bo:mb.png';
     $filename = Assert::TAINT($filename);
     my $result = $this->do_upload(
         $filename,
@@ -591,12 +591,12 @@ sub test_imagelink {
 
     # Check the link was created
     $this->assert_matches(
-qr/<img src=\"%ATTACHURLPATH%\/bomb.png\" alt=\"bomb.png\" width=\'16\' height=\'16\' \/>/,
+qr/<img src=\"%ATTACHURLPATH%\/bo:mb.png\" alt=\"bo:mb.png\" width=\'16\' height=\'16\' \/>/,
         $text
     );
 
     # Check the meta
-    my $at = $meta->get( 'FILEATTACHMENT', 'bomb.png' );
+    my $at = $meta->get( 'FILEATTACHMENT', 'bo:mb.png' );
     $this->assert($at);
     $this->assert_matches( qr/h/i, $at->{attr} );
     $this->assert_str_equals( 'Educate the hedgehog', $at->{comment} );

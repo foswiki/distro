@@ -134,7 +134,7 @@ sub test_sanitizeAttachmentName {
     my $crap = '';
     for ( 0 .. 255 ) {
         my $c = chr($_);
-        $crap .= $c if $c =~ m/$Foswiki::cfg{NameFilter}/;
+        $crap .= $c if $c =~ m/$Foswiki::cfg{AttachmentNameFilter}/;
     }
 
     my $hex = '';

@@ -559,7 +559,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
     # See RobustnessTests::test_sanitizeAttachmentName
     #
     # Actually, this is used in GenPDFPrincePlugin; let's copy NameFilter
-    $regex{filenameInvalidCharRegex} = qr/$Foswiki::cfg{NameFilter}/;
+    $regex{filenameInvalidCharRegex} = qr/$Foswiki::cfg{AttachmentNameFilter}/;
 
     # Multi-character alpha-based regexes
     $regex{mixedAlphaNumRegex} = qr/[[:alnum:]]*/;
