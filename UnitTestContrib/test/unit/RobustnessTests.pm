@@ -150,7 +150,7 @@ sub test_sanitizeAttachmentName {
     );
     $this->assert_num_equals( 51, length($crap) );
     my $x = $crap =~ m/ / ? '_' : '';
-    $this->assert_str_equals( "pick_me${x}pick_me",
+    $this->assert_str_equals( "pick me${x}pick me",
         _sanitize("pick me${crap}pick me") );
     my %junkset = (
         '<script>'       => 'script',
@@ -163,7 +163,7 @@ sub test_sanitizeAttachmentName {
         "foo\x1ffoo"     => 'foofoo',          # C0 Control
         "\xe2cret\xe9"   => "\xe2cret\xe9",    # cf. acrete - 'âcreté'
         '片仮名'      => '片仮名',
-        'var a = { b : !(1 - 2 + 3) };' => 'var_a_=_{_b_:_!(1_-_2_+_3)_}',
+        'var a = { b : !(1 - 2 + 3) };' => 'var a = { b : !(1 - 2 + 3) }',
 
         #'var a = { b : !(1 - 2 + 3) };' => 'var_a___b_:_1__2__3_',
         #"foo\x7ffoo" => 'foofoo', # C1 Control
