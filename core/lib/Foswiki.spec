@@ -987,7 +987,7 @@ $Foswiki::cfg{NameFilter} = '[\\\\\\s\\*?~^\\$@%`"\'\\x26;:|\\x3c>\\[\\]#\\x00-\
 # Filter-out regex file attachment names. This is a filter *out*, so if any of the
 # characters matched by this expression are seen in an attachment name, they will be
 # removed.
-$Foswiki::cfg{AttachmentNameFilter} = '[\\\\\\s\\*?~^\\$@%`"\'\\x26;|\\x3c>\\[\\]#\\x00-\\x1f]';
+$Foswiki::cfg{AttachmentNameFilter} = '[\\\\\\*?~^\\$@%`"\'\\x26;|\\x3c>\\[\\]#\\x00-\\x1f]';
 
 # **BOOLEAN LABEL="Force unsafe Regular Expressions" EXPERT**
 # If this is set, then the search module will use more relaxed
