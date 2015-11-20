@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-20 21:17+0200\n"
+"PO-Revision-Date: 2015-11-20 21:40+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -529,8 +529,9 @@ msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
 msgstr ""
-"Foswiki поділено на розділи; кожен розділ представляє одну предметну тему "
-"або одну область співпраці. Ви намагаєтеся виконати %1 у розділі що не існує."
+"Сайт Foswiki поділено на розділи; кожен розділ представляє одну предметну "
+"тему або одну область співпраці. Ви намагаєтеся виконати %1 у розділі що не "
+"існує."
 
 #: core/templates/messages.tmpl:143
 msgid ""
@@ -1765,7 +1766,6 @@ msgstr ""
 "розділи."
 
 #: core/data/System/ManagingTopics.txt:100
-#, fuzzy
 msgid "History"
 msgstr "Історія"
 
@@ -2031,7 +2031,6 @@ msgstr "Невірна електронна адреса"
 
 # Need to check it in context
 #: core/templates/messages.tmpl:580
-#, fuzzy
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -2097,9 +2096,8 @@ msgid "Last editor"
 msgstr "Останній редактор"
 
 #: core/data/System/SiteChanges.txt:45
-#, fuzzy
 msgid "Last modified"
-msgstr "В останнє змінено"
+msgstr "Востаннє змінено"
 
 #: core/data/System/WebSearch.txt:167
 msgid "Last modified time"
@@ -2192,7 +2190,6 @@ msgid "Make search:"
 msgstr "Провести пошук:"
 
 #: core/data/System/SiteChanges.txt:54
-#, fuzzy
 msgid "Maximum %1 items per web"
 msgstr "Щонайбільше %1 пунктів з розділу"
 
@@ -2206,7 +2203,6 @@ msgid "Missing Fields"
 msgstr "Відсутні поля"
 
 #: core/templates/messages.tmpl:36
-#, fuzzy
 msgid "Missing action command"
 msgstr "Не визначена команда для дії"
 
@@ -2419,7 +2415,6 @@ msgid "Note:"
 msgstr "Примітка:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:28
-#, fuzzy
 msgid ""
 "Note: you must have Cookies and Javascript enabled in your browser to get "
 "past this screen. This is normally the case, but if something doesn't work, "
@@ -3132,7 +3127,6 @@ msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "Виділіть, скопіюйте та вставте свій підпис знизу під Вашим записом"
 
 #: core/data/System/WebSearch.txt:181
-#, fuzzy
 msgid "Selections apply to search in \"text body\""
 msgstr "Обране відноситься до пошуку у «тілі тексту»"
 
@@ -3585,7 +3579,6 @@ msgid "The value supplied for =%1= has been rejected."
 msgstr "Значення для =%1= було відхилене."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
-#, fuzzy
 msgid ""
 "Their intention is to automatically save compromising data by sending a "
 "request to your server, using your browser and your identity."
@@ -3986,9 +3979,8 @@ msgid "Use %1 instead."
 msgstr "Тоді скористайтеся %1."
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:67
-#, fuzzy
 msgid "Use template:"
-msgstr "Використовувати шаблон:"
+msgstr "Використати шаблон:"
 
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1132
@@ -4414,7 +4406,6 @@ msgid "You need to specify a valid user to remove from a group."
 msgstr ""
 
 #: core/templates/registerconfirm.tmpl:11
-#, fuzzy
 msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
@@ -4607,7 +4598,6 @@ msgid "close display options"
 msgstr "закрити налаштування відображення"
 
 #: core/data/System/SiteChanges.txt:44
-#, fuzzy
 msgid "diff"
 msgstr "різниця"
 
