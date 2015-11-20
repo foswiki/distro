@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-20 21:22+0200\n"
+"PO-Revision-Date: 2015-11-20 21:40+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -571,8 +571,9 @@ msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
 msgstr ""
-"Foswiki поділено на розділи; кожен розділ представляє одну предметну тему "
-"або одну область співпраці. Ви намагаєтеся виконати %1 у розділі що не існує."
+"Сайт Foswiki поділено на розділи; кожен розділ представляє одну предметну "
+"тему або одну область співпраці. Ви намагаєтеся виконати %1 у розділі що не "
+"існує."
 
 #: core/templates/messages.tmpl:154
 msgid ""
@@ -2059,7 +2060,6 @@ msgstr ""
 "розділи."
 
 #: core/data/System/ManagingTopics.txt:98
-#, fuzzy
 msgid "History"
 msgstr "Історія"
 
@@ -2227,13 +2227,12 @@ msgid "If you want to create the topic"
 msgstr "Якщо Ви хочете створити тему"
 
 #: core/data/System/SearchHelp.txt:24
-#, fuzzy
 msgid ""
 "If you want to search for a word in the stop word list, prefix the word with "
 "a plus sign"
 msgstr ""
-"Якщо бажаєте шукати слово, що стоїть у \"стоп-листі\", додайте значок \"плюс"
-"\" на початок слова"
+"Якщо бажаєте шукати слово, що є у \"стоп-листі\", додайте значок \"плюс\" на "
+"початок слова"
 
 #: core/templates/messages.tmpl:441
 msgid "If you would like to create this web"
@@ -2432,7 +2431,6 @@ msgstr "Невірна назва теми."
 
 # Need to check it in context
 #: core/templates/messages.tmpl:338
-#, fuzzy
 msgid ""
 "It is probably OK to go ahead and edit - unless you intend to change data in "
 "a form attached to the topic. If %1 actually _does_ save the topic while you "
@@ -2515,9 +2513,8 @@ msgid "Last editor"
 msgstr "Останній редактор"
 
 #: core/data/System/SiteChanges.txt:65
-#, fuzzy
 msgid "Last modified"
-msgstr "В останнє змінено"
+msgstr "Востаннє змінено"
 
 #: core/data/System/WebSearch.txt:165
 msgid "Last modified time"
@@ -2622,7 +2619,6 @@ msgid "Make search:"
 msgstr "Провести пошук:"
 
 #: core/data/System/SiteChanges.txt:74
-#, fuzzy
 msgid "Maximum %1 items per web"
 msgstr "Щонайбільше %1 пунктів з розділу"
 
@@ -2636,7 +2632,6 @@ msgid "Missing Fields"
 msgstr "Відсутні поля"
 
 #: core/templates/messages.tmpl:37
-#, fuzzy
 msgid "Missing action command"
 msgstr "Не визначена команда для дії"
 
@@ -2910,7 +2905,6 @@ msgid "Note:"
 msgstr "Примітка:"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:28
-#, fuzzy
 msgid ""
 "Note: you must have Cookies and Javascript enabled in your browser to get "
 "past this screen. This is normally the case, but if something doesn't work, "
@@ -3182,14 +3176,13 @@ msgid "Please go back in your browser and check again."
 msgstr "Будь ласка, поверніться у Вашому браузері, і спробуйте ще раз."
 
 #: core/templates/messages.tmpl:85
-#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
 "Будь ласка, поверніться у Вашому браузері та виберіть таку назву теми, яка є "
-"[[%SYSTEMWEB%.WikiWord][ВікіІм&amp;ям]] або зніміть виділення з параметру "
-"«тільки-ВікіСлово»."
+"[[%SYSTEMWEB%.WikiWord][ВікіСловом]] або зніміть виділення з параметру "
+"«тільки-ВікіСлово»"
 
 #: core/templates/messages.tmpl:116 core/templates/messages.tmpl:124
 #: core/templates/messages.tmpl:139 core/templates/messages.tmpl:144
@@ -3855,7 +3848,6 @@ msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "Виділіть, скопіюйте та вставте свій підпис знизу під Вашим записом"
 
 #: core/data/System/WebSearch.txt:179
-#, fuzzy
 msgid "Selections apply to search in \"text body\""
 msgstr "Обране відноситься до пошуку у «тілі тексту»"
 
@@ -4080,14 +4072,12 @@ msgid "Summaries"
 msgstr "Підсумки"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:53
-#, fuzzy
 msgid "Superscript"
-msgstr "Надрядковий індекс"
+msgstr "Надрядкове"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:83
-#, fuzzy
 msgid "Switch to monotype or proportional font"
-msgstr "Перемикнути на фіксований чи пропорційний шрифт"
+msgstr "Перемкнути між фіксованим та пропорційним шрифтом"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 msgid "Switch to wysiwyg"
@@ -4351,12 +4341,11 @@ msgid "The file has been uploaded and attached properly to the %1 topic."
 msgstr "Файл було завантажено і правильно додано до сторінки теми %1."
 
 #: core/templates/messages.tmpl:252
-#, fuzzy
 msgid ""
 "The filename you are attempting to upload (%1) contains characters not "
 "supported by the configured encoding (%2)."
 msgstr ""
-"Ім'я файла, який Ви намагаєтесь завантажити (%1) містить символи, що не "
+"Ім'я файлу, який Ви намагаєтесь завантажити (%1) містить символи, що не "
 "підтримуються сконфігурованим кодуванням (%2)."
 
 #: core/templates/messages.tmpl:282
@@ -4398,7 +4387,6 @@ msgid "The name you log in with"
 msgstr "Ім'я з яким Ви увійшли"
 
 #: core/templates/messages.tmpl:111
-#, fuzzy
 msgid "The new parent web (%1) may not be the same as the old or new web name."
 msgstr ""
 "Новий батьківський розділ (%1) не може бути тим самим що й старе чи нове "
@@ -4470,7 +4458,6 @@ msgid "The value supplied for =%1= has been rejected."
 msgstr "Значення для =%1= було відхилене."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
-#, fuzzy
 msgid ""
 "Their intention is to automatically save compromising data by sending a "
 "request to your server, using your browser and your identity."
@@ -4796,9 +4783,8 @@ msgid "Topic history"
 msgstr "Історія теми"
 
 #: core/data/System/WebTopicList.txt:3
-#, fuzzy
 msgid "Topic list for %1 Web"
-msgstr "Теми у розділі %1:"
+msgstr "Теми у розділі %1"
 
 #: core/data/Sandbox/WebHome.txt:26 core/data/System/WebSearch.txt:161
 msgid "Topic name"
@@ -4887,7 +4873,6 @@ msgid "Undo last change"
 msgstr "Відмінити останню зміну"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
-#, fuzzy
 msgid "Unescape markup"
 msgstr "Зняти маскування з розмітки"
 
@@ -4900,7 +4885,6 @@ msgid "Unrecognized action command %1"
 msgstr "Невідома команда %1"
 
 #: core/templates/messages.tmpl:405
-#, fuzzy
 msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
@@ -4955,7 +4939,6 @@ msgid "Upgraded group"
 msgstr "Оновлена група"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:127
-#, fuzzy
 msgid "Upload a file"
 msgstr "Завантажити файл"
 
@@ -4987,9 +4970,8 @@ msgid "Use %1 instead."
 msgstr "Тоді скористайтеся %1."
 
 #: PatternSkin/data/System/WebCreateNewTopicTemplate.txt:69
-#, fuzzy
 msgid "Use template:"
-msgstr "Використовувати шаблон:"
+msgstr "Використати шаблон:"
 
 #: core/data/System/CompleteDocumentation.txt:12
 msgid ""
@@ -5037,7 +5019,6 @@ msgid "User Reference"
 msgstr "Посібник користувача"
 
 #: core/templates/oopsregister.tmpl:6
-#, fuzzy
 msgid "User Registration"
 msgstr "Реєстрація"
 
@@ -5423,7 +5404,6 @@ msgstr "Ви можете дати цьому розділу інше ім'я."
 
 #: core/templates/registermessages.tmpl:407
 #: core/templates/registermessages.tmpl:413
-#, fuzzy
 msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
@@ -5508,7 +5488,6 @@ msgstr ""
 "Вам необхідно визначити дійсного користувача, щоб вилучити його із групи."
 
 #: core/templates/registerconfirm.tmpl:12
-#, fuzzy
 msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
@@ -5723,7 +5702,6 @@ msgid "default as defined in the %1"
 msgstr "замовчення, що задане у %1"
 
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "diff"
 msgstr "різниця"
 
@@ -5810,9 +5788,8 @@ msgid "preview"
 msgstr "попередній перегляд"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:117
-#, fuzzy
 msgid "public view access"
-msgstr "дозвіл на загальний перегляд"
+msgstr "дозвіл на публічний перегляд"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:7
 msgid "restore"
