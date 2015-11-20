@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-20 19:05+0200\n"
+"PO-Revision-Date: 2015-11-20 21:17+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -1502,9 +1502,8 @@ msgid "Enlarge edit box"
 msgstr "Розширити область редагування"
 
 #: core/templates/login.tmpl:7
-#, fuzzy
 msgid "Enter a new username and password to change identity"
-msgstr "Для зміни логіну введіть нове ім'я користувача та пароль"
+msgstr "Введіть нове ім'я користувача та пароль щоб змінити логін"
 
 #: core/templates/login.sudo.tmpl:23
 #, fuzzy
