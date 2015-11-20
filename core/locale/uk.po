@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-20 21:11+0200\n"
+"PO-Revision-Date: 2015-11-20 21:22+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -1698,9 +1698,8 @@ msgid "Enlarge edit box"
 msgstr "Розширити область редагування"
 
 #: core/templates/login.tmpl:7
-#, fuzzy
 msgid "Enter a new username and password to change identity"
-msgstr "Для зміни логіну введіть нове ім'я користувача та пароль"
+msgstr "Введіть нове ім'я користувача та пароль щоб змінити логін"
 
 #: PatternSkin/data/System/WebCreateNewTopicComponents.txt:142
 msgid "Enter parent name"
@@ -1766,7 +1765,6 @@ msgid "Errors removing members from groups"
 msgstr "Помилки видалення членів з груп"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
-#, fuzzy
 msgid "Escape markup"
 msgstr "Замаскувати розмітку"
 
@@ -1887,12 +1885,10 @@ msgid "Form definition missing"
 msgstr "Відсутнє визначення форми"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:22
-#, fuzzy
 msgid "Format selected text"
-msgstr "Розмітка виділеного тексту"
+msgstr "Розмітити виділений текст"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:23
-#, fuzzy
 msgid "Formatted Search"
 msgstr "Пошук за форматом"
 
