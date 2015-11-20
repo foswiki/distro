@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-15 01:03+0200\n"
+"PO-Revision-Date: 2015-11-20 19:06+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -21,9 +21,8 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: core/data/System/WikiName.txt:3
-#, fuzzy
 msgid "!WikiName"
-msgstr "Назва теми"
+msgstr "!ВікіІм'я"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -205,7 +204,7 @@ msgstr "%1 перейменовано або переміщено з %2 до %3 
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
-msgstr "Відмінити"
+msgstr "Скасувати"
 
 #: core/templates/foswiki.tmpl:138
 msgid "&History"
@@ -266,7 +265,7 @@ msgstr "(немає доступу)"
 
 #: PatternSkin/templates/attach.pattern.tmpl:8 core/templates/attachnew.tmpl:2
 msgid "(attach)"
-msgstr "(прикріпити)"
+msgstr "(додати)"
 
 #: core/templates/backlinksweb.tmpl:2
 msgid "(backlinks in %1 Web)"
@@ -625,8 +624,8 @@ msgid ""
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3."
 msgstr ""
-"Новий пароль автоматично згенерований для Вашого імені %1 (!ВікіІм'я %2) "
-"вислано Вам на адресу електронної пошти, яку вказано при реєсрації. Якщо "
+"Новий пароль, який автоматично згенеровано для Вашого імені %1 (!ВікіІм'я %2)"
+", було вислано Вам на електронну адресу, яку вказано при реєстрації. Якщо "
 "вона більше не дійсна, то зверніться, будь ласка, до %3."
 
 #: core/data/System/WebTemplateTopics.txt:5
@@ -1110,7 +1109,7 @@ msgstr "Змінити з"
 #: core/data/System/LanguageSelector.txt:36
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
-msgstr "Змінити мову"
+msgstr "Зміна мови"
 
 #: core/templates/renamewebbase.tmpl:43
 msgid "Change links in topics that refer to !%1 in any Web:"
@@ -3852,7 +3851,7 @@ msgstr "Дивіться результат у %MAINWEB%.WikiGroups."
 
 #: core/data/System/WebIndex.txt:13
 msgid "See also the faster %1"
-msgstr "Дивіться швидший %1"
+msgstr "Перегляньте більш швидкий %1"
 
 #: core/data/System/WebTopicList.txt:6
 msgid "See also the verbose %1."
@@ -4012,8 +4011,8 @@ msgstr "Вибачте, реєстрація тимчасово вимкнена
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
-"Вибачте, підсистема паролей наразі не працює на запис. Зконтактуйте з %1, "
-"будь ласка."
+"Вибачте, система доступу наразі не працює на запис. Зв'яжіться з %1, будь "
+"ласка"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
 msgid "Sort ascending"
