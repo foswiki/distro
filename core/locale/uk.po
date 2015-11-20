@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-18 01:33+0200\n"
+"PO-Revision-Date: 2015-11-20 19:05+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -3218,8 +3218,8 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:18
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
-"Вибачте, підсистема паролей наразі не працює на запис. Зконтактуйте з %1, "
-"будь ласка"
+"Вибачте, система доступу наразі не працює на запис. Зв'яжіться з %1, будь "
+"ласка"
 
 #: core/data/System/WebSearch.txt:158
 msgid "Sort results by:"
@@ -3382,11 +3382,10 @@ msgid ""
 "jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
 "page and sign and date it with your %4."
 msgstr ""
-"Розділ %1 це пісочниця, де Ви можете тренуватися. Тут кожен може додавати "
-"або вилучати. Рекомендуємо спершу прочитати %2, щоб отримати ввідну "
-"інформацію по інструментарію %3. Хорошим тоном вважається додавати замітку в "
-"кінець сторінки, а також ставити підпис у вигляді Вашого ВікіІмені (%4) та "
-"дати."
+"Розділ %1 це пісочниця, де Ви можете тренуватися. Тут вітається додавання "
+"або вилучення будь чого, проте радимо спершу прочитати %2, щоб отримати "
+"початкову інформацію по інструментарію %3. Гарним тоном вважається додати в "
+"кінець сторінки підпис у вигляді Вашого %4 з датою."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
 #: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
@@ -4716,7 +4715,7 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Змінити текст теми' accesskey='р'>Редагувати текст"
+msgstr "title='Змінити текст теми' accesskey='р'>Редагувати похідний текст"
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
