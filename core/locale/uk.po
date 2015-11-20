@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-18 01:33+0200\n"
+"PO-Revision-Date: 2015-11-20 19:06+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: core/data/System/WikiName.txt:3
 msgid "!WikiName"
-msgstr "!ВікіІм&amp;я"
+msgstr "!ВікіІм'я"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:441
@@ -603,8 +603,8 @@ msgid ""
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3."
 msgstr ""
-"Новий пароль автоматично згенерований для Вашого імені %1 (!ВікіІм'я %2) "
-"вислано Вам на адресу електронної пошти, яку вказано при реєсрації. Якщо "
+"Новий пароль, який автоматично згенеровано для Вашого імені %1 (!ВікіІм'я %2)"
+", було вислано Вам на електронну адресу, яку вказано при реєстрації. Якщо "
 "вона більше не дійсна, то зверніться, будь ласка, до %3."
 
 #: core/data/System/WebTemplateTopics.txt:5
@@ -3960,8 +3960,8 @@ msgstr "Вибачте, реєстрація тимчасово вимкнена
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
-"Вибачте, підсистема паролей наразі не працює на запис. Зконтактуйте з %1, "
-"будь ласка"
+"Вибачте, система доступу наразі не працює на запис. Зв'яжіться з %1, будь "
+"ласка"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
 msgid "Sort ascending"
@@ -4182,11 +4182,10 @@ msgid ""
 "jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
 "page and sign and date it with your %4."
 msgstr ""
-"Розділ %1 це пісочниця, де Ви можете тренуватися. Тут кожен може додавати "
-"або вилучати. Рекомендуємо спершу прочитати %2, щоб отримати ввідну "
-"інформацію по інструментарію %3. Хорошим тоном вважається додавати замітку в "
-"кінець сторінки, а також ставити підпис у вигляді Вашого ВікіІмені (%4) та "
-"дати."
+"Розділ %1 це пісочниця, де Ви можете тренуватися. Тут вітається додавання "
+"або вилучення будь чого, проте радимо спершу прочитати %2, щоб отримати "
+"початкову інформацію по інструментарію %3. Гарним тоном вважається додати в "
+"кінець сторінки підпис у вигляді Вашого %4 з датою."
 
 #: core/data/Main/WebAtom.txt:4 core/data/Main/WebRss.txt:6
 #: core/data/Sandbox/WebAtom.txt:4 core/data/Sandbox/WebRss.txt:5
@@ -5538,7 +5537,7 @@ msgstr "%2 – це Ваше [[%1][ВікіІм'я]], а =%3= – Ваше ім'
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
 msgid "Your [[%1][username]]:"
-msgstr "Ваше [[%1][ім&amp;я користувача]]:"
+msgstr "Ваше [[%1][ім'я користувача]]:"
 
 #: core/templates/registermessages.tmpl:147
 msgid ""
@@ -5895,7 +5894,7 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:10
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='Змінити текст теми' accesskey='р'>Редагувати текст"
+msgstr "title='Змінити текст теми' accesskey='р'>Редагувати похідний текст"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
 msgid "title='Edit this topic text' >Edit"
