@@ -6,10 +6,10 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-04-01 22:07+0200\n"
-"Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
-"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki/"
-"distribution-release-11/cs/>\n"
+"PO-Revision-Date: 2015-11-21 00:51+0200\n"
+"Last-Translator: GeorgeClark <geonwiki@fenachrone.com>\n"
+"Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
+"/distribution-release-11/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -993,9 +993,8 @@ msgid "Change topic"
 msgstr "Změna článku"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-#, fuzzy
 msgid "Changed by:"
-msgstr "Změněno uživatelem"
+msgstr "Změněno kým:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 msgid "Changed on"
@@ -1303,9 +1302,8 @@ msgid "Describe the file so other people know what it is."
 msgstr "Popište soubor, tak aby ostatní lidé věděli o co jde."
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
-#, fuzzy
 msgid "Description"
-msgstr "Otázka"
+msgstr "Popis"
 
 #: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
@@ -1592,9 +1590,8 @@ msgid "Find topics that link to %1 ..."
 msgstr "Najít články které odkazují na %1 ..."
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:20
-#, fuzzy
 msgid "First"
-msgstr "první"
+msgstr "První"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 msgid "First name"
@@ -2069,9 +2066,8 @@ msgid "Keyword search"
 msgstr "Hledání dle klíčového slova"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
-#, fuzzy
 msgid "Last"
-msgstr "Příjmení"
+msgstr "Poslední"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 msgid "Last edited by"
@@ -2378,9 +2374,8 @@ msgid "Not sure this is right, please confirm!"
 msgstr "Je toto v pořádku? Prosím potvrďte!"
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
-#, fuzzy
 msgid "Notation"
-msgstr "Oznámení"
+msgstr "Poznámka"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2528,9 +2523,8 @@ msgid "Password reset failed"
 msgstr "Znovunastavení hesla bylo neúspěšné"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:155
-#, fuzzy
 msgid "Password:"
-msgstr "Heslo"
+msgstr "Heslo:"
 
 #: core/templates/messages.tmpl:174
 msgid "Passwords disabled"
@@ -3022,7 +3016,6 @@ msgid "Search result"
 msgstr "Výsledek hledání"
 
 #: core/data/System/WebSearch.txt:240
-#, fuzzy
 msgid "Search results"
 msgstr "Výsledek hledání"
 
@@ -3263,16 +3256,14 @@ msgid "Subscribe / Unsubscribe in:"
 msgstr "Příhlásit/ Odhlásit z:"
 
 #: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
-#, fuzzy
 msgid "Subscribe to this topic"
-msgstr "Vytvořit tento článek"
+msgstr "Přihlásit k odběru tohoto článku"
 
 #: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
-#, fuzzy
 msgid "Subscribe to this topic (s)"
-msgstr "Verze pro tisk (p)"
+msgstr "Přihlásit k odběru tohoto článku (s)"
 
 #: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
@@ -3892,16 +3883,14 @@ msgid "Unrecognized action command %1"
 msgstr "Nerozeznaný příkaz akce: %1"
 
 #: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
-#, fuzzy
 msgid "Unsubscribe from this topic"
-msgstr "title='Odhlaš se z odběru tohoto článku' accesskey='s'>Un&subscribe"
+msgstr "Odhlášení z odběru tohoto článku"
 
 #: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
-#, fuzzy
 msgid "Unsubscribe from this topic (s)"
-msgstr "Verze pro tisk (p)"
+msgstr "Odhlášení z odběru těchto článků"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
 msgid "Update"
