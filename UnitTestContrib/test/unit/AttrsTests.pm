@@ -313,4 +313,108 @@ sub test_endsWithEscapedQuote {
     $this->assert( $attrs->isEmpty() );
 }
 
+sub test_concat_friendly {
+    my $this = shift;
+
+    my $attrs = Foswiki::Attrs->new(
+"var1=\"val1\" var2=\"val2\" var3 = \"3\" c=\"One\" +\" and \" d=\"interloper\" c+=two c+=\" and three\" ",
+        1
+    );
+
+    $this->assert_str_equals( "val1",                  $attrs->remove("var1") );
+    $this->assert_str_equals( "val2",                  $attrs->remove("var2") );
+    $this->assert_str_equals( "3",                     $attrs->remove("var3") );
+    $this->assert_str_equals( "One and two and three", $attrs->remove("c") );
+    $this->assert_str_equals( "interloper",            $attrs->remove("d") );
+    $this->assert( $attrs->isEmpty() );
+}
+
+# Many _unfriendly test cases added here
+# VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+
+sub test_isEmpty_unfriendly {
+    my $this = shift;
+
+    my $attrs = Foswiki::Attrs->new(undef);
+    $this->assert( $attrs->isEmpty() );
+    $attrs = Foswiki::Attrs->new("");
+    $this->assert( $attrs->isEmpty() );
+    $attrs = Foswiki::Attrs->new(" \t  \n\t");
+    $this->assert( $attrs->isEmpty() );
+}
+
+sub test_1st_is_default_unfriendly {
+    my $this = shift;
+
+    my $attrs = Foswiki::Attrs->new("\"wibble\"");
+    $this->assert( !$attrs->isEmpty() );
+    $this->assert_str_equals( "wibble", $attrs->remove("_DEFAULT") );
+    $this->assert_null( $attrs->{"_DEFAULT"} );
+    $this->assert( $attrs->isEmpty() );
+
+    # Note difference with the _friendly version of this
+    $attrs = Foswiki::Attrs->new("\"wibble\" \"fleegle\"");
+    $this->assert_str_equals( "wibble\" \"fleegle",
+        $attrs->remove("_DEFAULT") );
+    $this->assert( $attrs->isEmpty() );
+}
+
+sub test_1st_is_default_assign_follows_unfriendly {
+    my $this = shift;
+
+    my $attrs = Foswiki::Attrs->new("\"wibble\" a=\"fleegle\"");
+    $this->assert_str_equals( "wibble",  $attrs->remove("_DEFAULT") );
+    $this->assert_str_equals( "fleegle", $attrs->remove("a") );
+    $this->assert( $attrs->isEmpty() );
+}
+
+sub test_1st_is_default_concat_follows_unfriendly {
+    my $this = shift;
+
+    my $attrs = Foswiki::Attrs->new("\"wibble\" a+=\"fleegle\"");
+    $this->assert_str_equals( "wibble",  $attrs->remove("_DEFAULT") );
+    $this->assert_str_equals( "fleegle", $attrs->remove("a") );
+    $this->assert( $attrs->isEmpty() );
+}
+
+sub test_concat_unfriendly {
+    my $this = shift;
+
+    my $attrs =
+      Foswiki::Attrs->new(
+"var1=\"val1\" var2=\"val2\" var3 = \"3\" c=\"One\" +\" and \" d=\"interloper\" c+=\"two\" c+=\" and three\" "
+      );
+
+    $this->assert_str_equals( "val1",                  $attrs->remove("var1") );
+    $this->assert_str_equals( "val2",                  $attrs->remove("var2") );
+    $this->assert_str_equals( "3",                     $attrs->remove("var3") );
+    $this->assert_str_equals( "One and two and three", $attrs->remove("c") );
+    $this->assert_str_equals( "interloper",            $attrs->remove("d") );
+    $this->assert( $attrs->isEmpty() );
+}
+
+sub test_doubleQuoted_unfriendly {
+    my $this = shift;
+
+    my $attrs = Foswiki::Attrs->new(
+        "var1 =\"val 1\" var2= \"val 2\" \" default \" var3 = \" val 3 \"");
+    $this->assert_str_equals( "val 1",     $attrs->remove("var1") );
+    $this->assert_str_equals( "val 2",     $attrs->remove("var2") );
+    $this->assert_str_equals( " val 3 ",   $attrs->remove("var3") );
+    $this->assert_str_equals( " default ", $attrs->remove("_DEFAULT") );
+    $this->assert( $attrs->isEmpty() );
+}
+
+sub test_toString_unfriendly {
+    my $this = shift;
+
+    my $attrs = Foswiki::Attrs->new("a =\"\\\"\" b=\"'\" \"'\" ");
+    my $s     = $attrs->stringify();
+    $attrs = Foswiki::Attrs->new( $attrs->stringify() );
+    $this->assert_str_equals( "\"", $attrs->remove("a") );
+    $this->assert_str_equals( "'",  $attrs->remove("b") );
+    $this->assert_str_equals( "'",  $attrs->remove("_DEFAULT") );
+    $this->assert( $attrs->isEmpty() );
+}
+
 1;
