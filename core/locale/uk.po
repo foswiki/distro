@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-21 02:15+0200\n"
+"PO-Revision-Date: 2015-11-21 02:17+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -72,7 +72,7 @@ msgstr "%1 додано до групи %2. "
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
 msgid "%1 cannot be removed from %2"
-msgstr "%1 не може бути видалено з %2"
+msgstr "%1 не може бути видалений з %2"
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
