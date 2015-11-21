@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-20 21:40+0200\n"
+"PO-Revision-Date: 2015-11-21 01:06+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -1707,7 +1707,6 @@ msgid "Enter parent name"
 msgstr "Ім'я батьківського розділу"
 
 #: core/templates/login.sudo.tmpl:23
-#, fuzzy
 msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "Введіть ім'я адміністратора вікі або як задано у %1"
 
