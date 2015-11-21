@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-21 00:50+0200\n"
-"Last-Translator: GeorgeClark <geonwiki@fenachrone.com>\n"
+"PO-Revision-Date: 2015-11-21 23:28+0200\n"
+"Last-Translator: Milan Masek <milan.m.masek@gmail.com>\n"
 "Language-Team: Czech <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/cs/>\n"
 "Language: cs\n"
@@ -3739,7 +3739,7 @@ msgstr "Výsledek hledání"
 
 #: core/data/System/WebSearch.txt:238
 msgid "Search results"
-msgstr "Výsledek hledání"
+msgstr "Výsledky hledání"
 
 #: core/data/System/WebSearch.txt:213
 msgid "Search string"
