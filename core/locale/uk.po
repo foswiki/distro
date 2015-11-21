@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-21 01:06+0200\n"
+"PO-Revision-Date: 2015-11-21 01:10+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -5532,9 +5532,8 @@ msgid "Your language has been changed to %1. [[%2][click to proceed]]."
 msgstr "Вашу мову було змінено на %1. [[%2][Клікніть для продовження]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
-#, fuzzy
 msgid "Your name as displayed by %1."
-msgstr "Як %1 відобразить Ваше ім'я."
+msgstr "Ваше ім'я, як відображає його %1."
 
 #: core/data/System/WikiName.txt:4
 msgid "Your name, usually your first and last name connected without a space."
@@ -5554,7 +5553,6 @@ msgid "Your password must be at least %1 characters long."
 msgstr "Ваш пароль має бути щонайменше %1 символів."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
-#, fuzzy
 msgid "Your password:"
 msgstr "Ваш пароль:"
 
