@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-21 01:10+0200\n"
+"PO-Revision-Date: 2015-11-21 02:17+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -80,7 +80,7 @@ msgstr "%1 додано до групи %2."
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1093
 msgid "%1 cannot be removed from %2"
-msgstr "%1 не може бути видалено з %2"
+msgstr "%1 не може бути видалений з %2"
 
 #: core/templates/registerdenied.tmpl:11
 msgid "%1 denied the registration."
@@ -312,7 +312,7 @@ msgstr "(редагувати)"
 
 #: core/templates/login.tmpl:4
 msgid "(login)"
-msgstr "(логін)"
+msgstr "(лоґін)"
 
 #: core/templates/more.tmpl:3
 msgid "(more)"
@@ -1233,7 +1233,7 @@ msgstr "Порівняти редакції"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
 msgid "Confirm password:"
-msgstr "Підтвердить пароль:"
+msgstr "Ваш пароль:"
 
 #: core/templates/renameconfirm.tmpl:6 core/templates/renamewebconfirm.tmpl:6
 msgid "Confirm rename or move"
@@ -1313,8 +1313,8 @@ msgid ""
 "Copyright &&copy; by the contributing authors. All material on this site is "
 "the property of the contributing authors."
 msgstr ""
-"Авторські права &&copy; закріплені за авторами, що беруть участь у проекти. "
-"Всі матеріали на цьому сайті є їх власністю."
+"Авторські права &&copy; закріплені за авторами проекту. Всі матеріали по цій "
+"платформі співпраці є їх власністю."
 
 #: core/templates/messages.tmpl:164
 msgid "Could not create the new web %1"
@@ -1680,7 +1680,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
 msgid "Email address:"
-msgstr "Електронна адреса:"
+msgstr "Адреса електронної пошти:"
 
 #: core/lib/Foswiki/UI/Passwords.pm:47
 msgid "Email has been disabled for this Foswiki installation"
