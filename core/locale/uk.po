@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-21 01:06+0200\n"
+"PO-Revision-Date: 2015-11-21 02:15+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -286,7 +286,7 @@ msgstr "(редагувати)"
 
 #: core/templates/login.tmpl:4
 msgid "(login)"
-msgstr "(логін)"
+msgstr "(лоґін)"
 
 #: core/templates/more.tmpl:3
 msgid "(more)"
@@ -1170,8 +1170,8 @@ msgid ""
 "Copyright &&copy; by the contributing authors. All material on this site is "
 "the property of the contributing authors."
 msgstr ""
-"Авторські права &&copy; закріплені за авторами, що беруть участь у проекти. "
-"Всі матеріали на цьому сайті є їх власністю."
+"Авторські права &&copy; закріплені за авторами проекту. Всі матеріали по цій "
+"платформі співпраці є їх власністю."
 
 #: core/templates/messages.tmpl:152
 msgid "Could not create the new web %1"
@@ -1490,9 +1490,8 @@ msgstr ""
 "можна завантажувати порожній файл."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:170
-#, fuzzy
 msgid "Email address"
-msgstr "Адреса електронної пошти:"
+msgstr "Електронна адреса"
 
 #: core/lib/Foswiki/UI/Passwords.pm:39 core/lib/Foswiki/UI/Register.pm:495
 msgid "Email has been disabled for this Foswiki installation"
@@ -1553,13 +1552,12 @@ msgid "Errors"
 msgstr "Помилки"
 
 #: core/templates/messages.tmpl:504
-#, fuzzy
 msgid "Errors adding users to group"
-msgstr "Помилка збереження сторінки"
+msgstr "Помилки додавання користувачів до групи"
 
 #: core/templates/messages.tmpl:554
 msgid "Errors removing users from groups"
-msgstr ""
+msgstr "Помилки вилучення користувачів з групи"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:15
 msgid "Evil person"
@@ -1587,9 +1585,8 @@ msgid "Fields marked %1 are required"
 msgstr "Помічені %1 поля є обов'язковими"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:42
-#, fuzzy
 msgid "Fields marked <span class='required'>*</span> are required"
-msgstr "Помічені %1 поля обов'язкові для заповнення"
+msgstr "Поля, що помічено <span class='required'>*</span>, є обов'язковими"
 
 #: core/templates/messages.tmpl:409
 msgid "File has been uploaded with different name"
@@ -1608,9 +1605,8 @@ msgid "First"
 msgstr "Перший"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
-#, fuzzy
 msgid "First name"
-msgstr "Ім'я:"
+msgstr "Ім'я"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:31
 msgid ""
@@ -1705,6 +1701,8 @@ msgid ""
 "Go back to the previous page, and enable Cookies and Javascript before "
 "trying again"
 msgstr ""
+"Поверніться на попередню сторінку, увімкніть куки та Javascript та спробуйте "
+"знову"
 
 #: core/templates/messages.tmpl:311
 msgid "Good examples:"
@@ -2103,9 +2101,8 @@ msgid "Last modified time"
 msgstr "Час останньої зміни"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:148
-#, fuzzy
 msgid "Last name"
-msgstr "Прізвище:"
+msgstr "Прізвище"
 
 #: core/templates/more.tmpl:182
 msgid "Latest revision: %1"
@@ -2156,7 +2153,7 @@ msgstr "Увійдіть щоб продовжити."
 
 #: core/templates/login.tmpl:12
 msgid "Log on with your username and password"
-msgstr ""
+msgstr "Увійдіть з Вашими ім'ям користувача та паролем"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:148
 #: core/templates/foswiki.tmpl:41
@@ -2164,9 +2161,8 @@ msgid "Login"
 msgstr "Увійти"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:163
-#, fuzzy
 msgid "Login name"
-msgstr "Ім'я користувача %1"
+msgstr "Ім'я користувача"
 
 #: core/templates/mailresetpassword.tmpl:12
 msgid "Login name %1"
@@ -2330,7 +2326,7 @@ msgstr "Новий пароль"
 
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:296
 msgid "New password did not match existing password for this user"
-msgstr ""
+msgstr "Новий пароль не підходить до поточного паролю цього користувача"
 
 #: core/templates/messages.tmpl:87
 msgid "New topic name %1 is not a %2"
@@ -2349,9 +2345,8 @@ msgid "Next"
 msgstr "Далі"
 
 #: core/data/Main/GroupViewTemplate.txt:37
-#, fuzzy
 msgid "No  members"
-msgstr "Додати рядок"
+msgstr "Не має членів"
 
 #: core/data/System/SiteChanges.txt:50
 msgid "No changes"
@@ -2515,14 +2510,12 @@ msgid "Options"
 msgstr "Варіанти"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:249
-#, fuzzy
 msgid "Organisation name"
-msgstr "Назва організації:"
+msgstr "Назва організації"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:256
-#, fuzzy
 msgid "Organisation website"
-msgstr "Назва організації:"
+msgstr "Сайт організації"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #: core/templates/login.tmpl:61
@@ -2598,15 +2591,13 @@ msgid "Please go back in your browser and check again."
 msgstr "Будь ласка, поверніться у Вашому браузері, і спробуйте ще раз."
 
 #: core/templates/messages.tmpl:88
-#, fuzzy
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
 msgstr ""
-"Будь ласка, поверніться <a href=\"javascript:history.go(-1)\">на попередню "
-"сторінку</a>, використовуючи стандартні засоби навігації Вашого браузера, і "
-"виберіть таку назву теми, яка була б %1.ВікіІм'я або переконаєтеся в тому, "
-"що Ви вирішили використовувати не-ВікіІмена"
+"Будь ласка, поверніться назад у браузері та виберіть ім'я теми, що є "
+"[[%SYSTEMWEB%.WikiWord][ВікіСловом]] або ввімкніть дозвіл на використання "
+"не-ВікіСлів"
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
@@ -2694,9 +2685,8 @@ msgid "Query Search"
 msgstr "Пошук запитом"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:72
-#, fuzzy
 msgid "Question"
-msgstr "Версія"
+msgstr "Питання"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:166
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:975
@@ -2772,6 +2762,9 @@ msgid ""
 "{EnableNewUserRegistration}, or due to errors with the password system.  "
 "Check the configuration for errors."
 msgstr ""
+"Реєстрацію вимкнено або через параметр конфігурації "
+"{EnableNewUserRegistration}, або через помилки системи доступу. Перевірте "
+"конфігурацію на помилки."
 
 #: core/data/System/WebSearch.txt:203
 msgid "Regular expression search"
@@ -2804,9 +2797,8 @@ msgid "Remember your password?"
 msgstr "Пам'ятаєте Ваш пароль?"
 
 #: core/data/Main/GroupViewTemplate.txt:262
-#, fuzzy
 msgid "Remove members from this group"
-msgstr "Спочатку вилучте користувача з груп(и) %1."
+msgstr "Вилучити членів з цієї групи"
 
 #: core/data/Main/GroupViewTemplate.txt:181
 msgid "Remove members..."
@@ -2829,6 +2821,9 @@ msgid ""
 "Rename completed, but unsafe redirect to %1 is denied.: The requested host "
 "does not match %2, and is not in {PermittedRedirectHostUrls}."
 msgstr ""
+"Перейменування виконане, проте небезпечне перенаправлення до %1 заборонене. "
+"Хост, який був запитаний, не співпадає з %2 та не включено у "
+"{PermittedRedirectHostUrls}."
 
 #: core/templates/messages.tmpl:74 core/templates/messages.tmpl:80
 msgid "Rename failed"
@@ -2885,7 +2880,7 @@ msgstr "Скинути пароль"
 
 #: core/data/System/DefaultPreferences.txt:206
 msgid "Resetting and setting password is not handled by Foswiki"
-msgstr ""
+msgstr "Foswiki не обробляє скидання та встановлення паролю"
 
 #: core/templates/more.tmpl:189
 msgid "Restore"
@@ -3103,7 +3098,7 @@ msgstr "Вибрати"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:231
 msgid "Select Group %1 to join"
-msgstr ""
+msgstr "Оберіть групу %1 для об'єднання"
 
 #: PatternSkin/templates/attachagain.pattern.tmpl:18
 msgid "Select a new local file to update attachment"
@@ -3204,7 +3199,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:24
 msgid "Sorry, Registration has been temporarily disabled"
-msgstr ""
+msgstr "Вибачте, реєстрацію тимчасово вимкнено"
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:83
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:18
@@ -3286,11 +3281,11 @@ msgstr "Під-розділи"
 
 #: core/templates/messages.tmpl:516
 msgid "Success adding users to group"
-msgstr ""
+msgstr "Користувачів успішно додано до групи"
 
 #: core/templates/messages.tmpl:566
 msgid "Success removing users from group"
-msgstr ""
+msgstr "Користувачів успішно вилучено із групи"
 
 #: core/data/System/WebSearch.txt:219
 msgid "Summaries"
@@ -3298,7 +3293,7 @@ msgstr "Підсумки"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:81
 msgid "Switch to monotype or propotional font"
-msgstr ""
+msgstr "Перемкнути між фіксованим та пропорційним шрифтом"
 
 #: core/data/Main/GroupViewTemplate.txt:125
 msgid "System user list."
@@ -3343,7 +3338,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:690
 msgid "That user has already been activated "
-msgstr ""
+msgstr "Користувача вже було активовано "
 
 #: core/templates/messages.tmpl:309
 msgid ""
@@ -3533,7 +3528,7 @@ msgstr "Час блокування цієї теми минув %1 тому."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:164
 msgid "The login name you use to sign in."
-msgstr ""
+msgstr "Ім'я користувача, яке Ви використовуєте для входу."
 
 #: core/templates/messages.tmpl:93
 msgid "The name of the topic must not be empty."
@@ -3613,7 +3608,7 @@ msgstr "Трапились помилки під час додавання до 
 
 #: core/templates/messages.tmpl:556
 msgid "There were errors removing %1 from the %2 group. "
-msgstr ""
+msgstr "Під час вилучення %1 з групи %2 трапились помилки. "
 
 #: core/templates/messages.tmpl:401
 msgid "This can be automatically upgraded by:"
@@ -3747,9 +3742,8 @@ msgstr ""
 "все гаразд, особливо якщо Ви вносили будь-які зміни до полів форм."
 
 #: core/data/System/FrequentlyAskedQuestions.txt:65
-#, fuzzy
 msgid "Title"
-msgstr "Заголовок теми"
+msgstr "Заголовок"
 
 #: core/templates/renameconfirm.tmpl:16
 msgid "To attachment:"
@@ -3940,7 +3934,7 @@ msgstr "Оновлення"
 
 #: core/data/Main/GroupViewTemplate.txt:217
 msgid "Upgrade group topic"
-msgstr ""
+msgstr "Оновити тему групи"
 
 #: core/data/Main/GroupViewTemplate.txt:209
 msgid "Upgrade group topic..."
@@ -4205,12 +4199,11 @@ msgstr "Чому у мене запитують підтвердження?"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:33
 msgid "Wiki administrators should read about the %1."
-msgstr ""
+msgstr "Адміністратори вікі мають прочитати про %1."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:155
-#, fuzzy
 msgid "Wiki name"
-msgstr "Назва теми"
+msgstr "Вікі-ім'я"
 
 #: core/data/System/WebSearch.txt:191
 msgid "Word search"
@@ -4225,15 +4218,14 @@ msgid "You"
 msgstr "Ви"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
 "have forgotten your password, contact %1"
 msgstr ""
-"У Вас *повинен* бути хоч би одна правильно зареєстрована адреса електронної "
-"пошти, щоб можна було скинути Ваш пароль. Якщо жодна із зареєстрованих Вами "
-"адрес електронної пошти не є правильна і Ви забули свій пароль, пишіть %1."
+"Вам *необхідно* мати щонайменше одну дійсну зареєстровану електронну адресу "
+"щоб мати змогу скинути пароль. Якщо ж жодна з Ваших зареєстрованих адрес не "
+"є дійсною і Ви забули пароль, то зв'яжіться з %1"
 
 #: core/templates/messages.tmpl:291
 msgid "You are already registered"
@@ -4328,23 +4320,28 @@ msgstr "Ви можете дати цьому розділу інше ім'я."
 msgid ""
 "You cannot add users to a missing group unless the create option is set.."
 msgstr ""
+"Ви не маєте змоги додавати користувачів до групи, якої не існує, якщо "
+"ввімкнено опцію створення."
 
 #: core/templates/validate.tmpl:28
 msgid ""
 "You cannot manually confirm this change because either Cookies or Javascript "
 "are disabled in your browser."
 msgstr ""
+"Ви не маєте змоги вручну підтвердити цю зміну через те, що або куки, або "
+"Javascript, вимкнено у Вашому браузері."
 
 #: core/templates/messages.tmpl:710
 msgid ""
 "You cannot proceed because either Cookies or Javascript are disabled in your "
 "browser."
 msgstr ""
+"Ви не можете продовжити через те, що або куки, або Javascript, вимкнено у "
+"Вашому браузері."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:21
-#, fuzzy
 msgid "You cannot register on this site."
-msgstr "Ви не можете реєструватися двічі, ім'я %1 вже зареєстровано."
+msgstr "Ви не можете зареєструватись на цьому сайті."
 
 #: core/templates/messages.tmpl:292
 msgid "You cannot register twice, the name %1 is already registered."
@@ -4390,19 +4387,19 @@ msgstr "Ви маєте надати ім'я теми."
 
 #: core/templates/messages.tmpl:498
 msgid "You need to specify a valid group name to add users to a group."
-msgstr ""
+msgstr "Ви маєте задати дійсне ім'я групи щоб додати до неї користувачів."
 
 #: core/templates/messages.tmpl:549
 msgid "You need to specify a valid group name to remove users from a group."
-msgstr ""
+msgstr "Ви маєте задати дійсне ім'я групи щоб вилучити з неї користувачів."
 
 #: core/templates/messages.tmpl:491
 msgid "You need to specify a valid user to add to a group."
-msgstr ""
+msgstr "Ви маєте задати дійсного користувача щоб додати його до групи."
 
 #: core/templates/messages.tmpl:532
 msgid "You need to specify a valid user to remove from a group."
-msgstr ""
+msgstr "Ви маєте задати дійсного користувача щоб вилучити його з групи."
 
 #: core/templates/registerconfirm.tmpl:11
 msgid ""
@@ -4418,9 +4415,8 @@ msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "Можливо Ви повинні попросити адміністратора %1, зробити це."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
-#, fuzzy
 msgid "Your"
-msgstr "або"
+msgstr "Ваш"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:24
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:23
@@ -4446,6 +4442,8 @@ msgid ""
 "Your language will be changed to %1 from the next screen. You will be "
 "redirected to there right now. If you aren't, [[%2][click to proceed]]."
 msgstr ""
+"Вашу мову буде змінено на %1 з наступного екрану. Вас перенаправить туди "
+"прямо зараз. Якщо цього не сталось, то [[%2][клікніть сюди]]."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:156
 msgid ""
@@ -4453,11 +4451,13 @@ msgid ""
 "WikiName][Wiki name]]. By default it is derived from your first and last "
 "name."
 msgstr ""
+"Ваше онлайн-ім'я. Зважте, що це має буті унікальне "
+"[[%SYSTEMWEB%.WikiName][Вікі-ім'я]]. За замовченням воно походить від Ваших "
+"імені та прізвища."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:178
-#, fuzzy
 msgid "Your password"
-msgstr "Ваш пароль:"
+msgstr "Ваш пароль"
 
 #: core/templates/mailresetpassword.tmpl:13
 msgid "Your password has been changed to %1."
