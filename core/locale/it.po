@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-29 20:22+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki/"
-"distribution-release-11/it/>\n"
+"PO-Revision-Date: 2015-11-21 01:08+0200\n"
+"Last-Translator: GeorgeClark <geonwiki@fenachrone.com>\n"
+"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
+"/distribution-release-11/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1013,9 +1013,8 @@ msgid "Change topic"
 msgstr "Cambia pagina"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-#, fuzzy
 msgid "Changed by:"
-msgstr "Cambiato da"
+msgstr "Cambiato da:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 msgid "Changed on"
@@ -1331,9 +1330,8 @@ msgid "Describe the file so other people know what it is."
 msgstr "Descrivi il file in modo che si sappia cos'è."
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
-#, fuzzy
 msgid "Description"
-msgstr "Domanda"
+msgstr "Descrizione"
 
 #: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
@@ -1627,9 +1625,8 @@ msgid "Find topics that link to %1 ..."
 msgstr "Trova le pagine collegate a %1 ..."
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:20
-#, fuzzy
 msgid "First"
-msgstr "primo"
+msgstr "Primo"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 msgid "First name"
@@ -2111,9 +2108,8 @@ msgid "Keyword search"
 msgstr "Parola chiave di ricerca"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
-#, fuzzy
 msgid "Last"
-msgstr "Cognome"
+msgstr "Ultimo"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 msgid "Last edited by"
@@ -2321,9 +2317,8 @@ msgid "Name of new web is missing"
 msgstr "Manca il nome del nuovo Web"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:151
-#, fuzzy
 msgid "Name:"
-msgstr "Nome"
+msgstr "Nome:"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
@@ -2423,9 +2418,8 @@ msgid "Not sure this is right, please confirm!"
 msgstr "Non è certo che sia corretto; si prega di confermare!"
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
-#, fuzzy
 msgid "Notation"
-msgstr "Notifiche"
+msgstr "Note"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2573,9 +2567,8 @@ msgid "Password reset failed"
 msgstr "Azzeramento della password fallito"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:155
-#, fuzzy
 msgid "Password:"
-msgstr "Password"
+msgstr "Password:"
 
 #: core/templates/messages.tmpl:174
 msgid "Passwords disabled"
@@ -3071,7 +3064,6 @@ msgid "Search result"
 msgstr "Risultato della ricerca"
 
 #: core/data/System/WebSearch.txt:240
-#, fuzzy
 msgid "Search results"
 msgstr "Risultato della ricerca"
 
@@ -3315,16 +3307,14 @@ msgid "Subscribe / Unsubscribe in:"
 msgstr "Sottoscrivi / Cancella in:"
 
 #: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
-#, fuzzy
 msgid "Subscribe to this topic"
-msgstr "Crea questa pagina"
+msgstr "Iscriviti a questa pagina"
 
 #: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
-#, fuzzy
 msgid "Subscribe to this topic (s)"
-msgstr "Versione stampabile di questa pagina (p)"
+msgstr "Iscriviti a questa pagina (s)"
 
 #: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
@@ -3964,18 +3954,14 @@ msgid "Unrecognized action command %1"
 msgstr "Comando %1 sconosciuto"
 
 #: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
-#, fuzzy
 msgid "Unsubscribe from this topic"
-msgstr ""
-"title='Cancella sottoscrizione a questa pagina' accesskey='s'>Cancella "
-"&sottoscrizione"
+msgstr "Cancella abbonamento a questa pagina"
 
 #: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
-#, fuzzy
 msgid "Unsubscribe from this topic (s)"
-msgstr "Versione stampabile di questa pagina (p)"
+msgstr "Cancella abbonamento da questa pagina (s)"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
 msgid "Update"
