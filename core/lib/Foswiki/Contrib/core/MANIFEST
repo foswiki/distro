@@ -106,8 +106,8 @@ data/System/FileAttachment.txt 0644
 data/System/FileAttribute.txt 0644
 data/System/FormatTokens.txt 0644
 data/System/FormattedSearch.txt 0644
-data/System/FrequentlyAskedQuestion.txt 0664
-data/System/FrequentlyAskedQuestions.txt 0664
+data/System/FrequentlyAskedQuestion.txt 0644
+data/System/FrequentlyAskedQuestions.txt 0644
 data/System/GlossaryOfTerms.txt 0644
 data/System/GoBox.txt 0644
 data/System/GoodStyle.txt 0644
@@ -860,17 +860,17 @@ templates/view.xml.tmpl 0444
 templates/viewplain.tmpl 0444
 templates/viewprint.tmpl 0444
 templates/viewtopicactionbuttons.tmpl 0444
-tools/bulk_copy.pl 0755 Data transfer script
-tools/configure 0755
-tools/convertTopicSettings.pl 0755
-tools/dependencies 0755
+tools/bulk_copy.pl 0555 Data transfer script
+tools/configure 0555
+tools/convertTopicSettings.pl 0555
+tools/dependencies 0555
 tools/extender.pl 0444
-tools/extension_installer 0755
-tools/geturl.pl 0755
-tools/lighttpd.pl 0755
-tools/rewriteshebang.pl 0755
-tools/save-pending-checkins 0755
-tools/tick_foswiki.pl 0755
+tools/extension_installer 0555
+tools/geturl.pl 0555
+tools/lighttpd.pl 0555
+tools/rewriteshebang.pl 0555
+tools/save-pending-checkins 0555
+tools/tick_foswiki.pl 0555
 working/README 0444
 working/logs/README 0444
 working/registration_approvals/README 0444
