@@ -865,6 +865,7 @@ tools/convertTopicSettings.pl 0555
 tools/dependencies 0555
 tools/extender.pl 0444
 tools/extension_installer 0555
+tools/fix_file_permissions.sh 0555
 tools/geturl.pl 0555
 tools/lighttpd.pl 0555
 tools/rewriteshebang.pl 0555

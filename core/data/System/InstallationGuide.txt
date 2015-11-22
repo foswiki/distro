@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1438746314" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1448162210" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
@@ -75,6 +75,14 @@ The appropriate user/group ownership varies, depending upon the operating system
 | FreeBSD | =www:wwwadmin= |
 
 The default file and directory access permissions as set by the distribution define a reasonable security level that will work for many types of installations, including shared hosting. Nonetheless, you should verify that the web server user has read access to all files and directories beneath the =foswiki= directory, and execute access for all directories. Also verify that the =data= and =pub= directories and all the subdirectories and files beneath them allow write access for the web server user.
+
+If for some reason the file permissions have been modified, the shell script
+=tools/fix_file_permissions.sh= can be used to repair the installation.
+<verbatim>
+cd /path/to/foswiki
+sh tools/fix_file_permissions.sh
+</verbatim>
+
 
 For more information on the appropriate permissions to ensure security for your Foswiki data, see Foswiki:Support.SecuringYourSite.
 
