@@ -15,18 +15,20 @@ data/System/BulkRegistration.txt 0644
 data/System/BulkResetPassword.txt 0644
 data/System/ChangeEmailAddress.txt 0644
 data/System/ChangePassword.txt 0644
-data/System/DefaultUserRegistration.txt 0755
+data/System/DefaultUserRegistration.txt 0644
 data/System/FAQRebuildingWikiUsersTopic.txt 0644
 data/System/ManagingUsers.txt 0644
 data/System/NewUserTemplate.txt 0644
 data/System/ResetPassword.txt 0644
 data/System/TopicUserMappingContrib.txt 0644
 data/System/UserForm.txt 0644
-data/System/UserFormHelp.txt 0755
+data/System/UserFormHelp.txt 0644
 data/System/UserRegistration.txt 0644
+data/System/UserRegistrationParts.txt 0644
 data/System/UserSetting.txt 0644
 data/System/UserToolsCategory.txt 0644
 data/System/UsersTemplate.txt 0644
 pub/System/DefaultUserRegistration/validate.js 0644
-pub/System/UserRegistration/js.js 0644
+pub/System/DefaultUserRegistration/formstyle.css 0644
+pub/System/DefaultUserRegistration/requiredstyle.css 0644
 tools/upgrade_emails.pl 0755 Upgrade emails in topics to password database

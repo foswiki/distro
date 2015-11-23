@@ -1,14 +1,11 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1447730097" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1448237685" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserToolsCategory"}%
-Register on this site
 <!--
-      * Set REGISTRATION_DISABLED = %IF{"context registration_supported" then="%IF{"context registration_enabled" then="" else="DISABLED"}%" else="DISABLED"}%
+
+DO NOT EDIT THIS TOPIC.
+
 -->
-%IF{
-"istopic '%USERSWEB%.%TOPIC%'"
-then="$percentINCLUDE{$quot%USERSWEB%.%TOPIC%$quot NOREGISTRATION=$quot%NOREGISTRATION%$quot}$percent"
-else="$percentINCLUDE{$quot%SYSTEMWEB%.Default%TOPIC%$quot REGISTRATION_DISABLED=$quot%REGISTRATION_DISABLED%$quot}$percent"
-}%
+%INCLUDE{"%USERSWEB%.%TOPIC%, %SYSTEMWEB%.Default%TOPIC%"}%
 
 %IF{"context isadmin AND NOT istopic '%USERSWEB%.%TOPIC%'" then='<div class="foswikiHelp">
 *Tailoring instructions:* You are currently viewing the default registration page without local tailoring.  This topic looks whether a
@@ -24,5 +21,4 @@ To create a custom UserRegistration page for your site:
 Note: You cannot set macros in an included topic. Users visiting %SYSTEMWEB.UserRegistration will be viewing the results of an INCLUDE.
 </div>'}%
 
-%META:FILEATTACHMENT{name="js.js" attr="h" comment="" date="1447730097" size="198" user="ProjectContributor" version="1"}%
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

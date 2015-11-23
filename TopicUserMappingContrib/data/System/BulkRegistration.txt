@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435704962" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1448168966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ Bulk Registration
 
@@ -71,6 +71,7 @@ If you use the %SYSTEMWEB%.UserForm then ensure that it contains all the fields 
    * =Email= - If not provided, you must set a password, or password reset will not be possible.
    * =Password= - If not provided, set passwords later using BulkResetPassword.
    * =Confirm= - If provided, it must match the =Password= field. If missing, it will not be checked.
+   * =templatetopic= - Template used when creating the User topic. If not provided, defaults to %USERSWEB%.NewUserTemplate, or %SYSTEMWEB%.NewUserTemplate.
 
 ---++++ Customized table example
 

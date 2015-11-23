@@ -1,0 +1,349 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1448237685" format="1.1" version="1"}%
+%META:TOPICPARENT{name="AdminToolsCategory"}%
+<noautolink>
+
+---+ User Registration components
+
+This topic contains the pieces that are assembled into the UserRegistration page.
+   * Read general customisation instructions in [[%SYSTEMWEB%.UserAuthentication]]
+
+%IF{
+   "$USERNAME ingroup 'AdminGroup'"
+   then="%JQREQUIRE{"chili"}% %TOC%"
+   else="<div class=\"foswikiHidden\">"
+}%
+
+
+---++ Major page components.
+---+++ Section: =title= - Page Title
+<verbatim class="tml">
+%STARTSECTION{"title"}%---+ %MAKETEXT{"Registration"}%
+%ENDSECTION{"title"}%
+</verbatim>
+
+---+++ Section: =notes= - User feedback
+These sections provide feedback whether registration is enabled and required browser settings are met. (javascript and cookies must be on)
+<verbatim class="tml">
+%STARTSECTION{"notes"}%
+%IF{"not context registration_supported"
+  then=" *%MAKETEXT{"Self registration is not supported by this site."}%* "
+  else="
+    %IF{"NOT context registration_enabled"
+      then="%INCLUDE{"%REGPARTS%" section="note:registrationNotEnabled"}%"
+      else="%IF{
+   "$REGISTRATION_DISABLED='DISABLED'"
+   then="%INCLUDE{"%REGPARTS%" section="note:registrationTemporarilyDisabled"}%"
+   else="%INCLUDE{"%REGPARTS%" section="note:registrationOk"}%%INCLUDE{"%REGPARTS%" section="note:requiredBrowserSettings"}%"
+      }%"
+    }%"
+}%%ENDSECTION{"notes"}%
+</verbatim>
+
+<verbatim class="tml">
+%STARTSECTION{"note:registrationNotEnabled"}%%IF{
+   "$USERNAME ingroup 'AdminGroup'"
+   then="<strong>%MAKETEXT{"Registration is disabled either by configuration setting {EnableNewUserRegistration}, or due to errors with the password system. Check the configuration for errors."}%</strong>
+
+          %MAKETEXT{"If registration is not disabled by errors, administrators can still register users to this site using [_1]." args="[[%SYSTEMWEB%.BulkRegistration][BulkRegistration]]"}%"
+   else="<strong>%MAKETEXT{"New user registration is disabled on this site."}%</strong>"
+}%
+%ENDSECTION{"note:registrationNotEnabled"}%
+</verbatim>
+
+<verbatim class="tml">
+%STARTSECTION{"note:registrationTemporarilyDisabled"}%<strong>%MAKETEXT{"Sorry, registration has been temporarily disabled."}%</strong>%ENDSECTION{"note:registrationTemporarilyDisabled"}%
+</verbatim>
+
+<verbatim class="tml">
+%STARTSECTION{"note:registrationOk"}%<strong>%MAKETEXT{"Create your account to edit pages on this site."}%</strong>%ENDSECTION{"note:registrationOk"}%
+</verbatim>
+
+<verbatim class="tml">
+%STARTSECTION{"note:requiredBrowserSettings"}%<div class='registerMakeHidden foswikiNotification foswikiAlert'>%MAKETEXT{"We noticed you have disabled !JavaScript. Please switch on !JavaScript if you wish to register."}%</div><div class='foswikiNotification foswikiAlert registerMakeVisible showIfNoCookies'>%MAKETEXT{"We noticed you have disabled cookies. Please enable cookies if you wish to register."}%</div>%ENDSECTION{"note:requiredBrowserSettings"}%
+</verbatim>
+
+---+++ Section: =help= - Help text at bottom of page
+<verbatim class="tml">
+%STARTSECTION{"help"}%<p>
+%MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%BASETOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%</p>%ENDSECTION{"help"}%
+</verbatim>
+
+---+++ Section: =privacyInformation= (optional)
+<verbatim class="tml">
+%STARTSECTION{"privacyInformation"}%<p> %MAKETEXT{"*Important:* the information provided in this form will be stored in a database on the web server. This database is accessible to anyone who can access the server through the web (though passwords will be encrypted, and e-mail addresses will be obfuscated to help prevent spamming). Your country, or the country where the server is hosted, may have Data Protection laws governing the maintenance of such databases. If you are in doubt, you should contact [_1] for details of the Data Protection Policy of this web server before registering." args="[[mailto:%WIKIWEBMASTER%?subject=Data%20Protection%20Policy][%WIKIWEBMASTER%]]"}%</p>%ENDSECTION{"privacyInformation"}%
+</verbatim>
+
+---+++ Section: =form= - The registration form
+Conditionally include the registration form when registration is enabled
+<verbatim class="tml">
+%STARTSECTION{"form"}%
+%IF{"$REGISTRATION_DISABLED!='DISABLED'" then="$percentINCLUDE{\"%REGPARTS%\" section=\"liveform\"}$percent"}%
+%ENDSECTION{"form"}%
+</verbatim>
+
+The actual registration form.
+<verbatim class="tml">
+%STARTSECTION{"liveform"}%
+<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMEREGPARTS%" method="post">
+   <div class="foswikiFormSteps">
+      <div class="foswikiFormStep">
+         <p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required."}%</em></p>
+         <ul>%INCLUDE{"%REGPARTS%" section="requiredFields"}%%INCLUDE{"%REGPARTS%" section="optionalFields"}%%INCLUDE{"%REGPARTS%" section="requiredButton_submit"}%</ul>
+         <div class='foswikiClear'></div>
+      </div>
+   </div>
+%IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percentBLACKLISTPLUGIN{action=$quotmagic$quot}$percent" />' else='<!-- -->'}%
+<input type="hidden" name="topic" value="%REGPARTS%" />
+<input type="hidden" name="action" value="register" />
+<input type="hidden" name="templatetopic" value="%NEWUSERTEMPLATE{default="NewUserTemplate"}%" />
+</form>
+</div>%ENDSECTION{"liveform"}%
+</verbatim>
+
+---+++ Section: =resources= - Extra CSS and Javascript resources for this page.
+
+<verbatim class="tml">
+%STARTSECTION{"resources"}%%IF{"$REGISTRATION_DISABLED!='DISABLED'" then="
+%ADDTOZONE{ "head"
+  id="UserRegistrationRequiredStyle"
+  text="<link type='text/css' rel='stylesheet' media='all' href='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRegistration/requiredstyle.css'></link>"
+}%"}%
+%ADDTOZONE{ "head"
+  id="UserRegistrationFormStyle"
+  text="<link type='text/css' rel='stylesheet' media='all' href='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRegistration/formstyle.css'></link>"
+}%
+%JQREQUIRE{"validate, wikiword, cookie"}%
+<div id="FwkVD" class="foswikiHidden">
+<literal>
+{
+  "url":"%SCRIPTURL{view}%/%WEB%/%REGPARTS%",
+  "MinPasswordLength":%QUERY{"{MinPasswordLength}"}%,
+  "messages": {
+    "Fwk1FirstName":"%MAKETEXT{"Please enter your first name."}%",
+    "Fwk1LastName":"%MAKETEXT{"Please enter your last name."}%",
+    "Fwk1WikiName": {
+      "required": "%MAKETEXT{"Please enter a WikiName."}%",
+      "wikiword": "%MAKETEXT{"This is not a valid WikiName."}%",
+      "remote": "%MAKETEXT{"This WikiName is already in use."}%"
+    },
+    "Fwk1Email": "%MAKETEXT{"Please enter a valid email address."}%",
+    "Fwk1LoginName": {
+      "required": "%MAKETEXT{"Please enter a login username."}%",
+      "remote": "%MAKETEXT{"This username is already in use."}%"
+    },
+    "Fwk1Password": {
+      "required": "%MAKETEXT{"Please enter a password."}%",
+      "minlength": "%MAKETEXT{"Your password must be at least [_1] characters long." args="%QUERY{"{MinPasswordLength}"}%"}%"
+    },
+    "Fwk1Confirm": {
+      "required": "%MAKETEXT{"Please confirm your password."}%",
+      "equalTo": "%MAKETEXT{"Please enter the same password as above."}%",
+      "minlength": "%MAKETEXT{"Your password must be at least [_1] characters long." args="%QUERY{"{MinPasswordLength}"}%"}%"
+    }
+  }
+}
+</literal>
+</div>
+%ADDTOZONE{ "script"
+  id="UserRegistrationValidation"
+  requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::WIKIWORD, JQUERYPLUGIN::COOKIE"
+  text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRegistration/validate.js'></script>"
+}%
+%ENDSECTION{"resources"}%
+</verbatim>
+
+---++ Individual Field Definitions
+---+++ Required field: =FirstName=
+<verbatim class="tml"
+%STARTSECTION{"requiredField_firstName"}%<li><label class="desc" for="Fwk1FirstName"><span class="required">*</span>%MAKETEXT{"First name:"}%</label>
+<div><input type="text" id="Fwk1FirstName" name="Fwk1FirstName" size="40" class="foswikiInputField foswikiFocus" value="" tabindex="1" /></div></li>%ENDSECTION{"requiredField_firstName"}%
+</verbatim>
+
+---+++ Required field: =LastName=
+<verbatim class="tml">
+%STARTSECTION{"requiredField_lastName"}%<li><label class="desc" for="Fwk1LastName"><span class="required">*</span>%MAKETEXT{"Last name:"}%</label>
+<div><input type="text" id="Fwk1LastName" name="Fwk1LastName" size="40" class="foswikiInputField" value="" tabindex="2" /></div></li>%ENDSECTION{"requiredField_lastName"}%
+</verbatim>
+
+
+---+++ Required field: =WikiName=
+<verbatim class="tml">
+%STARTSECTION{"requiredField_wikiName"}%<li><label class="desc" for="Fwk1WikiName"><span class="required">*</span>%MAKETEXT{"<nop>WikiName:"}%</label>
+<div><input type="text" id="Fwk1WikiName" name="Fwk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" /><label class="expl">%MAKETEXT{"Your name as displayed by [_1]." args="%WIKITOOLNAME%"}% %POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"This must be a unique WikiName."}%"}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_wikiName"}%
+</verbatim>
+
+
+---+++ Required field: =LoginName=
+   Only shown if ALLOWLOGINNAME is true.
+<verbatim class="tml">
+%STARTSECTION{"requiredField_loginName"}%<li><label class="desc" for="Fwk1LoginName"><span class="required">*</span>%MAKETEXT{"Login username:"}%</label>
+<div><input type="text" id="Fwk1LoginName" name="Fwk1LoginName" size="40" class="foswikiInputField" value="%REMOTE_USER%" tabindex="4" /><label class="expl">%MAKETEXT{"The username that identifies you to the signon system. [_1]" args="%POPUPWINDOW{"%SYSTEMWEB%.UserName" label="%MAKETEXT{"This must be a valid login username."}%"}%"}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_loginName"}%
+</verbatim>
+
+---+++ Required field: =Email=
+<verbatim class="tml">
+%STARTSECTION{"requiredField_email"}%<li><label class="desc" for="Fwk1Email"><span class="required">*</span>%MAKETEXT{"Email address:"}%</label>
+<div><input type="text" id="Fwk1Email" name="Fwk1Email" size="40" class="foswikiInputField" value="" tabindex="5" /><label class="expl">%MAKETEXT{"Your email address will be kept confidential."}%</label></div></li>%ENDSECTION{"requiredField_email"}%
+</verbatim>
+
+
+---+++ Required field: =Password=
+   Only shown if the password manager supports changing the password / email.
+   Displays one password field and (if {Register}{DisablePasswordConfirmation} is not unset) one confirmation password field.
+<verbatim class="tml">
+%STARTSECTION{"requiredField_password"}%<li><label class="desc" for="Fwk1Password"><span class="required">*</span>%MAKETEXT{"Your password:"}%</label>
+<div><input type="password" id="Fwk1Password" name="Fwk1Password" size="40" class="foswikiInputField" value="" tabindex="6" /></div></li>%IF{"NOT {Register}{DisablePasswordConfirmation}" then="<li><label class=\"desc\" for=\"Fwk1Confirm\"><span class=\"required\">*</span>$percntMAKETEXT{\"Confirm password:\"}$percnt</label>
+<div><input type=\"password\" id=\"Fwk1Confirm\" name=\"Fwk1Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" tabindex=\"7\" /></div></li>"}%%ENDSECTION{"requiredField_password"}%
+</verbatim>
+
+---+++ Optional field: =OrganisationName=
+<verbatim class="tml">
+%STARTSECTION{"extraField_organisationName"}%<li><label class="desc" for="Fwk0OrganisationName">%MAKETEXT{"Organisation name:"}%</label>
+<div><input type="text" id="Fwk0OrganisationName" name="Fwk0OrganisationName" size="40" class="foswikiInputField" value="" tabindex="8" /></div></li>%ENDSECTION{"extraField_organisationName"}%
+</verbatim>
+
+
+---+++ Optional field: =organisationURL=
+<verbatim class="tml">
+%STARTSECTION{"extraField_organisationUrl"}%<li><label class="desc" for="Fwk0OrganisationURL">%MAKETEXT{"Organisation website:"}%</label>
+<div><input type="text" id="Fwk0OrganisationURL" name="Fwk0OrganisationURL" size="40" class="foswikiInputField" value="http://" tabindex="9" /></div></li>%ENDSECTION{"extraField_organisationUrl"}%
+</verbatim>
+
+
+---+++ Optional field: =Country=
+<verbatim class="tml">
+%STARTSECTION{"extraField_country"}%<li><label class="desc" for="Fwk0Country">%MAKETEXT{"Country:"}%</label>
+<div><select class="foswikiSelect" id="Fwk0Country" name="Fwk0Country" size="1" tabindex="10">%SEARCH{
+"^\|[^\*\|]*\|"
+topic="CountryList"
+web="%SYSTEMWEB%"
+type="regex"
+multiple="on"
+nosearch="on"
+nototal="on"
+format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
+}%</select></div></li>%ENDSECTION{"extraField_country"}%
+</verbatim>
+
+---+++ Optional field: =groups=
+   Defines the components needed for manual and automatic group memberships.  Two steps needed to enable this feature:
+
+   1 Enable the setting =REGISTRATIONGROUPTYPE= in the %LOCALSITEPREFS% topic to automatic, one, multiple,
+   1 List extraField_groups in the =%<nop>FIELDS%= setting in the registration topic.
+<verbatim class="tml">
+%STARTSECTION{"extraField_groups"}%%INCLUDE{"%REGPARTS%" section="groups"}%%ENDSECTION{"extraField_groups"}%
+</verbatim>
+
+---++++ Group Section =groups=
+<verbatim class="tml">
+%STARTSECTION{"groups"}%%IF{"$USERNAME ingroup 'AdminGroup' and '%REGISTRATIONGROUPTYPE%' = 'automatic' and not defined 'REGISTRATIONGROUPS'" then="<blockquote><span class=\"foswikiAlert\"> *Caution!* Registering a user while logged in as an Administrator will add them to ALL GROUPS in the system.</span> REGISTRATIONGROUPTYPE is set to =automatic=, and no groups are set in REGISTRATIONGROUPS. </blockquote>"}%
+%IF{"($WIKINAME!='WikiGuest') and  (not ($USERNAME ingroup 'AdminGroup')) and ('%REGISTRATIONGROUPTYPE%' = 'automatic') and (not defined 'REGISTRATIONGROUPS')" then="<blockquote><span class=\"foswikiAlert\"> *Caution!* Registering a user while logged in will add the new user to all groups you have permission to change.</span> REGISTRATIONGROUPTYPE is set to =automatic=, and no groups are set in REGISTRATIONGROUPS. </blockquote>"}%
+%FORMAT{
+   "%IF{"defined 'REGISTRATIONGROUPS'" then="%REGISTRATIONGROUPS%" else="%GROUPINFO{
+         show="allowchange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%"
+         format="$name"
+         separator=","
+      }%"}%"
+   header="$percentINCLUDE{$quot%WEB%.%REGPARTS%$quot section=$quot%IF{
+                  "'%REGISTRATIONGROUPTYPE%' = 'automatic' and $ WIKINAME='WikiGuest'"
+                  then="hidden"
+               }%rendergroupheader$quot}$percent"
+   footer="$percentINCLUDE{$quot%WEB%.%REGPARTS%$quot section=$quotrendergroupfooter$quot}$percent"
+   zeroresults="no groups<!-- no groups available -->"
+   format="$percentINCLUDE{$quot%WEB%.%REGPARTS%$quot
+      section=$quotrendergroup$quot
+      groupname=$quot$topic$quot
+        inputtype=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic' and $ WIKINAME!='WikiGuest'" then="checkbox"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic' and $ WIKINAME='WikiGuest'" then="hidden"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'one'" then="radio"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="checkbox"}%$quot
+        inputother=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="checked readonly"}%$quot
+       }$percent"
+      separator=" "
+}%%ENDSECTION{"groups"}%
+</verbatim>
+
+---++++ Group Section =nochange=
+<verbatim class="tml">
+%STARTSECTION{"nochange"}%<!-- nochange// --> %ENDSECTION{"nochange"}%
+</verbatim>
+
+---++++ Group Section =rendergroup=
+  parameters: groupname, inputtype
+<verbatim class="tml">
+%STARTSECTION{"rendergroup"}%<input type="%inputtype%" %inputother% name="Fwk0AddToGroups" id="cb_%groupname%" value="%groupname%" />
+   <label class="desc" for="cb_%groupname%">%IF{"istopic '%USERSWEB%.%groupname%'" then=" [[%USERSWEB%.%groupname%][%groupname%]] " else="%groupname%" }%</label>%ENDSECTION{"rendergroup"}%
+</verbatim>
+
+---++++ Group Section =rendergroupheader=
+<verbatim class="tml">
+%STARTSECTION{"rendergroupheader"}%<li><label class="desc" for="Fwk0AddToGroups">%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then='%MAKETEXT{"Select groups to join:"}%' else='%MAKETEXT{"Select the group to join:"}%'}%</label>
+<div class="joinGroups">%ENDSECTION{"rendergroupheader"}%
+</verbatim>
+
+---++++ Group section: =rendergroupfooter=
+<verbatim class="tml">
+%STARTSECTION{"rendergroupfooter"}%</div></li>%ENDSECTION{"rendergroupfooter"}%
+</verbatim>
+
+---++++ Group Section: =hiddenrendergroupheader=
+<verbatim class="tml">
+%STARTSECTION{"hiddenrendergroupheader"}%<li class="tml">
+<div class="joinGroups">%ENDSECTION{"hiddenrendergroupheader"}%
+</verbatim>
+
+---+++ Required: Submit Button
+<verbatim class="tml">
+%STARTSECTION{"requiredButton_submit"}%<li><label class="desc">&nbsp;</label><div><input type="submit" tabindex="99" class="foswikiSubmit" value="%MAKETEXT{"Register"}%" /><span class="expl tml">%MAKETEXT{"Please correct the entered data before you continue."}%</span></div></li>%ENDSECTION{"requiredButton_submit"}%
+</verbatim>
+
+---++ Utility sections
+
+These sections are used to include sections from a list of sections.   They
+are referenced in the section named =liveform=
+
+---+++ Optional field includes
+Includes all optional sections named in the =%<nop>FIELDS% setting.
+<verbatim class="tml">
+%STARTSECTION{"optionalFields"}%%FORMAT{
+   "%FIELDS{default=""}%"
+   separator="$n"
+   type="string"
+   format="$percntINCLUDE{$quot%REGPARTS%$quot section=$quot$item$quot}$percnt"
+}%%ENDSECTION{"optionalFields"}%
+</verbatim>
+
+---+++ Required fields for all registrations
+Includes all of the required fields.
+<verbatim class="tml">
+%STARTSECTION{"requiredFields"}%%FORMAT{
+   "requiredField_firstName, requiredField_lastName, requiredField_wikiName%IF{"$ALLOWLOGINNAME" then=", requiredField_loginName"}%, requiredField_email%IF{"context passwords_modifyable" then=", requiredField_password"}%"
+   separator="$n"
+   type="string"
+   format="$percntINCLUDE{$quot%REGPARTS%$quot section=$quot$item$quot}$percnt"
+}%%ENDSECTION{"requiredFields"}%
+</verbatim>
+
+Test if user topic exists. Used for form validation.
+<verbatim class="tml">
+%STARTSECTION{"checkWikiName"}%%IF{"istopic '%USERSWEB%.%URLPARAM{"name"}%'"
+  then="false"
+  else="true"
+}%%ENDSECTION{"checkWikiName"}%
+</verbatim>
+
+Test if user login name exists. Used for form validation.
+<verbatim class="tml">
+%STARTSECTION{"checkLoginName"}%%IF{
+  "'%USERINFO{"%URLPARAM{"name"}%" format="$username"}%'!=''"
+  then="false"
+  else="true"
+}%%ENDSECTION{"checkLoginName"}%
+</verbatim>
+
+</noautolink>
+%IF{
+   "$USERNAME ingroup 'AdminGroup'"
+   else="</div>"
+}%
+
+
+%META:FILEATTACHMENT{name="validate.js" attr="h" comment="" date="1448237685" size="2027" user="ProjectContributor" version="1"}%
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%
