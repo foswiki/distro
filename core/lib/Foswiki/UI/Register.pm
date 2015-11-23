@@ -31,13 +31,14 @@ BEGIN {
 # Keys from the user data that should *not* be included in
 # the user topic.
 my %SKIPKEYS = (
-    'Photo'       => 1,
-    'WikiName'    => 1,
-    'LoginName'   => 1,
-    'Password'    => 1,
-    'Confirm'     => 1,
-    'Email'       => 1,
-    'AddToGroups' => 1
+    'Photo'         => 1,
+    'WikiName'      => 1,
+    'LoginName'     => 1,
+    'Password'      => 1,
+    'Confirm'       => 1,
+    'Email'         => 1,
+    'AddToGroups'   => 1,
+    'templatetopic' => 1,
 );
 
 my @requiredFields = qw(WikiName FirstName LastName Email);
@@ -1333,14 +1334,18 @@ sub _complete {
 # Given a template and a hash, creates a new topic for a user
 sub _createUserTopic {
     my ( $session, $row ) = @_;
-    my $template = 'NewUserTemplate';
-    my $fromWeb  = $Foswiki::cfg{UsersWebName};
+    my $template = $row->{templatetopic} || 'NewUserTemplate';
+    my $fromWeb = $Foswiki::cfg{UsersWebName};
+
+# This is safe because the $template name is fully validated in _validateRegistration()
+    ($template) = $template =~ m/^(.*)$/;
 
     if ( !$session->topicExists( $fromWeb, $template ) ) {
 
         # Use the default version
         $fromWeb = $Foswiki::cfg{SystemWebName};
     }
+
     my $tobj = Foswiki::Meta->load( $session, $fromWeb, $template );
 
     my $log =
@@ -1378,6 +1383,7 @@ sub _writeRegistrationDetailsToTopic {
     $topicObject->copyFrom($templateTopicObject);
 
     my $form = $templateTopicObject->get('FORM');
+
     if ($form) {
         ( $topicObject, $addText ) =
           _populateUserTopicForm( $session, $form->{name}, $topicObject,
@@ -1464,6 +1470,7 @@ sub _populateUserTopicForm {
 # Registers a user using the old bullet field code
 sub _getRegFormAsTopicContent {
     my $data = shift;
+
     my $text;
     foreach my $fd ( sort { $a->{name} cmp $b->{name} } @{ $data->{form} } ) {
         next if $SKIPKEYS{ $fd->{name} };
@@ -1809,6 +1816,46 @@ sub _validateRegistration {
         }
     }
 
+    if ( $data->{templatetopic} ) {
+        $data->{templatetopic} = Foswiki::Sandbox::untaint(
+            $data->{templatetopic},
+            sub {
+                my $template = shift;
+                return $template if Foswiki::isValidTopicName($template);
+                $session->logger->log( 'warning',
+                    'Registration rejected: invalid templatetopic requested: '
+                      . $data->{templatetopic} );
+                throw Foswiki::OopsException(
+                    'register',
+                    web   => $data->{webName},
+                    topic => $session->{topicName},
+                    def   => 'bad_templatetopic',
+                );
+            }
+        );
+        if (
+            !$session->topicExists( $Foswiki::cfg{UsersWebName},
+                $data->{templatetopic} )
+            && !$session->topicExists(
+                $Foswiki::cfg{SystemWebName},
+                $data->{templatetopic}
+            )
+          )
+        {
+            $session->logger->log( 'warning',
+'Registration rejected: requested templatetopic does not exist: '
+                  . $data->{templatetopic} );
+            throw Foswiki::OopsException(
+                'register',
+                uweb  => $Foswiki::cfg{UsersWebName},
+                tmpl  => $data->{templatetopic},
+                web   => $data->{webName},
+                topic => $session->{topicName},
+                def   => 'bad_templatetopic',
+            );
+        }
+    }
+
     if ($requireForm) {
 
         # check if required fields are filled in
@@ -2022,6 +2069,11 @@ sub _getDataFromQuery {
                 }
             );
         }
+    }
+
+    # This is validated later, okay to accept as is.
+    if ( my $tmpl = $query->param('templatetopic') ) {
+        $data->{templatetopic} = $tmpl;
     }
 
     if (   !$data->{Name}

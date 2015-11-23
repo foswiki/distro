@@ -118,6 +118,19 @@ AFTER
 EOF
         $topicObject->save();
 
+        Foswiki::Func::saveTopic( $this->{users_web}, 'AltUserTemplate', undef,
+            <<'EOF2' );
+%NOP{Ignore this}%
+Alternate user template
+%SPLIT%
+\t* Set %KEY% = %VALUE%
+%SPLIT%
+%WIKIUSERNAME%
+%WIKINAME%
+%USERNAME%
+AFTER
+EOF2
+
         # Make the test current user an admin; we will only use
         # them where necessary (e.g. for bulk registration)
         $topicObject->finish();
@@ -929,6 +942,127 @@ sub verify_rejectShortPassword {
     otherwise {
         $this->assert( 0, "expected an oops redirect" );
     };
+
+    return;
+}
+
+# Register a user with an invalid template topic - must be rejected
+sub verify_userTopictemplate {
+    my $this = shift;
+    $Foswiki::cfg{Register}{NeedVerification} = 0;
+    $Foswiki::cfg{MinPasswordLength}          = 4;
+    $Foswiki::cfg{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
+    $Foswiki::cfg{Register}{AllowLoginName}   = 0;
+    my $query = Unit::Request->new(
+        {
+            'TopicName'    => ['UserRegistration'],
+            'Twk1Email'    => [ $this->{new_user_email} ],
+            'Twk1WikiName' => [ $this->{new_user_wikiname} ],
+            'Twk1Name'     => [ $this->{new_user_fullname} ],
+            'Twk0Comment'  => [''],
+
+         #                         'Twk1LoginName' => [$this->{new_user_login}],
+            'Twk1FirstName' => [ $this->{new_user_fname} ],
+            'Twk1LastName'  => [ $this->{new_user_sname} ],
+            'Twk1Password'  => ['12345'],
+            'Twk1Confirm'   => ['12345'],
+            'templatetopic' => ['FooBar'],
+            'action'        => ['register'],
+        }
+    );
+
+    $query->path_info("/$this->{users_web}/UserRegistration");
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+
+    try {
+        $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "bad_templatetopic", $e->{def},
+            $e->stringify() );
+        $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+        @FoswikiFnTestCase::mails = ();
+    }
+    catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+    }
+    catch Error::Simple with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+    }
+    otherwise {
+        $this->assert( 0, "expected an oops redirect" );
+    };
+
+    my $query2 = Unit::Request->new(
+        {
+            'TopicName'    => ['UserRegistration'],
+            'Twk1Email'    => [ $this->{new_user_email} ],
+            'Twk1WikiName' => [ $this->{new_user_wikiname} ],
+            'Twk1Name'     => [ $this->{new_user_fullname} ],
+            'Twk0Comment'  => [''],
+
+         #                         'Twk1LoginName' => [$this->{new_user_login}],
+            'Twk1FirstName' => [ $this->{new_user_fname} ],
+            'Twk1LastName'  => [ $this->{new_user_sname} ],
+            'Twk1Password'  => ['12345'],
+            'Twk1Confirm'   => ['12345'],
+            'templatetopic' => ['AltUserTemplate'],
+            'action'        => ['register'],
+        }
+    );
+
+    $query2->path_info("/$this->{users_web}/UserRegistration");
+    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query2 );
+    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+
+    try {
+        #no strict 'refs';
+        $this->captureWithKey( register => $REG_UI_FN, $this->{session} );
+
+        #use strict 'refs';
+    }
+    catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_str_equals( $REG_TMPL, $e->{template}, $e->stringify() );
+        $this->assert_str_equals( "thanks",  $e->{def},      $e->stringify() );
+        $this->assert_matches(
+            $this->{new_user_email},
+            $e->{params}->[0],
+            $e->stringify()
+        );
+    }
+    catch Foswiki::AccessControlException with {
+        my $e = shift;
+        $this->assert( 0, $e->stringify );
+    }
+    catch Error::Simple with {
+        $this->assert( 0, shift->stringify() );
+    }
+    otherwise {
+        $this->assert( 0, "expected an oops redirect" );
+    };
+
+    $this->assert(
+        $this->{session}->topicExists(
+            $Foswiki::cfg{UsersWebName},
+            $this->{new_user_wikiname}
+        )
+    );
+
+    $this->assert(
+        Foswiki::Func::topicExists(
+            "$this->{users_web}", "$this->{new_user_wikiname}"
+        ),
+        "MISSING USER TOPIC: $this->{users_web}.$this->{new_user_wikiname}"
+    );
+    my $utext = Foswiki::Func::readTopicText( $Foswiki::cfg{UsersWebName},
+        $this->{new_user_wikiname} );
+    $this->assert_matches( qr/Alternate user template/, $utext );
 
     return;
 }
