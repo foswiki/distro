@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447555848" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1448293212" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
 ---+!! Foswiki Release 1.1.10
@@ -42,7 +42,9 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.7 was built 01 Feb 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 20 fixes and 4 enhancements.
    * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*.  It contains 4 fixes.
    * Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 44 fixes and 4 enhancements.
-   * Foswiki 1.1.10 was built 15 Nov 2013. It is a release that contains 6 fixes and 9 enhancements.
+   * Foswiki 1.1.10 was built 23 Nov 2015. It is a release that contains 8 fixes and 8 enhancements.
+
+Foswiki 1.1.10 is indended to be the final patch release in the Foswiki 1.1 Release stream.
 
 ---++ Pre-installed Extensions
 
@@ -57,21 +59,23 @@ Foswiki 1.1 ships with the following:
 ---++ Important changes in Foswiki 1.1.10 (This release)
 
 Foswiki 1.1.10 is a compatibility release for sites unable to upgrade to Foswiki 2.0. It contains fixes for Perl and CPAN compatibility issues that can
-arise after a system upgrade.  It also contains backports of important Foswiki 2.0 features necessary for compatibility with extensions released for Foswiki
-2.0.
+arise after a system upgrade. It has been tested with perl versions 5.8.8 thru 5.23.  It also contains backports of important Foswiki 2.0 features necessary
+for compatibility with extensions released for Foswiki 2.0.
 
-This release refreshes all default extensions to the version shipped with
-Foswiki 2.0, with the exception of TopicUserMappingContrib and PatternSkin.
+This release refreshes all default extensions to the version shipped with Foswiki 2.0, with the exception of TopicUserMappingContrib and PatternSkin.
 The new version of these extensions are not compatible with Foswiki 1.1.
 
-Foswiki 1.1.10 does *not* contain fixes for other known security issues.  Upgrade to the latest Foswiki release is strongly recommended.
+Foswiki 1.1.10 does *not* contain fixes for security issues fixed in the Foswiki 2.0.x releases.  Upgrade to the latest Foswiki release is strongly recommended.
+
+---+++ ACL Changes
+
+Foswiki 1.1.10 backports the new wildcard ACL.  ALLOW and DENY rules can now be set to "*" asterisk, which means always match.  In Foswiki 2.0, this is
+used to deprecate the old "Empty" deny rule.  Foswiki 1.1.10 still supports the empty deny rules, but also supports the "ALLOW *" for allow all.
 
 ---+++ SpreadSheetPlugin changes
 
-The CALC and CALCULATE macros now encode =&lt;= and =&gt;= as entities, which
-prevents some paths used to insert script tags. If your user's topics require
-CALC or CALCULATE to generate HTML, then you must enable the following
-setting:
+The CALC and CALCULATE macros now encode =&lt;= and =&gt;= as entities, which prevents some paths used to insert script tags. If your user's topics require
+CALC or CALCULATE to generate HTML, then you must enable the following setting:
    * Set SPREADSHEETPLUGIN_ALLOWHTML=1
 This setting can be set in the topic, web, user or site perferences.
 
@@ -1992,6 +1996,8 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item13776][Item13776]] | Perl 5.20 - 5.23 compatibility fixes for Fosiwiki 1.1. |
 | [[%BUGS%/Item13778][Item13778]] | CGI -any pragma deprecated.  Backport fixes to Foswiki 1.1 |
 | [[%BUGS%/Item13789][Item13789]] | Backport CLI fix for 1.1.x, AllowLoginName blocks admin CLI access. |
+| [[%BUGS%/Item13794][Item13794]] | Backport fix to REST not to try to strike-one-validate when called from CLI. |
+| [[%BUGS%/Item13852][Item13852]] | CommentPlugin should warn about COMMENT permissions. |
 
 ---++ Enhancements
 
@@ -2001,7 +2007,6 @@ to your =bin/LocalLib.cfg=.
 | [[%BUGS%/Item13791][Item13791]] | Backport CSS classes in script/link/style elements in zones for 1.1.x. |
 | [[%BUGS%/Item13792][Item13792]] | Backport profiling api in Request.pm to 1.1.x. |
 | [[%BUGS%/Item13793][Item13793]] | Backport %CALCULATE macro and other SpreadSheetPlugin features for 1.1.x. |
-| [[%BUGS%/Item13794][Item13794]] | Backport fix to REST not to try to strike-one-validate when called from CLI. |
 | [[%BUGS%/Item13842][Item13842]] | Backport Foswiki::Tables::* modules into Release 1.1. |
 | [[%BUGS%/Item13844][Item13844]] | Sync master branch extensions into Release01x01 branch. |
 </noautolink>
