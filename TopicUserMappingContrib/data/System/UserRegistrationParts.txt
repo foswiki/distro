@@ -1,10 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1448237685" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1448247346" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 <noautolink>
 
 ---+ User Registration components
 
-This topic contains the pieces that are assembled into the UserRegistration page.
+This topic contains the pieces that are assembled into the UserRegistration page.  There is no need to modify this topic.
+If a section of the same name is found in the [[%USERSWEB%.UserRegistration]] topic, it will be used instead of or in addition to sections in this topic.
+
    * Read general customisation instructions in [[%SYSTEMWEB%.UserAuthentication]]
 
 %IF{
@@ -345,5 +347,5 @@ Test if user login name exists. Used for form validation.
 }%
 
 
-%META:FILEATTACHMENT{name="validate.js" attr="h" comment="" date="1448237685" size="2027" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="validate.js" attr="h" comment="" date="1448247346" size="2027" user="ProjectContributor" version="1"}%
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

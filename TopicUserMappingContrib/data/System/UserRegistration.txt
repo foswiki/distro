@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1448237685" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1448247346" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserToolsCategory"}%
 <!--
 
@@ -12,7 +12,7 @@ DO NOT EDIT THIS TOPIC.
 custom user registration page exists in %USERSWEB% and includes it if it does; otherwise it includes DefaultUserRegistration.
 (This message is only visible to Site Administrators when the %USERSWEB.UserRegistraion topic has not been created.)
 
-See detailed documentation at [[%SYSTEMWEB%.UserAuthentication#UserRegistrationPage]]
+See detailed documentation at [[%SYSTEMWEB%.UserAuthentication#UserRegistration]]
 
 To create a custom UserRegistration page for your site:
    1 Visit [[%SYSTEMWEB%.DefaultUserRegistration?template=more&maxrev=1&currrev=1#Copy_topic][%SYSTEMWEB%.DefaultUserRegistration: More topic actions]]

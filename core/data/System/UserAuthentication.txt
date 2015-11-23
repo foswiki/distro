@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435689678" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1448247346" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ User Authentication
@@ -74,24 +74,52 @@ This module uses the content of certain specific Foswiki topics to map usernames
 #UserRegistration
 ---++ User Registration
 
-'User registration' is the process by which a new user registers to use the wiki. Foswiki new user registration is a sophisticated process which negotiates with the  Password Manager and User Mapping Manager to establish the identity of the user, to set and change passwords, and store e-mail addresses and other user meta-data. The process includes:
+'User registration' is the process by which a new user registers to use the wiki. Foswiki new user registration is a sophisticated process which negotiates with the  Password Manager
+and User Mapping Manager to establish the identity of the user, to set and change passwords, and store e-mail addresses and other user meta-data. The process includes:
    * new user verification
    * optional new user approval
    * *single user registration* via the UserRegistration page,
    * *bulk user registration* via the BulkRegistration page (for admins only).
 
-Registration options are selected in the *Security and Authentication* -> *Registration* tab in [[%SCRIPTURL{configure}%][configure]].
+---+++ Configuration
 
+Registration options are selected in the *Security and Authentication* -> *Registration* tab in [[%SCRIPTURL{configure}%][configure]].  Options controlled by configure include:
+   * Enable user registration: ={Register}{EnableNewUserRegistration}=
+   * Use login names separate from the WikiName: ={Register}{AllowLoginName}=
+   * Verify the user's email address: ={Register}{NeedVerification}=
+   * Expiration of unverified pending registrations: ={Register}{ExpireAfter}=
+   * Approve registrations by a 3rd party: ={Register}{NeedApproval}=
+   * Block duplicate registrations by same email address: ={Register}{UniqueEmail}=
+   * Filter registering email addresses by domain: ={Register}{EmailFilter}=
+
+---+++ How registration works:
+
+The default "landing page" for user registration is [[%SYSTEMWEB%.UserRegistration]], however this page is a "director" page, and displays one of two pages:
+   * [[%USERSWEB%.UserRegistration]] or if that page does not exist,
+   * [[%SYSTEMWEB%.DefaultUserRegistration]]
+These are the default registration pages, but as of Foswiki 2.1, any page name can be used as the registration page.  This can accomodate customized registrations, such as !CustomerRegistration, !VendorRegistration, etc.
+each with its own settings.  This page (from %SYSTEMWEB% or %USERSWEB%) or other custom registration pages each sets a number of additional registration defaults, and then INCLUDEs the components that together compose the operational page.  These settings include:
+   * =%<nop>NEWUSERTEMPLATE%= - Specifies the template topic used to create the new user's topic.  If not set, %USERSWEB.NewUserTemplate or if that does not exist,  %SYSTEMWEB%.NewUserTemplate is used.
+   * =%<nop>REGPARTS%= - Specifies a list of topics used to resolve the INCLUDEs used to build the registration form.  Defaults to the current topic, and then %SYSTEMWEB%.UserRegistrationParts.
+   * =%<nop>FIELDS%= - List optional fields to add to the registration form.  They correspond to _sections_ in the topics listed in !%REGPARTS%
+   * =%<nop>REGISTRATIONGROUPTYPE%= and  =%<nop>REGISTRATIONGROUPS%=, which controls automatic group membership upon registration.
+
+*Note:* It is important to use the new =%<nop>SET{}%= macro to establish these defaults. Traditional bullet style ="   * Set field=value= statements do not get processed when the topic is included.
 ---+++ Custom registration page
 
-You can customize the default [[%SYSTEMWEB%.UserRegistration]] topic by first copying [[%SYSTEMWEB%.DefaultUserRegistration]] to !UserRegistration in %USERSWEB% web. This will ensure that your changes will remain intact next time you upgrade. There are some brief instructions on %SYSTEMWEB%.UserRegistration that helps you accomplish this.  
+You can customize the default [[%SYSTEMWEB%.UserRegistration]] topic, or create new registration topics, by copying [[%SYSTEMWEB%.DefaultUserRegistration]] to !UserRegistration (or another registration topic) in %USERSWEB% web.
+This will ensure that your changes will remain intact next time you upgrade. There are some brief instructions on %SYSTEMWEB%.UserRegistration that helps you accomplish this.
 
-The UserRegistration page is assembled from =INCLUDE= blocks hidden on the page. They are documented in HTML Comments that are only visible when you edit the page.
-   * The first =FORMAT= macro is used expand the blocks that define the main body of the page.
-   * Further down is a block =%%NOP%STARTSECTION{"optionalFields"}%%FORMAT{= ... In that block you can enable other optional fields, such as group membership, country, organization, etc.
-New fields may also be added. The =name=""= parameter of the =&lt;input&gt;= tags must start with: ="Fwk0..."= (if this is an optional entry), or ="Fwk1..."= (if this is a required entry). This ensures that the fields are carried over into the user home page correctly. Scroll down further on the page to find a =STARTSECTION= for a similar field.   For example =%STARTSECTION{"extraField_organisationUrl=. Duplicate the block and rename it to create your new field, and then add the name to the list in the =optionalFields= FORMAT macro.
+The user registration page is assembled from =INCLUDE= blocks either hidden on that page, or by default blocks found in %SYSTEMWEB%.UserRegistrationParts. Details of these INCLUDE blocks
+are documented in that page. The user registration page is included in the INCLUDE search order, so new include blocks can be added to the page without the need to update %SYSTEMWEB% topics.
 
-If you add fields to the UserRegistration form, you also need to add them to the [[%USERSWEB%.UserForm]] so that they are stored in the user topics.
+New fields may also be added to the Registration.
+   * The =name=""= parameter of the =&lt;input&gt;= tags must start with: ="Fwk0..."= (if this is an optional entry), or ="Fwk1..."= (if this is a required entry).
+   * The field name (without the Fwk* prefix) should be added to the [[%USERSWEB%.UserForm]] (or whaver form you use for user registration) so that they are stored in the user topics.
+This ensures that the fields are carried over into the user home page correctly.
+
+For example, you want to add a "DepartmentName" field. Find a similar block in %SYSTEMWEB%.UserRegistrationParts, ([[%SYSTEMWEB%.UserRegistrationParts#Optional_field:_61OrganisationName_61][OrganisationName]] for ex.) and copy the entire block to the bottom of your custom registration topic.
+Name it to create your new field, _DepartmentName_, and then add the name of the block to the list in the =%<nop>SET{"FIELDS" value="..."=   You can hide the block by enclosing it in HTML comments =&lt;!--= and =--&gt;=
 
 ---+++ Automatic Group Membership
 
@@ -113,7 +141,7 @@ There are two registration scenarios that apply:
 
 Note: During registration, if it turns out that the current user or %USERSWEB%.RegistrationAgent doesn't have permission to update the group topic, the group update will be silently skipped.  The user will still be able to register.
 
-See %WIKIPREFSTOPIC%#RegistrationOptions for further details.  Copy the changed settings into %LOCALSITEPREFS% to make them active. You also must add =extraField_groups= to the list of optional fields in the =FORMAT= macro in the =optionalFields= section.
+The settings that control group memberships during registration are located at the top of the %SYSTEMWEB%.DefaultUserRegistration topic. You also must add =extraField_groups= to the list of optional fields in the ==%<nop>SET{"FIELDS" value="..."= macro in the =optionalFields= section.
 
 #LoginManagement
 ---++ Login Management
