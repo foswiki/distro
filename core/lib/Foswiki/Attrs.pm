@@ -97,26 +97,84 @@ sub new {
     return $this;
 }
 
+sub _assign { ${ $_[0] } = $_[1]; }
+sub _append { ${ $_[0] } .= $_[1]; }
+
+# Kept as potential new FeatureProposal:
+# sub _prepend { ${$_[0]} = $_[1] . ${$_[0]}; }
+
+# Perl warned about undefined $_[1] (and the sub was buggy)
+# hence 'my ($sr, $v) = @_;' which fixed it
+sub _multi { my ( $sr, $v ) = @_; ${$sr} x= $v if $v =~ /[0-9]+/; }
+
+my %Ops = (
+
+    #    Op  => [ WithName , Without Name ]
+    '=' => [ \&_assign, undef ],
+
+    '+=' => [ \&_append, undef ],
+    '+'  => [ undef,     \&_append ],
+
+    # Kept as potential FeatureProposal
+    # The community will also need to agree operators to use
+    #    '-=' => [ \&_prepend , undef ] ,
+    #    '-'  => [ undef      , \&_prepend ] ,
+
+);
+
+sub OpRegex {
+    my ($opType) = @_;
+    return join(
+        '|', map { quotemeta($_); }
+          grep { $Ops{$_}->[$opType]; }
+
+          # We need to reverse sort to ensure that in cases when we have two
+          # synonymous ops (e.g. '+=' & '=') then we always handle += first
+          # (remember random hash order otherwise)
+          # This ensures that in the _friendly case parm=56 +=78 always give
+          # parm as '5678' and not '56=78'
+          reverse sort { length($a) <=> length($b) }
+          keys %Ops
+    );
+}
+
+my $nameOp = OpRegex(0);
+my $nonmOp = OpRegex(1);
+
 sub _unfriendly {
     my ( $this, $string ) = @_;
 
+    my $key   = '_DEFAULT';
     my $first = 1;
 
-    if ( $string =~ s/^\s*\"(.*?)\"\s*(?=[a-z0-9_]+\s*=\s*\"|$)//si ) {
+    if ( $string =~
+s/^\s*\"(.*?)\"\s*(?=([a-z0-9_]+\s*(?:$nameOp)|[a-z0-9_]*\s*(?:$nonmOp))\s*\"|$)//is
+      )
+    {
         $this->{_DEFAULT} = $1;
     }
+
     while ( $string =~ m/\S/s ) {
 
-        # name="value" pairs
-        if ( $string =~ s/^\s*([a-z0-9_]+)\s*=\s*\"(.*?)\"//is ) {
-            $this->{$1} = $2;
+        # name $op "value" pairs
+        if ( $string =~ s/^\s*([a-z0-9_]+)\s*($nameOp)\s*\"(.*?)\"//is ) {
+            $key = $1;
+            $Ops{$2}[0]( \$this->{$key}, $3 );
+            $first = 0;
+        }
+
+        # $op "value"  (the name (or key) is the most recent one seen)
+        elsif ( $string =~ s/^\s*($nonmOp)\s*\"(.*?)\"//is ) {
+            $Ops{$1}[1]( \$this->{$key}, $2 );
             $first = 0;
         }
 
         # simple double-quoted value with no name, sets the default
         elsif ( $string =~ s/^\s*\"(.*?)\"//s ) {
-            $this->{_DEFAULT} = $1
-              unless defined( $this->{_DEFAULT} );
+            unless ( defined( $this->{_DEFAULT} ) ) {
+                $key = '_DEFAULT';
+                $this->{_DEFAULT} = $1;
+            }
             $first = 0;
         }
 
@@ -132,43 +190,64 @@ sub _unfriendly {
 sub _friendly {
     my ( $this, $string ) = @_;
 
-    my $first = 1;
+    my $key = "_DEFAULT";
 
     while ( $string =~ m/\S/s ) {
 
-        # name="value" pairs
-        if ( $string =~ s/^[\s,]*([a-z0-9_]+)\s*=\s*\"(.*?)\"//is ) {
-            $this->{$1} = $2;
-            $first = 0;
+        # name $op "value" pairs
+        if ( $string =~ s/^[\s,]*([a-z0-9_]+)\s*($nameOp)\s*\"(.*?)\"//is ) {
+            $key = $1;
+            $Ops{$2}[0]( \$this->{$key}, $3 );
         }
 
         # simple double-quoted value with no name, sets the default
         elsif ( $string =~ s/^[\s,]*\"(.*?)\"//s ) {
-            $this->{_DEFAULT} = $1
-              unless defined( $this->{_DEFAULT} );
-            $first = 0;
+            unless ( defined( $this->{_DEFAULT} ) ) {
+                $key = '_DEFAULT';
+                $this->{_DEFAULT} = $1;
+            }
         }
 
-        # name='value' pairs
-        elsif ( $string =~ s/^[\s,]*([a-z0-9_]+)\s*=\s*'(.*?)'//is ) {
-            $this->{$1} = $2;
+        # name $op 'value' pairs
+        elsif ( $string =~ s/^[\s,]*([a-z0-9_]+)\s*($nameOp)\s*'(.*?)'//is ) {
+            $key = $1;
+            $Ops{$2}[0]( \$this->{$key}, $3 );
         }
 
-        # name=value pairs
-        elsif ( $string =~ s/^[\s,]*([a-z0-9_]+)\s*=\s*([^\s,\}\'\"]*)//is ) {
-            $this->{$1} = $2;
+        # name $op value pairs
+        elsif (
+            $string =~ s/^[\s,]*([a-z0-9_]+)\s*($nameOp)\s*([^\s,\}\'\"]*)//is )
+        {
+            $key = $1;
+            $Ops{$2}[0]( \$this->{$key}, $3 );
+        }
+
+        # $op "value"
+        elsif ( $string =~ s/^[\s,]*($nonmOp)\s*\"(.*?)\"//is ) {
+            $Ops{$1}[1]( \$this->{$key}, $2 );
+        }
+
+        # $op 'value'
+        elsif ( $string =~ s/^[\s,]*($nonmOp)\s*'(.*?)'//is ) {
+            $Ops{$1}[1]( \$this->{$key}, $2 );
+        }
+
+        # $op value
+        elsif ( $string =~ s/^[\s,]*($nonmOp)\s*([^\s,\}\'\"]*)//is ) {
+            $Ops{$1}[1]( \$this->{$key}, $2 );
         }
 
         # simple single-quoted value with no name, sets the default
         elsif ( $string =~ s/^[\s,]*'(.*?)'//s ) {
-            $this->{_DEFAULT} = $1
-              unless defined( $this->{_DEFAULT} );
+            unless ( defined( $this->{_DEFAULT} ) ) {
+                $key = '_DEFAULT';
+                $this->{_DEFAULT} = $1;
+            }
         }
 
         # simple name with no value (boolean, or _DEFAULT)
         elsif ( $string =~ s/^[\s,]*([a-z][a-z0-9_]*)\b//is ) {
-            my $key = $1;
-            $this->{$key} = 1;
+            $this->{$1} = 1;
         }
 
         # otherwise the whole string - sans padding - is the default

@@ -397,7 +397,8 @@ sub checkTreePerms {
 
     if (   $perms =~ m/p/
         && $path =~ m/\Q$Foswiki::cfg{DataDir}\E\/(.+)$/
-        && -d $path )
+        && -d $path
+        && ( substr( $path, -4 ) ne ',pfv' ) )
     {
         unless ( -e "$path/$Foswiki::cfg{WebPrefsTopicName}.txt" ) {
             unless ( $report{missingFile}++ > $options{maxMissingFile} ) {

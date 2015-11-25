@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443040360" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1448477054" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -592,6 +592,9 @@ Uploads an attachment to a topic. The HTTP request is expected to be in =multipa
 *Tips*
    * You can use a tool like =curl= to upload files from the command line using this script.
    * You can call upload easily from !XmlHttpRequest in Javascript.
+   * You can directly invoke upload from the CLI script.__New with Foswiki 2.1__
+      * You must use the Perl CLI options  '-CA' if the filename contains non-ASCII characters.
+      * ex. Run from the bin directory: =perl -CA ./upload filepath="/path/and/filename.dat" filename="attachname.dat" topic=Sandbox.ExistingTopic=
 
 <div class="foswikiHelp"> 
 *%X% Note:* The =upload= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =upload= script via a form action. It is not possible to call =upload= from an =&lt;a href ...&gt;= link.

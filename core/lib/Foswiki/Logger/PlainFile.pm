@@ -146,7 +146,7 @@ sub log {
         # $Foswiki::cfg{Log}{Dir} will be set sensibly)
         if ( !-w $log ) {
             die
-"ERROR: Could not open logfile $log for write. Your admin should 'configure' now and fix the errors!\n";
+"ERROR: Could not open logfile $log for write. Your admin should repair file or directory access permissions and/or ownership!\n";
         }
 
         # die to force the admin to get permissions correct

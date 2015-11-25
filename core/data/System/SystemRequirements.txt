@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1444356459" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1448412998" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -67,7 +67,10 @@ Install apache and rcs: ==apt-get install apache2 rcs==
 | URI | =liburi-perl= | |
 | version | =libversion-perl= | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 
-Note: to install all the above: =apt-get install= %CALC{"$LISTJOIN($sp,$LIST(R2:C2..R100:C2))"}% 
+Note: to install all the above:
+<blockquote>
+=apt-get install= %CALC{"$LISTJOIN($sp,$LIST(R2:C2..R100:C2))"}%
+</blockquote>
 
 ---++++!! Optional dependencies
 
@@ -125,6 +128,20 @@ Install apache2, rcs, and perl-CPAN
 | URI | =perl-URI= | |
 | version | =perl-Perl-Version= | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 
+---+++++ To install the above packages on CentOS
+First add the appropriate perl module repository, and then install the packages.
+<blockquote>
+=yum install -y epel-release= %BR%
+=yum install= %CALC{"$LISTJOIN($sp,$LIST(R2:C2..R100:C2))"}%
+</blockquote>
+
+---+++++ To install the above packages on SuSE
+First add the appropriate SuSE perl-modules repository, and then install the packages. Note: Not all listed packages will install on SuSE, but all dependences are resolved.
+<blockquote>
+=zypper ar -f -n perl-modules !http://download.opensuse.org/repositories/devel:/languages:/perl/openSUSE_13.1 perl-modules= %BR%
+=zypper install= %CALC{"$LISTJOIN($sp,$LIST(R2:C2..R100:C2))"}%
+</blockquote>
+
 ---++++!! Optional dependencies
 
 Install as needed.
@@ -132,10 +149,10 @@ Install as needed.
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
 | Apache2::Request | =perl-libapreq2= | Required if using Apache 2 and mod_perl |
-| DBI | | Used for the Foswiki Page cache |
-| DBD::mysql | | Used for !MySQL based Page Cache |
-| DBD::Pg | | Used for !PostgreSQL based Page Cache |
-| DBD::SQLite | | Used for SQLite based Page Cache |
+| DBI | =perl-DBI= | Used for the Foswiki Page cache |
+| DBD::mysql | =perl-DBD-mysql= | Used for !MySQL based Page Cache |
+| DBD::Pg | =perl-DBD-Pg= | Used for !PostgreSQL based Page Cache |
+| DBD::SQLite | =perl-DBD-SQLite= | Used for SQLite based Page Cache |
 
 After expanding the Foswiki archive, change the ownership of the files:
    * RedHat, Fedora, CentOS Mandriva: chown -R apache:apache /path/to/foswiki=
