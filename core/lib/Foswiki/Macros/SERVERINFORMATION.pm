@@ -91,7 +91,7 @@ DONE
             $value =~ s/%3D/=/g;
         }
         $value =~ s/\n/\\n/g if defined $value;
-        $value = Foswiki::entityEncode($value);
+        $value = Foswiki::entityEncode($value) if defined $value;
         $report .=
           "| $key | " . ( ( defined $value ) ? $value : '_undef_' ) . " |\n";
     }
