@@ -758,7 +758,10 @@ sub _fixEmail {
     $email->{header}->header_set( Date => $dateStr );
 
     # MIME-reencode headers.
-    my @header_pairs = $email->header_str_pairs;
+    my @header_pairs;
+    foreach my $headerName ($email->header_names) {
+        push @header_pairs, ($headerName, $email->header($headerName));
+    }
     my %all_headers;
     while (@header_pairs) {
         my ( $header, $value ) = ( shift @header_pairs, shift @header_pairs );
