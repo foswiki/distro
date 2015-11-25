@@ -758,18 +758,8 @@ sub _fixEmail {
     $email->{header}->header_set( Date => $dateStr );
 
     # MIME-reencode headers.
-    my @header_pairs;
-    foreach my $headerName ($email->header_names) {
-        push @header_pairs, ($headerName, $email->header($headerName));
-    }
-    my %all_headers;
-    while (@header_pairs) {
-        my ( $header, $value ) = ( shift @header_pairs, shift @header_pairs );
-        push @{ $all_headers{$header} }, $value;
-    }
-
-    foreach my $hdr_key ( keys %all_headers ) {
-        $email->header_str_set( $hdr_key, @{ $all_headers{$hdr_key} } );
+    foreach my $header ( $email->header_names ) {
+        $email->header_str_set( $header, $email->header($header) );
     }
 
     if ( $Foswiki::cfg{Email}{EnableSMIME} ) {
@@ -800,7 +790,7 @@ sub _sendEmailBySendmail {
 
     $this->_logMailError( 'debug',
             "====== Sending to $mailer ======\n"
-          . $email->header
+          . $email->{header}->as_string
           . "\n======EOM======" );
 
     my $MAIL;
