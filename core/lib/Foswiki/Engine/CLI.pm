@@ -108,6 +108,22 @@ sub preparePath {
     }
 }
 
+sub prepareUploads {
+    my ( $this, $req ) = @_;
+    my %uploads;
+
+    #SMELL: CLI and CGI appear to support multiple uploads
+    # but Foswiki::UI::Upload only processes a single upload.
+    foreach my $fname ( @{ $req->{param}{filepath} } ) {
+        $uploads{$fname} = new Foswiki::Request::Upload(
+            headers => {},
+            tmpname => $fname
+        );
+    }
+    delete $this->{uploads};
+    $req->uploads( \%uploads );
+}
+
 sub prepareCookies { }
 
 sub finalizeHeaders { }
