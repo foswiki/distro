@@ -37,6 +37,28 @@ DONE
     # Check Script URL Path against EMAILADDRESS
     $this->SUPER::check_current_value($reporter);
 
+    my @mods = (
+        {
+            name           => 'Email::MIME',
+            usage          => 'Required for Email Support',
+            minimumVersion => 1.903
+        },
+    );
+    Foswiki::Configure::Dependency::checkPerlModules(@mods);
+    foreach my $mod (@mods) {
+        if ( !$mod->{ok} ) {
+            if ($value) {
+                $reporter->ERROR( $mod->{check_result} );
+            }
+            else {
+                $reporter->WARN( $mod->{check_result} );
+            }
+        }
+        else {
+            $reporter->NOTE( $mod->{check_result} );
+        }
+    }
+
 }
 
 1;
