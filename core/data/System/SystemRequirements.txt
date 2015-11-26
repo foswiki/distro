@@ -208,10 +208,10 @@ Install as needed.
 %TABLE{sort="off"}%
 | *Perl Module* | *Package to install* | *Notes* |
 | Apache2::Request | =libapache2-request-perl= | Required if using Apache 2 and mod_perl |
-| DBI | | Optional - Used for the Foswiki Page cache |
-| DBD::mysql | | Optional - Used for MySQL based Page Cache |
-| DBD::Pg | | Optional - Used for PostgreSQL based Page Cache |
-| DBD::SQLite | | Optional - Used for SQLite based Page Cache |
+| DBI | =dev-perl/DBI= | Optional - Used for the Foswiki Page cache |
+| DBD::mysql | =dev-perl/DBD-mysql= | Optional - Used for MySQL based Page Cache |
+| DBD::Pg | =dev-perl/DBD-Pg= | Optional - Used for PostgreSQL based Page Cache |
+| DBD::SQLite | =dev-perl/DBD-SQLite= | Optional - Used for SQLite based Page Cache |
 
 After expanding the Foswiki archive, change the ownership of the files:
    * =chown -R apache:apache /var/www/path-to-foswiki=
