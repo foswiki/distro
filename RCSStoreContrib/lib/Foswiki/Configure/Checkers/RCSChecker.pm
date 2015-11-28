@@ -25,45 +25,67 @@ sub checkRCSProgram {
     my $mess = '';
     my $err  = '';
     my $prog = $Foswiki::cfg{RCS}{$key} || '';
-    $prog =~ s/^\s*(\S+)\s.*$/$1/;
+    my $version;
+    my $fullversion;
+
+    $prog =~ s/^\s*(\S+)\s.*$/$1/;    # Extract out program name and untaint
     $prog =~ m/^(.*)$/;
     $prog = $1;
+
     if ( !$prog ) {
         $err .= $key . ' is not set';
     }
     else {
-        #SMELL: Old versions of RCS require -V, newer --version, and they complain
-        my $version = `$prog --version -V 2>&1` || '';
-        if (
-            $version !~ /Can't exec/
+        foreach my $cmd ( "$prog --version", "$prog -V" ) {
+            my $msg;
 
-            # "Can't exec" has been observed on some systems,
-            # despite perlop saying `` returns undef if the prog
-            # can't be run. See Foswikitask:Item1011
-            && $version =~ m/(\d+(\.\d+)+)/
-          )
-        {
-            $version = $1;
-        }
-        else {
-            $err .= $this->ERROR( $prog
-                  . ' did not return a version number (or might not exist..)' );
+            # Don't let failures get trapped.
+            {
+                local $SIG{'__WARN__'};
+                local $SIG{'__DIE__'};
+                $msg = `$cmd 2>&1` || "";
+            }
+
+            #print STDERR "$cmd returned $?, " . ( $msg || 'undef' ) . "\n";
+
+            if ( $? < 0 ) {
+                $err .=
+"RCS command $prog failed, may not be installed, or found on path. ";
+                last;
+            }
+            elsif ( $? > 0 ) {
+
+                # Probably a syntax error eg.  --version not supported
+                next;
+            }
+            elsif ( defined $msg
+                && $msg =~ m/^.*?([0-9]+\.[0-9]+)(\.[0-9]+)?$/m )
+            {
+                $version = $1 if defined($1);
+                $fullversion = $1 . ( $2 || '' ) if defined($1);
+                last unless DEBUG;
+            }
+
         }
 
-        # Item11955 - '5.8.1' < 5.7 results in a warning (non-numeric compare)
-        # Best practice is to use CPAN:version, but isn't core until perl 5.10.
-        # So instead let's make the comparison work by stripping out sub-decimal
         ASSERT( REQUIRED_RCS_VERSION =~ m/^\d+(\.\d+)?$/ ) if DEBUG;
-        if ( $version =~ m/\D(\d+(\.\d+)?)/ && $1 < REQUIRED_RCS_VERSION ) {
+
+        if ( !defined $version ) {
+            $err .= "Unable to determine version of $prog. ";
+        }
+        elsif ( $version < REQUIRED_RCS_VERSION ) {
 
             # RCS too old
             $err .=
                 $prog
               . ' is too old, upgrade to version '
               . REQUIRED_RCS_VERSION
-              . ' or higher.';
+              . ' or higher. ';
         }
     }
+
+    $mess .= $this->NOTE("$prog $fullversion detected.") if defined $fullversion;
+
     if ($err) {
         $mess .= $this->ERROR(
             $err . <<'HERE'
