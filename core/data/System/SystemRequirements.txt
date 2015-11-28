@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1448505355" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1448672408" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -215,6 +215,62 @@ Install as needed.
 
 After expanding the Foswiki archive, change the ownership of the files:
    * =chown -R apache:apache /var/www/path-to-foswiki=
+
+%ENDTWISTY{}%
+
+---+++!! !FreeBSD (pkg) based distributions
+
+%TWISTY{ showlink="Show FreeBSD details" hidelink="Hide FreeBSD details"}%
+
+---++++!! Minimum requirements
+
+Install =apache24=, =rcs=, and =perl5=
+
+%TABLE{sort="off"}%
+| *Perl Module* | *Package to install* | *Notes* |
+| Algorithm::Diff | =p5-Algorithm-Diff= | |
+| Archive::Tar | =p5-Archive-Tar= | |
+| Authen::SASL | =p5-Authen-SASL= | |
+| CGI | =p5-CGI= | |
+| CGI::Session | =p5-CGI-Session= | |
+| Crypt::PasswdMD5 | =p5-Crypt-PasswdMD5= | |
+| Digest::SHA | =p5-Digest-SHA= | *First shipped in perl 5.9.3 |
+| Email::MIME | =p5-Email-MIME=  | |
+| Encode | =p5-Encode= | |
+| Error | =p5-Error= | |
+| File::Copy::Recursive | =p5-File-Copy-Recursive= | |
+| HTML::Parser | =p5-HTML-Parser= | |
+| HTML::Tree | =p5-HTML-Tree= | |
+| IO::Socket::IP | =p5-IO-Socket-IP= | First shipped perl 5.19.8 |
+| IO::Socket::SSL | =p5-IO-Socket-SSL= | |
+| JSON | =p5-JSON= | |
+| Locale::Maketext | =p5-Locale-Maketext= |  |
+| Locale::Maketext::Lexicon | =p5-Locale-Maketext-Lexicon= | Optional, needed for internationalization |
+| Locale::Msgfmt | =p5-Locale-Msgfmt= | Optional, needed for internationalization |
+| LWP | =p5-libwww= | |
+| URI | =p5-URI= | |
+| version | =p5-version= | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
+
+---+++++!! To install the above packages on FreeBSD
+
+<blockquote>
+=pkg install= %CALC{"$LISTJOIN($sp,$LIST(R2:C2..R100:C2))"}%
+</blockquote>
+
+After expanding the Foswiki archive, change the ownership of the files:
+   * =chown -R www:wwwadmin /var/www/path-to-foswiki=
+
+---++++!! Optional dependencies
+
+Install as needed.
+
+%TABLE{sort="off"}%
+| *Perl Module* | *Package to install* | *Notes* |
+| Apache2::Request | | Required if using Apache 2 and mod_perl (Not available?  Use cpanm ) |
+| DBI | =p5-DBI= | Optional - Used for the Foswiki Page cache |
+| DBD::mysql | =p5-DBD-mysql= | Optional - Used for MySQL based Page Cache |
+| DBD::Pg | =p5-DBD-Pg= | Optional - Used for PostgreSQL based Page Cache |
+| DBD::SQLite | =p5-DBD-SQLite= | Optional - Used for SQLite based Page Cache |
 
 %ENDTWISTY{}%
 
