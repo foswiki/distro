@@ -373,7 +373,7 @@ $Foswiki::cfg{Validation}{MaxKeysPerSession} = 1000;
 
 # **BOOLEAN LABEL="Expire Validation Key on Use" EXPERT DISPLAY_IF="{Validation}{Method}!='none'" CHECK="iff:'{Validation}{Method} ne q<none>'"**
 # Expire a validation key immediately when it is used to validate the saving
-# of a page. This protects against an attacker evesdropping the communication
+# of a page. This protects against an attacker eavesdropping the communication
 # between browser and server and exploiting the keys sent from browser to
 # server. If this is enabled and a user edits and saves a page, and then goes
 # back to the edit screen using the browser back button and saves again, they
@@ -542,11 +542,11 @@ $Foswiki::cfg{TopicUserMapping}{ForceManageEmails} = $FALSE;
 #    * =TopicACLAccess= is the normal foswiki ACL system, as documented
 #      in the setup guides.
 #    * =AdminOnlyAccess= denies all non-admins (not in the AdminGroup)
-#      any access to the wiki - useful for site maintainence.
+#      any access to the wiki - useful for site maintenance.
 #    * =TopicACLReadOnlyAccess= denies all non-admins any update access
 #      to the wiki, and falls back to =TopicACLAccess= for VIEW access
 #      checks  - also useful for site maintenance.
-# Note:  The AdminOnly and ReadOnly access controls do not necessarly
+# Note:  The AdminOnly and ReadOnly access controls do not necessarily
 # provide absolute control.  Some extensions (non-default) have been
 # written to allow anonymous updates.  If an operation does not check
 # for access permission, then it will not get blocked by these controls.
@@ -666,14 +666,14 @@ $Foswiki::cfg{Htpasswd}{LockFileName} =
 # Enable this option on systems using =FastCGI, FCGID, or Mod_Perl= in
 # order to avoid reading the password file for every transaction.
 # It will cause the =HtPasswdUser= module to globally cache the password
-# file, reading it only once on initization.
+# file, reading it only once on initialization.
 $Foswiki::cfg{Htpasswd}{GlobalCache} = $FALSE;
 
 # **BOOLEAN LABEL="Detect Modification of Password File" EXPERT DISPLAY_IF="{PasswordManager}=='Foswiki::Users::HtPasswdUser'" CHECK="iff:'{PasswordManager} =~ /:HtPasswdUser$/' also:{GlobalCache}"**
 # Enable this option if the .htpasswd file can be updated either external to Foswiki
 # or by another Foswiki instance, and =GlobalCache= is enabled.  When enabled, Foswiki will verify the timestamp of
 # the file and will invalidate the cache if the file has been changed. This is only useful
-# if Foswiki is running in a =mod_perl= or =fcgi= envinroment.
+# if Foswiki is running in a =mod_perl= or =fcgi= environment.
 $Foswiki::cfg{Htpasswd}{DetectModification} = $FALSE;
 
 # **SELECT bcrypt,'htdigest-md5','apache-md5',sha1,'crypt-md5',crypt,plain LABEL="Password Encoding" DISPLAY_IF="/htpasswd/i.test({PasswordManager})" CHECK="iff:'{PasswordManager}=~/htpasswd/i'"**
@@ -738,7 +738,7 @@ $Foswiki::cfg{AuthRealm} =
 $Foswiki::cfg{Htpasswd}{AutoDetect} = $TRUE;
 
 # **NUMBER LABEL="BCrypt Cost" DISPLAY_IF="{PasswordManager}=='Foswiki::Users::HtPasswdUser' && {Htpasswd}{Encoding}=='bcrypt'" CHECK="min:0 iff:'{PasswordManager}=~/:HtPasswdUser/ && {Htpasswd}{Encoding} eq q<bcrypt>'"**
-# Specify the cost that should be incured when computing the hash of a
+# Specify the cost that should be incurred when computing the hash of a
 # password.  This number should be increased as CPU speeds increase.
 # The iterations of the hash is roughly 2^cost - default is 8, or 256
 # iterations.
@@ -1252,7 +1252,7 @@ $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 # Foswiki includes powerful features for internationalisation.
 
 #---++ Languages
-# **BOOLEAN LABEL="Inteface Internationalisation"**
+# **BOOLEAN LABEL="Interface Internationalisation"**
 # Enable user interface internationalisation to present the user
 # interface in the users own language(s).
 # When  enabled, the following settings control the languages that are
@@ -1345,7 +1345,7 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 # than 'utf-8', and you cannot convert the store to UTF8 for some reason.
 # This option takes the name of the encoding e.g. 'iso-8859-1'.
 # Note: you are *STRONGLY* recommended to convert the entire store to
-# UTF-8 in-place, as setting this option will incur a performance penatly.
+# UTF-8 in-place, as setting this option will incur a performance penalty.
 # See =tools/bulk_copy.pl= for details on converting your store.
 # Leave this undefined to use the default of utf-8 encoding.
 # $Foswiki::cfg{Store}{Encoding} = undef;
@@ -1364,7 +1364,7 @@ $Foswiki::cfg{Store}{ImplementationClasses} = [];
 # multiple levels, like a directory tree, webs within webs.
 $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-# **NUMBER LABEL="Rember Changes For" CHECK="min:60" EXPERT**
+# **NUMBER LABEL="Remember Changes For" CHECK="min:60" EXPERT**
 # Number of seconds to remember changes for. This doesn't affect revision
 # histories, which always remember when a file changed. It only affects
 # the number of changes that are cached for fast access by the 'changes' and
@@ -1674,7 +1674,7 @@ $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 
 # **PERL LABEL="Browser Cache Control" EXPERT**
 # Disable or change the HTTP Cache-Control header. Foswiki defaults to
-# =Cache-Control: max-age=0= which recomends to the browser that it should
+# =Cache-Control: max-age=0= which recommends to the browser that it should
 # ask foswiki if the topic has changed. If you have a web that does not change
 # (like System), you can get the browser to use its cache by setting
 # ={'System' => ''}=.
@@ -1871,7 +1871,7 @@ $Foswiki::cfg{Email}{SSLVerifyServer} = $FALSE;
 #               DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
 # Specify the file used to verify the server certificate trust chain.
 # This is the list of root Certificate authorities that you trust to issue
-# certificates. You do not need to include intermedite CAs in this file.
+# certificates. You do not need to include intermediate CAs in this file.
 # If you do not specify this or {Email}{SSLCaPath}, system defaults will
 # be used.
 $Foswiki::cfg{Email}{SSLCaFile} = '';
@@ -1884,7 +1884,7 @@ $Foswiki::cfg{Email}{SSLCaFile} = '';
 #               DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
 # Specify the directory used to verify the server certificate trust chain.
 # This is the list of root Certificate authorities that you trust to issue
-# certificates. You do not need to include intermedite CAs in this directory.
+# certificates. You do not need to include intermediate CAs in this directory.
 # If you do not specify this or {Email}{SSLCaFile}, system defaults will be used.
 # Refer to the openssl documentation for the format of this directory.
 # Note that it can also contain Certificate Revocation Lists.
@@ -1971,7 +1971,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 # The S/MIME Certificate information in the *Certificate Management*
 # section must be completed for CSR's to work correctly.
 #
-# **BOOLEAN LABEL="Enabe S/MIME"\
+# **BOOLEAN LABEL="Enable S/MIME"\
 #   FEEDBACK="icon='ui-icon-play';label='Generate S/MIME Certificate';span=2; \
 #             title='Generate a self-signed certficate for the WebMaster.  \
 #                    This allows immediate use of signed email.'; \
@@ -2081,7 +2081,7 @@ $Foswiki::cfg{LinkProtocolPattern} =
   '(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)';
 
 # **NUMBER LABEL="Acronym Length" CHECK="min:2" EXPERT**
-# Length of linking acronyms.  Minumum number of consecutive upper case
+# Length of linking acronyms.  Minimum number of consecutive upper case
 # characters required to be linked as an acronym.
 $Foswiki::cfg{AcronymLength} = 3;
 
@@ -2159,7 +2159,7 @@ $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 # The name of the host operating system. This is automatically calculated
 # in the code. You should only need to override if your Perl doesn't provide
 # the value of $^O or $Config::Config{'osname'} (an exceptional
-# situtation never yet encountered)
+# situation never yet encountered)
 # $Foswiki::cfg{DetailedOS} = '';
 
 # **STRING 20 LABEL="Operating System" CHECK='undefok' EXPERT**
