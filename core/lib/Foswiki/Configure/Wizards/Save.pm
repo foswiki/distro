@@ -45,11 +45,13 @@ use constant CHANGE_LIMIT => 256;
 sub _backupCurrentContent {
     my ( $path, $reporter ) = @_;
     my $content;
+    my ( $mode, $uid, $gid, $atime, $mtime );
 
     # Don't need to open with encoding; we're just shovelling bytes
     if ( open( F, '<', $path ) ) {
         local $/ = undef;
         $content = <F>;
+        ( $mode, $uid, $gid, $atime, $mtime ) = ( stat(F) )[ 2, 4, 5, 8, 9 ];
         close(F);
     }
     else {
@@ -68,8 +70,6 @@ sub _backupCurrentContent {
     # Save backup copy of current configuration (even if always_write)
 
     Fcntl->import(qw/:DEFAULT/);
-
-    my ( $mode, $uid, $gid, $atime, $mtime ) = ( stat(_) )[ 2, 4, 5, 8, 9 ];
 
     # Find a reasonable starting point for the new backup's name
 
@@ -96,7 +96,7 @@ sub _backupCurrentContent {
     # Don't need to open with encoding; we're just shovelling bytes
 
     my $open;
-    my $um = umask(0);
+    my $um = umask(0);    # permissions copied from LocalSite.cfg
     unshift @backups, $n++
       while (
         !(
@@ -320,7 +320,11 @@ sub save {
             eval $new_content;
             die "***INTERNAL ERROR*** COULD NOT REREAD NEW LSC\n$@" if $@;
         }
-        my $um = umask(007);   # Contains passwords, no world access to new file
+
+   # umask is used when creating a new config file. Permissions of existing
+   # files are not changed. chmod changes on existing LocalSite.cfg will "stick"
+        my $um =
+          umask(077);    # Contains passwords, no world/group access to new file
         open( F, '>:encoding(utf-8)', $lsc )
           || die "Could not open $lsc for write: $!\n";
         print F $new_content;
