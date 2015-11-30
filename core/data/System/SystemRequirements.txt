@@ -85,6 +85,9 @@ Install as needed.
 | DBD::Pg | =libdbd-pg-perl= | Used for !PostgreSQL based Page Cache |
 | DBD::SQLite | =libdbd-sqlite3-perl= | Used for SQLite based Page Cache |
 | FCGI | =libfcgi-perl= | Optional, needed for fastcgi / fcgi apache modules |
+| Crypt::SMIME | =libcrypt-smime-perl= | Optional, used for S/MIME email signing |
+| Crypt::X509 | =libcrypt-x509-perl= | Optional, used for S/MIME email signing |
+| Convert::PEM | =libconvert-pem-perl= | Optional, used for S/MIME email signing |
 
 After expanding the Foswiki archive, change the ownership of the files:
    * Debian, Ubuntu, Kubunto: =chown -R www-data:www-data /path/to/foswiki=
@@ -155,6 +158,9 @@ Install as needed.
 | DBD::mysql | =perl-DBD-mysql= | Used for !MySQL based Page Cache |
 | DBD::Pg | =perl-DBD-Pg= | Used for !PostgreSQL based Page Cache |
 | DBD::SQLite | =perl-DBD-SQLite= | Used for SQLite based Page Cache |
+| Crypt::SMIME | =perl-Crypt-SMIME= | Optional, used for S/MIME email signing%BR% _(Not available in default repositories)_ |
+| Crypt::X509 | =perl-Crypt-X509= | Optional, used for S/MIME email signing |
+| Convert::PEM | =perl-Convert-PEM= | Optional, used for S/MIME email signing |
 
 After expanding the Foswiki archive, change the ownership of the files:
    * RedHat, Fedora, CentOS Mandriva: chown -R apache:apache /path/to/foswiki=
@@ -212,6 +218,9 @@ Install as needed.
 | DBD::mysql | =dev-perl/DBD-mysql= | Optional - Used for MySQL based Page Cache |
 | DBD::Pg | =dev-perl/DBD-Pg= | Optional - Used for PostgreSQL based Page Cache |
 | DBD::SQLite | =dev-perl/DBD-SQLite= | Optional - Used for SQLite based Page Cache |
+| Crypt::SMIME | =dev-perl/Crypt-SMIME= | Optional, used for S/MIME email signing |
+| Crypt::X509 | =dev-perl/Crypt-X509= | Optional, used for S/MIME email signing |
+| Convert::PEM | =dev-perl/convert-pem= | Optional, used for S/MIME email signing |
 
 After expanding the Foswiki archive, change the ownership of the files:
    * =chown -R apache:apache /var/www/path-to-foswiki=
@@ -271,6 +280,9 @@ Install as needed.
 | DBD::mysql | =p5-DBD-mysql= | Optional - Used for MySQL based Page Cache |
 | DBD::Pg | =p5-DBD-Pg= | Optional - Used for PostgreSQL based Page Cache |
 | DBD::SQLite | =p5-DBD-SQLite= | Optional - Used for SQLite based Page Cache |
+| Crypt::SMIME | =p5-Crypt-SMIME= | Optional, used for S/MIME email signing |
+| Crypt::X509 | =p5-Crypt-X509= | Optional, used for S/MIME email signing |
+| Convert::PEM | =p5-Convert-PEM= | Optional, used for S/MIME email signing |
 
 %ENDTWISTY{}%
 
