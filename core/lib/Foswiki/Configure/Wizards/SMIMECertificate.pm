@@ -29,9 +29,9 @@ sub generate_cert {
     # \%checks is provided by an internal cross-call from the
     # request_cert wizard method. It's empty when generating a self-signed
     # cert.
-    my ( $this, $reporter, $checks ) = @_;
+    my ( $this, $reporter, $root, $checks ) = @_;
 
-    $checks ||= {};
+    $checks ||= { '.selfSigned' => 1 };
 
     my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
     Foswiki::Configure::Load::expandValue($certfile);
@@ -80,20 +80,17 @@ sub generate_cert {
         return;
     }
 
-    ( $ok, my $msg, my $keypass ) = _inner_generate(
+    ( $ok, my $keypass ) = _inner_generate(
         $reporter,
         $Foswiki::cfg{WebMasterName},
         $Foswiki::cfg{WebMasterEmail},
         $certfile, $keyfile, $checks
     );
     if ($ok) {
-        $reporter->NOTE($msg);
         $Foswiki::cfg{Email}{SmimeKeyPassword} = $keypass;
         $reporter->CHANGED('{Email}{SmimeKeyPassword}');
     }
-    else {
-        $reporter->ERROR($msg);
-    }
+
     return undef;    # return the report
 }
 
@@ -187,7 +184,7 @@ CONFIG
     $tmpfile->flush;
 
     # Protect key file - even though it's encrypted.
-    my $self = $options->{'.selfSigned'}[0];
+    my $self = $options->{'.selfSigned'};
     my $cmd  = (
         $self
         ? "-x509 -days $days -set_serial $time -out $certfile"
@@ -203,12 +200,12 @@ CONFIG
         $output = `$command 2>&1`;
         if ($?) {
             umask($um);
-            return ( 0,
-                    "Unable to create certificate"
+            $reporter->ERROR( "Unable to create certificate"
                   . ( $self ? '' : ' request' )
                   . ( $? == -1 ? " (No openssl: $!)" : $? )
                   . " with '$command' "
                   . ": <pre>$output</pre>" );
+            return 0;
         }
 
     # Get key into the right format (RSA PRIVATE KEY, not ENCRYPTED PRIVATE KEY)
@@ -222,10 +219,10 @@ $keypass
     }
     umask($um);
     if ($?) {
-        return ( 0,
-                "Unable to convert private key"
+        $reporter->ERROR( "Unable to convert private key"
               . ( $? == -1 ? " (No openssl: $!)" : '' )
               . ": <pre>$keyoutput</pre>" );
+        return 0;
     }
 
     # Cert can be readable by all - arguably should not be group write,
@@ -237,11 +234,12 @@ $keypass
     }
 
     if ($self) {
-        return (
-            1,
-"Created and activated a self-signed certificate for \"$name\" &lt;$email&gt;, which is valid for $days days.<p>Because this is a self-signed certificate, it will not automatically be accepted by most e-mail clients.  You will have to instruct your recipients to trust this certificate, or obtain a trusted certificate at your convenience.",
-            $keypass
-        );
+        $reporter->NOTE( <<HERE );
+Created and activated a self-signed certificate for \"$name\" &lt;$email&gt;, which is valid for $days days.
+<p>Because this is a self-signed certificate, it will not automatically be accepted by most e-mail clients.
+You will have to instruct your recipients to trust this certificate, or obtain a trusted certificate at your convenience."
+HERE
+        return ( 1, $keypass );
     }
 
     open( my $f, '>', "$certfile.csr" )
@@ -249,11 +247,14 @@ $keypass
     print $f $output;
     close $f or return ( 0, $reporter->ERROR("Close failed saving CSR: $!") );
 
-    return (
-        1,
-"Your private key has been created.  Your certificate signing request is displayed below.  Please transmit it to your CA, then proceed with installation.  Do NOT click either action button again, as it will over-write the private key, rendering the CSR useless.<pre>$output</pre>",
-        $keypass,
-    );
+    $reporter->NOTE( <<HERE );
+Your private key has been created.  Your certificate signing request is displayed below. 
+Please transmit it to your CA, then proceed with installation. 
+Do NOT click either action button again, as it will over-write the private key, rendering the CSR useless.
+HERE
+    $reporter->NOTE("<verbatim>$output</verbatim>");
+
+    return ( 1, $keypass, );
 }
 
 =begin TML
@@ -267,9 +268,10 @@ then installed.
 =cut
 
 sub request_cert {
-    my ( $this, $reporter ) = @_;
+    my ( $this, $reporter, $root ) = @_;
     return $this->generate_cert(
         $reporter,
+        $root,
         {
             C  => [ $Foswiki::cfg{Email}{SmimeCertC} ],
             ST => [ $Foswiki::cfg{Email}{SmimeCertST} ],
@@ -290,7 +292,7 @@ private key associated with the request.
 =cut
 
 sub cancel_cert {
-    my ( $this, $reporter ) = @_;
+    my ( $this, $reporter, $root ) = @_;
     my $ok = 1;
 
     my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
