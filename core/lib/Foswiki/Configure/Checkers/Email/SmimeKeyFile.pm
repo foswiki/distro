@@ -6,16 +6,17 @@ use strict;
 use warnings;
 
 use Foswiki::Configure::Checkers::Certificate::KeyChecker ();
-our @ISA = ( 'Foswiki::Configure::Checkers::Certificate::KeyChecker' );
+our @ISA = ('Foswiki::Configure::Checkers::Certificate::KeyChecker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
-    return  unless ( $Foswiki::cfg{Email}{EnableSMIME} );
+    return unless ( $Foswiki::cfg{Email}{EnableSMIME} );
     if ( $Foswiki::cfg{Email}{SmimeCertificateFile} ) {
         return $this->ERROR("Key file must be specified")
           unless ( $Foswiki::cfg{Email}{SmimeKeyFile} );
-        return $this->SUPER::validateKeys( $this->{item}->{keys}, '{Email}{SmimeKeyPassword}', $reporter );
+        return $this->SUPER::validateKeys( $this->{item}->{keys},
+            '{Email}{SmimeKeyPassword}', $reporter );
     }
 
     # Certificate file not specified, but enable-smime is set.
@@ -31,8 +32,8 @@ sub check_current_value {
 
     $Foswiki::cfg{Email}{SelfSigned} = $file;
 
-    $this->SUPER::validateKeys(
-        '{Email}{SelfSigned}', '{Email}{SmimeKeyPassword}' );
+    $this->SUPER::validateKeys( '{Email}{SelfSigned}',
+        '{Email}{SmimeKeyPassword}', $reporter );
     delete $Foswiki::cfg{Email}{SelfSigned};
 }
 
@@ -42,7 +43,7 @@ __END__
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
