@@ -6,14 +6,14 @@ use strict;
 use warnings;
 
 use Foswiki::Configure::Checkers::Certificate ();
-our @ISA = ( 'Foswiki::Configure::Checkers::Certificate' );
+our @ISA = ('Foswiki::Configure::Checkers::Certificate');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     return '' unless ( $Foswiki::cfg{Email}{EnableSMIME} );
     if ( $Foswiki::cfg{Email}{SmimeCertificateFile} ) {
-        $this->checkUsage($this->{item}->{keys}, 'email', $reporter);
+        $this->checkUsage( $this->{item}->{keys}, 'email', $reporter );
     }
 
     # File not specified, but enable-smime is set.  So we should be using a
@@ -22,15 +22,17 @@ sub check_current_value {
     my $file = '$Foswiki::cfg{DataDir}/SmimeCertificate.pem';
     Foswiki::Configure::Load::expandValue($file);
     unless ( -r $file ) {
-        return $reporter->ERROR("Self-signed certificate file $file is missing");
+        return $reporter->ERROR(
+            "Self-signed certificate file $file is missing");
     }
 
     $Foswiki::cfg{Email}{SelfSigned} = $file;
 
-    my @subjects = $this->checkUsage('{Email}{SelfSigned}', 'email');
+    my @subjects =
+      $this->checkUsage( '{Email}{SelfSigned}', 'email', $reporter );
     delete $Foswiki::cfg{Email}{SelfSigned};
 
-    return unless ( @subjects );
+    return unless (@subjects);
 
     my $subjCN    = $Foswiki::cfg{WebMasterName}  || '';
     my $subjEmail = $Foswiki::cfg{WebMasterEmail} || '';
@@ -58,7 +60,7 @@ __END__
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

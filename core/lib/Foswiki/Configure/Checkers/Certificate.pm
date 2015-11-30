@@ -176,6 +176,7 @@ Issued by %s for %s", $xpv, ( $x->issuer_cn || 'Unknown issuer' ),
     my $hostnames;
     if ( $usage eq 'email' ) {
         push @ans, $x->subject_email if ( $x->subject_email );
+        push @ans, $x->subject_cn    if ( $x->subject_cn );
     }
     if ( my $an = $x->SubjectAltName ) {
         if ( $usage eq 'email' ) {
@@ -325,6 +326,10 @@ Issued by %s for %s<br />", ( $x->issuer_cn || 'Unknown issuer' ),
 __END__
 
 This is an original work by Timothe Litt.
+
+Addition Copyright (C) 2015 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
