@@ -10,6 +10,8 @@ use Foswiki::Plugins::TablePlugin ();
 use Foswiki::Time;
 use Error qw(:try);
 
+use Unicode::Normalize;
+
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
@@ -1503,7 +1505,8 @@ sub emitTable {
             && $currentSortDirection == $SORT_DIRECTION->{'ASCENDING'} )
         {
             @curTable = sort {
-                     $a->[$sortCol]->{sortText} cmp $b->[$sortCol]->{sortText}
+                NFKD( $a->[$sortCol]->{sortText} )
+                  cmp NFKD( $b->[$sortCol]->{sortText} )
                   || $a->[$sortCol]->{number} <=> $b->[$sortCol]->{number}
                   || $a->[$sortCol]->{dateString}
                   cmp $b->[$sortCol]->{dateString}
@@ -1513,7 +1516,8 @@ sub emitTable {
             && $currentSortDirection == $SORT_DIRECTION->{'DESCENDING'} )
         {
             @curTable = sort {
-                     $b->[$sortCol]->{sortText} cmp $a->[$sortCol]->{sortText}
+                NFKD( $b->[$sortCol]->{sortText} )
+                  cmp NFKD( $a->[$sortCol]->{sortText} )
                   || $b->[$sortCol]->{number} <=> $a->[$sortCol]->{number}
                   || $b->[$sortCol]->{dateString}
                   cmp $a->[$sortCol]->{dateString}

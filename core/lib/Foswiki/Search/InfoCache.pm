@@ -6,6 +6,8 @@ use warnings;
 use Foswiki::ListIterator ();
 our @ISA = ('Foswiki::ListIterator');
 
+use Unicode::Normalize;
+
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
@@ -280,13 +282,13 @@ sub sortTopics {
         # as all topics still need to be parsed to find permissions
         if ($revSort) {
             @{$listRef} = map { $_->[1] }
-              sort { $a->[0] cmp $b->[0] }
+              sort { NFKD( $a->[0] ) cmp NFKD( $b->[0] ) }
               map { $_ =~ m/^(.*?)([^.]+)$/; [ $2, $_ ] } #quickhack to remove web
               @{$listRef};
         }
         else {
             @{$listRef} = map { $_->[1] }
-              sort { $b->[0] cmp $a->[0] }
+              sort { NFKD( $b->[0] ) cmp NFKD( $a->[0] ) }
               map { $_ =~ m/^(.*?)([^.]+)$/; [ $2, $_ ] } #quickhack to remove web
               @{$listRef};
         }
@@ -385,14 +387,14 @@ sub _compare {
             $comparison = $datey <=> $datex;
         }
         else {
-            $comparison = $y cmp $x;
+            $comparison = NFKD($y) cmp NFKD($x);
         }
     }
 
     # tie breaker if keys are equal
     # reverse order will not apply to the secondary search key
     if ( $comparison == 0 ) {
-        $comparison = $b->[1] cmp $a->[1];
+        $comparison = NFKD( $b->[1] ) cmp NFKD( $a->[1] );
     }
 
     return $comparison;

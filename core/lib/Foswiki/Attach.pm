@@ -13,6 +13,7 @@ package Foswiki::Attach;
 use strict;
 use warnings;
 use Assert;
+use Unicode::Normalize;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -103,8 +104,8 @@ sub renderMetaData {
     my $row             = $templates->expandTemplate( 'ATTACH:files:row' . $A );
     my $attachmentCount = scalar(@attachments);
     my $attachmentNum   = 1;
-    foreach
-      my $attachment ( sort { ( $a->{name} || '' ) cmp( $b->{name} || '' ) }
+    foreach my $attachment (
+        sort { ( NFKD( $a->{name} ) || '' ) cmp( NFKD( $b->{name} ) || '' ) }
         @attachments )
     {
         my $attrAttr = $attachment->{attr};

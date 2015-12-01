@@ -39,6 +39,7 @@ use File::Path            ();
 use Fcntl qw( :DEFAULT :flock SEEK_SET );
 use Encode ();
 use JSON   ();
+use Unicode::Normalize;
 
 use Foswiki::Store                         ();
 use Foswiki::Store::Rcs::Store             ();
@@ -583,7 +584,7 @@ sub getTopicNames {
     # that contain illegal characters as topic names.
     my @topicList =
       map { /^(.*)\.txt$/; $1; }
-      sort
+      sort { NFKD($a) cmp NFKD($b) }    # unicode aware
       grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ }
 
       # Must _decode before applying the NameFilter and sort
@@ -1093,7 +1094,9 @@ sub _moveFile {
     my ( $this, $from, $to ) = @_;
     ASSERT( _e $from ) if DEBUG;
     $this->mkPathTo($to);
-    unless ( File::Copy::Recursive::rmove( _encode($from, 1), _encode($to, 1) ) ) {
+    unless (
+        File::Copy::Recursive::rmove( _encode( $from, 1 ), _encode( $to, 1 ) ) )
+    {
         throw Error::Simple(
             'Rcs::Handler: move ' . $from . ' to ' . $to . ' failed: ' . $! );
     }

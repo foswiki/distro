@@ -68,6 +68,7 @@ use Foswiki::Sandbox                       ();
 use Foswiki::Iterator::NumberRangeIterator ();
 use Foswiki::Users::BaseUserMapping        ();
 use Foswiki::Serialise                     ();
+use Unicode::Normalize;
 
 # Web Preferences topic *file* name
 my $wptn = "/$Foswiki::cfg{WebPrefsTopicName}.txt";
@@ -754,7 +755,7 @@ sub eachTopic {
     # that contain illegal characters as topic names.
     my @list =
       map { /^(.*)\.txt$/; $1; }
-      sort    # locale specific
+      sort { NFKD($a) cmp NFKD($b) }    # unicode aware
       grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } _readdir($dh);
     closedir($dh);
 
