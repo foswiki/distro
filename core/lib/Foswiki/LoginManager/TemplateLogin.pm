@@ -320,7 +320,7 @@ sub login {
         # Could have used %ENV{PATH_INFO} (after extending {AccessibleENV})
         # but decided against it as the path_info might have been rewritten
         # from the original env var.
-        PATH_INFO => Foswiki::urlEncode( Encode::decode_utf8($path_info) ),
+        PATH_INFO => Foswiki::urlEncode( Foswiki::decode_utf8($path_info) ),
         BANNER    => $banner,
         NOTE      => $note,
         ERROR     => $error

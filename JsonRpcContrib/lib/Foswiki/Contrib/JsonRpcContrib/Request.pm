@@ -210,7 +210,7 @@ sub toSiteCharSet {
     # If the site charset is not utf-8, need to convert it
     return Encode::encode(
         $Foswiki::cfg{Site}{CharSet},
-        Encode::decode_utf8($string),
+        Foswiki::decode_utf8($string),
         Encode::FB_PERLQQ
     );
 }

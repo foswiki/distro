@@ -427,7 +427,7 @@ sub checkTreePerms {
       or return "Directory $path is not readable.";
 
     foreach my $e ( grep { !/^\./ } readdir($Dfh) ) {
-        my $p = $path . '/' . Encode::decode_utf8($e);
+        my $p = $path . '/' . Foswiki::decode_utf8($e);
         my $subreport = checkTreePerms( $p, $perms, %options );
         while ( my ( $k, $v ) = each %report ) {
             if ( ref($v) eq 'ARRAY' ) {

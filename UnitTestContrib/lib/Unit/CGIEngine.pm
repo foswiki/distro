@@ -143,7 +143,7 @@ sub _perform_request {
         local %ENV = ( %$env, FOSWIKI_ACTION => 'test' );
         $Foswiki::engine->run();
     };
-    return HTTP::Message->parse( Encode::decode_utf8($out) );
+    return HTTP::Message->parse( Foswiki::decode_utf8($out) );
 }
 
 sub make_request {

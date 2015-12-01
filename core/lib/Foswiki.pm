@@ -51,6 +51,7 @@ use Monitor                  ();
 use CGI                      ();  # Always required to get html generation tags;
 use Digest::MD5              ();  # For passthru and validation
 use Foswiki::Configure::Load ();
+use Unicode::Normalize;
 
 use 5.006;                        # First version to accept v-numbers.
 
@@ -160,7 +161,11 @@ perl characters (unicode).
 
 =cut
 
-*decode_utf8 = \&Encode::decode_utf8;
+#*decode_utf8 = \&Encode::decode_utf8;
+
+sub decode_utf8 {
+    return NFC( Encode::decode_utf8( $_[0], $_[1] ) );
+}
 
 =begin TML
 

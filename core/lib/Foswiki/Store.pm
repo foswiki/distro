@@ -61,6 +61,7 @@ use Assert;
 use Foswiki          ();
 use Foswiki::Sandbox ();
 use HTML::Entities   ();
+use Unicode::Normalize;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -256,8 +257,12 @@ an invalid byte sequence for the encoding.
 sub decode {
     return $_[0] unless defined $_[0];
     my $s = $_[0];
-    return Encode::decode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
-        $s, Encode::FB_CROAK );
+    return NFC(
+        Encode::decode(
+            $Foswiki::cfg{Store}{Encoding} || 'utf-8',
+            $s, Encode::FB_CROAK
+        )
+    );
 }
 
 =begin TML
