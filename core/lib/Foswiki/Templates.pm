@@ -380,9 +380,8 @@ sub _readTemplateFile {
     my ( $this, $name, $skins, $web ) = @_;
     my $session = $this->{session};
 
-    # SMELL: not i18n-friendly (can't have accented characters in template name)
     # zap anything suspicious
-    $name =~ s/[^A-Za-z0-9_,.\/]//g;
+    $name =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;
 
     # if the name ends in .tmpl, then this is an explicit include from
     # the templates directory. No further searching required.

@@ -539,7 +539,7 @@ sub language_setup_11 {
 '
     );
     write_template(
-        'strings.gaelic', '
+        'strings.gàidhlig', '
 %TMPL:DEF{"Question"}%An faca sibh?%TMPL:END%
 %TMPL:DEF{"Yes"}%Chunnaic%TMPL:END%
 %TMPL:DEF{"No"}%Chan fhaca%TMPL:END%
@@ -573,7 +573,7 @@ sub test_languageGaelic_11 {
     my $data;
 
     $this->language_setup_11();
-    $data = $tmpls->readTemplate( 'example', skins => 'gaelic,pattern' );
+    $data = $tmpls->readTemplate( 'example', skins => 'gàidhlig,pattern' );
     $this->assert_str_equals( '
 SKIN=pattern An faca sibh?
 <input type="button" value="Chan fhaca">
@@ -591,7 +591,7 @@ sub language_setup {
 %TMPL:DEF{"No"}%No%char%%TMPL:END%
 %TMPL:DEF{"Dontknow" char=""}%Dunno%char%%TMPL:END%
 HERE
-    write_template( 'strings.gaelic', <<'HERE');
+    write_template( 'strings.gàidhlig', <<'HERE');
 
 %TMPL:DEF{"Question"}%An faca sibh?%TMPL:END%
 %TMPL:DEF{"Yes" char="%type%"}%Chunnaic%char%%TMPL:END%
@@ -637,7 +637,7 @@ sub test_languageGaelic {
     my $data;
 
     $this->language_setup();
-    $data = $tmpls->readTemplate( 'example', skins => 'gaelic,pattern' );
+    $data = $tmpls->readTemplate( 'example', skins => 'gàidhlig,pattern' );
     $this->assert_str_equals( <<'HERE', $data );
 
 SKIN=pattern An faca sibh?
