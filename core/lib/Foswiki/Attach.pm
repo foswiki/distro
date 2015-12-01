@@ -374,9 +374,6 @@ sub getAttachmentLink {
     my $imgSize  = '';
     my $prefs    = $this->{session}->{prefs};
 
-    # I18N: URL-encode the attachment filename
-    my $fileURL = Foswiki::urlEncode($attName);
-
     if ( $attName =~ m/\.(gif|jpg|jpeg|png)$/i ) {
 
         # inline image
@@ -400,7 +397,7 @@ sub getAttachmentLink {
 
         $fileLink = $prefs->getPreference('ATTACHEDIMAGEFORMAT');
         unless ($fileLink) {
-            $attrs{src} = "%ATTACHURLPATH%/$fileURL";
+            $attrs{src} = "%ATTACHURLPATH%/$attName";
             $attrs{alt} = $attName;
             return "   * $fileComment: " . CGI::br() . CGI::img( \%attrs );
         }
@@ -410,16 +407,16 @@ sub getAttachmentLink {
         # normal attached file
         $fileLink = $prefs->getPreference('ATTACHEDFILELINKFORMAT');
         unless ($fileLink) {
-            return "   * [[%ATTACHURL%/$fileURL][$attName]]: $fileComment";
+            return "   * [[%ATTACHURL%/$attName][$attName]]: $fileComment";
         }
     }
 
     # I18N: Site specified %ATTACHEDIMAGEFORMAT% or %ATTACHEDFILELINKFORMAT%,
     # ensure that filename is URL encoded - first $name must be URL.
-    $fileLink =~ s/\$name/$fileURL/;        # deprecated
+    $fileLink =~ s/\$name/$attName/;        # deprecated
     $fileLink =~ s/\$name/$attName/;        # deprecated, see Item1814
     $fileLink =~ s/\$filename/$attName/g;
-    $fileLink =~ s/\$fileurl/$fileURL/g;
+    $fileLink =~ s/\$fileurl/$attName/g;
     $fileLink =~ s/\$fileext/$fileExt/;
 
     # Expand \t and \n early (only in the format, not
