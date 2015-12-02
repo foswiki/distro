@@ -4,9 +4,14 @@
 /working/**/events.*
 /working/**/error.*
 /working/**/cgisess_*
-/lib/LocalSite.cfg
+/lib/LocalSite.cfg*
 /data/**/*.lease
 /data/**/*.changes
+/data/.htpasswd
+/working/htpasswd.lock
+/working/languages.cache
+/working/logs/*
+/working/work_areas/*
 /Foswiki*.md5
 /Foswiki*.sha1
 /Foswiki*.tgz

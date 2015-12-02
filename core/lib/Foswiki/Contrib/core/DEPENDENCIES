@@ -15,6 +15,7 @@ Crypt::PasswdMD5,>=0,cpan,Required, for admin password hash and .htpasswd encodi
 Crypt::SMIME,>=0,cpan,Optional S/MIME email signing feature.
 Crypt::X509,>=0,cpan,Optional S/MIME email signing feature.
 Convert::PEM,>=0,cpan,Optional S/MIME email signing feature.
+Email::MIME,>=1.903,cpan,Required for correct handling of email MIME structure.
 Encode,>=2.01,cpan,Required for international characters.
 Error,>=0.15,cpan,Required, for base Foswiki.
 HTML::Entities,>=1.25,cpan,Required, for WysiwygPlugin.
