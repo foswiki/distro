@@ -76,6 +76,12 @@ sub init {
             $Foswiki::cfg{NameFilter} );
     }
 
+    # init ATTACHMENTNAMEFILTER
+    unless ( Foswiki::Func::getPreferencesValue('ATTACHMENTNAMEFILTER') ) {
+        Foswiki::Func::setPreferencesValue( 'ATTACHMENTNAMEFILTER',
+            $Foswiki::cfg{AttachmentNameFilter} );
+    }
+
     # add exported preferences to head
     my %prefs = ();
     foreach my $pref ( split( /\s*,\s*/, $prefs ) ) {

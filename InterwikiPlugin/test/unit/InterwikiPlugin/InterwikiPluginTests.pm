@@ -19,10 +19,15 @@ sub set_up {
 
     $this->SUPER::set_up();
     $this->{test_user} = 'scum';
+
+    $this->{other_web} = "$this->{test_web}other";
+    my $webObject = $this->populateNewWeb( $this->{other_web} );
+    $webObject->finish();
 }
 
 sub tear_down {
     my $this = shift;
+    $this->removeWebFixture( $this->{session}, $this->{other_web} );
     $this->SUPER::tear_down();
 }
 
@@ -478,6 +483,43 @@ sub test_link_in_parentheses {
 '(<a class="interwikiLink" href="http://foswiki.org/Tasks/Item1234" title="\'Item1234\' on the \'Foswiki\' issue tracking site"><noautolink>foo</noautolink></a>)',
         Foswiki::Func::renderText(
             "([[Foswikitask:Item1234][foo]])",
+            $this->{test_web}
+        )
+    );
+}
+
+sub test_link_from_include {
+    my $this       = shift;
+    my $otherTopic = "IncludedTopic";
+
+    # This test will fail if colon is removed from $Foswiki::cfg{NameFilter}
+
+    Foswiki::Func::saveTopic( $this->{other_web}, $otherTopic, undef, <<'HERE');
+---+!! InterwikiInclBase
+
+%STARTSECTION{"Exponential growth"}%
+<blockquote>
+Exponential growth occurs when the growth rate
+of the value of a mathematical function
+is proportional to the function's current value.
+
+-- [[Wikipedia:Exponential_growth][Exponential growth]] (WP)
+</blockquote>
+%ENDSECTION{"Exponential growth"}%
+
+HERE
+
+    Foswiki::Plugins::InterwikiPlugin::initPlugin(
+        $this->{test_web},  $this->{test_topic},
+        $this->{test_user}, $Foswiki::cfg{SystemWebName}
+    );
+
+    $this->assert_html_matches(
+qq{<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Exponential_growth" title="'Exponential_growth' on 'Wikipedia'">},
+        Foswiki::Func::renderText(
+            Foswiki::Func::expandCommonVariables(
+"%INCLUDE{\"$this->{other_web}.$otherTopic\" section=\"Exponential growth\"}%"
+            ),
             $this->{test_web}
         )
     );

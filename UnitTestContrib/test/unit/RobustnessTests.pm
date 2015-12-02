@@ -134,7 +134,7 @@ sub test_sanitizeAttachmentName {
     my $crap = '';
     for ( 0 .. 255 ) {
         my $c = chr($_);
-        $crap .= $c if $c =~ m/$Foswiki::cfg{NameFilter}/;
+        $crap .= $c if $c =~ m/$Foswiki::cfg{AttachmentNameFilter}/;
     }
 
     my $hex = '';
@@ -144,12 +144,13 @@ sub test_sanitizeAttachmentName {
     }
 
     my $expecthex =
-'\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f "#$%&\'*;<>?@[\]^`|~';
+'\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f"#$%&\'*;<>?@[\]^`|~';
     $this->assert_str_equals( $expecthex, $hex,
-        "Expected: ($expecthex)\n     Got: ($hex)\nHas {NameFilter} changed?" );
-    $this->assert_num_equals( 52, length($crap) );
+"Expected: ($expecthex)\n     Got: ($hex)\nHas {AttachmentNameFilter} changed?"
+    );
+    $this->assert_num_equals( 51, length($crap) );
     my $x = $crap =~ m/ / ? '_' : '';
-    $this->assert_str_equals( "pick_me${x}pick_me",
+    $this->assert_str_equals( "pick me${x}pick me",
         _sanitize("pick me${crap}pick me") );
     my %junkset = (
         '<script>'       => 'script',
@@ -162,7 +163,7 @@ sub test_sanitizeAttachmentName {
         "foo\x1ffoo"     => 'foofoo',          # C0 Control
         "\xe2cret\xe9"   => "\xe2cret\xe9",    # cf. acrete - 'âcreté'
         '片仮名'      => '片仮名',
-        'var a = { b : !(1 - 2 + 3) };' => 'var_a_=_{_b_:_!(1_-_2_+_3)_}',
+        'var a = { b : !(1 - 2 + 3) };' => 'var a = { b : !(1 - 2 + 3) }',
 
         #'var a = { b : !(1 - 2 + 3) };' => 'var_a___b_:_1__2__3_',
         #"foo\x7ffoo" => 'foofoo', # C1 Control
@@ -174,22 +175,41 @@ sub test_sanitizeAttachmentName {
     }
 
     # Check that the upload filter is applied.
+    # SMELL:  Keep this regex in sync with the default regex in Foswiki.spec
     $Foswiki::cfg{UploadFilter} = qr(^(
-             \.htaccess
-         | .*\.(?i)(?:php[0-9s]?(\..*)?
-         | [sp]htm[l]?(\..*)?
-         | pl
-         | py
-         | cgi ))$)x;
+         (?i)\.htaccess                       # .htaccess needs to be case insensitive
+        | .*\.(?i)                            # Case insensitive
+           (?:php[0-9s]?(\..*)?               # PHP files can have a suffix
+            | [sp]?htm[l]?(\..*)?             # html, shtml, phtml, htm, shtm, phtm
+            | pl                              # Perl
+            | py                              # Python
+            | cgi                             # CGI Scripts
+        )?)$)x;
+
+    # Case sensitive, typical on Linux
     $this->assert_str_equals( ".htaccess.txt", _sanitize(".htaccess") );
-    for my $i (qw(php shtm phtml pl py cgi PHP SHTM PHTML PL PY CGI)) {
+
+    # Case insensitive (windows)
+    $this->assert_str_equals( ".HTacceSS.txt", _sanitize(".HTacceSS") );
+
+    # Trailing dot ignored on windows
+    $this->assert_str_equals( ".HTacceSS..txt", _sanitize(".HTacceSS.") );
+
+    for my $i (qw(php shtm phtml  html pl py cgi PHP SHTM PHTML PL PY CGI)) {
         my $j = "bog.$i";
         my $y = "$j.txt";
         $this->assert_str_equals( $y, _sanitize($j) );
     }
-    for my $i (qw(php phtm shtml PHP PHTM SHTML)) {
+    for my $i (qw(php php0 phtm shtml html PHP PHP0 PHTM SHTML)) {
         my $j = "bog.$i.s";
         my $y = "$j.txt";
+        $this->assert_str_equals( $y, _sanitize($j) );
+    }
+
+    # Trailing dots also get renamed
+    for my $i (qw(php phtm shtml html PHP py pl cgi PHTM SHTML)) {
+        my $j = "bog.$i.";
+        my $y = "bog.$i..txt";
         $this->assert_str_equals( $y, _sanitize($j) );
     }
 
@@ -197,7 +217,7 @@ sub test_sanitizeAttachmentName {
 }
 
 # Item11185 - see also: FuncTests::test_unicode_attachment
-sub test_sanitizeAttachmentNama_unicode {
+sub test_sanitizeAttachmentName_unicode {
     my ($this) = shift;
 
 # The second word in the string below consists only of two _graphemes_
