@@ -310,9 +310,11 @@ sub checkSpecs {
     my %matched;
     foreach my $message (@FoswikiFnTestCase::mails) {
         next unless $message;
-        $message =~ /^To: (.*)$/m;
+        $message->header('To') =~ /^(.*)$/m;
         my $mailto = $1;
-        $this->assert( $mailto, $message );
+        my $body   = $message->body();
+        print STDERR Data::Dumper::Dumper( \$message->as_string );
+        $this->assert( $mailto, $message->as_string() );
         foreach my $spec (@specs) {
             if ( $mailto eq $spec->{email} ) {
                 $this->assert( !$matched{$mailto} );
@@ -332,9 +334,7 @@ sub checkSpecs {
                     }
                 }
                 foreach my $x (@tops) {
-                    unless (
-                        $message =~ s/^- $x \(.*\) $expectedRevs{$x}.*$//m )
-                    {
+                    unless ( $body =~ s/^- $x \(.*\) $expectedRevs{$x}.*$//m ) {
                         $this->assert( 0,
                                 "$mailto should see changes to "
                               . join( ' ', @tops ) . "\n"
@@ -343,11 +343,13 @@ sub checkSpecs {
                 }
 
                 # Make sure no other topics crept through
-                if ( $message =~ /^- \w+ \(/m ) {
+                if ( $body =~ /^- \w+ \(/m ) {
                     $this->assert( 0,
                             "$mailto should see changes to "
                           . join( ' ', @tops ) . "\n"
-                          . " but the mail also had\n$message" );
+                          . " but the mail also had\n"
+                          . $body
+                          . "\n" );
                 }
                 last;
             }
@@ -584,9 +586,8 @@ HERE
     my %matched;
     foreach my $message (@FoswikiFnTestCase::mails) {
         next unless $message;
-        $message =~ /^To: (.*?)$/m;
-        my $mailto = $1;
-        $this->assert( $mailto, $message );
+        my $mailto = $message->header('To');
+        $this->assert( $mailto, $message->as_string() );
         $this->assert_str_equals( 'good@example.com', $mailto, $mailto );
     }
 
@@ -690,12 +691,11 @@ sub testExpansion_1847 {
 
     for my $message (@FoswikiFnTestCase::mails) {
         next unless $message;
-        $message =~ /^To: (.*?)$/m;
-        my $mailto = $1;
-        $this->assert( $mailto, $message );
+        my $mailto = $message->header('To');
+        $this->assert( $mailto, $message->as_string() );
         $this->assert_str_equals( $testEmail, $mailto, $mailto );
         while ( my ( $key, $value ) = each %shouldMatch ) {
-            $this->assert_matches( qr/^$key: $value$/m, $message );
+            $this->assert_matches( qr/^$key: $value\x0d$/ms, $message->body() );
         }
     }
 }
@@ -1107,9 +1107,9 @@ BLAH
     );
     $this->assert_num_equals( 1, scalar(@FoswikiFnTestCase::mails) );
     my $m1 = $FoswikiFnTestCase::mails[0];
-    $this->assert_matches( qr/To: test3\@example.com/s, $m1 );
-    $this->assert( $m1 !~ /test1\@example.com/s );
-    $this->assert( $m1 !~ /test2\@example.com/s );
+    $this->assert_matches( qr/test3\@example.com/s, $m1->header('To') );
+    $this->assert( $m1->header('To') !~ /test1\@example.com/s );
+    $this->assert( $m1->header('To') !~ /test2\@example.com/s );
 }
 
 1;
