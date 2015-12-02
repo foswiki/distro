@@ -310,10 +310,21 @@ sub checkSpecs {
     my %matched;
     foreach my $message (@FoswikiFnTestCase::mails) {
         next unless $message;
-        $message->header('To') =~ /^(.*)$/m;
-        my $mailto = $1;
-        my $body   = $message->body();
-        print STDERR Data::Dumper::Dumper( \$message->as_string );
+
+        # SMELL The 'To:' header may contain more than one destination
+        # address. Shall be taken care of, perhaps.
+        my $mailto = $message->header('To');
+        my $body;
+        $message->walk_parts(
+            sub {
+                return if defined $body;
+                my $part = shift;
+                return if $part->subparts;
+                if ( $part->content_type =~ m[text/plain]i ) {
+                    $body = $part->body_str;
+                }
+            }
+        );
         $this->assert( $mailto, $message->as_string() );
         foreach my $spec (@specs) {
             if ( $mailto eq $spec->{email} ) {
