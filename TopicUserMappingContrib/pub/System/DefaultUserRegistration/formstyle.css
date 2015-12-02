@@ -1,0 +1,85 @@
+.registration .foswikiFormSteps {
+	margin:.5em 0 1em 0;
+}
+.registration .foswikiFormStep {
+	clear:both;
+}
+.registration form {
+	width:100%;
+	margin:0;
+	padding:0;
+}
+/* horizontal layout */
+/* for the 3 'columns' we use: 25% 30% 40% */
+.registration label.desc {
+	width:25%;
+}
+.registration li div {
+	float:left;
+	width:70%;
+	padding:0 0 0 1em;
+}
+.registration .foswikiInputField,
+.registration .foswikiTextarea {
+	width:40%;
+}
+.registration em {
+	font-style:normal;
+}
+.registration .expl,
+.registration .error {
+	font-size:94%;
+	line-height:130%;
+}
+.registration label.expl,
+.registration label.error {	
+	color:#666;
+	display:block;
+	margin:0 0 0 43%;
+	padding:2px 0 2px 26px;
+}
+/* END horizontal layout */
+.registration ul {
+	clear:all;
+	list-style:none;
+	padding:0;
+	margin:0;
+}
+.registration li {
+	margin:0;
+	padding:.7em 0;
+	clear:both;
+	min-height:1em;
+}
+.registration label.desc {
+	float:left;
+	margin:0;
+	padding:0;
+	text-align:right;
+}
+.registration .joinGroups label.desc {
+	float:none;
+}
+.registration .foswikiInputField,
+.registration .foswikiSelect,
+.registration .foswikiTextarea {
+	float:left;
+	margin-top:-2px;
+}
+.registration span.required {
+	padding:0 .3em;
+	color:#f00;
+}
+.registration .foswikiInputField.error {
+	background:#fcc;
+}
+.registration label.error {
+	color:#f00;
+	background:url(%ICONURLPATH{choice-no}%) no-repeat 6px 0;
+}
+.registration label.checked {
+	background:none;
+}
+.registration .expl {
+	margin:0 0 0 .75em;
+}

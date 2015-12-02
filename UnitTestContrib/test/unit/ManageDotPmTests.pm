@@ -862,16 +862,44 @@ sub verify_bulkRegister {
     my $this = shift;
     $Foswiki::cfg{MinPasswordLength} = 2;
 
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{users_web}, 'NewUserTemplate' );
+    $topicObject->text(<<'EOF');
+%NOP{Ignore this}%
+Default user template
+%SPLIT%
+\t* Set %KEY% = %VALUE%
+%SPLIT%
+%WIKIUSERNAME%
+%WIKINAME%
+%USERNAME%
+AFTER
+EOF
+    $topicObject->save();
+
+    Foswiki::Func::saveTopic( $this->{users_web}, 'AltUserTemplate', undef,
+        <<'EOF2' );
+%NOP{Ignore this}%
+Alternate user template
+%SPLIT%
+\t* Set %KEY% = %VALUE%
+%SPLIT%
+%WIKIUSERNAME%
+%WIKINAME%
+%USERNAME%
+AFTER
+EOF2
+
     my $testReg = <<'EOM';
-| FirstName | LastName | Email | WikiName | LoginName | Password | CustomFieldThis | SomeOtherRandomField | WhateverYouLike |
-| Test | User1  | Martin.Cleaver@BCS.org.uk | TestBulkUser1 | tbu1 | Secret | A | B | Works with allowLogin |
-| Test | User2 | Martin.Cleaver@BCS.org.uk | TestBulkUser2 | | Secret | A | B | Works with dont allowLogin |
-| Test | User3 | Martin.Cleaver@BCS.org.uk | TestBulkUser3 | tbu3 | Secret | A | B | Works with allowLogin |
-| Test | User3 | Martin.Cleaver@BCS.org.uk | TestBulkUser3 | tbu3 | Secret | A | B | Dup user with allowLogin |
-| Test | User4 | Martin.Cleaver@BCS.org.uk | TestBulkUser4 | | Secret | A | B | Works with dont allow |
-| Test | User4 | Martin.Cleaver@BCS.org.uk | TestBulkUser4 | | Secret | A | B | Dup user with dontAllow |
-| Test | Badpass | Martin.Cleaver@BCS.org.uk | TestBadpass | | S | A | B | Bad password with dont allow |
-| Test | Badpass | Martin.Cleaver@BCS.org.uk | TestBadpass | tbp | S | A | B | Bad password with allow |
+| FirstName | LastName | Email | WikiName | LoginName | Password | CustomFieldThis | SomeOtherRandomField | WhateverYouLike | templatetopic |
+| Test | User1  | Martin.Cleaver@BCS.org.uk | TestBulkUser1 | tbu1 | Secret | A | B | Works with allowLogin | AltUserTemplate |
+| Test | User2 | Martin.Cleaver@BCS.org.uk | TestBulkUser2 | | Secret | A | B | Works with dont allowLogin | AltUserTemplate |
+| Test | User3 | Martin.Cleaver@BCS.org.uk | TestBulkUser3 | tbu3 | Secret | A | B | Works with allowLogin | |
+| Test | User3 | Martin.Cleaver@BCS.org.uk | TestBulkUser3 | tbu3 | Secret | A | B | Dup user with allowLogin | |
+| Test | User4 | Martin.Cleaver@BCS.org.uk | TestBulkUser4 | | Secret | A | B | Works with dont allow | |
+| Test | User4 | Martin.Cleaver@BCS.org.uk | TestBulkUser4 | | Secret | A | B | Dup user with dontAllow | NewUserTemplate |
+| Test | Badpass | Martin.Cleaver@BCS.org.uk | TestBadpass | | S | A | B | Bad password with dont allow | NewUserTemplate |
+| Test | Badpass | Martin.Cleaver@BCS.org.uk | TestBadpass | tbp | S | A | B | Bad password with allow | NewUserTemplate |
 EOM
 
     my $regTopic = 'UnprocessedRegistrations2';
@@ -907,24 +935,29 @@ EOM
     try {
         ( $responseText, $result, $stdout, $stderr ) =
           $this->captureWithKey( manage => $MAN_UI_FN, $this->{session} );
+        print STDERR "=========== $stderr ===========\n";
     }
     catch Foswiki::OopsException with {
         my $e = shift;
         print STDERR $e->stringify();
+        print STDERR "======= $stderr======\n";
         $this->assert( 0, $e->stringify() . " UNEXPECTED" );
 
     }
     catch Error::Simple with {
         my $e = shift;
+        print STDERR "======= $stderr ======\n";
         $this->assert( 0, $e->stringify );
 
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
+        print STDERR "======= $stderr ======\n";
         $this->assert( 0, $e->stringify );
 
     }
     otherwise {
+        print STDERR "======= $stderr ======\n";
         $this->assert( 0, "expected an oops redirect" );
     };
     $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
@@ -975,12 +1008,20 @@ qr/You cannot register twice, the name 'TestBulkUser4' is already registered\./,
     }
 
     foreach my $wikiname (@expected) {
+        print STDERR "TESTING $wikiname\n";
         $this->assert(
             Foswiki::Func::topicExists(
                 $Foswiki::cfg{UsersWebName}, $wikiname
             ),
             "Missing $wikiname"
         );
+        my $utext =
+          Foswiki::Func::readTopicText( $Foswiki::cfg{UsersWebName},
+            $wikiname );
+        $this->assert_matches( qr/Alternate user template/, $utext )
+          if ( $wikiname =~ m/[12]$/ );
+        $this->assert_matches( qr/Default user template/, $utext )
+          unless ( $wikiname =~ m/[12]$/ );
     }
 
     $this->assert_matches(

@@ -1,475 +1,56 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1447730097" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1448237685" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 <noautolink>
 <!--
-	Read general customisation instructions in %SYSTEMWEB%.UserAuthentication
-	
-	To create a custom UserRegistration page yourself:
-	1. make a copy of this topic in your %SYSTEM% web
-	2. name the copy "UserRegistration"
-	3. place it in %USERSWEB% (by default called 'Main')
-	
-	Customize your registration page by adding fields to section 'optionalFields' (see description below)
+   Read general customisation instructions in %SYSTEMWEB%.UserAuthentication (System.UserRegistration)
+
+   DO NOT EDIT THIS TOPIC DIRECTLY!
+   To create a custom UserRegistration page, copy this topic to %USERSWEB%.UserRegistration. (Main.UserRegistration)
+
+   Override the template used for new user topics here:
+      * !%SET{"NEWUSERTEMPLATE" value="NewUserTemplate"}%
+
+    The registration page is composed of sections included from System.UserRegistrationParts.
+    For major changes, copy System.UserRegistrationParts  and change this to point to the edited topic:
+        %SET{"REGPARTS" value="%WEB%.%TOPIC%,%SYSTEMWEB%.UserRegistrationParts"}%
+
+   Optional form fields.    Possible field names:
+      extraField_groups     (Also enable REGISTRATION* settings below:)
+      extraField_organisationName
+      extraField_organisationUrl
+      extraField_country
+
+    Enable optional fields by adding / removing to the comma-separated list and remove the ! in the next statement:.
+      !%SET{"FIELDS" value="extraField_organisationName,extraField_country"}%
+
+   The following setting apply if extraField_groups is enabled:
+   * Group type settings during registration:
+      * =automatic=: users will be automatically added to eligible groups
+      * =one=: users can select one of the groups
+      * =multiple=: users can select from multiple groups to join
+      * =none=: user cannot be added to groups while registering
+
+   * !%SET{"REGISTRATIONGROUPTYPE" value="one"}%
+
+   * If REGISTRATIONGROUPS is set to a comma separated list of groups, only those listed groups will be shown in the UserRegistration form.
+   If it is unset, then group change permissions will be used to create the list of groups eligible for selection during registration. (When using "self-registration" by guest users, the !RegistrationAgent's permissions are used. If the registration is entered by another logged in user, that user's permissions are used).
+      * !%SET{"REGISTRATIONGROUPS" value=""}%
+
+   * Implementation Notes:
+      * If the RegistrationAgent or logged in user does not have permission to change one of the listed groups,  then that group will be silently skipped.  The user will not be added to the group.
+      * Group permissions are stored in Topic Settings, *not* inline in the group topic.  Edit the Group Topic Settings to change permissions.
+
+   %SET{"REGISTRATION_DISABLED" value="%IF{"context registration_supported" then="%IF{"context registration_enabled" then="" else="DISABLED"}%" else="DISABLED"}%"}%
 -->
-<!--
-	Sections of this page
-	Optionally include section 'privacyInformation':
-	
-	%FORMAT{
-		"title,notes,resources,form,help,privacyInformation"
-		... (leave rest as is)
-	}%
 
-    DEFINES MAIN BODY OF THE PAGE
--->
-%FORMAT{
-	"title,notes,resources,form,help"
-	separator=""
-	type="string"
-	format="$percntINCLUDE{$quot%TOPIC%$quot section=$quot$item$quot}$percnt"
-}%
+%INCLUDE{"%REGPARTS%" section="title"}%
+%INCLUDE{"%REGPARTS%" section="notes"}% <!-- Required: conditional notes & warnings -->
+%INCLUDE{"%REGPARTS%" section="privacyInformation"}% <!-- Optional -->
+%INCLUDE{"%REGPARTS%" section="resources"}% <!-- Required: JavaScript and CSS components -->
+%INCLUDE{"%REGPARTS%" section="form"}% <!-- Required: The actual registration form -->
+%INCLUDE{"%REGPARTS%" section="help"}% <!-- Optional: Help text -->
 
-
-<verbatim class="foswikiHidden">
-
-<!--
-	All the topic sections
--->
-
-<!--
-	Optional form fields.
-	Add fields as FORMAT parameter, for example to show group fields, use:
-	%FORMAT{			
-		"extraField_groups, extraField_organisationName, extraField_organisationUrl, extraField_country"
-		... (leave rest unchanged)
-	}%
-	
-	Possible field names:
-		extraField_groups
-		extraField_organisationName
-		extraField_organisationUrl
-		extraField_country
-
-  vvv  ENABLE OPTIONAL FIELDS BY ADDING THEM TO THE NEXT SECTION vvv
--->
-%STARTSECTION{"optionalFields"}%%FORMAT{
-	""
-	separator="$n"
-	type="string"
-	format="$percntINCLUDE{$quot%TOPIC%$quot section=$quot$item$quot}$percnt"
-}%%ENDSECTION{"optionalFields"}%
-
-
-<!--
-	Required form fields. Do not modify these fields
--->
-%STARTSECTION{"requiredFields"}%%FORMAT{
-	"requiredField_firstName, requiredField_lastName, requiredField_wikiName%IF{"$ALLOWLOGINNAME" then=", requiredField_loginName"}%, requiredField_email%IF{"context passwords_modifyable" then=", requiredField_password"}%"
-	separator="$n"
-	type="string"
-	format="$percntINCLUDE{$quot%TOPIC%$quot section=$quot$item$quot}$percnt"
-}%%ENDSECTION{"requiredFields"}%
-
-
-<!--
-	Page title
--->
-%STARTSECTION{"title"}%---+ %MAKETEXT{"Registration"}%
-%ENDSECTION{"title"}%
-
-
-<!--
-	Feedback whether registration is enabled and required browser settings (javascript and cookies must be on)
--->
-%STARTSECTION{"notes"}%%IF{"not context registration_supported"
-  then=" *%MAKETEXT{"Self registration is not supported by this site."}%* "
-  else="
-    %IF{"NOT context registration_enabled"
-      then="%INCLUDE{"%TOPIC%" section="note:registrationNotEnabled"}%"
-      else="%IF{
-	"$REGISTRATION_DISABLED='DISABLED'"
-	then="%INCLUDE{"%TOPIC%" section="note:registrationTemporarilyDisabled"}%"
-	else="%INCLUDE{"%TOPIC%" section="note:registrationOk"}%%INCLUDE{"%TOPIC%" section="note:requiredBrowserSettings"}%"
-      }%"
-    }%"
-}%%ENDSECTION{"notes"}%
-
-%STARTSECTION{"note:registrationNotEnabled"}%%IF{
-   "$USERNAME ingroup 'AdminGroup'"
-   then="<strong>%MAKETEXT{"Registration is disabled either by configuration setting {EnableNewUserRegistration}, or due to errors with the password system. Check the configuration for errors."}%</strong>
-
-          %MAKETEXT{"If registration is not disabled by errors, administrators can still register users to this site using [_1]." args="[[%SYSTEMWEB%.BulkRegistration][BulkRegistration]]"}%"
-   else="<strong>%MAKETEXT{"New user registration is disabled on this site."}%</strong>"
-}%
-%ENDSECTION{"note:registrationNotEnabled"}%
-
-%STARTSECTION{"note:registrationTemporarilyDisabled"}%<strong>%MAKETEXT{"Sorry, registration has been temporarily disabled."}%</strong>%ENDSECTION{"note:registrationTemporarilyDisabled"}%
-
-%STARTSECTION{"note:registrationOk"}%<strong>%MAKETEXT{"Create your account to edit pages on this site."}%</strong>%ENDSECTION{"note:registrationOk"}%
-
-%STARTSECTION{"note:requiredBrowserSettings"}%<div class='registerMakeHidden foswikiNotification foswikiAlert'>%MAKETEXT{"We noticed you have disabled !JavaScript. Please switch on !JavaScript if you wish to register."}%</div><div class='foswikiNotification foswikiAlert registerMakeVisible showIfNoCookies'>%MAKETEXT{"We noticed you have disabled cookies. Please enable cookies if you wish to register."}%</div>%ENDSECTION{"note:requiredBrowserSettings"}%
-
-
-<!--
-	Help text in footer
--->
-%STARTSECTION{"help"}%<p>
-%MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%TOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%</p>%ENDSECTION{"help"}%
-
-
-<!--
-	The registration form
--->
-%STARTSECTION{"form"}%
-%IF{"$REGISTRATION_DISABLED!='DISABLED'" then="$percentINCLUDE{\"%TOPIC%\" section=\"liveform\"}$percent"}%
-%ENDSECTION{"form"}%
-
-%STARTSECTION{"liveform"}%
-<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
-	<div class="foswikiFormSteps">
-		<div class="foswikiFormStep">
-			<p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required."}%</em></p>
-			<ul>%INCLUDE{"%TOPIC%" section="requiredFields"}%%INCLUDE{"%TOPIC%" section="optionalFields"}%%INCLUDE{"%TOPIC%" section="requiredButton_submit"}%</ul>
-			<div class='foswikiClear'></div>
-		</div>
-	</div>
-%IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percentBLACKLISTPLUGIN{action=$quotmagic$quot}$percent" />' else='<!-- -->'}%
-<input type="hidden" name="topic" value="%TOPIC%" />
-<input type="hidden" name="action" value="register" />
-</form>
-</div>%ENDSECTION{"liveform"}%
-
-
-<!--
-	Extra CSS and Javascript resources for this page.
-	Javascript contains inline form validation
--->
-%STARTSECTION{"resources"}%%IF{"$REGISTRATION_DISABLED!='DISABLED'" then="$percntADDTOZONE{
-$quothead$quot
-id=$quotUserRegistrationRequiredStyle$quot
-text=$quot<style type='text/css' media='all'>
-.registerMakeVisible {
-	display:none;
-}
-.foswikiJs .registerMakeVisible {
-	display:block;
-}
-.foswikiJs .registerMakeHidden {
-	display:none;
-}
-.hideIfNoCookies,
-.foswikiJs .registerMakeVisible.hideIfNoCookies {
-	display:none;
-}
-.foswikiCookiesEnabled .hideIfNoCookies,
-.foswikiCookiesEnabled .registerMakeVisible.hideIfNoCookies {
-	display:block;
-}
-.foswikiJs .showIfNoCookies {
-	display:block;
-}
-.foswikiJs.foswikiCookiesEnabled .showIfNoCookies {
-	display:none;
-}</style>$quot
-}$percnt"}%%ADDTOZONE{
-"head"
-id="UserRegistrationFormStyle"
-text="<style type='text/css' media='all'>
-.registration .foswikiFormSteps {
-	margin:.5em 0 1em 0;
-}
-.registration .foswikiFormStep {
-	clear:both;
-}
-.registration form {
-	width:100%;
-	margin:0;
-	padding:0;
-}
-/* horizontal layout */
-/* for the 3 'columns' we use: 25% 30% 40% */
-.registration label.desc {
-	width:25%;
-}
-.registration li div {
-	float:left;
-	width:70%;
-	padding:0 0 0 1em;
-}
-.registration .foswikiInputField,
-.registration .foswikiTextarea {
-	width:40%;
-}
-.registration em {
-	font-style:normal;
-}
-.registration .expl,
-.registration .error {
-	font-size:94%;
-	line-height:130%;
-}
-.registration label.expl,
-.registration label.error {	
-	color:#666;
-	display:block;
-	margin:0 0 0 43%;
-	padding:2px 0 2px 26px;
-}
-/* END horizontal layout */
-.registration ul {
-	clear:all;
-	list-style:none;
-	padding:0;
-	margin:0;
-}
-.registration li {
-	margin:0;
-	padding:.7em 0;
-	clear:both;
-	min-height:1em;
-}
-.registration label.desc {
-	float:left;
-	margin:0;
-	padding:0;
-	text-align:right;
-}
-.registration .joinGroups label.desc {
-	float:none;
-}
-.registration .foswikiInputField,
-.registration .foswikiSelect,
-.registration .foswikiTextarea {
-	float:left;
-	margin-top:-2px;
-}
-.registration span.required {
-	padding:0 .3em;
-	color:#f00;
-}
-.registration .foswikiInputField.error {
-	background:#fcc;
-}
-.registration label.error {
-	color:#f00;
-	background:url(%ICONURLPATH{choice-no}%) no-repeat 6px 0;
-}
-.registration label.checked {
-	background:none;
-}
-.registration .expl {
-	margin:0 0 0 .75em;
-}
-</style>"
-}%%JQREQUIRE{"validate, wikiword, cookie"}%
-<div id="FwkVD" class="foswikiHidden">
-<literal>
-{
-  "url":"%SCRIPTURL{view}%/%WEB%/%TOPIC%",
-  "MinPasswordLength":%QUERY{"{MinPasswordLength}"}%,
-  "messages": {
-    "Fwk1FirstName":"%MAKETEXT{"Please enter your first name."}%",
-    "Fwk1LastName":"%MAKETEXT{"Please enter your last name."}%",
-    "Fwk1WikiName": {
-      "required": "%MAKETEXT{"Please enter a WikiName."}%",
-      "wikiword": "%MAKETEXT{"This is not a valid WikiName."}%",
-      "remote": "%MAKETEXT{"This WikiName is already in use."}%"
-    },
-    "Fwk1Email": "%MAKETEXT{"Please enter a valid email address."}%",
-    "Fwk1LoginName": {
-      "required": "%MAKETEXT{"Please enter a login username."}%",
-      "remote": "%MAKETEXT{"This username is already in use."}%"
-    },
-    "Fwk1Password": {
-      "required": "%MAKETEXT{"Please enter a password."}%",
-      "minlength": "%MAKETEXT{"Your password must be at least [_1] characters long." args="%QUERY{"{MinPasswordLength}"}%"}%"
-    },
-    "Fwk1Confirm": {
-      "required": "%MAKETEXT{"Please confirm your password."}%",
-      "equalTo": "%MAKETEXT{"Please enter the same password as above."}%",
-      "minlength": "%MAKETEXT{"Your password must be at least [_1] characters long." args="%QUERY{"{MinPasswordLength}"}%"}%"
-    }
-  }
-}
-</literal>
-</div>%ADDTOZONE{
-"script"
-id="UserRegistrationValidation"
-requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::WIKIWORD, JQUERYPLUGIN::COOKIE"
-text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRegistration/validate.js'></script>"
-}%%ENDSECTION{"resources"}%
-
-
-<!--
-	Required field first name
--->
-%STARTSECTION{"requiredField_firstName"}%<li><label class="desc" for="Fwk1FirstName"><span class="required">*</span>%MAKETEXT{"First name:"}%</label>
-<div><input type="text" id="Fwk1FirstName" name="Fwk1FirstName" size="40" class="foswikiInputField foswikiFocus" value="" tabindex="1" /></div></li>%ENDSECTION{"requiredField_firstName"}%
-
-
-<!--
-	Required field last name
--->
-%STARTSECTION{"requiredField_lastName"}%<li><label class="desc" for="Fwk1LastName"><span class="required">*</span>%MAKETEXT{"Last name:"}%</label>
-<div><input type="text" id="Fwk1LastName" name="Fwk1LastName" size="40" class="foswikiInputField" value="" tabindex="2" /></div></li>%ENDSECTION{"requiredField_lastName"}%
-
-
-<!--
-	Required field wiki name
--->
-%STARTSECTION{"requiredField_wikiName"}%<li><label class="desc" for="Fwk1WikiName"><span class="required">*</span>%MAKETEXT{"<nop>WikiName:"}%</label>
-<div><input type="text" id="Fwk1WikiName" name="Fwk1WikiName" size="40" class="foswikiInputField" value="" tabindex="3" /><label class="expl">%MAKETEXT{"Your name as displayed by [_1]." args="%WIKITOOLNAME%"}% %POPUPWINDOW{"%SYSTEMWEB%.WikiName" label="%MAKETEXT{"This must be a unique WikiName."}%"}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_wikiName"}%
-
-
-<!--
-	Required field login name
-	Only shown if ALLOWLOGINNAME is true.
--->
-%STARTSECTION{"requiredField_loginName"}%<li><label class="desc" for="Fwk1LoginName"><span class="required">*</span>%MAKETEXT{"Login username:"}%</label>
-<div><input type="text" id="Fwk1LoginName" name="Fwk1LoginName" size="40" class="foswikiInputField" value="%REMOTE_USER%" tabindex="4" /><label class="expl">%MAKETEXT{"The username that identifies you to the signon system. [_1]" args="%POPUPWINDOW{"%SYSTEMWEB%.UserName" label="%MAKETEXT{"This must be a valid login username."}%"}%"}%</label></div></li>%JQREQUIRE{"popupwindow"}%%ENDSECTION{"requiredField_loginName"}%
-
-<!--
-	Required field email
--->
-%STARTSECTION{"requiredField_email"}%<li><label class="desc" for="Fwk1Email"><span class="required">*</span>%MAKETEXT{"Email address:"}%</label>
-<div><input type="text" id="Fwk1Email" name="Fwk1Email" size="40" class="foswikiInputField" value="" tabindex="5" /><label class="expl">%MAKETEXT{"Your email address will be kept confidential."}%</label></div></li>%ENDSECTION{"requiredField_email"}%
-
-
-<!--
-	Required field password
-	Only shown if the password manager supports changing the password / email.
-	Displays one password field and (if {Register}{DisablePasswordConfirmation} is not unset) one confirmation password field.
--->
-%STARTSECTION{"requiredField_password"}%<li><label class="desc" for="Fwk1Password"><span class="required">*</span>%MAKETEXT{"Your password:"}%</label>
-<div><input type="password" id="Fwk1Password" name="Fwk1Password" size="40" class="foswikiInputField" value="" tabindex="6" /></div></li>%IF{"NOT {Register}{DisablePasswordConfirmation}" then="<li><label class=\"desc\" for=\"Fwk1Confirm\"><span class=\"required\">*</span>$percntMAKETEXT{\"Confirm password:\"}$percnt</label>
-<div><input type=\"password\" id=\"Fwk1Confirm\" name=\"Fwk1Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" tabindex=\"7\" /></div></li>"}%%ENDSECTION{"requiredField_password"}%
-
-
-<!--
-	Optional field join group
-	
-	enable by setting =REGISTRATIONGROUPTYPE= in the %LOCALSITEPREFS% topic to automatic, one, multiple.
--->
-%STARTSECTION{"extraField_groups"}%%INCLUDE{"%TOPIC%" section="groups"}%%ENDSECTION{"extraField_groups"}%
-
-%STARTSECTION{"groups"}%%IF{"$USERNAME ingroup 'AdminGroup' and '%REGISTRATIONGROUPTYPE%' = 'automatic' and not defined 'REGISTRATIONGROUPS'" then="<blockquote><span class=\"foswikiAlert\"> *Caution!* Registering a user while logged in as an Administrator will add them to ALL GROUPS in the system.</span> REGISTRATIONGROUPTYPE is set to =automatic=, and no groups are set in REGISTRATIONGROUPS. </blockquote>"}%
-%IF{"($WIKINAME!='WikiGuest') and  (not ($USERNAME ingroup 'AdminGroup')) and ('%REGISTRATIONGROUPTYPE%' = 'automatic') and (not defined 'REGISTRATIONGROUPS')" then="<blockquote><span class=\"foswikiAlert\"> *Caution!* Registering a user while logged in will add the new user to all groups you have permission to change.</span> REGISTRATIONGROUPTYPE is set to =automatic=, and no groups are set in REGISTRATIONGROUPS. </blockquote>"}%
-%FORMAT{
-	"%IF{"defined 'REGISTRATIONGROUPS'" then="%REGISTRATIONGROUPS%" else="%GROUPINFO{
-			show="allowchange%IF{"$ WIKINAME='WikiGuest'" then="(RegistrationAgent)"}%"
-			format="$name"
-			separator=","
-		}%"}%"
-	header="$percentINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quot%IF{
-						"'%REGISTRATIONGROUPTYPE%' = 'automatic' and $ WIKINAME='WikiGuest'"
-						then="hidden"
-					}%rendergroupheader$quot}$percent"
-	footer="$percentINCLUDE{$quot%WEB%.%TOPIC%$quot section=$quotrendergroupfooter$quot}$percent"
-	zeroresults="no groups<!-- no groups available -->"
-	format="$percentINCLUDE{$quot%WEB%.%TOPIC%$quot
-		section=$quotrendergroup$quot
-		groupname=$quot$topic$quot
-        inputtype=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic' and $ WIKINAME!='WikiGuest'" then="checkbox"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic' and $ WIKINAME='WikiGuest'" then="hidden"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'one'" then="radio"}%%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then="checkbox"}%$quot
-        inputother=$quot%IF{"'%REGISTRATIONGROUPTYPE%' = 'automatic'" then="checked readonly"}%$quot
-       }$percent"
-      separator=" "
-}%%ENDSECTION{"groups"}%
-
-<!--
-Section nochange
--->
-%STARTSECTION{"nochange"}%<!-- nochange// --> %ENDSECTION{"nochange"}%
-
-<!--
-Section rendergroup
-  parameters: groupname, inputtype
--->
-%STARTSECTION{"rendergroup"}%<input type="%inputtype%" %inputother% name="Fwk0AddToGroups" id="cb_%groupname%" value="%groupname%" />
-	<label class="desc" for="cb_%groupname%">%IF{"istopic '%USERSWEB%.%groupname%'" then=" [[%USERSWEB%.%groupname%][%groupname%]] " else="%groupname%" }%</label>%ENDSECTION{"rendergroup"}%
-
-<!--
-Section rendergroupheader
-  parameters: 
--->
-%STARTSECTION{"rendergroupheader"}%<li><label class="desc" for="Fwk0AddToGroups">%IF{"'%REGISTRATIONGROUPTYPE%' = 'multiple'" then='%MAKETEXT{"Select groups to join:"}%' else='%MAKETEXT{"Select the group to join:"}%'}%</label>
-<div class="joinGroups">%ENDSECTION{"rendergroupheader"}%
-
-<!--
-Section rendergroupfooter
-  parameters: 
--->
-%STARTSECTION{"rendergroupfooter"}%</div></li>%ENDSECTION{"rendergroupfooter"}%
-
-<!--
-Section hiddenrendergroupheader
-  parameters: 
--->
-%STARTSECTION{"hiddenrendergroupheader"}%<li class="foswikiHidden">
-<div class="joinGroups">%ENDSECTION{"hiddenrendergroupheader"}%
-
-<!--
-	Optional field organisation name
--->
-%STARTSECTION{"extraField_organisationName"}%<li><label class="desc" for="Fwk0OrganisationName">%MAKETEXT{"Organisation name:"}%</label>
-<div><input type="text" id="Fwk0OrganisationName" name="Fwk0OrganisationName" size="40" class="foswikiInputField" value="" tabindex="8" /></div></li>%ENDSECTION{"extraField_organisationName"}%
-
-
-<!--
-	Optional field organisation url
--->
-%STARTSECTION{"extraField_organisationUrl"}%<li><label class="desc" for="Fwk0OrganisationURL">%MAKETEXT{"Organisation website:"}%</label>
-<div><input type="text" id="Fwk0OrganisationURL" name="Fwk0OrganisationURL" size="40" class="foswikiInputField" value="http://" tabindex="9" /></div></li>%ENDSECTION{"extraField_organisationUrl"}%
-
-
-<!--
-	Optional field country
--->
-%STARTSECTION{"extraField_country"}%<li><label class="desc" for="Fwk0Country">%MAKETEXT{"Country:"}%</label>
-<div><select class="foswikiSelect" id="Fwk0Country" name="Fwk0Country" size="1" tabindex="10">%SEARCH{
-"^\|[^\*\|]*\|"
-topic="CountryList"
-web="%SYSTEMWEB%"
-type="regex"
-multiple="on"
-nosearch="on"
-nototal="on"
-format="<option>$pattern(^\| *(.*?) *\|.*)</option>"
-}%</select></div></li>%ENDSECTION{"extraField_country"}% 
-
-
-<!--
-	Required submit button
--->
-%STARTSECTION{"requiredButton_submit"}%<li><label class="desc">&nbsp;</label><div><input type="submit" tabindex="99" class="foswikiSubmit" value="%MAKETEXT{"Register"}%" /><span class="expl foswikiHidden">%MAKETEXT{"Please correct the entered data before you continue."}%</span></div></li>%ENDSECTION{"requiredButton_submit"}%
-
-
-<!--
-	Optional privacy information
--->
-%STARTSECTION{"privacyInformation"}%<p> %MAKETEXT{"*Important:* the information provided in this form will be stored in a database on the web server. This database is accessible to anyone who can access the server through the web (though passwords will be encrypted, and e-mail addresses will be obfuscated to help prevent spamming). Your country, or the country where the server is hosted, may have Data Protection laws governing the maintenance of such databases. If you are in doubt, you should contact [_1] for details of the Data Protection Policy of this web server before registering." args="[[mailto:%WIKIWEBMASTER%?subject=Data%20Protection%20Policy][%WIKIWEBMASTER%]]"}%</p>%ENDSECTION{"privacyInformation"}%
-
-<!--
-	Test if user topic exists. Used for form validation.
--->
-%STARTSECTION{"checkWikiName"}%%IF{"istopic '%USERSWEB%.%URLPARAM{"name"}%'" 
-  then="false" 
-  else="true"
-}%%ENDSECTION{"checkWikiName"}%
-
-%STARTSECTION{"checkLoginName"}%%IF{
-  "'%USERINFO{"%URLPARAM{"name"}%" format="$username"}%'!=''" 
-  then="false" 
-  else="true"
-}%%ENDSECTION{"checkLoginName"}%
-
-</verbatim>
-
-
-<!--
-   * Set REGISTRATION_DISABLED = %IF{"context registration_supported" then="%IF{"context registration_enabled" then="" else="DISABLED"}%" else="DISABLED"}%
-      * Note: This setting is only used when viewing DefaultUserRegistration directly. When this topic is included from UserRegistration REGISTRATION_DISABLED is defined as a parameter in the INCLUDE
--->
 </noautolink>
 
-%META:FILEATTACHMENT{name="validate.js" attr="h" comment="" date="1447730097" size="2027" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="validate.js" attr="h" comment="" date="1448237685" size="2027" user="ProjectContributor" version="1"}%
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

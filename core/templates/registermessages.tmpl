@@ -123,6 +123,15 @@
 %MAKETEXT{"Please go back in your browser and try again."}%
 %TMPL:END%
 %{==============================================================================}%
+%TMPL:DEF{"bad_templatetopic"}%
+---+++ %MAKETEXT{"Incorrect templatetopic name provided."}%
+%MAKETEXT{"The name provided is either invalid, or the named topic is not found. The templatetopic must be an existing new user template topic in the %USERSWEB% web.  If not provided, the default topic is [[%USERSWEB%.NewUserTemplate]], or if that does not exist. [[%SYSTEMWEB%.NewUserTemplate]]."}%
+
+%MAKETEXT{"This field is not normally user provided. This may be a Foswiki configuration error."}%
+%MAKETEXT{"Please go back in your browser and try again."}%
+%MAKETEXT{"Contact [_1] if you have any questions." args="%WIKIWEBMASTER%"}%
+%TMPL:END%
+%{==============================================================================}%
 %TMPL:DEF{"passwords_disabled"}%
 ---+++ %MAKETEXT{"Passwords disabled"}%
 

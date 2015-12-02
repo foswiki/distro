@@ -1,0 +1,23 @@
+.registerMakeVisible {
+	display:none;
+}
+.foswikiJs .registerMakeVisible {
+	display:block;
+}
+.foswikiJs .registerMakeHidden {
+	display:none;
+}
+.hideIfNoCookies,
+.foswikiJs .registerMakeVisible.hideIfNoCookies {
+	display:none;
+}
+.foswikiCookiesEnabled .hideIfNoCookies,
+.foswikiCookiesEnabled .registerMakeVisible.hideIfNoCookies {
+	display:block;
+}
+.foswikiJs .showIfNoCookies {
+	display:block;
+}
+.foswikiJs.foswikiCookiesEnabled .showIfNoCookies {
+	display:none;
+}
