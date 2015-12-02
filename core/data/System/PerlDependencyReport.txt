@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434207915" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1449100641" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Perl dependencies for Foswiki and Extensions
 
@@ -43,3 +43,4 @@ Note: If a minimum version is identified, the extension requiring the highest mi
 
 %PERLDEPENDENCYREPORT{"extensions" include="%URLPARAM{"include" default="missing"}%"}%
 </noautolink>
+%META:PREFERENCE{name="CACHEABLE" title="CACHEABLE" type="Set" value="off"}%

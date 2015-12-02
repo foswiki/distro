@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1428377574" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1449100641" format="1.1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 
 ---+!! Foswiki Server Information
@@ -23,3 +23,4 @@ See Also:  PerlDependencyReport for details on the installed Perl CPAN modules a
 ---++ Loaded modules
 %SERVERINFORMATION{modules}%
 
+%META:PREFERENCE{name="CACHEABLE" title="CACHEABLE" type="Set" value="off"}%

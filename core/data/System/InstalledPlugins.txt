@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1449100641" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Installed Plugins
 
@@ -48,3 +48,4 @@ means the handler will use the default core handler security.
 
 ---
 *Related Topics:* [[Plugins]], %WIKIPREFSTOPIC%, AdminDocumentationCategory, AdminToolsCategory, SkinBrowser
+%META:PREFERENCE{name="CACHEABLE" title="CACHEABLE" type="Set" value="off"}%
