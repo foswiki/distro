@@ -22,6 +22,7 @@ use Encode;
 use File::Basename;
 use File::Spec;
 use POSIX qw(locale_h);
+use Unicode::Normalize;
 
 use Foswiki::Configure::FileUtil;
 
@@ -413,8 +414,9 @@ sub bootstrapConfig {
         $script = $1;
     }
 
+    # Can't use Foswiki::decode_utf8 - this is too early in initialization
     print STDERR "AUTOCONFIG: Found Bin dir: "
-      . Foswiki::decode_utf8($bin)
+      . NFC( Encode::decode_utf8($bin) )
       . ", Script name: $script using FindBin\n"
       if (TRAUTO);
 
@@ -460,7 +462,8 @@ sub bootstrapConfig {
 
         # Need to decode utf8 back to perl characters.  The file path operations
         # all worked with bytes, but Foswiki needs characters.
-        $Foswiki::cfg{$key} = Foswiki::decode_utf8( $Foswiki::cfg{$key} );
+        # Can't use Foswiki::decode_utf8 - this is too early in initialization
+        $Foswiki::cfg{$key} = NFC( Encode::decode_utf8( $Foswiki::cfg{$key} ) );
 
         print STDERR "AUTOCONFIG: $key = $Foswiki::cfg{$key} \n"
           if (TRAUTO);
