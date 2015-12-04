@@ -3705,9 +3705,11 @@ sub expandMacros {
     # 'Special plugin tag' TOC hack, must be done after all other expansions
     # are complete, and has to reprocess the entire topic.
 
-    if ( $text =~ m/%TOC(?:{.*})?%/ ) {
+    if ( $text =~ m/%TOC(?:\{.*\})?%/ ) {
         require Foswiki::Macros::TOC;
-        $text =~ s/%TOC(?:{(.*?)})?%/$this->TOC($text, $topicObject, $1)/ge;
+        my $tocInstance = 1;
+        $text =~
+s/%TOC(?:\{(.*?)\})?%/$this->TOC($text, $topicObject, $1, $tocInstance++)/ge;
     }
 
     # Codev.FormattedSearchWithConditionalOutput: remove <nop> lines,
