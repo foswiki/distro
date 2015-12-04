@@ -1,2 +1,19 @@
-die "Not compatible with Foswiki 1.1.x" if ($Foswiki::VERSION < 1.999);
-return 'Installation continuing';
+my $this = shift;
+my $msgs = '';
+
+if ($Foswiki::VERSION < 1.999) {
+    delete $this->{_manifest}{'data/System/WebCreateNewTopicComponents.txt'};
+    delete $this->{_manifest}{'data/System/WebCreateNewTopicTemplate.txt'};
+
+$msgs .= "=============================================================================\n";
+$msgs .= " Foswiki 1.x system detected.  The following files will not be installed:\n";
+$msgs .= " data/System/WebCreateNewTopicComponents.txt\n";
+$msgs .= " data/System/WebCreateNewTopicTemplate.txt\n";
+$msgs .= "\n";
+$msgs .= "You must set your skin to pattern01x01,pattern in System.SitePreferences. \n";
+$msgs .= "   * Set SKIN = pattern01x01,pattern\n";
+$msgs .= "=============================================================================\n";
+
+}
+
+return $msgs;

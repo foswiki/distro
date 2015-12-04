@@ -1,0 +1,23 @@
+%{ to include a side bar on a page, just include this template in the page template }%
+%TMPL:DEF{"sidebar"}%<div id="patternSideBar"><div id="patternClearHeaderLeft"></div>
+<div id="patternSideBarContents">%TMPL:P{"websidebar"}%
+</div></div>%TMPL:END%
+
+
+%TMPL:DEF{"sidebar:webindicator"}%<div class="patternWebIndicator" style="border-color:%WEBBGCOLOR%">
+<a href='%SCRIPTURL{"view"}%/%BASEWEB%/%HOMETOPIC%'><nop>%BASEWEB%</a>
+</div>%TMPL:END%
+
+
+%TMPL:DEF{"sidebar:weblink"}%<div class="patternWebIndicator">
+[[%BASEWEB%/%HOMETOPIC%][%BASEWEB%]]
+</div>%TMPL:END%
+
+%{ Please note that there must be a new line before the include of the WebLeftBar. Other wise the first bullet will not be displayed as a bullet. See Foswiki task Item410 }%
+%TMPL:DEF{"websidebar"}%%TMPL:P{"sidebar:webindicator"}%
+%IF{"istopic 'WebLeftBar'" then="$percntINCLUDE{$quot%WEB%.WebLeftBar$quot}$percnt" else="$percntINCLUDE{$quot%WEB%.WebLeftBarExample$quot}$percnt"}%
+%TMPL:END%
+
+
+%TMPL:DEF{"startsidebarwrapper"}%<div id="patternWrapper">%TMPL:END%
+%TMPL:DEF{"endsidebarwrapper"}%</div>%TMPL:END%
