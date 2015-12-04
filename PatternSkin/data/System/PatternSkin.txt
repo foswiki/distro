@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443365638" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1449190033" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+!! Pattern skin
@@ -13,11 +13,11 @@ You may quickly change the appearance of this skin by setting a theme.
 
 ---+++ Browse themes
 Pattern skin has quite some flexibility out of the box. Try one of the provided themes or use them as inspiration for your own theme.
-   * [[%SYSTEMWEB%.PatternSkinTheme][Foswiki (default)]]
-   * [[%SYSTEMWEB%.PatternSkinTheme2009][Foswiki 2009]]
-   * [[%SYSTEMWEB%.PatternSkinThemeFatWilly][Foswiki "Fat Willy" Site Skin]]
-   * [[%SYSTEMWEB%.PatternSkinTheme115][Foswiki release 1.1.5]]
-   
+   * [[%SYSTEMWEB%/PatternSkinTheme][Foswiki (default)]]
+   * [[%SYSTEMWEB%/PatternSkinTheme2009][Foswiki 2009]]
+   * [[%SYSTEMWEB%/PatternSkinThemeFatWilly][Foswiki "Fat Willy" Site Skin]]
+   * [[%SYSTEMWEB%/PatternSkinTheme115][Foswiki release 1.1.5]]
+
 <!--
 %STARTSECTION{"copysettings"}%
 Do you want to keep these settings?
@@ -82,14 +82,6 @@ The =Edit= and =Edit wiki text= buttons simply add =;action=text= or =;action=fo
 <div class="foswikiNotification">
 *This release of PatternSkin is not compatible with Foswiki versions older than Foswiki 2.0*
 </div>
-<div class="foswikiNotification">
-*Upgrade notice for Foswiki 1.0 users*
-
-Add =pattern01x00= to your skin path, like this:
-<pre class="tml">
-   * <nop>Set SKIN = pattern01x00,pattern
-</pre>
-</div>
 
 *Note:* You do not need to install anything on the browser to use this skin. The following instructions are for the administrator who installs the skin on the server where Foswiki is running.
 
@@ -147,30 +139,47 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 
 ---+++ All !PatternSkin topics
 
-   * %SYSTEMWEB%.PatternSkinTheme
-   * %SYSTEMWEB%.PatternSkinTheme2009
-   * %SYSTEMWEB%.PatternSkinThemeFatWilly
-   * %SYSTEMWEB%.PatternSkinCss
-   * %SYSTEMWEB%.PatternSkinCssCookbook
-   * %SYSTEMWEB%.PatternSkinCssCookbookCenterPage
-   * %SYSTEMWEB%.PatternSkinCssCookbookEditTableStyle
-   * %SYSTEMWEB%.PatternSkinCssCookbookFonts
-   * %SYSTEMWEB%.PatternSkinCssCookbookNoLeftBar
-   * %SYSTEMWEB%.PatternSkinCssCookbookNoTopBar
-   * %SYSTEMWEB%.PatternSkinCustomization
-   * %SYSTEMWEB%.PatternSkinGraphics
-   * %SYSTEMWEB%.WebBottomBar (not distributed with Foswiki)
-   * %SYSTEMWEB%.WebBottomBarExample
-   * %SYSTEMWEB%.WebLeftBar (not distributed with Foswiki)
-   * %SYSTEMWEB%.WebLeftBarCookbook
-   * %SYSTEMWEB%.WebLeftBarExample
-   * %SYSTEMWEB%.WebLeftBarLogin
-   * %SYSTEMWEB%.WebLeftBarPersonalTemplate
-   * %SYSTEMWEB%.WebLeftBarSearch
-   * %SYSTEMWEB%.WebLeftBarWebsList
-   * %SYSTEMWEB%.WebTopBar (not distributed with Foswiki)
-   * %SYSTEMWEB%.WebTopBarExample
-
+   * [[_default.WebLeftBar]]
+   * [[%SANDBOXWEB%.WebLeftBar (not distributed with Foswiki)]]
+   * [[%SANDBOXWEB%.WebLeftBarExample]]
+   * [[%SYSTEMWEB%.PatternSkin]]
+   * [[%SYSTEMWEB%.PatternSkinCss]]
+   * [[%SYSTEMWEB%.PatternSkinCssCookbook]]
+   * [[%SYSTEMWEB%.PatternSkinCssCookbookCenterPage]]
+   * [[%SYSTEMWEB%.PatternSkinCssCookbookCenterPageBorder]]
+   * [[%SYSTEMWEB%.PatternSkinCssCookbookEditTableStyle]]
+   * [[%SYSTEMWEB%.PatternSkinCssCookbookFonts]]
+   * [[%SYSTEMWEB%.PatternSkinCssCookbookHideActions]]
+   * [[%SYSTEMWEB%.PatternSkinCssCookbookNoLeftBar]]
+   * [[%SYSTEMWEB%.PatternSkinCssCookbookNoTopBar]]
+   * [[%SYSTEMWEB%.PatternSkinCssCookbookSidebarBackground]]
+   * [[%SYSTEMWEB%.PatternSkinCustomization]]
+   * [[%SYSTEMWEB%.PatternSkinElements]]
+   * [[%SYSTEMWEB%.PatternSkinGraphics]]
+   * [[%SYSTEMWEB%.PatternSkinHorizontalNavigationExample]]
+   * [[%SYSTEMWEB%.PatternSkinNavigation]]
+   * [[%SYSTEMWEB%.PatternSkinTheme]]
+   * [[%SYSTEMWEB%.PatternSkinTheme115]]
+   * [[%SYSTEMWEB%.PatternSkinTheme2009]]
+   * [[%SYSTEMWEB%.PatternSkinThemeFatWilly]]
+   * [[%SYSTEMWEB%.PatternSkinThemeFatWillyNavigation]]
+   * [[%SYSTEMWEB%.WebBottomBar (not distributed with Foswiki)]]
+   * [[%SYSTEMWEB%.WebBottomBarExample]]
+   * [[%SYSTEMWEB%.WebCreateNewTopicComponents]]
+   * [[%SYSTEMWEB%.WebCreateNewTopicTemplate]]
+   * [[%SYSTEMWEB%.WebLeftBar (not distributed with Foswiki)]]
+   * [[%SYSTEMWEB%.WebLeftBarCookbook]]
+   * [[%SYSTEMWEB%.WebLeftBarExample]]
+   * [[%SYSTEMWEB%.WebLeftBarLogin]]
+   * [[%SYSTEMWEB%.WebLeftBarPersonalTemplate]]
+   * [[%SYSTEMWEB%.WebLeftBarSearch]]
+   * [[%SYSTEMWEB%.WebLeftBarWebsList]]
+   * [[%SYSTEMWEB%.WebTopBar (not distributed with Foswiki)]]
+   * [[%SYSTEMWEB%.WebTopBarExample]]
+   * [[Trash.WebLeftBar (not distributed with Foswiki)]]
+   * [[Trash.WebLeftBarExample]]
+   * [[%USERSWEB%.PatternSkinUserViewTemplate]]
+   * [[%USERSWEB%.WebLeftBarExample]]
 
 ---++ Skin Info
 
@@ -247,20 +256,20 @@ Leave remarks, suggestions and other feedback in http://foswiki.org/Support/%TOP
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="print.css.gz" attr="h" comment="" date="1443365636" size="786" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header3.gif" attr="h" comment="" date="1443365636" size="33112" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="patternskin_screenshot.png" attr="h" comment="" date="1443365636" size="129505" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01_src.js" attr="h" comment="" date="1443365636" size="2618" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header1.gif" attr="h" comment="" date="1443365636" size="20605" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pattern.js" attr="h" comment="" date="1443365636" size="1305" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header2.gif" attr="h" comment="" date="1443365636" size="41616" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header5.gif" attr="h" comment="" date="1443365636" size="20639" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pattern_src.js" attr="h" comment="" date="1443365636" size="1732" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01.js.gz" attr="h" comment="" date="1443365636" size="474" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pattern.js.gz" attr="h" comment="" date="1443365636" size="620" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="print.css" attr="h" comment="" date="1443365636" size="3869" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="headers.psd" attr="h" comment="" date="1443365636" size="8499470" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header4.gif" attr="h" comment="" date="1443365636" size="92238" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="patternskin_screenshot_full.png" attr="h" comment="" date="1443365636" size="177943" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01.js" attr="h" comment="" date="1443365636" size="1007" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="print_src.css" attr="h" comment="" date="1443365636" size="5545" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="print.css.gz" attr="h" comment="" date="1449190033" size="786" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header3.gif" attr="h" comment="" date="1449190033" size="33112" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="patternskin_screenshot.png" attr="h" comment="" date="1449190033" size="129505" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01_src.js" attr="h" comment="" date="1449190033" size="2618" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header1.gif" attr="h" comment="" date="1449190033" size="20605" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pattern.js" attr="h" comment="" date="1449190033" size="1305" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header2.gif" attr="h" comment="" date="1449190033" size="41616" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header5.gif" attr="h" comment="" date="1449190033" size="20639" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pattern_src.js" attr="h" comment="" date="1449190033" size="1732" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01.js.gz" attr="h" comment="" date="1449190033" size="474" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pattern.js.gz" attr="h" comment="" date="1449190033" size="620" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="print.css" attr="h" comment="" date="1449190033" size="3869" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="headers.psd" attr="h" comment="" date="1449190033" size="8499470" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header4.gif" attr="h" comment="" date="1449190033" size="92238" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="patternskin_screenshot_full.png" attr="h" comment="" date="1449190033" size="177943" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01.js" attr="h" comment="" date="1449190033" size="1007" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="print_src.css" attr="h" comment="" date="1449190033" size="5545" user="ProjectContributor" version="1"}%
