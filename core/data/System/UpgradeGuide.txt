@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1446609046" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1449190033" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -24,9 +24,74 @@ If you are upgrading from TWiki to Foswiki, please refer to Foswiki:Support.Upgr
 
 ---++ Upgrading to a new patch release
 
-To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1.2 &mdash; an upgrade package can be used that will not overwrite any of your customizations. We do not recommend upgrading between major or minor versions using the patch (For ex. 1.1.9 to 2.0). A re-installation is recommended.
+To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1.2 &mdash; an upgrade package can be used that will not overwrite typical customizations. We do not recommend upgrading between major or minor versions using the patch (For ex. 1.1.9 to 2.0). A re-installation is recommended.
 
 For patch releases you will find a brief upgrade procedure on the download page for the release. Follow this procedure to upgrade to the patch release. It may contain important steps that are unique to each patch release (for example, some configure settings may need to be changed).
+
+<div class="foswikiHelp">The following files are excluded from the upgrade packages. *Any other files will be overwritten!* If you have tailored any other files/topics shipped with Foswiki, you will need to either restore them after applying the upgrade, or tailor the upgrade to avoid overwritting the files.
+%TWISTY{hidelink="Hide excluded files" showlink="Show list of excluded files"}%
+---+++!! =Main= web files not shipped in upgrade package
+   * =data/Main/AdminGroup.txt=
+   * =data/Main/AdminUser.txt=
+   * =data/Main/NobodyGroup.txt=
+   * =data/Main/PatternSkinUserViewTemplate.txt=
+   * =data/Main/ProjectContributor.txt=
+   * =data/Main/RegistrationAgent.txt=
+   * =data/Main/SitePreferences.txt=
+   * =data/Main/UnknownUser.txt=
+   * =data/Main/UserHomepageHeader.txt=
+   * =data/Main/UserListByDateJoined.txt=
+   * =data/Main/UserListByLocation.txt=
+   * =data/Main/UserListHeader.txt=
+   * =data/Main/UserList.txt=
+   * =data/Main/WebAtom.txt=
+   * =data/Main/WebChanges.txt=
+   * =data/Main/WebCreateNewTopic.txt=
+   * =data/Main/WebHome.txt=
+   * =data/Main/WebIndex.txt=
+   * =data/Main/WebLeftBarExample.txt=
+   * =data/Main/WebNotify.txt=
+   * =data/Main/WebPreferences.txt=
+   * =data/Main/WebRss.txt=
+   * =data/Main/WebSearchAdvanced.txt=
+   * =data/Main/WebSearch.txt=
+   * =data/Main/WebTopicList.txt=
+   * =data/Main/WikiGuest.txt=
+---+++!! =Sandbox= web files not shipped in upgrade package
+   * =data/Sandbox/CommentPluginExampleComments.txt=
+   * =data/Sandbox/CommentPluginExamples.txt=
+   * =data/Sandbox/CommentPluginTemplateExample.txt=
+   * =data/Sandbox/CompareRevisionsAddOnDemoTopic.txt=
+   * =data/Sandbox/PluginTestEmptyPlugin.txt=
+   * =data/Sandbox/WebAtom.txt=
+   * =data/Sandbox/WebChanges.txt=
+   * =data/Sandbox/WebCreateNewTopic.txt=
+   * =data/Sandbox/WebHome.txt=
+   * =data/Sandbox/WebIndex.txt=
+   * =data/Sandbox/WebLeftBarExample.txt=
+   * =data/Sandbox/WebNotify.txt=
+   * =data/Sandbox/WebPreferences.txt=
+   * =data/Sandbox/WebRss.txt=
+   * =data/Sandbox/WebSearchAdvanced.txt=
+   * =data/Sandbox/WebSearch.txt=
+   * =data/Sandbox/WebTopicList.txt=
+---+++!! =System= web files not shipped in upgrade package
+   * =data/System/InterWikis.txt=
+   * =data/System/NewUserTemplate.txt=
+   * =data/System/WebPreferences.txt=
+   * =data/System/WebTopicEditTemplate.txt=
+---+++!! Other miscellaneous web files not shipped in upgrade package
+   * =data/_default/WebHome.txt=
+   * =data/_default/WebLeftBar.txt=
+   * =data/_default/WebPreferences.txt=
+   * =data/Trash/TrashAttachment.txt=
+   * =data/Trash/WebPreferences.txt=
+   * =data/TWiki/WebPreferences.txt=
+---+++!! Other files not shipped in upgrade package
+   * =index.html=
+   * =robots.txt=
+%ENDTWISTY{}%
+</div>
 
 <div class='foswikiHelp'>
 %T% If you use the Foswiki !PageCaching feature, be sure to refresh the cache after upgrading to a new Foswiki version. Visit your site with the Query parameter =?refresh=all=
