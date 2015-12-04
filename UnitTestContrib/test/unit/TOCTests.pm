@@ -471,7 +471,8 @@ HERE
 
     my $res = $topicObject->expandMacros($text);
     $res = $topicObject->renderTML($res);
-    print STDERR $res;
+
+    #print STDERR $res;
     $this->assert_html_equals( <<HTML, $res );
 <div id="foswikiTOC" class="foswikiToc"> <ul>
 <li> <a href="#A_headline"> A headline </a> <ul>
@@ -482,7 +483,7 @@ HERE
 <nop><h1 id="A_headline">  A headline </h1>
 <p></p>
 
-<div id="foswikiTOC" class="foswikiToc"> <ul>
+<div id="foswikiTOC2" class="foswikiToc"> <ul>
 <li> <a href="#A_headline"> A headline </a> <ul>
 <li> <a href="#A_headline_AN1"> A headline </a>
 </li></ul> 

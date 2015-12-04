@@ -37,7 +37,7 @@ BEGIN {
 #    * $headingPatternDa : ---++... dashes section heading
 #    * $headingPatternHt : &lt;h[1-6]> HTML section heading &lt;/h[1-6]>
 sub TOC {
-    my ( $session, $text, $topicObject, $args ) = @_;
+    my ( $session, $text, $topicObject, $args, $tocInstance ) = @_;
 
     require Foswiki::Attrs;
     my $params      = new Foswiki::Attrs($args);
@@ -45,8 +45,13 @@ sub TOC {
 
     my $tocTopic = $params->{_DEFAULT};
     my $tocWeb   = $params->{web};
-    my $tocId    = $params->{id} || 'foswikiTOC';
+    my $tocId    = $params->{id};
     my $align    = $params->{align};
+
+    unless ( defined $tocId ) {
+        $tocInstance = '' if ( !defined $tocInstance || $tocInstance eq '1' );
+        $tocId = 'foswikiTOC' . $tocInstance;
+    }
 
     if ( $tocTopic || $tocWeb ) {
         $tocWeb   ||= $topicObject->web;
