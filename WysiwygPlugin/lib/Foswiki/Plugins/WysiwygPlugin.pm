@@ -27,6 +27,21 @@ use warnings;
 
 use Assert;
 
+BEGIN {
+    # Backwards compatibility for Foswiki 1.1.x
+    unless ( Foswiki::Request->can('multi_param') ) {
+        no warnings 'redefine';
+        *Foswiki::Request::multi_param = \&Foswiki::Request::param;
+        use warnings 'redefine';
+    }
+
+    unless ( Foswiki->can('decode_utf8') ) {
+        no warnings 'redefine';
+        *Foswiki::decode_utf8 = \&Encode::decode_utf8;
+        use warnings 'redefine';
+    }
+}
+
 our $SHORTDESCRIPTION  = 'Translator framework for WYSIWYG editors';
 our $NO_PREFS_IN_TOPIC = 1;
 
