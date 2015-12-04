@@ -294,3 +294,8 @@ templates/viewplain.pattern.tmpl 0444
 templates/viewprint.pattern.tmpl 0444
 templates/viewsidebar.pattern.tmpl 0444
 templates/viewtopbar.pattern.tmpl 0444
+templates/formtables.pattern01x01.tmpl 0444
+templates/view.pattern01x01.tmpl 0444
+templates/viewbottombar.pattern01x01.tmpl 0444
+templates/viewsidebar.pattern01x01.tmpl 0444
+templates/viewtopbar.pattern01x01.tmpl 0444

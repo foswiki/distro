@@ -1,0 +1,83 @@
+%TMPL:INCLUDE{"view"}%
+%TMPL:INCLUDE{"viewtopicactionbuttons"}%
+%TMPL:INCLUDE{"viewtopbar"}%
+%TMPL:INCLUDE{"viewsidebar"}%
+%TMPL:DEF{"logo"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"bodyclassname"}%patternViewPage%IF{"defined raw" then=" patternRawViewPage"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"script:skintemplate"}%%IF{"defined raw" then="$percntTMPL:P{$quotscript:skintemplate:viewraw$quot}$percnt"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"script:skintemplate:viewraw"}%%TMPL:P{"JavascriptFiles/foswikiPref"}%%TMPL:P{"PatternSkin/pattern_edit"}%%TMPL:END%%{
+---------------------------------------------------
+}%%{ DEPRECATED: formattop, formatbottom, attachmentsattop and attachmentsatbottom }%
+%{ compatibility transition older than 4.2: }%
+%TMPL:DEF{"formattop"}%%TMPL:END%
+%TMPL:DEF{"formatbottom"}%%TMPL:P{"form"}%%TMPL:END%
+%TMPL:DEF{"attachmentsattop"}%%TMPL:END%
+%TMPL:DEF{"attachmentsatbottom"}%%TMPL:P{"attachments"}%%TMPL:END%
+%TMPL:DEF{"formtop"}%%TMPL:P{"formattop"}%%TMPL:END%
+%TMPL:DEF{"formbottom"}%%TMPL:P{"formatbottom"}%%TMPL:END%
+%TMPL:DEF{"attachmentstop"}%%TMPL:P{"attachmentsattop"}%%TMPL:END%
+%TMPL:DEF{"attachmentsbottom"}%%TMPL:P{"attachmentsatbottom"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"top"}%<div class="patternTop"><span class="patternHomePath foswikiLeft">%TMPL:P{"breadcrumb"}%</span><span class="patternToolBar foswikiRight">%TMPL:P{"top:toolbarbuttons"}%</span><div class="foswikiClear"></div></div>%TMPL:END%
+
+%TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"activatable_edit_or_create"}%%TMPL:P{"activatable_attach"}%%TMPL:P{context="SubscribePluginAllowed" then="activatable_subscribe"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"breadcrumb:separator"}%<span class='foswikiSeparator'>&gt;</span>%TMPL:END%
+
+%TMPL:DEF{"breadcrumb"}%%TMPL:P{"breadcrumb:title"}%%TMPL:P{"breadcrumb:wikitoolname"}%%TMPL:P{"breadcrumb:currentweb"}%%TMPL:P{"breadcrumb:parents"}%%TMPL:P{"breadcrumb:currenttopic"}%%TMPL:END%
+
+%TMPL:DEF{"breadcrumb:parents"}%%META{"parent" nowebhome="on" prefix="%TMPL:P{"breadcrumb:separator"}%" separator="%TMPL:P{"breadcrumb:separator"}%" suffix=""}%%TMPL:END%
+
+%TMPL:DEF{"breadcrumb:topic"}%<nop>%TOPIC%%TMPL:END%
+
+%TMPL:DEF{"breadcrumb:title"}%<span class="patternHomePathTitle">%MAKETEXT{"You are here:"}% </span>%TMPL:END%
+
+%TMPL:DEF{"breadcrumb:wikitoolname"}%[[%USERSWEB%.%HOMETOPIC%][%WIKITOOLNAME%]]%TMPL:END%
+
+%TMPL:DEF{"breadcrumb:currentweb"}%%TMPL:P{"breadcrumb:separator"}%<a href="%SCRIPTURLPATH{"view"}%/%WEB%/%HOMETOPIC%">%MAKETEXT{"[_1] Web" args="<nop>%WEB%"}%</a>%TMPL:END%
+
+%TMPL:DEF{"breadcrumb:annotation"}%%IF{"defined rev" then=" %MAKETEXT{"(revision [_1])" args="%URLPARAM{"rev"}%"}%" else=" <span class='patternRevInfo'>(%REVINFO{format="$date, $percntIF{$quotistopic '%USERSWEB%.$wikiname'$quot then=$quot[[%USERSWEB%.$wikiname][$wikiname]]$quot else=$quot!$wikiname$quot}$percnt"}%)</span>"}%%IF{"defined raw" then=" %MAKETEXT{"(raw view)"}%"}%%TMPL:END%
+
+%TMPL:DEF{"breadcrumb:currenttopic"}%%TMPL:P{"breadcrumb:separator"}%<a href="%SCRIPTURL{view}%/%WEB%/%TOPIC%" title='%MAKETEXT{"Topic revision:"}% %REVINFO{format="$rev ($date - $time)"}%'>%TMPL:P{"breadcrumb:topic"}%</a>%TMPL:P{"breadcrumb:annotation"}%%TMPL:END%%{
+---------------------------------------------------
+}%%{ DEPRECATED: beforetext and aftertext }%
+%{ compatibility transition older than 4.2: }%
+%TMPL:DEF{"contentheader"}%%TMPL:P{"beforetext"}%%TMPL:END%
+%TMPL:DEF{"contentfooter"}%%TMPL:P{"aftertext"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"patterntopiccontents"}%%TMPL:P{"broadcastmessage"}%%TMPL:P{"top"}%%TMPL:P{"contentheaderstylewrapper"}%%TMPL:P{"formtop"}%%TMPL:P{"attachmentstop"}%<div class="patternContent"><div class="foswikiTopic">%TMPL:P{"content"}%</div>
+%TMPL:P{"contentfooterstylewrapper"}%%TMPL:P{"topicaction"}%</div>%TMPL:P{"footernote"}%%TMPL:END%
+
+%TMPL:DEF{"topicaction"}%<div class="foswikiFormSteps">%TMPL:P{"formbottom"}%%TMPL:P{"attachmentsbottom"}%<a name="topic-actions"></a><div class="patternTopicActions foswikiFormStep"><span class="patternActionButtons">%TMPL:P{"topicactionbuttons"}%</span></div></div>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"standardheader"}%%TMPL:END%
+%TMPL:DEF{"simpleheader"}%%TMPL:P{"flashnote"}%%TMPL:P{"standardheader"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"broadcastmessage"}%%IF{"defined BROADCASTMESSAGE and $BROADCASTMESSAGE != ''" then="$percntTMPL:P{$quotbroadcastmessage:contents$quot}$percnt"}%%TMPL:END%
+%TMPL:DEF{"broadcastmessage:contents"}%<div class="foswikiBroadcastMessage"> %BROADCASTMESSAGE% </div>%TMPL:END%
+
+%TMPL:DEF{"flashnote"}%%IF{"defined FLASHNOTE and $FLASHNOTE != ''" then="$percntTMPL:P{$quotflashnote:contents$quot}$percnt"}%%TMPL:END%
+%TMPL:DEF{"flashnote:contents"}%<div class="foswikiNotification"> %FLASHNOTE% </div>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"content"}%%TMPL:P{"simpleheader"}%%TEXT% %IF{"$raw='on'" then='%TMPL:P{"sig_textareabuttons"}%'}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"printaction"}%%TMPL:P{"activatable_printable"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"footernote"}%%TMPL:P{"topicinfo"}%%TMPL:END%
+%TMPL:DEF{"topicinfo"}%<div class="patternInfo"><span class="patternRevInfo">%MAKETEXT{"Topic revision:"}% %REVINFO{format="$date, $percntIF{$quotistopic '%USERSWEB%.$wikiname'$quot then=$quot[[%USERSWEB%.$wikiname][$wikiname]]$quot else=$quot!$wikiname$quot}$percnt"}%</span>%TMPL:P{"cacheinfo"}%</div>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"cacheinfo"}%%IF{"{Cache}{Enabled} and $CACHEABLE != 'off'" 
+  then="<span class='patternCacheInfo'>
+          - %MAKETEXT{"This page was cached on [_1]." args="%SERVERTIME%"}%
+          %MAKETEXT{"Get a fresh version <a href='[_1]'>here</a>." args="%SCRIPTURLPATH{view}%/%BASEWEB%/%BASETOPIC%?refresh=cache"}%
+        </span>"
+}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%TMPL:P{"textareabuttons"}%<div class="foswikiClear"></div></div>%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"horizontalnavigation"}%%IF{"istopic '%PATTERNSKIN_NAVIGATION_TOPIC%'" then="$percntINCLUDE{$quot%PATTERNSKIN_NAVIGATION_TOPIC%$quot section=$quotmain$quot warn=$quotoff$quot}$percnt"}%%TMPL:END%%{
+---------------------------------------------------
+}%%TMPL:DEF{"metanavigation"}%%IF{"istopic '%PATTERNSKIN_NAVIGATION_TOPIC%'" then="$percntINCLUDE{$quot%PATTERNSKIN_NAVIGATION_TOPIC%$quot section=$quotmeta$quot warn=$quotoff$quot}$percnt"}%%TMPL:END%

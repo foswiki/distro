@@ -1,0 +1,4 @@
+%{ to include a bottom bar on a page, just include this template in the page template }%%TMPL:DEF{"bottombar"}%<div id="patternBottomBar">%TMPL:P{"bottombarcontents"}%</div>%TMPL:END%
+
+
+%TMPL:DEF{"bottombarcontents"}%<div id="patternBottomBarContents"><div id="patternWebBottomBar">%IF{"istopic '%SYSTEMWEB%.WebBottomBar'" then="$percntINCLUDE{$quot%SYSTEMWEB%.WebBottomBar$quot}$percnt" else="$percntINCLUDE{$quot%SYSTEMWEB%.WebBottomBarExample$quot}$percnt"}%</div></div>%TMPL:END%

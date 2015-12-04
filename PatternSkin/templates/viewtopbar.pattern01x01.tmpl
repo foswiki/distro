@@ -1,0 +1,6 @@
+%{ to include a top bar on a page, just include this template in the page template }%
+
+%TMPL:DEF{"topbar"}%<div id="patternTopBar"><div id="patternTopBarContentsWrapper"><div id="patternTopBarContents">%IF{"istopic '%SYSTEMWEB%.WebTopBar'" then="$percntINCLUDE{$quot%SYSTEMWEB%.WebTopBar$quot}$percnt" else="$percntINCLUDE{$quot%SYSTEMWEB%.WebTopBarExample$quot}$percnt"}%</div></div></div>%TMPL:END%
+
+
+%TMPL:DEF{"topbarspacer"}%<div id="patternClearHeaderCenter"></div>%TMPL:END%
