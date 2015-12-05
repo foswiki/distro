@@ -1,0 +1,82 @@
+#!/usr/bin/env perl
+# See bottom of file for license and copyright information
+
+# Print the local branches and their descriptions
+# for Item* branches, pull the description from the Foswiki tasks web.
+# To add local descriptions,  use the following command:
+#  git branch Item12345 --edit-description
+
+use strict;
+use warnings;
+use LWP::Simple;
+
+sub clean {
+    map { s/^[\s\*]*\s// } @_;
+    map { s/\s*$// } @_;
+    return @_;
+}
+
+sub descr {
+    $_ = `git config branch.@_.description`;
+    s/\s*$//;
+    return $_;
+};
+
+sub summary {
+    my $url   = "http://foswiki.org/Tasks/ItemSummaryQuery?item=@_;skin=text";
+    my $description = get $url;
+    return $description;
+}
+    
+sub indent {
+    $_ = shift;
+    s/^/      /mg;
+    return $_;
+};
+
+my @branches = clean `git branch --color=never --list`;
+my %merged = map { $_ => 1 } clean `git branch --color=never --merged`;
+
+for my $branch (@branches) {
+    my $asis = `git branch --list --color=always $branch`;
+    $asis =~ s/\s*$//;
+    print "  $asis";
+    print " \033[33m(merged)\033[0m" if ($merged{$branch} and $branch ne "master");
+    print "\n";
+
+    my $desc = descr $branch;
+    print indent $desc."\n" if $desc;
+    if ( $branch =~ m/(Item(?:[0-9]){3,5})/ ) {
+        print indent summary $1;
+    }
+    elsif ($desc =~  m/(Item(?:[0-9]){3,5})/ ) {
+        print indent summary $1;
+    }
+    
+    print "\n\n";
+}
+
+
+__END__
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+
+This code is based upon a contribution on StackExchange
+http://stackoverflow.com/a/10261571/3087690
+
+Additional Copyright (C) 2015 Foswiki Contributors. Foswiki Contributors
+are listed in the AUTHORS file in the root of this distribution.
+NOTE: Please extend that file, not this notice.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.
+
+
