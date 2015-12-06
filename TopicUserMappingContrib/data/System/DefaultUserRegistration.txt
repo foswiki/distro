@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1448237685" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1449441984" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 <noautolink>
 <!--
@@ -12,7 +12,11 @@
 
     The registration page is composed of sections included from System.UserRegistrationParts.
     For major changes, copy System.UserRegistrationParts  and change this to point to the edited topic:
-        %SET{"REGPARTS" value="%WEB%.%TOPIC%,%SYSTEMWEB%.UserRegistrationParts"}%
+      * %SET{"REGPARTS" value="%WEB%.%TOPIC%,%SYSTEMWEB%.UserRegistrationParts"}%
+
+    The CSS and javascript is included from %SYSTEMWEB%.UserRegistrationParts by default. To change the CSS or
+    js files, attach them to an alternate topic and set the location here:
+      * %SET{"CSSJSTOPIC" value="%SYSTEMWEB%.UserRegistrationParts"}%
 
    Optional form fields.    Possible field names:
       extraField_groups     (Also enable REGISTRATION* settings below:)
@@ -52,5 +56,4 @@
 
 </noautolink>
 
-%META:FILEATTACHMENT{name="validate.js" attr="h" comment="" date="1448237685" size="2027" user="ProjectContributor" version="1"}%
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

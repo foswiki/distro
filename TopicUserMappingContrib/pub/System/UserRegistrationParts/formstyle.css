@@ -74,8 +74,8 @@
 	background:#fcc;
 }
 .registration label.error {
+    background:url(x.png) no-repeat 6px 0;
 	color:#f00;
-	background:url(%ICONURLPATH{choice-no}%) no-repeat 6px 0;
 }
 .registration label.checked {
 	background:none;

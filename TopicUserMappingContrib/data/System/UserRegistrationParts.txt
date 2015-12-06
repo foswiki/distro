@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1448247346" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1449441984" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 <noautolink>
 
@@ -86,7 +86,7 @@ Conditionally include the registration form when registration is enabled
 The actual registration form.
 <verbatim class="tml">
 %STARTSECTION{"liveform"}%
-<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMEREGPARTS%" method="post">
+<div class="registerMakeVisible hideIfNoCookies registration"><form name="registration" action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
    <div class="foswikiFormSteps">
       <div class="foswikiFormStep">
          <p class="required"><em>%MAKETEXT{"Fields marked <span class='required'>*</span> are required."}%</em></p>
@@ -95,7 +95,7 @@ The actual registration form.
       </div>
    </div>
 %IF{"context BlackListPluginEnabled" then='<input type="hidden" name="rx" value="$percentBLACKLISTPLUGIN{action=$quotmagic$quot}$percent" />' else='<!-- -->'}%
-<input type="hidden" name="topic" value="%REGPARTS%" />
+<input type="hidden" name="topic" value="%BASETOPIC%" />
 <input type="hidden" name="action" value="register" />
 <input type="hidden" name="templatetopic" value="%NEWUSERTEMPLATE{default="NewUserTemplate"}%" />
 </form>
@@ -108,17 +108,17 @@ The actual registration form.
 %STARTSECTION{"resources"}%%IF{"$REGISTRATION_DISABLED!='DISABLED'" then="
 %ADDTOZONE{ "head"
   id="UserRegistrationRequiredStyle"
-  text="<link type='text/css' rel='stylesheet' media='all' href='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRegistration/requiredstyle.css'></link>"
+  text="<link type='text/css' rel='stylesheet' media='all' href='%PUBURLPATH{"requiredstyle.css" topic="%CSSJSTOPIC%"}%'></link>"
 }%"}%
 %ADDTOZONE{ "head"
   id="UserRegistrationFormStyle"
-  text="<link type='text/css' rel='stylesheet' media='all' href='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRegistration/formstyle.css'></link>"
+  text="<link type='text/css' rel='stylesheet' media='all' href='%PUBURLPATH{"formstyle.css" topic="%CSSJSTOPIC%"}%'></link>"
 }%
 %JQREQUIRE{"validate, wikiword, cookie"}%
 <div id="FwkVD" class="foswikiHidden">
 <literal>
 {
-  "url":"%SCRIPTURL{view}%/%WEB%/%REGPARTS%",
+  "url":"%SCRIPTURL{view}%/%SYSTEMWEB%.UserRegistrationParts",
   "MinPasswordLength":%QUERY{"{MinPasswordLength}"}%,
   "messages": {
     "Fwk1FirstName":"%MAKETEXT{"Please enter your first name."}%",
@@ -149,7 +149,7 @@ The actual registration form.
 %ADDTOZONE{ "script"
   id="UserRegistrationValidation"
   requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::WIKIWORD, JQUERYPLUGIN::COOKIE"
-  text="<script type='text/javascript' src='%PUBURLPATH%/%SYSTEMWEB%/DefaultUserRegistration/validate.js'></script>"
+  text="<script type='text/javascript' src='%PUBURLPATH{"validate.js" topic="%CSSJSTOPIC%"}%'></script>"
 }%
 %ENDSECTION{"resources"}%
 </verbatim>
@@ -347,5 +347,7 @@ Test if user login name exists. Used for form validation.
 }%
 
 
-%META:FILEATTACHMENT{name="validate.js" attr="h" comment="" date="1448247346" size="2027" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="validate.js" attr="h" date="1449441984" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="requiredstyle.css" attr="h" date="1449441984" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="formstyle.css" attr="h" date="1449441984" user="ProjectContributor" version="1"}%
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

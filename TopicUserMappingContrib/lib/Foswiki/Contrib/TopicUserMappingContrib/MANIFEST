@@ -28,7 +28,8 @@ data/System/UserRegistrationParts.txt 0644
 data/System/UserSetting.txt 0644
 data/System/UserToolsCategory.txt 0644
 data/System/UsersTemplate.txt 0644
-pub/System/DefaultUserRegistration/validate.js 0644
-pub/System/DefaultUserRegistration/formstyle.css 0644
-pub/System/DefaultUserRegistration/requiredstyle.css 0644
+pub/System/UserRegistrationParts/x.png 0644
+pub/System/UserRegistrationParts/validate.js 0644
+pub/System/UserRegistrationParts/formstyle.css 0644
+pub/System/UserRegistrationParts/requiredstyle.css 0644
 tools/upgrade_emails.pl 0755 Upgrade emails in topics to password database
