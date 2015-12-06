@@ -9,6 +9,7 @@
 use strict;
 use warnings;
 use LWP::Simple;
+use Data::Dumper;
 
 sub clean {
     map { s/^[\s\*]*\s// } @_;
@@ -17,14 +18,17 @@ sub clean {
 }
 
 sub descr {
+    #print "DESCR for @_\n";
     $_ = `git config branch.@_.description`;
     s/\s*$//;
     return $_;
 };
 
 sub summary {
+    #print "SUMMARY for @_\n";
     my $url   = "http://foswiki.org/Tasks/ItemSummaryQuery?item=@_;skin=text";
     my $description = get $url;
+    $description =~ s#<b>.*</b>\n##;
     return $description;
 }
     
@@ -34,16 +38,20 @@ sub indent {
     return $_;
 };
 
-my @branches = clean `git branch --color=never --list`;
+my @branches = clean `git branch --color=never --list --all`;
+#print Data::Dumper::Dumper( \@branches );
 my %merged = map { $_ => 1 } clean `git branch --color=never --merged`;
+#print Data::Dumper::Dumper( \%merged );
 
 for my $branch (@branches) {
-    my $asis = `git branch --list --color=always $branch`;
+    next if $branch =~ /HEAD/;
+    $branch =~ s#^remotes/##;
+    my $asis = `git branch --list -a --color=always $branch`;
     $asis =~ s/\s*$//;
     print "  $asis";
     print " \033[33m(merged)\033[0m" if ($merged{$branch} and $branch ne "master");
     print "\n";
-
+    next if $branch =~ m/Release/;
     my $desc = descr $branch;
     print indent $desc."\n" if $desc;
     if ( $branch =~ m/(Item(?:[0-9]){3,5})/ ) {
@@ -53,7 +61,7 @@ for my $branch (@branches) {
         print indent summary $1;
     }
     
-    print "\n\n";
+    print "\n";
 }
 
 
