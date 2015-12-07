@@ -8,7 +8,8 @@ ROOT=444            # Server root read only
 DIR=755             # Directories need "exec" for directory operations. Matches {Store}{dirPermission}
 TOPICS=644          # Topics: Update by foswiki CGI, read by web server Matches {Store}{filePermission}
 ATTACHMENTS=644     # Attachments:  Same, Matches {Store}{filePermission}.
-RCS=444             # Revision histories are always read only
+RCS=444             # RCS Revision histories are always read only
+PFV=644             # PlainFile revision histories need to be writable.
 EXECUTABLE=555      # Programs called by CGI or Shell
 READONLY=444        # Samples, READMEs, Perl modules, helpers, etc.
 WORKING=644         # workareas, logfiles, etc.
@@ -33,7 +34,7 @@ find pub -type f -exec chmod -c $ATTACHMENTS {} \;
 echo
 echo "   except for history files which are read-only ($RCS)"
 find data pub -name '*,v' -type f -exec chmod -c $RCS {} \;
-find data -name "*,pfv" -print0 | xargs -0 -I{{ find {{ -type f -exec chmod 440 {} \;
+find data -name "*,pfv" -print0 | xargs -0 -I{{ find {{ -type f -exec chmod $PFV {} \;
 
 echo
 echo "Everything in data top level is writable by server ($TOPICS)."
