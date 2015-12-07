@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-12-02 22:29+0200\n"
+"PO-Revision-Date: 2015-12-07 22:02+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -1012,7 +1012,7 @@ msgstr ""
 #: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:109
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
-msgstr "Відміна"
+msgstr "Скасувати"
 
 #: PatternSkin/templates/edit.pattern.tmpl:35 core/templates/edit.tmpl:46
 #: core/templates/settings.tmpl:12
@@ -1021,7 +1021,7 @@ msgstr "Відмінити редагування і відмовитися ві
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:128
 msgid "Cancel upload"
-msgstr "Відміна завантаження"
+msgstr "Скасувати завантаження"
 
 #: SubscribePlugin/templates/subscribe.tmpl:32
 msgid "Cannot change subscription: %1"
@@ -3639,7 +3639,7 @@ msgstr "Редакції"
 
 #: PatternSkin/templates/settings.pattern.tmpl:12
 msgid "S = Save, C = Cancel"
-msgstr "S = зберегти, C = відміна"
+msgstr "S = зберегти, C = скасувати"
 
 #: PatternSkin/templates/edit.pattern.tmpl:66
 msgid ""
