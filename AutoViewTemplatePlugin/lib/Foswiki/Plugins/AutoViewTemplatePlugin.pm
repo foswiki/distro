@@ -80,7 +80,7 @@ sub initPlugin {
 
     my $tryname = $templateName;
 
-    if ( $Foswiki::Plugins::VERSION < 9.4 ) {
+    if ( $Foswiki::Plugins::VERSION < 2.4 ) {
         $tryname =~ s/[^A-Za-z0-9_,.\/]//g;
     }
     else {
