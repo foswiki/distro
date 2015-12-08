@@ -49,7 +49,7 @@ our @registrableHandlers = (    # Foswiki::Plugins::VERSION:
     'postRenderingHandler',             # 1.026
     'preRenderingHandler',              # 1.026
     'redirectCgiQueryHandler',          # 1.010 DEPRECATED
-    'registrationHandler',              # 1.010
+    'registrationHandler',              # 1.010 DEPRECATED
     'renderFormFieldForEditHandler',    # ?
     'renderWikiWordHandler',            # 1.023
     'startRenderingHandler',            # 1.000 DEPRECATED
@@ -65,6 +65,7 @@ our %deprecated = (
     insidePREHandler            => 1,
     outsidePREHandler           => 1,
     redirectCgiQueryHandler     => 1,
+    registrationHandler         => 1,
     startRenderingHandler       => 1,
     writeHeaderHandler          => 1,
 );
