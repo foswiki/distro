@@ -5,8 +5,8 @@ use strict;
 use warnings;
 use vars qw( $debug $mode $override $isEditAction $pluginName);
 
-our $VERSION           = '1.22';
-our $RELEASE           = '2015-08-18';
+our $VERSION           = '1.23';
+our $RELEASE           = '2015-12-07';
 our $SHORTDESCRIPTION  = 'Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE';
 our $NO_PREFS_IN_TOPIC = 1;
 

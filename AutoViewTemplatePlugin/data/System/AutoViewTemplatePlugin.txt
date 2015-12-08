@@ -77,7 +77,8 @@ The following settings can be defined in configure
 %JQREQUIRE{"chili"}%
 -->
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  18 Aug 2015: | Item13625: AutoViewTemplatePlugin: reports Invalid template name ( Warning: Can't find named section viewtemplate in topic...) when used in "section" mode and no section exists. |
+|  7  Dec 2015: | Released with Foswiki 2.1. Foswikitask:Item13554: Enable non-ascii template names. |
+|  18 Aug 2015: | Foswikitask:Item13625: AutoViewTemplatePlugin: reports Invalid template name ( Warning: Can't find named section viewtemplate in topic...) when used in "section" mode and no section exists. |
 |  24 Jul 2015: | Released with Foswiki 2.0.1. Foswikitask:Item13554: Warn if invalid template name generated. |
 |  16 Dec 2012: | Version released with Foswiki 1.1.7. Foswikitask:Item12297: Minor perllcritic change.|
 |  10 Apr 2011: | Version released with Foswiki 1.1.3. Only a minor change related to how the plugin is being upgraded |
