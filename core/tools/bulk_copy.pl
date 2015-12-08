@@ -277,7 +277,8 @@ sub copy_topic {
 
     # The revision list is sorted starting with the most recent revision
     my @rev_list = $topicMO->getRevisionHistory()->all();
-    if ( grep { $topic =~ /^$_$/ } @{ $control{latest} } ) {
+
+    if ( grep { "$web.$topic" =~ /^$_$/ } @{ $control{latest} } ) {
         announce "\t-only latest";
 
         # Only do latest rev
