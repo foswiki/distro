@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447641841" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1449548212" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0.3
 
@@ -164,6 +164,12 @@ This change addresses [[%BUGS%/Item13563][Item13563]]
    * Foswiki no longer bundles CPAN modules. See SystemRequirements for details on prerequisite modules. Check dependencies by running  =perl tools/dependencies=
    * Perl 5.8.8 is the minimum perl version. The newer the better. There are know issues with international characters and Perl 5.16.x   See [[%BUGS%/Item13424][Item13424]]. For international character set support, Perl 5.18+ is recommended.
 </div>
+
+---++ API Change
+
+The Foswiki API version is incremented to version 2.3 in Foswiki 2.0.0 for the following changes:
+   * A new <code>validateRegistrationHandler</code> can be registered by Extensions to process incoming regisrations.
+   * The old <code>registrationHandler</code> has been deprecated and will be removed from a future release.
 
 ---++ Deprecation and removals
 
