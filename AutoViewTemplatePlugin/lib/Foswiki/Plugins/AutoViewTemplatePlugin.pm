@@ -15,6 +15,8 @@ $pluginName = 'AutoViewTemplatePlugin';
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
 
+    my $session = $Foswiki::Plugins::SESSION;
+
     # check for Plugins.pm versions
     if ( $Foswiki::Plugins::VERSION < 1.026 ) {
         Foswiki::Func::writeWarning(
@@ -77,15 +79,25 @@ sub initPlugin {
     return 1 unless $templateName;
 
     my $tryname = $templateName;
-    $tryname =~ s/[^A-Za-z0-9_,.\/]//g;
 
-# SMELL:  See task Item13554: Template.pm silently ignores templates containing non-ASCII characters.
+    if ( $Foswiki::Plugins::VERSION < 9.4 ) {
+        $tryname =~ s/[^A-Za-z0-9_,.\/]//g;
+    }
+    else {
+        $tryname =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;
+    }
+
     if ( $tryname ne $templateName ) {
-        Foswiki::Func::setPreferencesValue( 'FLASHNOTE',
-"${pluginName}: Invalid template name ($templateName) - contains non-ASCII characters."
+        Foswiki::Func::setPreferencesValue(
+            'FLASHNOTE',
+            $session->i18n->maketext(
+'[_1]: Invalid template name ([_2]) - Contains invalid characters.',
+                "%SYSTEMWEB%.$pluginName",
+                "${templateName}Template"
+            )
         );
         Foswiki::Func::writeDebug(
-"- ${pluginName}: Template name ($templateName) ignored - contains non-ASCII characters."
+"- ${pluginName}: Template name ($templateName) ignored - contains invalid characters."
         );
         return 1;
     }

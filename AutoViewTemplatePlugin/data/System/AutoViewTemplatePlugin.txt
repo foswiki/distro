@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1439917164" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1449548212" format="1.1" version="1"}%
 ---+ <nop>AutoViewTemplatePlugin
 %SHORTDESCRIPTION%
 
@@ -12,7 +12,7 @@ non-existing <nop>WikiWord. Together with the appropriate application
 settings, this plugin will then assure that the data the user enters is handled
 appropriately during view and edit.
 
-<div class="foswikiHelp"> *Note:* Template names
+<div class="foswikiHelp"> *Note:* On Foswiki versions prior to Foswiki 2.1, Template names
 containing non-ASCII characters are silently ignored. This plugin will display
 a FLASHNOTE if the Form name results in an illegal template name.</div>
 

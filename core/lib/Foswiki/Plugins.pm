@@ -36,7 +36,7 @@ if you have a recent enough version.
 
 =cut
 
-use version 0.77; our $VERSION = version->parse("2.3");
+use version 0.77; our $VERSION = version->parse("2.4");
 
 our $inited = 0;
 
