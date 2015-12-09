@@ -1,8 +1,12 @@
-#!/bin/sh # These permissions are set to be permissive enough for Foswiki to run on a wide variety of platforms
+#!/bin/sh
+
+# These permissions are set to be permissive enough for Foswiki to run on a wide variety of platforms
 # Note that the bin/configure file directory checkers will report files that are more or less
 # permissive than these settings.  These permissions will work on most systems. On multi-purpose
 # servers, the "world" permissions should be removed, and the corresponding changes made to
 # the configuration variables listed below.
+
+OPT=-c              # -c: Show changes.   On FreeBSD,  needs to be -vv
 
 ROOT=444            # Server root read only
 DIR=755             # Directories need "exec" for directory operations. Matches {Store}{dirPermission}
@@ -58,7 +62,8 @@ find templates -type f -exec chmod -c $READONLY {} \;
 echo
 echo "Working is server writable ($WORKING) - with exceptions ($READONLY)"
 find working -type f ! -name README ! -name "cgisess_*" -exec chmod -c $WORKING {} \;
-find working/configure -type f -exec chmod -c $READONLY {} \;
+find working/configure -type f ! -name "cgisess_*" -exec chmod -c $READONLY {} \;
+find working/configure -name "cgisess_*" -exec chmod -c $SECURITY {} \;
 find working -name README -exec chmod -c $READONLY {} \;
 
 echo
