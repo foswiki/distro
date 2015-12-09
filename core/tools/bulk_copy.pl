@@ -343,9 +343,9 @@ sub copy_topic {
                 next;
             }
 
-            unless ( $att_info->{author} ) {
+            unless ( $att_info->{user} ) {
                 require Foswiki::Users::BaseUserMapping;
-                $att_info->{author} =
+                $att_info->{user} =
                   $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
             }
 
@@ -367,9 +367,9 @@ sub copy_topic {
         announce " Copy hidden attachment $att_name";
         require Foswiki::Users::BaseUserMapping;
         my %att_info = (
-            name   => $att_name,
-            author => $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID,
-            date   => 0
+            name => $att_name,
+            user => $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID,
+            date => 0
         );
         my @revs = $topicMO->getRevisionHistory($att_name)->all();
         while ( my $rev = pop(@revs) ) {
@@ -520,7 +520,7 @@ sub saveAttachmentRev {
             $mo,
             $info->{name},
             $fh,
-            $info->{author},
+            $info->{user},
             {    # Only works for Foswiki 2.0
                 forcedate => $info->{date},
                 comment   => $info->{comment}
