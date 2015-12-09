@@ -318,6 +318,12 @@ sub init_edit {
         }
     }
 
+    # The template might contain embedded META data,  so serialize it
+    # and deserialize it to pick up the embedded meta.
+    Foswiki::Serialise::deserialise(
+        Foswiki::Serialise::serialise( $topicObject, 'Embedded' ),
+        'Embedded', $topicObject );
+
     $tmpl =~ s/%TEMPLATETOPIC%/$templateTopic/;
     $tmpl =~ s/%REDIRECTTO%/$redirectTo/;
 
