@@ -22,56 +22,56 @@ SECURITY=600        # passwords, Configuration. Read/write by Foswiki CGI, nothi
 SECURITYRO=440      # Other access control related, not updated by Foswiki.
 
 echo "Everything in root is read only - $ROOT"
-find . -maxdepth 1 -type f  -exec chmod -c $ROOT {} \;
+find . -maxdepth 1 -type f  -exec chmod $OPT $ROOT {} \;
 
 echo
 echo "All directories have exec bit for recursive reading - $DIR"
-find . -type d  -exec chmod -c $DIR {} \;
+find . -type d  -exec chmod $OPT $DIR {} \;
 
 echo
 echo "Files in data ($TOPICS) & pub ($ATTACHMENTS) writable by server,"
-find data -type f -name "*.txt" -exec chmod -c $TOPICS {} \;
-find data -type f -name "*.lease" -exec chmod -c $TOPICS {} \;
-find data -type f -name ".changes" -exec chmod -c $TOPICS {} \;
-find pub -type f -exec chmod -c $ATTACHMENTS {} \;
+find data -type f -name "*.txt" -exec chmod $OPT $TOPICS {} \;
+find data -type f -name "*.lease" -exec chmod $OPT $TOPICS {} \;
+find data -type f -name ".changes" -exec chmod $OPT $TOPICS {} \;
+find pub -type f -exec chmod $OPT $ATTACHMENTS {} \;
 
 echo
 echo "   except for history files which are read-only ($RCS)"
-find data pub -name '*,v' -type f -exec chmod -c $RCS {} \;
+find data pub -name '*,v' -type f -exec chmod $OPT $RCS {} \;
 find data -name "*,pfv" -print0 | xargs -0 -I{{ find {{ -type f -exec chmod $PFV {} \;
 
 echo
 echo "Everything in data top level is writable by server ($TOPICS)."
-find data -maxdepth 1 -type f ! -name .htpasswd  -exec chmod -c $TOPICS {} \;
+find data -maxdepth 1 -type f ! -name .htpasswd  -exec chmod $OPT $TOPICS {} \;
 
 echo
 echo "bin and tools needs to be executable ($EXECUTABLE) - with exceptions"
-find bin -type f ! -name LocalLib.cfg.txt ! -name setlib.cfg -exec chmod -c $EXECUTABLE {} \;
-find tools -maxdepth 1 -type f ! -name extender.pl -exec chmod -c $EXECUTABLE {} \;
+find bin -type f ! -name LocalLib.cfg.txt ! -name setlib.cfg -exec chmod $OPT $EXECUTABLE {} \;
+find tools -maxdepth 1 -type f ! -name extender.pl -exec chmod $OPT $EXECUTABLE {} \;
 echo
 echo " ... these are the exceptions: ($READONLY)"
-chmod -c $READONLY bin/LocalLib.cfg.txt
-chmod -c $READONLY bin/setlib.cfg
-chmod -c $READONLY tools/extender.pl
+chmod $OPT $READONLY bin/LocalLib.cfg.txt
+chmod $OPT $READONLY bin/setlib.cfg
+chmod $OPT $READONLY tools/extender.pl
 
 echo
 echo "Everything else is read only ($READONLY)"
-find lib -type f ! -name LocalSite.cfg -exec chmod -c $READONLY {} \;
-find locale -type f -exec chmod -c $READONLY {} \;
-find templates -type f -exec chmod -c $READONLY {} \;
+find lib -type f ! -name LocalSite.cfg -exec chmod $OPT $READONLY {} \;
+find locale -type f -exec chmod $OPT $READONLY {} \;
+find templates -type f -exec chmod $OPT $READONLY {} \;
 
 echo
 echo "Working is server writable ($WORKING) - with exceptions ($READONLY)"
-find working -type f ! -name README ! -name "cgisess_*" -exec chmod -c $WORKING {} \;
-find working/configure -type f ! -name "cgisess_*" -exec chmod -c $READONLY {} \;
-find working/configure -name "cgisess_*" -exec chmod -c $SECURITY {} \;
-find working -name README -exec chmod -c $READONLY {} \;
+find working -type f ! -name README ! -name "cgisess_*" -exec chmod $OPT $WORKING {} \;
+find working/configure -type f ! -name "cgisess_*" -exec chmod $OPT $READONLY {} \;
+find working/configure -name "cgisess_*" -exec chmod $OPT $SECURITY {} \;
+find working -name README -exec chmod $OPT $READONLY {} \;
 
 echo
 echo "Security related files should not be world readable - ($SECURITY)."
-find . -name .htaccess -exec chmod -c $SECURITYRO {} \;
-find working -name cgisess_*  -exec chmod -c $SECURITY {} \;
-chmod -c $PASSWORD data/.htpasswd
-chmod -c $SECURITY lib/LocalSite.cfg
+find . -name .htaccess -exec chmod $OPT $SECURITYRO {} \;
+find working -name cgisess_*  -exec chmod $OPT $SECURITY {} \;
+chmod $OPT $PASSWORD data/.htpasswd
+chmod $OPT $SECURITY lib/LocalSite.cfg
 
 echo "Updates completed"
