@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1441799782" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1449764954" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+ Table Plugin
 
@@ -193,6 +193,7 @@ Sort icons in the header are read from %SYSTEMWEB%.DocumentGraphics.
 
 %TABLE{columnwidths="10%,90%"}%
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  10 Dec 2015 | 1.152: Foswikitask:Item12569 - Improve sorting of UNICODE data by NFKD normalizing the comparisons. |
 |  10 Sep 2015 | 1.151: Foswikitask:Item13688 - fixed css precedence for table css emitted by !TablePlugin; removed hard-coded vertical alignment; Foswikitask:Item13695 - add support for common css units |
 |  28 May 2013 | 1.142: Foswikitask:Item12480 - memory leak amasses css styles from all visited pages |
 |  28 Nov 2012 | 1.141: Foswikitask:Item12233 - Don't generate table sort links when rendering static html. |
