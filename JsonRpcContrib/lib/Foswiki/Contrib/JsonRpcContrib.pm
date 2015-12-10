@@ -13,12 +13,6 @@ BEGIN {
         *Foswiki::Request::multi_param = \&Foswiki::Request::param;
         use warnings 'redefine';
     }
-
-    unless ( Foswiki->can('decode_utf8') ) {
-        no warnings 'redefine';
-        *Foswiki::decode_utf8 = \&Encode::decode_utf8;
-        use warnings 'redefine';
-    }
 }
 
 =begin TML
