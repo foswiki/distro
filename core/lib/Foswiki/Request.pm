@@ -256,6 +256,9 @@ Returns many url info.
    * -path => 1, -query => 1 also includes path info and query string
      respectively
 
+Note that the path and query components are returned as a *URL encoded byte string*
+You will most likely need to Foswiki::urlDecode it for use.
+
 Reasonably compatible with CGI corresponding method. Doesn't support
 -rewrite. See Item5914.
 
