@@ -1348,14 +1348,12 @@ sub _readTextFile {
     my $data = <$IN_FILE>;
     close($IN_FILE);
     $data = '' unless defined $data;
-    return NFC(
-        Encode::decode(
-            $Foswiki::cfg{Store}{Encoding} || 'utf-8',
-            $data,
+    return Encode::decode(
+        $Foswiki::cfg{Store}{Encoding} || 'utf-8',
+        $data,
 
-            #Encode::FB_CROAK # DEBUG
-            Encode::FB_PERLQQ
-        )
+        #Encode::FB_CROAK # DEBUG
+        Encode::FB_PERLQQ
     );
 }
 

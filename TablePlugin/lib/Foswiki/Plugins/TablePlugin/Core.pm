@@ -1897,8 +1897,11 @@ sub handler {
         @origTable = $cgi->multi_param('table');
         @origUp    = $cgi->multi_param('up');        # NOTE: internal parameter
         $cgi->delete( 'sortcol', 'table', 'up' );
-        $url =
-          Foswiki::decode_utf8( $cgi->url( -absolute => 1, -path => 1 ) . '?' );
+        $url = NFC(
+            Foswiki::decode_utf8(
+                $cgi->url( -absolute => 1, -path => 1 ) . '?'
+            )
+        );
         my $queryString = $cgi->query_string();
 
         if ($queryString) {

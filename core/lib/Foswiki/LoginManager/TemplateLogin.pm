@@ -19,6 +19,7 @@ package Foswiki::LoginManager::TemplateLogin;
 use strict;
 use warnings;
 use Assert;
+use Unicode::Normalize;
 
 use Foswiki::LoginManager ();
 our @ISA = ('Foswiki::LoginManager');
@@ -320,10 +321,11 @@ sub login {
         # Could have used %ENV{PATH_INFO} (after extending {AccessibleENV})
         # but decided against it as the path_info might have been rewritten
         # from the original env var.
-        PATH_INFO => Foswiki::urlEncode( Foswiki::decode_utf8($path_info) ),
-        BANNER    => $banner,
-        NOTE      => $note,
-        ERROR     => $error
+        PATH_INFO =>
+          Foswiki::urlEncode( NFC( Foswiki::decode_utf8($path_info) ) ),
+        BANNER => $banner,
+        NOTE   => $note,
+        ERROR  => $error
     );
 
     my $topicObject = Foswiki::Meta->new( $session, $web, $topic );

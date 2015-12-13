@@ -80,6 +80,7 @@ use Foswiki::Request::Upload ();
 use Foswiki::Response        ();
 use File::Spec               ();
 use Assert;
+use Unicode::Normalize;
 
 sub run {
     my $this = $Foswiki::engine;
@@ -181,8 +182,8 @@ sub prepareBodyParameters {
             }
             my $upname = $pname;
             if ($Foswiki::UNICODE) {
-                @values = map { Foswiki::decode_utf8($_) } @values;
-                $upname = Foswiki::decode_utf8($pname);
+                @values = map { NFC( Foswiki::decode_utf8($_) ) } @values;
+                $upname = NFC( Foswiki::decode_utf8($pname) );
             }
 
             $req->bodyParam( -name => $upname, -value => \@values );
@@ -199,7 +200,7 @@ sub prepareBodyParameters {
     else {
         if ( $req->header('Content-type') =~ m#application/json# ) {
             $this->{query}->read( my $data, $contentLength );
-            $data = Foswiki::decode_utf8($data) if $Foswiki::UNICODE;
+            $data = NFC( Foswiki::decode_utf8($data) ) if $Foswiki::UNICODE;
             $req->bodyParam( -name => 'POSTDATA', -value => $data );
         }
     }
@@ -213,8 +214,8 @@ sub prepareUploads {
     my %uploads;
     if ( $this->{query}->isa('CGI') ) {
         foreach my $key ( keys %{ $this->{uploads} } ) {
-            my $fname = $this->{query}->param($key);
-            my $ufname = Foswiki::decode_utf8($fname);
+            my $fname  = $this->{query}->param($key);
+            my $ufname = NFC( Foswiki::decode_utf8($fname) );
             $uploads{$ufname} = new Foswiki::Request::Upload(
                 headers => $this->{query}->uploadInfo($fname),
                 tmpname => $this->{query}->tmpFileName($fname),
@@ -224,10 +225,11 @@ sub prepareUploads {
     else {
         foreach my $key ( keys %{ $this->{uploads} } ) {
             my $obj = $this->{query}->upload($key);
-            $uploads{ Foswiki::decode_utf8($obj->filename) } = new Foswiki::Request::Upload(
+            $uploads{ NFC( Foswiki::decode_utf8( $obj->filename ) ) } =
+              new Foswiki::Request::Upload(
                 headers => $obj->info,
                 tmpname => $obj->tempname,
-            );
+              );
         }
     }
     delete $this->{uploads};
