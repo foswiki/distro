@@ -70,13 +70,14 @@ msgid "%1 - Registration for %2 (%3)"
 msgstr "%1 - %2 (%3) 注册"
 
 #: PatternSkin/templates/view.pattern.tmpl:40
+#: PatternSkin/templates/view.pattern01x01.tmpl:40
 msgid "%1 Web"
 msgstr "%1 子网"
 
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
 # $by)
-#: core/templates/registermessages.tmpl:387
+#: core/templates/registermessages.tmpl:396
 #, fuzzy
 msgid "%1 added to the %2 group."
 msgstr "%1 由 %4 从 %2 移到 %3"
@@ -95,7 +96,7 @@ msgstr "%1 由 %4 从 %2 移到 %3"
 msgid "%1 denied the registration."
 msgstr "谢谢您注册"
 
-#: core/templates/registermessages.tmpl:394
+#: core/templates/registermessages.tmpl:403
 msgid "%1 group topic upgraded."
 msgstr ""
 
@@ -151,7 +152,7 @@ msgstr "%1 现在已设为 %2"
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 正在编辑 %2."
 
-#: core/templates/registermessages.tmpl:284
+#: core/templates/registermessages.tmpl:293
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 至少需加入一个群组，无法删除"
 
@@ -191,7 +192,7 @@ msgstr "禁止新用户注册"
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
 # $by)
-#: core/templates/registermessages.tmpl:436
+#: core/templates/registermessages.tmpl:445
 #, fuzzy
 msgid "%1 removed from the %2 group."
 msgstr "%1 由 %4 从 %2 移到 %3"
@@ -225,11 +226,17 @@ msgstr "%1 试着以电子邮件 %2 注册"
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 由 %4 从 %2 移到 %3"
 
+#. ("%SYSTEMWEB%.$pluginName",                "${templateName}Template")
+#: AutoViewTemplatePlugin/lib/Foswiki/Plugins/AutoViewTemplatePlugin.pm:97
+#, fuzzy
+msgid "%1: Invalid template name (%2) - Contains invalid characters."
+msgstr "主题的名字不能空白。"
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
 msgstr "取消(&C)"
 
-#: core/templates/foswiki.tmpl:138
+#: core/templates/foswiki.tmpl:140
 msgid "&History"
 msgstr "历史(&H)"
 
@@ -238,7 +245,7 @@ msgstr "历史(&H)"
 msgid "&Sequential"
 msgstr "连续的"
 
-#: core/templates/registermessages.tmpl:219
+#: core/templates/registermessages.tmpl:228
 #, fuzzy
 msgid "'%1' is not a valid [[%2][login username]]."
 msgstr "'%1' 不是个合法的 %2"
@@ -259,7 +266,7 @@ msgstr "(%1 验证)"
 msgid "(%1 vs. %2)"
 msgstr "(%1 比上 %2)"
 
-#: core/templates/registermessages.tmpl:139
+#: core/templates/registermessages.tmpl:148
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*建议：*上传您的图片?)"
 
@@ -272,7 +279,7 @@ msgstr "(=所有= 显示所有主题)"
 msgid "(Children in %1 Web)"
 msgstr "(%1 子网中的反向连结)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
 msgid "(This message will be removed automatically)"
 msgstr ""
 
@@ -367,7 +374,9 @@ msgstr "(无)"
 msgid "(otherwise search %1 Web only)"
 msgstr "(否则只搜寻 %1子网)"
 
-#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
+#: PatternSkin/templates/view.pattern.tmpl:42
+#: PatternSkin/templates/view.pattern01x01.tmpl:42
+#: core/templates/viewprint.tmpl:15
 msgid "(raw view)"
 msgstr "(检示源码)"
 
@@ -382,6 +391,7 @@ msgid "(rename)"
 msgstr "(更名)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42
+#: PatternSkin/templates/view.pattern01x01.tmpl:42
 msgid "(revision %1)"
 msgstr "(修订版 %1)"
 
@@ -429,7 +439,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "更多格式说明"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:75
 #, fuzzy
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
@@ -560,7 +570,7 @@ msgid ""
 "been denied"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:173
 #, fuzzy
 msgid "<nop>WikiName:"
 msgstr "主题名称"
@@ -590,7 +600,7 @@ msgid ""
 msgstr "颜色记号始于 # 标记，后面由 6 个位元的 16 进位数组成，如 =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1284
+#: core/lib/Foswiki/UI/Register.pm:1285
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "确认的电子邮件已寄往 %1 "
 
@@ -768,7 +778,7 @@ msgstr "所有公开的子网"
 msgid "Allow only <nop>WikiWord for the new topic name"
 msgstr "允许新主题名称使用非<nop>WikiWord"
 
-#: core/templates/registermessages.tmpl:198
+#: core/templates/registermessages.tmpl:207
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
@@ -936,7 +946,7 @@ msgstr "所有子网中指向 %1 的反向连结"
 msgid "Backlinks:"
 msgstr "反向连结"
 
-#: core/templates/registermessages.tmpl:226
+#: core/templates/registermessages.tmpl:235
 msgid "Bad password"
 msgstr "密码错误"
 
@@ -989,7 +999,7 @@ msgstr ""
 msgid "CHANGE not permitted for %1 by %2"
 msgstr ""
 
-#: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:278
+#: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:287
 msgid "Can't find user %1"
 msgstr "无法找到用户%1"
 
@@ -1014,7 +1024,7 @@ msgstr "无法找到 %1 的电子邮件位址（用于密码重置时） "
 #: core/data/Main/GroupViewTemplate.txt:213
 #: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:109
+#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:111
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "取消"
@@ -1245,7 +1255,7 @@ msgstr ""
 msgid "Compare revisions"
 msgstr "比较版本"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:197
 #, fuzzy
 msgid "Confirm password:"
 msgstr "您的密码:"
@@ -1268,6 +1278,7 @@ msgstr "冲突"
 #: core/templates/messages.tmpl:412 core/templates/messages.tmpl:449
 #: core/templates/messages.tmpl:462 core/templates/messages.tmpl:469
 #: core/templates/messages.tmpl:478 core/templates/registermessages.tmpl:109
+#: core/templates/registermessages.tmpl:132
 msgid "Contact %1 if you have any questions."
 msgstr "如有问题，请联系 %1"
 
@@ -1294,7 +1305,7 @@ msgstr ""
 msgid "Continue to create the new page"
 msgstr "继续建立新页面"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1341,7 +1352,7 @@ msgstr "无法搜寻，错误: %1"
 msgid "Could not save %1."
 msgstr "%1 无法保存。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:217
 #, fuzzy
 msgid "Country:"
 msgstr "国家:"
@@ -1393,8 +1404,8 @@ msgstr "建立新主题"
 msgid "Create new topic"
 msgstr "建立新主题"
 
-#: core/templates/registermessages.tmpl:405
-#: core/templates/registermessages.tmpl:411
+#: core/templates/registermessages.tmpl:414
+#: core/templates/registermessages.tmpl:420
 msgid "Create not specified and group does not exist"
 msgstr ""
 
@@ -1414,7 +1425,7 @@ msgstr "建立主题"
 msgid "Create this topic"
 msgstr "建立这个主题"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:108
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:60
 msgid "Create your account to edit pages on this site."
 msgstr ""
 
@@ -1507,7 +1518,7 @@ msgstr "在%1子网中的子主题"
 msgid "Details in separate window"
 msgstr "细节显示于新视窗"
 
-#: core/templates/registermessages.tmpl:356
+#: core/templates/registermessages.tmpl:365
 msgid "Details:"
 msgstr ""
 
@@ -1517,7 +1528,7 @@ msgid ""
 "sensitive."
 msgstr "主题名称是否拼写正确？注意主题名称是有大小写的区分。"
 
-#: core/templates/registermessages.tmpl:196
+#: core/templates/registermessages.tmpl:205
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "您是否想 [[%1][重设 %2 的密码]]?"
 
@@ -1586,7 +1597,7 @@ msgid ""
 "notify your %2 administrator."
 msgstr "主题 %1 保存时发生版本控制错误。请通知 %2 管理员。"
 
-#: core/templates/registermessages.tmpl:290
+#: core/templates/registermessages.tmpl:299
 msgid "E-mail changed successfully!"
 msgstr "电子邮件变更成功!"
 
@@ -1695,7 +1706,7 @@ msgid ""
 "%1 has no content. You may not upload an empty file."
 msgstr "未指定档名，或上传的档案 %1 没有内容。不能上传空档。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:187
 #, fuzzy
 msgid "Email address:"
 msgstr "电子邮件位址:"
@@ -1749,7 +1760,7 @@ msgstr ""
 msgid "Error registering new user"
 msgstr "注册新用户发生错误"
 
-#: core/templates/registermessages.tmpl:183
+#: core/templates/registermessages.tmpl:192
 msgid "Error registering user %1"
 msgstr "注册用户 %1 发生错误"
 
@@ -1776,12 +1787,12 @@ msgstr "错误: 不支援的协定 (必须是 'http://domain/...')"
 msgid "Errors"
 msgstr "错误"
 
-#: core/templates/registermessages.tmpl:374
+#: core/templates/registermessages.tmpl:383
 #, fuzzy
 msgid "Errors adding members to group"
 msgstr "主题保存失败"
 
-#: core/templates/registermessages.tmpl:423
+#: core/templates/registermessages.tmpl:432
 #, fuzzy
 msgid "Errors removing members from groups"
 msgstr "主题保存失败"
@@ -1824,7 +1835,7 @@ msgstr "无法包含 URL %1"
 msgid "Fields marked %1 are required"
 msgstr "必填标为 %1 的栏位"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:131
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:92
 #, fuzzy
 msgid "Fields marked <span class='required'>*</span> are required."
 msgstr "必填标为 %1 的栏位"
@@ -1855,7 +1866,7 @@ msgstr "找连到 %1 的主题..."
 msgid "First"
 msgstr "名:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:306
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:160
 #, fuzzy
 msgid "First name:"
 msgstr "名:"
@@ -1892,8 +1903,9 @@ msgstr "表单定义 %1 遗失"
 msgid "Form based input"
 msgstr ""
 
-#: PatternSkin/templates/formtables.pattern.tmpl:7 core/templates/form.tmpl:9
-#: core/templates/formtables.tmpl:12
+#: PatternSkin/templates/formtables.pattern.tmpl:7
+#: PatternSkin/templates/formtables.pattern01x01.tmpl:5
+#: core/templates/form.tmpl:9 core/templates/formtables.tmpl:12
 msgid "Form data"
 msgstr ""
 
@@ -1942,6 +1954,10 @@ msgstr "%1 的 Foswiki 密码重设"
 msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
 msgstr ""
 
+#: PatternSkin/templates/view.pattern01x01.tmpl:75
+msgid "Get a fresh version <a href='%1'>here</a>."
+msgstr ""
+
 #: core/templates/attach.tmpl:3
 #, fuzzy
 msgid "Get help on attaching files"
@@ -1962,8 +1978,8 @@ msgstr "得到此搜寻的修改通知"
 msgid "Globe"
 msgstr "关闭"
 
-#: core/templates/foswiki.tmpl:113 core/templates/messages.tmpl:328
-#: core/templates/messages.tmpl:476 core/templates/registermessages.tmpl:369
+#: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
+#: core/templates/messages.tmpl:476 core/templates/registermessages.tmpl:378
 msgid "Go back"
 msgstr "返回"
 
@@ -2048,7 +2064,7 @@ msgstr ""
 msgid "Heading 6"
 msgstr ""
 
-#: core/templates/foswiki.tmpl:144
+#: core/templates/foswiki.tmpl:146
 msgid "Hello %1!"
 msgstr "您好 %1！"
 
@@ -2149,7 +2165,7 @@ msgid ""
 "page, then you are asked to confirm the request."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:49
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
@@ -2205,7 +2221,7 @@ msgstr ""
 "如果这封邮件错寄给您：某人 (%1) 已在 %2 网站，用您的电子邮件 %3 注册。请联系 "
 "%4 说明。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:117
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:70
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "有任何关于注册的问题，请寄电子邮件给 %1。"
 
@@ -2306,11 +2322,11 @@ msgstr "某些情况下，系统会修改上传的档名以确保各平台都能
 msgid "Including"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:300
+#: core/templates/registermessages.tmpl:309
 msgid "Incorrect Password"
 msgstr "不正确的密码"
 
-#: core/templates/registermessages.tmpl:307
+#: core/templates/registermessages.tmpl:316
 #, fuzzy
 msgid "Incorrect Prefix"
 msgstr "不正确的 %1"
@@ -2325,8 +2341,8 @@ msgstr "不正确的 %1.WikiNames"
 msgid "Incorrect [[%1][WikiNames:]]"
 msgstr "不正确的 %1.WikiNames"
 
-#: core/templates/registermessages.tmpl:211
-#: core/templates/registermessages.tmpl:218
+#: core/templates/registermessages.tmpl:220
+#: core/templates/registermessages.tmpl:227
 #, fuzzy
 msgid "Incorrect [[%1][username]]"
 msgstr "不正确的 %1.WikiNames"
@@ -2334,6 +2350,10 @@ msgstr "不正确的 %1.WikiNames"
 #: core/templates/messages.tmpl:315
 msgid "Incorrect parameters to the =%1= script"
 msgstr "=%1= 脚本的参数错误"
+
+#: core/templates/registermessages.tmpl:127
+msgid "Incorrect templatetopic name provided."
+msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
 #, fuzzy
@@ -2425,11 +2445,11 @@ msgstr "启动码错误"
 msgid "Invalid Input"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:233
 #: core/templates/registermessages.tmpl:242
 #: core/templates/registermessages.tmpl:251
 #: core/templates/registermessages.tmpl:260
 #: core/templates/registermessages.tmpl:269
+#: core/templates/registermessages.tmpl:278
 msgid "Invalid e-mail address"
 msgstr "电子邮件地址错误"
 
@@ -2531,7 +2551,7 @@ msgstr "最后修改时间"
 msgid "Last modified time"
 msgstr "最后修改时间"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:313
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:166
 #, fuzzy
 msgid "Last name:"
 msgstr "姓:"
@@ -2604,7 +2624,7 @@ msgstr ""
 msgid "Login"
 msgstr "登录"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:181
 #, fuzzy
 msgid "Login username:"
 msgstr "登录名 %1"
@@ -2824,7 +2844,7 @@ msgstr "新密码"
 msgid "New topic name %1 is not a %2"
 msgstr "新主题名 %1 不是 %2"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:102
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:50
 #, fuzzy
 msgid "New user registration is disabled on this site."
 msgstr "禁止新用户注册"
@@ -2866,8 +2886,8 @@ msgstr "(变更)"
 msgid "No child topics found."
 msgstr "无子主题"
 
-#: core/templates/registermessages.tmpl:366
-#: core/templates/registermessages.tmpl:417
+#: core/templates/registermessages.tmpl:375
+#: core/templates/registermessages.tmpl:426
 msgid "No group name specified"
 msgstr ""
 
@@ -2898,11 +2918,11 @@ msgstr "移动主题到子网:"
 msgid "No topics to update."
 msgstr "移动主题到子网:"
 
-#: core/templates/messages.tmpl:324 core/templates/registermessages.tmpl:399
+#: core/templates/messages.tmpl:324 core/templates/registermessages.tmpl:408
 msgid "No username specified"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:167
+#: core/templates/registermessages.tmpl:176
 msgid "No users to reset passwords for."
 msgstr "没有用户重设密码."
 
@@ -2986,11 +3006,11 @@ msgstr ""
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:111 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/foswiki.tmpl:113 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
-#: core/templates/registermessages.tmpl:318
-#: core/templates/registermessages.tmpl:326
-#: core/templates/registermessages.tmpl:337 core/templates/validate.tmpl:52
+#: core/templates/registermessages.tmpl:327
+#: core/templates/registermessages.tmpl:335
+#: core/templates/registermessages.tmpl:346 core/templates/validate.tmpl:52
 msgid "OK"
 msgstr "OK"
 
@@ -3014,7 +3034,7 @@ msgid ""
 "email address."
 msgstr "注册后您可以帐号 %1 和密码登录."
 
-#: core/templates/registermessages.tmpl:347
+#: core/templates/registermessages.tmpl:356
 #, fuzzy
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "只有 %1 的成员允许使用这些功能。"
@@ -3075,12 +3095,12 @@ msgstr "输入不同的主题名称（非必要）:"
 msgid "Options"
 msgstr "功能"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:203
 #, fuzzy
 msgid "Organisation name:"
 msgstr "组织名称:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:210
 #, fuzzy
 msgid "Organisation website:"
 msgstr "组织名称:"
@@ -3097,19 +3117,19 @@ msgstr ""
 msgid "Password"
 msgstr "密码"
 
-#: core/templates/registermessages.tmpl:330
+#: core/templates/registermessages.tmpl:339
 msgid "Password changed successfully!"
 msgstr "密码修改成功!"
 
-#: core/templates/registermessages.tmpl:322
+#: core/templates/registermessages.tmpl:331
 msgid "Password could not be changed"
 msgstr "密码无法修改"
 
-#: core/templates/registermessages.tmpl:166
+#: core/templates/registermessages.tmpl:175
 msgid "Password reset failed"
 msgstr "密码重设失败"
 
-#: core/templates/registermessages.tmpl:171
+#: core/templates/registermessages.tmpl:180
 #, fuzzy
 msgid "Password reset failed."
 msgstr "密码重设失败"
@@ -3120,12 +3140,12 @@ msgstr "密码重设失败"
 msgid "Password:"
 msgstr "密码"
 
-#: core/templates/registermessages.tmpl:127
+#: core/templates/registermessages.tmpl:136
 #, fuzzy
 msgid "Passwords disabled"
 msgstr "密码重设失败"
 
-#: core/templates/registermessages.tmpl:176
+#: core/templates/registermessages.tmpl:185
 msgid "Passwords do not match"
 msgstr "密码不相同"
 
@@ -3153,50 +3173,50 @@ msgstr "丢弃附件的存放地"
 msgid "Placeholder for trashed attachments"
 msgstr "丢弃附件的存放地"
 
-#: core/templates/registermessages.tmpl:378
-#: core/templates/registermessages.tmpl:427
+#: core/templates/registermessages.tmpl:387
+#: core/templates/registermessages.tmpl:436
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:141
 #, fuzzy
 msgid "Please confirm your password."
 msgstr "您的密码:"
 
-#: core/templates/registermessages.tmpl:200
+#: core/templates/registermessages.tmpl:209
 #: core/templates/registermessages.tmpl:87
 msgid "Please contact %1 if you have any questions."
 msgstr "如有问题请联系 %1."
 
 #: core/templates/registermessages.tmpl:11
-#: core/templates/registermessages.tmpl:131
-#: core/templates/registermessages.tmpl:187
+#: core/templates/registermessages.tmpl:140
+#: core/templates/registermessages.tmpl:196
 #: core/templates/registermessages.tmpl:21
 #: core/templates/registermessages.tmpl:35
 #: core/templates/registermessages.tmpl:98
 msgid "Please contact %1."
 msgstr "请联系 %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
 msgid "Please correct the entered data before you continue."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:127
 #, fuzzy
 msgid "Please enter a WikiName."
 msgstr "请输入 Wiki 管理员的密码"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:133
 #, fuzzy
 msgid "Please enter a login username."
 msgstr "请输入 Wiki 管理员的密码"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:137
 #, fuzzy
 msgid "Please enter a password."
 msgstr "请输入 Wiki 管理员的密码"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:131
 #, fuzzy
 msgid "Please enter a valid email address."
 msgstr "电子邮件地址错误"
@@ -3205,17 +3225,17 @@ msgstr "电子邮件地址错误"
 msgid "Please enter the Wiki admin password"
 msgstr "请输入 Wiki 管理员的密码"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:142
 #, fuzzy
 msgid "Please enter the same password as above."
 msgstr "请输入 Wiki 管理员的密码"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:124
 #, fuzzy
 msgid "Please enter your first name."
 msgstr "请输入 Wiki 管理员的密码"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:272
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:125
 #, fuzzy
 msgid "Please enter your last name."
 msgstr "请输入 Wiki 管理员的密码"
@@ -3245,18 +3265,19 @@ msgstr ""
 #: core/templates/messages.tmpl:38 core/templates/messages.tmpl:43
 #: core/templates/messages.tmpl:52 core/templates/messages.tmpl:92
 #: core/templates/messages.tmpl:99 core/templates/registermessages.tmpl:123
-#: core/templates/registermessages.tmpl:179
-#: core/templates/registermessages.tmpl:207
-#: core/templates/registermessages.tmpl:214
-#: core/templates/registermessages.tmpl:222
-#: core/templates/registermessages.tmpl:229
+#: core/templates/registermessages.tmpl:131
+#: core/templates/registermessages.tmpl:188
+#: core/templates/registermessages.tmpl:216
+#: core/templates/registermessages.tmpl:223
+#: core/templates/registermessages.tmpl:231
 #: core/templates/registermessages.tmpl:238
 #: core/templates/registermessages.tmpl:247
 #: core/templates/registermessages.tmpl:256
 #: core/templates/registermessages.tmpl:265
 #: core/templates/registermessages.tmpl:274
-#: core/templates/registermessages.tmpl:303
-#: core/templates/registermessages.tmpl:310
+#: core/templates/registermessages.tmpl:283
+#: core/templates/registermessages.tmpl:312
+#: core/templates/registermessages.tmpl:319
 msgid "Please go back in your browser and try again."
 msgstr "请返回浏览器的上一页，并再试一次."
 
@@ -3265,7 +3286,7 @@ msgstr "请返回浏览器的上一页，并再试一次."
 msgid "Please go back in your browser and upload using a different filename."
 msgstr "请_返回_浏览器的上一页，并试一个新名字."
 
-#: core/templates/registermessages.tmpl:279
+#: core/templates/registermessages.tmpl:288
 #, fuzzy
 msgid ""
 "Please make sure you spelled the [[%1][username]] correctly and try again. "
@@ -3359,7 +3380,7 @@ msgstr "放回"
 msgid "Query Search"
 msgstr "查询式检索"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:72
+#: core/data/System/FrequentlyAskedQuestions.txt:74
 #, fuzzy
 msgid "Question:"
 msgstr "版本"
@@ -3389,7 +3410,7 @@ msgstr ""
 msgid "Read on"
 msgstr "阅读"
 
-#: core/data/Sandbox/WebHome.txt:53
+#: core/data/Sandbox/WebHome.txt:57
 msgid "Recently changed topics"
 msgstr "最近更新的主题"
 
@@ -3419,8 +3440,8 @@ msgstr "更新"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
-#: core/templates/foswiki.tmpl:146
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
+#: core/templates/foswiki.tmpl:148
 msgid "Register"
 msgstr "注册"
 
@@ -3434,11 +3455,11 @@ msgstr ""
 msgid "Registered users"
 msgstr "注册"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:77
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:22
 msgid "Registration"
 msgstr "注册"
 
-#: core/lib/Foswiki/UI/Register.pm:711
+#: core/lib/Foswiki/UI/Register.pm:712
 #, fuzzy
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -3459,7 +3480,7 @@ msgstr "抱歉，暂时禁用注册。"
 msgid "Registration has been denied"
 msgstr "抱歉，暂时禁用注册。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:99
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:47
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system. "
@@ -3477,17 +3498,17 @@ msgstr "电子邮件寄送失败，请通知您的 %1 管理员 %2"
 
 #: core/data/System/SiteTools.txt:149
 #: core/data/System/SkinTemplateTokens.txt:180
-#: core/data/System/UserAuthentication.txt:301
+#: core/data/System/UserAuthentication.txt:329
 #, fuzzy
 msgid "Related Topics:"
 msgstr "相关主题"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:114
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:115
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:690
+#: core/data/System/CommandAndCGIScripts.txt:693
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3503,7 +3524,7 @@ msgstr ""
 msgid "Remember me on this computer"
 msgstr "在此电脑上记住我"
 
-#: core/templates/registermessages.tmpl:292
+#: core/templates/registermessages.tmpl:301
 #, fuzzy
 msgid ""
 "Remember to update your user topic [[%1]] if you want your e-mail change to "
@@ -3523,7 +3544,7 @@ msgstr "请先将用户从 %1 群组删除。"
 msgid "Remove members..."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:346
+#: core/templates/registermessages.tmpl:355
 msgid "Remove of user account other than your own is denied"
 msgstr ""
 
@@ -3531,7 +3552,7 @@ msgstr ""
 msgid "Remove selected members"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:286
+#: core/templates/registermessages.tmpl:295
 #, fuzzy
 msgid "Remove the member from the group(s) %1 first."
 msgstr "请先将用户从 %1 群组删除。"
@@ -3659,17 +3680,17 @@ msgstr "%1 子网中的结果"
 msgid "Results from %1 web:"
 msgstr "%1 子网中的结果"
 
-#: core/templates/registermessages.tmpl:348
-#: core/templates/registermessages.tmpl:362
+#: core/templates/registermessages.tmpl:357
+#: core/templates/registermessages.tmpl:371
 #, fuzzy
 msgid "Return to %1"
 msgstr "回到 %1."
 
-#: core/templates/registermessages.tmpl:342
+#: core/templates/registermessages.tmpl:351
 msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:296
+#: core/templates/registermessages.tmpl:305
 msgid "Return to %1."
 msgstr "回到 %1."
 
@@ -3843,7 +3864,7 @@ msgstr "搜寻:"
 msgid "Security Note:"
 msgstr "安全提示:"
 
-#: core/templates/registermessages.tmpl:281
+#: core/templates/registermessages.tmpl:290
 msgid "See %1 for a list of existing users or register as new user in %2."
 msgstr "查看 %1 的用户列表或在 %2 注册新用户."
 
@@ -3851,11 +3872,11 @@ msgstr "查看 %1 的用户列表或在 %2 注册新用户."
 msgid "See %1 for information about Form Definitions."
 msgstr "更多关于表单定义的资讯，请参考 %1."
 
-#: core/templates/registermessages.tmpl:380
 #: core/templates/registermessages.tmpl:389
-#: core/templates/registermessages.tmpl:396
-#: core/templates/registermessages.tmpl:429
+#: core/templates/registermessages.tmpl:398
+#: core/templates/registermessages.tmpl:405
 #: core/templates/registermessages.tmpl:438
+#: core/templates/registermessages.tmpl:447
 msgid "See %MAINWEB%.WikiGroups to see the result."
 msgstr ""
 
@@ -3901,7 +3922,7 @@ msgstr "全选"
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:279
 #, fuzzy
 msgid "Select groups to join:"
 msgstr "选择父主题:"
@@ -3911,7 +3932,7 @@ msgstr "选择父主题:"
 msgid "Select members to remove from this group:"
 msgstr "请先将用户从 %1 群组删除。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:279
 #, fuzzy
 msgid "Select the group to join:"
 msgstr "选择父主题:"
@@ -3929,7 +3950,7 @@ msgstr "在您输入的段落底部选择/复制/贴上您的签名文字"
 msgid "Selections apply to search in \"text body\""
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:85
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:31
 #, fuzzy
 msgid "Self registration is not supported by this site."
 msgstr "不支援新用户注册"
@@ -4020,12 +4041,12 @@ msgstr ""
 "某些人将它变成个人的入口网站，内容包括最喜欢的连结、目前运作的事项、的想做的"
 "事，等等。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:106
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:56
 #, fuzzy
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "抱歉，暂时禁用注册。"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:91
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:92
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr "抱歉，目前密码系统是唯读，请联系 %1"
@@ -4092,8 +4113,8 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
-#: core/data/System/FrequentlyAskedQuestions.txt:79
-#: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:152
+#: core/data/System/FrequentlyAskedQuestions.txt:81
+#: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:161
 msgid "Submit"
 msgstr "提交"
 
@@ -4139,12 +4160,12 @@ msgstr ""
 msgid "Subwebs"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:385
+#: core/templates/registermessages.tmpl:394
 #, fuzzy
 msgid "Success adding members to group"
 msgstr "主题保存失败"
 
-#: core/templates/registermessages.tmpl:434
+#: core/templates/registermessages.tmpl:443
 #, fuzzy
 msgid "Success removing members from group"
 msgstr "请先将用户从 %1 群组删除。"
@@ -4213,9 +4234,9 @@ msgid "Thank you for denying this registration"
 msgstr "谢谢您注册"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:272
-#: core/templates/registermessages.tmpl:137
-#: core/templates/registermessages.tmpl:145
-#: core/templates/registermessages.tmpl:158
+#: core/templates/registermessages.tmpl:146
+#: core/templates/registermessages.tmpl:154
+#: core/templates/registermessages.tmpl:167
 msgid "Thank you for registering"
 msgstr "谢谢您注册"
 
@@ -4277,7 +4298,7 @@ msgstr "=％1= 的脚本只以 POST 的方式呼叫。"
 msgid "The Administrator has disabled new user registration."
 msgstr "系统管理员禁止新用户注册。"
 
-#: core/templates/registermessages.tmpl:129
+#: core/templates/registermessages.tmpl:138
 #, fuzzy
 msgid "The Administrator has disabled password changes."
 msgstr "系统管理员禁止新用户注册。"
@@ -4302,13 +4323,13 @@ msgid ""
 "removed."
 msgstr "%1 栏位必须是姓名，姓氏在 %2 ，如：大写的姓名拼字但去掉空格。 "
 
-#: core/templates/registermessages.tmpl:205
+#: core/templates/registermessages.tmpl:214
 msgid ""
 "The [[%1][login username]] (%2) is not allowed for this installation. "
 "Registration rejected."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:212
+#: core/templates/registermessages.tmpl:221
 msgid ""
 "The [[%1][login username]] is a required parameter. Registration rejected."
 msgstr ""
@@ -4365,20 +4386,20 @@ msgid ""
 "authority."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:243
-#: core/templates/registermessages.tmpl:261
+#: core/templates/registermessages.tmpl:252
+#: core/templates/registermessages.tmpl:270
 #, fuzzy
 msgid "The e-mail address for this account has been rejected."
 msgstr "这个帐号的电子邮件位址不合法。"
 
-#: core/templates/registermessages.tmpl:252
-#: core/templates/registermessages.tmpl:270
+#: core/templates/registermessages.tmpl:261
+#: core/templates/registermessages.tmpl:279
 #, fuzzy
 msgid ""
 "The e-mail address for this account is already registered to another user."
 msgstr "这个帐号的电子邮件位址不合法。"
 
-#: core/templates/registermessages.tmpl:234
+#: core/templates/registermessages.tmpl:243
 msgid "The e-mail address for this account is not valid."
 msgstr "这个帐号的电子邮件位址不合法。"
 
@@ -4435,6 +4456,14 @@ msgstr "主题的名字不能空白。"
 msgid "The name of the topic must not be empty."
 msgstr "主题的名字不能空白。"
 
+#: core/templates/registermessages.tmpl:128
+msgid ""
+"The name provided is either invalid, or the named topic is not found. The "
+"templatetopic must be an existing new user template topic in the %USERSWEB% "
+"web.  If not provided, the default topic is [[%USERSWEB%.NewUserTemplate]], "
+"or if that does not exist. [[%SYSTEMWEB%.NewUserTemplate]]."
+msgstr ""
+
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
 msgstr ""
@@ -4451,11 +4480,11 @@ msgstr "选择的新主题必须已经存在."
 msgid "The new web has been created"
 msgstr "新子网已建立"
 
-#: core/templates/registermessages.tmpl:301
+#: core/templates/registermessages.tmpl:310
 msgid "The password you entered in the *old password* field is incorrect."
 msgstr "*旧密码* 栏内的密码错误."
 
-#: core/templates/registermessages.tmpl:308
+#: core/templates/registermessages.tmpl:317
 msgid ""
 "The prefix you entered for the deleted user is not valid as a topic name."
 msgstr ""
@@ -4472,7 +4501,7 @@ msgstr "选择的用户系统并不支援新用户注册。"
 msgid "The topic is in an old format"
 msgstr "本主题属于旧格式"
 
-#: core/templates/registermessages.tmpl:177
+#: core/templates/registermessages.tmpl:186
 msgid "The two passwords you entered do not match."
 msgstr "两次输入的密码不相同。"
 
@@ -4480,7 +4509,7 @@ msgstr "两次输入的密码不相同。"
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr "用户 %1 已经启动并可登录。"
 
-#: core/templates/registermessages.tmpl:354
+#: core/templates/registermessages.tmpl:363
 #, fuzzy
 msgid "The user has been removed from the Authentication System."
 msgstr "您的用户名称已从认证系统删除。"
@@ -4495,7 +4524,7 @@ msgid ""
 "characters matching this filter will invalidate the username."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:329
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:182
 msgid "The username that identifies you to the signon system. %1"
 msgstr ""
 
@@ -4513,7 +4542,7 @@ msgstr ""
 msgid "There are problems with renaming this web:"
 msgstr "此子网改名时出现错误:"
 
-#: core/templates/registermessages.tmpl:185
+#: core/templates/registermessages.tmpl:194
 msgid "There has been a problem adding your user id to the Password system."
 msgstr "新增您的用户资料到密码系统时出现错误。"
 
@@ -4534,14 +4563,14 @@ msgstr ""
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "必须包含一行包含 %1，参考 %2 (或 %3)"
 
-#: core/templates/registermessages.tmpl:376
+#: core/templates/registermessages.tmpl:385
 msgid "There were errors adding to the %2 group. %1 "
 msgstr ""
 
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
 # $by)
-#: core/templates/registermessages.tmpl:425
+#: core/templates/registermessages.tmpl:434
 #, fuzzy
 msgid "There were errors removing %1 from the %2 group."
 msgstr "%1 由 %4 从 %2 移到 %3"
@@ -4550,7 +4579,7 @@ msgstr "%1 由 %4 从 %2 移到 %3"
 msgid "These steps may not be applicable to your system."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:276
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:129
 msgid "This WikiName is already in use."
 msgstr ""
 
@@ -4561,6 +4590,12 @@ msgstr "这将被自动更新:"
 #: core/templates/messages.tmpl:211
 msgid "This could be for several reasons:"
 msgstr "可能由很多问题引起:"
+
+#: core/templates/registermessages.tmpl:130
+msgid ""
+"This field is not normally user provided. This may be a Foswiki "
+"configuration error."
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
 #, fuzzy
@@ -4614,7 +4649,7 @@ msgstr "这是一封由 %1 自动发的送电子邮件。"
 msgid "This is an automated e-mail notification of user registration in %1."
 msgstr "这是用户在 %1 注册的自动电子邮件通知。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:128
 #, fuzzy
 msgid "This is not a valid WikiName."
 msgstr "'%1' 不是个合法的 %2"
@@ -4626,7 +4661,7 @@ msgid ""
 msgstr ""
 "这是垃圾区。您可以在这里还回删除的主题；删除的附件放在 TrashAttachment 中。"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "This is why the conversion is disabled:"
 msgstr ""
 
@@ -4636,12 +4671,12 @@ msgid ""
 "[Register]] if you do not have an account yet."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:174
 #, fuzzy
 msgid "This must be a unique WikiName."
 msgstr "'%1' 不是个合法的 %2"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:329
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:182
 #, fuzzy
 msgid "This must be a valid login username."
 msgstr "'%1' 不是个合法的 %2"
@@ -4659,6 +4694,7 @@ msgid ""
 msgstr ""
 
 #: PatternSkin/templates/view.pattern.tmpl:72
+#: PatternSkin/templates/view.pattern01x01.tmpl:74
 msgid "This page was cached on %1."
 msgstr ""
 
@@ -4670,7 +4706,7 @@ msgstr "这儿需要表单定义。"
 msgid "This site is powered by Foswiki"
 msgstr "本站使用 Foswiki"
 
-#: core/templates/registermessages.tmpl:227
+#: core/templates/registermessages.tmpl:236
 msgid "This site requires at least %1 character passwords"
 msgstr "本站的密码至少要 %1 个字元"
 
@@ -4687,7 +4723,7 @@ msgstr ""
 msgid "This topic:"
 msgstr "主题:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:281
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:134
 #, fuzzy
 msgid "This username is already in use."
 msgstr "用户已经启动"
@@ -4710,7 +4746,7 @@ msgid ""
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:77
-#: core/data/System/FrequentlyAskedQuestions.txt:65
+#: core/data/System/FrequentlyAskedQuestions.txt:67
 #, fuzzy
 msgid "Title:"
 msgstr "主题标题"
@@ -4820,7 +4856,7 @@ msgstr "主题标题"
 msgid "Topic list for %1 Web"
 msgstr "子网 %1 内的主题"
 
-#: core/data/Sandbox/WebHome.txt:26 core/data/System/WebSearch.txt:161
+#: core/data/Sandbox/WebHome.txt:30 core/data/System/WebSearch.txt:161
 msgid "Topic name"
 msgstr "主题名称"
 
@@ -4834,7 +4870,10 @@ msgstr "父主题:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:68 core/templates/viewprint.tmpl:15
+#: PatternSkin/templates/view.pattern.tmpl:68
+#: PatternSkin/templates/view.pattern01x01.tmpl:44
+#: PatternSkin/templates/view.pattern01x01.tmpl:70
+#: core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
 msgstr "主题版本:"
 
@@ -4940,7 +4979,7 @@ msgstr ""
 msgid "Unsubscribe from this topic (s)"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:204
+#: core/templates/registermessages.tmpl:213
 #, fuzzy
 msgid "Unsupported [[%1][username]]"
 msgstr "不正确的 %1.WikiNames"
@@ -4969,7 +5008,7 @@ msgstr ""
 msgid "Upgrade group topic..."
 msgstr "复制主题 "
 
-#: core/templates/registermessages.tmpl:392
+#: core/templates/registermessages.tmpl:401
 #, fuzzy
 msgid "Upgraded group"
 msgstr "建立新主题"
@@ -5038,11 +5077,11 @@ msgstr ""
 msgid "User %1 not in group, cannot be removed"
 msgstr "%1 至少需加入一个群组，无法删除"
 
-#: core/templates/registermessages.tmpl:353
+#: core/templates/registermessages.tmpl:362
 msgid "User Account %1 Deleted"
 msgstr "删除用户帐号 %1"
 
-#: core/templates/registermessages.tmpl:341
+#: core/templates/registermessages.tmpl:350
 #, fuzzy
 msgid "User Account was not supplied"
 msgstr "删除用户帐号 %1"
@@ -5100,7 +5139,7 @@ msgstr ""
 msgid "Users who may view:"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:316
+#: core/templates/registermessages.tmpl:325
 msgid ""
 "Users with automatically generated passwords should proceed immediately to "
 "[[%1][change password]] to change their password to something memorable."
@@ -5126,7 +5165,7 @@ msgstr "%1 的版本历史"
 msgid "View"
 msgstr "浏览"
 
-#: core/templates/foswiki.tmpl:138
+#: core/templates/foswiki.tmpl:140
 #, fuzzy
 msgid "View complete topic history"
 msgstr "检视主题完整修订史"
@@ -5222,11 +5261,11 @@ msgstr "警告: 找不到主题%1. %2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "警告: 找不到主题%1. %2"
 
-#: core/lib/Foswiki/UI/Register.pm:1277
+#: core/lib/Foswiki/UI/Register.pm:1278
 msgid "Warning: Could not send confirmation email"
 msgstr "警告: 无法寄送确认邮件"
 
-#: core/lib/Foswiki/UI/Register.pm:1289
+#: core/lib/Foswiki/UI/Register.pm:1290
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "警告: 无法寄送确认邮件，邮件已禁用。"
 
@@ -5238,7 +5277,7 @@ msgstr "警告: 本网站不允许 %<nop>INCLUDE% 连结"
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr ""
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:440
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:442
 #, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "警告: \\'include\\' 的主题不存在！"
@@ -5248,18 +5287,18 @@ msgstr "警告: \\'include\\' 的主题不存在！"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "警告:  \"包含\" 的主题不存在！"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:468
 #, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "警告: \\'include\\' 的主题不存在！"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:110
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:64
 msgid ""
 "We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
 "you wish to register."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:110
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:64
 msgid ""
 "We noticed you have disabled cookies. Please enable cookies if you wish to "
 "register."
@@ -5349,12 +5388,12 @@ msgstr ""
 "您 *必须* 至少有 1 个有效的注册电子邮件才能重设密码。若您忘记密码且注册用的邮"
 "件地址已失效，后请联系 %1。"
 
-#: core/templates/registermessages.tmpl:193
+#: core/templates/registermessages.tmpl:202
 #, fuzzy
 msgid "You are already registered."
 msgstr "您已注册"
 
-#: core/templates/registermessages.tmpl:140
+#: core/templates/registermessages.tmpl:149
 msgid "You are also listed in the %1 topic"
 msgstr "您也被列在%1主题中"
 
@@ -5375,6 +5414,7 @@ msgstr ""
 "建议您先检查 %1。"
 
 #: PatternSkin/templates/view.pattern.tmpl:36
+#: PatternSkin/templates/view.pattern01x01.tmpl:36
 msgid "You are here:"
 msgstr "您在:"
 
@@ -5433,8 +5473,8 @@ msgstr "您可利用 %1 修改密码"
 msgid "You can give this web a different name."
 msgstr "您能为本子网改名。"
 
-#: core/templates/registermessages.tmpl:407
-#: core/templates/registermessages.tmpl:413
+#: core/templates/registermessages.tmpl:416
+#: core/templates/registermessages.tmpl:422
 msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
@@ -5452,7 +5492,7 @@ msgid ""
 "your browser."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:194
+#: core/templates/registermessages.tmpl:203
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "您不能注册 2 次，%1 已经注册过。"
 
@@ -5464,7 +5504,7 @@ msgid ""
 msgstr ""
 
 #: core/templates/registermessages.tmpl:13
-#: core/templates/registermessages.tmpl:189
+#: core/templates/registermessages.tmpl:198
 #: core/templates/registermessages.tmpl:23
 #: core/templates/registermessages.tmpl:37
 msgid "You have *not* been registered."
@@ -5482,7 +5522,7 @@ msgid ""
 "visited."
 msgstr "您已点击曾经浏览过的注册验证连结。"
 
-#: core/templates/registermessages.tmpl:334
+#: core/templates/registermessages.tmpl:343
 msgid "You may need to close your browser to make this change take effect."
 msgstr "您需关闭浏览器，使变更生效。"
 
@@ -5490,11 +5530,11 @@ msgstr "您需关闭浏览器，使变更生效。"
 msgid "You must pass a topic name."
 msgstr "您必须输入主题名称。"
 
-#: core/templates/registermessages.tmpl:367
+#: core/templates/registermessages.tmpl:376
 msgid "You need to specify a valid group name to add members to a group."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:418
+#: core/templates/registermessages.tmpl:427
 msgid "You need to specify a valid group name to remove members from a group."
 msgstr ""
 
@@ -5502,7 +5542,7 @@ msgstr ""
 msgid "You need to specify a valid member to add to a group."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:401
+#: core/templates/registermessages.tmpl:410
 msgid "You need to specify a valid member to remove from a group."
 msgstr ""
 
@@ -5518,7 +5558,7 @@ msgstr ""
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "或许您需要询问管理员 %1 以进行这个工作。"
 
-#: core/templates/registermessages.tmpl:162
+#: core/templates/registermessages.tmpl:171
 msgid "You will receive an e-mail when your registration has been approved."
 msgstr ""
 
@@ -5533,7 +5573,7 @@ msgstr ""
 msgid "Your [[%1][username]]:"
 msgstr "不正确的 %1.WikiNames"
 
-#: core/templates/registermessages.tmpl:147
+#: core/templates/registermessages.tmpl:156
 msgid ""
 "Your activation code has been sent to %1.  Either click on the link in your "
 "e-mail or enter the code in the box below to activate your membership. (This "
@@ -5542,7 +5582,7 @@ msgstr ""
 "您的启动码已经寄到 %1 。点击电子邮件中的连结或在下面输入代码以启动会员资格"
 "（启动码格式 \"YourName.xxxxxxxxxx\"）"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:188
 msgid "Your email address will be kept confidential."
 msgstr ""
 
@@ -5551,7 +5591,7 @@ msgstr ""
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
 msgstr "您的密码已改成 %1。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:174
 msgid "Your name as displayed by %1."
 msgstr ""
 
@@ -5563,18 +5603,18 @@ msgstr ""
 msgid "Your password has been changed to %1."
 msgstr "您的密码已改成 %1。"
 
-#: core/templates/registermessages.tmpl:133
+#: core/templates/registermessages.tmpl:142
 #, fuzzy
 msgid "Your password has not been changed."
 msgstr "您的密码已改成 %1。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:290
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:138
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:143
 #, fuzzy
 msgid "Your password must be at least %1 characters long."
 msgstr "本站的密码至少要 %1 个字元"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:196
 #, fuzzy
 msgid "Your password:"
 msgstr "您的密码:"
@@ -5585,11 +5625,11 @@ msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
 msgstr "您在 %2 内的个人 %1 主题。可按您的习惯修改。 "
 
-#: core/templates/registermessages.tmpl:138
+#: core/templates/registermessages.tmpl:147
 msgid "Your personal Foswiki topic %1 has been created"
 msgstr "已建立您的个人主题 %1"
 
-#: core/templates/registermessages.tmpl:294
+#: core/templates/registermessages.tmpl:303
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
@@ -5601,7 +5641,7 @@ msgid ""
 "notifications of password changes."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:160
+#: core/templates/registermessages.tmpl:169
 msgid "Your registration is pending approval by the system administrators."
 msgstr ""
 
@@ -5619,7 +5659,7 @@ msgstr "复制/贴上您的签名"
 msgid "Your signature to copy/paste:"
 msgstr "复制/贴上您的签名:"
 
-#: core/templates/registermessages.tmpl:324
+#: core/templates/registermessages.tmpl:333
 msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
@@ -5630,7 +5670,7 @@ msgid ""
 "Your user registration failed because it did not pass the validation tests."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:220
+#: core/templates/registermessages.tmpl:229
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
@@ -5725,6 +5765,7 @@ msgstr ""
 #: NatEditPlugin/templates/edit.natedit.tmpl:9
 #: NatEditPlugin/templates/form.natedit.tmpl:2
 #: PatternSkin/templates/formtables.pattern.tmpl:30
+#: PatternSkin/templates/formtables.pattern01x01.tmpl:28
 #: core/templates/formtables.tmpl:27
 msgid "edit"
 msgstr "编辑"
@@ -5742,6 +5783,12 @@ msgstr "必填栏位。"
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "help"
 msgstr "说明"
+
+#: core/data/Sandbox/WebHome.txt:11
+#: core/data/System/FrequentlyAskedQuestions.txt:47
+#, fuzzy
+msgid "hide form"
+msgstr "增加表单"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"
@@ -5786,7 +5833,7 @@ msgid "now %1"
 msgstr "现在 %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:146
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:148
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40

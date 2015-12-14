@@ -69,10 +69,11 @@ msgid "%1 - Registration for %2 (%3)"
 msgstr "%1 - Registro de %2 (%3)"
 
 #: PatternSkin/templates/view.pattern.tmpl:40
+#: PatternSkin/templates/view.pattern01x01.tmpl:40
 msgid "%1 Web"
 msgstr "Web %1"
 
-#: core/templates/registermessages.tmpl:387
+#: core/templates/registermessages.tmpl:396
 msgid "%1 added to the %2 group."
 msgstr "%1 foi adicionado ao grupo %2."
 
@@ -85,7 +86,7 @@ msgstr "%1 não pode ser removido por %2"
 msgid "%1 denied the registration."
 msgstr "%1 registro negado."
 
-#: core/templates/registermessages.tmpl:394
+#: core/templates/registermessages.tmpl:403
 msgid "%1 group topic upgraded."
 msgstr "Tópico do grupo %1 atualizado."
 
@@ -141,7 +142,7 @@ msgstr "%1 atualmente tem o valor %2"
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 está editando [[%2][%3]]."
 
-#: core/templates/registermessages.tmpl:284
+#: core/templates/registermessages.tmpl:293
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 está em pelo menos um grupo e não pode ser removido"
 
@@ -173,7 +174,7 @@ msgstr "%1 aprovação de registro requerida"
 msgid "%1 registration denied"
 msgstr "%1 registro negado"
 
-#: core/templates/registermessages.tmpl:436
+#: core/templates/registermessages.tmpl:445
 msgid "%1 removed from the %2 group."
 msgstr "%1 removido do grupo %2."
 
@@ -202,11 +203,17 @@ msgstr "%1 tentou registrar com o e-mail %2"
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%1 foi movido ou renomeado de %2 em %3 por %4"
 
+#. ("%SYSTEMWEB%.$pluginName",                "${templateName}Template")
+#: AutoViewTemplatePlugin/lib/Foswiki/Plugins/AutoViewTemplatePlugin.pm:97
+#, fuzzy
+msgid "%1: Invalid template name (%2) - Contains invalid characters."
+msgstr "O campo nome do tópico não pode ser vazio"
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
 msgstr "&Cancelar"
 
-#: core/templates/foswiki.tmpl:138
+#: core/templates/foswiki.tmpl:140
 msgid "&History"
 msgstr "&Histórico"
 
@@ -214,7 +221,7 @@ msgstr "&Histórico"
 msgid "&Sequential"
 msgstr "&Sequencial"
 
-#: core/templates/registermessages.tmpl:219
+#: core/templates/registermessages.tmpl:228
 msgid "'%1' is not a valid [[%2][login username]]."
 msgstr "'%1' não é um [[%2][nome de usuário]] válido."
 
@@ -234,7 +241,7 @@ msgstr "(%1 validação)"
 msgid "(%1 vs. %2)"
 msgstr "(%1 vs. %2)"
 
-#: core/templates/registermessages.tmpl:139
+#: core/templates/registermessages.tmpl:148
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*Sugestão:* Que tal anexar uma foto sua ao seu tópico?)"
 
@@ -246,7 +253,7 @@ msgstr "(=all= para mostrar todos os tópicos)"
 msgid "(Children in %1 Web)"
 msgstr "(referências na Web %1)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
 msgid "(This message will be removed automatically)"
 msgstr "(Essa mensagem será removida automaticamente)"
 
@@ -339,7 +346,9 @@ msgstr "(nenhum)"
 msgid "(otherwise search %1 Web only)"
 msgstr "(se não marcado, procurar apenas na Web %1)"
 
-#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
+#: PatternSkin/templates/view.pattern.tmpl:42
+#: PatternSkin/templates/view.pattern01x01.tmpl:42
+#: core/templates/viewprint.tmpl:15
 msgid "(raw view)"
 msgstr "(texto puro)"
 
@@ -353,6 +362,7 @@ msgid "(rename)"
 msgstr "(renomear)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42
+#: PatternSkin/templates/view.pattern01x01.tmpl:42
 msgid "(revision %1)"
 msgstr "(versão %1)"
 
@@ -404,7 +414,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Ajuda com formatação:*"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:75
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -555,7 +565,7 @@ msgstr ""
 "<nop>%1 <%2> foi enviada por e-mail para informar que sua inscrição foi "
 "negada"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:173
 msgid "<nop>WikiName:"
 msgstr "<nop>NomeWiki:"
 
@@ -591,7 +601,7 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1284
+#: core/lib/Foswiki/UI/Register.pm:1285
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Um e-mail de confirmação foi enviado para %1"
 
@@ -764,7 +774,7 @@ msgstr "Todas as webs públicas"
 msgid "Allow only <nop>WikiWord for the new topic name"
 msgstr "Permitir somente <nop>PalavraWiki para nome de novo tópico"
 
-#: core/templates/registermessages.tmpl:198
+#: core/templates/registermessages.tmpl:207
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
@@ -934,7 +944,7 @@ msgstr "Referências a %1 em todas as Webs"
 msgid "Backlinks:"
 msgstr "Referências:"
 
-#: core/templates/registermessages.tmpl:226
+#: core/templates/registermessages.tmpl:235
 msgid "Bad password"
 msgstr "Senha errada"
 
@@ -990,7 +1000,7 @@ msgstr "ALTERAÇÃO não permitida por %1"
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "ALTERAÇÃO não permitida para %1 por %2"
 
-#: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:278
+#: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:287
 msgid "Can't find user %1"
 msgstr "Usuário %1 não encontrado"
 
@@ -1017,7 +1027,7 @@ msgstr ""
 #: core/data/Main/GroupViewTemplate.txt:213
 #: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:109
+#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:111
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "Cancelar"
@@ -1244,7 +1254,7 @@ msgstr "Comentários são desativados enquanto linhas de comandos são executada
 msgid "Compare revisions"
 msgstr "Comparar versões"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:197
 msgid "Confirm password:"
 msgstr "Confirmar senha:"
 
@@ -1268,6 +1278,7 @@ msgstr "Conflito"
 #: core/templates/messages.tmpl:412 core/templates/messages.tmpl:449
 #: core/templates/messages.tmpl:462 core/templates/messages.tmpl:469
 #: core/templates/messages.tmpl:478 core/templates/registermessages.tmpl:109
+#: core/templates/registermessages.tmpl:132
 msgid "Contact %1 if you have any questions."
 msgstr "Contate %1 se você tiver qualquer dúvida."
 
@@ -1295,7 +1306,7 @@ msgstr "Continue editando"
 msgid "Continue to create the new page"
 msgstr "Continue para criar a nova página"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1347,7 +1358,7 @@ msgstr "Não foi possível executar a busca. O erro foi: %1"
 msgid "Could not save %1."
 msgstr "Não foi possível salvar %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:217
 msgid "Country:"
 msgstr "País:"
 
@@ -1392,8 +1403,8 @@ msgstr "Criar novo tópico de FAQ"
 msgid "Create new topic"
 msgstr "Criar novo tópico"
 
-#: core/templates/registermessages.tmpl:405
-#: core/templates/registermessages.tmpl:411
+#: core/templates/registermessages.tmpl:414
+#: core/templates/registermessages.tmpl:420
 msgid "Create not specified and group does not exist"
 msgstr "Criação não especificada e grupo não existente"
 
@@ -1412,7 +1423,7 @@ msgstr "Criar o tópico"
 msgid "Create this topic"
 msgstr "Criar este tópico"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:108
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:60
 msgid "Create your account to edit pages on this site."
 msgstr "Criar nova conta para editar páginas no site."
 
@@ -1500,7 +1511,7 @@ msgstr "Lista detalhada de tópicos na Web %1"
 msgid "Details in separate window"
 msgstr "Detalhes em uma nova janela"
 
-#: core/templates/registermessages.tmpl:356
+#: core/templates/registermessages.tmpl:365
 msgid "Details:"
 msgstr "Detalhes:"
 
@@ -1512,7 +1523,7 @@ msgstr ""
 "Você digitou o nome do tópico corretamente? Lembre-se que nomes de tópicos "
 "diferenciam maiúsculas e minúsculas (case sensitive)."
 
-#: core/templates/registermessages.tmpl:196
+#: core/templates/registermessages.tmpl:205
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Você não queria [[%1][restaurar a senha de %2]]?"
 
@@ -1585,7 +1596,7 @@ msgstr ""
 "Um erro foi encontrado pelo sistema de controle de versões ao salvar %1. Por "
 "favor, notifique o administrador do %2."
 
-#: core/templates/registermessages.tmpl:290
+#: core/templates/registermessages.tmpl:299
 msgid "E-mail changed successfully!"
 msgstr "E-mail alterado com sucesso!"
 
@@ -1694,7 +1705,7 @@ msgstr ""
 "Ou você não especificou um nome de arquivo, ou o arquivo %1 que você está "
 "tentando subir não tem nenhum conteúdo. Você não pode subir um arquivo vazio."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:187
 msgid "Email address:"
 msgstr "Endereço de e-mail:"
 
@@ -1745,7 +1756,7 @@ msgstr "Erro encontrado ao carregar o plugin. Veja os erros abaixo."
 msgid "Error registering new user"
 msgstr "Erro ao registrar novo usuário"
 
-#: core/templates/registermessages.tmpl:183
+#: core/templates/registermessages.tmpl:192
 msgid "Error registering user %1"
 msgstr "Erro ao registrar o usuário %1"
 
@@ -1773,11 +1784,11 @@ msgstr "Erro: protocolo não suportado. (Deveria ser 'http://domínio/...')"
 msgid "Errors"
 msgstr "Erros"
 
-#: core/templates/registermessages.tmpl:374
+#: core/templates/registermessages.tmpl:383
 msgid "Errors adding members to group"
 msgstr "Erros ao adicionar usuários no grupo"
 
-#: core/templates/registermessages.tmpl:423
+#: core/templates/registermessages.tmpl:432
 msgid "Errors removing members from groups"
 msgstr "Erros ao remover usuários dos grupos"
 
@@ -1818,7 +1829,7 @@ msgstr "Falha ao incluir a URL %1"
 msgid "Fields marked %1 are required"
 msgstr "Campos marcados com %1 são obrigatórios"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:131
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:92
 msgid "Fields marked <span class='required'>*</span> are required."
 msgstr "Campos marcados com <span class='required'>*</span> são obrigatórios."
 
@@ -1846,7 +1857,7 @@ msgstr "Procurar por tópicos que referenciem %1 ..."
 msgid "First"
 msgstr "Primeiro"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:306
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:160
 msgid "First name:"
 msgstr "Primeiro nome:"
 
@@ -1885,8 +1896,9 @@ msgstr "Faltando definição do formulário %1"
 msgid "Form based input"
 msgstr "Dados de formulário"
 
-#: PatternSkin/templates/formtables.pattern.tmpl:7 core/templates/form.tmpl:9
-#: core/templates/formtables.tmpl:12
+#: PatternSkin/templates/formtables.pattern.tmpl:7
+#: PatternSkin/templates/formtables.pattern01x01.tmpl:5
+#: core/templates/form.tmpl:9 core/templates/formtables.tmpl:12
 msgid "Form data"
 msgstr "Formulário de dados"
 
@@ -1934,6 +1946,11 @@ msgstr "Restaurar senha no Foswiki para %1"
 msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
 msgstr "Pegue uma nova versão <a href='%1' rel='nofollow'>aqui</a>."
 
+#: PatternSkin/templates/view.pattern01x01.tmpl:75
+#, fuzzy
+msgid "Get a fresh version <a href='%1'>here</a>."
+msgstr "Pegue uma nova versão <a href='%1' rel='nofollow'>aqui</a>."
+
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
 msgstr "Ajuda com anexação de arquivos"
@@ -1952,8 +1969,8 @@ msgstr "Receba notificações de alterações no resultado dessa busca"
 msgid "Globe"
 msgstr "Global"
 
-#: core/templates/foswiki.tmpl:113 core/templates/messages.tmpl:328
-#: core/templates/messages.tmpl:476 core/templates/registermessages.tmpl:369
+#: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
+#: core/templates/messages.tmpl:476 core/templates/registermessages.tmpl:378
 msgid "Go back"
 msgstr "Voltar"
 
@@ -2039,7 +2056,7 @@ msgstr "Título 5"
 msgid "Heading 6"
 msgstr "Título 6"
 
-#: core/templates/foswiki.tmpl:144
+#: core/templates/foswiki.tmpl:146
 msgid "Hello %1!"
 msgstr "Olá %1!"
 
@@ -2152,7 +2169,7 @@ msgstr ""
 "Se Foswiki detectar um pedido suspeito que possa ter sido originado a partir "
 "de tal página, você será instado a confirmar o pedido."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:49
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
@@ -2212,7 +2229,7 @@ msgstr ""
 "Se você recebeu esse e-mail por engano: alguém (%1) se registrou no sítio %2 "
 "usando seu endereço de e-mail %3. Contate %4 se este erro aconteceu."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:117
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:70
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr ""
 "Se você tiver qualquer dúvida sobre o registro, envie um email para %1."
@@ -2325,11 +2342,11 @@ msgstr ""
 msgid "Including"
 msgstr "Incluindo"
 
-#: core/templates/registermessages.tmpl:300
+#: core/templates/registermessages.tmpl:309
 msgid "Incorrect Password"
 msgstr "Senha incorreta"
 
-#: core/templates/registermessages.tmpl:307
+#: core/templates/registermessages.tmpl:316
 msgid "Incorrect Prefix"
 msgstr "Prefixo incorreto"
 
@@ -2341,14 +2358,18 @@ msgstr "[[%1][NomeWiki]] incorreto"
 msgid "Incorrect [[%1][WikiNames:]]"
 msgstr "[[%1][NomeWikis]] incorretos:"
 
-#: core/templates/registermessages.tmpl:211
-#: core/templates/registermessages.tmpl:218
+#: core/templates/registermessages.tmpl:220
+#: core/templates/registermessages.tmpl:227
 msgid "Incorrect [[%1][username]]"
 msgstr "[[%1][Nome de usuário]] incorreto"
 
 #: core/templates/messages.tmpl:315
 msgid "Incorrect parameters to the =%1= script"
 msgstr "Parâmetros incorretos para o script =%1="
+
+#: core/templates/registermessages.tmpl:127
+msgid "Incorrect templatetopic name provided."
+msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
 msgid "Indent"
@@ -2438,11 +2459,11 @@ msgstr "Código de ativação inválido"
 msgid "Invalid Input"
 msgstr "Entrada inválida"
 
-#: core/templates/registermessages.tmpl:233
 #: core/templates/registermessages.tmpl:242
 #: core/templates/registermessages.tmpl:251
 #: core/templates/registermessages.tmpl:260
 #: core/templates/registermessages.tmpl:269
+#: core/templates/registermessages.tmpl:278
 msgid "Invalid e-mail address"
 msgstr "Endereço de e-mail inválido"
 
@@ -2541,7 +2562,7 @@ msgstr "Última alteração"
 msgid "Last modified time"
 msgstr "Hora da última alteração"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:313
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:166
 msgid "Last name:"
 msgstr "Último Nome:"
 
@@ -2611,7 +2632,7 @@ msgstr "Log on para %1"
 msgid "Login"
 msgstr "Login"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:181
 msgid "Login username:"
 msgstr "Nome de login:"
 
@@ -2829,7 +2850,7 @@ msgstr "Nova senha"
 msgid "New topic name %1 is not a %2"
 msgstr "O novo nome do tópico, %1, não é uma %2"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:102
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:50
 #, fuzzy
 msgid "New user registration is disabled on this site."
 msgstr "Registro de novo usuário desativado"
@@ -2871,8 +2892,8 @@ msgstr "(alterações)"
 msgid "No child topics found."
 msgstr "Nenhum tópico filho"
 
-#: core/templates/registermessages.tmpl:366
-#: core/templates/registermessages.tmpl:417
+#: core/templates/registermessages.tmpl:375
+#: core/templates/registermessages.tmpl:426
 #, fuzzy
 msgid "No group name specified"
 msgstr "Nenhum GroupName especificado"
@@ -2903,11 +2924,11 @@ msgstr "Nenhum tópico para atualizar"
 msgid "No topics to update."
 msgstr "Nenhum tópico para atualizar."
 
-#: core/templates/messages.tmpl:324 core/templates/registermessages.tmpl:399
+#: core/templates/messages.tmpl:324 core/templates/registermessages.tmpl:408
 msgid "No username specified"
 msgstr "Nenhum usuário especificado"
 
-#: core/templates/registermessages.tmpl:167
+#: core/templates/registermessages.tmpl:176
 msgid "No users to reset passwords for."
 msgstr "Nenhum usuário para restaurar senha."
 
@@ -2995,11 +3016,11 @@ msgstr ""
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:111 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/foswiki.tmpl:113 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
-#: core/templates/registermessages.tmpl:318
-#: core/templates/registermessages.tmpl:326
-#: core/templates/registermessages.tmpl:337 core/templates/validate.tmpl:52
+#: core/templates/registermessages.tmpl:327
+#: core/templates/registermessages.tmpl:335
+#: core/templates/registermessages.tmpl:346 core/templates/validate.tmpl:52
 msgid "OK"
 msgstr "OK"
 
@@ -3024,7 +3045,7 @@ msgid ""
 msgstr ""
 "Uma vez registrado, você pode iniciar sua sessão usando seu %1 e sua senha."
 
-#: core/templates/registermessages.tmpl:347
+#: core/templates/registermessages.tmpl:356
 #, fuzzy
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "Apenas integrantes do %1 têm permissão para realizar essa ação."
@@ -3083,12 +3104,12 @@ msgstr "Opcionalmente digite um nome diferente de tópico:"
 msgid "Options"
 msgstr "Opções"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:203
 #, fuzzy
 msgid "Organisation name:"
 msgstr "Nome da Organização"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:210
 #, fuzzy
 msgid "Organisation website:"
 msgstr "Site da Organização"
@@ -3105,19 +3126,19 @@ msgstr ""
 msgid "Password"
 msgstr "Senha"
 
-#: core/templates/registermessages.tmpl:330
+#: core/templates/registermessages.tmpl:339
 msgid "Password changed successfully!"
 msgstr "Senha alterada com sucesso!"
 
-#: core/templates/registermessages.tmpl:322
+#: core/templates/registermessages.tmpl:331
 msgid "Password could not be changed"
 msgstr "As senhas não podem ser alteradas"
 
-#: core/templates/registermessages.tmpl:166
+#: core/templates/registermessages.tmpl:175
 msgid "Password reset failed"
 msgstr "A ação de Restaurar senha falhou"
 
-#: core/templates/registermessages.tmpl:171
+#: core/templates/registermessages.tmpl:180
 #, fuzzy
 msgid "Password reset failed."
 msgstr "A ação de Restaurar senha falhou"
@@ -3128,12 +3149,12 @@ msgstr "A ação de Restaurar senha falhou"
 msgid "Password:"
 msgstr "Senha"
 
-#: core/templates/registermessages.tmpl:127
+#: core/templates/registermessages.tmpl:136
 #, fuzzy
 msgid "Passwords disabled"
 msgstr "A ação de Restaurar senha falhou"
 
-#: core/templates/registermessages.tmpl:176
+#: core/templates/registermessages.tmpl:185
 msgid "Passwords do not match"
 msgstr "As senhas não conferem"
 
@@ -3160,51 +3181,51 @@ msgstr "Lugar para tópicos e anexos removidos."
 msgid "Placeholder for trashed attachments"
 msgstr "Lugar reservado para anexos removidos"
 
-#: core/templates/registermessages.tmpl:378
-#: core/templates/registermessages.tmpl:427
+#: core/templates/registermessages.tmpl:387
+#: core/templates/registermessages.tmpl:436
 #, fuzzy
 msgid "Please check to ensure you have permission to modify the group."
 msgstr "Certifique-se de ter permissão para modificar o grupo."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:141
 #, fuzzy
 msgid "Please confirm your password."
 msgstr "Confirmar senha"
 
-#: core/templates/registermessages.tmpl:200
+#: core/templates/registermessages.tmpl:209
 #: core/templates/registermessages.tmpl:87
 msgid "Please contact %1 if you have any questions."
 msgstr "Por favor, contate %1 se você tiver qualquer questão."
 
 #: core/templates/registermessages.tmpl:11
-#: core/templates/registermessages.tmpl:131
-#: core/templates/registermessages.tmpl:187
+#: core/templates/registermessages.tmpl:140
+#: core/templates/registermessages.tmpl:196
 #: core/templates/registermessages.tmpl:21
 #: core/templates/registermessages.tmpl:35
 #: core/templates/registermessages.tmpl:98
 msgid "Please contact %1."
 msgstr "Por favor, contate %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
 msgid "Please correct the entered data before you continue."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:127
 #, fuzzy
 msgid "Please enter a WikiName."
 msgstr "Por favor, digite a senha de Administrador do Wiki"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:133
 #, fuzzy
 msgid "Please enter a login username."
 msgstr "Por favor, digite a senha de Administrador do Wiki"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:137
 #, fuzzy
 msgid "Please enter a password."
 msgstr "Por favor, digite a senha de Administrador do Wiki"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:131
 #, fuzzy
 msgid "Please enter a valid email address."
 msgstr "Endereço de e-mail inválido"
@@ -3213,17 +3234,17 @@ msgstr "Endereço de e-mail inválido"
 msgid "Please enter the Wiki admin password"
 msgstr "Por favor, digite a senha de Administrador do Wiki"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:142
 #, fuzzy
 msgid "Please enter the same password as above."
 msgstr "Por favor, digite a senha de Administrador do Wiki"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:124
 #, fuzzy
 msgid "Please enter your first name."
 msgstr "Por favor, digite a senha de Administrador do Wiki"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:272
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:125
 #, fuzzy
 msgid "Please enter your last name."
 msgstr "Por favor, digite a senha de Administrador do Wiki"
@@ -3254,18 +3275,19 @@ msgstr ""
 #: core/templates/messages.tmpl:38 core/templates/messages.tmpl:43
 #: core/templates/messages.tmpl:52 core/templates/messages.tmpl:92
 #: core/templates/messages.tmpl:99 core/templates/registermessages.tmpl:123
-#: core/templates/registermessages.tmpl:179
-#: core/templates/registermessages.tmpl:207
-#: core/templates/registermessages.tmpl:214
-#: core/templates/registermessages.tmpl:222
-#: core/templates/registermessages.tmpl:229
+#: core/templates/registermessages.tmpl:131
+#: core/templates/registermessages.tmpl:188
+#: core/templates/registermessages.tmpl:216
+#: core/templates/registermessages.tmpl:223
+#: core/templates/registermessages.tmpl:231
 #: core/templates/registermessages.tmpl:238
 #: core/templates/registermessages.tmpl:247
 #: core/templates/registermessages.tmpl:256
 #: core/templates/registermessages.tmpl:265
 #: core/templates/registermessages.tmpl:274
-#: core/templates/registermessages.tmpl:303
-#: core/templates/registermessages.tmpl:310
+#: core/templates/registermessages.tmpl:283
+#: core/templates/registermessages.tmpl:312
+#: core/templates/registermessages.tmpl:319
 msgid "Please go back in your browser and try again."
 msgstr "Por favor, volte no seu navegador e tente de novo."
 
@@ -3274,7 +3296,7 @@ msgstr "Por favor, volte no seu navegador e tente de novo."
 msgid "Please go back in your browser and upload using a different filename."
 msgstr "Por favor, _volte_ no seu navegador e tente um novo nome."
 
-#: core/templates/registermessages.tmpl:279
+#: core/templates/registermessages.tmpl:288
 #, fuzzy
 msgid ""
 "Please make sure you spelled the [[%1][username]] correctly and try again. "
@@ -3373,7 +3395,7 @@ msgstr "pôr de volta..."
 msgid "Query Search"
 msgstr "Busca com <code>type=\"query\"</code>"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:72
+#: core/data/System/FrequentlyAskedQuestions.txt:74
 #, fuzzy
 msgid "Question:"
 msgstr "Questão"
@@ -3404,7 +3426,7 @@ msgstr ""
 msgid "Read on"
 msgstr "Leia mais"
 
-#: core/data/Sandbox/WebHome.txt:53
+#: core/data/Sandbox/WebHome.txt:57
 msgid "Recently changed topics"
 msgstr "Tópicos alterados recentemente"
 
@@ -3434,8 +3456,8 @@ msgstr "Atualizar"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
-#: core/templates/foswiki.tmpl:146
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
+#: core/templates/foswiki.tmpl:148
 msgid "Register"
 msgstr "Registro"
 
@@ -3449,11 +3471,11 @@ msgstr ""
 msgid "Registered users"
 msgstr "Registro"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:77
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:22
 msgid "Registration"
 msgstr "Registro"
 
-#: core/lib/Foswiki/UI/Register.pm:711
+#: core/lib/Foswiki/UI/Register.pm:712
 #, fuzzy
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -3474,7 +3496,7 @@ msgstr "Desculpe-nos, o registro está temporariamente desativado."
 msgid "Registration has been denied"
 msgstr "Desculpe-nos, o registro está temporariamente desativado."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:99
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:47
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system. "
@@ -3494,17 +3516,17 @@ msgstr ""
 
 #: core/data/System/SiteTools.txt:149
 #: core/data/System/SkinTemplateTokens.txt:180
-#: core/data/System/UserAuthentication.txt:301
+#: core/data/System/UserAuthentication.txt:329
 #, fuzzy
 msgid "Related Topics:"
 msgstr "Tópicos Relacionados"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:114
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:115
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:690
+#: core/data/System/CommandAndCGIScripts.txt:693
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3520,7 +3542,7 @@ msgstr ""
 msgid "Remember me on this computer"
 msgstr "Lembre-me nesse computador"
 
-#: core/templates/registermessages.tmpl:292
+#: core/templates/registermessages.tmpl:301
 #, fuzzy
 msgid ""
 "Remember to update your user topic [[%1]] if you want your e-mail change to "
@@ -3543,7 +3565,7 @@ msgstr "Remover usuários desse grupo"
 msgid "Remove members..."
 msgstr "Remover usuário..."
 
-#: core/templates/registermessages.tmpl:346
+#: core/templates/registermessages.tmpl:355
 msgid "Remove of user account other than your own is denied"
 msgstr ""
 
@@ -3552,7 +3574,7 @@ msgstr ""
 msgid "Remove selected members"
 msgstr "Remover usuários selecionados"
 
-#: core/templates/registermessages.tmpl:286
+#: core/templates/registermessages.tmpl:295
 #, fuzzy
 msgid "Remove the member from the group(s) %1 first."
 msgstr "Remova primeiro o usuário do(s) grupo(s) %1."
@@ -3677,17 +3699,17 @@ msgstr "Resultados na web %1"
 msgid "Results from %1 web:"
 msgstr "Resultados na web %1"
 
-#: core/templates/registermessages.tmpl:348
-#: core/templates/registermessages.tmpl:362
+#: core/templates/registermessages.tmpl:357
+#: core/templates/registermessages.tmpl:371
 #, fuzzy
 msgid "Return to %1"
 msgstr "Voltar para %1."
 
-#: core/templates/registermessages.tmpl:342
+#: core/templates/registermessages.tmpl:351
 msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:296
+#: core/templates/registermessages.tmpl:305
 msgid "Return to %1."
 msgstr "Voltar para %1."
 
@@ -3863,7 +3885,7 @@ msgstr "Busca:"
 msgid "Security Note:"
 msgstr "Aviso de Segurança:"
 
-#: core/templates/registermessages.tmpl:281
+#: core/templates/registermessages.tmpl:290
 msgid "See %1 for a list of existing users or register as new user in %2."
 msgstr ""
 "Veja %1 para uma lista de usuários existentes ou registre-se como um novo "
@@ -3873,11 +3895,11 @@ msgstr ""
 msgid "See %1 for information about Form Definitions."
 msgstr "Veja %1 para informações sobre definições de formulário."
 
-#: core/templates/registermessages.tmpl:380
 #: core/templates/registermessages.tmpl:389
-#: core/templates/registermessages.tmpl:396
-#: core/templates/registermessages.tmpl:429
+#: core/templates/registermessages.tmpl:398
+#: core/templates/registermessages.tmpl:405
 #: core/templates/registermessages.tmpl:438
+#: core/templates/registermessages.tmpl:447
 msgid "See %MAINWEB%.WikiGroups to see the result."
 msgstr ""
 
@@ -3922,7 +3944,7 @@ msgstr "Selecionar todos"
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:279
 #, fuzzy
 msgid "Select groups to join:"
 msgstr "Selecione o tópico pai:"
@@ -3932,7 +3954,7 @@ msgstr "Selecione o tópico pai:"
 msgid "Select members to remove from this group:"
 msgstr "Remover usuários desse grupo"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:279
 #, fuzzy
 msgid "Select the group to join:"
 msgstr "Selecione o tópico pai:"
@@ -3950,7 +3972,7 @@ msgstr "Selecione, copie e cole a sua assinatura no final do seu texto"
 msgid "Selections apply to search in \"text body\""
 msgstr "Seleções aplicam-se para buscas no conteúdo textual \"text body\""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:85
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:31
 #, fuzzy
 msgid "Self registration is not supported by this site."
 msgstr "Registro de novo usuário não é suportado"
@@ -4043,12 +4065,12 @@ msgstr ""
 "Algumas pessoas o transformam num portal pessoal com links favoritos, "
 "informações sobre no que trabalham, que ajuda gostariam, etc."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:106
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:56
 #, fuzzy
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Desculpe-nos, o registro está temporariamente desativado."
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:91
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:92
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -4117,8 +4139,8 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
-#: core/data/System/FrequentlyAskedQuestions.txt:79
-#: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:152
+#: core/data/System/FrequentlyAskedQuestions.txt:81
+#: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:161
 msgid "Submit"
 msgstr "Enviar"
 
@@ -4164,12 +4186,12 @@ msgstr ""
 msgid "Subwebs"
 msgstr "Subwebs"
 
-#: core/templates/registermessages.tmpl:385
+#: core/templates/registermessages.tmpl:394
 #, fuzzy
 msgid "Success adding members to group"
 msgstr "Erro ao adicionar usuários no grupo"
 
-#: core/templates/registermessages.tmpl:434
+#: core/templates/registermessages.tmpl:443
 #, fuzzy
 msgid "Success removing members from group"
 msgstr "Erro ao remover usuários do grupo"
@@ -4238,9 +4260,9 @@ msgid "Thank you for denying this registration"
 msgstr "Obrigado por se registrar"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:272
-#: core/templates/registermessages.tmpl:137
-#: core/templates/registermessages.tmpl:145
-#: core/templates/registermessages.tmpl:158
+#: core/templates/registermessages.tmpl:146
+#: core/templates/registermessages.tmpl:154
+#: core/templates/registermessages.tmpl:167
 msgid "Thank you for registering"
 msgstr "Obrigado por se registrar"
 
@@ -4309,7 +4331,7 @@ msgstr "O script =%1= pode ser executado somente através do método POST."
 msgid "The Administrator has disabled new user registration."
 msgstr "O Administrador desativou o registro de novos usuários."
 
-#: core/templates/registermessages.tmpl:129
+#: core/templates/registermessages.tmpl:138
 #, fuzzy
 msgid "The Administrator has disabled password changes."
 msgstr "O Administrador desativou o registro de novos usuários."
@@ -4338,13 +4360,13 @@ msgstr ""
 "O campo %1 deve conter seu primeiro e último nomes em %2, i.e. seu primeiro "
 "e último nomes iniciados com maiúsculas e sem espaços entre eles."
 
-#: core/templates/registermessages.tmpl:205
+#: core/templates/registermessages.tmpl:214
 msgid ""
 "The [[%1][login username]] (%2) is not allowed for this installation. "
 "Registration rejected."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:212
+#: core/templates/registermessages.tmpl:221
 msgid ""
 "The [[%1][login username]] is a required parameter. Registration rejected."
 msgstr ""
@@ -4405,20 +4427,20 @@ msgid ""
 "authority."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:243
-#: core/templates/registermessages.tmpl:261
+#: core/templates/registermessages.tmpl:252
+#: core/templates/registermessages.tmpl:270
 #, fuzzy
 msgid "The e-mail address for this account has been rejected."
 msgstr "O endereço de e-mail para essa conta não é válido."
 
-#: core/templates/registermessages.tmpl:252
-#: core/templates/registermessages.tmpl:270
+#: core/templates/registermessages.tmpl:261
+#: core/templates/registermessages.tmpl:279
 #, fuzzy
 msgid ""
 "The e-mail address for this account is already registered to another user."
 msgstr "O endereço de e-mail para essa conta não é válido."
 
-#: core/templates/registermessages.tmpl:234
+#: core/templates/registermessages.tmpl:243
 msgid "The e-mail address for this account is not valid."
 msgstr "O endereço de e-mail para essa conta não é válido."
 
@@ -4480,6 +4502,14 @@ msgstr "O campo nome do tópico não pode ser vazio"
 msgid "The name of the topic must not be empty."
 msgstr "O campo nome do tópico não pode ser vazio."
 
+#: core/templates/registermessages.tmpl:128
+msgid ""
+"The name provided is either invalid, or the named topic is not found. The "
+"templatetopic must be an existing new user template topic in the %USERSWEB% "
+"web.  If not provided, the default topic is [[%USERSWEB%.NewUserTemplate]], "
+"or if that does not exist. [[%SYSTEMWEB%.NewUserTemplate]]."
+msgstr ""
+
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
 msgstr ""
@@ -4496,11 +4526,11 @@ msgstr "O novo tópico selecionado deve já existir."
 msgid "The new web has been created"
 msgstr "A nova web foi criada"
 
-#: core/templates/registermessages.tmpl:301
+#: core/templates/registermessages.tmpl:310
 msgid "The password you entered in the *old password* field is incorrect."
 msgstr "A senha que você colocou no campo *senha antiga* está incorreta."
 
-#: core/templates/registermessages.tmpl:308
+#: core/templates/registermessages.tmpl:317
 msgid ""
 "The prefix you entered for the deleted user is not valid as a topic name."
 msgstr ""
@@ -4518,7 +4548,7 @@ msgstr ""
 msgid "The topic is in an old format"
 msgstr "O tópico está no formato antigo"
 
-#: core/templates/registermessages.tmpl:177
+#: core/templates/registermessages.tmpl:186
 msgid "The two passwords you entered do not match."
 msgstr "As duas senhas que você digitou não coincidem."
 
@@ -4526,7 +4556,7 @@ msgstr "As duas senhas que você digitou não coincidem."
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr "O usuário %1 já foi ativado e já pode efetuar login."
 
-#: core/templates/registermessages.tmpl:354
+#: core/templates/registermessages.tmpl:363
 #, fuzzy
 msgid "The user has been removed from the Authentication System."
 msgstr "Seu nome de usuário foi removido do sistema de autenticação."
@@ -4541,7 +4571,7 @@ msgid ""
 "characters matching this filter will invalidate the username."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:329
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:182
 msgid "The username that identifies you to the signon system. %1"
 msgstr ""
 
@@ -4559,7 +4589,7 @@ msgstr ""
 msgid "There are problems with renaming this web:"
 msgstr "Houveram problemas com a renomeação da web:"
 
-#: core/templates/registermessages.tmpl:185
+#: core/templates/registermessages.tmpl:194
 msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 "Houve um problema ao incluir a identificação do usuário ao sistema de senha."
@@ -4582,11 +4612,11 @@ msgstr ""
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Deveria haver uma linha que inclui %1, procure por %2 (ou %3)"
 
-#: core/templates/registermessages.tmpl:376
+#: core/templates/registermessages.tmpl:385
 msgid "There were errors adding to the %2 group. %1 "
 msgstr "Ocorreram erros ao adicionar ao grupo %2. %1 "
 
-#: core/templates/registermessages.tmpl:425
+#: core/templates/registermessages.tmpl:434
 #, fuzzy
 msgid "There were errors removing %1 from the %2 group."
 msgstr "%1 foi adicionado ao grupo %2."
@@ -4595,7 +4625,7 @@ msgstr "%1 foi adicionado ao grupo %2."
 msgid "These steps may not be applicable to your system."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:276
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:129
 msgid "This WikiName is already in use."
 msgstr ""
 
@@ -4606,6 +4636,12 @@ msgstr "Isto pode ser automaticamente:"
 #: core/templates/messages.tmpl:211
 msgid "This could be for several reasons:"
 msgstr "Isto pode acontecer por várias razões:"
+
+#: core/templates/registermessages.tmpl:130
+msgid ""
+"This field is not normally user provided. This may be a Foswiki "
+"configuration error."
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
 #, fuzzy
@@ -4665,7 +4701,7 @@ msgid "This is an automated e-mail notification of user registration in %1."
 msgstr ""
 "Este é um e-mail automático de notificação de usuário registrado em %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:128
 #, fuzzy
 msgid "This is not a valid WikiName."
 msgstr "'%1' não é um nome de formulário válido"
@@ -4678,7 +4714,7 @@ msgstr ""
 "Aqui é a Lixeira. Aqui você pode recuperar tópicos; anexos removidos ficam "
 "em TrashAttachment."
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "This is why the conversion is disabled:"
 msgstr "Por isso a conversão está desabilitada:"
 
@@ -4688,12 +4724,12 @@ msgid ""
 "[Register]] if you do not have an account yet."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:174
 #, fuzzy
 msgid "This must be a unique WikiName."
 msgstr "'%1' não é um nome de formulário válido"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:329
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:182
 #, fuzzy
 msgid "This must be a valid login username."
 msgstr "'%1' não é um nome de formulário válido"
@@ -4715,6 +4751,7 @@ msgstr ""
 "executado nesse servidor) para prevenir ataques."
 
 #: PatternSkin/templates/view.pattern.tmpl:72
+#: PatternSkin/templates/view.pattern01x01.tmpl:74
 msgid "This page was cached on %1."
 msgstr ""
 
@@ -4726,7 +4763,7 @@ msgstr "Isto necessita que a definição do formulário esteja presente."
 msgid "This site is powered by Foswiki"
 msgstr "Este site é desenvolvido em Foswiki"
 
-#: core/templates/registermessages.tmpl:227
+#: core/templates/registermessages.tmpl:236
 msgid "This site requires at least %1 character passwords"
 msgstr "Este site exige caracteres %1 para senhas"
 
@@ -4743,7 +4780,7 @@ msgstr ""
 msgid "This topic:"
 msgstr "Esse tópico:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:281
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:134
 #, fuzzy
 msgid "This username is already in use."
 msgstr "Este usuário já foi ativado"
@@ -4769,7 +4806,7 @@ msgid ""
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:77
-#: core/data/System/FrequentlyAskedQuestions.txt:65
+#: core/data/System/FrequentlyAskedQuestions.txt:67
 #, fuzzy
 msgid "Title:"
 msgstr "Nome do tópico"
@@ -4883,7 +4920,7 @@ msgstr "Nome do tópico"
 msgid "Topic list for %1 Web"
 msgstr "Tópicos na web %1"
 
-#: core/data/Sandbox/WebHome.txt:26 core/data/System/WebSearch.txt:161
+#: core/data/Sandbox/WebHome.txt:30 core/data/System/WebSearch.txt:161
 msgid "Topic name"
 msgstr "Nome do tópico"
 
@@ -4897,7 +4934,10 @@ msgstr "Tópico pai:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:68 core/templates/viewprint.tmpl:15
+#: PatternSkin/templates/view.pattern.tmpl:68
+#: PatternSkin/templates/view.pattern01x01.tmpl:44
+#: PatternSkin/templates/view.pattern01x01.tmpl:70
+#: core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
 msgstr "Versão do tópico:"
 
@@ -5007,7 +5047,7 @@ msgstr ""
 msgid "Unsubscribe from this topic (s)"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:204
+#: core/templates/registermessages.tmpl:213
 #, fuzzy
 msgid "Unsupported [[%1][username]]"
 msgstr "[[%1.WikiNames][NomesWikis]] incorretos:"
@@ -5036,7 +5076,7 @@ msgstr ""
 msgid "Upgrade group topic..."
 msgstr "Copiar tópico..."
 
-#: core/templates/registermessages.tmpl:392
+#: core/templates/registermessages.tmpl:401
 #, fuzzy
 msgid "Upgraded group"
 msgstr "Criar grupo"
@@ -5105,11 +5145,11 @@ msgstr ""
 msgid "User %1 not in group, cannot be removed"
 msgstr "%1 está em pelo menos um grupo e não pode ser removido"
 
-#: core/templates/registermessages.tmpl:353
+#: core/templates/registermessages.tmpl:362
 msgid "User Account %1 Deleted"
 msgstr "Conta de usuário %1 foi removida"
 
-#: core/templates/registermessages.tmpl:341
+#: core/templates/registermessages.tmpl:350
 #, fuzzy
 msgid "User Account was not supplied"
 msgstr "Conta de usuário %1 foi removida"
@@ -5167,7 +5207,7 @@ msgstr ""
 msgid "Users who may view:"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:316
+#: core/templates/registermessages.tmpl:325
 msgid ""
 "Users with automatically generated passwords should proceed immediately to "
 "[[%1][change password]] to change their password to something memorable."
@@ -5195,7 +5235,7 @@ msgstr "Versão do histórico de %1"
 msgid "View"
 msgstr "Ver"
 
-#: core/templates/foswiki.tmpl:138
+#: core/templates/foswiki.tmpl:140
 msgid "View complete topic history"
 msgstr "Ver histórico completo do tópico"
 
@@ -5294,11 +5334,11 @@ msgstr "Aviso: tópico %1.%2 não encontrado"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Aviso: tópico %1.%2 não encontrado"
 
-#: core/lib/Foswiki/UI/Register.pm:1277
+#: core/lib/Foswiki/UI/Register.pm:1278
 msgid "Warning: Could not send confirmation email"
 msgstr "Atenção: Não foi possível enviar e-mail de confirmação"
 
-#: core/lib/Foswiki/UI/Register.pm:1289
+#: core/lib/Foswiki/UI/Register.pm:1290
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Atenção: Não foi possível enviar e-mail de confirmação, pois o envio de e-"
@@ -5312,7 +5352,7 @@ msgstr "Aviso: Esse sítio não permite %<nop>INCLUDE% de URLs"
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr ""
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:440
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:442
 #, fuzzy
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Atenção: o tópico em \\'include\\' não existe!"
@@ -5322,18 +5362,18 @@ msgstr "Atenção: o tópico em \\'include\\' não existe!"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "AVISO: o tópico para inclusão não existe"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:468
 #, fuzzy
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Atenção: o tópico em \\'include\\' não existe!"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:110
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:64
 msgid ""
 "We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
 "you wish to register."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:110
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:64
 msgid ""
 "We noticed you have disabled cookies. Please enable cookies if you wish to "
 "register."
@@ -5424,12 +5464,12 @@ msgstr ""
 "sua senha.  Caso nenhum de seus endereços registrados for um e-mail válido, "
 "e você esqueceu sua senha, contate %1. "
 
-#: core/templates/registermessages.tmpl:193
+#: core/templates/registermessages.tmpl:202
 #, fuzzy
 msgid "You are already registered."
 msgstr "Você já está registrado"
 
-#: core/templates/registermessages.tmpl:140
+#: core/templates/registermessages.tmpl:149
 msgid "You are also listed in the %1 topic"
 msgstr "Você também está listado no tópico [[%1][Usuários do Foswiki]]"
 
@@ -5452,6 +5492,7 @@ msgstr ""
 "é recomendável que você verifique com %1 primeiro."
 
 #: PatternSkin/templates/view.pattern.tmpl:36
+#: PatternSkin/templates/view.pattern01x01.tmpl:36
 msgid "You are here:"
 msgstr "Você está aqui:"
 
@@ -5516,8 +5557,8 @@ msgstr "Você pode mudar sua senha em %1"
 msgid "You can give this web a different name."
 msgstr "Você pode dar um nome diferente para esta web."
 
-#: core/templates/registermessages.tmpl:407
-#: core/templates/registermessages.tmpl:413
+#: core/templates/registermessages.tmpl:416
+#: core/templates/registermessages.tmpl:422
 msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
@@ -5537,7 +5578,7 @@ msgid ""
 "your browser."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:194
+#: core/templates/registermessages.tmpl:203
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "Registros duplos não são permitidos: o nome %1 já é utilizado."
 
@@ -5552,7 +5593,7 @@ msgstr ""
 "procurará uma linha como essa:"
 
 #: core/templates/registermessages.tmpl:13
-#: core/templates/registermessages.tmpl:189
+#: core/templates/registermessages.tmpl:198
 #: core/templates/registermessages.tmpl:23
 #: core/templates/registermessages.tmpl:37
 msgid "You have *not* been registered."
@@ -5574,7 +5615,7 @@ msgstr ""
 "Pode ter acontecido de você ter clicado num link para endereço de validação "
 "de registo no qual você já havia visitado."
 
-#: core/templates/registermessages.tmpl:334
+#: core/templates/registermessages.tmpl:343
 msgid "You may need to close your browser to make this change take effect."
 msgstr ""
 "Você precisa fechar o seu navegador para que as mudanças tenham efeito."
@@ -5583,11 +5624,11 @@ msgstr ""
 msgid "You must pass a topic name."
 msgstr "Você deve fornecer um nome de tópico."
 
-#: core/templates/registermessages.tmpl:367
+#: core/templates/registermessages.tmpl:376
 msgid "You need to specify a valid group name to add members to a group."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:418
+#: core/templates/registermessages.tmpl:427
 msgid "You need to specify a valid group name to remove members from a group."
 msgstr ""
 
@@ -5595,7 +5636,7 @@ msgstr ""
 msgid "You need to specify a valid member to add to a group."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:401
+#: core/templates/registermessages.tmpl:410
 msgid "You need to specify a valid member to remove from a group."
 msgstr ""
 
@@ -5614,7 +5655,7 @@ msgstr ""
 "Provavelmente você vai ter que pedir ao seu administrador, %1, para fazer "
 "isso."
 
-#: core/templates/registermessages.tmpl:162
+#: core/templates/registermessages.tmpl:171
 msgid "You will receive an e-mail when your registration has been approved."
 msgstr ""
 
@@ -5629,7 +5670,7 @@ msgstr ""
 msgid "Your [[%1][username]]:"
 msgstr "[[%1.WikiNames][NomesWikis]] incorretos:"
 
-#: core/templates/registermessages.tmpl:147
+#: core/templates/registermessages.tmpl:156
 msgid ""
 "Your activation code has been sent to %1.  Either click on the link in your "
 "e-mail or enter the code in the box below to activate your membership. (This "
@@ -5640,7 +5681,7 @@ msgstr ""
 "colocar o código no campo abaixo. (Esse código tem o seguinte formato "
 "\"SeuNome.xxxxxxxxxx\")"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:188
 msgid "Your email address will be kept confidential."
 msgstr "Seu endereço de e-mail será mantido confidencial."
 
@@ -5649,7 +5690,7 @@ msgstr "Seu endereço de e-mail será mantido confidencial."
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
 msgstr "Sua senha foi alterada para %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:174
 msgid "Your name as displayed by %1."
 msgstr ""
 
@@ -5661,18 +5702,18 @@ msgstr ""
 msgid "Your password has been changed to %1."
 msgstr "Sua senha foi alterada para %1."
 
-#: core/templates/registermessages.tmpl:133
+#: core/templates/registermessages.tmpl:142
 #, fuzzy
 msgid "Your password has not been changed."
 msgstr "Sua senha foi alterada para %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:290
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:138
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:143
 #, fuzzy
 msgid "Your password must be at least %1 characters long."
 msgstr "Este site exige caracteres %1 para senhas"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:196
 #, fuzzy
 msgid "Your password:"
 msgstr "Sua senha:"
@@ -5685,11 +5726,11 @@ msgstr ""
 "Sua página pessoal %1 está localizada em %2. Você pode personalizá-la da "
 "forma que preferir:"
 
-#: core/templates/registermessages.tmpl:138
+#: core/templates/registermessages.tmpl:147
 msgid "Your personal Foswiki topic %1 has been created"
 msgstr "Sua página pessoal %1 foi criada"
 
-#: core/templates/registermessages.tmpl:294
+#: core/templates/registermessages.tmpl:303
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
@@ -5703,7 +5744,7 @@ msgid ""
 "notifications of password changes."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:160
+#: core/templates/registermessages.tmpl:169
 msgid "Your registration is pending approval by the system administrators."
 msgstr ""
 
@@ -5723,7 +5764,7 @@ msgstr "Sua assinatura para copiar e colar:"
 msgid "Your signature to copy/paste:"
 msgstr "Sua assinatura pra copiar e colar:"
 
-#: core/templates/registermessages.tmpl:324
+#: core/templates/registermessages.tmpl:333
 msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
@@ -5736,7 +5777,7 @@ msgid ""
 "Your user registration failed because it did not pass the validation tests."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:220
+#: core/templates/registermessages.tmpl:229
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
@@ -5833,6 +5874,7 @@ msgstr ""
 #: NatEditPlugin/templates/edit.natedit.tmpl:9
 #: NatEditPlugin/templates/form.natedit.tmpl:2
 #: PatternSkin/templates/formtables.pattern.tmpl:30
+#: PatternSkin/templates/formtables.pattern01x01.tmpl:28
 #: core/templates/formtables.tmpl:27
 msgid "edit"
 msgstr "editar"
@@ -5850,6 +5892,12 @@ msgstr "campos obrigatórios."
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "help"
 msgstr "ajuda"
+
+#: core/data/Sandbox/WebHome.txt:11
+#: core/data/System/FrequentlyAskedQuestions.txt:47
+#, fuzzy
+msgid "hide form"
+msgstr "Adicionar formulário"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"
@@ -5894,7 +5942,7 @@ msgid "now %1"
 msgstr "agora %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:146
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:148
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40

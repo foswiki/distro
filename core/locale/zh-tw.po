@@ -70,10 +70,11 @@ msgid "%1 - Registration for %2 (%3)"
 msgstr "%1 - %2 (%3) 註冊"
 
 #: PatternSkin/templates/view.pattern.tmpl:40
+#: PatternSkin/templates/view.pattern01x01.tmpl:40
 msgid "%1 Web"
 msgstr "%1 子網"
 
-#: core/templates/registermessages.tmpl:387
+#: core/templates/registermessages.tmpl:396
 msgid "%1 added to the %2 group."
 msgstr "%1 加入群組 %2。"
 
@@ -89,7 +90,7 @@ msgstr "%1 不能自 %2 移除"
 msgid "%1 denied the registration."
 msgstr "%1 無法註冊."
 
-#: core/templates/registermessages.tmpl:394
+#: core/templates/registermessages.tmpl:403
 msgid "%1 group topic upgraded."
 msgstr "%1 群組主題已更新。"
 
@@ -143,7 +144,7 @@ msgstr "%1 現在已設為 %2"
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 正在編輯 [[%2][%3]] 。"
 
-#: core/templates/registermessages.tmpl:284
+#: core/templates/registermessages.tmpl:293
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 至少需加入一個群組，無法刪除"
 
@@ -178,7 +179,7 @@ msgstr "%1 禁止註冊"
 # "<nop>$fromWeb.<nop>$fromTopic",
 # $date,
 # $by)
-#: core/templates/registermessages.tmpl:436
+#: core/templates/registermessages.tmpl:445
 msgid "%1 removed from the %2 group."
 msgstr "%1 由群組 %2 移出。"
 
@@ -210,11 +211,17 @@ msgstr "%1 試著以電子郵件 %2 註冊"
 msgid "%1 was renamed or moved from %2 on %3 by %4"
 msgstr "%4 將 %3 的 %2 更名或移到 %1"
 
+#. ("%SYSTEMWEB%.$pluginName",                "${templateName}Template")
+#: AutoViewTemplatePlugin/lib/Foswiki/Plugins/AutoViewTemplatePlugin.pm:97
+#, fuzzy
+msgid "%1: Invalid template name (%2) - Contains invalid characters."
+msgstr "主題名稱 (%1) 包含無效字元。"
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
 msgstr "取消(&C)"
 
-#: core/templates/foswiki.tmpl:138
+#: core/templates/foswiki.tmpl:140
 msgid "&History"
 msgstr "歷史(&H)"
 
@@ -222,7 +229,7 @@ msgstr "歷史(&H)"
 msgid "&Sequential"
 msgstr "連續(&S)"
 
-#: core/templates/registermessages.tmpl:219
+#: core/templates/registermessages.tmpl:228
 msgid "'%1' is not a valid [[%2][login username]]."
 msgstr "'%1' 不是個合法的 [[%2][登入使用者]]。"
 
@@ -242,7 +249,7 @@ msgstr "(%1 驗證)"
 msgid "(%1 vs. %2)"
 msgstr "(%1 比上 %2)"
 
-#: core/templates/registermessages.tmpl:139
+#: core/templates/registermessages.tmpl:148
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*建議：*上傳您的圖片?)"
 
@@ -254,7 +261,7 @@ msgstr "(=所有= 顯示所有主題)"
 msgid "(Children in %1 Web)"
 msgstr "(%1 子網中的子頁)"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:591
 msgid "(This message will be removed automatically)"
 msgstr "(本訊息將自動移除)"
 
@@ -347,7 +354,9 @@ msgstr "(無)"
 msgid "(otherwise search %1 Web only)"
 msgstr "(否則只搜尋 %1 子網)"
 
-#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
+#: PatternSkin/templates/view.pattern.tmpl:42
+#: PatternSkin/templates/view.pattern01x01.tmpl:42
+#: core/templates/viewprint.tmpl:15
 msgid "(raw view)"
 msgstr "(檢示源碼)"
 
@@ -361,6 +370,7 @@ msgid "(rename)"
 msgstr "(更名)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42
+#: PatternSkin/templates/view.pattern01x01.tmpl:42
 msgid "(revision %1)"
 msgstr "(修訂版 %1)"
 
@@ -408,7 +418,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*格式說明:*"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:449
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:75
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the web server. This database is accessible to anyone who can "
@@ -537,7 +547,7 @@ msgid ""
 "been denied"
 msgstr "<nop>%1 <%2> 已經以電郵通知他們的註冊已被拒絕"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:320
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:173
 msgid "<nop>WikiName:"
 msgstr "<nop>主題名稱:"
 
@@ -566,7 +576,7 @@ msgid ""
 msgstr "顏色記號始於 # 標記，後面由 6 個位元的 16 進位數組成，如 =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1284
+#: core/lib/Foswiki/UI/Register.pm:1285
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "確認的電子郵件已寄往 %1"
 
@@ -730,7 +740,7 @@ msgstr "所有公開的子網"
 msgid "Allow only <nop>WikiWord for the new topic name"
 msgstr "新主題名稱只能使用 <nop>WikiWord"
 
-#: core/templates/registermessages.tmpl:198
+#: core/templates/registermessages.tmpl:207
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
@@ -888,7 +898,7 @@ msgstr "所有子網中指向 %1 的反向連結"
 msgid "Backlinks:"
 msgstr "反向連結："
 
-#: core/templates/registermessages.tmpl:226
+#: core/templates/registermessages.tmpl:235
 msgid "Bad password"
 msgstr "密碼錯誤"
 
@@ -941,7 +951,7 @@ msgstr "%1 不能變更"
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "%2 不能變更 %1"
 
-#: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:278
+#: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:287
 msgid "Can't find user %1"
 msgstr "無法找到用戶 %1"
 
@@ -966,7 +976,7 @@ msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時）"
 #: core/data/Main/GroupViewTemplate.txt:213
 #: core/data/Main/GroupViewTemplate.txt:240
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:38
-#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:109
+#: core/templates/edit.tmpl:46 core/templates/foswiki.tmpl:111
 #: core/templates/settings.tmpl:12 core/templates/validate.tmpl:52
 msgid "Cancel"
 msgstr "取消"
@@ -1188,7 +1198,7 @@ msgstr "命令列模式中，禁止評論"
 msgid "Compare revisions"
 msgstr "比較版本"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:344
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:197
 msgid "Confirm password:"
 msgstr "確認密碼："
 
@@ -1210,6 +1220,7 @@ msgstr "衝突"
 #: core/templates/messages.tmpl:412 core/templates/messages.tmpl:449
 #: core/templates/messages.tmpl:462 core/templates/messages.tmpl:469
 #: core/templates/messages.tmpl:478 core/templates/registermessages.tmpl:109
+#: core/templates/registermessages.tmpl:132
 msgid "Contact %1 if you have any questions."
 msgstr "如有問題，請聯繫 %1。"
 
@@ -1235,7 +1246,7 @@ msgstr "繼續編輯"
 msgid "Continue to create the new page"
 msgstr "繼續建立新頁面"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:585
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
 msgid ""
 "Conversion to HTML for WYSIWYG editing is disabled because of the topic "
 "content."
@@ -1281,7 +1292,7 @@ msgstr "無法搜尋，錯誤: %1"
 msgid "Could not save %1."
 msgstr "%1 無法存檔。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:427
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:217
 msgid "Country:"
 msgstr "國家："
 
@@ -1326,8 +1337,8 @@ msgstr "建立新的熱門問答主題"
 msgid "Create new topic"
 msgstr "建立新主題"
 
-#: core/templates/registermessages.tmpl:405
-#: core/templates/registermessages.tmpl:411
+#: core/templates/registermessages.tmpl:414
+#: core/templates/registermessages.tmpl:420
 msgid "Create not specified and group does not exist"
 msgstr "未指定建立且群組不存在"
 
@@ -1346,7 +1357,7 @@ msgstr "建立主題"
 msgid "Create this topic"
 msgstr "建立這個主題"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:108
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:60
 msgid "Create your account to edit pages on this site."
 msgstr "建立您的帳號才能編輯本站的網頁。"
 
@@ -1434,7 +1445,7 @@ msgstr "%1 子網內的詳細主題清單"
 msgid "Details in separate window"
 msgstr "細節顯示於另一視窗"
 
-#: core/templates/registermessages.tmpl:356
+#: core/templates/registermessages.tmpl:365
 msgid "Details:"
 msgstr "詳細:"
 
@@ -1444,7 +1455,7 @@ msgid ""
 "sensitive."
 msgstr "主題名稱是否拼寫正確？注意主題名稱是有大小寫的區分。"
 
-#: core/templates/registermessages.tmpl:196
+#: core/templates/registermessages.tmpl:205
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "您是否想 [[%1][重設 %2 的密碼]]?"
 
@@ -1509,7 +1520,7 @@ msgid ""
 "notify your %2 administrator."
 msgstr "主題 %1 存檔時發生版本控制錯誤。請通知 %2 管理員。"
 
-#: core/templates/registermessages.tmpl:290
+#: core/templates/registermessages.tmpl:299
 msgid "E-mail changed successfully!"
 msgstr "電子郵件變更成功!"
 
@@ -1614,7 +1625,7 @@ msgid ""
 "%1 has no content. You may not upload an empty file."
 msgstr "未指定檔名，或上傳的檔案 %1 沒有內容。不能上傳空檔。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:334
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:187
 msgid "Email address:"
 msgstr "電子信箱:"
 
@@ -1662,7 +1673,7 @@ msgstr "載入插件時遇到錯誤。請參考如下錯誤。"
 msgid "Error registering new user"
 msgstr "註冊新用戶發生錯誤"
 
-#: core/templates/registermessages.tmpl:183
+#: core/templates/registermessages.tmpl:192
 msgid "Error registering user %1"
 msgstr "註冊用戶 %1 發生錯誤"
 
@@ -1689,11 +1700,11 @@ msgstr "錯誤: 不支援的協定 (必須是 'http://domain/...')"
 msgid "Errors"
 msgstr "錯誤"
 
-#: core/templates/registermessages.tmpl:374
+#: core/templates/registermessages.tmpl:383
 msgid "Errors adding members to group"
 msgstr "增加使用者至群組錯誤"
 
-#: core/templates/registermessages.tmpl:423
+#: core/templates/registermessages.tmpl:432
 msgid "Errors removing members from groups"
 msgstr "移除群組使用者錯誤"
 
@@ -1734,7 +1745,7 @@ msgstr "無法包含 URL %1"
 msgid "Fields marked %1 are required"
 msgstr "必填標為 %1 的欄位"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:131
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:92
 msgid "Fields marked <span class='required'>*</span> are required."
 msgstr "必填標 <span class='required'>*</span> 的欄位。"
 
@@ -1762,7 +1773,7 @@ msgstr "找連到 %1 的主題..."
 msgid "First"
 msgstr "名"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:306
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:160
 msgid "First name:"
 msgstr "名:"
 
@@ -1800,8 +1811,9 @@ msgstr "表單定義 %1 遺失"
 msgid "Form based input"
 msgstr "由表格輸入"
 
-#: PatternSkin/templates/formtables.pattern.tmpl:7 core/templates/form.tmpl:9
-#: core/templates/formtables.tmpl:12
+#: PatternSkin/templates/formtables.pattern.tmpl:7
+#: PatternSkin/templates/formtables.pattern01x01.tmpl:5
+#: core/templates/form.tmpl:9 core/templates/formtables.tmpl:12
 msgid "Form data"
 msgstr "表單資料"
 
@@ -1848,6 +1860,11 @@ msgstr "%1 的 Foswiki 密碼重設"
 msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
 msgstr "取得新版 <a href='%1' rel='nofollow'>這裡</a>。"
 
+#: PatternSkin/templates/view.pattern01x01.tmpl:75
+#, fuzzy
+msgid "Get a fresh version <a href='%1'>here</a>."
+msgstr "取得新版 <a href='%1' rel='nofollow'>這裡</a>。"
+
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
 msgstr "取得附加檔案的說明"
@@ -1866,8 +1883,8 @@ msgstr "得到此搜尋的修改通知"
 msgid "Globe"
 msgstr "球形"
 
-#: core/templates/foswiki.tmpl:113 core/templates/messages.tmpl:328
-#: core/templates/messages.tmpl:476 core/templates/registermessages.tmpl:369
+#: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
+#: core/templates/messages.tmpl:476 core/templates/registermessages.tmpl:378
 msgid "Go back"
 msgstr "返回"
 
@@ -1949,7 +1966,7 @@ msgstr "標題 5"
 msgid "Heading 6"
 msgstr "標題 6"
 
-#: core/templates/foswiki.tmpl:144
+#: core/templates/foswiki.tmpl:146
 msgid "Hello %1!"
 msgstr "您好 %1！"
 
@@ -2050,7 +2067,7 @@ msgid ""
 "page, then you are asked to confirm the request."
 msgstr "若 Foswiki 發現一個來自某網頁的可疑的請求，將會要求您確認。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:101
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:49
 msgid ""
 "If registration is not disabled by errors, administrators can still register "
 "users to this site using %1."
@@ -2101,7 +2118,7 @@ msgstr ""
 "如果這封郵件錯寄給您：某人 (%1) 已在 %2 網站，用您的電子郵件 %3 註冊。請聯繫 "
 "%4 說明。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:117
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:70
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "任何有關於註冊的問題，請寄電子郵件給 %1。"
 
@@ -2203,11 +2220,11 @@ msgstr "某些情況下，系統會修改上傳的檔名以確保各平台都能
 msgid "Including"
 msgstr "包括"
 
-#: core/templates/registermessages.tmpl:300
+#: core/templates/registermessages.tmpl:309
 msgid "Incorrect Password"
 msgstr "不正確的密碼"
 
-#: core/templates/registermessages.tmpl:307
+#: core/templates/registermessages.tmpl:316
 msgid "Incorrect Prefix"
 msgstr "不正確的字首"
 
@@ -2219,14 +2236,18 @@ msgstr "不正確的 [[%1][WikiNames]]"
 msgid "Incorrect [[%1][WikiNames:]]"
 msgstr "不正確的 [[%1][WikiNames:]]"
 
-#: core/templates/registermessages.tmpl:211
-#: core/templates/registermessages.tmpl:218
+#: core/templates/registermessages.tmpl:220
+#: core/templates/registermessages.tmpl:227
 msgid "Incorrect [[%1][username]]"
 msgstr "不正確的 [[%1][username]]"
 
 #: core/templates/messages.tmpl:315
 msgid "Incorrect parameters to the =%1= script"
 msgstr "=%1= 腳本的參數錯誤"
+
+#: core/templates/registermessages.tmpl:127
+msgid "Incorrect templatetopic name provided."
+msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
 msgid "Indent"
@@ -2316,11 +2337,11 @@ msgstr "啟動碼錯誤"
 msgid "Invalid Input"
 msgstr "輸入錯誤"
 
-#: core/templates/registermessages.tmpl:233
 #: core/templates/registermessages.tmpl:242
 #: core/templates/registermessages.tmpl:251
 #: core/templates/registermessages.tmpl:260
 #: core/templates/registermessages.tmpl:269
+#: core/templates/registermessages.tmpl:278
 msgid "Invalid e-mail address"
 msgstr "電子郵件地址錯誤"
 
@@ -2414,7 +2435,7 @@ msgstr "最後的修改時間"
 msgid "Last modified time"
 msgstr "最後修改時間"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:313
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:166
 msgid "Last name:"
 msgstr "姓:"
 
@@ -2484,7 +2505,7 @@ msgstr "登入至 %1"
 msgid "Login"
 msgstr "登入"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:181
 msgid "Login username:"
 msgstr "登入名:"
 
@@ -2689,7 +2710,7 @@ msgstr "新密碼:"
 msgid "New topic name %1 is not a %2"
 msgstr "新主題名 %1 不是 %2"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:102
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:50
 msgid "New user registration is disabled on this site."
 msgstr "本站禁止新用戶註冊。"
 
@@ -2726,8 +2747,8 @@ msgstr "無變更"
 msgid "No child topics found."
 msgstr "無子主題。"
 
-#: core/templates/registermessages.tmpl:366
-#: core/templates/registermessages.tmpl:417
+#: core/templates/registermessages.tmpl:375
+#: core/templates/registermessages.tmpl:426
 msgid "No group name specified"
 msgstr "未指定群組名稱"
 
@@ -2755,11 +2776,11 @@ msgstr "無主題訂閱至"
 msgid "No topics to update."
 msgstr "無主題更新。"
 
-#: core/templates/messages.tmpl:324 core/templates/registermessages.tmpl:399
+#: core/templates/messages.tmpl:324 core/templates/registermessages.tmpl:408
 msgid "No username specified"
 msgstr "未指定使用者"
 
-#: core/templates/registermessages.tmpl:167
+#: core/templates/registermessages.tmpl:176
 msgid "No users to reset passwords for."
 msgstr "沒有用戶重設密碼."
 
@@ -2842,11 +2863,11 @@ msgstr "嵌入"
 #: JQueryPlugin/data/System/JQueryButton.txt:26
 #: PatternSkin/data/System/PatternSkinElements.txt:446
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
-#: core/templates/foswiki.tmpl:111 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/foswiki.tmpl:113 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
-#: core/templates/registermessages.tmpl:318
-#: core/templates/registermessages.tmpl:326
-#: core/templates/registermessages.tmpl:337 core/templates/validate.tmpl:52
+#: core/templates/registermessages.tmpl:327
+#: core/templates/registermessages.tmpl:335
+#: core/templates/registermessages.tmpl:346 core/templates/validate.tmpl:52
 msgid "OK"
 msgstr "OK"
 
@@ -2869,7 +2890,7 @@ msgid ""
 "email address."
 msgstr "本系統，一互您註冊後，可以電郵帳號登入。"
 
-#: core/templates/registermessages.tmpl:347
+#: core/templates/registermessages.tmpl:356
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "只有管理員能移除其他帳號。"
 
@@ -2925,11 +2946,11 @@ msgstr "輸入不同的主題名稱（非必要）:"
 msgid "Options"
 msgstr "選項"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:413
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:203
 msgid "Organisation name:"
 msgstr "組織名稱："
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:420
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:210
 msgid "Organisation website:"
 msgstr "組織網站："
 
@@ -2945,19 +2966,19 @@ msgstr "段落"
 msgid "Password"
 msgstr "密碼"
 
-#: core/templates/registermessages.tmpl:330
+#: core/templates/registermessages.tmpl:339
 msgid "Password changed successfully!"
 msgstr "密碼修改成功!"
 
-#: core/templates/registermessages.tmpl:322
+#: core/templates/registermessages.tmpl:331
 msgid "Password could not be changed"
 msgstr "密碼無法修改"
 
-#: core/templates/registermessages.tmpl:166
+#: core/templates/registermessages.tmpl:175
 msgid "Password reset failed"
 msgstr "密碼重設失敗"
 
-#: core/templates/registermessages.tmpl:171
+#: core/templates/registermessages.tmpl:180
 msgid "Password reset failed."
 msgstr "密碼重設失敗。"
 
@@ -2966,11 +2987,11 @@ msgstr "密碼重設失敗。"
 msgid "Password:"
 msgstr "密碼："
 
-#: core/templates/registermessages.tmpl:127
+#: core/templates/registermessages.tmpl:136
 msgid "Passwords disabled"
 msgstr "禁用密碼"
 
-#: core/templates/registermessages.tmpl:176
+#: core/templates/registermessages.tmpl:185
 msgid "Passwords do not match"
 msgstr "密碼不相同"
 
@@ -2995,46 +3016,46 @@ msgstr "存放刪除主題與附件的地方。"
 msgid "Placeholder for trashed attachments"
 msgstr "丟棄附件的存放地"
 
-#: core/templates/registermessages.tmpl:378
-#: core/templates/registermessages.tmpl:427
+#: core/templates/registermessages.tmpl:387
+#: core/templates/registermessages.tmpl:436
 msgid "Please check to ensure you have permission to modify the group."
 msgstr "請確認您有足夠的權限能修改此群組。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:288
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:141
 msgid "Please confirm your password."
 msgstr "請確認密碼。"
 
-#: core/templates/registermessages.tmpl:200
+#: core/templates/registermessages.tmpl:209
 #: core/templates/registermessages.tmpl:87
 msgid "Please contact %1 if you have any questions."
 msgstr "如有問題請聯繫 %1."
 
 #: core/templates/registermessages.tmpl:11
-#: core/templates/registermessages.tmpl:131
-#: core/templates/registermessages.tmpl:187
+#: core/templates/registermessages.tmpl:140
+#: core/templates/registermessages.tmpl:196
 #: core/templates/registermessages.tmpl:21
 #: core/templates/registermessages.tmpl:35
 #: core/templates/registermessages.tmpl:98
 msgid "Please contact %1."
 msgstr "請聯繫 %1."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
 msgid "Please correct the entered data before you continue."
 msgstr "在繼續之前，請更正輸入的資料。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:274
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:127
 msgid "Please enter a WikiName."
 msgstr "請輸入一個 WikiName。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:280
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:133
 msgid "Please enter a login username."
 msgstr "請輸入登入帳號。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:284
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:137
 msgid "Please enter a password."
 msgstr "請輸入密碼。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:278
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:131
 msgid "Please enter a valid email address."
 msgstr "請輸入一個有效的電子郵件地址。"
 
@@ -3042,15 +3063,15 @@ msgstr "請輸入一個有效的電子郵件地址。"
 msgid "Please enter the Wiki admin password"
 msgstr "請輸入 Wiki 管理員的密碼"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:289
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:142
 msgid "Please enter the same password as above."
 msgstr "請輸入和上面相同的密碼。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:271
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:124
 msgid "Please enter your first name."
 msgstr "請輸入您的名字。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:272
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:125
 msgid "Please enter your last name."
 msgstr "請輸入您的姓。"
 
@@ -3078,18 +3099,19 @@ msgstr ""
 #: core/templates/messages.tmpl:38 core/templates/messages.tmpl:43
 #: core/templates/messages.tmpl:52 core/templates/messages.tmpl:92
 #: core/templates/messages.tmpl:99 core/templates/registermessages.tmpl:123
-#: core/templates/registermessages.tmpl:179
-#: core/templates/registermessages.tmpl:207
-#: core/templates/registermessages.tmpl:214
-#: core/templates/registermessages.tmpl:222
-#: core/templates/registermessages.tmpl:229
+#: core/templates/registermessages.tmpl:131
+#: core/templates/registermessages.tmpl:188
+#: core/templates/registermessages.tmpl:216
+#: core/templates/registermessages.tmpl:223
+#: core/templates/registermessages.tmpl:231
 #: core/templates/registermessages.tmpl:238
 #: core/templates/registermessages.tmpl:247
 #: core/templates/registermessages.tmpl:256
 #: core/templates/registermessages.tmpl:265
 #: core/templates/registermessages.tmpl:274
-#: core/templates/registermessages.tmpl:303
-#: core/templates/registermessages.tmpl:310
+#: core/templates/registermessages.tmpl:283
+#: core/templates/registermessages.tmpl:312
+#: core/templates/registermessages.tmpl:319
 msgid "Please go back in your browser and try again."
 msgstr "請返回瀏覽器的上一頁，並再試一次."
 
@@ -3097,7 +3119,7 @@ msgstr "請返回瀏覽器的上一頁，並再試一次."
 msgid "Please go back in your browser and upload using a different filename."
 msgstr "請在瀏覽器回到上一頁，並以不同的名字上傳。"
 
-#: core/templates/registermessages.tmpl:279
+#: core/templates/registermessages.tmpl:288
 msgid ""
 "Please make sure you spelled the [[%1][username]] correctly and try again. "
 "If you get stuck, please contact %2."
@@ -3185,7 +3207,7 @@ msgstr "放回…"
 msgid "Query Search"
 msgstr "查詢式檢索"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:72
+#: core/data/System/FrequentlyAskedQuestions.txt:74
 msgid "Question:"
 msgstr "問題:"
 
@@ -3214,7 +3236,7 @@ msgstr ""
 msgid "Read on"
 msgstr "閱讀"
 
-#: core/data/Sandbox/WebHome.txt:53
+#: core/data/Sandbox/WebHome.txt:57
 msgid "Recently changed topics"
 msgstr "最近更新的主題"
 
@@ -3242,8 +3264,8 @@ msgstr "更新"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:443
-#: core/templates/foswiki.tmpl:146
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
+#: core/templates/foswiki.tmpl:148
 msgid "Register"
 msgstr "註冊者"
 
@@ -3256,11 +3278,11 @@ msgstr "目前登入者註冊的電子信箱"
 msgid "Registered users"
 msgstr "註冊的使用者"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:77
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:22
 msgid "Registration"
 msgstr "註冊"
 
-#: core/lib/Foswiki/UI/Register.pm:711
+#: core/lib/Foswiki/UI/Register.pm:712
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3278,7 +3300,7 @@ msgstr "禁止註冊 %1"
 msgid "Registration has been denied"
 msgstr "禁用註冊"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:99
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:47
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system. "
@@ -3297,16 +3319,16 @@ msgstr "給管理員的相關主題:"
 
 #: core/data/System/SiteTools.txt:149
 #: core/data/System/SkinTemplateTokens.txt:180
-#: core/data/System/UserAuthentication.txt:301
+#: core/data/System/UserAuthentication.txt:329
 msgid "Related Topics:"
 msgstr "相關主題:"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:114
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:115
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:690
+#: core/data/System/CommandAndCGIScripts.txt:693
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3322,7 +3344,7 @@ msgstr "記得我"
 msgid "Remember me on this computer"
 msgstr "在此電腦上記住我"
 
-#: core/templates/registermessages.tmpl:292
+#: core/templates/registermessages.tmpl:301
 msgid ""
 "Remember to update your user topic [[%1]] if you want your e-mail change to "
 "be reflected there as well."
@@ -3340,7 +3362,7 @@ msgstr "將用戶自 %1 中刪除"
 msgid "Remove members..."
 msgstr "移除使用者…"
 
-#: core/templates/registermessages.tmpl:346
+#: core/templates/registermessages.tmpl:355
 msgid "Remove of user account other than your own is denied"
 msgstr "禁止移除自己以外的其他帳號"
 
@@ -3348,7 +3370,7 @@ msgstr "禁止移除自己以外的其他帳號"
 msgid "Remove selected members"
 msgstr "移除選擇的使用者"
 
-#: core/templates/registermessages.tmpl:286
+#: core/templates/registermessages.tmpl:295
 msgid "Remove the member from the group(s) %1 first."
 msgstr "首先將用戶由群組 %1 移除。"
 
@@ -3471,16 +3493,16 @@ msgstr "%1 子網中的結果"
 msgid "Results from %1 web:"
 msgstr "子網 %1 的結果:"
 
-#: core/templates/registermessages.tmpl:348
-#: core/templates/registermessages.tmpl:362
+#: core/templates/registermessages.tmpl:357
+#: core/templates/registermessages.tmpl:371
 msgid "Return to %1"
 msgstr "回到 %1"
 
-#: core/templates/registermessages.tmpl:342
+#: core/templates/registermessages.tmpl:351
 msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
 msgstr "回到 %1 且提供一個 [[%2][WikiName]] 或 [[%3][使用者]]。"
 
-#: core/templates/registermessages.tmpl:296
+#: core/templates/registermessages.tmpl:305
 msgid "Return to %1."
 msgstr "回到 %1。"
 
@@ -3641,7 +3663,7 @@ msgstr "已搜尋:"
 msgid "Security Note:"
 msgstr "安全提示:"
 
-#: core/templates/registermessages.tmpl:281
+#: core/templates/registermessages.tmpl:290
 msgid "See %1 for a list of existing users or register as new user in %2."
 msgstr "查看 %1 的用戶列表或在 %2 註冊新用戶。"
 
@@ -3649,11 +3671,11 @@ msgstr "查看 %1 的用戶列表或在 %2 註冊新用戶。"
 msgid "See %1 for information about Form Definitions."
 msgstr "參考 %1 關於表單定義的資訊。"
 
-#: core/templates/registermessages.tmpl:380
 #: core/templates/registermessages.tmpl:389
-#: core/templates/registermessages.tmpl:396
-#: core/templates/registermessages.tmpl:429
+#: core/templates/registermessages.tmpl:398
+#: core/templates/registermessages.tmpl:405
 #: core/templates/registermessages.tmpl:438
+#: core/templates/registermessages.tmpl:447
 msgid "See %MAINWEB%.WikiGroups to see the result."
 msgstr "參考 %MAINWEB%.WikiGroups 的結果。"
 
@@ -3697,7 +3719,7 @@ msgstr "全選"
 msgid "Select an earlier (left) and a later (right) revision to compare"
 msgstr "選擇一個較早（左）和一個較晚（右）的版本比較"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:279
 msgid "Select groups to join:"
 msgstr "選擇群組加入:"
 
@@ -3705,7 +3727,7 @@ msgstr "選擇群組加入:"
 msgid "Select members to remove from this group:"
 msgstr "選擇使用者自本群組移除:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:394
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:279
 msgid "Select the group to join:"
 msgstr "選擇群組加入:"
 
@@ -3721,7 +3743,7 @@ msgstr "在您輸入的底部選擇、複製、貼上您的簽名文字"
 msgid "Selections apply to search in \"text body\""
 msgstr "選項適用於搜尋「文件內文」"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:85
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:31
 msgid "Self registration is not supported by this site."
 msgstr "本站不支援新用戶註冊。"
 
@@ -3809,11 +3831,11 @@ msgstr ""
 "某些人將它變成個人的入口網站，內容包括最喜歡的連結、目前的工作、他們喜歡的"
 "事，等等。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:106
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:56
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "抱歉，暫時禁止註冊。"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:91
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:92
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr "抱歉，目前密碼系統唯讀，請聯繫 %1"
@@ -3880,8 +3902,8 @@ msgstr "刪除線"
 #: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
-#: core/data/System/FrequentlyAskedQuestions.txt:79
-#: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:152
+#: core/data/System/FrequentlyAskedQuestions.txt:81
+#: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:161
 msgid "Submit"
 msgstr "提交"
 
@@ -3925,11 +3947,11 @@ msgstr "下標"
 msgid "Subwebs"
 msgstr "次子網"
 
-#: core/templates/registermessages.tmpl:385
+#: core/templates/registermessages.tmpl:394
 msgid "Success adding members to group"
 msgstr "成功將使用者加入群組"
 
-#: core/templates/registermessages.tmpl:434
+#: core/templates/registermessages.tmpl:443
 msgid "Success removing members from group"
 msgstr "成功將使用者移出群組"
 
@@ -3993,9 +4015,9 @@ msgid "Thank you for denying this registration"
 msgstr "感謝您拒絕註冊"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:272
-#: core/templates/registermessages.tmpl:137
-#: core/templates/registermessages.tmpl:145
-#: core/templates/registermessages.tmpl:158
+#: core/templates/registermessages.tmpl:146
+#: core/templates/registermessages.tmpl:154
+#: core/templates/registermessages.tmpl:167
 msgid "Thank you for registering"
 msgstr "謝謝您註冊"
 
@@ -4055,7 +4077,7 @@ msgstr "程式腳本 =％1= 只能以 POST 的方式呼叫。"
 msgid "The Administrator has disabled new user registration."
 msgstr "系統管理員禁止新用戶註冊。"
 
-#: core/templates/registermessages.tmpl:129
+#: core/templates/registermessages.tmpl:138
 msgid "The Administrator has disabled password changes."
 msgstr "系統管理員已禁止密碼變更。"
 
@@ -4078,7 +4100,7 @@ msgstr ""
 "[[%1][WikiName]] 欄位必須是姓與名，寫成 [[%2][WikiWord]] 樣式，如：字首大寫的"
 "姓與名拼字但去掉空格。"
 
-#: core/templates/registermessages.tmpl:205
+#: core/templates/registermessages.tmpl:214
 msgid ""
 "The [[%1][login username]] (%2) is not allowed for this installation. "
 "Registration rejected."
@@ -4087,7 +4109,7 @@ msgstr ""
 "Registration rejected.\n"
 "本安裝並不允許此 [[%1][登錄使用者名稱]] (%2)。註冊被拒絕。"
 
-#: core/templates/registermessages.tmpl:212
+#: core/templates/registermessages.tmpl:221
 msgid ""
 "The [[%1][login username]] is a required parameter. Registration rejected."
 msgstr "[[%1][登錄使用者名稱]] 是必要參數。註冊被拒絕。"
@@ -4146,18 +4168,18 @@ msgid ""
 "authority."
 msgstr "有關 REST 處理程序的細節只有具管理者身份的使用者有權限。"
 
-#: core/templates/registermessages.tmpl:243
-#: core/templates/registermessages.tmpl:261
+#: core/templates/registermessages.tmpl:252
+#: core/templates/registermessages.tmpl:270
 msgid "The e-mail address for this account has been rejected."
 msgstr "這個帳號的電子郵件已被拒絕。"
 
-#: core/templates/registermessages.tmpl:252
-#: core/templates/registermessages.tmpl:270
+#: core/templates/registermessages.tmpl:261
+#: core/templates/registermessages.tmpl:279
 msgid ""
 "The e-mail address for this account is already registered to another user."
 msgstr "這個帳號的電子郵件已被另一使用者註冊。"
 
-#: core/templates/registermessages.tmpl:234
+#: core/templates/registermessages.tmpl:243
 msgid "The e-mail address for this account is not valid."
 msgstr "這個帳號的電子郵件不合法。"
 
@@ -4215,6 +4237,14 @@ msgstr "主題名稱 (%1) 包含無效字元。"
 msgid "The name of the topic must not be empty."
 msgstr "主題的名字不能空白。"
 
+#: core/templates/registermessages.tmpl:128
+msgid ""
+"The name provided is either invalid, or the named topic is not found. The "
+"templatetopic must be an existing new user template topic in the %USERSWEB% "
+"web.  If not provided, the default topic is [[%USERSWEB%.NewUserTemplate]], "
+"or if that does not exist. [[%SYSTEMWEB%.NewUserTemplate]]."
+msgstr ""
+
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
 msgstr "您登入的名稱"
@@ -4231,11 +4261,11 @@ msgstr "選擇的新主題必須已經存在。"
 msgid "The new web has been created"
 msgstr "新子網已建立"
 
-#: core/templates/registermessages.tmpl:301
+#: core/templates/registermessages.tmpl:310
 msgid "The password you entered in the *old password* field is incorrect."
 msgstr "*舊密碼* 欄內的密碼錯誤。"
 
-#: core/templates/registermessages.tmpl:308
+#: core/templates/registermessages.tmpl:317
 msgid ""
 "The prefix you entered for the deleted user is not valid as a topic name."
 msgstr "您為刪除使用者而輸入的字首不是合適的主題名稱。"
@@ -4252,7 +4282,7 @@ msgstr "選擇的用戶系統並不支援新使用者註冊。"
 msgid "The topic is in an old format"
 msgstr "本主題屬於舊格式"
 
-#: core/templates/registermessages.tmpl:177
+#: core/templates/registermessages.tmpl:186
 msgid "The two passwords you entered do not match."
 msgstr "兩次輸入的密碼不相同。"
 
@@ -4260,7 +4290,7 @@ msgstr "兩次輸入的密碼不相同。"
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr "用戶 %1 已經啟動並應該能登入。"
 
-#: core/templates/registermessages.tmpl:354
+#: core/templates/registermessages.tmpl:363
 msgid "The user has been removed from the Authentication System."
 msgstr "使用者已從認證系統移除。"
 
@@ -4276,7 +4306,7 @@ msgstr ""
 "利用以下過濾器檢查使用者名稱是否包括無效字元。任何符合過濾器中的字元都會是無"
 "效的使用者名稱。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:329
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:182
 msgid "The username that identifies you to the signon system. %1"
 msgstr "代表您身份登入系統的使用者名稱。 %1"
 
@@ -4294,7 +4324,7 @@ msgstr "他們使用您的瀏覽器及身份，發送請求到伺服器，意圖
 msgid "There are problems with renaming this web:"
 msgstr "此子網改名時出現錯誤:"
 
-#: core/templates/registermessages.tmpl:185
+#: core/templates/registermessages.tmpl:194
 msgid "There has been a problem adding your user id to the Password system."
 msgstr "新增您的使用者帳號到密碼系統時出現錯誤。"
 
@@ -4316,11 +4346,11 @@ msgstr ""
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "必須有一行包含 %1，參考 %2 (或 %3)"
 
-#: core/templates/registermessages.tmpl:376
+#: core/templates/registermessages.tmpl:385
 msgid "There were errors adding to the %2 group. %1 "
 msgstr "加入群組 %2 時發生錯誤。%1 "
 
-#: core/templates/registermessages.tmpl:425
+#: core/templates/registermessages.tmpl:434
 msgid "There were errors removing %1 from the %2 group."
 msgstr "將 %1 自 %2 群組移除時發生錯誤。"
 
@@ -4328,7 +4358,7 @@ msgstr "將 %1 自 %2 群組移除時發生錯誤。"
 msgid "These steps may not be applicable to your system."
 msgstr "這些步驟可能不適用於您的系統。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:276
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:129
 msgid "This WikiName is already in use."
 msgstr "這 WikiName 已被使用。"
 
@@ -4339,6 +4369,12 @@ msgstr "這將被自動更新:"
 #: core/templates/messages.tmpl:211
 msgid "This could be for several reasons:"
 msgstr "可能有很多原因:"
+
+#: core/templates/registermessages.tmpl:130
+msgid ""
+"This field is not normally user provided. This may be a Foswiki "
+"configuration error."
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
 msgid ""
@@ -4391,7 +4427,7 @@ msgstr "這是一封由 %1 自動發的送電子郵件。"
 msgid "This is an automated e-mail notification of user registration in %1."
 msgstr "這是用戶在 %1 註冊的自動電子郵件通知。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:275
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:128
 msgid "This is not a valid WikiName."
 msgstr "這不是個合適的 WikiName。"
 
@@ -4402,7 +4438,7 @@ msgid ""
 msgstr ""
 "這是垃圾區。您可以在這裏還回刪除的主題；刪除的附件放在 TrashAttachment 中。"
 
-#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:587
+#: WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin/Handlers.pm:589
 msgid "This is why the conversion is disabled:"
 msgstr "這是本對話被禁止的原因："
 
@@ -4413,11 +4449,11 @@ msgid ""
 msgstr ""
 "這是您名字的 !WikiWord ，例如: !JohnSmith 。 若無帳戶請 [[%1] [註冊]] 。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:174
 msgid "This must be a unique WikiName."
 msgstr "這必須是個獨特的 WikiName。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:329
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:182
 msgid "This must be a valid login username."
 msgstr "這必須是個合適的登入使用者名稱。"
 
@@ -4436,6 +4472,7 @@ msgstr ""
 "擊。"
 
 #: PatternSkin/templates/view.pattern.tmpl:72
+#: PatternSkin/templates/view.pattern01x01.tmpl:74
 msgid "This page was cached on %1."
 msgstr "本頁的暫存在 %1 。"
 
@@ -4447,7 +4484,7 @@ msgstr "這兒需要表單定義。"
 msgid "This site is powered by Foswiki"
 msgstr "本站使用 Foswiki"
 
-#: core/templates/registermessages.tmpl:227
+#: core/templates/registermessages.tmpl:236
 msgid "This site requires at least %1 character passwords"
 msgstr "本站的密碼至少要 %1 個字元"
 
@@ -4463,7 +4500,7 @@ msgstr "本系統並不支援用戶登入。回到 [[%1]]。"
 msgid "This topic:"
 msgstr "主題:"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:281
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:134
 msgid "This username is already in use."
 msgstr "使用者名已被使用。"
 
@@ -4487,7 +4524,7 @@ msgstr ""
 "Macros][巨集]] 前綴，例如 ==%<nop>USERSWEB%.%WIKINAME%== 。"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:77
-#: core/data/System/FrequentlyAskedQuestions.txt:65
+#: core/data/System/FrequentlyAskedQuestions.txt:67
 msgid "Title:"
 msgstr "標題:"
 
@@ -4587,7 +4624,7 @@ msgstr "主題歷史"
 msgid "Topic list for %1 Web"
 msgstr "子網 %1 的主題清單"
 
-#: core/data/Sandbox/WebHome.txt:26 core/data/System/WebSearch.txt:161
+#: core/data/Sandbox/WebHome.txt:30 core/data/System/WebSearch.txt:161
 msgid "Topic name"
 msgstr "主題名稱"
 
@@ -4601,7 +4638,10 @@ msgstr "父主題:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:68 core/templates/viewprint.tmpl:15
+#: PatternSkin/templates/view.pattern.tmpl:68
+#: PatternSkin/templates/view.pattern01x01.tmpl:44
+#: PatternSkin/templates/view.pattern01x01.tmpl:70
+#: core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
 msgstr "主題版本:"
 
@@ -4708,7 +4748,7 @@ msgstr "退訂本主題"
 msgid "Unsubscribe from this topic (s)"
 msgstr "退訂這（些）主題"
 
-#: core/templates/registermessages.tmpl:204
+#: core/templates/registermessages.tmpl:213
 msgid "Unsupported [[%1][username]]"
 msgstr "不支援的 [[%1][使用者名稱]]"
 
@@ -4734,7 +4774,7 @@ msgstr "升級"
 msgid "Upgrade group topic..."
 msgstr "更新群組主題…"
 
-#: core/templates/registermessages.tmpl:392
+#: core/templates/registermessages.tmpl:401
 msgid "Upgraded group"
 msgstr "更新群組"
 
@@ -4803,11 +4843,11 @@ msgstr "使用者 ％1 無變更 %2 的權限。"
 msgid "User %1 not in group, cannot be removed"
 msgstr "使用者 %1 不在群組中，無法移除"
 
-#: core/templates/registermessages.tmpl:353
+#: core/templates/registermessages.tmpl:362
 msgid "User Account %1 Deleted"
 msgstr "刪除用戶帳號 %1"
 
-#: core/templates/registermessages.tmpl:341
+#: core/templates/registermessages.tmpl:350
 msgid "User Account was not supplied"
 msgstr "使用者帳號未提供"
 
@@ -4863,7 +4903,7 @@ msgstr "能編輯的使用者:"
 msgid "Users who may view:"
 msgstr "能瀏覽的使用者:"
 
-#: core/templates/registermessages.tmpl:316
+#: core/templates/registermessages.tmpl:325
 msgid ""
 "Users with automatically generated passwords should proceed immediately to "
 "[[%1][change password]] to change their password to something memorable."
@@ -4889,7 +4929,7 @@ msgstr "%1 的版本歷史"
 msgid "View"
 msgstr "瀏覽"
 
-#: core/templates/foswiki.tmpl:138
+#: core/templates/foswiki.tmpl:140
 msgid "View complete topic history"
 msgstr "檢視主題完整修訂史"
 
@@ -4977,11 +5017,11 @@ msgstr "警告: 找不到主題%1. %2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "警告: 找不到子網 %1 中的主題 %2"
 
-#: core/lib/Foswiki/UI/Register.pm:1277
+#: core/lib/Foswiki/UI/Register.pm:1278
 msgid "Warning: Could not send confirmation email"
 msgstr "警告: 無法寄送確認郵件"
 
-#: core/lib/Foswiki/UI/Register.pm:1289
+#: core/lib/Foswiki/UI/Register.pm:1290
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "警告: 無法寄送確認郵件，郵件已禁用"
 
@@ -4993,7 +5033,7 @@ msgstr "警告: 本網站不允許 %<nop>INCLUDE% 連結"
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr "警告: 找到擴充 %1 的更新。"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:440
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:442
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "警告: \\'include\\' 的主題 <nop>%1 不存在！"
 
@@ -5001,17 +5041,17 @@ msgstr "警告: \\'include\\' 的主題 <nop>%1 不存在！"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "警告: \\'包含\\' 的主題不存在！"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:466
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:468
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "警告:  \\'include\\' 在主題 %1 內的表格定義不存在！"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:110
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:64
 msgid ""
 "We noticed you have disabled !JavaScript. Please switch on !JavaScript if "
 "you wish to register."
 msgstr "我們發現您停用 !Javascript。若您想註冊請開啟 !Javascript。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:110
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:64
 msgid ""
 "We noticed you have disabled cookies. Please enable cookies if you wish to "
 "register."
@@ -5097,11 +5137,11 @@ msgstr ""
 "您 *必須* 至少有一個有效的註冊電子郵件才能重設密碼。若您忘記密碼且註冊的郵件"
 "地址已失效，後請聯繫 %1。"
 
-#: core/templates/registermessages.tmpl:193
+#: core/templates/registermessages.tmpl:202
 msgid "You are already registered."
 msgstr "您已註冊。"
 
-#: core/templates/registermessages.tmpl:140
+#: core/templates/registermessages.tmpl:149
 msgid "You are also listed in the %1 topic"
 msgstr "您也被列在%1主題中"
 
@@ -5122,6 +5162,7 @@ msgstr ""
 "建議您先檢查 %1。"
 
 #: PatternSkin/templates/view.pattern.tmpl:36
+#: PatternSkin/templates/view.pattern01x01.tmpl:36
 msgid "You are here:"
 msgstr "您在:"
 
@@ -5179,8 +5220,8 @@ msgstr "您可利用 %1 修改密碼"
 msgid "You can give this web a different name."
 msgstr "您能為本子網改名。"
 
-#: core/templates/registermessages.tmpl:407
-#: core/templates/registermessages.tmpl:413
+#: core/templates/registermessages.tmpl:416
+#: core/templates/registermessages.tmpl:422
 msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr "你不能為遺失的群組增加使用者，除非設定建立選項。"
@@ -5197,7 +5238,7 @@ msgid ""
 "your browser."
 msgstr "您無法繼續因為您的瀏覽器未啟用 Cookies 或 !JavaScript。"
 
-#: core/templates/registermessages.tmpl:194
+#: core/templates/registermessages.tmpl:203
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "您不能註冊 2 次，%1 已經註冊過。"
 
@@ -5211,7 +5252,7 @@ msgstr ""
 "尋找像這樣的一行設定:"
 
 #: core/templates/registermessages.tmpl:13
-#: core/templates/registermessages.tmpl:189
+#: core/templates/registermessages.tmpl:198
 #: core/templates/registermessages.tmpl:23
 #: core/templates/registermessages.tmpl:37
 msgid "You have *not* been registered."
@@ -5229,7 +5270,7 @@ msgid ""
 "visited."
 msgstr "您已點擊曾經瀏覽過的註冊驗證連結。"
 
-#: core/templates/registermessages.tmpl:334
+#: core/templates/registermessages.tmpl:343
 msgid "You may need to close your browser to make this change take effect."
 msgstr "您需關閉瀏覽器，使變更生效。"
 
@@ -5237,11 +5278,11 @@ msgstr "您需關閉瀏覽器，使變更生效。"
 msgid "You must pass a topic name."
 msgstr "您必須輸入主題名稱。"
 
-#: core/templates/registermessages.tmpl:367
+#: core/templates/registermessages.tmpl:376
 msgid "You need to specify a valid group name to add members to a group."
 msgstr "您必須指定有效的群組才能將使用者加入群組。"
 
-#: core/templates/registermessages.tmpl:418
+#: core/templates/registermessages.tmpl:427
 msgid "You need to specify a valid group name to remove members from a group."
 msgstr "您必須指定有效的群組才能將使用者移除群組。"
 
@@ -5249,7 +5290,7 @@ msgstr "您必須指定有效的群組才能將使用者移除群組。"
 msgid "You need to specify a valid member to add to a group."
 msgstr "您必須指定有效的使用者才能加入群組。"
 
-#: core/templates/registermessages.tmpl:401
+#: core/templates/registermessages.tmpl:410
 msgid "You need to specify a valid member to remove from a group."
 msgstr "您必須指定有效的使用者才能移出一個群組。"
 
@@ -5265,7 +5306,7 @@ msgstr ""
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "或許您需要詢問管理員 %1 以進行這個工作。"
 
-#: core/templates/registermessages.tmpl:162
+#: core/templates/registermessages.tmpl:171
 msgid "You will receive an e-mail when your registration has been approved."
 msgstr "當您的註冊被批准，將收到一封電子郵件。"
 
@@ -5279,7 +5320,7 @@ msgstr "您的 [[%1][維基名]] 是 %2 且你的使用者名是 =%3= 。"
 msgid "Your [[%1][username]]:"
 msgstr "您的 [[%1][使用者名稱]]:"
 
-#: core/templates/registermessages.tmpl:147
+#: core/templates/registermessages.tmpl:156
 msgid ""
 "Your activation code has been sent to %1.  Either click on the link in your "
 "e-mail or enter the code in the box below to activate your membership. (This "
@@ -5288,7 +5329,7 @@ msgstr ""
 "您的啟動碼已經寄到 %1 。點擊電子郵件中的連結或在下面輸入代碼以啟動會員資格"
 "（啟動碼格式 \"YourName.xxxxxxxxxx\"）"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:335
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:188
 msgid "Your email address will be kept confidential."
 msgstr "您的電子信箱將被視為機密。"
 
@@ -5296,7 +5337,7 @@ msgstr "您的電子信箱將被視為機密。"
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
 msgstr "您的語言已改成 %1。[[%2][點擊繼續]]."
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:174
 msgid "Your name as displayed by %1."
 msgstr "您的名字由 %1 顯示。"
 
@@ -5308,16 +5349,16 @@ msgstr "您的名字，通常您的名與姓連在一起且中間沒有空格。
 msgid "Your password has been changed to %1."
 msgstr "您的密碼已改成 %1。"
 
-#: core/templates/registermessages.tmpl:133
+#: core/templates/registermessages.tmpl:142
 msgid "Your password has not been changed."
 msgstr "您的密碼已變更。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:285
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:290
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:138
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:143
 msgid "Your password must be at least %1 characters long."
 msgstr "您的密碼至少要 %1 個字元長。"
 
-#: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:343
+#: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:196
 msgid "Your password:"
 msgstr "您的密碼:"
 
@@ -5327,11 +5368,11 @@ msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
 msgstr "您在 %2 的個人主題 %1 。可依您的喜好修改:"
 
-#: core/templates/registermessages.tmpl:138
+#: core/templates/registermessages.tmpl:147
 msgid "Your personal Foswiki topic %1 has been created"
 msgstr "已建立您的個人主題 %1"
 
-#: core/templates/registermessages.tmpl:294
+#: core/templates/registermessages.tmpl:303
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
@@ -5343,7 +5384,7 @@ msgid ""
 "notifications of password changes."
 msgstr "系統會將郵件寄到您註冊的電子信箱，包括：密碼變更通知。"
 
-#: core/templates/registermessages.tmpl:160
+#: core/templates/registermessages.tmpl:169
 msgid "Your registration is pending approval by the system administrators."
 msgstr "您的註冊尚需等待系統管理者確認。"
 
@@ -5361,7 +5402,7 @@ msgstr "複製/貼上您的簽名"
 msgid "Your signature to copy/paste:"
 msgstr "複製/貼上您的簽名:"
 
-#: core/templates/registermessages.tmpl:324
+#: core/templates/registermessages.tmpl:333
 msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
@@ -5372,7 +5413,7 @@ msgid ""
 "Your user registration failed because it did not pass the validation tests."
 msgstr "您的註冊失敗，因為無法通過驗證測試。"
 
-#: core/templates/registermessages.tmpl:220
+#: core/templates/registermessages.tmpl:229
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr "建立本站有效用戶名稱的指引請[[%1][點這裡]]。"
@@ -5465,6 +5506,7 @@ msgstr "早期 InitPlugin 失敗。見以下錯誤。"
 #: NatEditPlugin/templates/edit.natedit.tmpl:9
 #: NatEditPlugin/templates/form.natedit.tmpl:2
 #: PatternSkin/templates/formtables.pattern.tmpl:30
+#: PatternSkin/templates/formtables.pattern01x01.tmpl:28
 #: core/templates/formtables.tmpl:27
 msgid "edit"
 msgstr "編輯"
@@ -5481,6 +5523,12 @@ msgstr "必填欄位。"
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "help"
 msgstr "説明"
+
+#: core/data/Sandbox/WebHome.txt:11
+#: core/data/System/FrequentlyAskedQuestions.txt:47
+#, fuzzy
+msgid "hide form"
+msgstr "增加表單"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"
@@ -5524,7 +5572,7 @@ msgid "now %1"
 msgstr "現在 %1"
 
 #: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
-#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:146
+#: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:148
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
 #: core/templates/renameconfirm.tmpl:33 core/templates/renamedelete.tmpl:40
