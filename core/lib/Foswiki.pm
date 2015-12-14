@@ -3004,7 +3004,7 @@ Reverses the encoding done in urlEncode.
 sub urlDecode {
     my $text = shift;
 
-    $text =~ s/%([\da-f]{2})/chr(hex($1))/gei;
+    $text =~ s/%([\da-fA-F]{2})/chr(hex($1))/ge;
     $text = decode_utf8($text);
 
     return $text;
@@ -3031,7 +3031,7 @@ sub isTrue {
 
     return $default unless defined($value);
 
-    $value =~ s/^\s*(.*?)\s*$/$1/gi;
+    $value =~ s/^\s*(.*?)\s*$/$1/g;
     $value =~ s/off//gi;
     $value =~ s/no//gi;
     $value =~ s/false//gi;
@@ -3144,22 +3144,26 @@ returned.
 sub takeOutBlocks {
     my ( $intext, $tag, $map ) = @_;
 
-    return $intext unless ( $intext =~ m/<$tag\b/i );
+    # Case insensitive regexes are very slow,  Change to character class match
+    # link is transformed to [lL][iI][nN][kK]
+    my $re = join( '', map { '[' . lc($_) . uc($_) . ']' } split( '', $tag ) );
+
+    return $intext unless ( $intext =~ m/<$re\b/ );
 
     my $out   = '';
     my $depth = 0;
     my $scoop;
     my $tagParams;
 
-    foreach my $token ( split( /(<\/?$tag[^>]*>)/i, $intext ) ) {
-        if ( $token =~ m/<$tag\b([^>]*)?>/i ) {
+    foreach my $token ( split( /(<\/?$re[^>]*>)/, $intext ) ) {
+        if ( $token =~ m/<$re\b([^>]*)?>/ ) {
             $depth++;
             if ( $depth eq 1 ) {
                 $tagParams = $1;
                 next;
             }
         }
-        elsif ( $token =~ m/<\/$tag>/i ) {
+        elsif ( $token =~ m/<\/$re>/ ) {
             if ( $depth > 0 ) {
                 $depth--;
                 if ( $depth eq 0 ) {

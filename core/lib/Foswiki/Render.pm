@@ -218,7 +218,7 @@ sub getRenderedVersion {
     $text =~ s/[\{\}]$REMARKER//g;
 
     # whitespace before <! tag (if it is the first thing) is illegal
-    $text =~ s/^\s+(<![a-z])/$1/i;
+    $text =~ s/^\s+(<![A-Za-z])/$1/;
 
     # clutch to enforce correct rendering at end of doc
     $text =~ s/\n?$/\n<nop>\n/s;
@@ -236,19 +236,27 @@ sub getRenderedVersion {
       $this->_takeOutProtected( $text, qr/<\?([^?]*)\?>/s, 'comment',
         $removed );
     $text =
-      $this->_takeOutProtected( $text, qr/<!DOCTYPE([^<>]*)>?/mi, 'comment',
-        $removed );
+      $this->_takeOutProtected( $text,
+        qr/<![Dd][Oo][Cc][Tt][Yy][Pp][Ee]([^<>]*)>?/m,
+        'comment', $removed );
     $text =
-      $this->_takeOutProtected( $text, qr/<head.*?<\/head>/si, 'head',
-        $removed );
-    $text = $this->_takeOutProtected( $text, qr/<textarea\b.*?<\/textarea>/si,
-        'textarea', $removed );
+      $this->_takeOutProtected( $text,
+        qr/<[Hh][Ee][Aa][Dd].*?<\/[Hh][Ee][Aa][Dd]>/s,
+        'head', $removed );
+    $text = $this->_takeOutProtected(
+        $text,
+qr/<[Tt][Ee][Xx][Tt][Aa][Rr][Ee][Aa]\b.*?<\/[Tt][Ee][Xx][Tt][Aa][Rr][Ee][Aa]>/s,
+        'textarea',
+        $removed
+    );
     $text =
-      $this->_takeOutProtected( $text, qr/<script\b.*?<\/script>/si, 'script',
-        $removed );
+      $this->_takeOutProtected( $text,
+        qr/<[Ss][Cc][Rr][Ii][Pp][Tt]\b.*?<\/[Ss][Cc][Rr][Ii][Pp][Tt]>/s,
+        'script', $removed );
     $text =
-      $this->_takeOutProtected( $text, qr/<style\b.*?<\/style>/si, 'style',
-        $removed );
+      $this->_takeOutProtected( $text,
+        qr/<[Ss][Tt][Yy][Ll][Ee]\b.*?<\/[Ss][Tt][Yy][Ll][Ee]>/s,
+        'style', $removed );
 
     # Remove the sticky tags (used in WysiwygPlugin's TML2HTML conversion)
     # since they could potentially break a browser.
@@ -312,8 +320,8 @@ sub getRenderedVersion {
 
     # Remove input fields: Item11480
     $text =~ s/<nop>/N$NOPMARK/g;
-    $text =
-      $this->_takeOutProtected( $text, qr/<input\b.*?>/si, 'input', $removed );
+    $text = $this->_takeOutProtected( $text, qr/<[Ii][Nn][Pp][Uu][Tt]\b.*?>/s,
+        'input', $removed );
     $text =~ s/N$NOPMARK/<nop>/g;
 
     # Escape rendering: Change ' !AnyWord' to ' <nop>AnyWord',
@@ -416,7 +424,8 @@ sub getRenderedVersion {
             $isList = 0;
         }
         elsif ( $line =~ m/^(\t| {3})+\S/ ) {
-            if ( $line =~
+            if ( index( $line, '$' ) >= 0
+                && $line =~
                 s/^((?:\t| {3})+)\$\s*([^:]+):\s+/<dt> $2 <\/dt><dd> / )
             {
 
@@ -916,19 +925,25 @@ sub forEachLine {
             $newText .= $line;
             next;
         }
-        $options->{in_verbatim}++ if ( $line =~ m|^\s*<verbatim\b[^>]*>\s*$|i );
-        $options->{in_verbatim}-- if ( $line =~ m|^\s*</verbatim>\s*$|i );
-        $options->{in_literal}++  if ( $line =~ m|^\s*<literal\b[^>]*>\s*$|i );
-        $options->{in_literal}--  if ( $line =~ m|^\s*</literal>\s*$|i );
+        $options->{in_verbatim}++
+          if ( $line =~ m|^\s*<[Vv][Ee][Rr][Bb][Aa][Tt][Ii][Mm]\b[^>]*>\s*$| );
+        $options->{in_verbatim}--
+          if ( $line =~ m|^\s*</[Vv][Ee][Rr][Bb][Aa][Tt][Ii][Mm]>\s*$| );
+        $options->{in_literal}++
+          if ( $line =~ m|^\s*<[Ll][Ii][Tt][Ee][Rr][Aa][Ll]\b[^>]*>\s*$| );
+        $options->{in_literal}--
+          if ( $line =~ m|^\s*</[Ll][Ii][Tt][Ee][Rr][Aa][Ll]>\s*$| );
         unless ( ( $options->{in_verbatim} > 0 )
             || ( ( $options->{in_literal} > 0 ) ) )
         {
-            $options->{in_pre}++ if ( $line =~ m|<pre\b|i );
-            $options->{in_pre}-- if ( $line =~ m|</pre>|i );
+            $options->{in_pre}++ if ( $line =~ m|<[Pp][Rr][Ee]\b| );
+            $options->{in_pre}-- if ( $line =~ m|</[Pp][Rr][Ee]>| );
             $options->{in_noautolink}++
-              if ( $line =~ m|^\s*<noautolink\b[^>]*>\s*$|i );
+              if ( $line =~
+                m|^\s*<[Nn][Oo][Aa][Uu][Tt][Oo][Ll][Ii][Nn][Kk]\b[^>]*>\s*$| );
             $options->{in_noautolink}--
-              if ( $line =~ m|^\s*</noautolink>\s*|i );
+              if ( $line =~
+                m|^\s*</[Nn][Oo][Aa][Uu][Tt][Oo][Ll][Ii][Nn][Kk]>\s*| );
         }
         unless ( $options->{in_pre} > 0 && !$options->{pre}
             || $options->{in_verbatim} > 0   && !$options->{verbatim}
@@ -966,7 +981,7 @@ sub breakName {
         $len = 1 if ( $len < 1 );
         my $sep = '- ';
         $sep = $params[1] if ( @params > 1 );
-        if ( $sep =~ m/^\.\.\./i ) {
+        if ( $sep =~ m/^\.\.\./ ) {
 
             # make name shorter like 'ThisIsALongTop...'
             $text =~ s/(.{$len})(.+)/$1.../s;
@@ -1142,7 +1157,7 @@ sub _addTHEADandTFOOT {
             # Remove blank lines in tables; they generate spurious <p>'s
             splice( @$lines, $i, 1 );
         }
-        elsif ( $lines->[$i] =~ s/$TRMARK=(["'])(.*?)\1//i ) {
+        elsif ( $lines->[$i] =~ s/$TRMARK=(["'])(.*?)\1// ) {
             if ($2) {
 
                 # In head or foot
@@ -1205,7 +1220,7 @@ sub _emitTR {
         my %attr;
 
         # Avoid matching single columns
-        if (s/colspan$REMARKER([0-9]+)//o) {
+        if (s/colspan$REMARKER([0-9]+)//) {
             $attr{colspan} = $1;
         }
         s/^\s+$/ &nbsp; /;
@@ -1358,10 +1373,10 @@ sub _renderExistingWikiWord {
         $this->{LINKTOOLTIPINFO} =
           $this->{session}->{prefs}->getPreference('LINKTOOLTIPINFO')
           || '';
-        if ( $this->{LINKTOOLTIPINFO} =~ m/^on$/i ) {
+        if ( $this->{LINKTOOLTIPINFO} =~ m/^[Oo][Nn]$/ ) {
             $this->{LINKTOOLTIPINFO} = '$username - $date - r$rev: $summary';
         }
-        elsif ( $this->{LINKTOOLTIPINFO} =~ m/^(off)?$/i ) {
+        elsif ( $this->{LINKTOOLTIPINFO} =~ m/^([Oo][Ff][Ff])?$/ ) {
             undef $this->{LINKTOOLTIPINFO};
         }
     }
@@ -1454,7 +1469,7 @@ sub _handleWikiWord {
           && $web ne $this->{session}->{webName} );
 
     # false means suppress link for non-existing pages
-    $linkIfAbsent = ( $topic !~ /^$Foswiki::regex{abbrevRegex}$/o );
+    $linkIfAbsent = ( $topic !~ /^$Foswiki::regex{abbrevRegex}$/ );
 
     return $this->internalLink( $web, $topic, $text, $anchor, $linkIfAbsent,
         $keepWeb, undef );
@@ -1536,7 +1551,7 @@ sub _handleSquareBracketedLink {
     }
 
     # filter out &any; entities (legacy)
-    $link =~ s/\&[a-z]+\;//gi;
+    $link =~ s/\&[a-zA-Z]+\;//g;
 
     # filter out &#123; entities (legacy)
     $link =~ s/\&\#[0-9]+\;//g;
@@ -1611,11 +1626,11 @@ sub _externalLink {
           # before touching this
           # Note:  & is already encoded,  so don't encode any entities
           # See http://foswiki.org/Tasks/Item10905
-            $url =~ s/&(\w+);/$REMARKER$1$REEND/g;                  # "&abc;"
-            $url =~ s/&(#x?[0-9a-f]+);/$REMARKER$1$REEND/gi;        # "&#123;"
+            $url =~ s/&(\w+);/$REMARKER$1$REEND/g;                   # "&abc;"
+            $url =~ s/&(#[Xx]?[0-9a-fA-F]+);/$REMARKER$1$REEND/g;    # "&#123;"
             $url =~ s/([^\w$REMARKER$REEND])/'&#'.ord($1).';'/ge;
-            $url =~ s/$REMARKER(#x?[0-9a-f]+)$REEND/&$1;/goi;
-            $url =~ s/$REMARKER(\w+)$REEND/&$1;/go;
+            $url =~ s/$REMARKER(#[Xx]?[0-9a-fA-F]+)$REEND/&$1;/g;
+            $url =~ s/$REMARKER(\w+)$REEND/&$1;/g;
             if ($text) {
                 $text =~ s/\@/'&#'.ord('@').';'/ge;
             }
