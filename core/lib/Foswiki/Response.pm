@@ -421,6 +421,7 @@ sub redirect {
 ---++ ObjectMethod print(...)
 
 Add text content to the end of the body. Content may be unicode.
+Use $response->body() to output un-encoded byte strings / binary data
 
 =cut
 

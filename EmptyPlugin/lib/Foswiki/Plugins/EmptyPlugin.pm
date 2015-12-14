@@ -963,7 +963,15 @@ Foswiki:Support.Faq1
 
 #sub restExample {
 #   my ( $session, $subject, $verb, $response ) = @_;
+#
+#   # Use return to have foswiki manage the output
 #   return "This is an example of a REST invocation\n\n";
+#
+#   # To completely control the output from the handler:
+#   $response->headers()   - output headers, which must be utf-8 encoded
+#   $response->body()      - output binary data that should not be encoded.
+#   $response->print()     - output unicode text.
+#   # Note that print() and body() may not be combined.  Use one or the other.
 #}
 
 =begin TML
