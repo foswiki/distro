@@ -291,7 +291,7 @@ sub getRevisionDiff {
       $rcs->revisionDiff( $topicObject->getLoadedRev(), $rev2, $contextLines );
     foreach my $d (@$diffs) {
         foreach my $i ( 1, 2 ) {
-            _decode( $d->[$i] );
+            $d->[$i] = _decode( $d->[$i] );
         }
     }
     return $diffs;
@@ -331,8 +331,8 @@ sub _getAttachmentVersionInfo {
           $this->getHandler( $topicObject->web, $topicObject->topic,
             $attachment );
         $info = $handler->getInfo( $rev || 0 );
-        _decode( $info->{author} );
-        _decode( $info->{comment} );
+        $info->{author} = _decode( $info->{author} );
+        $info->{comment} = _decode( $info->{comment} );
     }
 
     return $info;
@@ -368,8 +368,8 @@ sub getVersionInfo {
         my $handler =
           $this->getHandler( $topicObject->web, $topicObject->topic );
         $info = $handler->getInfo($rev);
-        _decode( $info->{author} );
-        _decode( $info->{comment} );
+        $info->{author} = _decode( $info->{author} );
+        $info->{comment} = _decode( $info->{comment} );
     }
 
     # make sure there's at least author, date and version
