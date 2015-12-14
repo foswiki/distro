@@ -13,8 +13,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.1\n"
 "X-Poedit-Language: Ukrainian\n"
 "X-Poedit-Country: UKRAINE\n"
@@ -70,6 +70,7 @@ msgid "%1 - Registration for %2 (%3)"
 msgstr "%1 - Реєстрація для %2 (%3)"
 
 #: PatternSkin/templates/view.pattern.tmpl:40
+#: PatternSkin/templates/view.pattern01x01.tmpl:40
 msgid "%1 Web"
 msgstr "Розділ %1"
 
@@ -339,7 +340,9 @@ msgstr "(жоден)"
 msgid "(otherwise search %1 Web only)"
 msgstr "(інакше тільки у розділі %1)"
 
-#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
+#: PatternSkin/templates/view.pattern.tmpl:42
+#: PatternSkin/templates/view.pattern01x01.tmpl:42
+#: core/templates/viewprint.tmpl:15
 msgid "(raw view)"
 msgstr "(похідний текст)"
 
@@ -353,6 +356,7 @@ msgid "(rename)"
 msgstr "(перейменувати)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42
+#: PatternSkin/templates/view.pattern01x01.tmpl:42
 msgid "(revision %1)"
 msgstr "(редакція %1)"
 
@@ -417,8 +421,8 @@ msgid ""
 msgstr ""
 "*Важливо:* Інформація, що вказана в цій формі, буде збережена у базі даних "
 "сервера Foswiki. Ця база даних доступна всім, у кого є інтернет-доступ до "
-"сервера (проте паролі будуть зашифровані, і адреса електронної пошти буде \""
-"замилена\" для захисту від спаму). У Вашій країні або країні, де "
+"сервера (проте паролі будуть зашифровані, і адреса електронної пошти буде "
+"\"замилена\" для захисту від спаму). У Вашій країні або країні, де "
 "розташований сервер, можуть діяти закони про захист інформації, які "
 "регламентують роботу подібних баз даних. Якщо у Вас виникають сумніви, то, "
 "перш ніж реєструватися, Вам слід звернутися до %1 для консультації з питань "
@@ -604,8 +608,8 @@ msgid ""
 "been sent to your registered e-mail address. If your e-mail address is no "
 "longer valid, please contact %3."
 msgstr ""
-"Новий пароль, який автоматично згенеровано для Вашого імені %1 (!ВікіІм'я %2)"
-", було вислано Вам на електронну адресу, яку вказано при реєстрації. Якщо "
+"Новий пароль, який автоматично згенеровано для Вашого імені %1 (!ВікіІм'я "
+"%2), було вислано Вам на електронну адресу, яку вказано при реєстрації. Якщо "
 "вона більше не дійсна, то зверніться, будь ласка, до %3."
 
 #: core/data/System/WebTemplateTopics.txt:5
@@ -1867,8 +1871,9 @@ msgstr "Відсутнє визначення форми %1"
 msgid "Form based input"
 msgstr "Введення з використанням форм"
 
-#: PatternSkin/templates/formtables.pattern.tmpl:7 core/templates/form.tmpl:9
-#: core/templates/formtables.tmpl:12
+#: PatternSkin/templates/formtables.pattern.tmpl:7
+#: PatternSkin/templates/formtables.pattern01x01.tmpl:5
+#: core/templates/form.tmpl:9 core/templates/formtables.tmpl:12
 msgid "Form data"
 msgstr "Дані форми"
 
@@ -1914,6 +1919,11 @@ msgstr "Скинуто пароль %WIKITOOLNAME% для %1"
 
 #: PatternSkin/templates/view.pattern.tmpl:73
 msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
+msgstr "Отримайте останню версію <a href='%1' rel='nofollow'>тут</a>."
+
+#: PatternSkin/templates/view.pattern01x01.tmpl:75
+#, fuzzy
+msgid "Get a fresh version <a href='%1'>here</a>."
 msgstr "Отримайте останню версію <a href='%1' rel='nofollow'>тут</a>."
 
 #: core/templates/attach.tmpl:3
@@ -3301,7 +3311,7 @@ msgstr "Повернути назад..."
 msgid "Query Search"
 msgstr "Пошук запитом"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:72
+#: core/data/System/FrequentlyAskedQuestions.txt:74
 msgid "Question:"
 msgstr "Питання:"
 
@@ -3331,7 +3341,7 @@ msgstr ""
 msgid "Read on"
 msgstr "Читати"
 
-#: core/data/Sandbox/WebHome.txt:53
+#: core/data/Sandbox/WebHome.txt:57
 msgid "Recently changed topics"
 msgstr "Недавно змінені теми"
 
@@ -4013,7 +4023,7 @@ msgstr "Перекреслено"
 #: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
-#: core/data/System/FrequentlyAskedQuestions.txt:79
+#: core/data/System/FrequentlyAskedQuestions.txt:81
 #: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:152
 msgid "Submit"
 msgstr "Застосувати"
@@ -4095,8 +4105,8 @@ msgid ""
 "TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
 "=\"web service\"=, but not =\"shampoo\"=, write:"
 msgstr ""
-"ПОРАДА: наприклад, щоб знайти всі сторінки, що містять слова =\"SOAP\"=, =\""
-"WSDL\"=, словосполучення =\"web service\"=, але не =\"shampoo\"=, введіть:"
+"ПОРАДА: наприклад, щоб знайти всі сторінки, що містять слова =\"SOAP\"=, ="
+"\"WSDL\"=, словосполучення =\"web service\"=, але не =\"shampoo\"=, введіть:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
@@ -4599,8 +4609,8 @@ msgid ""
 "This is your name written as !WikiWord, for example: !JohnSmith. [[%1]"
 "[Register]] if you do not have an account yet."
 msgstr ""
-"Це Ваше ім'я, яке записане як !ВікіСлово. Наприклад: !ІванСірко. "
-"[[%1][Зареєструйтесь]], якщо ще не маєте облікового запису."
+"Це Ваше ім'я, яке записане як !ВікіСлово. Наприклад: !ІванСірко. [[%1]"
+"[Зареєструйтесь]], якщо ще не маєте облікового запису."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:321
 msgid "This must be a unique WikiName."
@@ -4627,6 +4637,7 @@ msgstr ""
 "яке забезпечує цей сайт, використовує для запобігання атак."
 
 #: PatternSkin/templates/view.pattern.tmpl:72
+#: PatternSkin/templates/view.pattern01x01.tmpl:74
 msgid "This page was cached on %1."
 msgstr "Ця тема закешована о %1."
 
@@ -4683,7 +4694,7 @@ msgstr ""
 "наприклад – ==%<nop>UDRWEB%.%WIKINAME%==."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:77
-#: core/data/System/FrequentlyAskedQuestions.txt:65
+#: core/data/System/FrequentlyAskedQuestions.txt:67
 msgid "Title:"
 msgstr "Заголовок:"
 
@@ -4785,7 +4796,7 @@ msgstr "Історія теми"
 msgid "Topic list for %1 Web"
 msgstr "Теми у розділі %1"
 
-#: core/data/Sandbox/WebHome.txt:26 core/data/System/WebSearch.txt:161
+#: core/data/Sandbox/WebHome.txt:30 core/data/System/WebSearch.txt:161
 msgid "Topic name"
 msgstr "Назва теми"
 
@@ -4799,7 +4810,10 @@ msgstr "Батьківська тема:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:68 core/templates/viewprint.tmpl:15
+#: PatternSkin/templates/view.pattern.tmpl:68
+#: PatternSkin/templates/view.pattern01x01.tmpl:44
+#: PatternSkin/templates/view.pattern01x01.tmpl:70
+#: core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
 msgstr "Редакція теми:"
 
@@ -5071,8 +5085,8 @@ msgid ""
 "Users with automatically generated passwords should proceed immediately to "
 "[[%1][change password]] to change their password to something memorable."
 msgstr ""
-"Користувачі з автоматично згенерованими паролями повинні негайно [[%1]["
-"змінити пароль]] на який-небудь, що краще запам'ятовується."
+"Користувачі з автоматично згенерованими паролями повинні негайно [[%1]"
+"[змінити пароль]] на який-небудь, що краще запам'ятовується."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:34
 msgid "Verbatim"
@@ -5335,10 +5349,11 @@ msgstr ""
 "Ви можете спокійно продовжити редагування - якщо тільки Ви не маєте наміру "
 "змінювати дані у формах, доданих до теми. Навіть якщо %1 _дійсно_ збереже цю "
 "сторінку у той час, коли Ви ще редагуєте, усі зміни будуть суміщені і нічого "
-"не буде втрачено. Врахуйте, що дані форми не можуть бути суміщені так просто;"
-" тому, якщо це необхідно, ми радимо Вам  спочатку звіриться з %1."
+"не буде втрачено. Врахуйте, що дані форми не можуть бути суміщені так "
+"просто; тому, якщо це необхідно, ми радимо Вам  спочатку звіриться з %1."
 
 #: PatternSkin/templates/view.pattern.tmpl:36
+#: PatternSkin/templates/view.pattern01x01.tmpl:36
 msgid "You are here:"
 msgstr "Ви зараз тут:"
 
@@ -5379,8 +5394,8 @@ msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
 msgstr ""
-"Ви можете [[%1][створити новий розділ]] якщо Вам це дозволено. Зв'яжіться з %"
-"2 якщо є питання."
+"Ви можете [[%1][створити новий розділ]] якщо Вам це дозволено. Зв'яжіться з "
+"%2 якщо є питання."
 
 #: core/templates/messages.tmpl:158
 msgid ""
@@ -5422,8 +5437,8 @@ msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
 msgstr ""
-"Ви не можете продовжувати через те, що у браузері вимкнено або куки, або "
-"!JavaScript."
+"Ви не можете продовжувати через те, що у браузері вимкнено або куки, або !"
+"JavaScript."
 
 #: core/templates/registermessages.tmpl:194
 msgid "You cannot register twice, the name %1 is already registered."
@@ -5573,8 +5588,8 @@ msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
 msgstr ""
-"Зареєстрована(і) Вами електронні адреса(и) змінено на: "
-"<noautolink>%1</noautolink>."
+"Зареєстрована(і) Вами електронні адреса(и) змінено на: <noautolink>%1</"
+"noautolink>."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
 msgid ""
@@ -5621,8 +5636,8 @@ msgstr "Ваша реєстрація не пройшла перевірку а 
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
-"Посібник з утворення дійсного ім'я користувача на цьому сайті [[%1]["
-"знаходиться тут]]."
+"Посібник з утворення дійсного ім'я користувача на цьому сайті [[%1]"
+"[знаходиться тут]]."
 
 #: core/templates/messages.tmpl:220
 msgid "[[%1][Debug topic text]]."
@@ -5637,8 +5652,8 @@ msgstr "[[%1][ім'я користувача]]:"
 msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 msgstr ""
-"[пропусків кратно до 3-х] * [пропуск] Set [пропуск] ІМ&amp;ЯЗМІННОЇ [пропуск]"
-" = [значення]"
+"[пропусків кратно до 3-х] * [пропуск] Set [пропуск] ІМ&amp;ЯЗМІННОЇ "
+"[пропуск] = [значення]"
 
 #: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
 #: core/lib/Foswiki/I18N.pm:353
@@ -5713,6 +5728,7 @@ msgstr "earlyInitPlugin не відпрацював. Дивіться помил
 #: NatEditPlugin/templates/edit.natedit.tmpl:9
 #: NatEditPlugin/templates/form.natedit.tmpl:2
 #: PatternSkin/templates/formtables.pattern.tmpl:30
+#: PatternSkin/templates/formtables.pattern01x01.tmpl:28
 #: core/templates/formtables.tmpl:27
 msgid "edit"
 msgstr "редагувати"
@@ -5729,6 +5745,12 @@ msgstr "- обов'язкові поля."
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "help"
 msgstr "довідка"
+
+#: core/data/Sandbox/WebHome.txt:11
+#: core/data/System/FrequentlyAskedQuestions.txt:47
+#, fuzzy
+msgid "hide form"
+msgstr "Додати форму"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"
@@ -5894,8 +5916,8 @@ msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
 msgstr ""
-"title='Шукати у розділі %1 на теми, що посилаються сюди' accesskey='з'>"
-"Зворотні посилання"
+"title='Шукати у розділі %1 на теми, що посилаються сюди' "
+"accesskey='з'>Зворотні посилання"
 
 #: core/templates/viewtopicactionbuttons.tmpl:28
 msgid ""

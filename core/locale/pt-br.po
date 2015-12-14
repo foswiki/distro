@@ -69,6 +69,7 @@ msgid "%1 - Registration for %2 (%3)"
 msgstr "%1 - Registro de %2 (%3)"
 
 #: PatternSkin/templates/view.pattern.tmpl:40
+#: PatternSkin/templates/view.pattern01x01.tmpl:40
 msgid "%1 Web"
 msgstr "Web %1"
 
@@ -339,7 +340,9 @@ msgstr "(nenhum)"
 msgid "(otherwise search %1 Web only)"
 msgstr "(se não marcado, procurar apenas na Web %1)"
 
-#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
+#: PatternSkin/templates/view.pattern.tmpl:42
+#: PatternSkin/templates/view.pattern01x01.tmpl:42
+#: core/templates/viewprint.tmpl:15
 msgid "(raw view)"
 msgstr "(texto puro)"
 
@@ -353,6 +356,7 @@ msgid "(rename)"
 msgstr "(renomear)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42
+#: PatternSkin/templates/view.pattern01x01.tmpl:42
 msgid "(revision %1)"
 msgstr "(versão %1)"
 
@@ -1885,8 +1889,9 @@ msgstr "Faltando definição do formulário %1"
 msgid "Form based input"
 msgstr "Dados de formulário"
 
-#: PatternSkin/templates/formtables.pattern.tmpl:7 core/templates/form.tmpl:9
-#: core/templates/formtables.tmpl:12
+#: PatternSkin/templates/formtables.pattern.tmpl:7
+#: PatternSkin/templates/formtables.pattern01x01.tmpl:5
+#: core/templates/form.tmpl:9 core/templates/formtables.tmpl:12
 msgid "Form data"
 msgstr "Formulário de dados"
 
@@ -1932,6 +1937,11 @@ msgstr "Restaurar senha no Foswiki para %1"
 
 #: PatternSkin/templates/view.pattern.tmpl:73
 msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
+msgstr "Pegue uma nova versão <a href='%1' rel='nofollow'>aqui</a>."
+
+#: PatternSkin/templates/view.pattern01x01.tmpl:75
+#, fuzzy
+msgid "Get a fresh version <a href='%1'>here</a>."
 msgstr "Pegue uma nova versão <a href='%1' rel='nofollow'>aqui</a>."
 
 #: core/templates/attach.tmpl:3
@@ -3373,7 +3383,7 @@ msgstr "pôr de volta..."
 msgid "Query Search"
 msgstr "Busca com <code>type=\"query\"</code>"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:72
+#: core/data/System/FrequentlyAskedQuestions.txt:74
 #, fuzzy
 msgid "Question:"
 msgstr "Questão"
@@ -3404,7 +3414,7 @@ msgstr ""
 msgid "Read on"
 msgstr "Leia mais"
 
-#: core/data/Sandbox/WebHome.txt:53
+#: core/data/Sandbox/WebHome.txt:57
 msgid "Recently changed topics"
 msgstr "Tópicos alterados recentemente"
 
@@ -4117,7 +4127,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
-#: core/data/System/FrequentlyAskedQuestions.txt:79
+#: core/data/System/FrequentlyAskedQuestions.txt:81
 #: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:152
 msgid "Submit"
 msgstr "Enviar"
@@ -4715,6 +4725,7 @@ msgstr ""
 "executado nesse servidor) para prevenir ataques."
 
 #: PatternSkin/templates/view.pattern.tmpl:72
+#: PatternSkin/templates/view.pattern01x01.tmpl:74
 msgid "This page was cached on %1."
 msgstr ""
 
@@ -4769,7 +4780,7 @@ msgid ""
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:77
-#: core/data/System/FrequentlyAskedQuestions.txt:65
+#: core/data/System/FrequentlyAskedQuestions.txt:67
 #, fuzzy
 msgid "Title:"
 msgstr "Nome do tópico"
@@ -4883,7 +4894,7 @@ msgstr "Nome do tópico"
 msgid "Topic list for %1 Web"
 msgstr "Tópicos na web %1"
 
-#: core/data/Sandbox/WebHome.txt:26 core/data/System/WebSearch.txt:161
+#: core/data/Sandbox/WebHome.txt:30 core/data/System/WebSearch.txt:161
 msgid "Topic name"
 msgstr "Nome do tópico"
 
@@ -4897,7 +4908,10 @@ msgstr "Tópico pai:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:68 core/templates/viewprint.tmpl:15
+#: PatternSkin/templates/view.pattern.tmpl:68
+#: PatternSkin/templates/view.pattern01x01.tmpl:44
+#: PatternSkin/templates/view.pattern01x01.tmpl:70
+#: core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
 msgstr "Versão do tópico:"
 
@@ -5452,6 +5466,7 @@ msgstr ""
 "é recomendável que você verifique com %1 primeiro."
 
 #: PatternSkin/templates/view.pattern.tmpl:36
+#: PatternSkin/templates/view.pattern01x01.tmpl:36
 msgid "You are here:"
 msgstr "Você está aqui:"
 
@@ -5833,6 +5848,7 @@ msgstr ""
 #: NatEditPlugin/templates/edit.natedit.tmpl:9
 #: NatEditPlugin/templates/form.natedit.tmpl:2
 #: PatternSkin/templates/formtables.pattern.tmpl:30
+#: PatternSkin/templates/formtables.pattern01x01.tmpl:28
 #: core/templates/formtables.tmpl:27
 msgid "edit"
 msgstr "editar"
@@ -5850,6 +5866,12 @@ msgstr "campos obrigatórios."
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "help"
 msgstr "ajuda"
+
+#: core/data/Sandbox/WebHome.txt:11
+#: core/data/System/FrequentlyAskedQuestions.txt:47
+#, fuzzy
+msgid "hide form"
+msgstr "Adicionar formulário"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"

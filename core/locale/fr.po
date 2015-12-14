@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2015-11-16 12:36+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,6 +68,7 @@ msgid "%1 - Registration for %2 (%3)"
 msgstr "%1 - Inscription de %2 (%3)"
 
 #: PatternSkin/templates/view.pattern.tmpl:40
+#: PatternSkin/templates/view.pattern01x01.tmpl:40
 msgid "%1 Web"
 msgstr "Web %1"
 
@@ -340,7 +341,9 @@ msgstr "(aucun)"
 msgid "(otherwise search %1 Web only)"
 msgstr "(sinon, chercher seulement sur le Web %1)"
 
-#: PatternSkin/templates/view.pattern.tmpl:42 core/templates/viewprint.tmpl:15
+#: PatternSkin/templates/view.pattern.tmpl:42
+#: PatternSkin/templates/view.pattern01x01.tmpl:42
+#: core/templates/viewprint.tmpl:15
 msgid "(raw view)"
 msgstr "(code source)"
 
@@ -354,6 +357,7 @@ msgid "(rename)"
 msgstr "(renommer)"
 
 #: PatternSkin/templates/view.pattern.tmpl:42
+#: PatternSkin/templates/view.pattern01x01.tmpl:42
 msgid "(revision %1)"
 msgstr "(version %1)"
 
@@ -1897,8 +1901,9 @@ msgstr "Définition du formulaire %1 manquante"
 msgid "Form based input"
 msgstr "Données fondées sur des formulaires"
 
-#: PatternSkin/templates/formtables.pattern.tmpl:7 core/templates/form.tmpl:9
-#: core/templates/formtables.tmpl:12
+#: PatternSkin/templates/formtables.pattern.tmpl:7
+#: PatternSkin/templates/formtables.pattern01x01.tmpl:5
+#: core/templates/form.tmpl:9 core/templates/formtables.tmpl:12
 msgid "Form data"
 msgstr "Données du formulaire"
 
@@ -1945,6 +1950,11 @@ msgstr "Réinitialisation du mot de passe Foswiki pour %1"
 
 #: PatternSkin/templates/view.pattern.tmpl:73
 msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
+msgstr "Obtenir une version actualisée <a href='%1' rel='nofollow'>ici</a>."
+
+#: PatternSkin/templates/view.pattern01x01.tmpl:75
+#, fuzzy
+msgid "Get a fresh version <a href='%1'>here</a>."
 msgstr "Obtenir une version actualisée <a href='%1' rel='nofollow'>ici</a>."
 
 #: core/templates/attach.tmpl:3
@@ -3361,7 +3371,7 @@ msgstr "Remettre la page..."
 msgid "Query Search"
 msgstr "Recherche par requête"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:72
+#: core/data/System/FrequentlyAskedQuestions.txt:74
 msgid "Question:"
 msgstr "Question :"
 
@@ -3391,7 +3401,7 @@ msgstr ""
 msgid "Read on"
 msgstr "Continuer à lire"
 
-#: core/data/Sandbox/WebHome.txt:53
+#: core/data/Sandbox/WebHome.txt:57
 msgid "Recently changed topics"
 msgstr "Pages modifiées récemment"
 
@@ -4093,7 +4103,7 @@ msgstr "Barré"
 #: JQueryPlugin/data/System/VarBUTTON.txt:40
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
-#: core/data/System/FrequentlyAskedQuestions.txt:79
+#: core/data/System/FrequentlyAskedQuestions.txt:81
 #: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:152
 msgid "Submit"
 msgstr "Envoyer"
@@ -4731,6 +4741,7 @@ msgstr ""
 "contre des attaquants."
 
 #: PatternSkin/templates/view.pattern.tmpl:72
+#: PatternSkin/templates/view.pattern01x01.tmpl:74
 msgid "This page was cached on %1."
 msgstr "Cette page a été mise en cache le %1."
 
@@ -4788,7 +4799,7 @@ msgstr ""
 "exemple, ==%<nop>USERSWEB%.%WIKINAME%==."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:77
-#: core/data/System/FrequentlyAskedQuestions.txt:65
+#: core/data/System/FrequentlyAskedQuestions.txt:67
 msgid "Title:"
 msgstr "Titre :"
 
@@ -4892,7 +4903,7 @@ msgstr "Historique de la page"
 msgid "Topic list for %1 Web"
 msgstr "Liste des pages dans le Web %1"
 
-#: core/data/Sandbox/WebHome.txt:26 core/data/System/WebSearch.txt:161
+#: core/data/Sandbox/WebHome.txt:30 core/data/System/WebSearch.txt:161
 msgid "Topic name"
 msgstr "Nom de page"
 
@@ -4906,7 +4917,10 @@ msgstr "Page mère :"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:68 core/templates/viewprint.tmpl:15
+#: PatternSkin/templates/view.pattern.tmpl:68
+#: PatternSkin/templates/view.pattern01x01.tmpl:44
+#: PatternSkin/templates/view.pattern01x01.tmpl:70
+#: core/templates/viewprint.tmpl:15
 msgid "Topic revision:"
 msgstr "Version de la page :"
 
@@ -5465,6 +5479,7 @@ msgstr ""
 "avec %1."
 
 #: PatternSkin/templates/view.pattern.tmpl:36
+#: PatternSkin/templates/view.pattern01x01.tmpl:36
 msgid "You are here:"
 msgstr "Vous êtes ici :"
 
@@ -5859,6 +5874,7 @@ msgstr "earlyInitPlugin a échoué.  Voyez les erreurs ci-dessous."
 #: NatEditPlugin/templates/edit.natedit.tmpl:9
 #: NatEditPlugin/templates/form.natedit.tmpl:2
 #: PatternSkin/templates/formtables.pattern.tmpl:30
+#: PatternSkin/templates/formtables.pattern01x01.tmpl:28
 #: core/templates/formtables.tmpl:27
 msgid "edit"
 msgstr "modifier"
@@ -5875,6 +5891,12 @@ msgstr "sont des champs devant être remplis."
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "help"
 msgstr "aide"
+
+#: core/data/Sandbox/WebHome.txt:11
+#: core/data/System/FrequentlyAskedQuestions.txt:47
+#, fuzzy
+msgid "hide form"
+msgstr "Ajouter formulaire"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"
