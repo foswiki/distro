@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1450111695" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+ Frequently Asked Questions
 
@@ -42,9 +42,11 @@ You can create your own local FAQ topics specific to your site. If you create yo
 %X% These topics are for frequently asked questions *including* answers. Do *not* use this to ask support questions!
 
 %TWISTY{
- link="%BUTTON{"%MAKETEXT{"Create new FAQ topic"}%"
-  icon="add"
-  class="simple"}%%CLEAR%"
+  showlink="<b>%MAKETEXT{"Create new FAQ topic"}%</b>"
+  showimgleft="%ICONURLPATH{"add"}%"
+  hidelink="%MAKETEXT{"hide form"}%"
+  hideimgleft="%ICONURLPATH{"toggleclose"}%"
+  class="simple"
  mode="div"
 }%
 <!-- This is the form that implements the FAQ creator -->
