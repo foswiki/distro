@@ -24,6 +24,7 @@ use Foswiki                  ();
 use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
 use Foswiki::Response        ();
+use Unicode::Normalize;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -232,11 +233,11 @@ sub prepareBodyParameters {
     return unless $ENV{CONTENT_LENGTH};
     my @plist = $this->{cgi}->multi_param();
     foreach my $pname (@plist) {
-        my $upname = Foswiki::decode_utf8($pname);
+        my $upname = NFC( Foswiki::decode_utf8($pname) );
         my @values;
         if ($Foswiki::UNICODE) {
             @values =
-              map { Foswiki::decode_utf8($_) }
+              map { NFC( Foswiki::decode_utf8($_) ) }
               $this->{cgi}->multi_param($pname);
         }
         else {
@@ -257,7 +258,7 @@ sub prepareUploads {
     my %uploads;
     foreach my $key ( keys %{ $this->{uploads} } ) {
         my $fname  = $this->{cgi}->param($key);
-        my $ufname = Foswiki::decode_utf8($fname);
+        my $ufname = NFC( Foswiki::decode_utf8($fname) );
         $uploads{$ufname} = new Foswiki::Request::Upload(
             headers => $this->{cgi}->uploadInfo($fname),
             tmpname => $this->{cgi}->tmpFileName($fname),
