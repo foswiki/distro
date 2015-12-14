@@ -390,7 +390,6 @@ sub saveAttachment {
     my $verb = ( $topicObject->hasAttachment($name) ) ? 'update' : 'insert';
     my $comment = $options->{comment} || '';
 
-    $comment = _encode($comment);
     $cUID    = _encode($cUID);
 
     $handler->addRevisionFromStream( $stream, $comment, $cUID,
