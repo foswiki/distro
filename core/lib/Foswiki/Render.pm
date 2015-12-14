@@ -343,15 +343,17 @@ sub getRenderedVersion {
     # Item1985: CDATA sections are not lone < and >
     $text =~ s/<(?!\!\[CDATA\[)/&lt\;/g;
     $text =~ s/(?<!\]\])>/&gt\;/g;
-    $text =~ s/\{$REMARKER/</go;
-    $text =~ s/\}$REMARKER/>/go;
+    $text =~ s/\{$REMARKER/</g;
+    $text =~ s/\}$REMARKER/>/g;
 
     # other entities
-    $text =~ s/&(\w+);/$REMARKER$1;/g;              # "&abc;"
-    $text =~ s/&(#x?[0-9a-f]+);/$REMARKER$1;/gi;    # "&#123;"
-    $text =~ s/&/&amp;/g;                           # escape standalone "&"
-    $text =~ s/$REMARKER(#x?[0-9a-f]+;)/&$1/goi;
-    $text =~ s/$REMARKER(\w+;)/&$1/go;
+    # Negative look-ahead assertion for non-named entity and numeric entity
+    $text =~ s/&        # Entity, or just an ampersand
+        (?!                  # Negative lookahead assertion
+           (?:\w+;)          # named entity
+         | (?:\#[Xx]?[0-9a-fA-F]+;) # numeric entity
+        )
+        /&amp;/gx;
 
     # clear the set of unique anchornames in order to inhibit
     # the 'relabeling' of anchor names if the same topic is processed
