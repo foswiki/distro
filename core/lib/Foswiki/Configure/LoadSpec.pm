@@ -120,18 +120,24 @@ sub readSpec {
           )
         {
 
-            _loadSpecsFrom( "$dir/$subdir", $root, \%read, $reporter );
+            _findSpecsFrom( "$dir/$subdir", $root, \%read, $reporter );
         }
     }
+
+    foreach my $file ( sort keys %read ) {
+        parse( $read{$file}, $root, $reporter );
+    }
+
 }
 
-sub _loadSpecsFrom {
+sub _findSpecsFrom {
     my ( $dir, $root, $read, $reporter ) = @_;
 
     return unless opendir( D, $dir );
 
     # note we ignore specs from any extension where the name starts
     # with "Empty" e.g. EmptyPlugin, EmptyContrib
+    my @specfiles;
     foreach my $extension ( sort grep { !/^\./ && !/^Empty/ } readdir D ) {
 
         next if $read->{$extension};
@@ -140,7 +146,6 @@ sub _loadSpecsFrom {
         $extension = $1;    # untaint
         my $file = "$dir/$extension/Config.spec";
         next unless -e $file;
-        parse( $file, $root, $reporter );
         $read->{$extension} = $file;
     }
     closedir(D);
