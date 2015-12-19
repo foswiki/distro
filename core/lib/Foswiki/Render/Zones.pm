@@ -67,7 +67,7 @@ sub finish {
 
 Add =$data= identified as =$id= to =$zone=, which will later be expanded (with
 renderZone() - implements =%<nop>RENDERZONE%=). =$ids= are unique within
-the zone that they are added - dependencies between =$ids= in different zones 
+the zone that they are added - dependencies between =$ids= in different zones
 will not be resolved, except for the special case of =head= and =script= zones
 when ={MergeHeadAndScriptZones}= is enabled.
 
@@ -88,8 +88,16 @@ added to =script= only.
                     that should precede the content
 
 <blockquote class="foswikiHelp">%X%
-*Note:* Read the developer supplement at Foswiki:Development.AddToZoneFromPluginHandlers if you
-are calling =addToZone()= from a rendering or macro/tag-related plugin handler
+*Note:* Read the developer supplement at Foswiki:Development.AddToZoneFromPluginHandlers
+if you are calling =addToZone()= from a rendering or macro/tag-related plugin handler
+</blockquote>
+<blockquote class="foswikiHelp">%X%
+*Note:* Macros will be expanded in all zones.  TML markup will not be expanded
+in the =head= and =scripts= zones.  Any formatting in =head= and =scripts= zones
+including [<nop>[TML links]] must be done directly using HTML. TML pseudo-tags like
+=nop=. =verbatim=, =literal=.  and =noautolink= are removed from =head= and =script=
+zones and have no influence on the markup.
+All other zones will be rendered as a normal topic.
 </blockquote>
 
 Implements =%<nop>ADDTOZONE%=.
@@ -277,7 +285,16 @@ sub _renderZone {
 
     # delay rendering the zone until now
     $result = $topicObject->expandMacros($result);
-    $result = $topicObject->renderTML($result);
+
+# TML should not be rendered in the HEAD, which includes the head & script zones.
+# Other zones will be rendered normally.
+    if ( $zone eq 'head' || $zone eq 'script' ) {
+        $result =~ s#</?(:?literal|noautolink|nop|verbatim)>##g
+          ;    # Clean up TML pseudo tags
+    }
+    else {
+        $result = $topicObject->renderTML($result);
+    }
 
     return $result;
 }

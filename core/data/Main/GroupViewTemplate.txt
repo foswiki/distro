@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434250432" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1450540836" format="1.1" version="1"}%
 %TMPL:INCLUDE{"view"}%
 
 %TMPL:DEF{"content"}%<div class="foswikiTopicText">
@@ -233,7 +233,7 @@ then='
      <div class=\"foswikiFormStep\">
      <h3>%MAKETEXT{"Select members to remove from this group:"}%</h3>"
    format="<label style=\"display:block\">
-      <input type=\"checkbox\" name=\"username\" value=\"$wikiname\" /> <nop>$wikiname
+      <input type=\"checkbox\" name=\"username\" value=\"$username\" /> <nop>$wikiname
       </label>"
    footer="</div>
         <a class=\"jqUIDialogButton jqUIDialogSubmit jqUIDialogClose {icon:'ui-icon-circle-check'}\" >%MAKETEXT{"Remove selected members"}%</a>

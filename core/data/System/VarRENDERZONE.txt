@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1450471494" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ RENDERZONE - render the content of a zone
 Rendersa zone. See [[VarADDTOZONE][ADDTOZONE]] for an explanation of _zones_.
@@ -7,7 +7,7 @@ Rendersa zone. See [[VarADDTOZONE][ADDTOZONE]] for an explanation of _zones_.
      %TABLE{sort="off"}%
      | *Parameter* | *Description* | *Default* |
    | ="zone"= | name of the zone | | (reguired) |
-   | =format=" | format string for each item added to the zone | <verbatim class="tml">$item <!--<literal> $id $missing</literal>--></verbatim> |
+   | =format= | format string for each item added to the zone | <verbatim class="tml">$item <!--<literal> $id $missing</literal>--></verbatim> |
    | =missingtoken= | string assigned to the =$missing= format token for use in the =format= parameter. | \
    <verbatim class="tml">$id: requires= missing ids: $missingids</verbatim> |
    | =chomp= | remove leading and trailing whitespace from formatted items, can be useful for pretty-printing and compression. | =off= |
@@ -15,11 +15,11 @@ Rendersa zone. See [[VarADDTOZONE][ADDTOZONE]] for an explanation of _zones_.
    | =footer= | appended to the output | |
    | =separator= | put between each item of a zone | |
 The following tokens are expanded in the =format= string:
-      * =$id= - =id= of the [[VarADDTOZONE][ADDTOZONE]] call within the =zone= currently being rendered.
-      * =$item= - text of the [[VarADDTOZONE][ADDTOZONE]] call within the =zone= currently being rendered.
-      * =$zone= - the ="zone"= currently being rendered.
-      * =$missing= - if the [[VarADDTOZONE][ADDTOZONE]] call being rendered required any =id= which was not found, then =$missing= is the =missingtoken= parameter; empty string otherwise.
-      * =$missingids= - comma separated list of ids that were required by the [[VarADDTOZONE][ADDTOZONE]] call currently being rendered but weren't found within this =zone=.
+   * =$id= - =id= of the [[VarADDTOZONE][ADDTOZONE]] call within the =zone= currently being rendered.
+   * =$item= - text of the [[VarADDTOZONE][ADDTOZONE]] call within the =zone= currently being rendered.
+   * =$zone= - the ="zone"= currently being rendered.
+   * =$missing= - if the [[VarADDTOZONE][ADDTOZONE]] call being rendered required any =id= which was not found, then =$missing= is the =missingtoken= parameter; empty string otherwise.
+   * =$missingids= - comma separated list of ids that were required by the [[VarADDTOZONE][ADDTOZONE]] call currently being rendered but weren't found within this =zone=.
 Supports the [[FormatTokens][standard format tokens]] in all parameters.
 
 <div class="foswikiHelp">
@@ -33,6 +33,12 @@ Supports the [[FormatTokens][standard format tokens]] in all parameters.
      corresponding =RENDERZONE= anywhere in the templates - they are
      automatically inserted before the =&lt;/head&gt;= tag in the output HTML
      page.
+
+%H% Macros will be expanded in all zones.  TML markup will not be expanded
+     in the =head= and =scripts= zones.  Any formatting in =head= and =scripts= zones
+     including [<nop>[TML links]] must be done directly using HTML. TML pseudo-tags like 
+     =nop=. =verbatim=, =literal=.  and =noautolink= are removed from =head= and =script= zones
+     and have no influence on the markup. All other zones will be rendered as normal topic text.
 
 %H% Normally, dependencies between individual =ADDTOZONE= statements are
      resolved within each zone. However, if ={MergeHeadAndScriptZones}= is
