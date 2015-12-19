@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1448672408" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1450543734" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -199,8 +199,8 @@ Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 | Locale::Maketext::Lexicon | =dev-perl/Locale-Maketext-Lexicon= | Optional, needed for internationalization |
 | Locale::Msgfmt | =dev-perl/Locale-Msgfmt= | Optional, needed for internationalization |
 | LWP | =dev-perl/libwww-perl= | |
-| version | | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 | URI | =dev-perl/URI= | |
+| version | | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 ---+++++!! To install the above packages on Gentoo
 
 <blockquote>
@@ -316,8 +316,8 @@ If run as root, the modules will be installed in the System perl.   Otherwise th
 | Locale::Maketext::Lexicon | Optional, needed for internationalization |
 | Locale::Msgfmt | Optional, needed for internationalization |
 | LWP | |
-| version | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 | URI | |
+| version | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 
 ---+++++!! To install the above packages with =cpanm=
 *Note:* We do not recommend installing CPAN modules with cpanminus as root.
