@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1449888714" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1450471494" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 <noautolink>
 
@@ -107,16 +107,15 @@ The actual registration form.
 <verbatim class="tml">
 %STARTSECTION{"resources"}%%IF{"$REGISTRATION_DISABLED!='DISABLED'" then="
 %ADDTOZONE{ "head"
-  id="userRegistrationRequiredStyle"
+  id="UserRegistrationRequiredStyle"
   text="<link type='text/css' rel='stylesheet' media='all' href='%PUBURLPATH{"requiredstyle.css" topic="%CSSJSTOPIC%"}%' />"
 }%"}%
 %ADDTOZONE{ "head"
-  id="userRegistrationFormStyle"
+  id="UserRegistrationFormStyle"
   text="<link type='text/css' rel='stylesheet' media='all' href='%PUBURLPATH{"formstyle.css" topic="%CSSJSTOPIC%"}%' />"
 }%
 %JQREQUIRE{"validate, wikiword, cookie"}%
 <div id="FwkVD" class="foswikiHidden">
-<literal>
 {
   "url":"%SCRIPTURL{view}%/%SYSTEMWEB%.UserRegistrationParts",
   "MinPasswordLength":%QUERY{"{MinPasswordLength}"}%,
@@ -144,10 +143,9 @@ The actual registration form.
     }
   }
 }
-</literal>
 </div>
 %ADDTOZONE{ "script"
-  id="userRegistrationValidation"
+  id="UserRegistrationValidation"
   requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::WIKIWORD, JQUERYPLUGIN::COOKIE"
   text="<script type='text/javascript' src='%PUBURLPATH{"validate.js" topic="%CSSJSTOPIC%"}%'></script>"
 }%
@@ -347,7 +345,7 @@ Test if user login name exists. Used for form validation.
 }%
 
 
-%META:FILEATTACHMENT{name="validate.js" attr="h" date="1449888714" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="requiredstyle.css" attr="h" date="1449888714" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="formstyle.css" attr="h" date="1449888714" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="validate.js" attr="h" date="1450471494" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="requiredstyle.css" attr="h" date="1450471494" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="formstyle.css" attr="h" date="1450471494" user="ProjectContributor" version="1"}%
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%
