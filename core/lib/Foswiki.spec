@@ -935,8 +935,8 @@ $Foswiki::cfg{AccessibleCFG} = [
 # URLs. Only enable it if you are in an environment where a DoS attack is not
 # a high risk.
 #
-# You may also need to configure the proxy settings ({PROXY}{HOST} and
-# {PROXY}{PORT}) if your server is behind a firewall and you allow %INCLUDE of
+# You may also need to configure the proxy setting ({PROXY}{HOST})
+# if your server is behind a firewall and you allow %INCLUDE of
 # external webpages (see Proxies).
 $Foswiki::cfg{INCLUDE}{AllowURLs} = $FALSE;
 
@@ -1065,13 +1065,8 @@ $Foswiki::cfg{AccessibleHeaders} = ['Accept-Language', 'User-Agent'];
 #              authtype:hostip' **
 # Hostname or address of the proxy server.
 # If your proxy requires authentication, simply put it in the URL, as in:
-# http://username:password@proxy.your.company.
+# http://username:password@proxy.your.company:8080.
 $Foswiki::cfg{PROXY}{HOST} = undef;
-
-# **STRING 30 LABEL="Proxy Port" CHECK='undefok emptyok'**
-# Some environments require outbound HTTP traffic to go through a proxy
-# server. Set the port number here (e.g: 8080).
-$Foswiki::cfg{PROXY}{PORT} = undef;
 
 #---++ Anti-spam
 # Foswiki incorporates some simple anti-spam measures to protect

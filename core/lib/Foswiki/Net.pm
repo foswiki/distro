@@ -120,14 +120,11 @@ if (!$response->is_error() && $response->isa('HTTP::Response')) {
 sub getExternalResource {
     my ( $this, $url, %options ) = @_;
 
-    my $protocol;
-    if ( $url =~ m!^([a-z]+):! ) {
-        $protocol = $1;
-    }
-    else {
-        require Foswiki::Net::HTTPResponse;
-        return new Foswiki::Net::HTTPResponse("Bad URL: $url");
-    }
+    require URI::URL;
+
+    my $uri       = URI::URL->new($url);
+    my $proxyHost = $this->{PROXYHOST} || $Foswiki::cfg{PROXY}{HOST};
+    my $puri      = $proxyHost ? URI::URL->new($proxyHost) : undef;
 
     # Don't remove $LWPAvailable; it is required to disable LWP when unit
     # testing
@@ -137,16 +134,16 @@ sub getExternalResource {
         $LWPAvailable = ($@) ? 0 : 1;
     }
     if ($LWPAvailable) {
-        return _GETUsingLWP( $this, $url, %options );
+        return _GETUsingLWP( $this, $uri, $puri, %options );
     }
 
     # Fallback mechanism
-    if ( $protocol ne 'http' ) {
-        if ( $protocol eq 'https' && !defined $SSLAvailable ) {
+    if ( $uri->scheme() ne 'http' ) {
+        if ( $uri->scheme() eq 'https' && !defined $SSLAvailable ) {
             eval 'require IO::Socket::SSL';
             $SSLAvailable = $@ ? 0 : 1;
         }
-        unless ( $protocol eq 'https' && $SSLAvailable ) {
+        unless ( $uri->scheme() eq 'https' && $SSLAvailable ) {
             require Foswiki::Net::HTTPResponse;
             return new Foswiki::Net::HTTPResponse(
                 "LWP not available for handling protocol: $url");
@@ -157,17 +154,6 @@ sub getExternalResource {
     my $response;
 
     try {
-        $url =~ s!^\w+://!!;    # remove protocol
-        my ( $user, $pass );
-        if ( $url =~ s!([^/\@:]+)(?::([^/\@:]+))?@!! ) {
-            ( $user, $pass ) = ( $1, $2 || '' );
-        }
-
-        unless ( $url =~ s!([^:/]+)(?::([0-9]+))?!! ) {
-            die "Bad URL: $url";
-        }
-        my ( $host, $port ) = ( $1, $2 || ( $protocol eq 'https' ? 443 : 80 ) );
-
         my $sclass;
         eval {
             require IO::Socket::IP;
@@ -178,72 +164,65 @@ sub getExternalResource {
             $sclass = 'IO::Socket::INET';
         }
         my @ssloptions;
-        if ( $protocol eq 'https' ) {
+        if ( $uri->scheme() eq 'https' ) {
             $sclass     = 'IO::Socket::SSL';
             @ssloptions = (
-                SSL_hostname    => $host,
+                SSL_hostname    => $uri->host(),
                 SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE(),
             );
         }
 
         $url = '/' unless ($url);
 
-        my $req = "$method $url HTTP/1.0\r\nHost: $host";
-        if (   $protocol eq 'http' && $port == 80
-            || $protocol eq 'https' && $port == 443 )
+        my $req = "$method $url HTTP/1.0\r\nHost: " . $uri->host();
+        if (   $uri->scheme() eq 'http' && $uri->port() == 80
+            || $uri->scheme() eq 'https' && $uri->port() == 443 )
         {
             $req .= "\r\n";
         }
         else {
-            $req .= ":$port\r\n";
+            $req .= ":" . $uri->port() . "\r\n";
         }
 
-        my ( $proxyHost, $proxyPort );
-        $proxyHost = $this->{PROXYHOST} || $Foswiki::cfg{PROXY}{HOST};
-        $proxyPort = $this->{PROXYPORT} || $Foswiki::cfg{PROXY}{PORT};
-        if ( $proxyHost && $proxyPort ) {
-            my ( $proxyProtocol, $proxyUser, $proxyPass );
-            if ( $proxyHost =~
-                m#^(https?)://(?:(.*?)(?::(.*?))?@)?(.*)(?::(\d+))?/*# )
-            {
-                $proxyProtocol = $1;
-                $proxyUser     = $2;
-                $proxyPass     = $3;
-                $proxyHost     = $4;
-                $proxyPort     = $5 if defined $5;
-                if ( $proxyProtocol eq 'https' ) {
-                    $proxyPort = 443 if ( !$proxyPort );
-                    if ( !defined $SSLAvailable ) {
-                        eval 'require IO::Socket::SSL';
-                        $SSLAvailable = $@ ? 0 : 1;
-                    }
-                    $sclass = 'IO::Socket::SSL';
-                }
-                elsif ( !$proxyPort ) {
-                    $proxyPort = 8080;
-                }
-            }
-            if ( !defined $proxyProtocol
-                || $proxyProtocol eq 'https' && !$SSLAvailable )
+        if ($puri) {
+            if ( !defined $puri->scheme()
+                || $puri->scheme() eq 'https' && !$SSLAvailable )
             {
                 require Foswiki::Net::HTTPResponse;
                 return new Foswiki::Net::HTTPResponse(
-                    "Proxy settings are invalid, check configure ($proxyHost)");
+                    "Proxy settings are invalid, check configure ({PROXY}{HOST}"
+                );
             }
-            $req      = "$method $protocol://$host:$port$url HTTP/1.0\r\n";
-            $protocol = $proxyProtocol;
-            $host     = $proxyHost;
-            $port     = $proxyPort;
-            if ($proxyUser) {
+            elsif ( $puri->scheme() eq 'https' ) {
+                $puri->port() = 443 if ( !$puri->port() );
+                if ( !defined $SSLAvailable ) {
+                    eval 'require IO::Socket::SSL';
+                    $SSLAvailable = $@ ? 0 : 1;
+                }
+                $sclass = 'IO::Socket::SSL';
+            }
+            elsif ( !$puri->port() ) {
+                $puri->port(8080);
+            }
+            $req =
+                "$method $uri->scheme()://"
+              . $uri->host() . ":"
+              . $uri->port()
+              . "$url HTTP/1.0\r\n";
+            $uri->scheme( $puri->scheme() );
+            $uri->host( $puri->host() );
+            $uri->port( $puri->port() );
+            if ( $puri->userinfo() ) {
                 require MIME::Base64;
                 my $base64 =
-                  MIME::Base64::encode_base64( "$proxyUser:$proxyPass", '' );
+                  MIME::Base64::encode_base64( $puri->userinfo(), '' );
                 $req .= "Proxy-Authorization: Basic $base64\r\n";
             }
         }
-        if ($user) {
+
+        if ( $uri->userinfo() ) {
             require MIME::Base64;
-            my $base64 = MIME::Base64::encode_base64( "$user:$pass", '' );
+            my $base64 = MIME::Base64::encode_base64( $uri->userinfo(), '' );
             $req .= "Authorization: Basic $base64\r\n";
         }
 
@@ -266,14 +245,15 @@ sub getExternalResource {
         $req .= $options{content} if defined $options{content};
 
         my $sock = $sclass->new(
-            PeerAddr => $host,
-            PeerPort => $port,
+            PeerAddr => $uri->host(),
+            PeerPort => $uri->port(),
             Proto    => 'tcp',
             Timeout  => 120,
             @ssloptions,
         );
         unless ($sock) {
-            die "Unable to connect to $host: $!"
+            die "Unable to connect to "
+              . $uri->host() . ": $!"
               . ( @ssloptions ? ' - ' . IO::Socket::SSL::errstr() : '' ) . "\n";
         }
         $sock->autoflush(1);
@@ -308,16 +288,12 @@ sub getExternalResource {
 }
 
 sub _GETUsingLWP {
-    my ( $this, $url, %options ) = @_;
+    my ( $this, $uri, $puri, %options ) = @_;
 
-    my ( $user, $pass );
-    if ( $url =~ s!([^/\@:]+)(?::([^/\@:]+))?@!! ) {
-        ( $user, $pass ) = ( $1, $2 );
-    }
     my $request;
     require HTTP::Request;
     my $method = $options{method} || 'GET';
-    $request = HTTP::Request->new( $method => $url );
+    $request = HTTP::Request->new( $method => $uri->as_string() );
     my %headers = ();
     %headers = %{ $options{headers} } if $options{headers};
     $request->header(
@@ -329,7 +305,12 @@ sub _GETUsingLWP {
     $request->content( $options{content} ) if defined $options{content};
 
     require Foswiki::Net::UserCredAgent;
+    my $user;
+    my $pass;
+    ( $user, $pass ) = split( ':', $uri->userinfo(), 2 )
+      if ( $uri->userinfo() );
     my $ua = new Foswiki::Net::UserCredAgent( $user, $pass );
+    $ua->proxy( [ 'http', 'https' ], $puri->as_string() ) if $puri;
     my $response = $ua->request($request);
     return $response;
 }

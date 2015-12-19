@@ -16,13 +16,6 @@ sub new {
     my $this = $class->SUPER::new();
     $this->{user} = $user;
     $this->{pass} = $pass;
-    if ( $Foswiki::cfg{PROXY}{HOST} ) {
-        my $proxy = $Foswiki::cfg{PROXY}{HOST};
-        if ( $Foswiki::cfg{PROXY}{PORT} ) {
-            $proxy .= ':' . $Foswiki::cfg{PROXY}{PORT};
-        }
-        $this->proxy( [ 'http', 'https' ], $proxy );
-    }
     return $this;
 }
 
