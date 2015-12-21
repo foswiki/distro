@@ -115,6 +115,7 @@ The actual registration form.
   text="<link type='text/css' rel='stylesheet' media='all' href='%PUBURLPATH{"formstyle.css" topic="%CSSJSTOPIC%"}%' />"
 }%
 %JQREQUIRE{"validate, wikiword, cookie"}%
+<literal>
 <div id="FwkVD" class="foswikiHidden">
 {
   "url":"%SCRIPTURL{view}%/%SYSTEMWEB%.UserRegistrationParts",
@@ -144,6 +145,7 @@ The actual registration form.
   }
 }
 </div>
+</literal>
 %ADDTOZONE{ "script"
   id="UserRegistrationValidation"
   requires="JQUERYPLUGIN::VALIDATE, JQUERYPLUGIN::WIKIWORD, JQUERYPLUGIN::COOKIE"
