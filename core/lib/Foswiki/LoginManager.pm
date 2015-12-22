@@ -655,7 +655,8 @@ sub redirectToLoggedOutUrl {
 
         # ForceDefaultUrlHost enabled - probably a reverse proxy.
         $path_info ||= '';
-        $redirectUrl = $session->{urlHost} . $path_info;
+        my $action = $session->{request}->{action} || 'view';
+        $redirectUrl = $session->getScriptUrl( '1', $action ) . $path_info;
     }
     elsif ($path_info) {
         $redirectUrl = $session->{request}->url() . $path_info;
