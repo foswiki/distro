@@ -1190,7 +1190,7 @@ msgstr ""
 "Ausgewählte Topics werden aktualisiert, damit sie auf den neuen Webnamen "
 "zeigen."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Untertopics im %1-Web"
 
@@ -1262,7 +1262,7 @@ msgstr "Kommentieren ist nur für angemeldete Benutzer möglich"
 msgid "Commenting is disabled while running from the command line"
 msgstr "Kommentieren von der Kommandozeile ist nicht möglich"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Vergleiche Revisionen"
 
@@ -1374,6 +1374,11 @@ msgstr "%1 konnte nicht gespeichert werden."
 msgid "Country:"
 msgstr "Land:"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "Neues FAQ-Topic anlegen"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1405,10 +1410,6 @@ msgstr "Benutzerkonto anlegen"
 #: core/data/Main/WikiGroups.txt:42
 msgid "Create group"
 msgstr "Gruppe anlegen"
-
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-msgid "Create new FAQ topic"
-msgstr "Neues FAQ-Topic anlegen"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
@@ -1469,7 +1470,7 @@ msgstr "Datum"
 msgid "Dear %1"
 msgstr "Hallo %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Fehler beheben"
 
@@ -1746,6 +1747,11 @@ msgstr "Emoticon"
 msgid "Enlarge edit box"
 msgstr "Bearbeitungsfenster vergrößern"
 
+#: core/templates/more.tmpl:102
+#, fuzzy
+msgid "Enter __none__ to clear the topic parent"
+msgstr "keiner (Ober-Topic Verknüpfung entfernen)"
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr ""
@@ -1874,7 +1880,7 @@ msgstr "Die Datei wurde mit einem anderen Namen hochgeladen"
 msgid "Find similar topics"
 msgstr "Ähnliche Topics finden"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "Find topics that are children of %1 ..."
 msgstr "Unter-Topics von %1 finden..."
 
@@ -2400,7 +2406,7 @@ msgid "Incorrect parameters to the =%1= script"
 msgstr "Inkorrekte Parameter für das =%1= Skript"
 
 #: core/templates/registermessages.tmpl:127
-msgid "Incorrect templatetopic name provided."
+msgid "Incorrect topic name provided for the templatetopic parameter."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
@@ -2597,7 +2603,7 @@ msgstr "Zeit der letzten Änderung"
 msgid "Last name:"
 msgstr "Nachname:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
 msgstr "Neueste Revision: %1"
 
@@ -2880,7 +2886,7 @@ msgstr "Die Registrierung für neue Benutzer ist abgeschaltet."
 msgid "New web name:"
 msgstr "Neuer Web-Name:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Neuere Revision:"
 
@@ -2927,7 +2933,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "Keine Erlaubnis, %1 zu sehen"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "Es existiert keine vorherige Revision."
 
@@ -3047,7 +3053,7 @@ msgstr "OK, das bin immer noch ich!"
 msgid "Ok"
 msgstr "OK"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Ältere Revisionen:"
 
@@ -3113,7 +3119,7 @@ msgstr "Optional einen anderen Namen für den Anhang eingeben:"
 msgid "Optionally enter a different topic name:"
 msgstr "Optional geben Sie einen anderen Topic-Namen ein:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Options"
 msgstr "Optionen"
 
@@ -3635,7 +3641,7 @@ msgstr ""
 "statt."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore"
 msgstr "Wiederherstellen"
 
@@ -3651,19 +3657,19 @@ msgstr "Wiederherstellen und Bearbeiten fortsetzen"
 msgid "Restore and exit"
 msgstr "Wiederherstellen und verlassen"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Topic wiederherstellen"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Vorherige Topic-Revision wiederherstellen:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Vorherige Topic-Revision wiederherstellen"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3676,7 +3682,7 @@ msgstr ""
 "einsehen. Bitte beachten Sie, dass Anhänge von dieser Aktion nicht abgedeckt "
 "sind."
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 "Wiederherstellen ist deaktiviert, weil dieses Topic in der ersten Revision "
@@ -3732,7 +3738,7 @@ msgstr "Revision"
 msgid "Revision history of %1"
 msgstr "Revisions-Historie von %1"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Revisionen"
 
@@ -3846,7 +3852,7 @@ msgstr "Suchergebnis"
 msgid "Search string"
 msgstr "Suchausdruck"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "Search the %1 Web for all children of this topic."
 msgstr "Das %1 Web nach Unter-Topics von diesem Topic durchsuchen."
 
@@ -3961,7 +3967,7 @@ msgstr "Sie können sich auf dieser Website nicht selbst registrieren."
 msgid "Send mail"
 msgstr "Mail schicken"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Sequenziell"
 
@@ -3969,7 +3975,7 @@ msgstr "Sequenziell"
 msgid "Set all"
 msgstr "Alles auswählen"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "Neues Ober-Topic zuordnen"
 
@@ -3998,7 +4004,7 @@ msgstr "Zeige Revisionen %1 – %2 (von %3)"
 msgid "Shrink edit box"
 msgstr "Editier-Box verkleinern"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "Seite an Seite"
 
@@ -5245,7 +5251,7 @@ msgstr "Komplette Topic-Historie ansehen"
 msgid "View difference"
 msgstr "Unterschied anzeigen"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 msgid "View differences"
 msgstr "Unterschiede anzeigen"
 
@@ -5257,7 +5263,7 @@ msgstr "Frühere anzeigen"
 msgid "View later"
 msgstr "Spätere anzeigen"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Vorherige Topic-Revision ansehen"
 
@@ -5265,11 +5271,11 @@ msgstr "Vorherige Topic-Revision ansehen"
 msgid "View raw text without formatting"
 msgstr "Quelltext ohne Formatierung ansehen"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 msgid "View revision"
 msgstr "Revision ansehen"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Revision ansehen:"
 
@@ -5919,7 +5925,7 @@ msgstr "Tips für guten Stil"
 msgid "ignore case"
 msgstr "Groß-/Kleinschreibung ignorieren"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "im Quelltextformat"
 
@@ -6924,9 +6930,6 @@ msgstr "warum Sie zur Bestätigung aufgefordert werden"
 #~ msgid "You can review your changes in your personal TWiki topic %1"
 #~ msgstr ""
 #~ "Sie können Ihre Änderungen in Ihrem persönlichen TWiki topic %1 ansehen"
-
-#~ msgid "none (remove topic parent)"
-#~ msgstr "keiner (Ober-Topic Verknüpfung entfernen)"
 
 #~ msgid "to edit the topic anyway."
 #~ msgstr "um das Topic trotzdem zu bearbeiten."

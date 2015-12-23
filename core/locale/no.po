@@ -1154,7 +1154,7 @@ msgstr ""
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "Valgte sider vil bli oppdatert til å referere til det nye web navnet."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Undersider i %1 web'en"
 
@@ -1228,7 +1228,7 @@ msgstr "Kommentering er deaktivert uten innlogging"
 msgid "Commenting is disabled while running from the command line"
 msgstr "Kommentering er deaktivert ved kjøring fra kommandolinjen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Sammenlign versjoner"
 
@@ -1340,6 +1340,11 @@ msgstr "Kunne ikke lagre %1."
 msgid "Country:"
 msgstr "Land:"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "Lag ny FAQ side"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1371,10 +1376,6 @@ msgstr "Opprett konto"
 #: core/data/Main/WikiGroups.txt:42
 msgid "Create group"
 msgstr "Lag gruppe"
-
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-msgid "Create new FAQ topic"
-msgstr "Lag ny FAQ side"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
@@ -1435,7 +1436,7 @@ msgstr "Dato"
 msgid "Dear %1"
 msgstr "Kjære %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Debug"
 
@@ -1704,6 +1705,10 @@ msgstr ""
 msgid "Enlarge edit box"
 msgstr "Forstørr redigeringsboks"
 
+#: core/templates/more.tmpl:102
+msgid "Enter __none__ to clear the topic parent"
+msgstr ""
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Skriv inn nytt brukernavn og passord for å endre indentitet"
@@ -1822,7 +1827,7 @@ msgstr "Filen har blitt lastet opp med annet navn"
 msgid "Find similar topics"
 msgstr "Finn liknende sider"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Find topics that are children of %1 ..."
 msgstr "Finn sider som linker til %1..."
@@ -2322,7 +2327,7 @@ msgid "Incorrect parameters to the =%1= script"
 msgstr "Feil parametere til =%1= skriptet"
 
 #: core/templates/registermessages.tmpl:127
-msgid "Incorrect templatetopic name provided."
+msgid "Incorrect topic name provided for the templatetopic parameter."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
@@ -2519,7 +2524,7 @@ msgstr "Siste endringstidspunkt"
 msgid "Last name:"
 msgstr "Etternavn:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
 msgstr "Siste versjon: %1"
 
@@ -2803,7 +2808,7 @@ msgstr "Registrering av nye brukere er ikke aktivert på dette nettstedet."
 msgid "New web name:"
 msgstr "Nytt webnavn:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Nyere versjon:"
 
@@ -2853,7 +2858,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "Ingen tilgang til å lese %1"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "Ingen tidligere versjon finnes."
 
@@ -2972,7 +2977,7 @@ msgstr "OK, dette er fortsatt meg!"
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Eldre versjon:"
 
@@ -3038,7 +3043,7 @@ msgstr "Eventuelt skriv et annet navn på vedlegg:"
 msgid "Optionally enter a different topic name:"
 msgstr "Eventuelt skriv et annet sidenavn:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Options"
 msgstr "Valg"
 
@@ -3569,7 +3574,7 @@ msgid "Resetting and setting password is not available."
 msgstr "Tilbakestilling av passord håndteres ikke av Foswiki"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 #, fuzzy
 msgid "Restore"
 msgstr "Gjenopprett..."
@@ -3588,19 +3593,19 @@ msgstr ""
 msgid "Restore and exit"
 msgstr "Gjenopprett side"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Gjenopprett side"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Gjenopprett side til versjon:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Gjenopprett side til denne versjonen"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3608,7 +3613,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 #, fuzzy
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
@@ -3664,7 +3669,7 @@ msgstr "Versjon"
 msgid "Revision history of %1"
 msgstr "Versjonhistorikk for %1"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Versjoner"
 
@@ -3784,7 +3789,7 @@ msgstr "Søkeresultat"
 msgid "Search string"
 msgstr "Søkestreng"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Search the %1 Web for all children of this topic."
 msgstr "Søk i %1 web etter sider som linker hit"
@@ -3904,7 +3909,7 @@ msgstr "Registrering av ny bruker er ikke supportert"
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Sekvensiell"
 
@@ -3912,7 +3917,7 @@ msgstr "Sekvensiell"
 msgid "Set all"
 msgstr "Velg alle"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "Sett ny forelder"
 
@@ -3944,7 +3949,7 @@ msgstr "Versjoner %1 - %2 (av %3)"
 msgid "Shrink edit box"
 msgstr "Krymp redigeringsboks"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "Side ved side"
 
@@ -5166,7 +5171,7 @@ msgstr "Vis all side historikk"
 msgid "View difference"
 msgstr "Vis differanse"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 msgid "View differences"
 msgstr "Vis differanser"
 
@@ -5180,7 +5185,7 @@ msgstr "tidligere"
 msgid "View later"
 msgstr "Vis maler"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Vis forrige versjon av siden"
 
@@ -5188,11 +5193,11 @@ msgstr "Vis forrige versjon av siden"
 msgid "View raw text without formatting"
 msgstr "Vis rå tekst uten formatering"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 msgid "View revision"
 msgstr "Vis versjon"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Vis versjon:"
 
@@ -5818,7 +5823,7 @@ msgstr "tips om god stil"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "i rå tekst format"
 

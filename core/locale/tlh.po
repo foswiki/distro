@@ -1171,7 +1171,7 @@ msgstr ""
 "mIch pong chu&&#39;vaD rarmeH ghItlhmey luwIvlu&&#39;bogh luchu&&#39;"
 "moHlu&&#39;."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "%1 mIch puq ghItlhmey"
 
@@ -1245,7 +1245,7 @@ msgstr "bI&&#39;elta&&#39;be&&#39;taHvIS vaj Qapbe&&#39; <nop>QInHommey"
 msgid "Commenting is disabled while running from the command line"
 msgstr "ra&&#39;wI&&#39; tlheghDaq Qapbe&&#39; <nop>QInHommey"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Dotlhmey &&#39;ol"
 
@@ -1358,6 +1358,11 @@ msgstr "%1 pollaHbe&&#39;."
 msgid "Country:"
 msgstr "Sep:"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "<nop>QaH ghItlh chu&&#39; <nop>chenmoH"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1389,10 +1394,6 @@ msgstr "lo&&#39;wI&&#39; ta chenmoH"
 #: core/data/Main/WikiGroups.txt:42
 msgid "Create group"
 msgstr "ghom chenmoH"
-
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-msgid "Create new FAQ topic"
-msgstr "<nop>QaH ghItlh chu&&#39; <nop>chenmoH"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
@@ -1455,7 +1456,7 @@ msgstr "<nop>HovpoH"
 msgid "Dear %1"
 msgstr "yIqIm, %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "<nop>QaghHa&&#39;moH"
 
@@ -1729,6 +1730,10 @@ msgstr "qabHom Degh"
 msgid "Enlarge edit box"
 msgstr "choHwI&&#39; meyrI&&#39; <nop>tInmoH"
 
+#: core/templates/more.tmpl:102
+msgid "Enter __none__ to clear the topic parent"
+msgstr ""
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr ""
@@ -1855,7 +1860,7 @@ msgstr "latlh pong ghaj De&&#39;&&#39;e&&#39; lablu&&#39;bogh"
 msgid "Find similar topics"
 msgstr "rurbogh ghItlhmey Sam"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "Find topics that are children of %1 ..."
 msgstr "%1 puq ghItlhmey Sam ..."
 
@@ -2375,7 +2380,7 @@ msgid "Incorrect parameters to the =%1= script"
 msgstr "=%1= ngoqDaq ghunmeH mu&&#39;mey qab tu&&#39;lu&&#39;"
 
 #: core/templates/registermessages.tmpl:127
-msgid "Incorrect templatetopic name provided."
+msgid "Incorrect topic name provided for the templatetopic parameter."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
@@ -2571,7 +2576,7 @@ msgstr "choHlu&&#39; poH"
 msgid "Last name:"
 msgstr "tuq pong:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
 msgstr "Dotlh Qav: %1"
 
@@ -2854,7 +2859,7 @@ msgstr "<nop>DaqvamDaq lo&&#39;wI&&#39; muvmeH mIw chu&&#39;Ha&&#39;lu&&#39;."
 msgid "New web name:"
 msgstr "mIch pong chu&&#39;:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Dotlh chu&&#39;:"
 
@@ -2902,7 +2907,7 @@ msgstr "%1 &&#39;olmeH ngoqvaD loSbogh muvmeH mIw tu&&#39;be&&#39;lu&&#39;."
 msgid "No permission to view %1"
 msgstr "%1 bejlu&&#39;meH chaw&&#39; tu&&#39;lu&&#39;be&&#39;"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "nungbogh Dotlh tu&&#39;lu&&#39;be&&#39;."
 
@@ -3021,7 +3026,7 @@ msgstr "qar, jIHbej!"
 msgid "Ok"
 msgstr "luq"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Dotlh qan:"
 
@@ -3088,7 +3093,7 @@ msgstr "latlh tep pong <nop>DaghItlhlaH je:"
 msgid "Optionally enter a different topic name:"
 msgstr "latlh ghItlh pong <nop>DaghItlhlaH je:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Options"
 msgstr "<nop>DuHmey"
 
@@ -3599,7 +3604,7 @@ msgid "Resetting and setting password is not available."
 msgstr "chaw&&#39; ngoq choHmeH mIw chu&&#39;Ha&&#39;lu&&#39;."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore"
 msgstr "polqa&&#39;"
 
@@ -3615,19 +3620,19 @@ msgstr "polqa&&#39; &&#39;ej choHtaH ruch"
 msgid "Restore and exit"
 msgstr "polqa&&#39; &&#39;ej bup"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "ghItlh polqa&&#39;"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Dotlhvam polqa&&#39;:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Dotlhvam polqa&&#39;"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3639,7 +3644,7 @@ msgstr ""
 "Hoch ghItlh Dotlh pollu&&#39;mo&&#39;, reH ghItlh Daqa&&#39;bogh "
 "Deleghqa&&#39;laH. tepmey luchoHlu&&#39;be&&#39;."
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 "wa&&#39; Dotlh neH ghajmo&&#39; ghItlhvam, &&#39;oH Dapolqa&&#39;laHbe&&#39;."
@@ -3694,7 +3699,7 @@ msgstr "Dotlh"
 msgid "Revision history of %1"
 msgstr "%1 Dotlh qun"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Dotlhmey"
 
@@ -3807,7 +3812,7 @@ msgstr "Dochmey Sambogh"
 msgid "Search string"
 msgstr "Doch nejbogh"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "Search the %1 Web for all children of this topic."
 msgstr "ghItlhvam puqpu&&#39; <nop>DaSammeH %1 mIchDaq nej."
 
@@ -3920,7 +3925,7 @@ msgstr "patvamDaq bImuv&&#39;eghmoHlaHbe&&#39;."
 msgid "Send mail"
 msgstr "QIn ngeH"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "bIngDaq"
 
@@ -3928,7 +3933,7 @@ msgstr "bIngDaq"
 msgid "Set all"
 msgstr "<nop>Hoch <nop>wIv"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "qup chu&&#39; jom"
 
@@ -3957,7 +3962,7 @@ msgstr "Dotlhmey %1 - %2 &&#39;agh (%3 tu&&#39;lu&&#39;)"
 msgid "Shrink edit box"
 msgstr "choHmeH vey machmoH"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "retlhDaq"
 
@@ -5136,7 +5141,7 @@ msgstr "ghItlh qun naQ &&#39;ang"
 msgid "View difference"
 msgstr "Doch pIm &&#39;angmeH:"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 msgid "View differences"
 msgstr "Dochmey pIm &&#39;ang"
 
@@ -5148,7 +5153,7 @@ msgstr "De&&#39; &&#39;eq &&#39;ang"
 msgid "View later"
 msgstr "De&&#39; paS &&#39;ang"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "nungbogh ghItlh Dotlh &&#39;ang"
 
@@ -5156,11 +5161,11 @@ msgstr "nungbogh ghItlh Dotlh &&#39;ang"
 msgid "View raw text without formatting"
 msgstr "ghunwI&&#39; mu&&#39;mey &&#39;ang"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 msgid "View revision"
 msgstr "Dotlh &&#39;ang"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Dotlh &&#39;ang:"
 
@@ -5766,7 +5771,7 @@ msgstr "batlh ghItlhmeH <nop>qeSmey laD"
 msgid "ignore case"
 msgstr "Degh&&#39;a&&#39;/<nop>DeghHom buSQo&&#39;"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "ghunwI&&#39; ngoq"
 

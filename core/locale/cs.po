@@ -1155,7 +1155,7 @@ msgstr "Označené články budou aktualizovány do bodu do nového umístění 
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "Označené články budou aktualizovány do bodu do nového jména webu."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Podřízené články v %1 webu"
 
@@ -1228,7 +1228,7 @@ msgstr "Vytváření komentářů není možné, pokud nejste přihlášeni"
 msgid "Commenting is disabled while running from the command line"
 msgstr "Vytváření komentářů není možné, pokud jste v režimu příkazové řádky"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Porovnejte revize"
 
@@ -1339,6 +1339,11 @@ msgstr "Nemohl uložit %1."
 msgid "Country:"
 msgstr "Země:"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "Vytvoř nový článek FAQ (často kladené dotazy)"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1370,10 +1375,6 @@ msgstr "Vytvoř účet"
 #: core/data/Main/WikiGroups.txt:42
 msgid "Create group"
 msgstr "Vytvoř skupinu"
-
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-msgid "Create new FAQ topic"
-msgstr "Vytvoř nový článek FAQ (často kladené dotazy)"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
@@ -1434,7 +1435,7 @@ msgstr "Datum"
 msgid "Dear %1"
 msgstr "Vážený %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Ladění"
 
@@ -1700,6 +1701,11 @@ msgstr "Emotikon"
 msgid "Enlarge edit box"
 msgstr "Zvětšit editovací prostor"
 
+#: core/templates/more.tmpl:102
+#, fuzzy
+msgid "Enter __none__ to clear the topic parent"
+msgstr "žádný (odstraňte nadřízený článek)"
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Vložte nové uživatelské jméno a heslo pro změnu identity"
@@ -1819,7 +1825,7 @@ msgstr "Soubor byl nahrán pod odlišným jménem"
 msgid "Find similar topics"
 msgstr "Najít obdobné články"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "Find topics that are children of %1 ..."
 msgstr "Najít články které odkazují na %1 ..."
 
@@ -2335,7 +2341,7 @@ msgid "Incorrect parameters to the =%1= script"
 msgstr "Chybné parametry pro =%1= skript"
 
 #: core/templates/registermessages.tmpl:127
-msgid "Incorrect templatetopic name provided."
+msgid "Incorrect topic name provided for the templatetopic parameter."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
@@ -2532,7 +2538,7 @@ msgstr "Naposledy změněno"
 msgid "Last name:"
 msgstr "Poslední název:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
 msgstr "Poslední revize: %1"
 
@@ -2816,7 +2822,7 @@ msgstr "Registrace nových uživatelů je na tomto webu vypnutá."
 msgid "New web name:"
 msgstr "Nové jméno webu:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Novější revize:"
 
@@ -2867,7 +2873,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "Nemáte právo pro prohlížení %1"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "Neexistují žádné předchozí revize článku."
 
@@ -2986,7 +2992,7 @@ msgstr "OK, toto jsem stále já!"
 msgid "Ok"
 msgstr "Ok"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Starší revize:"
 
@@ -3050,7 +3056,7 @@ msgstr "Volitelně vložte odlišné jméno přílohy:"
 msgid "Optionally enter a different topic name:"
 msgstr "Volitelně vložte odlišné jméno článku:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Options"
 msgstr "Vlastnosti"
 
@@ -3563,7 +3569,7 @@ msgid "Resetting and setting password is not available."
 msgstr "Resetování a nastavení hesla není k dispozici."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore"
 msgstr "Obnov"
 
@@ -3579,19 +3585,19 @@ msgstr "Obnov a pokračuj v editaci"
 msgid "Restore and exit"
 msgstr "Obnov a skonči"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Obnov článek"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Obnov revizi článku dle:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Obnov tuto revizi článku"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3602,7 +3608,7 @@ msgstr ""
 "každá revize bude zaznamenána v historii článku, můžete vždy znovu zobrazit "
 "verzi kterou nahrazujete. Uvědomte si, že přílohy zůstanou beze změn."
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr "Obnova není možná, protože tento článek je ve své první revizi."
 
@@ -3654,7 +3660,7 @@ msgstr "Revize"
 msgid "Revision history of %1"
 msgstr "Historie verzí pro %1"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Verze"
 
@@ -3767,7 +3773,7 @@ msgstr "Výsledky hledání"
 msgid "Search string"
 msgstr "Hledej řetězec"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Search the %1 Web for all children of this topic."
 msgstr "Hledej články ve webu %1 které sem odkazují"
@@ -3881,7 +3887,7 @@ msgstr "Samo registrace není tímto webem podporována."
 msgid "Send mail"
 msgstr "Zašli mail"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Sekvenčně"
 
@@ -3889,7 +3895,7 @@ msgstr "Sekvenčně"
 msgid "Set all"
 msgstr "Nastav vše"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "Nastavit nový nadřízený článek"
 
@@ -3919,7 +3925,7 @@ msgstr "Zobrazuji revize %1 - %2 (mimo %3)"
 msgid "Shrink edit box"
 msgstr "Zmenšit editovací oblast"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "Vedle sebe"
 
@@ -5130,7 +5136,7 @@ msgstr "Zobraz celou historii článku"
 msgid "View difference"
 msgstr "Zobraz rozdíly"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 msgid "View differences"
 msgstr "Zobraz rozdíly"
 
@@ -5142,7 +5148,7 @@ msgstr "Zobraz dřívější"
 msgid "View later"
 msgstr "Zobraz pozdější"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Prohlédni předchozí revize článku"
 
@@ -5150,11 +5156,11 @@ msgstr "Prohlédni předchozí revize článku"
 msgid "View raw text without formatting"
 msgstr "Prohlédni nepracovaný text (bez formátování)"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 msgid "View revision"
 msgstr "Zobraz revize"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Zobraz revize:"
 
@@ -5780,7 +5786,7 @@ msgstr "nápověda k dobrému stylu"
 msgid "ignore case"
 msgstr "ignoruj"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "v neupraveném textovém formátu"
 
@@ -6700,9 +6706,6 @@ msgstr "proč jste byl dotazován na potvrzení"
 
 #~ msgid "You can review your changes in your personal TWiki topic %1"
 #~ msgstr "Můžete zkontrolovat Vaše změny ve Vašem osobním TWiki článku %1"
-
-#~ msgid "none (remove topic parent)"
-#~ msgstr "žádný (odstraňte nadřízený článek)"
 
 #~ msgid "to edit the topic anyway."
 #~ msgstr "přesto editovat článek"

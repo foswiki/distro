@@ -1180,7 +1180,7 @@ msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
 "Le pagine marcate saranno aggiornate per puntare al nuovo nome del Web."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Pagine figlie nel Web %1"
 
@@ -1252,7 +1252,7 @@ msgstr "Commenti disabilitati se non autenticati"
 msgid "Commenting is disabled while running from the command line"
 msgstr "Commenti disabilitati se esecuzione da riga di comando"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Confronta le versioni"
 
@@ -1365,6 +1365,11 @@ msgstr "Non posso salvare %1."
 msgid "Country:"
 msgstr "Nazione:"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "Crea una nuova pagina di FAQ"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1396,10 +1401,6 @@ msgstr "Crea un nuovo accesso"
 #: core/data/Main/WikiGroups.txt:42
 msgid "Create group"
 msgstr "Crea un gruppo di utenti"
-
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-msgid "Create new FAQ topic"
-msgstr "Crea una nuova pagina di FAQ"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
@@ -1460,7 +1461,7 @@ msgstr "Data"
 msgid "Dear %1"
 msgstr "Caro %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Debug"
 
@@ -1731,6 +1732,10 @@ msgstr "Faccina"
 msgid "Enlarge edit box"
 msgstr "Allarga la finestra di modifica"
 
+#: core/templates/more.tmpl:102
+msgid "Enter __none__ to clear the topic parent"
+msgstr ""
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Per cambiare identità, inserisci nuovi username e password"
@@ -1852,7 +1857,7 @@ msgstr "Il file è stato caricato con un nome differente"
 msgid "Find similar topics"
 msgstr "Trova pagine simili"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "Find topics that are children of %1 ..."
 msgstr "Trova le pagine figlia a %1 ..."
 
@@ -2372,7 +2377,7 @@ msgid "Incorrect parameters to the =%1= script"
 msgstr "Parametri non corretti nello script =%1="
 
 #: core/templates/registermessages.tmpl:127
-msgid "Incorrect templatetopic name provided."
+msgid "Incorrect topic name provided for the templatetopic parameter."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
@@ -2571,7 +2576,7 @@ msgstr "Data dell'ultima modifica"
 msgid "Last name:"
 msgstr "Cognome:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
 msgstr "Ultima versione: %1"
 
@@ -2854,7 +2859,7 @@ msgstr "La registrazione di nuovi utenti in questo sito è disabilitata."
 msgid "New web name:"
 msgstr "Nuovo nome Web:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Ultima versione:"
 
@@ -2902,7 +2907,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "Non hai il permesso di visualizzare %1"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "Non esistono versioni precedenti."
 
@@ -3021,7 +3026,7 @@ msgstr "OK, ancora io!"
 msgid "Ok"
 msgstr "Ok"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Versione meno recente:"
 
@@ -3087,7 +3092,7 @@ msgstr "Opzionalmente inserisci un nome diverso per l'allegato:"
 msgid "Optionally enter a different topic name:"
 msgstr "Opzionalmente inserisci un nome diverso per la pagina:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Options"
 msgstr "Opzioni"
 
@@ -3600,7 +3605,7 @@ msgid "Resetting and setting password is not available."
 msgstr "Ripristino o impostazione password non disponibile."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore"
 msgstr "Ripristina"
 
@@ -3616,19 +3621,19 @@ msgstr "Ripristina e continua la modifica"
 msgid "Restore and exit"
 msgstr "Ripristina ed esci"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Ripristina la pagina"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Ripristina la pagina alla versione:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Ripristina la pagina a questa versione"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3640,7 +3645,7 @@ msgstr ""
 "la versione che si sta sostituendo. Gli allegati resteranno comunque "
 "invariati."
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 "Il ripristino è disabilitato in quanto la versione della pagina è pari a 1."
@@ -3693,7 +3698,7 @@ msgstr "Versione"
 msgid "Revision history of %1"
 msgstr "Storia delle versioni di %1"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Versioni"
 
@@ -3808,7 +3813,7 @@ msgstr "Risultato della ricerca"
 msgid "Search string"
 msgstr "Testo della ricerca"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "Search the %1 Web for all children of this topic."
 msgstr "Cerca nelle pagine del Web %1 collegate a questa pagina."
 
@@ -3922,7 +3927,7 @@ msgstr "L'auto-registrazione non è consentita in questo sito."
 msgid "Send mail"
 msgstr "Invia e-mail"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Sequenziali"
 
@@ -3930,7 +3935,7 @@ msgstr "Sequenziali"
 msgid "Set all"
 msgstr "Definisci tutto"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "Definisci un nuovo padre"
 
@@ -3959,7 +3964,7 @@ msgstr "Mostra versioni %1 - %2 (di %3)"
 msgid "Shrink edit box"
 msgstr "Riduci la dimensione dell'area di modifica"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "Affiancate"
 
@@ -5199,7 +5204,7 @@ msgstr "Mostra tutte le versioni della pagina"
 msgid "View difference"
 msgstr "Mostra la differenza"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 msgid "View differences"
 msgstr "Mostra le differenze"
 
@@ -5211,7 +5216,7 @@ msgstr "Mostra prima"
 msgid "View later"
 msgstr "Mostra dopo"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Mostra la versione precedente della pagina"
 
@@ -5219,11 +5224,11 @@ msgstr "Mostra la versione precedente della pagina"
 msgid "View raw text without formatting"
 msgstr "Visualizza il testo \"raw\" senza formattazione"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 msgid "View revision"
 msgstr "Mostra la versione"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Mostra la versione:"
 
@@ -5862,7 +5867,7 @@ msgstr "suggerimenti sullo stile"
 msgid "ignore case"
 msgstr "ignora le maiuscole"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "in formato testo \"raw\""
 

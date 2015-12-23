@@ -1124,7 +1124,7 @@ msgstr "選擇的主題將指向新的主題位置。"
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "選擇的主題將指向新的子網。"
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "在 %1 子網內的子主題"
 
@@ -1194,7 +1194,7 @@ msgstr "未登入，禁止評論"
 msgid "Commenting is disabled while running from the command line"
 msgstr "命令列模式中，禁止評論"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "比較版本"
 
@@ -1296,6 +1296,11 @@ msgstr "%1 無法存檔。"
 msgid "Country:"
 msgstr "國家："
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "建立新的熱門問答主題"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1327,10 +1332,6 @@ msgstr "建立帳號"
 #: core/data/Main/WikiGroups.txt:42
 msgid "Create group"
 msgstr "建立群組"
-
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-msgid "Create new FAQ topic"
-msgstr "建立新的熱門問答主題"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
@@ -1391,7 +1392,7 @@ msgstr "日期"
 msgid "Dear %1"
 msgstr "親愛的 %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "除錯"
 
@@ -1645,6 +1646,10 @@ msgstr "表情"
 msgid "Enlarge edit box"
 msgstr "放大編輯框"
 
+#: core/templates/more.tmpl:102
+msgid "Enter __none__ to clear the topic parent"
+msgstr ""
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "輸入新用戶名和密碼以改變身份"
@@ -1761,7 +1766,7 @@ msgstr "檔案已用其他名稱上傳"
 msgid "Find similar topics"
 msgstr "尋找相似主題"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "Find topics that are children of %1 ..."
 msgstr "尋找 %1 的子題..."
 
@@ -2246,7 +2251,7 @@ msgid "Incorrect parameters to the =%1= script"
 msgstr "=%1= 腳本的參數錯誤"
 
 #: core/templates/registermessages.tmpl:127
-msgid "Incorrect templatetopic name provided."
+msgid "Incorrect topic name provided for the templatetopic parameter."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
@@ -2439,7 +2444,7 @@ msgstr "最後修改時間"
 msgid "Last name:"
 msgstr "姓:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
 msgstr "最新版本: %1"
 
@@ -2718,7 +2723,7 @@ msgstr "本站禁止新用戶註冊。"
 msgid "New web name:"
 msgstr "新子網名稱:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "新版本:"
 
@@ -2764,7 +2769,7 @@ msgstr "由驗證碼中未找到正等候註冊者 %1。"
 msgid "No permission to view %1"
 msgstr "無瀏覽 %1 的權限"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "前一個版本不存在。"
 
@@ -2880,7 +2885,7 @@ msgstr "OK，這仍是我！"
 msgid "Ok"
 msgstr "好"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "舊版本:"
 
@@ -2942,7 +2947,7 @@ msgstr "輸入不同的附件名稱（非必要）:"
 msgid "Optionally enter a different topic name:"
 msgstr "輸入不同的主題名稱（非必要）:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Options"
 msgstr "選項"
 
@@ -3441,7 +3446,7 @@ msgid "Resetting and setting password is not available."
 msgstr "無法重設或設定密碼。"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore"
 msgstr "還原"
 
@@ -3457,19 +3462,19 @@ msgstr "還原並續繼編輯"
 msgid "Restore and exit"
 msgstr "還原並離開"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "還原主題"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "還原主題至版本:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "還原主題至這個版本"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3479,7 +3484,7 @@ msgstr ""
 "還原會將您選中的版本完全相同的保存到新的版本。因為每個版本都保存在主題紀錄史"
 "中，可以隨時檢示被置換的版本。注意，附件將保持不變。"
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr "禁止還原因主題內容是第一個版本。"
 
@@ -3529,7 +3534,7 @@ msgstr "修訂版"
 msgid "Revision history of %1"
 msgstr "%1 的版本歷史"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "修訂版"
 
@@ -3641,7 +3646,7 @@ msgstr "搜尋結果"
 msgid "Search string"
 msgstr "搜尋字串"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "Search the %1 Web for all children of this topic."
 msgstr "在 %1 子網中搜尋此主題的所有子題。"
 
@@ -3751,7 +3756,7 @@ msgstr "本站不支援新用戶註冊。"
 msgid "Send mail"
 msgstr "寄信"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "連續的"
 
@@ -3759,7 +3764,7 @@ msgstr "連續的"
 msgid "Set all"
 msgstr "設定全部"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "設定新的父主題"
 
@@ -3788,7 +3793,7 @@ msgstr "顯示修訂版 %1 - %2 (出自 %3)"
 msgid "Shrink edit box"
 msgstr "縮小編輯框"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "並列"
 
@@ -4937,7 +4942,7 @@ msgstr "檢視主題完整修訂史"
 msgid "View difference"
 msgstr "檢視差異"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 msgid "View differences"
 msgstr "檢視差異"
 
@@ -4949,7 +4954,7 @@ msgstr "檢視較早的版本"
 msgid "View later"
 msgstr "檢視較晚的版本"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "檢視主題的前一個版本"
 
@@ -4957,11 +4962,11 @@ msgstr "檢視主題的前一個版本"
 msgid "View raw text without formatting"
 msgstr "檢視源碼"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 msgid "View revision"
 msgstr "檢視修訂版"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "檢視修訂版:"
 
@@ -5538,7 +5543,7 @@ msgstr "優良格式的提示"
 msgid "ignore case"
 msgstr "忽略大小寫"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "源碼模式"
 

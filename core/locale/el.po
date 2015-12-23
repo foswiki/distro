@@ -1217,7 +1217,7 @@ msgstr ""
 "Τα επιλεγμένα θέματα θα ενημερωθούν να παραπέμπουν στη νέα ονομασία του "
 "ιστού."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Child topics in %1 web"
 
@@ -1291,7 +1291,7 @@ msgstr ""
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Συγκρίνετε τις αναθεωρήσεις"
 
@@ -1402,6 +1402,11 @@ msgstr "Δεν είναι δυνατή η αποθήκευση του αρχεί
 msgid "Country:"
 msgstr "Χώρα:"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "Δημιουργήστε το θέμα"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1436,11 +1441,6 @@ msgstr ""
 #, fuzzy
 msgid "Create group"
 msgstr "Δημιουργία νέου θέματος"
-
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
-msgid "Create new FAQ topic"
-msgstr "Δημιουργήστε το θέμα"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
@@ -1504,7 +1504,7 @@ msgstr "Ημερομηνία"
 msgid "Dear %1"
 msgstr "Αγαπητέ %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Debug"
 
@@ -1790,6 +1790,10 @@ msgstr ""
 msgid "Enlarge edit box"
 msgstr "Μεγένθυση πλαίσιου επεξεργασίας"
 
+#: core/templates/more.tmpl:102
+msgid "Enter __none__ to clear the topic parent"
+msgstr ""
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr ""
@@ -1915,7 +1919,7 @@ msgstr "Το αρχείο έχει μεταφορτωθεί με διαφορε�
 msgid "Find similar topics"
 msgstr "Βρείτε παρόμοια θέματα"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Find topics that are children of %1 ..."
 msgstr "Βρείτε θέματα με συνδέσμους προς το %1 ..."
@@ -2443,7 +2447,7 @@ msgid "Incorrect parameters to the =%1= script"
 msgstr "Incorrect parameters to the =%1= script"
 
 #: core/templates/registermessages.tmpl:127
-msgid "Incorrect templatetopic name provided."
+msgid "Incorrect topic name provided for the templatetopic parameter."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
@@ -2650,7 +2654,7 @@ msgstr "Ώρα τελευταίας τροποποίησης"
 msgid "Last name:"
 msgstr "Επώνυμο:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 #, fuzzy
 msgid "Latest revision: %1"
 msgstr "(αναθεώρηση %1)"
@@ -2948,7 +2952,7 @@ msgstr "Η εγγραφή Νέου Χρήστη έχει απενεργοποι�
 msgid "New web name:"
 msgstr "Νέο όνομα ιστού:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Νεότερη αναθεώρηση:"
 
@@ -2998,7 +3002,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "Δεν δικαιώματα προβολής %1"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "Δεν υπάρχει προηγούμενη αναθεώρηση."
 
@@ -3118,7 +3122,7 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Παλαιότερη αναθεώρηση:"
 
@@ -3189,7 +3193,7 @@ msgstr "Προαιρετικά εισάγετε μια διαφορετική ο
 msgid "Optionally enter a different topic name:"
 msgstr "Προαιρετικά εισάγετε μια διαφορετική ονομασία του θέματος:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 #, fuzzy
 msgid "Options"
 msgstr "Ενέργεια"
@@ -3736,7 +3740,7 @@ msgid "Resetting and setting password is not available."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore"
 msgstr "Επαναφορά"
 
@@ -3754,19 +3758,19 @@ msgstr ""
 msgid "Restore and exit"
 msgstr "Επαναφορά θέματος"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Επαναφορά θέματος"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Επαναφορά θέματος σε αναθεώρηση:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Επαναφορά θέματος σε αυτή την αναθεώρηση:"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3774,7 +3778,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 
@@ -3829,7 +3833,7 @@ msgstr "Αναθεώρηση"
 msgid "Revision history of %1"
 msgstr "Ιστορικό έκδοσης του %1"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Αναθεωρήσεις"
 
@@ -3952,7 +3956,7 @@ msgstr "(αναζήτηση αποτελέσματος)"
 msgid "Search string"
 msgstr "Κείμενο αναζήτησης"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Search the %1 Web for all children of this topic."
 msgstr "Αναζήτηση στον ιστό %1για θέματα που παραπέμπουν εδώ"
@@ -4069,7 +4073,7 @@ msgstr "Η εγγραφή Νέου Χρήστη δεν υποστηρίζετα�
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Διαδοχική"
 
@@ -4077,7 +4081,7 @@ msgstr "Διαδοχική"
 msgid "Set all"
 msgstr "Ορισμός όλων"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "Ορισμός νέου γονέα"
 
@@ -4108,7 +4112,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Μείωσε το πλαίσιο επεξεργασίας"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "Δίπλα-δίπλα"
 
@@ -5331,7 +5335,7 @@ msgstr "Προβολή συνολικού ιστορικού του θέματο
 msgid "View difference"
 msgstr "Προβολή διαφορών"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 #, fuzzy
 msgid "View differences"
 msgstr "Προβολή διαφορών"
@@ -5346,7 +5350,7 @@ msgstr "Προβολή προτύπων"
 msgid "View later"
 msgstr "Προβολή προτύπων"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Επισκόπηση προηγούμενης αναθεώρησης θέματος"
 
@@ -5354,12 +5358,12 @@ msgstr "Επισκόπηση προηγούμενης αναθεώρησης θ�
 msgid "View raw text without formatting"
 msgstr "Προβολή αδιαμόρφωτου κείμενου χωρίς μορφοποίηση"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 #, fuzzy
 msgid "View revision"
 msgstr "Προβολή αναθεώρησης:"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Προβολή αναθεώρησης:"
 
@@ -5986,7 +5990,7 @@ msgstr "συμβουλές για καλό στυλ"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "σε αδιαμόρφωτη μορφή κειμένου"
 
