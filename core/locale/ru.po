@@ -1227,7 +1227,7 @@ msgstr ""
 "Текст отмеченных тем будет обновлен таким образом, чтобы указывать на новое "
 "имя раздела."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Дочерние темы в разделе %1"
 
@@ -1301,7 +1301,7 @@ msgstr ""
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Сравнить редакции"
 
@@ -1413,6 +1413,11 @@ msgstr "Не удалось сохранить %1."
 msgid "Country:"
 msgstr "Страна:"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "Создать новую тему"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1447,11 +1452,6 @@ msgstr "Создать новую тему"
 #: core/data/Main/WikiGroups.txt:42
 #, fuzzy
 msgid "Create group"
-msgstr "Создать новую тему"
-
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
-msgid "Create new FAQ topic"
 msgstr "Создать новую тему"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
@@ -1515,7 +1515,7 @@ msgstr "Дата"
 msgid "Dear %1"
 msgstr "Дорогой(ая) %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Отладка"
 
@@ -1800,6 +1800,11 @@ msgstr ""
 msgid "Enlarge edit box"
 msgstr "Расширить область редактирования"
 
+#: core/templates/more.tmpl:102
+#, fuzzy
+msgid "Enter __none__ to clear the topic parent"
+msgstr "none (убрать родительскую тему)"
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Введите новые имя пользователя и пароль для изменения идентификации"
@@ -1929,7 +1934,7 @@ msgstr "Файл был загружен с другим именем"
 msgid "Find similar topics"
 msgstr "Найти похожие темы"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Find topics that are children of %1 ..."
 msgstr "Найти темы, ссылающиеся на %1 ..."
@@ -2449,7 +2454,7 @@ msgid "Incorrect parameters to the =%1= script"
 msgstr "Неверные параметры в скрипте =%1="
 
 #: core/templates/registermessages.tmpl:127
-msgid "Incorrect templatetopic name provided."
+msgid "Incorrect topic name provided for the templatetopic parameter."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
@@ -2659,7 +2664,7 @@ msgstr "Времени последнего изменения"
 msgid "Last name:"
 msgstr "Фамилия:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 #, fuzzy
 msgid "Latest revision: %1"
 msgstr "(редакция %1)"
@@ -2956,7 +2961,7 @@ msgstr "Регистрация новых пользователей отклю�
 msgid "New web name:"
 msgstr "Новое имя раздела"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Младшая редакция:"
 
@@ -3007,7 +3012,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "Нет прав для просмотра %1"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "Предыдущих редакций нет."
 
@@ -3128,7 +3133,7 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Старшая редакция:"
 
@@ -3196,7 +3201,7 @@ msgstr "Введите иное название темы, если это не�
 msgid "Optionally enter a different topic name:"
 msgstr "Введите иное название темы, если это необходимо:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 #, fuzzy
 msgid "Options"
 msgstr "Действие"
@@ -3758,7 +3763,7 @@ msgid "Resetting and setting password is not available."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 #, fuzzy
 msgid "Restore"
 msgstr "Восстановить"
@@ -3777,19 +3782,19 @@ msgstr ""
 msgid "Restore and exit"
 msgstr "Восстановить тему"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Восстановить тему"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Восстановить тему до редакции:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Восстановить тему до этой редакции"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3797,7 +3802,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 
@@ -3852,7 +3857,7 @@ msgstr "Редакция"
 msgid "Revision history of %1"
 msgstr "История версий %1"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Редакции"
 
@@ -3974,7 +3979,7 @@ msgstr "(результаты поиска)"
 msgid "Search string"
 msgstr "Строку поиска"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Search the %1 Web for all children of this topic."
 msgstr "Искать в разделе %1 темы, ссылающиеся на эту"
@@ -4096,7 +4101,7 @@ msgstr "Регистрация новых пользователей не под
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Последовательно"
 
@@ -4104,7 +4109,7 @@ msgstr "Последовательно"
 msgid "Set all"
 msgstr "Установить все"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "Установить нового родителя"
 
@@ -4135,7 +4140,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Сжать окно редактирования"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "В две колонки"
 
@@ -5358,7 +5363,7 @@ msgstr "Просмотреть полную историю изменений с
 msgid "View difference"
 msgstr "Посмотреть различия"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 #, fuzzy
 msgid "View differences"
 msgstr "Посмотреть различия"
@@ -5373,7 +5378,7 @@ msgstr "Просмотреть шаблоны"
 msgid "View later"
 msgstr "Просмотреть шаблоны"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Просмотреть предыдущую редакцию"
 
@@ -5381,12 +5386,12 @@ msgstr "Просмотреть предыдущую редакцию"
 msgid "View raw text without formatting"
 msgstr "Просмотреть исходный текст, без форматирования"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 #, fuzzy
 msgid "View revision"
 msgstr "Просмотр редакции:"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Просмотр редакции:"
 
@@ -6017,7 +6022,7 @@ msgstr "подсказки по хорошему стилю"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "в виде исходного текста"
 
@@ -6990,9 +6995,6 @@ msgstr ""
 #~ msgid "You can review your changes in your personal TWiki topic %1"
 #~ msgstr ""
 #~ "Вы можете просмотреть изменения Вашей персональной TWiki страницы %1"
-
-#~ msgid "none (remove topic parent)"
-#~ msgstr "none (убрать родительскую тему)"
 
 #~ msgid "to edit the topic anyway."
 #~ msgstr "непременно редактировать эту тему."

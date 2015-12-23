@@ -1144,7 +1144,7 @@ msgstr ""
 msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr ""
 
@@ -1215,7 +1215,7 @@ msgstr ""
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "리비전 비교하기"
 
@@ -1321,6 +1321,11 @@ msgstr ""
 msgid "Country:"
 msgstr "국가:"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "새 토픽 생성하기"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1355,11 +1360,6 @@ msgstr "새 토픽 생성하기"
 #: core/data/Main/WikiGroups.txt:42
 #, fuzzy
 msgid "Create group"
-msgstr "새 토픽 생성하기"
-
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
-msgid "Create new FAQ topic"
 msgstr "새 토픽 생성하기"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
@@ -1424,7 +1424,7 @@ msgstr "날짜"
 msgid "Dear %1"
 msgstr "안녕하세요, %1 님 "
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "디버그"
 
@@ -1690,6 +1690,10 @@ msgstr ""
 msgid "Enlarge edit box"
 msgstr "편집 상자 확장"
 
+#: core/templates/more.tmpl:102
+msgid "Enter __none__ to clear the topic parent"
+msgstr ""
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "정보 변경을 위해 새로운 사용자 이름과 비밀번호를 입력하세요"
@@ -1811,7 +1815,7 @@ msgstr ""
 msgid "Find similar topics"
 msgstr ""
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "Find topics that are children of %1 ..."
 msgstr ""
 
@@ -2292,7 +2296,7 @@ msgid "Incorrect parameters to the =%1= script"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:127
-msgid "Incorrect templatetopic name provided."
+msgid "Incorrect topic name provided for the templatetopic parameter."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
@@ -2493,7 +2497,7 @@ msgstr ""
 msgid "Last name:"
 msgstr "성(Last Name):"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 #, fuzzy
 msgid "Latest revision: %1"
 msgstr "리비전 보기:"
@@ -2788,7 +2792,7 @@ msgstr ""
 msgid "New web name:"
 msgstr "새로운 Web 이름"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "새로운 리비전:"
 
@@ -2838,7 +2842,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "%1 의 보기 권한이 없습니다"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "이전 리비전이 존재하지 않습니다."
 
@@ -2958,7 +2962,7 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "이전 리비전:"
 
@@ -3022,7 +3026,7 @@ msgstr ""
 msgid "Optionally enter a different topic name:"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Options"
 msgstr ""
 
@@ -3547,7 +3551,7 @@ msgid "Resetting and setting password is not available."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 #, fuzzy
 msgid "Restore"
 msgstr "복구"
@@ -3566,19 +3570,19 @@ msgstr ""
 msgid "Restore and exit"
 msgstr "토픽 복구하기"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "토픽 복구하기"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "다음 리비전으로 토픽 복구하기:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "다음 리비전으로 토픽 복구"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3586,7 +3590,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 
@@ -3640,7 +3644,7 @@ msgstr "리비전"
 msgid "Revision history of %1"
 msgstr "%1 의 버전 내역"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "리비전"
 
@@ -3761,7 +3765,7 @@ msgstr "문자 검색"
 msgid "Search string"
 msgstr "문자 검색"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "Search the %1 Web for all children of this topic."
 msgstr ""
 
@@ -3876,7 +3880,7 @@ msgstr ""
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr ""
 
@@ -3884,7 +3888,7 @@ msgstr ""
 msgid "Set all"
 msgstr ""
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr ""
 
@@ -3915,7 +3919,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr ""
 
@@ -5059,7 +5063,7 @@ msgstr "모든 토픽 내역 보기"
 msgid "View difference"
 msgstr "차이점 보기"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 #, fuzzy
 msgid "View differences"
 msgstr "차이점 보기"
@@ -5074,7 +5078,7 @@ msgstr "템플릿 보기"
 msgid "View later"
 msgstr "템플릿 보기"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "이전 토픽 리비전 보기"
 
@@ -5082,12 +5086,12 @@ msgstr "이전 토픽 리비전 보기"
 msgid "View raw text without formatting"
 msgstr "포맷팅 없이 위키 원문 보기"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 #, fuzzy
 msgid "View revision"
 msgstr "리비전 보기:"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "리비전 보기:"
 
@@ -5663,7 +5667,7 @@ msgstr "좋은 스타일을 위한 힌트"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "원문 보기 포맷으로"
 

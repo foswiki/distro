@@ -1196,7 +1196,7 @@ msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
 "Temas marcados serán actualizados para señalar al nuevo nombre de la web."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Temas hijo en la web %1"
 
@@ -1274,7 +1274,7 @@ msgstr ""
 "Los comentarios están deshabilitados mientras esté iniciado desde la línea "
 "de comando"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Comparar revisiones"
 
@@ -1388,6 +1388,11 @@ msgstr "No se pudo guardar %1."
 msgid "Country:"
 msgstr "País"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "Crear tema nuevo de preguntas frecuentes"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1421,10 +1426,6 @@ msgstr "Crear grupo"
 #: core/data/Main/WikiGroups.txt:42
 msgid "Create group"
 msgstr "Crear grupo"
-
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-msgid "Create new FAQ topic"
-msgstr "Crear tema nuevo de preguntas frecuentes"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
@@ -1487,7 +1488,7 @@ msgstr "Fecha"
 msgid "Dear %1"
 msgstr "Estimad@ %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Depurar"
 
@@ -1775,6 +1776,11 @@ msgstr ""
 msgid "Enlarge edit box"
 msgstr "Ampliar caja de edición"
 
+#: core/templates/more.tmpl:102
+#, fuzzy
+msgid "Enter __none__ to clear the topic parent"
+msgstr "ninguno (remover página pariente)"
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr ""
@@ -1904,7 +1910,7 @@ msgstr "El archivo ha sido cargado con un nombre diferente"
 msgid "Find similar topics"
 msgstr "Encontrar temas similares"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Find topics that are children of %1 ..."
 msgstr "Buscar temas que enlazan a %1..."
@@ -2421,7 +2427,7 @@ msgid "Incorrect parameters to the =%1= script"
 msgstr "Parámetros incorrectos para el script =%1="
 
 #: core/templates/registermessages.tmpl:127
-msgid "Incorrect templatetopic name provided."
+msgid "Incorrect topic name provided for the templatetopic parameter."
 msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
@@ -2630,7 +2636,7 @@ msgstr "Modificada por última vez"
 msgid "Last name:"
 msgstr "Apellido"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 #, fuzzy
 msgid "Latest revision: %1"
 msgstr "(revisión %1)"
@@ -2928,7 +2934,7 @@ msgstr "Registro de usuarios nuevos deshabilitado"
 msgid "New web name:"
 msgstr "Nuevo nombre de web:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Revisión más nueva:"
 
@@ -2980,7 +2986,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "No hay acceso para ver %1"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "No existe revisión anterior."
 
@@ -3099,7 +3105,7 @@ msgstr "OK, todavía soy yo!"
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Revisión anterior:"
 
@@ -3167,7 +3173,7 @@ msgstr "Introducir opcionalmente un nombre diferente de tema:"
 msgid "Optionally enter a different topic name:"
 msgstr "Introducir opcionalmente un nombre diferente de tema:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Options"
 msgstr "Opciones"
 
@@ -3718,7 +3724,7 @@ msgid "Resetting and setting password is not available."
 msgstr "Reiniciar una contraseña no es manejado por Foswiki"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 #, fuzzy
 msgid "Restore"
 msgstr "Restaurar..."
@@ -3737,19 +3743,19 @@ msgstr ""
 msgid "Restore and exit"
 msgstr "Salvado en:"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Restaurar tema"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Restaurar tema a revisión:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Restaurar tema a esta revisión"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3757,7 +3763,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 #, fuzzy
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
@@ -3813,7 +3819,7 @@ msgstr "Revisión"
 msgid "Revision history of %1"
 msgstr "Historial de revisión de %1"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Revisiones"
 
@@ -3933,7 +3939,7 @@ msgstr "Resultado de búsqueda"
 msgid "Search string"
 msgstr "Cadena de búsqueda"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Search the %1 Web for all children of this topic."
 msgstr "Buscar la web %1 por temas que enlacen aquí"
@@ -4054,7 +4060,7 @@ msgstr "Registro de usuarios nuevos no disponible"
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Secuencial"
 
@@ -4062,7 +4068,7 @@ msgstr "Secuencial"
 msgid "Set all"
 msgstr "Seleccionar todos"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "Definir nuevo tema padre"
 
@@ -4094,7 +4100,7 @@ msgstr "Revisiones %1 - %2 (de %3)"
 msgid "Shrink edit box"
 msgstr "Empequeñecer campo de edición"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "Lado a lado"
 
@@ -5332,7 +5338,7 @@ msgstr "Ver historial total del tema"
 msgid "View difference"
 msgstr "Ver diferencias"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 msgid "View differences"
 msgstr "Ver diferencias"
 
@@ -5346,7 +5352,7 @@ msgstr "anterior"
 msgid "View later"
 msgstr "Ver plantillas"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Ver revisión anterior del tema"
 
@@ -5354,11 +5360,11 @@ msgstr "Ver revisión anterior del tema"
 msgid "View raw text without formatting"
 msgstr "Ver código sin formato"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 msgid "View revision"
 msgstr "Ver revisión"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Ver revisión:"
 
@@ -6004,7 +6010,7 @@ msgstr "recomendaciones de buen estilo"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "en formato de código"
 
@@ -7008,9 +7014,6 @@ msgstr ""
 
 #~ msgid "You can review your changes in your personal TWiki topic %1"
 #~ msgstr "Puede revisar sus cambios en su página personal TWiki %1"
-
-#~ msgid "none (remove topic parent)"
-#~ msgstr "ninguno (remover página pariente)"
 
 #~ msgid "to edit the topic anyway."
 #~ msgstr "Para editar la página de todas maneras"
