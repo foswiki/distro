@@ -38,6 +38,7 @@ our @ISA = ('Foswiki::Store');
 
 use Assert;
 use Error qw( :try );
+use Encode;
 
 use Foswiki          ();
 use Foswiki::Meta    ();
@@ -113,7 +114,16 @@ sub readTopic {
 
     ( my $text, $isLatest ) = $handler->getRevision($version);
     $text = '' unless defined $text;
-    $text = _decode($text);
+
+    # Use Encode::decode directly. Don't NFC normalize the topic text.
+    # Only need to normalize filenames.
+    $text = Encode::decode(
+        $Foswiki::cfg{Store}{Encoding} || 'utf-8',
+        $text,
+
+        #Encode::FB_CROAK # DEBUG
+        Encode::FB_PERLQQ
+    );
     $text =~ s/\r//g;    # Remove carriage returns
     Foswiki::Serialise::deserialise( $text, 'Embedded', $topicObject );
 
