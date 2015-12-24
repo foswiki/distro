@@ -416,7 +416,7 @@ sub bootstrapConfig {
 
     # Can't use Foswiki::decode_utf8 - this is too early in initialization
     print STDERR "AUTOCONFIG: Found Bin dir: "
-      . NFC( Encode::decode_utf8($bin) )
+      . $bin
       . ", Script name: $script using FindBin\n"
       if (TRAUTO);
 
@@ -465,7 +465,8 @@ sub bootstrapConfig {
         # Can't use Foswiki::decode_utf8 - this is too early in initialization
         $Foswiki::cfg{$key} = NFC( Encode::decode_utf8( $Foswiki::cfg{$key} ) );
 
-        print STDERR "AUTOCONFIG: $key = $Foswiki::cfg{$key} \n"
+        print STDERR "AUTOCONFIG: $key = "
+          . Encode::encode_utf8( $Foswiki::cfg{$key} ) . "\n"
           if (TRAUTO);
 
         if ( -d $Foswiki::cfg{$key} ) {

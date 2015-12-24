@@ -248,7 +248,9 @@ sub option {
             }
         }
 
-        if ( open( my $file, '>>', $this->{_logfile} ) ) {
+        if ( open( my $file, '>>', Foswiki::encode_utf8( $this->{_logfile} ) ) )
+        {
+            binmode $file, ":encoding(utf-8)";
             print $file $text;
             close($file);
         }

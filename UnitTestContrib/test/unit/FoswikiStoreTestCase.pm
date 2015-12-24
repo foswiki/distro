@@ -97,7 +97,14 @@ sub fixture_groups {
 
     #return ( [ 'PlainFile' ], [ 'utf8' ] );
     if ($Foswiki::UNICODE) {
-        return ( \@groups, [ 'iso8859', 'utf8', ] );
+        if ( Cwd::cwd() =~ m/[^\p{ASCII}]/ ) {
+            print STDERR
+              "SKIPPING iso8859 tests: Path contains non-ASCII Characters\n";
+            return ( \@groups, [ 'utf8', ] );
+        }
+        else {
+            return ( \@groups, [ 'iso8859', 'utf8', ] );
+        }
     }
     else {
         return \@groups;

@@ -39,6 +39,29 @@ sub set_up {
     return;
 }
 
+sub skip {
+    my ( $this, $test ) = @_;
+
+    my %skip_tests;
+
+    if ( Cwd::cwd() =~ m/[^\p{ASCII}]/ ) {
+
+        %skip_tests = (
+            'UploadScriptTests::test_unsupported_characters' =>
+'Tests for iso-8859 character sets not supported: Path contains non-ASCII characters',
+            'UploadScriptTests::test_supported_nonascii' =>
+'Tests for iso-8859 character sets not supported: Path contains non-ASCII characters',
+        );
+
+        return $skip_tests{$test}
+          if ( defined $test && defined $skip_tests{$test} );
+
+    }
+
+    return undef;
+
+}
+
 sub do_upload {
     my ( $this, $fn, $data, $cuid, @arga ) = @_;
     my %params = @arga;
