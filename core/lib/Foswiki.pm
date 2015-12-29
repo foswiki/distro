@@ -45,7 +45,7 @@ use strict;
 use warnings;
 use Assert;
 use Cwd qw( abs_path );
-use Error qw( :try );
+use Try::Tiny;
 use File::Spec               ();
 use Monitor                  ();
 use CGI                      ();  # Always required to get html generation tags;
@@ -97,6 +97,11 @@ our $CC      = "\0-->";
 # It is provided so that modules can detect unit test mode to avoid
 # corrupting data spaces.
 our $inUnitTestMode = 0;
+
+use Moo;
+use namespace::clean;
+
+extends 'Foswiki::Object';
 
 sub SINGLE_SINGLETONS       { 0 }
 sub SINGLE_SINGLETONS_TRACE { 0 }
@@ -1110,7 +1115,9 @@ sub _isRedirectSafe {
     my $redirect = shift;
 
     return 1 if ( $Foswiki::cfg{AllowRedirectUrl} );
-    return 1 if $redirect =~ m#^/#;    # relative URL - OK
+
+    # relative URL - OK
+    return 1 if $redirect =~ m#^/#;
 
     #TODO: this should really use URI
     # Compare protocol, host name and port number
@@ -1402,7 +1409,7 @@ sub isValidTopicName {
         try {
             Foswiki::Store::encode( $name, 1 );
         }
-        catch Error with {
+        catch {
             $badName = 1;
         };
         return 0 if $badName;
