@@ -177,17 +177,20 @@ sub buildNewTopic {
         $ancestorRev = 0;
     }
 
-    $text = $query->param('text') if scalar $query->param('text');
-    if ( defined $text ) {
+    # $text now contains either text from an existing topic.
+    # or text obtained from a template topic. Now determine if
+    # the query params will override it.
+    if ( defined $query->param('text') ) {
 
         # text is defined in the query, save that text, overriding anything
         # from the template or the previous rev of the topic
+        $text = $query->param('text');
         $text =~ s/\r//g;
         $text .= "\n" unless $text =~ m/\n$/s;
     }
-    else {
-        $text = '';
-    }
+
+    # Make sure that text is defined.
+    $text = '' unless defined $text;
 
     # Change the parent, if appropriate
     my $newParent = $query->param('topicparent');
