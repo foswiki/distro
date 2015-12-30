@@ -19,8 +19,8 @@ BEGIN {
 }
 
 # Simple decimal version, use parse method, no leading "v"
-our $VERSION = '1.152';
-our $RELEASE = '10 Dec 2015';
+our $VERSION = '1.153';
+our $RELEASE = '30 Dec 2015';
 our $SHORTDESCRIPTION =
   'Control attributes of tables and sorting of table columns';
 our $NO_PREFS_IN_TOPIC = 1;

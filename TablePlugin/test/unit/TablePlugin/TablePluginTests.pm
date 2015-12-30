@@ -1651,6 +1651,62 @@ ACTUAL
     $this->assert_html_equals( $expected, $actual1 . $actual2 );
 }
 
+=pod
+
+Test user specified class for table.
+
+=cut
+
+sub test_tableClassAttr {
+    my $this = shift;
+
+    my $cgi      = $this->{request};
+    my $url      = $cgi->url( -absolute => 1 );
+    my $expected = <<EXPECTED;
+<nop>
+<nop>
+<nop>
+<table id="table$this->{test_topic}1" class="foswikiTable foo" rules="none" border="1">
+	<tbody>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td class="foswikiTableCol0 foswikiFirstCol"> a </td>
+			<td class="foswikiTableCol1 foswikiLastCol"> b </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast"> 2 </td>
+			<td class="foswikiTableCol1 foswikiLastCol foswikiLast"> 3 </td>
+		</tr>
+	</tbody>
+</table>
+<p></p>
+<nop>
+<nop>
+<nop>
+<table id="table$this->{test_topic}2" class="foswikiTable bar" rules="none" border="1">
+	<tbody>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td class="foswikiTableCol0 foswikiFirstCol"> a </td>
+			<td class="foswikiTableCol1 foswikiLastCol"> b </td>
+		</tr>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+			<td class="foswikiTableCol0 foswikiFirstCol foswikiLast"> 2 </td>
+			<td class="foswikiTableCol1 foswikiLastCol foswikiLast"> 3 </td>
+		</tr>
+	</tbody>
+</table>
+EXPECTED
+    my $actual = <<ACTUAL;
+%TABLE{headerrows="0" footerrows="0" class="foo"}%
+| a | b |
+| 2 | 3 |
+
+%TABLE{headerrows="0" footerrows="0" class="bar"}%
+| a | b |
+| 2 | 3 |
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
 # DEVELOPMENT TESTS
 
 sub dev_test_convertStringToNumber_empty_string {

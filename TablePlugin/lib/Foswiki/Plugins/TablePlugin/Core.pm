@@ -331,7 +331,14 @@ sub _parseAttributes {
           : 'table'
           . $Foswiki::Plugins::TablePlugin::topic
           . ( $tableCount + 1 );
-        _storeAttribute( 'id',         $id,                     $inCollection );
+        _storeAttribute( 'id', $id, $inCollection );
+
+        my $class =
+          defined $inParams->{class}
+          ? $defaultAttrs->{class} . ' ' . $inParams->{class}
+          : $defaultAttrs->{class};
+        _storeAttribute( 'class', $class, $inCollection );
+
         _storeAttribute( 'headerrows', $inParams->{headerrows}, $inCollection );
         _storeAttribute( 'footerrows', $inParams->{footerrows}, $inCollection );
     }
@@ -1897,11 +1904,10 @@ sub handler {
         @origTable = $cgi->multi_param('table');
         @origUp    = $cgi->multi_param('up');        # NOTE: internal parameter
         $cgi->delete( 'sortcol', 'table', 'up' );
-        $url = NFC(
-            Foswiki::decode_utf8(
-                $cgi->url( -absolute => 1, -path => 1 ) . '?'
-            )
-        );
+        $url =
+          NFC(
+            Foswiki::urlDecode( $cgi->url( -absolute => 1, -path => 1 ) . '?' )
+          );
         my $queryString = $cgi->query_string();
 
         if ($queryString) {
