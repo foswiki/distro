@@ -331,7 +331,14 @@ sub _parseAttributes {
           : 'table'
           . $Foswiki::Plugins::TablePlugin::topic
           . ( $tableCount + 1 );
-        _storeAttribute( 'id',         $id,                     $inCollection );
+        _storeAttribute( 'id', $id, $inCollection );
+
+        my $class =
+          defined $inParams->{class}
+          ? $defaultAttrs->{class} . ' ' . $inParams->{class}
+          : $defaultAttrs->{class};
+        _storeAttribute( 'class', $class, $inCollection );
+
         _storeAttribute( 'headerrows', $inParams->{headerrows}, $inCollection );
         _storeAttribute( 'footerrows', $inParams->{footerrows}, $inCollection );
     }
