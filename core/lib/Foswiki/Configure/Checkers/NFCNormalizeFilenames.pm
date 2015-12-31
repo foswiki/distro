@@ -35,7 +35,7 @@ sub check_current_value {
             $Foswiki::cfg{NFCNormalizeFilenames} = 0;
         }
         else {
-            if ( scalar @list && NFD($testfile) eq $list[0] ) {
+            if ( scalar @list && $testfile eq $list[0] ) {
                 $e .= $reporter->NOTE("NFD Data Storage Detected");
                 $e .= $reporter->ERROR(
 "Filename Normalization should be enabled on NFD File Systems."
