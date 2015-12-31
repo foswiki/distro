@@ -18,6 +18,19 @@ use Assert;
 use Encode;
 use Foswiki::Configure::Reporter ();
 use File::Spec;
+use Unicode::Normalize;
+
+=begin TML
+
+---++ readdir utility
+
+Returns NFC normalized unicode characters
+
+=cut
+
+sub _readdir {
+    map { NFC( Encode::decode_utf8($_) ) } readdir( $_[0] );
+}
 
 =begin TML
 
@@ -88,7 +101,7 @@ sub findFileOnPath {
           File::Spec->splitpath("$incdir/$file");
         next unless ( -d $volume . $directories );
         opendir( my $df, $volume . $directories ) || next;
-        my @files = grep { $_ eq $filename } readdir($df);
+        my @files = grep { $_ eq $filename } _readdir($df);
         closedir($df);
 
         if ( scalar @files ) {
@@ -156,7 +169,7 @@ sub findPackages {
             if ( opendir( $dir, $place ) ) {
 
                 #next if ($place =~ m/^\..*/);
-                foreach my $subplace ( readdir $dir ) {
+                foreach my $subplace ( _readdir $dir ) {
                     next unless $subplace =~ $pathel;
 
                     #next if ($subplace =~ m/^\..*/);
@@ -176,7 +189,7 @@ sub findPackages {
     my %known;
     foreach my $place (@$places) {
         if ( opendir( $dir, $place ) ) {
-            foreach my $file ( readdir $dir ) {
+            foreach my $file ( _readdir $dir ) {
                 next unless $file =~ $leaf;
                 next if ( $file =~ m/^\..*/ );
                 next unless $file =~ m/^(.*)\.pm$/;
@@ -426,8 +439,8 @@ sub checkTreePerms {
     opendir( my $Dfh, $path )
       or return "Directory $path is not readable.";
 
-    foreach my $e ( grep { !/^\./ } readdir($Dfh) ) {
-        my $p = $path . '/' . Foswiki::decode_utf8($e);
+    foreach my $e ( grep { !/^\./ } _readdir($Dfh) ) {
+        my $p = $path . '/' . $e;
         my $subreport = checkTreePerms( $p, $perms, %options );
         while ( my ( $k, $v ) = each %report ) {
             if ( ref($v) eq 'ARRAY' ) {
