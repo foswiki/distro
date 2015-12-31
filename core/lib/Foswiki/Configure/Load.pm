@@ -16,6 +16,8 @@ package Foswiki::Configure::Load;
 
 use strict;
 use warnings;
+use utf8;    # Needed to probe NFC/NFD filesystem
+
 use Cwd qw( abs_path );
 use Assert;
 use Encode;
@@ -362,7 +364,7 @@ sub setBootstrap {
     my @BOOTSTRAP =
       qw( {DataDir} {DefaultUrlHost} {DetailedOS} {OS} {PubUrlPath} {ToolsDir} {WorkingDir}
       {PubDir} {TemplateDir} {ScriptDir} {ScriptUrlPath} {ScriptUrlPaths}{view}
-      {ScriptSuffix} {LocalesDir} {Store}{Implementation}
+      {ScriptSuffix} {LocalesDir} {Store}{Implementation} {NFCNormalizeFilenames}
       {Store}{SearchAlgorithm} {Site}{Locale} );
 
     $Foswiki::cfg{isBOOTSTRAPPING} = 1;
@@ -631,6 +633,40 @@ sub _bootstrapStoreSettings {
             $Foswiki::cfg{Store}{SearchAlgorithm} =
               'Foswiki::Store::SearchAlgorithms::PurePerl';
         }
+    }
+
+# Determine if the file system is NFC or NFD.
+# Write a UTF8 filename to the data directory, and then read the directory.
+# If the filename is returned in NFD format, then the NFCNormalizeFilename flag is enabled.
+
+    my $testfile = 'ČáŘý.testCfgNFC';
+    if (
+        open(
+            my $F, '>', Encode::encode_utf8("$Foswiki::cfg{DataDir}/$testfile")
+        )
+      )
+    {
+        close($F);
+        opendir( my $dh, Encode::encode_utf8( $Foswiki::cfg{DataDir} ) )
+          or die $!;
+        my @list = grep { /testCfgNFC/ }
+          map { Encode::decode_utf8($_) } readdir($dh);
+        if ( scalar @list && $list[0] eq $testfile ) {
+            print STDERR "AUTOCONFIG: NFC Data Storage Detected\n" if (TRAUTO);
+            $Foswiki::cfg{NFCNormalizeFilenames} = 0;
+        }
+        else {
+            if ( scalar @list && NFD($testfile) eq $list[0] ) {
+                print STDERR "AUTOCONFIG: NFD Data Storage Detected\n"
+                  if (TRAUTO);
+                $Foswiki::cfg{NFCNormalizeFilenames} = 1;
+            }
+            else {
+                print STDERR
+                  "AUTOCONFIG: WARNING: Unable to detect Normalization.\n";
+            }
+        }
+        unlink "$Foswiki::cfg{DataDir}/$testfile";
     }
 }
 
