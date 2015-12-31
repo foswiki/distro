@@ -1357,7 +1357,7 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 # Leave this undefined to use the default of utf-8 encoding.
 # $Foswiki::cfg{Store}{Encoding} = undef;
 
-# **BOOLEAN LABEL="NFC Normalize Filenames" **
+# **BOOLEAN LABEL="NFC Normalize Filenames" EXPERT **
 # Foswiki uses NFC normalization for all network operations, but assumes
 # that the file system is also NFC normalized.  Some systems such as OSx
 # enforce NFD normalization for filenames.  If Foswiki is installed on one
