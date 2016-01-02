@@ -6,48 +6,28 @@ use warnings;
 
 use Encode;
 use Unicode::Normalize;
+use Foswiki::Configure::FileUtil ();
 
 use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
-    my $e;
 
-# Determine if the file system is NFC or NFD.
-# Write a UTF8 filename to the data directory, and then read the directory.
-# If the filename is returned in NFD format, then the NFCNormalizeFilename flag is enabled.
+    my $nfcok =
+      Foswiki::Configure::FileUtil::canNfcFilenames( $Foswiki::cfg{DataDir} );
 
-    my $testfile = 'ČáŘý.testCfgNFC';
-    if (
-        open(
-            my $F, '>', Encode::encode_utf8("$Foswiki::cfg{DataDir}/$testfile")
-        )
-      )
-    {
-        close($F);
-        opendir( my $dh, Encode::encode_utf8( $Foswiki::cfg{DataDir} ) )
-          or die $!;
-        my @list = grep { /testCfgNFC/ }
-          map { Encode::decode_utf8($_) } readdir($dh);
-        if ( scalar @list && $list[0] eq $testfile ) {
-            $e .= $reporter->NOTE("NFC Data Storage Detected");
-            $Foswiki::cfg{NFCNormalizeFilenames} = 0;
-        }
-        else {
-            if ( scalar @list && $testfile eq $list[0] ) {
-                $e .= $reporter->NOTE("NFD Data Storage Detected");
-                $e .= $reporter->ERROR(
-"Filename Normalization should be enabled on NFD File Systems."
-                ) unless ( $Foswiki::cfg{NFCNormalizeFilenames} );
-            }
-            else {
-                $e .= $reporter->WARN(
-"Unable to detect Normalization. Read/write of test file failed."
-                );
-            }
-        }
-        unlink "$Foswiki::cfg{DataDir}/$testfile";
+    if ( defined $nfcok && $nfcok == 1 ) {
+        $reporter->NOTE("Data Storage allows NFC filenames");
+    }
+    elsif ( defined($nfcok) && $nfcok == 0 ) {
+        $reporter->NOTE("Data Storage enforces NFD filenames");
+        $reporter->WARN(
+            "Filename Normalization should be enabled on NFD File Systems.")
+          unless ( $Foswiki::cfg{NFCNormalizeFilenames} );
+    }
+    else {
+        $reporter->ERROR("Unable to detect Normalization.");
     }
 }
 

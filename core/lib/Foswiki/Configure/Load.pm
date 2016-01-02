@@ -16,7 +16,6 @@ package Foswiki::Configure::Load;
 
 use strict;
 use warnings;
-use utf8;    # Needed to probe NFC/NFD filesystem
 
 use Cwd qw( abs_path );
 use Assert;
@@ -635,38 +634,25 @@ sub _bootstrapStoreSettings {
         }
     }
 
-# Determine if the file system is NFC or NFD.
-# Write a UTF8 filename to the data directory, and then read the directory.
-# If the filename is returned in NFD format, then the NFCNormalizeFilename flag is enabled.
-
-    my $testfile = 'ČáŘý.testCfgNFC';
-    if (
-        open(
-            my $F, '>', Encode::encode_utf8("$Foswiki::cfg{DataDir}/$testfile")
-        )
-      )
-    {
-        close($F);
-        opendir( my $dh, Encode::encode_utf8( $Foswiki::cfg{DataDir} ) )
-          or die $!;
-        my @list = grep { /testCfgNFC/ }
-          map { Encode::decode_utf8($_) } readdir($dh);
-        if ( scalar @list && $list[0] eq $testfile ) {
-            print STDERR "AUTOCONFIG: NFC Data Storage Detected\n" if (TRAUTO);
-            $Foswiki::cfg{NFCNormalizeFilenames} = 0;
-        }
-        else {
-            if ( scalar @list && NFD($testfile) eq $list[0] ) {
-                print STDERR "AUTOCONFIG: NFD Data Storage Detected\n"
-                  if (TRAUTO);
-                $Foswiki::cfg{NFCNormalizeFilenames} = 1;
-            }
-            else {
-                print STDERR
-                  "AUTOCONFIG: WARNING: Unable to detect Normalization.\n";
-            }
-        }
-        unlink "$Foswiki::cfg{DataDir}/$testfile";
+    # Detect the NFC / NDF normalization of the file system, and set
+    # NFCNormalizeFilenames if needed.
+    # SMELL: Really this should be done per web, both in data and pub.
+    my $nfcok =
+      Foswiki::Configure::FileUtil::canNfcFilenames( $Foswiki::cfg{DataDir} );
+    if ( defined $nfcok && $nfcok == 1 ) {
+        print STDERR "AUTOCONFIG: Data Storage allows NFC filenames\n"
+          if (TRAUTO);
+        $Foswiki::cfg{NFCNormalizeFilenames} = 0;
+    }
+    elsif ( defined($nfcok) && $nfcok == 0 ) {
+        print STDERR "AUTOCONFIG: Data Storage enforces NFD filenames\n"
+          if (TRAUTO);
+        $Foswiki::cfg{NFCNormalizeFilenames} = 1
+          ; #the configure's interface still shows unchecked - so, don't understand.. ;(
+    }
+    else {
+        print STDERR "AUTOCONFIG: WARNING: Unable to detect Normalization.\n";
+        $Foswiki::cfg{NFCNormalizeFilenames} = 1;    #enable too - safer as none
     }
 }
 
