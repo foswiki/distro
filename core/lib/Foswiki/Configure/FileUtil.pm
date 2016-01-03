@@ -12,12 +12,26 @@ Basic file utilities used by Configure and admin scripts
 
 use strict;
 use warnings;
+use utf8;
 
 use Assert;
 
 use Encode;
 use Foswiki::Configure::Reporter ();
 use File::Spec;
+use Unicode::Normalize;
+
+=begin TML
+
+---++ readdir utility
+
+Returns NFC normalized unicode characters
+
+=cut
+
+sub _readdir {
+    map { NFC( Encode::decode_utf8($_) ) } readdir( $_[0] );
+}
 
 =begin TML
 
@@ -88,7 +102,7 @@ sub findFileOnPath {
           File::Spec->splitpath("$incdir/$file");
         next unless ( -d $volume . $directories );
         opendir( my $df, $volume . $directories ) || next;
-        my @files = grep { $_ eq $filename } readdir($df);
+        my @files = grep { $_ eq $filename } _readdir($df);
         closedir($df);
 
         if ( scalar @files ) {
@@ -144,7 +158,8 @@ sub findPackages {
     $pattern =~ s/\*/.*/g;
     my @path = split( /::/, $pattern );
 
-    my $places = \@INC;
+    my @NFCINC = map { NFC( decode_utf8($_) ) } @INC;
+    my $places = \@NFCINC;
     my $dir;
 
     while ( scalar(@path) > 1 && @$places ) {
@@ -156,7 +171,7 @@ sub findPackages {
             if ( opendir( $dir, $place ) ) {
 
                 #next if ($place =~ m/^\..*/);
-                foreach my $subplace ( readdir $dir ) {
+                foreach my $subplace ( _readdir $dir ) {
                     next unless $subplace =~ $pathel;
 
                     #next if ($subplace =~ m/^\..*/);
@@ -176,7 +191,7 @@ sub findPackages {
     my %known;
     foreach my $place (@$places) {
         if ( opendir( $dir, $place ) ) {
-            foreach my $file ( readdir $dir ) {
+            foreach my $file ( _readdir $dir ) {
                 next unless $file =~ $leaf;
                 next if ( $file =~ m/^\..*/ );
                 next unless $file =~ m/^(.*)\.pm$/;
@@ -263,6 +278,7 @@ Enhanced checks:
    * f - File permission matches the permission in
          {Store}{filePermission}  (FUTURE)
    * p - Verify that a WebPreferences exists for each web
+   * n - Verify normalization of the directory location
 
 %options may include the following:
    * =filter= is a regular expression.  Files matching the regex
@@ -300,6 +316,7 @@ sub checkTreePerms {
     my %report = (
         fileCount   => 0,
         fileErrors  => 0,
+        dirErrors   => 0,
         missingFile => 0,
         excessPerms => 0,
         messages    => []
@@ -316,6 +333,7 @@ sub checkTreePerms {
     return \%report if ( $path eq '.git' );
 
     $options{maxFileErrors}  = 10 unless defined $options{maxFileErrors};
+    $options{maxDirErrors}   = 10 unless defined $options{maxDirErrors};
     $options{maxExcessPerms} = 10 unless defined $options{maxExcessPerms};
     $options{maxMissingFile} = 10 unless defined $options{maxMissingFile};
 
@@ -414,24 +432,39 @@ sub checkTreePerms {
         push( @{ $report{messages} }, "=$path= $rwxString" );
     }
 
-    return \%report if scalar( @{ $report{messages} } );
-
     return \%report unless -d $path;
 
+    # Stop at this directory, if it doesn't have -x - readdir permission
     if ( -d $path && !-x $path ) {
         unshift( @{ $report{messages} }, "   * $path missing -x permission" );
+        $report{dirErrors}++;
         return \%report;
+    }
+
+    # The NFC check requires readdir permission.
+    if (   $perms =~ m/n/
+        && !$Foswiki::cfg{NFCNormalizeFilenames}
+        && -d $path
+        && ( substr( $path, -4 ) ne ',pfv' ) )
+    {
+        my $nfcok = Foswiki::Configure::FileUtil::canNfcFilenames($path);
+        if ( !$nfcok && $report{dirErrors}++ < $options{maxDirErrors} ) {
+            push(
+                @{ $report{messages} },
+"   * =$path= NFD File System detected, Normalization should be enabled"
+            );
+        }
     }
 
     opendir( my $Dfh, $path )
       or return "Directory $path is not readable.";
 
-    foreach my $e ( grep { !/^\./ } readdir($Dfh) ) {
-        my $p = $path . '/' . Foswiki::decode_utf8($e);
+    foreach my $e ( grep { !/^\./ } _readdir($Dfh) ) {
+        my $p = $path . '/' . $e;
         my $subreport = checkTreePerms( $p, $perms, %options );
         while ( my ( $k, $v ) = each %report ) {
             if ( ref($v) eq 'ARRAY' ) {
-                push( @$v, @{ $subreport->{$k} } );
+                push( @{ $report{$k} }, @{ $subreport->{$k} } );
             }
             else {
                 $report{$k} += $subreport->{$k};
@@ -960,6 +993,51 @@ sub rewriteShebang {
     chmod( $mode, "$file" );
 
     return '';
+}
+
+=begin TML
+
+---++ StaticMethod canNfcFilenames($testdir)
+Determine if the file system is NFC or NFD.
+Write a UTF8 filename to the data directory, and then read the directory.
+If the filename is returned in NFD format, then the NFCNormalizeFilename flag is enabled.
+
+returns:
+   * 1 if NFC filenames are accepted by the filesystem
+   * 0 if the NFC is converted to NFD
+   * undef in any other case (errors)
+
+=cut
+
+sub canNfcFilenames {
+    my $testdir = shift;
+
+    ASSERT( $testdir, "missing argument to canNfcFilenames" );
+
+#die as BUG if the testdir contains non-ascii characters and it isn't unicode string
+    ASSERT( !( $testdir =~ /\P{Ascii}/ && !utf8::is_utf8($testdir) ),
+        "CORE bug, got a [$testdir] as bytes" );
+
+    my $ext      = '.CfgNfcTmpFile';
+    my $testname = '_ÁčňÖüß' . $ext;
+    my $fullpath =
+      NFC( File::Spec->catfile( $testdir, $testname ) );   #ensure full NFC path
+    my $fsnorm;
+
+    unlink $fullpath;
+    if ( open my $fd, '>', $fullpath ) {
+        close $fd;
+        opendir my $dh, $testdir or return;                #or die?
+        my @list = grep { /$ext/ } map { decode_utf8($_) } readdir $dh;
+        closedir $dh;
+        return unless ( scalar @list == 1 );
+        $fsnorm =
+            ( $list[0] eq $testname )      ? 1
+          : ( $list[0] eq NFD($testname) ) ? 0
+          :                                  undef;
+        unlink $fullpath;
+    }
+    return $fsnorm;
 }
 
 1;

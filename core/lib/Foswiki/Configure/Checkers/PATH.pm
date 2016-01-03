@@ -76,15 +76,16 @@ sub validate_permissions {
 
     my $path = eval("\$Foswiki::cfg$this->{item}->{keys}");
 
-    my $fileCount   = 0;
-    my $fileErrors  = 0;
-    my $excessPerms = 0;
-    my $missingFile = 0;
-    my @messages;
-
     my $check = $this->{item}->{CHECK}->{perms};
 
     while (@$check) {
+        my $fileCount   = 0;
+        my $fileErrors  = 0;
+        my $dirErrors   = 0;
+        my $excessPerms = 0;
+        my $missingFile = 0;
+        my @messages;
+
         my $perms = shift @$check;
         my $filter = shift @$check || '';
         $filter = '' if ( $filter eq '*' );
@@ -104,6 +105,7 @@ sub validate_permissions {
                 filter => $filter );
             $fileCount   = $report->{fileCount};
             $fileErrors  = $report->{fileErrors};
+            $dirErrors   = $report->{dirErrors};
             $excessPerms = $report->{excessPerms};
             $missingFile = $report->{missingFile};
             push( @messages, @{ $report->{messages} } );
@@ -112,6 +114,7 @@ sub validate_permissions {
             my $fperm = sprintf( '%04o', $Foswiki::cfg{Store}{filePermission} );
 
             if ($fileErrors) {
+                $reporter->NOTE("Insufficient permission checks:");
                 my $insufficientMsg =
                   $fileErrors == 1
                   ? "a directory or file has insufficient permissions."
@@ -120,29 +123,44 @@ sub validate_permissions {
                   ( $perms =~ m/[df]/ )
                   ? "Verify that the Store expert settings of {Store}{filePermission} ($fperm) and {Store}{dirPermission} ($dperm) are correct for your environment, and correct the file permissions listed below"
                   : '';
-                $reporter->ERROR( <<ERRMSG, @messages )
+                $reporter->ERROR( <<ERRMSG )
 $insufficientMsg Insufficient permissions could prevent Foswiki or the web server from accessing or updating the files. $storeMsg
 ERRMSG
             }
 
-            if ( $this->{missingFile} ) {
+            if ($dirErrors) {
+                $reporter->NOTE("Directory checks:");
+                my $dirMsg =
+                  $dirErrors == 1
+                  ? "a directory issue has been encountered."
+                  : "$dirErrors directories have encountered issues.";
+                $reporter->ERROR( <<ERRMSG )
+$dirMsg Review the reported errors and correct the issue. 
+ERRMSG
+            }
+
+            if ($missingFile) {
+                $reporter->NOTE("Missing file checks:");
                 my $missingMsg =
-                  $this->{missingFile} == 1
-                  ? "a file is missing."
-                  : "$this->{missingFile} files are missing.";
-                $reporter->WARN( <<PREFS, @messages )
+                  $missingFile == 1
+                  ? "A file is missing."
+                  : "$missingFile files are missing.";
+                $reporter->WARN( <<PREFS )
 This warning can be safely ignored in many cases. The web directories have been checked for a $Foswiki::cfg{WebPrefsTopicName} topic and $missingMsg If this file is missing, Foswiki will not recognize the directory as a Web and the contents will not be accessible to Foswiki.  This is expected with some extensions and might not be a problem. Verify whether or not each directory listed as missing $Foswiki::cfg{WebPrefsTopicName} is intended to be a web.  If Foswiki web access is desired, copy in a $Foswiki::cfg{WebPrefsTopicName} topic.
 PREFS
             }
 
             if ($excessPerms) {
-                $reporter->WARN( << "PERMS", @messages );
+                $reporter->NOTE("Excess permission checks:");
+                $reporter->WARN( << "PERMS" );
 $excessPerms or more directories appear to have more access permission than requested in the Store configuration. Excess permissions might allow other users on the web server to have undesired access to the files. Verify that the Store expert settings of {Store}{filePermission} ($fperm} and {Store}{dirPermission}) ($dperm}) are set correctly for your environment and correct the file permissions listed below.  (Files were not checked for excessive permissions.)
 PERMS
             }
             $reporter->NOTE(
 "Finished checking $fileCount files, Permission: $perms Filter: $filter\n"
             );
+            my $rpt = join( "\n", @messages );
+            $reporter->NOTE($rpt);
         }
     }
     return;
