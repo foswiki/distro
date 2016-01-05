@@ -190,8 +190,7 @@ if ( scalar( keys %uniq ) > 1 ) {
 }
 
 if ( !scalar( keys %uniq ) && !$actions{save} ) {
-    print STDERR "Nothing to do\n";
-    exit 1;
+    Pod::Usage::pod2usage( -exitstatus => 0, -verbose => 2 );
 }
 
 if ( $action =~ /^get/ && scalar( keys %{ $params->{set} } ) ) {
@@ -464,6 +463,8 @@ sub _set_logger {
 
 1;
 __END__
+
+=pod
 
 =head1 tools/configure
 
