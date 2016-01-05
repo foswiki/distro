@@ -38,6 +38,9 @@ my $bin = $1;
 use lib "$FindBin::Bin/../bin";
 require 'setlib.cfg';
 
+# SMELL: setlib does "require CGI" which sets STDIN to binmode.
+binmode( STDIN, ':crlf' );
+
 # require, not use.  The libpath is resolved by setlib.cfg,
 # so "use SomeModule;" will fail.
 
