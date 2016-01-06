@@ -39,7 +39,7 @@ sub test_construct_table {
 
     $this->assert_equals( 'textarea', $table->{colTypes}->[2]->{type} );
     $this->assert_equals( '10x8',     $table->{colTypes}->[2]->{size} );
-    $this->assert_equals( '', $table->{colTypes}->[2]->{initial_value} );
+    $this->assert_equals( ' ', $table->{colTypes}->[2]->{initial_value} );
 
     $this->assert_equals( 'radio', $table->{colTypes}->[3]->{type} );
     $this->assert_equals( '1',     $table->{colTypes}->[3]->{size} );

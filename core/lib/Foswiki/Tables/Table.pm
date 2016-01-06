@@ -717,7 +717,7 @@ sub parseFormat {
         elsif ( $type =~ m/^(radio|select|checkbox)/ && scalar(@values) ) {
             $initial = $values[0];
         }
-        $initial = '' unless defined $initial;
+        $initial = ' ' unless ( defined $initial && length($initial) > 0 );
 
         @values = map { s/^\s*//; s/\s*$//; $_ } @values;
         push(
