@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1452096476" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQREQUIRE{"chili, ui, ui::autocomplete" warn="off"}%
@@ -160,7 +160,7 @@ jQuery(function($){
     var $this = $(this), 
         opts = $.extend({}, $this.metadata());
     $this.autocomplete({
-      source: foswiki.getPreference('SCRIPTURL') + '/view/' + foswiki.getPreference('SYSTEMWEB') + "/JQueryAjaxHelper?section=topic;skin=text;contenttype=application/json;baseweb="+opts.baseweb+";format="+opts.format,
+      source: foswiki.getPreference('SCRIPTURL') + '/view/' + foswiki.getPreference('SYSTEMWEB') + "/JQueryAjaxHelper?section=topic;skin=text;contenttype=application/json;baseweb="+opts.baseweb,
       select: function(event, ui) {
         window.location.href=foswiki.getPreference('SCRIPTURL') + '/view/'+(opts.global?'':opts.baseweb+'/')+ui.item.value;
       }
