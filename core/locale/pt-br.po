@@ -638,7 +638,7 @@ msgstr "Requisição de aprovação para completar o seu registo de usuário"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:191
 msgid "Abandon changes and exit"
 msgstr "Abandonar alterações e sair"
 
@@ -1013,7 +1013,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:35
 #: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
@@ -1172,7 +1172,7 @@ msgid "Checked topics will be updated to point to the new web name."
 msgstr ""
 "Os tópicos sinalizados serão atualizados para que apontem o novo nome da web."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Tópicos filhos na web %1"
 
@@ -1200,7 +1200,7 @@ msgstr ""
 "Clique para mover o tópico de volta à sua localização anterior, com a opção "
 "de mudar as referências."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #: NatEditPlugin/templates/preview.natedit.tmpl:6
 #: TwistyPlugin/data/System/TwistyPlugin.txt:466
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
@@ -1244,7 +1244,7 @@ msgstr "Comentários são desativados enquanto não estiver logado"
 msgid "Commenting is disabled while running from the command line"
 msgstr "Comentários são desativados enquanto linhas de comandos são executadas"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Comparar versões"
 
@@ -1355,6 +1355,11 @@ msgstr "Não foi possível salvar %1."
 msgid "Country:"
 msgstr "País:"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "Criar novo tópico de FAQ"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1387,10 +1392,6 @@ msgstr "Criar conta"
 msgid "Create group"
 msgstr "Criar grupo"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-msgid "Create new FAQ topic"
-msgstr "Criar novo tópico de FAQ"
-
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 msgid "Create new topic"
@@ -1420,7 +1421,7 @@ msgstr "Criar este tópico"
 msgid "Create your account to edit pages on this site."
 msgstr "Criar nova conta para editar páginas no site."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 msgid "Creates a new topic revision when saving"
 msgstr "Criar nova versão do tópico ao salvar"
 
@@ -1437,6 +1438,10 @@ msgstr "Localização atual:"
 msgid "Current password:"
 msgstr "Senha atual:"
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Data Form Table Header"
+msgstr ""
+
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
 msgstr "Linha de dados"
@@ -1450,7 +1455,7 @@ msgstr "Data"
 msgid "Dear %1"
 msgstr "Caro(a) %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Depurar"
 
@@ -1718,6 +1723,10 @@ msgstr "Emoticon"
 msgid "Enlarge edit box"
 msgstr "Caixa de edição ampliada"
 
+#: core/templates/more.tmpl:102
+msgid "Enter __none__ to clear the topic parent"
+msgstr ""
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Digite um novo nome de usuário e senha para trocar de identidade"
@@ -1785,7 +1794,7 @@ msgstr "Erros ao adicionar usuários no grupo"
 msgid "Errors removing members from groups"
 msgstr "Erros ao remover usuários dos grupos"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Escape markup"
 msgstr "Escapar markup"
 
@@ -1838,7 +1847,7 @@ msgstr "O arquivo foi enviado com um nome diferente"
 msgid "Find similar topics"
 msgstr "Procurar tópicos similares"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "Find topics that are children of %1 ..."
 msgstr "Procurar por tópicos que referenciem %1 ..."
 
@@ -1868,7 +1877,7 @@ msgstr ""
 "do que isso representa, veja [[%1][artigo da Wikipedia sobre Cross-site "
 "request forgery]]."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Forçar nova versão"
@@ -2384,6 +2393,11 @@ msgstr "Info"
 msgid "Insert a color code"
 msgstr "Inserir um código de cor"
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+#, fuzzy
+msgid "Insert a data form table header"
+msgstr "Inserir uma fórmula matemática"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
 msgstr "Inserir uma data"
@@ -2405,7 +2419,7 @@ msgstr "Inserir um link para um tópico ou para um recurso externo"
 msgid "Insert a link to a user-profile"
 msgstr "Inserir um link para um perfil de usuário"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Insert a macro"
 msgstr "Inserir uma macro"
 
@@ -2555,7 +2569,7 @@ msgstr "Hora da última alteração"
 msgid "Last name:"
 msgstr "Último Nome:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
 msgstr "Última versão: %1"
 
@@ -2633,7 +2647,7 @@ msgstr "Entrar"
 msgid "Logout"
 msgstr "Sair"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Macro"
 msgstr "Macro"
 
@@ -2702,7 +2716,7 @@ msgstr ""
 msgid "More on hiding attachments"
 msgstr "Mais anexos ocultos"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:120
 msgid "More tools"
 msgstr ""
 
@@ -2848,7 +2862,7 @@ msgstr "Registro de novo usuário desativado"
 msgid "New web name:"
 msgstr "Novo nome da web:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Versão mais recente:"
 
@@ -2900,7 +2914,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "Sem permissão para visualizar %1"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "Não existe versão anterior."
 
@@ -3022,7 +3036,7 @@ msgstr "OK, isso é comigo!"
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Versão mais antiga:"
 
@@ -3067,9 +3081,9 @@ msgstr ""
 #. ('copyAttachment')
 #: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
 #: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
-#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
-#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
-#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:630
+#: core/lib/Foswiki/UI/Save.pm:663 core/lib/Foswiki/UI/Save.pm:702
+#: core/lib/Foswiki/UI/Save.pm:732 core/lib/Foswiki/UI/Upload.pm:229
 msgid "Operation %1 failed with an internal error"
 msgstr ""
 
@@ -3089,7 +3103,7 @@ msgstr "Opcionalmente digite um nome diferente para o anexo:"
 msgid "Optionally enter a different topic name:"
 msgstr "Opcionalmente digite um nome diferente de tópico:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Options"
 msgstr "Opções"
 
@@ -3349,13 +3363,13 @@ msgstr "Ou clique Cancelar."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Clique OK para confirmar que esta mudança foi intencional."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:181
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
 #: NatEditPlugin/templates/preview.natedit.tmpl:1
 #, fuzzy
 msgid "Preview"
 msgstr "pré-visualização"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:183
 #, fuzzy
 msgid "Preview your changes"
 msgstr "Últimas alterações em:"
@@ -3432,7 +3446,7 @@ msgstr "Tópicos alterados recentemente"
 msgid "Redirect Denied"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 msgid "Redo previous change"
 msgstr ""
 
@@ -3601,7 +3615,7 @@ msgid "Render style"
 msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #, fuzzy
 msgid "Replace"
 msgstr "Trocar formulário..."
@@ -3632,39 +3646,39 @@ msgstr "Restaurar senha"
 msgid "Resetting and setting password is not available."
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: core/templates/more.tmpl:187
 #, fuzzy
 msgid "Restore"
 msgstr "Restaurar"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:158
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
 #, fuzzy
 msgid "Restore and Continue"
 msgstr "Restaurar tópico"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:160
 msgid "Restore and continue editing"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:144
 #, fuzzy
 msgid "Restore and exit"
 msgstr "Restaurar tópico"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Restaurar tópico"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Restaurar tópico para a versão:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Restaurar tópico para esta versão"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3672,7 +3686,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 
@@ -3727,7 +3741,7 @@ msgstr "Versão"
 msgid "Revision history of %1"
 msgstr "Versão do histórico de %1"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Versões"
 
@@ -3747,21 +3761,21 @@ msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr "Sandboxs é uma web de testes para uso irrestrito."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:58
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
 #, fuzzy
 msgid "Save"
 msgstr "Salvo como:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
 #, fuzzy
 msgid "Save and Continue"
 msgstr "value='Salvar e continuar editando' accesskey='k'"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:167
 msgid "Save and continue editing"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:152
 #, fuzzy
 msgid "Save and exit"
 msgstr "Salvo como:"
@@ -3799,7 +3813,7 @@ msgid "Search %1 Web only"
 msgstr "Procurar só na &Web %1"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:10
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #, fuzzy
 msgid "Search && Replace"
 msgstr "(resultados da busca)"
@@ -3850,7 +3864,7 @@ msgstr "(resultados da busca)"
 msgid "Search string"
 msgstr "Sequência de texto da busca"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Search the %1 Web for all children of this topic."
 msgstr "Procurar na web %1 por tópicos que façam link pra cá"
@@ -3969,7 +3983,7 @@ msgstr "Registro de novo usuário não é suportado"
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Sequencial"
 
@@ -3977,7 +3991,7 @@ msgstr "Sequencial"
 msgid "Set all"
 msgstr "Selecionar todos"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "Marcar novo tópico pai"
 
@@ -4008,7 +4022,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Caixa de edição reduzida"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "Lado a lado"
 
@@ -4065,11 +4079,11 @@ msgstr ""
 "Desculpe, mas o sistema de senhas atualmente é somente para leitura. Entre "
 "em contato com %1"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort ascending"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort descending"
 msgstr ""
 
@@ -4077,11 +4091,11 @@ msgstr ""
 msgid "Sort results by:"
 msgstr "Ordenar resultados por:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort selected lines ascending"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort selected lines descending"
 msgstr ""
 
@@ -4197,7 +4211,7 @@ msgstr ""
 msgid "Switch to monotype or proportional font"
 msgstr "Trocar para fonte monoespaçada ou proporcional"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
 msgid "Switch to wysiwyg"
 msgstr ""
 
@@ -4982,12 +4996,12 @@ msgstr ""
 msgid "Underline"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
 #, fuzzy
 msgid "Undo last change"
 msgstr "Tópicos alterados recentemente"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:132
 msgid "Unescape markup"
 msgstr ""
 
@@ -5217,7 +5231,7 @@ msgstr "Ver histórico completo do tópico"
 msgid "View difference"
 msgstr "Ver diferença"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 #, fuzzy
 msgid "View differences"
 msgstr "Ver diferença"
@@ -5232,7 +5246,7 @@ msgstr "Ver modelos"
 msgid "View later"
 msgstr "Ver modelos"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Ver versão anterior do tópico"
 
@@ -5240,12 +5254,12 @@ msgstr "Ver versão anterior do tópico"
 msgid "View raw text without formatting"
 msgstr "Ver em modo texto, sem formatação"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 #, fuzzy
 msgid "View revision"
 msgstr "Ver versão:"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Ver versão:"
 
@@ -5881,7 +5895,7 @@ msgstr "dicas para um bom estilo"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "em modo texto, sem formatação"
 

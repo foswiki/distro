@@ -651,7 +651,7 @@ msgstr ""
 msgid "A-Z"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:191
 msgid "Abandon changes and exit"
 msgstr ""
 
@@ -1040,7 +1040,7 @@ msgstr " %1 のメールアドレスが確認できません(パスワードの�
 #: JQueryPlugin/data/System/VarBUTTON.txt:35
 #: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
@@ -1203,7 +1203,7 @@ msgstr "チェックされたトピックが更新され、新しいトピック
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "チェックされたトピックが更新され、新しいウェブ名へリンクされます"
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "%1ウェブの中の子トピック"
 
@@ -1232,7 +1232,7 @@ msgid ""
 msgstr ""
 "クリックしてトピックを以前の場所へ移動します（設定への変更も含めて）。 "
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #: NatEditPlugin/templates/preview.natedit.tmpl:6
 #: TwistyPlugin/data/System/TwistyPlugin.txt:466
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
@@ -1276,7 +1276,7 @@ msgstr ""
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "バージョン比較"
 
@@ -1386,6 +1386,11 @@ msgstr "%1を保存できませんでした"
 msgid "Country:"
 msgstr "国:"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "新トピックを作成します"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1422,11 +1427,6 @@ msgstr "新トピックを作成します"
 msgid "Create group"
 msgstr "新トピックを作成します"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
-msgid "Create new FAQ topic"
-msgstr "新トピックを作成します"
-
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 #, fuzzy
@@ -1457,7 +1457,7 @@ msgstr "このトピックを作成します"
 msgid "Create your account to edit pages on this site."
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 msgid "Creates a new topic revision when saving"
 msgstr ""
 
@@ -1475,6 +1475,10 @@ msgstr "現在の位置："
 msgid "Current password:"
 msgstr "現在のパスワード"
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Data Form Table Header"
+msgstr ""
+
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
 msgstr ""
@@ -1488,7 +1492,7 @@ msgstr "日付"
 msgid "Dear %1"
 msgstr "尊敬する %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "デバッグ"
 
@@ -1766,6 +1770,11 @@ msgstr ""
 msgid "Enlarge edit box"
 msgstr "編集枠を拡大します"
 
+#: core/templates/more.tmpl:102
+#, fuzzy
+msgid "Enter __none__ to clear the topic parent"
+msgstr "無(親トピックを削除します)"
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "新しいユーザー名とパスワードを入力してアイデンティティを変更します"
@@ -1837,7 +1846,7 @@ msgstr "トピックの保存に失敗しました"
 msgid "Errors removing members from groups"
 msgstr "トピックの保存に失敗しました"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Escape markup"
 msgstr ""
 
@@ -1892,7 +1901,7 @@ msgstr "ファイルは既に他の名称でアップロードされました"
 msgid "Find similar topics"
 msgstr ""
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Find topics that are children of %1 ..."
 msgstr "%1へリンクするトピックを検索します..."
@@ -1922,7 +1931,7 @@ msgid ""
 "Wikipedia]]."
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "強制新バージョン"
@@ -2428,6 +2437,10 @@ msgstr ""
 msgid "Insert a color code"
 msgstr ""
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a data form table header"
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
 msgstr ""
@@ -2449,7 +2462,7 @@ msgstr ""
 msgid "Insert a link to a user-profile"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Insert a macro"
 msgstr ""
 
@@ -2609,7 +2622,7 @@ msgstr "最新更新時間"
 msgid "Last name:"
 msgstr "名："
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 #, fuzzy
 msgid "Latest revision: %1"
 msgstr "(改訂 %1)"
@@ -2693,7 +2706,7 @@ msgstr "ログオン"
 msgid "Logout"
 msgstr "ログアウト"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Macro"
 msgstr ""
 
@@ -2762,7 +2775,7 @@ msgstr ""
 msgid "More on hiding attachments"
 msgstr "隠された添付ファイル"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:120
 msgid "More tools"
 msgstr ""
 
@@ -2909,7 +2922,7 @@ msgstr ""
 msgid "New web name:"
 msgstr "新ウェブ名:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "新バージョン："
 
@@ -2960,7 +2973,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr " %1を見る権限がありません"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "前のトピックバージョンが存在しません"
 
@@ -3080,7 +3093,7 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "古いバージョン"
 
@@ -3123,9 +3136,9 @@ msgstr ""
 #. ('copyAttachment')
 #: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
 #: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
-#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
-#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
-#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:630
+#: core/lib/Foswiki/UI/Save.pm:663 core/lib/Foswiki/UI/Save.pm:702
+#: core/lib/Foswiki/UI/Save.pm:732 core/lib/Foswiki/UI/Upload.pm:229
 msgid "Operation %1 failed with an internal error"
 msgstr ""
 
@@ -3147,7 +3160,7 @@ msgstr "又は違うトピック名をご入力ください："
 msgid "Optionally enter a different topic name:"
 msgstr "又は違うトピック名をご入力ください："
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 #, fuzzy
 msgid "Options"
 msgstr "変更"
@@ -3403,12 +3416,12 @@ msgstr ""
 msgid "Press OK to confirm that this change was intentional."
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:181
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
 #: NatEditPlugin/templates/preview.natedit.tmpl:1
 msgid "Preview"
 msgstr "プレビュー"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:183
 msgid "Preview your changes"
 msgstr "変更をプレビューします"
 
@@ -3487,7 +3500,7 @@ msgstr "最新変更されたトピック"
 msgid "Redirect Denied"
 msgstr "アクセスが拒否されました"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 #, fuzzy
 msgid "Redo previous change"
 msgstr "変更をプレビューします"
@@ -3655,7 +3668,7 @@ msgid "Render style"
 msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #, fuzzy
 msgid "Replace"
 msgstr "フォームを置換..."
@@ -3687,39 +3700,39 @@ msgstr "パスワードリセット:"
 msgid "Resetting and setting password is not available."
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: core/templates/more.tmpl:187
 #, fuzzy
 msgid "Restore"
 msgstr "回復"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:158
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
 #, fuzzy
 msgid "Restore and Continue"
 msgstr "トピックを回復します"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:160
 msgid "Restore and continue editing"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:144
 #, fuzzy
 msgid "Restore and exit"
 msgstr "保存して閉じます"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "トピックを回復します"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "トピックを改訂版に回復します"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "トピックをこの改訂版に回復します"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3727,7 +3740,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 
@@ -3782,7 +3795,7 @@ msgstr "改訂"
 msgid "Revision history of %1"
 msgstr "%1 のバージョンヒストリー"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "改訂"
 
@@ -3801,21 +3814,21 @@ msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:58
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
 msgid "Save"
 msgstr "保存"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
 #, fuzzy
 msgid "Save and Continue"
 msgstr "保存して閉じます"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:167
 #, fuzzy
 msgid "Save and continue editing"
 msgstr "保存して閉じます"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:152
 msgid "Save and exit"
 msgstr "保存して閉じます"
 
@@ -3852,7 +3865,7 @@ msgid "Search %1 Web only"
 msgstr "%1ウェブのみを検索します"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:10
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #, fuzzy
 msgid "Search && Replace"
 msgstr "(検索結果)"
@@ -3905,7 +3918,7 @@ msgstr "(検索結果)"
 msgid "Search string"
 msgstr "検索する文字列"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Search the %1 Web for all children of this topic."
 msgstr "%1ウェブからここへリンクされるトピックを検索します"
@@ -4025,7 +4038,7 @@ msgstr ""
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "シーケンシャル"
 
@@ -4033,7 +4046,7 @@ msgstr "シーケンシャル"
 msgid "Set all"
 msgstr "全て設定"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "新しい親トピックを設定します"
 
@@ -4064,7 +4077,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "編集枠を縮小します"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "並列"
 
@@ -4117,11 +4130,11 @@ msgstr ""
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort ascending"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort descending"
 msgstr ""
 
@@ -4129,11 +4142,11 @@ msgstr ""
 msgid "Sort results by:"
 msgstr "結果の並べ替え:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort selected lines ascending"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort selected lines descending"
 msgstr ""
 
@@ -4251,7 +4264,7 @@ msgstr "スーパースクリプトテキスト"
 msgid "Switch to monotype or proportional font"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
 msgid "Switch to wysiwyg"
 msgstr ""
 
@@ -5008,12 +5021,12 @@ msgstr ""
 msgid "Underline"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
 #, fuzzy
 msgid "Undo last change"
 msgstr "変更無し"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:132
 msgid "Unescape markup"
 msgstr ""
 
@@ -5246,7 +5259,7 @@ msgstr "トータルトピックヒストリーを確認します"
 msgid "View difference"
 msgstr "差異を確認します"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 #, fuzzy
 msgid "View differences"
 msgstr "差異を確認します"
@@ -5261,7 +5274,7 @@ msgstr "テンプレートを確認します"
 msgid "View later"
 msgstr "テンプレートを確認します"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "前のトピックバージョンを確認します"
 
@@ -5269,12 +5282,12 @@ msgstr "前のトピックバージョンを確認します"
 msgid "View raw text without formatting"
 msgstr "ファーマットされていない元のテキストを確認します"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 #, fuzzy
 msgid "View revision"
 msgstr "改訂を確認します"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "改訂を確認します"
 
@@ -5886,7 +5899,7 @@ msgstr "スタイルに関するメッセージ"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "元のテキストフォーマット"
 
@@ -6820,9 +6833,6 @@ msgstr ""
 
 #~ msgid "You can review your changes in your personal TWiki topic %1"
 #~ msgstr "個人Twikiトピック %1 から変更を確認することができます"
-
-#~ msgid "none (remove topic parent)"
-#~ msgstr "無(親トピックを削除します)"
 
 #~ msgid "to edit the topic anyway."
 #~ msgstr "このトピックを編集しなければなりません"

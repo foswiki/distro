@@ -622,7 +622,7 @@ msgstr "Uživatel vyžaduje vaše potvrzení k dokončení jejich registrace"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:191
 msgid "Abandon changes and exit"
 msgstr "Zruš změny a skonči"
 
@@ -993,7 +993,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:35
 #: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
@@ -1149,7 +1149,7 @@ msgstr "Označené články budou aktualizovány do bodu do nového umístění 
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "Označené články budou aktualizovány do bodu do nového jména webu."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Podřízené články v %1 webu"
 
@@ -1178,7 +1178,7 @@ msgid ""
 msgstr ""
 "Klikni na přesun článku zpět na předchozí umístění s možností změnit odkazy."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #: NatEditPlugin/templates/preview.natedit.tmpl:6
 #: TwistyPlugin/data/System/TwistyPlugin.txt:466
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
@@ -1222,7 +1222,7 @@ msgstr "Vytváření komentářů není možné, pokud nejste přihlášeni"
 msgid "Commenting is disabled while running from the command line"
 msgstr "Vytváření komentářů není možné, pokud jste v režimu příkazové řádky"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Porovnejte revize"
 
@@ -1332,6 +1332,11 @@ msgstr "Nemohl uložit %1."
 msgid "Country:"
 msgstr "Země:"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "Vytvoř nový článek FAQ (často kladené dotazy)"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1364,10 +1369,6 @@ msgstr "Vytvoř účet"
 msgid "Create group"
 msgstr "Vytvoř skupinu"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-msgid "Create new FAQ topic"
-msgstr "Vytvoř nový článek FAQ (často kladené dotazy)"
-
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 msgid "Create new topic"
@@ -1397,7 +1398,7 @@ msgstr "Vytvořit tento článek"
 msgid "Create your account to edit pages on this site."
 msgstr "Pro editaci stránek na tomto webu si vytvořte účet."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 msgid "Creates a new topic revision when saving"
 msgstr "Vytvoří novou revizi článku při ukládání"
 
@@ -1414,6 +1415,10 @@ msgstr "Nyní jste zde:"
 msgid "Current password:"
 msgstr "Současné heslo:"
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Data Form Table Header"
+msgstr ""
+
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
 msgstr "Záznamy"
@@ -1427,7 +1432,7 @@ msgstr "Datum"
 msgid "Dear %1"
 msgstr "Vážený %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Ladění"
 
@@ -1693,6 +1698,11 @@ msgstr "Emotikon"
 msgid "Enlarge edit box"
 msgstr "Zvětšit editovací prostor"
 
+#: core/templates/more.tmpl:102
+#, fuzzy
+msgid "Enter __none__ to clear the topic parent"
+msgstr "žádný (odstraňte nadřízený článek)"
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Vložte nové uživatelské jméno a heslo pro změnu identity"
@@ -1759,7 +1769,7 @@ msgstr "Chyby při přidávání členů do skupiny"
 msgid "Errors removing members from groups"
 msgstr "Chyby při odebírání členů ze skupin"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Escape markup"
 msgstr "Znak [Esc]ape"
 
@@ -1812,7 +1822,7 @@ msgstr "Soubor byl nahrán pod odlišným jménem"
 msgid "Find similar topics"
 msgstr "Najít obdobné články"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 msgid "Find topics that are children of %1 ..."
 msgstr "Najít články které odkazují na %1 ..."
 
@@ -1842,7 +1852,7 @@ msgstr ""
 "související, získáte na [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Vynucení nové revize"
@@ -2351,6 +2361,11 @@ msgstr "Info"
 msgid "Insert a color code"
 msgstr "Vložit barevný kód"
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+#, fuzzy
+msgid "Insert a data form table header"
+msgstr "Vložit matematický výraz"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
 msgstr "Vložit datum"
@@ -2372,7 +2387,7 @@ msgstr "Vložit odkaz na článek a nebo externí zdroj"
 msgid "Insert a link to a user-profile"
 msgstr "Vložit odkaz na profil uživatele"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Insert a macro"
 msgstr "Vložit makro"
 
@@ -2521,7 +2536,7 @@ msgstr "Naposledy změněno"
 msgid "Last name:"
 msgstr "Poslední název:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
 msgstr "Poslední revize: %1"
 
@@ -2599,7 +2614,7 @@ msgstr "Přihlásit"
 msgid "Logout"
 msgstr "Odhlásit"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Macro"
 msgstr "Makro"
 
@@ -2666,7 +2681,7 @@ msgstr "Více objektů ke vložení"
 msgid "More on hiding attachments"
 msgstr "Více informací o skrytých přílohách"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:120
 msgid "More tools"
 msgstr "Více nástrojů"
 
@@ -2805,7 +2820,7 @@ msgstr "Registrace nových uživatelů je na tomto webu vypnutá."
 msgid "New web name:"
 msgstr "Nové jméno webu:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Novější revize:"
 
@@ -2856,7 +2871,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "Nemáte právo pro prohlížení %1"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "Neexistují žádné předchozí revize článku."
 
@@ -2975,7 +2990,7 @@ msgstr "OK, toto jsem stále já!"
 msgid "Ok"
 msgstr "Ok"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Starší revize:"
 
@@ -3017,9 +3032,9 @@ msgstr ""
 #. ('copyAttachment')
 #: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
 #: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
-#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
-#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
-#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:630
+#: core/lib/Foswiki/UI/Save.pm:663 core/lib/Foswiki/UI/Save.pm:702
+#: core/lib/Foswiki/UI/Save.pm:732 core/lib/Foswiki/UI/Upload.pm:229
 msgid "Operation %1 failed with an internal error"
 msgstr ""
 
@@ -3039,7 +3054,7 @@ msgstr "Volitelně vložte odlišné jméno přílohy:"
 msgid "Optionally enter a different topic name:"
 msgstr "Volitelně vložte odlišné jméno článku:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Options"
 msgstr "Vlastnosti"
 
@@ -3278,12 +3293,12 @@ msgstr "Nebo stiskněte Přerušit."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Stiskněte OK jako potvrzení že tato změna byla mezinárodní."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:181
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
 #: NatEditPlugin/templates/preview.natedit.tmpl:1
 msgid "Preview"
 msgstr "Náhled"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:183
 msgid "Preview your changes"
 msgstr "Zobrazit náhled změn"
 
@@ -3355,7 +3370,7 @@ msgstr "Naposledy změněné články na všech webech"
 msgid "Redirect Denied"
 msgstr "Přesměrování zamítnuto"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 msgid "Redo previous change"
 msgstr "Opakuj předchozí změnu"
 
@@ -3518,7 +3533,7 @@ msgid "Render style"
 msgstr "Styl zobrazení"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Replace"
 msgstr "Nahraď"
 
@@ -3550,36 +3565,36 @@ msgstr "Znovunastav heslo"
 msgid "Resetting and setting password is not available."
 msgstr "Resetování a nastavení hesla není k dispozici."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: core/templates/more.tmpl:187
 msgid "Restore"
 msgstr "Obnov"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:158
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
 msgid "Restore and Continue"
 msgstr "Obnov a pokračuj"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:160
 msgid "Restore and continue editing"
 msgstr "Obnov a pokračuj v editaci"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:144
 msgid "Restore and exit"
 msgstr "Obnov a skonči"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Obnov článek"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Obnov revizi článku dle:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Obnov tuto revizi článku"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3590,7 +3605,7 @@ msgstr ""
 "každá revize bude zaznamenána v historii článku, můžete vždy znovu zobrazit "
 "verzi kterou nahrazujete. Uvědomte si, že přílohy zůstanou beze změn."
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr "Obnova není možná, protože tento článek je ve své první revizi."
 
@@ -3642,7 +3657,7 @@ msgstr "Revize"
 msgid "Revision history of %1"
 msgstr "Historie verzí pro %1"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Verze"
 
@@ -3661,19 +3676,19 @@ msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr "Toto je oblast kde můžete tvořit bez omezení (tzv Sandbox)."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:58
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
 msgid "Save"
 msgstr "Ulož"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
 msgid "Save and Continue"
 msgstr "Ulož a pokračuj"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:167
 msgid "Save and continue editing"
 msgstr "Ulož a pokračuj v editaci"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:152
 msgid "Save and exit"
 msgstr "Ulož a skonči"
 
@@ -3710,7 +3725,7 @@ msgid "Search %1 Web only"
 msgstr "Hledej pouze v rámci webu %1"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:10
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Search && Replace"
 msgstr "Vyhledej && nahraď"
 
@@ -3755,7 +3770,7 @@ msgstr "Výsledky hledání"
 msgid "Search string"
 msgstr "Hledej řetězec"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Search the %1 Web for all children of this topic."
 msgstr "Hledej články ve webu %1 které sem odkazují"
@@ -3869,7 +3884,7 @@ msgstr "Samo registrace není tímto webem podporována."
 msgid "Send mail"
 msgstr "Zašli mail"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Sekvenčně"
 
@@ -3877,7 +3892,7 @@ msgstr "Sekvenčně"
 msgid "Set all"
 msgstr "Nastav vše"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "Nastavit nový nadřízený článek"
 
@@ -3907,7 +3922,7 @@ msgstr "Zobrazuji revize %1 - %2 (mimo %3)"
 msgid "Shrink edit box"
 msgstr "Zmenšit editovací oblast"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "Vedle sebe"
 
@@ -3962,11 +3977,11 @@ msgstr ""
 "Omlouváme se, systém pro správu hesel je v současnosti pouze pro čtení. "
 "Prosím kontaktujte %1"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort ascending"
 msgstr "Seřadit vzestupně"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort descending"
 msgstr "Seřadit sestupně"
 
@@ -3974,11 +3989,11 @@ msgstr "Seřadit sestupně"
 msgid "Sort results by:"
 msgstr "Seřaď výsledky podle:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort selected lines ascending"
 msgstr "Seřadit vybrané řádky vzestupně"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort selected lines descending"
 msgstr "Seřadit vybrané řádky sestupně"
 
@@ -4091,7 +4106,7 @@ msgstr "Horní index"
 msgid "Switch to monotype or proportional font"
 msgstr "Použijte monotype nebo proporcionální font"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
 msgid "Switch to wysiwyg"
 msgstr "Přepni na WYSIWYG"
 
@@ -4868,11 +4883,11 @@ msgstr "Části beze změn před a po každé změně"
 msgid "Underline"
 msgstr "Podtržení"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
 msgid "Undo last change"
 msgstr "Zruš poslední změnu"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:132
 #, fuzzy
 msgid "Unescape markup"
 msgstr "Neeskejpovany :) znak"
@@ -5104,7 +5119,7 @@ msgstr "Zobraz celou historii článku"
 msgid "View difference"
 msgstr "Zobraz rozdíly"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 msgid "View differences"
 msgstr "Zobraz rozdíly"
 
@@ -5116,7 +5131,7 @@ msgstr "Zobraz dřívější"
 msgid "View later"
 msgstr "Zobraz pozdější"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Prohlédni předchozí revize článku"
 
@@ -5124,11 +5139,11 @@ msgstr "Prohlédni předchozí revize článku"
 msgid "View raw text without formatting"
 msgstr "Prohlédni nepracovaný text (bez formátování)"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 msgid "View revision"
 msgstr "Zobraz revize"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Zobraz revize:"
 
@@ -5754,7 +5769,7 @@ msgstr "nápověda k dobrému stylu"
 msgid "ignore case"
 msgstr "ignoruj"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "v neupraveném textovém formátu"
 
@@ -6674,9 +6689,6 @@ msgstr "proč jste byl dotazován na potvrzení"
 
 #~ msgid "You can review your changes in your personal TWiki topic %1"
 #~ msgstr "Můžete zkontrolovat Vaše změny ve Vašem osobním TWiki článku %1"
-
-#~ msgid "none (remove topic parent)"
-#~ msgstr "žádný (odstraňte nadřízený článek)"
 
 #~ msgid "to edit the topic anyway."
 #~ msgstr "přesto editovat článek"

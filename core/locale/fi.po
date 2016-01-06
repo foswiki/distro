@@ -640,7 +640,7 @@ msgstr ""
 msgid "A-Z"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:191
 msgid "Abandon changes and exit"
 msgstr ""
 
@@ -1031,7 +1031,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:35
 #: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
@@ -1195,7 +1195,7 @@ msgstr "Valitut aiheet päivitetään viittaamaan uuteen aiheen sijaintiin."
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "Valitut aiheet päivitetään viittaamaan uuteen verkkonimeen."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Aliaiheet %1 verkossa"
 
@@ -1224,7 +1224,7 @@ msgid ""
 msgstr ""
 "Muuttaaksesi asetuksia, klikkaa siirtyäksesi takaisin edelliseen kohtaan."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #: NatEditPlugin/templates/preview.natedit.tmpl:6
 #: TwistyPlugin/data/System/TwistyPlugin.txt:466
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
@@ -1268,7 +1268,7 @@ msgstr ""
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Vertaa versioita"
 
@@ -1379,6 +1379,11 @@ msgstr "Ei voitu tallentaa %1."
 msgid "Country:"
 msgstr "Maa:"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "Luo uusi aihe"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1415,11 +1420,6 @@ msgstr "Luo uusi aihe"
 msgid "Create group"
 msgstr "Luo uusi aihe"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
-msgid "Create new FAQ topic"
-msgstr "Luo uusi aihe"
-
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 #, fuzzy
@@ -1450,7 +1450,7 @@ msgstr "Luo tämä aihe"
 msgid "Create your account to edit pages on this site."
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 msgid "Creates a new topic revision when saving"
 msgstr ""
 
@@ -1468,6 +1468,10 @@ msgstr "Nykyinen sijainti:"
 msgid "Current password:"
 msgstr "Nykyinen salasana"
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Data Form Table Header"
+msgstr ""
+
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
 msgstr ""
@@ -1481,7 +1485,7 @@ msgstr "Päiväys"
 msgid "Dear %1"
 msgstr "Hyvä %1,"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Debug"
 
@@ -1767,6 +1771,10 @@ msgstr ""
 msgid "Enlarge edit box"
 msgstr "Suurenna muokkauslaatikkoa"
 
+#: core/templates/more.tmpl:102
+msgid "Enter __none__ to clear the topic parent"
+msgstr ""
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Syötä uusi käyttäjätunnus ja salasana muuttaaksesi identiteettisi"
@@ -1838,7 +1846,7 @@ msgstr "Virhe aiheen tallennuksessa"
 msgid "Errors removing members from groups"
 msgstr "Virhe aiheen tallennuksessa"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Escape markup"
 msgstr ""
 
@@ -1893,7 +1901,7 @@ msgstr "Tiedosto on lähetetty eri nimellä"
 msgid "Find similar topics"
 msgstr "Etsi samankaltaisia aiheita"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Find topics that are children of %1 ..."
 msgstr "Etsi aiheita, jotka linkittävät %1:een ..."
@@ -1923,7 +1931,7 @@ msgid ""
 "Wikipedia]]."
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Pakota uusi versio"
@@ -2432,6 +2440,10 @@ msgstr ""
 msgid "Insert a color code"
 msgstr ""
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a data form table header"
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
 msgstr ""
@@ -2453,7 +2465,7 @@ msgstr ""
 msgid "Insert a link to a user-profile"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Insert a macro"
 msgstr ""
 
@@ -2611,7 +2623,7 @@ msgstr "Muokattu viimeksi"
 msgid "Last name:"
 msgstr "Sukunimi:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 #, fuzzy
 msgid "Latest revision: %1"
 msgstr "(versio %1)"
@@ -2692,7 +2704,7 @@ msgstr "Kirjaudu sisään"
 msgid "Logout"
 msgstr "Kirjaudu ulos"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Macro"
 msgstr ""
 
@@ -2761,7 +2773,7 @@ msgstr ""
 msgid "More on hiding attachments"
 msgstr "Siirrä tai poista liite"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:120
 msgid "More tools"
 msgstr ""
 
@@ -2908,7 +2920,7 @@ msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
 msgid "New web name:"
 msgstr "Uusi verkon nimi:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Uudempi versio:"
 
@@ -2959,7 +2971,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "Ei oikeuksia näyttää %1"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "Aikaisempaa versiota ei ole olemassa."
 
@@ -3080,7 +3092,7 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Vanhempi versio:"
 
@@ -3125,9 +3137,9 @@ msgstr ""
 #. ('copyAttachment')
 #: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
 #: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
-#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
-#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
-#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:630
+#: core/lib/Foswiki/UI/Save.pm:663 core/lib/Foswiki/UI/Save.pm:702
+#: core/lib/Foswiki/UI/Save.pm:732 core/lib/Foswiki/UI/Upload.pm:229
 msgid "Operation %1 failed with an internal error"
 msgstr ""
 
@@ -3149,7 +3161,7 @@ msgstr "Vaihtoehtoisesti syötä erilainen aiheen nimi:"
 msgid "Optionally enter a different topic name:"
 msgstr "Vaihtoehtoisesti syötä erilainen aiheen nimi:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 #, fuzzy
 msgid "Options"
 msgstr "Toiminto"
@@ -3407,13 +3419,13 @@ msgstr "Paina Peruuta muussa tapauksessa."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Paina OK vahvistaaksesi tämän muutoksen tarkoituksellisuus."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:181
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
 #: NatEditPlugin/templates/preview.natedit.tmpl:1
 #, fuzzy
 msgid "Preview"
 msgstr "esikatselu"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:183
 #, fuzzy
 msgid "Preview your changes"
 msgstr "Esikatsele viimeisimpiä muutoksia:"
@@ -3490,7 +3502,7 @@ msgstr "Vastikään muuttuneet aiheet"
 msgid "Redirect Denied"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 msgid "Redo previous change"
 msgstr ""
 
@@ -3658,7 +3670,7 @@ msgid "Render style"
 msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #, fuzzy
 msgid "Replace"
 msgstr "Korvaa lomake..."
@@ -3689,39 +3701,39 @@ msgstr "Resetoi salasana"
 msgid "Resetting and setting password is not available."
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: core/templates/more.tmpl:187
 #, fuzzy
 msgid "Restore"
 msgstr "Palauta"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:158
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
 #, fuzzy
 msgid "Restore and Continue"
 msgstr "Palauta aihe"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:160
 msgid "Restore and continue editing"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:144
 #, fuzzy
 msgid "Restore and exit"
 msgstr "Palauta aihe"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Palauta aihe"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Palauta aihe versioon:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Palauta aihe tähän versioon"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3729,7 +3741,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 
@@ -3784,7 +3796,7 @@ msgstr "Versio"
 msgid "Revision history of %1"
 msgstr "%1:n versiohistoria"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Versiot"
 
@@ -3804,21 +3816,21 @@ msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:58
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
 #, fuzzy
 msgid "Save"
 msgstr "Tallennettu:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
 #, fuzzy
 msgid "Save and Continue"
 msgstr "value='Tallenna ja Jatka' accesskey='k'"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:167
 msgid "Save and continue editing"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:152
 #, fuzzy
 msgid "Save and exit"
 msgstr "Tallennettu:"
@@ -3856,7 +3868,7 @@ msgid "Search %1 Web only"
 msgstr "Etsi vain verkosta %1"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:10
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #, fuzzy
 msgid "Search && Replace"
 msgstr "(haun tulos)"
@@ -3907,7 +3919,7 @@ msgstr "(haun tulos)"
 msgid "Search string"
 msgstr "Etsi merkkijonoa"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Search the %1 Web for all children of this topic."
 msgstr "Etsi verkosta %1 aiheita, jotka linkittävät tänne"
@@ -4026,7 +4038,7 @@ msgstr "Uuden käyttäjän rekisteröinti ei tuettu"
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Peräkkäinen"
 
@@ -4034,7 +4046,7 @@ msgstr "Peräkkäinen"
 msgid "Set all"
 msgstr "Aseta kaikki"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "Aseta uusi yläartikkeli"
 
@@ -4065,7 +4077,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Pienennä muokkauslaatikkoa"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "Vierekkäin"
 
@@ -4121,11 +4133,11 @@ msgstr ""
 "Pahoittelen, järjestelmä on tällähetkellä vain-luku tilassa. Ota yhteyttä "
 "osoitteeseen %1"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort ascending"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort descending"
 msgstr ""
 
@@ -4133,11 +4145,11 @@ msgstr ""
 msgid "Sort results by:"
 msgstr "Lajittele tulokset:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort selected lines ascending"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort selected lines descending"
 msgstr ""
 
@@ -4253,7 +4265,7 @@ msgstr ""
 msgid "Switch to monotype or proportional font"
 msgstr "Vaihda monotyyppiseen tai suhteelliseen fonttiin"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
 msgid "Switch to wysiwyg"
 msgstr ""
 
@@ -5031,11 +5043,11 @@ msgstr ""
 msgid "Underline"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
 msgid "Undo last change"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:132
 msgid "Unescape markup"
 msgstr ""
 
@@ -5266,7 +5278,7 @@ msgstr "Näytä aiheen täysi historia"
 msgid "View difference"
 msgstr "Näytä eroavaisuudet"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 #, fuzzy
 msgid "View differences"
 msgstr "Näytä eroavaisuudet"
@@ -5281,7 +5293,7 @@ msgstr "Näytä sivupohjat"
 msgid "View later"
 msgstr "Näytä sivupohjat"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Näytä aiheen edellinen versio"
 
@@ -5289,12 +5301,12 @@ msgstr "Näytä aiheen edellinen versio"
 msgid "View raw text without formatting"
 msgstr "Näytä raaka teksti ilman muotoiluja"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 #, fuzzy
 msgid "View revision"
 msgstr "Näytä versio:"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Näytä versio:"
 
@@ -5920,7 +5932,7 @@ msgstr "vinkkejä hyvään tyyliin"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "raa'assa tekstimuodossa"
 

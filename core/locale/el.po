@@ -647,7 +647,7 @@ msgstr ""
 msgid "A-Z"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:191
 msgid "Abandon changes and exit"
 msgstr ""
 
@@ -1043,7 +1043,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:35
 #: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
@@ -1211,7 +1211,7 @@ msgstr ""
 "Τα επιλεγμένα θέματα θα ενημερωθούν να παραπέμπουν στη νέα ονομασία του "
 "ιστού."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Child topics in %1 web"
 
@@ -1241,7 +1241,7 @@ msgstr ""
 "Κάντε κλικ για να μετακινήσετε το θέμα πίσω στην προηγούμενη θέση, με "
 "επιλογή αλλαγής παραπομπών."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #: NatEditPlugin/templates/preview.natedit.tmpl:6
 #: TwistyPlugin/data/System/TwistyPlugin.txt:466
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
@@ -1285,7 +1285,7 @@ msgstr ""
 msgid "Commenting is disabled while running from the command line"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Συγκρίνετε τις αναθεωρήσεις"
 
@@ -1395,6 +1395,11 @@ msgstr "Δεν είναι δυνατή η αποθήκευση του αρχεί
 msgid "Country:"
 msgstr "Χώρα:"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "Δημιουργήστε το θέμα"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1430,11 +1435,6 @@ msgstr ""
 msgid "Create group"
 msgstr "Δημιουργία νέου θέματος"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
-msgid "Create new FAQ topic"
-msgstr "Δημιουργήστε το θέμα"
-
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 #, fuzzy
@@ -1466,7 +1466,7 @@ msgstr "Δημιουργήστε αυτό το θέμα"
 msgid "Create your account to edit pages on this site."
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 msgid "Creates a new topic revision when saving"
 msgstr ""
 
@@ -1484,6 +1484,10 @@ msgstr "Υφιστάμενη τοποθεσία:"
 msgid "Current password:"
 msgstr "Τρέχοντας κωδικό πρόσβασης"
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Data Form Table Header"
+msgstr ""
+
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
 msgstr ""
@@ -1497,7 +1501,7 @@ msgstr "Ημερομηνία"
 msgid "Dear %1"
 msgstr "Αγαπητέ %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Debug"
 
@@ -1783,6 +1787,10 @@ msgstr ""
 msgid "Enlarge edit box"
 msgstr "Μεγένθυση πλαίσιου επεξεργασίας"
 
+#: core/templates/more.tmpl:102
+msgid "Enter __none__ to clear the topic parent"
+msgstr ""
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr ""
@@ -1853,7 +1861,7 @@ msgstr ""
 msgid "Errors removing members from groups"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Escape markup"
 msgstr ""
 
@@ -1908,7 +1916,7 @@ msgstr "Το αρχείο έχει μεταφορτωθεί με διαφορε�
 msgid "Find similar topics"
 msgstr "Βρείτε παρόμοια θέματα"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Find topics that are children of %1 ..."
 msgstr "Βρείτε θέματα με συνδέσμους προς το %1 ..."
@@ -1938,7 +1946,7 @@ msgid ""
 "Wikipedia]]."
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Εξαναγκασμός νέας αναθεώρησης"
@@ -2460,6 +2468,10 @@ msgstr ""
 msgid "Insert a color code"
 msgstr ""
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a data form table header"
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
 msgstr ""
@@ -2481,7 +2493,7 @@ msgstr ""
 msgid "Insert a link to a user-profile"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Insert a macro"
 msgstr ""
 
@@ -2639,7 +2651,7 @@ msgstr "Ώρα τελευταίας τροποποίησης"
 msgid "Last name:"
 msgstr "Επώνυμο:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 #, fuzzy
 msgid "Latest revision: %1"
 msgstr "(αναθεώρηση %1)"
@@ -2720,7 +2732,7 @@ msgstr "Σύνδεση"
 msgid "Logout"
 msgstr "Αποσύνδεση"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Macro"
 msgstr ""
 
@@ -2789,7 +2801,7 @@ msgstr ""
 msgid "More on hiding attachments"
 msgstr "Μετακίνηση ή διαγραφή συνημμένου"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:120
 #, fuzzy
 msgid "More tools"
 msgstr "Περισσότερες ενέργειες"
@@ -2937,7 +2949,7 @@ msgstr "Η εγγραφή Νέου Χρήστη έχει απενεργοποι�
 msgid "New web name:"
 msgstr "Νέο όνομα ιστού:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Νεότερη αναθεώρηση:"
 
@@ -2987,7 +2999,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "Δεν δικαιώματα προβολής %1"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "Δεν υπάρχει προηγούμενη αναθεώρηση."
 
@@ -3107,7 +3119,7 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Παλαιότερη αναθεώρηση:"
 
@@ -3154,9 +3166,9 @@ msgstr ""
 #. ('copyAttachment')
 #: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
 #: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
-#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
-#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
-#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:630
+#: core/lib/Foswiki/UI/Save.pm:663 core/lib/Foswiki/UI/Save.pm:702
+#: core/lib/Foswiki/UI/Save.pm:732 core/lib/Foswiki/UI/Upload.pm:229
 msgid "Operation %1 failed with an internal error"
 msgstr ""
 
@@ -3178,7 +3190,7 @@ msgstr "Προαιρετικά εισάγετε μια διαφορετική ο
 msgid "Optionally enter a different topic name:"
 msgstr "Προαιρετικά εισάγετε μια διαφορετική ονομασία του θέματος:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 #, fuzzy
 msgid "Options"
 msgstr "Ενέργεια"
@@ -3438,13 +3450,13 @@ msgstr "Ειδάλως πιέστε Ακύρωση."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Πατήστε ΟΚ για να επιβεβαιώσετε ότι η αλλαγή αυτή ήταν εσκεμμένη."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:181
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
 #: NatEditPlugin/templates/preview.natedit.tmpl:1
 #, fuzzy
 msgid "Preview"
 msgstr "προεπισκόπηση"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:183
 #, fuzzy
 msgid "Preview your changes"
 msgstr "Επισκόπηση των πρόσφατων αλλαγών σε:"
@@ -3523,7 +3535,7 @@ msgstr "Πρόσφατα τροποποιημένα θέματα"
 msgid "Redirect Denied"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 msgid "Redo previous change"
 msgstr ""
 
@@ -3692,7 +3704,7 @@ msgid "Render style"
 msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #, fuzzy
 msgid "Replace"
 msgstr "Αντικατάσταση φόρμας ..."
@@ -3723,38 +3735,38 @@ msgstr "Επανάταξη Κωδικού Πρόσβασης"
 msgid "Resetting and setting password is not available."
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: core/templates/more.tmpl:187
 msgid "Restore"
 msgstr "Επαναφορά"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:158
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
 #, fuzzy
 msgid "Restore and Continue"
 msgstr "Επαναφορά θέματος"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:160
 msgid "Restore and continue editing"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:144
 #, fuzzy
 msgid "Restore and exit"
 msgstr "Επαναφορά θέματος"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Επαναφορά θέματος"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Επαναφορά θέματος σε αναθεώρηση:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Επαναφορά θέματος σε αυτή την αναθεώρηση:"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3762,7 +3774,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
 
@@ -3817,7 +3829,7 @@ msgstr "Αναθεώρηση"
 msgid "Revision history of %1"
 msgstr "Ιστορικό έκδοσης του %1"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Αναθεωρήσεις"
 
@@ -3837,21 +3849,21 @@ msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr ""
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:58
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
 #, fuzzy
 msgid "Save"
 msgstr "Αποθήκευση στο:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
 #, fuzzy
 msgid "Save and Continue"
 msgstr "value='Save and Continue' accesskey='k'"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:167
 msgid "Save and continue editing"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:152
 #, fuzzy
 msgid "Save and exit"
 msgstr "Αποθήκευση στο:"
@@ -3889,7 +3901,7 @@ msgid "Search %1 Web only"
 msgstr "Αναζήτηση μόνο στον ιστό %1"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:10
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #, fuzzy
 msgid "Search && Replace"
 msgstr "Αναζήτηση που;"
@@ -3940,7 +3952,7 @@ msgstr "(αναζήτηση αποτελέσματος)"
 msgid "Search string"
 msgstr "Κείμενο αναζήτησης"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Search the %1 Web for all children of this topic."
 msgstr "Αναζήτηση στον ιστό %1για θέματα που παραπέμπουν εδώ"
@@ -4057,7 +4069,7 @@ msgstr "Η εγγραφή Νέου Χρήστη δεν υποστηρίζετα�
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Διαδοχική"
 
@@ -4065,7 +4077,7 @@ msgstr "Διαδοχική"
 msgid "Set all"
 msgstr "Ορισμός όλων"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "Ορισμός νέου γονέα"
 
@@ -4096,7 +4108,7 @@ msgstr ""
 msgid "Shrink edit box"
 msgstr "Μείωσε το πλαίσιο επεξεργασίας"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "Δίπλα-δίπλα"
 
@@ -4152,11 +4164,11 @@ msgstr ""
 "Λυπούμαστε, το σύστημα κωδικών πρόσβασης είναι προς το παρόν μόνο για "
 "ανάγνωση, παρακαλούμε επικοινωνήστε με %1"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort ascending"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort descending"
 msgstr ""
 
@@ -4164,11 +4176,11 @@ msgstr ""
 msgid "Sort results by:"
 msgstr "Ταξινόμηση αποτελεσμάτων κατά:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort selected lines ascending"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort selected lines descending"
 msgstr ""
 
@@ -4282,7 +4294,7 @@ msgstr ""
 msgid "Switch to monotype or proportional font"
 msgstr "Αλλαγή σε μονοτυπία ή αναλογική γραμματοσειρά"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
 msgid "Switch to wysiwyg"
 msgstr ""
 
@@ -5071,11 +5083,11 @@ msgstr ""
 msgid "Underline"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
 msgid "Undo last change"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:132
 msgid "Unescape markup"
 msgstr ""
 
@@ -5305,7 +5317,7 @@ msgstr "Προβολή συνολικού ιστορικού του θέματο
 msgid "View difference"
 msgstr "Προβολή διαφορών"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 #, fuzzy
 msgid "View differences"
 msgstr "Προβολή διαφορών"
@@ -5320,7 +5332,7 @@ msgstr "Προβολή προτύπων"
 msgid "View later"
 msgstr "Προβολή προτύπων"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Επισκόπηση προηγούμενης αναθεώρησης θέματος"
 
@@ -5328,12 +5340,12 @@ msgstr "Επισκόπηση προηγούμενης αναθεώρησης θ�
 msgid "View raw text without formatting"
 msgstr "Προβολή αδιαμόρφωτου κείμενου χωρίς μορφοποίηση"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 #, fuzzy
 msgid "View revision"
 msgstr "Προβολή αναθεώρησης:"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Προβολή αναθεώρησης:"
 
@@ -5960,7 +5972,7 @@ msgstr "συμβουλές για καλό στυλ"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "σε αδιαμόρφωτη μορφή κειμένου"
 

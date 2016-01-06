@@ -622,7 +622,7 @@ msgstr "En bruker trenger din godkjenning for å fullføre sin registrering"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:191
 msgid "Abandon changes and exit"
 msgstr "Avbryt endringer og avslutt"
 
@@ -991,7 +991,7 @@ msgstr "Kan ikke finne epost adresse for %1 (nødvendig for å resette passord)"
 #: JQueryPlugin/data/System/VarBUTTON.txt:35
 #: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
@@ -1148,7 +1148,7 @@ msgstr ""
 msgid "Checked topics will be updated to point to the new web name."
 msgstr "Valgte sider vil bli oppdatert til å referere til det nye web navnet."
 
-#: core/templates/more.tmpl:204
+#: core/templates/more.tmpl:205
 msgid "Child topics in %1 web"
 msgstr "Undersider i %1 web'en"
 
@@ -1178,7 +1178,7 @@ msgstr ""
 "Klikk for å flytte en side tilbake til tidligere lokasjon, med valgmulighet "
 "til å endre referanser."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #: NatEditPlugin/templates/preview.natedit.tmpl:6
 #: TwistyPlugin/data/System/TwistyPlugin.txt:466
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
@@ -1222,7 +1222,7 @@ msgstr "Kommentering er deaktivert uten innlogging"
 msgid "Commenting is disabled while running from the command line"
 msgstr "Kommentering er deaktivert ved kjøring fra kommandolinjen"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:149
+#: HistoryPlugin/templates/oopshistory.tmpl:101 core/templates/more.tmpl:150
 msgid "Compare revisions"
 msgstr "Sammenlign versjoner"
 
@@ -1333,6 +1333,11 @@ msgstr "Kunne ikke lagre %1."
 msgid "Country:"
 msgstr "Land:"
 
+#: core/data/System/FrequentlyAskedQuestions.txt:45
+#, fuzzy
+msgid "Create New FAQ Topic"
+msgstr "Lag ny FAQ side"
+
 #: PatternSkin/data/Main/WebLeftBarExample.txt:7
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
 #: PatternSkin/data/_default/WebLeftBar.txt:5
@@ -1365,10 +1370,6 @@ msgstr "Opprett konto"
 msgid "Create group"
 msgstr "Lag gruppe"
 
-#: core/data/System/FrequentlyAskedQuestions.txt:45
-msgid "Create new FAQ topic"
-msgstr "Lag ny FAQ side"
-
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 msgid "Create new topic"
@@ -1398,7 +1399,7 @@ msgstr "Lag denne siden"
 msgid "Create your account to edit pages on this site."
 msgstr "Lag din konto for å redigere sider her."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 msgid "Creates a new topic revision when saving"
 msgstr "Oppretter en ny revisjon av siden ved lagring"
 
@@ -1415,6 +1416,10 @@ msgstr "Gjeldende sted:"
 msgid "Current password:"
 msgstr "Gjeldende passord:"
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Data Form Table Header"
+msgstr ""
+
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
 msgstr "Datarader"
@@ -1428,7 +1433,7 @@ msgstr "Dato"
 msgid "Dear %1"
 msgstr "Kjære %1"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Debug"
 msgstr "Debug"
 
@@ -1697,6 +1702,10 @@ msgstr ""
 msgid "Enlarge edit box"
 msgstr "Forstørr redigeringsboks"
 
+#: core/templates/more.tmpl:102
+msgid "Enter __none__ to clear the topic parent"
+msgstr ""
+
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
 msgstr "Skriv inn nytt brukernavn og passord for å endre indentitet"
@@ -1762,7 +1771,7 @@ msgstr "Problemer med å legge til brukere i gruppe"
 msgid "Errors removing members from groups"
 msgstr "Feil ved fjerning av medlemmer fra grupper"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Escape markup"
 msgstr "Unntaksmerking"
 
@@ -1815,7 +1824,7 @@ msgstr "Filen har blitt lastet opp med annet navn"
 msgid "Find similar topics"
 msgstr "Finn liknende sider"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Find topics that are children of %1 ..."
 msgstr "Finn sider som linker til %1..."
@@ -1845,7 +1854,7 @@ msgstr ""
 "For mer detaljer informasjon om cross-site request forgery og farene det "
 "utgjør for deg, se [[%1][Cross-site request forgery artikkel på Wikipedia]]."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Tving ny versjon"
@@ -2338,6 +2347,10 @@ msgstr "Info"
 msgid "Insert a color code"
 msgstr ""
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a data form table header"
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
 msgstr ""
@@ -2359,7 +2372,7 @@ msgstr ""
 msgid "Insert a link to a user-profile"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Insert a macro"
 msgstr ""
 
@@ -2508,7 +2521,7 @@ msgstr "Siste endringstidspunkt"
 msgid "Last name:"
 msgstr "Etternavn:"
 
-#: core/templates/more.tmpl:179
+#: core/templates/more.tmpl:180
 msgid "Latest revision: %1"
 msgstr "Siste versjon: %1"
 
@@ -2586,7 +2599,7 @@ msgstr "Logg på"
 msgid "Logout"
 msgstr "Logg Ut"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Macro"
 msgstr ""
 
@@ -2653,7 +2666,7 @@ msgstr ""
 msgid "More on hiding attachments"
 msgstr "Mer om skuling av vedlegg"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:120
 msgid "More tools"
 msgstr ""
 
@@ -2792,7 +2805,7 @@ msgstr "Registrering av nye brukere er ikke aktivert på dette nettstedet."
 msgid "New web name:"
 msgstr "Nytt webnavn:"
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Newer revision:"
 msgstr "Nyere versjon:"
 
@@ -2842,7 +2855,7 @@ msgstr ""
 msgid "No permission to view %1"
 msgstr "Ingen tilgang til å lese %1"
 
-#: core/templates/more.tmpl:197
+#: core/templates/more.tmpl:198
 msgid "No previous revision exists."
 msgstr "Ingen tidligere versjon finnes."
 
@@ -2961,7 +2974,7 @@ msgstr "OK, dette er fortsatt meg!"
 msgid "Ok"
 msgstr ""
 
-#: core/templates/more.tmpl:155
+#: core/templates/more.tmpl:156
 msgid "Older revision:"
 msgstr "Eldre versjon:"
 
@@ -3005,9 +3018,9 @@ msgstr ""
 #. ('copyAttachment')
 #: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
 #: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
-#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
-#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
-#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:630
+#: core/lib/Foswiki/UI/Save.pm:663 core/lib/Foswiki/UI/Save.pm:702
+#: core/lib/Foswiki/UI/Save.pm:732 core/lib/Foswiki/UI/Upload.pm:229
 msgid "Operation %1 failed with an internal error"
 msgstr ""
 
@@ -3027,7 +3040,7 @@ msgstr "Eventuelt skriv et annet navn på vedlegg:"
 msgid "Optionally enter a different topic name:"
 msgstr "Eventuelt skriv et annet sidenavn:"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Options"
 msgstr "Valg"
 
@@ -3273,13 +3286,13 @@ msgstr "Ellers trykk Avbryt."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Trykk OK for å bekrefte at du virkelig mener å utføre denne endringen."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:181
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
 #: NatEditPlugin/templates/preview.natedit.tmpl:1
 #, fuzzy
 msgid "Preview"
 msgstr "forhåndsvisning"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:183
 #, fuzzy
 msgid "Preview your changes"
 msgstr "Gjennomse nylige endringer i:"
@@ -3357,7 +3370,7 @@ msgstr "Nylig endrede sider"
 msgid "Redirect Denied"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 msgid "Redo previous change"
 msgstr ""
 
@@ -3524,7 +3537,7 @@ msgid "Render style"
 msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #, fuzzy
 msgid "Replace"
 msgstr "Erstatt skjema..."
@@ -3556,39 +3569,39 @@ msgstr "Tilbakestill passord"
 msgid "Resetting and setting password is not available."
 msgstr "Tilbakestilling av passord håndteres ikke av Foswiki"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
-#: core/templates/more.tmpl:186
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: core/templates/more.tmpl:187
 #, fuzzy
 msgid "Restore"
 msgstr "Gjenopprett..."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:158
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
 #, fuzzy
 msgid "Restore and Continue"
 msgstr "Gjenopprett side"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:160
 msgid "Restore and continue editing"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:144
 #, fuzzy
 msgid "Restore and exit"
 msgstr "Gjenopprett side"
 
-#: core/templates/more.tmpl:167
+#: core/templates/more.tmpl:168
 msgid "Restore topic"
 msgstr "Gjenopprett side"
 
-#: core/templates/more.tmpl:183
+#: core/templates/more.tmpl:184
 msgid "Restore topic to revision:"
 msgstr "Gjenopprett side til versjon:"
 
-#: core/templates/more.tmpl:186
+#: core/templates/more.tmpl:187
 msgid "Restore topic to this revision"
 msgstr "Gjenopprett side til denne versjonen"
 
-#: core/templates/more.tmpl:172
+#: core/templates/more.tmpl:173
 msgid ""
 "Restore will save an exact copy of your selected revision into a new "
 "revision. Because each revision will be preserved in the topic history, you "
@@ -3596,7 +3609,7 @@ msgid ""
 "will be left unchanged."
 msgstr ""
 
-#: core/templates/more.tmpl:177
+#: core/templates/more.tmpl:178
 #, fuzzy
 msgid "Restoring is disabled because this topic is at revision 1."
 msgstr ""
@@ -3652,7 +3665,7 @@ msgstr "Versjon"
 msgid "Revision history of %1"
 msgstr "Versjonhistorikk for %1"
 
-#: core/templates/more.tmpl:135
+#: core/templates/more.tmpl:136
 msgid "Revisions"
 msgstr "Versjoner"
 
@@ -3672,21 +3685,21 @@ msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr "Sandbox testområde for å eksprimentere i et fritt web sted."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:58
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
 #, fuzzy
 msgid "Save"
 msgstr "Lagret til:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
 #, fuzzy
 msgid "Save and Continue"
 msgstr "value='Lagre og fortsett' accesskey='k'"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:167
 msgid "Save and continue editing"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:152
 #, fuzzy
 msgid "Save and exit"
 msgstr "Lagret til:"
@@ -3724,7 +3737,7 @@ msgid "Search %1 Web only"
 msgstr "Søk kun i %1 web'en"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:10
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #, fuzzy
 msgid "Search && Replace"
 msgstr "Søkeresultat"
@@ -3772,7 +3785,7 @@ msgstr "Søkeresultat"
 msgid "Search string"
 msgstr "Søkestreng"
 
-#: core/templates/more.tmpl:205
+#: core/templates/more.tmpl:206
 #, fuzzy
 msgid "Search the %1 Web for all children of this topic."
 msgstr "Søk i %1 web etter sider som linker hit"
@@ -3892,7 +3905,7 @@ msgstr "Registrering av ny bruker er ikke supportert"
 msgid "Send mail"
 msgstr ""
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Sequential"
 msgstr "Sekvensiell"
 
@@ -3900,7 +3913,7 @@ msgstr "Sekvensiell"
 msgid "Set all"
 msgstr "Velg alle"
 
-#: core/templates/more.tmpl:104
+#: core/templates/more.tmpl:105
 msgid "Set new parent"
 msgstr "Sett ny forelder"
 
@@ -3932,7 +3945,7 @@ msgstr "Versjoner %1 - %2 (av %3)"
 msgid "Shrink edit box"
 msgstr "Krymp redigeringsboks"
 
-#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:158
+#: HistoryPlugin/templates/oopshistory.tmpl:75 core/templates/more.tmpl:159
 msgid "Side by side"
 msgstr "Side ved side"
 
@@ -3988,11 +4001,11 @@ msgstr ""
 "Beklager, passordsystemet er for øyeblikke kun med lesetilgang, vennligst "
 "kontakt %1"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort ascending"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort descending"
 msgstr ""
 
@@ -4000,11 +4013,11 @@ msgstr ""
 msgid "Sort results by:"
 msgstr "Sorter resultater etter:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort selected lines ascending"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort selected lines descending"
 msgstr ""
 
@@ -4120,7 +4133,7 @@ msgstr ""
 msgid "Switch to monotype or proportional font"
 msgstr "Bytt til monotype eller proporsjonal font"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
 msgid "Switch to wysiwyg"
 msgstr ""
 
@@ -4904,12 +4917,12 @@ msgstr "uendrede seksjoner for og etter hver endring"
 msgid "Underline"
 msgstr ""
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
 #, fuzzy
 msgid "Undo last change"
 msgstr "Siste endringer"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:132
 msgid "Unescape markup"
 msgstr ""
 
@@ -5140,7 +5153,7 @@ msgstr "Vis all side historikk"
 msgid "View difference"
 msgstr "Vis differanse"
 
-#: core/templates/more.tmpl:161
+#: core/templates/more.tmpl:162
 msgid "View differences"
 msgstr "Vis differanser"
 
@@ -5154,7 +5167,7 @@ msgstr "tidligere"
 msgid "View later"
 msgstr "Vis maler"
 
-#: core/templates/more.tmpl:136
+#: core/templates/more.tmpl:137
 msgid "View previous topic revision"
 msgstr "Vis forrige versjon av siden"
 
@@ -5162,11 +5175,11 @@ msgstr "Vis forrige versjon av siden"
 msgid "View raw text without formatting"
 msgstr "Vis rå tekst uten formatering"
 
-#: core/templates/more.tmpl:143
+#: core/templates/more.tmpl:144
 msgid "View revision"
 msgstr "Vis versjon"
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "View revision:"
 msgstr "Vis versjon:"
 
@@ -5792,7 +5805,7 @@ msgstr "tips om god stil"
 msgid "ignore case"
 msgstr ""
 
-#: core/templates/more.tmpl:140
+#: core/templates/more.tmpl:141
 msgid "in raw text format"
 msgstr "i rå tekst format"
 
