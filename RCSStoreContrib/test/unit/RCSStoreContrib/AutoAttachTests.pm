@@ -111,9 +111,11 @@ sub sneakAttachmentsAddedToTopic {
 
 sub touchFile {
     my $filename = shift;
-    open( FILE, ">$filename" );
-    print FILE "Test attachment $filename\n";
-    close(FILE);
+    $filename = Encode::encode_utf8($filename);
+    open( my $fh, ">$filename" );
+    binmode $fh, ":encoding(utf-8)";
+    print $fh "Test attachment $filename\n";
+    close($fh);
 }
 
 sub verify_autoattach {

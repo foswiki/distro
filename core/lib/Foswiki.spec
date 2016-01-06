@@ -136,13 +136,13 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # This is the file system path used to access the Foswiki bin directory.
 # $Foswiki::cfg{ScriptDir} = '/home/httpd/foswiki/bin';
 
-# **PATH LABEL="Pub Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:r,'*',wD,'(,v|,pfv)$'" **
+# **PATH LABEL="Pub Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:r,'*',wDn,'(,v|,pfv)$'" **
 # Attachments store (file path, not URL), must match the attachments URL
 # path =/foswiki/pub= - for example =/usr/local/foswiki/pub=  This directory is
 # normally accessible from the web.
 # $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
 
-# **PATH LABEL="Data Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:rwDpd,'(,v|,pfv)$',r" **
+# **PATH LABEL="Data Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:rwDnpd,'(,v|,pfv)$',r" **
 # Topic files store (file path, not URL). For example =/usr/local/foswiki/data=.
 # This directory must not be web accessible. 
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
@@ -1356,6 +1356,17 @@ $Foswiki::cfg{PluralToSingular} = $TRUE;
 # See =tools/bulk_copy.pl= for details on converting your store.
 # Leave this undefined to use the default of utf-8 encoding.
 # $Foswiki::cfg{Store}{Encoding} = undef;
+
+# **BOOLEAN LABEL="NFC Normalize Filenames" EXPERT **
+# Foswiki uses NFC normalization for all network operations, but assumes
+# that the file system is also NFC normalized.  Some systems such as OS X
+# enforce NFD normalization for filenames.  If Foswiki is installed on one
+# of these sysetms, or accesses such a system via a remote file system
+# like NFS, then all directory / filename read operations must be NFC
+# normalized. Need for NFC normalization is detected and set during bootstrap
+# but may need to be overridden if individual webs are symlinked to a NFD
+# filesystem.
+#$Foswiki::cfg{NFCNormalizeFilenames} = $FALSE;
 
 # **PERL LABEL="Implementation Classes" EXPERT**
 # Customisation of the Foswiki Store implementation. This allows

@@ -156,6 +156,12 @@ sub _getLibDir {
 # Character encoding/decoding stubs. Done so we can ovveride
 # if necessary (e.g. on OSX we may want to monkey-patch in a
 # NFC/NFD module)
+#
+# Note, NFC normalization is being done only for network and directory
+# read operations,  but NOT for topic data. Adding normalization here
+# caused performance issues because some versions of Unicode::Normalize
+# have removed the XS versions.  We really only need to normalize directory
+# names not file contents.
 
 =begin TML
 
@@ -166,12 +172,7 @@ perl characters (unicode).
 
 =cut
 
-# SMELL: Why not to return back to GLOB assigning?
-#*decode_utf8 = \&Encode::decode_utf8;
-
-sub decode_utf8 {
-    return Encode::decode_utf8( $_[0], $_[1] );
-}
+*decode_utf8 = \&Encode::decode_utf8;
 
 =begin TML
 

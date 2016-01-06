@@ -693,6 +693,8 @@ else {
 1;
 __END__
 
+=pod
+
 =head1 tools/bulk_copy.pl
 
 Copies all content (topics and attachments), complete with

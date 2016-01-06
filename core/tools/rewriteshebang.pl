@@ -1,8 +1,7 @@
 #!/usr/bin/perl -w
 # See bottom of file for license and copyright information
 # On Unix the -T switch can be used but was removed because it caused trouble
-# on Windows.   This script needs to be run with the Foswiki lib on the INC path.
-# perl -I /usr/local/foswiki/lib /usr/local/foswiki/tools/rewriteshebang
+# on Windows.
 
 use strict;
 use warnings;
@@ -13,12 +12,15 @@ use File::Spec;
 
 use strict;
 
-BEGIN {
-    eval 'require Foswiki::Configure::FileUtil';
-    die
-"Please run this script as follows:\n\n perl -I /path/to/foswiki/lib rewriteshebang.pl\n  e.g. perl -I ../lib rewriteshebang.pl\n\n $@\n"
-      if $@;
-}
+# Assume we are in the tools dir, and we can find bin and lib from there
+use FindBin ();
+use lib "$FindBin::Bin/../bin";
+
+require 'setlib.cfg';
+require Foswiki::Configure::FileUtil;
+
+# SMELL: setlib does "require CGI" which sets STDIN to binmode.
+binmode( STDIN, ':crlf' );
 
 my $new_path     = '';
 my @default_dir  = ( '../tools', '../bin', );
@@ -65,6 +67,7 @@ unless (@directories) {
 # Here we guide the user and ask for confirmations
 
 if ( $ask == 1 ) {
+
     print "
 Description
 -----------
@@ -90,8 +93,7 @@ Note: the path to the interpreter *must not* contain any spaces.\n";
         $new_path = $n;
     }
 
-    # Here the user may allow using e.g. "perl" only
-    unless ( -x "$new_path" ) {
+    unless ( $new_path =~ m#^/usr/bin/env perl# || -x "$new_path" ) {
         while (1) {
             print "\nWarning: I could not find an executable at \"$new_path\"
 Are you sure you want to use this path (y/n)?: ";
@@ -114,11 +116,17 @@ Are you sure you want to use this path (y/n)?: ";
 
     $ENV{"PATH"} = ""; # untainted environment for system call
                        # Unix and Windows path matching without spaces to untain
-    if ( $new_path =~
+    if ( $new_path =~ m/(.*?\/env perl\b)/ ) {
+
+        # probably /usr/bin/env perl.  No parameters supported.
+        $new_path = "$1";            # untaint
+        @args     = ("$new_path");
+    }
+    elsif ( $new_path =~
         /(^(\.)?(\/[^\/]+)+(\.exe)?$|^[[:alpha:]]:(\\[^\\]+)+(\.exe)?$|^perl$)/i
       )
     {
-        $new_path = "$1";    # untainted variable
+        $new_path = "$1";            # untainted variable
         @args      = ( "$new_path", "-Mstrict", "-w", '-e "print $];"' );
         $new_perlv = qx|@args|;
         if ( $new_perlv < $expect_perlv ) {
@@ -146,9 +154,9 @@ Are you still sure you want to use this path (y/n): ";
 
     while (1) {
         print
-"\n\"No\" will only change \"shebang\" lines of scripts found in the directory
-where the script is run from. Are you sure you want to change scripts
-in the ";
+          "\n\"No\" will only change \"shebang\" lines of scripts found in ";
+        print getcwd() . "\n";
+        print "Are you sure you want to change scripts in the ";
         print scalar(@directories);
         print " directories:\n";
         foreach (@directories) {

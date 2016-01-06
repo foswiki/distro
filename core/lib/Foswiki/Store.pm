@@ -61,6 +61,7 @@ use Assert;
 use Foswiki          ();
 use Foswiki::Sandbox ();
 use HTML::Entities   ();
+use Unicode::Normalize qw(NFC);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -251,13 +252,18 @@ currently selected {Store}{Encoding} (or UTF-8 if none is set)
 into perl characters (unicode). May die if $octets contains
 an invalid byte sequence for the encoding.
 
+This utility function should not be used to decode topic text.
+For performance reasons, we don't need to NFC normalize file contents,
+only the filenames themselves.
+
 =cut
 
 sub decode {
     return $_[0] unless defined $_[0];
     my $s = $_[0];
-    return Encode::decode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
+    my $decoded = Encode::decode( $Foswiki::cfg{Store}{Encoding} || 'utf-8',
         $s, Encode::FB_CROAK );
+    return ( $Foswiki::cfg{NFCNormalizeFilenames} ) ? NFC($decoded) : $decoded;
 }
 
 =begin TML
