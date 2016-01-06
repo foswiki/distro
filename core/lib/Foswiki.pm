@@ -51,6 +51,7 @@ use Monitor                  ();
 use CGI                      ();  # Always required to get html generation tags;
 use Digest::MD5              ();  # For passthru and validation
 use Foswiki::Configure::Load ();
+use Foswiki::Exception;
 
 use 5.006;                        # First version to accept v-numbers.
 
@@ -165,6 +166,7 @@ perl characters (unicode).
 
 =cut
 
+# SMELL: Why not to return back to GLOB assigning?
 #*decode_utf8 = \&Encode::decode_utf8;
 
 sub decode_utf8 {

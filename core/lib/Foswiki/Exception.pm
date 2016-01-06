@@ -57,8 +57,9 @@ BEGIN {
     }
 }
 
-has line => ( is => 'rw' );
-has file => ( is => 'rw' );
+has line => ( is => 'ro' );
+has file => ( is => 'ro' );
+has text => ( is => 'ro' );
 
 package Foswiki::Exception::Engine;
 use Moo;

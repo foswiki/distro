@@ -9,12 +9,20 @@ Class of errors used with Foswiki::Infix::Parser
 =cut
 
 package Foswiki::Infix::Error;
+use Moo;
+use namespace::clean;
 
-use strict;
-use warnings;
+extends 'Foswiki::Exception';
 
-use Error ();
-our @ISA = ('Error');
+has expr => (
+    is        => 'ro',
+    predicate => 1,
+);
+has at => (
+    is        => 'ro',
+    predicate => 1,
+);
+our @_newParameters = qw(text expr at);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -23,20 +31,18 @@ BEGIN {
     }
 }
 
-sub new {
-    my ( $class, $message, $expr, $at ) = @_;
-    if ( defined $expr && length($expr) ) {
-        $message .= " in '$expr'";
+around text => sub {
+    my $orig = shift;
+    my $self = shift;
+    my $text = $self->message;
+    if ( $self->has_expr ) {
+        $text .= " in '" . $self->expr . "'";
     }
-    if ( defined $at && length($at) ) {
-        $message .= " at '$at'";
+    if ( $self->has_at ) {
+        $text .= " at '" . $self->at . "'";
     }
-    return $class->SUPER::new(
-        -text => $message,
-        -file => 'dummy',
-        -line => 'dummy'
-    );
-}
+    return $text;
+};
 
 1;
 __END__

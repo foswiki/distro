@@ -81,11 +81,23 @@ sub BUILDARGS {
     }
 
 # If $paramHash is undef at this point then either @params is a key/value pairs array or no @_newParameters array defined.
+# SMELL XXX Number of elements in @params has to be checked and an exception thrown if it's inappropriate.
     $paramHash = {@params} unless defined $paramHash;
 
     use strict 'refs';
 
     return $paramHash;
+}
+
+sub DEMOLISH {
+    my $self = shift;
+    if ( $self->can('finish') ) {
+
+     # SMELL every Foswiki::Object ancestor has to use DEMOLISH as the standard.
+     # XXX We have to generate a warning if this condition is met.
+        $self->finish;
+    }
+
 }
 
 1;

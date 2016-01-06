@@ -21,9 +21,13 @@ package Foswiki::Infix::Parser;
 use strict;
 use warnings;
 use Assert;
-use Error qw( :try );
-use Foswiki::Infix::Error ();
-use Foswiki::Infix::Node  ();
+use Try::Tiny;
+use Foswiki::Infix::Error;
+use Foswiki::Infix::Node ();
+use Moo;
+use namespace::clean;
+
+extends 'Foswiki::Object';
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -78,35 +82,35 @@ be escaped using backslash (\).
 
 =cut
 
-sub new {
-    my ( $class, $options ) = @_;
+# Object properties
+has node_factory => (
+    isa      => 'ro',
+    init_arg => 'nodeClass',
+);
 
-    my $this = bless(
-        {
-            node_factory => $options->{nodeClass},
-            operators    => [],
-            initialised  => 0,
-        },
-        $class
-    );
+has operators => (
+    isa     => 'rw',
+    default => sub { []; },
+);
 
-    $this->{numbers} =
-      defined( $options->{numbers} )
-      ? $options->{numbers}
-      : qr/(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?/;
+has initialised => (
+    isa     => 'rw',
+    default => 0,
+);
 
-    $this->{words} =
-      defined( $options->{words} )
-      ? $options->{words}
-      : qr/\w+/;
+has numbers => (
+    isa     => 'rw',
+    default => qr/(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?/,
+);
 
-    return $this;
-}
+has words => (
+    isa     => 'rw',
+    default => qr/\w+/,
+);
 
 # Break circular references.
-sub finish {
+sub DEMOLISH {
     my $self = shift;
-
 }
 
 =begin TML
@@ -202,7 +206,7 @@ sub parse {
 sub _parse {
     my ( $this, $expr, $input, $term ) = @_;
 
-    throw Foswiki::Infix::Error("Empty expression")
+    Foswiki::Infix::Error->throw("Empty expression")
       unless defined($expr);
     $$input = "()" unless $$input =~ m/\S/;
 
@@ -299,25 +303,29 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x\{[a-fA-F0-9]+\}|n|t|\\|$q)/eval('"\\'.$1
                 last;
             }
             else {
-                throw Foswiki::Infix::Error( 'Syntax error', $expr, $$input );
+                Foswiki::Infix::Error->throw( 'Syntax error', $expr, $$input );
             }
         }
         _apply( $this, 0, \@opers, \@opands );
     }
-    catch Foswiki::Infix::Error with {
-        my $e = shift;
-
-        # Don't need to construct a new Foswiki::Infix::Error
-        throw $e;
+    catch {
+        if ( $_->isa('Foswiki::Infix::Error') ) {
+            $_->throw;
+        }
+        elsif {
+            # XXX $_ has to be carefully examined
+            Foswiki::Infix::Error->throw( $_->text, $expr, $$input );
+        }
     };
-    catch Error with {
 
-        # Catch errors thrown during the tree building process
-        throw Foswiki::Infix::Error( shift, $expr, $$input );
-    };
-    throw Foswiki::Infix::Error( 'Missing operator', $expr, $$input )
+    #catch Error with {
+
+    #    # Catch errors thrown during the tree building process
+    #    throw Foswiki::Infix::Error( shift, $expr, $$input );
+    #};
+    Foswiki::Infix::Error->throw( 'Missing operator', $expr, $$input )
       unless scalar(@opands) == 1;
-    throw Foswiki::Infix::Error(
+    Foswiki::Infix::Error->throw(
         'Excess operators (' . join( ' ', map { $_->{name} } @opers ) . ')',
         $expr, $$input )
       if scalar(@opers);
@@ -344,7 +352,7 @@ sub _apply {
             unshift( @prams, pop(@$opands) );
 
             # Should never get thrown, but just in case...
-            throw Foswiki::Infix::Error("Missing operand to '$op->{name}'")
+            Foswiki::Infix::Error->throw("Missing operand to '$op->{name}'")
               unless $prams[0];
         }
         if (MONITOR_PARSER) {

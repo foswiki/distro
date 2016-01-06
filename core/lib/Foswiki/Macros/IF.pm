@@ -48,11 +48,15 @@ sub IF {
             $result = expandStandardEscapes( $params->{else} );
         }
     }
-    catch Foswiki::Infix::Error with {
-        my $e = shift;
-        $result =
-          $this->inlineAlert( 'alerts', 'generic', 'IF{', $params->stringify(),
-            '}:', $e->{-text} );
+    catch {
+        if ( $_->isa('Foswiki::Infix::Error') ) {
+            $result =
+              $this->inlineAlert( 'alerts', 'generic', 'IF{',
+                $params->stringify(), '}:', $_->text );
+        }
+        else {
+            $_->throw;
+        }
     }
     finally {
         delete $this->{evaluating_if}->{$texpr};
