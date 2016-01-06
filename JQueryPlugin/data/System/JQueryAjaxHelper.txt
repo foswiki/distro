@@ -167,7 +167,7 @@ jQuery(function($){
         baseweb: opts.baseweb,
       }),
       select: function(event, ui) {
-        window.location.href = foswiki.getScriptUrl('view', undefined, ui.item.value));
+        window.location.href = foswiki.getScriptUrl('view', undefined, ui.item.value);
       }
     });
   });
