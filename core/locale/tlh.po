@@ -639,7 +639,7 @@ msgstr "<nop>QaHlIj poQ lo&&#39;wI&&#39; muvchu&&#39;meH"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:191
 msgid "Abandon changes and exit"
 msgstr "choHmey buSHa&&#39; &&#39;ej mej"
 
@@ -1011,7 +1011,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:35
 #: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
@@ -1199,7 +1199,7 @@ msgstr ""
 "yI&&#39;uy, vaj Daq qanDaq ghItlh lanlau&&#39; &&#39;ej cheghbogh rarwI&&#39;"
 "mey <nop>DalISlaH."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #: NatEditPlugin/templates/preview.natedit.tmpl:6
 #: TwistyPlugin/data/System/TwistyPlugin.txt:466
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
@@ -1426,7 +1426,7 @@ msgid "Create your account to edit pages on this site."
 msgstr ""
 "<nop>DaqvamDaq ghItlhmey <nop>DachenmoHmeH lo&&#39;wI&&#39; talIj yIchenmoH."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 msgid "Creates a new topic revision when saving"
 msgstr "bIpolDI&&#39; ghItlh Dotlh chu&&#39; chenmoH"
 
@@ -1442,6 +1442,10 @@ msgstr "<nop>DaHjaj Daq:"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
 msgid "Current password:"
 msgstr "<nop>DaHjaj chaw&&#39; ngoq:"
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Data Form Table Header"
+msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
@@ -1805,7 +1809,7 @@ msgstr "Qagh ghomDaq <nop>jeSwI&&#39;pu&&#39; chelmeH mIw"
 msgid "Errors removing members from groups"
 msgstr "Qagh ghomvo&&#39; <nop>jeSwI&&#39;pu&&#39; teqmeH mIw"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Escape markup"
 msgstr "ngoq meS"
 
@@ -1891,7 +1895,7 @@ msgstr ""
 "cross-site-tlhobbogh-<nop>HeSwI&&#39; nIw lIbbogh Qob je Dayajchu&&#39;meH, "
 "wIqIpeDIya' [[%1][Cross-site request forgery ghItlh]] yIlaD."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Dotlh chu&&#39; raD"
@@ -2407,6 +2411,11 @@ msgstr "<nop>HIchuH"
 msgid "Insert a color code"
 msgstr "nguvlu&&#39;meH ngoq chel"
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+#, fuzzy
+msgid "Insert a data form table header"
+msgstr "<nop>SImwI ngoq chel"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
 msgstr "poH chel"
@@ -2428,7 +2437,7 @@ msgstr "<nop>HurvaD, ghItlhvaD ghap rarwI&&#39; chel"
 msgid "Insert a link to a user-profile"
 msgstr "lo&&#39;wI&&#39; taDaq Qeqbogh rarwI&&#39; chel"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Insert a macro"
 msgstr "mIwHom chel"
 
@@ -2656,7 +2665,7 @@ msgstr "&&rsquo;elmeH"
 msgid "Logout"
 msgstr "&&rsquo;elHa&&rsquo;<nop>meH"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Macro"
 msgstr "<nop>mIwHom"
 
@@ -2722,7 +2731,7 @@ msgstr "latlh <nop>chelmeH Dochmey"
 msgid "More on hiding attachments"
 msgstr "tep So&&#39;meH qeSmey"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:120
 msgid "More tools"
 msgstr "latlh janmey"
 
@@ -3071,9 +3080,9 @@ msgstr ""
 #. ('copyAttachment')
 #: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
 #: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
-#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
-#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
-#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:630
+#: core/lib/Foswiki/UI/Save.pm:663 core/lib/Foswiki/UI/Save.pm:702
+#: core/lib/Foswiki/UI/Save.pm:732 core/lib/Foswiki/UI/Upload.pm:229
 msgid "Operation %1 failed with an internal error"
 msgstr "Qaghmo&&#39; Qapbe&&#39; %1 Qu&&#39;"
 
@@ -3332,12 +3341,12 @@ msgstr "<nop>DaneHbe&&#39;chugh vaj qIl yIwIv."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "choHvam <nop>DaHechchugh vaj luq yIwIv."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:181
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
 #: NatEditPlugin/templates/preview.natedit.tmpl:1
 msgid "Preview"
 msgstr "bej"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:183
 msgid "Preview your changes"
 msgstr "choHmeylIj &&#39;ol"
 
@@ -3406,7 +3415,7 @@ msgstr "qen Hoch mIchmeyDaq ghItlhmey luchoHlu&&#39;bogh"
 msgid "Redirect Denied"
 msgstr "rarqa&&#39;wI&&#39; lajHa&&#39;lu&&#39;"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 msgid "Redo previous change"
 msgstr "nungbogh choH ta&&#39;qa&&#39;"
 
@@ -3571,7 +3580,7 @@ msgid "Render style"
 msgstr "&&#39;angmeH mIw"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Replace"
 msgstr "qa&&#39;"
 
@@ -3603,20 +3612,20 @@ msgstr "chaw&&#39; ngoq chu&&#39;moH"
 msgid "Resetting and setting password is not available."
 msgstr "chaw&&#39; ngoq choHmeH mIw chu&&#39;Ha&&#39;lu&&#39;."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
 #: core/templates/more.tmpl:187
 msgid "Restore"
 msgstr "polqa&&#39;"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:158
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
 msgid "Restore and Continue"
 msgstr "&&#39; &&#39;ej ruch"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:160
 msgid "Restore and continue editing"
 msgstr "polqa&&#39; &&#39;ej choHtaH ruch"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:144
 msgid "Restore and exit"
 msgstr "polqa&&#39; &&#39;ej bup"
 
@@ -3718,19 +3727,19 @@ msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr "Sandbox mIch: lamveyqoqDaq qeqlaH Hoch."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:58
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
 msgid "Save"
 msgstr "pol"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
 msgid "Save and Continue"
 msgstr "pol &&#39;ej ruch"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:167
 msgid "Save and continue editing"
 msgstr "pol &&#39;ej choHtaH"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:152
 msgid "Save and exit"
 msgstr "pol &&#39;ej mej"
 
@@ -3767,7 +3776,7 @@ msgid "Search %1 Web only"
 msgstr "%1 mIchDaq neH nej"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:10
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Search && Replace"
 msgstr "nej && qa&&#39;"
 
@@ -4019,11 +4028,11 @@ msgstr ""
 "Do&&#39;Ha&&#39;, <nop>DaHjaj laDlaH neH chaw&&#39; ngoq pat. <nop>DaH %1 "
 "yIrI&&#39;"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort ascending"
 msgstr "mISHa&&#39;DI&&#39; tagh machwI&&#39;"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort descending"
 msgstr "mISHa&&#39;DI&&#39; tagh tInwI&&#39;"
 
@@ -4031,11 +4040,11 @@ msgstr "mISHa&&#39;DI&&#39; tagh tInwI&&#39;"
 msgid "Sort results by:"
 msgstr "mISHa&&#39;moH:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort selected lines ascending"
 msgstr "tlheghmey luwIvlu&&#39;bogh <nop>SalmoH"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort selected lines descending"
 msgstr "tlheghmey luwIvlu&&#39;bogh ghIrmoH"
 
@@ -4148,7 +4157,7 @@ msgstr "<nop>DungDaq mu&&#39;mey lan"
 msgid "Switch to monotype or proportional font"
 msgstr "Deghmey choH: monotype/proportional ghap"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
 msgid "Switch to wysiwyg"
 msgstr "wysiwyg <nop>HaSta chu&&#39;"
 
@@ -4916,11 +4925,11 @@ msgstr ""
 msgid "Underline"
 msgstr "Degh bIng tlhegh"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
 msgid "Undo last change"
 msgstr "nungbogh choH ta&&#39;Ha&&#39;"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:132
 msgid "Unescape markup"
 msgstr "ngoq meSHa&&#39;"
 
@@ -5242,7 +5251,7 @@ msgid "Warning: Updates found for %1 extension(s)."
 msgstr ""
 "Qu&&#39;vatlh: %1 extension(mey)vaD chu&&#39;moHwI&&#39; luSamlu&&#39;."
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:442
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh <nop>%1 tu&&#39;lu&&#39;be&&#39;!"
 
@@ -5250,7 +5259,7 @@ msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh <nop>%1 tu&&#39;lu&&#39;be&&#39;!"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh tu&&#39;lu&&#39;be&&#39;!"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:468
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:475
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr ""
 "Qu&&#39;vatlh: ghItlh %1Daq Table <nop>DelwI&&#39; \\'include\\' tu&&#39;"

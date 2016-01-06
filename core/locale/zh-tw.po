@@ -613,7 +613,7 @@ msgstr "一個使用者需要您的確認以完成註冊"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:191
 msgid "Abandon changes and exit"
 msgstr "放棄改變並離開"
 
@@ -968,7 +968,7 @@ msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時）"
 #: JQueryPlugin/data/System/VarBUTTON.txt:35
 #: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
@@ -1150,7 +1150,7 @@ msgid ""
 "references."
 msgstr "移動主題回以前的位置，有選項可修改引用。"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #: NatEditPlugin/templates/preview.natedit.tmpl:6
 #: TwistyPlugin/data/System/TwistyPlugin.txt:466
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
@@ -1362,7 +1362,7 @@ msgstr "建立這個主題"
 msgid "Create your account to edit pages on this site."
 msgstr "建立您的帳號才能編輯本站的網頁。"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 msgid "Creates a new topic revision when saving"
 msgstr "存檔後建立一個新的主題版本"
 
@@ -1378,6 +1378,10 @@ msgstr "目前位置："
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
 msgid "Current password:"
 msgstr "目前的密碼:"
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Data Form Table Header"
+msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
@@ -1713,7 +1717,7 @@ msgstr "增加使用者至群組錯誤"
 msgid "Errors removing members from groups"
 msgstr "移除群組使用者錯誤"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Escape markup"
 msgstr "轉義標記"
 
@@ -1795,7 +1799,7 @@ msgstr ""
 "有關跨網站偽要求的詳細資料，與可能帶給您的危險，參考 [[%1][維基百科上跨網站偽"
 "要求的文章]]。"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "強制新版本"
@@ -2278,6 +2282,11 @@ msgstr "資訊"
 msgid "Insert a color code"
 msgstr "插入色碼"
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+#, fuzzy
+msgid "Insert a data form table header"
+msgstr "插入一個數學公式"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
 msgstr "插入日期"
@@ -2299,7 +2308,7 @@ msgstr "插入一個一個主題或外部資源的連結"
 msgid "Insert a link to a user-profile"
 msgstr "插入一個連結到使用者設定"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Insert a macro"
 msgstr "插入一個巨集"
 
@@ -2522,7 +2531,7 @@ msgstr "登入"
 msgid "Logout"
 msgstr "登出"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Macro"
 msgstr "巨集"
 
@@ -2588,7 +2597,7 @@ msgstr "插入更多物件"
 msgid "More on hiding attachments"
 msgstr "更多隱藏附件說明"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:120
 msgid "More tools"
 msgstr "更多工具"
 
@@ -2925,9 +2934,9 @@ msgstr "抱歉：無法辨識您，請再試一次或 [[%1][重設密碼]] 。"
 #. ('copyAttachment')
 #: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
 #: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
-#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
-#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
-#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:630
+#: core/lib/Foswiki/UI/Save.pm:663 core/lib/Foswiki/UI/Save.pm:702
+#: core/lib/Foswiki/UI/Save.pm:732 core/lib/Foswiki/UI/Upload.pm:229
 msgid "Operation %1 failed with an internal error"
 msgstr "操作 %1 因内部錯誤而失敗"
 
@@ -3181,12 +3190,12 @@ msgstr "其他，按「取消」。"
 msgid "Press OK to confirm that this change was intentional."
 msgstr "按「好」確認此修改是故意的。"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:181
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
 #: NatEditPlugin/templates/preview.natedit.tmpl:1
 msgid "Preview"
 msgstr "預覽"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:183
 msgid "Preview your changes"
 msgstr "預覽您的變更"
 
@@ -3257,7 +3266,7 @@ msgstr "所有子網內最近更新的主題"
 msgid "Redirect Denied"
 msgstr "拒絕轉址"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 msgid "Redo previous change"
 msgstr "重做前入改變"
 
@@ -3413,7 +3422,7 @@ msgid "Render style"
 msgstr "呈現風格"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Replace"
 msgstr "取代"
 
@@ -3445,20 +3454,20 @@ msgstr "重設密碼"
 msgid "Resetting and setting password is not available."
 msgstr "無法重設或設定密碼。"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
 #: core/templates/more.tmpl:187
 msgid "Restore"
 msgstr "還原"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:158
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
 msgid "Restore and Continue"
 msgstr "還原並續繼"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:160
 msgid "Restore and continue editing"
 msgstr "還原並續繼編輯"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:144
 msgid "Restore and exit"
 msgstr "還原並離開"
 
@@ -3552,19 +3561,19 @@ msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr "沙箱試驗區是個可進行無限制修改的子網。"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:58
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
 msgid "Save"
 msgstr "儲存"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
 msgid "Save and Continue"
 msgstr "存檔並繼續"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:167
 msgid "Save and continue editing"
 msgstr "存檔並繼續編輯"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:152
 msgid "Save and exit"
 msgstr "儲存並離開"
 
@@ -3601,7 +3610,7 @@ msgid "Search %1 Web only"
 msgstr "只搜尋 %1 子網"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:10
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Search && Replace"
 msgstr "搜尋 && 取代"
 
@@ -3845,11 +3854,11 @@ msgstr "抱歉，暫時禁止註冊。"
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr "抱歉，目前密碼系統唯讀，請聯繫 %1"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort ascending"
 msgstr "升序排序"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort descending"
 msgstr "降序排序"
 
@@ -3857,11 +3866,11 @@ msgstr "降序排序"
 msgid "Sort results by:"
 msgstr "結果排序依:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort selected lines ascending"
 msgstr "選擇列升序排序"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort selected lines descending"
 msgstr "選擇列降序排序"
 
@@ -3972,7 +3981,7 @@ msgstr "上標"
 msgid "Switch to monotype or proportional font"
 msgstr "切換到等寬或等比的字體"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
 msgid "Switch to wysiwyg"
 msgstr "切換成所見即所得"
 
@@ -4713,11 +4722,11 @@ msgstr "每個更改前後的不變段落"
 msgid "Underline"
 msgstr "底線"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
 msgid "Undo last change"
 msgstr "回復最近的改變"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:132
 msgid "Unescape markup"
 msgstr "反轉義標記"
 
@@ -5038,7 +5047,7 @@ msgstr "警告: 本網站不允許 %<nop>INCLUDE% 連結"
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr "警告: 找到擴充 %1 的更新。"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:442
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "警告: \\'include\\' 的主題 <nop>%1 不存在！"
 
@@ -5046,7 +5055,7 @@ msgstr "警告: \\'include\\' 的主題 <nop>%1 不存在！"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "警告: \\'包含\\' 的主題不存在！"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:468
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:475
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "警告:  \\'include\\' 在主題 %1 內的表格定義不存在！"
 

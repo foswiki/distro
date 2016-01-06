@@ -628,7 +628,7 @@ msgstr "Uživatel vyžaduje vaše potvrzení k dokončení jejich registrace"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:191
 msgid "Abandon changes and exit"
 msgstr "Zruš změny a skonči"
 
@@ -999,7 +999,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:35
 #: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
@@ -1184,7 +1184,7 @@ msgid ""
 msgstr ""
 "Klikni na přesun článku zpět na předchozí umístění s možností změnit odkazy."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #: NatEditPlugin/templates/preview.natedit.tmpl:6
 #: TwistyPlugin/data/System/TwistyPlugin.txt:466
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
@@ -1405,7 +1405,7 @@ msgstr "Vytvořit tento článek"
 msgid "Create your account to edit pages on this site."
 msgstr "Pro editaci stránek na tomto webu si vytvořte účet."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 msgid "Creates a new topic revision when saving"
 msgstr "Vytvoří novou revizi článku při ukládání"
 
@@ -1421,6 +1421,10 @@ msgstr "Nyní jste zde:"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
 msgid "Current password:"
 msgstr "Současné heslo:"
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Data Form Table Header"
+msgstr ""
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
@@ -1772,7 +1776,7 @@ msgstr "Chyby při přidávání členů do skupiny"
 msgid "Errors removing members from groups"
 msgstr "Chyby při odebírání členů ze skupin"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Escape markup"
 msgstr "Znak [Esc]ape"
 
@@ -1855,7 +1859,7 @@ msgstr ""
 "související, získáte na [[%1][the Cross-site request forgery article on "
 "Wikipedia]]."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Vynucení nové revize"
@@ -2368,6 +2372,11 @@ msgstr "Info"
 msgid "Insert a color code"
 msgstr "Vložit barevný kód"
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+#, fuzzy
+msgid "Insert a data form table header"
+msgstr "Vložit matematický výraz"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
 msgstr "Vložit datum"
@@ -2389,7 +2398,7 @@ msgstr "Vložit odkaz na článek a nebo externí zdroj"
 msgid "Insert a link to a user-profile"
 msgstr "Vložit odkaz na profil uživatele"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Insert a macro"
 msgstr "Vložit makro"
 
@@ -2616,7 +2625,7 @@ msgstr "Přihlásit"
 msgid "Logout"
 msgstr "Odhlásit"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Macro"
 msgstr "Makro"
 
@@ -2683,7 +2692,7 @@ msgstr "Více objektů ke vložení"
 msgid "More on hiding attachments"
 msgstr "Více informací o skrytých přílohách"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:120
 msgid "More tools"
 msgstr "Více nástrojů"
 
@@ -3034,9 +3043,9 @@ msgstr ""
 #. ('copyAttachment')
 #: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
 #: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
-#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
-#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
-#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:630
+#: core/lib/Foswiki/UI/Save.pm:663 core/lib/Foswiki/UI/Save.pm:702
+#: core/lib/Foswiki/UI/Save.pm:732 core/lib/Foswiki/UI/Upload.pm:229
 msgid "Operation %1 failed with an internal error"
 msgstr ""
 
@@ -3296,12 +3305,12 @@ msgstr "Nebo stiskněte Přerušit."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Stiskněte OK jako potvrzení že tato změna byla mezinárodní."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:181
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
 #: NatEditPlugin/templates/preview.natedit.tmpl:1
 msgid "Preview"
 msgstr "Náhled"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:183
 msgid "Preview your changes"
 msgstr "Zobrazit náhled změn"
 
@@ -3373,7 +3382,7 @@ msgstr "Naposledy změněné články na všech webech"
 msgid "Redirect Denied"
 msgstr "Přesměrování zamítnuto"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 msgid "Redo previous change"
 msgstr "Opakuj předchozí změnu"
 
@@ -3536,7 +3545,7 @@ msgid "Render style"
 msgstr "Styl zobrazení"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Replace"
 msgstr "Nahraď"
 
@@ -3568,20 +3577,20 @@ msgstr "Znovunastav heslo"
 msgid "Resetting and setting password is not available."
 msgstr "Resetování a nastavení hesla není k dispozici."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
 #: core/templates/more.tmpl:187
 msgid "Restore"
 msgstr "Obnov"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:158
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
 msgid "Restore and Continue"
 msgstr "Obnov a pokračuj"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:160
 msgid "Restore and continue editing"
 msgstr "Obnov a pokračuj v editaci"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:144
 msgid "Restore and exit"
 msgstr "Obnov a skonči"
 
@@ -3679,19 +3688,19 @@ msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr "Toto je oblast kde můžete tvořit bez omezení (tzv Sandbox)."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:58
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
 msgid "Save"
 msgstr "Ulož"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
 msgid "Save and Continue"
 msgstr "Ulož a pokračuj"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:167
 msgid "Save and continue editing"
 msgstr "Ulož a pokračuj v editaci"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:152
 msgid "Save and exit"
 msgstr "Ulož a skonči"
 
@@ -3728,7 +3737,7 @@ msgid "Search %1 Web only"
 msgstr "Hledej pouze v rámci webu %1"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:10
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Search && Replace"
 msgstr "Vyhledej && nahraď"
 
@@ -3980,11 +3989,11 @@ msgstr ""
 "Omlouváme se, systém pro správu hesel je v současnosti pouze pro čtení. "
 "Prosím kontaktujte %1"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort ascending"
 msgstr "Seřadit vzestupně"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort descending"
 msgstr "Seřadit sestupně"
 
@@ -3992,11 +4001,11 @@ msgstr "Seřadit sestupně"
 msgid "Sort results by:"
 msgstr "Seřaď výsledky podle:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort selected lines ascending"
 msgstr "Seřadit vybrané řádky vzestupně"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort selected lines descending"
 msgstr "Seřadit vybrané řádky sestupně"
 
@@ -4109,7 +4118,7 @@ msgstr "Horní index"
 msgid "Switch to monotype or proportional font"
 msgstr "Použijte monotype nebo proporcionální font"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
 msgid "Switch to wysiwyg"
 msgstr "Přepni na WYSIWYG"
 
@@ -4900,11 +4909,11 @@ msgstr "Části beze změn před a po každé změně"
 msgid "Underline"
 msgstr "Podtržení"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
 msgid "Undo last change"
 msgstr "Zruš poslední změnu"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:132
 #, fuzzy
 msgid "Unescape markup"
 msgstr "Neeskejpovany :) znak"
@@ -5234,7 +5243,7 @@ msgstr "Varování: Tento server nepovoluje %<nop>INCLUDE% odkazů"
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr "Varování: Nalezeny aktualizace pro %1 rozšíření."
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:442
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Varování: \\'include\\' článek <nop>%1 neexistuje!"
 
@@ -5243,7 +5252,7 @@ msgstr "Varování: \\'include\\' článek <nop>%1 neexistuje!"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Varování: 'include' článek ještě neexistuje!"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:468
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:475
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Varování: definice tabulky v \\'include\\' článku %1 neexistuje!"
 
