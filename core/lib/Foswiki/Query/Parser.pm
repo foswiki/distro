@@ -25,9 +25,6 @@ BEGIN {
     }
 }
 
-use Foswiki::Infix::Parser ();
-our @ISA = ('Foswiki::Infix::Parser');
-
 use Foswiki::Query::Node ();
 
 #             operator name           precedence
@@ -69,6 +66,20 @@ use Foswiki::Query::OP_int    ();    # 1000
 
 use Foswiki::Query::OP_ob ();        # 1100
 
+use Moo;
+use namespace::clean;
+
+extends 'Foswiki::Infix::Parser';
+
+has words => (
+    is      => 'ro',
+    default => sub { qr/([A-Z:][A-Z0-9_:]*|({[A-Z][A-Z0-9_]*})+)/i },
+);
+has nodeClass => (
+    is      => 'rw',
+    default => 'Foswiki::Query::Node',
+);
+
 =begin TML
 Query Language BNF
 <verbatim>
@@ -101,17 +112,13 @@ use constant OPS => qw (match and eq lc lte not ref d2n gte length lt ob
   uc dot gt like ne or where comma plus minus
   neg times div in int );
 
-sub new {
-    my ( $class, $options ) = @_;
+sub BUILD {
+    my $this = shift;
 
-    $options->{words}     ||= qr/([A-Z:][A-Z0-9_:]*|({[A-Z][A-Z0-9_]*})+)/i;
-    $options->{nodeClass} ||= 'Foswiki::Query::Node';
-    my $this = $class->SUPER::new($options);
     foreach my $op ( OPS() ) {
         my $on = 'Foswiki::Query::OP_' . $op;
         $this->addOperator( $on->new() );
     }
-    return $this;
 }
 
 # Ensure there is at least one operand on the opstack when closing

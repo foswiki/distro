@@ -10,12 +10,6 @@ Support for the conditions in %IF{} statements.
 
 package Foswiki::If::Parser;
 
-use strict;
-use warnings;
-
-use Foswiki::Query::Parser ();
-our @ISA = ('Foswiki::Query::Parser');
-
 use Assert;
 use Foswiki::If::Node ();
 
@@ -27,6 +21,11 @@ use Foswiki::If::OP_ingroup ();
 use Foswiki::If::OP_isempty ();
 use Foswiki::If::OP_istopic ();
 use Foswiki::If::OP_isweb   ();
+
+use Moo;
+use namespace::clean;
+
+extends 'Foswiki::Query::Parser';
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -40,16 +39,15 @@ BEGIN {
 use constant OPS => qw(allows context defined dollar ingroup isempty
   istopic isweb );
 
-sub new {
-    my ($class) = @_;
+sub BUILD {
+    my $this = shift;
 
-    my $this = $class->SUPER::new( { nodeClass => 'Foswiki::If::Node', } );
+    $this->nodeClass('Foswiki::If::Node');
+
     foreach my $op ( OPS() ) {
         my $on = 'Foswiki::If::OP_' . $op;
         $this->addOperator( $on->new() );
     }
-
-    return $this;
 }
 
 1;

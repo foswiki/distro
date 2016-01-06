@@ -37,9 +37,9 @@ use constant {
     META   => 5,
 };
 
-has op => ( isa => 'rw', );
+has op => ( is => 'rw', );
 
-has params => ( isa => 'rw', );
+has params => ( is => 'rw', );
 
 =begin TML
 

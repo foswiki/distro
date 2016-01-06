@@ -16,6 +16,8 @@ use strict;
 use warnings;
 
 use CGI;
+use CGI::Carp;
+use Data::Dumper;
 use Foswiki::Engine ();
 our @ISA = ('Foswiki::Engine');
 
@@ -25,6 +27,7 @@ use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
 use Foswiki::Response        ();
 use Unicode::Normalize;
+use Try::Tiny;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -97,8 +100,21 @@ sub run {
         exit 1;
     }
     if ( UNIVERSAL::isa( $req, 'Foswiki::Request' ) ) {
-        my $res = Foswiki::UI::handleRequest($req);
-        $this->finalize( $res, $req );
+        try {
+            my $res = Foswiki::UI::handleRequest($req);
+            $this->finalize( $res, $req );
+        }
+        catch {
+# Whatever error we get here – we generate valid HTTP response. At least we try...
+# This is the last frontier of error handling.
+# SMELL XXX Test code.
+
+            # untie of the handles is required when remote debugging is used.
+            untie(*STDOUT) if tied(*STDOUT);
+            untie(*STDERR) if tied(*STDERR);
+
+            CGI::Carp::confess( $_->{-text} );
+        };
     }
 }
 

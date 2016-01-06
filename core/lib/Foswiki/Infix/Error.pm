@@ -15,11 +15,11 @@ use namespace::clean;
 extends 'Foswiki::Exception';
 
 has expr => (
-    is        => 'ro',
+    is        => 'rw',
     predicate => 1,
 );
 has at => (
-    is        => 'ro',
+    is        => 'rw',
     predicate => 1,
 );
 our @_newParameters = qw(text expr at);

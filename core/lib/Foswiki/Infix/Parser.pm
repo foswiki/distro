@@ -18,23 +18,21 @@ Escapes are supported in strings, using backslash.
 
 package Foswiki::Infix::Parser;
 
-use strict;
-use warnings;
-use Assert;
-use Try::Tiny;
-use Foswiki::Infix::Error;
-use Foswiki::Infix::Node ();
-use Moo;
-use namespace::clean;
-
-extends 'Foswiki::Object';
-
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
         import locale();
     }
 }
+
+use Assert;
+use Try::Tiny;
+use Foswiki::Infix::Error;
+use Foswiki::Infix::Node;
+use Moo;
+use namespace::clean;
+
+extends 'Foswiki::Object';
 
 # Set to 1 for debug
 use constant MONITOR_PARSER => 0;
@@ -84,28 +82,28 @@ be escaped using backslash (\).
 
 # Object properties
 has node_factory => (
-    isa      => 'ro',
+    is       => 'ro',
     init_arg => 'nodeClass',
 );
 
 has operators => (
-    isa     => 'rw',
-    default => sub { []; },
+    is      => 'rw',
+    default => sub { return []; },
 );
 
 has initialised => (
-    isa     => 'rw',
+    is      => 'rw',
     default => 0,
 );
 
 has numbers => (
-    isa     => 'rw',
-    default => qr/(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?/,
+    is      => 'rw',
+    default => sub { qr/(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?/ },
 );
 
 has words => (
-    isa     => 'rw',
-    default => qr/\w+/,
+    is      => 'rw',
+    default => sub { qr/\w+/ },
 );
 
 # Break circular references.
@@ -314,15 +312,18 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x\{[a-fA-F0-9]+\}|n|t|\\|$q)/eval('"\\'.$1
         }
         elsif {
             # XXX $_ has to be carefully examined
-            Foswiki::Infix::Error->throw( $_->text, $expr, $$input );
+            my $text;
+            if ( $_->isa('Error') || $_->isa('Error::Simple') ) {
+                $text = $_->{-text};
+            }
+            else {
+                $text = $_->text;
+            }
+
+            Foswiki::Infix::Error->throw( $text, $expr, $$input );
         }
     };
 
-    #catch Error with {
-
-    #    # Catch errors thrown during the tree building process
-    #    throw Foswiki::Infix::Error( shift, $expr, $$input );
-    #};
     Foswiki::Infix::Error->throw( 'Missing operator', $expr, $$input )
       unless scalar(@opands) == 1;
     Foswiki::Infix::Error->throw(
