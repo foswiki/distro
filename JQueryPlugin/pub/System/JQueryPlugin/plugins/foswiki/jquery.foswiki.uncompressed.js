@@ -172,6 +172,11 @@ var foswiki = foswiki || {
       url += scriptUrlPaths[script];
     }
 
+    if (typeof(topic) !== 'undefined' && topic.match(/^(.*)(?:\.|\/)(.*?)$/) ) {
+      web = RegExp.$1;
+      topic = RegExp.$2;
+    }
+
     if (typeof(web) !== 'undefined') {
       url += "/"+web;
     }
