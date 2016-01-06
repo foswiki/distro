@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1443573973" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1452097309" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+ Skin Templates
@@ -52,7 +52,7 @@ You can use a block before _or_ after declaring it. If you define the same
 block twice, only the second definition is used.
 
 <div class="foswikiHelp">
-%X% Most template directives work only for templates: they do not get processed in normal topic text. The one exception is =%TMPL:P=.
+%X% Most template directives work only for templates: they do not get processed in normal topic text. The one exception is =TMPL:P=, which is expanded in normal text (and also when a TopicTemplate is expanded).
 </div>
 
 ---+++ Parameters to blocks
@@ -199,15 +199,15 @@ The rules defined by the out-of-the-box setting of ={TemplatePath}= are:
    7 =$web.$nameTemplate=
    8 =%SYSTEMWEB%.$nameTemplate=
 For example, let's say we are viewing a topic in web =%SANDBOXWEB%= and are searching for the template called =function=. The skin path is set to =custom,pattern=. The following locations will be considered in turn, until a template is found:
-   1 =templates/%SANDBOXWEB%/function.custom.tmpl= _(rule 1)_ :skull:
-   1 =templates/%SANDBOXWEB%/function.pattern.tmpl= _(rule 1)_ :skull:
+   1 :skull: =templates/%SANDBOXWEB%/function.custom.tmpl= _(rule 1)_
+   1 :skull: =templates/%SANDBOXWEB%/function.pattern.tmpl= _(rule 1)_
    2 =templates/function.custom.tmpl= _(rule 2)_
    2 =templates/function.pattern.tmpl= _(rule 2)_
    3 =%SANDBOXWEB%.CustomSkinFunctionTemplate= _(rule 3)_
    3 =%SANDBOXWEB%.PatternSkinFunctionTemplate= _(rule 3)_
    4 =%SYSTEMWEB%.CustomSkinFunctionTemplate= _(rule 4)_
    4 =%SYSTEMWEB%.PatternSkinFunctionTemplate= _(rule 4)_
-   5 =templates/%SANDBOXWEB%/function.tmpl= _(rule 5)_ :skull:
+   5 :skull: =templates/%SANDBOXWEB%/function.tmpl= _(rule 5)_
    6 =templates/function.tmpl= _(rule 6)_
    7 =%SANDBOXWEB%.FunctionTemplate= _(rule 7)_
    8 =%SYSTEMWEB%.FunctionTemplate= _(rule 8)_
@@ -328,12 +328,12 @@ see what PatternSkin defines.
 
 %STOPINCLUDE%
 
-%META:FILEATTACHMENT{name="oopsmore_diff_debug.gif" attr="h" comment="" date="1443573973" size="3205" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default.css.gz" attr="h" comment="" date="1443573973" size="2072" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base.css.gz" attr="h" comment="" date="1443573973" size="1331" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_sidebyside.gif" attr="h" comment="" date="1443573973" size="1994" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base_src.css" attr="h" comment="" date="1443573973" size="6780" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base.css" attr="h" comment="" date="1443573973" size="5196" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_sequential.gif" attr="h" comment="" date="1443573973" size="3464" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default_src.css" attr="h" comment="" date="1443573973" size="11093" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default.css" attr="h" comment="" date="1443573973" size="8209" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_debug.gif" attr="h" comment="" date="1452097309" size="3205" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default.css.gz" attr="h" comment="" date="1452097309" size="2072" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base.css.gz" attr="h" comment="" date="1452097309" size="1331" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_sidebyside.gif" attr="h" comment="" date="1452097309" size="1994" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base_src.css" attr="h" comment="" date="1452097309" size="6780" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base.css" attr="h" comment="" date="1452097309" size="5196" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_sequential.gif" attr="h" comment="" date="1452097309" size="3464" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default_src.css" attr="h" comment="" date="1452097309" size="11093" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default.css" attr="h" comment="" date="1452097309" size="8209" user="ProjectContributor" version="1"}%

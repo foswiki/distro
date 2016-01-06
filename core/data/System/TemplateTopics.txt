@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443573973" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1452097309" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 #TemplateTopics
 ---+ Template topics
@@ -29,7 +29,15 @@ When you create a new topic using the =edit= script, the system locates a templa
 #TemplateTopicsVars
 ---++ Macro expansion
 
-When the following macros are used in a template topic, they automatically get expanded when new topic is created based on it:
+Any Foswiki macro can be automatically expanded during templated topic
+creation by prepending =TMPL:= to the macro name. For example,
+=%<nop>TMPL:DATE%= will be expanded to the date that the
+templated topic was created. SkinTemplates can also be expanded
+using =%<nop>TMPL:P{"templatename}%=.
+
+---+++ Compatibility
+
+For compatibility with versions of Foswiki < 2.1, when the following macros are used in a template topic, they automatically get expanded when a new topic is created based on it:
 
 | *Macro:* | *Description:* |
 | =%<nop>DATE%= | Signature format date. See VarDATE |
