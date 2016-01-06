@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1448672408" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1452051085" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -100,7 +100,7 @@ Apache user should issue the following commands:
 
 ---+++!! RedHat, SuSE, CentOS and other RPM based distributions
 
-%TWISTY{ showlink="Show RetHat, SuSE and other RPM details" hidelink="Hide RPM details"}%
+%TWISTY{ showlink="Show RedHat, SuSE and other RPM details" hidelink="Hide RPM details"}%
 
 ---++++!! Minimum requirements
 
