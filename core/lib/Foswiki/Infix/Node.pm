@@ -11,8 +11,6 @@ defines the interface used to construct nodes from the parser.
 
 package Foswiki::Infix::Node;
 
-use strict;
-use warnings;
 use Assert;
 
 use Moo;
@@ -132,7 +130,10 @@ sub stringify {
         }
     }
     if ( $this->op->{arity} ) {
-        use Foswiki::Query::Node;
+
+        # SMELL Why use? Why here? What's the purpose?
+        # Commented out for a while.
+        #use Foswiki::Query::Node;
         return
           $this->op->{name} . '{'
           . join( ',', map { stringify($_) } @{ $this->params } ) . '}';

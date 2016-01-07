@@ -1,4 +1,5 @@
 # See bottom of file for license and copyright information
+use v5.14;
 
 =begin TML
 
@@ -109,11 +110,21 @@ sub run {
 # This is the last frontier of error handling.
 # SMELL XXX Test code.
 
-            # untie of the handles is required when remote debugging is used.
-            untie(*STDOUT) if tied(*STDOUT);
-            untie(*STDERR) if tied(*STDERR);
+            # SMELL This block is to be reconsidered.
+            if ( !ref($_) ) {
+                say STDERR "CGI::catch simple text: $_";
+                CGI::Carp::confess($_);
+            }
+            elsif ( $_->isa('Error') || $_->isa('Error::Simple') ) {
+                say STDERR "CGI::catch Error derivative: $_->{-text}";
+                CGI::Carp::confess( $_->{-text} );
+            }
+            else {
+                say STDERR "CGI::catch Foswiki::Exception derivative: ",
+                  $_->text;
+                CGI::Carp::confess( $_->text );
+            }
 
-            CGI::Carp::confess( $_->{-text} );
         };
     }
 }

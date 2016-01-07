@@ -1,4 +1,5 @@
 # See bottom of file for license and copyright information
+use v5.14;
 
 =begin TML
 
@@ -27,8 +28,8 @@ BEGIN {
 
 use Assert;
 use Try::Tiny;
-use Foswiki::Infix::Error;
-use Foswiki::Infix::Node;
+use Foswiki::Infix::Error ();
+use Foswiki::Infix::Node  ();
 use Moo;
 use namespace::clean;
 
@@ -81,9 +82,15 @@ be escaped using backslash (\).
 =cut
 
 # Object properties
+# node_factory is only a readability alias to nodeClass property.
 has node_factory => (
-    is       => 'ro',
+    is       => 'rwp',
     init_arg => 'nodeClass',
+);
+
+has nodeClass => (
+    is      => 'rw',
+    trigger => sub { $_[0]->{node_factory} = $_[1]; },
 );
 
 has operators => (
@@ -98,12 +105,12 @@ has initialised => (
 
 has numbers => (
     is      => 'rw',
-    default => sub { qr/(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?/ },
+    default => sub { return qr/(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?/ },
 );
 
 has words => (
     is      => 'rw',
-    default => sub { qr/\w+/ },
+    default => sub { return qr/\w+/ },
 );
 
 # Break circular references.
@@ -228,9 +235,12 @@ sub _parse {
 
                     # op is a word name, and is in an operand position,
                     # and is not unary. Treat it as an operand.
-                    push( @opands,
-                        $this->{node_factory}
-                          ->newLeaf( $opname, Foswiki::Infix::Node::NAME ) );
+                    push(
+                        @opands,
+                        $this->node_factory->newLeaf(
+                            $opname, Foswiki::Infix::Node::NAME
+                        )
+                    );
                     print STDERR "Operand: name '$opname'\n" if MONITOR_PARSER;
                     $lastTokWasOper = 0;
                     next;
@@ -259,25 +269,34 @@ sub _parse {
                 # expansions such as \n are handled
                 $val =~
 s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x\{[a-fA-F0-9]+\}|n|t|\\|$q)/eval('"\\'.$1.'"')/ge;
-                push( @opands,
-                    $this->{node_factory}
-                      ->newLeaf( $val, Foswiki::Infix::Node::STRING ) );
+                push(
+                    @opands,
+                    $this->node_factory->newLeaf(
+                        $val, Foswiki::Infix::Node::STRING
+                    )
+                );
                 $lastTokWasOper = 0;
             }
             elsif ( $$input =~ s/^\s*($this->{numbers})// ) {
                 my $val = 0 + $1;
                 print STDERR "Operand: number $val\n" if MONITOR_PARSER;
-                push( @opands,
-                    $this->{node_factory}
-                      ->newLeaf( $val, Foswiki::Infix::Node::NUMBER ) );
+                push(
+                    @opands,
+                    $this->node_factory->newLeaf(
+                        $val, Foswiki::Infix::Node::NUMBER
+                    )
+                );
                 $lastTokWasOper = 0;
             }
             elsif ( $$input =~ s/^\s*($this->{words})// ) {
                 print STDERR "Operand: word '$1'\n" if MONITOR_PARSER;
                 my $val = $1;
-                push( @opands,
-                    $this->{node_factory}
-                      ->newLeaf( $val, Foswiki::Infix::Node::NAME ) );
+                push(
+                    @opands,
+                    $this->node_factory->newLeaf(
+                        $val, Foswiki::Infix::Node::NAME
+                    )
+                );
                 $lastTokWasOper = 0;
             }
             elsif ( $$input =~ s/^\s*($this->{bracket_op_REs})// ) {
@@ -310,13 +329,25 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x\{[a-fA-F0-9]+\}|n|t|\\|$q)/eval('"\\'.$1
         if ( $_->isa('Foswiki::Infix::Error') ) {
             $_->throw;
         }
-        elsif {
-            # XXX $_ has to be carefully examined
+        else {
             my $text;
-            if ( $_->isa('Error') || $_->isa('Error::Simple') ) {
+
+            # SMELL $_ has to be carefully examined
+            if ( !ref($_) ) {
+                $text = $_;
+            }
+            elsif ( $_->isa('Error') || $_->isa('Error::Simple') ) {
+
+    # SMELL This is temporary solution for converting exceptions coming from the
+    # deprecated Error.
                 $text = $_->{-text};
             }
             else {
+ # Whenever $_ is a ref and not a Error derivative then it has to be a
+ # Foswiki::Exception. SMELL XXX But if it's not then it a big FAIL which has to
+ # be taken care somehow. Yet, as this is gonna be a common issue for any
+ # location where exceptions are being handled then a centralized solution would
+ # nice to have.
                 $text = $_->text;
             }
 
@@ -369,7 +400,7 @@ sub _apply {
             push( @$opands,                 $prams[0] );
         }
         else {
-            push( @$opands, $this->{node_factory}->newNode( $op, @prams ) );
+            push( @$opands, $this->node_factory->newNode( $op, @prams ) );
         }
     }
 }

@@ -26,20 +26,21 @@ query algorithms.
 =cut
 
 package Foswiki::Query::Node;
-use strict;
-use warnings;
-use Foswiki::Infix::Node ();
-our @ISA = ('Foswiki::Infix::Node');
 
 use Assert;
-use Error qw( :try );
+use Try::Tiny;
 
 use Foswiki::Meta ();
-
-# <DEBUG SUPPORT>
+use Foswiki::Infix::Node ();
 
 use constant MONITOR_EVAL => 0;
 use constant MONITOR_FOLD => 0;
+
+use Moo;
+use namespace::clean;
+extends 'Foswiki::Infix::Node';
+
+# <DEBUG SUPPORT>
 
 # Cache of the names of $Foswiki::cfg items that are accessible
 our $isAccessibleCfg;
@@ -66,8 +67,8 @@ This hash is maintained by Foswiki::Meta and is *strictly read-only*
 
 # These used to be declared here, but have been refactored back into
 # Foswiki::Meta
-*aliases     = \%Foswiki::Meta::aliases;
-*isArrayType = \%Foswiki::Meta::isArrayType;
+#*aliases     = \%Foswiki::Meta::aliases;
+#*isArrayType = \%Foswiki::Meta::isArrayType;
 
 our $emptyExprOp;
 our $commaOp;
@@ -121,10 +122,10 @@ my $ind = 0;
 # We expand config vars to constant strings during the parse, because
 # otherwise we'd have to export the knowledge of config vars out to other
 # engines that may evaluate queries instead of the default evaluator.
-sub newLeaf {
+before newLeaf => sub {
     my ( $class, $val, $type ) = @_;
 
-    if (   $type == Foswiki::Infix::Node::NAME
+    if (   $type == &Foswiki::Infix::Node::NAME
         && $val =~ m/^({[A-Z][A-Z0-9_]*})+$/i )
     {
 
@@ -135,12 +136,12 @@ sub newLeaf {
         }
         $val =
           ( $isAccessibleCfg->{$val} ) ? eval( '$Foswiki::cfg' . $val ) : '';
-        return $class->SUPER::newLeaf( $val, Foswiki::Infix::Node::STRING );
+
+        # Modified @_ will be passed over to the original newLeaf method.
+        $_[1] = $val;
+        $_[2] = &Foswiki::Infix::Node::STRING;
     }
-    else {
-        return $class->SUPER::newLeaf( $val, $type );
-    }
-}
+};
 
 =begin TML
 

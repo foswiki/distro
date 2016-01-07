@@ -3,6 +3,7 @@ package Foswiki;
 
 use strict;
 use warnings;
+use Try::Tiny;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {

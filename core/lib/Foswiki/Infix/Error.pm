@@ -9,9 +9,9 @@ Class of errors used with Foswiki::Infix::Parser
 =cut
 
 package Foswiki::Infix::Error;
+use Foswiki::Exception ();
 use Moo;
 use namespace::clean;
-
 extends 'Foswiki::Exception';
 
 has expr => (
@@ -33,13 +33,13 @@ BEGIN {
 
 around text => sub {
     my $orig = shift;
-    my $self = shift;
-    my $text = $self->message;
-    if ( $self->has_expr ) {
-        $text .= " in '" . $self->expr . "'";
+    my $this = shift;
+    my $text = $orig->($this);
+    if ( $this->has_expr ) {
+        $text .= " in '" . $this->expr . "'";
     }
-    if ( $self->has_at ) {
-        $text .= " at '" . $self->at . "'";
+    if ( $this->has_at ) {
+        $text .= " at '" . $this->at . "'";
     }
     return $text;
 };

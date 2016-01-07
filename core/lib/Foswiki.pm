@@ -43,7 +43,6 @@ with CGI accelerators such as mod_perl.
 
 use strict;
 use warnings;
-use Assert;
 use Cwd qw( abs_path );
 use Try::Tiny;
 use File::Spec               ();
@@ -103,6 +102,8 @@ use Moo;
 use namespace::clean;
 
 extends 'Foswiki::Object';
+
+use Assert;
 
 sub SINGLE_SINGLETONS       { 0 }
 sub SINGLE_SINGLETONS_TRACE { 0 }

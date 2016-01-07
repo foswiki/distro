@@ -75,10 +75,6 @@ has words => (
     is      => 'ro',
     default => sub { qr/([A-Z:][A-Z0-9_:]*|({[A-Z][A-Z0-9_]*})+)/i },
 );
-has nodeClass => (
-    is      => 'rw',
-    default => 'Foswiki::Query::Node',
-);
 
 =begin TML
 Query Language BNF
@@ -114,6 +110,9 @@ use constant OPS => qw (match and eq lc lte not ref d2n gte length lt ob
 
 sub BUILD {
     my $this = shift;
+
+    $this->nodeClass('Foswiki::Query::Node')
+      unless $this->has_nodeClass;
 
     foreach my $op ( OPS() ) {
         my $on = 'Foswiki::Query::OP_' . $op;
