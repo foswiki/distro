@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-30 08:27+0200\n"
+"PO-Revision-Date: 2016-01-08 13:44+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
-"foswiki/distribution-master/zh_TW/>\n"
+"Language-Team: Traditional Chinese "
+"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -213,9 +213,8 @@ msgstr "%4 將 %3 的 %2 更名或移到 %1"
 
 #. ("%SYSTEMWEB%.$pluginName",                "${templateName}Template")
 #: AutoViewTemplatePlugin/lib/Foswiki/Plugins/AutoViewTemplatePlugin.pm:97
-#, fuzzy
 msgid "%1: Invalid template name (%2) - Contains invalid characters."
-msgstr "主題名稱 (%1) 包含無效字元。"
+msgstr "%1: 無效的範本名稱 (%2) - 包含無效字元。"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -1086,7 +1085,7 @@ msgstr "改變主題"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
 msgid "Changed by:"
-msgstr "變更者："
+msgstr "變更者:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 msgid "Changed on"
@@ -1297,7 +1296,6 @@ msgid "Country:"
 msgstr "國家："
 
 #: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
 msgid "Create New FAQ Topic"
 msgstr "建立新的熱門問答主題"
 
@@ -1381,7 +1379,7 @@ msgstr "目前的密碼:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
 msgid "Data Form Table Header"
-msgstr ""
+msgstr "資料來自表格的表頭"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
@@ -1652,7 +1650,7 @@ msgstr "放大編輯框"
 
 #: core/templates/more.tmpl:102
 msgid "Enter __none__ to clear the topic parent"
-msgstr ""
+msgstr "輸入 __none__ 以清除母主題設定"
 
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
@@ -1870,9 +1868,8 @@ msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
 msgstr "取得新版 <a href='%1' rel='nofollow'>這裡</a>。"
 
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
-#, fuzzy
 msgid "Get a fresh version <a href='%1'>here</a>."
-msgstr "取得新版 <a href='%1' rel='nofollow'>這裡</a>。"
+msgstr "取得新版 <a href='%1'>這裡</a>。"
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
@@ -2999,7 +2996,7 @@ msgstr "密碼重設失敗。"
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:155
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 msgid "Password:"
-msgstr "密碼："
+msgstr "密碼:"
 
 #: core/templates/registermessages.tmpl:136
 msgid "Passwords disabled"
@@ -3951,7 +3948,7 @@ msgstr "訂閱這個主題"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
 msgid "Subscribe to this topic (s)"
-msgstr "訂閱這個（些）主題"
+msgstr "訂閱這（些）主題"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:54
 msgid "Subscript"
