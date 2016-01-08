@@ -7,10 +7,11 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-30 08:27+0200\n"
+"PO-Revision-Date: 2016-01-08 13:44+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
-"foswiki/distribution-release-11/zh_TW/>\n"
+"Language-Team: Traditional Chinese "
+"<http://translate.foswiki.org/projects/foswiki/distribution-"
+"release-11/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -965,9 +966,8 @@ msgid "Change topic"
 msgstr "改變主題"
 
 #: MailerContrib/templates/mailnotify.tmpl:18
-#, fuzzy
 msgid "Changed by:"
-msgstr "變更者"
+msgstr "變更者:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:30
 msgid "Changed on"
@@ -1042,9 +1042,8 @@ msgid "Comment"
 msgstr "評論"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:81
-#, fuzzy
 msgid "Commenting is disabled for static viewing"
-msgstr "非瀏覽模式，禁止評論"
+msgstr "靜態瀏覽模式禁止評論"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
 msgid "Commenting is disabled when not in view context"
@@ -1268,9 +1267,8 @@ msgid "Describe the file so other people know what it is."
 msgstr "檔案說明，方便其他人瞭解檔案內容。"
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
-#, fuzzy
 msgid "Description"
-msgstr "問題"
+msgstr "描述"
 
 #: core/lib/Foswiki/Form.pm:328
 msgid "Details in separate window"
@@ -1506,7 +1504,7 @@ msgstr "駭客"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:24
 msgid "Exit"
-msgstr ""
+msgstr "離開"
 
 #: core/lib/Foswiki/Plugins.pm:376
 msgid "Failed plugins"
@@ -1542,9 +1540,8 @@ msgid "Find topics that link to %1 ..."
 msgstr "找連到 %1 的主題..."
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:20
-#, fuzzy
 msgid "First"
-msgstr "第一"
+msgstr "名"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:141
 msgid "First name"
@@ -1854,7 +1851,7 @@ msgstr ""
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
 msgid "Image"
-msgstr ""
+msgstr "圖片"
 
 #. ("{x}", "{y}")
 #: JQueryPlugin/lib/Foswiki/Plugins/JQueryPlugin/SLIMBOX.pm:60
@@ -2193,9 +2190,8 @@ msgid "Name of new web is missing"
 msgstr "新子網名稱遺失"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:151
-#, fuzzy
 msgid "Name:"
-msgstr "名"
+msgstr "名:"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:9
 msgid "Navigate to a similar topic"
@@ -2440,9 +2436,8 @@ msgid "Password reset failed"
 msgstr "密碼重設失敗"
 
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:155
-#, fuzzy
 msgid "Password:"
-msgstr "密碼"
+msgstr "密碼:"
 
 #: core/templates/messages.tmpl:174
 msgid "Passwords disabled"
@@ -3112,7 +3107,7 @@ msgstr "選 =全= 代表所有子網，或以逗號分隔的子網清單： %1"
 #: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
 #: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
-msgstr ""
+msgstr "開始簡報"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
@@ -3155,16 +3150,14 @@ msgid "Subscribe / Unsubscribe in:"
 msgstr "訂閱/退訂:"
 
 #: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:1
-#, fuzzy
 msgid "Subscribe to this topic"
-msgstr "建立這個主題"
+msgstr "訂閱這個主題"
 
 #: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:2
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:13
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:14
-#, fuzzy
 msgid "Subscribe to this topic (s)"
-msgstr "列印本主題 (p)"
+msgstr "訂閱這（些）主題"
 
 #: core/data/System/WebSearch.txt:124 core/data/System/WebSearch.txt:154
 msgid "Subwebs"
