@@ -3308,7 +3308,6 @@ sub putBackBlocks {
 # can be performed on expanded tags.
 sub _processMacros {
     my ( $this, $text, $tagf, $topicObject, $depth ) = @_;
-    my $tell = 0;
 
     return '' if ( ( !defined($text) )
         || ( $text eq '' ) );
@@ -3344,13 +3343,13 @@ sub _processMacros {
         #print STDERR "QUEUE:".join("\n      ", map { "'$_'" } @queue)."\n";
         my $token = shift(@queue);
 
-        #print STDERR ' ' x $tell,"PROCESSING $token \n";
+        #print STDERR "UNQUEUE $token \n";
 
         # each % sign either closes an existing stacked context, or
         # opens a new context.
         if ( $token eq '%' ) {
 
-            #print STDERR ' ' x $tell,"CONSIDER $stackTop\n";
+            #print STDERR " STACKTOP $stackTop\n";
             # If this is a closing }%, try to rejoin the previous
             # tokens until we get to a valid tag construct. This is
             # a bit of a hack, but it's hard to think of a better
@@ -3358,82 +3357,89 @@ sub _processMacros {
             # in tag parameters into account.
             if ( $stackTop =~ m/}$/s ) {
                 while ( scalar(@stack)
-                    && $stackTop !~ /^%$regex{tagNameRegex}\{.*}$/s )
+                    && $stackTop !~ /^%($regex{tagNameRegex}|)\{.*}$/s )
                 {
                     my $top = $stackTop;
 
-                    #print STDERR ' ' x $tell,"COLLAPSE $top \n";
+                    #print STDERR " COLLAPSE $top \n";
                     $stackTop = pop(@stack) . $top;
                 }
             }
 
+            if ( $stackTop =~ /^%\{.*\}$/s ) {
+
+                # Comment, ignore it
+                #print STDERR " IGNORE $stackTop $tag\n";
+                $stackTop = '';    # no new context
+                next;              # token
+            }
+
             # /s so you can have newlines in parameters
-            if ( $stackTop =~ m/^%(($regex{tagNameRegex})(?:{(.*)})?)$/s ) {
+            if ( $stackTop !~ m/^%(($regex{tagNameRegex}|)(?:{(.*)})?)$/s ) {
 
-                # SMELL: unchecked implicit untaint?
-                my ( $expr, $tag, $args ) = ( $1, $2, $3 );
-
-                #Foswiki::Func::writeDebug("POP $tag") if $tracing;
-                #Monitor::MARK("Before $tag");
-                my $e = &$tagf( $this, $tag, $args, $topicObject );
-
-                #Monitor::MARK("After $tag");
-
-                if ( defined($e) ) {
-
-                  #Foswiki::Func::writeDebug("EXPANDED $tag -> $e") if $tracing;
-                    $stackTop = pop(@stack);
-
-                    # Don't bother recursively expanding unless there are
-                    # unexpanded tags in the result.
-                    unless ( $e =~ m/%$regex{tagNameRegex}(?:{.*})?%/s ) {
-                        $stackTop .= $e;
-                        next;
-                    }
-
-                    # Recursively expand tags in the expansion of $tag
-                    $stackTop .=
-                      $this->_processMacros( $e, $tagf, $topicObject,
-                        $depth - 1 );
-                }
-                else {
-
-                   #Foswiki::Func::writeDebug("EXPAND $tag FAILED") if $tracing;
-                   # To handle %NOP
-                   # correctly, we have to handle the %VAR% case differently
-                   # to the %VAR{}% case when a variable expansion fails.
-                   # This is so that recursively define variables e.g.
-                   # %A%B%D% expand correctly, but at the same time we ensure
-                   # that a mismatched }% can't accidentally close a context
-                   # that was left open when a tag expansion failed.
-                   # However TWiki didn't do this, so for compatibility
-                   # we have to accept that %NOP can never be fixed. if it
-                   # could, then we could uncomment the following:
-
-                    #if( $stackTop =~ m/}$/ ) {
-                    #    # %VAR{...}% case
-                    #    # We need to push the unexpanded expression back
-                    #    # onto the stack, but we don't want it to match the
-                    #    # tag expression again. So we protect the %'s
-                    #    $stackTop = "&#37;$expr&#37;";
-                    #} else
-                    #{
-
-                    # %VAR% case.
-                    # In this case we *do* want to match the tag expression
-                    # again, as an embedded %VAR% may have expanded to
-                    # create a valid outer expression. This is directly
-                    # at odds with the %VAR{...}% case.
-                    push( @stack, $stackTop );
-                    $stackTop = '%';    # open new context
-                                        #}
-                }
-            }
-            else {
+                # Not a valid tag expr
                 push( @stack, $stackTop );
-                $stackTop = '%';        # push a new context
-                                        #$tell++;
+                $stackTop = '%';    # push a new context
+                next;               # token
             }
+
+            # SMELL: unchecked implicit untaint?
+            my ( $expr, $tag, $args ) = ( $1, $2, $3 );
+
+            $stackTop = '%';        # open new context
+
+            #print STDERR " POP $tag\n";
+            my $e = &$tagf( $this, $tag, $args, $topicObject );
+
+            #Monitor::MARK("After $tag");
+
+            if ( defined($e) ) {
+
+                #print STDERR " EXPANDED $tag -> $e\n";
+                $stackTop = pop(@stack);
+
+                # Don't bother recursively expanding unless there are
+                # unexpanded tags in the result.
+                unless ( $e =~ m/%($regex{tagNameRegex})(?:{.*})?%/s ) {
+                    $stackTop .= $e;
+                    next;
+                }
+
+                # Recursively expand tags in the expansion of $tag
+                $stackTop .=
+                  $this->_processMacros( $e, $tagf, $topicObject, $depth - 1 );
+                next;    # token
+            }
+
+            #print STDERR " EXPAND $tag FAILED\n";
+            # To handle %NOP
+            # correctly, we have to handle the %VAR% case differently
+            # to the %VAR{}% case when a variable expansion fails.
+            # This is so that recursively define variables e.g.
+            # %A%B%D% expand correctly, but at the same time we ensure
+            # that a mismatched }% can't accidentally close a context
+            # that was left open when a tag expansion failed.
+            # However TWiki didn't do this, so for compatibility
+            # we have to accept that %NOP can never be fixed. if it
+            # could, then we could uncomment the following:
+
+            #if( $stackTop =~ m/}$/ ) {
+            #    # %VAR{...}% case
+            #    # We need to push the unexpanded expression back
+            #    # onto the stack, but we don't want it to match the
+            #    # tag expression again. So we protect the %'s
+            #    $stackTop = "&#37;$expr&#37;";
+            #} else
+            #{
+
+            # %VAR% case.
+            # In this case we *do* want to match the tag expression
+            # again, as an embedded %VAR% may have expanded to
+            # create a valid outer expression. This is directly
+            # at odds with the %VAR{...}% case.
+            push( @stack, $stackTop );
+            $stackTop = '%';    # open new context
+                                #}
         }
         else {
             $stackTop .= $token;
