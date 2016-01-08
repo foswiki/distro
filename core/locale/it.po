@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-29 20:22+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/it/>\n"
+"PO-Revision-Date: 2016-01-08 16:05+0200\n"
+"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
+"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1359,7 +1359,6 @@ msgid "Country:"
 msgstr "Nazione:"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
 msgid "Create New FAQ Topic"
 msgstr "Crea una nuova pagina di FAQ"
 
@@ -1443,7 +1442,7 @@ msgstr "Password attuale:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
 msgid "Data Form Table Header"
-msgstr ""
+msgstr "Tabella Intestazioni Form Dati"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
@@ -1731,7 +1730,7 @@ msgstr "Allarga la finestra di modifica"
 
 #: core/templates/more.tmpl:102
 msgid "Enter __none__ to clear the topic parent"
-msgstr ""
+msgstr "Digitare __none__ per annullare la pagina padre"
 
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
@@ -1957,9 +1956,8 @@ msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
 msgstr "Scarica una nuova versione da <a href='%1' rel='nofollow'>qui</a>."
 
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
-#, fuzzy
 msgid "Get a fresh version <a href='%1'>here</a>."
-msgstr "Scarica una nuova versione da <a href='%1' rel='nofollow'>qui</a>."
+msgstr "Scarica una nuova versione da <a href='%1'>qui</a>."
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
@@ -2398,9 +2396,8 @@ msgid "Insert a color code"
 msgstr "Indicare un codice colore"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
-#, fuzzy
 msgid "Insert a data form table header"
-msgstr "Inserire una formula matematica"
+msgstr "Inserire le intestazioni di tabella del modulo dati"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
@@ -5838,9 +5835,8 @@ msgstr "aiuto"
 
 #: core/data/Sandbox/WebHome.txt:11
 #: core/data/System/FrequentlyAskedQuestions.txt:47
-#, fuzzy
 msgid "hide form"
-msgstr "Aggiungi modulo"
+msgstr "nascondi form"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"
