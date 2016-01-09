@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-21 01:06+0200\n"
-"Last-Translator: GeorgeClark <geonwiki@fenachrone.com>\n"
+"PO-Revision-Date: 2016-01-09 09:26+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/de/>\n"
 "Language: de\n"
@@ -3011,11 +3011,11 @@ msgstr "Änderungen ansehen in:"
 #: HistoryPlugin/templates/oopshistory.tmpl:29
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
-msgstr "Revision"
+msgstr "Version"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:12
 msgid "Revision history of %1"
-msgstr "Revisions-Historie von %1"
+msgstr "Versionsgeschichte von %1"
 
 #: core/templates/more.tmpl:138
 msgid "Revisions"
