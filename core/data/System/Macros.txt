@@ -479,7 +479,7 @@ The following is a working example using the Foswiki FAQ topics follows. You can
   format+="|$formfield(TopicTitle)"
 
   header+="|*Topic*"
-  format+="|$web$topic"
+  format+="|$web.$topic"
 
   header+="|*Summary*"
   format+="|$formfield(TopicSummary)"
@@ -501,7 +501,7 @@ This gives:
   format+="|$formfield(TopicTitle)"
 
   header+="|*Topic*"
-  format+="|$web$topic"
+  format+="|$web.$topic"
 
   header+="|*Summary*"
   format+="|$formfield(TopicSummary)"
