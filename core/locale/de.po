@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-10 00:01+0200\n"
-"Last-Translator: Oliver Krüger <foswiki@oliverkrueger.de>\n"
-"Language-Team: German <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/de/>\n"
+"PO-Revision-Date: 2016-01-09 09:26+0200\n"
+"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"Language-Team: German <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1368,7 +1368,6 @@ msgid "Country:"
 msgstr "Land:"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
 msgid "Create New FAQ Topic"
 msgstr "Neues FAQ-Topic anlegen"
 
@@ -1452,7 +1451,7 @@ msgstr "Aktuelles Passwort:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
 msgid "Data Form Table Header"
-msgstr ""
+msgstr "Tabellen-Überschrift für Formulardaten"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
@@ -1747,7 +1746,7 @@ msgstr "Bearbeitungsfenster vergrößern"
 #: core/templates/more.tmpl:102
 #, fuzzy
 msgid "Enter __none__ to clear the topic parent"
-msgstr "keiner (Ober-Topic Verknüpfung entfernen)"
+msgstr "__none__ einfügen um Ober-Topic zu entfernen"
 
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
@@ -1979,10 +1978,8 @@ msgstr ""
 "Rufen Sie die aktuelle Version <a href='%1' rel='nofollow'>hier</a> ab."
 
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
-#, fuzzy
 msgid "Get a fresh version <a href='%1'>here</a>."
-msgstr ""
-"Rufen Sie die aktuelle Version <a href='%1' rel='nofollow'>hier</a> ab."
+msgstr "Rufen Sie die aktuelle Version <a href='%1'>hier</a> ab."
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
@@ -2427,9 +2424,8 @@ msgid "Insert a color code"
 msgstr "Farbe hier einfügen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
-#, fuzzy
 msgid "Insert a data form table header"
-msgstr "Mathematische Formel einfügen"
+msgstr "Tabellen-Überschrift für Formulardaten einfügen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
@@ -3729,11 +3725,11 @@ msgstr "Änderungen ansehen in:"
 #: HistoryPlugin/templates/oopshistory.tmpl:29
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 msgid "Revision"
-msgstr "Revision"
+msgstr "Version"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:12
 msgid "Revision history of %1"
-msgstr "Revisions-Historie von %1"
+msgstr "Versionsgeschichte von %1"
 
 #: core/templates/more.tmpl:136
 msgid "Revisions"
@@ -5896,9 +5892,8 @@ msgstr "Hilfe"
 
 #: core/data/Sandbox/WebHome.txt:11
 #: core/data/System/FrequentlyAskedQuestions.txt:47
-#, fuzzy
 msgid "hide form"
-msgstr "Formular hinzufügen"
+msgstr "Formular verstecken"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"
