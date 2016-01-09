@@ -1,16 +1,24 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1452350387" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Macros
 
 Special text strings expand on the fly to display information, or trigger a function.
 
-Macros are text strings in one of two forms:
+Macros are text strings in one of three basic forms:
 
 <verbatim class="tml">
 %MACRONAME%
 %MACRONAME{ parameter="value" }%
+%MACRONAME{
+  param1="value "
+        +"& more "
+  param2="whatever"
+  param1+="and even more"
+}%
 </verbatim>
+
+The third form is a new feature in Foswiki 2.1 to significantly improve readability with complex macros, see [[#Readable_Macros][Readable Macros]] for details.
 
 These usually expand into content when a topic is rendered for viewing. There are two types of macros:
    1 [[PreferenceSettings][Preference settings]]: May be defined and modified by the user
@@ -299,8 +307,215 @@ Most predefined macros return values that were either set in the configuration w
 
 %IF{"'%INCLUDINGTOPIC%'!='CompleteDocumentation'" then="See MacrosQuickReference for a complete list of predefined macros in your installation."}%
 
+---++ Readable Macros
+
+Some macros can become quite complex and, as such, hard to read. Over the years changes have been made to make this easier. For some time it has been possible to break a macro over multiple lines. Nonetheless, each parameter can easily extend onto many lines (it can after all be another macro). In general Foswiki allows lines to be continued by ending a line with a =\= character. This is generally useful but with macros you need precise control of spaces which =\= does not give you.
+
+From Foswiki 2.1 it's now possible to use the following in macros to make them much more readable:
+   * =parameter="value" +"more" +"and more"=
+   * =param1+="value1" param2+="value2" param1+="more1" param2+="more2"=
+
+Once upon a time in the early days of the project the parameters to SEARCH would need to be written as one line of TML, an example from an active Foswiki site:
+<verbatim class="tml">
+type="query" nonoise="on" web="Batch" header="|*Batch Code*|*Batch Value*|*Currencies*|*Sizes*|*Count*|*To Queue*|*Killed*|*Ignored*|*Errors*|*Notes*|*History*|*Flow*|" format="| [[$topic][$formfield(BatchCode) $formfield(BatchDate) $formfield(BatchNumber) $formfield(BatchLocation)]]"}$percnt | $formfield(BatchValue) | $formfield(BatchCurrencies) | $formfield(BatchSizes) | $formfield(BatchCount) | $formfield(BatchToQueue) | $formfield(BatchKilled) | $formfield(BatchIgnored) | <div style='background-color:#$percntCALC{$SET(dat,$formfield(BatchDate))$SET(pdat,$formfield(BatchProcessDate))$SET(age,$EVAL($percnt$formfield(BatchCode)_days$percnt))$IF($EXACT($percntWORKFLOWSTATE{\"$topic\"}$percnt,CHECKED),FAF0D4,$IF($GET(age)>=0,ff3300,$IF($GET(age)>=-2,ff9933,66cc33)))}$percnt'>$formfield(BatchErrors)&nbsp;</div> | $formfield(BatchOperators) | $formfield(BatchActivities) | <form name=\"Edit\" action=\"%SCRIPTURLPATH{edit}%/%WEB%/\"> <input type=\"hidden\" name=\"action\" value=\"form\"/> <input type=\"hidden\" name=\"topic\" value=\"$topic\"/> <input type=\"hidden\" name=\"redirectto\" value=\"%TOPIC%?%QUERYSTRING{encode="url"}%\"/> <input type=\"image\" src=\"%ICONURL{pencil}%\" alt=\"Edit Form\" /> </form> $formfield(BatchNotes) | $percntWORKFLOWHISTORY{\"$topic\"}$percnt | $percntWORKFLOWTRANSITION{\"$topic\" redirectto=\"%TOPIC%?%QUERYSTRING{encode="url"}%\"}$percnt |"
+</verbatim>
+
+That is very hard to read and debug, and even harder to maintain months or years later and for readability this example excludes the complex and many line =search= parameter.
+
+Now, we can improve that by splitting each parameter onto a separate line:
+<verbatim class="tml">
+  type="query"
+  nonoise="on"
+  web="Batch"
+  header="|*Batch Code*|*Batch Value*|*Currencies*|*Sizes*|*Count*|*To Queue*|*Killed*|*Ignored*|*Errors*|*Notes*|*History*|*Flow*|"
+  format="| [[$topic][$formfield(BatchCode) $formfield(BatchDate) $formfield(BatchNumber) $formfield(BatchLocation)]] | $formfield(BatchValue) | $formfield(BatchCurrencies) | $formfield(BatchSizes) | $formfield(BatchCount) | $formfield(BatchToQueue) | $formfield(BatchKilled) | $formfield(BatchIgnored) | <div style='background-color:#$percntCALC{$SET(dat,$formfield(BatchDate))$SET(pdat,$formfield(BatchProcessDate))$SET(age,$EVAL($percnt$formfield(BatchCode)_days$percnt))$IF($EXACT($percntWORKFLOWSTATE{\"$topic\"}$percnt,CHECKED),FAF0D4,$IF($GET(age)>=0,ff3300,$IF($GET(age)>=-2,ff9933,66cc33)))}$percnt'>$formfield(BatchErrors)&nbsp;</div> | $formfield(BatchOperators) | $formfield(BatchActivities) | <form name=\"Edit\" action=\"%SCRIPTURLPATH{edit}%/%WEB%/\"> <input type=\"hidden\" name=\"action\" value=\"form\"/> <input type=\"hidden\" name=\"topic\" value=\"$topic\"/> <input type=\"hidden\" name=\"redirectto\" value=\"%TOPIC%?%QUERYSTRING{encode="url"}%\"/> <input type=\"image\" src=\"%ICONURL{pencil}%\" alt=\"Edit Form\" /> </form> $formfield(BatchNotes) | $percntWORKFLOWHISTORY{\"$topic\"}$percnt | $percntWORKFLOWTRANSITION{\"$topic\" redirectto=\"%TOPIC%?%QUERYSTRING{encode="url"}%\"}$percnt |"
+</verbatim>
+
+That helps a little, but the =format= parameter still covers multiple lines and is still hard to follow.
+
+Now we could use the standard Foswiki line continuation, but you do not get full control of spacing and you cannot achieve the result you want. In the example above, which creates a table, one possible problem is having cell values centred instead of right justified.
+
+This is when the ability to cleanly separate comes into its own. This is achieved by using the =+"more"= option to break a parameter into appropriate pieces, we can now transform the above to:
+<verbatim class="tml">
+  type="query"
+  nonoise="on"
+  web="Batch"
+  header=""
+        +"|*Batch Code*"
+        +"|*Batch Value*"
+        +"|*Currencies*"
+        +"|*Sizes*"
+        +"|*Count*"
+        +"|*To Queue*"
+        +"|*Killed*"
+        +"|*Ignored*"
+        +"|*Errors*"
+        +"|*Notes*"
+        +"|*History*"
+        +"|*Flow*"
+        +"|"
+  format=""
+        +"| [[$topic][$formfield(BatchCode) $formfield(BatchDate) $formfield(BatchNumber) $formfield(BatchLocation)]]"
+        +"| $formfield(BatchValue) "
+        +"| $formfield(BatchCurrencies) "
+        +"| $formfield(BatchSizes) "
+        +"| $formfield(BatchCount) "
+        +"| $formfield(BatchToQueue) "
+        +"| $formfield(BatchKilled) "
+        +"| $formfield(BatchIgnored) "
+        +"| <div style='background-color:#"
+        +"$percntCALC{"
+        +"$SET(dat,$formfield(BatchDate))"
+        +"$SET(pdat,$formfield(BatchProcessDate))"
+        +"$SET(age,$EVAL($percnt$formfield(BatchCode)_days$percnt))"
+        +"$IF($EXACT($percntWORKFLOWSTATE{\"$topic\"}$percnt,CHECKED),FAF0D4,"
+        +"$IF($GET(age)>=0,ff3300,$IF($GET(age)>=-2,ff9933,66cc33)))}"
+        +"$percnt'>$formfield(BatchErrors)&nbsp;</div> "
+        +"| $formfield(BatchOperators) "
+        +"| $formfield(BatchActivities) "
+        +"| <form name=\"Edit\" action=\"%SCRIPTURLPATH{edit}%/%WEB%/\">"
+        +"<input type=\"hidden\" name=\"action\" value=\"form\"/>"
+        +"<input type=\"hidden\" name=\"topic\" value=\"$topic\"/>"
+        +"<input type=\"hidden\" name=\"redirectto\" value=\"%TOPIC%?%QUERYSTRING{encode="url"}%\"/>"
+        +"<input type=\"image\" src=\"%ICONURL{pencil}%\" alt=\"Edit Form\" /> </form> $formfield(BatchNotes) "
+        +"| $percntWORKFLOWHISTORY{\"$topic\"}$percnt "
+        +"| $percntWORKFLOWTRANSITION{\"$topic\" redirectto=\"%TOPIC%?%QUERYSTRING{encode="url"}%\"}$percnt "
+        +"|"
+</verbatim>
+
+Note the use of =+= to concatenate all the pieces of the =format= and =header= parameters together. Also note that each piece is of the form =+"more"= and as that is quoted you have full control of the contents. This is especially true for those all important spaces &mdash; you'll see some pieces have a trailing space and some do not.
+
+<div class="foswikiHelp">
+%T% parameter="value" +" and more"       &mdash; is quite valid on one line if its useful
+
+%X% parameter="1" +"2" gives you "12" *not* "3"
+</div>
+
+Both the =header= and =format= parameters above start each table cell on a separate line. This makes it a little easier to scan the topic text the match the cell positions and check they line up (i.e. the Header cell #n will match the contents from Format cell #n).
+
+Another trick used above for easier maintenance is to initialise a parameter to =""= and then add the pieces on separate lines. (In the example we are dealing with table cells hence ="|"=, on a separate line, is used as an end of row marker.) This helps by allowing you to cut and paste whole lines, representing cells, into different column positions without concern as to whether or not it's the 1st column, last column or one in the middle because they have an identical structure.
+
+Nonetheless, keeping the =header= of a table column separate from the =format= of each cell in the SEARCH can still be troublesome especially as the number of columns and/or complexity of =header= and =footer= cells grow.
+
+To remedy that the =param1+="value1" param2="value2" param1+="more1" param2+="more2"= can be used. Not that the pieces of different parameters can now be intermingled in whatever way you need to make the macro easier to read. For example we can transform the above to:
+<verbatim class="tml">
+  type="query"
+  nonoise="on"
+  web="Batch"
+
+  header+="|*Control record*"
+  format+="| <span style=\"display:none;\">"
+         +"$formfield(BatchNumber) $formfield(BatchLocation) "
+         +"$percntCALC{$SUBSTRING($topic,13,3)}$percnt $formfield(BatchDate) "
+         +"!$formfield(BatchCode)"
+         +"</span>"
+         +"<a id=\"$topic\"/>[[$topic]]"
+
+  header+="|*Batch Value*"
+  format+="|  $formfield(BatchValue) "
+
+  header+="|*Batch Curr- encies*"
+  format+="| $formfield(BatchCurrencies) "
+
+  header+="|*Success*"
+  format+="|  $formfield(BatchCount) "
+
+  header+="|*To Queue*"
+  format+="|  $formfield(BatchToQueue) "
+
+  header+="|*Killed*"
+  format+="|  $formfield(BatchKilled) "
+
+  header+="|*Ignored*"
+  format+="|  $formfield(BatchIgnored) "
+
+  header+="|*Batch Size*"
+  format+="|  $formfield(BatchSizes) "
+
+  header+="|*Batch Errors*"
+  format+="| <div style='background-color:#"
+         +"$percntCALC{$SET(dat,$formfield(BatchDate))"
+         +"$SET(pdat,$formfield(BatchProcessDate))"
+         +"$SET(age,$EVAL($percnt$formfield(BatchCode)_days$percnt))"
+         +"$IF($EXACT($percntWORKFLOWSTATE{\"$topic\"}$percnt,CHECKED),FAF0D4,"
+         +"$IF($GET(age)>=0,ff3300,$IF($GET(age)>=-2,ff9933,66cc33)))}$percnt'>"
+         +"$formfield(BatchErrors) </div> "
+
+  header+="|*Batch Oper- ators*"
+  format+="| $formfield(BatchOperators) "
+
+  header+="|*Batch Acti- vities*"
+  format+="| $formfield(BatchActivities) "
+
+  header+="|*Batch Notes*"
+  format+="| <form name=\"Edit\" action=\"%SCRIPTURLPATH{edit}%/%WEB%/\">"
+         +"<input type=\"hidden\" name=\"action\" value=\"form\"/>"
+         +"<input type=\"hidden\" name=\"topic\" value=\"$topic\"/>"
+         +"<input type=\"hidden\" name=\"redirectto\" value=\"%TOPIC%?%QUERYSTRING%#$topic\"/>"
+         +"<input type=\"image\" src=\"%ICONURL{pencil}%\" alt=\"Edit Form\" /> </form> $formfield(BatchNotes)"
+
+  header+="|*Status History*"
+  format+="| $percntWORKFLOWHISTORY{\"$topic\"}$percnt "
+
+  header+="|*Change Status*"
+  format+="| $percntWORKFLOWTRANSITION{\"$topic\" redirectto=\"%TOPIC%?%QUERYSTRING%#$topic\"}$percnt "
+
+  header+="|"
+  format+="|"
+</verbatim>
+
+There is no guesswork (or cell counting) required to work out which cell =header= matches which =format= cell. Also note how this enables you to better manage table layouts by keeping the coding for each column together and in turn the easy ability to move a column into other positions by cut and paste.
+
+The 1st parameter in a macro does not have to be named, e.g =%<nop>MACRO{"I'm the first"}%=. How can you extend such a value with =name+="more"= when it has no name? Well actually it does and it's name is =_DEFAULT= so you can have =%<nop>MACRO{"I'm the first" type="X" _DEFAULT+=", with seconds"}%=. Some macros may give you an alternative name to use, e.g. =%SEARCH= allows =search= i.e. =%<nop>SEARCH{search="find him" type="literal" search+=" and her"}%=. In this situation it probably better to use one or the other and not both as that could lead to confusion. In the case of =%SEARCH= if you use both then this macro will ignore =search= and use =_DEFAULT=, so take care.
+
+This is a working example using the Foswiki FAQ topics follows. You can use this to create yourself a [[Sandbox.WebHome][Sandbox]] topic to try out the =+= and =+== options to experiment with ways to make macros easier to read.
+<verbatim class="tml">
+%SEARCH{"form.name ~ 'FAQForm'"
+  type="query"
+  web="System"
+  nonoise="on"
+
+  header+="|*Title*"
+  format+="|$formfield(TopicTitle)"
+
+  header+="|*Topic*"
+  format+="|$web$topic"
+
+  header+="|*Summary*"
+  format+="|$formfield(TopicSummary)"
+
+  header+="|*Related Topics*"
+  format+="|$formfield(RelatedTopics)"
+
+  header+="|"
+  format+="|"
+}%</verbatim>
+
+This gives:
+%SEARCH{"form.name ~ 'FAQForm'"
+  type="query"
+  web="System"
+  nonoise="on"
+
+  header+="|*Title*"
+  format+="|$formfield(TopicTitle)"
+
+  header+="|*Topic*"
+  format+="|$web$topic"
+
+  header+="|*Summary*"
+  format+="|$formfield(TopicSummary)"
+
+  header+="|*Related Topics*"
+  format+="|$formfield(RelatedTopics)"
+
+  header+="|"
+  format+="|"
+}%
+
 %STOPINCLUDE%
 
 ---
 *Related Topics:* MacrosQuickReference, PreferenceSettings, UserDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->
+
