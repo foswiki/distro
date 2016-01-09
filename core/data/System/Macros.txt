@@ -466,9 +466,9 @@ To remedy that the =param1+="value1" param2="value2" param1+="more1" param2+="mo
 
 There is no guesswork (or cell counting) required to work out which cell =header= matches which =format= cell. Also note how this enables you to better manage table layouts by keeping the coding for each column together and in turn the easy ability to move a column into other positions by cut and paste.
 
-The 1st parameter in a macro does not have to be named, e.g =%<nop>MACRO{"I'm the first"}%=. How can you extend such a value with =name+="more"= when it has no name? Well actually it does and it's name is =_DEFAULT= so you can have =%<nop>MACRO{"I'm the first" type="X" _DEFAULT+=", with seconds"}%=. Some macros may give you an alternative name to use, e.g. =%SEARCH= allows =search= i.e. =%<nop>SEARCH{search="find him" type="literal" search+=" and her"}%=. In this situation it probably better to use one or the other and not both as that could lead to confusion. In the case of =%SEARCH= if you use both then this macro will ignore =search= and use =_DEFAULT=, so take care.
+The 1st parameter in a macro does not have to be named, e.g =%<nop>MACRO{"I'm the first"}%=. How can you extend such a value with =name+="more"= when it has no name? Well actually it does and it's name is =_DEFAULT= so you can have =%<nop>MACRO{"I'm the first" type="X" _DEFAULT+=", with seconds"}%=. Some macros may give you an alternative name to use, e.g. =%SEARCH= allows =search= i.e. =%<nop>SEARCH{search="find him" type="literal" search+=" and her"}%=. In this situation it is better to use one or the other and not both as that could lead to confusion. In the case of =%SEARCH= if you use both then this macro will ignore =search= and use =_DEFAULT=, so take care.
 
-This is a working example using the Foswiki FAQ topics follows. You can use this to create yourself a [[Sandbox.WebHome][Sandbox]] topic to try out the =+= and =+== options to experiment with ways to make macros easier to read.
+The following is a working example using the Foswiki FAQ topics follows. You can use this to create yourself a [[Sandbox.WebHome][Sandbox]] topic to try out the =+= and =+== options to experiment with ways to make macros easier to read.
 <verbatim class="tml">
 %SEARCH{"form.name ~ 'FAQForm'"
   type="query"
