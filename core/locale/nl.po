@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-29 20:18+0200\n"
+"PO-Revision-Date: 2016-01-09 09:29+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -1355,7 +1355,6 @@ msgid "Country:"
 msgstr "Land:"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
 msgid "Create New FAQ Topic"
 msgstr "Nieuwe FAQ-pagina aanmaken"
 
@@ -1953,9 +1952,8 @@ msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
 msgstr "Kijk naar de nieuwe versie <a href='%1' rel='nofollow'>hier</a>."
 
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
-#, fuzzy
 msgid "Get a fresh version <a href='%1'>here</a>."
-msgstr "Kijk naar de nieuwe versie <a href='%1' rel='nofollow'>hier</a>."
+msgstr "Kijk naar de nieuwe versie <a href='%1'>hier</a>."
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
@@ -2399,9 +2397,8 @@ msgid "Insert a color code"
 msgstr "Kleurencode hier invoegen"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
-#, fuzzy
 msgid "Insert a data form table header"
-msgstr "Nieuwe tabel invoegen"
+msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
@@ -5785,9 +5782,8 @@ msgstr "help"
 
 #: core/data/Sandbox/WebHome.txt:11
 #: core/data/System/FrequentlyAskedQuestions.txt:47
-#, fuzzy
 msgid "hide form"
-msgstr "Formulier toevoegen"
+msgstr "Formulier verbergen"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"
