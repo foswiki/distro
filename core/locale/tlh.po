@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-29 20:21+0200\n"
+"PO-Revision-Date: 2016-01-09 09:41+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -278,7 +278,7 @@ msgstr "(paq <nop>HaSta)"
 
 #: core/templates/changeform.tmpl:3
 msgid "(change form)"
-msgstr "(Form qa&&#39;)"
+msgstr "(yu&&#39muD qa&&#39;)"
 
 #: core/templates/oopslanguagechanged.tmpl:3
 msgid "(change language)"
@@ -306,7 +306,7 @@ msgstr "(chu&&#39;Ha&&#39;lu&&#39;)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
-msgstr "(Form choH)"
+msgstr "(yu&&#39;muD choH)"
 
 #: core/templates/edittext.tmpl:3 core/templates/edittext.tmpl:6
 msgid "(edit text)"
@@ -690,7 +690,7 @@ msgstr "<nop>%1Daq Form chu&&#39; chel"
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:75
 #: core/templates/addform.tmpl:1
 msgid "Add form"
-msgstr "Form chel"
+msgstr "yu&&#39;muD chel"
 
 #: core/data/Main/GroupViewTemplate.txt:212
 msgid "Add members"
@@ -703,7 +703,7 @@ msgstr "jeSwI&&#39;pu&&#39; chel..."
 #: EditTablePlugin/data/System/EditTablePlugin.txt:167
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:979
 msgid "Add row"
-msgstr "tlhegh SaS chel"
+msgstr "wev chel"
 
 #: core/data/Main/GroupViewTemplate.txt:189
 msgid "Add user management options to this topic."
@@ -1083,7 +1083,7 @@ msgstr "QIn Quv choH"
 
 #: NatEditPlugin/lib/Foswiki/Plugins/NatEditPlugin/FormButton.pm:69
 msgid "Change form"
-msgstr "Form qa&&#39;"
+msgstr "yu&&#39;muD qa&&#39;"
 
 #: core/templates/renamebase.tmpl:14
 msgid "Change from"
@@ -1359,7 +1359,6 @@ msgid "Country:"
 msgstr "Sep:"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
 msgid "Create New FAQ Topic"
 msgstr "<nop>QaH ghItlh chu&&#39; <nop>chenmoH"
 
@@ -1385,7 +1384,7 @@ msgstr "ghom chu&rsquo; chenmoH"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:32
 msgid "Create a new table"
-msgstr "Table chu&&#39; chenmoH"
+msgstr "wa&&#39;chaw chu&&#39; chenmoH"
 
 #: PatternSkin/templates/login.pattern.tmpl:21
 msgid "Create account"
@@ -1445,7 +1444,7 @@ msgstr "<nop>DaHjaj chaw&&#39; ngoq:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
 msgid "Data Form Table Header"
-msgstr ""
+msgstr "De&&#39; yu&&#39;muD wa&&#39;chaw pong"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
@@ -1488,7 +1487,7 @@ msgstr "tep %1 polHa&&#39;"
 #: EditTablePlugin/data/System/EditTablePlugin.txt:168
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:983
 msgid "Delete last row"
-msgstr "tlhegh SaS Qav teq"
+msgstr "wev Qav teq"
 
 #: core/templates/more.tmpl:50
 msgid "Delete topic"
@@ -1551,7 +1550,7 @@ msgstr "choHmeylIj Dapol &&#39;e&&#39; yIlIjQo&&#39;"
 
 #: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
-msgstr "<nop>TableDaq tep &&#39;angQo&&#39;"
+msgstr "<nop>wa&&#39;chawDaq tep &&#39;angQo&&#39;"
 
 #: NatEditPlugin/data/System/NatEditWordHelpText.txt:16
 msgid "Documentation"
@@ -1663,7 +1662,7 @@ msgstr "ghItlhvam <nop>DuHmey choH..."
 #: EditTablePlugin/data/System/EditTablePlugin.txt:164
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:967
 msgid "Edit this table"
-msgstr "Table-vam choH"
+msgstr "wa&&#39;chawvam choH"
 
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:3
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:4
@@ -1906,7 +1905,7 @@ msgstr "chaw&&#39; ngoqlIj <nop>DalIj&&#39;a&&#39;?"
 
 #: NatEditPlugin/templates/form.natedit.tmpl:19
 msgid "Form"
-msgstr "Form"
+msgstr "yu&&#39;muD"
 
 #: core/templates/messages.tmpl:208
 msgid "Form Definition %1 missing"
@@ -1920,11 +1919,11 @@ msgstr "Form poQbogh De&&#39;SuqwI&&#39;"
 #: PatternSkin/templates/formtables.pattern01x01.tmpl:5
 #: core/templates/form.tmpl:9 core/templates/formtables.tmpl:12
 msgid "Form data"
-msgstr "Form De&&#39;"
+msgstr "yu&&#39;muD De&&#39;"
 
 #: PatternSkin/templates/form.pattern.tmpl:13
 msgid "Form definition"
-msgstr "Form <nop>DelwI&&#39;"
+msgstr "yu&&#39;muD <nop>DelwI&&#39;"
 
 #: core/templates/messages.tmpl:205
 msgid "Form definition '%1' not found"
@@ -1967,9 +1966,8 @@ msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
 msgstr "<a href='%1' rel='nofollow'>naDev</a> nav chu&&#39; yISuq."
 
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
-#, fuzzy
 msgid "Get a fresh version <a href='%1'>here</a>."
-msgstr "<a href='%1' rel='nofollow'>naDev</a> nav chu&&#39; yISuq."
+msgstr "<a href='%1'>naDev</a> nav chu&&#39; yISuq."
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
@@ -2412,9 +2410,8 @@ msgid "Insert a color code"
 msgstr "nguvlu&&#39;meH ngoq chel"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
-#, fuzzy
 msgid "Insert a data form table header"
-msgstr "<nop>SImwI ngoq chel"
+msgstr "De&&#39; yu&&#39;muD wa&&#39;chaw pong chel"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
@@ -2448,7 +2445,7 @@ msgstr "<nop>SImwI ngoq chel"
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:82
 msgid "Insert a new table"
-msgstr "Table chu&&#39; roQ"
+msgstr "wa&&#39;chaw chu&&#39; roQ"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:95
 msgid "Insert a symbol"
@@ -3586,7 +3583,7 @@ msgstr "qa&&#39;"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
-msgstr "Form qa&&#39;..."
+msgstr "yu&&#39;muD qa&&#39;..."
 
 #: core/templates/validate.tmpl:3 core/templates/validate.tmpl:4
 msgid "Request Validation"
@@ -3746,7 +3743,7 @@ msgstr "pol &&#39;ej mej"
 #: EditTablePlugin/data/System/EditTablePlugin.txt:165
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:971
 msgid "Save table"
-msgstr "Table pol"
+msgstr "wa&&#39;chaw pol"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
 #: core/templates/registerfailednotremoved.tmpl:19
@@ -4180,7 +4177,7 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:101
 msgid "Table"
-msgstr "Table"
+msgstr "wa&&#39;chaw"
 
 #: core/templates/messages.tmpl:459
 msgid "Template %1 does not exist"
@@ -4508,7 +4505,7 @@ msgstr "lo&&#39;wI&&#39; chu&&#39;lu&&#39;mo&&#39; vaj &&#39;ellaH ghaH."
 
 #: core/templates/registermessages.tmpl:363
 msgid "The user has been removed from the Authentication System."
-msgstr ""
+msgstr "&&#39;olmeH patvo&&#39; lo&&#39;wI&&#39;vam teqlu&&#39;."
 
 #: core/templates/registermessages.tmpl:45
 msgid "The user has probably been already verified and/or approved."
@@ -4522,11 +4519,11 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:182
 msgid "The username that identifies you to the signon system. %1"
-msgstr ""
+msgstr "&&#39;olmeH pong &&#39;oH lo&&#39;wI&&#39; pongvam&&#39;e&&#39;. %1"
 
 #: core/templates/messages.tmpl:177
 msgid "The value supplied for =%1= has been rejected."
-msgstr ""
+msgstr "=%1= De&&#39;&&#39;e&&#39; DaghItlhta&&#39;bogh lajlu&&#39;."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:8
 msgid ""
@@ -4825,7 +4822,7 @@ msgstr "ghItlh tepmey"
 
 #: core/templates/messages.tmpl:224
 msgid "Topic can not be upgraded from old style category table"
-msgstr "Table Segh tIQ rurmeH ghItlh Dachu&&#39;moHlaHbe&&#39;"
+msgstr "wa&&#39;chaw Segh tIQ rurmeH ghItlh Dachu&&#39;moHlaHbe&&#39;"
 
 #: PatternSkin/templates/form.pattern.tmpl:10
 #: PatternSkin/templates/form.pattern.tmpl:11 core/lib/Foswiki/UI/RDiff.pm:71
@@ -5262,8 +5259,8 @@ msgstr "Qu&&#39;vatlh: \\'include\\' ghItlh tu&&#39;lu&&#39;be&&#39;!"
 #: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:475
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr ""
-"Qu&&#39;vatlh: ghItlh %1Daq Table <nop>DelwI&&#39; \\'include\\' tu&&#39;"
-"tlu&&#39;be&&#39;!"
+"Qu&&#39;vatlh: ghItlh %1Daq wa&&#39;chaw <nop>DelwI&&#39; \\'include\\' "
+"tu&&#39;tlu&&#39;be&&#39;!"
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:64
 msgid ""
@@ -5731,7 +5728,7 @@ msgstr "<nop>HaSta <nop>DuHmey <nop>SoQmoH"
 #: NatEditPlugin/templates/edit.natedit.tmpl:112
 #: NatEditPlugin/templates/edit.natedit.tmpl:148
 msgid "default as defined in the %1"
-msgstr "%1Daq lISlu&&#39;bogh DuHmey motlh"
+msgstr "%1Daq lISlu&&#39;bogh <nop>DuHmey motlh"
 
 #: core/data/System/SiteChanges.txt:64
 msgid "diff"
@@ -5756,7 +5753,7 @@ msgstr "choH"
 #: NatEditPlugin/templates/editform.natedit.tmpl:2
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
 msgid "edit form"
-msgstr "Form choH"
+msgstr "yu&&#39;muD choH"
 
 #: core/templates/messages.tmpl:170
 msgid "fields are required."
@@ -5768,9 +5765,8 @@ msgstr "<nop>QaH"
 
 #: core/data/Sandbox/WebHome.txt:11
 #: core/data/System/FrequentlyAskedQuestions.txt:47
-#, fuzzy
 msgid "hide form"
-msgstr "Form chel"
+msgstr "yu&&#39;muD So&&#39;"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"
@@ -5836,7 +5832,7 @@ msgstr "polqa&&#39;"
 
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
 msgid "restore form"
-msgstr "Form polqa&&#39;"
+msgstr "yu&&#39;muD polqa&&#39;"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:127
 #: NatEditPlugin/templates/edit.natedit.tmpl:158
