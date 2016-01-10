@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-01-08 13:44+0200\n"
+"PO-Revision-Date: 2016-01-10 17:19+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
@@ -2270,9 +2270,8 @@ msgid "Insert a color code"
 msgstr "插入色碼"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
-#, fuzzy
 msgid "Insert a data form table header"
-msgstr "插入一個數學公式"
+msgstr "由表格的表頭插入一個資料"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
