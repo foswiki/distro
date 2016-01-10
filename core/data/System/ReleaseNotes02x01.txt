@@ -43,6 +43,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 1.1.7 was built 01 Feb 2013. It is a release that fixes *CVE-2012-6329* and *CVE-2012-6330*. It contains 20 fixes and 4 enhancements.
    * Foswiki 1.1.8 was built 28 Feb 2013. It is a release that fixes *CVE-2013-1666*. It contains 4 fixes.
    * Foswiki 1.1.9 was built 18 Nov 2013. It is a release that contains 44 fixes and 4 enhancements..
+   * Foswiki 1.1.10 was built 23 Nov 2015. It is a release that contains 8 fixes and 8 enhancements.
 %ENDTWISTY{}%
 %TWISTY{showlink="Release 2.0 releases..." hidelink="hide Release 2.0"}%
    * Foswiki 2.0.0 was built on 04 Jul 2015. It is a release that contains 312 fixes and 157 enhancements, and closes 59 Feature Requests.
@@ -96,7 +97,7 @@ package names for most *nix distributions.
 ---+++ Enhanced Registration form
 
 The registration form now accepts the parameter =templatename= to override the default NewUserTemplate.  In addition the registration topics have been
-restructured to permit multiple registration pages to be configured, and the customization of the registration form is greatly simplified.
+restructured to permit multiple custom registration pages. Customization of the registration form is greatly simplified.
 
 ---+++ Easier to restrict access to the System web.
 
