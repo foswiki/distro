@@ -5,15 +5,19 @@
 # Reference information for a single plugin.
 package Foswiki::Plugin;
 
-use strict;
-use warnings;
-use Assert;
-use Error qw(:try);
+use Try::Tiny;
 
 use Foswiki::Plugins                ();
 use Foswiki::AccessControlException ();
 use Foswiki::OopsException          ();
 use Foswiki::ValidationException    ();
+
+use Moo;
+use namespace::clean;
+
+extends 'Foswiki::Object';
+
+use Assert;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -70,6 +74,28 @@ our %deprecated = (
     writeHeaderHandler          => 1,
 );
 
+has session => (
+    is       => 'ro',
+    required => 1,
+);
+
+has name => (
+    is       => 'ro',
+    required => 1,
+    isa      => sub {
+        ASSERT( UNTAINTED( $_[0] ), "Name $_[0] is tainted!" ) if DEBUG;
+    },
+);
+
+has module => ( is => 'ro', );
+
+has errors => (
+    is      => 'rw',
+    default => sub { return []; },
+);
+
+our @_newParameters = qw( session name module );
+
 =begin TML
 
 ---++ ClassMethod new( $session, $name, [, $module] )
@@ -81,18 +107,10 @@ our %deprecated = (
 
 =cut
 
-sub new {
-    my ( $class, $session, $name, $module ) = @_;
-    ASSERT( UNTAINTED($name), "Name $name is tainted!" ) if DEBUG;
-    my $this = bless(
-        {
-            session => $session,
-            name    => $name || '',
-            module  => $module,       # if undef, use discovery
-            errors  => []
-        },
-        $class
-    );
+sub BUILD {
+    my $this = shift;
+
+    my $name = $this->name;
 
     my $p = $Foswiki::cfg{Plugins}{$name}{Module};
 
@@ -121,11 +139,9 @@ sub new {
 
         # A preload handler can simply die if it doesn't like what it sees
         no strict 'refs';
-        &$fn($session);
+        &$fn( $this->session );
         use strict 'refs';
     }
-
-    return $this;
 }
 
 =begin TML
@@ -256,18 +272,17 @@ sub registerHandlers {
         );
         use strict 'refs';
     }
-    catch Foswiki::AccessControlException with {
-        shift->throw();    # propagate
-    }
-    catch Foswiki::OopsException with {
-        shift->throw();    # propagate
-    }
-    catch Foswiki::ValidationException with {
-        shift->throw();    # propagate
-    }
-    otherwise {
-        my $e = shift;
-        $exception = $e->text() . ' ' . $e->stacktrace();
+    catch {
+        if (   $_->isa('Foswiki::AccessControlException')
+            || $_->isa('Foswiki::OopsException')
+            || $_->isa('Foswiki::ValidationException') )
+        {
+            $_->throw;
+        }
+        else {
+            $exception = $_->text . ' ' . $_->stacktrace;
+        }
+
     };
 
     unless ($status) {

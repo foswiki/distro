@@ -43,6 +43,8 @@ nor in Ubuntu 15.10 repository, nor in CentOS. Though it is a part of FreeBSD po
 =cut
 
 package Foswiki::Exception;
+use Carp;
+use Assert;
 use Moo;
 use namespace::clean;
 
@@ -57,19 +59,39 @@ BEGIN {
     }
 }
 
-has line => ( is => 'ro' );
-has file => ( is => 'ro' );
-has text => ( is => 'ro' );
+has line       => ( is => 'ro' );
+has file       => ( is => 'ro' );
+has text       => ( is => 'ro', required => 1, );
+has stacktrace => ( is => 'rwp' );
+
+sub BUILD {
+    my $this = shift;
+
+    my $trace = Carp::longmess('');
+    $this->_set_stacktrace($trace);
+}
+
+sub stringify {
+    my $this = shift;
+
+    return
+        $this->text . ' at '
+      . $this->file
+      . ' line '
+      . $this->line
+      . ( DEBUG ? "\n" . $this->stacktrace : '' );
+}
 
 package Foswiki::Exception::Engine;
 use Moo;
-our @_newParameters = qw(status reason response);
 use namespace::clean;
 extends qw(Foswiki::Exception);
 
-has status   => ( is => 'ro' );
-has reason   => ( is => 'ro' );
-has response => ( is => 'ro' );
+our @_newParameters = qw(status reason response);
+
+has status   => ( is => 'ro', required => 1, );
+has reason   => ( is => 'ro', required => 1, );
+has response => ( is => 'ro', required => 1, );
 
 =begin TML
 
@@ -79,10 +101,13 @@ Generate a summary string. This is mainly for debugging.
 
 =cut
 
-sub stringify {
+sub BUILD {
     my $this = shift;
-    return
-qq(EngineException: Status code "$this->{status}" defined because of "$this->{reason}".);
+
+    $this->text( 'EngineException: Status code "'
+          . $this->status
+          . ' defined because of "'
+          . $this->reason );
 }
 
 1;

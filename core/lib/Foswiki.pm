@@ -41,10 +41,7 @@ with CGI accelerators such as mod_perl.
 
 =cut
 
-use strict;
-use warnings;
 use Cwd qw( abs_path );
-use Try::Tiny;
 use File::Spec               ();
 use Monitor                  ();
 use CGI                      ();  # Always required to get html generation tags;
@@ -104,6 +101,7 @@ use namespace::clean;
 extends 'Foswiki::Object';
 
 use Assert;
+use Try::Tiny;
 
 sub SINGLE_SINGLETONS       { 0 }
 sub SINGLE_SINGLETONS_TRACE { 0 }

@@ -30,15 +30,15 @@ package Foswiki::Query::Node;
 use Assert;
 use Try::Tiny;
 
-use Foswiki::Meta ();
+use Foswiki::Meta        ();
 use Foswiki::Infix::Node ();
-
-use constant MONITOR_EVAL => 0;
-use constant MONITOR_FOLD => 0;
 
 use Moo;
 use namespace::clean;
 extends 'Foswiki::Infix::Node';
+
+use constant MONITOR_EVAL => 0;
+use constant MONITOR_FOLD => 0;
 
 # <DEBUG SUPPORT>
 
@@ -122,7 +122,8 @@ my $ind = 0;
 # We expand config vars to constant strings during the parse, because
 # otherwise we'd have to export the knowledge of config vars out to other
 # engines that may evaluate queries instead of the default evaluator.
-before newLeaf => sub {
+around newLeaf => sub {
+    my $orig = shift;
     my ( $class, $val, $type ) = @_;
 
     if (   $type == &Foswiki::Infix::Node::NAME
@@ -137,10 +138,9 @@ before newLeaf => sub {
         $val =
           ( $isAccessibleCfg->{$val} ) ? eval( '$Foswiki::cfg' . $val ) : '';
 
-        # Modified @_ will be passed over to the original newLeaf method.
-        $_[1] = $val;
-        $_[2] = &Foswiki::Infix::Node::STRING;
+        $type = Foswiki::Infix::Node::STRING;
     }
+    return $orig->($class, $val, $type);
 };
 
 =begin TML

@@ -16,6 +16,8 @@ use Assert;
 use Moo;
 use namespace::clean;
 
+extends 'Foswiki::Object';
+
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;

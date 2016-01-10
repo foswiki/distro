@@ -14,10 +14,15 @@ Foswiki.
 
 =cut
 
-use Unit::TestCase;
-our @ISA = qw( Unit::TestCase );
+use Moo;
+use namespace::clean;
+extends 'Unit::TestCase';
 
-use strict;
+# SMELL This property is a placeholder for test suite name parameter passed on
+# on object creation. Need to be reconsidered.
+has testSuite => ( is => 'rw', );
+
+our @_newParameters = qw( testSuite );
 
 sub include_tests {
     return ();

@@ -1,8 +1,6 @@
 # See bottom of file for license and copyright
 
 package FoswikiFnTestCase;
-use strict;
-use warnings;
 
 =begin TML
 
@@ -26,14 +24,15 @@ targeting single classes).
 
 =cut
 
-use FoswikiTestCase();
-our @ISA = qw( FoswikiTestCase );
-
 use Foswiki();
 use Unit::Request();
 use Unit::Response();
 use Foswiki::UI::Register();
-use Error qw( :try );
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends 'FoswikiTestCase';
 
 our @mails;
 
@@ -203,28 +202,31 @@ sub registerUser {
             $this->{session}
         );
     }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        if ( $this->check_dependency('Foswiki,<,1.2') ) {
-            $this->assert_str_equals( "attention", $e->{template},
-                $e->stringify() );
-            $this->assert_str_equals( "thanks", $e->{def}, $e->stringify() );
+    catch {
+        my $e = $_;
+        if ( $e->isa('Foswiki::OopsException') ) {
+            if ( $this->check_dependency('Foswiki,<,1.2') ) {
+                $this->assert_str_equals( "attention", $e->{template},
+                    $e->stringify() );
+                $this->assert_str_equals( "thanks", $e->{def},
+                    $e->stringify() );
+            }
+            else {
+                $this->assert_str_equals( "register", $e->{template},
+                    $e->stringify() );
+                $this->assert_str_equals( "thanks", $e->{def},
+                    $e->stringify() );
+            }
+        }
+        elsif ( $e->isa('Foswiki::AccessControlException') ) {
+            $this->assert( 0, $e->stringify );
+        }
+        elsif ( $e->isa('Foswiki::Exception') ) {
+            $this->assert( 0, $e->stringify() );
         }
         else {
-            $this->assert_str_equals( "register", $e->{template},
-                $e->stringify() );
-            $this->assert_str_equals( "thanks", $e->{def}, $e->stringify() );
+            $this->assert( 0, "expected an oops redirect" );
         }
-    }
-    catch Foswiki::AccessControlException with {
-        my $e = shift;
-        $this->assert( 0, $e->stringify );
-    }
-    catch Error::Simple with {
-        $this->assert( 0, shift->stringify() );
-    }
-    otherwise {
-        $this->assert( 0, "expected an oops redirect" );
     };
 
     # Reload caches

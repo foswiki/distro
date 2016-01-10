@@ -1,9 +1,4 @@
 package AccessControlTests;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki                        ();
 use Foswiki::Plugins               ();
@@ -12,11 +7,22 @@ use Foswiki::Configure::Dependency ();
 # For Anchor test
 use Foswiki::UI ();
 
+use Moo;
+use namespace::clean;
+extends 'FoswikiFnTestCase';
+
+our @_newParameters = @FoswikiFnTestCase::_newParameters;
+
 my $post11 = 0;
 
-sub new {
-    my ( $class, @args ) = @_;
-    my $self = $class->SUPER::new( 'AccessControl', @args );
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
+    return $orig->( $class, 'AccessControl', @_ );
+};
+
+sub BUILD {
+    my $this = shift;
 
     my $dep = new Foswiki::Configure::Dependency(
         type    => "perl",
@@ -25,8 +31,6 @@ sub new {
     );
     my ( $ok, $message ) = $dep->checkDependency();
     $post11 = $ok;
-
-    return $self;
 }
 
 my $MrWhite;

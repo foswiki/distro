@@ -2,11 +2,12 @@
 require 5.006;
 
 package FoswikiSuite;
-use Unit::TestSuite;
 use Cwd;
-our @ISA = qw( Unit::TestSuite );
+use Moo;
+use namespace::clean;
+extends 'Unit::TestSuite';
 
-use strict;
+our @_newParameters = @Unit::TestSuite::_newParameters;
 
 # Assumes we are run from the "test/unit" directory
 

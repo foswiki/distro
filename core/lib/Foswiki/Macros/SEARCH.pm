@@ -38,8 +38,8 @@ sub SEARCH {
     try {
         $s = $this->search->searchWeb(%$params);
     }
-    catch Error with {
-        my $exception = shift;
+    catch {
+        my $exception = $_;
         my $message;
 
         if (DEBUG) {

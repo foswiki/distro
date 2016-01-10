@@ -11,11 +11,15 @@ Foswiki.
 
 =cut
 
-use strict;
-use Error qw( :try );
+use Try::Tiny;
 use Carp;
 use Unit::HTMLDiffer;
 use Unit::TestRunner();
+
+use Moo;
+use namespace::clean;
+
+extends 'Foswiki::Object';
 
 $Carp::Verbose = 1;
 
@@ -30,17 +34,18 @@ Construct a new testcase.
 
 =cut
 
-sub new {
-    my $class = shift;
-    my $this  = bless(
-        {
-            annotations    => [],
-            expect_failure => 0
-        },
-        $class
-    );
-    return $this;
-}
+has annotations => (
+    is      => 'rw',
+    default => sub { return []; },
+);
+has expect_failure => (
+    is      => 'rw',
+    default => 0,
+    trigger => sub {
+        $_[0]->annotate( $_[1] ) if $_[1];
+        $_[0]->{expect_failure} = 1;
+    },
+);
 
 =begin TML
 
@@ -55,8 +60,8 @@ Subclasses should call the superclass method in overrides.
 
 sub set_up {
     my $this = shift;
-    @{ $this->{annotations} } = ();
-    $this->{expect_failure} = 0;
+    $this->annotations( [] );
+    $this->expect_failure(0);
 }
 
 =begin TML
@@ -487,43 +492,7 @@ Add an annotation to the test output
 
 sub annotate {
     my ( $this, $mess ) = @_;
-    push( @{ $this->{annotations} }, $mess ) if defined($mess);
-}
-
-=begin TML
-
----++ ObjectMethod annotations() -> @annotations
-
-=cut
-
-sub annotations {
-    my ($this) = @_;
-
-    return @{ $this->{annotations} || [] };
-}
-
-=begin TML
-
----++ ObjectMethod expect_failure($reason)
-
-Flag that the test is expected to fail in the current environment. This
-is used for example on platfroms where tests are known to fail e.g. case
-sensitivity of filenames on Win32.
-
-If supplied, the test is annotated with =$reason= for why the failure is
-expected.
-
-=cut
-
-sub expect_failure {
-    my ( $this, $reason ) = @_;
-
-    if ($reason) {
-        $this->annotate($reason);
-    }
-    $this->{expect_failure} = 1;
-
-    return;
+    push( @{ $this->annotations }, $mess ) if defined($mess);
 }
 
 =begin TML
@@ -682,6 +651,8 @@ sub captureSTD {
 
     undef $this->{stdout};
     undef $this->{stderr};
+
+    # SMELL Why try? eval{}; would do fine without extra penalty on performance.
     try {
         local *STDOUT;
         local *STDERR;

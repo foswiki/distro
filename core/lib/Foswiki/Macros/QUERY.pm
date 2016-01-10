@@ -66,11 +66,12 @@ sub QUERY {
         $result = $node->evaluate( tom => $topicObject, data => $topicObject );
         $result = Foswiki::Serialise::serialise( $result, $style );
     }
-    catch Foswiki::Infix::Error with {
-        my $e = shift;
-        $result =
-          $this->inlineAlert( 'alerts', 'generic', 'QUERY{',
-            $params->stringify(), '}:', $e->{-text} );
+    catch {
+        if ( $_->isa('Foswiki::Infix::Error') ) {
+            $result =
+              $this->inlineAlert( 'alerts', 'generic', 'QUERY{',
+                $params->stringify(), '}:', $_->text );
+        }
     }
     finally {
         delete $this->{evaluatingEval}->{$expr};

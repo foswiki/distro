@@ -20,8 +20,6 @@ use strict;
 use warnings;
 
 use Assert;
-use Unit::TestCase();
-our @ISA = qw( Unit::TestCase );
 
 use Data::Dumper;
 
@@ -30,10 +28,20 @@ use Foswiki::Meta();
 use Foswiki::Plugins();
 use Unit::Request();
 use Unit::Response();
-use Error qw( :try );
+use Try::Tiny;
 
 use constant SINGLE_SINGLETONS => 0;
 use constant TRACE             => 0;
+
+# Temporary directory to store work files in (sessions, logs etc).
+# Will be cleaned up after running the tests unless the environment
+# variable FOSWIKI_DEBUG_KEEP is true
+use File::Temp;
+my $cleanup = $ENV{FOSWIKI_DEBUG_KEEP} ? 0 : 1;
+
+use Moo;
+use namespace::clean;
+extends 'Unit::TestCase';
 
 BEGIN {
 
@@ -46,18 +54,6 @@ BEGIN {
 }
 
 our $didOnlyOnceChecks = 0;
-
-# Temporary directory to store work files in (sessions, logs etc).
-# Will be cleaned up after running the tests unless the environment
-# variable FOSWIKI_DEBUG_KEEP is true
-use File::Temp;
-my $cleanup = $ENV{FOSWIKI_DEBUG_KEEP} ? 0 : 1;
-
-sub new {
-    my $class = shift;
-    my $self  = $class->SUPER::new(@_);
-    return $self;
-}
 
 sub _test_with_deps {
     my ( $this, $test, %skip_data ) = @_;
@@ -820,8 +816,8 @@ sub removeWebFixture {
         my $webObject = Foswiki::Meta->new( $session, $web );
         $webObject->removeFromStore();
     }
-    otherwise {
-        my $e = shift;
+    catch {
+        my $e = $_;
         print STDERR "Unexpected exception while removing web $web\n";
         print STDERR $e->stringify(), "\n" if $e;
     };

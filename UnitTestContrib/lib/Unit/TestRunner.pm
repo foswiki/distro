@@ -16,8 +16,13 @@ use warnings;
 use Assert;
 use Devel::Symdump();
 use File::Spec();
-use Error qw(:try);
+use Try::Tiny;
 use Unit::TestCase;
+
+use Moo;
+use namespace::clean;
+
+extends 'Foswiki::Object';
 
 sub CHECKLEAK { 0 }
 
@@ -29,25 +34,50 @@ BEGIN {
     }
 }
 
-sub new {
-    my $class = shift;
-    return bless(
-        {
-            unexpected_passes   => [],
-            expected_failures   => {},
-            verify_permutations => {},
-            failures            => [],
-            number_of_asserts   => 0,
-            unexpected_result   => {},
-            tests_per_module    => {},
-            failed_suites       => {},
-            skipped_suites      => {},
-            skipped_tests       => {},
-            annotations         => {},
-        },
-        $class
-    );
-}
+has unexpected_passes => (
+    is      => 'rw',
+    default => sub { return []; },
+);
+has expected_failures => (
+    is      => 'rw',
+    default => sub { return {}; },
+);
+has verify_permutations => (
+    is      => 'rw',
+    default => sub { return {}; },
+);
+has failures => (
+    is      => 'rw',
+    default => sub { return []; },
+);
+has number_of_asserts => (
+    is      => 'rw',
+    default => sub { return 0; },
+);
+has unexpected_result => (
+    is      => 'rw',
+    default => sub { return {}; },
+);
+has tests_per_module => (
+    is      => 'rw',
+    default => sub { return {}; },
+);
+has failed_suites => (
+    is      => 'rw',
+    default => sub { return {}; },
+);
+has skipped_suites => (
+    is      => 'rw',
+    default => sub { return {}; },
+);
+has skipped_tests => (
+    is      => 'rw',
+    default => sub { return {}; },
+);
+has annotations => (
+    is      => 'rw',
+    default => sub { return {}; },
+);
 
 # Print without risking a "wide char in print" error
 sub safe_print {
@@ -583,8 +613,8 @@ sub runOne {
                           . quotemeta($test) . '");';
                     }
                 }
-                catch Error with {
-                    my $e = shift;
+                catch {
+                    my $e = $_;
                     safe_print "*** ", $e->stringify(), "\n";
                     if ( $tester->{expect_failure} ) {
                         $action .=

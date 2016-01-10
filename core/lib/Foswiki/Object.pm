@@ -62,6 +62,9 @@ Note that for =$object2= the =BUILD()= method would be called with undefined par
 sub BUILDARGS {
     my ( $class, @params ) = @_;
 
+    # Skip processing if already have passed with a hash ref.
+    return $params[0] if @params == 1 && ref( $params[0] ) eq 'HASH';
+
     my $paramHash;
 
     no strict 'refs';
@@ -82,7 +85,11 @@ sub BUILDARGS {
 
 # If $paramHash is undef at this point then either @params is a key/value pairs array or no @_newParameters array defined.
 # SMELL XXX Number of elements in @params has to be checked and an exception thrown if it's inappropriate.
-    $paramHash = {@params} unless defined $paramHash;
+    unless ( defined $paramHash ) {
+        Carp::confess("Odd number of elements in parameters hash")
+          if ( @params % 2 ) == 1;
+        $paramHash = {@params};
+    }
 
     use strict 'refs';
 

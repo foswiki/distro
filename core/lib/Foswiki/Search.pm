@@ -12,7 +12,7 @@ This module implements all the search functionality.
 use strict;
 use warnings;
 use Assert;
-use Error qw( :try );
+use Try::Tiny;
 
 use Foswiki                           ();
 use Foswiki::Sandbox                  ();
@@ -26,6 +26,11 @@ use Foswiki::WebFilter                ();
 use Foswiki::MetaCache                ();
 use Foswiki::Infix::Error             ();
 
+use Moo;
+use namespace::clean;
+
+extends 'Foswiki::Object';
+
 use constant MONITOR => 0;
 
 BEGIN {
@@ -35,20 +40,9 @@ BEGIN {
     }
 }
 
-=begin TML
+has session => ( is => 'ro', );
 
----++ ClassMethod new ($session)
-
-Constructor for the singleton Search engine object.
-
-=cut
-
-sub new {
-    my ( $class, $session ) = @_;
-    my $this = bless( { session => $session }, $class );
-
-    return $this;
-}
+our @_newParameters = qw( session );
 
 =begin TML
 
@@ -67,15 +61,18 @@ sub finish {
 
 # these may well be function objects, but if (a setting changes, it needs to be picked up again.
     if ( defined( $this->{queryParser} ) ) {
-        $this->{queryParser}->finish();
+
+        #$this->{queryParser}->finish();
         undef $this->{queryParser};
     }
     if ( defined( $this->{searchParser} ) ) {
-        $this->{searchParser}->finish();
+
+        #$this->{searchParser}->finish();
         undef $this->{searchParser};
     }
     if ( defined( $this->{MetaCache} ) ) {
-        $this->{MetaCache}->finish();
+
+        #$this->{MetaCache}->finish();
         undef $this->{MetaCache};
     }
 }
@@ -132,10 +129,22 @@ sub parseSearch {
     try {
         $query = $theParser->parse( $searchString, $params );
     }
-    catch Foswiki::Infix::Error with {
+    catch {
+        if ( $_->isa('Foswiki::Infix::Error') ) {
 
-        # Pass the error on to the caller
-        throw Error::Simple( shift->stringify() );
+            # SMELL Here is the old, pre-Try::Tiny code, follows:
+            #catch Foswiki::Infix::Error with {
+            #
+            #    # Pass the error on to the caller
+
+    #    throw Error::Simple( shift->stringify() );
+    #};
+    # Guess as now exceptions are all derived from a single ancestor there is no
+    # more need to convert into Error::Simple. Though stringification has to be
+    # closely considered.
+            $_->throw;
+        }
+
     };
 
 #print STDERR "parseSearch($searchString) => ".$query->stringify()."\n" if MONITOR;
@@ -187,9 +196,10 @@ sub _countPattern {
     try {
 
         # see: perldoc -q count
+        # SMELL Should save few CPU cycles if replaced with eval{}; if ($@) {};
         $count = () = $text =~ m/$pattern/g;
     }
-    catch Error with {
+    catch {
         $count = 0;
     };
 
@@ -246,7 +256,7 @@ If =type="word"= it will be changed to =type="keyword"= with =wordboundaries=1=.
 SMELL: If =template= is defined =bookview= will not work
 
 SMELL: it seems that if you define =_callback= then you are
-	responsible for converting the TML to HTML yourself!
+    responsible for converting the TML to HTML yourself!
 
 FIXME: =callback= cannot work with format parameter (consider format='| $topic |'
 
@@ -1226,7 +1236,7 @@ sub formatResult {
 s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
         foreach my $key ( keys(%$tomKeys) ) {
             $itemView =~ s[\$$key(?:\(([^\)]*)\))?]
-			[&{$tomKeys->{$key}}($key, $item, $1)]ges;
+            [&{$tomKeys->{$key}}($key, $item, $1)]ges;
         }
 
         # load the appropriate template for this item
@@ -1246,7 +1256,7 @@ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
         # Only process tomKeys if the item is a valid topicObject
         foreach my $key ( keys(%$tomKeys) ) {
             $out =~ s[\$$key(?:\(([^\)]*)\))?]
-		[&{$tomKeys->{$key}}($key, $item, $1)]ges;
+        [&{$tomKeys->{$key}}($key, $item, $1)]ges;
         }
 
         # Note that we cannot send a formatted search through renderRevisionInfo

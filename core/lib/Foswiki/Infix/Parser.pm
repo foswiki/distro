@@ -89,8 +89,9 @@ has node_factory => (
 );
 
 has nodeClass => (
-    is      => 'rw',
-    trigger => sub { $_[0]->{node_factory} = $_[1]; },
+    is        => 'rw',
+    predicate => 1,
+    trigger   => sub { $_[0]->{node_factory} = $_[1]; },
 );
 
 has operators => (
