@@ -55,9 +55,9 @@ Foswiki is released under the GNU General Public License.
 
 ---++ Pre-installed Extensions
 
-Foswiki 2.1 is shipped with the following: ( __New to Foswiki 2.0__ )
-   * *Plugins:* AutoViewTemplatePlugin, CommentPlugin, __ConfigurePlugin__, __EditRowPlugin__, EmptyPlugin, HistoryPlugin, __HomePagePlugin__, InterwikiPlugin, JQueryPlugin, __NatEditPlugin__, PreferencesPlugin, PubLinkFixupPlugin, RenderListPlugin, SlideShowPlugin, SmiliesPlugin, SpreadSheetPlugin, __SubscribePlugin__, TablePlugin, TinyMCEPlugin, TwistyPlugin, __UpdatesPlugin__, WysiwygPlugin
-   * *Contribs:* CompareRevisionsAddOn, FamFamFamContrib, __FastCGIEngineContrib__, __JEditableContrib__, JSCalendarContrib, __JsonRpcContrib__, MailerContrib, __ModPerlEngineContrib__, __PlainFileStoreContrib__, __RCSStoreContrib__, TipsContrib, TopicUserMappingContrib
+Foswiki 2.1 is shipped with the following:
+   * *Plugins:* AutoViewTemplatePlugin, CommentPlugin, ConfigurePlugin, EditRowPlugin, EmptyPlugin, HistoryPlugin, HomePagePlugin, InterwikiPlugin, JQueryPlugin, NatEditPlugin, PreferencesPlugin, PubLinkFixupPlugin, RenderListPlugin, SlideShowPlugin, SmiliesPlugin, SpreadSheetPlugin, SubscribePlugin, TablePlugin, TinyMCEPlugin, TwistyPlugin, UpdatesPlugin, WysiwygPlugin
+   * *Contribs:* CompareRevisionsAddOn, FamFamFamContrib, FastCGIEngineContrib, JEditableContrib, JSCalendarContrib, JsonRpcContrib, MailerContrib, ModPerlEngineContrib, PlainFileStoreContrib, RCSStoreContrib, TipsContrib, TopicUserMappingContrib
    * *Skins:* PatternSkin
    * *Compatibility support* - TWikiCompatibilityPlugin
 
@@ -67,7 +67,7 @@ For up-to-date information, see [[http://foswiki.org/Support/KnownIssuesOfFoswik
 ---+++ Use of non-default ={Store}{Encoding}=
 
 *WARNING* About ={Store}{Encoding}=: If you intend to use high-bit characters in attachment filenames (such as umlauts and accents), then links to these
-attachments on Foswiki pages *will not work* on a non-utf-8 Store without modification. This is because Foswiki works internally using UNICODE, but the store saves files to disk using your chosen
+attachments on Foswiki pages *will not work* on a non-utf-8 Store without modification. This is because Foswiki works internally using Unicode, but the store saves files to disk using your chosen
 {Store}{Encoding}. Running the Store with other than =utf-8= encoding is considered a transitional step and not recommended for long-term operation.
 The *strongly recommended* solution is to convert your store to UTF8 at the earliest opportunity.
 
@@ -83,6 +83,10 @@ See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
 The =%<nop>HTTP%= and =%<nop>HTTPS%= macros are deprecated and will be removed in a future release.  These macros now restrict the available information to the
 =Accept-language= and =User-Agent= headers.  The list of available headers is now configurable.
 
+---++ API Change
+
+The Foswiki API version is incremented to version 2.4 in Foswiki 2.1.0.  Foswiki 2.1 permits template names using Unicode characters.
+
 ---+++ New Perl CPAN dependencies!
 <div class="foswikiHelp">
 *Foswiki now requires CPAN:Email::MIME*. Foswiki will be unable to send email without this module. SystemRequirements has more details on CPAN dependencies and
@@ -91,7 +95,7 @@ package names for most *nix distributions.
 
 ---+++ Enhanced Registration form
 
-The registration form now accepts the paramater =templatename= to override the default NewUserTemplate.  In addition the registration topics have been
+The registration form now accepts the parameter =templatename= to override the default NewUserTemplate.  In addition the registration topics have been
 restructured to permit multiple registration pages to be configured, and the customization of the registration form is greatly simplified.
 
 ---+++ Easier to restrict access to the System web.
@@ -116,8 +120,8 @@ preserved during edit.   The Foswiki core has been fully converted to utf-8 and 
 / writing to the Foswiki store.
 
    * Foswiki 2.1 International support
-      * Emails sent by Foswiki now fully support Internation Character Sets.
-      * Foswiki now uses NFC Normalization of UNICODE characters. This greatly improves compatibility with Operating Systems like OSX which use NFD form characters by default.
+      * Emails sent by Foswiki now fully support International Character Sets.
+      * Foswiki now uses NFC Normalization of Unicode characters. This greatly improves compatibility with Operating Systems like OSX which use NFD form characters by default.
       * Template names are no longer restricted to ASCII characters. 
 
    * Foswiki 2.0 International support
@@ -152,7 +156,6 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 ---++ Foswiki Release 2.1 Details
 ---+++ New Features
 <noautolink>
-| *Feature* | *Summary* |
 | [[%FO%/Development.AddConcatOptionToAttrs][AddConcatOptionToAttrs]] | Add +"more" and key+"more" options to Foswiki::Attrs |
 | [[%FO%/Development.CompleteMIMESupportInEmail][CompleteMIMESupportInEmail]] | Wrap all outgoing mails into uniform and safe MIME envelope. |
 | [[%FO%/Development.CustomNewUserTemplates][CustomNewUserTemplates]] | Enhance register script to specify a =templatetopic= param instead of hard-coded 'NewUserTemplate' |
@@ -169,7 +172,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 ---+++ Fixes
 
 | [[%BUGS%/Item12067][Item12067]] | Removing members via WikiGroups not possible when login name different from WikiName. |
-| [[%BUGS%/Item12569][Item12569]] | Sorting in tableplugin is wrong in german. |
+| [[%BUGS%/Item12569][Item12569]] | Sorting in tableplugin is wrong in German. |
 | [[%BUGS%/Item13405][Item13405]] | Unicode Normalisation. |
 | [[%BUGS%/Item13554][Item13554]] | Foswiki doesn't work with accented Template names. |
 | [[%BUGS%/Item13699][Item13699]] | Mail sending fails when non-latin text in utf8 is being sent. |
@@ -210,12 +213,12 @@ The following fixes will also be incorporated into Foswiki 2.0.4
 | [[%BUGS%/Item13849][Item13849]] | Implement MakeZonesLessIntrusive. |
 | [[%BUGS%/Item13854][Item13854]] | Implemement MakeItEasierToBlockSystemWebGuestAccess. |
 | [[%BUGS%/Item13864][Item13864]] | Implement CustomNewUserTemplates - Registration can override the template for the user topic. |
-| [[%BUGS%/Item13867][Item13867]] | bin/upload failed fron the command line. |
+| [[%BUGS%/Item13867][Item13867]] | bin/upload failed from the command line. |
 | [[%BUGS%/Item13874][Item13874]] | Don't encode URLs in links inserted by Upload. |
 
 The following enhancements will also be included in Foswiki 2.0.4
 
-| [[%BUGS%/Item13553][Item13553]] | Add form-defiition-table template. |
+| [[%BUGS%/Item13553][Item13553]] | Add form-definition-table template. |
 | [[%BUGS%/Item13866][Item13866]] | Add a file permission fixer script to tools. |
 | [[%BUGS%/Item13914][Item13914]] | rewriteshebang should use setlib,  don't make user enter -I ../lib. |
 
