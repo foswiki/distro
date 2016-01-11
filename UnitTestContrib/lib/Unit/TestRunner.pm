@@ -172,7 +172,9 @@ sub start {
             next;
         }
         print "Running $suite\n";
-        my $tester = $suite->new($suite);
+
+# vrurg: To much burden to maintain compatibility with pre-Moo positional argument passing.
+        my $tester = $suite->new( suite => $suite );
         if ( $tester->isa('Unit::TestSuite') ) {
 
             # Get a list of included tests
@@ -605,7 +607,7 @@ sub runOne {
                     $tester->$test();
                     _finish_singletons() if CHECKLEAK;
                     $action .= '$passes++;';
-                    if ( $tester->{expect_failure} ) {
+                    if ( $tester->expect_failure ) {
                         print "*** Unexpected pass\n";
                         $action .=
                           '$this->{unexpected_result}->{\'' . $suite . '\'}++;';
@@ -616,7 +618,7 @@ sub runOne {
                 catch {
                     my $e = $_;
                     safe_print "*** ", $e->stringify(), "\n";
-                    if ( $tester->{expect_failure} ) {
+                    if ( $tester->expect_failure ) {
                         $action .=
                           "\$this->{expected_failures}{'$suite'}{'$test'} = \""
                           . quotemeta( $e->stringify() ) . '";';

@@ -8,8 +8,8 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
-    my $msg  = '';
+    my ( $this, $reporter ) = @_;
+    my $msg = '';
 
     if ( $Foswiki::cfg{LegacyRESTSecurity} ) {
 

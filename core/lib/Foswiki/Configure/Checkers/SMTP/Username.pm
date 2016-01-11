@@ -10,21 +10,23 @@ our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::Dependency ();
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
     my $report;
 
     return unless $Foswiki::cfg{SMTP}{Username};
 
     my %mod = (
-        name => 'Authen::SASL',
-        usage => 'Required for SMTP Authentication',
-        minimumVersion => 1 );
+        name           => 'Authen::SASL',
+        usage          => 'Required for SMTP Authentication',
+        minimumVersion => 1
+    );
 
     Foswiki::Configure::Dependency::checkPerlModules( \%mod );
-    if (!$mod{ok}) {
-        $reporter->ERROR($mod{check_result}) ;
-    } else {
-        $reporter->NOTE($mod{check_result});
+    if ( !$mod{ok} ) {
+        $reporter->ERROR( $mod{check_result} );
+    }
+    else {
+        $reporter->NOTE( $mod{check_result} );
     }
 
     $reporter->WARN(

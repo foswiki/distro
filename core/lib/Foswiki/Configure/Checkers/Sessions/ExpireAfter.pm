@@ -8,7 +8,7 @@ require Foswiki::Configure::Checkers::NUMBER;
 our @ISA = ('Foswiki::Configure::Checkers::NUMBER');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     return '' unless $Foswiki::cfg{UseClientSessions};
 

@@ -10,7 +10,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::Load ();
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
     my $mess = '';
 
     if ( $Foswiki::cfg{WarningFileName} ) {

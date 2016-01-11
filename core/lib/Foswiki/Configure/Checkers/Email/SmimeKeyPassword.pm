@@ -9,7 +9,7 @@ require Foswiki::Configure::Checkers::Certificate::KeyPasswordChecker;
 our @ISA = qw( Foswiki::Configure::Checkers::Certificate::KeyPasswordChecker );
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     $this->checkEnabled( $Foswiki::cfg{Email}{EnableSMIME}, $reporter );
 }

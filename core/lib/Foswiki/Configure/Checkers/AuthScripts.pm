@@ -8,8 +8,8 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
-    my $msg  = '';
+    my ( $this, $reporter ) = @_;
+    my $msg = '';
 
     if ( $Foswiki::cfg{AuthScripts} ) {
         if ( $Foswiki::cfg{LoginManager} eq 'none' ) {
@@ -71,7 +71,7 @@ HERE
     closedir(D);
 
     $reporter->NOTE(
-"The following scripts can be run by unauthenticated users: =$unauth=" )
+        "The following scripts can be run by unauthenticated users: =$unauth=")
       if $unauth;
 
     if ( $unauth =~ m/auth\b/ ) {

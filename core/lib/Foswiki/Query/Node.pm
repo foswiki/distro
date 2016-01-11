@@ -140,7 +140,7 @@ around newLeaf => sub {
 
         $type = Foswiki::Infix::Node::STRING;
     }
-    return $orig->($class, $val, $type);
+    return $orig->( $class, $val, $type );
 };
 
 =begin TML

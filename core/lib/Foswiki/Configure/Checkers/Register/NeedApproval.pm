@@ -8,7 +8,7 @@ use Foswiki::Configure::Checker ();
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     return '' unless $Foswiki::cfg{Register}{NeedApproval};
 

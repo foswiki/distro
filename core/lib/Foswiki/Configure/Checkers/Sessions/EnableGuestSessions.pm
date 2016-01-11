@@ -8,7 +8,7 @@ require Foswiki::Configure::Checker;
 our @ISA = ('Foswiki::Configure::Checker');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     unless ( defined $Foswiki::cfg{Sessions}{EnableGuestSessions}
         && $Foswiki::cfg{Sessions}{EnableGuestSessions} )

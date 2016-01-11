@@ -15,8 +15,8 @@ targeting single classes).
 
    1. Do not be afraid to modify Foswiki::cfg. You cannot break other
       tests that way.
-   2. Never, ever write to any webs except the {test_web} and
-      {users_web}, or any other test webs you create and remove
+   2. Never, ever write to any webs except the test_web and
+      users_web, or any other test webs you create and remove
       (following the pattern shown below)
    3. The password manager is set to HtPasswdUser, and you can create
       users as shown in the creation of {test_user}
@@ -30,24 +30,34 @@ use Unit::Response();
 use Foswiki::UI::Register();
 use Try::Tiny;
 
+our @mails;
+
 use Moo;
 use namespace::clean;
 extends 'FoswikiTestCase';
 
-our @mails;
-
-sub new {
-    my $class = shift;
-    my $var   = shift;
-    my $this  = $class->SUPER::new(@_);
-
-    $this->{var}        = $var;
-    $this->{test_web}   = 'Temporary' . $var . 'TestWeb' . $var;
-    $this->{test_topic} = 'TestTopic' . $var;
-    $this->{users_web}  = 'Temporary' . $var . 'UsersWeb';
-
-    return $this;
-}
+has suite => (
+    is       => 'ro',
+    required => 1,
+);
+has test_web => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => sub {
+        my $suite = $_[0]->suite;
+        return 'Temporary' . $suite . 'TestWeb' . $suite;
+    },
+);
+has test_topic => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => sub { return 'TestTopic' . $_[0]->suite; },
+);
+has users_web => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => sub { return 'Temporary' . $_[0]->suite . 'UsersWeb'; },
+);
 
 =begin TML
 
@@ -82,7 +92,7 @@ sub loadExtraConfig {
 
     $Foswiki::cfg{Register}{NeedVerification} = 0;
     $Foswiki::cfg{MinPasswordLength}          = 0;
-    $Foswiki::cfg{UsersWebName}               = $this->{users_web};
+    $Foswiki::cfg{UsersWebName}               = $this->users_web;
 }
 
 sub set_up {
@@ -90,22 +100,22 @@ sub set_up {
     $this->SUPER::set_up(@_);
 
     my $query = new Unit::Request("");
-    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
 
     # Note: some tests are testing Foswiki::UI which also creates a session
     $this->createNewFoswikiSession( undef, $query );
     $this->{response} = new Unit::Response();
     @mails = ();
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-    my $webObject = $this->populateNewWeb( $this->{test_web} );
+    my $webObject = $this->populateNewWeb( $this->test_web );
     $webObject->finish();
     $this->{test_topicObject}->finish() if $this->{test_topicObject};
     ( $this->{test_topicObject} ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $this->{test_topicObject}->text("BLEEGLE\n");
     $this->{test_topicObject}->save( forcedate => ( time() + 60 ) );
 
-    $webObject = $this->populateNewWeb( $this->{users_web} );
+    $webObject = $this->populateNewWeb( $this->users_web );
     $webObject->finish();
 
     $this->{test_user_forename} = 'Scum';
@@ -125,7 +135,7 @@ sub set_up {
 sub tear_down {
     my $this = shift;
 
-    $this->removeWebFixture( $this->{session}, $this->{test_web} );
+    $this->removeWebFixture( $this->{session}, $this->test_web );
     $this->removeWebFixture( $this->{session}, $Foswiki::cfg{UsersWebName} );
     unlink( $Foswiki::cfg{Htpasswd}{FileName} );
     $this->SUPER::tear_down();
@@ -188,12 +198,11 @@ sub registerUser {
     }
     my $query = Unit::Request->new($params);
 
-    $query->path_info("/$this->{users_web}/UserRegistration");
+    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
 
     $this->createNewFoswikiSession( undef, $query );
     $this->assert( $this->{session}
-          ->topicExists( $this->{test_web}, $Foswiki::cfg{WebPrefsTopicName} )
-    );
+          ->topicExists( $this->test_web, $Foswiki::cfg{WebPrefsTopicName} ) );
 
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     try {

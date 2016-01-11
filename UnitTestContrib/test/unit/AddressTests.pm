@@ -1,16 +1,27 @@
 package AddressTests;
-use strict;
-use warnings;
-
-use FoswikiTestCase;
-our @ISA = qw( FoswikiTestCase );
 
 use Assert;
 use Data::Dumper;
 use Benchmark qw(:hireswallclock);
 use constant TRACE => 0;
 
-my $test_web             = 'Temporary' . __PACKAGE__ . 'TestWeb';
+use Moo;
+use namespace::clean;
+extends 'FoswikiTestCase';
+
+my $test_web = 'Temporary' . __PACKAGE__ . 'TestWeb';
+
+has test_web => (
+    is      => 'rw',
+    builder => sub { return $test_web; },
+);
+has test_topic => (
+    is      => 'rw',
+    builder => sub {
+        return 'TestTopic' . ref( $_[0] );
+    },
+);
+
 my %test_roundtrip_range = (
     webpath => [
         [$test_web],
@@ -245,15 +256,9 @@ my %testspec = (
     }
 );
 
-sub new {
-    my ( $class, @args ) = @_;
-    my $this = $class->SUPER::new(@args);
-
-    $this->{test_web}   = $test_web;
-    $this->{test_topic} = 'TestTopic' . $class;
+sub BUILD {
+    my $this = shift;
     $this->gen_testspec_fns();
-
-    return $this;
 }
 
 sub skip {
@@ -264,24 +269,25 @@ sub skip {
       : undef;
 }
 
-sub set_up {
-    my ($this) = @_;
+around set_up => sub {
+    my $orig = shift;
+    my $this = shift;
 
     # We don't want the overhead of creating a new session for each tests
     my $query = Unit::Request->new("");
-    $this->SUPER::set_up();
-    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $orig->($this);
+    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
 
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $query );
 
     ( $this->{test_topicObject} ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     if ( $this->check_dependency('Foswiki,>=,1.2') ) {
         require Foswiki::Address;
     }
 
     return;
-}
+};
 
 sub gendata {
     my ( $this, $range ) = @_;
@@ -424,7 +430,8 @@ sub gen_testspec_fns {
     return;
 }
 
-sub list_tests {
+around list_tests => sub {
+    my $orig = shift;
     my ( $this, $suite ) = @_;
     my @testnames;
 
@@ -432,8 +439,8 @@ sub list_tests {
         push( @testnames, __PACKAGE__ . '::test_' . $testname );
     }
 
-    return $this->SUPER::list_tests($suite);
-}
+    return $orig->( $this, $suite );
+};
 
 sub gen_roundtrip_range_tests {
     my ( $this, $range ) = @_;

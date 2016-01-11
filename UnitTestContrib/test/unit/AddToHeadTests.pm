@@ -4,16 +4,22 @@ use strict;
 
 package AddToHeadTests;
 
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
-
 use Foswiki;
-use Error qw( :try );
+use Try::Tiny;
 
-sub new {
-    my $self = shift()->SUPER::new( 'SortedHeadTests', @_ );
-    return $self;
-}
+use Moo;
+use namespace::clean;
+extends 'FoswikiFnTestCase';
+
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
+
+    # We need to override the suite parameter.
+    my %args = @_;
+    $args{suite} = 'SortedHeadTests';
+    return $orig->( $class, %args );
+};
 
 sub skip {
     my ( $this, $test ) = @_;

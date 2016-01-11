@@ -10,7 +10,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::Dependency;
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     return unless $Foswiki::cfg{Cache}{Enabled};
 
@@ -22,15 +22,16 @@ sub check_current_value {
     $module =~ s/^DBI::/DBD::/;
 
     my %mod = (
-        name => $module,
-        usage => "Required to use $implementation.",
+        name           => $module,
+        usage          => "Required to use $implementation.",
         minimumVersion => 0
-        );
+    );
     Foswiki::Configure::Dependency::checkPerlModules( \%mod );
-    if (!$mod{ok}) {
-        $reporter->ERROR($mod{check_result});
-    } else {
-        $reporter->NOTE($mod{check_result});
+    if ( !$mod{ok} ) {
+        $reporter->ERROR( $mod{check_result} );
+    }
+    else {
+        $reporter->NOTE( $mod{check_result} );
     }
 }
 

@@ -8,8 +8,9 @@ use Foswiki::Configure::Checkers::REGEX ();
 our @ISA = ('Foswiki::Configure::Checkers::REGEX');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
-    $this->SUPER::check_current_value($reporter) if $Foswiki::cfg{Cache}{Enabled};
+    my ( $this, $reporter ) = @_;
+    $this->SUPER::check_current_value($reporter)
+      if $Foswiki::cfg{Cache}{Enabled};
 }
 
 1;

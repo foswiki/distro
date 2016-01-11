@@ -13,33 +13,34 @@ use Foswiki::Configure::Dependency ();
 
 our @mods = (
     {
-        name => 'Crypt::SMIME',
-        usage => 'Required for S/MIME',
+        name           => 'Crypt::SMIME',
+        usage          => 'Required for S/MIME',
         minimumVersion => 0.09
     },
     {
-        name => 'Crypt::X509',
-        usage => 'Required for validation',
+        name           => 'Crypt::X509',
+        usage          => 'Required for validation',
         minimumVersion => 0.51
     },
     {
-        name => 'Convert::PEM',
-        usage => 'Required for encrypted private key files',
+        name           => 'Convert::PEM',
+        usage          => 'Required for encrypted private key files',
         minimumVersion => 0.08
     }
 );
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     return unless $Foswiki::cfg{Email}{EnableSMIME};
 
     Foswiki::Configure::Dependency::checkPerlModules(@mods);
     foreach my $mod (@mods) {
-        if (!$mod->{ok}) {
-            $reporter->ERROR($mod->{check_result});
-        } else {
-            $reporter->NOTE($mod->{check_result});
+        if ( !$mod->{ok} ) {
+            $reporter->ERROR( $mod->{check_result} );
+        }
+        else {
+            $reporter->NOTE( $mod->{check_result} );
         }
     }
 
@@ -55,7 +56,8 @@ sub check_current_value {
             && !$Foswiki::cfg{Email}{SmimeKeyFile}
             && -r $selfCert
             && -r $selfKey )
-        ) {
+      )
+    {
         $reporter->ERROR(<<OMG);
 Either Certificate and Key files must be provided for S/MIME email, or a
 self-signed certificate can be generated.  To generate a self-signed

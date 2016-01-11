@@ -16,9 +16,6 @@ you can always create a new web based on that web.
 
 =cut
 
-use strict;
-use warnings;
-
 use Assert;
 
 use Data::Dumper;
@@ -39,6 +36,8 @@ use constant TRACE             => 0;
 use File::Temp;
 my $cleanup = $ENV{FOSWIKI_DEBUG_KEEP} ? 0 : 1;
 
+our $didOnlyOnceChecks = 0;
+
 use Moo;
 use namespace::clean;
 extends 'Unit::TestCase';
@@ -52,8 +51,6 @@ BEGIN {
     require 'setlib.cfg';
     $SIG{__DIE__} = sub { Carp::confess $_[0] };
 }
-
-our $didOnlyOnceChecks = 0;
 
 sub _test_with_deps {
     my ( $this, $test, %skip_data ) = @_;
@@ -423,21 +420,22 @@ $this->expect_failure(
 
 =cut
 
-sub expect_failure {
+around expect_failure => sub {
+    my $orig = shift;
     my ( $this, @args ) = @_;
     my $reason = scalar(@args) % 2 ? shift(@args) : undef;
 
     if ( scalar(@args) ) {
         if ( $this->check_conditions_met(@args) ) {
-            $this->SUPER::expect_failure($reason);
+            $orig->( $this, $reason );
         }
     }
     else {
-        $this->SUPER::expect_failure($reason);
+        $orig->( $this, $reason );
     }
 
     return;
-}
+};
 
 =begin TML
 
@@ -577,10 +575,11 @@ use Cwd;
 
 # Use this to save the Foswiki cfg to a backing store during start_up
 # so it can be temporarily changed during tests.
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up(@_);
+    $orig->( $this, @_ );
 
     $this->{__EnvSafe} = {};
     foreach my $sym ( keys %ENV ) {
@@ -725,7 +724,7 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
 
     _onceOnlyChecks();
 
-}
+};
 
 # Restores Foswiki::cfg and %ENV from backup
 sub tear_down {

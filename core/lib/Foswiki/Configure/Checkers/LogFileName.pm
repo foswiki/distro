@@ -10,7 +10,7 @@ our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::Load ();
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     unless (
         $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::Compatibility' )
@@ -26,11 +26,12 @@ NOTE
     }
     return if ( $Foswiki::cfg{LogFileName} );
 
-    if ( $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::Compatibility' )
+    if (
+        $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::Compatibility' )
     {
         $reporter->WARN(
-            'This setting is recommended for the CompatibilityLogger.  If not set, logs are written to =$Foswiki::cfg{DataDir}/log%DATE%.txt='
-            );
+'This setting is recommended for the CompatibilityLogger.  If not set, logs are written to =$Foswiki::cfg{DataDir}/log%DATE%.txt='
+        );
     }
 }
 

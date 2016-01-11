@@ -2,6 +2,9 @@
 
 package Foswiki::Address;
 
+# SMELL XXX vrurg This class is heavily using it's propeties. Would be much
+# better to optimize thru use of local variables.
+
 =begin TML
 
 ---+ package Foswiki::Address
@@ -60,9 +63,6 @@ my $addr = {
 
 =cut
 
-use strict;
-use warnings;
-
 use Assert;
 use Foswiki::Func();
 use Foswiki::Meta();
@@ -74,6 +74,10 @@ use constant TRACEVALID                => 0;
 use constant TRACEATTACH               => 0;
 use constant STRINGIFIED_WEB_SEPARATOR => '/';
 use constant STRINGIFIED_TOPIC_SEPARATOR => '.';
+
+use Moo;
+use namespace::clean;
+extends 'Foswiki::Object';
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -193,6 +197,17 @@ my %plausibletable = (
 my %sepidentchars =
   ( 0 => { '.' => 'd', '/' => 's' }, 1 => { '.' => 'D', '/' => 'S' } );
 
+has root        => ( is => 'rw', );
+has web         => ( is => 'rw', );
+has webpath     => ( is => 'rw', );
+has topic       => ( is => 'rw', );
+has rev         => ( is => 'rw', );
+has tompath     => ( is => 'rw', );
+has attachment  => ( is => 'rw', );
+has isA         => ( is => 'rw', );
+has type        => ( is => 'rw', );
+has stringified => ( is => 'rw' );
+
 =begin TML
 
 ---++ ClassMethod new( %constructor ) => $addrObj
@@ -263,9 +278,9 @@ documentation for =parse()=.</blockquote>
 
 =cut
 
-sub new {
-    my ( $class, %opts ) = @_;
-    my $this;
+sub BUILD {
+    my $this = shift;
+    my %opts = %{ $_[0] };
 
     if ( $opts{string} ) {
 
@@ -515,7 +530,7 @@ sub _parse {
     ) if DEBUG;
     ASSERT( $opts->{isA} or defined $opts->{existAs} ) if DEBUG;
     if ( $path =~ s/\@([-\+]?\d+)$// ) {
-        $this->{rev} = $1;
+        $this->rev($1);
     }
 
     # if necessary, populate webpath from web parameter
@@ -685,12 +700,12 @@ sub _parse {
 
                 # Copy the atoms from the best hit into our instance.
                 if ($besttype) {
-                    $this->{web}        = $typeatoms{$besttype}->{web};
-                    $this->{webpath}    = $typeatoms{$besttype}->{webpath};
-                    $this->{topic}      = $typeatoms{$besttype}->{topic};
-                    $this->{tompath}    = $typeatoms{$besttype}->{tompath};
-                    $this->{attachment} = $typeatoms{$besttype}->{attachment};
-                    $parsed             = 1;
+                    $this->web( $typeatoms{$besttype}->{web} );
+                    $this->webpath( $typeatoms{$besttype}->{webpath} );
+                    $this->topic( $typeatoms{$besttype}->{topic} );
+                    $this->tompath( $typeatoms{$besttype}->{tompath} );
+                    $this->attachment( $typeatoms{$besttype}->{attachment} );
+                    $parsed = 1;
                 }
             }
         }
@@ -1075,54 +1090,60 @@ sub stringify {
 
     # If there's a valid address; and check that we haven't already computed
     # the stringification before
-    if ( !defined $this->{stringified} ) {
-        if ( $this->{webpath} ) {
-            $this->{stringified} =
-              join( STRINGIFIED_WEB_SEPARATOR, @{ $this->{webpath} } );
-            if ( $this->{topic} ) {
-                $this->{stringified} .=
-                  STRINGIFIED_TOPIC_SEPARATOR . $this->{topic};
-                if ( $this->{tompath} ) {
-                    ASSERT( ref( $this->{tompath} ) eq 'ARRAY'
-                          and scalar( @{ $this->{tompath} } ) )
+    if ( !defined $this->stringified ) {
+        if ( $this->webpath ) {
+            $this->stringified(
+                join( STRINGIFIED_WEB_SEPARATOR, @{ $this->{webpath} } ) );
+            if ( $this->topic ) {
+                $this->stringified( $this->stringified
+                      . STRINGIFIED_TOPIC_SEPARATOR
+                      . $this->{topic} );
+                if ( $this->tompath ) {
+                    ASSERT( ref( $this->tompath ) eq 'ARRAY'
+                          and scalar( @{ $this->tompath } ) )
                       if DEBUG;
                     print STDERR 'tompath:    '
-                      . Data::Dumper->Dump( [ $this->{tompath} ] )
+                      . Data::Dumper->Dump( [ $this->tompath ] )
                       if TRACEATTACH;
                     print STDERR 'attachment: '
-                      . Data::Dumper->Dump( [ $this->{attachment} ] )
+                      . Data::Dumper->Dump( [ $this->attachment ] )
                       if TRACEATTACH;
                     ASSERT(
-                             $this->{tompath}->[0] ne 'attachment'
-                          or not $this->{tompath}->[1]
-                          or (  $this->{attachment}
-                            and $this->{attachment} eq $this->{tompath}->[1] )
+                             $this->tompath->[0] ne 'attachment'
+                          or not $this->tompath->[1]
+                          or (  $this->attachment
+                            and $this->attachment eq $this->tompath->[1] )
                     ) if DEBUG;
-                    if ( $this->{tompath}->[0] eq 'attachment'
-                        and scalar( @{ $this->{tompath} } ) == 2 )
+                    if ( $this->tompath->[0] eq 'attachment'
+                        and scalar( @{ $this->tompath } ) == 2 )
                     {
-                        $this->{stringified} .= '/' . $this->{tompath}->[1];
-                        if ( defined $this->{rev} ) {
-                            $this->{stringified} .= '@' . $this->{rev};
+                        $this->stringified(
+                            $this->stringified . '/' . $this->tompath->[1] );
+                        if ( $this->has_rev ) {
+                            $this->stringified(
+                                $this->stringified . '@' . $this->rev );
                         }
                     }
                     else {
-                        if ( defined $this->{rev} ) {
-                            $this->{stringified} .= '@' . $this->{rev};
+                        if ( defined $this->rev ) {
+                            $this->stringified(
+                                $this->stringified . '@' . $this->rev );
                         }
-                        $this->{stringified} = '\''
-                          . $this->{stringified} . '\'/'
-                          . $this->{tompath}->[0];
-                        if ( $this->{tompath}->[1] ) {
-                            my @path = @{ $this->{tompath} };
+                        $this->stringified( '\''
+                              . $this->stringified . '\'/'
+                              . $this->tompath->[0] );
+                        if ( $this->tompath->[1] ) {
+                            my @path = @{ $this->tompath };
                             my $root = shift(@path);
 
                             if ( $root eq 'META' and scalar(@path) ) {
-                                $this->{stringified} .= ':' . shift(@path);
+                                $this->stringified(
+                                    $this->stringified . ':' . shift(@path) );
                             }
                             if ( scalar(@path) ) {
                                 if ( defined $path[0] ) {
-                                    $this->{stringified} .= '[';
+                                    $this->stringified(
+                                        $this->stringified . '[' );
                                     if ( ref( $path[0] ) eq 'HASH' ) {
                                         my @selectorparts;
                                         while ( my ( $key, $value ) =
@@ -1131,22 +1152,26 @@ sub stringify {
                                             push( @selectorparts,
                                                 $key . '=\'' . $value . '\'' );
                                         }
-                                        $this->{stringified} .=
-                                          join( ' AND ', @selectorparts );
+                                        $this->stringified( $this->stringified
+                                              . join( ' AND ', @selectorparts )
+                                        );
                                         shift(@path);
                                     }
                                     else {
                                         ASSERT( $path[0] =~ m/^\d+$/ ) if DEBUG;
-                                        $this->{stringified} .= shift(@path);
+                                        $this->stringified(
+                                            $this->stringified . shift(@path) );
                                     }
-                                    $this->{stringified} .= ']';
+                                    $this->stringified(
+                                        $this->stringified . ']' );
                                 }
                                 else {
                                     shift @path;
                                 }
                                 if ( scalar(@path) ) {
                                     ASSERT( scalar(@path) == 1 ) if DEBUG;
-                                    $this->{stringified} .= '.' . shift(@path);
+                                    $this->stringified( $this->stringified . '.'
+                                          . shift(@path) );
                                 }
                             }
                             ASSERT( not scalar(@path) ) if DEBUG;
@@ -1154,22 +1179,24 @@ sub stringify {
                     }
                 }
                 elsif ( defined $this->{rev} ) {
-                    $this->{stringified} .= '@' . $this->{rev};
+                    $this->stringified( $this->stringified .=
+                          '@' . $this->rev );
                 }
             }
             else {
-                $this->{stringified} .= STRINGIFIED_WEB_SEPARATOR;
+                $this->stringified(
+                    $this->stringified . STRINGIFIED_WEB_SEPARATOR );
             }
         }
         else {
-            ASSERT( $this->{root} );
-            $this->{stringified} = '/';
+            ASSERT( $this->root );
+            $this->stringified = '/';
         }
     }
-    print STDERR "stringify(): $this->{stringified}\n"
-      if TRACE2 and $this->{stringified};
+    print STDERR "stringify(): ", $this->stringified, "\n"
+      if TRACE2 and $this->stringified;
 
-    return $this->{stringified};
+    return $this->stringified;
 }
 
 =begin TML

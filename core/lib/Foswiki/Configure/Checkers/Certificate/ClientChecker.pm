@@ -10,10 +10,10 @@ use warnings;
 package Foswiki::Configure::Checkers::Certificate::ClientChecker;
 
 use Foswiki::Configure::Checkers::Certificate ();
-our @ISA = ( 'Foswiki::Configure::Checkers::Certificate' );
+our @ISA = ('Foswiki::Configure::Checkers::Certificate');
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
     $this->checkUsage( $this->{item}->{keys}, 'client', $reporter );
 }
 

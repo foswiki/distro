@@ -11,14 +11,16 @@ use Moo;
 use namespace::clean;
 extends 'FoswikiFnTestCase';
 
-our @_newParameters = @FoswikiFnTestCase::_newParameters;
-
 my $post11 = 0;
 
 around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
-    return $orig->( $class, 'AccessControl', @_ );
+
+    # We need to override the suite parameter.
+    my %args = @_;
+    $args{suite} = 'AccessControl';
+    return $orig->( $class, %args );
 };
 
 sub BUILD {
@@ -39,9 +41,10 @@ my $MrOrange;
 my $MrGreen;
 my $MrYellow;
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
+    $orig->($this);
 
     my ($topicObject) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
         $Foswiki::cfg{DefaultUserWikiName} );
@@ -70,7 +73,7 @@ THIS
     $topicObject->finish();
 
     return;
-}
+};
 
 sub DENIED {
     my ( $this, $mode, $user, $web, $topic ) = @_;

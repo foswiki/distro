@@ -10,19 +10,20 @@ our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::Dependency ();
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
+    my ( $this, $reporter ) = @_;
 
     return unless $Foswiki::cfg{HttpCompress};
     my %mod = (
-        name => 'Compress::Zlib',
-        usage => 'Used for compressing and decompressing data',
+        name           => 'Compress::Zlib',
+        usage          => 'Used for compressing and decompressing data',
         minimumVersion => 0
-        );
+    );
     Foswiki::Configure::Dependency::checkPerlModules( \%mod );
-    if (!$mod{ok}) {
-        $reporter->ERROR($mod{check_result});
-    } else {
-        $reporter->NOTE($mod{check_result});
+    if ( !$mod{ok} ) {
+        $reporter->ERROR( $mod{check_result} );
+    }
+    else {
+        $reporter->NOTE( $mod{check_result} );
     }
 }
 

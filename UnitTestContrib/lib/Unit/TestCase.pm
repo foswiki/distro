@@ -18,7 +18,6 @@ use Unit::TestRunner();
 
 use Moo;
 use namespace::clean;
-
 extends 'Foswiki::Object';
 
 $Carp::Verbose = 1;

@@ -10,8 +10,8 @@ our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::Dependency ();
 
 sub check_current_value {
-    my ($this, $reporter) = @_;
-    my $n    = '';
+    my ( $this, $reporter ) = @_;
+    my $n = '';
 
     return unless $Foswiki::cfg{EnableEmail};
 
@@ -57,15 +57,16 @@ HERE
 
     if ( $Foswiki::cfg{Email}{MailMethod} ne 'MailProgram' ) {
         my %mod = (
-            name => 'Net::SMTP',
-            usage => 'Required for SMTP Support',
+            name           => 'Net::SMTP',
+            usage          => 'Required for SMTP Support',
             minimumVersion => 2.00
-            );
+        );
         Foswiki::Configure::Dependency::checkPerlModules( \%mod );
-        if (!$mod{ok}) {
-            $reporter->ERROR($mod{check_result});
-        } else {
-            $reporter->NOTE($mod{check_result});
+        if ( !$mod{ok} ) {
+            $reporter->ERROR( $mod{check_result} );
+        }
+        else {
+            $reporter->NOTE( $mod{check_result} );
         }
     }
 
@@ -73,21 +74,23 @@ HERE
     if ( $Foswiki::cfg{Email}{MailMethod} =~ m/SSL|TLS/ ) {
         my @mods = (
             {
-                name => 'Net::SSLeay',
-                usage => 'Required for Secure SMTP Support',
+                name           => 'Net::SSLeay',
+                usage          => 'Required for Secure SMTP Support',
                 minimumVersion => 1.40
             },
             {
-                name => 'IO::Socket::SSL',
-                usage => 'Required for Secure SMTP Support',
+                name           => 'IO::Socket::SSL',
+                usage          => 'Required for Secure SMTP Support',
                 minimumVersion => 1.40
-            });
-        Foswiki::Configure::Dependency::checkPerlModules( @mods );
+            }
+        );
+        Foswiki::Configure::Dependency::checkPerlModules(@mods);
         foreach my $mod (@mods) {
-            if (!$mod->{ok}) {
-                $reporter->ERROR($mod->{check_result});
-            } else {
-                $reporter->NOTE($mod->{check_result});
+            if ( !$mod->{ok} ) {
+                $reporter->ERROR( $mod->{check_result} );
+            }
+            else {
+                $reporter->NOTE( $mod->{check_result} );
             }
         }
     }
