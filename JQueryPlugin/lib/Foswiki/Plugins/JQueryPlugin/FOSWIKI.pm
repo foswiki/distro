@@ -89,6 +89,12 @@ sub init {
           Foswiki::Func::expandCommonVariables( '%' . $pref . '%' );
     }
 
+    # add {ScriptUrlPaths}
+    if ( defined $Foswiki::cfg{ScriptUrlPaths} ) {
+        %{ $prefs{"SCRIPTURLPATHS"} } = %{ $Foswiki::cfg{ScriptUrlPaths} };
+    }
+    $prefs{"URLHOST"} = Foswiki::Func::getUrlHost();
+
     my $text =
         "<script class='\$zone \$id foswikiPreferences' type='text/json'>"
       . JSON::to_json( \%prefs, { pretty => 1 } )

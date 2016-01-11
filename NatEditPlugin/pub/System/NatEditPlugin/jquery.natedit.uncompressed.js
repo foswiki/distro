@@ -2593,6 +2593,7 @@ $.NatEditor.defaults = {
   outdentMarkup: ['','',''],
   mathMarkup: ['<latex title="Example">\n','\\sum_{x=1}^{n}\\frac{1}{x}','\n</latex>'],
   signatureMarkup: ['-- ', '[[%WIKINAME%]], ' - '%DATE%'],
+  dataFormMarkup: ['', '| *Name*  | *Type* | *Size* | *Values* | *Description* | *Attributes* | *Default* |', '\n'],
   horizRulerMarkup: ['', '---', '\n'],
   autoHideToolbar: false,
   autoMaxExpand:false,

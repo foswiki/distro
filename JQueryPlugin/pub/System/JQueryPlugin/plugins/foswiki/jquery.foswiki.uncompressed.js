@@ -156,16 +156,25 @@ var foswiki = foswiki || {
    * Get url path for a specific script
    */
   function _getScriptUrl(absolute, script, web, topic, params) {
-    var prefName = (absolute?"SCRIPTURL":"SCRIPTURLPATH"),
-        suffix = foswiki.getPreference("SCRIPTSUFFIX") || "",
-        url, arr = [];
+    var suffix = foswiki.getPreference("SCRIPTSUFFIX") || "",
+        scriptUrlPaths = foswiki.getPreference("SCRIPTURLPATHS"),
+        url = "", arr = [];
 
     script = script || '';
 
-    url = foswiki.getPreference(prefName+"_"+script.toUpperCase());
+    if (absolute) {
+      url = foswiki.getPreference("URLHOST");
+    }
 
-    if (!url) {
-      url = foswiki.getPreference(prefName) + "/" + script + suffix;
+    if (typeof(scriptUrlPaths[script]) === 'undefined') {    
+      url += foswiki.getPreference("SCRIPTURLPATH") + "/" + script + suffix;
+    } else {
+      url += scriptUrlPaths[script];
+    }
+
+    if (typeof(topic) !== 'undefined' && topic.match(/^(.*)(?:\.|\/)(.*?)$/) ) {
+      web = RegExp.$1;
+      topic = RegExp.$2;
     }
 
     if (typeof(web) !== 'undefined') {
@@ -183,6 +192,7 @@ var foswiki = foswiki || {
 
       url += (arr.length?"?"+arr.join("&"):"");
     }
+
 
     return url;
   }
@@ -236,7 +246,7 @@ var foswiki = foswiki || {
     $('body').removeClass('foswikiNoJs').addClass("foswikiJs");
 
     /* load foswiki preferences */
-    $(".foswikiPreferences").each(function() {
+    $(".foswikiPreferences").livequery(function() {
       $.extend(foswiki.preferences, $.parseJSON($(this).html()));
     });
 

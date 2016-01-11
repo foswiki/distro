@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1452096476" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQREQUIRE{"chili, ui, ui::autocomplete" warn="off"}%
@@ -63,7 +63,7 @@ loads the =topic= section of this topic, which expands to the topic list.
   "^%URLPARAM{"term" default="does not exist"}%.*"
   type="regex"
   scope="topic"
-  format="<nop>%URLPARAM{"format" encode="safe,quote" default="{\\"label\\":\\"$topic\\", \\"value\\":\\"$topic\\"}"}%"
+  format="<nop>%URLPARAM{"format" encode="safe,quote" default="{\\"label\\":\\"$topic\\", \\"value\\":\\"$web.$topic\\"}"}%"
   separator=","
   limit="%URLPARAM{"limit" default="10"}%"
   nonoise="on"
@@ -141,8 +141,8 @@ Jump to specific topics.
 %STARTSECTION{"jumpbox"}%<!-- jumpbox -->
 <input type="text" class="foswikiInputField jqJumpBox {%IF{
   "$GLOBAL = 'on'"
-  then="global: true, baseweb:'all, -%TRASHWEB%', format:'&quot;$web.$topic&quot;'"
-  else="global: false, baseweb:'%BASEWEB%', format:'&quot;$topic&quot;'"
+  then="global: true, baseweb:'all, -%TRASHWEB%'"
+  else="global: false, baseweb:'%BASEWEB%'"
 }%}" name="topic" %IF{"defined PLACEHOLDER" then="placeholder=\"%PLACEHOLDER%\""}% autocomplete="off" size="60" />
 %ADDTOZONE{"script"
   tag="jumpbox::js"
@@ -160,9 +160,14 @@ jQuery(function($){
     var $this = $(this), 
         opts = $.extend({}, $this.metadata());
     $this.autocomplete({
-      source: foswiki.getPreference('SCRIPTURL') + '/view/' + foswiki.getPreference('SYSTEMWEB') + "/JQueryAjaxHelper?section=topic;skin=text;contenttype=application/json;baseweb="+opts.baseweb+";format="+opts.format,
+      source: foswiki.getScriptUrl('view', foswiki.getPreference('SYSTEMWEB'), 'JQueryAjaxHelper', {
+        section: 'topic',
+        skin: 'text',
+        contenttype: 'application/json',
+        baseweb: opts.baseweb,
+      }),
       select: function(event, ui) {
-        window.location.href=foswiki.getPreference('SCRIPTURL') + '/view/'+(opts.global?'':opts.baseweb+'/')+ui.item.value;
+        window.location.href = foswiki.getScriptUrl('view', undefined, ui.item.value);
       }
     });
   });
@@ -291,7 +296,12 @@ or later).
 <script type=\"text/javascript\">
 jQuery(function($){
   $(\"#%ID%\").click(function() {
-     $.get(foswiki.getPreference('SCRIPTURL') + '/view/' + foswiki.getPreference('SYSTEMWEB') + '/JQueryAjaxHelper?section=query;source=%SOURCE%;query=%QUERY%;skin=text',
+     $.get(foswiki.getScriptUrl('view', foswiki.getPreference('SYSTEMWEB'), 'JQueryAjaxHelper', {
+          section: 'query',
+          source: '%SOURCE%',
+          query: '%QUERY%',
+          skin: 'text'
+         }),
          function(data) {
              // This is the function that will be executed when the
              // data is fetched

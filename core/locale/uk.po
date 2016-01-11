@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-12-23 22:49+0200\n"
+"PO-Revision-Date: 2016-01-07 03:10+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -635,7 +635,7 @@ msgstr "Користувач потребує Вашого підтвердже�
 msgid "A-Z"
 msgstr "А-Я"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:191
 msgid "Abandon changes and exit"
 msgstr "Відкинути зміни та вийти"
 
@@ -1010,7 +1010,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:35
 #: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
@@ -1192,7 +1192,7 @@ msgid ""
 "references."
 msgstr "Клікніть щоб повернути тему на попереднє місце зі зміною посилань."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #: NatEditPlugin/templates/preview.natedit.tmpl:6
 #: TwistyPlugin/data/System/TwistyPlugin.txt:466
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
@@ -1411,7 +1411,7 @@ msgstr "Створити цю тему"
 msgid "Create your account to edit pages on this site."
 msgstr "Зареєструйтесь щоб редагувати сторінки на цьому сайті."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 msgid "Creates a new topic revision when saving"
 msgstr "Створити нову редакцію теми під час збереження"
 
@@ -1427,6 +1427,10 @@ msgstr "Поточне розміщення:"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
 msgid "Current password:"
 msgstr "Поточний пароль:"
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Data Form Table Header"
+msgstr "Заголовок таблиці форми даних"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
@@ -1778,7 +1782,7 @@ msgstr "Помилка додавання користувача до групи
 msgid "Errors removing members from groups"
 msgstr "Помилки видалення членів з груп"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Escape markup"
 msgstr "Замаскувати розмітку"
 
@@ -1860,7 +1864,7 @@ msgstr ""
 "Більше деталей щодо підробки запитів між сайтами, та чим це небезпечно "
 "особисто для Вас, дивіться [[%1][статтю на Вікіпедії]]."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Створити нову редакцію"
@@ -2375,6 +2379,10 @@ msgstr "Інфо"
 msgid "Insert a color code"
 msgstr "Вставити код кольору"
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a data form table header"
+msgstr "Вставити заголовок таблиці форми даних"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
 msgstr "Вставити дату"
@@ -2396,7 +2404,7 @@ msgstr "Вставити посилання до теми чи зовнішнь�
 msgid "Insert a link to a user-profile"
 msgstr "Вставити посилання до профілю користувача"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Insert a macro"
 msgstr "Вставити макро"
 
@@ -2624,7 +2632,7 @@ msgstr "Вхід"
 msgid "Logout"
 msgstr "Вихід"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Macro"
 msgstr "Макро"
 
@@ -2690,7 +2698,7 @@ msgstr "Додаткові об&amp;єкти для вставки"
 msgid "More on hiding attachments"
 msgstr "Додатково про приховування додатків"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:120
 msgid "More tools"
 msgstr "Додаткові інструменти"
 
@@ -3033,9 +3041,9 @@ msgstr "Ой, ми Вас не впізнаємо! Спробуйте ще аб�
 #. ('copyAttachment')
 #: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
 #: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
-#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
-#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
-#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:630
+#: core/lib/Foswiki/UI/Save.pm:663 core/lib/Foswiki/UI/Save.pm:702
+#: core/lib/Foswiki/UI/Save.pm:732 core/lib/Foswiki/UI/Upload.pm:229
 msgid "Operation %1 failed with an internal error"
 msgstr "Операція %1 не вдалась через внутрішню помилку"
 
@@ -3294,12 +3302,12 @@ msgstr "Інакше натисніть Скасувати."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Натисніть «Гразад» щоб підтвердити навмисність зміни."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:181
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
 #: NatEditPlugin/templates/preview.natedit.tmpl:1
 msgid "Preview"
 msgstr "Попередній перегляд"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:183
 msgid "Preview your changes"
 msgstr "Огляд Ваших змін"
 
@@ -3371,7 +3379,7 @@ msgstr "Недавно змінені теми у всіх розділах"
 msgid "Redirect Denied"
 msgstr "У перенаправленні відмовлено"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 msgid "Redo previous change"
 msgstr "Повторити останню зміну"
 
@@ -3533,7 +3541,7 @@ msgid "Render style"
 msgstr "Стиль генерування"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Replace"
 msgstr "Замінити"
 
@@ -3565,20 +3573,20 @@ msgstr "Скинути пароль"
 msgid "Resetting and setting password is not available."
 msgstr "Скидання або встановлення паролю не доступне."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
 #: core/templates/more.tmpl:187
 msgid "Restore"
 msgstr "Відновити"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:158
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
 msgid "Restore and Continue"
 msgstr "Відновити та продовжити"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:160
 msgid "Restore and continue editing"
 msgstr "Відновити та редагувати далі"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:144
 msgid "Restore and exit"
 msgstr "Відновити та вийти"
 
@@ -3677,19 +3685,19 @@ msgid "Sandbox test area to experiment in an unrestricted hands-on web."
 msgstr "Зона \"пісочниці\" призначена для вільних експериментів."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:58
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
 msgid "Save"
 msgstr "Зберегти"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
 msgid "Save and Continue"
 msgstr "Зберегти та продовжити"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:167
 msgid "Save and continue editing"
 msgstr "Зберегти та редагувати далі"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:152
 msgid "Save and exit"
 msgstr "Зберегти та вийти"
 
@@ -3726,7 +3734,7 @@ msgid "Search %1 Web only"
 msgstr "Пошук виключно у розділі %1"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:10
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Search && Replace"
 msgstr "Шукати з заміною"
 
@@ -3974,11 +3982,11 @@ msgstr ""
 "Вибачте, система доступу наразі не працює на запис. Зв'яжіться з %1, будь "
 "ласка"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort ascending"
 msgstr "Сортувати за зростанням"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort descending"
 msgstr "Сортувати за зменшенням"
 
@@ -3986,11 +3994,11 @@ msgstr "Сортувати за зменшенням"
 msgid "Sort results by:"
 msgstr "Сортувати результати за:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort selected lines ascending"
 msgstr "Сортувати обрані рядки за зростанням"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort selected lines descending"
 msgstr "Сортувати обрані рядки за зменшенням"
 
@@ -4102,7 +4110,7 @@ msgstr "Надрядкове"
 msgid "Switch to monotype or proportional font"
 msgstr "Перемкнути між фіксованим та пропорційним шрифтом"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
 msgid "Switch to wysiwyg"
 msgstr "Перемикнути на WYSIWYG"
 
@@ -4916,11 +4924,11 @@ msgstr "Незмінні частини до та після кожного ре
 msgid "Underline"
 msgstr "Підкреслення"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
 msgid "Undo last change"
 msgstr "Відмінити останню зміну"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:132
 msgid "Unescape markup"
 msgstr "Зняти маскування з розмітки"
 
@@ -5250,7 +5258,7 @@ msgstr ""
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr "Увага: Знайдено оновлення для %1 розширень(я)."
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:442
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "Попередження: \\'include\\'-тема <nop>%1 не існує!"
 
@@ -5258,7 +5266,7 @@ msgstr "Попередження: \\'include\\'-тема <nop>%1 не існує
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Попередження: \\'include\\'-тема не існує!"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:468
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:475
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Попередження: не існує визначення таблиці у \\'include\\'-темі %1!"
 

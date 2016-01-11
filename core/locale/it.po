@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-29 20:22+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/it/>\n"
+"PO-Revision-Date: 2016-01-08 16:16+0200\n"
+"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
+"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -205,9 +205,8 @@ msgstr "%1 rinominato o spostato da %2 a %3 da %4"
 
 #. ("%SYSTEMWEB%.$pluginName",                "${templateName}Template")
 #: AutoViewTemplatePlugin/lib/Foswiki/Plugins/AutoViewTemplatePlugin.pm:97
-#, fuzzy
 msgid "%1: Invalid template name (%2) - Contains invalid characters."
-msgstr "Il nome della pagina (%1) contiene caratteri non validi."
+msgstr "%1: Nome del modello non valido (%2) - Contiene caratteri non validi."
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -641,7 +640,7 @@ msgstr "Un utente richiede la tua approvazione per completare la registrazione"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:191
 msgid "Abandon changes and exit"
 msgstr "Annulla le modifiche ed esce"
 
@@ -1015,7 +1014,7 @@ msgstr ""
 #: JQueryPlugin/data/System/VarBUTTON.txt:35
 #: JQueryPlugin/data/System/VarBUTTON.txt:44
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:189
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
 #: PatternSkin/data/System/PatternSkinElements.txt:428
 #: PatternSkin/data/System/PatternSkinElements.txt:448
@@ -1208,7 +1207,7 @@ msgstr ""
 "Seleziona per spostare la pagina alla sua collocazione precedente con "
 "l'opzione di cambiare i riferimenti nelle altre pagine."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 #: NatEditPlugin/templates/preview.natedit.tmpl:6
 #: TwistyPlugin/data/System/TwistyPlugin.txt:466
 #: TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin.pm:73
@@ -1366,7 +1365,6 @@ msgid "Country:"
 msgstr "Nazione:"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
 msgid "Create New FAQ Topic"
 msgstr "Crea una nuova pagina di FAQ"
 
@@ -1431,7 +1429,7 @@ msgstr "Crea questa pagina"
 msgid "Create your account to edit pages on this site."
 msgstr "Registrati per poter modificare le pagine su questo sito."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 msgid "Creates a new topic revision when saving"
 msgstr "Crea una nuova versione della pagina al salvataggio"
 
@@ -1447,6 +1445,10 @@ msgstr "Attuale posizione:"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
 msgid "Current password:"
 msgstr "Password attuale:"
+
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Data Form Table Header"
+msgstr "Intestazioni di Tabella del Modulo Dati"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
@@ -1734,7 +1736,7 @@ msgstr "Allarga la finestra di modifica"
 
 #: core/templates/more.tmpl:102
 msgid "Enter __none__ to clear the topic parent"
-msgstr ""
+msgstr "Digitare __none__ per annullare la pagina padre"
 
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
@@ -1804,7 +1806,7 @@ msgstr "Errore nell'aggiungere membri al gruppo"
 msgid "Errors removing members from groups"
 msgstr "Errore nel rimuovere membri dal gruppo"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
 msgid "Escape markup"
 msgstr "\"Escape markup\" del testo"
 
@@ -1887,7 +1889,7 @@ msgstr ""
 "site e i pericoli che comporta per gli utenti, si veda  l'articolo in !"
 "WikiPedia [[%1][the Cross-site request forgery]]."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:206
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:207
 #: PatternSkin/templates/edit.pattern.tmpl:21
 msgid "Force new revision"
 msgstr "Forza una nuova versione"
@@ -1960,9 +1962,8 @@ msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
 msgstr "Scarica una nuova versione da <a href='%1' rel='nofollow'>qui</a>."
 
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
-#, fuzzy
 msgid "Get a fresh version <a href='%1'>here</a>."
-msgstr "Scarica una nuova versione da <a href='%1' rel='nofollow'>qui</a>."
+msgstr "Scarica una nuova versione da <a href='%1'>qui</a>."
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
@@ -2378,7 +2379,7 @@ msgstr "Parametri non corretti nello script =%1="
 
 #: core/templates/registermessages.tmpl:127
 msgid "Incorrect topic name provided for the templatetopic parameter."
-msgstr ""
+msgstr "Fornito un errato nome di pagina nei parametri del modello di pagina."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
 msgid "Indent"
@@ -2404,6 +2405,10 @@ msgstr "Informazioni"
 msgid "Insert a color code"
 msgstr "Indicare un codice colore"
 
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
+msgid "Insert a data form table header"
+msgstr "Inserire le intestazioni di tabella del modulo dati"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
 msgstr "Indicare una data"
@@ -2425,7 +2430,7 @@ msgstr "Inserire un link ad una pagina interna o di un sito Web esterno"
 msgid "Insert a link to a user-profile"
 msgstr "Insert un link al profilo utente"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Insert a macro"
 msgstr "Inserire una macro"
 
@@ -2656,7 +2661,7 @@ msgstr "Accesso"
 msgid "Logout"
 msgstr "Scollegamento"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:109
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:110
 msgid "Macro"
 msgstr "Macro funzione"
 
@@ -2722,7 +2727,7 @@ msgstr "Altri oggetti da inserire"
 msgid "More on hiding attachments"
 msgstr "Altro sugli allegati nascosti"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:120
 msgid "More tools"
 msgstr "Altri strumenti"
 
@@ -3070,9 +3075,9 @@ msgstr ""
 #. ('copyAttachment')
 #: core/lib/Foswiki/UI/Manage.pm:251 core/lib/Foswiki/UI/Manage.pm:563
 #: core/lib/Foswiki/UI/Rename.pm:690 core/lib/Foswiki/UI/Rename.pm:830
-#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:627
-#: core/lib/Foswiki/UI/Save.pm:660 core/lib/Foswiki/UI/Save.pm:699
-#: core/lib/Foswiki/UI/Save.pm:729 core/lib/Foswiki/UI/Upload.pm:229
+#: core/lib/Foswiki/UI/Rename.pm:852 core/lib/Foswiki/UI/Save.pm:630
+#: core/lib/Foswiki/UI/Save.pm:663 core/lib/Foswiki/UI/Save.pm:702
+#: core/lib/Foswiki/UI/Save.pm:732 core/lib/Foswiki/UI/Upload.pm:229
 msgid "Operation %1 failed with an internal error"
 msgstr "Operazione %1 fallita con un errore interno"
 
@@ -3334,12 +3339,12 @@ msgstr "Altrimenti premi Rinuncia."
 msgid "Press OK to confirm that this change was intentional."
 msgstr "Premi OK per confermare che questa modifica era intenzionale."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:181
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
 #: NatEditPlugin/templates/preview.natedit.tmpl:1
 msgid "Preview"
 msgstr "Anteprima"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:183
 msgid "Preview your changes"
 msgstr "Anteprima delle modifiche"
 
@@ -3411,7 +3416,7 @@ msgstr "Pagine recentemente modificate in tutti i Web"
 msgid "Redirect Denied"
 msgstr "Trasferimento (Redirect) negato"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
 msgid "Redo previous change"
 msgstr "Ripristina il precedente cambiamento"
 
@@ -3572,7 +3577,7 @@ msgid "Render style"
 msgstr "Stile per la rappresentazione del testo"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Replace"
 msgstr "Sostituisci"
 
@@ -3604,20 +3609,20 @@ msgstr "Azzeramento della password"
 msgid "Resetting and setting password is not available."
 msgstr "Ripristino o impostazione password non disponibile."
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:142
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
 #: core/templates/more.tmpl:187
 msgid "Restore"
 msgstr "Ripristina"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:158
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
 msgid "Restore and Continue"
 msgstr "Ripristina e continua"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:159
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:160
 msgid "Restore and continue editing"
 msgstr "Ripristina e continua la modifica"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:143
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:144
 msgid "Restore and exit"
 msgstr "Ripristina ed esci"
 
@@ -3719,19 +3724,19 @@ msgstr ""
 "Sandbox è un'area Web di test per sperimentare senza alcuna restrizione."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:58
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:150
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
 msgid "Save"
 msgstr "Salva"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:165
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
 msgid "Save and Continue"
 msgstr "Salva e continua"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:166
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:167
 msgid "Save and continue editing"
 msgstr "Salva e continua la modifica"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:151
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:152
 msgid "Save and exit"
 msgstr "Salva ed esci"
 
@@ -3768,7 +3773,7 @@ msgid "Search %1 Web only"
 msgstr "Cerca solo nel Web %1"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:10
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
 msgid "Search && Replace"
 msgstr "Ricerca e sostituisci"
 
@@ -4021,11 +4026,11 @@ msgstr ""
 "Siamo spiacenti, la gestione delle password è al momento in modalità di sola "
 "lettura, si prega di contattare %1"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort ascending"
 msgstr "Ordinamento crescente"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort descending"
 msgstr "Ordinamento decrescente"
 
@@ -4033,11 +4038,11 @@ msgstr "Ordinamento decrescente"
 msgid "Sort results by:"
 msgstr "Ordina i risultati per:"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:127
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
 msgid "Sort selected lines ascending"
 msgstr "Ordinamento crescente delle righe selezionate"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:128
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:129
 msgid "Sort selected lines descending"
 msgstr "Ordinamento decrescente delle righe selezionate"
 
@@ -4151,7 +4156,7 @@ msgstr "Apice"
 msgid "Switch to monotype or proportional font"
 msgstr "Passa a font con spaziatura fissa o proporzionale"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:118
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:119
 msgid "Switch to wysiwyg"
 msgstr "Passa a visualizzazione WYSIWYG"
 
@@ -4462,6 +4467,11 @@ msgid ""
 "web.  If not provided, the default topic is [[%USERSWEB%.NewUserTemplate]], "
 "or if that does not exist. [[%SYSTEMWEB%.NewUserTemplate]]."
 msgstr ""
+"Il nome fornito non è valido o la pagina non è stata trovata. Il modello di "
+"pagina deve essere un nuovo ed esistente modello di pagina presente nel Web "
+"%USERSWEB%. Se non indicato, il modello di pagina sarà "
+"[[%USERSWEB%.NewUserTemplate]], o se  non esistesse "
+"[[%SYSTEMWEB%.NewUserTemplate]]."
 
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
@@ -4606,6 +4616,8 @@ msgid ""
 "This field is not normally user provided. This may be a Foswiki "
 "configuration error."
 msgstr ""
+"Questo campo non è di norma fornito dall'utente. Potrebbe essere un errore "
+"di configurazione Foswiki."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
 msgid ""
@@ -4967,11 +4979,11 @@ msgstr "Sezioni invariate prima e dopo ogni modifica"
 msgid "Underline"
 msgstr "Sottolineato"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:116
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:117
 msgid "Undo last change"
 msgstr "Annulla l'ultimo cambiamento"
 
-#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:131
+#: NatEditPlugin/templates/edittoolbar.natedit.tmpl:132
 msgid "Unescape markup"
 msgstr "Toglie la formattazione"
 
@@ -5306,7 +5318,7 @@ msgstr "Attenzione: questo sito non permette l'%<nop>INCLUDE% degli URL"
 msgid "Warning: Updates found for %1 extension(s)."
 msgstr "Attenzione: Trovati aggiornamenti per %1 estensioni(e)."
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:442
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:449
 msgid "Warning: \\'include\\' topic <nop>%1 does not exist!"
 msgstr "NOTA: la pagina <nop>%1 \\'include\\' non esiste!"
 
@@ -5314,7 +5326,7 @@ msgstr "NOTA: la pagina <nop>%1 \\'include\\' non esiste!"
 msgid "Warning: \\'include\\' topic does not exist!"
 msgstr "Attenzione: la pagina  \\'include\\' non esiste!"
 
-#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:468
+#: TablePlugin/lib/Foswiki/Plugins/TablePlugin/Core.pm:475
 msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "Attenzione: la definizione %1 nella pagina \\'include\\' non esiste!"
 
@@ -5855,9 +5867,8 @@ msgstr "aiuto"
 
 #: core/data/Sandbox/WebHome.txt:11
 #: core/data/System/FrequentlyAskedQuestions.txt:47
-#, fuzzy
 msgid "hide form"
-msgstr "Aggiungi modulo"
+msgstr "nascondi form"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"
