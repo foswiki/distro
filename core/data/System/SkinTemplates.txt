@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1452097309" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1452527048" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+ Skin Templates
@@ -45,9 +45,10 @@ Template directives look a lot like standard [[macros]].
    * =%<nop>TMPL:END%= ends a block definition.
    * =%<nop>TMPL:PREV%=: returns the previous definition of the block being defined.
    * =%<nop>TMPL:P{"name"}%= includes a previously defined block.
-   * =%<nop>{...}%= is a comment. Whitespace either side of the comment
+   * =#<nop>{...}#= is a comment. Whitespace either side of the comment
      (newlines, spaces, tabs etc) is treated as part of the comment, and
-     removed when the comment is removed.
+     removed when the comment is removed. An alternate syntax =%<nop>{...}%=
+     is also supported.
 You can use a block before _or_ after declaring it. If you define the same
 block twice, only the second definition is used.
 
@@ -162,9 +163,12 @@ and then =* Set SKIN=crumbless,pattern=
 Remember: the template path contains the most specific template first.
 
 ---+++ Comments
-Comments =%{...}%= are removed from the templates as soon as the file is
-read, before any other template macros are evaluated. Whitespace either side
-of the comment (newlines, spaces, tabs etc) is also removed.
+Comments delimited by =#{...}#= are removed from the templates as soon as
+the file is read, before any other template macros are evaluated. 
+
+An alternative comment type =#{...}#= will automatically absorb whitespace
+either side of the comment (newlines, spaces, tabs etc). This type of comment
+only works in templates.
 
 #FindingTemplates
 ---++ Finding Skin Templates
@@ -254,6 +258,12 @@ Note that topics containing templates are checked for VIEW access using the
 normal [[AccessControl][Foswiki access controls]]. Any access control failure
 is silently ignored, and the template path expansion continues.
 
+---++ Predefined templates
+Most predefined templates are stored in =.tmpl= files. There are also a
+couple of standard topics that contain skin templates:
+    * WebCreateNewTopicTemplate - Page shown when you click on a %ICON{newtopic}% *Create New Topic* link. It provides a form requesting the necessary information to create a new, nonexistent topic.
+   * TopicDoesNotExistViewTemplate - Alert page shown when you try to view a nonexistent topic and usually used as a prompt to help you create this new topic. For this reason, the form of the WebCreateNewTopicTemplate is included and therefore shown, too.
+
 ---++ Developing new templates
 ---+++ Debugging
 When writing new templates, it can sometimes it can be hard to work out
@@ -328,12 +338,12 @@ see what PatternSkin defines.
 
 %STOPINCLUDE%
 
-%META:FILEATTACHMENT{name="oopsmore_diff_debug.gif" attr="h" comment="" date="1452097309" size="3205" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default.css.gz" attr="h" comment="" date="1452097309" size="2072" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base.css.gz" attr="h" comment="" date="1452097309" size="1331" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_sidebyside.gif" attr="h" comment="" date="1452097309" size="1994" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base_src.css" attr="h" comment="" date="1452097309" size="6780" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="base.css" attr="h" comment="" date="1452097309" size="5196" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="oopsmore_diff_sequential.gif" attr="h" comment="" date="1452097309" size="3464" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default_src.css" attr="h" comment="" date="1452097309" size="11093" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="default.css" attr="h" comment="" date="1452097309" size="8209" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_debug.gif" attr="h" comment="" date="1452527048" size="3205" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default.css.gz" attr="h" comment="" date="1452527048" size="2072" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base.css.gz" attr="h" comment="" date="1452527048" size="1331" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_sidebyside.gif" attr="h" comment="" date="1452527048" size="1994" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base_src.css" attr="h" comment="" date="1452527048" size="6780" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="base.css" attr="h" comment="" date="1452527048" size="5196" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="oopsmore_diff_sequential.gif" attr="h" comment="" date="1452527048" size="3464" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default_src.css" attr="h" comment="" date="1452527048" size="11093" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="default.css" attr="h" comment="" date="1452527048" size="8209" user="ProjectContributor" version="1"}%

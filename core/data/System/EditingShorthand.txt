@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1452527048" format="1.1" version="1"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -767,6 +767,13 @@ required
 ---++!! offset was 1, so offset is now 0
 </td>
 </tr>
+<tr>
+<td>
+=#<nop>{ ... comment ... }<nop>#=
+</td><td>
+*Comments:* %BR%
+Comments will be removed from content before the topic is displayed.
+</td>
 </table>
 <!-- %JQREQUIRE{"chili"}% -->
 

@@ -10,14 +10,15 @@ Support for Skin Template directives
 
 =begin TML
 
-The following tokens are supported by this language:
+The following macros are supported by this language:
 
-| %<nop>TMPL:P% | Instantiates a previously defined template |
-| %<nop>TMPL:DEF% | Opens a template definition |
-| %<nop>TMPL:END% | Closes a template definition |
-| %<nop>TMPL:INCLUDE% | Includes another file of templates |
-
-Note; the template cache does not get reset during initialisation, so
+| =<nop>TMPL:P= | Instantiates a previously defined template |
+| =<nop>TMPL:DEF= | Opens a template definition |
+| =<nop>TMPL:END= | Closes a template definition |
+| =<nop>TMPL:INCLUDE= | Includes another file of templates |
+| =%{ ... }%= | Delimits a comment (non-greedy), eats surrounding whitespace |
+| =#{ ... }#= | Delimits a comment (non-greedy), does not touch whitespace |
+Note: the template cache does not get reset during initialisation, so
 the haveTemplate test will return true if a template was loaded during
 a previous run when used with mod_perl or speedycgi. Frustrating for
 the template author, but they just have to switch off
@@ -607,9 +608,12 @@ sub _decomment {
 
     return $text unless $text;
 
-    # Kill comments, marked by %{ ... }%
-    # (and remove whitespace either side of the comment)
-    $text =~ s/\s*%\{.*?\}%\s*//sg;
+    # Whitespace eating comments, marked by %{ ... }%
+    $text =~ s/\s*(%)\{.*?\}%\s*//sg;
+
+    # Standard comment delimiters (whitespace preserving)
+    $text =~ s/#\{.*?\}#//sg;
+
     return $text;
 }
 

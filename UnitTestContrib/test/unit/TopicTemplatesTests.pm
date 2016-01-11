@@ -231,6 +231,7 @@ sub test_templateTopicWithMacros {
     my $query = Unit::Request->new(
         {
             text => [<<'TEXT'],
+   * NOP: No%NOP%Link
    * DATE: %DATE%
    * TMPL:DATE: %TMPL:DATE%
    * GMTIME: %GMTIME%
@@ -240,9 +241,9 @@ sub test_templateTopicWithMacros {
    * URLPARAM: %URLPARAM{"purple"}%
    * WIKINAME: %WIKINAME%
    * WIKIUSERNAME: %WIKIUSERNAME%
+   * COMMENT: #{ ... comment }#
    * TMPL:IF: %TMPL:IF{"1=1" then="OK" else="BAD"}%
    * TMPL:P:%TMPL:P{"sep"}%
-   * NOP: No%NOP%Link
 %STARTSECTION{type="templateonly"}%
 Mither me not
 %ENDSECTION{type="templateonly"}%
@@ -268,7 +269,7 @@ TEXT
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my ( $responseText, $result, $stdout, $stderr ) =
       $this->captureWithKey( save => $UI_FN, $this->{session} );
-
+    print STDERR $stderr;
     my ($meta) =
       Foswiki::Func::readTopic( $this->{test_web}, 'TemplatedTopic' );
     my $text = $meta->text;
@@ -285,6 +286,7 @@ TEXT
     $this->assert( $text =~ s/^\s*\* NOP: NoLink$//m,                $text );
     $this->assert( $text =~ s/^\s*\* TMPL:IF: OK$//m,                $text );
     $this->assert( $text =~ s/^\s*\* TMPL:P: \| $//m,                $text );
+    $this->assert( $text =~ s/^\s*\* COMMENT: $//m,                  $text );
     $this->assert( $text =~ s/^TemplatedTopic$//m,                   $text );
     $this->assert( $text =~ s/^%TOPIC%$//m,                          $text );
     $this->assert( $text !~ /Mither me not/s, $text );

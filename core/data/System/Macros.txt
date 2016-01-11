@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1452527048" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Macros
@@ -298,6 +298,10 @@ Most predefined macros return values that were either set in the configuration w
 </div>
 
 %IF{"'%INCLUDINGTOPIC%'!='CompleteDocumentation'" then="See MacrosQuickReference for a complete list of predefined macros in your installation."}%
+
+---++ Comments
+
+You can add comments anywhere in macros (and outside them) using the standard =#<nop>{...}<nop>#= comment delimiters. Comments are removed *before* any macros are processed, so you can't use macros to generate comments. Any macros inside comments will be ignored.
 
 %STOPINCLUDE%
 

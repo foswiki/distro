@@ -3315,6 +3315,8 @@ sub _processMacros {
     #no tags to process
     return $text unless ( $text =~ m/%/ );
 
+    #my $grunt = 1; uncomment lines mentioning $grunt for tracing
+
     unless ($depth) {
         my $mess = "Max recursive depth reached: $text";
         $this->logger->log( 'warning', $mess );
@@ -3328,6 +3330,9 @@ sub _processMacros {
     my $verbatim = {};
     $text = takeOutBlocks( $text, 'verbatim', $verbatim );
 
+    # Remove comments
+    $text =~ s/#{.*?}#//gs;
+
     my $dirtyAreas = {};
     $text = takeOutBlocks( $text, 'dirtyarea', $dirtyAreas )
       if $topicObject->isCacheable();
@@ -3340,16 +3345,16 @@ sub _processMacros {
 
     while ( scalar(@queue) ) {
 
-        #print STDERR "QUEUE:".join("\n      ", map { "'$_'" } @queue)."\n";
+  #print STDERR "QUEUE:".join("\n      ", map { "'$_'" } @queue)."\n" if $grunt;
         my $token = shift(@queue);
 
-        #print STDERR "UNQUEUE $token \n";
+        #print STDERR "UNQUEUE $token \n" if $grunt;
 
         # each % sign either closes an existing stacked context, or
         # opens a new context.
         if ( $token eq '%' ) {
 
-            #print STDERR " STACKTOP $stackTop\n";
+            #print STDERR " STACKTOP $stackTop\n" if $grunt;
             # If this is a closing }%, try to rejoin the previous
             # tokens until we get to a valid tag construct. This is
             # a bit of a hack, but it's hard to think of a better
@@ -3357,25 +3362,17 @@ sub _processMacros {
             # in tag parameters into account.
             if ( $stackTop =~ m/}$/s ) {
                 while ( scalar(@stack)
-                    && $stackTop !~ /^%($regex{tagNameRegex}|)\{.*}$/s )
+                    && $stackTop !~ /^%$regex{tagNameRegex}\{.*}$/s )
                 {
                     my $top = $stackTop;
 
-                    #print STDERR " COLLAPSE $top \n";
+                    #print STDERR " COLLAPSE $top \n" if $grunt;
                     $stackTop = pop(@stack) . $top;
                 }
             }
 
-            if ( $stackTop =~ /^%\{.*\}$/s ) {
-
-                # Comment, ignore it
-                #print STDERR " IGNORE $stackTop $tag\n";
-                $stackTop = '';    # no new context
-                next;              # token
-            }
-
             # /s so you can have newlines in parameters
-            if ( $stackTop !~ m/^%(($regex{tagNameRegex}|)(?:{(.*)})?)$/s ) {
+            if ( $stackTop !~ m/^%(($regex{tagNameRegex})(?:{(.*)})?)$/s ) {
 
                 # Not a valid tag expr
                 push( @stack, $stackTop );
@@ -3386,16 +3383,14 @@ sub _processMacros {
             # SMELL: unchecked implicit untaint?
             my ( $expr, $tag, $args ) = ( $1, $2, $3 );
 
-            $stackTop = '%';        # open new context
-
-            #print STDERR " POP $tag\n";
+            #print STDERR " POP $tag\n" if $grunt;
             my $e = &$tagf( $this, $tag, $args, $topicObject );
 
             #Monitor::MARK("After $tag");
 
             if ( defined($e) ) {
 
-                #print STDERR " EXPANDED $tag -> $e\n";
+                #print STDERR " EXPANDED $tag -> $e\n" if $grunt;
                 $stackTop = pop(@stack);
 
                 # Don't bother recursively expanding unless there are
@@ -3411,7 +3406,7 @@ sub _processMacros {
                 next;    # token
             }
 
-            #print STDERR " EXPAND $tag FAILED\n";
+            #print STDERR " EXPAND $tag FAILED\n" if $grunt;
             # To handle %NOP
             # correctly, we have to handle the %VAR% case differently
             # to the %VAR{}% case when a variable expansion fails.
@@ -3458,7 +3453,7 @@ sub _processMacros {
 
     putBackBlocks( \$stackTop, $verbatim, 'verbatim' );
 
-    #print STDERR "FINAL $stackTop\n";
+    #print STDERR "FINAL $stackTop\n" if $grunt;
 
     return $stackTop;
 }
