@@ -111,7 +111,7 @@ var Types = {};
                   // to perl eval of a single-quoted string. The currentValue
                   // comes from a perl eval.
                   val = val.replace(/^\s*'(.*)'\s*$/, "$1");
-                  val = val.replace(/\\'/g, "'");
+                  val = val.replace(/\'/g, "'");
               }
           }
           return this.currentValue() === val;
