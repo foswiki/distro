@@ -404,8 +404,12 @@ sub parse {
 
                 # Convert quoting for a single-quoted string. All we
                 # need to do is protect single quote
-                $open->{default} =~ s/'/\\\\'/g;
+                $open->{default} =~ s/'/\\'/g;
                 $open->{default} = "'" . $open->{default} . "'";
+            }
+            elsif ( $open->{typename} eq 'REGEX' ) {
+                $open->{default} =~
+                  s/\\'/'/g;    # unescape any escaped ' for quoted string.
             }
 
             $open->{keys} = $keys;
