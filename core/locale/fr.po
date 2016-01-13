@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-11-16 12:42+0200\n"
+"PO-Revision-Date: 2016-01-13 11:08+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -83,7 +83,7 @@ msgstr "%1 a une liste des autres utilisateurs de Foswiki"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 a été approuvé·e et inscrit·e avec l'adresse e-mail %2"
+msgstr "%1 a été approuvé(e) et inscrit(e) avec l'adresse e-mail %2"
 
 #: core/templates/messages.tmpl:578
 msgid ""
@@ -94,7 +94,7 @@ msgstr "%1 modifie la page depuis %2, et son verrou est encore valide pour %3."
 #: core/templates/registerfailednotremoved.tmpl:10
 #: core/templates/registernotifyadmin.tmpl:10
 msgid "%1 has been registered with e-mail %2"
-msgstr "%1 s'est inscrit·e avec l'adresse e-mail %2"
+msgstr "%1 s'est inscrit(e) avec l'adresse e-mail %2"
 
 #: core/templates/validate.tmpl:34
 msgid "%1 has received a suspicious change request from your browser."
@@ -851,7 +851,7 @@ msgstr "Modèles de formulaires disponibles"
 
 #: core/data/System/WebTemplateTopics.txt:7
 msgid "Available templates in %1 Web:"
-msgstr "Modèles de formulaires disponibles dans le Web %1 :"
+msgstr "Modèles (templates) disponibles dans le Web %1 :"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "Back to topic"
@@ -3401,14 +3401,14 @@ msgstr "Corps du texte"
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:264
 #: core/templates/messages.tmpl:183 core/templates/messages.tmpl:223
 msgid "Thank you for registering"
-msgstr "Merci de vous être inscrit·e"
+msgstr "Merci de vous être inscrit(e)"
 
 #: core/templates/registernotify.tmpl:8
 msgid ""
 "Thank you for registering in the %1 collaboration platform. Please save this "
 "e-mail for future reference."
 msgstr ""
-"Merci de vous être inscrit·e sur la plate-forme collaborative %1. Veuillez "
+"Merci de vous être inscrit(e) sur la plate-forme collaborative %1. Veuillez "
 "conserver ce message, il peut vous être utile ultérieurement."
 
 #: core/templates/registerconfirm.tmpl:9
@@ -3416,8 +3416,8 @@ msgid ""
 "Thank you for registering in the %1 collaboration platform. Your "
 "verification code is %2."
 msgstr ""
-"Merci de vous être inscrit·e sur la plate-forme collaborative %1. Votre code "
-"de vérification est %2."
+"Merci de vous être inscrit(e) sur la plate-forme collaborative %1. Votre "
+"code de vérification est %2."
 
 #: core/templates/messages.tmpl:690
 msgid "That user has already been activated "
@@ -4083,7 +4083,7 @@ msgstr "Utilisez plutôt %1."
 
 #: core/data/System/WebCreateNewTopicTemplate.txt:67
 msgid "Use template:"
-msgstr "Modèles de formulaires disponibles :"
+msgstr "Utiliser modèle :"
 
 #. (( $user, $groupName)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1132
@@ -4192,7 +4192,7 @@ msgstr "Afficher historique séquentiel de la page"
 
 #: core/data/System/WebCreateNewTopicComponents.txt:148
 msgid "View templates"
-msgstr "Voir les modèles de formulaires disponibles"
+msgstr "Voir les modèles"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/oopsleaseconflict.tmpl:28
@@ -4490,7 +4490,7 @@ msgstr ""
 #: core/templates/messages.tmpl:162 core/templates/messages.tmpl:171
 #: core/templates/messages.tmpl:267
 msgid "You have *not* been registered."
-msgstr "Vous n'avez *pas* été inscrit."
+msgstr "Vous n'avez *pas* été inscrit(e)."
 
 #: core/templates/messages.tmpl:419
 msgid ""
