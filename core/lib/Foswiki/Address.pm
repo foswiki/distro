@@ -2,9 +2,6 @@
 
 package Foswiki::Address;
 
-# SMELL XXX vrurg This class is heavily using it's propeties. Would be much
-# better to optimize thru use of local variables.
-
 =begin TML
 
 ---+ package Foswiki::Address
@@ -67,6 +64,10 @@ use Assert;
 use Foswiki::Func();
 use Foswiki::Meta();
 
+use Moo;
+use namespace::clean;
+extends 'Foswiki::Object';
+
 #use Data::Dumper;
 use constant TRACE                     => 0;  # Don't forget to uncomment dumper
 use constant TRACE2                    => 0;
@@ -74,10 +75,6 @@ use constant TRACEVALID                => 0;
 use constant TRACEATTACH               => 0;
 use constant STRINGIFIED_WEB_SEPARATOR => '/';
 use constant STRINGIFIED_TOPIC_SEPARATOR => '.';
-
-use Moo;
-use namespace::clean;
-extends 'Foswiki::Object';
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -197,16 +194,56 @@ my %plausibletable = (
 my %sepidentchars =
   ( 0 => { '.' => 'd', '/' => 's' }, 1 => { '.' => 'D', '/' => 'S' } );
 
-has root        => ( is => 'rw', );
-has web         => ( is => 'rw', );
-has webpath     => ( is => 'rw', );
-has topic       => ( is => 'rw', );
-has rev         => ( is => 'rw', );
-has tompath     => ( is => 'rw', );
-has attachment  => ( is => 'rw', );
-has isA         => ( is => 'rw', );
-has type        => ( is => 'rw', );
-has stringified => ( is => 'rw' );
+has root => (
+    is      => 'rw',
+    trigger => \&_validationTrigger,
+);
+has web => ( is => 'rw', );
+has webpath => (
+    is      => 'rw',
+    trigger => sub { $_[0]->_invalidate; },
+    isa     => Foswiki::Object::isaARRAY( __PACKAGE__ . "::webpath" ),
+);
+has topic => (
+    is      => 'rw',
+    trigger => \&_validationTrigger,
+);
+has rev => ( is => 'rw', );
+has tompath => (
+    is  => 'rw',
+    isa => Foswiki::Object::isaARRAY( __PACKAGE__ . "::tompath", noEmpty => 1 ),
+    trigger => \&_validationTrigger,
+);
+has attachment => (
+    is      => 'rw',
+    trigger => sub {
+        my $this = shift;
+
+        # Avoid extra validation.
+        $this->_isValidating(1);
+        $this->tompath( [ 'attachment', $_[0] ] );
+        $this->_isValidating(0);
+        $this->_validationTrigger(@_);
+    },
+);
+has stringified => (
+    is      => 'rw',
+    clearer => 1,
+);
+
+# _isValidating is true while isValid method is working.
+has _type         => ( is => 'rw', );
+has _isValidating => ( is => 'rw', );
+has _initialized  => (
+    is      => 'rw',
+    default => 0,
+);
+has _isA => (
+    is        => 'rw',
+    predicate => 1,
+    clearer   => 1,
+    init_arg  => 'isA',
+);
 
 =begin TML
 
@@ -278,9 +315,97 @@ documentation for =parse()=.</blockquote>
 
 =cut
 
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
+
+    my %opts = @_;
+
+    if ( $opts{string} ) {
+
+        #ASSERT( not $opts{topic} or ( $opts{webpath} and $opts{topic} ) )
+        #  if DEBUG;
+
+        if ( not $opts{isA} ) {
+
+            # transpose the existAs array into hash keys
+            if ( $opts{existAs} ) {
+                ASSERT( ref( $opts{existAs} ) eq 'ARRAY' ) if DEBUG;
+                ASSERT( scalar( @{ $opts{existAs} } ) ) if DEBUG;
+                $opts{existAsList} = $opts{existAs};
+                $opts{existAs} = { map { $_ => 1 } @{ $opts{existAs} } };
+            }
+            else {
+                $opts{existAsList} = $EXISTASLIST_DEFAULT;
+                $opts{existAs}     = $EXISTAS_DEFAULT;
+            }
+        }
+        _parse( $opts{string}, \%opts );
+        $opts{_forceValidate} = 1;
+    }
+    else {
+
+  # 'Web/SubWeb' vs [qw(Web SubWeb)] (supplied as web vs webpath): if the latter
+  # is absent, derive it from the former (supplied as web vs webpath)
+        if ( not $opts{webpath} and $opts{web} ) {
+            $opts{webpath} = [ split( /[\/\.]/, $opts{web} ) ];
+        }
+
+        #        $this = {
+        #            webpath => $opts{webpath},
+        #            topic   => $opts{topic},
+        #            tompath => $opts{tompath},
+        #            rev     => $opts{rev},
+        #        };
+        print STDERR "\$this: " . Data::Dumper->Dump( [ \%opts ] )
+          if TRACEATTACH;
+        if ( $opts{attachment} and not $opts{tompath} ) {
+            print STDERR "Assigning {tompath} from {attachment}\n"
+              if TRACEATTACH;
+            $opts{tompath} = [ 'attachment', $opts{attachment} ];
+        }
+        elsif ( not $opts{attachment}
+            and $opts{tompath}
+            and ref( $opts{tompath} ) eq 'ARRAY'
+            and $opts{tompath}->[0]   eq 'attachment'
+            and $opts{tompath}->[1] )
+        {
+            print STDERR "Assigning {attachment} from {tompath}\n"
+              if TRACEATTACH;
+            $opts{attachment} = $opts{tompath}->[1];
+        }
+        if ( DEBUG and $opts{attachment} and $opts{tompath} ) {
+            ASSERT(
+                ref( $opts{tompath} ) eq 'ARRAY'
+                  and $opts{tompath}->[0] ne 'attachment'
+                  or (  $opts{tompath}->[1]
+                    and $opts{tompath}->[1] eq $opts{attachment} )
+            ) if DEBUG;
+        }
+
+    }
+
+    return $orig->( $class, %opts );
+};
+
 sub BUILD {
     my $this = shift;
-    my %opts = %{ $_[0] };
+    my $opts = shift;
+
+    $this->_initialized(1);
+
+    if ( $opts->{_forceValidate} ) {
+
+        # Force recheck object state.
+        $this->_invalidate;
+        $this->isValid;
+    }
+}
+
+# XXX vrurg Keep it here for a while to have the original code in front of my eyes.
+sub _new {
+    my ( $class, %opts ) = @_;
+    my $this;
 
     if ( $opts{string} ) {
 
@@ -371,8 +496,8 @@ sub finish {
     $this->{rev}         = undef;
     $this->{tompath}     = undef;
     $this->{attachment}  = undef;
-    $this->{isA}         = undef;
-    $this->{type}        = undef;
+    $this->{_isA}        = undef;
+    $this->{_type}       = undef;
     $this->{stringified} = undef;
 
     return;
@@ -508,11 +633,13 @@ and resolved.
 =cut
 
 sub _parse {
-    my ( $this, $path, $opts ) = @_;
+    my ( $path, $opts ) = @_;
 
     print STDERR "parse(): parsing '$path'\n" if TRACE2;
-    $this->_invalidate();
     if ( not defined $opts ) {
+
+  # SMELL vrurg: Isn't it the way to dereference undef? The logic behind this is
+  # beyond me for now...
         $opts = {
             web         => $opts->{web},
             webpath     => $opts->{webpath},
@@ -530,7 +657,9 @@ sub _parse {
     ) if DEBUG;
     ASSERT( $opts->{isA} or defined $opts->{existAs} ) if DEBUG;
     if ( $path =~ s/\@([-\+]?\d+)$// ) {
-        $this->rev($1);
+
+        # $this->{rev} = $1;
+        $opts->{rev} = $1;
     }
 
     # if necessary, populate webpath from web parameter
@@ -573,7 +702,9 @@ sub _parse {
 
         print STDERR "parse(): isA: $opts->{isA}\n" if TRACE2;
         ASSERT( $atomiseAs{ $opts->{isA} } ) if DEBUG;
-        $atomiseAs{ $opts->{isA} }->( $this, $this, $path, $opts );
+
+        # XXX $this to be removed, working purely on $opts hashref.
+        $atomiseAs{ $opts->{isA} }->( $opts, $path, $opts );
     }
     else {
         my @separators = ( $path =~ m/([\.\/])/g );
@@ -669,13 +800,14 @@ sub _parse {
                     print STDERR "Trying to atomise $path as $type...\n"
                       if TRACE;
                     ASSERT( $atomiseAs{$type} ) if DEBUG;
-                    $typeatoms{$type} =
-                      $atomiseAs{$type}->( $this, {}, $path, $opts );
+                    $typeatoms{$type} = $atomiseAs{$type}->( {}, $path, $opts );
                     print STDERR "Atomised $path as $type, result: "
                       . Data::Dumper->Dump( [ $typeatoms{$type} ] )
                       if TRACE;
+
+                    # XXX _existScore is a ClassMethod, sage to remove $this.
                     ( $besttype, $score ) =
-                      $this->_existScore( $typeatoms{$type}, $type );
+                      _existScore( $typeatoms{$type}, $type );
 
                     if (TRACE) {
                         print STDERR 'existScore: '
@@ -700,12 +832,12 @@ sub _parse {
 
                 # Copy the atoms from the best hit into our instance.
                 if ($besttype) {
-                    $this->web( $typeatoms{$besttype}->{web} );
-                    $this->webpath( $typeatoms{$besttype}->{webpath} );
-                    $this->topic( $typeatoms{$besttype}->{topic} );
-                    $this->tompath( $typeatoms{$besttype}->{tompath} );
-                    $this->attachment( $typeatoms{$besttype}->{attachment} );
-                    $parsed = 1;
+                    $opts->{web}        = $typeatoms{$besttype}->{web};
+                    $opts->{webpath}    = $typeatoms{$besttype}->{webpath};
+                    $opts->{topic}      = $typeatoms{$besttype}->{topic};
+                    $opts->{tompath}    = $typeatoms{$besttype}->{tompath};
+                    $opts->{attachment} = $typeatoms{$besttype}->{attachment};
+                    $parsed             = 1;
                 }
             }
         }
@@ -714,13 +846,10 @@ sub _parse {
 
             if ($type) {
                 ASSERT( $atomiseAs{$type} ) if DEBUG;
-                $typeatoms{$type} =
-                  $atomiseAs{$type}->( $this, $this, $path, $opts );
+                $typeatoms{$type} = $atomiseAs{$type}->( $opts, $path, $opts );
             }
         }
     }
-
-    return $this->isValid();
 }
 
 #sub _atomiseAs {
@@ -735,7 +864,7 @@ sub _parse {
 #}
 
 sub _atomiseAsRoot {
-    my ( $this, $that, $path, $opts ) = @_;
+    my ( $that, $path, $opts ) = @_;
 
     print STDERR "_atomiseAsRoot():\n" if TRACE2;
     ASSERT( $path eq '/' ) if DEBUG;
@@ -750,7 +879,7 @@ sub _atomiseAsRoot {
 }
 
 sub _atomiseAsWeb {
-    my ( $this, $that, $path, $opts ) = @_;
+    my ( $that, $path, $opts ) = @_;
 
     print STDERR "_atomiseAsWeb():\n" if TRACE2;
     $that->{web} = $path;
@@ -770,12 +899,13 @@ sub _atomiseAsWeb {
 }
 
 sub _atomiseAsTopic {
-    my ( $this, $that, $path, $opts ) = @_;
+    my ( $that, $path, $opts ) = @_;
     ASSERT($path) if DEBUG;
     my @parts = split( /[\.\/]/, $path );
     my $nparts = scalar(@parts);
 
-    print STDERR "_atomiseAsTopic(): path: $path, nparts: $nparts\n" if TRACE2;
+    print STDERR "_atomiseAsTopic(): path: $path, nparts: $nparts\n"
+      if TRACE2;
     if ( $nparts == 1 ) {
         if (    $opts->{webpath}
             and ref( $opts->{webpath} ) eq 'ARRAY'
@@ -803,12 +933,12 @@ sub _atomiseAsTopic {
 }
 
 sub _atomiseAsAttachment {
-    my ( $this, $that, $path, $opts ) = @_;
+    my ( $that, $path, $opts ) = @_;
 
     print STDERR "_atomiseAsAttachment():\n" if TRACE2;
     ASSERT($path) if DEBUG;
     if ( my ( $lhs, $file ) = ( $path =~ m/^(.*?)\/([^\/]+)$/ ) ) {
-        $that = $this->_atomiseAsTopic( $that, $lhs, $opts );
+        $that = _atomiseAsTopic( $that, $lhs, $opts );
         $that->{tompath} = [ 'attachment', $file ];
         $that->{attachment} = $file;
     }
@@ -859,7 +989,7 @@ supported:
 =cut
 
 sub _atomiseAsTOM {
-    my ( $this, $that, $path, $opts ) = @_;
+    my ( $that, $path, $opts ) = @_;
 
     print STDERR "_atomiseAsTOM():\n" if TRACE2;
 
@@ -1015,7 +1145,7 @@ sub _atomiseAsTOM {
 }
 
 sub _existScore {
-    my ( $this, $atoms, $type ) = @_;
+    my ( $atoms, $type ) = @_;
     my $score;
     my $perfecttype;
 
@@ -1086,64 +1216,62 @@ The output of =stringify()= is understood by =_parse()=, and vice versa.
 sub stringify {
     my ($this) = @_;
 
+    # NOTE Class attributes are been referenced directly in this method. It's ok
+    # for ro access only.
+
     ASSERT( $this->isValid(), 'valid address' ) if DEBUG;
+
+    # Cache the object parameter.
+    my $stringified = $this->stringified;
 
     # If there's a valid address; and check that we haven't already computed
     # the stringification before
-    if ( !defined $this->stringified ) {
-        if ( $this->webpath ) {
-            $this->stringified(
-                join( STRINGIFIED_WEB_SEPARATOR, @{ $this->{webpath} } ) );
-            if ( $this->topic ) {
-                $this->stringified( $this->stringified
-                      . STRINGIFIED_TOPIC_SEPARATOR
-                      . $this->{topic} );
-                if ( $this->tompath ) {
-                    ASSERT( ref( $this->tompath ) eq 'ARRAY'
-                          and scalar( @{ $this->tompath } ) )
+    if ( !defined $stringified ) {
+        if ( $this->{webpath} ) {
+            $stringified =
+              join( STRINGIFIED_WEB_SEPARATOR, @{ $this->{webpath} } );
+            if ( $this->{topic} ) {
+                $stringified .= STRINGIFIED_TOPIC_SEPARATOR . $this->{topic};
+                if ( $this->{tompath} ) {
+                    ASSERT( ref( $this->{tompath} ) eq 'ARRAY'
+                          and scalar( @{ $this->{tompath} } ) )
                       if DEBUG;
                     print STDERR 'tompath:    '
-                      . Data::Dumper->Dump( [ $this->tompath ] )
+                      . Data::Dumper->Dump( [ $this->{tompath} ] )
                       if TRACEATTACH;
                     print STDERR 'attachment: '
-                      . Data::Dumper->Dump( [ $this->attachment ] )
+                      . Data::Dumper->Dump( [ $this->{attachment} ] )
                       if TRACEATTACH;
                     ASSERT(
-                             $this->tompath->[0] ne 'attachment'
-                          or not $this->tompath->[1]
-                          or (  $this->attachment
-                            and $this->attachment eq $this->tompath->[1] )
+                             $this->{tompath}->[0] ne 'attachment'
+                          or not $this->{tompath}->[1]
+                          or (  $this->{attachment}
+                            and $this->{attachment} eq $this->{tompath}->[1] )
                     ) if DEBUG;
-                    if ( $this->tompath->[0] eq 'attachment'
-                        and scalar( @{ $this->tompath } ) == 2 )
+                    if ( $this->{tompath}->[0] eq 'attachment'
+                        and scalar( @{ $this->{tompath} } ) == 2 )
                     {
-                        $this->stringified(
-                            $this->stringified . '/' . $this->tompath->[1] );
-                        if ( $this->has_rev ) {
-                            $this->stringified(
-                                $this->stringified . '@' . $this->rev );
+                        $stringified .= '/' . $this->{tompath}->[1];
+                        if ( defined $this->{rev} ) {
+                            $stringified .= '@' . $this->{rev};
                         }
                     }
                     else {
-                        if ( defined $this->rev ) {
-                            $this->stringified(
-                                $this->stringified . '@' . $this->rev );
+                        if ( defined $this->{rev} ) {
+                            $stringified .= '@' . $this->{rev};
                         }
-                        $this->stringified( '\''
-                              . $this->stringified . '\'/'
-                              . $this->tompath->[0] );
-                        if ( $this->tompath->[1] ) {
-                            my @path = @{ $this->tompath };
+                        $stringified =
+                          '\'' . $stringified . '\'/' . $this->{tompath}->[0];
+                        if ( $this->{tompath}->[1] ) {
+                            my @path = @{ $this->{tompath} };
                             my $root = shift(@path);
 
                             if ( $root eq 'META' and scalar(@path) ) {
-                                $this->stringified(
-                                    $this->stringified . ':' . shift(@path) );
+                                $stringified .= ':' . shift(@path);
                             }
                             if ( scalar(@path) ) {
                                 if ( defined $path[0] ) {
-                                    $this->stringified(
-                                        $this->stringified . '[' );
+                                    $stringified .= '[';
                                     if ( ref( $path[0] ) eq 'HASH' ) {
                                         my @selectorparts;
                                         while ( my ( $key, $value ) =
@@ -1152,26 +1280,23 @@ sub stringify {
                                             push( @selectorparts,
                                                 $key . '=\'' . $value . '\'' );
                                         }
-                                        $this->stringified( $this->stringified
-                                              . join( ' AND ', @selectorparts )
-                                        );
+                                        $stringified .=
+                                          join( ' AND ', @selectorparts );
                                         shift(@path);
                                     }
                                     else {
-                                        ASSERT( $path[0] =~ m/^\d+$/ ) if DEBUG;
-                                        $this->stringified(
-                                            $this->stringified . shift(@path) );
+                                        ASSERT( $path[0] =~ m/^\d+$/ )
+                                          if DEBUG;
+                                        $stringified .= shift(@path);
                                     }
-                                    $this->stringified(
-                                        $this->stringified . ']' );
+                                    $stringified .= ']';
                                 }
                                 else {
                                     shift @path;
                                 }
                                 if ( scalar(@path) ) {
                                     ASSERT( scalar(@path) == 1 ) if DEBUG;
-                                    $this->stringified( $this->stringified . '.'
-                                          . shift(@path) );
+                                    $stringified .= '.' . shift(@path);
                                 }
                             }
                             ASSERT( not scalar(@path) ) if DEBUG;
@@ -1179,24 +1304,22 @@ sub stringify {
                     }
                 }
                 elsif ( defined $this->{rev} ) {
-                    $this->stringified( $this->stringified .=
-                          '@' . $this->rev );
+                    $stringified .= '@' . $this->{rev};
                 }
             }
             else {
-                $this->stringified(
-                    $this->stringified . STRINGIFIED_WEB_SEPARATOR );
+                $stringified .= STRINGIFIED_WEB_SEPARATOR;
             }
         }
         else {
-            ASSERT( $this->root );
-            $this->stringified = '/';
+            ASSERT( $this->{root} );
+            $stringified = '/';
         }
     }
-    print STDERR "stringify(): ", $this->stringified, "\n"
-      if TRACE2 and $this->stringified;
+    print STDERR "stringify(): $this->{stringified}\n"
+      if TRACE2 and $this->{stringified};
 
-    return $this->stringified;
+    return $this->stringified($stringified);
 }
 
 =begin TML
@@ -1215,19 +1338,19 @@ may be removed before we release Foswiki 2.0. We would rather use web => '/'
 
 =cut
 
-sub root {
-    my ( $this, $root ) = @_;
-
-    if ( scalar(@_) == 2 ) {
-        $this->{root} = $root;
-        $this->_invalidate();
-    }
-    else {
-        $this->isValid();
-    }
-
-    return $this->{root};
-}
+#around root => sub {
+#    my ( $orig, $this, $root ) = @_;
+#
+#    if ( scalar(@_) == 2 ) {
+#        $this->{root} = $root;
+#        $this->_invalidate();
+#    }
+#    else {
+#        $this->isValid();
+#    }
+#
+#    return $this->{root};
+#};
 
 =begin TML
 
@@ -1239,24 +1362,28 @@ Get/set by web string
 
 =cut
 
-sub web {
-    my ( $this, $web ) = @_;
+around web => sub {
+    my $orig  = shift;
+    my $this  = shift;
+    my ($web) = @_;
 
     ASSERT(
-        scalar(@_) == 2
-          or
-          ( defined( $this->{webpath} ) and ref( $this->{webpath} ) eq 'ARRAY' )
+        scalar(@_) == 1
+          or ( defined( $this->webpath )
+            and ref( $this->webpath ) eq 'ARRAY' )
     ) if DEBUG;
-    if ( scalar(@_) == 2 ) {
+    if ( scalar(@_) == 1 ) {
         $this->webpath( [ split( /[\/\.]/, $web ) ] );
     }
-    if ( not $this->{web} and defined( $this->{webpath} ) ) {
-        $this->{web} = join( '/', @{ $this->{webpath} } );
+
+    # XXX vrurg Would this work for a lazy attribute builder?
+    if ( not $this->{web} and defined( $this->webpath ) ) {
+        $orig->( $this, join( '/', @{ $this->webpath } ) );
     }
     print STDERR "web(): no web part!\n" if TRACE and not $this->{web};
 
-    return $this->{web};
-}
+    return $orig->($this);
+};
 
 =begin TML
 
@@ -1268,16 +1395,16 @@ Get/set the webpath arrayref
 
 =cut
 
-sub webpath {
-    my ( $this, $webpath ) = @_;
-
-    if ( scalar(@_) == 2 ) {
-        $this->{webpath} = $webpath;
-        $this->_invalidate();
-    }
-
-    return $this->{webpath};
-}
+#sub webpath {
+#    my ( $this, $webpath ) = @_;
+#
+#    if ( scalar(@_) == 2 ) {
+#        $this->{webpath} = $webpath;
+#        $this->_invalidate();
+#    }
+#
+#    return $this->{webpath};
+#}
 
 =begin TML
 
@@ -1289,20 +1416,20 @@ Get/set the topic name
 
 =cut
 
-sub topic {
-    my ( $this, $topic ) = @_;
-
-    if ( scalar(@_) == 2 ) {
-        $this->{topic} = $topic;
-        $this->_invalidate();
-        ASSERT( $this->isValid() ) if DEBUG;
-    }
-    else {
-        $this->isValid();
-    }
-
-    return $this->{topic};
-}
+#around topic => sub {
+#    my ( $orig, $this, $topic ) = @_;
+#
+#    if ( scalar(@_) == 2 ) {
+#        $this->{topic} = $topic;
+#        $this->_invalidate();
+#        ASSERT( $this->isValid() ) if DEBUG;
+#    }
+#    else {
+#        $this->isValid();
+#    }
+#
+#    return $this->{topic};
+#};
 
 =begin TML
 
@@ -1314,21 +1441,21 @@ Get/set the file attachment name
 
 =cut
 
-sub attachment {
-    my ( $this, $attachment ) = @_;
-
-    if ( scalar(@_) == 2 ) {
-        $this->{attachment} = $attachment;
-        $this->{tompath} = [ 'attachment', $attachment ];
-        $this->_invalidate();
-        ASSERT( $this->isValid() ) if DEBUG;
-    }
-    else {
-        $this->isValid();
-    }
-
-    return $this->{attachment};
-}
+#around attachment => sub {
+#    my ( $orig, $this, $attachment ) = @_;
+#
+#    if ( scalar(@_) == 2 ) {
+#        $this->{attachment} = $attachment;
+#        $this->{tompath} = [ 'attachment', $attachment ];
+#        $this->_invalidate();
+#        ASSERT( $this->isValid() ) if DEBUG;
+#    }
+#    else {
+#        $this->isValid();
+#    }
+#
+#    return $this->{attachment};
+#};
 
 =begin TML
 
@@ -1340,8 +1467,8 @@ Get/set the rev
 
 =cut
 
-sub rev {
-    my ( $this, $rev ) = @_;
+around rev => sub {
+    my ( $orig, $this, $rev ) = @_;
 
     if ( scalar(@_) == 2 ) {
         $this->{rev} = $rev;
@@ -1353,7 +1480,7 @@ sub rev {
     }
 
     return $this->{rev};
-}
+};
 
 =begin TML
 
@@ -1380,25 +1507,27 @@ Get/set the tompath into a topic
 
 =cut
 
-sub tompath {
-    my ( $this, $tompath ) = @_;
-
-    if ( scalar(@_) == 2 ) {
-        $this->{tompath} = $tompath;
-        $this->_invalidate();
-        ASSERT(
-            not defined $tompath
-              or (  defined $tompath
-                and ref($tompath) eq 'ARRAY'
-                and scalar( @{$tompath} ) )
-        ) if DEBUG;
-    }
-    else {
-        $this->isValid();
-    }
-
-    return $this->{tompath};
-}
+#sub tompath {
+#    my ( $this, $tompath ) = @_;
+#
+#    if ( scalar(@_) == 2 ) {
+#        $this->{tompath} = $tompath;
+#        $this->_invalidate();
+## NOTE vrurg This ASSERT could be ignored as isARRAY would take care of correct
+## tompath value.
+#        ASSERT(
+#            not defined $tompath
+#              or (  defined $tompath
+#                and ref($tompath) eq 'ARRAY'
+#                and scalar( @{$tompath} ) )
+#        ) if DEBUG;
+#    }
+#    else {
+#        $this->isValid();
+#    }
+#
+#    return $this->{tompath};
+#}
 
 =begin TML
 
@@ -1423,11 +1552,12 @@ Returns true if the address points to a resource of the specified type.
 =cut
 
 sub isA {
-    my ( $this, $resourcetype ) = @_;
+    my $this = shift;
+    my ($resourcetype) = @_;
     my $result;
 
     if ( $resourcetype and $this->isValid() ) {
-        $result = $this->{isA}->{$resourcetype};
+        $result = $this->_isA->{$resourcetype};
     }
 
     return $result;
@@ -1456,62 +1586,66 @@ types:
 sub isValid {
     my ($this) = @_;
 
-    if ( not defined $this->{isA} ) {
+    # Avoid deep recursion.
+    return undef if !$this->_initialized || $this->_isValidating;
+
+    $this->_isValidating(1);
+
+    if ( not $this->_has_isA ) {
         print STDERR "isValid(): we don't know what we are (yet)\n"
           if TRACEVALID;
-        if ( $this->{topic} ) {
+        if ( $this->topic ) {
             $this->_trace_have_valid('topic') if TRACEVALID;
-            ASSERT( $this->{topic} !~ /[\/\.]/,
-                "topic '$this->{topic}' contains no path separators" )
+            ASSERT( $this->topic !~ /[\/\.]/,
+                "topic '" . $this->topic . "' contains no path separators" )
               if DEBUG;
-            if ( $this->{webpath} ) {
+            if ( $this->webpath ) {
                 $this->_trace_have_valid('webpath') if TRACEVALID;
-                if ( $this->{attachment} ) {
+                if ( $this->attachment ) {
                     $this->_trace_is_valid('attachment') if TRACEVALID;
-                    $this->{type} = 'attachment';
+                    $this->_type('attachment');
                 }
-                elsif ( $this->{tompath} ) {
-                    ASSERT( ref( $this->{tompath} ) eq 'ARRAY'
-                          and scalar( @{ $this->{tompath} } ) )
+                elsif ( $this->tompath ) {
+                    ASSERT( ref( $this->tompath ) eq 'ARRAY'
+                          and scalar( @{ $this->tompath } ) )
                       if DEBUG;
                     ASSERT(
-                        not(    $this->{topmath}->[0]
-                            and $this->{topmath}->[0] eq 'attachment' )
+                        not(    $this->tompath->[0]
+                            and $this->tompath->[0] eq 'attachment' )
                     ) if DEBUG;
-                    ASSERT( $pathtypes{ $this->{tompath}->[0] } ) if DEBUG;
-                    $this->{type} =
-                      $pathtypes{ $this->{tompath}->[0] }
-                      ->{ scalar( @{ $this->{tompath} } ) };
-                    $this->_trace_is_valid( $this->{type} ) if TRACEVALID;
+                    ASSERT( $pathtypes{ $this->tompath->[0] } ) if DEBUG;
+                    $this->_type( $pathtypes{ $this->tompath->[0] }
+                          ->{ scalar( @{ $this->tompath } ) } );
+                    $this->_trace_is_valid( $this->_type ) if TRACEVALID;
                 }
                 else {
-                    ASSERT( not defined $this->{tompath} ) if DEBUG;
+                    ASSERT( not defined $this->tompath ) if DEBUG;
                     $this->_trace_is_valid('topic') if TRACEVALID;
-                    $this->{type} = 'topic';
+                    $this->_type('topic');
                 }
             }
         }
-        elsif ( $this->{webpath}
-            and not defined $this->{tompath} )
+        elsif ( $this->webpath
+            and not defined $this->tompath )
         {
             $this->_trace_is_valid('webpath') if TRACEVALID;
-            $this->{type} = 'webpath';
+            $this->_type('webpath');
         }
-        elsif ( $this->{root} ) {
+        elsif ( $this->root ) {
             $this->_trace_is_valid('root') if TRACEVALID;
-            $this->{type} = 'root';
+            $this->_type('root');
         }
         else {
-            $this->{type} = undef;
+            $this->_type(undef);
         }
-        if ( $this->{type} ) {
-            $this->{isA} = { $this->{type} => 1 };
-            $this->{root} = 1;
+        if ( $this->_type ) {
+            $this->_isA( { $this->_type => 1 } );
+            $this->root(1);
         }
         else {
             print STDERR "isValid(): INVALID: " . $this->_trace_stringify($this)
               if TRACEVALID;
-            $this->{isA} = {};
+            $this->_isA( {} );
         }
         ASSERT(
             ( !defined $this->{rev} || $this->{rev} =~ m/^[-\+]?\d+$/ ),
@@ -1520,9 +1654,11 @@ sub isValid {
               . "' is numeric"
         ) if DEBUG;
     }
-    print STDERR "isValid(): final type is: $this->{type}\n" if TRACEVALID;
+    print STDERR "isValid(): final type is: ", $this->_type, "\n" if TRACEVALID;
 
-    return $this->{type};
+    $this->_isValidating(0);
+
+    return $this->_type;
 }
 
 sub _trace_stringify {
@@ -1542,8 +1678,6 @@ sub _trace_have_valid {
     print STDERR "isValid(): have $what => '"
       . $this->_trace_stringify( $this->{$what} ) . "'\n"
       if TRACEVALID;
-
-    return;
 }
 
 sub _trace_is_valid {
@@ -1552,8 +1686,6 @@ sub _trace_is_valid {
     print STDERR "isValid(): type is $what => '"
       . $this->_trace_stringify( $this->{$what} ) . "'\n"
       if TRACEVALID;
-
-    return;
 }
 
 # Internally, this is called so that the next isValid() call will re-evaluate
@@ -1562,10 +1694,21 @@ sub _trace_is_valid {
 sub _invalidate {
     my ($this) = @_;
 
-    $this->{stringified} = undef;
-    $this->{isA}         = undef;
+    return if $this->_isValidating;
 
-    return;
+    $this->clear_stringified;
+    $this->_clear_isA;
+}
+
+# This is a common trigger for atributes which values have influence over the
+# object state.
+sub _validationTrigger {
+    my $this = shift;
+    $this->_invalidate;
+
+    unless ( $this->_isValidating || !$this->_initialized ) {
+        my $isValid = $this->isValid;
+    }
 }
 
 =begin TML

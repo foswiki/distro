@@ -13,14 +13,14 @@ use strict;
 my ($prefix) = @ARGV;
 
 while (<STDIN>) {
-  print STDERR "manufest_to_debian_install $_";
-  next if (/^\s*#/);
-  if (/^(\S+)\s+(\d+)/) {
-    my ($file,$perm) = ($1,$2);
-    my ($dest) = $file;
-    $dest =~ s%[^/]*$%%;
-    print "$file $prefix$dest\n";
-  }
+    print STDERR "manufest_to_debian_install $_";
+    next if (/^\s*#/);
+    if (/^(\S+)\s+(\d+)/) {
+        my ( $file, $perm ) = ( $1, $2 );
+        my ($dest) = $file;
+        $dest =~ s%[^/]*$%%;
+        print "$file $prefix$dest\n";
+    }
 }
 
 print STDERR "manufest_to_debian_install done\n";

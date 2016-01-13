@@ -47,7 +47,6 @@ use Carp;
 use Assert;
 use Moo;
 use namespace::clean;
-
 extends qw(Foswiki::Object);
 
 with 'Throwable';
@@ -59,8 +58,8 @@ BEGIN {
     }
 }
 
-has line       => ( is => 'ro' );
-has file       => ( is => 'ro' );
+has line       => ( is => 'rwp' );
+has file       => ( is => 'rwp' );
 has text       => ( is => 'ro', required => 1, );
 has stacktrace => ( is => 'rwp' );
 
@@ -69,17 +68,20 @@ sub BUILD {
 
     my $trace = Carp::longmess('');
     $this->_set_stacktrace($trace);
+    my ( undef, $file, $line ) = caller;
+    $this->_set_file($file);
+    $this->_set_line($line);
 }
 
 sub stringify {
     my $this = shift;
 
-    return
-        $this->text . ' at '
-      . $this->file
-      . ' line '
-      . $this->line
-      . ( DEBUG ? "\n" . $this->stacktrace : '' );
+    return $this->text
+      . (
+        DEBUG
+        ? "\n" . $this->stacktrace
+        : ' at ' . $this->file . ' line ' . $this->line
+      );
 }
 
 package Foswiki::Exception::Engine;

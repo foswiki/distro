@@ -1,5 +1,6 @@
 
 package Foswiki::Object;
+use v5.14;
 
 =begin TML
 
@@ -18,8 +19,7 @@ features.
 
 =cut
 
-use strict;
-use warnings;
+use Foswiki::Exception;
 use Assert;
 use Moo;
 use namespace::clean;
@@ -105,6 +105,36 @@ sub DEMOLISH {
         $self->finish;
     }
 
+}
+
+=begin TML
+
+---++ StaticMethod isaARRAY( $attributeName, \%opts )
+
+isa validator generator checking for arrayrefs.
+
+=cut
+
+sub isaARRAY {
+    my ( $attributeName, %opts ) = @_;
+
+    my $code =
+        eval 'sub { Foswiki::Exception->throw( text => "'
+      . $attributeName
+      . ' attribute may only be '
+      . ( $opts{noUndef} ? '' : 'undef or an ' )
+      . 'arrayref." ) if '
+      . ( $opts{noUndef} ? '!defined( $_[0] ) || ' : '' )
+      . '( defined( $_[0] ) && ( ref( $_[0] ) ne "ARRAY"'
+      . ( $opts{noEmpty} ? ' || scalar( @{ $_[0] } ) == 0' : '' )
+      . ' ) ); }';
+    if ($@) {
+        Foswiki::Exception->throw( text =>
+"Failed to generate attribute 'isa' validator for $attributeName: $@"
+        );
+    }
+
+    return $code;
 }
 
 1;

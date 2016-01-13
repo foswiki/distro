@@ -18,29 +18,33 @@ sub clean {
 }
 
 sub descr {
+
     #print "DESCR for @_\n";
     $_ = `git config branch.@_.description`;
     s/\s*$//;
     return $_;
-};
+}
 
 sub summary {
+
     #print "SUMMARY for @_\n";
-    my $url   = "http://foswiki.org/Tasks/ItemSummaryQuery?item=@_;skin=text";
+    my $url = "http://foswiki.org/Tasks/ItemSummaryQuery?item=@_;skin=text";
     my $description = get $url;
     $description =~ s#<b>.*</b>\n##;
     return $description;
 }
-    
+
 sub indent {
     $_ = shift;
     s/^/      /mg;
     return $_;
-};
+}
 
 my @branches = clean `git branch --color=never --list --all`;
+
 #print Data::Dumper::Dumper( \@branches );
 my %merged = map { $_ => 1 } clean `git branch --color=never --merged`;
+
 #print Data::Dumper::Dumper( \%merged );
 
 for my $branch (@branches) {
@@ -49,21 +53,22 @@ for my $branch (@branches) {
     my $asis = `git branch --list -a --color=always $branch`;
     $asis =~ s/\s*$//;
     print "  $asis";
-    print " \033[33m(merged)\033[0m" if ($merged{$branch} and $branch ne "master");
+    print " \033[33m(merged)\033[0m"
+      if ( $merged{$branch} and $branch ne "master" );
     print "\n";
     next if $branch =~ m/Release/;
     my $desc = descr $branch;
-    print indent $desc."\n" if $desc;
+    print indent $desc. "\n" if $desc;
+
     if ( $branch =~ m/(Item(?:[0-9]){3,5})/ ) {
         print indent summary $1;
     }
-    elsif ($desc =~  m/(Item(?:[0-9]){3,5})/ ) {
+    elsif ( $desc =~ m/(Item(?:[0-9]){3,5})/ ) {
         print indent summary $1;
     }
-    
+
     print "\n";
 }
-
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

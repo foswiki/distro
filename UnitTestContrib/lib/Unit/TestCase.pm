@@ -15,6 +15,7 @@ use Try::Tiny;
 use Carp;
 use Unit::HTMLDiffer;
 use Unit::TestRunner();
+use Foswiki::Exception;
 
 use Moo;
 use namespace::clean;
@@ -35,14 +36,20 @@ Construct a new testcase.
 
 has annotations => (
     is      => 'rw',
+    lazy    => 1,
     default => sub { return []; },
+    trigger => sub {
+        my $this = shift;
+    },
+    clearer => 1,
 );
-has expect_failure => (
+has expecting_failure => (
     is      => 'rw',
     default => 0,
+    clearer => 1,
     trigger => sub {
         $_[0]->annotate( $_[1] ) if $_[1];
-        $_[0]->{expect_failure} = 1;
+        $_[0]->{expecting_failure} = 1;
     },
 );
 
@@ -59,8 +66,8 @@ Subclasses should call the superclass method in overrides.
 
 sub set_up {
     my $this = shift;
-    $this->annotations( [] );
-    $this->expect_failure(0);
+    $this->clear_annotations;
+    $this->clear_expecting_failure;
 }
 
 =begin TML
@@ -225,7 +232,7 @@ sub assert {
     ::TAP( $bool, $mess );    #lets hack in perl TAP output
     return 1 if $bool;
     $mess ||= "Assertion failed";
-    $mess = join( "\n", $this->annotations() ) . "\n" . $mess;
+    $mess = join( "\n", @{ $this->annotations } ) . "\n" . $mess;
     $mess = Carp::longmess($mess);
     die $mess;
 }
