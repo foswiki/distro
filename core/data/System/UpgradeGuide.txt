@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1449190033" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1452660011" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -146,12 +146,13 @@ If these steps are not done, users will have to clear their cache, or "shift-rel
 *Review Foswiki:System.SystemRequirements* and *Install missing Perl modules using your local package manager or CPAN.* Foswiki 2.0 no longer ships with CPAN modules. If you have access to the command line on the server, you can test for missing dependencies by running: =perl tools/dependencies=
 
 *Review the Release Notes and learn about the differences* between your old installation and the new release to which you are upgrading. Take note of any areas that affect your site and what special steps you may need to take.
+   * Foswiki:System.ReleaseNotes02x00 current release notes
    * Foswiki:System.ReleaseNotes01x01 if upgrading from a release prior to Foswiki 1.1.9, _and_
    * Foswiki:System.ReleaseNotes01x00 if upgrading from an older release of Foswiki 1.0.x
 
 *Check that all the extensions (plugins, contribs, skins) used by your old installation are available with the new release.* Familiarize yourself with any new behaviour that you will have to adapt to or any configuration changes you will have to perform.
 
-   * *The !EditTablePlugin has been deprecated and is not shipped with Foswiki 2.0.* It is replaced by the EditRowPlugin. If you are upgrading an existing site, and have that plugin installed, only one of !EditTablePlugin or !EditRowPlugin should be enabled.
+   * *The !EditTablePlugin has been deprecated and is not enabled by default on Foswiki 2.0.* It is replaced by the EditRowPlugin. Only one of !EditTablePlugin or !EditRowPlugin should be enabled.
    * *Review the deprecated jQuery javascript plugins.* The !JQueryPlugin has several changes in available jQuery !JavaScript plugins. Determine if any of these will impact your !JavaScript enabled topics.
 
 *Choose the character encoding to be used in your site.*
@@ -188,7 +189,7 @@ You _must_ match the prior encoding, or convert old data to the new encoding if 
 
 ---+++ Installation
 
-*Follow the installation instructions in INSTALL.html*, located in the root of the new installation. *Install the new release in a new directory.* Do not install on top of the old release.
+*Follow the installation instructions in INSTALL.html*, located in the root of the new installation, or online at Foswiki:System.InstallationGuide. *Install the new release in a new directory.* Do not install on top of the old release.
    * For public or otherwise sensitive installations, ensure that your web server configuration is set to deny access to the new Foswiki installation for anyone except you.
    * *Configure Foswiki* using the =configure= page.
       * *(Not recommended!) If you are upgrading from an older Foswiki release*, first copy your =&lt;oldwiki&gt;/lib/LocalSite.cfg= file to =&lt;newwiki&gt;/lib/LocalSite.cfg= in order to preserve your existing configuration settings (Not recommended). Alternatively, you can reconfigure the new installation from scratch (you can use your old =LocalSite.cfg= file as a reference).
@@ -200,10 +201,6 @@ You _must_ match the prior encoding, or convert old data to the new encoding if 
       * Foswiki:Support.ApacheConfigGenerator
       * Foswiki:Support.SettingFileAccessRightsLinuxUnix
       * Foswiki:Support.UpgradingFromOlderTWikiReleases - upgrading TWiki from older TWiki releases
-<!-- to be included once the supplemental documents are written (also modify the "Related Topics" section at the bottom of this document)
-      * Foswiki:Support.UpgradingFromTWiki4x2Releases - upgrading from TWiki4.2.X to Foswiki
-      * Foswiki:Support.UpgradingPatchReleases - upgrading releases where only last digit in the version changed
--->
 
 Test your newly-installed Foswiki site and ensure that its basic functionality works: viewing and editing topics (you can try creating and editing a topic in the %SANDBOXWEB% web).
 
