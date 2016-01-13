@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Address;
+use v5.14;
 
 =begin TML
 
