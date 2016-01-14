@@ -1609,10 +1609,12 @@ sub isValid {
                     ASSERT( ref( $this->tompath ) eq 'ARRAY'
                           and scalar( @{ $this->tompath } ) )
                       if DEBUG;
-                    ASSERT(
-                        not(    $this->tompath->[0]
-                            and $this->tompath->[0] eq 'attachment' )
-                    ) if DEBUG;
+
+# vrurg This ASSERT had a mistype in non-Moo version which was making it harmless. In fact, it seems to be incorrect.
+#ASSERT(
+#    not(    $this->tompath->[0]
+#        and $this->tompath->[0] eq 'attachment' )
+#) if DEBUG;
                     ASSERT( $pathtypes{ $this->tompath->[0] } ) if DEBUG;
                     $this->_type( $pathtypes{ $this->tompath->[0] }
                           ->{ scalar( @{ $this->tompath } ) } );
