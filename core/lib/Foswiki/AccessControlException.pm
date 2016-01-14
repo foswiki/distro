@@ -81,11 +81,10 @@ the function or parameter.
 
 package Foswiki::AccessControlException;
 
-use strict;
-use warnings;
+use v5.14;
 
-use Error ();
-our @ISA = ('Error');    # base class
+use Moo;
+extends 'Foswiki::Exception';
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -93,6 +92,14 @@ BEGIN {
         import locale();
     }
 }
+
+our @_newParameters = qw( mode user web topic reason );
+
+has web    => ( is => 'ro' );
+has topic  => ( is => 'ro' );
+has user   => ( is => 'ro' );
+has mode   => ( is => 'ro' );
+has reason => ( is => 'ro' );
 
 =begin TML
 
@@ -109,18 +116,6 @@ in the usual way e.g. =$e->{web}= and =$e->{reason}=
 
 =cut
 
-sub new {
-    my ( $class, $mode, $user, $web, $topic, $reason ) = @_;
-
-    return $class->SUPER::new(
-        web    => $web,
-        topic  => $topic,
-        user   => $user,
-        mode   => $mode,
-        reason => $reason,
-    );
-}
-
 =begin TML
 
 ---++ ObjectMethod stringify() -> $string
@@ -129,13 +124,14 @@ Generate a summary string. This is mainly for debugging.
 
 =cut
 
-sub stringify {
+around stringify => sub {
+    my $orig  = shift;
     my $this  = shift;
     my $topic = $this->{topic}
       || '';   # Access checks of Web objects causes uninitialized string errors
     return
 "AccessControlException: Access to $this->{mode} $this->{web}.$topic for $this->{user} is denied. $this->{reason}";
-}
+};
 
 1;
 __END__

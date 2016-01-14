@@ -111,7 +111,7 @@ var Types = {};
                   // to perl eval of a single-quoted string. The currentValue
                   // comes from a perl eval.
                   val = val.replace(/^\s*'(.*)'\s*$/, "$1");
-                  val = val.replace(/\\'/g, "'");
+                  val = val.replace(/\'/g, "'");
               }
           }
           return this.currentValue() === val;
@@ -181,6 +181,43 @@ var Types = {};
   Types.REGEX = Types.STRING.extend({
   });
 
+  // Deep compare of simple object, used for perl simple structures.
+  // Note: no support for built-in types other than the basic types, arrays
+  // and hashes; but then parsing a perl value use eval will never succeed with
+  // anything else.
+  Types.deep_equals = function(x, y) {
+      if (x === y)
+          return true;
+
+      if (x === null
+          || x === undefined
+          || y === null
+          || y === undefined)
+          return false; // x===y would have succeeded otherwise
+
+      if (x.constructor !== y.constructor)
+          return false;
+
+      if (x.valueOf() === y.valueOf())
+          return true;
+
+      if (Array.isArray(x) && x.length !== y.length)
+          return false;
+
+      // if they are strictly equal, they both need to be object at least
+      if (!(x instanceof Object && y instanceof Object))
+          return false;
+
+      // recursive equality check
+      var p = Object.keys(x);
+      return Object.keys(y).every(function (i) {
+          return p.indexOf(i) !== -1;
+      }) &&
+          p.every(function (i) {
+              return Types.deep_equals(x[i], y[i]);
+          });
+  };
+
   Types.PERL = Types.BaseType.extend({
       createUI: function(change_handler) {
           if (!(this.spec.SIZE && this.spec.SIZE.match(/\b(\d+)x(\d+)\b/))) {
@@ -189,8 +226,24 @@ var Types = {};
           return this._super(change_handler);
       },
       isDefault: function() {
+          // To do this comparison requires parsing and rewriting the perl to
+          // javascript. Not impossible, but tricky.
           var a = this.currentValue().trim(),
-              b = this.spec['default'].trim();
+              b = this.spec['default'].trim(), av, bv;
+          try {
+              // See if they parse as JS - they probably will! If they don't,
+              // parse, fall back to a string comparison :-(
+              av = eval(a);
+              bv = eval(b);
+          } catch (err) {
+              av = null; bv = null;
+          }
+          if (av !== null && bv !== null) {
+              return Types.deep_equals(av, bv);
+          }
+          // String comparison of the serialised perl value. This is unlikely
+          // to work, but there's no other option if one or both of the values
+          // fails to parse using JS eval.
           return a === b;
       }
 

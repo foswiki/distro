@@ -88,13 +88,14 @@ the function or parameter.
 # AND ENSURE ALL POD DOCUMENTATION IS COMPLETE AND ACCURATE.
 
 package Foswiki::OopsException;
-use strict;
-use warnings;
-
-use Error ();
-our @ISA = ('Error');
+use v5.14;
 
 use Assert;
+use Moo;
+use namespace::clean;
+extends 'Foswiki::Exception';
+
+our @_newParameters = qw( template );
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -102,6 +103,35 @@ BEGIN {
         import locale();
     }
 }
+
+has template => (
+    is      => 'rwp',
+    default => ''
+);
+has web => (
+    is      => 'ro',
+    default => '',
+);
+has topic => (
+    is      => 'ro',
+    default => '',
+);
+has def => (
+    is      => 'ro',
+    default => '',
+);
+has keep => (
+    is      => 'ro',
+    default => '',
+);
+has params => (
+    is      => 'rwp',
+    default => '',
+);
+has status => (
+    is      => 'rwp',
+    default => '',
+);
 
 =begin TML
 
@@ -121,27 +151,13 @@ NOTE: parameter values are automatically and unconditionally entity-encoded
 
 =cut
 
-sub new {
-    my $class    = shift;
-    my $template = shift;
-    my $this     = $class->SUPER::new();
-    $this->{template} = $template || 'generic';
-    $this->{status} = 500;    # default server error
-    ASSERT( scalar(@_) % 2 == 0, join( ";", map { $_ || 'undef' } @_ ) )
-      if DEBUG;
-    while ( my $key = shift @_ ) {
-        my $val = shift @_;
-        if ( $key eq 'params' ) {
-            if ( ref($val) ne 'ARRAY' ) {
-                $val = [$val];
-            }
-            $this->{params} = $val;
-        }
-        else {
-            $this->{$key} = $val || '';
-        }
+sub BUILD {
+    my $this = shift;
+    $this->_set_template( $this->template || 'generic' );
+    $this->_set_status(500);    # default server error
+    if ( ref( $this->params ) ne 'ARRAY' ) {
+        $this->_set_params( [ $this->params ] );
     }
-    return $this;
 }
 
 =begin TML
@@ -158,18 +174,19 @@ operations, and also for debugging.
 sub stringify {
     my ( $this, $session ) = @_;
 
-    if ( $this->{template} && $this->{def} && $session ) {
+    my $template = $this->template;
+    my $def      = $this->def;
+    if ( $template && $def && $session ) {
 
         # load the defs
-        $session->templates->readTemplate( 'oops' . $this->{template},
-            no_oops => 1 );
-        my $message = $session->templates->expandTemplate( $this->{def} )
-          || "Failed to find '$this->{def}' in 'oops$this->{template}'";
+        $session->templates->readTemplate( 'oops' . $template, no_oops => 1 );
+        my $message = $session->templates->expandTemplate($def)
+          || "Failed to find '$def' in 'oops$template'";
         my $topicObject =
-          Foswiki::Meta->new( $session, $this->{web}, $this->{topic} );
+          Foswiki::Meta->new( $session, $this->web, $this->topic );
         $message = $topicObject->expandMacros($message);
         my $n = 1;
-        foreach my $param ( @{ $this->{params} } ) {
+        foreach my $param ( @{ $this->params } ) {
             $message =~ s/%PARAM$n%/$param/g;
             $n++;
         }
@@ -177,13 +194,13 @@ sub stringify {
     }
     else {
         my $s = 'OopsException(';
-        $s .= $this->{template};
-        $s .= '/' . $this->{def} if $this->{def};
-        $s .= ' web=>' . $this->{web} if $this->{web};
-        $s .= ' topic=>' . $this->{topic} if $this->{topic};
-        $s .= ' keep=>1' if $this->{keep};
-        if ( defined $this->{params} ) {
-            $s .= ' params=>[' . join( ',', @{ $this->{params} } ) . ']';
+        $s .= $template;
+        $s .= '/' . $def if $def;
+        $s .= ' web=>' . $this->web if $this->web;
+        $s .= ' topic=>' . $this->topic if $this->topic;
+        $s .= ' keep=>1' if $this->keep;
+        if ( defined $this->params ) {
+            $s .= ' params=>[' . join( ',', @{ $this->params } ) . ']';
         }
         return $s . ')' . ( (DEBUG) ? $this->stacktrace : '' );
     }
@@ -201,8 +218,7 @@ sub redirect {
     my ( $this, $session ) = @_;
 
     my @p = $this->_prepareResponse($session);
-    my $url =
-      $session->getScriptUrl( 1, 'oops', $this->{web}, $this->{topic}, @p );
+    my $url = $session->getScriptUrl( 1, 'oops', $this->web, $this->topic, @p );
     $session->redirect( $url, 1 );
 }
 
@@ -220,9 +236,9 @@ sub generate {
     my ( $this, $session ) = @_;
 
     my @p = $this->_prepareResponse($session);
-    $session->{response}->status( $this->{status} );
+    $session->{response}->status( $this->status );
     require Foswiki::UI::Oops;
-    Foswiki::UI::Oops::oops( $session, $this->{web}, $this->{topic},
+    Foswiki::UI::Oops::oops( $session, $this->web, $this->topic,
         $session->{request}, 0 );
 }
 
@@ -230,12 +246,12 @@ sub _prepareResponse {
     my ( $this, $session ) = @_;
     my @p = ();
 
-    $this->{template} = "oops$this->{template}"
-      unless $this->{template} =~ m/^oops/;
-    push( @p, template => $this->{template} );
-    push( @p, def => $this->{def} ) if $this->{def};
+    $this->_set_template( "oops" . $this->template )
+      unless $this->template =~ m/^oops/;
+    push( @p, template => $this->template );
+    push( @p, def => $this->def ) if $this->def;
     my $n = 1;
-    push( @p, map { 'param' . ( $n++ ) => $_ } @{ $this->{params} } );
+    push( @p, map { 'param' . ( $n++ ) => $_ } @{ $this->params } );
     while ( my $p = shift(@p) ) {
         $session->{request}->param( -name => $p, -value => shift(@p) );
     }

@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-01-09 09:19+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2016-01-13 11:08+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
 "Language: fr\n"
@@ -96,7 +96,7 @@ msgstr "%1 a une liste des autres utilisateurs de Foswiki"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
 msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 a été approuvé·e et inscrit·e avec l'adresse e-mail %2"
+msgstr "%1 a été approuvé(e) et inscrit(e) avec l'adresse e-mail %2"
 
 #: core/templates/messages.tmpl:336
 msgid ""
@@ -115,7 +115,7 @@ msgstr ""
 #: core/templates/registerfailednotremoved.tmpl:11
 #: core/templates/registernotifyadmin.tmpl:11
 msgid "%1 has been registered with e-mail %2"
-msgstr "%1 s'est inscrit·e avec l'adresse e-mail %2"
+msgstr "%1 s'est inscrit(e) avec l'adresse e-mail %2"
 
 #: core/templates/validate.tmpl:32
 msgid "%1 has received a suspicious change request from your browser."
@@ -206,9 +206,10 @@ msgstr "%1 a été renommé ou déplacé de %2 le %3 par %4"
 
 #. ("%SYSTEMWEB%.$pluginName",                "${templateName}Template")
 #: AutoViewTemplatePlugin/lib/Foswiki/Plugins/AutoViewTemplatePlugin.pm:97
-#, fuzzy
 msgid "%1: Invalid template name (%2) - Contains invalid characters."
-msgstr "Le nom de page (%1) contient des caractères invalides."
+msgstr ""
+"%1: Nom de modèle (template) invalide (%2) - Contient des caractères "
+"invalides."
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -922,7 +923,7 @@ msgstr "Modèles de formulaires disponibles"
 
 #: core/data/System/WebTemplateTopics.txt:7
 msgid "Available templates in %1 Web:"
-msgstr "Modèles de formulaires disponibles dans le Web %1 :"
+msgstr "Modèles (templates) disponibles dans le Web %1 :"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "Back to topic"
@@ -2402,6 +2403,8 @@ msgstr "Paramètres erronés pour le script =%1="
 #: core/templates/registermessages.tmpl:127
 msgid "Incorrect topic name provided for the templatetopic parameter."
 msgstr ""
+"Nom de page de modèle (template) incorrect fournit pour le paramètre "
+"templatetopic."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
 msgid "Indent"
@@ -3063,7 +3066,7 @@ msgid ""
 "On this system, once you are registered, you may also log in using your "
 "email address."
 msgstr ""
-"Sur ce système, une fois inscrit·e, vous pouvez aussi vous connecter en "
+"Sur ce système, une fois inscrit(e), vous pouvez aussi vous connecter en "
 "utilisant adresse e-mail."
 
 #: core/templates/registermessages.tmpl:356
@@ -4243,14 +4246,14 @@ msgstr "Merci d'avoir refusé cette inscription"
 #: core/templates/registermessages.tmpl:154
 #: core/templates/registermessages.tmpl:167
 msgid "Thank you for registering"
-msgstr "Merci de vous être inscrit·e"
+msgstr "Merci de vous être inscrit(e)"
 
 #: core/templates/registernotify.tmpl:9
 msgid ""
 "Thank you for registering in the %1 collaboration platform. Please save this "
 "e-mail for future reference."
 msgstr ""
-"Merci de vous être inscrit·e sur la plate-forme collaborative %1. Veuillez "
+"Merci de vous être inscrit(e) sur la plate-forme collaborative %1. Veuillez "
 "conserver ce message, il peut vous être utile ultérieurement."
 
 #: core/templates/registerconfirm.tmpl:10
@@ -4258,8 +4261,8 @@ msgid ""
 "Thank you for registering in the %1 collaboration platform. Your "
 "verification code is %2."
 msgstr ""
-"Merci de vous être inscrit·e sur la plate-forme collaborative %1. Votre code "
-"de vérification est %2."
+"Merci de vous être inscrit(e) sur la plate-forme collaborative %1. Votre "
+"code de vérification est %2."
 
 #: core/templates/registermessages.tmpl:103
 msgid "That user has already been activated"
@@ -4514,6 +4517,11 @@ msgid ""
 "web.  If not provided, the default topic is [[%USERSWEB%.NewUserTemplate]], "
 "or if that does not exist. [[%SYSTEMWEB%.NewUserTemplate]]."
 msgstr ""
+"Le nom fournit est soit invalide, ou la page indiquée est introuvable. Le "
+"templatetopic doit être un modèle de page de nouvel utilisateur existant "
+"dans le Web %USERSWEB% web. S'il n'est pas indiqué, la page par défaut est "
+"[[%USERSWEB%.NewUserTemplate]], ou si celle-ci n'existe pas "
+"[[%SYSTEMWEB%.NewUserTemplate]]."
 
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
@@ -4665,6 +4673,8 @@ msgid ""
 "This field is not normally user provided. This may be a Foswiki "
 "configuration error."
 msgstr ""
+"Ce champ n'est normalement pas fournit par l'utilisateur. Cela peut être une "
+"erreur de configuration de Foswiki."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
 msgid ""
@@ -5132,7 +5142,7 @@ msgstr "Utilisez plutôt %1."
 
 #: PatternSkin/data/System/WebCreateNewTopicTemplate.txt:69
 msgid "Use template:"
-msgstr "Modèles de formulaires disponibles :"
+msgstr "Utiliser modèle :"
 
 #: core/data/System/CompleteDocumentation.txt:12
 msgid ""
@@ -5303,7 +5313,7 @@ msgstr "Afficher historique séquentiel de la page"
 
 #: PatternSkin/data/System/WebCreateNewTopicComponents.txt:149
 msgid "View templates"
-msgstr "Voir les modèles de formulaires disponibles"
+msgstr "Voir les modèles"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:24
 #: core/templates/oopsleaseconflict.tmpl:28
@@ -5626,7 +5636,7 @@ msgstr ""
 #: core/templates/registermessages.tmpl:23
 #: core/templates/registermessages.tmpl:37
 msgid "You have *not* been registered."
-msgstr "Vous n'avez *pas* été inscrit."
+msgstr "Vous n'avez *pas* été inscrit(e)."
 
 #: core/templates/messages.tmpl:246
 msgid ""

@@ -274,7 +274,7 @@ my $addrObj = Foswiki::Address->new(
 
 *path forms:*
 | *tompath*                                           | *Description* |
-| =['attachment']=                                    | All datastreams attached to a topic |
+| =['attachments']=                                   | All datastreams attached to a topic |
 | =['attachment', 'Attachment.pdf']=                  | Datastream of the file attachment named 'Attachment.pdf' |
 | =['META']=                                          | All =META= on a topic |
 | =['META', 'FIELD']=                                 | All =META:FIELD= members on a topic |
@@ -1609,12 +1609,10 @@ sub isValid {
                     ASSERT( ref( $this->tompath ) eq 'ARRAY'
                           and scalar( @{ $this->tompath } ) )
                       if DEBUG;
-
-# vrurg This ASSERT had a mistype in non-Moo version which was making it harmless. In fact, it seems to be incorrect.
-#ASSERT(
-#    not(    $this->tompath->[0]
-#        and $this->tompath->[0] eq 'attachment' )
-#) if DEBUG;
+                    ASSERT(
+                        not(    $this->tompath->[0]
+                            and $this->tompath->[0] eq 'attachment' )
+                    ) if DEBUG;
                     ASSERT( $pathtypes{ $this->tompath->[0] } ) if DEBUG;
                     $this->_type( $pathtypes{ $this->tompath->[0] }
                           ->{ scalar( @{ $this->tompath } ) } );

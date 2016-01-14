@@ -43,7 +43,7 @@ my %test_roundtrip_range = (
     ],
     tompaths => [
         undef,
-        ['attachment'],
+        ['attachments'],
         [ 'attachment', 'Attachment' ],
         [ 'attachment', 'Attach.ent' ],
         [ 'attachment', 'Atta.h.ent' ],

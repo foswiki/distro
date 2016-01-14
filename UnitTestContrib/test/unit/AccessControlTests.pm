@@ -77,8 +77,8 @@ THIS
 
 sub DENIED {
     my ( $this, $mode, $user, $web, $topic ) = @_;
-    $web   ||= $this->{test_web};
-    $topic ||= $this->{test_topic};
+    $web   ||= $this->test_web;
+    $topic ||= $this->test_topic;
     my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
     $this->assert( !$topicObject->haveAccess( $mode, $user ),
         "$user $mode $web.$topic" );

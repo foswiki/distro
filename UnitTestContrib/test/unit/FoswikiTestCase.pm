@@ -420,22 +420,21 @@ $this->expect_failure(
 
 =cut
 
-around expect_failure => sub {
-    my $orig = shift;
+sub expect_failure {
     my ( $this, @args ) = @_;
     my $reason = scalar(@args) % 2 ? shift(@args) : undef;
 
     if ( scalar(@args) ) {
         if ( $this->check_conditions_met(@args) ) {
-            $orig->( $this, $reason );
+            $this->expecting_failure($reason);
         }
     }
     else {
-        $orig->( $this, $reason );
+        $this->expecting_failure($reason);
     }
 
     return;
-};
+}
 
 =begin TML
 

@@ -1,10 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1448162210" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1452660011" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
-Manually installing Foswiki
 <div class='foswikiHelp' style='border:2px orange solid' >
-This guide describes the steps for manually installing Foswiki, with __specific steps for installations on Linux with the Apache web server__.%BR%
+This guide describes the steps for installing Foswiki, with __specific steps for installations on Linux with the Apache web server__.%BR%
 If you would prefer to use a different web server, please refer to supplemental documentation when you reach the Apache-specific steps:
    * *Nginx:* [[http://foswiki.org/Support/FoswikiOnNginx][Foswiki on Nginx]]
    * *Lighttpd:* [[http://foswiki.org/Support/LighttpdBestPractice][Foswiki on Lighttpd]]
@@ -20,12 +19,11 @@ If you would prefer to use a different web server, please refer to supplemental 
 
 *Need help?* Visit Foswiki:Support web or Foswiki:Community.InternetRelayChat (irc.freenode.net, channel #foswiki).
 
-This guide assumes a basic knowledge of server administration on the system being used. For more information, see Foswiki:System.AdminSkillsAssumptions.
-
 ---++ Before you start
 
    * This guide assumes the a basic knowledge of server administration on the system being used. For more information, see Foswiki:System.AdminSkillsAssumptions.
    * Review the [[#SystemRequirements][System Requirements]] (below) to make sure you have server prerequisites installed.
+   * Review the [[Foswiki:System.ReleaseNotes02x00][release notes]].
    * If you need to install any Perl libraries from CPAN, see Foswiki:Support.HowToInstallCpanModules for more information.
 
 ---++ 5-Minute Install
@@ -41,6 +39,7 @@ Here's the quick version of the instructions, for *those that are already comfor
       * =http<nop>://yoursite.com/bin/view=
       * =http<nop>://yoursite.com/foswiki/bin/view=
    1 Follow the link in the Bootstrap banner of the returned page to the bin/configure tool, address any warnings and save your configuration.
+   1 Return from configure (button at top of page), and register your first user.
 
 That's it! You Foswiki should now be installed. Browse to =/bin/view= and start editing!
 
@@ -93,13 +92,13 @@ If you are running a Linux system with Perl found on the default path or are on 
 
 The easiest way to fix up the bin scripts is to run the =tools/rewriteshebang.pl= script: <verbatim class='bash'>
 cd /path/to/foswiki/tools
-perl -I ../lib rewriteshebang.pl</verbatim>
+perl rewriteshebang.pl</verbatim>
 or for Windows users: <verbatim class='bash'>
 cd C:\path\to\foswiki\tools
-perl -I ..\lib  rewriteshebang.pl</verbatim>
+perl rewriteshebang.pl</verbatim>
 The script will determine the location of the Perl interpreter and will prompt to update both the bin and tools scripts in a single step.   The changed files will be reported, and it is safe to rerun the script.
 
-If you get an error about perl command not found,  the you need to find where your perl command is installed and include that in your command.  For example: <verbatim class='bash'>C:\path\to\perl -I ..\lib rewriteshebang.pl</verbatim>
+If you get an error about perl command not found,  the you need to find where your perl command is installed and include that in your command.  For example: <verbatim class='bash'>C:\path\to\perl rewriteshebang.pl</verbatim>
 
 <span id="Configure_the_web_server">
 ---+++ Step 4: Configure the web server
@@ -265,6 +264,10 @@ Administrators have read and write access to any topic, regardless of any access
 The default setup in Foswiki is that members of %IF{"$skin = 'plain'" then="<nop>Main.<nop>AdminGroup in your installation" else="$percntUSERSWEB$percnt.AdminGroup"}% have administrator privileges. Any member of the %USERSWEB%.AdminGroup can add subsequent members to that group.
 
 To more easily debug access control issues, you may want to have a regular Foswiki user account for daily use, and a special one that belongs to the =AdminGroup= that you use only for administering your Foswiki site. See %IF{"$skin = 'plain'" then="<nop>System.<nop>AccessControls in your installation" else="$percntSYSTEMWEB$percnt.AccessControls"}% for more information on access controls and user groups.
+
+<div class="foswikiHelp"> %T% Instead of adding users to the AdminGroup, grant those candidate administrators =ALLOWTOPICCHANGE= rights on the
+AdminGroup.  They can then use a button on the AdminGroup page to join or leave the group at will.
+</div>
 
 #WaysToProtectConfigure
 ---++++ Options to Protect the Configure Script

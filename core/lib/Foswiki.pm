@@ -378,7 +378,10 @@ BEGIN {
         require locale;
         import locale();
     }
-    elsif (DEBUG) {
+
+    # Set environment var FOSWIKI_NOTAINT to disable taint checks even
+    # if Taint::Runtime is installed
+    elsif ( DEBUG && !$ENV{FOSWIKI_NOTAINT} ) {
         eval { require Taint::Runtime; };
         if ($@) {
             print STDERR

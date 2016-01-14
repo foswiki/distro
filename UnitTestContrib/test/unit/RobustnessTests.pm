@@ -120,6 +120,33 @@ $regex{filenameInvalidCharRegex} = qr/[-%'";!\+=<>&{\(\)}\x00-\x1f\x7f-\x9f]/o;
  in some weird charset out there
 =cut
 
+sub test_filterTopicName {
+    my $this = shift;
+
+    # Check that "certain characters" are munched
+    my $crap = '';
+    for ( 0 .. 255 ) {
+        my $c = chr($_);
+        $crap .= $c if $c =~ m/$Foswiki::cfg{NameFilter}/;
+    }
+
+    my $hex = '';
+    foreach my $ch ( split( //, $crap ) ) {
+        $hex .=
+          ( $ch lt "\x20" || $ch gt "\x7e" ) ? '\x' . unpack( "H2", $ch ) : $ch;
+    }
+
+    # This is the list of characters that should be munched out from Topic names
+    my $expecthex =
+'\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f "#$%&\'*:;<>?@[\]^`|~';
+    $this->assert_str_equals( $expecthex, $hex,
+"Expected: ($expecthex)\n     Got: ($hex)\nHas {AttachmentNameFilter} changed?"
+    );
+    $this->assert_num_equals( 53, length($crap) );
+
+    return;
+}
+
 sub test_sanitizeAttachmentName {
     my $this = shift;
 
@@ -143,6 +170,7 @@ sub test_sanitizeAttachmentName {
           ( $ch lt "\x20" || $ch gt "\x7e" ) ? '\x' . unpack( "H2", $ch ) : $ch;
     }
 
+# This is the list of characters that should be munched out from Attachment names
     my $expecthex =
 '\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f"#$%&\'*;<>?@[\]^`|~';
     $this->assert_str_equals( $expecthex, $hex,
