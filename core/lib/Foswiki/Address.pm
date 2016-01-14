@@ -222,7 +222,7 @@ my $addrObj = Foswiki::Address->new(
 
 *path forms:*
 | *tompath*                                           | *Description* |
-| =['attachment']=                                    | All datastreams attached to a topic |
+| =['attachments']=                                   | All datastreams attached to a topic |
 | =['attachment', 'Attachment.pdf']=                  | Datastream of the file attachment named 'Attachment.pdf' |
 | =['META']=                                          | All =META= on a topic |
 | =['META', 'FIELD']=                                 | All =META:FIELD= members on a topic |
@@ -1448,8 +1448,8 @@ sub isValid {
                           and scalar( @{ $this->{tompath} } ) )
                       if DEBUG;
                     ASSERT(
-                        not(    $this->{topmath}->[0]
-                            and $this->{topmath}->[0] eq 'attachment' )
+                        not(    $this->{tompath}->[0]
+                            and $this->{tompath}->[0] eq 'attachment' )
                     ) if DEBUG;
                     ASSERT( $pathtypes{ $this->{tompath}->[0] } ) if DEBUG;
                     $this->{type} =
