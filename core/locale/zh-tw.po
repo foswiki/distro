@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-01-08 13:44+0200\n"
+"PO-Revision-Date: 2016-01-15 13:27+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -3498,7 +3498,7 @@ msgstr ""
 msgid ""
 "This is a temporary placeholder for your new comment. Refresh the topic to "
 "see the actual comment."
-msgstr ""
+msgstr "這是您新評論的臨時存放點。請刷新主題來看真實的意見。"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
@@ -3737,16 +3737,14 @@ msgid "Unrecognized action command %1"
 msgstr "無法識別的功能 %1"
 
 #: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:6
-#, fuzzy
 msgid "Unsubscribe from this topic"
-msgstr "title='退訂主題' accesskey='s' >&s 退訂"
+msgstr "退訂本主題"
 
 #: FamFamFamContrib/templates/subscribe.famfamfam.tmpl:7
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:15
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:16
-#, fuzzy
 msgid "Unsubscribe from this topic (s)"
-msgstr "列印本主題 (p)"
+msgstr "退訂這（些）主題"
 
 #: core/data/System/SiteChanges.txt:28 core/data/System/SiteChanges.txt:76
 msgid "Update"
