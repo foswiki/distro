@@ -953,8 +953,15 @@ THIS
         my ($status) = $text =~ m/^Status: (\d+)\r?$/m;
         $this->assert_not_null( $status,
             "Request did not return a Status header" );
-        $this->assert_equals( 401, $status,
-            "Request should have returned a 401, not a $status" );
+        $this->assert_equals(
+            401, $status,
+            "Request should have returned a 401, not a $status"
+              . (
+                $status == 500
+                ? "\n--- CAPTURED OUTPUT:\n" . $text . "\n--- END OF CAPTURE\n"
+                : ''
+              )
+        );
 
         # Extract what we've been redirected to
         my ($formAction) =

@@ -13,7 +13,7 @@ package Foswiki::UI::Register;
 use strict;
 use warnings;
 use Assert;
-use Error qw( :try );
+use Try::Tiny;
 
 use Foswiki                ();
 use Foswiki::LoginManager  ();
@@ -489,10 +489,14 @@ sub _registerSingleBulkUser {
 
         _validateRegistration( $session, $row, 0 );
     }
-    catch Foswiki::OopsException with {
+    catch {
         my $e = shift;
-        $log .= '<blockquote>' . $e->stringify($session) . "</blockquote>\n";
-        $tryError = "$b1 Registration failed\n";
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $log .=
+              '<blockquote>' . $e->stringify($session) . "</blockquote>\n";
+            $tryError = "$b1 Registration failed\n";
+        }
+
     };
 
     return $log . $tryError if ($tryError);
@@ -541,9 +545,8 @@ sub _registerSingleBulkUser {
             }
         );
     }
-    catch Error with {
-        my $e = shift;
-        $log .= "$b1 Failed to add user: " . $e->stringify() . "\n";
+    catch {
+        $log .= "$b1 Failed to add user: " . $_->stringify() . "\n";
     };
 
     #if ($Foswiki::cfg{EmailUserDetails}) {
@@ -909,12 +912,11 @@ sub addUserToGroup {
             try {
                 $session->{users}->addUserToGroup( undef, $groupName, $create );
             }
-            catch Error with {
-                my $e = shift;
+            catch {
 
                 # Log the error
                 $session->logger->log( 'warning',
-                    "catch: Failed to upgrade $groupName " . $e->stringify() );
+                    "catch: Failed to upgrade $groupName " . $_->stringify() );
             };
 
             throw Foswiki::OopsException(
@@ -980,8 +982,8 @@ sub addUserToGroup {
             $session->{users}->addUserToGroup( $u, $groupName, $create );
             push( @succeeded, $u );
         }
-        catch Error with {
-            my $e    = shift;
+        catch {
+            my $e    = $_;
             my $mess = $e->stringify();
             $mess =~ s/ at .*$//s;
 
@@ -1073,8 +1075,8 @@ sub removeUserFromGroup {
             Foswiki::Func::removeUserFromGroup( $u, $groupName );
             push( @succeeded, $u );
         }
-        catch Error with {
-            my $e    = shift;
+        catch {
+            my $e    = $_;
             my $mess = $e->stringify();
             $mess =~ s/ at .*$//s;
 
@@ -1204,43 +1206,48 @@ sub _complete {
                     $users->addUserToGroup( $cUID, $groupName );
                     push @addedTo, $groupName;
                 }
-                catch Error with {
+                catch {
                     my $e = shift;
                     $session->logger->log( 'warning',
                         "Registration: Failure adding $cUID to $groupName" );
                 }
                 finally {
                     $session->{user} = $safe;
+                    if (@_) {
+                        $_[0]->throw;
+                    }
+
                 };
             }
         }
 
         $data->{AddToGroups} = join( ',', @addedTo );
     }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $users->removeUser( $data->{LoginName}, $data->{WikiName} )
-          if ( $users->userExists( $data->{WikiName} ) );
-        $e->throw();
+    catch {
+        my $e = $_;
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $users->removeUser( $data->{LoginName}, $data->{WikiName} )
+              if ( $users->userExists( $data->{WikiName} ) );
+            $e->throw();
 
-        #throw Foswiki::OopsException ( @_ ); # Propagate
-    }
-    catch Error with {
-        my $e = shift;
+            #throw Foswiki::OopsException ( @_ ); # Propagate
+        }
+        else {
 
-        $users->removeUser( $data->{LoginName}, $data->{WikiName} )
-          if ( $users->userExists( $data->{WikiName} ) );
+            $users->removeUser( $data->{LoginName}, $data->{WikiName} )
+              if ( $users->userExists( $data->{WikiName} ) );
 
-        # Log the error
-        $session->logger->log( 'warning',
-            'Registration failed: ' . $e->stringify() );
-        throw Foswiki::OopsException(
-            'register',
-            web    => $data->{webName},
-            topic  => $topic,
-            def    => 'problem_adding',
-            params => [ $data->{WikiName}, $e->stringify() ]
-        );
+            # Log the error
+            $session->logger->log( 'warning',
+                'Registration failed: ' . $e->stringify() );
+            throw Foswiki::OopsException(
+                'register',
+                web    => $data->{webName},
+                topic  => $topic,
+                def    => 'problem_adding',
+                params => [ $data->{WikiName}, $e->stringify() ]
+            );
+        }
     };
 
     # Plugin to do some other post processing of the user.
@@ -1419,6 +1426,10 @@ sub _writeRegistrationDetailsToTopic {
     }
     finally {
         $session->{user} = $safe;
+        if (@_) {
+            $_[0]->throw;
+        }
+
     };
     return $log;
 }
@@ -1507,7 +1518,7 @@ sub _emailRegistrationConfirmations {
             $template =
               $session->templates->readTemplate('registerfailednotremoved');
         }
-        catch Error with {
+        catch {
 
             # Most Mapping Managers don't support removeUser, unfortunately
             $template =
@@ -1901,19 +1912,21 @@ sub _validateRegistration {
         # better get it right!
         $session->{plugins}->dispatch( 'validateRegistrationHandler', $data );
     }
-    catch Foswiki::OopsException with {
-        shift->throw();    # propagate
-    }
-    catch Error with {
-        my $e = shift;
-        throw Foswiki::OopsException(
-            'register',
-            web    => $data->{webName},
-            topic  => $session->{topicName},
-            def    => 'registration_invalid',
-            params => [ $e->stringify ]
-        );
+    catch {
+        my $e = $_;
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $e->throw();    # propagate
+        }
+        else {
+            throw Foswiki::OopsException(
+                'register',
+                web    => $data->{webName},
+                topic  => $session->{topicName},
+                def    => 'registration_invalid',
+                params => [ $e->stringify ]
+            );
 
+        }
     };
 }
 
@@ -1990,7 +2003,7 @@ sub _loadPendingRegistration {
     try {
         $file = _codeFile($code);
     }
-    catch Error with {
+    catch {
         throw Foswiki::OopsException(
             'register',
             def    => 'bad_ver_code',
@@ -2052,8 +2065,7 @@ sub _getDataFromQuery {
                 $data->{$name} =
                   $users->validateRegistrationField( $name, $value );
             }
-            catch Error with {
-                my $e = shift;
+            catch {
                 throw Foswiki::OopsException(
                     'register',
                     def    => 'invalid_field',
@@ -2258,9 +2270,12 @@ sub _processDeleteUser {
                   "User topic moved to $Foswiki::cfg{TrashWebName}.$newTopic, ";
             }
             finally {
-
                 # Restore the original user
                 $Foswiki::Plugins::SESSION->{user} = $safe;
+                if (@_) {
+                    $_[0]->throw;
+                }
+
             };
         }
         else {

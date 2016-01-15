@@ -60,7 +60,7 @@ BEGIN {
 
 has line       => ( is => 'rwp' );
 has file       => ( is => 'rwp' );
-has text       => ( is => 'ro', required => 1, );
+has text       => ( is => 'ro', );
 has stacktrace => ( is => 'rwp' );
 
 sub BUILD {

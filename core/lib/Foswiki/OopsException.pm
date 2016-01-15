@@ -129,8 +129,8 @@ has params => (
     default => '',
 );
 has status => (
-    is      => 'rwp',
-    default => '',
+    is      => 'rw',
+    default => 500,
 );
 
 =begin TML
@@ -154,7 +154,6 @@ NOTE: parameter values are automatically and unconditionally entity-encoded
 sub BUILD {
     my $this = shift;
     $this->_set_template( $this->template || 'generic' );
-    $this->_set_status(500);    # default server error
     if ( ref( $this->params ) ne 'ARRAY' ) {
         $this->_set_params( [ $this->params ] );
     }
