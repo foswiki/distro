@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-01-10 17:19+0200\n"
+"PO-Revision-Date: 2016-01-15 13:27+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
@@ -4254,6 +4254,8 @@ msgid ""
 "web.  If not provided, the default topic is [[%USERSWEB%.NewUserTemplate]], "
 "or if that does not exist. [[%SYSTEMWEB%.NewUserTemplate]]."
 msgstr ""
+"提供的名稱錯誤或是主題名稱找不到。範本主題必須是一個存在於 %USERSWEB% 子網內的新使用者範本主題。若未提供，預設主題是[[%USERSWEB%."
+"NewUserTemplate]]，或若不存在時則為[[%SYSTEMWEB%.NewUserTemplate]]。"
 
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
@@ -4384,7 +4386,7 @@ msgstr "可能有很多原因:"
 msgid ""
 "This field is not normally user provided. This may be a Foswiki "
 "configuration error."
-msgstr ""
+msgstr "正常情況下，這個內容並非由使用者題供。這可能是 Foswiki 設定錯誤。"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
 msgid ""
@@ -4419,7 +4421,7 @@ msgstr ""
 msgid ""
 "This is a temporary placeholder for your new comment. Refresh the topic to "
 "see the actual comment."
-msgstr "這是您新評論的一個臨時存放點。請刷新主題來看實際的意見。"
+msgstr "這是您新評論的臨時存放點。請刷新主題來看真實的意見。"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid "This is also known as Cross-site Request Forgery, or CSRF."
@@ -5536,9 +5538,8 @@ msgstr "説明"
 
 #: core/data/Sandbox/WebHome.txt:11
 #: core/data/System/FrequentlyAskedQuestions.txt:47
-#, fuzzy
 msgid "hide form"
-msgstr "增加表單"
+msgstr "隱藏表單"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"
