@@ -58,10 +58,11 @@ BEGIN {
     }
 }
 
-has line       => ( is => 'rwp' );
-has file       => ( is => 'rwp' );
+has line       => ( is => 'rwp', );
+has file       => ( is => 'rwp', );
 has text       => ( is => 'ro', );
-has stacktrace => ( is => 'rwp' );
+has object     => ( is => 'ro', );
+has stacktrace => ( is => 'rwp', );
 
 sub BUILD {
     my $this = shift;

@@ -604,10 +604,6 @@ sub runOne {
                 $tester->set_up($test);
 
                 try {
-      # XXX vrurg Foswiki::Exception has to be replaced with more relevant class
-                    local $SIG{__DIE__} = sub {
-                        Foswiki::Exception->throw( text => $_[0] );
-                    };
                     $action .=
                       '$this->{tests_per_module}->{\'' . $suite . '\'}++;';
                     $tester->$test();
@@ -622,8 +618,9 @@ sub runOne {
                     }
                 }
                 catch {
-                    my $e                = $_;
-                    my $exceptionMessage = $e->stringify;
+# If for some reason any code within try just dies then why stringify what's not
+# an exception object?
+                    my $exceptionMessage = ref($_) ? $_->stringify : $_;
                     safe_print "*** ", $exceptionMessage, "\n";
                     if ( $tester->expecting_failure ) {
                         $action .=
