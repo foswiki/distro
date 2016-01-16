@@ -740,12 +740,10 @@ sub test_timing_hashref_creation {
 
 sub test_timing_reparse_default {
     my ($this) = @_;
-    my $addr =
-      Foswiki::Address->new( topic => 'Topic', webpath => [qw(Web SubWeb)] );
     my $benchmark = timeit(
         15000,
         sub {
-            $addr->_parse(
+            Foswiki::Address::_parse(
                 'AnotherTopic',
                 {
                     isA     => 'topic',
@@ -762,12 +760,10 @@ sub test_timing_reparse_default {
 
 sub test_timing_reparse {
     my ($this) = @_;
-    my $addr =
-      Foswiki::Address->new( topic => 'Topic', webpath => [qw(Web SubWeb)] );
     my $benchmark = timeit(
         15000,
         sub {
-            $addr->_parse( 'AnotherWeb/AnotherSubWeb.AnotherTopic',
+            Foswiki::Address::_parse( 'AnotherWeb/AnotherSubWeb.AnotherTopic',
                 { isA => 'topic', } );
         }
     );

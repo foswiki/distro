@@ -5,6 +5,7 @@
 
 use strict;
 use locale;    # so result of lc() is tainted
+use Foswiki::Exception;
 
 our $DIRTY = lc('x');    # Used in TAINT
 our $soft  = 0;
@@ -27,7 +28,15 @@ sub ASSERT($;$) {
             Carp::cluck($msg);
         }
         else {
-            Carp::confess($msg);
+            # SMELL Experimental: generate exception instead of just die.
+            my ( $pkg, $file, $line ) = caller;
+            Foswiki::Exception::ASSERT->throw(
+                text => $msg,
+                file => $file,
+                line => $line,
+            );
+
+            #Carp::confess($msg);
         }
     }
     return;

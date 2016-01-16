@@ -85,6 +85,12 @@ sub stringify {
       );
 }
 
+package Foswiki::Exception::ASSERT;
+use Moo;
+extends qw(Foswiki::Exception);
+
+# This class is to distinguish ASSERT-generated exceptions only.
+
 package Foswiki::Exception::Engine;
 use Moo;
 use namespace::clean;

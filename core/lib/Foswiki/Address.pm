@@ -649,6 +649,8 @@ sub _parse {
             existAs     => { attachment => 1, topic => 1 }
         };
     }
+    ASSERT( defined $opts, "\$opts is not defined" );
+    ASSERT( ref($opts) eq 'HASH', "\$opts isn't a hashref but '$opts'" );
     ASSERT(
         ( !defined $opts->{rev} || $opts->{rev} =~ m/^[-\+]?\d+$/ ),
         "rev: '"
