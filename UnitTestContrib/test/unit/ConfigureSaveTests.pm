@@ -4,18 +4,17 @@
 
 package ConfigureSaveTests;
 
-use ConfigureTestCase;
-our @ISA = qw( ConfigureTestCase );
-
-use strict;
-use warnings;
+use v5.14;
 use Foswiki;
-use Error qw(:try);
 use utf8;
 
 use Foswiki::Configure::Wizards::Save;
 use Foswiki::Configure::Reporter;
 use Foswiki::Sandbox;
+
+use Moo;
+use namespace::clean;
+extends qw( ConfigureTestCase );
 
 # TODO: this needs to test that backups are correctly made
 sub test_changecfg {
@@ -109,7 +108,7 @@ q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |>
     );
 
     # Check it was written correctly
-    $this->assert( open( F, '<', $this->{lscpath} ), $@ );
+    $this->assert( open( F, '<', $this->lscpath ), $@ );
     local $/ = undef;
     my $c = <F>;
     close F;

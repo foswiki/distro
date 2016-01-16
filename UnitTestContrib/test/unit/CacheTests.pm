@@ -1,17 +1,16 @@
 package CacheTests;
-use strict;
-use warnings;
+use v5.14;
 use utf8;
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki();
 use File::Spec();
 use Foswiki::OopsException();
 use Foswiki::PageCache();
-use Error qw( :try );
 use Benchmark qw(:hireswallclock);
+
+use Moo;
+use namespace::clean;
+extends qw(FoswikiFnTestCase);
 
 my $UI_FN;
 
@@ -183,22 +182,24 @@ sub _mangleID {
     return $mangledID;
 }
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
     $Foswiki::cfg{Cache}{Enabled} = 0;
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
     $Foswiki::cfg{HttpCompress} = 0;
     $Foswiki::cfg{Cache}{Compress} = 0;
     $UI_FN ||= $this->getUIFn('view');
-}
+};
 
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::tear_down();
+    $orig->($this);
     unlink("$Foswiki::cfg{WorkingDir}/${$}_sqlite.db");
     unlink("$Foswiki::cfg{WorkingDir}/${$}_generic.db");
-}
+};
 
 sub check {
     my ( $this, $pathinfo ) = @_;
@@ -209,7 +210,7 @@ sub check {
     $query->path_info($pathinfo);
     $query->method('GET');
 
-    $this->createNewFoswikiSession( $this->{test_user_login},
+    $this->createNewFoswikiSession( $this->test_user_login,
         $query, { $this->{uifn} => 1 } );
 
     # This first request should *not* be satisfied from the cache, but
@@ -218,17 +219,17 @@ sub check {
     my ( $one, $result, $stdout, $stderr ) = $this->capture(
         sub {
             no strict 'refs';
-            &{$UI_FN}( $this->{session} );
+            &{$UI_FN}( $this->session );
             use strict 'refs';
-            $Foswiki::engine->finalize( $this->{session}{response},
-                $this->{session}{request} );
+            $Foswiki::engine->finalize( $this->session->{response},
+                $this->session->{request} );
         }
     );
     my $p1end = Benchmark->new();
 
     #print STDERR "P1: $stderr\n" if $stderr;
 
-    $this->createNewFoswikiSession( $this->{test_user_login},
+    $this->createNewFoswikiSession( $this->test_user_login,
         $query, { $this->{uifn} => 1 } );
 
     # This second request should be satisfied from the cache
@@ -237,10 +238,10 @@ sub check {
     ( my $two, $result, $stdout, $stderr ) = $this->capture(
         sub {
             no strict 'refs';
-            &{$UI_FN}( $this->{session} );
+            &{$UI_FN}( $this->session );
             use strict 'refs';
-            $Foswiki::engine->finalize( $this->{session}{response},
-                $this->{session}{request} );
+            $Foswiki::engine->finalize( $this->session->{response},
+                $this->session->{request} );
         }
     );
     my $p2end = Benchmark->new();
@@ -305,7 +306,7 @@ sub verify_topic {
 sub verify_utf8_topic {
     my $this = shift;
     use utf8;
-    my $web   = "$this->{test_web}/Šňáĺľ";
+    my $web   = $this->test_web . "/Šňáĺľ";
     my $topic = 'ŠňáĺľŠťěř';
     Foswiki::Func::createWeb($web);
     my ($meta) = Foswiki::Func::readTopic( $web, $topic );

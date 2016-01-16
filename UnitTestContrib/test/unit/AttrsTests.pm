@@ -1,16 +1,10 @@
 package AttrsTests;
-use strict;
-use warnings;
-
-use FoswikiTestCase();
-our @ISA = qw( FoswikiTestCase );
+use v5.14;
 
 use Foswiki::Attrs();
-
-sub new {
-    my $self = shift()->SUPER::new(@_);
-    return $self;
-}
+use Moo;
+use namespace::clean;
+extends qw(FoswikiTestCase);
 
 sub test_isEmpty {
     my $this = shift;

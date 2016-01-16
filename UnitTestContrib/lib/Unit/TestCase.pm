@@ -53,6 +53,15 @@ has expecting_failure => (
     },
 );
 
+has _stderr => (
+    is      => 'rw',
+    clearer => 1,
+);
+has _stdout => (
+    is      => 'rw',
+    clearer => 1,
+);
+
 =begin TML
 
 ---++ ObjectMethod set_up()
@@ -211,6 +220,9 @@ SUB
 
                 die "Couldn't make $code: $@" if ( !eval $code );
                 push( @tests, $fn );
+
+                # NOTE vrurg Check where it's been used and replace with
+                # attribute notation.
                 $this->{verify_permutations}{$fn} = $suite . '::' . $verify;
             }
         }
@@ -655,10 +667,11 @@ sub captureSTD {
     my @params = @_;
     my $result;
 
-    undef $this->{stdout};
-    undef $this->{stderr};
+    $this->_clear_stdout;
+    $this->_clear_stderr;
 
-    # SMELL Why try? eval{}; would do fine without extra penalty on performance.
+    # SMELL vrurg Why try when no catch? eval{}; would do fine without extra
+    # penalty on performance.
     try {
         local *STDOUT;
         local *STDERR;
@@ -674,15 +687,15 @@ sub captureSTD {
         open( $f, '<', $stdoutfile )
           || die "Capture failed to reopen $stdoutfile";
         local $/;
-        $this->{stdout} = <$f>;
+        $this->_stdout(<$f>);
         close($f);
         open( $f, '<', $stderrfile )
           || die "Capture failed to reopen $stderrfile";
         local $/;
-        $this->{stderr} = <$f>;
+        $this->_stderr(<$f>);
         close($f);
     };
-    return ( $this->{stdout}, $this->{stderr}, $result );
+    return ( $this->_stdout, $this->_stderr, $result );
 }
 
 =begin TML

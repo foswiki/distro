@@ -1,19 +1,20 @@
 # Example test case; use this as a basis to build your own
 
 package EmptyTests;
-use strict;
-use warnings;
-
-use FoswikiTestCase;
-our @ISA = qw( FoswikiTestCase );
+use v5.14;
 
 use Foswiki;
-use Error qw( :try );
+use Try::Tiny;
 
-sub set_up {
+use Moo;
+use namespace::clean;
+extends qw( FoswikiTestCase );
+
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
     # You can now safely modify $Foswiki::cfg
 
@@ -40,19 +41,24 @@ sub set_up {
         # to make sure you fixture protects things like .htpasswd
 
     }
-    catch Foswiki::AccessControlException with {
-        my $e = shift;
-        die "???" unless $e;
-        $this->assert( 0, $e->stringify() );
-    }
-    catch Error::Simple with {
-        $this->assert( 0, shift->stringify() || '' );
+    catch {
+        my $e = $_;
+        if ( $e->isa('Foswiki::AccessControlException') ) {
+            $this->assert( 0, $e->stringify() );
+        }
+        elsif ( $e->isa('Error::Simple') ) {
+            $this->assert( 0, $e->stringify() || '' );
+        }
+        else {
+            $e->throw;
+        }
     };
 
     return;
-}
+};
 
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
 
     # Remove fixture webs; warning, if one of these
@@ -61,15 +67,10 @@ sub tear_down {
     $this->removeWebFixture( $this->{session}, "Temporarysystemweb" );
 
     # Always do this, and always do it last
-    $this->SUPER::tear_down();
+    $orig->($this);
 
     return;
-}
-
-sub new {
-    my $self = shift()->SUPER::new(@_);
-    return $self;
-}
+};
 
 #================================================================================
 #================================================================================

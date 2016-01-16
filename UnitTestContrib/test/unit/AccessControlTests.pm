@@ -52,22 +52,23 @@ around set_up => sub {
     $topicObject->save();
     $topicObject->finish();
     $this->registerUser( 'white', 'Mr', "White", 'white@example.com' );
-    $MrWhite = $this->{session}->{users}->getCanonicalUserID('white');
+    $MrWhite = $this->session->{users}->getCanonicalUserID('white');
     $this->registerUser( 'blue', 'Mr', "Blue", 'blue@example.com' );
-    $MrBlue = $this->{session}->{users}->getCanonicalUserID('blue');
+    $MrBlue = $this->session->{users}->getCanonicalUserID('blue');
     $this->registerUser( 'orange', 'Mr', "Orange", 'orange@example.com' );
-    $MrOrange = $this->{session}->{users}->getCanonicalUserID('orange');
+    $MrOrange = $this->session->{users}->getCanonicalUserID('orange');
     $this->registerUser( 'green', 'Mr', "Green", 'green@example.com' );
-    $MrGreen = $this->{session}->{users}->getCanonicalUserID('green');
+    $MrGreen = $this->session->{users}->getCanonicalUserID('green');
     $this->registerUser( 'yellow', 'Mr', "Yellow", 'yellow@example.com' );
-    $MrYellow = $this->{session}->{users}->getCanonicalUserID('yellow');
+    $MrYellow = $this->session->{users}->getCanonicalUserID('yellow');
 
     $this->createNewFoswikiSession();
+    my $users_web = $this->users_web;
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "ReservoirDogsGroup" );
+      Foswiki::Func::readTopic( $users_web, "ReservoirDogsGroup" );
     $topicObject->text(<<"THIS");
-   * Set GROUP = MrWhite, $this->{users_web}.MrBlue
-   * Set ALLOWTOPICVIEW = $this->{users_web}.ReservoirDogsGroup
+   * Set GROUP = MrWhite, $users_web.MrBlue
+   * Set ALLOWTOPICVIEW = $users_web.ReservoirDogsGroup
 THIS
     $topicObject->save();
     $topicObject->finish();
@@ -86,17 +87,16 @@ sub DENIED {
     if ($post11) {
         require Foswiki::Address;
         $this->assert(
-            !$this->{session}->access->haveAccess( $mode, $user, $topicObject ),
-            "$user $mode $web.$topic"
-        );
+            !$this->session->access->haveAccess( $mode, $user, $topicObject ),
+            "$user $mode $web.$topic" );
         $this->assert(
-            !$this->{session}->access->haveAccess(
+            !$this->session->access->haveAccess(
                 $mode, $user, $topicObject->web, $topicObject->topic
             ),
             "$user $mode $web.$topic"
         );
         $this->assert(
-            !$this->{session}->access->haveAccess(
+            !$this->session->access->haveAccess(
                 $mode, $user,
                 Foswiki::Address->new(
                     web   => $topicObject->web,
@@ -113,8 +113,8 @@ sub DENIED {
 
 sub PERMITTED {
     my ( $this, $mode, $user, $web, $topic ) = @_;
-    $web   ||= $this->{test_web};
-    $topic ||= $this->{test_topic};
+    $web   ||= $this->test_web;
+    $topic ||= $this->test_topic;
     my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
     $this->assert( $topicObject->haveAccess( $mode, $user ),
         "$user $mode $web.$topic" );
@@ -122,17 +122,16 @@ sub PERMITTED {
     if ($post11) {
         require Foswiki::Address;
         $this->assert(
-            $this->{session}->access->haveAccess( $mode, $user, $topicObject ),
-            "$user $mode $web.$topic"
-        );
+            $this->session->access->haveAccess( $mode, $user, $topicObject ),
+            "$user $mode $web.$topic" );
         $this->assert(
-            $this->{session}->access->haveAccess(
+            $this->session->access->haveAccess(
                 $mode, $user, $topicObject->web, $topicObject->topic
             ),
             "$user $mode $web.$topic"
         );
         $this->assert(
-            $this->{session}->access->haveAccess(
+            $this->session->access->haveAccess(
                 $mode, $user,
                 Foswiki::Address->new(
                     web   => $topicObject->web,
@@ -155,12 +154,13 @@ sub PERMITTED {
 sub test_denytopic {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
+    my $users_web = $this->users_web;
     $topicObject->text(<<"THIS");
 If DENYTOPIC is set to a list of wikinames
     * people in the list will be DENIED.
    * Set DENYTOPICVIEW = MrGreen
-   * Set DENYTOPICVIEW = ,,MrYellow,,$this->{users_web}.MrOrange,%USERSWEB%.ReservoirDogsGroup,,,
+   * Set DENYTOPICVIEW = ,,MrYellow,,$users_web.MrOrange,%USERSWEB%.ReservoirDogsGroup,,,
 THIS
     $topicObject->save();
     $topicObject->finish();
@@ -179,7 +179,7 @@ THIS
 sub test_empty_denytopic {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(<<'THIS');
 If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
     * access is PERMITTED _i.e _ no-one is denied access to this topic
@@ -202,7 +202,7 @@ THIS
 sub test_whitespace_denytopic {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(<<'THIS');
 If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
     * access is PERMITTED _i.e _ no-one is denied access to this topic
@@ -225,7 +225,7 @@ THIS
 sub test_denytopic_whitespace {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(<<'THIS');
 If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
     * access is PERMITTED _i.e _ no-one is denied access to this topic
@@ -248,7 +248,7 @@ THIS
 sub test_allowtopic {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(<<'THIS');
 If ALLOWTOPIC is set
    1. people in the list are PERMITTED
@@ -273,7 +273,7 @@ THIS
 sub test_allowtopic_a {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(<<'THIS');
 If ALLOWTOPIC is set
    1. people in the list are PERMITTED
@@ -284,7 +284,7 @@ THIS
     $topicObject->finish();
 
     my $topicquery = Unit::Request->new("");
-    $topicquery->path_info("/$this->{test_web}/$this->{test_topic}");
+    $topicquery->path_info( "/" . $this->test_web . "/" . $this->test_topic );
 
     # renew Foswiki, so WebPreferences gets re-read
     $this->createNewFoswikiSession();
@@ -307,7 +307,7 @@ THIS
 sub test_allowtopic_b {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(<<'THIS');
 If ALLOWTOPIC is set
    1. people in the list are PERMITTED
@@ -337,7 +337,7 @@ THIS
 sub test_allowtopic_c {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(<<'THIS');
 If ALLOWTOPIC is set
    1. people in the list are PERMITTED
@@ -374,12 +374,13 @@ THIS
 sub test_denyweb {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web},
+      Foswiki::Func::readTopic( $this->test_web,
         $Foswiki::cfg{WebPrefsTopicName} );
+    my $users_web = $this->users_web;
     $topicObject->text(<<"THIS");
 If DENYWEB is set to a list of wikiname
     * people in the list are DENIED access
-   * Set DENYWEBVIEW = $this->{users_web}.MrOrange %USERSWEB%.MrBlue
+   * Set DENYWEBVIEW = $users_web.MrOrange %USERSWEB%.MrBlue
 THIS
     $topicObject->save();
     $topicObject->finish();
@@ -387,7 +388,7 @@ THIS
     # renew Foswiki, so WebPreferences gets re-read
     $this->createNewFoswikiSession();
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text("Null points");
     $topicObject->save();
     $topicObject->finish();
@@ -405,12 +406,13 @@ THIS
 sub test_denyweb_denytopic {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web},
+      Foswiki::Func::readTopic( $this->test_web,
         $Foswiki::cfg{WebPrefsTopicName} );
+    my $users_web = $this->users_web;
     $topicObject->text(<<"THIS");
 If DENYWEB is set to a list of wikiname
     * people in the list are DENIED access
-   * Set DENYWEBVIEW = $this->{users_web}.MrOrange %USERSWEB%.MrBlue
+   * Set DENYWEBVIEW = $users_web.MrOrange %USERSWEB%.MrBlue
 THIS
     $topicObject->save();
     $topicObject->finish();
@@ -418,7 +420,7 @@ THIS
     # renew Foswiki, so WebPreferences gets re-read
     $this->createNewFoswikiSession();
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(<<'THIS');
 If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
     * access is PERMITTED _i.e _ no-one is denied access to this topic
@@ -440,18 +442,19 @@ THIS
 sub test_denyweb_empty_denytopic {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web},
+      Foswiki::Func::readTopic( $this->test_web,
         $Foswiki::cfg{WebPrefsTopicName} );
+    my $users_web = $this->users_web;
     $topicObject->text(<<"THIS");
 If DENYWEB is set to a list of wikiname
     * people in the list are DENIED access
-   * Set DENYWEBVIEW = $this->{users_web}.MrOrange %USERSWEB%.MrBlue
+   * Set DENYWEBVIEW = $users_web.MrOrange %USERSWEB%.MrBlue
 THIS
     $topicObject->save();
     $topicObject->finish();
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(<<'THIS');
 If DENYTOPIC is set to empty string
    1. Everyone is PERMITTED
@@ -493,7 +496,7 @@ THIS
 sub test_wildcard_denyweb_allow_topic {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web},
+      Foswiki::Func::readTopic( $this->test_web,
         $Foswiki::cfg{WebPrefsTopicName} );
     $topicObject->text(<<"THIS");
 If DENYWEB is set to the wildcard
@@ -504,11 +507,12 @@ THIS
     $topicObject->finish();
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
+    my $users_web = $this->users_web;
     $topicObject->text(<<"THIS");
 Except ALLOW at the topic will override DENY at web.
    1. Everyone is PERMITTED
-   * Set ALLOWTOPICVIEW = $this->{users_web}.MrOrange %USERSWEB%.MrBlue
+   * Set ALLOWTOPICVIEW = $users_web.MrOrange %USERSWEB%.MrBlue
 
 THIS
     $topicObject->save();
@@ -529,18 +533,19 @@ THIS
 sub test_denyweb_wildcard_topic {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web},
+      Foswiki::Func::readTopic( $this->test_web,
         $Foswiki::cfg{WebPrefsTopicName} );
+    my $users_web = $this->users_web;
     $topicObject->text(<<"THIS");
 If DENYWEB is set to a list of wikiname
     * people in the list are DENIED access
-   * Set DENYWEBVIEW = $this->{users_web}.MrOrange %USERSWEB%.MrBlue
+   * Set DENYWEBVIEW = $users_web.MrOrange %USERSWEB%.MrBlue
 THIS
     $topicObject->save();
     $topicObject->finish();
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(<<'THIS');
 If DENYTOPIC is set to empty string
    1. Everyone is PERMITTED
@@ -569,12 +574,13 @@ sub test_denytopic_wild_allowtopic {
     my $this = shift;
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
+    my $users_web = $this->users_web;
     $topicObject->text(<<'THIS');
 If DENYTOPIC is set to empty string
    1. Everyone is PERMITTED
    * Set DENYTOPICVIEW = *
-   * Set ALLOWTOPICVIEW = this->{users_web}.MrOrange %USERSWEB%.MrBlue
+   * Set ALLOWTOPICVIEW = $users_web.MrOrange %USERSWEB%.MrBlue
 THIS
     $topicObject->save();
     $topicObject->finish();
@@ -594,7 +600,7 @@ THIS
 sub test_allow_web {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web},
+      Foswiki::Func::readTopic( $this->test_web,
         $Foswiki::cfg{WebPrefsTopicName} );
     $topicObject->text(
         <<'THIS'
@@ -610,7 +616,7 @@ THIS
     # renew Foswiki, so WebPreferences gets re-read
     $this->createNewFoswikiSession();
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text("Null points");
     $topicObject->save();
     $topicObject->finish();
@@ -627,7 +633,7 @@ THIS
 sub test_webDotUserName {
     my $this = shift;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(
         <<'THIS'
 If ALLOWTOPIC is set
@@ -651,26 +657,16 @@ THIS
 sub _checkSettings {
     my ( $this, $meta ) = @_;
 
-    $this->assert(
-        !$meta->haveAccess( 'VIEW', $MrOrange ),
-        " 'VIEW' $this->{test_web}.$this->{test_topic}"
-    );
-    $this->assert(
-        $meta->haveAccess( 'VIEW', $MrGreen ),
-        " 'VIEW' $this->{test_web}.$this->{test_topic}"
-    );
-    $this->assert(
-        !$meta->haveAccess( 'VIEW', $MrYellow ),
-        " 'VIEW' $this->{test_web}.$this->{test_topic}"
-    );
-    $this->assert(
-        !$meta->haveAccess( 'VIEW', $MrWhite ),
-        " 'VIEW' $this->{test_web}.$this->{test_topic}"
-    );
-    $this->assert(
-        !$meta->haveAccess( 'VIEW', $MrBlue ),
-        " 'VIEW' $this->{test_web}.$this->{test_topic}"
-    );
+    $this->assert( !$meta->haveAccess( 'VIEW', $MrOrange ),
+        " 'VIEW' " . $this->test_web . "." . $this->test_topic );
+    $this->assert( $meta->haveAccess( 'VIEW', $MrGreen ),
+        " 'VIEW' " . $this->test_web . "." . $this->test_topic );
+    $this->assert( !$meta->haveAccess( 'VIEW', $MrYellow ),
+        " 'VIEW' " . $this->test_web . "." . $this->test_topic );
+    $this->assert( !$meta->haveAccess( 'VIEW', $MrWhite ),
+        " 'VIEW' " . $this->test_web . "." . $this->test_topic );
+    $this->assert( !$meta->haveAccess( 'VIEW', $MrBlue ),
+        " 'VIEW' " . $this->test_web . "." . $this->test_topic );
 
     return;
 }
@@ -683,14 +679,14 @@ sub test_SetInText {
    * Set ALLOWTOPICVIEW = %USERSWEB%.MrGreen
 THIS
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text($text);
     $topicObject->save();
     $topicObject->finish();
     $this->createNewFoswikiSession();
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $this->_checkSettings($topicObject);
     $topicObject->finish();
 
@@ -702,7 +698,7 @@ sub test_setInMETA {
     my $this = shift;
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text('Empty');
     my $args = {
         name  => 'ALLOWTOPICVIEW',
@@ -716,7 +712,7 @@ sub test_setInMETA {
     $this->createNewFoswikiSession();
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     $this->_checkSettings($topicObject);
     $topicObject->finish();
@@ -732,7 +728,7 @@ sub test_setInSetAndMETA {
    * Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
 THIS
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text($text);
     my $args = {
         name  => 'ALLOWTOPICVIEW',
@@ -746,7 +742,7 @@ THIS
     $this->createNewFoswikiSession();
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $this->_checkSettings($topicObject);
     $topicObject->finish();
 
@@ -756,19 +752,19 @@ THIS
 # Test that hierarchical subweb controls override the parent web
 sub test_subweb_controls_override_parent {
     my $this   = shift;
-    my $subweb = "$this->{test_web}.SubWeb";
+    my $subweb = $this->test_web . ".SubWeb";
 
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
     # First build a parent web with view restricted to MrGreen
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text("Nowt");
     $topicObject->save();
     $topicObject->finish();
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web},
+      Foswiki::Func::readTopic( $this->test_web,
         $Foswiki::cfg{WebPrefsTopicName} );
     $topicObject->text(<<'THIS');
    * Set ALLOWWEBVIEW = MrGreen
@@ -800,14 +796,14 @@ THIS
 # Test that controls are inherited from parent webs
 sub test_subweb_inherits_from_parent {
     my $this   = shift;
-    my $subweb = "$this->{test_web}.SubWeb";
+    my $subweb = $this->test_web . ".SubWeb";
 
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
     # First build a parent web with view restricted to MrGreen, and
     # finalise the setting
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web},
+      Foswiki::Func::readTopic( $this->test_web,
         $Foswiki::cfg{WebPrefsTopicName} );
     $topicObject->text(<<'THIS');
    * Set ALLOWWEBVIEW = MrGreen
@@ -838,14 +834,14 @@ THIS
 # Test that finalised controls in parent web override the subweb controls
 sub test_finalised_parent_overrides_subweb {
     my $this   = shift;
-    my $subweb = "$this->{test_web}.SubWeb";
+    my $subweb = $this->test_web . ".SubWeb";
 
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
     # First build a parent web with view restricted to MrGreen, and
     # finalise the setting
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web},
+      Foswiki::Func::readTopic( $this->test_web,
         $Foswiki::cfg{WebPrefsTopicName} );
     $topicObject->text(<<'THIS');
    * Set ALLOWWEBVIEW = MrGreen
@@ -884,7 +880,7 @@ sub test_login_redirect_preserves_anchor {
 
     # Create a topic with an anchor, viewable only by MrYellow
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $test_topic );
+      Foswiki::Func::readTopic( $this->test_web, $test_topic );
     $topicObject->text(<<'THIS');
 If there is an anchor, and some access restrictions,
 anchor is preserved after login.
@@ -897,33 +893,30 @@ THIS
     # Request the page with the full UI
     my $query = Unit::Request->new(
         {
-            webName   => [ $this->{test_web} ],
+            webName   => [ $this->test_web ],
             topicName => ["$test_topic"],
         }
     );
-    $query->path_info("/$this->{test_web}/$test_topic");
+    $query->path_info( "/" . $this->test_web . "/$test_topic" );
     $query->method('GET');
     $query->action('view');
     my $viewUrl =
-      $this->{session}
-      ->getScriptUrl( 0, 'view', $this->{test_web}, $test_topic );
+      $this->session->getScriptUrl( 0, 'view', $this->test_web, $test_topic );
     $query->uri("$viewUrl");
     $this->finishFoswikiSession();
     my ($text) = $this->capture(
         sub {
             my $response = Foswiki::UI::handleRequest($query);
             $this->createNewFoswikiSession( undef, $query );
-            $this->{session}{response} = $response;
+            $this->session->{response} = $response;
         }
     );
 
     # Get the login and view URLs to compare
     my $loginUrl =
-      $this->{session}
-      ->getScriptUrl( 0, 'login', $this->{test_web}, $test_topic );
+      $this->session->getScriptUrl( 0, 'login', $this->test_web, $test_topic );
     my $fullViewUrl =
-      $this->{session}
-      ->getScriptUrl( 1, 'view', $this->{test_web}, $test_topic );
+      $this->session->getScriptUrl( 1, 'view', $this->test_web, $test_topic );
 
     # Item11121: the test doesn't tolerate ShortURLs, for example.
     # ShortURLs may involve a {ScriptUrlPaths}{view} of '' or something
@@ -941,7 +934,8 @@ THIS
               . "But it returned:\n$text" );
 
         # Check the redirect contains the login url + view to this topic
-        my $regex = qr#^\Q$loginUrl\E.*/view/$this->{test_web}/$test_topic$#;
+        my $test_web = $this->test_web;
+        my $regex    = qr#^\Q$loginUrl\E.*/view/$test_web/$test_topic$#;
         $this->assert_matches( $regex, $redirect_to,
                 "Login did not redirect to a page with the proper anchor:\n"
               . "Location: $redirect_to\n"

@@ -280,8 +280,8 @@ around set_up => sub {
 
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $query );
 
-    ( $this->{test_topicObject} ) =
-      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
+    $this->test_topicObject(
+        Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) );
     if ( $this->check_dependency('Foswiki,>=,1.2') ) {
         require Foswiki::Address;
     }

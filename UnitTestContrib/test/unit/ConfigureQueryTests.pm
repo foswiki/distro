@@ -1,18 +1,18 @@
 # See bottom of file for license and copyright information
-use strict;
-use warnings;
+use v5.14;
 
 package ConfigureQueryTests;
-
-use ConfigureTestCase;
-our @ISA = qw( ConfigureTestCase );
 
 use strict;
 use warnings;
 use Foswiki;
-use Error qw(:try);
+use Try::Tiny;
 
 use Foswiki::Configure::Query;
+
+use Moo;
+use namespace::clean;
+extends qw( ConfigureTestCase );
 
 sub test_getcfg {
     my $this   = shift;
@@ -231,13 +231,17 @@ sub test_getspec_badkey {
         Foswiki::Configure::Query::getspec( $params, $reporter );
         $this->assert( !$reporter->has_level('errors') );
     }
-    catch Error::Simple with {
-        my $mess = shift;
-        $this->assert_matches(
-            qr/^\$Not_found = \{\s*\'keys\' => \'\{BadKey\}\'\s*\};/, $mess );
-    }
-    otherwise {
-        $this->assert(0);
+    catch {
+        my $e = $_;
+        if ( $e->isa('Error::Simple') || ref($e) eq 'Foswiki::Exception' ) {
+            my $mess = $e->text;
+            $this->assert_matches(
+                qr/^\$Not_found = \{\s*\'keys\' => \'\{BadKey\}\'\s*\};/,
+                $mess );
+        }
+        else {
+            $this->assert(0);
+        }
     };
 }
 

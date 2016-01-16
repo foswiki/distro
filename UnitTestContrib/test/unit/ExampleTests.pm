@@ -1,30 +1,33 @@
-use strict;
-
 # Pathologically simple test case.
 package ExampleTests;
-
-use FoswikiTestCase;
-our @ISA = qw( FoswikiTestCase );
+use v5.14;
 
 use Foswiki;
 
-sub set_up {
-    my ($this) = shift;
-    $this->SUPER::set_up(@_);
+use Moo;
+use namespace::clean;
+extends qw( FoswikiTestCase );
+
+around set_up => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    $orig->( $this, @_ );
 
     # Set up test fixture; e.g. create webs, topics
     # See EmptyTests for an example
-}
+};
 
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;    # the Test::Unit::TestCase object
 
-    $this->SUPER::tear_down(@_);
+    $orig->( $this, @_ );
 
     # Remove fixtures created in set_up
     # Do *not* leave fixtures lying around!
     # See EmptyTests for an example
-}
+};
 
 # Example of a test method.
 sub testHelloWorld {

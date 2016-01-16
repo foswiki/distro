@@ -26,6 +26,7 @@ use Foswiki::Plugins();
 use Unit::Request();
 use Unit::Response();
 use Try::Tiny;
+use Storable();
 
 use constant SINGLE_SINGLETONS => 0;
 use constant TRACE             => 0;
@@ -41,6 +42,43 @@ our $didOnlyOnceChecks = 0;
 use Moo;
 use namespace::clean;
 extends 'Unit::TestCase';
+
+has session => (
+    is  => 'rw',
+    isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki', strictMatch => 1, ),
+    predicate => 1,
+    clearer   => 1,
+);
+has twiki => ( is => 'rw', );
+has test_topicObject => (
+    is        => 'rw',
+    clearer   => 1,
+    predicate => 1,
+    isa => Foswiki::Object::isaCLASS( 'test_topicObject', 'Foswiki::Meta' ),
+
+    # For compatibility with Foswiki::Func::readTopic we accept arrayref and
+    # fetch it's first element if it is a Foswiki::Meta object but only if it
+    # totaling of two elems.
+    coerce => sub {
+        return
+             defined $_[0]
+          && ref( $_[0] ) eq 'ARRAY'
+          && $#{ $_[0] } == 2
+          && defined( $_[0]->[0] )
+          && $_[0]->[0]->isa('Foswiki::Meta') ? $_[0]->[0] : $_[0];
+    },
+);
+has request    => ( is => 'rw', );
+has test_web   => ( is => 'rw', );
+has test_topic => ( is => 'rw', );
+
+has __EnvSafe => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
+);
+has __FoswikiSafe => ( is => 'rw', );
 
 BEGIN {
 
@@ -534,7 +572,7 @@ sub getUnloadedTopicObject {
     ASSERT( defined $web );
     ASSERT( defined $topic );
 
-    return Foswiki::Meta->new( $this->{session}, $web, $topic );
+    return Foswiki::Meta->new( $this->session, $web, $topic );
 }
 
 =begin TML
@@ -580,10 +618,10 @@ around set_up => sub {
 
     $orig->( $this, @_ );
 
-    $this->{__EnvSafe} = {};
+    $this->_clear__EnvSafe;
     foreach my $sym ( keys %ENV ) {
         next unless defined($sym);
-        $this->{__EnvSafe}->{$sym} = $ENV{$sym};
+        $this->__EnvSafe->{$sym} = $ENV{$sym};
     }
 
     # Tell the world we are running unit tests. Nasty, but needed to
@@ -690,7 +728,7 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
     $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
     my $tmp = new Foswiki( undef, $query );
     ASSERT( defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
-    $tmp->finish();
+    undef $tmp;    # finish() will be called automatically.
     ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
 
     # Note this does not do much, except for some tests that use it directly.
@@ -729,18 +767,18 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
 sub tear_down {
     my $this = shift;
 
-    if ( $this->{session} ) {
-        ASSERT( $this->{session}->isa('Foswiki') ) if SINGLE_SINGLETONS;
+    if ( $this->session ) {
+        ASSERT( $this->session->isa('Foswiki') ) if SINGLE_SINGLETONS;
         $this->finishFoswikiSession();
     }
     eval { File::Path::rmtree( $Foswiki::cfg{WorkingDir} ); };
     %Foswiki::cfg = eval $this->{__FoswikiSafe};
     foreach my $sym ( keys %ENV ) {
-        unless ( defined( $this->{__EnvSafe}->{$sym} ) ) {
+        unless ( defined( $this->__EnvSafe->{$sym} ) ) {
             delete $ENV{$sym};
         }
         else {
-            $ENV{$sym} = $this->{__EnvSafe}->{$sym};
+            $ENV{$sym} = $this->__EnvSafe->{$sym};
         }
     }
 
@@ -794,7 +832,7 @@ sub removeFromStore {
     my ( $this, $web, $topic ) = @_;
 
     ASSERT( !defined $topic, '$topic not implemented' );
-    $this->removeWebFixture( $this->{session}, $web );
+    $this->removeWebFixture( $this->session, $web );
 
     return;
 }
@@ -905,7 +943,7 @@ sub captureWithKey {
         $fatwilly = $Foswiki::Plugins::SESSION;
     }
     else {
-        $fatwilly = $this->{twiki};
+        $fatwilly = $this->twiki;
     }
     $this->assert( $fatwilly->isa('Foswiki'),
         "Could not find the Foswiki object" );
@@ -984,27 +1022,28 @@ __DO NOT CALL session->finish() yourself__
 sub createNewFoswikiSession {
     my ( $this, $user, $query, @args ) = @_;
 
-    $this->{test_topicObject}->finish()           if $this->{test_topicObject};
-    $this->{session}->finish()                    if $this->{session};
+    $this->clear_test_topicObject if $this->has_test_topicObject;
+    $this->clear_session          if $this->session;
     ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
     $Foswiki::cfg{Store}{Implementation} ||= 'Foswiki::Store::PlainFile';
-    $this->{session} = Foswiki->new( $user, $query, @args );
-    $this->{request} = $this->{session}{request};
+    $this->session( Foswiki->new( $user, $query, @args ) );
+    $this->request( $this->session->{request} );
     ASSERT( defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
-    if ( $this->{test_web} && $this->{test_topic} ) {
-        ( $this->{test_topicObject} ) =
-          Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    if ( $this->test_web && $this->test_topic ) {
+        $this->test_topicObject(
+            ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )
+            [0] );
     }
 
-    return $this->{session};
+    return $this->session;
 }
 
 sub finishFoswikiSession {
     my ($this) = @_;
 
-    $this->{session}->finish() if defined $this->{session};
+    $this->session->finish() if defined $this->session;
     ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
-    $this->{session} = undef;
+    $this->clear_session;
 
     return;
 }

@@ -1,20 +1,7 @@
 package EngineTests;
+use v5.14;
 
-use strict;
-use warnings;
 use utf8;
-our @ISA;
-
-BEGIN {
-    if ( $ENV{FOSWIKI_SERVER} && length( $ENV{FOSWIKI_SERVER} ) > 0 ) {
-        require Unit::ExternalEngine;
-        @ISA = qw(Unit::ExternalEngine);
-    }
-    else {
-        require Unit::CGIEngine;
-        @ISA = qw(Unit::CGIEngine);
-    }
-}
 
 use Foswiki;
 use Foswiki::Request;
@@ -24,6 +11,18 @@ use Foswiki::Response;
 use File::Spec;
 use File::Temp;
 use Cwd;
+
+use Moo;
+use namespace::clean;
+
+BEGIN {
+    if ( $ENV{FOSWIKI_SERVER} && length( $ENV{FOSWIKI_SERVER} ) > 0 ) {
+        extends qw(Unit::ExternalEngine);
+    }
+    else {
+        extends qw(Unit::CGIEngine);
+    }
+}
 
 #use Storable qw(freeze thaw); # unreliable
 sub freeze {
@@ -36,19 +35,21 @@ sub thaw {
     return $VAR1;
 }
 
-sub list_tests {
+around list_tests => sub {
+    my $orig = shift;
     my $this = shift;
     eval 'use HTTP::Message; use HTTP::Headers; use HTTP::Request; 1;';
     if ($@) {
         print STDERR 'Install libwww-perl in order to run EngineTests', "\n";
         return ();
     }
-    return $this->SUPER::list_tests(@_);
-}
+    return $orig->( $this, @_ );
+};
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up(@_);
+    $orig->( $this, @_ );
     $Foswiki::cfg{ScriptUrlPath} = '/bin';
     delete $Foswiki::cfg{ScriptUrlPaths};
 
@@ -64,7 +65,7 @@ sub set_up {
     mkdir("$Foswiki::cfg{WorkingDir}/registration_approvals");
     mkdir("$Foswiki::cfg{WorkingDir}/work_areas");
     mkdir("$Foswiki::cfg{WorkingDir}/requestTmp");
-}
+};
 
 sub test_simple_request {
     my $this = shift;

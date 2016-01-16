@@ -159,6 +159,13 @@ sub BUILD {
     }
 }
 
+around BUILDARGS => sub {
+    my $orig     = shift;
+    my $class    = shift;
+    my $template = shift;
+    return $orig->( $class, template => $template, @_ );
+};
+
 =begin TML
 
 ---++ ObjectMethod stringify( [$session] ) -> $string

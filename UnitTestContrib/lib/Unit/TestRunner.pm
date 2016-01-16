@@ -601,9 +601,9 @@ sub runOne {
                 Devel::Leak::Object::checkpoint() if CHECKLEAK;
                 print "\t$test\n";
                 $action .= "\n# $test\n    ";
-                $tester->set_up($test);
 
                 try {
+                    $tester->set_up($test);
                     $action .=
                       '$this->{tests_per_module}->{\'' . $suite . '\'}++;';
                     $tester->$test();

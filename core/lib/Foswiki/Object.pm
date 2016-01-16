@@ -107,34 +107,101 @@ sub DEMOLISH {
 
 }
 
+sub _normalizeAttributeName {
+    my ($attributeName) = @_;
+
+    # If attribute defined by its name only try to guess it's classname by
+    # checking the callstack.
+    unless ( $attributeName =~ /::/ ) {
+        my $package;
+        my $level = 1;
+        while ( !defined $package ) {
+            my $pkg = ( caller( $level++ ) )[0];
+            $package = $pkg unless $pkg =~ /^Foswiki::Object/;
+        }
+        $attributeName = "$package::$attributeName";
+    }
+    return $attributeName;
+}
+
+sub _validateIsaCode {
+    my ( $attributeName, $code ) = @_;
+
+    #say STDERR "Validator code for $attributeName: $code" if DEBUG;
+    my $codeRef = eval $code;
+    if ($@) {
+        Carp::confess
+"Compilation of attribute 'isa' validator for $attributeName failed: $@\nValidator code: $code";
+    }
+    return $codeRef;
+}
+
 =begin TML
 
 ---++ StaticMethod isaARRAY( $attributeName, \%opts )
 
 isa validator generator checking for arrayrefs.
 
+=%opts= hash keys:
+
+   * =noUndef= – do not allow undef value
+   * =noEmpty= - do not allow empty array
+
 =cut
 
 sub isaARRAY {
     my ( $attributeName, %opts ) = @_;
 
-    my $code =
-        eval 'sub { Foswiki::Exception->throw( text => "'
-      . $attributeName
-      . ' attribute may only be '
-      . ( $opts{noUndef} ? '' : 'undef or an ' )
-      . 'arrayref." ) if '
-      . ( $opts{noUndef} ? '!defined( $_[0] ) || ' : '' )
-      . '( defined( $_[0] ) && ( ref( $_[0] ) ne "ARRAY"'
-      . ( $opts{noEmpty} ? ' || scalar( @{ $_[0] } ) == 0' : '' )
-      . ' ) ); }';
-    if ($@) {
-        Foswiki::Exception->throw( text =>
-"Failed to generate attribute 'isa' validator for $attributeName: $@"
-        );
-    }
+    $attributeName = _normalizeAttributeName($attributeName);
 
-    return $code;
+    return _validateIsaCode( $attributeName,
+            'sub { Foswiki::Exception->throw( text => "'
+          . $attributeName
+          . ' attribute may only be '
+          . ( $opts{noUndef} ? '' : 'undef or an ' )
+          . 'arrayref." ) if '
+          . ( $opts{noUndef} ? '!defined( $_[0] ) || ' : '' )
+          . '( defined( $_[0] ) && ( ref( $_[0] ) ne "ARRAY"'
+          . ( $opts{noEmpty} ? ' || scalar( @{ $_[0] } ) == 0' : '' )
+          . ' ) ); }' );
+}
+
+=begin TML
+
+---++ StaticMethod isaCLASS( $attributeName, $className, \%opts )
+
+isa validator generator checking if attribute is of =$className= class or it's
+descendant.
+
+=%opts= hash keys:
+
+   * =noUndef= – do not allow undef value
+   * =strictMatch= - allow only =$className=, no decsendants
+
+=cut
+
+sub isaCLASS {
+    my ( $attributeName, $className, %opts ) = @_;
+
+    $attributeName = _normalizeAttributeName($attributeName);
+
+    return _validateIsaCode(
+        $attributeName,
+        'sub { Foswiki::Exception->throw( text => "'
+          . $attributeName
+          . ' attribute may only be '
+          . ( $opts{noUndef} ? '' : 'undef or an ' )
+          . $className
+          . ' but not " . ref( $_[0]) . "." ) if '
+          . ( $opts{noUndef} ? '!defined( $_[0] ) || ' : '' )
+          . '( defined( $_[0] ) && '
+          . (
+            $opts{strictMatch}
+            ? 'ref( $_[0] ) ne "' . $className . '"'
+            : '!$_[0]->isa("' . $className . '")'
+          )
+          . '); }'
+    );
 }
 
 1;

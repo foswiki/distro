@@ -58,6 +58,18 @@ has users_web => (
     lazy    => 1,
     builder => sub { return 'Temporary' . $_[0]->suite . 'UsersWeb'; },
 );
+has test_user_forename => ( is => 'rw', );
+has test_user_surname  => ( is => 'rw', );
+has test_user_wikiname => ( is => 'rw', );
+has test_user_login    => ( is => 'rw', );
+has test_user_email    => ( is => 'rw', );
+has test_user_cuid     => ( is => 'rw', );
+has response           => (
+    is        => 'rw',
+    clearer   => 1,
+    predicate => 1,
+    isa       => Foswiki::Object::isaCLASS( 'response', 'Unit::Response' ),
+);
 
 =begin TML
 
@@ -67,9 +79,11 @@ to add extra stuff to Foswiki::cfg.
 
 =cut
 
-sub loadExtraConfig {
+around loadExtraConfig => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::loadExtraConfig(@_);
+
+    $orig->( $this, @_ );
 
     #$Foswiki::cfg{Store}{Implementation}   = "Foswiki::Store::RcsLite";
     $Foswiki::cfg{Store}{Implementation}   = "Foswiki::Store::PlainFile";
@@ -93,54 +107,57 @@ sub loadExtraConfig {
     $Foswiki::cfg{Register}{NeedVerification} = 0;
     $Foswiki::cfg{MinPasswordLength}          = 0;
     $Foswiki::cfg{UsersWebName}               = $this->users_web;
-}
+};
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up(@_);
+
+    $orig->( $this, @_ );
 
     my $query = new Unit::Request("");
     $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
 
     # Note: some tests are testing Foswiki::UI which also creates a session
     $this->createNewFoswikiSession( undef, $query );
-    $this->{response} = new Unit::Response();
+    $this->response( new Unit::Response() );
     @mails = ();
-    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     my $webObject = $this->populateNewWeb( $this->test_web );
     $webObject->finish();
-    $this->{test_topicObject}->finish() if $this->{test_topicObject};
-    ( $this->{test_topicObject} ) =
-      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
-    $this->{test_topicObject}->text("BLEEGLE\n");
-    $this->{test_topicObject}->save( forcedate => ( time() + 60 ) );
+    $this->clear_test_topicObject;
+    $this->test_topicObject(
+        Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) );
+    $this->test_topicObject->text("BLEEGLE\n");
+    $this->test_topicObject->save( forcedate => ( time() + 60 ) );
 
     $webObject = $this->populateNewWeb( $this->users_web );
     $webObject->finish();
 
-    $this->{test_user_forename} = 'Scum';
-    $this->{test_user_surname}  = 'Bag';
-    $this->{test_user_wikiname} =
-      $this->{test_user_forename} . $this->{test_user_surname};
-    $this->{test_user_login} = 'scum';
-    $this->{test_user_email} = 'scumbag@example.com';
+    $this->test_user_forename('Scum');
+    $this->test_user_surname('Bag');
+    $this->test_user_wikiname(
+        $this->test_user_forename . $this->test_user_surname );
+    $this->test_user_login('scum');
+    $this->test_user_email('scumbag@example.com');
     $this->registerUser(
-        $this->{test_user_login},   $this->{test_user_forename},
-        $this->{test_user_surname}, $this->{test_user_email}
+        $this->test_user_login,   $this->test_user_forename,
+        $this->test_user_surname, $this->test_user_email
     );
-    $this->{test_user_cuid} =
-      $this->{session}->{users}->getCanonicalUserID( $this->{test_user_login} );
-}
+    $this->test_user_cuid(
+        $this->session->{users}->getCanonicalUserID( $this->test_user_login ) );
+};
 
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->removeWebFixture( $this->{session}, $this->test_web );
-    $this->removeWebFixture( $this->{session}, $Foswiki::cfg{UsersWebName} );
+    $this->removeWebFixture( $this->session, $this->test_web );
+    $this->removeWebFixture( $this->session, $Foswiki::cfg{UsersWebName} );
     unlink( $Foswiki::cfg{Htpasswd}{FileName} );
-    $this->SUPER::tear_down();
+    $orig->( $this, @_ );
 
-}
+};
 
 =begin TML
 
@@ -152,7 +169,7 @@ Remove a temporary web fixture (data and pub)
 
 sub removeWeb {
     my ( $this, $web ) = @_;
-    $this->removeWebFixture( $this->{session}, $web );
+    $this->removeWebFixture( $this->session, $web );
 }
 
 =begin TML
@@ -180,7 +197,7 @@ Can be used by subclasses to register test users.
 
 sub registerUser {
     my ( $this, $loginname, $forename, $surname, $email ) = @_;
-    my $q = $this->{session}{request};
+    my $q = $this->session->{request};
 
     my $params = {
         'TopicName'     => ['UserRegistration'],
@@ -201,14 +218,17 @@ sub registerUser {
     $query->path_info( "/" . $this->users_web . "/UserRegistration" );
 
     $this->createNewFoswikiSession( undef, $query );
-    $this->assert( $this->{session}
-          ->topicExists( $this->test_web, $Foswiki::cfg{WebPrefsTopicName} ) );
+    $this->assert(
+        $this->session->topicExists(
+            $this->test_web, $Foswiki::cfg{WebPrefsTopicName}
+        )
+    );
 
-    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     try {
         $this->captureWithKey(
             register_cgi => \&Foswiki::UI::Register::register_cgi,
-            $this->{session}
+            $this->session
         );
     }
     catch {
@@ -240,7 +260,7 @@ sub registerUser {
 
     # Reload caches
     $this->createNewFoswikiSession( undef, $q );
-    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 }
 
 1;

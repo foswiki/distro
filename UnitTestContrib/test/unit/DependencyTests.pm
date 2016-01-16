@@ -2,20 +2,15 @@
 # Author: Michael Tempest
 package DependencyTests;
 
-use strict;
+use v5.14;
 
-use FoswikiTestCase;
-our @ISA = qw( FoswikiTestCase );
-
-use Error qw( :try );
+use Try::Tiny;
 use File::Temp;
 use Foswiki::Configure::Dependency;
 
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
-    return $this;
-}
+use Moo;
+use namespace::clean;
+extends qw( FoswikiTestCase );
 
 sub test_check_dep_not_perl {
     my ($this) = @_;
