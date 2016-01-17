@@ -502,9 +502,12 @@ sub _buildRWXMessageString {
 
 =begin TML
 
----++ StaticMethod checkGNUProgram($prog, $reporter)
+---++ StaticMethod checkGNUProgram($prog, $reporter, $reqVersion )
 
 Check for the availability of a GNU program.
+
+If $reqVersion is provided, (Simple decimmal number) then a warning is
+issued if older version is detected.
 
 Since Windows (without Cygwin) makes it hard to capture stderr
 ('2>&1' works only on Win2000 or higher), and Windows will usually have
@@ -512,34 +515,92 @@ GNU tools in any case (installed for Foswiki since there's no built-in
 diff, grep, patch, etc), we only check for these tools on Unix/Linux
 and Cygwin.
 
-Errors are reproted by calling ERROR and/or WARN on $reporter
+Errors are reported by calling ERROR and/or WARN on $reporter
 =cut
 
 sub checkGNUProgram {
-    my ( $prog, $reporter ) = @_;
+    my ( $prog, $reporter, $reqVersion ) = @_;
+
+    # SMELL: assumes no spaces in program pathnames
+    $prog =~ s/^\s*(\S+)\s.*$/$1/;    # Extract out program name and untaint
+    $prog =~ m/^(.*)$/;
+    $prog = $1;
+
+    my $err;
+    my $msg;
+    my $version;
+    my $fullversion;
 
     if (   $Foswiki::cfg{OS} eq 'UNIX'
         || $Foswiki::cfg{OS} eq 'WINDOWS'
         && $Foswiki::cfg{DetailedOS} eq 'cygwin' )
     {
 
-        # SMELL: assumes no spaces in program pathnames
-        $prog =~ m/^\s*(\S+)/;
-        $prog = $1;
-        my $diffOut = ( `$prog --version 2>&1` || "" );
-        my $notFound = ( $? != 0 );
-        if ($notFound) {
-            $reporter->ERROR("'$prog' was not found on the current PATH");
-        }
-        elsif ( $diffOut !~ /\bGNU\b/ ) {
+        foreach my $cmd ( "$prog --version", "$prog -V" ) {
 
-            # Program found on path, complain if no GNU in version output
-            $reporter->WARN(
-                "'$prog' program was found on the PATH ",
-                "but is not GNU $prog - this may cause ",
-                "problems. $diffOut"
-            );
+            # Don't let failures get trapped.
+            {
+                local $SIG{'__WARN__'};
+                local $SIG{'__DIE__'};
+                $msg = `$cmd 2>&1` || "";
+            }
+
+            #print STDERR "$cmd returned $?, " . ( $msg || 'undef' ) . "\n";
+
+            if ( $? < 0 ) {
+                $err =
+"Command $prog failed, may not be installed, or found on path. ";
+                last;
+            }
+            elsif ( $? > 0 ) {
+
+                # Probably a syntax error eg.  --version not supported
+                next;
+            }
+            elsif ( defined $msg
+                && $msg =~ m/^.*?([0-9]+\.[0-9]+)(\.[0-9]+)?$/m )
+            {
+                $version = $1 if defined($1);
+                $fullversion = $1 . ( $2 || '' ) if defined($1);
+                last unless DEBUG;
+            }
+
         }
+
+        if ($err) {
+            $reporter->ERROR($err);
+        }
+        else {
+
+            $reporter->NOTE("$prog version $fullversion detected.")
+              if defined $fullversion;
+
+            if ( $msg !~ /\bGNU\b/ ) {
+
+                # Program found on path, complain if no GNU in version output
+                $reporter->WARN(
+                    "'$prog' program was found on the PATH ",
+                    "but is not GNU $prog - this may cause ",
+                    "problems. $msg"
+                );
+            }
+        }
+
+        if ( defined $reqVersion ) {
+            if ( !defined $version ) {
+                $reporter->WARN(
+"Unable to determine version of $prog, Version $reqVersion required."
+                );
+            }
+            elsif ( $version < $reqVersion ) {
+
+                $reporter->WARN( $prog
+                      . ' is too old, upgrade to version '
+                      . $reqVersion
+                      . ' or higher. ' );
+            }
+        }
+
     }
     elsif ( $Foswiki::cfg{OS} eq 'WINDOWS' ) {
 
@@ -1044,7 +1105,7 @@ sub canNfcFilenames {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
