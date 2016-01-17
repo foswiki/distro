@@ -6,18 +6,23 @@ our @ISA = ('Foswiki::Configure::Checker');
 use strict;
 use warnings;
 
-sub check {
-    my $this = shift;
+sub check_current_value {
+    my ( $this, $reporter ) = @_;
 
-    return if $Foswiki::cfg{RCS}{ExtOption};
-    $Foswiki::cfg{RCS}{ExtOption} = "-x,v" if $Foswiki::cfg{OS} eq 'WINDOWS';
+    if ( $Foswiki::cfg{OS} eq 'WINDOWS' ) {
+        $reporter->WARN("RCS option -x,v required on windows.")
+          unless ( $Foswiki::cfg{RCS}{ExtOption} eq "-x,v" );
+    }
+    elsif ( $Foswiki::cfg{RCS}{ExtOption} ) {
+        $reporter->WARN("RCS options not recommended on $Foswiki::cfg{OS}.");
+    }
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
