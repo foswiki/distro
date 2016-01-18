@@ -14,8 +14,14 @@ sub check_current_value {
     return unless $d;
     $this->SUPER::check_current_value($reporter);
 
+    if ( $Foswiki::cfg{DefaultUrlHost} =~ m/^\s+/ ) {
+        $reporter->ERROR(
+'Current setting appears to contain leading spaces. Remove leading spaces.'
+        );
+    }
+
     my $host = $ENV{HTTP_HOST};
-    if ( $host && $Foswiki::cfg{DefaultUrlHost} !~ m,^https?://$host,i ) {
+    if ( $host && $Foswiki::cfg{DefaultUrlHost} !~ m,https?://$host,i ) {
         $reporter->WARN( 'Current setting does not match HTTP_HOST ', $host );
         $reporter->NOTE(
                 'If the URL hostname is correct, set this to =http://'
