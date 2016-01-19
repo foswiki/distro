@@ -1908,7 +1908,7 @@ sub test_Load_expandValue {
 
 sub test_Package_fetchFile {
     my $this = shift;
-    my $root = $this->{_rootdir};
+    my $root = $this->{rootdir};
 
     my $repository = {
         name => 'Foswiki',
