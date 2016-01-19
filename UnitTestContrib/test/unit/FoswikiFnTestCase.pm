@@ -34,7 +34,7 @@ our @mails;
 
 use Moo;
 use namespace::clean;
-extends 'FoswikiTestCase';
+extends qw(FoswikiTestCase);
 
 has suite => (
     is       => 'ro',
@@ -43,6 +43,7 @@ has suite => (
 has test_web => (
     is      => 'rw',
     lazy    => 1,
+    clearer => 1,
     builder => sub {
         my $suite = $_[0]->suite;
         return 'Temporary' . $suite . 'TestWeb' . $suite;

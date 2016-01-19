@@ -1,17 +1,19 @@
 # tests for basic formatting
 
 package FormattingTests;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki();
 use Foswiki::Func();
 use Foswiki::Render();
 use Benchmark qw( :hireswallclock);
-use Error qw( :try );
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
+
+has sup => ( is => 'rw', );
 
 sub TRACE { 0 }
 
@@ -174,19 +176,23 @@ my %sanity_tests = (
     },
 );
 
-sub new {
-    my ( $class, @args ) = @_;
-    my $this = $class->SUPER::new( 'Formatting', @args );
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
+
+    return $orig->( $class, @_, suite => 'Formatting' );
+};
+
+sub BUILD {
+    my $this = shift;
 
     $this->_gen_sanity_tests();
-
-    return $this;
 }
 
 sub skip {
     my ( $this, $test ) = @_;
 
-    return $this->SUPER::skip_test_if(
+    return $this->skip_test_if(
         $test,
         {
             condition => { with_dep => 'Foswiki,<,1.2' },
@@ -215,34 +221,34 @@ sub skip {
     );
 }
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
-    $this->{sup} = $this->{session}->getScriptUrl( 0, 'view' );
-    my ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'H_' );
+    $orig->( $this, @_ );
+    $this->sup( $this->session->getScriptUrl( 0, 'view' ) );
+    my ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'H_' );
     $topicObject->text("BLEEGLE");
     $topicObject->save();
     $topicObject->finish();
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'Underscore_topic' );
+      Foswiki::Func::readTopic( $this->test_web, 'Underscore_topic' );
     $topicObject->text("BLEEGLE");
     $topicObject->save();
     $topicObject->finish();
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web},
-        $Foswiki::cfg{HomeTopicName} );
+      Foswiki::Func::readTopic( $this->test_web, $Foswiki::cfg{HomeTopicName} );
     $topicObject->text("BLEEGLE");
     $topicObject->save();
     $topicObject->finish();
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'Numeric1Wikiword' );
+      Foswiki::Func::readTopic( $this->test_web, 'Numeric1Wikiword' );
     $topicObject->text("BLEEGLE");
     $topicObject->save();
-    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'AB' );
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'AB' );
     $topicObject->text("BLEEGLE");
     $topicObject->save();
-    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'ABC' );
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'ABC' );
     $topicObject->text("BLEEGLE");
     $topicObject->save();
     $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
@@ -250,27 +256,29 @@ sub set_up {
     $Foswiki::cfg{AntiSpam}{EntityEncode}     = 1;
     $Foswiki::cfg{AllowInlineScript}          = 1;
     $topicObject->finish();
-}
+};
 
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->removeWebFixture( $this->{session}, 'Aa' )
+    $this->removeWebFixture( $this->session, 'Aa' )
       if ( Foswiki::Func::webExists('Aa') );
-    $this->removeWebFixture( $this->{session}, 'AA' )
+    $this->removeWebFixture( $this->session, 'AA' )
       if ( Foswiki::Func::webExists('AA') );
-    $this->removeWebFixture( $this->{session}, 'This(is)' )
+    $this->removeWebFixture( $this->session, 'This(is)' )
       if ( Foswiki::Func::webExists('This(is)') );
-    $this->SUPER::tear_down();
-}
+    $orig->( $this, @_ );
+};
 
-sub loadExtraConfig {
+around loadExtraConfig => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::loadExtraConfig();
+    $orig->($this);
 
     $Foswiki::cfg{Plugins}{TablePlugin}{Enabled}      = 0;
     $Foswiki::cfg{Plugins}{RenderListPlugin}{Enabled} = 0;
-}
+};
 
 sub _gen_sanity_tests {
     my $this = shift;
@@ -288,7 +296,7 @@ sub _gen_sanity_tests {
         no strict 'refs';
         *{$fn} = sub {
             my $this   = shift;
-            my $result = $this->{test_topicObject}->renderTML($input);
+            my $result = $this->test_topicObject->renderTML($input);
 
             $this->assert_str_equals( $expected, $result );
         };
@@ -300,10 +308,10 @@ sub _gen_sanity_tests {
 # can see the nops.
 sub do_test {
     my ( $this, $expected, $actual, $noHtml ) = @_;
-    my $session = $this->{session};
+    my $session = $this->session;
 
-    $actual = $this->{test_topicObject}->expandMacros($actual);
-    $actual = $this->{test_topicObject}->renderTML($actual);
+    $actual = $this->test_topicObject->expandMacros($actual);
+    $actual = $this->test_topicObject->renderTML($actual);
     if ($noHtml) {
         $this->assert_equals( $expected, $actual );
     }
@@ -332,22 +340,25 @@ ACTUAL
 
 # current topic WikiWord
 sub test_seflLinkingWikiword {
-    my $this     = shift;
+    my $this = shift;
+    my ( $sup, $test_web, $test_topic ) =
+      ( $this->sup, $this->test_web, $this->test_topic );
     my $expected = <<EXPECTED;
-<a href="$this->{sup}/$this->{test_web}/$this->{test_topic}" class="foswikiCurrentTopicLink" >$this->{test_topic}</a>
+<a href="$sup/$test_web/$test_topic" class="foswikiCurrentTopicLink" >$test_topic</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
-$this->{test_topic}
+$test_topic
 ACTUAL
     $this->do_test( $expected, $actual );
 }
 
 # WikiWord
 sub test_simpleWikiword {
-    my $this     = shift;
+    my $this = shift;
+    my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
-<a class="foswikiCurrentWebHomeLink" href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}">$Foswiki::cfg{HomeTopicName}</a>
+<a class="foswikiCurrentWebHomeLink" href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}">$Foswiki::cfg{HomeTopicName}</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -396,15 +407,16 @@ sub test_Item8694 {
     my $saveNameFilter = $Foswiki::cfg{NameFilter};
     $Foswiki::cfg{NameFilter} = '[\\s\\*?~^\\$@%`"\'_=&;|<>\\[\\]\\x00-\\x1f]';
 
+    my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
-<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><strong>Web</strong> <nop>Home</a>
-<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink">Web <strong>Home</strong></a>
-<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><code>Web</code> <strong>Home</strong></a>
-<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><em>Web</em> <code><b>Home</b></code></a>
-<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><em>Novus <nop>Foo</em></a>
-<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><em>Web <nop>Home</em></a>
-<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><code><b>Web <nop>Home</b></code></a>
-<a href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><em>Novus <nop>Foo</em> (<nop>Some <nop>Author, 2000)</a>
+<a href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><strong>Web</strong> <nop>Home</a>
+<a href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink">Web <strong>Home</strong></a>
+<a href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><code>Web</code> <strong>Home</strong></a>
+<a href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><em>Web</em> <code><b>Home</b></code></a>
+<a href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><em>Novus <nop>Foo</em></a>
+<a href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><em>Web <nop>Home</em></a>
+<a href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><code><b>Web <nop>Home</b></code></a>
+<a href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}" class="foswikiCurrentWebHomeLink"><em>Novus <nop>Foo</em> (<nop>Some <nop>Author, 2000)</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -423,9 +435,10 @@ ACTUAL
 
 # [[WikiWord]]
 sub test_squabbedWikiword {
-    my $this     = shift;
+    my $this = shift;
+    my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
-<a class="foswikiCurrentWebHomeLink" href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}">$Foswiki::cfg{HomeTopicName}</a>
+<a class="foswikiCurrentWebHomeLink" href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}">$Foswiki::cfg{HomeTopicName}</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -435,7 +448,7 @@ ACTUAL
 
     # [[WikiWord#anchor]]
     $expected = <<EXPECTED;
-<a class="foswikiCurrentWebHomeLink" href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}#anchor">$Foswiki::cfg{HomeTopicName}#anchor</a>
+<a class="foswikiCurrentWebHomeLink" href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}#anchor">$Foswiki::cfg{HomeTopicName}#anchor</a>
 EXPECTED
     $actual = <<ACTUAL;
 [[$Foswiki::cfg{HomeTopicName}#anchor]]
@@ -444,7 +457,7 @@ ACTUAL
 
     # [[WikiWord?param=data]]
     $expected = <<EXPECTED;
-<a class="foswikiCurrentWebHomeLink" href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}?param=data">$Foswiki::cfg{HomeTopicName}</a>
+<a class="foswikiCurrentWebHomeLink" href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}?param=data">$Foswiki::cfg{HomeTopicName}</a>
 EXPECTED
     $actual = <<ACTUAL;
 [[$Foswiki::cfg{HomeTopicName}?param=data]]
@@ -453,7 +466,7 @@ ACTUAL
 
     # [[WikiWord?param=data#anchor]]
     $expected = <<EXPECTED;
-<a class="foswikiCurrentWebHomeLink" href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}?param=data#anchor">$Foswiki::cfg{HomeTopicName}</a>
+<a class="foswikiCurrentWebHomeLink" href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}?param=data#anchor">$Foswiki::cfg{HomeTopicName}</a>
 EXPECTED
     $actual = <<ACTUAL;
 [[$Foswiki::cfg{HomeTopicName}?param=data#anchor]]
@@ -462,7 +475,7 @@ ACTUAL
 
     # [[WikiWord#anchor?param=data]]
     $expected = <<EXPECTED;
-<a class="foswikiCurrentWebHomeLink" href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}?param=data#anchor">$Foswiki::cfg{HomeTopicName}</a>
+<a class="foswikiCurrentWebHomeLink" href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}?param=data#anchor">$Foswiki::cfg{HomeTopicName}</a>
 EXPECTED
     $actual = <<ACTUAL;
 [[$Foswiki::cfg{HomeTopicName}?param=data#anchor]]
@@ -472,9 +485,10 @@ ACTUAL
 
 # [[Web.WikiWord]]
 sub test_squabbedWebWikiword {
-    my $this     = shift;
+    my $this = shift;
+    my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
-<a href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}">$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}</a>
+<a href="$sup/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}">$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -484,7 +498,7 @@ ACTUAL
 
     # [[Web.WikiWord#anchor]]
     $expected = <<EXPECTED;
-<a href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}#anchor">$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}#anchor</a>
+<a href="$sup/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}#anchor">$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}#anchor</a>
 EXPECTED
 
     $actual = <<ACTUAL;
@@ -494,7 +508,7 @@ ACTUAL
 
     # [[Web.WikiWord?param=data]]
     $expected = <<EXPECTED;
-<a class="foswikiCurrentWebHomeLink" href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}?param=data">$Foswiki::cfg{HomeTopicName}</a>
+<a class="foswikiCurrentWebHomeLink" href="$sup/$test_web/$Foswiki::cfg{HomeTopicName}?param=data">$Foswiki::cfg{HomeTopicName}</a>
 EXPECTED
 
     $actual = <<ACTUAL;
@@ -504,7 +518,7 @@ ACTUAL
 
     # [[Web.WikiWord?param=data#anchor]]
     $expected = <<EXPECTED;
-<a href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}?param=data#anchor">$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}</a>
+<a href="$sup/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}?param=data#anchor">$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}</a>
 EXPECTED
 
     $actual = <<ACTUAL;
@@ -516,8 +530,9 @@ ACTUAL
 # [[Web.WikiWord][Alt TextAlt]]
 sub test_squabbedWebWikiWordAltText {
     my $this     = shift;
+    my $sup      = $this->sup;
     my $expected = <<EXPECTED;
-<a href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}">Alt <nop>TextAlt</a>
+<a href="$sup/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}">Alt <nop>TextAlt</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -530,11 +545,11 @@ ACTUAL
 #sub test_squabbedUrlAltTextOldUndocumentedUse {
 #    my $this     = shift;
 #    my $expected = <<EXPECTED;
-#<a href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}">Alt <nop>TextAlt</a>
+#<a href="$sup/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}">Alt <nop>TextAlt</a>
 #EXPECTED
 #
 #    my $actual = <<ACTUAL;
-#[[$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName} Alt TextAlt]]
+#[[$sup/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName} Alt TextAlt]]
 #ACTUAL
 #    $this->do_test( $expected, $actual );
 #}
@@ -600,8 +615,9 @@ ACTUAL
 # [[Web.WikiWord]]
 sub test_squabbedWebWikiword_params {
     my $this     = shift;
+    my $sup      = $this->sup;
     my $expected = <<EXPECTED;
-<a href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}?param=data">$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}</a>
+<a href="$sup/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}?param=data">$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -613,8 +629,9 @@ ACTUAL
 # [[Web.WikiWord][Alt TextAlt]]
 sub test_squabbedWebWikiWordAltText_params {
     my $this     = shift;
+    my $sup      = $this->sup;
     my $expected = <<EXPECTED;
-<a href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}?param=data">Alt <nop>TextAlt</a>
+<a href="$sup/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}?param=data">Alt <nop>TextAlt</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -662,12 +679,13 @@ ACTUAL
 
 sub test_noppedSquab {
     my $this     = shift;
+    my $test_web = $this->test_web;
     my $expected = <<EXPECTED;
-[<nop>[$this->{test_web}.$Foswiki::cfg{HomeTopicName}]]
+[<nop>[$test_web.$Foswiki::cfg{HomeTopicName}]]
 EXPECTED
 
     my $actual = <<ACTUAL;
-[<nop>[$this->{test_web}.$Foswiki::cfg{HomeTopicName}]]
+[<nop>[$test_web.$Foswiki::cfg{HomeTopicName}]]
 ACTUAL
     $this->do_test( $expected, $actual );
 }
@@ -685,9 +703,10 @@ ACTUAL
 }
 
 sub test_squabbedUnderscoreTopic {
-    my $this     = shift;
+    my $this = shift;
+    my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
-<a href="$this->{sup}/$this->{test_web}/Underscore_topic">Underscore_topic</a>
+<a href="$sup/$test_web/Underscore_topic">Underscore_topic</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -697,25 +716,27 @@ ACTUAL
 }
 
 sub test_squabbedWebUnderscroe {
-    my $this     = shift;
+    my $this = shift;
+    my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
-<a href="$this->{sup}/$this->{test_web}/Underscore_topic">$this->{test_web}.Underscore_topic</a>
+<a href="$sup/$test_web/Underscore_topic">$test_web.Underscore_topic</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
-[[$this->{test_web}.Underscore_topic]]
+[[$test_web.Underscore_topic]]
 ACTUAL
     $this->do_test( $expected, $actual );
 }
 
 sub test_squabbedWebUnderscoreAlt {
-    my $this     = shift;
+    my $this = shift;
+    my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
-<a href="$this->{sup}/$this->{test_web}/Underscore_topic">topic</a>
+<a href="$sup/$test_web/Underscore_topic">topic</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
-[[$this->{test_web}.Underscore_topic][topic]]
+[[$test_web.Underscore_topic][topic]]
 ACTUAL
     $this->do_test( $expected, $actual );
 }
@@ -734,24 +755,26 @@ ACTUAL
 
 sub test_escapedSquabbedUnderscore {
     my $this     = shift;
+    my $test_web = $this->test_web;
     my $expected = <<EXPECTED;
-[<nop>[$this->{test_web}.Underscore_topic]]
+[<nop>[$test_web.Underscore_topic]]
 EXPECTED
 
     my $actual = <<ACTUAL;
-![[$this->{test_web}.Underscore_topic]]
+![[$test_web.Underscore_topic]]
 ACTUAL
     $this->do_test( $expected, $actual );
 }
 
 sub test_noppedSquabUnderscore {
     my $this     = shift;
+    my $test_web = $this->test_web;
     my $expected = <<EXPECTED;
-[<nop>[$this->{test_web}.Underscore_topic]]
+[<nop>[$test_web.Underscore_topic]]
 EXPECTED
 
     my $actual = <<ACTUAL;
-[<nop>[$this->{test_web}.Underscore_topic]]
+[<nop>[$test_web.Underscore_topic]]
 ACTUAL
     $this->do_test( $expected, $actual );
 }
@@ -781,9 +804,10 @@ ACTUAL
 }
 
 sub test_squabbedUS {
-    my $this     = shift;
+    my $this = shift;
+    my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
-<a href="$this->{sup}/$this->{test_web}/H_">H_</a>
+<a href="$sup/$test_web/H_">H_</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -799,8 +823,9 @@ ACTUAL
 # Case 1: Link to an existing page
 sub test_wikiWordInsideSquabbedLink {
     my $this     = shift;
+    my $sup      = $this->sup;
     my $expected = <<EXPECTED;
-<a href="$this->{sup}/System/WebRssBase">System.WebRss <nop>Base</a>
+<a href="$sup/System/WebRssBase">System.WebRss <nop>Base</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -870,8 +895,9 @@ ACTUAL
 # Item2367 - explicit links inside the text string of a squab
 sub test_explicitLinkInsideSquabbedLink {
     my $this     = shift;
+    my $sup      = $this->sup;
     my $expected = <<EXPECTED;
-<a href="$this->{sup}/System/WebRss">blah http<nop>://foswiki.org blah</a>
+<a href="$sup/System/WebRss">blah http<nop>://foswiki.org blah</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -900,9 +926,10 @@ ACTUAL
 
 # Numeric1Wikiword
 sub test_numericWikiWord {
-    my $this     = shift;
+    my $this = shift;
+    my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
-<a href="$this->{sup}/$this->{test_web}/Numeric1Wikiword">Numeric1Wikiword</a>
+<a href="$sup/$test_web/Numeric1Wikiword">Numeric1Wikiword</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -975,8 +1002,9 @@ ACTUAL
 sub test_Acronyms {
     my $this = shift;
 
+    my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
-<strong><em>text with <a href="$this->{sup}/$this->{test_web}/ABC">ABC</a> link</em></strong>
+<strong><em>text with <a href="$sup/$test_web/ABC">ABC</a> link</em></strong>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -1005,13 +1033,14 @@ sub test_shortAcronyms {
     my $abbrevLength = 2;
     $Foswiki::regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
     require Class::Unload;
-    $this->{session}->renderer->finish();
+    $this->session->renderer->finish();
     Class::Unload->unload('Foswiki::Render');
     require Foswiki::Render;
-    $this->{session}->{renderer} = new Foswiki::Render( $this->{session} );
+    $this->session->{renderer} = new Foswiki::Render( $this->session );
 
+    my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
-<strong><em>text with <a href="$this->{sup}/$this->{test_web}/ABC">ABC</a> link</em></strong>
+<strong><em>text with <a href="$sup/$test_web/ABC">ABC</a> link</em></strong>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -1021,7 +1050,7 @@ ACTUAL
 
     # Try a shorter length
     $expected = <<EXPECTED;
-<strong><em>text with <a href="$this->{sup}/$this->{test_web}/AB">AB</a> link</em></strong>
+<strong><em>text with <a href="$sup/$test_web/AB">AB</a> link</em></strong>
 EXPECTED
 
     $actual = <<ACTUAL;
@@ -1034,17 +1063,18 @@ ACTUAL
     $abbrevLength = $Foswiki::cfg{AcronymLength} || 3;
     $Foswiki::regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
     require Class::Unload;
-    $this->{session}->renderer->finish();
+    $this->session->renderer->finish();
     Class::Unload->unload('Foswiki::Render');
     require Foswiki::Render;
-    $this->{session}->{renderer} = new Foswiki::Render( $this->{session} );
+    $this->session->{renderer} = new Foswiki::Render( $this->session );
 
 }
 
 sub test_squabbedEmmedTopic {
-    my $this     = shift;
+    my $this = shift;
+    my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
-<em>text with <a href="$this->{sup}/$this->{test_web}/H_">H_</a> link</em>
+<em>text with <a href="$sup/$test_web/H_">H_</a> link</em>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -1376,7 +1406,7 @@ sub test_4067_entities {
 sub test_internalLinkSpacedText_Item8713 {
     my $this = shift;
 
-    my $editURI = $this->{session}->getScriptUrl( 0, 'edit' );
+    my $editURI = $this->session->getScriptUrl( 0, 'edit' );
 
     my $expected = <<EXPECTED;
 <a class="foswikiNewLink" href="$editURI/DiscussWikiPhilosophyVs/Technology?topicparent=TemporaryFormattingTestWebFormatting.TestTopicFormatting" rel="nofollow" title="Create this topic">discuss 'wiki': philosophy vs. technology</a>
@@ -1413,9 +1443,10 @@ ACTUAL
 }
 
 sub test_internalLinkWithSpacedUrl {
-    my $this     = shift;
+    my $this = shift;
+    my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
-<a class="foswikiCurrentWebHomeLink" href="$this->{sup}/$this->{test_web}/WebHome">topic</a>
+<a class="foswikiCurrentWebHomeLink" href="$sup/$test_web/WebHome">topic</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -1431,7 +1462,7 @@ sub test_render_PlainText {
 #extractFormat feature
     $this->assert_str_equals(
         'Apache is the well known web server.',
-        $this->{session}->renderer->TML2PlainText(
+        $this->session->renderer->TML2PlainText(
 'Apache is the [[http://www.apache.org/httpd/][well known web server]].'
         )
     );
@@ -1439,63 +1470,63 @@ sub test_render_PlainText {
     #test a few others to try to not break things
     $this->assert_matches(
 qr/Apache is the\s+http:\/\/www\.apache\.org\/httpd\/ well known web server\s*\./,
-        $this->{session}->{renderer}->TML2PlainText(
+        $this->session->{renderer}->TML2PlainText(
 'Apache is the [[http://www.apache.org/httpd/ well known web server]].'
         )
     );
     $this->assert_str_equals(
         'Apache is the well known web server.',
-        $this->{session}->{renderer}->TML2PlainText(
+        $this->session->{renderer}->TML2PlainText(
             'Apache is the [[ApacheServer][well known web server]].')
     );
 
     #SMELL: an unexpected result :/
     $this->assert_str_equals( 'Apache is the   well known web server  .',
-        $this->{session}->{renderer}
+        $this->session->{renderer}
           ->TML2PlainText('Apache is the [[well known web server]].') );
     $this->assert_str_equals( 'Apache is the well known web server.',
-        $this->{session}->{renderer}
+        $this->session->{renderer}
           ->TML2PlainText('Apache is the well known web server.') );
 
     #non formatting uses of formatting markup
     $this->assert_str_equals(
         'Apache 2*3 is the well known web server.',
-        $this->{session}->{renderer}->TML2PlainText(
+        $this->session->{renderer}->TML2PlainText(
             'Apache 2*3 is the [[ApacheServer][well known web server]].')
     );
     $this->assert_str_equals(
         'Apache 2=3 is the well known web server.',
-        $this->{session}->{renderer}->TML2PlainText(
+        $this->session->{renderer}->TML2PlainText(
             'Apache 2=3 is the [[ApacheServer][well known web server]].')
     );
 
     $this->assert_str_equals(
         'Apache 1_1 is the well known web server.',
-        $this->{session}->{renderer}->TML2PlainText(
+        $this->session->{renderer}->TML2PlainText(
             'Apache 1_1 is the [[ApacheServer][well known web server]].')
     );
 
 #    $this->assert_str_equals(
 #        'Apache 1_1 is the %SEARCH{"one" section="two"}% well known web server.',
-#        $this->{session}->{renderer}->TML2PlainText(
+#        $this->session->{renderer}->TML2PlainText(
 #            'Apache 1_1 is the %SEARCH{"one" section="two"}% [[ApacheServer][well known web server]].')
 #    );
 #formatting uses of formatting markup
     $this->assert_str_equals(
         'Apache 2.3 is the well known web server.',
-        $this->{session}->{renderer}->TML2PlainText(
+        $this->session->{renderer}->TML2PlainText(
             'Apache *2.3* is the [[ApacheServer][well known web server]].')
     );
 
     $this->assert_str_equals(
         'Apache 1.1 is the well known web server.',
-        $this->{session}->{renderer}->TML2PlainText(
+        $this->session->{renderer}->TML2PlainText(
             '__Apache 1.1__ is the [[ApacheServer][well known web server]].')
     );
 
 #    $this->assert_str_equals(
 #        'Apache 1_1 _is_ the %INCLUDE{"one" section="two"}% well known web server.',
-#        $this->{session}->{renderer}->TML2PlainText(
+#        $this->session->{renderer}->TML2PlainText(
 #            'Apache 1_1 is the %INCLUDE{"one" section="two"}% [[ApacheServer][well known web server]].')
 #    );
 }
@@ -1791,53 +1822,57 @@ ACTUAL
 }
 
 sub test_externalLinkWithImageUrl {
-    my $this     = shift;
+    my $this = shift;
+    my ( $sup, $test_web, $test_topic ) =
+      ( $this->sup, $this->test_web, $this->test_topic );
     my $expected = <<"EXPECTED";
-<a href="$this->{sup}/$this->{test_web}/$this->{test_topic}" class="foswikiCurrentTopicLink" >
+<a href="$sup/$test_web/$test_topic" class="foswikiCurrentTopicLink" >
 <img alt="foswiki-logo.gif" src="http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif" />
 </a>
 EXPECTED
 
     my $actual = <<"ACTUAL";
-[[$this->{test_topic}][ http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif ]]
+[[$test_topic][ http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif ]]
 ACTUAL
     $this->do_test( $expected, $actual );
 }
 
 sub test_externalLinkWithEscapedImageUrl {
-    my $this     = shift;
+    my $this = shift;
+    my ( $sup, $test_web, $test_topic ) =
+      ( $this->sup, $this->test_web, $this->test_topic );
     my $expected = <<"EXPECTED";
-<a href="$this->{sup}/$this->{test_web}/$this->{test_topic}" class="foswikiCurrentTopicLink" >
+<a href="$sup/$test_web/$test_topic" class="foswikiCurrentTopicLink" >
 http<nop>://<nop>foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif
 </a>
 EXPECTED
 
     my $actual = <<"ACTUAL";
-[[$this->{test_topic}][ http://<nop>foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif ]]
+[[$test_topic][ http://<nop>foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif ]]
 ACTUAL
     $this->do_test( $expected, $actual );
 
     # <nop> at the beginning
     $expected = <<"EXPECTED";
-<a href="$this->{sup}/$this->{test_web}/$this->{test_topic}" class="foswikiCurrentTopicLink" >
+<a href="$sup/$test_web/$test_topic" class="foswikiCurrentTopicLink" >
 <nop>http<nop>://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif
 </a>
 EXPECTED
 
     $actual = <<"ACTUAL";
-[[$this->{test_topic}][<nop>http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif]]
+[[$test_topic][<nop>http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif]]
 ACTUAL
     $this->do_test( $expected, $actual );
 
     # ! at the beginning
     $expected = <<"EXPECTED";
-<a href="$this->{sup}/$this->{test_web}/$this->{test_topic}" class="foswikiCurrentTopicLink" >
+<a href="$sup/$test_web/$test_topic" class="foswikiCurrentTopicLink" >
 !http<nop>://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif
 </a>
 EXPECTED
 
     $actual = <<"ACTUAL";
-[[$this->{test_topic}][!http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif]]
+[[$test_topic][!http://foswiki.org/pub/System/ProjectLogos/foswiki-logo.gif]]
 ACTUAL
     $this->do_test( $expected, $actual );
 }
@@ -1867,8 +1902,8 @@ sub _create_topic {
 sub _create_link_test_fixtures {
     my $this = shift;
 
-    $this->_create_topic( $this->{test_web}, 'Aa' );
-    $this->_create_topic( $this->{test_web}, 'AA' );
+    $this->_create_topic( $this->test_web, 'Aa' );
+    $this->_create_topic( $this->test_web, 'AA' );
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
     Foswiki::Func::createWeb('Aa');
     $this->_create_topic( 'Aa', 'Bb' );
@@ -1892,9 +1927,9 @@ sub _create_link_test_fixtures {
 sub _remove_link_test_fixtures {
     my $this = shift;
 
-    $this->removeWebFixture( $this->{session}, 'Aa' );
-    $this->removeWebFixture( $this->{session}, 'AA' );
-    $this->removeWebFixture( $this->{session}, 'This(is)' );
+    $this->removeWebFixture( $this->session, 'Aa' );
+    $this->removeWebFixture( $this->session, 'AA' );
+    $this->removeWebFixture( $this->session, 'This(is)' );
 
     return;
 }
@@ -1908,7 +1943,7 @@ sub _time_link_tests {
         my $benchmark = timeit(
             200,
             sub {
-                $this->{test_topicObject}->renderTML($tml);
+                $this->test_topicObject->renderTML($tml);
             }
         );
         print "$tml:\n" . timestr($benchmark) . "\n";
@@ -1950,7 +1985,7 @@ sub _check_rendered_linktext {
     my $editpathregex = qr/^.*\Q$editpath\E\/([^"]*)/;
     my $viewpath      = Foswiki::Func::getScriptUrlPath( undef, undef, 'view' );
     my $viewpathregex = qr/^.*\Q$viewpath\E\/([^"]*)/;
-    my $html          = $this->{test_topicObject}->renderTML("[[$linktext]]");
+    my $html          = $this->test_topicObject->renderTML("[[$linktext]]");
     my $expectedAddress;
     my $expectedAddrObj;
     my $addrObj;
@@ -1972,16 +2007,15 @@ sub _check_rendered_linktext {
         $expectedAddress = $expected->{address};
     }
     elsif ( defined $expected->{topic} ) {
-        $expectedAddress = "$this->{test_web}.$expected->{topic}";
+        $expectedAddress = $this->test_web . ".$expected->{topic}";
     }
     else {
-        $expectedAddress = "$this->{test_web}.$this->{test_topic}";
+        $expectedAddress = $this->test_web . "." . $this->test_topic;
     }
     my ( $actualWeb, $actualTopic ) =
-      Foswiki::Func::normalizeWebTopicName( $this->{test_web}, $address );
+      Foswiki::Func::normalizeWebTopicName( $this->test_web, $address );
     my ( $expectedWeb, $expectedTopic ) =
-      Foswiki::Func::normalizeWebTopicName( $this->{test_web},
-        $expectedAddress );
+      Foswiki::Func::normalizeWebTopicName( $this->test_web, $expectedAddress );
     print "\tfrag: "
       . ( defined $fragment ? $fragment : 'undef' )
       . ",\tquery: "
@@ -2024,9 +2058,9 @@ sub test_ampersand_querystring {
         using => 'ShortURLs' );
 
     $this->_check_rendered_linktext(
-        "$this->{test_topic}?q=r&s=t",
+        $this->test_topic . "?q=r&s=t",
         {
-            address => "$this->{test_topic}",
+            address => $this->test_topic,
             query   => 'q=r&s=t'
         }
     );

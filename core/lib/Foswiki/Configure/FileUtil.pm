@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::FileUtil;
+use v5.14;
 
 =begin TML
 
@@ -637,6 +638,35 @@ sub listDir {
     return @names;
 }
 
+sub _getTarFamily {
+    my ($tarCmd) = @_;
+    `$tarCmd --version` =~ /(bsd|gnu)/i;
+    return lc $1;
+}
+
+sub _getTar {
+    my $tarCmd    = 'tar';
+    my $tarFamily = _getTarFamily($tarCmd);
+
+    if ( $tarFamily eq 'bsd' ) {
+
+        # Trying to find gnutar in order to keep as much compatibility with
+        # linux as we can.
+        my $gnutar = `which gnutar`;
+        if ( $? == 0 && $gnutar ) {
+            chomp $gnutar;
+            if ( _getTarFamily($gnutar) eq 'gnu' ) {
+                $tarCmd    = $gnutar;
+                $tarFamily = 'gnu';
+            }
+
+        }
+
+    }
+
+    return ( $tarCmd, $tarFamily );
+}
+
 =begin TML
 
 ---++ StaticMethod createArchive($name, $dir, $delete )
@@ -666,9 +696,20 @@ sub createArchive {
     chdir("$dir/$name");
 
     if ( !defined $test || ( defined $test && $test eq 'tar' ) ) {
-        $results .= `tar -czvf "../$name.tgz" .`;
+        my ( $tarCmd, $tarFamily ) = _getTar();
+        my $redirect = '';
+        if ( $tarFamily eq 'bsd' ) {
 
-        if ( $results && !$@ ) {
+            # BSD tar sends listing to STDERR while create an archive.
+            $redirect = '2>&1';
+        }
+
+        $results = `$tarCmd -czvf "../$name.tgz" . $redirect`;
+
+        if ( $? != 0 ) {
+            $results = '';
+        }
+        else {
             $file = "$dir/$name.tgz";
         }
     }
@@ -679,7 +720,7 @@ sub createArchive {
         if ( !defined $test || ( defined $test && $test eq 'zip' ) ) {
             $results .= `zip -r "../$name.zip" .`;
 
-            if ( $results && !$@ ) {
+            if ( $results && !$? ) {
                 $file = "$dir/$name.zip";
             }
         }

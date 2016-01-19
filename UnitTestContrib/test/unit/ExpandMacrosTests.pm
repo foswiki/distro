@@ -1,14 +1,14 @@
 # tests for the correct expansion of macros
 
 package ExpandMacrosTests;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki;
-use Error qw( :try );
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 my $dontCare =
     "It really does not matter what the actual value is, "
@@ -17,28 +17,25 @@ my $dontCare =
 
 my $macroWasHere = "ThereWasA_MACRO_Here";
 
-sub new {
-    my $self = shift()->SUPER::new( 'ExpandMacrosTests', @_ );
-    return $self;
-}
-
 my $saveMacroExists;
 my $saveMacroHandler;
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
     $saveMacroExists        = exists $Foswiki::macros{MACRO};
     $saveMacroHandler       = $Foswiki::macros{MACRO};
     $Foswiki::macros{MACRO} = \&_testMacroHandler;
-}
+};
 
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
     $Foswiki::macros{MACRO} = $saveMacroHandler;
     delete $Foswiki::macros{MACRO} if not $saveMacroExists;
-    $this->SUPER::tear_down();
-}
+    $orig->( $this, @_ );
+};
 
 # _testExpand takes two parameters:
 #   (1) TML to expand and
@@ -228,7 +225,7 @@ sub _testExpand {
 sub _expand {
     my ( $this, $tml ) = @_;
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     return $topicObject->expandMacros($tml);
 }
 

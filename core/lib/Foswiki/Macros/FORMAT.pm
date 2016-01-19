@@ -1,8 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki;
-
-use strict;
-use warnings;
+use v5.14;
 
 #our $SEARCHTERMS = qr/\$(web|topic|parent|text|locked|date|isodate|rev|username|wikiname|wikiusername|createdate|createusername|createwikiname|createwikiusername|summary|changes|formname|formfield|pattern|count|ntopics|nhots|pager)\b/;
 
@@ -71,8 +69,8 @@ sub FORMAT {
           $this->search->formatResults( undef, $listIterator, $params );
         $s = Foswiki::expandStandardEscapes($searchResult);
     }
-    catch Error with {
-        my $message = (DEBUG) ? shift->stringify() : shift->{-text};
+    catch {
+        my $message = (DEBUG) ? $_->stringify() : $_->{-text};
 
         # Block recursions kicked off by the text being repeated in the
         # error message

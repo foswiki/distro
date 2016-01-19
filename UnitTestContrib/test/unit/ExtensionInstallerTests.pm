@@ -1,12 +1,7 @@
 package ExtensionInstallerTests;
+use v5.14;
 
-use strict;
-use warnings;
-
-use FoswikiTestCase();
-our @ISA = qw( FoswikiTestCase );
-
-use Error qw( :try );
+use Try::Tiny;
 use File::Temp();
 use FindBin;
 use File::Path qw(mkpath rmtree);
@@ -17,12 +12,27 @@ use Foswiki::Configure::Reporter ();
 
 use Foswiki::Sandbox;
 
+use Moo;
+use namespace::clean;
+extends qw( FoswikiTestCase );
+
+has user           => ( is => 'rw', );
+has rootdir        => ( is => 'rw', );
+has trash_web      => ( is => 'rw', );
+has sandbox_web    => ( is => 'rw', );
+has sandbox_subweb => ( is => 'rw', );
+has scriptdir      => ( is => 'rw', );
+has tempdir        => ( is => 'rw', );
+has toolsdir       => ( is => 'rw', );
+has logdir         => ( is => 'rw', );
+
 my $reporter;
 
 sub skip {
-    my ( $this, $test ) = @_;
+    my $this = shift;
+    my ($test) = @_;
 
-    return $this->SUPER::skip_test_if(
+    return $this->skip_test_if(
         $test,
         {
             condition => { without_dep => 'Archive::Tar' },
@@ -41,9 +51,11 @@ sub skip {
     );
 }
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
+
+    $orig->( $this, @_ );
 
     # tests assume RCS
     $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite';
@@ -56,51 +68,52 @@ sub set_up {
     chop $root;
     $root =~ s|\\|/|g;
 
-    $this->{rootdir} = $root;
-    $this->{user}    = $Foswiki::cfg{AdminUserLogin};
-    $this->createNewFoswikiSession( $this->{user} );
-    $this->{test_web} = 'Testsystemweb1234';
-    my $webObject = $this->populateNewWeb( $this->{test_web} );
+    $this->rootdir($root);
+    $this->user( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiSession( $this->user );
+    $this->test_web('Testsystemweb1234');
+    my $webObject = $this->populateNewWeb( $this->test_web );
     $webObject->finish();
-    $this->{trash_web} = 'Testtrashweb1234';
-    $webObject = $this->populateNewWeb( $this->{trash_web} );
+    $this->trash_web('Testtrashweb1234');
+    $webObject = $this->populateNewWeb( $this->trash_web );
     $webObject->finish();
-    $this->{sandbox_web} = 'Testsandboxweb1234';
-    $webObject = $this->populateNewWeb( $this->{sandbox_web} );
+    $this->sandbox_web('Testsandboxweb1234');
+    $webObject = $this->populateNewWeb( $this->sandbox_web );
     $webObject->finish();
-    $this->{sandbox_subweb} = 'Testsandboxweb1234/Subweb';
-    $webObject = $this->populateNewWeb( $this->{sandbox_subweb} );
+    $this->sandbox_subweb('Testsandboxweb1234/Subweb');
+    $webObject = $this->populateNewWeb( $this->sandbox_subweb );
     $webObject->finish();
-    $this->{tempdir} = $Foswiki::cfg{TempfileDir} . '/test_ConfigureTests';
-    rmtree( $this->{tempdir} )
-      if ( -e $this->{tempdir} );    # Cleanup any old tests
-    mkpath( $this->{tempdir} );
-    $this->{scriptdir}       = $this->{tempdir} . '/bin';
-    $Foswiki::cfg{ScriptDir} = $this->{scriptdir};
-    $this->{toolsdir}        = $this->{tempdir} . '/tools';
-    $Foswiki::cfg{ToolsDir}  = $this->{toolsdir};
-    $this->{logdir}          = $this->{tempdir} . '/logs';
-    $Foswiki::cfg{Log}{Dir}  = $this->{logdir};
+    $this->tempdir( $Foswiki::cfg{TempfileDir} . '/test_ConfigureTests' );
+    rmtree( $this->tempdir )
+      if ( -e $this->tempdir );    # Cleanup any old tests
+    mkpath( $this->tempdir );
+    $this->scriptdir( $this->tempdir . '/bin' );
+    $Foswiki::cfg{ScriptDir} = $this->scriptdir;
+    $this->toolsdir( $this->tempdir . '/tools' );
+    $Foswiki::cfg{ToolsDir} = $this->toolsdir;
+    $this->logdir( $this->tempdir . '/logs' );
+    $Foswiki::cfg{Log}{Dir} = $this->logdir;
 
-    $Foswiki::cfg{TrashWebName}   = $this->{trash_web};
-    $Foswiki::cfg{SandboxWebName} = $this->{sandbox_web};
+    $Foswiki::cfg{TrashWebName}   = $this->trash_web;
+    $Foswiki::cfg{SandboxWebName} = $this->sandbox_web;
 
     $reporter = Foswiki::Configure::Reporter->new();
 
     return;
-}
+};
 
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->removeWebFixture( $this->{session}, $this->{test_web} );
-    $this->removeWebFixture( $this->{session}, $this->{trash_web} );
-    $this->removeWebFixture( $this->{session}, $this->{sandbox_web} );
-    eval { rmtree( $this->{tempdir} ) };    # Cleanup any old tests
-    $this->SUPER::tear_down();
+    $this->removeWebFixture( $this->session, $this->test_web );
+    $this->removeWebFixture( $this->session, $this->trash_web );
+    $this->removeWebFixture( $this->session, $this->sandbox_web );
+    eval { rmtree( $this->tempdir ) };    # Cleanup any old tests
+    $orig->( $this, @_ );
 
     return;
-}
+};
 
 sub sniff {
     my ( $this, @what ) = @_;
@@ -168,7 +181,7 @@ sub test_Util_mapTarget {
     my $savePrefs  = $Foswiki::cfg{WebPrefsTopicName};
     my $saveMime   = $Foswiki::cfg{MimeTypesFileName};
 
-    $Foswiki::cfg{TrashWebName} = $this->{trash_web};
+    $Foswiki::cfg{TrashWebName} = $this->trash_web;
     $Foswiki::cfg{UsersWebName} = 'Main';
 
     # Verify file in root of pub
@@ -176,14 +189,14 @@ sub test_Util_mapTarget {
     my $file = 'pub/rootfile.gif';
     my $results =
       Foswiki::Configure::Package::_mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "$this->{rootdir}pub/rootfile.gif", $results );
+    $this->assert_str_equals( $this->rootdir . "pub/rootfile.gif", $results );
 
     # Verify file in root of data
 
     $file = 'data/mime.types';
     $results =
       Foswiki::Configure::Package::_mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "$this->{rootdir}data/mime.types", $results );
+    $this->assert_str_equals( $this->rootdir . "data/mime.types", $results );
 
     # Remap system web
 
@@ -191,13 +204,13 @@ sub test_Util_mapTarget {
     $file = 'pub/System/System/MyAtt.gif';
     $results =
       Foswiki::Configure::Package::_mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "$this->{rootdir}pub/Fizbin/System/MyAtt.gif",
+    $this->assert_str_equals( $this->rootdir . "pub/Fizbin/System/MyAtt.gif",
         $results );
 
     $file = 'data/System/System.txt';
     $results =
       Foswiki::Configure::Package::_mapTarget( "/var/www/foswiki/", "$file" );
-    $this->assert_str_equals( "$this->{rootdir}data/Fizbin/System.txt",
+    $this->assert_str_equals( $this->rootdir . "data/Fizbin/System.txt",
         $results );
 
     # Remap data and pub directory names
@@ -210,14 +223,18 @@ sub test_Util_mapTarget {
     $results =
       Foswiki::Configure::Package::_mapTarget( "/var/www/foswiki/", "$file" );
     $this->assert_str_equals(
-        "/var/www/foswiki/public/$this->{trash_web}/Fizbin/Data.attachment",
-        $results );
+        "/var/www/foswiki/public/"
+          . $this->trash_web
+          . "/Fizbin/Data.attachment",
+        $results
+    );
 
     $file = 'data/Trash/Fizbin.txt';
     $results =
       Foswiki::Configure::Package::_mapTarget( "/var/www/foswiki/", "$file" );
     $this->assert_str_equals(
-        "/var/www/foswiki/storage/$this->{trash_web}/Fizbin.txt", $results );
+        "/var/www/foswiki/storage/" . $this->trash_web . "/Fizbin.txt",
+        $results );
 
     # Verify default Users and Main web names
 
@@ -333,15 +350,16 @@ sub test_Util_mapTarget {
     $results =
       Foswiki::Configure::Package::_mapTarget( "/var/www/foswiki/", "$file" );
     $this->assert_str_equals(
-        "/var/www/foswiki/storage/$this->{sandbox_web}/Settings.txt",
+        "/var/www/foswiki/storage/" . $this->sandbox_web . "/Settings.txt",
         $results );
 
     $file = 'pub/Sandbox/WebPreferences/Logo.gif';
     $results =
       Foswiki::Configure::Package::_mapTarget( "/var/www/foswiki/", "$file" );
     $this->assert_str_equals(
-        "/var/www/foswiki/public/$this->{sandbox_web}/Settings/Logo.gif",
-        $results );
+        "/var/www/foswiki/public/" . $this->sandbox_web . "/Settings/Logo.gif",
+        $results
+    );
 
 # Remap bin directory and script suffix -  WebPrefsTopicName - default WebPreferences
 
@@ -422,7 +440,7 @@ sub test_Util_getMappedWebTopic {
     $Foswiki::cfg{SystemWebName} = 'System';
     $Foswiki::cfg{UsersWebName}  = 'Main';
 
-    $Foswiki::cfg{TrashWebName} = $this->{trash_web};
+    $Foswiki::cfg{TrashWebName} = $this->trash_web;
 
     my $wname = '';
     my $tname = '';
@@ -551,7 +569,7 @@ sub test_Util_getMappedWebTopic {
 sub test_Util_listDir {
     my $this = shift;
 
-    my $tempdir = $this->{tempdir} . '/test_Util_ListDir';
+    my $tempdir = $this->tempdir . '/test_Util_ListDir';
     eval { rmtree($tempdir) };    # Cleanup any old tests
 
     mkpath($tempdir);
@@ -599,7 +617,7 @@ sub test_Util_listDir {
 sub test_Util_getPerlLocation {
     my $this = shift;
 
-    my $tempdir = $this->{tempdir} . '/test_util_getperllocation';
+    my $tempdir = $this->tempdir . '/test_util_getperllocation';
     mkpath($tempdir);
 
     my $holddir = $Foswiki::cfg{ScriptDir};
@@ -682,7 +700,7 @@ sub _doLocationTest {
 sub test_Util_rewriteShebang {
     my $this = shift;
 
-    my $tempdir = $this->{tempdir} . '/test_util_rewriteShebang';
+    my $tempdir = $this->tempdir . '/test_util_rewriteShebang';
     mkpath($tempdir);
 
 #                                    Target Script File       New Shebang        Expected line
@@ -911,7 +929,7 @@ sub test_Package_makeBackup {
     my $root = File::Spec->catfile( @root, 'x' );
     chop $root;
 
-    my $tempdir = $this->{tempdir} . '/test_util_installFiles';
+    my $tempdir = $this->tempdir . '/test_util_installFiles';
     eval { rmtree($tempdir) };    # Clean up old files if left behind
     mkpath($tempdir);
 
@@ -944,8 +962,8 @@ sub test_Package_makeBackup {
         notes => 'Testsandboxweb1234/TestTopic43/file.att',
         notes => 'Testsandboxweb1234/TestTopic43/file2.att',
         notes => 'configure/pkgdata/MyPlugin_installer',
-        notes => "$this->{scriptdir}/shbtest1",
-        notes => "$this->{toolsdir}/shbtest2"
+        notes => $this->scriptdir . "/shbtest1",
+        notes => $this->toolsdir . "/shbtest2"
     );
 
     $pkg->finish();
@@ -1151,11 +1169,11 @@ DONE
 
 sub test_Package_dependencies {
     my $this   = shift;
-    my $root   = $this->{rootdir};
+    my $root   = $this->rootdir;
     my $result = '';
     my $err    = '';
 
-    my $tempdir = $this->{tempdir} . '/test_util_installFiles';
+    my $tempdir = $this->tempdir . '/test_util_installFiles';
     eval { rmtree($tempdir) };    # Clean up old files if left behind
     mkpath($tempdir);
 
@@ -1163,7 +1181,7 @@ sub test_Package_dependencies {
 Test file data
 DONE
 
-    _makefile( "$this->{scriptdir}", "configure", <<'DONE');
+    _makefile( $this->scriptdir, "configure", <<'DONE');
 #! /my/bin/perl
 Test file data
 DONE
@@ -1214,11 +1232,11 @@ DONE
 
 sub test_Package_sub_install {
     my $this   = shift;
-    my $root   = $this->{rootdir};
+    my $root   = $this->rootdir;
     my $result = '';
     my $err    = '';
 
-    my $tempdir = $this->{tempdir} . '/test_util_installFiles';
+    my $tempdir = $this->tempdir . '/test_util_installFiles';
     eval { rmtree($tempdir) };    # Clean up old files if left behind
     mkpath($tempdir);
 
@@ -1226,7 +1244,7 @@ sub test_Package_sub_install {
 Test file data
 DONE
 
-    _makefile( "$this->{scriptdir}", "configure", <<'DONE');
+    _makefile( $this->scriptdir, "configure", <<'DONE');
 #! /my/bin/perl
 Test file data
 DONE
@@ -1331,7 +1349,7 @@ DONE
     # Verify that we don't change shebang in attachments
     _testShebang(
         $this,
-        "$Foswiki::cfg{PubDir}/$this->{sandbox_web}/TestTopic1/file.att",
+        "$Foswiki::cfg{PubDir}/" . $this->sandbox_web . "/TestTopic1/file.att",
         '#! /usr/bin/perl'
     );
 
@@ -1370,18 +1388,23 @@ DONE
     $this->sniff(
         notes =>
           "Installed:  bin/shbtest1 as $Foswiki::cfg{ScriptDir}/shbtest1",
-        notes =>
-"Checked in: data/Sandbox/Subweb/TestTopic43.txt  as $this->{sandbox_subweb}.TestTopic43",
-        notes =>
-"Attached:   pub/Sandbox/Subweb/TestTopic43/file3.att to $this->{sandbox_subweb}/TestTopic43",
+        notes => "Checked in: data/Sandbox/Subweb/TestTopic43.txt  as "
+          . $this->sandbox_subweb
+          . ".TestTopic43",
+        notes => "Attached:   pub/Sandbox/Subweb/TestTopic43/file3.att to "
+          . $this->sandbox_subweb
+          . "/TestTopic43",
         notes =>
 "Installed:  data/Sandbox/TestTopic1.txt as $Foswiki::cfg{DataDir}/$Foswiki::cfg{SandboxWebName}/TestTopic1.txt",
-        notes =>
-"Checked in: data/Sandbox/TestTopic43.txt  as $this->{sandbox_web}.TestTopic43",
-        notes =>
-"Attached:   pub/Sandbox/TestTopic43/file.att to $this->{sandbox_web}/TestTopic43",
-        notes =>
-"Attached:   pub/Sandbox/TestTopic43/file2.att to $this->{sandbox_web}/TestTopic43",
+        notes => "Checked in: data/Sandbox/TestTopic43.txt  as "
+          . $this->sandbox_web
+          . ".TestTopic43",
+        notes => "Attached:   pub/Sandbox/TestTopic43/file.att to "
+          . $this->sandbox_web
+          . "/TestTopic43",
+        notes => "Attached:   pub/Sandbox/TestTopic43/file2.att to "
+          . $this->sandbox_web
+          . "/TestTopic43",
         notes => "Installed:  data/mimedata as $Foswiki::cfg{DataDir}/mimedata",
         notes =>
 "Installed:  pub/Sandbox/Subweb/TestTopic43/subdir-1.2.3/file4.att as $Foswiki::cfg{PubDir}/$Foswiki::cfg{SandboxWebName}/Subweb/TestTopic43/subdir-1.2.3/file4.att",
@@ -1514,8 +1537,8 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)[- ]+perl m
     );
     $this->sniff(
         notes => 'configure/pkgdata/MyPlugin_installer',
-        notes => "$this->{scriptdir}/shbtest1",
-        notes => "$this->{toolsdir}/shbtest2",
+        notes => $this->scriptdir . "/shbtest1",
+        notes => $this->toolsdir . "/shbtest2",
     );
 
     $pkg2->finish();
@@ -1528,9 +1551,9 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)[- ]+perl m
 
 sub test_Package_install {
     my $this = shift;
-    my $root = $this->{rootdir};
+    my $root = $this->rootdir;
 
-    my $tempdir = $this->{tempdir} . '/test_util_installFiles';
+    my $tempdir = $this->tempdir . '/test_util_installFiles';
     eval { rmtree($tempdir) };    # Clean up old files if left behind
     mkpath($tempdir);
 
@@ -1658,7 +1681,7 @@ sub test_Util_createArchive_shellZip {
     my $file;
     my $rslt;
 
-    my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
+    my $tempdir = $this->tempdir . '/test_Util_createArchive';
     eval { rmtree($tempdir) };    # Clean up old files if left behind
 
     my $extension = "MyPlugin";
@@ -1709,7 +1732,7 @@ sub test_Util_createArchive_shellTar {
     my $file;
     my $rslt;
 
-    my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
+    my $tempdir = $this->tempdir . '/test_Util_createArchive';
     eval { rmtree($tempdir) };     # Clean up old files if left behind
 
     my $extension = "MyPlugin";
@@ -1761,7 +1784,7 @@ sub test_Util_createArchive_perlTar {
     my $file;
     my $rslt;
 
-    my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
+    my $tempdir = $this->tempdir . '/test_Util_createArchive';
     eval { rmtree($tempdir) };    # Clean up old files if left behind
 
     my $extension = "MyPlugin";
@@ -1804,7 +1827,7 @@ sub test_Util_createArchive_perlZip {
     my $file;
     my $rslt;
 
-    my $tempdir = $this->{tempdir} . '/test_Util_createArchive';
+    my $tempdir = $this->tempdir . '/test_Util_createArchive';
     eval { rmtree($tempdir) };     # Clean up old files if left behind
 
     my $extension = "MyPlugin";
@@ -1848,9 +1871,9 @@ sub test_Util_createArchive_perlZip {
 #
 sub test_Package_loadInstaller {
     my $this = shift;
-    my $root = $this->{rootdir};
+    my $root = $this->rootdir;
 
-    my $tempdir = $this->{tempdir} . '/test_Package_loadInstaller';
+    my $tempdir = $this->tempdir . '/test_Package_loadInstaller';
     eval { rmtree($tempdir) };    # Clean up old files if left behind
     mkpath($tempdir);
 
@@ -1908,7 +1931,7 @@ sub test_Load_expandValue {
 
 sub test_Package_fetchFile {
     my $this = shift;
-    my $root = $this->{_rootdir};
+    my $root = $this->rootdir;
 
     my $repository = {
         name => 'Foswiki',
@@ -1939,9 +1962,9 @@ sub test_Package_fetchFile {
 #
 sub test_Package_errors {
     my $this = shift;
-    my $root = $this->{rootdir};
+    my $root = $this->rootdir;
 
-    my $tempdir = $this->{tempdir} . '/test_Package_loadInstaller';
+    my $tempdir = $this->tempdir . '/test_Package_loadInstaller';
     eval { rmtree($tempdir) };    # Clean up old files if left behind
     mkpath($tempdir);
 
@@ -2000,9 +2023,9 @@ DONE
 #
 sub test_Package_errors_zip {
     my $this = shift;
-    my $root = $this->{rootdir};
+    my $root = $this->rootdir;
 
-    my $tempdir = $this->{tempdir} . '/test_Package_loadInstaller';
+    my $tempdir = $this->tempdir . '/test_Package_loadInstaller';
     eval { rmtree($tempdir) };    # Clean up old files if left behind
     mkpath($tempdir);
 
