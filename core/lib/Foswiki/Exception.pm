@@ -15,7 +15,9 @@ Basic principles behind exceptions:
    1. =Foswiki::Exception= is utilizing =Throwable= role. Requires this module to be installed.
    1. Exception classes inheritance shall form a tree of relationships for fine-grained error hadling.
    
-The latter item might be illustrated with the following expample (for inherited classes =Foswiki::Exception= prefix is skipped for simplicity though it is recommended for code readability):
+The latter item might be illustrated with the following expample (for inherited
+classes =Foswiki::Exception= prefix is skipped for simplicity though it is
+recommended for code readability):
 
    * Foswiki::Exception
       * Core
