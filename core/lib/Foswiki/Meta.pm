@@ -148,7 +148,7 @@ our $CHANGES_SUMMARY_PLAINTRUNC = 70;
 
 has _session => (
     is       => 'ro',
-    isa      => isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
+    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
     clearer  => 1,
     init_arg => 'session',
 );
@@ -181,6 +181,9 @@ has text => (
         $_[0]->loadVersion();
     },
 );
+
+# SMELL May get in conflict with Moo::Object::meta method. use metaData???
+# META???
 has meta => (
     is      => 'rw',
     lazy    => 1,
@@ -210,9 +213,10 @@ has _latestIsLoaded => (
     clearer => 1,
 );
 has _loadedRev => (
-    is      => 'rw',
-    lazy    => 1,
-    clearer => 1,
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
 );
 has _getRev1Info => (
     is      => 'rw',
@@ -467,7 +471,7 @@ sub BUILD {
 
     $this->meta->{FILEATTACHMENT} = [];
 
-    if ( $this->has_text ) {
+    if ( $this->has_text && defined $this->text ) {
 
         # User supplied topic body forces us to consider this as the
         # latest rev
@@ -587,14 +591,14 @@ sub unload {
       if $this->_session;
     $this->_clear_loadedRev;
     $this->_clear_latestIsLoaded;
-    $this->_clear_text;
+    $this->clear_text;
 
     # SMELL: _preferences object class must define DEMOLISH method and use to
     # finalize the object.
     $this->_clear_preferences;
 
     # Unload meta-data
-    $this->_clear_meta;
+    $this->clear_meta;
     $this->_clear_indices;
 }
 
@@ -620,8 +624,8 @@ sub finish {
 
     # SMELL vrurg Generally, it's not needed to clear these attributes manually
     # as this will be done automatically during normal object destruction.
-    $this->_clear_web;
-    $this->_clear_topic;
+    $this->clear_web;
+    $this->clear_topic;
     $this->_clear_session;
     if (DEBUG) {
 
@@ -718,7 +722,7 @@ sub getPreference {
 
     # make sure the preferences are parsed and cached
     unless ( $this->_has_preferences ) {
-        $this->_preferences( $this->session->{prefs}->loadPreferences($this) );
+        $this->_preferences( $this->_session->{prefs}->loadPreferences($this) );
     }
     return $this->_preferences->get($key);
 }
@@ -1476,7 +1480,7 @@ sub copyFrom {
     if ($type) {
         return if $type =~ m/^_/;
         my @data;
-        foreach my $item ( @{ $other->{$type} } ) {
+        foreach my $item ( @{ $other->meta->{$type} } ) {
             if ( !$filter
                 || ( $item->{name} && $item->{name} =~ m/$filter/ ) )
             {
@@ -1703,7 +1707,7 @@ sub merge {
     _assertIsTopic($this)  if DEBUG;
     _assertIsTopic($other) if DEBUG;
 
-    my $data = $other->{FIELD};
+    my $data = $other->meta->{FIELD};
     if ($data) {
         foreach my $otherD (@$data) {
             my $thisD = $this->get( 'FIELD', $otherD->{name} );
@@ -1730,7 +1734,7 @@ sub merge {
         }
     }
 
-    $data = $other->{FILEATTACHMENT};
+    $data = $other->meta->{FILEATTACHMENT};
     if ($data) {
         foreach my $otherD (@$data) {
             my $thisD = $this->get( 'FILEATTACHMENT', $otherD->{name} );
@@ -1856,7 +1860,7 @@ sub renderFormForDisplay {
             $result .= $form->renderForDisplay($this) if $form;
         }
         else {
-            $e->throw;
+            Foswiki::Exception->rethrow($e);
         }
     };
 
@@ -1901,7 +1905,11 @@ sub renderFormFieldForDisplay {
                   $field->renderForDisplay( $format, $mf->{value}, $attrs );
             }
         }
-        catch Foswiki::OopsException with {
+        catch {
+            my $e = $_;
+            if ( !$e->isa('Foswiki::OopsException') ) {
+                Foswiki::Exception->rethrow($e);
+            }
 
             # Form not found, ignore
         };
@@ -1986,7 +1994,7 @@ sub save {
           # can simply mark it as "the latest".
           # SMELL: this may not work if the beforeSaveHandler tries to use the
           # meta obj for access control checks, so that is not recommended.
-            $this->_loadedRev = $this->getLatestRev();
+            $this->_loadedRev( $this->getLatestRev() );
         }
 
         $plugins->dispatch( 'beforeSaveHandler', $text, $this->topic,
@@ -2156,8 +2164,8 @@ sub saveAs {
         my $checkSave =
           $this->_session->{store}->saveTopic( $this, $cUID, \%opts );
         ASSERT( $checkSave == $nextRev, "$checkSave != $nextRev" ) if DEBUG;
-        $this->_loadedRev      = $nextRev;
-        $this->_latestIsLoaded = 1;
+        $this->_loadedRev($nextRev);
+        $this->_latestIsLoaded(1);
 
         $this->_session->{store}->recordChange(
             cuid     => $cUID,
@@ -2167,9 +2175,13 @@ sub saveAs {
             minor    => $opts{minor},
         );
     }
+    catch {
+        Foswiki::Exception->rethrow($_);
+    }
     finally {
         $this->_atomicUnlock($cUID);
         $this->fireDependency();
+
     };
     return $this->_loadedRev;
 }
@@ -2320,6 +2332,9 @@ sub move {
             );
 
         }
+        catch {
+            Foswiki::Exception->rethrow($_);
+        }
         finally {
             $from->_atomicUnlock($cUID);
             $to->_atomicUnlock($cUID);
@@ -2403,6 +2418,9 @@ sub deleteMostRecentRevision {
         );
 
     }
+    catch {
+        Foswiki::Exception->rethrow($_);
+    }
     finally {
         $this->_atomicUnlock($cUID);
         $this->fireDependency();
@@ -2469,6 +2487,9 @@ sub replaceMostRecentRevision {
 
     try {
         $this->_session->{store}->repRev( $this, $info->{author}, @_ );
+    }
+    catch {
+        Foswiki::Exception->rethrow($_);
     }
     finally {
         $this->_atomicUnlock($cUID);
@@ -2581,7 +2602,7 @@ rev may not be the actual latest version.
 sub getLoadedRev {
     my $this = shift;
     _assertIsTopic($this) if DEBUG;
-    return $this->_loadedRev;
+    return ( $this->_has_loadedRev ? $this->_loadedRev : undef );
 }
 
 =begin TML
@@ -2596,7 +2617,8 @@ when a topic is read. Must be called by implementations of
 
 sub setLoadStatus {
     my $this = shift;
-    ( $this->_loadedRev, $this->_latestIsLoaded ) = @_;
+    $this->_loadedRev( $_[0] );
+    $this->_latestIsLoaded( $_[1] );
 }
 
 =begin TML
@@ -3011,6 +3033,9 @@ sub attach {
                     $attrs, $this->topic, $this->web );
             }
         }
+        catch {
+            Foswiki::Exception->rethrow($_);
+        }
         finally {
             $this->fireDependency();
         };
@@ -3226,6 +3251,9 @@ sub moveAttachment {
         );
 
     }
+    catch {
+        Foswiki::Exception->rethrow($_);
+    }
     finally {
         $to->_atomicUnlock($cUID);
         $this->_atomicUnlock($cUID);
@@ -3312,6 +3340,9 @@ sub copyAttachment {
             attachment    => $newName
         );
 
+    }
+    catch {
+        Foswiki::Exception->rethrow($_);
     }
     finally {
         $to->_atomicUnlock($cUID);

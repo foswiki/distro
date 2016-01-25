@@ -96,7 +96,7 @@ sub haveAccess {
     $mode = uc($mode);
 
     my ( $allow, $deny );
-    if ( $meta->{_topic} ) {
+    if ( $meta->has_topic ) {
 
         $allow = $this->_getACL( $meta, 'ALLOWTOPIC' . $mode );
         $deny  = $this->_getACL( $meta, 'DENYTOPIC' . $mode );
@@ -136,7 +136,7 @@ sub haveAccess {
         $meta = $meta->getContainer();    # Web
     }
 
-    if ( $meta->{_web} ) {
+    if ( $meta->has_web ) {
 
         $deny = $this->_getACL( $meta, 'DENYWEB' . $mode );
         if ( defined($deny)
@@ -203,7 +203,7 @@ sub haveAccess {
 sub _getACL {
     my ( $this, $meta, $mode ) = @_;
 
-    if ( defined $meta->topic && !defined $meta->getLoadedRev ) {
+    if ( $meta->has_topic && !defined $meta->getLoadedRev ) {
 
         # Lazy load the latest version.
         $meta->loadVersion();

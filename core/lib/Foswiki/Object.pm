@@ -79,7 +79,13 @@ sub BUILDARGS {
             }
         }
         unless ($isHash) {
-            @{$paramHash}{@newParameters} = @params;
+            ASSERT(
+                scalar(@params) <= scalar(@newParameters),
+"object constructor for class $class has received more parameters than defined in \@_newParameters"
+            ) if DEBUG;
+            while (@params) {
+                $paramHash->{ shift @newParameters } = shift @params;
+            }
         }
     }
 

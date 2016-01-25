@@ -16,7 +16,7 @@ Foswiki.
 
 use Moo;
 use namespace::clean;
-extends 'Unit::TestCase';
+extends qw( Unit::TestCase );
 
 # SMELL This property is a placeholder for test suite name parameter passed on
 # on object creation. Need to be reconsidered.

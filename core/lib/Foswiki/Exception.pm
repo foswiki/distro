@@ -60,20 +60,31 @@ BEGIN {
     }
 }
 
-has line       => ( is => 'rwp', );
-has file       => ( is => 'rwp', );
-has text       => ( is => 'ro', );
-has object     => ( is => 'ro', );
-has stacktrace => ( is => 'rwp', );
+has line => (
+    is        => 'rwp',
+    predicate => 1,
+);
+has file => (
+    is        => 'rwp',
+    predicate => 1,
+);
+has text   => ( is => 'ro', );
+has object => ( is => 'ro', );
+has stacktrace => (
+    is        => 'rwp',
+    predicate => 1,
+);
 
 sub BUILD {
     my $this = shift;
 
-    my $trace = Carp::longmess('');
-    $this->_set_stacktrace($trace);
+    unless ( $this->has_stacktrace ) {
+        my $trace = Carp::longmess('');
+        $this->_set_stacktrace($trace);
+    }
     my ( undef, $file, $line ) = caller;
-    $this->_set_file($file);
-    $this->_set_line($line);
+    $this->_set_file($file) unless $this->has_file;
+    $this->_set_line($line) unless $this->has_line;
 }
 
 sub stringify {
@@ -85,6 +96,53 @@ sub stringify {
         ? "\n" . $this->stacktrace
         : ' at ' . $this->file . ' line ' . $this->line
       );
+}
+
+=begin TML
+
+---++ ClassMethod rethrow($error)
+
+Receives any exception and rethrows it as Foswiki::Exception.
+
+=cut
+
+sub rethrow {
+    my $class = shift;
+    my ($e) = @_;
+
+    if ( ref($e) ) {
+        if ( $e->isa('Foswiki::Exception') ) {
+            $e->throw;
+        }
+        elsif ( $e->isa('Error') ) {
+            $class->throw(
+                text       => $e->text,
+                line       => $e->line,
+                file       => $e->file,
+                stacktrace => $e->stacktrace,
+                object     => $e->object,
+            );
+        }
+
+        # Wild cases where we've got non-exception objects. Generally it's a
+        # serious bug but we better try to provide as much information on what's
+        # happened as possible.
+        elsif ( $e->can('stringify') ) {
+            $class->throw( text => $e->stringify );
+        }
+        elsif ( $e->can('as_text') ) {
+            $class->throw( text => $e->as_text );
+        }
+        else {
+            # Finally we're no idea what kind of a object has been thrown to us.
+            $class->throw(
+                text => "Unknown kind of exception received: " . ref($e) );
+        }
+    }
+    else {
+        $class->throw( text => $e );
+    }
+
 }
 
 package Foswiki::Exception::ASSERT;

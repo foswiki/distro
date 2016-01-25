@@ -12,24 +12,15 @@ __WARNING__ this is only for Foswiki::Meta objects.
 =cut
 
 package Foswiki::Serialise::Embedded;
+use v5.14;
 
-use strict;
-use warnings;
 use Foswiki       ();
 use Foswiki::Meta ();
 use Assert;
 
-=begin TML
-
----++ ClassMethod new( $class,  ) -> $cereal
-
-=cut
-
-sub new {
-    my $class = shift;
-    my $this = bless( {}, $class );
-    return $this;
-}
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Object );
 
 # Generate the embedded store form of the topic. The embedded store
 # form has meta-data values embedded using %META: lines. The text
@@ -128,15 +119,15 @@ sub read {
         if ( $text =~ m/<!--TWikiAttachment-->/ ) {
             require Foswiki::Compatibility;
             $text = Foswiki::Compatibility::migrateToFileAttachmentMacro(
-                $meta->{_session}, $meta, $text );
+                $meta->_session, $meta, $text );
         }
 
         # The T-word string must remain unchanged for the compatibility
         if ( $text =~ m/<!--TWikiCat-->/ ) {
             require Foswiki::Compatibility;
             $text =
-              Foswiki::Compatibility::upgradeCategoryTable( $meta->{_session},
-                $meta->{_web}, $meta->{_topic}, $meta, $text );
+              Foswiki::Compatibility::upgradeCategoryTable( $meta->_session,
+                $meta->_web, $meta->_topic, $meta, $text );
         }
     }
     elsif ( $format eq '1.0beta' ) {
@@ -146,10 +137,10 @@ sub read {
         # The T-word string must remain unchanged for the compatibility
         if ( $text =~ m/<!--TWikiCat-->/ ) {
             $text =
-              Foswiki::Compatibility::upgradeCategoryTable( $meta->{_session},
-                $meta->{_web}, $meta->{_topic}, $meta, $text );
+              Foswiki::Compatibility::upgradeCategoryTable( $meta->_session,
+                $meta->_web, $meta->_topic, $meta, $text );
         }
-        Foswiki::Compatibility::upgradeFrom1v0beta( $meta->{_session}, $meta );
+        Foswiki::Compatibility::upgradeFrom1v0beta( $meta->_session, $meta );
         if ( $meta->count('TOPICMOVED') ) {
             my $moved = $meta->get('TOPICMOVED');
             $meta->put( 'TOPICMOVED', $moved );
@@ -227,7 +218,7 @@ sub _writeTypes {
         my %seen;
         @seen{@types} = ();
         @types = ();    # empty "not in list"
-        foreach my $key ( keys %$meta ) {
+        foreach my $key ( keys %{ $meta->meta } ) {
             push( @types, $key )
               unless ( exists $seen{$key} || $key =~ m/^_/ );
         }
@@ -235,7 +226,7 @@ sub _writeTypes {
 
     foreach my $type (@types) {
         next if ( $type =~ m/^_/ );
-        my $data = $meta->{$type};
+        my $data = $meta->meta->{$type};
         next if !defined $data;
         foreach my $item (@$data) {
             next if ( $item =~ m/^_/ );

@@ -682,6 +682,9 @@ sub captureSTD {
 
         $result = &$proc(@params);
     }
+    catch {
+        Foswiki::Exception->rethrow($_);
+    }
     finally {
         my $f;
         open( $f, '<', $stdoutfile )

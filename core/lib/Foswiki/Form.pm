@@ -29,14 +29,10 @@ of possible values.
 # intelligence is in the individual field types.
 
 package Foswiki::Form;
-use strict;
-use warnings;
-
-use Foswiki::Meta ();
-our @ISA = ('Foswiki::Meta');
+use v5.14;
 
 use Assert;
-use Error qw( :try );
+use Try::Tiny;
 
 use Foswiki::Sandbox                   ();
 use Foswiki::Form::FieldDefinition     ();
@@ -44,6 +40,10 @@ use Foswiki::Form::ListFieldDefinition ();
 use Foswiki::AccessControlException    ();
 use Foswiki::OopsException             ();
 use Foswiki::Func                      ();
+
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Meta );
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -61,6 +61,8 @@ my %reservedFieldNames = map { $_ => 1 }
 
 my @default_columns = qw/name type size value description attributes default/;
 my %valid_columns = map { $_ => 1 } @default_columns;
+
+our @_newParameters = qw(session web form def);
 
 =begin TML
 
