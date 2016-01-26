@@ -3782,28 +3782,35 @@ System.FormatTokens for a full list of supported tokens.
 sub expandStandardEscapes {
     my $text = shift;
 
-    $text =~
-s/\$((n(?=[^[:alpha:]]|$))|n\(\)|nop|quot|comma|perce?nt|lt|gt|amp)(?:\(\))?/&mysubst($1)/gse;
+    # expand '$n()' and $n! to new line
+    $text =~ s/\$n\(\)/\n/gs;
+    $text =~ s/\$n(?=[^[:alpha:]]|$)/\n/gs;
+
+    # filler, useful for nested search
+    $text =~ s/\$nop(\(\))?//gs;
+
+    # $quot -> "
+    $text =~ s/\$quot(\(\))?/\"/gs;
+
+    # $comma -> ,
+    $text =~ s/\$comma(\(\))?/,/gs;
+
+    # $percent -> %
+    $text =~ s/\$perce?nt(\(\))?/\%/gs;
+
+    # $lt -> <
+    $text =~ s/\$lt(\(\))?/\</gs;
+
+    # $gt -> >
+    $text =~ s/\$gt(\(\))?/\>/gs;
+
+    # $amp -> &
+    $text =~ s/\$amp(\(\))?/\&/gs;
 
     # $dollar -> $, done last to avoid creating the above tokens
     $text =~ s/\$dollar(\(\))?/\$/gs;
 
     return $text;
-}
-
-sub mysubst {
-    return '"' if $_[0] eq 'quot';
-    return '<' if $_[0] eq 'lt';
-    return '>' if $_[0] eq 'gt';
-    return '%' if ( $_[0] eq 'percent' | $_[0] eq 'percnt' );
-    return ',' if $_[0] eq 'comma';
-    return '&' if $_[0] eq 'amp';
-    return ''  if $_[0] eq 'nop';
-    return "\n" if ( $_[0] eq 'n' );
-
-   # SMELL. Since $n, the trailing () are required, the regex might match $n()()
-   # so this requires an exception.
-    return "\n()" if ( $_[0] eq 'n()' );
 }
 
 =begin TML
