@@ -245,7 +245,8 @@ FORM
 FORM
     $topicObject->save();
     $topicObject->finish();
-    my $def = new Foswiki::Form( $this->session, $this->test_web, 'TestForm' );
+    my $def =
+      Foswiki::Form->load( $this->session, $this->test_web, 'TestForm' );
 
     $this->assert_equals( 1, scalar @{ $def->getFields() } );
     my $f = $def->getField('Ecks');

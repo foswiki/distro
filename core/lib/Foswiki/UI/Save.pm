@@ -251,7 +251,8 @@ sub buildNewTopic {
 
     if ($formName) {
         require Foswiki::Form;
-        $formDef = new Foswiki::Form( $session, $topicObject->web, $formName );
+        $formDef =
+          Foswiki::Form->load( $session, $topicObject->web, $formName );
         $topicObject->put( 'FORM', { name => $formName } );
 
         # Remove fields that don't exist on the new form def.

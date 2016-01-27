@@ -64,9 +64,24 @@ my %valid_columns = map { $_ => 1 } @default_columns;
 
 our @_newParameters = qw(session web form def);
 
+has def => (
+    is        => 'ro',
+    lazy      => 1,
+    predicate => 1,
+);
+has fields => (
+    is   => 'rw',
+    lazy => 1,
+);
+has mandatoryFieldsPresent => (
+    is      => 'rw',
+    lazy    => 1,
+    default => 0,
+);
+
 =begin TML
 
----++ ClassMethod new ( $session, $web, $topic, \@def )
+---++ ClassMethod load ( $session, $web, $topic, \@def )
 
 Looks up a form in the session object or, if it hasn't been read yet,
 reads it from the form definition topic on disc.
@@ -84,71 +99,115 @@ in the database is protected against view.
 
 =cut
 
-sub new {
-    my ( $class, $session, $web, $form, $def ) = @_;
+sub _validateWebTopic {
+    my ( $session, $web, $form ) = @_;
 
     my ( $vweb, $vtopic ) = $session->normalizeWebTopicName( $web, $form );
-    my $this = $session->{forms}->{"$vweb.$vtopic"};
 
-    unless ($this) {
+    # Validating web/topic before usage.
+    $vweb =
+      Foswiki::Sandbox::untaint( $vweb, \&Foswiki::Sandbox::validateWebName );
+    $vtopic = Foswiki::Sandbox::untaint( $vtopic,
+        \&Foswiki::Sandbox::validateTopicName );
 
-        # A form name has to be a valid topic name after normalisation
-        $vweb = Foswiki::Sandbox::untaint( $vweb,
-            \&Foswiki::Sandbox::validateWebName );
-        $vtopic = Foswiki::Sandbox::untaint( $vtopic,
-            \&Foswiki::Sandbox::validateTopicName );
-        unless ( $vweb && $vtopic ) {
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'invalid_form_name',
-                web    => $session->{webName},
-                topic  => $session->{topicName},
-                params => [ $web, $form ]
-            );
-        }
+    unless ( $vweb && $vtopic ) {
+        Foswiki::OopsException->throw(
+            template => 'attention',
+            def      => 'invalid_form_name',
+            web      => $session->{webName},
+            topic    => $session->{topicName},
+            params   => [ $web, $form ]
+        );
+    }
 
-        # Got to have either a def or a topic
-        unless ( $def || $session->topicExists( $vweb, $vtopic ) ) {
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'no_form_def',
-                web    => $session->{webName},
-                topic  => $session->{topicName},
-                params => [ $vweb, $vtopic ]
-            );
-        }
+    return ( $vweb, $vtopic );
+}
 
-        $this = $class->SUPER::new( $session, $vweb, $vtopic );
+# XXX vrurg ClassMethod load() is supposed to replace the old new() method and
+# become a new constructor. Required to stay in compliance with Moo architecture
+# and avoid replacing of the standard new() method.
+sub load {
+    my ( $class, $session, $web, $form, $def ) = @_;
 
-        unless ( $def || $this->haveAccess('VIEW') ) {
-            throw Foswiki::AccessControlException( 'VIEW', $session->{user},
-                $vweb, $vtopic, $Foswiki::Meta::reason );
-        }
+    my ( $vweb, $vtopic ) = _validateWebTopic( $session, $web, $form );
 
-        if ( ref($this) ne 'Foswiki::Form' ) {
+    my $this;
+    if ( defined( $this = $session->{forms}->{"$vweb.$vtopic"} ) ) {
+        unless ( $this->isa('Foswiki::Form') ) {
 
             #recast if we have to - allowing the cache to work its magic
-            $this = bless( $this, 'Foswiki::Form' );
-        }
-
-        # cache the object before we've parsed it to prevent recursion
-        #when there are SEARCH / INCLUDE macros in the form definition
-        $session->{forms}->{"$vweb.$vtopic"} = $this;
-
-        unless ($def) {
-            $this->{fields} = $this->_parseFormDefinition();
-        }
-        elsif ( ref($def) eq 'ARRAY' ) {
-            $this->{fields} = $def;
-        }
-        else {
-
-            # Foswiki::Meta object
-            $this->{fields} = $this->_extractPseudoFieldDefs($def);
+            $this = bless $this, $class;
         }
     }
 
-    return $this;
+    return $this // $class->new(
+        session   => $session,
+        web       => $vweb,
+        topic     => $vtopic,
+        _via_load => 1,
+        ( defined $def ? ( def => $def ) : () ),
+    );
+}
+
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
+
+    my $params = $orig->( $class, @_ );
+
+    my $session = $params->{session};
+    my ( $vweb, $vtopic ) =
+      _validateWebTopic( $session, $params->{web}, $params->{form} );
+
+    # Avoid direct calls to $class::new().
+    ASSERT( $params->{_via_load},
+        "${class}::new() has been use directly. Use ${class}::load() instead."
+    );
+
+    # No more need to pollute properties with this key.
+    delete $params->{_via_load};
+
+    # Got to have either a def or a topic
+    unless ( $params->{def} || $session->topicExists( $vweb, $vtopic ) ) {
+        Foswiki::OopsException->throw(
+            'attention',
+            def    => 'no_form_def',
+            web    => $session->{webName},
+            topic  => $session->{topicName},
+            params => [ $vweb, $vtopic ]
+        );
+    }
+
+    return $params;
+};
+
+sub BUILD {
+    my $this = shift;
+
+    my $session = $this->session;
+    my $web     = $this->web;
+    my $topic   = $this->topic;
+
+    unless ( $this->has_def || $this->haveAccess('VIEW') ) {
+        Foswiki::AccessControlException->throw( 'VIEW', $session->{user},
+            $web, $topic, $Foswiki::Meta::reason );
+    }
+
+    # cache the object before we've parsed it to prevent recursion
+    #when there are SEARCH / INCLUDE macros in the form definition
+    $session->{forms}->{"$web.$topic"} = $this;
+
+    unless ( $this->has_def ) {
+        $this->fields( $this->_parseFormDefinition() );
+    }
+    elsif ( ref( $this->def ) eq 'ARRAY' ) {
+        $this->fields( $this->def );
+    }
+    else {
+
+        # Foswiki::Meta object
+        $this->fields( $this->_extractPseudoFieldDefs( $this->def ) );
+    }
 }
 
 =begin TML
@@ -161,14 +220,18 @@ Break circular references.
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
-sub finish {
+around finish => sub {
+    my $orig = shift;
     my $this = shift;
-    foreach ( @{ $this->{fields} } ) {
-        $_->finish();
-    }
-    undef $this->{fields};
-    $this->SUPER::finish();
-}
+
+    # vrurg The following commented out code shouldn't be needed anymore. Though
+    # I'd keep it here as a reminder.
+    #foreach ( @{ $this->fields } ) {
+    #    $_->finish();
+    #}
+    $this->clear_fields;
+    $orig->($this);
+};
 
 =begin TML
 
@@ -370,16 +433,24 @@ sub _parseFormDefinition {
             push( @fields, $fieldDef );
             %field = ();
 
-            $this->{mandatoryFieldsPresent} ||= $fieldDef->isMandatory();
+            $this->mandatoryFieldsPresent( $this->mandatoryFieldsPresent
+                  || $fieldDef->isMandatory() );
         }
     };
 
     try {
         Foswiki::Tables::Parser::parse( $text, $handler );
     }
-    catch Foswiki::Form::ParseFinished with {
+    catch {
 
-        # clean exit, fired when first table has been parsed
+        if ( $_->isa('Foswiki::Form::ParseFinished ') ) {
+
+            # clean exit, fired when first table has been parsed
+        }
+        else {
+            Foswiki::Exception->rethrow($_);
+        }
+
     };
 
     return \@fields;
@@ -470,7 +541,7 @@ sub _link {
 sub stringify {
     my $this = shift;
     my $fs   = "| *Name* | *Type* | *Size* | *Attributes* |\n";
-    foreach my $fieldDef ( @{ $this->{fields} } ) {
+    foreach my $fieldDef ( @{ $this->fields } ) {
         $fs .= $fieldDef->stringify();
     }
     return $fs;
@@ -493,7 +564,7 @@ sub renderForEdit {
     require CGI;
     my $session = $this->session;
 
-    if ( $this->{mandatoryFieldsPresent} ) {
+    if ( $this->mandatoryFieldsPresent ) {
         $session->enterContext('mandatoryfields');
     }
     my $tmpl = $session->templates->readTemplate('form');
@@ -503,7 +574,7 @@ sub renderForEdit {
     my ( $text, $repeatTitledText, $repeatUntitledText, $afterText ) =
       split( /%REPEAT%/, $tmpl );
 
-    foreach my $fieldDef ( @{ $this->{fields} } ) {
+    foreach my $fieldDef ( @{ $this->fields } ) {
 
         my $value;
         my $tooltip       = $fieldDef->{description};
@@ -586,7 +657,7 @@ sub renderHidden {
 
     my $text = '';
 
-    foreach my $field ( @{ $this->{fields} } ) {
+    foreach my $field ( @{ $this->fields } ) {
         $text .= $field->renderHidden($topicObject);
     }
 
@@ -622,7 +693,7 @@ sub getFieldValuesFromQuery {
     # order in the previous meta object. See Item1982.
     my @old = $topicObject->find('FIELD');
     $topicObject->remove('FIELD');
-    foreach my $fieldDef ( @{ $this->{fields} } ) {
+    foreach my $fieldDef ( @{ $this->fields } ) {
         my ( $set, $present ) =
           $fieldDef->populateMetaFromQueryData( $query, $topicObject, \@old );
         if ($present) {
@@ -674,7 +745,7 @@ define the field.
 
 sub getField {
     my ( $this, $name ) = @_;
-    foreach my $fieldDef ( @{ $this->{fields} } ) {
+    foreach my $fieldDef ( @{ $this->fields } ) {
         return $fieldDef if ( $fieldDef->{name} && $fieldDef->{name} eq $name );
     }
     return;
@@ -693,7 +764,7 @@ returned list should be treated as *read only* (must not be written to).
 
 sub getFields {
     my $this = shift;
-    return $this->{fields};
+    return $this->fields;
 }
 
 sub renderForDisplay {
@@ -707,7 +778,7 @@ sub renderForDisplay {
 
     my $rowTemplate        = $templates->expandTemplate('FORM:display:row');
     my $hasAllFieldsHidden = 1;
-    foreach my $fieldDef ( @{ $this->{fields} } ) {
+    foreach my $fieldDef ( @{ $this->fields } ) {
         my $fm = $topicObject->get( 'FIELD', $fieldDef->{name} );
         next unless $fm;
         my $fa = $fieldDef->{attributes} || '';

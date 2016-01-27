@@ -14,11 +14,14 @@ a specific type cannot be loaded.
 =cut
 
 package Foswiki::Form::FieldDefinition;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 use CGI ();
+
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Object );
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -26,6 +29,24 @@ BEGIN {
         import locale();
     }
 }
+
+has session        => ( is => 'ro', required  => 1, );
+has name           => ( is => 'ro', lazy      => 1, default => '', );
+has attributes     => ( is => 'ro', lazy      => 1, default => '', );
+has description    => ( is => 'ro', lazy      => 1, default => '', );
+has type           => ( is => 'ro', lazy      => 1, default => '', );
+has default        => ( is => 'rw', predicate => 1, );
+has validModifiers => ( is => 'ro', lazy      => 1, default => sub { [] }, );
+has value          => ( is => 'rw', lazy      => 1, );
+has title          => ( is => 'rw', lazy      => 1, );
+has definingTopic  => ( is => 'rw', lazy      => 1, );
+has showhidden     => ( is => 'rw', lazy      => 1, );
+has size => (
+    is      => 'ro',
+    lazy    => 1,
+    default => '',
+    coerce  => sub { $_[0] =~ s/^\s*//; $_[0] =~ s/\s*$//; return $_[0]; },
+);
 
 =begin TML
 
@@ -35,23 +56,6 @@ Construct a new FieldDefinition. Parameters are passed in a hash. See
 Form.pm for how it is called. Subclasses should pass @_ on to this class.
 
 =cut
-
-sub new {
-    my $class = shift;
-    my %attrs = @_;
-    ASSERT( $attrs{session} ) if DEBUG;
-
-    $attrs{name}        ||= '';
-    $attrs{attributes}  ||= '';
-    $attrs{description} ||= '';
-    $attrs{type}        ||= '';    # default
-    $attrs{size}        ||= '';
-    $attrs{size} =~ s/^\s*//;
-    $attrs{size} =~ s/\s*$//;
-    $attrs{validModifiers} ||= [];
-
-    return bless( \%attrs, $class );
-}
 
 =begin TML
 
@@ -63,19 +67,19 @@ Break circular references.
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-
-    undef $this->{name};
-    undef $this->{type};
-    undef $this->{size};
-    undef $this->{value};
-    undef $this->{description};
-    undef $this->{attributes};
-    undef $this->{default};
-
-    undef $this->{session};
-}
+#sub finish {
+#    my $this = shift;
+#
+#    undef $this->{name};
+#    undef $this->{type};
+#    undef $this->{size};
+#    undef $this->{value};
+#    undef $this->{description};
+#    undef $this->{attributes};
+#    undef $this->{default};
+#
+#    undef $this->{session};
+#}
 
 =begin TML
 
@@ -118,7 +122,7 @@ Is this field mandatory (required)?
 
 =cut
 
-sub isMandatory { return shift->{attributes} =~ m/M/ }
+sub isMandatory { return shift->attributes =~ m/M/ }
 
 =begin TML
 
@@ -136,11 +140,11 @@ sub renderForEdit {
     # Treat like text, make it reasonably long, add a warning
     return (
         '<br /><span class="foswikiAlert">MISSING TYPE '
-          . $this->{type}
+          . $this->type
           . '</span>',
         CGI::textfield(
             -class    => $this->cssClasses('foswikiAlert foswikiInputField'),
-            -name     => $this->{name},
+            -name     => $this->name,
             -size     => 80,
             -override => 1,
             -value    => $value,
@@ -180,8 +184,7 @@ the form definition. In that case this method should return =undef=.
 sub getDefaultValue {
     my $this = shift;
 
-    my $value =
-      ( exists( $this->{default} ) ? $this->{default} : $this->{value} );
+    my $value = ( $this->has_default ? $this->default : $this->value );
     $value = '' unless defined $value;    # allow 0 values
 
     return $value;
@@ -198,9 +201,9 @@ sub renderHidden {
     my ( $this, $meta ) = @_;
 
     my $value;
-    if ( $this->{name} ) {
-        my $field = $meta->get( 'FIELD', $this->{name} );
-        $value = $field->{value};
+    if ( $this->name ) {
+        my $field = $meta->get( 'FIELD', $this->name );
+        $value = $field->value;
     }
 
     my @values;
@@ -220,7 +223,7 @@ sub renderHidden {
 
     return '' unless scalar(@values);
 
-    return CGI::hidden( -name => $this->{name}, -default => \@values );
+    return CGI::hidden( -name => $this->name, -default => \@values );
 }
 
 =begin TML
@@ -244,16 +247,16 @@ sub populateMetaFromQueryData {
     my $value;
     my $bPresent = 0;
 
-    return unless $this->{name};
+    return unless $this->name;
 
     my %names = map { $_ => 1 } $query->multi_param;
 
-    if ( $names{ $this->{name} } ) {
+    if ( $names{ $this->name } ) {
 
         # Field is present in the request
         $bPresent = 1;
         if ( $this->isMultiValued() ) {
-            my @values = $query->multi_param( $this->{name} );
+            my @values = $query->multi_param( $this->name );
 
             if ( scalar(@values) == 1 && defined $values[0] ) {
                 @values = split( /,|%2C/, $values[0] );
@@ -268,7 +271,7 @@ sub populateMetaFromQueryData {
                 $vset{$val} = ( defined $val && $val =~ m/\S/ );
             }
             $value = '';
-            my $isValues = ( $this->{type} =~ m/\+values/ );
+            my $isValues = ( $this->type =~ m/\+values/ );
 
             foreach my $option ( @{ $this->getOptions() } ) {
                 $option =~ s/^.*?[^\\]=(.*)$/$1/ if $isValues;
@@ -285,9 +288,9 @@ sub populateMetaFromQueryData {
             # Default the value to the empty string (undef would result
             # in the old value being restored)
             # Note: we test for 'defined' because value can also be 0 (zero)
-            $value = $query->param( $this->{name} );
+            $value = $query->param( $this->name );
             $value = '' unless defined $value;
-            if ( $this->{session}->inContext('edit') ) {
+            if ( $this->session->inContext('edit') ) {
                 $value = Foswiki::expandStandardEscapes($value);
             }
         }
@@ -296,7 +299,7 @@ sub populateMetaFromQueryData {
     # Find the old value of this field
     my $preDef;
     foreach my $item (@$old) {
-        if ( $item->{name} eq $this->{name} ) {
+        if ( $item->name eq $this->name ) {
             $preDef = $item;
             last;
         }
@@ -312,14 +315,14 @@ sub populateMetaFromQueryData {
 
         # NOTE: title and name are stored in the topic so that it can be
         # viewed without reading in the form definition
-        my $title = $this->{title};
-        if ( $this->{definingTopic} ) {
-            $title = '[[' . $this->{definingTopic} . '][' . $title . ']]';
+        my $title = $this->title;
+        if ( $this->definingTopic ) {
+            $title = '[[' . $this->definingTopic . '][' . $title . ']]';
         }
         $def = $this->createMetaKeyValues(
             $query, $meta,
             {
-                name  => $this->{name},
+                name  => $this->name,
                 title => $title,
                 value => $value
             }
@@ -389,14 +392,14 @@ Foswiki::Render::protectFormFieldValue.
 sub renderForDisplay {
     my ( $this, $format, $value, $attrs ) = @_;
 
-    if ( !$attrs->{showhidden} ) {
-        my $fa = $this->{attributes} || '';
+    if ( !$attrs->showhidden ) {
+        my $fa = $this->attributes || '';
         if ( $fa =~ m/H/ ) {
             return '';
         }
     }
 
-    my $title = $this->{title};    # default
+    my $title = $this->title;    # default
     $title = $attrs->{usetitle} if defined $attrs->{usetitle};
 
     require Foswiki::Render;
@@ -411,11 +414,13 @@ sub renderForDisplay {
         my $v = Foswiki::Render::protectFormFieldValue( $value, $attrs );
         $format =~ s/\$value/$v/g;
     }
-    $format =~ s/\$name/$this->{name}/g;
-    $format =~ s/\$attributes/$this->{attributes}/g;
-    $format =~ s/\$type/$this->{type}/g;
-    $format =~ s/\$size/$this->{size}/g;
-    my $definingTopic = $this->{definingTopic} || 'FIELD';
+    my ( $name, $attributes, $type, $size ) =
+      ( $this->name, $this->attributes, $this->type, $this->size );
+    $format =~ s/\$name/$name/g;
+    $format =~ s/\$attributes/$attributes/g;
+    $format =~ s/\$type/$type/g;
+    $format =~ s/\$size/$size/g;
+    my $definingTopic = $this->definingTopic || 'FIELD';
     $format =~ s/\$definingTopic/$definingTopic/g;
 
     # remove nop exclamation marks from form field value before it is put
@@ -448,10 +453,10 @@ sub getDisplayValue {
 sub stringify {
     my $this = shift;
     my $s    = '| '
-      . $this->{name} . ' | '
-      . $this->{type} . ' | '
-      . $this->{size} . ' | '
-      . $this->{attributes} . " |\n";
+      . $this->name . ' | '
+      . $this->type . ' | '
+      . $this->size . ' | '
+      . $this->attributes . " |\n";
     return $s;
 }
 

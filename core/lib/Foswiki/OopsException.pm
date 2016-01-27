@@ -105,8 +105,9 @@ BEGIN {
 }
 
 has template => (
-    is      => 'rwp',
-    default => ''
+    is       => 'rwp',
+    default  => '',
+    required => 1,
 );
 has web => (
     is      => 'ro',
@@ -160,10 +161,16 @@ sub BUILD {
 }
 
 around BUILDARGS => sub {
-    my $orig     = shift;
-    my $class    = shift;
-    my $template = shift;
-    return $orig->( $class, template => $template, @_ );
+    my $orig  = shift;
+    my $class = shift;
+
+    # Check if we have received a valid key/value pair parameters including
+    # template => 'tmpl'.
+    if ( ( @_ % 2 == 1 ) && ( scalar(@_) > 1 || ref( $_[0] ) ne 'HASH' ) ) {
+        my $template = shift;
+        return $orig->( $class, template => $template, @_ );
+    }
+    return $orig->( $class, @_ );
 };
 
 =begin TML

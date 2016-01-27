@@ -1844,7 +1844,7 @@ sub renderFormForDisplay {
     my $form;
     my $result;
     try {
-        $form = new Foswiki::Form( $this->_session, $this->_web, $fname );
+        $form = Foswiki::Form->load( $this->_session, $this->_web, $fname );
         $result = $form->renderForDisplay($this);
     }
     catch {
@@ -1853,7 +1853,7 @@ sub renderFormForDisplay {
 
             # Make pseudo-form from field data
             $form =
-              new Foswiki::Form( $this->_session, $this->web, $fname, $this );
+              Foswiki::Form->load( $this->_session, $this->web, $fname, $this );
             $result =
               $this->_session->inlineAlert( 'alerts', 'formdef_missing',
                 $fname );
@@ -1897,7 +1897,8 @@ sub renderFormFieldForDisplay {
         require Foswiki::Form;
         my $result;
         try {
-            my $form = new Foswiki::Form( $this->_session, $this->web, $fname );
+            my $form =
+              Foswiki::Form->load( $this->_session, $this->web, $fname );
             my $field = $form->getField($name);
             if ($field) {
                 $attrs->{usetitle} = $mf->{title};
