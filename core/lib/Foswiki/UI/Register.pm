@@ -1234,18 +1234,22 @@ sub _complete {
         }
         else {
 
+            if ( !ref($e) ) {
+                Foswiki::Exception->rethrow($e);
+            }
+
             $users->removeUser( $data->{LoginName}, $data->{WikiName} )
               if ( $users->userExists( $data->{WikiName} ) );
 
             # Log the error
             $session->logger->log( 'warning',
                 'Registration failed: ' . $e->stringify() );
-            throw Foswiki::OopsException(
-                'register',
-                web    => $data->{webName},
-                topic  => $topic,
-                def    => 'problem_adding',
-                params => [ $data->{WikiName}, $e->stringify() ]
+            Foswiki::OopsException->throw(
+                template => 'register',
+                web      => $data->{webName},
+                topic    => $topic,
+                def      => 'problem_adding',
+                params   => [ $data->{WikiName}, $e->stringify() ]
             );
         }
     };

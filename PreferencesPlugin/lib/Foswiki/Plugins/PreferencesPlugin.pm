@@ -57,7 +57,7 @@ sub beforeCommonTagsHandler {
         # SMELL: Unpublished API. No choice, though :-(
         require Foswiki::Form;    # SMELL
         $formDef =
-          new Foswiki::Form( $Foswiki::Plugins::SESSION, $formWeb, $form );
+          Foswiki::Form->load( $Foswiki::Plugins::SESSION, $formWeb, $form );
     }
 
     my $query = Foswiki::Func::getCgiQuery();

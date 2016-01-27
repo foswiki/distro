@@ -143,7 +143,7 @@ sub load {
     return $this // $class->new(
         session   => $session,
         web       => $vweb,
-        topic     => $vtopic,
+        form      => $vtopic,
         _via_load => 1,
         ( defined $def ? ( def => $def ) : () ),
     );
@@ -158,6 +158,9 @@ around BUILDARGS => sub {
     my $session = $params->{session};
     my ( $vweb, $vtopic ) =
       _validateWebTopic( $session, $params->{web}, $params->{form} );
+
+    # Cast form into topic to as our base Foswiki::Meta knows it.
+    $params->{topic} = $vtopic;
 
     # Avoid direct calls to $class::new().
     ASSERT( $params->{_via_load},
@@ -300,12 +303,6 @@ sub _parseFormDefinition {
     my $text   = $this->text();
     $text = '' unless defined $text;
 
-    {
-
-        package Foswiki::Form::ParseFinished;
-        our @ISA = ('Error');
-    }
-
     # Valid column titles, in default order.
     my @columns   = @default_columns;
     my $col       = 0;
@@ -357,7 +354,7 @@ sub _parseFormDefinition {
         if ( $event eq 'close_table' ) {
 
             # Abort the parse after the first table has been read
-            throw Foswiki::Form::ParseFinished;
+            Foswiki::Form::ParseFinished->throw;
         }
 
         if ( $event eq 'close_tr' ) {
@@ -443,7 +440,7 @@ sub _parseFormDefinition {
     }
     catch {
 
-        if ( $_->isa('Foswiki::Form::ParseFinished ') ) {
+        if ( $_->isa('Foswiki::Form::ParseFinished') ) {
 
             # clean exit, fired when first table has been parsed
         }
@@ -483,7 +480,7 @@ sub createField {
         require Foswiki::Form::FieldDefinition;
         $class = 'Foswiki::Form::FieldDefinition';
     }
-    return $class->new( session => $this->session(), type => $type, @_ );
+    return $class->new( session => $this->session, type => $type, @_ );
 }
 
 # Generate a link to the given topic, so we can bring up details in a
@@ -829,6 +826,11 @@ sub _extractPseudoFieldDefs {
     return \@fieldDefs;
 }
 
+1;
+
+package Foswiki::Form::ParseFinished;
+use Moo;
+extends qw( Foswiki::Exception );
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
