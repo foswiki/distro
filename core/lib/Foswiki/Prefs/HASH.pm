@@ -13,12 +13,14 @@ hash.
 # methods.
 
 package Foswiki::Prefs::HASH;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+with qw( Foswiki::Prefs::BaseBackend );
 
-use Foswiki::Prefs::BaseBackend ();
-our @ISA = qw(Foswiki::Prefs::BaseBackend);
+our @_newParameters = qw(values);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -27,22 +29,37 @@ BEGIN {
     }
 }
 
-sub new {
-    my ( $proto, $values ) = @_;
+has _values => (
+    is        => 'ro',
+    predicate => 1,
+    clearer   => 1,
+    isa       => Foswiki::Object::isaHASH( 'values', noUndef => 1, ),
+    init_arg  => 'values',
+);
+has _prefs => (
+    is      => 'rw',
+    clearer => 1,
+    lazy    => 1,
+    default => sub { {} },
+    isa     => Foswiki::Object::isaHASH( '_prefs', noUndef => 1, ),
+);
 
-    my $this = $proto->SUPER::new();
-    while ( my ( $key, $value ) = each %$values ) {
-        $this->insert( 'Set', $key, $value );
+sub BUILD {
+    my $this = shift;
+    if ( $this->_has_values ) {
+        while ( my ( $key, $value ) = each %{ $this->_values } ) {
+            $this->insert( 'Set', $key, $value );
+        }
     }
 
-    return $this;
+    # _values serve as intermidiate storage only until object constuction is
+    # done. No need to waste extra memory on them.
+    $this->_clear_values;
 }
-
-sub finish { }
 
 sub prefs {
     my $this = shift;
-    return keys %$this;
+    return keys %{ $this->_prefs };
 }
 
 sub localPrefs {
@@ -51,7 +68,7 @@ sub localPrefs {
 
 sub get {
     my ( $this, $key ) = @_;
-    return $this->{$key};
+    return $this->_prefs->{$key};
 }
 
 sub getLocal {
@@ -62,7 +79,7 @@ sub insert {
     my ( $this, $type, $key, $value ) = @_;
 
     $this->cleanupInsertValue( \$value );
-    $this->{$key} = $value;
+    $this->_prefs->{$key} = $value;
     return 1;
 }
 

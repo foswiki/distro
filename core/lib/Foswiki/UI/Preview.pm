@@ -58,7 +58,7 @@ sub preview {
     if ($form) {
         $formName = $form->{name};    # used later on as well
         require Foswiki::Form;
-        my $formDef = Foswiki::Form->load( $session, $web, $formName );
+        my $formDef = Foswiki::Form->loadCached( $session, $web, $formName );
         unless ($formDef) {
             throw Foswiki::OopsException(
                 'attention',

@@ -29,6 +29,7 @@ use Unit::Request();
 use Unit::Response();
 use Foswiki::UI::Register();
 use Try::Tiny;
+use Carp qw(cluck);
 
 our @mails;
 
@@ -36,7 +37,7 @@ use Moo;
 use namespace::clean;
 extends qw(FoswikiTestCase);
 
-has suite => (
+has testSuite => (
     is       => 'ro',
     required => 1,
 );
@@ -45,19 +46,19 @@ has test_web => (
     lazy    => 1,
     clearer => 1,
     builder => sub {
-        my $suite = $_[0]->suite;
-        return 'Temporary' . $suite . 'TestWeb' . $suite;
+        my $testSuite = $_[0]->testSuite;
+        return 'Temporary' . $testSuite . 'TestWeb' . $testSuite;
     },
 );
 has test_topic => (
     is      => 'rw',
     lazy    => 1,
-    builder => sub { return 'TestTopic' . $_[0]->suite; },
+    builder => sub { return 'TestTopic' . $_[0]->testSuite; },
 );
 has users_web => (
     is      => 'rw',
     lazy    => 1,
-    builder => sub { return 'Temporary' . $_[0]->suite . 'UsersWeb'; },
+    builder => sub { return 'Temporary' . $_[0]->testSuite . 'UsersWeb'; },
 );
 has test_user_forename => ( is => 'rw', );
 has test_user_surname  => ( is => 'rw', );

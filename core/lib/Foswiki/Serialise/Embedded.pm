@@ -218,7 +218,7 @@ sub _writeTypes {
         my %seen;
         @seen{@types} = ();
         @types = ();    # empty "not in list"
-        foreach my $key ( keys %{ $meta->meta } ) {
+        foreach my $key ( keys %{ $meta->metaData } ) {
             push( @types, $key )
               unless ( exists $seen{$key} || $key =~ m/^_/ );
         }
@@ -226,7 +226,7 @@ sub _writeTypes {
 
     foreach my $type (@types) {
         next if ( $type =~ m/^_/ );
-        my $data = $meta->meta->{$type};
+        my $data = $meta->metaData->{$type};
         next if !defined $data;
         foreach my $item (@$data) {
             next if ( $item =~ m/^_/ );

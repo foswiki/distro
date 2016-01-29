@@ -178,7 +178,8 @@ sub upgradeCategoryTable {
         }
 
         require Foswiki::Form;
-        my $def = Foswiki::Form->load( $session, $web, $defaultFormTemplate );
+        my $def =
+          Foswiki::Form->loadCached( $session, $web, $defaultFormTemplate );
         $meta->put( 'FORM', { name => $defaultFormTemplate } );
 
         foreach my $fieldDef ( @{ $def->getFields() } ) {

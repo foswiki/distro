@@ -14,9 +14,10 @@ simply returns the recognized settings in the order it sees them in.
 =cut
 
 package Foswiki::Prefs::Parser;
-
+use v5.14;
 use strict;
 use warnings;
+
 use Assert;
 
 use Foswiki ();
@@ -43,7 +44,7 @@ sub parse {
     my $key   = '';
     my $value = '';
     my $type;
-    my $text = $topicObject->text();
+    my $text = $topicObject->text;
     $text = '' unless defined $text;
 
     foreach ( split( "\n", $text ) ) {

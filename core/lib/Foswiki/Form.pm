@@ -70,8 +70,9 @@ has def => (
     predicate => 1,
 );
 has fields => (
-    is   => 'rw',
-    lazy => 1,
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
 );
 has mandatoryFieldsPresent => (
     is      => 'rw',
@@ -126,7 +127,8 @@ sub _validateWebTopic {
 # XXX vrurg ClassMethod load() is supposed to replace the old new() method and
 # become a new constructor. Required to stay in compliance with Moo architecture
 # and avoid replacing of the standard new() method.
-sub load {
+# SMELL Foswiki::Meta already defines load() method. Need another name.
+sub loadCached {
     my ( $class, $session, $web, $form, $def ) = @_;
 
     my ( $vweb, $vtopic ) = _validateWebTopic( $session, $web, $form );
@@ -144,7 +146,7 @@ sub load {
         session   => $session,
         web       => $vweb,
         form      => $vtopic,
-        _via_load => 1,
+        _indirect => 1,
         ( defined $def ? ( def => $def ) : () ),
     );
 }
@@ -163,12 +165,12 @@ around BUILDARGS => sub {
     $params->{topic} = $vtopic;
 
     # Avoid direct calls to $class::new().
-    ASSERT( $params->{_via_load},
-        "${class}::new() has been use directly. Use ${class}::load() instead."
+    ASSERT( $params->{_indirect},
+"${class}::new() has been use directly. Use ${class}->loadCached() instead."
     );
 
     # No more need to pollute properties with this key.
-    delete $params->{_via_load};
+    delete $params->{_indirect};
 
     # Got to have either a def or a topic
     unless ( $params->{def} || $session->topicExists( $vweb, $vtopic ) ) {

@@ -17,7 +17,7 @@ around BUILDARGS => sub {
 
     # We need to override the suite parameter.
     my %args = @_;
-    $args{suite} = 'SortedHeadTests';
+    $args{testSuite} = 'SortedHeadTests';
     return $orig->( $class, %args );
 };
 

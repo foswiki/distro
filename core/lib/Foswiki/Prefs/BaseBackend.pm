@@ -10,44 +10,15 @@ document the interface and provide facilities methods.
 =cut
 
 package Foswiki::Prefs::BaseBackend;
+use v5.14;
 
-use strict;
-use warnings;
-use Assert;
+use Moo::Role;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
-=begin TML
-
----++ ClassMethod new(@_)
-
-Creates a preferences backend object.
-
-=cut
-
-sub new {
-    my ( $proto, $values ) = @_;
-    my $class = ref($proto) || $proto;
-
-    return bless {}, $class;
-}
-
-=begin TML
-
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-sub finish { }
+requires 'prefs';
+requires 'localPrefs';
+requires 'get';
+requires 'getLocal';
+requires 'insert';
 
 =begin TML
 
@@ -57,9 +28,9 @@ Return a list with the names of defined preferences.
 
 =cut
 
-sub prefs {
-    ASSERT('Pure virtual method - child classes must redefine');
-}
+#sub prefs {
+#    ASSERT('Pure virtual method - child classes must redefine');
+#}
 
 =begin TML
 
@@ -69,9 +40,9 @@ Return a list with the names of 'Local' preferences.
 
 =cut
 
-sub localPrefs {
-    ASSERT('Pure virtual method - child classes must redefine');
-}
+#sub localPrefs {
+#    ASSERT('Pure virtual method - child classes must redefine');
+#}
 
 =begin TML
 
@@ -81,9 +52,9 @@ Return the value of the preference $key.
 
 =cut
 
-sub get {
-    ASSERT('Pure virtual method - child classes must redefine');
-}
+#sub get {
+#    ASSERT('Pure virtual method - child classes must redefine');
+#}
 
 =begin TML
 
@@ -93,9 +64,9 @@ Return the 'Local' value of the preference $key.
 
 =cut
 
-sub getLocal {
-    ASSERT('Pure virtual method - child classes must redefine');
-}
+#sub getLocal {
+#    ASSERT('Pure virtual method - child classes must redefine');
+#}
 
 =begin TML
 
@@ -105,9 +76,9 @@ Insert the preference named $key as $value. $type can be 'Local' or 'Set'.
 
 =cut
 
-sub insert {
-    ASSERT('Pure virtual method - child classes must redefine');
-}
+#sub insert {
+#    ASSERT('Pure virtual method - child classes must redefine');
+#}
 
 =begin TML
 

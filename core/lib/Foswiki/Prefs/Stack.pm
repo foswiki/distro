@@ -23,9 +23,14 @@ This class deals with this stuff and must be used only by =Foswiki::Prefs=
 =cut
 
 package Foswiki::Prefs::Stack;
-use strict;
-use warnings;
+use v5.14;
 use bytes;
+
+use Storable qw( dclone );
+
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Object );
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -34,24 +39,39 @@ BEGIN {
     }
 }
 
-=begin TML
+has final => (
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    isa       => Foswiki::Object::isaHASH( 'final', noUndef => 1, ),
+    default => sub { {} },
+);
+has levels => (
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    isa       => Foswiki::Object::isaARRAY( 'final', noUndef => 1, ),
+    default => sub { [] },
+);
+has map => (
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    isa       => Foswiki::Object::isaHASH( 'final', noUndef => 1, ),
+    default => sub { {} },
+);
 
----++ ClassMethod new( $session )
-
-Creates a new Stack object. 
-
-=cut
-
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $proto = shift;
+
     my $class = ref($proto) || $proto;
-    my $this  = {
-        'final'  => {},    # Map preferences to the level the were finalized.
-        'levels' => [],    # Maps leves to the corresponding backend objects.
-        'map'    => {},    # Associate each preference with its bitstring map.
-    };
-    return bless $this, $class;
-}
+
+    return $orig->( $class, @_ );
+};
 
 =begin TML
 
@@ -66,14 +86,14 @@ Break circular references.
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
-    undef $this->{'final'};
-    if ( $this->{'levels'} ) {
-        foreach my $back ( @{ $this->{'levels'} } ) {
+    $this->clear_final;
+    if ( $this->has_levels ) {
+        foreach my $back ( @{ $this->levels } ) {
             $back->finish();
         }
     }
-    undef $this->{'levels'};
-    undef $this->{'map'};
+    $this->clear_levels;
+    $this->clear_map;
 }
 
 =begin TML
@@ -85,7 +105,7 @@ Returns the size of the stack in number of levels.
 =cut
 
 sub size {
-    return scalar( @{ $_[0]->{levels} } );
+    return scalar( @{ $_[0]->levels } );
 }
 
 =begin TML
@@ -98,7 +118,7 @@ consider that number from the top of the stack. -1 means the top element.
 =cut
 
 sub backAtLevel {
-    return $_[0]->{levels}->[ $_[1] ];
+    return $_[0]->levels->[ $_[1] ];
 }
 
 =begin TML
@@ -112,8 +132,8 @@ finalized *in* $level or it's not finalized, returns true.
 
 sub finalizedBefore {
     my ( $this, $key, $level ) = @_;
-    $level += @{ $this->{levels} } if $level < 0;
-    return exists $this->{final}{$key} && $this->{final}{$key} < $level;
+    $level += @{ $this->levels } if $level < 0;
+    return exists $this->final->{$key} && $this->final->{$key} < $level;
 }
 
 =begin TML
@@ -126,7 +146,7 @@ Returns true if $pref in finalized.
 
 sub finalized {
     my ( $this, $key ) = @_;
-    return exists $this->{final}{$key};
+    return exists $this->final->{$key};
 }
 
 =begin TML
@@ -138,7 +158,7 @@ Returns a list with the name of all defined prefs in the stack.
 =cut
 
 sub prefs {
-    return keys %{ $_[0]->{'map'} };
+    return keys %{ $_[0]->map };
 }
 
 =begin TML
@@ -150,7 +170,7 @@ Returns true if $pref is defined somewhere in the stack.
 =cut
 
 sub prefIsDefined {
-    return exists $_[0]->{'map'}{ $_[1] };
+    return exists $_[0]->map->{ $_[1] };
 }
 
 =begin TML
@@ -167,14 +187,14 @@ Returns the number of inserted preferences (0 or 1).
 sub insert {
     my $this = shift;
 
-    my $back = $this->{levels}->[-1];
+    my $back = $this->levels->[-1];
     my $num  = $back->insert(@_);
 
     my $key = $_[1];
-    $this->{'map'}{$key} = '' unless exists $this->{'map'}{$key};
+    $this->map->{$key} = '' unless exists $this->map->{$key};
 
-    my $level = $#{ $this->{levels} };
-    vec( $this->{'map'}{$key}, $level, 1 ) = 1;
+    my $level = $#{ $this->levels };
+    vec( $this->map->{$key}, $level, 1 ) = 1;
 
     return $num;
 }
@@ -193,19 +213,19 @@ MYPLUGIN_PREF. In this example $prefix is MYPLUGIN_.
 sub newLevel {
     my ( $this, $back, $prefix ) = @_;
 
-    push @{ $this->{levels} }, $back;
-    my $level = $#{ $this->{levels} };
+    push @{ $this->levels }, $back;
+    my $level = $#{ $this->levels };
     $prefix ||= '';
     foreach ( map { $prefix . $_ } $back->prefs ) {
-        next if exists $this->{final}{$_};
-        $this->{'map'}{$_} = '' unless exists $this->{'map'}{$_};
-        vec( $this->{'map'}{$_}, $level, 1 ) = 1;
+        next if exists $this->final->{$_};
+        $this->map->{$_} = '' unless exists $this->map->{$_};
+        vec( $this->map->{$_}, $level, 1 ) = 1;
     }
 
     my @finalPrefs = split /[,\s]+/, ( $back->get('FINALPREFERENCES') || '' );
     foreach (@finalPrefs) {
-        $this->{final}{$_} = $level
-          unless exists $this->{final}{$_};
+        $this->final->{$_} = $level
+          unless exists $this->final->{$_};
     }
 
     return $back;
@@ -222,7 +242,7 @@ Returns the $level in which $pref was defined or undef if it's not defined.
 sub getDefinitionLevel {
     my ( $this, $pref ) = @_;
     return
-      exists $this->{'map'}{$pref} ? _getLevel( $this->{'map'}{$pref} ) : undef;
+      exists $this->map->{$pref} ? _getLevel( $this->map->{$pref} ) : undef;
 }
 
 # Used to get the level of the highest 1, given a bitstring map.
@@ -248,7 +268,7 @@ the same stack for Web and Web/Subweb.
 
 sub getPreference {
     my ( $this, $key, $level ) = @_;
-    my $map = $this->{'map'}{$key};
+    my $map = $this->map->{$key};
     return unless defined $map;
     if ( defined $level ) {
         my $mask =
@@ -259,7 +279,7 @@ sub getPreference {
           while length($map) > 0 && ord( substr( $map, -1 ) ) == 0;
         return unless length($map) > 0;
     }
-    return $this->{levels}->[ _getLevel($map) ]->get($key);
+    return $this->levels->[ _getLevel($map) ]->get($key);
 }
 
 =begin TML
@@ -274,10 +294,16 @@ $level. If no $level is given, the resulting object is an extac copy.
 sub clone {
     my ( $this, $level ) = @_;
 
-    my $clone = $this->new();
-    $clone->{'map'}    = { %{ $this->{'map'} } };
-    $clone->{'levels'} = [ @{ $this->{levels} } ];
-    $clone->{'final'}  = { %{ $this->{final} } };
+    my $clone = $this->new;
+
+    # SMELL vrurg Not sure but Storable would do the job faster and more
+    # reliable with respect to avoiding of circular references.
+    #$clone->map( { %{ $this->map } } );
+    #$clone->levels( [ @{ $this->levels } ] );
+    #$clone->final( { %{ $this->final } } );
+    $clone->map( dclone( $this->map ) );
+    $clone->levels( dclone( $this->levels ) );
+    $clone->final( dclone( $this->final ) );
     $clone->restore($level) if defined $level;
 
     return $clone;
@@ -294,23 +320,23 @@ Restores tha stack to the state it was in the given $level.
 sub restore {
     my ( $this, $level ) = @_;
 
-    my @keys = grep { $this->{final}{$_} > $level } keys %{ $this->{final} };
-    delete @{ $this->{final} }{@keys};
-    splice @{ $this->{levels} }, $level + 1;
+    my @keys = grep { $this->final->{$_} > $level } keys %{ $this->final };
+    delete @{ $this->final }{@keys};
+    splice @{ $this->levels }, $level + 1;
 
     my $mask =
       ( chr(0xFF) x int( $level / 8 ) )
       . chr( ( 2**( ( $level % 8 ) + 1 ) ) - 1 );
-    foreach my $p ( keys %{ $this->{'map'} } ) {
-        $this->{'map'}{$p} &= $mask;
+    foreach my $p ( keys %{ $this->map } ) {
+        $this->map->{$p} &= $mask;
 
-        while ( length( $this->{'map'}{$p} ) > 0
-            && ord( substr( $this->{'map'}{$p}, -1 ) ) == 0 )
+        while ( length( $this->map->{$p} ) > 0
+            && ord( substr( $this->map->{$p}, -1 ) ) == 0 )
         {
-            substr( $this->{'map'}{$p}, -1 ) = '';
+            substr( $this->map->{$p}, -1 ) = '';
         }
 
-        delete $this->{'map'}{$p} if length( $this->{'map'}{$p} ) == 0;
+        delete $this->map->{$p} if length( $this->map->{$p} ) == 0;
     }
 }
 

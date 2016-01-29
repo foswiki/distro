@@ -1,7 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Prefs::Request;
-
+use v5.14;
 use strict;
+use warnings;
+
 use Assert;
 
 BEGIN {

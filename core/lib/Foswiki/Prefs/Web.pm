@@ -15,8 +15,10 @@ and should not be used for anything else.
 =cut
 
 package Foswiki::Prefs::Web;
-use strict;
-use warnings;
+use v5.14;
+
+use Moo;
+extends qw( Foswiki::Object );
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -25,24 +27,15 @@ BEGIN {
     }
 }
 
-=begin TML
+our @_newParameters = qw( stack level );
 
----++ ClassMethod new( $session )
-
-Creates a new WebPrefs object. 
-
-=cut
-
-sub new {
-    my $proto = shift;
-    my $class = ref($proto) || $proto;
-    my ( $stack, $level ) = @_;
-    my $this = {
-        stack => $stack,
-        level => $level,
-    };
-    return bless $this, $class;
-}
+has stack => (
+    is  => 'ro',
+    isa => Foswiki::Object::isaCLASS(
+        'stack', 'Foswiki::Prefs::Stack', noUndef => 1,
+    ),
+);
+has level => ( is => 'ro', );
 
 =begin TML
 
@@ -57,9 +50,10 @@ Break circular references.
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
+
+    # SMELL What if stack wasn't cloned but is used by some other object at this
+    # time? Is it possible at all?
     $this->{stack}->finish() if $this->{stack};
-    undef $this->{stack};
-    undef $this->{level};
 }
 
 =begin TML
@@ -72,19 +66,7 @@ Returns true if this web is the hihger of the underlying stack object.
 
 sub isInTopOfStack {
     my $this = shift;
-    return $this->{level} == $this->{stack}->size() - 1;
-}
-
-=begin TML
-
----++ ObjectMethod stack() -> $stack
-
-Read-only accessor to the underlying stack object.
-
-=cut
-
-sub stack {
-    return $_[0]->{stack};
+    return $this->level == $this->stack->size - 1;
 }
 
 =begin TML
@@ -101,7 +83,7 @@ of bar Foswiki::Prefs::Stack and this operation is needed.
 
 sub cloneStack {
     my ( $this, $level ) = @_;
-    return $this->{stack}->clone($level);
+    return $this->stack->clone($level);
 }
 
 =begin TML
@@ -114,7 +96,7 @@ Returns the $value of the given $pref.
 
 sub get {
     my ( $this, $key ) = @_;
-    $this->{stack}->getPreference( $key, $this->{level} );
+    $this->stack->getPreference( $key, $this->level );
 }
 
 1;

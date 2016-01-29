@@ -65,6 +65,11 @@ sub BUILDARGS {
     # Skip processing if already have passed with a hash ref.
     return $params[0] if @params == 1 && ref( $params[0] ) eq 'HASH';
 
+    # Take care of clone-like methods.
+    if ( ref($class) ) {
+        $class = ref($class);
+    }
+
     my $paramHash;
 
     no strict 'refs';
@@ -170,6 +175,34 @@ sub isaARRAY {
           . '( defined( $_[0] ) && ( ref( $_[0] ) ne "ARRAY"'
           . ( $opts{noEmpty} ? ' || scalar( @{ $_[0] } ) == 0' : '' )
           . ' ) ); }' );
+}
+
+=begin TML
+
+---++ StaticMethod isaHASH( $attributeName, \%opts )
+
+isa validator generator checking for arrayrefs.
+
+=%opts= hash keys:
+
+   * =noUndef= – do not allow undef value
+
+=cut
+
+sub isaHASH {
+    my ( $attributeName, %opts ) = @_;
+
+    $attributeName = _normalizeAttributeName($attributeName);
+
+    return _validateIsaCode( $attributeName,
+            'sub { Foswiki::Exception->throw( text => "'
+          . $attributeName
+          . ' attribute may only be '
+          . ( $opts{noUndef} ? '' : 'undef or an ' )
+          . 'hashref." ) if '
+          . ( $opts{noUndef} ? '!defined( $_[0] ) || ' : '' )
+          . '( defined( $_[0] ) && ( ref( $_[0] ) ne "HASH" ) );'
+          . ' }' );
 }
 
 =begin TML

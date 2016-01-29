@@ -19,7 +19,7 @@ around BUILDARGS => sub {
 
     # We need to override the suite parameter.
     my %args = @_;
-    $args{suite} = 'AccessControl';
+    $args{testSuite} = 'AccessControl';
     return $orig->( $class, %args );
 };
 

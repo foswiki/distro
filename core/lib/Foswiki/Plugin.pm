@@ -275,9 +275,10 @@ sub registerHandlers {
     catch {
         if (   $_->isa('Foswiki::AccessControlException')
             || $_->isa('Foswiki::OopsException')
-            || $_->isa('Foswiki::ValidationException') )
+            || $_->isa('Foswiki::ValidationException')
+            || !ref($_) )
         {
-            $_->throw;
+            Foswiki::Exception->rethrow($_);
         }
         else {
             $exception = $_->text . ' ' . $_->stacktrace;

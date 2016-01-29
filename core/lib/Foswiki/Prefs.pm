@@ -1,13 +1,4 @@
 # See bottom of file for license and copyright information
-use strict;
-use warnings;
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 =begin TML
 
@@ -78,33 +69,85 @@ use Foswiki::Prefs::Stack ();
 use Foswiki::Prefs::Web   ();
 use Scalar::Util          ();
 
-=begin TML
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Object );
 
----++ ClassMethod new( $session )
+our @_newParameters = qw( session );
 
-Creates a new Prefs object. 
+BEGIN {
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+}
 
-=cut
+has main => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    isa     => Foswiki::Object::isaCLASS(
+        'main', 'Foswiki::Prefs::Stack', noUndef => 1
+    ),
+    default => sub {
+        return Foswiki::Prefs::Stack->new;
+    }
+);
+has paths => (
+    is        => 'rw',
+    lazy      => 1,
+    predicate => 1,
+    clearer   => 1,
+    isa       => Foswiki::Object::isaHASH('paths'),
+    default   => sub { {} },
+);
+has contexts => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    isa     => Foswiki::Object::isaARRAY( 'contexts', noUndef => 1 ),
+    default => sub { [] },
+);
+has prefix => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    isa     => Foswiki::Object::isaARRAY( 'prefix', noUndef => 1 ),
+    default => sub { [] },
+);
+has webprefs => (
+    is        => 'rw',
+    lazy      => 1,
+    predicate => 1,
+    clearer   => 1,
+    isa       => Foswiki::Object::isaHASH('webprefs'),
+    default   => sub { {} },
+);
+has internals => (
+    is        => 'rw',
+    lazy      => 1,
+    predicate => 1,
+    clearer   => 1,
+    isa       => Foswiki::Object::isaHASH('internals'),
+    default   => sub { {} },
+);
+has session => (
+    is      => 'ro',
+    clearer => 1,
+    isa     => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
+);
 
-sub new {
-    my ( $proto, $session ) = @_;
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $proto = shift;
+
     my $class = ref($proto) || $proto;
-    my $this = {
-        'main'  => Foswiki::Prefs::Stack->new(),  # Main preferences stack
-        'paths' => {},                            # Map paths to backend objects
-        'contexts'  => [],    # Store the main levels corresponding to contexts
-        'prefix'    => [],    # Map level => prefix uesed
-                              #     (plugins prefix prefs with PLUGINNAME_)
-        'webprefs'  => {},    # Foswiki::Prefs::Web objs, used to get web prefs
-        'internals' => {},    # Store internal preferences
-        'session' => $session,
-    };
 
     eval "use $Foswiki::cfg{Store}{PrefsBackend} ()";
     die $@ if $@;
 
-    return bless $this, $class;
-}
+    return $orig->( $class, @_ );
+};
 
 =begin TML
 
@@ -119,37 +162,41 @@ Break circular references.
 sub finish {
     my $this = shift;
 
-    $this->{main}->finish() if $this->{main};
-    undef $this->{main};
-    undef $this->{prefix};
-    undef $this->{session};
-    undef $this->{contexts};
-    if ( $this->{paths} ) {
-        foreach my $back ( values %{ $this->{paths} } ) {
+    $this->clear_main;
+    $this->clear_prefix;
+    $this->clear_session;
+    $this->clear_contexts;
+    if ( $this->has_paths ) {
+        foreach my $back ( values %{ $this->paths } ) {
             $back->finish();
         }
     }
-    undef $this->{paths};
-    if ( $this->{webprefs} ) {
-        foreach my $webStack ( values %{ $this->{webprefs} } ) {
+    $this->clear_paths;
+    if ( $this->has_webprefs ) {
+        foreach my $webStack ( values %{ $this->webprefs } ) {
             $webStack->finish();
         }
     }
-    undef $this->{webprefs};
-    undef $this->{internals};
+    $this->clear_webprefs;
+    $this->clear_internals;
 }
 
 # Get a backend object corresponding to the given $web,$topic
 sub _getBackend {
     my $this = shift;
+    my ( $web, $topic ) = @_;
 
-    my $metaObject = Foswiki::Meta->new( $this->{session}, @_ );
-    my $path = $metaObject->getPath();
-    unless ( exists $this->{paths}{$path} ) {
-        $this->{paths}{$path} =
+    my $metaObject = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => $topic,
+    );
+    my $path = $metaObject->getPath;
+    unless ( exists $this->paths->{$path} ) {
+        $this->paths->{$path} =
           $Foswiki::cfg{Store}{PrefsBackend}->new($metaObject);
     }
-    return $this->{paths}{$path};
+    return $this->paths->{$path};
 }
 
 # Given a (sub)web and a stack object, push the (sub)web on the stack,
@@ -180,21 +227,21 @@ sub _getWebPrefsObj {
     my ( $this, $web ) = @_;
     my ( $stack, $level );
 
-    if ( exists $this->{webprefs}{$web} ) {
-        return $this->{webprefs}{$web};
+    if ( exists $this->webprefs->{$web} ) {
+        return $this->webprefs->{$web};
     }
 
     my $part;
-    $stack = Foswiki::Prefs::Stack->new();
+    $stack = Foswiki::Prefs::Stack->new;
     my @path = split /[\/\.]+/, $web;
     my @websToAdd = ( pop @path );
     while ( @path > 0 ) {
         $part = join( '/', @path );
-        if ( exists $this->{webprefs}{$part} ) {
-            my $base = $this->{webprefs}{$part};
+        if ( exists $this->webprefs->{$part} ) {
+            my $base = $this->webprefs->{$part};
             $stack =
-                $base->isInTopOfStack()
-              ? $base->stack()
+                $base->isInTopOfStack
+              ? $base->stack
               : $base->cloneStack( scalar(@path) - 1 );
             last;
         }
@@ -207,9 +254,9 @@ sub _getWebPrefsObj {
     foreach (@websToAdd) {
         $part .= '/' if $part;
         $part .= $_;
-        $this->{webprefs}{$part} = Foswiki::Prefs::Web->new( $stack, $level++ );
+        $this->webprefs->{$part} = Foswiki::Prefs::Web->new( $stack, $level++ );
     }
-    return $this->{webprefs}{$web};
+    return $this->webprefs->{$web};
 }
 
 =begin TML
@@ -234,16 +281,16 @@ sub loadPreferences {
 
     my $obj;
 
-    if ( $topicObject->topic() ) {
+    if ( $topicObject->has_topic ) {
         $obj = $Foswiki::cfg{Store}{PrefsBackend}->new($topicObject);
     }
-    elsif ( $topicObject->web() ) {
-        $obj = $this->_getWebPrefsObj( $topicObject->web() );
+    elsif ( $topicObject->has_web ) {
+        $obj = $this->_getWebPrefsObj( $topicObject->web );
     }
     elsif ( $Foswiki::cfg{LocalSitePreferences} ) {
         my ( $web, $topic ) =
-          $this->{session}
-          ->normalizeWebTopicName( undef, $Foswiki::cfg{LocalSitePreferences} );
+          $this->session->normalizeWebTopicName( undef,
+            $Foswiki::cfg{LocalSitePreferences} );
 
         # Use the site preferences
         $obj = $this->_getBackend( $web, $topic );
@@ -265,14 +312,14 @@ popTopicContext.
 sub pushTopicContext {
     my ( $this, $web, $topic ) = @_;
 
-    my $stack = $this->{main};
+    my $stack = $this->main;
     my %internals;
-    while ( my ( $k, $v ) = each %{ $this->{internals} } ) {
+    while ( my ( $k, $v ) = each %{ $this->internals } ) {
         $internals{$k} = $v;
     }
     push(
-        @{ $this->{contexts} },
-        { internals => \%internals, level => $stack->size() - 1 }
+        @{ $this->contexts },
+        { internals => \%internals, level => $stack->size - 1 }
     );
     my @webPath = split( /[\/\.]+/, $web );
     my $subWeb = '';
@@ -285,9 +332,9 @@ sub pushTopicContext {
     }
     $back = $this->_getBackend( $web, $topic );
     $stack->newLevel($back);
-    $stack->newLevel( Foswiki::Prefs::HASH->new() );
+    $stack->newLevel( Foswiki::Prefs::HASH->new );
 
-    while ( my ( $k, $v ) = each %{ $this->{internals} } ) {
+    while ( my ( $k, $v ) = each %{ $this->internals } ) {
         $stack->insert( 'Set', $k, $v );
     }
 
@@ -304,19 +351,19 @@ Returns the context to the state it was in before the
 
 sub popTopicContext {
     my $this    = shift;
-    my $stack   = $this->{main};
-    my $context = pop( @{ $this->{contexts} } );
+    my $stack   = $this->main;
+    my $context = pop( @{ $this->contexts } );
     my $level   = $context->{level};
     while ( my ( $k, $v ) = each %{ $context->{internals} } ) {
-        $this->{internals}{$k} = $v;
+        $this->internals->{$k} = $v;
     }
     $stack->restore($level);
-    splice @{ $this->{prefix} }, $level + 1 if @{ $this->{prefix} } > $level;
+    splice @{ $this->prefix }, $level + 1 if @{ $this->prefix } > $level;
 
     # Note: this used to get the web from (-3) - but that only gives the
     # last component of the web path, and fails if the web name is empty.
     my $toRef = $stack->backAtLevel(-2)->topicObject;
-    return ( $toRef->web(), $toRef->topic() );
+    return ( $toRef->web, $toRef->topic );
 }
 
 =begin TML
@@ -333,9 +380,9 @@ sub setPluginPreferences {
     my ( $this, $web, $plugin ) = @_;
     my $back   = $this->_getBackend( $web, $plugin );
     my $prefix = uc($plugin) . '_';
-    my $stack  = $this->{main};
+    my $stack  = $this->main;
     $stack->newLevel( $back, $prefix );
-    $this->{prefix}->[ $stack->size() - 1 ] = $prefix;
+    $this->prefix->[ $stack->size - 1 ] = $prefix;
 }
 
 =begin TML
@@ -350,7 +397,7 @@ stack.
 sub setUserPreferences {
     my ( $this, $wn ) = @_;
     my $back = $this->_getBackend( $Foswiki::cfg{UsersWebName}, $wn );
-    $this->{main}->newLevel($back);
+    $this->main->newLevel($back);
 }
 
 =begin TML
@@ -365,7 +412,7 @@ sub loadDefaultPreferences {
     my $this = shift;
     my $back = $this->_getBackend( $Foswiki::cfg{SystemWebName},
         $Foswiki::cfg{SitePrefsTopicName} );
-    $this->{main}->newLevel($back);
+    $this->main->newLevel($back);
 }
 
 =begin TML
@@ -379,10 +426,10 @@ sub loadSitePreferences {
     my $this = shift;
     if ( $Foswiki::cfg{LocalSitePreferences} ) {
         my ( $web, $topic ) =
-          $this->{session}
-          ->normalizeWebTopicName( undef, $Foswiki::cfg{LocalSitePreferences} );
+          $this->session->normalizeWebTopicName( undef,
+            $Foswiki::cfg{LocalSitePreferences} );
         my $back = $this->_getBackend( $web, $topic );
-        $this->{main}->newLevel($back);
+        $this->main->newLevel($back);
     }
 }
 
@@ -396,7 +443,7 @@ Set the preference values in the parameters in the SESSION stack.
 
 sub setSessionPreferences {
     my ( $this, %values ) = @_;
-    my $stack = $this->{main};
+    my $stack = $this->main;
     my $num   = 0;
     while ( my ( $k, $v ) = each %values ) {
         next if $stack->finalized($k);
@@ -423,7 +470,7 @@ sub setInternalPreferences {
     my ( $this, %values ) = @_;
 
     while ( my ( $k, $v ) = each %values ) {
-        $this->{internals}{$k} = $v;
+        $this->internals->{$k} = $v;
     }
 }
 
@@ -438,19 +485,19 @@ Returns the finalised preference value.
 
 sub getPreference {
     my ( $this, $key ) = @_;
-    if ( defined $this->{internals}{$key} ) {
-        return $this->{internals}{$key};
+    if ( defined $this->internals->{$key} ) {
+        return $this->internals->{$key};
     }
 
     my $value;
-    my $stack   = $this->{main};
+    my $stack   = $this->main;
     my $prevLev = $stack->backAtLevel(-2);
     if ( $prevLev && !$stack->finalizedBefore( $key, -2 ) ) {
         $value = $prevLev->getLocal($key);
     }
     if ( !defined $value && $stack->prefIsDefined($key) ) {
         my $defLevel = $stack->getDefinitionLevel($key);
-        my $prefix   = $this->{prefix}->[$defLevel];
+        my $prefix   = $this->prefix->[$defLevel];
         $key =~ s/^\Q$prefix\E// if $prefix;
         $value = $stack->backAtLevel($defLevel)->get($key);
     }
@@ -468,7 +515,7 @@ Generate TML-formatted information about the key (all keys if $key is undef)
 sub stringify {
     my ( $this, $key ) = @_;
 
-    my $stack = $this->{main};
+    my $stack = $this->main;
     my @keys = defined $key ? ($key) : sort $stack->prefs;
     my @list;
     foreach my $k (@keys) {
@@ -477,13 +524,13 @@ sub stringify {
         next unless exists $stack->{'map'}{$k};
         my $defLevel = $stack->getDefinitionLevel($k);
         if ( $stack->backAtLevel($defLevel)->can('topicObject') ) {
-            my $topicObject = $stack->backAtLevel($defLevel)->topicObject();
+            my $topicObject = $stack->backAtLevel($defLevel)->topicObject;
             push( @list,
                     "      * $k was "
                   . ( $stack->finalized($k) ? '*finalised*' : 'defined' )
                   . ' in <nop>'
-                  . $topicObject->web() . '.'
-                  . $topicObject->topic() );
+                  . $topicObject->web . '.'
+                  . $topicObject->topic );
         }
     }
 

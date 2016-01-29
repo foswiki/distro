@@ -1446,7 +1446,8 @@ sub _populateUserTopicForm {
     require Foswiki::Form;
 
     my $form =
-      Foswiki::Form->load( $session, $Foswiki::cfg{UsersWebName}, $formName );
+      Foswiki::Form->loadCached( $session, $Foswiki::cfg{UsersWebName},
+        $formName );
 
     return ( $meta, '' ) unless $form;
 

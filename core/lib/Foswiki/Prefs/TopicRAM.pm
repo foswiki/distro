@@ -12,14 +12,14 @@ This is a preference backend used to get preferences defined in a topic.
 # methods.
 
 package Foswiki::Prefs::TopicRAM;
-
-use strict;
-use warnings;
-
-use Foswiki::Prefs::BaseBackend ();
-our @ISA = qw(Foswiki::Prefs::BaseBackend);
+use v5.14;
 
 use Foswiki::Prefs::Parser ();
+
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Object );
+with qw( Foswiki::Prefs::BaseBackend );
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -28,59 +28,55 @@ BEGIN {
     }
 }
 
-sub new {
-    my ( $proto, $topicObject ) = @_;
+our @_newParameters = qw( topicObject );
 
-    my $this = $proto->SUPER::new();
-    $this->{values} = {};
-    $this->{local}  = {};
+has values => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+    isa     => Foswiki::Object::isaHASH( 'values', noUndef => 1 ),
+);
+has local => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+    isa     => Foswiki::Object::isaHASH( 'local', noUndef => 1 ),
+);
+has topicObject => (
+    is => 'ro',
+    isa =>
+      Foswiki::Object::isaCLASS( 'topicObject', 'Foswiki::Meta', noUndef => 1 ),
+    required => 1,
+);
 
-    if ( $topicObject->existsInStore() ) {
-        Foswiki::Prefs::Parser::parse( $topicObject, $this );
+sub BUILD {
+    my $this = shift;
+
+    if ( $this->topicObject->existsInStore ) {
+        Foswiki::Prefs::Parser::parse( $this->topicObject, $this );
     }
-    $this->{topicObject} = $topicObject;
-
-    return $this;
 }
 
-sub finish {
-    my $this = shift;
-    undef $this->{values};
-    undef $this->{local};
-    undef $this->{topicObject};
-}
-
-=begin TML
-
----++ ObjectMethod topicObject() -> $topicObject
-
-Accessor to the topicObject used to create this object.
-
-=cut
-
-sub topicObject {
-    my $this = shift;
-    return $this->{topicObject};
-}
+sub finish { }
 
 sub prefs {
     my $this = shift;
-    return keys %{ $this->{values} };
+    return keys %{ $this->values };
 }
 
 sub localPrefs {
     my $this = shift;
-    return keys %{ $this->{local} };
+    return keys %{ $this->local };
 }
 
 sub get {
     my ( $this, $key ) = @_;
-    return $this->{values}{$key};
+    return $this->values->{$key};
 }
 
 sub getLocal {
     my ( $this, $key ) = @_;
-    return $this->{local}{$key};
+    return $this->local->{$key};
 }
 
 sub insert {
@@ -88,8 +84,8 @@ sub insert {
 
     $this->cleanupInsertValue( \$value );
 
-    my $index = $type eq 'Set' ? 'values' : 'local';
-    $this->{$index}{$key} = $value;
+    my $index = $type eq 'Set' ? $this->values : $this->local;
+    $index->{$key} = $value;
     return 1;
 }
 

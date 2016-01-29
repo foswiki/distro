@@ -159,7 +159,13 @@ has web => (
         ASSERT( UNTAINTED( $_[0] ), 'web is tainted' ) if DEBUG;
     },
     coerce => sub {
-        $_[0] =~ tr#/.#/#s;
+
+        # SMELL Is it really ok to allow undefined web??? Or is it a special
+        # case of the root object?
+        if ( defined $_[0] ) {
+            ASSERT( UNTAINTED( $_[0] ), 'web is tainted' ) if DEBUG;
+            $_[0] =~ tr#/.#/#s;
+        }
         return $_[0];
     },
 );
@@ -176,14 +182,9 @@ has text => (
     lazy      => 1,
     predicate => 1,
     clearer   => 1,
-    builder   => sub {
-        $_[0]->loadVersion();
-    },
 );
 
-# SMELL May get in conflict with Moo::Object::meta method. use metaData???
-# META???
-has meta => (
+has metaData => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
@@ -468,7 +469,7 @@ sub BUILD {
     # loaded preferences if this object is loaded.
     #$this->_clear_preferences;
 
-    $this->meta->{FILEATTACHMENT} = [];
+    $this->metaData->{FILEATTACHMENT} = [];
 
     if ( $this->has_text && defined $this->text ) {
 
@@ -482,6 +483,29 @@ sub BUILD {
 
     return $this;
 }
+
+# Load topic text if it's not been done yet.
+before text => sub {
+    my $this = shift;
+    state $isLoading = 0;
+
+    # Avoid deep recursion.
+    unless ($isLoading) {
+        $isLoading = 1;
+
+        # Make sure that we always set $isLoading back to 0 despite of any
+        # possible exceptions thrown.
+        try {
+            $this->loadVersion(0) unless $this->has_text;
+        }
+        catch {
+            Foswiki::Exception->rethrow($_);
+        }
+        finally {
+            $isLoading = 0;
+        };
+    }
+};
 
 =begin TML
 
@@ -525,9 +549,9 @@ sub load {
     if ( ref($proto) ) {
 
         # Existing unloaded object
-        ASSERT( !$this->_loadedRev ) if DEBUG;
         $this = $proto;
-        $rev  = shift;
+        ASSERT( !$this->_loadedRev ) if DEBUG;
+        $rev = shift;
     }
     else {
         ( my $session, my $web, my $topic, $rev ) = @_;
@@ -597,7 +621,7 @@ sub unload {
     $this->_clear_preferences;
 
     # Unload meta-data
-    $this->clear_meta;
+    $this->clear_metaData;
     $this->_clear_indices;
 }
 
@@ -1158,7 +1182,7 @@ WARNING: see notes on revision numbers under =getLoadedRev=
 sub loadVersion {
     my ( $this, $rev ) = @_;
 
-    return unless $this->topic;
+    return unless $this->has_topic;
 
     # If no specific rev was requested, check that the latest rev is
     # loaded.
@@ -1238,12 +1262,12 @@ sub put {
     ASSERT( defined $type ) if DEBUG;
     ASSERT( defined $args && ref($args) eq 'HASH' ) if DEBUG;
 
-    unless ( $this->meta->{$type} ) {
-        $this->meta->{$type}     = [];
+    unless ( $this->metaData->{$type} ) {
+        $this->metaData->{$type} = [];
         $this->_indices->{$type} = {};
     }
 
-    my $data = $this->meta->{$type};
+    my $data = $this->metaData->{$type};
     my $i    = 0;
     if ($data) {
 
@@ -1287,12 +1311,12 @@ sub putKeyed {
     my $keyName = $args->{name};
     ASSERT( $keyName, join( ',', keys %$args ) ) if DEBUG;
 
-    unless ( $this->meta->{$type} ) {
-        $this->meta->{$type}     = [];
+    unless ( $this->metaData->{$type} ) {
+        $this->metaData->{$type} = [];
         $this->_indices->{$type} = {};
     }
 
-    my $data = $this->meta->{$type};
+    my $data = $this->metaData->{$type};
 
     # The \% shouldn't be necessary, but it is
     my $indices = \%{ $this->_indices->{$type} };
@@ -1331,7 +1355,7 @@ sub putAll {
             $indices{ $array[$i]->{name} } = $i;
         }
     }
-    $this->meta->{$type}     = \@array;
+    $this->metaData->{$type} = \@array;
     $this->_indices->{$type} = \%indices;
 }
 
@@ -1359,7 +1383,7 @@ sub get {
     my ( $this, $type, $name ) = @_;
     _assertIsTopic($this) if DEBUG;
 
-    my $data = $this->meta->{$type};
+    my $data = $this->metaData->{$type};
     if ($data) {
         if ( defined $name ) {
 
@@ -1397,7 +1421,7 @@ sub find {
     my ( $this, $type ) = @_;
     _assertIsTopic($this) if DEBUG;
 
-    my $itemsr = $this->meta->{$type};
+    my $itemsr = $this->metaData->{$type};
     my @items  = ();
 
     if ($itemsr) {
@@ -1425,7 +1449,7 @@ sub remove {
     _assertIsTopic($this) if DEBUG;
 
     if ($type) {
-        my $data = $this->meta->{$type};
+        my $data = $this->metaData->{$type};
         return unless defined $data;
         if ($name) {
             my $indices = $this->_indices->{$type};
@@ -1442,12 +1466,12 @@ sub remove {
             }
         }
         else {
-            delete $this->meta->{$type};
+            delete $this->metaData->{$type};
             delete $this->_indices->{$type};
         }
     }
     else {
-        $this->clear_meta;
+        $this->clear_metaData;
         $this->_clear_indices;
     }
 }
@@ -1478,7 +1502,7 @@ sub copyFrom {
     if ($type) {
         return if $type =~ m/^_/;
         my @data;
-        foreach my $item ( @{ $other->meta->{$type} } ) {
+        foreach my $item ( @{ $other->metaData->{$type} } ) {
             if ( !$filter
                 || ( $item->{name} && $item->{name} =~ m/$filter/ ) )
             {
@@ -1509,7 +1533,7 @@ Return the number of entries of the given type
 sub count {
     my ( $this, $type ) = @_;
     _assertIsTopic($this) if DEBUG;
-    my $data = $this->meta->{$type};
+    my $data = $this->metaData->{$type};
 
     return scalar(@$data) if ( defined($data) );
 
@@ -1705,7 +1729,7 @@ sub merge {
     _assertIsTopic($this)  if DEBUG;
     _assertIsTopic($other) if DEBUG;
 
-    my $data = $other->meta->{FIELD};
+    my $data = $other->metaData->{FIELD};
     if ($data) {
         foreach my $otherD (@$data) {
             my $thisD = $this->get( 'FIELD', $otherD->{name} );
@@ -1732,7 +1756,7 @@ sub merge {
         }
     }
 
-    $data = $other->meta->{FILEATTACHMENT};
+    $data = $other->metaData->{FILEATTACHMENT};
     if ($data) {
         foreach my $otherD (@$data) {
             my $thisD = $this->get( 'FILEATTACHMENT', $otherD->{name} );
@@ -1770,7 +1794,7 @@ sub forEachSelectedValue {
 
     foreach my $type ( grep { /$types/ } keys %$this ) {
         $options->{_type} = $type;
-        my $data = $this->meta->{$type};
+        my $data = $this->metaData->{$type};
         next unless $data;
         foreach my $datum (@$data) {
             foreach my $key ( grep { /$keys/ } keys %$datum ) {
@@ -1842,7 +1866,8 @@ sub renderFormForDisplay {
     my $form;
     my $result;
     try {
-        $form = Foswiki::Form->load( $this->session, $this->_web, $fname );
+        $form =
+          Foswiki::Form->loadCached( $this->session, $this->_web, $fname );
         $result = $form->renderForDisplay($this);
     }
     catch {
@@ -1851,7 +1876,8 @@ sub renderFormForDisplay {
 
             # Make pseudo-form from field data
             $form =
-              Foswiki::Form->load( $this->session, $this->web, $fname, $this );
+              Foswiki::Form->loadCached( $this->session, $this->web, $fname,
+                $this );
             $result =
               $this->session->inlineAlert( 'alerts', 'formdef_missing',
                 $fname );
@@ -1896,7 +1922,7 @@ sub renderFormFieldForDisplay {
         my $result;
         try {
             my $form =
-              Foswiki::Form->load( $this->session, $this->web, $fname );
+              Foswiki::Form->loadCached( $this->session, $this->web, $fname );
             my $field = $form->getField($name);
             if ($field) {
                 $attrs->{usetitle} = $mf->{title};
