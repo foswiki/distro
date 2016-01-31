@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki;
+use v5.14;
 
 use strict;
 use warnings;

@@ -9,9 +9,13 @@ A singleton object of this class manages the access control database.
 =cut
 
 package Foswiki::Access;
+use v5.14;
 
-use strict;
 use Assert;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 use constant MONITOR => 0;
 
@@ -22,28 +26,54 @@ BEGIN {
     }
 }
 
+has session => (
+    is      => 'rw',
+    clearer => 1,
+    isa     => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
+);
+has failure => (
+    is      => 'rw',
+    clearer => 1,
+);
+
 =begin TML
 
----++ ClassMethod new($session)
+---++ ClassMethod create($session)
 
-Constructor.
+Constructor. Never use new on Foswiki::Access!
 
 =cut
 
-sub new {
+sub create {
     my ( $class, $session ) = @_;
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
+
     my $imp = $Foswiki::cfg{AccessControl} || 'Foswiki::Access::TopicACLAccess';
 
     print STDERR "using $imp Access Control\n" if MONITOR;
 
     my $ok = eval("require $imp; 1;");
     ASSERT( $ok, $@ ) if DEBUG;
-    my $this = $imp->new($session);
+    my $this = $imp->new( session => $session, _indirect => 1, );
     ASSERT($this) if DEBUG;
 
     return $this;
 }
+
+around BUILDARGS => sub {
+    my $orig = shift;
+
+    my $params = $orig->(@_);
+
+    ASSERT( $params->{_indirect},
+            __PACKAGE__
+          . "-derived object are to be instantiated using "
+          . __PACKAGE__
+          . "::create() constructor!" );
+
+    delete $params->{_indirect};
+
+    return $params;
+};
 
 =begin TML
 
@@ -57,8 +87,8 @@ Break circular references.
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
-    undef $this->{failure};
-    undef $this->{session};
+    $this->clear_failure;
+    $this->clear_session;
 }
 
 =begin TML
@@ -72,7 +102,7 @@ occurred.
 
 sub getReason {
     my $this = shift;
-    return $this->{failure};
+    return $this->failure;
 }
 
 =begin TML

@@ -51,11 +51,15 @@ the following notations are valid:
 
 <verbtaim>
 my $object1 = Foswiki::Class->new($param1, $param2);
-my $object2 = Foswiki::Class->new($param2);
+my $object2 = Foswiki::Class->new($param1);
 my $object3 = Foswiki::Class->new(param1 => 1, param2 => '2', param3 => 'additional');
+my $object3 = Foswiki::Class->new({param1 => 1, param2 => '2', param3 => 'additional'});
 </verbatim>
 
-Note that for =$object2= the =BUILD()= method would be called with undefined param2.
+Note that for =$object2= the =BUILD()= method will be called with no param2 key.
+
+Key/value pairs as in =$object3= example are valid as soon as at least one key is mentioned in =@_newParameters=.
+This limitation will remain actual until constructor are no more called with positional parameters.
 
 =cut
 
@@ -76,11 +80,17 @@ sub BUILDARGS {
     if ( defined *{ $class . '::_newParameters' }{ARRAY} ) {
         my @newParameters = @{ $class . '::_newParameters' };
         my $isHash        = 0;
+
+        # If there are even number of parameters passed suspect key/value pairs.
+        # Note: at least one key has to be in @_newParameters for this to work.
         if ( ( @params % 2 ) == 0 ) {
             my $prop_re = '^(' . join( '|', @newParameters ) . ')$';
-            my %params = @params;
-            foreach my $prop ( keys %params ) {
-                last if $isHash = ( $prop =~ $prop_re );
+
+      # Check for potential keys if any of them is mentioned in @_newParameters.
+      # Not key/value form if any single suspected-to-be-key is undef.
+            for ( my $i = 0 ; !$isHash && $i < @params ; $i += 2 ) {
+                next unless defined $params[$i];
+                $isHash = ( $params[$i] =~ $prop_re );
             }
         }
         unless ($isHash) {
@@ -231,7 +241,7 @@ sub isaCLASS {
           . ' attribute may only be '
           . ( $opts{noUndef} ? '' : 'undef or an ' )
           . $className
-          . ' but not " . ref( $_[0]) . "." ) if '
+          . ' but not " . (defined $_[0] ? ref($_[0]) || $_[0] : "undef") . "." ) if '
           . ( $opts{noUndef} ? '!defined( $_[0] ) || ' : '' )
           . '( defined( $_[0] ) && '
           . (

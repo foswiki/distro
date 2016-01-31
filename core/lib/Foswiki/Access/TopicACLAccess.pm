@@ -10,12 +10,9 @@ Implements the traditional, longstanding ACL in topic preference style.
 
 package Foswiki::Access::TopicACLAccess;
 
-use Foswiki::Access;
-@ISA = qw(Foswiki::Access);
-
 use constant MONITOR => 0;
+use v5.14;
 
-use strict;
 use Assert;
 
 use Foswiki          ();
@@ -23,19 +20,15 @@ use Foswiki::Address ();
 use Foswiki::Meta    ();
 use Foswiki::Users   ();
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Access);
+
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
         import locale();
     }
-}
-
-sub new {
-    my ( $class, $session ) = @_;
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
-    my $this = bless( { session => $session }, $class );
-
-    return $this;
 }
 
 =begin TML
@@ -54,10 +47,10 @@ may result in the topic being read.
 sub haveAccess {
     my ( $this, $mode, $cUID, $param1, $param2, $param3 ) = @_;
     $mode ||= 'VIEW';
-    $cUID ||= $this->{session}->{user};
+    $cUID ||= $this->session->user;
 
-    my $session = $this->{session};
-    undef $this->{failure};
+    my $session = $this->session;
+    $this->clear_failure;
 
     return 1
       if ( defined $Foswiki::cfg{LoginManager}
@@ -88,7 +81,7 @@ sub haveAccess {
       if MONITOR;
 
     # super admin is always allowed
-    if ( $session->{users}->isAdmin($cUID) ) {
+    if ( $session->users->isAdmin($cUID) ) {
         print STDERR "$cUID - ADMIN\n" if MONITOR;
         return 1;
     }
@@ -104,10 +97,10 @@ sub haveAccess {
         # Check DENYTOPIC
         if ( defined($deny) ) {
             if ( scalar(@$deny) != 0 ) {
-                if ( $session->{users}->isInUserList( $cUID, $deny ) ) {
-                    $this->{failure} =
-                      $session->i18n->maketext('access denied on topic');
-                    print STDERR 'a ' . $this->{failure}, "\n" if MONITOR;
+                if ( $session->users->isInUserList( $cUID, $deny ) ) {
+                    $this->failure(
+                        $session->i18n->maketext('access denied on topic') );
+                    print STDERR 'a ' . $this->failure, "\n" if MONITOR;
                     return 0;
                 }
             }
@@ -124,13 +117,13 @@ sub haveAccess {
 
         # Check ALLOWTOPIC. If this is defined the user _must_ be in it
         if ( defined($allow) && scalar(@$allow) != 0 ) {
-            if ( $session->{users}->isInUserList( $cUID, $allow ) ) {
+            if ( $session->users->isInUserList( $cUID, $allow ) ) {
                 print STDERR "in ALLOWTOPIC\n" if MONITOR;
                 return 1;
             }
-            $this->{failure} =
-              $session->i18n->maketext('access not allowed on topic');
-            print STDERR 'b ' . $this->{failure}, "\n" if MONITOR;
+            $this->failure(
+                $session->i18n->maketext('access not allowed on topic') );
+            print STDERR 'b ' . $this->failure, "\n" if MONITOR;
             return 0;
         }
         $meta = $meta->getContainer();    # Web
@@ -140,10 +133,10 @@ sub haveAccess {
 
         $deny = $this->_getACL( $meta, 'DENYWEB' . $mode );
         if ( defined($deny)
-            && $session->{users}->isInUserList( $cUID, $deny ) )
+            && $session->users->isInUserList( $cUID, $deny ) )
         {
-            $this->{failure} = $session->i18n->maketext('access denied on web');
-            print STDERR 'c ' . $this->{failure}, "\n" if MONITOR;
+            $this->failure( $session->i18n->maketext('access denied on web') );
+            print STDERR 'c ' . $this->failure, "\n" if MONITOR;
             return 0;
         }
 
@@ -152,10 +145,10 @@ sub haveAccess {
         $allow = $this->_getACL( $meta, 'ALLOWWEB' . $mode );
 
         if ( defined($allow) && scalar(@$allow) != 0 ) {
-            unless ( $session->{users}->isInUserList( $cUID, $allow ) ) {
-                $this->{failure} =
-                  $session->i18n->maketext('access not allowed on web');
-                print STDERR 'd ' . $this->{failure}, "\n" if MONITOR;
+            unless ( $session->users->isInUserList( $cUID, $allow ) ) {
+                $this->failure(
+                    $session->i18n->maketext('access not allowed on web') );
+                print STDERR 'd ' . $this->failure, "\n" if MONITOR;
                 return 0;
             }
         }
@@ -167,21 +160,20 @@ sub haveAccess {
         $deny = $this->_getACL( $meta, 'DENYROOT' . $mode );
 
         if ( defined($deny)
-            && $session->{users}->isInUserList( $cUID, $deny ) )
+            && $session->users->isInUserList( $cUID, $deny ) )
         {
-            $this->{failure} =
-              $session->i18n->maketext('access denied on root');
-            print STDERR 'e ' . $this->{failure}, "\n" if MONITOR;
+            $this->failure( $session->i18n->maketext('access denied on root') );
+            print STDERR 'e ' . $this->failure, "\n" if MONITOR;
             return 0;
         }
 
         $allow = $this->_getACL( $meta, 'ALLOWROOT' . $mode );
 
         if ( defined($allow) && scalar(@$allow) != 0 ) {
-            unless ( $session->{users}->isInUserList( $cUID, $allow ) ) {
-                $this->{failure} =
-                  $session->i18n->maketext('access not allowed on root');
-                print STDERR 'f ' . $this->{failure}, "\n" if MONITOR;
+            unless ( $session->users->isInUserList( $cUID, $allow ) ) {
+                $this->failure(
+                    $session->i18n->maketext('access not allowed on root') );
+                print STDERR 'f ' . $this->failure, "\n" if MONITOR;
                 return 0;
             }
         }

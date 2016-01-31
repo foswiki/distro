@@ -54,7 +54,7 @@ use strict;
 use warnings;
 use Scalar::Util ();
 
-use Error qw( :try );
+use Try::Tiny;
 use Assert;
 
 use Foswiki                         ();
@@ -1832,7 +1832,7 @@ sub readAttachment {
     try {
         $fh = $topicObject->openAttachment( $attachment, '<', version => $rev );
     }
-    catch Error with {
+    catch {
         $fh = undef;
     };
     return undef unless $fh;
@@ -3759,16 +3759,28 @@ sub saveTopicText {
     try {
         $topicObject->save( minor => $dontNotify );
     }
-    catch Foswiki::OopsException with {
-        shift->throw();    # propagate
-    }
-    catch Error with {
-        $outcome = getScriptUrl(
-            $web, $topic, 'oops',
-            template => 'oopsattention',
-            def      => 'save_error',
-            param1   => shift->{-text}
-        );
+    catch {
+        my $e = $_;
+        Foswiki::Exception->rethrow($e) unless ref($e);
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $e->rethrow;    # propagate
+        }
+        elsif ( $e->isa('Foswiki::Exception') ) {
+            $outcome = getScriptUrl(
+                $web, $topic, 'oops',
+                template => 'oopsattention',
+                def      => 'save_error',
+                param1   => $e->text
+            );
+        }
+        elsif ( $e->isa('Error') ) {
+            $outcome = getScriptUrl(
+                $web, $topic, 'oops',
+                template => 'oopsattention',
+                def      => 'save_error',
+                param1   => $e->{-text}
+            );
+        }
     };
     return $outcome;
 }

@@ -14,8 +14,7 @@ use Foswiki::ValidationException    ();
 
 use Moo;
 use namespace::clean;
-
-extends 'Foswiki::Object';
+extends qw(Foswiki::Object);
 
 use Assert;
 
@@ -78,7 +77,6 @@ has session => (
     is       => 'ro',
     required => 1,
 );
-
 has name => (
     is       => 'ro',
     required => 1,
@@ -86,13 +84,48 @@ has name => (
         ASSERT( UNTAINTED( $_[0] ), "Name $_[0] is tainted!" ) if DEBUG;
     },
 );
-
-has module => ( is => 'ro', );
-
+has module => ( is => 'rw', );
 has errors => (
     is      => 'rw',
     default => sub { return []; },
 );
+has disabled => (
+    is      => 'rw',
+    default => 0,
+);
+has reason => (
+    is      => 'rw',
+    default => '',
+);
+has topicWeb => (
+    is      => 'rw',
+    clearer => 1,
+    lazy    => 1,
+    default => sub {
+        my $this = shift;
+        unless ( $this->no_topic ) {
+
+            # Find the plugin topic, if required
+            my $session = $this->session;
+
+            foreach
+              my $web ( split( /[, ]+/, $Foswiki::cfg{Plugins}{WebSearchPath} ),
+                $session->webName )
+            {
+                $web = Foswiki::Sandbox::untaintUnchecked($web);    # Item11953
+                if ( $session->topicExists( $web, $this->name ) ) {
+                    return $web;
+                }
+            }
+        }
+
+        # If there is no web (probably because NO_PREFS_IN_TOPIC is set) then
+        # default to the system web name.
+        return $Foswiki::cfg{SystemWebName};
+    },
+);
+has no_topic    => ( is => 'rw', );
+has description => ( is => 'rw', );
 
 our @_newParameters = qw( session name module );
 
@@ -117,7 +150,7 @@ sub BUILD {
     unless ($p) {
         $p = "Foswiki::Plugins::$name";
         push(
-            @{ $this->{errors} },
+            @{ $this->errors },
 "$p has been guessed. '\$Foswiki::cfg{Plugins}{$name}{Module}' should be defined in LocalSite.cfg"
         ) if DEBUG;
     }
@@ -125,17 +158,17 @@ sub BUILD {
     eval "use $p";
     if ($@) {
         push(
-            @{ $this->{errors} },
+            @{ $this->errors },
             "$p could not be loaded.  Errors were:\n$@\n----"
         );
-        $this->{disabled} = 1;
-        $this->{reason}   = 'no_load_plugin';
+        $this->disabled(1);
+        $this->reason('no_load_plugin');
     }
     else {
-        $this->{module} = $p;
+        $this->module($p);
     }
     my $fn = "${p}::preload";
-    if ( !$this->{disabled} && defined &$fn ) {
+    if ( !$this->disabled && defined &$fn ) {
 
         # A preload handler can simply die if it doesn't like what it sees
         no strict 'refs';
@@ -173,20 +206,20 @@ sub finish {
 sub load {
     my ($this) = @_;
 
-    return if $this->{disabled};
+    return if $this->disabled;
 
-    my $noTopic = eval '$' . $this->{module} . '::NO_PREFS_IN_TOPIC';
-    $this->{no_topic} = $noTopic;
-    $this->{topicWeb} = undef;      # not known yet
+    my $noTopic = eval '$' . $this->module . '::NO_PREFS_IN_TOPIC';
+    $this->no_topic($noTopic);
+    $this->clear_topicWeb;    # not known yet
 
     unless ($noTopic) {
         if ( !$this->topicWeb() ) {
 
             # not found
             push(
-                @{ $this->{errors} },
+                @{ $this->errors },
                 'Plugins: could not fully register '
-                  . $this->{name}
+                  . $this->name
                   . ', no plugin topic'
             );
             $noTopic = 1;
@@ -195,46 +228,46 @@ sub load {
 
     # Get the description from the code, if present. if it's not there, it'll
     # be loaded as a preference from the plugin topic later
-    $this->{description} = eval '$' . $this->{module} . '::SHORTDESCRIPTION';
+    $this->description( eval '$' . $this->module . '::SHORTDESCRIPTION' );
 
     # Set the session for this call stack
-    local $Foswiki::Plugins::SESSION = $this->{session};
+    local $Foswiki::Plugins::SESSION = $this->session;
     ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
-    my $sub = $this->{module} . "::initPlugin";
+    my $sub = $this->module . "::initPlugin";
     if ( !defined(&$sub) ) {
-        push( @{ $this->{errors} }, $sub . ' is not defined' );
-        $this->{disabled} = 1;
-        $this->{reason}   = 'no_initPlugin';
+        push( @{ $this->errors }, $sub . ' is not defined' );
+        $this->disabled(1);
+        $this->reason('no_initPlugin');
         return;
     }
 
-    $sub = $this->{module} . '::earlyInitPlugin';
+    $sub = $this->module . '::earlyInitPlugin';
     if ( defined(&$sub) ) {
         no strict 'refs';
         my $error = &$sub();
         use strict 'refs';
         if ($error) {
-            push( @{ $this->{errors} }, $sub . ' failed: ' . $error );
-            $this->{disabled} = 1;
-            $this->{reason}   = 'no_earlyInitPlugin';
+            push( @{ $this->errors }, $sub . ' failed: ' . $error );
+            $this->disabled(1);
+            $this->reason('no_earlyInitPlugin');
             return;
         }
     }
 
     my $user;
-    $sub = $this->{module} . '::initializeUserHandler';
+    $sub = $this->module . '::initializeUserHandler';
     if ( defined(&$sub) ) {
         no strict 'refs';
         $user = &$sub(
-            $this->{session}->{remoteUser},
-            $this->{session}->{request}->url(),
-            $this->{session}->{request}->path_info()
+            $this->session->remoteUser,
+            $this->session->request->url,
+            $this->session->request->path_info
         );
         use strict 'refs';
     }
 
-#print STDERR "Compile $this->{module}: ".timestr(timediff(new Benchmark, $begin))."\n";
+#print STDERR "Compile ", $this->module, ": ".timestr(timediff(new Benchmark, $begin))."\n";
 
     return $user;
 }
@@ -243,11 +276,11 @@ sub load {
 sub registerSettings {
     my ( $this, $plugins ) = @_;
 
-    return if $this->{disabled};
+    return if $this->disabled;
 
-    my $prefs = $this->{session}->{prefs};
-    if ( !$this->{no_topic} ) {
-        $prefs->setPluginPreferences( $this->topicWeb(), $this->{name} );
+    my $prefs = $this->session->prefs;
+    if ( !$this->no_topic ) {
+        $prefs->setPluginPreferences( $this->topicWeb, $this->name );
     }
 }
 
@@ -255,9 +288,9 @@ sub registerSettings {
 sub registerHandlers {
     my ( $this, $plugins ) = @_;
 
-    return if $this->{disabled};
+    return if $this->disabled;
 
-    my $p         = $this->{module};
+    my $p         = $this->module;
     my $sub       = $p . "::initPlugin";
     my $users     = $Foswiki::Plugins::SESSION->{users};
     my $status    = 0;
@@ -265,9 +298,9 @@ sub registerHandlers {
     try {
         no strict 'refs';
         $status = &$sub(
-            $Foswiki::Plugins::SESSION->{topicName},
-            $Foswiki::Plugins::SESSION->{webName},
-            $users->getLoginName( $Foswiki::Plugins::SESSION->{user} ),
+            $Foswiki::Plugins::SESSION->topicName,
+            $Foswiki::Plugins::SESSION->webName,
+            $users->getLoginName( $Foswiki::Plugins::SESSION->user ),
             $this->topicWeb()
         );
         use strict 'refs';
@@ -278,6 +311,8 @@ sub registerHandlers {
             || $_->isa('Foswiki::ValidationException')
             || !ref($_) )
         {
+            # SMELL Not sure how did it work with with Error.pm and die of
+            # errors previously.
             Foswiki::Exception->rethrow($_);
         }
         else {
@@ -293,9 +328,9 @@ $sub did not return true.
 Check your Foswiki warning and error logs for more information.
 MESSAGE
         }
-        push( @{ $this->{errors} }, $exception );
-        $this->{disabled} = 1;
-        $this->{reason}   = 'plugin_ret_0';
+        push( @{ $this->errors }, $exception );
+        $this->disabled(1);
+        $this->reason('plugin_ret_0');
         return;
     }
 
@@ -315,14 +350,14 @@ MESSAGE
             $plugins->addListener( $h, $this );
         }
     }
-    $this->{session}->enterContext( $this->{name} . 'Enabled' );
+    $this->session->enterContext( $this->name . 'Enabled' );
 }
 
 # Invoke a handler
 sub invoke {
     my $this        = shift;    # remove from parameter vector
     my $handlerName = shift;
-    my $handler = $this->{module} . '::' . $handlerName;
+    my $handler = $this->module . '::' . $handlerName;
     no strict 'refs';
     return &$handler(@_);
     use strict 'refs';
@@ -334,7 +369,7 @@ sub getVersion {
     my $this = shift;
 
     no strict 'refs';
-    return ${ $this->{module} . '::VERSION' } || '';
+    return ${ $this->module . '::VERSION' } || '';
     use strict 'refs';
 }
 
@@ -344,7 +379,7 @@ sub getRelease {
     my $this = shift;
 
     no strict 'refs';
-    return ${ $this->{module} . '::RELEASE' } || '';
+    return ${ $this->module . '::RELEASE' } || '';
     use strict 'refs';
 }
 
@@ -352,21 +387,20 @@ sub getRelease {
 sub getDescription {
     my $this = shift;
 
-    unless ( defined $this->{description} ) {
-        my $pref  = uc( $this->{name} ) . '_SHORTDESCRIPTION';
-        my $prefs = $this->{session}->{prefs};
-        $this->{description} = $prefs->getPreference($pref) || '';
+    unless ( defined $this->description ) {
+        my $pref  = uc( $this->name ) . '_SHORTDESCRIPTION';
+        my $prefs = $this->session->prefs;
+        $this->description( $prefs->getPreference($pref) || '' );
     }
-    if ( $this->{disabled} ) {
+    if ( $this->disabled ) {
         my $reason = '';
-        if ( $this->{reason} ) {
-            $reason =
-              $this->{session}->inlineAlert( 'alerts', $this->{reason} );
+        if ( $this->reason ) {
+            $reason = $this->session->inlineAlert( 'alerts', $this->reason );
         }
         return
             ' '
-          . $this->{name} . ': '
-          . $this->{session}->inlineAlert( 'alerts', 'plugin_disabled' )
+          . $this->name . ': '
+          . $this->session->inlineAlert( 'alerts', 'plugin_disabled' )
           . $reason;
     }
 
@@ -376,45 +410,11 @@ sub getDescription {
     $version = $release . ', ' . $version if $release;
 
     my $web = $this->topicWeb();
-    my $result = ' ' . ( $web ? "$web." : '!' ) . $this->{name} . ' ';
+    my $result = ' ' . ( $web ? "$web." : '!' ) . $this->name . ' ';
     $result .= CGI::span( { class => 'foswikiGrayText foswikiSmall' },
         '(' . $version . ')' );
-    $result .= ': ' . $this->{description};
+    $result .= ': ' . $this->description;
     return $result;
-}
-
-=begin TML
-
----++ ObjectMethod topicWeb() -> $webname
-
-Find the web that has the topic for this plugin by searching the
-{Plugins}{WebSearchPath}. Returns undef if $NO_PREFS_IN_TOPIC=1
-
-=cut
-
-sub topicWeb {
-    my $this = shift;
-
-    unless ( defined( $this->{topicWeb} ) || $this->{no_topic} ) {
-
-        # Find the plugin topic, if required
-        my $session = $this->{session};
-
-        foreach
-          my $web ( split( /[, ]+/, $Foswiki::cfg{Plugins}{WebSearchPath} ),
-            $session->{webName} )
-        {
-            $web = Foswiki::Sandbox::untaintUnchecked($web);    # Item11953
-            if ( $session->topicExists( $web, $this->{name} ) ) {
-                $this->{topicWeb} = $web;
-                last;
-            }
-        }
-    }
-
-    # If there is no web (probably because NO_PREFS_IN_TOPIC is set)
-    # then default to the system web name.
-    return $this->{topicWeb} || $Foswiki::cfg{SystemWebName};
 }
 
 1;

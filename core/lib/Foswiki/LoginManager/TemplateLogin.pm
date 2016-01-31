@@ -15,15 +15,15 @@ methods of this class.
 =cut
 
 package Foswiki::LoginManager::TemplateLogin;
+use v5.15;
 
-use strict;
-use warnings;
 use Assert;
 use Unicode::Normalize;
-
-use Foswiki::LoginManager ();
-our @ISA = ('Foswiki::LoginManager');
 use Encode ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::LoginManager);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -40,9 +40,10 @@ Construct the TemplateLogin object
 
 =cut
 
-sub new {
-    my ( $class, $session ) = @_;
-    my $this = $class->SUPER::new($session);
+sub BUILD {
+    my $this = shift;
+
+    my $session = $this->session;
     $session->enterContext('can_login');
     if ( $Foswiki::cfg{Sessions}{ExpireCookiesAfter} ) {
         $session->enterContext('can_remember_login');
@@ -50,7 +51,6 @@ sub new {
     if ( $Foswiki::cfg{TemplateLogin}{PreventBrowserRememberingPassword} ) {
         $session->enterContext('no_auto_complete_login');
     }
-    return $this;
 }
 
 # Pack key request parameters into a single value
@@ -60,7 +60,7 @@ sub _packRequest {
     my ( $uri, $method, $action ) = @_;
     return '' unless $uri;
     if ( ref($uri) ) {    # first parameter is a $session
-        my $r = $uri->{request};
+        my $r = $uri->request;
         $uri    = $r->uri();
         $uri    = Foswiki::urlDecode($uri);
         $method = $r->method() || 'UNDEFINED';
@@ -87,11 +87,11 @@ Triggered on auth fail
 
 sub forceAuthentication {
     my $this    = shift;
-    my $session = $this->{session};
+    my $session = $this->session;
 
     unless ( $session->inContext('authenticated') ) {
-        my $query    = $session->{request};
-        my $response = $session->{response};
+        my $query    = $session->request;
+        my $response = $session->response;
 
         # Respond with a 401 with an appropriate WWW-Authenticate
         # that won't be snatched by the browser, but can be used
@@ -125,9 +125,9 @@ Overrides LoginManager. Content of a login link.
 
 sub loginUrl {
     my $this    = shift;
-    my $session = $this->{session};
-    my $topic   = $session->{topicName};
-    my $web     = $session->{webName};
+    my $session = $this->session;
+    my $topic   = $session->topicName;
+    my $web     = $session->webName;
     return $session->getScriptUrl( 0, 'login', $web, $topic,
         foswiki_origin => _packRequest($session) );
 }
@@ -156,7 +156,7 @@ database, that can then be displayed by referring to
 
 sub login {
     my ( $this, $query, $session ) = @_;
-    my $users = $session->{users};
+    my $users = $session->users;
 
     my $origin = $query->param('foswiki_origin');
     my ( $origurl, $origmethod, $origaction ) = _unpackRequest($origin);
@@ -173,20 +173,20 @@ sub login {
 
     my $banner = $session->templates->expandTemplate('LOG_IN_BANNER');
     my $note   = '';
-    my $topic  = $session->{topicName};
-    my $web    = $session->{webName};
+    my $topic  = $session->topicName;
+    my $web    = $session->webName;
 
     # CAUTION:  LoginManager::userLoggedIn() will delete and recreate
     # the CGI Session.
-    # Do not make a local copy of $this->{_cgisession}, or it will point
+    # Do not make a local copy of $this->_cgisession, or it will point
     # to a deleted session once the user has been logged in.
 
-    $this->{_cgisession}->param( 'REMEMBER', $remember )
-      if $this->{_cgisession};
-    if (   $this->{_cgisession}
-        && $this->{_cgisession}->param('AUTHUSER')
+    $this->_cgisession->param( 'REMEMBER', $remember )
+      if $this->_has_cgisession;
+    if (   $this->_has_cgisession
+        && $this->_cgisession->param('AUTHUSER')
         && $loginName
-        && $loginName ne $this->{_cgisession}->param('AUTHUSER') )
+        && $loginName ne $this->_cgisession->param('AUTHUSER') )
     {
         $banner = $session->templates->expandTemplate('LOGGED_IN_BANNER');
         $note   = $session->templates->expandTemplate('NEW_USER_NOTE');
@@ -237,8 +237,8 @@ sub login {
             # that we're using BaseMapper..
             $query->delete('sudo');
 
-            $this->{_cgisession}->param( 'VALIDATION', $validation )
-              if $this->{_cgisession};
+            $this->_cgisession->param( 'VALIDATION', $validation )
+              if $this->_has_cgisession;
             if ( !$origurl || $origurl eq $query->url() ) {
                 $origurl = $session->getScriptUrl( 0, 'view', $web, $topic );
             }
@@ -272,7 +272,7 @@ sub login {
             # used for authentication failures. RFC states: "Authorization
             # will not help and the request SHOULD NOT be repeated" which
             # is not the situation here.
-            $session->{response}->status(200);
+            $session->response->status(200);
             $session->logger->log(
                 {
                     level    => 'info',
@@ -290,13 +290,13 @@ sub login {
         # valid GET call to http://foswiki/bin/login
         # 4xx cannot be a correct status, as we want the user to retry the
         # same URL with a different login/password
-        $session->{response}->status(200);
+        $session->response->status(200);
     }
 
     # Remove the validation_key from the *passed through* params. It isn't
     # required, because the form will have a new validation key, and
     # giving the parameter twice will confuse the strikeone Javascript.
-    $session->{request}->delete('validation_key');
+    $session->request->delete('validation_key');
 
     # set the usernamestep value so it can be re-displayed if we are here due
     # to a failed authentication attempt.
@@ -313,7 +313,7 @@ sub login {
 
     # Set session preferences that will be expanded when the login
     # template is instantiated
-    $session->{prefs}->setSessionPreferences(
+    $session->prefs->setSessionPreferences(
         FOSWIKI_ORIGIN => Foswiki::entityEncode(
             _packRequest( $origurl, $origmethod, $origaction )
         ),
@@ -329,7 +329,8 @@ sub login {
         ERROR  => $error
     );
 
-    my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+    my $topicObject =
+      Foswiki::Meta->new( session => $session, web => $web, topic => $topic );
     $tmpl = $topicObject->expandMacros($tmpl);
     $tmpl = $topicObject->renderTML($tmpl);
     $tmpl =~ s/<nop>//g;

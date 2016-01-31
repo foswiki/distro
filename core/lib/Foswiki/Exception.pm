@@ -100,15 +100,16 @@ sub stringify {
 
 =begin TML
 
----++ ClassMethod rethrow($error)
+---++ ClassMethod rethrow([$error])
 
-Receives any exception and rethrows it as Foswiki::Exception.
+Receives any exception and rethrows it as Foswiki::Exception. =$e->rethrow= is
+no different of =$e->throw= and might be used for readability.
 
 =cut
 
 sub rethrow {
     my $class = shift;
-    my ($e) = @_;
+    my $e = ref($class) && $class->isa('Foswiki::Exception') ? $class : shift;
 
     if ( ref($e) ) {
         if ( $e->isa('Foswiki::Exception') ) {

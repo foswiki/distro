@@ -9,27 +9,20 @@ DENY EVERYONE that is not Admin - Admin permitted anythingeverything
 =cut
 
 package Foswiki::Access::AdminOnlyAccess;
+use v5.14;
 
-use Foswiki::Access;
-@ISA = qw(Foswiki::Access);
-use constant MONITOR => 0;
-
-use strict;
 use Assert;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Access);
+use constant MONITOR => 0;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
         import locale();
     }
-}
-
-sub new {
-    my ( $class, $session ) = @_;
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
-    my $this = bless( { session => $session }, $class );
-
-    return $this;
 }
 
 =begin TML
@@ -46,20 +39,20 @@ may result in the topic being read.
 sub haveAccess {
     my ( $this, $mode, $cUID, $param1, $param2 ) = @_;
     $mode ||= 'VIEW';
-    $cUID ||= $this->{session}->{user};
+    $cUID ||= $this->session->user;
 
-    my $session = $this->{session};
-    undef $this->{failure};
+    my $session = $this->session;
+    $this->clear_failure;
 
     print STDERR "Check $mode access $cUID \n"
       if MONITOR;
 
     # super admin is always allowed
-    if ( $session->{users}->isAdmin($cUID) ) {
+    if ( $session->users->isAdmin($cUID) ) {
         print STDERR "$cUID - ADMIN\n" if MONITOR;
         return 1;
     }
-    $this->{failure} = 'Admin Only ACL selected';
+    $this->failure('Admin Only ACL selected');
     return 0;
 }
 

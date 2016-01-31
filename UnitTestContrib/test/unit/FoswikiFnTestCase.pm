@@ -147,7 +147,7 @@ around set_up => sub {
         $this->test_user_surname, $this->test_user_email
     );
     $this->test_user_cuid(
-        $this->session->{users}->getCanonicalUserID( $this->test_user_login ) );
+        $this->session->users->getCanonicalUserID( $this->test_user_login ) );
 };
 
 around tear_down => sub {
@@ -199,7 +199,7 @@ Can be used by subclasses to register test users.
 
 sub registerUser {
     my ( $this, $loginname, $forename, $surname, $email ) = @_;
-    my $q = $this->session->{request};
+    my $q = $this->session->request;
 
     my $params = {
         'TopicName'     => ['UserRegistration'],

@@ -1,9 +1,11 @@
 # See bottom of file for license and copyright information
 package Foswiki;
+use v5.14;
 
 use strict;
 use warnings;
 use Foswiki::Serialise ();
+use Try::Tiny;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {

@@ -1,5 +1,6 @@
 
 package Foswiki;
+use v5.14;    # First version to accept v-numbers.
 
 =begin TML
 
@@ -49,8 +50,6 @@ use Digest::MD5              ();  # For passthru and validation
 use Foswiki::Configure::Load ();
 use Foswiki::Exception;
 
-use 5.006;                        # First version to accept v-numbers.
-
 # Item13331 - use CGI::ENCODE_ENTITIES introduced in CGI>=4.14 to restrict encoding
 # in CGI's html rendering code to only these; note that CGI's default values
 # still breaks some unicode byte strings
@@ -95,16 +94,238 @@ our $CC      = "\0-->";
 # corrupting data spaces.
 our $inUnitTestMode = 0;
 
+use Try::Tiny;
+
 use Moo;
 use namespace::clean;
-
-extends 'Foswiki::Object';
+extends qw( Foswiki::Object );
 
 use Assert;
-use Try::Tiny;
 
 sub SINGLE_SINGLETONS       { 0 }
 sub SINGLE_SINGLETONS_TRACE { 0 }
+
+has access => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        require Foswiki::Access;
+        return Foswiki::Access->create( $_[0] );
+    },
+);
+has attach => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        require Foswiki::Attach;
+        new Foswiki::Attach( $_[0] );
+    },
+);
+has cache => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        my $this = shift;
+        if (   $Foswiki::cfg{Cache}{Enabled}
+            && $Foswiki::cfg{Cache}{Implementation} )
+        {
+            eval "require $Foswiki::cfg{Cache}{Implementation}";
+            ASSERT( !$@, $@ ) if DEBUG;
+            return $Foswiki::cfg{Cache}{Implementation}->new();
+        }
+        return undef;
+    },
+);
+has context => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
+has digester => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub { return Digest::MD5->new; },
+);
+has forms => (
+    is      => 'ro',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
+);
+has i18n => (
+    is      => 'ro',
+    lazy    => 1,
+    clearer => 1,
+    default => sub {
+        require Foswiki::I18N;
+
+        # language information; must be loaded after
+        # *all possible preferences sources* are available
+        new Foswiki::I18N( $_[0] );
+    },
+);
+has invalidTopic => ( is => 'rw', );
+has invalidWeb   => ( is => 'rw', );
+has logger       => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        my $this = shift;
+        my $logger;
+        if ( $Foswiki::cfg{Log}{Implementation} ne 'none' ) {
+            eval "require $Foswiki::cfg{Log}{Implementation}";
+            if ($@) {
+                print STDERR "Logger load failed: $@";
+            }
+            else {
+                $logger = $Foswiki::cfg{Log}{Implementation}->new();
+            }
+        }
+        $logger = Foswiki::Logger->new() unless defined $logger;
+        return $logger;
+    },
+);
+has net => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        require Foswiki::Net;
+        return Foswiki::Net->new( $_[0] );
+    },
+);
+has plugins => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub { return Foswiki::Plugins->new( session => $_[0] ); },
+);
+has prefs => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub { return Foswiki::Prefs->new( session => $_[0] ); },
+);
+has remoteUser => ( is => 'rw', );
+has renderer => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        require Foswiki::Render;
+        new Foswiki::Render( $_[0] );
+    },
+);
+has request => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub { return Foswiki::Request->new; },
+    isa     => Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request' ),
+);
+has requestedWebName => ( is => 'rw', );
+has response => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub { return Foswiki::Response->new; },
+);
+has sandbox => (
+    is      => 'ro',
+    default => 'Foswiki::Sandbox',
+);
+has scriptUrlPath => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        my $this          = shift;
+        my $scriptUrlPath = $Foswiki::cfg{ScriptUrlPath};
+        my $url           = $this->request->url;
+        if (   $Foswiki::cfg{GetScriptUrlFromCgi}
+            && $url
+            && $url =~ m{^[^:]*://[^/]*(.*)/.*$}
+            && $1 )
+        {
+
+            # SMELL: this is a really dangerous hack. It will fail
+            # spectacularly with mod_perl.
+            # SMELL: why not just use $query->script_name?
+            # SMELL: unchecked implicit untaint?
+            $scriptUrlPath = $1;
+        }
+        return $scriptUrlPath;
+    },
+);
+has search => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        require Foswiki::Search;
+        return Foswiki::Search->new( $_[0] );
+    },
+);
+has store => ( is => 'rw', );
+has templates => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        require Foswiki::Templates;
+        return Foswiki::Templates->new( $_[0] );
+    },
+);
+has topicName => ( is => 'rw', );
+
+# SMELL Shouldn't urlHost attribute be available from the request object?
+has urlHost => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        my $this = shift;
+
+        #{urlHost}  is needed by loadSession..
+        my $url = $this->request->url();
+        my $urlHost;
+        if (   $url
+            && !$Foswiki::cfg{ForceDefaultUrlHost}
+            && $url =~ m{^([^:]*://[^/]*).*$} )
+        {
+            $urlHost = $1;
+
+            if ( $Foswiki::cfg{RemovePortNumber} ) {
+                $urlHost =~ s/\:[0-9]+$//;
+            }
+
+            # If the urlHost in the url is localhost, this is a lot less
+            # useful than the default url host. This is because new CGI("")
+            # assigns this host by default - it's a default setting, used
+            # when there is nothing better available.
+            if ( $urlHost =~ m/^(https?:\/\/)localhost$/i ) {
+                my $protocol = $1;
+
+#only replace localhost _if_ the protocol matches the one specified in the DefaultUrlHost
+                if ( $Foswiki::cfg{DefaultUrlHost} =~ m/^$protocol/i ) {
+                    $urlHost = $Foswiki::cfg{DefaultUrlHost};
+                }
+            }
+        }
+        else {
+            $urlHost = $Foswiki::cfg{DefaultUrlHost};
+        }
+        ASSERT($urlHost) if DEBUG;
+        return $urlHost;
+    },
+);
+has user => ( is => 'rw', );
+has users => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { return Foswiki::Users->new( $_[0] ); },
+);
+has webName => ( is => 'rw', );
+has zones => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        require Foswiki::Render::Zones;
+        return Foswiki::Render::Zones->new( $_[0] );
+    },
+);
+
+our @_newParameters = qw( user request context );
 
 # Returns the full path of the directory containing Foswiki.pm
 sub _getLibDir {
@@ -229,7 +450,7 @@ BEGIN {
 
         # deprecated, use ADDTOZONE instead
         ADDTOZONE     => undef,
-        ALLVARIABLES  => sub { $_[0]->{prefs}->stringify() },
+        ALLVARIABLES  => sub { $_[0]->prefs->stringify() },
         ATTACHURL     => undef,
         ATTACHURLPATH => undef,
         DATE          => sub {
@@ -261,7 +482,7 @@ BEGIN {
         HTTP_HOST =>
 
           #deprecated functionality, now implemented using %ENV%
-          sub { $_[0]->{request}->header('Host') || '' },
+          sub { $_[0]->request->header('Host') || '' },
         HTTP                 => undef,
         HTTPS                => undef,
         ICON                 => undef,
@@ -284,14 +505,14 @@ BEGIN {
           # topics used as templates for new topics)
           sub { $_[1]->{_RAW} ? $_[1]->{_RAW} : '<nop>' },
         PLUGINVERSION => sub {
-            $_[0]->{plugins}->getPluginVersion( $_[1]->{_DEFAULT} );
+            $_[0]->plugins->getPluginVersion( $_[1]->{_DEFAULT} );
         },
         PUBURL      => undef,
         PUBURLPATH  => undef,
         QUERY       => undef,
         QUERYPARAMS => undef,
         QUERYSTRING => sub {
-            my $s = $_[0]->{request}->queryString();
+            my $s = $_[0]->request->queryString();
 
             # Aggressively encode QUERYSTRING (even more than the
             # default) because it might be leveraged for XSS
@@ -303,7 +524,7 @@ BEGIN {
 
           # DEPRECATED, now implemented using %ENV%
           #move to compatibility plugin in Foswiki 2.0
-          sub { $_[0]->{request}->remoteAddress() || ''; },
+          sub { $_[0]->request->remoteAddress() || ''; },
         REMOTE_PORT =>
 
           # DEPRECATED
@@ -315,12 +536,12 @@ BEGIN {
         REMOTE_USER =>
 
           # DEPRECATED
-          sub { $_[0]->{request}->remoteUser() || '' },
+          sub { $_[0]->request->remoteUser() || '' },
         RENDERZONE    => undef,
         REVINFO       => undef,
         REVTITLE      => undef,
         REVARG        => undef,
-        SCRIPTNAME    => sub { $_[0]->{request}->action() },
+        SCRIPTNAME    => sub { $_[0]->request->action() },
         SCRIPTURL     => undef,
         SCRIPTURLPATH => undef,
         SEARCH        => undef,
@@ -662,6 +883,283 @@ use Foswiki::Users    ();
 
 =begin TML
 
+---++ ClassMethod new( $defaultUser, $query, \%initialContext )
+
+Constructs a new Foswiki session object. A unique session object exists for
+every transaction with Foswiki, for example every browser request, or every
+script run. Session objects do not persist between mod_perl runs.
+
+   * =$defaultUser= is the username (*not* the wikiname) of the default
+     user you want to be logged-in, if none is available from a session
+     or browser. Used mainly for unit tests and debugging, it is typically
+     undef, in which case the default user is taken from
+     $Foswiki::cfg{DefaultUserName}.
+   * =$query= the Foswiki::Request query (may be undef, in which case an
+     empty query is used)
+   * =\%initialContext= - reference to a hash containing context
+     name=value pairs to be pre-installed in the context hash. May be undef.
+
+=cut
+
+around BUILDARGS => sub {
+    my $orig = shift;
+
+    my $params = $orig->(@_);
+
+    Monitor::MARK("Static init over; make Foswiki object");
+    ASSERT( !$params->{request}
+          || UNIVERSAL::isa( $params->{request}, 'Foswiki::Request' ) )
+      if DEBUG;
+
+    # Override user to be admin if no configuration exists.
+    # Do this really early, so that later changes in isBOOTSTRAPPING can't
+    # change Foswiki's behavior.
+    $params->{user} = 'admin' if ( $Foswiki::cfg{isBOOTSTRAPPING} );
+
+    unless ( $Foswiki::cfg{TempfileDir} ) {
+
+        # Give it a sane default.
+        if ( $^O eq 'MSWin32' ) {
+
+            # Windows default tmpdir is the C: root  use something sane.
+            # Configure does a better job,  it should be run.
+            $Foswiki::cfg{TempfileDir} = $Foswiki::cfg{WorkingDir};
+        }
+        else {
+            $Foswiki::cfg{TempfileDir} = File::Spec->tmpdir();
+        }
+    }
+
+    # Cover all the possibilities
+    $ENV{TMPDIR} = $Foswiki::cfg{TempfileDir};
+    $ENV{TEMP}   = $Foswiki::cfg{TempfileDir};
+    $ENV{TMP}    = $Foswiki::cfg{TempfileDir};
+
+    # Make sure CGI is also using the appropriate tempfile location
+    $CGI::TMPDIRECTORY = $Foswiki::cfg{TempfileDir};
+
+    # Make %ENV safer, preventing hijack of the search path. The
+    # environment is set per-query, so this can't be done in a BEGIN.
+    # This MUST be done before any external programs are run via Sandbox.
+    # or it will fail with taint errors.  See Item13237
+    if ( defined $Foswiki::cfg{SafeEnvPath} ) {
+        $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
+    }
+    else {
+        # Default $ENV{PATH} must be untainted because
+        # Foswiki may be run with the -T flag.
+        # SMELL: how can we validate the PATH?
+        $ENV{PATH} = Foswiki::Sandbox::untaintUnchecked( $ENV{PATH} );
+    }
+    delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
+
+    if (   $Foswiki::cfg{WarningFileName}
+        && $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' )
+    {
+
+        # Admin has already expressed a preference for where they want their
+        # logfiles to go, and has obviously not re-run configure yet.
+        $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
+
+#print STDERR "WARNING: Foswiki is using the compatibility logger. Please re-run configure and check your logfiles settings\n";
+    }
+
+    # Make sure LogFielname is defined for use in old plugins,
+    # but don't overwrite the setting from configure, if there is one.
+    # This is especially important when the admin has *chosen*
+    # to use the compatibility logger. (Some old TWiki heritage
+    # plugins write directly to the configured LogFileName
+    if ( not $Foswiki::cfg{LogFileName} ) {
+        if ( $Foswiki::cfg{Log}{Implementation} eq
+            'Foswiki::Logger::Compatibility' )
+        {
+            my $stamp =
+              Foswiki::Time::formatTime( time(), '$year$mo', 'servertime' );
+            my $defaultLogDir = "$Foswiki::cfg{DataDir}";
+            $Foswiki::cfg{LogFileName} = $defaultLogDir . "/log$stamp.txt";
+
+#print STDERR "Overrode LogFileName to $Foswiki::cfg{LogFileName} for CompatibilityLogger\n"
+        }
+        else {
+            $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/events.log";
+
+#print STDERR "Overrode LogFileName to $Foswiki::cfg{LogFileName} for PlainFileLogger\n"
+        }
+    }
+
+    # Set command_line context if there is no query
+    $params->{context} ||=
+      defined( $params->{request} ) ? {} : { command_line => 1 };
+
+    # This foswiki supports:
+    $params->{context}->{SUPPORTS_PARA_INDENT}   = 1;  #  paragraph indent
+    $params->{context}->{SUPPORTS_PREF_SET_URLS} = 1;  # ?Set+, ?Local+ etc URLs
+    if ( $Foswiki::cfg{Password} ) {
+        $params->{context}->{admin_available} = 1;     # True if sudo supported.
+    }
+
+    return $params;
+};
+
+sub BUILD {
+    my $this = shift;
+
+    if (SINGLE_SINGLETONS_TRACE) {
+        require Data::Dumper;
+        print STDERR "new $this: "
+          . Data::Dumper->Dump( [ [caller], [ caller(1) ] ] );
+    }
+
+    my $query = $this->request;
+
+    # Phase 2 of Bootstrap.  Web settings require that the Foswiki request
+    # has been parsed.
+    if ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
+        my $phase2_message =
+          Foswiki::Configure::Load::bootstrapWebSettings( $query->action() );
+        unless ($system_message) {    # Don't do this more than once.
+            $system_message =
+              ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} !~ /CLI/i )
+              ? ( '<div class="foswikiHelp"> '
+                  . $bootstrap_message
+                  . $phase2_message
+                  . '</div>' )
+              : $bootstrap_message . $phase2_message;
+        }
+    }
+
+    # This is required in case we get an exception during
+    # initialisation, so that we have a session to handle it with.
+    ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+    $Foswiki::Plugins::SESSION = $this;
+    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
+
+    # construct the store object
+    my $base = $Foswiki::cfg{Store}{Implementation}
+      || 'Foswiki::Store::PlainFile';
+
+    load_package($base);
+
+  # SMELL vrurg A chain of inheritance just to have one method called on several
+  # different classes? Really? A simple queue of object would do the same but
+  # would let to avoid this tricky code.
+    foreach my $class ( @{ $Foswiki::cfg{Store}{ImplementationClasses} } ) {
+
+        # this allows us to add an arbitary set of mixins for things
+        # like recordChanges
+
+        # Rejig the store impl's ISA to use each Class  in order.'
+        # IMPORTANT NOTE: despite of any other class code ImplemetationClasses
+        # are required to have 'use Moo;' line _after_ 'use namespace::clean;'.
+        # Otherwise the extends method will be anavailable outside of the
+        # class/module code.
+        load_package($class);
+        no strict 'refs';
+        ASSERT( $class->can('extends'),
+            "Cannot use $class as store implemetation class" )
+          if DEBUG;
+        *{ $class . '::extends' }{CODE}->($base);
+        use strict 'refs';
+        $base = $class;
+    }
+
+    $this->store( $base->new );
+    ASSERT( $this->store, "no $base object created" ) if DEBUG;
+
+    # Load (or create) the CGI session
+    # This initialization is better be kept here because $this->user may change
+    # later.
+    $this->remoteUser( $this->users->loadSession( $this->user ) );
+
+    # The web/topic can be provided by either the query path_info,
+    # or by URL Parameters:
+    # topic:       Specifies web.topic or topic.
+    #              Overrides the path given in the URL
+    # defaultweb:  Overrides the default web, for use when topic=
+    #              does not provide a web.
+    # path_info    Defaults to the Users web Home topic
+
+    # Set the default for web
+    # Development.AddWebParamToAllCgiScripts: enables
+    # bin/script?topic=WebPreferences;defaultweb=Sandbox
+    my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
+
+    my $webtopic      = urlDecode( $query->path_info() || '' );
+    my $topicOverride = '';
+    my $topic         = $query->param('topic');
+    if ( defined $topic ) {
+        if ( $topic =~ m/[\/.]+/ ) {
+            $webtopic = $topic;
+
+           #print STDERR "candidate webtopic set to $webtopic by query param\n";
+        }
+        else {
+            $topicOverride = $topic;
+
+            #print STDERR
+            #  "candidate topic set to $topicOverride by query param\n";
+        }
+    }
+
+    # SMELL Scripts like rest, jsonrpc,  don't use web/topic path.
+    # So this ends up all bogus, but doesn't do any harm.
+
+    ( my $web, $topic ) =
+      $this->_parsePath( $webtopic, $defaultweb, $topicOverride );
+
+    $this->topicName($topic);
+    $this->webName($web);
+
+    # Push global preferences from %SYSTEMWEB%.DefaultPreferences
+    $this->prefs->loadDefaultPreferences();
+
+   # SMELL: what happens if we move this into the Foswiki::Users::new?
+   # Note:  The initializeUserHandler() can override settings like
+   #        topicName and webName. For example, HomePagePlugin.
+   # This code cannot be moved into default for user attribute because it
+   # relies on remoteUser which relies on been set within constructor –– see
+   # above.
+    $this->user( $this->users->initialiseUser( $this->remoteUser ) );
+
+    # Static session variables that can be expanded in topics when they
+    # are enclosed in % signs
+    # SMELL: should collapse these into one. The duplication is pretty
+    # pointless.
+    $this->prefs->setInternalPreferences(
+        BASEWEB        => $this->webName,
+        BASETOPIC      => $this->topicName,
+        INCLUDINGTOPIC => $this->topicName,
+        INCLUDINGWEB   => $this->webName
+    );
+
+    # Push plugin settings
+    $this->plugins->settings();
+
+    # Now the rest of the preferences
+    $this->prefs->loadSitePreferences();
+
+    # User preferences only available if we can get to a valid wikiname,
+    # which depends on the user mapper.
+    my $wn = $this->users->getWikiName( $this->user );
+    if ($wn) {
+        $this->prefs->setUserPreferences($wn);
+    }
+
+    $this->prefs->pushTopicContext( $this->webName, $this->topicName );
+
+    # Set both isadmin and authenticated contexts.   If the current user
+    # is admin, then they either authenticated, or we are in bootstrap.
+    if ( $this->users->isAdmin( $this->user ) ) {
+        $this->context->{authenticated} = 1;
+        $this->context->{isadmin}       = 1;
+    }
+
+    # Finish plugin initialization - register handlers
+    $this->plugins->enable();
+}
+
+=begin TML
+
 ---++ ObjectMethod writeCompletePage( $text, $pageType, $contentType )
 
 Write a complete HTML page with basic header to the browser.
@@ -686,7 +1184,7 @@ sub writeCompletePage {
 
     $contentType ||= 'text/html';
 
-    my $cgis = $this->{users}->getCGISession();
+    my $cgis = $this->users->getCGISession();
     if (   $cgis
         && $contentType =~ m!^text/html!
         && $Foswiki::cfg{Validation}{Method} ne 'none' )
@@ -695,7 +1193,7 @@ sub writeCompletePage {
         # Don't expire the validation key through login, or when
         # endpoint is an error.
         Foswiki::Validation::expireValidationKeys($cgis)
-          unless ( $this->{request}->action() eq 'login'
+          unless ( $this->request->action() eq 'login'
             or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400 );
 
         my $usingStrikeOne = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
@@ -703,13 +1201,13 @@ sub writeCompletePage {
 
             # add the validation cookie
             my $valCookie = Foswiki::Validation::getCookie($cgis);
-            $valCookie->secure( $this->{request}->secure );
-            $this->{response}
-              ->cookies( [ $this->{response}->cookies, $valCookie ] );
+            $valCookie->secure( $this->request->secure );
+            $this->response->cookies(
+                [ $this->response->cookies, $valCookie ] );
 
             # Add the strikeone JS module to the page.
             my $src = (DEBUG) ? '.uncompressed' : '';
-            $this->zones()->addToZone(
+            $this->zones->addToZone(
                 'script',
                 'JavascriptFiles/strikeone',
                 '<script type="text/javascript" src="'
@@ -727,7 +1225,7 @@ sub writeCompletePage {
         }
 
         my $context =
-          $this->{request}->url( -full => 1, -path => 1, -query => 1 ) . time();
+          $this->request->url( -full => 1, -path => 1, -query => 1 ) . time();
 
         # Inject validation key in HTML forms
         $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
@@ -735,7 +1233,7 @@ sub writeCompletePage {
               $cgis, $context, $usingStrikeOne )/gei;
 
         #add validation key to HTTP header so we can update it for ajax use
-        $this->{response}->pushHeader(
+        $this->response->pushHeader(
             'X-Foswiki-Validation',
             Foswiki::Validation::generateValidationKey(
                 $cgis, $context, $usingStrikeOne
@@ -743,7 +1241,7 @@ sub writeCompletePage {
         ) if ($cgis);
     }
 
-    if ( $this->{zones} ) {
+    if ( $this->zones ) {
 
         $text = $this->zones()->_renderZones($text);
     }
@@ -761,7 +1259,7 @@ sub writeCompletePage {
     my $hdr = "Content-type: " . $1 . "\r\n";
 
     # Call final handler
-    $this->{plugins}->dispatch( 'completePageHandler', $text, $hdr );
+    $this->plugins->dispatch( 'completePageHandler', $text, $hdr );
 
     # cache final page, but only view and rest
     my $cachedPage;
@@ -772,8 +1270,8 @@ sub writeCompletePage {
         if ( $Foswiki::cfg{Cache}{Enabled}
             && ( $this->inContext('view') || $this->inContext('rest') ) )
         {
-            $cachedPage = $this->{cache}->cachePage( $contentType, $text );
-            $this->{cache}->renderDirtyAreas( \$text )
+            $cachedPage = $this->cache->cachePage( $contentType, $text );
+            $this->cache->renderDirtyAreas( \$text )
               if $cachedPage && $cachedPage->{isdirty};
         }
 
@@ -801,8 +1299,8 @@ BOGUS
         }
     }
 
-    $this->{response}->pushHeader( 'X-Foswiki-Monitor-renderTime',
-        $this->{request}->getTime() );
+    $this->response->pushHeader( 'X-Foswiki-Monitor-renderTime',
+        $this->request->getTime() );
 
     my $hopts = { 'Content-Type' => $contentType };
 
@@ -840,10 +1338,10 @@ BOGUS
     $this->generateHTTPHeaders($hopts);
 
     if ($binary_body) {
-        $this->{response}->body($text);
+        $this->response->body($text);
     }
     else {
-        $this->{response}->print($text);
+        $this->response->print($text);
     }
 }
 
@@ -878,7 +1376,7 @@ Designed for calling from Foswiki::UI::*
 sub satisfiedByCache {
     my ( $this, $action, $web, $topic ) = @_;
 
-    my $cache = $this->{cache};
+    my $cache = $this->cache;
     return 0 unless $cache;
 
     my $cachedPage = $cache->getPage( $web, $topic ) if $cache;
@@ -886,10 +1384,10 @@ sub satisfiedByCache {
 
     Foswiki::Func::writeDebug("found $web.$topic for $action in cache")
       if Foswiki::PageCache::TRACE();
-    if ( int( $this->{response}->status() || 200 ) >= 500 ) {
+    if ( int( $this->response->status() || 200 ) >= 500 ) {
         Foswiki::Func::writeDebug(
             "Cache retrieval skipped due to non-200 status code "
-              . $this->{response}->status() )
+              . $this->response->status() )
           if DEBUG;
         return 0;
     }
@@ -928,7 +1426,7 @@ sub satisfiedByCache {
     }    # else { Non-isdirty pages are stored already utf8-encoded }
 
     # set status
-    my $response = $this->{response};
+    my $response = $this->response;
     if ( $cachedPage->{status} == 302 ) {
         $response->redirect( $cachedPage->{location} );
     }
@@ -1009,10 +1507,10 @@ sub setCacheControl {
 
         # allow the admin to disable us from setting the max-age, as then
         # it can't be set by apache
-        $cacheControl = $Foswiki::cfg{BrowserCacheControl}->{ $this->{webName} }
+        $cacheControl = $Foswiki::cfg{BrowserCacheControl}->{ $this->webName }
           if ( $Foswiki::cfg{BrowserCacheControl}
-            && defined(
-                $Foswiki::cfg{BrowserCacheControl}->{ $this->{webName} } ) );
+            && defined( $Foswiki::cfg{BrowserCacheControl}->{ $this->webName } )
+          );
 
         # don't remove the 'if'; we need the header to not be there at
         # all for the browser to use the cached version
@@ -1079,7 +1577,7 @@ sub generateHTTPHeaders {
     # DEPRECATED plugins header handler. Plugins should use
     # modifyHeaderHandler instead.
     my $pluginHeaders =
-      $this->{plugins}->dispatch( 'writeHeaderHandler', $this->{request} )
+      $this->plugins->dispatch( 'writeHeaderHandler', $this->request )
       || '';
     if ($pluginHeaders) {
         foreach ( split /\r?\n/, $pluginHeaders ) {
@@ -1100,18 +1598,17 @@ sub generateHTTPHeaders {
     # use our version of the content type
     $hopts->{'Content-Type'} = $contentType;
 
-    $hopts->{'X-FoswikiAction'} = $this->{request}->action;
-    $hopts->{'X-FoswikiURI'}    = $this->{request}->uri;
+    $hopts->{'X-FoswikiAction'} = $this->request->action;
+    $hopts->{'X-FoswikiURI'}    = $this->request->uri;
 
     # Turn off XSS protection in DEBUG so it doesn't mask problems
     $hopts->{'X-XSS-Protection'} = 0 if DEBUG;
 
-    $this->{plugins}
-      ->dispatch( 'modifyHeaderHandler', $hopts, $this->{request} );
+    $this->plugins->dispatch( 'modifyHeaderHandler', $hopts, $this->request );
 
     # The headers method resets all headers to what we pass
     # what we want is simply ensure our headers are there
-    $this->{response}->setDefaultHeaders($hopts);
+    $this->response->setDefaultHeaders($hopts);
 }
 
 # Tests if the $redirect is an external URL, returning false if
@@ -1162,7 +1659,7 @@ Returns undef if the target is not valid, and the target URL otherwise.
 sub redirectto {
     my ( $this, $url ) = @_;
 
-    my $redirecturl = $this->{request}->param('redirectto');
+    my $redirecturl = $this->request->param('redirectto');
     $redirecturl = $url unless $redirecturl;
 
     return unless $redirecturl;
@@ -1188,7 +1685,7 @@ sub redirectto {
 
     # assuming 'web.topic' or 'topic'
     my ( $w, $t ) =
-      $this->normalizeWebTopicName( $this->{webName}, $redirecturl );
+      $this->normalizeWebTopicName( $this->webName, $redirecturl );
 
     return $this->getScriptUrl( 0, 'view', $w, $t, @attrs );
 }
@@ -1244,16 +1741,16 @@ sub redirect {
     my ( $this, $url, $passthru, $status ) = @_;
     ASSERT( defined $url ) if DEBUG;
 
-    return unless $this->{request};
+    return unless $this->request;
 
     ( $url, my $anchor ) = splitAnchorFromUrl($url);
 
-    if ( $passthru && defined $this->{request}->method() ) {
+    if ( $passthru && defined $this->request->method() ) {
         my $existing = '';
         if ( $url =~ s/\?(.*)$// ) {
             $existing = $1;    # implicit untaint OK; recombined later
         }
-        if ( uc( $this->{request}->method() ) eq 'POST' ) {
+        if ( uc( $this->request->method() ) eq 'POST' ) {
 
             # Redirecting from a post to a get
             my $cache = $this->cacheQuery();
@@ -1267,8 +1764,8 @@ sub redirect {
         else {
 
             # Redirecting a get to a get; no need to use passthru
-            if ( $this->{request}->query_string() ) {
-                $url .= '?' . $this->{request}->query_string();
+            if ( $this->request->query_string() ) {
+                $url .= '?' . $this->request->query_string();
             }
             if ($existing) {
                 if ( $url =~ m/\?/ ) {
@@ -1290,8 +1787,8 @@ sub redirect {
         # goto oops if URL is trying to take us somewhere dangerous
         $url = $this->getScriptUrl(
             1, 'oops',
-            $this->{webName}   || $Foswiki::cfg{UsersWebName},
-            $this->{topicName} || $Foswiki::cfg{HomeTopicName},
+            $this->webName   || $Foswiki::cfg{UsersWebName},
+            $this->topicName || $Foswiki::cfg{HomeTopicName},
             template => 'oopsredirectdenied',
             def      => 'redirect_denied',
             param1   => "$url",
@@ -1303,17 +1800,20 @@ sub redirect {
 
     # Dangerous, deprecated handler! Might work, probably won't.
     return
-      if ( $this->{plugins}
-        ->dispatch( 'redirectCgiQueryHandler', $this->{response}, $url ) );
+      if (
+        $this->plugins->dispatch(
+            'redirectCgiQueryHandler', $this->response, $url
+        )
+      );
 
     $url = $this->getLoginManager()->rewriteRedirectUrl($url);
 
     # Foswiki::Response::redirect doesn't automatically pass on the cookies
     # for us, so we have to do it explicitly; otherwise the session cookie
     # won't get passed on.
-    $this->{response}->redirect(
+    $this->response->redirect(
         -url     => $url,
-        -cookies => $this->{response}->cookies(),
+        -cookies => $this->response->cookies,
         -status  => $status,
     );
 }
@@ -1334,7 +1834,7 @@ redirect target is reached.
 
 sub cacheQuery {
     my $this  = shift;
-    my $query = $this->{request};
+    my $query = $this->request;
 
     return '' unless ( $query->param() );
 
@@ -1361,7 +1861,7 @@ one. May return undef.
 =cut
 
 sub getCGISession {
-    $_[0]->{users}->getCGISession();
+    $_[0]->users->getCGISession();
 }
 
 =begin TML
@@ -1374,7 +1874,7 @@ one. May return undef.
 =cut
 
 sub getLoginManager {
-    $_[0]->{users}->getLoginManager();
+    $_[0]->users->getLoginManager();
 }
 
 =begin TML
@@ -1475,8 +1975,8 @@ sub getSkin {
     my @skinpath;
     my $skins;
 
-    if ( $this->{request} ) {
-        $skins = $this->{request}->param('cover');
+    if ( $this->request ) {
+        $skins = $this->request->param('cover');
         if ( defined $skins
             && $skins =~ m/([[:alnum:].,\s]+)/ )
         {
@@ -1487,7 +1987,7 @@ sub getSkin {
         }
     }
 
-    $skins = $this->{prefs}->getPreference('COVER');
+    $skins = $this->prefs->getPreference('COVER');
     if ( defined $skins
         && $skins =~ m/([[:alnum:].,\s]+)/ )
     {
@@ -1497,8 +1997,8 @@ sub getSkin {
         push( @skinpath, split( /[,\s]+/, $skins ) );
     }
 
-    $skins = $this->{request} ? $this->{request}->param('skin') : undef;
-    $skins = $this->{prefs}->getPreference('SKIN') unless $skins;
+    $skins = $this->request ? $this->request->param('skin') : undef;
+    $skins = $this->prefs->getPreference('SKIN') unless $skins;
 
     if ( defined $skins && $skins =~ m/([[:alnum:].,\s]+)/ ) {
 
@@ -1573,7 +2073,7 @@ sub getScriptUrl {
         # See http://www.ietf.org/rfc/rfc2396.txt for the definition of
         # "absolute URI". Foswiki bastardises this definition by assuming
         # that all relative URLs lack the <authority> component as well.
-        $url = $this->{urlHost} . $url;
+        $url = $this->urlHost . $url;
     }
 
     if ($topic) {
@@ -1661,8 +2161,8 @@ sub getPubURL {
     $options{absolute} ||=
       ( $this->inContext('command_line') || $this->inContext('absolute_urls') );
 
-    return $this->{store}
-      ->getAttachmentURL( $this, $web, $topic, $attachment, %options );
+    return $this->store->getAttachmentURL( $this, $web, $topic, $attachment,
+        %options );
 }
 
 =begin TML
@@ -1773,6 +2273,7 @@ sub load_package {
     # from @INC, so skip it. See perldoc UNIVERSAL for what this does.
     return if eval { $fullname->isa($fullname) };
 
+    # SMELL Must use system-independant way of forming filepath.
     $fullname =~ s{::}{/}g;
     $fullname .= '.pm';
     require $fullname;
@@ -1798,8 +2299,8 @@ Note. If the web doesn't exist, the force will be ignored.  It's not possible to
 by referencing it in a URL.
 
 This routine sets two variables when encountering invalid input:
-   * $this->{invalidWeb}  contains original invalid web / pathinfo content when validation fails.
-   * $this->{invalidTopic} Same function but for topic name
+   * $this->invalidWeb  contains original invalid web / pathinfo content when validation fails.
+   * $this->invalidTopic Same function but for topic name
 When invalid / illegal characters are encountered, the session {webName} and {topicName} will be
 defaulted to safe defaults.  Scripts using those fields should also test if the corresponding
 invalid* versions are defined, and should throw an oops exception rathern than allowing execution
@@ -1912,24 +2413,26 @@ sub _parsePath {
     # Set the requestedWebName before applying defaults - used by statistics
     # generation.   Note:  This is validated using Topic name rules to permit
     # names beginning with lower case.
-    $this->{requestedWebName} =
-      Foswiki::Sandbox::untaint( $badweb,
-        \&Foswiki::Sandbox::validateTopicName );
+    $this->requestedWebName(
+        Foswiki::Sandbox::untaint(
+            $badweb, \&Foswiki::Sandbox::validateTopicName
+        )
+    );
 
-    #print STDERR "Set requestedWebName to $this->{requestedWebName} \n"
-    #  if $this->{requestedWebName};
+    #say STDERR "Set requestedWebName to ", $this->requestedWebName
+    #  if $this->requestedWebName;
 
     if ( length($web) != length($badweb) ) {
 
         #print STDERR "RESULTS:\nPATH: $web\nBAD:  $badweb\n";
-        $this->{invalidWeb} = $badweb;
+        $this->invalidWeb($badweb);
     }
 
     unless ($web) {
         $web = Foswiki::Sandbox::untaint( $defaultweb,
             \&Foswiki::Sandbox::validateWebName );
         unless ($web) {
-            $this->{invalidWeb} = $defaultweb;
+            $this->invalidWeb($defaultweb);
             $web = $Foswiki::cfg{UsersWebName};
         }
     }
@@ -1947,560 +2450,17 @@ sub _parsePath {
         \&Foswiki::Sandbox::validateTopicName );
 
     unless ($topic) {
-        $this->{invalidTopic} = $temptopic;
+        $this->invalidTopic($temptopic);
         $topic = $Foswiki::cfg{HomeTopicName};
 
         #print STDERR "RESULTS:\nTOPIC  $topic\nBAD:  $temptopic\n";
-        $this->{invalidTopic} = $temptopic;
+        $this->invalidTopic($temptopic);
     }
 
     #print STDERR "PARSE returns web $web topic $topic\n";
 
     return ( $web, $topic );
 }
-
-=begin TML
-
----++ ClassMethod new( $defaultUser, $query, \%initialContext )
-
-Constructs a new Foswiki session object. A unique session object exists for
-every transaction with Foswiki, for example every browser request, or every
-script run. Session objects do not persist between mod_perl runs.
-
-   * =$defaultUser= is the username (*not* the wikiname) of the default
-     user you want to be logged-in, if none is available from a session
-     or browser. Used mainly for unit tests and debugging, it is typically
-     undef, in which case the default user is taken from
-     $Foswiki::cfg{DefaultUserName}.
-   * =$query= the Foswiki::Request query (may be undef, in which case an
-     empty query is used)
-   * =\%initialContext= - reference to a hash containing context
-     name=value pairs to be pre-installed in the context hash. May be undef.
-
-=cut
-
-sub new {
-    my ( $class, $defaultUser, $query, $initialContext ) = @_;
-
-    Monitor::MARK("Static init over; make Foswiki object");
-    ASSERT( !$query || UNIVERSAL::isa( $query, 'Foswiki::Request' ) )
-      if DEBUG;
-
-   # Override user to be admin if no configuration exists.
-   # Do this really early, so that later changes in isBOOTSTRAPPING can't change
-   # Foswiki's behavior.
-    $defaultUser = 'admin' if ( $Foswiki::cfg{isBOOTSTRAPPING} );
-
-    unless ( $Foswiki::cfg{TempfileDir} ) {
-
-        # Give it a sane default.
-        if ( $^O eq 'MSWin32' ) {
-
-            # Windows default tmpdir is the C: root  use something sane.
-            # Configure does a better job,  it should be run.
-            $Foswiki::cfg{TempfileDir} = $Foswiki::cfg{WorkingDir};
-        }
-        else {
-            $Foswiki::cfg{TempfileDir} = File::Spec->tmpdir();
-        }
-    }
-
-    # Cover all the possibilities
-    $ENV{TMPDIR} = $Foswiki::cfg{TempfileDir};
-    $ENV{TEMP}   = $Foswiki::cfg{TempfileDir};
-    $ENV{TMP}    = $Foswiki::cfg{TempfileDir};
-
-    # Make sure CGI is also using the appropriate tempfile location
-    $CGI::TMPDIRECTORY = $Foswiki::cfg{TempfileDir};
-
-    # Make %ENV safer, preventing hijack of the search path. The
-    # environment is set per-query, so this can't be done in a BEGIN.
-    # This MUST be done before any external programs are run via Sandbox.
-    # or it will fail with taint errors.  See Item13237
-    if ( defined $Foswiki::cfg{SafeEnvPath} ) {
-        $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
-    }
-    else {
-        # Default $ENV{PATH} must be untainted because
-        # Foswiki may be run with the -T flag.
-        # SMELL: how can we validate the PATH?
-        $ENV{PATH} = Foswiki::Sandbox::untaintUnchecked( $ENV{PATH} );
-    }
-    delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
-
-    if (   $Foswiki::cfg{WarningFileName}
-        && $Foswiki::cfg{Log}{Implementation} eq 'Foswiki::Logger::PlainFile' )
-    {
-
-        # Admin has already expressed a preference for where they want their
-        # logfiles to go, and has obviously not re-run configure yet.
-        $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
-
-#print STDERR "WARNING: Foswiki is using the compatibility logger. Please re-run configure and check your logfiles settings\n";
-    }
-
-    # Make sure LogFielname is defined for use in old plugins,
-    # but don't overwrite the setting from configure, if there is one.
-    # This is especially important when the admin has *chosen*
-    # to use the compatibility logger. (Some old TWiki heritage
-    # plugins write directly to the configured LogFileName
-    if ( not $Foswiki::cfg{LogFileName} ) {
-        if ( $Foswiki::cfg{Log}{Implementation} eq
-            'Foswiki::Logger::Compatibility' )
-        {
-            my $stamp =
-              Foswiki::Time::formatTime( time(), '$year$mo', 'servertime' );
-            my $defaultLogDir = "$Foswiki::cfg{DataDir}";
-            $Foswiki::cfg{LogFileName} = $defaultLogDir . "/log$stamp.txt";
-
-#print STDERR "Overrode LogFileName to $Foswiki::cfg{LogFileName} for CompatibilityLogger\n"
-        }
-        else {
-            $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{Log}{Dir}/events.log";
-
-#print STDERR "Overrode LogFileName to $Foswiki::cfg{LogFileName} for PlainFileLogger\n"
-        }
-    }
-
-    # Set command_line context if there is no query
-    $initialContext ||= defined($query) ? {} : { command_line => 1 };
-
-    # This foswiki supports:
-    $initialContext->{SUPPORTS_PARA_INDENT}   = 1;    #  paragraph indent
-    $initialContext->{SUPPORTS_PREF_SET_URLS} = 1;    # ?Set+, ?Local+ etc URLs
-    if ( $Foswiki::cfg{Password} ) {
-        $initialContext->{admin_available} = 1;       # True if sudo supported.
-    }
-
-    $query ||= new Foswiki::Request();
-
-    # Phase 2 of Bootstrap.  Web settings require that the Foswiki request
-    # has been parsed.
-    if ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
-        my $phase2_message =
-          Foswiki::Configure::Load::bootstrapWebSettings( $query->action() );
-        unless ($system_message) {    # Don't do this more than once.
-            $system_message =
-              ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} !~ /CLI/i )
-              ? ( '<div class="foswikiHelp"> '
-                  . $bootstrap_message
-                  . $phase2_message
-                  . '</div>' )
-              : $bootstrap_message . $phase2_message;
-        }
-    }
-
-    my $this = bless( { sandbox => 'Foswiki::Sandbox' }, $class );
-
-    if (SINGLE_SINGLETONS_TRACE) {
-        require Data::Dumper;
-        print STDERR "new $this: "
-          . Data::Dumper->Dump( [ [caller], [ caller(1) ] ] );
-    }
-
-    $this->{request}  = $query;
-    $this->{cgiQuery} = $query;    # for backwards compatibility in contribs
-    $this->{response} = new Foswiki::Response();
-
-    # This is required in case we get an exception during
-    # initialisation, so that we have a session to handle it with.
-    ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
-    $Foswiki::Plugins::SESSION = $this;
-    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
-
-    $this->{context} = $initialContext;
-
-    # Construct the plugins objects and load the code for the plugins,
-    # calling any preload handlers.
-    $this->{plugins} = new Foswiki::Plugins($this);
-
-    if ( $Foswiki::cfg{Cache}{Enabled} && $Foswiki::cfg{Cache}{Implementation} )
-    {
-        eval "require $Foswiki::cfg{Cache}{Implementation}";
-        ASSERT( !$@, $@ ) if DEBUG;
-        $this->{cache} = $Foswiki::cfg{Cache}{Implementation}->new();
-    }
-
-    my $prefs = new Foswiki::Prefs($this);
-    $this->{prefs} = $prefs;
-
-    # construct the store object
-    my $base = $Foswiki::cfg{Store}{Implementation}
-      || 'Foswiki::Store::PlainFile';
-
-    load_package($base);
-
-    foreach my $class ( @{ $Foswiki::cfg{Store}{ImplementationClasses} } ) {
-
-        # this allows us to add an arbitary set of mixins for things
-        # like recordChanges
-
-        # Rejig the store impl's ISA to use each Class  in order.'
-        load_package($class);
-        no strict 'refs';
-        push( @{ $class . '::ISA' }, $base );
-        use strict 'refs';
-        $base = $class;
-    }
-
-    $this->{store} = $base->new();
-    ASSERT( $this->{store}, "no $base object created" ) if DEBUG;
-
-    #Monitor::MARK("Created store");
-
-    $this->{digester} = new Digest::MD5();
-    $this->{users}    = new Foswiki::Users($this);
-
-    #Monitor::MARK("Created users object");
-
-    #{urlHost}  is needed by loadSession..
-    my $url = $query->url();
-    if (   $url
-        && !$Foswiki::cfg{ForceDefaultUrlHost}
-        && $url =~ m{^([^:]*://[^/]*).*$} )
-    {
-        $this->{urlHost} = $1;
-
-        if ( $Foswiki::cfg{RemovePortNumber} ) {
-            $this->{urlHost} =~ s/\:[0-9]+$//;
-        }
-
-        # If the urlHost in the url is localhost, this is a lot less
-        # useful than the default url host. This is because new CGI("")
-        # assigns this host by default - it's a default setting, used
-        # when there is nothing better available.
-        if ( $this->{urlHost} =~ m/^(https?:\/\/)localhost$/i ) {
-            my $protocol = $1;
-
-#only replace localhost _if_ the protocol matches the one specified in the DefaultUrlHost
-            if ( $Foswiki::cfg{DefaultUrlHost} =~ m/^$protocol/i ) {
-                $this->{urlHost} = $Foswiki::cfg{DefaultUrlHost};
-            }
-        }
-    }
-    else {
-        $this->{urlHost} = $Foswiki::cfg{DefaultUrlHost};
-    }
-    ASSERT( $this->{urlHost} ) if DEBUG;
-
-    # Load (or create) the CGI session
-    $this->{remoteUser} = $this->{users}->loadSession($defaultUser);
-
-    $this->{scriptUrlPath} = $Foswiki::cfg{ScriptUrlPath};
-    if (   $Foswiki::cfg{GetScriptUrlFromCgi}
-        && $url
-        && $url =~ m{^[^:]*://[^/]*(.*)/.*$}
-        && $1 )
-    {
-
-        # SMELL: this is a really dangerous hack. It will fail
-        # spectacularly with mod_perl.
-        # SMELL: why not just use $query->script_name?
-        # SMELL: unchecked implicit untaint?
-        $this->{scriptUrlPath} = $1;
-    }
-
-    # The web/topic can be provided by either the query path_info,
-    # or by URL Parameters:
-    # topic:       Specifies web.topic or topic.
-    #              Overrides the path given in the URL
-    # defaultweb:  Overrides the default web, for use when topic=
-    #              does not provide a web.
-    # path_info    Defaults to the Users web Home topic
-
-    # Set the default for web
-    # Development.AddWebParamToAllCgiScripts: enables
-    # bin/script?topic=WebPreferences;defaultweb=Sandbox
-    my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
-
-    my $webtopic      = urlDecode( $query->path_info() || '' );
-    my $topicOverride = '';
-    my $topic         = $query->param('topic');
-    if ( defined $topic ) {
-        if ( $topic =~ m/[\/.]+/ ) {
-            $webtopic = $topic;
-
-           #print STDERR "candidate webtopic set to $webtopic by query param\n";
-        }
-        else {
-            $topicOverride = $topic;
-
-            #print STDERR
-            #  "candidate topic set to $topicOverride by query param\n";
-        }
-    }
-
-    # SMELL Scripts like rest, jsonrpc,  don't use web/topic path.
-    # So this ends up all bogus, but doesn't do any harm.
-
-    ( my $web, $topic ) =
-      $this->_parsePath( $webtopic, $defaultweb, $topicOverride );
-
-    $this->{topicName} = $topic;
-    $this->{webName}   = $web;
-
-    # Form definition cache
-    $this->{forms} = {};
-
-    # Push global preferences from %SYSTEMWEB%.DefaultPreferences
-    $prefs->loadDefaultPreferences();
-
-    #Monitor::MARK("Loaded default prefs");
-
-    # SMELL: what happens if we move this into the Foswiki::Users::new?
-    # Note:  The initializeUserHandler() can override settings like
-    #        topicName and webName. For example, HomePagePlugin.
-    $this->{user} = $this->{users}->initialiseUser( $this->{remoteUser} );
-
-    #Monitor::MARK("Initialised user");
-
-    # Static session variables that can be expanded in topics when they
-    # are enclosed in % signs
-    # SMELL: should collapse these into one. The duplication is pretty
-    # pointless.
-    $prefs->setInternalPreferences(
-        BASEWEB        => $this->{webName},
-        BASETOPIC      => $this->{topicName},
-        INCLUDINGTOPIC => $this->{topicName},
-        INCLUDINGWEB   => $this->{webName}
-    );
-
-    # Push plugin settings
-    $this->{plugins}->settings();
-
-    # Now the rest of the preferences
-    $prefs->loadSitePreferences();
-
-    # User preferences only available if we can get to a valid wikiname,
-    # which depends on the user mapper.
-    my $wn = $this->{users}->getWikiName( $this->{user} );
-    if ($wn) {
-        $prefs->setUserPreferences($wn);
-    }
-
-    $prefs->pushTopicContext( $this->{webName}, $this->{topicName} );
-
-    #Monitor::MARK("Preferences all set up");
-
-    # Set both isadmin and authenticated contexts.   If the current user
-    # is admin, then they either authenticated, or we are in bootstrap.
-    if ( $this->{users}->isAdmin( $this->{user} ) ) {
-        $this->{context}{authenticated} = 1;
-        $this->{context}{isadmin}       = 1;
-    }
-
-    # Finish plugin initialization - register handlers
-    $this->{plugins}->enable();
-
-    Monitor::MARK("Foswiki object created");
-
-    return $this;
-}
-
-=begin TML
-
----++ ObjectMethod renderer()
-Get a reference to the renderer object. Done lazily because not everyone
-needs the renderer.
-
-=cut
-
-sub renderer {
-    my ($this) = @_;
-
-    unless ( $this->{renderer} ) {
-        require Foswiki::Render;
-        $this->{renderer} = new Foswiki::Render($this);
-    }
-
-    return $this->{renderer};
-}
-
-=begin TML
-
----++ ObjectMethod renderer()
-Get a reference to the zone renderer object. Done lazily because not everyone
-needs the zones.
-
-=cut
-
-sub zones {
-    my ($this) = @_;
-    unless ( $this->{zones} ) {
-        require Foswiki::Render::Zones;
-        $this->{zones} = new Foswiki::Render::Zones($this);
-    }
-    return $this->{zones};
-}
-
-=begin TML
-
----++ ObjectMethod attach()
-Get a reference to the attach object. Done lazily because not everyone
-needs the attach.
-
-=cut
-
-sub attach {
-    my ($this) = @_;
-
-    unless ( $this->{attach} ) {
-        require Foswiki::Attach;
-        $this->{attach} = new Foswiki::Attach($this);
-    }
-    return $this->{attach};
-}
-
-=begin TML
-
----++ ObjectMethod templates()
-Get a reference to the templates object. Done lazily because not everyone
-needs the templates.
-
-=cut
-
-sub templates {
-    my ($this) = @_;
-
-    unless ( $this->{templates} ) {
-        require Foswiki::Templates;
-        $this->{templates} = new Foswiki::Templates($this);
-    }
-    return $this->{templates};
-}
-
-=begin TML
-
----++ ObjectMethod i18n()
-Get a reference to the i18n object. Done lazily because not everyone
-needs the i18ner.
-
-=cut
-
-sub i18n {
-    my ($this) = @_;
-
-    unless ( $this->{i18n} ) {
-        require Foswiki::I18N;
-
-        # language information; must be loaded after
-        # *all possible preferences sources* are available
-        $this->{i18n} = new Foswiki::I18N($this);
-    }
-    return $this->{i18n};
-}
-
-=begin TML
-
----++ ObjectMethod reset_i18n()
-Kill the i18n object, if there is one, to force language re-initialisation.
-Essential for changing language dynamically.
-
-=cut
-
-sub reset_i18n {
-    my $this = shift;
-
-    return unless $this->{i18n};
-    $this->{i18n}->finish();
-    undef $this->{i18n};
-}
-
-=begin TML
-
----++ ObjectMethod logger()
-
-=cut
-
-sub logger {
-    my $this = shift;
-
-    unless ( $this->{logger} ) {
-        if ( $Foswiki::cfg{Log}{Implementation} eq 'none' ) {
-            $this->{logger} = Foswiki::Logger->new();
-        }
-        else {
-            eval "require $Foswiki::cfg{Log}{Implementation}";
-            if ($@) {
-                print STDERR "Logger load failed: $@";
-                $this->{logger} = Foswiki::Logger->new();
-            }
-            else {
-                $this->{logger} = $Foswiki::cfg{Log}{Implementation}->new();
-            }
-        }
-    }
-
-    return $this->{logger};
-}
-
-=begin TML
-
----++ ObjectMethod search()
-Get a reference to the search object. Done lazily because not everyone
-needs the searcher.
-
-=cut
-
-sub search {
-    my ($this) = @_;
-
-    unless ( $this->{search} ) {
-        require Foswiki::Search;
-        $this->{search} = new Foswiki::Search($this);
-    }
-    return $this->{search};
-}
-
-=begin TML
-
----++ ObjectMethod net()
-Get a reference to the net object. Done lazily because not everyone
-needs the net.
-
-=cut
-
-sub net {
-    my ($this) = @_;
-
-    unless ( $this->{net} ) {
-        require Foswiki::Net;
-        $this->{net} = new Foswiki::Net($this);
-    }
-    return $this->{net};
-}
-
-=begin TML
-
----++ ObjectMethod access()
-Get a reference to the ACL object. 
-
-=cut
-
-sub access {
-    my ($this) = @_;
-
-    unless ( $this->{access} ) {
-        require Foswiki::Access;
-        $this->{access} = Foswiki::Access->new($this);
-    }
-    ASSERT( $this->{access} ) if DEBUG;
-    return $this->{access};
-}
-
-=begin TML
-
----++ ObjectMethod DESTROY()
-
-called by Perl when the Foswiki object goes out of scope
-(maybe should be used kist to ASSERT that finish() was called..
-
-=cut
-
-#sub DESTROY {
-#    my $this = shift;
-#    $this->finish();
-#}
 
 =begin TML
 
@@ -2520,8 +2480,8 @@ sub finish {
     #for my $i (keys %macros) {
     #    print STDERR "\t$i\n" unless defined $macros{$i};
     #}
-    $_->finish() foreach values %{ $this->{forms} };
-    undef $this->{forms};
+    $_->finish() foreach values %{ $this->forms };
+    $this->clear_forms;
     foreach my $key (
         qw(plugins users prefs templates renderer zones net
         store search attach access i18n cache logger)
@@ -2583,6 +2543,10 @@ sub finish {
               . $remaining )
           if $remaining;
     }
+}
+
+sub DEMOLISH {
+    shift->finish();
 }
 
 =begin TML
@@ -2656,7 +2620,7 @@ sub inlineAlert {
 
     # web and topic can be anything; they are not used
     my $topicObject =
-      Foswiki::Meta->new( $this, $this->{webName}, $this->{topicName} );
+      Foswiki::Meta->new( $this, $this->webName, $this->topicName );
     my $text = $this->templates->readTemplate( 'oops' . $template );
     if ($text) {
         my $blah = $this->templates->expandTemplate($def);
@@ -3110,14 +3074,14 @@ sub innerExpandMacros {
     my ( $this, $text, $topicObject ) = @_;
 
     # push current context
-    my $memTopic = $this->{prefs}->getPreference('TOPIC');
-    my $memWeb   = $this->{prefs}->getPreference('WEB');
+    my $memTopic = $this->prefs->getPreference('TOPIC');
+    my $memWeb   = $this->prefs->getPreference('WEB');
 
     # Historically this couldn't be called on web objects.
-    my $webContext   = $topicObject->web   || $this->{webName};
-    my $topicContext = $topicObject->topic || $this->{topicName};
+    my $webContext   = $topicObject->web   || $this->webName;
+    my $topicContext = $topicObject->topic || $this->topicName;
 
-    $this->{prefs}->setInternalPreferences(
+    $this->prefs->setInternalPreferences(
         TOPIC => $topicContext,
         WEB   => $webContext
     );
@@ -3144,7 +3108,7 @@ sub innerExpandMacros {
         $topicObject, 16 );
 
     # restore previous context
-    $this->{prefs}->setInternalPreferences(
+    $this->prefs->setInternalPreferences(
         TOPIC => $memTopic,
         WEB   => $memWeb
     );
@@ -3474,7 +3438,7 @@ sub _expandMacroOnTopicRendering {
 
     require Foswiki::Attrs;
 
-    my $e = $this->{prefs}->getPreference($tag);
+    my $e = $this->prefs->getPreference($tag);
     if ( defined $e ) {
         if ( $args && $args =~ m/\S/ ) {
             my $attrs = new Foswiki::Attrs( $args, 0 );
@@ -3550,7 +3514,7 @@ sub _expandMacroOnTopicCreation {
     # brace-matching.
     return '' if $_[0] eq 'NOP' && defined $_[1];
 
-    # Only expand a subset of legal tags. Warning: $this->{user} may be
+    # Only expand a subset of legal tags. Warning: $this->user may be
     # overridden during this call, when a new user topic is being created.
     # This is what we want to make sure new user templates are populated
     # correctly, but you need to think about this if you extend the set of
@@ -3588,7 +3552,7 @@ use $session->inContext( $id ) to determine if a context is active.
 sub enterContext {
     my ( $this, $id, $val ) = @_;
     $val ||= 1;
-    $this->{context}->{$id} = $val;
+    $this->context->{$id} = $val;
 }
 
 =begin TML
@@ -3602,8 +3566,8 @@ Remove the context id $id from the set of active contexts.
 
 sub leaveContext {
     my ( $this, $id ) = @_;
-    my $res = $this->{context}->{$id};
-    delete $this->{context}->{$id};
+    my $res = $this->context->{$id};
+    delete $this->context->{$id};
     return $res;
 }
 
@@ -3618,7 +3582,7 @@ Return the value for the given context id
 
 sub inContext {
     my ( $this, $id ) = @_;
-    return $this->{context}->{$id};
+    return $this->context->{$id};
 }
 
 =begin TML
@@ -3680,9 +3644,8 @@ sub expandMacros {
     return '' unless defined $text;
 
     # Plugin Hook
-    $this->{plugins}
-      ->dispatch( 'beforeCommonTagsHandler', $text, $topicObject->topic,
-        $topicObject->web, $topicObject );
+    $this->plugins->dispatch( 'beforeCommonTagsHandler', $text,
+        $topicObject->topic, $topicObject->web, $topicObject );
 
     #use a "global var", so included topics can extract and putback
     #their verbatim blocks safetly.
@@ -3695,12 +3658,12 @@ sub expandMacros {
       if $topicObject->isCacheable();
 
     # Require defaults for plugin handlers :-(
-    my $webContext   = $topicObject->web   || $this->{webName};
-    my $topicContext = $topicObject->topic || $this->{topicName};
+    my $webContext   = $topicObject->web   || $this->webName;
+    my $topicContext = $topicObject->topic || $this->topicName;
 
-    my $memW = $this->{prefs}->getPreference('INCLUDINGWEB');
-    my $memT = $this->{prefs}->getPreference('INCLUDINGTOPIC');
-    $this->{prefs}->setInternalPreferences(
+    my $memW = $this->prefs->getPreference('INCLUDINGWEB');
+    my $memT = $this->prefs->getPreference('INCLUDINGTOPIC');
+    $this->prefs->setInternalPreferences(
         INCLUDINGWEB   => $webContext,
         INCLUDINGTOPIC => $topicContext
     );
@@ -3710,14 +3673,13 @@ sub expandMacros {
     $text = takeOutBlocks( $text, 'verbatim', $verbatim );
 
     # Plugin Hook
-    $this->{plugins}
-      ->dispatch( 'commonTagsHandler', $text, $topicContext, $webContext, 0,
-        $topicObject );
+    $this->plugins->dispatch( 'commonTagsHandler', $text, $topicContext,
+        $webContext, 0, $topicObject );
 
     # process tags again because plugin hook may have added more in
     $this->innerExpandMacros( \$text, $topicObject );
 
-    $this->{prefs}->setInternalPreferences(
+    $this->prefs->setInternalPreferences(
         INCLUDINGWEB   => $memW,
         INCLUDINGTOPIC => $memT
     );
@@ -3745,9 +3707,8 @@ s/%TOC(?:\{(.*?)\})?%/$this->TOC($text, $topicObject, $1, $tocInstance++)/ge;
     putBackBlocks( \$text, $verbatim, 'verbatim' );
 
     # Foswiki Plugin Hook (for cache Plugins only)
-    $this->{plugins}
-      ->dispatch( 'afterCommonTagsHandler', $text, $topicContext, $webContext,
-        $topicObject );
+    $this->plugins->dispatch( 'afterCommonTagsHandler', $text, $topicContext,
+        $webContext, $topicObject );
 
     return $text;
 }
@@ -3835,7 +3796,7 @@ sub webExists {
     my ( $this, $web ) = @_;
 
     ASSERT( UNTAINTED($web), 'web is tainted' ) if DEBUG;
-    return $this->{store}->webExists($web);
+    return $this->store->webExists($web);
 }
 
 =begin TML
@@ -3852,7 +3813,7 @@ sub topicExists {
     my ( $this, $web, $topic ) = @_;
     ASSERT( UNTAINTED($web),   'web is tainted' )   if DEBUG;
     ASSERT( UNTAINTED($topic), 'topic is tainted' ) if DEBUG;
-    return $this->{store}->topicExists( $web, $topic );
+    return $this->store->topicExists( $web, $topic );
 }
 
 =begin TML
@@ -3866,7 +3827,7 @@ intended as a work area for plugins etc. The directory will exist.
 
 sub getWorkArea {
     my ( $this, $key ) = @_;
-    return $this->{store}->getWorkArea($key);
+    return $this->store->getWorkArea($key);
 }
 
 =begin TML
@@ -3890,7 +3851,7 @@ sub getApproxRevTime {
         return $metacache->get( $web, $topic )->{modified};
     }
 
-    return $this->{store}->getApproxRevTime( $web, $topic );
+    return $this->store->getApproxRevTime( $web, $topic );
 }
 
 1;

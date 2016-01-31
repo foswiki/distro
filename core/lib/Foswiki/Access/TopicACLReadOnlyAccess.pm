@@ -9,27 +9,20 @@ DENY any access except VIEW access - Admin permitted anythingeverything
 =cut
 
 package Foswiki::Access::TopicACLReadOnlyAccess;
+use v5.14;
 
-use Foswiki::Access::TopicACLAccess;
-@ISA = qw(Foswiki::Access::TopicACLAccess);
-use constant MONITOR => 0;
-
-use strict;
 use Assert;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Access::TopicACLAccess);
+use constant MONITOR => 0;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
         import locale();
     }
-}
-
-sub new {
-    my ( $class, $session ) = @_;
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
-    my $this = bless( { session => $session }, $class );
-
-    return $this;
 }
 
 =begin TML
@@ -43,13 +36,14 @@ may result in the topic being read.
 
 =cut
 
-sub haveAccess {
+around haveAccess => sub {
+    my $orig = shift;
     my ( $this, $mode, $cUID, $param1, $param2 ) = @_;
     $mode ||= 'VIEW';
-    $cUID ||= $this->{session}->{user};
+    $cUID ||= $this->session->user;
 
-    my $session = $this->{session};
-    undef $this->{failure};
+    my $session = $this->session;
+    $this->clear_failure;
 
     print STDERR "Check $mode access $cUID \n"
       if MONITOR;
@@ -61,12 +55,12 @@ sub haveAccess {
     }
 
     unless ( $mode eq 'VIEW' ) {
-        $this->{failure} = 'Denied: Entire site is READ ONLY: ';
+        $this->failure('Denied: Entire site is READ ONLY: ');
         print STDERR "$cUID - deny non-VIEW \n" if MONITOR;
         return 0;
     }
-    return $this->SUPER::haveAccess( $mode, $cUID, $param1, $param2 );
-}
+    return $orig->( $this, $mode, $cUID, $param1, $param2 );
+};
 
 1;
 __END__

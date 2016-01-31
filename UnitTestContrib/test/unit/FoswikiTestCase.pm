@@ -726,7 +726,7 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
     # This must be done before moving the logging.
     my $query = new Unit::Request();
     $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
-    my $tmp = new Foswiki( undef, $query );
+    my $tmp = Foswiki->new( user => undef, request => $query );
     ASSERT( defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
     undef $tmp;    # finish() will be called automatically.
     ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
@@ -849,13 +849,20 @@ sub removeWebFixture {
     my ( $this, $session, $web ) = @_;
 
     try {
-        my $webObject = Foswiki::Meta->new( $session, $web );
+        my $webObject = Foswiki::Meta->new( session => $session, web => $web );
         $webObject->removeFromStore();
     }
     catch {
         my $e = $_;
         print STDERR "Unexpected exception while removing web $web\n";
-        print STDERR $e->stringify(), "\n" if $e;
+        if ($e) {
+            if ( ref($e) && $e->can('stringify') ) {
+                say STDERR $e->stringify;
+            }
+            else {
+                say STDERR $e;
+            }
+        }
     };
 }
 
@@ -887,7 +894,7 @@ sub capture {
     ASSERT( ref($session) || ref($Foswiki::Plugins::SESSION) );
     my $response =
       UNIVERSAL::isa( $session, 'Foswiki' )
-      ? $session->{response}
+      ? $session->response
       : $Foswiki::Plugins::SESSION->{response};
 
     my $responseText = '';
@@ -1007,11 +1014,11 @@ sub getUIFn {
 
 =begin TML
 
----++ ObjectMethod createNewFoswikiSession(params) -> ref to new Foswiki obj
+---++ ObjectMethod createNewFoswikiSession($user, $query, params) -> ref to new Foswiki obj
 
 cleans up the existing Foswiki object, and creates a new one
 
-params are passed directly to the new Foswiki() call
+params have to be key/value pairs and are passed directly to the new Foswiki() call
 
 typically called to force a full re-initialisation either with new preferences, topics, users, groups or CFG
 
@@ -1026,8 +1033,8 @@ sub createNewFoswikiSession {
     $this->clear_session          if $this->session;
     ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
     $Foswiki::cfg{Store}{Implementation} ||= 'Foswiki::Store::PlainFile';
-    $this->session( Foswiki->new( $user, $query, @args ) );
-    $this->request( $this->session->{request} );
+    $this->session( Foswiki->new( user => $user, request => $query, @args ) );
+    $this->request( $this->session->request );
     ASSERT( defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
     if ( $this->test_web && $this->test_topic ) {
         $this->test_topicObject(

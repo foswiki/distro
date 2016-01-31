@@ -51,17 +51,19 @@ to do any necessary encoding/decoding from/to unicode.
 =cut
 
 package Foswiki::Store;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Error qw( :try );
+use Try::Tiny;
 use Assert;
 
 use Foswiki          ();
 use Foswiki::Sandbox ();
 use HTML::Entities   ();
 use Unicode::Normalize qw(NFC);
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -80,13 +82,6 @@ our $STORE_FORMAT_VERSION = '1.2';
 Construct a Store module.
 
 =cut
-
-sub new {
-    my $class = shift;
-
-    my $this = bless( {}, $class );
-    return $this;
-}
 
 =begin TML
 
@@ -236,7 +231,7 @@ sub getAttachmentURL {
         # See http://www.ietf.org/rfc/rfc2396.txt for the definition of
         # "absolute URI". Foswiki bastardises this definition by assuming
         # that all relative URLs lack the <authority> component as well.
-        $url = "$session->{urlHost}$url";
+        $url = $session->urlHost . $url;
     }
 
     return $url;

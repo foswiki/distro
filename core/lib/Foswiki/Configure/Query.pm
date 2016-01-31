@@ -1,5 +1,6 @@
 # See bottom of file for default license and copyright information
 package Foswiki::Configure::Query;
+use v5.14;
 
 use strict;
 use warnings;

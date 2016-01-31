@@ -46,7 +46,7 @@ to a user.
      a list of canonical user ids for the users in that group.
    * An *email* is an email address asscoiated with a *login name*. A single
      login name may have many emails.
-	 
+     
 *NOTE:* 
    * wherever the code references $cUID, its a canonical_id
    * wherever the code references $group, its a group_name
@@ -55,13 +55,16 @@ to a user.
 =cut
 
 package Foswiki::Users;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
 use Foswiki::AggregateIterator ();
 use Foswiki::LoginManager      ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users');
@@ -73,6 +76,57 @@ BEGIN {
     }
 }
 
+our @_newParameters = qw(session);
+
+has session => (
+    is  => 'rw',
+    isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
+);
+has mapping => (
+    is        => 'rw',
+    lazy      => 1,
+    predicate => 1,
+    default   => sub { {} },
+);
+has basemapping => (
+    is        => 'rw',
+    predicate => 1,
+);
+has loginManager => (
+    is        => 'rw',
+    predicate => 1,
+);
+has login2cUID => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
+has wikiName2cUID => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
+
+# caches - not only used for speedup, but also for authenticated but
+# unregistered users
+# SMELL: this is basically a user object, something we had previously
+# but dropped for efficiency reasons
+has cUID2WikiName => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
+has cUID2Login => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
+has _isAdmin => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
+
 =begin TML
 
 ---++ ClassMethod new ($session)
@@ -81,39 +135,32 @@ and the user mapping chosen in the configuration.
 
 =cut
 
-sub new {
-    my ( $class, $session ) = @_;
-    my $this = bless( { session => $session }, $class );
+sub BUILD {
+    my $this = shift;
+
+    my $session = $this->session;
 
     # making basemapping
     my $implBaseUserMappingManager = $Foswiki::cfg{BaseUserMappingManager}
       || 'Foswiki::Users::BaseUserMapping';
     eval "require $implBaseUserMappingManager";
-    die $@ if $@;
-    $this->{basemapping} = $implBaseUserMappingManager->new($session);
+    Foswiki::Exception->throw( text => $@ ) if $@;
+    $this->basemapping( $implBaseUserMappingManager->new($session) );
 
     my $implUserMappingManager = $Foswiki::cfg{UserMappingManager};
     $implUserMappingManager = 'Foswiki::Users::TopicUserMapping'
       if ( $implUserMappingManager eq 'none' );
 
     if ( $implUserMappingManager eq 'Foswiki::Users::BaseUserMapping' ) {
-        $this->{mapping} = $this->{basemapping};    #TODO: probly make undef..
+        $this->mapping( $this->basemapping );    #TODO: probly make undef..
     }
     else {
         eval "require $implUserMappingManager";
-        die $@ if $@;
-        $this->{mapping} = $implUserMappingManager->new($session);
+        Foswiki::Exception->throw($@) if $@;
+        $this->mapping( $implUserMappingManager->new($session) );
     }
 
-    $this->{loginManager} = Foswiki::LoginManager::makeLoginManager($session);
-
-    # caches - not only used for speedup, but also for authenticated but
-    # unregistered users
-    # SMELL: this is basically a user object, something we had previously
-    # but dropped for efficiency reasons
-    $this->{cUID2WikiName} = {};
-    $this->{cUID2Login}    = {};
-    $this->{isAdmin}       = {};
+    $this->loginManager( Foswiki::LoginManager::makeLoginManager($session) );
 
     # the UI for rego supported/not is different from rego temporarily
     # turned off
@@ -142,7 +189,7 @@ sub loadSession {
     # $this is passed in because it will be used to password check
     # a command-line login. The {remoteUser} in the session will be
     # whatever was passed in to the new Foswiki() call.
-    my $remoteUser = $this->{loginManager}->loadSession( $defaultUser, $this );
+    my $remoteUser = $this->loginManager->loadSession( $defaultUser, $this );
 
     return $remoteUser;
 }
@@ -160,12 +207,12 @@ Break circular references.
 sub finish {
     my $this = shift;
 
-    $this->{loginManager}->finish() if $this->{loginManager};
-    $this->{basemapping}->finish()  if $this->{basemapping};
+    $this->loginManager->finish() if $this->has_loginManager;
+    $this->basemapping->finish()  if $this->has_basemapping;
 
-    $this->{mapping}->finish()
-      if $this->{mapping}
-      && $this->{mapping} ne $this->{basemapping};
+    $this->mapping->finish()
+      if $this->has_mapping
+      && $this->mapping ne $this->basemapping;
 
     undef $this->{loginManager};
     undef $this->{basemapping};
@@ -175,7 +222,7 @@ sub finish {
     undef $this->{cUID2Login};
     undef $this->{wikiName2cUID};
     undef $this->{login2cUID};
-    undef $this->{isAdmin};
+    undef $this->{_isAdmin};
 
 }
 
@@ -191,9 +238,9 @@ sub loginTemplateName {
     my $this = shift;
 
     #use login.sudo.tmpl for admin logins
-    return $this->{basemapping}->loginTemplateName()
-      if ( $this->{session}->inContext('sudo_login') );
-    return $this->{mapping}->loginTemplateName() || 'login';
+    return $this->basemapping->loginTemplateName()
+      if ( $this->session->inContext('sudo_login') );
+    return $this->mapping->loginTemplateName() || 'login';
 }
 
 # ($cUID, $login, $wikiname, $noFallBack) -> usermapping object
@@ -209,16 +256,16 @@ sub _getMapping {
     # custom mappings, even though that makes it impossible to maintain 100%
     # compatibility with earlier releases (guest user edits will get saved as
     # edits by $DEFAULT_USER_CUID).
-    return $this->{basemapping}
-      if ( $this->{basemapping}->handlesUser( $cUID, $login, $wikiname ) );
+    return $this->basemapping
+      if ( $this->basemapping->handlesUser( $cUID, $login, $wikiname ) );
 
-    return $this->{mapping}
-      if ( $this->{mapping}->handlesUser( $cUID, $login, $wikiname ) );
+    return $this->mapping
+      if ( $this->mapping->handlesUser( $cUID, $login, $wikiname ) );
 
     # The base mapping and the selected mapping claim not to know about
     # this user. Use the base mapping unless the caller has explicitly
     # requested otherwise.
-    return $this->{basemapping} unless ($noFallBack);
+    return $this->basemapping unless ($noFallBack);
 
     return;
 }
@@ -233,7 +280,7 @@ sub _getMapping {
 
 sub supportsRegistration {
     my ($this) = @_;
-    return $this->{mapping}->supportsRegistration();
+    return $this->mapping->supportsRegistration();
 }
 
 =begin TML
@@ -246,7 +293,7 @@ Return the registration formfield sanitized by the mapper,  or oops thrown to bl
 
 sub validateRegistrationField {
     my ($this) = shift;
-    return $this->{mapping}->validateRegistrationField(@_);
+    return $this->mapping->validateRegistrationField(@_);
 }
 
 =begin TML
@@ -264,7 +311,7 @@ sub initialiseUser {
 
     # For compatibility with older ways of building login managers,
     # plugins can provide an alternate login name.
-    my $plogin = $this->{session}->{plugins}->load();
+    my $plogin = $this->session->plugins->load();
 
     #Monitor::MARK("Plugins loaded");
 
@@ -290,15 +337,15 @@ sub initialiseUser {
             # small (unless the author of the custom mapper screws up)
             $cUID = mapLogin2cUID($login);
 
-            $this->{cUID2Login}->{$cUID}    = $login;
-            $this->{cUID2WikiName}->{$cUID} = $login;
+            $this->cUID2Login->{$cUID}    = $login;
+            $this->cUID2WikiName->{$cUID} = $login;
 
             # needs to be WikiName safe
-            $this->{cUID2WikiName}->{$cUID} =~ s/$Foswiki::cfg{NameFilter}//g;
-            $this->{cUID2WikiName}->{$cUID} =~ s/\.//g;
+            $this->cUID2WikiName->{$cUID} =~ s/$Foswiki::cfg{NameFilter}//g;
+            $this->cUID2WikiName->{$cUID} =~ s/\.//g;
 
-            $this->{login2cUID}->{$login} = $cUID;
-            $this->{wikiName2cUID}->{ $this->{cUID2WikiName}->{$cUID} } = $cUID;
+            $this->login2cUID->{$login} = $cUID;
+            $this->wikiName2cUID->{ $this->cUID2WikiName->{$cUID} } = $cUID;
         }
     }
 
@@ -370,15 +417,14 @@ sub addUser {
 
     # create a new user and get the canonical user ID from the user mapping
     # manager.
-    my $cUID =
-      $this->{mapping}->addUser( $login, $wikiname, $password, $emails );
+    my $cUID = $this->mapping->addUser( $login, $wikiname, $password, $emails );
 
     # update the cached values
-    $this->{cUID2Login}->{$cUID}    = $login;
-    $this->{cUID2WikiName}->{$cUID} = $wikiname;
+    $this->cUID2Login->{$cUID}    = $login;
+    $this->cUID2WikiName->{$cUID} = $wikiname;
 
-    $this->{login2cUID}->{$login}       = $cUID;
-    $this->{wikiName2cUID}->{$wikiname} = $cUID;
+    $this->login2cUID->{$login}       = $cUID;
+    $this->wikiName2cUID->{$wikiname} = $cUID;
 
     return $cUID;
 }
@@ -418,7 +464,7 @@ Get the currect CGI session object
 
 sub getCGISession {
     my $this = shift;
-    return $this->{loginManager}->getCGISession();
+    return $this->loginManager->getCGISession();
 }
 
 =begin TML
@@ -432,7 +478,7 @@ one. May return undef.
 
 sub getLoginManager {
     my $this = shift;
-    return $this->{loginManager};
+    return $this->loginManager;
 }
 
 =begin TML
@@ -466,11 +512,11 @@ sub getCanonicalUserID {
 
     # Someone we already know?
 
-    if ( defined( $this->{login2cUID}->{$identifier} ) ) {
-        $cUID = $this->{login2cUID}->{$identifier};
+    if ( defined( $this->login2cUID->{$identifier} ) ) {
+        $cUID = $this->login2cUID->{$identifier};
     }
-    elsif ( defined( $this->{wikiName2cUID}->{$identifier} ) ) {
-        $cUID = $this->{wikiName2cUID}->{$identifier};
+    elsif ( defined( $this->wikiName2cUID->{$identifier} ) ) {
+        $cUID = $this->wikiName2cUID->{$identifier};
     }
     else {
 
@@ -502,7 +548,7 @@ sub getCanonicalUserID {
             # TopicUserMappingContrib but may be used by other mappers
             # that support user topics)
             my ( $dummy, $nid ) =
-              $this->{session}->normalizeWebTopicName( '', $identifier );
+              $this->session->normalizeWebTopicName( '', $identifier );
             $identifier = $nid if ( $dummy eq $Foswiki::cfg{UsersWebName} );
 
             my $found = $this->findUserByWikiName($identifier);
@@ -548,8 +594,8 @@ sub findUserByEmail {
     my ( $this, $email ) = @_;
     ASSERT($email) if DEBUG;
 
-    my $users = $this->{mapping}->findUserByEmail($email);
-    push @{$users}, @{ $this->{basemapping}->findUserByEmail($email) };
+    my $users = $this->mapping->findUserByEmail($email);
+    push @{$users}, @{ $this->basemapping->findUserByEmail($email) };
 
     return $users;
 }
@@ -572,8 +618,8 @@ sub getEmails {
     my ( $this, $name ) = @_;
 
     return () unless ($name);
-    if ( $this->{mapping}->isGroup($name) ) {
-        return $this->{mapping}->getEmails($name);
+    if ( $this->mapping->isGroup($name) ) {
+        return $this->mapping->getEmails($name);
     }
 
     return $this->_getMapping($name)->getEmails($name);
@@ -612,21 +658,21 @@ sub isAdmin {
 
     return 0 unless defined $cUID;
 
-    return $this->{isAdmin}->{$cUID}
-      if ( defined( $this->{isAdmin}->{$cUID} ) );
+    return $this->_isAdmin->{$cUID}
+      if ( defined( $this->_isAdmin->{$cUID} ) );
 
     my $mapping = $this->_getMapping($cUID);
     my $otherMapping =
-      ( $mapping eq $this->{basemapping} )
-      ? $this->{mapping}
-      : $this->{basemapping};
+      ( $mapping eq $this->basemapping )
+      ? $this->mapping
+      : $this->basemapping;
 
     if ( $mapping eq $otherMapping ) {
         return $mapping->isAdmin($cUID);
     }
-    $this->{isAdmin}->{$cUID} =
+    $this->_isAdmin->{$cUID} =
       ( $mapping->isAdmin($cUID) || $otherMapping->isAdmin($cUID) );
-    return $this->{isAdmin}->{$cUID};
+    return $this->_isAdmin->{$cUID};
 }
 
 =begin TML
@@ -676,10 +722,10 @@ sub getLoginName {
 
     return unless defined($cUID);
 
-    return $this->{cUID2Login}->{$cUID}
-      if ( defined( $this->{cUID2Login}->{$cUID} ) );
+    return $this->cUID2Login->{$cUID}
+      if ( defined( $this->cUID2Login->{$cUID} ) );
 
-    ASSERT( $this->{basemapping} ) if DEBUG;
+    ASSERT( $this->basemapping ) if DEBUG;
     my $mapping = $this->_getMapping($cUID);
     my $login;
     if ( $cUID && $mapping ) {
@@ -687,8 +733,8 @@ sub getLoginName {
     }
 
     if ( defined $login ) {
-        $this->{cUID2Login}->{$cUID}  = $login;
-        $this->{login2cUID}->{$login} = $cUID;
+        $this->cUID2Login->{$cUID}  = $login;
+        $this->login2cUID->{$login} = $cUID;
     }
 
     return $login;
@@ -708,8 +754,8 @@ Can return undef if the user is not in the mapping system
 sub getWikiName {
     my ( $this, $cUID ) = @_;
     return 'UnknownUser' unless defined($cUID);
-    return $this->{cUID2WikiName}->{$cUID}
-      if ( defined( $this->{cUID2WikiName}->{$cUID} ) );
+    return $this->cUID2WikiName->{$cUID}
+      if ( defined( $this->cUID2WikiName->{$cUID} ) );
 
     my $wikiname;
     my $mapping = $this->_getMapping($cUID);
@@ -730,8 +776,8 @@ sub getWikiName {
         # SMELL: is this really needed?
         $wikiname =~ s/^($Foswiki::cfg{UsersWebName}|%MAINWEB%|%USERSWEB%)\.//;
 
-        $this->{cUID2WikiName}->{$cUID}     = $wikiname;
-        $this->{wikiName2cUID}->{$wikiname} = $cUID;
+        $this->cUID2WikiName->{$cUID}     = $wikiname;
+        $this->wikiName2cUID->{$wikiname} = $cUID;
     }
     return $wikiname;
 }
@@ -787,7 +833,7 @@ Use it as follows:
 sub eachUser {
     my $this = shift;
     my @list =
-      ( $this->{basemapping}->eachUser(@_), $this->{mapping}->eachUser(@_) );
+      ( $this->basemapping->eachUser(@_), $this->mapping->eachUser(@_) );
     return new Foswiki::AggregateIterator( \@list, 1 );
 
     return shift->{mapping}->eachUser(@_);
@@ -804,7 +850,7 @@ Get an iterator over the list of all the group names.
 sub eachGroup {
     my $this = shift;
     my @list =
-      ( $this->{basemapping}->eachGroup(@_), $this->{mapping}->eachGroup(@_) );
+      ( $this->basemapping->eachGroup(@_), $this->mapping->eachGroup(@_) );
     return new Foswiki::AggregateIterator( \@list, 1 );
 }
 
@@ -824,8 +870,8 @@ should be fully expanded.
 sub eachGroupMember {
     my $this = shift;
     my @list = (
-        $this->{basemapping}->eachGroupMember(@_),
-        $this->{mapping}->eachGroupMember(@_)
+        $this->basemapping->eachGroupMember(@_),
+        $this->mapping->eachGroupMember(@_)
     );
     return new Foswiki::AggregateIterator( \@list, 1 );
 }
@@ -842,8 +888,8 @@ should not be assumed.
 
 sub isGroup {
     my $this = shift;
-    return ( $this->{basemapping}->isGroup(@_) )
-      || ( $this->{mapping}->isGroup(@_) );
+    return ( $this->basemapping->isGroup(@_) )
+      || ( $this->mapping->isGroup(@_) );
 }
 
 =begin TML
@@ -866,9 +912,9 @@ sub isInGroup {
 
     my $mapping = $this->_getMapping($cUID);
     my $otherMapping =
-      ( $mapping eq $this->{basemapping} )
-      ? $this->{mapping}
-      : $this->{basemapping};
+      ( $mapping eq $this->basemapping )
+      ? $this->mapping
+      : $this->basemapping;
     return 1 if $mapping->isInGroup( $cUID, $group, { expand => $expand } );
 
     return $otherMapping->isInGroup( $cUID, $group, { expand => $expand } )
@@ -897,9 +943,9 @@ sub eachMembership {
     }
 
     my $otherMapping =
-      ( $mapping eq $this->{basemapping} )
-      ? $this->{mapping}
-      : $this->{basemapping};
+      ( $mapping eq $this->basemapping )
+      ? $this->mapping
+      : $this->basemapping;
     if ( $mapping eq $otherMapping ) {
 
         # only using BaseMapping.
@@ -922,7 +968,7 @@ returns 1 if the group is able to be modified by the current logged in user
 sub groupAllowsView {
     my $this    = shift;
     my $group   = shift;
-    my $mapping = $this->{mapping};
+    my $mapping = $this->mapping;
     return $mapping->groupAllowsView($group);
 }
 
@@ -937,10 +983,10 @@ returns 1 if the group is able to be modified by the current logged in user
 sub groupAllowsChange {
     my $this  = shift;
     my $group = shift;
-    my $cuid  = shift || $this->{session}->{user};
+    my $cuid  = shift || $this->session->{user};
 
-    return (  $this->{basemapping}->groupAllowsChange( $group, $cuid )
-          and $this->{mapping}->groupAllowsChange( $group, $cuid ) );
+    return (  $this->basemapping->groupAllowsChange( $group, $cuid )
+          and $this->mapping->groupAllowsChange( $group, $cuid ) );
 }
 
 =begin TML
@@ -953,7 +999,7 @@ If the group does not exist, it will return false and do nothing, unless the cre
 
 sub addUserToGroup {
     my ( $this, $cuid, $group, $create ) = @_;
-    my $mapping = $this->{mapping};
+    my $mapping = $this->mapping;
     return $mapping->addUserToGroup( $cuid, $group, $create );
 }
 
@@ -965,7 +1011,7 @@ sub addUserToGroup {
 
 sub removeUserFromGroup {
     my ( $this, $cuid, $group ) = @_;
-    my $mapping = $this->{mapping};
+    my $mapping = $this->mapping;
     return $mapping->removeUserFromGroup( $cuid, $group );
 }
 

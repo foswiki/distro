@@ -618,9 +618,10 @@ sub runOne {
                     }
                 }
                 catch {
-# If for some reason any code within try just dies then why stringify what's not
-# an exception object?
-                    my $exceptionMessage = ref($_) ? $_->stringify : $_;
+                    # If for some reason any code within try just dies then why
+                    # stringify what's not an exception object?
+                    my $exceptionMessage =
+                      ref($_) && $_->can('stringify') ? $_->stringify : $_;
                     safe_print "*** ", $exceptionMessage, "\n";
                     if ( $tester->expecting_failure ) {
                         $action .=
