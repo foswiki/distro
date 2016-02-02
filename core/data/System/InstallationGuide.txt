@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1452660011" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1454455735" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
@@ -23,7 +23,7 @@ If you would prefer to use a different web server, please refer to supplemental 
 
    * This guide assumes the a basic knowledge of server administration on the system being used. For more information, see Foswiki:System.AdminSkillsAssumptions.
    * Review the [[#SystemRequirements][System Requirements]] (below) to make sure you have server prerequisites installed.
-   * Review the [[Foswiki:System.ReleaseNotes02x00][release notes]].
+   * Review the [[Foswiki:System.ReleaseNotes02x01][release notes]].
    * If you need to install any Perl libraries from CPAN, see Foswiki:Support.HowToInstallCpanModules for more information.
 
 ---++ 5-Minute Install
