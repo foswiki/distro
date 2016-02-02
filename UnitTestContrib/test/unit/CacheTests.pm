@@ -12,6 +12,8 @@ use Moo;
 use namespace::clean;
 extends qw(FoswikiFnTestCase);
 
+has uifn => ( is => 'rw', );
+
 my $UI_FN;
 
 sub fixture_groups {
@@ -158,12 +160,12 @@ sub NoCompress {
 
 sub view {
     my $this = shift;
-    $this->{uifn} = 'view';
+    $this->uifn('view');
 }
 
 sub rest {
     my $this = shift;
-    $this->{uifn} = 'rest';
+    $this->uifn('rest');
 }
 
 my %twistyIDs;
@@ -204,14 +206,14 @@ around tear_down => sub {
 sub check {
     my ( $this, $pathinfo ) = @_;
 
-    $UI_FN ||= $this->getUIFn( $this->{uifn} );
+    $UI_FN ||= $this->getUIFn( $this->uifn );
     $Foswiki::cfg{Cache}{Debug} = 1;
     my $query = Unit::Request->new( { skin => ['none'], } );
     $query->path_info($pathinfo);
     $query->method('GET');
 
     $this->createNewFoswikiSession( $this->test_user_login,
-        $query, { $this->{uifn} => 1 } );
+        $query, context => { $this->uifn => 1 }, );
 
     # This first request should *not* be satisfied from the cache, but
     # the cache should be populated with the result.
@@ -221,8 +223,8 @@ sub check {
             no strict 'refs';
             &{$UI_FN}( $this->session );
             use strict 'refs';
-            $Foswiki::engine->finalize( $this->session->{response},
-                $this->session->{request} );
+            $Foswiki::engine->finalize( $this->session->response,
+                $this->session->request );
         }
     );
     my $p1end = Benchmark->new();
@@ -230,7 +232,7 @@ sub check {
     #print STDERR "P1: $stderr\n" if $stderr;
 
     $this->createNewFoswikiSession( $this->test_user_login,
-        $query, { $this->{uifn} => 1 } );
+        $query, context => { $this->uifn => 1 }, );
 
     # This second request should be satisfied from the cache
     # How do we know it was?
@@ -240,8 +242,8 @@ sub check {
             no strict 'refs';
             &{$UI_FN}( $this->session );
             use strict 'refs';
-            $Foswiki::engine->finalize( $this->session->{response},
-                $this->session->{request} );
+            $Foswiki::engine->finalize( $this->session->response,
+                $this->session->request );
         }
     );
     my $p2end = Benchmark->new();

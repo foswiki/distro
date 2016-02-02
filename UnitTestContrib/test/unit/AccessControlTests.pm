@@ -52,15 +52,15 @@ around set_up => sub {
     $topicObject->save();
     $topicObject->finish();
     $this->registerUser( 'white', 'Mr', "White", 'white@example.com' );
-    $MrWhite = $this->session->{users}->getCanonicalUserID('white');
+    $MrWhite = $this->session->users->getCanonicalUserID('white');
     $this->registerUser( 'blue', 'Mr', "Blue", 'blue@example.com' );
-    $MrBlue = $this->session->{users}->getCanonicalUserID('blue');
+    $MrBlue = $this->session->users->getCanonicalUserID('blue');
     $this->registerUser( 'orange', 'Mr', "Orange", 'orange@example.com' );
-    $MrOrange = $this->session->{users}->getCanonicalUserID('orange');
+    $MrOrange = $this->session->users->getCanonicalUserID('orange');
     $this->registerUser( 'green', 'Mr', "Green", 'green@example.com' );
-    $MrGreen = $this->session->{users}->getCanonicalUserID('green');
+    $MrGreen = $this->session->users->getCanonicalUserID('green');
     $this->registerUser( 'yellow', 'Mr', "Yellow", 'yellow@example.com' );
-    $MrYellow = $this->session->{users}->getCanonicalUserID('yellow');
+    $MrYellow = $this->session->users->getCanonicalUserID('yellow');
 
     $this->createNewFoswikiSession();
     my $users_web = $this->users_web;
@@ -908,7 +908,7 @@ THIS
         sub {
             my $response = Foswiki::UI::handleRequest($query);
             $this->createNewFoswikiSession( undef, $query );
-            $this->session->{response} = $response;
+            $this->session->response($response);
         }
     );
 

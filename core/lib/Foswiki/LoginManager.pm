@@ -101,6 +101,10 @@ sub makeLoginManager {
 
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
+    ASSERT( $session->has_request && defined $session->request,
+        "Request object is undefined" )
+      if DEBUG;
+
     #user is trying to sudo login - use BaseUserMapping
     if ( $session->request->param('sudo') ) {
 
@@ -140,7 +144,7 @@ sub makeLoginManager {
     if ( $Foswiki::cfg{LoginManager} eq 'none' ) {
 
         # No login manager; just use default behaviours
-        $mgr = Foswiki::LoginManager( session => $session );
+        $mgr = Foswiki::LoginManager->new( session => $session );
     }
     else {
 

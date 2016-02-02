@@ -20,13 +20,13 @@ methods of this class.
 =cut
 
 package Foswiki::LoginManager::ApacheLogin;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
-use Foswiki::LoginManager ();
-our @ISA = ('Foswiki::LoginManager');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::LoginManager);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -43,11 +43,10 @@ Construct the ApacheLogin object
 
 =cut
 
-sub new {
-    my ( $class, $session ) = @_;
-    my $this = $class->SUPER::new($session);
+sub BUILD {
+    my $this = shift;
 
-    $session->enterContext('can_login');
+    $this->session->enterContext('can_login');
 
     # Can't logout, though
     Foswiki::registerTagHandler( 'LOGOUT', sub { return '' } );
@@ -65,8 +64,8 @@ Triggered on auth fail
 
 sub forceAuthentication {
     my $this    = shift;
-    my $session = $this->{session};
-    my $query   = $session->{request};
+    my $session = $this->session;
+    my $query   = $session->request;
 
     # See if there is an 'auth' version
     # of this script, may be a result of not being logged in.
@@ -103,9 +102,9 @@ Content of a login link
 
 sub loginUrl {
     my $this    = shift;
-    my $session = $this->{session};
-    my $topic   = $session->{topicName};
-    my $web     = $session->{webName};
+    my $session = $this->session;
+    my $topic   = $session->topicName;
+    my $web     = $session->webName;
     return $session->getScriptUrl( 0, 'logon', $web, $topic, @_ );
 }
 
@@ -123,8 +122,8 @@ sub login {
     my ( $this, $query, $session ) = @_;
 
     my $url =
-      $session->getScriptUrl( 0, 'viewauth', $session->{webName},
-        $session->{topicName}, t => time() );
+      $session->getScriptUrl( 0, 'viewauth', $session->webName,
+        $session->topicName, t => time() );
 
     $url .= ( ';' . $query->query_string() ) if $query->query_string();
 
@@ -142,7 +141,7 @@ returns the userLogin if stored in the apache CGI query (ie session)
 sub getUser {
     my $this = shift;
 
-    my $query = $this->{session}->{request};
+    my $query = $this->session->request;
     my $authUser;
 
     # Ignore remote user if we got here via an error

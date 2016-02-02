@@ -427,13 +427,20 @@ around BUILDARGS => sub {
 
     # If by this point there is no valid session key in the parameters then we
     # deal with positional parameters.
+    my $paramHash;
     unless ( defined $params{session} && $params{session}->isa('Foswiki') ) {
 
         # Let the base BUILDARGS deal with those.
-        return $orig->( $class, @_ );
+        $paramHash = $orig->( $class, @_ );
+    }
+    else {
+        $paramHash = {%params};
     }
 
-    return {%params};
+    delete $paramHash->{web}   unless defined $paramHash->{web};
+    delete $paramHash->{topic} unless defined $paramHash->{topic};
+
+    return $paramHash;
 };
 
 =begin TML
@@ -699,7 +706,7 @@ access path "Myweb/Subweb.MyTopic"
 sub getPath {
     my $this = shift;
 
-    return '' unless $this->has_web;
+    return '' unless $this->has_web && defined $this->web;
     return $this->web . ( $this->has_topic ? '.' . $this->topic : '' );
 }
 

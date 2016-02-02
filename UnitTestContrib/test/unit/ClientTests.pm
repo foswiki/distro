@@ -97,19 +97,18 @@ sub set_up_for_verify {
 
 sub set_up_user {
     my $this = shift;
-    if ( $this->session->{users}->supportsRegistration() ) {
+    if ( $this->session->users->supportsRegistration() ) {
         $userLogin    = 'joe';
         $userWikiName = 'JoeDoe';
         $user_id =
-          $this->session->{users}
-          ->addUser( $userLogin, $userWikiName, 'secrect_password',
-            'email@home.org.au' );
+          $this->session->users->addUser( $userLogin, $userWikiName,
+            'secrect_password', 'email@home.org.au' );
         $this->annotate("create $userLogin user - cUID = $user_id\n");
     }
     else {
         $userLogin    = $Foswiki::cfg{AdminUserLogin};
-        $user_id      = $this->session->{users}->getCanonicalUserID($userLogin);
-        $userWikiName = $this->session->{users}->getWikiName($user_id);
+        $user_id      = $this->session->users->getCanonicalUserID($userLogin);
+        $userWikiName = $this->session->users->getWikiName($user_id);
         $this->annotate("no registration support (using admin)\n");
     }
 
@@ -232,9 +231,9 @@ sub verify_sudo_login {
     my $surly =
       $this->session->getScriptUrl( 0, $script, $this->test_web,
         $this->test_topic );
-    $this->assert_matches( qr/^302/, $this->session->{response}->status() );
+    $this->assert_matches( qr/^302/, $this->session->response->status() );
     $this->assert_matches( qr/^$surly/,
-        $this->session->{response}->headers()->{Location} );
+        $this->session->response->headers->{Location} );
 
     # Verify that old crypted password works
     $crypted = crypt( $secret, "12" );
@@ -254,14 +253,14 @@ sub verify_sudo_login {
     $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
 
     $this->createNewFoswikiSession( undef, $query );
-    $this->session->getLoginManager()->login( $query, $this->session );
+    $this->session->getLoginManager->login( $query, $this->session );
     $script = $Foswiki::cfg{LoginManager} =~ m/Apache/ ? 'viewauth' : 'view';
     $surly =
       $this->session->getScriptUrl( 0, $script, $this->test_web,
         $this->test_topic );
-    $this->assert_matches( qr/^302/, $this->session->{response}->status() );
+    $this->assert_matches( qr/^302/, $this->session->response->status );
     $this->assert_matches( qr/^$surly/,
-        $this->session->{response}->headers()->{Location} );
+        $this->session->response->headers->{Location} );
 
     return;
 }

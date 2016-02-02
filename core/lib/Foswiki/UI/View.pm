@@ -54,20 +54,20 @@ The view is controlled by CGI parameters as follows:
 sub view {
     my $session = shift;
 
-    my $query = $session->{request};
-    my $web   = $session->{webName};
-    my $topic = $session->{topicName};
-    my $user  = $session->{user};
-    my $users = $session->{users};
+    my $query = $session->request;
+    my $web   = $session->webName;
+    my $topic = $session->topicName;
+    my $user  = $session->user;
+    my $users = $session->users;
 
-    if ( $session->{invalidTopic} ) {
+    if ( $session->invalidTopic ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
             def    => 'invalid_topic_name',
             web    => $web,
             topic  => $topic,
-            params => [ $session->{invalidTopic} ]
+            params => [ $session->invalidTopic ]
         );
     }
     if ( defined $query->param('release_lock')
@@ -77,7 +77,7 @@ sub view {
         my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
 
         my $lease = $topicObject->getLease();
-        if ( $lease && $lease->{user} eq $session->{user} ) {
+        if ( $lease && $lease->{user} eq $session->user ) {
             $topicObject->clearLease();
         }
         $topicObject->finish();
@@ -88,8 +88,8 @@ sub view {
     Foswiki::Func::writeDebug("computing page for $web.$topic")
       if Foswiki::PageCache::TRACE();
 
-    my $response     = $session->{response};
-    my $method       = $session->{request}->method || '';
+    my $response     = $session->response;
+    my $method       = $session->request->method || '';
     my $raw          = $query->param('raw') || '';
     my $requestedRev = $query->param('rev');
 
@@ -137,7 +137,7 @@ sub view {
 
             if ( $Foswiki::cfg{FeatureAccess}{AllowRaw} eq 'authenticated' ) {
                 throw Foswiki::AccessControlException( 'authenticated',
-                    $session->{user}, $web, $topic, $Foswiki::Meta::reason )
+                    $session->user, $web, $topic, $Foswiki::Meta::reason )
                   unless $session->inContext("authenticated");
             }
             else {
@@ -155,7 +155,7 @@ sub view {
             if ( $Foswiki::cfg{FeatureAccess}{AllowHistory} eq 'authenticated' )
             {
                 throw Foswiki::AccessControlException( 'authenticated',
-                    $session->{user}, $web, $topic, $Foswiki::Meta::reason )
+                    $session->user, $web, $topic, $Foswiki::Meta::reason )
                   unless $session->inContext("authenticated");
             }
             else {
@@ -190,8 +190,7 @@ sub view {
                   Foswiki::Meta->load( $session, $web, $topic, $showRev );
                 if ( !$topicObject->haveAccess('VIEW') ) {
                     throw Foswiki::AccessControlException( 'VIEW',
-                        $session->{user}, $web, $topic,
-                        $Foswiki::Meta::reason );
+                        $session->user, $web, $topic, $Foswiki::Meta::reason );
                 }
                 $logEntry .= 'r' . $requestedRev;
             }
@@ -281,7 +280,7 @@ sub view {
     my $template =
          $viewTemplate
       || $query->param('template')
-      || $session->{prefs}->getPreference('VIEW_TEMPLATE')
+      || $session->prefs->getPreference('VIEW_TEMPLATE')
       || 'view';
 
     # Always use default view template for raw=debug, raw=all and raw=on
@@ -404,7 +403,7 @@ sub view {
     else {
         $contentType = 'text/html';
     }
-    $session->{prefs}->setSessionPreferences(
+    $session->prefs->setSessionPreferences(
         MAXREV  => $maxRev,
         CURRREV => $showRev
     );
@@ -442,7 +441,7 @@ sub view {
 
         if ($raw) {
             if ($text) {
-                my $p = $session->{prefs};
+                my $p = $session->prefs;
                 $page .= CGI::textarea(
                     -readonly => 'readonly',
                     -rows     => $p->getPreference('EDITBOXHEIGHT'),

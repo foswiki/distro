@@ -2,8 +2,9 @@
 # See bottom of file for description
 use strict;
 use warnings;
-require 5.006;
+use v5.14;
 
+use Try::Tiny;
 use FindBin;
 use Cwd ();
 my $starting_root;
@@ -134,14 +135,26 @@ if ( not $options{-worker} ) {
     }
 }
 
-my $testrunner = Unit::TestRunner->new( { TAP => defined( $options{-tap} ) } );
-my $exit;
-if ( $options{-worker} ) {
-    $exit = $testrunner->worker(@ARGV);
+my ( $exit, $testrunner );
+try {
+    $testrunner = Unit::TestRunner->new( { TAP => defined( $options{-tap} ) } );
+    if ( $options{-worker} ) {
+        $exit = $testrunner->worker(@ARGV);
+    }
+    else {
+        $exit = $testrunner->start(@ARGV);
+    }
 }
-else {
-    $exit = $testrunner->start(@ARGV);
-}
+catch {
+    my $e = shift;
+    if ( ref($e) && $e->can('stringify') ) {
+        say STDERR $e->stringify;
+    }
+    else {
+        say STDERR $e;
+    }
+
+};
 
 print STDERR "Run was logged to $log\n" if $options{-log};
 

@@ -13,7 +13,6 @@ script that runs testcases.
 use strict;
 use warnings;
 
-use Assert;
 use Devel::Symdump();
 use File::Spec();
 use Try::Tiny;
@@ -23,6 +22,8 @@ use Moo;
 use namespace::clean;
 
 extends 'Foswiki::Object';
+
+use Assert;
 
 sub CHECKLEAK { 0 }
 
@@ -603,12 +604,21 @@ sub runOne {
                 $action .= "\n# $test\n    ";
 
                 try {
+                    # vrurg Recatch everything to convert perl error into
+                    # exceptions with stacktrace for simplified error tracing.
+                    local $SIG{__DIE__} =
+                      sub { Foswiki::Exception->rethrow(@_) }
+                      if DEBUG;
+                    local $SIG{__WARN__} =
+                      sub { Foswiki::Exception->rethrow(@_) }
+                      if DEBUG;
                     $tester->set_up($test);
                     $action .=
                       '$this->{tests_per_module}->{\'' . $suite . '\'}++;';
                     $tester->$test();
                     _finish_singletons() if CHECKLEAK;
                     $action .= '$passes++;';
+
                     if ( $tester->expecting_failure ) {
                         print "*** Unexpected pass\n";
                         $action .=

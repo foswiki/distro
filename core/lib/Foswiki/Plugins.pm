@@ -52,17 +52,20 @@ my %onlyOnceHandlers = (
 );
 
 has session => (
-    is  => 'rw',
-    isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
+    is      => 'rw',
+    clearer => 1,
+    isa     => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
 );
 has registeredHandlers => (
     is      => 'rw',
     lazy    => 1,
+    clearer => 1,
     default => sub { {} },
 );
 has plugins => (
     is      => 'rw',
     lazy    => 1,
+    clearer => 1,
     default => sub { [] },
 );
 
@@ -125,12 +128,12 @@ sub finish {
 
     $this->dispatch('finishPlugin');
 
-    undef $this->{registeredHandlers};
+    $this->clear_registeredHandlers;
     foreach ( @{ $this->{plugins} } ) {
         $_->finish();
     }
-    undef $this->{plugins};
-    undef $this->{session};
+    $this->clear_plugins;
+    $this->clear_session;
 }
 
 =begin TML

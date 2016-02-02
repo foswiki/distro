@@ -48,15 +48,13 @@ use Monitor                  ();
 use CGI                      ();  # Always required to get html generation tags;
 use Digest::MD5              ();  # For passthru and validation
 use Foswiki::Configure::Load ();
+use Scalar::Util             ();
 use Foswiki::Exception;
 
 # Item13331 - use CGI::ENCODE_ENTITIES introduced in CGI>=4.14 to restrict encoding
 # in CGI's html rendering code to only these; note that CGI's default values
 # still breaks some unicode byte strings
 $CGI::ENCODE_ENTITIES = q{&<>"'};
-
-#SMELL:  Perl 5.10.0 on Mac OSX Snow Leopard warns "v-string in use/require non-portable"
-require 5.008_008;    # see http://foswiki.org/Development/RequirePerl588
 
 # Site configuration constants
 our %cfg;
@@ -106,25 +104,31 @@ sub SINGLE_SINGLETONS       { 0 }
 sub SINGLE_SINGLETONS_TRACE { 0 }
 
 has access => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub {
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
         require Foswiki::Access;
         return Foswiki::Access->create( $_[0] );
     },
 );
 has attach => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub {
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
         require Foswiki::Attach;
         new Foswiki::Attach( $_[0] );
     },
 );
 has cache => (
-    is      => 'rw',
-    lazy    => 1,
-    default => sub {
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
         my $this = shift;
         if (   $Foswiki::cfg{Cache}{Enabled}
             && $Foswiki::cfg{Cache}{Implementation} )
@@ -139,11 +143,13 @@ has cache => (
 has context => (
     is      => 'rw',
     lazy    => 1,
+    clearer => 1,
     default => sub { {} },
 );
 has digester => (
     is      => 'ro',
     lazy    => 1,
+    clearer => 1,
     default => sub { return Digest::MD5->new; },
 );
 has forms => (
@@ -153,10 +159,11 @@ has forms => (
     default => sub { {} },
 );
 has i18n => (
-    is      => 'ro',
-    lazy    => 1,
-    clearer => 1,
-    default => sub {
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
         require Foswiki::I18N;
 
         # language information; must be loaded after
@@ -164,12 +171,20 @@ has i18n => (
         new Foswiki::I18N( $_[0] );
     },
 );
-has invalidTopic => ( is => 'rw', );
-has invalidWeb   => ( is => 'rw', );
-has logger       => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub {
+has invalidTopic => (
+    is      => 'rw',
+    clearer => 1,
+);
+has invalidWeb => (
+    is      => 'rw',
+    clearer => 1,
+);
+has logger => (
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
         my $this = shift;
         my $logger;
         if ( $Foswiki::cfg{Log}{Implementation} ne 'none' ) {
@@ -186,51 +201,70 @@ has logger       => (
     },
 );
 has net => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub {
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
         require Foswiki::Net;
         return Foswiki::Net->new( $_[0] );
     },
 );
 has plugins => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub { return Foswiki::Plugins->new( session => $_[0] ); },
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub { return Foswiki::Plugins->new( session => $_[0] ); },
 );
 has prefs => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub { return Foswiki::Prefs->new( session => $_[0] ); },
+    is        => 'ro',
+    lazy      => 1,
+    predicate => 1,
+    clearer   => 1,
+    default   => sub { return Foswiki::Prefs->new( session => $_[0] ); },
 );
-has remoteUser => ( is => 'rw', );
+has remoteUser => (
+    is      => 'rw',
+    clearer => 1,
+);
 has renderer => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub {
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
         require Foswiki::Render;
         new Foswiki::Render( $_[0] );
     },
 );
 has request => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub { return Foswiki::Request->new; },
-    isa     => Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request' ),
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    coerce    => sub { defined $_[0] ? $_[0] : Foswiki::Request->new },
+    default   => sub {
+        return Foswiki::Request->new;
+    },
+    isa => Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request' ),
 );
-has requestedWebName => ( is => 'rw', );
+has requestedWebName => ( is => 'rw', clearer => 1, );
 has response => (
-    is      => 'ro',
+    is      => 'rw',
     lazy    => 1,
+    clearer => 1,
     default => sub { return Foswiki::Response->new; },
 );
 has sandbox => (
     is      => 'ro',
     default => 'Foswiki::Sandbox',
+    clearer => 1,
 );
 has scriptUrlPath => (
     is      => 'ro',
     lazy    => 1,
+    clearer => 1,
     default => sub {
         my $this          = shift;
         my $scriptUrlPath = $Foswiki::cfg{ScriptUrlPath};
@@ -251,28 +285,40 @@ has scriptUrlPath => (
     },
 );
 has search => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub {
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
         require Foswiki::Search;
         return Foswiki::Search->new( $_[0] );
     },
 );
-has store => ( is => 'rw', );
+has store => (
+    is        => 'rw',
+    clearer   => 1,
+    predicate => 1,
+);
 has templates => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub {
+    is        => 'ro',
+    lazy      => 1,
+    predicate => 1,
+    clearer   => 1,
+    default   => sub {
         require Foswiki::Templates;
         return Foswiki::Templates->new( $_[0] );
     },
 );
-has topicName => ( is => 'rw', );
+has topicName => (
+    is      => 'rw',
+    clearer => 1,
+);
 
 # SMELL Shouldn't urlHost attribute be available from the request object?
 has urlHost => (
     is      => 'rw',
     lazy    => 1,
+    clearer => 1,
     default => sub {
         my $this = shift;
 
@@ -309,17 +355,27 @@ has urlHost => (
         return $urlHost;
     },
 );
-has user => ( is => 'rw', );
-has users => (
+has user => (
     is      => 'rw',
-    lazy    => 1,
-    default => sub { return Foswiki::Users->new( $_[0] ); },
+    clearer => 1,
 );
-has webName => ( is => 'rw', );
+has users => (
+    is        => 'rw',
+    lazy      => 1,
+    predicate => 1,
+    clearer   => 1,
+    default   => sub { return Foswiki::Users->new( $_[0] ); },
+);
+has webName => (
+    is      => 'rw',
+    clearer => 1,
+);
 has zones => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub {
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
         require Foswiki::Render::Zones;
         return Foswiki::Render::Zones->new( $_[0] );
     },
@@ -1031,7 +1087,18 @@ sub BUILD {
     # This is required in case we get an exception during
     # initialisation, so that we have a session to handle it with.
     ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+
+    # SMELL This global session variable not to exists whatsoever! There're two
+    # ways around this variable to ever exists: a singleton object or every
+    # piece of code requiring access to session to be a part of an object. Yet,
+    # a singleton object doesn't solve a problem with multi-session environments
+    # where code may serve few different requests at once. Think of requests on
+    # hold waiting for some data from external sources while concurring requests
+    # are being processed.
     $Foswiki::Plugins::SESSION = $this;
+
+    # SMELL XXX Test to avoid circular dependencies. Dangerous!
+    Scalar::Util::weaken($Foswiki::Plugins::SESSION);
     ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
     # construct the store object
@@ -2487,39 +2554,40 @@ sub finish {
         store search attach access i18n cache logger)
       )
     {
-        next
-          unless ref( $this->{$key} );
-        $this->{$key}->finish();
-        undef $this->{$key};
+        my $hasMethod   = "has_$key";
+        my $clearMethod = "clear_$key";
+        if ( $this->$hasMethod ) {
+            $this->$key->finish if defined $this->$key;
+            $this->$clearMethod;
+        }
+
     }
 
-    undef $this->{request};
-    undef $this->{cgiQuery};
-
-    undef $this->{digester};
-    undef $this->{urlHost};
+    $this->clear_request;
+    $this->clear_digester;
+    $this->clear_urlHost;
+    $this->clear_webName;
+    $this->clear_topicName;
+    $this->clear_invalidWeb;
+    $this->clear_invalidTopic;
+    $this->clear_context;
+    $this->clear_remoteUser;
+    $this->clear_requestedWebName;    # Web name before renaming
+    $this->clear_scriptUrlPath;
+    $this->clear_user;
+    $this->clear_response;
+    $this->clear_sandbox;
     undef $this->{web};
     undef $this->{topic};
-    undef $this->{webName};
-    undef $this->{topicName};
-    undef $this->{invalidWeb};
-    undef $this->{invalidTopic};
+    undef $this->{evaluatingEval};
+    undef $this->{evaluating_if};
+    undef $this->{_addedToHEAD};
+    undef $this->{_ffCache};
+    undef $this->{_INCLUDES};
     undef $this->{_ICONSPACE};
     undef $this->{_EXT2ICON};
     undef $this->{_KNOWNICON};
     undef $this->{_ICONSTEMPLATE};
-    undef $this->{context};
-    undef $this->{remoteUser};
-    undef $this->{requestedWebName};    # Web name before renaming
-    undef $this->{scriptUrlPath};
-    undef $this->{user};
-    undef $this->{_INCLUDES};
-    undef $this->{response};
-    undef $this->{evaluating_if};
-    undef $this->{_addedToHEAD};
-    undef $this->{sandbox};
-    undef $this->{evaluatingEval};
-    undef $this->{_ffCache};
 
     undef $this->{DebugVerificationCode};    # from Foswiki::UI::Register
     if (SINGLE_SINGLETONS_TRACE) {
@@ -2543,10 +2611,6 @@ sub finish {
               . $remaining )
           if $remaining;
     }
-}
-
-sub DEMOLISH {
-    shift->finish();
 }
 
 =begin TML

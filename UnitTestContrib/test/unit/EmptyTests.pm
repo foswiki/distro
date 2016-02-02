@@ -22,7 +22,7 @@ around set_up => sub {
     $topicquery->path_info('/TestCases/WebHome');
     try {
         $this->createNewFoswikiSession( 'AdminUser' || '' );
-        my $user = $this->{session}->{user};
+        my $user = $this->session->user;
 
         # You can create webs here; don't forget to tear them down
 
@@ -63,8 +63,8 @@ around tear_down => sub {
 
     # Remove fixture webs; warning, if one of these
     # dies, you may end up with spurious test webs
-    $this->removeWebFixture( $this->{session}, "Temporarytestweb1" );
-    $this->removeWebFixture( $this->{session}, "Temporarysystemweb" );
+    $this->removeWebFixture( $this->session, "Temporarytestweb1" );
+    $this->removeWebFixture( $this->session, "Temporarysystemweb" );
 
     # Always do this, and always do it last
     $orig->($this);

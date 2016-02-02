@@ -23,7 +23,7 @@ BEGIN {
     no warnings 'redefine';
     *Foswiki::new = sub {
         my $t = $_new->(@_);
-        $response = $t->{response};
+        $response = $t->response;
         return $t;
     };
     my $_finish = \&Foswiki::finish;

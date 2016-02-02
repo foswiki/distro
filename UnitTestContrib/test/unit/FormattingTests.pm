@@ -1036,7 +1036,7 @@ sub test_shortAcronyms {
     $this->session->renderer->finish();
     Class::Unload->unload('Foswiki::Render');
     require Foswiki::Render;
-    $this->session->{renderer} = new Foswiki::Render( $this->session );
+    $this->session->renderer( Foswiki::Render->( $this->session ) );
 
     my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
@@ -1063,10 +1063,10 @@ ACTUAL
     $abbrevLength = $Foswiki::cfg{AcronymLength} || 3;
     $Foswiki::regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
     require Class::Unload;
-    $this->session->renderer->finish();
+    $this->session->renderer->finish;
     Class::Unload->unload('Foswiki::Render');
     require Foswiki::Render;
-    $this->session->{renderer} = new Foswiki::Render( $this->session );
+    $this->session->renderer( Foswiki::Render->new( $this->session ) );
 
 }
 
@@ -1470,63 +1470,67 @@ sub test_render_PlainText {
     #test a few others to try to not break things
     $this->assert_matches(
 qr/Apache is the\s+http:\/\/www\.apache\.org\/httpd\/ well known web server\s*\./,
-        $this->session->{renderer}->TML2PlainText(
+        $this->session->renderer->TML2PlainText(
 'Apache is the [[http://www.apache.org/httpd/ well known web server]].'
         )
     );
     $this->assert_str_equals(
         'Apache is the well known web server.',
-        $this->session->{renderer}->TML2PlainText(
+        $this->session->renderer->TML2PlainText(
             'Apache is the [[ApacheServer][well known web server]].')
     );
 
     #SMELL: an unexpected result :/
-    $this->assert_str_equals( 'Apache is the   well known web server  .',
-        $this->session->{renderer}
-          ->TML2PlainText('Apache is the [[well known web server]].') );
-    $this->assert_str_equals( 'Apache is the well known web server.',
-        $this->session->{renderer}
-          ->TML2PlainText('Apache is the well known web server.') );
+    $this->assert_str_equals(
+        'Apache is the   well known web server  .',
+        $this->session->renderer->TML2PlainText(
+            'Apache is the [[well known web server]].')
+    );
+    $this->assert_str_equals(
+        'Apache is the well known web server.',
+        $this->session->renderer->TML2PlainText(
+            'Apache is the well known web server.')
+    );
 
     #non formatting uses of formatting markup
     $this->assert_str_equals(
         'Apache 2*3 is the well known web server.',
-        $this->session->{renderer}->TML2PlainText(
+        $this->session->renderer->TML2PlainText(
             'Apache 2*3 is the [[ApacheServer][well known web server]].')
     );
     $this->assert_str_equals(
         'Apache 2=3 is the well known web server.',
-        $this->session->{renderer}->TML2PlainText(
+        $this->session->renderer->TML2PlainText(
             'Apache 2=3 is the [[ApacheServer][well known web server]].')
     );
 
     $this->assert_str_equals(
         'Apache 1_1 is the well known web server.',
-        $this->session->{renderer}->TML2PlainText(
+        $this->session->renderer->TML2PlainText(
             'Apache 1_1 is the [[ApacheServer][well known web server]].')
     );
 
 #    $this->assert_str_equals(
 #        'Apache 1_1 is the %SEARCH{"one" section="two"}% well known web server.',
-#        $this->session->{renderer}->TML2PlainText(
+#        $this->session->renderer->TML2PlainText(
 #            'Apache 1_1 is the %SEARCH{"one" section="two"}% [[ApacheServer][well known web server]].')
 #    );
 #formatting uses of formatting markup
     $this->assert_str_equals(
         'Apache 2.3 is the well known web server.',
-        $this->session->{renderer}->TML2PlainText(
+        $this->session->renderer->TML2PlainText(
             'Apache *2.3* is the [[ApacheServer][well known web server]].')
     );
 
     $this->assert_str_equals(
         'Apache 1.1 is the well known web server.',
-        $this->session->{renderer}->TML2PlainText(
+        $this->session->renderer->TML2PlainText(
             '__Apache 1.1__ is the [[ApacheServer][well known web server]].')
     );
 
 #    $this->assert_str_equals(
 #        'Apache 1_1 _is_ the %INCLUDE{"one" section="two"}% well known web server.',
-#        $this->session->{renderer}->TML2PlainText(
+#        $this->session->renderer->TML2PlainText(
 #            'Apache 1_1 is the %INCLUDE{"one" section="two"}% [[ApacheServer][well known web server]].')
 #    );
 }

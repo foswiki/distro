@@ -258,8 +258,8 @@ sub check_plugin_enabled {
 
     # Many tests don't have a $session data member.
     #return (
-    #    defined $this->{session}
-    #    ? $this->{session}->inContext( $plugin . 'Enabled' )
+    #    $this->has_session
+    #    ? $this->session->inContext( $plugin . 'Enabled' )
     #    : $Foswiki::cfg{Plugins}{$plugin}{Enabled}
     #);
     return $Foswiki::cfg{Plugins}{$plugin}{Enabled};
@@ -559,7 +559,7 @@ sub populateNewWeb {
 
 Get an unloaded topic object.
 
-Equivalent to Foswiki::Meta->new, we take the session from $this->{session}.
+Equivalent to Foswiki::Meta->new, we take the session from $this->session.
 
 That assumes all the tests are playing nice, and aren't doing Foswiki->new()
 themselves (using createNewFoswikiSession instead).
@@ -767,7 +767,7 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
 sub tear_down {
     my $this = shift;
 
-    if ( $this->session ) {
+    if ( $this->has_session ) {
         ASSERT( $this->session->isa('Foswiki') ) if SINGLE_SINGLETONS;
         $this->finishFoswikiSession();
     }
@@ -1048,7 +1048,7 @@ sub createNewFoswikiSession {
 sub finishFoswikiSession {
     my ($this) = @_;
 
-    $this->session->finish() if defined $this->session;
+    $this->session->finish() if $this->has_session;
     ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
     $this->clear_session;
 
