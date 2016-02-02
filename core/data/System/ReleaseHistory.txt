@@ -9,7 +9,7 @@ History of Foswiki
 %TOC%
 ---++ Foswiki Release 2.1.0 - 02 Feb 2016
 
-Foswiki 2.1.0 was built on 02 Feb 2016. It is a release that contains 35 fixes and 13 enhancements. It closes 7 Feature Requests.
+Foswiki 2.1.0 was built on 02 Feb 2016. It is a release that contains 37 fixes and 14 enhancements. It closes 7 Feature Requests.
 
 ---++ Foswiki Release 2.0.3 - 15 Nov 2015
 
