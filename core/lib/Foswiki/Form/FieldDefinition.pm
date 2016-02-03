@@ -392,7 +392,7 @@ Foswiki::Render::protectFormFieldValue.
 sub renderForDisplay {
     my ( $this, $format, $value, $attrs ) = @_;
 
-    if ( !$attrs->showhidden ) {
+    if ( !$attrs->{showhidden} ) {
         my $fa = $this->attributes || '';
         if ( $fa =~ m/H/ ) {
             return '';

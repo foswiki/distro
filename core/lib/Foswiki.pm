@@ -158,6 +158,15 @@ has forms => (
     clearer => 1,
     default => sub { {} },
 );
+
+# Heap is to be used for data persistent over session lifetime.
+# Usage: $sessiom->heap->{key} = <your data>;
+has heap => (
+    is      => 'rw',
+    clearer => 1,
+    lazy    => 1,
+    default => sub { {} },
+);
 has i18n => (
     is        => 'ro',
     lazy      => 1,
@@ -296,8 +305,25 @@ has search => (
 );
 has store => (
     is        => 'rw',
+    lazy      => 1,
     clearer   => 1,
     predicate => 1,
+    isa =>
+      Foswiki::Object::isaCLASS( 'store', 'Foswiki::Store', noUndef => 1, ),
+    default => sub {
+        my $baseClass = $_[0]->_baseStoreClass;
+        ASSERT( $baseClass, "Foswiki::store base class is not defined" )
+          if DEBUG;
+        return $baseClass->new;
+    },
+);
+has _baseStoreClass => (
+    is      => 'rw',
+    clearer => 1,
+    default => 'Foswiki::Store::PlainFile',
+    isa     => sub {
+        ASSERT( defined( $_[0] ), "Foswiki::_baseStoreClass cannot be undef" );
+    },
 );
 has templates => (
     is        => 'ro',
@@ -379,6 +405,14 @@ has zones => (
         require Foswiki::Render::Zones;
         return Foswiki::Render::Zones->new( $_[0] );
     },
+);
+
+# Collection of macros objects
+has _macros => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
 );
 
 our @_newParameters = qw( user request context );
@@ -501,6 +535,9 @@ BEGIN {
     # from Foswiki::Macros, if it is used. This tactic is used to reduce
     # the load time of this module, especially when it is used from
     # REST handlers.
+    # If an entry is defined it could be of two values: either a coderef or a
+    # string. String must contain class/module name of a macro object. This is
+    # for macros which previously were storing their data on session objects.
     %macros = (
         ADDTOHEAD => undef,
 
@@ -1107,9 +1144,9 @@ sub BUILD {
 
     load_package($base);
 
-  # SMELL vrurg A chain of inheritance just to have one method called on several
-  # different classes? Really? A simple queue of object would do the same but
-  # would let to avoid this tricky code.
+    # SMELL vrurg A chain of inheritance just to have one method called on
+    # several different classes? Really? A simple queue of object would do the
+    # same but would let to avoid this tricky code.
     foreach my $class ( @{ $Foswiki::cfg{Store}{ImplementationClasses} } ) {
 
         # this allows us to add an arbitary set of mixins for things
@@ -1130,8 +1167,7 @@ sub BUILD {
         $base = $class;
     }
 
-    $this->store( $base->new );
-    ASSERT( $this->store, "no $base object created" ) if DEBUG;
+    $this->_baseStoreClass($base);
 
     # Load (or create) the CGI session
     # This initialization is better be kept here because $this->user may change
@@ -2550,7 +2586,7 @@ sub finish {
     $_->finish() foreach values %{ $this->forms };
     $this->clear_forms;
     foreach my $key (
-        qw(plugins users prefs templates renderer zones net
+        qw(prefs plugins users templates renderer zones net
         store search attach access i18n cache logger)
       )
     {
@@ -2577,6 +2613,8 @@ sub finish {
     $this->clear_user;
     $this->clear_response;
     $this->clear_sandbox;
+    $this->_clear_baseStoreClass;
+    $this->_clear_macros;
     undef $this->{web};
     undef $this->{topic};
     undef $this->{evaluatingEval};
@@ -3536,19 +3574,40 @@ sub _expandMacroOnTopicRendering {
         }
     }
     elsif ( exists( $macros{$tag} ) ) {
+
+        # vrurg Macro could be either a reference to an object or a sub. Though
+        # generally OO is preferred but for plguins registering a handling sub
+        # could be of more convenience for a while.
         unless ( defined( $macros{$tag} ) ) {
 
             # Demand-load the macro module
             die $tag unless $tag =~ m/([A-Z_:]+)/i;
             $tag = $1;
-            eval "require Foswiki::Macros::$tag";
-            die $@ if $@;
-            $macros{$tag} = eval "\\&$tag";
+            my $modName = "Foswiki::Macros::$tag";
+            load_package($modName);
+            if ( $modName->can('new') ) {
+                $macros{$tag} = $modName;
+            }
+            else {
+                $macros{$tag} = eval "\\&$tag";
+            }
             die $@ if $@;
         }
 
         my $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
-        $e = &{ $macros{$tag} }( $this, $attrs, $topicObject );
+        if ( ref( $macros{$tag} ) eq 'CODE' ) {
+            $e = &{ $macros{$tag} }( $this, $attrs, $topicObject );
+        }
+        else {
+            # Create macro object unless it already exists.
+            unless ( defined $this->_macros->{$tag} ) {
+                $this->_macros->{$tag} = $macros{$tag}->new( session => $this );
+                ASSERT( $macros{$tag}->does('Foswiki::Macro'),
+"Invalid macro module $macros{$tag}; must do Foswiki::Macro role"
+                ) if DEBUG;
+            }
+            $e = $this->_macros->{$tag}->expand( $attrs, $topicObject );
+        }
     }
     elsif ( $args && $args =~ m/\S/ ) {
 

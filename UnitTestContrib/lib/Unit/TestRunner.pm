@@ -607,10 +607,10 @@ sub runOne {
                     # vrurg Recatch everything to convert perl error into
                     # exceptions with stacktrace for simplified error tracing.
                     local $SIG{__DIE__} =
-                      sub { Foswiki::Exception->rethrow(@_) }
+                      sub { Foswiki::Exception->rethrow(shift) }
                       if DEBUG;
                     local $SIG{__WARN__} =
-                      sub { Foswiki::Exception->rethrow(@_) }
+                      sub { Foswiki::Exception->rethrow(shift) }
                       if DEBUG;
                     $tester->set_up($test);
                     $action .=

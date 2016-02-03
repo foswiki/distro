@@ -1,11 +1,14 @@
 # See bottom of file for license and copyright information
-package Foswiki;
-
-use strict;
-use warnings;
+package Foswiki::Macros::FORMFIELD;
+use v5.14;
 
 use Foswiki::Store ();
 use Foswiki::Meta  ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+with qw(Foswiki::Macro);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -14,20 +17,32 @@ BEGIN {
     }
 }
 
-sub FORMFIELD {
+has _ffCache => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
+
+sub expand {
     my ( $this, $args, $topicObject ) = @_;
+
+    my $session = $this->session;
 
     if ( $args->{topic} ) {
         my $web = $args->{web} || $topicObject->web;
         my $topic = $args->{topic};
-        ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
-        $topicObject = new Foswiki::Meta( $this, $web, $topic );
+        ( $web, $topic ) = $session->normalizeWebTopicName( $web, $topic );
+        $topicObject = new Foswiki::Meta->new(
+            session => $session,
+            web     => $web,
+            topic   => $topic
+        );
     }
     else {
 
         # SMELL: horrible hack; assumes the current rev comes from the 'rev'
         # parameter. There has to be a better way!
-        my $query = $this->{request};
+        my $query = $session->request;
         my $cgiRev;
         $cgiRev = $query->param('rev') if ($query);
         $args->{rev} =
@@ -60,21 +75,26 @@ sub FORMFIELD {
         $format = '$value';
     }
 
-    my $formTopicObject = $this->{_ffCache}{ $topicObject->getPath() . $rev };
+    # SMELL XXX This is not be stored directly on the session object!
+    my $formTopicObject = $this->_ffCache->{ $topicObject->getPath() . $rev };
 
     unless ($formTopicObject) {
         $formTopicObject =
-          Foswiki::Meta->load( $this, $topicObject->web, $topicObject->topic,
+          Foswiki::Meta->load( $session, $topicObject->web, $topicObject->topic,
             $rev );
         unless ( $formTopicObject->haveAccess('VIEW') ) {
 
             # Access violation, create dummy meta with empty text, so
             # it looks like it was already loaded.
-            $formTopicObject = Foswiki::Meta->new( $this, $topicObject->web,
-                $topicObject->topic, '' );
+            $formTopicObject = Foswiki::Meta->new(
+                session => $session,
+                web     => $topicObject->web,
+                topic   => $topicObject->topic,
+                text    => ''
+            );
         }
 
-        $this->{_ffCache}{ $formTopicObject->getPath() . $rev } =
+        $this->_ffCache->{ $formTopicObject->getPath() . $rev } =
           $formTopicObject;
     }
 

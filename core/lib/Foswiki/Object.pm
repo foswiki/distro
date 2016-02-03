@@ -117,6 +117,12 @@ sub BUILDARGS {
     return $paramHash;
 }
 
+sub finish {
+
+    # Plug for objects with no finish() method. Temporary, until the destruction
+    # stage is reviewed.
+}
+
 sub DEMOLISH {
     my $self = shift;
     if ( $self->can('finish') ) {

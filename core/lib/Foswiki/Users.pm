@@ -57,14 +57,14 @@ to a user.
 package Foswiki::Users;
 use v5.14;
 
-use Assert;
-
 use Foswiki::AggregateIterator ();
 use Foswiki::LoginManager      ();
 
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Object);
+
+use Assert;
 
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users');
@@ -79,31 +79,37 @@ BEGIN {
 our @_newParameters = qw(session);
 
 has session => (
-    is  => 'rw',
-    isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
+    is      => 'rw',
+    clearer => 1,
+    isa     => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
 );
 has mapping => (
     is        => 'rw',
     lazy      => 1,
     predicate => 1,
+    clearer   => 1,
     default   => sub { {} },
 );
 has basemapping => (
     is        => 'rw',
     predicate => 1,
+    clearer   => 1,
 );
 has loginManager => (
     is        => 'rw',
     predicate => 1,
+    clearer   => 1,
 );
 has login2cUID => (
     is      => 'rw',
     lazy    => 1,
+    clearer => 1,
     default => sub { {} },
 );
 has wikiName2cUID => (
     is      => 'rw',
     lazy    => 1,
+    clearer => 1,
     default => sub { {} },
 );
 
@@ -114,16 +120,19 @@ has wikiName2cUID => (
 has cUID2WikiName => (
     is      => 'rw',
     lazy    => 1,
+    clearer => 1,
     default => sub { {} },
 );
 has cUID2Login => (
     is      => 'rw',
     lazy    => 1,
+    clearer => 1,
     default => sub { {} },
 );
 has _isAdmin => (
     is      => 'rw',
     lazy    => 1,
+    clearer => 1,
     default => sub { {} },
 );
 
@@ -204,7 +213,8 @@ Break circular references.
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
-sub finish {
+around finish => sub {
+    my $orig = shift;
     my $this = shift;
 
     $this->loginManager->finish() if $this->has_loginManager;
@@ -214,17 +224,18 @@ sub finish {
       if $this->has_mapping
       && $this->mapping ne $this->basemapping;
 
-    undef $this->{loginManager};
-    undef $this->{basemapping};
-    undef $this->{mapping};
-    undef $this->{session};
-    undef $this->{cUID2WikiName};
-    undef $this->{cUID2Login};
-    undef $this->{wikiName2cUID};
-    undef $this->{login2cUID};
-    undef $this->{_isAdmin};
+    $this->clear_loginManager;
+    $this->clear_basemapping;
+    $this->clear_mapping;
+    $this->clear_session;
+    $this->clear_cUID2WikiName;
+    $this->clear_cUID2Login;
+    $this->clear_wikiName2cUID;
+    $this->clear_login2cUID;
+    $this->_clear_isAdmin;
 
-}
+    $orig->( $this, @_ );
+};
 
 =begin TML
 

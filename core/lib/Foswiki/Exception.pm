@@ -137,13 +137,12 @@ sub rethrow {
         else {
             # Finally we're no idea what kind of a object has been thrown to us.
             $class->throw(
-                text => "Unknown kind of exception received: " . ref($e) );
+                text => "Unknown class of exception received: " . ref($e) );
         }
     }
     else {
         $class->throw( text => $e );
     }
-
 }
 
 package Foswiki::Exception::ASSERT;

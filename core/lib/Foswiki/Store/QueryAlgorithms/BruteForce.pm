@@ -164,8 +164,8 @@ sub _webQuery {
 
         $topicSet->reset();
         $topicSet =
-          $session->{store}
-          ->query( $searchQuery, $topicSet, $session, $searchOptions );
+          $session->store->query( $searchQuery, $topicSet, $session,
+            $searchOptions );
     }
     else {
 

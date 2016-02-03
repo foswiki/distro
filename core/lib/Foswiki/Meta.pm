@@ -148,8 +148,8 @@ our $CHANGES_SUMMARY_PLAINTRUNC = 70;
 
 has session => (
     is      => 'ro',
-    isa     => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
     clearer => 1,
+    isa     => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
 );
 has web => (
     is        => 'rw',
@@ -562,7 +562,8 @@ sub load {
     }
     else {
         ( my $session, my $web, my $topic, $rev ) = @_;
-        $this = $proto->new( $session, $web, $topic );
+        $this =
+          $proto->new( session => $session, web => $web, topic => $topic );
     }
 
     my $session = $this->session;
@@ -662,8 +663,8 @@ sub finish {
     #someone keeps adding random references to Meta so to shake them out..
     #if its an intentional ref to an object, please add it to the undef's above.
 
-#SMELL: Sven noticed during development that something is adding a $this->{store} to a meta obj - havn't found it yet
-#ASSERT(not defined($this->{store})) if DEBUG;
+#SMELL: Sven noticed during development that something is adding a $this->store to a meta obj - havn't found it yet
+#ASSERT(not defined($this->store)) if DEBUG;
 
         use Scalar::Util qw(blessed);
         foreach my $key (%$this) {
@@ -859,9 +860,9 @@ within the Foswiki::PageCache. See Foswiki::PageCache::fireDependency().
 =cut
 
 sub fireDependency {
-    my $cache = $_[0]->{session}->{cache};
+    my $cache = $_[0]->session->cache;
     return unless $cache;
-    return $cache->fireDependency( $_[0]->{_web}, $_[0]->{_topic} );
+    return $cache->fireDependency( $_[0]->web, $_[0]->topic );
 }
 
 =begin TML
@@ -941,14 +942,18 @@ sub populateNewWeb {
         !$session->topicExists( $this->web, $Foswiki::cfg{WebPrefsTopicName} ) )
     {
         my $prefsText = 'Preferences';
-        $prefsTopicObject =
-          $this->new( $this->session, $this->web,
-            $Foswiki::cfg{WebPrefsTopicName}, $prefsText );
+        $prefsTopicObject = $this->new(
+            session => $this->session,
+            web     => $this->web,
+            topic   => $Foswiki::cfg{WebPrefsTopicName},
+            text    => $prefsText
+        );
         $prefsTopicObject->save();
     }
 
     if ($templateWeb) {
-        my $tWebObject = $this->new( $session, $templateWeb );
+        my $tWebObject =
+          $this->new( sesssion => $session, web => $templateWeb );
         require Foswiki::WebFilter;
         my $sys =
           Foswiki::WebFilter->new('template')->ok( $session, $templateWeb );
@@ -1057,8 +1062,8 @@ Returns an Foswiki::Search::InfoCache iterator
 
 sub query {
     my ( $query, $inputTopicSet, $options ) = @_;
-    return $Foswiki::Plugins::SESSION->{store}
-      ->query( $query, $inputTopicSet, $Foswiki::Plugins::SESSION, $options );
+    return $Foswiki::Plugins::SESSION->store->query( $query, $inputTopicSet,
+        $Foswiki::Plugins::SESSION, $options );
 }
 
 =begin TML
@@ -1076,7 +1081,7 @@ Only valid on webs and the root.
 sub eachWeb {
     my ( $this, $all ) = @_;
 
-    # Works on the root, so {_web} may be undef
+    # Works on the root, so web may be undef
     ASSERT( !$this->topic, 'this object may not contain webs' ) if DEBUG;
     return $this->session->store->eachWeb( $this, $all );
 
@@ -1229,6 +1234,11 @@ sub loadVersion {
     # Note: Since Item12472, the store implementation is expected
     # to call setLoadStatus() in readTopic
     $this->setLoadStatus( undef, undef );
+    my $store = $this->session->store;
+    ASSERT(
+        ref($store) && $store->isa('Foswiki::Store'),
+        "Store attribute ($store) is not a valid object!"
+    ) if DEBUG;
     $this->session->store->readTopic( $this, $rev );
 
     if ( $this->_has_loadedRev ) {
@@ -1615,7 +1625,9 @@ sub getRevisionInfo {
         and not Foswiki::Func::topicExists( $this->web, $this->topic ) )
     {
 
-#print STDERR "topic does not exist - at least, _loadedRev is not set..(".$this->{_web} .' '. $this->{_topic}.")\n";
+#print STDERR "topic does not exist - at least, _loadedRev is not set..("
+#  . $this->web . ' '
+#  . $this->topic . ")\n";
 #this does not exist on disk - no reason to goto the store for the defaults
 #TODO: Sven is not 100% sure this is the right decision, but it feels better not to do a trip into the deep for an application default
         $info = {
@@ -1873,8 +1885,7 @@ sub renderFormForDisplay {
     my $form;
     my $result;
     try {
-        $form =
-          Foswiki::Form->loadCached( $this->session, $this->_web, $fname );
+        $form = Foswiki::Form->loadCached( $this->session, $this->web, $fname );
         $result = $form->renderForDisplay($this);
     }
     catch {
@@ -2262,15 +2273,19 @@ sub _atomicLock {
     else {
 
         # Web: Recursively lock subwebs and topics
-        my $it = $this->eachWeb();
-        while ( $it->hasNext() ) {
-            my $web = $this->web . '/' . $it->next();
-            my $meta = $this->new( $this->session, $web );
+        my $it = $this->eachWeb;
+        while ( $it->hasNext ) {
+            my $web = $this->web . '/' . $it->next;
+            my $meta = $this->new( session => $this->session, web => $web );
             $meta->_atomicLock($cUID);
         }
-        $it = $this->eachTopic();
-        while ( $it->hasNext() ) {
-            my $meta = $this->new( $this->session, $this->web, $it->next() );
+        $it = $this->eachTopic;
+        while ( $it->hasNext ) {
+            my $meta = $this->new(
+                session => $this->session,
+                web     => $this->web,
+                topic   => $it->next
+            );
             $meta->_atomicLock($cUID);
         }
     }
@@ -2285,12 +2300,16 @@ sub _atomicUnlock {
         my $it = $this->eachWeb();
         while ( $it->hasNext() ) {
             my $web = $this->web . '/' . $it->next();
-            my $meta = $this->new( $this->session, $web );
+            my $meta = $this->new( session => $this->session, session => $web );
             $meta->_atomicUnlock($cUID);
         }
         $it = $this->eachTopic();
         while ( $it->hasNext() ) {
-            my $meta = $this->new( $this->session, $this->_web, $it->next() );
+            my $meta = $this->new(
+                session => $this->session,
+                web     => $this->web,
+                topic   => $it->next()
+            );
             $meta->_atomicUnlock($cUID);
         }
     }
@@ -2311,8 +2330,7 @@ object $to. %opts may include:
 sub move {
     my ( $this, $to, %opts ) = @_;
     ASSERT( $this->web, 'this is not a movable object' ) if DEBUG;
-    ASSERT( $to->isa('Foswiki::Meta') && $to->{_web},
-        'to is not a moving target' )
+    ASSERT( $to->isa('Foswiki::Meta') && $to->web, 'to is not a moving target' )
       if DEBUG;
 
     my $cUID = $opts{user} || $this->session->user;
@@ -2351,7 +2369,7 @@ sub move {
             $this->saveAs(
                 dontlog => 1,    # no statistics
             );
-            $from->{session}->{store}->moveTopic( $from, $to, $cUID );
+            $from->session->store->moveTopic( $from, $to, $cUID );
             $to->loadVersion();
             ASSERT( defined($to) and defined( $to->{_loadedRev} ) ) if DEBUG;
             $this->session->store->recordChange(
@@ -2377,8 +2395,8 @@ sub move {
     else {
 
         # Move web
-        ASSERT( !$this->session->store->webExists( $to->{_web} ),
-            "$to->{_web} does not exist" )
+        ASSERT( !$this->session->store->webExists( $to->web ),
+            $to->web . " does not exist" )
           if DEBUG;
         $this->_atomicLock($cUID);
         $this->session->store->moveWeb( $this, $to, $cUID );
@@ -2405,7 +2423,7 @@ sub move {
 
     # Log rename
     my $old = $this->web . '.' . ( $this->topic || '' );
-    my $new = $to->{_web} . '.' . ( $to->{_topic} || '' );
+    my $new = $to->web . '.' .   ( $to->topic   || '' );
     $this->session->logger->log(
         {
             level    => 'info',
@@ -2419,7 +2437,7 @@ sub move {
     # alert plugins of topic move
     $this->session->plugins->dispatch( 'afterRenameHandler', $this->web,
         $this->topic || '',
-        '', $to->{_web}, $to->{_topic} || '', '' );
+        '', $to->web, $to->_topic || '', '' );
 }
 
 =begin TML
@@ -2671,13 +2689,13 @@ sub removeFromStore {
     ASSERT( $this->web, 'this is not a removable object' ) if DEBUG;
 
     if ( !$store->webExists( $this->web ) ) {
-        throw Error::Simple( 'No such web ' . $this->_web );
+        throw Error::Simple( 'No such web ' . $this->web );
     }
     if ( $this->topic
         && !$store->topicExists( $this->web, $this->topic ) )
     {
         throw Error::Simple(
-            'No such topic ' . $this->web . '.' . $this->_topic );
+            'No such topic ' . $this->web . '.' . $this->topic );
     }
 
     if ( $attachment && !$this->hasAttachment($attachment) ) {
@@ -2817,15 +2835,18 @@ sub onTick {
         while ( $it->hasNext() ) {
             my $web = $it->next();
             $web = $this->getPath() . "/$web" if $this->getPath();
-            my $m = $this->new( $this->session, $web );
+            my $m = $this->new( session => $this->session, web => $web );
             $m->onTick($time);
         }
         if ( $this->has_web ) {
             $it = $this->eachTopic();
             while ( $it->hasNext() ) {
-                my $topic = $it->next();
-                my $topicObject =
-                  $this->new( $this->session, $this->getPath(), $topic );
+                my $topic       = $it->next();
+                my $topicObject = $this->new(
+                    session => $this->session,
+                    web     => $this->getPath(),
+                    topic   => $topic
+                );
                 $topicObject->onTick($time);
             }
         }
@@ -3291,7 +3312,7 @@ sub moveAttachment {
 
     # alert plugins of attachment move
     $this->session->plugins->dispatch( 'afterRenameHandler', $this->web,
-        $this->topic, $name, $to->{_web}, $to->{_topic}, $newName );
+        $this->topic, $name, $to->{_web}, $to->topic, $newName );
 
     $this->session->logger->log(
         {
@@ -3338,8 +3359,8 @@ sub copyAttachment {
     $to->_atomicLock($cUID);
 
     try {
-        $from->{session}->{store}
-          ->copyAttachment( $from, $name, $to, $newName, $cUID );
+        $from->session->store->copyAttachment( $from, $name, $to, $newName,
+            $cUID );
 
         # Add file attachment to new topic by copying the old one
         my $fileAttachment = { %{ $from->get( 'FILEATTACHMENT', $name ) } };
@@ -3382,7 +3403,7 @@ sub copyAttachment {
     # SMELL: no defined handler for attachment copies
     #    $this->session->plugins
     #      ->dispatch( 'afterCopyHandler', $this->web, $this->topic, $name,
-    #        $to->{_web}, $to->{_topic}, $newName );
+    #        $to->web, $to->topic, $newName );
 
     $this->session->logger->log(
         {
@@ -3700,8 +3721,12 @@ sub summariseChanges {
     unless ( $nochecks || $oldTopicObject->haveAccess('VIEW') ) {
 
         # No access to old rev, make a blank topic object
-        $oldTopicObject =
-          Foswiki::Meta->new( $session, $this->web, $this->topic, '' );
+        $oldTopicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $this->web,
+            topic   => $this->topic,
+            text    => ''
+        );
     }
 
     my $ostring = $oldTopicObject->stringify();

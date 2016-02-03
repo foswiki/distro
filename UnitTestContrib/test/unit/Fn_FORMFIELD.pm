@@ -1,25 +1,29 @@
 # tests for the correct expansion of FORMFIELD
 
 package Fn_FORMFIELD;
-use strict;
-use warnings;
+use v5.14;
 
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use Try::Tiny;
 
-use Error qw( :try );
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
-sub new {
-    my $self = shift()->SUPER::new( 'FORMFIELD', @_ );
-    return $self;
-}
+has other_web => ( is => 'rw', );
 
-sub set_up {
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
+    return $orig->( $class, testSuite => 'FORMFIELD', @_ );
+};
+
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
-    $this->_createTopic( $this->{test_web}, $this->{test_topicObject} );
-}
+    $this->_createTopic( $this->test_web, $this->test_topicObject );
+};
 
 sub _createTopic {
     my ( $this, $web, $topicObject ) = @_;
@@ -55,7 +59,7 @@ DONE
 sub test_FORMFIELD_simple {
     my $this = shift;
 
-    my ($topicObject) = $this->{test_topicObject};
+    my ($topicObject) = $this->test_topicObject;
     my $result = $topicObject->expandMacros("%FORMFIELD%");
     $this->assert_str_equals( '', $result );
 }
@@ -63,7 +67,7 @@ sub test_FORMFIELD_simple {
 sub test_FORMFIELD_byname {
     my $this = shift;
 
-    my ($topicObject) = $this->{test_topicObject};
+    my ($topicObject) = $this->test_topicObject;
     my $result = $topicObject->expandMacros('%FORMFIELD{"Marjorie"}%');
     $this->assert_str_equals( '99', $result );
 }
@@ -71,7 +75,7 @@ sub test_FORMFIELD_byname {
 sub test_FORMFIELD_Item13520 {
     my $this = shift;
 
-    my ($topicObject) = $this->{test_topicObject};
+    my ($topicObject) = $this->test_topicObject;
     my $result = $topicObject->expandMacros('%FORMFIELD{"Summary"}%');
     $this->assert_str_equals( <<DONE, $result );
 
@@ -85,7 +89,7 @@ DONE
 sub test_FORMFIELD_default {
     my $this = shift;
 
-    my ($topicObject) = $this->{test_topicObject};
+    my ($topicObject) = $this->test_topicObject;
     my $result = $topicObject->expandMacros('%FORMFIELD{"Priscilla"}%');
     $this->assert_str_equals( '', $result );
     $result = $topicObject->expandMacros(
@@ -106,7 +110,7 @@ sub test_FORMFIELD_default {
 sub test_FORMFIELD_alttext {
     my $this = shift;
 
-    my ($topicObject) = $this->{test_topicObject};
+    my ($topicObject) = $this->test_topicObject;
     my $result = $topicObject->expandMacros('%FORMFIELD{"Ffiona"}%');
     $this->assert_str_equals( '', $result );
     $result =
@@ -125,7 +129,7 @@ sub test_FORMFIELD_alttext {
 sub test_FORMFIELD_format {
     my $this = shift;
 
-    my ($topicObject) = $this->{test_topicObject};
+    my ($topicObject) = $this->test_topicObject;
     my $result = $topicObject->expandMacros(
         '%FORMFIELD{"Marjorie" format="$name/$dollar$value/$title/$form"}%');
     $this->assert_str_equals( 'Marjorie/$99/Number/TestForm', $result );
@@ -159,27 +163,26 @@ sub test_FORMFIELD_format {
 sub test_FORMFIELD_topic {
     my $this = shift;
 
-    my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'TestForm' );
-    $this->{session}->{webName} = $this->{test_web};
+    my ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'TestForm' );
+    $this->session->webName( $this->test_web );
     my $result = $topicObject->expandMacros('%FORMFIELD{"Marjorie"}%');
     $this->assert_str_equals( '', $result );
     $result = $topicObject->expandMacros(
-        '%FORMFIELD{"Marjorie" topic="' . $this->{test_topic} . '"}%' );
+        '%FORMFIELD{"Marjorie" topic="' . $this->test_topic . '"}%' );
     $this->assert_str_equals( '99', $result );
-    $topicObject->finish();
+    $topicObject->finish;
     ($topicObject) = Foswiki::Func::readTopic( $Foswiki::cfg{SystemWebName},
         $Foswiki::cfg{HomeTopicName} );
     $result = $topicObject->expandMacros(
-        '%FORMFIELD{"Marjorie" topic="' . $this->{test_topic} . '"}%' );
+        '%FORMFIELD{"Marjorie" topic="' . $this->test_topic . '"}%' );
     $this->assert_str_equals( '', $result );
     $result =
       $topicObject->expandMacros( '%FORMFIELD{"Marjorie" topic="'
-          . $this->{test_web} . '.'
-          . $this->{test_topic}
+          . $this->test_web . '.'
+          . $this->test_topic
           . '"}%' );
     $this->assert_str_equals( '99', $result );
-    $topicObject->finish();
+    $topicObject->finish;
 }
 
 # web="..."
@@ -187,44 +190,44 @@ sub test_FORMFIELD_web {
     my $this = shift;
 
     # create other web
-    $this->{other_web} = "$this->{test_web}other";
-    my $webObject = $this->populateNewWeb( $this->{other_web} );
+    $this->other_web( $this->test_web . "other" );
+    my $webObject = $this->populateNewWeb( $this->other_web );
     $webObject->finish();
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{other_web}, $this->{test_topic} );
-    $this->_createTopic( $this->{other_web}, $topicObject );
+      Foswiki::Func::readTopic( $this->other_web, $this->test_topic );
+    $this->_createTopic( $this->other_web, $topicObject );
 
-    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'TestForm' );
-    $this->{session}->{webName} = $this->{test_web};
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'TestForm' );
+    $this->session->webName( $this->test_web );
 
     my $result = $topicObject->expandMacros('%FORMFIELD{"Marjorie"}%');
     $this->assert_str_equals( '', $result );
     $result =
       $topicObject->expandMacros( '%FORMFIELD{"Marjorie" web="'
-          . $this->{other_web}
+          . $this->other_web
           . '" topic="'
-          . $this->{test_topic}
+          . $this->test_topic
           . '"}%' );
     $this->assert_str_equals( '99', $result );
     ($topicObject) = Foswiki::Func::readTopic( $Foswiki::cfg{SystemWebName},
         $Foswiki::cfg{HomeTopicName} );
     $result =
       $topicObject->expandMacros( '%FORMFIELD{"Marjorie" web="'
-          . $this->{other_web}
+          . $this->other_web
           . '" topic="'
-          . $this->{test_topic}
+          . $this->test_topic
           . '"}%' );
     $this->assert_str_equals( '99', $result );
 
     # remove other web
-    $this->removeWebFixture( $this->{session}, $this->{other_web} );
+    $this->removeWebFixture( $this->session, $this->other_web );
 }
 
 # Check if ! and <nop> are properly rendered
 sub test_FORMFIELD_render_nops {
     my $this = shift;
 
-    my ($topicObject) = $this->{test_topicObject};
+    my ($topicObject) = $this->test_topicObject;
     my $result = $topicObject->expandMacros('%FORMFIELD{"Daphne"}%');
     $this->assert_str_equals( '<nop>ElleBelle', $result );
     $result = $topicObject->expandMacros(
@@ -242,7 +245,7 @@ sub test_FORMFIELD_render_nops {
 sub test_FORMFIELD_Item9269 {
     my $this = shift;
 
-    my ($topicObject) = $this->{test_topicObject};
+    my ($topicObject) = $this->test_topicObject;
     my $result = $topicObject->expandMacros(
         '%FORMFIELD{"Daphne" format="$dollarvalue = $value"}%');
     $this->assert_str_equals( '$value = <nop>ElleBelle', $result );
@@ -252,7 +255,7 @@ sub test_FORMFIELD_Item10398 {
     my $this = shift;
 
     #topic does not exist.
-    my ($topicObject) = $this->{test_topicObject};
+    my ($topicObject) = $this->test_topicObject;
     my $result = $topicObject->expandMacros(
 '%FORMFIELD{"Daphne" format="$dollarvalue = $value" topic="SomeNonExistantTopicThatReallyShouldNotBeThere"}%'
     );
