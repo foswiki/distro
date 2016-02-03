@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1446861611" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1454519814" format="1.1" version="1"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -123,6 +123,9 @@ reduce bandwidth and speed up interactive performance.
 %$DEPENDENCIES%
 
 ---++ Change History
+|  03 Feb 2016: | (6.32) - Item13898: Jumpbox example in JQueryAjaxHelper is not working <br/> \
+                           Item12560: Split !NameFilter into !AttachmentNameFilter <br/> \
+                           Item13854: Set ALLOWTOPICVIEW=* in critical system topics. *Foswiki 1.1.x Requires compatibility patches, or Foswiki 1.1.10* |
 |  06 Nov 2015: | (6.31) - Item13832: Filter the "effect" URLPARAM of JQueryLoader. |
 |  24 Sep 2015: | (6.30) - reworked the way how preferences are propagated from backend to javascript not to use unsafe inline scripts anymore |
 |  04 Sep 2015: | (6.20) - improvements to jquery.wikiword, jquery.loader; adding html5-data capabilities to plugin initialization; added jquery-1.11.3 and jquery-2.1.4 |
@@ -343,7 +346,7 @@ reduce bandwidth and speed up interactive performance.
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2007-2015 Foswiki Contributors http://foswiki.org"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2007-2016 Foswiki Contributors http://foswiki.org"}%
 %META:FIELD{name="License" title="License" value="GPL"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support/%25$ROOTMODULE%25"}%

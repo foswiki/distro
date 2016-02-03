@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1444803557" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1454519814" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Configure Plugin
 %FORMFIELD{"Description"}%
@@ -42,13 +42,14 @@ The plugin uses the =JsonRpcContrib=, which must be installed.
 
 ---++ Change History
 
+|  03 Feb 2016: | (1.04) Foswikitask:Item13917: Regex type doesn't correctly compare default value |
 |  14 Oct 2015: | (1.03) fixed base use of =console= not supported by all browsers |
 |  08 Sep 2015: | (1.02) Foswikitask:Item13560: Configure does not set initial values for extensions. |
 |  18 Dec 2014: | (1.01) Initial version |
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="CrawfordCurrie"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2013-2015, CrawfordCurrie http://c-dot.co.uk, All Rights Reserved"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2013-2016, CrawfordCurrie http://c-dot.co.uk, All Rights Reserved"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%

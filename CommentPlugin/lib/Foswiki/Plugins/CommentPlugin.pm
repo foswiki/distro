@@ -13,8 +13,8 @@ use Foswiki::Func    ();
 use Foswiki::Plugins ();
 
 # Please use major.minor
-our $VERSION = '2.8';
-our $RELEASE = '15 Nov 2015';
+our $VERSION = '2.9';
+our $RELEASE = '03 Feb 2016';
 our $SHORTDESCRIPTION =
   'Quickly post comments to a page without an edit/save cycle';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -274,7 +274,7 @@ sub _restSave {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
