@@ -7,22 +7,23 @@
 =cut
 
 package Foswiki::Query::OP_ob;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Query::UnaryOP);
+with qw(Foswiki::Query::OP);
 
-use Foswiki::Query::UnaryOP ();
-our @ISA = ('Foswiki::Query::UnaryOP');
-
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( name => '(', close => ')', prec => 1100 );
-}
+    return $orig->( $class, name => '(', close => ')', prec => 1100 );
+};
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    my $a    = $node->{params}[0];
+    my $a    = $node->params->[0];
     return $a->evaluate(@_);
 }
 

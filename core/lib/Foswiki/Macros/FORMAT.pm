@@ -2,6 +2,9 @@
 package Foswiki;
 use v5.14;
 
+use Try::Tiny;
+use Assert;
+
 #our $SEARCHTERMS = qr/\$(web|topic|parent|text|locked|date|isodate|rev|username|wikiname|wikiusername|createdate|createusername|createwikiname|createwikiusername|summary|changes|formname|formfield|pattern|count|ntopics|nhots|pager)\b/;
 
 BEGIN {
@@ -37,11 +40,12 @@ sub FORMAT {
     $params->{basetopic} = $topicObject->topic;
     $params->{search}    = $params->{_DEFAULT}
       if defined $params->{_DEFAULT};
-    $params->{type} = $this->{prefs}->getPreference('SEARCHVARDEFAULTTYPE')
+    $params->{type} = $this->prefs->getPreference('SEARCHVARDEFAULTTYPE')
       unless ( $params->{type} );
 
-    undef $params
-      ->{limit}; #do not polute FORMAT with the per web legacy mess (the code would be horrid.)
+    #do not polute FORMAT with the per web legacy mess (the code would be
+    #horrid.)
+    undef $params->{limit};
 
     try {
         my $listIterator;
@@ -70,7 +74,22 @@ sub FORMAT {
         $s = Foswiki::expandStandardEscapes($searchResult);
     }
     catch {
-        my $message = (DEBUG) ? $_->stringify() : $_->{-text};
+        my $e = $_;
+        my $message;
+
+        # SMELL It has to be strictly determined what exceptions are allowed for
+        # soft handling. The rest has to be rethrown as fatals.
+        if ( $e->isa('Foswiki::Exception') ) {
+            $message = (DEBUG) ? $e->stringify : $e->text;
+        }
+        elsif ( $e->isa('Error') ) {
+            $message = (DEBUG) ? $e->stringify() : $e->{-text};
+        }
+        else {
+            # It is quite unlinkely that we expect a fatal error here. So,
+            # rethrow it for lower-level processing.
+            Foswiki::Exception->rethrow($e);
+        }
 
         # Block recursions kicked off by the text being repeated in the
         # error message

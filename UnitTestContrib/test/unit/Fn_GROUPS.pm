@@ -1,66 +1,66 @@
 # tests for the correct expansion of GROUPS
 
 package Fn_GROUPS;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki;
-use Error qw( :try );
 
-sub new {
-    my $self = shift()->SUPER::new( 'GROUPS', @_ );
-    return $self;
-}
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
-sub set_up {
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
+    return $orig->( $class, @_, testSuite => 'GROUPS' );
+};
+
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up(@_);
+    $orig->( $this, @_ );
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "GropeGroup" );
+      Foswiki::Func::readTopic( $this->users_web, "GropeGroup" );
     $topicObject->text("   * Set GROUP = ScumBag,WikiGuest\n");
     $topicObject->save();
     $topicObject->finish();
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "NestingGroup" );
+      Foswiki::Func::readTopic( $this->users_web, "NestingGroup" );
     $topicObject->text("   * Set GROUP = GropeGroup\n");
     $topicObject->save();
     $topicObject->finish();
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "GroupWithHiddenGroup" );
+      Foswiki::Func::readTopic( $this->users_web, "GroupWithHiddenGroup" );
     $topicObject->text("   * Set GROUP = HiddenGroup,WikiGuest\n");
     $topicObject->save();
     $topicObject->finish();
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "HiddenGroup" );
+      Foswiki::Func::readTopic( $this->users_web, "HiddenGroup" );
     $topicObject->text(
         "   * Set GROUP = ScumBag\n   * Set ALLOWTOPICVIEW = AdminUser\n");
     $topicObject->save();
     $topicObject->finish();
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "HiddenUserGroup" );
+      Foswiki::Func::readTopic( $this->users_web, "HiddenUserGroup" );
     $topicObject->text("   * Set GROUP = ScumBag,HidemeGood\n");
     $topicObject->save();
     $topicObject->finish();
 
-    ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "HidemeGood" );
+    ($topicObject) = Foswiki::Func::readTopic( $this->users_web, "HidemeGood" );
     my $topText = $topicObject->text();
     $topText .= "   * Set ALLOWTOPICVIEW = AdminUser\n";
     $topText = $topicObject->text($topText);
     $topicObject->save();
     $topicObject->finish();
 
-}
+};
 
 sub test_basic {
     my $this = shift;
 
-    my $ui    = $this->{test_topicObject}->expandMacros('%GROUPS%');
+    my $ui    = $this->test_topicObject->expandMacros('%GROUPS%');
     my $regex = <<STR;
 ^| *Group* | *Members* |
 | <nop>AdminGroup | [[TemporaryGROUPSUsersWeb.AdminUser][AdminUser]] |

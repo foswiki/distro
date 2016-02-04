@@ -7,22 +7,23 @@
 =cut
 
 package Foswiki::Query::OP_not;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Query::UnaryOP);
+with qw(Foswiki::Query::OP);
 
-use Foswiki::Query::UnaryOP ();
-our @ISA = ('Foswiki::Query::UnaryOP');
-
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( name => 'not', prec => 300, arity => 1 );
-}
+    return $orig->( $class, name => 'not', prec => 300, arity => 1 );
+};
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    my $a    = $node->{params}[0]->evaluate(@_);
+    my $a    = $node->params->[0]->evaluate(@_);
     if ( ref($a) eq 'ARRAY' ) {
         return [];
     }

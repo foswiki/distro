@@ -606,11 +606,25 @@ sub runOne {
                 try {
                     # vrurg Recatch everything to convert perl error into
                     # exceptions with stacktrace for simplified error tracing.
-                    local $SIG{__DIE__} =
-                      sub { Foswiki::Exception->rethrow(shift) }
+                    local $SIG{__DIE__} = sub {
+                        my $e = shift;
+                        if ( ref($e) && $e->isa('Foswiki::Exception') ) {
+                            Foswiki::Exception->rethrow($e);
+                        }
+                        else {
+                            Foswiki::Exception->throw( text => $e );
+                        }
+                      }
                       if DEBUG;
-                    local $SIG{__WARN__} =
-                      sub { Foswiki::Exception->rethrow(shift) }
+                    local $SIG{__WARN__} = sub {
+                        my $e = shift;
+                        if ( ref($e) && $e->isa('Foswiki::Exception') ) {
+                            Foswiki::Exception->rethrow($e);
+                        }
+                        else {
+                            Carp::croak($e);
+                        }
+                      }
                       if DEBUG;
                     $tester->set_up($test);
                     $action .=

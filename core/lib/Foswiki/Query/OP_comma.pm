@@ -8,31 +8,33 @@ List-building n-ary operator.
 =cut
 
 package Foswiki::Query::OP_comma;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Infix::OP);
+with qw(Foswiki::Query::OP);
 
-use Foswiki::Query::OP ();
-our @ISA = ('Foswiki::Query::OP');
-
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
 
     # Treated as arity 2 for parsing, but folds to n-ary
-    return $class->SUPER::new(
+    return $orig->(
+        $class,
         arity   => 2,
         canfold => 1,
         name    => ',',
         prec    => 400,
         canfold => 1
     );
-}
+};
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
     my @res;
-    foreach my $p ( @{ $node->{params} } ) {
+    foreach my $p ( @{ $node->params } ) {
         my $a = $p->evaluate(@_);
         if ( ref($a) eq 'ARRAY' ) {
             push( @res, @$a );

@@ -15,25 +15,25 @@ BEGIN {
 sub GROUPS {
     my ( $this, $params ) = @_;
 
-    my $groups = $this->{users}->eachGroup();
+    my $groups = $this->users->eachGroup;
     my @table;
     while ( $groups->hasNext() ) {
         my $group = $groups->next();
-        next unless ( $this->{users}->groupAllowsView($group) );
+        next unless ( $this->users->groupAllowsView($group) );
 
         # Nop it to prevent wikiname expansion unless the topic exists.
         my $groupLink = "<nop>$group";
         $groupLink = '[[' . $Foswiki::cfg{UsersWebName} . ".$group][$group]]"
           if ( $this->topicExists( $Foswiki::cfg{UsersWebName}, $group ) );
         my $descr        = "| $groupLink |";
-        my $it           = $this->{users}->eachGroupMember($group);
+        my $it           = $this->users->eachGroupMember($group);
         my $limit_output = 32;
         while ( $it->hasNext() ) {
             my $user = $it->next();
-            next unless ( $this->{users}->groupAllowsView($user) );
+            next unless ( $this->users->groupAllowsView($user) );
             $descr .= ' [['
-              . $this->{users}->webDotWikiName($user) . ']['
-              . $this->{users}->getWikiName($user) . ']]';
+              . $this->users->webDotWikiName($user) . ']['
+              . $this->users->getWikiName($user) . ']]';
             if ( $limit_output == 0 ) {
                 $descr .= '<div>%MAKETEXT{"user list truncated"}%</div>';
                 last;

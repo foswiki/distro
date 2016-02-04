@@ -19,7 +19,7 @@ around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
 
-    return $orig->( $class, testSuite => 'SEARCH', @_ );
+    return $orig->( $class, @_, testSuite => 'SEARCH' );
 };
 
 sub BUILD {

@@ -23,7 +23,7 @@ Macro implementation
 
 sub ICONURLPATH {
     my ( $this, $params ) = @_;
-    return $this->_getIconURL($params);
+    return Foswiki::Macros::ICON->new( session => $this )->_getIconURL($params);
 }
 
 1;

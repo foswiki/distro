@@ -7,12 +7,12 @@
 =cut
 
 package Foswiki::Query::OP_uc;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Query::UnaryOP ();
-our @ISA = ('Foswiki::Query::UnaryOP');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Query::UnaryOP);
+with qw(Foswiki::Query::OP);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -21,11 +21,11 @@ BEGIN {
     }
 }
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-
-    return $class->SUPER::new( name => 'uc', prec => 1000, casematters => 0 );
-}
+    return $orig->( $class, name => 'uc', prec => 1000, casematters => 0 );
+};
 
 sub evaluate {
     my $this = shift;

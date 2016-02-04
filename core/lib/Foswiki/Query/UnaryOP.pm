@@ -1,10 +1,10 @@
 # See bottom of file for license and copyright information
 package Foswiki::Query::UnaryOP;
+use v5.14;
 
-use strict;
-use warnings;
-use Foswiki::Query::OP;
-our @ISA = ('Foswiki::Query::OP');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Infix::OP);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -13,16 +13,17 @@ BEGIN {
     }
 }
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( arity => 1, @_ );
-}
+    return $orig->( $class, arity => 1, @_ );
+};
 
 sub evalUnary {
     my $this = shift;
     my $node = shift;
     my $sub  = shift;
-    my $a    = $node->{params}[0]->evaluate(@_);
+    my $a    = $node->params->[0]->evaluate(@_);
     return $this->collect( $a, $sub );
 }
 

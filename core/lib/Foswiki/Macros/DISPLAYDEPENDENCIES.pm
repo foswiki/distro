@@ -14,8 +14,8 @@ BEGIN {
 sub DISPLAYDEPENDENCIES {
     my ( $this, $params ) = @_;
 
-    my $web       = $params->{web}    || $this->{webName};
-    my $topic     = $params->{topic}  || $this->{topicName};
+    my $web       = $params->{web}    || $this->webName;
+    my $topic     = $params->{topic}  || $this->topicName;
     my $header    = $params->{header} || '';
     my $footer    = $params->{footer} || '';
     my $format    = $params->{format} || '   1 [[$web.$topic]]';
@@ -24,7 +24,7 @@ sub DISPLAYDEPENDENCIES {
 
     ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
 
-    my $deps = $this->{cache}->getDependencies( $web, $topic );
+    my $deps = $this->cache->getDependencies( $web, $topic );
     my @lines;
     my $thisWeb;
     my $thisTopic;

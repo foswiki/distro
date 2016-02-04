@@ -21,21 +21,20 @@ sub EXPAND {
     my $meta;
     if ($scope) {
         my ( $web, $topic ) =
-          $this->normalizeWebTopicName( $this->{webName}, $scope );
+          $this->normalizeWebTopicName( $this->webName, $scope );
         return $this->inlineAlert( 'alerts', 'EXPAND_noscope', $scope )
           unless $this->topicExists( $web, $topic );
         $meta = new Foswiki::Meta( $this, $web, $topic );
         return $this->inlineAlert( 'alerts', 'EXPAND_noaccess', $scope )
           unless $meta->haveAccess('VIEW');
-        $this->{prefs}->pushTopicContext( $web, $topic );
+        $this->prefs->pushTopicContext( $web, $topic );
     }
     else {
-        $meta =
-          new Foswiki::Meta( $this, $this->{webName}, $this->{topicName} );
+        $meta = Foswiki::Meta->( $this, $this->webName, $this->topicName );
     }
     my $expansion = $meta->expandMacros($macro);
     if ($scope) {
-        $this->{prefs}->popTopicContext();
+        $this->prefs->popTopicContext();
     }
     return $expansion;
 }

@@ -116,7 +116,7 @@ sub stringify {
     unless ( ref( $this->op ) ) {
         if ( $this->op == STRING ) {
             ASSERT( ref( $this->params->[0] ) eq '' ) if DEBUG;
-            return "'$this->{params}[0]'";
+            return "'" . $this->params->[0] . "'";
         }
         else {
             if ( ref( $this->params->[0] ) eq 'HASH' ) {
@@ -131,17 +131,17 @@ sub stringify {
             return $this->params->[0];
         }
     }
-    if ( $this->op->{arity} ) {
+    if ( $this->op->arity ) {
 
         # SMELL Why use? Why here? What's the purpose?
         # Commented out for a while.
         #use Foswiki::Query::Node;
         return
-          $this->op->{name} . '{'
+          $this->op->name . '{'
           . join( ',', map { stringify($_) } @{ $this->params } ) . '}';
     }
     else {
-        $this->op->{name};
+        $this->op->name;
     }
 }
 

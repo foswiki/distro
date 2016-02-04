@@ -9,8 +9,8 @@ Support for the conditions in %IF{} statements.
 =cut
 
 package Foswiki::If::Parser;
+use v5.14;
 
-use Assert;
 use Foswiki::If::Node ();
 
 use Foswiki::If::OP_allows  ();
@@ -24,8 +24,9 @@ use Foswiki::If::OP_isweb   ();
 
 use Moo;
 use namespace::clean;
-
 extends 'Foswiki::Query::Parser';
+
+use Assert;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -36,8 +37,9 @@ BEGIN {
 
 # Additional operators specific to IF statements (not available in other
 # query types)
-use constant OPS => qw(allows context defined dollar ingroup isempty
-  istopic isweb );
+use constant OPS => qw(
+  allows context defined dollar ingroup isempty istopic isweb
+);
 
 sub BUILD {
     my $this = shift;

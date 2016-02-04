@@ -7,17 +7,18 @@
 =cut
 
 package Foswiki::Query::OP_ne;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Query::ConditionalOP);
+with qw(Foswiki::Query::OP);
 
-use Foswiki::Query::ConditionalOP ();
-our @ISA = ('Foswiki::Query::ConditionalOP');
-
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( arity => 2, name => '!=', prec => 500 );
-}
+    return $orig->( $class, arity => 2, name => '!=', prec => 500 );
+};
 
 sub evaluate {
     my $this = shift;

@@ -26,7 +26,7 @@ sub HTTP {
             !defined $req      # Requesting secure flag
             || length($req)    # or requesting a specific header
           );
-        $res = $this->{request}->https($req);
+        $res = $this->request->https($req);
     }
     else {
         return ''
@@ -34,7 +34,7 @@ sub HTTP {
             defined $req       # Specifc header requested
             && length($req)    # and passed validation
           );
-        $res = $this->{request}->http($req);
+        $res = $this->request->http($req);
     }
     $res = '' unless defined($res);
     return $res;

@@ -7,19 +7,21 @@
 =cut
 
 package Foswiki::Query::OP_ref;
+use v5.14;
 
-use strict;
-use warnings;
-use Foswiki::Query::OP ();
-our @ISA = ('Foswiki::Query::OP');
-
-use Error qw( :try );
+use Try::Tiny;
 use Assert;
 
-sub new {
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Infix::OP);
+with qw(Foswiki::Query::OP);
+
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( arity => 2, name => '/', prec => 800 );
-}
+    return $orig->( $class, arity => 2, name => '/', prec => 800 );
+};
 
 sub evaluate {
     my $this   = shift;
@@ -29,7 +31,7 @@ sub evaluate {
     eval "require $Foswiki::cfg{Store}{QueryAlgorithm}";
     die $@ if $@;
 
-    my $a    = $pnode->{params}[0];
+    my $a    = $pnode->params->[0];
     my $node = $a->evaluate(@_);
     return unless defined $node;
     if ( ref($node) eq 'HASH' ) {
@@ -44,12 +46,12 @@ sub evaluate {
         # Has to be relative to the web of the topic we are querying
         my ( $w, $t ) =
           $Foswiki::Plugins::SESSION->normalizeWebTopicName(
-            $Foswiki::Plugins::SESSION->{webName}, $v );
+            $Foswiki::Plugins::SESSION->webName, $v );
         try {
             my $submeta =
               $Foswiki::cfg{Store}{QueryAlgorithm}
               ->getRefTopic( $domain{tom}, $w, $t );
-            my $b = $pnode->{params}[1];
+            my $b = $pnode->params->[1];
             my $res = $b->evaluate( tom => $submeta, data => $submeta );
             if ( ref($res) eq 'ARRAY' ) {
                 push( @result, @$res );
@@ -58,8 +60,9 @@ sub evaluate {
                 push( @result, $res );
             }
         }
-        catch Error with {
-            print STDERR "ERROR IN OP_ref: $_[0]->{-text}" if DEBUG;
+        catch {
+            # SMELL Shoudn't the exception be send further up the call stack?
+            print STDERR "ERROR IN OP_ref: ", $_->text if DEBUG;
         };
     }
     return unless scalar(@result);
@@ -70,7 +73,7 @@ sub evaluate {
 sub evaluatesToConstant {
     my $this = shift;
     my $node = shift;
-    return 1 if $node->{params}[0]->evaluatesToConstant(@_);
+    return 1 if $node->params->[0]->evaluatesToConstant(@_);
 
     # param[1] may contain non-constant terms, but that's OK because
     # they are evaluated relative to the (constant) param[0]

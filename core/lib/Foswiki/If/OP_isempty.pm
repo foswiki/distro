@@ -7,12 +7,7 @@
 =cut
 
 package Foswiki::If::OP_isempty;
-
-use strict;
-use warnings;
-
-use Foswiki::Query::UnaryOP ();
-our @ISA = ('Foswiki::Query::UnaryOP');
+use v5.14;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -21,24 +16,30 @@ BEGIN {
     }
 }
 
-sub new {
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Query::UnaryOP);
+with qw(Foswiki::Query::OP);
+
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( name => 'isempty', prec => 600 );
-}
+    return $orig->( $class, name => 'isempty', prec => 600 );
+};
 
 sub evaluate {
     my $this    = shift;
     my $node    = shift;
-    my $a       = $node->{params}->[0];
+    my $a       = $node->params->[0];
     my %domain  = @_;
     my $session = $domain{tom}->session;
-    throw Error::Simple(
-        'No context in which to evaluate "' . $a->stringify() . '"' )
+    Foswiki::Exception->throw(
+        text => 'No context in which to evaluate "' . $a->stringify() . '"' )
       unless $session;
     my $eval = $a->_evaluate(@_);
     return 1 unless $eval;
-    return 0 if ( $session->{request}->param($eval) );
-    return 0 if ( $session->{prefs}->getPreference($eval) );
+    return 0 if ( $session->request->param($eval) );
+    return 0 if ( $session->prefs->getPreference($eval) );
     return 1;
 }
 

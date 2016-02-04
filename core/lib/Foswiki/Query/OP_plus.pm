@@ -7,23 +7,24 @@
 =cut
 
 package Foswiki::Query::OP_plus;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Infix::OP);
+with qw(Foswiki::Query::OP);
 
-use Foswiki::Query::OP ();
-our @ISA = ('Foswiki::Query::OP');
-
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( arity => 2, name => '+', prec => 600 );
-}
+    return $orig->( $class, arity => 2, name => '+', prec => 600 );
+};
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    my $a    = $node->{params}[0]->evaluate(@_);
-    my $b    = $node->{params}[1]->evaluate(@_);
+    my $a    = $node->params->[0]->evaluate(@_);
+    my $b    = $node->params->[1]->evaluate(@_);
     if (    defined $a
         and Foswiki::Query::OP::isNumber($a)
         and defined $b

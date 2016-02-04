@@ -7,12 +7,7 @@
 =cut
 
 package Foswiki::If::OP_isweb;
-
-use strict;
-use warnings;
-
-use Foswiki::Query::UnaryOP ();
-our @ISA = ('Foswiki::Query::UnaryOP');
+use v5.14;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -21,18 +16,25 @@ BEGIN {
     }
 }
 
-sub new {
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Query::UnaryOP);
+with qw(Foswiki::Query::OP);
+
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new(
+    return $orig->(
+        $class,
         name => 'isweb',
         prec => 600
     );
-}
+};
 
 sub evaluate {
     my $this    = shift;
     my $node    = shift;
-    my $a       = $node->{params}->[0];
+    my $a       = $node->params->[0];
     my %domain  = @_;
     my $session = $domain{tom}->session;
     throw Error::Simple(

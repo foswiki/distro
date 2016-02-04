@@ -9,12 +9,11 @@ Node class for the result of an If statement parse
 =cut
 
 package Foswiki::If::Node;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Query::Node ();
-our @ISA = ('Foswiki::Query::Node');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Query::Node);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -28,12 +27,12 @@ BEGIN {
 sub _evaluate {
     my $this = shift;
 
-    if ( !ref( $this->{op} ) ) {
-        return $this->{params}[0];
+    if ( !ref( $this->op ) ) {
+        return $this->params->[0];
     }
     else {
-        if ( $this->{op}->{name} eq '(' ) {
-            return $this->{params}[0]->_evaluate(@_);
+        if ( $this->op->name eq '(' ) {
+            return $this->params->[0]->_evaluate(@_);
         }
         return $this->evaluate(@_);
     }

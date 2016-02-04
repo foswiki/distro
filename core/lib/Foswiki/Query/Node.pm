@@ -35,7 +35,7 @@ use Foswiki::Infix::Node ();
 
 use Moo;
 use namespace::clean;
-extends 'Foswiki::Infix::Node';
+extends qw(Foswiki::Infix::Node);
 
 use constant MONITOR_EVAL => 0;
 use constant MONITOR_FOLD => 0;
@@ -70,6 +70,7 @@ This hash is maintained by Foswiki::Meta and is *strictly read-only*
 #*aliases     = \%Foswiki::Meta::aliases;
 #*isArrayType = \%Foswiki::Meta::isArrayType;
 
+# SMELL Can we make these class attributes?
 our $emptyExprOp;
 our $commaOp;
 
@@ -92,23 +93,22 @@ sub toString {
     # Suppress the recursion check; the tree can easily be more than
     # 100 levels deep.
     no warnings 'recursion';
-    if ( UNIVERSAL::isa( $a, 'Foswiki::Query::Node' ) ) {
+    if ( $a->isa('Foswiki::Query::Node') ) {
         return
             '{ op => '
-          . $a->{op}
+          . $a->op
           . ', params => '
-          . toString( $a->{params} ) . ' }';
+          . toString( $a->params ) . ' }';
     }
     if ( ref($a) eq 'ARRAY' ) {
         return '[' . join( ',', map { toString($_) } @$a ) . ']';
     }
     if ( ref($a) eq 'HASH' ) {
         return
-          '{'
-          . join( ',', map { "$_=>" . toString( $a->{$_} ) } keys %$a ) . '}';
+          '{' . join( ',', map { "$_=>" . toString( $a->$_ ) } keys %$a ) . '}';
     }
     use warnings 'recursion';
-    if ( UNIVERSAL::isa( $a, 'Foswiki::Meta' ) ) {
+    if ( $a->isa('Foswiki::Meta') ) {
         return $a->stringify();
     }
     return $a;
@@ -171,16 +171,16 @@ sub evaluate {
 
     print STDERR ( '  ' x $ind ) . $this->stringify() if MONITOR_EVAL;
 
-    if ( !ref( $this->{op} ) ) {
+    if ( !ref( $this->op ) ) {
         my %domain = @_;
-        if ( $this->{op} == Foswiki::Infix::Node::NAME
+        if ( $this->op == Foswiki::Infix::Node::NAME
             && defined $domain{data} )
         {
             print STDERR ' NAME' if MONITOR_EVAL;
-            if ( lc( $this->{params}[0] ) eq 'now' ) {
+            if ( lc( $this->params->[0] ) eq 'now' ) {
                 $result = time();
             }
-            elsif ( lc( $this->{params}[0] ) eq 'undefined' ) {
+            elsif ( lc( $this->params->[0] ) eq 'undefined' ) {
                 $result = undef;
             }
             else {
@@ -192,7 +192,7 @@ sub evaluate {
                     print STDERR ' BOOM ' if MONITOR_EVAL;
                     die $@;
                 }
-                my $name = $this->{params}[0];
+                my $name = $this->params->[0];
                 my $realname = $Foswiki::Meta::aliases{$name} || $name;
                 if ( $domain{restricted_name} && $realname !~ /^META:/ ) {
 
@@ -213,7 +213,7 @@ sub evaluate {
         }
         else {
             print STDERR ' constant' if MONITOR_EVAL;
-            $result = $this->{params}[0];
+            $result = $this->params->[0];
         }
     }
     else {
@@ -221,9 +221,9 @@ sub evaluate {
         $ind++ if MONITOR_EVAL;
         my %params = @_;
         delete $params{no_fields};    # kill semaphore
-        $result = $this->{op}->evaluate( $this, %params );
+        $result = $this->op->evaluate( $this, %params );
         $ind-- if MONITOR_EVAL;
-        print STDERR ( '  ' x $ind ) . '}' . $this->{op}->{name}
+        print STDERR ( '  ' x $ind ) . '}' . $this->op->name
           if MONITOR_EVAL;
     }
     if (MONITOR_EVAL) {
@@ -290,11 +290,11 @@ sub _getField {
 
         # A hash object may be returned when a sub-object of a Foswiki::Meta
         # object has been matched.
-        return $data->{ $this->{params}[0] };
+        return $data->{ $this->params->[0] };
     }
 
     # Last ditch - treat it as a constant
-    return $this->{params}[0];
+    return $this->params->[0];
 }
 
 =begin TML
@@ -314,13 +314,13 @@ simply pass an arbitrary Foswiki::Meta.
 sub evaluatesToConstant {
     my $this = shift;
     my $c    = 0;
-    if ( ref( $this->{op} ) ) {
-        $c = $this->{op}->evaluatesToConstant( $this, @_ );
+    if ( ref( $this->op ) ) {
+        $c = $this->op->evaluatesToConstant( $this, @_ );
     }
-    elsif ( $this->{op} == Foswiki::Infix::Node::NUMBER ) {
+    elsif ( $this->op == Foswiki::Infix::Node::NUMBER ) {
         $c = 1;
     }
-    elsif ( $this->{op} == Foswiki::Infix::Node::STRING ) {
+    elsif ( $this->op == Foswiki::Infix::Node::STRING ) {
         $c = 1;
     }
     print STDERR $this->stringify() . " is "
@@ -351,8 +351,8 @@ sub simplify {
         $this->_freeze($c);
     }
     else {
-        for my $f ( @{ $this->{params} } ) {
-            if ( UNIVERSAL::can( $f, 'simplify' ) ) {
+        for my $f ( @{ $this->params } ) {
+            if ( $f->can('simplify') ) {
                 $f->simplify(@_);
             }
         }
@@ -389,18 +389,18 @@ sub _freeze {
 sub _makeArray {
     my ( $this, $array ) = @_;
     if ( scalar(@$array) == 0 ) {
-        $this->{op} = $emptyExprOp;
+        $this->op($emptyExprOp);
     }
     elsif ( scalar(@$array) == 1 ) {
         die unless defined $array->[0];
         $this->_freeze( $array->[0] );
     }
     else {
-        $this->{op} = $commaOp;
-        $this->{params}[0] = Foswiki::Query::Node->newNode($commaOp);
-        $this->{params}[0]->_freeze( shift(@$array) );
-        $this->{params}[1] = Foswiki::Query::Node->newNode($commaOp);
-        $this->{params}[1]->_freeze($array);
+        $this->op($commaOp);
+        $this->params->[0] = Foswiki::Query::Node->newNode($commaOp);
+        $this->params->[0]->_freeze( shift(@$array) );
+        $this->params->[1] = Foswiki::Query::Node->newNode($commaOp);
+        $this->params->[1]->_freeze($array);
     }
 }
 

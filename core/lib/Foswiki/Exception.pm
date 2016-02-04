@@ -122,6 +122,7 @@ sub rethrow {
                 file       => $e->file,
                 stacktrace => $e->stacktrace,
                 object     => $e->object,
+                @_,
             );
         }
 
@@ -129,19 +130,31 @@ sub rethrow {
         # serious bug but we better try to provide as much information on what's
         # happened as possible.
         elsif ( $e->can('stringify') ) {
-            $class->throw( text => $e->stringify );
+            $class->throw(
+                text => "(Exception from stringify() method of "
+                  . ref($e) . ") "
+                  . $e->stringify,
+                @_
+            );
         }
         elsif ( $e->can('as_text') ) {
-            $class->throw( text => $e->as_text );
+            $class->throw(
+                text => "(Exception from as_text() method of "
+                  . ref($e) . ") "
+                  . $e->as_text,
+                @_
+            );
         }
         else {
             # Finally we're no idea what kind of a object has been thrown to us.
             $class->throw(
-                text => "Unknown class of exception received: " . ref($e) );
+                text => "Unknown class of exception received: " . ref($e),
+                @_
+            );
         }
     }
     else {
-        $class->throw( text => $e );
+        $class->throw( text => $e, @_ );
     }
 }
 

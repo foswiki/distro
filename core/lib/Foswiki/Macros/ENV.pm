@@ -21,16 +21,16 @@ sub ENV {
       && $key =~ m/$Foswiki::cfg{AccessibleENV}/;
     my $val;
     if ( $key =~ m/^HTTPS?_(\w+)/ ) {
-        $val = $this->{request}->header($1);
+        $val = $this->request->header($1);
     }
     elsif ( $key eq 'REQUEST_METHOD' ) {
-        $val = $this->{request}->method;
+        $val = $this->request->method;
     }
     elsif ( $key eq 'REMOTE_USER' ) {
-        $val = $this->{request}->remoteUser;
+        $val = $this->request->remoteUser;
     }
     elsif ( $key eq 'REMOTE_ADDR' ) {
-        $val = $this->{request}->remoteAddress;
+        $val = $this->request->remoteAddress;
     }
     elsif ( $key eq 'PATH_INFO' ) {
         $val = $ENV{$key};

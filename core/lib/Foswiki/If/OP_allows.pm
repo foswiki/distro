@@ -8,15 +8,15 @@ Test that the topic name on the LHS allows the access mode on the RHS.
 =cut
 
 package Foswiki::If::OP_allows;
-
-use strict;
-use warnings;
-
-use Foswiki::Query::OP ();
-our @ISA = ('Foswiki::Query::OP');
+use v5.14;
 
 use Assert;
 use Foswiki::Meta ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Infix::OP);
+with qw(Foswiki::Query::OP);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -25,16 +25,17 @@ BEGIN {
     }
 }
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( arity => 2, name => 'allows', prec => 600 );
-}
+    return $orig->( $class, arity => 2, name => 'allows', prec => 600 );
+};
 
 sub evaluate {
     my $this    = shift;
     my $node    = shift;
-    my $a       = $node->{params}->[0];          # topic name (string)
-    my $b       = $node->{params}->[1];          # access mode (string)
+    my $a       = $node->params->[0];            # topic name (string)
+    my $b       = $node->params->[1];            # access mode (string)
     my $mode    = $b->_evaluate(@_) || 'view';
     my %domain  = @_;
     my $session = $domain{tom}->session;
@@ -46,7 +47,7 @@ sub evaluate {
     return 0 unless $str;
 
     my ( $web, $topic ) =
-      $session->normalizeWebTopicName( $session->{webName}, $str );
+      $session->normalizeWebTopicName( $session->webName, $str );
 
     my $ok = 0;
 

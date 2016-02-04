@@ -7,23 +7,24 @@
 =cut
 
 package Foswiki::Query::OP_in;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Query::ConditionalOP);
+with qw(Foswiki::Query::OP);
 
-use Foswiki::Query::ConditionalOP ();
-our @ISA = ('Foswiki::Query::ConditionalOP');
-
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( name => 'in', prec => 500 );
-}
+    return $orig->( $class, name => 'in', prec => 500 );
+};
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    my $a    = $node->{params}[0]->evaluate(@_);
-    my $b    = $node->{params}[1]->evaluate(@_);
+    my $a    = $node->params->[0]->evaluate(@_);
+    my $b    = $node->params->[1]->evaluate(@_);
     $b = [$b] unless ref($b) eq 'ARRAY';
     return scalar(
         grep {

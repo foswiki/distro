@@ -619,7 +619,7 @@ sub unload {
     my $this = shift;
 
     $this->session->search->metacache->removeMeta( $this->web, $this->topic )
-      if $this->session;
+      if $this->session && $this->session->has_search;
     $this->_clear_loadedRev;
     $this->_clear_latestIsLoaded;
     $this->clear_text;

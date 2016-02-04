@@ -44,19 +44,19 @@ sub GROUPINFO {
             return '' unless ( $web eq $Foswiki::cfg{UsersWebName} );
         }
 
-        $it = $this->{users}->eachGroupMember( $group, { expand => $expand } );
+        $it = $this->users->eachGroupMember( $group, { expand => $expand } );
         $format = '$wikiusername' unless defined $format;
     }
     else {
-        $it = $this->{users}->eachGroup();
+        $it = $this->users->eachGroup();
         $format = '$name' unless defined $format;
     }
     while ( $it->hasNext() ) {
         my $cUID = $it->next();
         my $row  = $format;
         if ($group) {
-            next unless ( $this->{users}->groupAllowsView($cUID) );
-            my $change = $this->{users}->groupAllowsChange($cUID);
+            next unless ( $this->users->groupAllowsView($cUID) );
+            my $change = $this->users->groupAllowsChange($cUID);
 
             #filter by show="" param
             next if ( ( $show eq 'allowchange' ) and ( not $change ) );
@@ -64,23 +64,23 @@ sub GROUPINFO {
             if ( $show =~ m/allowchange\((.*)\)/ ) {
                 next
                   if (
-                    not $this->{users}->groupAllowsChange(
-                        $group, $this->{users}->getCanonicalUserID($1)
+                    not $this->users->groupAllowsChange(
+                        $group, $this->users->getCanonicalUserID($1)
                     )
                   );
             }
             if ( $show =~ m/denychange\((.*)\)/ ) {
                 next
                   if (
-                    $this->{users}->groupAllowsChange(
-                        $group, $this->{users}->getCanonicalUserID($1)
+                    $this->users->groupAllowsChange(
+                        $group, $this->users->getCanonicalUserID($1)
                     )
                   );
             }
 
-            my $wname  = $this->{users}->getWikiName($cUID);
-            my $uname  = $this->{users}->getLoginName($cUID) || $wname;
-            my $wuname = $this->{users}->webDotWikiName($cUID);
+            my $wname  = $this->users->getWikiName($cUID);
+            my $uname  = $this->users->getLoginName($cUID) || $wname;
+            my $wuname = $this->users->webDotWikiName($cUID);
 
             $row =~ s/\$wikiname/$wname/ge;
             $row =~ s/\$username/$uname/ge;
@@ -89,14 +89,14 @@ sub GROUPINFO {
 
             #TODO: should return 0 if $1 is not a valid user?
             $row =~
-s/\$allowschange\((.*?)\)/$this->{users}->groupAllowsChange( $group , $this->{users}->getCanonicalUserID($1))/ges;
+s/\$allowschange\((.*?)\)/$this->users->groupAllowsChange( $group , $this->users->getCanonicalUserID($1))/ges;
             $row =~ s/\$allowschange/$change/ge;
         }
         else {
 
             # all groups
-            next unless ( $this->{users}->groupAllowsView($cUID) );
-            my $change = $this->{users}->groupAllowsChange($cUID);
+            next unless ( $this->users->groupAllowsView($cUID) );
+            my $change = $this->users->groupAllowsChange($cUID);
 
             #filter by show="" param
             next if ( ( $show eq 'allowchange' ) and ( not $change ) );
@@ -104,16 +104,16 @@ s/\$allowschange\((.*?)\)/$this->{users}->groupAllowsChange( $group , $this->{us
             if ( $show =~ m/allowchange\((.*)\)/ ) {
                 next
                   if (
-                    not $this->{users}->groupAllowsChange(
-                        $cUID, $this->{users}->getCanonicalUserID($1)
+                    not $this->users->groupAllowsChange(
+                        $cUID, $this->users->getCanonicalUserID($1)
                     )
                   );
             }
             if ( $show =~ m/denychange\((.*)\)/ ) {
                 next
                   if (
-                    $this->{users}->groupAllowsChange(
-                        $cUID, $this->{users}->getCanonicalUserID($1)
+                    $this->users->groupAllowsChange(
+                        $cUID, $this->users->getCanonicalUserID($1)
                     )
                   );
             }
@@ -122,7 +122,7 @@ s/\$allowschange\((.*?)\)/$this->{users}->groupAllowsChange( $group , $this->{us
 
             #TODO: should return 0 if $1 is not a valid user?
             $row =~
-s/\$allowschange\((.*?)\)/$this->{users}->groupAllowsChange( $cUID , $this->{users}->getCanonicalUserID($1))/ges;
+s/\$allowschange\((.*?)\)/$this->users->groupAllowsChange( $cUID , $this->users->getCanonicalUserID($1))/ges;
             $row =~ s/\$allowschange/$change/ge;
         }
         push( @rows, $row );

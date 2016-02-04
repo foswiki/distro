@@ -1,9 +1,15 @@
 # See bottom of file for license and copyright information
-package Foswiki;
+package Foswiki::Macros::IF;
+use v5.14;
 
-use strict;
-use warnings;
+use Foswiki;
+use Foswiki::If::Parser ();
 use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+with qw(Foswiki::Macro);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -12,47 +18,49 @@ BEGIN {
     }
 }
 
-our $ifParser;
+has ifParser => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { return Foswiki::If::Parser->new; },
+);
+has evaluating_if => (
+    is      => 'rw',
+    default => sub { {} },
+);
 
-sub IF {
+sub expand {
     my ( $this, $params, $topicObject ) = @_;
 
-    unless ($ifParser) {
-        require Foswiki::If::Parser;
-        $ifParser = new Foswiki::If::Parser();
-    }
+    my $session = $this->session;
 
     my $texpr = $params->{_DEFAULT};
     $texpr = '' unless defined $texpr;
     my $expr;
     my $result;
 
-    # Recursion block.
-    $this->{evaluating_if} ||= {};
-
     # Block after 5 levels.
-    if (   $this->{evaluating_if}->{$texpr}
-        && $this->{evaluating_if}->{$texpr} > 5 )
+    if (   $this->evaluating_if->{$texpr}
+        && $this->evaluating_if->{$texpr} > 5 )
     {
-        delete $this->{evaluating_if}->{$texpr};
+        delete $this->evaluating_if->{$texpr};
         return '';
     }
-    $this->{evaluating_if}->{$texpr}++;
+    $this->evaluating_if->{$texpr}++;
     try {
-        $expr = $ifParser->parse($texpr);
+        $expr = $this->ifParser->parse($texpr);
         if ( $expr->evaluate( tom => $topicObject, data => $topicObject ) ) {
             $params->{then} = '' unless defined $params->{then};
-            $result = expandStandardEscapes( $params->{then} );
+            $result = Foswiki::expandStandardEscapes( $params->{then} );
         }
         else {
             $params->{else} = '' unless defined $params->{else};
-            $result = expandStandardEscapes( $params->{else} );
+            $result = Foswiki::expandStandardEscapes( $params->{else} );
         }
     }
     catch {
         if ( $_->isa('Foswiki::Infix::Error') ) {
             $result =
-              $this->inlineAlert( 'alerts', 'generic', 'IF{',
+              $session->inlineAlert( 'alerts', 'generic', 'IF{',
                 $params->stringify(), '}:', $_->text );
         }
         else {
@@ -60,7 +68,7 @@ sub IF {
         }
     }
     finally {
-        delete $this->{evaluating_if}->{$texpr};
+        delete $this->evaluating_if->{$texpr};
     };
     return $result;
 }

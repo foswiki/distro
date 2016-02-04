@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Query::OP;
+use v5.14;
 
 =begin TML
 
@@ -13,38 +14,26 @@ to define operator nodes.
 
 =cut
 
-use strict;
-use warnings;
+use Moo::Role;
 
-# Does not need to subclass, but is a subclass of...
-#use Foswiki::Infix::OP ();
-#our @ISA = ( 'Foswiki::Infix::OP' );
-
-sub new {
-    my ( $class, %opts ) = @_;
-    return bless( \%opts, $class );
-}
+has name => ( is => 'rw', );
 
 =begin TML
 
 ---++ ObjectMethod evaluate($node, %domain) -> $value
 
-Pure virtual method that evaluates the operator in the give domain.
-The domain is a reference to a hash that contains the
-data being operated on, and a reference to the meta-data of the topic being worked on
-(the "topic object"). The data being operated on can be a
-Meta object, a reference to an array (such as attachments), a reference
-to a hash or a scalar. Arrays can contain other arrays
-and hashes.
+Pure virtual method that evaluates the operator in the given domain. The domain
+is a reference to a hash that contains the data being operated on, and a
+reference to the meta-data of the topic being worked on (the "topic object").
+The data being operated on can be a Meta object, a reference to an array (such
+as attachments), a reference to a hash or a scalar. Arrays can contain other
+arrays and hashes.
 
 See Foswiki::Query::Node::evaluate for more information.
 
 =cut
 
-sub evaluate {
-    my $this = shift;
-    die "Operator '$this->{name}' does not define evaluate()";
-}
+requires 'evaluate';
 
 =begin TML
 
@@ -62,7 +51,7 @@ parameters and return true if they all return true.
 sub evaluatesToConstant {
     my $this = shift;
     my $node = shift;
-    foreach my $i ( @{ $node->{params} } ) {
+    foreach my $i ( @{ $node->params } ) {
         return 0 unless $i->evaluatesToConstant(@_);
     }
     return 1;

@@ -30,10 +30,10 @@ use Assert;
 use Try::Tiny;
 use Foswiki::Infix::Error ();
 use Foswiki::Infix::Node  ();
+
 use Moo;
 use namespace::clean;
-
-extends 'Foswiki::Object';
+extends qw(Foswiki::Object);
 
 # Set to 1 for debug
 use constant MONITOR_PARSER => 0;
@@ -84,35 +84,47 @@ be escaped using backslash (\).
 # Object properties
 # node_factory is only a readability alias to nodeClass property.
 has node_factory => (
-    is       => 'rwp',
+    is       => 'rw',
     init_arg => 'nodeClass',
 );
-
 has nodeClass => (
     is        => 'rw',
     predicate => 1,
-    trigger   => sub { $_[0]->{node_factory} = $_[1]; },
+    trigger   => sub { $_[0]->node_factory( $_[1] ); },
 );
-
 has operators => (
     is      => 'rw',
     default => sub { return []; },
 );
-
 has initialised => (
     is      => 'rw',
     default => 0,
 );
-
 has numbers => (
     is      => 'rw',
     default => sub { return qr/(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?/ },
 );
-
 has words => (
     is      => 'rw',
     default => sub { return qr/\w+/ },
 );
+has unary_ops => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
+has standard_ops => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
+has bracket_ops => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
+has standard_op_REs => ( is => 'rw', );
+has bracket_op_REs  => ( is => 'rw', );
 
 # Break circular references.
 sub DEMOLISH {
@@ -130,64 +142,64 @@ Add an operator to the parser.
 
 sub addOperator {
     my ( $this, $op ) = @_;
-    push( @{ $this->{operators} }, $op );
-    $this->{initialised} = 0;
+    push( @{ $this->operators }, $op );
+    $this->initialised(0);
 }
 
 # Initialise on demand before a first parse
 sub _initialise {
     my $this = shift;
 
-    return if $this->{initialised};
+    return if $this->initialised;
 
     # Build operator lists
     my @stdOpsRE;
     my @bracketOpsRE;
-    foreach my $op ( @{ $this->{operators} } ) {
+    foreach my $op ( @{ $this->operators } ) {
 
         # Build a RE for the operator. Note that operators
         # that end in \w are terminated with \b
-        my $opre = quotemeta( $op->{name} );
-        $opre .= ( $op->{name} =~ m/\w$/ ) ? '\b' : '';
-        if ( $op->{casematters} ) {
-            $op->{InfixParser_RE} = qr/$opre/;
+        my $opre = quotemeta( $op->name );
+        $opre .= ( $op->name =~ m/\w$/ ) ? '\b' : '';
+        if ( $op->casematters ) {
+            $op->InfixParser_RE(qr/$opre/);
         }
         else {
-            $op->{InfixParser_RE} = qr/$opre/i;
+            $op->InfixParser_RE(qr/$opre/i);
         }
-        if ( defined( $op->{close} ) ) {
+        if ( defined( $op->close ) ) {
 
             # bracket op
-            $this->{bracket_ops}->{ lc( $op->{name} ) } = $op;
+            $this->bracket_ops->{ lc( $op->name ) } = $op;
 
-            $opre = quotemeta( $op->{close} );
-            $opre .= ( $op->{close} =~ m/\w$/ ) ? '\b' : '';
-            if ( $op->{casematters} ) {
-                $op->{InfixParser_closeRE} = qr/$opre/;
+            $opre = quotemeta( $op->close );
+            $opre .= ( $op->close =~ m/\w$/ ) ? '\b' : '';
+            if ( $op->casematters ) {
+                $op->InfixParser_closeRE(qr/$opre/);
             }
             else {
-                $op->{InfixParser_closeRE} = qr/$opre/i;
+                $op->InfixParser_closeRE(qr/$opre/i);
             }
-            push( @bracketOpsRE, $op->{InfixParser_RE} );
+            push( @bracketOpsRE, $op->InfixParser_RE );
         }
         else {
-            if ( $op->{arity} == 1 ) {
-                $this->{unary_ops}->{ lc( $op->{name} ) } = $op;
+            if ( $op->arity == 1 ) {
+                $this->unary_ops->{ lc( $op->name ) } = $op;
             }
             else {
-                $this->{standard_ops}->{ lc( $op->{name} ) } = $op;
+                $this->standard_ops->{ lc( $op->name ) } = $op;
             }
-            push( @stdOpsRE, $op->{InfixParser_RE} );
+            push( @stdOpsRE, $op->InfixParser_RE );
         }
     }
 
     # Build regular expression of all standard operators.
-    $this->{standard_op_REs} = join( '|', @stdOpsRE );
+    $this->standard_op_REs( join( '|', @stdOpsRE ) );
 
     # and repeat for bracket operators
-    $this->{bracket_op_REs} = join( '|', @bracketOpsRE );
+    $this->bracket_op_REs( join( '|', @bracketOpsRE ) );
 
-    $this->{initialised} = 1;
+    $this->initialised(1);
 }
 
 =begin TML
@@ -225,13 +237,17 @@ sub _parse {
     my $lastTokWasOper = 1;
     try {
         while ( $$input =~ m/\S/ ) {
-            if ( $$input =~ s/^\s*($this->{standard_op_REs})// ) {
+            my $standard_op_REs = $this->standard_op_REs;
+            my $numbers         = $this->numbers;
+            my $words           = $this->words;
+            my $bracket_op_REs  = $this->bracket_op_REs;
+            if ( $$input =~ s/^\s*($standard_op_REs)// ) {
                 my $opname = $1;
-                my $op     = $this->{unary_ops}->{ lc($opname) }
-                  || $this->{standard_ops}->{ lc($opname) };
+                my $op     = $this->unary_ops->{ lc($opname) }
+                  || $this->standard_ops->{ lc($opname) };
                 if (   $lastTokWasOper
-                    && $opname =~ $this->{words}
-                    && $op->{arity} > 1 )
+                    && $opname =~ $this->words
+                    && $op->arity > 1 )
                 {
 
                     # op is a word name, and is in an operand position,
@@ -246,18 +262,18 @@ sub _parse {
                     $lastTokWasOper = 0;
                     next;
                 }
-                if ( $lastTokWasOper && $this->{unary_ops}->{ lc($opname) } ) {
+                if ( $lastTokWasOper && $this->unary_ops->{ lc($opname) } ) {
 
                     # Op immediately follows another op, and allows unary.
-                    $op = $this->{unary_ops}->{ lc($opname) };
+                    $op = $this->unary_ops->{ lc($opname) };
                 }
                 else {
-                    $op = $this->{standard_ops}->{ lc($opname) }
-                      || $this->{unary_ops}->{ lc($opname) };
+                    $op = $this->standard_ops->{ lc($opname) }
+                      || $this->unary_ops->{ lc($opname) };
                 }
                 print STDERR "Operator: $op\n" if MONITOR_PARSER;
                 ASSERT( $op, $opname ) if DEBUG;
-                _apply( $this, $op->{prec}, \@opers, \@opands );
+                _apply( $this, $op->prec, \@opers, \@opands );
                 push( @opers, $op );
                 $lastTokWasOper = 1;
             }
@@ -278,7 +294,7 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x\{[a-fA-F0-9]+\}|n|t|\\|$q)/eval('"\\'.$1
                 );
                 $lastTokWasOper = 0;
             }
-            elsif ( $$input =~ s/^\s*($this->{numbers})// ) {
+            elsif ( $$input =~ s/^\s*($numbers)// ) {
                 my $val = 0 + $1;
                 print STDERR "Operand: number $val\n" if MONITOR_PARSER;
                 push(
@@ -289,7 +305,7 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x\{[a-fA-F0-9]+\}|n|t|\\|$q)/eval('"\\'.$1
                 );
                 $lastTokWasOper = 0;
             }
-            elsif ( $$input =~ s/^\s*($this->{words})// ) {
+            elsif ( $$input =~ s/^\s*($words)// ) {
                 print STDERR "Operand: word '$1'\n" if MONITOR_PARSER;
                 my $val = $1;
                 push(
@@ -300,16 +316,15 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x\{[a-fA-F0-9]+\}|n|t|\\|$q)/eval('"\\'.$1
                 );
                 $lastTokWasOper = 0;
             }
-            elsif ( $$input =~ s/^\s*($this->{bracket_op_REs})// ) {
+            elsif ( $$input =~ s/^\s*($bracket_op_REs)// ) {
                 my $opname = $1;
                 print STDERR "Tok: open bracket $opname\n" if MONITOR_PARSER;
-                my $op = $this->{bracket_ops}->{ lc($opname) };
+                my $op = $this->bracket_ops->{ lc($opname) };
                 ASSERT($op) if DEBUG;
-                _apply( $this, $op->{prec}, \@opers, \@opands );
+                _apply( $this, $op->prec, \@opers, \@opands );
                 push( @opers, $op );
                 push( @opands,
-                    $this->_parse( $expr, $input, $op->{InfixParser_closeRE} )
-                );
+                    $this->_parse( $expr, $input, $op->InfixParser_closeRE ) );
                 $lastTokWasOper = 0;
             }
             elsif ( defined($term) && $$input =~ s/^\s*$term// ) {
@@ -327,41 +342,20 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x\{[a-fA-F0-9]+\}|n|t|\\|$q)/eval('"\\'.$1
         _apply( $this, 0, \@opers, \@opands );
     }
     catch {
-        if ( $_->isa('Foswiki::Infix::Error') ) {
-            $_->throw;
-        }
-        else {
-            my $text;
-
-            # SMELL $_ has to be carefully examined
-            if ( !ref($_) ) {
-                $text = $_;
-            }
-            elsif ( $_->isa('Error') || $_->isa('Error::Simple') ) {
-
-    # SMELL This is temporary solution for converting exceptions coming from the
-    # deprecated Error.
-                $text = $_->{-text};
-            }
-            else {
- # Whenever $_ is a ref and not a Error derivative then it has to be a
- # Foswiki::Exception. SMELL XXX But if it's not then it a big FAIL which has to
- # be taken care somehow. Yet, as this is gonna be a common issue for any
- # location where exceptions are being handled then a centralized solution would
- # nice to have.
-                $text = $_->text;
-            }
-
-            Foswiki::Infix::Error->throw( $text, $expr, $$input );
-        }
+        Foswiki::Infix::Error->rethrow( $_, expr => $expr, at => $$input );
     };
 
-    Foswiki::Infix::Error->throw( 'Missing operator', $expr, $$input )
-      unless scalar(@opands) == 1;
     Foswiki::Infix::Error->throw(
-        'Excess operators (' . join( ' ', map { $_->{name} } @opers ) . ')',
-        $expr, $$input )
-      if scalar(@opers);
+        text => 'Missing operator',
+        expr => $expr,
+        at   => $$input
+    ) unless scalar(@opands) == 1;
+    Foswiki::Infix::Error->throw(
+        text => 'Excess operators ('
+          . join( ' ', map { $_->name } @opers ) . ')',
+        expr => $expr,
+        at   => $$input
+    ) if scalar(@opers);
     my $result = pop(@opands);
     print STDERR "Return " . $result->stringify() . "\n" if MONITOR_PARSER;
     return $result;
@@ -375,30 +369,32 @@ sub _apply {
     my ( $this, $prec, $opers, $opands ) = @_;
 
     while (scalar(@$opers)
-        && $opers->[-1]->{prec} >= $prec
-        && scalar(@$opands) >= $opers->[-1]->{arity} )
+        && $opers->[-1]->prec >= $prec
+        && scalar(@$opands) >= $opers->[-1]->arity )
     {
         my $op    = pop(@$opers);
-        my $arity = $op->{arity};
+        my $arity = $op->arity;
         my @prams;
         while ( $arity-- ) {
             unshift( @prams, pop(@$opands) );
 
             # Should never get thrown, but just in case...
-            Foswiki::Infix::Error->throw("Missing operand to '$op->{name}'")
+            Foswiki::Infix::Error->throw(
+                "Missing operand to '" . $op->name . "'" )
               unless $prams[0];
         }
         if (MONITOR_PARSER) {
-            print STDERR "Apply $op->{name}("
+            print STDERR "Apply "
+              . $op->name . "("
               . join( ', ', map { $_->stringify() } @prams ) . ")\n";
         }
         my $folded;
-        if (   ref( $prams[0]->{op} )
-            && $op == $prams[0]->{op}
-            && $op->{canfold} )
+        if (   ref( $prams[0]->op )
+            && $op == $prams[0]->op
+            && $op->canfold )
         {
-            push( @{ $prams[0]->{params} }, $prams[1] );
-            push( @$opands,                 $prams[0] );
+            push( @{ $prams[0]->params }, $prams[1] );
+            push( @$opands,               $prams[0] );
         }
         else {
             push( @$opands, $this->node_factory->newNode( $op, @prams ) );

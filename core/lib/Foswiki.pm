@@ -2379,6 +2379,7 @@ sub load_package {
     # SMELL Must use system-independant way of forming filepath.
     $fullname =~ s{::}{/}g;
     $fullname .= '.pm';
+    local $SIG{__DIE__};
     require $fullname;
 }
 
@@ -2617,15 +2618,7 @@ sub finish {
     $this->_clear_macros;
     undef $this->{web};
     undef $this->{topic};
-    undef $this->{evaluatingEval};
-    undef $this->{evaluating_if};
     undef $this->{_addedToHEAD};
-    undef $this->{_ffCache};
-    undef $this->{_INCLUDES};
-    undef $this->{_ICONSPACE};
-    undef $this->{_EXT2ICON};
-    undef $this->{_KNOWNICON};
-    undef $this->{_ICONSTEMPLATE};
 
     undef $this->{DebugVerificationCode};    # from Foswiki::UI::Register
     if (SINGLE_SINGLETONS_TRACE) {

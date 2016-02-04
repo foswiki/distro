@@ -7,17 +7,18 @@
 =cut
 
 package Foswiki::Query::OP_empty;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Infix::OP);
+with qw(Foswiki::Query::OP);
 
-use Foswiki::Query::OP ();
-our @ISA = ('Foswiki::Query::OP');
-
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( name => '()', prec => 0, arity => 0 );
-}
+    return $orig->( $class, name => '()', prec => 0, arity => 0 );
+};
 
 sub evaluate {
     my $this = shift;

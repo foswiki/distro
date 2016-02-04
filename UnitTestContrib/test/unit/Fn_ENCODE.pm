@@ -11,7 +11,7 @@ extends qw( FoswikiFnTestCase );
 around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
-    return $orig->( $class, testSuite => 'ENCODE', @_ );
+    return $orig->( $class, @_, testSuite => 'ENCODE' );
 };
 
 sub test_default {

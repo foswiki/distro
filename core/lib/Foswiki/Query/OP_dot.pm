@@ -7,28 +7,29 @@
 =cut
 
 package Foswiki::Query::OP_dot;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Infix::OP);
+with qw(Foswiki::Query::OP);
 
-use Foswiki::Query::OP ();
-our @ISA = ('Foswiki::Query::OP');
-
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( arity => 2, name => '.', prec => 800 );
-}
+    return $orig->( $class, arity => 2, name => '.', prec => 800 );
+};
 
 sub evaluate {
     my $this   = shift;
     my $node   = shift;
     my %domain = @_;
-    my $a      = $node->{params}[0];
+    my $a      = $node->params->[0];
 
     # See Foswiki/Query/Node.pm for an explanation of restricted names
     my $lval = $a->evaluate( restricted_name => 1, @_ );
     return unless ( defined $lval );
-    my $b = $node->{params}[1];
+    my $b = $node->params->[1];
     my $res = $b->evaluate( data => $lval, tom => $domain{tom} );
     if ( ref($res) eq 'ARRAY' && scalar(@$res) == 1 ) {
         return $res->[0];

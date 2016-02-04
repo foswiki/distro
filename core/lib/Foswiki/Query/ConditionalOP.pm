@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Query::ConditionalOP;
+use v5.14;
 
 =begin TML
 
@@ -8,15 +9,15 @@ Base class for binary conditional operators.
 
 =cut
 
-use strict;
-use warnings;
-use Foswiki::Query::OP;
-our @ISA = ('Foswiki::Query::OP');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Infix::OP);
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( arity => 2, @_ );
-}
+    return $orig->( $class, arity => 2, @_ );
+};
 
 =begin TML
 
@@ -64,8 +65,8 @@ sub evalTest {
     my $node       = shift;
     my $clientData = shift;
     my $sub        = shift;
-    my $a          = $node->{params}[0];
-    my $b          = $node->{params}[1];
+    my $a          = $node->params->[0];
+    my $b          = $node->params->[1];
     my $ea         = $a->evaluate( @{$clientData} );
     my $eb         = $b->evaluate( @{$clientData} );
     $ea = '' unless defined $ea;

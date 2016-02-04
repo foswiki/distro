@@ -8,12 +8,15 @@ Test if the user named on the LHS is in the user group named on the RHS.
 =cut
 
 package Foswiki::If::OP_ingroup;
+use v5.14;
 
-use strict;
-use warnings;
+use Assert;
+use Foswiki::Meta ();
 
-use Foswiki::Query::OP ();
-our @ISA = ('Foswiki::Query::OP');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Infix::OP);
+with qw(Foswiki::Query::OP);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -22,33 +25,35 @@ BEGIN {
     }
 }
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new(
+    return $orig->(
+        $class,
         arity       => 2,
         name        => 'ingroup',
         prec        => 600,
         casematters => 1
     );
-}
+};
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
     my $a =
-      $node->{params}->[0]
+      $node->params->[0]
       ;    # user cUID/ loginname / WikiName / WebDotWikiName :( (string)
-    my $b       = $node->{params}->[1];    # group name (string
+    my $b       = $node->params->[1];      # group name (string
     my %domain  = @_;
     my $session = $domain{tom}->session;
     throw Error::Simple(
         'No context in which to evaluate "' . $a->stringify() . '"' )
       unless $session;
-    my $user = $session->{users}->getCanonicalUserID( $a->evaluate(@_) );
+    my $user = $session->users->getCanonicalUserID( $a->evaluate(@_) );
     return 0 unless $user;
     my $group = $b->_evaluate(@_);
     return 0 unless $group;
-    return 1 if ( $session->{users}->isInGroup( $user, $group ) );
+    return 1 if ( $session->users->isInGroup( $user, $group ) );
     return 0;
 }
 

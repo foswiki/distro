@@ -68,7 +68,6 @@ use Foswiki::Query::OP_ob ();        # 1100
 
 use Moo;
 use namespace::clean;
-
 extends 'Foswiki::Infix::Parser';
 
 has words => (
@@ -126,7 +125,7 @@ sub onCloseExpr {
     my ( $this, $opands ) = @_;
     if ( !scalar(@$opands) ) {
         require Foswiki::Query::OP_empty;
-        push( @$opands, $this->{node_factory}->emptyExpression() );
+        push( @$opands, $this->node_factory->emptyExpression() );
     }
 }
 

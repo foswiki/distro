@@ -7,43 +7,45 @@
 =cut
 
 package Foswiki::Query::OP_where;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Infix::OP);
+with qw(Foswiki::Query::OP);
 
-use Foswiki::Query::OP ();
-our @ISA = ('Foswiki::Query::OP');
-
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new(
+    return $orig->(
+        $class,
         arity => 2,
         name  => '[',
         close => ']',
         prec  => 900
     );
-}
+};
 
 sub evaluate {
     my $this   = shift;
     my $node   = shift;
     my %domain = @_;
 
-    my $lhs_node = $node->{params}[0];
+    my $lhs_node = $node->params->[0];
 
     # See Foswiki/Query/Node.pm for an explanation of restricted names
     my $lhs_values = $lhs_node->evaluate( restricted_name => 1, @_ );
     $lhs_values = [$lhs_values] unless ( ref($lhs_values) eq 'ARRAY' );
 
-    my $rhs_node = $node->{params}[1];
+    my $rhs_node = $node->params->[1];
     my @res;
-    if ( ref( $rhs_node->{op} ) eq 'Foswiki::Query::OP_comma' ) {
+    if ( ref( $rhs_node->op ) eq 'Foswiki::Query::OP_comma' ) {
 
         # We have an array on the RHS. We apply the op to each item
         # on the RHS, passing in the complete LHS. This way, the operation
         # [a,b,c] WHERE [1,3] -> [a,c]
         # This process permits duplication of entries in the result.
-        foreach my $rhs_item ( @{ $rhs_node->{params} } ) {
+        foreach my $rhs_item ( @{ $rhs_node->params } ) {
             $this->_evaluate_for_RHS( $lhs_values, $rhs_item, \%domain, \@res );
         }
     }

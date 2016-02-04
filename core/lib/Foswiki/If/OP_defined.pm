@@ -7,12 +7,7 @@
 =cut
 
 package Foswiki::If::OP_defined;
-
-use strict;
-use warnings;
-
-use Foswiki::Query::UnaryOP ();
-our @ISA = ('Foswiki::Query::UnaryOP');
+use v5.14;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -21,15 +16,21 @@ BEGIN {
     }
 }
 
-sub new {
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Query::UnaryOP);
+with qw(Foswiki::Query::OP);
+
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( name => 'defined', prec => 600 );
-}
+    return $orig->( $class, name => 'defined', prec => 600 );
+};
 
 sub evaluate {
     my $this    = shift;
     my $node    = shift;
-    my $a       = $node->{params}[0];
+    my $a       = $node->params->[0];
     my %domain  = @_;
     my $session = $domain{tom}->session;
     throw Error::Simple(
@@ -41,9 +42,9 @@ sub evaluate {
 
 #print STDERR "Evaluate ".$node->stringify()." -> ".(defined $eval ? $eval : 'undef')."\n";
     return 0 unless $eval;
-    return 1 if ( defined( $session->{request}->param($eval) ) );
+    return 1 if ( defined( $session->request->param($eval) ) );
     return 1 if ( defined( $domain{tom}->getPreference($eval) ) );
-    return 1 if ( defined( $session->{prefs}->getPreference($eval) ) );
+    return 1 if ( defined( $session->prefs->getPreference($eval) ) );
     return 1 if ( exists( $Foswiki::macros{$eval} ) );
     return 0;
 }

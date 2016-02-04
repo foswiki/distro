@@ -1,55 +1,64 @@
 # tests for the correct expansion of ICON*
 package Fn_ICON;
-use strict;
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki;
-use Error qw( :try );
+use Try::Tiny;
 use Assert;
 
-sub new {
-    my $self = shift()->SUPER::new( 'ICON', @_ );
-    return $self;
-}
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
-sub set_up {
+has absiconurl => ( is => 'rw', );
+has reliconurl => ( is => 'rw', );
+
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
+
+    return $orig->( $class, testSuite => 'ICON', @_ );
+};
+
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
+
+    $orig->( $this, @_ );
+
     my $it = Foswiki::Func::getPreferencesValue('ICONTOPIC');
     $it =~ s/\./\//;
-    $this->{reliconurl} =
-      $Foswiki::cfg{PubUrlPath} . '/'
-      . Foswiki::Func::expandCommonVariables($it);
-    $this->{absiconurl} = $Foswiki::cfg{DefaultUrlHost} . $this->{reliconurl};
-}
+    $this->reliconurl( $Foswiki::cfg{PubUrlPath} . '/'
+          . Foswiki::Func::expandCommonVariables($it) );
+    $this->absiconurl( $Foswiki::cfg{DefaultUrlHost} . $this->reliconurl );
+};
 
 sub test_ICONURL {
     my $this = shift;
     my $t    = Foswiki::Func::expandCommonVariables('%ICONURL%');
-    $this->assert_equals( $this->{absiconurl} . '/else.png', $t );
+    $this->assert_equals( $this->absiconurl . '/else.png', $t );
     $t = Foswiki::Func::expandCommonVariables('%ICONURL{"unknown"}%');
-    $this->assert_equals( $this->{absiconurl} . '/else.png', $t );
+    $this->assert_equals( $this->absiconurl . '/else.png', $t );
     $t = Foswiki::Func::expandCommonVariables('%ICONURL{"else"}%');
-    $this->assert_equals( $this->{absiconurl} . '/else.png', $t );
+    $this->assert_equals( $this->absiconurl . '/else.png', $t );
     $t = Foswiki::Func::expandCommonVariables('%ICONURL{"else.gif"}%');
-    $this->assert_equals( $this->{absiconurl} . '/gif.png', $t );
+    $this->assert_equals( $this->absiconurl . '/gif.png', $t );
     $t = Foswiki::Func::expandCommonVariables('%ICONURL{"doc"}%');
-    $this->assert_equals( $this->{absiconurl} . '/doc.png', $t );
+    $this->assert_equals( $this->absiconurl . '/doc.png', $t );
 }
 
 sub test_ICONURLPATH {
     my $this = shift;
     my $t    = Foswiki::Func::expandCommonVariables('%ICONURLPATH%');
-    $this->assert_str_equals( $this->{reliconurl} . '/else.png', $t );
+    $this->assert_str_equals( $this->reliconurl . '/else.png', $t );
     $t = Foswiki::Func::expandCommonVariables('%ICONURLPATH{"unknown"}%');
-    $this->assert_equals( $this->{reliconurl} . '/else.png', $t );
+    $this->assert_equals( $this->reliconurl . '/else.png', $t );
     $t = Foswiki::Func::expandCommonVariables('%ICONURLPATH{"else"}%');
-    $this->assert_equals( $this->{reliconurl} . '/else.png', $t );
+    $this->assert_equals( $this->reliconurl . '/else.png', $t );
     $t = Foswiki::Func::expandCommonVariables('%ICONURLPATH{"else.gif"}%');
-    $this->assert_equals( $this->{reliconurl} . '/gif.png', $t );
+    $this->assert_equals( $this->reliconurl . '/gif.png', $t );
     $t = Foswiki::Func::expandCommonVariables('%ICONURLPATH{"doc"}%');
-    $this->assert_equals( $this->{reliconurl} . '/doc.png', $t );
+    $this->assert_equals( $this->reliconurl . '/doc.png', $t );
 }
 
 sub test_ICON {
@@ -58,40 +67,36 @@ sub test_ICON {
     my $postHtml = '</span>';
     my $t        = Foswiki::Func::expandCommonVariables("%ICON%");
     $this->assert_html_equals(
-        $html . $this->{reliconurl} . '/else.png" alt="else"/>' . $postHtml,
-        $t );
+        $html . $this->reliconurl . '/else.png" alt="else"/>' . $postHtml, $t );
     $t = Foswiki::Func::expandCommonVariables(
         '%ICON{"unknown" default="argh" alt="argh"}%');
     $this->assert_html_equals(
-        $html . $this->{reliconurl} . '/else.png" alt="argh" />' . $postHtml,
+        $html . $this->reliconurl . '/else.png" alt="argh" />' . $postHtml,
         $t );
     $t = Foswiki::Func::expandCommonVariables(
         '%ICON{"unknown" default="gif" alt="argh"}%');
     $this->assert_html_equals(
-        $html . $this->{reliconurl} . '/gif.png" alt="argh" />' . $postHtml,
-        $t );
+        $html . $this->reliconurl . '/gif.png" alt="argh" />' . $postHtml, $t );
     $t = Foswiki::Func::expandCommonVariables(
         '%ICON{"unknown.trap" default="flup.doc"}%');
     $this->assert_html_equals(
         $html
-          . $this->{reliconurl}
+          . $this->reliconurl
           . '/doc.png" alt="unknown.trap" />'
           . $postHtml,
         $t
     );
     $t = Foswiki::Func::expandCommonVariables('%ICON{"else"}%');
     $this->assert_html_equals(
-        $html . $this->{reliconurl} . '/else.png" alt="else" />' . $postHtml,
+        $html . $this->reliconurl . '/else.png" alt="else" />' . $postHtml,
         $t );
     $t = Foswiki::Func::expandCommonVariables('%ICON{"else.gif"}%');
     $this->assert_html_equals(
-        $html . $this->{reliconurl} . '/gif.png" alt="else.gif" />' . $postHtml,
-        $t
-    );
+        $html . $this->reliconurl . '/gif.png" alt="else.gif" />' . $postHtml,
+        $t );
     $t = Foswiki::Func::expandCommonVariables('%ICON{"doc"}%');
     $this->assert_html_equals(
-        $html . $this->{reliconurl} . '/doc.png" alt="doc" />' . $postHtml,
-        $t );
+        $html . $this->reliconurl . '/doc.png" alt="doc" />' . $postHtml, $t );
 
     $t = Foswiki::Func::expandCommonVariables('%ICON{"doc" quote="\'"}%');
     $this->assert_matches( qr/'/, $t );
@@ -104,9 +109,8 @@ sub test_ICON {
     $t = Foswiki::Func::expandCommonVariables(
         '%ICON{"unknown.tgz" default="argh" alt="bunshop"}%');
     $this->assert_html_equals(
-        $html . $this->{reliconurl} . '/zip.png" alt="bunshop" />' . $postHtml,
-        $t
-    );
+        $html . $this->reliconurl . '/zip.png" alt="bunshop" />' . $postHtml,
+        $t );
 }
 
 sub test_PUBURL {
@@ -152,8 +156,9 @@ sub test_PUBURLPATH {
 sub test_ATTACHURL {
     my $this = shift;
     my $t    = Foswiki::Func::expandCommonVariables('%ATTACHURL%');
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     $this->assert_URI_equals(
-"$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/$this->{test_web}/$this->{test_topic}",
+"$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/$test_web/$test_topic",
         $t
     );
 }
@@ -161,8 +166,9 @@ sub test_ATTACHURL {
 sub test_ATTACHURLPATH {
     my $this = shift;
     my $t    = Foswiki::Func::expandCommonVariables('%ATTACHURLPATH%');
-    $this->assert_URI_equals(
-        "$Foswiki::cfg{PubUrlPath}/$this->{test_web}/$this->{test_topic}", $t );
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
+    $this->assert_URI_equals( "$Foswiki::cfg{PubUrlPath}/$test_web/$test_topic",
+        $t );
 }
 
 1;

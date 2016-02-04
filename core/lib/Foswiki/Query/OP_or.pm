@@ -9,29 +9,31 @@ will build a single node that has 3 parameters, a, b, and c.
 =cut
 
 package Foswiki::Query::OP_or;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Infix::OP);
+with qw(Foswiki::Query::OP);
 
-use Foswiki::Query::OP ();
-our @ISA = ('Foswiki::Query::OP');
-
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
 
     # Treated as arity 2 for parsing, but folds to n-ary
-    return $class->SUPER::new(
+    return $orig->(
+        $class,
         arity   => 2,
         canfold => 1,
         name    => 'or',
         prec    => 100
     );
-}
+};
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    foreach my $i ( @{ $node->{params} } ) {
+    foreach my $i ( @{ $node->params } ) {
         return 1 if $i->evaluate(@_);
     }
     return 0;
@@ -41,7 +43,7 @@ sub evaluatesToConstant {
     my $this      = shift;
     my $node      = shift;
     my $all_const = 1;
-    foreach my $i ( @{ $node->{params} } ) {
+    foreach my $i ( @{ $node->params } ) {
         my $ac = $i->evaluatesToConstant(@_);
         return 1 if $ac && $i->evaluate(@_);
         $all_const = 0 unless $ac;

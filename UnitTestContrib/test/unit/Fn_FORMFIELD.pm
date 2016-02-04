@@ -14,7 +14,7 @@ has other_web => ( is => 'rw', );
 around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
-    return $orig->( $class, testSuite => 'FORMFIELD', @_ );
+    return $orig->( $class, @_, testSuite => 'FORMFIELD' );
 };
 
 around set_up => sub {

@@ -1,11 +1,14 @@
 # See bottom of file for license and copyright information
-package Foswiki;
+package Foswiki::Macros::QUERY;
 use v5.14;
 
-use strict;
-use warnings;
 use Foswiki::Serialise ();
 use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+with qw(Foswiki::Macro);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -16,7 +19,13 @@ BEGIN {
 
 our $evalParser;    # could share $ifParser from IF.pm
 
-sub QUERY {
+has evaluatingEval => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
+
+sub expand {
     my ( $this, $params, $topicObject ) = @_;
     my $result;
     my $expr = $params->{_DEFAULT};
@@ -47,14 +56,11 @@ sub QUERY {
         $topicObject = $topicObject->load();
     }
 
-    # Recursion block.
-    $this->{evaluatingEval} ||= {};
-
     # Block after 5 levels.
-    if (   $this->{evaluatingEval}->{$expr}
-        && $this->{evaluatingEval}->{$expr} > 5 )
+    if (   $this->evaluatingEval->{$expr}
+        && $this->evaluatingEval->{$expr} > 5 )
     {
-        delete $this->{evaluatingEval}->{$expr};
+        delete $this->evaluatingEval->{$expr};
         return '';
     }
     unless ($evalParser) {
@@ -62,7 +68,7 @@ sub QUERY {
         $evalParser = new Foswiki::Query::Parser();
     }
 
-    $this->{evaluatingEval}->{$expr}++;
+    $this->evaluatingEval->{$expr}++;
     try {
         my $node = $evalParser->parse($expr);
         $result = $node->evaluate( tom => $topicObject, data => $topicObject );
@@ -74,9 +80,12 @@ sub QUERY {
               $this->inlineAlert( 'alerts', 'generic', 'QUERY{',
                 $params->stringify(), '}:', $_->text );
         }
+        else {
+            Foswiki::Exception->rethrow($_);
+        }
     }
     finally {
-        delete $this->{evaluatingEval}->{$expr};
+        delete $this->evaluatingEval->{$expr};
     };
 
     return $result;

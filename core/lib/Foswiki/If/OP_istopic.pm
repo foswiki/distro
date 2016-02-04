@@ -7,12 +7,7 @@
 =cut
 
 package Foswiki::If::OP_istopic;
-
-use strict;
-use warnings;
-
-use Foswiki::Query::UnaryOP ();
-our @ISA = ('Foswiki::Query::UnaryOP');
+use v5.14;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -21,21 +16,27 @@ BEGIN {
     }
 }
 
-sub new {
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Query::UnaryOP);
+with qw(Foswiki::Query::OP);
+
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( name => 'istopic', prec => 600 );
-}
+    return $orig->( $class, name => 'istopic', prec => 600 );
+};
 
 sub evaluate {
     my $this    = shift;
     my $node    = shift;
-    my $a       = $node->{params}->[0];
+    my $a       = $node->params->[0];
     my %domain  = @_;
     my $session = $domain{tom}->session;
     throw Error::Simple(
         'No context in which to evaluate "' . $a->stringify() . '"' )
       unless $session;
-    my ( $web, $topic ) = ( $session->{webName}, $a->_evaluate(@_) );
+    my ( $web, $topic ) = ( $session->webName, $a->_evaluate(@_) );
 
     return 0
       unless ( defined $topic && length($topic) )

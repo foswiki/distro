@@ -7,25 +7,26 @@
 =cut
 
 package Foswiki::Query::OP_minus;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Infix::OP);
+with qw(Foswiki::Query::OP);
 
-use Foswiki::Query::OP ();
-our @ISA = ('Foswiki::Query::OP');
-
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new( arity => 2, name => '-', prec => 600 );
-}
+    return $orig->( $class, arity => 2, name => '-', prec => 600 );
+};
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
 
     # Item10889: The short-circuit || 0 is probably okay, - is numeric anyway
-    my $a = $node->{params}[0]->evaluate(@_) || 0;
-    my $b = $node->{params}[1]->evaluate(@_) || 0;
+    my $a = $node->params->[0]->evaluate(@_) || 0;
+    my $b = $node->params->[1]->evaluate(@_) || 0;
     return $a - $b;
 }
 

@@ -7,12 +7,12 @@
 =cut
 
 package Foswiki::If::OP_context;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Query::UnaryOP ();
-our @ISA = ('Foswiki::Query::UnaryOP');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Query::UnaryOP);
+with qw(Foswiki::Query::OP);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -21,19 +21,21 @@ BEGIN {
     }
 }
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    return $class->SUPER::new(
+    return $orig->(
+        $class,
         name        => 'context',
         prec        => 600,
         casematters => 0
     );
-}
+};
 
 sub evaluate {
     my $this    = shift;
     my $node    = shift;
-    my $a       = $node->{params}->[0];
+    my $a       = $node->params->[0];
     my $text    = $a->_evaluate(@_) || '';
     my %domain  = @_;
     my $session = $domain{tom}->session;

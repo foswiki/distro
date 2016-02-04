@@ -16,10 +16,12 @@ extends 'Foswiki::Exception';
 
 has expr => (
     is        => 'rw',
+    lazy      => 1,
     predicate => 1,
 );
 has at => (
     is        => 'rw',
+    lazy      => 1,
     predicate => 1,
 );
 our @_newParameters = qw(text expr at);
@@ -31,14 +33,15 @@ BEGIN {
     }
 }
 
+# SMELL To be replaced by stringify() method.
 around text => sub {
     my $orig = shift;
     my $this = shift;
-    my $text = $orig->($this);
-    if ( $this->has_expr ) {
+    my $text = $orig->( $this, @_ );
+    if ( $this->expr ) {
         $text .= " in '" . $this->expr . "'";
     }
-    if ( $this->has_at ) {
+    if ( $this->at ) {
         $text .= " at '" . $this->at . "'";
     }
     return $text;

@@ -1,5 +1,10 @@
 # See bottom of file for license and copyright information
 package Foswiki::Infix::OP;
+use v5.14;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 =begin TML
 
@@ -39,10 +44,14 @@ BEGIN {
     }
 }
 
-sub new {
-    my ( $class, %opts ) = @_;
-    return bless( \%opts, $class );
-}
+has name                => ( is => 'rw', );
+has prec                => ( is => 'rw', );
+has arity               => ( is => 'rw', );
+has close               => ( is => 'rw', );
+has casematters         => ( is => 'rw', );
+has canfold             => ( is => 'rw', );
+has InfixParser_RE      => ( is => 'rw', );
+has InfixParser_closeRE => ( is => 'rw', );
 
 1;
 __END__

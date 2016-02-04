@@ -111,17 +111,17 @@ sub _monTerm {
 sub _hoistAND {
     my $node = shift;
 
-    return () unless ref( $node->{op} );
+    return () unless ref( $node->op );
 
-    if ( $node->{op}->{name} eq '(' ) {
-        return _hoistAND( $node->{params}[0] );
+    if ( $node->op->name eq '(' ) {
+        return _hoistAND( $node->params->[0] );
     }
 
-    if ( $node->{op}->{name} eq 'and' ) {
+    if ( $node->op->name eq 'and' ) {
 
         # An 'and' conjunction yields a set of individual expressions,
         # each of which must match the data
-        my @list = @{ $node->{params} };
+        my @list = @{ $node->params };
         $indent++;
         my @collect = _hoistAND( shift(@list) );
         while ( scalar(@list) ) {
@@ -149,14 +149,14 @@ sub _hoistAND {
 sub _hoistOR {
     my $node = shift;
 
-    return unless ref( $node->{op} );
+    return unless ref( $node->op );
 
-    if ( $node->{op}->{name} eq '(' ) {
-        return _hoistOR( $node->{params}[0] );
+    if ( $node->op->name eq '(' ) {
+        return _hoistOR( $node->params->[0] );
     }
 
-    if ( $node->{op}->{name} eq 'or' ) {
-        my @list = @{ $node->{params} };
+    if ( $node->op->name eq 'or' ) {
+        my @list = @{ $node->params };
         $indent++;
         my %collection;
         while ( scalar(@list) ) {
@@ -208,60 +208,60 @@ our $PHOLD = "\000RHS\001";
 sub _hoistEQ {
     my $node = shift;
 
-    return unless ref( $node->{op} );
+    return unless ref( $node->op );
 
-    if ( $node->{op}->{name} eq '(' ) {
-        return _hoistEQ( $node->{params}[0] );
+    if ( $node->op->name eq '(' ) {
+        return _hoistEQ( $node->params->[0] );
     }
 
     # $PHOLD is a placeholder for the RHS term in the regex
-    if ( $node->{op}->{name} eq '=' ) {
+    if ( $node->op->name eq '=' ) {
         $indent++;
-        my $lhs = _hoistDOT( $node->{params}[0] );
-        my $rhs = _hoistConstant( $node->{params}[1] );
+        my $lhs = _hoistDOT( $node->params->[0] );
+        my $rhs = _hoistConstant( $node->params->[1] );
         $indent--;
         if ( $lhs && defined $rhs ) {
             $rhs = quotemeta($rhs);
             $lhs->{regex} =~ s/$PHOLD/$rhs/g;
-            $lhs->{source} = _hoistConstant( $node->{params}[1] );
+            $lhs->{source} = _hoistConstant( $node->params->[1] );
             _monitor( "hoistEQ ", $node, " =>" ) if MONITOR_HOIST;
             return $lhs;
         }
 
         # = is symmetric, so try the other order
         $indent++;
-        $lhs = _hoistDOT( $node->{params}[1] );
-        $rhs = _hoistConstant( $node->{params}[0] );
+        $lhs = _hoistDOT( $node->params->[1] );
+        $rhs = _hoistConstant( $node->params->[0] );
         $indent--;
         if ( $lhs && defined $rhs ) {
             $rhs = quotemeta($rhs);
             $lhs->{regex} =~ s/$PHOLD/$rhs/g;
-            $lhs->{source} = _hoistConstant( $node->{params}[0] );
+            $lhs->{source} = _hoistConstant( $node->params->[0] );
             _monitor( "hoistEQ ", $node, " <=" )
               if MONITOR_HOIST;
             return $lhs;
         }
     }
-    elsif ( $node->{op}->{name} eq '~' ) {
+    elsif ( $node->op->name eq '~' ) {
         $indent++;
-        my $lhs = _hoistDOT( $node->{params}[0] );
-        my $rhs = _hoistConstant( $node->{params}[1] );
+        my $lhs = _hoistDOT( $node->params->[0] );
+        my $rhs = _hoistConstant( $node->params->[1] );
         $indent--;
         if ( $lhs && defined $rhs ) {
             $rhs = quotemeta($rhs);
             $rhs          =~ s/\\\?/./g;
             $rhs          =~ s/\\\*/.*/g;
             $lhs->{regex} =~ s/$PHOLD/$rhs/g;
-            $lhs->{source} = _hoistConstant( $node->{params}[1] );
+            $lhs->{source} = _hoistConstant( $node->params->[1] );
             _monitor( "hoistEQ ", $node, " ~" )
               if MONITOR_HOIST;
             return $lhs;
         }
     }
-    elsif ( $node->{op}->{name} eq '=~' ) {
+    elsif ( $node->op->name eq '=~' ) {
         $indent++;
-        my $lhs = _hoistDOT( $node->{params}[0] );
-        my $rhs = _hoistConstant( $node->{params}[1] );
+        my $lhs = _hoistDOT( $node->params->[0] );
+        my $rhs = _hoistConstant( $node->params->[1] );
         $indent--;
         if ( $lhs && defined $rhs ) {
 
@@ -285,7 +285,7 @@ sub _hoistEQ {
                 $rhs =~ s/\$$//;
             }
             $lhs->{regex} =~ s/$PHOLD/$rhs/g;
-            $lhs->{source} = _hoistConstant( $node->{params}[1] );
+            $lhs->{source} = _hoistConstant( $node->params->[1] );
             _monitor( "hoistEQ ", $node, " =~" )
               if MONITOR_HOIST;
             return $lhs;
@@ -304,20 +304,20 @@ sub _hoistEQ {
 sub _hoistDOT {
     my $node = shift;
 
-    if ( ref( $node->{op} ) && $node->{op}->{name} eq '(' ) {
-        return _hoistDOT( $node->{params}[0] );
+    if ( ref( $node->op ) && $node->op->name eq '(' ) {
+        return _hoistDOT( $node->params->[0] );
     }
 
-    if ( ref( $node->{op} ) && $node->{op}->{name} eq '.' ) {
-        my $lhs = $node->{params}[0];
-        my $rhs = $node->{params}[1];
+    if ( ref( $node->op ) && $node->op->name eq '.' ) {
+        my $lhs = $node->params->[0];
+        my $rhs = $node->params->[1];
         if (   !ref( $lhs->{op} )
             && !ref( $rhs->{op} )
             && $lhs->{op} eq Foswiki::Infix::Node::NAME
             && $rhs->{op} eq Foswiki::Infix::Node::NAME )
         {
-            $lhs = $lhs->{params}[0];
-            $rhs = $rhs->{params}[0];
+            $lhs = $lhs->params->[0];
+            $rhs = $rhs->params->[0];
             if ( $Foswiki::Query::Node::aliases{$lhs} ) {
                 $lhs = $Foswiki::Query::Node::aliases{$lhs};
             }
@@ -358,22 +358,22 @@ sub _hoistDOT {
 
         }
     }
-    elsif ( !ref( $node->{op} ) && $node->{op} eq Foswiki::Infix::Node::NAME ) {
-        if ( $node->{params}[0] eq 'name' ) {
+    elsif ( !ref( $node->op ) && $node->op eq Foswiki::Infix::Node::NAME ) {
+        if ( $node->params->[0] eq 'name' ) {
 
             # Special case for the topic name
             _monitor( "hoist DOT ", $node, " => topic" )
               if MONITOR_HOIST;
             return { field => 'name', regex => $PHOLD };
         }
-        elsif ( $node->{params}[0] eq 'web' ) {
+        elsif ( $node->params->[0] eq 'web' ) {
 
             # Special case for the web name
             _monitor( "hoist DOT ", $node, " => web" )
               if MONITOR_HOIST;
             return { field => 'web', regex => $PHOLD };
         }
-        elsif ( $node->{params}[0] eq 'text' ) {
+        elsif ( $node->params->[0] eq 'text' ) {
 
             # Special case for the text body
             _monitor( "hoist DOT ", $node, " => text" )
@@ -383,10 +383,11 @@ sub _hoistDOT {
         else {
             _monitor( "hoist DOT ", $node, " => field" )
               if MONITOR_HOIST;
+            my $params0 = $node->params->[0];
             return {
                 field => 'text',
                 regex =>
-"^%META:FIELD\\{name=\\\"$node->{params}[0]\\\".*\\bvalue=\\\"$PHOLD\\\""
+"^%META:FIELD\\{name=\\\"$params0\\\".*\\bvalue=\\\"$PHOLD\\\""
             };
         }
     }
@@ -400,14 +401,14 @@ sub _hoistConstant {
     my $node = shift;
 
     if (
-        !ref( $node->{op} )
-        && (   $node->{op} eq Foswiki::Infix::Node::STRING
-            || $node->{op} eq Foswiki::Infix::Node::NUMBER )
+        !ref( $node->op )
+        && (   $node->op eq Foswiki::Infix::Node::STRING
+            || $node->op eq Foswiki::Infix::Node::NUMBER )
       )
     {
-        _monitor( "hoist CONST ", $node, " => $node->{params}[0]" )
+        _monitor( "hoist CONST ", $node, " => " . $node->params->[0] )
           if MONITOR_HOIST;
-        return $node->{params}[0];
+        return $node->params->[0];
     }
     return;
 }
