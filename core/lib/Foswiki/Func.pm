@@ -3802,7 +3802,9 @@ See Foswiki:Development/UpdatingExtensionsScriptZone for more details.
 =cut
 
 sub addToHEAD {
-    $Foswiki::Plugins::SESSION->addToZone( 'head', @_ );
+    my $session = $Foswiki::Plugins::SESSION;
+    ASSERT($session) if DEBUG;
+    $session->zones()->addToZone( 'head', @_ );
 }
 
 =begin TML
