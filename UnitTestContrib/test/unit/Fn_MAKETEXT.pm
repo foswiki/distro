@@ -1,48 +1,53 @@
 # tests for the correct expansion of MAKETEXT
 
 package Fn_MAKETEXT;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki;
-use Error qw( :try );
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 my $topicObject;
 
 # Force reload of I18N in case it wasn't enabled
-if ( delete $INC{'Foswiki/I18N.pm'} ) {
+#if ( delete $INC{'Foswiki/I18N.pm'} ) {
+#
+#    # Clean the symbol table to remove loaded subs
+#    no strict 'refs';
+#    @Foswiki::I18N::ISA = ();
+#    my $symtab = "Foswiki::I18N::";
+#    foreach my $symbol ( keys %{$symtab} ) {
+#        next if $symbol =~ m/\A[^:]+::\z/;
+#        delete $symtab->{$symbol};
+#    }
+#}
 
-    # Clean the symbol table to remove loaded subs
-    no strict 'refs';
-    @Foswiki::I18N::ISA = ();
-    my $symtab = "Foswiki::I18N::";
-    foreach my $symbol ( keys %{$symtab} ) {
-        next if $symbol =~ m/\A[^:]+::\z/;
-        delete $symtab->{$symbol};
-    }
-}
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_, testSuite => 'MAKETEXT', );
+};
 
-sub new {
-    my $self = shift()->SUPER::new( 'MAKETEXT', @_ );
-    return $self;
-}
-
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
+    $this->__EnvReset->{$_} = undef
+      foreach grep { /(?:^LANG$|^LC_)/ } keys %ENV;
 
-    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'WebHome' );
-}
+    $orig->( $this, @_ );
 
-sub loadExtraConfig {
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'WebHome' );
+};
+
+around loadExtraConfig => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::loadExtraConfig();
+    $orig->( $this, @_ );
     setLocalSite();
-}
+};
 
 sub setLocalSite {
     $Foswiki::cfg{WebMasterEmail}                    = 'a.b@c.org';

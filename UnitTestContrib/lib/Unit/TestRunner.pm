@@ -609,20 +609,10 @@ sub runOne {
                     local $SIG{__DIE__} = sub {
                         my $e = shift;
                         if ( ref($e) && $e->isa('Foswiki::Exception') ) {
-                            Foswiki::Exception->rethrow($e);
+                            $e->rethrow;
                         }
                         else {
-                            Foswiki::Exception->throw( text => $e );
-                        }
-                      }
-                      if DEBUG;
-                    local $SIG{__WARN__} = sub {
-                        my $e = shift;
-                        if ( ref($e) && $e->isa('Foswiki::Exception') ) {
-                            Foswiki::Exception->rethrow($e);
-                        }
-                        else {
-                            Carp::croak($e);
+                            Foswiki::Exception::Fatal->rethrow($e);
                         }
                       }
                       if DEBUG;

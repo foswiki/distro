@@ -3,36 +3,43 @@ use strict;
 # tests for the correct expansion of INCLUDE
 
 package Fn_INCLUDE;
+use v5.14;
 
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use Try::Tiny;
+use Foswiki ();
 
-use Foswiki;
-use Error qw( :try );
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
-sub new {
-    my $self = shift()->SUPER::new( 'INCLUDE', @_ );
-    return $self;
-}
+has other_web => ( is => 'rw', );
 
-sub set_up {
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
+    return $orig->( $class, @_, testSuite => 'INCLUDE' );
+};
+
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
-    $this->{other_web} = "$this->{test_web}other";
-    my $webObject = $this->populateNewWeb( $this->{other_web} );
+    $orig->( $this, @_ );
+    $this->other_web( $this->test_web . "other" );
+    my $webObject = $this->populateNewWeb( $this->other_web );
     $webObject->finish();
-}
+};
 
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->removeWebFixture( $this->{session}, $this->{other_web} );
-    $this->SUPER::tear_down();
-}
+    $this->removeWebFixture( $this->session, $this->other_web );
+    $orig->( $this, @_ );
+};
 
 sub skip {
     my ( $this, $test ) = @_;
 
-    return $this->SUPER::skip_test_if(
+    return $this->skip_test_if(
         $test,
         {
             condition => { with_dep => 'Foswiki,<,1.2' },
@@ -48,16 +55,16 @@ sub skip {
 
 sub run_test_simple {
     my $this           = shift;
-    my $includeTopic   = shift || $this->{test_web} . '.FirstTopic';
+    my $includeTopic   = shift || $this->test_web . '.FirstTopic';
     my $includeError   = shift;
     my $noSectionError = shift || $includeError;
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef, '1' );
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef, '1' );
     $this->assert_str_equals(
         $includeError ? "A $includeError B" : 'A 1 B',
         Foswiki::Func::expandCommonVariables(
             'A %INCLUDE{"' . $includeTopic . '"}% B', 'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
@@ -65,84 +72,84 @@ sub run_test_simple {
         $includeError ? "A  B" : 'A 1 B',
         Foswiki::Func::expandCommonVariables(
             'A %INCLUDE{"' . $includeTopic . '" warn="off"}% B', 'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
         '1 %STARTINCLUDE%2%ENDINCLUDE% 3' );
     $this->assert_str_equals(
         $includeError ? "A $includeError B" : 'A 2 B',
         Foswiki::Func::expandCommonVariables(
             'A %INCLUDE{"' . $includeTopic . '"}% B', 'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
         '1 %STARTSECTION{type="include"}%2%ENDSECTION{type="include"}% 3' );
     $this->assert_str_equals(
         $includeError ? "A $includeError B" : 'A 2 B',
         Foswiki::Func::expandCommonVariables(
             'A %INCLUDE{"' . $includeTopic . '"}% B', 'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
 '1 %STARTSECTION{type="include"}%2%STOPSECTION{type="include"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
     );
     $this->assert_str_equals(
         $includeError ? "A $includeError B" : 'A 24 B',
         Foswiki::Func::expandCommonVariables(
             'A %INCLUDE{"' . $includeTopic . '"}% B', 'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
         '1 %STARTSECTION%2%STOPSECTION% 3' );
     $this->assert_str_equals(
         $includeError ? "A $includeError B" : 'A 1 2 3 B',
         Foswiki::Func::expandCommonVariables(
             'A %INCLUDE{"' . $includeTopic . '"}% B', 'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
         '1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3' );
     $this->assert_str_equals(
         $includeError ? "A $includeError B" : 'A 1 2 3 B',
         Foswiki::Func::expandCommonVariables(
             'A %INCLUDE{"' . $includeTopic . '"}% B', 'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
 '1 %STARTSECTION{"_default"}%2%STOPSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
     );
     $this->assert_str_equals(
         $includeError ? "A $includeError B" : 'A 2 B',
         Foswiki::Func::expandCommonVariables(
             'A %INCLUDE{"' . $includeTopic . '" section="_default"}% B',
-            'WebHome', $this->{other_web}
+            'WebHome', $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
 '1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%STOPSECTION{type="include"}% 5'
     );
     $this->assert_str_equals(
         $noSectionError ? "A $noSectionError B" : 'A 2 B',
         Foswiki::Func::expandCommonVariables(
             'A %INCLUDE{"' . $includeTopic . '" section="notthere"}% B',
-            'WebHome', $this->{other_web}
+            'WebHome', $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
 '1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%STOPSECTION{type="include"}% 5'
     );
     $this->assert_str_equals(
@@ -152,11 +159,11 @@ sub run_test_simple {
               . $includeTopic
               . '" section="_default" warn="off"}% B',
             'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
 '1 %STARTSECTION{"_default"}%2%STOPSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
     );
     $this->assert_str_equals(
@@ -166,7 +173,7 @@ sub run_test_simple {
               . $includeTopic
               . '" section="notthere" warn="off"}% B',
             'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
@@ -252,14 +259,14 @@ sub test_first_not_there_commas {
 </span>";
     }
 
-    $this->run_test_simple( 'NotThere, ' . $this->{test_web} . '.FirstTopic',
+    $this->run_test_simple( 'NotThere, ' . $this->test_web . '.FirstTopic',
         $error, $errorSection );
 }
 
 sub test_first_not_there_spaces {
     my $this = shift;
     $this->run_test_simple(
-        'NotThere ' . $this->{test_web} . '.FirstTopic',
+        'NotThere ' . $this->test_web . '.FirstTopic',
         "<span class='foswikiAlert'>
     Warning: Can't find topic <nop>NotThere TemporaryINCLUDETestWebINCLUDE.<nop>FirstTopic 
 </span>"
@@ -270,7 +277,7 @@ sub test_first_not_there_newlines {
     my $this = shift;
     $this->run_test_simple(
         'NotThere
-' . $this->{test_web} . '.FirstTopic', "<span class='foswikiAlert'>
+' . $this->test_web . '.FirstTopic', "<span class='foswikiAlert'>
    Warning: Can't INCLUDE '<nop>NotThere
 TemporaryINCLUDETestWebINCLUDE.FirstTopic', path is empty or contains illegal characters. 
 </span>"
@@ -280,11 +287,11 @@ TemporaryINCLUDETestWebINCLUDE.FirstTopic', path is empty or contains illegal ch
 sub test_simple_section {
     my $this           = shift;
     my $includeSection = shift || '';
-    my $includeTopic   = shift || $this->{test_web} . '.FirstTopic';
+    my $includeTopic   = shift || $this->test_web . '.FirstTopic';
     my $includeError   = shift;
     my $noSectionError = shift || $includeError;
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef, '1' );
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef, '1' );
     $this->assert_str_equals(
         $noSectionError ? "A $noSectionError B" : 'A 1 B',
         Foswiki::Func::expandCommonVariables(
@@ -293,7 +300,7 @@ sub test_simple_section {
               . '" section="'
               . $includeSection . '"}% B',
             'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
@@ -306,11 +313,11 @@ sub test_simple_section {
               . $includeSection
               . '" warn="off"}% B',
             'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
         '1 %STARTINCLUDE%2%STOPINCLUDE% 3' );
     $this->assert_str_equals(
         $noSectionError ? "A $noSectionError B" : 'A 2 B',
@@ -320,11 +327,11 @@ sub test_simple_section {
               . '" section="'
               . $includeSection . '"}% B',
             'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
         '1 %STARTSECTION{type="include"}%2%STOPSECTION{type="include"}% 3' );
     $this->assert_str_equals(
         $noSectionError ? "A $noSectionError B" : 'A 2 B',
@@ -334,11 +341,11 @@ sub test_simple_section {
               . '" section="'
               . $includeSection . '"}% B',
             'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
 '1 %STARTSECTION{type="include"}%2%ENDSECTION{type="include"}% 3 %STARTSECTION{type="include"}%4%STOPSECTION{type="include"}% 5'
     );
     $this->assert_str_equals(
@@ -349,11 +356,11 @@ sub test_simple_section {
               . '" section="'
               . $includeSection . '"}% B',
             'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
         '1 %STARTSECTION%2%ENDSECTION% 3' );
     $this->assert_str_equals(
         $noSectionError ? "A $noSectionError B" : 'A 1 2 3 B',
@@ -363,11 +370,11 @@ sub test_simple_section {
               . '" section="'
               . $includeSection . '"}% B',
             'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
         '1 %STARTSECTION{"_default"}%2%STOPSECTION{"_default"}% 3' );
     $this->assert_str_equals(
         $noSectionError ? "A $noSectionError B" : 'A 1 2 3 B',
@@ -377,11 +384,11 @@ sub test_simple_section {
               . '" section="'
               . $includeSection . '"}% B',
             'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'FirstTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'FirstTopic', undef,
 '1 %STARTSECTION{"_default"}%2%ENDSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%STOPSECTION{type="include"}% 5'
     );
     $this->assert_str_equals(
@@ -393,7 +400,7 @@ sub test_simple_section {
               . $includeSection
               . '" section="_default"}% B',
             'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
@@ -419,7 +426,7 @@ sub test_select_first_that_defines_section {
     }
 
     $this->test_simple_section( 'section_name',
-        join( ', ', ( 'NoSuchTopic', $this->{test_web} . '.NoSuchTopic' ) ),
+        join( ', ', ( 'NoSuchTopic', $this->test_web . '.NoSuchTopic' ) ),
         $error );
 
     if ( $this->check_dependency('Foswiki,<,1.2') ) {
@@ -435,7 +442,7 @@ sub test_select_first_that_defines_section {
     }
 
     $this->test_simple_section( 'section_name',
-        join( ', ', ( 'NoSuchTopic', $this->{test_web} . '.FirstTopic' ) ),
+        join( ', ', ( 'NoSuchTopic', $this->test_web . '.FirstTopic' ) ),
         $error, $errorSection );
 
     if ( $this->check_dependency('Foswiki,<,1.2') ) {
@@ -450,7 +457,7 @@ sub test_select_first_that_defines_section {
 </span>";
     }
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'NoSection', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'NoSection', undef,
 '1 %STARTSECTION{"_default"}%2%STOPSECTION{"_default"}% 3 %STARTSECTION{type="include"}%4%ENDSECTION{type="include"}% 5'
     );
     $this->test_simple_section(
@@ -459,8 +466,8 @@ sub test_select_first_that_defines_section {
             ', ',
             (
                 'NoSuchTopic',
-                $this->{test_web} . '.NoSection',
-                $this->{test_web} . '.FirstTopic'
+                $this->test_web . '.NoSection',
+                $this->test_web . '.FirstTopic'
             )
         ),
         $error,
@@ -468,7 +475,7 @@ sub test_select_first_that_defines_section {
     );
 
     if ( !$this->check_dependency('Foswiki,<,1.2') ) {
-        Foswiki::Func::saveTopic( $this->{test_web}, 'TheSection', undef,
+        Foswiki::Func::saveTopic( $this->test_web, 'TheSection', undef,
 '1 %STARTSECTION{"section_name"}%::%ENDSECTION{"section_name"}% 3 %STARTSECTION{type="include"}%4%STOPSECTION{type="include"}% 5'
         );
         $this->assert_str_equals(
@@ -478,14 +485,14 @@ sub test_select_first_that_defines_section {
                   . join(
                     ', ',
                     (
-                        $this->{test_web} . '.TheSection',
+                        $this->test_web . '.TheSection',
                         'NoSuchTopic',
-                        $this->{test_web} . '.FirstTopic'
+                        $this->test_web . '.FirstTopic'
                     )
                   )
                   . '" section="section_name"}% B',
                 'WebHome',
-                $this->{other_web}
+                $this->other_web
             )
         );
         $this->assert_str_equals(
@@ -496,13 +503,13 @@ sub test_select_first_that_defines_section {
                     ', ',
                     (
                         'NoSuchTopic',
-                        $this->{test_web} . '.TheSection',
-                        $this->{test_web} . '.FirstTopic'
+                        $this->test_web . '.TheSection',
+                        $this->test_web . '.FirstTopic'
                     )
                   )
                   . '" section="section_name"}% B',
                 'WebHome',
-                $this->{other_web}
+                $this->other_web
             )
         );
         $this->assert_str_equals(
@@ -513,13 +520,13 @@ sub test_select_first_that_defines_section {
                     ', ',
                     (
                         'NoSuchTopic',
-                        $this->{test_web} . '.FirstTopic',
-                        $this->{test_web} . '.TheSection'
+                        $this->test_web . '.FirstTopic',
+                        $this->test_web . '.TheSection'
                     )
                   )
                   . '" section="section_name"}% B',
                 'WebHome',
-                $this->{other_web}
+                $this->other_web
             )
         );
     }
@@ -535,7 +542,7 @@ sub test_webExpansion {
     # Create topic to include
     my $includedTopic = "TopicToInclude";
     my ($inkyDink) =
-      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+      Foswiki::Func::readTopic( $this->other_web, $includedTopic );
     $inkyDink->text( <<THIS);
 <literal>
 1 [[$includedTopic][one]] $includedTopic
@@ -561,11 +568,13 @@ $includedTopic 6
 THIS
     $inkyDink->save();
 
+    my $other_web = $this->other_web;
+
     # Expand an include in the context of the test web
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
-    my $text = $topicObject->expandMacros(
-        "%INCLUDE{$this->{other_web}.$includedTopic}%");
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
+    my $text =
+      $topicObject->expandMacros("%INCLUDE{$other_web.$includedTopic}%");
     my @get    = split( /\n/, $text );
     my @expect = split( /\n/, <<THIS);
 <literal>
@@ -575,17 +584,17 @@ THIS
 2 [[$includedTopic][two]] $includedTopic
 </verbatim>
 <pre>
-3 [[$this->{other_web}.$includedTopic][three]] $this->{other_web}.$includedTopic
+3 [[$other_web.$includedTopic][three]] $other_web.$includedTopic
 </pre>
 <noautolink>
-4 [[$this->{other_web}.$includedTopic][four]] [[$this->{other_web}.$includedTopic][$includedTopic]] $includedTopic
+4 [[$other_web.$includedTopic][four]] [[$other_web.$includedTopic][$includedTopic]] $includedTopic
 </noautolink>
-5 [[$this->{other_web}.$includedTopic][five]] $this->{other_web}.$includedTopic
-$this->{other_web}.$includedTopic 6
-7 ($this->{other_web}.$includedTopic)
+5 [[$other_web.$includedTopic][five]] $other_web.$includedTopic
+$other_web.$includedTopic 6
+7 ($other_web.$includedTopic)
 8 #$includedTopic
 9 [[System.$includedTopic]]
-10 [[$this->{other_web}.$includedTopic][$includedTopic]]
+10 [[$other_web.$includedTopic][$includedTopic]]
 11 [[http://fleegle][$includedTopic]]
 12 [[#anchor][$includedTopic]]
 13 [[#$includedTopic][$includedTopic]]
@@ -602,7 +611,7 @@ sub test_3158 {
     my $this          = shift;
     my $includedTopic = "TopicToInclude";
     my ($inkyDink) =
-      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+      Foswiki::Func::readTopic( $this->other_web, $includedTopic );
     $inkyDink->text(<<THIS);
 Snurfle
 %STARTSECTION{"suction"}%
@@ -611,9 +620,10 @@ Such a section!
 Out of scope
 THIS
     $inkyDink->save();
+    my $other_web = $this->other_web;
     my $text =
-      $this->{test_topicObject}->expandMacros(
-        "%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\"}%");
+      $this->test_topicObject->expandMacros(
+        "%INCLUDE{\"$other_web.$includedTopic\" section=\"suction\"}%");
     $this->assert_str_equals( "\nSuch a section!\n", $text );
 
     $inkyDink->text(<<THIS);
@@ -625,15 +635,15 @@ THIS
 
     #warnings are off
     $text =
-      $this->{test_topicObject}->expandMacros(
-"%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\" warn=\"off\"}%"
+      $this->test_topicObject->expandMacros(
+"%INCLUDE{\"$other_web.$includedTopic\" section=\"suction\" warn=\"off\"}%"
       );
     $this->assert_str_equals( '', $text );
 
     #warning on
     $text =
-      $this->{test_topicObject}->expandMacros(
-"%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\" warn=\"on\"}%"
+      $this->test_topicObject->expandMacros(
+"%INCLUDE{\"$other_web.$includedTopic\" section=\"suction\" warn=\"on\"}%"
       );
     $this->assert_str_equals( <<HERE, $text . "\n" );
 <span class='foswikiAlert'>
@@ -643,15 +653,15 @@ HERE
 
     #custom warning
     $text =
-      $this->{test_topicObject}->expandMacros(
-"%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\" warn=\"consider yourself warned\"}%"
+      $this->test_topicObject->expandMacros(
+"%INCLUDE{\"$other_web.$includedTopic\" section=\"suction\" warn=\"consider yourself warned\"}%"
       );
     $this->assert_str_equals( 'consider yourself warned', $text );
 
     #custom warning with delayed evaluation
     $text =
-      $this->{test_topicObject}->expandMacros(
-"%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\" warn=\"\$percntX\$percnt consider yourself \$quotwarned\$quot\"}%"
+      $this->test_topicObject->expandMacros(
+"%INCLUDE{\"$other_web.$includedTopic\" section=\"suction\" warn=\"\$percntX\$percnt consider yourself \$quotwarned\$quot\"}%"
       );
     $this->assert_matches(
 qr#<img src=".*System/DocumentGraphics/warning.png" alt="ALERT!" title="ALERT!" width="16" height="16" /> consider yourself "warned"#,
@@ -673,13 +683,14 @@ THIS
     my $handledTopicText = $topicText;
     $handledTopicText =~ s/%(START|STOP|END)SECTION\{"suction"\}%//g;
 
+    my $other_web = $this->other_web;
     my ($inkyDink) =
-      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+      Foswiki::Func::readTopic( $this->other_web, $includedTopic );
     $inkyDink->text($topicText);
     $inkyDink->save();
     my $text =
-      $this->{test_topicObject}->expandMacros(
-        "%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"\"}%");
+      $this->test_topicObject->expandMacros(
+        "%INCLUDE{\"$other_web.$includedTopic\" section=\"\"}%");
     $this->assert_str_equals( $handledTopicText, $text . "\n" )
       ;    #add \n because expandMacros removes it :/
 }
@@ -687,8 +698,8 @@ THIS
 sub test_singlequoted_params {
     my $this = shift;
     my $text =
-      $this->{test_topicObject}
-      ->expandMacros("%INCLUDE{'Oneweb.SomeTopic' section='suction'}%");
+      $this->test_topicObject->expandMacros(
+        "%INCLUDE{'Oneweb.SomeTopic' section='suction'}%");
     $this->assert_str_equals(
         "<span class='foswikiAlert'>
    Warning: Can't INCLUDE '<nop>'Oneweb.SomeTopic' section='suction'', path is empty or contains illegal characters. 
@@ -696,8 +707,8 @@ sub test_singlequoted_params {
     );
 
     $text =
-      $this->{test_topicObject}
-      ->expandMacros('%INCLUDE{"I can\'t believe its not butter"}%');
+      $this->test_topicObject->expandMacros(
+        '%INCLUDE{"I can\'t believe its not butter"}%');
     $this->assert_str_equals(
         "<span class='foswikiAlert'>
    Warning: Can't INCLUDE '<nop>I can't believe its not butter', path is empty or contains illegal characters. 
@@ -715,13 +726,14 @@ Yes sir, yes sir
 But only in acrylic
 THIS
 
+    my $other_web = $this->other_web;
     my ($inkyDink) =
-      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+      Foswiki::Func::readTopic( $this->other_web, $includedTopic );
     $inkyDink->text($topicText);
     $inkyDink->save();
     my $text =
-      $this->{test_topicObject}->expandMacros(
-"%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\"^.*?(Have.*sir).*\"}%"
+      $this->test_topicObject->expandMacros(
+        "%INCLUDE{\"$other_web.$includedTopic\" pattern=\"^.*?(Have.*sir).*\"}%"
       );
     $this->assert_str_equals( "Have you any socks?\nYes sir, yes sir", $text );
 }
@@ -736,14 +748,14 @@ Yes sir, yes sir
 But only in acrylic
 THIS
 
+    my $other_web = $this->other_web;
     my ($inkyDink) =
-      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+      Foswiki::Func::readTopic( $this->other_web, $includedTopic );
     $inkyDink->text($topicText);
     $inkyDink->save();
     my $text =
-      $this->{test_topicObject}->expandMacros(
-"%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\"(Have.*sir)\"}%"
-      );
+      $this->test_topicObject->expandMacros(
+        "%INCLUDE{\"$other_web.$includedTopic\" pattern=\"(Have.*sir)\"}%");
     $this->assert_str_equals( "Have you any socks?\nYes sir, yes sir", $text );
 }
 
@@ -758,13 +770,14 @@ Yes sir, yes sir
 But only in acrylic
 THIS
 
+    my $other_web = $this->other_web;
     my ($inkyDink) =
-      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+      Foswiki::Func::readTopic( $this->other_web, $includedTopic );
     $inkyDink->text($topicText);
     $inkyDink->save();
     my $text =
-      $this->{test_topicObject}->expandMacros(
-        "%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\"(blah)\"}%");
+      $this->test_topicObject->expandMacros(
+        "%INCLUDE{\"$other_web.$includedTopic\" pattern=\"(blah)\"}%");
     $this->assert_str_equals( "", $text );
 }
 
@@ -779,13 +792,14 @@ Yes sir, yes sir
 But only in acrylic
 THIS
 
+    my $other_web = $this->other_web;
     my ($inkyDink) =
-      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+      Foswiki::Func::readTopic( $this->other_web, $includedTopic );
     $inkyDink->text($topicText);
     $inkyDink->save();
     my $text =
-      $this->{test_topicObject}->expandMacros(
-        "%INCLUDE{\"$this->{other_web}.$includedTopic\" pattern=\".*\"}%");
+      $this->test_topicObject->expandMacros(
+        "%INCLUDE{\"$other_web.$includedTopic\" pattern=\".*\"}%");
     $this->assert_str_equals( "", $text );
 }
 
@@ -793,7 +807,7 @@ sub test_docInclude {
     my $this = shift;
 
     my $class = 'Foswiki::IncludeHandlers::doc';
-    my $text = $this->{test_topicObject}->expandMacros("%INCLUDE{doc:$class}%");
+    my $text  = $this->test_topicObject->expandMacros("%INCLUDE{doc:$class}%");
     my $expected = <<"EXPECTED";
 
 ---+ =internal package= Foswiki::IncludeHandlers::doc
@@ -807,21 +821,21 @@ EXPECTED
 
     # Add a pattern
     $text =
-      $this->{test_topicObject}->expandMacros(
+      $this->test_topicObject->expandMacros(
         "%INCLUDE{\"doc:$class\" pattern=\"(Foswiki .*protocol)\"}%");
     $expected = "Foswiki sees\nan INCLUDE macro with the doc: protocol";
     $this->assert_str_equals( $expected, $text );
 
     # A pattern with no ()'s
     $text =
-      $this->{test_topicObject}->expandMacros(
+      $this->test_topicObject->expandMacros(
         "%INCLUDE{\"doc:$class\" pattern=\"Foswiki .*protocol\"}%");
     $expected = '';
     $this->assert_str_equals( $expected, $text );
 
     # A pattern that does not match
     $text =
-      $this->{test_topicObject}->expandMacros(
+      $this->test_topicObject->expandMacros(
         "%INCLUDE{\"doc:$class\" pattern=\"(cabbage.*avocado)\" warn=\"no\"}%");
     $expected = '';
     $this->assert_str_equals( $expected, $text );
@@ -833,7 +847,7 @@ sub test_hassleFreeHoff {
     # Create topic to include
     my $includedTopic = "TopicToInclude";
     my ($inkyDink) =
-      Foswiki::Func::readTopic( $this->{test_web}, $includedTopic );
+      Foswiki::Func::readTopic( $this->test_web, $includedTopic );
     $inkyDink->text( <<INCLUDE);
 ---+ H1
 ---++ H2
@@ -855,7 +869,7 @@ INCLUDE
     $inkyDink->save();
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     my $text = $topicObject->expandMacros(<<EXPAND);
 %INCLUDE{"$includedTopic" headingoffset="1"}%
 %INCLUDE{"$includedTopic" headingoffset="+1"}%
@@ -916,10 +930,9 @@ sub test_SECTION_defaults {
     my $this = shift;
     my $includeTopic = shift || 'FirstTopic';
 
-    my $includeWebTopic = $this->{test_web} . '.' . $includeTopic;
+    my $includeWebTopic = $this->test_web . '.' . $includeTopic;
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $includeTopic, undef,
-        <<'HERE' );
+    Foswiki::Func::saveTopic( $this->test_web, $includeTopic, undef, <<'HERE' );
 PPPPPP %STARTSECTION{"one" one="1" two="2"}% %one% %two% %TOPIC% %three% %last% %ENDSECTION{"one" last="999"}% OOOOOOO
 HERE
 
@@ -927,11 +940,11 @@ HERE
         'A  1 2 TemporaryINCLUDETestWebINCLUDE.FirstTopic %three% %last%  B',
         Foswiki::Func::expandCommonVariables(
             'A %INCLUDE{"' . $includeWebTopic . '" section="one"}% B',
-            'WebHome', $this->{other_web}
+            'WebHome', $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $includeTopic . 'Next',
+    Foswiki::Func::saveTopic( $this->test_web, $includeTopic . 'Next',
         undef, <<'HERE' );
 %STARTSECTION{"one" one="_"}% %one% %two% - %INCLUDE{"%nest%" section="one"}% - %three% %last% %ENDSECTION{"one" last="999"}%
 HERE
@@ -945,7 +958,7 @@ HERE
               . $includeWebTopic
               . '" one="bibble" three="ONCELER" TOPIC="notlikely"}% B',
             'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
@@ -957,11 +970,11 @@ HERE
               . 'Next" section="one" nest="'
               . $includeWebTopic . '"}% B',
             'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $includeTopic . 'Next',
+    Foswiki::Func::saveTopic( $this->test_web, $includeTopic . 'Next',
         undef, <<'HERE' );
 %STARTSECTION{"one" one="_"}% %one% %two% - %INCLUDE{"%nest%" section="one" one="%one%"}% - %three% %last% %STOPSECTION{"one" last="999"}%
 HERE
@@ -974,7 +987,7 @@ HERE
               . 'Next" section="one" nest="'
               . $includeWebTopic . '"}% B',
             'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
     $this->assert_str_equals(
@@ -986,7 +999,7 @@ HERE
               . $includeWebTopic
               . '" one="bibble" three="ONCELER"}% B',
             'WebHome',
-            $this->{other_web}
+            $this->other_web
         )
     );
 
@@ -1000,7 +1013,7 @@ sub test_webExpansion_NOAUTOLINK {
     # Create topic to include
     my $includedTopic = "TopicToInclude";
     my ($inkyDink) =
-      Foswiki::Func::readTopic( $this->{other_web}, $includedTopic );
+      Foswiki::Func::readTopic( $this->other_web, $includedTopic );
     $inkyDink->text( <<THIS);
 <literal>
 1 [[$includedTopic][one]] $includedTopic
@@ -1026,11 +1039,13 @@ THIS
 
     Foswiki::Func::setPreferencesValue( 'NOAUTOLINK', 'on' );
 
+    my $other_web = $this->other_web;
+
     # Expand an include in the context of the test web
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
-    my $text = $topicObject->expandMacros(
-        "%INCLUDE{$this->{other_web}.$includedTopic}%");
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
+    my $text =
+      $topicObject->expandMacros("%INCLUDE{$other_web.$includedTopic}%");
     my @get    = split( /\n/, $text );
     my @expect = split( /\n/, <<THIS);
 <literal>
@@ -1040,15 +1055,15 @@ THIS
 2 [[$includedTopic][two]] $includedTopic
 </verbatim>
 <pre>
-3 [[$this->{other_web}.$includedTopic][three]] $includedTopic
+3 [[$other_web.$includedTopic][three]] $includedTopic
 </pre>
-4 [[$this->{other_web}.$includedTopic][four]] [[$this->{other_web}.$includedTopic][$includedTopic]] $includedTopic
-5 [[$this->{other_web}.$includedTopic][five]] $includedTopic
+4 [[$other_web.$includedTopic][four]] [[$other_web.$includedTopic][$includedTopic]] $includedTopic
+5 [[$other_web.$includedTopic][five]] $includedTopic
 $includedTopic 6
 7 ($includedTopic)
 8 #$includedTopic
 9 [[System.$includedTopic]]
-10 [[$this->{other_web}.$includedTopic][$includedTopic]]
+10 [[$other_web.$includedTopic][$includedTopic]]
 11 [[http://fleegle][$includedTopic]]
 12 [[#anchor][$includedTopic]]
 13 [[#$includedTopic][$includedTopic]]

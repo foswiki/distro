@@ -1,36 +1,37 @@
 # tests for the correct expansion of QUERY
 
 package Fn_QUERY;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki;
 use Foswiki::Configure::Dependency ();
 use Foswiki::Sandbox;
-use Error qw( :try );
+use Try::Tiny;
 use Assert;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 my $post11;
 
-sub new {
-    my $self = shift()->SUPER::new( 'QUERY', @_ );
-    my $dep = new Foswiki::Configure::Dependency(
+around BUILDARGS => sub {
+    my $orig   = shift;
+    my $params = $orig->( @_, testSuite => 'QUERY' );
+    my $dep    = Foswiki::Configure::Dependency->new(
         type    => "perl",
         module  => "Foswiki",
         version => ">=1.2"
     );
     ( $post11, my $depmsg ) = $dep->checkDependency();
 
-    return $self;
-}
+    return $params;
+};
 
 sub skip {
     my ( $this, $test ) = @_;
 
-    return $this->SUPER::skip_test_if(
+    return $this->skip_test_if(
         $test,
         {
             condition => { with_dep => 'Foswiki,<,1.2' },
@@ -45,10 +46,9 @@ sub skip {
 
 sub simpleTest {
     my ( $this, %test ) = @_;
-    $this->{session}->enterContext('test');
+    $this->session->enterContext('test');
     my $text =
-      $this->{test_topicObject}
-      ->expandMacros( '%QUERY{"' . $test{test} . '"}%' );
+      $this->test_topicObject->expandMacros( '%QUERY{"' . $test{test} . '"}%' );
 
     #print STDERR "$text => $result\n";
     $this->assert_equals( $test{expect}, $text );
@@ -132,14 +132,14 @@ sub test_badQUERY {
       unless ($post11);
 
     foreach my $test (@tests) {
-        my $text   = '%QUERY{"' . $test->{test} . '"}%';
-        my $result = $this->{test_topicObject}->expandMacros($text);
+        my $text   = '%QUERY{"' . $test->test . '"}%';
+        my $result = $this->test_topicObject->expandMacros($text);
         $result =~ s/^.*foswikiAlert'>\s*//s;
         $result =~ s/\s*<\/span>\s*//s;
         $this->assert( $result =~ s/^.*}:\s*//s, $text );
-        $this->assert_str_equals( $test->{expect}, $result );
+        $this->assert_str_equals( $test->expect, $result );
     }
-    my $result = $this->{test_topicObject}->expandMacros('%QUERY%');
+    my $result = $this->test_topicObject->expandMacros('%QUERY%');
 
     if ($post11) {
         $this->assert_str_equals( '', $result );
@@ -156,7 +156,7 @@ sub test_CAS {
     my $this = shift;
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
+      Foswiki::Func::readTopic( $this->test_web, "DeadHerring" );
     $topicObject->text( <<'SMELL');
 %QUERY{ "BleaghForm.Wibble" }%
 %QUERY{ "Wibble" }%
@@ -170,7 +170,7 @@ SMELL
     my $text = <<'PONG';
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
-    my $result = $this->{test_topicObject}->expandMacros($text);
+    my $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 Woo
 Woo
@@ -183,7 +183,7 @@ sub test_perl {
     my $this = shift;
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
+      Foswiki::Func::readTopic( $this->test_web, "DeadHerring" );
     $topicObject->text( <<'SMELL');
 [%QUERY{ "Wibble" style="perl" }%,
 %QUERY{ "attachments.name" style="perl" }%,
@@ -197,7 +197,7 @@ SMELL
     my $text = <<'PONG';
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
-    my $result = $this->{test_topicObject}->expandMacros($text);
+    my $result = $this->test_topicObject->expandMacros($text);
     $result = Foswiki::Sandbox::untaintUnchecked($result);
     $result = eval $result;
     $this->assert( !$@, $@ );
@@ -229,7 +229,7 @@ sub test_json {
     my $this = shift;
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
+      Foswiki::Func::readTopic( $this->test_web, "DeadHerring" );
     $topicObject->text( <<'SMELL');
 [
 %QUERY{ "Wibble" style="json"}%,
@@ -245,7 +245,7 @@ SMELL
     my $text = <<'PONG';
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
-    my $result = $this->{test_topicObject}->expandMacros($text);
+    my $result = $this->test_topicObject->expandMacros($text);
     eval "require JSON";
     if ($@) {
 
@@ -272,7 +272,7 @@ sub test_InvalidStyle {
     my $this = shift;
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
+      Foswiki::Func::readTopic( $this->test_web, "DeadHerring" );
     $topicObject->text( <<'SMELL');
 %QUERY{ "BleaghForm.Wibble"  style="NoSuchStyle" }%
 %QUERY{ "Wibble"  style="NoSuchStyle" }%
@@ -286,7 +286,7 @@ SMELL
     my $text = <<'PONG';
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
-    my $result = $this->{test_topicObject}->expandMacros($text);
+    my $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 Woo
 Woo
@@ -298,8 +298,9 @@ THIS
 sub test_ref {
     my $this = shift;
 
-    my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
+    my $test_web = $this->test_web;
+
+    my ($topicObject) = Foswiki::Func::readTopic( $test_web, "DeadHerring" );
     $topicObject->text( <<'SMELL');
 %META:FORM{name="BleaghForm"}%
 %META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
@@ -309,10 +310,10 @@ SMELL
     $topicObject->save();
 
     my $text = <<PONG;
-%QUERY{ "'$this->{test_web}.DeadHerring'/form.name"}%
-%QUERY{ "'$this->{test_web}.DeadHerring'/attachments.name" }%
+%QUERY{ "'$test_web.DeadHerring'/form.name"}%
+%QUERY{ "'$test_web.DeadHerring'/attachments.name" }%
 PONG
-    my $result = $this->{test_topicObject}->expandMacros($text);
+    my $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 BleaghForm
 whatsnot.gif,World.gif
@@ -326,7 +327,7 @@ sub test_cfg {
     # Check a few that should be hidden
     foreach my $var ( '{Htpasswd}{FileName}', '{Password}', '{ScriptDir}' ) {
         my $text   = "%QUERY{\"$var\"}%";
-        my $result = $this->{test_topicObject}->expandMacros($text);
+        my $result = $this->test_topicObject->expandMacros($text);
         $this->assert_equals( '', $result );
     }
 
@@ -335,7 +336,7 @@ sub test_cfg {
         @{ $Foswiki::cfg{AccessibleCFG} } )
     {
         my $text   = "%QUERY{\"$var\"}%";
-        my $result = $this->{test_topicObject}->expandMacros($text);
+        my $result = $this->test_topicObject->expandMacros($text);
         while ( $result =~ s/^\(?xism:(.*)\)$/$1/ ) {
         }
         my $expected = eval("\$Foswiki::cfg$var");
@@ -363,8 +364,9 @@ sub test_cfg {
 sub test_opWHERE {
     my $this = shift;
 
-    my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring" );
+    my $test_web = $this->test_web;
+
+    my ($topicObject) = Foswiki::Func::readTopic( $test_web, "DeadHerring" );
     $topicObject->text( <<'SMELL');
 %META:FORM{name="BleaghForm"}%
 %META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
@@ -373,7 +375,7 @@ SMELL
     $topicObject->save();
 
     my ($topicObject2Att) =
-      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring2Att" );
+      Foswiki::Func::readTopic( $test_web, "DeadHerring2Att" );
     $topicObject2Att->text( <<'SMELL');
 %META:FORM{name="BleaghForm"}%
 %META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
@@ -383,7 +385,7 @@ SMELL
     $topicObject2Att->save();
 
     my ($topicObject0Att) =
-      Foswiki::Func::readTopic( $this->{test_web}, "DeadHerring0Att" );
+      Foswiki::Func::readTopic( $test_web, "DeadHerring0Att" );
     $topicObject0Att->text( <<'SMELL');
 %META:FORM{name="BleaghForm"}%
 %META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
@@ -391,49 +393,49 @@ SMELL
     $topicObject0Att->save();
 
     my $text = <<PONG;
-%QUERY{ "'$this->{test_web}.DeadHerring'/META:FIELD[name='Wibble'].value"}%
+%QUERY{ "'$test_web}.DeadHerring'/META:FIELD[name='Wibble'].value"}%
 PONG
-    my $result = $this->{test_topicObject}->expandMacros($text);
+    my $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 Woo
 THIS
 
     $text = <<PONG;
-%QUERY{"'$this->{test_web}.DeadHerring'/attachments[comment='Wobble'].name"}%
+%QUERY{"'$test_web.DeadHerring'/attachments[comment='Wobble'].name"}%
 PONG
-    $result = $this->{test_topicObject}->expandMacros($text);
+    $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 asdf.pl.txt
 THIS
 
     $text = <<PONG;
-%QUERY{"'$this->{test_web}.DeadHerring2Att'/attachments[comment='Wobble'].name"}%
+%QUERY{"'$test_web.DeadHerring2Att'/attachments[comment='Wobble'].name"}%
 PONG
-    $result = $this->{test_topicObject}->expandMacros($text);
+    $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 asdf.pl.txt
 THIS
 
     $text = <<PONG;
-%QUERY{"'$this->{test_web}.DeadHerring0Att'/attachments[comment='Wobble'].name"}%
+%QUERY{"'$test_web.DeadHerring0Att'/attachments[comment='Wobble'].name"}%
 PONG
-    $result = $this->{test_topicObject}->expandMacros($text);
+    $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 
 THIS
 
     $text = <<PONG;
-%QUERY{"'$this->{test_web}.DeadHerring'/attachments[comment='Wobble Trouble'].name"}%
+%QUERY{"'$test_web.DeadHerring'/attachments[comment='Wobble Trouble'].name"}%
 PONG
-    $result = $this->{test_topicObject}->expandMacros($text);
+    $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 
 THIS
 
     $text = <<PONG;
-%QUERY{"'$this->{test_web}.DeadHerring2Att'/attachments[comment='Wobble Trouble'].name"}%
+%QUERY{"'$test_web.DeadHerring2Att'/attachments[comment='Wobble Trouble'].name"}%
 PONG
-    $result = $this->{test_topicObject}->expandMacros($text);
+    $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 
 THIS
@@ -443,57 +445,57 @@ THIS
     ##################################################
 
     $text = <<PONG;
-%QUERY{"'$this->{test_web}.DeadHerring'/attachments[0].comment"}%
+%QUERY{"'$test_web.DeadHerring'/attachments[0].comment"}%
 PONG
-    $result = $this->{test_topicObject}->expandMacros($text);
+    $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 Wobble
 THIS
 
     $text = <<PONG;
-%QUERY{"'$this->{test_web}.DeadHerring'/attachments[1].comment"}%
+%QUERY{"'$test_web.DeadHerring'/attachments[1].comment"}%
 PONG
-    $result = $this->{test_topicObject}->expandMacros($text);
+    $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 
 THIS
 
     $text = <<PONG;
-%QUERY{"'$this->{test_web}.DeadHerring2Att'/attachments[0].comment"}%
+%QUERY{"'$test_web.DeadHerring2Att'/attachments[0].comment"}%
 PONG
-    $result = $this->{test_topicObject}->expandMacros($text);
+    $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 Wobble
 THIS
 
     $text = <<PONG;
-%QUERY{"'$this->{test_web}.DeadHerring2Att'/attachments[1].comment"}%
+%QUERY{"'$test_web.DeadHerring2Att'/attachments[1].comment"}%
 PONG
-    $result = $this->{test_topicObject}->expandMacros($text);
+    $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 Wobble2
 THIS
 
     $text = <<PONG;
-%QUERY{"'$this->{test_web}.DeadHerring2Att'/attachments[2].comment"}%
+%QUERY{"'$test_web.DeadHerring2Att'/attachments[2].comment"}%
 PONG
-    $result = $this->{test_topicObject}->expandMacros($text);
+    $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 
 THIS
 
     $text = <<PONG;
-%QUERY{"'$this->{test_web}.DeadHerring0Att'/attachments[0].comment"}%
+%QUERY{"'$test_web.DeadHerring0Att'/attachments[0].comment"}%
 PONG
-    $result = $this->{test_topicObject}->expandMacros($text);
+    $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 
 THIS
 
     $text = <<PONG;
-%QUERY{"'$this->{test_web}.DeadHerring0Att'/attachments[7].comment"}%
+%QUERY{"'$test_web.DeadHerring0Att'/attachments[7].comment"}%
 PONG
-    $result = $this->{test_topicObject}->expandMacros($text);
+    $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 
 THIS
@@ -513,7 +515,7 @@ sub test_FormTypes {
     $text = <<PONG;
 %QUERY{"{FormTypes}[].types"}%
 PONG
-    $result = $this->{test_topicObject}->expandMacros($text);
+    $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );
 
 THIS

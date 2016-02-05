@@ -173,11 +173,11 @@ has i18n => (
     clearer   => 1,
     predicate => 1,
     default   => sub {
-        require Foswiki::I18N;
+        load_package('Foswiki::I18N');
 
         # language information; must be loaded after
         # *all possible preferences sources* are available
-        new Foswiki::I18N( $_[0] );
+        Foswiki::I18N->new( session => $_[0] );
     },
 );
 has invalidTopic => (

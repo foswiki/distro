@@ -22,7 +22,7 @@ sub LANGUAGES {
     my $marker = $params->{marker} || 'selected="selected"';
 
     # $languages is a hash reference:
-    my $languages = $this->i18n->enabled_languages();
+    my $languages = $this->i18n->enabled_languages;
 
     my @tags = sort( keys( %{$languages} ) );
 

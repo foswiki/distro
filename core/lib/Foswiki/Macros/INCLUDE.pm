@@ -27,7 +27,8 @@ has _INCLUDES => (
 sub applyPatternToIncludedText {
     my ( $text, $pattern ) = @_;
 
-    $pattern = Foswiki::Sandbox::untaint( $pattern, \&validatePattern );
+    $pattern =
+      Foswiki::Sandbox::untaint( $pattern, \&Foswiki::validatePattern );
 
     my $ok = 0;
     eval {
@@ -119,7 +120,7 @@ sub _includeWarning {
     if ( $warn eq 'on' ) {
         return $this->session->inlineAlert( 'alerts', $message, @_ );
     }
-    elsif ( isTrue($warn) ) {
+    elsif ( Foswiki::isTrue($warn) ) {
 
         # different inlineAlerts need different argument counts
         my $argument = '';
@@ -200,7 +201,7 @@ sub _includeTopic {
       Foswiki::Meta->load( $session, $includedWeb, $includedTopic,
         $control->{rev} );
     unless ( $includedTopicObject->haveAccess('VIEW') ) {
-        if ( isTrue( $control->{warn} ) ) {
+        if ( Foswiki::isTrue( $control->{warn} ) ) {
             return $session->inlineAlert( 'alerts', 'access_denied',
                 "[[$includedWeb.$includedTopic]]" ),
               'access_denied';
@@ -355,8 +356,19 @@ sub _includeTopic {
                 );
 
                 # handle tags again because of plugin hook
-                innerExpandMacros( $this, \$text, $includedTopicObject );
+                $session->innerExpandMacros( \$text, $includedTopicObject );
             }
+        }
+    }
+    catch {
+        my $e = $_;
+        unless ( ref($e) ) {
+
+            # Plain text means it's a die event.
+            Foswiki::Exception::Fatal->throw( text => $e );
+        }
+        else {
+            Foswiki::Exception->rethrow($e);
         }
     }
     finally {

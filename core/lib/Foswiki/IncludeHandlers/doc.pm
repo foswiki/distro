@@ -130,7 +130,9 @@ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
         Foswiki::Func::setPreferencesValue( 'SMELLS', $podSmell );
     }
 
-    $pod = Foswiki::applyPatternToIncludedText( $pod, $control->{pattern} )
+    $pod =
+      Foswiki::Macros::INCLUDE::applyPatternToIncludedText( $pod,
+        $control->{pattern} )
       if ( $control->{pattern} );
 
     # Adjust the root heading level

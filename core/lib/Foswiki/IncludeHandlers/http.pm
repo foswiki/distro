@@ -82,7 +82,8 @@ sub INCLUDE {
                 $text = _cleanupIncludedHTML( $text, $1, $2, $options );
             }
             $text =
-              Foswiki::applyPatternToIncludedText( $text, $control->{pattern} )
+              Foswiki::Macros::INCLUDE::applyPatternToIncludedText( $text,
+                $control->{pattern} )
               if ( $control->{pattern} );
             $text = "<literal>\n" . $text . "\n</literal>"
               if ( $options->{literal} );
@@ -123,7 +124,8 @@ sub INCLUDE {
                 $contentType );
         }
         $text =
-          Foswiki::applyPatternToIncludedText( $text, $control->{pattern} )
+          Foswiki::Macros::INCLUDE::applyPatternToIncludedText( $text,
+            $control->{pattern} )
           if ( $control->{pattern} );
         $text = "<literal>\n" . $text . "\n</literal>"
           if ( $options->{literal} );

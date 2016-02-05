@@ -3,32 +3,17 @@
 # Locale::Maketext isn't available.
 
 package Foswiki::I18N::Fallback;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::I18N ();
-our @ISA = ('Foswiki::I18N');
+use Moo;
+extends qw(Foswiki::Object);
+with qw(Foswiki::I18N::LanguageHandler);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
         import locale();
     }
-}
-
-sub new {
-    my $class = shift;
-    my $this = bless( {}, $class );
-    return $this;
-}
-
-sub finish {
-
-    # No data, nothing to do.
-    # Must call SUPER finish to avoid memory leaks
-    my $this = shift;
-    $this->SUPER::finish(@_);
 }
 
 sub maketext {
@@ -62,24 +47,21 @@ sub _handlePlurals {
       );
 }
 
-sub language {
+sub language_tag {
     return 'en';
 }
 
-sub enabled_languages {
-    my $this = shift;
-    return $this->{enabled_languages};
-}
-
-sub fromSiteCharSet {
-    my ( $this, $text ) = @_;
-    return $text;
-}
-
-sub toSiteCharSet {
-    my ( $this, $text ) = @_;
-    return $text;
-}
+# XXX vrurg fromSiteCharSet/toSiteCharSet are been used nowhere across the code.
+# They're neither implemented on Foswiki::I18N nor inherited.
+#sub fromSiteCharSet {
+#    my ( $this, $text ) = @_;
+#    return $text;
+#}
+#
+#sub toSiteCharSet {
+#    my ( $this, $text ) = @_;
+#    return $text;
+#}
 
 1;
 __END__

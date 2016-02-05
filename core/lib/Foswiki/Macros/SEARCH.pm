@@ -3,6 +3,8 @@ package Foswiki;
 
 use strict;
 use warnings;
+use Try::Tiny;
+use Assert;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -19,7 +21,7 @@ sub SEARCH {
     $params->{baseweb}   = $topicObject->web;
     $params->{basetopic} = $topicObject->topic;
     $params->{search}    = $params->{_DEFAULT} if defined $params->{_DEFAULT};
-    $params->{type}      = $this->{prefs}->getPreference('SEARCHVARDEFAULTTYPE')
+    $params->{type}      = $this->prefs->getPreference('SEARCHVARDEFAULTTYPE')
       unless ( $params->{type} );
 
 #TODO: this is a common default that should be extracted into a 'test, default and refine' parameters for all formatResult calls
@@ -46,7 +48,7 @@ sub SEARCH {
             $message = $exception->stringify();
         }
         else {
-            $message = $exception->{-text};
+            $message = $exception->text;
             my @lines = split( /\n/, $message );
             $message = $lines[0];
             $message =~ s/ at .*? line \d+\.?$//;

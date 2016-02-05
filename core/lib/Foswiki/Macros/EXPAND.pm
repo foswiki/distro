@@ -30,7 +30,7 @@ sub EXPAND {
         $this->prefs->pushTopicContext( $web, $topic );
     }
     else {
-        $meta = Foswiki::Meta->( $this, $this->webName, $this->topicName );
+        $meta = Foswiki::Meta->new( $this, $this->webName, $this->topicName );
     }
     my $expansion = $meta->expandMacros($macro);
     if ($scope) {

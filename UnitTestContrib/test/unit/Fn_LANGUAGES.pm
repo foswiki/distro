@@ -1,49 +1,64 @@
 # tests for the correct expansion of LANGUAGES
 
 package Fn_LANGUAGES;
-use strict;
-use warnings;
+use v5.14;
 use utf8;
 
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
-
 use Foswiki;
-use Error qw( :try );
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 my $topicObject;
 
 # Force reload of I18N in case it wasn't enabled
-if ( delete $INC{'Foswiki/I18N.pm'} ) {
+#if ( delete $INC{'Foswiki/I18N.pm'} ) {
+#
+#    # Clean the symbol table to remove loaded subs
+#    no strict 'refs';
+#    @Foswiki::I18N::Base::ISA = ();
+#    my $symtab = "Foswiki::I18N::Base::";
+#    foreach my $symbol ( keys %{$symtab} ) {
+#        next if $symbol =~ m/\A[^:]+::\z/;
+#        delete $symtab->{$symbol};
+#    }
+#}
 
-    # Clean the symbol table to remove loaded subs
-    no strict 'refs';
-    @Foswiki::I18N::ISA = ();
-    my $symtab = "Foswiki::I18N::";
-    foreach my $symbol ( keys %{$symtab} ) {
-        next if $symbol =~ m/\A[^:]+::\z/;
-        delete $symtab->{$symbol};
-    }
-}
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
 
-sub new {
-    my $self = shift()->SUPER::new( 'LANGUAGES', @_ );
-    return $self;
-}
+    return $orig->( $class, @_, testSuite => 'LANGUAGES' );
+};
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
+    $this->__EnvReset->{$_} = undef
+      foreach grep { /(?:^LANG$|^LC_)/ } keys %ENV;
 
-    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'WebHome' );
-}
+    $orig->( $this, @_ );
 
-sub loadExtraConfig {
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'WebHome' );
+
+};
+
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::loadExtraConfig();
+
+    $orig->( $this, @_ );
+};
+
+around loadExtraConfig => sub {
+    my $orig = shift;
+    my $this = shift;
+    $orig->( $this, @_ );
     setLocalSite();
-}
+};
 
 sub setLocalSite {
     $Foswiki::cfg{WebMasterEmail}                    = 'a.b@c.org';
@@ -55,6 +70,7 @@ sub setLocalSite {
     $Foswiki::cfg{Languages}{fr}{Enabled} = 1;
     $Foswiki::cfg{Languages}{it}{Enabled} = 1;
     $Foswiki::cfg{Languages}{ru}{Enabled} = 1;
+    $Foswiki::cfg{Languages}{uk}{Enabled} = 1;
 }
 
 sub test_simple {
@@ -67,6 +83,7 @@ sub test_simple {
    * Français
    * Italiano
    * Русский
+   * Українська
 LANGS
     chomp $expected;
     $this->assert_str_equals( $expected, $result );
@@ -78,7 +95,7 @@ sub test_format {
     my $result = $topicObject->expandMacros(
         '%LANGUAGES{format="$langtag-$langname" separator="|"}%');
     my $expected = <<LANGS;
-de-Deutsch|en-English|fr-Français|it-Italiano|ru-Русский
+de-Deutsch|en-English|fr-Français|it-Italiano|ru-Русский|uk-Українська
 LANGS
     chomp $expected;
     $this->assert_str_equals( $expected, $result );
@@ -91,7 +108,7 @@ sub test_selected {
 '%LANGUAGES{format="$langtag-$langname$marker" separator="|" marker="**" selection="fr"}%'
     );
     my $expected = <<LANGS;
-de-Deutsch|en-English|fr-Français**|it-Italiano|ru-Русский
+de-Deutsch|en-English|fr-Français**|it-Italiano|ru-Русский|uk-Українська
 LANGS
     chomp $expected;
     $this->assert_str_equals( $expected, $result );
@@ -104,7 +121,7 @@ sub test_standard_esc {
 '%LANGUAGES{format="$nop$langtag$dollar$lt$langname$gt$marker" separator="$comma" marker="$amp" selection="fr"}%'
     );
     my $expected = <<LANGS;
-de\$<Deutsch>,en\$<English>,fr\$<Français>&,it\$<Italiano>,ru\$<Русский>
+de\$<Deutsch>,en\$<English>,fr\$<Français>&,it\$<Italiano>,ru\$<Русский>,uk\$<Українська>
 LANGS
     chomp $expected;
     $this->assert_str_equals( $expected, $result );

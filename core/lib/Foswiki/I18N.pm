@@ -9,11 +9,14 @@ Support for strings translation and language detection.
 =cut
 
 package Foswiki::I18N;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
-use Error qw(:try);
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -22,8 +25,29 @@ BEGIN {
     }
 }
 
-our $initialised;
-our @initErrors;
+has _enabled_languages => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { { en => 'English' } },
+);
+has _initialised => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => '_initI18N',
+);
+has _lh => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    builder => '_initLanguageHandler',
+);
+has _session => (
+    is       => 'rw',
+    weak_ref => 1,
+    init_arg => 'session',
+);
+
+has _checked_enabled => ( is => 'rw', );
 
 =begin TML
 
@@ -63,6 +87,7 @@ sub _normalize_language_tag {
 }
 
 sub _loadLexicon {
+    my $this = shift;
     my ( $lang, $dir ) = @_;
 
     $dir ||= $Foswiki::cfg{LocalesDir};
@@ -79,73 +104,134 @@ sub _loadLexicon {
     }
     if ( -f $langFile ) {
         unless (
-            eval {
+            eval "
+                package Foswiki::I18N::Base;
                 Locale::Maketext::Lexicon->import(
-                    { _decode => 1, $lang => [ Gettext => $langFile ] } );
+                    { _decode => 1, $lang => [ Gettext => \"$langFile\" ] } );
                 1;
-            }
+            "
           )
         {
-            push( @initErrors, "I18N - Error loading language $lang: $@\n" );
+            $this->_session->logger->log( 'warning',
+                "I18N - Error loading language $lang: $@\n" );
         }
     }
 }
 
-# initialisation block
-BEGIN {
+sub _initI18N {
+    my $this = shift;
 
-    # we only need to proceed if user wants internationalisation support
-    return unless $Foswiki::cfg{UserInterfaceInternationalisation};
+    my $session     = $this->_session;
+    my $initialised = 0;
 
     # no languages enabled is the same as disabling
     # {UserInterfaceInternationalisation}
     my @languages = available_languages();
-    return unless ( scalar(@languages) );
-
-    # we first assume it's ok
-    $initialised = 1;
-
-    eval "use Locale::Maketext ()";
-    if ($@) {
-        $initialised = 0;
-        push( @initErrors,
+    if ( $Foswiki::cfg{UserInterfaceInternationalisation} && @languages ) {
+        $initialised = 1;
+        eval "package Foswiki::I18N::Base; use base qw(Locale::Maketext); 1;";
+        if ($@) {
+            $session->logger->log( 'error',
                 "I18N: Couldn't load required perl module Locale::Maketext: "
-              . $@
-              . "\nInstall the module or turn off {UserInterfaceInternationalisation}"
-        );
+                  . $@
+                  . "\nInstall the module or turn off {UserInterfaceInternationalisation}"
+            );
+            $initialised = 0;
+        }
+
+        unless ( $Foswiki::cfg{LocalesDir} && -e $Foswiki::cfg{LocalesDir} ) {
+            $session->logger->log( 'error',
+'I18N: {LocalesDir} not configured. Define it or turn off {UserInterfaceInternationalisation}'
+            );
+            $initialised = 0;
+        }
+
+        # dynamically build languages to be loaded according to admin-enabled
+        # languages.
+        eval
+"package Foswiki::I18N::Base; use Locale::Maketext::Lexicon{ en => [ 'Auto' ] } ; 1;";
+        if ($@) {
+            $initialised = 0;
+            $session->logger->log( 'error',
+                    "I18N - Couldn't load default English messages: $@\n"
+                  . "Install Locale::Maketext::Lexicon or turn off {UserInterfaceInternationalisation}"
+            );
+        }
+
+        opendir( my $dh, "$Foswiki::cfg{LocalesDir}/" ) || next;
+        my @subDirs =
+          grep { !/^\./ && -d "$Foswiki::cfg{LocalesDir}/$_" } readdir $dh;
+        closedir $dh;
+
+        foreach my $lang (@languages) {
+            $this->_loadLexicon($lang);
+            $this->_loadLexicon( $lang, "$Foswiki::cfg{LocalesDir}/$_" )
+              foreach @subDirs;
+        }
+
+    }
+
+    return $initialised;
+}
+
+sub _initLanguageHandler {
+    my $this = shift;
+
+    my $session = $this->_session;
+    my $lh;
+
+    # guesses the language from the CGI environment
+    # TODO:
+    #   web/user/session setting must override the language detected from the
+    #   browser.
+    if ( $this->_initialised ) {
+        $session->enterContext('i18n_enabled');
+        my $userLanguage =
+          _normalize_language_tag( $session->prefs->getPreference('LANGUAGE') );
+        if ($userLanguage) {
+            $lh = Foswiki::I18N::Base->get_handle($userLanguage);
+        }
+        else {
+            $lh = Foswiki::I18N::Base->get_handle();
+        }
+
+        if ( $lh->language_tag ne 'en' ) {
+            my $fallback_handle = Foswiki::I18N::Base->get_handle('en');
+            $lh->fail_with(
+                sub {
+                    shift;    # get rid of the handle
+                    return $fallback_handle->maketext(@_);
+                }
+            );
+        }
     }
     else {
-        @Foswiki::I18N::ISA = ('Locale::Maketext');
+        Foswiki::load_package('Foswiki::I18N::Fallback');
+
+        $lh = Foswiki::I18N::Fallback->new;
+
+        # we couldn't initialise 'optional' I18N infrastructure, warn that we
+        # can only use English if I18N has been requested with configure
+        $session->logger->log( 'warning',
+            'Could not load I18N infrastructure; falling back to English' )
+          if $Foswiki::cfg{UserInterfaceInternationalisation};
     }
 
-    unless ( $Foswiki::cfg{LocalesDir} && -e $Foswiki::cfg{LocalesDir} ) {
-        push( @initErrors,
-'I18N: {LocalesDir} not configured. Define it or turn off {UserInterfaceInternationalisation}'
-        );
-        $initialised = 0;
-    }
-
-    # dynamically build languages to be loaded according to admin-enabled
-    # languages.
-    eval "use Locale::Maketext::Lexicon{ en => [ 'Auto' ] } ;";
-    if ($@) {
-        $initialised = 0;
-        push( @initErrors,
-                "I18N - Couldn't load default English messages: $@\n"
-              . "Install Locale::Maketext::Lexicon or turn off {UserInterfaceInternationalisation}"
-        );
-    }
-
-    opendir( my $dh, "$Foswiki::cfg{LocalesDir}/" ) || next;
-    my @subDirs =
-      grep { !/^\./ && -d "$Foswiki::cfg{LocalesDir}/$_" } readdir $dh;
-    closedir $dh;
-
-    foreach my $lang (@languages) {
-        _loadLexicon($lang);
-        _loadLexicon( $lang, "$Foswiki::cfg{LocalesDir}/$_" ) foreach @subDirs;
-    }
+    return $lh;
 }
+
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
+
+    my $params = $orig->( $class, @_ );
+
+    # Avoid occasional setting of these attributes manually.
+    delete $params->{_lh}          if exists $params->{_lh};
+    delete $params->{_initialized} if exists $params->{_initialized};
+
+    return $params;
+};
 
 =begin TML
 
@@ -156,90 +242,6 @@ language. If $session is not a Foswiki object reference, just calls
 Local::Maketext::new (the superclass constructor)
 
 =cut
-
-sub new {
-    my $class = shift;
-    my ($session) = @_;
-
-    unless ( ref($session) && $session->isa('Foswiki') ) {
-
-        # it's recursive
-        return $class->SUPER::new(@_);
-    }
-
-    if (@initErrors) {
-        foreach my $error (@initErrors) {
-            $session->logger->log( $initialised ? 'warning' : 'error', $error );
-        }
-    }
-
-    # guesses the language from the CGI environment
-    # TODO:
-    #   web/user/session setting must override the language detected from the
-    #   browser.
-    my $this;
-    if ($initialised) {
-        $session->enterContext('i18n_enabled');
-        my $userLanguage = _normalize_language_tag(
-            $session->{prefs}->getPreference('LANGUAGE') );
-        if ($userLanguage) {
-            $this = Foswiki::I18N->get_handle($userLanguage);
-        }
-        else {
-            $this = Foswiki::I18N->get_handle();
-        }
-    }
-    else {
-        require Foswiki::I18N::Fallback;
-
-        $this = new Foswiki::I18N::Fallback();
-
-        # we couldn't initialise 'optional' I18N infrastructure, warn that we
-        # can only use English if I18N has been requested with configure
-        $session->logger->log( 'warning',
-            'Could not load I18N infrastructure; falling back to English' )
-          if $Foswiki::cfg{UserInterfaceInternationalisation};
-    }
-
-    # keep a reference to the session object
-    $this->{session} = $session;
-
-    # languages we know about
-    $this->{enabled_languages} = { en => 'English' };
-    $this->{checked_enabled} = undef;
-
-    # what to do with failed translations (only needed when already initialised
-    # and language is not English);
-    if ( $initialised and ( $this->language ne 'en' ) ) {
-        my $fallback_handle = Foswiki::I18N->get_handle('en');
-        $this->fail_with(
-            sub {
-                shift;    # get rid of the handle
-                return $fallback_handle->maketext(@_);
-            }
-        );
-    }
-
-    # finally! :-p
-    return $this;
-}
-
-=begin TML
-
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    undef $this->{enabled_languages};
-    undef $this->{checked_enabled};
-    undef $this->{session};
-}
 
 =begin TML
 
@@ -272,14 +274,17 @@ sub maketext {
 
     my $result = '';
     try {
-        $result = $this->SUPER::maketext( $text, @args );
+        $result = $this->_lh->maketext( $text, @args );
         return $result;
     }
-    catch Error with {
-        my $e = shift;
+    catch {
+        my $e = $_;
+        if ( !ref($e) || $e->isa('Foswiki::Exception::Fatal') ) {
+            Foswiki::Exception::Fatal->rethrow($e);
+        }
         print STDERR
           "#### Error: MAKETEXT - String translation failed for \"$text\". "
-          . $e->stringify()
+          . $e->stringify
           if DEBUG;
         return
 "<span class='foswikiAlert'>ERROR: Translation failed, see server error log.</span>";
@@ -299,7 +304,7 @@ could not be determined.
 sub language {
     my $this = shift;
 
-    return $this->language_tag();
+    return $this->_lh->language_tag();
 }
 
 =begin TML
@@ -315,13 +320,11 @@ listing available languages to the user.
 sub enabled_languages {
     my $this = shift;
 
-    unless ( $this->{checked_enabled} ) {
-        _discover_languages($this);
+    unless ( $this->_checked_enabled ) {
+        $this->_discover_languages;
     }
 
-    $this->{checked_enabled} = 1;
-    return $this->{enabled_languages};
-
+    return $this->_enabled_languages;
 }
 
 # discovers the available language.
@@ -349,7 +352,7 @@ sub _discover_languages {
         $cache_open =
           open( LANGUAGE, '>', "$Foswiki::cfg{WorkingDir}/languages.cache" );
         foreach my $tag ( available_languages() ) {
-            my $h = Foswiki::I18N->get_handle($tag);
+            my $h = Foswiki::I18N::Base->get_handle($tag);
             my $name = eval { $h->maketext("_language_name") } or next;
             print LANGUAGE Foswiki::encode_utf8("$tag=$name\n") if $cache_open;
 
@@ -362,14 +365,14 @@ sub _discover_languages {
     }
 
     close LANGUAGE if $cache_open;
-    $this->{checked_enabled} = 1;
+    $this->_checked_enabled(1);
 
 }
 
 # private utility method: add a pair tag/language name
 sub _add_language {
     my ( $this, $tag, $name ) = @_;
-    $this->{enabled_languages}->{$tag} = $name;
+    $this->_enabled_languages->{$tag} = $name;
 }
 
 1;

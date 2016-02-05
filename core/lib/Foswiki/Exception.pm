@@ -164,6 +164,12 @@ extends qw(Foswiki::Exception);
 
 # This class is to distinguish ASSERT-generated exceptions only.
 
+package Foswiki::Exception::Fatal;
+use Moo;
+extends qw(Foswiki::Exception);
+
+# To cover perl/system errors.
+
 package Foswiki::Exception::Engine;
 use Moo;
 use namespace::clean;

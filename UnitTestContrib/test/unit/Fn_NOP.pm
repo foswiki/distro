@@ -1,24 +1,23 @@
 # tests for the correct expansion of NOP
 
 package Fn_NOP;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki;
-use Error qw( :try );
+use Try::Tiny;
 
-sub new {
-    my $self = shift()->SUPER::new( 'NOP', @_ );
-    return $self;
-}
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
+
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_, testSuite => 'NOP' );
+};
 
 sub test_NOP {
     my $this = shift;
-    my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'WebHome' );
+    my ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'WebHome' );
     my $result = $topicObject->expandMacros("%NOP%");
     $this->assert_equals( '<nop>', $result );
 
@@ -29,10 +28,10 @@ sub test_NOP {
     $this->assert_equals( "%SWINE%", $result );
 
     $result = $topicObject->expandMacros("%NOP{%WEB%}%");
-    $this->assert_equals( $this->{test_web}, $result );
+    $this->assert_equals( $this->test_web, $result );
 
     $result = $topicObject->expandMacros("%NOP{%WEB{}%}%");
-    $this->assert_equals( $this->{test_web}, $result );
+    $this->assert_equals( $this->test_web, $result );
 
     $topicObject->text("%NOP%");
     $topicObject->expandNewTopic();

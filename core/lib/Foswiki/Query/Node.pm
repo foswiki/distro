@@ -32,6 +32,7 @@ use Try::Tiny;
 
 use Foswiki::Meta        ();
 use Foswiki::Infix::Node ();
+use Scalar::Util         ();
 
 use Moo;
 use namespace::clean;
@@ -92,23 +93,26 @@ sub toString {
 
     # Suppress the recursion check; the tree can easily be more than
     # 100 levels deep.
+    my $isBlessed = Scalar::Util::blessed($a);
     no warnings 'recursion';
-    if ( $a->isa('Foswiki::Query::Node') ) {
+    if ( $isBlessed && $a->isa('Foswiki::Query::Node') ) {
         return
             '{ op => '
           . $a->op
           . ', params => '
           . toString( $a->params ) . ' }';
     }
-    if ( ref($a) eq 'ARRAY' ) {
+    elsif ( ref($a) eq 'ARRAY' ) {
         return '[' . join( ',', map { toString($_) } @$a ) . ']';
     }
-    if ( ref($a) eq 'HASH' ) {
+    elsif ( ref($a) eq 'HASH' ) {
         return
           '{' . join( ',', map { "$_=>" . toString( $a->$_ ) } keys %$a ) . '}';
     }
     use warnings 'recursion';
-    if ( $a->isa('Foswiki::Meta') ) {
+    if ( $isBlessed && $a->isa('Foswiki::Meta') ) {
+
+        # Wonder why this cannot be used under 'no warnings recursion' pragme?
         return $a->stringify();
     }
     return $a;

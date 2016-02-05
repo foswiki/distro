@@ -1,4 +1,4 @@
-# See bottom of file for license and copyright
+# See botto . "/working"m of file for license and copyright
 
 package FoswikiTestCase;
 
@@ -73,6 +73,16 @@ has test_web   => ( is => 'rw', );
 has test_topic => ( is => 'rw', );
 
 has __EnvSafe => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
+);
+
+# __EnvReset defines environment variables to be deleted or set to predefined
+# values. If a variable key has undefined value then it is deleted. Otherwise it
+# is set to the value defined.
+has __EnvReset => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
@@ -709,14 +719,7 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
 
     ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
 
-    my %tempDirOptions = ( CLEANUP => 1 );
-    if ( $^O eq 'MSWin32' ) {
-
-        #on windows, don't make a big old mess of c:\
-        $ENV{TEMP} =~ m/(.*)/;
-        $tempDirOptions{DIR} = $1;
-    }
-    $Foswiki::cfg{WorkingDir} = File::Temp::tempdir(%tempDirOptions);
+    $Foswiki::cfg{WorkingDir} = $this->tempDir;
     mkdir("$Foswiki::cfg{WorkingDir}/tmp");
     mkdir("$Foswiki::cfg{WorkingDir}/registration_approvals");
     mkdir("$Foswiki::cfg{WorkingDir}/work_areas");
@@ -771,7 +774,7 @@ sub tear_down {
         ASSERT( $this->session->isa('Foswiki') ) if SINGLE_SINGLETONS;
         $this->finishFoswikiSession();
     }
-    eval { File::Path::rmtree( $Foswiki::cfg{WorkingDir} ); };
+    $this->_clear_tempDir;
     %Foswiki::cfg = eval $this->{__FoswikiSafe};
     foreach my $sym ( keys %ENV ) {
         unless ( defined( $this->__EnvSafe->{$sym} ) ) {
@@ -779,6 +782,15 @@ sub tear_down {
         }
         else {
             $ENV{$sym} = $this->__EnvSafe->{$sym};
+        }
+    }
+
+    foreach my $sym ( keys %{ $this->__EnvReset } ) {
+        if ( defined $this->__EnvReset->{$sym} ) {
+            $ENV{$sym} = $this->__EnvReset->{$sym};
+        }
+        else {
+            delete $ENV{$sym};
         }
     }
 

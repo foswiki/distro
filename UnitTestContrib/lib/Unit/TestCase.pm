@@ -15,7 +15,8 @@ use Try::Tiny;
 use Carp;
 use Unit::HTMLDiffer;
 use Unit::TestRunner();
-use Foswiki::Exception;
+use Foswiki::Exception ();
+require File::Temp;
 
 use Moo;
 use namespace::clean;
@@ -60,6 +61,22 @@ has _stderr => (
 has _stdout => (
     is      => 'rw',
     clearer => 1,
+);
+has _tempDir => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub {
+        my %tempDirOptions = ( CLEANUP => 1 );
+        if ( $^O eq 'MSWin32' ) {
+
+            #on windows, don't make a big old mess of c:\
+            $ENV{TEMP} =~ m/(.*)/;
+            $tempDirOptions{DIR} = $1;
+        }
+        return File::Temp->newdir(%tempDirOptions);
+    },
+    handles => { tempDir => 'dirname', },
 );
 
 =begin TML
@@ -652,15 +669,7 @@ sub captureSTD {
     my $this = shift;
     my $proc = shift;
 
-    require File::Temp;
-    my %tempDirOptions = ( CLEANUP => 1 );
-    if ( $^O eq 'MSWin32' ) {
-
-        #on windows, don't make a big old mess of c:\
-        $ENV{TEMP} =~ /(.*)/;
-        $tempDirOptions{DIR} = $1;
-    }
-    my $tmpdir     = File::Temp::tempdir(%tempDirOptions);
+    my $tmpdir     = $this->tempDir;
     my $stdoutfile = "$tmpdir/stdout";
     my $stderrfile = "$tmpdir/stderr";
 
