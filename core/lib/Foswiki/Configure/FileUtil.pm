@@ -1076,7 +1076,7 @@ sub canNfcFilenames {
     ASSERT( $testdir, "missing argument to canNfcFilenames" );
 
 #die as BUG if the testdir contains non-ascii characters and it isn't unicode string
-    ASSERT( !( $testdir =~ /\P{Ascii}/ && !utf8::is_utf8($testdir) ),
+    ASSERT( !( $testdir =~ /\P{ASCII}/ && !utf8::is_utf8($testdir) ),
         "CORE bug, got a [$testdir] as bytes" );
 
     my $ext      = '.CfgNfcTmpFile';
