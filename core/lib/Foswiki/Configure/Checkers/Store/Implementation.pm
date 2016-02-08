@@ -29,6 +29,13 @@ EOF
     ( my $implementation ) =
       $Foswiki::cfg{Store}{Implementation} =~ m/::([^:]+)$/;
 
+    unless ($implementation) {
+        $reporter->ERROR(<<EOF);
+Configured Implementation is not a valid Foswiki Store. Foswiki will not be operational.
+EOF
+        return;
+    }
+
     eval(
 "require Foswiki::Configure::Checkers::Store::${implementation}::Implementation"
     );
@@ -44,7 +51,7 @@ EOF
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
