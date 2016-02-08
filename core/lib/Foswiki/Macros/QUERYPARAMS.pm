@@ -14,7 +14,7 @@ BEGIN {
 
 sub QUERYPARAMS {
     my ( $this, $params ) = @_;
-    return '' unless $this->{request};
+    return '' unless $this->request;
     my $format =
       defined $params->{format}
       ? $params->{format}
@@ -33,10 +33,10 @@ sub QUERYPARAMS {
     $separator = Foswiki::expandStandardEscapes($separator);
 
     my @list;
-    foreach my $name ( $this->{request}->multi_param() ) {
+    foreach my $name ( $this->request->multi_param() ) {
 
         # Issues multi-valued parameters as separate hiddens
-        my @values = $this->{request}->multi_param($name);
+        my @values = $this->request->multi_param($name);
         foreach my $value (@values) {
             $value = '' unless defined $value;
             $name  = $this->ENCODE( { type => $encoding, _DEFAULT => $name } );

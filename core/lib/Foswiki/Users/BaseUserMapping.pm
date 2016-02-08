@@ -27,17 +27,17 @@ prefix 'BaseUserMapping_'.
 =cut
 
 package Foswiki::Users::BaseUserMapping;
-use strict;
-use warnings;
-
-use Foswiki::UserMapping ();
-our @ISA = ('Foswiki::UserMapping');
+use v5.14;
 
 use Assert;
 use Encode;
-use Error ();
+use Foswiki::Exception ();
 use Digest::MD5 qw(md5_hex);
 use Crypt::PasswdMD5 qw(apache_md5_crypt);
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UserMapping);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -51,9 +51,18 @@ our $UNKNOWN_USER_CUID = 'BaseUserMapping_999';
 our %BASE_USERS;
 our %BASE_GROUPS;
 
+has GROUPS => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        return {%BASE_GROUPS};
+    },
+);
+has error => ( is => 'rw', default => '', );
+
 =begin TML
 
----++ ClassMethod new ($session)
+---++ ClassMethod new (session => $session)
 
 Construct the BaseUserMapping object
 
@@ -61,8 +70,9 @@ Construct the BaseUserMapping object
 
 # Constructs a new user mapping handler of this type, referring to $session
 # for any required Foswiki services.
-sub new {
-    my ( $class, $session ) = @_;
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
 
     # $DEFAULT_USER_CUID , $UNKNOWN_USER_CUID, %BASE_USERS and %BASE_GROUPS
     # could be initialised statically, but tests have been written that rely
@@ -116,32 +126,25 @@ sub new {
         #         RegistrationGroup => ['BaseUserMapping_222']
     );
 
-    my $this = $class->SUPER::new( $session, 'BaseUserMapping_' );
     $Foswiki::cfg{Register}{RegistrationAgentWikiName} ||= 'RegistrationAgent';
 
-    # set up our users
-    $this->{L2U} = {};    # login 2 cUID
-    $this->{U2L} = {};    # cUID 2 login
-    $this->{W2U} = {};    # wikiname 2 cUID
-    $this->{U2W} = {};    # cUID 2 wikiname
-    $this->{U2E} = {};    # cUID 2 email
-    $this->{L2P} = {};    # login 2 password
+    return $orig->( $class, @_ );
+};
+
+sub BUILD {
+    my $this = shift;
 
     while ( my ( $k, $v ) = each %BASE_USERS ) {
-        $this->{U2L}->{$k} = $v->{login};
-        $this->{U2W}->{$k} = $v->{wikiname};
-        $this->{U2E}->{$k} = $v->{email} if defined $v->{email};
+        $this->U2L->{$k} = $v->{login};
+        $this->U2W->{$k} = $v->{wikiname};
+        $this->U2E->{$k} = $v->{email} if defined $v->{email};
 
-        $this->{L2U}->{ $v->{login} } = $k;
-        $this->{L2P}->{ $v->{login} } = $v->{password}
+        $this->L2U->{ $v->{login} } = $k;
+        $this->L2P->{ $v->{login} } = $v->{password}
           if defined $v->{password};
 
-        $this->{W2U}->{ $v->{wikiname} } = $k;
+        $this->W2U->{ $v->{wikiname} } = $k;
     }
-
-    %{ $this->{GROUPS} } = %BASE_GROUPS;
-
-    return $this;
 }
 
 =begin TML
@@ -154,17 +157,17 @@ Break circular references.
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    undef $this->{U2L};
-    undef $this->{U2W};
-    undef $this->{L2P};
-    undef $this->{U2E};
-    undef $this->{L2U};
-    undef $this->{W2U};
-    undef $this->{GROUPS};
-    $this->SUPER::finish();
-}
+#sub finish {
+#    my $this = shift;
+#    undef $this->{U2L};
+#    undef $this->{U2W};
+#    undef $this->{L2P};
+#    undef $this->{U2E};
+#    undef $this->{L2U};
+#    undef $this->{W2U};
+#    undef $this->{GROUPS};
+#    $this->SUPER::finish();
+#}
 
 =begin TML
 
@@ -192,9 +195,9 @@ the details of the users we specialise in.
 sub handlesUser {
     my ( $this, $cUID, $login, $wikiname ) = @_;
 
-    return 1 if ( defined($cUID)     && defined( $this->{U2L}{$cUID} ) );
-    return 1 if ( defined($login)    && defined( $this->{L2U}{$login} ) );
-    return 1 if ( defined($wikiname) && defined( $this->{W2U}{$wikiname} ) );
+    return 1 if ( defined($cUID)     && defined( $this->U2L->{$cUID} ) );
+    return 1 if ( defined($login)    && defined( $this->L2U->{$login} ) );
+    return 1 if ( defined($wikiname) && defined( $this->W2U->{$wikiname} ) );
 
     return 0;
 }
@@ -213,7 +216,7 @@ characters, and must correspond 1:1 to the login name.
 sub login2cUID {
     my ( $this, $login ) = @_;
 
-    return $this->{L2U}{$login};
+    return $this->L2U->{$login};
 
     #alternative impl - slower, but more re-useable
     #my @list = findUserByWikiName($this, $login);
@@ -231,7 +234,7 @@ converts an internal cUID to that user's login
 
 sub getLoginName {
     my ( $this, $user ) = @_;
-    return $this->{U2L}{$user};
+    return $this->U2L->{$user};
 }
 
 =begin TML
@@ -244,7 +247,7 @@ Map a canonical user name to a wikiname
 
 sub getWikiName {
     my ( $this, $cUID ) = @_;
-    return $this->{U2W}->{$cUID} || getLoginName( $this, $cUID );
+    return $this->U2W->{$cUID} || getLoginName( $this, $cUID );
 }
 
 =begin TML
@@ -259,7 +262,7 @@ sub userExists {
     my ( $this, $cUID ) = @_;
     ASSERT($cUID) if DEBUG;
     return 0 unless defined $cUID;
-    return $this->{U2L}{$cUID};
+    return $this->U2L->{$cUID};
 }
 
 =begin TML
@@ -273,9 +276,9 @@ See baseclass for documentation.
 sub eachUser {
     my ($this) = @_;
 
-    my @list = keys( %{ $this->{U2W} } );
+    my @list = keys( %{ $this->U2W } );
     require Foswiki::ListIterator;
-    return new Foswiki::ListIterator( \@list );
+    return Foswiki::ListIterator->new( list => \@list );
 }
 
 =begin TML
@@ -293,12 +296,12 @@ sub eachGroupMember {
     my $this  = shift;
     my $group = shift;
 
-    my $members = $this->{GROUPS}{$group};
+    my $members = $this->GROUPS->{$group};
 
     #print STDERR "eachGroupMember($group): ".join(',', @{$members});
 
     require Foswiki::ListIterator;
-    return new Foswiki::ListIterator($members);
+    return Foswiki::ListIterator->new( list => $members );
 }
 
 =begin TML
@@ -314,7 +317,7 @@ sub isGroup {
     $name ||= "";
 
     #TODO: what happens to the code if we implement this using an iterator too?
-    return ( $this->{GROUPS}->{$name} );
+    return ( $this->GROUPS->{$name} );
 }
 
 =begin TML
@@ -327,10 +330,10 @@ See baseclass for documentation.
 
 sub eachGroup {
     my ($this) = @_;
-    my @groups = keys( %{ $this->{GROUPS} } );
+    my @groups = keys( %{ $this->GROUPS } );
 
     require Foswiki::ListIterator;
-    return new Foswiki::ListIterator( \@groups );
+    return Foswiki::ListIterator->new( list => \@groups );
 }
 
 =begin TML
@@ -396,7 +399,7 @@ return the addresses of everyone in the group.
 sub getEmails {
     my ( $this, $user ) = @_;
 
-    return $this->{U2E}{$user} || ();
+    return $this->U2E->{$user} || ();
 }
 
 =begin TML
@@ -417,16 +420,16 @@ sub findUserByWikiName {
     else {
 
         # Add additional mappings defined in WikiUsers
-        if ( $this->{W2U}->{$wn} ) {
-            push( @users, $this->{W2U}->{$wn} );
+        if ( $this->W2U->{$wn} ) {
+            push( @users, $this->W2U->{$wn} );
         }
-        elsif ( $this->{L2U}->{$wn} ) {
+        elsif ( $this->L2U->{$wn} ) {
 
            # The wikiname is also a login name for the purposes of this
            # mapping. We have to do this because Foswiki defines access controls
            # in terms of mapped users, and if a wikiname is *missing* from the
            # mapping there is "no such user".
-            push( @users, $this->{L2U}->{$wn} );
+            push( @users, $this->L2U->{$wn} );
         }
     }
     return \@users;
@@ -445,7 +448,7 @@ Returns 1 on success, undef on failure.
 sub checkPassword {
     my ( $this, $login, $pass ) = @_;
 
-    my $hash = $this->{L2P}->{$login};
+    my $hash = $this->L2P->{$login};
 
     # All of the digest / hash routines require bytes
     $pass = Encode::encode_utf8($pass);
@@ -469,8 +472,9 @@ sub checkPassword {
 
     # be a little more helpful to the admin
     if ( $login eq $Foswiki::cfg{AdminUserLogin} && !$hash ) {
-        $this->{error} =
-          'To login as ' . $login . ', you must set {Password} in configure.';
+        $this->error( 'To login as '
+              . $login
+              . ', you must set {Password} in configure.' );
     }
     return 0;
 }
@@ -493,8 +497,8 @@ Otherwise returns 1 on success, undef on failure.
 
 sub setPassword {
     my ( $this, $cUID, $newPassU, $oldPassU ) = @_;
-    throw Error::Simple(
-        'cannot change user passwords using Foswiki::BaseUserMapping');
+    Foswiki::Exception->throw(
+        text => 'cannot change user passwords using Foswiki::BaseUserMapping' );
 }
 
 =begin TML
@@ -511,7 +515,7 @@ returns undef if no error
 sub passwordError {
     my $this = shift;
 
-    return $this->{error};
+    return $this->error;
 }
 
 1;

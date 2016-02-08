@@ -107,7 +107,8 @@ sub BUILDARGS {
 # If $paramHash is undef at this point then either @params is a key/value pairs array or no @_newParameters array defined.
 # SMELL XXX Number of elements in @params has to be checked and an exception thrown if it's inappropriate.
     unless ( defined $paramHash ) {
-        Carp::confess("Odd number of elements in parameters hash")
+        Foswiki::Exception::Fatal->throw(
+            text => "Odd number of elements in parameters hash" )
           if ( @params % 2 ) == 1;
         $paramHash = {@params};
     }
@@ -232,6 +233,7 @@ descendant.
 
    * =noUndef= – do not allow undef value
    * =strictMatch= - allow only =$className=, no decsendants
+   * =does= - defines a Role class must do.
 
 =cut
 
@@ -249,13 +251,14 @@ sub isaCLASS {
           . $className
           . ' but not " . (defined $_[0] ? ref($_[0]) || $_[0] : "undef") . "." ) if '
           . ( $opts{noUndef} ? '!defined( $_[0] ) || ' : '' )
-          . '( defined( $_[0] ) && '
+          . '( defined( $_[0] ) && ('
           . (
             $opts{strictMatch}
             ? 'ref( $_[0] ) ne "' . $className . '"'
             : '!$_[0]->isa("' . $className . '")'
           )
-          . '); }'
+          . ( $opts{does} ? ' || !$_[0]->does("' . $opts{does} . '")' : '' )
+          . ')' . '); }'
     );
 }
 

@@ -1,7 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::MetaCache;
-use strict;
-use warnings;
+use v5.14;
 
 =begin TML
 
@@ -23,6 +22,10 @@ use Foswiki::Func                   ();
 use Foswiki::Meta                   ();
 use Foswiki::Users::BaseUserMapping ();
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+
 #use Monitor ();
 #Monitor::MonitorMethod('Foswiki::MetaCache', 'getTopicListIterator');
 
@@ -41,24 +44,33 @@ BEGIN {
 
 =cut
 
-sub new {
-    my ( $class, $session ) = @_;
-
-    #my $this = $class->SUPER::new([]);
-    my $this = bless(
-        {
-            session                 => $session,
-            cache                   => {},
-            new_count               => 0,
-            get_count               => 0,
-            undef_count             => 0,
-            meta_cache_session_user => $session->{user},
-        },
-        $class
-    );
-
-    return $this;
-}
+has session => (
+    is       => 'rw',
+    weak_ref => 1,
+    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
+);
+has cache => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
+has new_count => (
+    is      => 'rw',
+    default => 0,
+);
+has get_count => (
+    is      => 'rw',
+    default => 0,
+);
+has undef_count => (
+    is      => 'rw',
+    default => 0,
+);
+has meta_cache_session_user => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub { return $_[0]->session->user; },
+);
 
 #need to delete from cache if the store saves / updates it :/
 #otherwise the Meta::load thing is busted.
@@ -76,7 +88,8 @@ Break circular references.
 
 sub finish {
     my $this = shift;
-    undef $this->{session};
+
+    #undef $this->{session};
 
     #must clear cache every request until the cache is hooked up to Store's save
     foreach my $cuid ( keys( %{ $this->{cache} } ) ) {
@@ -112,9 +125,8 @@ sub hasCached {
     ASSERT( defined($topic) ) if DEBUG;
     return unless ( defined($topic) );
 
-    return ( $this->{session}->{user}
-          and
-          defined( $this->{cache}->{ $this->current_user() }{$web}{$topic} ) );
+    return ( $this->session->user
+          and defined( $this->cache->{ $this->current_user }{$web}{$topic} ) );
 }
 
 sub removeMeta {
@@ -122,18 +134,18 @@ sub removeMeta {
     my $user = $this->current_user();
 
     if ( defined($topic) ) {
-        my $cached_userwebtopic = $this->{cache}->{$user}{$web}{$topic};
+        my $cached_userwebtopic = $this->cache->{$user}{$web}{$topic};
 
         if ($cached_userwebtopic) {
             $cached_userwebtopic->finish() if blessed($cached_userwebtopic);
-            delete $this->{cache}->{$user}{$web}{$topic};
+            delete $this->cache->{$user}{$web}{$topic};
         }
     }
     elsif ( defined $web ) {
-        foreach my $topic ( keys( %{ $this->{cache}->{$user}{$web} } ) ) {
+        foreach my $topic ( keys( %{ $this->cache->{$user}{$web} } ) ) {
             $this->removeMeta( $web, $topic );
         }
-        delete $this->{cache}->{$user}{$web};
+        delete $this->cache->{$user}{$web};
     }
 
     return;
@@ -149,11 +161,11 @@ sub addMeta {
     # If the cache is already populated, return it, don't add it again
     if ( $this->hasCached( $web, $topic ) ) {
         print STDERR "Cache hit for $web.$topic for $user\n" if (TRACE);
-        return $this->{cache}->{$user}{$web}{$topic}->{tom};
+        return $this->cache->{$user}{$web}{$topic}->{tom};
     }
 
     if ( not defined($meta) ) {
-        $meta = Foswiki::Meta->load( $this->{session}, $web, $topic );
+        $meta = Foswiki::Meta->load( $this->session, $web, $topic );
     }
     if (    ( defined($meta) and $meta ne '' )
         and defined( $meta->latestIsLoaded )
@@ -168,15 +180,15 @@ sub addMeta {
         return;
     }
 
-    unless ( $this->{cache}->{$user}{$web} ) {
-        $this->{cache}->{$user}{$web} = {};
+    unless ( $this->cache->{$user}{$web} ) {
+        $this->cache->{$user}{$web} = {};
     }
-    unless ( $this->{cache}->{$user}{$web}{$topic} ) {
-        $this->{cache}->{$user}{$web}{$topic} = {};
+    unless ( $this->cache->{$user}{$web}{$topic} ) {
+        $this->cache->{$user}{$web}{$topic} = {};
     }
-    unless ( defined( $this->{cache}->{$user}{$web}{$topic}->{tom} ) ) {
-        $this->{cache}->{$user}{$web}{$topic}->{tom} = $meta;
-        $this->{new_count}++;
+    unless ( defined( $this->cache->{$user}{$web}{$topic}->{tom} ) ) {
+        $this->cache->{$user}{$web}{$topic}->{tom} = $meta;
+        $this->new_count( $this->new_count + 1 );
     }
     return $meta;
 }
@@ -185,9 +197,9 @@ sub getMeta {
     my ( $this, $web, $topic, $meta ) = @_;
     my $user = $this->current_user();
 
-    return unless ( defined( $this->{cache}->{$user}{$web} ) );
-    return unless ( defined( $this->{cache}->{$user}{$web}{$topic} ) );
-    return $this->{cache}->{$user}{$web}{$topic}->{tom};
+    return unless ( defined( $this->cache->{$user}{$web} ) );
+    return unless ( defined( $this->cache->{$user}{$web}{$topic} ) );
+    return $this->cache->{$user}{$web}{$topic}->{tom};
 }
 
 =begin TML
@@ -221,14 +233,14 @@ sub get {
     $meta = $m if ( defined($m) );
     ASSERT( defined($meta) ) if DEBUG;
 
-    $this->{get_count}++;
+    $this->get_count( $this->get_count + 1 );
 
     my $info = { tom => $meta };
     my $user = $this->current_user();
 
     ASSERT( defined $user ) if DEBUG;
-    $info = $this->{cache}->{$user}{$web}{$topic}
-      if defined( $this->{cache}->{$user}{$web}{$topic} );
+    $info = $this->cache->{$user}{$web}{$topic}
+      if defined( $this->cache->{$user}{$web}{$topic} );
     if ( not defined( $info->{editby} ) ) {
 
         #TODO: extract this to the Meta Class, or remove entirely
@@ -244,16 +256,16 @@ sub get {
 #Ideally, the Store2::Meta object will _not_ contain any session info, and anything that is session / user oriented gets stored in another object that links to the 'database' object.
 #it'll probably be better to make the MetaCache know what
 #Item10097: make the cache multi-user safe by storing the haveAccess on a per user basis
-        if ( not defined( $info->{ $this->{session}->{user} } ) ) {
-            $info->{ $this->{session}->{user} } = ();
+        if ( not defined( $info->{ $this->session->user } ) ) {
+            $info->{ $this->session->user } = ();
         }
-        if ( not defined( $info->{ $this->{session}->{user} }{allowView} ) ) {
-            $info->{ $this->{session}->{user} }{allowView} =
+        if ( not defined( $info->{ $this->session->user }{allowView} ) ) {
+            $info->{ $this->session->user }{allowView} =
               $info->{tom}->haveAccess('VIEW');
         }
 
         #use the cached permission
-        $info->{allowView} = $info->{ $this->{session}->{user} }{allowView};
+        $info->{allowView} = $info->{ $this->session->user }{allowView};
     }
 
     return $info;

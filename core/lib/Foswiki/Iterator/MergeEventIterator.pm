@@ -1,8 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Iterator::MergeEventIterator;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
 BEGIN {
@@ -23,22 +22,11 @@ Private subclass of Foswiki::Iterator that
 
 =cut
 
-require Foswiki::Iterator;
-our @ISA = ('Foswiki::Iterator');
+use Moo;
+extends qw(Foswiki::Object);
+with qw(Foswiki::Iterator);
 
-sub new {
-    my ( $class, $list ) = @_;
-    my $this = bless(
-        {
-            Itr_list_ref => $list,
-            process      => undef,
-            filter       => undef,
-            next         => undef,
-        },
-        $class
-    );
-    return $this;
-}
+has Itr_list_ref => ( is => 'rw', init_arg => 'list', required => 1 );
 
 =begin TML
 
@@ -50,7 +38,7 @@ Scans all the iterators to determine if any of them have a record available.
 sub hasNext {
     my $this = shift;
 
-    foreach my $It ( @{ $this->{Itr_list_ref} } ) {
+    foreach my $It ( @{ $this->Itr_list_ref } ) {
         return 1 if $It->hasNext();
     }
     return 0;
@@ -69,7 +57,7 @@ sub next {
     my $lowIt;
     my $lowest;
 
-    foreach my $It ( @{ $this->{Itr_list_ref} } ) {
+    foreach my $It ( @{ $this->Itr_list_ref } ) {
         next unless $It->hasNext();
         my $nextRec = @{ $It->snoopNext() }[0];
         my $epoch   = $nextRec->{epoch};
@@ -80,6 +68,11 @@ sub next {
         }
     }
     return $lowIt->next();
+}
+
+sub reset {
+
+    # Just a stub to conform Iterator requirements.
 }
 
 1;

@@ -33,8 +33,8 @@ sub evaluate {
     my $a       = $node->params->[0];
     my %domain  = @_;
     my $session = $domain{tom}->session;
-    throw Error::Simple(
-        'No context in which to evaluate "' . $a->stringify() . '"' )
+    Foswiki::Exception->throw(
+        text => 'No context in which to evaluate "' . $a->stringify() . '"' )
       unless $session;
     my ( $web, $topic ) = ( $session->webName, $a->_evaluate(@_) );
 

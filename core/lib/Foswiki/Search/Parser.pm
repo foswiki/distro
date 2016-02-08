@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Search::Parser;
+use v5.14;
 
 =begin TML
 
@@ -9,13 +10,15 @@ Parse SEARCH token strings into Foswiki::Search::Node objects.
 
 =cut
 
-use strict;
-use warnings;
-
-use Assert;
-use Error qw( :try );
+use Try::Tiny;
 
 use Foswiki::Search::Node ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+
+use Assert;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -32,28 +35,33 @@ our $MARKER = "\0";
 
 =cut
 
-sub new {
-    my ( $class, $session ) = @_;
-    my $this = bless( { session => $session }, $class );
-    return $this;
-}
+has session => (
+    is       => 'rw',
+    weak_ref => 1,
+);
+has initialised => (
+    is      => 'rw',
+    default => 0,
+);
+has stopwords => ( is => 'rw', );
 
 # Initialise on demand before a first parse
 sub _initialise {
     my $this = shift;
 
-    return if ( $this->{initialised} );
+    return if ( $this->initialised );
 
     # Build pattern of stop words
-    my $WMARK = chr(0);                      # Set a word marker
-    my $prefs = $this->{session}->{prefs};
+    my $WMARK = chr(0);                  # Set a word marker
+    my $prefs = $this->session->prefs;
     ASSERT($prefs) if DEBUG;
-    $this->{stopwords} = $prefs->getPreference('SEARCHSTOPWORDS') || '';
-    $this->{stopwords} =~ s/[\s\,]+/$WMARK/g;
-    $this->{stopwords} = quotemeta $this->{stopwords};
-    $this->{stopwords} =~ s/\\$WMARK/|/g;
+    my $stopwords = $prefs->getPreference('SEARCHSTOPWORDS') || '';
+    $stopwords =~ s/[\s\,]+/$WMARK/g;
+    $stopwords = quotemeta $stopwords;
+    $stopwords =~ s/\\$WMARK/|/g;
+    $this->stopwords($stopwords);
 
-    $this->{initialised} = 1;
+    $this->initialised(1);
 }
 
 =begin TML
@@ -63,13 +71,13 @@ Break circular references.
 
 =cut
 
-sub finish {
-    my $self = shift;
-
-    undef $self->{session};
-    undef $self->{stopwords};
-    undef $self->{initialised};
-}
+#sub finish {
+#    my $self = shift;
+#
+#    undef $self->{session};
+#    undef $self->{stopwords};
+#    undef $self->{initialised};
+#}
 
 =begin TML
 
@@ -119,16 +127,17 @@ sub parse {
 
         # Tokenize string taking account of literal strings, then remove
         # stop words and convert '+' and '-' syntax.
+        my $stopwords = $this->stopwords;
         @tokens =
-          grep { !/^($this->{stopwords})$/i }    # remove stopwords
+          grep { !/^($stopwords)$/i }    # remove stopwords
           map {
             s/^\+//;
             s/^\-/\!/;
             s/^"//;
             $_
-          }    # remove +, change - to !, remove "
-          map { s/$MARKER/ /go; $_ }    # restore space
-          split( /\s+/, $searchString );    # split on spaces
+          }                              # remove +, change - to !, remove "
+          map { s/$MARKER/ /go; $_ }     # restore space
+          split( /\s+/, $searchString ); # split on spaces
     }
 
     my $result = new Foswiki::Search::Node( $searchString, \@tokens, $options );

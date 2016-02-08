@@ -10,13 +10,13 @@ element in the iteration.
 =cut
 
 package Foswiki::Iterator::ProcessIterator;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
-use Foswiki::Iterator ();
-our @ISA = ('Foswiki::Iterator');
+use Moo;
+extends qw(Foswiki::Object);
+with qw(Foswiki::Iterator);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -25,37 +25,35 @@ BEGIN {
     }
 }
 
+has iterator => (
+    is       => 'rw',
+    weak_ref => 1,
+    required => 1,
+    isa      => Foswiki::Object::isaCLASS(
+        'iterator', 'Foswiki::Object', does => 'Foswiki::Iterator',
+    ),
+);
+has '+process' => ( is => 'rw', clearer => 1, required => 1, );
+has data => ( is => 'rw', required => 1, );
+
 =begin TML
 
----++ ClassMethod new( $iter, $sub )
+---++ ClassMethod new( iterator => $iter, process => $sub, data => $data )
 Construct a new iterator that will filter $iter by calling
 $sub. on each element. $sub should return the filtered value
 for the element.
 
 =cut
 
-sub new {
-    my ( $class, $iter, $sub, $data ) = @_;
-    ASSERT( UNIVERSAL::isa( $iter, 'Foswiki::Iterator' ) ) if DEBUG;
-    ASSERT( ref($sub) eq 'CODE' ) if DEBUG;
-    my $this = bless( {}, $class );
-    $this->{iterator} = $iter;
-    $this->{process}  = $sub;
-    $this->{data}     = $data;
-    $this->{next}     = undef;
-    return $this;
-}
-
-# See Foswiki::Iterator for a description of the general iterator contract
-sub hasNext {
+sub BUILD {
     my $this = shift;
-    return $this->{iterator}->hasNext();
+    ASSERT( ref( $this->process ) eq 'CODE' ) if DEBUG;
 }
 
 # See Foswiki::Iterator for a description of the general iterator contract
 sub next {
     my $this = shift;
-    return &{ $this->{process} }( $this->{iterator}->next(), $this->{data} );
+    return &{ $this->process }( $this->iterator->next(), $this->data );
 }
 
 # See Foswiki::Iterator for a description of the general iterator contract
@@ -65,6 +63,11 @@ sub reset {
     #TODO: need to carefully consider what side effects this has
 
     return;
+}
+
+sub hasNext {
+    my $this = shift;
+    return $this->iterator->hasNext(@_);
 }
 
 sub all {

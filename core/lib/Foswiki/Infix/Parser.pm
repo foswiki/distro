@@ -58,7 +58,7 @@ following two functions:
    * =newNode($op, @params)= - create a new operator node. @params
      is a variable-length list of parameters, left to right. $op
      is a reference to the operator hash in the \@opers list.
-These functions should throw Error::Simple in the event of errors.
+These functions should throw Foswiki::Exception in the event of errors.
 Foswiki::Infix::Node is such a class, ripe for subclassing.
 
 The remaining parameters are named, and specify options that affect the

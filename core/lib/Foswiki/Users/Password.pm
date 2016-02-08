@@ -13,10 +13,12 @@ to implement other password handling methods.
 =cut
 
 package Foswiki::Users::Password;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
+
+use Moo;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -34,13 +36,15 @@ for any required Foswiki services.
 
 =cut
 
-sub new {
-    my ( $class, $session ) = @_;
-
-    my $this = bless( { session => $session }, $class );
-    $this->{error} = undef;
-    return $this;
-}
+has session => (
+    is       => 'ro',
+    required => 1,
+    weak_ref => 1,
+);
+has error => (
+    is      => 'rw',
+    clearer => 1,
+);
 
 =begin TML
 
@@ -52,11 +56,11 @@ Break circular references.
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    undef $this->{error};
-    undef $this->{session};
-}
+#sub finish {
+#    my $this = shift;
+#    undef $this->{error};
+#    undef $this->{session};
+#}
 
 =begin TML
 
@@ -100,7 +104,7 @@ Returns 1 on success, undef on failure.
 
 sub checkPassword {
     my $this = shift;
-    $this->{error} = undef;
+    $this->clear_error;
     return 1;
 }
 
@@ -114,7 +118,7 @@ Delete the users entry.
 
 sub removeUser {
     my $this = shift;
-    $this->{error} = undef;
+    $this->clear_error;
     return 1;
 }
 
@@ -136,7 +140,7 @@ Otherwise returns 1 on success, undef on failure.
 
 sub setPassword {
     my $this = shift;
-    $this->{error} = 'System does not support changing passwords';
+    $this->error('System does not support changing passwords');
     return 1;
 }
 
@@ -168,12 +172,6 @@ Return any error raised by the last method call, or undef if the last
 method call succeeded.
 
 =cut
-
-sub error {
-    my $this = shift;
-
-    return $this->{error};
-}
 
 =begin TML
 

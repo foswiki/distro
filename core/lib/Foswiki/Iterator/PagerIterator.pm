@@ -9,13 +9,12 @@ Iterator that Pages another iterator
 =cut
 
 package Foswiki::Iterator::PagerIterator;
-
-use strict;
-use warnings;
+use v5.14;
 use Assert;
 
-use Foswiki::Iterator ();
-our @ISA = ('Foswiki::Iterator');
+use Moo;
+extends qw(Foswiki::Object);
+with qw(Foswiki::Iterator);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -24,9 +23,47 @@ BEGIN {
     }
 }
 
+has iterator => (
+    is       => 'rw',
+    required => 1,
+    weak_ref => 1,
+    isa      => Foswiki::Object::isaCLASS(
+        'iterator', 'Foswiki::Object', does => 'Foswiki::Iterator',
+    ),
+    handles => [qw(nextWeb sortResults)],
+);
+has pagesize => (
+    is     => 'ro',
+    coerce => sub {
+        return ( $_[0] || $Foswiki::cfg{Search}{DefaultPageSize} || 25 );
+    },
+);
+has showpage => (
+    is     => 'ro',
+    coerce => sub { return defined( $_[0] ? $_[0] : 1 ); },
+);
+has pending => (
+    is      => 'rw',
+    default => 0,
+);
+has pager_skip_results_from => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        my $this = shift;
+        return $this->pagesize * ( $this->showpage - 1 );
+    },
+);
+has pager_result_count => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { return $_[0]->pagesize; },
+);
+
 =begin TML
 
----++ ClassMethod new( $iter, $pagesize, $showpage)
+---++ ClassMethod new( iterator => $iter, [pagesize => $pagesize,] [showpage => $showpage,])
 
 skip a certain number of results based on pagesize and page number
 
@@ -34,112 +71,63 @@ skip a certain number of results based on pagesize and page number
 
 =cut
 
-sub new {
-    my ( $class, $iter, $pagesize, $showpage ) = @_;
-    ASSERT( UNIVERSAL::isa( $iter, 'Foswiki::Iterator' ) ) if DEBUG;
-
-    my $this = bless( {}, $class );
-    $this->{iterator} = $iter;
-
-    $this->{next} = undef;
-    $this->{pending} =
-      0;    #has 'hasNext' already been called, but 'next' hasn't been
-
-    $this->{pagesize} =
-         $pagesize
-      || $Foswiki::cfg{Search}{DefaultPageSize}
-      || 25;
-    $this->{showpage} = $showpage;
-    $this->{showpage} = 1 unless ( defined( $this->{showpage} ) );
-
-    $this->{pager_skip_results_from} =
-      $this->{pagesize} * ( $this->{showpage} - 1 );
-    print STDERR
-"    $this->{pager_skip_results_from} = $this->{pagesize} * ($this->{showpage}-1);\n"
-      if Foswiki::Iterator::MONITOR;
-    $this->{pager_result_count} = $this->{pagesize};
-
-    return $this;
-}
-
-sub pagesize {
-    my $this = shift;
-    return $this->{pagesize};
-}
-
-sub showpage {
-    my $this = shift;
-    return $this->{showpage};
-}
-
 #lie - give the requested pagesize - it might be less, if we're at the end of the list
 #and we can never know if there is just one more, as the underlying iterator may have only asked for pagesize reaults
 #so it can't tell us
 sub numberOfTopics {
     my $this = shift;
-    if ( !$this->hasNext() && ( $this->{pager_result_count} > 0 ) ) {
-        return $this->{pagesize} - $this->{pager_result_count};
+    if ( !$this->hasNext() && ( $this->pager_result_count > 0 ) ) {
+        return $this->pagesize - $this->pager_result_count;
     }
     else {
         #we're still iterating, so we don't know the page size
-        return $this->{pagesize};
+        return $this->pagesize;
     }
 }
 
 #another lie - this hopes that the inner iterator knows the number, and isn't just guessing.
 sub numberOfPages {
     my $this = shift;
-    if ( !$this->hasNext() && ( $this->{pager_result_count} > 0 ) ) {
+    if ( !$this->hasNext() && ( $this->pager_result_count > 0 ) ) {
 
 #if we've exhausted the undelying iterator, and have not got pagesize elements, then we know there are no more.
         return $this->showpage();
     }
     else {
         #we're still iterating, so we don't know the page size
-        return
-          int( $this->{iterator}->numberOfTopics() / $this->{pagesize} ) + 1;
+        return int( $this->iterator->numberOfTopics() / $this->pagesize ) + 1;
     }
-}
-
-sub nextWeb {
-    my $this = shift;
-    $this->{iterator}->nextWeb();
-}
-
-sub sortResults {
-    my $this = shift;
-    $this->{iterator}->sortResults(@_);
 }
 
 # See Foswiki::Iterator for a description of the general iterator contract
 sub hasNext {
     my $this = shift;
-    return 1 if $this->{pending};
+    return 1 if $this->pending;
 
-    if ( $this->{pager_skip_results_from} > 0 ) {
-        $this->{pager_skip_results_from} =
-          $this->skip( $this->{pager_skip_results_from} );
+    if ( $this->pager_skip_results_from > 0 ) {
+        $this->pager_skip_results_from(
+            $this->skip( $this->pager_skip_results_from ) );
 
-        #this already loads $this->{next}
+        #this already loads $this->_next
 
     }
     else {
-        if ( $this->{iterator}->hasNext() ) {
-            $this->{next}    = $this->{iterator}->next();
-            $this->{pending} = 1;
+        if ( $this->iterator->hasNext() ) {
+            $this->_next( $this->iterator->next );
+            $this->pending(1);
         }
     }
 
-    if ( $this->{pending} ) {
-        if ( $this->{pager_result_count} <= 0 ) {
+    if ( $this->pending ) {
+        if ( $this->pager_result_count <= 0 ) {
 
             #SVEN - huh?
             #finished.
-            $this->{next}    = undef;
-            $this->{pending} = 0;
+            $this->_clear_next;
+            $this->pending(0);
             return 0;
         }
-        $this->{pager_result_count}--;
+        $this->pager_result_count( $this->pager_result_count - 1 );
         return 1;
     }
     return 0;
@@ -156,11 +144,11 @@ sub skip {
       if Foswiki::Iterator::MONITOR;
 
     #ask CAN skip() for faster path
-    if ( 1 == 2 && $this->{iterator}->can('skip') ) {
-        $count = $this->{iterator}->skip($count);
-        if ( $this->{iterator}->hasNext() ) {
-            $this->{next}    = $this->{iterator}->next();
-            $this->{pending} = 1;
+    if ( 1 == 2 && $this->iterator->can('skip') ) {
+        $count = $this->iterator->skip($count);
+        if ( $this->iterator->hasNext() ) {
+            $this->_next( $this->iterator->next );
+            $this->pending(1);
             $count--;
         }
     }
@@ -170,14 +158,13 @@ sub skip {
         while (
             ( $count >= 0
             ) #must come first - don't want to advance the inner itr if count ==0
-            and $this->{iterator}->hasNext()
+            and $this->iterator->hasNext()
           )
         {
             $count--;
-            $this->{next} =
-              $this->{iterator}->next()
+            $this->_next( $this->iterator->next )
               ;    #drain next, so hasNext goes to next element
-            $this->{pending} = defined( $this->{next} );
+            $this->pending( defined( $this->_next ) );
         }
     }
 
@@ -185,8 +172,8 @@ sub skip {
     if ( $count >= 0 ) {
 
         #skipped past the end of the set
-        $this->{next}    = undef;
-        $this->{pending} = 0;
+        $this->_clear_next;
+        $this->pending(0);
     }
     print STDERR
 "--------------------------------------------PagerIterator::skip() => $count\n"
@@ -199,17 +186,17 @@ sub skip {
 sub next {
     my $this = shift;
     return unless $this->hasNext();
-    $this->{pending} = 0;
-    return $this->{next};
+    $this->pending(0);
+    return $this->_next;
 }
 
 # See Foswiki::Iterator for a description of the general iterator contract
 sub reset {
     my ($this) = @_;
 
-    return unless ( $this->{iterator}->reset() );
-    $this->{next}    = undef;
-    $this->{pending} = 0;
+    return unless ( $this->iterator->reset() );
+    $this->_clear_next;
+    $this->pending(0);
 
     return 1;
 }

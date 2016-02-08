@@ -1,8 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Iterator::EventIterator;
-
-use strict;
-use warnings;
+use v5.14;
 use Assert;
 
 BEGIN {
@@ -20,25 +18,19 @@ Private subclass of LineIterator that
    * reasembles divided records into a single log record
    * splits the log record into fields
 
+---++ ClassMethod new( version => $api, threshold => $threshold, level => $reqLevel, [filename => $filename,])
+
 =cut
 
-package Foswiki::Iterator::EventIterator;
-require Foswiki::LineIterator;
-our @ISA = ('Foswiki::LineIterator');
+use Moo;
+extends qw(Foswiki::LineIterator);
 
 use constant TRACE => 0;
 
-sub new {
-    my ( $class, $fh, $threshold, $level, $version, $filename ) = @_;
-    my $this = $class->SUPER::new($fh);
-    $this->{_api}       = $version;
-    $this->{_threshold} = $threshold;
-    $this->{_reqLevel}  = $level;
-    $this->{_filename}  = $filename || 'n/a';
-
-    #  print STDERR "EventIterator created for $this->{_filename} \n";
-    return $this;
-}
+has _api       => ( is => 'rw', init_arg => 'version',   required => 1, );
+has _threshold => ( is => 'rw', init_arg => 'threshold', required => 1, );
+has _reqLevel  => ( is => 'rw', init_arg => 'level',     required => 1, );
+has _filename  => ( is => 'rw', init_arg => 'filename',  default  => 'n/a', );
 
 =begin TML
 
@@ -51,10 +43,11 @@ Returns true if a cached record is available.
 
 =cut
 
-sub hasNext {
+around hasNext => sub {
+    my $orig = shift;
     my $this = shift;
-    return 1 if defined $this->{_nextEvent};
-    while ( $this->SUPER::hasNext() ) {
+    return 1 if defined $this->_nextEvent;
+    while ( $orig->($this) ) {
         my $ln = $this->SUPER::next();
 
         # Merge records until record ends in |
@@ -66,26 +59,27 @@ sub hasNext {
         shift @line;    # skip the leading empty cell
         next unless scalar(@line) && defined $line[0];
 
+        my $reqLevel = $this->_reqLevel;
         if (
-            $line[0] =~ s/\s+($this->{_reqLevel})\s*$//    # test the level
+            $line[0] =~ s/\s+($reqLevel)\s*$//    # test the level
               # accept a plain 'old' format date with no level only if reading info (statistics)
             || $line[0] =~ m/^\d{1,2} [a-z]{3} \d{4}/i
-            && $this->{_reqLevel} =~ m/info/
+            && $this->_reqLevel =~ m/info/
           )
         {
-            $this->{_level} = $1 || 'info';
+            $this->_level( $1 || 'info' );
             $line[0] = Foswiki::Time::parseTime( $line[0] );
             next
               unless ( defined $line[0] ); # Skip record if time doesn't decode.
-            if ( $line[0] >= $this->{_threshold} ) {    # test the time
-                $this->{_nextEvent}  = \@line;
-                $this->{_nextParsed} = $this->formatData();
+            if ( $line[0] >= $this->_threshold ) {    # test the time
+                $this->_nextEvent( \@line );
+                $this->_nextParsed( $this->formatData() );
                 return 1;
             }
         }
     }
     return 0;
-}
+};
 
 =begin TML
 
@@ -98,9 +92,9 @@ which will read the file until it finds a matching record.
 
 sub snoopNext {
     my $this = shift;
-    return $this->{_nextParsed};    # if defined $this->{_nextParsed};
-                                    #return undef unless $this->hasNext();
-                                    #return $this->{_nextParsed};
+    return $this->_nextParsed;    # if defined $this->_nextParsed;
+                                  #return undef unless $this->hasNext();
+                                  #return $this->_nextParsed;
 }
 
 =begin TML
@@ -112,9 +106,9 @@ Returns a hash, or an array of the fields in the next available record depending
 
 sub next {
     my $this = shift;
-    undef $this->{_nextEvent};
-    return $this->{_nextParsed}[0] if $this->{_api};
-    return $this->{_nextParsed}[1];
+    $this->_clear_nextEvent;
+    return $this->_nextParsed->[0] if $this->_api;
+    return $this->_nextParsed->[1];
 }
 
 =begin TML
@@ -128,12 +122,12 @@ interface, or the array returned for the original Version 0 interface.
 
 sub formatData {
     my $this = shift;
-    my $data = $this->{_nextEvent};
+    my $data = $this->_nextEvent;
     my %fhash;    # returned hash of identified fields
-    $fhash{level}    = $this->{_level};
-    $fhash{filename} = $this->{_filename}
+    $fhash{level}    = $this->_level;
+    $fhash{filename} = $this->_filename
       if (TRACE);
-    if ( $this->{_level} eq 'info' ) {
+    if ( $this->_level eq 'info' ) {
         $fhash{epoch}      = @$data[0];
         $fhash{user}       = @$data[1];
         $fhash{action}     = @$data[2];
@@ -141,11 +135,11 @@ sub formatData {
         $fhash{extra}      = @$data[4];
         $fhash{remoteAddr} = @$data[5];
     }
-    elsif ( $this->{_level} =~ m/warning|error|critical|alert|emergency/ ) {
+    elsif ( $this->_level =~ m/warning|error|critical|alert|emergency/ ) {
         $fhash{epoch} = @$data[0];
         $fhash{extra} = join( ' ', @$data[ 1 .. $#$data ] );
     }
-    elsif ( $this->{_level} eq 'debug' ) {
+    elsif ( $this->_level eq 'debug' ) {
         $fhash{epoch} = @$data[0];
         $fhash{extra} = join( ' ', @$data[ 1 .. $#$data ] );
     }

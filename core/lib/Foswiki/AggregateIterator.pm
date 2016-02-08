@@ -10,11 +10,11 @@ Combine multiple iterators into a single iteration.
 =cut
 
 package Foswiki::AggregateIterator;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Iterator ();
-our @ISA = ('Foswiki::Iterator');
+use Moo;
+extends qw(Foswiki::Object);
+with qw(Foswiki::Iterator);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -25,33 +25,34 @@ BEGIN {
 
 =begin TML
 
----++ new(\@list, $unique)
+---++ new(iterators => \@list, uniqueOnly => $unique)
 
 Create a new iterator over the given list of iterators. The list is
 not damaged in any way.
 
-If =$unique= is set, we try to not repeat values.
-Warning: =$unique= assumes that the values are strings.
+If =uniqueOnly= is true, we try to not repeat values.
+Warning: =uniqueOnly= assumes that the values are strings.
 
 =cut
 
-sub new {
-    my ( $class, $list, $unique ) = @_;
-    my $this = bless(
-        {
-            Itr_list    => $list,
-            Itr_index   => 0,
-            index       => 0,
-            process     => undef,
-            filter      => undef,
-            next        => undef,
-            unique      => $unique,
-            unique_hash => {}
-        },
-        $class
-    );
-    return $this;
-}
+has _iterator => (
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    isa       => Foswiki::Object::isaCLASS(
+        'list', 'Foswiki::Object', does => 'Foswiki::Iterator',
+    ),
+);
+has Itr_list => (
+    is       => 'rw',
+    required => 1,
+    init_arg => 'iterators',
+    isa      => Foswiki::Object::isaARRAY('Itr_list'),
+);
+has Itr_index   => ( is => 'rw', default => 0, );
+has uniqueOnly  => ( is => 'rw', default => 0, );
+has unique_hash => ( is => 'rw', lazy    => 1, default => sub { {} }, );
 
 =begin TML
 
@@ -63,35 +64,36 @@ Returns false when the iterator is exhausted.
 
 sub hasNext {
     my ($this) = @_;
-    return 1 if $this->{next};
+    return 1 if $this->_next;
     my $n;
     do {
-        unless ( $this->{list} ) {
-            if ( $this->{Itr_index} < scalar( @{ $this->{Itr_list} } ) ) {
-                $this->{list} = $this->{Itr_list}->[ $this->{Itr_index}++ ];
+        unless ( $this->_has_iterator ) {
+            if ( $this->Itr_index < scalar( @{ $this->Itr_list } ) ) {
+                $this->_iterator( $this->Itr_list->[ $this->Itr_index ] );
+                $this->Itr_index( $this->Itr_index + 1 );
             }
             else {
                 return 0;    #no more iterators in list
             }
         }
-        if ( $this->{list}->hasNext() ) {
-            $n = $this->{list}->next();
+        if ( $this->_iterator->hasNext() ) {
+            $n = $this->_iterator->next();
         }
         else {
-            $this->{list} = undef;    #goto next iterator
+            $this->_clear_iterator;    #goto next iterator
         }
-      } while ( !$this->{list}
-        || ( $this->{filter} && !&{ $this->{filter} }($n) )
-        || ( $this->{unique} && !$this->unique($n) ) );
-    $this->{next} = $n;
+      } while ( !$this->_has_iterator
+        || ( $this->filter && !&{ $this->filter }($n) )
+        || ( $this->uniqueOnly && !$this->unique($n) ) );
+    $this->_next($n);
     return 1;
 }
 
 sub unique {
     my ( $this, $value ) = @_;
 
-    unless ( defined( $this->{unique_hash}{$value} ) ) {
-        $this->{unique_hash}{$value} = 1;
+    unless ( defined( $this->unique_hash->{$value} ) ) {
+        $this->unique_hash->{$value} = 1;
         return 1;
     }
 
@@ -119,12 +121,16 @@ iterator object:
 sub next {
     my $this = shift;
     $this->hasNext();
-    my $n = $this->{next};
-    $this->{next} = undef;
-    $n = &{ $this->{process} }($n) if $this->{process};
+    my $n = $this->_next;
+    $this->_clear_next;
+    $n = &{ $this->process }($n) if $this->process;
 
     #print STDERR "next - $n \n";
     return $n;
+}
+
+sub reset {
+    my $this = shift;
 }
 
 1;

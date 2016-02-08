@@ -263,7 +263,7 @@ sub assert {
     $mess ||= "Assertion failed";
     $mess = join( "\n", @{ $this->annotations } ) . "\n" . $mess;
     $mess = Carp::longmess($mess);
-    die $mess;
+    Foswiki::Exception::ASSERT->throw( text => $mess, object => $this );
 }
 
 =begin TML

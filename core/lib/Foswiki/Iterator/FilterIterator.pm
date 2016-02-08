@@ -9,13 +9,13 @@ Iterator that filters another iterator based on the results from a function.
 =cut
 
 package Foswiki::Iterator::FilterIterator;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
-use Foswiki::Iterator ();
-our @ISA = ('Foswiki::Iterator');
+use Moo;
+extends qw(Foswiki::Object);
+with qw(Foswiki::Iterator);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -24,9 +24,20 @@ BEGIN {
     }
 }
 
+has iterator => (
+    is       => 'rw',
+    required => 1,
+    weak_ref => 1,
+    isa      => Foswiki::Object::isaCLASS(
+        'iterator', 'Foswiki::Object', does => 'Foswiki::Iterator',
+    ),
+);
+has data    => ( is => 'rw', required => 1, );
+has pending => ( is => 'rw', default  => 0, );
+
 =begin TML
 
----++ ClassMethod new( $iter, $sub, $data )
+---++ ClassMethod new( iterator => $iter, filter => $sub, data => $data )
 Construct a new iterator that will filter $iter based on the results from
 $sub. $sub should return 0 if the next() from $iter should be filtered and
 1 if it should be treated as the next item in the sequence.
@@ -35,43 +46,35 @@ $data is an optional arbitrary data item which will be passed to $sub in $_[1]
 
 =cut
 
-sub new {
-    my ( $class, $iter, $sub, $data ) = @_;
-    ASSERT( UNIVERSAL::isa( $iter, 'Foswiki::Iterator' ) ) if DEBUG;
-    ASSERT( ref($sub) eq 'CODE' ) if DEBUG;
-    my $this = bless( {}, $class );
-    $this->{iterator} = $iter;
-    $this->{filter}   = $sub;
-    $this->{data}     = $data;
-    $this->{next}     = undef;
-    $this->{pending}  = 0;
-    return $this;
+sub BUILD {
+    my $this = shift;
+    ASSERT( ref( $this->filter ) eq 'CODE' ) if DEBUG;
 }
 
 #lie - give the unfiltered count for speed.
 sub numberOfTopics {
     my $this = shift;
-    return $this->{iterator}->numberOfTopics();
+    return $this->iterator->numberOfTopics();
 }
 
 sub nextWeb {
     my $this = shift;
-    $this->{iterator}->nextWeb();
+    $this->iterator->nextWeb();
 }
 
 sub sortResults {
     my $this = shift;
-    $this->{iterator}->sortResults(@_);
+    $this->iterator->sortResults(@_);
 }
 
 # See Foswiki::Iterator for a description of the general iterator contract
 sub hasNext {
     my $this = shift;
-    return 1 if $this->{pending};
-    while ( $this->{iterator}->hasNext() ) {
-        $this->{next} = $this->{iterator}->next();
-        if ( &{ $this->{filter} }( $this->{next}, $this->{data} ) ) {
-            $this->{pending} = 1;
+    return 1 if $this->pending;
+    while ( $this->iterator->hasNext() ) {
+        $this->_next( $this->iterator->next );
+        if ( &{ $this->filter }( $this->_next, $this->data ) ) {
+            $this->pending(1);
             return 1;
         }
     }
@@ -84,12 +87,12 @@ sub skip {
     my $count = shift;
 
     #ask CAN skip() for faster path
-    if ( $this->{iterator}->can('skip') ) {
-        $count = $this->{iterator}->skip($count);
+    if ( $this->iterator->can('skip') ) {
+        $count = $this->iterator->skip($count);
 
-        if ( $this->{iterator}->hasNext() ) {
-            $this->{next}    = $this->{iterator}->next();
-            $this->{pending} = 1;
+        if ( $this->iterator->hasNext() ) {
+            $this->_next( $this->iterator->next );
+            $this->pending(1);
             $count--;
         }
     }
@@ -99,12 +102,11 @@ sub skip {
         while (
             ( $count > 0
             ) #must come first - don't want to advance the inner itr if count ==0
-            and $this->{iterator}->hasNext()
+            and $this->iterator->hasNext()
           )
         {
             $count--;
-            $this->{next} =
-              $this->{iterator}->next()
+            $this->_next( $this->iterator->next )
               ;    #drain next, so hasNext goes to next element
         }
     }
@@ -112,8 +114,8 @@ sub skip {
     if ( $count >= 0 ) {
 
         #skipped past the end of the set
-        $this->{next}    = undef;
-        $this->{pending} = 0;
+        $this->_clear_next;
+        $this->pending(0);
     }
     print STDERR
 "--------------------------------------------FilterIterator::skip() => $count\n"
@@ -126,17 +128,17 @@ sub skip {
 sub next {
     my $this = shift;
     return unless $this->hasNext();
-    $this->{pending} = 0;
-    return $this->{next};
+    $this->pending(0);
+    return $this->_next;
 }
 
 # See Foswiki::Iterator for a description of the general iterator contract
 sub reset {
     my ($this) = @_;
 
-    return unless ( $this->{iterator}->reset() );
-    $this->{next}    = undef;
-    $this->{pending} = 0;
+    return unless ( $this->iterator->reset() );
+    $this->_clear_next;
+    $this->pending(0);
 
     return 1;
 }

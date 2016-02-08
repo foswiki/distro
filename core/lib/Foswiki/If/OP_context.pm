@@ -39,8 +39,8 @@ sub evaluate {
     my $text    = $a->_evaluate(@_) || '';
     my %domain  = @_;
     my $session = $domain{tom}->session;
-    throw Error::Simple(
-        'No context in which to evaluate "' . $a->stringify() . '"' )
+    Foswiki::Exception->throw(
+        text => 'No context in which to evaluate "' . $a->stringify() . '"' )
       unless $session;
     return $session->inContext($text) || 0;
 }

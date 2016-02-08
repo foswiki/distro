@@ -318,8 +318,8 @@ sub _hoistDOT {
         {
             $lhs = $lhs->params->[0];
             $rhs = $rhs->params->[0];
-            if ( $Foswiki::Query::Node::aliases{$lhs} ) {
-                $lhs = $Foswiki::Query::Node::aliases{$lhs};
+            if ( $Foswiki::Meta::aliases{$lhs} ) {
+                $lhs = $Foswiki::Meta::aliases{$lhs};
             }
             if ( $lhs =~ m/^META:/ ) {
 

@@ -1,8 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Iterator::AggregateEventIterator;
-
-use strict;
-use warnings;
+use v5.14;
 use Assert;
 
 BEGIN {
@@ -20,26 +18,9 @@ Private subclass of Foswiki::AggregateIterator that implements the snoopNext met
 =cut
 
 # Private subclass of AggregateIterator that can snoop Events.
-require Foswiki::AggregateIterator;
-our @ISA = ('Foswiki::AggregateIterator');
-
-sub new {
-    my ( $class, $list, $unique ) = @_;
-    my $this = bless(
-        {
-            Itr_list    => $list,
-            Itr_index   => 0,
-            index       => 0,
-            process     => undef,
-            filter      => undef,
-            next        => undef,
-            unique      => $unique,
-            unique_hash => {}
-        },
-        $class
-    );
-    return $this;
-}
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::AggregateIterator);
 
 =begin TML
 
@@ -50,7 +31,7 @@ Return the field hash of the next availabable record.
 
 sub snoopNext {
     my $this = shift;
-    return $this->{list}->snoopNext();
+    return $this->list->snoopNext();
 }
 
 1;

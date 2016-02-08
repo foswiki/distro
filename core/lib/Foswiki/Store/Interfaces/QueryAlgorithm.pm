@@ -93,7 +93,8 @@ sub query {
     my $date = $options->{'date'} || '';
 
     # Fold constants
-    my $context = Foswiki::Meta->new( $session, $session->{webName} );
+    my $context =
+      Foswiki::Meta->new( session => $session, web => $session->webName );
     print STDERR "--- before: " . $query->stringify() . "\n" if MONITOR;
     $query->simplify( tom => $context, data => $context );
     print STDERR "--- simplified: " . $query->stringify() . "\n" if MONITOR;
@@ -102,8 +103,8 @@ sub query {
 
     #do the search
     my $queryItr = Foswiki::Iterator::ProcessIterator->new(
-        $webItr,
-        sub {
+        iterator => $webItr,
+        process  => sub {
             my $web    = shift;
             my $params = shift;
 
@@ -117,7 +118,7 @@ sub query {
 
             return $infoCache;
         },
-        {
+        data => {
             query    => $query,
             inputset => $inputTopicSet,
             session  => $session,
@@ -210,17 +211,18 @@ sub getWebIterator {
     my @webs =
       Foswiki::Store::Interfaces::QueryAlgorithm::getListOfWebs( $webNames,
         $recurse, $searchAllFlag );
-    my $rawWebIter = new Foswiki::ListIterator( \@webs );
-    my $webItr     = new Foswiki::Iterator::FilterIterator(
-        $rawWebIter,
-        sub {
+    my $rawWebIter = new Foswiki::ListIterator( list => \@webs );
+    my $webItr = new Foswiki::Iterator::FilterIterator(
+        iterator => $rawWebIter,
+        filter   => sub {
             my $web    = shift;
             my $params = shift;
 
             # can't process what ain't thar
             return 0 unless $session->webExists($web);
 
-            my $webObject = Foswiki::Meta->new( $session, $web );
+            my $webObject =
+              Foswiki::Meta->new( session => $session, web => $web );
             my $thisWebNoSearchAll =
               Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
 
@@ -233,7 +235,7 @@ sub getWebIterator {
                 && $web ne $session->{webName} );
             return 1;
         },
-        {}
+        data => {},
     );
 }
 
@@ -296,7 +298,7 @@ sub getField {
             $data->getRevisionInfo();
         }
 
-        if ( $Foswiki::Query::Node::isArrayType{$field} ) {
+        if ( $Foswiki::Meta::isArrayType{$field} ) {
 
             # Array type, have to use find
             my @e = $data->find($field);
@@ -459,15 +461,18 @@ sub getListOfWebs {
                     my $webObject;
                     my $prefix = "$web/";
                     if ( $web =~ m/^(all|on)$/i ) {
-                        $webObject = Foswiki::Meta->new($session);
-                        $prefix    = '';
+                        $webObject = Foswiki::Meta->new( session => $session );
+                        $prefix = '';
                     }
                     else {
                         $web = Foswiki::Sandbox::untaint( $web,
                             \&Foswiki::Sandbox::validateWebName );
                         ASSERT($web) if DEBUG;
                         push( @tmpWebs, $web );
-                        $webObject = Foswiki::Meta->new( $session, $web );
+                        $webObject = Foswiki::Meta->new(
+                            session => $session,
+                            web     => $web
+                        );
                     }
                     my $it = $webObject->eachWeb(1);
                     while ( $it->hasNext() ) {
@@ -499,7 +504,10 @@ sub getListOfWebs {
         push( @tmpWebs, $web );
         if ( Foswiki::isTrue($recurse) ) {
             require Foswiki::Meta;
-            my $webObject = Foswiki::Meta->new( $session, $session->{webName} );
+            my $webObject = Foswiki::Meta->new(
+                session => $session,
+                web     => $session->webName
+            );
             my $it =
               $webObject->eachWeb( $Foswiki::cfg{EnableHierarchicalWebs} );
             while ( $it->hasNext() ) {

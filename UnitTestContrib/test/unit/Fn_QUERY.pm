@@ -132,12 +132,12 @@ sub test_badQUERY {
       unless ($post11);
 
     foreach my $test (@tests) {
-        my $text   = '%QUERY{"' . $test->test . '"}%';
+        my $text   = '%QUERY{"' . $test->{test} . '"}%';
         my $result = $this->test_topicObject->expandMacros($text);
         $result =~ s/^.*foswikiAlert'>\s*//s;
         $result =~ s/\s*<\/span>\s*//s;
         $this->assert( $result =~ s/^.*}:\s*//s, $text );
-        $this->assert_str_equals( $test->expect, $result );
+        $this->assert_str_equals( $test->{expect}, $result );
     }
     my $result = $this->test_topicObject->expandMacros('%QUERY%');
 
@@ -393,7 +393,7 @@ SMELL
     $topicObject0Att->save();
 
     my $text = <<PONG;
-%QUERY{ "'$test_web}.DeadHerring'/META:FIELD[name='Wibble'].value"}%
+%QUERY{ "'$test_web.DeadHerring'/META:FIELD[name='Wibble'].value"}%
 PONG
     my $result = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( <<THIS, $result );

@@ -495,7 +495,7 @@ DIE
     eval "use $suite";
     die $@ if $@;
 
-    my $tester = $suite->new($suite);
+    my $tester = $suite->new( testSuite => $suite );
 
     my $log = "stdout.$$.log";
     require Unit::Eavesdrop;

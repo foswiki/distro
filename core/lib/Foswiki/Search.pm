@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Search;
+use v5.14;
 
 =begin TML
 
@@ -9,9 +10,6 @@ This module implements all the search functionality.
 
 =cut
 
-use strict;
-use warnings;
-use Assert;
 use Try::Tiny;
 
 use Foswiki                           ();
@@ -31,6 +29,8 @@ use namespace::clean;
 
 extends 'Foswiki::Object';
 
+use Assert;
+
 use constant MONITOR => 0;
 
 BEGIN {
@@ -41,8 +41,29 @@ BEGIN {
 }
 
 has session => ( is => 'ro', );
-
-our @_newParameters = qw( session );
+has metacache => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        return Foswiki::MetaCache->new( session => $_[0]->session );
+    },
+);
+has queryParser => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        require Foswiki::Query::Parser;
+        return Foswiki::Query::Parser->new;
+    },
+);
+has searchParser => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        require Foswiki::Search::Parser;
+        return Foswiki::Search::Parser->new( session => $_[0]->session );
+    },
+);
 
 =begin TML
 
@@ -55,44 +76,28 @@ Break circular references.
 
 =cut
 
-sub finish {
-    my $this = shift;
-    undef $this->{session};
-
-# these may well be function objects, but if (a setting changes, it needs to be picked up again.
-    if ( defined( $this->{queryParser} ) ) {
-
-        #$this->{queryParser}->finish();
-        undef $this->{queryParser};
-    }
-    if ( defined( $this->{searchParser} ) ) {
-
-        #$this->{searchParser}->finish();
-        undef $this->{searchParser};
-    }
-    if ( defined( $this->{MetaCache} ) ) {
-
-        #$this->{MetaCache}->finish();
-        undef $this->{MetaCache};
-    }
-}
-
-=begin TML
-
----++ ObjectMethod metacache
-returns the metacache.
-
-=cut
-
-sub metacache {
-    my $this = shift;
-
-# these may well be function objects, but if (a setting changes, it needs to be picked up again.
-    if ( !defined( $this->{MetaCache} ) ) {
-        $this->{MetaCache} = new Foswiki::MetaCache( $this->{session} );
-    }
-    return $this->{MetaCache};
-}
+# XXX vrurg finish is not needed as attributes will be cleared automatically.
+#sub finish {
+#    my $this = shift;
+#    undef $this->session;
+#
+## these may well be function objects, but if (a setting changes, it needs to be picked up again.
+#    if ( defined( $this->queryParser ) ) {
+#
+#        #$this->{queryParser}->finish();
+#        undef $this->{queryParser};
+#    }
+#    if ( defined( $this->{searchParser} ) ) {
+#
+#        #$this->{searchParser}->finish();
+#        undef $this->{searchParser};
+#    }
+#    if ( defined( $this->{MetaCache} ) ) {
+#
+#        #$this->{MetaCache}->finish();
+#        undef $this->{MetaCache};
+#    }
+#}
 
 =begin TML
 
@@ -112,19 +117,10 @@ sub parseSearch {
     my $query;
     my $theParser;
     if ( $params->{type} eq 'query' ) {
-        unless ( defined( $this->{queryParser} ) ) {
-            require Foswiki::Query::Parser;
-            $this->{queryParser} = new Foswiki::Query::Parser();
-        }
-        $theParser = $this->{queryParser};
+        $theParser = $this->queryParser;
     }
     else {
-        unless ( defined( $this->{searchParser} ) ) {
-            require Foswiki::Search::Parser;
-            $this->{searchParser} =
-              new Foswiki::Search::Parser( $this->{session} );
-        }
-        $theParser = $this->{searchParser};
+        $theParser = $this->searchParser;
     }
     try {
         $query = $theParser->parse( $searchString, $params );
@@ -137,7 +133,7 @@ sub parseSearch {
             #
             #    # Pass the error on to the caller
 
-    #    throw Error::Simple( shift->stringify() );
+    #    Foswiki::Exception->throw( text => shift->stringify() );
     #};
     # Guess as now exceptions are all derived from a single ancestor there is no
     # more need to convert into Error::Simple. Though stringification has to be
@@ -145,6 +141,8 @@ sub parseSearch {
             $_->throw;
         }
 
+        # SMELL What shall we do with the rest of the exceptions?
+        Foswiki::Exception::Fatal->rethrow($_);
     };
 
 #print STDERR "parseSearch($searchString) => ".$query->stringify()."\n" if MONITOR;
@@ -264,16 +262,16 @@ FIXME: =callback= cannot work with format parameter (consider format='| $topic |
 
 sub searchWeb {
     my $this    = shift;
-    my $session = $this->{session};
-    ASSERT( defined $session->{webName} ) if DEBUG;
+    my $session = $this->session;
+    ASSERT( defined $session->webName ) if DEBUG;
     my %params = @_;
 
-    my $baseWebObject = Foswiki::Meta->new( $session, $session->{webName} );
+    my $baseWebObject = Foswiki::Meta->new( $session, $session->webName );
 
     my ( $callback, $cbdata ) = setup_callback( \%params, $baseWebObject );
 
-    my $baseTopic = $params{basetopic} || $session->{topicName};
-    my $baseWeb   = $params{baseweb}   || $session->{webName};
+    my $baseTopic = $params{basetopic} || $session->topicName;
+    my $baseWeb   = $params{baseweb}   || $session->webName;
     $params{casesensitive} = Foswiki::isTrue( $params{casesensitive} );
     $params{excludeTopics} = $params{excludetopic} || '';
     my $formatDefined = $params{formatdefined} = defined $params{format};
@@ -341,7 +339,7 @@ sub searchWeb {
                 $searchString =~ s/(&#(39|34|60|62|37);)/chr($2)/ge;
             }
             else {
-                throw Error::Simple(
+                Foswiki::Exception->throw( text =>
 'Unknown decode type requested: Valid types are entity, entities, safe and url.'
                 );
             }
@@ -385,7 +383,7 @@ sub searchWeb {
     $params{pager_urlparam_id} = $paging_ID;
 
     # 1-based system; 0 is not a valid page number
-    $params{showpage} = $session->{request}->param($paging_ID)
+    $params{showpage} = $session->request->param($paging_ID)
       || $params{showpage};
 
     #append a pager to the end of the search result.
@@ -508,7 +506,7 @@ sub loadTemplates {
         $noSummary,     $noTotal,    $noFooter
     ) = @_;
 
-    my $session = $this->{session};
+    my $session = $this->session;
 
     #tmpl loading code.
     my $tmpl = '';
@@ -612,12 +610,12 @@ the hash of subs can take care of %MACRO{}% specific complex to evaluate replace
 
 sub formatResults {
     my ( $this, $query, $infoCache, $params ) = @_;
-    my $session = $this->{session};
-    my $users   = $session->{users};
+    my $session = $this->session;
+    my $users   = $session->users;
     my ( $callback, $cbdata ) = setup_callback($params);
 
-    my $baseTopic     = $session->{topicName};
-    my $baseWeb       = $session->{webName};
+    my $baseTopic     = $session->topicName;
+    my $baseWeb       = $session->webName;
     my $doBookView    = Foswiki::isTrue( $params->{bookview} );
     my $caseSensitive = Foswiki::isTrue( $params->{casesensitive} );
     my $doExpandVars  = Foswiki::isTrue( $params->{expandvariables} );
@@ -674,8 +672,8 @@ sub formatResults {
         my %new_params;
 
         #kill me please, i can't find a way to just load up the hash :(
-        foreach my $key ( $session->{request}->param ) {
-            $new_params{$key} = $session->{request}->param($key);
+        foreach my $key ( $session->request->param ) {
+            $new_params{$key} = $session->request->param($key);
         }
 
         $session->templates->readTemplate('searchformat');
@@ -803,7 +801,7 @@ sub formatResults {
               Foswiki::Func::normalizeWebTopicName( '', $listItem );
 
 # add dependencies (TODO: unclear if this should be before the paging, or after the allowView - sadly, it can't be _in_ the infoCache)
-            if ( my $cache = $session->{cache} ) {
+            if ( my $cache = $session->cache ) {
                 $cache->addDependency( $web, $topic );
             }
 
@@ -1170,7 +1168,7 @@ sub formatResults {
 sub formatCommon {
     my ( $this, $out, $customKeys ) = @_;
 
-    my $session = $this->{session};
+    my $session = $this->session;
 
     foreach my $key ( keys(%$customKeys) ) {
         $out =~ s/\$$key/&{$customKeys->{$key}}()/ges;
@@ -1198,7 +1196,7 @@ sub formatResult {
     my ( $this, $out, $item, $text, $searchOptions, $nonTomKeys, $tomKeys ) =
       @_;
 
-    my $session = $this->{session};
+    my $session = $this->session;
 
     #TODO: these need to go away.
     my $revNum     = &{ $nonTomKeys->{'revNum'} }();
@@ -1267,7 +1265,7 @@ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
             $text = $item->text() unless defined $text;
             $text = ''            unless defined $text;
 
-            if ( $item->topic eq $session->{topicName} ) {
+            if ( $item->topic eq $session->topicName ) {
 
 #TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
 

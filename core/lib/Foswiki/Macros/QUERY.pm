@@ -77,7 +77,7 @@ sub expand {
     catch {
         if ( $_->isa('Foswiki::Infix::Error') ) {
             $result =
-              $this->inlineAlert( 'alerts', 'generic', 'QUERY{',
+              $this->session->inlineAlert( 'alerts', 'generic', 'QUERY{',
                 $params->stringify(), '}:', $_->text );
         }
         else {

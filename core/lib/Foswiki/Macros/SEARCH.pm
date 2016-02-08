@@ -44,6 +44,14 @@ sub SEARCH {
         my $exception = $_;
         my $message;
 
+        # If an unhandled system error took place then let lower level code take
+        # care of it.
+        # If code is executed in unit test mode then avoid HTMLization of error
+        # report.
+        if ( $Foswiki::inUnitTestMode || !ref($exception) ) {
+            Foswiki::Exception::Fatal->rethrow($exception);
+        }
+
         if (DEBUG) {
             $message = $exception->stringify();
         }

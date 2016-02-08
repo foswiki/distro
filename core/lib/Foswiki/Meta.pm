@@ -2151,7 +2151,7 @@ sub saveAs {
         # Don't verify web existance for WebPreferences, as saving
         # WebPreferences creates the web.
         unless ( $this->session->store->webExists( $this->web ) ) {
-            throw Error::Simple( 'Unable to save topic '
+            Foswiki::Exception->throw( text => 'Unable to save topic '
                   . $this->topic
                   . ' - web '
                   . $this->web
@@ -2689,18 +2689,18 @@ sub removeFromStore {
     ASSERT( $this->web, 'this is not a removable object' ) if DEBUG;
 
     if ( !$store->webExists( $this->web ) ) {
-        throw Error::Simple( 'No such web ' . $this->web );
+        Foswiki::Exception->throw( text => 'No such web ' . $this->web );
     }
     if ( $this->topic
         && !$store->topicExists( $this->web, $this->topic ) )
     {
-        throw Error::Simple(
-            'No such topic ' . $this->web . '.' . $this->topic );
+        Foswiki::Exception->throw(
+            text => 'No such topic ' . $this->web . '.' . $this->topic );
     }
 
     if ( $attachment && !$this->hasAttachment($attachment) ) {
         ASSERT( $this->topic, 'this is not a removable object' ) if DEBUG;
-        throw Error::Simple( 'No such attachment '
+        Foswiki::Exception->throw( text => 'No such attachment '
               . $this->web . '.'
               . $this->topic . '.'
               . $attachment );
@@ -2941,9 +2941,11 @@ sub attach {
 
         # no stream given, but a file was given; open it.
         open( $opts{stream}, '<', $opts{file} )
-          || throw Error::Simple( 'Could not open ' . $opts{file} );
+          || Foswiki::Exception->throw(
+            text => 'Could not open ' . $opts{file} );
         binmode( $opts{stream} )
-          || throw Error::Simple( $opts{file} . ' binmode failed: ' . $! );
+          || Foswiki::Exception->throw(
+            text => $opts{file} . ' binmode failed: ' . $! );
     }
 
     my $attrs;

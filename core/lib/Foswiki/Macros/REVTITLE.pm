@@ -13,7 +13,7 @@ BEGIN {
 
 sub REVTITLE {
     my ( $this, $params, $topicObject ) = @_;
-    my $request = $this->{request};
+    my $request = $this->request;
     my $out     = '';
     if ($request) {
         my $rev =

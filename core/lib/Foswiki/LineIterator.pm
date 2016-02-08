@@ -10,12 +10,11 @@ Iterator over the lines read from a file handle.
 =cut
 
 package Foswiki::LineIterator;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Iterator ();
-our @ISA = ('Foswiki::Iterator');
+use Moo;
+extends qw(Foswiki::Object);
+with qw(Foswiki::Iterator);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -24,28 +23,29 @@ BEGIN {
     }
 }
 
+has nextLine => (
+    is     => 'rw',
+    coerce => sub {
+        return undef unless defined( $_[0] );
+        chomp $_[0];
+        return $_[0];
+    },
+);
+has handle => ( is => 'rw', init_arg => 'fileHandle', required => 1, );
+
 =begin TML
 
----++ new( $fh )
+---++ new( fileHandle => $fh )
 
 Create a new iterator over the given file handle.
 
 =cut
 
-sub new {
-    my ( $class, $fh ) = @_;
-    my $this = bless(
-        {
-            nextLine => undef,
-            handle   => $fh,
-        },
-        $class
-    );
+sub BUILD {
+    my $this = shift;
     Foswiki::LineIterator::next($this);
-    $this->{process} = undef;
-    $this->{filter}  = undef;
-
-    return $this;
+    $this->clear_process;
+    $this->clear_filter;
 }
 
 =begin TML
@@ -64,7 +64,7 @@ while ($it->hasNext()) {
 
 sub hasNext {
     my $this = shift;
-    return defined( $this->{nextLine} );
+    return defined( $this->nextLine );
 }
 
 =begin TML
@@ -97,23 +97,20 @@ while ($it->hasNext()) {
 =cut
 
 sub next {
-    my ($this) = @_;
-    my $curLine = $this->{nextLine};
+    my $this    = shift;
+    my $curLine = $this->nextLine;
     local $/ = "\n";
     while (1) {
-        my $h = $this->{handle};
-        $this->{nextLine} = <$h>;
-        if ( !defined( $this->{nextLine} ) ) {
+        my $h = $this->handle;
+        $this->nextLine(<$h>);
+        if ( !defined( $this->nextLine ) ) {
             last;
         }
-        else {
-            chomp( $this->{nextLine} );
-        }
-        last if !$this->{filter};
-        last unless &{ $this->{filter} }( $this->{nextLine} );
+        last if !$this->filter;
+        last unless &{ $this->filter }( $this->nextLine );
     }
-    $curLine = &{ $this->{process} }($curLine)
-      if defined $curLine && $this->{process};
+    $curLine = &{ $this->process }($curLine)
+      if defined $curLine && $this->process;
     return $curLine;
 }
 

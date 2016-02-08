@@ -197,7 +197,7 @@ has logger => (
         my $this = shift;
         my $logger;
         if ( $Foswiki::cfg{Log}{Implementation} ne 'none' ) {
-            eval "require $Foswiki::cfg{Log}{Implementation}";
+            load_package( $Foswiki::cfg{Log}{Implementation} );
             if ($@) {
                 print STDERR "Logger load failed: $@";
             }
@@ -300,7 +300,7 @@ has search => (
     predicate => 1,
     default   => sub {
         require Foswiki::Search;
-        return Foswiki::Search->new( $_[0] );
+        return Foswiki::Search->new( session => $_[0] );
     },
 );
 has store => (
@@ -390,7 +390,7 @@ has users => (
     lazy      => 1,
     predicate => 1,
     clearer   => 1,
-    default   => sub { return Foswiki::Users->new( $_[0] ); },
+    default   => sub { return Foswiki::Users->new( session => $_[0] ); },
 );
 has webName => (
     is      => 'rw',
@@ -2372,15 +2372,22 @@ See http://blog.fox.geek.nz/2010/11/searching-design-spec-for-ultimate.html for 
 sub load_package {
     my $fullname = shift;
 
+    # SMELL Must use system-independant way of forming filepath.
+    my $filename = File::Spec->catfile( split /::/, $fullname ) . '.pm';
+
+    # Check if the module has been already loaded before.
+    return if exists $INC{$filename};
+
     # Is it already loaded? If so, it might be an internal class an missing
     # from @INC, so skip it. See perldoc UNIVERSAL for what this does.
-    return if eval { $fullname->isa($fullname) };
+    # XXX vrurg This method is unreliable and sometimes detects a module which
+    # hasn't been loaded yet. Besides it depends on module name being 1-to-1
+    # mapped into file name which is not always the case. Consider macros which
+    # are part of Foswiki namespace.
+    #return if eval { $fullname->isa($fullname) };
 
-    # SMELL Must use system-independant way of forming filepath.
-    $fullname =~ s{::}{/}g;
-    $fullname .= '.pm';
     local $SIG{__DIE__};
-    require $fullname;
+    require $filename;
 }
 
 =begin TML
@@ -3568,7 +3575,7 @@ sub _expandMacroOnTopicRendering {
     }
     elsif ( exists( $macros{$tag} ) ) {
 
-        # vrurg Macro could be either a reference to an object or a sub. Though
+        # vrurg Macro could either be a reference to an object or a sub. Though
         # generally OO is preferred but for plguins registering a handling sub
         # could be of more convenience for a while.
         unless ( defined( $macros{$tag} ) ) {
@@ -3589,7 +3596,7 @@ sub _expandMacroOnTopicRendering {
 
         my $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
         if ( ref( $macros{$tag} ) eq 'CODE' ) {
-            $e = &{ $macros{$tag} }( $this, $attrs, $topicObject );
+            $e = $macros{$tag}->( $this, $attrs, $topicObject );
         }
         else {
             # Create macro object unless it already exists.

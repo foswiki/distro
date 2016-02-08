@@ -76,8 +76,6 @@ BEGIN {
     }
 }
 
-our @_newParameters = qw(session);
-
 has session => (
     is      => 'rw',
     clearer => 1,
@@ -154,7 +152,8 @@ sub BUILD {
       || 'Foswiki::Users::BaseUserMapping';
     eval "require $implBaseUserMappingManager";
     Foswiki::Exception->throw( text => $@ ) if $@;
-    $this->basemapping( $implBaseUserMappingManager->new($session) );
+    $this->basemapping(
+        $implBaseUserMappingManager->new( session => $session ) );
 
     my $implUserMappingManager = $Foswiki::cfg{UserMappingManager};
     $implUserMappingManager = 'Foswiki::Users::TopicUserMapping'
@@ -164,9 +163,10 @@ sub BUILD {
         $this->mapping( $this->basemapping );    #TODO: probly make undef..
     }
     else {
-        eval "require $implUserMappingManager";
-        Foswiki::Exception->throw($@) if $@;
-        $this->mapping( $implUserMappingManager->new($session) );
+        Foswiki::load_package($implUserMappingManager);
+
+        #Foswiki::Exception->throw(text => $@) if $@;
+        $this->mapping( $implUserMappingManager->new( session => $session ) );
     }
 
     $this->loginManager( Foswiki::LoginManager::makeLoginManager($session) );

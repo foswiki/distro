@@ -19,7 +19,7 @@ sub REVINFO {
     my $format = $params->{_DEFAULT} || $params->{format};
     my $web    = $params->{web}      || $topicObject->web;
     my $topic  = $params->{topic}    || $topicObject->topic;
-    my $cgiQuery = $this->{request};
+    my $cgiQuery = $this->request;
     my $cgiRev   = '';
     $cgiRev = $cgiQuery->param('rev') if ($cgiQuery);
     my $rev = Foswiki::Store::cleanUpRevID( $params->{rev} || $cgiRev || '' );

@@ -8,16 +8,17 @@
 Iterator over a perl list
 
 WARNING: this Iterator will skip any elements that are == undef. 
-SMELL: hasNext should not 'return 1 if defined($this->{next}), but rather use a boolean - to allow array elements to be undef too.
+SMELL: hasNext should not 'return 1 if defined($this->_next), but rather use a boolean - to allow array elements to be undef too.
 
 =cut
 
 package Foswiki::ListIterator;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Iterator ();
-our @ISA = ('Foswiki::Iterator');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+with qw(Foswiki::Iterator);
 
 use Assert;
 
@@ -38,26 +39,6 @@ any way.
 
 =cut
 
-sub new {
-    my ( $class, $list ) = @_;
-
-    $list = [] unless defined $list;
-
-    ASSERT( UNIVERSAL::isa( $list, 'ARRAY' ) ) if DEBUG;
-
-    my $this = bless(
-        {
-            list    => $list,
-            index   => 0,
-            process => undef,
-            filter  => undef,
-            next    => undef,
-        },
-        $class
-    );
-    return $this;
-}
-
 =begin TML
 
 ---++ hasNext() -> $boolean
@@ -75,19 +56,21 @@ while ($it->hasNext()) {
 sub hasNext {
     my ($this) = @_;
     return 1
-      if defined( $this->{next} )
+      if defined( $this->_next )
       ; #SMELL: this is still wrong if the array element == undef, but at least means zero is an element
     my $n;
     do {
-        if ( $this->{list} && $this->{index} < scalar( @{ $this->{list} } ) ) {
-            $n = $this->{list}->[ $this->{index}++ ];
+        if ( $this->list && $this->index < scalar( @{ $this->list } ) ) {
+            $n = $this->list->[ $this->index ];
+            $this->index( $this->index + 1 );
         }
         else {
             return 0;
         }
-    } while ( $this->{filter} && !&{ $this->{filter} }($n) );
-    $this->{next} = $n;
-    print STDERR "ListIterator::hasNext -> $this->{index} == $this->{next}\n"
+    } while ( $this->filter && !&{ $this->filter }($n) );
+    $this->_next($n);
+    print STDERR "ListIterator::hasNext -> ", $this->index, " == ",
+      $this->_next, "\n"
       if Foswiki::Iterator::MONITOR;
     return 1;
 }
@@ -105,7 +88,7 @@ sub skip {
     my $this  = shift;
     my $count = shift;
 
-    if ( defined( $this->{next} ) ) {
+    if ( defined( $this->_next ) ) {
         $count--;
     }
 
@@ -113,29 +96,30 @@ sub skip {
 
     return 0 if ( $count <= 0 );
     print STDERR
-"--------------------------------------------ListIterator::skip($count)  $this->{index}, "
-      . scalar( @{ $this->{list} } ) . "\n"
+"--------------------------------------------ListIterator::skip($count)  ",
+      $this->index, ", ", scalar( @{ $this->list } ), "\n"
       if Foswiki::Iterator::MONITOR;
 
-    my $length = scalar( @{ $this->{list} } );
+    my $length = scalar( @{ $this->list } );
 
-    if ( ( $this->{index} + $count ) >= $length ) {
+    if ( ( $this->index + $count ) >= $length ) {
 
         #list too small
-        $count = $this->{index} + $count - $length;
-        $this->{index} = 1 + $length;
+        $count = $this->index + $count - $length;
+        $this->index( 1 + $length );
     }
     else {
-        $this->{index} += $count;
+        $this->index( $this->index + $count );
         $count = 0;
     }
-    $this->{next} = undef;
+    $this->_clear_next;
     my $hasnext = $this->hasNext();
     if ($hasnext) {
         $count--;
     }
     print STDERR
-"--------------------------------------------ListIterator::skip() => $this->{index} $count, $hasnext\n"
+      "--------------------------------------------ListIterator::skip() => ",
+      $this->index, " $count, $hasnext\n"
       if Foswiki::Iterator::MONITOR;
 
     return $count;
@@ -179,9 +163,9 @@ will print
 sub next {
     my $this = shift;
     $this->hasNext();
-    my $n = $this->{next};
-    $this->{next} = undef;
-    $n = &{ $this->{process} }($n) if $this->{process};
+    my $n = $this->_next;
+    $this->_clear_next;
+    $n = &{ $this->process }($n) if $this->process;
     return $n;
 }
 
@@ -200,17 +184,17 @@ copy to be made.
 
 sub all {
     my $this = shift;
-    if ( $this->{index} ) {
-        my @copy = @{ $this->{list} };    # don't damage the original list
-        splice( @copy, 0, $this->{index} );
-        $this->{index} = scalar( @{ $this->{list} } );
+    if ( $this->index ) {
+        my @copy = @{ $this->list };    # don't damage the original list
+        splice( @copy, 0, $this->index );
+        $this->index = scalar( @{ $this->list } );
         return @copy;
     }
     else {
 
         # At the start (good)
-        $this->{index} = scalar( @{ $this->{list} } );
-        return @{ $this->{list} };
+        $this->index( scalar( @{ $this->list } ) );
+        return @{ $this->list };
     }
 }
 
@@ -229,8 +213,8 @@ while ($it->hasNext()) {
 
 sub reset {
     my ($this) = @_;
-    $this->{next}  = undef;
-    $this->{index} = 0;
+    $this->_clear_next;
+    $this->clear_index;
 
     return 1;
 }

@@ -31,11 +31,9 @@ __Note:__ in all the following documentation, =$cUID= refers to a
 =cut
 
 package Foswiki::UserMapping;
-
-use strict;
-use warnings;
+use v5.14;
 use Assert;
-use Error ();
+use Foswiki::Exception ();
 use Foswiki::Func;
 
 BEGIN {
@@ -45,25 +43,63 @@ BEGIN {
     }
 }
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+
+has session => (
+    is       => 'ro',
+    weak_ref => 1,
+    required => 1,
+);
+has mapping_id => (
+    is      => 'rw',
+    default => '',
+);
+has L2U => (    # login 2 cUID
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
+);
+has U2L => (    # cUID 2 login
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
+);
+has W2U => (    # wikiname 2 cUID
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
+);
+has U2W => (    # cUID 2 wikiname
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
+);
+has U2E => (    # cUID 2 email
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
+);
+has L2P => (    # login 2 password
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
+);
+
 =begin TML
 
----++ PROTECTED ClassMethod new ($session, $mapping_id)
+---++ PROTECTED ClassMethod new (session => $session, mapping_id => $mapping_id)
 
 Construct a user mapping object, using the given mapping id.
 
 =cut
-
-sub new {
-    my ( $class, $session, $mid ) = @_;
-    my $this = bless(
-        {
-            mapping_id => $mid || '',
-            session => $session,
-        },
-        $class
-    );
-    return $this;
-}
 
 =begin TML
 
@@ -72,11 +108,11 @@ Break circular references.
 
 =cut
 
-sub finish {
-    my $this = shift;
-    undef $this->{mapping_id};
-    undef $this->{session};
-}
+#sub finish {
+#    my $this = shift;
+#    undef $this->{mapping_id};
+#    undef $this->{session};
+#}
 
 =begin TML
 
@@ -182,29 +218,31 @@ alphanumerics and underscores.
 
 If you fail to create a new user (for eg your Mapper has read only access),
 <pre>
-    throw Error::Simple('Failed to add user: '.$error);
+    Foswiki::Exception->throw(text => 'Failed to add user: '.$error);
 </pre>
 where $error is a descriptive string.
 
-Throws an Error::Simple if user adding is not supported (the default).
+Throws an Foswiki::Exception if user adding is not supported (the default).
 
 =cut
 
 sub addUser {
-    throw Error::Simple('Failed to add user: adding users is not supported');
+    Foswiki::Exception->throw(
+        'Failed to add user: adding users is not supported');
 }
 
 =begin TML
 
 ---++ ObjectMethod removeUser( $cUID ) -> $boolean
 
-Delete the users entry from this mapper. Throws an Error::Simple if
+Delete the users entry from this mapper. Throws an Foswiki::Exception if
 user removal is not supported (the default).
 
 =cut
 
 sub removeUser {
-    throw Error::Simple('Failed to remove user: user removal is not supported');
+    Foswiki::Exception->throw(
+        'Failed to remove user: user removal is not supported');
 }
 
 =begin TML
@@ -344,10 +382,10 @@ sub groupAllowsChange {
 ---++ ObjectMethod addToGroup( $cuid, $group, $create ) -> $boolean
 adds the user specified by the cuid to the group.
 
-Mapper should throws Error::Simple if errors are encountered.  For example,
+Mapper should throws Foswiki::Exception if errors are encountered.  For example,
 if the group does not exist, and the create flag is not supplied:
 <pre>
-    throw Error::Simple( $this->{session}
+    Foswiki::Exception->throw( text => $this->session
         ->i18n->maketext('Group does not exist and create not permitted')
     ) unless ($create);
 </pre>
@@ -362,11 +400,11 @@ sub addUserToGroup {
 
 ---++ ObjectMethod removeFromGroup( $cuid, $group ) -> $boolean
 
-Mapper should throws Error::Simple if errors are encountered.  For example,
+Mapper should throws Foswiki::Exception if errors are encountered.  For example,
 if the user does not exist in the group:
 <pre>
-   throw Error::Simple(
-      $this->{session}->i18n->maketext(
+   Foswiki::Exception->throw(
+      text => $this->session->i18n->maketext(
          'User [_1] not in group, cannot be removed', $cuid
       )
    );
@@ -570,7 +608,8 @@ sub validateRegistrationField {
         if ( length( $_[2] )
             && !( $_[2] =~ m/$Foswiki::cfg{LoginNameFilterIn}/ ) )
         {
-            throw Error::Simple( Foswiki::entityEncode("Invalid $_[1]") );
+            Foswiki::Exception->throw(
+                text => Foswiki::entityEncode("Invalid $_[1]") );
         }
         else {
             return $_[2];

@@ -17,10 +17,11 @@ See Foswiki::ListIterator for an example implementation.
 =cut
 
 package Foswiki::Iterator;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
+
+use Moo::Role;
 
 #debug Iterators
 use constant MONITOR => 0;
@@ -32,6 +33,26 @@ BEGIN {
     }
 }
 
+has list => (
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub { [] },
+    isa       => Foswiki::Object::isaARRAY('list'),
+);
+has index => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => 0,
+);
+has process => ( is => 'rw', clearer => 1, );
+has filter  => ( is => 'rw', clearer => 1, );
+has _next   => ( is => 'rw', clearer => 1, );
+
+requires qw(hasNext next reset);
+
 =begin TML
 
 ---++ hasNext() -> $boolean
@@ -41,30 +62,6 @@ is exhausted.
 
 =cut
 
-sub hasNext { ASSERT('Pure virtual function called') if DEBUG; }
-
-=begin TML
-
----++ next() -> $data
-
-Return the next data in the iteration.
-
-The data may be any type.
-
-The iterator object can be customised to pre- and post-process entries from
-the list before returning them. This is done by setting two fields in the
-iterator object:
-
-   * ={filter}= can be defined to be a sub that filters each entry. The entry
-     will be ignored (next() will not return it) if the filter returns false.
-   * ={process}= can be defined to be a sub to process each entry before it
-     is returned by next. The value returned from next is the value returned
-     by the process function.
-
-=cut
-
-sub next { ASSERT('Pure virtual function called') if DEBUG; }
-
 =begin TML
 
 ---++ reset() -> $boolean
@@ -72,8 +69,6 @@ sub next { ASSERT('Pure virtual function called') if DEBUG; }
 resets the iterator to the begining - returns false if it can't
 
 =cut
-
-sub reset { ASSERT('Pure virtual function called') if DEBUG; }
 
 =begin TML
 

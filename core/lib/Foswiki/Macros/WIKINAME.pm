@@ -16,7 +16,7 @@ BEGIN {
 sub WIKINAME {
     my ( $this, $params ) = @_;
 
-    $params->{format} = $this->{prefs}->getPreference('WIKINAME')
+    $params->{format} = $this->prefs->getPreference('WIKINAME')
       || '$wikiname';
 
     return $this->USERINFO($params);

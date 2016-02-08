@@ -12,15 +12,15 @@ See documentation of that class for descriptions of the methods of this class.
 =cut
 
 package Foswiki::Users::HtPasswdUser;
-use strict;
-use warnings;
-
-use Foswiki::Users::Password ();
-our @ISA = ('Foswiki::Users::Password');
+use v5.14;
 
 use Assert;
-use Error qw( :try );
+use Try::Tiny;
 use Fcntl qw( :DEFAULT :flock );
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Users::Password);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -31,6 +31,15 @@ BEGIN {
 
 our ( $GlobalCache, $GlobalTimestamp );
 
+has LocalCache => (
+    is      => 'rw',
+    clearer => 1,
+);
+has LocalTimestamp => (
+    is      => 'rw',
+    clearer => 1,
+);
+
 sub PasswordData {
     my $this = shift;
 
@@ -39,8 +48,8 @@ sub PasswordData {
         return $HtPasswdUser::GlobalCache;
     }
     else {
-        $this->{LocalCache} = shift if @_;
-        return $this->{LocalCache};
+        $this->LocalCache(shift) if @_;
+        return $this->LocalCache;
     }
 }
 
@@ -51,8 +60,8 @@ sub PasswordTimestamp {
         return $HtPasswdUser::GlobalTimestamp;
     }
     else {
-        $this->{LocalTimestamp} = shift if @_;
-        return $this->{LocalTimestamp};
+        $this->LocalTimestamp(shift) if @_;
+        return $this->LocalTimestamp;
     }
 }
 
@@ -65,8 +74,8 @@ sub ClearCache {
         $HtPasswdUser::GlobalTimestamp = 0;
     }
     else {
-        undef $this->{LocalCache};
-        undef $this->{LocalTimestamp};
+        $this->clear_LocalCache;
+        $this->clear_LocalTimestamp;
     }
 }
 
@@ -74,21 +83,23 @@ sub ClearCache {
 # Set TRACE to 2 for verbose auto-encoding report
 use constant TRACE => 0;
 
-sub new {
-    my ( $class, $session ) = @_;
-    my $this = bless( $class->SUPER::new($session), $class );
-    $this->{error} = undef;
+has SHA    => ( is => 'rw', default => 0, );
+has APR    => ( is => 'rw', default => 0, );
+has BCRYPT => ( is => 'rw', default => 0, );
+
+sub BUILD {
+    my $this = shift;
 
     if ( $Foswiki::cfg{Htpasswd}{AutoDetect} ) {
 
       # For autodetect, soft errors are allowed.  If the .htpasswd file contains
       # a password for an unsupported encoding, it will not match.
         eval 'use Digest::SHA';
-        $this->{SHA} = 1 unless ($@);
+        $this->SHA(1) unless ($@);
         eval 'use Crypt::PasswdMD5';
-        $this->{APR} = 1 unless ($@);
+        $this->APR(1) unless ($@);
         eval 'use Crypt::Eksblowfish::Bcrypt;';
-        $this->{BCRYPT} = 1 unless ($@);
+        $this->BCRYPT(1) unless ($@);
     }
 
     if (   $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5'
@@ -98,7 +109,7 @@ sub new {
         if ( $Foswiki::cfg{AuthRealm} =~ m/\:/ ) {
             print STDERR
 "ERROR: the AuthRealm cannot contain a ':' (colon) as it corrupts the password file\n";
-            throw Error::Simple(
+            Foswiki::Exception->throw( text =>
 "ERROR: the AuthRealm cannot contain a ':' (colon) as it corrupts the password file"
             );
         }
@@ -109,24 +120,25 @@ sub new {
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
         require Digest::SHA;
-        $this->{SHA} = 1;
+        $this->SHA(1);
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'apache-md5' ) {
         require Crypt::PasswdMD5;
-        $this->{APR} = 1;
+        $this->APR(1);
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' ) {
         eval 'use Crypt::PasswdMD5';
-        $this->{APR} = 1 unless ($@);
+        $this->APR(1) unless ($@);
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'bcrypt' ) {
         eval 'use Crypt::Eksblowfish::Bcrypt;';
-        $this->{BCRYPT} = 1 unless ($@);
+        $this->BCRYPT(1) unless ($@);
     }
     else {
         print STDERR "ERROR: unknown {Htpasswd}{Encoding} setting : "
           . $Foswiki::cfg{Htpasswd}{Encoding} . "\n";
-        throw Error::Simple( "ERROR: unknown {Htpasswd}{Encoding} setting : "
+        Foswiki::Exception->throw(
+                text => "ERROR: unknown {Htpasswd}{Encoding} setting : "
               . $Foswiki::cfg{Htpasswd}{Encoding}
               . "\n" );
     }
@@ -144,12 +156,12 @@ Break circular references.
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    $this->SUPER::finish();
-    undef $this->{LocalCache};
-    undef $this->{LocalTimestamp};
-}
+#sub finish {
+#    my $this = shift;
+#    $this->SUPER::finish();
+#    undef $this->{LocalCache};
+#    undef $this->{LocalTimestamp};
+#}
 
 =begin TML
 
@@ -165,12 +177,12 @@ sub readOnly {
 
     # We expect the path to exist and be writable.
     if ( -e $path && -f _ && -w _ ) {
-        $this->{session}->enterContext('passwords_modifyable');
+        $this->session->enterContext('passwords_modifyable');
         return 0;
     }
 
     # Otherwise, log a problem.
-    $this->{session}->logger->log( 'warning',
+    $this->session->logger->log( 'warning',
             'The password file does not exist or cannot be written.'
           . 'Run =configure= and check the setting of {Htpasswd}{FileName}.'
           . ' New user registration has been disabled until this is corrected.'
@@ -204,7 +216,7 @@ sub _lockPasswdFile {
       || "$Foswiki::cfg{WorkingDir}/htpasswd.lock";
 
     sysopen( my $fh, $lockFileName, O_RDWR | O_CREAT, 0666 )
-      || throw Error::Simple( $lockFileName
+      || Foswiki::Exception->throw( text => $lockFileName
           . ' open or create password lock file failed -'
           . 'check access rights: '
           . $! );
@@ -290,8 +302,8 @@ sub _readPasswd {
 
     my $enc = $Foswiki::cfg{Htpasswd}{CharacterEncoding} || 'utf-8';
     open( $IN_FILE, "<:encoding($enc)", $Foswiki::cfg{Htpasswd}{FileName} )
-      || throw Error::Simple(
-        $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
+      || Foswiki::Exception->throw(
+        text => $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
     my $line = '';
     my $tID;
     my $pwcount = 0;
@@ -468,8 +480,10 @@ sub _savePasswd {
 
        # Item4544: Document special format used in .htpasswd for email addresses
         open( my $readme, '>', "$Foswiki::cfg{Htpasswd}{FileName}.README" )
-          or throw Error::Simple(
-            $Foswiki::cfg{Htpasswd}{FileName} . '.README open failed: ' . $! );
+          or
+          Foswiki::Exception->throw( text => $Foswiki::cfg{Htpasswd}{FileName}
+              . '.README open failed: '
+              . $! );
 
         print $readme <<'EoT';
 Foswiki uses a specially crafted .htpasswd file format that should not be
@@ -489,8 +503,8 @@ EoT
 
     my $enc = $Foswiki::cfg{Htpasswd}{CharacterEncoding} || 'utf-8';
     open( $fh, ">:encoding($enc)", $Foswiki::cfg{Htpasswd}{FileName} )
-      || throw Error::Simple(
-        "$Foswiki::cfg{Htpasswd}{FileName} open failed: $!");
+      || Foswiki::Exception->throw(
+        text => "$Foswiki::cfg{Htpasswd}{FileName} open failed: $!" );
     print $fh $content;
 
     close($fh);
@@ -528,8 +542,8 @@ sub encrypt {
 
     if ( $enc eq 'sha1' ) {
 
-        unless ( $this->{SHA} ) {
-            $this->{error} = "Unsupported Encoding";
+        unless ( $this->SHA ) {
+            $this->error("Unsupported Encoding");
             return 0;
         }
 
@@ -568,8 +582,8 @@ sub encrypt {
     }
     elsif ( $enc eq 'apache-md5' ) {
 
-        unless ( $this->{APR} ) {
-            $this->{error} = "Unsupported Encoding";
+        unless ( $this->APR ) {
+            $this->error("Unsupported Encoding");
             return 0;
         }
 
@@ -616,7 +630,7 @@ sub encrypt {
         }
 
         # crypt is not cross-plaform, so use Crypt::PasswdMD5 if it's available
-        if ( $this->{APR} ) {
+        if ( $this->APR ) {
             return Crypt::PasswdMD5::unix_md5_crypt(
                 Foswiki::encode_utf8($passwd),
                 Foswiki::encode_utf8( substr( $salt, 0, 11 ) ) );
@@ -632,8 +646,8 @@ sub encrypt {
 
     }
     elsif ( $enc eq 'bcrypt' ) {
-        unless ( $this->{BCRYPT} ) {
-            $this->{error} = "Unsupported Encoding";
+        unless ( $this->BCRYPT ) {
+            $this->error("Unsupported Encoding");
             return 0;
         }
 
@@ -694,21 +708,21 @@ sub fetchPass {
                 $enc = $db->{$login}->{enc};
             }
             else {
-                $this->{error} = "Login $login invalid";
+                $this->error("Login $login invalid");
                 $ret = undef;
             }
         }
-        catch Error with {
-            my $e = shift;
-            $this->{error} = $!;
+        catch {
+            my $e = $_;
+            $this->error($!);
             print STDERR "ERROR: failed to fetchPass - $! ($e)";
-            $this->{error} = 'unknown error in fetchPass'
-              unless ( $this->{error} && length( $this->{error} ) );
+            $this->error('unknown error in fetchPass')
+              unless ( $this->error && length( $this->error ) );
             return undef;
         };
     }
     else {
-        $this->{error} = 'No user';
+        $this->error('No user');
     }
     return (wantarray) ? ( $ret, $db->{$login} ) : $ret;
 }
@@ -741,7 +755,7 @@ sub setPassword {
         }
     }
     elsif ( $this->fetchPass($login) ) {
-        $this->{error} = $login . ' already exists';
+        $this->error( $login . ' already exists' );
         return 0;
     }
 
@@ -767,19 +781,19 @@ sub setPassword {
         $this->_savePasswd($db);
 
     }
-    catch Error with {
-        my $e = shift;
-        $this->{error} = $!;
+    catch {
+        my $e = $_;
+        $this->error($!);
         print STDERR "ERROR: failed to setPassword - $! ($e)";
-        $this->{error} = 'unknown error in setPassword'
-          unless ( $this->{error} && length( $this->{error} ) );
+        $this->error('unknown error in setPassword')
+          unless ( $this->error && length( $this->error ) );
         return undef;
     }
     finally {
         _unlockPasswdFile($lockHandle) if $lockHandle;
     };
 
-    $this->{error} = undef;
+    $this->clear_error;
     return 1;
 }
 
@@ -797,7 +811,7 @@ Returns 1 on success, undef on failure.
 sub removeUser {
     my ( $this, $login ) = @_;
     my $result = undef;
-    $this->{error} = undef;
+    $this->clear_error;
 
     my $lockHandle;
     try {
@@ -807,7 +821,7 @@ sub removeUser {
         #  - Don't trust cache
         my $db = $this->_readPasswd( 0, 1 );
         unless ( $db->{$login} ) {
-            $this->{error} = 'No such user ' . $login;
+            $this->error( 'No such user ' . $login );
         }
         else {
             delete $db->{$login};
@@ -815,12 +829,12 @@ sub removeUser {
             $result = 1;
         }
     }
-    catch Error with {
+    catch {
         my $e = shift;
-        $this->{error} = $!;
+        $this->error($!);
         print STDERR "ERROR: failed to removeUser - $! ($e)";
-        $this->{error} = 'unknown error in removeUser'
-          unless ( $this->{error} && length( $this->{error} ) );
+        $this->error('unknown error in removeUser')
+          unless ( $this->error && length( $this->error ) );
         return undef;
     }
     finally {
@@ -852,14 +866,14 @@ sub checkPassword {
     my $encryptedPassword = $this->encrypt( $login, $password, 0, $entry );
     return 0 unless ($encryptedPassword);
 
-    $this->{error} = undef;
+    $this->clear_error;
 
     #print STDERR "Checking $pw against $encryptedPassword\n" if (TRACE);
 
     if ( length($pw) != length($encryptedPassword) ) {
 
     #print STDERR "Fail on length mismatch ($pw) vs enc ($encryptedPassword)\n";
-        $this->{error} = 'Invalid user/password';
+        $this->error('Invalid user/password');
         return 0;
     }
     return 1 if ( $pw && ( $encryptedPassword eq $pw ) );
@@ -869,7 +883,7 @@ sub checkPassword {
     # order to reset the password.
     return 1 if ( defined $password && $pw eq '' && $password eq '' );
 
-    $this->{error} = 'Invalid user/password';
+    $this->error('Invalid user/password');
     return 0;
 }
 
@@ -939,9 +953,12 @@ sub setEmails {
 
         $this->_savePasswd($db);
     }
-    finally {
+    catch {
+        # SMELL Rethrow of an exception may be needed.
+        #Foswiki::Exception->rethrow($_);
+      } finally {
         _unlockPasswdFile($lockHandle) if $lockHandle;
-    };
+      };
     return 1;
 }
 

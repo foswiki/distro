@@ -1,12 +1,15 @@
 # See bottom of file for license and copyright information
 package Foswiki::Search::InfoCache;
-use strict;
-use warnings;
-
-use Foswiki::ListIterator ();
-our @ISA = ('Foswiki::ListIterator');
+use v5.14;
 
 use Unicode::Normalize;
+use Foswiki::Func                     ();
+use Foswiki::Meta                     ();
+use Foswiki::Iterator::FilterIterator ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::ListIterator);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -30,16 +33,13 @@ about the same topic more than once.
 # Sven has the feeling that we should make result sets immutable
 
 use Assert;
-use Foswiki::Func                     ();
-use Foswiki::Meta                     ();
-use Foswiki::Iterator::FilterIterator ();
 
 #use Monitor ();
 #Monitor::MonitorMethod('Foswiki::Search::InfoCache', 'getTopicListIterator');
 
 =begin TML
 
----++ ClassMethod new($session, $defaultWeb, \@topicList)
+---++ ClassMethod new(session => $session, defaultWeb => $defaultWeb, topicList => \@topicList)
 Initialise a new list of topics, allowing their data to be lazy loaded
 if and when needed.
 
@@ -56,23 +56,45 @@ Because this Iterator can be created and filled dynamically, once the Iterator h
 #TODO: or..... make reset() make the object mutable again, so we can change the elements in the list, but re-use the meta cache??
 #CONSIDER: convert the internals to a hash[tomAddress] = {matches->[list of resultint text bits], othermeta...} - except this does not give us order :/
 
-sub new {
-    my ( $class, $session, $defaultWeb, $topicList ) = @_;
+has _session => (
+    is       => 'rw',
+    weak_ref => 1,
+    init_arg => 'session',
+);
+has _defaultWeb => (
+    is       => 'rw',
+    init_arg => 'defaultWeb',
+);
+has count => (
+    is      => 'rw',
+    lazy    => 1,
+    default => 0,
+);
+has _topicList => (
+    is        => 'rw',
+    init_arg  => 'topicList',
+    isa       => Foswiki::Object::isaARRAY('_topicList'),
+    clearer   => 1,
+    predicate => 1,
+);
+has sorted => (
+    is        => 'rw',
+    predicate => 1,
+    clearer   => 1,
+    lazy      => 1,
+    defaut    => 0,
+);
 
-    my $this = $class->SUPER::new( [] );
-    $this->{_session}    = $session;
-    $this->{_defaultWeb} = $defaultWeb;
-    $this->{count}       = 0;
-    if ( defined($topicList) ) {
-        $this->addTopics( $defaultWeb, @$topicList );
-    }
+sub BUILD {
+    my $this = shift;
 
-    return $this;
+    $this->addTopics( $this->_defaultWeb, @{ $this->_topicList } )
+      if $this->_has_topicList;
 }
 
 sub isImmutable {
     my $this = shift;
-    return ( $this->{index} != 0 );
+    return ( $this->index != 0 );
 }
 
 sub addTopics {
@@ -84,10 +106,10 @@ sub addTopics {
     foreach my $t (@list) {
         my ( $web, $topic ) =
           Foswiki::Func::normalizeWebTopicName( $defaultWeb, $t );
-        push( @{ $this->{list} }, "$web.$topic" );
-        $this->{count}++;
+        push( @{ $this->list }, "$web.$topic" );
+        $this->count( $this->count + 1 );
     }
-    undef $this->{sorted};
+    $this->clear_sorted;
 }
 
 #TODO: what if it isa Meta obj
@@ -102,12 +124,12 @@ sub addTopic {
 
     my ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( $web, $topic );
     my $webtopic = "$w.$t";
-    push( @{ $this->{list} }, $webtopic );
-    $this->{count}++;
+    push( @{ $this->list }, $webtopic );
+    $this->count( $this->count + 1 );
     if ( defined($meta) ) {
-        $this->{_session}->search->metacache->addMeta( $web, $topic, $meta );
+        $this->_session->search->metacache->addMeta( $web, $topic, $meta );
     }
-    undef $this->{sorted};
+    $this->clear_sorted;
 }
 
 sub numberOfTopics {
@@ -115,10 +137,10 @@ sub numberOfTopics {
 
     #can't use this, as it lies once its gone through the 'sortResults' hack
     #and lies more because the filterByDate is evaluated later.
-    #return scalar(@{ $this->{list} });
+    #return scalar(@{ $this->list });
     # when fixed, the count update in filterByDate should be removed
 
-    return $this->{count};
+    return $this->count;
 }
 
 =begin TML
@@ -138,10 +160,10 @@ sub sortResults {
     my ( $this, $params ) = @_;
 
     #TODO: for now assume we do not change the sort order later
-    return if ( defined( $this->{sorted} ) );
-    $this->{sorted} = 1;
+    return if ( $this->sorted );
+    $this->sorted(1);
 
-    my $session = $this->{_session};
+    my $session = $this->_session;
 
     my $sortOrder = $params->{order} || '';
     my $revSort   = Foswiki::isTrue( $params->{reverse} );
@@ -182,7 +204,7 @@ sub sortResults {
         # SMELL: In Dakar this seems to be pointless since latest rev
         # time is taken from topic instead of dir list.
         my $slack = 10;
-        if ( $limit + 2 * $slack < scalar( @{ $this->{list} } ) ) {
+        if ( $limit + 2 * $slack < scalar( @{ $this->list } ) ) {
 
             # sort by approx latest rev time
             my @tmpList =
@@ -190,17 +212,20 @@ sub sortResults {
               sort { $a->[0] <=> $b->[0] }
               map {
                 my ( $web, $topic ) =
-                  Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb},
+                  Foswiki::Func::normalizeWebTopicName( $this->_defaultWeb,
                     $_ );
                 [ $session->getApproxRevTime( $web, $topic ), $_ ]
-              } @{ $this->{list} };
+              } @{ $this->list };
             @tmpList = reverse(@tmpList) if ($revSort);
 
             # then shorten list and build the hashes for date and author
             my $idx = $limit + $slack;
-            @{ $this->{list} } = ();
+
+# SMELL This is the old pre-Moo code. Hopefully it doesn't rely on exact array reference?
+#@{ $this->list } = ();
+            $this->clear_list;
             foreach (@tmpList) {
-                push( @{ $this->{list} }, $_ );
+                push( @{ $this->list }, $_ );
                 $idx -= 1;
                 last if $idx <= 0;
             }
@@ -219,7 +244,7 @@ sub sortResults {
         #default to topic sorting
         $sortOrder = 'topic';
     }
-    sortTopics( $this->{list}, $sortOrder, !$revSort );
+    sortTopics( $this->list, $sortOrder, !$revSort );
 }
 
 =begin TML
@@ -239,25 +264,27 @@ $infoCache->filterByDate( $date );
 
 sub filterByDate {
     my ( $this, $date ) = @_;
-    ASSERT( !defined( $this->{filter} ) ) if DEBUG;
+    ASSERT( !defined( $this->filter ) ) if DEBUG;
 
     my $session = $Foswiki::Plugins::SESSION;
 
     require Foswiki::Time;
     my @ends = Foswiki::Time::parseInterval($date);
 
-    $this->{filter} = sub {
-        my $webtopic = shift;
+    $this->filter(
+        sub {
+            my $webtopic = shift;
 
-        # if date falls out of interval: exclude topic from result
-        my ( $web, $topic ) =
-          Foswiki::Func::normalizeWebTopicName( $this->{_defaultWeb},
-            $webtopic );
-        my $topicdate = $session->getApproxRevTime( $web, $topic );
+            # if date falls out of interval: exclude topic from result
+            my ( $web, $topic ) =
+              Foswiki::Func::normalizeWebTopicName( $this->_defaultWeb,
+                $webtopic );
+            my $topicdate = $session->getApproxRevTime( $web, $topic );
 
-        return !( $topicdate < $ends[0] || $topicdate > $ends[1] );
+            return !( $topicdate < $ends[0] || $topicdate > $ends[1] );
 
-    };
+        }
+    );
 
     return;
 }

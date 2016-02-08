@@ -46,8 +46,8 @@ sub evaluate {
     my $b       = $node->params->[1];      # group name (string
     my %domain  = @_;
     my $session = $domain{tom}->session;
-    throw Error::Simple(
-        'No context in which to evaluate "' . $a->stringify() . '"' )
+    Foswiki::Exception->throw(
+        text => 'No context in which to evaluate "' . $a->stringify() . '"' )
       unless $session;
     my $user = $session->users->getCanonicalUserID( $a->evaluate(@_) );
     return 0 unless $user;
