@@ -952,8 +952,7 @@ sub populateNewWeb {
     }
 
     if ($templateWeb) {
-        my $tWebObject =
-          $this->new( sesssion => $session, web => $templateWeb );
+        my $tWebObject = $this->new( session => $session, web => $templateWeb );
         require Foswiki::WebFilter;
         my $sys =
           Foswiki::WebFilter->new('template')->ok( $session, $templateWeb );
@@ -1102,7 +1101,7 @@ sub eachTopic {
 
         # Root
         require Foswiki::ListIterator;
-        return new Foswiki::ListIterator( [] );
+        return Foswiki::ListIterator->new( list => [] );
     }
     return $this->session->store->eachTopic($this);
 }
@@ -2047,7 +2046,7 @@ sub save {
         if ( $text ne $pretext ) {
 
             # Create a new object to parse the changed text
-            my $after = new Foswiki::Meta(
+            my $after = Foswiki::Meta->new(
                 session => $this->session,
                 web     => $this->web,
                 topic   => $this->topic,

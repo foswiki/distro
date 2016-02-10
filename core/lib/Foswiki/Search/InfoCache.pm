@@ -56,10 +56,11 @@ Because this Iterator can be created and filled dynamically, once the Iterator h
 #TODO: or..... make reset() make the object mutable again, so we can change the elements in the list, but re-use the meta cache??
 #CONSIDER: convert the internals to a hash[tomAddress] = {matches->[list of resultint text bits], othermeta...} - except this does not give us order :/
 
-has _session => (
+has session => (
     is       => 'rw',
     weak_ref => 1,
     init_arg => 'session',
+    required => 1,
 );
 has _defaultWeb => (
     is       => 'rw',
@@ -124,10 +125,10 @@ sub addTopic {
 
     my ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( $web, $topic );
     my $webtopic = "$w.$t";
-    push( @{ $this->list }, $webtopic );
     $this->count( $this->count + 1 );
+    push( @{ $this->list }, $webtopic );
     if ( defined($meta) ) {
-        $this->_session->search->metacache->addMeta( $web, $topic, $meta );
+        $this->session->search->metacache->addMeta( $web, $topic, $meta );
     }
     $this->clear_sorted;
 }
@@ -163,7 +164,7 @@ sub sortResults {
     return if ( $this->sorted );
     $this->sorted(1);
 
-    my $session = $this->_session;
+    my $session = $this->session;
 
     my $sortOrder = $params->{order} || '';
     my $revSort   = Foswiki::isTrue( $params->{reverse} );
@@ -508,8 +509,10 @@ sub getTopicListIterator {
         $it = $webObject->eachTopic();
     }
 
-    return Foswiki::Iterator::FilterIterator->new( $it,
-        getOptionFilter($options) );
+    return Foswiki::Iterator::FilterIterator->new(
+        iterator => $it,
+        filter   => getOptionFilter($options)
+    );
 }
 
 sub convertTopicPatternToRegex {

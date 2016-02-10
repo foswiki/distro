@@ -26,7 +26,6 @@ BEGIN {
 has iterator => (
     is       => 'rw',
     required => 1,
-    weak_ref => 1,
     isa      => Foswiki::Object::isaCLASS(
         'iterator', 'Foswiki::Object', does => 'Foswiki::Iterator',
     ),

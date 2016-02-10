@@ -14,14 +14,15 @@ in future it will probably become more clever.
 =cut
 
 package Foswiki::Search::ResultSet;
-use strict;
-use warnings;
-
-use Foswiki::Iterator ();
-our @ISA = ('Foswiki::Iterator');
+use v5.14;
 
 use Foswiki::Search::InfoCache;
 use Assert;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+with qw(Foswiki::Iterator);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -30,44 +31,65 @@ BEGIN {
     }
 }
 
+has Itr_list => (
+    is       => 'rw',
+    required => 1,
+    init_arg => 'iterators',
+);
+has Itr_index => (
+    is      => 'rw',
+    default => 0,
+);
+has Itr_next => ( is => 'rw', default => sub { [] }, );
+has partition => (
+    is     => 'ro',
+    coerce => sub { $_[0] // 'web' },
+);
+has sortby => (
+    is     => 'ro',
+    coerce => sub { $_[0] // 'topic' },
+);
+has revsort => (
+    is     => 'ro',
+    coerce => sub { $_[0] // 0 },
+);
+has count => ( is => 'rw', );
+has _iterator => (
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    isa       => Foswiki::Object::isaCLASS(
+        'list', 'Foswiki::Object', does => 'Foswiki::Iterator',
+    ),
+);
+
 =begin TML
 
----++ new(\@list)
+---++ new( iterators => \@list, [partition => $groupby, sortby => $order, revsort => $revSort])
 
 Create a new iterator over the given list of iterators. The list is
 not damaged in any way.
 
 =cut
 
-sub new {
-    my ( $class, $list, $partition, $sortby, $revSort ) = @_;
+#    new( $list, $partition, $sortby, $revSort ) = @_;
 
-    my $this = bless(
-        {
-            Itr_list  => $list,
-            Itr_index => 0,
-            next      => undef,
-            Itr_next  => [],
-            partition => $partition || 'web',
-            sortby    => $sortby || 'topic',
-            revsort   => $revSort || 0,
-        },
-        $class
-    );
-
-    return $this;
+sub BUILD {
+    my $this = shift;
+    ASSERT( $this->partition, "partition attr cannot be empty" );
 }
 
 sub numberOfTopics {
     my $this = shift;
 
-    return $this->{count} if ( defined( $this->{count} ) );
+    return $this->count if ( defined( $this->count ) );
 
     my $count = 0;
-    foreach my $infocache ( @{ $this->{Itr_list} } ) {
+    foreach my $infocache ( @{ $this->Itr_list } ) {
         $count += $infocache->numberOfTopics();
     }
-    $this->{count} = $count;
+    $this->count($count);
 
     return $count;
 }
@@ -82,48 +104,49 @@ Returns false when the iterator is exhausted.
 
 sub hasNext {
     my ($this) = @_;
-    return 1 if $this->{next};
+    return 1 if $this->_next;
 
 #this is the 'normal' legacy way to iterate over the list of results (one web at a time)
     if (
-        ( $this->{partition} eq 'web' )
+        ( $this->partition eq 'web' )
         or (
-            scalar( @{ $this->{Itr_list} } ) <= 0
+            scalar( @{ $this->Itr_list } ) <= 0
         ) #no reason to got through the more complex case if there's only one itr
       )
     {
         my $n;
         do {
-            unless ( $this->{list} ) {
-                if ( $this->{Itr_index} < scalar( @{ $this->{Itr_list} } ) ) {
-                    $this->{list} = $this->{Itr_list}->[ $this->{Itr_index}++ ];
+            unless ( $this->_iterator ) {
+                if ( $this->Itr_index < scalar( @{ $this->Itr_list } ) ) {
+                    $this->_iterator( $this->Itr_list->[ $this->Itr_index ] );
+                    $this->Itr_index( $this->Itr_index + 1 );
                 }
                 else {
                     return 0;    #no more iterators in list
                 }
             }
-            if ( $this->{list}->hasNext() ) {
-                $n = $this->{list}->next();
+            if ( $this->_iterator->hasNext() ) {
+                $n = $this->_iterator->next();
             }
             else {
-                $this->{list} = undef;    #goto next iterator
+                $this->_clear_iterator;    #goto next iterator
             }
-        } while ( !$this->{list} );
-        $this->{next} = $n;
+        } while ( !$this->_iterator );
+        $this->_next($n);
     }
     else {
 
 #yes, this is innefficient, for now I'm looking only to get a functioning result.
         my $next = -1;
-        for ( my $idx = 0 ; $idx < scalar( @{ $this->{Itr_list} } ) ; $idx++ ) {
+        for ( my $idx = 0 ; $idx < scalar( @{ $this->Itr_list } ) ; $idx++ ) {
 
             #load the next element from each of the iterators
-            if ( !defined( $this->{Itr_next}[$idx] )
-                and $this->{Itr_list}[$idx]->hasNext() )
+            if ( !defined( $this->Itr_next->[$idx] )
+                and $this->Itr_list->[$idx]->hasNext() )
             {
-                $this->{Itr_next}[$idx] = $this->{Itr_list}[$idx]->next();
+                $this->Itr_next->[$idx] = $this->Itr_list->[$idx]->next();
             }
-            if ( defined( $this->{Itr_next}[$idx] ) ) {
+            if ( defined( $this->Itr_next->[$idx] ) ) {
 
     #find the first one of them (works because each iterator is already sorted..
                 if ( $next == -1 ) {
@@ -131,12 +154,12 @@ sub hasNext {
                     next;
                 }
 
-             #print STDERR "------ trying ($idx) ".$this->{Itr_next}[$idx]."\n";
+             #print STDERR "------ trying ($idx) ".$this->Itr_next->[$idx]."\n";
              #compare $next's elem with $idx's and rotate if needed
-                my @two = ( $this->{Itr_next}[$next], $this->{Itr_next}[$idx] );
-                Foswiki::Search::InfoCache::sortTopics( \@two, $this->{sortby},
-                    !$this->{revsort} );
-                if ( $two[0] ne $this->{Itr_next}[$next] ) {
+                my @two = ( $this->Itr_next->[$next], $this->Itr_next->[$idx] );
+                Foswiki::Search::InfoCache::sortTopics( \@two, $this->sortby,
+                    !$this->revsort );
+                if ( $two[0] ne $this->Itr_next->[$next] ) {
                     $next = $idx;
                 }
             }
@@ -147,8 +170,8 @@ sub hasNext {
             return 0;
         }
         else {
-            $this->{next} = $this->{Itr_next}[$next];
-            $this->{Itr_next}[$next] = undef;
+            $this->_next( $this->Itr_next->[$next] );
+            $this->Itr_next->[$next] = undef;
         }
 
     }
@@ -176,24 +199,25 @@ sub skip {
     #ask CAN skip() for faster path
     if (
         (
-               ( $this->{partition} eq 'web' )
-            or ( scalar( @{ $this->{Itr_list} } ) == 0 )
+               ( $this->partition eq 'web' )
+            or ( scalar( @{ $this->Itr_list } ) == 0 )
         )
         and #no reason to got through the more complex case if there's only one itr
-        ( $this->{Itr_list}->[0]->can('skip')
+        ( $this->Itr_list->[0]->can('skip')
         ) #nasty assumption that all the itr's are a similar type (that happens to be true)
       )
     {
-        if ( not defined( $this->{list} ) ) {
-            $this->{list} = $this->{Itr_list}->[ $this->{Itr_index}++ ];
+        if ( not defined( $this->_iterator ) ) {
+            $this->_iterator( $this->Itr_list->[ $this->Itr_index++ ] );
         }
         while ( $count > 0 ) {
-            return $count if ( not defined( $this->{list} ) );
-            $count = $this->{list}->skip($count);
-            $this->{next} = $this->{list}->{next};
+            return $count if ( not defined( $this->_iterator ) );
+            $count = $this->_iterator->skip($count);
+            $this->_next( $this->_iterator->_next );
             if ( $count > 0 ) {
-                $this->{list} = $this->{Itr_list}->[ $this->{Itr_index}++ ];
-                $this->{next} = undef;
+                $this->_iterator = $this->Itr_list->[ $this->Itr_index ];
+                $this->Itr_index( $this->Itr_index + 1 );
+                $this->_clear_next;
             }
         }
     }
@@ -214,7 +238,7 @@ sub skip {
     if ( $count >= 0 ) {
 
         #skipped past the end of the set
-        $this->{next} = undef;
+        $this->_clear_next;
     }
     print STDERR
 "--------------------------------------------ResultSet::skip() => $count\n"
@@ -233,10 +257,15 @@ Return the next entry in the list.
 sub next {
     my $this = shift;
     $this->hasNext();
-    my $n = $this->{next};
-    $this->{next} = undef;
+    my $n = $this->_next;
+    $this->_clear_next;
 
     return $n;
+}
+
+sub reset {
+
+    # Stub method for role compliance
 }
 
 =begin TML
@@ -249,10 +278,10 @@ switch tot he next Web (only works on partition==web, and if we've already start
 sub nextWeb {
     my $this = shift;
 
-    ASSERT( $this->{partition} eq 'web' ) if DEBUG;
-    ASSERT( $this->{list} ) if DEBUG;
+    ASSERT( $this->partition eq 'web' ) if DEBUG;
+    ASSERT( $this->_iterator ) if DEBUG;
 
-    $this->{list} = undef;
+    $this->_clear_iterator;
     $this->hasNext();
 }
 
@@ -269,7 +298,7 @@ delay evaluated, partially evaluated, or even delegated to the DB/SQL
 sub sortResults {
     my ( $this, $params ) = @_;
 
-    foreach my $infocache ( @{ $this->{Itr_list} } ) {
+    foreach my $infocache ( @{ $this->Itr_list } ) {
         $infocache->sortResults($params);
     }
 }
@@ -277,7 +306,7 @@ sub sortResults {
 sub filterByDate {
     my ( $this, $date ) = @_;
 
-    foreach my $infocache ( @{ $this->{Itr_list} } ) {
+    foreach my $infocache ( @{ $this->Itr_list } ) {
         $infocache->filterByDate($date);
     }
 }

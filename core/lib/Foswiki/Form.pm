@@ -115,8 +115,8 @@ sub _validateWebTopic {
         Foswiki::OopsException->throw(
             template => 'attention',
             def      => 'invalid_form_name',
-            web      => $session->{webName},
-            topic    => $session->{topicName},
+            web      => $session->webName,
+            topic    => $session->topicName,
             params   => [ $web, $form ]
         );
     }
@@ -134,7 +134,7 @@ sub loadCached {
     my ( $vweb, $vtopic ) = _validateWebTopic( $session, $web, $form );
 
     my $this;
-    if ( defined( $this = $session->{forms}->{"$vweb.$vtopic"} ) ) {
+    if ( defined( $this = $session->forms->{"$vweb.$vtopic"} ) ) {
         unless ( $this->isa('Foswiki::Form') ) {
 
             #recast if we have to - allowing the cache to work its magic
@@ -177,8 +177,8 @@ around BUILDARGS => sub {
         Foswiki::OopsException->throw(
             'attention',
             def    => 'no_form_def',
-            web    => $session->{webName},
-            topic  => $session->{topicName},
+            web    => $session->webName,
+            topic  => $session->topicName,
             params => [ $vweb, $vtopic ]
         );
     }
@@ -194,13 +194,13 @@ sub BUILD {
     my $topic   = $this->topic;
 
     unless ( $this->has_def || $this->haveAccess('VIEW') ) {
-        Foswiki::AccessControlException->throw( 'VIEW', $session->{user},
+        Foswiki::AccessControlException->throw( 'VIEW', $session->user,
             $web, $topic, $Foswiki::Meta::reason );
     }
 
     # cache the object before we've parsed it to prevent recursion
     #when there are SEARCH / INCLUDE macros in the form definition
-    $session->{forms}->{"$web.$topic"} = $this;
+    $session->forms->{"$web.$topic"} = $this;
 
     unless ( $this->has_def ) {
         $this->fields( $this->_parseFormDefinition() );
@@ -610,7 +610,7 @@ sub renderForEdit {
             # Give plugin field types a chance first (but no chance to add to
             # col 0 :-(
             # SMELL: assumes that the field value is a string
-            my $output = $session->{plugins}->dispatch(
+            my $output = $session->plugins->dispatch(
                 'renderFormFieldForEditHandler', $fieldDef->{name},
                 $fieldDef->{type},               $fieldDef->{size},
                 $value,                          $fieldDef->{attributes},

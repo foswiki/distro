@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Store::SearchAlgorithms::PurePerl;
+use v5.14;
 
 =begin TML
 
@@ -10,13 +11,8 @@ Pure perl implementation of the flat file search in Forking.pm.
 
 =cut
 
-use strict;
-use warnings;
 use Assert;
 use Encode;
-
-use Foswiki::Store::Interfaces::QueryAlgorithm ();
-our @ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
 
 use Foswiki::Store::Interfaces::SearchAlgorithm ();
 use Foswiki::Search::Node                       ();
@@ -32,6 +28,10 @@ use Foswiki::ListIterator();
 use Foswiki::Iterator::FilterIterator();
 use Foswiki::Iterator::ProcessIterator();
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Store::Interfaces::QueryAlgorithm);
+
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
@@ -46,11 +46,6 @@ use constant MONITOR => 0;
 ---++ ClassMethod new( $class,  ) -> $cereal
 
 =cut
-
-sub new {
-    my $self = shift()->SUPER::new( 'SEARCH', @_ );
-    return $self;
-}
 
 # This is the 'old' interface, prior to Sven's massive search refactoring.
 sub _search {
@@ -134,7 +129,7 @@ sub _webQuery {
 
         #then we start with the whole web?
         #TODO: i'm sure that is a flawed assumption
-        my $webObject = Foswiki::Meta->new( $session, $web );
+        my $webObject = Foswiki::Meta->new( session => $session, web => $web );
         $topicSet =
           Foswiki::Search::InfoCache::getTopicListIterator( $webObject,
             $options );
@@ -184,8 +179,7 @@ sub _webQuery {
         my $textMatches;
         unless ( $options->{'scope'} eq 'topic' ) {
             $textMatches =
-              _search( $tokenCopy, $web, $topicSet, $session->{store},
-                $options );
+              _search( $tokenCopy, $web, $topicSet, $session->store, $options );
         }
 
         #bring the text matches into the topicMatch hash
@@ -212,9 +206,11 @@ sub _webQuery {
             @scopeTextList = keys(%topicMatches);
         }
 
-        $topicSet =
-          Foswiki::Search::InfoCache->new( $Foswiki::Plugins::SESSION, $web,
-            \@scopeTextList );
+        $topicSet = Foswiki::Search::InfoCache->new(
+            session   => $Foswiki::Plugins::SESSION,
+            web       => $web,
+            topicList => \@scopeTextList
+        );
     }
 
     return $topicSet;

@@ -27,17 +27,16 @@ BEGIN {
 has iterator => (
     is       => 'rw',
     required => 1,
-    weak_ref => 1,
     isa      => Foswiki::Object::isaCLASS(
         'iterator', 'Foswiki::Object', does => 'Foswiki::Iterator',
     ),
 );
-has data    => ( is => 'rw', required => 1, );
-has pending => ( is => 'rw', default  => 0, );
+has data => ( is => 'rw', );
+has pending => ( is => 'rw', default => 0, );
 
 =begin TML
 
----++ ClassMethod new( iterator => $iter, filter => $sub, data => $data )
+---++ ClassMethod new( iterator => $iter, filter => $sub, [data => $data] )
 Construct a new iterator that will filter $iter based on the results from
 $sub. $sub should return 0 if the next() from $iter should be filtered and
 1 if it should be treated as the next item in the sequence.

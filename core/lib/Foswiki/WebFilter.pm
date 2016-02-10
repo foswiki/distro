@@ -1,8 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::WebFilter;
-
-use strict;
-use warnings;
+use v5.14;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -41,19 +39,19 @@ sub ok {
 
     return 0 if $this->{template} && $web !~ /(?:^_|\/_)/;
 
-    return 1 if ( $web eq $session->{webName} );
+    return 1 if ( $web eq $session->webName );
 
     return 0 if $this->{user} && $web =~ m/(?:^_|\/_)/;
 
     return 0 if !$session->webExists($web);
 
-    my $webObject = Foswiki::Meta->new( $session, $web );
+    my $webObject = Foswiki::Meta->new( session => $session, web => $web );
     my $thisWebNoSearchAll =
       Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
 
     return 0
       if $this->{public}
-      && !$session->{users}->isAdmin( $session->{user} )
+      && !$session->users->isAdmin( $session->user )
       && $thisWebNoSearchAll;
 
     return 0 if $this->{allowed} && !$webObject->haveAccess('VIEW');

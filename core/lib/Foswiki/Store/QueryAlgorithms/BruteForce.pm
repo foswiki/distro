@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Store::QueryAlgorithms::BruteForce;
+use v5.14;
 
 =begin TML
 
@@ -23,12 +24,6 @@ speed and memory size. It also depends on the complexity of the query.
 # evaluation path. Not done yet, because CDot strongly suspects it won't make
 # much difference.
 
-use strict;
-use warnings;
-
-use Foswiki::Store::Interfaces::QueryAlgorithm ();
-our @ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
-
 use Foswiki::Store::Interfaces::SearchAlgorithm ();
 use Foswiki::Search::Node                       ();
 use Foswiki::Search::InfoCache                  ();
@@ -42,6 +37,10 @@ use Foswiki::Query::HoistREs ();
 use Foswiki::ListIterator();
 use Foswiki::Iterator::FilterIterator();
 use Foswiki::Iterator::ProcessIterator();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Store::Interfaces::QueryAlgorithm);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -58,24 +57,22 @@ use constant MONITOR => 0;
 
 =cut
 
-sub new {
-    my $self = shift()->SUPER::new( 'SEARCH', @_ );
-    return $self;
-}
-
 # Query over a single web
 sub _webQuery {
     my ( $this, $query, $web, $inputTopicSet, $session, $options ) = @_;
 
-    my $resultTopicSet =
-      Foswiki::Search::InfoCache->new( $Foswiki::Plugins::SESSION, $web );
+    my $resultTopicSet = Foswiki::Search::InfoCache->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $web
+    );
 
     # see if this query can be fasttracked.
     # TODO: is this simplification call appropriate here, or should it
     # go in Search.pm
     # TODO: what about simplify to constant in _this_ web?
     my $queryIsAConstantFastpath;    # undefined if this is a 'real' query'
-    my $context = Foswiki::Meta->new( $session, $session->{webName} );
+    my $context =
+      Foswiki::Meta->new( session => $session, web => $session->webName );
     $query->simplify( tom => $context, data => $context );
 
     if ( $query->evaluatesToConstant() ) {
@@ -137,7 +134,7 @@ sub _webQuery {
 
         # then we start with the whole web?
         # TODO: i'm sure that is a flawed assumption
-        my $webObject = Foswiki::Meta->new( $session, $web );
+        my $webObject = Foswiki::Meta->new( session => $session, web => $web );
         $topicSet =
           Foswiki::Search::InfoCache::getTopicListIterator( $webObject,
             $options );
@@ -154,10 +151,12 @@ sub _webQuery {
             files_without_match => 1,
             web                 => $web,
         };
-        my @filter = @{ $hoistedREs->{text} };
-        my $searchQuery =
-          Foswiki::Search::Node->new( $query->toString(), \@filter,
-            $searchOptions );
+        my @filter      = @{ $hoistedREs->{text} };
+        my $searchQuery = Foswiki::Search::Node->new(
+            search  => $query->toString(),
+            tokens  => \@filter,
+            options => $searchOptions
+        );
 
         #use Data::Dumper;
         #print STDERR "--- hoisted: ".Dumper($hoistedREs)."\n" if MONITOR;

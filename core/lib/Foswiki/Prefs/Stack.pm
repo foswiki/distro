@@ -296,14 +296,9 @@ sub clone {
 
     my $clone = $this->new;
 
-    # SMELL vrurg Not sure but Storable would do the job faster and more
-    # reliable with respect to avoiding of circular references.
-    #$clone->map( { %{ $this->map } } );
-    #$clone->levels( [ @{ $this->levels } ] );
-    #$clone->final( { %{ $this->final } } );
-    $clone->map( dclone( $this->map ) );
-    $clone->levels( dclone( $this->levels ) );
-    $clone->final( dclone( $this->final ) );
+    $clone->map( { %{ $this->map } } );
+    $clone->levels( [ @{ $this->levels } ] );
+    $clone->final( { %{ $this->final } } );
     $clone->restore($level) if defined $level;
 
     return $clone;

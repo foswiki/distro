@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Search::Node;
+use v5.14;
 
 =begin TML
 
@@ -9,11 +10,8 @@ Refactoring mid-step that contains a set of SEARCH tokens and options.
 
 =cut
 
-use strict;
-use warnings;
-
 use Assert;
-use Error qw( :try );
+use Try::Tiny;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -21,6 +19,10 @@ BEGIN {
         import locale();
     }
 }
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 # Some day this may usefully be an infix node
 #use Foswiki::Infix::Node ();
@@ -34,18 +36,19 @@ Construct a search token container.
 
 =cut
 
-sub new {
-    my ( $class, $search, $tokens, $options ) = @_;
-    my $this = bless(
-        {
-            tokens  => $tokens,
-            search  => $search,
-            options => $options,
-        },
-        $class
-    );
-    return $this;
-}
+has tokens => (
+    is       => 'ro',
+    required => 1,
+    default  => sub { [] },
+);
+has search => (
+    is       => 'ro',
+    required => 1,
+);
+has options => (
+    is       => 'ro',
+    required => 1,
+);
 
 =begin TML
 
@@ -55,11 +58,11 @@ Return a ref to a list of tokens that are ANDed to perform the search.
 
 =cut
 
-sub tokens {
-    my $this = shift;
-    return [] unless $this->{tokens};
-    return $this->{tokens};
-}
+#sub tokens {
+#    my $this = shift;
+#    return [] unless $this->tokens;
+#    return $this->tokens;
+#}
 
 =begin TML
 
@@ -71,16 +74,17 @@ Return true if this search is empty (has no tokens)
 
 sub isEmpty {
     my $this = shift;
-    return !( $this->{tokens} && scalar( @{ $this->{tokens} } ) > 0 );
+    return !( $this->tokens && scalar( @{ $this->tokens } ) > 0 );
 }
 
 sub stringify {
-    my $this = shift;
+    my $this    = shift;
+    my $options = $this->options;
     return
-      join( ' ', @{ $this->{tokens} } ) . ' {'
+      join( ' ', @{ $this->tokens } ) . ' {'
       . join( ',',
-        map  { "$_=>$this->{options}->{$_}" }
-        grep { !/^_/ } keys %{ $this->{options} } )
+        map  { "$_=>$options->{$_}" }
+        grep { !/^_/ } keys %{ $this->options } )
       . '}';
 }
 

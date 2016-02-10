@@ -1,8 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Store::Interfaces::QueryAlgorithm;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
 use Foswiki::Store::Interfaces::SearchAlgorithm ();
@@ -27,6 +26,10 @@ BEGIN {
     }
 }
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+
 use constant MONITOR => 0;
 
 =begin TML
@@ -50,12 +53,6 @@ need to inherit from this class (as long as all the methods are implemented).
 ---++ ClassMethod new( $class,  ) -> $cereal
 
 =cut
-
-sub new {
-    my $class = shift;
-    my $this = bless( {}, $class );
-    return $this;
-}
 
 =begin TML
 
@@ -84,9 +81,12 @@ sub query {
     if ( $query->isEmpty() )
     {    #TODO: does this do anything in a type=query context?
          #Note: Must return an empty results set, including pager, to avoid crash. Item13383
-        my $resultset =
-          new Foswiki::Search::ResultSet( [], $options->{groupby},
-            $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
+        my $resultset = Foswiki::Search::ResultSet->new(
+            iterators => [],
+            partition => $options->{groupby},
+            sortby    => $options->{order},
+            revsort   => Foswiki::isTrue( $options->{reverse} )
+        );
         return $this->addPager( $resultset, $options );
     }
 
@@ -130,9 +130,12 @@ sub query {
     my @resultCacheList = $queryItr->all();
 
 #and thus if the ResultSet could be created using an unevaluated process itr, which would somehow rely on........ eeeeek
-    my $resultset =
-      new Foswiki::Search::ResultSet( \@resultCacheList, $options->{groupby},
-        $options->{order}, Foswiki::isTrue( $options->{reverse} ) );
+    my $resultset = Foswiki::Search::ResultSet->new(
+        iterators => \@resultCacheList,
+        partition => $options->{groupby},
+        sortby    => $options->{order},
+        revsort   => Foswiki::isTrue( $options->{reverse} )
+    );
 
     #add permissions check
     $resultset = $this->addACLFilter( $resultset, $options );
@@ -150,9 +153,11 @@ sub addPager {
     my $options   = shift;
 
     if ( $options->{paging_on} ) {
-        $resultset =
-          new Foswiki::Iterator::PagerIterator( $resultset,
-            $options->{pagesize}, $options->{showpage} );
+        $resultset = Foswiki::Iterator::PagerIterator->new(
+            iterator => $resultset,
+            pagesize => $options->{pagesize},
+            showpage => $options->{showpage}
+        );
     }
 
     return $resultset;
@@ -164,9 +169,9 @@ sub addACLFilter {
     my $options   = shift;
 
     #add filtering for ACL test - probably should make it a seperate filter
-    $resultset = new Foswiki::Iterator::FilterIterator(
-        $resultset,
-        sub {
+    $resultset = Foswiki::Iterator::FilterIterator->new(
+        iterator => $resultset,
+        filter   => sub {
             my $listItem = shift;
             my $params   = shift;
 
@@ -181,8 +186,11 @@ sub addACLFilter {
 
 #TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
 #lets change that
-                $topicMeta =
-                  new Foswiki::Meta( $Foswiki::Plugins::SESSION, $web, $topic );
+                $topicMeta = Foswiki::Meta->new(
+                    session => $Foswiki::Plugins::SESSION,
+                    web     => $web,
+                    topic   => $topic
+                );
             }
             my $info =
               $Foswiki::Plugins::SESSION->search->metacache->get( $web, $topic,
@@ -193,7 +201,7 @@ sub addACLFilter {
             return 0 unless ( $info->{allowView} );
             return 1;
         },
-        $options
+        data => $options,
     );
 }
 
@@ -204,15 +212,15 @@ sub getWebIterator {
 
     my $webNames = $options->{web}       || '';
     my $recurse  = $options->{'recurse'} || '';
-    my $isAdmin  = $session->{users}->isAdmin( $session->{user} );
+    my $isAdmin  = $session->users->isAdmin( $session->user );
 
     #get a complete list of webs to search
     my $searchAllFlag = ( $webNames =~ m/(^|[\,\s])(all|on)([\,\s]|$)/i );
     my @webs =
       Foswiki::Store::Interfaces::QueryAlgorithm::getListOfWebs( $webNames,
         $recurse, $searchAllFlag );
-    my $rawWebIter = new Foswiki::ListIterator( list => \@webs );
-    my $webItr = new Foswiki::Iterator::FilterIterator(
+    my $rawWebIter = Foswiki::ListIterator->new( list => \@webs );
+    my $webItr = Foswiki::Iterator::FilterIterator->new(
         iterator => $rawWebIter,
         filter   => sub {
             my $web    = shift;
@@ -232,7 +240,7 @@ sub getWebIterator {
               if ( $searchAllFlag
                 && !$isAdmin
                 && ( $thisWebNoSearchAll || $web =~ m/^[\.\_]/ )
-                && $web ne $session->{webName} );
+                && $web ne $session->webName );
             return 1;
         },
         data => {},
@@ -422,7 +430,7 @@ sub getRev1Info {
     my $meta = shift;
 
     my $wikiname = $meta->getRev1Info('createwikiname');
-    return $meta->{_getRev1Info}->{rev1info};
+    return $meta->_getRev1Info->{rev1info};
 }
 
 =begin TML
@@ -499,7 +507,7 @@ sub getListOfWebs {
 
         # default to current web
         my $web =
-          Foswiki::Sandbox::untaint( $session->{webName},
+          Foswiki::Sandbox::untaint( $session->webName,
             \&Foswiki::Sandbox::validateWebName );
         push( @tmpWebs, $web );
         if ( Foswiki::isTrue($recurse) ) {
@@ -511,7 +519,7 @@ sub getListOfWebs {
             my $it =
               $webObject->eachWeb( $Foswiki::cfg{EnableHierarchicalWebs} );
             while ( $it->hasNext() ) {
-                my $w = $session->{webName} . '/' . $it->next();
+                my $w = $session->webName . '/' . $it->next();
                 next
                   unless Foswiki::WebFilter->user_allowed()->ok( $session, $w );
                 $w = Foswiki::Sandbox::untaint( $w,

@@ -1,8 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Store::Interfaces::SearchAlgorithm;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
 use Foswiki            ();
@@ -11,8 +10,9 @@ use Foswiki::Sandbox   ();
 use Foswiki::WebFilter ();
 use Foswiki::Meta      ();
 
-use Foswiki::Store::Interfaces::QueryAlgorithm ();
-our @ISA = ('Foswiki::Store::Interfaces::QueryAlgorithm');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Store::Interfaces::QueryAlgorithm);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
