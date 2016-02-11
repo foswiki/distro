@@ -314,8 +314,17 @@ sub getPage {
     my $refresh = $session->{request}->param('refresh') || '';
     if ( $refresh eq 'all' ) {
 
-        # SMELL: restrict this to admins; put this somewhere else
-        $this->deleteAll();
+        if ( $session->{users}->isAdmin( $session->{user} ) ) {
+            $this->deleteAll();
+        }
+        else {
+            throw Foswiki::OopsException(
+                'accessdenied',
+                def   => 'cache_refresh',
+                web   => $web,
+                topic => $topic,
+            );
+        }
     }
 
     if ( $refresh eq 'fire' ) {    # simulates a "save" of the current topic
