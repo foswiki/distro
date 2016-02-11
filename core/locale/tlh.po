@@ -186,7 +186,7 @@ msgstr "%1 vaj mIchvam <nop>DuHmey <nop>DalISlaH"
 msgid "%1 to start working on the new web"
 msgstr "%1 vaj mIch chu&&#39;Daq bIvumchoHlaH"
 
-#: core/templates/messages.tmpl:453 core/templates/messages.tmpl:466
+#: core/templates/messages.tmpl:466 core/templates/messages.tmpl:479
 msgid "%1 topic does not exist"
 msgstr "ghItlh %1 tu&&#39;lu&&#39;be&&#39;"
 
@@ -300,7 +300,7 @@ msgstr "(tep polHa&&#39;)"
 msgid "(delete)"
 msgstr "(<nop>polHa&&#39;)"
 
-#: core/templates/messages.tmpl:513
+#: core/templates/messages.tmpl:526
 msgid "(disabled)"
 msgstr "(chu&&#39;Ha&&#39;lu&&#39;)"
 
@@ -579,7 +579,7 @@ msgstr ""
 msgid "A =.txt= extension is appended to some filenames for security reasons"
 msgstr "Hungmo&&#39; chaq De&&#39;vaD =.txt= chellu&&#39;"
 
-#: core/templates/messages.tmpl:423 core/templates/messages.tmpl:434
+#: core/templates/messages.tmpl:436 core/templates/messages.tmpl:447
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -600,7 +600,7 @@ msgstr ""
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "%1vaD &&#39;olmeH QIn ngelu&&#39;pu&&#39;"
 
-#: core/templates/messages.tmpl:427 core/templates/messages.tmpl:438
+#: core/templates/messages.tmpl:440 core/templates/messages.tmpl:451
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -647,7 +647,7 @@ msgstr "choHmey buSHa&&#39; &&#39;ej mej"
 msgid "Access Denied"
 msgstr "naw&&#39; lajHa&&#39;lu&&#39;"
 
-#: core/templates/messages.tmpl:394
+#: core/templates/messages.tmpl:407
 msgid "Access check on %1 failed"
 msgstr "%1 naw&&#39; lajHa&&#39;lu&&#39;"
 
@@ -665,7 +665,7 @@ msgstr "ghunmeH leQmey:"
 msgid "Action"
 msgstr "vang"
 
-#: core/templates/messages.tmpl:396
+#: core/templates/messages.tmpl:409
 msgid "Action %1: %2 by user %3."
 msgstr "%1: %2, vangchugh lo&&#39;wI&&#39; %3."
 
@@ -849,7 +849,7 @@ msgstr "De&&#39; chu&&#39; chel"
 msgid "Attachment"
 msgstr "tep"
 
-#: core/templates/messages.tmpl:473
+#: core/templates/messages.tmpl:486
 msgid "Attachment '%1' does not exist"
 msgstr "tep '%1' tu&&#39;lu&&#39;be&&#39;"
 
@@ -992,6 +992,10 @@ msgstr "choHmey (CHANGE) chaw&&#39;be&&#39; %1"
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 msgid "CHANGE not permitted for %1 by %2"
 msgstr "%1 choHmey (CHANGE) chaw&&#39;be&&#39; %2"
+
+#: core/templates/messages.tmpl:394
+msgid "Cache =refresh=all= denied for non-admin users."
+msgstr ""
 
 #: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:287
 msgid "Can't find user %1"
@@ -1269,10 +1273,11 @@ msgstr ""
 msgid "Conflict"
 msgstr "qaD"
 
-#: core/templates/messages.tmpl:400 core/templates/messages.tmpl:407
-#: core/templates/messages.tmpl:412 core/templates/messages.tmpl:449
-#: core/templates/messages.tmpl:462 core/templates/messages.tmpl:469
-#: core/templates/messages.tmpl:478 core/templates/registermessages.tmpl:109
+#: core/templates/messages.tmpl:402 core/templates/messages.tmpl:413
+#: core/templates/messages.tmpl:420 core/templates/messages.tmpl:425
+#: core/templates/messages.tmpl:462 core/templates/messages.tmpl:475
+#: core/templates/messages.tmpl:482 core/templates/messages.tmpl:491
+#: core/templates/registermessages.tmpl:109
 #: core/templates/registermessages.tmpl:132
 msgid "Contact %1 if you have any questions."
 msgstr "vay&&#39; <nop>Daghel <nop>DaneHchugh vaj %1 yIrI&&#39;."
@@ -1409,7 +1414,7 @@ msgstr ""
 msgid "Create personal sidebar"
 msgstr "<nop>HIDjolevlIj chenmoH"
 
-#: core/templates/messages.tmpl:447
+#: core/templates/messages.tmpl:460
 msgid "Create the topic"
 msgstr "ghItlh <nop>chenmoH"
 
@@ -1604,27 +1609,27 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "Qapchu&&#39; QIn Quv choHmeH mIw!"
 
-#: core/templates/messages.tmpl:481
+#: core/templates/messages.tmpl:494
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "Qagh ENCODE - quqlaHbe&&#39; =type= quqtaHvIS =old= =new joq "
 
-#: core/templates/messages.tmpl:483
+#: core/templates/messages.tmpl:496
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "Qagh ENCODE - =old= =new= je wIvnISlu&&#39;"
 
-#: core/templates/messages.tmpl:485
+#: core/templates/messages.tmpl:498
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "Qagh ENCODE - =old=Daq ngoq '%PARAM1%' tu&&#39;lu&&#39; "
 
-#: core/templates/messages.tmpl:491
+#: core/templates/messages.tmpl:504
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "Qagh EXPAND - '%PARAM1%' naw&&#39;lu&&#39; net chaw&&#39;be&&#39;"
 
-#: core/templates/messages.tmpl:487
+#: core/templates/messages.tmpl:500
 msgid "EXPAND failed - no macro"
 msgstr "Qagh EXPAND - mIwHom tu&&#39;lu&&#39;be&&#39;"
 
-#: core/templates/messages.tmpl:489
+#: core/templates/messages.tmpl:502
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "Qagh EXPAND - Hutlh ghItlh '%PARAM1%'"
 
@@ -1763,7 +1768,7 @@ msgstr ""
 msgid "Enter users or groups to add to this group"
 msgstr "ghomvamDaq chelmeH lo&&#39;wI&&#39;pu&&#39; ghommey qoj tIchel"
 
-#: core/templates/messages.tmpl:501
+#: core/templates/messages.tmpl:514
 msgid "Error encountered loading the plugin. See errors below."
 msgstr "Plugin taghmeH Qagh vay&&#39;. bIngDaq Qaghmey yIlaD."
 
@@ -1961,10 +1966,7 @@ msgstr ""
 msgid "Foswiki password reset for %1"
 msgstr "%1vaD Foswiki chaw&&#39; ngoq chu&&#39;moHlu&&#39;pu&&#39;"
 
-#: PatternSkin/templates/view.pattern.tmpl:73
-msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
-msgstr "<a href='%1' rel='nofollow'>naDev</a> nav chu&&#39; yISuq."
-
+#: PatternSkin/templates/view.pattern.tmpl:74
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
 msgid "Get a fresh version <a href='%1'>here</a>."
 msgstr "<a href='%1'>naDev</a> nav chu&&#39; yISuq."
@@ -1988,7 +1990,7 @@ msgid "Globe"
 msgstr "yuQ"
 
 #: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
-#: core/templates/messages.tmpl:476 core/templates/registermessages.tmpl:378
+#: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:378
 msgid "Go back"
 msgstr "chegh"
 
@@ -2006,7 +2008,7 @@ msgstr ""
 "&&#39;Internet janDaq yIchegh &&#39;ej juHlIj De&&#39;wI&&#39;lIjDaq "
 "choHmeylIj tIpol."
 
-#: core/templates/messages.tmpl:498
+#: core/templates/messages.tmpl:511
 msgid ""
 "Go back to the previous page, and enable Cookies and !JavaScript before "
 "trying again"
@@ -2227,7 +2229,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr "Dochvam Dayajchu&&#39;be&&#39;chugh vaj yIlaD: %1"
 
-#: core/templates/messages.tmpl:425 core/templates/messages.tmpl:436
+#: core/templates/messages.tmpl:438 core/templates/messages.tmpl:449
 msgid "If you came here by clicking on a question mark link"
 msgstr "naDev <nop>DuDevta&&#39;chugh ghelwI&&#39; Degh rarwI&&#39;"
 
@@ -2280,7 +2282,7 @@ msgid ""
 "the topic, [[%1][cancel save]] to go to %2."
 msgstr ""
 
-#: core/templates/messages.tmpl:446
+#: core/templates/messages.tmpl:459
 msgid "If you want to create the topic"
 msgstr "ghItlhvam <no>DachenmoH &&#39;e&&#39; <nop>DaHechchugh"
 
@@ -2290,7 +2292,7 @@ msgid ""
 "a plus sign"
 msgstr ""
 
-#: core/templates/messages.tmpl:441
+#: core/templates/messages.tmpl:454
 msgid "If you would like to create this web"
 msgstr "mIchvam <nop>DachenmoH <nop>DaneHchugh"
 
@@ -2695,7 +2697,7 @@ msgstr "Hutlhbogh De&&#39;"
 msgid "Missing action command"
 msgstr "Hutlh vangmeH ra&&#39;wI&&#39;"
 
-#: core/templates/messages.tmpl:419
+#: core/templates/messages.tmpl:432
 msgid "Missing or illegal web name"
 msgstr "Hutlh mIch pong, pagh Qagh &&#39;oH"
 
@@ -3048,7 +3050,7 @@ msgstr ""
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "latlh tamey polHa&&#39;laH loHwI&&#39;pu&&#39; neH."
 
-#: core/templates/messages.tmpl:410
+#: core/templates/messages.tmpl:423
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "mIwvam luta&&#39;laH %1 jeSwI&&#39;pu&&#39;&&#39;e&&#39; neH."
 
@@ -3285,7 +3287,7 @@ msgstr ""
 "yI&&#39;ol &&#39;ej <nop>yInIDqa&&#39;. Qapbe&&#39;taHchugh vaj %2 "
 "yIrI&&#39;."
 
-#: core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:508
 msgid "Please notify your %1 administrator."
 msgstr "<nop>DaH %1 loHwI&#39;lIj yIghuHmoH."
 
@@ -3302,11 +3304,11 @@ msgstr ""
 msgid "Plugin handlers"
 msgstr "Plugin raQwI&&#39;mey"
 
-#: core/templates/messages.tmpl:511
+#: core/templates/messages.tmpl:524
 msgid "Plugin module did not return true. See errors below."
 msgstr "true jatlhbe&&#39; Plugin bobcho&&#39;. bIngDaq Qaghmey tIbuS."
 
-#: core/templates/messages.tmpl:503
+#: core/templates/messages.tmpl:516
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 "Plugin bobcho&&#39; Dellu&&#39;be&&#39;. SeHlaw yI&&#39;ol. bIngDaq Qaghmey "
@@ -3497,7 +3499,8 @@ msgstr "rurbogh ghItlhmey:"
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
-#: core/templates/messages.tmpl:402 core/templates/messages.tmpl:415
+#: core/templates/messages.tmpl:404 core/templates/messages.tmpl:415
+#: core/templates/messages.tmpl:428
 msgid "Related topics:"
 msgstr "rurbogh ghItlhmey:"
 
@@ -4179,7 +4182,7 @@ msgstr ""
 msgid "Table"
 msgstr "wa&&#39;chaw"
 
-#: core/templates/messages.tmpl:459
+#: core/templates/messages.tmpl:472
 msgid "Template %1 does not exist"
 msgstr "ghantoH %1 tu&&#39;lu&&#39;be&&#39;"
 
@@ -4230,7 +4233,7 @@ msgstr "lo&&#39;wI&&#39;vam chu&&#39;lu&&#39;ta&&#39; rIntaH"
 msgid "The %1 topic already exists"
 msgstr "taHtaH ghItlh %1"
 
-#: core/templates/messages.tmpl:433
+#: core/templates/messages.tmpl:446
 msgid "The %1 web does not exist"
 msgstr "mIch %1 tu&&#39;lu&&#39;be&&#39;"
 
@@ -4275,7 +4278,7 @@ msgstr "chaw' ngoq choH vay' 'e' chu'Ha'ta' loHwI'."
 msgid "The Free and Open Source Wiki."
 msgstr "wIqI&&#39;e&&#39; tlhab &&#39;ej ghunlaHbogh Hoch."
 
-#: core/templates/messages.tmpl:421
+#: core/templates/messages.tmpl:434
 msgid ""
 "The Web/Topic path: '%1' has missing components, or contains invalid "
 "characters."
@@ -4763,9 +4766,16 @@ msgstr ""
 msgid "To edit the topic anyway, click "
 msgstr "ghItlh <nop>DachoH <nop>DaneHchugh, vaj yI&&#39;uy "
 
-#: core/templates/messages.tmpl:398
+#: core/templates/messages.tmpl:400 core/templates/messages.tmpl:411
 msgid "To login as another user please do so [[%1][here]]."
 msgstr "latlh lo&&#39;wI&&#39; <nop>DagheSmeH, vaj [[%1][yI&&#39;elqa&&#39;]]."
+
+#: core/templates/messages.tmpl:398
+#, fuzzy
+msgid ""
+"To refresh the cache for just this topic, <a href='%1' rel='nofollow' > "
+"click here </a> "
+msgstr "<a href='%1' rel='nofollow'>naDev</a> nav chu&&#39; yISuq."
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -4787,7 +4797,7 @@ msgstr "<nop>DoS mIch"
 msgid "To web:"
 msgstr "<nop>DoS mIch:"
 
-#: core/templates/messages.tmpl:494
+#: core/templates/messages.tmpl:507
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -4938,7 +4948,7 @@ msgstr "lo&&#39;wI&&#39;, chaw&&#39; ngoq joq ghovbe&&#39;lu&&#39;"
 msgid "Unrecognized action command %1"
 msgstr ""
 
-#: core/templates/messages.tmpl:405
+#: core/templates/messages.tmpl:418
 msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
@@ -5399,18 +5409,18 @@ msgid ""
 "underscore and has only alphanumeric characters."
 msgstr ""
 
-#: core/templates/messages.tmpl:474
+#: core/templates/messages.tmpl:487
 msgid "You are trying to access an attachment that does not exist."
 msgstr ""
 "tep tu&&#39;be&&#39;lu&&#39;bogh Danaw&&#39; &&#39;e&&#39; <nop>DanIDtaH."
 
-#: core/templates/messages.tmpl:460
+#: core/templates/messages.tmpl:473
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr ""
 "ghItlh <nop>DachenmoHmeH ghantoH tu&&#39;be&&#39;lu&&#39;bogh Dalo&&#39; "
 "<nop>DaneHlaw&&#39;."
 
-#: core/templates/messages.tmpl:454
+#: core/templates/messages.tmpl:467
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
@@ -5418,13 +5428,13 @@ msgstr ""
 "ghItlh tu&&#39;be&&#39;lu&&#39;boghDaq vay Data&&#39; <nop>DaneHba&&#39; "
 "('%1')."
 
-#: core/templates/messages.tmpl:467
+#: core/templates/messages.tmpl:480
 msgid "You are trying to rename a topic that does not exist."
 msgstr ""
 "ghItlh tu&&#39;be&&#39;lu&&#39;bogh Dapongqa&&#39; &&#39;e&&#39; "
 "DanIDba&&#39;."
 
-#: core/templates/messages.tmpl:442
+#: core/templates/messages.tmpl:455
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -5465,7 +5475,7 @@ msgstr ""
 "lo&&#39;wI&&#39; ponglIj <nop>DachoHlaHbe&&#39;: &&#39;oH choHlaH loHwI&#39; "
 "neH."
 
-#: core/templates/messages.tmpl:497
+#: core/templates/messages.tmpl:510
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
@@ -5509,6 +5519,12 @@ msgid "You may need to close your browser to make this change take effect."
 msgstr ""
 "choHmeyvam <nop>DaleghmeH chaq &&#39;Internet <nop>janlIj Dachu&&#39;"
 "nISqa&&#39;."
+
+#: core/templates/messages.tmpl:396
+msgid ""
+"You must be the =%1= super user, or a member of the %2, to clear the global "
+"cache for all topics."
+msgstr ""
 
 #: core/templates/messages.tmpl:89
 msgid "You must pass a topic name."
@@ -5738,7 +5754,7 @@ msgstr "pIm"
 msgid "don't forget to check your Topic Settings"
 msgstr "ghItlh <nop>DuHmey <nop>tIlIjQo&&#39;"
 
-#: core/templates/messages.tmpl:509
+#: core/templates/messages.tmpl:522
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr "Qagh earlyInitPlugin.  <nop>bIngDaq Qaghmey tetlh <nop>yIbuS."
 
@@ -5785,7 +5801,7 @@ msgstr "ghunwI&&#39; ngoq"
 msgid "indicates mandatory fields"
 msgstr "De&&#39; poQlu&&#39;bogh &&#39;ang"
 
-#: core/templates/messages.tmpl:505 core/templates/messages.tmpl:507
+#: core/templates/messages.tmpl:518 core/templates/messages.tmpl:520
 msgid "initPlugin was not defined. See errors below."
 msgstr "initPlugin lISlu&&#39;be&&#39;. bIngDaq Qaghmey tIbuS."
 
