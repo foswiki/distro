@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-09-29 20:45+0200\n"
-"Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/da/>\n"
+"PO-Revision-Date: 2016-02-11 19:47+0200\n"
+"Last-Translator: Kenneth <kenneth@lavrsen.dk>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -212,9 +212,8 @@ msgstr "%1 blev omdøbt eller flyttet fra %2 den %3 af %4"
 
 #. ("%SYSTEMWEB%.$pluginName",                "${templateName}Template")
 #: AutoViewTemplatePlugin/lib/Foswiki/Plugins/AutoViewTemplatePlugin.pm:97
-#, fuzzy
 msgid "%1: Invalid template name (%2) - Contains invalid characters."
-msgstr "Sidenavnet (%1) indeholder ugyldige tegn."
+msgstr "%1: Navnet for templaten (%1) indeholder ugyldige tegn."
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -1000,7 +999,7 @@ msgstr "CHANGE ikke tilladt for %1 af %2"
 
 #: core/templates/messages.tmpl:394
 msgid "Cache =refresh=all= denied for non-admin users."
-msgstr ""
+msgstr "Cache =refresh=all= er kun muligt for administratorer."
 
 #: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:287
 msgid "Can't find user %1"
@@ -1184,7 +1183,6 @@ msgid "Child topics in %1 web"
 msgstr "Datter-sider i %1-webbet"
 
 #: core/templates/backlinkchildren.tmpl:5
-#, fuzzy
 msgid "Children of %1 in %2 Web"
 msgstr "Referencer til %1 fra %2 webbet"
 
@@ -1197,9 +1195,8 @@ msgid "Clear all"
 msgstr "Nulstil alle"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
-#, fuzzy
 msgid "Clear all topics"
-msgstr "Nulstil alle"
+msgstr "Nulstil alle sider"
 
 #: core/lib/Foswiki/Render/Moved.pm:52
 msgid ""
@@ -1243,7 +1240,7 @@ msgstr "Kommentarer er slået fra for statisk visning"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
 msgid "Commenting is disabled when not in view context"
-msgstr "Kommentarer er slået fra udenfor kontekst visning"
+msgstr "Kommentarer er slået når man ikke ser på siden i normal mode"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
 msgid "Commenting is disabled while not logged in"
@@ -1367,7 +1364,6 @@ msgid "Country:"
 msgstr "Land:"
 
 #: core/data/System/FrequentlyAskedQuestions.txt:45
-#, fuzzy
 msgid "Create New FAQ Topic"
 msgstr "Opret ny FAQ side"
 
@@ -1451,7 +1447,7 @@ msgstr "Nuværende password:"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
 msgid "Data Form Table Header"
-msgstr ""
+msgstr "Tabelhoved for dataform"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:40
 msgid "Data rows"
@@ -1740,7 +1736,7 @@ msgstr "Forstør edit-boks"
 
 #: core/templates/more.tmpl:102
 msgid "Enter __none__ to clear the topic parent"
-msgstr ""
+msgstr "Skriv __none__ for at fjerne forældernavn"
 
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
@@ -1863,7 +1859,6 @@ msgid "Find similar topics"
 msgstr "Find lignende sider"
 
 #: core/templates/more.tmpl:206
-#, fuzzy
 msgid "Find topics that are children of %1 ..."
 msgstr "Find sider der refererer til %1 ..."
 
@@ -1961,9 +1956,8 @@ msgstr "Nulstilling af Foswiki-adgangskoden for %1"
 
 #: PatternSkin/templates/view.pattern.tmpl:74
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
-#, fuzzy
 msgid "Get a fresh version <a href='%1'>here</a>."
-msgstr "Få en opdateret version <a href='%1' rel='nofollow'>her</a>."
+msgstr "Få en opdateret version <a href='%1'>her</a>."
 
 #: core/templates/attach.tmpl:3
 msgid "Get help on attaching files"
@@ -2381,7 +2375,7 @@ msgstr "Ukorrekte parametre til scriptet =%1="
 
 #: core/templates/registermessages.tmpl:127
 msgid "Incorrect topic name provided for the templatetopic parameter."
-msgstr ""
+msgstr "Ukorrekte sidenavn angivet for templatetopic parameteren."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
 msgid "Indent"
@@ -2408,9 +2402,8 @@ msgid "Insert a color code"
 msgstr "Indsæt farvekode"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:108
-#, fuzzy
 msgid "Insert a data form table header"
-msgstr "Indsæt matematisk formel"
+msgstr "Indsæt en tabel-header for dataform"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:97
 msgid "Insert a date"
@@ -2878,11 +2871,11 @@ msgstr "Nej"
 
 #: core/templates/backlinks.tmpl:20
 msgid "No backlinks in public webs"
-msgstr ""
+msgstr "Ingen referencer tilbage i offentlige webs"
 
 #: core/templates/backlinks.tmpl:10
 msgid "No backlinks in this web"
-msgstr ""
+msgstr "Ingen referencer i denne web"
 
 #: core/data/System/SiteChanges.txt:70
 msgid "No changes"
@@ -3466,7 +3459,6 @@ msgid "Registration has been denied"
 msgstr "Brugerregistrering er ikke tilladt"
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:47
-#, fuzzy
 msgid ""
 "Registration is disabled either by configuration setting "
 "{EnableNewUserRegistration}, or due to errors with the password system. "
@@ -4147,7 +4139,6 @@ msgid "Superscript"
 msgstr "Hævet"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:83
-#, fuzzy
 msgid "Switch to monotype or proportional font"
 msgstr "Skift til monospace eller proportional skrift"
 
@@ -4371,7 +4362,7 @@ msgstr ""
 msgid ""
 "The details about REST Handlers are only available to users with Admin "
 "authority."
-msgstr ""
+msgstr "Information om REST handler er kun tilgængelig for administratorer."
 
 #: core/templates/registermessages.tmpl:252
 #: core/templates/registermessages.tmpl:270
@@ -4414,6 +4405,8 @@ msgid ""
 "The filename you are attempting to upload (%1) contains characters not "
 "supported by the configured encoding (%2)."
 msgstr ""
+"The filnavn som du forsøger at vedhæfte (%1) indeholder karakterer som ikke "
+"er understøttet af den nuværende opsætning (%2)."
 
 #: core/templates/messages.tmpl:282
 msgid "The following topics are locked for edit, and cannot be moved:"
@@ -4457,6 +4450,10 @@ msgid ""
 "web.  If not provided, the default topic is [[%USERSWEB%.NewUserTemplate]], "
 "or if that does not exist. [[%SYSTEMWEB%.NewUserTemplate]]."
 msgstr ""
+"Det angivne navn er enten ugyldigt, eller det findes ikke. Et templatetopic "
+"skal være en eksisterende new user template side i %USERSWEB% webben. Hvis "
+"den ikke er angivet, så bruges standard siden [[%USERSWEB%.NewUserTemplate]]"
+", eller der faldes tilbage til at bruge [[%SYSTEMWEB%.NewUserTemplate]]."
 
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
@@ -4600,6 +4597,8 @@ msgid ""
 "This field is not normally user provided. This may be a Foswiki "
 "configuration error."
 msgstr ""
+"Dette felt er normalt ikke angivet af brugeren. Det kan være en fejl i "
+"opsætningen af Foswiki."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
 msgid ""
@@ -4798,11 +4797,11 @@ msgid "To login as another user please do so [[%1][here]]."
 msgstr "For at logge på som anden bruger gør det [[%1][her]]."
 
 #: core/templates/messages.tmpl:398
-#, fuzzy
 msgid ""
 "To refresh the cache for just this topic, <a href='%1' rel='nofollow' > "
 "click here </a> "
-msgstr "Få en opdateret version <a href='%1' rel='nofollow'>her</a>."
+msgstr ""
+"Få en opdateret version af denne side <a href='%1' rel='nofollow'>her</a>. "
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -4967,7 +4966,7 @@ msgstr "Fortryd sidste ændring"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:132
 msgid "Unescape markup"
-msgstr ""
+msgstr "Fjern formatering"
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
@@ -5405,7 +5404,6 @@ msgid "You"
 msgstr "Dig selv"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:19
-#, fuzzy
 msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
@@ -5413,7 +5411,7 @@ msgid ""
 msgstr ""
 "Du *skal* have mindst en registreret e-mail-adresse for at kunne nulstille "
 "dit password. Hvis ingen af dine registrerede e-mail-adresser er valide, og "
-"du har glemt din adgangskode, kontakt da %1"
+"du har glemt din adgangskode, kontakt da %1."
 
 #: core/templates/registermessages.tmpl:202
 msgid "You are already registered."
@@ -5579,6 +5577,8 @@ msgid ""
 "You must be the =%1= super user, or a member of the %2, to clear the global "
 "cache for all topics."
 msgstr ""
+"Du skal være super-brugeren =%1=, eller medlem af gruppen %2 for at slette "
+"cachen for alle sider."
 
 #: core/templates/messages.tmpl:89
 msgid "You must pass a topic name."
@@ -5853,9 +5853,8 @@ msgstr "hjælp"
 
 #: core/data/Sandbox/WebHome.txt:11
 #: core/data/System/FrequentlyAskedQuestions.txt:47
-#, fuzzy
 msgid "hide form"
-msgstr "Tilføj formular"
+msgstr "Vis ikke formular"
 
 #: core/data/System/WikiSyntaxSummary.txt:20
 msgid "hints on good style"
