@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1438296596" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1455156569" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Page Caching
 How to get the best from HTML Caching.
@@ -156,7 +156,8 @@ by adding =refresh=on= or =refresh=cache= to an url.
 <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?refresh=cache">Refresh this page.</a>
 </verbatim>
 
-The complete cache for all topics can be cleared as well using =refresh=all=. 
+The complete cache for all topics can be cleared as well using =refresh=all=.
+*This action is restricted to the =%WIKIADMINLOGIN%= super user, and to members of the %USERSWEB%.AdminGroup.*
 
 <div class="foswikiHelp">
 %T% The cache should be refreshed after installing a Foswiki upgrade, or after
