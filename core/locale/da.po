@@ -1094,7 +1094,7 @@ msgstr "Kommentarer er slået fra for statisk visning"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:85
 msgid "Commenting is disabled when not in view context"
-msgstr "Kommentarer er slået når man ikke ser på siden i normal mode."
+msgstr "Kommentarer er slået når man ikke ser på siden i normal mode"
 
 #: CommentPlugin/lib/Foswiki/Plugins/CommentPlugin.pm:95
 msgid "Commenting is disabled while not logged in"
