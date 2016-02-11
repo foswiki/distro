@@ -1055,10 +1055,10 @@ sub _isConvertableTableRow {
 
         if ( $kid->{attrs} ) {
             my $a = _deduceAlignment($kid);
-            if ( $text && $a eq 'right' ) {
+            if ( length($text) && $a eq 'right' ) {
                 $text = $WC::NBSP . $text;
             }
-            elsif ( $text && $a eq 'center' ) {
+            elsif ( length($text) && $a eq 'center' ) {
                 $text = $WC::NBSP . $text . $WC::NBSP;
             }
             elsif ( $text && $a eq 'left' ) {
