@@ -39,7 +39,7 @@ has pagesize => (
 );
 has showpage => (
     is     => 'ro',
-    coerce => sub { return defined( $_[0] ? $_[0] : 1 ); },
+    coerce => sub { return defined( $_[0] ) ? $_[0] : 1; },
 );
 has pending => (
     is      => 'rw',

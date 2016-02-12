@@ -20,9 +20,10 @@ features.
 =cut
 
 use Foswiki::Exception;
-use Assert;
 use Moo;
 use namespace::clean;
+
+use Assert;
 
 =begin TML
 
@@ -62,6 +63,9 @@ Key/value pairs as in =$object3= example are valid as soon as at least one key i
 This limitation will remain actual until constructor are no more called with positional parameters.
 
 =cut
+
+has __orig_file => ( is => 'rw', clearer => 1, );
+has __orig_line => ( is => 'rw', clearer => 1, );
 
 sub BUILDARGS {
     my ( $class, @params ) = @_;
@@ -118,6 +122,22 @@ sub BUILDARGS {
     return $paramHash;
 }
 
+sub BUILD {
+    my $this = shift;
+
+    if (DEBUG) {
+        my ( $pkg, $file, $line );
+        my $sFrame = 0;
+        do {
+            ( $pkg, $file, $line ) = caller( ++$sFrame );
+          } while (
+            $pkg =~ /^(Foswiki::Object|Moo::|Method::Generate::Constructor)/ );
+        $this->__orig_file($file);
+        $this->__orig_line($line);
+    }
+
+}
+
 sub finish {
 
     # Plug for objects with no finish() method. Temporary, until the destruction
@@ -125,12 +145,14 @@ sub finish {
 }
 
 sub DEMOLISH {
-    my $self = shift;
-    if ( $self->can('finish') ) {
+    my $this = shift;
+    $this->_clear__orig_file;
+    $this->_clear__orig_line;
+    if ( $this->can('finish') ) {
 
      # SMELL every Foswiki::Object ancestor has to use DEMOLISH as the standard.
      # XXX We have to generate a warning if this condition is met.
-        $self->finish;
+        $this->finish;
     }
 
 }

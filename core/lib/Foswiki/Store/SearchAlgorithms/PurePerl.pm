@@ -134,7 +134,9 @@ sub _webQuery {
           Foswiki::Search::InfoCache::getTopicListIterator( $webObject,
             $options );
     }
-    ASSERT( UNIVERSAL::isa( $topicSet, 'Foswiki::Iterator' ) ) if DEBUG;
+    ASSERT( UNIVERSAL::isa( $topicSet, 'Foswiki::Object' )
+          && $topicSet->does('Foswiki::Iterator') )
+      if DEBUG;
 
     #print STDERR "######## PurePerl search ($web) tokens "
     #.scalar(@{$query->tokens()})." : ".join(',', @{$query->tokens()})."\n";
@@ -207,9 +209,9 @@ sub _webQuery {
         }
 
         $topicSet = Foswiki::Search::InfoCache->new(
-            session   => $Foswiki::Plugins::SESSION,
-            web       => $web,
-            topicList => \@scopeTextList
+            session    => $Foswiki::Plugins::SESSION,
+            defaultWeb => $web,
+            topicList  => \@scopeTextList
         );
     }
 

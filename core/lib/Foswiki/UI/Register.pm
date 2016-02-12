@@ -58,7 +58,7 @@ sub register_cgi {
 
     # Register -> Verify -> Approve -> Finish
 
-    my $action = $session->{request}->param('action') || '';
+    my $action = $session->request->param('action') || '';
 
     # Dispatch the registration action
     # CAUTION:  Only routines intended to be called directly using the
@@ -76,10 +76,10 @@ sub register_cgi {
         $session->leaveContext('absolute_urls');
     }
     else {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'attention',
-            web   => $session->{webName},
-            topic => $session->{topicName},
+            web   => $session->webName,
+            topic => $session->topicName,
             def   => 'unrecognized_action'
         );
     }
@@ -90,33 +90,33 @@ sub _action_register {
     my $session = shift;
 
     # Check that the method was POST
-    my $query = $session->{request};
+    my $query = $session->request;
     if (   $query
         && $query->method()
         && uc( $query->method() ) ne 'POST' )
     {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'attention',
-            web    => $session->{webName},
-            topic  => $session->{topicName},
+            web    => $session->webName,
+            topic  => $session->topicName,
             def    => 'post_method_only',
             params => ['register']
         );
     }
 
     if ( !$session->inContext('registration_supported') ) {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
-            web   => $session->{webName},
-            topic => $session->{topicName},
+            web   => $session->webName,
+            topic => $session->topicName,
             def   => 'registration_not_supported'
         );
     }
     if ( !$Foswiki::cfg{Register}{EnableNewUserRegistration} ) {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
-            web   => $session->{webName},
-            topic => $session->{topicName},
+            web   => $session->webName,
+            topic => $session->topicName,
             def   => 'registration_disabled'
         );
     }
@@ -125,8 +125,8 @@ sub _action_register {
     _innerRegister($session);
 
     if ( $Foswiki::cfg{Register}{NeedVerification} ) {
-        my $query = $session->{request};
-        my $data = _getDataFromQuery( $session->{users}, $query );
+        my $query = $session->request;
+        my $data = _getDataFromQuery( $session->users, $query );
 
   # Add some extra fields for compatibility with older registerconfirm templates
         $data->{FirstLastName} = $data->{Name};
@@ -143,15 +143,15 @@ sub _action_register {
 # Handler for 'verify' action
 sub _action_verify {
     my $session = shift;
-    my $code    = $session->{request}->param('code');
+    my $code    = $session->request->param('code');
 
     unless ($code) {
-        throw Error::Simple('verification failed: no verification code!');
+        Foswiki::Exception->throw('verification failed: no verification code!');
     }
     my $data = _loadPendingRegistration( $session, $code );
 
     if ( !exists $data->{Email} ) {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             status => 200,
             web    => $Foswiki::cfg{UsersWebName},
@@ -161,7 +161,7 @@ sub _action_verify {
         );
     }
 
-    throw Foswiki::OopsException(
+    Foswiki::OopsException->throw(
         'register',
         def    => 'bad_ver_code',
         params => [ $code, 'Invalid verification code ' ]
@@ -191,7 +191,7 @@ sub _action_disapprove {
     );
 
     # Display the form to optionally gather feedback and email the rejectee
-    throw Foswiki::OopsException(
+    Foswiki::OopsException->throw(
         'register',
         status => 200,
         web    => $Foswiki::cfg{UsersWebName},
@@ -205,9 +205,9 @@ sub _action_disapprove {
 sub _action_approve {
     my $session = shift;
     my $data    = _checkApproval( $session, 1 );
-    my $code    = $session->{request}->param('code');
+    my $code    = $session->request->param('code');
 
-    throw Foswiki::OopsException(
+    Foswiki::OopsException->throw(
         'register',
         def    => 'bad_ver_code',
         params => [ $code, 'Invalid approval code ' ]
@@ -219,7 +219,7 @@ sub _action_approve {
 
     _complete( $session, $data, 0 );
 
-    throw Foswiki::OopsException(
+    Foswiki::OopsException->throw(
         'register',
         status => 200,
         web    => $Foswiki::cfg{UsersWebName},
@@ -233,29 +233,29 @@ sub _action_approve {
 # Handle approver action; either approve or deny
 sub _checkApproval {
     my ( $session, $approve ) = @_;
-    my $code = $session->{request}->param('code');
+    my $code = $session->request->param('code');
     unless ($code) {
-        throw Error::Simple('approval failed: no approval code!');
+        Foswiki::Exception->throw(
+            text => 'approval failed: no approval code!' );
     }
     if ( $code eq 'DENIED' ) {
 
         # The registration has been denied; serve up denial feedback
         my $data = {
-            EmailAddress => scalar( $session->{request}->param('email') ),
-            Referee      => scalar( $session->{request}->param('referee') ),
+            EmailAddress => scalar( $session->request->param('email') ),
+            Referee      => scalar( $session->request->param('referee') ),
             WikiName     => Foswiki::Sandbox::untaint(
-                scalar( $session->{request}->param('wikiname') )
-                  || 'UnknownUser',
+                scalar( $session->request->param('wikiname') ) || 'UnknownUser',
                 \&Foswiki::Sandbox::validateTopicName
             ),
-            Feedback => scalar( $session->{request}->param('feedback') )
+            Feedback => scalar( $session->request->param('feedback') )
         };
         my $err = _sendEmail( $session, 'registerdenied', $data );
         if ($err) {
             $session->logger->log( 'warning',
 "Registration rejected: registration_mail_failed - Email: $data->{EmailAddress}, Error $err"
             );
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'register',
                 def    => 'registration_mail_failed',
                 web    => $Foswiki::cfg{UsersWebName},
@@ -263,7 +263,7 @@ sub _checkApproval {
                 params => [ $data->{EmailAddress}, $err ]
             );
         }
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             status => 200,
             web    => $Foswiki::cfg{UsersWebName},
@@ -274,15 +274,15 @@ sub _checkApproval {
     }
 
     # Must be logged in to approve
-    throw Foswiki::AccessControlException( 'APPROVE', $session->{user},
-        $session->{webName}, $session->{topicName}, 'Not logged in' )
+    Foswiki::AccessControlException->throw( 'APPROVE', $session->user,
+        $session->webName, $session->topicName, 'Not logged in' )
       unless $session->inContext('authenticated');
 
     my $data = _loadPendingRegistration( $session, $code );
     _clearPendingRegistrationsForUser($code);
 
     if ( !exists $data->{Email} ) {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             status => 200,
             web    => $Foswiki::cfg{UsersWebName},
@@ -294,9 +294,9 @@ sub _checkApproval {
 
     # check if the user is already registered; if so, their registration
     # must have been approved
-    my $cUID = $session->{users}->getCanonicalUserID( $data->{WikiName} );
-    if ( $cUID && $session->{users}->userExists($cUID) ) {
-        throw Foswiki::OopsException(
+    my $cUID = $session->users->getCanonicalUserID( $data->{WikiName} );
+    if ( $cUID && $session->users->userExists($cUID) ) {
+        Foswiki::OopsException->throw(
             'register',
             status => 200,
             web    => $Foswiki::cfg{UsersWebName},
@@ -307,7 +307,7 @@ sub _checkApproval {
     }
 
     # Record who is doing the approving
-    $data->{Referee} = $session->{users}->getWikiName( $session->{user} );
+    $data->{Referee} = $session->users->getWikiName( $session->user );
 
     return $data;
 }
@@ -317,10 +317,10 @@ sub _checkApproval {
 sub _resetPassword {
     my $session = shift;
     if ( !$session->inContext('passwords_modifyable') ) {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
-            web   => $session->{webName},
-            topic => $session->{topicName},
+            web   => $session->webName,
+            topic => $session->topicName,
             def   => 'passwords_disabled'
         );
     }
@@ -349,11 +349,11 @@ NB. bulkRegister is invoked from ManageCgiScript. Why? Who knows.
 sub bulkRegister {
     my $session = shift;
 
-    my $user    = $session->{user};
-    my $topic   = $session->{topicName};
-    my $web     = $session->{webName};
+    my $user    = $session->user;
+    my $topic   = $session->topicName;
+    my $web     = $session->webName;
     my $userweb = $Foswiki::cfg{UsersWebName};
-    my $query   = $session->{request};
+    my $query   = $session->request;
 
     # absolute URL context for email generation
     $session->enterContext('absolute_urls');
@@ -363,8 +363,8 @@ sub bulkRegister {
     # This gets set from the value in the BulkRegistrations topic
     $settings->{doOverwriteTopics} = $query->param('OverwriteHomeTopics') || 0;
 
-    unless ( $session->{users}->isAdmin($user) ) {
-        throw Foswiki::OopsException(
+    unless ( $session->users->isAdmin($user) ) {
+        Foswiki::OopsException->throw(
             'accessdenied',
             status => 403,
             def    => 'only_group',
@@ -444,7 +444,7 @@ sub bulkRegister {
     #-- Save the LogFile as designated, link back to the source topic
     my $lmeta = Foswiki::Meta->new( $session, $logWeb, $logTopic, $log );
     unless ( $lmeta->haveAccess('CHANGE') ) {
-        throw Foswiki::AccessControlException( 'CHANGE', $session->{user},
+        Foswiki::AccessControlException->throw( 'CHANGE', $session->user,
             $logWeb, $logTopic, $Foswiki::Meta::reason );
     }
     $lmeta->put( 'TOPICPARENT', { name => $web . '.' . $topic } );
@@ -462,7 +462,7 @@ sub _registerSingleBulkUser {
     ASSERT($row) if DEBUG;
 
     my $doOverwriteTopics = defined $settings->{doOverwriteTopics}
-      || throw Error::Simple('No doOverwriteTopics');
+      || Foswiki::Exception->throw('No doOverwriteTopics');
 
     my $log = "---++ Registering $row->{WikiName}\n";
 
@@ -490,7 +490,7 @@ sub _registerSingleBulkUser {
         _validateRegistration( $session, $row, 0 );
     }
     catch {
-        my $e = shift;
+        my $e = $_;
         if ( $e->isa('Foswiki::OopsException') ) {
             $log .=
               '<blockquote>' . $e->stringify($session) . "</blockquote>\n";
@@ -505,7 +505,7 @@ sub _registerSingleBulkUser {
     # so align the two
     $row->{form} = _makeFormFieldOrderMatch( $fieldNames, $row );
 
-    my $users = $session->{users};
+    my $users = $session->users;
 
     try {
 
@@ -589,10 +589,10 @@ sub _makeFormFieldOrderMatch {
 sub _innerRegister {
     my ($session) = @_;
 
-    my $query = $session->{request};
-    my $data = _getDataFromQuery( $session->{users}, $query );
+    my $query = $session->request;
+    my $data = _getDataFromQuery( $session->users, $query );
 
-    $data->{webName} = $session->{webName};
+    $data->{webName} = $session->webName;
 
     my $oldName = $data->{WikiName};
     $oldName = 'undef' unless defined $oldName;
@@ -602,11 +602,11 @@ sub _innerRegister {
     unless ( $data->{WikiName} ) {
         $session->logger->log( 'warning',
             "Registration rejected: validateTopicName failed for $oldName" );
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             def    => 'bad_wikiname',
             web    => $data->{webName},
-            topic  => $session->{topicName},
+            topic  => $session->topicName,
             params => [$oldName]
         );
     }
@@ -621,8 +621,8 @@ sub _innerRegister {
 sub _requireConfirmation {
     my ( $session, $data, $type, $template, $approvers ) = @_;
 
-    my $topic = $session->{topicName};
-    my $web   = $session->{webName};
+    my $web   = $session->webName;
+    my $topic = $session->topicName;
 
     my $oldName = $data->{WikiName};
 
@@ -633,11 +633,11 @@ sub _requireConfirmation {
     unless ( $data->{WikiName} ) {
         $session->logger->log( 'warning',
             "$type rejected: validateTopicName failed for $oldName" );
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             def    => 'bad_wikiname',
             web    => $data->{webName},
-            topic  => $session->{topicName},
+            topic  => $session->topicName,
             params => [$oldName]
         );
     }
@@ -654,7 +654,7 @@ sub _requireConfirmation {
     my $file = _codeFile( $data->{"${type}Code"} );
     my $F;
     open( $F, '>', $file )
-      or throw Error::Simple( 'Failed to open file: ' . $! );
+      or Foswiki::Exception->throw( 'Failed to open file: ' . $! );
     print $F "# $type code\n";
 
     # SMELL: wierd jiggery-pokery required, otherwise Data::Dumper screws
@@ -684,11 +684,10 @@ sub _requireConfirmation {
         while ( $app = pop @referees ) {
             unless ( $app =~ m/\@/ ) {
                 $data->{Referee} = $app;
-                my $cUID = $session->{users}->getCanonicalUserID($app);
+                my $cUID = $session->users->getCanonicalUserID($app);
                 if ($cUID) {
                     push( @referees,
-                        map { "$app <$_>" }
-                          $session->{users}->getEmails($cUID) );
+                        map { "$app <$_>" } $session->users->getEmails($cUID) );
                 }
                 next;
             }
@@ -700,7 +699,7 @@ sub _requireConfirmation {
                 $session->logger->log( 'warning',
 "Registration rejected: registration_mail_failed - Email: $data->{EmailAddress}, Error $err"
                 );
-                throw Foswiki::OopsException(
+                Foswiki::OopsException->throw(
                     'register',
                     def    => 'registration_mail_failed',
                     web    => $data->{webName},
@@ -715,7 +714,7 @@ sub _requireConfirmation {
 'Registration cannot be completed: Email has been disabled for this Foswiki installation'
         );
 
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'attention',
             def    => 'send_mail_error',
             web    => $data->{webName},
@@ -724,7 +723,7 @@ sub _requireConfirmation {
         );
     }
 
-    throw Foswiki::OopsException(
+    Foswiki::OopsException->throw(
         'register',
         status => 200,
         def    => $template,                  # confirm or approve
@@ -748,10 +747,10 @@ NB. deleteUser is invoked from the =manage= script.
 sub deleteUser {
     my $session = shift;
 
-    my $webName     = $session->{webName};
-    my $topic       = $session->{topicName};
-    my $query       = $session->{request};
-    my $cUID        = $session->{user};
+    my $webName     = $session->webName;
+    my $topic       = $session->topicName;
+    my $query       = $session->request;
+    my $cUID        = $session->user;
     my $user        = $query->param('user');
     my $topicPrefix = $query->param('topicPrefix');
 
@@ -760,25 +759,25 @@ sub deleteUser {
         && $query->method()
         && uc( $query->method() ) ne 'POST' )
     {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'attention',
-            web    => $session->{webName},
-            topic  => $session->{topicName},
+            web    => $session->webName,
+            topic  => $session->topicName,
             def    => 'post_method_only',
             params => ['remove']
         );
     }
 
     unless ( $query->param('user') ) {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
-            web   => $session->{webName},
-            topic => $session->{topicName},
+            web   => $session->webName,
+            topic => $session->topicName,
             def   => 'user_param_required',
         );
     }
-    my $myWikiName   = $session->{users}->getWikiName($cUID);
-    my $userWikiName = $session->{users}->getWikiName($user);
+    my $myWikiName   = $session->users->getWikiName($cUID);
+    my $userWikiName = $session->users->getWikiName($user);
 
     Foswiki::UI::checkValidationKey($session);
 
@@ -794,7 +793,7 @@ sub deleteUser {
     unless ( Foswiki::Func::isAnAdmin() ) {
 
         if ( ( $user ne $cUID ) && ( $myWikiName ne $userWikiName ) ) {
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'register',
                 web    => $webName,
                 topic  => $topic,
@@ -804,9 +803,9 @@ sub deleteUser {
         }
 
         # check if user entry exists
-        my $users = $session->{users};
+        my $users = $session->users;
         if ( !$users->userExists($cUID) ) {
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'register',
                 web    => $webName,
                 topic  => $topic,
@@ -818,11 +817,11 @@ sub deleteUser {
         my $password = $query->param('password');
         unless (
             $users->checkPassword(
-                $session->{users}->getLoginName($cUID), $password
+                $session->users->getLoginName($cUID), $password
             )
           )
         {
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'register',
                 web   => $webName,
                 topic => $topic,
@@ -836,7 +835,7 @@ sub deleteUser {
             scalar( $query->param('topicPrefix') ),
             \&Foswiki::Sandbox::validateTopicName
         );
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             web   => $webName,
             topic => $topic,
@@ -853,7 +852,7 @@ sub deleteUser {
 
     Foswiki::Func::writeWarning("$cUID: $lm");
 
-    throw Foswiki::OopsException(
+    Foswiki::OopsException->throw(
         'register',
         status => 200,
         def    => 'remove_user_done',
@@ -878,10 +877,10 @@ NB. Invoked from the =manage= script
 
 sub addUserToGroup {
     my $session = shift;
-    my $query   = $session->{request};
-    my $topic   = $session->{topicName};
-    my $web     = $session->{webName};
-    my $user    = $session->{user};
+    my $query   = $session->request;
+    my $topic   = $session->topicName;
+    my $web     = $session->webName;
+    my $user    = $session->user;
 
     my @userNames = $query->multi_param('username');
 
@@ -889,7 +888,7 @@ sub addUserToGroup {
     my $create = Foswiki::isTrue( scalar( $query->param('create') ), 0 );
     if ( !$groupName or $groupName eq '' ) {
         my $userNames = scalar(@userNames) ? join( ',', @userNames ) : '';
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             def    => 'no_group_specified_for_add_to_group',
             web    => $web,
@@ -910,7 +909,7 @@ sub addUserToGroup {
         # I'm not sure what other mappers might make of this..
         if ( $create and Foswiki::Func::isGroup($groupName) ) {
             try {
-                $session->{users}->addUserToGroup( undef, $groupName, $create );
+                $session->users->addUserToGroup( undef, $groupName, $create );
             }
             catch {
 
@@ -919,7 +918,7 @@ sub addUserToGroup {
                     "catch: Failed to upgrade $groupName " . $_->stringify() );
             };
 
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'register',
                 status => 200,
                 def    => 'group_upgraded',
@@ -933,7 +932,7 @@ sub addUserToGroup {
     if (   !Foswiki::Func::isGroup($groupName)
         && !$create )
     {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             def   => 'no_group_and_no_create',
             web   => $web,
@@ -953,10 +952,10 @@ sub addUserToGroup {
     # We make an exception if you are an admin as they can always edit anything
 
     if (    !Foswiki::Func::isGroup($groupName)
-        and !$session->{users}->isAdmin($user)
+        and !$session->users->isAdmin($user)
         and $create )
     {
-        unshift( @userNames, $session->{users}->getLoginName($user) );
+        unshift( @userNames, $session->users->getLoginName($user) );
     }
 
     my @failed;
@@ -978,8 +977,8 @@ sub addUserToGroup {
           );
 
         try {
-            $u = $session->{users}->validateRegistrationField( 'username', $u );
-            $session->{users}->addUserToGroup( $u, $groupName, $create );
+            $u = $session->users->validateRegistrationField( 'username', $u );
+            $session->users->addUserToGroup( $u, $groupName, $create );
             push( @succeeded, $u );
         }
         catch {
@@ -996,7 +995,7 @@ sub addUserToGroup {
     if ( @failed || !@succeeded ) {
         $session->logger->log( 'warning',
             "failed: " . scalar(@failed) . " Succeeded " . scalar(@succeeded) );
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             web    => $web,
             topic  => $topic,
@@ -1007,7 +1006,7 @@ sub addUserToGroup {
 
     my $url = $session->redirectto();
     unless ($url) {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             status => 200,
             def    => 'added_users_to_group',
@@ -1036,28 +1035,28 @@ NB. Invoked from the =manage= script
 
 sub removeUserFromGroup {
     my $session = shift;
-    my $query   = $session->{request};
-    my $topic   = $session->{topicName};
-    my $web     = $session->{webName};
-    my $user    = $session->{user};
+    my $query   = $session->request;
+    my $topic   = $session->topicName;
+    my $web     = $session->webName;
+    my $user    = $session->user;
 
     my @userNames = $query->multi_param('username');
     my $groupName = $query->param('groupname');
     if (   ( $#userNames < 0 )
         or ( $userNames[0] eq '' ) )
     {
-        throw Foswiki::OopsException( 'register',
+        Foswiki::OopsException->throw( 'register',
             def => 'no_users_to_remove_from_group' );
     }
     if ( $#userNames == 0 ) {
         @userNames = split( /,\s+/, $userNames[0] );
     }
     if ( !$groupName or $groupName eq '' ) {
-        throw Foswiki::OopsException( 'register',
+        Foswiki::OopsException->throw( 'register',
             def => 'no_group_specified_for_remove_from_group' );
     }
     unless ( Foswiki::Func::isGroup($groupName) ) {
-        throw Foswiki::OopsException( 'register',
+        Foswiki::OopsException->throw( 'register',
             def => 'problem_removing_from_group' );
     }
 
@@ -1087,7 +1086,7 @@ sub removeUserFromGroup {
         };
     }
     if (@failed) {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             web    => $web,
             topic  => $topic,
@@ -1098,7 +1097,7 @@ sub removeUserFromGroup {
 
     my $url = $session->redirectto();
     unless ($url) {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             status => 200,
             def    => 'removed_users_from_group',
@@ -1116,11 +1115,11 @@ sub removeUserFromGroup {
 sub _complete {
     my ( $session, $data, $thanks ) = @_;
 
-    my $topic = $session->{topicName};
-    my $web   = $session->{webName};
-    my $query = $session->{request};
+    my $topic = $session->topicName;
+    my $web   = $session->webName;
+    my $query = $session->request;
 
-    $data ||= _getDataFromQuery( $session->{users}, $query );
+    $data ||= _getDataFromQuery( $session->users, $query );
     $data->{webName} = $web;
     $data->{WikiName} =
       Foswiki::Sandbox::untaint( $data->{WikiName},
@@ -1130,12 +1129,12 @@ sub _complete {
         if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
 
             # This should have been populated
-            throw Error::Simple('no LoginName after reload');
+            Foswiki::Exception->throw( text => 'no LoginName after reload' );
         }
         $data->{LoginName} ||= $data->{WikiName};
     }
 
-    my $users = $session->{users};
+    my $users = $session->users;
     try {
         unless ( !$session->inContext("passwords_modifyable")
             || defined( $data->{Password} ) )
@@ -1168,22 +1167,24 @@ sub _complete {
 
         # convert to rego agent user copied from
         # _writeRegistrationDetailsToTopic
-        my $safe             = $session->{user};
-        my $regoAgent        = $session->{user};
+        my $safe             = $session->user;
+        my $regoAgent        = $session->user;
         my $enableAddToGroup = 1;
 
         if ( Foswiki::Func::isGuest($regoAgent) ) {
-            $session->{user} =
-              $session->{users}->getCanonicalUserID(
-                $Foswiki::cfg{Register}{RegistrationAgentWikiName} );
-            $regoAgent = $session->{user};
+            $session->user(
+                $session->users->getCanonicalUserID(
+                    $Foswiki::cfg{Register}{RegistrationAgentWikiName}
+                )
+            );
+            $regoAgent = $session->user;
 
             # SECURITY ISSUE:
             # When upgrading an existing Wiki, the RegistrationUser is
             # in the AdminGroup. Thus newly registering users would be
             # able to join the AdminGroup. So disable the
             # AddUserToGroupOnRegistration if the agent is still admin :(
-            $enableAddToGroup = !$session->{users}->isAdmin($regoAgent);
+            $enableAddToGroup = !$session->users->isAdmin($regoAgent);
             if ( !$enableAddToGroup ) {
 
                 # TODO: should really tell the user too?
@@ -1201,7 +1202,7 @@ sub _complete {
 
         if ( ($enableAddToGroup) and ( $data->{AddToGroups} ) ) {
             foreach my $groupName ( split( /,/, $data->{AddToGroups} ) ) {
-                $session->{user} = $regoAgent;
+                $session->user($regoAgent);
                 try {
                     $users->addUserToGroup( $cUID, $groupName );
                     push @addedTo, $groupName;
@@ -1212,7 +1213,7 @@ sub _complete {
                         "Registration: Failure adding $cUID to $groupName" );
                 }
                 finally {
-                    $session->{user} = $safe;
+                    $session->user($safe);
                     if (@_) {
                         $_[0]->throw;
                     }
@@ -1228,9 +1229,9 @@ sub _complete {
         if ( $e->isa('Foswiki::OopsException') ) {
             $users->removeUser( $data->{LoginName}, $data->{WikiName} )
               if ( $users->userExists( $data->{WikiName} ) );
-            $e->throw();
+            $e->rethrow;
 
-            #throw Foswiki::OopsException ( @_ ); # Propagate
+            #Foswiki::OopsException->throw ( @_ ); # Propagate
         }
         else {
 
@@ -1257,9 +1258,8 @@ sub _complete {
     # Plugin to do some other post processing of the user.
     # for legacy, (callback to set cookies - now should use LoginHandler)
     # DEPRECATED HANDLER. DO NOT USE!
-    $session->{plugins}
-      ->dispatch( 'registrationHandler', $session->{webName}, $data->{WikiName},
-        $data->{LoginName}, $data );
+    $session->plugins->dispatch( 'registrationHandler', $session->webName,
+        $data->{WikiName}, $data->{LoginName}, $data );
 
     my $status;
     my $safe2login = 1;
@@ -1315,9 +1315,8 @@ sub _complete {
         $Foswiki::cfg{Register}{RegistrationAgentWikiName} );
     if (
         $safe2login
-        && (   $session->{user} eq $guestUID
-            || $session->{user} eq $regUID
-            && !$session->{users}->isAdmin($regUID) )
+        && (   $session->user eq $guestUID
+            || $session->user eq $regUID && !$session->users->isAdmin($regUID) )
       )
     {
 
@@ -1331,7 +1330,7 @@ sub _complete {
     if ($thanks) {
 
         # and finally display thank you page
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             status => 200,
             web    => $Foswiki::cfg{UsersWebName},
@@ -1411,25 +1410,29 @@ sub _writeRegistrationDetailsToTopic {
     # it's actually quite safe, because only a subset of tags are
     # expanded during topic creation. If the set of tags expanded is
     # extended, then the impact has to be considered.
-    my $safe = $session->{user};
-    $session->{user} = $user;
+    my $safe = $session->user;
+    $session->user($user);
     try {
         $topicObject->text($text);
         $topicObject->expandNewTopic();
         my $agent = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
-        $session->{user} = $session->{users}->getCanonicalUserID($agent);
+        $session->user( $session->users->getCanonicalUserID($agent) );
         $topicObject->put( 'TOPICPARENT',
             { name => $Foswiki::cfg{UsersTopicName} } );
 
         unless ( $topicObject->haveAccess('CHANGE') ) {
-            throw Foswiki::AccessControlException( 'CHANGE', $agent,
-                $topicObject->web, $topicObject->topic,
-                $Foswiki::Meta::reason );
+            Foswiki::AccessControlException->throw(
+                mode   => 'CHANGE',
+                user   => $agent,
+                web    => $topicObject->web,
+                topic  => $topicObject->topic,
+                reason => $Foswiki::Meta::reason
+            );
         }
         $topicObject->save();
     }
     finally {
-        $session->{user} = $safe;
+        $session->user($safe);
         if (@_) {
             $_[0]->throw;
         }
@@ -1517,7 +1520,7 @@ sub _emailRegistrationConfirmations {
 
         # Email address doesn't work, likely fraudulent registration
         try {
-            my $users = $session->{users};
+            my $users = $session->users;
             my $cUID  = $users->getCanonicalUserID( $data->{LoginName} );
 
             $template =
@@ -1620,10 +1623,10 @@ sub _validateRegistration {
         if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
 
             # Login name is required, barf
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'register',
                 web    => $data->{webName},
-                topic  => $session->{topicName},
+                topic  => $session->topicName,
                 def    => 'miss_loginname',
                 params => ['undefined']
             );
@@ -1637,10 +1640,10 @@ sub _validateRegistration {
             && $data->{LoginName} ne $data->{WikiName} )
         {
             # Login name is not allowed, barf
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'register',
                 web    => $data->{webName},
-                topic  => $session->{topicName},
+                topic  => $session->topicName,
                 def    => 'unsupport_loginname',
                 params => [ $data->{LoginName} ]
             );
@@ -1648,13 +1651,13 @@ sub _validateRegistration {
     }
 
     # Check if login name matches expectations
-    unless ( $session->{users}->getLoginManager()
+    unless ( $session->users->getLoginManager()
         ->isValidLoginName( $data->{LoginName} ) )
     {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             web    => $data->{webName},
-            topic  => $session->{topicName},
+            topic  => $session->topicName,
             def    => 'bad_loginname',
             params => [ $data->{LoginName} ]
         );
@@ -1673,7 +1676,7 @@ sub _validateRegistration {
     #NOTE: it is important that _any_ user can register any random third party
     #      this is not only how WikiGuest registers as someone else, but often
     #      how users pre-register others.
-    my $users    = $session->{users};
+    my $users    = $session->users;
     my $user     = $users->getCanonicalUserID( $data->{LoginName} );
     my $wikiname = $users->getWikiName($user);
 
@@ -1699,10 +1702,10 @@ sub _validateRegistration {
         $session->logger->log( 'warning',
 "Registration rejected:  LoginName $data->{LoginName} or WikiName $wikiname already known to Mapper"
         );
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             web    => $data->{webName},
-            topic  => $session->{topicName},
+            topic  => $session->topicName,
             def    => 'already_exists',
             params => [ $data->{LoginName} ]
         );
@@ -1715,10 +1718,10 @@ sub _validateRegistration {
         $session->logger->log( 'warning',
 "Registration rejected: Topic $Foswiki::cfg{UsersWebName}.$data->{WikiName}  already exists."
         );
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             web    => $data->{webName},
-            topic  => $session->{topicName},
+            topic  => $session->topicName,
             def    => 'already_exists',
             params => [ $data->{WikiName} ]
         );
@@ -1729,10 +1732,10 @@ sub _validateRegistration {
         $session->logger->log( 'warning',
             "Registration rejected:  $data->{WikiName} is not a valid WikiWord."
         );
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             web    => $data->{webName},
-            topic  => $session->{topicName},
+            topic  => $session->topicName,
             def    => 'bad_wikiname',
             params => [ $data->{WikiName} ]
         );
@@ -1751,10 +1754,10 @@ sub _validateRegistration {
             $session->logger->log( 'warning',
 "Registration rejected for $data->{WikiName}: requested password is too short."
             );
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'register',
                 web    => $data->{webName},
-                topic  => $session->{topicName},
+                topic  => $session->topicName,
                 def    => 'bad_password',
                 params => [ $Foswiki::cfg{MinPasswordLength} ]
             );
@@ -1767,10 +1770,10 @@ sub _validateRegistration {
             $session->logger->log( 'warning',
 "Registration rejected for $data->{WikiName}: passwords do not match."
             );
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'register',
                 web   => $data->{webName},
-                topic => $session->{topicName},
+                topic => $session->topicName,
                 def   => 'password_mismatch'
             );
         }
@@ -1782,10 +1785,10 @@ sub _validateRegistration {
         $session->logger->log( 'warning',
 "Registration rejected: $data->{Email} failed the system email regex check."
         );
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             web    => $data->{webName},
-            topic  => $session->{topicName},
+            topic  => $session->topicName,
             def    => 'bad_email',
             params => [ $data->{Email} ]
         );
@@ -1802,11 +1805,11 @@ sub _validateRegistration {
         $session->logger->log( 'warning',
 "Registration rejected: $data->{Email} rejected by the {Register}{EmailFilter}."
         );
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             def    => 'rej_email',
             web    => $data->{webName},
-            topic  => $session->{topicName},
+            topic  => $session->topicName,
             params => [ $data->{Email} ]
         );
     }
@@ -1822,10 +1825,10 @@ sub _validateRegistration {
             $session->logger->log( 'warning',
                 "Registration rejected: $data->{Email} already registered by: "
                   . join( ', ', @existingNames ) );
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'register',
                 web    => $data->{webName},
-                topic  => $session->{topicName},
+                topic  => $session->topicName,
                 def    => 'dup_email',
                 params => [ $data->{Email} ]
             );
@@ -1841,10 +1844,10 @@ sub _validateRegistration {
                 $session->logger->log( 'warning',
                     'Registration rejected: invalid templatetopic requested: '
                       . $data->{templatetopic} );
-                throw Foswiki::OopsException(
+                Foswiki::OopsException->throw(
                     'register',
                     web   => $data->{webName},
-                    topic => $session->{topicName},
+                    topic => $session->topicName,
                     def   => 'bad_templatetopic',
                 );
             }
@@ -1861,12 +1864,12 @@ sub _validateRegistration {
             $session->logger->log( 'warning',
 'Registration rejected: requested templatetopic does not exist: '
                   . $data->{templatetopic} );
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'register',
                 uweb  => $Foswiki::cfg{UsersWebName},
                 tmpl  => $data->{templatetopic},
                 web   => $data->{webName},
-                topic => $session->{topicName},
+                topic => $session->topicName,
                 def   => 'bad_templatetopic',
             );
         }
@@ -1878,10 +1881,10 @@ sub _validateRegistration {
         unless ( $data->{form} && ( $#{ $data->{form} } > 1 ) ) {
             $session->logger->log( 'warning',
                 'Registration rejected: The submitted form was empty' );
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'attention',
                 web    => $data->{webName},
-                topic  => $session->{topicName},
+                topic  => $session->topicName,
                 def    => 'missing_fields',
                 params => ['form']
             );
@@ -1898,10 +1901,10 @@ sub _validateRegistration {
             $session->logger->log( 'warning',
                 'Registration rejected: missing required fields: '
                   . join( ',', @missing ) );
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'attention',
                 web    => $data->{webName},
-                topic  => $session->{topicName},
+                topic  => $session->topicName,
                 def    => 'missing_fields',
                 params => [ join( ', ', @missing ) ]
             );
@@ -1915,7 +1918,7 @@ sub _validateRegistration {
         # validation checks above. On the flip side, there will
         # be no further validation of the plugins' work, so it
         # better get it right!
-        $session->{plugins}->dispatch( 'validateRegistrationHandler', $data );
+        $session->plugins->dispatch( 'validateRegistrationHandler', $data );
     }
     catch {
         my $e = $_;
@@ -1923,10 +1926,10 @@ sub _validateRegistration {
             $e->throw();    # propagate
         }
         else {
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'register',
                 web    => $data->{webName},
-                topic  => $session->{topicName},
+                topic  => $session->topicName,
                 def    => 'registration_invalid',
                 params => [ $e->stringify ]
             );
@@ -1966,7 +1969,8 @@ sub _sendEmail {
 sub _codeFile {
     my ($code) = @_;
     ASSERT($code) if DEBUG;
-    throw Error::Simple("bad code") unless $code =~ m/^(\w+)\.(\d+)$/;
+    Foswiki::Exception->throw( text => "bad code" )
+      unless $code =~ m/^(\w+)\.(\d+)$/;
     return "$Foswiki::cfg{WorkingDir}/registration_approvals/$1.$2";
 }
 
@@ -2009,7 +2013,7 @@ sub _loadPendingRegistration {
         $file = _codeFile($code);
     }
     catch {
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             def    => 'bad_ver_code',
             params => [ $code, 'Invalid code' ],
@@ -2018,17 +2022,17 @@ sub _loadPendingRegistration {
 
     unless ( -f $file ) {
         my $wikiName = _codeWikiName($code);
-        my $users    = $session->{users}->findUserByWikiName($wikiName);
+        my $users    = $session->users->findUserByWikiName($wikiName);
         if ( scalar( @{$users} )
-            && $session->{users}->userExists( $users->[0] ) )
+            && $session->users->userExists( $users->[0] ) )
         {
-            throw Foswiki::OopsException(
+            Foswiki::OopsException->throw(
                 'register',
                 def    => 'duplicate_activation',
                 params => [$wikiName],
             );
         }
-        throw Foswiki::OopsException(
+        Foswiki::OopsException->throw(
             'register',
             def    => 'bad_ver_code',
             params => [ $code, 'Code is not recognised' ],
@@ -2039,7 +2043,7 @@ sub _loadPendingRegistration {
     $form = undef;
     do $file;
     $data->{form} = $form if $form;
-    throw Foswiki::OopsException(
+    Foswiki::OopsException->throw(
         'register',
         def    => 'bad_ver_code',
         params => [ $code, 'Bad activation code' ]
@@ -2071,7 +2075,7 @@ sub _getDataFromQuery {
                   $users->validateRegistrationField( $name, $value );
             }
             catch {
-                throw Foswiki::OopsException(
+                Foswiki::OopsException->throw(
                     'register',
                     def    => 'invalid_field',
                     params => [$name]
@@ -2211,8 +2215,8 @@ sub _processDeleteUser {
     }
 
     # Remove the user from the mapping manager
-    if ( $cUID && $Foswiki::Plugins::SESSION->{users}->userExists($cUID) ) {
-        $Foswiki::Plugins::SESSION->{users}->removeUser($cUID);
+    if ( $cUID && $Foswiki::Plugins::SESSION->users->userExists($cUID) ) {
+        $Foswiki::Plugins::SESSION->users->removeUser($cUID);
         $message    .= " - user removed from Mapping Manager \n";
         $logMessage .= "Mapping removed, ";
     }
@@ -2263,7 +2267,7 @@ sub _processDeleteUser {
             # Spoof the user so we can delete their topic. Don't need to
             # do this for the REST handler, but we do for the registration
             # abort.
-            my $safe = $Foswiki::Plugins::SESSION->{user};
+            my $safe = $Foswiki::Plugins::SESSION->user;
 
             my $newTopic = "$paramHash->{prefix}$wikiname" . time;
             try {
@@ -2276,7 +2280,7 @@ sub _processDeleteUser {
             }
             finally {
                 # Restore the original user
-                $Foswiki::Plugins::SESSION->{user} = $safe;
+                $Foswiki::Plugins::SESSION->user($safe);
                 if (@_) {
                     $_[0]->throw;
                 }

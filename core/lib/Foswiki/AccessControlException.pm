@@ -95,11 +95,11 @@ BEGIN {
 
 our @_newParameters = qw( mode user web topic reason );
 
-has web    => ( is => 'ro' );
-has topic  => ( is => 'ro' );
-has user   => ( is => 'ro' );
-has mode   => ( is => 'ro' );
-has reason => ( is => 'ro' );
+has web    => ( is => 'ro', required => 1, );
+has topic  => ( is => 'ro', required => 1, );
+has user   => ( is => 'ro', required => 1, );
+has mode   => ( is => 'ro', required => 1, );
+has reason => ( is => 'ro', required => 1, );
 
 =begin TML
 

@@ -2641,7 +2641,8 @@ sub finish {
     undef $Foswiki::Plugins::SESSION;
 
     if (DEBUG) {
-        my $remaining = join ',', grep { defined $this->{$_} } keys %$this;
+        my $remaining = join ',',
+          grep { defined $this->{$_} && $_ !~ /^__/ } keys %$this;
         ASSERT( 0,
                 "Fields with defined values in "
               . ref($this)

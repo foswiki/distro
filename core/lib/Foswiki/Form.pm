@@ -70,9 +70,11 @@ has def => (
     predicate => 1,
 );
 has fields => (
-    is      => 'rw',
-    lazy    => 1,
-    clearer => 1,
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    isa       => Foswiki::Object::isaARRAY( 'fields', noUndef => 1, ),
 );
 has mandatoryFieldsPresent => (
     is      => 'rw',
@@ -127,7 +129,6 @@ sub _validateWebTopic {
 # XXX vrurg ClassMethod load() is supposed to replace the old new() method and
 # become a new constructor. Required to stay in compliance with Moo architecture
 # and avoid replacing of the standard new() method.
-# SMELL Foswiki::Meta already defines load() method. Need another name.
 sub loadCached {
     my ( $class, $session, $web, $form, $def ) = @_;
 
@@ -142,7 +143,8 @@ sub loadCached {
         }
     }
 
-    return $this // $class->new(
+    return $this if defined $this;
+    return $class->new(
         session   => $session,
         web       => $vweb,
         form      => $vtopic,
@@ -166,7 +168,7 @@ around BUILDARGS => sub {
 
     # Avoid direct calls to $class::new().
     ASSERT( $params->{_indirect},
-"${class}::new() has been use directly. Use ${class}->loadCached() instead."
+"${class}::new() has been used directly. Use ${class}->loadCached() instead."
     );
 
     # No more need to pollute properties with this key.
@@ -175,11 +177,11 @@ around BUILDARGS => sub {
     # Got to have either a def or a topic
     unless ( $params->{def} || $session->topicExists( $vweb, $vtopic ) ) {
         Foswiki::OopsException->throw(
-            'attention',
-            def    => 'no_form_def',
-            web    => $session->webName,
-            topic  => $session->topicName,
-            params => [ $vweb, $vtopic ]
+            template => 'attention',
+            def      => 'no_form_def',
+            web      => $session->webName,
+            topic    => $session->topicName,
+            params   => [ $vweb, $vtopic ]
         );
     }
 
@@ -213,6 +215,9 @@ sub BUILD {
         # Foswiki::Meta object
         $this->fields( $this->_extractPseudoFieldDefs( $this->def ) );
     }
+
+    ASSERT( $this->has_fields,     "No fields arg cpecified" );
+    ASSERT( defined $this->fields, "No fields defined" );
 }
 
 =begin TML
@@ -479,7 +484,6 @@ sub createField {
             "error compiling class $class: $@" );
 
         # Type not available; use base type
-        require Foswiki::Form::FieldDefinition;
         $class = 'Foswiki::Form::FieldDefinition';
     }
     return $class->new( session => $this->session, type => $type, @_ );
@@ -813,7 +817,6 @@ sub _extractPseudoFieldDefs {
     my ( $this, $meta ) = @_;
     my @fields = $meta->find('FIELD');
     my @fieldDefs;
-    require Foswiki::Form::FieldDefinition;
     foreach my $field (@fields) {
 
         # Fields are name, value, title, but there is no other type
