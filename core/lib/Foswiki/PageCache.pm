@@ -318,12 +318,22 @@ sub getPage {
             $this->deleteAll();
         }
         else {
-            throw Foswiki::OopsException(
-                'accessdenied',
-                def   => 'cache_refresh',
-                web   => $web,
-                topic => $topic,
-            );
+            my $session = $Foswiki::Plugins::SESSION;
+            my $request = $session->{request};
+            my $action  = substr( ( $request->{action} || 'view' ), 0, 4 );
+            if ( $action eq 'rest' ) {
+
+                # Demote 'all' to 'cache' rather than kill rest
+                $refresh = 'cache';
+            }
+            else {
+                throw Foswiki::OopsException(
+                    'accessdenied',
+                    def   => 'cache_refresh',
+                    web   => $web,
+                    topic => $topic,
+                );
+            }
         }
     }
 
