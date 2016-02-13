@@ -2227,6 +2227,9 @@ HERE
       $this->test_topicObject->expandMacros(
         '%SEARCH{"text ~ \'*QueryTopicTwo*\'" ' . $stdCrap );
 
+    $this->assert( $this->session->search );
+    $this->assert( $this->session->search->metacache );
+
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, 'QueryTopicTwo' );
 
@@ -2235,6 +2238,11 @@ HERE
             $this->test_web, 'QueryTopicTwo'
         )
     );
+
+    # We now need to manually mark $topicObject as been stored in the metacache
+    # in order for this test to pass. We know that it's in the cache because the
+    # previous assert has passed.
+    $topicObject->inMetaCache(1);
     $topicObject->finish();
     $this->assert(
         !$this->session->search->metacache->hasCached(
@@ -2503,7 +2511,7 @@ sub _getTopicList {
     my $iter =
       Foswiki::Search::InfoCache::getTopicListIterator( $webObject, $options );
 
-    ASSERT( $iter->isa('Foswiki::Iterator') ) if DEBUG;
+    ASSERT( $iter->does('Foswiki::Iterator') ) if DEBUG;
     my @topicList = ();
     while ( my $t = $iter->next() ) {
         next if ( $t eq 'InvisibleTopic' );    #and user != admin or...

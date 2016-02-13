@@ -361,7 +361,7 @@ sub sortTopics {
         # SMELL: CDot isn't clear why this is needed, but it is otherwise
         # we end up with the users all being identified as "undef"
         $info->{editby} =
-          $info->{tom}->session->{users}->getWikiName( $info->{editby} );
+          $info->{tom}->session->users->getWikiName( $info->{editby} );
     }
     @{$listRef} = map { $_->[1] }
       sort { _compare( $b, $a, $revSort ) }

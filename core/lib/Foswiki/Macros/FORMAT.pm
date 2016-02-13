@@ -52,7 +52,7 @@ sub FORMAT {
 
         if ( $type eq 'string' ) {
             require Foswiki::ListIterator;
-            $listIterator = new Foswiki::ListIterator( \@list );
+            $listIterator = Foswiki::ListIterator->new( list => \@list );
         }
         else {
 
@@ -65,9 +65,11 @@ sub FORMAT {
             } @list;
 
             require Foswiki::Search::InfoCache;
-            $listIterator =
-              new Foswiki::Search::InfoCache( $this, $params->{baseweb},
-                \@topics );
+            $listIterator = Foswiki::Search::InfoCache->new(
+                session    => $this,
+                defaultWeb => $params->{baseweb},
+                topicList  => \@topics
+            );
         }
         my ( $ttopics, $searchResult, $tmplTail ) =
           $this->search->formatResults( undef, $listIterator, $params );

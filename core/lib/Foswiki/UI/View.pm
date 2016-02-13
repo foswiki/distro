@@ -237,7 +237,7 @@ sub view {
         $viewTemplate = 'TopicDoesNotExistView';
         $logEntry .= ' (not exist)';
         $raw = '';    # There is no raw view of a topic that doesn't exist
-        $revIt = new Foswiki::ListIterator( [1] );
+        $revIt = Foswiki::ListIterator->new( list => [1] );
     }
 
     if ($raw) {

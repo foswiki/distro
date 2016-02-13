@@ -193,6 +193,12 @@ has metaData => (
     },
 );
 
+# inMetaCache inidicates that this object has been placed into MetaCache.
+has inMetaCache => (
+    is      => 'rw',
+    default => 0,
+);
+
 has _indices => (
     is      => 'rw',
     lazy    => 1,
@@ -618,8 +624,10 @@ which may have surprising effects on other code that shares the object.
 sub unload {
     my $this = shift;
 
+    # Avoid collisions, initiate removal from MetaCache only and only if object
+    # has been previously stored in the cache.
     $this->session->search->metacache->removeMeta( $this->web, $this->topic )
-      if $this->session && $this->session->has_search;
+      if $this->inMetaCache && $this->session && $this->session->has_search;
     $this->_clear_loadedRev;
     $this->_clear_latestIsLoaded;
     $this->clear_text;
@@ -644,10 +652,6 @@ gets called before an object you have created goes out of scope.
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
-sub DEMOLISH {
-    my $this = shift;
-    $this->finish;
-}
 
 sub finish {
     my $this = shift;

@@ -137,6 +137,14 @@ sub removeMeta {
         my $cached_userwebtopic = $this->cache->{$user}{$web}{$topic};
 
         if ($cached_userwebtopic) {
+
+            # Consider topic as aready removed or it will attempt to remove
+            # itself causing deep recursion.
+            $cached_userwebtopic->{tom}->inMetaCache(0);
+
+            # SMELL Why we finalize object which might still exists and be used
+            # somewhere else? Anyway, the new OO model suggest that object gets
+            # finalized only when its refcount drops to 0.
             $cached_userwebtopic->finish() if blessed($cached_userwebtopic);
             delete $this->cache->{$user}{$web}{$topic};
         }
@@ -188,6 +196,7 @@ sub addMeta {
     }
     unless ( defined( $this->cache->{$user}{$web}{$topic}->{tom} ) ) {
         $this->cache->{$user}{$web}{$topic}->{tom} = $meta;
+        $meta->inMetaCache(1);
         $this->new_count( $this->new_count + 1 );
     }
     return $meta;
@@ -257,7 +266,7 @@ sub get {
 #it'll probably be better to make the MetaCache know what
 #Item10097: make the cache multi-user safe by storing the haveAccess on a per user basis
         if ( not defined( $info->{ $this->session->user } ) ) {
-            $info->{ $this->session->user } = ();
+            $info->{ $this->session->user } = {};
         }
         if ( not defined( $info->{ $this->session->user }{allowView} ) ) {
             $info->{ $this->session->user }{allowView} =

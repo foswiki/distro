@@ -40,7 +40,7 @@ BEGIN {
     }
 }
 
-has session => ( is => 'ro', );
+has session => ( is => 'ro', weak_ref => 1, );
 has metacache => (
     is      => 'ro',
     lazy    => 1,

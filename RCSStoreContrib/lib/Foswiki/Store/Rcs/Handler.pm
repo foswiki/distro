@@ -484,16 +484,19 @@ sub getRevisionHistory {
     unless ( $this->revisionHistoryExists() ) {
         require Foswiki::ListIterator;
         if ( $this->storedDataExists() ) {
-            return Foswiki::ListIterator->new( [1] );
+            return Foswiki::ListIterator->new( list => [1] );
         }
         else {
-            return Foswiki::ListIterator->new( [] );
+            return Foswiki::ListIterator->new( list => [] );
         }
     }
 
     # SMELL: what happens with the working file?
     my $maxRev = $this->getLatestRevisionID();
-    return Foswiki::Iterator::NumberRangeIterator->new( $maxRev, 1 );
+    return Foswiki::Iterator::NumberRangeIterator->new(
+        start => $maxRev,
+        end   => 1
+    );
 }
 
 =begin TML

@@ -845,7 +845,10 @@ sub eachUser {
     my $this = shift;
     my @list =
       ( $this->basemapping->eachUser(@_), $this->mapping->eachUser(@_) );
-    return new Foswiki::AggregateIterator( \@list, 1 );
+    return Foswiki::AggregateIterator->new(
+        iterators  => \@list,
+        uniqueOnly => 1
+    );
 
     return shift->{mapping}->eachUser(@_);
 }
@@ -862,7 +865,10 @@ sub eachGroup {
     my $this = shift;
     my @list =
       ( $this->basemapping->eachGroup(@_), $this->mapping->eachGroup(@_) );
-    return new Foswiki::AggregateIterator( \@list, 1 );
+    return Foswiki::AggregateIterator->new(
+        iterators  => \@list,
+        uniqueOnly => 1
+    );
 }
 
 =begin TML
@@ -884,7 +890,10 @@ sub eachGroupMember {
         $this->basemapping->eachGroupMember(@_),
         $this->mapping->eachGroupMember(@_)
     );
-    return new Foswiki::AggregateIterator( \@list, 1 );
+    return Foswiki::AggregateIterator->new(
+        iterators  => \@list,
+        uniqueOnly => 1
+    );
 }
 
 =begin TML
@@ -950,7 +959,7 @@ sub eachMembership {
     #stop if the user has no wikiname (generally means BugsItem4771)
     unless ( defined($wikiname) ) {
         require Foswiki::ListIterator;
-        return new Foswiki::ListIterator( \() );
+        return Foswiki::ListIterator->new( list => [] );
     }
 
     my $otherMapping =
@@ -965,7 +974,10 @@ sub eachMembership {
 
     my @list =
       ( $mapping->eachMembership($cUID), $otherMapping->eachMembership($cUID) );
-    return new Foswiki::AggregateIterator( \@list, 1 );
+    return Foswiki::AggregateIterator->new(
+        iterators  => \@list,
+        uniqueOnly => 1
+    );
 }
 
 =begin TML
