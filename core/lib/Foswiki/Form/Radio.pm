@@ -1,12 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Form::Radio;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
-use Foswiki::Form::ListFieldDefinition ();
-our @ISA = ('Foswiki::Form::ListFieldDefinition');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Form::ListFieldDefinition);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -15,24 +15,16 @@ BEGIN {
     }
 }
 
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
-    $this->{size} ||= 0;
-    $this->{size} =~ s/\D//g;
-    $this->{size} ||= 0;
+sub BUILD {
+    my $this = shift;
+    my $size = $this->size || 0;
+    $size =~ s/\D//g;
+    $size ||= 0;
 
     # SMELL: Non-zero -columns attribute forces CGI::radio_group() to use
     #        HTML3 tables for layout
-    $this->{size} = 4 if ( $this->{size} < 1 );
-
-    return $this;
-}
-
-sub finish {
-    my $this = shift;
-    $this->SUPER::finish();
-    undef $this->{valueMap};
+    $size = 4 if ( $size < 1 );
+    $this->size($size);
 }
 
 sub getDisplayValue {
@@ -41,8 +33,8 @@ sub getDisplayValue {
     $this->getOptions();
 
     # SMELL: shouldn't this be in getDisplayValue?
-    if ( defined( $this->{valueMap}{$value} ) ) {
-        $value = $this->{valueMap}{$value};
+    if ( defined( $this->valueMap->{$value} ) ) {
+        $value = $this->valueMap->{$value};
     }
     return $value;
 }
@@ -51,12 +43,12 @@ sub renderForEdit {
     my ( $this, $topicObject, $value ) = @_;
 
     my $selected = '';
-    my $session  = $this->{session};
+    my $session  = $this->session;
     my %attrs;
 
     foreach my $item ( @{ $this->getOptions() } ) {
         my $title = $item;
-        $title = $this->{_descriptions}{$item} if $this->{_descriptions}{$item};
+        $title = $this->_descriptions->{$item} if $this->_descriptions->{$item};
 
         $attrs{$item} = {
             class => $this->cssClasses('foswikiRadioButton'),
@@ -67,16 +59,16 @@ sub renderForEdit {
     }
 
     my %params = (
-        -name       => $this->{name},
+        -name       => $this->name,
         -override   => 1,
         -values     => $this->getOptions(),
         -default    => $selected,
-        -columns    => $this->{size},
+        -columns    => $this->size,
         -attributes => \%attrs,
     );
 
-    if ( defined $this->{valueMap} ) {
-        $params{-labels} = $this->{valueMap};
+    if ( defined $this->valueMap ) {
+        $params{-labels} = $this->valueMap;
     }
 
     return ( '', CGI::radio_group(%params) );
@@ -93,7 +85,7 @@ on a value to the browser.
 
 sub getDefaultValue {
     my $this = shift;
-    return ( exists( $this->{default} ) ? $this->{default} : '' );
+    return ( $this->has_default ? $this->default : '' );
 }
 
 1;

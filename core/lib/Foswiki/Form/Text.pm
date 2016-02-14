@@ -1,11 +1,10 @@
 # See bottom of file for license and copyright information
 package Foswiki::Form::Text;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Form::FieldDefinition ();
-our @ISA = ('Foswiki::Form::FieldDefinition');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Form::FieldDefinition);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -14,14 +13,12 @@ BEGIN {
     }
 }
 
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
-    my $size  = $this->{size} || '';
+sub BUILD {
+    my $this = shift;
+    my $size = $this->size || '';
     $size =~ s/\D//g;
     $size = 10 if ( !$size || $size < 1 );
-    $this->{size} = $size;
-    return $this;
+    $this->size($size);
 }
 
 sub renderForEdit {
@@ -31,8 +28,8 @@ sub renderForEdit {
         '',
         CGI::textfield(
             -class    => $this->cssClasses('foswikiInputField'),
-            -name     => $this->{name},
-            -size     => $this->{size},
+            -name     => $this->name,
+            -size     => $this->size,
             -override => 1,
             -value    => $value,
         )

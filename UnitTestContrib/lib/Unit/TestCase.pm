@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright
 package Unit::TestCase;
+use v5.14;
 
 =begin TML
 
@@ -16,6 +17,7 @@ use Carp;
 use Unit::HTMLDiffer;
 use Unit::TestRunner();
 use Foswiki::Exception ();
+use Text::Diff         ();
 require File::Temp;
 
 use Moo;
@@ -77,6 +79,11 @@ has _tempDir => (
         return File::Temp->newdir(%tempDirOptions);
     },
     handles => { tempDir => 'dirname', },
+);
+has verify_permutations => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
 );
 
 =begin TML
@@ -240,7 +247,7 @@ SUB
 
                 # NOTE vrurg Check where it's been used and replace with
                 # attribute notation.
-                $this->{verify_permutations}{$fn} = $suite . '::' . $verify;
+                $this->verify_permutations->{$fn} = $suite . '::' . $verify;
             }
         }
         pop( @{$setups} );

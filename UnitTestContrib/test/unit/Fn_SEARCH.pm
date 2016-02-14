@@ -43,7 +43,7 @@ around BUILDARGS => sub {
 # This test is run in a separate process to be able to reclaim that memory
 # after the test is complete.
 sub run_in_new_process {
-    return 0;
+    return 1;
 }
 
 our $AElig;

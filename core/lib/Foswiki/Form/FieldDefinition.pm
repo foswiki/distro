@@ -30,23 +30,30 @@ BEGIN {
     }
 }
 
-has session        => ( is => 'ro', required  => 1, );
-has name           => ( is => 'ro', lazy      => 1, default => '', );
-has attributes     => ( is => 'ro', lazy      => 1, default => '', );
-has description    => ( is => 'ro', lazy      => 1, default => '', );
-has type           => ( is => 'ro', lazy      => 1, default => '', );
+has session     => ( is => 'ro', weak_ref => 1, required => 1, );
+has name        => ( is => 'ro', lazy     => 1, default  => '', );
+has attributes  => ( is => 'ro', lazy     => 1, default  => '', );
+has description => ( is => 'ro', lazy     => 1, default  => '', );
+has type        => ( is => 'ro', lazy     => 1, default  => '', );
 has default        => ( is => 'rw', predicate => 1, );
-has validModifiers => ( is => 'ro', lazy      => 1, default => sub { [] }, );
+has validModifiers => ( is => 'rw', lazy      => 1, default => sub { [] }, );
 has value          => ( is => 'rw', lazy      => 1, );
 has title          => ( is => 'rw', lazy      => 1, );
 has definingTopic  => ( is => 'rw', lazy      => 1, );
 has showhidden     => ( is => 'rw', lazy      => 1, );
 has size => (
-    is      => 'ro',
+    is      => 'rw',
     lazy    => 1,
     default => '',
-    coerce  => sub { $_[0] =~ s/^\s*//; $_[0] =~ s/\s*$//; return $_[0]; },
+    coerce  => sub {
+        my $size = $_[0];
+        $size =~ s/^\s*//;
+        $size =~ s/\s*$//;
+        return $size;
+    },
 );
+has web   => ( is => 'rw', );
+has topic => ( is => 'rw', );
 
 =begin TML
 

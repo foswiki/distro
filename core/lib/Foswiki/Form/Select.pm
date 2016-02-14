@@ -1,10 +1,10 @@
 # See bottom of file for license and copyright information
 package Foswiki::Form::Select;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Form::ListFieldDefinition ();
-our @ISA = ('Foswiki::Form::ListFieldDefinition');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Form::ListFieldDefinition);
 
 use Assert;
 
@@ -15,27 +15,29 @@ BEGIN {
     }
 }
 
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
+has minSize => ( is => 'rw', );
+has maxSize => ( is => 'rw', );
+
+sub BUILD {
+    my $this = shift;
 
     # Parse the size to get min and max
-    $this->{size} ||= 1;
-    if ( $this->{size} =~ m/^\s*(\d+)\.\.(\d+)\s*$/ ) {
-        $this->{minSize} = $1;
-        $this->{maxSize} = $2;
+    my $size = $this->size || 1;
+    if ( $size =~ m/^\s*(\d+)\.\.(\d+)\s*$/ ) {
+        $this->minSize($1);
+        $this->maxSize($2);
     }
     else {
-        $this->{minSize} = $this->{size};
-        $this->{minSize} =~ s/[^\d]//g;
-        $this->{minSize} ||= 1;
-        $this->{maxSize} = $this->{minSize};
+        my $minSize = $size;
+        $minSize =~ s/[^\d]//g;
+        $minSize ||= 1;
+        $this->minSize($minSize);
+        $this->maxSize($minSize);
     }
+    $this->size($size);
 
     #must list every valid combination.
-    $this->{validModifiers} = [ '+multi', '+values', '+multi+values' ];
-
-    return $this;
+    $this->validModifiers( [ '+multi', '+values', '+multi+values' ] );
 }
 
 =begin TML
@@ -49,27 +51,7 @@ on a value to the browser.
 
 sub getDefaultValue {
     my $this = shift;
-    return ( exists( $this->{default} ) ? $this->{default} : '' );
-}
-
-=begin TML
-
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    $this->SUPER::finish();
-    undef $this->{minSize};
-    undef $this->{maxSize};
-    undef $this->{valueMap};
-
-    return;
+    return ( $this->has_default ? $this->default : '' );
 }
 
 sub getDisplayValue {
@@ -81,8 +63,8 @@ sub getDisplayValue {
 
     my @vals = ();
     foreach my $val ( split( /\s*,\s*/, $value ) ) {
-        if ( defined( $this->{valueMap}{$val} ) ) {
-            push @vals, $this->{valueMap}{$val};
+        if ( defined( $this->valueMap->{$val} ) ) {
+            push @vals, $this->valueMap->{$val};
         }
         else {
             push @vals, $val;
@@ -103,27 +85,27 @@ sub renderForEdit {
           ; # Item9647: make a copy not to modify the original value in the array
         my %params = ( class => 'foswikiOption', );
         $params{selected} = 'selected' if $isSelected{$option};
-        if ( $this->{_descriptions}{$option} ) {
-            $params{title} = $this->{_descriptions}{$option};
+        if ( $this->_descriptions->{$option} ) {
+            $params{title} = $this->_descriptions->{$option};
         }
-        if ( defined( $this->{valueMap}{$option} ) ) {
+        if ( defined( $this->valueMap->{$option} ) ) {
             $params{value} = $option;
-            $option = $this->{valueMap}{$option};
+            $option = $this->valueMap->{$option};
         }
         $option =~ s/<nop/&lt\;nop/g;
         $choices .= CGI::option( \%params, $option );
     }
     my $size = scalar( @{ $this->getOptions() } );
-    if ( $size > $this->{maxSize} ) {
-        $size = $this->{maxSize};
+    if ( $size > $this->maxSize ) {
+        $size = $this->maxSize;
     }
-    elsif ( $size < $this->{minSize} ) {
-        $size = $this->{minSize};
+    elsif ( $size < $this->minSize ) {
+        $size = $this->minSize;
     }
     my $params = {
         class => $this->cssClasses('foswikiSelect'),
-        name  => $this->{name},
-        size  => $this->{size},
+        name  => $this->name,
+        size  => $this->size,
     };
     if ( $this->isMultiValued() ) {
         $params->{'multiple'} = 'multiple';
@@ -134,8 +116,7 @@ sub renderForEdit {
         # Item3061:
         # Don't use CGI, it will insert the value from the query
         # once again and we need an empt field here.
-        $value .=
-          '<input type="hidden" name="' . $this->{name} . '" value="" />';
+        $value .= '<input type="hidden" name="' . $this->name . '" value="" />';
     }
     else {
         $value = CGI::Select( $params, $choices );

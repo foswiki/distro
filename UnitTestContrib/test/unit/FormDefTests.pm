@@ -28,13 +28,13 @@ FORM
     $this->assert($def);
     $this->assert_equals( 1, scalar @{ $def->getFields() } );
     my $f = $def->getField('Date');
-    $this->assert_str_equals( 'date', $f->{type} );
-    $this->assert_str_equals( 'Date', $f->{name} );
-    $this->assert_str_equals( 'Date', $f->{title} );
-    $this->assert_str_equals( '30',   $f->{size} );
-    $this->assert_str_equals( '',     $f->{value} );
-    $this->assert_str_equals( '',     $f->{description} );
-    $this->assert_str_equals( '',     $f->{definingTopic} );
+    $this->assert_str_equals( 'date', $f->type );
+    $this->assert_str_equals( 'Date', $f->name );
+    $this->assert_str_equals( 'Date', $f->title );
+    $this->assert_str_equals( '30',   $f->size );
+    $this->assert_str_equals( '',     $f->value );
+    $this->assert_str_equals( '',     $f->description );
+    $this->assert_str_equals( '',     $f->definingTopic );
 
     return;
 }
@@ -60,59 +60,59 @@ FORM
 
     $this->assert_equals( 7, scalar @{ $def->getFields() } );
     my $f = $def->getField('Select');
-    $this->assert_str_equals( 'select', $f->{type} );
-    $this->assert_str_equals( 'Select', $f->{name} );
-    $this->assert_str_equals( 'Select', $f->{title} );
-    $this->assert_equals( 2, $f->{minSize} );
-    $this->assert_equals( 4, $f->{maxSize} );
+    $this->assert_str_equals( 'select', $f->type );
+    $this->assert_str_equals( 'Select', $f->name );
+    $this->assert_str_equals( 'Select', $f->title );
+    $this->assert_equals( 2, $f->minSize );
+    $this->assert_equals( 4, $f->maxSize );
     $this->assert_equals( 3, scalar( @{ $f->getOptions() } ) );
     $this->assert_str_equals( 'a,b,c', join( ',', @{ $f->getOptions() } ) );
-    $this->assert_str_equals( 'Tippity', $f->{description} );
-    $this->assert_str_equals( '',        $f->{definingTopic} );
+    $this->assert_str_equals( 'Tippity', $f->description );
+    $this->assert_str_equals( '',        $f->definingTopic );
     $f = $def->getField('CheckyEgg');
-    $this->assert_str_equals( 'checkbox',   $f->{type} );
-    $this->assert_str_equals( 'CheckyEgg',  $f->{name} );
-    $this->assert_str_equals( 'Checky Egg', $f->{title} );
-    $this->assert_equals( 1, $f->{size} );
+    $this->assert_str_equals( 'checkbox',   $f->type );
+    $this->assert_str_equals( 'CheckyEgg',  $f->name );
+    $this->assert_str_equals( 'Checky Egg', $f->title );
+    $this->assert_equals( 1, $f->size );
     $this->assert_str_equals( '1;2;3;4', join( ';', @{ $f->getOptions() } ) );
-    $this->assert_str_equals( 'Blip', $f->{description} );
-    $this->assert_str_equals( '',     $f->{definingTopic} );
+    $this->assert_str_equals( 'Blip', $f->description );
+    $this->assert_str_equals( '',     $f->definingTopic );
 
     $f = $def->getField('Thetitle');
     $this->ASSERT($f);
-    $this->assert_str_equals( 'textarea',  $f->{type} );
-    $this->assert_str_equals( 'Thetitle',  $f->{name} );
-    $this->assert_str_equals( 'The title', $f->{title} );
-    $this->assert_str_equals( 'FormTest',  $f->{definingTopic} );
+    $this->assert_str_equals( 'textarea',  $f->type );
+    $this->assert_str_equals( 'Thetitle',  $f->name );
+    $this->assert_str_equals( 'The title', $f->title );
+    $this->assert_str_equals( 'FormTest',  $f->definingTopic );
 
     #SMELL: not what I expected to see!
     $f = $def->getField('NOPTMLDoNotLink');
     $this->ASSERT($f);
-    $this->assert_str_equals( 'textarea',          $f->{type} );
-    $this->assert_str_equals( 'NOPTMLDoNotLink',   $f->{name} );
-    $this->assert_str_equals( '%NOP%TMLDoNotLink', $f->{title} );
-    $this->assert_str_equals( '',                  $f->{definingTopic} );
+    $this->assert_str_equals( 'textarea',          $f->type );
+    $this->assert_str_equals( 'NOPTMLDoNotLink',   $f->name );
+    $this->assert_str_equals( '%NOP%TMLDoNotLink', $f->title );
+    $this->assert_str_equals( '',                  $f->definingTopic );
 
     $f = $def->getField('HTMLDoNotLink');
     $this->ASSERT($f);
-    $this->assert_str_equals( 'textarea',           $f->{type} );
-    $this->assert_str_equals( 'HTMLDoNotLink',      $f->{name} );
-    $this->assert_str_equals( '<nop>HTMLDoNotLink', $f->{title} );
-    $this->assert_str_equals( '',                   $f->{definingTopic} );
+    $this->assert_str_equals( 'textarea',           $f->type );
+    $this->assert_str_equals( 'HTMLDoNotLink',      $f->name );
+    $this->assert_str_equals( '<nop>HTMLDoNotLink', $f->title );
+    $this->assert_str_equals( '',                   $f->definingTopic );
 
     $f = $def->getField('BangDoNotLink');
     $this->ASSERT($f);
-    $this->assert_str_equals( 'textarea',       $f->{type} );
-    $this->assert_str_equals( 'BangDoNotLink',  $f->{name} );
-    $this->assert_str_equals( '!BangDoNotLink', $f->{title} );
-    $this->assert_str_equals( '',               $f->{definingTopic} );
+    $this->assert_str_equals( 'textarea',       $f->type );
+    $this->assert_str_equals( 'BangDoNotLink',  $f->name );
+    $this->assert_str_equals( '!BangDoNotLink', $f->title );
+    $this->assert_str_equals( '',               $f->definingTopic );
 
     $f = $def->getField('DoLink');
     $this->ASSERT($f);
-    $this->assert_str_equals( 'textarea', $f->{type} );
-    $this->assert_str_equals( 'DoLink',   $f->{name} );
-    $this->assert_str_equals( 'DoLink',   $f->{title} );
-    $this->assert_str_equals( '',         $f->{definingTopic} );
+    $this->assert_str_equals( 'textarea', $f->type );
+    $this->assert_str_equals( 'DoLink',   $f->name );
+    $this->assert_str_equals( 'DoLink',   $f->title );
+    $this->assert_str_equals( '',         $f->definingTopic );
     $def->finish();
 
     return;
@@ -144,15 +144,15 @@ FORM
 
     $this->assert_equals( 1, scalar @{ $def->getFields() } );
     my $f = $def->getField('ValsElsewhere');
-    $this->assert_str_equals( 'select',         $f->{type} );
-    $this->assert_str_equals( 'ValsElsewhere',  $f->{name} );
-    $this->assert_str_equals( 'Vals Elsewhere', $f->{title} );
-    $this->assert_equals( 1, $f->{minSize} );
-    $this->assert_equals( 1, $f->{maxSize} );
+    $this->assert_str_equals( 'select',         $f->type );
+    $this->assert_str_equals( 'ValsElsewhere',  $f->name );
+    $this->assert_str_equals( 'Vals Elsewhere', $f->title );
+    $this->assert_equals( 1, $f->minSize );
+    $this->assert_equals( 1, $f->maxSize );
     $this->assert_equals( 3, scalar( @{ $f->getOptions() } ) );
     $this->assert_str_equals( 'ValOne,RowName,Age',
         join( ',', @{ $f->getOptions() } ) );
-    $this->assert_str_equals( '', $f->{definingTopic} );
+    $this->assert_str_equals( '', $f->definingTopic );
     $def->finish();
 
     return;
@@ -183,12 +183,12 @@ FORM
 
     $this->assert_equals( 1, scalar @{ $def->getFields() } );
     my $f = $def->getField('ValsElsewhere');
-    $this->assert_str_equals( 'select',         $f->{type} );
-    $this->assert_str_equals( 'ValsElsewhere',  $f->{name} );
-    $this->assert_str_equals( 'Vals Elsewhere', $f->{title} );
+    $this->assert_str_equals( 'select',         $f->type );
+    $this->assert_str_equals( 'ValsElsewhere',  $f->name );
+    $this->assert_str_equals( 'Vals Elsewhere', $f->title );
     $this->assert_str_equals( 'ValOne,RowName,Age',
         join( ',', @{ $f->getOptions() } ) );
-    $this->assert_str_equals( $test_web . '.Splodge', $f->{definingTopic} );
+    $this->assert_str_equals( $test_web . '.Splodge', $f->definingTopic );
     $def->finish();
 
     return;
@@ -312,9 +312,9 @@ FORM
         'NonExistantForm', $meta );
     my $f = $form->getField('Ecks');
     $this->assert_str_equals( '',     $f->getDefaultValue() );
-    $this->assert_str_equals( 'Ecks', $f->{name} );
-    $this->assert_str_equals( 'X',    $f->{title} );
-    $this->assert_str_equals( '',     $f->{size} );
+    $this->assert_str_equals( 'Ecks', $f->name );
+    $this->assert_str_equals( 'X',    $f->title );
+    $this->assert_str_equals( '',     $f->size );
     $form->finish();
     $meta->finish();
 
@@ -335,11 +335,11 @@ FORM
       Foswiki::Form->loadCached( $this->session, $this->test_web, 'TestForm' );
 
     my $f = $def->getField('Select');
-    $this->assert_str_equals( 'select+values', $f->{type} );
+    $this->assert_str_equals( 'select+values', $f->type );
     $this->assert_equals( 6, scalar( @{ $f->getOptions() } ) );
     $this->assert_str_equals( ',0,One,2,III,Four',
         join( ',', @{ $f->getOptions() } ) );
-    $this->assert_str_equals( 'Various values', $f->{description} );
+    $this->assert_str_equals( 'Various values', $f->description );
     $def->finish();
 
     return;

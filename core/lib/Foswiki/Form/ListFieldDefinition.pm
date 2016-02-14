@@ -10,13 +10,13 @@ can *store* multiple values.
 =cut
 
 package Foswiki::Form::ListFieldDefinition;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
-use Foswiki::Form::FieldDefinition ();
-our @ISA = ('Foswiki::Form::FieldDefinition');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Form::FieldDefinition);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -25,26 +25,22 @@ BEGIN {
     }
 }
 
-=begin TML
+has valueMap => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
+);
+has _options => ( is => 'rw', );
+has _descriptions => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
 
----++ ObjectMethod finish()
-Break circular references.
+sub isMultiValued { return ( shift->type =~ m/\+multi/ ); }
 
-=cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    $this->SUPER::finish();
-    undef $this->{_options};
-    undef $this->{_descriptions};
-}
-
-sub isMultiValued { return ( shift->{type} =~ m/\+multi/ ); }
-
-sub isValueMapped { return ( shift->{type} =~ m/\+values/ ); }
+sub isValueMapped { return ( shift->type =~ m/\+values/ ); }
 
 # PROTECTED - parse the {value} and extract a list of options.
 # Done lazily to avoid repeated topic reads.
@@ -53,19 +49,19 @@ sub getOptions {
     # $web and $topic are where the form definition lives
     my $this = shift;
 
-    return $this->{_options} if $this->{_options};
+    return $this->_options if $this->_options;
 
     my @vals  = ();
     my %descr = ();
 
-    @vals = split( /,/, $this->{value} );
+    @vals = split( /,/, $this->value );
 
     if ( !scalar(@vals) ) {
-        my $topic = $this->{definingTopic} || $this->{name};
-        my $session = $this->{session};
+        my $topic = $this->definingTopic || $this->name;
+        my $session = $this->session;
 
         my ( $fieldWeb, $fieldTopic ) =
-          $session->normalizeWebTopicName( $this->{web}, $topic );
+          $session->normalizeWebTopicName( $this->web, $topic );
 
         $fieldWeb = Foswiki::Sandbox::untaint( $fieldWeb,
             \&Foswiki::Sandbox::validateWebName );
@@ -101,21 +97,21 @@ sub getOptions {
     }
     @vals = map { $_ =~ s/^\s*(.*)\s*$/$1/; $_; } @vals;
 
-    $this->{_descriptions} = \%descr;
+    $this->_descriptions( \%descr );
 
     if ( $this->isValueMapped() ) {
 
         # create a values map
-        $this->{valueMap} = ();
-        $this->{_options} = ();
+        $this->clear_valueMap;
+        $this->_options( [] );
         my $str;
         foreach my $val (@vals) {
             if ( $val =~ m/^(.*[^\\])*=(.*)$/ ) {
                 $str = TAINT( $1 || '' );    # label
                       # Copy the description to the real value
-                my $descr = $this->{_descriptions}{$val};
+                my $descr = $this->_descriptions->{$val};
                 $val = $2;
-                $this->{_descriptions}{$val} = $descr;
+                $this->_descriptions->{$val} = $descr;
 
                 # Unescape = - legacy! Entities should suffice
                 $str =~ s/\\=/=/g;
@@ -139,15 +135,15 @@ sub getOptions {
             # gotcha for the unwary.
             $str =~ s/%([\da-f]{2})/chr(hex($1))/gei;
 
-            $this->{valueMap}{$val} = $str;
-            push @{ $this->{_options} }, $val;
+            $this->valueMap->{$val} = $str;
+            push @{ $this->_options }, $val;
         }
     }
     else {
-        $this->{_options} = \@vals;
+        $this->_options( \@vals );
     }
 
-    return $this->{_options};
+    return $this->_options;
 }
 
 1;

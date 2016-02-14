@@ -50,6 +50,8 @@ has verify_permutations => (
 );
 has failures => (
     is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
     default => sub { return []; },
 );
 has number_of_asserts => (
@@ -80,6 +82,12 @@ has annotations => (
     is      => 'rw',
     default => sub { return {}; },
 );
+has initialINC => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { [@INC] },
+);
 
 # Print without risking a "wide char in print" error
 sub safe_print {
@@ -89,8 +97,8 @@ sub safe_print {
 sub start {
     my $this  = shift;
     my @files = @_;
-    @{ $this->{failures} }   = ();
-    @{ $this->{initialINC} } = @INC;
+    $this->clear_failures;
+    $this->clear_initialINC;
     my $passes = 0;
 
     my ($start_cwd) = Cwd->cwd() =~ m/^(.*)$/;
@@ -170,7 +178,7 @@ sub start {
                 next if @found;
             }
             print "*** Failed to use $suite: $useError";
-            $this->{failed_suites}{$suite} = $useError;
+            $this->failed_suites->{$suite} = $useError;
             next;
         }
         print "Running $suite\n";
@@ -226,15 +234,15 @@ sub start {
     my $actual_incorrect;
     my $total;
 
-    if ( my $failed = scalar @{ $this->{failures} } ) {
+    if ( my $failed = scalar @{ $this->failures } ) {
 
         print "\n$failed failure" . ( $failed > 1 ? 's' : '' ) . ":\n";
         safe_print
-          join( "\n---------------------------\n", @{ $this->{failures} } ),
+          join( "\n---------------------------\n", @{ $this->failures } ),
           "\n";
         $actual_incorrect_failures = $failed;
     }
-    if ( my $failed = scalar @{ $this->{unexpected_passes} } ) {
+    if ( my $failed = scalar @{ $this->unexpected_passes } ) {
 
      # Redundant displaying this in addition to the module failure summary.
      #print "\n$failed unexpected pass" . ( $failed > 1 ? 'es' : '' ) . ":\n\t";
@@ -242,43 +250,43 @@ sub start {
         $actual_incorrect_passes = $failed;
     }
     if ( my $skipped_tests =
-        scalar( map { keys %{$_} } values %{ $this->{skipped_tests} } ) )
+        scalar( map { keys %{$_} } values %{ $this->skipped_tests } ) )
     {
         print "\n$skipped_tests skipped:\n";
-        while ( my ( $suite, $tests ) = each %{ $this->{skipped_tests} } ) {
+        while ( my ( $suite, $tests ) = each %{ $this->skipped_tests } ) {
             my $ntests = scalar( keys %{$tests} );
 
-            print
-"$suite skipped $ntests (of $this->{tests_per_module}{$suite}):\n";
+            print "$suite skipped $ntests (of ",
+              $this->tests_per_module->{$suite}, "):\n";
             while ( my ( $test, $reason ) = each %{$tests} ) {
                 safe_print "   * $test - $reason\n";
             }
         }
         $skipped_tests_total = $skipped_tests;
     }
-    if ( my $skipped_suites = scalar( keys %{ $this->{skipped_suites} } ) ) {
+    if ( my $skipped_suites = scalar( keys %{ $this->skipped_suites } ) ) {
         print "\n$skipped_suites skipped suite"
           . ( $skipped_suites > 1 ? 's' : '' ) . ":\n";
-        while ( my ( $suite, $detail ) = each %{ $this->{skipped_suites} } ) {
+        while ( my ( $suite, $detail ) = each %{ $this->skipped_suites } ) {
             safe_print "   * $suite ($detail->{tests}) - $detail->{reason}\n";
             $skipped_tests_total += $detail->{tests};
         }
     }
-    if ( my $failed_suites = scalar( keys %{ $this->{failed_suites} } ) ) {
-        while ( my ( $suite, $detail ) = each %{ $this->{failed_suites} } ) {
+    if ( my $failed_suites = scalar( keys %{ $this->failed_suites } ) ) {
+        while ( my ( $suite, $detail ) = each %{ $this->failed_suites } ) {
             $actual_incorrect_failures += 1;
         }
     }
     if ( my $failed =
-        scalar( map { keys %{$_} } values %{ $this->{expected_failures} } ) )
+        scalar( map { keys %{$_} } values %{ $this->expected_failures } ) )
     {
         print "\n$failed expected failure" . ( $failed > 1 ? 's' : '' ) . ":\n";
-        while ( my ( $suite, $tests ) = each %{ $this->{expected_failures} } ) {
+        while ( my ( $suite, $tests ) = each %{ $this->expected_failures } ) {
             my $ntests = scalar( keys %{$tests} );
 
             print "$suite has $ntests expected failure"
               . ( $ntests > 1 ? 's' : '' )
-              . " (of $this->{tests_per_module}{$suite}):\n";
+              . " (of ", $this->tests_per_module->{$suite}, "):\n";
             while ( my ( $test, $reason ) = each %{$tests} ) {
                 my @annotations = $this->get_annotations($test);
 
@@ -310,28 +318,27 @@ sub start {
 ----------------------------
 ---++ Module Failure summary
 HERE
-        if ( my $failed_suites = scalar( keys %{ $this->{failed_suites} } ) ) {
+        if ( my $failed_suites = scalar( keys %{ $this->failed_suites } ) ) {
             print "\n$failed_suites suite"
               . ( $failed_suites > 1 ? 's' : '' )
               . " FAILED to compile at all:\n";
-            while ( my ( $suite, $detail ) = each %{ $this->{failed_suites} } )
-            {
+            while ( my ( $suite, $detail ) = each %{ $this->failed_suites } ) {
                 $detail = substr( $detail, 0, 50 ) . '...';
                 safe_print "   * F: $suite - $detail\n";
             }
         }
         foreach my $module (
             sort {
-                $this->{unexpected_result}->{$a}
-                  <=> $this->{unexpected_result}->{$b}
-            } keys( %{ $this->{unexpected_result} } )
+                $this->unexpected_result->{$a}
+                  <=> $this->unexpected_result->{$b}
+            } keys( %{ $this->unexpected_result } )
           )
         {
             print "$module has "
-              . $this->{unexpected_result}{$module}
+              . $this->unexpected_result->{$module}
               . " unexpected results (of "
-              . $this->{tests_per_module}{$module} . "):\n";
-            foreach my $test ( sort( @{ $this->{unexpected_passes} } ) ) {
+              . $this->tests_per_module->{$module} . "):\n";
+            foreach my $test ( sort( @{ $this->unexpected_passes } ) ) {
 
                 # SMELL: we should really re-arrange data structures to
                 # avoid guessing which module the test belongs to...
@@ -339,7 +346,7 @@ HERE
                     $this->_print_unexpected_test( $test, 'P' );
                 }
             }
-            foreach my $test ( sort( @{ $this->{failures} } ) ) {
+            foreach my $test ( sort( @{ $this->failures } ) ) {
                 ($test) = split( /\n/, $test );
 
                 # SMELL: we should really re-arrange data structures to
@@ -397,10 +404,10 @@ sub runOneInNewProcess {
     # Assume all new paths were either unshifted or pushed onto @INC
     my @pushedOntoINC    = @INC;
     my @unshiftedOntoINC = ();
-    while ( $this->{initialINC}->[0] ne $pushedOntoINC[0] ) {
+    while ( $this->initialINC->[0] ne $pushedOntoINC[0] ) {
         push @unshiftedOntoINC, shift @pushedOntoINC;
     }
-    for my $oneINC ( @{ $this->{initialINC} } ) {
+    for my $oneINC ( @{ $this->initialINC } ) {
         shift @pushedOntoINC if $pushedOntoINC[0] eq $oneINC;
     }
 
@@ -428,7 +435,7 @@ sub runOneInNewProcess {
         unlink $tempfilename;
         print "*** Could not spawn new process for $suite: $error\n";
         return
-            'push( @{ $this->{failures} }, "'
+            'push( @{ $this->failures }, "'
           . $suite . '\n'
           . quotemeta($error) . '" );';
     }
@@ -438,7 +445,7 @@ sub runOneInNewProcess {
             print "*** Error trying to run $suite\n";
             unlink $tempfilename;
             return
-                'push( @{ $this->{failures} }, "Process for '
+                'push( @{ $this->failures }, "Process for '
               . $suite
               . ' returned '
               . $returnCode . '" );';
@@ -585,7 +592,7 @@ sub runOne {
         my $ntests = scalar(@tests);
         print "*** Skipping suite $suite ($ntests) - $skip_reason\n";
         $action .=
-          "\$this->{skipped_suites}{'$suite'} = {tests => $ntests, reason => \""
+          "\$this->skipped_suites->{'$suite'} = {tests => $ntests, reason => \""
           . quotemeta($skip_reason) . "\"};";
     }
     else {
@@ -593,9 +600,9 @@ sub runOne {
             my $skip = $tester->can('skip') ? $tester->skip($test) : undef;
 
             if ( defined $skip ) {
-                $action .= "\$this->{skipped_tests}{'$suite'}{'$test'} = \""
+                $action .= "\$this->skipped_tests->{'$suite'}{'$test'} = \""
                   . quotemeta($skip) . '";';
-                $action .= '$this->{tests_per_module}->{\'' . $suite . '\'}++;';
+                $action .= '$this->tests_per_module->{\'' . $suite . '\'}++;';
                 print "SKIP\t$test - $skip\n";
             }
             else {
@@ -618,7 +625,7 @@ sub runOne {
                       if DEBUG;
                     $tester->set_up($test);
                     $action .=
-                      '$this->{tests_per_module}->{\'' . $suite . '\'}++;';
+                      '$this->tests_per_module->{\'' . $suite . '\'}++;';
                     $tester->$test();
                     _finish_singletons() if CHECKLEAK;
                     $action .= '$passes++;';
@@ -626,8 +633,8 @@ sub runOne {
                     if ( $tester->expecting_failure ) {
                         print "*** Unexpected pass\n";
                         $action .=
-                          '$this->{unexpected_result}->{\'' . $suite . '\'}++;';
-                        $action .= 'push( @{ $this->{unexpected_passes} }, "'
+                          '$this->unexpected_result->{\'' . $suite . '\'}++;';
+                        $action .= 'push( @{ $this->unexpected_passes }, "'
                           . quotemeta($test) . '");';
                     }
                 }
@@ -639,13 +646,13 @@ sub runOne {
                     safe_print "*** ", $exceptionMessage, "\n";
                     if ( $tester->expecting_failure ) {
                         $action .=
-                          "\$this->{expected_failures}{'$suite'}{'$test'} = \""
+                          "\$this->expected_failures->{'$suite'}{'$test'} = \""
                           . quotemeta($exceptionMessage) . '";';
                     }
                     else {
                         $action .=
-                          '$this->{unexpected_result}->{\'' . $suite . '\'}++;';
-                        $action .= 'push( @{ $this->{failures} }, "';
+                          '$this->unexpected_result->{\'' . $suite . '\'}++;';
+                        $action .= 'push( @{ $this->failures }, "';
                         $action .=
                             quotemeta($test) . '\\n'
                           . quotemeta($exceptionMessage) . '" );';

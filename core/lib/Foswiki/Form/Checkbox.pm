@@ -15,22 +15,16 @@ BEGIN {
     }
 }
 
-sub new {
-    my ( $class, @args ) = @_;
-    my $this = $class->SUPER::new(@args);
-    $this->{size} ||= 0;
-    $this->{size} =~ s/\D//g;
-    $this->{size} ||= 0;
-    $this->{size} = 4 if ( $this->{size} < 1 );
-    $this->{validModifiers} = ['+values'];    #comma separated list?
+sub BUILD {
+    my $this = shift;
+    my $size = $this->size || 0;
+    $size =~ s/\D//g;
+    $size ||= 0;
+    $size = 4 if ( $size < 1 );
+    $this->size($size);
+    $this->validModifiers( ['+values'] );    #comma separated list?
 
     return $this;
-}
-
-sub finish {
-    my $this = shift;
-    $this->SUPER::finish();
-    undef $this->{valueMap};
 }
 
 =begin TML
@@ -44,7 +38,7 @@ on a value to the browser.
 
 sub getDefaultValue {
     my $this = shift;
-    return ( exists( $this->{default} ) ? $this->{default} : '' );
+    return ( $this->has_default ? $this->default : '' );
 }
 
 # Checkbox store multiple values
@@ -58,8 +52,8 @@ sub getDisplayValue {
     $this->getOptions();
     my @vals = ();
     foreach my $val ( split( /\s*,\s*/, $value ) ) {
-        if ( defined( $this->{valueMap}{$val} ) ) {
-            push @vals, $this->{valueMap}{$val};
+        if ( defined( $this->valueMap->{$val} ) ) {
+            push @vals, $this->valueMap->{$val};
         }
         else {
             push @vals, $val;
@@ -71,22 +65,22 @@ sub getDisplayValue {
 sub renderForEdit {
     my ( $this, $topicObject, $value ) = @_;
 
-    my $session = $this->{session};
+    my $session = $this->session;
     my $extra   = '';
-    if ( $this->{type} =~ m/\+buttons/ ) {
+    if ( $this->type =~ m/\+buttons/ ) {
         $extra = "<div class='foswikiButtonBox'>";
         $extra .= CGI::button(
             -class   => 'foswikiButton',
             -value   => $session->i18n->maketext('Set all'),
             -onClick => 'jQuery(this).parents("form").find("input[name='
-              . $this->{name}
+              . $this->name
               . ']").prop("checked", true);',
         );
         $extra .= CGI::button(
             -class   => 'foswikiButton',
             -value   => $session->i18n->maketext('Clear all'),
             -onClick => 'jQuery(this).parents("form").find("input[name='
-              . $this->{name}
+              . $this->name
               . ']").prop("checked", false);',
         );
         $extra .= "</div>";
@@ -101,8 +95,8 @@ sub renderForEdit {
     foreach my $item ( @{ $this->getOptions } ) {
 
         my $title = $item;
-        $title = $this->{_descriptions}{$item}
-          if $this->{_descriptions}{$item};
+        $title = $this->_descriptions->{$item}
+          if $this->_descriptions->{$item};
 
         # NOTE: Does not expand $item in title
         $attrs{$item} = {
@@ -123,15 +117,15 @@ sub renderForEdit {
     }
 
     my %params = (
-        -name       => $this->{name},
+        -name       => $this->name,
         -override   => 1,
         -values     => $this->getOptions(),
         -defaults   => \@defaults,
-        -columns    => $this->{size},
+        -columns    => $this->size,
         -attributes => \%attrs,
     );
-    if ( defined $this->{valueMap} ) {
-        $params{-labels} = $this->{valueMap};
+    if ( defined $this->valueMap ) {
+        $params{-labels} = $this->valueMap;
     }
     $value = CGI::checkbox_group(%params);
 
@@ -140,7 +134,7 @@ sub renderForEdit {
     # Item3061:
     # Don't use CGI, it will insert the sticky value from the query
     # once again and we need an empty field here.
-    $value .= '<input type="hidden" name="' . $this->{name} . '" value="" />';
+    $value .= '<input type="hidden" name="' . $this->name . '" value="" />';
     return ( $extra, $value );
 }
 

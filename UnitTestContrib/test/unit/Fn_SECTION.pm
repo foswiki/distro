@@ -1,20 +1,20 @@
 # tests for the correct expansion of SECTION
 
 package Fn_SECTION;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki;
-use Error qw( :try );
+use Try::Tiny;
 use Benchmark qw(:hireswallclock);    # test_manysections
 
-sub new {
-    my $self = shift()->SUPER::new( 'SECTION', @_ );
-    return $self;
-}
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
+
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_, testSuite => 'SECTION' );
+};
 
 sub dumpsec {
     my $sec = shift;
@@ -192,8 +192,9 @@ sub test_sections10S {
 # For test_manysections, Item10316
 sub _manysections_inc {
     my ( $this, $section ) = @_;
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     my $text = Foswiki::Func::expandCommonVariables(<<"HERE");
-%INCLUDE{"$this->{test_web}.$this->{test_topic}" section="$section"}%
+%INCLUDE{"$test_web.$test_topic" section="$section"}%
 HERE
 
     chomp($text);
@@ -225,7 +226,7 @@ $junk%${end}INCLUDE% Post-INCLUDEable
 %STARTSECTION{"3"}% 3 content %STARTSECTION{"224"}% 2.2.4f continue yet again even more continued content $junk%${end}SECTION{"224"}%$junk%${end}SECTION{"3"}%
 HERE
     my ($topicObj) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObj->text($text);
     my $c1   = ' 1 content ' . $junk;
     my $c21  = ' 2.1 content ' . $junk;
@@ -303,12 +304,13 @@ sub test_manysections_timing {
     my %sections    = $this->_manysections_setup('STOP');
     my $numsections = scalar( keys %sections );
     my $numcycles   = 50;
-    my $benchmark   = timeit(
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
+    my $benchmark = timeit(
         $numcycles,
         sub {
             foreach my $section ( keys %sections ) {
                 Foswiki::Func::expandCommonVariables(<<"HERE");
-%INCLUDE{"$this->{test_web}.$this->{test_topic}" section="$section"}%
+%INCLUDE{"$test_web.$test_topic" section="$section"}%
 HERE
             }
         }

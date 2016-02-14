@@ -1,45 +1,47 @@
 # tests for the correct expansion of WEBLIST
 
 package Fn_WEBLIST;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki;
-use Error qw( :try );
+use Try::Tiny;
 
-sub new {
-    my $self = shift()->SUPER::new( 'WEBLIST', @_ );
-    return $self;
-}
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
+
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_, testSuite => 'WEBLIST' );
+};
 
 my @allWebs;
 my @templateWebs;
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
-    my $webObject = $this->populateNewWeb("$this->{test_web}/Dive1");
+    my $webObject = $this->populateNewWeb( $this->test_web . "/Dive1" );
     $webObject->finish();
 
-    $webObject = $this->populateNewWeb("$this->{test_web}/Dive1/Dive2");
+    $webObject = $this->populateNewWeb( $this->test_web . "/Dive1/Dive2" );
     $webObject->finish();
 
-    $webObject = $this->populateNewWeb("$this->{test_web}/Dive1/Dive2/Dive3");
+    $webObject =
+      $this->populateNewWeb( $this->test_web . "/Dive1/Dive2/Dive3" );
     $webObject->finish();
 
-    $webObject = $this->populateNewWeb("$this->{test_web}/Dive1/_Dive2tmpl");
+    $webObject = $this->populateNewWeb( $this->test_web . "/Dive1/_Dive2tmpl" );
     $webObject->finish();
 
     Foswiki::Func::readTemplate('foswiki');
     @allWebs      = Foswiki::Func::getListOfWebs('user,public,allowed');
     @templateWebs = Foswiki::Func::getListOfWebs('template,allowed');
 
-}
+};
 
 # The spec of the "webs" and "subwebs" parameters are utterly broken.
 # "webs" specifies a set of webs to consider. If it is undefined, then it
@@ -57,9 +59,9 @@ sub test_public {
     my $this = shift;
 
     # separator=", " 	Line separator Default: "$n" (new line)
-    my $text = $this->{test_topicObject}->expandMacros('%WEBLIST%');
+    my $text = $this->test_topicObject->expandMacros('%WEBLIST%');
     $this->assert_str_equals( join( "\n", @allWebs ), $text );
-    $text = $this->{test_topicObject}->expandMacros('%WEBLIST{webs="public"}%');
+    $text = $this->test_topicObject->expandMacros('%WEBLIST{webs="public"}%');
     $this->assert_str_equals( join( "\n", @allWebs ), $text );
 }
 
@@ -72,13 +74,13 @@ sub test_template {
     }
 
     my $text =
-      $this->{test_topicObject}->expandMacros('%WEBLIST{webs="webtemplate"}%');
+      $this->test_topicObject->expandMacros('%WEBLIST{webs="webtemplate"}%');
     $this->assert_str_equals( join( "\n", @templateWebs ), $text );
 
     $text =
-      $this->{test_topicObject}->expandMacros(
-        "%WEBLIST{webs=\"webtemplate\" subwebs=\"$this->{test_web}\"}%");
-    $this->assert_str_equals( "$this->{test_web}/Dive1/_Dive2tmpl", $text );
+      $this->test_topicObject->expandMacros(
+        "%WEBLIST{webs=\"webtemplate\" subwebs=\"" . $this->test_web . "\"}%" );
+    $this->assert_str_equals( $this->test_web . "/Dive1/_Dive2tmpl", $text );
 
 }
 
@@ -86,7 +88,7 @@ sub test_no_format_no_separator {
     my $this = shift;
 
     # separator=", " 	Line separator Default: "$n" (new line)
-    my $text = $this->{test_topicObject}->expandMacros('%WEBLIST{}%');
+    my $text = $this->test_topicObject->expandMacros('%WEBLIST{}%');
     $this->assert_str_equals( join( "\n", @allWebs ), $text );
 }
 
@@ -95,8 +97,7 @@ sub test_no_format_escaped_separator {
 
     # separator=", " 	Line separator Default: "$n" (new line)
     my $text =
-      $this->{test_topicObject}
-      ->expandMacros('%WEBLIST{separator="$comma$n"}%');
+      $this->test_topicObject->expandMacros('%WEBLIST{separator="$comma$n"}%');
     $this->assert_str_equals( join( ",\n", @allWebs ), $text );
 }
 
@@ -105,7 +106,7 @@ sub test_no_format_with_separator {
 
     # separator=", " 	Line separator Default: "$n" (new line)
     my $text =
-      $this->{test_topicObject}->expandMacros('%WEBLIST{separator=";"}%');
+      $this->test_topicObject->expandMacros('%WEBLIST{separator=";"}%');
     $this->assert_str_equals( join( ';', @allWebs ), $text );
 }
 
@@ -113,8 +114,7 @@ sub test_no_format_empty_separator {
     my $this = shift;
 
     # separator=", " 	Line separator Default: "$n" (new line)
-    my $text =
-      $this->{test_topicObject}->expandMacros('%WEBLIST{separator=""}%');
+    my $text = $this->test_topicObject->expandMacros('%WEBLIST{separator=""}%');
     $this->assert_str_equals( join( "\n", @allWebs ), $text );
 }
 
@@ -122,7 +122,7 @@ sub test_with_format_no_separator {
     my $this = shift;
 
     # separator=", " 	Line separator Default: "$n" (new line)
-    my $text = $this->{test_topicObject}->expandMacros('%WEBLIST{"$name"}%');
+    my $text = $this->test_topicObject->expandMacros('%WEBLIST{"$name"}%');
     $this->assert_str_equals( join( "\n", @allWebs ), $text );
 }
 
@@ -131,8 +131,7 @@ sub test_with_format_with_separator {
 
     # separator=", " 	Line separator Default: "$n" (new line)
     my $text =
-      $this->{test_topicObject}
-      ->expandMacros('%WEBLIST{"$name" separator=";"}%');
+      $this->test_topicObject->expandMacros('%WEBLIST{"$name" separator=";"}%');
     $this->assert_str_equals( join( ';', @allWebs ), $text );
 }
 
@@ -141,8 +140,7 @@ sub test_with_format_empty_separator {
 
     # separator=", " 	Line separator Default: "$n" (new line)
     my $text =
-      $this->{test_topicObject}
-      ->expandMacros('%WEBLIST{"$name" separator=""}%');
+      $this->test_topicObject->expandMacros('%WEBLIST{"$name" separator=""}%');
     $this->assert_str_equals( join( "\n", @allWebs ), $text );
 }
 
@@ -154,25 +152,25 @@ sub test_format {
     # web=""   if you specify $web in format, it will be replaced with
     #          this Default: ""
     my $text =
-      $this->{test_topicObject}
-      ->expandMacros('%WEBLIST{"$name:$qname:$web" web="sponge"}%');
+      $this->test_topicObject->expandMacros(
+        '%WEBLIST{"$name:$qname:$web" web="sponge"}%');
     $this->assert_str_equals( join( "\n", map { "$_:\"$_\":sponge" } @allWebs ),
         $text );
     $text =
-      $this->{test_topicObject}->expandMacros('%WEBLIST{"$name:$qname:$web"}%');
+      $this->test_topicObject->expandMacros('%WEBLIST{"$name:$qname:$web"}%');
     $this->assert_str_equals( join( "\n", map { "$_:\"$_\":" } @allWebs ),
         $text );
 
     # format="format" 	(Alternative to above) Default: "$name"
     $text =
-      $this->{test_topicObject}
-      ->expandMacros('%WEBLIST{format="$name:$qname:$web" web="sponge"}%');
+      $this->test_topicObject->expandMacros(
+        '%WEBLIST{format="$name:$qname:$web" web="sponge"}%');
     $this->assert_str_equals( join( "\n", map { "$_:\"$_\":sponge" } @allWebs ),
         $text );
 
     # format="format" Using standard escapes
     $text =
-      $this->{test_topicObject}->expandMacros(
+      $this->test_topicObject->expandMacros(
         '%WEBLIST{format="$dollarname=$name$comma$qname:$web" web="sponge"}%');
     $this->assert_str_equals(
         join( "\n", map { "\$name=$_,\"$_\":sponge" } @allWebs ), $text );
@@ -183,12 +181,13 @@ sub test_subwebs {
 
     # subwebs="" show sub-webs of this web (recursively) Default: ""
     my $text =
-      $this->{test_topicObject}
-      ->expandMacros( '%WEBLIST{subwebs="' . $this->{test_web} . '"}%' );
+      $this->test_topicObject->expandMacros(
+        '%WEBLIST{subwebs="' . $this->test_web . '"}%' );
+    my $test_web = $this->test_web;
     $this->assert_str_equals( <<THIS, "$text\n" );
-$this->{test_web}/Dive1
-$this->{test_web}/Dive1/Dive2
-$this->{test_web}/Dive1/Dive2/Dive3
+$test_web/Dive1
+$test_web/Dive1/Dive2
+$test_web/Dive1/Dive2/Dive3
 THIS
 }
 
@@ -198,8 +197,8 @@ sub test_indentedname {
     #          $indentedname (the name of the web with parent web names
     #          replaced by indents, for use in indented lists)
     my $text =
-      $this->{test_topicObject}->expandMacros(
-        '%WEBLIST{"$indentedname" subwebs="' . $this->{test_web} . '"}%' );
+      $this->test_topicObject->expandMacros(
+        '%WEBLIST{"$indentedname" subwebs="' . $this->test_web . '"}%' );
     $this->assert_str_equals( <<THIS, "$text\n" );
 <span class='foswikiWebIndent'></span>Dive1
 <span class='foswikiWebIndent'></span><span class='foswikiWebIndent'></span>Dive2
@@ -214,13 +213,13 @@ sub test_marker {
     #                   Default: "selected"
     # selection="%WEB%" Current value to be selected in list Default: "%WEB%"
     my $text =
-      $this->{test_topicObject}->expandMacros(
+      $this->test_topicObject->expandMacros(
         '%WEBLIST{selection="' . $allWebs[1] . '" format="$name$marker"}%' );
     my @munged = @allWebs;
     $munged[1] = "$munged[1]selected=\"selected\"";
     $this->assert_str_equals( join( "\n", @munged ), $text );
     $text =
-      $this->{test_topicObject}->expandMacros( '%WEBLIST{selection="'
+      $this->test_topicObject->expandMacros( '%WEBLIST{selection="'
           . $allWebs[1]
           . '" marker="sponge" format="$name$marker"}%' );
     @munged = @allWebs;
@@ -236,13 +235,13 @@ sub test_webs {
     #                   NOTE: Administrators will see all webs, not just the
     #                   public ones Default: "public"
     my $text =
-      $this->{test_topicObject}
-      ->expandMacros( '%WEBLIST{webs="' . $this->{test_web} . '"}%' );
-    $this->assert_str_equals( $this->{test_web}, $text );
-    $text = $this->{test_topicObject}->expandMacros('%WEBLIST{webs="public"}%');
+      $this->test_topicObject->expandMacros(
+        '%WEBLIST{webs="' . $this->test_web . '"}%' );
+    $this->assert_str_equals( $this->test_web, $text );
+    $text = $this->test_topicObject->expandMacros('%WEBLIST{webs="public"}%');
     $this->assert_str_equals( join( "\n", @allWebs ), $text );
     $text =
-      $this->{test_topicObject}->expandMacros('%WEBLIST{webs="webtemplate"}%');
+      $this->test_topicObject->expandMacros('%WEBLIST{webs="webtemplate"}%');
     $this->assert_str_equals( join( "\n", @templateWebs ), $text );
 }
 
@@ -252,12 +251,15 @@ sub test_WEBLIST_all {
     my $this = shift;
 
     my $text =
-      $this->{test_topicObject}
-      ->expandMacros(' %WEBLIST{format="#$name#" separator=" "}% ');
+      $this->test_topicObject->expandMacros(
+        ' %WEBLIST{format="#$name#" separator=" "}% ');
 
-    foreach my $web ( $this->{test_web}, "$this->{test_web}/Dive1",
+    foreach my $web (
+        $this->test_web,
+        $this->test_web . "/Dive1",
         $Foswiki::cfg{UsersWebName},
-        'Sandbox', $Foswiki::cfg{SystemWebName} )
+        'Sandbox', $Foswiki::cfg{SystemWebName}
+      )
     {
         $this->assert_matches( qr!#$web#!, $text );
     }
@@ -267,11 +269,12 @@ sub test_WEBLIST_relative {
     my $this = shift;
 
     my $text =
-      $this->{test_topicObject}
-      ->expandMacros( ' %WEBLIST{format="#$name#" separator=" " subwebs="'
-          . $this->{test_web}
+      $this->test_topicObject->expandMacros(
+            ' %WEBLIST{format="#$name#" separator=" " subwebs="'
+          . $this->test_web
           . '"}% ' );
-    $this->assert_matches( qr!#$this->{test_web}/Dive1#!, $text );
+    my $test_web = $this->test_web;
+    $this->assert_matches( qr!#$test_web/Dive1#!, $text );
 }
 
 sub test_WEBLIST_end {
@@ -279,9 +282,9 @@ sub test_WEBLIST_end {
 
     my $text =
         ' %WEBLIST{format="#$name#" separator=" " subwebs="'
-      . $this->{test_web}
+      . $this->test_web
       . '/Dive1/Dive2/Dive3"}% ';
-    $text = $this->{test_topicObject}->expandMacros($text);
+    $text = $this->test_topicObject->expandMacros($text);
     $this->assert_equals( '  ', $text );
 }
 

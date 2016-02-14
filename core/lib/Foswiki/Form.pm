@@ -126,9 +126,9 @@ sub _validateWebTopic {
     return ( $vweb, $vtopic );
 }
 
-# XXX vrurg ClassMethod load() is supposed to replace the old new() method and
-# become a new constructor. Required to stay in compliance with Moo architecture
-# and avoid replacing of the standard new() method.
+# XXX vrurg ClassMethod loadCached() is supposed to replace the old new() method
+# and become a new constructor. Required to stay in compliance with Moo
+# architecture and avoid replacing of the standard new() method.
 sub loadCached {
     my ( $class, $session, $web, $form, $def ) = @_;
 
@@ -219,29 +219,6 @@ sub BUILD {
     ASSERT( $this->has_fields,     "No fields arg cpecified" );
     ASSERT( defined $this->fields, "No fields defined" );
 }
-
-=begin TML
-
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-around finish => sub {
-    my $orig = shift;
-    my $this = shift;
-
-    # vrurg The following commented out code shouldn't be needed anymore. Though
-    # I'd keep it here as a reminder.
-    #foreach ( @{ $this->fields } ) {
-    #    $_->finish();
-    #}
-    $this->clear_fields;
-    $orig->($this);
-};
 
 =begin TML
 
@@ -478,7 +455,7 @@ sub createField {
             return "Foswiki::Form::$1";
         }
     );
-    eval 'require ' . $class;
+    Foswiki::load_package($class);
     if ($@) {
         $this->session->logger->log( 'error',
             "error compiling class $class: $@" );
@@ -748,8 +725,10 @@ define the field.
 
 sub getField {
     my ( $this, $name ) = @_;
-    foreach my $fieldDef ( @{ $this->fields } ) {
-        return $fieldDef if ( $fieldDef->{name} && $fieldDef->{name} eq $name );
+    if ( $this->has_fields ) {
+        foreach my $fieldDef ( @{ $this->fields } ) {
+            return $fieldDef if ( $fieldDef->name && $fieldDef->name eq $name );
+        }
     }
     return;
 }

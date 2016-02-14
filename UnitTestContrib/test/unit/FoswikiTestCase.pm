@@ -168,13 +168,13 @@ sub skip_test_if {
 
             ASSERT( ref( $item->{condition} ) eq 'HASH' );
             if ( $this->check_conditions_met( %{ $item->{condition} } ) ) {
-                my $verify_name = $this->{verify_permutations}{$test};
+                my $verify_name = $this->verify_permutations->{$test};
 
-                if ( defined $item->{tests}{$test} ) {
-                    $skip_reason = $item->{tests}{$test};
+                if ( defined $item->tests->{$test} ) {
+                    $skip_reason = $item->tests->{$test};
                 }
-                elsif ( $verify_name && defined $item->{tests}{$verify_name} ) {
-                    $skip_reason = $item->{tests}{$verify_name};
+                elsif ( $verify_name && defined $item->tests->{$verify_name} ) {
+                    $skip_reason = $item->tests->{$verify_name};
                 }
             }
             elsif (TRACE) {
@@ -640,8 +640,8 @@ around set_up => sub {
     $Foswiki::inUnitTestMode = 1;
 
     # This needs to be a deep copy
-    $this->{__FoswikiSafe} =
-      Data::Dumper->Dump( [ \%Foswiki::cfg ], ['*Foswiki::cfg'] );
+    $this->__FoswikiSafe(
+        Data::Dumper->Dump( [ \%Foswiki::cfg ], ['*Foswiki::cfg'] ) );
 
     # Disable/enable plugins so that only core extensions (those defined
     # in lib/MANIFEST) are enabled, but they are *all* enabled.
@@ -775,7 +775,7 @@ sub tear_down {
         $this->finishFoswikiSession();
     }
     $this->_clear_tempDir;
-    %Foswiki::cfg = eval $this->{__FoswikiSafe};
+    %Foswiki::cfg = eval $this->__FoswikiSafe;
     foreach my $sym ( keys %ENV ) {
         unless ( defined( $this->__EnvSafe->{$sym} ) ) {
             delete $ENV{$sym};
@@ -907,7 +907,7 @@ sub capture {
     my $response =
       UNIVERSAL::isa( $session, 'Foswiki' )
       ? $session->response
-      : $Foswiki::Plugins::SESSION->{response};
+      : $Foswiki::Plugins::SESSION->response;
 
     my $responseText = '';
     if ( $response->outputHasStarted() ) {
@@ -979,7 +979,7 @@ sub captureWithKey {
         $this->assert( 0, "Could not extract validation key from $key" );
     }
     my ( $k, $v ) = ( $1, $2 );
-    my $request = $fatwilly->{request};
+    my $request = $fatwilly->request;
     $this->assert( $request->isa('Unit::Request'),
         "Could not find the Unit::Request object" );
 

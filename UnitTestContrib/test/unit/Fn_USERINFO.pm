@@ -3,46 +3,49 @@ use strict;
 # tests for the correct expansion of USERINFO
 
 package Fn_USERINFO;
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki();
 use Foswiki::Func();
-use Error qw( :try );
+use Try::Tiny;
 
-sub new {
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
+
+around BUILDARGS => sub {
+    my $orig = shift;
     $Foswiki::cfg{Register}{AllowLoginName} = 1;
-    my $self = shift()->SUPER::new( 'USERINFO', @_ );
-    return $self;
-}
+    return $orig->( @_, testSuite => 'USERINFO' );
+};
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up(@_);
+    $orig->( $this, @_ );
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "GropeGroup" );
+      Foswiki::Func::readTopic( $this->users_web, "GropeGroup" );
     $topicObject->text("   * Set GROUP = ScumBag,WikiGuest\n");
     $topicObject->save();
     $topicObject->finish();
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, "FriendsOfGropeGroup" );
+      Foswiki::Func::readTopic( $this->users_web, "FriendsOfGropeGroup" );
     $topicObject->text("   * Set GROUP = AdminUser, GropeGroup\n");
     $topicObject->save();
     $topicObject->finish();
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web},
+      Foswiki::Func::readTopic( $this->users_web,
         "FriendsOfFriendsOfGropeGroup" );
     $topicObject->text("   * Set GROUP = AdminUser, FriendsOfGropeGroup\n");
     $topicObject->save();
     $topicObject->finish();
-}
+};
 
 sub test_basic {
     my $this = shift;
 
     $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
-    my $ui = $this->{test_topicObject}->expandMacros('%USERINFO%');
+    my $ui = $this->test_topicObject->expandMacros('%USERINFO%');
     $this->assert_str_equals(
         $Foswiki::cfg{DefaultUserLogin}
           . ", $Foswiki::cfg{UsersWebName}."
@@ -55,7 +58,7 @@ sub test_withWikiName {
     my $this = shift;
 
     $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
-    my $ui = $this->{test_topicObject}->expandMacros('%USERINFO{"ScumBag"}%');
+    my $ui = $this->test_topicObject->expandMacros('%USERINFO{"ScumBag"}%');
     $this->assert_str_equals(
         "scum, $Foswiki::cfg{UsersWebName}.ScumBag, scumbag\@example.com",
         $ui );
@@ -65,7 +68,7 @@ sub test_withLogin {
     my $this = shift;
 
     $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
-    my $ui = $this->{test_topicObject}->expandMacros('%USERINFO{"scum"}%');
+    my $ui = $this->test_topicObject->expandMacros('%USERINFO{"scum"}%');
     $this->assert_str_equals(
         "scum, $Foswiki::cfg{UsersWebName}.ScumBag, scumbag\@example.com",
         $ui );
@@ -77,7 +80,7 @@ sub test_formatted {
 'W$wikiusernameU$wikinameN$usernameE$emailsG$groupsA$adminIA$isadminIG$isgroupE$bogustoken nop$nopnop $percent $quot $comma$n$n()ewline $lt $gt $amp $dollar';
 
     $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
-    my $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+    my $ui = $this->test_topicObject->expandMacros(<<"HERE");
 %USERINFO{"ScumBag" format="$testformat"}%
 HERE
     $this->assert_str_equals( <<"HERE", $ui );
@@ -86,7 +89,7 @@ W$Foswiki::cfg{UsersWebName}.ScumBagUScumBagNscumEscumbag\@example.comGFriendsOf
 ewline < > & \$
 HERE
 
-    my $guest_ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+    my $guest_ui = $this->test_topicObject->expandMacros(<<"HERE");
 %USERINFO{"WikiGuest" format="$testformat"}%
 HERE
     $this->assert_str_equals( <<"HERE", $guest_ui );
@@ -107,7 +110,7 @@ sub test_antispam {
 
     # ScumBag should only see his own information
     $this->createNewFoswikiSession("ScumBag");
-    my $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+    my $ui = $this->test_topicObject->expandMacros(<<"HERE");
 %USERINFO{"ScumBag" format="$testformat"}%
 HERE
     $this->assert_str_equals( <<"HERE", $ui );
@@ -116,7 +119,7 @@ W$Foswiki::cfg{UsersWebName}.ScumBagUScumBagNscumEscumbag\@example.comGFriendsOf
 ewline < > & \$
 HERE
 
-    my $guest_ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+    my $guest_ui = $this->test_topicObject->expandMacros(<<"HERE");
 %USERINFO{"WikiGuest" format="$testformat"}%
 HERE
 
@@ -128,7 +131,7 @@ ewline < > & \$
 HERE
 
  # Item11981: Prior request "cloaked" the user info.  Cloak was getting "stuck".
-    $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+    $ui = $this->test_topicObject->expandMacros(<<"HERE");
 %USERINFO%
 HERE
     $this->assert_str_equals( <<"HERE", $ui );
@@ -137,7 +140,7 @@ HERE
 
     # Admin user should see everything
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
-    $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+    $ui = $this->test_topicObject->expandMacros(<<"HERE");
 %USERINFO{"ScumBag" format="$testformat"}%
 HERE
     $this->assert_str_equals( <<"HERE", $ui );
@@ -146,7 +149,7 @@ W$Foswiki::cfg{UsersWebName}.ScumBagUScumBagNscumEscumbag\@example.comGFriendsOf
 ewline < > & \$
 HERE
 
-    $guest_ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+    $guest_ui = $this->test_topicObject->expandMacros(<<"HERE");
 %USERINFO{"WikiGuest" format="$testformat"}%
 HERE
     $this->assert_str_equals( <<"HERE", $guest_ui );
@@ -164,7 +167,7 @@ sub test_isgroup {
 'W$wikiusernameU$wikinameN$usernameE$emailsG$groupsA$adminIA$isadminIG$isgroupE';
 
     $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
-    my $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+    my $ui = $this->test_topicObject->expandMacros(<<"HERE");
 %USERINFO{"FriendsOfFriendsOfGropeGroup" format="$testformat"}%
 HERE
     $this->assert_str_equals( <<"HERE", $ui );
@@ -180,7 +183,7 @@ sub test_isadmin {
 'W$wikiusernameU$wikinameN$usernameE$emailsG:$groups:A$adminIA$isadminIG$isgroupE';
 
     $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
-    my $ui = $this->{test_topicObject}->expandMacros(<<"HERE");
+    my $ui = $this->test_topicObject->expandMacros(<<"HERE");
 %USERINFO{"$Foswiki::cfg{AdminUserWikiName}" format="$testformat"}%
 HERE
     my $adminEmail = $Foswiki::cfg{WebMasterEmail} || 'email not set';
@@ -218,7 +221,7 @@ sub test_Item11619 {
     my $this = shift;
 
     $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
-    my $ui = $this->{test_topicObject}->expandMacros(<<'HERE');
+    my $ui = $this->test_topicObject->expandMacros(<<'HERE');
 ---+++ cuid
    * USERINFO for !BaseUserMapping_999: %USERINFO{"BaseUserMapping_999" format="this is user $wikiusername"}%
    * USERINFO for !BaseUserMapping_666: %USERINFO{"BaseUserMapping_666" format="this is user $wikiusername"}%

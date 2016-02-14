@@ -1,11 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Form::Label;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Form::FieldDefinition ();
-our @ISA = ('Foswiki::Form::FieldDefinition');
+use Moo;
+extends qw(Foswiki::Form::FieldDefinition);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -29,7 +27,7 @@ sub renderForEdit {
     return (
         '',
         CGI::hidden(
-            -name     => $this->{name},
+            -name     => $this->name,
             -override => 1,
             -value    => $value,
           )

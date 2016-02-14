@@ -1,11 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Form::Textarea;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Form::FieldDefinition ();
-our @ISA = ('Foswiki::Form::FieldDefinition');
+use Moo;
+extends qw(Foswiki::Form::FieldDefinition);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -14,18 +12,21 @@ BEGIN {
     }
 }
 
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
-    if ( $this->{size} =~ m/^\s*(\d+)x(\d+)\s*$/ ) {
-        $this->{cols} = $1;
-        $this->{rows} = $2;
+has cols => (
+    is      => 'rw',
+    default => 50,
+);
+has rows => (
+    is      => 'rw',
+    default => 4,
+);
+
+sub BUILD {
+    my $this = shift;
+    if ( $this->size =~ m/^\s*(\d+)x(\d+)\s*$/ ) {
+        $this->cols($1);
+        $this->rows($2);
     }
-    else {
-        $this->{cols} = 50;
-        $this->{rows} = 4;
-    }
-    return $this;
 }
 
 =begin TML
@@ -35,16 +36,6 @@ Break circular references.
 
 =cut
 
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    $this->SUPER::finish();
-    undef $this->{cols};
-    undef $this->{rows};
-}
-
 sub renderForEdit {
     my ( $this, $topicObject, $value ) = @_;
 
@@ -52,9 +43,9 @@ sub renderForEdit {
         '',
         CGI::textarea(
             -class    => $this->cssClasses('foswikiTextarea'),
-            -cols     => $this->{cols},
-            -rows     => $this->{rows},
-            -name     => $this->{name},
+            -cols     => $this->cols,
+            -rows     => $this->rows,
+            -name     => $this->name,
             -override => 1,
             -default  => "\n" . $value,
         )
