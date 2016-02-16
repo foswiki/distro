@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1446958002" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1455628764" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
 %FORMFIELD{"Description"}%
@@ -261,7 +261,7 @@ This function has two modes of operation.
    * Example: ==%<nop>CALCULATE{$FILTER($sp, Cat and Mouse)}%== returns ==CatandMouse== - remove all spaces
    * Example: ==%<nop>CALCULATE{$FILTER([^0-9], Project-ID-1234)}%== returns ==1234== - filter in digits, e.g. keep only digits
    * Example: ==%<nop>CALCULATE{$FILTER([^a-zA-Z0-9 ], Stupid mistake*%@^! Fixed)}%== returns ==Stupid mistake Fixed== - keep only alphanumeric characters and spaces
-   * Example: ==%<nop>CALCULATE{$FILTER([^a-zA-Z0-9], $PROPER(an EXELLENT idea.))}%== returns ==AnExcellentIdea== - turn a string into a %SYSTEMWEB%.WikiWord topic name
+   * Example: ==%<nop>CALCULATE{$FILTER([^a-zA-Z0-9], $PROPER(an EXCELLENT idea.))}%== returns ==AnExcellentIdea== - turn a string into a %SYSTEMWEB%.WikiWord topic name
    * Related: =[[#FuncFIND][$FIND()]]=, =[[#FuncINSERTSTRING][$INSERTSTRING()]]=, =[[#FuncLEFTSTRING][$LEFTSTRING()]]=, =[[#FuncPROPER][$PROPER()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSEARCH][$SEARCH()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncSUBSTRING][$SUBSTRING()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=, =[[#FuncTRIM][$TRIM()]]=
 
 #FuncFLOOR
