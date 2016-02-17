@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-01-09 09:26+0200\n"
+"PO-Revision-Date: 2016-02-17 13:58+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
-"Language-Team: German <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/de/>\n"
+"Language-Team: German <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -215,9 +215,8 @@ msgstr "%1 wurde durch %4 von %2 nach %3 umbenannt oder verschoben"
 
 #. ("%SYSTEMWEB%.$pluginName",                "${templateName}Template")
 #: AutoViewTemplatePlugin/lib/Foswiki/Plugins/AutoViewTemplatePlugin.pm:97
-#, fuzzy
 msgid "%1: Invalid template name (%2) - Contains invalid characters."
-msgstr "Der Topic-Name (%1) enthält unzulässige Zeichen."
+msgstr "%1: ungültiger Vorlagen-Name (%2) - enthält unzulässige Zeichen."
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -4862,12 +4861,12 @@ msgid "To login as another user please do so [[%1][here]]."
 msgstr "Um sich als anderer Benutzer anzumelden, klicken Sie [[%1][hier]]."
 
 #: core/templates/messages.tmpl:398
-#, fuzzy
 msgid ""
 "To refresh the cache for just this topic, <a href='%1' rel='nofollow' > "
 "click here </a> "
 msgstr ""
-"Rufen Sie die aktuelle Version <a href='%1' rel='nofollow'>hier</a> ab."
+"Um die aktuelle Version von nur diesem Topic abzurufen, <a href='%1' "
+"rel='nofollow'>klicken Sie hier</a> "
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
