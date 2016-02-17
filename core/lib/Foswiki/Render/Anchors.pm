@@ -12,10 +12,13 @@ for each topic, to ensure that anchor names are not re-used.
 =cut
 
 package Foswiki::Render::Anchors;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -24,17 +27,12 @@ BEGIN {
     }
 }
 
-=begin TML
-
----++ ClassMethod new()
-
-Construct a new anchors set.
-
-=cut
-
-sub new {
-    return bless( { names => {} }, shift );
-}
+has names => (
+    is      => 'rw',
+    clearer => 1,
+    lazy    => 1,
+    default => sub { {} },
+);
 
 =begin TML
 
@@ -47,7 +45,7 @@ any anchors generated to date.
 
 sub clear {
     my $this = shift;
-    $this->{names} = {};
+    $this->clear_names;
 }
 
 =begin TML
@@ -62,7 +60,7 @@ the one name is added.
 sub add {
     my ( $this, $text ) = @_;
     my $anchorName = make($text);
-    $this->{names}->{$anchorName} = 1;
+    $this->names->{$anchorName} = 1;
     return $anchorName;
 }
 
@@ -90,7 +88,7 @@ sub addUnique {
     my $cnt    = 1;
     my $suffix = '';
 
-    while ( exists $this->{names}->{ $anchorName . $suffix } ) {
+    while ( exists $this->names->{ $anchorName . $suffix } ) {
 
         # $anchorName.$suffix must _always_ be 'compatible', or things
         # would get complicated (whatever that means)
@@ -103,7 +101,7 @@ sub addUnique {
         $anchorName =~ s/_+$//g;
     }
     $anchorName .= $suffix;
-    $this->{names}->{$anchorName} = 1;
+    $this->names->{$anchorName} = 1;
     return $anchorName;
 }
 

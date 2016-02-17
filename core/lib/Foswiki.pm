@@ -243,8 +243,8 @@ has renderer => (
     clearer   => 1,
     predicate => 1,
     default   => sub {
-        require Foswiki::Render;
-        new Foswiki::Render( $_[0] );
+        load_package('Foswiki::Render');
+        Foswiki::Render->new( session => $_[0] );
     },
 );
 has request => (
@@ -402,8 +402,8 @@ has zones => (
     clearer   => 1,
     predicate => 1,
     default   => sub {
-        require Foswiki::Render::Zones;
-        return Foswiki::Render::Zones->new( $_[0] );
+        load_package('Foswiki::Render::Zones');
+        return Foswiki::Render::Zones->new( session => $_[0] );
     },
 );
 

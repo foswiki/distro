@@ -180,7 +180,7 @@ around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
 
-    return $orig->( $class, @_, suite => 'Formatting' );
+    return $orig->( $class, @_, testSuite => 'Formatting' );
 };
 
 sub BUILD {

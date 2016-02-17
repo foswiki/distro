@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 use Assert;
-use Error qw( :try );
+use Try::Tiny;
 
 use Foswiki       ();
 use Foswiki::UI   ();
@@ -23,8 +23,8 @@ BEGIN {
 sub changes {
     my $session = shift;
 
-    my $query = $session->{request};
-    my $webObject = Foswiki::Meta->new( $session, $session->{webName} );
+    my $query = $session->request;
+    my $webObject = Foswiki::Meta->new( $session, $session->webName );
 
     Foswiki::UI::checkWebExists( $session, $webObject->web, 'find changes in' );
 
@@ -76,11 +76,11 @@ sub changes {
         $thisChange =~ s/%TOPICNAME%/$change->{topic}/g;
         my $wikiuser =
             $change->{user}
-          ? $session->{users}->webDotWikiName( $change->{user} )
+          ? $session->users->webDotWikiName( $change->{user} )
           : '';
         my $wikiname =
             $change->{user}
-          ? $session->{users}->getWikiName( $change->{user} )
+          ? $session->users->getWikiName( $change->{user} )
           : '';
         $thisChange =~ s/%AUTHOR%/$wikiuser/g;
         $thisChange =~ s/\$wikiname/<nop>$wikiname/g;
@@ -109,8 +109,7 @@ sub changes {
     $page .= $after;
 
     my $topicObject =
-      Foswiki::Meta->new( $session, $session->{webName},
-        $session->{topicName} );
+      Foswiki::Meta->new( $session, $session->webName, $session->topicName );
     $page = $topicObject->expandMacros($page);
     $page = $topicObject->renderTML($page);
 

@@ -13,7 +13,7 @@ package Foswiki::UI::Rest;
 use strict;
 use warnings;
 use Foswiki ();
-use Error qw( :try );
+use Try::Tiny;
 use Foswiki::PageCache ();
 
 BEGIN {
@@ -87,8 +87,8 @@ sub registerRESTHandler {
 sub rest {
     my ( $session, %initialContext ) = @_;
 
-    my $req = $session->{request};
-    my $res = $session->{response};
+    my $req = $session->request;
+    my $res = $session->response;
     my $err;
 
     # Referer is useful for logging REST request errors
@@ -106,7 +106,11 @@ sub rest {
             $res->print($err);
             $session->logger->log( 'warning', "REST rejected: " . $err,
                 " - $referer", );
-            throw Foswiki::EngineException( 400, $err, $res );
+            Foswiki::EngineException->throw(
+                status   => 400,
+                reason   => $err,
+                response => $res
+            );
         }
     }
     else {
@@ -119,11 +123,11 @@ sub rest {
     }
 
     return
-      if $session->satisfiedByCache( 'rest', $session->{webName},
-        $session->{topicName} );
+      if $session->satisfiedByCache( 'rest', $session->webName,
+        $session->topicName );
 
     Foswiki::Func::writeDebug(
-        "computing REST for $session->{webName}.$session->{topicName}")
+        "computing REST for " . $session->webName . "." . $session->topicName )
       if Foswiki::PageCache::TRACE();
 
     my $pathInfo = Foswiki::urlDecode( $req->path_info() );
@@ -140,7 +144,11 @@ sub rest {
         $session->logger->log( 'warning', "REST rejected: " . $err,
             " - $referer", );
         _listHandlers($res) if $session->inContext('command_line');
-        throw Foswiki::EngineException( 400, $err, $res );
+        Foswiki::EngineException->throw(
+            status   => 400,
+            reason   => $err,
+            response => $res
+        );
     }
 
     # Implicit untaint OK - validated later
@@ -159,7 +167,11 @@ sub rest {
         $session->logger->log( 'warning', "REST rejected: " . $err,
             " - $referer", );
         $res->print($err);
-        throw Foswiki::EngineException( 404, $err, $res );
+        Foswiki::EngineException->throw(
+            status   => 404,
+            reason   => $err,
+            response => $res
+        );
     }
 
     # Log warnings if defaults are needed.
@@ -199,7 +211,11 @@ sub rest {
                     " $subject/$verb - $referer",
                 );
                 $res->print($err);
-                throw Foswiki::EngineException( 405, $err, $res );
+                Foswiki::EngineException->throw(
+                    status   => 405,
+                    reason   => $err,
+                    response => $res
+                );
             }
         }
     }
@@ -219,7 +235,11 @@ sub rest {
                 " $subject/$verb - $referer"
             );
             $res->print($err);
-            throw Foswiki::EngineException( 401, $err, $res );
+            Foswiki::EngineException->throw(
+                status   => 401,
+                reason   => $err,
+                response => $res
+            );
         }
     }
 
@@ -252,7 +272,11 @@ sub rest {
                 " $subject/$verb - $referer"
             );
             $res->print($err);
-            throw Foswiki::EngineException( 403, $err, $res );
+            Foswiki::EngineException->throw(
+                status   => 403,
+                reason   => $err,
+                response => $res
+            );
         }
     }
 
@@ -262,7 +286,7 @@ sub rest {
         {
             level    => 'info',
             action   => 'rest',
-            webTopic => $session->{webName} . '.' . $session->{topicName},
+            webTopic => $session->webName . '.' . $session->topicName,
             extra    => "$subject $verb",
         }
     );
@@ -272,20 +296,20 @@ sub rest {
 
     try {
         no strict 'refs';
-        $result = &$function( $session, $subject, $verb, $session->{response} );
+        $result = &$function( $session, $subject, $verb, $session->response );
         use strict 'refs';
     }
-    catch Error::Simple with {
+    catch {
 
         # Note: we're *not* catching Error here, just Error::Simple
         # so we catch things like OopsException
-        $session->{response}->header(
+        $session->response->header(
             -status  => 500,
             -type    => 'text/plain',
             -charset => 'UTF-8'
         );
-        $session->{response}->print(
-            'ERROR: (500) Internal server error - ' . shift->stringify() );
+        $session->response->print( 'ERROR: (500) Internal server error - '
+              . ( red($_) ? $_->stringify : $_ ) );
         $error = 1;
     };
 
@@ -307,15 +331,15 @@ sub rest {
             if (   defined $req->param('redirectto')
                 || defined $req->param('endPoint') )
             {
-                $session->{response}->header(
+                $session->response->header(
                     -status  => 403,
                     -type    => 'text/plain',
                     -charset => 'UTF-8'
                 );
-                $session->{response}
-                  ->print( 'ERROR: (403) Invalid REST invocation - '
+                $session->response->print(
+                        'ERROR: (403) Invalid REST invocation - '
                       . ' redirectto does not refer to a valid redirect target'
-                  );
+                );
                 return;
             }
         }

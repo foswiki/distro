@@ -15,7 +15,7 @@ package Foswiki::UI::Manage;
 use strict;
 use warnings;
 use Assert;
-use Error qw( :try );
+use Try::Tiny;
 
 use Foswiki                ();
 use Foswiki::UI            ();
@@ -41,7 +41,7 @@ This method is designed to be invoked via the =UI::run= method.
 sub manage {
     my $session = shift;
 
-    my $action = $session->{request}->param('action');
+    my $action = $session->request->param('action');
 
     # Dispatch to action function
     if ( defined $action && $action =~ m/^([a-z]+)$/i ) {
@@ -141,10 +141,10 @@ sub _isValidHTMLColor {
 sub _action_createweb {
     my $session = shift;
 
-    my $topicName = $session->{topicName};
-    my $webName   = $session->{webName};
-    my $query     = $session->{request};
-    my $cUID      = $session->{user};
+    my $topicName = $session->topicName;
+    my $webName   = $session->webName;
+    my $query     = $session->request;
+    my $cUID      = $session->user;
 
     # Validate and untaint
     my $newWeb = Foswiki::Sandbox::untaint(
@@ -208,7 +208,7 @@ sub _action_createweb {
     # Get options from the form (only those options that are already
     # set in the template WebPreferences topic are changed, so we can
     # just copy everything)
-    my $me   = $session->{users}->getWikiName($cUID);
+    my $me   = $session->users->getWikiName($cUID);
     my $opts = {
 
         # Set permissions such that only the creating user can modify the
@@ -235,15 +235,13 @@ sub _action_createweb {
     try {
         $webObject->populateNewWeb( $baseWeb, $opts );
     }
-    catch Foswiki::OopsException with {
-        shift->throw();    # propagate
-    }
-    catch Error with {
-        $session->logger->log( 'error', shift->{-text} );
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'web_creation_error',
-            params => [
+    catch {
+        $session->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
+        Foswiki::OopsException->rethrowAs(
+            $_,
+            template => 'attention',
+            def      => 'web_creation_error',
+            params   => [
                 $newWeb,
                 $session->i18n->maketext(
                     'Operation [_1] failed with an internal error',
@@ -297,26 +295,26 @@ Creates an exception when the topic name is not valid; the topic name does not h
 WikiWord if parameter 'onlywikiname' is set to 'off'. Redirects to the edit screen.
 
 Copy an existing topic using:
-	<form action="%SCRIPTURL{manage}%/%WEB%/">
-	<input type="text" name="topic" class="foswikiInputField" value="%TOPIC%Copy" size="30">
-	<input type="hidden" name="action" value="create" />
-	<input type="hidden" name="templatetopic" value="%TOPIC%" />
-	<input type="hidden" name="notemplateexpansion" value="on" />
-	<input type="hidden" name="action_save" value="1" />
-	...
-	</form>
+    <form action="%SCRIPTURL{manage}%/%WEB%/">
+    <input type="text" name="topic" class="foswikiInputField" value="%TOPIC%Copy" size="30">
+    <input type="hidden" name="action" value="create" />
+    <input type="hidden" name="templatetopic" value="%TOPIC%" />
+    <input type="hidden" name="notemplateexpansion" value="on" />
+    <input type="hidden" name="action_save" value="1" />
+    ...
+    </form>
 
 =cut
 
 sub _action_create {
     my ($session) = @_;
 
-    my $query = $session->{request};
+    my $query = $session->request;
 
     # distill web and topic from Web.Topic input
     my $newTopic = $query->param('topic');
     ( my $newWeb, $newTopic ) =
-      Foswiki::Func::normalizeWebTopicName( $session->{webName}, $newTopic );
+      Foswiki::Func::normalizeWebTopicName( $session->webName, $newTopic );
 
     # Validate web name first so it can be used in topic oops.
     $newWeb = Foswiki::Sandbox::untaint(
@@ -375,11 +373,11 @@ sub _action_create {
     my $topicObject = Foswiki::Meta->new( $session, $newWeb, $newTopic );
     Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
 
-    my $oldWeb   = $session->{webName};
-    my $oldTopic = $session->{topicName};
+    my $oldWeb   = $session->webName;
+    my $oldTopic = $session->topicName;
 
-    $session->{topicName} = $newTopic;
-    $session->{webName}   = $newWeb;
+    $session->topicName($newTopic);
+    $session->webName($newWeb);
 
     require Foswiki::UI::Edit;
     Foswiki::UI::Edit::edit($session);
@@ -387,11 +385,11 @@ sub _action_create {
 
 sub _action_editSettings {
     my $session = shift;
-    my $topic   = $session->{topicName};
-    my $web     = $session->{webName};
-    my $query   = $session->{request};
-    my $user    = $session->{user};
-    my $users   = $session->{users};
+    my $topic   = $session->topicName;
+    my $web     = $session->webName;
+    my $query   = $session->request;
+    my $user    = $session->user;
+    my $users   = $session->users;
 
     my $topicObject = Foswiki::Meta->load( $session, $web, $topic );
     Foswiki::UI::checkAccess( $session, 'VIEW',   $topicObject );
@@ -489,10 +487,10 @@ sub _action_editSettings {
 
 sub _action_saveSettings {
     my $session = shift;
-    my $topic   = $session->{topicName};
-    my $web     = $session->{webName};
-    my $cUID    = $session->{user};
-    my $query   = $session->{request};
+    my $topic   = $session->topicName;
+    my $web     = $session->webName;
+    my $cUID    = $session->user;
+    my $query   = $session->request;
 
     if ( defined $query->param('action_cancel')
         && $query->param('action_cancel') ne '' )
@@ -500,7 +498,7 @@ sub _action_saveSettings {
         my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
 
         my $lease = $topicObject->getLease();
-        if ( $lease && $lease->{user} eq $session->{user} ) {
+        if ( $lease && $lease->{user} eq $session->user ) {
             $topicObject->clearLease();
         }
     }
@@ -536,7 +534,7 @@ s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
 
             # If the last save was by me, don't merge
             if (   $info->{version} ne $originalrev
-                && $info->{author} ne $session->{user} )
+                && $info->{author} ne $session->user )
             {
                 my $currTopicObject =
                   Foswiki::Meta->load( $session, $web, $topic );
@@ -547,17 +545,15 @@ s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
         try {
             $newTopicObject->save( minor => 1, forcenewrevision => 1 );
         }
-        catch Foswiki::OopsException with {
-            shift->throw();    # propagate
-        }
-        catch Error with {
-            $session->logger->log( 'error', shift->{-text} );
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'save_error',
-                web    => $web,
-                topic  => $topic,
-                params => [
+        catch {
+            $session->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
+            Foswiki::OopsException->rethrowAs(
+                $_,
+                template => 'attention',
+                def      => 'save_error',
+                web      => $web,
+                topic    => $topic,
+                params   => [
                     $session->i18n->maketext(
                         'Operation [_1] failed with an internal error', 'save'
                     )
@@ -595,10 +591,9 @@ sub _parsePreferenceValue {
 
 sub _action_restoreRevision {
     my ($session) = @_;
-    my $query = $session->{request};
+    my $query = $session->request;
     my ( $web, $topic ) =
-      $session->normalizeWebTopicName( $session->{webName},
-        $session->{topicName} );
+      $session->normalizeWebTopicName( $session->webName, $session->topicName );
 
     # read the current topic
     my $meta = Foswiki::Meta->load( $session, $web, $topic );
@@ -662,7 +657,7 @@ sub _action_restoreRevision {
 
     $meta->save( ( forcenewrevision => 1 ) );
 
-    $session->{cgiQuery}->delete('action');
+    $session->request->delete('action');
 
     $session->redirect( $session->redirectto("$web.$topic") );
 

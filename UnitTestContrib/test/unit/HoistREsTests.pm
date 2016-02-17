@@ -1,19 +1,24 @@
 # Test for hoisting REs from query expressions
 package HoistREsTests;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki::Query::Parser;
 use Foswiki::Query::HoistREs;
 use Foswiki::Query::Node;
 
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
+
+has meta => (
+    is  => 'rw',
+    isa => Foswiki::Object::isaCLASS( 'meta', 'Foswiki::Meta', noUndef => 1 ),
+);
+
 sub skip {
     my ( $this, $test ) = @_;
 
-    return $this->SUPER::skip_test_if(
+    return $this->skip_test_if(
         $test,
         {
             condition => { with_dep => 'Foswiki,<,1.2' },
@@ -25,9 +30,10 @@ sub skip {
     );
 }
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
     my ($meta) = Foswiki::Func::readTopic( 'Web', 'Topic' );
     $meta->putKeyed(
@@ -97,10 +103,10 @@ sub set_up {
         { name => "boolean", title => "Boolean", value => "1" } );
     $meta->putKeyed( 'FIELD', { name => "macro", value => "%RED%" } );
 
-    $meta->{_text} = "Green ideas sleep furiously";
+    $meta->text("Green ideas sleep furiously");
 
-    $this->{meta} = $meta;
-}
+    $this->meta($meta);
+};
 
 sub _hoist {
     my ( $this, $query ) = @_;
@@ -198,7 +204,7 @@ sub test_hoistSimple {
         '^%META:FIELD\{name=\"number\".*\bvalue=\"99\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }
@@ -215,7 +221,7 @@ sub test_hoistSimple2 {
         '^%META:FIELD\{name=\"number\".*\bvalue=\"99\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }
@@ -243,7 +249,7 @@ sub test_hoistCompound {
     );
     $this->assert_num_equals( 3,
         scalar( $this->_getFilterElements( $filter, 'text' ) ) );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }
@@ -271,7 +277,7 @@ sub test_hoistCompound2 {
     );
     $this->assert_num_equals( 3,
         scalar( $this->_getFilterElements( $filter, 'text' ) ) );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }
@@ -284,7 +290,7 @@ sub test_hoistAlias {
     my $filter      = $this->_hoist($query);
     $this->assert_str_equals( '^%META:TOPICINFO\{.*\bdate=\"12345\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }
@@ -299,7 +305,7 @@ sub test_hoistFormField {
         '^%META:FIELD\{name=\"number\".*\bvalue=\"99\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }
@@ -312,7 +318,7 @@ sub test_hoistText {
     my $filter      = $this->_hoist($query);
     $this->assert_str_equals( '.*Green.*',
         join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }
@@ -329,7 +335,7 @@ sub test_hoistName {
         $this->_getFilterElement( $filter, 'name', 0 ) );
     $this->assert_str_equals( 'Web*',
         $this->_getFilterElement( $filter, 'name_source', 0 ) );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert( !$val );
 }
@@ -346,7 +352,7 @@ sub test_hoistName2 {
         $this->_getFilterElement( $filter, 'name', 0 ) );
     $this->assert_str_equals( 'Web*,A*,Banana',
         $this->_getFilterElement( $filter, 'name_source', 0 ) );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert( !$val );
 }
@@ -359,7 +365,7 @@ sub test_hoist_OPMatch1 {
     my $filter      = $this->_hoist($query);
     $this->assert_str_equals( 'Green',
         join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }
@@ -372,7 +378,7 @@ sub test_hoist_OPMatch2 {
     my $filter      = $this->_hoist($query);
     $this->assert_str_equals( '.*Green.*',
         join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }
@@ -385,7 +391,7 @@ sub test_hoist_OPMatch3 {
     my $filter      = $this->_hoist($query);
     $this->assert_str_equals( '^Green.*',
         join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }
@@ -398,7 +404,7 @@ sub test_hoist_OPMatch4 {
     my $filter      = $this->_hoist($query);
     $this->assert_str_equals( '.*Green$',
         join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert( !$val );
 }
@@ -411,7 +417,7 @@ sub test_hoist_OPMatch5 {
     my $filter      = $this->_hoist($query);
     $this->assert_str_equals( '^Green$',
         join( ';', $this->_getFilterElements( $filter, 'text' ) ) );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert( !$val );
 }
@@ -426,7 +432,7 @@ sub test_hoist_OPMatchField1 {
         '^%META:FIELD\{name=\"string\".*\bvalue=\".*rin.*\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }
@@ -441,7 +447,7 @@ sub test_hoist_OPMatchField2 {
         '^%META:FIELD\{name=\"string\".*\bvalue=\".*rin.*\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }
@@ -456,7 +462,7 @@ sub test_hoist_OPMatchField3 {
         '^%META:FIELD\{name=\"string\".*\bvalue=\"rin.*\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert( !$val );
 }
@@ -471,7 +477,7 @@ sub test_hoist_OPMatchField4 {
         '^%META:FIELD\{name=\"string\".*\bvalue=\".*rin\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert( !$val );
 }
@@ -486,7 +492,7 @@ sub test_hoist_OPMatchField5 {
         '^%META:FIELD\{name=\"string\".*\bvalue=\"rin\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert( !$val );
 }
@@ -502,7 +508,7 @@ sub test_hoist_OPMatch_Item10352 {
         '^%META:FIELD\{name=\"string\".*\bvalue=\"St.(i|n).*\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }
@@ -518,7 +524,7 @@ sub test_hoist_OPMatch_Item10352_long {
 #$this->assert_str_equals( '^%META:FIELD{name=\"string\".*\bvalue=\"St.(i|n).*\"', join( ';', @{$filter->{text}} ) );
 #we fail to regex hoist it
     $this->assert_num_equals( 0, $this->_getFilterNumElements($filter) );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }
@@ -534,7 +540,7 @@ sub test_hoist_OPMatch_Item10352_1 {
         '^%META:FIELD\{name=\"string\".*\bvalue=\".*String.*\"',
         join( ';', $this->_getFilterElements( $filter, 'text' ) )
     );
-    my $meta = $this->{meta};
+    my $meta = $this->meta;
     my $val = $query->evaluate( tom => $meta, data => $meta );
     $this->assert($val);
 }

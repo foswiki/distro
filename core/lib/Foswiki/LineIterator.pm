@@ -12,6 +12,8 @@ Iterator over the lines read from a file handle.
 package Foswiki::LineIterator;
 use v5.14;
 
+use IO::Handle ();
+
 use Moo;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Iterator);
@@ -31,7 +33,11 @@ has nextLine => (
         return $_[0];
     },
 );
-has handle => ( is => 'rw', init_arg => 'fileHandle', required => 1, );
+has handle => (
+    is       => 'ro',
+    init_arg => 'fileHandle',
+    required => 1,
+);
 
 =begin TML
 
@@ -101,8 +107,7 @@ sub next {
     my $curLine = $this->nextLine;
     local $/ = "\n";
     while (1) {
-        my $h = $this->handle;
-        $this->nextLine(<$h>);
+        $this->nextLine( scalar( readline( $this->handle ) ) );
         if ( !defined( $this->nextLine ) ) {
             last;
         }

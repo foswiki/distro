@@ -1,12 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Logger::PlainFile::Obfuscating;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
-use Foswiki::Logger            ();
-use Foswiki::Logger::PlainFile ();
 use Foswiki::Configure::Load;
 use Digest::MD5 qw( md5_hex );
 
@@ -17,7 +14,9 @@ BEGIN {
     }
 }
 
-our @ISA = ('Foswiki::Logger::PlainFile');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Logger::PlainFile);
 
 =begin TML
 
@@ -37,11 +36,6 @@ This logger implementation maps groups of levels to a single logfile, viz.
 
 =cut
 
-sub new {
-    my $class = shift;
-    return bless( {}, $class );
-}
-
 =begin TML
 
 ---++ ObjectMethod log($level, @fields)
@@ -50,9 +44,10 @@ See Foswiki::Logger for the interface.
 
 =cut
 
-sub log {
+around log => sub {
 
     #my ( $this, $level, @fields ) = @_;
+    my $orig = shift;
     my $this = shift;
 
     #foreach my $field ( @_ )  {
@@ -76,8 +71,8 @@ sub log {
         }
     }
 
-    $this->SUPER::log(@_);
-}
+    $orig->( $this, @_ );
+};
 
 1;
 __END__

@@ -1,18 +1,18 @@
 package HTMLValidationTests;
-use strict;
-use warnings;
+use v5.14;
 
 #this has been quickly copied from the UICompilation tests
 #TODO: need to pick a list of topics, actions, opps's and add detection of installed skins
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki();
 use Foswiki::Func();
 use Foswiki::UI::View();
 use HTML::Tidy();
-use Error qw( :try );
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 my $UI_FN;
 my $SCRIPT_NAME;
@@ -39,49 +39,60 @@ my %expect_non_html = (
 # and this makes HTMLTidy cry.
 my %expect_table_summary_warnings = ( edit => 1 );
 
-sub new {
-    my ( $class, @args ) = @_;
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
-    my $self = $class->SUPER::new( "UIFnCompile", @args );
-    return $self;
-}
+    return $orig->( $class, @_, testSuite => "UIFnCompile" );
+};
 
-sub loadExtraConfig {
-    my ( $this, $context, @args ) = @_;
+around loadExtraConfig => sub {
+    my $orig = shift;
+    my $this = shift;
 
     # $this - the Test::Unit::TestCase object
     $Foswiki::cfg{JQueryPlugin}{Plugins}{PopUpWindow}{Enabled} = 1;
     $Foswiki::cfg{FeatureAccess}{Configure} = 'ScumBag';
 
-    $this->SUPER::loadExtraConfig( $context, @args );
+    $orig->( $this, @_ );
 
     return;
-}
+};
 
-# Set up the test fixture
-sub set_up {
-    my $this = shift;
+has tidy => (
+    is      => 'rw',
+    isa     => Foswiki::Object::isaCLASS( 'tidy', 'HTML::Tidy', noUndef => 1 ),
+    lazy    => 1,
+    default => sub {
 
 #see http://tidy.sourceforge.net/docs/quickref.html for parameters - be warned that some cause HTML::Tidy to crash
-    $this->{tidy} = HTML::Tidy->new(
-        {
+        return HTML::Tidy->new(
+            {
 
-            #turn off warnings until we have fixed errors
-            'show-warnings' => 1,
+                #turn off warnings until we have fixed errors
+                'show-warnings' => 1,
 
-            #'accessibility-check'	=> 3,
-            'drop-empty-paras' => 0
-        }
-    );
+                #'accessibility-check'	=> 3,
+                'drop-empty-paras' => 0
+            }
+        );
+
+    },
+);
+
+# Set up the test fixture
+around set_up => sub {
+    my $orig = shift;
+    my $this = shift;
 
     #print STDERR "HTML::Tidy Version: ".$HTML::Tidy::VERSION."\n";
     #print STDERR "libtidy Version: ".HTML::Tidy::libtidy_version()."\n";
 
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
     #the test web is made using the '_empty' web - not so useful here
     my $webObject = $this->populateNewWeb(
-        $this->{test_web},
+        $this->test_web,
         '_default',
         {
             ALLOWWEBCHANGE => '',
@@ -91,7 +102,7 @@ sub set_up {
     $webObject->finish();
 
     return;
-}
+};
 
 sub fixture_groups {
     my @scripts;
@@ -127,7 +138,8 @@ m/^(attach|changes|compare|compareauth|configure|edit|jsonrpc|login|logon|manage
                 eval {
                     no strict 'refs';
                     *{$script} = sub {
-                        eval "require $package" if ( defined($package) );
+                        Foswiki::load_package($package)
+                          if ( defined($package) );
                         $UI_FN       = $sub;
                         $SCRIPT_NAME = $script;
                     };
@@ -180,27 +192,31 @@ sub call_UI_FN {
 
 #turn off ASSERTS so we get less plain text erroring - the user should always see html
     local $ENV{FOSWIKI_ASSERTS} = 0;
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my ( $responseText, $result, $stdout, $stderr );
     $responseText = 'Status: 500';    #errr, boom
     try {
         ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
             $SCRIPT_NAME => sub {
                 no strict 'refs';
-                &{$UI_FN}( $this->{session} );
+                &{$UI_FN}( $this->session );
                 use strict 'refs';
-                $Foswiki::engine->finalize( $this->{session}{response},
-                    $this->{session}{request} );
+                $Foswiki::engine->finalize( $this->session->response,
+                    $this->session->request );
             }
         );
     }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $responseText = $e->stringify();
-    }
-    catch Foswiki::EngineException with {
-        my $e = shift;
-        $responseText = $e->stringify();
+    catch {
+        my $e = $_;
+        unless (
+            ref($e)
+            && (   $e->isa('Foswiki::OopsException')
+                || $e->isa('Foswiki::EngineException') )
+          )
+        {
+            Foswiki::Exception::Fatal->rethrow($e);
+        }
+        $responseText = $e->stringify;
     };
 
     $this->assert($responseText);
@@ -366,18 +382,17 @@ sub verify_switchboard_function {
 
     my $testcase = 'HTMLValidation_' . $SCRIPT_NAME . '_' . $SKIN_NAME;
 
-    create_form_topic( $this, $this->{test_web}, 'MyForm' );
-    add_form_and_data( $this, $this->{test_web}, $this->{test_topic},
-        'MyForm' );
-    add_attachments( $this, $this->{test_web}, $this->{test_topic} );
+    create_form_topic( $this, $this->test_web, 'MyForm' );
+    add_form_and_data( $this, $this->test_web, $this->test_topic, 'MyForm' );
+    add_attachments( $this, $this->test_web, $this->test_topic );
 
     my ( $status, $header, $text ) =
-      $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
+      $this->call_UI_FN( $this->test_web, $this->test_topic );
 
     unless ( $header =~ m/Content-type: text\/html\b/i ) {
 
         # non-HTML script, no HTML to validate
-        $this->{tidy}->clear_messages();
+        $this->tidy->clear_messages();
         return;
     }
 
@@ -390,15 +405,15 @@ sub verify_switchboard_function {
         $this->assert_str_not_equals( '', $text,
             "no body for $SCRIPT_NAME\nHEADER: $header" );
         try {
-            $this->{tidy}->parse( $testcase, $text );
+            $this->tidy->parse( $testcase, $text );
         }
-        otherwise {
+        catch {
 
             #{tidy}->parse() dies ungracefully on some of the REST output.
         };
 
-        #$this->assert_null($this->{tidy}->messages());
-        my $output = join( "\n", $this->{tidy}->messages() );
+        #$this->assert_null($this->tidy->messages());
+        my $output = join( "\n", $this->tidy->messages() );
 
         #TODO: disable missing DOCTYPE issues - we've been
         if ( defined( $expect_non_html{$SCRIPT_NAME} )
@@ -471,7 +486,7 @@ s/^$testcase \(\d+:\d+\) Warning: <table> lacks "summary" attribute\n?$//gm;
     }
 
     #clean up messages for next run..
-    $this->{tidy}->clear_messages();
+    $this->tidy->clear_messages();
     return;
 }
 
@@ -591,12 +606,11 @@ sub test_edit_without_urlparam_presets {
     $SCRIPT_NAME = 'edit';
     $SKIN_NAME   = 'default';
 
-    create_form_topic( $this, $this->{test_web}, 'MyForm' );
-    add_form_and_data( $this, $this->{test_web}, $this->{test_topic},
-        'MyForm' );
+    create_form_topic( $this, $this->test_web, 'MyForm' );
+    add_form_and_data( $this, $this->test_web, $this->test_topic, 'MyForm' );
 
     my ( $status, $header, $text ) =
-      $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
+      $this->call_UI_FN( $this->test_web, $this->test_topic );
     $this->assert_num_not_equals( 500, $status,
         'exception thrown, or status not set properly' );
     my $notchecked  = { checked  => 0 };
@@ -636,13 +650,12 @@ sub test_edit_with_urlparam_presets {
     $SCRIPT_NAME = 'edit';
     $SKIN_NAME   = 'default';
 
-    create_form_topic( $this, $this->{test_web}, 'MyForm' );
-    add_form_and_data( $this, $this->{test_web}, $this->{test_topic},
-        'MyForm' );
+    create_form_topic( $this, $this->test_web, 'MyForm' );
+    add_form_and_data( $this, $this->test_web, $this->test_topic, 'MyForm' );
 
     my ( $status, $header, $text ) = $this->call_UI_FN(
-        $this->{test_web},
-        $this->{test_topic},
+        $this->test_web,
+        $this->test_topic,
         undef,
         { Issue3 => ['c'], State => ['1'], Issue1 => ['y'], Issue5 => ['Bar'] }
     );

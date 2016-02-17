@@ -170,11 +170,12 @@ sub skip_test_if {
             if ( $this->check_conditions_met( %{ $item->{condition} } ) ) {
                 my $verify_name = $this->verify_permutations->{$test};
 
-                if ( defined $item->tests->{$test} ) {
-                    $skip_reason = $item->tests->{$test};
+                if ( defined $item->{tests}->{$test} ) {
+                    $skip_reason = $item->{tests}->{$test};
                 }
-                elsif ( $verify_name && defined $item->tests->{$verify_name} ) {
-                    $skip_reason = $item->tests->{$verify_name};
+                elsif ( $verify_name && defined $item->{tests}->{$verify_name} )
+                {
+                    $skip_reason = $item->{tests}->{$verify_name};
                 }
             }
             elsif (TRACE) {

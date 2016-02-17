@@ -1,8 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Render::IconImage;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Foswiki       ();
 use Foswiki::Meta ();

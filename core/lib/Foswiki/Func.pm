@@ -2120,7 +2120,7 @@ sub saveTopic {
     unless ( $options->{ignorepermissions}
         || $topicObject->haveAccess('CHANGE') )
     {
-        Foswiki::AccessControlException->(
+        Foswiki::AccessControlException->throw(
             mode   => 'CHANGE',
             user   => $Foswiki::Plugins::SESSION->user,
             web    => $web,

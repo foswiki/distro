@@ -210,7 +210,7 @@ sub renderHidden {
     my $value;
     if ( $this->name ) {
         my $field = $meta->get( 'FIELD', $this->name );
-        $value = $field->value;
+        $value = $field->{value};
     }
 
     my @values;
@@ -306,7 +306,7 @@ sub populateMetaFromQueryData {
     # Find the old value of this field
     my $preDef;
     foreach my $item (@$old) {
-        if ( $item->name eq $this->name ) {
+        if ( $item->{name} eq $this->name ) {
             $preDef = $item;
             last;
         }

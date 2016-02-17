@@ -1,12 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Form::Checkbox;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
-use Foswiki::Form::ListFieldDefinition ();
-our @ISA = ('Foswiki::Form::ListFieldDefinition');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Form::ListFieldDefinition);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {

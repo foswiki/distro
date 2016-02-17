@@ -12,12 +12,10 @@ following fields:
 =cut
 
 package Foswiki::EngineException;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Error ();
-our @ISA = ('Error');
+use Moo;
+extends qw(Foswiki::Exception);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -28,7 +26,7 @@ BEGIN {
 
 =begin TML
 
----+ ClassMethod new( $status, $reason [, $response] )
+---+ ClassMethod new( status => $status, reason => $reason [, response => $response] )
 
    * =$status= - status code to send to client
    * =$reason= - string reason for failure
@@ -39,15 +37,9 @@ in the usual way e.g. =$e->{status}= and =$e->{reason}=
 
 =cut
 
-sub new {
-    my ( $class, $status, $reason, $response ) = @_;
-
-    return $class->SUPER::new(
-        status   => $status,
-        reason   => $reason,
-        response => $response
-    );
-}
+has status => ( is => 'rw', required => 1, );
+has reason => ( is => 'rw', required => 1, );
+has response => ( is => 'rw', );
 
 =begin TML
 
@@ -57,11 +49,13 @@ Generate a summary string. This is mainly for debugging.
 
 =cut
 
-sub stringify {
+around stringify => sub {
+    my $orig = shift;
     my $this = shift;
+    my ( $status, $reason ) = ( $this->status, $this->reason );
     return
-qq(EngineException: Status code "$this->{status}" defined because of "$this->{reason}".);
-}
+      qq(EngineException: Status code "$status" defined because of "$reason".);
+};
 
 1;
 __END__

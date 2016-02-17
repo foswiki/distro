@@ -12,7 +12,7 @@ package Foswiki::UI::ChangeForm;
 
 use strict;
 use warnings;
-use Error qw( :try );
+use Try::Tiny;
 use Assert;
 
 use Foswiki       ();
@@ -39,7 +39,7 @@ sub generate {
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
     my $page = $session->templates->readTemplate('changeform');
-    my $q    = $session->{request};
+    my $q    = $session->request;
 
     my $formName = $q->param('formtemplate') || '';
     my $fqFormName;

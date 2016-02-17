@@ -31,7 +31,7 @@ Return the field hash of the next availabable record.
 
 sub snoopNext {
     my $this = shift;
-    return $this->list->snoopNext();
+    return $this->_iterator->snoopNext();
 }
 
 1;

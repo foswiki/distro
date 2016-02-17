@@ -1,10 +1,13 @@
 # See bottom of file for license and copyright information
 package Foswiki::Logger;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Assert;
+require Foswiki::ListIterator;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -26,22 +29,6 @@ Note that the implementation has to provide a way for the log to be replayed.
 Unfortunately this means that the simpler CPAN loggers are not suitable.
 
 =cut
-
-sub new {
-    return bless( {}, shift );
-}
-
-=begin TML
-
----++ ObjectMethod finish()
-Release memory. Subclasses must implement this if they use any fields
-in the object.
-
-=cut
-
-sub finish {
-    my $this = shift;
-}
 
 =begin TML
 
@@ -114,8 +101,7 @@ requested level will be returned if any of the collapsed levels is selected.
 
 # Default behaviour is an empty iteration
 sub eachEventSince {
-    require Foswiki::ListIterator;
-    return new Foswiki::ListIterator( [] );
+    return Foswiki::ListIterator->new( list => [] );
 }
 
 =begin TML
@@ -140,14 +126,14 @@ sub setCommonFields {
 
     # my $fhash = shift
     my $user = $_[0]->{user} || $Foswiki::Plugins::SESSION->{user};
-    my $users = $Foswiki::Plugins::SESSION->{users};
+    my $users = $Foswiki::Plugins::SESSION->users;
     my $login;
     $login = $users->getLoginName($user) if ($users);
     $_[0]->{user} = $login if $login;
 
     unless ( defined $_[0]->{agent} ) {
         my $agent    = '';
-        my $cgiQuery = $Foswiki::Plugins::SESSION->{request};
+        my $cgiQuery = $Foswiki::Plugins::SESSION->request;
         if ($cgiQuery) {
             my $agentStr = $cgiQuery->user_agent();
             if ($agentStr) {
@@ -167,14 +153,14 @@ m/(MSIE 6|MSIE 7|MSIE 8|MSI 9|Firefox|Opera|Konqueror|Chrome|Safari)/
 
     unless ( defined $_[0]->{remoteAddr} ) {
         $_[0]->{remoteAddr} =
-          $Foswiki::Plugins::SESSION->{request}->remoteAddress() || ''
-          if ( defined $Foswiki::Plugins::SESSION->{request} );
+          $Foswiki::Plugins::SESSION->request->remoteAddress() || ''
+          if ( defined $Foswiki::Plugins::SESSION->request );
     }
 
     unless ( defined $_[0]->{webTopic} ) {
-        my $webTopic = $Foswiki::Plugins::SESSION->{webName} || '';
+        my $webTopic = $Foswiki::Plugins::SESSION->webName || '';
         $webTopic .= '.' if ($webTopic);
-        $webTopic .= $Foswiki::Plugins::SESSION->{topicName} || '';
+        $webTopic .= $Foswiki::Plugins::SESSION->topicName || '';
         $_[0]->{webTopic} = $webTopic || '';
     }
 

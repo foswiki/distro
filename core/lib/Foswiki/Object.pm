@@ -112,7 +112,7 @@ sub BUILDARGS {
 # SMELL XXX Number of elements in @params has to be checked and an exception thrown if it's inappropriate.
     unless ( defined $paramHash ) {
         Foswiki::Exception::Fatal->throw(
-            text => "Odd number of elements in parameters hash" )
+            text => "Odd number of elements in $class parameters hash" )
           if ( @params % 2 ) == 1;
         $paramHash = {@params};
     }

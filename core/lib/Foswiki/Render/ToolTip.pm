@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Render::ToolTip;
+use v5.14;
 
 use strict;
 use warnings;
@@ -38,7 +39,7 @@ sub render {
 
     # FIXME: This is slow, it can be improved by caching topic rev
     # info and summary
-    my $users = $session->{users};
+    my $users = $session->users;
 
     # These are safe to untaint blindly because this method is only
     # called when a regex matches a valid wikiword

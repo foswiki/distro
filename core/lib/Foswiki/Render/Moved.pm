@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Render::Moved;
+use v5.14;
 
 use strict;
 use warnings;
@@ -36,7 +37,7 @@ sub render {
           $session->normalizeWebTopicName( $topicObject->web, $moved->{to} );
         my $by    = $moved->{by};
         my $u     = $by;
-        my $users = $session->{users};
+        my $users = $session->users;
         $by = $users->webDotWikiName($u) if $u;
         my $date = Foswiki::Time::formatTime( $moved->{date}, '', 'gmtime' );
 

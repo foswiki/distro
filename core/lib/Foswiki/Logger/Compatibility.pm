@@ -1,7 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Logger::Compatibility::EventIterator;
-use strict;
-use warnings;
+use v5.14;
+
 use Assert;
 use Encode;
 
@@ -16,25 +16,28 @@ BEGIN {
 
 # Internal class for Logfile iterators.
 # So we don't break encapsulation of file handles.  Open / Close in same file.
-our @ISA = qw/Foswiki::Iterator::EventIterator/;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Iterator::EventIterator);
+
+has logLocked => (
+    is      => 'rw',
+    default => 0,
+);
 
 # # Object destruction
 # # Release locks and file
-sub DESTROY {
+sub DEMOLISH {
     my $this = shift;
-    flock( $this->{handle}, LOCK_UN )
-      if ( defined $this->{logLocked} );
-    close( delete $this->{handle} ) if ( defined $this->{handle} );
+    flock( $this->handle, LOCK_UN )
+      if ( $this->logLocked );
+    close( $this->handle ) if ( defined $this->handle );
 }
 
 package Foswiki::Logger::Compatibility;
 
-use strict;
-use warnings;
 use Assert;
 
-use Foswiki::Logger ();
-our @ISA = ('Foswiki::Logger');
 use Foswiki::Iterator::EventIterator          ();
 use Foswiki::Iterator::AggregateEventIterator ();
 use Foswiki::Iterator::MergeEventIterator     ();
@@ -70,15 +73,20 @@ use Foswiki::Time qw(-nofoswiki);
 use Foswiki::Configure::Load ();
 use Fcntl qw(:flock);
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Logger);
+
 use constant TRACE => 0;
+
+has acceptsHash => (
+    is      => 'rw',
+    lazy    => 1,
+    default => 1,
+);
 
 # Local symbol used so we can override it during unit testing
 sub _time { return time() }
-
-sub new {
-    my $class = shift;
-    return bless( { acceptsHash => 1, }, $class );
-}
 
 =begin TML
 
@@ -88,7 +96,8 @@ See Foswiki::Logger for the interface.
 
 =cut
 
-sub log {
+around log => sub {
+    my $orig = shift;
     my $this = shift;
     my $level;
     my @fields;
@@ -134,7 +143,7 @@ sub log {
     if ( $level =~ m/^(error|critical|alert|emergency)$/ ) {
         print STDERR "$message\n";
     }
-}
+};
 
 sub _lock {    # borrowed from Log::Dispatch::FileRotate, Thanks!
     my $fh = shift;
@@ -203,11 +212,17 @@ sub eachEventSince {
             $logfile =~ s/%DATE%/$logTime/g;
             my $fh;
             if ( -f $logfile && open( $fh, '<:encoding(utf-8)', $logfile ) ) {
-                my $logIt =
-                  new Foswiki::Logger::Compatibility::EventIterator( $fh, $time,
-                    $reqLevel, $version, $logfile );
-                $logIt->{logLocked} =
-                  eval { flock( $fh, LOCK_SH ) }; # No error in case on non-flockable FS; eval in case flock not supported.
+                my $logIt = Foswiki::Logger::Compatibility::EventIterator->new(
+                    fileHandle => $fh,
+                    threshold  => $time,
+                    level      => $reqLevel,
+                    version    => $version,
+                    filename   => $logfile
+                );
+                $logIt->logLocked(
+                    eval {
+                        flock( $fh, LOCK_SH ); } # No error in case on non-flockable FS; eval in case flock not supported.
+                );
                 push( @iterators, $logIt );
             }
             else {
@@ -224,7 +239,8 @@ sub eachEventSince {
             }
         }
         push @mergeIterators,
-          new Foswiki::Iterator::AggregateEventIterator( \@iterators );
+          Foswiki::Iterator::AggregateEventIterator->new(
+            iterators => \@iterators );
     }
 
     if (TRACE) {
@@ -233,7 +249,8 @@ sub eachEventSince {
           . Data::Dumper::Dumper( \@mergeIterators );
     }
 
-    return new Foswiki::Iterator::MergeEventIterator( \@mergeIterators );
+    return Foswiki::Iterator::MergeEventIterator->new(
+        list => \@mergeIterators );
 }
 
 # Expand %DATE% in a logfile name

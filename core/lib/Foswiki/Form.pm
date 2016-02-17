@@ -32,7 +32,6 @@ package Foswiki::Form;
 use v5.14;
 
 use Assert;
-use Try::Tiny;
 
 use Foswiki::Sandbox                   ();
 use Foswiki::Form::FieldDefinition     ();
@@ -40,6 +39,7 @@ use Foswiki::Form::ListFieldDefinition ();
 use Foswiki::AccessControlException    ();
 use Foswiki::OopsException             ();
 use Foswiki::Func                      ();
+use Try::Tiny;
 
 use Moo;
 use namespace::clean;
@@ -455,14 +455,16 @@ sub createField {
             return "Foswiki::Form::$1";
         }
     );
-    Foswiki::load_package($class);
-    if ($@) {
+    try {
+        Foswiki::load_package($class);
+    }
+    catch {
         $this->session->logger->log( 'error',
             "error compiling class $class: $@" );
 
         # Type not available; use base type
         $class = 'Foswiki::Form::FieldDefinition';
-    }
+    };
     return $class->new( session => $this->session, type => $type, @_ );
 }
 

@@ -4,7 +4,6 @@ package Foswiki::UI::Preview;
 
 use strict;
 use warnings;
-use Error qw( :try );
 
 use Foswiki                ();
 use Foswiki::UI::Save      ();
@@ -22,19 +21,19 @@ BEGIN {
 sub preview {
     my $session = shift;
 
-    my $query = $session->{request};
-    my $web   = $session->{webName};
-    my $topic = $session->{topicName};
-    my $user  = $session->{user};
+    my $query = $session->request;
+    my $web   = $session->webName;
+    my $topic = $session->topicName;
+    my $user  = $session->user;
 
-    if ( $session->{invalidTopic} ) {
-        throw Foswiki::OopsException(
-            'accessdenied',
-            status => 404,
-            def    => 'invalid_topic_name',
-            web    => $web,
-            topic  => $topic,
-            params => [ $session->{invalidTopic} ]
+    if ( $session->invalidTopic ) {
+        Foswiki::OopsException->throw(
+            template => 'accessdenied',
+            status   => 404,
+            def      => 'invalid_topic_name',
+            web      => $web,
+            topic    => $topic,
+            params   => [ $session->invalidTopic ]
         );
     }
 
@@ -60,24 +59,24 @@ sub preview {
         require Foswiki::Form;
         my $formDef = Foswiki::Form->loadCached( $session, $web, $formName );
         unless ($formDef) {
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'no_form_def',
-                web    => $session->{webName},
-                topic  => $session->{topicName},
-                params => [ $web, $formName ]
+            Foswiki::OopsException->throw(
+                template => 'attention',
+                def      => 'no_form_def',
+                web      => $session->webName,
+                topic    => $session->topicName,
+                params   => [ $web, $formName ]
             );
         }
         $formFields = $formDef->renderHidden( $topicObject, 0 );
     }
 
     my $text = $topicObject->text() || '';
-    $session->{plugins}
-      ->dispatch( 'afterEditHandler', $text, $topic, $web, $topicObject );
+    $session->plugins->dispatch( 'afterEditHandler', $text, $topic, $web,
+        $topicObject );
 
     # Load the template for the view
     my $content  = $text;
-    my $template = $session->{prefs}->getPreference('VIEW_TEMPLATE');
+    my $template = $session->prefs->getPreference('VIEW_TEMPLATE');
     if ($template) {
         my $vt = $session->templates->readTemplate( $template, no_oops => 1 );
         if ($vt) {

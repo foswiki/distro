@@ -15,6 +15,8 @@ SMELL: hasNext should not 'return 1 if defined($this->_next), but rather use a b
 package Foswiki::ListIterator;
 use v5.14;
 
+use Foswiki::Iterator ();
+
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Object);

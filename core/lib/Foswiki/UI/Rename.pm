@@ -9,11 +9,12 @@ UI functions for renaming.
 =cut
 
 package Foswiki::UI::Rename;
+use v5.14;
 
 use strict;
 use warnings;
 use Assert;
-use Error qw(:try);
+use Try::Tiny;
 
 use Foswiki::UI     ();
 use Foswiki::Render ();
@@ -58,22 +59,22 @@ parameters:
 sub rename {
     my $session = shift;
 
-    my $oldWeb           = $session->{webName};
-    my $oldTopic         = $session->{topicName};
-    my $query            = $session->{request};
-    my $action           = $session->{cgiQuery}->param('action') || '';
-    my $redirectto_param = $session->{cgiQuery}->param('redirectto') || '';
+    my $oldWeb           = $session->webName;
+    my $oldTopic         = $session->topicName;
+    my $query            = $session->request;
+    my $action           = $session->request->param('action') || '';
+    my $redirectto_param = $session->request->param('redirectto') || '';
 
     Foswiki::UI::checkWebExists( $session, $oldWeb, 'rename' );
 
-    if ( $session->{invalidTopic} ) {
-        throw Foswiki::OopsException(
-            'accessdenied',
-            status => 404,
-            def    => 'invalid_topic_name',
-            web    => $oldWeb,
-            topic  => $oldTopic,
-            params => [ $session->{invalidTopic} ]
+    if ( $session->invalidTopic ) {
+        Foswiki::OopsException->(
+            template => 'accessdenied',
+            status   => 404,
+            def      => 'invalid_topic_name',
+            web      => $oldWeb,
+            topic    => $oldTopic,
+            params   => [ $session->invalidTopic ]
         );
     }
 
@@ -96,7 +97,7 @@ sub rename {
 sub _renameTopicOrAttachment {
     my ( $session, $oldWeb, $oldTopic ) = @_;
 
-    my $query    = $session->{cgiQuery};
+    my $query    = $session->request;
     my $newTopic = $query->param('newtopic') || '';
     my $newWeb   = $query->param('newweb') || '';
 
@@ -106,10 +107,10 @@ sub _renameTopicOrAttachment {
         sub {
             my ($web) = @_;
             unless ( !$web || Foswiki::isValidWebName( $web, 1 ) ) {
-                throw Foswiki::OopsException(
-                    'attention',
-                    def    => 'invalid_web_name',
-                    params => [$web]
+                Foswiki::OopsException->throw(
+                    template => 'attention',
+                    def      => 'invalid_web_name',
+                    params   => [$web]
                 );
             }
             return $web;
@@ -122,12 +123,12 @@ sub _renameTopicOrAttachment {
 
         # Item3270: check for the same name starting with a lower case letter.
         unless ( $session->topicExists( $oldWeb, lcfirst($oldTopic) ) ) {
-            throw Foswiki::OopsException(
-                'accessdenied',
-                status => 403,
-                def    => 'no_such_topic_rename',
-                web    => $oldWeb,
-                topic  => $oldTopic
+            Foswiki::OopsException->throw(
+                template => 'accessdenied',
+                status   => 403,
+                def      => 'no_such_topic_rename',
+                web      => $oldWeb,
+                topic    => $oldTopic
             );
         }
 
@@ -146,12 +147,12 @@ sub _renameTopicOrAttachment {
             sub {
                 my ( $topic, $nonww ) = @_;
                 if ( !Foswiki::isValidTopicName( $topic, $nonww ) ) {
-                    throw Foswiki::OopsException(
-                        'attention',
-                        web    => $oldWeb,
-                        topic  => $oldTopic,
-                        def    => 'not_wikiword',
-                        params => [$topic]
+                    Foswiki::OopsException->throw(
+                        template => 'attention',
+                        web      => $oldWeb,
+                        topic    => $oldTopic,
+                        def      => 'not_wikiword',
+                        params   => [$topic]
                     );
                 }
                 return $topic;
@@ -175,11 +176,11 @@ sub _renameTopicOrAttachment {
                 my ($att) = @_;
                 if ( !$old->hasAttachment($att) ) {
                     my $tmplname = $query->param('template') || '';
-                    throw Foswiki::OopsException(
-                        'attention',
-                        web   => $oldWeb,
-                        topic => $oldTopic,
-                        def   => ( $tmplname eq 'deleteattachment' )
+                    Foswiki::OopsException->throw(
+                        template => 'attention',
+                        web      => $oldWeb,
+                        topic    => $oldTopic,
+                        def      => ( $tmplname eq 'deleteattachment' )
                         ? 'delete_err'
                         : 'move_err',
                         params => [
@@ -210,12 +211,12 @@ sub _renameTopicOrAttachment {
 
             # does new attachment already exist?
             if ( $new->hasAttachment($newAttachment) ) {
-                throw Foswiki::OopsException(
-                    'attention',
-                    def    => 'move_err',
-                    web    => $oldWeb,
-                    topic  => $oldTopic,
-                    params => [
+                Foswiki::OopsException->throw(
+                    template => 'attention',
+                    def      => 'move_err',
+                    web      => $oldWeb,
+                    topic    => $oldTopic,
+                    params   => [
                         $newWeb,
                         $newTopic,
                         $newAttachment,
@@ -233,12 +234,12 @@ sub _renameTopicOrAttachment {
 
         Foswiki::UI::checkWebExists( $session, $newWeb, $newTopic, 'rename' );
         if ( $session->topicExists( $newWeb, $newTopic ) ) {
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'rename_topic_exists',
-                web    => $oldWeb,
-                topic  => $oldTopic,
-                params => [ $newWeb, $newTopic ]
+            Foswiki::OopsException->throw(
+                template => 'attention',
+                def      => 'rename_topic_exists',
+                web      => $oldWeb,
+                topic    => $oldTopic,
+                params   => [ $newWeb, $newTopic ]
             );
         }
     }
@@ -271,13 +272,13 @@ sub _renameTopicOrAttachment {
     }
 
     unless ( $session->inContext('command_line') ) {
-        if ( uc( $session->{request}->method() ) ne 'POST' ) {
-            throw Foswiki::OopsException(
-                'attention',
-                web    => $session->{webName},
-                topic  => $session->{topicName},
-                def    => 'post_method_only',
-                params => ['rename']
+        if ( uc( $session->request->method() ) ne 'POST' ) {
+            Foswiki::OopsException->throw(
+                template => 'attention',
+                web      => $session->webName,
+                topic    => $session->topicName,
+                def      => 'post_method_only',
+                params   => ['rename']
             );
         }
     }
@@ -315,9 +316,9 @@ sub _renameTopicOrAttachment {
             my $meta = Foswiki::Meta->load( $session, $new->web, $new->topic );
             my $parent = $meta->get('TOPICPARENT');
             my ( $parentWeb, $parentTopic );
-            if ( $parent && defined $parent->{name} ) {
+            if ( $parent && defined $parent->name ) {
                 ( $parentWeb, $parentTopic ) =
-                  $session->normalizeWebTopicName( $oldWeb, $parent->{name} );
+                  $session->normalizeWebTopicName( $oldWeb, $parent->name );
             }
             if (   $parentTopic
                 && !( $parentWeb eq $oldWeb && $parentTopic eq $oldTopic )
@@ -340,8 +341,8 @@ sub _renameTopicOrAttachment {
 
             # redirect to new topic
             $new_url = $session->getScriptUrl( 0, 'view', $newWeb, $newTopic );
-            $session->{webName}   = $newWeb;
-            $session->{topicName} = $newTopic;
+            $session->webName($newWeb);
+            $session->topicName($newTopic);
         }
     }
 
@@ -368,8 +369,8 @@ sub _renameWeb {
 
     my $oldWebObject = Foswiki::Meta->new( $session, $oldWeb );
 
-    my $query = $session->{request};
-    my $cUID  = $session->{user};
+    my $query = $session->request;
+    my $cUID  = $session->user;
 
     # If the user is not allowed to rename anything in the current
     # web - stop here
@@ -384,10 +385,10 @@ sub _renameWeb {
             sub {
                 my $web = shift;
                 return $web if Foswiki::isValidWebName( $web, 1 );
-                throw Foswiki::OopsException(
-                    'attention',
-                    def    => 'invalid_web_name',
-                    params => [$web]
+                Foswiki::OopsException->throw(
+                    template => 'attention',
+                    def      => 'invalid_web_name',
+                    params   => [$web]
                 );
             }
         );
@@ -401,10 +402,10 @@ sub _renameWeb {
             sub {
                 my $web = shift;
                 return $web if Foswiki::isValidWebName( $web, 1 );
-                throw Foswiki::OopsException(
-                    'attention',
-                    def    => 'invalid_web_name',
-                    params => [$web]
+                Foswiki::OopsException->throw(
+                    template => 'attention',
+                    def      => 'invalid_web_name',
+                    params   => [$web]
                 );
             }
         );
@@ -422,23 +423,23 @@ sub _renameWeb {
     if ( $newParentWeb eq $oldWeb
         || ( defined $newWeb && $newParentWeb eq $newWeb ) )
     {
-        throw Foswiki::OopsException(
-            'attention',
-            web    => $oldWeb,
-            def    => 'invalid_web_parent',
-            params => [ $newSubWeb, $newParentWeb ]
+        Foswiki::OopsException->throw(
+            template => 'attention',
+            web      => $oldWeb,
+            def      => 'invalid_web_parent',
+            params   => [ $newSubWeb, $newParentWeb ]
         );
     }
 
     if (   $oldWeb eq $Foswiki::cfg{SystemWebName}
         || $oldWeb eq $Foswiki::cfg{UsersWebName} )
     {
-        throw Foswiki::OopsException(
-            'attention',
-            web    => $oldWeb,
-            topic  => '',
-            def    => 'rename_web_err',
-            params => [
+        Foswiki::OopsException->throw(
+            template => 'attention',
+            web      => $oldWeb,
+            topic    => '',
+            def      => 'rename_web_err',
+            params   => [
                 "Rename is not permitted, it would damage the installation",
                 'anything'
             ]
@@ -477,12 +478,12 @@ sub _renameWeb {
                 $Foswiki::cfg{WebPrefsTopicName}, 'rename' );
         }
         if ( $session->webExists($newWeb) ) {
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'rename_web_exists',
-                web    => $oldWeb,
-                topic  => $Foswiki::cfg{WebPrefsTopicName},
-                params => [ $newWeb, $Foswiki::cfg{WebPrefsTopicName} ]
+            Foswiki::OopsException->throw(
+                template => 'attention',
+                def      => 'rename_web_exists',
+                web      => $oldWeb,
+                topic    => $Foswiki::cfg{WebPrefsTopicName},
+                params   => [ $newWeb, $Foswiki::cfg{WebPrefsTopicName} ]
             );
         }
 
@@ -624,12 +625,12 @@ sub _renameWeb {
                   || ( $session->i18n->maketext('(none)') );
                 $mdl = substr( $mdl, 0, 300 ) . '... (more)'
                   if ( length($mdl) > 300 );
-                throw Foswiki::OopsException(
-                    'attention',
-                    web    => $oldWeb,
-                    topic  => '',
-                    def    => 'rename_web_prerequisites',
-                    params => [ $mvd, $mvl, $mdd, $mdl, $nocontinue ]
+                Foswiki::OopsException->throw(
+                    template => 'attention',
+                    web      => $oldWeb,
+                    topic    => '',
+                    def      => 'rename_web_prerequisites',
+                    params   => [ $mvd, $mvl, $mdd, $mdl, $nocontinue ]
                 );
             }
         }
@@ -674,24 +675,23 @@ sub _renameWeb {
     try {
         $oldWebObject->move($newWebObject);
     }
-    catch Foswiki::OopsException with {
-        shift->throw();    # propagate
-    }
-    catch Error with {
-        $session->logger->log( 'error', shift->{-text} );
-        throw Foswiki::OopsException(
-            'attention',
-            web    => $oldWeb,
-            topic  => '',
-            def    => 'rename_web_err',
-            params => [
+    catch {
+        $session->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
+        Foswiki::OopsException->rethrowAs(
+            $_,
+            template => 'attention',
+            web      => $oldWeb,
+            topic    => '',
+            def      => 'rename_web_err',
+            params   => [
                 $session->i18n->maketext(
                     'Operation [_1] failed with an internal error', 'move'
                 ),
                 $newWeb
             ],
         );
-    }
+
+    };
 
     # now remove leases on all topics inside $newWeb.
     my $nwom = Foswiki::Meta->new( $session, $newWeb );
@@ -738,8 +738,8 @@ sub _renameWeb {
         $new_url =
           $session->getScriptUrl( 0, 'view', $newWeb,
             $Foswiki::cfg{HomeTopicName} );
-        $session->{webName}   = $newWeb;
-        $session->{topicName} = $Foswiki::cfg{HomeTopicName};
+        $session->webName($newWeb);
+        $session->topicName( $Foswiki::cfg{HomeTopicName} );
     }
 
     return $new_url;
@@ -760,7 +760,7 @@ sub _leaseContents {
         }
         elsif ( $confirm eq 'cancel' ) {
             $lease_ref = $topicObject->getLease();
-            if ( $lease_ref->{user} eq $session->{user} ) {
+            if ( $lease_ref->{user} eq $session->user ) {
                 $topicObject->clearLease();
             }
         }
@@ -770,7 +770,7 @@ sub _leaseContents {
 
         $info->{movingLockedTopics}++
           if ( defined( $info->{move}{$wit}{leaseuser} )
-            && $info->{move}{$wit}{leaseuser} ne $session->{user} );
+            && $info->{move}{$wit}{leaseuser} ne $session->user );
         $info->{move}{$wit}{access}       = $topicObject->haveAccess('RENAME');
         $info->{move}{$wit}{accessReason} = $Foswiki::Meta::reason;
         $info->{totalWebAccess} =
@@ -810,17 +810,15 @@ sub _moveTopicOrAttachment {
             $from->moveAttachment( $attachment, $to,
                 new_name => $toattachment );
         }
-        catch Foswiki::OopsException with {
-            shift->throw();    # propagate
-        }
-        catch Error with {
-            $session->logger->log( 'error', shift->{-text} );
-            throw Foswiki::OopsException(
-                'attention',
-                web    => $from->web,
-                topic  => $from->topic,
-                def    => 'move_err',
-                params => [
+        catch {
+            $session->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
+            Foswiki::OopsException->rethrowAs(
+                $_,
+                template => 'attention',
+                web      => $from->web,
+                topic    => $from->topic,
+                def      => 'move_err',
+                params   => [
                     $to->web,
                     $to->topic,
                     $attachment,
@@ -830,23 +828,21 @@ sub _moveTopicOrAttachment {
                     )
                 ]
             );
-        };
+        }
     }
     else {
         try {
             $from->move($to);
         }
-        catch Foswiki::OopsException with {
-            shift->throw();    # propagate
-        }
-        catch Error with {
-            $session->logger->log( 'error', shift->{-text} );
-            throw Foswiki::OopsException(
-                'attention',
-                web    => $from->web,
-                topic  => $from->topic,
-                def    => 'rename_err',
-                params => [
+        catch {
+            $session->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
+            Foswiki::OopsException->rethrowAs(
+                $_,
+                template => 'attention',
+                web      => $from->web,
+                topic    => $from->topic,
+                def      => 'rename_err',
+                params   => [
                     $session->i18n->maketext(
                         'Operation [_1] failed with an internal error', 'move'
                     ),
@@ -889,7 +885,7 @@ sub _moveTopicOrAttachment {
                 from => $from->web . '.' . $from->topic,
                 to   => $to->web . '.' . $to->topic,
                 date => time(),
-                by   => $session->{user},
+                by   => $session->user,
             }
         );
 
@@ -1031,7 +1027,7 @@ sub _replaceWebReferences {
 sub _newTopicOrAttachmentScreen {
     my ( $session, $from, $to, $attachment, $toattachment, $confirm ) = @_;
 
-    my $query          = $session->{cgiQuery};
+    my $query          = $session->request;
     my $tmpl           = '';
     my $currentWebOnly = $query->param('currentwebonly') || '';
 
@@ -1276,7 +1272,7 @@ sub _newWebScreen {
 sub _getReferringTopicsListFromURL {
     my $session = shift;
 
-    my $query = $session->{cgiQuery};
+    my $query = $session->request;
     my @result;
     foreach my $topic ( $query->multi_param('referring_topics') ) {
         my ( $itemWeb, $itemTopic ) =

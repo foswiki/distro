@@ -13,7 +13,7 @@ package Foswiki::UI::RDiff;
 use strict;
 use warnings;
 use Assert;
-use Error qw( :try );
+use Try::Tiny;
 
 use Foswiki     ();
 use Foswiki::UI ();
@@ -466,9 +466,9 @@ TODO:
 sub diff {
     my $session = shift;
 
-    my $query = $session->{request};
-    my $web   = $session->{webName};
-    my $topic = $session->{topicName};
+    my $query = $session->request;
+    my $web   = $session->webName;
+    my $topic = $session->topicName;
 
     Foswiki::UI::checkWebExists( $session, $web, 'diff' );
     Foswiki::UI::checkTopicExists( $session, $web, $topic, 'diff' );
@@ -477,12 +477,12 @@ sub diff {
 
     my $renderStyle =
          $query->param('render')
-      || $session->{prefs}->getPreference('DIFFRENDERSTYLE')
+      || $session->prefs->getPreference('DIFFRENDERSTYLE')
       || 'sequential';
     my $diffType = $query->param('type') || 'history';
     my $contextLines = $query->param('context');
     unless ( defined $contextLines ) {
-        $session->{prefs}->getPreference('DIFFCONTEXTLINES');
+        $session->prefs->getPreference('DIFFCONTEXTLINES');
         $contextLines = 3 unless defined $contextLines;
     }
     my $revHigh =
@@ -557,9 +557,13 @@ sub diff {
     {
 
         if ( $Foswiki::cfg{FeatureAccess}{AllowRaw} eq 'authenticated' ) {
-            throw Foswiki::AccessControlException( 'authenticated',
-                $session->{user}, $web, $topic, $Foswiki::Meta::reason )
-              unless $session->inContext("authenticated");
+            Foswiki::AccessControlException->throw(
+                mode   => 'authenticated',
+                user   => $session->user,
+                web    => $web,
+                topic  => $topic,
+                reason => $Foswiki::Meta::reason
+            ) unless $session->inContext("authenticated");
         }
         else {
             Foswiki::UI::checkAccess( $session, 'RAW', $topicObject )
@@ -573,9 +577,13 @@ sub diff {
     {
 
         if ( $Foswiki::cfg{FeatureAccess}{AllowHistory} eq 'authenticated' ) {
-            throw Foswiki::AccessControlException( 'authenticated',
-                $session->{user}, $web, $topic, $Foswiki::Meta::reason )
-              unless $session->inContext("authenticated");
+            Foswiki::AccessControlException->throw(
+                mode   => 'authenticated',
+                user   => $session->user,
+                web    => $web,
+                topic  => $topic,
+                reason => $Foswiki::Meta::reason
+            ) unless $session->inContext("authenticated");
         }
         else {
             Foswiki::UI::checkAccess( $session, 'HISTORY', $topicObject );

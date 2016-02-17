@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::UI::Edit;
+use v5.14;
 
 =begin TML
 
@@ -9,10 +10,8 @@ Edit command handler
 
 =cut
 
-use strict;
-use warnings;
 use Assert;
-use Error qw( :try );
+use Try::Tiny;
 
 use Foswiki                ();
 use Foswiki::UI            ();
@@ -45,11 +44,11 @@ sub edit {
 
 sub init_edit {
     my ( $session, $templateName ) = @_;
-    my $query = $session->{request};
-    my $web   = $session->{webName};
-    my $topic = $session->{topicName};
-    my $user  = $session->{user};
-    my $users = $session->{users};
+    my $query = $session->request;
+    my $web   = $session->webName;
+    my $topic = $session->topicName;
+    my $user  = $session->user;
+    my $users = $session->users;
 
     # empty means edit both form and text, "form" means edit form only,
     # "text" means edit text only
@@ -189,7 +188,7 @@ sub init_edit {
     # Get edit template
     my $template =
          $query->param('template')
-      || $session->{prefs}->getPreference('EDIT_TEMPLATE')
+      || $session->prefs->getPreference('EDIT_TEMPLATE')
       || $templateName;
 
     my $tmpl = $session->templates->readTemplate( $template . $editaction,
@@ -222,8 +221,10 @@ sub init_edit {
         else {
 
             # no checkbox in template, so force revision
-            $session->{request}
-              ->param( -name => 'forcenewrevision', -value => '1' );
+            $session->request->param(
+                -name  => 'forcenewrevision',
+                -value => '1'
+            );
         }
 
         # Load $topicObject with the right revision
@@ -415,8 +416,8 @@ sub init_edit {
     }
     else {
         my $text = $topicObject->text();
-        $session->{plugins}
-          ->dispatch( 'beforeEditHandler', $text, $topic, $web, $topicObject );
+        $session->plugins->dispatch( 'beforeEditHandler', $text, $topic, $web,
+            $topicObject );
         $topicObject->text($text);
     }
 
@@ -453,9 +454,13 @@ sub init_edit {
           Foswiki::Func::normalizeWebTopicName( $topicObject->web(), $form );
         my $formDef;
         try {
-            $formDef = Foswiki::Form->new( $session, $formWeb, $formTopic );
+            $formDef =
+              Foswiki::Form->loadCached( $session, $formWeb, $formTopic );
         }
-        catch Foswiki::OopsException with {
+        catch {
+            unless ( ref($_) && $_->isa('Foswiki::OopsException') ) {
+                Foswiki::Exception::Fatal->rethrow($_);
+            }
 
             # Catch and ignore oops exception from this first call
         };
@@ -468,7 +473,7 @@ sub init_edit {
         }
 
         # Update with field values from the query
-        $formDef->getFieldValuesFromQuery( $session->{request}, $topicObject );
+        $formDef->getFieldValuesFromQuery( $session->request, $topicObject );
 
         # And render them for editing
         # SMELL: these are both side-effecting functions, that will set
@@ -500,7 +505,7 @@ sub finalize_edit {
 
     my ( $session, $topicObject, $tmpl ) = @_;
 
-    my $query = $session->{request};
+    my $query = $session->request;
 
     # apptype is deprecated undocumented legacy
     my $cgiAppType =

@@ -34,9 +34,9 @@ BEGIN {
 
 sub configure {
     my $session = shift;
-    my $topic   = $session->{topicName};
-    my $web     = $session->{webName};
-    my $query   = $session->{request};
+    my $topic   = $session->topicName;
+    my $web     = $session->webName;
+    my $query   = $session->request;
 
     my $tmplData =
       $session->templates->readTemplate( 'configure', no_oops => 1 );
@@ -77,9 +77,9 @@ MESSAGE
     }
 
     my $meta = Foswiki::Meta->new(
-        $session,
-        $Foswiki::cfg{SystemWebName},
-        $Foswiki::cfg{SitePrefsTopicName}
+        session => $session,
+        web     => $Foswiki::cfg{SystemWebName},
+        topic   => $Foswiki::cfg{SitePrefsTopicName}
     );
 
     $tmplData = $meta->expandMacros($tmplData);

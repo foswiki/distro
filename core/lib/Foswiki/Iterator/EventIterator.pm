@@ -18,7 +18,7 @@ Private subclass of LineIterator that
    * reasembles divided records into a single log record
    * splits the log record into fields
 
----++ ClassMethod new( version => $api, threshold => $threshold, level => $reqLevel, [filename => $filename,])
+---++ ClassMethod new( handle => $fh, version => $api, threshold => $threshold, level => $reqLevel, [filename => $filename,])
 
 =cut
 
@@ -31,6 +31,9 @@ has _api       => ( is => 'rw', init_arg => 'version',   required => 1, );
 has _threshold => ( is => 'rw', init_arg => 'threshold', required => 1, );
 has _reqLevel  => ( is => 'rw', init_arg => 'level',     required => 1, );
 has _filename  => ( is => 'rw', init_arg => 'filename',  default  => 'n/a', );
+has _nextEvent => ( is => 'rw', clearer  => 1, );
+has _nextParsed => ( is => 'rw', );
+has _level      => ( is => 'rw' );
 
 =begin TML
 
@@ -51,7 +54,7 @@ around hasNext => sub {
         my $ln = $this->SUPER::next();
 
         # Merge records until record ends in |
-        while ( substr( $ln, -1 ) ne '|' && $this->SUPER::hasNext() ) {
+        while ( substr( $ln, -1 ) ne '|' && $orig->($this) ) {
             $ln .= "\n" . $this->SUPER::next();
         }
 

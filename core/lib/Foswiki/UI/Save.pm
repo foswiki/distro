@@ -12,7 +12,7 @@ package Foswiki::UI::Save;
 
 use strict;
 use warnings;
-use Error qw( :try );
+use Try::Tiny;
 use Assert;
 
 use Foswiki                 ();
@@ -32,17 +32,17 @@ BEGIN {
 sub buildNewTopic {
     my ( $session, $topicObject, $script ) = @_;
 
-    my $query = $session->{request};
+    my $query = $session->request;
 
     unless ( $query->param() ) {
 
         # insufficient parameters to save
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'bad_script_parameters',
-            web    => $topicObject->web,
-            topic  => $topicObject->topic,
-            params => [$script]
+        Foswiki::OopsException->throw(
+            template => 'attention',
+            def      => 'bad_script_parameters',
+            web      => $topicObject->web,
+            topic    => $topicObject->topic,
+            params   => [$script]
         );
     }
 
@@ -63,11 +63,11 @@ sub buildNewTopic {
     if ( $onlyNewTopic && $topicExists ) {
 
         # Topic exists and user requested oops if it exists
-        throw Foswiki::OopsException(
-            'attention',
-            def   => 'topic_exists',
-            web   => $topicObject->web,
-            topic => $topicObject->topic
+        Foswiki::OopsException->template(
+            template => 'attention',
+            def      => 'topic_exists',
+            web      => $topicObject->web,
+            topic    => $topicObject->topic
         );
     }
 
@@ -80,12 +80,12 @@ sub buildNewTopic {
     {
 
         # do not allow non-wikinames
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'not_wikiword',
-            web    => $topicObject->web,
-            topic  => $topicObject->topic,
-            params => [ $topicObject->topic ]
+        Foswiki::OopsException->template(
+            template => 'attention',
+            def      => 'not_wikiword',
+            web      => $topicObject->web,
+            topic    => $topicObject->topic,
+            params   => [ $topicObject->topic ]
         );
     }
 
@@ -125,19 +125,19 @@ sub buildNewTopic {
             \&Foswiki::Sandbox::validateTopicName );
 
         unless ( $templateWeb && $templateTopic ) {
-            throw Foswiki::OopsException(
-                'attention',
-                def => 'invalid_topic_parameter',
+            Foswiki::OopsException->template(
+                template => 'attention',
+                def      => 'invalid_topic_parameter',
                 params =>
                   [ scalar( $query->param('templatetopic') ), 'templatetopic' ]
             );
         }
         unless ( $session->topicExists( $templateWeb, $templateTopic ) ) {
-            throw Foswiki::OopsException(
-                'attention',
-                def   => 'no_such_topic_template',
-                web   => $templateWeb,
-                topic => $templateTopic
+            Foswiki::OopsException->throw(
+                template => 'attention',
+                def      => 'no_such_topic_template',
+                web      => $templateWeb,
+                topic    => $templateTopic
             );
         }
 
@@ -209,12 +209,12 @@ sub buildNewTopic {
             $vtopic = Foswiki::Sandbox::untaint( $vtopic,
                 \&Foswiki::Sandbox::validateTopicName );
             unless ( $vweb && $vtopic ) {
-                throw Foswiki::OopsException(
-                    'attention',
-                    def    => 'invalid_topic_parameter',
-                    web    => $session->{webName},
-                    topic  => $session->{topicName},
-                    params => [ $newParent, 'topicparent' ]
+                Foswiki::OopsException->throw(
+                    template => 'attention',
+                    def      => 'invalid_topic_parameter',
+                    web      => $session->webName,
+                    topic    => $session->topicName,
+                    params   => [ $newParent, 'topicparent' ]
                 );
             }
 
@@ -273,12 +273,12 @@ sub buildNewTopic {
             # chuck up if there is at least one field value defined in the
             # query and a mandatory field was not defined in the
             # query or by an existing value.
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'mandatory_field',
-                web    => $topicObject->web,
-                topic  => $topicObject->topic,
-                params => [ join( ' ', @$missing ) ]
+            Foswiki::OopsException->throw(
+                template => 'attention',
+                def      => 'mandatory_field',
+                web      => $topicObject->web,
+                topic    => $topicObject->topic,
+                params   => [ join( ' ', @$missing ) ]
             );
         }
     }
@@ -290,12 +290,12 @@ sub buildNewTopic {
         elsif ( $ancestorRev !~ /^\d+$/ ) {
 
             # Badly formatted ancestor
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'bad_script_parameters',
-                web    => $topicObject->web,
-                topic  => $topicObject->topic,
-                params => [$script]
+            Foswiki::OopsException->throw(
+                template => 'attention',
+                def      => 'bad_script_parameters',
+                web      => $topicObject->web,
+                topic    => $topicObject->topic,
+                params   => [$script]
             );
         }
     }
@@ -316,7 +316,7 @@ sub buildNewTopic {
                 && $info->{date}
                 && $ancestorDate ne $info->{date}
             )
-            && $info->{author} ne $session->{user}
+            && $info->{author} ne $session->user
           )
         {
 
@@ -336,7 +336,7 @@ sub buildNewTopic {
 
                 # If the ancestor revision was generated by a reprev,
                 # then the original is lost and we can't 3-way merge
-                $session->{plugins}->dispatch(
+                $session->plugins->dispatch(
                     'beforeMergeHandler', $text,
                     $pti->{version},      $prevTopicObject->text,
                     undef,                undef,
@@ -354,7 +354,7 @@ sub buildNewTopic {
                 my $ancestorMeta =
                   Foswiki::Meta->load( $session, $topicObject->web,
                     $topicObject->topic, $ancestorRev );
-                $session->{plugins}->dispatch(
+                $session->plugins->dispatch(
                     'beforeMergeHandler', $text,
                     $info->{version},     $prevTopicObject->text,
                     $ancestorRev,         $ancestorMeta->text(),
@@ -443,7 +443,7 @@ some point.
 sub save {
     my $session = shift;
 
-    my $query = $session->{request};
+    my $query = $session->request;
 
     my $saveaction = '';
     foreach my $action (
@@ -477,17 +477,16 @@ WARN
     }
 
     my ( $web, $topic ) =
-      $session->normalizeWebTopicName( $session->{webName},
-        $session->{topicName} );
+      $session->normalizeWebTopicName( $session->webName, $session->topicName );
 
-    if ( $session->{invalidTopic} ) {
-        throw Foswiki::OopsException(
-            'accessdenied',
-            status => 404,
-            def    => 'invalid_topic_name',
-            web    => $web,
-            topic  => $topic,
-            params => [ $session->{invalidTopic} ]
+    if ( $session->invalidTopic ) {
+        Foswiki::OopsException->throw(
+            template => 'accessdenied',
+            status   => 404,
+            def      => 'invalid_topic_name',
+            web      => $web,
+            topic    => $topic,
+            params   => [ $session->invalidTopic ]
         );
     }
 
@@ -497,7 +496,7 @@ WARN
 
     if ( $saveaction eq 'cancel' ) {
         my $lease = $topicObject->getLease();
-        if ( $lease && $lease->{user} eq $session->{user} ) {
+        if ( $lease && $lease->{user} eq $session->user ) {
             $topicObject->clearLease();
         }
 
@@ -565,7 +564,7 @@ WARN
 
         my $lease = $topicObject->getLease();
 
-        if ( $lease && $lease->{user} eq $session->{user} ) {
+        if ( $lease && $lease->{user} eq $session->user ) {
             $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
         }
 
@@ -597,14 +596,14 @@ WARN
     }
 
     my $adminCmd = $query->param('cmd') || 0;
-    if ( $adminCmd && !$session->{users}->isAdmin( $session->{user} ) ) {
-        throw Foswiki::OopsException(
-            'accessdenied',
-            status => 403,
-            def    => 'only_group',
-            web    => $web,
-            topic  => $topic,
-            params => [ $Foswiki::cfg{SuperAdminGroup} ]
+    if ( $adminCmd && !$session->users->isAdmin( $session->user ) ) {
+        Foswiki::OopsException->throw(
+            template => 'accessdenied',
+            status   => 403,
+            def      => 'only_group',
+            web      => $web,
+            topic    => $topic,
+            params   => [ $Foswiki::cfg{SuperAdminGroup} ]
         );
     }
 
@@ -614,23 +613,22 @@ WARN
         try {
             $topicObject->deleteMostRecentRevision();
         }
-        catch Foswiki::OopsException with {
-            shift->throw();    # propagate
-        }
-        catch Error with {
-            $session->logger->log( 'error', shift->{-text} );
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'save_error',
-                web    => $web,
-                topic  => $topic,
-                params => [
+        catch {
+            $session->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
+            Foswiki::OopsException->rethrowAs(
+                $_,
+                template => 'attention',
+                def      => 'save_error',
+                web      => $web,
+                topic    => $topic,
+                params   => [
                     $session->i18n->maketext(
                         'Operation [_1] failed with an internal error',
                         'delRev'
                     )
                 ],
             );
+
         };
 
         $session->redirect($redirecturl);
@@ -647,23 +645,22 @@ WARN
         try {
             $topicObject->replaceMostRecentRevision( forcedate => 1 );
         }
-        catch Foswiki::OopsException with {
-            shift->throw();    # propagate
-        }
-        catch Error with {
-            $session->logger->log( 'error', shift->{-text} );
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'save_error',
-                web    => $web,
-                topic  => $topic,
-                params => [
+        catch {
+            $session->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
+            Foswiki::OopsException->rethrowAs(
+                $_,
+                template => 'attention',
+                def      => 'save_error',
+                web      => $web,
+                topic    => $topic,
+                params   => [
                     $session->i18n->maketext(
                         'Operation [_1] failed with an internal error',
                         'repRev'
                     )
                 ],
             );
+
         };
 
         $session->redirect($redirecturl);
@@ -678,26 +675,23 @@ WARN
     if ( $saveaction =~ m/^(save|checkpoint)$/ ) {
         my $text = $topicObject->text();
         $text = '' unless defined $text;
-        $session->{plugins}
-          ->dispatch( 'afterEditHandler', $text, $topicObject->topic,
-            $topicObject->web, $topicObject );
+        $session->plugins->dispatch( 'afterEditHandler', $text,
+            $topicObject->topic, $topicObject->web, $topicObject );
         $topicObject->text($text);
     }
 
     try {
         $topicObject->save(%$saveOpts);
     }
-    catch Foswiki::OopsException with {
-        shift->throw();    # propagate
-    }
-    catch Error with {
-        $session->logger->log( 'error', shift->{-text} );
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'save_error',
-            web    => $topicObject->web,
-            topic  => $topicObject->topic,
-            params => [
+    catch {
+        $session->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
+        Foswiki::OopsException->rethrowAs(
+            $_,
+            template => 'attention',
+            def      => 'save_error',
+            web      => $topicObject->web,
+            topic    => $topicObject->topic,
+            params   => [
                 $session->i18n->maketext(
                     'Operation [_1] failed with an internal error', 'save'
                 )
@@ -716,17 +710,15 @@ WARN
             try {
                 $a->{tom}->copyAttachment( $a->{name}, $topicObject );
             }
-            catch Foswiki::OopsException with {
-                shift->throw();    # propagate
-            }
-            catch Error with {
-                $session->logger->log( 'error', shift->{-text} );
-                throw Foswiki::OopsException(
-                    'attention',
-                    def    => 'save_error',
-                    web    => $topicObject->web,
-                    topic  => $topicObject->topic,
-                    params => [
+            catch {
+                $session->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
+                Foswiki::OopsException->rethrowAs(
+                    $_,
+                    template => 'attention',
+                    def      => 'save_error',
+                    web      => $topicObject->web,
+                    topic    => $topicObject->topic,
+                    params   => [
                         $session->i18n->maketext(
                             'Operation [_1] failed with an internal error',
                             'copyAttachment'
@@ -740,18 +732,18 @@ WARN
     my $lease = $topicObject->getLease();
 
     # clear the lease, if (and only if) we own it
-    if ( $lease && $lease->{user} eq $session->{user} ) {
+    if ( $lease && $lease->{user} eq $session->user ) {
         $topicObject->clearLease();
     }
 
     if ($merged) {
-        throw Foswiki::OopsException(
-            'attention',
-            status => 200,
-            def    => 'merge_notice',
-            web    => $topicObject->web,
-            topic  => $topicObject->topic,
-            params => $merged
+        Foswiki::OopsException->throw(
+            template => 'attention',
+            status   => 200,
+            def      => 'merge_notice',
+            web      => $topicObject->web,
+            topic    => $topicObject->topic,
+            params   => $merged
         );
     }
 

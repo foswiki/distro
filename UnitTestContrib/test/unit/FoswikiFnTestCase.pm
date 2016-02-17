@@ -253,7 +253,7 @@ sub registerUser {
             $this->assert( 0, $e->stringify );
         }
         elsif ( $e->isa('Foswiki::Exception') ) {
-            $this->assert( 0, $e->stringify() );
+            $this->assert( 0, $e->stringify );
         }
         else {
             $this->assert( 0, "expected an oops redirect" );

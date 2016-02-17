@@ -936,7 +936,7 @@ sub populateNewWeb {
     if ($templateWeb) {
         unless ( $session->webExists($templateWeb) ) {
             Foswiki::Exception->throw(
-                'Template web ' . $templateWeb . ' does not exist' );
+                text => 'Template web ' . $templateWeb . ' does not exist' );
         }
     }
 
@@ -1534,7 +1534,7 @@ sub copyFrom {
         $this->putAll( $type, @data );
     }
     else {
-        foreach my $k ( keys %$other ) {
+        foreach my $k ( keys %{ $other->metaData } ) {
             unless ( $k =~ m/^_/ ) {
                 $this->copyFrom( $other, $k );
             }
@@ -2090,7 +2090,7 @@ sub save {
             $this->web, $error, $this );
     }
 
-    $signal->throw if $signal;
+    $signal->rethrow if $signal;
 
     ASSERT( $newRev, $this->_loadedRev ) if DEBUG;
 
@@ -2440,7 +2440,7 @@ sub move {
     # alert plugins of topic move
     $this->session->plugins->dispatch( 'afterRenameHandler', $this->web,
         $this->topic || '',
-        '', $to->web, $to->_topic || '', '' );
+        '', $to->web, $to->topic || '', '' );
 }
 
 =begin TML

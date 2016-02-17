@@ -62,8 +62,8 @@ Perform a search as dictated by CGI parameters:
 sub search {
     my $session = shift;
 
-    my $query   = $session->{request};
-    my $webName = $session->{webName};
+    my $query   = $session->request;
+    my $webName = $session->webName;
 
     #TODO: is WebSearch a constant?
     my $searchUrl = $session->getScriptUrl( 1, 'view', $webName, 'WebSearch' );

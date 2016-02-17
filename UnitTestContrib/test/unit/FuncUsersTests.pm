@@ -1,45 +1,48 @@
 package FuncUsersTests;
-
-use strict;
-use warnings;
+use v5.14;
 
 # These tests should pass for all usermappers written.
 # Some basic tests for adding/removing users in the Foswiki users topic,
 # and finding them again.
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
 
 use Foswiki();
 use Foswiki::Func();
 use Foswiki::UI::Register();
 use Foswiki::Configure::Dependency ();
 use Data::Dumper;
-use Error qw( :try );
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 my %loginname;
-my $post11;
+has post11 => ( is => 'rw', );
 
-sub new {
-    my ( $class, @args ) = @_;
-    my $self = $class->SUPER::new( 'FuncUsers', @args );
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_, testSuite => 'FuncUsers' );
+};
+
+sub BUILD {
+    my $this = shift;
 
     my $dep = Foswiki::Configure::Dependency->new(
         type    => "perl",
         module  => "Foswiki",
         version => ">=1.2"
     );
-    ( $post11, my $message ) = $dep->checkDependency();
-
-    return $self;
+    $this->post11( ( $dep->checkDependency )[0] );
 }
 
-sub loadExtraConfig {
-    my ( $this, $context, @args ) = @_;
+around loadExtraConfig => sub {
+    my $orig = shift;
+    my $this = shift;
+    my ( $context, @args ) = @_;
 
-    $this->SUPER::loadExtraConfig( $context, @args );
+    $orig->( $this, @_ );
 
-    if ($post11) {
+    if ( $this->post11 ) {
 
 #turn on the MongoDBPlugin so that the saved data goes into mongoDB
 #This is temoprary until Crawford and I cna find a way to push dependencies into unit tests
@@ -57,13 +60,13 @@ sub loadExtraConfig {
               {'Foswiki::Plugins::MongoDBPlugin::Listener'} = 1;
             require Foswiki::Plugins::MongoDBPlugin;
             Foswiki::Plugins::MongoDBPlugin::getMongoDB()
-              ->remove( $this->{test_web}, 'current',
-                { '_web' => $this->{test_web} } );
+              ->remove( $this->test_web, 'current',
+                { '_web' => $this->test_web } );
         }
     }
 
     return;
-}
+};
 
 sub AllowLoginName {
     my $this = shift;
@@ -218,47 +221,52 @@ sub set_up_for_verify {
 #            $this->registerUser($loginname{EmailLogin}, 'Email', 'Login', 'email@example.com');
 
         my ($topicObject) =
-          Foswiki::Func::readTopic( $this->{users_web}, 'AandBGroup' );
+          Foswiki::Func::readTopic( $this->users_web, 'AandBGroup' );
         $topicObject->text(
             "   * Set GROUP = UserA, UserB, $Foswiki::cfg{AdminUserWikiName}");
         $topicObject->save();
         $topicObject->finish();
         ($topicObject) =
-          Foswiki::Func::readTopic( $this->{users_web}, 'AandCGroup' );
+          Foswiki::Func::readTopic( $this->users_web, 'AandCGroup' );
         $topicObject->text("   * Set GROUP = UserA, UserC");
         $topicObject->save();
         $topicObject->finish();
         ($topicObject) =
-          Foswiki::Func::readTopic( $this->{users_web}, 'BandCGroup' );
+          Foswiki::Func::readTopic( $this->users_web, 'BandCGroup' );
         $topicObject->text("   * Set GROUP = UserC, UserB");
         $topicObject->save();
         $topicObject->finish();
         ($topicObject) =
-          Foswiki::Func::readTopic( $this->{users_web}, 'NestingGroup' );
+          Foswiki::Func::readTopic( $this->users_web, 'NestingGroup' );
         $topicObject->text("   * Set GROUP = UserE, AandCGroup, BandCGroup");
         $topicObject->save();
         $topicObject->finish();
         ($topicObject) =
-          Foswiki::Func::readTopic( $this->{users_web}, 'ScumGroup' );
+          Foswiki::Func::readTopic( $this->users_web, 'ScumGroup' );
         $topicObject->text(
 "   * Set GROUP = UserA, $Foswiki::cfg{DefaultUserWikiName}, $loginname{UserZ}"
         );
         $topicObject->save();
         $topicObject->finish();
         ($topicObject) =
-          Foswiki::Func::readTopic( $this->{users_web},
+          Foswiki::Func::readTopic( $this->users_web,
             $Foswiki::cfg{SuperAdminGroup} );
         $topicObject->text(
             "   * Set GROUP = UserA, $Foswiki::cfg{AdminUserWikiName}");
         $topicObject->save();
         $topicObject->finish();
     }
-    catch Foswiki::AccessControlException with {
-        my $e = shift;
-        $this->assert( 0, $e->stringify() );
-    }
-    catch Error::Simple with {
-        $this->assert( 0, shift->stringify() || '' );
+    catch {
+        my $e = $_;
+        Foswiki::Exception::Fatal->rethrow($e) unless ref($e);
+
+        # SMELL Can't we just join both condition branches into one?
+        if ( $e->isa('Foswiki::AccessControlException') ) {
+            $this->assert( 0, $e->stringify() );
+        }
+        else {
+            $this->assert( 0, $e->stringify() || '' );
+        }
     };
 
     # Force a re-read
@@ -278,7 +286,8 @@ sub verify_emailToWikiNames {
     my @users = Foswiki::Func::emailToWikiNames( 'userc@example.com', 1 );
     $this->assert_str_equals( "UserC", join( ',', @users ) );
     @users = Foswiki::Func::emailToWikiNames( 'userd@example.com', 0 );
-    $this->assert_str_equals( "$this->{users_web}.UserC", join( ',', @users ) );
+    $this->assert_str_equals( $this->users_web . ".UserC",
+        join( ',', @users ) );
     @users = Foswiki::Func::emailToWikiNames( 'user@example.com', 1 );
     $this->assert_str_equals( "UserA,UserB", join( ',', sort @users ) );
 
@@ -420,7 +429,7 @@ sub verify_isAnAdmin {
     while ( $iterator->hasNext() ) {
         my $u = $iterator->next();
         $u =~ m/.*\.(.*)/;
-        $Foswiki::Plugins::SESSION->{user} = $u;
+        $Foswiki::Plugins::SESSION->user($u);
         my $sadmin = Foswiki::Func::isAnAdmin($u);
 
         next if ( $this->noUsersRegistered() && ( $u eq 'UserA' ) );
@@ -448,10 +457,12 @@ sub verify_isGroupMember {
 
     return if ( $this->noUsersRegistered() );
 
-    $Foswiki::Plugins::SESSION->{user} =
-      $Foswiki::Plugins::SESSION->{users}
-      ->getCanonicalUserID( $loginname{UserA} );
-    $this->assert( $Foswiki::Plugins::SESSION->{user} );
+    $Foswiki::Plugins::SESSION->user(
+        $Foswiki::Plugins::SESSION->users->getCanonicalUserID(
+            $loginname{UserA}
+        )
+    );
+    $this->assert( $Foswiki::Plugins::SESSION->user );
     $this->assert( Foswiki::Func::isGroupMember('AandBGroup') );
     $this->assert( Foswiki::Func::isGroupMember('AandCGroup') );
     $this->assert( !Foswiki::Func::isGroupMember('BandCGroup') );
@@ -548,8 +559,7 @@ sub verify_eachMembershipDefault {
         my $g = $it->next();
         push( @list, $g );
     }
-    $this->annotate(
-        $Foswiki::Plugins::SESSION->{user} . " is member of...\n" );
+    $this->annotate( $Foswiki::Plugins::SESSION->user . " is member of...\n" );
     $this->assert_str_equals( 'BaseGroup,ScumGroup', sort join( ',', @list ) );
 
     return;
@@ -625,8 +635,8 @@ sub verify_isGroup {
 sub verify_getCanonicalUserID_extended {
     my $this = shift;
     my $guest_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} );
+      $this->session->users->getCanonicalUserID(
+        $Foswiki::cfg{DefaultUserLogin} );
 
     $this->assert_str_equals( $guest_cUID,
         Foswiki::Func::getCanonicalUserID() );
@@ -647,8 +657,8 @@ sub verify_getCanonicalUserID_extended {
     );
 
     my $admin_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $Foswiki::cfg{AdminUserLogin} );
+      $this->session->users->getCanonicalUserID(
+        $Foswiki::cfg{AdminUserLogin} );
     $this->assert_str_equals( $admin_cUID,
         Foswiki::Func::getCanonicalUserID($admin_cUID) );
     $this->assert_str_equals( $admin_cUID,
@@ -663,8 +673,11 @@ sub verify_getCanonicalUserID_extended {
     );
 
     #TODO: consider how to render unkown user's
-    $this->assert_null( $this->{session}->{users}
-          ->getCanonicalUserID( $loginname{NonExistantuser} ) );
+    $this->assert_null(
+        $this->session->users->getCanonicalUserID(
+            $loginname{NonExistantuser}
+        )
+    );
     my $cUID = Foswiki::Func::getCanonicalUserID( $loginname{NonExistantuser} );
     $this->assert_null( $cUID, $cUID );
     $this->assert_null( Foswiki::Func::getCanonicalUserID('NonExistantUser') );
@@ -682,7 +695,7 @@ sub verify_getCanonicalUserID_extended {
     return if ( $this->noUsersRegistered() );
 
     my $usera_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{UserA} );
+      $this->session->users->getCanonicalUserID( $loginname{UserA} );
     $this->assert_str_equals( $usera_cUID,
         Foswiki::Func::getCanonicalUserID($usera_cUID) );
     $this->assert_str_equals( $usera_cUID,
@@ -698,7 +711,7 @@ sub verify_getCanonicalUserID_extended {
 
 #            $this->registerUser($loginname{UserA86}, 'User', 'A86', 'user86@example.com');
     my $usera86_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{UserA86} );
+      $this->session->users->getCanonicalUserID( $loginname{UserA86} );
     $this->assert_str_equals( $usera86_cUID,
         Foswiki::Func::getCanonicalUserID($usera86_cUID) );
     $this->assert_str_equals( $usera86_cUID,
@@ -714,7 +727,7 @@ sub verify_getCanonicalUserID_extended {
 
 #            $this->registerUser($loginname{User86A}, 'User86', 'A', 'user86a@example.com');
     my $user86a_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{User86A} );
+      $this->session->users->getCanonicalUserID( $loginname{User86A} );
     $this->assert_str_equals( $user86a_cUID,
         Foswiki::Func::getCanonicalUserID($user86a_cUID) );
     $this->assert_str_equals( $user86a_cUID,
@@ -732,12 +745,12 @@ sub verify_getCanonicalUserID_extended {
 #            $this->registerUser('86usera', '86User', 'A', 'user86a@example.com');
 
 #TODO: consider what to return for GROUPs
-#    $this->assert_null($this->{session}->{users}->getCanonicalUserID('AandBGroup'));
+#    $this->assert_null($this->session->users->getCanonicalUserID('AandBGroup'));
 #    $this->assert_null(Foswiki::Func::getCanonicalUserID('AandBGroup'));
 #    $this->assert_null(Foswiki::Func::getCanonicalUserID($Foswiki::cfg{UsersWebName}.'.'.'AandBGroup'));
 
 #TODO: consider what to return for GROUPs
-#    $this->assert_null($this->{session}->{users}->getCanonicalUserID($Foswiki::cfg{SuperAdminGroup}));
+#    $this->assert_null($this->session->users->getCanonicalUserID($Foswiki::cfg{SuperAdminGroup}));
 #    $this->assert_null(Foswiki::Func::getCanonicalUserID($Foswiki::cfg{SuperAdminGroup}));
 #    $this->assert_null(Foswiki::Func::getCanonicalUserID($Foswiki::cfg{UsersWebName}.'.'.$Foswiki::cfg{SuperAdminGroup}));
 
@@ -751,8 +764,8 @@ sub verify_getWikiName_extended {
         Foswiki::Func::getWikiName() );
 
     my $guest_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} );
+      $this->session->users->getCanonicalUserID(
+        $Foswiki::cfg{DefaultUserLogin} );
     $this->assert_str_equals( $Foswiki::cfg{DefaultUserWikiName},
         Foswiki::Func::getWikiName( $Foswiki::cfg{DefaultUserLogin} ) );
     $this->assert_str_equals(
@@ -770,8 +783,8 @@ sub verify_getWikiName_extended {
     );
 
     my $admin_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $Foswiki::cfg{AdminUserLogin} );
+      $this->session->users->getCanonicalUserID(
+        $Foswiki::cfg{AdminUserLogin} );
     $this->annotate( $admin_cUID . ' => '
           . $Foswiki::cfg{AdminUserLogin} . ' => '
           . $Foswiki::cfg{AdminUserWikiName} );
@@ -796,8 +809,7 @@ sub verify_getWikiName_extended {
     $this->assert_str_equals( 'TopicUserMapping_NonExistantUser',
         Foswiki::Func::getWikiName('TopicUserMapping_NonExistantUser') );
     my $nonexistantuser_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $loginname{NonExistantuser} );
+      $this->session->users->getCanonicalUserID( $loginname{NonExistantuser} );
     $this->annotate($nonexistantuser_cUID);    #returns guest
     $this->assert_str_equals( $Foswiki::cfg{DefaultUserWikiName},
         Foswiki::Func::getWikiName($nonexistantuser_cUID) );
@@ -821,7 +833,7 @@ sub verify_getWikiName_extended {
     return if ( $this->noUsersRegistered() );
 
     my $usera_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{UserA} );
+      $this->session->users->getCanonicalUserID( $loginname{UserA} );
     $this->assert_str_equals( 'UserA',
         Foswiki::Func::getWikiName($usera_cUID) );
     $this->assert_str_equals( 'UserA',
@@ -836,7 +848,7 @@ sub verify_getWikiName_extended {
 
 #            $this->registerUser($loginname{UserA86}, 'User', 'A86', 'user86@example.com');
     my $usera86_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{UserA86} );
+      $this->session->users->getCanonicalUserID( $loginname{UserA86} );
     $this->assert_str_equals( 'UserA86',
         Foswiki::Func::getWikiName($usera86_cUID) );
     $this->assert_str_equals( 'UserA86',
@@ -852,7 +864,7 @@ sub verify_getWikiName_extended {
 
 #            $this->registerUser($loginname{User86A}, 'User86', 'A', 'user86a@example.com');
     my $user86a_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{User86A} );
+      $this->session->users->getCanonicalUserID( $loginname{User86A} );
     $this->assert_str_equals( 'User86A',
         Foswiki::Func::getWikiName($user86a_cUID) );
     $this->assert_str_equals( 'User86A',
@@ -870,7 +882,7 @@ sub verify_getWikiName_extended {
 #            $this->registerUser('86usera', '86User', 'A', 'user86a@example.com');
 
 #TODO: consider how to render unkown user's
-#my $AandBGroup_cUID = $this->{session}->{users}->getCanonicalUserID('AandBGroup');
+#my $AandBGroup_cUID = $this->session->users->getCanonicalUserID('AandBGroup');
 #$this->annotate($AandBGroup_cUID);
 #$this->assert_str_equals('AandBGroup', Foswiki::Func::getWikiName($AandBGroup_cUID));
 #$this->assert_str_equals('AandBGroup', Foswiki::Func::getWikiName('AandBGroup'));
@@ -889,8 +901,8 @@ sub verify_getWikiUserName_extended {
     );
 
     my $guest_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} );
+      $this->session->users->getCanonicalUserID(
+        $Foswiki::cfg{DefaultUserLogin} );
     $this->assert_str_equals(
         $Foswiki::cfg{UsersWebName} . '.' . $Foswiki::cfg{DefaultUserWikiName},
         Foswiki::Func::getWikiUserName( $Foswiki::cfg{DefaultUserLogin} )
@@ -912,8 +924,8 @@ sub verify_getWikiUserName_extended {
     );
 
     my $admin_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $Foswiki::cfg{AdminUserLogin} );
+      $this->session->users->getCanonicalUserID(
+        $Foswiki::cfg{AdminUserLogin} );
     $this->assert_str_equals(
         $Foswiki::cfg{UsersWebName} . '.' . $Foswiki::cfg{AdminUserWikiName},
         Foswiki::Func::getWikiUserName($admin_cUID) );
@@ -938,7 +950,7 @@ sub verify_getWikiUserName_extended {
         Foswiki::Func::getWikiUserName('NonExistantUserAsdf')
     );
     my $nonexistantuser_cUID =
-      $this->{session}->{users}->getCanonicalUserID('nonexistantuserasdf');
+      $this->session->users->getCanonicalUserID('nonexistantuserasdf');
     $this->annotate($nonexistantuser_cUID);    #returns guest
     $this->assert_str_equals(
         $Foswiki::cfg{UsersWebName} . '.' . $Foswiki::cfg{DefaultUserWikiName},
@@ -972,7 +984,7 @@ sub verify_getWikiUserName_extended {
     return if ( $this->noUsersRegistered() );
 
     my $usera_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{UserA} );
+      $this->session->users->getCanonicalUserID( $loginname{UserA} );
     $this->assert_str_equals(
         $Foswiki::cfg{UsersWebName} . '.' . 'UserA',
         Foswiki::Func::getWikiUserName($usera_cUID)
@@ -994,7 +1006,7 @@ sub verify_getWikiUserName_extended {
 
 #            $this->registerUser($loginname{UserA86}, 'User', 'A86', 'user86@example.com');
     my $usera86_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{UserA86} );
+      $this->session->users->getCanonicalUserID( $loginname{UserA86} );
     $this->assert_str_equals(
         $Foswiki::cfg{UsersWebName} . '.' . 'UserA86',
         Foswiki::Func::getWikiUserName($usera86_cUID)
@@ -1016,7 +1028,7 @@ sub verify_getWikiUserName_extended {
 
 #            $this->registerUser($loginname{User86A}, 'User86', 'A', 'user86a@example.com');
     my $user86a_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{User86A} );
+      $this->session->users->getCanonicalUserID( $loginname{User86A} );
     $this->assert_str_equals(
         $Foswiki::cfg{UsersWebName} . '.' . 'User86A',
         Foswiki::Func::getWikiUserName($user86a_cUID)
@@ -1040,7 +1052,7 @@ sub verify_getWikiUserName_extended {
 #            $this->registerUser('86usera', '86User', 'A', 'user86a@example.com');
 
 #TODO: consider how to render unknown users
-#my $AandBGroup_cUID = $this->{session}->{users}->getCanonicalUserID('AandBGroup');
+#my $AandBGroup_cUID = $this->session->users->getCanonicalUserID('AandBGroup');
 #$this->annotate($AandBGroup_cUID);
 #$this->assert_str_equals($Foswiki::cfg{UsersWebName}.'.'.'AandBGroup', Foswiki::Func::getWikiUserName($AandBGroup_cUID));
 #$this->assert_str_equals($Foswiki::cfg{UsersWebName}.'.'.'AandBGroup', Foswiki::Func::getWikiUserName('AandBGroup'));
@@ -1055,8 +1067,8 @@ sub verify_wikiToUserName_extended {
 
     #TODO: not sure that this method needs to be able to convert _any_ to login
     my $guest_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} );
+      $this->session->users->getCanonicalUserID(
+        $Foswiki::cfg{DefaultUserLogin} );
     $this->assert_str_equals( $Foswiki::cfg{DefaultUserLogin},
         Foswiki::Func::wikiToUserName($guest_cUID) );
     $this->assert_str_equals( $Foswiki::cfg{DefaultUserLogin},
@@ -1072,8 +1084,8 @@ sub verify_wikiToUserName_extended {
     );
 
     my $admin_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $Foswiki::cfg{AdminUserLogin} );
+      $this->session->users->getCanonicalUserID(
+        $Foswiki::cfg{AdminUserLogin} );
     $this->assert_str_equals( $Foswiki::cfg{AdminUserLogin},
         Foswiki::Func::wikiToUserName($admin_cUID) );
     $this->assert_str_equals( $Foswiki::cfg{AdminUserLogin},
@@ -1106,7 +1118,7 @@ sub verify_wikiToUserName_extended {
 
     return if ( $this->noUsersRegistered() );
     my $usera_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{UserA} );
+      $this->session->users->getCanonicalUserID( $loginname{UserA} );
     $this->assert_str_equals( $loginname{UserA},
         Foswiki::Func::wikiToUserName($usera_cUID) );
     $this->assert_str_equals( $loginname{UserA},
@@ -1122,7 +1134,7 @@ sub verify_wikiToUserName_extended {
 
 #            $this->registerUser($loginname{UserA86}, 'User', 'A86', 'user86@example.com');
     my $usera86_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{UserA86} );
+      $this->session->users->getCanonicalUserID( $loginname{UserA86} );
     $this->assert_str_equals( $loginname{UserA86},
         Foswiki::Func::wikiToUserName($usera86_cUID) );
     $this->assert_str_equals( $loginname{UserA86},
@@ -1138,7 +1150,7 @@ sub verify_wikiToUserName_extended {
 
 #            $this->registerUser($loginname{User86A}, 'User86', 'A', 'user86a@example.com');
     my $user86a_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{User86A} );
+      $this->session->users->getCanonicalUserID( $loginname{User86A} );
     $this->assert_str_equals( $loginname{User86A},
         Foswiki::Func::wikiToUserName($user86a_cUID) );
     $this->assert_str_equals( $loginname{User86A},
@@ -1156,7 +1168,7 @@ sub verify_wikiToUserName_extended {
 #            $this->registerUser('86usera', '86User', 'A', 'user86a@example.com');
 
 #TODO: consider how to render unkown user's
-#my $AandBGroup_cUID = $this->{session}->{users}->getCanonicalUserID('AandBGroup');
+#my $AandBGroup_cUID = $this->session->users->getCanonicalUserID('AandBGroup');
 #$this->annotate($AandBGroup_cUID);
 #$this->assert_str_equals('AandBGroup', Foswiki::Func::wikiToUserName($AandBGroup_cUID));
 #$this->assert_str_equals('AandBGroup', Foswiki::Func::wikiToUserName('AandBGroup'));
@@ -1171,8 +1183,8 @@ sub verify_isAnAdmin_extended {
 
     #TODO: not sure that this method needs to be able to convert _any_ to login
     my $guest_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} );
+      $this->session->users->getCanonicalUserID(
+        $Foswiki::cfg{DefaultUserLogin} );
     $this->assert(
         !Foswiki::Func::isAnAdmin( $Foswiki::cfg{DefaultUserLogin} ) );
     $this->assert( !Foswiki::Func::isAnAdmin($guest_cUID) );
@@ -1186,8 +1198,8 @@ sub verify_isAnAdmin_extended {
     );
 
     my $admin_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $Foswiki::cfg{AdminUserLogin} );
+      $this->session->users->getCanonicalUserID(
+        $Foswiki::cfg{AdminUserLogin} );
     $this->assert( Foswiki::Func::isAnAdmin($admin_cUID) );
     $this->assert( Foswiki::Func::isAnAdmin( $Foswiki::cfg{AdminUserLogin} ) );
     $this->assert(
@@ -1204,8 +1216,7 @@ sub verify_isAnAdmin_extended {
     $this->assert(
         !Foswiki::Func::isAnAdmin('TopicUserMapping_NonExistantUser') );
     my $nonexistantuser_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $loginname{NonExistantuser} );
+      $this->session->users->getCanonicalUserID( $loginname{NonExistantuser} );
     $this->annotate($nonexistantuser_cUID);
     $this->assert( !Foswiki::Func::isAnAdmin($nonexistantuser_cUID) );
     $this->assert( !Foswiki::Func::isAnAdmin( $loginname{NonExistantuser} ) );
@@ -1217,7 +1228,7 @@ sub verify_isAnAdmin_extended {
     );
 
     my $usera_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{UserA} );
+      $this->session->users->getCanonicalUserID( $loginname{UserA} );
     $this->assert( Foswiki::Func::isAnAdmin($usera_cUID) );
     $this->assert( Foswiki::Func::isAnAdmin( $loginname{UserA} ) );
     $this->assert( Foswiki::Func::isAnAdmin('UserA') );
@@ -1231,13 +1242,13 @@ sub verify_isAnAdmin_extended {
         )
     );
     my $userb_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{UserB} );
+      $this->session->users->getCanonicalUserID( $loginname{UserB} );
     $this->assert( !Foswiki::Func::isAnAdmin($userb_cUID) );
     $this->assert( !Foswiki::Func::isAnAdmin( $loginname{UserB} ) );
     $this->assert( !Foswiki::Func::isAnAdmin('UserB') );
 
 #TODO: consider how to render unkown user's
-#my $AandBGroup_cUID = $this->{session}->{users}->getCanonicalUserID('AandBGroup');
+#my $AandBGroup_cUID = $this->session->users->getCanonicalUserID('AandBGroup');
 #$this->annotate($AandBGroup_cUID);
 #$this->assert(!Foswiki::Func::isAnAdmin($AandBGroup_cUID));
 #$this->assert(!Foswiki::Func::isAnAdmin('AandBGroup'));
@@ -1251,11 +1262,11 @@ sub verify_isGroupMember_extended {
     my $this = shift;
 
     my $guest_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} );
+      $this->session->users->getCanonicalUserID(
+        $Foswiki::cfg{DefaultUserLogin} );
     my $admin_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $Foswiki::cfg{AdminUserLogin} );
+      $this->session->users->getCanonicalUserID(
+        $Foswiki::cfg{AdminUserLogin} );
 
     $this->assert(
         !Foswiki::Func::isGroupMember(
@@ -1365,7 +1376,7 @@ sub verify_isGroupMember_extended {
     );
 
     my $usera_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{UserA} );
+      $this->session->users->getCanonicalUserID( $loginname{UserA} );
     $this->assert( Foswiki::Func::isGroupMember( 'AandBGroup', $usera_cUID ) );
     $this->assert(
         Foswiki::Func::isGroupMember( 'AandBGroup', $loginname{UserA} ) );
@@ -1378,8 +1389,7 @@ sub verify_isGroupMember_extended {
 
     #TODO: consider how to render unkown user's
     my $nonexistantuser_cUID =
-      $this->{session}->{users}
-      ->getCanonicalUserID( $loginname{NonExistantuser} );
+      $this->session->users->getCanonicalUserID( $loginname{NonExistantuser} );
     $this->annotate($nonexistantuser_cUID);
     $this->assert(
         !Foswiki::Func::isGroupMember( 'AandBGroup', $nonexistantuser_cUID ) );
@@ -1397,7 +1407,7 @@ sub verify_isGroupMember_extended {
     );
 
 #TODO: consider how to render unkown user's
-#my $AandBGroup_cUID = $this->{session}->{users}->getCanonicalUserID('AandBGroup');
+#my $AandBGroup_cUID = $this->session->users->getCanonicalUserID('AandBGroup');
 #$this->annotate($AandBGroup_cUID);
 #$this->assert(!Foswiki::Func::isGroupMember('AandBGroup', $AandBGroup_cUID));
 #$this->assert(!Foswiki::Func::isGroupMember('AandBGroup', 'AandBGroup'));
@@ -1433,7 +1443,7 @@ sub verify_isGroupMember_extended {
         )
     );
     my $userb_cUID =
-      $this->{session}->{users}->getCanonicalUserID( $loginname{UserB} );
+      $this->session->users->getCanonicalUserID( $loginname{UserB} );
     $this->assert(
         !Foswiki::Func::isGroupMember(
             $Foswiki::cfg{SuperAdminGroup}, $userb_cUID
@@ -1463,7 +1473,7 @@ sub verify_topic_meta_usermapping {
 
     $Foswiki::cfg{RenderLoggedInButUnknownUsers} = 1;
 
-    my $web   = $this->{test_web};
+    my $web   = $this->test_web;
     my $topic = "TestStoreTopic";
 
     $this->assert(
@@ -1477,7 +1487,7 @@ sub verify_topic_meta_usermapping {
     my $login = 'asdf2@example.com';
     $this->registerUser( $login, 'Asdf3', 'Poiu', 'asdf2@example.com' );
     my $cUID = Foswiki::Func::getCanonicalUserID($login);
-    $this->{session}->{user} = $cUID;    # OUCH!
+    $this->session->user($cUID);    # OUCH!
 
     my $text = "This is some test text\n   * some list\n   * content\n :) :)";
     my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
@@ -1485,7 +1495,7 @@ sub verify_topic_meta_usermapping {
     $topicObject->save();
     $topicObject->finish();
 
-    $this->assert( $this->{session}->topicExists( $web, $topic ) );
+    $this->assert( $this->session->topicExists( $web, $topic ) );
     my ($readMeta) = Foswiki::Func::readTopic( $web, $topic );
     my $info = $readMeta->getRevisionInfo();
     $this->assert_equals( $info->{author}, $cUID, "$info->{author}=$cUID" );
@@ -1519,7 +1529,7 @@ sub verify_topic_meta_usermapping {
 
     #Task:Item6000
     $metainfo =~ s/^.*?(\|.*\|).*?$/$1/s;
-    my $size = ($post11) ? '1 byte' : '0.1&nbsp;K';
+    my $size = $this->post11 ? '1 byte' : '0.1&nbsp;K';
     $this->assert_html_equals( <<"HERE", $metainfo );
 | *I* | *Attachment* | *Action* | *Size* | *Date* | *Who* | *Comment* |
 | <span class=foswikiIcon><img width="16" alt="testfile.gif" src="$Foswiki::cfg{PubUrlPath}/System/DocumentGraphics/gif.png" height="16" /></span><span class="foswikiHidden">gif</span> | <a href="$Foswiki::cfg{PubUrlPath}/TemporaryFuncUsersTestWebFuncUsers/TestStoreTopic/testfile.gif"><noautolink>testfile.gif</noautolink></a> | <a href="$Foswiki::cfg{ScriptUrlPath}/attach$Foswiki::cfg{ScriptSuffix}/TemporaryFuncUsersTestWebFuncUsers/TestStoreTopic?filename=testfile.gif;revInfo=1" title="change, update, previous revisions, move, delete..." rel="nofollow">manage</a> |  $size|<span class="foswikiNoBreak">01 Jan 2010 - 12:00</span> |TemporaryFuncUsersUsersWeb.Asdf3Poiu  |a comment  |
@@ -1534,9 +1544,9 @@ sub verify_addToGroup {
     return if ( $this->noUsersRegistered() );
 
     my $Zcuid =
-      $Foswiki::Plugins::SESSION->{users}
-      ->getCanonicalUserID( $loginname{UserZ} );
-    $this->assert( $Foswiki::Plugins::SESSION->{user} );
+      $Foswiki::Plugins::SESSION->users->getCanonicalUserID(
+        $loginname{UserZ} );
+    $this->assert( $Foswiki::Plugins::SESSION->user );
 
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
     $this->assert( !Foswiki::Func::addUserToGroup( 'UserZ', 'ZeeGroup' ) );
@@ -1699,7 +1709,7 @@ sub verify_removeFromGroup {
 
     $this->assert(
         Foswiki::Func::addUserToGroup(
-            $Foswiki::Plugins::SESSION->{user},
+            $Foswiki::Plugins::SESSION->user,
             'ZeeGroup', 1
         )
     );
@@ -1753,20 +1763,22 @@ sub verify_removeFromGroup {
         Foswiki::Func::removeUserFromGroup( 'UserB', 'ZeeGroup' );
         $this->assert('Remove User should not work');
     }
-    catch Error::Simple with {
-        my $e = shift;
+    catch {
+        my $e = $_;
+        Foswiki::Exception::Fatal->rethrow($e) unless ref($e);
         $this->assert_matches( qr{User .* not in group, cannot be removed},
-            $e );
+            $e->stringify );
     };
 
     try {
         Foswiki::Func::removeUserFromGroup( 'SillyGuyDoesntExist', 'ZeeGroup' );
         $this->assert('Remove User should not work');
     }
-    catch Error::Simple with {
-        my $e = shift;
+    catch {
+        my $e = $_;
+        Foswiki::Exception::Fatal->rethrow($e) unless ref($e);
         $this->assert_matches( qr{User .* not in group, cannot be removed},
-            $e );
+            $e->stringify );
     };
 
     # Force a re-read
@@ -1830,7 +1842,7 @@ sub DISABLEDverify_removeFromGroup {
 sub verify_topic_meta_usermapping_Item1936 {
     my $this = shift;
 
-    my $users = $this->{session}->{users};
+    my $users = $this->session->users;
 
     #this sort of issue is what this setting was supposed to make more obvious
     #$Foswiki::cfg{RenderLoggedInButUnknownUsers} = 1;
@@ -1846,7 +1858,7 @@ sub verify_topic_meta_usermapping_Item1936 {
 sub verify_getWikiNameOfWikiName {
     my $this = shift;
 
-    my $users = $this->{session}->{users};
+    my $users = $this->session->users;
 
     use Data::Dumper;
 
@@ -1904,19 +1916,19 @@ sub verify_getWikiNameOfWikiName {
     # Verify that all of the cache entries are valid
     $this->assert_equals(
         $loginname{UserA},
-        $users->_getMapping( $loginname{UserA} )->{L2U}{ $loginname{UserA} },
+        $users->_getMapping( $loginname{UserA} )->L2U->{ $loginname{UserA} },
         'L2U is incorrect'
-    ) if defined $users->_getMapping( $loginname{UserA} )->{L2U};
+    ) if defined $users->_getMapping( $loginname{UserA} )->L2U;
     $this->assert_equals(
         $loginname{UserA},
-        $users->_getMapping( $loginname{UserA} )->{W2U}{UserA},
+        $users->_getMapping( $loginname{UserA} )->W2U->{UserA},
         'W2U is incorrect'
-    ) if defined $users->_getMapping( $loginname{UserA} )->{W2U};
+    ) if defined $users->_getMapping( $loginname{UserA} )->W2U;
     $this->assert_equals(
         'UserA',
-        $users->_getMapping( $loginname{UserA} )->{U2W}{ $loginname{UserA} },
+        $users->_getMapping( $loginname{UserA} )->U2W->{ $loginname{UserA} },
         'U2W is incorrect'
-    ) if defined $users->_getMapping( $loginname{UserA} )->{U2W};
+    ) if defined $users->_getMapping( $loginname{UserA} )->U2W;
 
     #print STDERR "=======  CACHE At End ============\n";
     #_dumpUserCache($users);
@@ -1927,27 +1939,27 @@ sub verify_getWikiNameOfWikiName {
 sub _dumpUserCache {
     my $users = shift;
     print STDERR 'WikiName2CUID: '
-      . Data::Dumper::Dumper( \$users->{wikiName2cUID} );
+      . Data::Dumper::Dumper( \$users->wikiName2cUID );
     print STDERR 'cUID2WkikName: '
-      . Data::Dumper::Dumper( \$users->{cUID2WikiName} );
-    print STDERR 'cUID2Login: ' . Data::Dumper::Dumper( \$users->{cUID2Login} );
-    print STDERR 'login2cUID: ' . Data::Dumper::Dumper( \$users->{login2cUID} );
+      . Data::Dumper::Dumper( \$users->cUID2WikiName );
+    print STDERR 'cUID2Login: ' . Data::Dumper::Dumper( \$users->cUID2Login );
+    print STDERR 'login2cUID: ' . Data::Dumper::Dumper( \$users->login2cUID );
     print STDERR 'L2U'
       . Data::Dumper::Dumper(
-        \$users->_getMapping( $loginname{'UserA'} )->{L2U} );
+        \$users->_getMapping( $loginname{'UserA'} )->L2U );
     print STDERR 'W2U'
       . Data::Dumper::Dumper(
-        \$users->_getMapping( $loginname{'UserA'} )->{W2U} );
+        \$users->_getMapping( $loginname{'UserA'} )->W2U );
     print STDERR 'U2W'
       . Data::Dumper::Dumper(
-        \$users->_getMapping( $loginname{'UserA'} )->{U2W} );
+        \$users->_getMapping( $loginname{'UserA'} )->U2W );
 }
 
 #http://foswiki.org/Tasks/
 sub verify_unregisteredUser_display {
     my $this = shift;
 
-    my $users = $this->{session}->{users};
+    my $users = $this->session->users;
 
     #this sort of issue is what this setting was supposed to make more obvious
     #$Foswiki::cfg{RenderLoggedInButUnknownUsers} = 1;
@@ -1982,7 +1994,7 @@ sub DISABLEDverify_denyNonAdminReadOfAdminGroupTopic {
     $this->assert( Foswiki::Func::addUserToGroup( 'UserB', 'AdminGroup', 1 ) );
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, 'AdminGroup' );
+      Foswiki::Func::readTopic( $this->users_web, 'AdminGroup' );
     $topicObject->text(
         $topicObject . "\n\n   * Set ALLOWTOPICVIEW = AdminGroup\n\n" );
     $topicObject->save();
@@ -2002,7 +2014,7 @@ sub DISABLEDverify_denyNonAdminReadOfAdminGroupTopic {
     #as the baseusermapper is always admin, they should always see the full list
         $this->assert_str_equals( "AdminUser,UserA,UserB",
             sort join( ',', @list ) );
-        $this->assert( $this->{session}->isAdmin() );
+        $this->assert( $this->session->isAdmin() );
     }
 
     {
@@ -2019,7 +2031,7 @@ sub DISABLEDverify_denyNonAdminReadOfAdminGroupTopic {
         }
         $this->assert_str_equals( "AdminUser,UserA,UserB",
             sort join( ',', @list ) );
-        $this->assert( $this->{session}->isAdmin() )
+        $this->assert( $this->session->isAdmin() )
     }
 
     {
@@ -2036,7 +2048,7 @@ sub DISABLEDverify_denyNonAdminReadOfAdminGroupTopic {
         }
         $this->assert_str_equals( "AdminUser,UserA,UserB",
             sort join( ',', @list ) );
-        $this->assert( not $this->{session}->isAdmin() )
+        $this->assert( not $this->session->isAdmin() )
     }
 
     return;

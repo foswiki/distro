@@ -12,10 +12,13 @@ for each topic, to ensure that anchor names are not re-used.
 =cut
 
 package Foswiki::Render::Zones;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -24,6 +27,15 @@ BEGIN {
     }
 }
 
+has session => (
+    is       => 'rw',
+    weak_ref => 1,
+    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
+    required => 1,
+);
+has _zones                 => ( is => 'rw', lazy => 1, default => sub { {} }, );
+has _renderZonePlaceholder => ( is => 'rw', lazy => 1, default => sub { {} }, );
+
 =begin TML
 
 ---++ ClassMethod new()
@@ -31,35 +43,6 @@ BEGIN {
 Construct a new zones set.
 
 =cut
-
-sub new {
-    my ( $class, $session ) = @_;
-    my $this = bless( { session => $session }, $class );
-
-    # hash of zone records
-    $this->{_zones} = ();
-
-    # hash of occurences of RENDERZONE
-    $this->{_renderZonePlaceholder} = ();
-
-    return $this;
-}
-
-=begin TML
-
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    undef $this->{_zones};
-    undef $this->{_renderZonePlaceholder};
-}
 
 =begin TML
 
@@ -115,9 +98,9 @@ sub addToZone {
     }
 
     # get zone, or create record
-    my $thisZone = $this->{_zones}{$zone};
+    my $thisZone = $this->_zones->{$zone};
     unless ( defined $thisZone ) {
-        $this->{_zones}{$zone} = $thisZone = {};
+        $this->_zones->{$zone} = $thisZone = {};
     }
 
     my @requires;
@@ -165,7 +148,7 @@ sub _renderZoneById {
 
     return '' unless defined $id;
 
-    my $renderZone = $this->{_renderZonePlaceholder}{$id};
+    my $renderZone = $this->_renderZonePlaceholder->{$id};
 
     return '' unless defined $renderZone;
 
@@ -184,7 +167,7 @@ sub _renderZone {
     my $session = $Foswiki::Plugins::SESSION;
 
     # Check the zone is defined and has not already been rendered
-    return '' unless $zone && $this->{_zones}{$zone};
+    return '' unless $zone && $this->_zones->{$zone};
 
     $params->{header} ||= '';
     $params->{footer} ||= '';
@@ -197,9 +180,11 @@ sub _renderZone {
 #print STDERR "_renderZone called with " . Data::Dumper::Dumper( \$topicObject );
 
     unless ( defined $topicObject ) {
-        $topicObject =
-          Foswiki::Meta->new( $session, $session->{webName},
-            $session->{topicName} );
+        $topicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $session->webName,
+            topic   => $session->topicName
+        );
     }
 
     # Loop through the vertices of the graph, in any order, initiating
@@ -221,18 +206,18 @@ sub _renderZone {
         and ( ( $zone eq 'head' ) or ( $zone eq 'script' ) ) )
     {
         my @zoneIDs = (
-            values %{ $this->{_zones}{head} },
-            values %{ $this->{_zones}{script} }
+            values %{ $this->_zones->{head} },
+            values %{ $this->_zones->{script} }
         );
 
         foreach my $zoneID (@zoneIDs) {
             $this->_visitZoneID( $zoneID, \%visited, \@total );
         }
-        undef $this->{_zones}{head};
-        undef $this->{_zones}{script};
+        undef $this->_zones->{head};
+        undef $this->_zones->{script};
     }
     else {
-        my @zoneIDs = values %{ $this->{_zones}{$zone} };
+        my @zoneIDs = values %{ $this->_zones->{$zone} };
 
         foreach my $zoneID (@zoneIDs) {
             $this->_visitZoneID( $zoneID, \%visited, \@total );
@@ -241,7 +226,7 @@ sub _renderZone {
         # kill a zone once it has been rendered, to prevent it being
         # added twice (e.g. by duplicate %RENDERZONEs or by automatic
         # zone expansion in the head or script)
-        undef $this->{_zones}{$zone};
+        undef $this->_zones->{$zone};
     }
 
     # nothing rendered for a zone with no ADDTOZONE calls
@@ -318,10 +303,10 @@ sub _visitZoneID {
             # opposite zone to see if it exists there instead. Item9317
             if ( $requiredZoneID->{zone} eq 'head' ) {
                 $zoneIDToVisit =
-                  $this->{_zones}{script}{ $requiredZoneID->{id} };
+                  $this->_zones->{script}{ $requiredZoneID->{id} };
             }
             else {
-                $zoneIDToVisit = $this->{_zones}{head}{ $requiredZoneID->{id} };
+                $zoneIDToVisit = $this->_zones->{head}{ $requiredZoneID->{id} };
             }
             if ( not $zoneIDToVisit->{populated} ) {
 

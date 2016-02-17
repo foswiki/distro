@@ -68,7 +68,7 @@ has file => (
     is        => 'rwp',
     predicate => 1,
 );
-has text   => ( is => 'ro', );
+has text   => ( is => 'rwp', );
 has object => ( is => 'ro', );
 has stacktrace => (
     is        => 'rwp',
@@ -85,6 +85,10 @@ sub BUILD {
     my ( undef, $file, $line ) = caller;
     $this->_set_file($file) unless $this->has_file;
     $this->_set_line($line) unless $this->has_line;
+    $this->_set_text(
+        ref($this)
+          . " didn't set a meaningful error text in case it would be treated as a simple Foswiki::Exception"
+    ) unless $this->text;
 }
 
 sub stringify {
@@ -100,23 +104,104 @@ sub stringify {
 
 =begin TML
 
----++ ClassMethod rethrow([$error])
+---++ ClassMethod rethrow($class [, $exception[, %params]])
 
-Receives any exception and rethrows it as Foswiki::Exception. =$e->rethrow= is
-no different of =$e->throw= and might be used for readability.
+Receives any exception class or a error text and rethrows it as an
+Foswiki::Exception descendant. $class specifies the final class of rethrown
+exception.
+
+=$e->rethrow=, where =$e->isa('Foswiki::Exception')= is no different
+of =$e->throw= and might be used for readability. In this case any additional
+parameters to =rehrow()= except of $class are ignored.
+
+Examples:
+
+<verbatim>
+# Rethrow synax error as Foswiki::Exception::Fatal
+eval "bad perl code";
+Foswiki::Exception::Fatal->rethrow($@) if $@;
+
+# Propagate a caught exception thrown in try block.
+try {
+    ...
+}
+catch {
+    if ($_->isa('Foswiki::Exception')) {
+        $_->rethrow;
+        # Note that:
+        #
+        # $_->rethrow( text => "Try to override error text" );
+        #
+        # is no different of the uncommented code.
+    }
+    # Any other kind of exception is converted into
+    # Foswiki::Exception::SomeOtherException and propagaded.
+    Foswiki::Exception::SomeOtherException->rethrow(
+        $_,
+        someParam => 'Has value',
+    );
+}
+
+</verbatim>
 
 =cut
 
 sub rethrow {
     my $class = shift;
-    my $e = ref($class) && $class->isa('Foswiki::Exception') ? $class : shift;
+    my ($e) = @_;
 
+    if ( ref($class) && $class->isa('Foswiki::Exception') ) {
+
+        # Never call transmute on a Foswiki::Exception descendant because this
+        # is not what is expected from rethrow.
+        $class->throw;
+    }
+    if ( ref($e) && $e->isa('Foswiki::Exception') ) {
+        $e->throw;
+    }
+
+    $class->transmute(@_)->throw;
+}
+
+=begin TML
+
+---++ ClassMethod rethrowAs($class, $exception[, %params])
+
+Similar to the =rethrow()= method but always reinstantiates $exception into
+$class using =transmute()=. Note that if =%params= are defined and =$exception=
+is a =Foswiki::Exception= descendant then they will override =$exception= object
+attributes unless =$exception= class is equal to =$class=.
+
+=cut
+
+sub rethrowAs {
+    my $class = shift;
+    $class->transmute(@_)->throw;
+}
+
+=begin TML
+
+---++ ClassMethod transmute($class, $exception)
+
+Reinstantiates $exception into $class. "Coerce" would be more correct term for
+this operation but it's better be avoded because it is occupied by Moo/Moose for
+attribute operation. 
+
+=cut
+
+sub transmute {
+    my $class = shift;
+    my $e     = shift;    # Original exception
+    $class = ref($class) if ref($class);
     if ( ref($e) ) {
         if ( $e->isa('Foswiki::Exception') ) {
-            $e->throw;
+            if ( ref($e) eq $class ) {
+                return $e;
+            }
+            return $class->new( %$e, @_ );
         }
         elsif ( $e->isa('Error') ) {
-            $class->throw(
+            return $class->new(
                 text       => $e->text,
                 line       => $e->line,
                 file       => $e->file,
@@ -126,11 +211,11 @@ sub rethrow {
             );
         }
 
-        # Wild cases where we've got non-exception objects. Generally it's a
-        # serious bug but we better try to provide as much information on what's
-        # happened as possible.
+        # Wild cases of non-exception objects. Generally it's a serious bug but
+        # we better try to provide as much information on what's happened as
+        # possible.
         elsif ( $e->can('stringify') ) {
-            $class->throw(
+            return $class->new(
                 text => "(Exception from stringify() method of "
                   . ref($e) . ") "
                   . $e->stringify,
@@ -138,7 +223,7 @@ sub rethrow {
             );
         }
         elsif ( $e->can('as_text') ) {
-            $class->throw(
+            return $class->new(
                 text => "(Exception from as_text() method of "
                   . ref($e) . ") "
                   . $e->as_text,
@@ -147,15 +232,13 @@ sub rethrow {
         }
         else {
             # Finally we're no idea what kind of a object has been thrown to us.
-            $class->throw(
+            return $class->new(
                 text => "Unknown class of exception received: " . ref($e),
                 @_
             );
         }
     }
-    else {
-        $class->throw( text => $e, @_ );
-    }
+    return $class->new( text => $e, @_ );
 }
 
 package Foswiki::Exception::ASSERT;

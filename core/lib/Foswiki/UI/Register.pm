@@ -77,10 +77,10 @@ sub register_cgi {
     }
     else {
         Foswiki::OopsException->throw(
-            'attention',
-            web   => $session->webName,
-            topic => $session->topicName,
-            def   => 'unrecognized_action'
+            template => 'attention',
+            web      => $session->webName,
+            topic    => $session->topicName,
+            def      => 'unrecognized_action'
         );
     }
 }
@@ -96,28 +96,28 @@ sub _action_register {
         && uc( $query->method() ) ne 'POST' )
     {
         Foswiki::OopsException->throw(
-            'attention',
-            web    => $session->webName,
-            topic  => $session->topicName,
-            def    => 'post_method_only',
-            params => ['register']
+            template => 'attention',
+            web      => $session->webName,
+            topic    => $session->topicName,
+            def      => 'post_method_only',
+            params   => ['register']
         );
     }
 
     if ( !$session->inContext('registration_supported') ) {
         Foswiki::OopsException->throw(
-            'register',
-            web   => $session->webName,
-            topic => $session->topicName,
-            def   => 'registration_not_supported'
+            template => 'register',
+            web      => $session->webName,
+            topic    => $session->topicName,
+            def      => 'registration_not_supported'
         );
     }
     if ( !$Foswiki::cfg{Register}{EnableNewUserRegistration} ) {
         Foswiki::OopsException->throw(
-            'register',
-            web   => $session->webName,
-            topic => $session->topicName,
-            def   => 'registration_disabled'
+            template => 'register',
+            web      => $session->webName,
+            topic    => $session->topicName,
+            def      => 'registration_disabled'
         );
     }
     Foswiki::UI::checkValidationKey($session);
@@ -146,25 +146,26 @@ sub _action_verify {
     my $code    = $session->request->param('code');
 
     unless ($code) {
-        Foswiki::Exception->throw('verification failed: no verification code!');
+        Foswiki::Exception->throw(
+            text => 'verification failed: no verification code!' );
     }
     my $data = _loadPendingRegistration( $session, $code );
 
     if ( !exists $data->{Email} ) {
         Foswiki::OopsException->throw(
-            'register',
-            status => 200,
-            web    => $Foswiki::cfg{UsersWebName},
-            topic  => $data->{WikiName},
-            def    => 'rego_not_found',
-            params => [$code]
+            template => 'register',
+            status   => 200,
+            web      => $Foswiki::cfg{UsersWebName},
+            topic    => $data->{WikiName},
+            def      => 'rego_not_found',
+            params   => [$code]
         );
     }
 
     Foswiki::OopsException->throw(
-        'register',
-        def    => 'bad_ver_code',
-        params => [ $code, 'Invalid verification code ' ]
+        template => 'register',
+        def      => 'bad_ver_code',
+        params   => [ $code, 'Invalid verification code ' ]
     ) unless $data->{VerificationCode} eq $code;
     delete $data->{VerificationCode};
     _clearPendingRegistrationsForUser($code);
@@ -192,12 +193,12 @@ sub _action_disapprove {
 
     # Display the form to optionally gather feedback and email the rejectee
     Foswiki::OopsException->throw(
-        'register',
-        status => 200,
-        web    => $Foswiki::cfg{UsersWebName},
-        topic  => $data->{WikiName},
-        def    => 'rego_denied',
-        params => [ $data->{WikiName}, $data->{Email}, $data->{Referee} ]
+        template => 'register',
+        status   => 200,
+        web      => $Foswiki::cfg{UsersWebName},
+        topic    => $data->{WikiName},
+        def      => 'rego_denied',
+        params   => [ $data->{WikiName}, $data->{Email}, $data->{Referee} ]
     );
 }
 
@@ -208,9 +209,9 @@ sub _action_approve {
     my $code    = $session->request->param('code');
 
     Foswiki::OopsException->throw(
-        'register',
-        def    => 'bad_ver_code',
-        params => [ $code, 'Invalid approval code ' ]
+        template => 'register',
+        def      => 'bad_ver_code',
+        params   => [ $code, 'Invalid approval code ' ]
     ) unless $data->{ApprovalCode} eq $code;
     delete $data->{ApprovalCode};
 
@@ -220,13 +221,13 @@ sub _action_approve {
     _complete( $session, $data, 0 );
 
     Foswiki::OopsException->throw(
-        'register',
-        status => 200,
-        web    => $Foswiki::cfg{UsersWebName},
-        topic  => $data->{WikiName},
-        topic  => $data->{WikiName},
-        def    => 'rego_approved',
-        params => [ $data->{WikiName} ]
+        template => 'register',
+        status   => 200,
+        web      => $Foswiki::cfg{UsersWebName},
+        topic    => $data->{WikiName},
+        topic    => $data->{WikiName},
+        def      => 'rego_approved',
+        params   => [ $data->{WikiName} ]
     );
 }
 
@@ -256,39 +257,43 @@ sub _checkApproval {
 "Registration rejected: registration_mail_failed - Email: $data->{EmailAddress}, Error $err"
             );
             Foswiki::OopsException->throw(
-                'register',
-                def    => 'registration_mail_failed',
-                web    => $Foswiki::cfg{UsersWebName},
-                topic  => $data->{WikiName},
-                params => [ $data->{EmailAddress}, $err ]
+                template => 'register',
+                def      => 'registration_mail_failed',
+                web      => $Foswiki::cfg{UsersWebName},
+                topic    => $data->{WikiName},
+                params   => [ $data->{EmailAddress}, $err ]
             );
         }
         Foswiki::OopsException->throw(
-            'register',
-            status => 200,
-            web    => $Foswiki::cfg{UsersWebName},
-            topic  => $data->{WikiName},
-            def    => 'rego_denial',
-            params => [ $data->{WikiName}, $data->{EmailAddress} ]
+            template => 'register',
+            status   => 200,
+            web      => $Foswiki::cfg{UsersWebName},
+            topic    => $data->{WikiName},
+            def      => 'rego_denial',
+            params   => [ $data->{WikiName}, $data->{EmailAddress} ]
         );
     }
 
     # Must be logged in to approve
-    Foswiki::AccessControlException->throw( 'APPROVE', $session->user,
-        $session->webName, $session->topicName, 'Not logged in' )
-      unless $session->inContext('authenticated');
+    Foswiki::AccessControlException->throw(
+        mode   => 'APPROVE',
+        user   => $session->user,
+        web    => $session->webName,
+        topic  => $session->topicName,
+        reason => 'Not logged in'
+    ) unless $session->inContext('authenticated');
 
     my $data = _loadPendingRegistration( $session, $code );
     _clearPendingRegistrationsForUser($code);
 
     if ( !exists $data->{Email} ) {
         Foswiki::OopsException->throw(
-            'register',
-            status => 200,
-            web    => $Foswiki::cfg{UsersWebName},
-            topic  => $data->{WikiName},
-            def    => 'rego_not_found',
-            params => [$code]
+            template => 'register',
+            status   => 200,
+            web      => $Foswiki::cfg{UsersWebName},
+            topic    => $data->{WikiName},
+            def      => 'rego_not_found',
+            params   => [$code]
         );
     }
 
@@ -297,12 +302,12 @@ sub _checkApproval {
     my $cUID = $session->users->getCanonicalUserID( $data->{WikiName} );
     if ( $cUID && $session->users->userExists($cUID) ) {
         Foswiki::OopsException->throw(
-            'register',
-            status => 200,
-            web    => $Foswiki::cfg{UsersWebName},
-            topic  => $data->{WikiName},
-            def    => 'duplicate_activation',
-            params => [ $data->{WikiName} ]
+            template => 'register',
+            status   => 200,
+            web      => $Foswiki::cfg{UsersWebName},
+            topic    => $data->{WikiName},
+            def      => 'duplicate_activation',
+            params   => [ $data->{WikiName} ]
         );
     }
 
@@ -318,10 +323,10 @@ sub _resetPassword {
     my $session = shift;
     if ( !$session->inContext('passwords_modifyable') ) {
         Foswiki::OopsException->throw(
-            'register',
-            web   => $session->webName,
-            topic => $session->topicName,
-            def   => 'passwords_disabled'
+            template => 'register',
+            web      => $session->webName,
+            topic    => $session->topicName,
+            def      => 'passwords_disabled'
         );
     }
 
@@ -365,12 +370,12 @@ sub bulkRegister {
 
     unless ( $session->users->isAdmin($user) ) {
         Foswiki::OopsException->throw(
-            'accessdenied',
-            status => 403,
-            def    => 'only_group',
-            web    => $web,
-            topic  => $topic,
-            params => [ $Foswiki::cfg{SuperAdminGroup} ]
+            template => 'accessdenied',
+            status   => 403,
+            def      => 'only_group',
+            web      => $web,
+            topic    => $topic,
+            params   => [ $Foswiki::cfg{SuperAdminGroup} ]
         );
     }
 
@@ -444,8 +449,13 @@ sub bulkRegister {
     #-- Save the LogFile as designated, link back to the source topic
     my $lmeta = Foswiki::Meta->new( $session, $logWeb, $logTopic, $log );
     unless ( $lmeta->haveAccess('CHANGE') ) {
-        Foswiki::AccessControlException->throw( 'CHANGE', $session->user,
-            $logWeb, $logTopic, $Foswiki::Meta::reason );
+        Foswiki::AccessControlException->throw(
+            mode   => 'CHANGE',
+            user   => $session->user,
+            web    => $logWeb,
+            topic  => $logTopic,
+            reason => $Foswiki::Meta::reason
+        );
     }
     $lmeta->put( 'TOPICPARENT', { name => $web . '.' . $topic } );
     $lmeta->save();
@@ -462,7 +472,7 @@ sub _registerSingleBulkUser {
     ASSERT($row) if DEBUG;
 
     my $doOverwriteTopics = defined $settings->{doOverwriteTopics}
-      || Foswiki::Exception->throw('No doOverwriteTopics');
+      || Foswiki::Exception->throw( text => 'No doOverwriteTopics' );
 
     my $log = "---++ Registering $row->{WikiName}\n";
 
@@ -603,11 +613,11 @@ sub _innerRegister {
         $session->logger->log( 'warning',
             "Registration rejected: validateTopicName failed for $oldName" );
         Foswiki::OopsException->throw(
-            'register',
-            def    => 'bad_wikiname',
-            web    => $data->{webName},
-            topic  => $session->topicName,
-            params => [$oldName]
+            template => 'register',
+            def      => 'bad_wikiname',
+            web      => $data->{webName},
+            topic    => $session->topicName,
+            params   => [$oldName]
         );
     }
 
@@ -634,11 +644,11 @@ sub _requireConfirmation {
         $session->logger->log( 'warning',
             "$type rejected: validateTopicName failed for $oldName" );
         Foswiki::OopsException->throw(
-            'register',
-            def    => 'bad_wikiname',
-            web    => $data->{webName},
-            topic  => $session->topicName,
-            params => [$oldName]
+            template => 'register',
+            def      => 'bad_wikiname',
+            web      => $data->{webName},
+            topic    => $session->topicName,
+            params   => [$oldName]
         );
     }
     $data->{LoginName} ||= $data->{WikiName};
@@ -654,7 +664,7 @@ sub _requireConfirmation {
     my $file = _codeFile( $data->{"${type}Code"} );
     my $F;
     open( $F, '>', $file )
-      or Foswiki::Exception->throw( 'Failed to open file: ' . $! );
+      or Foswiki::Exception->throw( text => 'Failed to open file: ' . $! );
     print $F "# $type code\n";
 
     # SMELL: wierd jiggery-pokery required, otherwise Data::Dumper screws
@@ -700,11 +710,11 @@ sub _requireConfirmation {
 "Registration rejected: registration_mail_failed - Email: $data->{EmailAddress}, Error $err"
                 );
                 Foswiki::OopsException->throw(
-                    'register',
-                    def    => 'registration_mail_failed',
-                    web    => $data->{webName},
-                    topic  => $topic,
-                    params => [ $data->{EmailAddress}, $err ]
+                    template => 'register',
+                    def      => 'registration_mail_failed',
+                    web      => $data->{webName},
+                    topic    => $topic,
+                    params   => [ $data->{EmailAddress}, $err ]
                 );
             }
         }
@@ -715,21 +725,21 @@ sub _requireConfirmation {
         );
 
         Foswiki::OopsException->throw(
-            'attention',
-            def    => 'send_mail_error',
-            web    => $data->{webName},
-            topic  => $topic,
-            params => [ 'all', $err ]
+            template => 'attention',
+            def      => 'send_mail_error',
+            web      => $data->{webName},
+            topic    => $topic,
+            params   => [ 'all', $err ]
         );
     }
 
     Foswiki::OopsException->throw(
-        'register',
-        status => 200,
-        def    => $template,                  # confirm or approve
-        web    => $data->{webName},
-        topic  => $topic,
-        params => [ $data->{EmailAddress} ]
+        template => 'register',
+        status   => 200,
+        def      => $template,                  # confirm or approve
+        web      => $data->{webName},
+        topic    => $topic,
+        params   => [ $data->{EmailAddress} ]
     );
 }
 
@@ -760,20 +770,20 @@ sub deleteUser {
         && uc( $query->method() ) ne 'POST' )
     {
         Foswiki::OopsException->throw(
-            'attention',
-            web    => $session->webName,
-            topic  => $session->topicName,
-            def    => 'post_method_only',
-            params => ['remove']
+            template => 'attention',
+            web      => $session->webName,
+            topic    => $session->topicName,
+            def      => 'post_method_only',
+            params   => ['remove']
         );
     }
 
     unless ( $query->param('user') ) {
         Foswiki::OopsException->throw(
-            'register',
-            web   => $session->webName,
-            topic => $session->topicName,
-            def   => 'user_param_required',
+            template => 'register',
+            web      => $session->webName,
+            topic    => $session->topicName,
+            def      => 'user_param_required',
         );
     }
     my $myWikiName   = $session->users->getWikiName($cUID);
@@ -794,11 +804,11 @@ sub deleteUser {
 
         if ( ( $user ne $cUID ) && ( $myWikiName ne $userWikiName ) ) {
             Foswiki::OopsException->throw(
-                'register',
-                web    => $webName,
-                topic  => $topic,
-                def    => 'not_self',
-                params => [$userWikiName]
+                template => 'register',
+                web      => $webName,
+                topic    => $topic,
+                def      => 'not_self',
+                params   => [$userWikiName]
             );
         }
 
@@ -806,11 +816,11 @@ sub deleteUser {
         my $users = $session->users;
         if ( !$users->userExists($cUID) ) {
             Foswiki::OopsException->throw(
-                'register',
-                web    => $webName,
-                topic  => $topic,
-                def    => 'not_a_user',
-                params => [$userWikiName]
+                template => 'register',
+                web      => $webName,
+                topic    => $topic,
+                def      => 'not_a_user',
+                params   => [$userWikiName]
             );
         }
 
@@ -822,10 +832,10 @@ sub deleteUser {
           )
         {
             Foswiki::OopsException->throw(
-                'register',
-                web   => $webName,
-                topic => $topic,
-                def   => 'wrong_password'
+                template => 'register',
+                web      => $webName,
+                topic    => $topic,
+                def      => 'wrong_password'
             );
         }
     }
@@ -836,10 +846,10 @@ sub deleteUser {
             \&Foswiki::Sandbox::validateTopicName
         );
         Foswiki::OopsException->throw(
-            'register',
-            web   => $webName,
-            topic => $topic,
-            def   => 'bad_prefix'
+            template => 'register',
+            web      => $webName,
+            topic    => $topic,
+            def      => 'bad_prefix'
         ) unless ($topicPrefix);
     }
 
@@ -853,12 +863,12 @@ sub deleteUser {
     Foswiki::Func::writeWarning("$cUID: $lm");
 
     Foswiki::OopsException->throw(
-        'register',
-        status => 200,
-        def    => 'remove_user_done',
-        web    => $webName,
-        topic  => $topic,
-        params => [ $userWikiName, $m ]
+        template => 'register',
+        status   => 200,
+        def      => 'remove_user_done',
+        web      => $webName,
+        topic    => $topic,
+        params   => [ $userWikiName, $m ]
     );
 }
 
@@ -889,11 +899,11 @@ sub addUserToGroup {
     if ( !$groupName or $groupName eq '' ) {
         my $userNames = scalar(@userNames) ? join( ',', @userNames ) : '';
         Foswiki::OopsException->throw(
-            'register',
-            def    => 'no_group_specified_for_add_to_group',
-            web    => $web,
-            topic  => $topic,
-            params => [$userNames]
+            template => 'register',
+            def      => 'no_group_specified_for_add_to_group',
+            web      => $web,
+            topic    => $topic,
+            params   => [$userNames]
         );
     }
 
@@ -919,12 +929,12 @@ sub addUserToGroup {
             };
 
             Foswiki::OopsException->throw(
-                'register',
-                status => 200,
-                def    => 'group_upgraded',
-                web    => $web,
-                topic  => $topic,
-                params => [$groupName]
+                template => 'register',
+                status   => 200,
+                def      => 'group_upgraded',
+                web      => $web,
+                topic    => $topic,
+                params   => [$groupName]
             );
         }
     }
@@ -933,10 +943,10 @@ sub addUserToGroup {
         && !$create )
     {
         Foswiki::OopsException->throw(
-            'register',
-            def   => 'no_group_and_no_create',
-            web   => $web,
-            topic => $topic,
+            template => 'register',
+            def      => 'no_group_and_no_create',
+            web      => $web,
+            topic    => $topic,
         );
     }
     if ( $#userNames == 0 ) {
@@ -996,23 +1006,23 @@ sub addUserToGroup {
         $session->logger->log( 'warning',
             "failed: " . scalar(@failed) . " Succeeded " . scalar(@succeeded) );
         Foswiki::OopsException->throw(
-            'register',
-            web    => $web,
-            topic  => $topic,
-            def    => 'problem_adding_to_group',
-            params => [ join( ', ', @failed ), $groupName ]
+            template => 'register',
+            web      => $web,
+            topic    => $topic,
+            def      => 'problem_adding_to_group',
+            params   => [ join( ', ', @failed ), $groupName ]
         );
     }
 
     my $url = $session->redirectto();
     unless ($url) {
         Foswiki::OopsException->throw(
-            'register',
-            status => 200,
-            def    => 'added_users_to_group',
-            web    => $web,
-            topic  => $topic,
-            params => [ join( ', ', @succeeded ), $groupName ]
+            template => 'register',
+            status   => 200,
+            def      => 'added_users_to_group',
+            web      => $web,
+            topic    => $topic,
+            params   => [ join( ', ', @succeeded ), $groupName ]
         );
     }
     else {
@@ -1045,19 +1055,25 @@ sub removeUserFromGroup {
     if (   ( $#userNames < 0 )
         or ( $userNames[0] eq '' ) )
     {
-        Foswiki::OopsException->throw( 'register',
-            def => 'no_users_to_remove_from_group' );
+        Foswiki::OopsException->throw(
+            template => 'register',
+            def      => 'no_users_to_remove_from_group'
+        );
     }
     if ( $#userNames == 0 ) {
         @userNames = split( /,\s+/, $userNames[0] );
     }
     if ( !$groupName or $groupName eq '' ) {
-        Foswiki::OopsException->throw( 'register',
-            def => 'no_group_specified_for_remove_from_group' );
+        Foswiki::OopsException->throw(
+            template => 'register',
+            def      => 'no_group_specified_for_remove_from_group'
+        );
     }
     unless ( Foswiki::Func::isGroup($groupName) ) {
-        Foswiki::OopsException->throw( 'register',
-            def => 'problem_removing_from_group' );
+        Foswiki::OopsException->throw(
+            template => 'register',
+            def      => 'problem_removing_from_group'
+        );
     }
 
     # Validate
@@ -1087,23 +1103,23 @@ sub removeUserFromGroup {
     }
     if (@failed) {
         Foswiki::OopsException->throw(
-            'register',
-            web    => $web,
-            topic  => $topic,
-            def    => 'problem_removing_from_group',
-            params => [ join( ', ', @failed ), $groupName ]
+            template => 'register',
+            web      => $web,
+            topic    => $topic,
+            def      => 'problem_removing_from_group',
+            params   => [ join( ', ', @failed ), $groupName ]
         );
     }
 
     my $url = $session->redirectto();
     unless ($url) {
         Foswiki::OopsException->throw(
-            'register',
-            status => 200,
-            def    => 'removed_users_from_group',
-            web    => $web,
-            topic  => $topic,
-            params => [ join( ', ', @succeeded ), $groupName ]
+            template => 'register',
+            status   => 200,
+            def      => 'removed_users_from_group',
+            web      => $web,
+            topic    => $topic,
+            params   => [ join( ', ', @succeeded ), $groupName ]
         );
     }
     else {
@@ -1331,12 +1347,12 @@ sub _complete {
 
         # and finally display thank you page
         Foswiki::OopsException->throw(
-            'register',
-            status => 200,
-            web    => $Foswiki::cfg{UsersWebName},
-            topic  => $data->{WikiName},
-            def    => 'thanks',
-            params => [ $status, $data->{WikiName} ]
+            template => 'register',
+            status   => 200,
+            web      => $Foswiki::cfg{UsersWebName},
+            topic    => $data->{WikiName},
+            def      => 'thanks',
+            params   => [ $status, $data->{WikiName} ]
         );
     }
 }
@@ -1624,11 +1640,11 @@ sub _validateRegistration {
 
             # Login name is required, barf
             Foswiki::OopsException->throw(
-                'register',
-                web    => $data->{webName},
-                topic  => $session->topicName,
-                def    => 'miss_loginname',
-                params => ['undefined']
+                template => 'register',
+                web      => $data->{webName},
+                topic    => $session->topicName,
+                def      => 'miss_loginname',
+                params   => ['undefined']
             );
         }
         else {
@@ -1641,11 +1657,11 @@ sub _validateRegistration {
         {
             # Login name is not allowed, barf
             Foswiki::OopsException->throw(
-                'register',
-                web    => $data->{webName},
-                topic  => $session->topicName,
-                def    => 'unsupport_loginname',
-                params => [ $data->{LoginName} ]
+                template => 'register',
+                web      => $data->{webName},
+                topic    => $session->topicName,
+                def      => 'unsupport_loginname',
+                params   => [ $data->{LoginName} ]
             );
         }
     }
@@ -1655,11 +1671,11 @@ sub _validateRegistration {
         ->isValidLoginName( $data->{LoginName} ) )
     {
         Foswiki::OopsException->throw(
-            'register',
-            web    => $data->{webName},
-            topic  => $session->topicName,
-            def    => 'bad_loginname',
-            params => [ $data->{LoginName} ]
+            template => 'register',
+            web      => $data->{webName},
+            topic    => $session->topicName,
+            def      => 'bad_loginname',
+            params   => [ $data->{LoginName} ]
         );
     }
 
@@ -1703,11 +1719,11 @@ sub _validateRegistration {
 "Registration rejected:  LoginName $data->{LoginName} or WikiName $wikiname already known to Mapper"
         );
         Foswiki::OopsException->throw(
-            'register',
-            web    => $data->{webName},
-            topic  => $session->topicName,
-            def    => 'already_exists',
-            params => [ $data->{LoginName} ]
+            template => 'register',
+            web      => $data->{webName},
+            topic    => $session->topicName,
+            def      => 'already_exists',
+            params   => [ $data->{LoginName} ]
         );
     }
 
@@ -1719,11 +1735,11 @@ sub _validateRegistration {
 "Registration rejected: Topic $Foswiki::cfg{UsersWebName}.$data->{WikiName}  already exists."
         );
         Foswiki::OopsException->throw(
-            'register',
-            web    => $data->{webName},
-            topic  => $session->topicName,
-            def    => 'already_exists',
-            params => [ $data->{WikiName} ]
+            template => 'register',
+            web      => $data->{webName},
+            topic    => $session->topicName,
+            def      => 'already_exists',
+            params   => [ $data->{WikiName} ]
         );
     }
 
@@ -1733,11 +1749,11 @@ sub _validateRegistration {
             "Registration rejected:  $data->{WikiName} is not a valid WikiWord."
         );
         Foswiki::OopsException->throw(
-            'register',
-            web    => $data->{webName},
-            topic  => $session->topicName,
-            def    => 'bad_wikiname',
-            params => [ $data->{WikiName} ]
+            template => 'register',
+            web      => $data->{webName},
+            topic    => $session->topicName,
+            def      => 'bad_wikiname',
+            params   => [ $data->{WikiName} ]
         );
     }
 
@@ -1755,11 +1771,11 @@ sub _validateRegistration {
 "Registration rejected for $data->{WikiName}: requested password is too short."
             );
             Foswiki::OopsException->throw(
-                'register',
-                web    => $data->{webName},
-                topic  => $session->topicName,
-                def    => 'bad_password',
-                params => [ $Foswiki::cfg{MinPasswordLength} ]
+                template => 'register',
+                web      => $data->{webName},
+                topic    => $session->topicName,
+                def      => 'bad_password',
+                params   => [ $Foswiki::cfg{MinPasswordLength} ]
             );
         }
 
@@ -1771,10 +1787,10 @@ sub _validateRegistration {
 "Registration rejected for $data->{WikiName}: passwords do not match."
             );
             Foswiki::OopsException->throw(
-                'register',
-                web   => $data->{webName},
-                topic => $session->topicName,
-                def   => 'password_mismatch'
+                template => 'register',
+                web      => $data->{webName},
+                topic    => $session->topicName,
+                def      => 'password_mismatch'
             );
         }
     }
@@ -1786,11 +1802,11 @@ sub _validateRegistration {
 "Registration rejected: $data->{Email} failed the system email regex check."
         );
         Foswiki::OopsException->throw(
-            'register',
-            web    => $data->{webName},
-            topic  => $session->topicName,
-            def    => 'bad_email',
-            params => [ $data->{Email} ]
+            template => 'register',
+            web      => $data->{webName},
+            topic    => $session->topicName,
+            def      => 'bad_email',
+            params   => [ $data->{Email} ]
         );
     }
 
@@ -1806,11 +1822,11 @@ sub _validateRegistration {
 "Registration rejected: $data->{Email} rejected by the {Register}{EmailFilter}."
         );
         Foswiki::OopsException->throw(
-            'register',
-            def    => 'rej_email',
-            web    => $data->{webName},
-            topic  => $session->topicName,
-            params => [ $data->{Email} ]
+            template => 'register',
+            def      => 'rej_email',
+            web      => $data->{webName},
+            topic    => $session->topicName,
+            params   => [ $data->{Email} ]
         );
     }
 
@@ -1826,11 +1842,11 @@ sub _validateRegistration {
                 "Registration rejected: $data->{Email} already registered by: "
                   . join( ', ', @existingNames ) );
             Foswiki::OopsException->throw(
-                'register',
-                web    => $data->{webName},
-                topic  => $session->topicName,
-                def    => 'dup_email',
-                params => [ $data->{Email} ]
+                template => 'register',
+                web      => $data->{webName},
+                topic    => $session->topicName,
+                def      => 'dup_email',
+                params   => [ $data->{Email} ]
             );
         }
     }
@@ -1845,10 +1861,10 @@ sub _validateRegistration {
                     'Registration rejected: invalid templatetopic requested: '
                       . $data->{templatetopic} );
                 Foswiki::OopsException->throw(
-                    'register',
-                    web   => $data->{webName},
-                    topic => $session->topicName,
-                    def   => 'bad_templatetopic',
+                    template => 'register',
+                    web      => $data->{webName},
+                    topic    => $session->topicName,
+                    def      => 'bad_templatetopic',
                 );
             }
         );
@@ -1865,12 +1881,12 @@ sub _validateRegistration {
 'Registration rejected: requested templatetopic does not exist: '
                   . $data->{templatetopic} );
             Foswiki::OopsException->throw(
-                'register',
-                uweb  => $Foswiki::cfg{UsersWebName},
-                tmpl  => $data->{templatetopic},
-                web   => $data->{webName},
-                topic => $session->topicName,
-                def   => 'bad_templatetopic',
+                template => 'register',
+                uweb     => $Foswiki::cfg{UsersWebName},
+                tmpl     => $data->{templatetopic},
+                web      => $data->{webName},
+                topic    => $session->topicName,
+                def      => 'bad_templatetopic',
             );
         }
     }
@@ -1882,11 +1898,11 @@ sub _validateRegistration {
             $session->logger->log( 'warning',
                 'Registration rejected: The submitted form was empty' );
             Foswiki::OopsException->throw(
-                'attention',
-                web    => $data->{webName},
-                topic  => $session->topicName,
-                def    => 'missing_fields',
-                params => ['form']
+                template => 'attention',
+                web      => $data->{webName},
+                topic    => $session->topicName,
+                def      => 'missing_fields',
+                params   => ['form']
             );
         }
         my @missing = ();
@@ -1902,11 +1918,11 @@ sub _validateRegistration {
                 'Registration rejected: missing required fields: '
                   . join( ',', @missing ) );
             Foswiki::OopsException->throw(
-                'attention',
-                web    => $data->{webName},
-                topic  => $session->topicName,
-                def    => 'missing_fields',
-                params => [ join( ', ', @missing ) ]
+                template => 'attention',
+                web      => $data->{webName},
+                topic    => $session->topicName,
+                def      => 'missing_fields',
+                params   => [ join( ', ', @missing ) ]
             );
         }
     }
@@ -1922,19 +1938,14 @@ sub _validateRegistration {
     }
     catch {
         my $e = $_;
-        if ( $e->isa('Foswiki::OopsException') ) {
-            $e->throw();    # propagate
-        }
-        else {
-            Foswiki::OopsException->throw(
-                'register',
-                web    => $data->{webName},
-                topic  => $session->topicName,
-                def    => 'registration_invalid',
-                params => [ $e->stringify ]
-            );
-
-        }
+        Foswiki::OopsException->rethrowAs(
+            $_,
+            template => 'register',
+            web      => $data->{webName},
+            topic    => $session->topicName,
+            def      => 'registration_invalid',
+            params   => [ $e->stringify ]
+        );
     };
 }
 
@@ -2014,9 +2025,9 @@ sub _loadPendingRegistration {
     }
     catch {
         Foswiki::OopsException->throw(
-            'register',
-            def    => 'bad_ver_code',
-            params => [ $code, 'Invalid code' ],
+            template => 'register',
+            def      => 'bad_ver_code',
+            params   => [ $code, 'Invalid code' ],
         );
     };
 
@@ -2027,15 +2038,15 @@ sub _loadPendingRegistration {
             && $session->users->userExists( $users->[0] ) )
         {
             Foswiki::OopsException->throw(
-                'register',
-                def    => 'duplicate_activation',
-                params => [$wikiName],
+                template => 'register',
+                def      => 'duplicate_activation',
+                params   => [$wikiName],
             );
         }
         Foswiki::OopsException->throw(
-            'register',
-            def    => 'bad_ver_code',
-            params => [ $code, 'Code is not recognised' ],
+            template => 'register',
+            def      => 'bad_ver_code',
+            params   => [ $code, 'Code is not recognised' ],
         );
     }
 
@@ -2044,9 +2055,9 @@ sub _loadPendingRegistration {
     do $file;
     $data->{form} = $form if $form;
     Foswiki::OopsException->throw(
-        'register',
-        def    => 'bad_ver_code',
-        params => [ $code, 'Bad activation code' ]
+        template => 'register',
+        def      => 'bad_ver_code',
+        params   => [ $code, 'Bad activation code' ]
     ) if $!;
 
     return $data;
@@ -2076,9 +2087,9 @@ sub _getDataFromQuery {
             }
             catch {
                 Foswiki::OopsException->throw(
-                    'register',
-                    def    => 'invalid_field',
-                    params => [$name]
+                    template => 'register',
+                    def      => 'invalid_field',
+                    params   => [$name]
                 );
             };
             push(

@@ -158,6 +158,10 @@ sub BUILD {
     if ( ref( $this->params ) ne 'ARRAY' ) {
         $this->_set_params( [ $this->params ] );
     }
+
+    # Make it easier to locate a problem if Oops is treated as a simple
+    # Foswiki::Exception.
+    $this->_set_text( $this->stringify );
 }
 
 around BUILDARGS => sub {
@@ -184,7 +188,8 @@ operations, and also for debugging.
 
 =cut
 
-sub stringify {
+around stringify => sub {
+    my $orig = shift;
     my ( $this, $session ) = @_;
 
     my $template = $this->template;
@@ -195,8 +200,11 @@ sub stringify {
         $session->templates->readTemplate( 'oops' . $template, no_oops => 1 );
         my $message = $session->templates->expandTemplate($def)
           || "Failed to find '$def' in 'oops$template'";
-        my $topicObject =
-          Foswiki::Meta->new( $session, $this->web, $this->topic );
+        my $topicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $this->web,
+            topic   => $this->topic
+        );
         $message = $topicObject->expandMacros($message);
         my $n = 1;
         foreach my $param ( @{ $this->params } ) {
@@ -217,7 +225,7 @@ sub stringify {
         }
         return $s . ')' . ( (DEBUG) ? $this->stacktrace : '' );
     }
-}
+};
 
 # Generate a redirect to an 'oops' script for this exception.
 #

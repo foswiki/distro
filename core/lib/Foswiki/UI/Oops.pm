@@ -39,9 +39,9 @@ values in the query.
 
 sub oops_cgi {
     my $session = shift;
-    my $topic   = $session->{topicName};
-    my $web     = $session->{webName};
-    my $query   = $session->{request};
+    my $topic   = $session->topicName;
+    my $web     = $session->webName;
+    my $query   = $session->request;
 
     oops( $session, $web, $topic, $query, 0 );
 }
@@ -64,13 +64,13 @@ sub oops {
     my ( $session, $web, $topic, $query, $keep ) = @_;
 
     # Foswikitask:Item885: web and topic are required to have values
-    $web ||= $session->{webName};
+    $web ||= $session->webName;
 
     # If web name is completely missing, it may have contained
     # illegal characters
     $web ||= '';
 
-    $topic ||= $session->{topicName};
+    $topic ||= $session->topicName;
 
     my $tmplName;
     my $def;

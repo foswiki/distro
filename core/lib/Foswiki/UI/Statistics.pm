@@ -15,7 +15,7 @@ use warnings;
 use Assert;
 use File::Copy qw(copy);
 use IO::File ();
-use Error qw( :try );
+use Try::Tiny;
 
 use Foswiki                         ();
 use Foswiki::Sandbox                ();
@@ -49,29 +49,29 @@ topic update for that web. Otherwise do it for all webs
 sub statistics {
     my $session = shift;
 
-    my $webName = $session->{webName};
+    my $webName = $session->webName;
 
     my $tmp = '';
 
     # web to redirect to after finishing
     my $destWeb = $Foswiki::cfg{UsersWebName};
-    my $logDate = $session->{request}->param('logdate') || '';
+    my $logDate = $session->request->param('logdate') || '';
     $logDate =~ s/[^0-9]//g;    # remove all non numerals
 
     unless ( $session->inContext('command_line') ) {
 
         # running from CGI
         $session->generateHTTPHeaders();
-        $session->{response}->print(
+        $session->response->print(
             CGI::start_html( -title => 'Foswiki: Create Usage Statistics' ) );
 
-        if ( uc( $session->{request}->method() ) ne 'POST' ) {
-            throw Foswiki::OopsException(
-                'attention',
-                web    => $session->{webName},
-                topic  => $session->{topicName},
-                def    => 'post_method_only',
-                params => ['statistics']
+        if ( uc( $session->request->method() ) ne 'POST' ) {
+            Foswiki::OopsException->throw(
+                template => 'attention',
+                web      => $session->webName,
+                topic    => $session->topicName,
+                def      => 'post_method_only',
+                params   => ['statistics']
             );
         }
     }
@@ -127,11 +127,11 @@ sub statistics {
     # topic rules which are more forgiving than the Web validations.
     # This field will be missing rather than defaulted if no web is
     # specified in the URL.
-    my $webSet = $session->{request}->param('webs')
-      || $session->{requestedWebName};
+    my $webSet = $session->request->param('webs')
+      || $session->requestedWebName;
 
     my $recurse =
-      Foswiki::Func::isTrue( scalar( $session->{request}->param('subwebs') ) );
+      Foswiki::Func::isTrue( scalar( $session->request->param('subwebs') ) );
 
     if ($webSet) {
 
@@ -175,11 +175,14 @@ sub statistics {
             $destWeb =
               _processWeb( $session, $web, $logMonthYear, $data, $firstTime );
         }
-        catch Foswiki::AccessControlException with {
+        catch {
+            unless ( ref($_) && $_->isa('Foswiki::AccessControlException ') ) {
+                Foswiki::Exception->rethrow($_);
+            }
             _printMsg( $session,
                 '!  - ERROR: no permission to CHANGE statistics topic in '
                   . $web );
-        }
+        };
         $firstTime = 0;
 
         if ( !$session->inContext('command_line') ) {
@@ -200,7 +203,7 @@ sub statistics {
         }
     }
     _printMsg( $session, 'End creating usage statistics' );
-    $session->{response}->print( CGI::end_html() )
+    $session->response->print( CGI::end_html() )
       unless ( $session->inContext('command_line') );
 }
 
@@ -263,7 +266,7 @@ sub _collectLogData {
         statUploadsRef => {}
     };
 
-    my $users = $session->{users};
+    my $users = $session->users;
 
     my $it = $session->logger->eachEventSince( $start, 'info' );
     while ( $it->hasNext() ) {
@@ -363,7 +366,7 @@ m/moved to ($Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}|$Fos
 sub _processWeb {
     my ( $session, $web, $theLogMonthYear, $data, $isFirstTime ) = @_;
 
-    my ( $topic, $user ) = ( $session->{topicName}, $session->{user} );
+    my ( $topic, $user ) = ( $session->topicName, $session->user );
 
     if ($isFirstTime) {
         _printMsg( $session, '* Executed by ' . $user );
@@ -423,8 +426,8 @@ sub _processWeb {
     if ( defined $Foswiki::cfg{Stats}{AutoCreateTopic} ) {
         if ( $Foswiki::cfg{Stats}{AutoCreateTopic} eq 'Allowed' ) {
             $autoCreateMsg = 'not requested';
-            $autoCreate    = $session->{request}->param('autocreate')
-              if defined $session->{request}->param('autocreate');
+            $autoCreate    = $session->request->param('autocreate')
+              if defined $session->request->param('autocreate');
         }
         else {
             $autoCreate = 1
@@ -620,8 +623,8 @@ sub _printMsg {
         $msg =~
 s/==([A-Z]*)==/'=='.CGI::span( { class=>'foswikiAlert' }, $1 ).'=='/ge;
     }
-    $session->{response}->print( $msg . "\n" ) if $msg;
-    $Foswiki::engine->flush( $session->{response}, $session->{request} );
+    $session->response->print( $msg . "\n" ) if $msg;
+    $Foswiki::engine->flush( $session->response, $session->request );
 }
 
 1;

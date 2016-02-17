@@ -13,7 +13,7 @@ package Foswiki::UI::Attach;
 use strict;
 use warnings;
 use Assert;
-use Error qw( :try );
+use Try::Tiny;
 
 use Foswiki                ();
 use Foswiki::UI            ();
@@ -42,9 +42,9 @@ Generates a prompt page for adding an attachment.
 sub attach {
     my $session = shift;
 
-    my $query = $session->{request};
-    my $web   = $session->{webName};
-    my $topic = $session->{topicName};
+    my $query = $session->request;
+    my $web   = $session->webName;
+    my $topic = $session->topicName;
 
     Foswiki::UI::checkWebExists( $session, $web,, 'attach' );
     Foswiki::UI::checkTopicExists( $session, $web, $topic, 'upload files to' );
@@ -84,7 +84,7 @@ sub attach {
     if ($fileName) {
         $tmpl = $session->templates->readTemplate('attachagain');
         my $u = $args->{user};
-        $fileWikiUser = $session->{users}->webDotWikiName($u) if $u;
+        $fileWikiUser = $session->users->webDotWikiName($u) if $u;
     }
     else {
         $tmpl = $session->templates->readTemplate('attachnew');

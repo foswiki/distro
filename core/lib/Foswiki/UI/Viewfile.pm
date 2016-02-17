@@ -43,10 +43,10 @@ Some parameters are passed in CGI query:
 sub viewfile {
     my $session = shift;
 
-    my $query = $session->{request};
+    my $query = $session->request;
 
-    my $web   = $session->{webName};
-    my $topic = $session->{topicName};
+    my $web   = $session->webName;
+    my $topic = $session->topicName;
 
     my $fileName;
     my $pathInfo;
@@ -100,19 +100,19 @@ sub viewfile {
 
         $web = join( '/', @web );
         unless ($web) {
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'no_such_attachment',
-                web    => 'Unknown',
-                topic  => 'Unknown',
-                status => 404,
-                params => ['?']
+            Foswiki::OopsException->throw(
+                template => 'attention',
+                def      => 'no_such_attachment',
+                web      => 'Unknown',
+                topic    => 'Unknown',
+                status   => 404,
+                params   => ['?']
             );
         }
 
         # Must set the web name, otherwise plugins may barf if
         # they try to manipulate the topic context when an oops is generated.
-        $session->{webName} = $web;
+        $session->webName($web);
 
         # The next element on the path has to be the topic name
         $topic =
@@ -120,31 +120,31 @@ sub viewfile {
             \&Foswiki::Sandbox::validateTopicName );
 
         if ( !$topic ) {
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'no_such_attachment',
-                web    => $web,
-                topic  => 'Unknown',
-                status => 404,
-                params => ['?']
+            Foswiki::OopsException->throw(
+                template => 'attention',
+                def      => 'no_such_attachment',
+                web      => $web,
+                topic    => 'Unknown',
+                status   => 404,
+                params   => ['?']
             );
         }
 
         # See comment about webName above
-        $session->{topicName} = $topic;
+        $session->topicName($topic);
 
         # What's left in the path is the attachment name.
         $fileName = join( '/', @path );
     }
 
     if ( !$fileName ) {
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'no_such_attachment',
-            web    => $web,
-            topic  => $topic,
-            status => 404,
-            params => ['?']
+        Foswiki::OopsException->throw(
+            template => 'attention',
+            def      => 'no_such_attachment',
+            web      => $web,
+            topic    => $topic,
+            status   => 404,
+            params   => ['?']
         );
     }
 
@@ -160,13 +160,13 @@ sub viewfile {
 
     # This check will fail if the attachment has no "presence" in metadata
     unless ( $topicObject->hasAttachment($fileName) ) {
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'no_such_attachment',
-            web    => $web,
-            topic  => $topic,
-            status => 404,
-            params => ["$web/$topic/$fileName"]
+        Foswiki::OopsException->throw(
+            template => 'attention',
+            def      => 'no_such_attachment',
+            web      => $web,
+            topic    => $topic,
+            status   => 404,
+            params   => ["$web/$topic/$fileName"]
         );
     }
 
@@ -189,11 +189,11 @@ sub viewfile {
     my $type = _suffixToMimeType($fileName);
 
     #re-set to 200, in case this was a 404 or other redirect
-    $session->{response}->status(200);
+    $session->response->status(200);
 
 # Write a custom Content_Disposition header.  The -attachment option does not
 # write the file as "inline", so graphics would get a File Save dialog instead of displayed.
-    $session->{response}->header(
+    $session->response->header(
         -type                => $type,
         -content_disposition => "inline; filename=\"$fileName\""
     );
@@ -202,7 +202,7 @@ sub viewfile {
 
     # SMELL: Maybe could be less memory hungry if we could
     # set the response body to the file handle.
-    $session->{response}->body(<$fh>);
+    $session->response->body(<$fh>);
 }
 
 sub _suffixToMimeType {

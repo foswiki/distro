@@ -1,15 +1,15 @@
 # NOTE: this is a VERY limited subset of subroutines in Foswiki.pm (um, ok, one - moved from ManageDotPmTests..)
 package FoswikiPmFunctionsTests;
+use v5.14;
 
-use strict;
-use warnings;
-use diagnostics;
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use diagnostics -verbose;
 use Foswiki();
 use Foswiki::UI::Manage();
 use Foswiki::UI::Save();
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 sub TRACE { return 0; }
 
