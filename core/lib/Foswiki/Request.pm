@@ -26,17 +26,19 @@ Fields:
 =cut
 
 package Foswiki::Request;
-use strict;
-use warnings;
+use v5.14;
 
 use CGI ();
-our @ISA = ('CGI');
 
 use Assert;
-use Error    ();
+use Try::Tiny;
 use IO::File ();
 use CGI::Util qw(rearrange);
 use Time::HiRes ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -45,16 +47,81 @@ BEGIN {
     }
 }
 
+*Delete        = \&delete;
+*remote_addr   = \&remote_address;
+*remoteAddress = \&remote_address;
+*remoteUser    = \&remote_user;
+*serverPort    = \&server_port;
+*delete_all    = \&deleteAll;
+*user_agent    = \&userAgent;
+
+has action => (
+    is      => 'rw',
+    lazy    => 1,
+    default => '',
+    trigger => sub {
+        my ( $this, $action ) = @_;
+
+        # This will set base_action only the first time action would been set.
+        $this->base_action;
+        $ENV{FOSWIKI_ACTION} = $action;
+    },
+);
+has base_action => (
+    is        => 'ro',
+    lazy      => 1,
+    predicate => 1,
+
+  # Lazy+ro makes base_action set only once – when action is set for the first
+  # time. See action attribute trigger.
+    default => sub { return $_[0]->action; },
+);
+has path_info      => ( is => 'rw', lazy => 1, default => '', );
+has remote_address => ( is => 'rw', lazy => 1, default => '', );
+has uri            => ( is => 'rw', lazy => 1, default => '', );
+has cookies        => ( is => 'rw', lazy => 1, default => sub { {} }, );
+has headers        => ( is => 'rw', lazy => 1, default => sub { {} }, );
+has _param         => ( is => 'rw', lazy => 1, default => sub { {} }, );
+has uploads => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+    isa     => Foswiki::Object::isaHASH( 'uploads', noUndef => 1 ),
+);
+has param_list => ( is => 'rw', lazy => 1, default => sub { [] }, );
+has method => ( is => 'rw', );
+has remote_user => ( is => 'rw', );
+has server_port => ( is => 'rw', );
+has secure      => ( is => 'rw', default => 0, );
+has start_time => (    # start_time cannot be lazy, can it?
+    is      => 'rw',
+    default => sub { return [Time::HiRes::gettimeofday] },
+);
+has _initializer => ( is => 'ro', init_arg => "initializer", );
+
+# cgiRequest attribute can be used directly but with `handles` property it
+# simulates inheritance from CGI. Must be defined after all other attributes to
+# avoid reimporting CGI methods which of same names as existing attributes.
+has cgiRequest => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub { return CGI->new; },
+    handles => [
+        grep { !( /^:/ || __PACKAGE__->can($_) ) }
+        map { @{ $CGI::EXPORT_TAGS{$_} } } keys %CGI::EXPORT_TAGS
+    ],
+);
+
 sub getTime {
     my $this     = shift;
     my $endTime  = [Time::HiRes::gettimeofday];
-    my $timeDiff = Time::HiRes::tv_interval( $this->{start_time}, $endTime );
+    my $timeDiff = Time::HiRes::tv_interval( $this->start_time, $endTime );
     return $timeDiff;
 }
 
 =begin TML
 
----++ ClassMethod new([$initializer])
+---++ ClassMethod new([initializer => $initializer])
 
 Constructs a Foswiki::Request object.
    * =$initializer= - may be a filehandle or hashref.
@@ -65,74 +132,35 @@ Constructs a Foswiki::Request object.
 
 =cut
 
-sub new {
-    my ( $proto, $initializer ) = @_;
-
-    my $this;
-
-    my $class = ref($proto) || $proto;
-
-    $this = {
-        action         => '',
-        cookies        => {},
-        headers        => {},
-        method         => undef,
-        param          => {},
-        param_list     => [],
-        path_info      => '',
-        remote_address => '',
-        remote_user    => undef,
-        secure         => 0,
-        server_port    => undef,
-        start_time     => [Time::HiRes::gettimeofday],
-        uploads        => {},
-        uri            => '',
-    };
-
-    bless $this, $class;
-
-    if ( ref($initializer) eq 'HASH' ) {
-        while ( my ( $key, $value ) = each %$initializer ) {
+sub BUILD {
+    my $this = shift;
+    if ( ref( $this->_initializer ) eq 'HASH' ) {
+        while ( my ( $key, $value ) = each %{ $this->_initializer } ) {
             $this->multi_param(
                 -name  => $key,
                 -value => ref($value) eq 'ARRAY' ? [@$value] : [$value]
             );
         }
     }
-    elsif ( ref($initializer) && UNIVERSAL::isa( $initializer, 'GLOB' ) ) {
-        $this->load($initializer);
+    elsif ( ref( $this->_initializer )
+        && UNIVERSAL::isa( $this->_initializer, 'GLOB' ) )
+    {
+        $this->load( $this->_initializer );
     }
-    return $this;
 }
 
 =begin TML
 
----++ ObjectMethod action([$action]) -> $action
+---++ ObjectAttribute action([$action]) -> $action
 
 
 Gets/Sets action requested (view, edit, save, ...)
 
 =cut
 
-sub action {
-    my ( $this, $action ) = @_;
-    if ( defined $action ) {
-
-        # Record the very first action set in this request. It will be required
-        # later if a redirect cache overlays this request.
-        $this->{base_action} = $action unless defined $this->{base_action};
-        $ENV{FOSWIKI_ACTION} = $this->{action} = $action;
-        return $action;
-    }
-    else {
-        return $this->{action};
-    }
-
-}
-
 =begin TML
 
----++ ObjectMethod base_action() -> $action
+---++ ObjectAttribute base_action() -> $action
 
 Get the first action ever set in this request object. This remains
 unchanged even if a request cache is unwrapped on to of this request.
@@ -142,24 +170,13 @@ controls.
 
 =cut
 
-sub base_action {
-    my $this = shift;
-    return defined $this->{base_action}
-      ? $this->{base_action}
-      : $this->action();
-}
-
 =begin TML
 
----++ ObjectMethod method( [ $method ] ) -> $method
+---++ ObjectAttribute method( [ $method ] ) -> $method
 
 Sets/Gets request method (GET, HEAD, POST).
 
 =cut
-
-sub method {
-    return @_ == 1 ? $_[0]->{method} : ( $_[0]->{method} = $_[1] );
-}
 
 =begin TML
 
@@ -169,7 +186,7 @@ Sets/Gets request path info.
 
 Called without parameters returns current pathInfo.
 
-There is a =path_info()= alias for compatibility with CGI.
+This is an alias to =path_info()= ObjectAttribute.
 
 Note that the string returned is a *URL encoded byte string*
 i.e. it will only contain characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
@@ -178,11 +195,7 @@ Foswiki::urlDecode it first.
 
 =cut
 
-*path_info = \&pathInfo;
-
-sub pathInfo {
-    return @_ == 1 ? $_[0]->{path_info} : ( $_[0]->{path_info} = $_[1] );
-}
+*pathInfo = \&path_info;
 
 =begin TML
 
@@ -199,15 +212,11 @@ sub protocol {
 
 =begin TML
 
----++ ObjectMethod uri( [$uri] ) -> $uri
+---++ ObjectAttribute uri( [$uri] ) -> $uri
 
 Gets/Sets request uri.
 
 =cut
-
-sub uri {
-    return @_ == 1 ? $_[0]->{uri} : ( $_[0]->{uri} = $_[1] );
-}
 
 =begin TML
 
@@ -224,9 +233,9 @@ Foswiki::urlDecode it first.
 
 =cut
 
-*query_string = \&queryString;
+*queryString = \&query_string;
 
-sub queryString {
+sub query_string {
     my $this = shift;
     my @params;
     foreach my $name ( $this->param ) {
@@ -280,13 +289,13 @@ sub url {
     my $name;
 
     ## See Foswiki.spec for the difference between ScriptUrlPath and ScriptUrlPaths
-    if ( defined $Foswiki::cfg{ScriptUrlPaths}{ $this->{action} } ) {
+    if ( defined $Foswiki::cfg{ScriptUrlPaths}{ $this->action } ) {
 
      # When this is set, it is the complete script path including prefix/suffix.
-        $name = $Foswiki::cfg{ScriptUrlPaths}{ $this->{action} };
+        $name = $Foswiki::cfg{ScriptUrlPaths}{ $this->action };
     }
     else {
-        $name = $Foswiki::cfg{ScriptUrlPath} . '/' . $this->{action};
+        $name = $Foswiki::cfg{ScriptUrlPath} . '/' . $this->action;
 
         # Don't add suffix if no script is used.
         $name .= $Foswiki::cfg{ScriptSuffix} if $name;
@@ -315,65 +324,39 @@ sub url {
 
 =begin TML
 
----++ ObjectMethod secure( [$secure] ) -> $secure
+---++ ObjectAttribute secure( [$secure] ) -> $secure
 
 Gets/Sets connection's secure flag.
 
 =cut
 
-sub secure {
-    return @_ == 1 ? $_[0]->{secure} : ( $_[0]->{secure} = $_[1] );
-}
-
 =begin TML
 
 ---++ ObjectMethod remoteAddress( [$ip] ) -> $ip
 
-Gets/Sets client IP address.
+Gets/Sets client IP address. Alias to ObjectAttribute =remote_address=.
 
 =remote_addr()= alias for compatibility with CGI.
 
 =cut
 
-*remote_addr = \&remoteAddress;
-
-sub remoteAddress {
-    return @_ == 1
-      ? $_[0]->{remote_address}
-      : ( $_[0]->{remote_address} = $_[1] );
-}
-
 =begin TML
 
 ---++ ObjectMethod remoteUser( [$userName] ) -> $userName
 
-Gets/Sets remote user's name.
-
-=remote_user()= alias for compatibility with CGI.
+Gets/Sets remote user's name. Alias to CGI-compatible ObjectAttribute
+=remote_user=.
 
 =cut
-
-*remote_user = \&remoteUser;
-
-sub remoteUser {
-    return @_ == 1 ? $_[0]->{remote_user} : ( $_[0]->{remote_user} = $_[1] );
-}
 
 =begin TML
 
 ---++ ObjectMethod serverPort( [$userName] ) -> $userName
 
-Gets/Sets server user's name.
-
-=server_port()= alias for compatibility with CGI.
+Gets/Sets server user's name. Alias to CGI-compatible ObjectAttribute
+=server_port=.
 
 =cut
-
-*server_port = \&serverPort;
-
-sub serverPort {
-    return @_ == 1 ? $_[0]->{server_port} : ( $_[0]->{server_port} = $_[1] );
-}
 
 =begin TML
 
@@ -461,7 +444,7 @@ sub param {
     my ( $key, @value ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
 
     # param() - just return the list of param names
-    return @{ $this->{param_list} } unless defined $key;
+    return @{ $this->param_list } unless defined $key;
 
 # list context can be dangerous so warn:
 # http://blog.gerv.net/2014.10/new-class-of-vulnerability-in-perl-web-applications
@@ -475,14 +458,14 @@ sub param {
     }
 
     if ( defined $value[0] ) {
-        push @{ $this->{param_list} }, $key
-          unless exists $this->{param}{$key};
-        $this->{param}{$key} = ref $value[0] eq 'ARRAY' ? $value[0] : [@value];
+        push @{ $this->param_list }, $key
+          unless exists $this->_param->{$key};
+        $this->_param->{$key} = ref $value[0] eq 'ARRAY' ? $value[0] : [@value];
     }
-    if ( defined $this->{param}{$key} ) {
+    if ( defined $this->_param->{$key} ) {
         return wantarray
-          ? @{ $this->{param}{$key} }
-          : $this->{param}{$key}->[0];
+          ? @{ $this->_param->{$key} }
+          : $this->_param->{$key}->[0];
     }
     else {
         return wantarray ? () : undef;
@@ -510,32 +493,28 @@ sub cookie {
       rearrange( [ 'NAME', [qw(VALUE VALUES)], 'PATH', 'SECURE', 'EXPIRES' ],
         @p );
     unless ( defined $value ) {
-        return keys %{ $this->{cookies} } unless $name;
-        return () unless $this->{cookies}{$name};
-        return $this->{cookies}{$name}->value if defined $name && $name ne '';
+        return keys %{ $this->cookies } unless $name;
+        return () unless $this->cookies->{$name};
+        return $this->cookies->{$name}->value if defined $name && $name ne '';
     }
     return unless defined $name && $name ne '';
     return new CGI::Cookie(
-        -name  => $name,
-        -value => $value,
-        -path  => $path || '/',
-        -secure  => $secure  || $this->secure,
+        -name    => $name,
+        -value   => $value,
+        -path    => $path || '/',
+        -secure  => $secure || $this->secure,
         -expires => $expires || abs( $Foswiki::cfg{Sessions}{ExpireAfter} )
     );
 }
 
 =begin TML
 
-ObjectMethod cookies( \%cookies ) -> $hashref
+ObjectAttribute cookies( \%cookies ) -> $hashref
 
 Gets/Sets cookies hashref. Keys are cookie names
 and values CGI::Cookie objects.
 
 =cut
-
-sub cookies {
-    return @_ == 1 ? $_[0]->{cookies} : ( $_[0]->{cookies} = $_[1] );
-}
 
 =begin TML
 
@@ -547,18 +526,16 @@ Deletes parameters from request.
 
 =cut
 
-*Delete = \&delete;
-
 sub delete {
     my $this = shift;
     foreach my $p (@_) {
-        next unless exists $this->{param}{$p};
-        if ( my $upload = $this->{uploads}{ $this->param($p) } ) {
+        next unless exists $this->_param->{$p};
+        if ( my $upload = $this->uploads->{ $this->param($p) } ) {
             $upload->finish;
-            CORE::delete $this->{uploads}{ $this->param($p) };
+            CORE::delete $this->uploads->{ $this->param($p) };
         }
-        CORE::delete $this->{param}{$p};
-        @{ $this->{param_list} } = grep { $_ ne $p } @{ $this->{param_list} };
+        CORE::delete $this->_param->{$p};
+        @{ $this->param_list } = grep { $_ ne $p } @{ $this->param_list };
     }
 }
 
@@ -571,8 +548,6 @@ Deletes all parameter name and value(s).
 =delete_all()= alias provided for compatibility with CGI.
 
 =cut
-
-*delete_all = \&deleteAll;
 
 sub deleteAll {
     my $this = shift;
@@ -612,18 +587,18 @@ sub header {
     my ( $this, @p ) = @_;
     my ( $key, @value ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
 
-    return keys %{ $this->{headers} } unless $key;
+    return keys %{ $this->headers } unless $key;
     $key =~ tr/_/-/;
     $key = lc($key);
 
     if ( defined $value[0] ) {
-        $this->{headers}{$key} =
+        $this->headers->{$key} =
           ref $value[0] eq 'ARRAY' ? $value[0] : [@value];
     }
-    if ( defined $this->{headers}{$key} ) {
+    if ( defined $this->headers->{$key} ) {
         return wantarray
-          ? @{ $this->{headers}{$key} }
-          : $this->{headers}{$key}->[0];
+          ? @{ $this->headers->{$key} }
+          : $this->headers->{$key}->[0];
     }
     else {
         return wantarray ? () : undef;
@@ -700,7 +675,7 @@ to uploaded file.
 
 sub upload {
     my ( $this, $name ) = @_;
-    my $upload = $this->{uploads}{ $this->param($name) };
+    my $upload = $this->uploads->{ $this->param($name) };
     return defined $upload ? $upload->handle : undef;
 }
 
@@ -714,7 +689,7 @@ files as sent by browser.
 =cut
 
 sub uploadInfo {
-    return $_[0]->{uploads}{ $_[1] }->uploadInfo;
+    return $_[0]->uploads->{ $_[1] }->uploadInfo;
 }
 
 =begin TML
@@ -729,23 +704,19 @@ $fname may be obtained by calling =param()= with form field name.
 
 sub tmpFileName {
     my ( $this, $fname ) = @_;
-    return $this->{uploads}{$fname}
-      ? $this->{uploads}{$fname}->tmpFileName
+    return $this->uploads->{$fname}
+      ? $this->uploads->{$fname}->tmpFileName
       : undef;
 }
 
 =begin TML
 
----++ ObjectMethod uploads( [ \%uploads ] ) -> $hashref
+---++ ObjectAttribute uploads( [ \%uploads ] ) -> $hashref
 
 Gets/Sets request uploads field. Keys are uploaded file names,
 as sent by browser, and values are Foswiki::Request::Upload objects.
 
 =cut
-
-sub uploads {
-    return @_ == 1 ? $_[0]->{uploads} : ( $_[0]->{uploads} = $_[1] );
-}
 
 # ======== possible accessors =======
 # auth_type
@@ -802,8 +773,6 @@ Convenience method to get User-Agent string.
 =user_agent()= alias provided for compatibility with CGI.
 
 =cut
-
-*user_agent = \&userAgent;
 
 sub userAgent { shift->header('User-Agent') }
 

@@ -12,15 +12,10 @@ Refer to Foswiki::Engine documentation for explanation about methods below.
 =cut
 
 package Foswiki::Engine::CGI;
+use v5.14;
 
-use strict;
-use warnings;
-
-use CGI;
 use CGI::Carp;
 use Data::Dumper;
-use Foswiki::Engine ();
-our @ISA = ('Foswiki::Engine');
 
 use Assert;
 use Foswiki                  ();
@@ -29,6 +24,12 @@ use Foswiki::Request::Upload ();
 use Foswiki::Response        ();
 use Unicode::Normalize;
 use Try::Tiny;
+
+use CGI;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Engine);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -75,6 +76,12 @@ if ( defined $SAVE_DESTROY ) {
         }
     };
 }
+
+has cgi => (
+    is      => 'rw',
+    clearer => 1,
+    isa     => Foswiki::Object::isaCLASS( 'cgi', 'CGI' ),
+);
 
 sub run {
     my $this      = shift;
@@ -193,7 +200,11 @@ sub preparePath {
         $html .= CGI::p( {}, $reason );
         $html .= CGI::end_html();
         $res->print($html);
-        throw Foswiki::EngineException( 500, $reason, $res );
+        Foswiki::EngineException->throw(
+            status   => 500,
+            reason   => $reason,
+            response => $res
+        );
     }
     my $cgiScriptPath = $ENV{SCRIPT_NAME};
     $pathInfo =~ s{^$cgiScriptPath(?:/+|$)}{/};
@@ -249,32 +260,32 @@ sub prepareBody {
     # and it would probably work in Foswiki. Just not tried it)
     my $cgi = new CGI();
     my $err = $cgi->cgi_error;
-    throw Foswiki::EngineException( $1, $2 )
+    Foswiki::EngineException->throw( status => $1, reason => $2 )
       if defined $err && $err =~ m/\s*(\d{3})\s*(.*)/;
-    $this->{cgi} = $cgi;
+    $this->cgi($cgi);
 }
 
 sub prepareBodyParameters {
     my ( $this, $req ) = @_;
 
     return unless $ENV{CONTENT_LENGTH};
-    my @plist = $this->{cgi}->multi_param();
+    my @plist = $this->cgi->multi_param();
     foreach my $pname (@plist) {
         my $upname = NFC( Foswiki::decode_utf8($pname) );
         my @values;
         if ($Foswiki::UNICODE) {
             @values =
               map { NFC( Foswiki::decode_utf8($_) ) }
-              $this->{cgi}->multi_param($pname);
+              $this->cgi->multi_param($pname);
         }
         else {
-            @values = $this->{cgi}->multi_param($pname);
+            @values = $this->cgi->multi_param($pname);
         }
         $req->bodyParam( -name => $upname, -value => \@values );
 
         # Note that we record the encoded name of the upload. It will be
         # decoded in prepareUploads, which rewrites the {uploads} hash.
-        $this->{uploads}{$pname} = 1 if scalar( $this->{cgi}->upload($pname) );
+        $this->uploads->{$pname} = 1 if scalar( $this->cgi->upload($pname) );
     }
 }
 
@@ -283,15 +294,15 @@ sub prepareUploads {
 
     return unless $ENV{CONTENT_LENGTH};
     my %uploads;
-    foreach my $key ( keys %{ $this->{uploads} } ) {
-        my $fname  = $this->{cgi}->param($key);
+    foreach my $key ( keys %{ $this->uploads } ) {
+        my $fname  = $this->cgi->param($key);
         my $ufname = NFC( Foswiki::decode_utf8($fname) );
         $uploads{$ufname} = new Foswiki::Request::Upload(
-            headers => $this->{cgi}->uploadInfo($fname),
-            tmpname => $this->{cgi}->tmpFileName($fname),
+            headers => $this->cgi->uploadInfo($fname),
+            tmpname => $this->cgi->tmpFileName($fname),
         );
     }
-    delete $this->{uploads};
+    $this->clear_uploads;
     $req->uploads( \%uploads );
 }
 
@@ -299,7 +310,7 @@ sub finalizeUploads {
     my ( $this, $res, $req ) = @_;
 
     $req->delete($_) foreach keys %{ $req->uploads };
-    undef $this->{cgi};
+    $this->clear_cgi;
 }
 
 sub finalizeHeaders {

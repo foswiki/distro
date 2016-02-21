@@ -9,30 +9,26 @@ Class to encapsulate uploaded file info.
 =cut
 
 package Foswiki::Request::Upload;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
 use IO::File ();
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+
+has headers => ( is => 'ro', );
+has tmpname => ( is => 'rw', );
+
 =begin TML
 
----++ ClassMethod new()
+---++ ClassMethod new( [ headers => \%headers, ] [ tmpname => $tmpname, ] )
 
 Constructs a Foswiki::Request::Upload object
 
 =cut
-
-sub new {
-    my ( $proto, %args ) = @_;
-    my $class = ref($proto) || $proto;
-    my $this = {
-        headers => $args{headers},
-        tmpname => $args{tmpname},
-    };
-    return bless $this, $class;
-}
 
 =begin TML
 
@@ -47,7 +43,6 @@ Deletes temp file associated.
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
-    undef $this->{headers};
 
     #SMELL: Note: untaint filename. Taken from CGI.pm
     # (had to be updated for OSX in Dec2008)
@@ -55,9 +50,9 @@ sub finish {
     my $file = $1;
     if ( scalar( unlink($file) ) != 1 ) {
         ASSERT( 0, "unable to unlink $file : $!" ) if DEBUG;
-        throw Error::Simple("unable to unlink $file : $!");
+        Foswiki::Exception::Fatal->throw(
+            text => "unable to unlink $file : $!" );
     }
-    undef $this->{tmpname};
 }
 
 =begin TML
@@ -70,7 +65,7 @@ file as sent by browser.
 =cut
 
 sub uploadInfo {
-    return $_[0]->{headers};
+    return $_[0]->headers;
 }
 
 =begin TML
@@ -82,7 +77,7 @@ Returns an open filehandle to uploaded file.
 =cut
 
 sub handle {
-    my $fh = new IO::File( $_[0]->{tmpname}, '<' );
+    my $fh = new IO::File( $_[0]->tmpname, '<' );
     binmode $fh;
     return $fh;
 }
@@ -96,7 +91,7 @@ Returns the names of temporarly created file.
 =cut
 
 sub tmpFileName {
-    return $_[0]->{tmpname};
+    return $_[0]->tmpname;
 }
 
 1;

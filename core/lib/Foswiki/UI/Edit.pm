@@ -144,13 +144,13 @@ sub init_edit {
 
                     # use a 'keep' redirect to ensure we pass parameter
                     # values in the query on to the oops script
-                    throw Foswiki::OopsException(
-                        'leaseconflict',
-                        def    => $def,
-                        web    => $web,
-                        topic  => $topic,
-                        keep   => 1,
-                        params => [ $who, $past, $future, 'edit' ]
+                    Foswiki::OopsException->throw(
+                        template => 'leaseconflict',
+                        def      => $def,
+                        web      => $web,
+                        topic    => $topic,
+                        keep     => 1,
+                        params   => [ $who, $past, $future, 'edit' ]
                     );
                 }
             }
@@ -161,11 +161,11 @@ sub init_edit {
     if ( $onlyNewTopic && $topicExists ) {
 
         # Topic exists and user requested oops if it exists
-        throw Foswiki::OopsException(
-            'attention',
-            def   => 'topic_exists',
-            web   => $web,
-            topic => $topic
+        Foswiki::OopsException->throw(
+            template => 'attention',
+            def      => 'topic_exists',
+            web      => $web,
+            topic    => $topic
         );
     }
 
@@ -176,12 +176,12 @@ sub init_edit {
     {
 
         # do not allow non-wikinames
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'not_wikiword',
-            web    => $web,
-            topic  => $topic,
-            params => [$topic]
+        Foswiki::OopsException->throw(
+            template => 'attention',
+            def      => 'not_wikiword',
+            web      => $web,
+            topic    => $topic,
+            params   => [$topic]
         );
     }
 
@@ -250,13 +250,13 @@ sub init_edit {
                 \&Foswiki::Sandbox::validateTopicName );
 
             unless ( $templateWeb && $templateTopic ) {
-                throw Foswiki::OopsException(
-                    'accessdenied',
-                    status => 403,
-                    def    => 'no_such_topic_template',
-                    web    => $web,
-                    topic  => $topic,
-                    params => [ $invalidTemplateWeb, $invalidTemplateTopic ],
+                Foswiki::OopsException->throw(
+                    template => 'accessdenied',
+                    status   => 403,
+                    def      => 'no_such_topic_template',
+                    web      => $web,
+                    topic    => $topic,
+                    params   => [ $invalidTemplateWeb, $invalidTemplateTopic ],
                 );
             }
         }
@@ -277,13 +277,13 @@ sub init_edit {
             $templateTopic = Foswiki::Sandbox::untaintUnchecked($templateTopic);
         }
         else {
-            throw Foswiki::OopsException(
-                'accessdenied',
-                status => 403,
-                def    => 'no_such_topic_template',
-                web    => $web,
-                topic  => $topic,
-                params => [ $templateWeb, $templateTopic ],
+            Foswiki::OopsException->throw(
+                template => 'accessdenied',
+                status   => 403,
+                def      => 'no_such_topic_template',
+                web      => $web,
+                topic    => $topic,
+                params   => [ $templateWeb, $templateTopic ],
             );
         }
 
@@ -379,22 +379,22 @@ sub init_edit {
     if ($adminCmd) {
 
         unless ( $users->isAdmin($user) ) {
-            throw Foswiki::OopsException(
-                'accessdenied',
-                def    => 'topic_access',
-                web    => $web,
-                topic  => $topic,
-                params => [ "'cmd=$adminCmd'", 'Administrators only' ]
+            Foswiki::OopsException->throw(
+                template => 'accessdenied',
+                def      => 'topic_access',
+                web      => $web,
+                topic    => $topic,
+                params   => [ "'cmd=$adminCmd'", 'Administrators only' ]
             );
         }
 
         unless ( $adminCmd =~ m/^(rep|del)Rev$/ ) {
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'unrecognized_action',
-                web    => $web,
-                topic  => $topic,
-                params => ["'cmd=$adminCmd'"]
+            Foswiki::OopsException->throw(
+                template => 'attention',
+                def      => 'unrecognized_action',
+                web      => $web,
+                topic    => $topic,
+                params   => ["'cmd=$adminCmd'"]
             );
         }
 

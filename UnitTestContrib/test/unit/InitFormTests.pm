@@ -1,6 +1,5 @@
 package InitFormTests;
-use strict;
-use warnings;
+use v5.14;
 
 # TODO: Should we check untitled labels? There is some special processing there.
 
@@ -30,13 +29,13 @@ The testcases below assume that the correct interpretation is the one used in Ed
 
 =cut
 
-use FoswikiTestCase();
-our @ISA = qw( FoswikiTestCase );
-use Error qw( :try );
-
 use Foswiki::UI::Edit();
 use Unit::Request();
-use Error qw( :try );
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiTestCase );
 
 my $testweb    = "TemporaryTestWeb";
 my $testtopic1 = "InitTestTopic1";
@@ -99,24 +98,25 @@ my $edittmpl1 = <<'HERE';
 HERE
 
 # Set up the test fixture
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin},
-        $this->{request} );
+        $this->request );
     Foswiki::Func::createWeb($testweb);
-    $this->createNewFoswikiSession( undef, $this->{request} );
-    if ( $this->{session}->can('getPubURL') ) {
+    $this->createNewFoswikiSession( undef, $this->request );
+    if ( $this->session->can('getPubURL') ) {
 
         # FW 1.2 and later
         $aurl =
-          $this->{session}
-          ->getPubURL( $testweb, $testform, undef, absolute => 1 );
+          $this->session->getPubURL( $testweb, $testform, undef,
+            absolute => 1 );
     }
     else {
         # up to FW 1.1.9
-        $aurl = $this->{session}->getPubUrl( 1, $testweb, $testform );
+        $aurl = $this->session->getPubUrl( 1, $testweb, $testform );
     }
 
     my ($to) = Foswiki::Func::readTopic( $testweb, $testtopic1 );
@@ -340,19 +340,20 @@ sub set_up {
 
     Foswiki::Func::saveTopic( $testweb, "MyeditTemplate", undef, $edittmpl1 );
 
-    $this->{session}->enterContext('edit');
+    $this->session->enterContext('edit');
 
     return;
-}
+};
 
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->removeWebFixture( $this->{session}, $testweb );
-    $this->SUPER::tear_down();
+    $this->removeWebFixture( $this->session, $testweb );
+    $orig->($this);
 
     return;
-}
+};
 
 # The right form values are created
 
@@ -370,8 +371,8 @@ sub setup_formtests {
 
     $q->path_info("/$web/$topic");
 
-    #$this->{session}->{webName}   = $web;
-    #$this->{session}->{topicName} = $topic;
+    #$this->session->webName   = $web;
+    #$this->session->topicName = $topic;
 
     require Foswiki::Attrs;
     my $attr = Foswiki::Attrs->new($params);
@@ -380,12 +381,12 @@ sub setup_formtests {
         $q->param( -name => $k, -value => $attr->{$k} );
     }
     $this->createNewFoswikiSession( undef, $q );
-    $this->{session}->enterContext('edit');
+    $this->session->enterContext('edit');
 
     # Now generate the form. We pass a template which throws everything away
     # but the form to allow for simpler analysis.
     my ( $text, $tmpl ) =
-      Foswiki::UI::Edit::init_edit( $this->{session}, 'myedit' );
+      Foswiki::UI::Edit::init_edit( $this->session, 'myedit' );
 
     return $tmpl;
 }
@@ -832,15 +833,14 @@ sub test_unsavedtopic_rendersform {
     );
     $query->path_info("/$testweb/MissingTopic");
     $query->method('POST');
-    my $fatwilly =
-      $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    my $fatwilly = $this->createNewFoswikiSession( undef, $query );
     my ($text) = $this->capture(
         sub {
             no strict 'refs';
             &{ $this->getUIFn('edit') }($fatwilly);
             use strict 'refs';
-            $Foswiki::engine->finalize( $fatwilly->{response},
-                $fatwilly->{request} );
+            $Foswiki::engine->finalize( $fatwilly->response,
+                $fatwilly->request );
         }
     );
     $this->assert_html_matches(

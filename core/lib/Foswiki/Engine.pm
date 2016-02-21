@@ -13,13 +13,16 @@ to achieve correct behavior.
 =cut
 
 package Foswiki::Engine;
+use v5.14;
 
-use strict;
-use warnings;
-use Error qw( :try );
+use Try::Tiny;
 use Assert;
 use Scalar::Util ();
 use Unicode::Normalize;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -35,13 +38,6 @@ BEGIN {
 Constructs an engine object.
 
 =cut
-
-sub new {
-    my $proto = shift;
-    my $class = ref($proto) || $proto;
-    my $this  = {};
-    return bless $this, $class;
-}
 
 =begin TML
 
@@ -109,50 +105,55 @@ sub prepare {
         $this->prepareBodyParameters($req);
         $this->prepareUploads($req);
     }
-    catch Foswiki::EngineException with {
-        my $e   = shift;
-        my $res = $e->{response};
-        unless ( defined $res ) {
-            $res = new Foswiki::Response();
-            $res->header( -type => 'text/html', -status => $e->{status} );
-            my $html = CGI::start_html( $e->{status} . ' Bad Request' );
-            $html .= CGI::h1( {}, 'Bad Request' );
-            $html .= CGI::p( {}, $e->{reason} );
-            $html .= CGI::end_html();
-            $res->print($html);
+    catch {
+        my $e = $_;
+        unless ( ref($e) ) {
+            Foswiki::Exception::Fatal->rethrow($e);
         }
-        $this->finalizeError( $res, $req );
-        return $e->{status};
-    }
-    otherwise {
-        my $e   = shift;
-        my $res = Foswiki::Response->new();
-        my $mess =
-            $e->can('stringify')
-          ? $e->stringify()
-          : 'Unknown ' . ref($e) . ' exception: ' . $@;
-        $res->header( -type => 'text/plain', -status => '500' );
-        if (DEBUG) {
 
-            # output the full message and stacktrace to the browser
-            $res->print($mess);
+        if ( $e->isa('Foswiki::EngineException') ) {
+            my $res = $e->response;
+            unless ( defined $res ) {
+                $res = Foswiki::Response->new;
+                $res->header( -type => 'text/html', -status => $e->status );
+                my $html = CGI::start_html( $e->status . ' Bad Request' );
+                $html .= CGI::h1( {}, 'Bad Request' );
+                $html .= CGI::p( {}, $e->reason );
+                $html .= CGI::end_html();
+                $res->print($html);
+            }
+            $this->finalizeError( $res, $req );
+            return $e->status;
         }
-        else {
-            print STDERR $mess;
+        else {    # Not Foswiki::EngineException
+            my $res = Foswiki::Response->new();
+            my $mess =
+                $e->can('stringify')
+              ? $e->stringify()
+              : 'Unknown ' . ref($e) . ' exception: ' . $@;
+            $res->header( -type => 'text/plain', -status => '500' );
+            if (DEBUG) {
 
-            # tell the browser where to look for more help
-            my $text =
+                # output the full message and stacktrace to the browser
+                $res->print($mess);
+            }
+            else {
+                print STDERR $mess;
+
+                # tell the browser where to look for more help
+                my $text =
 'Foswiki detected an internal error - please check your Foswiki logs and webserver logs for more information.'
-              . "\n\n";
-            $mess =~ s/ at .*$//s;
+                  . "\n\n";
+                $mess =~ s/ at .*$//s;
 
-            # cut out pathnames from public announcement
-            $mess =~ s#/[\w./]+#path#g;
-            $text .= $mess;
-            $res->print($text);
+                # cut out pathnames from public announcement
+                $mess =~ s#/[\w./]+#path#g;
+                $text .= $mess;
+                $res->print($text);
+            }
+            $this->finalizeError( $res, $req );
+            return 500;    # Internal server error
         }
-        $this->finalizeError( $res, $req );
-        return 500;    # Internal server error
     };
     return $req;
 }

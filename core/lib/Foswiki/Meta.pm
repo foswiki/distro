@@ -1814,7 +1814,7 @@ sub forEachSelectedValue {
     $types ||= qr/^[A-Z]+$/;
     $keys  ||= qr/^[a-z]+$/;
 
-    foreach my $type ( grep { /$types/ } keys %$this ) {
+    foreach my $type ( grep { /$types/ } keys %{ $this->metaData } ) {
         $options->{_type} = $type;
         my $data = $this->metaData->{$type};
         next unless $data;

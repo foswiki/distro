@@ -12,32 +12,20 @@ use Assert;
 # SMELL: this package should not be in Unit; it is a Foswiki class and
 # should be in test/unit
 
-use Foswiki::Request;
-our @ISA = qw( Foswiki::Request );
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Request );
 
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
+sub BUILD {
+    my $this = shift;
 
     # Taint everything
-    foreach my $k ( @{ $this->{param_list} } ) {
-        foreach my $k ( @{ $this->{param_list} } ) {
-            foreach ( @{ $this->{param}{$k} } ) {
-                $_ = TAINT($_) if defined $_;
-            }
+    foreach my $k ( @{ $this->param_list } ) {
+        foreach ( @{ $this->param->{$k} } ) {
+            $_ = TAINT($_) if defined $_;
         }
     }
     return $this;
-}
-
-sub finish {
-    my ($this) = @_;
-
-    if ( $this->SUPER::can('finish') ) {
-        $this->SUPER::finish();
-    }
-
-    return;
 }
 
 sub setUrl {

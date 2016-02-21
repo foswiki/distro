@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Request::Cache;
+use v5.14;
 
 =begin TML
 
@@ -18,8 +19,6 @@ request and restores them on reload.
 
 =cut
 
-use strict;
-use warnings;
 use Assert;
 
 use File::Copy   ();
@@ -30,6 +29,10 @@ use Fcntl;    # File control constants e.g. O_EXCL
 use Foswiki::Request::Upload ();
 use Foswiki::Sandbox         ();
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+
 use constant TRACE_CACHE => 0;
 
 =begin TML
@@ -39,12 +42,6 @@ use constant TRACE_CACHE => 0;
 Construct a new request cache.
 
 =cut
-
-sub new {
-    my ($class) = @_;
-    my $this = bless( {}, $class );
-    return $this;
-}
 
 sub finish {
 }
@@ -99,7 +96,7 @@ sub save {
     $req->save($F);
 
     # Serialize uploads, if there are any, and store the upload keys
-    while ( my ( $k, $v ) = each %{ $req->{uploads} } ) {
+    while ( my ( $k, $v ) = each %{ $req->uploads } ) {
         $k = Foswiki::urlEncode($k);
         print STDERR "CACHE $uid> upload $k\n" if (TRACE_CACHE);
         $this->_saveUpload( $this->_cacheFile($uid), $k, $v );
@@ -158,7 +155,7 @@ sub load {
             $key = Foswiki::Sandbox::untaintUnchecked($key);
             my $decodedKey = Foswiki::urlDecode($key);
             print STDERR "CACHE $uid< upload $decodedKey\n" if (TRACE_CACHE);
-            $req->{uploads}->{$decodedKey} =
+            $req->uploads->{$decodedKey} =
               $this->_loadUpload( $this->_cacheFile($uid), $key );
         }
 
@@ -237,7 +234,7 @@ sub _saveUpload {
 
     $F->close();
 
-    File::Copy::copy( $upload->{tmpname}, $dfn ) if ( -e $upload->{tmpname} );
+    File::Copy::copy( $upload->tmpname, $dfn ) if ( -e $upload->tmpname );
 }
 
 # PRIVATE. restore upload from cached data
@@ -254,7 +251,7 @@ sub _loadUpload {
     local $/;
     my $data = <$F>;
     $data = Foswiki::Sandbox::untaintUnchecked($data);
-    my $info = undef;
+    my $info = {};
     eval $data;
     $F->close();
     unlink($ifn);
@@ -263,8 +260,8 @@ sub _loadUpload {
     $info->{tmpname} .= '_' while ( -e $info->{tmpname} );
 
     # Construct the new object, and move the data file into place
-    my $upload = new Foswiki::Request::Upload(%$info);
-    File::Copy::move( $dfn, $upload->tmpFileName() ) if ( -e $dfn );
+    my $upload = Foswiki::Request::Upload->(%$info);
+    File::Copy::move( $dfn, $upload->tmpFileName ) if ( -e $dfn );
 
     return $upload;
 }

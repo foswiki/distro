@@ -117,7 +117,7 @@ around set_up => sub {
 
     $orig->( $this, @_ );
 
-    my $query = Unit::Request->new("");
+    my $query = Unit::Request->new( initializer => "" );
     $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
 
     # Note: some tests are testing Foswiki::UI which also creates a session

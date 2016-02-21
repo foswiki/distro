@@ -15,12 +15,14 @@ Fields:
 =cut
 
 package Foswiki::Response;
-
-use strict;
-use warnings;
+use v5.14;
 use Assert;
 
 use CGI::Util ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -37,54 +39,63 @@ Constructs a Foswiki::Response object.
 
 =cut
 
-sub new {
-    my $proto = shift;
-    my $class = ref($proto) || $proto;
-    my $this  = {
-
-#status needs to default to 'unset' so the web server can set the status to whatever it needs (think basic auth, or other magics)
-        status           => undef,
-        headers          => {},
-        body             => undef,
-        charset          => 'utf-8',
-        cookies          => [],
-        outputHasStarted => 0,
-    };
-
-    return bless $this, $class;
-}
-
-=begin TML
-
----++ ObjectMethod status( $status ) -> $status
-
-Gets/Sets response status.
-   * =$status= is a three digit code, optionally followed by a status string
-
-=cut
-
-sub status {
-    my ( $this, $status ) = @_;
-    if ($status) {
-        ASSERT( !$this->{outputHasStarted}, 'Too late to change status' )
+has body => (
+    is      => 'rw',
+    lazy    => 1,
+    trigger => sub {
+        $_[0]->headers->{'Content-Length'} = length( $_[1] );
+    },
+);
+has charset          => ( is => 'rw', lazy => 1, default => 'utf-8', );
+has outputHasStarted => ( is => 'rw', lazy => 1, default => 0, );
+has cookies          => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { [] },
+    isa     => Foswiki::Object::isaARRAY( 'cookies', noUndef => 1 ),
+);
+has status => (
+    is      => 'rw',
+    trigger => sub {
+        ASSERT( !$_[0]->outputHasStarted, 'Too late to change status' )
           if DEBUG;
-        $this->{status} = $status =~ m/^\d{3}/ ? $status : undef;
+    },
+    coerce => sub {
+        $_[0] =~ m/^\d{3}/ ? $_[0] : undef;
     }
-    return $this->{status};
-}
-
-=begin TML
-
----++ ObjectMethod charset([$charset]) -> $charset
-
-Gets/Sets response charset. If not defined, defaults to ISO-8859-1, 
-just like CGI.pm
-
-=cut
-
-sub charset {
-    return @_ == 1 ? $_[0]->{charset} : ( $_[0]->{charset} = $_[1] );
-}
+);
+has headers => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+    trigger => sub {
+        my $this = shift;
+        ASSERT( !$this->outputHasStarted, 'Too late to change headers' )
+          if DEBUG;
+        my $headers = $this->headers;
+        if ( defined $headers->{'Set-Cookie'} ) {
+            my @cookies =
+              ref( $headers->{'Set-Cookie'} ) eq 'ARRAY'
+              ? @{ $headers->{'Set-Cookie'} }
+              : ( $headers->{'Set-Cookie'} );
+            $this->cookies( \@cookies );
+        }
+        $this->status( $headers->{Status} ) if defined $headers->{Status};
+    },
+    coerce => sub {
+        my ($hdr) = @_;
+        my %headers;
+        while ( my ( $key, $value ) = each %$hdr ) {
+            $key =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
+            $headers{$key} = $value;
+        }
+        $headers{Expires} = CGI::Util::expires( $headers{Expires}, 'http' )
+          if defined $headers{Expires};
+        $headers{Date} = CGI::Util::expires( 0, 'http' )
+          if defined $headers{'Set-Cookie'} || defined $headers{Expires};
+        return \%headers;
+    },
+);
 
 =begin TML
 
@@ -105,7 +116,7 @@ sub header {
     my ( $this, @p ) = @_;
     my (@header);
 
-    ASSERT( !$this->{outputHasStarted}, 'Too late to change headers' ) if DEBUG;
+    ASSERT( !$this->outputHasStarted, 'Too late to change headers' ) if DEBUG;
 
     # Ugly hack to avoid html escape in CGI::Util::rearrange
     local $CGI::Q = { escape => 0 };
@@ -135,17 +146,17 @@ sub header {
 
         $header = lc($header);
         $header =~ s/\b(\w)/\u$1/g;
-        if ( exists $this->{headers}->{$header} ) {
-            if ( ref $this->{headers}->{$header} ) {
-                push @{ $this->{headers}->{$header} }, $value;
+        if ( exists $this->headers->{$header} ) {
+            if ( ref $this->headers->{$header} ) {
+                push @{ $this->headers->{$header} }, $value;
             }
             else {
-                $this->{headers}->{$header} =
-                  [ $this->{headers}->{$header}, $value ];
+                $this->headers->{$header} =
+                  [ $this->headers->{$header}, $value ];
             }
         }
         else {
-            $this->{headers}->{$header} = $value;
+            $this->headers->{$header} = $value;
         }
     }
 
@@ -159,7 +170,7 @@ sub header {
       and $charset ne '';
 
     if ($status) {
-        $this->{headers}->{Status} = $status;
+        $this->headers->{Status} = $status;
         $this->status($status);
     }
 
@@ -168,49 +179,22 @@ sub header {
         my @cookies = ref($cookie) eq 'ARRAY' ? @$cookie : ($cookie);
         $this->cookies( \@cookies );
     }
-    $this->{headers}->{Expires} = CGI::Util::expires( $expires, 'http' )
+    $this->headers->{Expires} = CGI::Util::expires( $expires, 'http' )
       if ( defined $expires );
-    $this->{headers}->{Date} = CGI::Util::expires( 0, 'http' )
+    $this->headers->{Date} = CGI::Util::expires( 0, 'http' )
       if defined $expires || $cookie;
 
-    $this->{headers}->{'Content-Type'} = $type if $type ne '';
+    $this->headers->{'Content-Type'} = $type if $type ne '';
 }
 
 =begin TML
 
----++ ObjectMethod headers( { ... } ) -> $headersHashRef
+---++ ObjectAttribute headers( { ... } ) -> $headersHashRef
 
 Gets/Sets all response headers. Keys are headers name and values
 are scalars for single-valued headers or arrayref for multivalued ones.
 
 =cut
-
-sub headers {
-    my ( $this, $hdr ) = @_;
-    if ($hdr) {
-        ASSERT( !$this->{outputHasStarted}, 'Too late to change headers' )
-          if DEBUG;
-        my %headers = ();
-        while ( my ( $key, $value ) = each %$hdr ) {
-            $key =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
-            $headers{$key} = $value;
-        }
-        $headers{Expires} = CGI::Util::expires( $headers{Expires}, 'http' )
-          if defined $headers{Expires};
-        $headers{Date} = CGI::Util::expires( 0, 'http' )
-          if defined $headers{'Set-Cookie'} || defined $headers{Expires};
-        if ( defined $headers{'Set-Cookie'} ) {
-            my @cookies =
-              ref( $headers{'Set-Cookie'} ) eq 'ARRAY'
-              ? @{ $headers{'Set-Cookie'} }
-              : ( $headers{'Set-Cookie'} );
-            $this->cookies( \@cookies );
-        }
-        $this->status( $headers{Status} ) if defined $headers{Status};
-        $this->{headers} = \%headers;
-    }
-    return $this->{headers};
-}
 
 =begin TML
 
@@ -224,10 +208,10 @@ associated with $name.
 
 sub getHeader {
     my ( $this, $hdr ) = @_;
-    return keys %{ $this->{headers} } unless $hdr;
+    return keys %{ $this->headers } unless $hdr;
     $hdr =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
-    if ( exists $this->{headers}->{$hdr} ) {
-        my $value = $this->{headers}->{$hdr};
+    if ( exists $this->headers->{$hdr} ) {
+        my $value = $this->headers->{$hdr};
         return ref $value ? @$value : ($value);
     }
     else {
@@ -251,7 +235,7 @@ sub setDefaultHeaders {
     return unless $hopt && keys %$hopt;
     while ( my ( $hdr, $value ) = each %$hopt ) {
         $hdr =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
-        unless ( exists $this->{headers}->{$hdr} ) {
+        unless ( exists $this->headers->{$hdr} ) {
             if ( $hdr eq 'Status' ) {
                 $this->status($value);
             }
@@ -262,13 +246,13 @@ sub setDefaultHeaders {
                 my @cookies = ref($value) eq 'ARRAY' ? @$value : ($value);
                 $this->cookies( \@cookies );
             }
-            $this->{headers}->{$hdr} = $value;
+            $this->headers->{$hdr} = $value;
         }
     }
-    $this->{headers}{Date} = CGI::Util::expires( 0, 'http' )
-      if !exists $this->{headers}{Date}
-      && ( defined $this->{headers}{Expires}
-        || defined $this->{headers}{'Set-Cookie'} );
+    $this->headers->{Date} = CGI::Util::expires( 0, 'http' )
+      if !exists $this->headers->{Date}
+      && ( defined $this->headers->{Expires}
+        || defined $this->headers->{'Set-Cookie'} );
 }
 
 =begin TML
@@ -285,9 +269,9 @@ sub printHeaders {
     my $hdr    = '';
 
     # make sure we always generate a status for the response
-    $this->{headers}->{Status} = $this->status()
-      if ( $this->status() && !defined( $this->headers->{Status} ) );
-    foreach my $header ( keys %{ $this->{headers} } ) {
+    $this->headers->{Status} = $this->status
+      if ( $this->status && !defined( $this->headers->{Status} ) );
+    foreach my $header ( keys %{ $this->headers } ) {
         $hdr .= $header . ': ' . Foswiki::encode_utf8($_) . $CRLF
           foreach $this->getHeader($header);
     }
@@ -306,11 +290,11 @@ Deletes headers whose names are passed.
 sub deleteHeader {
     my $this = shift;
 
-    ASSERT( !$this->{outputHasStarted}, 'Too late to change headers' ) if DEBUG;
+    ASSERT( !$this->outputHasStarted, 'Too late to change headers' ) if DEBUG;
 
     foreach (@_) {
         ( my $hdr = $_ ) =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
-        delete $this->{headers}->{$hdr};
+        delete $this->headers->{$hdr};
     }
 }
 
@@ -325,26 +309,26 @@ Adds $value to list of values associated with header $name.
 sub pushHeader {
     my ( $this, $hdr, $value ) = @_;
 
-    ASSERT( !$this->{outputHasStarted}, 'Too late to change headers' ) if DEBUG;
+    ASSERT( !$this->outputHasStarted, 'Too late to change headers' ) if DEBUG;
 
     $hdr =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
-    my $cur = $this->{headers}->{$hdr};
+    my $cur = $this->headers->{$hdr};
     if ($cur) {
         if ( ref $cur ) {
-            push @{ $this->{headers}->{$hdr} }, $value;
+            push @{ $this->headers->{$hdr} }, $value;
         }
         else {
-            $this->{headers}->{$hdr} = [ $cur, $value ];
+            $this->headers->{$hdr} = [ $cur, $value ];
         }
     }
     else {
-        $this->{headers}->{$hdr} = $value;
+        $this->headers->{$hdr} = $value;
     }
 }
 
 =begin TML
 
----++ ObjectMethod cookies( [ \@cookies ] ) -> @cookies
+---++ ObjectAttribute cookies( [ \@cookies ] ) -> @cookies
 
 Gets/Sets response cookies. Parameter, if passed, *must* be an arrayref.
 
@@ -354,13 +338,9 @@ WARNING: cookies set this way are *not* passed in redirects.
 
 =cut
 
-sub cookies {
-    return @_ == 1 ? @{ $_[0]->{cookies} } : @{ $_[0]->{cookies} = $_[1] };
-}
-
 =begin TML
 
----++ ObjectMethod body( [ $body ] ) -> $body
+---++ ObjectAttribute body( [ $body ] ) -> $body
 
 Gets/Sets response body. Note that =$body= must be a byte string.
 Replaces the entire body; if you want to generate the body incrementally,
@@ -370,15 +350,6 @@ Note that the =$body= returned is a byte string (utf8 encoded if =print=
 was used to create it)
 
 =cut
-
-sub body {
-    my ( $this, $body ) = @_;
-    if ( defined $body ) {
-        $this->{headers}->{'Content-Length'} = length($body);
-        $this->{body} = $body;
-    }
-    return $this->{body};
-}
 
 =begin TML
 
@@ -397,7 +368,7 @@ CGI Compatibility Note: It doesn't support -target or -nph
 
 sub redirect {
     my ( $this, @p ) = @_;
-    ASSERT( !$this->{outputHasStarted}, 'Too late to redirect' ) if DEBUG;
+    ASSERT( !$this->outputHasStarted, 'Too late to redirect' ) if DEBUG;
     my ( $url, $status, $cookies ) = CGI::Util::rearrange(
         [ [qw(LOCATION URL URI)], 'STATUS', [qw(COOKIE COOKIES)], ], @p );
 
@@ -427,25 +398,19 @@ Use $response->body() to output un-encoded byte strings / binary data
 
 sub print {
     my $this = shift;
-    $this->{body} = '' unless defined $this->{body};
-    $this->body( $this->{body} . Foswiki::encode_utf8( join( '', @_ ) ) );
+    $this->body('') unless defined $this->body;
+    $this->body( $this->body . Foswiki::encode_utf8( join( '', @_ ) ) );
 }
 
 =begin TML
 
----++ ObjectMethod outputHasStarted([$boolean])
+---++ ObjectAttribute outputHasStarted([$boolean])
 
 Get/set the output-has-started flag. This is used by the Foswiki::Engine
 to separate header and body output. Once output has started, the headers
 cannot be changed (though the body can be modified)
 
 =cut
-
-sub outputHasStarted {
-    my ( $this, $flag ) = @_;
-    $this->{outputHasStarted} = $flag if defined $flag;
-    return $this->{outputHasStarted};
-}
 
 1;
 __END__

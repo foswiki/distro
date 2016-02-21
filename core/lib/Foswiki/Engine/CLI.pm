@@ -12,17 +12,16 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 =cut
 
 package Foswiki::Engine::CLI;
-
-use strict;
-use warnings;
+use v5.14;
 use Assert;
-
-use Foswiki::Engine ();
-our @ISA = ('Foswiki::Engine');
 
 use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
 use Foswiki::Response        ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Engine);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -44,15 +43,15 @@ sub run {
             ( $name, $arg ) = ( TAINT($1), shift(@args) );
         }
         if ( $name && $name eq 'user' ) {
-            $this->{user} = $arg;
+            $this->user($arg);
         }
         elsif ($name) {
-            push @{ $this->{plist} }, $name
-              unless exists $this->{params}->{$name};
-            push @{ $this->{params}->{$name} }, $arg;
+            push @{ $this->plist }, $name
+              unless exists $this->params->{$name};
+            push @{ $this->params->{$name} }, $arg;
         }
         else {
-            $this->{path_info} = $arg;    # keep it tainted
+            $this->path_info($arg);    # keep it tainted
         }
     }
     my $req = $this->prepare;
@@ -70,18 +69,18 @@ sub prepareConnection {
 
 sub prepareQueryParameters {
     my ( $this, $req ) = @_;
-    foreach my $name ( @{ $this->{plist} } ) {
-        $req->param( -name => $name, -value => $this->{params}->{$name} );
+    foreach my $name ( @{ $this->plist } ) {
+        $req->param( -name => $name, -value => $this->params->{$name} );
     }
-    delete $this->{plist};
-    delete $this->{params};
+    $this->clear_plist;
+    $this->clear_params;
 }
 
 sub prepareHeaders {
     my ( $this, $req ) = @_;
-    if ( defined $this->{user} ) {
-        $req->remoteUser( $this->{user} );
-        delete $this->{user};
+    if ( defined $this->user ) {
+        $req->remoteUser( $this->user );
+        $this->clear_user;
     }
     else {
         if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
@@ -102,9 +101,9 @@ sub preparePath {
         require File::Spec;
         $req->action( ( File::Spec->splitpath($0) )[2] );
     }
-    if ( exists $this->{path_info} ) {
-        $req->pathInfo( $this->{path_info} );
-        delete $this->{path_info};
+    if ( exists $this->path_info ) {
+        $req->pathInfo( $this->path_info );
+        $this->clear_path_info;
     }
 }
 
@@ -114,13 +113,13 @@ sub prepareUploads {
 
     #SMELL: CLI and CGI appear to support multiple uploads
     # but Foswiki::UI::Upload only processes a single upload.
-    foreach my $fname ( @{ $req->{param}{filepath} } ) {
-        $uploads{$fname} = new Foswiki::Request::Upload(
+    foreach my $fname ( @{ $req->param->{filepath} } ) {
+        $uploads{$fname} = Foswiki::Request::Upload->new(
             headers => {},
             tmpname => $fname
         );
     }
-    delete $this->{uploads};
+    $this->clear_uploads;
     $req->uploads( \%uploads );
 }
 
