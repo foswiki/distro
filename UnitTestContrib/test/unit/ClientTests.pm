@@ -216,7 +216,7 @@ sub verify_sudo_login {
     $Foswiki::cfg{Password} = $crypted;
 
     my $query = Unit::Request->new(
-        {
+        initializer => {
             username => [ $Foswiki::cfg{AdminUserLogin} ],
             password => [$secret],
             Logon    => [1],
@@ -243,7 +243,7 @@ sub verify_sudo_login {
     $secret = substr( $secret, 0, 8 );
 
     $query = Unit::Request->new(
-        {
+        initializer => {
             username => [ $Foswiki::cfg{AdminUserLogin} ],
             password => [$secret],
             Logon    => [1],

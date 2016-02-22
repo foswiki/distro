@@ -274,7 +274,7 @@ around set_up => sub {
     my $this = shift;
 
     # We don't want the overhead of creating a new session for each tests
-    my $query = Unit::Request->new("");
+    my $query = Unit::Request->new( initializer => "" );
     $orig->($this);
     $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
 

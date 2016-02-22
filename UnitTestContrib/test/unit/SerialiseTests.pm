@@ -201,7 +201,7 @@ sub test_Meta_CopyAll {
 
     # A saves again, reprev triggers to create rev 1 again
     $query = Unit::Request->new(
-        {
+        initializer => {
             action => ['save'],
             text   => ["Sweaty\ncat"],
             topic  => [ $this->{test_web} . '.MergeSave' ]

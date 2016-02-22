@@ -132,7 +132,7 @@ sub test_AccessControlException {
 sub test_oopsScript {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             skin     => 'none',
             template => 'oopsgeneric',
             def      => 'message',

@@ -212,7 +212,7 @@ sub list_tests {
 sub run_testcase {
     my ( $this, $testcase ) = @_;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             test => 'compare',
             debugenableplugins =>
               'TestFixturePlugin,SpreadSheetPlugin,InterwikiPlugin',

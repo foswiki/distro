@@ -271,7 +271,7 @@ sub test_sanitizeAttachmentName_unicode {
 
     $Foswiki::cfg{Store}{Encoding} = 'utf-8';
     require Unit::Request;
-    $query = Unit::Request->new("");
+    $query = Unit::Request->new( initializer => "" );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->createNewFoswikiSession( undef, $query );
     $this->{request}  = $query;

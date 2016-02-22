@@ -186,7 +186,7 @@ sub call_UI_FN {
     if ($params) {
         %constructor = ( %constructor, %{$params} );
     }
-    my $query = Unit::Request->new( \%constructor );
+    my $query = Unit::Request->new( initializer => \%constructor );
     $query->path_info("/$web/$topic");
     $query->method('GET');
 

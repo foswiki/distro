@@ -1785,7 +1785,7 @@ HERE
     $topicObject->save();
     $topicObject->finish();
 
-    my $query = Unit::Request->new('');
+    my $query = Unit::Request->new( initializer => '' );
     $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
 
     $this->createNewFoswikiSession( undef, $query );
@@ -5869,7 +5869,7 @@ HERE
     $topicObject->save( forcedate => 1108413782, author => 'Gerald' );
     $topicObject->finish();
 
-    my $query = Unit::Request->new('');
+    my $query = Unit::Request->new( initializer => '' );
     $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
 
     $this->createNewFoswikiSession( undef, $query );
@@ -6740,7 +6740,7 @@ HERE
 "form.name='Profile/Definitions.Acacia_Sequence_Form' AND Acacia_TraceSet/Acacia_PCRProduct/Acacia_Extract/Acacia_LaneNumber < 5"
           => ''
     );
-    my $query = Unit::Request->new('');
+    my $query = Unit::Request->new( initializer => '' );
 
     $query->path_info( "/$test_web/" . $this->test_topic );
 

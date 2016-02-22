@@ -825,7 +825,7 @@ Simple description of problem</textarea>', get_formfield( 2, $text )
 sub test_unsavedtopic_rendersform {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             webName      => [$testweb],
             topicName    => ['MissingTopic'],
             formtemplate => ["$testform"]

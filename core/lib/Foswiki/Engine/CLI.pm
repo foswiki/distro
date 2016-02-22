@@ -23,6 +23,8 @@ use Moo;
 use namespace::clean;
 extends qw(Foswiki::Engine);
 
+has path_info => ( is => 'rw', );
+
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
@@ -101,7 +103,7 @@ sub preparePath {
         require File::Spec;
         $req->action( ( File::Spec->splitpath($0) )[2] );
     }
-    if ( exists $this->path_info ) {
+    if ( $this->has_path_info ) {
         $req->pathInfo( $this->path_info );
         $this->clear_path_info;
     }

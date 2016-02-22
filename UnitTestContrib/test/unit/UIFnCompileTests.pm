@@ -93,7 +93,7 @@ sub fixture_groups {
 sub call_UI_FN {
     my ( $this, $web, $topic, $tmpl ) = @_;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             webName   => [$web],
             topicName => [$topic],
 

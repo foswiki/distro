@@ -462,7 +462,7 @@ sub test_getViewUrl {
     $this->assert_matches( qr!$ss/$test_web/WebHome!, $result );
 
     $this->createNewFoswikiSession( undef,
-        Unit::Request->new( { topic => "Sausages.AndMash" } ) );
+        Unit::Request->new( initializer => { topic => "Sausages.AndMash" } ) );
 
     $result = Foswiki::Func::getViewUrl( "Sausages", "AndMash" );
     $this->assert_matches( qr!${ss}/Sausages/AndMash!, $result );
@@ -485,7 +485,7 @@ sub test_getScriptUrl {
     $result = Foswiki::Func::getScriptUrl( "", "WebHome", 'wibble' );
     $this->assert_matches( qr!/$ss/$users_web/WebHome!, $result );
 
-    my $q = Unit::Request->new( {} );
+    my $q = Unit::Request->new( initializer => {} );
     $q->path_info('/Sausages/AndMash');
     $this->createNewFoswikiSession( undef, $q );
 
@@ -2547,8 +2547,12 @@ sub test_pushPopContext {
 SETS
 
     # Force re-read of prefs
-    $this->createNewFoswikiSession( undef,
-        Unit::Request->new( { topic => $this->test_web . ".$topic1" } ) );
+    $this->createNewFoswikiSession(
+        undef,
+        Unit::Request->new(
+            initializer => { topic => $this->test_web . ".$topic1" }
+        )
+    );
 
     Foswiki::Func::saveTopicText( $this->test_web, $topic2, <<'SETS' );
    * Set ICE = SLIPPERY
@@ -2682,7 +2686,7 @@ sub do_attachment {
     my $stream;
 
     require Unit::Request;
-    $query = Unit::Request->new("");
+    $query = Unit::Request->new( initializer => "" );
     $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
     $this->createNewFoswikiSession( undef, $query );
     $this->request($query);
@@ -2919,7 +2923,7 @@ sub test_getUrlHost {
     my $query;
 
     require Unit::Request;
-    $query = Unit::Request->new("");
+    $query = Unit::Request->new( initializer => "" );
 
     #$query->path_info("/".$this->test_web."/".$this->test_topic);
     $Foswiki::cfg{DefaultUrlHost}      = 'http://foswiki.org';
@@ -2966,7 +2970,7 @@ sub test_getUrlHost_ForceDefaultUrlHost {
     my $query;
 
     require Unit::Request;
-    $query = Unit::Request->new("");
+    $query = Unit::Request->new( initializer => "" );
 
     $Foswiki::cfg{DefaultUrlHost}      = 'http://foswiki.org';
     $Foswiki::cfg{ForceDefaultUrlHost} = 1;

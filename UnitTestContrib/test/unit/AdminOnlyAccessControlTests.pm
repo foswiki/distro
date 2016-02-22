@@ -311,7 +311,7 @@ THIS
     $topicObject->save();
     $topicObject->finish();
 
-    my $topicquery = Unit::Request->new("");
+    my $topicquery = Unit::Request->new( initializer => "" );
     $topicquery->path_info( "/" . $this->test_web . "/" . $this->test_topic );
 
     # renew Foswiki, so WebPreferences gets re-read
@@ -763,7 +763,7 @@ THIS
 
     # Request the page with the full UI
     my $query = Unit::Request->new(
-        {
+        initializer => {
             webName   => [ $this->test_web ],
             topicName => ["$test_topic"],
         }

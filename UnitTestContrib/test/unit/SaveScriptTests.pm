@@ -150,7 +150,7 @@ CONTENT
 sub test_AUTOINC {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             action => ['save'],
             text   => ['nowt'],
         }
@@ -195,7 +195,7 @@ sub test_AUTOINC {
 sub test_XXXXXXXXXX {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             action => ['save'],
             text   => ['nowt'],
         }
@@ -237,7 +237,7 @@ sub test_XXXXXXXXXX {
 sub test_XXXXXXXXX {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             action => ['save'],
             text   => ['nowt'],
         }
@@ -271,7 +271,7 @@ sub test_XXXXXXXXX {
 sub test_XXXXXXXXXXX {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             action => ['save'],
             text   => ['nowt'],
         }
@@ -300,7 +300,7 @@ sub test_XXXXXXXXXXX {
 sub test_emptySave {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             action => ['save'],
             topic  => [ $this->{test_web} . '.EmptyTestSaveScriptTopic' ]
         }
@@ -320,7 +320,7 @@ sub test_emptySave {
 sub test_simpleTextPreview {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             text => [<<HERE],
 CUT##
 <a href="blah.com">no target</a>
@@ -356,7 +356,7 @@ HERE
 sub test_simpleTextSave {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             text   => ['CORRECT'],
             action => ['save'],
             topic  => [ $this->{test_web} . '.DeleteTestSaveScriptTopic' ]
@@ -378,7 +378,7 @@ sub test_simpleTextSave {
 sub test_simpleTextSaveDeniedWebCHANGE {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             text   => ['CORRECT'],
             action => ['save'],
             topic  => [ $this->{test_web} . '.DeleteTestSaveScriptTopic3' ]
@@ -423,7 +423,7 @@ qr/AccessControlException: Access to CHANGE TemporarySaveTestWebSave. for duck i
 sub test_templateTopicTextSave {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             text   => ['Template Topic'],
             action => ['save'],
             topic  => [ $this->{test_web} . '.TemplateTopic' ]
@@ -432,7 +432,7 @@ sub test_templateTopicTextSave {
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     $this->captureWithKey( save => $UI_FN, $this->{session} );
     $query = Unit::Request->new(
-        {
+        initializer => {
             templatetopic => ['TemplateTopic'],
             action        => ['save'],
             topic         => [ $this->{test_web} . '.TemplateTopic' ]
@@ -453,7 +453,7 @@ sub test_templateTopicTextSave {
 sub test_prevTopicTextSave {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             text   => ['WRONG'],
             action => ['save'],
             topic  => [ $this->{test_web} . '.PrevTopicTextSave' ]
@@ -462,7 +462,7 @@ sub test_prevTopicTextSave {
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     $this->captureWithKey( save => $UI_FN, $this->{session} );
     $query = Unit::Request->new(
-        {
+        initializer => {
             text   => ['CORRECT'],
             action => ['save'],
             topic  => [ $this->{test_web} . '.PrevTopicTextSave' ]
@@ -484,7 +484,7 @@ sub test_prevTopicTextSave {
 sub test_missingWebSave {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             text   => ['WRONG'],
             action => ['save'],
             topic  => [ 'MissingWeb' . '.PrevTopicTextSave' ]
@@ -510,7 +510,7 @@ sub test_missingWebSave {
 sub test_prevTopicEmptyTextSave {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             text   => ['CORRECT'],
             action => ['save'],
             topic  => [ $this->{test_web} . '.PrevTopicEmptyTextSave' ]
@@ -519,7 +519,7 @@ sub test_prevTopicEmptyTextSave {
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     $this->captureWithKey( save => $UI_FN, $this->{session} );
     $query = Unit::Request->new(
-        {
+        initializer => {
             action => ['save'],
             topic  => [ $this->{test_web} . '.PrevTopicEmptyTextSave' ]
         }
@@ -539,7 +539,7 @@ sub test_prevTopicEmptyTextSave {
 sub test_simpleFormSave {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             text         => ['CORRECT'],
             formtemplate => ['TestForm1'],
             action       => ['save'],
@@ -568,7 +568,7 @@ sub test_simpleFormSave {
 sub test_templateTopicFormSave {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             text         => ['Template Topic'],
             formtemplate => ['TestForm1'],
             'Select'     => ['Value_1'],
@@ -585,7 +585,7 @@ sub test_templateTopicFormSave {
     my $xtext = $xmeta->text;
     $xmeta->finish();
     $query = Unit::Request->new(
-        {
+        initializer => {
             templatetopic => ['TemplateTopic'],
             action        => ['save'],
             topic         => [ $this->{test_web} . '.TemplateTopicAgain' ]
@@ -611,7 +611,7 @@ sub test_templateTopicFormSave {
 sub test_prevTopicFormSave {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             text         => ['Template Topic'],
             formtemplate => ['TestForm1'],
             'Select'     => ['Value_1'],
@@ -623,7 +623,7 @@ sub test_prevTopicFormSave {
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     $this->captureWithKey( save => $UI_FN, $this->{session} );
     $query = Unit::Request->new(
-        {
+        initializer => {
             action      => ['save'],
             'Textfield' => ['Barney'],
             topic       => [ $this->{test_web} . '.PrevTopicFormSave' ]
@@ -653,7 +653,7 @@ sub test_prevTopicFormSave {
 sub test_simpleFormSave1 {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             action               => ['save'],
             text                 => [$testtext_nometa],
             formtemplate         => ['TestForm1'],
@@ -698,7 +698,7 @@ sub test_simpleFormSave2 {
     $meta->save( user => $this->{test_user_login} );
 
     my $query = Unit::Request->new(
-        {
+        initializer => {
             action               => ['save'],
             text                 => [$testtext_nometa],
             formtemplate         => ['TestForm3'],
@@ -744,7 +744,7 @@ sub test_simpleFormSave3 {
     $meta->save( user => $this->{test_user_login} );
 
     my $query = Unit::Request->new(
-        {
+        initializer => {
             action               => ['save'],
             text                 => [$testtext_nometa],
             formtemplate         => ['TestForm1'],
@@ -777,7 +777,7 @@ sub test_simpleFormSave3 {
 sub test_simpleFormSaveZeroValue {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             text         => ['CORRECT'],
             formtemplate => ['TestForm1'],
             action       => ['save'],
@@ -807,7 +807,7 @@ sub test_simpleFormSaveZeroValue {
 sub test_simpleFormSaveEmptyValue {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             text         => ['CORRECT'],
             formtemplate => ['TestForm1'],
             action       => ['save'],
@@ -839,7 +839,7 @@ sub test_templateTopicWithMeta {
     Foswiki::Func::saveTopicText( $this->{test_web}, "TemplateTopic",
         $testtext1 );
     my $query = Unit::Request->new(
-        {
+        initializer => {
             templatetopic => ['TemplateTopic'],
             action        => ['save'],
             topic         => [ $this->{test_web} . '.TemplateTopicWithMeta' ]
@@ -897,7 +897,7 @@ sub test_templateTopicWithAttachments {
     );
 
     my $query = Unit::Request->new(
-        {
+        initializer => {
             templatetopic => ['TemplateTopic'],
             action        => ['save'],
             topic         => ["$this->{test_web}.$testTopic"]
@@ -951,7 +951,7 @@ sub test_merge {
     # Now build a query for the save at the end of the first edit,
     # forcing a revision increment.
     my $query1 = Unit::Request->new(
-        {
+        initializer => {
             action               => ['save'],
             text                 => ["Soggy bat"],
             originalrev          => $original,
@@ -982,7 +982,7 @@ GUMP
     # Build a second query for the other save, based on the same original
     # version as the previous edit
     my $query2 = Unit::Request->new(
-        {
+        initializer => {
             action               => ['save'],
             text                 => ["Wet rat"],
             originalrev          => $original,
@@ -1183,7 +1183,7 @@ sub test_1897 {
 
     # A saves again, reprev triggers to create rev 1 again
     $query = Unit::Request->new(
-        {
+        initializer => {
             action      => ['save'],
             text        => ["Sweaty\ncat"],
             originalrev => $original,
@@ -1208,7 +1208,7 @@ sub test_1897 {
 
     # User B saves; make sure we get a merge notice.
     $query = Unit::Request->new(
-        {
+        initializer => {
             action      => ['save'],
             text        => ["Smelly\nrat"],
             originalrev => $original,
@@ -1278,7 +1278,7 @@ sub test_cmdEqualsReprev {
 
     # admin reprevs to create rev 1 again with new text
     $query = Unit::Request->new(
-        {
+        initializer => {
             action => ['save'],
             text   => ["A Tale of Two Cities"],
             cmd    => ['repRev'],
@@ -1313,7 +1313,7 @@ sub test_cmdEqualsReprev {
 sub test_missingTemplateTopic {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             templatetopic => ['NonExistantTemplateTopic'],
             action        => ['save'],
             topic         => [ $this->{test_web} . '.FlibbleDeDib' ]
@@ -1338,7 +1338,7 @@ sub test_missingTemplateTopic {
 sub test_addform {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             action => ['addform'],
             topic  => ["$this->{test_web}.$this->{test_topic}"],
         }
@@ -1364,7 +1364,7 @@ sub test_get {
     my $this = shift;
 
     my $query = Unit::Request->new(
-        {
+        initializer => {
             action => ['save'],
             topic  => ["$this->{test_web}.$this->{test_topic}"]
         }
@@ -1384,7 +1384,7 @@ sub test_get {
 sub test_preferenceSave {
     my $this  = shift;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             text             => ["CORRECT\n   * Set UNSETME = x\n"],
             action           => ['save'],
             topic            => [ $this->{test_web} . '.PrefTopic' ],
@@ -1409,7 +1409,7 @@ sub test_preferenceSave {
     $meta->finish();
 
     $query = Unit::Request->new(
-        {
+        initializer => {
             text             => ["CORRECT\n   * Set UNSETME = x\n"],
             action           => ['save'],
             topic            => [ $this->{test_web} . '.PrefTopic' ],

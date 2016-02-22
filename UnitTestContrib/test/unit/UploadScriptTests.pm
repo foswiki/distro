@@ -76,7 +76,7 @@ sub do_upload {
         $args{$k} = [$v];
     }
 
-    my $query = Unit::Request->new( \%args );
+    my $query = Unit::Request->new( initializer => \%args );
     $query->method('POST');
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     my $fh      = File::Temp->new();
@@ -271,7 +271,7 @@ sub test_oversized_upload {
         webName   => [ $this->{test_web} ],
         topicName => [ $this->{test_topic} ],
     );
-    my $query = Unit::Request->new( \%args );
+    my $query = Unit::Request->new( initializer => \%args );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my $data = '00000000000000000000000000000000000000';

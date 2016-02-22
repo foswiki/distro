@@ -33,7 +33,7 @@ sub set_up {
     $Foswiki::cfg{SystemWebName}        = $testSysWeb;
     $Foswiki::cfg{LocalSitePreferences} = "$this->{users_web}.SitePreferences";
 
-    $topicquery = Unit::Request->new('');
+    $topicquery = Unit::Request->new( initializer => '' );
     $topicquery->path_info("/$this->{test_web}/$this->{test_topic}");
 
     try {
@@ -357,7 +357,7 @@ sub test_local_to_default {
       $this->createNewFoswikiSession( $this->{test_user_login}, $topicquery );
     $this->assert_str_equals( "GLOBAL", $t->{prefs}->getPreference("SOURCE") );
 
-    my $localquery = Unit::Request->new('');
+    my $localquery = Unit::Request->new( initializer => '' );
     $localquery->path_info("/$testSysWeb/$Foswiki::cfg{SitePrefsTopicName}");
 
     $t =
@@ -378,7 +378,7 @@ sub test_local_to_site {
     $this->assert_str_equals( "GLOBAL", $t->{prefs}->getPreference("SOURCE") );
     my ( $tw, $tt ) =
       $t->normalizeWebTopicName( '', $Foswiki::cfg{LocalSitePreferences} );
-    my $localquery = Unit::Request->new('');
+    my $localquery = Unit::Request->new( initializer => '' );
     $localquery->path_info("/$tw/$tt");
 
     $t =
@@ -398,7 +398,7 @@ sub test_local_to_user {
       $this->createNewFoswikiSession( $this->{test_user_login}, $topicquery );
     $this->assert_str_equals( "GLOBAL", $t->{prefs}->getPreference("SOURCE") );
 
-    my $localquery = Unit::Request->new('');
+    my $localquery = Unit::Request->new( initializer => '' );
     $localquery->path_info(
         "/$Foswiki::cfg{UsersWebName}/$this->{test_user_wikiname}");
 
@@ -419,7 +419,7 @@ sub test_local_to_web {
       $this->createNewFoswikiSession( $this->{test_user_login}, $topicquery );
     $this->assert_str_equals( "GLOBAL", $t->{prefs}->getPreference("SOURCE") );
 
-    my $localquery = Unit::Request->new('');
+    my $localquery = Unit::Request->new( initializer => '' );
     $localquery->path_info(
         "/$this->{test_web}/$Foswiki::cfg{WebPrefsTopicName}");
 

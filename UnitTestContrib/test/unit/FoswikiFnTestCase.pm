@@ -215,7 +215,7 @@ sub registerUser {
     if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
         $params->{"Twk1LoginName"} = $loginname;
     }
-    my $query = Unit::Request->new($params);
+    my $query = Unit::Request->new( initializer => $params );
 
     $query->path_info( "/" . $this->users_web . "/UserRegistration" );
 

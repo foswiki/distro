@@ -263,7 +263,7 @@ sub verify_url_parameters {
 
     # Now query the subweb path. We should get the webhome of the subweb.
     my $topicquery = Unit::Request->new(
-        {
+        initializer => {
             action => 'view',
             topic  => $this->sub_web_path,
         }
@@ -295,7 +295,7 @@ sub verify_url_parameters {
     $topicObject->finish();
 
     $topicquery = Unit::Request->new(
-        {
+        initializer => {
             action => 'view',
             topic  => $this->sub_web_path,
         }
@@ -309,7 +309,7 @@ sub verify_url_parameters {
 
     # try a query with a non-existant topic in the subweb.
     $topicquery = Unit::Request->new(
-        {
+        initializer => {
             action => 'view',
             topic  => $this->sub_web_path . "/NonExistant",
         }
@@ -332,7 +332,7 @@ sub verify_url_parameters {
 sub test_squab_simple {
     my $this = shift;
 
-    my $query = Unit::Request->new('');
+    my $query = Unit::Request->new( initializer => '' );
     $query->path_info( "/" . $this->test_web . "/NonExistant" );
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserName}, $query );
 
@@ -357,7 +357,7 @@ sub test_squab_subweb {
     my $this = shift;
 
     # Make a query that should set topic=$test$this->sub_web
-    my $query = Unit::Request->new('');
+    my $query = Unit::Request->new( initializer => '' );
     $query->path_info( "/" . $this->test_web . "/NonExistant" );
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserName}, $query );
 
@@ -386,7 +386,7 @@ sub test_squab_subweb_full_path {
     my $sub_web_path = $this->sub_web_path;
 
     # Make a query that should set topic=$test$this->sub_web
-    my $query = Unit::Request->new('');
+    my $query = Unit::Request->new( initializer => '' );
     $query->path_info("/$test_web/NonExistant");
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserName}, $query );
 
@@ -408,7 +408,7 @@ sub test_squab_subweb_wih_topic {
     my $this = shift;
 
     # Make a query that should set topic=$test$this->sub_web
-    my $query = Unit::Request->new('');
+    my $query = Unit::Request->new( initializer => '' );
     $query->path_info( "/" . $this->test_web . "/NonExistant" );
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserName}, $query );
 
@@ -440,7 +440,7 @@ sub test_squab_full_path_with_topic {
     my $this = shift;
 
     # Make a query that should set topic=$test$this->sub_web
-    my $query = Unit::Request->new('');
+    my $query = Unit::Request->new( initializer => '' );
     $query->path_info( "/" . $this->test_web . "/NonExistant" );
 
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserName}, $query );
@@ -482,7 +482,7 @@ sub test_squab_path_to_topic_in_subweb {
     my $this = shift;
 
     # Make a query that should set topic=$test$this->sub_web
-    my $query = Unit::Request->new('');
+    my $query = Unit::Request->new( initializer => '' );
     $query->path_info( "/" . $this->test_web . "/NonExistant" );
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserName}, $query );
 
@@ -578,7 +578,7 @@ END_EXPECTED
     $Foswiki::cfg{EnableHierarchicalWebs} = 0;
     $Foswiki::cfg{NameFilter} = $Foswiki::cfg{NameFilter} =
       '[\/\\s\\*?~^\\$@%`"\'&;|<>\\[\\]#\\x00-\\x1f]';
-    my $query = Unit::Request->new('');
+    my $query = Unit::Request->new( initializer => '' );
     $query->path_info( "/" . $this->test_web . "/TestTopic" );
     $this->createNewFoswikiSession( undef, $query );
 

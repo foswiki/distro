@@ -1576,7 +1576,7 @@ PONG
             expect => "0"
         }
     );
-    my $request = Unit::Request->new( {} );
+    my $request = Unit::Request->new( initializer => {} );
     $request->path_info( "/" . $this->test_web . "/" . $this->test_topic );
     $this->createNewFoswikiSession( undef, $request );
     ($meta) = Foswiki::Func::readTopic( $this->test_web, $this->test_topic );

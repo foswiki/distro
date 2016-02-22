@@ -18,7 +18,7 @@ sub set_up {
     $Foswiki::cfg{Plugins}{CommentPlugin}{Enabled} = 0;
     $Foswiki::cfg{Plugins}{SmiliesPlugin}{Enabled} = 0;
 
-    my $query = Unit::Request->new("");
+    my $query = Unit::Request->new( initializer => "" );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
     $this->createNewFoswikiSession( undef, $query );

@@ -71,6 +71,11 @@ extends qw(Foswiki::Logger);
 
 use constant TRACE => 0;
 
+has acceptsHash => (
+    is      => 'ro',
+    default => 1,
+);
+
 # Map from a log level to the root of a log file name
 our %LEVEL2LOG = (
     debug     => 'debug',
@@ -94,11 +99,6 @@ our %nextCheckDue = (
 our $dontRotate = 0;
 sub _time { time() }
 sub _stat { @_ ? stat( $_[0] ) : stat() }
-
-sub new {
-    my $class = shift;
-    return bless( { acceptsHash => 1 }, $class );
-}
 
 =begin TML
 
@@ -236,9 +236,13 @@ sub eachEventSince {
 
             my $fh;
             if ( open( $fh, '<:encoding(utf-8)', $logfile ) ) {
-                my $logIt =
-                  new Foswiki::Logger::PlainFile::EventIterator( $fh, $time,
-                    $reqLevel, $version, $logfile );
+                my $logIt = Foswiki::Logger::PlainFile::EventIterator->new(
+                    handle    => $fh,
+                    threshold => $time,
+                    level     => $reqLevel,
+                    version   => $version,
+                    filename  => $logfile
+                );
 
                 # No error in case on non-flockable FS; eval in case flock not
                 # supported.
@@ -256,7 +260,8 @@ sub eachEventSince {
         }
 
         push @mergeIterators,
-          new Foswiki::Iterator::AggregateEventIterator( \@iterators );
+          Foswiki::Iterator::AggregateEventIterator->new(
+            iterators => \@iterators );
     }
 
     if (TRACE) {
@@ -265,7 +270,8 @@ sub eachEventSince {
           . Data::Dumper::Dumper( \@mergeIterators );
     }
 
-    return new Foswiki::Iterator::MergeEventIterator( \@mergeIterators );
+    return Foswiki::Iterator::MergeEventIterator->new(
+        list => \@mergeIterators );
 }
 
 # Get the name of the log for a given reporting level

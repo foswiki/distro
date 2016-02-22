@@ -201,7 +201,7 @@ sub set_up {
 sub setup_view {
     my ( $this, $web, $topic, $tmpl, $raw, $ctype, $skin, $method ) = @_;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             webName     => [$web],
             topicName   => [$topic],
             template    => [$tmpl],
@@ -400,7 +400,7 @@ postposttemplate', $text
 
 sub urltest {
     my ( $this, $url, $web, $topic ) = @_;
-    my $query = Unit::Request->new( {} );
+    my $query = Unit::Request->new( initializer => {} );
     $query->setUrl($url);
     $query->method('GET');
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );

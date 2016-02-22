@@ -733,7 +733,7 @@ HERE
 
     my $UI_FN ||= $this->getUIFn('view');
     my $query = Unit::Request->new(
-        {
+        initializer => {
             webName   => [$web],
             topicName => [$topic],
 

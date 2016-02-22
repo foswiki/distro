@@ -1,42 +1,43 @@
 # tests for Foswiki::Logger
 
 package LoggerTests;
-use strict;
-use warnings;
-use FoswikiTestCase();
-our @ISA = qw( FoswikiTestCase );
+use v5.14;
 
 use Benchmark qw(:hireswallclock);
 use File::Temp();
 use File::Path();
 use Foswiki::Logger::PlainFile();
 
+use Moo;
+use namespace::clean;
+extends qw( FoswikiTestCase );
+
+has logger => ( is => 'rw', );
+
 # NOTE: Test logs are created in the test web so they get torn down when the
 # web is torn down in the superclass.
 our $logDir;
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
     delete $Foswiki::cfg{LogFileName};
     delete $Foswiki::cfg{DebugFileName};
     delete $Foswiki::cfg{WarningFileName};
     delete $Foswiki::cfg{ConfigureLogFileName};
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
     $logDir = "logDir$$";
     $Foswiki::cfg{Log}{Dir} = "$logDir";
     mkdir $Foswiki::cfg{Log}{Dir};
+};
 
-    return;
-}
-
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
 
     eval { File::Path::rmtree($logDir) };
-    $this->SUPER::tear_down();
-
-    return;
-}
+    $orig->($this);
+};
 
 sub skip {
     my ( $this, $test ) = @_;
@@ -87,7 +88,7 @@ sub skip {
     return $skip_tests{$test}
       if ( defined $test && defined $skip_tests{$test} );
 
-    return $this->SUPER::skip_test_if(
+    return $this->skip_test_if(
         $test,
         {
             condition => { with_dep => 'Foswiki,<,1.2' },
@@ -155,8 +156,8 @@ sub skip {
 sub CompatibilityLogger {
     my $this = shift;
     require Foswiki::Logger::Compatibility;
-    $Foswiki::cfg{Log}{Implementation}  = 'Foswiki::Logger::Compatibility';
-    $this->{logger}                     = Foswiki::Logger::Compatibility->new();
+    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
+    $this->logger( Foswiki::Logger::Compatibility->new() );
     $Foswiki::cfg{LogFileName}          = "$logDir/logfile%DATE%";
     $Foswiki::cfg{DebugFileName}        = "$logDir/debug%DATE%";
     $Foswiki::cfg{WarningFileName}      = "$logDir/warn%DATE%!!";
@@ -169,7 +170,7 @@ sub PlainFileLogger {
     my $this = shift;
     require Foswiki::Logger::PlainFile;
     $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::PlainFile';
-    $this->{logger} = Foswiki::Logger::PlainFile->new();
+    $this->logger( Foswiki::Logger::PlainFile->new() );
 
     return;
 }
@@ -180,7 +181,7 @@ sub ObfuscatingLogger {
     $Foswiki::cfg{Log}{Implementation} =
       'Foswiki::Logger::PlainFile::Obfuscating';
     $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 1;
-    $this->{logger} = Foswiki::Logger::PlainFile::Obfuscating->new();
+    $this->logger( Foswiki::Logger::PlainFile::Obfuscating->new() );
 
     return;
 }
@@ -199,7 +200,7 @@ sub LogDispatchFileLogger {
         'error'     => 'warning:emergency',
         'debug'     => 'debug:debug',
     };
-    $this->{logger} = Foswiki::Logger::LogDispatch->new();
+    $this->logger( Foswiki::Logger::LogDispatch->new() );
 
     return;
 }
@@ -218,7 +219,7 @@ sub LogDispatchFileObfuscatingLogger {
         'error'     => 'warning:emergency',
         'debug'     => 'debug:debug',
     };
-    $this->{logger} = Foswiki::Logger::LogDispatch->new();
+    $this->logger( Foswiki::Logger::LogDispatch->new() );
 
     return;
 }
@@ -232,7 +233,7 @@ sub LogDispatchFileRollingLogger {
     $Foswiki::cfg{Log}{LogDispatch}{MaskIP}               = 'none';
     $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
     $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Pattern} = '-%d{yyyy-MM}.log';
-    $this->{logger} = Foswiki::Logger::LogDispatch->new();
+    $this->logger( Foswiki::Logger::LogDispatch->new() );
 
     return;
 }
@@ -285,26 +286,24 @@ sub verify_eachEventSince_MultiLevelsV0 {
 #  and this is *only* used for "info" type messages.  The unit test however calls all log types
 #  with multiple parameters, so Obfuscation happens on any log level.
 
-    $this->{logger}->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
+    $this->logger->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
       if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
     sleep 1;
-    $this->{logger}->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}
-      ->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
     sleep 1;
-    $this->{logger}->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}
-      ->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
     sleep 1;
-    $this->{logger}->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
+    $this->logger->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
       if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
 
     if ( $Foswiki::cfg{Log}{Implementation} eq
@@ -312,7 +311,7 @@ sub verify_eachEventSince_MultiLevelsV0 {
     {
         $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
     }
-    $this->{logger}->warn( 'blahwarning', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->warn( 'blahwarning', "Green", "Eggs", "and", $tmpIP );
 
     my $logIP =
       ( $Foswiki::cfg{Log}{Implementation} eq
@@ -321,7 +320,7 @@ sub verify_eachEventSince_MultiLevelsV0 {
     my @levels = qw(debug info notice warning error critical alert emergency);
 
     my $testIP = $logIP;
-    my $it = $this->{logger}->eachEventSince( $time, \@levels );
+    my $it = $this->logger->eachEventSince( $time, \@levels );
     $this->assert( $it->hasNext() );
 
     my $logCounter;
@@ -353,26 +352,24 @@ sub verify_eachEventSince_MultiLevelsV1 {
 #  and this is *only* used for "info" type messages.  The unit test however calls all log types
 #  with multiple parameters, so Obfuscation happens on any log level.
 
-    $this->{logger}->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
+    $this->logger->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
       if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
     sleep 1;
-    $this->{logger}->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}
-      ->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
     sleep 1;
-    $this->{logger}->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}
-      ->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
     sleep 1;
-    $this->{logger}->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
+    $this->logger->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
       if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
 
     if ( $Foswiki::cfg{Log}{Implementation} eq
@@ -380,7 +377,7 @@ sub verify_eachEventSince_MultiLevelsV1 {
     {
         $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
     }
-    $this->{logger}->warn( 'blahwarning', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->warn( 'blahwarning', "Green", "Eggs", "and", $tmpIP );
 
     my $logIP =
       ( $Foswiki::cfg{Log}{Implementation} eq
@@ -392,7 +389,7 @@ sub verify_eachEventSince_MultiLevelsV1 {
       : qw(debug info warning error critical alert emergency);
 
     my $testIP = $logIP;
-    my $it = $this->{logger}->eachEventSince( $time, \@levels, 1 );
+    my $it = $this->logger->eachEventSince( $time, \@levels, 1 );
     $this->assert( $it->hasNext() );
 
     my $logCounter;
@@ -427,22 +424,21 @@ sub verify_LogDispatchCompatRoutines {
 #  and this is *only* used for "info" type messages.  The unit test however calls all log types
 #  with multiple parameters, so Obfuscation happens on any log level.
 
-    $this->{logger}->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
+    $this->logger->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
       if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
-    $this->{logger}->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
-    $this->{logger}
-      ->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
 
     if ( $Foswiki::cfg{Log}{Implementation} eq
         'Foswiki::Logger::PlainFile::Obfuscating' )
     {
         $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
     }
-    $this->{logger}->warn( 'blahwarning', "Green", "Eggs", "and", $tmpIP );
+    $this->logger->warn( 'blahwarning', "Green", "Eggs", "and", $tmpIP );
 
     my $logIP =
       ( $Foswiki::cfg{Log}{Implementation} eq
@@ -454,7 +450,7 @@ sub verify_LogDispatchCompatRoutines {
       : qw(debug info warning error critical alert emergency);
     foreach my $level (@levels) {
         my $ipaddr = $logIP;
-        my $it = $this->{logger}->eachEventSince( $time, $level );
+        my $it = $this->logger->eachEventSince( $time, $level );
         $this->assert( $it->hasNext(), $level );
         my $data = $it->next();
         my $t    = shift( @{$data} );
@@ -504,9 +500,8 @@ sub verify_simpleWriteAndReplayEmbeddedNewlines {
             $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
         }
 
-        $this->{logger}
-          ->log( $level, $level, "Green", "Eggs", "and\n newline\n here",
-            $tmpIP );
+        $this->logger->log( $level, $level, "Green", "Eggs",
+            "and\n newline\n here", $tmpIP );
     }
 
     my $logIP =
@@ -515,7 +510,7 @@ sub verify_simpleWriteAndReplayEmbeddedNewlines {
 
     foreach my $level (qw(debug info warning)) {
         my $ipaddr = $logIP;
-        my $it = $this->{logger}->eachEventSince( $time, $level );
+        my $it = $this->logger->eachEventSince( $time, $level );
         $this->assert( $it->hasNext(), $level );
         my $data = $it->next();
         my $t    = shift( @{$data} );
@@ -575,7 +570,7 @@ sub verify_simpleWriteAndReplay {
             $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
         }
 
-        $this->{logger}->log( $level, $level, "Green", "Eggs", "and", $tmpIP );
+        $this->logger->log( $level, $level, "Green", "Eggs", "and", $tmpIP );
     }
 
     my $logIP =
@@ -584,7 +579,7 @@ sub verify_simpleWriteAndReplay {
 
     foreach my $level (qw(debug info warning)) {
         my $ipaddr = $logIP;
-        my $it = $this->{logger}->eachEventSince( $time, $level );
+        my $it = $this->logger->eachEventSince( $time, $level );
         $this->assert( $it->hasNext(), $level );
         my $data = $it->next();
         my $t    = shift( @{$data} );
@@ -617,7 +612,7 @@ sub verify_simpleWriteAndReplayHashEventFilter {
     my $time   = time;
     my $ipaddr = '1.2.3.4';
 
-    return unless $this->{logger}->{acceptsHash};
+    return unless $this->logger->acceptsHash;
 
     # Filter dropped Eggs.
     $Foswiki::cfg{Log}{Action}{Dropped} = 0;
@@ -626,7 +621,7 @@ sub verify_simpleWriteAndReplayHashEventFilter {
     foreach my $level (qw(debug info warning)) {
 
         if ( $level eq 'info' ) {
-            $this->{logger}->log(
+            $this->logger->log(
                 {
                     level      => $level,
                     user       => $level,
@@ -636,7 +631,7 @@ sub verify_simpleWriteAndReplayHashEventFilter {
                     remoteAddr => $ipaddr
                 }
             );
-            $this->{logger}->log(
+            $this->logger->log(
                 {
                     level      => $level,
                     user       => $level,
@@ -649,12 +644,12 @@ sub verify_simpleWriteAndReplayHashEventFilter {
         }
         else {
             my @fields = ( $level, "Green", "Eggs", "and", $ipaddr );
-            $this->{logger}->log( { level => $level, extra => \@fields } );
+            $this->logger->log( { level => $level, extra => \@fields } );
         }
     }
 
     foreach my $level (qw(debug info warning)) {
-        my $it = $this->{logger}->eachEventSince( $time, $level );
+        my $it = $this->logger->eachEventSince( $time, $level );
         $this->assert( $it->hasNext(), $level );
         my $data = $it->next();
         my $t    = shift( @{$data} );
@@ -684,7 +679,7 @@ sub verify_simpleWriteAndReplayHashInterface {
     my $ipaddr = '1.2.3.4';
     my $tmpIP  = $ipaddr;
 
-    return unless $this->{logger}->{acceptsHash};
+    return unless $this->logger->acceptsHash;
 
     # Verify the three levels used by Foswiki; debug, info and warning
     foreach my $level (qw(debug info warning)) {
@@ -701,7 +696,7 @@ sub verify_simpleWriteAndReplayHashInterface {
             $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
         }
         if ( $level eq 'info' ) {
-            $this->{logger}->log(
+            $this->logger->log(
                 {
                     level      => $level,
                     user       => $level,
@@ -716,7 +711,7 @@ sub verify_simpleWriteAndReplayHashInterface {
         }
         else {
             my @fields = ( $level, "Green", "Eggs", "and", $tmpIP );
-            $this->{logger}->log( { level => $level, extra => \@fields } );
+            $this->logger->log( { level => $level, extra => \@fields } );
         }
     }
 
@@ -726,7 +721,7 @@ sub verify_simpleWriteAndReplayHashInterface {
 
     foreach my $level (qw(debug info warning)) {
         my $ipaddr = $logIP;
-        my $it = $this->{logger}->eachEventSince( $time, $level );
+        my $it = $this->logger->eachEventSince( $time, $level );
         $this->assert( $it->hasNext(), $level );
         my $data = $it->next();
         my $t    = shift( @{$data} );
@@ -758,7 +753,7 @@ sub verify_simpleWriteAndReplayHashInterface {
 sub verify_eachEventSinceOnEmptyLog {
     my $this = shift;
     foreach my $level (qw(debug info warning)) {
-        my $it = $this->{logger}->eachEventSince( 0, $level );
+        my $it = $this->logger->eachEventSince( 0, $level );
         if ( $it->hasNext() ) {
             use Data::Dumper;
             die Data::Dumper->Dump( [ $it->next() ] );
@@ -1029,10 +1024,10 @@ sub verify_logAndReplayUnicode {
     my $unicode = Encode::decode_utf8($bytestr);
 
     #print STDERR "Attempting to log utf8 bytestring\n";
-    $this->{logger}->log( 'info', 'info', $bytestr );
+    $this->logger->log( 'info', 'info', $bytestr );
 
     #print STDERR "Attempting to log unicode \n";
-    $this->{logger}->log( 'info', 'info', $unicode );
+    $this->logger->log( 'info', 'info', $unicode );
 
     #print "Logged Data (bytestr) "
     #  . ( ( utf8::is_utf8($bytestr) ) ? "is" : "is not" )
@@ -1041,7 +1036,7 @@ sub verify_logAndReplayUnicode {
     #  . ( ( utf8::is_utf8($unicode) ) ? "is" : "is not" )
     #  . " UTF8\n";
 
-    my $it = $this->{logger}->eachEventSince( 0, 'info' );
+    my $it = $this->logger->eachEventSince( 0, 'info' );
     my $data;
 
     $this->assert( $it->hasNext() );
@@ -1071,7 +1066,7 @@ sub verify_filter {
 
     # with PlainFile, warning up are all crammed into one logfile
     my $this   = shift;
-    my $logger = $this->{logger};
+    my $logger = $this->logger;
     $logger->log( 'warning',  "Shark" );
     $logger->log( 'error',    "Dolphin" );
     $logger->log( 'critical', "Injury" );

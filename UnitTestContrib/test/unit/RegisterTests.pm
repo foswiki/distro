@@ -203,7 +203,7 @@ sub registerAccount {
     $this->registerVerifyOk();
 
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'code'   => [ $this->{session}->{DebugVerificationCode} ],
             'action' => ['verify']
         }
@@ -618,7 +618,7 @@ sub registerVerifyOk {
     if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
         $params->{"Twk1LoginName"} = $this->{new_user_login};
     }
-    my $query = Unit::Request->new($params);
+    my $query = Unit::Request->new( initializer => $params );
 
     $query->path_info("/$this->{users_web}/UserRegistration");
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
@@ -652,7 +652,7 @@ sub registerVerifyOk {
 
     my $code = shift || $this->{session}->{DebugVerificationCode};
     $query = Unit::Request->new(
-        {
+        initializer => {
             'code'   => [$code],
             'action' => ['verify']
         }
@@ -726,7 +726,7 @@ sub _registerBadVerify {
     if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
         $params->{"Twk1LoginName"} = $this->{new_user_login};
     }
-    my $query = Unit::Request->new($params);
+    my $query = Unit::Request->new( initializer => $params );
 
     $query->path_info("/$this->{users_web}/UserRegistration");
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
@@ -760,7 +760,7 @@ sub _registerBadVerify {
 
     my $code = $this->{session}->{DebugVerificationCode};
     $query = Unit::Request->new(
-        {
+        initializer => {
             'code'   => ["BadCode"],
             'action' => ['verify']
         }
@@ -845,7 +845,7 @@ sub _registerNoVerifyOk {
     if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
         $params->{"Twk1LoginName"} = $this->{new_user_login};
     }
-    my $query = Unit::Request->new($params);
+    my $query = Unit::Request->new( initializer => $params );
 
     $query->path_info("/$this->{users_web}/UserRegistration");
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
@@ -904,7 +904,7 @@ sub verify_rejectShortPassword {
     $Foswiki::cfg{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
     $Foswiki::cfg{Register}{AllowLoginName}   = 0;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'    => ['UserRegistration'],
             'Twk1Email'    => [ $this->{new_user_email} ],
             'Twk1WikiName' => [ $this->{new_user_wikiname} ],
@@ -957,7 +957,7 @@ sub verify_userTopictemplate {
     $Foswiki::cfg{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
     $Foswiki::cfg{Register}{AllowLoginName}   = 0;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'    => ['UserRegistration'],
             'Twk1Email'    => [ $this->{new_user_email} ],
             'Twk1WikiName' => [ $this->{new_user_wikiname} ],
@@ -1002,7 +1002,7 @@ sub verify_userTopictemplate {
     };
 
     my $query2 = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'    => ['UserRegistration'],
             'Twk1Email'    => [ $this->{new_user_email} ],
             'Twk1WikiName' => [ $this->{new_user_wikiname} ],
@@ -1079,7 +1079,7 @@ sub verify_rejectDuplicateEmail {
     #$Foswiki::cfg{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
     $Foswiki::cfg{Register}{AllowLoginName} = 0;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'     => ['UserRegistration'],
             'Twk1Email'     => ['joe@gooddomain.net'],
             'Twk1WikiName'  => [ $this->{new_user_wikiname} ],
@@ -1140,7 +1140,7 @@ qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
 
     #  Verify that The 2nd registration is stopped.
     $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'     => ['UserRegistration'],
             'Twk1Email'     => ['joe@gooddomain.net'],
             'Twk1WikiName'  => [ $this->{new_user_wikiname} . '2' ],
@@ -1194,7 +1194,7 @@ sub verify_rejectDuplicatePendingEmail {
     $Foswiki::cfg{Register}{AllowLoginName} = 0;
 
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'     => ['UserRegistration'],
             'Twk1Email'     => ['joe@dupdomain.net'],
             'Twk1WikiName'  => [ $this->{new_user_wikiname} ],
@@ -1237,7 +1237,7 @@ sub verify_rejectDuplicatePendingEmail {
 
     #  Verify that The 2nd registration is stopped.
     $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'     => ['UserRegistration'],
             'Twk1Email'     => ['joe@dupdomain.net'],
             'Twk1WikiName'  => [ $this->{new_user_wikiname} . '2' ],
@@ -1299,7 +1299,7 @@ sub verify_rejectFilteredEmail {
     $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
     $Foswiki::cfg{Register}{AllowLoginName} = 0;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'     => ['UserRegistration'],
             'Twk1Email'     => [ $this->{new_user_email} ],
             'Twk1WikiName'  => [ $this->{new_user_wikiname} ],
@@ -1341,7 +1341,7 @@ sub verify_rejectFilteredEmail {
 
     #  Also verify that a good domain makes it through
     $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'     => ['UserRegistration'],
             'Twk1Email'     => ['joe@gooddomain.net'],
             'Twk1WikiName'  => [ $this->{new_user_wikiname} ],
@@ -1411,7 +1411,7 @@ sub verify_rejectEvilContent {
     $Foswiki::cfg{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
     $Foswiki::cfg{Register}{AllowLoginName}   = 0;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'        => ['UserRegistration'],
             'Twk1Email'        => [ $this->{new_user_email} ],
             'Twk1WikiName'     => [ $this->{new_user_wikiname} ],
@@ -1477,7 +1477,7 @@ sub verify_shortPassword {
     $Foswiki::cfg{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
     $Foswiki::cfg{Register}{AllowLoginName}   = 1;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'     => ['UserRegistration'],
             'Twk1Email'     => [ $this->{new_user_email} ],
             'Twk1WikiName'  => [ $this->{new_user_wikiname} ],
@@ -1541,7 +1541,7 @@ sub verify_duplicateActivation {
     # Start similar to registration with verification
     $Foswiki::cfg{Register}{NeedVerification} = 1;
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'     => ['UserRegistration'],
             'Twk1Email'     => [ $this->{new_user_email} ],
             'Twk1WikiName'  => [ $this->{new_user_wikiname} ],
@@ -1589,7 +1589,7 @@ sub verify_duplicateActivation {
     # call verifyEmails
     my $code = shift || $debugVerificationCode;
     $query = Unit::Request->new(
-        {
+        initializer => {
             'code'   => [$code],
             'action' => ['verify'],
         }
@@ -1621,7 +1621,7 @@ sub verify_duplicateActivation {
     # and now for something completely different: Do it all over again
     @FoswikiFnTestCase::mails = ();
     $query                    = Unit::Request->new(
-        {
+        initializer => {
             'code'   => [$code],
             'action' => ['verify'],
         }
@@ -1680,7 +1680,7 @@ sub verify_resetPasswordOkay {
     $this->assert_str_equals( $this->{new_user_email}, $emails[0] );
 
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'LoginName' => [ $this->{new_user_login} ],
             'TopicName' => ['ResetPassword'],
             'action'    => ['resetPassword']
@@ -1732,7 +1732,7 @@ sub verify_resetPasswordNoSuchUser {
     # This time we don't set up the testWikiName, so it should fail.
 
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'LoginName' => [ $this->{new_user_wikiname} ],
             'TopicName' => ['ResetPassword'],
             'action'    => ['resetPassword']
@@ -1773,7 +1773,7 @@ sub verify_resetPasswordNeedPrivilegeForMultipleReset {
     # This time we don't set up the testWikiName, so it should fail.
 
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'LoginName' =>
               [ $this->{test_user_wikiname}, $this->{new_user_wikiname} ],
             'TopicName' => ['ResetPassword'],
@@ -1819,7 +1819,7 @@ sub verify_resetPasswordNoPassword {
     $this->registerAccount();
 
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'LoginName' => [ $this->{new_user_wikiname} ],
             'TopicName' => ['ResetPassword'],
             'action'    => ['resetPassword']
@@ -2045,7 +2045,7 @@ sub verify_disabled_registration {
     if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
         $params->{"Twk1LoginName"} = $this->{new_user_login};
     }
-    my $query = Unit::Request->new($params);
+    my $query = Unit::Request->new( initializer => $params );
 
     $query->path_info("/$this->{users_web}/UserRegistration");
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
@@ -2090,7 +2090,7 @@ sub test_PendingRegistrationManualCleanup {
     $Foswiki::cfg{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
     $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'     => ['UserRegistration'],
             'Twk1Email'     => [ $this->{new_user_email} ],
             'Twk1WikiName'  => [ $this->{new_user_wikiname} ],
@@ -2158,7 +2158,7 @@ sub test_PendingRegistrationAutoCleanup {
     $Foswiki::cfg{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
     $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'     => ['UserRegistration'],
             'Twk1Email'     => [ $this->{new_user_email} ],
             'Twk1WikiName'  => [ $this->{new_user_wikiname} ],
@@ -2249,7 +2249,7 @@ sub test_Item12205 {
     $Foswiki::cfg{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
     $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'     => ['UserRegistration'],
             'Twk1Email'     => [ $this->{new_user_email} ],
             'Twk1WikiName'  => [ $this->{new_user_wikiname} ],
@@ -2312,7 +2312,7 @@ sub test_3951 {
     $Foswiki::cfg{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
     $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'     => ['UserRegistration'],
             'Twk1Email'     => [ $this->{new_user_email} ],
             'Twk1WikiName'  => [ $this->{new_user_wikiname} ],
@@ -2367,7 +2367,7 @@ sub test_4061 {
     $Foswiki::cfg{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
     $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'TopicName'     => ['UserRegistration'],
             'Twk1Email'     => [ $this->{new_user_email} ],
             'Twk1WikiName'  => [ $this->{new_user_wikiname} ],
@@ -2491,7 +2491,7 @@ sub verify_resetPassword_NoWikiUsersEntry {
     $this->assert_str_equals( $this->{new_user_email}, $emails[0] );
 
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'LoginName' => [ $this->{new_user_login} ],
             'TopicName' => ['ResetPassword'],
             'action'    => ['resetPassword']
@@ -2554,7 +2554,7 @@ sub registerUserException {
     if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
         $params->{"Twk1LoginName"} = $loginname;
     }
-    my $query = Unit::Request->new($params);
+    my $query = Unit::Request->new( initializer => $params );
 
     $query->path_info("/$this->{users_web}/UserRegistration");
 
@@ -2814,7 +2814,7 @@ sub verify_registerVerifyOKApproved {
     # We're sitting with a valid registration code waiting for the next step
     # need to verify that we issue an approval.
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'code'   => [ scalar $this->{session}->{request}->param('code') ],
             'action' => ['verify']
         }
@@ -2870,7 +2870,7 @@ sub verify_registerVerifyOKApproved {
     };
 
     $query = Unit::Request->new(
-        {
+        initializer => {
             'code'   => [ $this->{session}->{DebugVerificationCode} ],
             'action' => ['approve']
         }
@@ -2955,7 +2955,7 @@ sub verify_registerVerifyOKDisapproved {
     # We're sitting with a valid registration code waiting for the next step
     # need to verify that we issue an approval.
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'code'   => [ scalar $this->{session}->{request}->param('code') ],
             'action' => ['verify']
         }
@@ -3010,7 +3010,7 @@ sub verify_registerVerifyOKDisapproved {
     };
 
     $query = Unit::Request->new(
-        {
+        initializer => {
             'code'    => [ $this->{session}->{DebugVerificationCode} ],
             'action'  => ['disapprove'],
             'referee' => ['TheBoss']

@@ -47,14 +47,6 @@ BEGIN {
     }
 }
 
-*Delete        = \&delete;
-*remote_addr   = \&remote_address;
-*remoteAddress = \&remote_address;
-*remoteUser    = \&remote_user;
-*serverPort    = \&server_port;
-*delete_all    = \&deleteAll;
-*user_agent    = \&userAgent;
-
 has action => (
     is      => 'rw',
     lazy    => 1,
@@ -98,6 +90,17 @@ has start_time => (    # start_time cannot be lazy, can it?
     default => sub { return [Time::HiRes::gettimeofday] },
 );
 has _initializer => ( is => 'ro', init_arg => "initializer", );
+
+# Aliases are to be declared after all attribute handling methods are been
+# created but before CGI methods gets imported via cgiRequest attribute
+# handling.
+*Delete        = \&delete;
+*remote_addr   = \&remote_address;
+*remoteAddress = \&remote_address;
+*remoteUser    = \&remote_user;
+*serverPort    = \&server_port;
+*delete_all    = \&deleteAll;
+*user_agent    = \&userAgent;
 
 # cgiRequest attribute can be used directly but with `handles` property it
 # simulates inheritance from CGI. Must be defined after all other attributes to

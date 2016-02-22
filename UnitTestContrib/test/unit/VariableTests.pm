@@ -16,7 +16,7 @@ sub set_up {
 
     $this->SUPER::set_up();
 
-    my $query = Unit::Request->new("");
+    my $query = Unit::Request->new( initializer => "" );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->createNewFoswikiSession( 'scum', $query );
     $this->{test_topicObject}->finish() if $this->{test_topicObject};

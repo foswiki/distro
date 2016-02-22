@@ -21,7 +21,7 @@ sub BUILD {
 
     # Taint everything
     foreach my $k ( @{ $this->param_list } ) {
-        foreach ( @{ $this->param->{$k} } ) {
+        foreach ( @{ $this->_param->{$k} } ) {
             $_ = TAINT($_) if defined $_;
         }
     }

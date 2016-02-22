@@ -208,7 +208,7 @@ sub check {
 
     $UI_FN ||= $this->getUIFn( $this->uifn );
     $Foswiki::cfg{Cache}{Debug} = 1;
-    my $query = Unit::Request->new( { skin => ['none'], } );
+    my $query = Unit::Request->new( initializer => { skin => ['none'], } );
     $query->path_info($pathinfo);
     $query->method('GET');
 

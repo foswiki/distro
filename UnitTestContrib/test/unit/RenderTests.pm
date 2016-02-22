@@ -101,7 +101,7 @@ HERE
     $topicObject->finish();
 
     #give us a new session so the prefs are re-loaded
-    my $query = Unit::Request->new('');
+    my $query = Unit::Request->new( initializer => '' );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->createNewFoswikiSession( undef, $query );
 
@@ -201,7 +201,7 @@ HERE
     $topicObject->finish();
 
     #give us a new session so the prefs are re-loaded
-    my $query = Unit::Request->new('');
+    my $query = Unit::Request->new( initializer => '' );
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->createNewFoswikiSession( undef, $query );
 

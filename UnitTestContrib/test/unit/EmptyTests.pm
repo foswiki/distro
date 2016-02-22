@@ -18,7 +18,7 @@ around set_up => sub {
 
     # You can now safely modify $Foswiki::cfg
 
-    my $topicquery = Unit::Request->new('');
+    my $topicquery = Unit::Request->new( initializer => '' );
     $topicquery->path_info('/TestCases/WebHome');
     try {
         $this->createNewFoswikiSession( 'AdminUser' || '' );

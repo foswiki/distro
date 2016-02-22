@@ -18,6 +18,11 @@ use Moo;
 use namespace::clean;
 extends qw(Foswiki::Logger::PlainFile);
 
+has '+acceptsHash' => (
+    is      => 'ro',
+    default => 0,
+);
+
 =begin TML
 
 ---+ package Foswiki::Logger::PlainFile::Obfuscating
