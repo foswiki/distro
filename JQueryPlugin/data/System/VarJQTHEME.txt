@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ JQTHEME -- switch jQuery UI theme
 Foswiki's default UI theme is configured in  =$Foswiki::cfg{JQueryPlugin}{JQueryTheme}= and defaults to =foswiki=.

@@ -28,7 +28,14 @@
 /pub/System/JQueryPlugin/jquery-2.1.1.js
 /pub/System/JQueryPlugin/jquery-2.1.3.js
 /pub/System/JQueryPlugin/jquery-2.1.4.js
+/pub/System/JQueryPlugin/jquery-1.12.0.js
+/pub/System/JQueryPlugin/jquery-1.12.1.js
+/pub/System/JQueryPlugin/jquery-2.2.0.js
+/pub/System/JQueryPlugin/jquery-2.2.1.js
+/pub/System/JQueryPlugin/plugins/fontawesome/icon-animate.css
 /pub/System/JQueryPlugin/noconflict.js
+/pub/System/JQueryPlugin/plugins/animate/animate.css
+/pub/System/JQueryPlugin/plugins/animate/animate.js
 /pub/System/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.css
 /pub/System/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.init.js
 /pub/System/JQueryPlugin/plugins/autocomplete/jquery.autocomplete.js
@@ -61,8 +68,10 @@
 /pub/System/JQueryPlugin/plugins/gradient/jquery.gradient.init.js
 /pub/System/JQueryPlugin/plugins/gradient/jquery.gradient.js
 /pub/System/JQueryPlugin/plugins/hoverintent/jquery.hoverIntent.js
+/pub/System/JQueryPlugin/plugins/imagesloaded/imagesloaded.js
 /pub/System/JQueryPlugin/plugins/innerfade/jquery.innerfade.init.js
 /pub/System/JQueryPlugin/plugins/innerfade/jquery.innerfade.js
+/pub/System/JQueryPlugin/plugins/i18n/i18n.js
 /pub/System/JQueryPlugin/plugins/livequery/jquery.livequery.js
 /pub/System/JQueryPlugin/plugins/loader/jquery.loader.css
 /pub/System/JQueryPlugin/plugins/loader/jquery.loader.js
@@ -105,6 +114,7 @@
 /pub/System/JQueryPlugin/plugins/slimbox/slimbox2.js
 /pub/System/JQueryPlugin/plugins/sprintf/sprintf.js
 /pub/System/JQueryPlugin/plugins/stars/jquery.stars.js
+/pub/System/JQueryPlugin/plugins/stars/jquery.stars.css
 /pub/System/JQueryPlugin/plugins/superfish/jquery.superfish-megafish.css
 /pub/System/JQueryPlugin/plugins/superfish/jquery.superfish-navbar.css
 /pub/System/JQueryPlugin/plugins/superfish/jquery.superfish-vertical.css

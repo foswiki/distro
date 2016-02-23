@@ -2,23 +2,23 @@ FOSWIKI_ROOT?=~/foswiki/trunk/core
 FOSWIKI_LIB=$(FOSWIKI_ROOT)/lib
 JQUERYPLUGIN_LIB=$(FOSWIKI_LIB)/Foswiki/Plugins/JQueryPlugin
 
-MINIFYJS=$(shell if which uglifyjs >/dev/null; then echo $(NODE_MINIFYJS); else if which java >/dev/null; then echo $(YUI_MINIFYJS); else echo $(PERL_MINIFYJS); fi; fi)
-MINIFYCSS=$(shell if which cssmin >/dev/null; then echo $(NODE_MINIFYCSS); else if which java >/dev/null; then echo $(YUI_MINIFYCSS); else echo $(PERL_MINIFYCSS); fi; fi)
+MINIFYJS=$(shell if which uglifyjs >/dev/null; then echo $(UGLIFYJS); else echo $(NOMINIFYJS); fi)
+MINIFYCSS=$(shell if which cssmin >/dev/null; then echo $(CSSMIN); else echo $(NOMINIFYCSS); fi)
 
-NODE_MINIFYJS="uglifyjs -m -b beautify=false,ascii-only=true"
-NODE_MINIFYCSS="cssmin"
-YUI_MINIFYJS=$(JAVA) -jar $(FOSWIKI_ROOT)/tools/yuicompressor.jar --charset utf-8 --type js
-YUI_MINIFYCSS=$(JAVA) -jar $(FOSWIKI_ROOT)/tools/yuicompressor.jar --charset utf-8 --type css
-PERL_MINIFYJS=FOSWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifyjs
-PERL_MINIFYCSS=FOSWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifycss
+UGLIFYJS="uglifyjs -m -b beautify=false,ascii-only=true"
+CSSMIN="cssmin"
 
-JSLINT=$(JAVA) -jar $(FOSWIKI_ROOT)/tools/jslint4java.jar --undef --onevar --predef=jQuery,window,console,document,foswiki,escape,unescape,alert,confirm,Image
+NOMINIFYCSS="echo 'WARNING: no css minifier found' >&2"
+NOMINIFYJS="echo 'WARNING: no javascript minifier found' >&2"
 
-JAVA=java
-GZIP=gzip
-CAT=cat
-PATCH=patch
-DEBUG=false
+JSLINT=$(shell if which eslint > /dev/null; then echo $(ESHINT); else echo $(NOJSLINT); fi)
+NOJSLINT="echo 'WARNING: no javascrit linter found' >&2"
+
+ESHINT="eslint"
+GZIP="gzip"
+CAT="cat"
+PATCH="patch"
+DEBUG="false"
 
 .SUFFIXES: .js .css .jslint
 .PHONY: subdirs $(SUBDIRS)
@@ -41,14 +41,14 @@ jslint: subdirs $(TARGET:.js=.jslint)
 	@if $(DEBUG); then \
 	  echo creating $@ from $<; $(CAT) $< > $@; \
 	else \
-	  echo minifying $@ from $<; $(MINIFYJS) $< > $@; \
+	  echo minifying $@ from $<; $(MINIFYJS) $< -o $@; \
 	fi
 
 %.js: %_src.js
 	@if $(DEBUG); then \
 	  echo creating $@ from $<; $(CAT) $< > $@; \
 	else \
-	  echo minifying $@ from $<; $(MINIFYJS) $< > $@; \
+	  echo minifying $@ from $<; $(MINIFYJS) $< -o $@; \
 	fi
 
 %.gz: %
@@ -73,5 +73,5 @@ $(SUBDIRS):
 	@if test -f $@; then \
 	   echo "found"; \
 	 else \
-	   echo "WARNING: no perl stub found at $@ "; \
+	   echo "WARNING: no perl stub found at $@ " >&2; \
 	 fi

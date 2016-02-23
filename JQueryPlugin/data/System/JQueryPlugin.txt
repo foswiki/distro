@@ -1,9 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1454519814" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1456220586" format="1.1" version="1"}%
 ---+!! %TOPIC%
-<!--
-   * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
--->
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 %TOC%
 
@@ -117,7 +114,11 @@ reduce bandwidth and speed up interactive performance.
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
-<div class="foswikiHelp"> %X% For Foswiki versions before 1.1, this plugin requires the Foswiki:Extensions.ZonePlugin to be installed. The !ZonePlugin is *not* required for Foswiki 1.1 or later.</div>
+<div class="foswikiHelp"> 
+%X% For Foswiki versions before 1.1, this plugin requires the
+Foswiki:Extensions.ZonePlugin to be installed. The !ZonePlugin is *not*
+required for Foswiki 1.1 or later.
+</div>
 
 ---++ Dependencies
 %$DEPENDENCIES%
@@ -343,10 +344,11 @@ reduce bandwidth and speed up interactive performance.
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
-%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2007-2016 Foswiki Contributors http://foswiki.org"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="License" title="License" value="GPL"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2007-2016 Foswiki Contributors http://foswiki.org"}%
-%META:FIELD{name="License" title="License" value="GPL"}%
-%META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
