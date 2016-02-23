@@ -333,14 +333,6 @@ pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.js.gz 0644
 pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/blockui/jquery.blockUI.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/blockui/Makefile 0644
-pub/System/JQueryPlugin/plugins/button/btn_cyan_left.gif 0644
-pub/System/JQueryPlugin/plugins/button/btn_cyan_right.gif 0644
-pub/System/JQueryPlugin/plugins/button/btn_green_left.gif 0644
-pub/System/JQueryPlugin/plugins/button/btn_green_right.gif 0644
-pub/System/JQueryPlugin/plugins/button/btn_left.gif 0644
-pub/System/JQueryPlugin/plugins/button/btn_red_left.gif 0644
-pub/System/JQueryPlugin/plugins/button/btn_red_right.gif 0644
-pub/System/JQueryPlugin/plugins/button/btn_right.gif 0644
 pub/System/JQueryPlugin/plugins/button/jquery.button.css 0644
 pub/System/JQueryPlugin/plugins/button/jquery.button.css.gz 0644
 pub/System/JQueryPlugin/plugins/button/jquery.button.init.js 0644
