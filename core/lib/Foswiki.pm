@@ -2206,7 +2206,12 @@ sub new {
     # bin/script?topic=WebPreferences;defaultweb=Sandbox
     my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
 
-    my $webtopic      = urlDecode( $query->path_info() || '' );
+    # Scripts like rest, jsonrpc,  don't use web/topic path.
+    my $webtopic = '';
+    unless ( $query->action() eq 'rest' || $query->action() eq 'jsonrpc' ) {
+        $webtopic = urlDecode( $query->path_info() || '' );
+    }
+
     my $topicOverride = '';
     my $topic         = $query->param('topic');
     if ( defined $topic ) {
@@ -2222,9 +2227,6 @@ sub new {
             #  "candidate topic set to $topicOverride by query param\n";
         }
     }
-
-    # SMELL Scripts like rest, jsonrpc,  don't use web/topic path.
-    # So this ends up all bogus, but doesn't do any harm.
 
     ( my $web, $topic ) =
       $this->_parsePath( $webtopic, $defaultweb, $topicOverride );
