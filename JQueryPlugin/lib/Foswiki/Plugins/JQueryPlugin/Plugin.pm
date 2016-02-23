@@ -77,7 +77,10 @@ sub new {
     $this->{documentation} =~ s/:://g;
 
     unless ( $this->{puburl} ) {
-        $this->{puburl} = '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/'
+        $this->{puburl} =
+            $Foswiki::cfg{PubUrlPath} . '/'
+          . $Foswiki::cfg{SystemWebName}
+          . '/JQueryPlugin/plugins/'
           . lc( $this->{name} );
     }
 
@@ -112,9 +115,18 @@ sub init {
         $footer .= $this->renderJS($js);
     }
 
+    # load any i18n messages
+    if ( $this->{i18n} ) {
+        $this->renderI18N( $this->{i18n} );
+    }
+
     # gather dependencies
     my @dependencies =
       ('JQUERYPLUGIN::FOSWIKI');    # jquery.foswiki is in there by default
+
+    # add i18n when required
+    push @{ $this->{dependencies} }, "i18n" if $this->{i18n};
+
     foreach my $dep ( @{ $this->{dependencies} } ) {
         if ( $dep =~ /^($this->{idPrefix}|JQUERYPLUGIN|JavascriptFiles)/ )
         {  # SMELL: there are some jquery modules that depend on non-jquery code
@@ -176,6 +188,27 @@ sub renderJS {
     return $text;
 }
 
+sub renderI18N {
+    my ( $this, $path ) = @_;
+
+    # open matching localization file if it exists
+    my $session = $Foswiki::Plugins::SESSION;
+    my $langTag = $session->i18n->language();
+
+    my $messagePath = $path . '/' . $langTag . '.js';
+    my $messageFile = $Foswiki::cfg{PubDir} . '/' . $messagePath;
+    if ( -f $messageFile ) {
+        my $text .=
+"<script type='application/l10n' data-i18n-language='$langTag' data-i18n-namespace='"
+          . uc( $this->{name} )
+          . "' src='$Foswiki::cfg{PubUrlPath}/$messagePath' ></script>\n";
+        Foswiki::Func::addToZone(
+            'script', uc( $this->{name} ) . "::I8N",
+            $text,    'JQUERYPLUGIN::I18N'
+        );
+    }
+}
+
 =begin TML
 
 ---++ ClassMethod getSummary()
@@ -209,7 +242,7 @@ sub getSummary {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

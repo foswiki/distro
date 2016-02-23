@@ -27,11 +27,13 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name       => 'Empty',
-            version    => '1.0',
-            author     => 'First Last',
-            homepage   => 'http://...',
-            tags       => 'EMPTY',
+            name     => 'Empty',
+            version  => '1.0',
+            author   => 'First Last',
+            homepage => 'http://...',
+            tags     => 'EMPTY',
+            i18n     => $Foswiki::cfg{SystemWebName}
+              . "/JQueryPlugin/plugins/empty/i18n",
             css        => ['jquery.empty.css'],
             javascript => ['jquery.empty.js'],
 
@@ -92,7 +94,7 @@ sub handleEMPTY {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
