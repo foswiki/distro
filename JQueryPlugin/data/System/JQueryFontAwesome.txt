@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1443076902" format="1.1" reprev="2" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1456220586" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 %JQREQUIRE{"fontawesome" warn="off"}%
@@ -30,7 +30,6 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
   margin:0 14px 0 5px;
   text-align:right;
   vertical-align:middle;
-  width:28px;
 }
 .entry:hover i {
   font-size:28px;
@@ -42,7 +41,9 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 
 ---++ Brand Icons
 <div class='overview'>
+<a class='entry'>%JQICON{"fa-500px"}% fa-500px</a>
 <a class='entry'>%JQICON{"fa-adn"}% fa-adn</a>
+<a class='entry'>%JQICON{"fa-amazon"}% fa-amazon</a>
 <a class='entry'>%JQICON{"fa-android"}% fa-android</a>
 <a class='entry'>%JQICON{"fa-angellist"}% fa-angellist</a>
 <a class='entry'>%JQICON{"fa-apple"}% fa-apple</a>
@@ -51,65 +52,109 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-bitbucket"}% fa-bitbucket</a>
 <a class='entry'>%JQICON{"fa-bitbucket-square"}% fa-bitbucket-square</a>
 <a class='entry'>%JQICON{"fa-bitcoin"}% fa-bitcoin <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-black-tie"}% fa-black-tie</a>
+<a class='entry'>%JQICON{"fa-bluetooth"}% fa-bluetooth</a>
+<a class='entry'>%JQICON{"fa-bluetooth-b"}% fa-bluetooth-b</a>
 <a class='entry'>%JQICON{"fa-btc"}% fa-btc</a>
+<a class='entry'>%JQICON{"fa-buysellads"}% fa-buysellads</a>
 <a class='entry'>%JQICON{"fa-cc-amex"}% fa-cc-amex</a>
+<a class='entry'>%JQICON{"fa-cc-diners-club"}% fa-cc-diners-club</a>
 <a class='entry'>%JQICON{"fa-cc-discover"}% fa-cc-discover</a>
+<a class='entry'>%JQICON{"fa-cc-jcb"}% fa-cc-jcb</a>
 <a class='entry'>%JQICON{"fa-cc-mastercard"}% fa-cc-mastercard</a>
 <a class='entry'>%JQICON{"fa-cc-paypal"}% fa-cc-paypal</a>
 <a class='entry'>%JQICON{"fa-cc-stripe"}% fa-cc-stripe</a>
 <a class='entry'>%JQICON{"fa-cc-visa"}% fa-cc-visa</a>
+<a class='entry'>%JQICON{"fa-chrome"}% fa-chrome</a>
 <a class='entry'>%JQICON{"fa-codepen"}% fa-codepen</a>
+<a class='entry'>%JQICON{"fa-codiepie"}% fa-codiepie</a>
+<a class='entry'>%JQICON{"fa-connectdevelop"}% fa-connectdevelop</a>
+<a class='entry'>%JQICON{"fa-contao"}% fa-contao</a>
+<a class='entry'>%JQICON{"fa-credit-card-alt"}% fa-credit-card-alt</a>
 <a class='entry'>%JQICON{"fa-css3"}% fa-css3</a>
+<a class='entry'>%JQICON{"fa-dashcube"}% fa-dashcube</a>
 <a class='entry'>%JQICON{"fa-delicious"}% fa-delicious</a>
 <a class='entry'>%JQICON{"fa-deviantart"}% fa-deviantart</a>
 <a class='entry'>%JQICON{"fa-digg"}% fa-digg</a>
 <a class='entry'>%JQICON{"fa-dribbble"}% fa-dribbble</a>
 <a class='entry'>%JQICON{"fa-dropbox"}% fa-dropbox</a>
 <a class='entry'>%JQICON{"fa-drupal"}% fa-drupal</a>
+<a class='entry'>%JQICON{"fa-edge"}% fa-edge</a>
 <a class='entry'>%JQICON{"fa-empire"}% fa-empire</a>
+<a class='entry'>%JQICON{"fa-expeditedssl"}% fa-expeditedssl</a>
 <a class='entry'>%JQICON{"fa-facebook"}% fa-facebook</a>
+<a class='entry'>%JQICON{"fa-facebook-f"}% fa-facebook-f <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-facebook-official"}% fa-facebook-official</a>
 <a class='entry'>%JQICON{"fa-facebook-square"}% fa-facebook-square</a>
+<a class='entry'>%JQICON{"fa-firefox"}% fa-firefox</a>
 <a class='entry'>%JQICON{"fa-flickr"}% fa-flickr</a>
+<a class='entry'>%JQICON{"fa-fonticons"}% fa-fonticons</a>
+<a class='entry'>%JQICON{"fa-fort-awesome"}% fa-fort-awesome</a>
+<a class='entry'>%JQICON{"fa-forumbee"}% fa-forumbee</a>
 <a class='entry'>%JQICON{"fa-foursquare"}% fa-foursquare</a>
 <a class='entry'>%JQICON{"fa-ge"}% fa-ge <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-get-pocket"}% fa-get-pocket</a>
+<a class='entry'>%JQICON{"fa-gg"}% fa-gg</a>
+<a class='entry'>%JQICON{"fa-gg-circle"}% fa-gg-circle</a>
 <a class='entry'>%JQICON{"fa-git"}% fa-git</a>
 <a class='entry'>%JQICON{"fa-git-square"}% fa-git-square</a>
 <a class='entry'>%JQICON{"fa-github"}% fa-github</a>
 <a class='entry'>%JQICON{"fa-github-alt"}% fa-github-alt</a>
 <a class='entry'>%JQICON{"fa-github-square"}% fa-github-square</a>
-<a class='entry'>%JQICON{"fa-gittip"}% fa-gittip</a>
+<a class='entry'>%JQICON{"fa-gittip"}% fa-gittip <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-google"}% fa-google</a>
 <a class='entry'>%JQICON{"fa-google-plus"}% fa-google-plus</a>
 <a class='entry'>%JQICON{"fa-google-plus-square"}% fa-google-plus-square</a>
 <a class='entry'>%JQICON{"fa-google-wallet"}% fa-google-wallet</a>
+<a class='entry'>%JQICON{"fa-gratipay"}% fa-gratipay</a>
 <a class='entry'>%JQICON{"fa-hacker-news"}% fa-hacker-news</a>
+<a class='entry'>%JQICON{"fa-houzz"}% fa-houzz</a>
 <a class='entry'>%JQICON{"fa-html5"}% fa-html5</a>
 <a class='entry'>%JQICON{"fa-instagram"}% fa-instagram</a>
+<a class='entry'>%JQICON{"fa-internet-explorer"}% fa-internet-explorer</a>
 <a class='entry'>%JQICON{"fa-ioxhost"}% fa-ioxhost</a>
 <a class='entry'>%JQICON{"fa-joomla"}% fa-joomla</a>
 <a class='entry'>%JQICON{"fa-jsfiddle"}% fa-jsfiddle</a>
 <a class='entry'>%JQICON{"fa-lastfm"}% fa-lastfm</a>
 <a class='entry'>%JQICON{"fa-lastfm-square"}% fa-lastfm-square</a>
+<a class='entry'>%JQICON{"fa-leanpub"}% fa-leanpub</a>
 <a class='entry'>%JQICON{"fa-linkedin"}% fa-linkedin</a>
 <a class='entry'>%JQICON{"fa-linkedin-square"}% fa-linkedin-square</a>
 <a class='entry'>%JQICON{"fa-linux"}% fa-linux</a>
 <a class='entry'>%JQICON{"fa-maxcdn"}% fa-maxcdn</a>
 <a class='entry'>%JQICON{"fa-meanpath"}% fa-meanpath</a>
+<a class='entry'>%JQICON{"fa-medium"}% fa-medium</a>
+<a class='entry'>%JQICON{"fa-mixcloud"}% fa-mixcloud</a>
+<a class='entry'>%JQICON{"fa-modx"}% fa-modx</a>
+<a class='entry'>%JQICON{"fa-odnoklassniki"}% fa-odnoklassniki</a>
+<a class='entry'>%JQICON{"fa-odnoklassniki-square"}% fa-odnoklassniki-square</a>
+<a class='entry'>%JQICON{"fa-opencart"}% fa-opencart</a>
 <a class='entry'>%JQICON{"fa-openid"}% fa-openid</a>
+<a class='entry'>%JQICON{"fa-opera"}% fa-opera</a>
+<a class='entry'>%JQICON{"fa-optin-monster"}% fa-optin-monster</a>
 <a class='entry'>%JQICON{"fa-pagelines"}% fa-pagelines</a>
 <a class='entry'>%JQICON{"fa-paypal"}% fa-paypal</a>
 <a class='entry'>%JQICON{"fa-pied-piper"}% fa-pied-piper</a>
 <a class='entry'>%JQICON{"fa-pied-piper-alt"}% fa-pied-piper-alt</a>
 <a class='entry'>%JQICON{"fa-pinterest"}% fa-pinterest</a>
+<a class='entry'>%JQICON{"fa-pinterest-p"}% fa-pinterest-p</a>
 <a class='entry'>%JQICON{"fa-pinterest-square"}% fa-pinterest-square</a>
+<a class='entry'>%JQICON{"fa-product-hunt"}% fa-product-hunt</a>
 <a class='entry'>%JQICON{"fa-qq"}% fa-qq</a>
 <a class='entry'>%JQICON{"fa-ra"}% fa-ra <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-rebel"}% fa-rebel</a>
 <a class='entry'>%JQICON{"fa-reddit"}% fa-reddit</a>
+<a class='entry'>%JQICON{"fa-reddit-alien"}% fa-reddit-alien</a>
 <a class='entry'>%JQICON{"fa-reddit-square"}% fa-reddit-square</a>
 <a class='entry'>%JQICON{"fa-renren"}% fa-renren</a>
+<a class='entry'>%JQICON{"fa-safari"}% fa-safari</a>
+<a class='entry'>%JQICON{"fa-scribd"}% fa-scribd</a>
+<a class='entry'>%JQICON{"fa-sellsy"}% fa-sellsy</a>
 <a class='entry'>%JQICON{"fa-share-alt"}% fa-share-alt</a>
 <a class='entry'>%JQICON{"fa-share-alt-square"}% fa-share-alt-square</a>
+<a class='entry'>%JQICON{"fa-shirtsinbulk"}% fa-shirtsinbulk</a>
+<a class='entry'>%JQICON{"fa-simplybuilt"}% fa-simplybuilt</a>
+<a class='entry'>%JQICON{"fa-skyatlas"}% fa-skyatlas</a>
 <a class='entry'>%JQICON{"fa-skype"}% fa-skype</a>
 <a class='entry'>%JQICON{"fa-slack"}% fa-slack</a>
 <a class='entry'>%JQICON{"fa-slideshare"}% fa-slideshare</a>
@@ -123,22 +168,32 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-stumbleupon-circle"}% fa-stumbleupon-circle</a>
 <a class='entry'>%JQICON{"fa-tencent-weibo"}% fa-tencent-weibo</a>
 <a class='entry'>%JQICON{"fa-trello"}% fa-trello</a>
+<a class='entry'>%JQICON{"fa-tripadvisor"}% fa-tripadvisor</a>
 <a class='entry'>%JQICON{"fa-tumblr"}% fa-tumblr</a>
 <a class='entry'>%JQICON{"fa-tumblr-square"}% fa-tumblr-square</a>
 <a class='entry'>%JQICON{"fa-twitch"}% fa-twitch</a>
 <a class='entry'>%JQICON{"fa-twitter"}% fa-twitter</a>
 <a class='entry'>%JQICON{"fa-twitter-square"}% fa-twitter-square</a>
+<a class='entry'>%JQICON{"fa-usb"}% fa-usb</a>
+<a class='entry'>%JQICON{"fa-viacoin"}% fa-viacoin</a>
+<a class='entry'>%JQICON{"fa-vimeo"}% fa-vimeo</a>
 <a class='entry'>%JQICON{"fa-vimeo-square"}% fa-vimeo-square</a>
 <a class='entry'>%JQICON{"fa-vine"}% fa-vine</a>
 <a class='entry'>%JQICON{"fa-vk"}% fa-vk</a>
 <a class='entry'>%JQICON{"fa-wechat"}% fa-wechat <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-weibo"}% fa-weibo</a>
 <a class='entry'>%JQICON{"fa-weixin"}% fa-weixin</a>
+<a class='entry'>%JQICON{"fa-whatsapp"}% fa-whatsapp</a>
+<a class='entry'>%JQICON{"fa-wikipedia-w"}% fa-wikipedia-w</a>
 <a class='entry'>%JQICON{"fa-windows"}% fa-windows</a>
 <a class='entry'>%JQICON{"fa-wordpress"}% fa-wordpress</a>
 <a class='entry'>%JQICON{"fa-xing"}% fa-xing</a>
 <a class='entry'>%JQICON{"fa-xing-square"}% fa-xing-square</a>
+<a class='entry'>%JQICON{"fa-y-combinator"}% fa-y-combinator</a>
+<a class='entry'>%JQICON{"fa-y-combinator-square"}% fa-y-combinator-square <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-yahoo"}% fa-yahoo</a>
+<a class='entry'>%JQICON{"fa-yc"}% fa-yc <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-yc-square"}% fa-yc-square <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-yelp"}% fa-yelp</a>
 <a class='entry'>%JQICON{"fa-youtube"}% fa-youtube</a>
 <a class='entry'>%JQICON{"fa-youtube-play"}% fa-youtube-play</a>
@@ -163,6 +218,8 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-eur"}% fa-eur</a>
 <a class='entry'>%JQICON{"fa-euro"}% fa-euro <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-gbp"}% fa-gbp</a>
+<a class='entry'>%JQICON{"fa-gg"}% fa-gg</a>
+<a class='entry'>%JQICON{"fa-gg-circle"}% fa-gg-circle</a>
 <a class='entry'>%JQICON{"fa-ils"}% fa-ils</a>
 <a class='entry'>%JQICON{"fa-inr"}% fa-inr</a>
 <a class='entry'>%JQICON{"fa-jpy"}% fa-jpy</a>
@@ -224,6 +281,7 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-chevron-left"}% fa-chevron-left</a>
 <a class='entry'>%JQICON{"fa-chevron-right"}% fa-chevron-right</a>
 <a class='entry'>%JQICON{"fa-chevron-up"}% fa-chevron-up</a>
+<a class='entry'>%JQICON{"fa-exchange"}% fa-exchange</a>
 <a class='entry'>%JQICON{"fa-hand-o-down"}% fa-hand-o-down</a>
 <a class='entry'>%JQICON{"fa-hand-o-left"}% fa-hand-o-left</a>
 <a class='entry'>%JQICON{"fa-hand-o-right"}% fa-hand-o-right</a>
@@ -275,10 +333,52 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-square-o"}% fa-square-o</a>
 </div>
 
+---++ Gender Icons
+<div class='overview'>
+<a class='entry'>%JQICON{"fa-genderless"}% fa-genderless</a>
+<a class='entry'>%JQICON{"fa-intersex"}% fa-intersex <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-mars"}% fa-mars</a>
+<a class='entry'>%JQICON{"fa-mars-double"}% fa-mars-double</a>
+<a class='entry'>%JQICON{"fa-mars-stroke"}% fa-mars-stroke</a>
+<a class='entry'>%JQICON{"fa-mars-stroke-h"}% fa-mars-stroke-h</a>
+<a class='entry'>%JQICON{"fa-mars-stroke-v"}% fa-mars-stroke-v</a>
+<a class='entry'>%JQICON{"fa-mercury"}% fa-mercury</a>
+<a class='entry'>%JQICON{"fa-neuter"}% fa-neuter</a>
+<a class='entry'>%JQICON{"fa-transgender"}% fa-transgender</a>
+<a class='entry'>%JQICON{"fa-transgender-alt"}% fa-transgender-alt</a>
+<a class='entry'>%JQICON{"fa-venus"}% fa-venus</a>
+<a class='entry'>%JQICON{"fa-venus-double"}% fa-venus-double</a>
+<a class='entry'>%JQICON{"fa-venus-mars"}% fa-venus-mars</a>
+</div>
+
+---++ Hand Icons
+<div class='overview'>
+<a class='entry'>%JQICON{"fa-hand-grab-o"}% fa-hand-grab-o <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-hand-lizard-o"}% fa-hand-lizard-o</a>
+<a class='entry'>%JQICON{"fa-hand-o-down"}% fa-hand-o-down</a>
+<a class='entry'>%JQICON{"fa-hand-o-left"}% fa-hand-o-left</a>
+<a class='entry'>%JQICON{"fa-hand-o-right"}% fa-hand-o-right</a>
+<a class='entry'>%JQICON{"fa-hand-o-up"}% fa-hand-o-up</a>
+<a class='entry'>%JQICON{"fa-hand-paper-o"}% fa-hand-paper-o</a>
+<a class='entry'>%JQICON{"fa-hand-peace-o"}% fa-hand-peace-o</a>
+<a class='entry'>%JQICON{"fa-hand-pointer-o"}% fa-hand-pointer-o</a>
+<a class='entry'>%JQICON{"fa-hand-rock-o"}% fa-hand-rock-o</a>
+<a class='entry'>%JQICON{"fa-hand-scissors-o"}% fa-hand-scissors-o</a>
+<a class='entry'>%JQICON{"fa-hand-spock-o"}% fa-hand-spock-o</a>
+<a class='entry'>%JQICON{"fa-hand-stop-o"}% fa-hand-stop-o <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-thumbs-down"}% fa-thumbs-down</a>
+<a class='entry'>%JQICON{"fa-thumbs-o-down"}% fa-thumbs-o-down</a>
+<a class='entry'>%JQICON{"fa-thumbs-o-up"}% fa-thumbs-o-up</a>
+<a class='entry'>%JQICON{"fa-thumbs-up"}% fa-thumbs-up</a>
+</div>
+
 ---++ Medical Icons
 <div class='overview'>
 <a class='entry'>%JQICON{"fa-ambulance"}% fa-ambulance</a>
 <a class='entry'>%JQICON{"fa-h-square"}% fa-h-square</a>
+<a class='entry'>%JQICON{"fa-heart"}% fa-heart</a>
+<a class='entry'>%JQICON{"fa-heart-o"}% fa-heart-o</a>
+<a class='entry'>%JQICON{"fa-heartbeat"}% fa-heartbeat</a>
 <a class='entry'>%JQICON{"fa-hospital-o"}% fa-hospital-o</a>
 <a class='entry'>%JQICON{"fa-medkit"}% fa-medkit</a>
 <a class='entry'>%JQICON{"fa-plus-square"}% fa-plus-square</a>
@@ -290,12 +390,15 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 ---++ Payment Icons
 <div class='overview'>
 <a class='entry'>%JQICON{"fa-cc-amex"}% fa-cc-amex</a>
+<a class='entry'>%JQICON{"fa-cc-diners-club"}% fa-cc-diners-club</a>
 <a class='entry'>%JQICON{"fa-cc-discover"}% fa-cc-discover</a>
+<a class='entry'>%JQICON{"fa-cc-jcb"}% fa-cc-jcb</a>
 <a class='entry'>%JQICON{"fa-cc-mastercard"}% fa-cc-mastercard</a>
 <a class='entry'>%JQICON{"fa-cc-paypal"}% fa-cc-paypal</a>
 <a class='entry'>%JQICON{"fa-cc-stripe"}% fa-cc-stripe</a>
 <a class='entry'>%JQICON{"fa-cc-visa"}% fa-cc-visa</a>
 <a class='entry'>%JQICON{"fa-credit-card"}% fa-credit-card</a>
+<a class='entry'>%JQICON{"fa-credit-card-alt"}% fa-credit-card-alt</a>
 <a class='entry'>%JQICON{"fa-google-wallet"}% fa-google-wallet</a>
 <a class='entry'>%JQICON{"fa-paypal"}% fa-paypal</a>
 </div>
@@ -362,6 +465,27 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-unlink"}% fa-unlink <span class='foswikiGrayText'>(alias)</span></a>
 </div>
 
+---++ Transportation Icons
+<div class='overview'>
+<a class='entry'>%JQICON{"fa-ambulance"}% fa-ambulance</a>
+<a class='entry'>%JQICON{"fa-automobile"}% fa-automobile <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-bicycle"}% fa-bicycle</a>
+<a class='entry'>%JQICON{"fa-bus"}% fa-bus</a>
+<a class='entry'>%JQICON{"fa-cab"}% fa-cab <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-car"}% fa-car</a>
+<a class='entry'>%JQICON{"fa-fighter-jet"}% fa-fighter-jet</a>
+<a class='entry'>%JQICON{"fa-motorcycle"}% fa-motorcycle</a>
+<a class='entry'>%JQICON{"fa-plane"}% fa-plane</a>
+<a class='entry'>%JQICON{"fa-rocket"}% fa-rocket</a>
+<a class='entry'>%JQICON{"fa-ship"}% fa-ship</a>
+<a class='entry'>%JQICON{"fa-space-shuttle"}% fa-space-shuttle</a>
+<a class='entry'>%JQICON{"fa-subway"}% fa-subway</a>
+<a class='entry'>%JQICON{"fa-taxi"}% fa-taxi</a>
+<a class='entry'>%JQICON{"fa-train"}% fa-train</a>
+<a class='entry'>%JQICON{"fa-truck"}% fa-truck</a>
+<a class='entry'>%JQICON{"fa-wheelchair"}% fa-wheelchair</a>
+</div>
+
 ---++ Video Player Icons
 <div class='overview'>
 <a class='entry'>%JQICON{"fa-arrows-alt"}% fa-arrows-alt</a>
@@ -373,12 +497,17 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-fast-forward"}% fa-fast-forward</a>
 <a class='entry'>%JQICON{"fa-forward"}% fa-forward</a>
 <a class='entry'>%JQICON{"fa-pause"}% fa-pause</a>
+<a class='entry'>%JQICON{"fa-pause-circle"}% fa-pause-circle</a>
+<a class='entry'>%JQICON{"fa-pause-circle-o"}% fa-pause-circle-o</a>
 <a class='entry'>%JQICON{"fa-play"}% fa-play</a>
 <a class='entry'>%JQICON{"fa-play-circle"}% fa-play-circle</a>
 <a class='entry'>%JQICON{"fa-play-circle-o"}% fa-play-circle-o</a>
+<a class='entry'>%JQICON{"fa-random"}% fa-random</a>
 <a class='entry'>%JQICON{"fa-step-backward"}% fa-step-backward</a>
 <a class='entry'>%JQICON{"fa-step-forward"}% fa-step-forward</a>
 <a class='entry'>%JQICON{"fa-stop"}% fa-stop</a>
+<a class='entry'>%JQICON{"fa-stop-circle"}% fa-stop-circle</a>
+<a class='entry'>%JQICON{"fa-stop-circle-o"}% fa-stop-circle-o</a>
 <a class='entry'>%JQICON{"fa-youtube-play"}% fa-youtube-play</a>
 </div>
 
@@ -394,12 +523,24 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-asterisk"}% fa-asterisk</a>
 <a class='entry'>%JQICON{"fa-at"}% fa-at</a>
 <a class='entry'>%JQICON{"fa-automobile"}% fa-automobile <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-balance-scale"}% fa-balance-scale</a>
 <a class='entry'>%JQICON{"fa-ban"}% fa-ban</a>
 <a class='entry'>%JQICON{"fa-bank"}% fa-bank <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-bar-chart"}% fa-bar-chart</a>
 <a class='entry'>%JQICON{"fa-bar-chart-o"}% fa-bar-chart-o <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-barcode"}% fa-barcode</a>
 <a class='entry'>%JQICON{"fa-bars"}% fa-bars</a>
+<a class='entry'>%JQICON{"fa-battery-0"}% fa-battery-0 <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-battery-1"}% fa-battery-1 <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-battery-2"}% fa-battery-2 <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-battery-3"}% fa-battery-3 <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-battery-4"}% fa-battery-4 <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-battery-empty"}% fa-battery-empty</a>
+<a class='entry'>%JQICON{"fa-battery-full"}% fa-battery-full</a>
+<a class='entry'>%JQICON{"fa-battery-half"}% fa-battery-half</a>
+<a class='entry'>%JQICON{"fa-battery-quarter"}% fa-battery-quarter</a>
+<a class='entry'>%JQICON{"fa-battery-three-quarters"}% fa-battery-three-quarters</a>
+<a class='entry'>%JQICON{"fa-bed"}% fa-bed</a>
 <a class='entry'>%JQICON{"fa-beer"}% fa-beer</a>
 <a class='entry'>%JQICON{"fa-bell"}% fa-bell</a>
 <a class='entry'>%JQICON{"fa-bell-o"}% fa-bell-o</a>
@@ -408,6 +549,8 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-bicycle"}% fa-bicycle</a>
 <a class='entry'>%JQICON{"fa-binoculars"}% fa-binoculars</a>
 <a class='entry'>%JQICON{"fa-birthday-cake"}% fa-birthday-cake</a>
+<a class='entry'>%JQICON{"fa-bluetooth"}% fa-bluetooth</a>
+<a class='entry'>%JQICON{"fa-bluetooth-b"}% fa-bluetooth-b</a>
 <a class='entry'>%JQICON{"fa-bolt"}% fa-bolt</a>
 <a class='entry'>%JQICON{"fa-bomb"}% fa-bomb</a>
 <a class='entry'>%JQICON{"fa-book"}% fa-book</a>
@@ -423,7 +566,11 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-cab"}% fa-cab <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-calculator"}% fa-calculator</a>
 <a class='entry'>%JQICON{"fa-calendar"}% fa-calendar</a>
+<a class='entry'>%JQICON{"fa-calendar-check-o"}% fa-calendar-check-o</a>
+<a class='entry'>%JQICON{"fa-calendar-minus-o"}% fa-calendar-minus-o</a>
 <a class='entry'>%JQICON{"fa-calendar-o"}% fa-calendar-o</a>
+<a class='entry'>%JQICON{"fa-calendar-plus-o"}% fa-calendar-plus-o</a>
+<a class='entry'>%JQICON{"fa-calendar-times-o"}% fa-calendar-times-o</a>
 <a class='entry'>%JQICON{"fa-camera"}% fa-camera</a>
 <a class='entry'>%JQICON{"fa-camera-retro"}% fa-camera-retro</a>
 <a class='entry'>%JQICON{"fa-car"}% fa-car</a>
@@ -431,6 +578,8 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-caret-square-o-left"}% fa-caret-square-o-left</a>
 <a class='entry'>%JQICON{"fa-caret-square-o-right"}% fa-caret-square-o-right</a>
 <a class='entry'>%JQICON{"fa-caret-square-o-up"}% fa-caret-square-o-up</a>
+<a class='entry'>%JQICON{"fa-cart-arrow-down"}% fa-cart-arrow-down</a>
+<a class='entry'>%JQICON{"fa-cart-plus"}% fa-cart-plus</a>
 <a class='entry'>%JQICON{"fa-cc"}% fa-cc</a>
 <a class='entry'>%JQICON{"fa-certificate"}% fa-certificate</a>
 <a class='entry'>%JQICON{"fa-check"}% fa-check</a>
@@ -444,6 +593,7 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-circle-o-notch"}% fa-circle-o-notch</a>
 <a class='entry'>%JQICON{"fa-circle-thin"}% fa-circle-thin</a>
 <a class='entry'>%JQICON{"fa-clock-o"}% fa-clock-o</a>
+<a class='entry'>%JQICON{"fa-clone"}% fa-clone</a>
 <a class='entry'>%JQICON{"fa-close"}% fa-close <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-cloud"}% fa-cloud</a>
 <a class='entry'>%JQICON{"fa-cloud-download"}% fa-cloud-download</a>
@@ -455,10 +605,13 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-cogs"}% fa-cogs</a>
 <a class='entry'>%JQICON{"fa-comment"}% fa-comment</a>
 <a class='entry'>%JQICON{"fa-comment-o"}% fa-comment-o</a>
+<a class='entry'>%JQICON{"fa-commenting"}% fa-commenting</a>
+<a class='entry'>%JQICON{"fa-commenting-o"}% fa-commenting-o</a>
 <a class='entry'>%JQICON{"fa-comments"}% fa-comments</a>
 <a class='entry'>%JQICON{"fa-comments-o"}% fa-comments-o</a>
 <a class='entry'>%JQICON{"fa-compass"}% fa-compass</a>
 <a class='entry'>%JQICON{"fa-copyright"}% fa-copyright</a>
+<a class='entry'>%JQICON{"fa-creative-commons"}% fa-creative-commons</a>
 <a class='entry'>%JQICON{"fa-credit-card"}% fa-credit-card</a>
 <a class='entry'>%JQICON{"fa-crop"}% fa-crop</a>
 <a class='entry'>%JQICON{"fa-crosshairs"}% fa-crosshairs</a>
@@ -468,6 +621,7 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-dashboard"}% fa-dashboard <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-database"}% fa-database</a>
 <a class='entry'>%JQICON{"fa-desktop"}% fa-desktop</a>
+<a class='entry'>%JQICON{"fa-diamond"}% fa-diamond</a>
 <a class='entry'>%JQICON{"fa-dot-circle-o"}% fa-dot-circle-o</a>
 <a class='entry'>%JQICON{"fa-download"}% fa-download</a>
 <a class='entry'>%JQICON{"fa-edit"}% fa-edit <span class='foswikiGrayText'>(alias)</span></a>
@@ -487,6 +641,7 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-eye-slash"}% fa-eye-slash</a>
 <a class='entry'>%JQICON{"fa-eyedropper"}% fa-eyedropper</a>
 <a class='entry'>%JQICON{"fa-fax"}% fa-fax</a>
+<a class='entry'>%JQICON{"fa-feed"}% fa-feed <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-female"}% fa-female</a>
 <a class='entry'>%JQICON{"fa-fighter-jet"}% fa-fighter-jet</a>
 <a class='entry'>%JQICON{"fa-file-archive-o"}% fa-file-archive-o</a>
@@ -527,14 +682,36 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-globe"}% fa-globe</a>
 <a class='entry'>%JQICON{"fa-graduation-cap"}% fa-graduation-cap</a>
 <a class='entry'>%JQICON{"fa-group"}% fa-group <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-hand-grab-o"}% fa-hand-grab-o <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-hand-lizard-o"}% fa-hand-lizard-o</a>
+<a class='entry'>%JQICON{"fa-hand-paper-o"}% fa-hand-paper-o</a>
+<a class='entry'>%JQICON{"fa-hand-peace-o"}% fa-hand-peace-o</a>
+<a class='entry'>%JQICON{"fa-hand-pointer-o"}% fa-hand-pointer-o</a>
+<a class='entry'>%JQICON{"fa-hand-rock-o"}% fa-hand-rock-o</a>
+<a class='entry'>%JQICON{"fa-hand-scissors-o"}% fa-hand-scissors-o</a>
+<a class='entry'>%JQICON{"fa-hand-spock-o"}% fa-hand-spock-o</a>
+<a class='entry'>%JQICON{"fa-hand-stop-o"}% fa-hand-stop-o <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-hashtag"}% fa-hashtag</a>
 <a class='entry'>%JQICON{"fa-hdd-o"}% fa-hdd-o</a>
 <a class='entry'>%JQICON{"fa-headphones"}% fa-headphones</a>
 <a class='entry'>%JQICON{"fa-heart"}% fa-heart</a>
 <a class='entry'>%JQICON{"fa-heart-o"}% fa-heart-o</a>
+<a class='entry'>%JQICON{"fa-heartbeat"}% fa-heartbeat</a>
 <a class='entry'>%JQICON{"fa-history"}% fa-history</a>
 <a class='entry'>%JQICON{"fa-home"}% fa-home</a>
+<a class='entry'>%JQICON{"fa-hotel"}% fa-hotel <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-hourglass"}% fa-hourglass</a>
+<a class='entry'>%JQICON{"fa-hourglass-1"}% fa-hourglass-1 <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-hourglass-2"}% fa-hourglass-2 <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-hourglass-3"}% fa-hourglass-3 <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-hourglass-end"}% fa-hourglass-end</a>
+<a class='entry'>%JQICON{"fa-hourglass-half"}% fa-hourglass-half</a>
+<a class='entry'>%JQICON{"fa-hourglass-o"}% fa-hourglass-o</a>
+<a class='entry'>%JQICON{"fa-hourglass-start"}% fa-hourglass-start</a>
+<a class='entry'>%JQICON{"fa-i-cursor"}% fa-i-cursor</a>
 <a class='entry'>%JQICON{"fa-image"}% fa-image <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-inbox"}% fa-inbox</a>
+<a class='entry'>%JQICON{"fa-industry"}% fa-industry</a>
 <a class='entry'>%JQICON{"fa-info"}% fa-info</a>
 <a class='entry'>%JQICON{"fa-info-circle"}% fa-info-circle</a>
 <a class='entry'>%JQICON{"fa-institution"}% fa-institution <span class='foswikiGrayText'>(alias)</span></a>
@@ -560,7 +737,11 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-mail-reply"}% fa-mail-reply <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-mail-reply-all"}% fa-mail-reply-all <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-male"}% fa-male</a>
+<a class='entry'>%JQICON{"fa-map"}% fa-map</a>
 <a class='entry'>%JQICON{"fa-map-marker"}% fa-map-marker</a>
+<a class='entry'>%JQICON{"fa-map-o"}% fa-map-o</a>
+<a class='entry'>%JQICON{"fa-map-pin"}% fa-map-pin</a>
+<a class='entry'>%JQICON{"fa-map-signs"}% fa-map-signs</a>
 <a class='entry'>%JQICON{"fa-meh-o"}% fa-meh-o</a>
 <a class='entry'>%JQICON{"fa-microphone"}% fa-microphone</a>
 <a class='entry'>%JQICON{"fa-microphone-slash"}% fa-microphone-slash</a>
@@ -573,9 +754,13 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-money"}% fa-money</a>
 <a class='entry'>%JQICON{"fa-moon-o"}% fa-moon-o</a>
 <a class='entry'>%JQICON{"fa-mortar-board"}% fa-mortar-board <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-motorcycle"}% fa-motorcycle</a>
+<a class='entry'>%JQICON{"fa-mouse-pointer"}% fa-mouse-pointer</a>
 <a class='entry'>%JQICON{"fa-music"}% fa-music</a>
 <a class='entry'>%JQICON{"fa-navicon"}% fa-navicon <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-newspaper-o"}% fa-newspaper-o</a>
+<a class='entry'>%JQICON{"fa-object-group"}% fa-object-group</a>
+<a class='entry'>%JQICON{"fa-object-ungroup"}% fa-object-ungroup</a>
 <a class='entry'>%JQICON{"fa-paint-brush"}% fa-paint-brush</a>
 <a class='entry'>%JQICON{"fa-paper-plane"}% fa-paper-plane</a>
 <a class='entry'>%JQICON{"fa-paper-plane-o"}% fa-paper-plane-o</a>
@@ -583,6 +768,7 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-pencil"}% fa-pencil</a>
 <a class='entry'>%JQICON{"fa-pencil-square"}% fa-pencil-square</a>
 <a class='entry'>%JQICON{"fa-pencil-square-o"}% fa-pencil-square-o</a>
+<a class='entry'>%JQICON{"fa-percent"}% fa-percent</a>
 <a class='entry'>%JQICON{"fa-phone"}% fa-phone</a>
 <a class='entry'>%JQICON{"fa-phone-square"}% fa-phone-square</a>
 <a class='entry'>%JQICON{"fa-photo"}% fa-photo <span class='foswikiGrayText'>(alias)</span></a>
@@ -605,6 +791,7 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-random"}% fa-random</a>
 <a class='entry'>%JQICON{"fa-recycle"}% fa-recycle</a>
 <a class='entry'>%JQICON{"fa-refresh"}% fa-refresh</a>
+<a class='entry'>%JQICON{"fa-registered"}% fa-registered</a>
 <a class='entry'>%JQICON{"fa-remove"}% fa-remove <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-reorder"}% fa-reorder <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-reply"}% fa-reply</a>
@@ -619,12 +806,16 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-search-plus"}% fa-search-plus</a>
 <a class='entry'>%JQICON{"fa-send"}% fa-send <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-send-o"}% fa-send-o <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-server"}% fa-server</a>
 <a class='entry'>%JQICON{"fa-share"}% fa-share</a>
 <a class='entry'>%JQICON{"fa-share-alt"}% fa-share-alt</a>
 <a class='entry'>%JQICON{"fa-share-alt-square"}% fa-share-alt-square</a>
 <a class='entry'>%JQICON{"fa-share-square"}% fa-share-square</a>
 <a class='entry'>%JQICON{"fa-share-square-o"}% fa-share-square-o</a>
 <a class='entry'>%JQICON{"fa-shield"}% fa-shield</a>
+<a class='entry'>%JQICON{"fa-ship"}% fa-ship</a>
+<a class='entry'>%JQICON{"fa-shopping-bag"}% fa-shopping-bag</a>
+<a class='entry'>%JQICON{"fa-shopping-basket"}% fa-shopping-basket</a>
 <a class='entry'>%JQICON{"fa-shopping-cart"}% fa-shopping-cart</a>
 <a class='entry'>%JQICON{"fa-sign-in"}% fa-sign-in</a>
 <a class='entry'>%JQICON{"fa-sign-out"}% fa-sign-out</a>
@@ -655,6 +846,9 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-star-half-full"}% fa-star-half-full <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-star-half-o"}% fa-star-half-o</a>
 <a class='entry'>%JQICON{"fa-star-o"}% fa-star-o</a>
+<a class='entry'>%JQICON{"fa-sticky-note"}% fa-sticky-note</a>
+<a class='entry'>%JQICON{"fa-sticky-note-o"}% fa-sticky-note-o</a>
+<a class='entry'>%JQICON{"fa-street-view"}% fa-street-view</a>
 <a class='entry'>%JQICON{"fa-suitcase"}% fa-suitcase</a>
 <a class='entry'>%JQICON{"fa-sun-o"}% fa-sun-o</a>
 <a class='entry'>%JQICON{"fa-support"}% fa-support <span class='foswikiGrayText'>(alias)</span></a>
@@ -664,6 +858,7 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-tags"}% fa-tags</a>
 <a class='entry'>%JQICON{"fa-tasks"}% fa-tasks</a>
 <a class='entry'>%JQICON{"fa-taxi"}% fa-taxi</a>
+<a class='entry'>%JQICON{"fa-television"}% fa-television</a>
 <a class='entry'>%JQICON{"fa-terminal"}% fa-terminal</a>
 <a class='entry'>%JQICON{"fa-thumb-tack"}% fa-thumb-tack</a>
 <a class='entry'>%JQICON{"fa-thumbs-down"}% fa-thumbs-down</a>
@@ -681,12 +876,14 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-toggle-on"}% fa-toggle-on</a>
 <a class='entry'>%JQICON{"fa-toggle-right"}% fa-toggle-right <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-toggle-up"}% fa-toggle-up <span class='foswikiGrayText'>(alias)</span></a>
+<a class='entry'>%JQICON{"fa-trademark"}% fa-trademark</a>
 <a class='entry'>%JQICON{"fa-trash"}% fa-trash</a>
 <a class='entry'>%JQICON{"fa-trash-o"}% fa-trash-o</a>
 <a class='entry'>%JQICON{"fa-tree"}% fa-tree</a>
 <a class='entry'>%JQICON{"fa-trophy"}% fa-trophy</a>
 <a class='entry'>%JQICON{"fa-truck"}% fa-truck</a>
 <a class='entry'>%JQICON{"fa-tty"}% fa-tty</a>
+<a class='entry'>%JQICON{"fa-tv"}% fa-tv <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-umbrella"}% fa-umbrella</a>
 <a class='entry'>%JQICON{"fa-university"}% fa-university</a>
 <a class='entry'>%JQICON{"fa-unlock"}% fa-unlock</a>
@@ -694,6 +891,9 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-unsorted"}% fa-unsorted <span class='foswikiGrayText'>(alias)</span></a>
 <a class='entry'>%JQICON{"fa-upload"}% fa-upload</a>
 <a class='entry'>%JQICON{"fa-user"}% fa-user</a>
+<a class='entry'>%JQICON{"fa-user-plus"}% fa-user-plus</a>
+<a class='entry'>%JQICON{"fa-user-secret"}% fa-user-secret</a>
+<a class='entry'>%JQICON{"fa-user-times"}% fa-user-times</a>
 <a class='entry'>%JQICON{"fa-users"}% fa-users</a>
 <a class='entry'>%JQICON{"fa-video-camera"}% fa-video-camera</a>
 <a class='entry'>%JQICON{"fa-volume-down"}% fa-volume-down</a>
@@ -703,4 +903,21 @@ This plugin adds support for the fontawesom icon font. Icons are accessible via 
 <a class='entry'>%JQICON{"fa-wheelchair"}% fa-wheelchair</a>
 <a class='entry'>%JQICON{"fa-wifi"}% fa-wifi</a>
 <a class='entry'>%JQICON{"fa-wrench"}% fa-wrench</a>
+</div>
+
+---++ Animation
+<div class="overview">
+<a class='entry'>%JQICON{"fa-wrench" animate="wrench"}% wrench</a>
+<a class='entry'>%JQICON{"fa-bell" animate="ring"}% ring</a>
+<a class='entry'>%JQICON{"fa-envelope" animate="horizontal"}% horizontal</a>
+<a class='entry'>%JQICON{"fa-thumbs-o-up" animate="vertical"}% vertical</a>
+<a class='entry'>%JQICON{"fa-exclamation-triangle" animate="flash"}% flash</a>
+<a class='entry'>%JQICON{"fa-thumbs-o-up" animate="bounce"}% bounce</a>
+<a class='entry'>%JQICON{"fa-spinner" animate="spin"}% spin</a>
+<a class='entry'>%JQICON{"fa-plane" animate="float"}% float</a>
+<a class='entry'>%JQICON{"fa-heart" animate="pulse"}% pulse</a>
+<a class='entry'>%JQICON{"fa-envelope" animate="shake"}% shake</a>
+<a class='entry'>%JQICON{"fa-trophy" animate="tada"}% tada</a>
+<a class='entry'>%JQICON{"fa-space-shuttle" animate="passing"}% passing</a>
+<a class='entry'>%JQICON{"fa-circle-o" animate="burst"}% burst</a>
 </div>
