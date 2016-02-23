@@ -1,24 +1,34 @@
 # Tests for Foswiki::Net
 package NetTests;
-use Unit::TestCase;
-our @ISA = qw( Unit::TestCase );
-
-use strict;
+use v5.14;
 
 use Foswiki::Net;
 
+use Moo;
+extends qw( Unit::TestCase );
+
 our $expectedHeader;
 
-sub new {
-    my $self = shift()->SUPER::new( "Net", @_ );
-    return $self;
-}
+has net => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub {
+        return Foswiki::Net->new;
+    }
+);
 
-sub set_up {
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_, testSuite => "Net" );
+};
+
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
-    $this->{net} = new Foswiki::Net();
-}
+    $orig->( $this, @_ );
+    $this->clear_net;    # It will autoinit on the first reference.
+};
 
 sub LWP {
     $expectedHeader = qr#text/html; charset=(utf-?8|iso-?8859-?1)#;
@@ -49,8 +59,8 @@ sub verify_getExternalResource {
 
     # need a known, simple, robust URL to get
     my $response =
-      $this->{net}
-      ->getExternalResource('http://foswiki.org/System/FAQWhatIsWikiWiki');
+      $this->net->getExternalResource(
+        'http://foswiki.org/System/FAQWhatIsWikiWiki');
     $this->assert_equals( 200, $response->code() );
 
     # Note: HTTP::Response doesn't clean out \r correctly

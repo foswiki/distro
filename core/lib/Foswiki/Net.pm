@@ -13,13 +13,16 @@ Object that brokers access to network resources.
 # changing the module.
 
 package Foswiki::Net;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
-use Error qw( :try );
+use Try::Tiny;
 
 use Foswiki::IP qw/:regexp :info $IPv6Avail/;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -33,32 +36,57 @@ our $noHTTPResponse;    # if set, forces local impl of HTTP::Response
 our $SSLAvailable;      # Set to defined false to prevent using SSL
 
 # note that the session is *optional*
-sub new {
-    my ( $class, $session ) = @_;
-    my $this = bless( { session => $session }, $class );
+has session => (
+    is        => 'ro',
+    weak_ref  => 1,
+    predicate => 1,
+    isa       => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
+);
+has mailHandler => (
+    is        => 'rw',
+    predicate => 1,
+);
+has PROXYHOST => ( is => 'rw', predicate => 1, lazy => 1, );
+has MAIL_HOST => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
 
-    $this->{mailHandler} = undef;
+        # See Codev.RegisterFailureInsecureDependencyCygwin for why
+        # this must be untainted
+        # SMELL: That topic tells me nothing - AFAICT this untaint is not
+        # required.
+        # SMELL (by vrurg): Move the untaint here. Might have a reason if
+        # MAILHOST key comes from LocalSite.cfg and remains tainted by this
+        # moment. Still, needs to be rechecked but generally doesn't do any
+        # harm.
+        $Foswiki::cfg{SMTP}{MAILHOST} =~ /^(.*)$/;
+        return $1;
+    },
+);
+has HELLO_HOST => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
 
-    return $this;
-}
-
-=begin TML
-
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    undef $this->{mailHandler};
-    undef $this->{HELLO_HOST};
-    undef $this->{MAIL_HOST};
-    undef $this->{session};
-}
+        # Untaint for the same reason as for MAIL_HOST.
+        $Foswiki::cfg{SMTP}{SENDERHOST} =~ /^(.*)$/;
+        return $1;
+    },
+);
+has MAIL_METHOD => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        my $this   = shift;
+        my $method = $Foswiki::cfg{Email}{MailMethod};
+        if ( !$method ) {
+            $method = 'Net::SMTP' if $this->MAIL_HOST;
+        }
+        $method = 'Net::SMTP (SSL)' if $method eq 'Net::SMTP::SSL';
+        return $method;
+    },
+);
 
 =begin TML
 
@@ -122,9 +150,10 @@ sub getExternalResource {
 
     require URI::URL;
 
-    my $uri       = URI::URL->new($url);
-    my $proxyHost = $this->{PROXYHOST} || $Foswiki::cfg{PROXY}{HOST};
-    my $puri      = $proxyHost ? URI::URL->new($proxyHost) : undef;
+    my $uri = URI::URL->new($url);
+    my $proxyHost =
+      $this->has_PROXYHOST ? $this->PROXYHOST : $Foswiki::cfg{PROXY}{HOST};
+    my $puri = $proxyHost ? URI::URL->new($proxyHost) : undef;
 
     # Don't remove $LWPAvailable; it is required to disable LWP when unit
     # testing
@@ -280,9 +309,10 @@ sub getExternalResource {
             $response = HTTP::Response->parse($result);
         }
     }
-    catch Error with {
-        require Foswiki::Net::HTTPResponse;
-        $response = new Foswiki::Net::HTTPResponse(shift);
+    catch {
+        my $message = ref($_) ? $_->stringify : $_;
+        Foswiki::load_package('Foswiki::Net::HTTPResponse');
+        $response = Foswiki::Net::HTTPResponse->new( message => $message );
     };
     return $response;
 }
@@ -309,7 +339,8 @@ sub _GETUsingLWP {
     my $pass;
     ( $user, $pass ) = split( ':', $uri->userinfo(), 2 )
       if ( $uri->userinfo() );
-    my $ua = new Foswiki::Net::UserCredAgent( $user, $pass );
+    my $ua =
+      Foswiki::Net::UserCredAgent->new( user => $user, password => $pass );
     $ua->proxy( [ 'http', 'https' ], $puri->as_string() ) if $puri;
     my $response = $ua->request($request);
     return $response;
@@ -347,8 +378,8 @@ sub _logMailError {
         return;
     }
     my $logger;
-    if ( $this->{session} ) {
-        $logger = $this->{session}->logger;
+    if ( $this->has_session ) {
+        $logger = $this->session->logger;
     }
     else {
         $logger = $Foswiki::cfg{Log}{Implementation};
@@ -403,39 +434,22 @@ sub _installMailHandler {
     my $this    = shift;
     my $handler = 0;       # Not undef
 
-    $this->{MAIL_HOST}  ||= $Foswiki::cfg{SMTP}{MAILHOST};
-    $this->{HELLO_HOST} ||= $Foswiki::cfg{SMTP}{SENDERHOST};
-
-    $this->{MAIL_METHOD} = $Foswiki::cfg{Email}{MailMethod};
-
-    unless ( $this->{MAIL_METHOD} ) {
-        $this->{MAIL_METHOD} = 'Net::SMTP' if ( $this->{MAIL_HOST} );
-    }
-    $this->{MAIL_METHOD} = 'Net::SMTP (SSL)'
-      if ( $this->{MAIL_METHOD} eq 'Net::SMTP::SSL' );
-
     #_logMailError('debug', "Set MAIL_METHOD to ($this->{MAIL_METHOD})" );
 
-    if (   $this->{MAIL_HOST}
-        && $this->{MAIL_METHOD} ne 'MailProgram' )
+    if (   $this->MAIL_HOST
+        && $this->MAIL_METHOD ne 'MailProgram' )
     {
 
 #_logMailError('debug', "Testing $this->{MAIL_HOST} with $this->{MAIL_METHOD}");
 
-        # See Codev.RegisterFailureInsecureDependencyCygwin for why
-        # this must be untainted
-        # SMELL: That topic tells me nothing - AFAICT this untaint is not
-        # required.
+        $this->MAIL_METHOD =~ m/^([\w:_()\s]+)$/ or    # Config or intruder
+          Foswiki::Exception::Fatal->throw(
+                text => "Invalid {Email}{MailMethod} "
+              . $this->MAIL_METHOD
+              . "\n" );
+        $this->MAIL_METHOD($1);
 
-        $this->{MAIL_HOST} ||= '';
-        $this->{MAIL_HOST} =~ m/^(.*)$/;
-        $this->{MAIL_HOST} = $1;
-
-        $this->{MAIL_METHOD} =~ m/^([\w:_()\s]+)$/ or    # Config or intruder
-          die "Invalid {Email}{MailMethod} $this->{MAIL_METHOD}\n";
-        $this->{MAIL_METHOD} = $1;
-
-        require Foswiki::IP;
+        Foswiki::load_package('Foswiki::IP');
         eval {
             require Net::SMTP;
             @Net::SMTP::ISA = (
@@ -444,7 +458,7 @@ sub _installMailHandler {
             ) if ($Foswiki::IP::IPv6Avail);
 
             require IO::Socket::SSL
-              if ( $this->{MAIL_METHOD} =~ m/\((?:TLS|SSL|STARTTLS)\)/ );
+              if ( $this->MAIL_METHOD =~ m/\((?:TLS|SSL|STARTTLS)\)/ );
         };
         if ($@) {
             $this->_logMailError( 'error', "Failed to load module: $@" );
@@ -480,7 +494,7 @@ alternative mail handling method.
 
 sub setMailHandler {
     my ( $this, $fnref ) = @_;
-    $this->{mailHandler} = $fnref;
+    $this->mailHandler($fnref);
 }
 
 =begin TML
@@ -505,11 +519,11 @@ sub sendEmail {
         return 'Cannot send mail: Foswiki email is disabled';
     }
 
-    unless ( defined $this->{mailHandler} ) {
+    unless ( defined $this->mailHandler ) {
         _installMailHandler($this);
     }
 
-    return 'No mail handler available' unless $this->{mailHandler};
+    return 'No mail handler available' unless $this->mailHandler;
 
     # Put in a Date header, mainly for Qmail
     # Do NOT use Foswiki::Time, as it includes Foswiki, which
@@ -525,11 +539,11 @@ sub sendEmail {
     while ( $retries-- ) {
         $try++;
         try {
-            &{ $this->{mailHandler} }( $this, $email );
+            &{ $this->mailHandler }( $this, $email );
             $retries = 0;
         }
-        catch Error with {
-            my $msg = shift->stringify();
+        catch {
+            my $msg = ref($_) ? $_->stringify() : $_;
             ( my $to ) = $text =~ m/^To:\s*(.*?)$/im;
 
             # Lines we threw are marked, already logged, and safe to return.
@@ -837,11 +851,11 @@ sub _sendEmailByNetSMTP {
 
     my $smtp = 0;
     my ( $ssl, $tls, $starttls );
-    if ( $this->{MAIL_METHOD} =~ m/\((SSL)|(TLS)|(STARTTLS)\)/ ) {
+    if ( $this->MAIL_METHOD =~ m/\((SSL)|(TLS)|(STARTTLS)\)/ ) {
         ( $ssl, $tls, $starttls ) = ( $1, $2, $3 );
     }
 
-    my $host = $this->{MAIL_HOST};
+    my $host = $this->MAIL_HOST;
     $this->_logMailError( 'die',
         "{SMTP}{MAILHOST} must be specified to use Net::SMTP" )
       unless ($host);
@@ -888,7 +902,7 @@ sub _sendEmailByNetSMTP {
         Debug   => $debug,
         Timeout => ( @addrs >= 2 ? 20 : 120 ),
     );
-    push @options, Hello => $this->{HELLO_HOST} if ( $this->{HELLO_HOST} );
+    push @options, Hello => $this->HELLO_HOST if ( $this->HELLO_HOST );
 
     Foswiki::Net::Mail::SSL::setup( $this, $ssl, $tls, $starttls, $host, $port,
         $debug );
@@ -920,8 +934,10 @@ sub _sendEmailByNetSMTP {
 
     $smtp = Foswiki::Net::Mail->new(@options)
       or $this->_logMailError( 'die',
-        "Failed to connect to '$this->{MAIL_HOST}' using $this->{MAIL_METHOD}"
-      );
+            "Failed to connect to '"
+          . $this->MAIL_HOST
+          . "' using "
+          . $this->MAIL_METHOD );
 
     $smtp->startTLS( $this, $host ) if ($starttls);
 
@@ -955,7 +971,8 @@ sub _sendEmailByNetSMTP {
         my $mess =
             "Failed to send mail to "
           . join( ', ', @to )
-          . " using $this->{MAIL_METHOD}.\n";
+          . " using "
+          . $this->MAIL_METHOD . ".\n";
         $this->_logMailError( 'die', $mess . $code . ' ' . $msg );
     }
 }
@@ -965,6 +982,9 @@ sub _sendEmailByNetSMTP {
 # The internal packages allow overriding NET::SMTP's
 # methods  to permit enhanced logging & transport
 # protocol, as well as working around bugs.
+
+# vrurg Foswiki::Net::Mail is a specific wrapper around Net::SMTP and there is
+# no direct need to convert it into Moo.
 
 package Foswiki::Net::Mail;
 

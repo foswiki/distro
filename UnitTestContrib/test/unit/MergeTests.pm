@@ -1,16 +1,15 @@
 # Copyright (C) 2005 Greg Abbas
 # Copyright (C) 2006 Crawford Currie http://c-dot.co.uk
 package MergeTests;
-use strict;
-use warnings;
-require 5.006;
-
-use FoswikiTestCase();
-our @ISA = qw( FoswikiTestCase );
+use v5.14;
 
 use Assert();
 use Foswiki::Merge();
-use Error qw( :try );
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiTestCase );
 
 use vars qw( $info @mudge );
 
@@ -40,17 +39,16 @@ use vars qw( $info @mudge );
     }
 }
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
     $this->createNewFoswikiSession();
-    @mudge                    = ();
-    $this->{session}{plugins} = HackJob->new();
-    $info                     = { argle => "bargle" };
-
-    return;
-}
+    @mudge = ();
+    $this->session->plugins( HackJob->new() );
+    $info = { argle => "bargle" };
+};
 
 sub _merge3 {
     my ( $ia, $ib, $ic ) = @_;

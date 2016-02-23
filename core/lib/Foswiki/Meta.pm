@@ -398,8 +398,9 @@ See QuerySearch for more on aliases.
 
 sub registerMETA {
     my ( $name, %check ) = @_;
-    ASSERT( !exists $VALIDATE{$name}, '$name META type is already registered' )
-      if DEBUG;
+
+    #ASSERT( !exists $VALIDATE{$name}, "$name META type is already registered" )
+    #  if DEBUG;
     $VALIDATE{$name} = \%check;
     $aliases{ $check{alias} } = "META:$name" if $check{alias};
     $isArrayType{$name} = $check{many};
@@ -451,7 +452,7 @@ around BUILDARGS => sub {
 
 =begin TML
 
----++ ClassMethod new($session, $web, $topic [, $text])
+---++ ClassMethod new(session => $session, web => $web, topic => $topic [, text => $text])
    * =$session= - a Foswiki object (e.g. =$Foswiki::Plugins::SESSION=)
    * =$web=, =$topic= - the pathname of the object. If both are undef,
      this object is a handle for the root container. If $topic is undef,

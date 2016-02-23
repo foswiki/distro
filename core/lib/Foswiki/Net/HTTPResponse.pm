@@ -18,78 +18,73 @@ See the documentation of HTTP::Response for information about the methods.
 =cut
 
 package Foswiki::Net::HTTPResponse;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
-sub new {
-    my ( $class, $message ) = @_;
-    return bless(
-        {
-            code    => 400,        # BAD REQUEST
-            message => $message,
-            headers => {},
-        },
-        $class
-    );
-}
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+
+has code => (
+    is      => 'rw',
+    lazy    => 1,
+    default => 400,
+);
+has headers => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
+has message => (
+    is       => 'rw',
+    required => 1,
+);
+has content => ( is => 'rw', );
 
 sub parse {
     my ( $class, $text ) = @_;
-    my $this = new( $class, 'Incomplete headers' );
+    my $this = $class->new( message => 'Incomplete headers' );
 
     # Separate the headers from the downloaded file.
     # Headers are delimited from content by \r\n\r\n / Hex \x0d\x0a\x0d\x0a
     my $CRLF = "\015\012";    # "\r\n" is not portable
     $text =~ s/^(.*?)$CRLF$CRLF//s;
     my $httpHeader = $1;      # untaint is OK, checked below
-    $this->{content} = $text;
+    $this->content($text);
 
     $httpHeader =~ s/$CRLF/\n/gs;
     $httpHeader =~ s/\r/\n/gs;
     if ( $httpHeader =~ s/^HTTP\/[\d.]+\s(\d+)\s([^$CRLF]*)//s ) {
-        $this->{code} = $1;
-        $this->{message} = TAINT( $2 || '' );
+        $this->code($1);
+        $this->message( TAINT( $2 || '' ) );
     }
     while ( $httpHeader =~ s/^(\S*):\s*(.*)$//m ) {
 
         # implicit untaint is OK for header names,
         # but values need to be retainted
-        $this->{headers}->{ lc($1) } = TAINT($2);
+        $this->headers->{ lc($1) } = TAINT($2);
     }
     if ( $httpHeader =~ m/\S/ ) {
-        $this->{code}    = 400;
-        $this->{message} = "Unparseable headers in response: $httpHeader";
+        $this->code(400);
+        $this->message("Unparseable headers in response: $httpHeader");
     }
     return $this;
 }
 
-sub code {
-    return shift->{code};
-}
-
-sub message {
-    return shift->{message};
-}
-
 sub header {
     my ( $this, $h ) = @_;
-    return $this->{headers}->{$h};
-}
-
-sub content {
-    return shift->{content};
+    return $this->headers->{$h};
 }
 
 sub is_error {
     my $this = shift;
-    return $this->{code} >= 400;
+    return $this->code >= 400;
 }
 
 sub is_redirect {
     my $this = shift;
-    return $this->{code} >= 300 && $this->{code} < 400;
+    return $this->code >= 300 && $this->code < 400;
 }
 
 1;

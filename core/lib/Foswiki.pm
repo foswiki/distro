@@ -220,7 +220,7 @@ has net => (
     },
 );
 has plugins => (
-    is        => 'ro',
+    is        => 'rw',
     lazy      => 1,
     clearer   => 1,
     predicate => 1,

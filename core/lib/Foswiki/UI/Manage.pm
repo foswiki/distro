@@ -11,6 +11,7 @@ in one place.
 =cut
 
 package Foswiki::UI::Manage;
+use v5.14;
 
 use strict;
 use warnings;

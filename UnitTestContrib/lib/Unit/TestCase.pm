@@ -686,8 +686,6 @@ sub captureSTD {
     $this->_clear_stdout;
     $this->_clear_stderr;
 
-    # SMELL vrurg Why try when no catch? eval{}; would do fine without extra
-    # penalty on performance.
     try {
         local *STDOUT;
         local *STDERR;
@@ -706,12 +704,12 @@ sub captureSTD {
         open( $f, '<', $stdoutfile )
           || die "Capture failed to reopen $stdoutfile";
         local $/;
-        $this->_stdout(<$f>);
+        $this->_stdout( scalar <$f> );
         close($f);
         open( $f, '<', $stderrfile )
           || die "Capture failed to reopen $stderrfile";
         local $/;
-        $this->_stderr(<$f>);
+        $this->_stderr( scalar <$f> );
         close($f);
     };
     return ( $this->_stdout, $this->_stderr, $result );
