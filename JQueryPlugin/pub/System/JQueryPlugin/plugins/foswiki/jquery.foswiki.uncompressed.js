@@ -247,7 +247,7 @@ var foswiki = foswiki || {
 
     /* load foswiki preferences */
     $(".foswikiPreferences").livequery(function() {
-      $.extend(foswiki.preferences, $.parseJSON($(this).html()));
+      $.extend(true, foswiki.preferences, $.parseJSON($(this).html()));
     });
 
     /* special treatment for NAMEFILTER */
