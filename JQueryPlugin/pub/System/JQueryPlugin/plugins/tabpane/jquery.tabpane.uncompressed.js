@@ -1,7 +1,7 @@
 /*
- * jQuery Tabpane plugin 1.2
+ * jQuery Tabpane plugin 1.23
  *
- * Copyright (c) 2008-2015 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2008-2016 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -134,7 +134,7 @@ $.tabpane = {
       data.beforeHandler.call(this, oldTabId, newTabId);
     }
 
-    if ((thisOpts.animate || thisOpts.autoMaxExpand) && oldHeight > 0) {
+    if ((thisOpts.animate || thisOpts.autoMaxExpand) && oldHeight > 0 && !$newContainer.is(".jqTabDisableMaxExpand")) {
       //$.log("TABPANE: setting height to "+oldHeight);
       $newContainer.height(oldHeight);
     }
@@ -241,7 +241,7 @@ $.tabpane = {
 
     //$.log("TABPANE: called fixHeight()");
 
-    if (typeof(paneOffset) == 'undefined') {
+    if (typeof(paneOffset) === 'undefined' || $container.is(".jqTabDisableMaxExpand")) {
       return;
     }
 
