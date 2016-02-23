@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ JQREQUIRE -- enable a plugin on the current page
 This macro will load a list of plugins to be added to the current page. Use [[VarJQPLUGINS][JQPLUGINS]] to display

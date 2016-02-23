@@ -19,6 +19,8 @@ SUBDIRS=\
   foswiki \
   gradient \
   hoverintent \
+  i18n \
+  imagesloaded \
   innerfade \
   livequery \
   localscroll \
@@ -27,7 +29,7 @@ SUBDIRS=\
   media \
   metadata \
   migrate \
-	mousewheel \
+  mousewheel \
   placeholder \
   pnotify \
   popupwindow \
@@ -37,7 +39,7 @@ SUBDIRS=\
   serialscroll \
   shrinkurls \
   simplemodal \
-	sprintf \
+  sprintf \
   slimbox \
   superfish \
   supersubs \
@@ -49,6 +51,7 @@ SUBDIRS=\
   validate \
   wikiword  \
   render \
-	stars
+  stars \
+  animate
 
 -include ../Makefile.include
