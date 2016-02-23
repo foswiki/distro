@@ -321,12 +321,7 @@ sub getPage {
             my $session = $Foswiki::Plugins::SESSION;
             my $request = $session->{request};
             my $action  = substr( ( $request->{action} || 'view' ), 0, 4 );
-            if ( $action eq 'rest' ) {
-
-                # Demote 'all' to 'cache' rather than kill rest
-                $refresh = 'cache';
-            }
-            else {
+            unless ( $action eq 'rest' ) {
                 throw Foswiki::OopsException(
                     'accessdenied',
                     def   => 'cache_refresh',
