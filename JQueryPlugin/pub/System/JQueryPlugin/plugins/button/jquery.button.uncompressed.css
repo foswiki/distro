@@ -1,10 +1,29 @@
 /* buttons */
 .jqButton {
-  margin:0 0.4em 0 0;
-  padding:0px;
-  white-space:nowrap;
+  cursor:pointer;
   display: inline-block;
+  margin:0 0.4em 0 0;
+  padding:0px 0.4em 0px 0.4em;
+  text-decoration:none;
+  text-shadow:0px 1px #fff;
+  vertical-align:middle;
+  white-space:nowrap;
   zoom: 1;
+
+  -moz-border-radius: 3px; 
+  -webkit-border-radius: 3px; 
+  border-radius: 3px; 
+
+  border: 1px solid #bcbcbc;
+  /* http://colorzilla.com/gradient-editor/#ffffff+0,dfdfdf+100;Custom */
+  background: #dfdfdf; 
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkZmRmZGYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+); /* IE9 */
+  background: -moz-linear-gradient(top, #ffffff 0%, #dfdfdf 100%); 
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#dfdfdf)); 
+  background: -webkit-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
+  background: -o-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
+  background: -ms-linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
+  background: linear-gradient(top, #ffffff 0%,#dfdfdf 100%); 
 }
 a.jqButton:visited,
 a.jqButton:link,
@@ -12,25 +31,35 @@ a.jqButton:link,
   color:#111;
 }
 a.jqButton:hover {
-  color:#C60206;
+  text-decoration:none;
 }
-.jqButton:hover,
-.jqButton {
+.jqButton:hover {
   text-decoration:none;
   cursor:pointer;
-  background-color:transparent;
-  background-image:url(btn_right.gif);
-  background-position:top right;
-  background-repeat:no-repeat;
+  background: #ffffff;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZGVkZWQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+); /* IE9 */
+  background: -moz-linear-gradient(top, #ffffff 0%, #ededed 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ededed));
+  background: -webkit-linear-gradient(top, #ffffff 0%,#ededed 100%);
+  background: -o-linear-gradient(top, #ffffff 0%,#ededed 100%);
+  background: -ms-linear-gradient(top, #ffffff 0%,#ededed 100%);
+  background: linear-gradient(top, #ffffff 0%,#ededed 100%);
+}
+.jqButton:active {
+  background: #ededed;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2VkZWRlZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+); /* IE9 */
+  background: -moz-linear-gradient(top, #ededed 0%, #ffffff 50%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(50%,#ffffff));
+  background: -webkit-linear-gradient(top, #ededed 0%,#ffffff 50%);
+  background: -o-linear-gradient(top, #ededed 0%,#ffffff 50%);
+  background: -ms-linear-gradient(top, #ededed 0%,#ffffff 50%);
+  background: linear-gradient(top, #ededed 0%,#ffffff 50%);
 }
 
 .jqButton.foswikiRight:hover,
 .jqButton.foswikiRight {
   float:right;
   margin:0 0 0 0.4em;
-}
-.jqButton {
-  text-shadow:0px 1px #fff;
 }
 
 .jqButtonSimple:hover,
@@ -39,64 +68,37 @@ a.jqButton:hover {
   color:#C60206;
 }
 
-.jqButton {
-  font-size:14px;
-  line-height:23px;
-  vertical-align:middle;
+.jqButtonDisabled {
+  cursor:default;
 }
-
-.jqButton span {
-  background-image:url(btn_left.gif);
-  background-position:top left;
+.jqButtonIcon {
+  padding:0px 0px 0px 20px;
   background-repeat:no-repeat;
-  cursor:pointer;
-  padding:0px 5px 0px 8px;
-  margin:0px 3px 0px 0px;
-  display: inline-block;
-  zoom: 1;
+  background-position:0 49%;
 }
-
-.jqButton:active {
-  background-position:bottom right;
+.jqButtonIcon.fa {
+  padding:0;
+  margin:0 3px 0 0;
 }
-
-.jqButton:active span {
-  background-position:bottom left;
+.jqButtonIcon .fa {
+  margin-right:3px;
 }
-
 .jqButtonSimple {
   color:inherit;
   text-shadow:none;
-}
-.jqButtonSimple span {
   padding:0px;
+  -moz-border-radius: 0px; 
+  -webkit-border-radius: 0px; 
+  border-radius: 0px; 
+  border:0;
 }
-.jqButtonSimple span span {
-  padding:0px 0px 0px 20px;
-}
-.jqButton .jqButtonIcon {
-  padding:0px 0px 0px 20px;
-}
-.jqButton:active .jqButtonIcon,
-.jqButton .jqButtonIcon {
-  background-position:0 49%;
-  background-repeat:no-repeat;
-  margin:0px;
-}
-.jqButton span .jqButtonNoText {
-  padding:0px;
-  width:1em;
-}
-.jqButtonCyan, .jqButtonCyan:hover { background-image:url(btn_cyan_right.gif); }
-.jqButtonCyan span { background-image:url(btn_cyan_left.gif); }
-.jqButtonRed, .jqButtonRed:hover { background-image:url(btn_red_right.gif); }
-.jqButtonRed span { background-image:url(btn_red_left.gif); }
-.jqButtonGreen, .jqButtonGreen:hover { background-image:url(btn_green_right.gif); }
-.jqButtonGreen span { background-image:url(btn_green_left.gif); }
 .jqButtonSimple,
-.jqButtonSimple span,
 .jqButtonSimple:hover,
-.jqButtonSimple span { background-image:none; }
+.jqButtonSimple { 
+  background-image:none; 
+}
+
+/* legacy */
 .jqButtonRight,
 .jqButtonRight:hover {
   float:right;
@@ -113,3 +115,43 @@ a.jqButtonCenter {
   margin-right:0px;
 }
 
+/* button set */
+.jqButtonSet:after { /* clearfix */
+  clear: both;
+  content: ' ';
+  display: block;
+  font-size: 0;
+  line-height: 0;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+.jqButtonSet .jqButton {
+  float:left;
+  margin:0;
+}
+.jqButtonSet .jqButton {
+  border-radius-left:0;
+  -moz-border-radius: 0px; 
+  -webkit-border-radius: 0px; 
+  border-radius: 0px; 
+  border-left: 0;
+}
+.jqButtonSet .jqButton:first-of-type {
+  border-left: 1px solid #bcbcbc;
+  -moz-border-radius-topleft: 3px; 
+  -webkit-border-top-left-radius: 3px; 
+  border-top-left-radius: 3px; 
+  -moz-border-radius-bottomleft: 3px; 
+  -webkit-border-bottom-left-radius: 3px; 
+  border-bottom-left-radius: 3px; 
+}
+.jqButtonSet .jqButton:last-of-type {
+  border-right: 1px solid #bcbcbc;
+  -moz-border-radius-topright: 3px; 
+  -webkit-border-top-right-radius: 3px; 
+  border-top-right-radius: 3px; 
+  -moz-border-radius-bottomright: 3px; 
+  -webkit-border-bottom-right-radius: 3px; 
+  border-bottom-right-radius: 3px; 
+}
