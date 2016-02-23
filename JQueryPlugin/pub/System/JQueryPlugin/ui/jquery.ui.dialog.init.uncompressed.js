@@ -1,5 +1,6 @@
 // initializer for the ui-dialog plugin
 jQuery(function($) {
+'use strict';
 
   var dialogDefaults = {
     width: 300,
@@ -18,7 +19,7 @@ jQuery(function($) {
   // dialog
   $(".jqUIDialog").livequery(function() {
     var $this = $(this), 
-        opts = $.extend({}, dialogDefaults, $this.metadata(), $this.data()),
+        opts = $.extend({}, dialogDefaults, $this.data(), $this.metadata()),
         buttons = [];
 
     if (!opts.cached) {
@@ -59,7 +60,7 @@ jQuery(function($) {
           $this.find("form:first").submit();
         };
       }
-      $.extend(button, $button.metadata());
+      $.extend(button, $button.data(), $button.metadata());
 
       if (typeof(button.click) === 'undefined') {
         button.click = function() {};
@@ -112,7 +113,7 @@ jQuery(function($) {
   $(document).on("click", ".jqUIDialogLink", function() {
     var $this = $(this), 
         href = $this.attr("href"),
-        opts = $.extend({}, dialogLinkDefaults, $this.metadata());
+        opts = $.extend({}, dialogLinkDefaults, $this.data(), $this.metadata());
 
     if (href.match(/^(https?:)|\//)) {
       // this is a link to remote data
