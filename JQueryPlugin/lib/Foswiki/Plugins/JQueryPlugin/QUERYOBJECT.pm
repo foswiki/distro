@@ -26,10 +26,10 @@ sub new {
 
     my $this = bless(
         $class->SUPER::new(
-            name       => 'QueryObject',
-            version    => '2.1.7',
-            author     => 'Blair Mitchelmore',
-            homepage   => 'http://plugins.jquery.com/project/query-object',
+            name     => 'QueryObject',
+            version  => '2.2.2',
+            author   => 'Blair Mitchelmore',
+            homepage => 'https://github.com/alrusdi/jquery-plugin-query-object',
             javascript => ['jquery.queryobject.js']
         ),
         $class
@@ -42,7 +42,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
