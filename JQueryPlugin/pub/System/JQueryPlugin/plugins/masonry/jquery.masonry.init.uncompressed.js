@@ -1,3 +1,4 @@
+'use strict';
 jQuery(function($) {
   var defaults = {
     waitForImages: false
@@ -5,16 +6,14 @@ jQuery(function($) {
 
   $(".jqMasonry:not(.jqInitedMasonry)").livequery(function() {
     var $this = $(this),
-        opts = $.extend({}, defaults, $this.metadata());
-
-    $this.addClass("jqInitedMasonry");
+        opts = $.extend({}, defaults, $this.data(), $this.metadata());
 
     if (opts.waitForImages) {
       $this.imagesLoaded(function() {
-        $this.masonry(opts);
+        $this.masonry(opts).addClass("jqInitedMasonry");
       });
     } else {
-      $this.masonry(opts);
+      $this.masonry(opts).addClass("jqInitedMasonry");
     }
 
   });
