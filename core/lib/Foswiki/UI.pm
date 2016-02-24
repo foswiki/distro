@@ -369,7 +369,7 @@ sub _execute {
             $req, \%initialContext
         );
 
-        $res = $session->{response};
+        $res = $session->response;
 
         unless ( defined $res->status() && $res->status() =~ m/^\s*3\d\d/ ) {
             $session->getLoginManager()->checkAccess();
@@ -381,10 +381,10 @@ sub _execute {
         if ( $e->isa('Foswiki::ValidationException') ) {
 
             $session ||= $Foswiki::Plugins::SESSION;
-            $res = $session->{response} if $session;
+            $res = $session->response if $session;
             $res ||= new Foswiki::Response();
 
-            my $query = $session->{request};
+            my $query = $session->request;
 
             # Cache the original query, so we can complete if if it is
             # confirmed
@@ -399,8 +399,8 @@ sub _execute {
             # URL is absolute as required by
             # http://tools.ietf.org/html/rfc2616#section-14.30
             my $url = $session->getScriptUrl(
-                1,                   'login',
-                $session->{webName}, $session->{topicName},
+                1,                 'login',
+                $session->webName, $session->topicName,
                 foswikiloginaction   => 'validate',
                 foswikioriginalquery => $uid
             );
@@ -409,7 +409,7 @@ sub _execute {
         }
         elsif ( $e->isa('Foswiki::AccessControlException') ) {
             $session ||= $Foswiki::Plugins::SESSION;
-            $res = $session->{response} if $session;
+            $res = $session->response if $session;
             $res ||= new Foswiki::Response();
 
             unless ( $session->getLoginManager()->forceAuthentication() ) {
@@ -419,10 +419,10 @@ sub _execute {
                 my $exception = new Foswiki::OopsException(
                     'accessdenied',
                     status => 403,
-                    web    => $e->{web},
-                    topic  => $e->{topic},
+                    web    => $e->web,
+                    topic  => $e->topic,
                     def    => 'topic_access',
-                    params => [ $e->{mode}, $e->{reason} ]
+                    params => [ $e->mode, $e->reason ]
                 );
 
                 $exception->generate($session);
@@ -431,36 +431,36 @@ sub _execute {
         elsif ( $e->isa('Foswiki::OopsException') ) {
 
             $session ||= $Foswiki::Plugins::SESSION;
-            $res = $session->{response} if $session;
+            $res = $session->response if $session;
             $res ||= new Foswiki::Response();
 
             $e->generate($session);
         }
         elsif ( $e->isa('Foswiki::EngineException') ) {
             $session ||= $Foswiki::Plugins::SESSION;
-            $res = $e->{response};
+            $res = $e->response;
 
             # Note: do *not* use the response from the session; see notes above
             unless ( defined $res ) {
                 $res = new Foswiki::Response();
                 $res->header(
                     -type   => 'text/html',
-                    -status => $e->{status}
+                    -status => $e->status
                 );
-                my $html = CGI::start_html( $e->{status} . ' Bad Request' );
+                my $html = CGI::start_html( $e->status . ' Bad Request' );
                 $html .= CGI::h1( {}, 'Bad Request' );
-                $html .= CGI::p( {}, $e->{reason} );
+                $html .= CGI::p( {}, $e->reason );
                 $html .= CGI::end_html();
                 $res->print( Foswiki::encode_utf8($html) );
             }
-            $Foswiki::engine->finalizeError( $res, $session->{request} );
+            $Foswiki::engine->finalizeError( $res, $session->request );
         }
         elsif ( $e->isa('Foswiki::Exception') or $e->isa('Error') ) {
 
             # Most usually a 'die'
 
             $session ||= $Foswiki::Plugins::SESSION;
-            $res = $session->{response} if $session;
+            $res = $session->response if $session;
             $res ||= new Foswiki::Response();
 
             $res->header( -type => 'text/plain', -status => '500' )
@@ -525,14 +525,14 @@ sub logon {
         );
     }
 
-    my $action = $session->{request}->param('foswikiloginaction');
-    $session->{request}->delete('foswikiloginaction');
+    my $action = $session->request->param('foswikiloginaction');
+    $session->request->delete('foswikiloginaction');
 
     if ( defined $action && $action eq 'validate' ) {
         Foswiki::Validation::validate($session);
     }
     else {
-        $session->getLoginManager()->login( $session->{request}, $session );
+        $session->getLoginManager()->login( $session->request, $session );
     }
 }
 
@@ -549,14 +549,14 @@ sub checkWebExists {
     my ( $session, $webName, $op ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
-    if ( $session->{invalidWeb} ) {
+    if ( $session->invalidWeb ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
             def    => 'bad_web_name',
             web    => $webName,
             topic  => $Foswiki::cfg{WebPrefsTopicName},
-            params => [ $op, $session->{invalidWeb} ]
+            params => [ $op, $session->invalidWeb ]
         );
     }
     unless ($webName) {
@@ -595,14 +595,14 @@ sub checkTopicExists {
     my ( $session, $web, $topic, $op ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
-    if ( $session->{invalidTopic} ) {
+    if ( $session->invalidTopic ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
             def    => 'invalid_topic_name',
             web    => $web,
             topic  => $topic,
-            params => [ $op, $session->{invalidTopic} ]
+            params => [ $op, $session->invalidTopic ]
         );
     }
 
@@ -632,7 +632,7 @@ sub checkAccess {
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
     unless ( $topicObject->haveAccess($mode) ) {
-        throw Foswiki::AccessControlException( $mode, $session->{user},
+        throw Foswiki::AccessControlException( $mode, $session->user,
             $topicObject->web, $topicObject->topic, $Foswiki::Meta::reason );
     }
 }
@@ -659,15 +659,15 @@ sub checkValidationKey {
     return if $session->inContext('command_line');
 
     # Check the nonce before we do anything else
-    my $nonce = $session->{request}->param('validation_key');
-    $session->{request}->delete('validation_key');
+    my $nonce = $session->request->param('validation_key');
+    $session->request->delete('validation_key');
     if ( !defined($nonce)
         || !Foswiki::Validation::isValidNonce( $session->getCGISession(),
             $nonce ) )
     {
-        throw Foswiki::ValidationException( $session->{request}->action() );
+        throw Foswiki::ValidationException( $session->request->action() );
     }
-    if ( defined($nonce) && !$session->{request}->param('preserve_vk') ) {
+    if ( defined($nonce) && !$session->request->param('preserve_vk') ) {
 
         # Expire the nonce. If the user tries to use it again, they will
         # be prompted. Note that if preserve_vk is provided we don't
@@ -678,17 +678,16 @@ sub checkValidationKey {
 
         # Write a new validation code into the response
         my $context =
-          $session->{request}->url( -full => 1, -path => 1, -query => 1 )
+          $session->request->url( -full => 1, -path => 1, -query => 1 )
           . time();
         my $cgis = $session->getCGISession();
         if ($cgis) {
             my $nonce =
               Foswiki::Validation::generateValidationKey( $cgis, $context, 1 );
-            $session->{response}
-              ->pushHeader( 'X-Foswiki-Validation' => $nonce );
+            $session->response->pushHeader( 'X-Foswiki-Validation' => $nonce );
         }
     }
-    $session->{request}->delete('preserve_vk');
+    $session->request->delete('preserve_vk');
 }
 
 =begin TML

@@ -2591,7 +2591,9 @@ sub finish {
     #for my $i (keys %macros) {
     #    print STDERR "\t$i\n" unless defined $macros{$i};
     #}
-    $_->finish() foreach values %{ $this->forms };
+    foreach ( values %{ $this->forms } ) {
+        $_->finish() if $_;
+    }
     $this->clear_forms;
     foreach my $key (
         qw(prefs plugins users templates renderer zones net

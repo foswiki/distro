@@ -131,7 +131,7 @@ sub finish {
 
     $this->clear_registeredHandlers;
     foreach ( @{ $this->plugins } ) {
-        $_->finish();
+        $_->finish() if $_;
     }
     $this->clear_plugins;
 }
@@ -393,7 +393,8 @@ sub dispatch {
 
         # Set the value of $SESSION for this call stack
         local $SESSION = $this->session;
-        ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
+        ASSERT( $SESSION && $Foswiki::Plugins::SESSION->isa('Foswiki') )
+          if DEBUG;
 
         # apply handler on the remaining list of args
         no strict 'refs';

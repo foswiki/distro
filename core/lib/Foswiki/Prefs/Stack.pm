@@ -89,7 +89,7 @@ sub finish {
     $this->clear_final;
     if ( $this->has_levels ) {
         foreach my $back ( @{ $this->levels } ) {
-            $back->finish();
+            $back->finish() if $back;
         }
     }
     $this->clear_levels;

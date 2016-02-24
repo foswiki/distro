@@ -171,7 +171,11 @@ Construct the user management object
 =cut
 
 our @_newParameters = qw( session );
-has session => ( is => 'rw', );
+has session => (
+    is       => 'ro',
+    weak_ref => 1,
+    isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1, ),
+);
 has twiki => (
     is      => 'rw',
     lazy    => 1,
@@ -234,11 +238,7 @@ Break circular references.
 sub finish {
     my $this = shift;
     $this->complete();    # call to flush the session if not already done
-    undef $this->{_authScripts};
     $this->_clear_cgisession;
-    undef $this->{_haveCookie};
-    undef $this->{_MYSCRIPTURL};
-    undef $this->{session};
 }
 
 =begin TML
@@ -750,7 +750,7 @@ to. Flush the user's session (if any) to disk.
 sub complete {
     my $this = shift;
 
-    if ( $this->_has_cgisession ) {
+    if ( $this->_cgisession ) {
         $this->_cgisession->flush;
         die $this->_cgisession->errstr
           if $this->_cgisession->errstr;

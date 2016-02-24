@@ -217,12 +217,12 @@ around finish => sub {
     my $orig = shift;
     my $this = shift;
 
-    $this->loginManager->finish() if $this->has_loginManager;
-    $this->basemapping->finish()  if $this->has_basemapping;
+    #$this->loginManager->finish() if $this->loginManager;
+    #$this->basemapping->finish()  if $this->basemapping;
 
-    $this->mapping->finish()
-      if $this->has_mapping
-      && $this->mapping ne $this->basemapping;
+    #$this->mapping->finish()
+    #  if $this->mapping
+    #  && $this->mapping ne $this->basemapping;
 
     $this->clear_loginManager;
     $this->clear_basemapping;

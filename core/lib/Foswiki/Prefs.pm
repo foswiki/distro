@@ -169,13 +169,13 @@ sub finish {
     $this->clear_contexts;
     if ( $this->has_paths ) {
         foreach my $back ( values %{ $this->paths } ) {
-            $back->finish();
+            $back->finish() if $back;
         }
     }
     $this->clear_paths;
     if ( $this->has_webprefs ) {
         foreach my $webStack ( values %{ $this->webprefs } ) {
-            $webStack->finish();
+            $webStack->finish() if $webStack;
         }
     }
     $this->clear_webprefs;
