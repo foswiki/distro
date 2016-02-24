@@ -11,24 +11,29 @@
 # query syntax.
 
 package QueryTests;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki::Query::Parser;
 use Foswiki::Query::Node;
 use Foswiki::Func();
 
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
+
 use constant MONITOR => 0;
 
 my %qalgs;
 
-sub new {
-    my $self = shift()->SUPER::new( 'SEARCH', @_ );
-    return $self;
-}
+has metaObject => (
+    is  => 'rw',
+    isa => Foswiki::Object::isaCLASS( 'metaObject', 'Foswiki::Meta' ),
+);
+
+around BUILDARGS => sub {
+    my $orig = shift;
+    $orig->( @_, testSuite => 'SEARCH' );
+};
 
 sub skip {
     my ( $this, $test ) = @_;
@@ -73,17 +78,18 @@ sub skip {
     );
 }
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up(@_);
+    $orig->( $this, @_ );
 
     # Force pure perl text search; the query alg may map to a plain text
     # search, and we want to be sure we hit a good one.
     $Foswiki::cfg{Store}{SearchAlgorithm} =
       'Foswiki::Store::SearchAlgorithms::PurePerl';
 
-    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'HitTopic' );
-    $meta->putKeyed(
+    my ($metaObject) = Foswiki::Func::readTopic( $this->test_web, 'HitTopic' );
+    $metaObject->putKeyed(
         'FILEATTACHMENT',
         {
             name    => "att1.dat",
@@ -96,7 +102,7 @@ sub set_up {
             date    => '25',
         }
     );
-    $meta->putKeyed(
+    $metaObject->putKeyed(
         'FILEATTACHMENT',
         {
             name    => "att2.dot",
@@ -109,7 +115,7 @@ sub set_up {
             date    => '99',
         }
     );
-    $meta->put(
+    $metaObject->put(
         'TOPICINFO',
         {
             author => 'AlbertCamus',
@@ -119,7 +125,7 @@ sub set_up {
             version => '1.1913',
         }
     );
-    $meta->put(
+    $metaObject->put(
         'TOPICMOVED',
         {
             by   => 'AlbertCamus',
@@ -128,18 +134,18 @@ sub set_up {
             to   => 'ThePlague',
         }
     );
-    $meta->put( 'FORM',        { name => 'TestForm' } );
-    $meta->put( 'TOPICPARENT', { name => '' } );
-    $meta->putKeyed( 'PREFERENCE', { name => 'Red',    value => '0' } );
-    $meta->putKeyed( 'PREFERENCE', { name => 'Green',  value => '1' } );
-    $meta->putKeyed( 'PREFERENCE', { name => 'Blue',   value => '0' } );
-    $meta->putKeyed( 'PREFERENCE', { name => 'White',  value => '0' } );
-    $meta->putKeyed( 'PREFERENCE', { name => 'Yellow', value => '1' } );
-    $meta->putKeyed( 'FIELD',
+    $metaObject->put( 'FORM',        { name => 'TestForm' } );
+    $metaObject->put( 'TOPICPARENT', { name => '' } );
+    $metaObject->putKeyed( 'PREFERENCE', { name => 'Red',    value => '0' } );
+    $metaObject->putKeyed( 'PREFERENCE', { name => 'Green',  value => '1' } );
+    $metaObject->putKeyed( 'PREFERENCE', { name => 'Blue',   value => '0' } );
+    $metaObject->putKeyed( 'PREFERENCE', { name => 'White',  value => '0' } );
+    $metaObject->putKeyed( 'PREFERENCE', { name => 'Yellow', value => '1' } );
+    $metaObject->putKeyed( 'FIELD',
         { name => "number", title => "Number", value => "99" } );
-    $meta->putKeyed( 'FIELD',
+    $metaObject->putKeyed( 'FIELD',
         { name => "string", title => "String", value => "String" } );
-    $meta->putKeyed(
+    $metaObject->putKeyed(
         'FIELD',
         {
             name  => "StringWithChars",
@@ -147,10 +153,10 @@ sub set_up {
             value => "n\nn t\tt s\\s q'q o#o h#h X~X \\b \\a \\e \\f \\r \\cX"
         }
     );
-    $meta->putKeyed( 'FIELD',
+    $metaObject->putKeyed( 'FIELD',
         { name => "boolean", title => "Boolean", value => "1" } );
-    $meta->putKeyed( 'FIELD', { name => "macro", value => "%RED%" } );
-    $meta->putKeyed(
+    $metaObject->putKeyed( 'FIELD', { name => "macro", value => "%RED%" } );
+    $metaObject->putKeyed(
         'FIELD',
         {
             name  => "brace",
@@ -158,31 +164,32 @@ sub set_up {
             value => "Some text (really) we have text"
         }
     );
-    $meta->putKeyed( 'FIELD',
+    $metaObject->putKeyed( 'FIELD',
         { name => 'SillyFuel', title => 'Silly fuel', value => 'Petrol' } );
 
-    $meta->text("Quantum");
-    $meta->save();
+    $metaObject->text("Quantum");
+    $metaObject->save();
 
     # Copy to a new topic
-    $meta->topic("AnotherTopic");
-    $meta->save();
+    $metaObject->topic("AnotherTopic");
+    $metaObject->save();
 
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'AnotherTopic', 1 );
-    $meta->text("Singularity");
-    $meta->putKeyed( 'FIELD',
+    ($metaObject) =
+      Foswiki::Func::readTopic( $this->test_web, 'AnotherTopic', 1 );
+    $metaObject->text("Singularity");
+    $metaObject->putKeyed( 'FIELD',
         { name => 'SillyFuel', title => 'Silly fuel', value => 'Petroleum' } );
-    $meta->save( forcenewrevision => 1 );
-    $meta->text("Superintelligent shades of the colour blue");
-    $meta->putKeyed( 'FIELD',
+    $metaObject->save( forcenewrevision => 1 );
+    $metaObject->text("Superintelligent shades of the colour blue");
+    $metaObject->putKeyed( 'FIELD',
         { name => 'SillyFuel', title => 'Silly fuel', value => 'Diesel' } );
-    $meta->save( forcenewrevision => 1 );
+    $metaObject->save( forcenewrevision => 1 );
 
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'HitTopic', 1 );
-    $meta->text("Green ideas sleep furiously");
-    $meta->save( forcenewrevision => 1 );
-    $this->{meta} = $meta;
-}
+    ($metaObject) = Foswiki::Func::readTopic( $this->test_web, 'HitTopic', 1 );
+    $metaObject->text("Green ideas sleep furiously");
+    $metaObject->save( forcenewrevision => 1 );
+    $this->metaObject($metaObject);
+};
 
 sub fixture_groups {
     my (%qalgs);
@@ -235,8 +242,7 @@ sub loadExtraConfig {
           {'Foswiki::Plugins::MongoDBPlugin::Listener'} = 1;
         require Foswiki::Plugins::MongoDBPlugin;
         Foswiki::Plugins::MongoDBPlugin::getMongoDB()
-          ->remove( $this->{test_web}, 'current',
-            { '_web' => $this->{test_web} } );
+          ->remove( $this->test_web, 'current', { '_web' => $this->test_web } );
     }
 }
 
@@ -266,9 +272,9 @@ sub check {
 
     #use Data::Dumper;
     #print STDERR "query: $s\nresult: " . Data::Dumper::Dumper($query) . "\n";
-    my ($meta) = $this->{meta};
+    my ($metaObject) = $this->metaObject;
 
-    my $val = $query->evaluate( tom => $meta, data => $meta );
+    my $val = $query->evaluate( tom => $metaObject, data => $metaObject );
     if ( ref( $opts{'eval'} ) ) {
         $this->assert_deep_equals( $opts{'eval'}, $val,
                 "Expected "
@@ -296,7 +302,7 @@ sub check {
         if ( defined $opts{simpler} ) {
             print STDERR "before simplification: " . $query->stringify() . "\n"
               if MONITOR;
-            $query->simplify( tom => $meta, data => $meta );
+            $query->simplify( tom => $metaObject, data => $metaObject );
             print STDERR "after simplification: " . $query->stringify() . "\n"
               if MONITOR;
             print STDERR "after simplification: \n"
@@ -323,8 +329,10 @@ sub check {
 
         # Next check the search algorithm
         my $expr =
-"%SEARCH{\"$s\" type=\"query\" excludetopic=\"WebPreferences,$this->{test_topic},AnotherTopic\" nonoise=\"on\" format=\"\$topic\"}%";
-        my $list = $this->{test_topicObject}->expandMacros($expr);
+            "%SEARCH{\"$s\" type=\"query\" excludetopic=\"WebPreferences,"
+          . $this->test_topic
+          . ",AnotherTopic\" nonoise=\"on\" format=\"\$topic\"}%";
+        my $list = $this->test_topicObject->expandMacros($expr);
         if ( $opts{'eval'} || $opts{match} ) {
             $this->assert_str_equals( 'HitTopic', $list );
         }
@@ -369,7 +377,7 @@ sub verify_meta_dot {
     $this->check( "form.name", eval => 'TestForm' );
     $this->check( "META:FORM.name", eval => 'TestForm' );
 
-    my $info = $this->{meta}->getRevisionInfo();
+    my $info = $this->metaObject->getRevisionInfo();
     $this->check( "info.date",     eval => $info->{date} );
     $this->check( "info.format",   eval => 1.1 );
     $this->check( "info.version",  eval => $info->{version} );
@@ -387,7 +395,7 @@ sub verify_meta_dot {
 
     #longhand to a topic that as more than one rev
     my ($anotherTopic) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'AnotherTopic' );
+      Foswiki::Func::readTopic( $this->test_web, 'AnotherTopic' );
     my $anotherTopicInfo = $anotherTopic->getRevisionInfo();
     $this->check(
         "'AnotherTopic'/META:TOPICINFO.date",
@@ -790,12 +798,12 @@ sub verify_ref {
     $this->check( "'AnotherTopic'/number",    eval => 99, simpler => 99 );
     $this->check( "'AnotherTopic'/number=99", eval => 1,  simpler => 1 );
     $this->check(
-        "'$this->{test_web}.AnotherTopic'/number=99",
+        "'" . $this->test_web . ".AnotherTopic'/number=99",
         eval    => 1,
         simpler => 1
     );
     $this->check(
-        "'$this->{test_web}.AnotherTopic'/number=99",
+        "'" . $this->test_web . ".AnotherTopic'/number=99",
         eval    => 1,
         simpler => 1
     );
@@ -821,8 +829,10 @@ sub verify_versions_on_other_topic {
         "'AnotherTopic'/versions[text =~ 'blue'].text",
         eval => "Superintelligent shades of the colour blue"
     );
+    $Foswiki::Exception::EXCEPTION_TRACE = 1;
     $this->check( "'AnotherTopic'/versions[SillyFuel~'Petrol*'].SillyFuel",
         eval => [qw(Petroleum Petrol)] );
+    $Foswiki::Exception::EXCEPTION_TRACE = 0;
     $this->check( "'AnotherTopic'/versions[0].SillyFuel", eval => 'Diesel' );
     $this->check(
         "'AnotherTopic'/versions.SillyFuel",
@@ -909,7 +919,7 @@ sub test_match_lc_field {
         with_dep => 'Foswiki,<,1.2'
     );
     $this->check(
-        "'$this->{test_web}.HitTopic'/fields",
+        "'" . $this->test_web . ".HitTopic'/fields",
         eval => [
             { value => 99,       name => 'number', title => 'Number' },
             { value => 'String', name => 'string', title => 'String' },
@@ -934,14 +944,14 @@ qq/,{name=>'number',title=>'Number',value=>'99',,{name=>'string',title=>'String'
     );
 
     $this->check(
-        "'$this->{test_web}.HitTopic'/fields[NOT lc(name)=~'(s)'].name",
+        "'" . $this->test_web . ".HitTopic'/fields[NOT lc(name)=~'(s)'].name",
         eval => [qw(number boolean macro brace)] );
 }
 
 sub test_match_lc_field_simple {
     my $this = shift;
     $this->check(
-        "'$this->{test_web}.HitTopic'/fields[NOT lc(name)=~'(s)'].name",
+        "'" . $this->test_web . ".HitTopic'/fields[NOT lc(name)=~'(s)'].name",
         eval => [qw(number boolean macro brace)] );
 }
 
@@ -1010,9 +1020,9 @@ sub verify_brackets {
 sub verify_evaluatesToConstant {
     my $this = shift;
 
-    my $queryParser = new Foswiki::Query::Parser();
-    my $query       = $queryParser->parse("notafield AND 1");
-    my ($meta)      = $this->{meta};
+    my $queryParser  = new Foswiki::Query::Parser();
+    my $query        = $queryParser->parse("notafield AND 1");
+    my ($metaObject) = $this->metaObject;
 
     $this->assert( !$query->evaluatesToConstant(), "non-constant" );
 }
@@ -1021,7 +1031,7 @@ sub test_regex_name {
     my $this = shift;
     my $expr =
 "%SEARCH{\"name~'Hit*'\" type=\"query\" nonoise=\"on\" format=\"\$topic\"}%";
-    my $list = $this->{test_topicObject}->expandMacros($expr);
+    my $list = $this->test_topicObject->expandMacros($expr);
     $this->assert_str_equals( 'HitTopic', $list );
 }
 

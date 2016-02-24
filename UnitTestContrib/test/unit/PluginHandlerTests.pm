@@ -14,32 +14,37 @@
 # start coding....
 #
 package PluginHandlerTests;
-use strict;
-use warnings;
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki();
-use Error qw( :try );
+use Try::Tiny;
 use Foswiki::Func();
 use Foswiki::Plugin();
 use Symbol qw(delete_package);
 
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
+
 my $systemWeb = "TemporaryPluginHandlersSystemWeb";
 
-sub new {
-    my ( $class, @args ) = @_;
+has code_root   => ( is => 'rw', );
+has plugin_pm   => ( is => 'rw', );
+has plugin_name => ( is => 'rw', );
 
-    return $class->SUPER::new( "PluginHandlers", @args );
-}
+around BUILDARGS => sub {
+    my $orig = shift;
+    $orig->( @_, testSuite => "PluginHandlers" );
+};
 
 # Set up the test fixture.
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
-    my $testWebObject = $this->populateNewWeb( $this->{test_web} );
-    $testWebObject->finish();
+    my $testWebObject = $this->populateNewWeb( $this->test_web );
+    undef $testWebObject;
 
     # Disable all plugins
     foreach my $key ( keys %{ $Foswiki::cfg{Plugins} } ) {
@@ -58,24 +63,23 @@ sub set_up {
         }
     }
     die "Can't find code" unless $found;
-    $this->{code_root} = "$found/Foswiki/Plugins/";
+    $this->code_root("$found/Foswiki/Plugins/");
     my $webObject =
       $this->populateNewWeb( $systemWeb, $Foswiki::cfg{SystemWebName} );
-    $webObject->finish();
+    undef $webObject;
     $Foswiki::cfg{SystemWebName} = $systemWeb;
     $Foswiki::cfg{Plugins}{WebSearchPath} = $systemWeb;
+};
 
-    return;
-}
-
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->removeWebFixture( $this->{session}, $systemWeb );
-    unlink( $this->{plugin_pm} );
-    Symbol::delete_package("Foswiki::Foswiki::$this->{plugin_name}");
-    $this->SUPER::tear_down();
-}
+    $this->removeWebFixture( $this->session, $systemWeb );
+    unlink( $this->plugin_pm );
+    Symbol::delete_package( "Foswiki::Foswiki::" . $this->plugin_name );
+    $orig->($this);
+};
 
 # Build the plugin source, using the code passed in $code as the
 # body of the plugin. $pcode will normally be at least one handler
@@ -84,10 +88,11 @@ sub tear_down {
 sub makePlugin {
     my ( $this, $test, $pcode, $disabled ) = @_;
 
-    $this->{plugin_name} = ucfirst("${test}Plugin");
-    $this->{plugin_pm}   = $this->{code_root} . $this->{plugin_name} . ".pm";
+    $this->plugin_name( ucfirst("${test}Plugin") );
+    $this->plugin_pm( $this->code_root . $this->plugin_name . ".pm" );
 
-    my $code = "package Foswiki::Plugins::$this->{plugin_name};" . <<'HERE';
+    my $code =
+      "package Foswiki::Plugins::" . $this->plugin_name . ";" . <<'HERE';
 our $called = {};
 our $tester;
 our $VERSION = 999.911;
@@ -110,34 +115,31 @@ HERE
     #    }
 
     $this->assert(
-        open( my $F, ">$this->{plugin_pm}" ),
-        "Failed to open $this->{plugin_pm}: $!"
+        open( my $F, ">", $this->plugin_pm ),
+        "Failed to open " . $this->plugin_pm . ": $!"
     );
     print $F $code;
     $this->assert( close($F) );
     try {
         my ($topicObject) =
           Foswiki::Func::readTopic( $Foswiki::cfg{SystemWebName},
-            $this->{plugin_name} );
+            $this->plugin_name );
         $topicObject->text(<<'EOF');
    * Set PLUGINVAR = Blah
 EOF
         $topicObject->save();
-        $topicObject->finish();
+        undef $topicObject;
     }
-    catch Foswiki::AccessControlException with {
-        $this->assert( 0, shift->stringify() );
-    }
-    catch Error::Simple with {
-        $this->assert( 0, shift->stringify() );
+    catch {
+        Foswiki::Exception::Fatal->rethrow($_);
     };
-    $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Enabled} =
+    $Foswiki::cfg{Plugins}{ $this->plugin_name }{Enabled} =
       ( $disabled ? 0 : 1 );
-    $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Module} =
-      "Foswiki::Plugins::$this->{plugin_name}";
+    $Foswiki::cfg{Plugins}{ $this->plugin_name }{Module} =
+      "Foswiki::Plugins::" . $this->plugin_name;
 
     # Set up $tester =
-    eval "\$Foswiki::Plugins::$this->{plugin_name}::tester = \$this;";
+    eval "\$Foswiki::Plugins::" . $this->plugin_name . "::tester = \$this;";
     $this->createNewFoswikiSession();    # default user
     $this->checkCalls( $disabled ? 0 : 1, 'initPlugin' );
 
@@ -147,7 +149,9 @@ EOF
 sub checkCalls {
     my ( $this, $number, $name ) = @_;
     my $saw =
-      eval "\$Foswiki::Plugins::$this->{plugin_name}::called->{$name} || 0";
+        eval "\$Foswiki::Plugins::"
+      . $this->plugin_name
+      . "::called->{$name} || 0";
     $this->assert_equals( $number, $saw,
         "calls($name) $saw != $number " . join( ' ', caller ) );
 
@@ -157,9 +161,9 @@ sub checkCalls {
 sub test_saveHandlers {
     my $this = shift;
 
-    my $user = $this->{session}->{user};
+    my $user = $this->session->user;
     $this->assert_not_null($user);
-    my ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'Tropic' );
+    my ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'Tropic' );
     my $text = $topicObject->text() || '';
     $text =~ s/^\s*\* Set BLAH =.*$//gm;
     $text .= "\n\t* Set BLAH = BEFORE\n";
@@ -168,13 +172,10 @@ sub test_saveHandlers {
     try {
         $topicObject->save();
     }
-    catch Foswiki::AccessControlException with {
-        $this->assert( 0, shift->stringify() );
-    }
-    catch Error::Simple with {
-        $this->assert( 0, shift->stringify() || '' );
+    catch {
+        Foswiki::Exception::Fatal->rethrow($_);
     };
-    $topicObject->finish();
+    undef $topicObject;
 
     my $q = Foswiki::Func::getRequestObject();
     $this->createNewFoswikiSession( $Foswiki::cfg{GuestUserLogin}, $q );
@@ -185,10 +186,10 @@ sub beforeSaveHandler {
     # ensure we have a loaded rev
     $tester->assert($_[3]->getLoadedRev());
     $tester->assert_str_equals('Tropic', $_[1], "TWO $_[1]");
-    $tester->assert_str_equals($tester->{test_web}, $_[2], "THREE $_[2]");
+    $tester->assert_str_equals($tester->test_web, $_[2], "THREE $_[2]");
     $tester->assert($_[3]->isa('Foswiki::Meta'), "FOUR $_[3]");
     $tester->assert_str_equals('Wibble', $_[3]->get('WIBBLE')->{wibble});
-    Foswiki::Func::pushTopicContext( $this->{test_web}, 'Tropic' );
+    Foswiki::Func::pushTopicContext( $tester->test_web, 'Tropic' );
     $tester->assert_str_equals( "BEFORE",
             $_[3]->getPreference("BLAH"));
             #Foswiki::Func::getPreferencesValue("BLAH") );
@@ -199,7 +200,7 @@ sub beforeSaveHandler {
 sub afterSaveHandler {
     #my( $text, $topic, $theWeb, $error, $meta ) = @_;
     $tester->assert_str_equals('Tropic', $_[1]);
-    $tester->assert_str_equals($tester->{test_web}, $_[2]);
+    $tester->assert_str_equals($tester->test_web, $_[2]);
     $tester->assert_null($_[3]);
     $tester->assert($_[4]->isa('Foswiki::Meta'), "OUCH $_[4]");
     # ensure we have a loaded rev
@@ -211,7 +212,7 @@ sub afterSaveHandler {
             $_[4]->getPreference("BLAH"));
 
     #SMELL:  And for some reason this returns null instead of either BEFORE or AFTER
-    # Foswiki::Func::pushTopicContext( $this->{test_web}, 'Tropic' );
+    # Foswiki::Func::pushTopicContext( $this->test_web, 'Tropic' );
     # $tester->assert_str_equals( "AFTER",
     #  Foswiki::Func::getPreferencesValue("BLAH") );
 
@@ -221,27 +222,27 @@ HERE
 
 # Test to ensure that the before and after save handlers are both called,
 # and that modifications made to the text are actaully written to the topic file
-    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, "Tropic" );
+    my ($meta) = Foswiki::Func::readTopic( $this->test_web, "Tropic" );
     $meta->text($text);
 
     # Crawford changed from Meta->load to Meta->new (above) in Foswikirev:13781;
     # so I'm holding off on eradicating the above Foswiki::Meta usage until I
     # better understand why
-    # my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, "Tropic" );
+    # my ($meta) = Foswiki::Func::readTopic( $this->test_web, "Tropic" );
     $meta->put( 'WIBBLE', { wibble => 'Wibble' } );
     $meta->save();
-    $meta->finish();
+    undef $meta;
     $this->checkCalls( 1, 'beforeSaveHandler' );
     $this->checkCalls( 1, 'afterSaveHandler' );
 
-    my ($newMeta) = Foswiki::Func::readTopic( $this->{test_web}, "Tropic" );
+    my ($newMeta) = Foswiki::Func::readTopic( $this->test_web, "Tropic" );
     $this->assert_matches( qr\B4SAVE\, $newMeta->text() );
     $this->assert_str_equals( 'Wibble', $newMeta->get('WIBBLE')->{wibble} );
     $this->assert_str_equals( "AFTER",  $newMeta->getPreference("BLAH") );
-    $newMeta->finish();
+    undef $newMeta;
 
     #SMELL: Without this call, getPreferences returns BEFORE
-    Foswiki::Func::pushTopicContext( $this->{test_web}, 'Tropic' );
+    Foswiki::Func::pushTopicContext( $this->test_web, 'Tropic' );
 
     $this->assert_str_equals( "AFTER",
         Foswiki::Func::getPreferencesValue("BLAH") );
@@ -294,12 +295,12 @@ HERE
 
     # Crude test to ensure all handlers are called, and in the right order.
     # Doesn't verify that they are called at the right time
-    Foswiki::Func::saveTopic( $this->{test_web}, 'IncludedTopic', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'IncludedTopic', undef,
         '<verbatim>BOO</verbatim>' );
     my ($meta) = Foswiki::Func::readTopic( "Werb", "Tropic" );
     $meta->put( 'WIBBLE', { wibble => 'Wibble' } );
     my $expanded = Foswiki::Func::expandCommonVariables(
-        "Zero%INCLUDE{\"$this->{test_web}.IncludedTopic\"}%",
+        "Zero%INCLUDE{\"" . $this->test_web . ".IncludedTopic\"}%",
         "Tropic", "Werb", $meta );
     $this->assert_str_equals( $expanded, "Two<verbatim>BOO</verbatim>" );
     $meta->finish();
@@ -378,7 +379,7 @@ sub initializeUserHandler {
     die "initializeUserHandler" unless !$called->{initializeUserHandler};
     $called->{initializeUserHandler}++;
     my $ru = $_[0] || 'undef';
-    die "RU $ru" unless $ru eq ($Foswiki::Plugins::SESSION->{remoteUser}||'undef');
+    die "RU $ru" unless $ru eq ($Foswiki::Plugins::SESSION->remoteUser||'undef');
     my $url = $_[1] || 'undef';
     die "URL $url" unless $url eq (Foswiki::Func::getCgiQuery()->url() || undef);
     my $path = $_[2] || 'undef';
@@ -395,19 +396,26 @@ HERE
 sub test_earlyInitPlugin_with_die {
     my $this = shift;
     try {
+        local $SIG{__DIE__};    # Stop global die handling by TestRunner.pm.
         $this->makePlugin( 'earlyInitPluginDie', <<'HERE');
 sub earlyInitPlugin {
     die "Meistersinger";
 }
 HERE
     }
-    catch Error::Simple with {} otherwise {
-        $this->assert( 0, "earlyInitPlugin exception lost" );
+    catch {
+        #catch Error::Simple with {} otherwise {
+        #    $this->assert( 0, "earlyInitPlugin exception lost" );
+        #};
+        if ( ref($_) ) {
+            $this->assert( 0, "earlyInitPlugin exception lost" );
+        }
+
     };
-    unlink( $this->{plugin_pm} );
-    Symbol::delete_package("Foswiki::Foswiki::$this->{plugin_name}");
-    $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Enabled} = 0;
-    undef $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Module};
+    unlink( $this->plugin_pm );
+    Symbol::delete_package( "Foswiki::Foswiki::" . $this->plugin_name );
+    $Foswiki::cfg{Plugins}{ $this->plugin_name }{Enabled} = 0;
+    undef $Foswiki::cfg{Plugins}{ $this->plugin_name }{Module};
     $this->createNewFoswikiSession();    # for tear_down
 }
 
@@ -830,8 +838,10 @@ HERE
         my $html =
           Foswiki::Func::renderText( $tmlText, 'Sandbox', 'TestThisCarefully' );
         $this->checkCalls( 10, 'renderWikiWordHandler' );
-        my $hashRef = eval
-"\$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
+        my $hashRef =
+            eval "\$Foswiki::Plugins::"
+          . $this->plugin_name
+          . "::called->{renderWikiWordHandlerLinks}";
         use Data::Dumper;
         print STDERR "------ $html\n";
         print STDERR "------ " . Dumper($hashRef) . "\n";
@@ -857,10 +867,12 @@ HERE
     }
 
     #lets do it again, this time with expandMacros first
-    eval
-"delete \$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandler}";
-    eval
-"delete \$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
+    eval "delete \$Foswiki::Plugins::"
+      . $this->plugin_name
+      . "::called->{renderWikiWordHandler}";
+    eval "delete \$Foswiki::Plugins::"
+      . $this->plugin_name
+      . "::called->{renderWikiWordHandlerLinks}";
     my $expandedText =
       Foswiki::Func::expandCommonVariables( $tmlText, 'Sandbox',
         'TestThisCarefully' );
@@ -868,8 +880,10 @@ HERE
     my $html = Foswiki::Func::renderText( $expandedText, 'Sandbox',
         'TestThisCarefully' );
     $this->checkCalls( 12, 'renderWikiWordHandler' );
-    my $hashRef = eval
-"\$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
+    my $hashRef =
+        eval "\$Foswiki::Plugins::"
+      . $this->plugin_name
+      . "::called->{renderWikiWordHandlerLinks}";
     use Data::Dumper;
     print STDERR "------ $html\n";
     print STDERR "------ " . Dumper($hashRef) . "\n";
@@ -959,19 +973,26 @@ HERE
 sub test_preload_with_die {
     my $this = shift;
     try {
+        local $SIG{__DIE__};    # Stop global die handling by TestRunner.pm.
         $this->makePlugin( 'preloadDie', <<'HERE');
 sub preload {
     die "Fledermaus";
 }
 HERE
     }
-    catch Error::Simple with {} otherwise {
-        $this->assert( 0, "Preload exception lost" );
+    catch {
+        #catch Error::Simple with {} otherwise {
+        #    $this->assert( 0, "Preload exception lost" );
+        #};
+        if ( ref($_) ) {
+            $this->assert( 0, "Preload exception lost" );
+        }
+
     };
-    unlink( $this->{plugin_pm} );
-    Symbol::delete_package("Foswiki::Foswiki::$this->{plugin_name}");
-    $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Enabled} = 0;
-    undef $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Module};
+    unlink( $this->plugin_pm );
+    Symbol::delete_package( "Foswiki::Foswiki::" . $this->plugin_name );
+    $Foswiki::cfg{Plugins}{ $this->plugin_name }{Enabled} = 0;
+    undef $Foswiki::cfg{Plugins}{ $this->plugin_name }{Module};
     $this->createNewFoswikiSession();    # for tear_down
     return;
 }
@@ -981,25 +1002,29 @@ sub test_preload_with_EngineException {
     try {
         $this->makePlugin( 'preloadHandlerWithEngineException', <<'HERE');
 use Foswiki::EngineException;
-use Error qw( :try );
+use Try::Tiny;
 
 sub preload {
-    throw Foswiki::EngineException( 404, 'Four Ought Fore' );
+    Foswiki::EngineException->throw(
+        status => 404, reason => 'Four Ought Fore' );
 }
 HERE
     }
-    catch Foswiki::EngineException with {
-        my $e = shift;
-        $this->assert_equals( 404,               $e->{status} );
-        $this->assert_equals( 'Four Ought Fore', $e->{reason} );
-    }
-    otherwise {
-        $this->assert( 0, "Preload exception lost" );
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 404,               $e->status );
+            $this->assert_equals( 'Four Ought Fore', $e->reason );
+        }
+        else {
+            $this->assert( 0, "Preload exception lost" );
+        }
+
     };
-    unlink( $this->{plugin_pm} );
-    Symbol::delete_package("Foswiki::Foswiki::$this->{plugin_name}");
-    $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Enabled} = 0;
-    undef $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Module};
+    unlink( $this->plugin_pm );
+    Symbol::delete_package( "Foswiki::Foswiki::" . $this->plugin_name );
+    $Foswiki::cfg{Plugins}{ $this->plugin_name }{Enabled} = 0;
+    undef $Foswiki::cfg{Plugins}{ $this->plugin_name }{Module};
     $this->createNewFoswikiSession();    # for tear_down
     return;
 }

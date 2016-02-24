@@ -657,7 +657,7 @@ sub _requireConfirmation {
     $data->{"${type}Code"} = $data->{WikiName} . '.' . int( rand(99999999) );
 
     # SMELL: used for Register unit tests
-    $session->{DebugVerificationCode} = $data->{"${type}Code"};
+    $session->heap->{DebugVerificationCode} = $data->{"${type}Code"};
 
     require Data::Dumper;
 

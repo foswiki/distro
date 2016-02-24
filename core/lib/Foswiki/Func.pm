@@ -530,10 +530,10 @@ sub pushTopicContext {
     ASSERT($session) if DEBUG;
     my ( $web, $topic ) = _validateWTA(@_);
 
-    $session->{prefs}->pushTopicContext( $web, $topic );
-    $session->{webName}   = $web;
-    $session->{topicName} = $topic;
-    $session->{prefs}->setInternalPreferences(
+    $session->prefs->pushTopicContext( $web, $topic );
+    $session->webName($web);
+    $session->topicName($topic);
+    $session->prefs->setInternalPreferences(
         BASEWEB        => $web,
         BASETOPIC      => $topic,
         INCLUDINGWEB   => $web,
@@ -553,8 +553,9 @@ Returns the Foswiki context to the state it was in before the
 sub popTopicContext {
     my $session = $Foswiki::Plugins::SESSION;
     ASSERT($session) if DEBUG;
-    ( $session->{webName}, $session->{topicName} ) =
-      $session->{prefs}->popTopicContext();
+    my ( $webName, $topicName ) = $session->prefs->popTopicContext();
+    $session->webName($webName);
+    $session->topicName($topicName);
 }
 
 =begin TML
@@ -1299,7 +1300,7 @@ Use it as follows:
 
 sub eachGroup {
     my $session = $Foswiki::Plugins::SESSION;
-    my $it      = $session->{users}->eachGroup();
+    my $it      = $session->users->eachGroup();
     return $it;
 }
 
@@ -2015,7 +2016,7 @@ sub checkTopicEditLock {
                 param3   => $future,
                 param4   => $script
             );
-            my $login = $session->{users}->getLoginName($who);
+            my $login = $session->users->getLoginName($who);
             return ( $url, $login || $who, $remain / 60 );
         }
     }

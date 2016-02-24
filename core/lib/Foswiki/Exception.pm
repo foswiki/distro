@@ -50,8 +50,9 @@ use Assert;
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Object);
-
 with 'Throwable';
+
+our $EXCEPTION_TRACE = 0;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -89,6 +90,9 @@ sub BUILD {
         ref($this)
           . " didn't set a meaningful error text in case it would be treated as a simple Foswiki::Exception"
     ) unless $this->text;
+
+    say STDERR "New exception object created: ", $this->stringify
+      if DEBUG && $EXCEPTION_TRACE;
 }
 
 sub stringify {

@@ -182,6 +182,11 @@ has text => (
     lazy      => 1,
     predicate => 1,
     clearer   => 1,
+    trigger   => sub {
+        my $this = shift;
+        $this->session->prefs->invalidatePath($this)
+          if $this->session && $this->session->has_prefs;
+    },
 );
 
 has metaData => (
@@ -217,6 +222,11 @@ has _latestIsLoaded => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
+);
+has _loadedByQueryAlgorithm => (
+    is      => 'rw',
+    lazy    => 1,
+    default => 0,
 );
 has _loadedRev => (
     is        => 'rw',
@@ -503,8 +513,8 @@ before text => sub {
     my $this = shift;
     state $isLoading = 0;
 
-    # Avoid deep recursion.
-    unless ($isLoading) {
+    # Avoid deep recursion and skip if text if being set.
+    unless ( @_ > 0 || $isLoading ) {
         $isLoading = 1;
 
         # Make sure that we always set $isLoading back to 0 despite of any

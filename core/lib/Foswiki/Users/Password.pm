@@ -29,7 +29,7 @@ BEGIN {
 
 =begin TML
 
----++ ClassMethod new( $session ) -> $object
+---++ ClassMethod new( session => $session ) -> $object
 
 Constructs a new password handler of this type, referring to $session
 for any required Foswiki services.

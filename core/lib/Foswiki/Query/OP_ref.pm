@@ -63,6 +63,7 @@ sub evaluate {
         catch {
             # SMELL Shoudn't the exception be send further up the call stack?
             print STDERR "ERROR IN OP_ref: ", $_->text if DEBUG;
+            Foswiki::Exception::Fatal->rethrow($_);
         };
     }
     return unless scalar(@result);

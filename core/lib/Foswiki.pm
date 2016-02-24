@@ -215,8 +215,8 @@ has net => (
     clearer   => 1,
     predicate => 1,
     default   => sub {
-        require Foswiki::Net;
-        return Foswiki::Net->new( $_[0] );
+        load_package('Foswiki::Net');
+        return Foswiki::Net->new( session => $_[0] );
     },
 );
 has plugins => (
@@ -2621,13 +2621,14 @@ sub finish {
     $this->clear_user;
     $this->clear_response;
     $this->clear_sandbox;
+    $this->clear_heap;
     $this->_clear_baseStoreClass;
     $this->_clear_macros;
     undef $this->{web};
     undef $this->{topic};
     undef $this->{_addedToHEAD};
 
-    undef $this->{DebugVerificationCode};    # from Foswiki::UI::Register
+    #undef $this->{DebugVerificationCode};    # from Foswiki::UI::Register
     if (SINGLE_SINGLETONS_TRACE) {
         require Data::Dumper;
         print STDERR "finish $this: "

@@ -284,16 +284,15 @@ sub getField {
 
         # Disallow reloading versions for an object loaded here
         # SMELL: violates Foswiki::Meta encapsulation
-        return [] if $data->{_loadedByQueryAlgorithm};
+        return [] if $data->_loadedByQueryAlgorithm;
 
         # Oooh, this is inefficient.
         my $it = $data->getRevisionHistory();
         my @revs;
         while ( $it->hasNext() ) {
             my $n = $it->next();
-            my $t =
-              $this->getRefTopic( $data, $data->web(), $data->topic(), $n );
-            $t->{_loadedByQueryAlgorithm} = 1;
+            my $t = $this->getRefTopic( $data, $data->web, $data->topic, $n );
+            $t->_loadedByQueryAlgorithm(1);
             push( @revs, $t );
         }
         return \@revs;

@@ -107,7 +107,8 @@ sub toString {
     }
     elsif ( ref($a) eq 'HASH' ) {
         return
-          '{' . join( ',', map { "$_=>" . toString( $a->$_ ) } keys %$a ) . '}';
+          '{'
+          . join( ',', map { "$_=>" . toString( $a->{$_} ) } keys %$a ) . '}';
     }
     use warnings 'recursion';
     if ( $isBlessed && $a->isa('Foswiki::Meta') ) {
@@ -356,7 +357,7 @@ sub simplify {
     }
     else {
         for my $f ( @{ $this->params } ) {
-            if ( $f->can('simplify') ) {
+            if ( UNIVERSAL::can( $f, 'simplify' ) ) {
                 $f->simplify(@_);
             }
         }

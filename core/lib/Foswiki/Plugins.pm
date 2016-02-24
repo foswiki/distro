@@ -52,9 +52,10 @@ my %onlyOnceHandlers = (
 );
 
 has session => (
-    is      => 'rw',
-    clearer => 1,
-    isa     => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
+    is       => 'rw',
+    weak_ref => 1,
+    clearer  => 1,
+    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
 );
 has registeredHandlers => (
     is      => 'rw',
@@ -129,11 +130,10 @@ sub finish {
     $this->dispatch('finishPlugin');
 
     $this->clear_registeredHandlers;
-    foreach ( @{ $this->{plugins} } ) {
+    foreach ( @{ $this->plugins } ) {
         $_->finish();
     }
     $this->clear_plugins;
-    $this->clear_session;
 }
 
 =begin TML

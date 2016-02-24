@@ -75,6 +75,7 @@ our %deprecated = (
 
 has session => (
     is       => 'ro',
+    weak_ref => 1,
     required => 1,
 );
 has name => (
@@ -175,30 +176,6 @@ sub BUILD {
         &$fn( $this->session );
         use strict 'refs';
     }
-}
-
-=begin TML
-
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-
-    undef $this->{name};
-    undef $this->{topicWeb};
-    undef $this->{module};
-    undef $this->{errors};
-    undef $this->{disabled};
-    undef $this->{reason};
-    undef $this->{no_topic};
-    undef $this->{description};
-    undef $this->{session};
 }
 
 # Load and verify a plugin, invoking any early registration

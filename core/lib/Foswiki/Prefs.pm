@@ -82,6 +82,12 @@ BEGIN {
     }
 }
 
+has session => (
+    is       => 'ro',
+    clearer  => 1,
+    weak_ref => 1,
+    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
+);
 has main => (
     is      => 'rw',
     lazy    => 1,
@@ -130,11 +136,6 @@ has internals => (
     clearer   => 1,
     isa       => Foswiki::Object::isaHASH('internals'),
     default   => sub { {} },
-);
-has session => (
-    is      => 'ro',
-    clearer => 1,
-    isa     => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
 );
 
 around BUILDARGS => sub {
@@ -197,6 +198,32 @@ sub _getBackend {
           $Foswiki::cfg{Store}{PrefsBackend}->new($metaObject);
     }
     return $this->paths->{$path};
+}
+
+sub invalidatePath {
+    my $this = shift;
+    my $path;
+    if ( ref( $_[0] ) ) {
+        if ( $_[0]->isa('Foswiki::Meta') ) {
+            $path = $_[0]->getPath;
+        }
+        else {
+            Foswiki::Exception::Fatal->throw(
+                    text => 'Invalid argument of type '
+                  . ref( $_[0] )
+                  . ' passed to '
+                  . ref($this)
+                  . '::invalidatePath' );
+        }
+    }
+    else {
+        $path = $_[0];
+    }
+
+    if ( exists $this->paths->{$path} ) {
+        delete $this->paths->{$path};
+    }
+
 }
 
 # Given a (sub)web and a stack object, push the (sub)web on the stack,
