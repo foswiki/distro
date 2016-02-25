@@ -17,7 +17,7 @@ If you are administrator, you will take these actions:
    1 In the REGISTERTOPIC (%REGISTERTOPIC%) topic: create a table of new users. An example table is provided below to copy.
    1 Return to this topic and press the [[#RegisterForm]["Bulk Register" button]] to create the new topics.
    1 Read %LOGTOPIC% to verify if all has gone well.
-   1 Visit WikiGroups if the new users need to be added to any groups.
+   1 Visit %USERSWEB%.WikiGroups if the new users need to be added to any groups.
    1 When you are ready, use the [[BulkResetPassword]] page to assign passwords and notify the users of their new accounts.
 
 Below are the details.
