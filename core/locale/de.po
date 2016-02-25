@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-01-09 09:26+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2016-02-25 16:35+0200\n"
+"Last-Translator: Michael Daum <foswiki@michaeldaumconsulting.com>\n"
 "Language-Team: German <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/de/>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.1\n"
+"X-Generator: Weblate 2.4\n"
 
 #: core/data/System/WikiName.txt:3
 msgid "!WikiName"
@@ -649,7 +649,7 @@ msgstr "A-Z"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:191
 msgid "Abandon changes and exit"
-msgstr "Änderungen verwerfen und verlassen"
+msgstr "Änderungen verwerfen und Menü verlassen"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -826,7 +826,7 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
-msgstr "Anhang"
+msgstr "Anhängen"
 
 #: core/templates/attach.tmpl:9
 msgid "Attach a file"
@@ -861,7 +861,7 @@ msgstr "Anhang"
 
 #: core/templates/messages.tmpl:473
 msgid "Attachment '%1' does not exist"
-msgstr "Anhang ‚%1‘ existiert nicht"
+msgstr "Anhang '%1' existiert nicht"
 
 #: core/templates/messages.tmpl:56
 msgid "Attachment delete failed"
@@ -1839,7 +1839,7 @@ msgstr "Beenden"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:70
 msgid "External"
-msgstr "Hilfe im Internet"
+msgstr "Extern"
 
 #: core/lib/Foswiki/Plugins.pm:459
 msgid "Failed plugins"
@@ -2663,7 +2663,7 @@ msgstr "Anmelden bei %1"
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:148
 #: core/templates/foswiki.tmpl:20
 msgid "Login"
-msgstr "Einloggen"
+msgstr "Login"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:328
 msgid "Login username:"
@@ -2870,7 +2870,7 @@ msgstr "Neues Passwort:"
 
 #: core/templates/messages.tmpl:84
 msgid "New topic name %1 is not a %2"
-msgstr "Neuer Topic-Name %1 ist kein %2"
+msgstr "Der neue Topic-Name %1 ist kein %2"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:102
 msgid "New user registration is disabled on this site."
@@ -3356,11 +3356,11 @@ msgstr "Einstellungen für"
 
 #: core/templates/validate.tmpl:40
 msgid "Press Cancel otherwise."
-msgstr "Wählen Sie ansonsten Abbrechen."
+msgstr "Wählen Sie ansonsten 'Abbrechen'."
 
 #: core/templates/validate.tmpl:39
 msgid "Press OK to confirm that this change was intentional."
-msgstr "Bitte bestätigen Sie mit OK, wenn diese Änderung beabsichtigt ist."
+msgstr "Bitte bestätigen Sie mit 'OK', wenn diese Änderung beabsichtigt ist."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:182
 #: NatEditPlugin/templates/preview.natedit.tmpl:1
@@ -4120,7 +4120,7 @@ msgstr "Durchgestrichener Text"
 #: core/data/System/FrequentlyAskedQuestions.txt:81
 #: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:152
 msgid "Submit"
-msgstr "Übermitteln"
+msgstr "Abschicken"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:185
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
@@ -4352,8 +4352,9 @@ msgid ""
 "The attachment may be renamed (by appending a number to the name) if an "
 "attachment of that name already exists in the target topic."
 msgstr ""
-"Der Dateianhang kann möglicherweise (durch Anhängen einer Nummer) umbenannt "
-"werden, wenn eine gleichnamige Datei am Zielort bereits existiert."
+"Das Attachment wird eventuell umbenannt (indem eine Nummer an den Namen "
+"angehängt wird), falls ein Attachment mit dem selben Namen bereits im "
+"Zieltopic existiert."
 
 #: core/templates/renameattachmentdelete.tmpl:43
 msgid ""
@@ -4639,10 +4640,11 @@ msgid ""
 "notifications of password changes. The addresses you register via this form "
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
-"Mit diesem Formular können Sie ihre registrierte E-Mail Adresse ändern, "
-"welche von Foswiki unter anderem für Änderungshinweise oder "
-"Passwortänderungen benutzt wird. Die Adressen, die Sie über dieses Formular "
-"registrieren, werden geheim gehalten und *nicht* veröffentlicht."
+"Mit diesem Formular können Sie ihre registrierte E-Mail Adresse ändern. Ihre "
+"Informationen werden von Foswiki unter anderem für Änderungshinweise oder "
+"Passwort Änderungen benutzt. Die Adressen, die Sie über dieses Formular "
+"registrieren werden geheim gehalten und *nicht* auf dieser Seite "
+"veröffentlicht."
 
 #: core/data/Main/GroupViewTemplate.txt:138
 msgid "This group should not have members."
@@ -4927,7 +4929,7 @@ msgstr "Topic-Revision:"
 
 #: core/templates/oopssaveerr.tmpl:11
 msgid "Topic save error"
-msgstr "Topic-Speichern-Fehler"
+msgstr "Fehler beim Speichern des Topics"
 
 #: core/data/System/WebTemplateTopics.txt:3
 msgid "Topic templates in %1 Web"
@@ -5006,7 +5008,7 @@ msgstr "Benutzer und/oder Passwort nicht erkannt"
 
 #: core/templates/messages.tmpl:42
 msgid "Unrecognized action command %1"
-msgstr "Aktions Befehl %1 nicht erkannt"
+msgstr "Aktionsbefehl %1 nicht erkannt"
 
 #: core/templates/messages.tmpl:405
 msgid ""
@@ -5497,7 +5499,7 @@ msgstr "Sie versuchen, einen Anhang abzurufen, der nicht existiert."
 #: core/templates/messages.tmpl:460
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr ""
-"Sie versuchen ein Topic von einer Vorlage zu erzeugen, die nicht existiert."
+"Sie versuchen, ein Topic von einer Vorlage zu erzeugen, die nicht existiert."
 
 #: core/templates/messages.tmpl:454
 msgid ""
@@ -5509,7 +5511,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:467
 msgid "You are trying to rename a topic that does not exist."
-msgstr "Sie versuchen ein Topic umzubenennen, welches nicht existiert."
+msgstr "Sie versuchen, ein Topic umzubenennen, welches nicht existiert."
 
 #: core/templates/messages.tmpl:442
 msgid ""
@@ -5875,7 +5877,7 @@ msgstr "earlyInitPlugin fehlgeschlagen. Siehe untenstehende Fehlerliste."
 #: PatternSkin/templates/formtables.pattern01x01.tmpl:28
 #: core/templates/formtables.tmpl:27
 msgid "edit"
-msgstr "editieren"
+msgstr "bearbeiten"
 
 #: NatEditPlugin/templates/editform.natedit.tmpl:2
 #: NatEditPlugin/templates/editform.natedit.tmpl:3
