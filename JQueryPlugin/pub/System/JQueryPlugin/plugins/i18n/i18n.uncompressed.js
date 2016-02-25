@@ -135,13 +135,13 @@
           if (namespace !== '*') {
             result = resource[string];
           }
-          return (typeof(result) === 'undefined');
+          return (typeof(result) === 'undefined' || result === '');
         });
       }
     }
 
     // fallback to the string itself
-    if (typeof(result) === 'undefined') {
+    if (typeof(result) === 'undefined' || result === '') {
       result = string;
     }
 
