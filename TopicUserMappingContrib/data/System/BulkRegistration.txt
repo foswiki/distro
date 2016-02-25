@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1448168966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1456368117" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ Bulk Registration
 
@@ -14,9 +14,10 @@ Note: this is an administrator job - only admistrators can run this.
 
 If you are administrator, you will take these actions:
    1 (First time use) Create new bulk registration topics (see [[#Settings][Settings]] below).
-   1 In the REGISTERTOPIC topic: create a table of new users. An example table is provided below to copy.
-   1 Return to this topic and press the button "Bulk Register" to create the new topics.
+   1 In the REGISTERTOPIC (%REGISTERTOPIC%) topic: create a table of new users. An example table is provided below to copy.
+   1 Return to this topic and press the [[#RegisterForm]["Bulk Register" button]] to create the new topics.
    1 Read %LOGTOPIC% to verify if all has gone well.
+   1 Visit WikiGroups if the new users need to be added to any groups.
    1 When you are ready, use the [[BulkResetPassword]] page to assign passwords and notify the users of their new accounts.
 
 Below are the details.
@@ -95,6 +96,7 @@ Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
       * Set NOTMODIFYABLE = %IF{"context passwords_modifyable" then="" else="DISABLED"}%
 %JQREQUIRE{"chili"}%
 -->
+#RegisterForm
 <form name="bulkRegister" action="%SCRIPTURLPATH{"manage"}%/%REGISTERTOPIC%" method="post">
 <input type="hidden" name="action" value="bulkRegister" /><sticky>&nbsp;</sticky>
 <input %NOTMODIFYABLE% type="submit" class="foswikiSubmit" value="Bulk Register these people" />
