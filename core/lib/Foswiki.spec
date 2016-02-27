@@ -55,7 +55,7 @@
 # Enable this parameter to force foswiki to ignore the hostname in the
 # URL entered by the user.  Foswiki will generate all links using the
 # {DefaultUrlHost}.
-# 
+#
 # By default, foswiki will use whatever URL that was entered by the
 # user to generate links. The only exception is the special =localhost=
 # name, which will be automatically replaced by the {DefaultUrlHost}.
@@ -72,7 +72,7 @@ $Foswiki::cfg{ForceDefaultUrlHost} = $FALSE;
 # and some IP addresses) you need to tell Foswiki that redirecting to them
 # is OK. Foswiki uses redirection as part of its normal mode of operation
 # when it changes between editing and viewing.
-# 
+#
 # To prevent Foswiki from being used in phishing attacks and to protect it
 # from middleman exploits, the security setting {AllowRedirectUrl} is by
 # default disabled, restricting redirection to other domains. If a redirection
@@ -107,7 +107,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # ). If it is, replace this with the base path of your wiki (the value of
 # {ScriptUrlPath} with the =/bin= suffix removed, so you'll have to leave
 # this field empty if your wiki lives at the top level).
-# 
+#
 # More information:
 # [[http://foswiki.org/Support/ShorterUrlCookbook][Shorter URL Cookbook]]
 # $Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
@@ -130,7 +130,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # *SCRIPTHASH*
 
 # ---++ File System Paths
-# Configure the file system locations of key Foswiki directories here.  These are usually guessed 
+# Configure the file system locations of key Foswiki directories here.  These are usually guessed
 # correctly during bootstrap. Other file locations are configured within their related sections.
 # **PATH LABEL="Script Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions.'" CHECK="noemptyok perms:Dx,'(.txt|.cfg)$'" **
 # This is the file system path used to access the Foswiki bin directory.
@@ -144,7 +144,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 
 # **PATH LABEL="Data Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions';title='Validate file permissions. WARNING: this may take a long time on a large system'" CHECK="noemptyok perms:rwDnpd,'(,v|,pfv)$',r" **
 # Topic files store (file path, not URL). For example =/usr/local/foswiki/data=.
-# This directory must not be web accessible. 
+# This directory must not be web accessible.
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
 # **PATH LABEL="Tools Directory" FEEDBACK="icon='ui-icon-check';label='Validate Permissions'; method='validate_permissions'" CHECK="noemptyok perms:rD" **
@@ -429,7 +429,7 @@ $Foswiki::cfg{AuthScripts} =
 $Foswiki::cfg{LegacyRESTSecurity} = $FALSE;
 
 # **REGEX LABEL="Authenticated Scripts Pattern" EXPERT**
-# Regular expression matching the scripts that should be allowed to accept the 
+# Regular expression matching the scripts that should be allowed to accept the
 # =username= and =password= parameters other than the login script. Older
 # versions of Foswiki would accept the username and password parameter on any
 # script. The =login= and =logon= script will always accept the username and
@@ -554,7 +554,7 @@ $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 
 # **BOOLEAN LABEL="Enable Deprecated Empty Deny" EXPERT **
 # Optionally restore the deprecated empty =DENY= ACL behavior.
-# If this setting is enabled, the "Empty" =DENY= ACL is interpreted as 
+# If this setting is enabled, the "Empty" =DENY= ACL is interpreted as
 # "Deny nobody", which is equivalent to "Allow all".
 # It is recommended that this setting remain disabled,  and that
 # these rules be replaced with the  * wildcard on the =ALLOW= setting:
@@ -562,7 +562,7 @@ $Foswiki::cfg{AccessControl} = 'Foswiki::Access::TopicACLAccess';
 #    * Set DENYTOPICVIEW =        Should be replaced with:
 #    * Set ALLOWTOPICVIEW = *
 # </verbatim>
-# See =tools/convertTopicSettings.pl= for a utility to migrate to the 
+# See =tools/convertTopicSettings.pl= for a utility to migrate to the
 # new ACL format.
 $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = $FALSE;
 
@@ -681,7 +681,7 @@ $Foswiki::cfg{Htpasswd}{DetectModification} = $FALSE;
 # manager. This specifies the type of password hash to generate when
 # writing entries to =.htpasswd=. It is also used when reading password
 # entries unless {Htpasswd}{AutoDetect} is enabled.
-# 
+#
 # The choices in order of strongest to lowest strength:
 #    * =(HTTPS)= - Any encoding over an HTTPS SSL connection.
 #      (Not an option here.)
@@ -763,7 +763,7 @@ $Foswiki::cfg{Password} = '';
 # box appears during the user registration process, and is used to tell
 # the User Mapping module whether to map login names to wikinames or not
 # (if it supports mappings, that is).
-# 
+#
 # Note: TopicUserMapping stores the login name in the WikiUsers topic.
 # Changing this value on a system with established users can cause login
 # issues.
@@ -801,7 +801,7 @@ $Foswiki::cfg{Register}{Approvers} = '';
 # will be cleared after this amount of time. The default is 6 hours
 # (21600 seconds).
 #
-# *Note:* By default, registration expiry is done "on the fly" 
+# *Note:* By default, registration expiry is done "on the fly"
 # during the registration process.  For best performance, you can
 # set {Register}{ExpireAfter} to a negative number, which will mean
 # that Foswiki won't try to clean up expired registrations during
@@ -974,20 +974,22 @@ $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 # files that were already uploaded, or files that were created directly
 # on the server.
 #
-$Foswiki::cfg{UploadFilter} = '^((?i)\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]?htm[l]?(\..*)?|pl|py|cgi)?)$';
+$Foswiki::cfg{UploadFilter} =
+'^((?i)\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]?htm[l]?(\..*)?|pl|py|cgi)?)$';
 
 # **REGEX LABEL="Name Filter" EXPERT**
 # Filter-out regex for web names, topic names, usernames,
 # include paths and skin names. This is a filter *out*, so if any of the
 # characters matched by this expression are seen in names, they will be
 # removed.
-$Foswiki::cfg{NameFilter} = '[\s*?~^$@%`"\'&|<:>\[\]#\x00-\x1f]';
+$Foswiki::cfg{NameFilter} = '[\\\\\s*?~^$@%`"\'&|<:;>\[\]#\x00-\x1f]';
 
 # **REGEX LABEL="Attachment Name Filter" EXPERT**
 # Filter-out regex file attachment names. This is a filter *out*, so if any of the
 # characters matched by this expression are seen in an attachment name, they will be
 # removed.
-$Foswiki::cfg{AttachmentNameFilter} = '[*?~^$@%`"\'&|<>\[\]#\x00-\x1f]';
+#$Foswiki::cfg{AttachmentNameFilter} = '[*?~^$@%`"\'&|<>\[\]#\x00-\x1f]';
+$Foswiki::cfg{AttachmentNameFilter} = '[\\\\*?~^$@%`"\'&|<>/\[\]#\x00-\x1f]';
 
 # **BOOLEAN LABEL="Replace Attachment Spaces" EXPERT**
 # Enable this parameter if you want the old behavior of replacing spaces in an attachment filename
@@ -1052,7 +1054,7 @@ $Foswiki::cfg{AccessibleENV} =
 # **PERL LABEL="Accessible Headers" EXPERT**
 # Defines a list of headers that can be accessed by the HTTP and HTTPS macros.
 # Note: These macros are deprecated as of Release 2.1, and will be removed in a future release.
-$Foswiki::cfg{AccessibleHeaders} = ['Accept-Language', 'User-Agent'];
+$Foswiki::cfg{AccessibleHeaders} = [ 'Accept-Language', 'User-Agent' ];
 
 #---++ Proxies
 # Some environments require outbound HTTP traffic to go through a proxy
@@ -1094,7 +1096,7 @@ $Foswiki::cfg{AntiSpam}{EmailPadding} = '';
 # can disable this option. If you prefer to store email addresses directly
 # in user topics, see the TopicUserMapping expert settings under the
 # UserMapping tab.
-# 
+#
 # Note that if this option is set, then the =%USERINFO= macro will only expand
 # the =$wikiname=, =$wikiusername= and =$isgroup= tokens.
 # All other tokens are ignored for non-admin users.
@@ -1103,7 +1105,7 @@ $Foswiki::cfg{AntiSpam}{HideUserDetails} = $TRUE;
 # **BOOLEAN LABEL="Obfuscate Emails"**
 # By default Foswiki will also manipulate e-mail addresses to reduce the
 #  harvesting of e-mail addresses. Foswiki will encode all non-alphanumeric
-# characters to their HTML entity equivalent. for example @ becomes &&lt;nop&gt;#64; 
+# characters to their HTML entity equivalent. for example @ becomes &&lt;nop&gt;#64;
 # This is not completely effective, however it can prevent some primitive
 # spambots from seeing the addresses.
 $Foswiki::cfg{AntiSpam}{EntityEncode} = $TRUE;
@@ -1280,9 +1282,9 @@ $Foswiki::cfg{UserInterfaceInternationalisation} = $FALSE;
 # This can result in a significant performance improvement for I18N,
 # but has also been reported to cause issues on some systems.  So for
 # now this is considered experimental.
-# 
+#
 # Note that if string files are edited, you must re-run configure to recompile
-# modified files.  Disable this option to prevent compiling of string files. 
+# modified files.  Disable this option to prevent compiling of string files.
 #
 # Configure automatically detects out-of-date =.mo= files and recompiles
 # them whenever it is run.  Configure removes =.mo= files when this option
@@ -1306,9 +1308,9 @@ $Foswiki::cfg{UseLocale} = $FALSE;
 # Site-wide locale - used by Foswiki and external programs such as grep, and to
 # specify the language in which content must be presented
 # for the user's web browser.
-# 
+#
 # Note that {Site}{Locale} is ignored unless {UseLocale} is set.
-# 
+#
 # Locale names are not standardised. On Unix/Linux check 'locale -a' on
 # your system to see which locales are supported by your system.
 #
@@ -1317,7 +1319,7 @@ $Foswiki::cfg{UseLocale} = $FALSE;
 # **SELECT gmtime,servertime LABEL="Display Time Values" **
 # Set the timezone (this only effects the display of times,
 # all internal storage is still in GMT). May be gmtime or servertime
-# 
+#
 # This item is also used by configure to test if your perl supports early dates.
 # Foswiki will still work fine on older versions of perl, but wiki
 # applications that use dates somewhere prior to 1970 might encounter issues.
@@ -1417,7 +1419,8 @@ $Foswiki::cfg{Store}{RememberChangesFor} = 2678400;
 # based on plain-text searching). You may be able to select a different
 # algorithm here, depending on what alternative implementations have been
 # installed.
-$Foswiki::cfg{Store}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::BruteForce';
+$Foswiki::cfg{Store}{QueryAlgorithm} =
+  'Foswiki::Store::QueryAlgorithms::BruteForce';
 
 # **SELECTCLASS Foswiki::Prefs::*RAM* LABEL="Preferences Backend" EXPERT**
 # The algorithm used to store preferences. The default algorithm reads
@@ -1481,102 +1484,102 @@ $Foswiki::cfg{Store}{filePermission} = 0644;
 # FormField types. If you install an extension that adds new Form Field types,
 # you need to run configure for them to be registered.
 $Foswiki::cfg{FormTypes} = [
-  {
-    'class' => 'Foswiki::Form::Radio',
-    'multivalued' => 0,
-    'size' => 4,
-    'type' => 'radio'
-  },
-  {
-    'class' => 'Foswiki::Form::Text',
-    'multivalued' => 0,
-    'size' => 10,
-    'type' => 'text'
-  },
-  {
-    'class' => 'Foswiki::Form::Checkbox',
-    'multivalued' => 1,
-    'size' => 4,
-    'type' => 'checkbox'
-  },
-  {
-    'class' => 'Foswiki::Form::Checkbox',
-    'multivalued' => 1,
-    'size' => 4,
-    'type' => 'checkbox+values'
-  },
-  {
-    'class' => 'Foswiki::Form::Color',
-    'multivalued' => 0,
-    'size' => '',
-    'type' => 'color'
-  },
-  {
-    'class' => 'Foswiki::Form::Select',
-    'multivalued' => '',
-    'size' => 1,
-    'type' => 'select'
-  },
-  {
-    'class' => 'Foswiki::Form::Select',
-    'multivalued' => 1,
-    'size' => 1,
-    'type' => 'select+multi'
-  },
-  {
-    'class' => 'Foswiki::Form::Select',
-    'multivalued' => '',
-    'size' => 1,
-    'type' => 'select+values'
-  },
-  {
-    'class' => 'Foswiki::Form::Select',
-    'multivalued' => 1,
-    'size' => 1,
-    'type' => 'select+multi+values'
-  },
-  {
-    'class' => 'Foswiki::Form::Date',
-    'multivalued' => 0,
-    'size' => 20,
-    'type' => 'date'
-  },
-  {
-    'class' => 'Foswiki::Form::Label',
-    'multivalued' => 0,
-    'size' => '',
-    'type' => 'label'
-  },
-  {
-    'class' => 'Foswiki::Form::ListFieldDefinition',
-    'multivalued' => 0,
-    'size' => '',
-    'type' => 'listfielddefinition'
-  },
-  {
-    'class' => 'Foswiki::Form::Rating',
-    'multivalued' => 0,
-    'size' => 4,
-    'type' => 'rating'
-  },
-  {
-    'class' => 'Foswiki::Form::FieldDefinition',
-    'multivalued' => 0,
-    'size' => '',
-    'type' => 'fielddefinition'
-  },
-  {
-    'class' => 'Foswiki::Form::Textarea',
-    'multivalued' => 0,
-    'size' => '',
-    'type' => 'textarea'
-  },
-  {
-    'class' => 'Foswiki::Form::Textboxlist',
-    'multivalued' => 1,
-    'size' => '',
-    'type' => 'textboxlist'
-  }
+    {
+        'class'       => 'Foswiki::Form::Radio',
+        'multivalued' => 0,
+        'size'        => 4,
+        'type'        => 'radio'
+    },
+    {
+        'class'       => 'Foswiki::Form::Text',
+        'multivalued' => 0,
+        'size'        => 10,
+        'type'        => 'text'
+    },
+    {
+        'class'       => 'Foswiki::Form::Checkbox',
+        'multivalued' => 1,
+        'size'        => 4,
+        'type'        => 'checkbox'
+    },
+    {
+        'class'       => 'Foswiki::Form::Checkbox',
+        'multivalued' => 1,
+        'size'        => 4,
+        'type'        => 'checkbox+values'
+    },
+    {
+        'class'       => 'Foswiki::Form::Color',
+        'multivalued' => 0,
+        'size'        => '',
+        'type'        => 'color'
+    },
+    {
+        'class'       => 'Foswiki::Form::Select',
+        'multivalued' => '',
+        'size'        => 1,
+        'type'        => 'select'
+    },
+    {
+        'class'       => 'Foswiki::Form::Select',
+        'multivalued' => 1,
+        'size'        => 1,
+        'type'        => 'select+multi'
+    },
+    {
+        'class'       => 'Foswiki::Form::Select',
+        'multivalued' => '',
+        'size'        => 1,
+        'type'        => 'select+values'
+    },
+    {
+        'class'       => 'Foswiki::Form::Select',
+        'multivalued' => 1,
+        'size'        => 1,
+        'type'        => 'select+multi+values'
+    },
+    {
+        'class'       => 'Foswiki::Form::Date',
+        'multivalued' => 0,
+        'size'        => 20,
+        'type'        => 'date'
+    },
+    {
+        'class'       => 'Foswiki::Form::Label',
+        'multivalued' => 0,
+        'size'        => '',
+        'type'        => 'label'
+    },
+    {
+        'class'       => 'Foswiki::Form::ListFieldDefinition',
+        'multivalued' => 0,
+        'size'        => '',
+        'type'        => 'listfielddefinition'
+    },
+    {
+        'class'       => 'Foswiki::Form::Rating',
+        'multivalued' => 0,
+        'size'        => 4,
+        'type'        => 'rating'
+    },
+    {
+        'class'       => 'Foswiki::Form::FieldDefinition',
+        'multivalued' => 0,
+        'size'        => '',
+        'type'        => 'fielddefinition'
+    },
+    {
+        'class'       => 'Foswiki::Form::Textarea',
+        'multivalued' => 0,
+        'size'        => '',
+        'type'        => 'textarea'
+    },
+    {
+        'class'       => 'Foswiki::Form::Textboxlist',
+        'multivalued' => 1,
+        'size'        => '',
+        'type'        => 'textboxlist'
+    }
 ];
 
 #############################################################################
@@ -1698,12 +1701,12 @@ $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password} = '';
 # ={'System' => ''}=.
 # You can also set =max-age=28800= (for 8 hours), or any other of the
 # =Cache-Control= directives.
-# 
+#
 # Setting the CacheControl to '' also allows you to manage this from your web
 # server (which will not over-ride the setting provided by the application),
 # thus enabling web server based caching policies. When the user receives a
 # browser-cache topic, they can force a refresh using ctrl-r
-# 
+#
 # This hash must be explicitly set per web or sub-web.
 $Foswiki::cfg{BrowserCacheControl} = {};
 
@@ -1726,7 +1729,7 @@ $Foswiki::cfg{HttpCompress} = $FALSE;
 # {MergeHeadAndScriptZones} is provided to maintain compatibility with
 # legacy extensions that use =ADDTOHEAD= to add =script= markup and require
 # content that is now in the =script= zone.
-# 
+#
 # Normally, dependencies between individual =ADDTOZONE= statements are
 # resolved within each zone. However, if {MergeHeadAndScriptZones} is
 # enabled, then =head= content which requires an =id= that only exists
@@ -1801,7 +1804,7 @@ $Foswiki::cfg{WebMasterEmail} = '';
 # provide your gmail email address and password for authentication, and use
 # auto-configuration.
 #
-# After providing a server name, and optional username & password below, press Auto-configure email. If it works, email will be enabled.  You can then send a test email to further verify operation. 
+# After providing a server name, and optional username & password below, press Auto-configure email. If it works, email will be enabled.  You can then send a test email to further verify operation.
 $Foswiki::cfg{SMTP}{MAILHOST} = '';
 
 # **STRING 30 LABEL="SMTP Username" DISPLAY_IF="{SMTP}{MAILHOST}!=''"**
@@ -1879,7 +1882,7 @@ $Foswiki::cfg{SMTP}{SENDERHOST} = '';
 
 # **BOOLEAN LABEL="Enable Verify Server Certificate" \
 #           DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod})" CHECK="iff:'{EnableEmail} && {Email}{MailMethod} =~ /^Net::SMTP/'"**
-# Verify that server's certificate contains the expected hostname when using 
+# Verify that server's certificate contains the expected hostname when using
 # an SSL (or STARTTLS) connection.
 # This verifies the identity of the server to which mail is sent.
 $Foswiki::cfg{Email}{SSLVerifyServer} = $FALSE;
@@ -1980,7 +1983,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 # S/MIME certificate and install it. If you use this option, you will
 # have to arrange for your users' e-mail clients to trust this certificate.
 # This type of certificate is adequate for a small user base and for testing.
-# 
+#
 # *Certificate Authority signed certificates:*
 # The =Generate S/MIME CSR= button is used to create private key and
 # a _Certificate Signing Request_ (CSR) for use by your private Certificate
@@ -2152,12 +2155,12 @@ $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 3600;
 # is still active, they will get a warning. Leases are released
 # automatically when the topic is saved; otherwise they remain active
 # for {LeaseLength} seconds from when the edit started (or was checkpointed).
-# 
+#
 # Note: Leases are *not* locks; they are purely advisory. Leases
 # can always be broken, but they are valuable if you want to avoid merge
 # conflicts (for example you use highly structured data in your topic text and
 # want to avoid ever having to deal with conflicts)
-# 
+#
 # Since Foswiki 1.0.6, Foswiki pages that can be used to POST to the
 # server have a validation key, that must be sent to the server for the
 # post to succeed. These validation keys can only be used once, and expire
@@ -2184,7 +2187,7 @@ $Foswiki::cfg{LeaseLengthLessForceful} = 3600;
 # One of UNIX WINDOWS VMS DOS MACINTOSH OS2
 # This is automatically calculated in the code based on the value of
 # {DetailedOS}. It is used to group OS's into generic groups based on their
-# behaviours - for example, 
+# behaviours - for example,
 #
 # $Foswiki::cfg{OS} = '';
 
@@ -2287,123 +2290,168 @@ $Foswiki::cfg{NotifyTopicName} = 'WebNotify';
 
 # **BOOLEAN LABEL="AutoViewTemplatePlugin"**
 $Foswiki::cfg{Plugins}{AutoViewTemplatePlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="AutoViewTemplatePlugin Module"**
-$Foswiki::cfg{Plugins}{AutoViewTemplatePlugin}{Module} = 'Foswiki::Plugins::AutoViewTemplatePlugin';
+$Foswiki::cfg{Plugins}{AutoViewTemplatePlugin}{Module} =
+  'Foswiki::Plugins::AutoViewTemplatePlugin';
 
 # **BOOLEAN LABEL="CommentPlugin"**
 $Foswiki::cfg{Plugins}{CommentPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="CommentPlugin Module"**
-$Foswiki::cfg{Plugins}{CommentPlugin}{Module} = 'Foswiki::Plugins::CommentPlugin';
+$Foswiki::cfg{Plugins}{CommentPlugin}{Module} =
+  'Foswiki::Plugins::CommentPlugin';
 
 # **BOOLEAN LABEL="CompareRevisionsAddon"**
 $Foswiki::cfg{Plugins}{CompareRevisionsAddonPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="CompareRevisionsAddonPlugin Module"**
-$Foswiki::cfg{Plugins}{CompareRevisionsAddonPlugin}{Module} = 'Foswiki::Plugins::CompareRevisionsAddonPlugin';
+$Foswiki::cfg{Plugins}{CompareRevisionsAddonPlugin}{Module} =
+  'Foswiki::Plugins::CompareRevisionsAddonPlugin';
 
 # **BOOLEAN LABEL="ConfigurePlugin"**
 $Foswiki::cfg{Plugins}{ConfigurePlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="ConfigurePlugin Module"**
-$Foswiki::cfg{Plugins}{ConfigurePlugin}{Module} = 'Foswiki::Plugins::ConfigurePlugin';
+$Foswiki::cfg{Plugins}{ConfigurePlugin}{Module} =
+  'Foswiki::Plugins::ConfigurePlugin';
 
 # **BOOLEAN LABEL="EditRowPlugin"**
 $Foswiki::cfg{Plugins}{EditRowPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="EditRowPlugin Module"**
-$Foswiki::cfg{Plugins}{EditRowPlugin}{Module} = 'Foswiki::Plugins::EditRowPlugin';
+$Foswiki::cfg{Plugins}{EditRowPlugin}{Module} =
+  'Foswiki::Plugins::EditRowPlugin';
 
 # **BOOLEAN LABEL="EditTablePlugin"**
 $Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled} = 0;
+
 # **STRING EXPERT LABEL="EditTablePlugin Module"**
-$Foswiki::cfg{Plugins}{EditTablePlugin}{Module} = 'Foswiki::Plugins::EditTablePlugin';
+$Foswiki::cfg{Plugins}{EditTablePlugin}{Module} =
+  'Foswiki::Plugins::EditTablePlugin';
 
 # **BOOLEAN LABEL="HistoryPlugin"**
 $Foswiki::cfg{Plugins}{HistoryPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="HistoryPlugin Module"**
-$Foswiki::cfg{Plugins}{HistoryPlugin}{Module} = 'Foswiki::Plugins::HistoryPlugin';
+$Foswiki::cfg{Plugins}{HistoryPlugin}{Module} =
+  'Foswiki::Plugins::HistoryPlugin';
 
 # **BOOLEAN LABEL="HomePagePlugin"**
 $Foswiki::cfg{Plugins}{HomePagePlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="HomePagePlugin Module"**
-$Foswiki::cfg{Plugins}{HomePagePlugin}{Module} = 'Foswiki::Plugins::HomePagePlugin';
+$Foswiki::cfg{Plugins}{HomePagePlugin}{Module} =
+  'Foswiki::Plugins::HomePagePlugin';
 
 # **BOOLEAN LABEL="InterwikiPlugin"**
 $Foswiki::cfg{Plugins}{InterwikiPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="InterwikiPlugin Module"**
-$Foswiki::cfg{Plugins}{InterwikiPlugin}{Module} = 'Foswiki::Plugins::InterwikiPlugin';
+$Foswiki::cfg{Plugins}{InterwikiPlugin}{Module} =
+  'Foswiki::Plugins::InterwikiPlugin';
 
 # **BOOLEAN LABEL="JQueryPlugin"**
 $Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="JQueryPlugin Module"**
 $Foswiki::cfg{Plugins}{JQueryPlugin}{Module} = 'Foswiki::Plugins::JQueryPlugin';
 
 # **BOOLEAN LABEL="MailerContribPlugin"**
 $Foswiki::cfg{Plugins}{MailerContribPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="MailerContribPlugin Module"**
-$Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} = 'Foswiki::Plugins::MailerContribPlugin';
+$Foswiki::cfg{Plugins}{MailerContribPlugin}{Module} =
+  'Foswiki::Plugins::MailerContribPlugin';
 
 # **BOOLEAN LABEL="NatEditPlugin"**
 $Foswiki::cfg{Plugins}{NatEditPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="NatEditPlugin Module"**
-$Foswiki::cfg{Plugins}{NatEditPlugin}{Module} = 'Foswiki::Plugins::NatEditPlugin';
+$Foswiki::cfg{Plugins}{NatEditPlugin}{Module} =
+  'Foswiki::Plugins::NatEditPlugin';
 
 # **BOOLEAN LABEL="PreferencesPlugin"
 $Foswiki::cfg{Plugins}{PreferencesPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="PreferencesPlugin Module"**
-$Foswiki::cfg{Plugins}{PreferencesPlugin}{Module} = 'Foswiki::Plugins::PreferencesPlugin';
+$Foswiki::cfg{Plugins}{PreferencesPlugin}{Module} =
+  'Foswiki::Plugins::PreferencesPlugin';
 
 # **BOOLEAN LABEL="RenderListPlugin"**
 $Foswiki::cfg{Plugins}{RenderListPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="RenderListPlugin Module"**
-$Foswiki::cfg{Plugins}{RenderListPlugin}{Module} = 'Foswiki::Plugins::RenderListPlugin';
+$Foswiki::cfg{Plugins}{RenderListPlugin}{Module} =
+  'Foswiki::Plugins::RenderListPlugin';
 
 # **BOOLEAN LABEL="SlideShowPlugin"**
 $Foswiki::cfg{Plugins}{SlideShowPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="SlideShowPlugin Module"**
-$Foswiki::cfg{Plugins}{SlideShowPlugin}{Module} = 'Foswiki::Plugins::SlideShowPlugin';
+$Foswiki::cfg{Plugins}{SlideShowPlugin}{Module} =
+  'Foswiki::Plugins::SlideShowPlugin';
 
 # **BOOLEAN LABEL="SmiliesPlugin"
 $Foswiki::cfg{Plugins}{SmiliesPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="SmiliesPlugin Module"**
-$Foswiki::cfg{Plugins}{SmiliesPlugin}{Module} = 'Foswiki::Plugins::SmiliesPlugin';
+$Foswiki::cfg{Plugins}{SmiliesPlugin}{Module} =
+  'Foswiki::Plugins::SmiliesPlugin';
 
 # **BOOLEAN LABEL="SpreadSheetPlugin"**
 $Foswiki::cfg{Plugins}{SpreadSheetPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="SpreadSheetPlugin Module"**
-$Foswiki::cfg{Plugins}{SpreadSheetPlugin}{Module} = 'Foswiki::Plugins::SpreadSheetPlugin';
+$Foswiki::cfg{Plugins}{SpreadSheetPlugin}{Module} =
+  'Foswiki::Plugins::SpreadSheetPlugin';
 
 # **BOOLEAN LABEL="SubscribePlugin"**
 $Foswiki::cfg{Plugins}{SubscribePlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="SubscribePlugin Module"**
-$Foswiki::cfg{Plugins}{SubscribePlugin}{Module} = 'Foswiki::Plugins::SubscribePlugin';
+$Foswiki::cfg{Plugins}{SubscribePlugin}{Module} =
+  'Foswiki::Plugins::SubscribePlugin';
 
 # **BOOLEAN LABEL="TablePlugin"**
 $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="TablePlugin Module"**
-$Foswiki::cfg{Plugins}{TablePlugin}{Module}  = 'Foswiki::Plugins::TablePlugin';
+$Foswiki::cfg{Plugins}{TablePlugin}{Module} = 'Foswiki::Plugins::TablePlugin';
 
 # **BOOLEAN LABEL="TinyMCEPlugin"**
 $Foswiki::cfg{Plugins}{TinyMCEPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="TinyMCEPlugin Module"**
-$Foswiki::cfg{Plugins}{TinyMCEPlugin}{Module} = 'Foswiki::Plugins::TinyMCEPlugin';
+$Foswiki::cfg{Plugins}{TinyMCEPlugin}{Module} =
+  'Foswiki::Plugins::TinyMCEPlugin';
 
 # **BOOLEAN LABEL="TWikiCompatibilityPlugin"**
 $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 0;
+
 # **STRING EXPERT LABEL="TWikiCompatibilityPlugin Module"**
-$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} = 'Foswiki::Plugins::TWikiCompatibilityPlugin';
+$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} =
+  'Foswiki::Plugins::TWikiCompatibilityPlugin';
 
 # **BOOLEAN LABEL="TwistyPlugin"**
 $Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="TwistyPlugin Module"**
 $Foswiki::cfg{Plugins}{TwistyPlugin}{Module} = 'Foswiki::Plugins::TwistyPlugin';
 
 # **BOOLEAN LABEL="UpdatesPlugin"**
 $Foswiki::cfg{Plugins}{UpdatesPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="UpdatesPlugin Module"**
-$Foswiki::cfg{Plugins}{UpdatesPlugin}{Module} = 'Foswiki::Plugins::UpdatesPlugin';
+$Foswiki::cfg{Plugins}{UpdatesPlugin}{Module} =
+  'Foswiki::Plugins::UpdatesPlugin';
 
 # **BOOLEAN LABEL="WysiwygPlugin"**
 $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
+
 # **STRING EXPERT LABEL="WysiwygPlugin Module"**
-$Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} = 'Foswiki::Plugins::WysiwygPlugin';
+$Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} =
+  'Foswiki::Plugins::WysiwygPlugin';
 
 #---+++ Install, Update or Remove extensions
 # **STRING 80 LABEL="Extensions Repositories"\
@@ -2463,7 +2511,8 @@ $Foswiki::cfg{ExtensionsRepositories} =
 # plugins in the TWiki and Foswiki libraries are reported here.  Also if a
 # TWiki plugin is enabled and the Foswik version is installed, this will
 # also be reported here.
-$Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin,SlideShowPlugin';
+$Foswiki::cfg{PluginsOrder} =
+  'TWikiCompatibilityPlugin,SpreadSheetPlugin,SlideShowPlugin';
 
 # **STRING 80 LABEL="Plugins Search Path" EXPERT**
 # Search path (web names) for plugin topics. Note that the current web

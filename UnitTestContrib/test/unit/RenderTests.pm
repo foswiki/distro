@@ -1,77 +1,75 @@
-use strict;
 
 package RenderTests;
-
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki;
 
-sub set_up {
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
+
+around set_up => sub {
+    my $orig = shift;
     my ($this) = shift;
-    $this->SUPER::set_up(@_);
+    $orig->( $this, @_ );
 
     my $timestamp = time();
 
-    my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'OkTopic' );
+    my ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'OkTopic' );
     $topicObject->text("BLEEGLE blah/matchme.blah");
     $topicObject->save( forcedate => $timestamp + 120 );
     $topicObject->finish();
-    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'OkATopic' );
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'OkATopic' );
     $topicObject->text("BLEEGLE dontmatchme.blah");
     $topicObject->save( forcedate => $timestamp + 240 );
     $topicObject->finish();
-    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'OkBTopic' );
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'OkBTopic' );
     $topicObject->text("BLEEGLE dont.matchmeblah");
     $topicObject->save( forcedate => $timestamp + 480 );
     $topicObject->finish();
 
-    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'LunchLink' );
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'LunchLink' );
     $topicObject->text("BLEEGLE [[Lunch'Link]] dont.matchmeblah");
     $topicObject->save( forcedate => $timestamp + 480 );
     $topicObject->finish();
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'OneSingleQuote' );
+      Foswiki::Func::readTopic( $this->test_web, 'OneSingleQuote' );
     $topicObject->text("BLEEGLE [[OkBTopic][Lunch'nLearn]] dont.matchmeblah");
     $topicObject->save( forcedate => $timestamp + 480 );
     $topicObject->finish();
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'OneDoubleQuote' );
+      Foswiki::Func::readTopic( $this->test_web, 'OneDoubleQuote' );
     $topicObject->text('BLEEGLE [[OkBTopic][Lunch"nLearn]] dont.matchmeblah');
     $topicObject->save( forcedate => $timestamp + 480 );
     $topicObject->finish();
 
-    ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'SingleQuote' );
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'SingleQuote' );
     $topicObject->text("BLEEGLE [[OkBTopic][Lunch'n'Learn]] dont.matchmeblah");
     $topicObject->save( forcedate => $timestamp + 480 );
     $topicObject->finish();
 
-    ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'DoubleQuote' );
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'DoubleQuote' );
     $topicObject->text('BLEEGLE [[OkBTopic][Lunch"n"Learn]] dont.matchmeblah');
     $topicObject->save( forcedate => $timestamp + 480 );
     $topicObject->finish();
 
-    ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'NoTopicLink' );
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'NoTopicLink' );
     $topicObject->text(
         "BLEEGLE [[LunchNLearn][Lunch n Learn]] dont.matchmeblah");
     $topicObject->save( forcedate => $timestamp + 480 );
     $topicObject->finish();
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'QuoteNoTopicLink' );
+      Foswiki::Func::readTopic( $this->test_web, 'QuoteNoTopicLink' );
     $topicObject->text(
         "BLEEGLE [[LunchNLearn][Lunch'n'Learn]] dont.matchmeblah");
     $topicObject->save( forcedate => $timestamp + 480 );
     $topicObject->finish();
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(<<'HERE');
    1 OkTopic
    2 [[OkATopic]]
@@ -102,31 +100,33 @@ HERE
 
     #give us a new session so the prefs are re-loaded
     my $query = Unit::Request->new( initializer => '' );
-    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
     $this->createNewFoswikiSession( undef, $query );
 
     #need to be in view script context for tooltips to be processed.
     Foswiki::Func::getContext()->{view} = 1;
 
-}
+};
 
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;    # the Test::Unit::TestCase object
 
-    $this->SUPER::tear_down(@_);
+    $orig->($this);
 
     # Remove fixtures created in set_up
     # Do *not* leave fixtures lying around!
     # See EmptyTests for an example
-}
+};
 
 sub test_TOOLTIPS_on {
     my $this = shift;
 
     my $scriptUrlPath =
-      Foswiki::Func::getScriptUrlPath( $this->{test_web}, $this->{test_topic},
+      Foswiki::Func::getScriptUrlPath( $this->test_web, $this->test_topic,
         'view' );
-    $scriptUrlPath =~ s/$this->{test_topic}//;
+    my $test_topic = $this->test_topic;
+    $scriptUrlPath =~ s/$test_topic//;
 
     my $expected = <<"HERE";
  <ol>
@@ -158,12 +158,12 @@ sub test_TOOLTIPS_on {
 HERE
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     my $linktooltipinfo = $topicObject->getPreference('LINKTOOLTIPINFO');
     $this->assert_str_equals( 'on', $linktooltipinfo );
 
     my $sessionlinktooltipinfo =
-      $this->{session}->{prefs}->getPreference('LINKTOOLTIPINFO');
+      $this->session->prefs->getPreference('LINKTOOLTIPINFO');
     $this->assert_str_equals( 'on', $sessionlinktooltipinfo );
 
     my $ex1 = Foswiki::Func::expandCommonVariables(
@@ -187,7 +187,7 @@ sub test_TOOLTIPS_on_space {
     my $this = shift;
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(<<'HERE');
    1 OkTopic
    2 [[OkATopic]]
@@ -202,25 +202,26 @@ HERE
 
     #give us a new session so the prefs are re-loaded
     my $query = Unit::Request->new( initializer => '' );
-    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
     $this->createNewFoswikiSession( undef, $query );
 
     #need to be in view script context for tooltips to be processed.
     Foswiki::Func::getContext()->{view} = 1;
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     my $linktooltipinfo = $topicObject->getPreference('LINKTOOLTIPINFO');
     $this->assert_str_equals( 'on ', $linktooltipinfo );
 
     my $sessionlinktooltipinfo =
-      $this->{session}->{prefs}->getPreference('LINKTOOLTIPINFO');
+      $this->session->prefs->getPreference('LINKTOOLTIPINFO');
     $this->assert_str_equals( 'on ', $sessionlinktooltipinfo );
 
     my $scriptUrlPath =
-      Foswiki::Func::getScriptUrlPath( $this->{test_web}, $this->{test_topic},
+      Foswiki::Func::getScriptUrlPath( $this->test_web, $this->test_topic,
         'view' );
-    $scriptUrlPath =~ s/$this->{test_topic}//;
+    my $test_topic = $this->test_topic;
+    $scriptUrlPath =~ s/$test_topic//;
 
     my $ex1 = Foswiki::Func::expandCommonVariables(
         $topicObject->text(), $topicObject->topic,
@@ -271,18 +272,18 @@ sub test_TOOLTIPS_other_topic_context {
     Foswiki::Func::getContext()->{view} = 1;
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     my $linktooltipinfo = $topicObject->getPreference('LINKTOOLTIPINFO');
     $this->assert_str_equals( 'on', $linktooltipinfo );
 
     my $sessionlinktooltipinfo =
-      $this->{session}->{prefs}->getPreference('LINKTOOLTIPINFO');
+      $this->session->prefs->getPreference('LINKTOOLTIPINFO');
     $this->assert_str_equals( 'off', $sessionlinktooltipinfo );
 
     my $scriptUrl =
-      Foswiki::Func::getScriptUrl( $this->{test_web}, $this->{test_topic},
-        'view' );
-    $scriptUrl =~ s/$this->{test_topic}//;
+      Foswiki::Func::getScriptUrl( $this->test_web, $this->test_topic, 'view' );
+    my $test_topic = $this->test_topic;
+    $scriptUrl =~ s/$test_topic//;
 
     my $ex1 = Foswiki::Func::expandCommonVariables(
         $topicObject->text(), $topicObject->topic,
@@ -345,7 +346,7 @@ Some other text
 TOPIC
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text($topicText);
 
     my $rendered =
@@ -397,13 +398,13 @@ Some other text
 TOPIC
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text($topicText);
 
     my $scriptUrl =
-      Foswiki::Func::getScriptUrl( $this->{test_web}, $this->{test_topic},
-        'view' );
-    $scriptUrl =~ s/\/$this->{test_topic}//;    # Remove the topic
+      Foswiki::Func::getScriptUrl( $this->test_web, $this->test_topic, 'view' );
+    my $test_topic = $this->test_topic;
+    $scriptUrl =~ s/\/$test_topic//;    # Remove the topic
 
     my $expanded = Foswiki::Func::expandCommonVariables(
         $topicObject->text(), $topicObject->topic,

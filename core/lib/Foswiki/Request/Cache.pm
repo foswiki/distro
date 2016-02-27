@@ -43,9 +43,6 @@ Construct a new request cache.
 
 =cut
 
-sub finish {
-}
-
 =begin TML
 
 ---++ ObjectMethod save( $request ) -> $uid
@@ -260,7 +257,7 @@ sub _loadUpload {
     $info->{tmpname} .= '_' while ( -e $info->{tmpname} );
 
     # Construct the new object, and move the data file into place
-    my $upload = Foswiki::Request::Upload->(%$info);
+    my $upload = Foswiki::Request::Upload->new(%$info);
     File::Copy::move( $dfn, $upload->tmpFileName ) if ( -e $dfn );
 
     return $upload;

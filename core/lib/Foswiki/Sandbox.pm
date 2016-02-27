@@ -27,11 +27,12 @@ the function or parameter.
 =cut
 
 package Foswiki::Sandbox;
+use v5.14;
 
 use strict;
 use warnings;
 use Assert;
-use Error qw( :try );
+use Try::Tiny;
 use Encode;
 
 use File::Spec ();
@@ -322,14 +323,14 @@ sub sanitizeAttachmentName {
         && $fileName =~ m/[^[:ascii:]]+/ )
     {
         try {
-            require Foswiki::Store;
+            Foswiki::load_package('Foswiki::Store');
             my $encoded = Foswiki::Store::encode( $fileName, 1 );
         }
-        catch Error with {
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'unsupported_filename',
-                params => [
+        catch {
+            Foswiki::OopsException->throw(
+                template => 'attention',
+                def      => 'unsupported_filename',
+                params   => [
                     ( "$fileName", $Foswiki::cfg{Store}{Encoding} || 'utf-8' )
                 ]
             );

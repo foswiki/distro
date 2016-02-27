@@ -697,7 +697,7 @@ sub captureSTD {
         $result = &$proc(@params);
     }
     catch {
-        Foswiki::Exception->rethrow($_);
+        Foswiki::Exception::Fatal->rethrow($_);
     }
     finally {
         my $f;

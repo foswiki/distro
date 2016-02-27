@@ -1,49 +1,63 @@
 # Copyright (C) 2004 Florian Weimer
 package RobustnessTests;
-require 5.008;
-use strict;
-use warnings;
+use v5.14;
 use utf8;    # For test_sanitizeAttachmentNama_unicode
 
-use FoswikiTestCase();
-our @ISA = qw( FoswikiTestCase );
+BEGIN {
+    use locale;
+}
 
 use Foswiki();
 use Foswiki::Sandbox();
 use Foswiki::Time();
-use Error qw( :try );
+use Try::Tiny;
+use POSIX qw(locale_h);
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiTestCase );
 
 my $slash = ( $^O eq 'MSWin32' ) ? '\\' : '/';
 
-sub new {
-    my ( $class, @args ) = @_;
-    my $this = $class->SUPER::new(@args);
+has request => (
+    is => 'rw',
+    isa =>
+      Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request', noUndef => 1 )
+);
+has response => (
+    is => 'rw',
+    isa =>
+      Foswiki::Object::isaCLASS( 'request', 'Foswiki::Response', noUndef => 1 )
+);
 
-    $this->{test_web}   = 'Temporary' . $class . 'TestWeb';
-    $this->{test_topic} = 'TestTopic' . $class;
-
-    return $this;
+sub BUILD {
+    my $this  = shift;
+    my $class = ref($this);
+    $this->test_web( 'Temporary' . $class . 'TestWeb' );
+    $this->test_topic( 'TestTopic' . $class );
 }
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
+    $this->__EnvReset->{$_} = 'C' foreach grep { /(?:^LANG$|^LC_)/ } keys %ENV;
+    $Foswiki::cfg{Site}{Locale} = 'en_US.UTF-8';
     $this->createNewFoswikiSession();
     Foswiki::Sandbox::_assessPipeSupport();
+};
 
-    return;
-}
-
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
 
     # NOTE: this test pokes globals in the sandbox, so we have to be extra
     # careful about restoring state.
     Foswiki::Sandbox::_assessPipeSupport();
-    $this->SUPER::tear_down();
+    $orig->($this);
 
     return;
-}
+};
 
 sub test_untaintUnchecked {
     my $this = shift;
@@ -138,11 +152,11 @@ sub test_filterTopicName {
 
     # This is the list of characters that should be munched out from Topic names
     my $expecthex =
-'\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f "#$%&\'*:;<>?@[\]^`|~';
+'\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f "#$%&\'*:;<>?@[\]^`|~\x85\xa0';
     $this->assert_str_equals( $expecthex, $hex,
 "Expected: ($expecthex)\n     Got: ($hex)\nHas {AttachmentNameFilter} changed?"
     );
-    $this->assert_num_equals( 53, length($crap) );
+    $this->assert_num_equals( 55, length($crap) );
 
     return;
 }
@@ -172,7 +186,7 @@ sub test_sanitizeAttachmentName {
 
 # This is the list of characters that should be munched out from Attachment names
     my $expecthex =
-'\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f"#$%&\'*;<>?@[\]^`|~';
+'\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f"#$%&\'*/<>?@[\]^`|~';
     $this->assert_str_equals( $expecthex, $hex,
 "Expected: ($expecthex)\n     Got: ($hex)\nHas {AttachmentNameFilter} changed?"
     );
@@ -183,7 +197,7 @@ sub test_sanitizeAttachmentName {
     my %junkset = (
         '<script>'       => 'script',
         '%3cscript%3e'   => '3cscript3e',
-        '&lt;script&gt;' => 'ltscriptgt',
+        '&lt;script&gt;' => 'lt;scriptgt;',
         '"foo"'          => 'foo',
         "'foo'"          => 'foo',
         "foo\x00foo"     => 'foofoo',          # C0 Control
@@ -191,7 +205,7 @@ sub test_sanitizeAttachmentName {
         "foo\x1ffoo"     => 'foofoo',          # C0 Control
         "\xe2cret\xe9"   => "\xe2cret\xe9",    # cf. acrete - 'âcreté'
         '片仮名'      => '片仮名',
-        'var a = { b : !(1 - 2 + 3) };' => 'var a = { b : !(1 - 2 + 3) }',
+        'var a = { b : !(1 - 2 + 3) };' => 'var a = { b : !(1 - 2 + 3) };',
 
         #'var a = { b : !(1 - 2 + 3) };' => 'var_a___b_:_1__2__3_',
         #"foo\x7ffoo" => 'foofoo', # C1 Control
@@ -272,13 +286,13 @@ sub test_sanitizeAttachmentName_unicode {
     $Foswiki::cfg{Store}{Encoding} = 'utf-8';
     require Unit::Request;
     $query = Unit::Request->new( initializer => "" );
-    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
     $this->createNewFoswikiSession( undef, $query );
-    $this->{request}  = $query;
-    $this->{response} = Unit::Response->new();
-    ( $this->{test_topicObject} ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
-    $this->{test_topicObject}->text("BLEEGLE\n");
+    $this->request($query);
+    $this->response( Unit::Response->new );
+    $this->test_topicObject(
+        ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )[0] );
+    $this->test_topicObject->text("BLEEGLE\n");
     my ($sanitized) = Foswiki::Func::sanitizeAttachmentName($uniname);
 
     # Fails without Foswikirev:12780
@@ -378,7 +392,7 @@ sub test_buildCommandLine {
     $this->assert( !$result );
     my $caught = 0;
     try { Foswiki::Sandbox::_buildCommandLine( ' %A|N%  ', A => '2/3' ); 1; }
-    otherwise {
+    catch {
         $caught += 1;
     };
     $this->assert_num_equals( 1, $caught );

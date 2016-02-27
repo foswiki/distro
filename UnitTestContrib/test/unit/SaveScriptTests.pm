@@ -1,14 +1,14 @@
 package SaveScriptTests;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki();
 use Foswiki::UI::Save();
 use Unit::Request();
-use Error qw( :try );
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 my $UI_FN;
 
@@ -60,11 +60,10 @@ HERE
 
 #"
 
-sub new {
-    my ( $class, @args ) = @_;
-
-    return $class->SUPER::new( 'Save', @args );
-}
+around BUILDARGS => sub {
+    my $orig = shift;
+    $orig->( @_, testSuite => 'Save' );
+};
 
 sub skip {
     my ( $this, $test ) = @_;
@@ -83,58 +82,70 @@ sub skip {
     );
 }
 
+has test_user_2_forename => ( is => 'rw', );
+has test_user_2_surname  => ( is => 'rw', );
+has test_user_2_wikiname => ( is => 'rw', );
+has test_user_2_login    => ( is => 'rw', );
+has test_user_2_email    => ( is => 'rw', );
+has test_user_3_forename => ( is => 'rw', );
+has test_user_3_surname  => ( is => 'rw', );
+has test_user_3_wikiname => ( is => 'rw', );
+has test_user_3_login    => ( is => 'rw', );
+has test_user_3_email    => ( is => 'rw', );
+
 # Set up the test fixture
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
     $UI_FN ||= $this->getUIFn('save');
 
-    $this->{test_user_2_forename} = 'Buck';
-    $this->{test_user_2_surname}  = 'Rogers';
-    $this->{test_user_2_wikiname} =
-      $this->{test_user_forename} . $this->{test_user_surname};
-    $this->{test_user_2_login} = 'buck';
-    $this->{test_user_2_email} = 'rogers@example.com';
+    $this->test_user_2_forename('Buck');
+    $this->test_user_2_surname('Rogers');
+    $this->test_user_2_wikiname(
+        $this->test_user_forename . $this->test_user_surname );
+    $this->test_user_2_login('buck');
+    $this->test_user_2_email('rogers@example.com');
     $this->registerUser(
-        $this->{test_user_2_login},   $this->{test_user_2_forename},
-        $this->{test_user_2_surname}, $this->{test_user_2_email}
+        $this->test_user_2_login,   $this->test_user_2_forename,
+        $this->test_user_2_surname, $this->test_user_2_email
     );
 
-    $this->{test_user_3_forename} = 'Duck';
-    $this->{test_user_3_surname}  = 'Dodgers';
-    $this->{test_user_3_wikiname} =
-      $this->{test_user_3_forename} . $this->{test_user_3_surname};
-    $this->{test_user_3_login} = 'duck';
-    $this->{test_user_3_email} = 'dodgers@example.com';
+    $this->test_user_3_forename('Duck');
+    $this->test_user_3_surname('Dodgers');
+    $this->test_user_3_wikiname(
+        $this->test_user_3_forename . $this->test_user_3_surname );
+    $this->test_user_3_login('duck');
+    $this->test_user_3_email('dodgers@example.com');
     $this->registerUser(
-        $this->{test_user_3_login},   $this->{test_user_3_forename},
-        $this->{test_user_3_surname}, $this->{test_user_3_email}
+        $this->test_user_3_login,   $this->test_user_3_forename,
+        $this->test_user_3_surname, $this->test_user_3_email
     );
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'TestForm1' );
+      Foswiki::Func::readTopic( $this->test_web, 'TestForm1' );
     $topicObject->text($testform1);
     $topicObject->save();
     $topicObject->finish();
 
-    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'TestForm2' );
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'TestForm2' );
     $topicObject->text($testform2);
     $topicObject->save();
     $topicObject->finish();
 
-    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'TestForm3' );
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'TestForm3' );
     $topicObject->text($testform3);
     $topicObject->save();
     $topicObject->finish();
 
-    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'TestForm4' );
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'TestForm4' );
     $topicObject->text($testform4);
     $topicObject->save();
     $topicObject->finish();
 
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web},
+      Foswiki::Func::readTopic( $this->test_web,
         $Foswiki::cfg{WebPrefsTopicName} );
     $topicObject->text(<<'CONTENT');
    * Set WEBFORMS = TestForm1,TestForm2,TestForm3,TestForm4
@@ -144,7 +155,7 @@ CONTENT
     $topicObject->finish();
 
     return;
-}
+};
 
 # AUTOINC
 sub test_AUTOINC {
@@ -155,16 +166,16 @@ sub test_AUTOINC {
             text   => ['nowt'],
         }
     );
-    $query->path_info( '/' . $this->{test_web} . '.TestAutoAUTOINC00' );
+    $query->path_info( '/' . $this->test_web . '.TestAutoAUTOINC00' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my %old;
-    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         $old{$t} = 1;
     }
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     my $seen = 0;
-    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         if ( $t eq 'TestAuto00' ) {
             $seen = 1;
         }
@@ -174,10 +185,10 @@ sub test_AUTOINC {
     }
     $this->assert($seen);
     $query->method('pOsT');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     $seen = 0;
-    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
 
         if ( $t =~ m/^TestAuto0[01]$/ ) {
             $seen++;
@@ -200,15 +211,15 @@ sub test_XXXXXXXXXX {
             text   => ['nowt'],
         }
     );
-    $query->path_info( '/' . $this->{test_web} . '.TestTopicXXXXXXXXXX' );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $query->path_info( '/' . $this->test_web . '.TestTopicXXXXXXXXXX' );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my %old;
-    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         $old{$t} = 1;
     }
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     my $seen = 0;
-    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         if ( $t eq 'TestTopic0' ) {
             $seen = 1;
         }
@@ -217,10 +228,10 @@ sub test_XXXXXXXXXX {
         }
     }
     $this->assert($seen);
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     $seen = 0;
-    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         if ( $t =~ m/^TestTopic[01]$/ ) {
             $seen++;
         }
@@ -242,19 +253,19 @@ sub test_XXXXXXXXX {
             text   => ['nowt'],
         }
     );
-    $query->path_info("/$this->{test_web}/TestTopicXXXXXXXXX");
+    $query->path_info( "/" . $this->test_web . "/TestTopicXXXXXXXXX" );
     $this->assert(
-        !$this->{session}->topicExists( $this->{test_web}, 'TestTopic0' ) );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+        !$this->session->topicExists( $this->test_web, 'TestTopic0' ) );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my %old;
-    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         $old{$t} = 1;
     }
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     $this->assert(
-        !$this->{session}->topicExists( $this->{test_web}, 'TestTopic0' ) );
+        !$this->session->topicExists( $this->test_web, 'TestTopic0' ) );
     my $seen = 0;
-    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         if ( $t eq 'TestTopicXXXXXXXXX' ) {
             $seen = 1;
         }
@@ -276,15 +287,15 @@ sub test_XXXXXXXXXXX {
             text   => ['nowt'],
         }
     );
-    $query->path_info("/$this->{test_web}/TestTopicXXXXXXXXXXX");
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $query->path_info( "/" . $this->test_web . "/TestTopicXXXXXXXXXXX" );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my %old;
-    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         $old{$t} = 1;
     }
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     my $seen = 0;
-    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         if ( $t eq 'TestTopic0' ) {
             $seen = 1;
         }
@@ -302,13 +313,13 @@ sub test_emptySave {
     my $query = Unit::Request->new(
         initializer => {
             action => ['save'],
-            topic  => [ $this->{test_web} . '.EmptyTestSaveScriptTopic' ]
+            topic  => [ $this->test_web . '.EmptyTestSaveScriptTopic' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'EmptyTestSaveScriptTopic' );
+      Foswiki::Func::readTopic( $this->test_web, 'EmptyTestSaveScriptTopic' );
     my $text = $meta->text;
     $this->assert_matches( qr/^\s*$/, $text );
     $this->assert_null( $meta->get('FORM') );
@@ -318,7 +329,8 @@ sub test_emptySave {
 }
 
 sub test_simpleTextPreview {
-    my $this  = shift;
+    my $this = shift;
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     my $query = Unit::Request->new(
         initializer => {
             text => [<<HERE],
@@ -326,17 +338,17 @@ CUT##
 <a href="blah.com">no target</a>
 <a href='bloo.com' target=_self>self undelim</a>
 <a href='blerg.com' target='_self' asdf="what">self SQ</a>
-[[$this->{test_web}.$this->{test_topic}]]
+[[$test_web.$test_topic]]
 <a href='blerg.com' target="your'_self'" asdf="what">messed up</a>
 ##CUT
 HERE
             action => ['preview'],
-            topic  => [ $this->{test_web} . '.DeleteTestSaveScriptTopic' ]
+            topic  => [ $this->test_web . '.DeleteTestSaveScriptTopic' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my ( $results, $stdout, $stderr ) =
-      $this->captureWithKey( save => $UI_FN, $this->{session} );
+      $this->captureWithKey( save => $UI_FN, $this->session );
 
     $results =~ s/.*CUT##(.*?)##CUT.*/$1/ms;
 
@@ -344,7 +356,7 @@ HERE
 <a target="_blank" href="blah.com">no target</a>
 <a href='bloo.com' target="_blank">self undelim</a>
 <a href='blerg.com' target="_blank" asdf="what">self SQ</a>
-<a target="_blank" href="$Foswiki::cfg{ScriptUrlPaths}{view}/$this->{test_web}/$this->{test_topic}">$this->{test_web}.$this->{test_topic}</a>
+<a target="_blank" href="$Foswiki::cfg{ScriptUrlPaths}{view}/$test_web/$test_topic">$test_web.$test_topic</a>
 <a href='blerg.com' target="_blank" asdf="what">messed up</a>
 HERE
     $this->assert( !$stdout );
@@ -359,14 +371,13 @@ sub test_simpleTextSave {
         initializer => {
             text   => ['CORRECT'],
             action => ['save'],
-            topic  => [ $this->{test_web} . '.DeleteTestSaveScriptTopic' ]
+            topic  => [ $this->test_web . '.DeleteTestSaveScriptTopic' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web},
-        'DeleteTestSaveScriptTopic' );
+      Foswiki::Func::readTopic( $this->test_web, 'DeleteTestSaveScriptTopic' );
     my $text = $meta->text;
     $this->assert_matches( qr/CORRECT/, $text );
     $this->assert_null( $meta->get('FORM') );
@@ -381,41 +392,42 @@ sub test_simpleTextSaveDeniedWebCHANGE {
         initializer => {
             text   => ['CORRECT'],
             action => ['save'],
-            topic  => [ $this->{test_web} . '.DeleteTestSaveScriptTopic3' ]
+            topic  => [ $this->test_web . '.DeleteTestSaveScriptTopic3' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_3_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_3_login, $query );
 
     my $exception;
     try {
-        $this->captureWithKey( save => $UI_FN, $this->{session} );
+        $this->captureWithKey( save => $UI_FN, $this->session );
     }
-    catch Foswiki::OopsException with {
-        $exception = shift;
-        if (   ( "attention" eq $exception->{template} )
-            && ( "thanks" eq $exception->{def} ) )
-        {
-            print STDERR "---------" . $exception->stringify() . "\n"
-              if ($Error::Debug);
-            $exception = undef;    #the only correct answer
+    catch {
+        $exception = $_;
+        if ( ref($exception) ) {
+            if ( $exception->isa('Foswiki::OopsException') ) {
+                if (   ( "attention" eq $exception->template )
+                    && ( "thanks" eq $exception->def ) )
+                {
+                    print STDERR "---------" . $exception->stringify() . "\n"
+                      if ($Error::Debug);
+                    $exception = undef;    #the only correct answer
+                }
+            }
         }
-    }
-    catch Foswiki::AccessControlException with {
-        $exception = shift;
-    }
-    catch Error::Simple with {
-        $exception = shift;
-    }
-    otherwise {
-        $exception = Error::Simple->new();
+        else {
+            $exception = Foswiki::Exception::Fatal->transmute($exception);
+        }
     };
 
     $this->assert_matches(
 qr/AccessControlException: Access to CHANGE TemporarySaveTestWebSave. for duck is denied. access denied on web/,
-        $exception
+        $exception->stringify
     );
-    $this->assert( !$this->{session}
-          ->topicExists( $this->{test_web}, 'DeleteTestSaveScriptTopic3' ) );
+    $this->assert(
+        !$this->session->topicExists(
+            $this->test_web, 'DeleteTestSaveScriptTopic3'
+        )
+    );
 
     return;
 }
@@ -426,21 +438,21 @@ sub test_templateTopicTextSave {
         initializer => {
             text   => ['Template Topic'],
             action => ['save'],
-            topic  => [ $this->{test_web} . '.TemplateTopic' ]
+            topic  => [ $this->test_web . '.TemplateTopic' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     $query = Unit::Request->new(
         initializer => {
             templatetopic => ['TemplateTopic'],
             action        => ['save'],
-            topic         => [ $this->{test_web} . '.TemplateTopic' ]
+            topic         => [ $this->test_web . '.TemplateTopic' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
-    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'TemplateTopic' );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
+    my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'TemplateTopic' );
     my $text = $meta->text;
     $this->assert_matches( qr/Template Topic/, $text );
     $this->assert_null( $meta->get('FORM') );
@@ -456,22 +468,22 @@ sub test_prevTopicTextSave {
         initializer => {
             text   => ['WRONG'],
             action => ['save'],
-            topic  => [ $this->{test_web} . '.PrevTopicTextSave' ]
+            topic  => [ $this->test_web . '.PrevTopicTextSave' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     $query = Unit::Request->new(
         initializer => {
             text   => ['CORRECT'],
             action => ['save'],
-            topic  => [ $this->{test_web} . '.PrevTopicTextSave' ]
+            topic  => [ $this->test_web . '.PrevTopicTextSave' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'PrevTopicTextSave' );
+      Foswiki::Func::readTopic( $this->test_web, 'PrevTopicTextSave' );
     my $text = $meta->text;
     $this->assert_matches( qr/CORRECT/, $text );
     $this->assert_null( $meta->get('FORM') );
@@ -490,17 +502,19 @@ sub test_missingWebSave {
             topic  => [ 'MissingWeb' . '.PrevTopicTextSave' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     try {
-        $this->captureWithKey( save => $UI_FN, $this->{session} );
+        $this->captureWithKey( save => $UI_FN, $this->session );
         $this->assert( 0, 'save into missing web worked' );
     }
-    catch Foswiki::OopsException with {
+    catch {
         my $e = shift;
-        $this->assert_str_equals( 'no_such_web', $e->{def} );
-    }
-    otherwise {
-        $this->assert( 0, shift );
+        if ( ref($e) && $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( 'no_such_web', $e->def );
+        }
+        else {
+            Foswiki::Exception::Fatal->rethrow($e);
+        }
     };
 
     return;
@@ -513,21 +527,21 @@ sub test_prevTopicEmptyTextSave {
         initializer => {
             text   => ['CORRECT'],
             action => ['save'],
-            topic  => [ $this->{test_web} . '.PrevTopicEmptyTextSave' ]
+            topic  => [ $this->test_web . '.PrevTopicEmptyTextSave' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     $query = Unit::Request->new(
         initializer => {
             action => ['save'],
-            topic  => [ $this->{test_web} . '.PrevTopicEmptyTextSave' ]
+            topic  => [ $this->test_web . '.PrevTopicEmptyTextSave' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'PrevTopicEmptyTextSave' );
+      Foswiki::Func::readTopic( $this->test_web, 'PrevTopicEmptyTextSave' );
     my $text = $meta->text;
     $this->assert_matches( qr/^\s*CORRECT\s*$/, $text );
     $this->assert_null( $meta->get('FORM') );
@@ -544,15 +558,14 @@ sub test_simpleFormSave {
             formtemplate => ['TestForm1'],
             action       => ['save'],
             'Textfield'  => ['Flintstone'],
-            topic        => [ $this->{test_web} . '.SimpleFormSave' ]
+            topic        => [ $this->test_web . '.SimpleFormSave' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     $this->assert(
-        $this->{session}->topicExists( $this->{test_web}, 'SimpleFormSave' ) );
-    my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'SimpleFormSave' );
+        $this->session->topicExists( $this->test_web, 'SimpleFormSave' ) );
+    my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave' );
     my $text = $meta->text;
     $this->assert_matches( qr/^CORRECT\s*$/, $text );
     $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
@@ -574,27 +587,26 @@ sub test_templateTopicFormSave {
             'Select'     => ['Value_1'],
             'Textfield'  => ['Fred'],
             action       => ['save'],
-            topic        => [ $this->{test_web} . '.TemplateTopic' ]
+            topic        => [ $this->test_web . '.TemplateTopic' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
 
-    my ($xmeta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'TemplateTopic' );
+    my ($xmeta) = Foswiki::Func::readTopic( $this->test_web, 'TemplateTopic' );
     my $xtext = $xmeta->text;
     $xmeta->finish();
     $query = Unit::Request->new(
         initializer => {
             templatetopic => ['TemplateTopic'],
             action        => ['save'],
-            topic         => [ $this->{test_web} . '.TemplateTopicAgain' ]
+            topic         => [ $this->test_web . '.TemplateTopicAgain' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'TemplateTopicAgain' );
+      Foswiki::Func::readTopic( $this->test_web, 'TemplateTopicAgain' );
     my $text = $meta->text;
     $this->assert_matches( qr/Template Topic/, $text );
     $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
@@ -617,27 +629,27 @@ sub test_prevTopicFormSave {
             'Select'     => ['Value_1'],
             'Textfield'  => ['Rubble'],
             action       => ['save'],
-            topic        => [ $this->{test_web} . '.PrevTopicFormSave' ]
+            topic        => [ $this->test_web . '.PrevTopicFormSave' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     $query = Unit::Request->new(
         initializer => {
             action      => ['save'],
             'Textfield' => ['Barney'],
-            topic       => [ $this->{test_web} . '.PrevTopicFormSave' ]
+            topic       => [ $this->test_web . '.PrevTopicFormSave' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my ( $responseText, $result, $stdout, $stderr ) =
-      $this->captureWithKey( save => $UI_FN, $this->{session} );
+      $this->captureWithKey( save => $UI_FN, $this->session );
 
     # Uncomment to get output from command
     #print STDERR $responseText . $result . $stdout . $stderr . "\n";
 
     my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'PrevTopicFormSave' );
+      Foswiki::Func::readTopic( $this->test_web, 'PrevTopicFormSave' );
     my $text = $meta->text;
     $this->assert_matches( qr/Template Topic/, $text );
     $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
@@ -662,15 +674,14 @@ sub test_simpleFormSave1 {
             'Checkbox'           => ['red'],
             'CheckboxandButtons' => ['hamster'],
             'Textfield'          => ['Test'],
-            topic                => [ $this->{test_web} . '.SimpleFormTopic' ]
+            topic                => [ $this->test_web . '.SimpleFormTopic' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     $this->assert(
-        $this->{session}->topicExists( $this->{test_web}, 'SimpleFormTopic' ) );
-    my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'SimpleFormTopic' );
+        $this->session->topicExists( $this->test_web, 'SimpleFormTopic' ) );
+    my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormTopic' );
     my $text = $meta->text;
     $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
     $this->assert_str_equals( 'Test',
@@ -687,15 +698,14 @@ sub test_simpleFormSave2 {
     $this->createNewFoswikiSession();
 
     my ($oldmeta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'SimpleFormSave2' );
+      Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave2' );
     my $oldtext = $testtext1;
     $oldmeta->setEmbeddedStoreForm($oldtext);
-    my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'SimpleFormSave2' );
+    my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave2' );
     $meta->text($testform1);
     $meta->copyFrom($oldmeta);
     $oldmeta->finish();
-    $meta->save( user => $this->{test_user_login} );
+    $meta->save( user => $this->test_user_login );
 
     my $query = Unit::Request->new(
         initializer => {
@@ -707,15 +717,15 @@ sub test_simpleFormSave2 {
             'Checkbox'           => ['red'],
             'CheckboxandButtons' => ['hamster'],
             'Textfield'          => ['Test'],
-            topic                => [ $this->{test_web} . '.SimpleFormSave2' ]
+            topic                => [ $this->test_web . '.SimpleFormSave2' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     $this->assert(
-        $this->{session}->topicExists( $this->{test_web}, 'SimpleFormSave2' ) );
+        $this->session->topicExists( $this->test_web, 'SimpleFormSave2' ) );
     $meta->finish();
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'SimpleFormSave2' );
+    ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave2' );
     my $text = $meta->text;
     $this->assert_str_equals( 'TestForm3', $meta->get('FORM')->{name} );
     $this->assert_str_equals( 'Test',
@@ -733,15 +743,14 @@ sub test_simpleFormSave3 {
     $this->createNewFoswikiSession();
 
     my ($oldmeta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'SimpleFormSave3' );
+      Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave3' );
     my $oldtext = $testtext1;
     $oldmeta->setEmbeddedStoreForm($oldtext);
-    my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'SimpleFormSave3' );
+    my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave3' );
     $meta->text($testform1);
     $meta->copyFrom($oldmeta);
     $oldmeta->finish();
-    $meta->save( user => $this->{test_user_login} );
+    $meta->save( user => $this->test_user_login );
 
     my $query = Unit::Request->new(
         initializer => {
@@ -753,15 +762,15 @@ sub test_simpleFormSave3 {
             'Checkbox'           => ['red'],
             'CheckboxandButtons' => ['hamster'],
             'Textfield'          => ['Test'],
-            topic                => [ $this->{test_web} . '.SimpleFormSave3' ]
+            topic                => [ $this->test_web . '.SimpleFormSave3' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     $this->assert(
-        $this->{session}->topicExists( $this->{test_web}, 'SimpleFormSave3' ) );
+        $this->session->topicExists( $this->test_web, 'SimpleFormSave3' ) );
     $meta->finish();
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'SimpleFormSave3' );
+    ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave3' );
     my $text = $meta->text;
     $this->assert($meta);
     $this->assert_str_equals( 'UserTopic',
@@ -782,15 +791,14 @@ sub test_simpleFormSaveZeroValue {
             formtemplate => ['TestForm1'],
             action       => ['save'],
             'Textfield'  => ['0'],
-            topic        => [ $this->{test_web} . '.SimpleFormSave' ]
+            topic        => [ $this->test_web . '.SimpleFormSave' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     $this->assert(
-        $this->{session}->topicExists( $this->{test_web}, 'SimpleFormSave' ) );
-    my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'SimpleFormSave' );
+        $this->session->topicExists( $this->test_web, 'SimpleFormSave' ) );
+    my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave' );
     my $text = $meta->text;
     $this->assert_matches( qr/^CORRECT\s*$/, $text );
     $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
@@ -812,15 +820,14 @@ sub test_simpleFormSaveEmptyValue {
             formtemplate => ['TestForm1'],
             action       => ['save'],
             'Textfield'  => [''],
-            topic        => [ $this->{test_web} . '.SimpleFormSave' ]
+            topic        => [ $this->test_web . '.SimpleFormSave' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     $this->assert(
-        $this->{session}->topicExists( $this->{test_web}, 'SimpleFormSave' ) );
-    my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'SimpleFormSave' );
+        $this->session->topicExists( $this->test_web, 'SimpleFormSave' ) );
+    my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave' );
     my $text = $meta->text;
     $this->assert_matches( qr/^CORRECT\s*$/, $text );
     $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
@@ -836,19 +843,19 @@ sub test_simpleFormSaveEmptyValue {
 sub test_templateTopicWithMeta {
     my $this = shift;
 
-    Foswiki::Func::saveTopicText( $this->{test_web}, "TemplateTopic",
+    Foswiki::Func::saveTopicText( $this->test_web, "TemplateTopic",
         $testtext1 );
     my $query = Unit::Request->new(
         initializer => {
             templatetopic => ['TemplateTopic'],
             action        => ['save'],
-            topic         => [ $this->{test_web} . '.TemplateTopicWithMeta' ]
+            topic         => [ $this->test_web . '.TemplateTopicWithMeta' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     my ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'TemplateTopicWithMeta' );
+      Foswiki::Func::readTopic( $this->test_web, 'TemplateTopicWithMeta' );
     my $text = $meta->text;
     my $pref = $meta->get( 'PREFERENCE', 'VIEW_TEMPLATE' );
     $this->assert_not_null($pref);
@@ -874,11 +881,11 @@ sub test_templateTopicWithAttachments {
     my $templateTopic = "TemplateTopic";
     my $testTopic     = "TemplateTopicWithAttachment";
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $templateTopic, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $templateTopic, undef,
         "test with an attachment" );
 
     Foswiki::Func::saveAttachment(
-        $this->{test_web},
+        $this->test_web,
         $templateTopic,
         "testfile.txt",
         {
@@ -887,7 +894,7 @@ sub test_templateTopicWithAttachments {
         }
     );
     Foswiki::Func::saveAttachment(
-        $this->{test_web},
+        $this->test_web,
         $templateTopic,
         "testfile2.txt",
         {
@@ -900,14 +907,14 @@ sub test_templateTopicWithAttachments {
         initializer => {
             templatetopic => ['TemplateTopic'],
             action        => ['save'],
-            topic         => ["$this->{test_web}.$testTopic"]
+            topic         => [ $this->test_web . ".$testTopic" ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
 
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $testTopic );
+      Foswiki::Func::readTopic( $this->test_web, $testTopic );
 
     $this->assert_matches( qr/test with an attachment/, $text );
     $this->assert_not_null(
@@ -934,14 +941,14 @@ sub test_merge {
     $this->createNewFoswikiSession();
 
     # Set up the original topic that the two edits started on
-    my ($oldmeta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    my ($oldmeta) = Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
     my $oldtext = $testtext1;
     $oldmeta->setEmbeddedStoreForm($oldtext);
     $oldmeta->text($testform4);
-    $oldmeta->save( user => $this->{test_user_2_login} );
+    $oldmeta->save( user => $this->test_user_2_login );
 
     $oldmeta->finish();
-    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
     my $text   = $meta->text;
     my $info   = $meta->getRevisionInfo();
     my $original = "$info->{version}_$info->{date}";
@@ -968,13 +975,13 @@ Blog Glog
 Bungdit Din
 Glaggie
 GUMP
-            topic => [ $this->{test_web} . '.MergeSave' ]
+            topic => [ $this->test_web . '.MergeSave' ]
         }
     );
 
     # Do the save
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query1 );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query1 );
+    $this->captureWithKey( save => $UI_FN, $this->session );
     $info = $meta->getRevisionInfo();
 
     #print STDERR "First edit saved as $info->{version}_$info->{date}\n";
@@ -997,26 +1004,28 @@ Spletter Glug
 Blog Splut
 Bungdit Din
 GUMP
-            topic => [ $this->{test_web} . '.MergeSave' ]
+            topic => [ $this->test_web . '.MergeSave' ]
         }
     );
 
     # Do the save. This time we expect a merge exception
-    $this->createNewFoswikiSession( $this->{test_user_2_login}, $query2 );
+    $this->createNewFoswikiSession( $this->test_user_2_login, $query2 );
     try {
-        $this->captureWithKey( save => $UI_FN, $this->{session} );
+        $this->captureWithKey( save => $UI_FN, $this->session );
     }
-    catch Foswiki::OopsException with {
+    catch {
         my $e = shift;
-        $this->assert_str_equals( 'merge_notice', $e->{def} );
-    }
-    otherwise {
-        $this->assert( 0, shift );
+        if ( ref($e) && $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( 'merge_notice', $e->def );
+        }
+        else {
+            Foswiki::Exception::Fatal->rethrow($e);
+        }
     };
 
     # Get the merged topic and pick it apart
     $meta->finish();
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    ($meta) = Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
     $text = $meta->text;
     my $e = <<'END';
 <div class="foswikiConflict"><b>CONFLICT</b> original 1:</div>
@@ -1060,13 +1069,13 @@ ZIS
 #    my $query = Unit::Request->new({
 #        text => [ 'FIRST REVISION' ],
 #        action => [ 'save' ],
-#        topic => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
+#        topic => [ $this->test_web.'.DeleteTestRestoreRevisionTopic' ]
 #       });
-#    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-#    $this->captureWithKey( save => &$UI_FN, $this->{session});
+#    $this->createNewFoswikiSession( $this->test_user_login, $query );
+#    $this->captureWithKey( save => &$UI_FN, $this->session);
 #
 #    # retrieve revision number
-#    my ($meta) = Foswiki::Func::readTopic($this->{test_web}, 'DeleteTestRestoreRevisionTopic');
+#    my ($meta) = Foswiki::Func::readTopic($this->test_web, 'DeleteTestRestoreRevisionTopic');
 #    my $text = $meta->text;
 #    my $info = $meta->getRevisionInfo();
 #
@@ -1085,12 +1094,12 @@ ZIS
 #                         'Checkbox' => [ 'red' ],
 #                         'CheckboxandButtons' => [ 'hamster' ],
 #                         'Textfield' => [ 'Test' ],
-#			 topic  => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
+#			 topic  => [ $this->test_web.'.DeleteTestRestoreRevisionTopic' ]
 #                        });
-#    $this->createNewFoswikiSession( $this->{test_user_login}, $query);
-#    $this->captureWithKey( save => $UI_FN, $this->{session});
+#    $this->createNewFoswikiSession( $this->test_user_login, $query);
+#    $this->captureWithKey( save => $UI_FN, $this->session);
 #
-#    ($meta) = Foswiki::Func::readTopic($this->{test_web}, 'DeleteTestRestoreRevisionTopic');
+#    ($meta) = Foswiki::Func::readTopic($this->test_web, 'DeleteTestRestoreRevisionTopic');
 #    $text = $meta->text;
 #    $info = $meta->getRevisionInfo();
 #    $original = "$info->{version}_$info->{date}";
@@ -1102,11 +1111,11 @@ ZIS
 #        action => [ 'manage' ],
 #        rev => 1,
 #        forcenewrevision => 1,
-#        topic => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
+#        topic => [ $this->test_web.'.DeleteTestRestoreRevisionTopic' ]
 #       });
-#    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-#    $this->captureWithKey( save => $UI_FN, $this->{session});
-#    ($meta) = Foswiki::Func::readTopic($this->{test_web}, 'DeleteTestRestoreRevisionTopic');
+#    $this->createNewFoswikiSession( $this->test_user_login, $query );
+#    $this->captureWithKey( save => $UI_FN, $this->session);
+#    ($meta) = Foswiki::Func::readTopic($this->test_web, 'DeleteTestRestoreRevisionTopic');
 #    $text = $meta->text;
 #    $info = $meta->getRevisionInfo();
 #    $original = "$info->{version}_$info->{date}";
@@ -1120,11 +1129,11 @@ ZIS
 #        action => [ 'manage' ],
 #        rev => 2,
 #        forcenewrevision => 1,
-#        topic => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
+#        topic => [ $this->test_web.'.DeleteTestRestoreRevisionTopic' ]
 #       });
-#    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-#    $this->captureWithKey( save => $UI_FN, $this->{session});
-#    ($meta) = Foswiki::Func::readTopic($this->{test_web}, 'DeleteTestRestoreRevisionTopic');
+#    $this->createNewFoswikiSession( $this->test_user_login, $query );
+#    $this->captureWithKey( save => $UI_FN, $this->session);
+#    ($meta) = Foswiki::Func::readTopic($this->test_web, 'DeleteTestRestoreRevisionTopic');
 #    $text = $meta->text;
 #    $info = $meta->getRevisionInfo();
 #    $original = "$info->{version}_$info->{date}";
@@ -1151,9 +1160,9 @@ sub test_1897 {
     # make sure we have time to complete the test
     $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 7200;
 
-    $this->createNewFoswikiSession( $this->{test_user_login} );
+    $this->createNewFoswikiSession( $this->test_user_login );
 
-    my ($oldmeta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    my ($oldmeta) = Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
     my $oldtext = $testtext1;
     my $query;
     $oldmeta->setEmbeddedStoreForm($oldtext);
@@ -1162,14 +1171,13 @@ sub test_1897 {
 
     # First, user A saves to create rev 1
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+      Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
     $meta->copyFrom($oldmeta);
     $meta->text("Smelly\ncat");
     $meta->save();
     $meta->finish();
 
-    ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    ( $meta, $text ) = Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
 
     my $info = $meta->getRevisionInfo();
     my ( $orgDate, $orgAuth, $orgRev ) =
@@ -1187,23 +1195,23 @@ sub test_1897 {
             action      => ['save'],
             text        => ["Sweaty\ncat"],
             originalrev => $original,
-            topic       => [ $this->{test_web} . '.MergeSave' ]
+            topic       => [ $this->test_web . '.MergeSave' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
 
     # make sure it's still rev 1 as expected
     my $text2;
     ( $meta, $text2 ) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+      Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
 
     $info = $meta->getRevisionInfo();
     my ( $repRevDate, $repRevAuth, $repRevRev ) =
       ( $info->{date}, $info->{author}, $info->{version} );
     $this->assert_equals( 1, $repRevRev );
-    $this->assert_str_equals( "Sweaty\ncat\n",          $text2 );
-    $this->assert_str_equals( $this->{test_user_login}, $repRevAuth );
+    $this->assert_str_equals( "Sweaty\ncat\n",        $text2 );
+    $this->assert_str_equals( $this->test_user_login, $repRevAuth );
     $this->assert( $repRevDate != $orgDate );
 
     # User B saves; make sure we get a merge notice.
@@ -1212,23 +1220,25 @@ sub test_1897 {
             action      => ['save'],
             text        => ["Smelly\nrat"],
             originalrev => $original,
-            topic       => [ $this->{test_web} . '.MergeSave' ]
+            topic       => [ $this->test_web . '.MergeSave' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_2_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_2_login, $query );
     try {
-        $this->captureWithKey( save => $UI_FN, $this->{session} );
+        $this->captureWithKey( save => $UI_FN, $this->session );
     }
-    catch Foswiki::OopsException with {
+    catch {
         my $e = shift;
-        $this->assert_str_equals( 'merge_notice', $e->{def} );
-    }
-    otherwise {
-        $this->assert( 0, shift );
+        if ( ref($e) && $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( 'merge_notice', $e->def );
+        }
+        else {
+            Foswiki::Exception::Fatal->rethrow($e);
+        }
     };
 
     $meta->finish();
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    ($meta) = Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
     $text = $meta->text();
 
     $info = $meta->getRevisionInfo();
@@ -1250,9 +1260,9 @@ sub test_cmdEqualsReprev {
     # make sure we have time to complete the test
     $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 7200;
 
-    $this->createNewFoswikiSession( $this->{test_user_login} );
+    $this->createNewFoswikiSession( $this->test_user_login );
 
-    my ($oldmeta) = Foswiki::Func::readTopic( $this->{test_web}, 'RepRev' );
+    my ($oldmeta) = Foswiki::Func::readTopic( $this->test_web, 'RepRev' );
     my $oldtext = $testtext1;
     my $query;
     $oldmeta->setEmbeddedStoreForm($oldtext);
@@ -1260,14 +1270,13 @@ sub test_cmdEqualsReprev {
     $this->assert_str_equals( $testtext1, $oldmeta->getEmbeddedStoreForm() );
 
     # First, user A saves to create rev 1
-    my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'RepRev' );
+    my ( $meta, $text ) = Foswiki::Func::readTopic( $this->test_web, 'RepRev' );
     $meta->copyFrom($oldmeta);
     $meta->text("Les Miserables");
     $meta->save();
     $meta->finish();
 
-    ( $meta, $text ) = Foswiki::Func::readTopic( $this->{test_web}, 'RepRev' );
+    ( $meta, $text ) = Foswiki::Func::readTopic( $this->test_web, 'RepRev' );
 
     my $info = $meta->getRevisionInfo();
     my ( $orgDate, $orgAuth, $orgRev ) =
@@ -1282,16 +1291,16 @@ sub test_cmdEqualsReprev {
             action => ['save'],
             text   => ["A Tale of Two Cities"],
             cmd    => ['repRev'],
-            topic  => [ $this->{test_web} . '.RepRev' ]
+            topic  => [ $this->test_web . '.RepRev' ]
         }
     );
 
     $this->createNewFoswikiSession( $Foswiki::cfg{SuperAdminGroup}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->captureWithKey( save => $UI_FN, $this->session );
 
     # make sure it's still rev 1 as expected
     my $text2;
-    ( $meta, $text2 ) = Foswiki::Func::readTopic( $this->{test_web}, 'RepRev' );
+    ( $meta, $text2 ) = Foswiki::Func::readTopic( $this->test_web, 'RepRev' );
 
     # make sure original rev info is preserved
     $info = $meta->getRevisionInfo();
@@ -1316,20 +1325,22 @@ sub test_missingTemplateTopic {
         initializer => {
             templatetopic => ['NonExistantTemplateTopic'],
             action        => ['save'],
-            topic         => [ $this->{test_web} . '.FlibbleDeDib' ]
+            topic         => [ $this->test_web . '.FlibbleDeDib' ]
         }
     );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     try {
-        $this->captureWithKey( save => $UI_FN, $this->{session} );
+        $this->captureWithKey( save => $UI_FN, $this->session );
     }
-    catch Foswiki::OopsException with {
+    catch {
         my $e = shift;
-        $this->assert_str_equals( 'no_such_topic_template', $e->{def} );
-    }
-    otherwise {
-        $this->assert( 0, shift );
+        if ( ref($e) && $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( 'no_such_topic_template', $e->def );
+        }
+        else {
+            Foswiki::Exception::Fatal->rethrow($e);
+        }
     };
 
     return;
@@ -1340,21 +1351,21 @@ sub test_addform {
     my $query = Unit::Request->new(
         initializer => {
             action => ['addform'],
-            topic  => ["$this->{test_web}.$this->{test_topic}"],
+            topic  => [ $this->test_web . "." . $this->test_topic ],
         }
     );
     $query->method('POST');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     try {
-        my ($text) = $this->captureWithKey( save => $UI_FN, $this->{session} );
+        my ($text) = $this->captureWithKey( save => $UI_FN, $this->session );
 
         foreach my $val (qw(TestForm1 TestForm2 TestForm3 TestForm4)) {
             ( my $tf ) = $text =~ m/.*(<input .*?value="$val".*?>).*/;
             $this->assert_matches( qr/name="formtemplate"/, $tf );
         }
     }
-    catch Error::Simple with {
-        $this->assert( 0, shift );
+    catch {
+        Foswiki::Exception::Fatal->rethrow($_);
     };
 
     return;
@@ -1366,17 +1377,20 @@ sub test_get {
     my $query = Unit::Request->new(
         initializer => {
             action => ['save'],
-            topic  => ["$this->{test_web}.$this->{test_topic}"]
+            topic  => [ $this->test_web . "." . $this->test_topic ]
         }
     );
     $query->method('GET');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
 
     try {
-        my ($text) = $this->captureWithKey( save => $UI_FN, $this->{session} );
+        my ($text) = $this->captureWithKey( save => $UI_FN, $this->session );
         $this->assert_matches( qr/^Status: 403.*$/m, $text );
     }
-    catch Error::Simple with {};
+    catch {
+        #catch Error::Simple with {};
+        Foswiki::Exception::Fatal->rethrow($_);
+    }
 
     return;
 }
@@ -1387,16 +1401,16 @@ sub test_preferenceSave {
         initializer => {
             text             => ["CORRECT\n   * Set UNSETME = x\n"],
             action           => ['save'],
-            topic            => [ $this->{test_web} . '.PrefTopic' ],
+            topic            => [ $this->test_web . '.PrefTopic' ],
             "Set+SETME"      => ['set me'],
             "Set+SETME2"     => ['set me 2'],
             "Local+LOCALME"  => ['local me'],
             "Local+LOCALME2" => ['local me 2']
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
-    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'PrefTopic' );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
+    my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'PrefTopic' );
     my $text = $meta->text;
     $this->assert_equals( 'local me',
         $meta->get( 'PREFERENCE', 'LOCALME' )->{value} );
@@ -1412,7 +1426,7 @@ sub test_preferenceSave {
         initializer => {
             text             => ["CORRECT\n   * Set UNSETME = x\n"],
             action           => ['save'],
-            topic            => [ $this->{test_web} . '.PrefTopic' ],
+            topic            => [ $this->test_web . '.PrefTopic' ],
             "Unset+SETME"    => [1],
             "Unset+LOCALME2" => [1],
 
@@ -1423,9 +1437,9 @@ sub test_preferenceSave {
             "Default+SETME2"  => ['set me 2']
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'PrefTopic' );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->captureWithKey( save => $UI_FN, $this->session );
+    ($meta) = Foswiki::Func::readTopic( $this->test_web, 'PrefTopic' );
     $text = $meta->text;
     $this->assert_null( $meta->get( 'PREFERENCE', 'SETME' ) );
     $this->assert_null( $meta->get( 'PREFERENCE', 'LOCALME' ) );

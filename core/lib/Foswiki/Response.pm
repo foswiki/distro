@@ -53,6 +53,8 @@ has cookies          => (
     lazy    => 1,
     default => sub { [] },
     isa     => Foswiki::Object::isaARRAY( 'cookies', noUndef => 1 ),
+    reader  => 'getCookies',
+    writer  => 'setCookies',
 );
 has status => (
     is      => 'rw',
@@ -337,6 +339,12 @@ Elements may be CGI::Cookie objects or raw cookie strings.
 WARNING: cookies set this way are *not* passed in redirects.
 
 =cut
+
+sub cookies {
+    my $this = shift;
+    $this->setCookies(@_) if @_;
+    return @{ $this->getCookies };
+}
 
 =begin TML
 

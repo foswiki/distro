@@ -1144,28 +1144,27 @@ sub BUILD {
 
     load_package($base);
 
-    # SMELL vrurg A chain of inheritance just to have one method called on
-    # several different classes? Really? A simple queue of object would do the
-    # same but would let to avoid this tricky code.
-    foreach my $class ( @{ $Foswiki::cfg{Store}{ImplementationClasses} } ) {
-
-        # this allows us to add an arbitary set of mixins for things
-        # like recordChanges
-
-        # Rejig the store impl's ISA to use each Class  in order.'
-        # IMPORTANT NOTE: despite of any other class code ImplemetationClasses
-        # are required to have 'use Moo;' line _after_ 'use namespace::clean;'.
-        # Otherwise the extends method will be anavailable outside of the
-        # class/module code.
-        load_package($class);
-        no strict 'refs';
-        ASSERT( $class->can('extends'),
-            "Cannot use $class as store implemetation class" )
-          if DEBUG;
-        *{ $class . '::extends' }{CODE}->($base);
-        use strict 'refs';
-        $base = $class;
-    }
+    # vurg Do not use this hack. ImplementationClasses are not crucial and
+    # should be replaced by new plugin model.
+    #foreach my $class ( @{ $Foswiki::cfg{Store}{ImplementationClasses} } ) {
+    #
+    #    # this allows us to add an arbitary set of mixins for things
+    #    # like recordChanges
+    #
+    #    # Rejig the store impl's ISA to use each Class  in order.'
+    #    # IMPORTANT NOTE: despite of any other class code ImplemetationClasses
+    #    # are required to have 'use Moo;' line _after_ 'use namespace::clean;'.
+    #    # Otherwise the extends method will be anavailable outside of the
+    #    # class/module code.
+    #    load_package($class);
+    #    no strict 'refs';
+    #    ASSERT( $class->can('extends'),
+    #        "Cannot use $class as store implemetation class" )
+    #      if DEBUG;
+    #    *{ $class . '::extends' }{CODE}->($base);
+    #    use strict 'refs';
+    #    $base = $class;
+    #}
 
     $this->_baseStoreClass($base);
 
@@ -2372,11 +2371,18 @@ See http://blog.fox.geek.nz/2010/11/searching-design-spec-for-ultimate.html for 
 sub load_package {
     my $fullname = shift;
 
-    # SMELL Must use system-independant way of forming filepath.
-    my $filename = File::Spec->catfile( split /::/, $fullname ) . '.pm';
+    # See if package is already defined in the main symbol table.
+    my ( $namePref, $nameSuff ) = ( $fullname =~ /^(.+::)?([^:]+)$/ );
+    $namePref //= '::';
+    no strict 'refs';
+    my $pkgLoaded = defined $namePref->{"${nameSuff}::"};
+    use strict 'refs';
+    return if $pkgLoaded;
 
-    # Check if the module has been already loaded before.
-    return if exists $INC{$filename};
+    my $filename = File::Spec->catfile( split /::/, $fullname ) . '.pm';
+    #
+    ## Check if the module has been already loaded before.
+    #return if exists $INC{$filename};
 
     # Is it already loaded? If so, it might be an internal class an missing
     # from @INC, so skip it. See perldoc UNIVERSAL for what this does.

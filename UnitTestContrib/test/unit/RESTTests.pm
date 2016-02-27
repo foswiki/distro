@@ -2,33 +2,35 @@
 # Author: Crawford Currie
 
 package RESTTests;
-use strict;
-use warnings;
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Assert;
 use Foswiki();
 use Foswiki::Func();
 use Foswiki::EngineException();
 use Carp();
-use Error ':try';
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 our $UI_FN;
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
     $Foswiki::cfg{LegacyRESTSecurity} = 1;
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
     $UI_FN ||= $this->getUIFn('rest');
 
     return;
-}
+};
 
 sub skip {
     my ( $this, $test ) = @_;
 
-    return $this->SUPER::skip_test_if(
+    return $this->skip_test_if(
         $test,
         {
             condition => { with_dep => 'Foswiki,<,1.2' },
@@ -73,13 +75,13 @@ sub rest_and_be_thankful {
 sub rest_context {
     my ( $session, $subject, $verb ) = @_;
 
-    my $web   = $session->{webName};
-    my $topic = $session->{topicName};
+    my $web   = $session->webName;
+    my $topic = $session->topicName;
 
     Foswiki::Func::pushTopicContext( $web, $Foswiki::cfg{NotifyTopicName} );
     Foswiki::Func::popTopicContext();
 
-    my $newweb = $session->{webName};
+    my $newweb = $session->webName;
 
     return "$newweb";
 }
@@ -115,7 +117,9 @@ sub test_authmethods {
 
     $query->setUrl( '/'
           . __PACKAGE__
-          . "/trial?username=$this->{test_user_login};password=''" );
+          . "/trial?username="
+          . $this->test_user_login
+          . ";password=''" );
     $query->method('post');
     $query->action('rest');
 
@@ -130,55 +134,61 @@ sub test_authmethods {
     #
     $this->createNewFoswikiSession( undef, $query );
     try {
-        ($text) = $this->capture( $UI_FN, $this->{session} );
+        ($text) = $this->capture( $UI_FN, $this->session );
     }
-    catch Foswiki::EngineException with {
-        my $e = shift;
-        $this->assert_equals( 401, $e->{status}, $e );
-    }
-    otherwise {
-        $this->assert(0);
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 401, $e->status, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
     };
 
     # Auth but no validation key - fail with 403
     #
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
 
     try {
-        ($text) = $this->capture( $UI_FN, $this->{session} );
+        ($text) = $this->capture( $UI_FN, $this->session );
     }
-    catch Foswiki::EngineException with {
-        my $e = shift;
-        $this->assert_equals( 403, $e->{status}, $e );
-    }
-    otherwise {
-        $this->assert(0);
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 403, $e->status, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
     };
 
     # Auth and key, but GET, not post,  fail with 405
     #
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('get');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
 
     try {
-        ($text) = $this->capture( $UI_FN, $this->{session} );
+        ($text) = $this->capture( $UI_FN, $this->session );
     }
-    catch Foswiki::EngineException with {
-        my $e = shift;
-        $this->assert_equals( 405, $e->{status}, $e );
-    }
-    otherwise {
-        $this->assert(0);
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 405, $e->status, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
     };
 
     # Authenticated,  POST and validation key - should work
     #
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     $query->method('post');
-    ($text) = $this->captureWithKey( rest => $UI_FN, $this->{session} );
+    ($text) = $this->captureWithKey( rest => $UI_FN, $this->session );
 
     $this->assert_matches( qr/RESULTS:AUTH\.CGI\.\./, $text );
 
@@ -193,13 +203,13 @@ sub test_authmethods {
     # Unauthenticated, POST with validation key - Now should work
     #
     $this->createNewFoswikiSession( 'guest', $query );
-    ($text) = $this->captureWithKey( rest => $UI_FN, $this->{session} );
+    ($text) = $this->captureWithKey( rest => $UI_FN, $this->session );
     $this->assert_matches( qr/RESULTS:UNAUTH\.CGI\.\.GUEST/, $text );
 
     # Authenticated, POST with validation key from Admin User
     #
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $query );
-    ($text) = $this->captureWithKey( rest => $UI_FN, $this->{session} );
+    ($text) = $this->captureWithKey( rest => $UI_FN, $this->session );
     $this->assert_matches( qr/RESULTS:AUTH\.CGI\.ADMIN\./, $text );
 
     return;
@@ -213,8 +223,8 @@ sub test_simple {
     my $query = Unit::Request->new( initializer => { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->capture( $UI_FN, $this->session );
 
     return;
 }
@@ -227,17 +237,17 @@ sub test_endPoint {
     my $query = Unit::Request->new(
         initializer => {
             action   => ['rest'],
-            endPoint => "$this->{test_web}/$this->{test_topic}",
+            endPoint => $this->test_web . "/" . $this->test_topic,
         }
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    &$UI_FN( $this->{session} );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    &$UI_FN( $this->session );
+    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
-    $this->assert_matches(
-        qr#^Location:.*$this->{test_web}/$this->{test_topic}\s*$#m, $text );
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
+    $this->assert_matches( qr#^Location:.*$test_web/$test_topic\s*$#m, $text );
 
     return;
 }
@@ -250,17 +260,17 @@ sub test_redirectto {
     my $query = Unit::Request->new(
         initializer => {
             action     => ['rest'],
-            redirectto => "$this->{test_web}/$this->{test_topic}",
+            redirectto => $this->test_web . "/" . $this->test_topic,
         }
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    &$UI_FN( $this->{session} );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    &$UI_FN( $this->session );
+    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
-    $this->assert_matches(
-        qr#^Location:.*$this->{test_web}/$this->{test_topic}\s*$#m, $text );
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
+    $this->assert_matches( qr#^Location:.*$test_web/$test_topic\s*$#m, $text );
 
     return;
 }
@@ -273,16 +283,16 @@ sub test_endPoint_Anchor {
     my $query = Unit::Request->new(
         initializer => {
             action   => ['rest'],
-            endPoint => "$this->{test_web}/$this->{test_topic}#MyAnch",
+            endPoint => $this->test_web . "/" . $this->test_topic . "#MyAnch",
         }
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
-    $this->assert_matches(
-        qr#^Location:.*$this->{test_web}/$this->{test_topic}\#MyAnch\s*$#m,
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
+    $this->assert_matches( qr#^Location:.*$test_web/$test_topic\#MyAnch\s*$#m,
         $text );
 
     return;
@@ -296,16 +306,16 @@ sub test_redirectto_Anchor {
     my $query = Unit::Request->new(
         initializer => {
             action     => ['rest'],
-            redirectto => "$this->{test_web}/$this->{test_topic}#MyAnch",
+            redirectto => $this->test_web . "/" . $this->test_topic . "#MyAnch",
         }
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
-    $this->assert_matches(
-        qr#^Location:.*$this->{test_web}/$this->{test_topic}\#MyAnch\s*$#m,
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
+    $this->assert_matches( qr#^Location:.*$test_web/$test_topic\#MyAnch\s*$#m,
         $text );
 
     return;
@@ -319,18 +329,19 @@ sub test_endPoint_Query {
     my $query = Unit::Request->new(
         initializer => {
             action   => ['rest'],
-            endPoint => "$this->{test_web}/$this->{test_topic}?blah1=;q=2;y=3",
+            endPoint => $this->test_web . "/"
+              . $this->test_topic
+              . "?blah1=;q=2;y=3",
         }
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     $this->assert_matches(
-qr#^Location:.*$this->{test_web}/$this->{test_topic}\?blah1=;q=2;y=3\s*$#m,
-        $text
-    );
+        qr#^Location:.*$test_web/$test_topic\?blah1=;q=2;y=3\s*$#m, $text );
 
     return;
 }
@@ -342,20 +353,20 @@ sub test_redirectto_Query {
 
     my $query = Unit::Request->new(
         initializer => {
-            action => ['rest'],
-            redirectto =>
-              "$this->{test_web}/$this->{test_topic}?blah1=;q=2;y=3",
+            action     => ['rest'],
+            redirectto => $this->test_web . "/"
+              . $this->test_topic
+              . "?blah1=;q=2;y=3",
         }
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     $this->assert_matches(
-qr#^Location:.*$this->{test_web}/$this->{test_topic}\?blah1=;q=2;y=3\s*$#m,
-        $text
-    );
+        qr#^Location:.*$test_web/$test_topic\?blah1=;q=2;y=3\s*$#m, $text );
 
     return;
 }
@@ -373,18 +384,19 @@ sub test_endPoint_Illegal {
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->{session} =
-      $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my $text = '';
     try {
-        ($text) = $this->capture( $UI_FN, $this->{session} );
+        ($text) = $this->capture( $UI_FN, $this->session );
     }
-    catch Foswiki::EngineException with {
-        my $e = shift;
-        $this->assert_equals( 404, $e->{status}, $e );
-    }
-    otherwise {
-        $this->assert(0);
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 404, $e->status, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
     };
 
     return;
@@ -403,18 +415,19 @@ sub test_redirectto_Illegal {
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->{session} =
-      $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my $text = '';
     try {
-        ($text) = $this->capture( $UI_FN, $this->{session} );
+        ($text) = $this->capture( $UI_FN, $this->session );
     }
-    catch Foswiki::EngineException with {
-        my $e = shift;
-        $this->assert_equals( 404, $e->{status}, $e );
-    }
-    otherwise {
-        $this->assert(0);
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 404, $e->status, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
     };
 
     return;
@@ -429,20 +442,22 @@ sub test_http_allow {
     my $query = Unit::Request->new( initializer => { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('POST');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     try {
-        $this->capture( $UI_FN, $this->{session} );
+        $this->capture( $UI_FN, $this->session );
     }
-    catch Foswiki::EngineException with {
-        my $e = shift;
-        $this->assert_equals( 405, $e->{status}, $e );
-    }
-    otherwise {
-        $this->assert(0);
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 405, $e->status, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
     };
     $query->method('GET');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->capture( $UI_FN, $this->session );
 
     return;
 }
@@ -456,23 +471,25 @@ sub test_validate {
     my $query = Unit::Request->new( initializer => { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
 
     # Make sure a request with no validation key is trapped
     try {
-        $this->capture( $UI_FN, $this->{session} );
+        $this->capture( $UI_FN, $this->session );
     }
-    catch Foswiki::EngineException with {
-        my $e = shift;
-        $this->assert_equals( 403, $e->{status}, $e );
-        $this->assert_matches( qr/\(403\)/, $e->{reason}, $e );
-    }
-    otherwise {
-        $this->assert(0);
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 403, $e->status, $e->stringify );
+            $this->assert_matches( qr/\(403\)/, $e->reason, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
     };
 
     # Make sure a request with validation is OK
-    $this->captureWithKey( rest => $UI_FN, $this->{session} );
+    $this->captureWithKey( rest => $UI_FN, $this->session );
 
     return;
 }
@@ -490,20 +507,22 @@ sub test_authenticate {
 
     # Make sure a request with no authentication is trapped
     try {
-        $this->capture( $UI_FN, $this->{session} );
+        $this->capture( $UI_FN, $this->session );
     }
-    catch Foswiki::EngineException with {
-        my $e = shift;
-        $this->assert_equals( 401, $e->{status}, $e );
-        $this->assert_matches( qr/\(401\)/, $e->{reason}, $e );
-    }
-    otherwise {
-        $this->assert(0);
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 401, $e->status, $e->stringify );
+            $this->assert_matches( qr/\(401\)/, $e->reason, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
     };
 
     # Make sure a request with session authentication is OK
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->capture( $UI_FN, $this->session );
 
     return;
 }
@@ -524,9 +543,9 @@ sub test_endPoint_URL {
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    &$UI_FN( $this->{session} );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    &$UI_FN( $this->session );
+    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
     $this->assert_matches(
         qr#^Location: http://lolcats.com/funny\?pussy=cat\s*$#m, $text );
@@ -548,9 +567,9 @@ sub test_redirectto_URL {
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    &$UI_FN( $this->{session} );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    &$UI_FN( $this->session );
+    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
     $this->assert_matches(
         qr#^Location: http://lolcats.com/funny\?pussy=cat\s*$#m, $text );
@@ -573,9 +592,9 @@ sub test_endPoint_badURL {
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    &$UI_FN( $this->{session} );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    &$UI_FN( $this->session );
+    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 403#m, $text );
 
     return;
@@ -594,9 +613,9 @@ sub test_redirectto_badURL {
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    &$UI_FN( $this->{session} );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    &$UI_FN( $this->session );
+    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 403#m, $text );
 
     return;
@@ -610,9 +629,9 @@ sub test_500 {
     my $query = Unit::Request->new( initializer => { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    &$UI_FN( $this->{session} );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    &$UI_FN( $this->session );
+    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 500#m, $text );
     return;
 }
@@ -626,8 +645,8 @@ sub test_topic_context {
     my $query = Unit::Request->new( initializer => { action => ['rest'], } );
     $query->path_info( '/' . __PACKAGE__ . '/context' );
     $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    my ($text) = $this->capture( $UI_FN, $this->session );
 
     $this->assert_matches( qr#$Foswiki::cfg{UsersWebName}#,
         $text, "Users web context was lost" );

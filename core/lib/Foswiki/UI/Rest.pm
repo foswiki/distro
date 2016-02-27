@@ -9,6 +9,7 @@ UI delegate for REST interface
 =cut
 
 package Foswiki::UI::Rest;
+use v5.14;
 
 use strict;
 use warnings;
@@ -309,7 +310,7 @@ sub rest {
             -charset => 'UTF-8'
         );
         $session->response->print( 'ERROR: (500) Internal server error - '
-              . ( red($_) ? $_->stringify : $_ ) );
+              . ( ref($_) ? $_->stringify : $_ ) );
         $error = 1;
     };
 

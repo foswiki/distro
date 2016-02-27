@@ -1,21 +1,24 @@
 package ResponseTests;
-use strict;
-use warnings;
+use v5.14;
 use utf8;
-
-use FoswikiTestCase();
-our @ISA = qw( FoswikiTestCase );
 use Assert;
 
 use Foswiki::Response;
 
-sub set_up {
-    my $this = shift;
-    $this->SUPER::set_up();
+use Moo;
+use namespace::clean;
+extends qw( FoswikiTestCase );
 
-    $this->{_saved}->{AllowRedirectUrl} = $Foswiki::cfg{AllowRedirectUrl};
-    $this->{_saved}->{DefaultUrlHost}   = $Foswiki::cfg{DefaultUrlHost};
-    $this->{_saved}->{PermittedRedirectHostUrls} =
+has _saved => ( is => 'rw', lazy => 1, default => sub { {} }, );
+
+around set_up => sub {
+    my $orig = shift;
+    my $this = shift;
+    $orig->( $this, @_ );
+
+    $this->_saved->{AllowRedirectUrl} = $Foswiki::cfg{AllowRedirectUrl};
+    $this->_saved->{DefaultUrlHost}   = $Foswiki::cfg{DefaultUrlHost};
+    $this->_saved->{PermittedRedirectHostUrls} =
       $Foswiki::cfg{PermittedRedirectHostUrls};
 
     $Foswiki::cfg{AllowRedirectUrl}          = 0;
@@ -23,24 +26,25 @@ sub set_up {
     $Foswiki::cfg{PermittedRedirectHostUrls} = 'http://other.wiki';
 
     return;
-}
+};
 
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $Foswiki::cfg{AllowRedirectUrl} = $this->{_saved}->{AllowRedirectUrl};
-    $Foswiki::cfg{DefaultUrlHost}   = $this->{_saved}->{DefaultUrlHost};
+    $Foswiki::cfg{AllowRedirectUrl} = $this->_saved->{AllowRedirectUrl};
+    $Foswiki::cfg{DefaultUrlHost}   = $this->_saved->{DefaultUrlHost};
     $Foswiki::cfg{PermittedRedirectHostUrls} =
-      $this->{_saved}->{PermittedRedirectHostUrls};
+      $this->_saved->{PermittedRedirectHostUrls};
 
-    $this->SUPER::tear_down();
+    $orig->($this);
 
     return;
-}
+};
 
 sub test_empty_new {
     my ($this) = @_;
-    my $res = Foswiki::Response->new();
+    my $res = Foswiki::Response->new;
 
     $this->assert_null( $res->status, 'Non-empty initial status' ) if not DEBUG;
     $this->assert_null( $res->body, 'Non-empty initial body' );
@@ -53,7 +57,7 @@ sub test_empty_new {
             'Bad default initial charset: ' . ( $res->charset || 'undef' ) );
     }
 
-    my @cookies = $res->cookies();
+    my @cookies = $res->cookies;
     $this->assert_str_equals( 0, scalar @cookies, '$res->cookies not empty' );
 
     my $ref = $res->headers;
@@ -70,7 +74,7 @@ sub test_empty_new {
 
 sub test_status {
     my ($this) = @_;
-    my $res = Foswiki::Response->new();
+    my $res = Foswiki::Response->new;
 
     my @status = ( 200, 302, 401, 402, '404 not found', 500 );
     foreach (@status) {
@@ -87,7 +91,7 @@ sub test_status {
 
 sub test_charset {
     my ($this) = @_;
-    my $res = Foswiki::Response->new();
+    my $res = Foswiki::Response->new;
 
     foreach (qw(utf8 iso-8859-1 iso-8859-15 utf16)) {
         $res->charset($_);
@@ -99,7 +103,7 @@ sub test_charset {
 
 sub test_headers {
     my ($this) = @_;
-    my $res = Foswiki::Response->new();
+    my $res = Foswiki::Response->new;
 
     my %hdr = (
         'CoNtEnT-tYpE' => 'text/plain; charset=utf8',
@@ -179,7 +183,7 @@ sub test_headers {
 
 sub test_cookie {
     my ($this) = @_;
-    my $res = Foswiki::Response->new('');
+    my $res = Foswiki::Response->new;
     require CGI::Cookie;
     my $c1 = CGI::Cookie->new(
         -name   => 'FOSWIKISID',
@@ -198,7 +202,7 @@ sub test_cookie {
 
 sub test_body {
     my ($this) = @_;
-    my $res    = Foswiki::Response->new('');
+    my $res    = Foswiki::Response->new;
     my $length = int( rand( 2**20 ) );
     my $body;
     for ( my $i = 0 ; $i < $length ; $i++ ) {
@@ -216,7 +220,7 @@ sub test_body {
 
 sub test_print {
     my ($this) = @_;
-    my $res = Foswiki::Response->new('');
+    my $res = Foswiki::Response->new;
     my $body =
 'تمام انسان آزاد اور حقوق و عزت کے اعتبار سے برابر پیدا ہوئے ہیں۔ انہیں ضمیر اور عقل ودیعت ہوئی ہے۔ اس لئے انہیں ایک دوسرے کے ساتھ بھائی چارے کا سلوک کرنا چاہئے۔';
     $res->print($body);
@@ -227,7 +231,7 @@ sub test_print {
 sub test_redirect {
     my ($this) = @_;
 
-    my $res = Foswiki::Response->new('');
+    my $res = Foswiki::Response->new;
     my ( $uri, $status ) = ();
     $uri = 'http://foo.bar';
     $res->redirect($uri);
@@ -242,7 +246,7 @@ sub test_redirect {
         'Wrong generated Status code'
     );
 
-    $res    = Foswiki::Response->new('');
+    $res    = Foswiki::Response->new;
     $uri    = 'http://bar.foo.baz/path/to/script/path/info';
     $status = '301 Moved Permanently';
     require CGI::Cookie;
@@ -268,7 +272,7 @@ sub test_redirect {
 
 sub test_header {
     my ($this) = @_;
-    my $res = Foswiki::Response->new('');
+    my $res = Foswiki::Response->new;
 
     require CGI::Cookie;
     my $cookie = CGI::Cookie->new(

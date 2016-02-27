@@ -1,14 +1,15 @@
-use strict;
-
 package RequestCacheTests;
-
-use FoswikiTestCase;
-our @ISA = qw( FoswikiTestCase );
+use v5.14;
 
 use utf8;
 use Foswiki::Request;
 use Foswiki::Request::Cache;
 use File::Temp;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiTestCase );
+
 my %tempFileOptions = ( UNLINK => 0 );
 if ( $^O eq 'MSWin32' ) {
 
@@ -16,11 +17,6 @@ if ( $^O eq 'MSWin32' ) {
 
     $ENV{TEMP} =~ m/(.*)/;
     $tempFileOptions{DIR} = $1;
-}
-
-sub new {
-    my $self = shift()->SUPER::new(@_);
-    return $self;
 }
 
 # Test that simple parameters are cached
@@ -36,14 +32,14 @@ sub test_simpleparams {
         'undef'     => undef,
         multi_undef => [],
     );
-    my $req = new Foswiki::Request( \%init );
+    my $req = Foswiki::Request->new( initializer => \%init );
     $req->method("BURP");
     $req->path_info("/bad/wolf");
     $req->action("puke");
-    my $cache = new Foswiki::Request::Cache();
+    my $cache = Foswiki::Request::Cache->new;
     my $uid   = $cache->save($req);
     $this->assert($uid);
-    $req = new Foswiki::Request('');
+    $req = Foswiki::Request->new( initializer => '' );
     $cache->load( $uid, $req );
     my @values = $req->multi_param('multi');
     $this->assert_str_equals( 2,    scalar @values, 'Wrong number of values' );
@@ -76,14 +72,14 @@ sub test_simpleparams_utf8 {
 
     #my $pathinfo = Foswiki::urlEncode("/vústění/posvětit");
     my $pathinfo = Encode::encode_utf8("/vústění/posvětit");
-    my $req      = new Foswiki::Request( \%init );
+    my $req = Foswiki::Request->new( initializer => \%init );
     $req->method("BURP");
     $req->path_info($pathinfo);
     $req->action("puke");
-    my $cache = new Foswiki::Request::Cache();
+    my $cache = Foswiki::Request::Cache->new;
     my $uid   = $cache->save($req);
     $this->assert($uid);
-    $req = new Foswiki::Request('');
+    $req = Foswiki::Request->new( initializer => '' );
     $cache->load( $uid, $req );
     my @values = $req->multi_param('multi');
     $this->assert_str_equals( 2,     scalar @values, 'Wrong number of values' );
@@ -109,7 +105,7 @@ sub test_simpleparams_utf8 {
 # obviously)
 sub test_upload {
     my $this = shift;
-    my $req  = new Foswiki::Request("");
+    my $req = Foswiki::Request->new( initializer => "" );
 
     my $tmp = File::Temp->new(%tempFileOptions);
     print $tmp "XXX";
@@ -120,16 +116,16 @@ sub test_upload {
         'Content-Disposition' => 'form-data; name="file"; filename="Temp%.txt"'
     );
     $req->param( file => "Temp%.txt" );
-    $uploads{"Temp%.txt"} = new Foswiki::Request::Upload(
+    $uploads{"Temp%.txt"} = Foswiki::Request::Upload->new(
         headers => {%headers},
         tmpname => $tmp->filename,
     );
     $req->uploads( \%uploads );
 
-    my $cache = new Foswiki::Request::Cache();
+    my $cache = Foswiki::Request::Cache->new;
     my $uid   = $cache->save($req);
     $this->assert($uid);
-    $req = new Foswiki::Request('');
+    $req = Foswiki::Request->new( initializer => '' );
     $cache->load( $uid, $req );
 
     my $uploads = $req->uploads();
@@ -150,7 +146,7 @@ sub test_expire {
         'undef'     => undef,
         multi_undef => [],
     );
-    my $req = new Foswiki::Request( \%init );
+    my $req = Foswiki::Request->new( initliazer => \%init );
     my $tmp = File::Temp->new(%tempFileOptions);
     print $tmp "XXX";
     $tmp->close();
@@ -160,12 +156,12 @@ sub test_expire {
         'Content-Disposition' => 'form-data; name="file"; filename="Temp.txt"'
     );
     $req->param( file => "Temp.txt" );
-    $uploads{"Temp.txt"} = new Foswiki::Request::Upload(
+    $uploads{"Temp.txt"} = Foswiki::Request::Upload->new(
         headers => {%headers},
         tmpname => $tmp->filename,
     );
     $req->uploads( \%uploads );
-    my $cache = new Foswiki::Request::Cache();
+    my $cache = Foswiki::Request::Cache->new;
     my $uid   = $cache->save($req);
 
     $this->assert( -e "$Foswiki::cfg{WorkingDir}/tmp/passthru_${uid}" );
