@@ -6188,6 +6188,75 @@ pagerformat: \$web=$this->{test_web}", $result
     return;
 }
 
+sub test_Item13995 {
+    my $this = shift;
+
+    # Create 3 revisions
+    my ($topicObject) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'RevTopic' );
+    $topicObject->text("Drums Beat");
+    $topicObject->save( forcenewrevision => 1 );
+    $topicObject->text("BLEEGLE blah/matchme.blah");
+    $topicObject->save( forcenewrevision => 1 );
+    $topicObject->text("BELLS Ring");
+    $topicObject->save( forcenewrevision => 1 );
+    $topicObject->finish();
+
+    #Simple $changes -  compare Rev 2 - Rev 3
+    my $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"1"
+  type="query"
+  web="%WEB%"
+  topic="RevTopic"
+  nonoise="on"
+  format="FOO $changes$n"
+}%'
+    );
+
+    my $expected = <<"EXP";
+FOO  <nop>$this->{test_web}.RevTopic 
+-<nop>BLEEGLE blah/matchme.blah
++<nop>BELLS Ring
+EXP
+    $this->assert_equals( $expected, $result );
+
+    #$changes(1) -  compare Rev 1 - Rev 3
+    $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"1"
+  type="query"
+  web="%WEB%"
+  topic="RevTopic"
+  nonoise="on"
+  format="FOO $changes(1)$n"
+}%'
+    );
+
+    $expected = <<"EXP";
+FOO  <nop>$this->{test_web}.RevTopic 
+-Drums Beat
++<nop>BELLS Ring
+EXP
+    $this->assert_equals( $expected, $result );
+
+    #$changes() -  undef rev,  generate a summary
+    $result = $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"1"
+  type="query"
+  web="%WEB%"
+  topic="RevTopic"
+  nonoise="on"
+  format="FOO $changes()$n"
+}%'
+    );
+
+    $expected = <<"EXP";
+FOO <nop>$this->{test_web}.RevTopic <nop>BELLS Ring
+EXP
+    $this->assert_equals( $expected, $result );
+
+    return;
+}
+
 sub test_Item9502 {
     my $this = shift;
 
