@@ -33,9 +33,14 @@ Below are the details.
 
 ---++ The user table
 
-This table is a template for user data that will be written to the new user topics. If you stick to these basic fields you can just use the first example below. If you want to write more data (like phone number or country) read the section [[#CustomizingUserData][Customizing user data]] as well.
+This table is a template for user data that will be written to the new user topics. If you stick to these basic fields you can just use the first example below.
+If you want to write more data (like phone number or country) read the section [[#CustomizingUserData][Customizing user data]] as well.
 
-If the =Password= field is not included, then use the BulkResetPassword topic to assign new passwords.   If a password is included, it must be a valid password (&gt; minimum length, etc.)
+If the =Password= field is not included, then use the BulkResetPassword topic to assign new passwords.
+If a password is included, it must be a valid password (&gt; minimum length, etc.)
+
+%IF{"{Register}{AllowLoginName}" then="*Your system is configured to use Login Names.  Be sure to include the !LoginName column in your table*"}%
+
 ---+++ Example format
 
 The following should be inserted into your %REGISTERTOPIC% as a table. This is the most simple format:
@@ -72,7 +77,8 @@ If you use the %SYSTEMWEB%.UserForm then ensure that it contains all the fields 
    * =Email= - If not provided, you must set a password, or password reset will not be possible.
    * =Password= - If not provided, set passwords later using BulkResetPassword.
    * =Confirm= - If provided, it must match the =Password= field. If missing, it will not be checked.
-   * =templatetopic= - Template used when creating the User topic. If not provided, defaults to %USERSWEB%.NewUserTemplate, or %SYSTEMWEB%.NewUserTemplate.
+   * =templatetopic= - Template used when creating the User topic. If not provided, defaults to [[%USERSWEB%.NewUserTemplate]], or [[%SYSTEMWEB%.NewUserTemplate]].
+   * =AddToGroups= - A comma-separated list of groups. When user is registered, they will be added to the listed groups. The groups must exist.
 
 ---++++ Customized table example
 
@@ -81,8 +87,8 @@ Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
 <verbatim class='tml'>
 <noautolink>
 %EDITTABLE{}%
-| FirstName | LastName | Email | WikiName | CustomFieldThis | SomeOtherRandomField | WhateverYouLike |
-| Test | User | you@example.com | TestUser | A | B | C |
+| FirstName | LastName | Email | WikiName | AddToGroups | CustomFieldThis | SomeOtherRandomField | WhateverYouLike |
+| Test | User | you@example.com | TestUser | MyGroup, DocGroup | A | B | C |
 </noautolink></verbatim>
 
 ---
