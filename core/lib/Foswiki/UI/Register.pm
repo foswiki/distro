@@ -502,11 +502,12 @@ sub _registerSingleBulkUser {
     $row->{form} = _makeFormFieldOrderMatch( $fieldNames, $row );
 
     my $users = $session->{users};
+    my $cUID;
 
     try {
 
         # Add the user to the user management system. May throw an exception
-        my $cUID = $users->addUser(
+        $cUID = $users->addUser(
             $row->{LoginName},
             $row->{WikiName},
             $session->inContext("passwords_modifyable")
@@ -545,6 +546,29 @@ sub _registerSingleBulkUser {
         my $e = shift;
         $log .= "$b1 Failed to add user: " . $e->stringify() . "\n";
     };
+
+    if ( $cUID && $row->{AddToGroups} ) {
+        my @addedTo;
+        foreach my $groupName ( split( /\s*,\s*/, $row->{AddToGroups} ) ) {
+            try {
+                $users->addUserToGroup( $cUID, $groupName );
+                push @addedTo, $groupName;
+            }
+            catch Error with {
+                my $e = shift;
+                my $err = $e->{'-text'} || '';
+                $session->logger->log( 'warning',
+"Registration: Failure adding $cUID to $groupName in BulkRegister"
+                );
+                $log .= "   * Failed to add $cUID to $groupName: $err\n";
+            };
+        }
+
+        if ( scalar @addedTo ) {
+            $log .= "   * $row->{WikiName} added to groups: "
+              . join( ', ', @addedTo ) . "\n";
+        }
+    }
 
     #if ($Foswiki::cfg{EmailUserDetails}) {
     # If you want it, write it.
