@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1456368117" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1456631653" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ Bulk Registration
 
@@ -90,16 +90,16 @@ Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
 %IF{
   "context passwords_modifyable"
   then=""
-  else="<strong>%MAKETEXT{"Sorry, the password system is currently read only, please contact [_1]" args="%WIKIWEBMASTER%"}%</strong><br />"
+  else='<div class="foswikiHelp">%X% <strong>%MAKETEXT{"Caution: The password system is currently read only. Users will not be added to the Password file."}%</strong>%BR%
+  %MAKETEXT{"If your wiki uses an external password manager, then it may stll safe to bulk register users.  Please contact [_1] if you are unsure." args="%WIKIWEBMASTER%"}%</strong></div>'
 }%
 <!--
-      * Set NOTMODIFYABLE = %IF{"context passwords_modifyable" then="" else="DISABLED"}%
 %JQREQUIRE{"chili"}%
 -->
 #RegisterForm
 <form name="bulkRegister" action="%SCRIPTURLPATH{"manage"}%/%REGISTERTOPIC%" method="post">
 <input type="hidden" name="action" value="bulkRegister" /><sticky>&nbsp;</sticky>
-<input %NOTMODIFYABLE% type="submit" class="foswikiSubmit" value="Bulk Register these people" />
+<input type="submit" class="foswikiSubmit" value="Bulk Register these people" />
 <input type="hidden" name="LogTopic" value="%LOGTOPIC%" />
 <input type="hidden" name="OverwriteHomeTopics" value="%OVERWRITEHOMETOPICS%" />
 </form>
