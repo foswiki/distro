@@ -10,6 +10,11 @@ our @ISA = ('Foswiki::Configure::Checker');
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
+    if ( $^O =~ m/darwin/i && $Foswiki::cfg{Store}{Encoding} !~ /^utf-?8$/i ) {
+        $reporter->ERROR(
+            "OS-X file system does not support encodings other than utf-8.");
+    }
+
     if ( $Foswiki::cfg{Store}{Encoding} ) {
 
         # Test if this is actually an available encoding:
