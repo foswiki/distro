@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1456631653" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1456768091" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ Bulk Registration
 
@@ -55,7 +55,7 @@ The following should be inserted into your %REGISTERTOPIC% as a table. This is t
 *Usage:*
    1 Copy this text to your clipboard
    1 Click through and paste this on %REGISTERTOPIC%.
-   1 Add and customize entries, save table. Note that the first row must not contain bolded entries, so don't apply any formatting.
+   1 Add and customize entries, save table.
    1 Return here
 
 #CustomizingUserData

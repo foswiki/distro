@@ -16,6 +16,7 @@ use Assert;
 use Error qw( :try );
 
 use Foswiki                ();
+use Foswiki::Form          ();
 use Foswiki::LoginManager  ();
 use Foswiki::OopsException ();
 use Foswiki::Sandbox       ();
@@ -395,6 +396,8 @@ sub bulkRegister {
             else {
                 foreach my $field ( split( /\s*\|\s*/, $1 ) ) {
                     $field =~ s/^[\s*]*(.*?)[\s*]*$/$1/;
+                    $field =~ s/<.*?>//g;    #strip any html markup from heading
+                    $field = Foswiki::Form::fieldTitle2FieldName($field);
                     push( @fields, $field );
                 }
                 $gotHdr = 1;
