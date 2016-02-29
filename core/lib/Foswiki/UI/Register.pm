@@ -452,8 +452,10 @@ sub bulkRegister {
 
     $session->leaveContext('absolute_urls');
 
-    my $nurl = $session->getScriptUrl( 1, 'view', $web, $logTopic );
-    $session->redirect($nurl);
+    # Use Foswiki::redirectto to validate redirectto query param
+    # and fall back to the $logTopic if the param is not provided.
+    my $redirecturl = $session->redirectto($logTopic);
+    $session->redirect($redirecturl);
 }
 
 # Register a single user during a bulk registration process

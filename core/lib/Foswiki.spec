@@ -1023,7 +1023,7 @@ $Foswiki::cfg{RemovePortNumber} = $FALSE;
 
 # **BOOLEAN LABEL="Allow Redirect Url" EXPERT**
 # Allow the use of URLs in the =redirectto= parameter to the
-# =save= script, and in =topic= parameter to the
+# =save= and =rest= scripts, the =bulkRegister= action and in =topic= parameter to the
 # =view= script. *WARNING:* Enabling this feature makes it
 # very easy to build phishing pages using the wiki, so in general,
 # public sites should *not* enable it. Note: It is possible to
