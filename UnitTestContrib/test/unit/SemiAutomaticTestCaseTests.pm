@@ -1,13 +1,13 @@
 package SemiAutomaticTestCaseTests;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki();
 use Foswiki::UI::View();
-use Error qw( :try );
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 my $VIEW_UI_FN;
 
@@ -128,9 +128,10 @@ text
 @
 T3
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
     # Testcases are written using good anchors
     $Foswiki::cfg{RequireCompatibleAnchors} = 0;
@@ -149,8 +150,11 @@ sub set_up {
 
     # This user is used in some testcases. All we need to do is make sure
     # their topic exists in the test users web
-    if ( !$this->{session}
-        ->topicExists( $Foswiki::cfg{UsersWebName}, 'WikiGuest' ) )
+    if (
+        !$this->session->topicExists(
+            $Foswiki::cfg{UsersWebName}, 'WikiGuest'
+        )
+      )
     {
         my ($to) =
           Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName}, 'WikiGuest' );
@@ -158,8 +162,12 @@ sub set_up {
         $to->save();
         $to->finish();
     }
-    if ( !$this->{session}
-        ->topicExists( $Foswiki::cfg{UsersWebName}, 'UnknownUser' ) )
+    if (
+        !$this->session->topicExists(
+            $Foswiki::cfg{UsersWebName},
+            'UnknownUser'
+        )
+      )
     {
         my ($to) =
           Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
@@ -168,25 +176,25 @@ sub set_up {
         $to->save();
         $to->finish();
     }
+};
 
-    return;
-}
-
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
     for ( my $i = 1 ; $i <= scalar @test_comma_v ; $i++ ) {
         my $f = "$Foswiki::cfg{DataDir}/TestCases/SearchTestTopic$i.txt,v";
         unlink $f if -e $f;
     }
-    $this->SUPER::tear_down();
-}
+    $orig->($this);
+};
 
-sub list_tests {
+around list_tests => sub {
+    my $orig = shift;
     my ( $this, $suite ) = @_;
-    my @set = $this->SUPER::list_tests(@_);
+    my @set = $orig->( $this, @_ );
 
     $this->createNewFoswikiSession();
-    unless ( $this->{session}->webExists('TestCases') ) {
+    unless ( $this->session->webExists('TestCases') ) {
         print STDERR
           "Cannot run semi-automatic test cases; TestCases web not found";
         return;
@@ -207,7 +215,7 @@ sub list_tests {
     }
     $this->finishFoswikiSession();
     return @set;
-}
+};
 
 sub run_testcase {
     my ( $this, $testcase ) = @_;
@@ -224,13 +232,13 @@ sub run_testcase {
     $Foswiki::cfg{Plugins}{TestFixturePlugin}{Enabled} = 1;
     $Foswiki::cfg{Plugins}{TestFixturePlugin}{Module} =
       'Foswiki::Plugins::TestFixturePlugin';
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{users_web}, 'ProjectContributor' );
+      Foswiki::Func::readTopic( $this->users_web, 'ProjectContributor' );
     $topicObject->text('none');
     $topicObject->save();
     $topicObject->finish();
-    my ($text) = $this->capture( $VIEW_UI_FN, $this->{session} );
+    my ($text) = $this->capture( $VIEW_UI_FN, $this->session );
 
     unless ( $text =~ m#<font color="green">ALL TESTS PASSED</font># ) {
         $this->assert(
@@ -238,7 +246,7 @@ sub run_testcase {
         print $F $text;
         $this->assert( close $F );
         $query->delete('test');
-        ($text) = $this->capture( $VIEW_UI_FN, $this->{session} );
+        ($text) = $this->capture( $VIEW_UI_FN, $this->session );
         $this->assert( open( $F, '>:encoding(utf8)', "${testcase}.html" ) );
         print $F $text;
         $this->assert( close $F );

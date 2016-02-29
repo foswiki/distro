@@ -149,7 +149,7 @@ sub buildNewTopic {
         $text = '' if $query->param('newtopic');    # created by edit
         $topicObject->text($text);
 
-        foreach my $k ( keys %$ttom ) {
+        foreach my $k ( keys %{ $ttom->metaData } ) {
 
             # Skip internal fields and TOPICINFO, TOPICMOVED
             unless ( $k =~ m/^(_|TOPIC)/ ) {
@@ -158,7 +158,7 @@ sub buildNewTopic {
 
             # attachments to be copied later
             if ( $k eq 'FILEATTACHMENT' ) {
-                foreach my $a ( @{ $ttom->{$k} } ) {
+                foreach my $a ( @{ $ttom->metaData->{$k} } ) {
                     push(
                         @attachments,
                         {

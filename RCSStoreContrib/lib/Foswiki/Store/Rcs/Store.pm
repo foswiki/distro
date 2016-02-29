@@ -341,7 +341,7 @@ sub _getAttachmentVersionInfo {
           $this->getHandler( $topicObject->web, $topicObject->topic,
             $attachment );
         $info = $handler->getInfo( $rev || 0 );
-        $info->{author} = _decode( $info->{author} );
+        $info->{author}  = _decode( $info->{author} );
         $info->{comment} = _decode( $info->{comment} );
     }
 
@@ -366,7 +366,7 @@ sub getVersionInfo {
         else {
             # Load into a new object to avoid blowing away the object we
             # were passed; then selectively get the bits we want.
-            my $dummy = Foswiki::Meta->new($topicObject);
+            my $dummy = Foswiki::Meta->new( session => $topicObject );
             $dummy->loadVersion();
             $info = $dummy->get('TOPICINFO');
             $topicObject->put( 'TOPICINFO', $info );
@@ -377,8 +377,8 @@ sub getVersionInfo {
     if ( not defined $info ) {
         my $handler =
           $this->getHandler( $topicObject->web, $topicObject->topic );
-        $info = $handler->getInfo($rev);
-        $info->{author} = _decode( $info->{author} );
+        $info            = $handler->getInfo($rev);
+        $info->{author}  = _decode( $info->{author} );
         $info->{comment} = _decode( $info->{comment} );
     }
 
@@ -574,7 +574,7 @@ sub eachChange {
 
     my @changes;
     @changes = reverse grep { $_->{time} >= $since } $handler->readChanges();
-    return Foswiki::ListIterator->new( \@changes );
+    return Foswiki::ListIterator->new( list => \@changes );
 }
 
 sub getApproxRevTime {
@@ -590,7 +590,7 @@ sub eachAttachment {
     my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
     my @list = $handler->getAttachmentList();
     require Foswiki::ListIterator;
-    return new Foswiki::ListIterator( \@list );
+    return new Foswiki::ListIterator( list => \@list );
 }
 
 sub eachTopic {
@@ -600,7 +600,7 @@ sub eachTopic {
     my @list    = $handler->getTopicNames();
 
     require Foswiki::ListIterator;
-    return new Foswiki::ListIterator( \@list );
+    return new Foswiki::ListIterator( list => \@list );
 }
 
 sub eachWeb {
@@ -624,7 +624,7 @@ sub eachWeb {
     }
     @list = sort(@list);
     require Foswiki::ListIterator;
-    return new Foswiki::ListIterator( \@list );
+    return new Foswiki::ListIterator( list => \@list );
 }
 
 sub remove {

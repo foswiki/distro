@@ -149,7 +149,9 @@ our $CHANGES_SUMMARY_PLAINTRUNC = 70;
 has session => (
     is      => 'ro',
     clearer => 1,
-    isa     => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
+
+    #weak_ref => 1,
+    isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
 );
 has web => (
     is        => 'rw',

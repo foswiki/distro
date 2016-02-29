@@ -51,6 +51,8 @@ use Foswiki::Configure::Load ();
 use Scalar::Util             ();
 use Foswiki::Exception;
 
+#use Foswiki::Store::PlainFile ();
+
 # Item13331 - use CGI::ENCODE_ENTITIES introduced in CGI>=4.14 to restrict encoding
 # in CGI's html rendering code to only these; note that CGI's default values
 # still breaks some unicode byte strings
@@ -320,8 +322,9 @@ has store => (
 has _baseStoreClass => (
     is      => 'rw',
     clearer => 1,
-    default => 'Foswiki::Store::PlainFile',
-    isa     => sub {
+
+    #default => 'Foswiki::Store::PlainFile',
+    isa => sub {
         ASSERT( defined( $_[0] ), "Foswiki::_baseStoreClass cannot be undef" );
     },
 );
@@ -1134,8 +1137,6 @@ sub BUILD {
     # are being processed.
     $Foswiki::Plugins::SESSION = $this;
 
-    # SMELL XXX Test to avoid circular dependencies. Dangerous!
-    Scalar::Util::weaken($Foswiki::Plugins::SESSION);
     ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
     # construct the store object
@@ -2368,7 +2369,7 @@ See http://blog.fox.geek.nz/2010/11/searching-design-spec-for-ultimate.html for 
 
 =cut
 
-sub load_package {
+sub _package_loaded {
     my $fullname = shift;
 
     # See if package is already defined in the main symbol table.
@@ -2377,7 +2378,13 @@ sub load_package {
     no strict 'refs';
     my $pkgLoaded = defined $namePref->{"${nameSuff}::"};
     use strict 'refs';
-    return if $pkgLoaded;
+    return $pkgLoaded;
+}
+
+sub load_package {
+    my $fullname = shift;
+
+    return if _package_loaded($fullname);
 
     my $filename = File::Spec->catfile( split /::/, $fullname ) . '.pm';
     #

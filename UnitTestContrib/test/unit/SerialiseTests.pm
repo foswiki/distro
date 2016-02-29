@@ -6,12 +6,7 @@
 # initially they test the ancient Embedded code
 
 package SerialiseTests;
-use strict;
-use warnings;
-require 5.006;
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Assert;
 use Foswiki;
@@ -20,23 +15,10 @@ use Foswiki::Plugin();
 use Foswiki::Func();
 use File::Temp();
 use Foswiki::AccessControlException();
-use Error qw( :try );
 
-sub set_up {
-    my $this = shift;
-
-    $this->SUPER::set_up();
-
-    return;
-}
-
-sub tear_down {
-    my $this = shift;
-
-    $this->SUPER::tear_down();
-
-    return;
-}
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 sub skip {
     my ( $this, $test ) = @_;
@@ -98,7 +80,7 @@ sub test_SimpleMetaTopic {
     my $this = shift;
 
     my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestTopic' );
+      Foswiki::Meta->new( $this->session, $this->test_web, 'TestTopic' );
 
     $meta->text("\n\n onceler \n \n\n \n\n\n");
     $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'meta' } );
@@ -111,8 +93,11 @@ sub test_SimpleMetaTopic {
 
     my $text = $meta->getEmbeddedStoreForm();
 
-    my $metaFromSerialised =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestTopic' );
+    my $metaFromSerialised = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->test_web,
+        topic   => 'TestTopic'
+    );
     $metaFromSerialised->setEmbeddedStoreForm($text);
 
     my $textAgain = $metaFromSerialised->getEmbeddedStoreForm();
@@ -126,15 +111,21 @@ sub test_SimpleMetaTopic {
 sub test_SimpleTopic {
     my $this = shift;
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestTopic' );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->test_web,
+        topic   => 'TestTopic'
+    );
 
     $meta->text("Onceler\njumped");
 
     my $text = $meta->getEmbeddedStoreForm();
 
-    my $metaFromSerialised =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestTopic' );
+    my $metaFromSerialised = Foswiki::Meta->new(
+        sesison => $this->session,
+        web     => $this->test_web,
+        topic   => 'TestTopic'
+    );
     $metaFromSerialised->setEmbeddedStoreForm($text);
 
     my $textAgain = $metaFromSerialised->getEmbeddedStoreForm();
@@ -148,8 +139,11 @@ sub test_SimpleTopic {
 sub test_SimpleTopicSave {
     my $this = shift;
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestTopic' );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->test_web,
+        topic   => 'TestTopic'
+    );
 
     $meta->text("Onceler\njumped");
 
@@ -158,8 +152,7 @@ sub test_SimpleTopicSave {
     $meta->save();
     $meta->finish();
 
-    my $rawFirst =
-      Foswiki::Func::readTopicText( $this->{test_web}, 'TestTopic' );
+    my $rawFirst = Foswiki::Func::readTopicText( $this->test_web, 'TestTopic' );
 
     #remove the TOPICINFO
     $rawFirst =~ s/^%META:TOPICINFO\{.*?\}%\n//m;
@@ -167,14 +160,14 @@ sub test_SimpleTopicSave {
     $this->assert_equals( $text, $rawFirst );
 
     my ( $newmeta, $t ) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'TestTopic' );
+      Foswiki::Func::readTopic( $this->test_web, 'TestTopic' );
     $this->assert_equals( $text, $newmeta->text() );
 
     $newmeta->save();
     $newmeta->finish();
 
     my ( $three, $t3 ) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'TestTopic' );
+      Foswiki::Func::readTopic( $this->test_web, 'TestTopic' );
     $this->assert_equals( $text, $three->text() );
 
     return;
@@ -187,16 +180,15 @@ sub test_Meta_CopyAll {
     my $query;
 
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+      Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
     $meta->text("Smelly\ncat");
     $meta->save();
     $meta->finish();
 
     #my $rawFirst =
-    #  Foswiki::Func::readTopicText( $this->{test_web}, 'MergeSave' );
+    #  Foswiki::Func::readTopicText( $this->test_web, 'MergeSave' );
 
-    ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    ( $meta, $text ) = Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
     $this->assert_equals( "Smelly\ncat", $text );
 
     # A saves again, reprev triggers to create rev 1 again
@@ -204,18 +196,17 @@ sub test_Meta_CopyAll {
         initializer => {
             action => ['save'],
             text   => ["Sweaty\ncat"],
-            topic  => [ $this->{test_web} . '.MergeSave' ]
+            topic  => [ $this->test_web . '.MergeSave' ]
         }
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my $UI_FN ||= $this->getUIFn('save');
-    $this->captureWithKey( save => $UI_FN, $this->{session} );
+    $this->captureWithKey( save => $UI_FN, $this->session );
 
     #my $rawSecond =
-    #  Foswiki::Func::readTopicText( $this->{test_web}, 'MergeSave' );
+    #  Foswiki::Func::readTopicText( $this->test_web, 'MergeSave' );
 
-    ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'MergeSave' );
+    ( $meta, $text ) = Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
 
     # Foswiki::UI::buildNewTopic explicitly makes sure there is
     # one \n at the end of each text submitted

@@ -9,6 +9,7 @@ use utf8;
 # Subclasses are expected to implement set_up_for_verify()
 #
 use File::Spec();
+use Try::Tiny;
 
 use Moo;
 use namespace::clean;
@@ -113,6 +114,11 @@ sub fixture_groups {
         }
     }
 
+    my @encoding_groups = qw(utf8);
+    unless ( $^O =~ /darwin/i ) {
+        push @encoding_groups, 'iso8859';
+    }
+
     #return ( [ 'PlainFile' ], [ 'utf8' ] );
     if ($Foswiki::UNICODE) {
         if ( Cwd::cwd() =~ m/[^\p{ASCII}]/ ) {
@@ -121,7 +127,7 @@ sub fixture_groups {
             return ( \@groups, [ 'utf8', ] );
         }
         else {
-            return ( \@groups, [ 'iso8859', 'utf8', ] );
+            return ( \@groups, [@encoding_groups] );
         }
     }
     else {
@@ -161,7 +167,7 @@ sub utf8 {
     undef $Foswiki::cfg{Store}{Encoding};
     $this->t_web('Temporary普通话Web1');
     $this->t_web2('Temporary国语Web2');
-    $this->t_topic('Testру́сскийTopic');
+    $this->t_topic('TestукраїнськийTopic');
     $this->t_datafile("ŠňáĺľŠťěř.gif");
     $this->t_datapath( "$Foswiki::cfg{TempfileDir}/" . $this->t_datafile );
     $this->t_datafile2("پښتانهټبرونه.gif");
@@ -177,7 +183,8 @@ sub iso8859 {
     $Foswiki::cfg{Store}{Encoding} = 'iso-8859-1';
     my $s =
       Encode::decode( 'iso-8859-1',
-        join( '', map( chr($_), ( 160 .. 255 ) ) ) );
+        join( '', map { chr($_) } ( 160 .. 200 ) ) );
+
     my $n = $s;
     $n =~ s/$Foswiki::cfg{NameFilter}//g;
     $this->t_web("Temporary${n}Web1");

@@ -14,23 +14,27 @@
 # No method of Foswiki::Func should be called
 #
 package StoreImplementationTests;
-use strict;
-use warnings;
-require 5.008;
-
-use FoswikiStoreTestCase();
-our @ISA = qw( FoswikiStoreTestCase );
+use v5.14;
 
 use Assert;
 use Foswiki       ();
 use Foswiki::Meta ();
-use Error qw( :try );
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiStoreTestCase );
+
+has sut => (
+    is  => 'rw',
+    isa => Foswiki::Object::isaCLASS( 'sut', 'Foswiki::Store', noUndef => 1, ),
+);
 
 sub skip {
     my ( $this, $test ) = @_;
     my $Item11708 = 'Item11708 Store API fixed in Foswiki 1.2+';
 
-    return $this->SUPER::skip_test_if(
+    return $this->skip_test_if(
         $test,
         {
             condition => { with_dep => 'Foswiki,<,1.2' },
@@ -42,13 +46,14 @@ sub skip {
     );
 }
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
     $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 0;
-}
+};
 
 sub set_up_for_verify {
     my $this = shift;
@@ -57,32 +62,40 @@ sub set_up_for_verify {
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
 
     # {sut} == store under test
-    $this->{sut} = $this->{session}->{store};
+    $this->sut( $this->session->store );
 
     # No pre-existing webs or topics (except users and System, which we
     # quietly ignore here)
-    $this->assert( !$this->{sut}->webExists( $this->{t_web} ) );
-    $this->assert( !$this->{sut}->webExists( $this->{t_web2} ) );
+    $this->assert( !$this->sut->webExists( $this->t_web ) );
+    $this->assert( !$this->sut->webExists( $this->t_web2 ) );
 }
 
 # Create a simple topic containing only text
 sub verify_simpleTopic {
     my $this = shift;
 
-    my ( $web, $topic ) = ( $this->{t_web}, $this->{t_topic} );
+    my ( $web, $topic ) = ( $this->t_web, $this->t_topic );
     my $webObject = $this->populateNewWeb($web);
     $webObject->finish();
 
-    $this->assert( !$this->{sut}->topicExists( $web, $topic ) );
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    $this->assert( !$this->sut->topicExists( $web, $topic ) );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => $topic
+    );
     $meta->text("1 2 3");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
     $meta->finish();
-    $this->assert( $this->{sut}->topicExists( $web, $topic ) );
+    $this->assert( $this->sut->topicExists( $web, $topic ) );
 
-    $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => $topic
+    );
 
-    my ( $rev, $isLatest ) = $this->{sut}->readTopic($meta);
+    my ( $rev, $isLatest ) = $this->sut->readTopic($meta);
 
     $this->assert_num_equals( 1, $rev );
     $this->assert($isLatest);
@@ -93,16 +106,24 @@ sub verify_simpleTopic {
 
     $this->assert_str_equals( "1 2 3", $meta->text );
     $meta->text("4 5 6");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
     $meta->finish();
 
-    $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
-    $this->{sut}->readTopic( $meta, 1 );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => $topic
+    );
+    $this->sut->readTopic( $meta, 1 );
     $this->assert_equals( "1 2 3", $meta->text() );
     $meta->finish();
 
-    $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
-    $this->{sut}->readTopic( $meta, 2 );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => $topic
+    );
+    $this->sut->readTopic( $meta, 2 );
     $this->assert_equals( "4 5 6", $meta->text() );
     $meta->finish();
 
@@ -111,10 +132,10 @@ sub verify_simpleTopic {
 
 sub _makeWeb {
     my ( $this, $both ) = @_;
-    my $webObject = $this->populateNewWeb( $this->{t_web} );
+    my $webObject = $this->populateNewWeb( $this->t_web );
     $webObject->finish();
     if ($both) {
-        $webObject = $this->populateNewWeb( $this->{t_web2} );
+        $webObject = $this->populateNewWeb( $this->t_web2 );
         $webObject->finish();
     }
 }
@@ -122,18 +143,18 @@ sub _makeWeb {
 sub verify_eachTopic_eachWeb {
     my $this = shift;
 
-    my ( $web, $topic ) = ( $this->{t_web}, $this->{t_topic} );
+    my ( $web, $topic ) = ( $this->t_web, $this->t_topic );
     $this->_makeWeb();
-    my $webObject = $this->populateNewWeb("$this->{t_web}/Blah");
+    my $webObject = $this->populateNewWeb( $this->t_web . "/Blah" );
     $webObject->finish();
 
-    $this->assert( $this->{sut}->webExists($web) );
-    $webObject = Foswiki::Meta->new( $this->{session}, $web );
-    my @topics = $this->{sut}->eachTopic($webObject)->all();
+    $this->assert( $this->sut->webExists($web) );
+    $webObject = Foswiki::Meta->new( session => $this->session, web => $web );
+    my @topics = $this->sut->eachTopic($webObject)->all();
     my $tops = join( " ", @topics );
     $this->assert_equals( 1, scalar(@topics), $tops )
       ;    # we expect there to be only the preferences topic
-    my $wit = $this->{sut}->eachWeb($webObject);
+    my $wit = $this->sut->eachWeb($webObject);
     $webObject->finish();
     my @webs = $wit->all();
     $this->assert_num_equals( 1, scalar(@webs) );
@@ -147,24 +168,36 @@ sub verify_eachTopic_eachWeb {
 sub verify_getRevisionDiff {
     my $this = shift;
 
-    my ( $web, $topic ) = ( $this->{t_web}, $this->{t_topic} );
+    my ( $web, $topic ) = ( $this->t_web, $this->t_topic );
     $this->_makeWeb();
 
     my $text = "This is some test text\n   * some list\n   * content\n :) :)";
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => $topic
+    );
     $meta->text($text);
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
     $this->assert_equals( 1, $meta->getLatestRev() );
     $meta->finish();
 
-    $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => $topic
+    );
     $text =~ s/content/maladjusted/;
     $text .= "\nnewline";
     $meta->text($text);
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
     $meta->finish();
 
-    my $readMeta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    my $readMeta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => $topic
+    );
     my $readText = $readMeta->text;
 
     # ignore whitespace at end of data
@@ -173,7 +206,7 @@ sub verify_getRevisionDiff {
     $this->assert_equals( 2,     $readMeta->getLatestRev() );
 
     # SMELL: not a complete test by any stretch of the imagination
-    my $diffs = $this->{sut}->getRevisionDiff( $readMeta, 1, 2 );
+    my $diffs = $this->sut->getRevisionDiff( $readMeta, 1, 2 );
 
     my $expect;
 
@@ -223,29 +256,37 @@ sub verify_getRevisionDiff {
 sub verify_getRevisionInfo {
     my $this = shift;
 
-    my ( $web, $topic ) = ( $this->{t_web}, $this->{t_topic} );
+    my ( $web, $topic ) = ( $this->t_web, $this->t_topic );
     $this->_makeWeb();
 
     my $text = "This is some test text\n   * some list\n   * content\n :) :)";
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => $topic
+    );
     $meta->text($text);
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
     $this->assert_equals( 1, $meta->getLatestRev() );
 
     $text .= "\nnewline";
     $meta->text($text);
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
 
-    my $readMeta = Foswiki::Meta->new( $this->{session}, $web, $topic );
+    my $readMeta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => $topic
+    );
     my $readText = $readMeta->text;
 
     # ignore whitespace at end of data
     $readText =~ s/\s*$//s;
     $this->assert_equals( $text, $readText );
     $this->assert_equals( 2,     $readMeta->getLatestRev() );
-    my $info = $this->{sut}->getVersionInfo($readMeta);
+    my $info = $this->sut->getVersionInfo($readMeta);
     $this->assert_num_equals( 2, $info->{version} );
-    $info = $this->{sut}->getVersionInfo( $readMeta, 1 );
+    $info = $this->sut->getVersionInfo( $readMeta, 1 );
     $this->expect_failure( 'Item11708 Store API fixed in Foswiki 1.2+',
         with_dep => 'Foswiki,<,1.2' );
     $this->assert_num_equals( 1, $info->{version} );
@@ -263,59 +304,73 @@ sub verify_moveTopic {
     $this->_makeWeb(1);
 
     my $text = "This is some test text\n   * some list\n   * content\n :) :)";
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
     $meta->text($text);
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
 
     $text =
-"This is some test text\n   * some list\n   * $this->{t_topic}\n   * content\n :) :)";
+        "This is some test text\n   * some list\n   * "
+      . $this->t_topic
+      . "\n   * content\n :) :)";
     $meta->finish();
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web},
-        $this->{t_topic} . 'a' );
-    $meta->text($text);
-    $meta->saveAs();
-    $meta->finish();
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web},
-        $this->{t_topic} . 'b' );
-    $meta->text($text);
-    $meta->saveAs();
-    $meta->finish();
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web},
-        $this->{t_topic} . 'c' );
-    $meta->text($text);
-    $meta->saveAs();
-    $meta->finish();
-
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
-    my $f = $this->open_data('t_datapath');
-    $this->{sut}->saveAttachment(
-        $meta, "Attachment1", $f,
-        $this->{test_user_cuid},
-        { comment => 'Feasgar " Bha' }
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic . 'a'
     );
-    $this->assert( $this->{sut}->attachmentExists( $meta, "Attachment1" ) );
+    $meta->text($text);
+    $meta->saveAs();
+    $meta->finish();
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic . 'b'
+    );
+    $meta->text($text);
+    $meta->saveAs();
+    $meta->finish();
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic . 'c'
+    );
+    $meta->text($text);
+    $meta->saveAs();
     $meta->finish();
 
-    my $metaOrig =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
-    my $metaNew =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web2}, 'TopicMovedHere' );
-    $this->assert(
-        !$this->{sut}->topicExists( $this->{t_web2}, 'TopicMovedHere' ) );
-    $this->{sut}->moveTopic( $metaOrig, $metaNew, $this->{test_user_cuid} );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
+    my $f = $this->open_data('t_datapath');
+    $this->sut->saveAttachment( $meta, "Attachment1", $f, $this->test_user_cuid,
+        { comment => 'Feasgar " Bha' } );
+    $this->assert( $this->sut->attachmentExists( $meta, "Attachment1" ) );
+    $meta->finish();
 
+    my $metaOrig = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
+    my $metaNew = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web2,
+        topic   => 'TopicMovedHere'
+    );
     $this->assert(
-        !$this->{sut}->topicExists( $this->{t_web}, $this->{t_topic} ) );
-    $this->assert(
-        $this->{sut}->topicExists( $this->{t_web2}, 'TopicMovedHere' ) );
-    $this->assert(
-        !$this->{sut}->attachmentExists( $metaOrig, "Attachment1" ) );
-    $this->assert( $this->{sut}->attachmentExists( $metaNew, "Attachment1" ) );
+        !$this->sut->topicExists( $this->t_web2, 'TopicMovedHere' ) );
+    $this->sut->moveTopic( $metaOrig, $metaNew, $this->test_user_cuid );
+
+    $this->assert( !$this->sut->topicExists( $this->t_web, $this->t_topic ) );
+    $this->assert( $this->sut->topicExists( $this->t_web2, 'TopicMovedHere' ) );
+    $this->assert( !$this->sut->attachmentExists( $metaOrig, "Attachment1" ) );
+    $this->assert( $this->sut->attachmentExists( $metaNew, "Attachment1" ) );
 
     $metaOrig->finish();
     $metaNew->finish();
@@ -327,25 +382,27 @@ sub verify_saveTopic {
     my $this = shift;
 
     $this->_makeWeb();
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
     $meta->text("1 2 3");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
 
 # Note that the forcedate must be >= the date of the most recent revision of the
 # topic - hence the sleep.
     my $t = time;
     sleep(1);
     $meta->text("Catch that pigeon!");
-    $this->{sut}
-      ->saveTopic( $meta, $this->{test_user_cuid}, { forcedate => $t } );
-    my $info = $this->{sut}->getVersionInfo($meta);
+    $this->sut->saveTopic( $meta, $this->test_user_cuid, { forcedate => $t } );
+    my $info = $this->sut->getVersionInfo($meta);
     $this->assert( $info->{date} - $t < 5 );
     $this->assert_num_equals( 2, $info->{version} );
 
 # SMELL: Following test commented out because RcsWrap and RcsLite both fail when
 # forcedate is used
-#$this->assert($this->{sut}->getApproxRevTime($this->{t_web}, $this->{t_topic}) - $t < 5, $this->{sut}->getApproxRevTime($this->{t_web}, $this->{t_topic}));
+#$this->assert($this->sut->getApproxRevTime($this->t_web, $this->t_topic) - $t < 5, $this->sut->getApproxRevTime($this->t_web, $this->t_topic));
 }
 
 sub verify_repRevTopic {
@@ -356,46 +413,58 @@ sub verify_repRevTopic {
     $this->_makeWeb();
 
     # Create topic with a single rev
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
     $meta->text("Web 1 Topic 1 Test 1");
-    $this->{sut}->saveTopic( $meta, $deffo_cuid );
+    $this->sut->saveTopic( $meta, $deffo_cuid );
 
     # Replace that rev
 
     # A repRev when there is only one rev blows away that rev, so we
     # can play whatever tricks we like with the date - there can't be
     # an earlier rev.
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
     $meta->text("Web 1 Topic 1 Test 2");
-    $this->{sut}->repRev( $meta, $this->{test_user_cuid}, forcedate => 1000 );
-    my $info = $this->{sut}->getVersionInfo($meta);
+    $this->sut->repRev( $meta, $this->test_user_cuid, forcedate => 1000 );
+    my $info = $this->sut->getVersionInfo($meta);
     $this->assert_num_equals( 1, $info->{version} );
-    $this->assert_str_equals( $this->{test_user_cuid}, $info->{author} );
+    $this->assert_str_equals( $this->test_user_cuid, $info->{author} );
     $this->expect_failure( 'Item11708 Store API fixed in Foswiki 1.2+',
         with_dep => 'Foswiki,<,1.2' );
     $this->assert( $info->{date} - 1000 < 5, $info->{date} );
 
 # SMELL: Following test commented out because RcsWrap and RcsLite both fail when
 # forcedate is used
-#    $this->assert($this->{sut}->getApproxRevTime($this->{t_web}, $this->{t_topic}) - 1000 < 5);
+#    $this->assert($this->sut->getApproxRevTime($this->t_web, $this->t_topic) - 1000 < 5);
 
     # Save another change to force a different user
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
     $meta->text("Web 1 Topic 1 Test 3");
     $meta->saveAs( author => $deffo_cuid, forcenewrevision => 1 );
-    $info = $this->{sut}->getVersionInfo($meta);
+    $info = $this->sut->getVersionInfo($meta);
     $this->assert_num_equals( 2, $info->{version} );
     $this->assert_str_equals( $deffo_cuid, $info->{author} );
 
     # repRev it
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
     $meta->text("Web 1 Topic 1 Test 4");
-    $this->{sut}->repRev( $meta, $deffo_cuid, forcedate => 1000 );
-    $info = $this->{sut}->getVersionInfo($meta);
+    $this->sut->repRev( $meta, $deffo_cuid, forcedate => 1000 );
+    $info = $this->sut->getVersionInfo($meta);
     $this->assert_num_equals( 2, $info->{version} );
 
     # Note: it's the responsibility of the caller to set the topic info
@@ -405,17 +474,25 @@ sub verify_repRevTopic {
 
 sub verify_eachChange {
     my $this = shift;
-    my ( $web, $topic ) = ( $this->{t_web}, $this->{t_topic} );
+    my ( $web, $topic ) = ( $this->t_web, $this->t_topic );
     $this->_makeWeb();
 
     $Foswiki::cfg{Store}{RememberChangesFor} = 5;    # very bad memory
     sleep(1);
     my $start = time();
-    my $meta = Foswiki::Meta->new( $this->{session}, $web, "ClutterBuck" );
+    my $meta  = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => "ClutterBuck"
+    );
     $meta->text("One");
     $meta->saveAs();
     $meta->finish();
-    $meta = Foswiki::Meta->new( $this->{session}, $web, "PiggleNut" );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => "PiggleNut"
+    );
     $meta->text("One");
     $meta->saveAs();
 
@@ -423,15 +500,23 @@ sub verify_eachChange {
     sleep(1);
     my $mid = time();
     $meta->finish();
-    $meta = Foswiki::Meta->new( $this->{session}, $web, "ClutterBuck" );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => "ClutterBuck"
+    );
     $meta->text("One");
     $meta->saveAs();
     $meta->finish();
-    $meta = Foswiki::Meta->new( $this->{session}, $web, "PiggleNut" );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => "PiggleNut"
+    );
     $meta->text("Two Two Two");
     $meta->saveAs();
     my $change;
-    my $it = $this->{sut}->eachChange( $meta, $start );
+    my $it = $this->sut->eachChange( $meta, $start );
     $this->assert( $it->hasNext() );
     $change = $it->next();
     $this->assert_str_equals( "PiggleNut", $change->{topic} );
@@ -460,10 +545,8 @@ sub verify_eachChange {
     $this->assert_equals( 2, $change->{revision} );
     $this->assert( !$it->hasNext() );
 
-    $this->assert( 1, $this->{sut}->getRevisionAtTime( $meta, $start ) );
-    $this->assert( 2, $this->{sut}->getRevisionAtTime( $meta, $mid ) );
-
-    $meta->finish();
+    $this->assert( 1, $this->sut->getRevisionAtTime( $meta, $start ) );
+    $this->assert( 2, $this->sut->getRevisionAtTime( $meta, $mid ) );
 }
 
 sub verify_openAttachment {
@@ -471,40 +554,44 @@ sub verify_openAttachment {
 
     $this->_makeWeb();
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
     $meta->text("One");
     $meta->saveAs();
     $meta->attach(
-        name    => $this->{t_datafile},
-        file    => $this->{t_datapath},
+        name    => $this->t_datafile,
+        file    => $this->t_datapath,
         comment => "a comment"
     );
     $meta->attach(
-        name    => $this->{t_datafile},
-        file    => $this->{t_datapath2},
+        name    => $this->t_datafile,
+        file    => $this->t_datapath2,
         comment => "a comment"
     );
 
     $meta->finish();
 
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
 
     local $/;
-    my $f = $this->{sut}->openAttachment( $meta, $this->{t_datafile}, "<" );
-    $this->assert_equals( $this->{t_data2}, <$f> );
+    my $f = $this->sut->openAttachment( $meta, $this->t_datafile, "<" );
+    $this->assert_equals( $this->t_data2, <$f> );
     close($f);
 
     $f =
-      $this->{sut}
-      ->openAttachment( $meta, $this->{t_datafile}, "<", version => 1 );
-    $this->assert_equals( $this->{t_data}, <$f> );
+      $this->sut->openAttachment( $meta, $this->t_datafile, "<", version => 1 );
+    $this->assert_equals( $this->t_data, <$f> );
     close($f);
     $f =
-      $this->{sut}
-      ->openAttachment( $meta, $this->{t_datafile}, "<", version => 2 );
-    $this->assert_equals( $this->{t_data2}, <$f> );
+      $this->sut->openAttachment( $meta, $this->t_datafile, "<", version => 2 );
+    $this->assert_equals( $this->t_data2, <$f> );
     close($f);
 
     return;
@@ -515,68 +602,81 @@ sub verify_eachAttachment {
 
     $this->_makeWeb();
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
     $meta->text("One");
     $meta->saveAs();
 
     $meta->attach(
-        name    => $this->{t_datafile},
-        file    => $this->{t_datapath},
+        name    => $this->t_datafile,
+        file    => $this->t_datapath,
         comment => "a comment"
     );
     $meta->attach(
-        name    => $this->{t_datafile2},
-        file    => $this->{t_datapath2},
+        name    => $this->t_datafile2,
+        file    => $this->t_datapath2,
         comment => "a comment"
     );
 
     # Create a directory, it should not be returned as an attacment
     # See Item13541
-    my $path = "$Foswiki::cfg{PubDir}/$this->{t_web}/$this->{t_topic}/";
+    my $path =
+      "$Foswiki::cfg{PubDir}/" . $this->t_web . "/" . $this->t_topic . "/";
     mkdir $path . "bogusempty";
 
     $meta->finish();
 
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
 
-    my $it   = $this->{sut}->eachAttachment($meta);
+    my $it   = $this->sut->eachAttachment($meta);
     my @list = $it->all();
+    my ( $t_datafile, $t_datafile2 ) =
+      ( $this->t_datafile, $this->t_datafile2 );
     $this->assert( scalar(@list) == 2 );
-    @list = grep { !/$this->{t_datafile}/ } @list;
+    @list = grep { !/$t_datafile/ } @list;
     $this->assert( scalar(@list) == 1 );
-    @list = grep { !/$this->{t_datafile2}/ } @list;
+    @list = grep { !/$t_datafile2/ } @list;
     $this->assert( scalar(@list) == 0 );
 
-    $this->assert(
-        $this->{sut}->attachmentExists( $meta, $this->{t_datafile} ) );
-    $this->assert(
-        $this->{sut}->attachmentExists( $meta, $this->{t_datafile2} ) );
+    $this->assert( $this->sut->attachmentExists( $meta, $this->t_datafile ) );
+    $this->assert( $this->sut->attachmentExists( $meta, $this->t_datafile2 ) );
 
-    my $preDeleteMeta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    my $preDeleteMeta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
 
     sleep(1);    #ensure different timestamp on topic text
-    $meta->removeFromStore( $this->{t_datafile} );
+    $meta->removeFromStore( $this->t_datafile );
     $meta->finish();
 
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
-    $this->assert(
-        $this->{sut}->topicExists( $this->{t_web}, $this->{t_topic} ) );
-    $this->assert(
-        !$this->{sut}->attachmentExists( $meta, $this->{t_datafile} ) );
-    $this->assert(
-        $this->{sut}->attachmentExists( $meta, $this->{t_datafile2} ) );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
+    $this->assert( $this->sut->topicExists( $this->t_web, $this->t_topic ) );
+    $this->assert( !$this->sut->attachmentExists( $meta, $this->t_datafile ) );
+    $this->assert( $this->sut->attachmentExists( $meta, $this->t_datafile2 ) );
 
-    my $postDeleteMeta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
+    my $postDeleteMeta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
 
-    $it   = $this->{sut}->eachAttachment($postDeleteMeta);
+    $it   = $this->sut->eachAttachment($postDeleteMeta);
     @list = $it->all();
     $this->assert( scalar(@list) == 1 );
-    $this->assert_str_equals( $this->{t_datafile2}, $list[0] );
+    $this->assert_str_equals( $this->t_datafile2, $list[0] );
     $preDeleteMeta->finish();
     $postDeleteMeta->finish();
 
@@ -588,50 +688,65 @@ sub verify_moveAttachment {
 
     $this->_makeWeb(1);
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, "Web1Topic1" );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "Web1Topic1"
+    );
     $meta->text("Web 1 Topic 1");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
 
     my $f = $this->open_data('t_datapath');
-    $this->{sut}->saveAttachment(
-        $meta, "Attachment1", $f,
-        $this->{test_user_cuid},
-        { comment => 'Feasgar " Bha' }
+    $this->sut->saveAttachment( $meta, "Attachment1", $f, $this->test_user_cuid,
+        { comment => 'Feasgar " Bha' } );
+    $this->assert( $this->sut->attachmentExists( $meta, "Attachment1" ) );
+    $meta->finish();
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "Web1Topic2"
     );
-    $this->assert( $this->{sut}->attachmentExists( $meta, "Attachment1" ) );
-    $meta->finish();
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, "Web1Topic2" );
     $meta->text("Web 1 Topic 2");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
     $meta->finish();
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web2}, "Web2Topic1" );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web2,
+        topic   => "Web2Topic1"
+    );
     $meta->text("Web 2 Topic 1");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
     $meta->finish();
 
     # ###############
     # Rename an attachment - from/to web/topic the same
     # Old attachment removed, new attachment exists
     # ###############
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, "Web1Topic1" );
-    $this->assert( $this->{sut}->testAttachment( $meta, "Attachment1", "f" ) );
-    $this->{sut}->moveAttachment( $meta, "Attachment1", $meta, "Attachment2",
-        $this->{test_user_cuid} );
-    $this->assert( !$this->{sut}->attachmentExists( $meta, "Attachment1" ) );
-    $this->assert( $this->{sut}->attachmentExists( $meta, "Attachment2" ) );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "Web1Topic1"
+    );
+    $this->assert( $this->sut->testAttachment( $meta, "Attachment1", "f" ) );
+    $this->sut->moveAttachment( $meta, "Attachment1", $meta, "Attachment2",
+        $this->test_user_cuid );
+    $this->assert( !$this->sut->attachmentExists( $meta, "Attachment1" ) );
+    $this->assert( $this->sut->attachmentExists( $meta, "Attachment2" ) );
     $meta->finish();
 
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, "Web1Topic1" );
-    $this->{sut}->readTopic($meta);
-    my $text = $meta->text();
-    my $meta2 =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, "Web1Topic2" );
-    $this->{sut}->readTopic($meta2);
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "Web1Topic1"
+    );
+    $this->sut->readTopic($meta);
+    my $text  = $meta->text();
+    my $meta2 = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "Web1Topic2"
+    );
+    $this->sut->readTopic($meta2);
     my $text2 = $meta2->text();
 
     # ###############
@@ -639,10 +754,10 @@ sub verify_moveAttachment {
     # Old attachment removed, new attachment exists, and
     # source topic text unchanged
     # ###############
-    $this->{sut}->moveAttachment( $meta, "Attachment2", $meta2, 'Attachment3',
-        $this->{test_user_cuid} );
-    $this->assert( !$this->{sut}->attachmentExists( $meta, "Attachment2" ) );
-    $this->assert( $this->{sut}->attachmentExists( $meta2, "Attachment3" ) );
+    $this->sut->moveAttachment( $meta, "Attachment2", $meta2, 'Attachment3',
+        $this->test_user_cuid );
+    $this->assert( !$this->sut->attachmentExists( $meta, "Attachment2" ) );
+    $this->assert( $this->sut->attachmentExists( $meta2, "Attachment3" ) );
     $meta->finish();
     $meta2->finish();
 
@@ -651,20 +766,26 @@ sub verify_moveAttachment {
     #  Old attachment removed, new attachment exists
     # ###############
 
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, "Web1Topic2" );
-    $this->{sut}->readTopic($meta);
-    $text = $meta->text();
-    $meta2 =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web2}, "Web2Topic1" );
-    $this->{sut}->readTopic($meta2);
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "Web1Topic2"
+    );
+    $this->sut->readTopic($meta);
+    $text  = $meta->text();
+    $meta2 = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web2,
+        topic   => "Web2Topic1"
+    );
+    $this->sut->readTopic($meta2);
     $text2 = $meta2->text();
 
-    $this->{sut}->moveAttachment( $meta, "Attachment3", $meta2, 'Attachment4',
-        $this->{test_user_cuid} );
+    $this->sut->moveAttachment( $meta, "Attachment3", $meta2, 'Attachment4',
+        $this->test_user_cuid );
 
-    $this->assert( !$this->{sut}->attachmentExists( $meta, "Attachment3" ) );
-    $this->assert( $this->{sut}->attachmentExists( $meta2, "Attachment4" ) );
+    $this->assert( !$this->sut->attachmentExists( $meta, "Attachment3" ) );
+    $this->assert( $this->sut->attachmentExists( $meta2, "Attachment4" ) );
     $meta->finish();
     $meta2->finish();
 
@@ -675,58 +796,73 @@ sub verify_copyAttachment {
     my $this = shift;
     $this->_makeWeb(1);
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, "Web1Topic1" );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "Web1Topic1"
+    );
     $meta->text("Web 1 Topic 1");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
 
     my $f = $this->open_data('t_datapath');
-    $this->{sut}->saveAttachment(
-        $meta, "Attachment1", $f,
-        $this->{test_user_cuid},
-        { comment => 'Feasgar " Bha' }
+    $this->sut->saveAttachment( $meta, "Attachment1", $f, $this->test_user_cuid,
+        { comment => 'Feasgar " Bha' } );
+    $this->assert( $this->sut->attachmentExists( $meta, "Attachment1" ) );
+    $meta->finish();
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "Web1Topic2"
     );
-    $this->assert( $this->{sut}->attachmentExists( $meta, "Attachment1" ) );
-    $meta->finish();
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, "Web1Topic2" );
     $meta->text("Web 1 Topic 2");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
     $meta->finish();
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web2}, "Web2Topic1" );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web2,
+        topic   => "Web2Topic1"
+    );
     $meta->text("Web 2 Topic 1");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
     $meta->finish();
 
     # ###############
     # Copy an attachment - from/to web/topic the same
     # ###############
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, "Web1Topic1" );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "Web1Topic1"
+    );
 
-    $this->{sut}->copyAttachment( $meta, "Attachment1", $meta, "Attachment2",
-        $this->{test_user_cuid} );
-    $this->assert( $this->{sut}->attachmentExists( $meta, "Attachment1" ) );
-    $this->assert( $this->{sut}->attachmentExists( $meta, "Attachment2" ) );
+    $this->sut->copyAttachment( $meta, "Attachment1", $meta, "Attachment2",
+        $this->test_user_cuid );
+    $this->assert( $this->sut->attachmentExists( $meta, "Attachment1" ) );
+    $this->assert( $this->sut->attachmentExists( $meta, "Attachment2" ) );
     $meta->finish();
 
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, "Web1Topic1" );
-    $this->{sut}->readTopic($meta);
-    my $text = $meta->text();
-    my $meta2 =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, "Web1Topic2" );
-    $this->{sut}->readTopic($meta2);
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "Web1Topic1"
+    );
+    $this->sut->readTopic($meta);
+    my $text  = $meta->text();
+    my $meta2 = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "Web1Topic2"
+    );
+    $this->sut->readTopic($meta2);
     my $text2 = $meta2->text();
 
     # ###############
     # Copy an attachment - from/to topic in the same web
     # ###############
-    $this->{sut}->copyAttachment( $meta, "Attachment2", $meta2, 'Attachment3',
-        $this->{test_user_cuid} );
-    $this->assert( $this->{sut}->attachmentExists( $meta,  "Attachment2" ) );
-    $this->assert( $this->{sut}->attachmentExists( $meta2, "Attachment3" ) );
+    $this->sut->copyAttachment( $meta, "Attachment2", $meta2, 'Attachment3',
+        $this->test_user_cuid );
+    $this->assert( $this->sut->attachmentExists( $meta,  "Attachment2" ) );
+    $this->assert( $this->sut->attachmentExists( $meta2, "Attachment3" ) );
     $meta->finish();
     $meta2->finish();
 
@@ -734,20 +870,26 @@ sub verify_copyAttachment {
     # Copy an attachment - to topic in a different web
     # ###############
 
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, "Web1Topic2" );
-    $this->{sut}->readTopic($meta);
-    $text = $meta->text();
-    $meta2 =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web2}, "Web2Topic1" );
-    $this->{sut}->readTopic($meta2);
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "Web1Topic2"
+    );
+    $this->sut->readTopic($meta);
+    $text  = $meta->text();
+    $meta2 = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web2,
+        topic   => "Web2Topic1"
+    );
+    $this->sut->readTopic($meta2);
     $text2 = $meta2->text();
 
-    $this->{sut}->copyAttachment( $meta, "Attachment3", $meta2, 'Attachment4',
-        $this->{test_user_cuid} );
+    $this->sut->copyAttachment( $meta, "Attachment3", $meta2, 'Attachment4',
+        $this->test_user_cuid );
 
-    $this->assert( $this->{sut}->attachmentExists( $meta,  "Attachment3" ) );
-    $this->assert( $this->{sut}->attachmentExists( $meta2, "Attachment4" ) );
+    $this->assert( $this->sut->attachmentExists( $meta,  "Attachment3" ) );
+    $this->assert( $this->sut->attachmentExists( $meta2, "Attachment4" ) );
     $meta->finish();
     $meta2->finish();
 
@@ -757,32 +899,47 @@ sub verify_copyAttachment {
 sub verify_moveWeb {
     my $this = shift;
     $this->_makeWeb();
-    my $meta = Foswiki::Meta->new( $this->{session}, $this->{t_web}, "AttEd" );
-    $meta->text("1 2 3");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
-    $meta->finish();
-
-    $meta = Foswiki::Meta->new( $this->{session}, $this->{t_web}, "AttEd" );
-    my $f = $this->open_data('t_datapath');
-    $this->{sut}->saveAttachment(
-        $meta, "Attachment1", $f,
-        $this->{test_user_cuid},
-        { comment => 'Feasgar " Bha' }
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "AttEd"
     );
+    $meta->text("1 2 3");
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
     $meta->finish();
 
-    my $from = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $this->{t_web} );
-    my $to = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $this->{t_web2} );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "AttEd"
+    );
+    my $f = $this->open_data('t_datapath');
+    $this->sut->saveAttachment( $meta, "Attachment1", $f, $this->test_user_cuid,
+        { comment => 'Feasgar " Bha' } );
+    $meta->finish();
 
-    $this->assert( !$this->{sut}->webExists( $this->{t_web2} ) );
-    $this->{sut}->moveWeb( $from, $to, $this->{test_user_cuid} );
+    my $from = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $this->t_web
+    );
+    my $to = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $this->t_web2
+    );
 
-    $this->assert( !$this->{sut}->webExists( $this->{t_web} ) );
-    $this->assert( $this->{sut}->webExists( $this->{t_web2} ) );
-    $this->assert( $this->{sut}->topicExists( $this->{t_web2}, "AttEd" ) );
+    $this->assert( !$this->sut->webExists( $this->t_web2 ) );
+    $this->sut->moveWeb( $from, $to, $this->test_user_cuid );
 
-    $meta = Foswiki::Meta->new( $this->{session}, $this->{t_web2}, "AttEd" );
-    $this->assert( $this->{sut}->attachmentExists( $meta, "Attachment1" ) );
+    $this->assert( !$this->sut->webExists( $this->t_web ) );
+    $this->assert( $this->sut->webExists( $this->t_web2 ) );
+    $this->assert( $this->sut->topicExists( $this->t_web2, "AttEd" ) );
+
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web2,
+        topic   => "AttEd"
+    );
+    $this->assert( $this->sut->attachmentExists( $meta, "Attachment1" ) );
 
     return;
 }
@@ -791,42 +948,48 @@ sub verify_setLease_getLease {
     my $this = shift;
 
     $this->_makeWeb();
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
-    $this->assert_null( $this->{sut}->getLease($meta) );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
+    $this->assert_null( $this->sut->getLease($meta) );
     my $t = time;
-    $this->{sut}->setLease(
+    $this->sut->setLease(
         $meta,
         {
-            user    => $this->{test_user_cuid},
+            user    => $this->test_user_cuid,
             expires => $t + 10,
             taken   => $t
         }
     );
-    my $l = $this->{sut}->getLease($meta);
+    my $l = $this->sut->getLease($meta);
     $this->assert_num_equals( $t + 10, $l->{expires} );
     $this->assert_num_equals( $t,      $l->{taken} );
-    $this->assert_equals( $this->{test_user_cuid}, $l->{user} );
-    $this->{sut}->setLease( $meta, undef );
-    $this->assert_null( $this->{sut}->getLease($meta) );
+    $this->assert_equals( $this->test_user_cuid, $l->{user} );
+    $this->sut->setLease( $meta, undef );
+    $this->assert_null( $this->sut->getLease($meta) );
 
-    $this->{sut}->setLease(
+    $this->sut->setLease(
         $meta,
         {
-            user    => $this->{test_user_cuid},
+            user    => $this->test_user_cuid,
             expires => $t + 10,
             taken   => $t
         }
     );
 
     # remove the topic
-    $this->{sut}->remove( $this->{test_user_cuid}, $meta );
+    $this->sut->remove( $this->test_user_cuid, $meta );
     $meta->finish();
 
-    $this->{sut}->removeSpuriousLeases( $this->{t_web} );
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, $this->{t_topic} );
-    $this->assert_null( $this->{sut}->getLease($meta) );
+    $this->sut->removeSpuriousLeases( $this->t_web );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => $this->t_topic
+    );
+    $this->assert_null( $this->sut->getLease($meta) );
 }
 
 sub verify_delRev {
@@ -834,56 +997,74 @@ sub verify_delRev {
     $this->_makeWeb();
     my $text = "This is some test text\n   * some list\n   * content\n :) :)";
 
-    my $meta = Foswiki::Meta->new( $this->{session}, $this->{t_web}, "DelRev" );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "DelRev"
+    );
     $meta->text("Silent");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
     $meta->finish();
 
-    $meta = Foswiki::Meta->new( $this->{session}, $this->{t_web}, "DelRev" );
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "DelRev"
+    );
 
     my $bogus;
     try {
-        $this->{sut}->delRev( $meta, $this->{test_user_cuid} );
+        $this->sut->delRev( $meta, $this->test_user_cuid );
     }
-    catch Error::Simple with {
+    catch {
+        if ( !ref($_) ) {
+            $bogus = $_;
+        }
 
-        # Expected, can't delete initial revision
-      } otherwise {
-        $bogus = shift;
-      };
+    };
     $this->assert( !$bogus, $bogus );
 
     $meta->text("But deadly");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
-    $this->{sut}->delRev( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
+    $this->sut->delRev( $meta, $this->test_user_cuid );
     $meta->finish();
-    $meta = Foswiki::Meta->new( $this->{session}, $this->{t_web}, "DelRev" );
-    $this->{sut}->readTopic($meta);
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "DelRev"
+    );
+    $this->sut->readTopic($meta);
     $this->assert_equals( "Silent", $meta->text() );
 }
 
 sub verify_atomicLocks {
     my $this = shift;
     $this->_makeWeb();
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, "AtomicLock" );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "AtomicLock"
+    );
     $meta->text("Kaboom");
-    $this->{sut}->saveTopic( $meta, $this->{test_user_cuid} );
+    $this->sut->saveTopic( $meta, $this->test_user_cuid );
     $meta->finish();
 
-    $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{t_web}, "AtomicLock" );
-    my ( $u, $t ) = $this->{sut}->atomicLockInfo($meta);
+    $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->t_web,
+        topic   => "AtomicLock"
+    );
+    my ( $u, $t ) = $this->sut->atomicLockInfo($meta);
     $this->assert_null($u);
     $this->assert_null($t);
 
-    $this->{sut}->atomicLock( $meta, $this->{test_user_cuid} );
-    ( $u, $t ) = $this->{sut}->atomicLockInfo($meta);
-    $this->assert_equals( $this->{test_user_cuid}, $u );
+    $this->sut->atomicLock( $meta, $this->test_user_cuid );
+    ( $u, $t ) = $this->sut->atomicLockInfo($meta);
+    $this->assert_equals( $this->test_user_cuid, $u );
     $this->assert( time - $t < 5 );
 
-    $this->{sut}->atomicUnlock( $meta, $this->{test_user_cuid} );
-    ( $u, $t ) = $this->{sut}->atomicLockInfo($meta);
+    $this->sut->atomicUnlock( $meta, $this->test_user_cuid );
+    ( $u, $t ) = $this->sut->atomicLockInfo($meta);
     $this->assert_null($u);
     $this->assert_null($t);
     $meta->finish();
@@ -916,7 +1097,7 @@ sub test_getWorkArea {
     my $this = shift;
 
     # Must return a valid dirpath
-    my $dir = $this->{session}->{store}->getWorkArea("test_work_area_$$");
+    my $dir = $this->session->store->getWorkArea("test_work_area_$$");
     $this->assert( -d $dir );
     $this->assert( open( F, ">", "$dir/blah.dat" ) );
     close(F);
@@ -930,20 +1111,26 @@ sub verify_getAttachmentURL {
     # back a url. We *could* LWP it, but...
     my $this = shift;
 
-    my $url = $this->{sut}->getAttachmentURL('System');
+    my $url = $this->sut->getAttachmentURL('System');
 }
 
 sub verify_getRevisionHistory {
-    my $this = shift;
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RevIt',
-        "Rev 1" );
-    $this->{sut}->saveTopic( $topicObject, $this->{test_user_cuid} );
+    my $this        = shift;
+    my $topicObject = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->test_web,
+        topic   => 'RevIt',
+        text    => "Rev 1"
+    );
+    $this->sut->saveTopic( $topicObject, $this->test_user_cuid );
     $topicObject->finish();
 
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RevIt' );
-    my $revIt = $this->{sut}->getRevisionHistory($topicObject);
+    $topicObject = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->test_web,
+        topic   => 'RevIt'
+    );
+    my $revIt = $this->sut->getRevisionHistory($topicObject);
     $this->assert( $revIt->hasNext() );
     $this->assert_equals( 1, $revIt->next() );
     $this->assert( !$revIt->hasNext() );
@@ -951,9 +1138,12 @@ sub verify_getRevisionHistory {
     $topicObject->text('Rev 2');
     $this->assert_equals( 2, $topicObject->save( forcenewrevision => 1 ) );
     $topicObject->finish();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RevIt' );
-    $revIt = $this->{sut}->getRevisionHistory($topicObject);
+    $topicObject = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->test_web,
+        topic   => 'RevIt'
+    );
+    $revIt = $this->sut->getRevisionHistory($topicObject);
     $this->assert( $revIt->hasNext() );
     $this->assert_equals( 2, $revIt->next() );
     $this->assert( $revIt->hasNext() );
@@ -963,9 +1153,12 @@ sub verify_getRevisionHistory {
     $topicObject->text('Rev 3');
     $this->assert_equals( 3, $topicObject->save( forcenewrevision => 1 ) );
     $topicObject->finish();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'RevIt' );
-    $revIt = $this->{sut}->getRevisionHistory($topicObject);
+    $topicObject = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->test_web,
+        topic   => 'RevIt'
+    );
+    $revIt = $this->sut->getRevisionHistory($topicObject);
     $this->assert( $revIt->hasNext() );
     $this->assert_equals( 3, $revIt->next() );
     $this->assert( $revIt->hasNext() );
@@ -976,7 +1169,7 @@ sub verify_getRevisionHistory {
 
     # SMELL: need to test attachments too
 
-    $this->assert_equals( 4, $this->{sut}->getNextRevision($topicObject) );
+    $this->assert_equals( 4, $this->sut->getNextRevision($topicObject) );
     $topicObject->finish();
 }
 
@@ -999,12 +1192,15 @@ sub verify_query {
         }
     }
 
-    my @topics = ( 'AsciiName', $this->{t_topic} );
+    my @topics = ( 'AsciiName', $this->t_topic );
     my $topiclist = join( ',', @topics );
     foreach my $t (@topics) {
-        my $topicObject =
-          Foswiki::Meta->new( $this->{session}, $this->{test_web}, $t,
-            "Target $this->{t_topic}" );
+        my $topicObject = Foswiki::Meta->new(
+            session => $this->session,
+            web     => $this->test_web,
+            topic   => $t,
+            text    => "Target " . $this->t_topic
+        );
         $topicObject->save();
     }
 
@@ -1022,13 +1218,17 @@ sub verify_query {
           . ( $Foswiki::cfg{Store}{Encoding} || 'utf-8' ) . "\n";
         $this->createNewFoswikiSession('AdminUser');
 
-        my $topicObject =
-          Foswiki::Meta->new( $this->{session}, $this->{test_web},
-            'WebPreferences' );
+        my $topicObject = Foswiki::Meta->new(
+            session => $this->session,
+            web     => $this->test_web,
+            topic   => 'WebPreferences'
+        );
 
         my $result = $topicObject->expandMacros(
             $this->toSiteCharSet(
-"%SEARCH{\"Target\" web=\"$this->{test_web}\" format=\"\$topic\"}%"
+                    "%SEARCH{\"Target\" web=\""
+                  . $this->test_web
+                  . "\" format=\"\$topic\"}%"
             )
         );
 

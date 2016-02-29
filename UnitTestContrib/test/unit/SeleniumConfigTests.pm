@@ -1,22 +1,24 @@
 use strict;
 
 package SeleniumConfigTests;
-
-use FoswikiSeleniumTestCase;
-our @ISA = qw( FoswikiSeleniumTestCase );
+use v5.14;
 
 use Foswiki::Func;
 
-sub new {
-    my $self = shift()->SUPER::new( 'SeleniumConfig', @_ );
-    return $self;
-}
+use Moo;
+use namespace::clean;
+extends qw( FoswikiSeleniumTestCase );
+
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_, testSuite => 'SeleniumConfig' );
+};
 
 sub verify_SeleniumRc_config {
     my $this = shift;
     $this->selenium->open_ok(
         Foswiki::Func::getScriptUrl(
-            $this->{test_web}, $this->{test_topic}, 'view'
+            $this->test_web, $this->test_topic, 'view'
         )
     );
     $this->login();
@@ -38,7 +40,7 @@ sub verify_SeleniumRc_like_failure_reporting {
     my $this = shift;
     $this->selenium->open_ok(
         Foswiki::Func::getScriptUrl(
-            $this->{test_web}, $this->{test_topic}, 'view'
+            $this->test_web, $this->test_topic, 'view'
         )
     );
     eval {

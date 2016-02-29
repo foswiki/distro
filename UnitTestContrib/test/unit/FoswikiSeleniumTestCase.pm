@@ -3,19 +3,19 @@
 # The FoswikiFnTestCase restrictions also apply.
 
 package FoswikiSeleniumTestCase;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Encode;
 use Foswiki();
 use Unit::Request();
 use Unit::Response();
 use Foswiki::UI::Register();
-use Error qw( :try );
+use Try::Tiny;
 use Scalar::Util qw( weaken );
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 my $startWait;
 my $doze;
@@ -51,6 +51,14 @@ my $testsRunWithoutRestartingBrowsers = 0;
 
 my $debug = 0;
 
+has selenium_timeout => ( is => 'rw', default => 30000, );
+has useSeleniumError =>
+  ( is => 'rw', lazy => 1, default => sub { $_[0]->_loadSeleniumInterface; }, );
+has seleniumBrowsers =>
+  ( is => 'rw', lazy => 1, default => sub { $_[0]->_loadSeleniumBrowsers; }, );
+has browser  => ( is => 'rw', );
+has selenium => ( is => 'rw', );
+
 sub skip {
     my ( $this, $test ) = @_;
     my $browsers = $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers};
@@ -61,16 +69,15 @@ sub skip {
 "No browsers configured in \$Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Browsers}";
     }
 
-    if ( $this->{useSeleniumError} ) {
-        $reason = "Cannot run Selenium-based tests: $this->{useSeleniumError}";
+    if ( $this->useSeleniumError ) {
+        $reason = "Cannot run Selenium-based tests: $this->useSeleniumError";
     }
 
     return $reason;
 }
 
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
+sub BUILD {
+    my $this = shift;
 
     #if ( defined $currentTest ) {
     #    $this->assert( 0,
@@ -81,21 +88,13 @@ sub new {
     #}
     $currentTest = $this;
     weaken($currentTest);   # Ensure the destructor is called at the normal time
-
-    $this->{selenium_timeout} = 30_000;  # Same as WWW::Selenium's default value
-    $this->{useSeleniumError} = $this->_loadSeleniumInterface;
-    $this->{seleniumBrowsers} = $this->_loadSeleniumBrowsers;
-
-    $this->timeout( $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{BaseTimeout} );
-
-    return $this;
 }
 
 END {
     _shutDownSeleniumBrowsers() if $browsers;
 }
 
-sub DESTROY {
+sub DEMOLISH {
     my $this = shift;
     if ( not defined($currentTest) or $currentTest != $this ) {
         $this->assert( 0,
@@ -109,8 +108,6 @@ sub DESTROY {
         _shutDownSeleniumBrowsers();
         $testsRunWithoutRestartingBrowsers = 0;
     }
-
-    $this->SUPER::DESTROY if $this->can('SUPER::DESTROY');
 }
 
 sub fixture_groups {
@@ -118,7 +115,7 @@ sub fixture_groups {
 
     return \@BrowserFixtureGroups if @BrowserFixtureGroups;
 
-    for my $browser ( keys %{ $this->{seleniumBrowsers} } ) {
+    for my $browser ( keys %{ $this->seleniumBrowsers } ) {
         my $onBrowser = "on$browser";
         push @BrowserFixtureGroups, $onBrowser;
 
@@ -135,11 +132,11 @@ sub selectBrowser {
     my $browserName = shift;
     $this->assert( defined($browserName), "Browser name not specified" );
     $this->assert(
-        exists( $this->{seleniumBrowsers}->{$browserName} ),
+        exists( $this->seleniumBrowsers->{$browserName} ),
         "No Test::WWW:Selenium object for $browserName"
     );
-    $this->{browser}  = $browserName;
-    $this->{selenium} = $this->{seleniumBrowsers}->{$browserName};
+    $this->browser($browserName);
+    $this->selenium( $this->seleniumBrowsers->{$browserName} );
 }
 
 sub _loadSeleniumInterface {
@@ -187,7 +184,7 @@ sub _loadSeleniumBrowsers {
             $config{error_callback} = \&_errorCallback;
 
             my $selenium;
-            if ( $this->{useSeleniumError} ) {
+            if ( $this->useSeleniumError ) {
                 $browsers->{$browser} = undef;
             }
             else {
@@ -239,43 +236,37 @@ sub _shutDownSeleniumBrowsers {
 
 sub browserName {
     my $this = shift;
-    return $this->{browser};
-}
-
-sub selenium {
-    my $this = shift;
-    return $this->{selenium};
+    return $this->browser;
 }
 
 sub login {
     my $this = shift;
 
     #SMELL: Assumes TemplateLogin
-    $this->{selenium}->open_ok(
+    $this->selenium->open_ok(
         Foswiki::Func::getScriptUrl(
-            $this->{test_web}, $this->{test_topic}, 'login'
+            $this->test_web, $this->test_topic, 'login'
         )
     );
     my $usernameInputFieldLocator = 'css=input[name="username"]';
-    $this->{selenium}->wait_for_element_present( $usernameInputFieldLocator,
-        $this->{selenium_timeout} );
-    $this->{selenium}->type_ok( $usernameInputFieldLocator,
+    $this->selenium->wait_for_element_present( $usernameInputFieldLocator,
+        $this->selenium_timeout );
+    $this->selenium->type_ok( $usernameInputFieldLocator,
         $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Username} );
 
     my $passwordInputFieldLocator = 'css=input[name="password"]';
     $this->assertElementIsPresent($passwordInputFieldLocator);
-    $this->{selenium}->type_ok( $passwordInputFieldLocator,
+    $this->selenium->type_ok( $passwordInputFieldLocator,
         $Foswiki::cfg{UnitTestContrib}{SeleniumRc}{Password} );
 
     my $loginFormLocator = 'css=form[name="loginform"]';
     $this->assertElementIsPresent($loginFormLocator);
-    $this->{selenium}->click_ok('css=input.foswikiSubmit[type="submit"]');
-    $this->{selenium}->wait_for_page_to_load( $this->{selenium_timeout} );
+    $this->selenium->click_ok('css=input.foswikiSubmit[type="submit"]');
+    $this->selenium->wait_for_page_to_load( $this->selenium_timeout );
 
-    my $postLoginLocation = $this->{selenium}->get_location();
+    my $postLoginLocation = $this->selenium->get_location();
     my $viewUrl =
-      Foswiki::Func::getScriptUrl( $this->{test_web}, $this->{test_topic},
-        'view' );
+      Foswiki::Func::getScriptUrl( $this->test_web, $this->test_topic, 'view' );
     $this->assert_matches( qr/\Q$viewUrl\E$/, $postLoginLocation );
 }
 
@@ -284,7 +275,7 @@ sub type {
     my $locator = shift;
     my $text    = shift;
 
-    # If you pass too much text to $this->{selenium}->type()
+    # If you pass too much text to $this->selenium->type()
     # then the test fails with a 414 error from the selenium server.
     # That can happen quite easily when pasting topic text into
     # the edit form's textarea
@@ -306,21 +297,21 @@ sub type {
             $start += $maxChars;
             my $javascript =
 qq/selenium.browserbot.findElement("$locator").value $assignOperator "$chunk";/;
-            $this->{selenium}->get_eval($javascript);
+            $this->selenium->get_eval($javascript);
 
             #sleep 2;
         }
     }
     else {
-        $this->{selenium}->type( $locator, $text );
+        $this->selenium->type( $locator, $text );
     }
 }
 
 sub timeout {
     my $this    = shift;
     my $timeout = shift;
-    $this->{selenium_timeout} = $timeout if $timeout;
-    return $this->{selenium_timeout};
+    $this->selenium_timeout($timeout) if $timeout;
+    return $this->selenium_timeout;
 }
 
 sub waitFor {
@@ -329,7 +320,7 @@ sub waitFor {
     my $message = shift;
     my $args    = shift;
     my $timeout = shift;
-    $timeout ||= $this->{selenium_timeout};
+    $timeout ||= $this->selenium_timeout;
     $args ||= [];
     my $result;
     my $elapsed = 0;
@@ -347,7 +338,7 @@ sub assertElementIsPresent {
     my $locator = shift;
     my $message = shift;
     $message ||= "Element $locator is not present";
-    $this->assert( $this->{selenium}->is_element_present($locator), $message );
+    $this->assert( $this->selenium->is_element_present($locator), $message );
 
     return;
 }
@@ -357,7 +348,7 @@ sub assertElementIsVisible {
     my $locator = shift;
     my $message = shift;
     $message ||= "Element $locator is not visible";
-    $this->assert( $this->{selenium}->is_visible($locator), $message );
+    $this->assert( $this->selenium->is_visible($locator), $message );
 
     return;
 }
@@ -368,7 +359,7 @@ sub assertElementIsNotVisible {
     my $message = shift;
     $this->assertElementIsPresent($locator);
     $message ||= "Element $locator is visible";
-    $this->assert( not $this->{selenium}->is_visible($locator), $message );
+    $this->assert( not $this->selenium->is_visible($locator), $message );
 
     return;
 }
