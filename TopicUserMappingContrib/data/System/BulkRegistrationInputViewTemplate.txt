@@ -1,0 +1,47 @@
+%META:TOPICINFO{author="ProjectContributor" date="1456797140" format="1.1" version="1"}%
+%META:TOPICPARENT{name="BulkRegister"}%
+%{<verbatim class="tml">
+===================================================
+    BulkRegister view "UnprocessedRegistrations"
+===================================================
+}%%{
+---------------------------------------------------
+	Include the default view templates from your current SKIN and COVER paths
+---------------------------------------------------
+}%%TMPL:INCLUDE{"view"}%%{
+---------------------------------------------------
+    Override the content template DEFinition. This normally just contains %TEXT%,
+    but we add some more here to help decorate all the [[FAQForm]] topics in the
+    same way
+---------------------------------------------------
+}%%TMPL:DEF{"content"}%
+---+ %SPACEOUT{"%TOPIC%"}% 
+
+%IF{"context isadmin" then="
+<div class='foswikiFormSteps'>
+<form name='bulkRegister' action='%SCRIPTURLPATH{"manage"}%/%TOPIC%' method='post'>
+<input type='hidden' name='action' value='bulkRegister' /><sticky>&nbsp;</sticky>
+<input type='submit' class='foswikiSubmit' value='Bulk Register these people' />
+<input type='hidden' name='redirectto' value='%TOPIC%' />
+<input type='hidden' name='LogTopic' value='%TOPIC%Log' /><br/>
+Overwrite home topics? <input type='checkbox' class='foswikiInputField' name='OverwriteHomeTopics' />
+</form>
+</div>"
+else="<div class='foswikiAlert'> *Bulk registration is restricted to Administrators.* </div>"}%
+
+%TEXT%
+%INCLUDE{"%TOPIC%Log"}%
+
+*Back to:* [[%SYSTEMWEB%.BulkRegistration][Bulk Registration]]
+----
+*Related Topics:* %FORMFIELD{"RelatedTopics"}%%TMPL:END%%{
+---------------------------------------------------
+    Re-define the form DEFinition to be empty; the contents of the from data
+    have already been displayed above so it wouldn't make much sense to show all
+    that again at the bottom of each [[FAQForm]] topic
+---------------------------------------------------
+}%%TMPL:DEF{"form"}%%TMPL:END%%{
+===================================================
+</verbatim>}%
+
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="SkinTemplateView"}%
