@@ -12,6 +12,7 @@ data/Main/UserListByDateJoined.txt 0644
 data/Main/UserListByLocation.txt 0644
 data/Main/UserListHeader.txt 0644
 data/System/BulkRegistration.txt 0644
+data/System/BulkRegistrationInputTemplate.txt 0644
 data/System/BulkRegistrationInputViewTemplate.txt 0644
 data/System/BulkResetPassword.txt 0644
 data/System/ChangeEmailAddress.txt 0644

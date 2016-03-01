@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456797140" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1456871285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="BulkRegister"}%
 %{<verbatim class="tml">
 ===================================================
@@ -30,7 +30,7 @@ Overwrite home topics? <input type='checkbox' class='foswikiInputField' name='Ov
 else="<div class='foswikiAlert'> *Bulk registration is restricted to Administrators.* </div>"}%
 
 %TEXT%
-%INCLUDE{"%TOPIC%Log"}%
+%INCLUDE{"%TOPIC%Log" warn="off"}%
 
 *Back to:* [[%SYSTEMWEB%.BulkRegistration][Bulk Registration]]
 ----
