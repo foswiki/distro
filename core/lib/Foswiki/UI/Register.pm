@@ -422,6 +422,13 @@ sub bulkRegister {
             next;
         }
 
+  # If password column is empty, just delete them to avoid errors in validation.
+  # Passwords are generally sent as a bulk reset after registration.
+        unless ( length( $row->{Password} ) > 0 ) {
+            delete $row->{Password};
+            delete $row->{Confirm};
+        }
+
    # If a password is provided but no Confirm column, just
    # set Confirm to the password.   Confirmation really doesn't make sense here,
         unless ( exists $row->{Password} && exists $row->{Confirm} ) {
@@ -1790,7 +1797,9 @@ sub _validateRegistration {
     }
 
     # check valid email address
-    if ( $data->{Email} !~ $Foswiki::regex{emailAddrRegex} ) {
+    if ( !defined $data->{Email}
+        || $data->{Email} !~ $Foswiki::regex{emailAddrRegex} )
+    {
         $data->{Email} ||= '';
         $session->logger->log( 'warning',
 "Registration rejected: $data->{Email} failed the system email regex check."
