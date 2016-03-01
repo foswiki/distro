@@ -84,18 +84,19 @@ yyyyyy   is the new line 5
 =cut
 
 package Foswiki::Store::Rcs::RcsLiteHandler;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Store::Rcs::Store   ();
-use Foswiki::Store::Rcs::Handler ();
-our @ISA = ('Foswiki::Store::Rcs::Handler');
+use Foswiki::Store::Rcs::Store ();
 
 use Assert;
-use Error qw( :try );
 
 use Foswiki::Store   ();
 use Foswiki::Sandbox ();
+use Foswiki::Exception();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Store::Rcs::Handler);
 
 # SMELL: This code uses the log field for the checkin comment. This field is alongside the actual text
 # of the revision, and is not recorded in the history. This is a PITA because it means the comment field
@@ -133,38 +134,19 @@ BEGIN {
     *_encode = \&Foswiki::Store::encode;
 }
 
+has state   => ( is => 'rw', lazy => 1, default => 'admin.head', );
+has head    => ( is => 'rw', lazy => 1, default => 0, );
+has access  => ( is => 'rw', lazy => 1, default => '', );
+has symbols => ( is => 'rw', lazy => 1, default => '', );
+has comment => ( is => 'rw', lazy => 1, default => '#', );
+has desc    => ( is => 'rw', lazy => 1, default => 'none', );
+has expand  => ( is => 'rw', lazy => 1, default => 'o', clearer => 1, );
+has revs => ( is => 'rw', lazy => 1, default => sub { [] }, );
+
 # implements Rcs::Handler
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
-    unless ( $this->{initialised} ) {
-        $this->{initialised} = 1;
-        $this->{state}       = 'admin.head';
-        $this->{head}        = 0;
-        $this->{access}      = '';
-        $this->{symbols}     = '';
-        $this->{comment}     = '# ';           # Default comment for Rcs
-        $this->{desc}        = 'none';
-        initText($this);                       # Set default expand to 'o'
-    }
-
-    return $this;
-}
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-sub finish {
+sub BUILD {
     my $this = shift;
-    $this->SUPER::finish();
-    undef $this->{state};
-    undef $this->{head};
-    undef $this->{access};
-    undef $this->{symbols};
-    undef $this->{comment};
-    undef $this->{expand};
-    undef $this->{revs};
-    undef $this->{desc};
+    $this->initText();    # Set default expand to 'o'
 }
 
 my %is_space = ( ' ' => 1, "\t" => 1, "\n" => 1, "\r" => 1 );
@@ -247,31 +229,31 @@ sub _ensureRead {
     my ( $this, $downToVersion, $historyOnly ) = @_;
 
     return
-         if $this->{state} eq 'parsed'
-      || $this->{state} eq 'nocommav'
-      || ( $historyOnly && $this->{state} eq 'desc' );
+         if $this->state eq 'parsed'
+      || $this->state eq 'nocommav'
+      || ( $historyOnly && $this->state eq 'desc' );
 
     $downToVersion ||= 0;    # just in case
 
     # If we only need tha latest and we already have the head, that's our rev
-    $downToVersion = $this->{head} if !$downToVersion && $this->{head};
+    $downToVersion = $this->head if !$downToVersion && $this->head;
 
     $downToVersion = 1 if $downToVersion < 0;    # read everything
 
     if ($downToVersion) {
 
         # Don't read if we already have the info
-        if ( defined $this->{revs}->[$downToVersion] ) {
+        if ( defined $this->revs->[$downToVersion] ) {
             return
-              if $historyOnly || defined $this->{revs}->[$downToVersion]->{log};
+              if $historyOnly || defined $this->revs->[$downToVersion]->{log};
         }
     }
 
     my $fh;
-    unless ( open( $fh, '<', _encode( $this->{rcsFile}, 1 ) ) ) {
+    unless ( open( $fh, '<', _encode( $this->rcsFile, 1 ) ) ) {
 
-        #warn( 'Failed to open ' . $this->{rcsFile} . ': ' . $!);
-        $this->{state} = 'nocommav';
+        #warn( 'Failed to open ' . $this->rcsFile . ': ' . $!);
+        $this->state('nocommav');
         return;
     }
     binmode($fh);
@@ -311,7 +293,7 @@ sub _ensureRead {
         elsif ( $state eq 'admin.access' ) {
             if (/^access\s*(.*);$/) {
                 $state = 'admin.symbols';
-                $this->{access} = $1;
+                $this->access($1);
             }
             else {
                 last;
@@ -320,7 +302,7 @@ sub _ensureRead {
         elsif ( $state eq 'admin.symbols' ) {
             if (/^symbols(.*);$/) {
                 $state = 'admin.locks';
-                $this->{symbols} = $1;
+                $this->symbols($1);
             }
             else {
                 last;
@@ -343,14 +325,14 @@ sub _ensureRead {
             && /^comment\s.*$/ )
         {
             $state = 'admin.postComment';
-            $this->{comment} = $string;
+            $this->comment($string);
         }
         elsif (
             ( $state eq 'admin.postStrict' || $state eq 'admin.postComment' )
             && /^expand\s/ )
         {
             $state = 'admin.postExpand';
-            $this->{expand} = $string;
+            $this->expand($string);
         }
         elsif ($state eq 'admin.postStrict'
             || $state eq 'admin.postComment'
@@ -380,7 +362,7 @@ sub _ensureRead {
         elsif ( $state eq 'desc' ) {
             if (/desc\s*$/) {
                 last if $historyOnly;
-                $this->{desc} = $string;
+                $this->desc($string);
                 $state = 'deltatext.log';
             }
         }
@@ -410,16 +392,16 @@ sub _ensureRead {
         || !$historyOnly && $dnum < $downToVersion
         || $historyOnly  && $state eq 'desc' )
     {
-        warn( $this->{rcsFile} . ' is corrupt; parsed up to ' . $state );
+        warn( $this->rcsFile . ' is corrupt; parsed up to ' . $state );
 
         #ASSERT(0) if DEBUG;
         $headNum = 0;
         $state   = 'nocommav';    # ignore the RCS file; graceful recovery
     }
 
-    $this->{head}  = $headNum;
-    $this->{state} = $state;
-    $this->{revs}  = \@revs;
+    $this->head($headNum);
+    $this->state($state);
+    $this->revs( \@revs );
 
     close($fh);
 }
@@ -436,26 +418,27 @@ sub _write {
     my ( $this, $file ) = @_;
 
     # admin
-    my $nr = $this->{head} || 1;
+    my $nr = $this->head || 1;
+    my ( $access, $symbols ) = ( $this->access, $this->symbols );
     print $file <<HERE;
 head	1.$nr;
-access$this->{access};
-symbols$this->{symbols};
+access$access;
+symbols$symbols;
 locks; strict;
 HERE
-    print $file 'comment', "\t", _formatString( $this->{comment} ), ';', "\n";
-    if ( $this->{expand} ) {
-        print $file 'expand', "\t", _formatString( $this->{expand} ),
-          ';' . "\n";
+    print $file 'comment', "\t", _formatString( $this->comment ), ';', "\n";
+    if ( $this->expand ) {
+        print $file 'expand', "\t", _formatString( $this->expand ), ';' . "\n";
     }
 
     print $file "\n";
 
     # most recent rev first
-    for ( my $i = $this->{head} ; $i > 0 ; $i-- ) {
-        my $d = $this->{revs}[$i]->{date};
+    my $revs = $this->revs;
+    for ( my $i = $this->head ; $i > 0 ; $i-- ) {
+        my $d = $revs->[$i]->{date};
         if ( defined $d ) {
-            if ( $i < $this->{head} ) {
+            if ( $i < $this->head ) {
                 print $file 'next', "\t";
                 print $file '1.',   $i;
                 print $file ";\n";
@@ -464,7 +447,7 @@ HERE
             print $file <<HERE;
 
 1.$i
-date	$rcsDate;	author $this->{revs}[$i]->{author};	state Exp;
+date	$rcsDate;	author $revs->[$i]->{author};	state Exp;
 branches;
 HERE
         }
@@ -473,15 +456,15 @@ HERE
     print $file ";\n";
 
     print $file "\n\n", 'desc', "\n",
-      _formatString( $this->{desc} . "\n" ) . "\n\n";
+      _formatString( $this->desc . "\n" ) . "\n\n";
 
-    for ( my $i = $this->{head} ; $i > 0 ; $i-- ) {
+    for ( my $i = $this->head ; $i > 0 ; $i-- ) {
         print $file "\n", '1.', $i, "\n",
-          'log', "\n", _formatString( $this->{revs}[$i]->{log} ),
-          "\n", 'text', "\n", _formatString( $this->{revs}[$i]->{text} ),
+          'log', "\n", _formatString( $this->revs->[$i]->{log} ),
+          "\n", 'text', "\n", _formatString( $this->revs->[$i]->{text} ),
           "\n" . ( $i == 1 ? '' : "\n" );
     }
-    $this->{state} = 'parsed';    # now known clean
+    $this->state('parsed');    # now known clean
 }
 
 # implements Rcs::Handler
@@ -489,7 +472,7 @@ sub initBinary {
     my ($this) = @_;
 
     # Nothing to be done but note for re-writing
-    $this->{expand} = 'b';
+    $this->expand('b');
 }
 
 # implements Rcs::Handler
@@ -497,7 +480,7 @@ sub initText {
     my ($this) = @_;
 
     # Nothing to be done but note for re-writing
-    $this->{expand} = 'o';
+    $this->clear_expand;
 }
 
 # implements Rcs::Handler
@@ -507,11 +490,11 @@ sub _numRevisions {
     $this->_ensureRead( 0, 1 );    # min read
 
     # if state is nocommav, and the file exists, there is only one revision
-    if ( $this->{state} eq 'nocommav' ) {
+    if ( $this->state eq 'nocommav' ) {
         return 1 if $this->storedDataExists();
         return 0;
     }
-    return $this->{head};
+    return $this->head;
 }
 
 sub ci {
@@ -526,24 +509,24 @@ sub ci {
         $this->saveStream($data);
 
         # SMELL: for big attachments, this is a dog
-        $data = $this->readFile( $this->{file} );
+        $data = $this->readFile( $this->file );
     }
     else {
-        $this->saveFile( $this->{file}, $data );
+        $this->saveFile( $this->file, $data );
     }
-    my $head = $this->{head} || 0;
+    my $head = $this->head || 0;
     if ($head) {
         my $lNew  = _split($data);
-        my $lOld  = _split( $this->{revs}[$head]->{text} );
+        my $lOld  = _split( $this->revs->[$head]->{text} );
         my $delta = _diff( $lNew, $lOld );
-        $this->{revs}[$head]->{text} = $delta;
+        $this->revs->[$head]->{text} = $delta;
     }
     $head++;
-    $this->{revs}[$head]->{text}   = $data;
-    $this->{head}                  = $head;
-    $this->{revs}[$head]->{log}    = $log;
-    $this->{revs}[$head]->{author} = $author;
-    $this->{revs}[$head]->{date}   = ( defined $date ? $date : time() );
+    $this->revs->[$head]->{text} = $data;
+    $this->head($head);
+    $this->revs->[$head]->{log}    = $log;
+    $this->revs->[$head]->{author} = $author;
+    $this->revs->[$head]->{date}   = ( defined $date ? $date : time() );
 
     _writeMe($this);
 }
@@ -552,23 +535,17 @@ sub _writeMe {
     my ($this) = @_;
     my $out;
 
-    chmod(
-        $Foswiki::cfg{Store}{filePermission},
-        _encode( $this->{rcsFile}, 1 )
-    );
-    unless ( open( $out, '>', _encode( $this->{rcsFile}, 1 ) ) ) {
-        throw Error::Simple(
-            'Cannot open ' . $this->{rcsFile} . ' for write: ' . $! );
+    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->rcsFile, 1 ) );
+    unless ( open( $out, '>', _encode( $this->rcsFile, 1 ) ) ) {
+        Foswiki::Exception::Fatal->throw(
+            text => 'Cannot open ' . $this->rcsFile . ' for write: ' . $! );
     }
     else {
         binmode($out);
         _write( $this, $out );
         close($out);
     }
-    chmod(
-        $Foswiki::cfg{Store}{filePermission},
-        _encode( $this->{rcsFile}, 1 )
-    );
+    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->rcsFile, 1 ) );
 }
 
 # implements Rcs::Handler
@@ -585,20 +562,20 @@ sub deleteRevision {
     $this->_ensureRead( -1, 0 );
 
     # Can't delete revision 1
-    return unless $this->{head} > 1;
+    return unless $this->head > 1;
     _delLastRevision($this);
     _writeMe($this);
 }
 
 sub _delLastRevision {
     my ($this) = @_;
-    my $numRevisions = $this->{head};
+    my $numRevisions = $this->head;
     return unless $numRevisions;
     $numRevisions--;
     my ($lastText) = $this->getRevision($numRevisions);
-    $this->{revs}[$numRevisions]->{text} = $lastText;
-    $this->{head} = $numRevisions;
-    $this->saveFile( $this->{file}, $lastText );
+    $this->revs->[$numRevisions]->{text} = $lastText;
+    $this->head($numRevisions);
+    $this->saveFile( $this->file, $lastText );
 }
 
 # implements Rcs::Handler
@@ -644,16 +621,16 @@ sub getInfo {
     }
 
     my $info;
-    if ( $version <= $this->{head} ) {
-        if ( $this->{state} ne 'nocommav' ) {
-            if ( !$version || $version > $this->{head} ) {
-                $version = $this->{head} || 1;
+    if ( $version <= $this->head ) {
+        if ( $this->state ne 'nocommav' ) {
+            if ( !$version || $version > $this->head ) {
+                $version = $this->head || 1;
             }
             $info = {
                 version => $version,
-                date    => $this->{revs}[$version]->{date},
-                author  => $this->{revs}[$version]->{author},
-                comment => $this->{revs}[$version]->{log}
+                date    => $this->revs->[$version]->{date},
+                author  => $this->revs->[$version]->{author},
+                comment => $this->revs->[$version]->{log}
             };
             return $info;
         }
@@ -729,16 +706,16 @@ sub getRevision {
     $this->_ensureRead( $version, 0 );
 
     return $this->SUPER::getRevision($version)
-      if $this->{state} eq 'nocommav';
+      if $this->state eq 'nocommav';
 
-    my $head = $this->{head};
+    my $head = $this->head;
     return $this->SUPER::getRevision($version) unless $head;
 
     if ( $version == $head ) {
-        return ( $this->{revs}[$version]->{text}, 1 );
+        return ( $this->revs->[$version]->{text}, 1 );
     }
     $version = $head if $version > $head;
-    my $headText = $this->{revs}[$head]->{text};
+    my $headText = $this->revs->[$head]->{text};
     my $text     = _split($headText);
     return ( _patchN( $this, $text, $head - 1, $version ), 0 );
 }
@@ -748,7 +725,7 @@ sub _patchN {
     my ( $this, $text, $version, $target ) = @_;
 
     while ( $version >= $target ) {
-        my $deltaText = $this->{revs}[ $version-- ]->{text};
+        my $deltaText = $this->revs->[ $version-- ]->{text};
         my $delta     = _split($deltaText);
         _patch( $text, $delta );
     }
@@ -849,44 +826,42 @@ sub getRevisionAtTime {
     my ( $this, $date ) = @_;
 
     $this->_ensureRead( -1, 1 );    # read history only
-    if ( $this->{state} eq 'nocommav' ) {
-        return ( $date >= ( stat( _encode( $this->{file}, 1 ) ) )[9] )
+    if ( $this->state eq 'nocommav' ) {
+        return ( $date >= ( stat( _encode( $this->file, 1 ) ) )[9] )
           ? 1
           : undef;
     }
 
-    my $version = $this->{head};
-    while ( $this->{revs}[$version]->{date} > $date ) {
+    my $version = $this->head;
+    while ( $this->revs->[$version]->{date} > $date ) {
         $version--;
         return undef if $version == 0;
     }
 
-    if ( $version == $this->{head} && !$this->noCheckinPending() ) {
+    if ( $version == $this->head && !$this->noCheckinPending() ) {
 
         # Check the file date
-        $version++ if ( $date >= ( stat( _encode( $this->{file}, 1 ) ) )[9] );
+        $version++ if ( $date >= ( stat( _encode( $this->file, 1 ) ) )[9] );
     }
     return $version;
 }
 
-sub stringify {
+around stringify => sub {
+    my $orig = shift;
     my $this = shift;
 
-    my $s = $this->SUPER::stringify();
-    $s .= " access=$this->{access}"   if $this->{access};
-    $s .= " symbols=$this->{symbols}" if $this->{symbols};
-    $s .= " comment=$this->{comment}" if $this->{comment};
-    $s .= " expand=$this->{expand}"   if $this->{expand};
+    my $s = $orig->($this);
+    $s .= " $_=" . $this->$_ foreach qw(access symbols comment expand);
     $s .= " [";
-    if ( $this->{head} ) {
-        for ( my $i = $this->{head} ; $i > 0 ; $i-- ) {
-            $s .= "\tRev $i : { d=$this->{revs}[$i]->{date}";
-            $s .= " l=$this->{revs}[$i]->{log}";
-            $s .= " t=$this->{revs}[$i]->{text}}\n";
+    if ( $this->head ) {
+        for ( my $i = $this->head ; $i > 0 ; $i-- ) {
+            $s .= "\tRev $i : { d=" . $this->revs->[$i]->{date};
+            $s .= " l=" . $this->revs->[$i]->{log};
+            $s .= " t=" . $this->revs->[$i]->{text} . "\n";
         }
     }
     return "$s]\n";
-}
+};
 
 1;
 __END__

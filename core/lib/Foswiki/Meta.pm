@@ -196,7 +196,7 @@ has metaData => (
     lazy    => 1,
     clearer => 1,
     builder => sub {
-        return {};
+        return { FILEATTACHMENT => [], };
     },
 );
 
@@ -494,8 +494,6 @@ sub BUILD {
     # up the name each time, because we want to be able to invalidate the
     # loaded preferences if this object is loaded.
     #$this->_clear_preferences;
-
-    $this->metaData->{FILEATTACHMENT} = [];
 
     if ( $this->has_text && defined $this->text ) {
 

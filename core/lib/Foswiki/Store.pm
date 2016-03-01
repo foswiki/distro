@@ -72,6 +72,11 @@ BEGIN {
     }
 }
 
+has heap => (
+    is      => 'ro',
+    default => sub { {} },
+);
+
 # Version number of the store API
 our $STORE_FORMAT_VERSION = '1.2';
 

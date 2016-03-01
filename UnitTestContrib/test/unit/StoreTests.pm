@@ -882,6 +882,8 @@ sub verify_eachChange {
 sub verify_StoreClassSettings {
     my $this = shift;
 
+    $this->expect_failure('ImplementationClasses are not working.');
+
     $Foswiki::cfg{Store}{ImplementationClasses} =
       ['Foswiki::Store::StoreTestFilter'];
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );

@@ -33,17 +33,22 @@ package Foswiki::Store::Rcs::Store;
 use strict;
 use warnings;
 
-use Foswiki::Store ();
-our @ISA = ('Foswiki::Store');
-
 use Assert;
-use Error qw( :try );
 use Encode;
 
 use Foswiki          ();
 use Foswiki::Meta    ();
 use Foswiki::Sandbox ();
 use Foswiki::Serialise();
+use Foswiki::Exception();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Store);
+
+has searchFn       => ( is => 'rw', );
+has queryObj       => ( is => 'rw', );
+has searchQueryObj => ( is => 'rw', );
 
 BEGIN {
 
@@ -68,15 +73,6 @@ BEGIN {
         *_stat   = \&stat;
         *_unlink = \&unlink;
     }
-}
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    $this->SUPER::finish();
-    undef $this->{searchFn};
 }
 
 # SMELL: this module does not respect $Foswiki::inUnitTestMode; tests
@@ -649,27 +645,27 @@ sub query {
 
     my $engine;
     if ( $query->isa('Foswiki::Query::Node') ) {
-        unless ( $this->{queryObj} ) {
+        unless ( $this->queryObj ) {
             my $module = $Foswiki::cfg{Store}{QueryAlgorithm};
             eval "require $module";
             die
 "Bad {Store}{QueryAlgorithm}; suggest you run configure and select a different algorithm\n$@"
               if $@;
-            $this->{queryObj} = $module->new();
+            $this->queryObj( $module->new() );
         }
-        $engine = $this->{queryObj};
+        $engine = $this->queryObj;
     }
     else {
         ASSERT( $query->isa('Foswiki::Search::Node') ) if DEBUG;
-        unless ( $this->{searchQueryObj} ) {
+        unless ( $this->searchQueryObj ) {
             my $module = $Foswiki::cfg{Store}{SearchAlgorithm};
             eval "require $module";
             die
 "Bad {Store}{SearchAlgorithm}; suggest you run configure and select a different algorithm\n$@"
               if $@;
-            $this->{searchQueryObj} = $module->new();
+            $this->searchQueryObj( $module->new() );
         }
-        $engine = $this->{searchQueryObj};
+        $engine = $this->searchQueryObj;
     }
 
     no strict 'refs';

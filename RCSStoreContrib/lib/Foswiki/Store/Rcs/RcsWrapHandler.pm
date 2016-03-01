@@ -16,14 +16,16 @@ is analagous to the old =Foswiki::Store::RcsWrap=.
 =cut
 
 package Foswiki::Store::Rcs::RcsWrapHandler;
-use strict;
-use warnings;
+use v5.14;
+
 use Assert;
 
-use Foswiki::Store::Rcs::Handler ();
-our @ISA = ('Foswiki::Store::Rcs::Handler');
-
 use Foswiki::Sandbox ();
+use Foswiki::Exception();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Store::Rcs::Handler);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -35,43 +37,26 @@ BEGIN {
     *_encode = \&Foswiki::Store::encode;
 }
 
-sub new {
-    return shift->SUPER::new(@_);
-}
-
-=begin TML
-
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    $this->SUPER::finish();
-    undef $this->{binary};
-}
+has binary => ( is => 'rw', );
 
 # implements Rcs::Handler
 sub initBinary {
     my ($this) = @_;
 
-    $this->{binary} = 1;
+    $this->binary(1);
 
-    $this->mkPathTo( $this->{file} );
+    $this->mkPathTo( $this->file );
 
     return if $this->revisionHistoryExists();
 
     my ( $rcsOutput, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{initBinaryCmd},
-        FILENAME => _encode( $this->{file}, 1 )
+        FILENAME => _encode( $this->file, 1 )
     );
     if ($exit) {
-        throw Error::Simple( $Foswiki::cfg{RCS}{initBinaryCmd} . ' of '
-              . $this->hidePath( $this->{file} )
+        Foswiki::Exception::Fatal->throw(
+                text => $Foswiki::cfg{RCS}{initBinaryCmd} . ' of '
+              . $this->hidePath( $this->file )
               . ' failed: '
               . $rcsOutput );
     }
@@ -79,7 +64,7 @@ sub initBinary {
 
         # Sometimes (on Windows?) rcs file not formed, so check for it
         throw Error::Simple( $Foswiki::cfg{RCS}{initBinaryCmd} . ' of '
-              . $this->hidePath( $this->{rcsFile} )
+              . $this->hidePath( $this->rcsFile )
               . ' failed to create history file' );
     }
 }
@@ -87,28 +72,30 @@ sub initBinary {
 # implements Rcs::Handler
 sub initText {
     my ($this) = @_;
-    $this->{binary} = 0;
+    $this->binary(0);
 
-    $this->mkPathTo( $this->{file} );
+    $this->mkPathTo( $this->file );
 
     return if $this->revisionHistoryExists();
 
     my ( $rcsOutput, $exit, $stdErr ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{initTextCmd},
-        FILENAME => _encode( $this->{file}, 1 )
+        FILENAME => _encode( $this->file, 1 )
     );
     if ($exit) {
         $rcsOutput ||= '';
-        throw Error::Simple( $Foswiki::cfg{RCS}{initTextCmd} . ' of '
-              . $this->hidePath( $this->{file} )
+        Foswiki::Exception::Fatal->throw(
+                text => $Foswiki::cfg{RCS}{initTextCmd} . ' of '
+              . $this->hidePath( $this->file )
               . ' failed: '
               . $rcsOutput );
     }
     elsif ( !$this->revisionHistoryExists() ) {
 
         # Sometimes (on Windows?) rcs file not formed, so check for it
-        throw Error::Simple( $Foswiki::cfg{RCS}{initTextCmd} . ' of '
-              . $this->hidePath( $this->{rcsFile} )
+        Foswikie::Exception::Fatal->throw(
+                text => $Foswiki::cfg{RCS}{initTextCmd} . ' of '
+              . $this->hidePath( $this->rcsFile )
               . ' failed to create history file' );
     }
 }
@@ -124,7 +111,7 @@ sub ci {
         $this->saveStream($data);
     }
     else {
-        $this->saveFile( $this->{file}, $data );
+        $this->saveFile( $this->file, $data );
     }
 
     $comment = 'none' unless $comment;
@@ -137,7 +124,7 @@ sub ci {
         ( $rcsOutput, $exit, $stderr ) = Foswiki::Sandbox->sysCommand(
             $cmd,
             USERNAME => $user,
-            FILENAME => _encode( $this->{file}, 1 ),
+            FILENAME => _encode( $this->file, 1 ),
             COMMENT  => $comment,
             DATE     => $date
         );
@@ -147,21 +134,21 @@ sub ci {
         ( $rcsOutput, $exit, $stderr ) = Foswiki::Sandbox->sysCommand(
             $cmd,
             USERNAME => $user,
-            FILENAME => _encode( $this->{file}, 1 ),
+            FILENAME => _encode( $this->file, 1 ),
             COMMENT  => $comment
         );
     }
     $rcsOutput ||= '';
 
     if ($exit) {
-        throw Error::Simple( $cmd . ' of '
-              . $this->hidePath( $this->{file} )
+        Foswiki::Exception::Fatal->throw( text => $cmd . ' of '
+              . $this->hidePath( $this->file )
               . ' failed: '
               . $exit . ' '
               . $rcsOutput
               . ( (DEBUG) ? $stderr : '' ) );
     }
-    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->{file}, 1 ) );
+    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->file, 1 ) );
 }
 
 # implements Rcs::Handler
@@ -176,13 +163,13 @@ sub repRev {
     if ( $rev <= 1 ) {
 
         # initial revision, so delete repository file and start again
-        unlink $this->{rcsFile};
+        unlink $this->rcsFile;
     }
     else {
         _deleteRevision( $this, $rev );
     }
 
-    $this->saveFile( $this->{file}, $text );
+    $this->saveFile( $this->file, $text );
     require Foswiki::Time;
     $date = Foswiki::Time::formatTime( $date, '$rcs', 'gmtime' );
 
@@ -191,14 +178,14 @@ sub repRev {
         $Foswiki::cfg{RCS}{ciDateCmd},
         DATE     => $date,
         USERNAME => $user,
-        FILENAME => _encode( $this->{file}, 1 ),
+        FILENAME => _encode( $this->file, 1 ),
         COMMENT  => $comment
     );
     if ($exit) {
         $rcsOut = $Foswiki::cfg{RCS}{ciDateCmd} . "\n" . $rcsOut;
         return $rcsOut;
     }
-    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->{file}, 1 ) );
+    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->file, 1 ) );
 }
 
 # implements Rcs::Handler
@@ -215,23 +202,24 @@ sub _deleteRevision {
     # delete latest revision (unlock (may not be needed), delete revision)
     my ( $rcsOut, $exit ) =
       Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{unlockCmd},
-        FILENAME => _encode( $this->{file}, 1 ) );
+        FILENAME => _encode( $this->file, 1 ) );
     if ($exit) {
-        throw Error::Simple(
-            $Foswiki::cfg{RCS}{unlockCmd} . ' failed: ' . $rcsOut );
+        Foswiki::Exception::Fatal->throw(
+            text => $Foswiki::cfg{RCS}{unlockCmd} . ' failed: ' . $rcsOut );
     }
 
-    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->{file}, 1 ) );
+    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->file, 1 ) );
 
     ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{delRevCmd},
         REVISION => '1.' . $rev,
-        FILENAME => _encode( $this->{file}, 1 )
+        FILENAME => _encode( $this->file, 1 )
     );
 
     if ($exit) {
-        throw Error::Simple( $Foswiki::cfg{RCS}{delRevCmd} . ' of '
-              . $this->hidePath( $this->{file} )
+        Foswiki::Exception::Fatal->throw(
+                text => $Foswiki::cfg{RCS}{delRevCmd} . ' of '
+              . $this->hidePath( $this->file )
               . ' failed: '
               . $rcsOut );
     }
@@ -241,16 +229,17 @@ sub _deleteRevision {
     ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{coCmd},
         REVISION => '1.' . $rev,
-        FILENAME => _encode( $this->{file}, 1 )
+        FILENAME => _encode( $this->file, 1 )
     );
 
     if ($exit) {
-        throw Error::Simple( $Foswiki::cfg{RCS}{coCmd} . ' of '
-              . $this->hidePath( $this->{file} )
+        Foswiki::Exception::Fatal->throw(
+                text => $Foswiki::cfg{RCS}{coCmd} . ' of '
+              . $this->hidePath( $this->file )
               . ' failed: '
               . $rcsOut );
     }
-    $this->saveFile( $this->{file}, $rcsOut );
+    $this->saveFile( $this->file, $rcsOut );
 }
 
 # implements Rcs::Handler
@@ -280,7 +269,7 @@ sub getRevision {
     my $tmpfile;
     my $tmpRevFile;
     my $coCmd = $Foswiki::cfg{RCS}{coCmd};
-    my $file = _encode( $this->{file}, 1 );
+    my $file = _encode( $this->file, 1 );
     if ( $Foswiki::cfg{RCS}{coMustCopy} ) {
 
         # Need to take temporary copy of topic, check it out to file,
@@ -291,13 +280,15 @@ sub getRevision {
         # for evidence that this code is needed.
         $tmpfile    = Foswiki::Store::Rcs::Handler::mkTmpFilename($this);
         $tmpRevFile = $tmpfile . ',v';
-        $this->_copyFile( $this->{rcsFile}, $tmpRevFile );
+        $this->_copyFile( $this->rcsFile, $tmpRevFile );
         my ( $rcsOutput, $status ) =
           Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{tmpBinaryCmd},
             FILENAME => $tmpRevFile );
         if ($status) {
-            throw Error::Simple(
-                $Foswiki::cfg{RCS}{tmpBinaryCmd} . ' failed: ' . $rcsOutput );
+            Foswiki::Exception::Fatal->throw(
+                    text => $Foswiki::cfg{RCS}{tmpBinaryCmd}
+                  . ' failed: '
+                  . $rcsOutput );
         }
         $file = $tmpfile;
         $coCmd =~ s/-p%REVISION/-r%REVISION/;
@@ -349,7 +340,7 @@ sub getInfo {
     my ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{infoCmd},
         REVISION => '1.' . $version,
-        FILENAME => _encode( $this->{rcsFile}, 1 )
+        FILENAME => _encode( $this->rcsFile, 1 )
     );
     if ( !$exit ) {
         if ( $rcsOut =~
@@ -385,11 +376,11 @@ sub _numRevisions {
 
     my ( $rcsOutput, $exit ) =
       Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{histCmd},
-        FILENAME => _encode( $this->{rcsFile}, 1 ) );
+        FILENAME => _encode( $this->rcsFile, 1 ) );
     if ($exit) {
-        throw Error::Simple( 'RCS: '
+        Foswiki::Exception::Fatal->throw( text => 'RCS: '
               . $Foswiki::cfg{RCS}{histCmd} . ' of '
-              . $this->hidePath( $this->{rcsFile} )
+              . $this->hidePath( $this->rcsFile )
               . ' failed: '
               . $rcsOutput );
     }
@@ -421,7 +412,7 @@ sub revisionDiff {
             $Foswiki::cfg{RCS}{diffCmd},
             REVISION1 => '1.' . $rev1,
             REVISION2 => '1.' . $rev2,
-            FILENAME  => _encode( $this->{rcsFile}, 1 ),
+            FILENAME  => _encode( $this->rcsFile, 1 ),
             CONTEXT   => $contextLines
         );
 
@@ -515,34 +506,34 @@ sub _lock {
     # Try and get a lock on the file
     my ( $rcsOutput, $exit ) =
       Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{lockCmd},
-        FILENAME => _encode( $this->{file}, 1 ) );
+        FILENAME => _encode( $this->file, 1 ) );
 
     if ($exit) {
 
         # if the lock has been set more than 24h ago, let's try to break it
         # and then retry.  Should not happen unless in Cairo upgrade
         # scenarios - see Item2102
-        if ( ( time - ( stat( _encode( $this->{rcsFile}, 1 ) ) )[9] ) > 3600 ) {
-            warn 'Automatic recovery: breaking lock for ' . $this->{file};
+        if ( ( time - ( stat( _encode( $this->rcsFile, 1 ) ) )[9] ) > 3600 ) {
+            warn 'Automatic recovery: breaking lock for ' . $this->file;
             Foswiki::Sandbox->sysCommand(
                 $Foswiki::cfg{RCS}{breaklockCmd},
-                FILENAME => _encode( $this->{file}, 1 )
+                FILENAME => _encode( $this->file, 1 )
             );
             ( $rcsOutput, $exit ) =
               Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{lockCmd},
-                FILENAME => _encode( $this->{file}, 1 ) );
+                FILENAME => _encode( $this->file, 1 ) );
         }
         if ($exit) {
 
             # still no luck - bailing out
             $rcsOutput ||= '';
-            throw Error::Simple( 'RCS: '
+            Foswiki::Exception::Fatal->throw( text => 'RCS: '
                   . $Foswiki::cfg{RCS}{lockCmd}
                   . ' failed: '
                   . $rcsOutput );
         }
     }
-    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->{file}, 1 ) );
+    chmod( $Foswiki::cfg{Store}{filePermission}, _encode( $this->file, 1 ) );
 }
 
 # implements Rcs::Handler
@@ -550,7 +541,7 @@ sub getRevisionAtTime {
     my ( $this, $date ) = @_;
 
     unless ( $this->revisionHistoryExists() ) {
-        return ( $date >= ( stat( _encode( $this->{file}, 1 ) ) )[9] )
+        return ( $date >= ( stat( _encode( $this->file, 1 ) ) )[9] )
           ? 1
           : undef;
     }
@@ -560,7 +551,7 @@ sub getRevisionAtTime {
     my ( $rcsOutput, $exit ) = Foswiki::Sandbox->sysCommand(
         $Foswiki::cfg{RCS}{rlogDateCmd},
         DATE     => $sdate,
-        FILENAME => _encode( $this->{file}, 1 )
+        FILENAME => _encode( $this->file, 1 )
     );
 
     my $version = undef;
@@ -571,7 +562,7 @@ sub getRevisionAtTime {
     if ( $version && !$this->noCheckinPending() ) {
 
         # Check the file date
-        $version++ if ( $date >= ( stat( _encode( $this->{file}, 1 ) ) )[9] );
+        $version++ if ( $date >= ( stat( _encode( $this->file, 1 ) ) )[9] );
     }
     return $version;
 }
