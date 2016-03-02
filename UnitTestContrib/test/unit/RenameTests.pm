@@ -1361,7 +1361,7 @@ sub test_renameTopic_with_lowercase_first_letter {
     if ($caseInsensitiveFS) {
         $this->expect_failure();
         $this->annotate(
-"this test fails on a non-case sensitive filesystem – OSX default, Windows.."
+"Fails on case-insensitive filesystems like OSX default, Windows, etc."
         );
     }
 

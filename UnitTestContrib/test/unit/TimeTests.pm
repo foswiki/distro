@@ -6,30 +6,29 @@
 # Warning! as of June2010, strawberry perl does not implement POSIX::tzset and thus crashes these tests completely
 
 package TimeTests;
-use FoswikiTestCase;
-our @ISA = qw( FoswikiTestCase );
+use v5.14;
 
-use strict;
 use Foswiki::Time;
 require POSIX;
 use Time::Local qw( timelocal timegm timelocal_nocheck timegm_nocheck);
 use Config;    #used to detect if this is strawberry perl
 
-sub new {
-    my $self = shift()->SUPER::new(@_);
-    return $self;
-}
+use Moo;
+use namespace::clean;
+extends qw( FoswikiTestCase );
 
-sub set_up {
+has DisplayTimeValues => ( is => 'rw', clearer => 1, );
+
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
     $ENV{TZ} = 'GMT';
     POSIX::tzset();
     undef $Foswiki::Time::TZSTRING;
-    $this->{DisplayTimeValues} = $Foswiki::cfg{DisplayTimeValues};
-
-}
+    $this->DisplayTimeValues( $Foswiki::cfg{DisplayTimeValues} );
+};
 
 sub skip {
     my ( $this, $test ) = @_;
@@ -56,14 +55,16 @@ sub skip {
     return;
 }
 
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
-    $Foswiki::cfg{DisplayTimeValues} = delete $this->{DisplayTimeValues};
-    $this->SUPER::tear_down();    # should restore $ENV{TZ}
-        # Warning! segfault on Windows if $ENV{TZ} is undef
+    $Foswiki::cfg{DisplayTimeValues} = $this->DisplayTimeValues;
+    $this->clear_DisplayTimeValues;
+    $orig->($this);    # should restore $ENV{TZ}
+                       # Warning! segfault on Windows if $ENV{TZ} is undef
     POSIX::tzset() if defined $ENV{TZ};
     undef $Foswiki::Time::TZSTRING;
-}
+};
 
 sub list_tests {
 

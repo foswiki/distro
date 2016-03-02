@@ -2,39 +2,40 @@
 # should have their own individual testcase)
 
 package VariableTests;
-use strict;
-use warnings;
+use v5.14;
 
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use Foswiki                          ();
+use Foswiki::Users::TopicUserMapping ();
+use Try::Tiny;
 
-use Foswiki();
-use Error qw( :try );
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
-sub set_up {
+around BUILDARGS => sub {
+    my $orig = shift;
+    $orig->( @_, testSuite => 'Variables' );
+};
+
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
     my $query = Unit::Request->new( initializer => "" );
-    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
     $this->createNewFoswikiSession( 'scum', $query );
-    $this->{test_topicObject}->finish() if $this->{test_topicObject};
-    ( $this->{test_topicObject} ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $this->clear_test_topicObject;
+    $this->test_topicObject(
+        ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )[0] );
 
     return;
-}
-
-sub new {
-    my ( $class, @args ) = @_;
-
-    return $class->SUPER::new( 'Variables', @args );
-}
+};
 
 sub test_embeddedExpansions {
     my $this = shift;
-    $this->{session}->{prefs}->setSessionPreferences(
+    $this->session->prefs->setSessionPreferences(
         EGGSAMPLE => 'Egg sample',
         A         => 'EGG',
         B         => 'SAMPLE',
@@ -49,22 +50,22 @@ sub test_embeddedExpansions {
         XB        => 'PLAR',
     );
 
-    my $result = $this->{test_topicObject}->expandMacros("%%A%%B%%");
+    my $result = $this->test_topicObject->expandMacros("%%A%%B%%");
     $this->assert_equals( 'Egg sample', $result );
 
-    $result = $this->{test_topicObject}->expandMacros("%C%%D%");
+    $result = $this->test_topicObject->expandMacros("%C%%D%");
     $this->assert_equals( 'Egg sample', $result );
 
-    $result = $this->{test_topicObject}->expandMacros("%E%%F%");
+    $result = $this->test_topicObject->expandMacros("%E%%F%");
     $this->assert_equals( 'Egg sample', $result );
 
-    $result = $this->{test_topicObject}->expandMacros("%%XA{}%%XB{}%%");
+    $result = $this->test_topicObject->expandMacros("%%XA{}%%XB{}%%");
     $this->assert_equals( 'Exem plar', $result );
 
-    $result = $this->{test_topicObject}->expandMacros("%%XA%%XB%{}%");
+    $result = $this->test_topicObject->expandMacros("%%XA%%XB%{}%");
     $this->assert_equals( 'Exem plar', $result );
 
-    $result = $this->{test_topicObject}->expandMacros("%%%PA%%%%SB{}%%%");
+    $result = $this->test_topicObject->expandMacros("%%%PA%%%%SB{}%%%");
     $this->assert_equals( 'Egg sample', $result );
 
     return;
@@ -87,26 +88,27 @@ Kill me
 %USER%NOP%INFO{format="$emails,$username,$wikiname,$wikiusername"}%
 %ENDSECTION{name="fred" type="section"}%
 END
-    $this->{test_topicObject}->text($text);
-    $this->{test_topicObject}
-      ->put( 'PREFERENCE', { name => "BLAH", value => "%WIKINAME%" } );
-    $this->{test_topicObject}->expandNewTopic();
+    $this->test_topicObject->text($text);
+    $this->test_topicObject->put( 'PREFERENCE',
+        { name => "BLAH", value => "%WIKINAME%" } );
+    $this->test_topicObject->expandNewTopic();
 
+    my ($users_web) = $this->users_web;
     my $xpect = <<"END";
 scum
 
 ScumBag
-$this->{users_web}.ScumBag
+$users_web.ScumBag
 %WEBCOLOR%
 %STARTSECTION{name="fred" type="section"}%
-scum, $this->{users_web}.ScumBag, scumbag\@example.com
-scumbag\@example.com,scum,ScumBag,$this->{users_web}.ScumBag
+scum, $users_web.ScumBag, scumbag\@example.com
+scumbag\@example.com,scum,ScumBag,$users_web.ScumBag
 %USERINFO{format="\$emails,\$username,\$wikiname,\$wikiusername"}%
 %ENDSECTION{name="fred" type="section"}%
 END
-    $this->assert_str_equals( $xpect, $this->{test_topicObject}->text() );
+    $this->assert_str_equals( $xpect, $this->test_topicObject->text() );
     $this->assert_str_equals( "ScumBag",
-        $this->{test_topicObject}->get( 'PREFERENCE', 'BLAH' )->{value} );
+        $this->test_topicObject->get( 'PREFERENCE', 'BLAH' )->{value} );
 
     return;
 }
@@ -123,14 +125,15 @@ sub test_userExpansions {
 %USERINFO{format="$cUID,$emails,$username,$wikiname,$wikiusername"}%
 %USERINFO{"WikiGuest" format="$cUID,$emails,$username,$wikiname,$wikiusername"}%
 END
-    my $result = $this->{test_topicObject}->expandMacros($text);
-    my $xpect  = <<"END";
+    my $result    = $this->test_topicObject->expandMacros($text);
+    my $users_web = $this->users_web;
+    my $xpect     = <<"END";
 scum
 ScumBag
-$this->{users_web}.ScumBag
-scum, $this->{users_web}.ScumBag, scumbag\@example.com
-${Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID}scum,scumbag\@example.com,scum,ScumBag,$this->{users_web}.ScumBag
-$Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID,,guest,WikiGuest,$this->{users_web}.WikiGuest
+$users_web.ScumBag
+scum, $users_web.ScumBag, scumbag\@example.com
+${Foswiki::Users::TopicUserMapping::FOSWIKI_USER_MAPPING_ID}scum,scumbag\@example.com,scum,ScumBag,$users_web.ScumBag
+$Foswiki::Users::BaseUserMapping::DEFAULT_USER_CUID,,guest,WikiGuest,$users_web.WikiGuest
 END
     $this->annotate( "Foswiki::cfg{Register}{AllowLoginName} == "
           . $Foswiki::cfg{Register}{AllowLoginName} );
@@ -146,7 +149,7 @@ sub test_macroParams {
     # Check default given, given but null, not given
     # Check quotes and other standard expansions
     # Check override of standard macros
-    $this->{session}->{prefs}->setSessionPreferences(
+    $this->session->prefs->setSessionPreferences(
         ARFLE => '%BARFLE{default="gloop"}%',
         TING  => '%DEFAULT% %DEFAULT{default="tong"}%',
         ALING => '\'%DEFAULT%\' \'%DEFAULT{default="tong"}%\'',
@@ -168,7 +171,7 @@ sub test_macroParams {
 | Test{arg="Z"} | %Test{arg="Z"}% |
 INPUT
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text($input);
     my $result   = $topicObject->expandMacros($input);
     my $expected = <<'EXPECTED';

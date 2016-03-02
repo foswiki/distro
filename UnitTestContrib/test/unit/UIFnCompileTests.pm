@@ -1,13 +1,13 @@
 package UIFnCompileTests;
-use strict;
-use warnings;
+use v5.14;
 
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use Foswiki           ();
+use Foswiki::UI::View ();
+use Try::Tiny;
 
-use Foswiki();
-use Foswiki::UI::View();
-use Error qw( :try );
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 our $UI_FN;
 our $SCRIPT_NAME;
@@ -32,20 +32,12 @@ our %expect_non_html = (
     statistics   => 1,
 );
 
-sub new {
-    my ( $class, @args ) = @_;
+around BUILDARGS => sub {
+    my $orig = shift;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
     $Foswiki::cfg{Stats}{AutoCreateTopic} = 0;
-    my $self = $class->SUPER::new( "UIFnCompile", @args );
-    return $self;
-}
-
-# Set up the test fixture
-sub set_up {
-    my $this = shift;
-    $this->SUPER::set_up();
-    return;
-}
+    return $orig->( @_, testSuite => 'UIFnCompile' );
+};
 
 sub fixture_groups {
     my @groups;
@@ -102,27 +94,33 @@ sub call_UI_FN {
     );
     $query->path_info("/$web/$topic");
     $query->method('POST');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my ( $responseText, $result, $stdout, $stderr );
     $responseText = "Status: 500";    #errr, boom
     try {
         ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
             switchboard => sub {
                 no strict 'refs';
-                &{ ${UI_FN} }( $this->{session} );
+                &{ ${UI_FN} }( $this->session );
                 use strict 'refs';
-                $Foswiki::engine->finalize( $this->{session}{response},
-                    $this->{session}{request} );
+                $Foswiki::engine->finalize( $this->session->response,
+                    $this->session->request );
             }
         );
     }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $responseText = $e->stringify();
-    }
-    catch Foswiki::EngineException with {
-        my $e = shift;
-        $responseText = $e->stringify();
+    catch {
+        my $e = $_;
+        if (
+            ref($e)
+            && (   $e->isa('Foswiki::OopsException')
+                || $e->isa('Foswiki::EngineException') )
+          )
+        {
+            $responseText = $e->stringify();
+        }
+        else {
+            Foswiki::Exception::Fatal->rethrow($e);
+        }
     };
 
     $this->assert($responseText);
@@ -157,7 +155,7 @@ sub verify_switchboard_function {
     my $this = shift;
 
     my ( $status, $header, $result, $stdout, $stderr ) =
-      $this->call_UI_FN( $this->{test_web}, $this->{test_topic} );
+      $this->call_UI_FN( $this->test_web, $this->test_topic );
 
     # it turns out (see Foswiki:Tasks.Item9184) that hardcoding 200 status
     # prevents the use of BasicAuth - and we really should avoid preventing an
@@ -189,7 +187,7 @@ sub verify_switchboard_function_nonExistantWeb {
     local $ENV{FOSWIKI_ASSERTS} = 0;
 
     my ( $status, $header, $result, $stdout, $stderr ) =
-      $this->call_UI_FN( 'Nosuchweb', $this->{test_topic} );
+      $this->call_UI_FN( 'Nosuchweb', $this->test_topic );
 
     # TODO: I was expecting pretty much all scripts to return 302 redirect to
     # oopsmissing. Shame we're still using 302 - when we're supposed to use
@@ -220,7 +218,7 @@ sub verify_switchboard_function_nonExistantTopic {
     local $ENV{FOSWIKI_ASSERTS} = 0;
 
     my ( $status, $header, $result, $stdout, $stderr ) =
-      $this->call_UI_FN( $this->{test_web}, 'NoSuchTopicBySven' );
+      $this->call_UI_FN( $this->test_web, 'NoSuchTopicBySven' );
 
     our %expected_status = (
 

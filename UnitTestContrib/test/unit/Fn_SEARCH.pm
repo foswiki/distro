@@ -16,10 +16,10 @@ package Fn_SEARCH;
 use v5.14;
 use utf8;
 
-use Foswiki();
-use Foswiki::Func();
-use Foswiki::Search();
-use Foswiki::Search::InfoCache();
+use Foswiki                    ();
+use Foswiki::Func              ();
+use Foswiki::Search            ();
+use Foswiki::Search::InfoCache ();
 use English qw( -no_match_vars );
 use Try::Tiny;
 use HTML::Entities;
@@ -43,7 +43,7 @@ around BUILDARGS => sub {
 # This test is run in a separate process to be able to reclaim that memory
 # after the test is complete.
 sub run_in_new_process {
-    return 1;
+    return 0;
 }
 
 our $AElig;
@@ -5471,9 +5471,10 @@ HERE
 
 sub test_delayed_expansion {
     my $this = shift;
-    $this->assert( eval { require Foswiki::Macros::SEARCH; 1; }
+    $this->assert( eval " require Foswiki::Macros::SEARCH; 1; "
           and not $EVAL_ERROR );
 
+    # SMELL This won't work if SEARCH macro gets converted into a object.
     my $result = $Foswiki::Plugins::SESSION->SEARCH(
         {
             _DEFAULT  => "1",

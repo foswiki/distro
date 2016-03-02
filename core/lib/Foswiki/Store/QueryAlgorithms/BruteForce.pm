@@ -24,10 +24,9 @@ speed and memory size. It also depends on the complexity of the query.
 # evaluation path. Not done yet, because CDot strongly suspects it won't make
 # much difference.
 
-use Foswiki::Store::Interfaces::SearchAlgorithm ();
-use Foswiki::Search::Node                       ();
-use Foswiki::Search::InfoCache                  ();
-use Foswiki::Search::ResultSet                  ();
+use Foswiki::Search::Node      ();
+use Foswiki::Search::InfoCache ();
+use Foswiki::Search::ResultSet ();
 use Foswiki();
 use Foswiki::Func();
 use Foswiki::Meta            ();
@@ -37,6 +36,8 @@ use Foswiki::Query::HoistREs ();
 use Foswiki::ListIterator();
 use Foswiki::Iterator::FilterIterator();
 use Foswiki::Iterator::ProcessIterator();
+
+use Foswiki::Store::Interfaces::QueryAlgorithm;
 
 use Moo;
 use namespace::clean;

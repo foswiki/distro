@@ -2369,7 +2369,8 @@ See http://blog.fox.geek.nz/2010/11/searching-design-spec-for-ultimate.html for 
 
 =cut
 
-sub _package_loaded {
+# _package_defined checks if package is present in the global symbol table.
+sub _package_defined {
     my $fullname = shift;
 
     # See if package is already defined in the main symbol table.
@@ -2383,8 +2384,17 @@ sub _package_loaded {
 
 sub load_package {
     my $fullname = shift;
+    my %params   = @_;
 
-    return if _package_loaded($fullname);
+    my $defined = _package_defined($fullname);
+    my $loaded  = $defined;
+    if ( $defined && $params{method} ) {
+
+        # Check if loaded package can do a method. If it can't we assume that
+        # the entry in the symbol table was autovivified.
+        $loaded = $fullname->can( $params{method} );
+    }
+    return if $loaded;
 
     my $filename = File::Spec->catfile( split /::/, $fullname ) . '.pm';
     #
@@ -2399,8 +2409,14 @@ sub load_package {
     # are part of Foswiki namespace.
     #return if eval { $fullname->isa($fullname) };
 
+    #say STDERR "Loading $fullname from $filename";
+
     local $SIG{__DIE__};
     require $filename;
+}
+
+sub load_class {
+    load_package( @_, method => 'new', );
 }
 
 =begin TML

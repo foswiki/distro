@@ -44,11 +44,17 @@ sub SEARCH {
         my $exception = $_;
         my $message;
 
+        if ( !ref($_) ) {
+            Foswiki::Exception::Fatal->rethrow($_);
+        }
+
         # If an unhandled system error took place then let lower level code take
         # care of it.
         # If code is executed in unit test mode then avoid HTMLization of error
         # report.
-        if ( $Foswiki::inUnitTestMode && !ref($exception) ) {
+        if ( $Foswiki::inUnitTestMode
+            && !$exception->isa('Foswiki::Infix::Error') )
+        {
             Foswiki::Exception::Fatal->rethrow($exception);
         }
 

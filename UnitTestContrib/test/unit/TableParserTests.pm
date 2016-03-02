@@ -1,19 +1,26 @@
 package TableParserTests;
+use v5.14;
 
-use strict;
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
-sub set_up {
+has out      => ( is => 'rw', );
+has dispatch => ( is => 'rw', );
+
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
     require Foswiki::Tables::Parser;
-    $this->SUPER::set_up();
-    $this->{out}      = "";
-    $this->{dispatch} = sub {
-        my $event = shift;
-        $this->$event(@_);
-    };
-}
+    $orig->($this);
+    $this->out("");
+    $this->dispatch(
+        sub {
+            my $event = shift;
+            $this->$event(@_);
+        }
+    );
+};
 
 sub skip {
     my ( $this, $test ) = @_;
@@ -23,14 +30,20 @@ sub skip {
       : undef;
 }
 
+sub addToOut {
+    my $this = shift;
+    my ($text) = @_;
+    return $this->out( $this->out . $text );
+}
+
 sub early_line {
     my $this = shift;
     if ( $_[0] =~ s/CREATE_A_TABLE// ) {
-        $this->{out} .= "EL $_[0]\n";
+        $this->addToOut("EL $_[0]\n");
         return 1;
     }
     if ( $_[0] =~ s/NO_TABLE// ) {
-        $this->{out} .= "ELE\n";
+        $this->addToOut("ELE\n");
         return -1;
     }
     return 0;
@@ -38,42 +51,42 @@ sub early_line {
 
 sub end_of_input {
     my $this = shift;
-    $this->{out} .= "EOF\n";
+    $this->addToOut("EOF\n");
 }
 
 sub line {
     my $this = shift;
-    $this->{out} .= "LL '$_[0]'\n";
+    $this->addToOut("LL '$_[0]'\n");
 }
 
 sub open_table {
     my $this = shift;
-    $this->{out} .= "<table>\n";
+    $this->addToOut("<table>\n");
 }
 
 sub close_table {
     my $this = shift;
-    $this->{out} .= "</table>\n";
+    $this->addToOut("</table>\n");
 }
 
 sub open_tr {
     my $this = shift;
-    $this->{out} .= "<tr pre='$_[0]' post='$_[1]'>\n";
+    $this->addToOut("<tr pre='$_[0]' post='$_[1]'>\n");
 }
 
 sub close_tr {
     my $this = shift;
-    $this->{out} .= "</tr>\n";
+    $this->addToOut("</tr>\n");
 }
 
 sub td {
     my $this = shift;
-    $this->{out} .= "<td pre='$_[0]' post='$_[2]'>$_[1]</td>\n";
+    $this->addToOut("<td pre='$_[0]' post='$_[2]'>$_[1]</td>\n");
 }
 
 sub th {
     my $this = shift;
-    $this->{out} .= "<th pre='$_[0]' post='$_[2]'>$_[1]</th>\n";
+    $this->addToOut("<th pre='$_[0]' post='$_[2]'>$_[1]</th>\n");
 }
 
 sub test_simple_table {
@@ -82,8 +95,8 @@ sub test_simple_table {
     my $in = <<IN;
 | Simple | Table |
 IN
-    Foswiki::Tables::Parser::parse( $in, $this->{dispatch} );
-    $this->assert_html_equals( <<EXPECTED, $this->{out} );
+    Foswiki::Tables::Parser::parse( $in, $this->dispatch );
+    $this->assert_html_equals( <<EXPECTED, $this->out );
 <table>
 <tr pre='' post=''>
 <td pre=' ' post=' '>Simple</td>
@@ -100,8 +113,8 @@ sub test_headers_at_top {
     my $in = <<IN;
 | *Simple* | Table |
 IN
-    Foswiki::Tables::Parser::parse( $in, $this->{dispatch} );
-    $this->assert_html_equals( <<EXPECTED, $this->{out} );
+    Foswiki::Tables::Parser::parse( $in, $this->dispatch );
+    $this->assert_html_equals( <<EXPECTED, $this->out );
 <table>
 <tr pre='' post=''>
 <th pre=' ' post=' '>Simple</th>
@@ -122,8 +135,8 @@ sub test_cell_align {
 | *Gimple*|Babel |
 |*Horse*|Hair|
 IN
-    Foswiki::Tables::Parser::parse( $in, $this->{dispatch} );
-    $this->assert_html_equals( <<EXPECTED, $this->{out} );
+    Foswiki::Tables::Parser::parse( $in, $this->dispatch );
+    $this->assert_html_equals( <<EXPECTED, $this->out );
 <table>
 <tr pre='' post=''>
 <th pre='   ' post=' '>Simple</th>
@@ -162,8 +175,8 @@ Table |
  | Fa\
 ble |   
 IN
-    Foswiki::Tables::Parser::parse( $in, $this->{dispatch} );
-    $this->assert_html_equals( <<EXPECTED, $this->{out} );
+    Foswiki::Tables::Parser::parse( $in, $this->dispatch );
+    $this->assert_html_equals( <<EXPECTED, $this->out );
 <table>
 <tr pre='' post=''>
 <td pre=' ' post=' '>Simple</td>
@@ -196,8 +209,8 @@ sub test_verbatim_and_literal_blocks {
 <verbatim></verbatim>
 | Simple | Table |
 IN
-    Foswiki::Tables::Parser::parse( $in, $this->{dispatch} );
-    $this->assert_html_equals( <<EXPECTED, $this->{out} );
+    Foswiki::Tables::Parser::parse( $in, $this->dispatch );
+    $this->assert_html_equals( <<EXPECTED, $this->out );
 LL '<verbatim>'
 LL '| Simple | Table |'
 LL '</verbatim>'
@@ -229,8 +242,8 @@ Spot CREATE_A_TABLE the dog
 Hugh NO_TABLE Pugh
 Barney McGrew
 IN
-    Foswiki::Tables::Parser::parse( $in, $this->{dispatch} );
-    $this->assert_html_equals( <<EXPECTED, $this->{out} );
+    Foswiki::Tables::Parser::parse( $in, $this->dispatch );
+    $this->assert_html_equals( <<EXPECTED, $this->out );
 LL 'Testing testing 1 2 3'
 EL Spot  the dog
 <table>
@@ -254,8 +267,8 @@ sub test_empty_cells {
 |  |
 |   |
 IN
-    Foswiki::Tables::Parser::parse( $in, $this->{dispatch} );
-    $this->assert_html_equals( <<EXPECTED, $this->{out} );
+    Foswiki::Tables::Parser::parse( $in, $this->dispatch );
+    $this->assert_html_equals( <<EXPECTED, $this->out );
 LL '|'
 <table>
 <tr pre='' post=''>
@@ -288,8 +301,8 @@ sub test_balanced_percent {
 spoon="egg" }%
 | A | B |
 IN
-    Foswiki::Tables::Parser::parse( $in, $this->{dispatch} );
-    $this->assert_html_equals( <<EXPECTED, $this->{out} );
+    Foswiki::Tables::Parser::parse( $in, $this->dispatch );
+    $this->assert_html_equals( <<EXPECTED, $this->out );
 <table>
 <tr pre='' post=''>
 <td pre=' ' post=' '>A</td>

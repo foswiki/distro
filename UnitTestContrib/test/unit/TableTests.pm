@@ -1,12 +1,13 @@
 # Tests for the Table, Row and Cell classes of Foswiki::Tables
 package TableTests;
+use v5.14;
 
-use strict;
-use FoswikiTestCase;
 use Foswiki::Attrs;
 use Foswiki::Tables::Table;
 
-our @ISA = qw( FoswikiTestCase );
+use Moo;
+use namespace::clean;
+extends qw( FoswikiTestCase );
 
 my $spec =
 'headerrows="2" footerrows="1" format="|text,5,init |label,20,$dollar()init|textarea,10x8|radio,,a,b,c|"';
@@ -16,7 +17,7 @@ sub test_construct_table {
 
     my $attrs = Foswiki::Attrs->new($spec);
     my $table = Foswiki::Tables::Table->new(
-        [
+        specs => [
             {
                 tag   => 'SPEC',
                 raw   => 'SPEC',
@@ -25,30 +26,30 @@ sub test_construct_table {
         ]
     );
     $this->assert_num_equals( 0, $table->totalRows() );
-    $this->assert_num_equals( 2, $table->{headerrows} );
+    $this->assert_num_equals( 2, $table->headerrows );
     $this->assert_num_equals( 2, $table->getHeaderRows() );
     $this->assert_num_equals( 1, $table->getFooterRows() );
 
-    $this->assert_equals( 'text',  $table->{colTypes}->[0]->{type} );
-    $this->assert_equals( '5',     $table->{colTypes}->[0]->{size} );
-    $this->assert_equals( 'init ', $table->{colTypes}->[0]->{initial_value} );
+    $this->assert_equals( 'text',  $table->colTypes->[0]->{type} );
+    $this->assert_equals( '5',     $table->colTypes->[0]->{size} );
+    $this->assert_equals( 'init ', $table->colTypes->[0]->{initial_value} );
 
-    $this->assert_equals( 'label', $table->{colTypes}->[1]->{type} );
-    $this->assert_equals( '20',    $table->{colTypes}->[1]->{size} );
-    $this->assert_equals( '$init', $table->{colTypes}->[1]->{initial_value} );
+    $this->assert_equals( 'label', $table->colTypes->[1]->{type} );
+    $this->assert_equals( '20',    $table->colTypes->[1]->{size} );
+    $this->assert_equals( '$init', $table->colTypes->[1]->{initial_value} );
 
-    $this->assert_equals( 'textarea', $table->{colTypes}->[2]->{type} );
-    $this->assert_equals( '10x8',     $table->{colTypes}->[2]->{size} );
-    $this->assert_equals( ' ', $table->{colTypes}->[2]->{initial_value} );
+    $this->assert_equals( 'textarea', $table->colTypes->[2]->{type} );
+    $this->assert_equals( '10x8',     $table->colTypes->[2]->{size} );
+    $this->assert_equals( ' ',        $table->colTypes->[2]->{initial_value} );
 
-    $this->assert_equals( 'radio', $table->{colTypes}->[3]->{type} );
-    $this->assert_equals( '1',     $table->{colTypes}->[3]->{size} );
-    $this->assert_equals( 'a',     $table->{colTypes}->[3]->{values}->[0] );
-    $this->assert_equals( 'b',     $table->{colTypes}->[3]->{values}->[1] );
-    $this->assert_equals( 'c',     $table->{colTypes}->[3]->{values}->[2] );
-    $this->assert_equals( 'a',     $table->{colTypes}->[3]->{initial_value} );
+    $this->assert_equals( 'radio', $table->colTypes->[3]->{type} );
+    $this->assert_equals( '1',     $table->colTypes->[3]->{size} );
+    $this->assert_equals( 'a',     $table->colTypes->[3]->{values}->[0] );
+    $this->assert_equals( 'b',     $table->colTypes->[3]->{values}->[1] );
+    $this->assert_equals( 'c',     $table->colTypes->[3]->{values}->[2] );
+    $this->assert_equals( 'a',     $table->colTypes->[3]->{initial_value} );
 
-    $this->assert_num_equals( 4, scalar( @{ $table->{colTypes} } ) );
+    $this->assert_num_equals( 4, scalar( @{ $table->colTypes } ) );
     $this->assert_equals( "SPEC\n", $table->stringify() );
 
     $table->makeConsistent();
@@ -56,7 +57,7 @@ sub test_construct_table {
 
     $attrs = Foswiki::Attrs->new('');
     $table = Foswiki::Tables::Table->new(
-        [
+        specs => [
             {
                 tag   => 'SPEC',
                 raw   => 'SPEC',
@@ -64,9 +65,9 @@ sub test_construct_table {
             }
         ]
     );
-    $this->assert_null( $table->{headerrows} );
+    $this->assert_null( $table->headerrows );
     $this->assert_num_equals( 0, $table->getHeaderRows() );
-    $this->assert_null( $table->{footerrows} );
+    $this->assert_null( $table->footerrows );
     $this->assert_num_equals( 0, $table->getFooterRows() );
     $this->assert_num_equals( 0, $table->getFirstBodyRow() );
     $this->assert_num_equals( 0, $table->getLastBodyRow() );
@@ -81,10 +82,10 @@ sub _check_rows {
     while ( my $d = shift @data ) {
         $this->assert_equals(
             $d,
-            $table->{rows}->[ $i++ ]->{cols}->[0]->{text},
+            $table->rows->[ $i++ ]->cols->[0]->text,
             "$d in "
               . join( ',',
-                map { $_->{cols}->[0]->{text} || 'undef' } @{ $table->{rows} } )
+                map { $_->cols->[0]->text || 'undef' } @{ $table->rows } )
         );
     }
 }
@@ -94,7 +95,7 @@ sub test_basic_table_operations {
     my $this  = shift;
     my $attrs = Foswiki::Attrs->new('');
     my $table = Foswiki::Tables::Table->new(
-        [
+        specs => [
             {
                 tag   => 'SPEC',
                 raw   => 'SPEC',
@@ -111,19 +112,19 @@ sub test_basic_table_operations {
 
     $this->assert_num_equals( 0, $table->totalRows() );
     $this->assert( $row = $table->addRow(1) );
-    $row->{cols}->[0]->{text} = "first";
+    $row->cols->[0]->text("first");
     $this->_check_rows( $table, "first" );
 
     $this->assert( $row = $table->addRow(0) );    # should add after row 0
-    $row->{cols}->[0]->{text} = "second";
+    $row->cols->[0]->text("second");
     $this->_check_rows( $table, "first", "second" );
 
     $this->assert( $row = $table->addRow(-1) );    # should add at the start
-    $row->{cols}->[0]->{text} = "third";
+    $row->cols->[0]->text("third");
     $this->_check_rows( $table, "third", "first", "second" );
 
     $this->assert( $row = $table->addRow(100) );    # should add at the end
-    $row->{cols}->[0]->{text} = "fourth";
+    $row->cols->[0]->text("fourth");
     $this->_check_rows( $table, "third", "first", "second", "fourth" );
 
     # Clean up a touch
@@ -131,21 +132,21 @@ sub test_basic_table_operations {
     $this->_check_rows( $table, "third", "first", "fourth" );
 
     $this->assert( $row = $table->addRow(1) );      # should add in the middle
-    $row->{cols}->[0]->{text} = "fifth";
+    $row->cols->[0]->text("fifth");
     $this->_check_rows( $table, "third", "first", "fifth", "fourth" );
 
     # impose a header row and try a low-end add again
-    $table->{headerrows} = 1;
+    $table->headerrows(1);
     $this->assert( $row = $table->addRow(-1) );     # should add after row 0
-    $row->{cols}->[0]->{text} = "sixth";
+    $row->cols->[0]->text("sixth");
     $this->_check_rows( $table, "third", "sixth", "first", "fifth", "fourth" );
     $this->assert( !$table->deleteRow(0) );
     $this->assert( $table->deleteRow(1) );
 
     # impose a footer row and try a high-end add again
-    $table->{footerrows} = 2;
+    $table->footerrows(2);
     $this->assert( $row = $table->addRow(-1) );     # should add after row 0
-    $row->{cols}->[0]->{text} = "seventh";
+    $row->cols->[0]->text("seventh");
     $this->_check_rows( $table, "third", "seventh", "first", "fifth",
         "fourth" );
     $this->assert( !$table->deleteRow(4) );
@@ -173,7 +174,7 @@ sub test_basic_table_operations {
 
     # Muddy-boots addRow
     $this->assert( $row = $table->addRow( 100, undef, 1 ) ); # should add at end
-    $row->{cols}->[0]->{text} = "eighth";
+    $row->cols->[0]->text("eighth");
     $this->_check_rows( $table, "third", "seventh", "eighth" );
 
     $this->assert( $table->downRow( 0, 1 ) );

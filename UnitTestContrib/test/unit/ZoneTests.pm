@@ -1,15 +1,14 @@
 package ZoneTests;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+extends qw( FoswikiFnTestCase );
 
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+around set_up => sub {
+    my $orig = shift;
+    my $this = shift;
 
-sub set_up {
-    my ($this) = @_;
-
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
     # Disable plugins which add noise
     $Foswiki::cfg{Plugins}{JQueryPlugin}{Enabled}  = 0;
@@ -19,25 +18,25 @@ sub set_up {
     $Foswiki::cfg{Plugins}{SmiliesPlugin}{Enabled} = 0;
 
     my $query = Unit::Request->new( initializer => "" );
-    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
 
     $this->createNewFoswikiSession( undef, $query );
 
     return;
-}
+};
 
 sub test_1 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml    = '%ADDTOZONE{zone="test" text=""}%';
     my $expect = "";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
-      $this->{session}->zones->_renderZone( "test", { format => '$item' } );
+      $this->session->zones->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -46,16 +45,15 @@ sub test_1 {
 sub test_2 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml    = '%ADDTOZONE{zone="test" text=""}%';
     my $expect = "";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
-      $this->{session}->zones()
-      ->_renderZone( "test", { format => '$item $id' } );
+      $this->session->zones()->_renderZone( "test", { format => '$item $id' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -64,19 +62,19 @@ sub test_2 {
 sub test_3 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml    = '%ADDTOZONE{zone="test" text="text"}%';
     my $expect = "text";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
-      $this->{session}->zones()->_renderZone( "test", { format => '$item' } );
+      $this->session->zones()->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     $result =
-      $this->{session}->zones()->_renderZone( "test", { format => '$item' } );
+      $this->session->zones()->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( '', $result );
 
     return;
@@ -85,16 +83,16 @@ sub test_3 {
 sub test_4 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml    = '%ADDTOZONE{zone="test" id="id" text="item"}%';
     my $expect = "item=item id=id";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
-      $this->{session}
-      ->zones()->_renderZone( "test", { format => 'item=$item id=$id' } );
+      $this->session->zones()
+      ->_renderZone( "test", { format => 'item=$item id=$id' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -103,8 +101,8 @@ sub test_4 {
 sub test_5 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml    = '%ADDTOZONE{zone="test1,test2" text="text"}%';
     my $expect = "text";
@@ -112,15 +110,15 @@ sub test_5 {
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
 
     my $result =
-      $this->{session}->zones()->_renderZone( "test", { format => '$item' } );
+      $this->session->zones()->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( '', $result );
 
     my $result1 =
-      $this->{session}->zones()->_renderZone( "test1", { format => '$item' } );
+      $this->session->zones()->_renderZone( "test1", { format => '$item' } );
     $this->assert_equals( $expect, $result1 );
 
     my $result2 =
-      $this->{session}->zones()->_renderZone( "test2", { format => '$item' } );
+      $this->session->zones()->_renderZone( "test2", { format => '$item' } );
     $this->assert_equals( $expect, $result2 );
 
     $this->assert_equals( $result1, $result2 );
@@ -131,8 +129,8 @@ sub test_5 {
 sub test_6 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml = <<'HERE';
 %ADDTOZONE{zone="test" id="id1" text="text1"}%
@@ -142,7 +140,7 @@ HERE
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
-      $this->{session}->zones()->_renderZone( "test", { format => '$item' } );
+      $this->session->zones()->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -151,8 +149,8 @@ HERE
 sub test_7 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml = <<'HERE';
 %ADDTOZONE{zone="test" id="id1" text="text1"}%
@@ -162,7 +160,7 @@ HERE
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
-      $this->{session}->zones()->_renderZone( "test", { format => '$item' } );
+      $this->session->zones()->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -171,8 +169,8 @@ HERE
 sub test_8 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml = <<'HERE';
 %ADDTOZONE{zone="test" id="id1" text="text1"}%
@@ -182,8 +180,8 @@ HERE
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
-      $this->{session}
-      ->zones()->_renderZone( "test", { format => '$item', separator => "" } );
+      $this->session->zones()
+      ->_renderZone( "test", { format => '$item', separator => "" } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -192,8 +190,8 @@ HERE
 sub test_9 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml = <<'HERE';
 %ADDTOZONE{zone="test" id="id1" text="text1" requires="id2"}%
@@ -203,7 +201,7 @@ HERE
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
-      $this->{session}->zones()->_renderZone( "test", { format => '$item' } );
+      $this->session->zones()->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -212,8 +210,8 @@ HERE
 sub test_10 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml = <<'HERE';
 %ADDTOZONE{zone="test" id="id2" text="text2"}%
@@ -224,7 +222,7 @@ HERE
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
-      $this->{session}->zones()->_renderZone( "test", { format => '$item' } );
+      $this->session->zones()->_renderZone( "test", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -233,8 +231,8 @@ HERE
 sub test_11 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml = <<'HERE';
 %ADDTOZONE{zone="test" id="id1" text="text1" requires="id2"}%
@@ -243,8 +241,8 @@ HERE
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
-      $this->{session}
-      ->zones()->_renderZone( "test", { format => 'item=$item id=$id' } );
+      $this->session->zones()
+      ->_renderZone( "test", { format => 'item=$item id=$id' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -253,8 +251,8 @@ HERE
 sub test_12 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml = <<'HERE';
 %ADDTOZONE{zone="test" id="id1" text="text1" requires="id1"}%
@@ -263,8 +261,8 @@ HERE
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
-      $this->{session}
-      ->zones()->_renderZone( "test", { format => 'item=$item id=$id' } );
+      $this->session->zones()
+      ->_renderZone( "test", { format => 'item=$item id=$id' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -273,14 +271,14 @@ HERE
 sub test_13 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml    = '%ADDTOZONE{zone="test" text="text" id="id"}%';
     my $expect = "text<!--id-->";
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = $this->{session}->zones()->_renderZone("test");
+    my $result = $this->session->zones()->_renderZone("test");
     $this->assert_equals( $expect, $result );
 
     return;
@@ -289,8 +287,8 @@ sub test_13 {
 sub test_addToHEAD_compatibility_1 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml = <<'HERE';
 %ADDTOZONE{zone="head" id="id1" text="text1" requires="id2"}%
@@ -300,7 +298,7 @@ HERE
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
-      $this->{session}->zones()->_renderZone( "head", { format => '$item' } );
+      $this->session->zones()->_renderZone( "head", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -309,8 +307,8 @@ HERE
 sub test_addToHEAD_compatibility_2 {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml = <<'HERE';
 %ADDTOHEAD{"id1" text="text1" requires="id2"}%
@@ -320,7 +318,7 @@ HERE
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
     my $result =
-      $this->{session}->zones()->_renderZone( "head", { format => '$item' } );
+      $this->session->zones()->_renderZone( "head", { format => '$item' } );
     $this->assert_equals( $expect, $result );
 
     return;
@@ -338,8 +336,8 @@ sub test_HEAD_merged_with_SCRIPT {
     my $this = shift;
     $this->_setMergeZones(1);
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml = <<'HERE';
 %ADDTOHEAD{               "head1" text="text1" requires="head2"}%
@@ -354,11 +352,9 @@ sub test_HEAD_merged_with_SCRIPT {
 HERE
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = "HEAD:\n" . $this->{session}->zones()->_renderZone( "head", );
+    my $result = "HEAD:\n" . $this->session->zones()->_renderZone( "head", );
     $result =
-        $result
-      . "\nSCRIPT:"
-      . $this->{session}->zones()->_renderZone( "script", );
+      $result . "\nSCRIPT:" . $this->session->zones()->_renderZone( "script", );
 
     foreach (
         'HEAD:.*?script::misc7<!--misc7-->.*?SCRIPT:$'
@@ -384,8 +380,8 @@ sub test_HEAD_split_from_SCRIPT {
     my $this = shift;
     $this->_setMergeZones(0);
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
 
     my $tml = <<'HERE';
 %ADDTOHEAD{               "head1" text="text1" requires="head2"}%
@@ -400,11 +396,9 @@ sub test_HEAD_split_from_SCRIPT {
 HERE
 
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = "HEAD:\n" . $this->{session}->zones()->_renderZone("head");
+    my $result = "HEAD:\n" . $this->session->zones()->_renderZone("head");
     $result =
-        $result
-      . "\nSCRIPT:\n"
-      . $this->{session}->zones()->_renderZone("script");
+      $result . "\nSCRIPT:\n" . $this->session->zones()->_renderZone("script");
 
     foreach (
         "HEAD:.*?SCRIPT:.*?script::misc7<!--misc7-->"
@@ -458,8 +452,8 @@ script_1<!--script1-->
 </body>
 HERE
     chomp($expect);
-    $tml = $this->{test_topicObject}->expandMacros($tml);
-    my $result = $this->{session}->zones()->_renderZones($tml);
+    $tml = $this->test_topicObject->expandMacros($tml);
+    my $result = $this->session->zones()->_renderZones($tml);
     $this->assert_str_equals( $expect, $result );
 
     return;
@@ -493,8 +487,8 @@ script_1<!--script1: requires= missing ids: head1--><!--script-->
 </body>
 HERE
     chomp($expect);
-    $tml = $this->{test_topicObject}->expandMacros($tml);
-    my $result = $this->{session}->zones()->_renderZones($tml);
+    $tml = $this->test_topicObject->expandMacros($tml);
+    my $result = $this->session->zones()->_renderZones($tml);
     $this->assert_str_equals( $expect, $result );
 
     return;
@@ -503,8 +497,8 @@ HERE
 sub test_legacy_tag_param_compatibility {
     my $this = shift;
     $this->_setMergeZones(0);
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $tml       = <<'HERE';
  %ADDTOHEAD{                  "head1" text="text1" requires="head2"}%
  %ADDTOZONE{zone="head"    id="head2" text="this-text-will-be-ignored"}%
@@ -516,11 +510,9 @@ sub test_legacy_tag_param_compatibility {
  %ADDTOZONE{zone="script"  id="misc7" text="script::misc7"}%
 HERE
     Foswiki::Func::expandCommonVariables( $tml, $topicName, $webName );
-    my $result = "HEAD:\n" . $this->{session}->zones()->_renderZone("head");
+    my $result = "HEAD:\n" . $this->session->zones()->_renderZone("head");
     $result =
-        $result
-      . "\nSCRIPT:\n"
-      . $this->{session}->zones()->_renderZone("script");
+      $result . "\nSCRIPT:\n" . $this->session->zones()->_renderZone("script");
 
     foreach (
         'HEAD:.*?head::misc7<!--misc7-->.*?SCRIPT:'
@@ -565,8 +557,8 @@ HERE
 <!--A2Z:null-->
 HERE
     chomp($expect);
-    $tml = $this->{test_topicObject}->expandMacros($tml);
-    my $result = $this->{session}->zones()->_renderZones($tml);
+    $tml = $this->test_topicObject->expandMacros($tml);
+    my $result = $this->session->zones()->_renderZones($tml);
     $this->assert_str_equals( $expect, $result );
 
     return;

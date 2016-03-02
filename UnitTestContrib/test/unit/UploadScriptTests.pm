@@ -1,35 +1,35 @@
 package UploadScriptTests;
-use strict;
-use warnings;
+use v5.14;
 use utf8;
 
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
-
-use Foswiki();
-use Unit::Request();
-use Foswiki::UI::Upload();
-use Error qw( :try );
+use Foswiki             ();
+use Unit::Request       ();
+use Foswiki::UI::Upload ();
+use Try::Tiny;
 use File::Temp;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 my $UI_FN;
 my $FORM = { name => 'BogusForm' };
 my @FIELDS = ( { name => 'Message', value => 'Abandon ship!' } );
 my %FIELDShash = map { $_->{name} => $_ } @FIELDS;
 
-sub new {
-    my @args = @_;
-    my $self = shift()->SUPER::new( "UploadScript", @args );
-    return $self;
-}
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_, testSuite => "UploadScript" );
+};
 
 # Set up the test fixture
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
     $UI_FN ||= $this->getUIFn('upload');
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text("   * Set ATTACHFILESIZELIMIT = 511\n");
     $topicObject->putAll( 'FORM',  $FORM );
     $topicObject->putAll( 'FIELD', @FIELDS );
@@ -37,7 +37,7 @@ sub set_up {
     $this->_assert_meta_stillgood(0);
 
     return;
-}
+};
 
 sub skip {
     my ( $this, $test ) = @_;
@@ -66,10 +66,10 @@ sub do_upload {
     my ( $this, $fn, $data, $cuid, @arga ) = @_;
     my %params = @arga;
     my %args   = (
-        webName   => [ $this->{test_web} ],
-        topicName => [ $this->{test_topic} ],
+        webName   => [ $this->test_web ],
+        topicName => [ $this->test_topic ],
     );
-    $cuid ||= $this->{test_user_login};
+    $cuid ||= $this->test_user_login;
     while ( scalar(@arga) ) {
         my $k = shift(@arga);
         my $v = shift(@arga);
@@ -78,7 +78,7 @@ sub do_upload {
 
     my $query = Unit::Request->new( initializer => \%args );
     $query->method('POST');
-    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
     my $fh      = File::Temp->new();
     my $tmpfile = $fh->filename;
     print $fh $data;
@@ -106,13 +106,13 @@ sub do_upload {
         'upload',
         sub {
             no strict 'refs';
-            $UI_FN->( $this->{session} );
+            $UI_FN->( $this->session );
             use strict 'refs';
-            $Foswiki::engine->finalize( $this->{session}->{response},
-                $this->{session}->{request} );
+            $Foswiki::engine->finalize( $this->session->response,
+                $this->session->request );
             $this->_assert_meta_stillgood();
         },
-        $this->{session}
+        $this->session
     );
     return $text;
 }
@@ -134,13 +134,16 @@ sub test_simple_upload {
         open(
             my $F,
             '<',
-"$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/Flappadoodle.txt"
+            "$Foswiki::cfg{PubDir}/"
+              . $this->test_web . "/"
+              . $this->test_topic
+              . "/Flappadoodle.txt"
         )
     );
     $this->assert_str_equals( "BLAH", <$F> );
     $this->assert( close($F) );
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     # Check the meta
     my $at = $meta->get( 'FILEATTACHMENT', 'Flappadoodle.txt' );
@@ -169,9 +172,14 @@ sub test_space_filename {
             changeproperties => 0,
         );
     }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_str_equals( "upload_name_changed", $e->{def} );
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( "upload_name_changed", $e->{def} );
+        }
+        else {
+            Foswiki::Exception::Fatal->rethrow($e);
+        }
     };
 
     # Try the upload again, without ReplaceSpaces enabled, (new behaviour)
@@ -192,13 +200,16 @@ sub test_space_filename {
         open(
             my $F,
             '<',
-"$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/Flappa doodle.txt"
+            "$Foswiki::cfg{PubDir}/"
+              . $this->test_web . "/"
+              . $this->test_topic
+              . "/Flappa doodle.txt"
         )
     );
     $this->assert_str_equals( "BLAH", <$F> );
     $this->assert( close($F) );
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     # Check the meta
     my $at = $meta->get( 'FILEATTACHMENT', 'Flappa doodle.txt' );
@@ -257,8 +268,8 @@ sub test_redirectto_param {
         redirectto       => 'http://blah.com/',
         changeproperties => 0,
     );
-    $this->assert_matches(
-        qr#Location: https?://(.*?)$this->{test_web}/$this->{test_topic}#ms,
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
+    $this->assert_matches( qr#Location: https?://(.*?)$test_web/$test_topic#ms,
         $result );
 
     return;
@@ -268,12 +279,12 @@ sub test_oversized_upload {
     my $this = shift;
     local $/ = undef;
     my %args = (
-        webName   => [ $this->{test_web} ],
-        topicName => [ $this->{test_topic} ],
+        webName   => [ $this->test_web ],
+        topicName => [ $this->test_topic ],
     );
     my $query = Unit::Request->new( initializer => \%args );
-    $query->path_info("/$this->{test_web}/$this->{test_topic}");
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my $data = '00000000000000000000000000000000000000';
     my $sz   = Foswiki::Func::getPreferencesValue('ATTACHFILESIZELIMIT') * 1024;
     $data .= $data while length($data) <= $sz;
@@ -289,9 +300,12 @@ sub test_oversized_upload {
         );
         $this->assert(0);
     }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_str_equals( "oversized_upload", $e->{def} );
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( "oversized_upload", $e->{def} );
+        }
+        else { Foswiki::Exception::Fatal->rethrow($e); }
     };
 
     return;
@@ -313,9 +327,12 @@ sub test_zerosized_upload {
         );
         $this->assert(0);
     }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_str_equals( "zero_size_upload", $e->{def} );
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( "zero_size_upload", $e->{def} );
+        }
+        else { Foswiki::Exception::Fatal->rethrow($e); }
     };
 
     return;
@@ -339,10 +356,13 @@ sub test_illegal_upload {
         );
         $this->assert(0);
     }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
-        $this->assert_str_equals( "upload_name_changed", $e->{def} );
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
+            $this->assert_str_equals( "upload_name_changed", $e->{def} );
+        }
+        else { Foswiki::Exception::Fatal->rethrow($e); }
     };
 }
 
@@ -364,10 +384,13 @@ sub test_unsupported_characters {
         );
         $this->assert(0);
     }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_str_equals( $badfilename,           $e->{params}[0] );
-        $this->assert_str_equals( "unsupported_filename", $e->{def} );
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $badfilename,           $e->{params}[0] );
+            $this->assert_str_equals( "unsupported_filename", $e->{def} );
+        }
+        else { Foswiki::Exception::Fatal->rethrow($e); }
     };
 
     return;
@@ -394,13 +417,16 @@ sub test_supported_nonascii {
         open(
             my $F,
             '<',
-"$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/$isoname"
+            "$Foswiki::cfg{PubDir}/"
+              . $this->test_web . "/"
+              . $this->test_topic
+              . "/$isoname"
         )
     );
     $this->assert_str_equals( "asdfasdf", <$F> );
     $this->assert( close($F) );
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     # Check the meta
     my $at = $meta->get( 'FILEATTACHMENT', $filename );
@@ -440,10 +466,13 @@ sub test_illegal_upload_Item13048 {
         );
         $this->assert(0);
     }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
-        $this->assert_str_equals( "upload_name_changed", $e->{def} );
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
+            $this->assert_str_equals( "upload_name_changed", $e->{def} );
+        }
+        else { Foswiki::Exception::Fatal->rethrow($e); }
     };
 
     # Test that filter is not case sensitive.
@@ -465,10 +494,13 @@ sub test_illegal_upload_Item13048 {
         );
         $this->assert(0);
     }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
-        $this->assert_str_equals( "upload_name_changed", $e->{def} );
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
+            $this->assert_str_equals( "upload_name_changed", $e->{def} );
+        }
+        else { Foswiki::Exception::Fatal->rethrow($e); }
     };
 
     return;
@@ -492,10 +524,13 @@ sub test_illegal_propschange {
         );
         $this->assert(0);
     }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
-        $this->assert_str_equals( "upload_name_changed", $e->{def} );
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
+            $this->assert_str_equals( "upload_name_changed", $e->{def} );
+        }
+        else { Foswiki::Exception::Fatal->rethrow($e); }
     };
     try {
         $this->do_upload(
@@ -509,10 +544,13 @@ sub test_illegal_propschange {
         );
         $this->assert(0);
     }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
-        $this->assert_str_equals( "upload_name_changed", $e->{def} );
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $goodfilename,         $e->{params}[1] );
+            $this->assert_str_equals( "upload_name_changed", $e->{def} );
+        }
+        else { Foswiki::Exception::Fatal->rethrow($e); }
     };
 
     return;
@@ -552,7 +590,7 @@ sub test_propschanges {
     );
     $this->assert_matches( qr/^Status: 302/ms, $result );
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     # Check the link was created
     $this->assert_matches(
@@ -595,7 +633,7 @@ sub test_linkformat {
     );
     $this->assert_matches( qr/^Status: 302/ms, $result );
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     # This tests the original default link format
     $this->assert_matches(
@@ -617,7 +655,7 @@ qr/^   \* \[\[%ATTACHURL%\/Flappadoodle\.txt\]\[Flappadoodle\.txt\]\]: Educate t
     );
     $this->assert_matches( qr/^Status: 302/ms, $result );
     ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     my $format = '$year-$mo $wday';
     my $formatted = Foswiki::Time::formatTime( time, $format );
@@ -671,7 +709,7 @@ sub test_imagelink {
     );
     $this->assert_matches( qr/^Status: 302/ms, $result );
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     # Check the link was created
     $this->assert_matches(
@@ -692,7 +730,7 @@ qr/<img src=\"%ATTACHURLPATH%\/bo:mb.png\" alt=\"bo:mb.png\" width=\'16\' height
 sub _assert_meta_stillgood {
     my ( $this, $assert ) = @_;
     my ($topicObj) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     my $tFORM       = $topicObj->get('FORM');
     my @tFIELDS     = $topicObj->find('FIELD');
     my %tFIELDShash = map { $_->{name} => $_ } @tFIELDS;
@@ -708,19 +746,26 @@ sub _assert_meta_stillgood {
           unless $this->_assert_(
             $assert,
             exists $tFIELDShash{$name},
-"$this->{test_web}.$this->{test_topic} did not contain META:FIELD[name='$name']"
+            $this->test_web . "."
+              . $this->test_topic
+              . " did not contain META:FIELD[name='$name']"
           );
         return
           unless $this->_assert_(
             $assert,
             exists $tFIELDShash{$name}->{value},
-"$this->{test_web}.$this->{test_topic} did not contain a value key in META:FIELD[name='$name']"
+            $this->test_web . "."
+              . $this->test_topic
+              . " did not contain a value key in META:FIELD[name='$name']"
           );
         return
           unless $this->_assert_(
             $assert,
             $tFIELDShash{$name}->{value} eq $FIELDShash{$name}->{value},
-"'$this->{test_web}.$this->{test_topic}'/META:FIELD[name='$name'].value = '$tFIELDShash{$name}->{value}' but expected '$FIELDShash{$name}->{value}'"
+            "'"
+              . $this->test_web . "."
+              . $this->test_topic
+              . "'/META:FIELD[name='$name'].value = '$tFIELDShash{$name}->{value}' but expected '$FIELDShash{$name}->{value}'"
           );
     }
 

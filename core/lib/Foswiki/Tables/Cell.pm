@@ -1,5 +1,6 @@
 # See bottom of file for copyright and license information
 package Foswiki::Tables::Cell;
+use v5.14;
 
 =begin TML
 
@@ -9,8 +10,10 @@ Abstract model of a table cell, suitable for use with the tables parser.
 
 =cut
 
-use strict;
 use Assert;
+
+use Moo;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -24,7 +27,7 @@ my $defCol ||= { type => 'text', size => 20, values => [] };
 
 =begin TML
 
----++ ClassMethod new($row, $precruft, $text, $postcruft, $isHeader) -> $cell
+---++ ClassMethod new(row => $row, precruft => $precruft, text => $text, postcruft => $postcruft, isHeader => $isHeader) -> $cell
 Construct a new table cell.
    * =$row= - the row the cell belongs to (Foswiki::Tables::Row or subclass)
    * =$precruft= - whatever precedes the text inside the cell (spaces)
@@ -37,23 +40,22 @@ a header.
 
 =cut
 
-sub new {
-    my ( $class, $row, $precruft, $text, $postcruft, $ish ) = @_;
-    my $this = bless( {}, $class );
-    ASSERT( $row->isa('Foswiki::Tables::Row'), $row ) if DEBUG;
-    $this->{row}       = $row;
-    $this->{number}    = undef;        # index of the column in the *raw* table
-    $this->{precruft}  = $precruft;
-    $this->{postcruft} = $postcruft;
-    $this->{isHeader}  = $ish;
-    $this->{text}      = $text;
-
-    return $this;
-}
+has number    => ( is => 'rw', );
+has isHeader  => ( is => 'ro', required => 1, );
+has precruft  => ( is => 'ro', required => 1, );
+has postcruft => ( is => 'ro', required => 1, );
+has text      => ( is => 'rw', required => 1, );
+has row => (
+    is       => 'ro',
+    weak_ref => 1,
+    required => 1,
+    isa =>
+      Foswiki::Object::isaCLASS( 'row', 'Foswiki::Tables::Row', noUndef => 1 ),
+);
 
 =begin TML
 
----++ ObjectMethod number([$set]) -> $number
+---++ ObjectAttribute number([$set]) -> $number
 
 Setter/getter for the cell number. The number uniquely identifies the cell
 within the context of a row. The cell number is undef until it is set by
@@ -61,24 +63,12 @@ some external agency (e.g. the row)
 
 =cut
 
-sub number {
-    my ( $this, $number ) = @_;
-
-    $this->{number} = $number if defined $number;
-    return $this->{number};
-}
-
 =begin TML
 
 ---++ ObjectMethod finish()
 Clean up for disposal
 
 =cut
-
-sub finish {
-    my $this = shift;
-    $this->{row} = undef;
-}
 
 =begin TML
 
@@ -92,14 +82,14 @@ sub stringify {
 
     # Jeff Crawford, Item5043:
     # replace linefeeds with breaks to support multiline textareas
-    my $text = $this->{text};
+    my $text = $this->text;
     return '' unless defined $text;
     $text =~ s# *[\r\n]+ *# <br \/> #g;
 
     # Remove tactical spaces
     $text =~ s/^\s+(.*)\s*$/$1/s;
-    my $h = $this->{isHeader} ? '*' : '';
-    return "$this->{precruft}$h$text$h$this->{postcruft}";
+    my $h = $this->isHeader ? '*' : '';
+    return $this->precruft . "$h$text$h" . $this->postcruft;
 }
 
 =begin TML
@@ -111,8 +101,8 @@ Generate a unique string ID that uniquely identifies this cell within a topic.
 
 sub getID {
     my $this = shift;
-    return $this->{row}->getID() . '_'
-      . ( defined $this->{number} ? $this->{number} : '' );
+    return $this->row->getID() . '_'
+      . ( defined $this->number ? $this->number : '' );
 }
 
 1;

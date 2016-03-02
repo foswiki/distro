@@ -138,7 +138,7 @@ m/^(attach|changes|compare|compareauth|configure|edit|jsonrpc|login|logon|manage
                 eval {
                     no strict 'refs';
                     *{$script} = sub {
-                        Foswiki::load_package($package)
+                        Foswiki::load_package( $package, method => $sub )
                           if ( defined($package) );
                         $UI_FN       = $sub;
                         $SCRIPT_NAME = $script;

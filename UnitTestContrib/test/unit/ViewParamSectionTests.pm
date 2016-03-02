@@ -1,9 +1,5 @@
 package ViewParamSectionTests;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki();
 use Foswiki::UI::View();
@@ -11,38 +7,35 @@ use Unit::Request();
 use Unit::Response();
 my $UI_FN;
 
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
+
 # Set up the test fixture
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
     $UI_FN ||= $this->getUIFn('view');
     my $query = Unit::Request->new();
     $this->createNewFoswikiSession( undef, $query );
-    $this->{request}  = $query;
-    $this->{response} = Unit::Response->new();
+    $this->request($query);
+    $this->response( Unit::Response->new() );
 
     return;
-}
-
-sub tear_down {
-    my $this = shift;
-
-    $this->SUPER::tear_down();
-
-    return;
-}
+};
 
 sub _viewSection {
     my ( $this, $section ) = @_;
 
-    $this->{session}{webName}   = 'TestCases';
-    $this->{session}{topicName} = 'IncludeFixtures';
-    $this->{request}->param( '-name' => 'skin', '-value' => 'text' );
-    $this->{request}->path_info('TestCases/IncludeFixtures');
+    $this->session->webName('TestCases');
+    $this->session->topicName('IncludeFixtures');
+    $this->request->param( '-name' => 'skin', '-value' => 'text' );
+    $this->request->path_info('TestCases/IncludeFixtures');
 
-    $this->{request}->param( '-name' => 'section', '-value' => $section );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    $this->request->param( '-name' => 'section', '-value' => $section );
+    my ($text) = $this->capture( $UI_FN, $this->session );
     $text =~ s/(.*?)\r?\n\r?\n//s;
 
     return ($text);

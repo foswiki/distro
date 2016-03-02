@@ -1,13 +1,13 @@
 package ViewScriptTests;
-use strict;
-use warnings;
-
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Foswiki;
 use Foswiki::UI::View;
-use Error qw( :try );
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 my $UI_FN;
 
@@ -75,128 +75,130 @@ my $templateTopicContentX = <<'HERE';
 pretemplate%STARTTEXT%pre%ENDTEXT%posttemplate
 HERE
 
-sub new {
-    my ( $class, @args ) = @_;
+has test_subweb         => ( is => 'rw', );
+has test_clashingsubweb => ( is => 'rw', );
+
+around BUILDARGS => sub {
+    my $orig = shift;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
-    return $class->SUPER::new( "ViewScript", @args );
-}
+    return $orig->( @_, testSuite => 'ViewScript', );
+};
 
 # Set up the test fixture
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
     $UI_FN ||= $this->getUIFn('view');
 
-    #set up nested web $this->{test_web}/Nest
-    $this->{test_subweb} = $this->{test_web} . '/Nest';
+    #set up nested web $this->test_web/Nest
+    $this->test_subweb( $this->test_web . '/Nest' );
     my $topic = 'TestTopic1';
-    my ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'TestTopic1' );
+    my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'TestTopic1' );
     $meta->text($topic1);
     $meta->save();
     $meta->finish();
 
     $topic = 'TestTopic2';
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'TestTopic2' );
+    ($meta) = Foswiki::Func::readTopic( $this->test_web, 'TestTopic2' );
     $meta->text($topic2);
     $meta->save();
     $meta->finish();
 
     $topic = 'TestTopic3';
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'TestTopic3' );
+    ($meta) = Foswiki::Func::readTopic( $this->test_web, 'TestTopic3' );
     $meta->text($topic3);
     $meta->save();
     $meta->finish();
 
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'ViewoneTemplate' );
+    ($meta) = Foswiki::Func::readTopic( $this->test_web, 'ViewoneTemplate' );
     $meta->text($templateTopicContent1);
-    $meta->save( user => $this->{test_user_wikiname} );
+    $meta->save( user => $this->test_user_wikiname );
     $meta->finish();
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'ViewtwoTemplate' );
+    ($meta) = Foswiki::Func::readTopic( $this->test_web, 'ViewtwoTemplate' );
     $meta->text($templateTopicContent2);
-    $meta->save( user => $this->{test_user_wikiname} );
+    $meta->save( user => $this->test_user_wikiname );
     $meta->finish();
-    ($meta) =
-      Foswiki::Func::readTopic( $this->{test_web}, 'ViewthreeTemplate' );
+    ($meta) = Foswiki::Func::readTopic( $this->test_web, 'ViewthreeTemplate' );
     $meta->text($templateTopicContent3);
-    $meta->save( user => $this->{test_user_wikiname} );
+    $meta->save( user => $this->test_user_wikiname );
     $meta->finish();
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'ViewfourTemplate' );
+    ($meta) = Foswiki::Func::readTopic( $this->test_web, 'ViewfourTemplate' );
     $meta->text($templateTopicContent4);
-    $meta->save( user => $this->{test_user_wikiname} );
+    $meta->save( user => $this->test_user_wikiname );
     $meta->finish();
-    ($meta) = Foswiki::Func::readTopic( $this->{test_web}, 'ViewfiveTemplate' );
+    ($meta) = Foswiki::Func::readTopic( $this->test_web, 'ViewfiveTemplate' );
     $meta->text($templateTopicContent5);
-    $meta->save( user => $this->{test_user_wikiname} );
+    $meta->save( user => $this->test_user_wikiname );
     $meta->finish();
 
     try {
         $this->createNewFoswikiSession('AdminUser');
 
-        my $webObject = $this->populateNewWeb( $this->{test_subweb} );
+        my $webObject = $this->populateNewWeb( $this->test_subweb );
         $webObject->finish();
-        $this->assert( $this->{session}->webExists( $this->{test_subweb} ) );
+        $this->assert( $this->session->webExists( $this->test_subweb ) );
         my ($topicObject) =
-          Foswiki::Func::readTopic( $this->{test_subweb},
+          Foswiki::Func::readTopic( $this->test_subweb,
             $Foswiki::cfg{HomeTopicName} );
         $topicObject->text("SMELL");
         $topicObject->save();
         $topicObject->finish();
         $this->assert(
-            $this->{session}->topicExists(
-                $this->{test_subweb}, $Foswiki::cfg{HomeTopicName}
+            $this->session->topicExists(
+                $this->test_subweb, $Foswiki::cfg{HomeTopicName}
             )
         );
 
     }
-    catch Error::Simple with {
-        $this->assert( 0, shift->stringify() || '' );
+    catch {
+        Foswiki::Exception::Fatal->rethrow($_);
     };
-    my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_subweb}, $topic );
+    my ($topicObject) = Foswiki::Func::readTopic( $this->test_subweb, $topic );
     $topicObject->text('nested topci1 text');
     $topicObject->save();
     $topicObject->finish();
 
-    #set up nested web _and_ topic called $this->{test_web}/ThisTopic
-    ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'ThisTopic' );
+    #set up nested web _and_ topic called $this->test_web/ThisTopic
+    ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'ThisTopic' );
     $topicObject->text('nested ThisTopic text');
     $topicObject->save();
     $topicObject->finish();
-    $this->{test_clashingsubweb} = $this->{test_web} . '/ThisTopic';
+    $this->test_clashingsubweb( $this->test_web . '/ThisTopic' );
     $topic = 'TestTopic1';
 
     try {
         $this->createNewFoswikiSession('AdminUser');
 
-        my $webObject = $this->populateNewWeb( $this->{test_clashingsubweb} );
+        my $webObject = $this->populateNewWeb( $this->test_clashingsubweb );
         $webObject->finish();
         $this->assert(
-            $this->{session}->webExists( $this->{test_clashingsubweb} ) );
-        ($topicObject) = Foswiki::Func::readTopic( $this->{test_clashingsubweb},
+            $this->session->webExists( $this->test_clashingsubweb ) );
+        ($topicObject) =
+          Foswiki::Func::readTopic( $this->test_clashingsubweb,
             $Foswiki::cfg{HomeTopicName} );
         $topicObject->text("SMELL");
         $topicObject->save();
         $topicObject->finish();
         $this->assert(
-            $this->{session}->topicExists(
-                $this->{test_clashingsubweb},
-                $Foswiki::cfg{HomeTopicName}
+            $this->session->topicExists(
+                $this->test_clashingsubweb, $Foswiki::cfg{HomeTopicName}
             )
         );
 
     }
-    catch Error::Simple with {
-        $this->assert( 0, shift->stringify() || '' );
+    catch {
+        Foswiki::Exception::Fatal->rethrow($_);
     };
     ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_clashingsubweb}, $topic );
+      Foswiki::Func::readTopic( $this->test_clashingsubweb, $topic );
     $topicObject->text('nested topci1 text');
     $topicObject->save();
     $topicObject->finish();
 
     return;
-}
+};
 
 sub setup_view {
     my ( $this, $web, $topic, $tmpl, $raw, $ctype, $skin, $method ) = @_;
@@ -213,20 +215,19 @@ sub setup_view {
     $query->path_info("/$web/$topic");
     $method ||= 'POST';
     $query->method($method);
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my ($text) = $this->capture(
         sub {
             no strict 'refs';
-            &{$UI_FN}( $this->{session} );
+            &{$UI_FN}( $this->session );
             use strict 'refs';
-            $Foswiki::engine->finalize( $this->{session}{response},
-                $this->{session}{request} );
+            $Foswiki::engine->finalize( $this->session->response,
+                $this->session->request );
         }
     );
 
     my $editUrl =
-      $this->{session}
-      ->getScriptUrl( '0', 'edit', $this->{test_web}, 'WebHome' );
+      $this->session->getScriptUrl( '0', 'edit', $this->test_web, 'WebHome' );
 
     $text =~ s/\r//g;
     $text =~ s/(^.*?\n\n+)//s;    # remove CGI header
@@ -240,14 +241,14 @@ sub test_render_raw {
     my $hdr;
 
     ( $text, $hdr ) =
-      $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'text' );
+      $this->setup_view( $this->test_web, 'TestTopic2', 'viewfour', 'text' );
     $this->assert_equals( "$topic2", "$text\n",
         "Unexpected output from raw=text" );
     $this->assert_matches( qr#^Content-Type: text/plain#ms,
         $hdr, "raw=text should return text/plain - got $hdr" );
 
     ( $text, $hdr ) =
-      $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'on' );
+      $this->setup_view( $this->test_web, 'TestTopic2', 'viewfour', 'on' );
     $this->assert_html_matches( $topic2txtarea . $topic2rawON,
         $text, "Unexpected output from raw=on" );
     $this->assert_matches( qr#^Content-Type: text/html#ms,
@@ -257,14 +258,14 @@ sub test_render_raw {
         with_dep => ('Foswiki,<,1.2') );
 
     ( $text, $hdr ) =
-      $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'all' );
+      $this->setup_view( $this->test_web, 'TestTopic2', 'viewfour', 'all' );
 
     $this->assert_matches( qr#$topic2meta$topic2#, "$text\n" );
     $this->assert_matches( qr#^Content-Type: text/plain#ms,
         $hdr, "raw=all should return text/plain - got $hdr" );
 
     ( $text, $hdr ) =
-      $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', 'debug' );
+      $this->setup_view( $this->test_web, 'TestTopic2', 'viewfour', 'debug' );
     my ( $txttag, $txtarea, $txttail ) =
       $text =~ m{.*?(<textarea .*?>)(.*?)(</textarea>).*}s;
     $this->assert_html_matches( $topic2txtarea, $txttag,
@@ -288,7 +289,7 @@ sub test_render_textplain {
     my $editUrl;
 
     ( $text, $hdr, $editUrl ) =
-      $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', '',
+      $this->setup_view( $this->test_web, 'TestTopic2', 'viewfour', '',
         'text/plain', 'text' );
     $editUrl =~ s/WebHome/MissingWikiWord/;
 
@@ -324,7 +325,7 @@ sub test_render_HEAD {
   # setup_view( $this, $web, $topic, $tmpl, $raw, $ctype, $skin, $method ) = @_;
 
     ( $text, $hdr, $editUrl ) =
-      $this->setup_view( $this->{test_web}, 'TestTopic2', 'viewfour', '',
+      $this->setup_view( $this->test_web, 'TestTopic2', 'viewfour', '',
         'text/plain', 'text', 'HEAD' );
 
     $this->assert_matches(
@@ -338,7 +339,7 @@ sub test_render_HEAD {
 
     # Verify for a no-found topic
     ( $text, $hdr, $editUrl ) =
-      $this->setup_view( $this->{test_web}, 'AsdftTopic2', 'viewfour', '',
+      $this->setup_view( $this->test_web, 'AsdftTopic2', 'viewfour', '',
         'text/plain', 'text', 'HEAD' );
 
     $this->assert_equals( "", $text,
@@ -351,11 +352,14 @@ sub test_render_HEAD {
     $hdr = '';
     try {
         ( $text, $hdr, $editUrl ) =
-          $this->setup_view( $this->{test_web}, 'TestTopic3', 'viewfour', '',
+          $this->setup_view( $this->test_web, 'TestTopic3', 'viewfour', '',
             'text/plain', 'text', 'HEAD' );
     }
-    catch Foswiki::AccessControlException with {
-        $this->assert( 1, "Successful ACL" );
+    catch {
+        if ( ref($_) && $_->isa('Foswiki::AccessControlException') ) {
+            $this->assert( 1, "Successful ACL" );
+        }
+        else { Foswiki::Exception::Fatal->rethrow($_); }
     };
 
     $this->assert_equals( "", $text,
@@ -373,26 +377,26 @@ sub test_prepostamble {
     my $this = shift;
     my $text;
 
-    ($text) = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewone' );
+    ($text) = $this->setup_view( $this->test_web, 'TestTopic1', 'viewone' );
     $text =~ s/\n+$//s;
     $this->assert_equals(
         'pretemplatepreCONTENT
 postposttemplate', $text
     );
 
-    ($text) = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewtwo' );
+    ($text) = $this->setup_view( $this->test_web, 'TestTopic1', 'viewtwo' );
     $this->assert_equals(
         'pretemplateCONTENT
 postposttemplate', $text
     );
 
-    ($text) = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewthree' );
+    ($text) = $this->setup_view( $this->test_web, 'TestTopic1', 'viewthree' );
     $this->assert_equals( 'pretemplatepreCONTENTposttemplate', $text );
 
-    ($text) = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewfour' );
+    ($text) = $this->setup_view( $this->test_web, 'TestTopic1', 'viewfour' );
     $this->assert_equals( 'pretemplateCONTENTposttemplate', $text );
 
-    ($text) = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewfive' );
+    ($text) = $this->setup_view( $this->test_web, 'TestTopic1', 'viewfive' );
     $this->assert_equals( 'pretemplateposttemplate', $text );
 
     return;
@@ -403,9 +407,9 @@ sub urltest {
     my $query = Unit::Request->new( initializer => {} );
     $query->setUrl($url);
     $query->method('GET');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    $this->assert_equals( $web,   $this->{session}->{webName} );
-    $this->assert_equals( $topic, $this->{session}->{topicName} );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->assert_equals( $web,   $this->session->webName );
+    $this->assert_equals( $topic, $this->session->topicName );
 
     return;
 }
@@ -413,12 +417,12 @@ sub urltest {
 sub test_urlparsing {
     my $this = shift;
 
-    $this->urltest( '',  $this->{users_web}, 'WebHome' );
-    $this->urltest( '/', $this->{users_web}, 'WebHome' );
+    $this->urltest( '',  $this->users_web, 'WebHome' );
+    $this->urltest( '/', $this->users_web, 'WebHome' );
 
 #SMELL: This has always been the case - sven recals changing it once and that causing issues?
     my $uweb =
-      ( $this->check_dependency('Foswiki,>=,1.2') ) ? $this->{users_web} : '';
+      ( $this->check_dependency('Foswiki,>=,1.2') ) ? $this->users_web : '';
     $this->urltest( '/?topic=WebChanges', $uweb, 'WebChanges' );
 
     $this->urltest( '/?topic=System.WebChanges', 'System', 'WebChanges' );
@@ -515,164 +519,164 @@ sub test_urlparsing {
     $this->urltest( '/Sandbox//?topic=System.WebChanges',
         'System', 'WebChanges' );
 
-    $this->urltest( '/' . $this->{test_subweb} . '/WebHome',
-        $this->{test_subweb}, 'WebHome' );
-    $this->urltest( '/' . $this->{test_subweb} . '//WebHome',
-        $this->{test_subweb}, 'WebHome' );
+    $this->urltest( '/' . $this->test_subweb . '/WebHome',
+        $this->test_subweb, 'WebHome' );
+    $this->urltest( '/' . $this->test_subweb . '//WebHome',
+        $this->test_subweb, 'WebHome' );
     if ( $this->check_dependency('Foswiki,>=,1.2') ) {
-        $this->urltest( '/' . $this->{test_subweb} . '/WebHome/',
-            $this->{test_subweb}, 'WebHome' );
-        $this->urltest( '/' . $this->{test_subweb} . '/WebHome//',
-            $this->{test_subweb}, 'WebHome' );
+        $this->urltest( '/' . $this->test_subweb . '/WebHome/',
+            $this->test_subweb, 'WebHome' );
+        $this->urltest( '/' . $this->test_subweb . '/WebHome//',
+            $this->test_subweb, 'WebHome' );
     }
     else {
-        $this->urltest( '/' . $this->{test_subweb} . '/WebHome/',
-            $this->{test_subweb} . '/WebHome', 'WebHome' );
-        $this->urltest( '/' . $this->{test_subweb} . '/WebHome//',
-            $this->{test_subweb} . '/WebHome', 'WebHome' );
+        $this->urltest( '/' . $this->test_subweb . '/WebHome/',
+            $this->test_subweb . '/WebHome', 'WebHome' );
+        $this->urltest( '/' . $this->test_subweb . '/WebHome//',
+            $this->test_subweb . '/WebHome', 'WebHome' );
     }
 
-    $this->urltest( '/' . $this->{test_subweb} . '/WebIndex',
-        $this->{test_subweb}, 'WebIndex' );
-    $this->urltest( '/' . $this->{test_subweb} . '//WebIndex',
-        $this->{test_subweb}, 'WebIndex' );
-    $this->urltest( '/' . $this->{test_subweb} . '///WebIndex',
-        $this->{test_subweb}, 'WebIndex' );
-    $this->urltest( '/' . $this->{test_subweb} . '/WebIndex/',
-        $this->{test_subweb} . '/WebIndex', 'WebHome' );
-    $this->urltest( '/' . $this->{test_subweb} . '/WebIndex//',
-        $this->{test_subweb} . '/WebIndex', 'WebHome' );
-    $this->urltest( '/' . $this->{test_subweb} . '/WebIndex///',
-        $this->{test_subweb} . '/WebIndex', 'WebHome' );
+    $this->urltest( '/' . $this->test_subweb . '/WebIndex',
+        $this->test_subweb, 'WebIndex' );
+    $this->urltest( '/' . $this->test_subweb . '//WebIndex',
+        $this->test_subweb, 'WebIndex' );
+    $this->urltest( '/' . $this->test_subweb . '///WebIndex',
+        $this->test_subweb, 'WebIndex' );
+    $this->urltest( '/' . $this->test_subweb . '/WebIndex/',
+        $this->test_subweb . '/WebIndex', 'WebHome' );
+    $this->urltest( '/' . $this->test_subweb . '/WebIndex//',
+        $this->test_subweb . '/WebIndex', 'WebHome' );
+    $this->urltest( '/' . $this->test_subweb . '/WebIndex///',
+        $this->test_subweb . '/WebIndex', 'WebHome' );
 
-    $this->urltest( '/' . $this->{test_subweb} . '/WebIndex?asd=w',
-        $this->{test_subweb}, 'WebIndex' );
-    $this->urltest( '/' . $this->{test_subweb} . '//WebIndex?asd=qwe',
-        $this->{test_subweb}, 'WebIndex' );
-    $this->urltest( '/' . $this->{test_subweb} . '/WebIndex/?asd=qwe',
-        $this->{test_subweb} . '/WebIndex', 'WebHome' );
-    $this->urltest( '/' . $this->{test_subweb} . '/WebIndex//?asd=ewr',
-        $this->{test_subweb} . '/WebIndex', 'WebHome' );
+    $this->urltest( '/' . $this->test_subweb . '/WebIndex?asd=w',
+        $this->test_subweb, 'WebIndex' );
+    $this->urltest( '/' . $this->test_subweb . '//WebIndex?asd=qwe',
+        $this->test_subweb, 'WebIndex' );
+    $this->urltest( '/' . $this->test_subweb . '/WebIndex/?asd=qwe',
+        $this->test_subweb . '/WebIndex', 'WebHome' );
+    $this->urltest( '/' . $this->test_subweb . '/WebIndex//?asd=ewr',
+        $this->test_subweb . '/WebIndex', 'WebHome' );
 
-    $this->urltest( '/' . $this->{test_subweb} . '/WebIndex?topic=WebChanges',
-        $this->{test_subweb}, 'WebChanges' );
-    $this->urltest( '/' . $this->{test_subweb} . '//WebIndex?topic=WebChanges',
-        $this->{test_subweb}, 'WebChanges' );
-    $this->urltest( '/' . $this->{test_subweb} . '/WebIndex/?topic=WebChanges',
-        $this->{test_subweb} . '/WebIndex', 'WebChanges' );
-    $this->urltest( '/' . $this->{test_subweb} . '/WebIndex//?topic=WebChanges',
-        $this->{test_subweb} . '/WebIndex', 'WebChanges' );
+    $this->urltest( '/' . $this->test_subweb . '/WebIndex?topic=WebChanges',
+        $this->test_subweb, 'WebChanges' );
+    $this->urltest( '/' . $this->test_subweb . '//WebIndex?topic=WebChanges',
+        $this->test_subweb, 'WebChanges' );
+    $this->urltest( '/' . $this->test_subweb . '/WebIndex/?topic=WebChanges',
+        $this->test_subweb . '/WebIndex', 'WebChanges' );
+    $this->urltest( '/' . $this->test_subweb . '/WebIndex//?topic=WebChanges',
+        $this->test_subweb . '/WebIndex', 'WebChanges' );
 
-    $this->urltest( '/' . $this->{test_subweb} . '/Other?topic=WebChanges',
-        $this->{test_subweb}, 'WebChanges' );
+    $this->urltest( '/' . $this->test_subweb . '/Other?topic=WebChanges',
+        $this->test_subweb, 'WebChanges' );
 
 #you may read 'subweb' but as its the last string in the url, foswiki treats it as a topicname
-    $this->urltest( '/' . $this->{test_subweb} . '?topic=WebChanges',
-        $this->{test_subweb}, 'WebChanges' );
+    $this->urltest( '/' . $this->test_subweb . '?topic=WebChanges',
+        $this->test_subweb, 'WebChanges' );
 
     #trailing slashes make it a web again
-    $this->urltest( '/' . $this->{test_subweb} . '/?topic=WebChanges',
-        $this->{test_subweb}, 'WebChanges' );
-    $this->urltest( '/' . $this->{test_subweb} . '//?topic=WebChanges',
-        $this->{test_subweb}, 'WebChanges' );
+    $this->urltest( '/' . $this->test_subweb . '/?topic=WebChanges',
+        $this->test_subweb, 'WebChanges' );
+    $this->urltest( '/' . $this->test_subweb . '//?topic=WebChanges',
+        $this->test_subweb, 'WebChanges' );
 
     $this->urltest(
-        '/' . $this->{test_subweb} . '/WebIndex?topic=System.WebChanges',
+        '/' . $this->test_subweb . '/WebIndex?topic=System.WebChanges',
         'System', 'WebChanges' );
     $this->urltest(
-        '/' . $this->{test_subweb} . '//WebIndex?topic=System.WebChanges',
+        '/' . $this->test_subweb . '//WebIndex?topic=System.WebChanges',
         'System', 'WebChanges' );
     $this->urltest(
-        '/' . $this->{test_subweb} . '/WebIndex/?topic=System.WebChanges',
+        '/' . $this->test_subweb . '/WebIndex/?topic=System.WebChanges',
         'System', 'WebChanges' );
     $this->urltest(
-        '/' . $this->{test_subweb} . '/WebIndex//?topic=System.WebChanges',
+        '/' . $this->test_subweb . '/WebIndex//?topic=System.WebChanges',
         'System', 'WebChanges' );
 
-    $this->urltest( '/' . $this->{test_subweb} . '?topic=System.WebChanges',
+    $this->urltest( '/' . $this->test_subweb . '?topic=System.WebChanges',
         'System', 'WebChanges' );
-    $this->urltest( '/' . $this->{test_subweb} . '/?topic=System.WebChanges',
+    $this->urltest( '/' . $this->test_subweb . '/?topic=System.WebChanges',
         'System', 'WebChanges' );
-    $this->urltest( '/' . $this->{test_subweb} . '//?topic=System.WebChanges',
+    $this->urltest( '/' . $this->test_subweb . '//?topic=System.WebChanges',
         'System', 'WebChanges' );
 
     $this->urltest(
         '/'
-          . $this->{test_subweb}
+          . $this->test_subweb
           . '/WebIndex?topic='
-          . $this->{test_subweb}
+          . $this->test_subweb
           . '.WebChanges',
-        $this->{test_subweb}, 'WebChanges'
+        $this->test_subweb, 'WebChanges'
     );
     $this->urltest(
         '/'
-          . $this->{test_subweb}
+          . $this->test_subweb
           . '//WebIndex?topic='
-          . $this->{test_subweb}
+          . $this->test_subweb
           . '.WebChanges',
-        $this->{test_subweb}, 'WebChanges'
+        $this->test_subweb, 'WebChanges'
     );
     $this->urltest(
         '/'
-          . $this->{test_subweb}
+          . $this->test_subweb
           . '/WebIndex/?topic='
-          . $this->{test_subweb}
+          . $this->test_subweb
           . '.WebChanges',
-        $this->{test_subweb}, 'WebChanges'
+        $this->test_subweb, 'WebChanges'
     );
     $this->urltest(
         '/'
-          . $this->{test_subweb}
+          . $this->test_subweb
           . '/WebIndex//?topic='
-          . $this->{test_subweb}
+          . $this->test_subweb
           . '.WebChanges',
-        $this->{test_subweb}, 'WebChanges'
+        $this->test_subweb, 'WebChanges'
     );
 
     $this->urltest(
         '/'
-          . $this->{test_subweb}
+          . $this->test_subweb
           . '?topic='
-          . $this->{test_subweb}
+          . $this->test_subweb
           . '.WebChanges',
-        $this->{test_subweb}, 'WebChanges'
+        $this->test_subweb, 'WebChanges'
     );
     $this->urltest(
         '/'
-          . $this->{test_subweb}
+          . $this->test_subweb
           . '/?topic='
-          . $this->{test_subweb}
+          . $this->test_subweb
           . '.WebChanges',
-        $this->{test_subweb}, 'WebChanges'
+        $this->test_subweb, 'WebChanges'
     );
     $this->urltest(
         '/'
-          . $this->{test_subweb}
+          . $this->test_subweb
           . '//?topic='
-          . $this->{test_subweb}
+          . $this->test_subweb
           . '.WebChanges',
-        $this->{test_subweb}, 'WebChanges'
+        $this->test_subweb, 'WebChanges'
     );
 
     $this->urltest(
-        '/System/WebIndex?topic=' . $this->{test_subweb} . '.WebChanges',
-        $this->{test_subweb}, 'WebChanges' );
+        '/System/WebIndex?topic=' . $this->test_subweb . '.WebChanges',
+        $this->test_subweb, 'WebChanges' );
     $this->urltest(
-        '/System//WebIndex?topic=' . $this->{test_subweb} . '.WebChanges',
-        $this->{test_subweb}, 'WebChanges' );
+        '/System//WebIndex?topic=' . $this->test_subweb . '.WebChanges',
+        $this->test_subweb, 'WebChanges' );
     $this->urltest(
-        '/System/WebIndex/?topic=' . $this->{test_subweb} . '.WebChanges',
-        $this->{test_subweb}, 'WebChanges' );
+        '/System/WebIndex/?topic=' . $this->test_subweb . '.WebChanges',
+        $this->test_subweb, 'WebChanges' );
     $this->urltest(
-        '/System/WebIndex//?topic=' . $this->{test_subweb} . '.WebChanges',
-        $this->{test_subweb}, 'WebChanges' );
+        '/System/WebIndex//?topic=' . $this->test_subweb . '.WebChanges',
+        $this->test_subweb, 'WebChanges' );
 
-    $this->urltest( '/System?topic=' . $this->{test_subweb} . '.WebChanges',
-        $this->{test_subweb}, 'WebChanges' );
-    $this->urltest( '/System/?topic=' . $this->{test_subweb} . '.WebChanges',
-        $this->{test_subweb}, 'WebChanges' );
-    $this->urltest( '/System//?topic=' . $this->{test_subweb} . '.WebChanges',
-        $this->{test_subweb}, 'WebChanges' );
+    $this->urltest( '/System?topic=' . $this->test_subweb . '.WebChanges',
+        $this->test_subweb, 'WebChanges' );
+    $this->urltest( '/System/?topic=' . $this->test_subweb . '.WebChanges',
+        $this->test_subweb, 'WebChanges' );
+    $this->urltest( '/System//?topic=' . $this->test_subweb . '.WebChanges',
+        $this->test_subweb, 'WebChanges' );
 
     #nonexistant webs
     #noneexistant topics (Item598)
@@ -684,26 +688,26 @@ sub test_urlparsing {
         'WebHome'
     );
 
-    $this->urltest( '/' . $this->{test_subweb} . '/ThisTopicShouldNotExist',
-        $this->{test_subweb}, 'ThisTopicShouldNotExist' );
-    $this->urltest( '/' . $this->{test_subweb} . '/ThisTopicShouldNotExist/',
-        $this->{test_subweb} . '/ThisTopicShouldNotExist', 'WebHome' );
+    $this->urltest( '/' . $this->test_subweb . '/ThisTopicShouldNotExist',
+        $this->test_subweb, 'ThisTopicShouldNotExist' );
+    $this->urltest( '/' . $this->test_subweb . '/ThisTopicShouldNotExist/',
+        $this->test_subweb . '/ThisTopicShouldNotExist', 'WebHome' );
 
     #both topic and subweb of same name exists (Item598)
-    #$this->{test_web}/ThisTopic is both a web and a topic
-    $this->urltest( '/' . $this->{test_web} . '/ThisTopic',
-        $this->{test_web}, 'ThisTopic' );    #the only way yo get to the topic
-    $this->urltest( '/' . $this->{test_web} . '/ThisTopic/',
-        $this->{test_web} . '/ThisTopic', 'WebHome' );
-    $this->urltest( '/' . $this->{test_web} . '/ThisTopic/WebHome',
-        $this->{test_web} . '/ThisTopic', 'WebHome' );
+    #$this->test_web/ThisTopic is both a web and a topic
+    $this->urltest( '/' . $this->test_web . '/ThisTopic',
+        $this->test_web, 'ThisTopic' );    #the only way yo get to the topic
+    $this->urltest( '/' . $this->test_web . '/ThisTopic/',
+        $this->test_web . '/ThisTopic', 'WebHome' );
+    $this->urltest( '/' . $this->test_web . '/ThisTopic/WebHome',
+        $this->test_web . '/ThisTopic', 'WebHome' );
     if ( $this->check_dependency('Foswiki,>=,1.2') ) {
-        $this->urltest( '/' . $this->{test_web} . '/ThisTopic/WebHome/',
-            $this->{test_web} . '/ThisTopic', 'WebHome' );
+        $this->urltest( '/' . $this->test_web . '/ThisTopic/WebHome/',
+            $this->test_web . '/ThisTopic', 'WebHome' );
     }
     else {
-        $this->urltest( '/' . $this->{test_web} . '/ThisTopic/WebHome/',
-            $this->{test_web} . '/ThisTopic/WebHome', 'WebHome' );
+        $this->urltest( '/' . $this->test_web . '/ThisTopic/WebHome/',
+            $this->test_web . '/ThisTopic/WebHome', 'WebHome' );
     }
 
     #invalid..

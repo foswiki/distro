@@ -10,16 +10,16 @@
 # to have to work out how to re-initialise Foswiki for each test)
 #
 package UTF8Tests;
-use strict;
-use warnings;
+use v5.14;
 use utf8;
 
-use Unicode::UCD();
+use Foswiki      ();
+use Unicode::UCD ();
 use Benchmark qw( :hireswallclock);
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
 
-use Foswiki();
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 sub DISABLEtest_urlEncodeDecode {
     my $this = shift;

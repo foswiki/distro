@@ -1,5 +1,6 @@
 # See bottom of file for copyright and license information
 package Foswiki::Tables::Row;
+use v5.14;
 
 =begin TML
 
@@ -9,10 +10,13 @@ Abstract model of a table row, suitable for use with the tables parser.
 
 =cut
 
-use strict;
 use Assert;
+use Foswiki::Func           ();
+use Foswiki::Tables::Parser ();
 
-use Foswiki::Func ();
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -21,9 +25,30 @@ BEGIN {
     }
 }
 
+has table => (
+    is       => 'rw',
+    weak_ref => 1,
+    isa      => Foswiki::Object::isaCLASS(
+        'table', 'Foswiki::Tables::Table', noUndef => 1
+    ),
+    required => 1,
+);
+has _isHeader => ( is => 'rw', );
+has isFooter  => ( is => 'rw', );
+has precruft  => ( is => 'rw', default => '', required => 1, );
+has postcruft => ( is => 'rw', default => '', required => 1, );
+has cols      => ( is => 'rw', lazy => 1, default => sub { [] }, );
+
+# 0-based index of the row in the *raw* table isHeader and isFooter are
+# calculated based on the headerrows and footerrow options, if set, when the
+# table is constructed. If they are not set, the number of rows that qualify as
+# "header rows" is used to guess the header rows. A row qualifies as a header
+# row if all cells in the row are marked as header cells.
+has number => ( is => 'rw', );
+
 =begin TML
 
----++ ClassMethod new($table, $precruft, $postcruft [, \@cols]) -> $row
+---++ ClassMethod new(table => $table, precruft => $precruft, postcruft => $postcruft [, columns => \@cols]) -> $row
 Construct a new table row, associated with the given table.
    * =$table= - the table the row is associated with
    * =$precruft= - text found before the opening | at the start of the row
@@ -34,31 +59,18 @@ Note that =$postcruft= and =$precruft= should *not* include the |.
 
 =cut
 
-sub new {
-    my ( $class, $table, $precruft, $postcruft, $cols ) = @_;
-    my $this = bless( {}, $class );
-
-    $this->{table} = $table;
-    ASSERT( $table->isa('Foswiki::Tables::Table'), $table ) if DEBUG;
-    $this->{number} = undef;    # 0-based index of the row in the *raw* table
-        # isHeader and isFooter are calculated based on the headerrows
-        # and footerrow options, if set, when the table is constructed. If they
-        # are not set, the number of rows that qualify as "header rows" is used
-        # to guess the header rows. A row qualifies as a header row if all cells
-        # in the row are marked as header cells.
-    $this->{isHeader}  = undef;
-    $this->{isFooter}  = undef;
-    $this->{precruft}  = defined $precruft ? $precruft : '';
-    $this->{postcruft} = defined $postcruft ? $postcruft : '';
+sub BUILD {
+    my $this = shift;
+    my ($params) = @_;
 
     # pad out the cols to the width of the format
-    my $ncols = scalar( @{ $table->{colTypes} } );
-    while ( defined $cols && scalar(@$cols) < $ncols ) {
-        push( @$cols, '  ' );
+    my $ncols = scalar( @{ $this->table->colTypes } );
+    while ( defined $params->{columns}
+        && scalar( @{ $params->{columns} } ) < $ncols )
+    {
+        push( @{ $params->{columns} }, '  ' );
     }
-    $this->{cols} = [];
-    $this->setRow($cols) if $cols;
-    return $this;
+    $this->setRow( $params->{columns} ) if $params->{columns};
 }
 
 =begin TML
@@ -69,7 +81,7 @@ Perl class used for table cells (default Foswiki::Tables::Cell)
 =cut
 
 sub cell_class {
-    require Foswiki::Tables::Cell;
+    Foswiki::load_package('Foswiki::Tables::Cell');
     ASSERT( !$@, $@ ) if DEBUG;
     return 'Foswiki::Tables::Cell';
 }
@@ -79,8 +91,8 @@ sub cell_class {
 sub pushCell {
     my ( $this, $cell ) = @_;
 
-    $cell->number( push( @{ $this->{cols} }, $cell ) - 1 );
-    ASSERT( defined $cell->{number} );
+    $cell->number( push( @{ $this->cols }, $cell ) - 1 );
+    ASSERT( defined $cell->number );
     return $cell->number;
 }
 
@@ -93,8 +105,8 @@ Generate a unique string ID that uniquely identifies this row within a topic.
 
 sub getID {
     my $this = shift;
-    return $this->{table}->getID() . '_'
-      . ( defined $this->{number} ? $this->{number} : '' );
+    return $this->table->getID() . '_'
+      . ( defined $this->number ? $this->number : '' );
 }
 
 =begin TML
@@ -107,72 +119,39 @@ Determine if this row meets the criteria for a header row (or set it as a header
 sub isHeader {
     my ( $this, $set ) = @_;
     if ( defined $set ) {
-        $this->{isHeader} = $set;
+        $this->_isHeader($set);
     }
-    elsif ( !defined $this->{isHeader} ) {
-        $this->{isHeader} = 0;
-        foreach my $cell ( @{ $this->{cols} } ) {
-            if ( $cell->{isHeader} ) {
-                $this->{isHeader} = 1;
+    elsif ( !defined $this->_isHeader ) {
+        $this->_isHeader(0);
+        foreach my $cell ( @{ $this->cols } ) {
+            if ( $cell->isHeader ) {
+                $this->_isHeader(1);
             }
             else {
-                $this->{isHeader} = 0;
+                $this->_isHeader(0);
                 last;
             }
         }
     }
-    return $this->{isHeader} || 0;
+    return $this->_isHeader || 0;
 }
 
 =begin TML
 
----++ ObjectMethod isFooter([$boolean]) -> $boolean
+---++ ObjectAttribute isFooter([$boolean]) -> $boolean
 Determine if this row meets the criteria for a footer row (or set it as a footer row)
 
 =cut
 
-sub isFooter {
-    my ( $this, $set ) = @_;
-    if ($set) {
-        $this->{isFooter} = $set;
-    }
-    return $this->{isFooter} || 0;
-}
-
 =begin TML
 
----++ ObjectMethod finish()
-Clean up for disposal
-
-=cut
-
-sub finish {
-    my $this = shift;
-    undef $this->{table};
-    foreach my $cell ( @{ $this->{cols} } ) {
-        $cell->finish();
-    }
-    undef( $this->{cols} );
-    undef $this->{precruft};
-    undef $this->{postcruft};
-}
-
-=begin TML
-
----++ ObjectMethod number([$set]) -> $number
+---++ ObjectAttribute number([$set]) -> $number
 
 Setter/getter for the row number. The row number uniquely identifies the row
 within the context of a table. The row number is undef until it is set by
 some external agency (e.g. the table)
 
 =cut
-
-sub number {
-    my ( $this, $number ) = @_;
-
-    $this->{number} = $number if defined $number;
-    return $this->{number};
-}
 
 =begin
 
@@ -187,28 +166,28 @@ Intended for setting row data after an edit.
 sub setRow {
     my ( $this, $cols ) = @_;
 
-    while ( scalar( @{ $this->{cols} } ) > scalar(@$cols) ) {
-        pop( @{ $this->{cols} } )->finish();
+    while ( scalar( @{ $this->cols } ) > scalar(@$cols) ) {
+        pop( @{ $this->cols } );
     }
     my $n = 0;
     foreach my $val (@$cols) {
-        if ( $n < scalar( @{ $this->{cols} } ) ) {
+        if ( $n < scalar( @{ $this->cols } ) ) {
 
             # Restore the EDITCELL from the old value, if present
             if (   $val !~ /%EDITCELL\{.*?\}%/
-                && $this->{cols}->[$n]->{text} =~ m/(%EDITCELL\{.*?\}%)/ )
+                && $this->cols->[$n]->text =~ m/(%EDITCELL\{.*?\}%)/ )
             {
                 $val .= $1;
             }
-            $this->{cols}->[$n]->{text} = $val;
+            $this->cols->[$n]->text($val);
         }
         else {
             if ( !ref($val) ) {
-                require Foswiki::Tables::Parser;
+                Foswiki::load_package('Foswiki::Tables::Parser');
                 my @cell = Foswiki::Tables::Parser::split_cell($val);
                 $val = \@cell;
             }
-            my $c = $this->cell_class->new( $this, @$val );
+            my $c = $this->cell_class->new( row => $this, @$val );
             $this->pushCell($c);
         }
         $n++;
@@ -224,8 +203,8 @@ Generate a TML representation of the row
 
 sub stringify {
     my $this = shift;
-    my $cols = join( '|', map { $_->stringify() } @{ $this->{cols} } );
-    return "$this->{precruft}|$cols|$this->{postcruft}";
+    my $cols = join( '|', map { $_->stringify() } @{ $this->cols } );
+    return $this->precruft . "|$cols|" . $this->postcruft;
 }
 
 1;

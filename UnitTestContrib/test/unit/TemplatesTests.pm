@@ -3,20 +3,20 @@
 #
 
 package TemplatesTests;
-use strict;
-use warnings;
+use v5.14;
 use utf8;
 
-use FoswikiTestCase();
-our @ISA = qw( FoswikiTestCase );
-
-use File::Path();
 use Assert;
-use Foswiki();
-use Foswiki::Templates();
-use Foswiki::Configure::Dependency();
-use Foswiki::OopsException();
-use Error qw( :try );
+use File::Path                     ();
+use Foswiki                        ();
+use Foswiki::Templates             ();
+use Foswiki::Configure::Dependency ();
+use Foswiki::OopsException         ();
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiTestCase );
 
 my $test_tmpls;
 my $test_data;
@@ -26,7 +26,7 @@ my $tmpls;
 sub skip {
     my ( $this, $test ) = @_;
 
-    return $this->SUPER::skip_test_if(
+    return $this->skip_test_if(
         $test,
         {
             condition => { with_dep => 'Foswiki,<,1.2' },
@@ -40,14 +40,17 @@ sub skip {
     );
 }
 
-sub set_up {
+has tempdir => ( is => 'rw', );
+
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
-    $this->{tempdir} = $Foswiki::cfg{TempfileDir} . '/test_TemplateTests';
-    File::Path::mkpath( $this->{tempdir} );
+    $this->tempdir( $Foswiki::cfg{TempfileDir} . '/test_TemplateTests' );
+    File::Path::mkpath( $this->tempdir );
 
-    my $here = $this->{tempdir};
+    my $here = $this->tempdir;
     $here =~ m/^(.*)$/;
     $test_tmpls = $1 . '/fake_templates';
     $test_data  = $1 . '/fake_data';
@@ -56,7 +59,7 @@ sub set_up {
     File::Path::mkpath($test_data);
 
     $this->createNewFoswikiSession();
-    $tmpls = $this->{session}->templates;
+    $tmpls = $this->session->templates;
 
     $Foswiki::cfg{TemplateDir} = $test_tmpls;
     $Foswiki::cfg{DataDir}     = $test_data;
@@ -68,12 +71,12 @@ sub set_up {
       s/\$Foswiki::cfg\{SystemWebName\}/$Foswiki::cfg{SystemWebName}/ge;
 
     return;
-}
+};
 
 sub tear_down {
     my $this = shift;
     $this->SUPER::tear_down();
-    eval { File::Path::rmtree( $this->{tempdir} ) };    # Cleanup any old tests
+    eval { File::Path::rmtree( $this->tempdir ) };    # Cleanup any old tests
 
     return;
 }
@@ -519,12 +522,17 @@ HERE
     try {
         $data = $tmpls->expandTemplate('loop');
     }
-    catch Foswiki::OopsException with {
-        my $e = shift;
-        $this->assert( $e->isa('Foswiki::OopsException') );
-        $this->assert_matches(
-            qr/^OopsException\(attention\/template_recursion/,
-            $e->stringify() );
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::OopsException') ) {
+            $this->assert( $e->isa('Foswiki::OopsException') );
+            $this->assert_matches(
+                qr/^OopsException\(attention\/template_recursion/,
+                $e->stringify() );
+        }
+        else {
+            Foswiki::Exception::Fatal->rethrow($e);
+        }
     };
 
     return;

@@ -1,9 +1,11 @@
 # Tests for the Reader class of Foswiki::Tables, which generates a table model.
 package TableReaderTests;
+use v5.14;
 
-use strict;
-use FoswikiFnTestCase;
-our @ISA = qw( FoswikiFnTestCase );
+use Assert;
+
+use Moo;
+extends qw( FoswikiFnTestCase );
 
 sub skip {
     my ( $this, $test ) = @_;
@@ -28,8 +30,7 @@ INPUT
     $this->assert( !$@, $@ );
     my $r = Foswiki::Tables::Reader->new();
     my $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web},
-        $this->{test_topic} );
+      Foswiki::Meta->load( $this->session, $this->test_web, $this->test_topic );
     $meta->text($in);
     my $result = $r->parse( $meta->text, $meta );
 
@@ -69,8 +70,7 @@ INPUT
     $this->assert( !$@, $@ );
     my $r = Foswiki::Tables::Reader->new();
     my $meta =
-      Foswiki::Meta->load( $this->{session}, $this->{test_web},
-        $this->{test_topic} );
+      Foswiki::Meta->load( $this->session, $this->test_web, $this->test_topic );
     $meta->text($in);
     my $result = $r->parse( $meta->text, $meta );
 

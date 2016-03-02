@@ -1,6 +1,5 @@
 package TOCTests;
-use strict;
-use warnings;
+use v5.14;
 
 =pod
 
@@ -11,17 +10,16 @@ propagated into the TOC.
 
 =cut
 
-use FoswikiTestCase();
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
-
 use Foswiki;
 use Foswiki::UI::Edit;
 use Foswiki::Form;
 use Foswiki::Macros::TOC;
 use Unit::Request;
 use Unit::Response;
-use Error qw( :try );
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 my $setup_failure = '';
 
@@ -48,7 +46,7 @@ HERE
 sub skip {
     my ( $this, $test ) = @_;
 
-    return $this->SUPER::skip_test_if(
+    return $this->skip_test_if(
         $test,
         {
             condition => { with_dep => 'Foswiki,<,1.2' },
@@ -65,22 +63,22 @@ sub setup_TOCtests {
 
     my $query = new Unit::Request();
 
-    $surl = $this->{session}->getScriptUrl(1);
+    $surl = $this->session->getScriptUrl(1);
 
-    $this->{session}->{webName}   = $this->{test_web};
-    $this->{session}->{topicName} = $this->{test_topic};
+    $this->session->webName( $this->test_web );
+    $this->session->topicName( $this->test_topic );
 
     use Foswiki::Attrs;
     my $attr = new Foswiki::Attrs($params);
     foreach my $k ( keys %$attr ) {
         next if $k eq '_RAW';
-        $this->{request}->param( -name => $k, -value => $attr->{$k} );
+        $this->request->param( -name => $k, -value => $attr->{$k} );
     }
 
     # Now generate the TOC
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
-    my $res = $this->{session}->TOC( $text, $topicObject, $tocparams );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
+    my $res = $this->session->TOC( $text, $topicObject, $tocparams );
 
     eval 'use HTML::TreeBuilder; use HTML::Element;';
     if ($@) {
@@ -149,7 +147,7 @@ sub test_Item8592 {
 ---++!! Another level 2 headline
 HERE
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text($text);
     $topicObject->save();
     my $res = $topicObject->expandMacros($text);
@@ -185,7 +183,7 @@ s/<div class="foswikiToc" id="foswikiTOC">/<a name="foswikiTOC"><\/a><div class=
 sub test_Item9009 {
     my $this = shift;
 
-    my $url = $this->{session}->getScriptUrl( 0, 'view' );
+    my $url = $this->session->getScriptUrl( 0, 'view' );
 
     my $text = <<'HERE';
 ---+ A level 1 head!line
@@ -193,15 +191,16 @@ sub test_Item9009 {
 ---++!! Another level 2 headline
 HERE
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text($text);
     $topicObject->save();
 
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     my $text2 = <<HERE;
-%TOC{"$this->{test_web}.$this->{test_topic}"}%
+%TOC{"$test_web.$test_topic"}%
 HERE
     my ($topicObject2) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} . "2" );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic . "2" );
     $topicObject2->text($text2);
     $topicObject->save();
     my $res2 = $topicObject2->expandMacros($text2);
@@ -229,7 +228,7 @@ s/<div class="foswikiToc" id="foswikiTOC">/<a name="foswikiTOC"><\/a><div class=
 sub test_Item11353 {
     my $this = shift;
 
-    my $url = $this->{session}->getScriptUrl( 0, 'view' );
+    my $url = $this->session->getScriptUrl( 0, 'view' );
 
     my $text = <<'HERE';
 ---+ A level 1 head!line <!--1-->
@@ -239,15 +238,16 @@ sub test_Item11353 {
 ---++!! Another level 2 headline
 HERE
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text($text);
     $topicObject->save();
 
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     my $text2 = <<HERE;
-%TOC{"$this->{test_web}.$this->{test_topic}"}%
+%TOC{"$test_web.$test_topic"}%
 HERE
     my ($topicObject2) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} . "2" );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic . "2" );
     $topicObject2->text($text2);
     $topicObject->save();
     my $res2 = $topicObject2->expandMacros($text2);
@@ -271,14 +271,14 @@ s/<div class="foswikiToc" id="foswikiTOC">/<a name="foswikiTOC"><\/a><div class=
 sub test_Item2458 {
     my $this = shift;
 
-    my $url = $this->{session}->getScriptUrl( 0, 'view' );
+    my $url = $this->session->getScriptUrl( 0, 'view' );
 
     my $text = <<'HERE';
 %TOC%
 ---+ !WikiWord
 HERE
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text($text);
     $topicObject->save();
     my $res = $topicObject->expandMacros($text);
@@ -354,7 +354,7 @@ sub test_TOC_SpecialCharacters {
 $set->[1]
 HERE
         my ($topicObject) =
-          Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+          Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
         $topicObject->text($wikitext);
         $topicObject->save();
         my $res = $topicObject->expandMacros($wikitext);
@@ -432,7 +432,7 @@ sub test_TOC_params {
 ---+++ Another level 3 headline
 HERE
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text($text);
     $topicObject->save();
     my $res = $topicObject->expandMacros($text);
@@ -457,15 +457,16 @@ HTML
 }
 
 sub test_ho {
-    my $this = shift;
-    my $text = <<"HERE";
+    my $this         = shift;
+    my ($test_topic) = ( $this->test_topic );
+    my $text         = <<"HERE";
 %TOC%
 ---+ A headline
 %STOPINCLUDE%
-%INCLUDE{"$this->{test_topic}" headingoffset="1"}%
+%INCLUDE{"$test_topic" headingoffset="1"}%
 HERE
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text($text);
     $topicObject->save();
 

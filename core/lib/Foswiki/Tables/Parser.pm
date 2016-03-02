@@ -248,17 +248,24 @@ sub parse {
                             redo;
                         }
                         else {
-                            my ( $prec, $text, $postc, $ish ) =
-                              split_cell( $cols[$i] );
-                            if ($ish) {
-                                print STDERR "TH '$prec', '$text', '$postc'\n"
+                            my %parsed = split_cell( $cols[$i] );
+                            if ( $parsed{isHeader} ) {
+                                print STDERR "TH '$parsed{precruft}',",
+                                  " '$parsed{text}',", " '$parsed{postcruft}'\n"
                                   if TRACE;
-                                &$dispatch( 'th', $prec, $text, $postc );
+                                &$dispatch(
+                                    'th',          $parsed{precruft},
+                                    $parsed{text}, $parsed{postcruft}
+                                );
                             }
                             else {
-                                print STDERR "TD '$prec', '$text', '$postc'\n"
+                                print STDERR "TD '$parsed{precruft}',",
+                                  " '$parsed{text}',", " '$parsed{postcruft}'\n"
                                   if TRACE;
-                                &$dispatch( 'td', $prec, $text, $postc );
+                                &$dispatch(
+                                    'td',          $parsed{precruft},
+                                    $parsed{text}, $parsed{postcruft}
+                                );
                             }
                         }
                     }
@@ -349,7 +356,12 @@ sub split_cell {
         #$prec .= "$half ($l)";
         #$postc .= ($l - $half);
     }
-    return ( $prec, $main, $postc, $ish );
+    return (
+        precruft  => $prec,
+        text      => $main,
+        postcruft => $postc,
+        isHeader  => $ish
+    );
 }
 
 sub _in_blocking_scope {

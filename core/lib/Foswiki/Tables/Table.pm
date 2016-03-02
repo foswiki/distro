@@ -28,11 +28,14 @@ A Table object has the following public fields:
 =cut
 
 package Foswiki::Tables::Table;
+use v5.14;
 
-use strict;
 use Assert;
-
 use Foswiki::Tables::Row ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -43,7 +46,7 @@ BEGIN {
 
 =begin TML
 
----++ ClassMethod new($specs [, $supertag])
+---++ ClassMethod new(specs => $specs [, supertag => $supertag])
 Constructor
    * =$specs= - array of tag specs that
      affect this table. Each spec is defined as follows:
@@ -79,22 +82,56 @@ The following entries in attrs are used:
 
 =cut
 
-sub new {
-    my ( $class, $specs, $supertag ) = @_;
-    my $this = bless(
-        {
-            rows     => [],
-            number   => undef,
-            specs    => [],
-            supertag => $supertag || 'TABLE',
-            attrs    => {}                   # combined attributes from all tags
-        },
-        $class
-    );
+has number     => ( is => 'rw', );
+has supertag   => ( is => 'ro', default => 'TABLE', );
+has headerrows => ( is => 'rw', );
+has footerrows => ( is => 'rw', );
+has specs => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub { [] },
+);
+has attrs => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+    isa     => Foswiki::Object::isaHASH( 'attrs', noUndef => 1 ),
+);
+has rows => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { [] },
+    isa     => Foswiki::Object::isaARRAY( 'rows', noUndef => 1 ),
+);
+has colTypes => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { [] },
+    isa     => Foswiki::Object::isaARRAY( 'colTypes', noUndef => 1 ),
+);
 
-    $this->{colTypes} = [];
+around BUILDARGS => sub {
+    my $orig   = shift;
+    my $class  = shift;
+    my %params = @_;
 
-    $this->addTagSpecs($specs);
+    ASSERT( defined $params{specs},
+        "Missing required parameter specs in constructor parameters hash." );
+
+    # Use parameters specs for user convinience but don't let the attribute be
+    # initialized directly from this parameter but rahter make it through
+    # addTagSpecs method.
+    $params{_specs} = $params{specs};
+    delete $params{specs};
+
+    return $orig->( $class, %params );
+};
+
+sub BUILD {
+    my $this = shift;
+    my ($params) = @_;
+
+    $this->addTagSpecs( $params->{_specs} );
 
     return $this;
 }
@@ -103,33 +140,33 @@ sub addTagSpecs {
     my ( $this, $specs ) = @_;
 
     # Collapse tag attributes into a single attribute block.
-    my $attrs = $this->{attrs};
+    my $attrs = $this->attrs;
     foreach my $spec (@$specs) {
 
         # Record the tag for stringification
-        push( @{ $this->{specs} }, $spec );
+        push( @{ $this->specs }, $spec );
         while ( my ( $k, $v ) = each %{ $spec->{attrs} } ) {
             next if $k =~ /^_/;
 
             # $supertag attributes trump all other tags
-            if ( $spec->{tag} eq $this->{supertag}
-                || !defined $this->{attrs}->{$k} )
+            if ( $spec->{tag} eq $this->supertag
+                || !defined $this->attrs->{$k} )
             {
-                $this->{attrs}->{$k} = $v;
+                $this->attrs->{$k} = $v;
             }
         }
     }
 
     if ( $attrs->{format} ) {
-        $this->{colTypes} = $this->parseFormat( $attrs->{format} );
+        $this->colTypes( $this->parseFormat( $attrs->{format} ) );
     }
 
     if ( defined $attrs->{headerrows} ) {
-        $this->{headerrows} = $attrs->{headerrows};
+        $this->headerrows( $attrs->{headerrows} );
     }
 
     if ( defined $attrs->{footerrows} ) {
-        $this->{footerrows} = $attrs->{footerrows};
+        $this->footerrows( $attrs->{footerrows} );
     }
 }
 
@@ -151,7 +188,7 @@ sub _renumber {
     my ( $this, $start ) = @_;
     $start ||= 0;
     for ( my $i = $start ; $i < $this->totalRows() ; $i++ ) {
-        $this->{rows}->[$i]->number($i);
+        $this->rows->[$i]->number($i);
     }
 }
 
@@ -167,22 +204,6 @@ override this to ignore TABLE tags, or call SUPER and add their own tags.
 
 sub getMacros {
     return ('TABLE');
-}
-
-=begin TML
-
----++ ObjectMethod finish()
-Clean up for disposal
-
-=cut
-
-sub finish {
-    my $this = shift;
-    foreach my $row ( @{ $this->{rows} } ) {
-        $row->finish();
-    }
-    undef( $this->{rows} );
-    undef( $this->{colTypes} );
 }
 
 =begin TML
@@ -208,17 +229,27 @@ sub makeConsistent {
         if ( $this->getHeaderRows() ) {
             while ( $this->totalRows() < $this->getHeaderRows() ) {
                 my @vals =
-                  map { "*$_->{initial_value}*" } @{ $this->{colTypes} };
+                  map { "*$_->{initial_value}*" } @{ $this->colTypes };
                 push( @vals, '*?*' ) unless scalar(@vals);
-                my $newRow = $this->row_class->new( $this, '', '', \@vals );
-                unshift( @{ $this->{rows} }, $newRow );
+                my $newRow = $this->row_class->new(
+                    table     => $this,
+                    precruft  => '',
+                    postcruft => '',
+                    columns   => \@vals
+                );
+                unshift( @{ $this->rows }, $newRow );
             }
         }
         while ( $this->totalRows() < $minRows ) {
-            my @vals = map { $_->{initial_value} } @{ $this->{colTypes} };
+            my @vals = map { $_->{initial_value} } @{ $this->colTypes };
             push( @vals, '' ) unless scalar(@vals);
-            my $newRow = $this->row_class->new( $this, '', '', \@vals );
-            push( @{ $this->{rows} }, $newRow );
+            my $newRow = $this->row_class->new(
+                table     => $this,
+                precruft  => '',
+                postcruft => '',
+                columns   => \@vals
+            );
+            push( @{ $this->rows }, $newRow );
         }
     }
 }
@@ -233,25 +264,18 @@ footer rows)
 =cut
 
 sub totalRows {
-    return scalar( @{ $_[0]->{rows} } );
+    return scalar( @{ $_[0]->rows } );
 }
 
 =begin TML
 
----++ ObjectMethod number([$set]) -> $number
+---++ ObjectAttribute number([$set]) -> $number
 
 Setter/getter for the table number. The table number uniquely identifies
 the table within the context of a topic. The table number is undef until
 it is set by some external agency.
 
 =cut
-
-sub number {
-    my ( $this, $number ) = @_;
-
-    $this->{number} = $number if defined $number;
-    return $this->{number};
-}
 
 =begin TML
 
@@ -264,10 +288,10 @@ sub stringify {
     my $this = shift;
 
     my $s = '';
-    foreach my $spec ( @{ $this->{specs} } ) {
+    foreach my $spec ( @{ $this->specs } ) {
         $s .= "$spec->{raw}\n";
     }
-    foreach my $row ( @{ $this->{rows} } ) {
+    foreach my $row ( @{ $this->rows } ) {
         $s .= $row->stringify() . "\n";
     }
     return $s;
@@ -282,7 +306,7 @@ Get the number of header rows on the table. Defaults to 0.
 
 sub getHeaderRows {
     my $this = shift;
-    return $this->{headerrows} || 0;
+    return $this->headerrows || 0;
 }
 
 =begin TML
@@ -294,7 +318,7 @@ Get the number of footer rows on the table.
 
 sub getFooterRows {
     my $this = shift;
-    return $this->{footerrows} || 0;
+    return $this->footerrows || 0;
 }
 
 =begin TML
@@ -323,7 +347,7 @@ index of the row if it *does* exist.
 sub getFirstBodyRow {
     my $this = shift;
 
-    return $this->{headerrows} || 0;
+    return $this->headerrows || 0;
 }
 
 =begin TML
@@ -373,16 +397,16 @@ sub getCellData {
         if ( defined $col ) {
             return undef
               unless $row < $this->totalRows()
-              && $col < scalar( @{ $this->{rows}->[$row]->{cols} } );
-            $d = $this->{rows}->[$row]->{cols}->[$col]->{text};
+              && $col < scalar( @{ $this->rows->[$row]->cols } );
+            $d = $this->rows->[$row]->cols->[$col]->text;
         }
         else {
 
             # This entire row
             return undef unless $row < $this->totalRows();
             $d = [];
-            foreach my $col ( @{ $this->{rows}->[$row]->{cols} } ) {
-                push( @$d, $col->{text} );
+            foreach my $col ( @{ $this->rows->[$row]->cols } ) {
+                push( @$d, $col->text );
             }
         }
     }
@@ -390,9 +414,9 @@ sub getCellData {
 
         # This entire col
         $d = [];
-        foreach my $row ( @{ $this->{rows} } ) {
-            if ( defined $row->{cols}->[$col] ) {
-                push( @$d, $row->{cols}->[$col]->{text} );
+        foreach my $row ( @{ $this->rows } ) {
+            if ( defined $row->cols->[$col] ) {
+                push( @$d, $row->cols->[$col]->text );
             }
             else {
                 push( @$d, undef );
@@ -403,10 +427,10 @@ sub getCellData {
 
         # Entire table (row major)
         $d = [];
-        foreach my $row ( @{ $this->{rows} } ) {
+        foreach my $row ( @{ $this->rows } ) {
             my $c = [];
-            foreach my $col ( @{ $row->{cols} } ) {
-                push( @$c, $col->{text} );
+            foreach my $col ( @{ $row->cols } ) {
+                push( @$c, $col->text );
             }
             push( @$d, $c );
         }
@@ -426,7 +450,7 @@ sub getLabelRow() {
     my $this = shift;
 
     my $labelRow;
-    foreach my $row ( @{ $this->{rows} } ) {
+    foreach my $row ( @{ $this->rows } ) {
         if ( $row->isHeader() ) {
             $labelRow = $row;
         }
@@ -477,32 +501,37 @@ sub addRow {
     $row = $lastRow if ( $row > $lastRow );
     $any_row ||= 0;
     unless ($newRow) {
-        my @vals = map { $_->{initial_value} } @{ $this->{colTypes} };
+        my @vals = map { $_->{initial_value} } @{ $this->colTypes };
 
         # If necessary, widen up to the width of the first (hopefully
         # header) row
         my $count;
         if ( $this->totalRows() ) {
-            my $count = scalar( @{ $this->{rows}->[0]->{cols} } );
+            my $count = scalar( @{ $this->rows->[0]->cols } );
             while ( scalar(@vals) < $count ) {
                 push( @vals, '  ' );
             }
         }
         push( @vals, '' ) unless scalar(@vals);
 
-        $newRow = $this->row_class->new( $this, '', '', \@vals );
+        $newRow = $this->row_class->new(
+            table     => $this,
+            precruft  => '',
+            postcruft => '',
+            columns   => \@vals
+        );
     }
 
     if ( $row < 0 ) {
-        unshift( @{ $this->{rows} }, $newRow );
+        unshift( @{ $this->rows }, $newRow );
         $row = 0;
     }
     elsif ( $row >= $this->totalRows() - 1 ) {
-        push( @{ $this->{rows} }, $newRow );
+        push( @{ $this->rows }, $newRow );
         $row = $this->totalRows() - 1;
     }
     else {
-        splice( @{ $this->{rows} }, $row + 1, 0, $newRow );
+        splice( @{ $this->rows }, $row + 1, 0, $newRow );
     }
 
     $this->_renumber($row);
@@ -515,7 +544,7 @@ sub addRow {
 sub pushRow {
     my ( $this, $row ) = @_;
 
-    $row->number( push( @{ $this->{rows} }, $row ) - 1 );
+    $row->number( push( @{ $this->rows }, $row ) - 1 );
     return $row->number();
 }
 
@@ -556,7 +585,7 @@ sub deleteRow {
     return 0
       unless $this->isEditableRow($row)
       || $any_row && $row >= 0 && $row < $this->totalRows();
-    my @dead = splice( @{ $this->{rows} }, $row, 1 );
+    my @dead = splice( @{ $this->rows }, $row, 1 );
     map { $_->finish() } @dead;
     $this->_renumber($row);
     return 1;
@@ -595,16 +624,16 @@ sub moveRow {
         $to = $this->getLastBodyRow() + 1 if $to > $this->getLastBodyRow();
     }
 
-    my @moving = splice( @{ $this->{rows} }, $from, 1 );
+    my @moving = splice( @{ $this->rows }, $from, 1 );
 
     # compensate for row just removed
     my $rto = ( $to > $from ) ? $to - 1 : $to;
 
     if ( $rto >= $this->totalRows() ) {
-        push( @{ $this->{rows} }, @moving );
+        push( @{ $this->rows }, @moving );
     }
     else {
-        splice( @{ $this->{rows} }, $rto, 0, @moving );
+        splice( @{ $this->rows }, $rto, 0, @moving );
     }
     $this->_renumber();
     return 1;
@@ -633,9 +662,9 @@ sub upRow {
     return 0
       unless $this->isEditableRow($row)
       || $any_row && $row >= 0 && $row < $this->totalRows();
-    my $tmp = $this->{rows}->[$row];
-    $this->{rows}->[$row] = $this->{rows}->[ $row - 1 ];
-    $this->{rows}->[ $row - 1 ] = $tmp;
+    my $tmp = $this->rows->[$row];
+    $this->rows->[$row] = $this->rows->[ $row - 1 ];
+    $this->rows->[ $row - 1 ] = $tmp;
     $this->_renumber( $row - 1 );
     return 1;
 }
@@ -663,9 +692,9 @@ sub downRow {
     return 0
       unless $this->isEditableRow($row)
       || $any_row && $row >= 0 && $row < $this->totalRows();
-    my $tmp = $this->{rows}->[$row];
-    $this->{rows}->[$row] = $this->{rows}->[ $row + 1 ];
-    $this->{rows}->[ $row + 1 ] = $tmp;
+    my $tmp = $this->rows->[$row];
+    $this->rows->[$row] = $this->rows->[ $row + 1 ];
+    $this->rows->[ $row + 1 ] = $tmp;
     $this->_renumber($row);
     return 1;
 }

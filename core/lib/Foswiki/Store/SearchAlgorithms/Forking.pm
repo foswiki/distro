@@ -13,19 +13,20 @@ Forking implementation of flat file store search. Uses grep.
 
 use Assert;
 
-use Foswiki::Store::Interfaces::SearchAlgorithm ();
-use Foswiki::Search::Node                       ();
-use Foswiki::Search::InfoCache                  ();
-use Foswiki::Search::ResultSet                  ();
-use Foswiki();
-use Foswiki::Func();
-use Foswiki::Meta            ();
-use Foswiki::MetaCache       ();
-use Foswiki::Query::Node     ();
-use Foswiki::Query::HoistREs ();
-use Foswiki::ListIterator();
-use Foswiki::Iterator::FilterIterator();
-use Foswiki::Iterator::ProcessIterator();
+use Foswiki::Search::Node              ();
+use Foswiki::Search::InfoCache         ();
+use Foswiki::Search::ResultSet         ();
+use Foswiki                            ();
+use Foswiki::Func                      ();
+use Foswiki::Meta                      ();
+use Foswiki::MetaCache                 ();
+use Foswiki::Query::Node               ();
+use Foswiki::Query::HoistREs           ();
+use Foswiki::ListIterator              ();
+use Foswiki::Iterator::FilterIterator  ();
+use Foswiki::Iterator::ProcessIterator ();
+
+use Foswiki::Store::Interfaces::QueryAlgorithm;
 
 use Moo;
 use namespace::clean;
@@ -42,7 +43,7 @@ BEGIN {
 
 =begin TML
 
----++ ClassMethod new( $class,  ) -> $cereal
+---++ ClassMethod new( $class ) -> $cereal
 
 =cut
 
