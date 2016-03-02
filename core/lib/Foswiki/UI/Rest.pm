@@ -301,17 +301,29 @@ sub rest {
         use strict 'refs';
     }
     catch {
+        my $e = $_;
 
         # Note: we're *not* catching Error here, just Error::Simple
         # so we catch things like OopsException
-        $session->response->header(
-            -status  => 500,
-            -type    => 'text/plain',
-            -charset => 'UTF-8'
-        );
-        $session->response->print( 'ERROR: (500) Internal server error - '
-              . ( ref($_) ? $_->stringify : $_ ) );
-        $error = 1;
+        # SMELL Actually OopsException was inheriting from Error, not
+        # Error::Simple. Not sure how to handle it here but would try to follow
+        # the pre-Moo pattern.
+        if (   !ref($e)
+            && !$e->isa('Foswiki::AccessControlException')
+            && !$e->isa('Foswiki::OopsException') )
+        {
+            $session->response->header(
+                -status  => 500,
+                -type    => 'text/plain',
+                -charset => 'UTF-8'
+            );
+            $session->response->print( 'ERROR: (500) Internal server error - '
+                  . ( ref($_) ? $_->stringify : $_ ) );
+            $error = 1;
+        }
+        else {
+            $e->rethrow;
+        }
     };
 
     if ( !$error ) {

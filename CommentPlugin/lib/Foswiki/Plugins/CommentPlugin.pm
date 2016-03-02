@@ -3,11 +3,10 @@
 # See Plugin topic for history and plugin information
 
 package Foswiki::Plugins::CommentPlugin;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
-use Error ':try';
+use Try::Tiny;
 
 use Foswiki::Func    ();
 use Foswiki::Plugins ();
@@ -111,7 +110,7 @@ sub _COMMENT {
 
 sub _restSave {
     my $session  = shift;
-    my $response = $session->{response};
+    my $response = $session->response;
     my $query    = Foswiki::Func::getCgiQuery();
 
     my ( $web, $topic ) =
@@ -245,26 +244,29 @@ sub _restSave {
             $e->throw();
         }
     }
-    catch Error::Simple with {
-        my $e = shift;
+    case {
+        my $e = $_;
+        if ( ref($e) ) {
 
-        # Redirect already requested to clear the endpoint
-        if ( $e =~ 'restauth-redirect' ) {
-            $query->param( redirectto => '' );
+            #code
+            # Redirect already requested to clear the endpoint
+            if ( $e->stringify =~ 'restauth-redirect' ) {
+                $query->param( redirectto => '' );
+            }
+            else {
+                Foswiki::Exception::Fatal->rethrow($e);
+            }
         }
         else {
-            $e->throw();
-        }
-    }
-    otherwise {
-        my $e = shift;
 
-        if ($isXHR) {
-            $response->header( -status => 500 );
-            $response->print($e);
-        }
-        else {
-            $e->throw();
+            if ($isXHR) {
+                $response->header( -status => 500 );
+                $response->print($e);
+            }
+            else {
+                Foswiki::Exception::Fatal->rehtrow($e);
+            }
+
         }
     };
     return undef;

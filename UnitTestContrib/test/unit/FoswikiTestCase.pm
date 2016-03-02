@@ -1017,8 +1017,11 @@ sub getUIFn {
     $this->assert( $Foswiki::cfg{SwitchBoard}{$script}->{package},
         "$script package not set" );
     my $fn = $Foswiki::cfg{SwitchBoard}{$script}->{package};
-    eval "require $fn";
-    die "DIED during (require $fn)\n" . $@ if $@;
+    Foswiki::load_package( $fn,
+        method => $Foswiki::cfg{SwitchBoard}{$script}->{function}, );
+
+    #eval "require $fn";
+    #die "DIED during (require $fn)\n" . $@ if $@;
     $this->assert( $Foswiki::cfg{SwitchBoard}{$script}->{function},
         "$script function not set" );
     $fn .= '::' . $Foswiki::cfg{SwitchBoard}{$script}->{function};

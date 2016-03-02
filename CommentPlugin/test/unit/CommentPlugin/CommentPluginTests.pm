@@ -1,12 +1,7 @@
 # See bottom of file for license and copyright information
 
 package CommentPluginTests;
-
-use strict;
-use warnings;
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
-use Error ':try';
+use v5.14;
 
 use Unit::Request();
 use Unit::Response();
@@ -16,32 +11,37 @@ use Foswiki::Plugins::CommentPlugin();
 use Foswiki::Plugins::CommentPlugin::Comment();
 use CGI;
 
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
+
+has target_web   => ( is => 'rw', );
+has target_topic => ( is => 'rw', );
+
 # Set up the test fixture
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
-    $this->{target_web}   = "$this->{test_web}Target";
-    $this->{target_topic} = "$this->{test_topic}Target";
-    my $webObject = $this->populateNewWeb( $this->{target_web} );
-    $webObject->finish();
+    $this->target_web( $this->test_web . "Target" );
+    $this->target_topic( $this->test_topic . "Target" );
+    my $webObject = $this->populateNewWeb( $this->target_web );
+    undef $webObject;
 
     Foswiki::Func::getContext()->{view} = 1;
     $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
     $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 1;
     $Foswiki::cfg{Plugins}{CommentPlugin}{TestMode}        = 1;
+};
 
-    return;
-}
-
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->removeWeb( $this->{target_web} );
-    $this->SUPER::tear_down();
-
-    return;
-}
+    $this->removeWeb( $this->target_web );
+    $orig->($this);
+};
 
 sub fixture_groups {
     return ( [ 'viewContext', 'staticContext' ], );
@@ -87,18 +87,18 @@ sub inputTest {
     my $eidx   = $Foswiki::Plugins::CommentPlugin::commentIndex;
     my $sattrs = "";
 
-    $web   ||= $this->{test_web};
-    $topic ||= $this->{test_topic};
+    $web   ||= $this->test_web;
+    $topic ||= $this->test_topic;
 
-    if (   $web ne $this->{test_web}
-        || $topic ne $this->{test_topic}
+    if (   $web ne $this->test_web
+        || $topic ne $this->test_topic
         || $anchor )
     {
 
         $sattrs = 'target="';
 
-        $sattrs .= "$web." unless ( $web   eq $this->{test_web} );
-        $sattrs .= $topic  unless ( $topic eq $this->{test_topic} );
+        $sattrs .= "$web." unless ( $web   eq $this->test_web );
+        $sattrs .= $topic  unless ( $topic eq $this->test_topic );
 
         if ($anchor) {
             $anchor = '#' . $anchor;
@@ -242,7 +242,7 @@ HERE
     # Compose the query
     my $comm  = "This is the comment";
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'comment_action' => 'save',
             'comment_type'   => $type,
             'comment'        => $comm,
@@ -263,7 +263,7 @@ HERE
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
+    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->session );
 
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
     $this->assert_matches( qr/$comm/, $text, "$web.$topic: $text" );
@@ -282,7 +282,7 @@ HERE
         $refexpr = $commentref;
     }
 
-    if ( $topic eq $this->{test_topic} && $web eq $this->{test_web} ) {
+    if ( $topic eq $this->test_topic && $web eq $this->test_web ) {
         if ( $type eq "top" ) {
             $this->assert_matches( qr/^$comm.*^TopOfTopic/ms, $text );
         }
@@ -318,14 +318,14 @@ sub verify_below {
 
 sub verify_targetTopic {
     my $this = shift;
-    $this->inputTest( "bottom", undef, $this->{target_topic}, undef, undef, 0 );
+    $this->inputTest( "bottom", undef, $this->target_topic, undef, undef, 0 );
 
     return;
 }
 
 sub verify_targetWebTopic {
     my $this = shift;
-    $this->inputTest( "bottom", $this->{target_web}, $this->{target_topic},
+    $this->inputTest( "bottom", $this->target_web, $this->target_topic,
         undef, undef, 0 );
 
     return;
@@ -333,7 +333,7 @@ sub verify_targetWebTopic {
 
 sub verify_targetWebTopicAnchorTop {
     my $this = shift;
-    $this->inputTest( "top", $this->{target_web}, $this->{target_topic},
+    $this->inputTest( "top", $this->target_web, $this->target_topic,
         "TargetAnchor", undef, 0 );
 
     return;
@@ -341,7 +341,7 @@ sub verify_targetWebTopicAnchorTop {
 
 sub verify_targetWebTopicAnchorBottom {
     my $this = shift;
-    $this->inputTest( "bottom", $this->{target_web}, $this->{target_topic},
+    $this->inputTest( "bottom", $this->target_web, $this->target_topic,
         "TargetAnchor", undef, 0 );
 
     return;
@@ -388,70 +388,81 @@ sub verify_redirectto_redirects {
 
     # If requested topic exists, redirect after post
     my $html = Foswiki::Func::expandCommonVariables(
-"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"WebPreferences\"}%"
-    );
+            "%COMMENT{type=\"bottom\" target=\""
+          . $this->test_web
+          . ".ATopic#AAnchor\" redirectto=\"WebPreferences\"}%" );
 
     if ( Foswiki::Func::getContext()->{static} ) {
         $this->assert_matches( qr/Commenting is disabled for static viewing/,
             $html );
     }
     else {
+        my $test_web = $this->test_web;
         $this->assert_matches(
-qr/<input ([^>]*name="redirectto" value="$this->{test_web}.WebPreferences".*?)\s*\/>/,
+qr/<input ([^>]*name="redirectto" value="$test_web.WebPreferences".*?)\s*\/>/,
             $html
         );
     }
 
     # If requested topic missing, return an error to the user.
     $html = Foswiki::Func::expandCommonVariables(
-"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"MissingAnRE\"}%"
-    );
+            "%COMMENT{type=\"bottom\" target=\""
+          . $this->test_web
+          . ".ATopic#AAnchor\" redirectto=\"MissingAnRE\"}%" );
 
     # If requested target web is  missing, return an error to the user.
     $html = Foswiki::Func::expandCommonVariables(
-"%COMMENT{type=\"bottom\" target=\"$this->{test_web}MISSING.ATopic#AAnchor\" }%"
-    );
+            "%COMMENT{type=\"bottom\" target=\""
+          . $this->test_web
+          . "MISSING.ATopic#AAnchor\" }%" );
 
+    my $test_web = $this->test_web;
     $this->assert_matches(
 
-qr/<span class='foswikiAlert'> Target web does not exist: '$this->{test_web}MISSING' <\/span>/,
+qr/<span class='foswikiAlert'> Target web does not exist: '${test_web}MISSING' <\/span>/,
         $html
     );
 
     # Redirect also works if an anchor is specified
     $html = Foswiki::Func::expandCommonVariables(
-"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"WebPreferences#AnchOr\"}%"
-    );
+            "%COMMENT{type=\"bottom\" target=\""
+          . $this->test_web
+          . ".ATopic#AAnchor\" redirectto=\"WebPreferences#AnchOr\"}%" );
 
     $this->assert_matches(
-qr/<input ([^>]*name="redirectto" value="$this->{test_web}.WebPreferences#AnchOr".*?)\s*\/>/,
+qr/<input ([^>]*name="redirectto" value="$test_web.WebPreferences#AnchOr".*?)\s*\/>/,
         $html
     ) unless ( Foswiki::Func::getContext()->{static} );
 
     # Redirect also works if a querystring is specified
     $html = Foswiki::Func::expandCommonVariables(
-"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"WebPreferences?blah=01\"}%"
-    );
+            "%COMMENT{type=\"bottom\" target=\""
+          . $this->test_web
+          . ".ATopic#AAnchor\" redirectto=\"WebPreferences?blah=01\"}%" );
 
     $this->assert_matches(
-qr/<input ([^>]*name="redirectto" value="$this->{test_web}.WebPreferences\?blah=01".*?)\s*\/>/,
+qr/<input ([^>]*name="redirectto" value="$test_web.WebPreferences\?blah=01".*?)\s*\/>/,
         $html
     ) unless ( Foswiki::Func::getContext()->{static} );
 
     # Redirect also works if a querystring and Anchor is specified
     $html = Foswiki::Func::expandCommonVariables(
-"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"WebPreferences?blah=01#AnchOr\"}%"
+            "%COMMENT{type=\"bottom\" target=\""
+          . $this->test_web
+          . ".ATopic#AAnchor\" redirectto=\"WebPreferences?blah=01#AnchOr\"}%"
     );
 
     $this->assert_matches(
-qr/<input ([^>]*name="redirectto" value="$this->{test_web}.WebPreferences\?blah=01#AnchOr".*?)\s*\/>/,
+qr/<input ([^>]*name="redirectto" value="$test_web.WebPreferences\?blah=01#AnchOr".*?)\s*\/>/,
         $html
     ) unless ( Foswiki::Func::getContext()->{static} );
 
     # Redirect with fully qualified web.topic?uri#anchor
     my $systemweb = $Foswiki::cfg{SystemWebName};
     $html = Foswiki::Func::expandCommonVariables(
-"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"%SYSTEMWEB%.WebPreferences?blah=01#AnchOr\"}%"
+            "%COMMENT{type=\"bottom\" target=\""
+          . $this->test_web
+          . ".ATopic#AAnchor\" redirectto=\"%SYSTEMWEB%.WebPreferences?blah=01#AnchOr\"}%"
     );
 
     $this->assert_matches(
@@ -461,11 +472,13 @@ qr/<input ([^>]*name="redirectto" value="$systemweb.WebPreferences\?blah=01#Anch
 
 # Redirect also works if Anchor and querystring reversed.  Not really correct but is seen
     $html = Foswiki::Func::expandCommonVariables(
-"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" redirectto=\"WebPreferences#AnchOr?blah=01\"}%"
+            "%COMMENT{type=\"bottom\" target=\""
+          . $this->test_web
+          . ".ATopic#AAnchor\" redirectto=\"WebPreferences#AnchOr?blah=01\"}%"
     );
 
     $this->assert_matches(
-qr/<input ([^>]*name="redirectto" value="$this->{test_web}.WebPreferences#AnchOr\?blah=01".*?)\s*\/>/,
+qr/<input ([^>]*name="redirectto" value="$test_web.WebPreferences#AnchOr\?blah=01".*?)\s*\/>/,
         $html
     ) unless ( Foswiki::Func::getContext()->{static} );
 
@@ -475,8 +488,9 @@ qr/<input ([^>]*name="redirectto" value="$this->{test_web}.WebPreferences#AnchOr
 sub verify_locationOverridesAnchor {
     my $this = shift;
     my $html = Foswiki::Func::expandCommonVariables(
-"%COMMENT{type=\"bottom\" target=\"$this->{test_web}.ATopic#AAnchor\" location=\"AnRE\"}%"
-    );
+            "%COMMENT{type=\"bottom\" target=\""
+          . $this->test_web
+          . ".ATopic#AAnchor\" location=\"AnRE\"}%" );
 
     if ( Foswiki::Func::getContext()->{static} ) {
         $this->assert_matches( qr/Commenting is disabled for static viewing/,
@@ -498,7 +512,7 @@ before
 %COMMENT{nopost="on"}%
 after
 HERE
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $sample );
     my $html = Foswiki::Func::expandCommonVariables('%COMMENT{nopost="on"}%');
 
@@ -514,12 +528,12 @@ HERE
     # Compose the query
     my $comm  = "This is the comment";
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'comment_action' => 'save',
             'comment_type'   => 'above',
             'comment'        => $comm,
             'comment_nopost' => 'on',
-            'topic'          => "$this->{test_web}.$this->{test_topic}"
+            'topic'          => $this->test_web . "." . $this->test_topic
         }
     );
     $query->path_info("/CommentPlugin/comment");
@@ -527,10 +541,10 @@ HERE
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
+    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->session );
 
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -547,7 +561,7 @@ before
 %COMMENT{remove="on"}%
 after
 HERE
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $sample );
     my $html = Foswiki::Func::expandCommonVariables('%COMMENT{remove="on"}%');
 
@@ -563,13 +577,13 @@ HERE
     # Compose the query
     my $comm  = "This is the comment";
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'comment_action' => 'save',
             'comment_type'   => 'above',
             'comment'        => $comm,
             'comment_remove' => '0',
             'comment_index'  => '99',
-            'topic'          => "$this->{test_web}/$this->{test_topic}",
+            'topic'          => $this->test_web . "/" . $this->test_topic,
         }
     );
     $query->path_info("/CommentPlugin/comment");
@@ -577,10 +591,10 @@ HERE
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
+    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->session );
 
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -603,7 +617,7 @@ before
 %COMMENT{remove="on"}%
 after
 HERE
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $sample );
     my $html =
       Foswiki::Func::expandCommonVariables('%COMMENT{default="wibble"}%');
@@ -627,7 +641,7 @@ before
 %COMMENT{type="above" cols="100" target="%INCLUDINGTOPIC%#LatestComment"}%
 after
 HERE
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $sample );
     my $html = Foswiki::Func::expandCommonVariables('%COMMENT{remove="on"}%');
 
@@ -643,12 +657,12 @@ HERE
     # Compose the query
     my $comm  = "This is the comment";
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'comment_action' => 'save',
             'comment_type'   => 'above',
             'comment'        => $comm,
             'comment_anchor' => '#LatestComment',
-            'topic'          => "$this->{test_web}.$this->{test_topic}",
+            'topic'          => $this->test_web . "." . $this->test_topic,
         }
     );
     $query->path_info("/CommentPlugin/comment");
@@ -656,10 +670,10 @@ HERE
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
+    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->session );
 
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -687,7 +701,7 @@ before
 %COMMENT{type="below" target="%INCLUDINGTOPIC%#LatestComment"}%
 after
 HERE
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $sample );
     my $html = Foswiki::Func::expandCommonVariables('%COMMENT{remove="on"}%');
 
@@ -704,12 +718,12 @@ HERE
     # Compose the query
     my $comm  = "This is the comment";
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'comment_action' => 'save',
             'comment_type'   => 'below',
             'comment'        => $comm,
             'comment_anchor' => '#LatestComment',
-            'topic'          => "$this->{test_web}.$this->{test_topic}",
+            'topic'          => $this->test_web . "." . $this->test_topic,
         }
     );
     $query->path_info("/CommentPlugin/comment");
@@ -717,10 +731,10 @@ HERE
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
+    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->session );
 
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
@@ -744,23 +758,24 @@ sub verify_acl_COMMENT {
 
     $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 0;
 
-    my $sample = <<HERE;
-   * Set DENYTOPICCHANGE = $this->{test_user_wikiname}
-   * Set DENYTOPICVIEW = $this->{test_user_wikiname}
-   * Set ALLOWTOPICCOMMENT = $this->{test_user_wikiname}
+    my $test_user_wikiname = $this->test_user_wikiname;
+    my $sample             = <<HERE;
+   * Set DENYTOPICCHANGE = $test_user_wikiname
+   * Set DENYTOPICVIEW = $test_user_wikiname
+   * Set ALLOWTOPICCOMMENT = $test_user_wikiname
 %COMMENT%
 HERE
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $sample );
 
     # Compose the query
     my $comm  = "This is the comment";
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'comment_action' => 'save',
             'comment_type'   => 'above',
             'comment'        => $comm,
-            topic            => "$this->{test_web}.$this->{test_topic}",
+            topic            => $this->test_web . "." . $this->test_topic,
         }
     );
     $query->path_info("/CommentPlugin/comment");
@@ -770,13 +785,13 @@ HERE
     my ( $responseText, $result, $stdout, $stderr );
 
     # First make sure we can't *change* it
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
 
     # invoke the save handler
     eval {
         ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
             rest => $this->getUIFn('rest'),
-            $this->{session}
+            $this->session
         );
     };
 
@@ -787,30 +802,31 @@ HERE
     # Now make sure we *can* change it, given COMMENT access
     $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'COMMENT';
 
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
 
     # invoke the save handler
     eval {
         ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
             rest => $this->getUIFn('rest'),
-            $this->{session}
+            $this->session
         );
     };
     $this->assert( !$@, $@ );
     $this->assert_matches( qr/Status: 302/, $responseText );
 
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
+    my $users_web = $this->users_web;
     $text =~ s/- \d\d [A-Z][a-z]{2} \d{4}/- DATE/;
     $this->assert_str_equals( <<HERE, $text );
-   * Set DENYTOPICCHANGE = $this->{test_user_wikiname}
-   * Set DENYTOPICVIEW = $this->{test_user_wikiname}
-   * Set ALLOWTOPICCOMMENT = $this->{test_user_wikiname}
+   * Set DENYTOPICCHANGE = $test_user_wikiname
+   * Set DENYTOPICVIEW = $test_user_wikiname
+   * Set ALLOWTOPICCOMMENT = $test_user_wikiname
 
 
 This is the comment
 
--- $this->{users_web}.$this->{test_user_wikiname} - DATE
+-- $users_web.$test_user_wikiname - DATE
 %COMMENT%
 HERE
 }
@@ -821,16 +837,16 @@ sub verify_rest_control_modes {
    * Set DENYTOPICCHANGE = $Foswiki::cfg{DefaultUserWikiName}
 %COMMENT%
 HERE
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $sample );
 
     # other tests have already covered the non-ajax, no endpoint mode
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'comment_action' => 'save',
             'comment_type'   => 'above',
             'comment'        => "Arfle barfle gloop",
-            topic            => "$this->{test_web}.$this->{test_topic}",
+            topic            => $this->test_web . "." . $this->test_topic,
         }
     );
     $query->header( 'X-Requested-With' => 'XMLHttpRequest' );
@@ -840,7 +856,7 @@ HERE
     eval {
         ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
             rest => $this->getUIFn('rest'),
-            $this->{session}
+            $this->session
         );
     };
     $this->assert_matches( qr/Status: 404/, $responseText );
@@ -870,7 +886,7 @@ Post to a different topic and return to here. The comment =target= is set in the
 
 HERE
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'UserCommentsTemplate', undef,
+    Foswiki::Func::saveTopic( $this->test_web, 'UserCommentsTemplate', undef,
         $tmplate );
 
     my $sample = <<"HERE";
@@ -879,12 +895,14 @@ before
 after
 HERE
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $sample );
     my $html = Foswiki::Func::expandCommonVariables($sample);
 
+    my $test_web   = $this->test_web;
+    my $test_topic = $this->test_topic;
     $this->assert_matches(
-qr/<input type="hidden" name="redirectto" value="$this->{test_web}.$this->{test_topic}\?tab=discuss"/,
+qr/<input type="hidden" name="redirectto" value="$test_web.$test_topic\?tab=discuss"/,
         $html
     );
 
@@ -897,13 +915,14 @@ qr/<input type="hidden" name="redirectto" value="$this->{test_web}.$this->{test_
     # Compose the query
     my $comm  = "This is the comment";
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'comment_action' => 'save',
             'comment_type'   => 'returntab',
-            'redirectto' =>
-              "$this->{test_web}.$this->{test_topic}\?tab=discuss",
+            'redirectto'     => $this->test_web . "."
+              . $this->test_topic
+              . "\?tab=discuss",
             'comment' => $comm,
-            'topic'   => "$this->{test_web}.$this->{test_topic}"
+            'topic'   => $this->test_web . "." . $this->test_topic
         }
     );
     $query->path_info("/CommentPlugin/comment");
@@ -914,13 +933,11 @@ qr/<input type="hidden" name="redirectto" value="$this->{test_web}.$this->{test_
     # invoke the save handler
     # $responseText, $result, $stdout, $stderr
     my ( $response, $result, $stdout, $stderr ) =
-      $this->captureWithKey( rest => $this->getUIFn('rest'), $this->{session} );
+      $this->captureWithKey( rest => $this->getUIFn('rest'), $this->session );
 
     $this->assert_matches( qr/^Status: 302/ms, $response );
     $this->assert_matches(
-        qr/^Location:.*\/$this->{test_web}\/$this->{test_topic}\?tab=discuss/ms,
-        $response
-    );
+        qr/^Location:.*\/$test_web\/$test_topic\?tab=discuss/ms, $response );
 
     return;
 }
@@ -930,23 +947,24 @@ sub test_comment_encoding_notguest {
 
     $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 1;
 
-    my $sample = <<HERE;
-   * Set DENYTOPICCHANGE = $this->{test_user_wikiname}
-   * Set DENYTOPICVIEW = $this->{test_user_wikiname}
+    my $test_user_wikiname = $this->test_user_wikiname;
+    my $sample             = <<HERE;
+   * Set DENYTOPICCHANGE = $test_user_wikiname
+   * Set DENYTOPICVIEW = $test_user_wikiname
    * Set ALLOWTOPICCOMMENT = *
 %COMMENT%
 HERE
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $sample );
 
     # Compose the query
     my $comm  = "This is the %TOPIC% comment";
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'comment_action' => 'save',
             'comment_type'   => 'above',
             'comment'        => $comm,
-            topic            => "$this->{test_web}.$this->{test_topic}",
+            topic            => $this->test_web . "." . $this->test_topic,
         }
     );
     $query->path_info("/CommentPlugin/comment");
@@ -958,30 +976,31 @@ HERE
     # Now make sure we *can* change it, given COMMENT access
     $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'COMMENT';
 
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    $this->createNewFoswikiSession( $this->test_user_login, $query );
 
     # invoke the save handler
     eval {
         ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
             rest => $this->getUIFn('rest'),
-            $this->{session}
+            $this->session
         );
     };
     $this->assert( !$@, $@ );
     $this->assert_matches( qr/Status: 302/, $responseText );
 
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
+    my $users_web = $this->users_web;
     $text =~ s/- \d\d [A-Z][a-z]{2} \d{4}/- DATE/;
     $this->assert_str_equals( <<HERE, $text );
-   * Set DENYTOPICCHANGE = $this->{test_user_wikiname}
-   * Set DENYTOPICVIEW = $this->{test_user_wikiname}
+   * Set DENYTOPICCHANGE = $test_user_wikiname
+   * Set DENYTOPICVIEW = $test_user_wikiname
    * Set ALLOWTOPICCOMMENT = *
 
 
 This is the %TOPIC% comment
 
--- $this->{users_web}.$this->{test_user_wikiname} - DATE
+-- $users_web.$test_user_wikiname - DATE
 %COMMENT%
 HERE
 }
@@ -991,23 +1010,24 @@ sub test_comment_encoding_guest {
 
     $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 1;
 
-    my $sample = <<HERE;
-   * Set DENYTOPICCHANGE = $this->{test_user_wikiname}
-   * Set DENYTOPICVIEW = $this->{test_user_wikiname}
+    my $test_user_wikiname = $this->test_user_wikiname;
+    my $sample             = <<HERE;
+   * Set DENYTOPICCHANGE = $test_user_wikiname
+   * Set DENYTOPICVIEW = $test_user_wikiname
    * Set ALLOWTOPICCOMMENT = *
 %COMMENT%
 HERE
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $sample );
 
     # Compose the query
     my $comm  = "This is the %TOPIC% comment";
     my $query = Unit::Request->new(
-        {
+        initializer => {
             'comment_action' => 'save',
             'comment_type'   => 'above',
             'comment'        => $comm,
-            topic            => "$this->{test_web}.$this->{test_topic}",
+            topic            => $this->test_web . "." . $this->test_topic,
         }
     );
     $query->path_info("/CommentPlugin/comment");
@@ -1025,24 +1045,25 @@ HERE
     eval {
         ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
             rest => $this->getUIFn('rest'),
-            $this->{session}
+            $this->session
         );
     };
     $this->assert( !$@, $@ );
     $this->assert_matches( qr/Status: 302/, $responseText );
 
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
+    my $users_web = $this->users_web;
     $text =~ s/- \d\d [A-Z][a-z]{2} \d{4}/- DATE/;
     $this->assert_str_equals( <<HERE, $text );
-   * Set DENYTOPICCHANGE = $this->{test_user_wikiname}
-   * Set DENYTOPICVIEW = $this->{test_user_wikiname}
+   * Set DENYTOPICCHANGE = $test_user_wikiname
+   * Set DENYTOPICVIEW = $test_user_wikiname
    * Set ALLOWTOPICCOMMENT = *
 
 
 This is the &#37;TOPIC&#37; comment
 
--- $this->{users_web}.$Foswiki::cfg{DefaultUserWikiName} - DATE
+-- $users_web.$Foswiki::cfg{DefaultUserWikiName} - DATE
 %COMMENT%
 HERE
 }

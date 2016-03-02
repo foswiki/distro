@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 use Assert;
-use Error ':try';
+use Try::Tiny;
 
 use Foswiki;
 use Foswiki::Plugins;
@@ -232,8 +232,13 @@ sub comment {
     unless ($access) {
 
         # user has no permission to change the topic
-        throw Foswiki::AccessControlException( $mode, $wikiName, $web, $topic,
-            'Comment on topic not permitted' );
+        Foswiki::AccessControlException->throw(
+            mode   => $mode,
+            user   => $wikiName,
+            web    => $web,
+            topic  => $topic,
+            reason => 'Comment on topic not permitted'
+        );
     }
 
     # The type of the comment dictates where in the target topic it
