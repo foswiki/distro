@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456871285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1456877772" format="1.1" version="1"}%
 %META:TOPICPARENT{name="BulkRegister"}%
 %{<verbatim class="tml">
 ===================================================
@@ -24,7 +24,6 @@
 <input type='submit' class='foswikiSubmit' value='Bulk Register these people' />
 <input type='hidden' name='redirectto' value='%TOPIC%' />
 <input type='hidden' name='LogTopic' value='%TOPIC%Log' /><br/>
-Overwrite home topics? <input type='checkbox' class='foswikiInputField' name='OverwriteHomeTopics' />
 </form>
 </div>"
 else="<div class='foswikiAlert'> *Bulk registration is restricted to Administrators.* </div>"}%

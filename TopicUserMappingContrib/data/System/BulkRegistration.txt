@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1456768091" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1456877772" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+ Bulk Registration
 
@@ -27,9 +27,6 @@ Below are the details.
       * Set REGISTERTOPIC = %USERSWEB%.UnprocessedRegistrations
    * Use this to define where to log the bulk registration process. It will be saved to the %USERSWEB% web.
       * Set LOGTOPIC = %REGISTERTOPIC%Log
-   * Set this to 1 to make the bulk registration overwrite any existing user
-     topics. By default, existing user topics are left alone.
-      * Set OVERWRITEHOMETOPICS = 0
 
 ---++ The user table
 
@@ -107,7 +104,6 @@ Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
 <input type="hidden" name="action" value="bulkRegister" /><sticky>&nbsp;</sticky>
 <input type="submit" class="foswikiSubmit" value="Bulk Register these people" />
 <input type="hidden" name="LogTopic" value="%LOGTOPIC%" />
-<input type="hidden" name="OverwriteHomeTopics" value="%OVERWRITEHOMETOPICS%" />
 </form>
 
 ---++ <nop>%REGISTERTOPIC%

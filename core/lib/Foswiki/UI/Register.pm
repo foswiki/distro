@@ -361,9 +361,6 @@ sub bulkRegister {
 
     my $settings = {};
 
-    # This gets set from the value in the BulkRegistrations topic
-    $settings->{doOverwriteTopics} = $query->param('OverwriteHomeTopics') || 0;
-
     unless ( $session->{users}->isAdmin($user) ) {
         throw Foswiki::OopsException(
             'accessdenied',
@@ -473,9 +470,6 @@ sub _registerSingleBulkUser {
     my ( $session, $fieldNames, $row, $settings ) = @_;
     ASSERT($row) if DEBUG;
 
-    my $doOverwriteTopics = defined $settings->{doOverwriteTopics}
-      || throw Error::Simple('No doOverwriteTopics');
-
     my $log = "---++ Registering $row->{WikiName}\n";
 
     #-- Ensure every required field exists
@@ -530,9 +524,7 @@ sub _registerSingleBulkUser {
         $log .=
 "$b1 $row->{WikiName} has been added to the password and user mapping managers\n";
 
-        if ( $settings->{doOverwriteTopics}
-            || !$session->topicExists( $row->{webName}, $row->{WikiName} ) )
-        {
+        if ( !$session->topicExists( $row->{webName}, $row->{WikiName} ) ) {
             $log .= _createUserTopic( $session, $row );
         }
         else {
