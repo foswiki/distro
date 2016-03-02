@@ -16,19 +16,19 @@
 ---------------------------------------------------
 }%%TMPL:DEF{"content"}%
 ---+ %SPACEOUT{"%TOPIC%"}% 
-
+%TEXT%
+---
+_Be sure to remember to save any table changes!_
 %IF{"context isadmin" then="
-<div class='foswikiFormSteps'>
 <form name='bulkRegister' action='%SCRIPTURLPATH{"manage"}%/%TOPIC%' method='post'>
 <input type='hidden' name='action' value='bulkRegister' /><sticky>&nbsp;</sticky>
 <input type='submit' class='foswikiSubmit' value='Bulk Register these people' />
 <input type='hidden' name='redirectto' value='%TOPIC%' />
-<input type='hidden' name='LogTopic' value='%TOPIC%Log' /><br/>
-</form>
-</div>"
+<input type='hidden' name='LogTopic' value='%TOPIC%Log' />
+<input type='hidden' name='templatetopic' value='%USER_TEMPLATE{default=""}%' />
+</form> "
 else="<div class='foswikiAlert'> *Bulk registration is restricted to Administrators.* </div>"}%
 
-%TEXT%
 %INCLUDE{"%TOPIC%Log" warn="off"}%
 
 *Back to:* [[%SYSTEMWEB%.BulkRegistration][Bulk Registration]]

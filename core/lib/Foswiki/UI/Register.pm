@@ -345,6 +345,13 @@ topic = the page with the entries on it.
 
 NB. bulkRegister is invoked from ManageCgiScript. Why? Who knows.
 
+Query parameters applying to all registrations:
+   * =LogTopic=: Name of the topic that is created / replaced with the results.
+   * =redirectto=: Topic displayed after registration is complete.  (Defaults to !LogTopic).
+   * =templatetopic=: Default New user topic template name, defaults to NewUserTemplate.  This topic name must exist either in %USERSWEB% or %SYSTEMWEB%
+
+Note that the templatetopic can be set per user, but because the template topic is likely to have different fields
+in it's respective form definition, and would require different table columns.
 =cut
 
 sub bulkRegister {
@@ -375,6 +382,11 @@ sub bulkRegister {
     # Validate
     Foswiki::UI::checkValidationKey($session);
 
+    my $templateTopic = $query->param('templatetopic');
+    if ($templateTopic) {
+        $templateTopic = _validateTemplateTopic( $session, $templateTopic );
+    }
+
     #-- Read the topic containing the table of people to be registered
     my $meta = Foswiki::Meta->load( $session, $web, $topic );
 
@@ -388,6 +400,8 @@ sub bulkRegister {
             if ($gotHdr) {
                 my $i = 0;
                 my %row = map { $fields[ $i++ ] => $_ } split( /\s*\|\s*/, $1 );
+                $row{templatetopic} = $templateTopic
+                  unless ( $row{templatetopic} );
                 push( @data, \%row );
             }
             else {
@@ -421,7 +435,7 @@ sub bulkRegister {
 
   # If password column is empty, just delete them to avoid errors in validation.
   # Passwords are generally sent as a bulk reset after registration.
-        unless ( length( $row->{Password} ) > 0 ) {
+        unless ( defined $row->{Password} && length( $row->{Password} ) > 0 ) {
             delete $row->{Password};
             delete $row->{Confirm};
         }
@@ -1368,6 +1382,9 @@ sub _createUserTopic {
 # This is safe because the $template name is fully validated in _validateRegistration()
     ($template) = $template =~ m/^(.*)$/;
 
+    ( $fromWeb, $template ) =
+      Foswiki::Func::normalizeWebTopicName( $fromWeb, $template );
+
     if ( !$session->topicExists( $fromWeb, $template ) ) {
 
         # Use the default version
@@ -1847,43 +1864,10 @@ sub _validateRegistration {
     }
 
     if ( $data->{templatetopic} ) {
-        $data->{templatetopic} = Foswiki::Sandbox::untaint(
-            $data->{templatetopic},
-            sub {
-                my $template = shift;
-                return $template if Foswiki::isValidTopicName($template);
-                $session->logger->log( 'warning',
-                    'Registration rejected: invalid templatetopic requested: '
-                      . $data->{templatetopic} );
-                throw Foswiki::OopsException(
-                    'register',
-                    web   => $data->{webName},
-                    topic => $session->{topicName},
-                    def   => 'bad_templatetopic',
-                );
-            }
-        );
-        if (
-            !$session->topicExists( $Foswiki::cfg{UsersWebName},
-                $data->{templatetopic} )
-            && !$session->topicExists(
-                $Foswiki::cfg{SystemWebName},
-                $data->{templatetopic}
-            )
-          )
-        {
-            $session->logger->log( 'warning',
-'Registration rejected: requested templatetopic does not exist: '
-                  . $data->{templatetopic} );
-            throw Foswiki::OopsException(
-                'register',
-                uweb  => $Foswiki::cfg{UsersWebName},
-                tmpl  => $data->{templatetopic},
-                web   => $data->{webName},
-                topic => $session->{topicName},
-                def   => 'bad_templatetopic',
-            );
-        }
+
+        # Validate and untaint
+        $data->{templatetopic} =
+          _validateTemplateTopic( $session, $data->{templatetopic} );
     }
 
     if ($requireForm) {
@@ -1945,6 +1929,67 @@ sub _validateRegistration {
         );
 
     };
+}
+
+sub _validateTemplateTopic {
+    my $session = shift;
+
+    my ( $templateWeb, $templateTopic ) =
+      Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UserWebName},
+        $_[0] || 'NewUserTemplate' );
+
+    $templateTopic = Foswiki::Sandbox::untaint(
+        $templateTopic,
+        sub {
+            my $template = shift;
+            return $template if Foswiki::isValidTopicName($template);
+            $session->logger->log( 'warning',
+                'Registration rejected: invalid templatetopic requested: '
+                  . $template );
+            throw Foswiki::OopsException(
+                'register',
+                web   => $session->{webName},
+                topic => $session->{topicName},
+                def   => 'bad_templatetopic',
+            );
+        }
+    );
+
+    $templateWeb = Foswiki::Sandbox::untaint(
+        $templateWeb,
+        sub {
+            my $web = shift;
+            return $web if Foswiki::isValidWebName($web);
+            $session->logger->log( 'warning',
+'Registration rejected: invalid templatetopic webname requested: '
+                  . $web );
+            throw Foswiki::OopsException(
+                'register',
+                web   => $session->{webName},
+                topic => $session->{topicName},
+                def   => 'bad_templatetopic',
+            );
+        }
+    );
+
+    if ( !$session->topicExists( $templateWeb, $templateTopic )
+        && !$session->topicExists( $Foswiki::cfg{SystemWebName},
+            $templateTopic ) )
+    {
+        $session->logger->log( 'warning',
+            'Registration rejected: requested templatetopic does not exist: '
+              . $templateWeb . "."
+              . $templateTopic );
+        throw Foswiki::OopsException(
+            'register',
+            uweb  => $Foswiki::cfg{UsersWebName},
+            tmpl  => $templateTopic,
+            web   => $session->{webName},
+            topic => $session->{topicName},
+            def   => 'bad_templatetopic',
+        );
+    }
+    return "$templateWeb.$templateTopic";
 }
 
 # sends $p->{template} to $p->{Email} with substitutions from $data
