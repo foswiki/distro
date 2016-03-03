@@ -78,9 +78,10 @@ has uploads => (
     is      => 'rw',
     lazy    => 1,
     default => sub { {} },
+    clearer => 1,
     isa     => Foswiki::Object::isaHASH( 'uploads', noUndef => 1 ),
 );
-has param_list => ( is => 'rw', lazy => 1, default => sub { [] }, );
+has param_list => ( is => 'rw', lazy => 1, default => sub { return []; }, );
 has method => ( is => 'rw', );
 has remote_user => ( is => 'rw', );
 has server_port => ( is => 'rw', );

@@ -24,7 +24,7 @@ If your code needs to abort processing and inform the user (or the higher level 
 that some operation was denied, throw an =AccessControlException=.
 
 <verbatim>
-    use Error qw(:try);
+    use Try::Tiny;
     use Foswiki::AccessControlException;
     ...
     unless (

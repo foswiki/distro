@@ -1446,7 +1446,7 @@ in =ThatWeb.ThisTopic=, then a call to =checkAccessPermission('SPIN', 'IncyWincy
 *Example code:*
 
 <verbatim>
-    use Error qw(:try);
+    use Try::Tiny;
     use Foswiki::AccessControlException;
     ...
     unless (
@@ -1790,7 +1790,7 @@ read to be successful.  Access control violations are flagged by a
 Foswiki::AccessControlException. Permissions are checked for the current user.
 
 <verbatim>
-use Error qw(:try);
+use Try::Tiny;
 use Foswiki::AccessControlException ();
 
 my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
@@ -1865,7 +1865,7 @@ sub readAttachment {
 the web preferences topic in the new web.
 
 <verbatim>
-use Error qw( :try );
+use Try::Tiny;
 use Foswiki::AccessControlException ();
 
 try {
@@ -1935,7 +1935,7 @@ sub createWeb {
 Move (rename) a web.
 
 <verbatim>
-use Error qw( :try );
+use Try::Tiny;
 use Foswiki::AccessControlException ();
 
 try {
@@ -2074,7 +2074,7 @@ sub setTopicEditLock {
      | =ignorepermissions= | don't check acls |
 For example,
 <verbatim>
-use Error qw( :try );
+use Try::Tiny;
 use Foswiki::AccessControlException ();
 
 my( $meta, $text );
@@ -2154,7 +2154,7 @@ The destination topic must not already exist.
 Rename a topic to the $Foswiki::cfg{TrashWebName} to delete it.
 
 <verbatim>
-use Error qw( :try );
+use Try::Tiny;
 
 try {
     moveTopic( "Work", "TokyoOffice", "Trash", "ClosedOffice" );
@@ -2293,7 +2293,7 @@ The destination topic must already exist, but the destination attachment must
 Rename an attachment to $Foswiki::cfg{TrashWebName}.TrashAttament to delete it.
 
 <verbatim>
-use Error qw( :try );
+use Try::Tiny;
 
 try {
    # move attachment between topics
@@ -2384,7 +2384,7 @@ The destination topic must already exist, but the destination attachment must
 *not* exist.
 
 <verbatim>
-use Error qw( :try );
+use Try::Tiny;
 
 try {
    # copy attachment between topics
@@ -3494,7 +3494,7 @@ Return: =$url=                     URL, e.g. ="http://example.com:80/cgi-bin/oop
 
 *Deprecated* 28 Nov 2008, the recommended approach is to throw an oops exception.
 <verbatim>
-   use Error qw( :try );
+   use Try::Tiny;
 
    Foswiki::OopsException->throw(
       'toestuckerror',

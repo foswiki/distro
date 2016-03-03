@@ -23,7 +23,10 @@ use Moo;
 use namespace::clean;
 extends qw(Foswiki::Engine);
 
-has path_info => ( is => 'rw', );
+has path_info => ( is => 'rw', predicate => 1, );
+has user => ( is => 'rw', );
+has plist  => ( is => 'rw', lazy => 1, clearer => 1, default => sub { [] }, );
+has params => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -115,13 +118,13 @@ sub prepareUploads {
 
     #SMELL: CLI and CGI appear to support multiple uploads
     # but Foswiki::UI::Upload only processes a single upload.
-    foreach my $fname ( @{ $req->param->{filepath} } ) {
+    foreach my $fname ( @{ $req->_param->{filepath} } ) {
         $uploads{$fname} = Foswiki::Request::Upload->new(
             headers => {},
             tmpname => $fname
         );
     }
-    $this->clear_uploads;
+    $req->clear_uploads;
     $req->uploads( \%uploads );
 }
 

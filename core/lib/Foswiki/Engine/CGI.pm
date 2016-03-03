@@ -82,58 +82,59 @@ has cgi => (
     clearer => 1,
     isa     => Foswiki::Object::isaCLASS( 'cgi', 'CGI' ),
 );
+has uploads => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
 
 sub run {
-    my $this      = shift;
-    my $req       = $this->prepare;
-    my $requestor = $req->http('x-requested-with') || '';
-    unless (
-           $Foswiki::cfg{isVALID}
-        || $Foswiki::cfg{isBOOTSTRAPPING}
-        || $requestor eq 'XMLHttpRequest'
+    my $this = shift;
+    try {
+        my $req = $this->prepare;
+        my $requestor = $req->http('x-requested-with') || '';
+        unless (
+               $Foswiki::cfg{isVALID}
+            || $Foswiki::cfg{isBOOTSTRAPPING}
+            || $requestor eq 'XMLHttpRequest'
 
-        # Configure uses FoswikiReflectionRequest to query values
-        # before LSC is ready
-        || $requestor eq 'FoswikiReflectionRequest'
-      )
-    {
-        print STDOUT "Content-type: text/html\n\n";
-        print STDOUT '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"'
-          . "\n    "
-          . '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . "\n";
-        print STDOUT
+            # Configure uses FoswikiReflectionRequest to query values
+            # before LSC is ready
+            || $requestor eq 'FoswikiReflectionRequest'
+          )
+        {
+            print STDOUT "Content-type: text/html\n\n";
+            print STDOUT
+              '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"'
+              . "\n    "
+              . '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . "\n";
+            print STDOUT
 "<html><head></head><body><h1>Foswiki Configuration Error</h1><br>Please run <code>configure</code> to create a valid configuration<br />\n";
-        print STDOUT
+            print STDOUT
 "If you've already done this, then your <code>lib/LocalSite.cfg</code> is most likely damaged\n</body></html>";
-        exit 1;
-    }
-    if ( UNIVERSAL::isa( $req, 'Foswiki::Request' ) ) {
-        try {
+            exit 1;
+        }
+        if ( UNIVERSAL::isa( $req, 'Foswiki::Request' ) ) {
             my $res = Foswiki::UI::handleRequest($req);
             $this->finalize( $res, $req );
         }
-        catch {
+    }
+    catch {
 # Whatever error we get here – we generate valid HTTP response. At least we try...
 # This is the last frontier of error handling.
 # SMELL XXX Test code.
 
-            # SMELL This block is to be reconsidered.
-            if ( !ref($_) ) {
-                say STDERR "CGI::catch simple text: $_";
-                CGI::Carp::confess($_);
-            }
-            elsif ( $_->isa('Error') || $_->isa('Error::Simple') ) {
-                say STDERR "CGI::catch Error derivative: $_->{-text}";
-                CGI::Carp::confess( $_->{-text} );
-            }
-            else {
-                say STDERR "CGI::catch Foswiki::Exception derivative: ",
-                  $_->text;
-                CGI::Carp::confess( $_->text );
-            }
+        # SMELL This block is to be reconsidered.
+        if ( !ref($_) ) {
+            say STDERR "CGI::catch simple text: $_";
+            CGI::Carp::confess($_);
+        }
+        elsif ( $_->isa('Error') || $_->isa('Error::Simple') ) {
+            say STDERR "CGI::catch Error derivative: $_->{-text}";
+            CGI::Carp::confess( $_->{-text} );
+        }
+        else {
+            say STDERR "CGI::catch Foswiki::Exception derivative: ", $_->text;
+            CGI::Carp::confess( $_->text );
+        }
 
-        };
-    }
+    };
 }
 
 sub prepareConnection {

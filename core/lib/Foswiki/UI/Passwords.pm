@@ -13,7 +13,7 @@ package Foswiki::UI::Passwords;
 use strict;
 use warnings;
 use Assert;
-use Error qw( :try );
+use Try::Tiny;
 
 use Foswiki                ();
 use Foswiki::OopsException ();
@@ -45,17 +45,20 @@ sub resetPassword {
     unless ( $Foswiki::cfg{EnableEmail} ) {
         my $err = $session->i18n->maketext(
             'Email has been disabled for this Foswiki installation');
-        throw Foswiki::OopsException(
-            'register',
-            topic  => $Foswiki::cfg{HomeTopicName},
-            def    => 'reset_bad',
-            params => [$err]
+        Foswiki::OopsException->throw(
+            template => 'register',
+            topic    => $Foswiki::cfg{HomeTopicName},
+            def      => 'reset_bad',
+            params   => [$err]
         );
     }
 
     my @userNames = $query->multi_param('LoginName');
     unless (@userNames) {
-        throw Foswiki::OopsException( 'register', def => 'no_users_to_reset' );
+        Foswiki::OopsException->throw(
+            template => 'register',
+            def      => 'no_users_to_reset'
+        );
     }
     my $introduction = $query->param('Introduction') || '';
 
@@ -68,12 +71,12 @@ sub resetPassword {
         # another user's password.
         unless ( $session->{users}->isAdmin($user) ) {
             throw Foswiki::OopsException(
-                'accessdenied',
-                status => 403,
-                def    => 'only_group',
-                web    => $web,
-                topic  => $topic,
-                params => [ $Foswiki::cfg{SuperAdminGroup} ]
+                template => 'accessdenied',
+                status   => 403,
+                def      => 'only_group',
+                web      => $web,
+                topic    => $topic,
+                params   => [ $Foswiki::cfg{SuperAdminGroup} ]
             );
         }
     }
@@ -109,19 +112,19 @@ sub resetPassword {
         }
 
         throw Foswiki::OopsException(
-            'register',
-            status => 200,
-            topic  => $Foswiki::cfg{HomeTopicName},
-            def    => 'reset_ok',
-            params => [$message]
+            template => 'register',
+            status   => 200,
+            topic    => $Foswiki::cfg{HomeTopicName},
+            def      => 'reset_ok',
+            params   => [$message]
         );
     }
     else {
         throw Foswiki::OopsException(
-            'register',
-            topic  => $Foswiki::cfg{HomeTopicName},
-            def    => 'reset_bad',
-            params => [$message]
+            template => 'register',
+            topic    => $Foswiki::cfg{HomeTopicName},
+            def      => 'reset_bad',
+            params   => [$message]
         );
     }
 }
@@ -256,11 +259,11 @@ sub changePasswordAndOrEmail {
     # check if required fields are filled in
     unless ($login) {
         throw Foswiki::OopsException(
-            'attention',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'missing_fields',
-            params => ['username']
+            template => 'attention',
+            web      => $webName,
+            topic    => $topic,
+            def      => 'missing_fields',
+            params   => ['username']
         );
     }
 
@@ -268,11 +271,11 @@ sub changePasswordAndOrEmail {
 
     unless ($login) {
         throw Foswiki::OopsException(
-            'register',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'not_a_user',
-            params => [$login]
+            template => 'register',
+            web      => $webName,
+            topic    => $topic,
+            def      => 'not_a_user',
+            params   => [$login]
         );
     }
 
@@ -280,21 +283,21 @@ sub changePasswordAndOrEmail {
     if ( defined $passwordA || defined $passwordB ) {
         unless ( defined $passwordA ) {
             throw Foswiki::OopsException(
-                'attention',
-                web    => $webName,
-                topic  => $topic,
-                def    => 'missing_fields',
-                params => ['password']
+                template => 'attention',
+                web      => $webName,
+                topic    => $topic,
+                def      => 'missing_fields',
+                params   => ['password']
             );
         }
 
         # check if passwords are identical
         if ( $passwordA ne $passwordB ) {
             throw Foswiki::OopsException(
-                'register',
-                web   => $webName,
-                topic => $topic,
-                def   => 'password_mismatch'
+                template => 'register',
+                web      => $webName,
+                topic    => $topic,
+                def      => 'password_mismatch'
             );
         }
         $changePass = 1;
@@ -303,11 +306,11 @@ sub changePasswordAndOrEmail {
     # check if required fields are filled in
     unless ( defined $oldpassword || $users->isAdmin($requestUser) ) {
         throw Foswiki::OopsException(
-            'attention',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'missing_fields',
-            params => ['oldpassword']
+            template => 'attention',
+            web      => $webName,
+            topic    => $topic,
+            def      => 'missing_fields',
+            params   => ['oldpassword']
         );
     }
 
@@ -315,10 +318,10 @@ sub changePasswordAndOrEmail {
         || $users->checkPassword( $login, $oldpassword ) )
     {
         throw Foswiki::OopsException(
-            'register',
-            web   => $webName,
-            topic => $topic,
-            def   => 'wrong_password'
+            template => 'register',
+            web      => $webName,
+            topic    => $topic,
+            def      => 'wrong_password'
         );
     }
 
@@ -327,11 +330,11 @@ sub changePasswordAndOrEmail {
     # Determine that the cUID exists.
     unless ( defined $cUID ) {
         throw Foswiki::OopsException(
-            'register',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'not_a_user',
-            params => [$login]
+            template => 'register',
+            web      => $webName,
+            topic    => $topic,
+            def      => 'not_a_user',
+            params   => [$login]
         );
     }
 
@@ -340,11 +343,11 @@ sub changePasswordAndOrEmail {
         && $email !~ /($Foswiki::regex{emailAddrRegex}\s*)+/ )
     {
         throw Foswiki::OopsException(
-            'register',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'bad_email',
-            params => [$email]
+            template => 'register',
+            web      => $webName,
+            topic    => $topic,
+            def      => 'bad_email',
+            params   => [$email]
         );
     }
 
@@ -352,11 +355,11 @@ sub changePasswordAndOrEmail {
         && length($passwordA) < $Foswiki::cfg{MinPasswordLength} )
     {
         throw Foswiki::OopsException(
-            'register',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'bad_password',
-            params => [ $Foswiki::cfg{MinPasswordLength} ]
+            template => 'register',
+            web      => $webName,
+            topic    => $topic,
+            def      => 'bad_password',
+            params   => [ $Foswiki::cfg{MinPasswordLength} ]
         );
     }
 
@@ -382,10 +385,10 @@ sub changePasswordAndOrEmail {
 
         unless ( $users->setPassword( $cUID, $passwordA, $oldpassword ) ) {
             throw Foswiki::OopsException(
-                'register',
-                web   => $webName,
-                topic => $topic,
-                def   => 'password_not_changed'
+                template => 'register',
+                web      => $webName,
+                topic    => $topic,
+                def      => 'password_not_changed'
             );
         }
         else {
@@ -400,22 +403,22 @@ sub changePasswordAndOrEmail {
 
         # OK - password changed
         throw Foswiki::OopsException(
-            'register',
-            status => 200,
-            web    => $webName,
-            topic  => $topic,
-            def    => 'password_changed'
+            template => 'register',
+            status   => 200,
+            web      => $webName,
+            topic    => $topic,
+            def      => 'password_changed'
         );
     }
 
     # must be just email
     throw Foswiki::OopsException(
-        'register',
-        status => 200,
-        web    => $webName,
-        topic  => $topic,
-        def    => 'email_changed',
-        params => [ $email, Foswiki::Func::getWikiUserName($login) ]
+        template => 'register',
+        status   => 200,
+        web      => $webName,
+        topic    => $topic,
+        def      => 'email_changed',
+        params   => [ $email, Foswiki::Func::getWikiUserName($login) ]
     );
 }
 

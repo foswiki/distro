@@ -29,13 +29,15 @@ our @ISA;
 my ( $request, $response );
 
 BEGIN {
+    use Moo;
     if ( $ENV{GATEWAY_INTERFACE} ) {
-        require Foswiki::Engine::CGI;
-        @ISA = qw(Foswiki::Engine::CGI);
+
+        #require Foswiki::Engine::CGI;
+        extends qw(Foswiki::Engine::CGI);
     }
     else {
-        require Foswiki::Engine::CLI;
-        @ISA = qw(Foswiki::Engine::CLI);
+        #require Foswiki::Engine::CLI;
+        extends qw(Foswiki::Engine::CLI);
     }
     no warnings 'redefine';
     require Foswiki::Request;
@@ -61,12 +63,17 @@ BEGIN {
     require Foswiki::EngineException;
 }
 
-sub new {
+sub BUILD {
     my $this = shift;
-    $this = $this->SUPER::new(@_);
-    $this->prepare();
-    return $this;
+    $this->prepare;
 }
+
+#sub new {
+#    my $this = shift;
+#    $this = $this->SUPER::new(@_);
+#    $this->prepare();
+#    return $this;
+#}
 
 END {
     $Foswiki::engine->finalize( $response, $request )
