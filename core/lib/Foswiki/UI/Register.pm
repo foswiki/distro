@@ -416,19 +416,23 @@ sub bulkRegister {
         }
     }
 
-    my $log = "---+ Report for Bulk Register\n";
+    my $log = "---+ Report for Bulk Register\n%TOC%\n";
 
     # TODO: should check that the header row actually contains the
     # required fields.
     # TODO: and consider using MAKETEXT to enable translated tables.
 
-    #-- Process each row, generate a log as we go
+    my $genReset;    # Flag set if any rows don't have a password
+                     #-- Process each row, generate a log as we go
     for ( my $n = 0 ; $n < scalar(@data) ; $n++ ) {
         my $row = $data[$n];
 
+        $row->{errors}  = '';
         $row->{webName} = $userweb;
 
         unless ( $row->{WikiName} ) {
+            $row->{errors} .= " Not registered: WikiName not entered.";
+            $row->{FAIL} = 1;
             $log .= "---++ Failed to register user on row $n: no !WikiName\n";
             next;
         }
@@ -451,9 +455,34 @@ sub bulkRegister {
         #$row->{LoginName} = $row->{WikiName} unless $row->{LoginName};
 
         $log .= _registerSingleBulkUser( $session, \@fields, $row, $settings );
+        $genReset = 1 unless ( $row->{Password} || $row->{FAIL} );
     }
 
-    $log .= "----\n";
+    my $tmpl = $session->templates->readTemplate('registermessages');
+    $log .= $session->templates->expandTemplate('bulkreg_summary');
+
+    # If no passwords require reset, then don't generate the reset form.
+    if ($genReset) {
+        $log .= $session->templates->expandTemplate('bulkreg_pwreset_form');
+    }
+
+    $log .= $session->templates->expandTemplate('bulkreg_summary_head');
+
+    my $rowtmpl = $session->templates->expandTemplate('bulkreg_summary_row');
+
+    foreach my $row (@data) {
+        my $ifield = $rowtmpl;
+        my $icon =
+          ( $row->{FAIL} ? '%X%' : ( $row->{WARN} ? '%ICON{alert}%' : '%Y%' ) );
+        my $state =
+          ( $row->{FAIL} ) ? 'disabled' : ( $row->{Password} ) ? '' : 'checked';
+        $ifield =~ s/\$state/$state/;
+        $ifield =~ s/\$flag/$icon/;
+        $ifield =~ s/\$wikiname/$row->{WikiName}/g;
+        $ifield =~ s/\$errors/$row->{errors}/;
+        $log .= $ifield;
+    }
+    $log .= $session->templates->expandTemplate('bulkreg_summary_foot');
 
     my $logWeb;
     my $logTopic = Foswiki::Sandbox::untaint(
@@ -489,6 +518,9 @@ sub _registerSingleBulkUser {
     #-- Ensure every required field exists
     # NB. LoginName is OPTIONAL
     if ( _missingElements( $fieldNames, \@requiredFields ) ) {
+        $row->{errors} .= " Rejected: missing fields: "
+          . join( ' ', map { $_ . ' : ' . $row->{$_} } @$fieldNames );
+        $row->{FAIL} = 1;
         $log .=
             $b1
           . join( ' ', map { $_ . ' : ' . $row->{$_} } @$fieldNames )
@@ -511,6 +543,8 @@ sub _registerSingleBulkUser {
     }
     catch Foswiki::OopsException with {
         my $e = shift;
+        $row->{errors} .= "Validation failed: " . $e->{def};
+        $row->{FAIL} = 1;
         $log .= '<blockquote>' . $e->stringify($session) . "</blockquote>\n";
         $tryError = "$b1 Registration failed\n";
     };
@@ -543,6 +577,8 @@ sub _registerSingleBulkUser {
         }
         else {
             $log .= "$b1 Not writing user topic $row->{WikiName}\n";
+            $row->{errors} .= " User topic not written!";
+            $row->{WARN} = 1;
         }
         $users->setEmails( $cUID, $row->{Email} );
 
@@ -562,6 +598,8 @@ sub _registerSingleBulkUser {
     }
     catch Error with {
         my $e = shift;
+        $row->{errors} = " Failed to create user topic! " . $e->{def};
+        $row->{FAIL}   = 1;
         $log .= "$b1 Failed to add user: " . $e->stringify() . "\n";
     };
 
@@ -579,6 +617,8 @@ sub _registerSingleBulkUser {
 "Registration: Failure adding $cUID to $groupName in BulkRegister"
                 );
                 $log .= "   * Failed to add $cUID to $groupName: $err\n";
+                $row->{errors} .= " Failed to add $cUID to $groupName: $err";
+                $row->{WARN} = 1;
             };
         }
 

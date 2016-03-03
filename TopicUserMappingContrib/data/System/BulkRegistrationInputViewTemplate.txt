@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456877772" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1456982088" format="1.1" version="1"}%
 %META:TOPICPARENT{name="BulkRegister"}%
 %{<verbatim class="tml">
 ===================================================
@@ -29,18 +29,10 @@ _Be sure to remember to save any table changes!_
 </form> "
 else="<div class='foswikiAlert'> *Bulk registration is restricted to Administrators.* </div>"}%
 
-%INCLUDE{"%TOPIC%Log" warn="off"}%
+%IF{"'%WEB%.%TOPIC%'/info.date < '%WEB%.%TOPIC%Log'/info.date" then="$percntINCLUDE{\"%TOPIC%Log\" warn=\"off\"}$percnt"}%
 
 *Back to:* [[%SYSTEMWEB%.BulkRegistration][Bulk Registration]]
 ----
 *Related Topics:* %FORMFIELD{"RelatedTopics"}%%TMPL:END%%{
----------------------------------------------------
-    Re-define the form DEFinition to be empty; the contents of the from data
-    have already been displayed above so it wouldn't make much sense to show all
-    that again at the bottom of each [[FAQForm]] topic
----------------------------------------------------
-}%%TMPL:DEF{"form"}%%TMPL:END%%{
 ===================================================
 </verbatim>}%
-
-%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="SkinTemplateView"}%
