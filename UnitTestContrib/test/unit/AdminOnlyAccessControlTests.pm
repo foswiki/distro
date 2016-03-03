@@ -101,7 +101,6 @@ sub DENIED {
         "$user $mode $web.$topic" );
 
     if ($post11) {
-        require Foswiki::Address;
         $this->assert(
             !$this->{session}->access->haveAccess( $mode, $user, $topicObject ),
             "$user $mode $web.$topic"
@@ -109,16 +108,6 @@ sub DENIED {
         $this->assert(
             !$this->{session}->access->haveAccess(
                 $mode, $user, $topicObject->web, $topicObject->topic
-            ),
-            "$user $mode $web.$topic"
-        );
-        $this->assert(
-            !$this->{session}->access->haveAccess(
-                $mode, $user,
-                Foswiki::Address->new(
-                    web   => $topicObject->web,
-                    topic => $topicObject->topic
-                )
             ),
             "$user $mode $web.$topic"
         );
@@ -137,7 +126,6 @@ sub PERMITTED {
         "$user $mode $web.$topic" );
 
     if ($post11) {
-        require Foswiki::Address;
         $this->assert(
             $this->{session}->access->haveAccess( $mode, $user, $topicObject ),
             "$user $mode $web.$topic"
@@ -145,16 +133,6 @@ sub PERMITTED {
         $this->assert(
             $this->{session}->access->haveAccess(
                 $mode, $user, $topicObject->web, $topicObject->topic
-            ),
-            "$user $mode $web.$topic"
-        );
-        $this->assert(
-            $this->{session}->access->haveAccess(
-                $mode, $user,
-                Foswiki::Address->new(
-                    web   => $topicObject->web,
-                    topic => $topicObject->topic
-                )
             ),
             "$user $mode $web.$topic"
         );

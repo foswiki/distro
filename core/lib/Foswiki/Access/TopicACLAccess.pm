@@ -18,10 +18,9 @@ use constant MONITOR => 0;
 use strict;
 use Assert;
 
-use Foswiki          ();
-use Foswiki::Address ();
-use Foswiki::Meta    ();
-use Foswiki::Users   ();
+use Foswiki        ();
+use Foswiki::Meta  ();
+use Foswiki::Users ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -42,7 +41,6 @@ sub new {
 
 ---++ ObjectMethod haveAccess($mode, $User, $web, $topic, $attachment) -> $boolean
 ---++ ObjectMethod haveAccess($mode, $User, $meta) -> $boolean
----++ ObjectMethod haveAccess($mode, $User, $address) -> $boolean
 
    * =$mode=  - 'VIEW', 'CHANGE', 'CREATE', etc. (defaults to VIEW)
    * =$cUID=    - Canonical user id (defaults to current user)
@@ -74,13 +72,7 @@ sub haveAccess {
           ;    #attachment ACL not currently supported in traditional topic ACL
     }
     else {
-        if ( ref($param1) eq 'Foswiki::Address' ) {
-            $meta =
-              Foswiki::Meta->load( $session, $param1->web(), $param1->topic() );
-        }
-        else {
-            $meta = $param1;
-        }
+        $meta = $param1;
     }
     ASSERT( $meta->isa('Foswiki::Meta') ) if DEBUG;
 

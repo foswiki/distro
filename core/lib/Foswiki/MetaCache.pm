@@ -103,7 +103,7 @@ sub finish {
 
 ---++ ObjectMethod hasCached($webtopic) -> boolean
 
-returns true if the topic is already int he cache.
+returns true if the topic is already in the cache.
 
 =cut
 
