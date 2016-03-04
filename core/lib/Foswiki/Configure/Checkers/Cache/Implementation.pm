@@ -9,6 +9,12 @@ our @ISA = ('Foswiki::Configure::Checker');
 
 use Foswiki::Configure::Dependency;
 
+my %modmap = (
+    'DBI::MySQL'      => 'DBD::mysql',
+    'DBI::PostgreSQL' => 'DBD::Pg',
+    'DBI::SQLite'     => 'DBD::SQLite',
+);
+
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
@@ -18,11 +24,18 @@ sub check_current_value {
     my ($module) = $implementation =~ m/Foswiki::PageCache::(.*)/;
 
     return if ( !$module || ( $module eq 'DBI::Generic' ) );
+    my $moddep = $modmap{$module};
 
-    $module =~ s/^DBI::/DBD::/;
+    unless ($moddep) {
+        $moddep = $module;
+        $moddep =~ s/^DBI::/DBD::/;
+        $reporter->WARN(
+"Unknown dependency required for =$implementation=.  Trying =$moddep="
+        );
+    }
 
     my %mod = (
-        name           => $module,
+        name           => $moddep,
         usage          => "Required to use $implementation.",
         minimumVersion => 0
     );
@@ -39,7 +52,7 @@ sub check_current_value {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2013-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

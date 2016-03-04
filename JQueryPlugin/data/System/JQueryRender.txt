@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1437500521" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -160,4 +160,4 @@ and return the rendered template.
 | ={{<nop>!-- ... --}}= | comments to templates, or commenting out sections of a template | ={{!-- this is a comment --}}= |
 
 
-%META:FILEATTACHMENT{name="logo-jsr.png" attr="h" comment="" date="1437500521" size="1241" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo-jsr.png" attr="h" comment="" date="1456220586" size="1241" user="ProjectContributor" version="1"}%

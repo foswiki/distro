@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1437500521" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1456220586" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"masonry"
@@ -10,19 +10,14 @@
 }%
 
 %STARTSECTION{"summary"}%
-Masonry is a layout plugin for jQuery. Think of it as the flip side of CSS
-floats. Whereas floating arranges elements horizontally then vertically,
-Masonry arranges elements vertically then horizontally according to a grid. The
-result minimizes vertical gaps between elements of varying height, just like a
-mason fitting stones in a wall.
+Masonry is a <nop>JavaScript grid layout library. It works by placing elements in optimal 
+position based on available vertical space, sort of like a mason fitting stones in a wall. 
+You’ve probably seen it in use all over the Internet.
 %ENDSECTION{"summary"}%
 
 ---++ Screenshot
 
 <img src="%ATTACHURL%/jQuery-Masonry.jpg" alt="jQuery-Masonry.jpg" width="547" height="351" />
-
-See the [[http://emberapp.com/desandro/collections/jquery-masonry][jQuery Masonry Collection on Ember]] for more screenshots
-of jQuery masonry in the wild.
 
 ---++ Usage
 
@@ -30,7 +25,7 @@ of jQuery masonry in the wild.
 
 Configuring Masonry is fairly easy. Simply attach the =.masonry()= method 
 to the wrapping container element in your jQuery script. Depending on the layout,
- you&#8217;ll most likely need to specify one option.
+you&#8217;ll most likely need to specify one option.
 
 For layouts with elements that span multiple widths:
 
@@ -38,101 +33,59 @@ For layouts with elements that span multiple widths:
 $('#wrapper').masonry({ columnWidth: 200 });
 </verbatim>
 
-For layouts with elements that span the same width:
-
-<verbatim class="js">
-$('#wrapper').masonry({ singleMode: true });
-</verbatim>
-
 ---+++ Foswiki integration
 
 All containers classified as =jqMasonry= will be processed by this plugin. Options can be specified
-using JQueryMetadata.
+using HTML5 data attributes.
+
+<verbatim class="tml">
+<div class="jqMasonry" data-item-selector=".grid-item">
+   <div class="grid-item">...</div>
+   <div class="grid-item">...</div>
+   <div class="grid-item">...</div>
+...
+</div>
+</verbatim>
 
 ---++ Options
 
-   * animationOptions: {} %BR%
-     A map of options for animation. See the [[http://api.jquery.com/animate/#animate-properties-options][jQuery API for animate options for details]].
-   * columnWidth: 240 %BR%
-     Width in pixels of 1 column of your grid.
-     default: outer width of the first floated element.
-   * gutterWidth: 0 %BR%
-     Adds additional spacing between columns.
-   * isAnimated: false %BR%
-     Enables jQuery animation on layout changes.
-   * isFitWidth : false %BR%
-     If enabled, Masonry will size the width of the container to the nearest column. 
-     When enabled, Masonry will measure the width of the container&#8217;s parent element, 
-     not the width of the container. This option is ideal for centering Masonry layouts.
-   * isResizeable: true %BR%
-     Triggers layout logic when browser window is resized.
-   * isRTL: false %BR%
-     Enables right-to-left layout for languages like Hebrew and Arabic.
-   * itemSelector: '.box:visible' %BR%
-     Additional selector to specify which elements inside
+All options are optional, but columnWidth and itemSelector are recommended.
+
+   * =columnWidth: 240= %BR%
+     Width of a column of your grid, specified as an integer, an element selector, or a dom node.
+     default: outer width of the first element of the grid
+   * =itemSelector: '.grid-item'= %BR%
+     selector to specify which elements inside
      the wrapping element will be rearranged.
-
----++ Methods
-
-Masonry offers several methods to extend functionality. Masonry&#8217;s methods follow the jQuery UI pattern.
-
-<verbatim class="js">$('#container').masonry( 'methodName', [optionalParameters] )</verbatim>
-
----+++ appended 
-
-<verbatim class="js">.masonry( 'appended', $content, isAnimatedFromBottom )</verbatim>
-
-Triggers layout on item elements that have been appended to the container.
-
----+++ destroy
-
-<verbatim class="js">.masonry( 'destroy' )</verbatim>
-
-Removes Masonry functionality completely. Returns element back to pre-initialized state.
-
----+++ layout
-
-<verbatim class="js">.masonry( 'layout', $items, callback )</verbatim>
-
-Positions specified item elements in layout.
-
-=layout= will only position specified elements, and those elements will be positioned at the end of layout. Whereas =.masonry()= will position all items in the Masonry instance.
-
----+++ option
-
-<verbatim class="js">.masonry( 'option', options )</verbatim>
-
-Sets options for plugin instance. Unlike passing options through .masonry(), using the option method will not trigger layout.
-
-<verbatim class="js">
-// set multiple options
-.masonry( 'option', { columnWidth: 120, isAnimated: false } )
-</verbatim>
-
----+++ reloadItems
-
-<verbatim class="js">.masonry( 'reloadItems' )</verbatim>
-
-Re-collects all item elements in their current order in the DOM.
-
----+++ reload
-
-<verbatim class="js">.masonry( 'reload' )</verbatim>
-
-Convenience method for triggering reloadItems then .masonry(). Useful for prepending or inserting items.
-
----+++ remove
-
-<verbatim class="js">.masonry( 'remove', $items )</verbatim>
-
-Removes specified item elements from Masonry instance and the DOM.
+   * =gutter: 0= %BR%
+     Adds horizontal between item elements (to set vertical space between elements use css margin), specified as an integer or an element selector
+   * =percentPosition: false= %BR%
+     if set to =true= integer values in =columnWidth= and =gutter= will be in percentage instead of in pixel
+   * =stamp: 'item selector'= %BR%
+     Specifies which elements are stamped within the layout. Masonry will layout items below stamped elements.
+   * =isFitWidth: false= %BR%
+     If enabled, Masonry will size the width of the container to the nearest column. 
+     When enabled, Masonry will measure the width of the container's parent element, 
+     not the width of the container. This option is ideal for centering Masonry layouts.
+   * =isOriginLeft: true= %BR%
+     Controls the horizontal flow of the layout. By default, item elements start positioning at the left, with =isOriginLeft: true=. Set =isOriginLeft: false= for right-to-left layouts.
+   * =isOriginTop: true= %BR%
+     Controls the vertical flow of the layout. By default, item elements start positioning at the top, with =isOriginTop: true=. Set =isOriginTop: false= for bottom-up layouts. It’s like Tetris!
+   * =containerStyle: {position:relative}= %BR%
+     CSS styles that are applied to the container element, set to =null= to disable any css
+   * =transitionDuration: '0.4s'=
+     Duration of the transition when items change position or appearance, set in a CSS time format.
+   * =isResizeBound: true= %BR%
+     Adjusts sizes and positions when window is resized.
+   * =isInitLayout: true= %BR%
+     Set isInitLayout: false to disable layout on initialization, so you can use methods or add events before the initial layout.
 
 ---++ Examples
 %JQREQUIRE{"Masonry"}%
 
 See more demos at http://masonry.desandro.com/
 
-<div class="wrap jqMasonry {itemSelector:'.box'}">
+<div class="jqMasonry" data-percent-position="true" data-gutter="2" data-column-width="23">
   <div class="box">
     Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio.
     Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna
@@ -185,25 +138,21 @@ See more demos at http://masonry.desandro.com/
   <div class="box">
     Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.
   </div>
-%CLEAR%
 </div>
 
 <literal>
 <style type="text/css">
 .box {
-    margin: 0 10px 10px 0;
-    padding: 5px;
-    background: #D8D5D2;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    float: left;
-    width:120px;
-}
-.wrap {
-    max-width:600px;
+   margin-bottom:1em;
+   padding: 0.5em;
+   box-sizing:border-box;
+   width:23%;
+   background: #D8D5D2;
+   -moz-border-radius: 0.5em;
+   -webkit-border-radius: 0.5em;
+   border-radius: 0.5em;
 }
 </style>
 </literal>
 
-%META:FILEATTACHMENT{name="jQuery-Masonry.jpg" attr="h" comment="" date="1437500521" size="35840" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jQuery-Masonry.jpg" attr="h" comment="" date="1456220586" size="35840" user="ProjectContributor" version="1"}%

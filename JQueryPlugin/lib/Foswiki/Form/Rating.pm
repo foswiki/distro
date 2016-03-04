@@ -108,13 +108,13 @@ sub renderForEdit {
 sub renderForDisplay {
     my ( $this, $format, $value, $attrs ) = @_;
 
-    $format =~ s/\$value\(display\)/$this->renderDisplayValue($value)/ge;
+    $format =~ s/\$value\(display\)/$this->getDisplayValue($value)/ge;
     $format =~ s/\$value/$value/g;
 
     return $orig->( $this, $format, $value, $attrs );
 }
 
-sub renderDisplayValue {
+sub getDisplayValue {
     my ( $this, $value ) = @_;
 
     Foswiki::Plugins::JQueryPlugin::createPlugin("stars");
@@ -135,7 +135,7 @@ sub renderDisplayValue {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2014-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -5,6 +5,7 @@ lib/Foswiki/Contrib/RCSStoreContrib.pm 0444  Perl module
 lib/Foswiki/Contrib/RCSStoreContrib/Config.spec 0444 Configuration
 lib/Foswiki/Configure/Checkers/RCSChecker.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/ExtOption.pm 0444
+lib/Foswiki/Configure/Checkers/RCS/breaklockCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/ciCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/ciDateCmd.pm 0444
 lib/Foswiki/Configure/Checkers/RCS/coCmd.pm 0444

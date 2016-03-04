@@ -445,3 +445,31 @@
 %MAKETEXT{"[_1] removed from the [_2] group." args="%PARAM1%, %PARAM2%"}%
 
 %MAKETEXT{"See %MAINWEB%.WikiGroups to see the result."}%%TMPL:END%
+%{==============================================================================}%
+%TMPL:DEF{"bulkreg_pwreset_form"}%
+<form action='%SCRIPTURLPATH{"manage"}%/%BASEWEB%/%BASETOPIC%'  method='post' />
+<input type="hidden" name="action" value="resetPassword" />
+<input  type="submit" class="foswikiSubmit" value="Reset selected user passwords and send message" />
+
+*This text will be sent to users in their "reset" e-mail.* The login name and password will be filled in automatically.
+<textarea class="foswikiInputField" name="Introduction" rows="4" cols="70" style="width:99%;">
+Welcome! The site is ready for your use. Please use the login name and password listed below and contact me if you have any questions.
+</textarea>
+%TMPL:END%
+%{==============================================================================}%
+%TMPL:DEF{"bulkreg_summary_head"}%
+| *ok* | *WikiName* | *Reset Password* | *Results* |%TMPL:END%
+%{==============================================================================}%
+%TMPL:DEF{"bulkreg_summary"}%
+%STARTSECTION{type="include"}%
+---++ Summary of Registrations
+Registration run by %REVINFO{format="$wikiusername at =$date-$time="}%.  See [[%TOPIC%]] for more detailed information.
+
+%TMPL:END%
+%{==============================================================================}%
+%TMPL:DEF{"bulkreg_summary_row"}%
+| $flag | $wikiname |  <input  type='checkbox' name='LoginName' $state value='$wikiname' />  | $errors |%TMPL:END%
+%{==============================================================================}%
+%TMPL:DEF{"bulkreg_summary_foot"}%
+%ENDSECTION{type="include"}%
+%TMPL:END%

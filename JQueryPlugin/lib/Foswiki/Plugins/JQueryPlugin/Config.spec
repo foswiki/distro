@@ -28,18 +28,18 @@ $Foswiki::cfg{JQueryPlugin}{NoConflict} = 0;
 # a newer jQuery library. Starting with jquery-1.9.1 all deprecated methods have been removed from it and put into the "migrate" plugin.
 $Foswiki::cfg{JQueryPlugin}{DefaultPlugins} = '';
 
-# **SELECT jquery-1.7.1, jquery-1.7.2, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2, jquery-1.8.3, jquery-1.9.1, jquery-1.10.0, jquery-1.11.0, jquery-1.11.1, jquery-1.11.2, jquery-1.11.3, jquery-2.0.0, jquery-2.0.1, jquery-2.0.2, jquery-2.1.0, jquery-2.1.1, jquery-2.1.3, jquery-2.1.4**
+# **SELECT jquery-1.9.1, jquery-1.10.0, jquery-1.11.0, jquery-1.11.1, jquery-1.11.2, jquery-1.11.3, jquery-2.0.0, jquery-2.0.1, jquery-2.0.2, jquery-2.1.0, jquery-2.1.1, jquery-2.1.3, jquery-2.1.4, jquery-2.2.0, jquery-2.2.1**
 # Note that starting with jQuery-1.9.1 deprecated features have been removed. If you are experiencing
 # problems with plugins still using deprecated features then add the <code>migrate</code> plugin to the list
 # of plugins loaded by default (see above). Further note that starting with jQuery-2.0 support for Internet Explorer 6/7/8
 # has been dropped. Use jQuery-1.9 in case you still need to cover these browsers.
-$Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-2.1.4';
+$Foswiki::cfg{JQueryPlugin}{JQueryVersion} = 'jquery-2.2.1';
 
-# **SELECT , jquery-1.7.1, jquery-1.7.2, jquery-1.8.0, jquery-1.8.1, jquery-1.8.2, jquery-1.8.3, jquery-1.9.1, jquery-1.10.0, jquery-1.10.1, jquery-1.11.0, jquery-1.11.1, jquery-1.11.2, jquery-1.11.3**
+# **SELECT , jquery-1.9.1, jquery-1.10.0, jquery-1.10.1, jquery-1.11.0, jquery-1.11.1, jquery-1.11.2, jquery-1.11.3, jquery-1.12.0, jquery-1.12.1**
 # Use a different jQuery library for Internet Explorer 6/7/8. Since jQuery-2.0 these old browsers aren't suppored anymore.
 # Use one of the jQuery-1.x libraries to still serve a compatible jQuery to these browsers. Or leave it empty to use the same 
 # library version for all browsers.
-$Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs} = 'jquery-1.11.3';
+$Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs} = 'jquery-1.12.1';
 
 # **SELECT ,base, flickr, foswiki, lightness, redmond, smoothness **
 $Foswiki::cfg{JQueryPlugin}{JQueryTheme} = 'foswiki';
@@ -64,8 +64,8 @@ $Foswiki::cfg{JQueryPlugin}{Themes}{Redmond}{Enabled} = 1;
 $Foswiki::cfg{JQueryPlugin}{Themes}{Smoothness}{Enabled} = 1;
 
 # ---+++ JQuery Plugins
-# **BOOLEAN LABEL="Bgiframe"**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Bgiframe}{Enabled} = 1;
+# **BOOLEAN LABEL="Animate"**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Animate}{Enabled} = 1;
 
 # **BOOLEAN LABEL="Button"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Button}{Enabled} = 1;
@@ -109,6 +109,12 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{FluidFont}{Enabled} = 1;
 # **BOOLEAN LABEL="HoverIntent"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{HoverIntent}{Enabled} = 1;
 
+# **BOOLEAN LABEL="I18N"**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{I18N}{Enabled} = 1;
+
+# **BOOLEAN LABEL="ImagesLoaded"**
+$Foswiki::cfg{JQueryPlugin}{Plugins}{ImagesLoaded}{Enabled} = 1;
+
 # **BOOLEAN LABEL="InnerFade"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{InnerFade}{Enabled} = 1;
 
@@ -126,9 +132,6 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{MaskedInput}{Enabled} = 1;
 
 # **BOOLEAN LABEL="Masonry"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Masonry}{Enabled} = 1;
-
-# **BOOLEAN LABEL="Media"**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{Media}{Enabled} = 1;
 
 # **BOOLEAN LABEL="Metadata"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Metadata}{Enabled} = 1;
@@ -235,6 +238,10 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{WikiWord}{Enabled} = 1;
 # Warning: this plugin is deprecated. Please use the autocomplete plugin part of the jQuery-ui package.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Autocomplete}{Enabled} = 0;
 
+# **BOOLEAN LABEL="Bgiframe" EXPERT**
+# Warning: this plugin is deprecated. 
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Bgiframe}{Enabled} = 0;
+
 # **BOOLEAN LABEL="Corner" EXPERT**
 # Warning: this plugin is deprecated. 
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Corner}{Enabled} = 0;
@@ -243,11 +250,16 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Corner}{Enabled} = 0;
 # Warning: this plugin is deprecated. Please use CSS. See http://colorzilla.com/gradient-editor/.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Gradient}{Enabled} = 0;
 
+# **BOOLEAN LABEL="Media" EXPERT**
+# Warning: This plugin is deprecated. Use MediaElementPlugin instead.
+$Foswiki::cfg{JQueryPlugin}{Plugins}{Media}{Enabled} = 0;
+
 # **BOOLEAN LABEL="Nifty" EXPERT**
 # Warning: This plugin is deprecated. Use Corner instead.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Nifty}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Rating" EXPERT**
+# Warning: This plugin is deprecated. Use Stars instead.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Rating}{Enabled} = 0;
 
 # **BOOLEAN LABEL="Shake" EXPERT**
@@ -258,7 +270,7 @@ $Foswiki::cfg{JQueryPlugin}{Plugins}{Shake}{Enabled} = 0;
 # Warning: This plugin is deprecated. Please use ui::dialog, the jquery-ui dialog widget.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{SimpleModal}{Enabled} = 0;
 
-# **BOOLEAN LABEL="Supersubs"**
+# **BOOLEAN LABEL="Supersubs" EXPERT**
 # Warning: This plugin is deprecated. The latest superfish module supersedes it.
 $Foswiki::cfg{JQueryPlugin}{Plugins}{Supersubs}{Enabled} = 0;
 

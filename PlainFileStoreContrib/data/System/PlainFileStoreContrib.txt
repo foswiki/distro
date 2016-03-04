@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1449764954" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1454519814" version="1"}%
 ---+!! PlainFileStoreContrib
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -66,7 +66,9 @@ Many thanks to the following sponsors for supporting this work
    * [[http://www.taxonomy.org.au][TRIN]], The Taxonomy Research & Information Network
 
 |  Change History: | |
-|  1.43   (10 Dec 2015) | Released with Foswiki 2.1, Foswikitask:Item13405 - NFC Normalize all UNICODE strings. |
+|  1.44   (03 Feb 2016) | Released with Foswiki 2.1. Release notes, Copyright updates. |
+|  1.43   (10 Dec 2015) | Foswikitask:Item13405 - NFC Normalize all UNICODE strings.<br/>\
+                          Foswikitask:Item12569: Use NFKD normalization when sorting names. |
 |  1.42   (08 Sep 2015) | Released with Foswiki 2.0.2. Foswikitask:Item13598 - Rename of symlinked web fails<br />\
                           Foswikitask:Item13697: Reject unsuported characters from web/topic and attachment filenames |
 |  1.41   (27 Jul 2015) | Released with Foswiki 2.0.1<br/>\
@@ -87,7 +89,7 @@ Many thanks to the following sponsors for supporting this work
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="CrawfordCurrie http://c-dot.co.uk"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2012-2015 Crawford Currie, Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2012-2016 Crawford Currie, Foswiki Contributors"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%

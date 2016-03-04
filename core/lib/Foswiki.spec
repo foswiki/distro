@@ -373,7 +373,7 @@ $Foswiki::cfg{Validation}{MaxKeysPerSession} = 1000;
 
 # **BOOLEAN LABEL="Expire Validation Key on Use" EXPERT DISPLAY_IF="{Validation}{Method}!='none'" CHECK="iff:'{Validation}{Method} ne q<none>'"**
 # Expire a validation key immediately when it is used to validate the saving
-# of a page. This protects against an attacker eavesdropping the communication
+# of a page (N/A for =rest= requests). This protects against an attacker eavesdropping the communication
 # between browser and server and exploiting the keys sent from browser to
 # server. If this is enabled and a user edits and saves a page, and then goes
 # back to the edit screen using the browser back button and saves again, they
@@ -383,7 +383,8 @@ $Foswiki::cfg{Validation}{MaxKeysPerSession} = 1000;
 # forms more than once. If this warning screen is a problem for your users, you
 # can disable this setting which enables reuse of validation keys.
 # However this will lower the level of security against cross-site request
-# forgery.
+# forgery. Note however that  =rest= requests, for example, the CommentPlugin =comment= action,
+# do not expire the key.
 $Foswiki::cfg{Validation}{ExpireKeyOnUse} = 1;
 
 #---++ Login
@@ -887,7 +888,6 @@ $Foswiki::cfg{AccessibleCFG} = [
     '{LinkProtocolPattern}',
     '{LocalSitePreferences}',
     '{LoginNameFilterIn}',
-    '{LowerNational}',
     '{MaxRevisionsInADiff}',
     '{MinPasswordLength}',
     '{NameFilter}',
@@ -904,10 +904,10 @@ $Foswiki::cfg{AccessibleCFG} = [
     '{Register}{NeedVerification}',
     '{Register}{RegistrationAgentWikiName}',
     '{ReplaceIfEditedAgainWithin}',
+    '{SandboxWebName}',
     '{ScriptSuffix}',
     '{ScriptUrlPath}',
     '{Site}{Locale}',
-    '{Site}{LocaleRegexes}',
     '{SitePrefsTopicName}',
     '{Stats}{TopContrib}',
     '{Stats}{TopicName}',
@@ -918,7 +918,6 @@ $Foswiki::cfg{AccessibleCFG} = [
     '{TemplatePath}',
     '{TrashWebName}',
     '{UploadFilter}',
-    '{UpperNational}',
     '{UseLocale}',
     '{UserInterfaceInternationalisation}',
     '{UsersTopicName}',
@@ -988,7 +987,6 @@ $Foswiki::cfg{NameFilter} = '[\\\\\s*?~^$@%`"\'&|<:;>\[\]#\x00-\x1f]';
 # Filter-out regex file attachment names. This is a filter *out*, so if any of the
 # characters matched by this expression are seen in an attachment name, they will be
 # removed.
-#$Foswiki::cfg{AttachmentNameFilter} = '[*?~^$@%`"\'&|<>\[\]#\x00-\x1f]';
 $Foswiki::cfg{AttachmentNameFilter} = '[\\\\*?~^$@%`"\'&|<>/\[\]#\x00-\x1f]';
 
 # **BOOLEAN LABEL="Replace Attachment Spaces" EXPERT**
@@ -1026,7 +1024,7 @@ $Foswiki::cfg{RemovePortNumber} = $FALSE;
 
 # **BOOLEAN LABEL="Allow Redirect Url" EXPERT**
 # Allow the use of URLs in the =redirectto= parameter to the
-# =save= script, and in =topic= parameter to the
+# =save= and =rest= scripts, the =bulkRegister= action and in =topic= parameter to the
 # =view= script. *WARNING:* Enabling this feature makes it
 # very easy to build phishing pages using the wiki, so in general,
 # public sites should *not* enable it. Note: It is possible to

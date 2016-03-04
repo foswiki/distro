@@ -24,8 +24,8 @@ BEGIN {
     }
 }
 
-our $VERSION           = '6.31';
-our $RELEASE           = '06 Nov 2015';
+our $VERSION           = '7.00';
+our $RELEASE           = '23 Feb 2016';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -358,8 +358,9 @@ sub handleJQueryIcon {
     my $iconName  = $params->{_DEFAULT} || '';
     my $iconAlt   = $params->{alt}      || $iconName;
     my $iconTitle = $params->{title}    || '';
-    my $iconFormat = $params->{format};
-    my $iconStyle  = $params->{style};
+    my $iconFormat  = $params->{format};
+    my $iconStyle   = $params->{style};
+    my $iconAnimate = $params->{animate};
     my $iconPath;
     my $iconClass;
 
@@ -384,6 +385,10 @@ sub handleJQueryIcon {
     }
 
     $iconClass .= " $params->{class}" if $params->{class};
+
+    if ( defined $iconAnimate ) {
+        $iconClass .= " faa-$iconAnimate animated";
+    }
 
     my $img = $iconFormat;
     $img =~ s/\$iconName/$iconName/g;
@@ -490,7 +495,7 @@ sub _inlineError {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

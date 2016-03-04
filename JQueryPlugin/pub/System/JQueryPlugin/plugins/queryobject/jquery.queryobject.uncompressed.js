@@ -1,11 +1,11 @@
-/**
+﻿/**
  * jQuery.query - Query String Modification and Creation for jQuery
  * Written by Blair Mitchelmore (blair DOT mitchelmore AT gmail DOT com)
  * Licensed under the WTFPL (http://sam.zoy.org/wtfpl/).
  * Date: 2009/8/13
  *
  * @author Blair Mitchelmore
- * @version 2.1.7
+ * @version 2.2.2
  *
  **/
 new function(settings) { 
@@ -16,7 +16,7 @@ new function(settings) {
   var $prefix = settings.prefix === false ? false : true;
   var $hash = $prefix ? settings.hash === true ? "#" : "?" : "";
   var $numbers = settings.numbers === false ? false : true;
-  
+
   jQuery.query = new function() {
     var is = function(o, t) {
       return o != undefined && o !== null && (!!t ? o.constructor == t : true);
@@ -71,6 +71,16 @@ new function(settings) {
           self.SET(key, val);
         });
       } else {
+        self.parseNew.apply(self, arguments);
+      }
+      return self;
+    };
+    
+    queryObject.prototype = {
+      queryObject: true,
+      parseNew: function(){
+        var self = this;
+        self.keys = {};
         jQuery.each(arguments, function() {
           var q = "" + this;
           q = q.replace(/^[?#]/,''); // remove any leading ? || #
@@ -86,24 +96,17 @@ new function(settings) {
             if ($numbers) {
               if (/^[+-]?[0-9]+\.[0-9]*$/.test(val)) // simple float regex
                 val = parseFloat(val);
-              else if (/^[+-]?[0-9]+$/.test(val)) // simple int regex
+              else if (/^[+-]?[1-9][0-9]*$/.test(val)) // simple int regex
                 val = parseInt(val, 10);
             }
             
             val = (!val && val !== 0) ? true : val;
             
-            if (val !== false && val !== true && typeof val != 'number')
-              val = val;
-            
             self.SET(key, val);
           });
         });
-      }
-      return self;
-    };
-    
-    queryObject.prototype = {
-      queryObject: true,
+        return self;
+      },
       has: function(key, type) {
         var value = this.get(key);
         return is(value, type);
@@ -135,11 +138,28 @@ new function(settings) {
       set: function(key, val) {
         return this.copy().SET(key, val);
       },
-      REMOVE: function(key) {
+      REMOVE: function(key, val) {
+        if (val) {
+          var target = this.GET(key);
+          if (is(target, Array)) {
+            for (tval in target) {
+                target[tval] = target[tval].toString();
+            }
+            var index = $.inArray(val, target);
+            if (index >= 0) {
+              key = target.splice(index, 1);
+              key = key[index];
+            } else {
+              return;
+            }
+          } else if (val != target) {
+              return;
+          }
+        }
         return this.SET(key, null).COMPACT();
       },
-      remove: function(key) {
-        return this.copy().REMOVE(key);
+      remove: function(key, val) {
+        return this.copy().REMOVE(key, val);
       },
       EMPTY: function() {
         var self = this;
@@ -186,8 +206,9 @@ new function(settings) {
         var i = 0, queryString = [], chunks = [], self = this;
         var encode = function(str) {
           str = str + "";
-          if ($spaces) str = str.replace(/ /g, "+");
-          return encodeURIComponent(str);
+          str = encodeURIComponent(str);
+          if ($spaces) str = str.replace(/%20/g, "+");
+          return str;
         };
         var addFields = function(arr, key, value) {
           if (!is(value) || value === false) return;
@@ -222,4 +243,3 @@ new function(settings) {
     return new queryObject(location.search, location.hash);
   };
 }(jQuery.query || {}); // Pass in jQuery.query as settings object
-

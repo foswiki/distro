@@ -1,7 +1,7 @@
 /*
  * jQuery Loader plugin 2.10
  *
- * Copyright (c) 2011-2015 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2011-2016 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -225,7 +225,7 @@ jQuery(function($) {
   // register css class 
   $(".jqLoader:not(.jqLoaderInited)").livequery(function() {
     var $this = $(this),
-        opts = $.extend({}, $this.metadata(), $this.data());
+        opts = $.extend({}, $this.data(), $this.metadata());
     $this.addClass("jqLoaderInited").jqLoader(opts);
   });
 });

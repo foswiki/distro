@@ -28,7 +28,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name       => 'Migrate',
-            version    => '1.2.1',
+            version    => '1.3.0',
             author     => 'jQuery Foundation, Inc. and other contributors',
             homepage   => 'https://github.com/jquery/jquery-migrate/',
             javascript => ['jquery.migrate.js'],
@@ -44,7 +44,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

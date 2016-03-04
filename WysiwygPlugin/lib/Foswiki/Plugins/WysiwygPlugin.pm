@@ -39,8 +39,8 @@ BEGIN {
 our $SHORTDESCRIPTION  = 'Translator framework for WYSIWYG editors';
 our $NO_PREFS_IN_TOPIC = 1;
 
-our $VERSION = '1.32';
-our $RELEASE = '10 Dec 2015';
+our $VERSION = '1.33';
+our $RELEASE = '11 Feb 2016';
 
 our %xmltag;
 
@@ -384,7 +384,7 @@ sub modifyHeaderHandler {
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

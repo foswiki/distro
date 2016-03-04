@@ -30,7 +30,7 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name       => 'Foswiki',
-            version    => '2.02',
+            version    => '2.10',
             author     => 'Michael Daum',
             homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
             javascript => ['jquery.foswiki.js'],
@@ -109,7 +109,7 @@ __END__
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

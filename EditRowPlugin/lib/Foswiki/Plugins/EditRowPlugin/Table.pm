@@ -717,7 +717,7 @@ sub moveRowCmd {
         ASSERT($moved) if DEBUG;
         $this->{attrs}->{js} = 'rowmoved';
     }
-    return $this->render( { with_controls => 0 }, {} );
+    return $this->render( { with_controls => 1 }, {} );
 }
 
 # Action on move up; save and shift row
@@ -860,7 +860,7 @@ __END__
 
 Author: Crawford Currie http://c-dot.co.uk
 
-Copyright (c) 2009 Foswiki Contributors
+Copyright (c) 2009-2016 Foswiki Contributors
 Copyright (C) 2007 WindRiver Inc. and TWiki Contributors.
 All Rights Reserved. Foswiki Contributors are listed in the
 AUTHORS file in the root of this distribution.

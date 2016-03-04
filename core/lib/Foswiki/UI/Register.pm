@@ -16,6 +16,7 @@ use Assert;
 use Try::Tiny;
 
 use Foswiki                ();
+use Foswiki::Form          ();
 use Foswiki::LoginManager  ();
 use Foswiki::OopsException ();
 use Foswiki::Sandbox       ();
@@ -349,6 +350,13 @@ topic = the page with the entries on it.
 
 NB. bulkRegister is invoked from ManageCgiScript. Why? Who knows.
 
+Query parameters applying to all registrations:
+   * =LogTopic=: Name of the topic that is created / replaced with the results.
+   * =redirectto=: Topic displayed after registration is complete.  (Defaults to !LogTopic).
+   * =templatetopic=: Default New user topic template name, defaults to NewUserTemplate.  This topic name must exist either in %USERSWEB% or %SYSTEMWEB%
+
+Note that the templatetopic can be set per user, but because the template topic is likely to have different fields
+in it's respective form definition, and would require different table columns.
 =cut
 
 sub bulkRegister {
@@ -365,9 +373,6 @@ sub bulkRegister {
 
     my $settings = {};
 
-    # This gets set from the value in the BulkRegistrations topic
-    $settings->{doOverwriteTopics} = $query->param('OverwriteHomeTopics') || 0;
-
     unless ( $session->users->isAdmin($user) ) {
         Foswiki::OopsException->throw(
             template => 'accessdenied',
@@ -382,6 +387,11 @@ sub bulkRegister {
     # Validate
     Foswiki::UI::checkValidationKey($session);
 
+    my $templateTopic = $query->param('templatetopic');
+    if ($templateTopic) {
+        $templateTopic = _validateTemplateTopic( $session, $templateTopic );
+    }
+
     #-- Read the topic containing the table of people to be registered
     my $meta = Foswiki::Meta->load( $session, $web, $topic );
 
@@ -395,11 +405,15 @@ sub bulkRegister {
             if ($gotHdr) {
                 my $i = 0;
                 my %row = map { $fields[ $i++ ] => $_ } split( /\s*\|\s*/, $1 );
+                $row{templatetopic} = $templateTopic
+                  unless ( $row{templatetopic} );
                 push( @data, \%row );
             }
             else {
                 foreach my $field ( split( /\s*\|\s*/, $1 ) ) {
                     $field =~ s/^[\s*]*(.*?)[\s*]*$/$1/;
+                    $field =~ s/<.*?>//g;    #strip any html markup from heading
+                    $field = Foswiki::Form::fieldTitle2FieldName($field);
                     push( @fields, $field );
                 }
                 $gotHdr = 1;
@@ -407,21 +421,32 @@ sub bulkRegister {
         }
     }
 
-    my $log = "---+ Report for Bulk Register\n";
+    my $log = "---+ Report for Bulk Register\n%TOC%\n";
 
     # TODO: should check that the header row actually contains the
     # required fields.
     # TODO: and consider using MAKETEXT to enable translated tables.
 
-    #-- Process each row, generate a log as we go
+    my $genReset;    # Flag set if any rows don't have a password
+                     #-- Process each row, generate a log as we go
     for ( my $n = 0 ; $n < scalar(@data) ; $n++ ) {
         my $row = $data[$n];
 
+        $row->{errors}  = '';
         $row->{webName} = $userweb;
 
         unless ( $row->{WikiName} ) {
+            $row->{errors} .= " Not registered: WikiName not entered.";
+            $row->{FAIL} = 1;
             $log .= "---++ Failed to register user on row $n: no !WikiName\n";
             next;
+        }
+
+  # If password column is empty, just delete them to avoid errors in validation.
+  # Passwords are generally sent as a bulk reset after registration.
+        unless ( defined $row->{Password} && length( $row->{Password} ) > 0 ) {
+            delete $row->{Password};
+            delete $row->{Confirm};
         }
 
    # If a password is provided but no Confirm column, just
@@ -435,9 +460,34 @@ sub bulkRegister {
         #$row->{LoginName} = $row->{WikiName} unless $row->{LoginName};
 
         $log .= _registerSingleBulkUser( $session, \@fields, $row, $settings );
+        $genReset = 1 unless ( $row->{Password} || $row->{FAIL} );
     }
 
-    $log .= "----\n";
+    my $tmpl = $session->templates->readTemplate('registermessages');
+    $log .= $session->templates->expandTemplate('bulkreg_summary');
+
+    # If no passwords require reset, then don't generate the reset form.
+    if ($genReset) {
+        $log .= $session->templates->expandTemplate('bulkreg_pwreset_form');
+    }
+
+    $log .= $session->templates->expandTemplate('bulkreg_summary_head');
+
+    my $rowtmpl = $session->templates->expandTemplate('bulkreg_summary_row');
+
+    foreach my $row (@data) {
+        my $ifield = $rowtmpl;
+        my $icon =
+          ( $row->{FAIL} ? '%X%' : ( $row->{WARN} ? '%ICON{alert}%' : '%Y%' ) );
+        my $state =
+          ( $row->{FAIL} ) ? 'disabled' : ( $row->{Password} ) ? '' : 'checked';
+        $ifield =~ s/\$state/$state/;
+        $ifield =~ s/\$flag/$icon/;
+        $ifield =~ s/\$wikiname/$row->{WikiName}/g;
+        $ifield =~ s/\$errors/$row->{errors}/;
+        $log .= $ifield;
+    }
+    $log .= $session->templates->expandTemplate('bulkreg_summary_foot');
 
     my $logWeb;
     my $logTopic = Foswiki::Sandbox::untaint(
@@ -467,8 +517,10 @@ sub bulkRegister {
 
     $session->leaveContext('absolute_urls');
 
-    my $nurl = $session->getScriptUrl( 1, 'view', $web, $logTopic );
-    $session->redirect($nurl);
+    # Use Foswiki::redirectto to validate redirectto query param
+    # and fall back to the $logTopic if the param is not provided.
+    my $redirecturl = $session->redirectto($logTopic);
+    $session->redirect($redirecturl);
 }
 
 # Register a single user during a bulk registration process
@@ -476,14 +528,14 @@ sub _registerSingleBulkUser {
     my ( $session, $fieldNames, $row, $settings ) = @_;
     ASSERT($row) if DEBUG;
 
-    my $doOverwriteTopics = defined $settings->{doOverwriteTopics}
-      || Foswiki::Exception->throw( text => 'No doOverwriteTopics' );
-
     my $log = "---++ Registering $row->{WikiName}\n";
 
     #-- Ensure every required field exists
     # NB. LoginName is OPTIONAL
     if ( _missingElements( $fieldNames, \@requiredFields ) ) {
+        $row->{errors} .= " Rejected: missing fields: "
+          . join( ' ', map { $_ . ' : ' . $row->{$_} } @$fieldNames );
+        $row->{FAIL} = 1;
         $log .=
             $b1
           . join( ' ', map { $_ . ' : ' . $row->{$_} } @$fieldNames )
@@ -507,6 +559,8 @@ sub _registerSingleBulkUser {
     catch {
         my $e = $_;
         if ( $e->isa('Foswiki::OopsException') ) {
+            $row->{errors} .= "Validation failed: " . $e->{def};
+            $row->{FAIL} = 1;
             $log .=
               '<blockquote>' . $e->stringify($session) . "</blockquote>\n";
             $tryError = "$b1 Registration failed\n";
@@ -521,11 +575,12 @@ sub _registerSingleBulkUser {
     $row->{form} = _makeFormFieldOrderMatch( $fieldNames, $row );
 
     my $users = $session->users;
+    my $cUID;
 
     try {
 
         # Add the user to the user management system. May throw an exception
-        my $cUID = $users->addUser(
+        $cUID = $users->addUser(
             $row->{LoginName},
             $row->{WikiName},
             $session->inContext("passwords_modifyable")
@@ -536,13 +591,13 @@ sub _registerSingleBulkUser {
         $log .=
 "$b1 $row->{WikiName} has been added to the password and user mapping managers\n";
 
-        if ( $settings->{doOverwriteTopics}
-            || !$session->topicExists( $row->{webName}, $row->{WikiName} ) )
-        {
+        if ( !$session->topicExists( $row->{webName}, $row->{WikiName} ) ) {
             $log .= _createUserTopic( $session, $row );
         }
         else {
             $log .= "$b1 Not writing user topic $row->{WikiName}\n";
+            $row->{errors} .= " User topic not written!";
+            $row->{WARN} = 1;
         }
         $users->setEmails( $cUID, $row->{Email} );
 
@@ -561,8 +616,35 @@ sub _registerSingleBulkUser {
         );
     }
     catch {
+        $row->{errors} = " Failed to create user topic! " . $_->{def};
+        $row->{FAIL}   = 1;
         $log .= "$b1 Failed to add user: " . $_->stringify() . "\n";
     };
+
+    if ( $cUID && $row->{AddToGroups} ) {
+        my @addedTo;
+        foreach my $groupName ( split( /\s*,\s*/, $row->{AddToGroups} ) ) {
+            try {
+                $users->addUserToGroup( $cUID, $groupName );
+                push @addedTo, $groupName;
+            }
+            catch Error with {
+                my $e = shift;
+                my $err = $e->{'-text'} || '';
+                $session->logger->log( 'warning',
+"Registration: Failure adding $cUID to $groupName in BulkRegister"
+                );
+                $log .= "   * Failed to add $cUID to $groupName: $err\n";
+                $row->{errors} .= " Failed to add $cUID to $groupName: $err";
+                $row->{WARN} = 1;
+            };
+        }
+
+        if ( scalar @addedTo ) {
+            $log .= "   * $row->{WikiName} added to groups: "
+              . join( ', ', @addedTo ) . "\n";
+        }
+    }
 
     #if ($Foswiki::cfg{EmailUserDetails}) {
     # If you want it, write it.
@@ -1371,6 +1453,9 @@ sub _createUserTopic {
 # This is safe because the $template name is fully validated in _validateRegistration()
     ($template) = $template =~ m/^(.*)$/;
 
+    ( $fromWeb, $template ) =
+      Foswiki::Func::normalizeWebTopicName( $fromWeb, $template );
+
     if ( !$session->topicExists( $fromWeb, $template ) ) {
 
         # Use the default version
@@ -1584,6 +1669,7 @@ sub _buildConfirmationEmail {
     $templateText =~ s/%FIRSTLASTNAME%/$data->{Name}/g;
     $templateText =~ s/%WIKINAME%/$data->{WikiName}/g;
     $templateText =~ s/%EMAILADDRESS%/$data->{Email}/g;
+    $templateText =~ s/%TEMPLATETOPIC%/$data->{templatetopic}/g;
 
     my $topicObject = Foswiki::Meta->new(
         session => $session,
@@ -1807,7 +1893,9 @@ sub _validateRegistration {
     }
 
     # check valid email address
-    if ( $data->{Email} !~ $Foswiki::regex{emailAddrRegex} ) {
+    if ( !defined $data->{Email}
+        || $data->{Email} !~ $Foswiki::regex{emailAddrRegex} )
+    {
         $data->{Email} ||= '';
         $session->logger->log( 'warning',
 "Registration rejected: $data->{Email} failed the system email regex check."
@@ -1863,43 +1951,10 @@ sub _validateRegistration {
     }
 
     if ( $data->{templatetopic} ) {
-        $data->{templatetopic} = Foswiki::Sandbox::untaint(
-            $data->{templatetopic},
-            sub {
-                my $template = shift;
-                return $template if Foswiki::isValidTopicName($template);
-                $session->logger->log( 'warning',
-                    'Registration rejected: invalid templatetopic requested: '
-                      . $data->{templatetopic} );
-                Foswiki::OopsException->throw(
-                    template => 'register',
-                    web      => $data->{webName},
-                    topic    => $session->topicName,
-                    def      => 'bad_templatetopic',
-                );
-            }
-        );
-        if (
-            !$session->topicExists( $Foswiki::cfg{UsersWebName},
-                $data->{templatetopic} )
-            && !$session->topicExists(
-                $Foswiki::cfg{SystemWebName},
-                $data->{templatetopic}
-            )
-          )
-        {
-            $session->logger->log( 'warning',
-'Registration rejected: requested templatetopic does not exist: '
-                  . $data->{templatetopic} );
-            Foswiki::OopsException->throw(
-                template => 'register',
-                uweb     => $Foswiki::cfg{UsersWebName},
-                tmpl     => $data->{templatetopic},
-                web      => $data->{webName},
-                topic    => $session->topicName,
-                def      => 'bad_templatetopic',
-            );
-        }
+
+        # Validate and untaint
+        $data->{templatetopic} =
+          _validateTemplateTopic( $session, $data->{templatetopic} );
     }
 
     if ($requireForm) {
@@ -1958,6 +2013,67 @@ sub _validateRegistration {
             params   => [ $e->stringify ]
         );
     };
+}
+
+sub _validateTemplateTopic {
+    my $session = shift;
+
+    my ( $templateWeb, $templateTopic ) =
+      Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UserWebName},
+        $_[0] || 'NewUserTemplate' );
+
+    $templateTopic = Foswiki::Sandbox::untaint(
+        $templateTopic,
+        sub {
+            my $template = shift;
+            return $template if Foswiki::isValidTopicName($template);
+            $session->logger->log( 'warning',
+                'Registration rejected: invalid templatetopic requested: '
+                  . $template );
+            throw Foswiki::OopsException(
+                'register',
+                web   => $session->{webName},
+                topic => $session->{topicName},
+                def   => 'bad_templatetopic',
+            );
+        }
+    );
+
+    $templateWeb = Foswiki::Sandbox::untaint(
+        $templateWeb,
+        sub {
+            my $web = shift;
+            return $web if Foswiki::isValidWebName($web);
+            $session->logger->log( 'warning',
+'Registration rejected: invalid templatetopic webname requested: '
+                  . $web );
+            throw Foswiki::OopsException(
+                'register',
+                web   => $session->{webName},
+                topic => $session->{topicName},
+                def   => 'bad_templatetopic',
+            );
+        }
+    );
+
+    if ( !$session->topicExists( $templateWeb, $templateTopic )
+        && !$session->topicExists( $Foswiki::cfg{SystemWebName},
+            $templateTopic ) )
+    {
+        $session->logger->log( 'warning',
+            'Registration rejected: requested templatetopic does not exist: '
+              . $templateWeb . "."
+              . $templateTopic );
+        throw Foswiki::OopsException(
+            'register',
+            uweb  => $Foswiki::cfg{UsersWebName},
+            tmpl  => $templateTopic,
+            web   => $session->{webName},
+            topic => $session->{topicName},
+            def   => 'bad_templatetopic',
+        );
+    }
+    return "$templateWeb.$templateTopic";
 }
 
 # sends $p->{template} to $p->{Email} with substitutions from $data

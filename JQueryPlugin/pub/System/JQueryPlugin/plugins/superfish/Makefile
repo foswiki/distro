@@ -1,5 +1,4 @@
 TARGET= \
-  git \
   jquery.superfish.js \
   jquery.superfish.css \
   jquery.superfish-navbar.css \
@@ -13,6 +12,7 @@ TARGET= \
 git:
 	git clone https://github.com/joeldbirch/superfish.git git
 
+ifneq (,$(wildcard git))
 jquery.superfish.uncompressed.js: git/dist/js/superfish.js
 	cp $^ $@
 
@@ -27,6 +27,7 @@ jquery.superfish-vertical.uncompressed.css: git/dist/css/superfish-vertical.css
 
 jquery.superfish-megafish.uncompressed.css: git/dist/css/megafish.css
 	cp $^ $@
+endif
 
 clean: 
 	rm -f $(TARGET) *.gz

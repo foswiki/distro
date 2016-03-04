@@ -2228,6 +2228,7 @@ $gt embed$gtembed$gt()embed
 $n$n!$n()gnnnnh
 $amp embed$ampembed$amp()embed
 $dollarlt
+$lt()()$n()()$gt()()
 TEST
     my $expected = <<'TEST';
 
@@ -2247,6 +2248,8 @@ $ embed$embed$embed
 gnnnnh
 & embed&embed&embed
 $lt
+<()
+()>()
 TEST
 
     #"

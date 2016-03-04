@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="ProjectContributor" date="1456871285" format="1.1" version="1"}%
+%META:TOPICPARENT{name="WikiUsers"}%
+%EDITTABLE{ headerrows="1" }%%STARTSECTION{type="expandvariables"}%
+| *WikiName* |%IF{"{Register}{AllowLoginName}" then=" *LoginName* |"}% *Email* | *Password* | *AddToGroups* |\
+ *%CALCULATE{"$LISTJOIN(* | *, $LISTIF($NOT($EXACT($item,Email)),%QUERY{"'%URLPARAM{"usertemplate" default="%SYSTEMWEB%.NewUserTemplate"}%'/fields.name"}%))"}%* |
+%ENDSECTION%
+
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="AdminGroup"}%
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Set" value="System.BulkRegistrationInputView"}%
+%META:PREFERENCE{name="NOAUTOLINK" title="NOAUTOLINK" type="Set" value="1"}%

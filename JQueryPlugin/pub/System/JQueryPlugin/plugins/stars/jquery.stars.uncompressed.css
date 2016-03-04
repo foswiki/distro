@@ -1,3 +1,6 @@
+.jqStars {
+  white-space:nowrap;
+}
 .jqStarsContainer {
   display:inline-block;
   background-image:url(star.png);

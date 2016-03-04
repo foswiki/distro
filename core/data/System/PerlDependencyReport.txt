@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1449100641" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1456497986" format="1.1" reprev="1" version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Perl dependencies for Foswiki and Extensions
 
@@ -16,19 +16,18 @@ resolution.  Optional or "recommended" dependencies will note when they are
 needed, and should only be installed if you know that your particular
 installation will require them.</div>
 
-%IF{"$include='all'" else="
-%BUTTON{
-  "Show all dependencies"
-  icon="book"
-  onclick="window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?include=all';"
-}%" then=" 
-%BUTTON{
-  "Show only missing dependencies"
-  icon="book"
-  onclick="window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?include=missing';"
-}% 
-"}%
-
+%IF{"$include='all'" 
+   else="$percntBUTTON{
+      \"Show all dependencies\"
+      icon=\"book\"
+      onclick=\"window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?include=all';\"
+   }$percnt" 
+   then="$percntBUTTON{
+      \"Show only missing dependencies\"
+      icon=\"book\"
+      onclick=\"window.location.href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?include=missing';\"
+   }$percnt"
+}%
 
 %TOC%
 
@@ -43,4 +42,5 @@ Note: If a minimum version is identified, the extension requiring the highest mi
 
 %PERLDEPENDENCYREPORT{"extensions" include="%URLPARAM{"include" default="missing"}%"}%
 </noautolink>
+
 %META:PREFERENCE{name="CACHEABLE" title="CACHEABLE" type="Set" value="off"}%

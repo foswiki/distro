@@ -12,6 +12,9 @@ my %themes;
 my $debug;
 my $currentTheme;
 
+use constant JQUERY1_DEFAULT => 'jquery-1.12.1';
+use constant JQUERY2_DEFAULT => 'jquery-2.2.1';
+
 =begin TML
 
 ---+ package Foswiki::Plugins::JQueryPlugin
@@ -50,7 +53,7 @@ sub init {
 
     # load jquery
     my $jQuery = $Foswiki::cfg{JQueryPlugin}{JQueryVersion}
-      || "jquery-2.1.4";
+      || JQUERY2_DEFAULT;
 
     # test for the jquery library to be present
     unless ( -e $Foswiki::cfg{PubDir} . '/'
@@ -62,13 +65,13 @@ sub init {
         Foswiki::Func::writeWarning(
 "CAUTION: jQuery $jQuery not found. please fix the {JQueryPlugin}{JQueryVersion} settings."
         );
-        $jQuery = "jquery-2.1.4";
+        $jQuery = JQUERY2_DEFAULT;
     }
 
     $jQuery .= ".uncompressed" if $debug;
 
     my $jQueryIE = $Foswiki::cfg{JQueryPlugin}{JQueryVersionForOldIEs};
-    $jQueryIE = "jquery-1.11.3" unless defined $jQueryIE;
+    $jQueryIE = JQUERY1_DEFAULT unless defined $jQueryIE;
 
     my $code;
     if ($jQueryIE) {
@@ -83,7 +86,7 @@ sub init {
             Foswiki::Func::writeWarning(
 "CAUTION: jQuery $jQueryIE not found. please fix the {JQueryPlugin}{JQueryVersionForOldIEs} settings."
             );
-            $jQueryIE = "jquery-1.11.3";
+            $jQueryIE = JQUERY1_DEFAULT;
         }
 
         $jQueryIE .= ".uncompressed" if $debug;
@@ -279,7 +282,7 @@ sub load {
 
     unless ( defined $pluginDesc->{instance} ) {
 
-        eval "use $pluginDesc->{class};";
+        eval "require $pluginDesc->{class};";
 
         if ($@) {
             Foswiki::Func::writeDebug(
@@ -428,7 +431,7 @@ sub getRandom {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
