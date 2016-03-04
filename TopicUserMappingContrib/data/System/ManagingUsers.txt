@@ -231,9 +231,11 @@ Content-Transfer-Encoding: 8bit
     WIKINAME="%WIKINAME%"
     FIRSTLASTNAME="%FIRSTLASTNAME%"
     EMAILADDRESS="%EMAILADDRESS%"
+    TEMPLATETOPIC="%TEMPLATETOPIC%"
 }%
 </verbatim>
-<div class="foswikiHelp"> %H% *Note* the use of %<nop>WIKINAME%, %<nop>FIRSTLASTNAME%, %<nop>EMAILADDRESS% passed in from the INCLUDE so that the topic below is similar to the original template</div>
+<div class="foswikiHelp"> %H% *Note* the use of %<nop>WIKINAME%, %<nop>FIRSTLASTNAME%, %<nop>EMAILADDRESS%, passed in from the INCLUDE so that the topic below is similar to the original template.
+The %<nop>TEMPLATETOPIC% variable is also available.  It could be used as a "section" name in the include, or directly in the email for tailoring messages for specific types of users.</div>
 
 and then create a topic %NOP%%USERSWEB%.RegisterNotifyEmail:
 <verbatim class="tml">

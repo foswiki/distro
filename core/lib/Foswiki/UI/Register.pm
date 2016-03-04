@@ -1565,6 +1565,7 @@ sub _buildConfirmationEmail {
     $templateText =~ s/%FIRSTLASTNAME%/$data->{Name}/g;
     $templateText =~ s/%WIKINAME%/$data->{WikiName}/g;
     $templateText =~ s/%EMAILADDRESS%/$data->{Email}/g;
+    $templateText =~ s/%TEMPLATETOPIC%/$data->{templatetopic}/g;
 
     my $topicObject = Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName},
         $data->{WikiName} );
