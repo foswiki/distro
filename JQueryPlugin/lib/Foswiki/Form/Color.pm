@@ -1,18 +1,16 @@
 # See bottom of file for license and copyright information
 package Foswiki::Form::Color;
-use Foswiki::Form::FieldDefinition;
-our @ISA = qw( Foswiki::Form::FieldDefinition );
+use v5.14;
 
 use Foswiki::Plugins::JQueryPlugin ();
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Form::FieldDefinition );
 
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
+sub BUILD {
+    my $this = shift;
     Foswiki::Plugins::JQueryPlugin::createPlugin("farbtastic");
-    return $this;
 }
 
 sub renderForEdit {
@@ -35,28 +33,31 @@ sub renderForEdit {
 
     my $field = CGI::textfield(
         -class    => $this->cssClasses('foswikiInputField jqFarbtastic'),
-        -name     => $this->{name},
+        -name     => $this->name,
         -size     => 11,
         -override => 1,
         -value    => $value,
-        -id       => $this->{name},
+        -id       => $this->name,
     );
 
     return ( '', $field );
 }
 
-sub renderForDisplay {
+around renderForDisplay => sub {
+    my $orig = shift;
     my ( $this, $format, $value, $attrs ) = @_;
 
     Foswiki::Plugins::JQueryPlugin::createPlugin("farbtastic");
 
     my $displayValue =
-"<span class='jqFarbtasticFG' style='background-color:$value;width:$this->{size}em'>$value</span>";
+        "<span class='jqFarbtasticFG' style='background-color:$value;width:"
+      . $this->size
+      . "em'>$value</span>";
     $format =~ s/\$value\(display\)/$displayValue/g;
     $format =~ s/\$value/$value/g;
 
-    return $this->SUPER::renderForDisplay( $format, $value, $attrs );
-}
+    return $orig->( $this, $format, $value, $attrs );
+};
 
 1;
 __END__

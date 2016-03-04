@@ -1,26 +1,24 @@
 # See bottom of file for license and copyright information
 package Foswiki::Form::Textboxlist;
+use v5.14;
 
-use Foswiki::Form::ListFieldDefinition;
-our @ISA = qw( Foswiki::Form::ListFieldDefinition );
 use Foswiki::Plugins::JQueryPlugin ();
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Form::ListFieldDefinition );
 
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
-
+sub BUILD {
+    my $this = shift;
     Foswiki::Plugins::JQueryPlugin::createPlugin("textboxlist");
-    return $this;
 }
 
 sub isMultiValued { return 1; }
 
 sub getDefaultValue { undef }
 
-sub renderForEdit {
+around renderForEdit => sub {
+    my $orig = shift;
     my ( $this, $param1, $param2, $param3 ) = @_;
 
     my $value;
@@ -37,7 +35,7 @@ sub renderForEdit {
         $value = $param3;
     }
 
-    my @values   = @{ $this->SUPER::getOptions() };
+    my @values   = @{ $orig->($this) };
     my $metadata = '';
     if (@values) {
         if ( scalar(@values) == 1 && $values[0] =~ m/^https?:/ ) {
@@ -54,15 +52,15 @@ sub renderForEdit {
     my $field = CGI::textfield(
         -class =>
           $this->cssClasses("foswikiInputField jqTextboxList $metadata"),
-        -name     => $this->{name},
-        -size     => $this->{size},
+        -name     => $this->name,
+        -size     => $this->size,
         -override => 1,
         -value    => $value,
-        -id       => $this->{name},
+        -id       => $this->name,
     );
 
     return ( '', $field );
-}
+};
 
 sub getOptions {
     my $this = shift;
@@ -71,7 +69,7 @@ sub getOptions {
 
     # trick this in
     my @values          = ();
-    my @valuesFromQuery = $query->multi_param( $this->{name} );
+    my @valuesFromQuery = $query->multi_param( $this->name );
     foreach my $item (@valuesFromQuery) {
 
         # Item10889: Coming from an "Warning! Confirmation required", often

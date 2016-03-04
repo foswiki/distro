@@ -1,64 +1,51 @@
 # See bottom of file for license and copyright information
 package Foswiki::Form::Rating;
+use v5.14;
 
-use strict;
-use warnings;
+use Foswiki::Plugins::JQueryPlugin ();
+use Foswiki::Func                  ();
+use JSON                           ();
 
-use Foswiki::Form::ListFieldDefinition ();
-use Foswiki::Plugins::JQueryPlugin     ();
-use Foswiki::Func                      ();
-use JSON                               ();
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Form::ListFieldDefinition);
 
-our @ISA = ('Foswiki::Form::ListFieldDefinition');
+has json => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { JSON->new->allow_nonref },
+);
 
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
+sub BUILD {
+    my $this = shift;
 
     my $options = $this->getOptions();
     if ( $options && @$options ) {
-        $this->{size} = scalar(@$options);
+        $this->size( scalar(@$options) );
     }
     else {
-        $this->{size} ||= 0;
-        $this->{size} =~ s/\D//g;
-        $this->{size} ||= 0;
-        $this->{size} = 5 if ( $this->{size} < 1 );
+        my $size = $this->size || 0;
+        $size =~ s/\D//g;
+        $size ||= 0;
+        $size = 5 if ( $size < 1 );
+        $this->size($size);
     }
-
-    return $this;
 }
 
-sub finish {
-    my $this = shift;
-    $this->SUPER::finish();
-    undef $this->{valueMap};
-    undef $this->{json};
-}
-
-sub json {
+around getOptions => sub {
+    my $orig = shift;
     my $this = shift;
 
-    unless ( $this->{json} ) {
-        $this->{json} = JSON->new->allow_nonref;
-    }
-
-    return $this->{json};
-}
-
-sub getOptions {
-    my $this = shift;
-
-    my $options = $this->{_options};
+    my $options = $this->_options;
     return $options if $options;
-    $options = $this->SUPER::getOptions();
+    $options = $orig->($this);
 
-    unless ( $this->{valueMap} ) {
+    unless ( $this->valueMap ) {
 
         # 2.0 does the value map for you in the superclass.
-        if ( $this->{type} =~ m/\+values/ ) {
-            $this->{valueMap} = ();
-            $this->{_options} = ();
+        if ( $this->type =~ m/\+values/ ) {
+            $this->clear_valueMap;
+            $this->_options( [] );
             my $str;
             foreach my $val (@$options) {
                 if ( $val =~ m/^(.*?[^\\])=(.*)$/ ) {
@@ -70,15 +57,15 @@ sub getOptions {
                     $str = $val;
                 }
                 $str =~ s/%([\da-f]{2})/chr(hex($1))/gei;
-                $this->{valueMap}{$val} = $str;
-                push @{ $this->{_options} }, $val;
+                $this->valueMap->{$val} = $str;
+                push @{ $this->_options }, $val;
             }
-            $options = $this->{_options};
+            $options = $this->_options;
         }
     }
 
     return $options;
-}
+};
 
 sub getDataValues {
     my $this = shift;
@@ -87,10 +74,10 @@ sub getDataValues {
     my @vals    = ();
 
     foreach my $val (@$options) {
-        if ( $this->{type} =~ m/\+values/
-            && defined( $this->{valueMap}{$val} ) )
+        if ( $this->type =~ m/\+values/
+            && defined( $this->valueMap->{$val} ) )
         {
-            push @vals, { $this->{valueMap}{$val} => $val };
+            push @vals, { $this->valueMap->{$val} => $val };
         }
         else {
             push @vals, $val;
@@ -107,9 +94,12 @@ sub renderForEdit {
     Foswiki::Plugins::JQueryPlugin::createPlugin("stars");
 
     my $result =
-"<input type='hidden' autocomplete='off' name='$this->{name}' value='$value' class='jqStars {$this->{attributes}}' "
+        "<input type='hidden' autocomplete='off' name='"
+      . $this->name
+      . "' value='$value' class='jqStars {"
+      . $this->attributes . "}' "
       . "data-num-stars='"
-      . $this->{size} . "' "
+      . $this->size . "' "
       . $this->getDataValues() . ">";
 
     return ( '', $result );
@@ -121,7 +111,7 @@ sub renderForDisplay {
     $format =~ s/\$value\(display\)/$this->renderDisplayValue($value)/ge;
     $format =~ s/\$value/$value/g;
 
-    return $this->SUPER::renderForDisplay( $format, $value, $attrs );
+    return $orig->( $this, $format, $value, $attrs );
 }
 
 sub renderDisplayValue {
@@ -132,9 +122,12 @@ sub renderDisplayValue {
     my @htmlAttrs = ();
 
     return
-"<input type='hidden' disabled autocomplete='off' name='$this->{name}' value='$value' class='jqStars {$this->{attributes}}' "
+        "<input type='hidden' disabled autocomplete='off' name='"
+      . $this->name
+      . "' value='$value' class='jqStars {"
+      . $this->attributes . "}' "
       . "data-num-stars='"
-      . $this->{size} . "' "
+      . $this->size . "' "
       . $this->getDataValues() . ">";
 }
 

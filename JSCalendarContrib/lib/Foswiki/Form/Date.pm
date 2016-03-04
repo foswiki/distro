@@ -4,22 +4,20 @@
 # the =date= type
 
 package Foswiki::Form::Date;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Form::FieldDefinition      ();
 use Foswiki::Contrib::JSCalendarContrib ();
-our @ISA = ('Foswiki::Form::FieldDefinition');
 
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
-    my $size  = $this->{size} || '';
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Form::FieldDefinition);
+
+sub BUILD {
+    my $this = shift;
+    my $size = $this->size || '';
     $size =~ s/[^\d]//g;
     $size = 20 if ( !$size || $size < 1 );    # length(31st September 2007)=19
-    $this->{size} = $size;
-    return $this;
+    $this->size($size);
 }
 
 sub renderForEdit {
@@ -34,9 +32,9 @@ sub renderForEdit {
     }
     $value = CGI::textfield(
         {
-            name  => $this->{name},
-            id    => 'id' . $this->{name},
-            size  => $this->{size},
+            name  => $this->name,
+            id    => 'id' . $this->name,
+            size  => $this->size,
             value => $value,
             class => $this->can('cssClasses')
             ? $this->cssClasses( 'foswikiInputField',
@@ -51,8 +49,10 @@ sub renderForEdit {
     Foswiki::Contrib::JSCalendarContrib::addHEAD('foswiki');
     my $button = CGI::img(
         {
-            onclick => "return showCalendar('id$this->{name}','$ifFormat')",
-            src     => Foswiki::Func::getPubUrlPath(
+            onclick => "return showCalendar('id"
+              . $this->name
+              . "','$ifFormat')",
+            src => Foswiki::Func::getPubUrlPath(
                 $Foswiki::cfg{SystemWebName}, 'JSCalendarContrib',
                 'img.gif'
             ),
@@ -68,7 +68,7 @@ sub renderForEdit {
     else {
 
         # Pre 1.1
-        my $session = $this->{session};
+        my $session = $this->session;
         $value =
           $session->renderer->getRenderedVersion(
             $session->handleCommonTags( $value, $web, $topic ) );

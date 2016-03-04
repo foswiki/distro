@@ -47,19 +47,16 @@ than 'utf-8'.
 =cut
 
 package Foswiki::Store::PlainFile;
-use strict;
-use warnings;
+use v5.14;
+use utf8;
 
 use File::Copy            ();
 use File::Copy::Recursive ();
+use File::Path            ();
 use Fcntl qw( :DEFAULT :flock );
 use JSON ();
 
-use Foswiki::Store ();
-our @ISA = ('Foswiki::Store');
-
 use Assert;
-use Error qw( :try );
 
 use Foswiki                                ();
 use Foswiki::Store                         ();
@@ -68,7 +65,12 @@ use Foswiki::Sandbox                       ();
 use Foswiki::Iterator::NumberRangeIterator ();
 use Foswiki::Users::BaseUserMapping        ();
 use Foswiki::Serialise                     ();
+use Try::Tiny;
 use Unicode::Normalize;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Store);
 
 # Web Preferences topic *file* name
 my $wptn = "/$Foswiki::cfg{WebPrefsTopicName}.txt";
@@ -121,9 +123,19 @@ BEGIN {
     }
 }
 
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new(@_);
+has queryObj => (
+    is        => 'rw',
+    clearer   => 1,
+    predicate => 1,
+);
+has searchQueryObj => (
+    is        => 'rw',
+    clearer   => 1,
+    predicate => 1,
+);
+
+sub BUILD {
+    my $this = shift;
 
     # Compatibility with old config settings
     unless ( defined $Foswiki::cfg{Store}{filePermission} ) {
@@ -131,14 +143,6 @@ sub new {
           $Foswiki::cfg{RCS}{filePermission};
         $Foswiki::cfg{Store}{dirPermission} = $Foswiki::cfg{RCS}{dirPermission};
     }
-    return $this;
-}
-
-sub finish {
-    my $this = shift;
-    $this->SUPER::finish();
-    undef $this->{queryObj};
-    undef $this->{searchQueryObj};
 }
 
 # Implement Foswiki::Store
@@ -372,12 +376,12 @@ sub getRevisionHistory {
         if ( _e _latestFile( $meta, $attachment ) ) {
             push( @list, 1 );
         }
-        return Foswiki::ListIterator->new( \@list );
+        return Foswiki::ListIterator->new( list => \@list );
     }
     my @revs;
     my $n = _numRevisions( \@revs, $meta, $attachment );
 
-    return Foswiki::Iterator::NumberRangeIterator->new( $n, 1 );
+    return Foswiki::Iterator::NumberRangeIterator->new( start => $n, end => 1 );
 }
 
 # Implement Foswiki::Store
@@ -733,14 +737,14 @@ sub eachAttachment {
     my $dh;
     my $ed = _encode( _getPub($meta), 1 );
     opendir( $dh, $ed )
-      or return new Foswiki::ListIterator( [] );
+      or return Foswiki::ListIterator->( list => [] );
     my @list =
       map { _decode($_) }
       grep { !/^[.*_]/ && !/,pfv$/ && ( -f "$ed/$_" ) } readdir($dh);
     closedir($dh);
 
     require Foswiki::ListIterator;
-    return new Foswiki::ListIterator( \@list );
+    return Foswiki::ListIterator->new( list => \@list );
 }
 
 # Implement Foswiki::Store
@@ -760,7 +764,7 @@ sub eachTopic {
     closedir($dh);
 
     require Foswiki::ListIterator;
-    return new Foswiki::ListIterator( \@list );
+    return Foswiki::ListIterator->new( list => \@list );
 }
 
 # Implement Foswiki::Store
@@ -807,7 +811,7 @@ sub eachWeb {
     }
     @list = sort(@list);
     require Foswiki::ListIterator;
-    return new Foswiki::ListIterator( \@list );
+    return Foswiki::ListIterator->new( list => \@list );
 }
 
 # Implement Foswiki::Store
@@ -861,27 +865,42 @@ sub query {
 
     my $engine;
     if ( $query->isa('Foswiki::Query::Node') ) {
-        unless ( $this->{queryObj} ) {
+        unless ( $this->has_queryObj ) {
             my $module = $Foswiki::cfg{Store}{QueryAlgorithm};
-            eval "require $module";
-            die
-"Bad {Store}{QueryAlgorithm}; suggest you run configure and select a different algorithm\n$@"
-              if $@;
-            $this->{queryObj} = $module->new();
+            try {
+                Foswiki::load_class($module);
+            }
+            catch {
+                Foswiki::Exception::Fatal->throw(
+                        text => "Bad {Store}{QueryAlgorithm} (set to "
+                      . $module
+                      . "); suggest you run configure and select a different algorithm\n"
+                      . ( ref($_) ? $_->stringify : $_ ) )
+                  if defined $_;
+            };
+            $this->queryObj( $module->new() );
         }
-        $engine = $this->{queryObj};
+        $engine = $this->queryObj;
     }
     else {
         ASSERT( $query->isa('Foswiki::Search::Node') ) if DEBUG;
-        unless ( $this->{searchQueryObj} ) {
+        unless ( $this->searchQueryObj ) {
             my $module = $Foswiki::cfg{Store}{SearchAlgorithm};
-            eval "require $module";
-            die
-"Bad {Store}{SearchAlgorithm}; suggest you run configure and select a different algorithm\n$@"
-              if $@;
-            $this->{searchQueryObj} = $module->new();
+            try {
+                Foswiki::load_class($module);
+            }
+            catch {
+                my $e = $_;
+                Foswiki::Exception::Fatal->throw(
+                        text => "Bad {Store}{SearchAlgorithm} (set to "
+                      . $module
+                      . "); suggest you run configure and select a different algorithm\n"
+                      . ( ref($_) ? $_->stringify : $_ ) )
+                  if defined $_;
+            };
+            $this->searchQueryObj( $module->new() );
         }
-        $engine = $this->{searchQueryObj};
+        $engine = $this->searchQueryObj;
     }
 
     no strict 'refs';
@@ -1252,8 +1271,7 @@ sub _readChanges {
         $row{minor} = ( $row{more} =~ m/minor/ );
         $row{cuid} =
             $Foswiki::Plugins::SESSION
-          ? $Foswiki::Plugins::SESSION->{users}
-          ->getCanonicalUserID( $row{user} )
+          ? $Foswiki::Plugins::SESSION->users->getCanonicalUserID( $row{user} )
           : $row{user};
         $row{path} = $web;
         $row{path} .= ".$row{topic}" if $row{topic};
@@ -1330,7 +1348,7 @@ sub eachChange {
     if ( _r $file ) {
         @changes = reverse grep { $_->{time} >= $since } _readChanges($file);
     }
-    return Foswiki::ListIterator->new( \@changes );
+    return Foswiki::ListIterator->new( list => \@changes );
 }
 
 # Read an entire (text) file
@@ -1453,7 +1471,7 @@ sub _copyFile {
 
 # Make all directories above the path
 sub _mkPathTo {
-    my $file = _encode( shift, 1 );
+    my $file = _encode( shift, 1, 'FilenameEncoding' );
 
     ASSERT( File::Spec->file_name_is_absolute($file), $file ) if DEBUG;
 
@@ -1465,11 +1483,22 @@ sub _mkPathTo {
     # correct dirPermissions to be applied
     umask( oct(777) - $Foswiki::cfg{Store}{dirPermission} );
 
+    my $err;
     eval {
-        File::Path::mkpath( $path, 0, $Foswiki::cfg{Store}{dirPermission} );
+        File::Path::mkpath(
+            $path, 0,
+            $Foswiki::cfg{Store}{dirPermission},
+            { error => \$err }
+        );
     };
+    if ( scalar @{$err} ) {
+        Foswiki::Exception::Fatal->throw(
+            text => "PlainFile: failed to create ${path}: $!" );
+    }
+
     if ($@) {
-        die("PlainFile: failed to create ${path}: $!");
+        Foswiki::Exception::Fatal->throw(
+            text => "PlainFile: failed to create ${path}: $!" );
     }
 }
 

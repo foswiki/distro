@@ -3,10 +3,12 @@
 # See Plugin topic for history and plugin information
 
 package Foswiki::Plugins::CommentPlugin;
-use v5.14;
 
+use strict;
+use warnings;
 use Assert;
 use Try::Tiny;
+use Foswiki::Exception;
 
 use Foswiki::Func    ();
 use Foswiki::Plugins ();
@@ -132,11 +134,11 @@ sub _restSave {
             $response->print("No such web '$web'");
         }
         else {
-            throw Foswiki::OopsException(
-                'oopsattention',
-                status => 403,
-                def    => 'web_not_found',
-                params => [ $web, "$web.$topic" ]
+            Foswiki::OopsException->throw(
+                template => 'oopsattention',
+                status   => 403,
+                def      => 'web_not_found',
+                params   => [ $web, "$web.$topic" ]
             );
         }
     }
@@ -156,11 +158,11 @@ sub _restSave {
             $response->print("No such topic '$topic'");
         }
         else {
-            throw Foswiki::OopsException(
-                'oopsattention',
-                status => 403,
-                def    => 'invalid_topic_parameter',
-                params => [ "$origTopic", 'comment_target' ]
+            Foswiki::OopsException->throw(
+                template => 'oopsattention',
+                status   => 403,
+                def      => 'invalid_topic_parameter',
+                params   => [ "$origTopic", 'comment_target' ]
             );
         }
     }
@@ -234,37 +236,35 @@ sub _restSave {
                   Foswiki::Func::getScriptUrl( $web, $topic, 'view' ) );
         }
     }
-    catch Foswiki::AccessControlException with {
-        my $e = shift;
-        if ($isXHR) {
-            $response->header( -status => 404 );
-            $response->print( $e->stringify );
-        }
-        else {
-            $e->throw();
-        }
-    }
-    case {
+    catch {
         my $e = $_;
         if ( ref($e) ) {
-
-            #code
-            # Redirect already requested to clear the endpoint
-            if ( $e->stringify =~ 'restauth-redirect' ) {
-                $query->param( redirectto => '' );
+            if ( $e->isa('Foswiki::AccessControlException') ) {
+                if ($isXHR) {
+                    $response->header( -status => 404 );
+                    $response->print( $e->stringify );
+                }
+                else {
+                    $e->rethrow;
+                }
             }
             else {
-                Foswiki::Exception::Fatal->rethrow($e);
+                # Redirect already requested to clear the endpoint
+                if ( $e->stringify =~ 'restauth-redirect' ) {
+                    $query->param( redirectto => '' );
+                }
+                else {
+                    $e->rethrow;
+                }
             }
         }
         else {
-
             if ($isXHR) {
                 $response->header( -status => 500 );
                 $response->print($e);
             }
             else {
-                Foswiki::Exception::Fatal->rehtrow($e);
+                Foswiki::Exception::Fatal->rethrow($e);
             }
 
         }

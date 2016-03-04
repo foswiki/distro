@@ -84,7 +84,8 @@ sub checkRCSProgram {
         }
     }
 
-    $mess .= $this->NOTE("$prog $fullversion detected.") if defined $fullversion;
+    $mess .= $this->NOTE("$prog $fullversion detected.")
+      if defined $fullversion;
 
     if ($err) {
         $mess .= $this->ERROR(

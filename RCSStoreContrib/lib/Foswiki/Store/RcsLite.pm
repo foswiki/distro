@@ -16,18 +16,17 @@ has no equivalent in Foswiki 1.0. The equivalent of the old
 =cut
 
 package Foswiki::Store::RcsLite;
-
-use strict;
-use warnings;
-
-use Foswiki::Store::Rcs::Store ();
-our @ISA = ('Foswiki::Store::Rcs::Store');
+use v5.14;
 
 use Foswiki::Store::Rcs::RcsLiteHandler ();
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Store::Rcs::Store);
+
 sub getHandler {
     my $this = shift;
-    return new Foswiki::Store::Rcs::RcsLiteHandler( $this, @_ );
+    return Foswiki::Store::Rcs::RcsLiteHandler->loadCached( $this, @_ );
 }
 
 1;

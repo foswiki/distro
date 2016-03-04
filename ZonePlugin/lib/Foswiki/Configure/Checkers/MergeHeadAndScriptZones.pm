@@ -7,21 +7,17 @@ use warnings;
 use Foswiki::Configure::Checker ();
 our @ISA = qw( Foswiki::Configure::Checker );
 
-sub check {
-    my $this      = shift;
-    my $e         = '';
+sub check_current_value {
+    my ( $this, $reporter ) = @_;
 
-    if ( $Foswiki::cfg{MergeHeadAndScriptZones}   )
-    {
-        $e .= $this->WARN(<<'MESSAGE');
+    if ( $Foswiki::cfg{MergeHeadAndScriptZones} ) {
+        $reporter->WARN(<<'MESSAGE');
 This feature will be removed from a future version of Foswiki.
 Please update any extensions that rely on this behaviour. See
 <a href="http://foswiki.org/Development/UpdatingExtensionsScriptZone">
 http://foswiki.org/Development/UpdatingExtensionsScriptZone</a>
 MESSAGE
     }
-
-    return $e;
 }
 
 1;
