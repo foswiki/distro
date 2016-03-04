@@ -77,9 +77,10 @@ BEGIN {
 }
 
 has session => (
-    is      => 'rw',
-    clearer => 1,
-    isa     => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
+    is       => 'rw',
+    weak_ref => 1,
+    clearer  => 1,
+    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
 );
 has mapping => (
     is        => 'rw',
