@@ -5,9 +5,12 @@
 #
 use strict;
 
-my $where = '/home/foswiki.org/public_html/data/Tasks';
+my $ROOT = '/var/www/trunk.foswiki.org';
+my $PROD = '/var/www/foswiki.org';
+
+my $where = "$PROD/data/Tasks";
 my $text =
-`cd /home/trunk.foswiki.org/core/bin && perl -T ./view topic="Tasks.GenerateWebNotify" -skin text -contenttype text/plain`;
+`cd $ROOT/core/bin && perl ./view topic="Tasks.GenerateWebNotify" -skin text -contenttype text/plain`;
 my %topics;
 foreach my $line ( split( /\r?\n/, $text ) ) {
     $line =~ s#(TWiki:)?Main[./]##g;

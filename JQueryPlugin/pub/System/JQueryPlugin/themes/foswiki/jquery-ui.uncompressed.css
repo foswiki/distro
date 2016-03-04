@@ -304,6 +304,21 @@ a.ui-state-highlight.ui-state-hover,
   height: 16px; 
   background-image: url(images/ui-icons-famfamfam.png); 
 }
+.ui-icon[class^="fa-"],
+.ui-icon[class*="fa-"] {
+  display: inline-block;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-indent: 0; 
+  text-align:center;
+  width: 16px; 
+  height: 16px; 
+  background: transparent;
+  font-family:FontAwesome;
+  font-weight:normal;
+}
 
 /* positioning */
 .ui-icon-blank { background-position: 16px 16px; } /* TODO */
@@ -1429,6 +1444,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 input.jqUIDatepicker {
   position:relative;
   z-index: 3;
+  height:2em;
 }
 .ui-datepicker { 
   width: 17em; 
@@ -1581,6 +1597,7 @@ table.ui-datepicker-inline {
 .ui-datepicker-trigger:active {
   border-width:1px 1px 1px 0;
   border-radius:0 3px 3px 0;
+  height:2em;
 }
 
 /* jqGrid 

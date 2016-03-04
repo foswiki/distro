@@ -1,0 +1,143 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1456220586" format="1.1"  version="1"}%
+%META:TOPICPARENT{name="JQueryPlugin"}%
+---+ %TOPIC%
+%JQPLUGINS{"i18n"
+  format="
+    Homepage: $homepage <br />
+    Author(s): $author <br />
+    Version: $version
+  "
+}%
+
+%TOC%
+
+---++ Summary
+
+%STARTSECTION{"summary"}%
+This plugin tries to be the simplest possible solution to add internationalization to javascript. It _only_ does message translation
+reading translations from the backend. It does _not_ cover dates, numbers, gender or pluralization.
+%ENDSECTION{"summary"}%
+
+---++ Translations
+
+jQuery plugins may provide translations in an =i18n/= subdirectory on the backend and let JQueryPlugin take care of loading the appropriate
+language file for the current web page. This is done by specifying the path to the =i18n/= subdirectory in the plugin definition. 
+
+Here's an example definition as specified in an =lib/Foswiki/Plugins/SomePlugin/EXAMPLE.pm= 
+
+<verbatim class="perl">
+sub new {
+    my $class = shift;
+
+    my $this = bless(
+        $class->SUPER::new(
+            name       => 'Example',
+            version    => '1.0',
+            author     => 'First Last',
+            homepage   => 'http://...',
+            i18n       => $Foswiki::cfg{SystemWebName} . "/SomePlugin/i18n",
+            css        => ['example.css'],
+            javascript => ['example.js'],
+            dependencies => ['some other plugin'],
+        ),
+        $class
+    );
+
+    return $this;
+}
+</verbatim>
+
+See also the =lib/Foswiki/Plugins/JQueryPlugin/EMPTY.pm= template as shipped with JQueryPlugin.
+
+The =i18n= attribute in the plugin definition specifies the path component starting from the =pub/= root of the server. This directory may hold translations for each language:
+
+<verbatim>
+pub/System/SomePlugin/i18n/de.js
+pub/System/SomePlugin/i18n/en.js
+...
+pub/System/SomePlugin/i18n/uk.js
+</verbatim>
+
+---++ Language detection
+
+The actual language of the user's browser is detected by Foswiki already and flagged appropriately in the HTML dom element =&lt<html lang="code">=.
+So <nop>%TOPIC% will only have to read this attribute and pick translations from the appropriate namespace of the dictionary.
+
+The language can be changed dynamically on the client side by changing the =lang= attribute of the HTML dom element and then firing a =change= element
+on it to inform the =I18N= component to re-translate all strings again.
+
+<verbatim class="js">
+$("html").attr("lang", "uk").trigger("change");
+</verbatim>
+
+---++ Loading translations
+When Foswiki renders a page, only the translations for the current language will be loaded automatically. This is done by adding a special =&lt;script>= element to the page. For our example
+plugin this would then be
+
+<verbatim class="html">
+<script type="application/l10n" data-i18n-language="en" data-i18n-namespace="SOMEPLUGIN" src="pub/System/SomePlugin/i18n/en.js"></script>
+</verbatim>
+
+This file will then be loaded by the =I18N= component and will translate all elements on the page flagged to be translatable.
+
+Note that not all translations have to be specified in one single file. Instead translations are added incrementally to the dictionary.
+New =%&lt;script type="application/l10n" ...>= elements might even be loaded dynamically (like when using <nop>AngularSkin).
+
+---++ Format of translation files
+Translation files have a very simple format holding a single json object of this form:
+
+<verbatim class="js">
+{
+   "message-key": "translation",
+   "Hello World": "Hallo Welt",
+   "Hello %name%": "Hallo %name%",
+...
+}
+</verbatim>
+
+Note that when a =message-key= was not found in the dictionary will the translation default to the message key itself.
+
+---++ Inline translations
+
+Translations could also be inlined to the current page this way:
+
+<verbatim class="js">
+<script type="application/l10n" data-i18n-language="en">
+{
+   "message-key": "translation",
+...
+   "message-key": "translation"
+}
+</script>
+</verbatim>
+
+Actual key-value pairs in this dictionary follow the same format as if it was loaded asynchronously from the backend.
+
+---++ Translating a string
+
+There are two ways of translating strings:
+
+   * via the javascript API
+   * using declarative HTML
+
+This is how to translate a string using the javascript API: =$.i18n(string, params)=. For example:
+
+<verbatim class="js">
+var translation = $.i18n("Hello %name%, time to get up. It's already %time%", {
+   name: "Fred",
+   time: (new Date()).toLocaleString()
+});
+</verbatim>
+
+This will take the message key and parameters and replace all occurrences of =%<nop>name%= and =%<nop>time%= with values as specified in the =params= object.
+
+DOM elements holding strings could also be translated automatically without explicitly calling the javascript API. 
+
+<verbatim class="html">
+<span class="i18n" data-i18n-message="Hello %wikiname%" data-i18n-wikiname="%WIKINAME%">foo bar</span>
+</verbatim>
+
+As soon as a dictionary has been loaded will all elements of =class="i18n"= be processed. The message key specified in the =data-i18n-message=" attribute will
+be processed and replaces the inner html if the element: "foo bar" will be replaced with "Hello <nop>%WIKINAME%".
+
+Whenever the current language changes or a the dictionary has been updated incrementally will all =i18n= dom elements be re-translated again.

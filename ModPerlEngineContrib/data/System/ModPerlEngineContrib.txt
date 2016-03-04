@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1445388951" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1454442922" format="1.1" version="1"}%
 ---+!! !ModPerlEngineContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -25,20 +25,32 @@ each request.
 
 ---++ Installation Instructions
 
+
+%T% As of Foswiki 2.0, !ModPerlEngineContrib is installed by default. <button class="twistyExpandAll foswikiButton">Show all Foswiki 1.x instructions</button> 
+
+%TWISTY{ start="hide" showlink="Show Foswiki 1.x details"}%
+<div class="foswikiHelp">
+*This block of instructions is only needed on Foswiki 1.x systems.*
+
 Install [[Foswiki:Extensions/ModPerlEngineContrib][ModPerlEngineContrib]]
 either manually (download the package and extract its contents over your
 foswiki directory) or using [[%SCRIPTURL{"configure"}%][configure]]
 (under =Extensions= section, push the =Find More Extensions= button).
 
+%X% Foswiki 1.x installations *must* be configured before mod_perl is enabled
+in Apache. Run [[%SCRIPTURL{"configure"}%][configure]] *before* enabling mod_perl in Apache. 
+or else Apache will not start, reporting an error about a missing
+=lib/LocalSite.cfg=.  You will need to:
+   1 Configure apache with standard CGI
+   1 Configure Foswiki using =bin/configure=
+   1 Re-configure Apache with =mod_perl= active.
+</div>
+%ENDTWISTY{}%
+
 Visit the [[Foswiki:Support/ApacheConfigGenerator][apache config generator]]
 and fill in the fields according to your environment. Select __mod_perl__ as your
 __Runtime Engine__ and choose your apache version. Push the ==Update config file== 
 button and you'll get your config file.
-
-%X% %RED% When installed for the first time, Foswiki *must* be configured. Run
-[[%SCRIPTURL{"configure"}%][configure]] *before* enabling this contrib
-or else Apache will not start, reporting an error about a missing
-=lib/LocalSite.cfg= %ENDCOLOR%
 
 In the web server configuration, you will need to load =mod_perl= but it is also recommended to load the
 [[http://httpd.apache.org/apreq/][Apache HTTP Request Library]] (module apreq).
@@ -49,11 +61,16 @@ apache2: symbol lookup error: /usr/lib/perl5/auto/APR/Request/Apache2/Apache2.so
 
 ---+++ Confirming =mod_perl= installation
 
-You may (though not necessarily) be able to confirm that =mod_perl= is installed and enabled by checking
+On Foswiki 2.0 systems. visit System.FoswikiServerInformation.   Look for the
+=Engine= entry in the =General execution environment= table.
+
+%TWISTY{start="hide" showlink="Show Foswiki 1.x details"}%
+On Foswiki 1.x systems. you may (though not necessarily) be able to confirm that =mod_perl= is installed and enabled by checking
 in configure's "Environment Variables" section.  a sample:
 
 | SERVER_SIGNATURE | Apache/2.2.9 (Debian) mod_apreq2-20051231/2.6.0 mod_perl/2.0.4 Perl/v5.10.0 Server at 127.0.0.1 Port 2116 |
 | SERVER_SOFTWARE | Apache/2.2.9 (Debian) mod_apreq2-20051231/2.6.0 mod_perl/2.0.4 Perl/v5.10.0 |
+%ENDTWISTY{}%
 
 Another technique to see which modules are enabled is using =apache2ctl=
 <verbatim>
@@ -65,19 +82,18 @@ If not found, enable mod_perl with
 $ a2enmod mod_perl
 </verbatim>
 
-
 ---+++ Foswiki configuration tuning
 
 Forking new processes under =mod_perl= can be very slow, so some configuration
 changes are recommended.
 
-Access the [[%SCRIPTURL{"configure"}%][configure]] script and click the =Yes, I've read all the documentation=
-button to show the expert settings.
+Access the [[%SCRIPTURL{"configure"}%][configure]] script. (On Foswiki 1.x, you will need to click the =Yes, I've read all the documentation=
+button to show the expert settings.)
 Go to =Store Settings=:
-   * ={StoreImpl}=: adjust to =RcsLite=
-   * ={RCS}{SearchAlgorithm}=: use =Foswiki::Store::SearchAlgorithms::PurePerl= or Foswiki:Extensions/NativeSearchContrib
+   * =Store Implementation=: If using RCS, adjust to =RcsLite=.  (If using the !PlainFile store, no change is needed.)
+   * =Search Algorithm=: use =Foswiki::Store::SearchAlgorithms::PurePerl= or Foswiki:Extensions/NativeSearchContrib
 
----+++ =mod_perl+ configuration tuning
+---+++ =mod_perl= configuration tuning
 
 =mod_perl= limits the size of attachments to 64M by default.  Set the
 =APREQ2_ReadLimit= to the maximum expected upload to permit larger
@@ -88,7 +104,7 @@ set in %USERSWEB%.SitePreferences, default taken from
 %SYSTEMWEB%.SitePreferences.
 <verbatim>
 <IfModule mod_perl.c>
-   PerlSwitches -wT
+   PerlSwitches -wT    # DO NOT USE THIS with Foswiki 2.0
    # mod_perl_startup.pl must exist, otherwise Apache will not start.
    PerlRequire "/var/www/foswiki/tools/mod_perl_startup.pl"
    APREQ2_ReadLimit  104857600
@@ -97,23 +113,33 @@ set in %USERSWEB%.SitePreferences, default taken from
 
 ---++ Known Issues
 
-   * Apache must be =restart=ed in order for configuration changes take effect.
+   * You must ==restart== Apache in order for configuration changes take effect.
+
+%TWISTY{start="hide" showlink="Show Foswiki 1.x details"}%
    * The =bin/configure= script is an exception and should be run as a plain 
    CGI script.  The required =SetHandler cgi-script= should already be specified
    in the =<Files configure.*>= in your Apache config or =bin/.htaccess= file.
-<blockquote><verbatim>
+<verbatim>
    <FilesMatch "configure.*">
       SetHandler cgi-script
       .
       .
    </FilesMatch>
-</verbatim></blockquote>
+</verbatim>
+%ENDTWISTY{}%
    * If you are using some extension that add files to the =bin/= 
    directory, you may face problems as they were not designed to be executed 
    under =mod_perl=.  You should configure them to be run as plain CGI scripts.
    You can replace =Files= directive by
    [[http://httpd.apache.org/docs/2.2/mod/core.html#filesmatch][FilesMatch]] 
    and list all the exceptions.
+<verbatim>
+   <FilesMatch "[script name needing CGI].*">
+      SetHandler cgi-script
+      .
+      .
+   </FilesMatch>
+</verbatim>
 
 ---++ List of Files
 
@@ -123,6 +149,7 @@ set in %USERSWEB%.SitePreferences, default taken from
 ---++ Info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  16 Jan 2016 (1.02) | Foswikitask:Item13926 Fix backwards compatibility with Foswiki 1.1. |
 |  20 Oct 2015 (1.01) | Released with Foswiki 2.0.3.<br />\
                         Foswikitask:Item13830: Unable to upload utf-8 filenames as attachments. |
 |  14 Jun 2015 (1.00) | Released with Foswiki 2.0.<br />\

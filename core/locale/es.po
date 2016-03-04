@@ -194,7 +194,7 @@ msgstr "%1 para personalizar las preferencias específicas de la web"
 msgid "%1 to start working on the new web"
 msgstr "%1 para comenzar a trabajar en la web nueva"
 
-#: core/templates/messages.tmpl:453 core/templates/messages.tmpl:466
+#: core/templates/messages.tmpl:466 core/templates/messages.tmpl:479
 msgid "%1 topic does not exist"
 msgstr "El tema %1 no existe"
 
@@ -307,7 +307,7 @@ msgstr "(borrar archivo adjunto)"
 msgid "(delete)"
 msgstr "(borrar)"
 
-#: core/templates/messages.tmpl:513
+#: core/templates/messages.tmpl:526
 #, fuzzy
 msgid "(disabled)"
 msgstr "Editar tabla"
@@ -582,7 +582,7 @@ msgstr ""
 "Una extención =.txt= es añadida a algunos nombres de archivos por razones de "
 "seguridad"
 
-#: core/templates/messages.tmpl:423 core/templates/messages.tmpl:434
+#: core/templates/messages.tmpl:436 core/templates/messages.tmpl:447
 msgid ""
 "A Foswiki site is divided into webs; each one represents one subject, one "
 "area of collaboration. You are trying to %1 in a web that does not exist."
@@ -603,7 +603,7 @@ msgstr ""
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Se envió un correo de confirmación a %1"
 
-#: core/templates/messages.tmpl:427 core/templates/messages.tmpl:438
+#: core/templates/messages.tmpl:440 core/templates/messages.tmpl:451
 msgid ""
 "A link to a topic located in another web is written like %1. Make sure that "
 "the name of the web is not spelt wrongly on the previous page; fix the link "
@@ -649,7 +649,7 @@ msgstr ""
 msgid "Access Denied"
 msgstr "Acceso denegado"
 
-#: core/templates/messages.tmpl:394
+#: core/templates/messages.tmpl:407
 msgid "Access check on %1 failed"
 msgstr "La revisión de acceso a %1 falló"
 
@@ -667,7 +667,7 @@ msgstr "Teclas de acceso:"
 msgid "Action"
 msgstr "Acción"
 
-#: core/templates/messages.tmpl:396
+#: core/templates/messages.tmpl:409
 #, fuzzy
 msgid "Action %1: %2 by user %3."
 msgstr "Acción %1: %2."
@@ -864,7 +864,7 @@ msgstr "Adjuntar archivo nuevo"
 msgid "Attachment"
 msgstr "Archivo adjunto"
 
-#: core/templates/messages.tmpl:473
+#: core/templates/messages.tmpl:486
 msgid "Attachment '%1' does not exist"
 msgstr "El archivo adjunto '%1' no existe"
 
@@ -1010,6 +1010,10 @@ msgstr ""
 #. (( $groupName, $user)
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:940
 msgid "CHANGE not permitted for %1 by %2"
+msgstr ""
+
+#: core/templates/messages.tmpl:394
+msgid "Cache =refresh=all= denied for non-admin users."
 msgstr ""
 
 #: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:287
@@ -1299,10 +1303,11 @@ msgstr ""
 msgid "Conflict"
 msgstr "Conflicto"
 
-#: core/templates/messages.tmpl:400 core/templates/messages.tmpl:407
-#: core/templates/messages.tmpl:412 core/templates/messages.tmpl:449
-#: core/templates/messages.tmpl:462 core/templates/messages.tmpl:469
-#: core/templates/messages.tmpl:478 core/templates/registermessages.tmpl:109
+#: core/templates/messages.tmpl:402 core/templates/messages.tmpl:413
+#: core/templates/messages.tmpl:420 core/templates/messages.tmpl:425
+#: core/templates/messages.tmpl:462 core/templates/messages.tmpl:475
+#: core/templates/messages.tmpl:482 core/templates/messages.tmpl:491
+#: core/templates/registermessages.tmpl:109
 #: core/templates/registermessages.tmpl:132
 msgid "Contact %1 if you have any questions."
 msgstr "Comuníquese con %1 si tiene alguna consulta."
@@ -1442,7 +1447,7 @@ msgstr ""
 msgid "Create personal sidebar"
 msgstr "Crear una recuadro adicional personal"
 
-#: core/templates/messages.tmpl:447
+#: core/templates/messages.tmpl:460
 msgid "Create the topic"
 msgstr "Crear el tema"
 
@@ -1644,32 +1649,32 @@ msgstr ""
 msgid "E-mail changed successfully!"
 msgstr "Dirección de correo electrónico fue cambiada exitosamente!"
 
-#: core/templates/messages.tmpl:481
+#: core/templates/messages.tmpl:494
 #, fuzzy
 msgid "ENCODE failed - =type= cannot be used alongside =old= and =new= "
 msgstr "Falló ENCODE - no se puede utilizar =type= junto con =old= y =new= "
 
-#: core/templates/messages.tmpl:483
+#: core/templates/messages.tmpl:496
 #, fuzzy
 msgid "ENCODE failed - both of =old= and =new= must be given"
 msgstr "Falló ENCODE - tanto =old= como =new= deberán entregarse"
 
-#: core/templates/messages.tmpl:485
+#: core/templates/messages.tmpl:498
 #, fuzzy
 msgid "ENCODE failed - token '%PARAM1%' is repeated in =old= "
 msgstr "Falló ENCODE - '%PARAM1%' se repite en =old= "
 
-#: core/templates/messages.tmpl:491
+#: core/templates/messages.tmpl:504
 #, fuzzy
 msgid "EXPAND failed - access to '%PARAM1%' denied"
 msgstr "Falló EXPAND - acceso a '%PARAM1%' denegado"
 
-#: core/templates/messages.tmpl:487
+#: core/templates/messages.tmpl:500
 #, fuzzy
 msgid "EXPAND failed - no macro"
 msgstr "Falló EXPAND - no es un macro"
 
-#: core/templates/messages.tmpl:489
+#: core/templates/messages.tmpl:502
 #, fuzzy
 msgid "EXPAND failed - no such topic '%PARAM1%'"
 msgstr "Falló EXPAND - no existe el tema '%PARAM1%'"
@@ -1812,7 +1817,7 @@ msgstr ""
 msgid "Enter users or groups to add to this group"
 msgstr "Elimine el usuario de este grupo"
 
-#: core/templates/messages.tmpl:501
+#: core/templates/messages.tmpl:514
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
 
@@ -2016,10 +2021,7 @@ msgstr ""
 msgid "Foswiki password reset for %1"
 msgstr "Reinicialice su contraseña de Foswiki para %1"
 
-#: PatternSkin/templates/view.pattern.tmpl:73
-msgid "Get a fresh version <a href='%1' rel='nofollow'>here</a>."
-msgstr ""
-
+#: PatternSkin/templates/view.pattern.tmpl:74
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
 msgid "Get a fresh version <a href='%1'>here</a>."
 msgstr ""
@@ -2043,7 +2045,7 @@ msgid "Globe"
 msgstr "Globo"
 
 #: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
-#: core/templates/messages.tmpl:476 core/templates/registermessages.tmpl:378
+#: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:378
 msgid "Go back"
 msgstr "Regresar"
 
@@ -2059,7 +2061,7 @@ msgstr ""
 msgid "Go back in your browser and save your changes locally."
 msgstr "Presione atrás en su navegador y guarde sus cambios localmente."
 
-#: core/templates/messages.tmpl:498
+#: core/templates/messages.tmpl:511
 msgid ""
 "Go back to the previous page, and enable Cookies and !JavaScript before "
 "trying again"
@@ -2273,7 +2275,7 @@ msgstr ""
 msgid "If you are unsure what this means, read: %1"
 msgstr "Si no está segur@ qué significa, revise: %1"
 
-#: core/templates/messages.tmpl:425 core/templates/messages.tmpl:436
+#: core/templates/messages.tmpl:438 core/templates/messages.tmpl:449
 msgid "If you came here by clicking on a question mark link"
 msgstr "Si usted llegó aquí haciendo click en un enlace de signo de pregunta"
 
@@ -2325,7 +2327,7 @@ msgstr ""
 "Si usted recibió un enlace a esta página por correo electrónico o solo desea "
 "ver el tema, [[%1][cancele guardar]] para ir a %2."
 
-#: core/templates/messages.tmpl:446
+#: core/templates/messages.tmpl:459
 msgid "If you want to create the topic"
 msgstr "Si quiere crear el tema"
 
@@ -2335,7 +2337,7 @@ msgid ""
 "a plus sign"
 msgstr ""
 
-#: core/templates/messages.tmpl:441
+#: core/templates/messages.tmpl:454
 msgid "If you would like to create this web"
 msgstr "Si quiere crear esta web"
 
@@ -2760,7 +2762,7 @@ msgstr "Campos sin llenar"
 msgid "Missing action command"
 msgstr "Comando de acción no encontrado"
 
-#: core/templates/messages.tmpl:419
+#: core/templates/messages.tmpl:432
 msgid "Missing or illegal web name"
 msgstr ""
 
@@ -3131,7 +3133,7 @@ msgstr ""
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "Solo miembros del %1 tienen permiso de realizar esta acción."
 
-#: core/templates/messages.tmpl:410
+#: core/templates/messages.tmpl:423
 msgid "Only members of the %1 are allowed to perform this action."
 msgstr "Solo miembros del %1 tienen permiso de realizar esta acción."
 
@@ -3388,7 +3390,7 @@ msgstr ""
 "Por favor asegurese de que haya escrito correctamente el %1 e inténtelo de "
 "nuevo. Si se atora, por favor envie un correo electrónico a %2."
 
-#: core/templates/messages.tmpl:495
+#: core/templates/messages.tmpl:508
 #, fuzzy
 msgid "Please notify your %1 administrator."
 msgstr ""
@@ -3409,11 +3411,11 @@ msgstr ""
 msgid "Plugin handlers"
 msgstr ""
 
-#: core/templates/messages.tmpl:511
+#: core/templates/messages.tmpl:524
 msgid "Plugin module did not return true. See errors below."
 msgstr ""
 
-#: core/templates/messages.tmpl:503
+#: core/templates/messages.tmpl:516
 msgid "Plugin module was not defined. Check configuration. See errors below."
 msgstr ""
 
@@ -3617,7 +3619,8 @@ msgstr "Temas relacionados"
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
-#: core/templates/messages.tmpl:402 core/templates/messages.tmpl:415
+#: core/templates/messages.tmpl:404 core/templates/messages.tmpl:415
+#: core/templates/messages.tmpl:428
 msgid "Related topics:"
 msgstr "Temas relacionados:"
 
@@ -4323,7 +4326,7 @@ msgstr ""
 msgid "Table"
 msgstr ""
 
-#: core/templates/messages.tmpl:459
+#: core/templates/messages.tmpl:472
 msgid "Template %1 does not exist"
 msgstr "Plantilla %1 no existe"
 
@@ -4381,7 +4384,7 @@ msgstr "Este usuario ya fue activado "
 msgid "The %1 topic already exists"
 msgstr "El tema %1 ya existe"
 
-#: core/templates/messages.tmpl:433
+#: core/templates/messages.tmpl:446
 msgid "The %1 web does not exist"
 msgstr "La web %1 no existe"
 
@@ -4430,7 +4433,7 @@ msgstr "El administrador deshabilitó el registro de usuarios nuevos."
 msgid "The Free and Open Source Wiki."
 msgstr "El Free and Open Source Wiki (Wiki libre y de código abierto)."
 
-#: core/templates/messages.tmpl:421
+#: core/templates/messages.tmpl:434
 #, fuzzy
 msgid ""
 "The Web/Topic path: '%1' has missing components, or contains invalid "
@@ -4941,10 +4944,16 @@ msgstr ""
 msgid "To edit the topic anyway, click "
 msgstr "Para editar el tema de todas maneras, presione "
 
-#: core/templates/messages.tmpl:398
+#: core/templates/messages.tmpl:400 core/templates/messages.tmpl:411
 #, fuzzy
 msgid "To login as another user please do so [[%1][here]]."
 msgstr "Puede ver las diferencias [[%1][Aquí]]"
+
+#: core/templates/messages.tmpl:398
+msgid ""
+"To refresh the cache for just this topic, <a href='%1' rel='nofollow' > "
+"click here </a> "
+msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -4966,7 +4975,7 @@ msgstr "A la web"
 msgid "To web:"
 msgstr "A la web:"
 
-#: core/templates/messages.tmpl:494
+#: core/templates/messages.tmpl:507
 msgid "Too many recursions parsing template %1"
 msgstr ""
 
@@ -5124,7 +5133,7 @@ msgstr "Usuario y/o contraseña no reconocido"
 msgid "Unrecognized action command %1"
 msgstr "Comando de acción %1 no reconocido"
 
-#: core/templates/messages.tmpl:405
+#: core/templates/messages.tmpl:418
 msgid ""
 "Unsafe redirect to %1 is denied. The requested host does not match %2, and "
 "is not in {PermittedRedirectHostUrls}."
@@ -5613,28 +5622,28 @@ msgstr ""
 "para usarse como base para crear otras webs) escoja un nombre que empiece "
 "con línea inferior y que tenga solo caracteres alfanuméricos."
 
-#: core/templates/messages.tmpl:474
+#: core/templates/messages.tmpl:487
 #, fuzzy
 msgid "You are trying to access an attachment that does not exist."
 msgstr "Está tratando de %1 un archivo adjunto que no existe."
 
-#: core/templates/messages.tmpl:460
+#: core/templates/messages.tmpl:473
 msgid "You are trying to create a topic from a template that does not exist."
 msgstr ""
 "Está tratando de crear un tema con base en una plantilla que no existe."
 
-#: core/templates/messages.tmpl:454
+#: core/templates/messages.tmpl:467
 msgid ""
 "You are trying to perform an action on a topic that does not exist (action "
 "'%1')."
 msgstr ""
 "Está tratando de realizar una acción en un tema que no existe (acción '%1')"
 
-#: core/templates/messages.tmpl:467
+#: core/templates/messages.tmpl:480
 msgid "You are trying to rename a topic that does not exist."
 msgstr "Está tratando de renombrar un tema que no existe."
 
-#: core/templates/messages.tmpl:442
+#: core/templates/messages.tmpl:455
 msgid ""
 "You can [[%1][create a new web]] if you have permission. Contact %2 if you "
 "have any questions."
@@ -5676,7 +5685,7 @@ msgstr ""
 "Probablemente tendrá que contactar a su administrador, %1, para proceder con "
 "esto."
 
-#: core/templates/messages.tmpl:497
+#: core/templates/messages.tmpl:510
 msgid ""
 "You cannot proceed because either Cookies or !JavaScript are disabled in "
 "your browser."
@@ -5722,6 +5731,12 @@ msgid "You may need to close your browser to make this change take effect."
 msgstr ""
 "Tal vez necesite cerrar su navegador para hacer que los cambios tengan "
 "efecto."
+
+#: core/templates/messages.tmpl:396
+msgid ""
+"You must be the =%1= super user, or a member of the %2, to clear the global "
+"cache for all topics."
+msgstr ""
 
 #: core/templates/messages.tmpl:89
 msgid "You must pass a topic name."
@@ -5978,7 +5993,7 @@ msgstr ""
 msgid "don't forget to check your Topic Settings"
 msgstr "no se le olvide revisar su configuración de página"
 
-#: core/templates/messages.tmpl:509
+#: core/templates/messages.tmpl:522
 msgid "earlyInitPlugin failed.  See errors below."
 msgstr ""
 
@@ -6027,7 +6042,7 @@ msgstr "en formato de código"
 msgid "indicates mandatory fields"
 msgstr "indica campos obligatorios"
 
-#: core/templates/messages.tmpl:505 core/templates/messages.tmpl:507
+#: core/templates/messages.tmpl:518 core/templates/messages.tmpl:520
 msgid "initPlugin was not defined. See errors below."
 msgstr ""
 

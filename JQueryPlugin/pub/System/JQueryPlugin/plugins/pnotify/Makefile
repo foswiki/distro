@@ -1,5 +1,6 @@
-TARGET=\
-  jquery.pnotify.js \
-  jquery.pnotify.default.css \
-  $(JQUERYPLUGIN_LIB)/PNOTIFY.pm
+TARGET=jquery.pnotify.js jquery.pnotify.default.css 
+
 -include ../../Makefile.include
+
+clean:
+	rm -f $(TARGET) *.gz

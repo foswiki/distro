@@ -3941,31 +3941,6 @@ sub dataDecode {
     return $datum;
 }
 
-=begin TML
-
----++ ClassMethod type() => $resourcetype
-
-(see Foswiki::Address::type)
-
-Returns the resource type name.
-   * webpath, Eg. =Web/SubWeb/=
-   * topic, Eg. =Web/SubWeb.
-   * undef, I have no idea whats going on, we're not there yet
-
-=cut
-
-sub type {
-    my ($this) = @_;
-
-    if ( $this->has_web ) {
-        if ( $this->has_topic ) {
-            return 'topic';
-        }
-        return 'webpath';
-    }
-    return;
-}
-
 1;
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/

@@ -57,30 +57,13 @@ sub init {
 
     # load default theme
     Foswiki::Plugins::JQueryPlugin::createTheme();
-
-    # open matching localization file if it exists
-    my $session = $Foswiki::Plugins::SESSION;
-    my $langTag = $session->i18n->language();
-    my $messagePath =
-        $Foswiki::cfg{SystemWebName}
-      . '/JQueryPlugin/i18n/jquery.ui.datepicker-'
-      . $langTag . '.js';
-
-    my $messageFile = $Foswiki::cfg{PubDir} . '/' . $messagePath;
-    if ( -f $messageFile ) {
-        Foswiki::Func::addToZone(
-            'script', "JQUERYPLUGIN::UI::LANG",
-            <<"HERE", 'JQUERYPLUGIN::UI' );
-<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>
-HERE
-    }
 }
 1;
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

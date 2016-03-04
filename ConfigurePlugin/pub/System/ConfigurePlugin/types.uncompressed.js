@@ -179,6 +179,30 @@ var Types = {};
   });
 
   Types.REGEX = Types.STRING.extend({
+      restoreDefaultValue: function() {
+          var val = this.spec['default'];
+          if (val === 'undef')
+              val = null;
+          else
+              val = val.replace(/^\s*(["'])(.*)\1\s*$/, "$2");
+              val = val.replace(/\\\\\\/, "\\");
+          this.useVal(val);
+      },
+      isDefault: function() {
+          // trim ' from the default
+          var val = this.spec['default'];
+          if (typeof(val) === 'string') {
+              if (/^\s*'.*'\s*$/.test(val)) {
+                  // We can't use eval because JS eval behaves differently
+                  // to perl eval of a single-quoted string. The currentValue
+                  // comes from a perl eval.
+                  val = val.replace(/^\s*'(.*)'\s*$/, "$1");
+                  val = val.replace(/\'/g, "'");
+                  val = val.replace(/\\\\\\/, "\\");
+              }
+          }
+          return this.currentValue() === val;
+      }
   });
 
   // Deep compare of simple object, used for perl simple structures.

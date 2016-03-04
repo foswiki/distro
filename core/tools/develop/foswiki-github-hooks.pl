@@ -25,6 +25,7 @@ use Net::GitHub;
 use Net::GitHub::V3;
 use Time::Local;
 use Data::Dumper;
+use JSON;
 
 # Set to 1 for basic information,  2 for dump of github responses
 use constant VERBOSE  => 0;
@@ -42,7 +43,7 @@ my $ghaccount = 'foswiki';
 my %HOOKS = (
     email => {
         'name'   => 'email',
-        'active' => '1',
+        'active' => JSON::true,
         'config' => {
             'address'          => 'foswiki-svn@lists.sourceforge.net',
             'secret'           => $secrets->{'mailman_secret'},
@@ -51,7 +52,7 @@ my %HOOKS = (
     },
     irc => {
         'name'   => 'irc',
-        'active' => '1',
+        'active' => JSON::true,
         'config' => {
             'server'   => 'chat.freenode.net',
             'port'     => '6667',
@@ -62,7 +63,7 @@ my %HOOKS = (
     },
     web => {
         'name'   => 'web',
-        'active' => '1',
+        'active' => JSON::true,
         'config' => {
             'url' =>
               'http://trunk.foswiki.org/bin/rest/FoswikiOrgPlugin/githubpush',

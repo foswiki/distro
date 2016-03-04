@@ -57,35 +57,40 @@ sub handleButton {
       || $params->{value}
       || $params->{text}
       || '';
-    my $theHref        = $params->{href} || '#';
-    my $theOnClick     = $params->{onclick};
-    my $theOnMouseOver = $params->{onmouseover};
-    my $theOnMouseOut  = $params->{onmouseout};
-    my $theTitle       = $params->{title};
-    my $theIconName    = $params->{icon} || '';
-    my $theAccessKey   = $params->{accesskey};
-    my $theId          = $params->{id} || '';
-    my $theClass       = $params->{class} || '';
-    my $theStyle       = $params->{style} || '';
-    my $theTarget      = $params->{target};
-    my $theType        = $params->{type} || 'button';
+    my $theHref      = $params->{href} || '#';
+    my $theOnClick   = $params->{onclick};
+    my $theTitle     = $params->{title};
+    my $theIconName  = $params->{icon} || '';
+    my $theAccessKey = $params->{accesskey};
+    my $theId        = $params->{id} || '';
+    my $theClass     = $params->{class} || '';
+    my $theStyle     = $params->{style} || '';
+    my $theTarget    = $params->{target};
+    my $theType      = $params->{type} || 'button';
+    my $theAlign     = $params->{align};
 
     $theId = "id='$theId'" if $theId;
-    $theClass =~
-      s/\b(simple|cyan|red|green|right|center)\b/'jqButton'.ucfirst($1)/ge;
+    $theClass =~ s/\b(simple|center)\b/'jqButton'.ucfirst($1)/ge;
 
-    my $theIcon;
-    $theIcon =
-      Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($theIconName)
-      if $theIconName;
+    my $theIcon = '';
 
-    if ($theIcon) {
-        $theText =
-            "<span class='jqButtonIcon"
-          . ( $theText ? '' : ' jqButtonNoText' )
-          . "' style='background-image:url($theIcon)'>$theText</span>";
+    if ($theIconName) {
+        if ( $theIconName =~ /^fa-/ ) {
+            Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin(
+                'fontawesome');
+            $theIcon = "<i class='jqButtonIcon fa fa-fw $theIconName'></i>";
+        }
+        else {
+            $theIcon = Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath(
+                $theIconName);
+            $theIcon =
+"<span class='jqButtonIcon' style='background-image:url($theIcon)'></span>"
+              if $theIcon;
+        }
     }
-    $theText = "<span> $theText </span>";
+
+    $theText = "<span class='jqButtonText'>$theText</span>"
+      if defined $theText && $theText ne '';
 
     if ($theTarget) {
         if ( $theTarget =~ /^(http|\/).*$/ ) {
@@ -98,8 +103,15 @@ sub handleButton {
         }
     }
 
+    if ($theAlign) {
+        $theAlign = "foswikiRight"  if $theAlign eq 'right';
+        $theAlign = "foswikiLeft"   if $theAlign eq 'left';
+        $theAlign = "foswikiCenter" if $theAlign eq 'center';
+    }
+
     my @class = ();
     push @class, 'jqButton';
+    push @class, $theAlign if $theAlign;
     push @class, $theClass;
 
     if ( $theType eq 'submit' ) {
@@ -117,51 +129,31 @@ sub handleButton {
         Foswiki::Plugins::JQueryPlugin::Plugins::createPlugin('Form');
     }
 
-    my @callbacks = ();
     if ($theOnClick) {
         $theOnClick =~ s/;$//;
         $theOnClick .= ";return false;" unless $theOnClick =~ /return false;?$/;
-        push @callbacks, "onclick:function(){$theOnClick}";
     }
-    push @callbacks, "onmouseover:function(){$theOnMouseOver}"
-      if $theOnMouseOver;
-    push @callbacks, "onmouseout:function(){$theOnMouseOut}" if $theOnMouseOut;
 
-    if (@callbacks) {
-        my $callbacks = '{' . join( ', ', @callbacks ) . '}';
-
-        # entity encode
-        $callbacks = _encode($callbacks);
-        push @class, $callbacks;
-    }
     my $class = join( ' ', @class );
 
     my $result = "<a $theId class='$class' href='$theHref'";
     $result .= " accesskey='$theAccessKey' " if $theAccessKey;
     $result .= " title='$theTitle' "         if $theTitle;
     $result .= " style='$theStyle' "         if $theStyle;
+    $result .= " onclick=\"$theOnClick\" "   if $theOnClick;
 
-    $result .= ">$theText</a>";
+    $result .= ">$theIcon$theText</a>";
     $result .= "<input type='submit' style='display:none' />"
       if $theType eq 'submit';
 
     return $result;
 }
 
-# local version
-sub _encode {
-    my $text = shift;
-
-    $text =~ s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_])/'&#'.ord($1).';'/ge;
-
-    return $text;
-}
-
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

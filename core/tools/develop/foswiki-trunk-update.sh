@@ -1,7 +1,7 @@
 #!/bin/sh
 
-ROOT=/usr/home/trunk.foswiki.org
-PROD=/home/foswiki.org/public_html
+ROOT=/var/www/trunk.foswiki.org
+PROD=/var/www/foswiki.org
 
 cd $ROOT
 

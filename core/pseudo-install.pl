@@ -1471,6 +1471,8 @@ sub run {
     if ( scalar(@error_log) ) {
         print "\n----\nError log:\n" . join( '', @error_log );
     }
+
+    return scalar @installedModules;
 }
 
 sub exec_opts {
@@ -1576,12 +1578,14 @@ init();
 exec_opts();
 init_config();
 init_extensions_path();
-run();
-update_githooks_dir($basedir) if ($githooks);
+my $installed = run();
 
-my $geout = do_commands("perl $basedir/tools/git_excludes.pl");
-print "\n\n$geout\n";
+if ($installed) {
+    update_githooks_dir($basedir) if ($githooks);
 
+    my $geout = do_commands("perl $basedir/tools/git_excludes.pl");
+    print "\n\n$geout\n";
+}
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 

@@ -1,7 +1,7 @@
 /*
- * jQuery Stars plugin 1.00
+ * jQuery Stars plugin 1.10
  *
- * Copyright (c) 2014-2015 Foswiki Contributors http://foswiki.org
+ * Copyright (c) 2014-2016 Foswiki Contributors http://foswiki.org
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -271,7 +271,7 @@
     $(".jqStars:not(.jqInitedStars)").livequery(function() {
       var $this = $(this),
         opts = $.extend({}, $this.data(), $this.metadata());
-      $this.stars(opts).addClass("jqInitedStars");
+      $this.wrap("<div class='jqStars jqInitedStars' />").removeClass("jqStars").addClass("jqStarsInput").stars(opts);
     });
   });
 })(jQuery);

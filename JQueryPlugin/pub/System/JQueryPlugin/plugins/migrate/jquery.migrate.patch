@@ -1,0 +1,36 @@
+--- jquery-migrate-1.3.0.js	2016-01-13 15:50:20.000000000 +0100
++++ jquery.migrate.uncompressed.js	2016-02-15 14:11:12.370463388 +0100
+@@ -16,7 +16,8 @@
+ jQuery.migrateWarnings = [];
+ 
+ // Set to true to prevent console output; migrateWarnings still maintained
+-// jQuery.migrateMute = false;
++jQuery.migrateMute = true;
++jQuery.migrateTrace = false;
+ 
+ // Show a message on the console so devs know we're active
+ if ( !jQuery.migrateMute && window.console && window.console.log ) {
+@@ -269,9 +270,14 @@
+ 		/(webkit)[ \/]([\w.]+)/.exec( ua ) ||
+ 		/(opera)(?:.*version|)[ \/]([\w.]+)/.exec( ua ) ||
+ 		/(msie) ([\w.]+)/.exec( ua ) ||
++                /(trident).*; rv:([\w.]+)/.exec( ua ) ||
+ 		ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec( ua ) ||
+ 		[];
+ 
++        if (match[1] === 'trident') {
++          match[1] = 'msie';
++        }
++
+ 	return {
+ 		browser: match[ 1 ] || "",
+ 		version: match[ 2 ] || "0"
+@@ -299,7 +305,7 @@
+ }
+ 
+ // Warn if the code tries to get jQuery.browser
+-migrateWarnProp( jQuery, "browser", jQuery.browser, "jQuery.browser is deprecated" );
++//migrateWarnProp( jQuery, "browser", jQuery.browser, "jQuery.browser is deprecated" );
+ 
+ // jQuery.boxModel deprecated in 1.3, jQuery.support.boxModel deprecated in 1.7
+ jQuery.boxModel = jQuery.support.boxModel = (document.compatMode === "CSS1Compat");

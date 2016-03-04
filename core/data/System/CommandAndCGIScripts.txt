@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1448477054" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1456765822" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -220,7 +220,9 @@ If neither =action_save= or =action_cancel= are provided, an oops error is issue
 See BulkRegistration.
 | *Parameter* | *Description* | *Default* |
 | =logtopic= | Topic to save the log in | _same as topic name, with 'Result' appended_ |
-| =overwritehometopics= | Whether to overwrite existing home topics or not | _do not overwrite_ |
+| =templatetopic= | Template used to create the new user topics.  This can be fully specified as Webname.Topicname. Simple topic name is retrieved from %USERSWEB% and if not found, %SYSTEMWEB%. | !NewUserTemplate |
+| =redirectto= | Redirect to this topic or URL after successfully running the bulkRegister function. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% \
+*Note:* Redirect to a URL only works if it is enabled in =configure= (Expert setting: Security and Authentication > Environment > ={AllowRedirectUrl}=). | =logtopic= |
 
 ---++++ =action=changePassword=
 Change password, email address, or both, of a user.
@@ -230,7 +232,7 @@ Change password, email address, or both, of a user.
 | =password= | new password | |
 | =passwordA= | new password confirmation | _required if =password= is given_ |
 | =username= | login name of user to change password/email for | _required_ |
-=password, =passwordA= and =email= are optional. If neither or =password= and =passwordA= is set, then the user password is left unchanged. If =email= is unset, their email is left unchanged.
+=password=, =passwordA= and =email= are optional. If neither or =password= and =passwordA= is set, then the user password is left unchanged. If =email= is unset, their email is left unchanged.
 
 ---++++ =action=resetPassword=
 Reset the password for a single or multiple users

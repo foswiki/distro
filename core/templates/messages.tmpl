@@ -390,6 +390,19 @@ registermessages.tmpl
 %{==============================================================================
     Messages for oopsaccessdenied
 ================================================================================}%
+%TMPL:DEF{"cache_refresh"}%
+%MAKETEXT{"Cache =refresh=all= denied for non-admin users."}%.
+
+%MAKETEXT{"You must be the =[_1]= super user, or a member of the [_2], to clear the global cache for all topics." args="%WIKIADMINLOGIN%, %USERSWEB%.AdminGroup"}%
+
+%MAKETEXT{"To refresh the cache for just this topic, <a href='[_1]' rel='nofollow' > click here </a> " args="%SCRIPTURLPATH{"view" web="%BASEWEB%" topic="%BASETOPIC%" refresh="cache"}%"}%
+
+%MAKETEXT{"To login as another user please do so [[[_1]][here]]." args="%LOGINURL%"}%
+
+%MAKETEXT{"Contact [_1] if you have any questions." args="<a href=\"mailto:%WIKIWEBMASTER%?subject=access denied for 'refresh=all'\">%WIKIWEBMASTER%</a>"}%
+
+*%MAKETEXT{"Related topics:"}%* %USERSWEB%.WikiGroups, %SYSTEMWEB%.PageCaching %TMPL:END%
+%{==============================================================================}%
 %TMPL:DEF{"topic_access"}%
 %MAKETEXT{"Access check on [_1] failed" args="\"<nop>%WEB%.<nop>%TOPIC%\""}%.
 

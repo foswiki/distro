@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1452660011" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1454442922" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -24,7 +24,7 @@ If you are upgrading from TWiki to Foswiki, please refer to Foswiki:Support.Upgr
 
 ---++ Upgrading to a new patch release
 
-To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1.2 &mdash; an upgrade package can be used that will not overwrite typical customizations. We do not recommend upgrading between major or minor versions using the patch (For ex. 1.1.9 to 2.0). A re-installation is recommended.
+To upgrade to a new patch release &mdash; for example, from Foswiki 1.1.0 to 1.1.2 &mdash; an upgrade package can be used that will not overwrite typical customizations. Unless otherwise stated in the release notes, we do not recommend upgrading between major or minor versions using the patch (For ex. 1.1.9 to 2.0). A re-installation is recommended.
 
 For patch releases you will find a brief upgrade procedure on the download page for the release. Follow this procedure to upgrade to the patch release. It may contain important steps that are unique to each patch release (for example, some configure settings may need to be changed).
 
@@ -101,7 +101,7 @@ For patch releases you will find a brief upgrade procedure on the download page 
 
 The following is a high level view of the upgrade procedure:
 
-   1 *Before the upgrade*
+   1 *Before the upgrade*, plan for client cache management.
    1 *Prepare* for all upgrade steps.
    1 *Install the new Foswiki version* and configure it with the same settings as the old version.<br />
       * %T% Windows server users: Don't forget to rerun =tools/rewriteshebang.pl= to fix up the Perl locations
@@ -146,7 +146,8 @@ If these steps are not done, users will have to clear their cache, or "shift-rel
 *Review Foswiki:System.SystemRequirements* and *Install missing Perl modules using your local package manager or CPAN.* Foswiki 2.0 no longer ships with CPAN modules. If you have access to the command line on the server, you can test for missing dependencies by running: =perl tools/dependencies=
 
 *Review the Release Notes and learn about the differences* between your old installation and the new release to which you are upgrading. Take note of any areas that affect your site and what special steps you may need to take.
-   * Foswiki:System.ReleaseNotes02x00 current release notes
+   * Foswiki:System.ReleaseNotes02x01 current release notes
+   * Foswiki:System.ReleaseNotes02x00 if upgrading from a release prior to Foswiki 2.0.3
    * Foswiki:System.ReleaseNotes01x01 if upgrading from a release prior to Foswiki 1.1.9, _and_
    * Foswiki:System.ReleaseNotes01x00 if upgrading from an older release of Foswiki 1.0.x
 
@@ -167,17 +168,19 @@ the store saves files to disk using your chosen {Store}{Encoding}. The solution 
 
 You _must_ match the prior encoding, or convert old data to the new encoding if you intend to use topics created on an older version of Foswiki. There are two common use cases:
    * Case 1: Your existing site is already using =utf-8= encoding.  *Character set conversion is not needed*.  Proceed to chosing your store.
-   * Case 2: Your existing site uses the default =iso-8859-1= or any other common encoding. All topics are consistent with this encoding. You have two options:
-      1. *Recommended*, use the =bulk_copy.pl= script to migrate your existing 1.1.x store over to Foswiki 2.0. Each topic will be converted from the 1.1.x ={Site}{CharSet}= encoding to the 2.0 ={Store}{Encoding}=. We recommend you leave 2.0 ={Store}{Encoding}= as undefined (=utf-8=). __or__
-      2. Set the 2.0 ={Store}{Encoding}= to match your 1.1.x ={Site}{Encoding}= and copy the data into Foswiki 2.0 unmodified.
+   * Case 2: Your existing site uses the default =iso-8859-1= or any other common encoding. All topics are consistent with this encoding. You have three options:
+      1. Install !CharsetConverterContrib and convert topics in-place on your 1.1 system. (The store implementation cannot be changed using this method.) __or__
+      1. Use the =bulk_copy.pl= script to migrate your existing 1.1.x store over to Foswiki 2.0. Each topic will be converted from the 1.1.x ={Site}{CharSet}= encoding to the 2.0 ={Store}{Encoding}=. We recommend you leave 2.0 ={Store}{Encoding}= as undefined (=utf-8=). __or__
+      1. Set the 2.0 ={Store}{Encoding}= to match your 1.1.x ={Site}{Encoding}= and copy the data into Foswiki 2.0 unmodified.
    * Case 3: Your site contains a mix of encodings. This can happen if users manually paste in encoded data into topics, or topics are created / modified external to Foswiki.
       * In this case, any topics with unusual encodings will display corrupted. Use Foswiki:Extensions.CharsetConverterContrib to modify the character encoding of your Foswiki 1.1.x system _in place_. Changes in character encoding must be done using the RCS based store. When this tool is run with the =-r= (repair) option, the tool attempts to detect the encoding and can convert individual topics based upon their content. *This is rather unpredictable and may require manual intervention.*
-      * *We *strongly* recommend that a backup be taken before attempting to use the !CharsetConverterContrib. As it modifies topics and attachments in-place, it can cause damage and data loss. The recommended =bulk_copy.pl= script does not modify existing topics.
+      * *We strongly recommend* that a backup be taken before attempting to use the !CharsetConverterContrib. As it modifies topics and attachments in-place, it can cause damage and data loss. The =bulk_copy.pl= script does not modify existing topics but is unable to handle some legacy configuratino..
       * Note that it's possible that some data cannot be cleanly converted, for ex,  if the Charset encoding was changed, so that different topic revisions use different encoding. In this case you may need to remove the topic history.
 
 *Choose your desired Store.* Foswiki ships with two native stores.
    * !RcsStoreContrib is compatible with topics created in prior versions of Foswiki.
    * !PlainFileStoreContrib requires that topic histories be converted to a new history format. This can be done at the same time you convert the character set. =perl -I lib tools/bulk_copy.pl --help= for more information on conversion.
+      * *Note:* If your old data is on TWiki, then =bulk_copy.pl= is not compatible. You must migrate to Foswiki before converting the Store.
 
 *If you are using authentication, prepare a test plan to verify that your authentication mechanism is working correctly.* Make sure you are able to test logins by a sufficient sample of users to cover all categories of users of your site. For example, users of various groups may need to be tested. In particular, ensure you test that non-admin users cannot access topics restricted to admins.
 
@@ -261,7 +264,7 @@ This will copy all webs, topics and attachments __except for the contents of the
 <div class="foswikiHelp">
 *Note that =bulk_copy.pl= has limitations!* It uses the Foswiki Store API to copy topic and attachments.  If the store doesn't recognize a topic or attachment, it won't be copied.
    * Files in pub that are "hidden" from the store are not copied.
-      * Any filename beginning with an understore.  Frequently used by extensions as cache type files.  Could also have been directly uploaded.
+      * Any filename beginning with an underscore. For ex =_myfile=.   Frequently used by extensions as cache type files.  Could also have been directly uploaded.
       * Any filename beginning with a dot.  For ex. =.htaccess= files.
       * Any filename beginning with an asterisk. (This appears to be historical, with no common use).
    * Files in pub that are not associated with a topic attachment META are not copied. (ex. files manually copied into the pub directories).

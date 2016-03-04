@@ -28,9 +28,9 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'LocalScroll',
-            version      => '1.2.7',
+            version      => '1.4.0',
             author       => 'Ariel Flesler',
-            homepage     => 'http://plugins.jquery.com/project/LocalScroll',
+            homepage     => 'https://github.com/flesler/jquery.localScroll',
             javascript   => ['jquery.localscroll.js'],
             dependencies => ['scrollto'],
         ),
@@ -45,7 +45,7 @@ sub new {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

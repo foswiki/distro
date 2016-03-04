@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1442674406" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1454519814" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !TopicUserMappingContrib
 <!--
@@ -62,8 +62,13 @@ It's a part of the default distribution of the Foswiki Core.
 
 ---++ Contrib Info
 
-|  Contrib Author(s): | Copyright (C) 2007-2015 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
+|  Contrib Author(s): | Copyright (C) 2007-2016 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  4.53 (3 Feb 2016) | Release with Foswiki 2.1.0,<br/>\
+                        Foswikitask:Item13854: Set ALLOWTOPICVIEW="*" on critical system topics<br/>\
+                        Foswikitask:Item13864: Restructure UserRegistration topics for easier customization, use newer Foswiki features.<br/>\
+                        Foswikitask:Item13880: Fix rendering in HEAD zone<br/>\
+                        Foswikitask:Item13924: Missing SET in restructured registration topics. |
 |  4.52 (8 Sep 2015) | Released with Foswiki 2.0.2.<br/>\
                         Foswikitask:Item13600: Set correct parent for WikiUsers topic.|
 |  4.51 (14 Jun 2015) | Released with Foswiki 2.0<br />\

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1456220586" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ BUTTON -- renders a nice button 
 ---++ Parameters
@@ -7,15 +7,12 @@
      | ="text"= | text to be put on this button | |
      | =value= | text to be put on this button | |
      | =accesskey= | access key used for this button | | 
-     | =class= | extra class: use =foswikiRight= or =foswikiLeft= to specify aligment; \
-               use =cyan=, =red=, =green= for different background colors; \
-               use =simple= for a non-3D button | | 
+     | =class= | e.g. use =simple= for a non-3D button | | 
+     | =align= | left, right, center |
      | =href= | url of the click target | # | 
      | =icon= | icon to be put on the left; note, this can be any icon attached to the  ={IconSearchPath}=; see also VarJQICON | | 
      | =id= | html id for this button | | 
      | =onclick= | javascript event triggered when clicking the button | | 
-     | =onmouseout= | javascript event triggered when the pointer leaves the button | | 
-     | =onmouseover= | javascript event triggered when the pointer hovers over the button | | 
      | =target= | topic to open when clicking on the button | | 
      | =title= | popup title displayed when hovering over the button | | 
      | =type= | type of action to be performed; available actions are \
@@ -29,6 +26,7 @@
 ---++ Examples
 <verbatim class="tml">%BUTTON{
     "%MAKETEXT{"Submit"}%"
+    icon="tick"
     onclick="confirm('Are your sure?')"
   }%
   %BUTTON{
@@ -38,6 +36,7 @@
   }% %CLEAR%</verbatim>
    * Expands as: <div>%BUTTON{
     "%MAKETEXT{"Submit"}%"
+    icon="tick"
     onclick="confirm('Are your sure?')"
   }%
   %BUTTON{

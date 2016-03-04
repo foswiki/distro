@@ -761,6 +761,55 @@ After
 HERE
     },
     {
+        exec => ROUNDTRIP | HTML2TML,
+        name => 'TableCellCenter',
+        html => <<'HERE',
+Before
+<table border="1" cellspacing="1" cellpadding="0">
+<tbody>
+<tr>
+<td>left</td>
+<td class="align-center" style="text-align: center;">center</td>
+<td class="align-right" style="text-align: right;">right</td>
+</tr>
+<tr>
+<td>0</td>
+<td class="align-center" style="text-align: center;">0</td>
+<td class="align-right" style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>1</td>
+<td class="align-center" style="text-align: center;">1</td>
+<td class="align-right" style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+After
+HERE
+        tml => <<'HERE',
+Before
+| left |  center  |  right |
+| 0 |  0  |  0 |
+| 1 |  1  |  1 |
+| | | |
+After
+
+HERE
+        finaltml => <<'HERE',
+Before
+| left |  center  |  right |
+| 0 |  0  |  0 |
+| 1 |  1  |  1 |
+| | | |
+After
+HERE
+    },
+    {
         exec => 0,    # disabled because of Kupu problems handling colspans
         name => 'tableWithSpans',
         html => <<'HERE',

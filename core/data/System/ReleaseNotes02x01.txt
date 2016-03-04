@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1452393879" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1454442922" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.0
 
@@ -51,7 +51,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.0.2 was built on 01 Oct 2015. It is a release that contains 65 fixes and 5 enhancements.
    * Foswiki 2.0.3 was built on 15 Nov 2015. It is a release that contains 17 fixes and 1 enhancement.
 %ENDTWISTY{}%
-   * Foswiki 2.1.0 Beta 1 was built on 10 Jan 2016. It is a release that contains 29 fixes and 12 enhancements. It closes 7 Feature Requests.
+   * Foswiki 2.1.0 was built on 02 Feb 2016. It is a release that contains 37 fixes and 14 enhancements. It closes 7 Feature Requests.
 
 
 ---++ Pre-installed Extensions
@@ -165,30 +165,28 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%FO%/Development.MakeZonesLessIntrusive][MakeZonesLessIntrusive]] | Make zones less intrusive, especially for non-HTML output |
 | [[%FO%/Development.SplitTopicAttachmentNameFilters][SplitTopicAttachmentNameFilters]] | Separate the topic and attachment name filters, allow spaces in attachment names, remove colon from Topic names. |
 
-
-</noautolink>
-
-<noautolink>
-
 ---+++ Fixes
 
 | [[%BUGS%/Item12067][Item12067]] | Removing members via WikiGroups not possible when login name different from WikiName. |
 | [[%BUGS%/Item12569][Item12569]] | Sorting in tableplugin is wrong in German. |
 | [[%BUGS%/Item13405][Item13405]] | Unicode Normalisation. |
-| [[%BUGS%/Item13554][Item13554]] | Foswiki doesn't work with accented Template names. |
 | [[%BUGS%/Item13699][Item13699]] | Mail sending fails when non-latin text in utf8 is being sent. |
 | [[%BUGS%/Item13857][Item13857]] | Mac OS X RCS "not found" by configure. |
 | [[%BUGS%/Item13863][Item13863]] | FileAttachment: generated filenames are not correct foswiki 2.0.3 mod_cgi, utf-8 store when uploaded from OS X. |
 | [[%BUGS%/Item13865][Item13865]] | Configure file permissions checker detects ,pfv directories as possible webs. |
 | [[%BUGS%/Item13880][Item13880]] | TML rendered in =head= and =script= zones causes malformed html in WebCreateNewTopic. |
+| [[%BUGS%/Item13917][Item13917]] | NameFilter not working on 2.0 / 2.1 if configure reset to default is used. |
+| [[%BUGS%/Item13924][Item13924]] | Old style UserRegistration pages not working on 2.1 beta 1. |
 
 The following fixes will also be incorporated into Foswiki 2.0.4
 
+| [[%BUGS%/Item10916][Item10916]] | Pencils disappear after row move when both js and non-js controls are present. |
 | [[%BUGS%/Item11609][Item11609]] | No information how to un-set a topic parent. |
 | [[%BUGS%/Item13677][Item13677]] | regression: extension tabs in configure aren't sorted alphabetically anymore. |
 | [[%BUGS%/Item13860][Item13860]] | UploadFilter isn't blocking HTML attachments. |
 | [[%BUGS%/Item13869][Item13869]] | FoswikiServerInformation warns about undefined variables. |
 | [[%BUGS%/Item13870][Item13870]] | RCSStoreContrib configure check error by syntax  shell  command error in RCSChecker.pm. |
+| [[%BUGS%/Item13875][Item13875]] | Configure fails to perserve permissions when backing up config. |
 | [[%BUGS%/Item13877][Item13877]] | Certificate wizards not functional, always generates CSR,  dependencies not documented. |
 | [[%BUGS%/Item13881][Item13881]] | Table header problem in unicode named web/topic. |
 | [[%BUGS%/Item13885][Item13885]] | PatternSkin should be backwards compatible to Foswiki 1.1. |
@@ -197,19 +195,26 @@ The following fixes will also be incorporated into Foswiki 2.0.4
 | [[%BUGS%/Item13890][Item13890]] | bulk_copy ignores --latest option.  |
 | [[%BUGS%/Item13891][Item13891]] | bulk_copy.pl does not copy user information for attachment histories. |
 | [[%BUGS%/Item13893][Item13893]] | Performance fixes for Foswiki 2.0.4. |
+| [[%BUGS%/Item13894][Item13894]] | RcsStore double-encodes utf8 comments into the attachment revision log. |
 | [[%BUGS%/Item13896][Item13896]] | TWISTY incorrectly used in Sandbox.WebHome, generates broken HTML. |
 | [[%BUGS%/Item13898][Item13898]] | JQueryAjaxHelper =jumpbox= code does not work with short URLs. |
 | [[%BUGS%/Item13899][Item13899]] | save: ignores new topic text if it is empty. |
 | [[%BUGS%/Item13900][Item13900]] | Logout redirects to wrong path when ForceDefaultHostUrl is enabled. |
 | [[%BUGS%/Item13903][Item13903]] | Redirect for authentication breaks utf8 topic names. |
 | [[%BUGS%/Item13906][Item13906]] | EditRowPlugin create table row without spaces. |
+| [[%BUGS%/Item13912][Item13912]] | perldoc does not process bulk_copy.pl correctly because of missing POD marker. |
 | [[%BUGS%/Item13913][Item13913]] | CLI scripts broken on windows.  setlib.cfg issues "require CGI" which sets binmode on STDIN and breaks prompts. |
+| [[%BUGS%/Item13925][Item13925]] | Leading spaces in DefaultUrlHost causes malformed URL links. |
+| [[%BUGS%/Item13926][Item13926]] | ModPerlEngineContrib is not backwards compatible with Foswiki 1.1.x. |
+| [[%BUGS%/Item13927][Item13927]] | Configure rcs checker crashes if configured command is not found. |
 
 ---+++ Enhancements
 
 | [[%BUGS%/Item12560][Item12560]] | NameFilter should reject colon, conflicts with Interwiki links.  Restructure filters to improve flexibility. |
 | [[%BUGS%/Item13436][Item13436]] | Adding the class parameter to the TablePlugin. |
 | [[%BUGS%/Item13444][Item13444]] | Foswiki::Net::getExternalResource does a poor job of parsing URLs. |
+| [[%BUGS%/Item13554][Item13554]] | Foswiki doesn't work with accented Template names. |
+| [[%BUGS%/Item13594][Item13594]] | Implement feature AddConcatOptionToAttrs. |
 | [[%BUGS%/Item13848][Item13848]] | Deprecate, and restrict HTTP and HTTPS macros. |
 | [[%BUGS%/Item13849][Item13849]] | Implement MakeZonesLessIntrusive. |
 | [[%BUGS%/Item13854][Item13854]] | Implemement MakeItEasierToBlockSystemWebGuestAccess. |
