@@ -6206,7 +6206,7 @@ sub test_Item13995 {
     );
 
     my $expected = <<"EXP";
-FOO  <nop>$this->{test_web}.RevTopic 
+FOO  <nop>$this->{test_web}.RevTopic
 -<nop>BLEEGLE blah/matchme.blah
 +<nop>BELLS Ring
 EXP
@@ -6224,7 +6224,7 @@ EXP
     );
 
     $expected = <<"EXP";
-FOO  <nop>$this->{test_web}.RevTopic 
+FOO  <nop>$this->{test_web}.RevTopic
 -Drums Beat
 +<nop>BELLS Ring
 EXP

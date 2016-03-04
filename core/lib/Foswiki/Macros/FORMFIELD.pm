@@ -32,7 +32,7 @@ sub expand {
         my $web = $args->{web} || $topicObject->web;
         my $topic = $args->{topic};
         ( $web, $topic ) = $session->normalizeWebTopicName( $web, $topic );
-        $topicObject = new Foswiki::Meta->new(
+        $topicObject = Foswiki::Meta->new(
             session => $session,
             web     => $web,
             topic   => $topic
