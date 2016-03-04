@@ -17,7 +17,6 @@ use v5.14;
 use CGI::Carp;
 use Data::Dumper;
 
-use Assert;
 use Foswiki                  ();
 use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
@@ -30,6 +29,8 @@ use CGI;
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Engine);
+
+use Assert;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -84,7 +85,8 @@ has cgi => (
 );
 has uploads => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
 
-sub run {
+around run => sub {
+    my $orig = shift;
     my $this = shift;
     try {
         my $req = $this->prepare;
@@ -135,9 +137,10 @@ sub run {
         }
 
     };
-}
+};
 
-sub prepareConnection {
+around prepareConnection => sub {
+    my $orig = shift;
     my ( $this, $req ) = @_;
 
     $req->remoteAddress( $ENV{REMOTE_ADDR} );
@@ -151,15 +154,17 @@ sub prepareConnection {
         $req->secure(1);
     }
     $req->serverPort( $ENV{SERVER_PORT} );
-}
+};
 
-sub prepareQueryParameters {
+around prepareQueryParameters => sub {
+    my $orig = shift;
     my ( $this, $req ) = @_;
-    $this->SUPER::prepareQueryParameters( $req, $ENV{QUERY_STRING} )
+    $orig->( $this, $req, $ENV{QUERY_STRING} )
       if $ENV{QUERY_STRING};
-}
+};
 
-sub prepareHeaders {
+around prepareHeaders => sub {
+    my $orig = shift;
     my ( $this, $req ) = @_;
     foreach my $header ( keys %ENV ) {
         next unless $header =~ m/^(?:HTTP|CONTENT|COOKIE)/i;
@@ -167,9 +172,10 @@ sub prepareHeaders {
         $req->header( $field => $ENV{$header} );
     }
     $req->remoteUser( $ENV{REMOTE_USER} );
-}
+};
 
-sub preparePath {
+around preparePath => sub {
+    my $orig = shift;
     my ( $this, $req ) = @_;
 
     # SMELL: "The Microsoft Internet Information Server is broken with
@@ -243,9 +249,10 @@ sub preparePath {
     $req->pathInfo($pathInfo);
     $req->uri( $ENV{REQUEST_URI}
           || $req->url( -absolute => 1, -path => 1, -query => 1 ) );
-}
+};
 
-sub prepareBody {
+around prepareBody => sub {
+    my $orig = shift;
     my ( $this, $req ) = @_;
 
     return unless $ENV{CONTENT_LENGTH};
@@ -264,9 +271,10 @@ sub prepareBody {
     Foswiki::EngineException->throw( status => $1, reason => $2 )
       if defined $err && $err =~ m/\s*(\d{3})\s*(.*)/;
     $this->cgi($cgi);
-}
+};
 
-sub prepareBodyParameters {
+around prepareBodyParameters => sub {
+    my $orig = shift;
     my ( $this, $req ) = @_;
 
     return unless $ENV{CONTENT_LENGTH};
@@ -288,9 +296,10 @@ sub prepareBodyParameters {
         # decoded in prepareUploads, which rewrites the {uploads} hash.
         $this->uploads->{$pname} = 1 if scalar( $this->cgi->upload($pname) );
     }
-}
+};
 
-sub prepareUploads {
+around prepareUploads => sub {
+    my $orig = shift;
     my ( $this, $req ) = @_;
 
     return unless $ENV{CONTENT_LENGTH};
@@ -305,27 +314,30 @@ sub prepareUploads {
     }
     $this->clear_uploads;
     $req->uploads( \%uploads );
-}
+};
 
-sub finalizeUploads {
+around finalizeUploads => sub {
+    my $orig = shift;
     my ( $this, $res, $req ) = @_;
 
     $req->delete($_) foreach keys %{ $req->uploads };
     $this->clear_cgi;
-}
+};
 
-sub finalizeHeaders {
+around finalizeHeaders => sub {
+    my $orig = shift;
     my ( $this, $res, $req ) = @_;
-    $this->SUPER::finalizeHeaders( $res, $req );
+    $orig->( $this, $res, $req );
 
     my $hdr = $res->printHeaders;
     $this->write($hdr);
-}
+};
 
-sub write {
+around write => sub {
+    my $orig = shift;
     my ( $this, $buffer ) = @_;
     print $buffer;
-}
+};
 
 1;
 __END__

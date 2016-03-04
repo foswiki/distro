@@ -371,8 +371,10 @@ sub _maintainUsersTopic {
           Foswiki::Meta->load( $this->session, $Foswiki::cfg{SystemWebName},
             'UsersTemplate' );
         $usersTopicObject = Foswiki::Meta->new(
-            $this->session,                $Foswiki::cfg{UsersWebName},
-            $Foswiki::cfg{UsersTopicName}, $templateTopicObject->text()
+            session => $this->session,
+            web     => $Foswiki::cfg{UsersWebName},
+            topic   => $Foswiki::cfg{UsersTopicName},
+            text    => $templateTopicObject->text()
         );
 
         $usersTopicObject->copyFrom($templateTopicObject);

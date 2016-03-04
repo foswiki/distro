@@ -19,6 +19,7 @@ use Assert;
 use Try::Tiny;
 
 use Foswiki                ();
+use Foswiki::Meta          ();
 use Foswiki::UI            ();
 use Foswiki::OopsException ();
 use Foswiki::Sandbox       ();
@@ -171,7 +172,7 @@ sub _action_createweb {
     }
 
     # check permission, user authorized to create web here?
-    my $webObject = Foswiki::Meta->new( $session, $parent );
+    my $webObject = Foswiki::Meta->new( session => $session, web => $parent );
     Foswiki::UI::checkAccess( $session, 'CHANGE', $webObject );
 
     my $baseWeb = $query->param('baseweb') || '';
@@ -232,7 +233,7 @@ sub _action_createweb {
         );
     }
 
-    $webObject = Foswiki::Meta->new( $session, $newWeb );
+    $webObject = Foswiki::Meta->new( session => $session, web => $newWeb );
     try {
         $webObject->populateNewWeb( $baseWeb, $opts );
     }
@@ -371,7 +372,11 @@ sub _action_create {
     Foswiki::UI::checkValidationKey($session);
 
     # user must have change access
-    my $topicObject = Foswiki::Meta->new( $session, $newWeb, $newTopic );
+    my $topicObject = Foswiki::Meta->new(
+        session => $session,
+        web     => $newWeb,
+        topic   => $newTopic
+    );
     Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
 
     my $oldWeb   = $session->webName;
@@ -496,7 +501,11 @@ sub _action_saveSettings {
     if ( defined $query->param('action_cancel')
         && $query->param('action_cancel') ne '' )
     {
-        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+        my $topicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $web,
+            topic   => $topic
+        );
 
         my $lease = $topicObject->getLease();
         if ( $lease && $lease->{user} eq $session->user ) {
@@ -508,7 +517,6 @@ sub _action_saveSettings {
     {
 
         # set up editing session
-        require Foswiki::Meta;
         my $newTopicObject = Foswiki::Meta->load( $session, $web, $topic );
 
         Foswiki::UI::checkAccess( $session, 'VIEW',   $newTopicObject );

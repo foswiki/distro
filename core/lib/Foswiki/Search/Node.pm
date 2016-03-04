@@ -25,8 +25,7 @@ use namespace::clean;
 extends qw(Foswiki::Object);
 
 # Some day this may usefully be an infix node
-#use Foswiki::Infix::Node ();
-#our @ISA = ('Foswiki::Infix::Node');
+#extends qw(Foswiki::Infix::Node);
 
 =begin TML
 

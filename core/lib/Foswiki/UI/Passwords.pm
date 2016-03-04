@@ -225,8 +225,11 @@ sub _sendEmail {
         $text =~ s/\%$f\%/$data{$field}/g;
     }
 
-    my $topicObject = Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName},
-        $data{WikiName} );
+    my $topicObject = Foswiki::Meta->new(
+        session => $session,
+        web     => $Foswiki::cfg{UsersWebName},
+        topic   => $data{WikiName}
+    );
     $text = $topicObject->expandMacros($text);
 
     return $session->net->sendEmail($text);

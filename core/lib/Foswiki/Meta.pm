@@ -147,8 +147,9 @@ our $CHANGES_SUMMARY_LINECOUNT  = 6;
 our $CHANGES_SUMMARY_PLAINTRUNC = 70;
 
 has session => (
-    is      => 'ro',
-    clearer => 1,
+    is       => 'ro',
+    clearer  => 1,
+    required => 1,
 
     #weak_ref => 1,
     isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
@@ -243,7 +244,7 @@ has _getRev1Info => (
     builder => sub { return {}; },
 );
 
-our @_newParameters = qw(session web topic text);
+#our @_newParameters = qw(session web topic text);
 
 =begin TML
 
@@ -543,7 +544,7 @@ named web/topic.
 
 This method is functionally identical to:
 <verbatim>
-$this = Foswiki::Meta->new( $session, $web, $topic );
+$this = Foswiki::Meta->new( session => $session, web => $web, topic => $topic );
 $this->loadVersion( $rev );
 </verbatim>
 

@@ -253,9 +253,9 @@ sub _renameTopicOrAttachment {
     }
 
     my $new = Foswiki::Meta->new(
-        $session,
-        $newWeb   || $old->web,
-        $newTopic || $old->topic
+        session => $session,
+        web     => $newWeb || $old->web,
+        topic   => $newTopic || $old->topic
     );
 
     # Has user selected new name yet?
@@ -367,7 +367,8 @@ sub _safeTopicName {
 sub _renameWeb {
     my ( $session, $oldWeb ) = @_;
 
-    my $oldWebObject = Foswiki::Meta->new( $session, $oldWeb );
+    my $oldWebObject =
+      Foswiki::Meta->new( session => $session, web => $oldWeb );
 
     my $query = $session->request;
     my $cUID  = $session->user;
@@ -456,7 +457,7 @@ sub _renameWeb {
     # This also ensures we check root webs for ALLOWROOTRENAME and
     # DENYROOTRENAME
     my $oldParentWebObject =
-      new Foswiki::Meta( $session, $oldParentWeb || undef );
+      new Foswiki::Meta( session => $session, web => $oldParentWeb || undef );
     Foswiki::UI::checkAccess( $session, 'RENAME', $oldParentWebObject );
 
     # If old web is a root web then also stop if ALLOW/DENYROOTCHANGE
@@ -488,7 +489,8 @@ sub _renameWeb {
         }
 
         # Check if we have change permission in the new parent
-        my $newParentWebObject = new Foswiki::Meta( $session, $newParentWeb );
+        my $newParentWebObject =
+          new Foswiki::Meta( session => $session, web => $newParentWeb );
         Foswiki::UI::checkAccess( $session, 'CHANGE', $newParentWebObject );
     }
 
@@ -517,8 +519,11 @@ sub _renameWeb {
                 my $webTopic = pop(@path);
                 my $webIter = join( '/', @path );
 
-                my $topicObject =
-                  Foswiki::Meta->new( $session, $webIter, $webTopic );
+                my $topicObject = Foswiki::Meta->new(
+                    session => $session,
+                    web     => $webIter,
+                    topic   => $webTopic
+                );
                 if ( $confirm eq 'getlock' ) {
                     $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
                     $lease_ref = $topicObject->getLease();
@@ -659,7 +664,8 @@ sub _renameWeb {
 
     Foswiki::UI::checkValidationKey($session);
 
-    my $newWebObject = Foswiki::Meta->new( $session, $newWeb );
+    my $newWebObject =
+      Foswiki::Meta->new( session => $session, web => $newWeb );
 
     Foswiki::UI::checkAccess( $session, 'CHANGE', $oldWebObject );
     Foswiki::UI::checkAccess( $session, 'CHANGE', $newWebObject );
@@ -694,7 +700,7 @@ sub _renameWeb {
     };
 
     # now remove leases on all topics inside $newWeb.
-    my $nwom = Foswiki::Meta->new( $session, $newWeb );
+    my $nwom = Foswiki::Meta->new( session => $session, web => $newWeb );
     my $it = $nwom->eachWeb(1);
     _releaseContents( $session, $newWeb );
     while ( $it->hasNext() ) {
@@ -709,7 +715,11 @@ sub _renameWeb {
         my @path        = split( /[.\/]/, $ref );
         my $webTopic    = pop(@path);
         my $webIter     = join( '/', @path );
-        my $topicObject = Foswiki::Meta->new( $session, $webIter, $webTopic );
+        my $topicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $webIter,
+            topic   => $webTopic
+        );
         $topicObject->clearLease();
     }
 
@@ -748,12 +758,16 @@ sub _renameWeb {
 sub _leaseContents {
     my ( $session, $info, $web, $confirm ) = @_;
 
-    my $webObject = Foswiki::Meta->new( $session, $web );
+    my $webObject = Foswiki::Meta->new( session => $session, web => $web );
     my $it = $webObject->eachTopic();
     while ( $it->hasNext() ) {
         my $topic = $it->next();
         my $lease_ref;
-        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+        my $topicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $web,
+            topic   => $topic
+        );
         if ( $confirm eq 'getlock' ) {
             $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
             $lease_ref = $topicObject->getLease();
@@ -781,11 +795,15 @@ sub _leaseContents {
 sub _releaseContents {
     my ( $session, $web ) = @_;
 
-    my $webObject = Foswiki::Meta->new( $session, $web );
+    my $webObject = Foswiki::Meta->new( session => $session, web => $web );
     my $it = $webObject->eachTopic();
     while ( $it->hasNext() ) {
-        my $topic = $it->next();
-        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+        my $topic       = $it->next();
+        my $topicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $web,
+            topic   => $topic
+        );
         $topicObject->clearLease();
     }
 }
@@ -1078,7 +1096,11 @@ sub _newTopicOrAttachmentScreen {
                 $renamedTopic = $base . $n;
                 $n++;
             }
-            $to = Foswiki::Meta->new( $session, $to->web, $renamedTopic );
+            $to = Foswiki::Meta->new(
+                session => $session,
+                web     => $to->web,
+                topic   => $renamedTopic
+            );
         }
     }
 
@@ -1259,8 +1281,11 @@ sub _newWebScreen {
     $tmpl =~ s/%LOCAL_SEARCH%/$search/g;
     $tmpl =~ s/%SEARCH_COUNT%/$resultCount/g;
 
-    my $fromWebHome =
-      new Foswiki::Meta( $session, $from->web, $Foswiki::cfg{HomeTopicName} );
+    my $fromWebHome = new Foswiki::Meta(
+        session => $session,
+        web     => $from->web,
+        topic   => $Foswiki::cfg{HomeTopicName}
+    );
     $tmpl = $fromWebHome->expandMacros($tmpl);
     $tmpl = $fromWebHome->renderTML($tmpl);
 
@@ -1519,8 +1544,8 @@ sub _getReferringTopics {
     my @webs = ( $om->web );
 
     if ($allWebs) {
-        my $root = Foswiki::Meta->new($session);
-        my $it   = $root->eachWeb(1);
+        my $root = Foswiki::Meta->new( session => $session );
+        my $it = $root->eachWeb(1);
         while ( $it->hasNext() ) {
             push( @webs, $it->next() );
         }
@@ -1530,7 +1555,8 @@ sub _getReferringTopics {
         my $interWeb = ( $searchWeb ne $om->web() );
         next if ( $allWebs && !$interWeb );
 
-        my $webObject = Foswiki::Meta->new( $session, $searchWeb );
+        my $webObject =
+          Foswiki::Meta->new( session => $session, web => $searchWeb );
         next unless $webObject->haveAccess('VIEW');
 
         # Search for both the foswiki form and the URL form
@@ -1575,7 +1601,11 @@ sub _getReferringTopics {
 
             # Individual topics may be view restricted. Only return
             # those we can see.
-            my $m = Foswiki::Meta->new( $session, $searchWeb, $searchTopic );
+            my $m = Foswiki::Meta->new(
+                session => $session,
+                web     => $searchWeb,
+                topic   => $searchTopic
+            );
             next unless $m->haveAccess('VIEW');
 
             $results{ $searchWeb . '.' . $searchTopic } = 1;

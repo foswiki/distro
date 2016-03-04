@@ -965,8 +965,12 @@ sub _install {
                         "> ${simulated}Checked in: $file  as $tweb.$ttopic")
                       if DEBUG;
                     $checkedIn++;
-                    my $meta = Foswiki::Meta->new( $Foswiki::Plugins::SESSION,
-                        $tweb, $ttopic, $contents );
+                    my $meta = Foswiki::Meta->new(
+                        session => $Foswiki::Plugins::SESSION,
+                        web     => $tweb,
+                        topic   => $ttopic,
+                        text    => $contents
+                    );
 
                     $ok = 0
                       unless $this->_installAttachments( $reporter, $dir,

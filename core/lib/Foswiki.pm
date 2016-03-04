@@ -2283,7 +2283,7 @@ Webs are returned as absolute web pathnames.
 sub deepWebList {
     my ( $this, $filter, $rootWeb ) = @_;
     my @list;
-    my $webObject = new Foswiki::Meta( $this, $rootWeb );
+    my $webObject = new Foswiki::Meta( session => $this, web => $rootWeb );
     my $it = $webObject->eachWeb( $Foswiki::cfg{EnableHierarchicalWebs} );
     return $it->all() unless $filter;
     while ( $it->hasNext() ) {
@@ -2754,8 +2754,11 @@ sub inlineAlert {
     my $def      = shift;
 
     # web and topic can be anything; they are not used
-    my $topicObject =
-      Foswiki::Meta->new( $this, $this->webName, $this->topicName );
+    my $topicObject = Foswiki::Meta->new(
+        session => $this,
+        web     => $this->webName,
+        topic   => $this->topicName
+    );
     my $text = $this->templates->readTemplate( 'oops' . $template );
     if ($text) {
         my $blah = $this->templates->expandTemplate($def);

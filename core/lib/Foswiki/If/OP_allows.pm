@@ -54,21 +54,25 @@ sub evaluate {
     # Try for an existing topic first.
     if ( $session->topicExists( $web, $topic ) ) {
 
-        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+        my $topicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $web,
+            topic   => $topic
+        );
         $ok = $topicObject->haveAccess($mode);
     }
 
     # Not an existing web.topic name, see if the string on its own
     # is a web name
     elsif ( $session->webExists($str) ) {
-        my $webObject = Foswiki::Meta->new( $session, $str );
+        my $webObject = Foswiki::Meta->new( session => $session, web => $str );
         $ok = $webObject->haveAccess($mode);
     }
 
     # Not an existing web.topic or a web on it's own; maybe it's
     # web.topic for an existing web but non-existing topic
     elsif ( $session->webExists($web) ) {
-        my $webObject = Foswiki::Meta->new( $session, $web );
+        my $webObject = Foswiki::Meta->new( session => $session, web => $web );
         $ok = $webObject->haveAccess($mode);
     }
     else {

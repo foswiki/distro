@@ -286,13 +286,16 @@ sub registerHandlers {
         if (   $_->isa('Foswiki::AccessControlException')
             || $_->isa('Foswiki::OopsException')
             || $_->isa('Foswiki::ValidationException')
-            || !ref($_) )
+            || !ref($_)
+            || $Foswiki::inUnitTestMode )
         {
             # SMELL Not sure how did it work with with Error.pm and die of
             # errors previously.
             Foswiki::Exception->rethrow($_);
         }
         else {
+            # SMELL Shouldn't this conditional branch be executed only for
+            # exceptions coming from a plugin code?
             $exception = $_->text . ' ' . $_->stacktrace;
         }
 

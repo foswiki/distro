@@ -356,7 +356,11 @@ sub validate {
         # is ever defined can be replaced by any other undefined 4xx code.
         $session->{response}->status(419);
 
-        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+        my $topicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $web,
+            topic   => $topic
+        );
         $tmpl = $topicObject->expandMacros($tmpl);
         $tmpl = $topicObject->renderTML($tmpl);
         $tmpl =~ s/<nop>//g;

@@ -24,7 +24,7 @@ sub TOPICLIST {
     my $web = $params->{web} || $this->{webName};
     $web =~ s#\.#/#g;
 
-    my $webObject = Foswiki::Meta->new( $this, $web );
+    my $webObject = Foswiki::Meta->new( session => $this, web => $web );
     my $thisWebNoSearchAll =
       Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
     return ''
@@ -39,7 +39,8 @@ sub TOPICLIST {
     while ( $it->hasNext() ) {
         my $item = $it->next();
 
-        my $topicObject = Foswiki::Meta->new( $this, $web, $item );
+        my $topicObject =
+          Foswiki::Meta->new( session => $this, web => $web, topic => $item );
         next unless $topicObject->haveAccess("VIEW");
 
         my $line = $format;

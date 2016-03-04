@@ -447,7 +447,12 @@ sub bulkRegister {
     ( $logWeb, $logTopic ) = $session->normalizeWebTopicName( '', $logTopic );
 
     #-- Save the LogFile as designated, link back to the source topic
-    my $lmeta = Foswiki::Meta->new( $session, $logWeb, $logTopic, $log );
+    my $lmeta = Foswiki::Meta->new(
+        session => $session,
+        web     => $logWeb,
+        topic   => $logTopic,
+        text    => $log
+    );
     unless ( $lmeta->haveAccess('CHANGE') ) {
         Foswiki::AccessControlException->throw(
             mode   => 'CHANGE',
@@ -1401,8 +1406,11 @@ sub _writeRegistrationDetailsToTopic {
 
     my $user = $data->{WikiName};
 
-    my $topicObject =
-      Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName}, $user );
+    my $topicObject = Foswiki::Meta->new(
+        session => $session,
+        web     => $Foswiki::cfg{UsersWebName},
+        topic   => $user
+    );
     my $log;
     my $addText;
 
@@ -1577,8 +1585,11 @@ sub _buildConfirmationEmail {
     $templateText =~ s/%WIKINAME%/$data->{WikiName}/g;
     $templateText =~ s/%EMAILADDRESS%/$data->{Email}/g;
 
-    my $topicObject = Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName},
-        $data->{WikiName} );
+    my $topicObject = Foswiki::Meta->new(
+        session => $session,
+        web     => $Foswiki::cfg{UsersWebName},
+        topic   => $data->{WikiName}
+    );
     $templateText = $topicObject->expandMacros($templateText);
 
     #add LoginName to make it clear to new users
@@ -1970,8 +1981,11 @@ sub _sendEmail {
     }
     $text =~ s/%REGISTRATION_DATA%/join("\n", map {"\t* $_" } @unexpanded)/ge;
 
-    my $topicObject = Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName},
-        $data->{WikiName} );
+    my $topicObject = Foswiki::Meta->new(
+        session => $session,
+        web     => $Foswiki::cfg{UsersWebName},
+        topic   => $data->{WikiName}
+    );
     $text = $topicObject->expandMacros($text);
 
     return $session->net->sendEmail($text);

@@ -137,9 +137,11 @@ MESSAGE
 
         # Warning: do NOT attempt to instantiate a topic object with
         # a null or bogus web name!
-        my $topicObject =
-          Foswiki::Meta->new( $session, $web || $Foswiki::cfg{SystemWebName},
-            $topic );
+        my $topicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $web || $Foswiki::cfg{SystemWebName},
+            topic   => $topic
+        );
         $tmplData = $topicObject->expandMacros($tmplData);
         $n        = 1;
         foreach my $param (@params) {

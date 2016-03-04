@@ -74,7 +74,11 @@ sub view {
         && $query->param('release_lock') ne '' )
     {
         $query->delete('release_lock');
-        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+        my $topicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $web,
+            topic   => $topic
+        );
 
         my $lease = $topicObject->getLease();
         if ( $lease && $lease->{user} eq $session->user ) {
@@ -223,7 +227,11 @@ sub view {
         }
     }
     else {    # Topic does not exist yet
-        $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+        $topicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $web,
+            topic   => $topic
+        );
 
         # If user would not be able to access the topic, don't reveal that
         # it does not exist

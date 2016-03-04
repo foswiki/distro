@@ -10,11 +10,11 @@ use v5.14;
 
 use Assert;
 use Foswiki;
-use Foswiki::Meta;
-use Foswiki::Plugin();
-use Foswiki::Func();
-use File::Temp();
-use Foswiki::AccessControlException();
+use Foswiki::Meta                   ();
+use Foswiki::Plugin                 ();
+use Foswiki::Func                   ();
+use File::Temp                      ();
+use Foswiki::AccessControlException ();
 
 use Moo;
 use namespace::clean;
@@ -79,8 +79,11 @@ sub NO_IMPLEMENTED_YETfixture_groups {
 sub test_SimpleMetaTopic {
     my $this = shift;
 
-    my $meta =
-      Foswiki::Meta->new( $this->session, $this->test_web, 'TestTopic' );
+    my $meta = Foswiki::Meta->new(
+        session => $this->session,
+        web     => $this->test_web,
+        topic   => 'TestTopic'
+    );
 
     $meta->text("\n\n onceler \n \n\n \n\n\n");
     $meta->putKeyed( 'FIELD', { name => 'fieldname', value => 'meta' } );
@@ -122,7 +125,7 @@ sub test_SimpleTopic {
     my $text = $meta->getEmbeddedStoreForm();
 
     my $metaFromSerialised = Foswiki::Meta->new(
-        sesison => $this->session,
+        session => $this->session,
         web     => $this->test_web,
         topic   => 'TestTopic'
     );

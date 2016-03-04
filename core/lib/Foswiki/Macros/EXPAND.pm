@@ -24,13 +24,18 @@ sub EXPAND {
           $this->normalizeWebTopicName( $this->webName, $scope );
         return $this->inlineAlert( 'alerts', 'EXPAND_noscope', $scope )
           unless $this->topicExists( $web, $topic );
-        $meta = new Foswiki::Meta( $this, $web, $topic );
+        $meta =
+          new Foswiki::Meta( session => $this, web => $web, topic => $topic );
         return $this->inlineAlert( 'alerts', 'EXPAND_noaccess', $scope )
           unless $meta->haveAccess('VIEW');
         $this->prefs->pushTopicContext( $web, $topic );
     }
     else {
-        $meta = Foswiki::Meta->new( $this, $this->webName, $this->topicName );
+        $meta = Foswiki::Meta->new(
+            session => $this,
+            web     => $this->webName,
+            topic   => $this->topicName
+        );
     }
     my $expansion = $meta->expandMacros($macro);
     if ($scope) {

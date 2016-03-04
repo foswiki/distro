@@ -825,7 +825,10 @@ sub getPreferencesValue {
         return undef unless defined $web;
 
         # Web preference
-        my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
+        my $webObject = Foswiki::Meta->new(
+            session => $Foswiki::Plugins::SESSION,
+            web     => $web
+        );
         return $webObject->getPreference($key);
     }
     else {
@@ -1479,8 +1482,12 @@ sub checkAccessPermission {
       || getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} );
     if ( !defined($meta) ) {
         if ($text) {
-            $meta = Foswiki::Meta->new( $Foswiki::Plugins::SESSION,
-                $web, $topic, $text );
+            $meta = Foswiki::Meta->new(
+                session => $Foswiki::Plugins::SESSION,
+                web     => $web,
+                topic   => $topic,
+                text    => $text
+            );
         }
         else {
             $meta =
@@ -1491,8 +1498,12 @@ sub checkAccessPermission {
 
         # don't alter an existing $meta using the provided text;
         # use a temporary clone instead
-        my $tmpMeta =
-          Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic, $text );
+        my $tmpMeta = Foswiki::Meta->new(
+            session => $Foswiki::Plugins::SESSION,
+            web     => $web,
+            topic   => $topic,
+            text    => $text
+        );
         $tmpMeta->copyFrom($meta);
         $meta = $tmpMeta;
 
@@ -1591,7 +1602,8 @@ sub getTopicList {
 
     my ($web) = _validateWTA(@_);
 
-    my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
+    my $webObject =
+      Foswiki::Meta->new( session => $Foswiki::Plugins::SESSION, web => $web );
     my $it = $webObject->eachTopic();
     return $it->all();
 }
@@ -1724,8 +1736,11 @@ sub getRevisionAtTime {
     my ( $web, $topic, $time ) = @_;
     ( $web, $topic ) = _validateWTA( $web, $topic );
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    my $topicObject = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $web,
+        topic   => $topic
+    );
     return $topicObject->getRevisionAtTime($time);
 }
 
@@ -1741,8 +1756,11 @@ Get a list of the attachments on the given topic.
 sub getAttachmentList {
     my ( $web, $topic ) = @_;
     ( $web, $topic ) = _validateWTA( $web, $topic );
-    my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    my $topicObject = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $web,
+        topic   => $topic
+    );
     my $it = $topicObject->eachAttachment();
     return sort $it->all();
 }
@@ -1766,8 +1784,11 @@ sub attachmentExists {
     my ( $web, $topic, $attachment ) = _checkWTA(@_);
     return 0 unless defined $web && defined $topic && $attachment;
 
-    my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    my $topicObject = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $web,
+        topic   => $topic
+    );
     return $topicObject->hasAttachment($attachment);
 }
 
@@ -1821,8 +1842,11 @@ sub readAttachment {
 
     my $result;
 
-    my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    my $topicObject = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $web,
+        topic   => $topic
+    );
     unless ( $topicObject->haveAccess('VIEW') ) {
         Foswiki::AccessControlException->throw(
             mode   => 'VIEW',
@@ -1966,8 +1990,10 @@ sub moveWeb {
     ($from) = _validateWTA($from);
     ($to)   = _validateWTA($to);
 
-    $from = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $from );
-    $to   = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $to );
+    $from =
+      Foswiki::Meta->new( session => $Foswiki::Plugins::SESSION, web => $from );
+    $to =
+      Foswiki::Meta->new( session => $Foswiki::Plugins::SESSION, web => $to );
     return $from->move($to);
 
 }
@@ -1993,8 +2019,11 @@ sub checkTopicEditLock {
 
     $script ||= 'edit';
 
-    my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    my $topicObject = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $web,
+        topic   => $topic
+    );
     my $lease = $topicObject->getLease();
     if ($lease) {
         my $remain  = $lease->{expires} - time();
@@ -2045,8 +2074,11 @@ sub setTopicEditLock {
     my ( $web, $topic, $lock ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     ( $web, $topic ) = _validateWTA( $web, $topic );
-    my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    my $topicObject = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $web,
+        topic   => $topic
+    );
     if ($lock) {
         $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
     }
@@ -2115,8 +2147,11 @@ sub saveTopic {
     my ( $web, $topic, $smeta, $text, $options ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     ( $web, $topic ) = _validateWTA( $web, $topic );
-    my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    my $topicObject = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $web,
+        topic   => $topic
+    );
 
     unless ( $options->{ignorepermissions}
         || $topicObject->haveAccess('CHANGE') )
@@ -2181,7 +2216,11 @@ sub moveTopic {
 
     return if ( $newWeb eq $web && $newTopic eq $topic );
 
-    my $from = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    my $from = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $web,
+        topic   => $topic
+    );
     unless ( $from->haveAccess('CHANGE') ) {
         Foswiki::AccessControlException->throw(
             mode   => 'CHANGE',
@@ -2192,7 +2231,10 @@ sub moveTopic {
         );
     }
 
-    my $toWeb = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $newWeb );
+    my $toWeb = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $newWeb
+    );
     unless ( $from->haveAccess('CHANGE') ) {
         Foswiki::AccessControlException->throw(
             mode   => 'CHANGE',
@@ -2203,8 +2245,11 @@ sub moveTopic {
         );
     }
 
-    my $to =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $newWeb, $newTopic );
+    my $to = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $newWeb,
+        topic   => $newTopic
+    );
 
     $from->move($to);
 }
@@ -2259,8 +2304,11 @@ sub saveAttachment {
     die "Invalid attachment" unless $attachment;
 
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    my $topicObject = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $web,
+        topic   => $topic
+    );
     unless ( $topicObject->haveAccess('CHANGE') ) {
         Foswiki::AccessControlException->throw(
             mode   => 'CHANGE',
@@ -2519,7 +2567,8 @@ sub eachChangeSince {
     ($web) = _validateWTA($web);
     ASSERT( $Foswiki::Plugins::SESSION->webExists($web) ) if DEBUG;
 
-    my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
+    my $webObject =
+      Foswiki::Meta->new( session => $Foswiki::Plugins::SESSION, web => $web );
     return $webObject->eachChange($time);
 }
 
@@ -2552,8 +2601,11 @@ sub summariseChanges {
     my ( $web, $topic, $orev, $nrev, $tml, $nochecks ) = @_;
     ( $web, $topic ) = _validateWTA( $web, $topic );
 
-    my $topicObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    my $topicObject = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $web,
+        topic   => $topic
+    );
     return $topicObject->summariseChanges(
         Foswiki::Store::cleanUpRevID($orev),
         Foswiki::Store::cleanUpRevID($nrev),
@@ -2703,7 +2755,11 @@ sub expandCommonVariables {
         $web   || $Foswiki::Plugins::SESSION->webName,
         $topic || $Foswiki::Plugins::SESSION->topicName
     );
-    $meta ||= Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    $meta ||= Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $web,
+        topic   => $topic
+    );
 
     return $meta->expandMacros($text);
 }
@@ -2736,9 +2792,10 @@ See also: expandVariables
 sub expandVariablesOnTopicCreation {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     my $topicObject = Foswiki::Meta->new(
-        $Foswiki::Plugins::SESSION,
-        $Foswiki::Plugins::SESSION->webName,
-        $Foswiki::Plugins::SESSION->topicName, $_[0]
+        session => $Foswiki::Plugins::SESSION,
+        web     => $Foswiki::Plugins::SESSION->webName,
+        topic   => $Foswiki::Plugins::SESSION->topicName,
+        text    => $_[0],
     );
     $topicObject->expandNewTopic();
     return $topicObject->text();
@@ -2764,8 +2821,11 @@ sub renderText {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     $web   ||= $Foswiki::Plugins::SESSION->webName;
     $topic ||= $Foswiki::cfg{HomeTopicName};
-    my $webObject =
-      Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web, $topic );
+    my $webObject = Foswiki::Meta->new(
+        session => $Foswiki::Plugins::SESSION,
+        web     => $web,
+        topic   => $topic
+    );
     return $webObject->renderTML($text);
 }
 
@@ -3781,8 +3841,8 @@ sub saveTopicText {
     my $session = $Foswiki::Plugins::SESSION;
 
     # extract meta data and merge old attachment meta data
-    require Foswiki::Meta;
-    my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+    my $topicObject =
+      Foswiki::Meta->new( session => $session, web => $web, topic => $topic );
     $topicObject->remove('FILEATTACHMENT');
 
     my $oldMeta = Foswiki::Meta->load( $session, $web, $topic );

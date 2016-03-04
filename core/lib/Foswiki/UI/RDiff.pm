@@ -473,7 +473,8 @@ sub diff {
     Foswiki::UI::checkWebExists( $session, $web, 'diff' );
     Foswiki::UI::checkTopicExists( $session, $web, $topic, 'diff' );
 
-    my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+    my $topicObject =
+      Foswiki::Meta->new( session => $session, web => $web, topic => $topic );
 
     my $renderStyle =
          $query->param('render')

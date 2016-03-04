@@ -25,7 +25,6 @@ BEGIN {
     }
 }
 
-our @ISA;
 my ( $request, $response );
 
 BEGIN {

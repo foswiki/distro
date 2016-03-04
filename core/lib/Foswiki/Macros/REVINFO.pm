@@ -31,7 +31,8 @@ sub REVINFO {
         || !defined($loadedRev)
         || $loadedRev ne $rev )
     {
-        $topicObject = Foswiki::Meta->new( $this, $web, $topic );
+        $topicObject =
+          Foswiki::Meta->new( session => $this, web => $web, topic => $topic );
 
         # haveAccess will try to load the object on the fly, so make sure
         # it is loaded if rev is defined

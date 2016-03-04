@@ -237,8 +237,10 @@ sub getAvailableForms {
     # SMELL: Item11527, why aren't we using Foswiki::Func::getPreferencesValue?
     # AKA: Why can't we inherit WEBFORMS from parent webs?
     if ( defined $contextObject->topic ) {
-        $metaObject =
-          Foswiki::Meta->new( $contextObject->session, $contextObject->web() );
+        $metaObject = Foswiki::Meta->new(
+            session => $contextObject->session,
+            web     => $contextObject->web
+        );
         $legalForms = $metaObject->getPreference('WEBFORMS') || '';
         $legalForms =
           Foswiki::Func::expandCommonVariables( $legalForms,
@@ -505,9 +507,11 @@ sub _link {
         );
     }
     else {
-        my $that =
-          Foswiki::Meta->new( $this->session, $web,
-            $topic || $Foswiki::cfg{HomeTopicName} );
+        my $that = Foswiki::Meta->new(
+            session => $this->session,
+            web     => $web,
+            topic   => $topic || $Foswiki::cfg{HomeTopicName}
+        );
         my $expanded = $that->expandMacros($string);
         if ( $tooltip ne $defaultToolTip ) {
             $link = CGI::span( { title => $tooltip }, $expanded );

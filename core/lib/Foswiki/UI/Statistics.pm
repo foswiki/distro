@@ -142,7 +142,8 @@ sub statistics {
             if ($web) {
                 push( @weblist, $web );
                 if ($recurse) {
-                    my $webObj = Foswiki::Meta->new( $session, $web );
+                    my $webObj =
+                      Foswiki::Meta->new( session => $session, web => $web );
                     my $subweb = $webObj->web();
                     my $it     = $webObj->eachWeb($recurse);
                     while ( $it->hasNext() ) {
@@ -160,8 +161,8 @@ sub statistics {
     else {
 
         # otherwise do all user webs:
-        my $root = Foswiki::Meta->new($session);
-        my $it   = $root->eachWeb($recurse);
+        my $root = Foswiki::Meta->new( session => $session );
+        my $it = $root->eachWeb($recurse);
         while ( $it->hasNext() ) {
             my $w = $it->next();
             next unless Foswiki::WebFilter->user()->ok( $session, $w );
@@ -465,7 +466,11 @@ sub _processWeb {
                 $tmplObject = Foswiki::Meta->load( $session, $statsTemplateWeb,
                     $statsTemplate );
                 Foswiki::UI::checkAccess( $session, 'VIEW', $tmplObject );
-                $meta = Foswiki::Meta->new( $session, $web, $statsTopic );
+                $meta = Foswiki::Meta->new(
+                    session => $session,
+                    web     => $web,
+                    topic   => $statsTopic
+                );
                 $meta->copyFrom($tmplObject);
                 $meta->text( $tmplObject->text() );
             }

@@ -53,7 +53,8 @@ sub buildNewTopic {
 
     # Prevent creating a topic in a web without change access
     unless ($topicExists) {
-        my $webObject = Foswiki::Meta->new( $session, $topicObject->web );
+        my $webObject =
+          Foswiki::Meta->new( session => $session, web => $topicObject->web );
         Foswiki::UI::checkAccess( $session, 'CHANGE', $webObject );
     }
 
@@ -393,7 +394,11 @@ sub expandAUTOINC {
     if ( $topic =~ m/X{10}/ ) {
         my $n           = 0;
         my $baseTopic   = $topic;
-        my $topicObject = Foswiki::Meta->new( $session, $web, $baseTopic );
+        my $topicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $web,
+            topic   => $baseTopic
+        );
         $topicObject->clearLease();
         do {
             $topic = $baseTopic;
@@ -409,9 +414,13 @@ sub expandAUTOINC {
         my $start       = $2;
         my $pad         = length($start);
         my $post        = $3;
-        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+        my $topicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $web,
+            topic   => $topic
+        );
         $topicObject->clearLease();
-        my $webObject = Foswiki::Meta->new( $session, $web );
+        my $webObject = Foswiki::Meta->new( session => $session, web => $web );
         my $it = $webObject->eachTopic();
 
         while ( $it->hasNext() ) {
@@ -492,7 +501,8 @@ WARN
 
     $topic = expandAUTOINC( $session, $web, $topic );
 
-    my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+    my $topicObject =
+      Foswiki::Meta->new( session => $session, web => $web, topic => $topic );
 
     if ( $saveaction eq 'cancel' ) {
         my $lease = $topicObject->getLease();

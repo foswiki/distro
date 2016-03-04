@@ -44,10 +44,11 @@ use namespace::clean;
 extends 'Unit::TestCase';
 
 has session => (
-    is  => 'rw',
-    isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki', strictMatch => 1, ),
+    is        => 'rw',
+    weak_ref  => 1,
     predicate => 1,
     clearer   => 1,
+    isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki', strictMatch => 1, ),
 );
 has twiki => ( is => 'rw', );
 has test_topicObject => (
@@ -558,7 +559,10 @@ sub populateNewWeb {
     else {
 
         # pre-store2, Foswiki 1.1.x and below
-        $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
+        $webObject = Foswiki::Meta->new(
+            session => $Foswiki::Plugins::SESSION,
+            web     => $web
+        );
     }
     $webObject->populateNewWeb( $template, $opts );
     return $webObject;
@@ -583,7 +587,11 @@ sub getUnloadedTopicObject {
     ASSERT( defined $web );
     ASSERT( defined $topic );
 
-    return Foswiki::Meta->new( $this->session, $web, $topic );
+    return Foswiki::Meta->new(
+        session => $this->session,
+        web     => $web,
+        topic   => $topic
+    );
 }
 
 =begin TML
@@ -607,7 +615,10 @@ sub getWebObject {
     else {
 
         # pre-store2, Foswiki 1.1.x and below
-        $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
+        $webObject = Foswiki::Meta->new(
+            session => $Foswiki::Plugins::SESSION,
+            web     => $web
+        );
     }
 
     return $webObject;

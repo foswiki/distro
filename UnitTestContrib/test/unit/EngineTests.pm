@@ -69,7 +69,7 @@ around set_up => sub {
 
 sub test_simple_request {
     my $this = shift;
-    my $req  = new Foswiki::Request("");
+    my $req = new Foswiki::Request( initalizer => "" );
 
     $req->method('GET');
     $req->uri('/bin/test');
@@ -102,7 +102,7 @@ sub test_simple_request {
 sub _newBasicRequest {
     my ($method) = @_;
 
-    my $req = new Foswiki::Request("");
+    my $req = new Foswiki::Request( initalizer => "" );
     $req->method( $method || 'GET' );
     $req->uri('/bin/test');
     $req->remote_addr('127.0.0.1');

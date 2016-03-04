@@ -45,7 +45,8 @@ sub render {
     # called when a regex matches a valid wikiword
     $web   = Foswiki::Sandbox::untaintUnchecked($web);
     $topic = Foswiki::Sandbox::untaintUnchecked($topic);
-    my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+    my $topicObject =
+      Foswiki::Meta->new( session => $session, web => $web, topic => $topic );
 
     my $info = $topicObject->getRevisionInfo();
     $tooltip =~ s/\$web/<nop>$web/g;

@@ -41,8 +41,8 @@ sub restTmpl {
     my $request      = Foswiki::Func::getRequestObject();
     my $load         = $request->param('load');
     my $name         = $request->param('name') || $load;
-    my $web          = $session->{webName};
-    my $topic        = $session->{topicName};
+    my $web          = $session->webName;
+    my $topic        = $session->topicName;
     my $contentType  = $request->param("contenttype");
     my $cacheControl = $request->param("cachecontrol");
     my $doRender =
@@ -64,7 +64,7 @@ sub restTmpl {
     # Item13667: clean up html that could disturb jquery-ui
     $result =~ s/<!--[^\[<].*?-->//g;
 
-    my $response = $session->{response};
+    my $response = $session->response;
 
     if ( $result eq "" ) {
         $response->header( -status => 500 );

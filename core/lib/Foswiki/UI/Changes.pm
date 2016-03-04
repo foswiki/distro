@@ -24,7 +24,8 @@ sub changes {
     my $session = shift;
 
     my $query = $session->request;
-    my $webObject = Foswiki::Meta->new( $session, $session->webName );
+    my $webObject =
+      Foswiki::Meta->new( session => $session, web => $session->webName );
 
     Foswiki::UI::checkWebExists( $session, $webObject->web, 'find changes in' );
 
@@ -67,8 +68,11 @@ sub changes {
         next if $done{ $change->{topic} };
         next
           unless $session->topicExists( $webObject->web, $change->{topic} );
-        my $topicObject =
-          Foswiki::Meta->new( $session, $webObject->web, $change->{topic} );
+        my $topicObject = Foswiki::Meta->new(
+            session => $session,
+            web     => $webObject->web,
+            topic   => $change->{topic}
+        );
         next unless $topicObject->haveAccess('VIEW');
         my $summary =
           $topicObject->summariseChanges( undef, $change->{revision}, 1 );
@@ -108,8 +112,11 @@ sub changes {
 
     $page .= $after;
 
-    my $topicObject =
-      Foswiki::Meta->new( $session, $session->webName, $session->topicName );
+    my $topicObject = Foswiki::Meta->new(
+        session => $session,
+        web     => $session->webName,
+        topic   => $session->topicName
+    );
     $page = $topicObject->expandMacros($page);
     $page = $topicObject->renderTML($page);
 

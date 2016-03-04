@@ -42,6 +42,11 @@ the function or parameter.
 # DO NOT CHANGE THE EXISTING APIS (well thought out extensions are OK)
 # AND ENSURE ALL POD DOCUMENTATION IS COMPLETE AND ACCURATE.
 
+# vrurg This class is a specific one, pure service on purpose. Yet it doesn't
+# inherit nor gets inherited. Moo-fying it would pretty much raise compatilibity
+# issues all across the core code as well as plugins. Therefore I see no need to
+# convert it now.
+
 package Foswiki::Attrs;
 
 use strict;

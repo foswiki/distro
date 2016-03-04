@@ -435,8 +435,11 @@ sub init_edit {
     # Take a copy of the new topic in case the rendering process
     # reloads it. This can happen if certain macros are present, and
     # will damage the object.
-    my $tmplObject =
-      Foswiki::Meta->new( $session, $topicObject->web, $topicObject->topic );
+    my $tmplObject = Foswiki::Meta->new(
+        session => $session,
+        web     => $topicObject->web,
+        topic   => $topicObject->topic
+    );
     $tmplObject->copyFrom($topicObject);
 
     $tmpl = $tmplObject->expandMacros($tmpl);
@@ -487,7 +490,7 @@ sub init_edit {
         }
     }
     else {
-        my $webObject = Foswiki::Meta->new( $session, $web );
+        my $webObject = Foswiki::Meta->new( session => $session, web => $web );
         my @forms = Foswiki::Form::getAvailableForms($topicObject);
         if ( scalar(@forms) ) {
             $formText = $session->templates->readTemplate('addform');

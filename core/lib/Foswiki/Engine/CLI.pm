@@ -13,7 +13,6 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 
 package Foswiki::Engine::CLI;
 use v5.14;
-use Assert;
 
 use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
@@ -35,7 +34,8 @@ BEGIN {
     }
 }
 
-sub run {
+around run => sub {
+    my $orig = shift;
     my $this = shift;
     my @args = @ARGV;    # Copy, so original @ARGV doesn't get modified
     while ( scalar(@args) ) {
@@ -64,24 +64,27 @@ sub run {
         my $res = Foswiki::UI::handleRequest($req);
         $this->finalize( $res, $req );
     }
-}
+};
 
-sub prepareConnection {
+around prepareConnection => sub {
+    my $orig = shift;
     my ( $this, $req ) = @_;
     $req->remoteAddress('127.0.0.1');
     $req->method( $ENV{FOSWIKI_ACTION} );
-}
+};
 
-sub prepareQueryParameters {
+around prepareQueryParameters => sub {
+    my $orig = shift;
     my ( $this, $req ) = @_;
     foreach my $name ( @{ $this->plist } ) {
         $req->param( -name => $name, -value => $this->params->{$name} );
     }
     $this->clear_plist;
     $this->clear_params;
-}
+};
 
-sub prepareHeaders {
+around prepareHeaders => sub {
+    my $orig = shift;
     my ( $this, $req ) = @_;
     if ( defined $this->user ) {
         $req->remoteUser( $this->user );
@@ -95,9 +98,10 @@ sub prepareHeaders {
             $req->remoteUser( $Foswiki::cfg{AdminUserWikiName} );
         }
     }
-}
+};
 
-sub preparePath {
+around preparePath => sub {
+    my $orig = shift;
     my ( $this, $req ) = @_;
     if ( $ENV{FOSWIKI_ACTION} ) {
         $req->action( $ENV{FOSWIKI_ACTION} );
@@ -110,9 +114,10 @@ sub preparePath {
         $req->pathInfo( $this->path_info );
         $this->clear_path_info;
     }
-}
+};
 
-sub prepareUploads {
+around prepareUploads => sub {
+    my $orig = shift;
     my ( $this, $req ) = @_;
     my %uploads;
 
@@ -126,16 +131,17 @@ sub prepareUploads {
     }
     $req->clear_uploads;
     $req->uploads( \%uploads );
-}
+};
 
-sub prepareCookies { }
+around prepareCookies => sub { };
 
-sub finalizeHeaders { }
+around finalizeHeaders => sub { };
 
-sub write {
+around write => sub {
+    my $orig = shift;
     my ( $this, $buffer ) = @_;
     print $buffer;
-}
+};
 
 1;
 __END__
