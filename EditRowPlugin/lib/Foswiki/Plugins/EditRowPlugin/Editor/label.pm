@@ -1,17 +1,17 @@
 # See bottom of file for copyright and license information
 package Foswiki::Plugins::EditRowPlugin::Editor::label;
+use v5.14;
 
-use strict;
 use Assert;
 
-use Foswiki::Plugins::EditRowPlugin::Editor ();
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Plugins::EditRowPlugin::Editor);
 
-our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor');
-
-sub new {
-    my $class = shift;
-    return $class->SUPER::new('label');
-}
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_, type => 'label' );
+};
 
 sub htmlEditor {
     my ( $this, $cell, $colDef, $inRow, $unexpandedValue ) = @_;
@@ -20,9 +20,9 @@ sub htmlEditor {
     return $unexpandedValue;
 }
 
-sub jQueryMetadata {
+around jQueryMetadata => sub {
     return { uneditable => 1 };
-}
+};
 
 # Called when a value is being loaded into the internal table from url
 # params; gives an opportunity for the type to override the value
@@ -32,7 +32,7 @@ sub forceValue {
     # Label cells are uneditable, so we have to keep any existing
     # value for them. If there is no value in the cell, restore
     # the initial value.
-    return ( defined $cell->{text} ? $cell->{text} : $colDef->{initial_value} );
+    return ( defined $cell->text ? $cell->text : $colDef->{initial_value} );
 }
 
 1;

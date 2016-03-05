@@ -4,15 +4,16 @@ package Foswiki::Plugins::EditRowPlugin::Table;
 use strict;
 use Assert;
 
-use Foswiki::Tables::Table ();
-our @ISA = ('Foswiki::Tables::Table');
-
 use Foswiki::Attrs                            ();
 use Foswiki::Func                             ();
 use Foswiki::Plugins::EditRowPlugin           ();
 use Foswiki::Plugins::EditRowPlugin::TableRow ();
 use Foswiki::Plugins::EditRowPlugin::Editor   ();
 use Foswiki::Tables::Table                    ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Tables::Table);
 
 use constant TRACE => 0;
 
@@ -42,15 +43,27 @@ our %editors = ( _default => Foswiki::Plugins::EditRowPlugin::Editor->new() );
 #    =require_js= - compatibility, true maps to =js='assumed'=,
 #                   false to =js='preferred'=
 
-sub new {
-    my ( $class, $specs ) = @_;
+has editable  => ( is => 'rw', );
+has dead_cols => ( is => 'rw', );
+has metaObject => (
+    is => 'rw',
+    isa =>
+      Foswiki::Object::isaCLASS( 'metaObject', 'Foswiki::Meta', noUndef => 1 ),
+);
 
-    my $this =
-      $class->SUPER::new( $specs,
-        $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro} || 'EDITTABLE' );
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->(
+        @_,
+        supertag => $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro} || 'EDITTABLE',
+    );
+};
 
-    my $attrs = $this->{attrs};
-    $this->{editable} = $attrs->{isEditable};
+sub BUILD {
+    my $this = shift;
+
+    my $attrs = $this->attrs;
+    $this->editable( $attrs->{isEditable} );
 
     # EditTablePlugin compatibility; headerrows trumps headerislabel
     $attrs->{headerrows} = 1
@@ -91,9 +104,7 @@ sub new {
 
     $attrs->{buttons} ||= "right";
 
-    $this->{attrs} = $attrs;
-
-    return $this;
+    $this->attrs($attrs);
 }
 
 sub addSpecs {
@@ -102,31 +113,32 @@ sub addSpecs {
 }
 
 # Override Foswiki::Tables::Table
-sub row_class {
+around row_class => sub {
     return 'Foswiki::Plugins::EditRowPlugin::TableRow';
-}
+};
 
 # Override Foswiki::Tables::Table
-sub getMacros {
+around getMacros => sub {
+    my $orig = shift;
     my $this = shift;
-    my @list = $this->SUPER::getMacros();
+    my @list = $orig->($this);
     push( @list, $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro} || 'EDITTABLE' );
     return @list;
-}
+};
 
 sub getWeb {
     my $this = shift;
-    return $this->{meta}->web();
+    return $this->metaObject->web;
 }
 
 sub getTopic {
     my $this = shift;
-    return $this->{meta}->topic();
+    return $this->metaObject->topic;
 }
 
 sub getTopicObject {
     my $this = shift;
-    return $this->{meta};
+    return $this->metaObject;
 }
 
 # Calculate row labels
@@ -136,25 +148,25 @@ sub _assignLabels {
 
     while ( $heads-- > 0 ) {
         if ( $heads < $this->totalRows() ) {
-            $this->{rows}->[$heads]->isHeader(1);
+            $this->rows->[$heads]->isHeader(1);
         }
     }
     my $tails = $this->getFooterRows();
     while ( $tails > 0 ) {
         if ( $tails < $this->totalRows() ) {
-            $this->{rows}->[ -$tails ]->isFooter(1);
+            $this->rows->[ -$tails ]->isFooter(1);
         }
         $tails--;
     }
 
     # Assign row index numbers to body cells
     my $index = 1;
-    foreach my $row ( @{ $this->{rows} } ) {
+    foreach my $row ( @{ $this->rows } ) {
         if ( $row->isHeader || $row->isFooter ) {
-            $row->{index} = '';
+            $row->index('');
         }
         else {
-            $row->{index} = $index++;
+            $row->index( $index++ );
         }
     }
 }
@@ -171,7 +183,7 @@ sub _assignLabels {
 sub render {
     my ( $this, $opts ) = @_;
     my @out;
-    my $attrs = $this->{attrs};
+    my $attrs = $this->attrs;
 
     $this->_assignLabels();
 
@@ -181,13 +193,13 @@ sub render {
 
     my $id = $this->getID();
     push( @out, Foswiki::Render::html( 'a', { name => "erp_${id}" } ) )
-      unless $this->{attrs}->{js} eq 'assumed';
+      unless $this->attrs->{js} eq 'assumed';
 
-    my $orientation = $this->{attrs}->{orientrowedit} || 'horizontal';
+    my $orientation = $this->attrs->{orientrowedit} || 'horizontal';
 
     # Disallow vertical display for whole table edits
     $orientation = 'horizontal' if $wholeTable;
-    if ( $editing && $this->{attrs}->{js} ne 'assumed' ) {
+    if ( $editing && $this->attrs->{js} ne 'assumed' ) {
         my $format = $attrs->{format} || '';
 
         # Save the _format, _headerrows and _footerrows in hidden params;
@@ -241,14 +253,14 @@ sub render {
     my $r = 0;    # real row index
 
     my %row_opts = (
-        col_defs      => $this->{colTypes},
-        js            => $this->{attrs}->{js},
+        col_defs      => $this->colTypes,
+        js            => $this->attrs->{js},
         with_controls => $this->can_edit()
           && (
             ( $editing && !$wholeTable )
             || (  !$editing
                 && $opts->{with_controls}
-                && $this->{attrs}->{disable} !~ /row/ )
+                && $this->attrs->{disable} !~ /row/ )
           )
     );
 
@@ -266,14 +278,14 @@ sub render {
         # cell numbers. These normally come from the raw table, but there
         # isn't one when the table is being created.
         my $n = 0;
-        foreach my $cell ( @{ $this->{rows}->[0]->{cols} } ) {
+        foreach my $cell ( @{ $this->rows->[0]->cols } ) {
             $cell->number( $n++ );
         }
         $fake_row   = 1;
         $wholeTable = 1;    # it should be already; just make sure
                             # we need to make sure controls are added....
     }
-    foreach my $row ( @{ $this->{rows} } ) {
+    foreach my $row ( @{ $this->rows } ) {
         my $isLard = ( $row->isHeader || $row->isFooter );
         $n++ unless $isLard;
 
@@ -286,7 +298,7 @@ sub render {
             # Get the row from the real_table, read raw from the topic
             # (or use the fake_row if one was required)
             my $real_row =
-              $opts->{real_table} ? $opts->{real_table}->{rows}->[$r] : $row;
+              $opts->{real_table} ? $opts->{real_table}->rows->[$r] : $row;
             $real_row = $row if $fake_row;
             if ($real_row) {
                 push(
@@ -310,7 +322,7 @@ sub render {
     }
 
     if ($editing) {
-        if ( $wholeTable && $this->{attrs}->{js} ne 'assumed' ) {
+        if ( $wholeTable && $this->attrs->{js} ne 'assumed' ) {
 
             # JS is ignored or preferred, need manual edit controls
             push( @out, $this->generateEditButtons( 0, 0, 1 ) );
@@ -320,8 +332,8 @@ sub render {
     }
     elsif ($opts->{with_controls}
         && $this->can_edit()
-        && $this->{attrs}->{js} ne 'assumed'
-        && $this->{attrs}->{js} ne 'rowmoved' )
+        && $this->attrs->{js} ne 'assumed'
+        && $this->attrs->{js} ne 'rowmoved' )
     {
 
         # Generate the buttons at the bottom of the table
@@ -337,7 +349,7 @@ sub render {
 
         # Show full-table-edit control
         my $active_topic = $this->getWeb . '.' . $this->getTopic;
-        if ( $this->{attrs}->{disable} !~ /full/ ) {
+        if ( $this->attrs->{disable} !~ /full/ ) {
 
             # Full table editing is not disabled
             my $title  = "Edit full table";
@@ -365,8 +377,8 @@ sub render {
                   . '<br />'
             );
         }
-        elsif ( Foswiki::Func::isTrue( $this->{attrs}->{changerows} )
-            && $this->{attrs}->{disable} !~ /row/ )
+        elsif ( Foswiki::Func::isTrue( $this->attrs->{changerows} )
+            && $this->attrs->{disable} !~ /row/ )
         {
 
             # We are going into single row editing mode
@@ -396,14 +408,14 @@ sub render {
 
             push(
                 @out,
-                Foswiki::Render::html( 'a', { name => "erp_$this->{id}" } )
+                Foswiki::Render::html( 'a', { name => "erp_" . $this->id } )
                   . Foswiki::Render::html( 'a',
                     { href => $url, title => $title }, $button )
                   . '<br />'
             );
         }
-        elsif ( Foswiki::Func::isTrue( $this->{attrs}->{changerows} )
-            && $this->{attrs}->{disable} !~ /row/ )
+        elsif ( Foswiki::Func::isTrue( $this->attrs->{changerows} )
+            && $this->attrs->{disable} !~ /row/ )
         {
 
             # We are going into single row editing mode
@@ -429,7 +441,7 @@ sub render {
                 erp_active_row => -2,
                 erp_unchanged  => 1,
                 erp_action     => 'addRow',
-                '#'            => 'erp_' . $this->{id}
+                '#'            => 'erp_' . $this->id
             );
 
             # Full table disabled, but not row
@@ -452,7 +464,7 @@ sub render {
 
 sub can_edit {
     my $this = shift;
-    return $this->{editable};
+    return $this->editable;
 }
 
 sub getParams {
@@ -498,17 +510,17 @@ sub getEditor {
 # the row is shorter than the type def for the table.
 sub _getColsFromURPs {
     my ( $this, $urps, $row ) = @_;
-    my $attrs    = $this->{attrs};
+    my $attrs    = $this->attrs;
     my $headRows = $attrs->{headerrows} || 0;
-    my $count    = scalar( @{ $this->{rows}->[$row]->{cols} } );
-    my $defs     = scalar( @{ $this->{colTypes} } );
+    my $count    = scalar( @{ $this->rows->[$row]->cols } );
+    my $defs     = scalar( @{ $this->colTypes } );
     $count = $defs if $defs > $count;
     my @cols;
 
     for ( my $i = 0 ; $i < $count ; $i++ ) {
-        my $colDef   = $this->{colTypes}->[$i];
+        my $colDef   = $this->colTypes->[$i];
         my $cellName = 'erp_cell_' . $this->getID() . "_${row}_$i";
-        my $cell     = $this->{rows}->[$row]->{cols}->[$i];
+        my $cell     = $this->rows->[$row]->cols->[$i];
         my $val      = $urps->{$cellName};
 
         # Check current value for format-overriding EDITCELL
@@ -526,7 +538,7 @@ sub _getColsFromURPs {
         }
 
         # Keep existing value if $val is undef
-        $cols[$i] = defined $val ? $val : $cell->{text};
+        $cols[$i] = defined $val ? $val : $cell->text;
     }
     return \@cols;
 }
@@ -545,7 +557,7 @@ sub saveTableCmd {
         # Fabricating a new table. Sniff the URL params to determine
         # the number of new rows
         $end = 0;
-        my $count = scalar( @{ $this->{colTypes} } );
+        my $count = scalar( @{ $this->colTypes } );
         my $rowSeen;
         do {
             $rowSeen = 0;
@@ -566,7 +578,7 @@ sub saveTableCmd {
     # Change / set the table content
     for ( my $i = $this->getHeaderRows() ; $i < $end ; $i++ ) {
         my $cols = $this->_getColsFromURPs( $urps, $i );
-        $this->{rows}->[$i]->setRow($cols);
+        $this->rows->[$i]->setRow($cols);
     }
 }
 
@@ -579,7 +591,7 @@ sub saveRowCmd {
     my $row = $urps->{erp_row};
     if ( $row >= 0 ) {
         my $cols = $this->_getColsFromURPs( $urps, $row );
-        $this->{rows}->[$row]->setRow($cols);
+        $this->rows->[$row]->setRow($cols);
     }
 }
 
@@ -594,7 +606,7 @@ sub saveCellCmd {
 
     my $row = $urps->{erp_row};
     my $col = $urps->{erp_col};
-    my $ot  = $this->{rows}->[$row]->{cols}->[$col]->{text};
+    my $ot  = $this->rows->[$row]->cols->[$col]->text;
 
     my $nt = $urps->{CELLDATA};
     if ( $ot =~ /(%EDITCELL\{.*?\}%)/ ) {
@@ -605,7 +617,7 @@ sub saveCellCmd {
 
     # Remove padding spaces added to allow cells to expand TML
     $nt =~ s/^ (.*) $/$1/s;
-    $this->{rows}->[$row]->{cols}->[$col]->{text} = $nt;
+    $this->rows->[$row]->cols->[$col]->text($nt);
     return $urps->{CELLDATA};
 }
 
@@ -715,7 +727,7 @@ sub moveRowCmd {
         }
         my $moved = $this->moveRow( $urps->{old_pos}, $urps->{new_pos} );
         ASSERT($moved) if DEBUG;
-        $this->{attrs}->{js} = 'rowmoved';
+        $this->attrs->{js} = 'rowmoved';
     }
     return $this->render( { with_controls => 1 }, {} );
 }
@@ -750,7 +762,7 @@ sub cancelCmd {
 
 sub generateHelp {
     my ($this) = @_;
-    my $attrs = $this->{attrs};
+    my $attrs = $this->attrs;
     my $help;
     if ( $attrs->{helptopic} ) {
         my ( $web, $topic ) =
@@ -789,7 +801,7 @@ sub _makeButton {
 # $multirow is true when the buttons need to be generated vertically
 sub generateEditButtons {
     my ( $this, $id, $multirow, $wholeTable ) = @_;
-    my $attrs     = $this->{attrs};
+    my $attrs     = $this->attrs;
     my $topRow    = ( $id == ( $attrs->{headerrows} || 0 ) );
     my $sz        = $this->totalRows();
     my $bottomRow = ( $id == $sz - ( $attrs->{footerrows} || 0 ) );
@@ -827,7 +839,7 @@ sub generateEditButtons {
     $buttons .=
       _makeButton( 'cancelCmd', 'ui-icon ui-icon-cancel', CANCEL, $attrs );
 
-    if ( Foswiki::Func::isTrue( $this->{attrs}->{changerows} ) ) {
+    if ( Foswiki::Func::isTrue( $this->attrs->{changerows} ) ) {
         $buttons .= '<br />' if $multirow;
         if ( !$wholeTable && $id ) {
             if ( !$topRow ) {
@@ -845,7 +857,7 @@ sub generateEditButtons {
         $buttons .= _makeButton( 'addRowCmd', 'ui-icon ui-icon-plusthick',
             ADD_ROW, $attrs, 0 );
 
-        unless ( $this->{attrs}->{changerows} eq 'add' ) {
+        unless ( $this->attrs->{changerows} eq 'add' ) {
             $buttons .=
               _makeButton( 'deleteRowCmd', 'ui-icon ui-icon-minusthick',
                 DELETE_ROW, $attrs, 0 );

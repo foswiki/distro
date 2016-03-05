@@ -322,7 +322,7 @@ sub parse {
 
 =begin TML
 
----++ StaticMethod split_cell($cell) -> ($pre, $main, $post, $ish)
+---++ StaticMethod split_cell($cell) -> (precruft => $pre, text => $main, postcruft => $post, isHeader => $ish)
 
 Given a table cell datum with significant leading and trailing space,
 split the cell data into pre-, main-, and post- text, and set $ish

@@ -1,32 +1,32 @@
 # See bottom of file for copyright and license information
 package Foswiki::Plugins::EditRowPlugin::Editor::date;
+use v5.14;
 
-use strict;
 use Assert;
-
-use Foswiki::Plugins::EditRowPlugin::Editor ();
-
-our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor');
-
 use Foswiki::Contrib::JSCalendarContrib ();
 
-sub new {
-    my $class = shift;
-    Foswiki::Contrib::JSCalendarContrib::addHEAD();
-    return $class->SUPER::new('datepicker');
-}
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Plugins::EditRowPlugin::Editor);
 
-sub jQueryMetadata {
+around BUILDARGS => sub {
+    my $orig = shift;
+    Foswiki::Contrib::JSCalendarContrib::addHEAD();
+    return $orig->( @_, type => 'datepicker' );
+};
+
+around jQueryMetadata => sub {
+    my $orig = shift;
     my ( $this, $cell, $colDef, $text ) = @_;
-    my $data = $this->SUPER::jQueryMetadata( $cell, $colDef, $text );
+    my $data = $orig->( $this, $cell, $colDef, $text );
     my $format =
          $colDef->{values}->[0]
       || Foswiki::Func::getPreferencesValue('JSCALENDARCONTRIB_FORMAT')
       || $Foswiki::cfg{JSCalendarContrib}{format}
       || '%e %b %Y';
-    $data->{format} = $format;
+    $data->format($format);
     return $data;
-}
+};
 
 sub htmlEditor {
     my ( $this, $cell, $colDef, $inRow, $unexpandedValue ) = @_;

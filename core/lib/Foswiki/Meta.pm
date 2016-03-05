@@ -244,7 +244,7 @@ has _getRev1Info => (
     builder => sub { return {}; },
 );
 
-#our @_newParameters = qw(session web topic text);
+our @_newParameters = qw(session web topic text);
 
 =begin TML
 

@@ -106,19 +106,19 @@ sub process {
             UNIVERSAL::isa( $_, 'Foswiki::Plugins::EditRowPlugin::Table' ) );
         my $line = '';
         $table = $_;
-        $table->{editable} = 0 if $editIsDisabled;
-        $table->{attrs}->{js} = 'ignored' if $jsIsDisabled;
+        $table->editable(0) if $editIsDisabled;
+        $table->attrs->{js} = 'ignored' if $jsIsDisabled;
 
         # spit out macros eaten by early_line, but not processed by
         # this plugin, so other plugins can detect and process
         # them (e.g. %TABLE)
-        foreach my $spec ( @{ $table->{specs} } ) {
+        foreach my $spec ( @{ $table->specs } ) {
             next
               if $spec->{tag} eq $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro};
             $line .= $spec->{raw};
         }
 
-        if (   $table->{editable}
+        if (   $table->editable
             && $active_topic   eq $urps->{erp_topic}
             && $table->getID() eq $urps->{erp_table} )
         {
@@ -134,7 +134,7 @@ sub process {
             # js="assumed" doesn't actually use the form, except as a
             # vehicle for validation. js="assumed" extracts the necessary
             # from the erp-data attached to the table.
-            unless ( $table->{attrs}->{js} eq 'assumed' ) {
+            unless ( $table->attrs->{js} eq 'assumed' ) {
                 $line .= Foswiki::Render::html(
                     'input',
                     {
@@ -207,14 +207,14 @@ sub process {
             $needHead = 1;
         }
         else {
-            if ( $table->{attrs}->{js} ne 'ignored' ) {
+            if ( $table->attrs->{js} ne 'ignored' ) {
 
                 # Action-less form just used to hang validation from
                 $line .= "<form action='valid' method='POST' name='erp_form_"
                   . $table->getID() . "'>\n";
             }
-            $line .= $table->render( { with_controls => $table->{editable} } );
-            $line .= '</form>' if $table->{attrs}->{js} ne 'ignored';
+            $line .= $table->render( { with_controls => $table->editable } );
+            $line .= '</form>' if $table->attrs->{js} ne 'ignored';
         }
 
         $table->finish();
@@ -229,9 +229,11 @@ sub process {
             # the "official" mechanism for accessing its value was
             # just silly i.e.
             # Foswiki::Func::expandCommonVariables("%INCLUDINGTOPIC%");
-            || defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}
-            && defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}
-            {INCLUDINGTOPIC}
+            # vrurg It seems that SESSIONS_TAGS are from very old code and are
+            # not in use anymore.
+            #|| defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}
+            #&& defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}
+            #{INCLUDINGTOPIC}
           )
         {
             my $id = "!$_[1].$_[2]:T" . $table->number();

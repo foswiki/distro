@@ -8,29 +8,32 @@ use Foswiki::Func                           ();
 use JSON                                    ();
 use Foswiki::Plugins::EditRowPlugin::Editor ();
 
-use Foswiki::Tables::Cell ();
-our @ISA = ('Foswiki::Tables::Cell');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Tables::Cell);
+
+has isFooter => ( is => 'rw', );
 
 # Default format if no other format is defined for a cell
 my $defCol ||= { type => 'text', size => 20, values => [] };
 
-sub new {
-    my ( $class, $row, $precruft, $text, $postcruft, $ish ) = @_;
-
-    return $class->SUPER::new( $row, $precruft, $text, $postcruft, $ish );
-}
+#sub new {
+#    my ( $class, $row, $precruft, $text, $postcruft, $ish ) = @_;
+#
+#    return $class->SUPER::new( $row, $precruft, $text, $postcruft, $ish );
+#}
 
 # Row index offset by size in the columnn definition
 # Used in Editor.pm to determine the (uneditable) row index label
 sub rowIndex {
     my ( $this, $colDef ) = @_;
-    if ( $this->{row}->{index} ) {
-        my $i = $this->{row}->{index} || 0;
+    if ( $this->row->index ) {
+        my $i = $this->row->index || 0;
         $i += $colDef->{size} - 1 if ( $colDef->{size} =~ /^\d+$/ );
-        $this->{text} = $i;
+        $this->text($i);
     }
     else {
-        $this->{text} = '';
+        $this->text('');
     }
 }
 
@@ -46,13 +49,13 @@ sub getElementName {
 sub render {
     my ( $this, $opts, $render_opts ) = @_;
 
-    my $colDef = $opts->{col_defs}->[ $this->{number} ] || $defCol;
+    my $colDef = $opts->{col_defs}->[ $this->number ] || $defCol;
     my $json = JSON->new()->convert_blessed->allow_blessed();
 
-    my $text = $this->{text};
+    my $text = $this->text;
     if ( $text =~ s/%EDITCELL\{(.*?)\}%// ) {
         my %p  = Foswiki::Func::extractParameters($1);
-        my $cd = $this->{row}->{table}->parseFormat( $p{_DEFAULT} );
+        my $cd = $this->row->table->parseFormat( $p{_DEFAULT} );
         $colDef = $cd->[0];
     }
 
@@ -71,7 +74,7 @@ sub render {
         # Not for edit, or JS is assumed
         $text = '-' unless defined($text);
 
-        unless ( $this->{isHeader} || $this->{isFooter} ) {
+        unless ( $this->isHeader || $this->isFooter ) {
             if ( $colDef->{type} eq 'row' ) {
 
                # Special case for our "row" type - text is always the row number
@@ -84,14 +87,14 @@ sub render {
             }
         }
 
-        if ( $this->{isHeader} ) {
+        if ( $this->isHeader ) {
 
             # Headers are never editable, but may be sortable
             my $attrs = {};
             unless ( $opts->{js} eq 'ignored' ) {
 
-                my $table  = $this->{row}->{table};
-                my $tattrs = $table->{attrs};
+                my $table  = $this->row->table;
+                my $tattrs = $table->attrs;
                 unless ( Foswiki::isTrue( $tattrs->{disableallsort} )
                     || !Foswiki::isTrue( $tattrs->{sort}, 1 ) )
                 {
@@ -102,7 +105,7 @@ sub render {
                       0 + ( ( $tattrs->{initdirection} || 'down' ) eq 'up' );
                     $sort->{col} =
                         $tattrs->{initsort}
-                      ? $tattrs->{initsort} + $table->{dead_cols}
+                      ? $tattrs->{initsort} + $table->dead_cols
                       : 0;
                     $attrs->{"data-sort"} = $json->encode($sort);
                 }
@@ -135,9 +138,9 @@ sub render {
                     my @css_classes = ('erpJS_cell');
 
                     if ( $render_opts->{need_tabledata} ) {
-                        my %td = $this->{row}->{table}->getParams();
-                        $td{TABLE} = $this->{row}->{table}->{attrs}->{TABLE}
-                          if $this->{row}->{table}->{attrs}->{TABLE};
+                        my %td = $this->row->table->getParams();
+                        $td{TABLE} = $this->row->table->attrs->{TABLE}
+                          if $this->row->table->attrs->{TABLE};
                         my $tabd = $json->encode( \%td );
                         $tabd =~ s/([|])/sprintf('&#%02d', ord($1))/ge;
                         $sopts->{'data-erp-tabledata'} = $tabd;
@@ -146,7 +149,7 @@ sub render {
 
                     if ( $render_opts->{need_trdata} ) {
                         $sopts->{'data-erp-trdata'} =
-                          $json->encode( { $this->{row}->getParams() } );
+                          $json->encode( { $this->row->getParams() } );
                         $render_opts->{need_trdata} = 0;
                     }
 
@@ -164,12 +167,12 @@ sub render {
         }
     }
     $text =~ s/%/&#37;/g;    # prevent further macro expansion Item10770
-    return $this->{precruft} . $text . $this->{postcruft};
+    return $this->precruft . $text . $this->postcruft;
 }
 
 sub can_edit {
     my $this = shift;
-    return $this->{row}->can_edit();
+    return $this->row->can_edit();
 }
 
 # add URL params needed to address this cell
@@ -178,7 +181,7 @@ sub getParams {
 
     $prefix ||= '';
 
-    return ( "${prefix}col" => $this->{number} );
+    return ( "${prefix}col" => $this->number );
 }
 
 1;

@@ -4,17 +4,21 @@ package Foswiki::Plugins::EditRowPlugin::TableParser;
 use strict;
 use Assert;
 
-use Foswiki::Attrs          ();
-use Foswiki::Func           ();
-use CGI                     ();
-use Foswiki::Tables::Reader ();
-our @ISA = ('Foswiki::Tables::Reader');
+use Foswiki::Attrs                         ();
+use Foswiki::Func                          ();
+use CGI                                    ();
 use Foswiki::Plugins::EditRowPlugin::Table ();
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Tables::Reader);
 
-sub new {
-    my $class = shift;
-    return $class->SUPER::new('Foswiki::Plugins::EditRowPlugin::Table');
-}
+has params => ( is => 'rw', );
+
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_,
+        table_class => 'Foswiki::Plugins::EditRowPlugin::Table' );
+};
 
 =begin TML
 
@@ -28,30 +32,31 @@ definitions.
 
 =cut
 
-sub parse {
+around parse => sub {
+    my $orig = shift;
     my ( $this, $text, $meta, $erps ) = @_;
 
-    $this->{params} = $erps;    # url params
+    $this->params($erps);    # url params
 
     # Put everything between STARTINCLUDE...ENDINCLUDE tags to stop
     # them from processing as tables by converting them to verbatim.
     $text =~ s/<!-- (STARTINCLUDE .*?) -->/<verbatim \001="$1">/g;
     $text =~ s/<!-- ((?:END|STOP)INCLUDE .*?) -->/<\/verbatim \001="$1">/g;
 
-    $this->SUPER::parse( $text, $meta );
+    $orig->( $this, $text, $meta );
 
     # Post-process the result built up by the event handlers
     # to deal with legacy and include marks
     my @result;
-    foreach my $t ( @{ $this->{result} } ) {
+    foreach my $t ( @{ $this->result } ) {
         if ( UNIVERSAL::isa( $t, 'Foswiki::Tables::Table' ) ) {
 
-            $t->{meta} = $meta;
-            if ( defined( $t->{attrs}->{header} ) ) {
+            $t->metaObject($meta);
+            if ( defined( $t->attrs->{header} ) ) {
 
                 # add a header if the header param is defined and
                 # the table has no rows.
-                my $line = $t->{attrs}->{header};
+                my $line = $t->attrs->{header};
                 if ( !$t->totalRows() ) {
                     my $precruft = '';
                     $precruft = $1 if $line =~ s/^(\s*\|)//;
@@ -62,22 +67,22 @@ sub parse {
                     my $row = $t->addRow(0);
                     $row->setRow( \@cols );
                     $row->isHeader(1);
-                    $t->{headerrows} = 1 unless $t->{headerrows};
+                    $t->headerrows(1) unless $t->headerrows;
                 }
                 else {
-                    $t->{headerrows} ||= 1;
+                    $t->headerrows( $t->headerrows || 1 );
                 }
             }
-            elsif ( !defined $t->{headerrows} ) {
+            elsif ( !defined $t->headerrows ) {
 
                 # Neither header nor headerrows defined. Examine the
                 # rows to see if we can detect an implicit header.
                 my $i = 0;
                 while ($i < $t->totalRows()
-                    && $t->{rows}->[$i]->isHeader() )
+                    && $t->rows->[$i]->isHeader() )
                 {
-                    $t->{headerrows} ||= 0;
-                    $t->{headerrows}++;
+                    $t->headerrows( $t->headerrows || 0 );
+                    $t->headerrows( $t->headerrows + 1 );
                     $i++;
                 }
             }
@@ -91,7 +96,7 @@ sub parse {
     }
 
     return \@result;
-}
+};
 
 # Called from the early_line handler to adjust default attributes based
 # on what is in the URL params.
@@ -103,9 +108,9 @@ sub adjustSpec {
     $attrs->{isEditable} = 1;
 
     # Analyse request parameters
-    if ( $this->{params} ) {
-        my $pf = 'erp_' . ( $this->{nTables} + 1 );
-        my $format = $this->{params}->{"${pf}_format"};
+    if ( $this->params ) {
+        my $pf = 'erp_' . ( $this->nTables + 1 );
+        my $format = $this->params->{"${pf}_format"};
         if ( defined($format) ) {
 
             # override the format
@@ -113,11 +118,11 @@ sub adjustSpec {
             $format =~ s/-([a-f\d][a-f\d])/chr(hex($1))/gie;
             $attrs->{format} = $format;
         }
-        if ( defined( $this->{params}->{"${pf}_headerrows"} ) ) {
-            $attrs->{headerrows} = $this->{params}->{"${pf}_headerrows"};
+        if ( defined( $this->params->{"${pf}_headerrows"} ) ) {
+            $attrs->{headerrows} = $this->params->{"${pf}_headerrows"};
         }
-        if ( defined( $this->{params}->{"${pf}_footerrows"} ) ) {
-            $attrs->{footerrows} = $this->{params}->{"$pf}_footerrows"};
+        if ( defined( $this->params->{"${pf}_footerrows"} ) ) {
+            $attrs->{footerrows} = $this->params->{"$pf}_footerrows"};
         }
     }
 

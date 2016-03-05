@@ -552,7 +552,6 @@ sub test_denytopic_wild_allowtopic {
     my $this = shift;
 
     my ($topicObject) =
-<<<<<<< HEAD
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     my $users_web = $this->users_web;
     $topicObject->text(<<'THIS');
@@ -560,14 +559,6 @@ If DENYTOPIC is set to empty string
    1. Everyone is PERMITTED
    * Set DENYTOPICVIEW = *
    * Set ALLOWTOPICVIEW = $users_web.MrOrange %USERSWEB%.MrBlue
-=======
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
-    $topicObject->text(<<"THIS");
-If DENYTOPIC is set to empty string
-   1. Everyone is PERMITTED
-   * Set DENYTOPICVIEW = *
-   * Set ALLOWTOPICVIEW = $this->{users_web}.MrOrange %USERSWEB%.MrBlue
->>>>>>> master
 THIS
     $topicObject->save();
     $topicObject->finish();

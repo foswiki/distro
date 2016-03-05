@@ -6,22 +6,26 @@ use Assert;
 
 use Foswiki::Func ();
 
-use Foswiki::Tables::Row ();
-our @ISA = ('Foswiki::Tables::Row');
-
 use Foswiki::Plugins::EditRowPlugin::TableCell ();
 
-sub new {
-    my ( $class, $table, $number, $precruft, $postcruft, $cols ) = @_;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Tables::Row);
 
-    my $this =
-      $class->SUPER::new( $table, $number, $precruft, $postcruft, $cols );
-    return $this;
-}
+# index is used in EditRowPlugin::Table.
+has index => ( is => 'rw', );
 
-sub cell_class {
+#sub new {
+#    my ( $class, $table, $number, $precruft, $postcruft, $cols ) = @_;
+#
+#    my $this =
+#      $class->SUPER::new( $table, $number, $precruft, $postcruft, $cols );
+#    return $this;
+#}
+
+around cell_class => sub {
     return 'Foswiki::Plugins::EditRowPlugin::TableCell';
-}
+};
 
 # SMELL: why is this different to getEditAnchor?
 sub getAnchor {
@@ -38,33 +42,34 @@ sub getEditAnchor {
 # reasonable amount of context (3 rows) above the edited row
 sub getRowAnchor {
     my $this       = shift;
-    my $row_anchor = $this->{number} - 3;
+    my $row_anchor = $this->number - 3;
     $row_anchor = 0 if $row_anchor < 0;
-    return 'erp_' . $this->{table}->getID() . '_' . $row_anchor;
+    return 'erp_' . $this->table->getID() . '_' . $row_anchor;
 }
 
 # Set the columns in the row. Adapts to widen or narrow the row as required.
 # Used to set an entire row on save from the table editor.
-sub setRow {
+around setRow => sub {
+    my $orig = shift;
     my ( $this, $cols ) = @_;
 
-    while ( scalar( @{ $this->{cols} } ) > scalar(@$cols) ) {
-        pop( @{ $this->{cols} } )->finish();
+    while ( scalar( @{ $this->cols } ) > scalar(@$cols) ) {
+        pop( @{ $this->cols } )->finish();
     }
     my $n = 0;
     foreach my $val (@$cols) {
-        if ( $n < scalar( @{ $this->{cols} } ) ) {
+        if ( $n < scalar( @{ $this->cols } ) ) {
 
             # Skip undef cols, leave old value in place
             next unless defined $val;
 
             # Restore the EDITCELL from the old value, if present
             if (   $val !~ /%EDITCELL\{.*?\}%/
-                && $this->{cols}->[$n]->{text} =~ /(%EDITCELL\{.*?\}%)/ )
+                && $this->cols->[$n]->text =~ /(%EDITCELL\{.*?\}%)/ )
             {
                 $val .= $1;
             }
-            $this->{cols}->[$n]->{text} = $val;
+            $this->cols->[$n]->text($val);
         }
         else {
             if ( !ref($val) ) {
@@ -74,18 +79,21 @@ sub setRow {
 
             # Use pushCell so the cell gets numbered
             $this->pushCell(
-                Foswiki::Plugins::EditRowPlugin::TableCell->new( $this, @$val )
+                Foswiki::Plugins::EditRowPlugin::TableCell->new(
+                    row => $this,
+                    @$val
+                )
             );
         }
         $n++;
     }
-}
+};
 
 # True if this row is in an editable table.
 #TODO: unless its a header=""
 sub can_edit {
     my $this = shift;
-    return $this->{table}->can_edit()
+    return $this->table->can_edit()
       && !( $this->isFooter() || $this->isFooter() );
 }
 
@@ -95,7 +103,7 @@ sub getParams {
 
     $prefix ||= '';
 
-    return ( "${prefix}row" => $this->{number} );
+    return ( "${prefix}row" => $this->number );
 }
 
 # col_defs - column definitions (required)
@@ -109,15 +117,15 @@ sub render {
 
     # The row anchor is added into a cell at the first opportunity
     my $anchor = Foswiki::Render::html( 'a', { name => $this->getAnchor() } );
-    my $empties       = '|' x ( scalar( @{ $this->{cols} } ) - 1 );
+    my $empties       = '|' x ( scalar( @{ $this->cols } ) - 1 );
     my @cols          = ();
     my $buttons       = '';
     my $editing       = $opts->{for_edit} && $opts->{js} ne 'assumed';
-    my $buttons_right = ( $this->{table}->{attrs}->{buttons} eq "right" );
+    my $buttons_right = ( $this->table->attrs->{buttons} eq "right" );
 
     if ($editing) {
         $buttons =
-          $this->{table}->generateEditButtons( $this->{number},
+          $this->table->generateEditButtons( $this->number,
             $opts->{orient} eq 'vertical', 0 )
           . $anchor;
         $anchor = '';
@@ -127,15 +135,15 @@ sub render {
 
         # Each column is presented as a row
         # Number of empty columns at end of each row
-        my $hdrs = $this->{table}->getLabelRow();
+        my $hdrs = $this->table->getLabelRow();
         my $col  = 0;
         my @rows;
         $render_opts->{need_trdata} = 1;
-        foreach my $cell ( @{ $this->{cols} } ) {
+        foreach my $cell ( @{ $this->cols } ) {
 
             # get the column label
-            my $hdr = $hdrs->{cols}->[$col];
-            $hdr = $hdr->{text} if $hdr;
+            my $hdr = $hdrs->cols->[$col];
+            $hdr = $hdr->text if $hdr;
             my $text = $cell->render(
                 {
                     col_defs => $opts->{col_defs},
@@ -165,12 +173,12 @@ sub render {
     if ( $opts->{with_controls} && $opts->{js} ne 'assumed' ) {
 
         # Remark the controls column
-        $this->{table}->{dead_cols} = 1;
+        $this->table->dead_cols(1);
     }
 
     $opts->{in_row}             = $this;
     $render_opts->{need_trdata} = 1;
-    foreach my $cell ( @{ $this->{cols} } ) {
+    foreach my $cell ( @{ $this->cols } ) {
 
         $text = $cell->render( $opts, $render_opts );
 
@@ -202,7 +210,7 @@ sub render {
             else {
                 unshift( @cols, $buttons );
             }
-            my $help = $this->{table}->generateHelp();
+            my $help = $this->table->generateHelp();
             if ($anchor) {
                 $help .= $anchor;
                 undef $anchor;
@@ -211,7 +219,7 @@ sub render {
         }
         else {
             my $active_topic =
-              $this->{table}->getWeb() . '.' . $this->{table}->getTopic();
+              $this->table->getWeb() . '.' . $this->table->getTopic();
 
             if ( $this->isHeader() || $this->isFooter() ) {
 
@@ -235,13 +243,13 @@ sub render {
                     $script = 'viewauth';
                 }
                 my $url = Foswiki::Func::getScriptUrl(
-                    $this->{table}->getWeb(),
-                    $this->{table}->getTopic(),
+                    $this->table->getWeb(),
+                    $this->table->getTopic(),
                     $script,
-                    erp_topic => $this->{table}->getWeb() . '.'
-                      . $this->{table}->getTopic(),
-                    erp_table => $this->{table}->getID(),
-                    erp_row   => $this->{number},
+                    erp_topic => $this->table->getWeb() . '.'
+                      . $this->table->getTopic(),
+                    erp_table => $this->table->getID(),
+                    erp_row   => $this->number,
                     '#'       => $this->getRowAnchor()
                 );
 
@@ -278,7 +286,7 @@ sub render {
                 # All cells were empty; we have to shoehorn the anchor into the
                 # final cell.
                 my $cell = pop(@cols);
-                $cell->{text} .= $anchor;
+                $cell->text( $cell->text . $anchor );
                 undef $anchor;
                 push( @cols,
                     $cell->render( { col_defs => $opts->{col_defs} } ) );
@@ -287,7 +295,7 @@ sub render {
         ASSERT( !$anchor ) if DEBUG;
     }
     my $s = join( '|', @cols );
-    return "$this->{precruft}|$s|$this->{postcruft}";
+    return $this->precruft . "|$s|" . $this->postcruft;
 }
 
 1;

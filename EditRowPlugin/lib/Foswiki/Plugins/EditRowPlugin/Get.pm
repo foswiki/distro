@@ -4,7 +4,6 @@ package Foswiki::Plugins::EditRowPlugin::Get;
 use strict;
 use warnings;
 use Assert;
-use Error ':try';
 
 use Foswiki       ();
 use Foswiki::Func ();

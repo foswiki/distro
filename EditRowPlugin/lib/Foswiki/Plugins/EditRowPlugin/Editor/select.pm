@@ -1,17 +1,17 @@
 # See bottom of file for copyright and license information
 package Foswiki::Plugins::EditRowPlugin::Editor::select;
+use v5.14;
 
-use strict;
 use Assert;
 
-use Foswiki::Plugins::EditRowPlugin::Editor ();
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Plugins::EditRowPlugin::Editor);
 
-our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor');
-
-sub new {
-    my $class = shift;
-    return $class->SUPER::new('erpselect');
-}
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_, type => 'erpselect' );
+};
 
 sub htmlEditor {
     my ( $this, $cell, $colDef, $inRow, $unexpandedValue ) = @_;
@@ -50,7 +50,7 @@ sub jQueryMetadata {
         # Format suitable for passing to an "erpselect" type
         my %d = (
             order    => [ @{ $colDef->{values} } ],
-            selected => $cell->{text},
+            selected => $cell->text,
             keys     => {}
         );
         map {
@@ -60,7 +60,7 @@ sub jQueryMetadata {
 # $d{keys}->{$_} = Foswiki::Func::renderText(Foswiki::Func::expandCommonVariables($_));
             $d{keys}->{$_} = $_;    # unexpanded value, replete with %'s
         } @{ $colDef->{values} };
-        $data->{data} = \%d;
+        $data->data( \%d );
     }
     $this->_addSaveButton($data);
     return $data;

@@ -1,12 +1,12 @@
 # See bottom of file for copyright and license information
 package Foswiki::Plugins::EditRowPlugin::Editor::editbutton;
+use v5.14;
 
-use strict;
 use Assert;
 
-use Foswiki::Plugins::EditRowPlugin::Editor::label ();
-
-our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor::label');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Plugins::EditRowPlugin::Editor::label);
 
 # Uneditable row index label
 sub htmlEditor {

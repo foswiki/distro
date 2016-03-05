@@ -1,5 +1,6 @@
 # See bottom of file for copyright and license information
 package Foswiki::Plugins::EditRowPlugin::Editor::text;
+use v5.14;
 
 # The functionality of this type is by default the base class functionality. However
 # it is not the base class, because it may be overridden selectively with different
@@ -8,30 +9,28 @@ package Foswiki::Plugins::EditRowPlugin::Editor::text;
 #
 # Note that textarea subclasses this class.
 
-use strict;
 use Assert;
 
-use Foswiki::Plugins::EditRowPlugin::Editor ();
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Plugins::EditRowPlugin::Editor);
 
-our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor');
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_, type => 'text' );
+};
 
-sub new {
-    my ( $class, $type ) = @_;
-
-    # Subclasses may specify a different type
-    return $class->SUPER::new( $type || 'text' );
-}
-
-sub jQueryMetadata {
+around jQueryMetadata => sub {
+    my $orig = shift;
     my $this = shift;
     my ( $cell, $colDef, $text ) = @_;
-    my $data = $this->SUPER::jQueryMetadata(@_);
+    my $data = $orig->( $this, @_ );
 
     # URL of rest handler that provides text
     $data->{loadurl} = Foswiki::Func::getScriptUrl(
         'EditRowPlugin', 'get', 'rest',
-        $cell->{row}->{table}->getParams('erp_'),
-        $cell->{row}->getParams('erp_'),
+        $cell->row->table->getParams('erp_'),
+        $cell->row->getParams('erp_'),
         $cell->getParams('erp_')
     );
 
@@ -39,7 +38,7 @@ sub jQueryMetadata {
     $data->{width} = $data->{size} . "em";
     $this->_addSaveButton($data);
     return $data;
-}
+};
 
 1;
 __END__

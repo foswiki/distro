@@ -1,37 +1,36 @@
 # See bottom of file for license and copyright information
 package HTML;
+use v5.14;
 
-use strict;
-use warnings;
-use FoswikiFnTestCase;
-our @ISA = 'FoswikiFnTestCase';
+use Moo;
+extends qw(FoswikiFnTestCase);
 
-sub set_up {
+around loadExtraConfig => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
-}
-
-sub loadExtraConfig {
-    my $this = shift;
-
-    $this->SUPER::loadExtraConfig();
+    $orig->( $this, @_ );
     $Foswiki::cfg{Plugins}{EditRowPlugin}{Enabled}   = 1;
     $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro}     = 'EDITTABLE';
     $Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled} = 0;
-}
+};
 
 sub test_simple_view {
     my $this = shift;
     require Foswiki::Plugins::EditRowPlugin::View;
     $this->assert( !$@, $@ );
-    $this->{test_topicObject}->finish() if $this->{test_topicObject};
-    $this->{session}->finish()          if $this->{session};
-    my $query = Unit::Request->new( {} );
-    $this->{session} =
-      Foswiki->new( $this->{test_user_login}, $query, { view => 1 } );
-    ( $this->{test_topicObject} ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $this->clear_test_topicObject;
+    $this->clear_session;
+    my $query = Unit::Request->new( initializer => {} );
+    $this->session(
+        Foswiki->new(
+            user    => $this->test_user_login,
+            request => $query,
+            context => { view => 1 }
+        )
+    );
+    $this->test_topicObject(
+        ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )[0] );
 
     my $in = <<INPUT;
 %EDITTABLE%
@@ -39,8 +38,8 @@ sub test_simple_view {
 INPUT
     $this->assert(
         Foswiki::Plugins::EditRowPlugin::View::process(
-            $in,                 $this->{test_web},
-            $this->{test_topic}, $this->{test_topicObject}
+            $in,               $this->test_web,
+            $this->test_topic, $this->test_topicObject
         )
     );
     $this->assert( $in =~ s/<!-- STARTINCLUDE.*?-->\s*(.*)\s*<!--.*/$1/s, $in );
@@ -59,8 +58,8 @@ HTML
     # edit button
     $this->assert( $in =~ s/(<a name=(['"])erp_TABLE_0\2>.*)$//s, $in );
     my $viewurl = Foswiki::Func::getScriptUrl(
-        $this->{test_web}, $this->{test_topic}, "view",
-        erp_topic => "$this->{test_web}.$this->{test_topic}",
+        $this->test_web, $this->test_topic, "view",
+        erp_topic => $this->test_web . "." . $this->test_topic,
         erp_table => "TABLE_0",
         erp_row   => -1,
         '#'       => "erp_TABLE_0"
@@ -74,14 +73,14 @@ EXPECTED
     my $loadurl = Foswiki::Func::getScriptUrl(
         "EditRowPlugin", "get", "rest",
         erp_version => "VERSION",
-        erp_topic   => "$this->{test_web}.$this->{test_topic}",
+        erp_topic   => $this->test_web . "." . $this->test_topic,
         erp_table   => "TABLE_0",
         erp_row     => 0,
         erp_col     => 0
     );
     $viewurl = Foswiki::Func::getScriptUrl(
-        $this->{test_web}, $this->{test_topic}, "view",
-        erp_topic => "$this->{test_web}.$this->{test_topic}",
+        $this->test_web, $this->test_topic, "view",
+        erp_topic => $this->test_web . "." . $this->test_topic,
         erp_table => "TABLE_0",
         erp_row   => 0,
         '#'       => "erp_TABLE_0_0"
@@ -100,7 +99,7 @@ EXPECTED
 
     my $e_tabledata = {
         version => $a_tabledata->{version} || "VERSION",
-        topic   => "$this->{test_web}.$this->{test_topic}",
+        topic   => $this->test_web . "." . $this->test_topic,
         table   => "TABLE_0"
     };
 
@@ -125,13 +124,19 @@ sub test_Item12953 {
     my $this = shift;
     require Foswiki::Plugins::EditRowPlugin::View;
     $this->assert( !$@, $@ );
-    $this->{test_topicObject}->finish() if $this->{test_topicObject};
-    $this->{session}->finish()          if $this->{session};
-    my $query = Unit::Request->new( {} );
-    $this->{session} =
-      Foswiki->new( $this->{test_user_login}, $query, { view => 1 } );
-    ( $this->{test_topicObject} ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $this->clear_test_topicObject;
+    $this->clear_session;
+    my $query = Unit::Request->new( initializer => {} );
+    $this->session(
+        Foswiki->new(
+            user    => $this->test_user_login,
+            request => $query,
+            context => { view => 1 }
+        )
+    );
+    $this->test_topicObject(
+        ( Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} ) )
+        [0] );
 
     my $in = <<INPUT;
 %EDITTABLE{
@@ -141,8 +146,8 @@ sub test_Item12953 {
 INPUT
     $this->assert(
         Foswiki::Plugins::EditRowPlugin::View::process(
-            $in,                 $this->{test_web},
-            $this->{test_topic}, $this->{test_topicObject}
+            $in,               $this->test_web,
+            $this->test_topic, $this->test_topicObject
         )
     );
     $this->assert( $in =~ s/\s*<!-- STARTINCLUDE.*?-->\s*(.*)\s*<!--.*/$1/s,
@@ -162,8 +167,8 @@ HTML
     # edit button
     $this->assert( $in =~ s/(<a name=(['"])erp_TABLE_0\2>.*)$//s, $in );
     my $viewurl = Foswiki::Func::getScriptUrl(
-        $this->{test_web}, $this->{test_topic}, "view",
-        erp_topic => "$this->{test_web}.$this->{test_topic}",
+        $this->test_web, $this->test_topic, "view",
+        erp_topic => $this->test_web . "." . $this->test_topic,
         erp_table => "TABLE_0",
         erp_row   => -1,
         '#'       => "erp_TABLE_0"
@@ -181,18 +186,19 @@ sub test_edit_view_default {
     my $this = shift;
     require Foswiki::Plugins::EditRowPlugin::View;
     $this->assert( !$@, $@ );
-    $this->{test_topicObject}->finish() if $this->{test_topicObject};
-    $this->{session}->finish()          if $this->{session};
+    $this->clear_test_topicObject;
+    $this->clear_session;
     my $query = Unit::Request->new(
-        {
-            erp_topic => "$this->{test_web}.$this->{test_topic}",
+        initializer => {
+            erp_topic => $this->test_web . "." . $this->test_topic,
             erp_table => 'TABLE_0'
         }
     );
-    $this->{session} =
-      Foswiki->new( $this->{test_user_login}, $query, { view => 1 } );
-    ( $this->{test_topicObject} ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $this->session(
+        Foswiki->new( $this->{test_user_login}, $query, { view => 1 } ) );
+    $this->test_topicObject(
+        ( Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} ) )
+        [0] );
 
     my $in = <<INPUT;
 %EDITTABLE%
@@ -200,16 +206,16 @@ sub test_edit_view_default {
 INPUT
     $this->assert(
         Foswiki::Plugins::EditRowPlugin::View::process(
-            $in,                 $this->{test_web},
-            $this->{test_topic}, $this->{test_topicObject}
+            $in,               $this->test_web,
+            $this->test_topic, $this->test_topicObject
         )
     );
     $this->assert( $in =~ s/<!-- STARTINCLUDE.*?-->\s*(.*)\s*<!--.*/$1/s, $in );
     $in =~ s/\b\d_\d{10}\b/VERSION/gs;
     $in =~ s/#\07(\d+)\07#/#REF$1#/g;
     my $viewurl = Foswiki::Func::getScriptUrl(
-        $this->{test_web}, $this->{test_topic}, "view",
-        erp_topic => "$this->{test_web}.$this->{test_topic}",
+        $this->test_web, $this->test_topic, "view",
+        erp_topic => $this->test_web . "." . $this->test_topic,
         erp_table => "TABLE_0",
         erp_row   => -1,
         '#'       => "erp_TABLE_0"
@@ -219,12 +225,13 @@ INPUT
 
         # SMELL: Item13672 - POST with querystring duplicates the Form input
         #        erp_version => "VERSION",
-        #        erp_topic   => "$this->{test_web}.$this->{test_topic}",
+        #        erp_topic   => $this->test_web.".".$this->test_topic,
         #        erp_table   => "TABLE_0"
     );
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     my $expected = <<EXPECTED;
 <form method="POST" action="$saveurl" name="erp_form_TABLE_0">
-<input type="hidden" name="erp_topic" value="$this->{test_web}.$this->{test_topic}"  /><input type="hidden" name="erp_version" value="VERSION"  /><input type="hidden" name="erp_table" value="TABLE_0"  /><input type="hidden" name="erp_row" value="0"  />
+<input type="hidden" name="erp_topic" value="${test_web}.${test_topic}"  /><input type="hidden" name="erp_version" value="VERSION"  /><input type="hidden" name="erp_table" value="TABLE_0"  /><input type="hidden" name="erp_row" value="0"  />
 <a name='erp_TABLE_0'></a>
 <input type="hidden" name="erp_TABLE_0_format" value=""  />
 | #REF0# |
@@ -242,18 +249,19 @@ sub test_edit_view_no_js {
     my $this = shift;
     require Foswiki::Plugins::EditRowPlugin::View;
     $this->assert( !$@, $@ );
-    $this->{test_topicObject}->finish() if $this->{test_topicObject};
-    $this->{session}->finish()          if $this->{session};
+    $this->clear_test_topicObject;
+    $this->clear_session;
     my $query = Unit::Request->new(
-        {
-            erp_topic => "$this->{test_web}.$this->{test_topic}",
+        initializer => {
+            erp_topic => $this->test_web . "." . $this->test_topic,
             erp_table => 'TABLE_0'
         }
     );
-    $this->{session} =
-      Foswiki->new( $this->{test_user_login}, $query, { view => 1 } );
-    ( $this->{test_topicObject} ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $this->session(
+        Foswiki->new( $this->{test_user_login}, $query, { view => 1 } ) );
+    $this->test_topicObject(
+        ( Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} ) )
+        [0] );
 
     my $in = <<INPUT;
 %EDITTABLE{js="ignore"}%
@@ -261,16 +269,16 @@ sub test_edit_view_no_js {
 INPUT
     $this->assert(
         Foswiki::Plugins::EditRowPlugin::View::process(
-            $in,                 $this->{test_web},
-            $this->{test_topic}, $this->{test_topicObject}
+            $in,               $this->test_web,
+            $this->test_topic, $this->test_topicObject
         )
     );
     $this->assert( $in =~ s/<!-- STARTINCLUDE.*?-->\s*(.*)\s*<!--.*/$1/s, $in );
     $in =~ s/\b\d_\d{10}\b/VERSION/gs;
     $in =~ s/#\07(\d+)\07#/#REF$1#/g;
     my $viewurl = Foswiki::Func::getScriptUrl(
-        $this->{test_web}, $this->{test_topic}, "view",
-        erp_topic => "$this->{test_web}.$this->{test_topic}",
+        $this->test_web, $this->test_topic, "view",
+        erp_topic => $this->test_web . "." . $this->test_topic,
         erp_table => "TABLE_0",
         erp_row   => -1,
         '#'       => "erp_TABLE_0"
@@ -280,13 +288,14 @@ INPUT
 
         # SMELL: Item13672 - POST with querystring duplicates the Form input
         #       erp_version => "VERSION",
-        #       erp_topic   => "$this->{test_web}.$this->{test_topic}",
+        #       erp_topic   => $this->test_web.".".$this->test_topic,
         #       erp_table   => "TABLE_0"
     );
     Foswiki::Plugins::EditRowPlugin::postRenderingHandler($in);
+    my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     my $expected = <<EXPECTED;
 <form method="POST" action="$saveurl" name="erp_form_TABLE_0">
-<input type="hidden" name="erp_topic" value="$this->{test_web}.$this->{test_topic}"  /><input type="hidden" name="erp_version" value="VERSION"  /><input type="hidden" name="erp_table" value="TABLE_0"  /><input type="hidden" name="erp_row" value="0"  />
+<input type="hidden" name="erp_topic" value="${test_web}.${test_topic}"  /><input type="hidden" name="erp_version" value="VERSION"  /><input type="hidden" name="erp_table" value="TABLE_0"  /><input type="hidden" name="erp_row" value="0"  />
 <a name='erp_TABLE_0'></a>
 <input type="hidden" name="erp_TABLE_0_format" value=""  />
 | #REF0# |

@@ -1,22 +1,9 @@
 # See bottom of file for license and copyright information
 package Parser;
+use v5.14;
 
-use strict;
-use warnings;
-use FoswikiFnTestCase;
-our @ISA = 'FoswikiFnTestCase';
-
-sub set_up {
-    my $this = shift;
-
-    $this->SUPER::set_up();
-}
-
-sub loadExtraConfig {
-    my $this = shift;
-
-    $this->SUPER::loadExtraConfig();
-}
+use Moo;
+extends qw(FoswikiFnTestCase);
 
 sub test_Item13352_unbalanced_verbatim {
     my $this = shift;
@@ -35,7 +22,7 @@ INPUT
     require Foswiki::Plugins::EditRowPlugin::TableParser;
     $this->assert( !$@, $@ );
     my $parser = Foswiki::Plugins::EditRowPlugin::TableParser->new();
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {
@@ -78,7 +65,7 @@ The edit button is placed above the table and editing fails with this example.
 | *Project* | *Customer* | *Pass* | *Type* | *Purpose* | *Qty* | *Radios* | *Controllers* | *Hubs* | *Tuners* | *Hybrid* | *Unit Cost (USD)* | *Total Cost (USD)* | *When (Q)* |
 | Project A | Engineering | A | PK2 | Eng Test | 2 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
 INPUT
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {
@@ -112,7 +99,7 @@ sub test_EDITTABLETABLE_table_13715 {
 %EDITTABLE{format="|text,10|text,10|text,%ENCODE{"3"}%|text,15|text,15|text,3|text,3|text,3|text,3|text,3|text,3|text,10|label,0,$percntCALC{$quot$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))$quot}$percnt|text,5|" }%%TABLE{columnwidths="%ENCODE{"80"}%,80,50,110,150,50,50,50,50,50,70,70,50" dataalign="left,left,center,left,left,center,center,center,center,center,center,right,right,center" headeralign="center" headerrows="1" footerrows="1" headerislabel="on"}%
 | *Project* | *Customer* | *Pass* | *Type* | *Purpose* | *Qty* | *Radios* | *Controllers* | *Hubs* | *Tuners* | *Hybrid* | *Unit Cost (USD)* | *Total Cost (USD)* | *When (Q)* |
 INPUT
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {

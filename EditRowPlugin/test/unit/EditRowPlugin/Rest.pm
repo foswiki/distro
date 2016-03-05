@@ -1,39 +1,27 @@
 # See bottom of file for license and copyright information
 package Rest;
+use v5.14;
 
-use strict;
-use warnings;
-use FoswikiFnTestCase;
-our @ISA = 'FoswikiFnTestCase';
-
-sub set_up {
-    my $this = shift;
-
-    $this->SUPER::set_up();
-}
-
-sub loadExtraConfig {
-    my $this = shift;
-
-    $this->SUPER::loadExtraConfig();
-}
+use Moo;
+extends qw(FoswikiFnTestCase);
 
 sub gettit {
     my ( $this, $t, $r, $c ) = @_;
-    $this->{session}->finish();
+    $this->clear_session;
     my %qd = (
         erp_version => "VERSION",
-        erp_topic   => "$this->{test_web}.$this->{test_topic}",
+        erp_topic   => $this->test_web . "." . $this->test_topic,
         erp_table   => "TABLE_$t"
     );
     $qd{erp_row} = $r if defined $r;
     $qd{erp_col} = $c if defined $c;
-    my $query = Unit::Request->new( \%qd );
-    $this->{session} = Foswiki->new( $this->{test_user_login}, $query );
+    my $query = Unit::Request->new( initializer => \%qd );
+    $this->session(
+        Foswiki->new( user => $this->test_user_login, request => $query ) );
     my $response = Foswiki::Response->new();
     $this->assert_null(
         Foswiki::Plugins::EditRowPlugin::Get::process(
-            $this->{session}, "EditRowPlugin", "get", $response
+            $this->session, "EditRowPlugin", "get", $response
         )
     );
     return $response->body();
@@ -44,18 +32,18 @@ sub test_rest_get {
     require Foswiki::Plugins::EditRowPlugin::Get;
     $this->assert( !$@, $@ );
 
-    $this->{test_topicObject}->finish() if $this->{test_topicObject};
-    ( $this->{test_topicObject} ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
-    $this->{test_topicObject}->text(<<INPUT);
+    $this->clear_test_topicObject;
+    $this->test_topicObject(
+        ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )[0] );
+    $this->test_topicObject->text(<<INPUT);
 | 1 |
 
 | A | B |
 | C | D |
 INPUT
-    $this->{test_topicObject}->save();
-    $this->{test_topicObject}->finish();
-    $this->{session}->finish();
+    $this->test_topicObject->save();
+    $this->clear_test_topicObject;
+    $this->clear_session;
 
     $this->assert_equals( '"1"', $this->gettit( 0, 0, 0 ) );
 
@@ -77,18 +65,18 @@ sub test_rest_save {
     my $this = shift;
     require Foswiki::Plugins::EditRowPlugin::Save;
     $this->assert( !$@, $@ );
-    $this->{test_topicObject}->finish() if $this->{test_topicObject};
-    ( $this->{test_topicObject} ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
-    $this->{test_topicObject}->text(<<INPUT);
+    $this->clear_test_topicObject;
+    $this->test_topicObject(
+        ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )[0] );
+    $this->test_topicObject->text(<<INPUT);
 | 1 |
 
 | A | B |
 | C | D |
 INPUT
-    $this->{test_topicObject}->save();
-    $this->{test_topicObject}->finish();
-    $this->{session}->finish();
+    $this->test_topicObject->save();
+    $this->clear_test_topicObject;
+    $this->clear_session;
 
     my %qd = (
         CELLDATA    => "Spitoon",
@@ -96,29 +84,30 @@ INPUT
         erp_col     => 0,
         erp_row     => 0,
         erp_version => "VERSION",
-        erp_topic   => "$this->{test_web}.$this->{test_topic}",
+        erp_topic   => $this->test_web . "." . $this->test_topic,
         erp_table   => "TABLE_1",
-        noredirect  => 1,                                         # for AJAX
+        noredirect  => 1,                                           # for AJAX
     );
-    my $query = Unit::Request->new( \%qd );
-    $this->{session} = Foswiki->new( $this->{test_user_login}, $query );
+    my $query = Unit::Request->new( initializer => \%qd );
+    $this->session(
+        Foswiki->new( user => $this->test_user_login, request => $query ) );
     my $response = Foswiki::Response->new();
     $this->assert_null(
         Foswiki::Plugins::EditRowPlugin::Save::process(
-            $this->{session}, "EditRowPlugin", "save", $response
+            $this->session, "EditRowPlugin", "save", $response
         )
     );
     $this->assert_equals( "RESPONSESpitoon", $response->body() );
-    $this->{test_topicObject}->finish() if $this->{test_topicObject};
-    ( $this->{test_topicObject} ) =
-      Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} );
+    $this->clear_test_topicObject;
+    $this->test_topicObject(
+        ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )[0] );
     my $expected = <<EXPECTED;
 | 1 |
 
 | Spitoon | B |
 | C | D |
 EXPECTED
-    $this->assert_equals( $expected, $this->{test_topicObject}->text() );
+    $this->assert_equals( $expected, $this->test_topicObject->text() );
 }
 
 1;

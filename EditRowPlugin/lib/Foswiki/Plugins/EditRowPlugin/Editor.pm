@@ -8,11 +8,18 @@ use Assert;
 
 use Foswiki::Func ();
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+
+has type => ( is => 'rw', default => 'text', );
+has css_class => ( is => 'rw', );
+
 # Subclasses only
-sub new {
-    my ( $class, $editableType ) = @_;
-    return bless( { type => $editableType || 'text' }, $class );
-}
+#sub new {
+#    my ( $class, $editableType ) = @_;
+#    return bless( { type => $editableType || 'text' }, $class );
+#}
 
 # Shared code used by radio buttons and checkboxes
 sub _tickbox {
@@ -32,7 +39,7 @@ sub _tickbox {
         $expandedOption =~ s/^\s*(.*?)\s*$/$1/;
         $expandedOption =~ s/(\W)/\\$1/g;
         $attrs{$option}{label} = $expandedOption;
-        $attrs{$option}{class} = "$this->{css_class} erpJS_input";
+        $attrs{$option}{class} = $this->css_class . " erpJS_input";
         if ( $expandedValue =~ /,\s*$expandedOption\s*,/ ) {
             $attrs{$option}{checked} = 'checked';
             push( @defaults, $option );
@@ -72,8 +79,8 @@ Generate JQuery metadata for the cell
 sub jQueryMetadata {
     my ( $this, $cell, $colDef, $text ) = @_;
     my $data = {};
-    $data->{type} = $this->{type};
-    $data->{name} = "CELLDATA";      #$cell->getID();
+    $data->{type} = $this->type;
+    $data->{name} = "CELLDATA";    #$cell->getID();
     if ( defined $colDef->{size} ) {
         $data->{size} = $colDef->{size};
     }

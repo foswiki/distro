@@ -1,25 +1,19 @@
 # See bottom of file for license and copyright information
 package Parser;
+use v5.14;
 
-use strict;
-use warnings;
-use FoswikiFnTestCase;
-our @ISA = 'FoswikiFnTestCase';
+use Moo;
+extends qw(FoswikiFnTestCase);
 
-sub set_up {
+around loadExtraConfig => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
-}
-
-sub loadExtraConfig {
-    my $this = shift;
-
-    $this->SUPER::loadExtraConfig();
+    $orig->( $this, @_ );
     $Foswiki::cfg{Plugins}{EditRowPlugin}{Enabled}   = 1;
     $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro}     = 'EDITTABLE';
     $Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled} = 0;
-}
+};
 
 sub test_EDITTABLE {
     my $this = shift;
@@ -31,7 +25,7 @@ INPUT
     require Foswiki::Plugins::EditRowPlugin::TableParser;
     $this->assert( !$@, $@ );
     my $parser = Foswiki::Plugins::EditRowPlugin::TableParser->new();
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {
@@ -61,7 +55,7 @@ INPUT
     require Foswiki::Plugins::EditRowPlugin::TableParser;
     $this->assert( !$@, $@ );
     my $parser = Foswiki::Plugins::EditRowPlugin::TableParser->new();
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {
@@ -95,7 +89,7 @@ INPUT
     require Foswiki::Plugins::EditRowPlugin::TableParser;
     $this->assert( !$@, $@ );
     my $parser = Foswiki::Plugins::EditRowPlugin::TableParser->new();
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {
@@ -127,7 +121,7 @@ sub test_TABLE_EDITTABLE {
 fool="cap"
 }%
 INPUT
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {
@@ -160,7 +154,7 @@ fool="cap"
 }%
 %TABLE{columnwidths="10,20"}%
 INPUT
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {
@@ -194,7 +188,7 @@ fool="cap"
 }%
 | A | B |
 INPUT
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {
@@ -229,7 +223,7 @@ fool="cap"
 %TABLE{columnwidths="10,20"}%
 | A | B |
 INPUT
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {
@@ -264,7 +258,7 @@ INPUT
     require Foswiki::Plugins::EditRowPlugin::TableParser;
     $this->assert( !$@, $@ );
     my $parser = Foswiki::Plugins::EditRowPlugin::TableParser->new();
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {
@@ -304,7 +298,7 @@ fool="cap"
 %TABLE{columnwidths="10,20"}%
 | C | D |
 INPUT
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {
@@ -338,7 +332,7 @@ sub test_TABLEEDITTABLE_table {
 %TABLE{columnwidths="10,20"}%%EDITTABLE{ format="| text, 5, init | text, 20, init |" fool="cap"}%
 | A | B |
 INPUT
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {
@@ -368,7 +362,7 @@ sub test_EDITTABLETABLE_table {
 %EDITTABLE{ format="| text, 5, init | text, 20, init |" fool="cap"}%%TABLE{columnwidths="10,20"}%
 | A | B |
 INPUT
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {
@@ -403,7 +397,7 @@ fool="cap"
 }%
 | C | D |
 INPUT
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {
@@ -443,7 +437,7 @@ fool="cap"
 }%
 | E | F |
 INPUT
-    my $result = $parser->parse( $in, $this->{test_topicObject} );
+    my $result = $parser->parse( $in, $this->test_topicObject );
 
     my $data = '';
     foreach my $r (@$result) {

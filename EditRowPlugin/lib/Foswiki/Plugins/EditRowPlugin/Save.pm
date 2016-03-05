@@ -4,7 +4,6 @@ package Foswiki::Plugins::EditRowPlugin::Save;
 use strict;
 use warnings;
 use Assert;
-use Error ':try';
 
 use Foswiki       ();
 use Foswiki::Func ();
@@ -161,7 +160,8 @@ sub process {
                     Foswiki::Func::writeDebug("Performing $action") if TRACE;
                     eval { $result = $table->$action($urps); };
                     if ($@) {
-                        throw Error::Simple $@ unless $ajax;
+                        Foswiki::Exception::Fatal->throw( text => $@ )
+                          unless $ajax;
                         $mess    = $@;
                         $no_save = 1;
                         last LINE;

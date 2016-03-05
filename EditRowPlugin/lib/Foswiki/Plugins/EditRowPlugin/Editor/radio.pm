@@ -1,18 +1,21 @@
 # See bottom of file for copyright and license information
 package Foswiki::Plugins::EditRowPlugin::Editor::radio;
+use v5.14;
 
-use strict;
 use Assert;
 
-use Foswiki::Plugins::EditRowPlugin::Editor ();
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Plugins::EditRowPlugin::Editor);
 
-our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor');
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_, type => 'radio' );
+};
 
-sub new {
-    my $class = shift;
-    my $this  = $class->SUPER::new('radio');
-    $this->{css_class} = 'foswikiRadioButton';
-    return $this;
+sub BUILD {
+    my $this = shift;
+    $this->css_class('foswikiRadioButton');
 }
 
 sub htmlEditor {
@@ -30,17 +33,18 @@ sub htmlEditor {
     );
 }
 
-sub jQueryMetadata {
+around jQueryMetadata => sub {
+    my $orig = shift;
     my $this = shift;
     my ( $cell, $colDef, $text ) = @_;
-    my $data = $this->SUPER::jQueryMetadata(@_);
+    my $data = $orig->( $this, @_ );
 
     if ( $colDef->{values} && scalar( @{ $colDef->{values} } ) ) {
 
         # Format suitable for passing to a "select" type
-        $data->{data} = {};
+        $data->data( {} );
         map {
-            $data->{data}->{$_} =
+            $data->data->{$_} =
               Foswiki::Func::renderText(
                 Foswiki::Func::expandCommonVariables($_) )
         } @{ $colDef->{values} };
@@ -48,7 +52,7 @@ sub jQueryMetadata {
     $this->_addSaveButton($data);
     $this->_addCancelButton($data);
     return $data;
-}
+};
 
 1;
 __END__

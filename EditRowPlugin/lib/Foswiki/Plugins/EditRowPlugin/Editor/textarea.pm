@@ -1,17 +1,17 @@
 # See bottom of file for copyright and license information
 package Foswiki::Plugins::EditRowPlugin::Editor::textarea;
+use v5.14;
 
-use strict;
 use Assert;
 
-use Foswiki::Plugins::EditRowPlugin::Editor::text ();
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Plugins::EditRowPlugin::Editor::text);
 
-our @ISA = ('Foswiki::Plugins::EditRowPlugin::Editor::text');
-
-sub new {
-    my $class = shift;
-    return $class->SUPER::new('textarea');
-}
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_, type => 'textarea' );
+};
 
 sub htmlEditor {
     my ( $this, $cell, $colDef, $inRow, $unexpandedValue ) = @_;
@@ -39,19 +39,22 @@ sub htmlEditor {
     );
 }
 
-sub jQueryMetadata {
+around jQueryMetadata => sub {
+    my $orig = shift;
     my $this = shift;
     my ( $cell, $colDef, $text ) = @_;
-    my $data = $this->SUPER::jQueryMetadata(@_);
-    $data->{rows} = 3;
-    $data->{cols} = 30;
-    if ( $data->{size} =~ /^(\d+)[xX](\d+)$/ ) {
-        $data->{rows} = $1 if $1 > 0;
-        $data->{cols} = $2 if $2 > 0;
+    my $data = $orig->( $this, @_ );
+    $data->rows(3);
+    $data->cols(30);
+    if ( $data->size =~ /^(\d+)[xX](\d+)$/ ) {
+        $data->rows = $1 if $1 > 0;
+        $data->cols = $2 if $2 > 0;
     }
-    delete $data->{size};
+
+    #delete $data->{size};
+    $data->clear_size;
     return $data;
-}
+};
 
 1;
 __END__
