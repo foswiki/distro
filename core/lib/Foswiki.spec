@@ -417,7 +417,7 @@ $Foswiki::cfg{Trace}{LoginManager} = 0;
 # =save= should be removed from this list if the guest user is permitted to
 # edit topics without authentication.
 $Foswiki::cfg{AuthScripts} =
-'attach,compareauth,edit,manage,previewauth,rdiffauth,rename,restauth,save,statistics,upload,viewauth,viewfileauth';
+'attach,compareauth,configure,edit,manage,previewauth,rdiffauth,rename,restauth,save,statistics,upload,viewauth,viewfileauth';
 
 # **BOOLEAN LABEL="Legacy REST Security" EXPERT**
 # Foswiki 1.2 has removed the =rest= script from the list of {AuthScripts}.

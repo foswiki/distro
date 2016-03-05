@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1402008308" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457197356" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%WEB% Web Preferences
 
@@ -31,6 +31,14 @@ If you intend to lock down the %USERSWEB% to only allow registration, you need t
    * Set ALLOWWEBCHANGE = 
    * Set DENYWEBRENAME = %USERSWEB%.WikiGuest
    * Set ALLOWWEBRENAME = 
+
+If ={FeatureAccess}{AllowRaw}= is set to =acl= in configure, then the following rules can also be used: 
+   * #Set DENYWEBHISTORY = %USERSWEB%.WikiGuest
+   * #Set ALLOWWEBHISTORY =
+
+If ={FeatureAccess}{AllowHistory}= is set to =acl= in configure, then the following rules can also be used: 
+   * #Set DENYWEBRAW = %USERSWEB%.WikiGuest
+   * #Set ALLOWWEBRAW =
 
 Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., [[%USERSWEB%.AdminGroup][AdminGroup]])
 
