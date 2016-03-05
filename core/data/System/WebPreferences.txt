@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434485156" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457197356" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! <nop>%WEB% Web Preferences
 
@@ -40,7 +40,7 @@ Users or groups who are allowed to view, change and rename topics in the <nop>%W
    * Set ALLOWWEBCHANGE = %USERSWEB%.AdminGroup
    * Set ALLOWWEBRENAME = %USERSWEB%.AdminGroup
 
- Users or groups allowed to change or rename this <nop>%TOPIC% topic
+Users or groups allowed to change or rename this <nop>%TOPIC% topic
 
    * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
 

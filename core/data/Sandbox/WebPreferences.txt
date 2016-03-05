@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1402008794" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457197356" format="1.1" version="1"}%
 ---+!! <nop>%WEB% Web Preferences
 
 %TOC%
@@ -28,6 +28,15 @@ Use ==*== to indicate everyone including the guest users.   DENY the WikiGuest u
    * Set ALLOWWEBCHANGE = 
    * Set DENYWEBRENAME = %USERSWEB%.WikiGuest
    * Set ALLOWWEBRENAME = 
+
+If ={FeatureAccess}{AllowRaw}= is set to =acl= in configure, then the following rules can also be used: 
+   * #Set DENYWEBHISTORY = %USERSWEB%.WikiGuest
+   * #Set ALLOWWEBHISTORY =
+
+If ={FeatureAccess}{AllowHistory}= is set to =acl= in configure, then the following rules can also be used: 
+   * #Set DENYWEBRAW = %USERSWEB%.WikiGuest
+   * #Set ALLOWWEBRAW =
+
 Users or groups allowed to change or rename this <nop>%TOPIC% topic
 
    * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
