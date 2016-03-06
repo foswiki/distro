@@ -12,7 +12,9 @@ use Moo;
 use namespace::clean;
 extends qw(FoswikiFnTestCase);
 
-has uifn => ( is => 'rw', );
+has uifn        => ( is => 'rw', );
+has oldDbiDsn   => ( is => 'rw', );
+has oldCacheDsn => ( is => 'rw', );
 
 my $UI_FN;
 
@@ -102,8 +104,7 @@ sub dbcheck_SQLite {
 }
 
 sub SQLite {
-    require Foswiki::PageCache::DBI::SQLite;
-    die $@ if $@;
+    Foswiki::load_package('Foswiki::PageCache::DBI::SQLite');
     $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::SQLite';
     $Foswiki::cfg{Cache}{DBI}{SQLite}{Filename} =
       "$Foswiki::cfg{WorkingDir}/${$}_sqlite.db";
@@ -115,8 +116,7 @@ sub dbcheck_PostgreSQL {
 }
 
 sub PostgreSQL {
-    require Foswiki::PageCache::DBI::PostgreSQL;
-    die $@ if $@;
+    Foswiki::load_package('Foswiki::PageCache::DBI::PostgreSQL');
     $Foswiki::cfg{Cache}{Implementation} =
       'Foswiki::PageCache::DBI::PostgreSQL';
     $Foswiki::cfg{Cache}{Enabled} = 1;
@@ -127,7 +127,7 @@ sub dbcheck_MySQL {
 }
 
 sub MySQL {
-    require Foswiki::PageCache::DBI::MySQL;
+    Foswiki::load_package('Foswiki::PageCache::DBI::MySQL');
     $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::MySQL';
     $Foswiki::cfg{Cache}{Enabled}        = 1;
 }
@@ -139,7 +139,7 @@ sub dbcheck_Generic {
 sub Generic {
     $Foswiki::cfg{Cache}{DBI}{DSN} =
       "dbi:SQLite:dbname=$Foswiki::cfg{WorkingDir}/${$}_generic.db";
-    require Foswiki::PageCache::DBI::Generic;
+    Foswiki::load_package('Foswiki::PageCache::DBI::Generic');
     $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::Generic';
     $Foswiki::cfg{Cache}{Enabled}        = 1;
 }
@@ -193,11 +193,15 @@ around set_up => sub {
     $Foswiki::cfg{HttpCompress} = 0;
     $Foswiki::cfg{Cache}{Compress} = 0;
     $UI_FN ||= $this->getUIFn('view');
+    $this->oldDbiDsn( $Foswiki::cfg{Cache}{DBI}{DSN} );
+    $this->oldCacheDsn( $Foswiki::cfg{Cache}{DSN} );
 };
 
 around tear_down => sub {
     my $orig = shift;
     my $this = shift;
+    $Foswiki::cfg{Cache}{DBI}{DSN} = $this->oldDbiDsn;
+    $Foswiki::cfg{Cache}{DSN} = $this->oldCacheDsn;
     $orig->($this);
     unlink("$Foswiki::cfg{WorkingDir}/${$}_sqlite.db");
     unlink("$Foswiki::cfg{WorkingDir}/${$}_generic.db");

@@ -84,17 +84,17 @@ Break circular references.
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    $this->clear_final;
-    if ( $this->has_levels ) {
-        foreach my $back ( @{ $this->levels } ) {
-            $back->finish() if $back;
-        }
-    }
-    $this->clear_levels;
-    $this->clear_map;
-}
+#sub finish {
+#    my $this = shift;
+#    $this->clear_final;
+#    if ( $this->has_levels ) {
+#        foreach my $back ( @{ $this->levels } ) {
+#            $back->finish() if $back;
+#        }
+#    }
+#    $this->clear_levels;
+#    $this->clear_map;
+#}
 
 =begin TML
 

@@ -9,12 +9,10 @@ Implements a Foswiki::PageCache::DBI using sqlite
 =cut
 
 package Foswiki::PageCache::DBI::SQLite;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::PageCache::DBI ();
-@Foswiki::PageCache::DBI::SQLite::ISA = ('Foswiki::PageCache::DBI');
+use Moo;
+extends qw(Foswiki::PageCache::DBI);
 
 =begin TML
 
@@ -24,19 +22,17 @@ Construct a new page cache and makes sure the database is ready
 
 =cut
 
-sub new {
-    my $class = shift;
+has filename => (
+    is      => 'rw',
+    lazy    => 1,
+    default => $Foswiki::cfg{Cache}{DBI}{SQLite}{Filename}
+      || $Foswiki::cfg{WorkingDir} . '/sqlite.db',
+);
 
-    my $this = bless(
-        $class->SUPER::new(
-            filename => $Foswiki::cfg{Cache}{DBI}{SQLite}{Filename},
-            @_
-        ),
-        $class
-    );
+sub BUILD {
+    my $this = shift;
 
-    $this->{filename} ||= $Foswiki::cfg{WorkingDir} . '/sqlite.db';
-    $this->{dsn} = 'dbi:SQLite:dbname=' . $this->{filename};
+    $this->dsn( 'dbi:SQLite:dbname=' . $this->filename );
 
     return $this->init;
 }

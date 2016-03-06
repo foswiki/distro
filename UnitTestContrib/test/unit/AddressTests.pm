@@ -283,7 +283,7 @@ around set_up => sub {
     $this->test_topicObject(
         Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) );
     if ( $this->check_dependency('Foswiki,>=,1.2') ) {
-        require Foswiki::Address;
+        Foswiki::load_class('Foswiki::Address');
     }
 
     return;
@@ -387,8 +387,7 @@ sub test_roundtrips {
         print STDERR "Testing: $testname\n" if TRACE;
         $this->assert( $parsedaddrObj->equiv( $testitem->{addrObj} ),
             $testname );
-        $parsedaddrObj->finish();
-        $testitem->{addrObj}->finish();
+        delete $testitem->{addrObj};
     }
 
     return;
@@ -419,8 +418,6 @@ sub gen_testspec_fns {
                   . ' from non-equivalent: '
                   . $addrObj->stringify() );
             $this->assert_str_equals( $parsedaddrObj->type(), $test->{type} );
-            $parsedaddrObj->finish();
-            $addrObj->finish();
 
             return;
         };
@@ -561,7 +558,7 @@ sub test_meta2 {
     $this->assert( $parsedaddrObj->equiv($addrObj) );
     $this->assert( $parsedaddrObj->type() eq 'metakey' );
     $parsedaddrObj->tompath( [ 'META', 'FIELD', 2 ] );
-    $this->assert( $parsedaddrObj->type() eq 'metamember' );
+    $this->assert_equals( 'metamember', $parsedaddrObj->type() );
     $parsedaddrObj->tompath( [ 'META', 'FIELD' ] );
     $this->assert( $parsedaddrObj->type() eq 'metatype' );
     $parsedaddrObj->tompath( ['META'] );
@@ -844,10 +841,10 @@ sub test_attachment_getsetters {
     $addrObj->attachment('Attachment.pdf');
     $this->assert( $addrObj->type() eq 'attachment' );
     $this->assert( $addrObj->isA('attachment') );
-    $this->assert( $addrObj->attachment() eq 'Attachment.pdf',
+    $this->assert_equals( 'Attachment.pdf', $addrObj->attachment(),
         $addrObj->stringify() );
-    $this->assert(
-        $addrObj->stringify() eq "$test_web/SubWeb.Topic/Attachment.pdf\@2" );
+    $this->assert_equals( "$test_web/SubWeb.Topic/Attachment.pdf\@2",
+        $addrObj->stringify() );
     $parsedaddrObj =
       Foswiki::Address->new(
         string => "$test_web/SubWeb.Topic/Attachment.pdf\@2", );

@@ -26,9 +26,9 @@ BEGIN {
         $response = $t->response;
         return $t;
     };
-    my $_finish = \&Foswiki::finish;
-    *Foswiki::finish = sub {
-        $_finish->(@_);
+    my $_demolish = \&Foswiki::DEMOLISH;
+    *Foswiki::demolish = sub {
+        $_demolish->(@_);
         undef $response;
     };
     use warnings 'redefine';

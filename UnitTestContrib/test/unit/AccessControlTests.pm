@@ -50,7 +50,7 @@ around set_up => sub {
         $Foswiki::cfg{DefaultUserWikiName} );
     $topicObject->text('');
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->registerUser( 'white', 'Mr', "White", 'white@example.com' );
     $MrWhite = $this->session->users->getCanonicalUserID('white');
     $this->registerUser( 'blue', 'Mr', "Blue", 'blue@example.com' );
@@ -71,7 +71,7 @@ around set_up => sub {
    * Set ALLOWTOPICVIEW = $users_web.ReservoirDogsGroup
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     return;
 };
@@ -95,7 +95,7 @@ sub DENIED {
             "$user $mode $web.$topic"
         );
     }
-    $topicObject->finish();
+    undef $topicObject;
 
     return;
 }
@@ -119,7 +119,7 @@ sub PERMITTED {
             "$user $mode $web.$topic"
         );
     }
-    $topicObject->finish();
+    undef $topicObject;
 
     return;
 }
@@ -141,7 +141,7 @@ If DENYTOPIC is set to a list of wikinames
    * Set DENYTOPICVIEW = ,,MrYellow,,$users_web.MrOrange,%USERSWEB%.ReservoirDogsGroup,,,
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $this->createNewFoswikiSession();
     $this->PERMITTED( "VIEW", $MrGreen );
@@ -164,7 +164,7 @@ If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
    * Set DENYTOPICVIEW=
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $this->createNewFoswikiSession();
     $this->PERMITTED( "VIEW", $MrGreen );
@@ -187,7 +187,7 @@ If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
    * Set DENYTOPICVIEW =   
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $this->createNewFoswikiSession();
     $this->PERMITTED( "VIEW", $MrGreen );
@@ -210,7 +210,7 @@ If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
    * Set DENYTOPICVIEW = MrBlue  
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $this->createNewFoswikiSession();
     $this->PERMITTED( "VIEW", $MrGreen );
@@ -234,7 +234,7 @@ If ALLOWTOPIC is set
    * Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $this->createNewFoswikiSession();
     $this->PERMITTED( "VIEW", $MrOrange );
@@ -259,7 +259,7 @@ If ALLOWTOPIC is set
    * Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     my $topicquery = Unit::Request->new( initializer => "" );
     $topicquery->path_info( "/" . $this->test_web . "/" . $this->test_topic );
@@ -293,7 +293,7 @@ If ALLOWTOPIC is set
    * Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $this->createNewFoswikiSession();
@@ -331,7 +331,7 @@ THIS
         }
     );
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $this->createNewFoswikiSession();
@@ -361,7 +361,7 @@ If DENYWEB is set to a list of wikiname
    * Set DENYWEBVIEW = $users_web.MrOrange %USERSWEB%.MrBlue
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $this->createNewFoswikiSession();
@@ -369,7 +369,7 @@ THIS
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text("Null points");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $this->DENIED( "VIEW", $MrOrange );
     $this->PERMITTED( "VIEW", $MrGreen );
@@ -393,7 +393,7 @@ If DENYWEB is set to a list of wikiname
    * Set DENYWEBVIEW = $users_web.MrOrange %USERSWEB%.MrBlue
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $this->createNewFoswikiSession();
@@ -405,7 +405,7 @@ If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
    * Set DENYTOPICVIEW = MrWhite  
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $this->DENIED( "VIEW", $MrOrange );
     $this->PERMITTED( "VIEW", $MrGreen );
@@ -429,7 +429,7 @@ If DENYWEB is set to a list of wikiname
    * Set DENYWEBVIEW = $users_web.MrOrange %USERSWEB%.MrBlue
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
@@ -439,7 +439,7 @@ If DENYTOPIC is set to empty string
    * Set DENYTOPICVIEW = 
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # Verify that the new "empty deny" rule is ignored
     # Also passes on Foswiki <1.2
@@ -482,7 +482,7 @@ If DENYWEB is set to the wildcard
    * Set DENYWEBVIEW = * 
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
@@ -494,7 +494,7 @@ Except ALLOW at the topic will override DENY at web.
 
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $this->createNewFoswikiSession();
@@ -520,7 +520,7 @@ If DENYWEB is set to a list of wikiname
    * Set DENYWEBVIEW = $users_web.MrOrange %USERSWEB%.MrBlue
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
@@ -530,7 +530,7 @@ If DENYTOPIC is set to empty string
    * Set ALLOWTOPICVIEW = * 
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # Verify that the new "empty deny" rule is ignored
     # Also passes on Foswiki <1.2
@@ -561,7 +561,7 @@ If DENYTOPIC is set to empty string
    * Set ALLOWTOPICVIEW = $users_web.MrOrange %USERSWEB%.MrBlue
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $this->createNewFoswikiSession();
@@ -589,7 +589,7 @@ If ALLOWWEB is set to a list of wikinames
 THIS
     );
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $this->createNewFoswikiSession();
@@ -597,7 +597,7 @@ THIS
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text("Null points");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->DENIED( "VIEW", $MrOrange );
     $this->PERMITTED( "VIEW", $MrGreen );
     $this->PERMITTED( "VIEW", $MrYellow );
@@ -621,7 +621,7 @@ If ALLOWTOPIC is set
 THIS
     );
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->createNewFoswikiSession();
     $this->PERMITTED( "VIEW", $MrOrange );
     $this->DENIED( "VIEW", $MrGreen );
@@ -660,13 +660,13 @@ THIS
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text($text);
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->createNewFoswikiSession();
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $this->_checkSettings($topicObject);
-    $topicObject->finish();
+    undef $topicObject;
 
     return;
 }
@@ -686,14 +686,14 @@ sub test_setInMETA {
     };
     $topicObject->putKeyed( 'PREFERENCE', $args );
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->createNewFoswikiSession();
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     $this->_checkSettings($topicObject);
-    $topicObject->finish();
+    undef $topicObject;
 
     return;
 }
@@ -716,13 +716,13 @@ THIS
     };
     $topicObject->putKeyed( 'PREFERENCE', $args );
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->createNewFoswikiSession();
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $this->_checkSettings($topicObject);
-    $topicObject->finish();
+    undef $topicObject;
 
     return;
 }
@@ -739,7 +739,7 @@ sub test_subweb_controls_override_parent {
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text("Nowt");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web,
@@ -748,18 +748,18 @@ sub test_subweb_controls_override_parent {
    * Set ALLOWWEBVIEW = MrGreen
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # Now build a subweb with view restricted to MrOrange
     my $webObject = $this->populateNewWeb($subweb);
-    $webObject->finish();
+    undef $webObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $subweb, $Foswiki::cfg{WebPrefsTopicName} );
     $topicObject->text(<<'THIS');
    * Set ALLOWWEBVIEW = MrOrange
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # Ensure that MrOrange can read the subweb and MrGreen the parent web
     $this->createNewFoswikiSession();
@@ -788,17 +788,17 @@ sub test_subweb_inherits_from_parent {
    * Set FINALPREFERENCES = ALLOWWEBVIEW
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # Now build a subweb with no restrictions
     my $webObject = $this->populateNewWeb($subweb);
-    $webObject->finish();
+    undef $webObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $subweb, $Foswiki::cfg{WebPrefsTopicName} );
     $topicObject->text(<<'THIS');
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $this->createNewFoswikiSession();
     $this->PERMITTED( "VIEW", $MrGreen, $subweb );
@@ -826,18 +826,18 @@ sub test_finalised_parent_overrides_subweb {
    * Set FINALPREFERENCES = ALLOWWEBVIEW
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # Now build a subweb with view restricted to MrOrange
     my $webObject = $this->populateNewWeb($subweb);
-    $webObject->finish();
+    undef $webObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $subweb, $Foswiki::cfg{WebPrefsTopicName} );
     $topicObject->text(<<'THIS');
    * Set ALLOWWEBVIEW = MrOrange
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->createNewFoswikiSession();
 
     $this->DENIED( "VIEW", $MrOrange, $subweb );
@@ -866,7 +866,7 @@ anchor is preserved after login.
    * Set ALLOWTOPICVIEW = MrYellow
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # Request the page with the full UI
     my $query = Unit::Request->new(

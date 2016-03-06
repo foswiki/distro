@@ -1,43 +1,42 @@
 # See bottom of file for license and copyright information
 package EditTablePluginTests;
-use strict;
-use warnings;
+use v5.14;
 
 # tests for basic formatting
 
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
-
-use strict;
-use warnings;
 use Foswiki::UI::Save();
 use Foswiki::Plugins::EditTablePlugin();
 use Foswiki::Plugins::EditTablePlugin::Core();
 use Foswiki::Plugins::EditTablePlugin::EditTableData();
-use Error qw( :try );
+use Try::Tiny;
 
-sub new {
-    my ( $class, @args ) = @_;
-    return $class->SUPER::new( 'EditTableFunctions', @args );
-}
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
-sub set_up {
+around BUILDARGS => sub {
+    my $orig = shift;
+    return $orig->( @_, testSuite => 'EditTableFunctions' );
+};
+
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
 
     #    $this->{sup} = $this->{session}->getScriptUrl(0, 'view');
     $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
     $Foswiki::cfg{AllowInlineScript} = 0;
     $Foswiki::cfg{Plugins}{TablePlugin}{DefaultAttributes} =
 'tableborder="1" valign="top" headercolor="#fff" headerbg="#687684" headerbgsorted="#334455" databg="#ddd,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" headerrules="cols"';
-    $Foswiki::cfg{Plugins}{EditRowPlugin}{Enabled} = 0;
+    $Foswiki::cfg{Plugins}{EditRowPlugin}{Enabled}   = 0;
     $Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled} = 1;
 
     local $ENV{SCRIPT_NAME} = ''; #  required by fake sort URLs in expected text
 
     return;
-}
+};
 
 =pod
 
@@ -66,9 +65,9 @@ can see the nops.
 
 sub do_testHtmlOutput {
     my ( $this, $expected, $actual, $doRender ) = @_;
-    my $session   = $this->{session};
-    my $webName   = $this->{test_web};
-    my $topicName = $this->{test_topic};
+    my $session   = $this->session;
+    my $webName   = $this->test_web;
+    my $topicName = $this->test_topic;
 
     if ($doRender) {
         $actual =
@@ -98,8 +97,8 @@ A simple edit table in view mode, with 'before' and 'after' text.
 sub test_render_simple_before_after {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -137,8 +136,8 @@ A simple edit table in view mode, with spaces before table lines.
 sub test_render_simple_pre {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewAuthUrl =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -180,8 +179,8 @@ A simple rendered edit table.
 sub test_render_simple {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -219,8 +218,8 @@ Test if saving does not add newlines after the table.
 sub test_do_not_add_newline {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -255,7 +254,7 @@ INPUT
     $query->path_info("/$webName/$topicName");
     $query->method('POST');
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $input );
 
     $this->createNewFoswikiSession( undef, $query );
@@ -265,7 +264,7 @@ INPUT
         sub {
             $response->print(
                 Foswiki::Func::expandCommonVariables(
-                    $input, $this->{test_topic}, $this->{test_web}, undef
+                    $input, $this->test_topic, $this->test_web, undef
                 )
             );
         }
@@ -293,8 +292,8 @@ param editbutton.
 sub test_param_editbutton {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -335,8 +334,8 @@ Editing a simple table.
 sub test_editSimple {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -387,8 +386,8 @@ Pass param 'format' and edit the table.
 sub test_param_format_edit {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -410,8 +409,8 @@ INPUT
     $this->createNewFoswikiSession( undef, $query );
 
     my $result =
-      Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
-        $this->{test_web}, undef );
+      Foswiki::Func::expandCommonVariables( $input, $this->test_topic,
+        $this->test_web, undef );
 
     my $expected = <<"EXPECTED";
 %TABLE{disableallsort="on" databg="#fff"}%
@@ -447,8 +446,8 @@ Adding a row and saving the table.
 sub test_editAddRow {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -474,8 +473,8 @@ INPUT
 
     my $expected = '';
     my $result =
-      Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
-        $this->{test_web}, undef );
+      Foswiki::Func::expandCommonVariables( $input, $this->test_topic,
+        $this->test_web, undef );
 
     $expected = <<"EXPECTED";
 %TABLE{disableallsort="on" databg="#fff"}%
@@ -516,9 +515,10 @@ EXPECTED
     $this->createNewFoswikiSession( undef, $query );
 
     $result =
-      Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
-        $this->{test_web}, undef );
+      Foswiki::Func::expandCommonVariables( $input, $this->test_topic,
+        $this->test_web, undef );
 
+    my $test_topic = $this->test_topic;
     $expected = <<"EXPECTED";
 <nop>
 <noautolink>
@@ -529,17 +529,17 @@ EXPECTED
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <nop>
-<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
-	<tbody>
-		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> </td>
-			<td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="test1" /> </td>
-		</tr>
-		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#f2f3f6" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <span class="et_rowlabel">1<input type="hidden" name="etcell2x1" value="1" /></span> </td>
-			<td bgcolor="#f2f3f6" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x2" size="10" value="test2" /> </td>
-		</tr>
-	</tbody></table>
+<table id="table${test_topic}1" class="foswikiTable" rules="none" border="1">
+    <tbody>
+        <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> </td>
+            <td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="test1" /> </td>
+        </tr>
+        <tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <td bgcolor="#f2f3f6" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <span class="et_rowlabel">1<input type="hidden" name="etcell2x1" value="1" /></span> </td>
+            <td bgcolor="#f2f3f6" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x2" size="10" value="test2" /> </td>
+        </tr>
+    </tbody></table>
 <input type="hidden" name="ettablechanges" value="1=0,2=1" />
 <input type="hidden" name="etheaderrows" value="0" />
 <input type="hidden" name="etfooterrows" value="0" />
@@ -560,8 +560,8 @@ EXPECTED
 sub test_delete_last_row {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -600,10 +600,11 @@ INPUT
     $this->createNewFoswikiSession( undef, $query );
 
     my $result =
-      Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
-        $this->{test_web}, undef );
+      Foswiki::Func::expandCommonVariables( $input, $this->test_topic,
+        $this->test_web, undef );
 
-    my $expected = <<"EXPECTED";
+    my $test_topic = $this->test_topic;
+    my $expected   = <<"EXPECTED";
 <nop>
 <noautolink>
 <a name="edittable1"></a>
@@ -615,25 +616,25 @@ INPUT
 <nop>
 <nop>
 <nop>
-<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
-	<thead>
-		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th bgcolor="#687684" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol">HEADER </th>
-		</tr>
-	</thead>
-	<tfoot>
-		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast">FOOTER</th>
-		</tr>
-	</tfoot>
-	<tbody>
-		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x1" size="16" value="do" /> </td>
-		</tr>
-		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#edf4f9" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell3x1" size="16" value="re" /> </td>
-		</tr>
-	</tbody></table>
+<table id="table${test_topic}1" class="foswikiTable" rules="none" border="1">
+    <thead>
+        <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <th bgcolor="#687684" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol">HEADER </th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <th class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast">FOOTER</th>
+        </tr>
+    </tfoot>
+    <tbody>
+        <tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x1" size="16" value="do" /> </td>
+        </tr>
+        <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <td bgcolor="#edf4f9" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol"> <input class="foswikiInputField editTableInput" type="text" name="etcell3x1" size="16" value="re" /> </td>
+        </tr>
+    </tbody></table>
 <input type="hidden" name="ettablechanges" value="1=0,2=0,3=0,4=-1,5=0" />
 <input type="hidden" name="etheaderrows" value="1" />
 <input type="hidden" name="etfooterrows" value="1" />
@@ -660,8 +661,8 @@ Test select dropdown box
 sub test_param_format_selectbox {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -687,7 +688,8 @@ INPUT
       Foswiki::Func::expandCommonVariables( $text, $topicName, $webName,
         undef );
 
-    my $expected = <<"END";
+    my $test_topic = $this->test_topic;
+    my $expected   = <<"END";
 <nop>
 <noautolink>
 <a name="edittable1"></a>
@@ -696,15 +698,15 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
-	<tbody>
-		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <select class="foswikiSelect" name="etcell1x1" size="1"> <option>a</option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
-			<td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLast"> <select class="foswikiSelect" name="etcell1x2" size="1"> <option>a</option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
-			<td bgcolor="#ffffff" class="foswikiTableCol2 foswikiLast"> <select class="foswikiSelect" name="etcell1x3" size="1 "> <option>a </option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
-			<td bgcolor="#ffffff" class="foswikiTableCol3 foswikiLastCol foswikiLast"> <select class="foswikiSelect" name="etcell1x4" size="1 "> <option>a </option> <option>b </option> <option selected="selected">c </option> <option>d</option></select> </td>
-		</tr>
-	</tbody>
+<table id="table${test_topic}1" class="foswikiTable" rules="none" border="1">
+    <tbody>
+        <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <select class="foswikiSelect" name="etcell1x1" size="1"> <option>a</option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
+            <td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLast"> <select class="foswikiSelect" name="etcell1x2" size="1"> <option>a</option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
+            <td bgcolor="#ffffff" class="foswikiTableCol2 foswikiLast"> <select class="foswikiSelect" name="etcell1x3" size="1 "> <option>a </option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
+            <td bgcolor="#ffffff" class="foswikiTableCol3 foswikiLastCol foswikiLast"> <select class="foswikiSelect" name="etcell1x4" size="1 "> <option>a </option> <option>b </option> <option selected="selected">c </option> <option>d</option></select> </td>
+        </tr>
+    </tbody>
 </table>
 <input type="hidden" name="ettablechanges" value="1=0" />
 <input type="hidden" name="etheaderrows" value="0" />
@@ -732,8 +734,8 @@ Test variables inside checkboxes and radio buttons
 sub test_param_format_variable_expansion_in_checkbox_and_radio_buttons {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubPathSystemWeb =
@@ -756,7 +758,8 @@ INPUT
       Foswiki::Func::expandCommonVariables( $text, $topicName, $webName,
         undef );
 
-    my $expected = <<"END";
+    my $test_topic = $this->test_topic;
+    my $expected   = <<"END";
 <nop>
 <noautolink>
 <a name="edittable1"></a>
@@ -765,13 +768,13 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
-	<tbody>
-		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <table class="editTableInnerTable"><tr><td valign="top"><input type="radio" name="etcell1x1" value=":skull:" /> <img alt="dead, deadly, doom" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" title="dead, deadly, doom"> </img> <br /> <input type="radio" name="etcell1x1" value=":cool:" /> <img alt="cool" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/emoticon-0103-cool.gif" title="cool"> </img> </td></tr></table> </td>
-			<td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <table class="editTableInnerTable"><tr><td valign="top"><input type="checkbox" name="etcell1x2x2" value=":skull:" checked="checked" /> <img alt="dead, deadly, doom" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" title="dead, deadly, doom"> </img> <br /> <input type="checkbox" name="etcell1x2x3" value=":cool:" checked="checked" /> <img alt="cool" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/emoticon-0103-cool.gif" title="cool"> </img> </td></tr></table><input type="hidden" name="etcell1x2" value="Chkbx: etcell1x2x2 etcell1x2x3" /> </td>
-		</tr>
-	</tbody>
+<table id="table${test_topic}1" class="foswikiTable" rules="none" border="1">
+    <tbody>
+        <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <table class="editTableInnerTable"><tr><td valign="top"><input type="radio" name="etcell1x1" value=":skull:" /> <img alt="dead, deadly, doom" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" title="dead, deadly, doom"> </img> <br /> <input type="radio" name="etcell1x1" value=":cool:" /> <img alt="cool" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/emoticon-0103-cool.gif" title="cool"> </img> </td></tr></table> </td>
+            <td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <table class="editTableInnerTable"><tr><td valign="top"><input type="checkbox" name="etcell1x2x2" value=":skull:" checked="checked" /> <img alt="dead, deadly, doom" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" title="dead, deadly, doom"> </img> <br /> <input type="checkbox" name="etcell1x2x3" value=":cool:" checked="checked" /> <img alt="cool" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/emoticon-0103-cool.gif" title="cool"> </img> </td></tr></table><input type="hidden" name="etcell1x2" value="Chkbx: etcell1x2x2 etcell1x2x3" /> </td>
+        </tr>
+    </tbody>
 </table>
 <input type="hidden" name="ettablechanges" value="1=1" />
 <input type="hidden" name="etheaderrows" value="0" />
@@ -797,8 +800,8 @@ END
 sub test_param_format_with_variables {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
 
@@ -831,12 +834,12 @@ INPUT
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <table border="1" class="foswikiTable" rules="none">
-	<tbody>
-		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <img alt=DONE height=16 src=%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/choice-yes.png title=DONE width=16></img> </td>
-			<td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <a href="$viewUrl" class="foswikiCurrentTopicLink">$topicName</a> </td>
-		</tr>
-	</tbody>
+    <tbody>
+        <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <img alt=DONE height=16 src=%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/choice-yes.png title=DONE width=16></img> </td>
+            <td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <a href="$viewUrl" class="foswikiCurrentTopicLink">$topicName</a> </td>
+        </tr>
+    </tbody>
 </table>
 <input type="hidden" name="ettablechanges" value="" />
 <input type="hidden" name="etheaderrows" value="0" />
@@ -862,15 +865,15 @@ Format parameter with $percntY$percnt macros. Edit the table.
 sub test_param_format_with_macro_placeholders_edit {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
         Foswiki::Func::getUrlHost()
       . Foswiki::Func::getPubUrlPath() . '/'
       . $Foswiki::cfg{SystemWebName};
-    my $userName = $this->{users_web} . '.' . 'WikiGuest';
+    my $userName = $this->users_web . '.' . 'WikiGuest';
 
     my $text = <<"INPUT";
 %EDITTABLE{format="| text, 30, \$percntY\$percnt | text, 30, \$percntTOPIC\$percnt |"}%
@@ -889,7 +892,8 @@ INPUT
       Foswiki::Func::expandCommonVariables( $text, $topicName, $webName,
         undef );
 
-    my $expected = <<"END";
+    my $test_topic = $this->test_topic;
+    my $expected   = <<"END";
 <nop>
 <noautolink>
 <a name="edittable1"></a>
@@ -898,13 +902,13 @@ INPUT
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <nop>
-<table id="table$this->{test_topic}1" class="foswikiTable" rules="none" border="1">
-	<tbody>
-		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x1" size="30" value="%Y%" /> </td>
-			<td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="30" value="%TOPIC%" /> </td>
-		</tr>
-	</tbody>	
+<table id="table${test_topic}1" class="foswikiTable" rules="none" border="1">
+    <tbody>
+        <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x1" size="30" value="%Y%" /> </td>
+            <td bgcolor="#ffffff" class="foswikiTableCol1 foswikiLastCol foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="30" value="%TOPIC%" /> </td>
+        </tr>
+    </tbody>	
 </table>
 <input type="hidden" name="ettablechanges" value="1=1" />
 <input type="hidden" name="etheaderrows" value="0" />
@@ -932,8 +936,8 @@ Saving a simple table.
 sub test_save {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -967,7 +971,7 @@ INPUT
     $query->path_info("/$webName/$topicName");
     $query->method('POST');
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $input );
 
     $this->createNewFoswikiSession( undef, $query );
@@ -977,7 +981,7 @@ INPUT
         sub {
             $response->print(
                 Foswiki::Func::expandCommonVariables(
-                    $input, $this->{test_topic}, $this->{test_web}, undef
+                    $input, $this->test_topic, $this->test_web, undef
                 )
             );
         }
@@ -1006,8 +1010,8 @@ DEPRECATED: saving a table with changes through params will be changed
 sub _DEPRECATED_test_param_headerrows_and_footerrows_save {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -1046,7 +1050,7 @@ INPUT
     $query->path_info("/$webName/$topicName");
     $query->method('POST');
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $input );
 
     $this->createNewFoswikiSession( undef, $query );
@@ -1056,7 +1060,7 @@ INPUT
         sub {
             $response->print(
                 Foswiki::Func::expandCommonVariables(
-                    $input, $this->{test_topic}, $this->{test_web}, undef
+                    $input, $this->test_topic, $this->test_web, undef
                 )
             );
         }
@@ -1092,8 +1096,8 @@ DEPRECATED: saving a table with changes through params will be changed
 sub _DEPRECATED_test_param_headerrows_and_footerrows_save_table_above {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -1133,7 +1137,7 @@ INPUT
     $query->path_info("/$webName/$topicName");
     $query->method('POST');
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $input );
 
     $this->createNewFoswikiSession( undef, $query );
@@ -1143,7 +1147,7 @@ INPUT
         sub {
             $response->print(
                 Foswiki::Func::expandCommonVariables(
-                    $input, $this->{test_topic}, $this->{test_web}, undef
+                    $input, $this->test_topic, $this->test_web, undef
                 )
             );
         }
@@ -1175,8 +1179,8 @@ Test if cells with a space do not voided (and rendered with a colspan): text fie
 
 sub test_keepSpacesInEmptyCellsWithTexts {
     my $this      = shift;
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -1205,7 +1209,7 @@ INPUT
     );
     $query->path_info("/$webName/$topicName");
     $query->method('POST');
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $input );
     $this->createNewFoswikiSession( undef, $query );
     my $response = Unit::Response->new();
@@ -1213,7 +1217,7 @@ INPUT
         sub {
             $response->print(
                 Foswiki::Func::expandCommonVariables(
-                    $input, $this->{test_topic}, $this->{test_web}, undef
+                    $input, $this->test_topic, $this->test_web, undef
                 )
             );
         }
@@ -1238,8 +1242,8 @@ Test if cells with a space do not voided (and rendered with a colspan): date fie
 
 sub test_keepSpacesInEmptyCellsWithDates {
     my $this      = shift;
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -1269,7 +1273,7 @@ INPUT
     );
     $query->path_info("/$webName/$topicName");
     $query->method('POST');
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $input );
     $this->createNewFoswikiSession( undef, $query );
     my $response = Unit::Response->new();
@@ -1277,7 +1281,7 @@ INPUT
         sub {
             $response->print(
                 Foswiki::Func::expandCommonVariables(
-                    $input, $this->{test_topic}, $this->{test_web}, undef
+                    $input, $this->test_topic, $this->test_web, undef
                 )
             );
         }
@@ -1306,8 +1310,8 @@ If a merge feature is added please pay attention to Item5217
 
 sub test_addSpacesToEmptyCells {
     my $this      = shift;
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -1335,7 +1339,7 @@ INPUT
     );
     $query->path_info("/$webName/$topicName");
     $query->method('POST');
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $input );
     $this->createNewFoswikiSession( undef, $query );
     my $response = Unit::Response->new();
@@ -1343,7 +1347,7 @@ INPUT
         sub {
             $response->print(
                 Foswiki::Func::expandCommonVariables(
-                    $input, $this->{test_topic}, $this->{test_web}, undef
+                    $input, $this->test_topic, $this->test_web, undef
                 )
             );
         }
@@ -1368,8 +1372,8 @@ Test if TML formatting is rendered.
 sub test_TMLFormattingInsideCell_BR {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -1394,11 +1398,11 @@ INPUT
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <table border="1" class="foswikiTable" rules="none">
-	<tbody>
-		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
-		</tr>
-	</tbody></table>
+    <tbody>
+        <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
+        </tr>
+    </tbody></table>
 <input type="hidden" name="ettablechanges" value="" />
 <input type="hidden" name="etheaderrows" value="0" />
 <input type="hidden" name="etfooterrows" value="0" />
@@ -1420,8 +1424,8 @@ Test if TML formatting is rendered with <br /> tags.
 sub test_TMLFormattingInsideCell_tag_br {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -1446,11 +1450,11 @@ INPUT
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <table class="foswikiTable" rules="none" border="1">
-	<tbody>
-		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
-		</tr>
-	</tbody></table>
+    <tbody>
+        <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <td bgcolor="#ffffff" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
+        </tr>
+    </tbody></table>
 <input type="hidden" name="ettablechanges" value="" />
 <input type="hidden" name="etheaderrows" value="0" />
 <input type="hidden" name="etfooterrows" value="0" />
@@ -1471,8 +1475,8 @@ Test if stars are preserved after saving.
 
 sub test_keepStars {
     my $this      = shift;
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -1499,7 +1503,7 @@ INPUT
     );
     $query->path_info("/$webName/$topicName");
     $query->method('POST');
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $input );
     $this->createNewFoswikiSession( undef, $query );
     my $response = Unit::Response->new();
@@ -1507,7 +1511,7 @@ INPUT
         sub {
             $response->print(
                 Foswiki::Func::expandCommonVariables(
-                    $input, $this->{test_topic}, $this->{test_web}, undef
+                    $input, $this->test_topic, $this->test_web, undef
                 )
             );
         }
@@ -1530,8 +1534,8 @@ Test if linebreaks inside input fields are kept.
 
 sub test_lineBreaksInsideInputField {
     my $this      = shift;
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -1558,7 +1562,7 @@ INPUT
     );
     $query->path_info("/$webName/$topicName");
     $query->method('POST');
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $input );
     $this->createNewFoswikiSession( undef, $query );
     my $response = Unit::Response->new();
@@ -1566,7 +1570,7 @@ INPUT
         sub {
             $response->print(
                 Foswiki::Func::expandCommonVariables(
-                    $input, $this->{test_topic}, $this->{test_web}, undef
+                    $input, $this->test_topic, $this->test_web, undef
                 )
             );
         }
@@ -1588,8 +1592,8 @@ NEWEXPECTED
 sub test_param_buttonrow_top {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -1623,8 +1627,8 @@ END
 sub test_param_buttonrow_top_edit {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -1685,8 +1689,8 @@ Test if saving is keeping <verbatim> tags inside table.
 sub test_save_with_verbatim_inside_table {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -1720,7 +1724,7 @@ INPUT
     $query->path_info("/$webName/$topicName");
     $query->method('POST');
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $input );
 
     $this->createNewFoswikiSession( undef, $query );
@@ -1730,7 +1734,7 @@ INPUT
         sub {
             $response->print(
                 Foswiki::Func::expandCommonVariables(
-                    $input, $this->{test_topic}, $this->{test_web}, undef
+                    $input, $this->test_topic, $this->test_web, undef
                 )
             );
         }
@@ -1757,8 +1761,8 @@ Test if saving is keeping <verbatim> tags outside of tables.
 sub test_save_with_verbatim_in_topic {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -1795,7 +1799,7 @@ INPUT
     $query->path_info("/$webName/$topicName");
     $query->method('POST');
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $input );
 
     $this->createNewFoswikiSession( undef, $query );
@@ -1805,7 +1809,7 @@ INPUT
         sub {
             $response->print(
                 Foswiki::Func::expandCommonVariables(
-                    $input, $this->{test_topic}, $this->{test_web}, undef
+                    $input, $this->test_topic, $this->test_web, undef
                 )
             );
         }
@@ -1837,8 +1841,7 @@ sub test_INCLUDE_view {
 
     # Create topic to include
     my $includedTopic = "TopicToInclude";
-    Foswiki::Func::saveTopic( $this->{test_web}, $includedTopic, undef,
-        <<'THIS');
+    Foswiki::Func::saveTopic( $this->test_web, $includedTopic, undef, <<'THIS');
 %EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, not started, starting, ongoing, completed | checkbox, 3,:-),:-I,:-( | date, 20 |" changerows="on" quietsave="on"}%
 | *URL* | *Name* | *By* | *Comment* | *Timestamp* |
 | 1 | Unified field theory | not started | :-) , :-I , :-( | 1 Apr 2012 |
@@ -1848,8 +1851,8 @@ sub test_INCLUDE_view {
 THIS
 
     # include this in our test topic
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuthTestTopic =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $viewUrlAuthOtherTopic =
@@ -1924,21 +1927,19 @@ sub test_INCLUDE_include {
 
     # Create topic with table definition
     my $tableDefTopic = "QmsCommentTable";
-    Foswiki::Func::saveTopic( $this->{test_web}, $tableDefTopic, undef,
-        <<'THIS');
+    Foswiki::Func::saveTopic( $this->test_web, $tableDefTopic, undef, <<'THIS');
 %EDITTABLE{ header="|* Section *|* Description *|* Severity *|*  Status *|* Originator & Date *|" format="| text, 10 | textarea, 10x60  | select, 1, Major, Minor, Note | select, 1, Originated, Assessed, Performed, Rejected | text, 20 |" changerows="on" }%
 THIS
 
     my $includeTopic = "ProcedureSysarch000Comments";
-    Foswiki::Func::saveTopic( $this->{test_web}, $includeTopic, undef,
-        <<'THIS');
+    Foswiki::Func::saveTopic( $this->test_web, $includeTopic, undef, <<'THIS');
 %EDITTABLE{ include="QmsCommentTable" }%
 |*Section*|*Description*|*Severity*|*Status*|*Originator & Date*|
 THIS
 
     # include this in our test topic
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuthTestTopic =
       Foswiki::Func::getScriptUrl( $webName, $includeTopic, 'viewauth' );
 
@@ -1981,8 +1982,8 @@ Test if macro EDITCELL is preserved after saving
 sub test_macro_EDITCELL_save {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -2021,7 +2022,7 @@ INPUT
     $query->path_info("/$webName/$topicName");
     $query->method('POST');
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $input );
 
     $this->createNewFoswikiSession( undef, $query );
@@ -2031,7 +2032,7 @@ INPUT
         sub {
             $response->print(
                 Foswiki::Func::expandCommonVariables(
-                    $input, $this->{test_topic}, $this->{test_web}, undef
+                    $input, $this->test_topic, $this->test_web, undef
                 )
             );
         }
@@ -2063,8 +2064,8 @@ Tests if CALC is rendered in view mode, if CALC is outside an EditTable
 sub test_CALC_in_table_other_than_EDITTABLE {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -2086,8 +2087,8 @@ sub test_CALC_in_table_other_than_EDITTABLE {
 ';
 
     my $result =
-      Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
-        $this->{test_web}, undef );
+      Foswiki::Func::expandCommonVariables( $input, $this->test_topic,
+        $this->test_web, undef );
     my $expected = '
 | *Item Description* | *Qty* | *Reason* | *Unit Price* | *Total Price* |
 | Hej Ho | 4 | Hello | 50000 | 200000 |
@@ -2130,9 +2131,9 @@ Test if TablePlugin parameters are read if the tag is on the same line as EDITTA
 sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_last {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
-    my $cgi       = $this->{request};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
+    my $cgi       = $this->request;
     my $url       = $cgi->url( -absolute => 1 );
 
     my $viewUrlAuth =
@@ -2150,7 +2151,8 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_last {
     my $result =
       Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
 
-    my $expected = <<"EXPECTED";
+    my $test_topic = $this->test_topic;
+    my $expected   = <<"EXPECTED";
  <ul>
 <li> Set MYNAMES = Ed, Kenneth,Benny 
 </li> <li> Set EXTRACT =  R0:C1..R0:C-1
@@ -2164,27 +2166,27 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_last {
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <nop>
-<table id="table$this->{test_topic}1" class="foswikiTable" border="1" rules="none">
-	<thead>
-		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column">Startdate</a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubPathSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
-			<th class="foswikiTableCol1"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">Stopdate</a> </th>
-			<th class="foswikiTableCol2"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=2;table=1;up=0#sorted_table" title="Sort by this column">Who</a> </th>
-			<th class="foswikiTableCol3"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=3;table=1;up=0#sorted_table" title="Sort by this column">What/Where</a> </th>
-			<th class="foswikiTableCol4"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=4;table=1;up=0#sorted_table" title="Sort by this column">Icon</a> </th>
-			<th class="foswikiTableCol5 foswikiLastCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=5;table=1;up=0#sorted_table" title="Sort by this column">Details</a> </th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td  rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLast"> 3 Jan 2008 </td>
-			<td  rowspan="1" class="foswikiTableCol1 foswikiLast"> 22 Jan 2008 </td>
-			<td  rowspan="1" class="foswikiTableCol2 foswikiLast"> Benny </td>
-			<td  rowspan="1" class="foswikiTableCol3 foswikiLast"> Vacation </td>
-			<td  rowspan="1" class="foswikiTableCol4 foswikiLast"> <img alt="smile" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/emoticon-0100-smile.gif" title="smile"> </img> </td>
-			<td  rowspan="1" class="foswikiTableCol5 foswikiLastCol foswikiLast"> %EXTRACT% </td>
-		</tr>
-	</tbody></table>
+<table id="table${test_topic}1" class="foswikiTable" border="1" rules="none">
+    <thead>
+        <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <th class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column">Startdate</a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubPathSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
+            <th class="foswikiTableCol1"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">Stopdate</a> </th>
+            <th class="foswikiTableCol2"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=2;table=1;up=0#sorted_table" title="Sort by this column">Who</a> </th>
+            <th class="foswikiTableCol3"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=3;table=1;up=0#sorted_table" title="Sort by this column">What/Where</a> </th>
+            <th class="foswikiTableCol4"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=4;table=1;up=0#sorted_table" title="Sort by this column">Icon</a> </th>
+            <th class="foswikiTableCol5 foswikiLastCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=5;table=1;up=0#sorted_table" title="Sort by this column">Details</a> </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <td  rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLast"> 3 Jan 2008 </td>
+            <td  rowspan="1" class="foswikiTableCol1 foswikiLast"> 22 Jan 2008 </td>
+            <td  rowspan="1" class="foswikiTableCol2 foswikiLast"> Benny </td>
+            <td  rowspan="1" class="foswikiTableCol3 foswikiLast"> Vacation </td>
+            <td  rowspan="1" class="foswikiTableCol4 foswikiLast"> <img alt="smile" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/emoticon-0100-smile.gif" title="smile"> </img> </td>
+            <td  rowspan="1" class="foswikiTableCol5 foswikiLastCol foswikiLast"> %EXTRACT% </td>
+        </tr>
+    </tbody></table>
 <input type="hidden" name="ettablechanges" value="" />
 <input type="hidden" name="etheaderrows" value="0" />
 <input type="hidden" name="etfooterrows" value="0" />
@@ -2206,9 +2208,9 @@ Test if TablePlugin parameters are read if the tag is on the same line as EDITTA
 sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_first {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
-    my $cgi       = $this->{request};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
+    my $cgi       = $this->request;
     my $url       = $cgi->url( -absolute => 1 );
 
     my $viewUrlAuth =
@@ -2226,7 +2228,8 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_first {
     my $result =
       Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
 
-    my $expected = <<"EXPECTED";
+    my $test_topic = $this->test_topic;
+    my $expected   = <<"EXPECTED";
  <ul>
 <li> Set MYNAMES = Ed, Kenneth,Benny 
 </li> <li> Set EXTRACT =  R0:C1..R0:C-1
@@ -2240,27 +2243,27 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_first {
 <input type="hidden" name="etedit" value="on" />
 <nop>
 <nop>
-<table id="table$this->{test_topic}1" class="foswikiTable" border="1" rules="none">
-	<thead>
-		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<th class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column">Startdate</a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubPathSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
-			<th class="foswikiTableCol1"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">Stopdate</a> </th>
-			<th class="foswikiTableCol2"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=2;table=1;up=0#sorted_table" title="Sort by this column">Who</a> </th>
-			<th class="foswikiTableCol3"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=3;table=1;up=0#sorted_table" title="Sort by this column">What/Where</a> </th>
-			<th class="foswikiTableCol4"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=4;table=1;up=0#sorted_table" title="Sort by this column">Icon</a> </th>
-			<th class="foswikiTableCol5 foswikiLastCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=5;table=1;up=0#sorted_table" title="Sort by this column">Details</a> </th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
-			<td  rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLast"> 3 Jan 2008 </td>
-			<td  rowspan="1" class="foswikiTableCol1 foswikiLast"> 22 Jan 2008 </td>
-			<td  rowspan="1" class="foswikiTableCol2 foswikiLast"> Benny </td>
-			<td  rowspan="1" class="foswikiTableCol3 foswikiLast"> Vacation </td>
-			<td  rowspan="1" class="foswikiTableCol4 foswikiLast"> <img alt="smile" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/emoticon-0100-smile.gif" title="smile"> </img> </td>
-			<td  rowspan="1" class="foswikiTableCol5 foswikiLastCol foswikiLast"> %EXTRACT% </td>
-		</tr>
-	</tbody></table>
+<table id="table${test_topic}1" class="foswikiTable" border="1" rules="none">
+    <thead>
+        <tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <th class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column">Startdate</a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="$pubPathSystemWeb/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
+            <th class="foswikiTableCol1"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column">Stopdate</a> </th>
+            <th class="foswikiTableCol2"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=2;table=1;up=0#sorted_table" title="Sort by this column">Who</a> </th>
+            <th class="foswikiTableCol3"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=3;table=1;up=0#sorted_table" title="Sort by this column">What/Where</a> </th>
+            <th class="foswikiTableCol4"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=4;table=1;up=0#sorted_table" title="Sort by this column">Icon</a> </th>
+            <th class="foswikiTableCol5 foswikiLastCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=5;table=1;up=0#sorted_table" title="Sort by this column">Details</a> </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+            <td  rowspan="1" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLast"> 3 Jan 2008 </td>
+            <td  rowspan="1" class="foswikiTableCol1 foswikiLast"> 22 Jan 2008 </td>
+            <td  rowspan="1" class="foswikiTableCol2 foswikiLast"> Benny </td>
+            <td  rowspan="1" class="foswikiTableCol3 foswikiLast"> Vacation </td>
+            <td  rowspan="1" class="foswikiTableCol4 foswikiLast"> <img alt="smile" class="smily" src="$pubPathSystemWeb/SmiliesPlugin/emoticon-0100-smile.gif" title="smile"> </img> </td>
+            <td  rowspan="1" class="foswikiTableCol5 foswikiLastCol foswikiLast"> %EXTRACT% </td>
+        </tr>
+    </tbody></table>
 <input type="hidden" name="ettablechanges" value="" />
 <input type="hidden" name="etheaderrows" value="0" />
 <input type="hidden" name="etfooterrows" value="0" />
@@ -2282,8 +2285,8 @@ Tests the substitution of SpreadSheetPlugin formulas by 'CALC' in edit mode.
 sub test_CALC_substitution {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -2307,8 +2310,8 @@ INPUT
     $this->createNewFoswikiSession( undef, $query );
 
     my $result =
-      Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
-        $this->{test_web}, undef );
+      Foswiki::Func::expandCommonVariables( $input, $this->test_topic,
+        $this->test_web, undef );
 
     my $expected = '
 %TABLE{disableallsort="on" databg="#fff"}%
@@ -2345,8 +2348,8 @@ Parameter changerows
 sub test_param_changerows_off {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -2368,8 +2371,8 @@ INPUT
     $this->createNewFoswikiSession( undef, $query );
 
     my $result =
-      Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
-        $this->{test_web}, undef );
+      Foswiki::Func::expandCommonVariables( $input, $this->test_topic,
+        $this->test_web, undef );
 
     my $expected = <<"EXPECTED";
 %TABLE{disableallsort="on" databg="#fff"}%
@@ -2403,8 +2406,8 @@ Test if saving is keeping ENCODE parameters
 sub test_save_with_encode_param_and_footerrows {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
@@ -2441,7 +2444,7 @@ INPUT
     $query->path_info("/$webName/$topicName");
     $query->method('POST');
 
-    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         $input );
 
     $this->createNewFoswikiSession( undef, $query );
@@ -2451,7 +2454,7 @@ INPUT
         sub {
             $response->print(
                 Foswiki::Func::expandCommonVariables(
-                    $input, $this->{test_topic}, $this->{test_web}, undef
+                    $input, $this->test_topic, $this->test_web, undef
                 )
             );
         }
@@ -2480,8 +2483,8 @@ This TML has caused infinite recursion in Foswiki 1.0.4.
 sub test_render_simple_with_verbatim_and_unfinished_table_rows {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
+    my $topicName = $this->test_topic;
+    my $webName   = $this->test_web;
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =

@@ -2612,76 +2612,80 @@ Break circular references.
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
-sub finish {
+#sub finish {
+#    my $this = shift;
+#
+#    # Print any macros that are never loaded
+#    #print STDERR "NEVER USED\n";
+#    #for my $i (keys %macros) {
+#    #    print STDERR "\t$i\n" unless defined $macros{$i};
+#    #}
+#    foreach ( values %{ $this->forms } ) {
+#        $_->finish() if $_;
+#    }
+#    $this->clear_forms;
+#    foreach my $key (
+#        qw(prefs plugins users templates renderer zones net
+#        store search attach access i18n cache logger)
+#      )
+#    {
+#        my $hasMethod   = "has_$key";
+#        my $clearMethod = "clear_$key";
+#        if ( $this->$hasMethod ) {
+#            $this->$key->finish if defined $this->$key;
+#            $this->$clearMethod;
+#        }
+#
+#    }
+#
+#    $this->clear_request;
+#    $this->clear_digester;
+#    $this->clear_urlHost;
+#    $this->clear_webName;
+#    $this->clear_topicName;
+#    $this->clear_invalidWeb;
+#    $this->clear_invalidTopic;
+#    $this->clear_context;
+#    $this->clear_remoteUser;
+#    $this->clear_requestedWebName;    # Web name before renaming
+#    $this->clear_scriptUrlPath;
+#    $this->clear_user;
+#    $this->clear_response;
+#    $this->clear_sandbox;
+#    $this->clear_heap;
+#    $this->_clear_baseStoreClass;
+#    $this->_clear_macros;
+#    undef $this->{web};
+#    undef $this->{topic};
+#    undef $this->{_addedToHEAD};
+#
+#    #undef $this->{DebugVerificationCode};    # from Foswiki::UI::Register
+#    if (SINGLE_SINGLETONS_TRACE) {
+#        require Data::Dumper;
+#        print STDERR "finish $this: "
+#          . Data::Dumper->Dump( [ [caller], [ caller(1) ] ] );
+#    }
+#    if (SINGLE_SINGLETONS) {
+#        ASSERT( defined $Foswiki::Plugins::SESSION );
+#        ASSERT( $Foswiki::Plugins::SESSION == $this );
+#        ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') );
+#    }
+#
+#    if (DEBUG) {
+#        my $remaining = join ',',
+#          grep { defined $this->{$_} && $_ !~ /^__/ } keys %$this;
+#        ASSERT( 0,
+#                "Fields with defined values in "
+#              . ref($this)
+#              . "->finish(): "
+#              . $remaining )
+#          if $remaining;
+#    }
+#}
+
+sub DEMOLISH {
     my $this = shift;
-
-    # Print any macros that are never loaded
-    #print STDERR "NEVER USED\n";
-    #for my $i (keys %macros) {
-    #    print STDERR "\t$i\n" unless defined $macros{$i};
-    #}
-    foreach ( values %{ $this->forms } ) {
-        $_->finish() if $_;
-    }
-    $this->clear_forms;
-    foreach my $key (
-        qw(prefs plugins users templates renderer zones net
-        store search attach access i18n cache logger)
-      )
-    {
-        my $hasMethod   = "has_$key";
-        my $clearMethod = "clear_$key";
-        if ( $this->$hasMethod ) {
-            $this->$key->finish if defined $this->$key;
-            $this->$clearMethod;
-        }
-
-    }
-
-    $this->clear_request;
-    $this->clear_digester;
-    $this->clear_urlHost;
-    $this->clear_webName;
-    $this->clear_topicName;
-    $this->clear_invalidWeb;
-    $this->clear_invalidTopic;
-    $this->clear_context;
-    $this->clear_remoteUser;
-    $this->clear_requestedWebName;    # Web name before renaming
-    $this->clear_scriptUrlPath;
-    $this->clear_user;
-    $this->clear_response;
-    $this->clear_sandbox;
-    $this->clear_heap;
-    $this->_clear_baseStoreClass;
-    $this->_clear_macros;
-    undef $this->{web};
-    undef $this->{topic};
-    undef $this->{_addedToHEAD};
-
-    #undef $this->{DebugVerificationCode};    # from Foswiki::UI::Register
-    if (SINGLE_SINGLETONS_TRACE) {
-        require Data::Dumper;
-        print STDERR "finish $this: "
-          . Data::Dumper->Dump( [ [caller], [ caller(1) ] ] );
-    }
-    if (SINGLE_SINGLETONS) {
-        ASSERT( defined $Foswiki::Plugins::SESSION );
-        ASSERT( $Foswiki::Plugins::SESSION == $this );
-        ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') );
-    }
     undef $Foswiki::Plugins::SESSION;
-
-    if (DEBUG) {
-        my $remaining = join ',',
-          grep { defined $this->{$_} && $_ !~ /^__/ } keys %$this;
-        ASSERT( 0,
-                "Fields with defined values in "
-              . ref($this)
-              . "->finish(): "
-              . $remaining )
-          if $remaining;
-    }
 }
 
 =begin TML

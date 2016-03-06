@@ -126,13 +126,10 @@ this, except perhaps from the unit test framework; see Item11349.
 
 =cut
 
-sub finish {
+sub DEMOLISH {
     my ($this) = @_;
 
     while ( my ( $name, $cereal ) = each %serialisers ) {
-        if ( $cereal->can('finish') ) {
-            $cereal->finish();
-        }
         delete $serialisers{$name};
     }
 

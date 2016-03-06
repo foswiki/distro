@@ -48,13 +48,13 @@ Break circular references.
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-
-    # SMELL What if stack wasn't cloned but is used by some other object at this
-    # time? Is it possible at all?
-    $this->{stack}->finish() if $this->{stack};
-}
+#sub finish {
+#    my $this = shift;
+#
+#    # SMELL What if stack wasn't cloned but is used by some other object at this
+#    # time? Is it possible at all?
+#    $this->stack->finish() if $this->{stack};
+#}
 
 =begin TML
 

@@ -665,29 +665,34 @@ gets called before an object you have created goes out of scope.
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
 
-sub finish {
+#sub finish {
+#    my $this = shift;
+#    $this->unload();
+#
+#    # SMELL vrurg Generally, it's not needed to clear these attributes manually
+#    # as this will be done automatically during normal object destruction.
+#    $this->clear_web;
+#    $this->clear_topic;
+#    $this->clear_session;
+#    if (DEBUG) {
+#
+#    #someone keeps adding random references to Meta so to shake them out..
+#    #if its an intentional ref to an object, please add it to the undef's above.
+#
+##SMELL: Sven noticed during development that something is adding a $this->store to a meta obj - havn't found it yet
+##ASSERT(not defined($this->store)) if DEBUG;
+#
+#        use Scalar::Util qw(blessed);
+#        foreach my $key (%$this) {
+#
+#            #ASSERT(not defined(blessed($this->{$key})));
+#        }
+#    }
+#}
+
+sub DEMOLISH {
     my $this = shift;
-    $this->unload();
-
-    # SMELL vrurg Generally, it's not needed to clear these attributes manually
-    # as this will be done automatically during normal object destruction.
-    $this->clear_web;
-    $this->clear_topic;
-    $this->clear_session;
-    if (DEBUG) {
-
-    #someone keeps adding random references to Meta so to shake them out..
-    #if its an intentional ref to an object, please add it to the undef's above.
-
-#SMELL: Sven noticed during development that something is adding a $this->store to a meta obj - havn't found it yet
-#ASSERT(not defined($this->store)) if DEBUG;
-
-        use Scalar::Util qw(blessed);
-        foreach my $key (%$this) {
-
-            #ASSERT(not defined(blessed($this->{$key})));
-        }
-    }
+    $this->unload;
 }
 
 # Assert helpers

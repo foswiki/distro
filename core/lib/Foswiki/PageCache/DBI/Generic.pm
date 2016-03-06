@@ -10,12 +10,10 @@ specificly tailord towards your database.
 =cut
 
 package Foswiki::PageCache::DBI::Generic;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::PageCache::DBI ();
-@Foswiki::PageCache::DBI::Generic::ISA = ('Foswiki::PageCache::DBI');
+use Moo;
+extends qw(Foswiki::PageCache::DBI);
 
 =begin TML
 
@@ -25,12 +23,10 @@ Construct a new page cache and makes sure the database is ready
 
 =cut
 
-sub new {
-    my $class = shift;
+sub BUILD {
+    my $this = shift;
 
-    my $this = bless( $class->SUPER::new(@_), $class );
-
-    return $this->init;
+    $this->init;
 }
 
 1;

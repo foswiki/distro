@@ -206,40 +206,6 @@ sub loadSession {
 
 =begin TML
 
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-around finish => sub {
-    my $orig = shift;
-    my $this = shift;
-
-    #$this->loginManager->finish() if $this->loginManager;
-    #$this->basemapping->finish()  if $this->basemapping;
-
-    #$this->mapping->finish()
-    #  if $this->mapping
-    #  && $this->mapping ne $this->basemapping;
-
-    $this->clear_loginManager;
-    $this->clear_basemapping;
-    $this->clear_mapping;
-    $this->clear_session;
-    $this->clear_cUID2WikiName;
-    $this->clear_cUID2Login;
-    $this->clear_wikiName2cUID;
-    $this->clear_login2cUID;
-    $this->_clear_isAdmin;
-
-    $orig->( $this, @_ );
-};
-
-=begin TML
-
 ---++ ObjectMethod loginTemplateName () -> templateFile
 
 allows UserMappings to come with customised login screens - that should preffereably only over-ride the UI function

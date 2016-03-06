@@ -27,9 +27,10 @@ BEGIN {
 }
 
 has session => (
-    is      => 'rw',
-    clearer => 1,
-    isa     => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
+    is       => 'rw',
+    clearer  => 1,
+    weak_ref => 1,
+    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
 );
 has failure => (
     is      => 'rw',
@@ -85,11 +86,11 @@ Break circular references.
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    $this->clear_failure;
-    $this->clear_session;
-}
+#sub finish {
+#    my $this = shift;
+#    $this->clear_failure;
+#    $this->clear_session;
+#}
 
 =begin TML
 

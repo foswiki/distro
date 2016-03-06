@@ -779,7 +779,8 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
 };
 
 # Restores Foswiki::cfg and %ENV from backup
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
 
     if ( $this->has_session ) {
@@ -811,7 +812,7 @@ sub tear_down {
         delete $Foswiki::Meta::VALIDATE{$thing}
           unless $Foswiki::Meta::VALIDATE{$thing}->{_default};
     }
-}
+};
 
 sub _copy {
     my $n = shift;
@@ -1075,9 +1076,9 @@ sub createNewFoswikiSession {
 sub finishFoswikiSession {
     my ($this) = @_;
 
-    $this->session->finish() if $this->has_session;
-    ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+    #$this->session->finish() if $this->has_session;
     $this->clear_session;
+    ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
 
     return;
 }

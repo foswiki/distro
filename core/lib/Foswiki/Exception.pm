@@ -256,6 +256,9 @@ use Moo;
 extends qw(Foswiki::Exception);
 
 # To cover perl/system errors.
+sub BUILD {
+    my $this = shift;
+}
 
 package Foswiki::Exception::Engine;
 use Moo;

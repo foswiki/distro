@@ -20,6 +20,8 @@ features.
 =cut
 
 use Foswiki::Exception;
+use Carp;
+
 use Moo;
 use namespace::clean;
 
@@ -138,23 +140,38 @@ sub BUILD {
 
 }
 
-sub finish {
-
-    # Plug for objects with no finish() method. Temporary, until the destruction
-    # stage is reviewed.
-}
+#sub finish {
+#
+#    # Plug for objects with no finish() method. Temporary, until the destruction
+#    # stage is reviewed.
+#    #Foswki::Exception->throw( text => "Methods finish() called." );
+#}
 
 sub DEMOLISH {
     my $this = shift;
-    $this->_clear__orig_file;
-    $this->_clear__orig_line;
+
+    #say STDERR ref($this), "::DEMOLISH" if DEBUG;
     if ( $this->can('finish') ) {
+        say STDERR Carp::longmess(
+            ref($this) . " supports finish() but it shouldn't." );
 
      # SMELL every Foswiki::Object ancestor has to use DEMOLISH as the standard.
      # XXX We have to generate a warning if this condition is met.
         $this->finish;
     }
+    if (DEBUG) {
+        foreach my $key ( keys %{$this} ) {
+            unless ( $this->can($key) ) {
+                say STDERR "Key $key on ", ref($this),
+                  " isn't a valid attribute.";
+                if ( UNIVERSAL::isa( $this->{key}, 'Foswiki::Object' ) ) {
+                    say STDERR "    $key is a Foswiki::Object created in ",
+                      $this->{key}->__orig_file, ":", $this->{key}->__orig_line;
+                }
 
+            }
+        }
+    }
 }
 
 sub _normalizeAttributeName {

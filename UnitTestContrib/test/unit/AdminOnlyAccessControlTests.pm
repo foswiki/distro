@@ -68,7 +68,7 @@ around set_up => sub {
         $Foswiki::cfg{DefaultUserWikiName} );
     $topicObject->text('');
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->registerUser( 'white', 'Mr', "White", 'white@example.com' );
     $MrWhite = $this->session->users->getCanonicalUserID('white');
     $this->registerUser( 'blue', 'Mr', "Blue", 'blue@example.com' );
@@ -88,7 +88,7 @@ around set_up => sub {
    * Set GROUP = MrWhite, $users_web.MrBlue
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     return;
 };
@@ -112,7 +112,6 @@ sub DENIED {
             "$user $mode $web.$topic"
         );
     }
-    $topicObject->finish();
 
     return;
 }
@@ -136,7 +135,6 @@ sub PERMITTED {
             "$user $mode $web.$topic"
         );
     }
-    $topicObject->finish();
 
     return;
 }
@@ -158,7 +156,7 @@ If DENYTOPIC is set to a list of wikinames
    * Set DENYTOPICVIEW = ,,MrYellow,,$users_web.MrOrange,%USERSWEB%.ReservoirDogsGroup,,,
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
     $this->createNewFoswikiSession();
@@ -184,7 +182,7 @@ If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
    * Set DENYTOPICVIEW=
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
     $this->createNewFoswikiSession();
@@ -209,7 +207,7 @@ If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
    * Set DENYTOPICVIEW =   
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
     $this->createNewFoswikiSession();
@@ -234,7 +232,7 @@ If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
    * Set DENYTOPICVIEW = MrBlue  
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
     $this->createNewFoswikiSession();
@@ -260,7 +258,7 @@ If ALLOWTOPIC is set
    * Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
     $this->createNewFoswikiSession();
@@ -287,7 +285,7 @@ If ALLOWTOPIC is set
    * Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     my $topicquery = Unit::Request->new( initializer => "" );
     $topicquery->path_info( "/" . $this->test_web . "/" . $this->test_topic );
@@ -324,7 +322,7 @@ If ALLOWTOPIC is set
    * Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
@@ -365,7 +363,7 @@ THIS
         }
     );
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
@@ -398,7 +396,7 @@ If DENYWEB is set to a list of wikiname
    * Set DENYWEBVIEW = $users_web.MrOrange %USERSWEB%.MrBlue
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $this->createNewFoswikiSession();
@@ -406,7 +404,7 @@ THIS
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text("Null points");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
     $this->createNewFoswikiSession();
@@ -436,13 +434,13 @@ If ALLOWWEB is set to a list of wikinames
 THIS
     );
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text("Null points");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
@@ -472,7 +470,7 @@ If ALLOWTOPIC is set
 THIS
     );
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
@@ -520,7 +518,7 @@ THIS
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text($text);
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
@@ -529,7 +527,6 @@ THIS
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $this->_checkSettings($topicObject);
-    $topicObject->finish();
 
     return;
 }
@@ -549,7 +546,7 @@ sub test_setInMETA {
     };
     $topicObject->putKeyed( 'PREFERENCE', $args );
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
@@ -559,7 +556,6 @@ sub test_setInMETA {
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     $this->_checkSettings($topicObject);
-    $topicObject->finish();
 
     return;
 }
@@ -582,7 +578,7 @@ THIS
     };
     $topicObject->putKeyed( 'PREFERENCE', $args );
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
@@ -591,7 +587,6 @@ THIS
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $this->_checkSettings($topicObject);
-    $topicObject->finish();
 
     return;
 }
@@ -608,7 +603,7 @@ sub test_subweb_controls_override_parent {
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text("Nowt");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web,
@@ -617,18 +612,18 @@ sub test_subweb_controls_override_parent {
    * Set ALLOWWEBVIEW = MrGreen
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # Now build a subweb with view restricted to MrOrange
     my $webObject = $this->populateNewWeb($subweb);
-    $webObject->finish();
+    undef $webObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $subweb, $Foswiki::cfg{WebPrefsTopicName} );
     $topicObject->text(<<'THIS');
    * Set ALLOWWEBVIEW = MrOrange
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
     $this->createNewFoswikiSession();
     $this->DENIED( "VIEW", $MrOrange, $subweb );
@@ -657,17 +652,17 @@ sub test_subweb_inherits_from_parent {
    * Set FINALPREFERENCES = ALLOWWEBVIEW
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # Now build a subweb with no restrictions
     my $webObject = $this->populateNewWeb($subweb);
-    $webObject->finish();
+    undef $webObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $subweb, $Foswiki::cfg{WebPrefsTopicName} );
     $topicObject->text(<<'THIS');
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
     $this->createNewFoswikiSession();
     $this->DENIED( "VIEW", $MrGreen,  $subweb );
@@ -696,18 +691,18 @@ sub test_finalised_parent_overrides_subweb {
    * Set FINALPREFERENCES = ALLOWWEBVIEW
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # Now build a subweb with view restricted to MrOrange
     my $webObject = $this->populateNewWeb($subweb);
-    $webObject->finish();
+    undef $webObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $subweb, $Foswiki::cfg{WebPrefsTopicName} );
     $topicObject->text(<<'THIS');
    * Set ALLOWWEBVIEW = MrOrange
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $Foswiki::cfg{AccessControl} = 'Foswiki::Access::AdminOnlyAccess';
     $this->createNewFoswikiSession();
     $this->DENIED( "VIEW", $MrOrange, $subweb );
@@ -737,7 +732,7 @@ anchor is preserved after login.
    * Set ALLOWTOPICVIEW = MrYellow
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # Request the page with the full UI
     my $query = Unit::Request->new(

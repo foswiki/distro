@@ -9,12 +9,10 @@ Implements a Foswiki::PageCache::DBI using mysql
 =cut
 
 package Foswiki::PageCache::DBI::MySQL;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::PageCache::DBI ();
-@Foswiki::PageCache::DBI::MySQL::ISA = ('Foswiki::PageCache::DBI');
+use Moo;
+extends qw(Foswiki::PageCache::DBI);
 
 =begin TML
 
@@ -24,24 +22,41 @@ Construct a new page cache and makes sure the database is ready
 
 =cut
 
-sub new {
+has database => (
+    is      => 'rw',
+    lazy    => 1,
+    default => $Foswiki::cfg{Cache}{DBI}{MySQL}{Database} || 'foswiki',
+);
+has host => (
+    is      => 'rw',
+    lazy    => 1,
+    default => $Foswiki::cfg{Cache}{DBI}{MySQL}{Host} || 'localhost',
+);
+has port => (
+    is      => 'rw',
+    lazy    => 1,
+    default => $Foswiki::cfg{Cache}{DBI}{MySQL}{Port} || '',
+);
+
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            database => $Foswiki::cfg{Cache}{DBI}{MySQL}{Database} || 'foswiki',
-            host => $Foswiki::cfg{Cache}{DBI}{MySQL}{Host} || 'localhost',
-            port => $Foswiki::cfg{Cache}{DBI}{MySQL}{Port} || '',
-            username => $Foswiki::cfg{Cache}{DBI}{MySQL}{Username},
-            password => $Foswiki::cfg{Cache}{DBI}{MySQL}{Password},
-            @_
-        ),
-        $class
+    return $orig->(
+        $class,
+        username => $Foswiki::cfg{Cache}{DBI}{MySQL}{Username},
+        password => $Foswiki::cfg{Cache}{DBI}{MySQL}{Password},
+        @_,
     );
+};
 
-    $this->{dsn} = 'dbi:mysql:database=' . $this->{database};
-    $this->{dsn} .= ';host=' . $this->{host};
-    $this->{dsn} .= ';port=' . $this->{port} if $this->{port};
+sub BUILD {
+    my $this = shift;
+
+    my $dsn = 'dbi:mysql:database=' . $this->database;
+    $dsn .= ';host=' . $this->host;
+    $dsn .= ';port=' . $this->port if $this->port;
+
+    $this->dsn($dsn);
 
     return $this->init;
 }
@@ -49,8 +64,10 @@ sub new {
 sub _createPagesTable {
     my $this = shift;
 
-    $this->{dbh}->do(<<HERE);
-      create table $this->{pagesTable} (
+    my $pagesTable = $this->pagesTable;
+
+    $this->dbh->do(<<HERE);
+      create table ${pagesTable} (
         topic varchar(255) COLLATE latin1_bin,
         variation varchar(1024) COLLATE latin1_bin,
         md5 char(32),
@@ -64,15 +81,18 @@ sub _createPagesTable {
   )
 HERE
 
-    $this->{dbh}
-      ->do("create index $this->{pagesIndex} on $this->{pagesTable} (topic)");
+    $this->dbh->do( "create index "
+          . $this->pagesIndex . " on "
+          . $this->pagesTable
+          . " (topic)" );
 }
 
 sub _createDepsTable {
     my $this = shift;
 
-    $this->{dbh}->do(<<HERE);
-        create table $this->{depsTable} (
+    my $depsTable = $this->depsTable;
+    $this->dbh->do(<<HERE);
+        create table ${depsTable} (
           from_topic varchar(255) COLLATE latin1_bin,
           variation varchar(1024) COLLATE latin1_bin,
           to_topic varchar(255) COLLATE latin1_bin
@@ -83,9 +103,10 @@ HERE
     # works fine in postgresql, not so in sqlite and mysql.
     # foreign key (from_topic) references pages (topic) on delete cascade
 
-    $this->{dbh}->do(
-"create index $this->{depsIndex} on $this->{depsTable} (from_topic, to_topic)"
-    );
+    $this->dbh->do( "create index "
+          . $this->depsIndex . " on "
+          . $this->depsTable
+          . " (from_topic, to_topic)" );
 }
 
 1;

@@ -126,7 +126,7 @@ around set_up => sub {
     @mails = ();
     $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     my $webObject = $this->populateNewWeb( $this->test_web );
-    $webObject->finish();
+    undef $webObject;
     $this->clear_test_topicObject;
     $this->test_topicObject(
         Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) );
@@ -134,7 +134,7 @@ around set_up => sub {
     $this->test_topicObject->save( forcedate => ( time() + 60 ) );
 
     $webObject = $this->populateNewWeb( $this->users_web );
-    $webObject->finish();
+    undef $webObject;
 
     $this->test_user_forename('Scum');
     $this->test_user_surname('Bag');

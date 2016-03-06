@@ -160,27 +160,27 @@ Break circular references.
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-
-    $this->clear_main;
-    $this->clear_prefix;
-    $this->clear_session;
-    $this->clear_contexts;
-    if ( $this->has_paths ) {
-        foreach my $back ( values %{ $this->paths } ) {
-            $back->finish() if $back;
-        }
-    }
-    $this->clear_paths;
-    if ( $this->has_webprefs ) {
-        foreach my $webStack ( values %{ $this->webprefs } ) {
-            $webStack->finish() if $webStack;
-        }
-    }
-    $this->clear_webprefs;
-    $this->clear_internals;
-}
+#sub finish {
+#    my $this = shift;
+#
+#    $this->clear_main;
+#    $this->clear_prefix;
+#    $this->clear_session;
+#    $this->clear_contexts;
+#    if ( $this->has_paths ) {
+#        foreach my $back ( values %{ $this->paths } ) {
+#            $back->finish() if $back;
+#        }
+#    }
+#    $this->clear_paths;
+#    if ( $this->has_webprefs ) {
+#        foreach my $webStack ( values %{ $this->webprefs } ) {
+#            $webStack->finish() if $webStack;
+#        }
+#    }
+#    $this->clear_webprefs;
+#    $this->clear_internals;
+#}
 
 # Get a backend object corresponding to the given $web,$topic
 sub _getBackend {

@@ -235,10 +235,15 @@ Break circular references.
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
-sub finish {
+#sub finish {
+#    my $this = shift;
+#    $this->complete();    # call to flush the session if not already done
+#    $this->_clear_cgisession;
+#}
+
+sub DEMOLISH {
     my $this = shift;
-    $this->complete();    # call to flush the session if not already done
-    $this->_clear_cgisession;
+    $this->complete;
 }
 
 =begin TML

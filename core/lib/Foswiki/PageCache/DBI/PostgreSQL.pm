@@ -9,12 +9,10 @@ Implements a Foswiki::PageCache::DBI using postgresql
 =cut
 
 package Foswiki::PageCache::DBI::PostgreSQL;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::PageCache::DBI ();
-@Foswiki::PageCache::DBI::PostgreSQL::ISA = ('Foswiki::PageCache::DBI');
+use Moo;
+extends qw(Foswiki::PageCache::DBI);
 
 =begin TML
 
@@ -24,25 +22,41 @@ Construct a new page cache and makes sure the database is ready
 
 =cut
 
-sub new {
+has database => (
+    is      => 'rw',
+    lazy    => 1,
+    default => $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Database} || 'foswiki',
+);
+has host => (
+    is      => 'rw',
+    lazy    => 1,
+    default => $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Host} || 'localhost',
+);
+has port => (
+    is      => 'rw',
+    lazy    => 1,
+    default => $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Port} || '',
+);
+
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            database => $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Database}
-              || 'foswiki',
-            host => $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Host} || 'localhost',
-            port => $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Port} || '',
-            username => $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Username},
-            password => $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password},
-            @_
-        ),
-        $class
+    return $orig->(
+        $class,
+        username => $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Username},
+        password => $Foswiki::cfg{Cache}{DBI}{PostgreSQL}{Password},
+        @_,
     );
+};
 
-    $this->{dsn} = 'dbi:Pg:dbname=' . $this->{database};
-    $this->{dsn} .= ';host=' . $this->{host};
-    $this->{dsn} .= ';port=' . $this->{port} if $this->{port};
+sub BUILD {
+    my $this = shift;
+
+    my $dsn = 'dbi:Pg:dbname=' . $this->database;
+    $dsn .= ';host=' . $this->host;
+    $dsn .= ';port=' . $this->port if $this->port;
+
+    $this->dsn($dsn);
 
     return $this->init;
 }

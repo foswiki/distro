@@ -499,7 +499,7 @@ sub _execute {
             }
         }
     };
-    $session->finish() if $session;
+    undef $session;
     return $res;
 }
 

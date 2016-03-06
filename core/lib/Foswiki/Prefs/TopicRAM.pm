@@ -57,8 +57,6 @@ sub BUILD {
     }
 }
 
-sub finish { }
-
 sub prefs {
     my $this = shift;
     return keys %{ $this->values };

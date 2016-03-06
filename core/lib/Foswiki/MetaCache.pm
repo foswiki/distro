@@ -86,27 +86,30 @@ Break circular references.
 
 =cut
 
-sub finish {
+sub DEMOLISH {
     my $this = shift;
 
     #undef $this->{session};
 
     #must clear cache every request until the cache is hooked up to Store's save
-    foreach my $cuid ( keys( %{ $this->{cache} } ) ) {
-        foreach my $web ( keys( %{ $this->{cache}->{$cuid} } ) ) {
-            foreach my $topic ( keys( %{ $this->{cache}->{$cuid}->{$web} } ) ) {
-                undef $this->{cache}->{$cuid}{$web}{$topic};
-                $this->{undef_count}++;
+    foreach my $cuid ( keys( %{ $this->cache } ) ) {
+        foreach my $web ( keys( %{ $this->cache->{$cuid} } ) ) {
+            foreach my $topic ( keys( %{ $this->cache->{$cuid}->{$web} } ) ) {
+                undef $this->cache->{$cuid}{$web}{$topic};
+                $this->undef_count( $this->undef_count + 1 );
             }
-            undef $this->{cache}->{$cuid}{$web};
+            undef $this->cache->{$cuid}{$web};
         }
-        undef $this->{cache}->{$cuid};
+        undef $this->cache->{$cuid};
     }
-    undef $this->{cache};
 
     if (TRACE) {
-        print STDERR
-"MetaCache: new: $this->{new_count} get: $this->{get_count} undef: $this->{undef_count} \n";
+        print STDERR "MetaCache: new: "
+          . $this->new_count
+          . " get: "
+          . $this->get_count
+          . " undef: "
+          . $this->undef_count . " \n";
     }
 
     return;

@@ -9,17 +9,17 @@ Implements a Foswiki::PageCache using a DBI compatible backend.
 =cut
 
 package Foswiki::PageCache::DBI;
+use v5.14;
 
-use strict;
-use warnings;
-
+use Try::Tiny;
 use Foswiki::PageCache ();
 use DBI                ();
-use Error qw(:try);
-use Foswiki::Sandbox ();
-use Foswiki::Plugins ();
+use Foswiki::Sandbox   ();
+use Foswiki::Plugins   ();
 
-@Foswiki::PageCache::DBI::ISA = ('Foswiki::PageCache');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::PageCache);
 
 # Enable output
 use constant TRACE => 0;
@@ -36,29 +36,50 @@ Construct a new page cache and makes sure the database is ready
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $tablePrefix = $Foswiki::cfg{Cache}{DBI}{TablePrefix} || 'foswiki_cache';
-
-    my $this = {
-        cacheDir => $Foswiki::cfg{Cache}{RootDir}
-          || $Foswiki::cfg{WorkingDir} . '/cache',
-
-        dsn      => $Foswiki::cfg{Cache}{DBI}{DSN},
-        username => $Foswiki::cfg{Cache}{DBI}{Username},
-        password => $Foswiki::cfg{Cache}{DBI}{Password},
-
-        pagesTable => $tablePrefix . '_pages',
-        pagesIndex => $tablePrefix . '_pages_index',
-        depsTable  => $tablePrefix . '_deps',
-        depsIndex  => $tablePrefix . '_deps_index',
-
-        @_
-    };
-
-    return bless( $this, $class );
-}
+has _tablePrefix => (
+    is => 'ro',
+    default =>
+      sub { return $Foswiki::cfg{Cache}{DBI}{TablePrefix} || 'foswiki_cache'; }
+);
+has pagesTable => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { return $_[0]->_tablePrefix . '_pages' },
+);
+has pagesIndex => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { return $_[0]->_tablePrefix . '_pages_index' },
+);
+has depsTable => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { return $_[0]->_tablePrefix . '_deps' },
+);
+has depsIndex => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { return $_[0]->_tablePrefix . '_deps_index' },
+);
+has cacheDir => (
+    is      => 'ro',
+    default => sub {
+        return $Foswiki::cfg{Cache}{RootDir}
+          || $Foswiki::cfg{WorkingDir} . '/cache';
+    },
+);
+has dsn => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { return $Foswiki::cfg{Cache}{DBI}{DSN}; },
+);
+has username => ( is => 'rw', default => $Foswiki::cfg{Cache}{DBI}{Username}, );
+has password => ( is => 'rw', default => $Foswiki::cfg{Cache}{DBI}{Password}, );
+has dbh             => ( is => 'rw', );
+has _doneInit       => ( is => 'rw', default => 0 );
+has _insert_page    => ( is => 'rw', );
+has _select_md5     => ( is => 'rw', );
+has _select_rev_md5 => ( is => 'rw', );
 
 =begin TML
 
@@ -71,16 +92,15 @@ Initializes and connects to the database
 sub init {
     my $this = shift;
 
-    return if $this->{_doneInit};
-    $this->{_doneInit} = 1;
+    return if $this->_doneInit;
 
     my $error;
 
     try {
         $this->connect;
     }
-    catch Error with {
-        $error = shift;
+    catch {
+        $error = ref($_) ? $_->stringify : $_;
         my $msg;
         if ( defined $DBI::errstr ) {
             $msg =
@@ -102,8 +122,12 @@ sub init {
     try {
         $this->createTables;
     }
-    catch Error with {
-        $error = shift;
+    catch {
+        if ( !$DBI::err ) {
+            Foswiki::Exception::Fatal->rethrow($_);
+        }
+
+        $error = ref($_) ? $_->stringify : $_;
 
         my $msg =
             "ERROR: unable to create tables in Foswiki::PageCache::DBI: "
@@ -112,12 +136,14 @@ sub init {
 
         print STDERR $msg . "\n";
         $Foswiki::cfg{Cache}{Enabled} = 0;
-        $this->{dbh}->rollback;
-        $this->{dbh}->disconnect;
+        $this->dbh->rollback;
+        $this->dbh->disconnect;
     };
     return if $error;
 
-    mkdir $this->{cacheDir} unless -d $this->{cacheDir};
+    mkdir $this->cacheDir unless -d $this->cacheDir;
+
+    $this->_doneInit(1);
 
     return $this;
 }
@@ -144,11 +170,12 @@ sub setPageVariation {
 
     my $error;
     try {
-        $this->{dbh}->begin_work;
+        $this->dbh->begin_work;
 
-        unless ( defined $this->{_insert_page} ) {
-            $this->{_insert_page} = $this->{dbh}->prepare(<<HERE);
-            insert into $this->{pagesTable} 
+        unless ( defined $this->_insert_page ) {
+            my $pagesTable = $this->pagesTable;
+            $this->_insert_page( $this->dbh->prepare(<<HERE) );
+            insert into ${pagesTable} 
               (topic, variation, contenttype, lastmodified, etag, status, location, expire, isdirty, md5) values 
               (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 HERE
@@ -165,20 +192,19 @@ HERE
       #         writeDebug( "   md5=" . $variation->{md5} );
       #     }
 
-        $this->{_insert_page}->execute(
+        $this->_insert_page->execute(
             $webTopic,                 $variationKey,
             $variation->{contenttype}, $variation->{lastmodified},
             $variation->{etag},        $variation->{status},
             $variation->{location},    $variation->{expire},
             $variation->{isdirty},     $variation->{md5}
-          )
-          or die( "Can't execute statement: " . $this->{_insert_page}->errstr );
+        ) or die( "Can't execute statement: " . $this->_insert_page->errstr );
 
-        $this->{dbh}->commit;
+        $this->dbh->commit;
     }
-    catch Error with {
-        local $this->{dbh}->{RaiseError} = 0;
-        $this->{dbh}->rollback;
+    catch {
+        local $this->dbh->{RaiseError} = 0;
+        $this->dbh->rollback;
         $error = 1;
         writeDebug("transaction error at setPageVariation");
     };
@@ -186,7 +212,7 @@ HERE
 
     my $FILE;
     my $fileName = Foswiki::Sandbox::normalizeFileName(
-        $this->{cacheDir} . '/' . $variation->{md5} );
+        $this->cacheDir . '/' . $variation->{md5} );
 
     #writeDebug("saving data of $webTopic into $fileName");
     open( $FILE, '>:encoding(utf-8)', $fileName )
@@ -213,8 +239,9 @@ sub getPageVariation {
 
     #writeDebug("getPageVariation($webTopic, $variationKey)");
 
-    my $sth = $this->{dbh}->prepare(<<HERE);
-      select contenttype, lastmodified, etag, status, expire, isdirty, md5 from $this->{pagesTable} 
+    my $pagesTable = $this->pagesTable;
+    my $sth        = $this->dbh->prepare(<<HERE);
+      select contenttype, lastmodified, etag, status, expire, isdirty, md5 from ${pagesTable} 
         where topic = ? and variation = ?
 HERE
 
@@ -227,7 +254,7 @@ HERE
 
     if ( defined $variation ) {
         my $FILE;
-        my $fileName = $this->{cacheDir} . '/' . $variation->{md5};
+        my $fileName = $this->cacheDir . '/' . $variation->{md5};
         open( $FILE, '<:encoding(utf-8)', $fileName ) or return;
         local $/ = undef;
         $variation->{data} = <$FILE>;
@@ -251,10 +278,10 @@ sub deleteAll {
 
     $this->rebuild();
 
-    opendir( my $dh, $this->{cacheDir} );
-    my @files = map {
-        Foswiki::Sandbox::normalizeFileName( $this->{cacheDir} . '/' . $_ )
-    } grep { !/^\./ } readdir $dh;
+    opendir( my $dh, $this->cacheDir );
+    my @files =
+      map  { Foswiki::Sandbox::normalizeFileName( $this->cacheDir . '/' . $_ ) }
+      grep { !/^\./ } readdir $dh;
     closedir $dh;
 
     #writeDebug("cleaning up @files");
@@ -280,7 +307,7 @@ sub deletePage {
     $webTopic .= '.' . $topic if $topic;
 
     try {
-        $this->{dbh}->begin_work;
+        $this->dbh->begin_work;
 
         # delete page
         if ( defined $variationKey ) {
@@ -291,44 +318,51 @@ sub deletePage {
                 Foswiki::encode_utf8( $web . $topic . $variationKey ) );
             my $fileName =
               Foswiki::Sandbox::normalizeFileName(
-                $this->{cacheDir} . '/' . $md5 );
+                $this->cacheDir . '/' . $md5 );
 
             #writeDebug("deleting $fileName for $webTopic");
             unlink $fileName;
 
-            $this->{dbh}->do(
-"delete from $this->{pagesTable} where topic = ? and variation = ?",
+            $this->dbh->do(
+                "delete from "
+                  . $this->pagesTable
+                  . " where topic = ? and variation = ?",
                 undef, $webTopic, $variationKey
             );
         }
         else {
 
             # get all filenames and delete them
-            unless ( defined $this->{_select_md5} ) {
-                $this->{_select_md5} = $this->{dbh}->prepare(<<HERE);
-                select md5 from $this->{pagesTable} where topic = ? and variation = ?
-HERE
+            unless ( defined $this->_select_md5 ) {
+                $this->_select_md5(
+                    $this->dbh->prepare(
+                            "select md5 from "
+                          . $this->pagesTable
+                          . " where topic = ? and variation = ?"
+                    )
+                );
             }
-            $this->{_select_md5}->execute( $webTopic, $variationKey );
-            while ( my ($md5) = $this->{_select_md5}->fetchrow_array() ) {
-                my $fileName = $this->{cacheDir} . '/' . $md5;
+            $this->_select_md5->execute( $webTopic, $variationKey );
+            while ( my ($md5) = $this->_select_md5->fetchrow_array() ) {
+                my $fileName = $this->cacheDir . '/' . $md5;
 
                 #writeDebug("deleting $fileName for $webTopic");
                 unlink $fileName;
             }
 
             #writeDebug("DELETE page $webTopic");
-            $this->{dbh}->do( "delete from $this->{pagesTable} where topic = ?",
+            $this->dbh->do(
+                "delete from " . $this->pagesTable . " where topic = ?",
                 undef, $webTopic );
         }
 
         $this->deleteDependencies( $web, $topic, $variationKey );
 
-        $this->{dbh}->commit;
+        $this->dbh->commit;
     }
-    catch Error with {
-        local $this->{dbh}->{RaiseError} = 0;
-        $this->{dbh}->rollback;
+    catch {
+        local $this->dbh->{RaiseError} = 0;
+        $this->dbh->rollback;
         writeDebug("transaction error at deletePage");
     };
 }
@@ -353,15 +387,18 @@ sub deleteDependencies {
     if ( defined $variationKey ) {
 
        #writeDebug("DELETE dependencies of $webTopic variation=".$variationKey);
-        $this->{dbh}->do(
-"delete from $this->{depsTable} where from_topic = ? and variation = ?",
+        $this->dbh->do(
+            "delete from "
+              . $this->depsTable
+              . " where from_topic = ? and variation = ?",
             undef, $webTopic, $variationKey
         );
     }
     else {
 
         #writeDebug("DELETE dependencies of $webTopic");
-        $this->{dbh}->do( "delete from $this->{depsTable} where from_topic = ?",
+        $this->dbh->do(
+            "delete from " . $this->depsTable . " where from_topic = ?",
             undef, $webTopic );
     }
 }
@@ -377,34 +414,38 @@ See Foswiki::PageCache::setDependencies() for more information
 sub setDependencies {
     my ( $this, $web, $topic, $variationKey, @topicDeps ) = @_;
 
-    @topicDeps = keys %{ $this->{deps} } unless @topicDeps;
+    @topicDeps = keys %{ $this->deps } unless @topicDeps;
 
     my $fromWebTopic = $web . '.' . $topic;
 
     try {
-        $this->{dbh}->begin_work;
+        $this->dbh->begin_work;
 
-        unless ( defined $this->{_insert_dep} ) {
-            $this->{_insert_dep} = $this->{dbh}->prepare(<<HERE);
-            insert into $this->{depsTable} (from_topic, variation, to_topic) values (?, ?, ?)
-HERE
+        unless ( defined $this->_insert_dep ) {
+            $this->_insert_dep(
+                $this->dbh->prepare(
+                        "insert into "
+                      . $this->depsTable
+                      . " (from_topic, variation, to_topic) values (?, ?, ?)"
+                )
+            );
         }
 
         foreach my $toWebTopic (@topicDeps) {
             next if $toWebTopic eq $fromWebTopic;
 
     #writeDebug( "INSERT dependency $fromWebTopic, $variationKey, $toWebTopic");
-            $this->{_insert_dep}
-              ->execute( $fromWebTopic, $variationKey, $toWebTopic )
+            $this->_insert_dep->execute( $fromWebTopic, $variationKey,
+                $toWebTopic )
               or
-              die( "Can't execute statement: " . $this->{_insert_dep}->errstr );
+              die( "Can't execute statement: " . $this->_insert_dep->errstr );
         }
 
-        $this->{dbh}->commit;
+        $this->dbh->commit;
     }
-    catch Error with {
-        local $this->{dbh}->{RaiseError} = 0;
-        $this->{dbh}->rollback;
+    catch {
+        local $this->dbh->{RaiseError} = 0;
+        $this->dbh->rollback;
         writeDebug("transaction error at setDependencies");
     };
 }
@@ -426,16 +467,18 @@ sub getDependencies {
     my $webTopic = $web . '.' . $topic;
 
     if ( defined $variationKey ) {
-        $sth = $this->{dbh}->prepare(<<HERE);
-          select distinct to_topic $this->{depsTable} where from_topic = ? and variation = ?
-HERE
+        $sth =
+          $this->dbh->prepare( "select distinct to_topic "
+              . $this->depsTable
+              . " where from_topic = ? and variation = ?" );
         $sth->execute( $webTopic, $variationKey )
           or die( "Can't execute statement: " . $sth->errstr );
     }
     else {
-        $sth = $this->{dbh}->prepare(<<HERE);
-          select distinct to_topic $this->{depsTable} where from_topic = ?
-HERE
+        $sth =
+          $this->dbh->prepare( "select distinct to_topic "
+              . $this->depsTable
+              . " where from_topic = ?" );
         $sth->execute($webTopic)
           or die( "Can't execute statement: " . $sth->errstr );
     }
@@ -475,32 +518,34 @@ sub fireDependency {
 
     my $error;
     try {
-        $this->{dbh}->begin_work;
+        my ( $pagesTable, $depsTable ) =
+          ( $this->pagesTable, $this->depsTable );
+        $this->dbh->begin_work;
 
         # (1) get all md5s and unline the files holding the blob
-        unless ( $this->{_select_rev_md5} ) {
-            $this->{_select_rev_md5} = $this->{dbh}->prepare(<<HERE);
-            select md5 from $this->{pagesTable} as pages join $this->{depsTable} as deps on 
+        unless ( $this->_select_rev_md5 ) {
+            $this->_select_rev_md5( $this->dbh->prepare(<<HERE) );
+            select md5 from ${pagesTable} as pages join ${depsTable} as deps on 
               deps.from_topic = pages.topic and 
               deps.variation = pages.variation where
               deps.to_topic = ?
 HERE
         }
 
-        $this->{_select_rev_md5}->execute($webTopic);
-        while ( my ($md5) = $this->{_select_rev_md5}->fetchrow_array ) {
-            my $fileName = $this->{cacheDir} . '/' . $md5;
+        $this->_select_rev_md5->execute($webTopic);
+        while ( my ($md5) = $this->_select_rev_md5->fetchrow_array ) {
+            my $fileName = $this->cacheDir . '/' . $md5;
 
             #writeDebug("deleting $fileName for $webTopic");
             unlink $fileName;
         }
 
         # (2) delete the page entries that used $web.$topic
-        $this->{dbh}->do(<<HERE);
-        delete from $this->{pagesTable} where ( 
-          select count(*) > 0 from $this->{depsTable} as deps 
-            where deps.from_topic = $this->{pagesTable}.topic and 
-                  deps.variation = $this->{pagesTable}.variation and 
+        $this->dbh->do(<<HERE);
+        delete from ${pagesTable} where ( 
+          select count(*) > 0 from ${depsTable} as deps 
+            where deps.from_topic = ${pagesTable}.topic and 
+                  deps.variation = ${pagesTable}.variation and 
                   deps.to_topic = '$webTopic' 
         )
 HERE
@@ -508,15 +553,15 @@ HERE
 # (3) delete the deps of topics that we just removed
 # SMELL: yes, I know cascaded deletes would have been better, but that
 # doesn't seem to work on mysql and sqlite. postgresql is fine, but the rest is ...
-        $this->{dbh}->do(<<HERE);
-        delete from $this->{depsTable} where 
-          from_topic not in ( select distinct topic from $this->{pagesTable} )
+        $this->dbh->do(<<HERE);
+        delete from ${depsTable} where 
+          from_topic not in ( select distinct topic from ${pagesTable} )
 HERE
-        $this->{dbh}->commit;
+        $this->dbh->commit;
     }
-    catch Error with {
-        local $this->{dbh}->{RaiseError} = 0;
-        $this->{dbh}->rollback;
+    catch {
+        local $this->dbh->{RaiseError} = 0;
+        $this->dbh->rollback;
         $error = 1;
         writeDebug("transaction error at fireDependency");
     };
@@ -542,26 +587,28 @@ connects to the database
 sub connect {
     my $this = shift;
 
-    unless ( defined $this->{dbh} ) {
+    unless ( defined $this->dbh ) {
 
-        $this->{dbh} = DBI->connect(
-            $this->{dsn},
-            $this->{username},
-            $this->{password},
-            {
-                PrintError         => 0,
-                RaiseError         => 1,
-                AutoCommit         => 1,
-                ShowErrorStatement => 1,
-            }
+        $this->dbh(
+            DBI->connect(
+                $this->dsn,
+                $this->username,
+                $this->password,
+                {
+                    PrintError         => 0,
+                    RaiseError         => 1,
+                    AutoCommit         => 1,
+                    ShowErrorStatement => 1,
+                }
+            )
         );
 
-        throw Error::Simple(
-            "Can't open database $this->{dsn}: " . $DBI::errstr )
-          unless defined $this->{dbh};
+        Foswiki::Exception::Fatal->throw(
+            text => "Can't open database " . $this->dsn . ": " . $DBI::errstr )
+          unless defined $this->dbh;
     }
 
-    return $this->{dbh};
+    return $this->dbh;
 }
 
 =begin TML
@@ -576,7 +623,9 @@ sub createTables {
     my $this = shift;
 
     # test whether the table exists
-    eval { $this->{dbh}->do("select topic from $this->{pagesTable} limit 1"); };
+    eval {
+        $this->dbh->do( "select topic from " . $this->pagesTable . " limit 1" );
+    };
 
     if ($@) {
         writeDebug("test result: $@");
@@ -596,8 +645,10 @@ sub createTables {
 sub _createPagesTable {
     my $this = shift;
 
-    $this->{dbh}->do(<<HERE);
-      create table $this->{pagesTable} (
+    my $pagesTable = $this->pagesTable;
+
+    $this->dbh->do(<<HERE);
+      create table ${pagesTable} (
         topic varchar(255),
         variation varchar(1024),
         md5 char(32),
@@ -611,15 +662,19 @@ sub _createPagesTable {
   )
 HERE
 
-    $this->{dbh}
-      ->do("create index $this->{pagesIndex} on $this->{pagesTable} (topic)");
+    $this->dbh->do( "create index "
+          . $this->pagesIndex . " on "
+          . $this->pagesTable
+          . " (topic)" );
 }
 
 sub _createDepsTable {
     my $this = shift;
 
-    $this->{dbh}->do(<<HERE);
-        create table $this->{depsTable} (
+    my $depsTable = $this->depsTable;
+
+    $this->dbh->do(<<HERE);
+        create table ${depsTable} (
           from_topic varchar(255),
           variation varchar(1024),
           to_topic varchar(255)
@@ -630,9 +685,10 @@ HERE
     # works fine in postgresql, not so in sqlite and mysql.
     # foreign key (from_topic) references pages (topic) on delete cascade
 
-    $this->{dbh}->do(
-"create index $this->{depsIndex} on $this->{depsTable} (from_topic, to_topic)"
-    );
+    $this->dbh->do( "create index "
+          . $this->depsIndex . " on "
+          . $this->depsTable
+          . " (from_topic, to_topic)" );
 }
 
 =begin TML
@@ -649,8 +705,8 @@ sub rebuild {
     #writeDebug("rebuild database");
 
     eval {
-        $this->{dbh}->do("drop table $this->{pagesTable}");
-        $this->{dbh}->do("drop table $this->{depsTable}");
+        $this->dbh->do( "drop table " . $this->pagesTable );
+        $this->dbh->do( "drop table " . $this->depsTable );
     };
 
     if ($@) {
@@ -668,36 +724,13 @@ cleans up the mess we left behind
 
 =cut
 
-sub finish {
+sub DEMOLISH {
     my $this = shift;
 
     #writeDebug("called finish");
-
-    if ( $this->{_insert_page} ) {
-        $this->{_insert_page}->finish;
-        undef $this->{_insert_page};
+    if ( $this->dbh ) {
+        $this->dbh->disconnect;
     }
-
-    if ( $this->{_insert_dep} ) {
-        $this->{_insert_dep}->finish;
-        undef $this->{_insert_dep};
-    }
-
-    if ( $this->{_select_md5} ) {
-        $this->{_select_md5}->finish;
-        undef $this->{_select_md5};
-    }
-
-    if ( $this->{_select_rev_md5} ) {
-        $this->{_select_rev_md5}->finish;
-        undef $this->{_select_rev_md5};
-    }
-
-    if ( $this->{dbh} ) {
-        $this->{dbh}->disconnect;
-        undef $this->{dbh};
-    }
-
 }
 
 1;
