@@ -41,6 +41,13 @@ need to migrate your data using the =tools/bulk_copy.pl= script!
 HERE
         }
     }
+
+    if ( $Foswiki::cfg{RCS}{AutoAttachPubFiles} ) {
+        $reporter->WARN(
+'PlainFile store is not compatible with ={RCS}{AutoAttachPubFiles}=.  Consider the [[http://foswiki.org/Extensions/UpdateAttachmentsPlugin]] as an alternative.'
+        );
+    }
+
     return;
 }
 
@@ -75,7 +82,7 @@ sub _checkPFV {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
