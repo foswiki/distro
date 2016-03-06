@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1454519814" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457287372" version="1"}%
 ---+!! PlainFileStoreContrib
 <!--
    * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
@@ -66,6 +66,7 @@ Many thanks to the following sponsors for supporting this work
    * [[http://www.taxonomy.org.au][TRIN]], The Taxonomy Research & Information Network
 
 |  Change History: | |
+|  1.45   (06 Mar 2016) | Foswikitask:Iem14008: Warn if FoswikiAttachPubFiles is enabled with the PlainFile store. |
 |  1.44   (03 Feb 2016) | Released with Foswiki 2.1. Release notes, Copyright updates. |
 |  1.43   (10 Dec 2015) | Foswikitask:Item13405 - NFC Normalize all UNICODE strings.<br/>\
                           Foswikitask:Item12569: Use NFKD normalization when sorting names. |

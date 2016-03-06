@@ -17,7 +17,7 @@
 # RcsWrap cannot be used; for example, on  hosted platform where 'rcs'
 # cannot be installed, or on Windows where RcsWrap performance is poor.
 # </dd></dl>
-# **BOOLEAN LABEL="Auto-Attach Pub Files"**
+# **BOOLEAN LABEL="Auto-Attach Pub Files" CHECK_ON_CHANGE="{Store}{Implementation}"**
 # Some file-based Store implementations (RcsWrap and RcsLite) store
 # attachment meta-data separately from the actual attachments.
 # This means that it is possible to have a file in an attachment directory
