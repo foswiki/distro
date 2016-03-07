@@ -150,7 +150,9 @@ sub BUILD {
 sub DEMOLISH {
     my $this = shift;
 
-    #say STDERR ref($this), "::DEMOLISH" if DEBUG;
+    #say STDERR "In ", __PACKAGE__, ": ", ref($this), "::DEMOLISH; ",
+    #  defined($Foswiki::Plugins::SESSION) ? "SESSION" : "NO SESSION"
+    #  if DEBUG;
     if ( $this->can('finish') ) {
         say STDERR Carp::longmess(
             ref($this) . " supports finish() but it shouldn't." );

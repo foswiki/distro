@@ -303,7 +303,7 @@ HERE
         "Zero%INCLUDE{\"" . $this->test_web . ".IncludedTopic\"}%",
         "Tropic", "Werb", $meta );
     $this->assert_str_equals( $expanded, "Two<verbatim>BOO</verbatim>" );
-    $meta->finish();
+    undef $meta;
     $this->checkCalls( 1, 'beforeCommonTagsHandler' );
     $this->checkCalls( 2, 'commonTagsHandler' );
     $this->checkCalls( 1, 'afterCommonTagsHandler' );
@@ -353,7 +353,7 @@ HERE
     $meta->put( 'WIBBLE', { wibble => 'Wibble' } );
     Foswiki::Func::expandCommonVariables( "Zero<verbatim>blah</verbatim>",
         "Tropic", "Werb", $meta );
-    $meta->finish();
+    undef $meta;
     $this->checkCalls( 1, 'beforeCommonTagsHandler' );
     $this->checkCalls( 1, 'commonTagsHandler' );
     $this->checkCalls( 1, 'afterCommonTagsHandler' );

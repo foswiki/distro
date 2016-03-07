@@ -177,7 +177,6 @@ s/<div class="foswikiToc" id="foswikiTOC">/<a name="foswikiTOC"><\/a><div class=
         $expected =~ s/<h([1-6]) id="([^"]+)">/<h$1><a name="$2"><\/a>/g;
     }
     $this->assert_html_equals( $expected, $res );
-    $topicObject->finish();
 }
 
 sub test_Item9009 {
@@ -205,7 +204,7 @@ HERE
     $topicObject->save();
     my $res2 = $topicObject2->expandMacros($text2);
     $res2 = $topicObject->renderTML($res2);
-    $topicObject->finish();
+    undef $topicObject;
 
     #return;
 
@@ -252,7 +251,7 @@ HERE
     $topicObject->save();
     my $res2 = $topicObject2->expandMacros($text2);
     $res2 = $topicObject->renderTML($res2);
-    $topicObject->finish();
+    undef $topicObject;
 
     my $expected = <<HTML;
 <div class="foswikiToc" id="foswikiTOC"> <ul>
@@ -297,7 +296,6 @@ s/<div class="foswikiToc" id="foswikiTOC">/<a name="foswikiTOC"><\/a><div class=
         $expected =~ s/<h([1-6]) id="([^"]+)">/<h$1><a name="$2"><\/a>/g;
     }
     $this->assert_html_equals( $expected, $res );
-    $topicObject->finish();
 }
 
 sub test_TOC_SpecialCharacters {
@@ -359,7 +357,7 @@ HERE
         $topicObject->save();
         my $res = $topicObject->expandMacros($wikitext);
         $res = $topicObject->renderTML($res);
-        $topicObject->finish();
+        undef $topicObject;
 
         # print "RES:$res \n\nEXPECTED:$expected\n\n";
         $this->assert_matches( qr/href="#$expected".*$id="$expected"/sm, $res,
@@ -453,7 +451,6 @@ HERE
 <nop><h4 id="Level_4_headline">  Level 4 headline </h4>
 <nop><h3 id="Another_level_3_headline">  Another level 3 headline </h3>
 HTML
-    $topicObject->finish();
 }
 
 sub test_ho {
@@ -494,7 +491,6 @@ HERE
 <p></p>
 HTML
 
-    $topicObject->finish();
 }
 
 1;

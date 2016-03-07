@@ -1420,7 +1420,7 @@ sub test_createDefaultWeb {
     my $webObject = $this->getWebObject($newWeb);
     $this->assert_equals( 'fuchsia', $webObject->getPreference('WEBBGCOLOR') );
     $this->assert_equals( 'on',      $webObject->getPreference('SITEMAPLIST') );
-    $webObject->finish();
+    undef $webObject;
 
 #check that the topics from _default web are actually in the new web, and make sure they are expectently similar
     my @expectedTopicsItr = Foswiki::Func::getTopicList('_default');
@@ -1428,10 +1428,10 @@ sub test_createDefaultWeb {
         $this->assert( Foswiki::Func::topicExists( $newWeb, $expectedTopic ) );
         my ( $eMeta, $eText ) =
           Foswiki::Func::readTopic( '_default', $expectedTopic );
-        $eMeta->finish();
+        undef $eMeta;
         my ( $nMeta, $nText ) =
           Foswiki::Func::readTopic( $newWeb, $expectedTopic );
-        $nMeta->finish();
+        undef $nMeta;
 
    #change the params set above to what they were in the template WebPreferences
         $nText =~
@@ -1465,7 +1465,7 @@ But never a one who thinks
 %META:PREFERENCE{name="METALOCAL" type="Local" value="meta local"}%
 TEXT
     $testTopic->save();
-    $testTopic->finish();
+    undef $testTopic;
 
     my $query = Unit::Request->new(
         initializer => {
@@ -1524,7 +1524,7 @@ But never a one who thinks
 %META:PREFERENCE{name="METALOCAL" type="Local" value="meta local"}%
 TEXT
     $testTopic->save();
-    $testTopic->finish();
+    undef $testTopic;
 
     my $query = Unit::Request->new(
         initializer => {
@@ -1586,7 +1586,7 @@ But never a one who thinks
 %META:PREFERENCE{name="METALOCAL" type="Local" value="meta local"}%
 TEXT
     $testTopic->save();
-    $testTopic->finish();
+    undef $testTopic;
 
     my $query = Unit::Request->new(
         initializer => {
@@ -1643,7 +1643,7 @@ But never a one who thinks
 %META:PREFERENCE{name="METALOCAL" type="Local" value="meta local"}%
 TEXT
     $testTopic->save();
-    $testTopic->finish();
+    undef $testTopic;
 
     my $query = Unit::Request->new(
         initializer => {
@@ -1754,7 +1754,7 @@ sub test_createEmptyWeb {
     $this->assert_equals( 'fuchsia', $webObject->getPreference('WEBBGCOLOR') );
     $this->assert_equals( 'somenewskin,another',
         $webObject->getPreference('SKIN') );
-    $webObject->finish();
+    undef $webObject;
 
     #nope, SITEMAPLIST isn't required
     #$this->assert_equals('on', $webObject->getPreference('SITEMAPLIST'));
@@ -1770,10 +1770,10 @@ sub test_createEmptyWeb {
 
         my ( $eMeta, $eText ) =
           Foswiki::Func::readTopic( '_empty', $expectedTopic );
-        $eMeta->finish();
+        undef $eMeta;
         my ( $nMeta, $nText ) =
           Foswiki::Func::readTopic( $newWeb, $expectedTopic );
-        $nMeta->finish();
+        undef $nMeta;
 
    #change the params set above to what they were in the template WebPreferences
         $nText =~

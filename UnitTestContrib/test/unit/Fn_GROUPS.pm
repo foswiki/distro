@@ -23,37 +23,36 @@ around set_up => sub {
       Foswiki::Func::readTopic( $this->users_web, "GropeGroup" );
     $topicObject->text("   * Set GROUP = ScumBag,WikiGuest\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, "NestingGroup" );
     $topicObject->text("   * Set GROUP = GropeGroup\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, "GroupWithHiddenGroup" );
     $topicObject->text("   * Set GROUP = HiddenGroup,WikiGuest\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, "HiddenGroup" );
     $topicObject->text(
         "   * Set GROUP = ScumBag\n   * Set ALLOWTOPICVIEW = AdminUser\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, "HiddenUserGroup" );
     $topicObject->text("   * Set GROUP = ScumBag,HidemeGood\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) = Foswiki::Func::readTopic( $this->users_web, "HidemeGood" );
     my $topText = $topicObject->text();
     $topText .= "   * Set ALLOWTOPICVIEW = AdminUser\n";
     $topText = $topicObject->text($topText);
     $topicObject->save();
-    $topicObject->finish();
 
 };
 

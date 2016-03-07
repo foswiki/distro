@@ -54,8 +54,9 @@ my %onlyOnceHandlers = (
 has session => (
     is       => 'rw',
     weak_ref => 1,
+    required => 1,
     clearer  => 1,
-    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
+    isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1, ),
 );
 has registeredHandlers => (
     is      => 'rw',
@@ -87,7 +88,7 @@ our $SESSION;
 
 =begin TML
 
----++ ClassMethod new( $session )
+---++ ClassMethod new( session => $session )
 
 Construct new singleton plugins collection object. The object is a
 container for a list of plugins and the handlers registered by the plugins.
@@ -116,6 +117,13 @@ sub BUILD {
 
 sub DEMOLISH {
     my $this = shift;
+
+    #say STDERR ref($this), "::DEMOLISH; ",
+    #  defined($Foswiki::Plugins::SESSION) ? "SESSION" : "NO SESSION",
+    #  defined( $this->session )           ? "session" : "no session"
+    #  if DEBUG;
+    #use Data::Dumper;
+    #say STDERR Dumper($this);
     $this->dispatch('finishPlugin');
 }
 
@@ -198,7 +206,7 @@ sub preload {
         unless ( $p = $lookup{$pn} ) {
 
             # The 'new' will call the preload handler
-            $p = new Foswiki::Plugin( $session, $pn );
+            $p = new Foswiki::Plugin( session => $session, name => $pn );
         }
         push @{ $this->plugins }, $p;
         $lookup{$pn} = $p;

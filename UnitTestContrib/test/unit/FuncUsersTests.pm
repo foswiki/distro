@@ -225,36 +225,35 @@ sub set_up_for_verify {
         $topicObject->text(
             "   * Set GROUP = UserA, UserB, $Foswiki::cfg{AdminUserWikiName}");
         $topicObject->save();
-        $topicObject->finish();
+        undef $topicObject;
         ($topicObject) =
           Foswiki::Func::readTopic( $this->users_web, 'AandCGroup' );
         $topicObject->text("   * Set GROUP = UserA, UserC");
         $topicObject->save();
-        $topicObject->finish();
+        undef $topicObject;
         ($topicObject) =
           Foswiki::Func::readTopic( $this->users_web, 'BandCGroup' );
         $topicObject->text("   * Set GROUP = UserC, UserB");
         $topicObject->save();
-        $topicObject->finish();
+        undef $topicObject;
         ($topicObject) =
           Foswiki::Func::readTopic( $this->users_web, 'NestingGroup' );
         $topicObject->text("   * Set GROUP = UserE, AandCGroup, BandCGroup");
         $topicObject->save();
-        $topicObject->finish();
+        undef $topicObject;
         ($topicObject) =
           Foswiki::Func::readTopic( $this->users_web, 'ScumGroup' );
         $topicObject->text(
 "   * Set GROUP = UserA, $Foswiki::cfg{DefaultUserWikiName}, $loginname{UserZ}"
         );
         $topicObject->save();
-        $topicObject->finish();
+        undef $topicObject;
         ($topicObject) =
           Foswiki::Func::readTopic( $this->users_web,
             $Foswiki::cfg{SuperAdminGroup} );
         $topicObject->text(
             "   * Set GROUP = UserA, $Foswiki::cfg{AdminUserWikiName}");
         $topicObject->save();
-        $topicObject->finish();
     }
     catch {
         my $e = $_;
@@ -1493,7 +1492,7 @@ sub verify_topic_meta_usermapping {
     my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
     $topicObject->text($text);
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $this->assert( $this->session->topicExists( $web, $topic ) );
     my ($readMeta) = Foswiki::Func::readTopic( $web, $topic );
@@ -1512,7 +1511,7 @@ sub verify_topic_meta_usermapping {
         comment => "a comment",
         filedate => 1262347200,    # 01 Jan 2010 12:00
     );
-    $readMeta->finish();
+    undef $topicObject;
     ($readMeta) = Foswiki::Func::readTopic( $web, $topic );
 
     my @attachments = $readMeta->find('FILEATTACHMENT');
@@ -1525,7 +1524,7 @@ sub verify_topic_meta_usermapping {
 
     #META
     my $metainfo = $readMeta->expandMacros('%META{"attachments"}%');
-    $readMeta->finish();
+    undef $topicObject;
 
     #Task:Item6000
     $metainfo =~ s/^.*?(\|.*\|).*?$/$1/s;
@@ -1998,7 +1997,7 @@ sub DISABLEDverify_denyNonAdminReadOfAdminGroupTopic {
     $topicObject->text(
         $topicObject . "\n\n   * Set ALLOWTOPICVIEW = AdminGroup\n\n" );
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     {
 

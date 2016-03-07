@@ -73,16 +73,16 @@ around set_up => sub {
     $this->createNewFoswikiSession( $this->user );
     $this->test_web('Testsystemweb1234');
     my $webObject = $this->populateNewWeb( $this->test_web );
-    $webObject->finish();
+    undef $webObject;
     $this->trash_web('Testtrashweb1234');
     $webObject = $this->populateNewWeb( $this->trash_web );
-    $webObject->finish();
+    undef $webObject;
     $this->sandbox_web('Testsandboxweb1234');
     $webObject = $this->populateNewWeb( $this->sandbox_web );
-    $webObject->finish();
+    undef $webObject;
     $this->sandbox_subweb('Testsandboxweb1234/Subweb');
     $webObject = $this->populateNewWeb( $this->sandbox_subweb );
-    $webObject->finish();
+    undef $webObject;
     $this->tempdir( $Foswiki::cfg{TempfileDir} . '/test_ConfigureTests' );
     rmtree( $this->tempdir )
       if ( -e $this->tempdir );    # Cleanup any old tests
@@ -966,7 +966,7 @@ sub test_Package_makeBackup {
         notes => $this->toolsdir . "/shbtest2"
     );
 
-    $pkg->finish();
+    undef $pkg;
 
     return;
 }
@@ -1225,7 +1225,6 @@ DONE
     $this->assert_matches(
         qr/Foswiki::Plugins::TriggerSyntaxError.*-- syntax error/ms, $missing );
 
-    $pkg->finish();
     undef $pkg;
 
 }
@@ -1267,7 +1266,6 @@ DONE
     $this->sniff();
     $this->assert( $pkg->uninstall($reporter) );
     $this->sniff();
-    $pkg->finish();
     undef $pkg;
 
     #
@@ -1353,7 +1351,6 @@ DONE
         '#! /usr/bin/perl'
     );
 
-    $pkg->finish();
     undef $pkg;
 
     # Clean out and restart the reporter
@@ -1541,7 +1538,6 @@ qr/^Foswiki::Contrib::OptionalDependency version >=14754 required(.*)[- ]+perl m
         notes => $this->toolsdir . "/shbtest2",
     );
 
-    $pkg2->finish();
     undef $pkg2;
 
     eval { rmtree($tempdir) };
@@ -1579,7 +1575,6 @@ DONE
 
     $this->assert( $pkg->uninstall($reporter) );
     $this->sniff();
-    $pkg->finish();
     undef $pkg;
 
     #
@@ -1667,7 +1662,6 @@ qr/Foswiki::Plugins::RequiredTriggeredModule version >=0.1 required[- ]+perl mod
         warnings => "htmldoc is type 'c', and cannot be automatically checked."
     );
 
-    $pkg->finish();
     undef $pkg;
 
     eval { rmtree($tempdir) };
@@ -1912,7 +1906,6 @@ sub test_Package_loadInstaller {
 
     $this->assert_str_equals( '1', $plugins{EmptyPlugin},
         'Failed to discover plugin in manifest' );
-    $pkg->finish();
     undef $pkg;
 
     return;
@@ -2012,7 +2005,6 @@ DONE
     $this->sniff( errors => 'Failed to unpack archive(.*)MyPlugin.tgz' );
 
     unlink $tempdir . "/MyPlugin.tgz";
-    $pkg->finish();
     undef $pkg;
 
     return;
@@ -2072,7 +2064,6 @@ DONE
     $this->assert( !$pkg->install($reporter) );
     $this->sniff( errors => '(format error|unzip failed|Unpack failed)' );
     unlink $tempdir . "/MyPlugin.zip";
-    $pkg->finish();
     undef $pkg;
 
     return;

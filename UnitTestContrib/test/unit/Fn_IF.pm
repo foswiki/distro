@@ -1316,14 +1316,13 @@ sub set_up {
           . Foswiki::Func::getWikiName( $this->session->user )
           . "\n" );
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # Create WebHome topic to trap existance errors related to
     # normalizeWebTopicName
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, "WebHome" );
     $topicObject->text("Gormless gimboid\n");
     $topicObject->save();
-    $topicObject->finish();
 
     return;
 }
@@ -1374,7 +1373,7 @@ two %IF{ "$ NAME='%NAME%'" then="1" else="0" }%
 three %IF{ "$ NAME=$ 'NAME{}'" then="1" else="0" }%
 SMELL
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     my $text = <<'PONG';
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
@@ -1419,7 +1418,7 @@ one %IF{ "BleaghForm.Wibble='Woo'" then="1" else="0" }%
 %META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
 SMELL
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     my $text = <<'PONG';
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
@@ -1438,7 +1437,7 @@ sub test_ALLOWS_and_EXISTS {
    * Set ALLOWTOPICCHANGE = $wn
 PONG
     $meta->save();
-    $meta->finish();
+    undef $meta;
 
     my @tests;
     push(
@@ -1587,7 +1586,7 @@ PONG
         $this->assert_str_equals( $test->{expect}, $result,
             "$text: '$result'" );
     }
-    $meta->finish();
+    undef $meta;
 
     return;
 }
@@ -1601,7 +1600,7 @@ PONG
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text($text);
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     my $result = $this->test_topicObject->expandMacros($text);
     $this->assert_str_equals( "   * Set LOOP = pong\n", $result );
 
@@ -1618,7 +1617,7 @@ sub test_TOPICINFO {
 oneapeny twoapenny we all fall down
 PONG
     $meta->save();
-    $meta->finish();
+    undef $meta;
 
     ($meta) = Foswiki::Func::readTopic( $this->test_web, $topicName );
     $meta->getRevisionInfo();
@@ -1689,7 +1688,7 @@ PONG
         $this->assert_str_equals( $test->{expect}, $result,
             "$text: '$result'" );
     }
-    $meta->finish();
+    undef $meta;
 
     return;
 }

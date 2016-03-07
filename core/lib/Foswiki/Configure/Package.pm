@@ -1918,7 +1918,6 @@ sub _getUrl {
     require Foswiki::Net;
     my $tn       = new Foswiki::Net();
     my $response = $tn->getExternalResource($url);
-    $tn->finish();
     return $response;
 }
 

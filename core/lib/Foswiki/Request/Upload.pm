@@ -30,23 +30,16 @@ Constructs a Foswiki::Request::Upload object
 
 =cut
 
-=begin TML
-
----++ ObjectMethod finish()
-
-Deletes temp file associated.
-
-=cut
-
 # Note to developers; please undef *all* fields in the object explicitly,
 # whether they are references or not. That way this method is "golden
 # documentation" of the live fields in the object.
-sub finish {
+sub DEMOLISH {
     my $this = shift;
 
     #SMELL: Note: untaint filename. Taken from CGI.pm
     # (had to be updated for OSX in Dec2008)
-    $this->tmpFileName =~ m{^([a-zA-Z0-9_\+ \'\":/.\$\\~-]+)$};
+    say STDERR __PACKAGE__, "::DEMOLISH";
+    $this->tmpname =~ m{^([a-zA-Z0-9_\+ \'\":/.\$\\~-]+)$};
     my $file = $1;
     if ( scalar( unlink($file) ) != 1 ) {
         ASSERT( 0, "unable to unlink $file : $!" ) if DEBUG;

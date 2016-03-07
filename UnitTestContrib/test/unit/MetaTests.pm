@@ -71,7 +71,6 @@ sub test_single {
     $this->assert_str_equals( "a", $vals1->{"name"} );
     $this->assert_equals( 2, $vals1->{"value"} );
     $this->assert_equals( 1, $meta->count("TOPICINFO"), "Should be one item" );
-    $meta->finish();
 
     return;
 }
@@ -101,7 +100,6 @@ sub test_multiple {
     my $vals2 = $meta->get( "FIELD", "b" );
     $this->assert_str_equals( $vals2->{"name"},  "b" );
     $this->assert_str_equals( $vals2->{"value"}, "3" );
-    $meta->finish();
 
     return;
 }
@@ -135,7 +133,6 @@ sub test_zero_empty {
     my $vals2 = $meta->get( "FIELD", "b" );
     $this->assert_str_equals( $vals2->{"name"},  "b" );
     $this->assert_str_equals( $vals2->{"value"}, "" );
-    $meta->finish();
 
     return;
 }
@@ -153,7 +150,6 @@ sub test_removeSingle {
     $meta->remove("TOPICINFO");
     $this->assert( $meta->count("TOPICINFO") == 0,
         "Should be no items after remove" );
-    $meta->finish();
 
     return;
 }
@@ -182,7 +178,6 @@ sub test_removeMultiple {
     $meta->remove( "FIELD", "b" );
     $this->assert( $meta->count("FIELD") == 1,
         "Should be one FIELD items after partial remove" );
-    $meta->finish();
 
     return;
 }
@@ -229,7 +224,6 @@ sub test_foreach {
     $this->assert( $d->{collected} =~ s/FIELD.name:a;// );
     $this->assert( $d->{collected} =~ s/FIELD.name:b;// );
     $this->assert_str_equals( "", $d->{collected} );
-    $meta->finish();
 
     return;
 }
@@ -293,8 +287,6 @@ sub test_copyFrom {
     $this->assert( $d->{collected} =~ s/FIELD.value:aval;// );
     $this->assert( $d->{collected} =~ s/FIELD.value:bval;// );
     $this->assert_str_equals( "", $d->{collected} );
-    $new->finish();
-    $meta->finish();
 
     return;
 }
@@ -316,7 +308,6 @@ sub test_formfield {
     $str = $m1->expandMacros('%META{"formfield" name="c"}%');
     $this->assert_str_equals( "1", $str );
 
-    $m1->finish();
 }
 
 sub test_parent {
@@ -407,7 +398,6 @@ sub test_parent {
                 map { "[[$web.$testTopic$_][$testTopic$_]]" }
                   reverse $depth + 1 .. 6 )
         );
-        $topicObject->finish();
     }
 
     # Test nowebhome
@@ -420,7 +410,7 @@ sub test_parent {
     $ttopicObject->put( "TOPICPARENT",
         { name => $web . '.' . $Foswiki::cfg{HomeTopicName} } );
     $ttopicObject->save();
-    $ttopicObject->finish();
+    undef $ttopicObject;
     $ttopicObject =
       Foswiki::Meta->load( $this->session, $web, $testTopic . '1' );
     my $str = $ttopicObject->expandMacros('%META{"parent"}%');
@@ -436,7 +426,6 @@ sub test_parent {
         join( " &gt; ",
             map { "[[$web.$testTopic$_][$testTopic$_]]" } reverse 2 .. 6 )
     );
-    $ttopicObject->finish();
 
     return;
 }
@@ -699,7 +688,7 @@ EVIL
     $text = <<'EVIL';
 %META:TOPICPARENT{}%
 EVIL
-    $topicObject->finish();
+    undef $topicObject;
     $topicObject = Foswiki::Meta->new(
         session => $this->session,
         web     => $this->test_web,
@@ -719,7 +708,7 @@ EVIL
 %META:TOPICMOVED{from="here" to="there" by="her" date="1234567890"}%
 $gunk
 GOOD
-    $topicObject->finish();
+    undef $topicObject;
     $topicObject = Foswiki::Meta->new(
         session => $this->session,
         web     => $this->test_web,
@@ -732,7 +721,6 @@ GOOD
     $topicObject->expandNewTopic();
     $topicObject->renderTML( $topicObject->text() );
     $topicObject->renderFormForDisplay();
-    $topicObject->finish();
 
     return;
 }
@@ -837,7 +825,6 @@ sub test_registerMETA {
             'TREE', { spread => '5', height => '15' }
         )
     );
-    $o->finish();
 
     return;
 }
@@ -888,7 +875,6 @@ Properties: System.SemanticIsPartOf,Example.Property,PreyOf,Eat,IsPartOf
 A property: Snakes
 Values: System.UserDocumentationCategory,UserDocumentationCategory,Snakes,Mosquitos,Flies,UserDocumentationCategory
 EXPECTED
-    $topicObject->finish();
 
     return;
 }
@@ -935,7 +921,6 @@ Properties: System.SemanticIsPartOf
 Alias: System.SemanticIsPartOf
 Values: System.UserDocumentationCategory
 EXPECTED
-    $topicObject->finish();
 
     return;
 }
@@ -949,7 +934,7 @@ sub test_getRevisionHistory {
         text    => "Rev 1"
     );
     $this->assert_equals( 1, $topicObject->save() );
-    $topicObject->finish();
+    undef $topicObject;
     $topicObject =
       Foswiki::Meta->load( $this->session, $this->test_web, 'RevIt' );
     my $revIt = $topicObject->getRevisionHistory();
@@ -959,7 +944,7 @@ sub test_getRevisionHistory {
 
     $topicObject->text('Rev 2');
     $this->assert_equals( 2, $topicObject->save( forcenewrevision => 1 ) );
-    $topicObject->finish();
+    undef $topicObject;
     $topicObject =
       Foswiki::Meta->load( $this->session, $this->test_web, 'RevIt' );
     $revIt = $topicObject->getRevisionHistory();
@@ -971,7 +956,7 @@ sub test_getRevisionHistory {
 
     $topicObject->text('Rev 3');
     $this->assert_equals( 3, $topicObject->save( forcenewrevision => 1 ) );
-    $topicObject->finish();
+    undef $topicObject;
     $topicObject =
       Foswiki::Meta->load( $this->session, $this->test_web, 'RevIt' );
     $revIt = $topicObject->getRevisionHistory();
@@ -982,7 +967,6 @@ sub test_getRevisionHistory {
     $this->assert( $revIt->hasNext() );
     $this->assert_equals( 1, $revIt->next() );
     $this->assert( !$revIt->hasNext() );
-    $topicObject->finish();
 
     return;
 }
@@ -996,7 +980,7 @@ sub test_summariseChanges {
         text    => "Line 1\n\nLine 2\n\nLine 3"
     );
     $this->assert_equals( 1, $topicObject->save() );
-    $topicObject->finish();
+    undef $topicObject;
     $topicObject =
       Foswiki::Meta->load( $this->session, $this->test_web, 'RevIt' );
     my $revIt = $topicObject->getRevisionHistory();
@@ -1008,7 +992,7 @@ sub test_summariseChanges {
 
     $topicObject->text("Line 1\n\nLine 3");
     $this->assert_equals( 2, $topicObject->save( forcenewrevision => 1 ) );
-    $topicObject->finish();
+    undef $topicObject;
     $topicObject =
       Foswiki::Meta->load( $this->session, $this->test_web, 'RevIt' );
     $revIt = $topicObject->getRevisionHistory();
@@ -1022,7 +1006,7 @@ sub test_summariseChanges {
 
     $topicObject->text("Line 1\n<nop>SomeOtherData\nLine 3");
     $this->assert_equals( 3, $topicObject->save( forcenewrevision => 1 ) );
-    $topicObject->finish();
+    undef $topicObject;
     $topicObject =
       Foswiki::Meta->load( $this->session, $this->test_web, 'RevIt' );
     $revIt = $topicObject->getRevisionHistory();
@@ -1081,7 +1065,7 @@ RESULT
     #$topicObject =
     #  Foswiki::Meta->load($this->session, $this->test_web, 'RevIt', '3' );
     #print "REV3 \n====\n".$topicObject->text()."\n====\n";
-    $topicObject->finish();
+    undef $topicObject;
 
     return;
 }
@@ -1096,18 +1080,17 @@ sub test_haveAccess {
     );
     $this->assert( $topicObject->haveAccess('VIEW') );
     $this->assert( $topicObject->haveAccess('CHANGE') );
-    $topicObject->finish();
+    undef $topicObject;
 
     my $webObject =
       Foswiki::Meta->new( session => $this->session, web => $this->test_web );
     $this->assert( $webObject->haveAccess('VIEW') );
     $this->assert( $webObject->haveAccess('CHANGE') );
-    $webObject->finish();
+    undef $webObject;
 
     my $rootObject = Foswiki::Meta->new( session => $this->session );
     $this->assert( $rootObject->haveAccess('VIEW') );
     $this->assert( not $rootObject->haveAccess('CHANGE') );
-    $rootObject->finish();
 
     return;
 }
@@ -1145,7 +1128,6 @@ HERE
     $this->assert_equals( 'TemiVarghese', $ti->{author} );
     $this->assert_equals( 10,             $ti->{version} );
     $this->assert_equals( 1306913758,     $ti->{date} );
-    $meta->finish();
 
     return;
 }
@@ -1188,7 +1170,6 @@ HERE
     $this->assert_equals( 'BaseUserMapping_666', $ti->{author} );
     $this->assert_equals( 0,                     $ti->{version} );
     $this->assert_equals( 0,                     $ti->{date} );
-    $meta->finish();
 
     return;
 }

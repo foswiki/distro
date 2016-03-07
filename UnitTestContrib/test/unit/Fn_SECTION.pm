@@ -260,7 +260,7 @@ HERE
     my $time;
 
     $topicObj->save();
-    $topicObj->finish();
+    undef $topicObj;
 
     return (
         1   => $c1,

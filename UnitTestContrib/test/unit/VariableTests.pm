@@ -188,7 +188,6 @@ INPUT
 | Test{arg="Z"} | "Z" |
 EXPECTED
     $this->assert_str_equals( $expected, $result );
-    $topicObject->finish();
 
     return;
 }

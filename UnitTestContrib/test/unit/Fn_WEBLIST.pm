@@ -25,17 +25,17 @@ around set_up => sub {
     $orig->( $this, @_ );
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
     my $webObject = $this->populateNewWeb( $this->test_web . "/Dive1" );
-    $webObject->finish();
+    undef $webObject;
 
     $webObject = $this->populateNewWeb( $this->test_web . "/Dive1/Dive2" );
-    $webObject->finish();
+    undef $webObject;
 
     $webObject =
       $this->populateNewWeb( $this->test_web . "/Dive1/Dive2/Dive3" );
-    $webObject->finish();
+    undef $webObject;
 
     $webObject = $this->populateNewWeb( $this->test_web . "/Dive1/_Dive2tmpl" );
-    $webObject->finish();
+    undef $webObject;
 
     Foswiki::Func::readTemplate('foswiki');
     @allWebs      = Foswiki::Func::getListOfWebs('user,public,allowed');

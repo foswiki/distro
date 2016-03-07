@@ -27,18 +27,17 @@ around set_up => sub {
       Foswiki::Func::readTopic( $this->users_web, "GropeGroup" );
     $topicObject->text("   * Set GROUP = ScumBag,WikiGuest\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, "FriendsOfGropeGroup" );
     $topicObject->text("   * Set GROUP = AdminUser, GropeGroup\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web,
         "FriendsOfFriendsOfGropeGroup" );
     $topicObject->text("   * Set GROUP = AdminUser, FriendsOfGropeGroup\n");
     $topicObject->save();
-    $topicObject->finish();
 };
 
 sub test_basic {

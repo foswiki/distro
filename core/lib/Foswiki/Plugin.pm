@@ -132,7 +132,7 @@ our @_newParameters = qw( session name module );
 
 =begin TML
 
----++ ClassMethod new( $session, $name, [, $module] )
+---++ ClassMethod new( session => $session, name => $name[, module => $module] )
 
    * =$session= - Foswiki object
    * =$name= - name of the plugin e.g. MyPlugin

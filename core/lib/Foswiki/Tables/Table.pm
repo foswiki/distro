@@ -586,7 +586,8 @@ sub deleteRow {
       unless $this->isEditableRow($row)
       || $any_row && $row >= 0 && $row < $this->totalRows();
     my @dead = splice( @{ $this->rows }, $row, 1 );
-    map { $_->finish() } @dead;
+
+    #map { $_->finish() } @dead;
     $this->_renumber($row);
     return 1;
 }

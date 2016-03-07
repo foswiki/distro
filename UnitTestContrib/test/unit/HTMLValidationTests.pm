@@ -99,7 +99,6 @@ around set_up => sub {
             ALLOWWEBRENAME => ''
         }
     );
-    $webObject->finish();
 
     return;
 };
@@ -351,7 +350,6 @@ sub add_form_and_data {
     put_field( $meta, 'State',        'State',         'Invisible' );
     put_field( $meta, 'Anothertopic', 'Another topic', 'GRRR ' );
     $meta->save();
-    $meta->finish();
 
     return;
 }

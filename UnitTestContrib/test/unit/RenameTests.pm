@@ -205,13 +205,13 @@ THIS
     );
     $meta->put( "TOPICPARENT", { name => $this->test_web . ".OldTopic" } );
     $meta->save();
-    $meta->finish();
+    undef $meta;
 
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->new_web, $Foswiki::cfg{HomeTopicName} );
     $topicObject->text('junk');
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # Topic text for template rename tests that contains all references.
     my $origTemplateRefs = <<"THIS";
@@ -255,7 +255,7 @@ THIS
         }
     );
     $meta->save();
-    $meta->finish();
+    undef $meta;
     $this->assert(
         Foswiki::Func::topicExists( $this->test_web, 'TmplRefTopic' ) );
 
@@ -280,7 +280,7 @@ THIS
         }
     );
     $meta->save();
-    $meta->finish();
+    undef $meta;
 
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'TmplRefMeta1' );
     $meta->text("Meta Only");
@@ -294,7 +294,7 @@ THIS
         }
     );
     $meta->save();
-    $meta->finish();
+    undef $meta;
 
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'TmplRefMeta2' );
     $meta->text("Meta Only");
@@ -308,7 +308,7 @@ THIS
         }
     );
     $meta->save();
-    $meta->finish();
+    undef $meta;
 
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'TmplRefMeta3' );
     $meta->text("Meta Only");
@@ -322,7 +322,7 @@ THIS
         }
     );
     $meta->save();
-    $meta->finish();
+    undef $meta;
 
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'OldViewTemplate' );
     $meta->text("Template");
@@ -351,7 +351,7 @@ sub check {
     my @old = split( /\n+/, $expected );
     my @new = split( /\n+/, $actual );
 
-    $meta->finish();
+    undef $meta;
     while ( scalar(@old) ) {
         my $o = "$num: " . shift(@old);
         my $n = "$num: " . shift(@new);
@@ -371,7 +371,7 @@ sub checkReferringTopics {
     my ($m) = Foswiki::Func::readTopic( $web, $topic );
     my $refs =
       Foswiki::UI::Rename::_getReferringTopics( $this->session, $m, $all );
-    $m->finish();
+    undef $m;
 
     $this->assert_str_equals( 'HASH', ref($refs) );
     my $test_web = $this->test_web;
@@ -502,7 +502,7 @@ sub test_renameTemplateThisWeb {
 
     my ($m) = Foswiki::Func::readTopic( $this->test_web, 'TmplRefTopic' );
     my @lines = split( /\n/, $m->text() );
-    $m->finish();
+    undef $m;
     $this->assert_str_equals( " " . $this->test_web . ".OldView", $lines[0] );
     $this->assert_str_equals( " " . $this->test_web . ".NewViewTemplate",
         $lines[1] );
@@ -551,38 +551,38 @@ sub test_referringTopicsThisWeb {
 [[$ott]]
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'MatchMeTwo' );
     $topicObject->text( <<"THIS" );
 [[$lott]]
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->new_web, 'MatchMeThree' );
     my $test_web = $this->test_web;
     $topicObject->text( <<"THIS" );
 [[$test_web.$ott]]
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->new_web, 'MatchMeFour' );
     $topicObject->text(<<"THIS" );
 [[$test_web.$lott]]
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'NoMatch' );
     $topicObject->text(<<"THIS" );
 Refer to $ott and $lott
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->new_web, 'NoMatch' );
     $topicObject->text(<<"THIS" );
 Refer to $ott and $lott
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     if ( $^O eq 'MSWin32' ) {
         $this->expect_failure();
@@ -624,38 +624,38 @@ sub test_renameTopic_find_referring_topics_in_all_webs {
 [[$ott]]
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'MatchMeTwo' );
     $topicObject->text( <<"THIS" );
 [[$lott]]
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->new_web, 'MatchMeThree' );
     my $test_web = $this->test_web;
     $topicObject->text( <<"THIS" );
 [[$test_web.$ott]]
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->new_web, 'MatchMeFour' );
     $topicObject->text( <<"THIS" );
 [[$test_web.$lott]]
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'NoMatch' );
     $topicObject->text( <<"THIS" );
 Refer to $ott and $lott
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->new_web, 'NoMatch' );
     $topicObject->text(<<"THIS" );
 Refer to $ott and $lott
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     # All webs
     $this->checkReferringTopics(
@@ -685,52 +685,52 @@ sub test_renameTopic_find_referring_topics_when_renamed_topic_is_not_a_WikiWord
 $notawwtopic1 $notawwtopic1 $notawwtopic1
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'MatchMeTwo' );
     $topicObject->text( <<"THIS" );
 $notawwtopic3 $notawwtopic3 $notawwtopic3
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, 'MatchMeThree' );
     $topicObject->text( <<"THIS" );
 $notawwtopic2 $notawwtopic2 $notawwtopic2
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'MatchMeFour' );
     $topicObject->text( <<'THIS' );
 RanDom RanDom RanDom
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'MatchMeFive' );
     $topicObject->text( <<"THIS" );
 [[$notawwtopic1]]
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'MatchMeSix' );
     $topicObject->text( <<"THIS" );
 [[$notawwtopic3]]
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, 'MatchMeSeven' );
     $topicObject->text( <<"THIS" );
 [[$notawwtopic2]]
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, 'MatchMeEight' );
     $topicObject->text( <<'THIS' );
 [[RanDom]]
 THIS
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     if ( $^O eq 'MSWin32' ) {
         $this->expect_failure();
@@ -794,7 +794,7 @@ sub test_rename_topic_reference_in_denied_web {
     my ($m) = Foswiki::Func::readTopic( $this->test_web, $fnord );
     $m->text("");
     $m->save();
-    $m->finish();
+    undef $m;
 
     # Create a subweb
     Foswiki::Func::createWeb( $this->test_web . "/Swamp" );
@@ -803,14 +803,14 @@ sub test_rename_topic_reference_in_denied_web {
     ($m) = Foswiki::Func::readTopic( $this->test_web . "/Swamp", 'TopSecret' );
     $m->text( "[[" . $this->test_web . ".$fnord]]" );
     $m->save();
-    $m->finish();
+    undef $m;
 
     # Make sure the subweb is unprotected (readable)
     ($m) =
       Foswiki::Func::readTopic( $this->test_web . "/Swamp", 'WebPreferences' );
     $m->text("   * Set ALLOWWEBCHANGE = \n   * Set ALLOWWEBVIEW = \n");
     $m->save();
-    $m->finish();
+    undef $m;
 
     # Have to restart to clear prefs cache
     $this->_reset_session();
@@ -823,7 +823,7 @@ sub test_rename_topic_reference_in_denied_web {
       Foswiki::Func::readTopic( $this->test_web . "/Swamp", 'WebPreferences' );
     $m->text("   * Set ALLOWWEBVIEW = PickMeOhPickMe");
     $m->save();
-    $m->finish();
+    undef $m;
 
     # Have to restart to clear prefs cache
     $this->_reset_session();
@@ -843,7 +843,7 @@ sub test_rename_topic_reference_in_denied_web {
       Foswiki::Func::readTopic( $this->test_web . "/Swamp", 'WebPreferences' );
     $m->text("   * Set ALLOWWEBCHANGE = PickMeOhPickMe");
     $m->save();
-    $m->finish();
+    undef $m;
 
     # Have to restart to clear prefs cache
     $this->_reset_session();
@@ -1268,7 +1268,7 @@ sub test_renameTopic_new_web_same_topic_name_no_access {
         'WebPreferences' );
     $m->text("   * Set ALLOWWEBCHANGE = NotMe\n   * Set ALLOWWEBVIEW = \n");
     $m->save();
-    $m->finish();
+    undef $m;
 
     $this->_reset_session(
         {
@@ -1313,7 +1313,7 @@ sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'OldTopic' );
     $meta->put( "TOPICPARENT", { name => 'Tmp1' } );
     $meta->save();
-    $meta->finish();
+    undef $meta;
 
     $this->checkReferringTopics( $this->test_web, 'Tmp1', 0,
         [ $this->test_web . ".OldTopic", ] );
@@ -1344,7 +1344,6 @@ sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'OldTopic' );
 
     $this->assert_str_equals( 'Tmp2', $meta->getParent() );
-    $meta->finish();
 
     return;
 }
@@ -1374,7 +1373,7 @@ THIS
       Foswiki::Func::readTopic( $this->test_web, 'lowercase' );
     $topicObject->text($topictext);
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->_reset_session(
         {
             action           => 'rename',
@@ -1412,7 +1411,7 @@ sub test_renameTopic_TOPICRENAME_access_denied {
     my ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'OldTopic' );
     $topicObject->text($topictext);
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->_reset_session(
         {
             action    => 'rename',
@@ -1455,7 +1454,7 @@ sub test_renameTopic_WEBRENAME_access_denied {
         $Foswiki::cfg{WebPrefsTopicName} );
     $topicObject->text($topictext);
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->_reset_session(
         {
             action    => 'rename',
@@ -1502,7 +1501,6 @@ sub test_renameTopic_preserves_history {
           Foswiki::Func::readTopic( $this->test_web, $topicName );
         $topicObject->text( $history[$depth] );
         $topicObject->save( forcenewrevision => 1 );
-        $topicObject->finish();
     }
     $this->_reset_session(
         {
@@ -1521,7 +1519,6 @@ sub test_renameTopic_preserves_history {
     my $info = $m->getRevisionInfo();
     $this->assert_equals( scalar(@history), $info->{version} )
       ;    # rename adds a revision
-    $m->finish();
 
     return;
 }
@@ -1545,11 +1542,10 @@ sub test_renameTopic_ensure_leases_are_released {
     );
 
     $this->captureWithKey( rename => $UI_FN, $this->session );
-    $m->finish();
+    undef $m;
     ($m) = Foswiki::Func::readTopic( $this->test_web, 'OldTopic' );
     my $lease = $m->getLease();
     $this->assert_null( $lease, $lease );
-    $m->finish();
 
     return;
 }
@@ -1624,11 +1620,11 @@ CONTENT
     );
     $this->assert(
         !Foswiki::Func::webExists( $this->test_web . "/Renamedweb" ) );
-    $m->finish();
+    undef $m;
     ($m) = Foswiki::Func::readTopic( $this->test_web . "/Notrenamedweb",
         'ReferringTopic' );
     my @lines = split( /\n/, $m->text() );
-    $m->finish();
+    undef $m;
     $this->assert_str_equals(
         $this->test_web . "/Notrenamedweb/Renamedweb.Subweb",
         $lines[0] );
@@ -1702,7 +1698,7 @@ EOF
             path_info        => "/Renamed" . $this->test_web . "/WebHome"
         }
     );
-    $m->finish();
+    undef $m;
 
     my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
     $this->assert(
@@ -1737,7 +1733,6 @@ EOF
     $this->assert_str_equals(
         "[[" . $this->test_web . "/Renamed" . $this->test_web . ".Subweb]]",
         $lines[8] );
-    $m->finish();
 
     return;
 }
@@ -1779,7 +1774,7 @@ CONTENT
    * Set GROUP = $test_user_wikiname
 EOF
     $grope->save();
-    $grope->finish();
+    undef $grope;
 
     $this->_reset_session(
         {
@@ -1789,7 +1784,7 @@ EOF
             path_info        => "/" . $this->test_web . "EdNet/WebHome"
         }
     );
-    $m->finish();
+    undef $m;
 
     my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
     $this->assert(
@@ -1801,7 +1796,7 @@ EOF
     ($m) = Foswiki::Func::readTopic( $this->test_web . "RenamedEdNet",
         'ReferringTopic' );
     my @lines = split( /\n/, $m->text() );
-    $m->finish();
+    undef $m;
 
     #foreach my $ln ( @lines ) {
     #    print "LINE ($ln)\n";
@@ -1898,7 +1893,7 @@ EOF
             path_info        => "/" . $this->test_web . "Root/EdNet/WebHome"
         }
     );
-    $m->finish();
+    undef $m;
 
     my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
     $this->assert(
@@ -1910,7 +1905,7 @@ EOF
     ($m) = Foswiki::Func::readTopic( $this->test_web . "Root/NewEdNet",
         'ReferringTopic' );
     my @lines = split( /\n/, $m->text() );
-    $m->finish();
+    undef $m;
 
     #foreach my $ln ( @lines ) {
     #    print "LINE ($ln)\n";
@@ -1968,7 +1963,7 @@ sub test_rename_attachment {
     my ($to) = Foswiki::Func::readTopic( $this->test_web, 'NewTopic' );
     $to->text('Wibble');
     $to->save();
-    $to->finish();
+    undef $to;
 
     # returns undef on OSX with 3.15 version of CGI module (works on 3.42)
     my $stream = File::Temp->new( UNLINK => 0 );
@@ -1978,7 +1973,7 @@ sub test_rename_attachment {
 
     ($to) = Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $to->attach( name => 'dis.dat', file => $stream->filename );
-    $to->finish();
+    undef $to;
 
     $this->_reset_session(
         {
@@ -2014,7 +2009,7 @@ sub test_move_attachment_RENAME_Topic_denied {
     my ($to) = Foswiki::Func::readTopic( $this->test_web, 'NewTopic' );
     $to->text('Wibble');
     $to->save();
-    $to->finish();
+    undef $to;
 
     # returns undef on OSX with 3.15 version of CGI module (works on 3.42)
     my $stream = File::Temp->new( UNLINK => 0 );
@@ -2026,7 +2021,7 @@ sub test_move_attachment_RENAME_Topic_denied {
     $to->text("Wibble\n   * Set ALLOWTOPICRENAME = NotMe\n");
     $to->attach( name => 'dis.dat', file => $stream->filename );
     $to->save();
-    $to->finish();
+    undef $to;
 
     $this->_reset_session(
         {
@@ -2057,7 +2052,7 @@ sub test_move_attachment_RENAME_Topic_denied {
     ($to) = Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $to->text("Wibble\n   * Set ALLOWTOPICCHANGE = NotMe\n");
     $to->save();
-    $to->finish();
+    undef $to;
 
     $this->_reset_session(
         {
@@ -2107,12 +2102,12 @@ sub test_move_attachment_RENAME_Web_denied {
     my ($m) = Foswiki::Func::readTopic( $this->test_web, 'WebPreferences' );
     $m->text("   * Set ALLOWWEBRENAME = NotMe\n");
     $m->save();
-    $m->finish();
+    undef $m;
 
     my ($to) = Foswiki::Func::readTopic( $this->new_web, 'NewTopic' );
     $to->text('Wibble');
     $to->save();
-    $to->finish();
+    undef $to;
 
     # returns undef on OSX with 3.15 version of CGI module (works on 3.42)
     my $stream = File::Temp->new( UNLINK => 0 );
@@ -2123,7 +2118,7 @@ sub test_move_attachment_RENAME_Web_denied {
     ($to) = Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $to->text("Wibble\n");
     $to->attach( name => 'dis.dat', file => $stream->filename );
-    $to->finish();
+    undef $to;
 
     $this->_reset_session(
         {
@@ -2162,7 +2157,7 @@ sub test_rename_attachment_Rename_Denied_Change_Allowed {
     my ($to) = Foswiki::Func::readTopic( $this->test_web, 'NewTopic' );
     $to->text("Wibble\n   * Set ALLOWTOPICRENAME = NotMe\n");
     $to->save();
-    $to->finish();
+    undef $to;
 
     # returns undef on OSX with 3.15 version of CGI module (works on 3.42)
     my $stream = File::Temp->new( UNLINK => 0 );
@@ -2172,7 +2167,7 @@ sub test_rename_attachment_Rename_Denied_Change_Allowed {
 
     ($to) = Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $to->attach( name => 'dis.dat', file => $stream->filename );
-    $to->finish();
+    undef $to;
 
     $this->_reset_session(
         {
@@ -2209,7 +2204,7 @@ sub test_rename_attachment_Rename_Allowed_Change_Denied {
     my ($to) = Foswiki::Func::readTopic( $this->test_web, 'NewTopic' );
     $to->text("Wibble\n   * Set ALLOWTOPICCHANGE = NotMe\n");
     $to->save();
-    $to->finish();
+    undef $to;
 
     # returns undef on OSX with 3.15 version of CGI module (works on 3.42)
     my $stream = File::Temp->new( UNLINK => 0 );
@@ -2219,7 +2214,7 @@ sub test_rename_attachment_Rename_Allowed_Change_Denied {
 
     ($to) = Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $to->attach( name => 'dis.dat', file => $stream->filename );
-    $to->finish();
+    undef $to;
 
     $this->_reset_session(
         {
@@ -2264,11 +2259,11 @@ sub test_rename_attachment_not_in_meta {
     my ($to) = Foswiki::Func::readTopic( $this->test_web, 'NewTopic' );
     $to->text('Wibble');
     $to->save();
-    $to->finish();
+    undef $to;
 
     ($to) = Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     my $fh = $to->openAttachment( 'dis.dat', '>' );
-    $to->finish();
+    undef $to;
     print $fh "Oh no not again";
     $this->assert( close($fh) );
 
@@ -2307,7 +2302,7 @@ sub test_rename_attachment_no_dest_topic {
 
     my ($to) = Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     my $fh = $to->openAttachment( 'dis.dat', '>' );
-    $to->finish();
+    undef $to;
     print $fh "Oh no not again";
     $this->assert( close($fh) );
 
@@ -2351,7 +2346,7 @@ sub do_not_test_rename_attachment_not_on_disc {
 
     my ($to) = Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $to->attach( name => 'dis.dat', file => $stream->filename );
-    $to->finish();
+    undef $to;
 
     unless ( -e "$Foswiki::cfg{PubDir}/"
         . $this->test_web . "/"
@@ -2371,7 +2366,7 @@ sub do_not_test_rename_attachment_not_on_disc {
     ($to) = Foswiki::Func::readTopic( $this->test_web, 'NewTopic' );
     $to->text('Wibble');
     $to->save();
-    $to->finish();
+    undef $to;
 
     $this->_reset_session(
         {
@@ -2424,7 +2419,7 @@ sub test_renameWeb_10990 {
    * Set GROUP = $test_user_wikiname
 EOF
     $grope->save();
-    $grope->finish();
+    undef $grope;
 
     $this->_reset_session(
         {

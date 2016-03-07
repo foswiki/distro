@@ -23,7 +23,7 @@ sub test_VAR {
    * Set BLEEGLE = gibbut
 SPLOT
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web,
@@ -32,7 +32,7 @@ SPLOT
    * Set BLEEGLE = frabbeque
 SPLOT
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $this->createNewFoswikiSession();
     ($topicObject) =

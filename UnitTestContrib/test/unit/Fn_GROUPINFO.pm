@@ -28,49 +28,48 @@ around set_up => sub {
       Foswiki::Func::readTopic( $this->users_web, "GropeGroup" );
     $topicObject->text("   * Set GROUP = ScumBag,WikiGuest\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->users_web, "PopGroup" );
     $topicObject->text("   * Set GROUP = WikiGuest\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, "NobodyGroup" );
     $topicObject->text("   * Set GROUP = \n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, "NestingGroup" );
     $topicObject->text("   * Set GROUP = GropeGroup\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, "OnlyAdminCanChangeGroup" );
     $topicObject->text(
         "   * Set GROUP = WikiGuest\n   * Set TOPICCHANGE = AdminGroup\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, "GroupWithHiddenGroup" );
     $topicObject->text("   * Set GROUP = HiddenGroup,WikiGuest\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, "HiddenGroup" );
     $topicObject->text(
         "   * Set GROUP = ScumBag\n   * Set ALLOWTOPICVIEW = AdminUser\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, "HiddenUserGroup" );
     $topicObject->text("   * Set GROUP = ScumBag,HidemeGood\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->users_web, "HidemeGood" );
     my $topText = $topicObject->text();
     $topText .= "   * Set ALLOWTOPICVIEW = AdminUser\n";
     $topText = $topicObject->text($topText);
     $topicObject->save();
-    $topicObject->finish();
 };
 
 sub test_basic {
@@ -226,7 +225,7 @@ sub test_expandHiddenUserAsAdmin {
     my $this = shift;
 
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
-    $this->test_topicObject->finish if $this->test_topicObject;
+    $this->clear_test_topicObject;
     $this->test_topicObject(
         Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) );
     $this->test_topicObject->text("BLEEGLE\n");
@@ -240,7 +239,7 @@ sub test_expandHiddenUserAsAdmin {
     $this->assert_matches( qr/$users_web.HidemeGood/, $ui );
     my @u = split( /,/, $ui );
     $this->assert_equals( 2, scalar(@u) );
-    $this->test_topicObject->finish;
+    $this->clear_test_topicObject;
 
     return;
 }

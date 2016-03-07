@@ -2685,6 +2685,8 @@ Break circular references.
 
 sub DEMOLISH {
     my $this = shift;
+
+    #$this->clear_plugins;
     undef $Foswiki::Plugins::SESSION;
 }
 

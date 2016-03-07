@@ -37,7 +37,7 @@ sub _createTopic {
 | Summary | textarea | 100 |
 FORM
     $formTopicObject->save();
-    $formTopicObject->finish();
+    undef $formTopicObject;
 
     $topicObject->put( 'FORM', { name => 'TestForm' } );
     $topicObject->putKeyed( 'FIELD',
@@ -170,7 +170,7 @@ sub test_FORMFIELD_topic {
     $result = $topicObject->expandMacros(
         '%FORMFIELD{"Marjorie" topic="' . $this->test_topic . '"}%' );
     $this->assert_str_equals( '99', $result );
-    $topicObject->finish;
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $Foswiki::cfg{SystemWebName},
         $Foswiki::cfg{HomeTopicName} );
     $result = $topicObject->expandMacros(
@@ -182,7 +182,6 @@ sub test_FORMFIELD_topic {
           . $this->test_topic
           . '"}%' );
     $this->assert_str_equals( '99', $result );
-    $topicObject->finish;
 }
 
 # web="..."
@@ -192,7 +191,7 @@ sub test_FORMFIELD_web {
     # create other web
     $this->other_web( $this->test_web . "other" );
     my $webObject = $this->populateNewWeb( $this->other_web );
-    $webObject->finish();
+    undef $webObject;
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->other_web, $this->test_topic );
     $this->_createTopic( $this->other_web, $topicObject );

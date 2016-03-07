@@ -38,7 +38,7 @@ around set_up => sub {
     try {
         my $webObject =
           $this->populateNewWeb( $Foswiki::cfg{SystemWebName}, $original );
-        $webObject->finish();
+        undef $webObject;
         my ($m) =
           Foswiki::Func::readTopic( $original,
             $Foswiki::cfg{SitePrefsTopicName} );

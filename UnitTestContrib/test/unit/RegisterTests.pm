@@ -144,7 +144,7 @@ EOF2
 
         # Make the test current user an admin; we will only use
         # them where necessary (e.g. for bulk registration)
-        $topicObject->finish();
+        undef $topicObject;
         ($topicObject) =
           Foswiki::Func::readTopic( $this->users_web,
             $Foswiki::cfg{SuperAdminGroup} );
@@ -154,7 +154,7 @@ EOF2
 EOF
         $topicObject->save();
 
-        $topicObject->finish();
+        undef $topicObject;
         ($topicObject) =
           Foswiki::Func::readTopic( $this->users_web, 'UserForm' );
         $topicObject->text(<<'EOF');
@@ -166,11 +166,11 @@ EOF
 | Comment | textarea | 50x6 | | |
 EOF
         $topicObject->save();
-        $topicObject->finish();
+        undef $topicObject;
 
         my $webObject =
           $this->populateNewWeb( $systemWeb, $Foswiki::cfg{SystemWebName} );
-        $webObject->finish();
+        undef $webObject;
         $Foswiki::cfg{SystemWebName} = $systemWeb;
         $Foswiki::cfg{EnableEmail}   = 1;
 
@@ -400,7 +400,7 @@ sub verify_userTopicWithPMWithoutForm {
         $this->new_user_fname,    $this->new_user_sname,
         $this->new_user_fullname, $this->new_user_wikiname
       );
-    $meta->finish();
+    undef $meta;
     $this->assert( $text !~ /Ignore this%/, $text );
     $this->assert( $text =~ s/But not this//,                         $text );
     $this->assert( $text =~ s/^\s*\* First Name: $new_user_fname$//m, $text );
@@ -432,7 +432,7 @@ sub verify_userTopicWithoutPMWithoutForm {
     my ($meta) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
         $this->new_user_wikiname );
     my $text = $meta->text;
-    $meta->finish();
+    undef $meta;
     my (
         $new_user_fname,    $new_user_sname, $new_user_fullname,
         $new_user_wikiname, $new_user_email
@@ -514,7 +514,7 @@ BODY
     );
 
     $m->save();
-    $m->finish();
+    undef $m;
 
     $this->registerAccount();
 
@@ -535,7 +535,7 @@ BODY
     $this->assert_str_equals( '', $field->{value} );
 
     $field = $meta->get( 'FIELD', 'Email' );
-    $meta->finish();
+    undef $meta;
     if ($field) {
         $this->assert_str_equals( $this->new_user_email, $field->{value} );
     }
@@ -596,7 +596,7 @@ BODY
         }
     );
     $m->save();
-    $m->finish();
+    undef $m;
 
     $this->registerAccount();
     my ($meta) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
@@ -611,7 +611,7 @@ BODY
         $meta->get( 'FIELD', 'LastName' )->{value} );
     $this->assert_str_equals( '', $meta->get( 'FIELD', 'Comment' )->{value} );
     $this->assert_str_equals( '', $meta->get( 'FIELD', 'Email' )->{value} );
-    $meta->finish();
+    undef $meta;
     $this->assert_matches( qr/^\s*$/s, $text );
 
     return;
@@ -1488,7 +1488,7 @@ qr/.*Comment: &#60;blah&#62;.*Organization: &#60;script&#62;Bad stuff&#60;\/scri
                   Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
                     $this->new_user_wikiname );
                 my $text = $meta->text;
-                $meta->finish();
+                undef $meta;
                 $this->assert_matches(
 qr/.*Comment: &#60;blah&#62;.*Organization: &#60;script&#62;Bad stuff&#60;\/script&#62;/ms,
                     $text
@@ -2535,8 +2535,8 @@ sub verify_resetPassword_NoWikiUsersEntry {
     my ($to) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
         $Foswiki::cfg{UsersTopicName} . 'DELETED' );
     $from->move($to);
-    $from->finish();
-    $to->finish();
+    undef $from;
+    undef $to;
 
     #force a reload to unload existing user caches, and then restart as guest
     $this->createNewFoswikiSession();

@@ -98,53 +98,53 @@ around set_up => sub {
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'TestTopic1' );
     $meta->text($topic1);
     $meta->save();
-    $meta->finish();
+    undef $meta;
 
     $topic = 'TestTopic2';
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'TestTopic2' );
     $meta->text($topic2);
     $meta->save();
-    $meta->finish();
+    undef $meta;
 
     $topic = 'TestTopic3';
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'TestTopic3' );
     $meta->text($topic3);
     $meta->save();
-    $meta->finish();
+    undef $meta;
 
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'ViewoneTemplate' );
     $meta->text($templateTopicContent1);
     $meta->save( user => $this->test_user_wikiname );
-    $meta->finish();
+    undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'ViewtwoTemplate' );
     $meta->text($templateTopicContent2);
     $meta->save( user => $this->test_user_wikiname );
-    $meta->finish();
+    undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'ViewthreeTemplate' );
     $meta->text($templateTopicContent3);
     $meta->save( user => $this->test_user_wikiname );
-    $meta->finish();
+    undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'ViewfourTemplate' );
     $meta->text($templateTopicContent4);
     $meta->save( user => $this->test_user_wikiname );
-    $meta->finish();
+    undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'ViewfiveTemplate' );
     $meta->text($templateTopicContent5);
     $meta->save( user => $this->test_user_wikiname );
-    $meta->finish();
+    undef $meta;
 
     try {
         $this->createNewFoswikiSession('AdminUser');
 
         my $webObject = $this->populateNewWeb( $this->test_subweb );
-        $webObject->finish();
+        undef $webObject;
         $this->assert( $this->session->webExists( $this->test_subweb ) );
         my ($topicObject) =
           Foswiki::Func::readTopic( $this->test_subweb,
             $Foswiki::cfg{HomeTopicName} );
         $topicObject->text("SMELL");
         $topicObject->save();
-        $topicObject->finish();
+        undef $topicObject;
         $this->assert(
             $this->session->topicExists(
                 $this->test_subweb, $Foswiki::cfg{HomeTopicName}
@@ -158,13 +158,13 @@ around set_up => sub {
     my ($topicObject) = Foswiki::Func::readTopic( $this->test_subweb, $topic );
     $topicObject->text('nested topci1 text');
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     #set up nested web _and_ topic called $this->test_web/ThisTopic
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'ThisTopic' );
     $topicObject->text('nested ThisTopic text');
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->test_clashingsubweb( $this->test_web . '/ThisTopic' );
     $topic = 'TestTopic1';
 
@@ -172,7 +172,7 @@ around set_up => sub {
         $this->createNewFoswikiSession('AdminUser');
 
         my $webObject = $this->populateNewWeb( $this->test_clashingsubweb );
-        $webObject->finish();
+        undef $webObject;
         $this->assert(
             $this->session->webExists( $this->test_clashingsubweb ) );
         ($topicObject) =
@@ -180,7 +180,7 @@ around set_up => sub {
             $Foswiki::cfg{HomeTopicName} );
         $topicObject->text("SMELL");
         $topicObject->save();
-        $topicObject->finish();
+        undef $topicObject;
         $this->assert(
             $this->session->topicExists(
                 $this->test_clashingsubweb, $Foswiki::cfg{HomeTopicName}
@@ -195,7 +195,6 @@ around set_up => sub {
       Foswiki::Func::readTopic( $this->test_clashingsubweb, $topic );
     $topicObject->text('nested topci1 text');
     $topicObject->save();
-    $topicObject->finish();
 
     return;
 };

@@ -127,22 +127,22 @@ around set_up => sub {
       Foswiki::Func::readTopic( $this->test_web, 'TestForm1' );
     $topicObject->text($testform1);
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'TestForm2' );
     $topicObject->text($testform2);
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'TestForm3' );
     $topicObject->text($testform3);
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'TestForm4' );
     $topicObject->text($testform4);
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web,
@@ -152,7 +152,6 @@ around set_up => sub {
    * Set DENYWEBCHANGE = DuckDodgers
 CONTENT
     $topicObject->save();
-    $topicObject->finish();
 
     return;
 };
@@ -323,7 +322,6 @@ sub test_emptySave {
     my $text = $meta->text;
     $this->assert_matches( qr/^\s*$/, $text );
     $this->assert_null( $meta->get('FORM') );
-    $meta->finish();
 
     return;
 }
@@ -381,7 +379,6 @@ sub test_simpleTextSave {
     my $text = $meta->text;
     $this->assert_matches( qr/CORRECT/, $text );
     $this->assert_null( $meta->get('FORM') );
-    $meta->finish();
 
     return;
 }
@@ -456,7 +453,6 @@ sub test_templateTopicTextSave {
     my $text = $meta->text;
     $this->assert_matches( qr/Template Topic/, $text );
     $this->assert_null( $meta->get('FORM') );
-    $meta->finish();
 
     return;
 }
@@ -487,7 +483,6 @@ sub test_prevTopicTextSave {
     my $text = $meta->text;
     $this->assert_matches( qr/CORRECT/, $text );
     $this->assert_null( $meta->get('FORM') );
-    $meta->finish();
 
     return;
 }
@@ -545,7 +540,6 @@ sub test_prevTopicEmptyTextSave {
     my $text = $meta->text;
     $this->assert_matches( qr/^\s*CORRECT\s*$/, $text );
     $this->assert_null( $meta->get('FORM') );
-    $meta->finish();
 
     return;
 }
@@ -573,7 +567,6 @@ sub test_simpleFormSave {
     # field default values should be all ''
     $this->assert_str_equals( 'Flintstone',
         $meta->get( 'FIELD', 'Textfield' )->{value} );
-    $meta->finish();
 
     return;
 }
@@ -595,7 +588,7 @@ sub test_templateTopicFormSave {
 
     my ($xmeta) = Foswiki::Func::readTopic( $this->test_web, 'TemplateTopic' );
     my $xtext = $xmeta->text;
-    $xmeta->finish();
+    undef $xmeta;
     $query = Unit::Request->new(
         initializer => {
             templatetopic => ['TemplateTopic'],
@@ -615,7 +608,6 @@ sub test_templateTopicFormSave {
         $meta->get( 'FIELD', 'Select' )->{value} );
     $this->assert_str_equals( 'Fred',
         $meta->get( 'FIELD', 'Textfield' )->{value} );
-    $meta->finish();
 
     return;
 }
@@ -657,7 +649,6 @@ sub test_prevTopicFormSave {
         $meta->get( 'FIELD', 'Select' )->{value} );
     $this->assert_str_equals( 'Barney',
         $meta->get( 'FIELD', 'Textfield' )->{value} );
-    $meta->finish();
 
     return;
 }
@@ -686,7 +677,6 @@ sub test_simpleFormSave1 {
     $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
     $this->assert_str_equals( 'Test',
         $meta->get( 'FIELD', 'Textfield' )->{value} );
-    $meta->finish();
 
     return;
 }
@@ -704,7 +694,7 @@ sub test_simpleFormSave2 {
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave2' );
     $meta->text($testform1);
     $meta->copyFrom($oldmeta);
-    $oldmeta->finish();
+    undef $oldmeta;
     $meta->save( user => $this->test_user_login );
 
     my $query = Unit::Request->new(
@@ -724,14 +714,13 @@ sub test_simpleFormSave2 {
     $this->captureWithKey( save => $UI_FN, $this->session );
     $this->assert(
         $this->session->topicExists( $this->test_web, 'SimpleFormSave2' ) );
-    $meta->finish();
+    undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave2' );
     my $text = $meta->text;
     $this->assert_str_equals( 'TestForm3', $meta->get('FORM')->{name} );
     $this->assert_str_equals( 'Test',
         $meta->get( 'FIELD', 'Textfield' )->{value} );
     $this->assert_null( $meta->get( 'FIELD', 'CheckboxandButtons' ) );
-    $meta->finish();
 
     return;
 }
@@ -749,7 +738,7 @@ sub test_simpleFormSave3 {
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave3' );
     $meta->text($testform1);
     $meta->copyFrom($oldmeta);
-    $oldmeta->finish();
+    undef $oldmeta;
     $meta->save( user => $this->test_user_login );
 
     my $query = Unit::Request->new(
@@ -769,13 +758,12 @@ sub test_simpleFormSave3 {
     $this->captureWithKey( save => $UI_FN, $this->session );
     $this->assert(
         $this->session->topicExists( $this->test_web, 'SimpleFormSave3' ) );
-    $meta->finish();
+    undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave3' );
     my $text = $meta->text;
     $this->assert($meta);
     $this->assert_str_equals( 'UserTopic',
         $meta->get( 'PREFERENCE', 'VIEW_TEMPLATE' )->{value} );
-    $meta->finish();
 
     return;
 }
@@ -805,7 +793,6 @@ sub test_simpleFormSaveZeroValue {
 
     $this->assert_str_equals( '0',
         $meta->get( 'FIELD', 'Textfield' )->{value} );
-    $meta->finish();
 
     return;
 }
@@ -833,7 +820,6 @@ sub test_simpleFormSaveEmptyValue {
     $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
 
     $this->assert_str_equals( '', $meta->get( 'FIELD', 'Textfield' )->{value} );
-    $meta->finish();
 
     return;
 }
@@ -860,7 +846,6 @@ sub test_templateTopicWithMeta {
     my $pref = $meta->get( 'PREFERENCE', 'VIEW_TEMPLATE' );
     $this->assert_not_null($pref);
     $this->assert_str_equals( 'UserTopic', $pref->{value} );
-    $meta->finish();
 
     return;
 }
@@ -929,7 +914,6 @@ sub test_templateTopicWithAttachments {
         "testfile.txt copied" );
     $this->assert( $meta->testAttachment( "testfile2.txt", 'e' ),
         "testfile2.txt copied" );
-    $meta->finish();
 
     return;
 }
@@ -947,7 +931,7 @@ sub test_merge {
     $oldmeta->text($testform4);
     $oldmeta->save( user => $this->test_user_2_login );
 
-    $oldmeta->finish();
+    undef $oldmeta;
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
     my $text   = $meta->text;
     my $info   = $meta->getRevisionInfo();
@@ -1024,7 +1008,7 @@ GUMP
     };
 
     # Get the merged topic and pick it apart
-    $meta->finish();
+    undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
     $text = $meta->text;
     my $e = <<'END';
@@ -1175,7 +1159,7 @@ sub test_1897 {
     $meta->copyFrom($oldmeta);
     $meta->text("Smelly\ncat");
     $meta->save();
-    $meta->finish();
+    undef $meta;
 
     ( $meta, $text ) = Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
 
@@ -1237,7 +1221,7 @@ sub test_1897 {
         }
     };
 
-    $meta->finish();
+    undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
     $text = $meta->text();
 
@@ -1249,7 +1233,6 @@ sub test_1897 {
 "<del>Sweaty\n</del><ins>Smelly\n</ins><del>cat\n</del><ins>rat\n</ins>",
         $text
     );
-    $meta->finish();
 
     return;
 }
@@ -1274,7 +1257,7 @@ sub test_cmdEqualsReprev {
     $meta->copyFrom($oldmeta);
     $meta->text("Les Miserables");
     $meta->save();
-    $meta->finish();
+    undef $meta;
 
     ( $meta, $text ) = Foswiki::Func::readTopic( $this->test_web, 'RepRev' );
 
@@ -1314,7 +1297,6 @@ sub test_cmdEqualsReprev {
     # systems (see note in Meta.pm)
     print STDERR "$orgDate + 60, $repRevDate\n";
     $this->assert( $orgDate < $repRevDate );
-    $meta->finish();
 
     return;
 }
@@ -1420,7 +1402,7 @@ sub test_preferenceSave {
         $meta->get( 'PREFERENCE', 'SETME' )->{value} );
     $this->assert_equals( 'set me 2',
         $meta->get( 'PREFERENCE', 'SETME2' )->{value} );
-    $meta->finish();
+    undef $meta;
 
     $query = Unit::Request->new(
         initializer => {
@@ -1445,7 +1427,6 @@ sub test_preferenceSave {
     $this->assert_null( $meta->get( 'PREFERENCE', 'LOCALME' ) );
     $this->assert_null( $meta->get( 'PREFERENCE', 'SETME2' ) );
     $this->assert_null( $meta->get( 'PREFERENCE', 'LOCALME2' ) );
-    $meta->finish();
 
     return;
 }

@@ -30,7 +30,6 @@ around set_up_for_verify => sub {
 
     # subweb of test web, so default tear_down will nosh it
     my $webObject = $this->populateNewWeb( $this->sub_web_path );
-    $webObject->finish();
 };
 
 sub verify_createSubSubWeb {
@@ -39,13 +38,13 @@ sub verify_createSubSubWeb {
     $this->createNewFoswikiSession();
     my $webTest   = 'Item0';
     my $webObject = $this->populateNewWeb( $this->sub_web_path . "/$webTest" );
-    $webObject->finish();
+    undef $webObject;
     $this->assert(
         $this->session->webExists( $this->sub_web_path . "/$webTest" ) );
 
     $webTest   = 'Item0_';
     $webObject = $this->populateNewWeb( $this->sub_web_path . "/$webTest" );
-    $webObject->finish();
+    undef $webObject;
     $this->assert(
         $this->session->webExists( $this->sub_web_path . "/$webTest" ) );
 
@@ -60,7 +59,7 @@ sub verify_createSubWebTopic {
       Foswiki::Func::readTopic( $this->sub_web_path, $this->test_topic );
     $topicObject->text("page stuff\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->assert(
         $this->session->topicExists( $this->sub_web_path, $this->test_topic ) );
 
@@ -83,7 +82,7 @@ sub verify_include_subweb_non_wikiword_topic {
 %INCLUDE{ "$sub_web_path/$includeTopic" }%
 TOPIC
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->assert(
         $this->session->topicExists( $this->sub_web_path, $baseTopic ) );
 
@@ -92,7 +91,7 @@ TOPIC
       Foswiki::Func::readTopic( $this->sub_web_path, $includeTopic );
     $topicObject->text($testText);
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->assert(
         $this->session->topicExists( $this->sub_web_path, $includeTopic ) );
 
@@ -100,7 +99,7 @@ TOPIC
     ($topicObject) =
       Foswiki::Func::readTopic( $this->sub_web_path, $includeTopic );
     $this->assert_matches( qr/$testText\s*$/, $topicObject->text );
-    $topicObject->finish();
+    undef $topicObject;
 
     # base page should evaluate (more or less) to the included page's text
     ($topicObject) =
@@ -108,7 +107,6 @@ TOPIC
     my $text = $topicObject->text;
     $text = $topicObject->expandMacros($text);
     $this->assert_matches( qr/$testText\s*$/, $text );
-    $topicObject->finish();
 
     return;
 }
@@ -132,8 +130,8 @@ sub verify_create_subweb_with_same_name_as_a_topic {
     my ($meta) =
       Foswiki::Func::readTopic( $this->sub_web_path, $this->test_topic );
     $this->assert_matches( qr/$testText\s*$/, $topicObject->text );
-    $topicObject->finish();
-    $meta->finish();
+    undef $topicObject;
+    undef $meta;
 
     # create the subweb with the same name as the page
     my $webObject =
@@ -147,10 +145,10 @@ sub verify_create_subweb_with_same_name_as_a_topic {
     ($topicObject) =
       Foswiki::Func::readTopic( $this->sub_web_path, $this->test_topic );
     $this->assert_matches( qr/$testText\s*$/, $topicObject->text );
-    $topicObject->finish();
+    undef $topicObject;
 
     $webObject->removeFromStore();
-    $webObject->finish();
+    undef $webObject;
 
     $this->assert(
         !$this->session->webExists(
@@ -180,7 +178,7 @@ sub verify_create_sub_web_missingParent {
         $this->assert_matches( qr/^Parent web Missingweb does not exist.*/,
             $errStr, "Unexpected error $errStr" );
     };
-    $webObject->finish();
+    undef $webObject;
     $this->assert(
         !$this->session->webExists( "Missingweb/" . $this->sub_web ) );
     $this->assert( !$this->session->webExists("Missingweb") );
@@ -209,7 +207,7 @@ sub verify_createWeb_InvalidBase {
         $this->assert_matches( qr/^Template web Missingbase does not exist.*/,
             $errStr, "Unexpected error $errStr" );
     };
-    $webObject->finish();
+    undef $webObject;
     $this->assert(
         !$this->session->webExists( $this->sub_web_path . "/$webTest" ) );
 
@@ -240,7 +238,7 @@ sub verify_createWeb_hierarchyDisabled {
             qr/^Unable to create .* Hierarchical webs are disabled.*/,
             $errStr, "Unexpected error '$errStr'" );
     };
-    $webObject->finish();
+    undef $webObject;
     $this->assert(
         !$this->session->webExists( $this->sub_web_path . "/$webTest" . 'x' ) );
 
@@ -292,7 +290,7 @@ sub verify_url_parameters {
       Foswiki::Func::readTopic( $this->test_web, $this->sub_web );
     $topicObject->text("nowt");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     $topicquery = Unit::Request->new(
         initializer => {
@@ -340,7 +338,7 @@ sub test_squab_simple {
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, 'NonExistant' );
     $text = $topicObject->renderTML($text);
-    $topicObject->finish();
+    undef $topicObject;
     my $test_web = $this->test_web;
     $this->assert_matches(
 qr!<a class="foswikiNewLink" href=".*?/$test_web/$test_web\?topicparent=$test_web\.NonExistant!,
@@ -365,7 +363,7 @@ sub test_squab_subweb {
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, 'NonExistant' );
     $text = $topicObject->renderTML($text);
-    $topicObject->finish();
+    undef $topicObject;
     my $sub_web_path = $this->sub_web_path;
     my $test_web     = $this->test_web;
     $this->assert_matches(
@@ -393,7 +391,7 @@ sub test_squab_subweb_full_path {
     my $text = "[[$test_web.$sub_web]]";
     my ($topicObject) = Foswiki::Func::readTopic( $test_web, 'NonExistant' );
     $text = $topicObject->renderTML($text);
-    $topicObject->finish();
+    undef $topicObject;
     $this->assert_matches(
 qr!<a class="foswikiNewLink" href=".*?/$sub_web_path\?topicparent=$test_web.NonExistant!,
         $text
@@ -416,14 +414,14 @@ sub test_squab_subweb_wih_topic {
       Foswiki::Func::readTopic( $this->test_web, $this->sub_web );
     $topicObject->text('');
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->assert(
         $this->session->topicExists( $this->test_web, $this->sub_web ) );
 
     my $text = "[[" . $this->sub_web . "]]";
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'NonExistant' );
     $text = $topicObject->renderTML($text);
-    $topicObject->finish();
+    undef $topicObject;
     my $scripturl =
         $this->session->getScriptUrl( 0, 'view' ) . "/"
       . $this->test_web . "/"
@@ -459,14 +457,14 @@ sub test_squab_full_path_with_topic {
       Foswiki::Func::readTopic( $this->test_web, $this->sub_web );
     $topicObject->text('');
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->assert(
         $this->session->topicExists( $this->test_web, $this->sub_web ) );
 
     my $text = "[[" . $this->test_web . "." . $this->sub_web . "]]";
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'NonExistant' );
     $text = $topicObject->renderTML($text);
-    $topicObject->finish();
+    undef $topicObject;
 
     my $test_web = $this->test_web;
     my $sub_web  = $this->sub_web;
@@ -490,14 +488,14 @@ sub test_squab_path_to_topic_in_subweb {
       Foswiki::Func::readTopic( $this->test_web, $this->sub_web );
     $topicObject->text('');
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->assert(
         $this->session->topicExists( $this->test_web, $this->sub_web ) );
 
     my $text = "[[" . $this->test_web . "." . $this->sub_web . ".WebHome]]";
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'NonExistant' );
     $text = $topicObject->renderTML($text);
-    $topicObject->finish();
+    undef $topicObject;
 
     my $scripturl =
       Foswiki::Func::getScriptUrl( $this->test_web . "/" . $this->sub_web,

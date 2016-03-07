@@ -26,10 +26,10 @@ around set_up => sub {
     $orig->( $this, @_ );
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
     my $webObject = $this->populateNewWeb( $this->test_web . "/SubWeb" );
-    $webObject->finish();
+    undef $webObject;
 
     my $webObjectH = $this->populateNewWeb( $this->test_web . "Hidden" );
-    $webObjectH->finish();
+    undef $webObjectH;
 
     my ($webPrefsObj) = Foswiki::Func::readTopic( $this->test_web . "Hidden",
         $Foswiki::cfg{WebPrefsTopicName} );
@@ -40,7 +40,7 @@ If ALLOW is set to a list of wikiname
    * Set ALLOWWEBVIEW = $users_web.AdminUser
 THIS
     $webPrefsObj->save();
-    $webPrefsObj->finish();
+    undef $webPrefsObj;
 
     Foswiki::Func::readTemplate('foswiki');
 
@@ -116,7 +116,7 @@ sub test_otherWeb_NOSEARCHALL {
         $Foswiki::cfg{WebPrefsTopicName} );
     $to->text( $to->text() . "\n   * Set NOSEARCHALL = on\n" );
     $to->save();
-    $to->finish();
+    undef $to;
 
     my $text =
       $this->test_topicObject->expandMacros(

@@ -26,7 +26,6 @@ around set_up => sub {
     $orig->( $this, @_ );
     $this->other_web( $this->test_web . "other" );
     my $webObject = $this->populateNewWeb( $this->other_web );
-    $webObject->finish();
 };
 
 around tear_down => sub {

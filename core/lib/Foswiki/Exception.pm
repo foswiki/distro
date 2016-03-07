@@ -251,6 +251,11 @@ extends qw(Foswiki::Exception);
 
 # This class is to distinguish ASSERT-generated exceptions only.
 
+sub BUILD {
+
+    #say STDERR "Exception::ASSERT", Carp::longmess;
+}
+
 package Foswiki::Exception::Fatal;
 use Moo;
 extends qw(Foswiki::Exception);

@@ -230,17 +230,17 @@ around set_up => sub {
     my ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'H_' );
     $topicObject->text("BLEEGLE");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, 'Underscore_topic' );
     $topicObject->text("BLEEGLE");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $Foswiki::cfg{HomeTopicName} );
     $topicObject->text("BLEEGLE");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, 'Numeric1Wikiword' );
     $topicObject->text("BLEEGLE");
@@ -255,7 +255,6 @@ around set_up => sub {
     $Foswiki::cfg{AntiSpam}{EmailPadding}     = 'STUFFED';
     $Foswiki::cfg{AntiSpam}{EntityEncode}     = 1;
     $Foswiki::cfg{AllowInlineScript}          = 1;
-    $topicObject->finish();
 };
 
 around tear_down => sub {
@@ -1033,9 +1032,9 @@ sub test_shortAcronyms {
     my $abbrevLength = 2;
     $Foswiki::regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
     require Class::Unload;
-    $this->session->renderer->finish();
+    $this->session->clear_renderer;
     Class::Unload->unload('Foswiki::Render');
-    require Foswiki::Render;
+    Foswiki::load_class('Foswiki::Render');
     $this->session->renderer( Foswiki::Render->( $this->session ) );
 
     my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
@@ -1063,9 +1062,9 @@ ACTUAL
     $abbrevLength = $Foswiki::cfg{AcronymLength} || 3;
     $Foswiki::regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
     require Class::Unload;
-    $this->session->renderer->finish;
+    $this->session->clear_renderer;
     Class::Unload->unload('Foswiki::Render');
-    require Foswiki::Render;
+    Foswiki::load_class('Foswiki::Render');
     $this->session->renderer( Foswiki::Render->new( $this->session ) );
 
 }
@@ -1898,7 +1897,6 @@ sub _create_topic {
     my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
 
     $topicObject->save();
-    $topicObject->finish();
 
     return;
 }

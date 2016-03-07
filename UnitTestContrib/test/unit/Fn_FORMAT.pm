@@ -231,7 +231,6 @@ HERE
         }
     );
     $topicObject->save();
-    $topicObject->finish();
 }
 
 sub test_same_topic_listed_twice {
@@ -357,7 +356,7 @@ sub test_formatOfLinks {
 Apache is the [[http://www.apache.org/httpd/][well known web server]].
 HERE
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     my $result =
       $this->test_topicObject->expandMacros(

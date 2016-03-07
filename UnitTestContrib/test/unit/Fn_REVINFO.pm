@@ -32,11 +32,10 @@ around set_up => sub {
       Foswiki::Func::readTopic( $this->users_web, "GropeGroup" );
     $topicObject->text("   * Set GROUP = ScumBag,WikiGuest\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, "GlumDrop" );
     $topicObject->text("Burble\n");
     $topicObject->save();
-    $topicObject->finish();
 
     return;
 };
@@ -68,7 +67,6 @@ sub test_basic2 {
     {
         $this->assert( 0, $ui );
     }
-    $topicObject->finish();
 
     return;
 }
@@ -85,7 +83,6 @@ sub test_basic3 {
     {
         $this->assert( 0, $ui );
     }
-    $topicObject->finish();
 
     return;
 }
@@ -103,7 +100,6 @@ sub test_thisWebVars {
     {
         $this->assert( 0, $ui );
     }
-    $topicObject->finish();
 
     return;
 }
@@ -121,7 +117,6 @@ sub BROKENtest_thisTopicVars {
     {
         $this->assert( 0, $ui );
     }
-    $topicObject->finish();
 
     return;
 }
@@ -139,7 +134,6 @@ sub BROKENtest_thisWebTopicVars {
     {
         $this->assert( 0, $ui );
     }
-    $topicObject->finish();
 
     return;
 }
@@ -159,7 +153,6 @@ sub test_otherWeb {
     {
         $this->assert( 0, $ui );
     }
-    $topicObject->finish();
 
     return;
 }
@@ -178,7 +171,6 @@ sub test_otherWeb2 {
     {
         $this->assert( 0, $ui );
     }
-    $topicObject->finish();
 
     return;
 }
@@ -196,7 +188,6 @@ sub test_formatUser {
           . $this->test_user_wikiname,
         $ui
     );
-    $topicObject->finish();
 
     return;
 }
@@ -214,7 +205,6 @@ sub test_std_escapes {
           . $this->test_user_wikiname . ">",
         $ui
     );
-    $topicObject->finish();
 
     return;
 }
@@ -242,12 +232,11 @@ sub test_compatibility1 {
         }
     );
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'CrikeyMoses' );
     my $ui =
       $topicObject->expandMacros('%REVINFO{format="$username $wikiname"}%');
     $this->assert_str_equals( "scum ScumBag", $ui );
-    $topicObject->finish();
 
     return;
 }
@@ -274,12 +263,11 @@ sub test_compatibility2 {
         }
     );
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'CrikeyMoses' );
     my $ui =
       $topicObject->expandMacros('%REVINFO{format="$username $wikiname"}%');
     $this->assert_str_equals( "scum ScumBag", $ui );
-    $topicObject->finish();
 
     return;
 }
@@ -314,7 +302,6 @@ HERE
     $ui = $topicObject->expandMacros(
         '%REVINFO{format="$username $wikiname $wikiusername"}%');
     $this->assert_str_equals( "unknown unknown unknown", $ui );
-    $topicObject->finish();
 
     return;
 }
@@ -325,7 +312,7 @@ sub test_42 {
       Foswiki::Func::readTopic( $this->test_web, "HappyPill" );
     $topicObject->text("   * Set ALLOWTOPICVIEW = CarlosCastenada\n");
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
     $this->createNewFoswikiSession();
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'GlumDrop' );
     my $ui = $topicObject->expandMacros(
@@ -334,7 +321,6 @@ sub test_42 {
           . '.HappyPill" format="$username $wikiname $wikiusername"}%',
     );
     $this->assert( $ui =~ m/No permission to view/ );
-    $topicObject->finish();
 
     return;
 }
@@ -349,7 +335,6 @@ sub test_CaseSensitiveFormatString {
     my ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'GlumDrop' );
     my $ui = $topicObject->expandMacros( '%REVINFO{format="$DATE"}%', );
     $this->assert_str_equals( '$DATE', $ui );
-    $topicObject->finish();
 
     return;
 }
@@ -401,7 +386,6 @@ OFNIVER
         $y = $topicObject->expandMacros("%REVINFO{\"$tf\"}%");
         $this->assert_str_equals( $x, $y );
     }
-    $topicObject->finish();
 
     return;
 }
@@ -419,7 +403,6 @@ sub test_Item10476 {
     my $epoch = $topicObject->expandMacros('%REVINFO{"$epoch"}%');
     my $expected = Foswiki::Time::formatTime( $epoch, $format );
     $this->assert_str_equals( $ui, $expected );
-    $topicObject->finish();
 
     return;
 }

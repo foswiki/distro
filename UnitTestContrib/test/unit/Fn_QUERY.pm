@@ -176,7 +176,6 @@ Woo
 Woo
 whatsnot.gif,World.gif
 THIS
-    $topicObject->finish();
 }
 
 sub test_perl {
@@ -222,7 +221,6 @@ PONG
         ],
         $result
     );
-    $topicObject->finish();
 }
 
 sub test_json {
@@ -264,7 +262,6 @@ PONG
 ]
 THIS
     }
-    $topicObject->finish();
 }
 
 #style defaults to Simplified (ie style=default)
@@ -292,7 +289,6 @@ Woo
 Woo
 whatsnot.gif,World.gif
 THIS
-    $topicObject->finish();
 }
 
 sub test_ref {
@@ -318,7 +314,6 @@ PONG
 BleaghForm
 whatsnot.gif,World.gif
 THIS
-    $topicObject->finish();
 }
 
 sub test_cfg {
@@ -499,10 +494,6 @@ PONG
     $this->assert_equals( <<THIS, $result );
 
 THIS
-
-    $topicObject->finish();
-    $topicObject0Att->finish();
-    $topicObject2Att->finish();
 }
 
 sub test_FormTypes {
