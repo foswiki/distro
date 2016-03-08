@@ -811,7 +811,6 @@ BOGUS
 
         # Generate a zipped page, if the client accepts them
 
-        # SMELL: $ENV{SPDY} is a non-standard way to detect spdy protocol
         if ( my $encoding = _gzipAccepted() ) {
             $hopts->{'Content-Encoding'} = $encoding;
             $hopts->{'Vary'}             = 'Accept-Encoding';
@@ -850,7 +849,9 @@ sub _gzipAccepted {
     {
         $encoding = $1;
     }
-    elsif ( $ENV{'SPDY'} ) {
+    elsif ( $ENV{'HTTP2'} ) {
+
+        # SMELL: $ENV{'HTTP2'} is a non-standard way to detect http2 protocol
         $encoding = 'gzip';
     }
     return $encoding;
@@ -2207,10 +2208,7 @@ sub new {
     my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
 
     # Scripts like rest, jsonrpc,  don't use web/topic path.
-    my $webtopic = '';
-    unless ( $query->action() eq 'rest' || $query->action() eq 'jsonrpc' ) {
-        $webtopic = urlDecode( $query->path_info() || '' );
-    }
+    my $webtopic = urlDecode( $query->path_info() || '' );
 
     my $topicOverride = '';
     my $topic         = $query->param('topic');
