@@ -10,6 +10,7 @@
 application/atom+xml            atom
 application/font-tdpfr          pfr
 application/font-woff           woff
+application/font-woff2          woff2
 application/java-archive        jar
 application/mac-binhex40        hqx
 application/mac-compactpro      cpt
@@ -156,7 +157,7 @@ model/vrml                      wrl vrml
 text/css                        css cssfrag
 text/h323                       323
 text/html                       html htm htmlfrag
-text/plain                      txt text diff sql sqlfrag
+text/plain                      txt text diff sql sqlfrag log
 text/richtext                   rtx
 text/tab-separated-values       tsv
 text/vnd.sun.j2me.app-descriptor    jad 
