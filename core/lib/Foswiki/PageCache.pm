@@ -223,7 +223,7 @@ sub cachePage {
     my $variationKey = $this->genVariationKey();
 
     # remove old entries
-    if ( $refresh =~ m/^(on|cache|all)$/ ) {
+    if ( $session->inContext("isadmin") && $refresh =~ m/^(on|cache|all)$/ ) {
         $this->deletePage( $web, $topic );    # removes all variations
     }
     else {
@@ -335,7 +335,6 @@ sub getPage {
     if ( $refresh eq 'fire' ) {    # simulates a "save" of the current topic
         $this->fireDependency( $web, $topic );
     }
-    return undef if $refresh =~ m/^(on|cache|all|fire)$/;
 
     # check cacheability
     return undef unless $this->isCacheable( $web, $topic );
@@ -404,25 +403,29 @@ sub isCacheable {
     $isCacheable = 1;
 
     my $session = $Foswiki::Plugins::SESSION;
+    $isCacheable = 0 if $session->inContext('command_line');
 
     # check for errors parsing the url path
     $isCacheable = 0 if $session->{invalidWeb} || $session->{invalidTopic};
 
     # POSTs and HEADs aren't cacheable
-    my $method = $session->{request}->method;
-    $isCacheable = 0 if $method && $method =~ m/^(?:POST|HEAD)$/;
-
     if ($isCacheable) {
+        my $method = $session->{request}->method;
+        $isCacheable = 0 if $method && $method =~ m/^(?:POST|HEAD)$/;
+    }
 
-        # check prefs value
+    # check prefs value
+    if ($isCacheable) {
         my $flag = $session->{prefs}->getPreference('CACHEABLE');
         $isCacheable = 0 if defined $flag && !Foswiki::isTrue($flag);
     }
 
     # don't cache 401 Not authorized responses
-    my $headers = $session->{response}->headers();
-    my $status  = $headers->{Status};
-    $isCacheable = 0 if $status && $status eq 401;
+    if ($isCacheable) {
+        my $headers = $session->{response}->headers();
+        my $status  = $headers->{Status};
+        $isCacheable = 0 if $status && $status eq 401;
+    }
 
     # TODO: give plugins a chance - create a callback to intercept cacheability
 
