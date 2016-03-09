@@ -67,12 +67,12 @@ fail("No Bug item in log message\n") unless ( $logmsg =~ /^Item\d+\s*:/ );
 my @items;
 $logmsg =~ s/\b(Item\d+)\s*:/push(@items, $1); '';/gem;
 foreach my $item (@items) {
-    my $url   = "http://foswiki.org/Tasks/ItemStatusQuery?item=$item;skin=text";
+    my $url   = "https://foswiki.org/Tasks/ItemStatusQuery?item=$item;skin=text";
     my $state = get $url;
 
     unless ( defined $state ) {
         $failmsg .=
-"ERROR: GET on Tasks.ItemStatusQuery failed.  Check http://foswiki.org/Tasks/ItemStatusQuery\n";
+"ERROR: GET on Tasks.ItemStatusQuery failed.  Check https://foswiki.org/Tasks/ItemStatusQuery\n";
         fail($failmsg);
     }
 
@@ -91,7 +91,7 @@ fail($failmsg) if $failmsg;
 exit 0;
 
 # PLEASE keep this message in sync with
-# http://foswiki.org/Development/SvnRepository#RulesForCheckins
+# https://foswiki.org/Development/SvnRepository#RulesForCheckins
 sub fail {
     my $message = shift;
     print STDERR <<"EOF";
@@ -102,7 +102,7 @@ Illegal checkin to Foswiki git repo found in pre-commit:
 $message
 =======
 
-http://foswiki.org/Development/GitRepository#RulesForCheckins
+https://foswiki.org/Development/GitRepository#RulesForCheckins
 Rules - files being checked in must:
 1. Have a comment...
 2. ...with relevant ItemNNN task topics in the first line, e.g.
@@ -115,7 +115,7 @@ Item12345: Item12346: fixed foo, updated release notes
 
 4. .pl and .pm files must be "tidied" if the TIDY control file
    in the root of the extension calls for it, see:
-   http://foswiki.org/Development/TIDY
+   https://foswiki.org/Development/TIDY
 
 5. .txt files in web directories must have META:TOPICINFO with
    the author "ProjectContributor", a version of 1 and a date
@@ -125,7 +125,7 @@ Item12345: Item12346: fixed foo, updated release notes
 
 Getting rejected commits with perltidy? We are checking using
 version $Perl::Tidy::VERSION
-See http://foswiki.org/Development/PerlTidy#Versions
+See https://foswiki.org/Development/PerlTidy#Versions
 ------------TRUNCATED COMMIT MESSAGE FOLLOWS------------------------
 EOF
     $logmsg =~ s/^# Untracked files:.*//ms;
