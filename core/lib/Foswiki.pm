@@ -2201,14 +2201,23 @@ sub new {
     #              does not provide a web.
     # path_info    Defaults to the Users web Home topic
 
+    # Note that the jsonrpc script does none of these. A default
+    # web/topic is part of the posted json request.
+
     # Set the default for web
     # Development.AddWebParamToAllCgiScripts: enables
     # bin/script?topic=WebPreferences;defaultweb=Sandbox
     my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
 
-    # Scripts like rest, jsonrpc,  don't use web/topic path.
+    # rest doesn't use web/topic path, but pick up a default.
     my $webtopic = '';
-    unless ( $query->action() eq 'rest' || $query->action() eq 'jsonrpc' ) {
+
+   # SMELL: It is completely bogus that we do this for the jsonrpc script.
+   # But we must, because jsonrpc depends upon the bogus path_info to trigger
+   # a bug in core which results in an unassigned default BASEWEB and BASETOPIC.
+   # If jsonrpc gets a default web/topic, it will pick up settings for the
+   # wrong topic and fail.
+    unless ( $query->action() eq 'rest' ) {
         $webtopic = urlDecode( $query->path_info() || '' );
     }
 
