@@ -4,7 +4,7 @@
 
 ---+ foswiki-github-hooks
 This is a maintenance script for the foswiki gihub account.
-It is intended to be run on http://foswiki.org in the github mirror directory.
+It is intended to be run on https://foswiki.org in the github mirror directory.
 It examines and sets the hooks for each repository.
 
 It requires a password file for proper operation
@@ -66,7 +66,7 @@ my %HOOKS = (
         'active' => JSON::true,
         'config' => {
             'url' =>
-              'http://trunk.foswiki.org/bin/rest/FoswikiOrgPlugin/githubpush',
+              'https://trunk.foswiki.org/bin/rest/FoswikiOrgPlugin/githubpush',
             'content_type' => 'json',
             'secret'       => $secrets->{'webhook_secret'},
         }
@@ -146,10 +146,10 @@ sub checkSettings {
     my $weburl;
 
     if ( $rname =~ m/(Skin|Plugin|Contrib|Add[Oo]n)$/ ) {
-        $weburl = "http://foswiki.org/Extensions/$rname";
+        $weburl = "https://foswiki.org/Extensions/$rname";
     }
     else {
-        $weburl = "http://foswiki.org/";
+        $weburl = "https://foswiki.org/";
     }
 
     my $homepage = $r->{'homepage'}    || $weburl;
