@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434484983" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Wiki - culture, concepts and principles
 
@@ -41,6 +41,6 @@ Here are just a few of the ways we have seen Foswiki being used in enterprise en
    * As a training development platform, to develop interactive training
    * As a customer support database, where customers can directly interact with their issues (subject to access control) and communicate though the system with the support team
 
-For more ideas on how a wiki can be used - and there are many - visit the Foswiki extensions web at http://foswiki.org/Extensions. 
+For more ideas on how a wiki can be used - and there are many - visit the Foswiki extensions web at https://foswiki.org/Extensions. 
 
 There are many wiki implementations in the world today, but Foswiki stands apart from the others in it's raw power and flexibility. The basic wiki platform has been refined and improved over the years, while hundreds of contributed modules enhance it's functionality in many different domains, mainly oriented towards business applications. 

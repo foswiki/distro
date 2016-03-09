@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1453725329" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! %TOPIC%
 
@@ -33,7 +33,7 @@ Foswiki implements the Wiki idea of a shared whiteboard
 
 Foswiki is _also_ an "application platform" that lets you quickly build and use your own online applications <br />... and can be extended using an open _plugins_ architecture <br /> ... with _hundreds_ of user-contributed extensions already available off-the-shelf
 
-Foswiki is an Open-Source development on http://foswiki.org/
+Foswiki is an Open-Source development on https://foswiki.org/
    * governed by the Foswiki Association
    * many volunteer contributors in many countries
    * <u>FOS</u>Wiki = <u>F</u>ree <u>O</u>pen <u>S</u>ource Wiki
@@ -339,7 +339,7 @@ Basic Foswiki is rich with features, but is enriched even further by optional ex
 
 When Foswiki is first installed, it comes with a default set of extensions pre-installed; you can see the list by visiting the %SYSTEMWEB%.InstalledPlugins page.
 
-There are a huge number of other extensions available from http://foswiki.org/Extensions
+There are a huge number of other extensions available from https://foswiki.org/Extensions
 
 ---++ Getting more information
 
@@ -348,7 +348,7 @@ a lot of it. It can be daunting at first, so don't try to learn the whole
 thing in one go. The best way to start is to use it, and when you need to do
 something new, browse this web or look for examples online.
 
-If you get stuck, you can refer to the http://foswiki.org/Support web, which has a wealth of online resources, or join the friendly Foswiki IRC channel at irc://irc.freenode.net/foswiki
+If you get stuck, you can refer to the https://foswiki.org/Support web, which has a wealth of online resources, or join the friendly Foswiki IRC channel at irc://irc.freenode.net/foswiki
 
 ---++ Credits and Acknowledgements
    * This training was developed by Foswiki:Main.CrawfordCurrie on behalf of [[http://www.oxamer.com/][Oxamer]], one of the companies in the [[http://www.ogt.co.uk/][Oxford Gene Technology]] group.
@@ -360,13 +360,13 @@ If you get stuck, you can refer to the http://foswiki.org/Support web, which has
 
 __Related topics:__ WelcomeGuest, WikiCulture, TwentyMinuteTutorial, TopicsAndWebs
 
-%META:FILEATTACHMENT{name="hula.gif" attr="h" comment="" date="1453725329" size="8780" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="myco.gif" attr="h" comment="" date="1453725329" size="1834" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="lego.gif" attr="h" comment="" date="1453725329" size="4084" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="SAP_logo.gif" attr="h" comment="" date="1453725329" size="2711" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="camel.png" attr="h" comment="" date="1453725329" size="13734" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="BT_logo.gif" attr="h" comment="" date="1453725329" size="1687" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="EpicGames_logo.gif" attr="h" comment="" date="1453725329" size="2270" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Disney_logo.gif" attr="h" comment="" date="1453725329" size="1506" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="whiteboard.gif" attr="h" comment="" date="1453725329" size="13471" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Motorola_logo.gif" attr="h" comment="" date="1453725329" size="2394" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="hula.gif" attr="h" comment="" date="1457496285" size="8780" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="myco.gif" attr="h" comment="" date="1457496285" size="1834" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="lego.gif" attr="h" comment="" date="1457496285" size="4084" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SAP_logo.gif" attr="h" comment="" date="1457496285" size="2711" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="camel.png" attr="h" comment="" date="1457496285" size="13734" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="BT_logo.gif" attr="h" comment="" date="1457496285" size="1687" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="EpicGames_logo.gif" attr="h" comment="" date="1457496285" size="2270" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Disney_logo.gif" attr="h" comment="" date="1457496285" size="1506" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="whiteboard.gif" attr="h" comment="" date="1457496285" size="13471" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Motorola_logo.gif" attr="h" comment="" date="1457496285" size="2394" user="ProjectContributor" version="1"}%

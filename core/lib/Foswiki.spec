@@ -1,4 +1,4 @@
-# Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+# Foswiki - The Free and Open Source Wiki, https://foswiki.org/
 # See bottom of file for license and copyright information.
 #
 # This file contains a specification of the parts of Foswiki that can be
@@ -22,7 +22,7 @@
 # NOTE FOR DEVELOPERS:
 # The comments in this file are formatted so that the =configure= script
 # can extract documentation from here. See
-# http://foswiki.org/System/DevelopingPlugins#Integrating_with_configure
+# https://foswiki.org/System/DevelopingPlugins#Integrating_with_configure
 # for details of the syntax used.
 #
 # You can use $Foswiki::cfg variables in other settings,
@@ -88,7 +88,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # **URLPATH LABEL="Script Url Path" CHECK="emptyok notrail"**
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin
 # directory. For example =/foswiki/bin=.
-# See [[http://foswiki.org/Support/ShorterUrlCookbook][ShorterUrlCookbook]]
+# See [[https://foswiki.org/Support/ShorterUrlCookbook][ShorterUrlCookbook]]
 # for more information on setting up Foswiki to use shorter script URLs.
 # $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
@@ -103,13 +103,13 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # including any suffix.
 # You should leave this as it is, unless your web server is configured
 # for short URLs (for example using Foswiki's
-# [[http://foswiki.org/Support/ApacheConfigGenerator][Apache Config Generator]]
+# [[https://foswiki.org/Support/ApacheConfigGenerator][Apache Config Generator]]
 # ). If it is, replace this with the base path of your wiki (the value of
 # {ScriptUrlPath} with the =/bin= suffix removed, so you'll have to leave
 # this field empty if your wiki lives at the top level).
 # 
 # More information:
-# [[http://foswiki.org/Support/ShorterUrlCookbook][Shorter URL Cookbook]]
+# [[https://foswiki.org/Support/ShorterUrlCookbook][Shorter URL Cookbook]]
 # $Foswiki::cfg{ScriptUrlPaths}{view} = '$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}';
 
 # **URLPATH LABEL="Pub Url Path" CHECK='noemptyok notrail' **
@@ -122,7 +122,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # protected by Foswiki access controls. If you require access controls, you
 # will have to use webserver controls (for example =.htaccess= on Apache).
 # See the
-# [[http://foswiki.org/Support/ApacheConfigGenerator][Apache Config Generator]]
+# [[https://foswiki.org/Support/ApacheConfigGenerator][Apache Config Generator]]
 # for more information.
 # $Foswiki::cfg{PubUrlPath} = '/foswiki/pub';
 
@@ -224,7 +224,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # This allows you to have persistent session variables - for example, skins.
 # Client sessions are not required for logins to work, but Foswiki will not
 # be able to remember logged-in users consistently.
-# See [[http://foswiki.org/System/UserAuthentication][User
+# See [[https://foswiki.org/System/UserAuthentication][User
 # Authentication]] for a full discussion of the pros and
 # cons of using persistent sessions.
 $Foswiki::cfg{UseClientSessions} = 1;
@@ -337,7 +337,7 @@ $Foswiki::cfg{Session}{filePermission} = 0600;
 # By default Foswiki uses Javascript to perform "double submission" validation
 # of browser requests. This technique, called "strikeone", is highly
 # recommended for the prevention of cross-site request forgery (CSRF). See also
-# [[http://foswiki.org/Support/WhyYouAreAskedToConfirm][Why am I being asked to confirm?]].
+# [[https://foswiki.org/Support/WhyYouAreAskedToConfirm][Why am I being asked to confirm?]].
 #
 # If Javascript is known not to be available in browsers that use the site,
 # or cookies are disabled, but you still want validation of submissions,
@@ -956,7 +956,7 @@ $Foswiki::cfg{DenyDotDotInclude} = $TRUE;
 #
 # Normally your web server should be configured to control what can be
 # done with files in the =pub= directory (see
-# [[http://foswiki.org/Support/FaqSecureFoswikiAgainstAttacks#Configure_the_web_server_to_protect_attachments][Support.FaqSecureFoswikiAgainstAttacks]]
+# [[https://foswiki.org/Support/FaqSecureFoswikiAgainstAttacks#Configure_the_web_server_to_protect_attachments][Support.FaqSecureFoswikiAgainstAttacks]]
 # for help doing this. In this case, this configuration item can be set to
 # the null string.
 #
@@ -1072,7 +1072,7 @@ $Foswiki::cfg{PROXY}{HOST} = undef;
 # e-mail addresses and control the activities of benign robots, which
 # should be enough to handle intranet requirements. Administrators of
 # public (internet) sites are strongly recommended to install
-# [[http://foswiki.org/Extensions/AntiWikiSpamPlugin][AntiWikiSpamPlugin]]
+# [[https://foswiki.org/Extensions/AntiWikiSpamPlugin][AntiWikiSpamPlugin]]
 
 # **STRING 50 LABEL="Email Padding" CHECK="undefok emptyok"**
 # Text added to e-mail addresses to prevent spambots from grabbing
@@ -1406,7 +1406,7 @@ $Foswiki::cfg{Store}{RememberChangesFor} = 2678400;
 # different algorithm, which may work better on your configuration.
 #
 # Other store implementations and indexing search engines (for example,
-# [[http://foswiki.org/Extensions/KinoSearchContrib][KinoSearchContrib]])
+# [[https://foswiki.org/Extensions/KinoSearchContrib][KinoSearchContrib]])
 # may come with their own search algorithms.
 # $Foswiki::cfg{Store}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
 
@@ -1586,7 +1586,7 @@ $Foswiki::cfg{FormTypes} = [
 # dramatically increase performance, especially if there are a lot more page
 # views than changes.
 # The cache has a number of setup and tuning parameters. You should read
-# [[http://foswiki.org/System/PageCaching][Page Caching]] on
+# [[https://foswiki.org/System/PageCaching][Page Caching]] on
 # foswiki.org (or your local copy of this page in the System web) before
 # enabling the cache. It is important that you read this topic carefully
 # as the cache also has some major disadvantages with respect to formatted
@@ -2416,7 +2416,7 @@ $Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} = 'Foswiki::Plugins::WysiwygPlugin
 # button searches these repositories for installable extensions. To set up an
 # extensions repository:
 #    1 Create a Foswiki web to contain the repository
-#    2 Copy the =FastReport= page from [[http://foswiki.org/Extensions/FastReport?raw=on][Foswiki:Extensions.FastReport]] to your new web
+#    2 Copy the =FastReport= page from [[https://foswiki.org/Extensions/FastReport?raw=on][Foswiki:Extensions.FastReport]] to your new web
 #    3 Set the =WEBFORMS= preference in WebPreferences to =PackageForm=
 # The page for each extension must have the =PackageForm= (copy from
 # Foswiki.org), and should have the packaged extension attached as a
@@ -2436,13 +2436,13 @@ $Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} = 'Foswiki::Plugins::WysiwygPlugin
 # into the listurl as =?username=x;password=y=
 #
 # For example,=
-# twiki.org=(http://twiki.org/cgi-bin/viewlugins/,http://twiki.org/p/pub/Plugins/); foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/);=
+# twiki.org=(http://twiki.org/cgi-bin/viewlugins/,http://twiki.org/p/pub/Plugins/); foswiki.org=(https://foswiki.org/Extensions/,https://foswiki.org/pub/Extensions/);=
 #
 # For Extensions with the same name in more than one repository, the *last*
 # matching repository in the list will be chosen, so Foswiki.org should
 # always be last in the list for maximum compatibility.
 $Foswiki::cfg{ExtensionsRepositories} =
-'Foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/)';
+'Foswiki.org=(https://foswiki.org/Extensions/,https://foswiki.org/pub/Extensions/)';
 
 # *FINDEXTENSIONS* Marker used by bin/configure script - do not remove!
 

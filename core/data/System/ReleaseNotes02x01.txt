@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1454442922" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.0
 
@@ -63,7 +63,7 @@ Foswiki 2.1 is shipped with the following:
    * *Compatibility support* - TWikiCompatibilityPlugin
 
 ---++ Known issues
-For up-to-date information, see [[http://foswiki.org/Support/KnownIssuesOfFoswiki02x01][Known issues of Foswiki 2.1]]
+For up-to-date information, see [[https://foswiki.org/Support/KnownIssuesOfFoswiki02x01][Known issues of Foswiki 2.1]]
 
 ---+++ Use of non-default ={Store}{Encoding}=
 
@@ -234,9 +234,9 @@ The following enhancements will also be included in Foswiki 2.0.4
 ---
 
 <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
-   * Set BUGS = http://foswiki.org/Tasks
-   * Set FEAT = http://foswiki.org/Development
-   * Set FO = http://foswiki.org
+   * Set BUGS = https://foswiki.org/Tasks
+   * Set FEAT = https://foswiki.org/Development
+   * Set FO = https://foswiki.org
    * Set NOAUTOLINK = 1
 -->
 

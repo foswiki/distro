@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443497722" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+!! Installation Guide Part 2
 ---++!! Post-Installation Configuration and Tuning
@@ -91,7 +91,7 @@ By default bootstrap attempts to pick the best implementation for your system. Y
 
 If you install Foswiki on a Windows server, using an external grep program can create problems because of limitations in the length of command lines. You may be able to run with Forking in Windows if your directory path to Foswiki is kept short (short directory names and few levels), however the recommended (safe) setting for Windows is =Foswiki::Store::SearchAlgorithms::PurePerl=.
 
-There are several other options available for search tools via the [[http://foswiki.org/Extensions][Extensions web]], including:
+There are several other options available for search tools via the [[https://foswiki.org/Extensions][Extensions web]], including:
    * Foswiki:Extensions.NativeSearchContrib - The Foswiki PurePerl search implemented in C. (compiler required)
    * Foswiki:Extensions.SolrPlugin - An indexed search based on the [[http://lucene.apache.org][Lucene]] Java search library. It runs on a separate Tomcat or jetty serverlet container.
 
@@ -103,7 +103,7 @@ Foswiki is installed by default supporting standard CGI scripts as well as CLI a
 | mod_perl | [[ModPerlEngineContrib]] | supports the apache mod_perl extension |
 %X% *Caution*
    * Foswiki 2.0 can be "bootstrapped" with either of these accelerators active, however it is often simpler to initially configure Foswiki using CGI.
-   * The [[http://foswiki.org/Support/ApacheConfigGenerator][ApacheConfigGenerator]] will help creating a valid configuration for these accelerators.
+   * The [[https://foswiki.org/Support/ApacheConfigGenerator][ApacheConfigGenerator]] will help creating a valid configuration for these accelerators.
    * Enabling the apache configuration without installing the pre-req modules and extensions will break your site!
    * The core default extensions are well tested with web acceleration, other extensions can exhibit inconsistent behaviour when accelerated.
 
@@ -137,7 +137,7 @@ If you added or removed fields from the user form you may also need to tailor [[
 
 The real power of Foswiki lies in its flexibility to be customized to meet your needs. To change the look of the default skin, !PatternSkin, please refer to [[%SYSTEMWEB%.PatternSkin]] and [[%SYSTEMWEB%.PatternSkinCustomization]].
 
-At the [[http://foswiki.org/][Foswiki website]] you can find more resources. A good place to start exploring is [[Foswiki:Support.BestPracticeTips]] and [[Foswiki:Support.FAQ]] which offer tips and tricks for customizing your Foswiki site. Many of these are best done before any content has been added to your site, so immediately after installation is a good time to consider the possibilities.
+At the [[https://foswiki.org/][Foswiki website]] you can find more resources. A good place to start exploring is [[Foswiki:Support.BestPracticeTips]] and [[Foswiki:Support.FAQ]] which offer tips and tricks for customizing your Foswiki site. Many of these are best done before any content has been added to your site, so immediately after installation is a good time to consider the possibilities.
 
 ---+++++ Left, Top and Bottom Bars with !PatternSkin
 
@@ -200,7 +200,7 @@ To update an extension, simply re-run the installer. If prompted, tell it to dow
 
 %X%Caution: Users of the debian =.deb= or =.rpm= packages should only use the system package tools when installing extensions.
 
-The simplest way is to visit [[%SCRIPTURL{configure}%][configure -&gt; Extensions -gt; Extensions operations and maintenance]] tab, and use the _[%T% search for extensions]_ button to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on http://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
+The simplest way is to visit [[%SCRIPTURL{configure}%][configure -&gt; Extensions -gt; Extensions operations and maintenance]] tab, and use the _[%T% search for extensions]_ button to download and install additional extensions from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet, you can also install plugins manually. Installation instructions for each plugin are located in its corresponding topic on https://foswiki.org/. Additional documentation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
 
 ---+++++ When installing an extension from the =configure= interface:
    * Even if available, local Extension installers and archives are not used

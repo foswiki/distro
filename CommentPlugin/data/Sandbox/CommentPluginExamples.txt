@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1404921098" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
    * Top comment output 2 -- %USERSWEB%.ProjectContributor - 26 Nov 2006
    * Top comment output 1 -- %USERSWEB%.ProjectContributor - 26 Nov 2006
 
@@ -182,8 +182,8 @@ Toctalk output message 2
 
 ---+++ =bookmark=
 
-   * [[http://foswiki.org][Bookmark output link label]] %IF{" '' = '' " then="" else="- "}%
-   * [[http://foswiki.org][Foswiki]] %IF{" 'Bookmark output comment' = '' " then="" else="- "}%Bookmark output comment
+   * [[https://foswiki.org][Bookmark output link label]] %IF{" '' = '' " then="" else="- "}%
+   * [[https://foswiki.org][Foswiki]] %IF{" 'Bookmark output comment' = '' " then="" else="- "}%Bookmark output comment
 %COMMENT{type="bookmark"}%
 
 
