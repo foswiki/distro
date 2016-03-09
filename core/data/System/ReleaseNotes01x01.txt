@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1448329799" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 
 ---+!! Foswiki Release 1.1.10
@@ -122,7 +122,7 @@ See [[http://search.cpan.org/dist/perl-5.18.0/pod/perldelta.pod#Hash_overhaul][5
 for more information.   The change has had some minor impact on Foswiki, most of which were test failures, not core code issues, and were fixed in [[%BUGS%/Item12616][Item12616]].  It did however
 result in discovery of some core bugs that were also fixed.
 
-Sites upgrading to perl 5.18 should carefully test foswiki and review the open tasks at [[http://foswiki.org/Tasks/PlatformPerl518]].  Please report any new issues there.
+Sites upgrading to perl 5.18 should carefully test foswiki and review the open tasks at [[https://foswiki.org/Tasks/PlatformPerl518]].  Please report any new issues there.
 
 The following differences have been noticed when running under Perl 5.18, and have *not* been corrected:
    * The order of search results order when the requested sort has duplicates is unpredictable.  Ex:  When sorting by "modified", the order of multiple topics modified at the exact same time will be unpredictable. ([[%BUGS%/Item12618][Task Item12618]])
@@ -133,7 +133,7 @@ Any data internally stored by Foswiki or extensions using a perl hash array will
 
 ---++ Important changes in Foswiki 1.1.8
 
-Release 1.1.8 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2013-1666][SecurityAlert-CVE-2013-1666]].
+Release 1.1.8 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[https://foswiki.org/Support/SecurityAlert-CVE-2013-1666][SecurityAlert-CVE-2013-1666]].
   It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 2.0
 
 Release 1.1.8 also includes a configuration checker that will report an error if a vulnerable version of Locale::Maketext is installed.
@@ -142,8 +142,8 @@ See [[#Rel01x01x08Details]]
 
 ---++ Important changes in Foswiki 1.1.7
 
-Release 1.1.7 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6329][SecurityAlert-CVE-2012-6329]].
-A 2nd vulnerability in the Foswiki =%<nop>MAKETEXT%= macro was also discovered, and is described further in [[http://foswiki.org/Support/SecurityAlert-CVE-2012-6330][SecurityAlert-CVE-2012-6330]] .  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 2.0
+Release 1.1.7 fixes a *Critical Security Vulnerability*. All previous releases of Foswiki are vulnerable to a security issue in [[http://metacpan.org/module/Locale::Maketext][Locale::Maketext]].  It is described further in [[https://foswiki.org/Support/SecurityAlert-CVE-2012-6329][SecurityAlert-CVE-2012-6329]].
+A 2nd vulnerability in the Foswiki =%<nop>MAKETEXT%= macro was also discovered, and is described further in [[https://foswiki.org/Support/SecurityAlert-CVE-2012-6330][SecurityAlert-CVE-2012-6330]] .  It is expected that this will be the last release in the Foswiki 1.1 series.  The next major release will be a feature release:  Foswiki 2.0
 
 Release 1.1.7 also includes a security fix for configure that reduces exposure of important passwords in confirmation and log messages.
 
@@ -181,7 +181,7 @@ Sites that use HTTP Proxies, load balancers and SSL Accelerators often modify th
 ---+++ New configuration parameter ={Register}{ExpireAfter}=
 
 Foswiki 1.1.6 added code to clean up expired pending registrations, and tied the request lifetime to the ={Sessions}{ExpireAfter}= timer. This is much too short, especially when registration requests are redirected to a 3rd party
-approver, as described in [[http://foswiki.org/Support/Faq12][FAQ 12]] and [[http://foswiki.org/System/ManagingUsers#Authentication_and_Access_Control][Managing Users]] documentation.
+approver, as described in [[https://foswiki.org/Support/Faq12][FAQ 12]] and [[https://foswiki.org/System/ManagingUsers#Authentication_and_Access_Control][Managing Users]] documentation.
 
 [[%BUGS%/Item12329][Item12329]] breaks this out to a separate timer for registration requests.   Default is 21600 seconds (6 hours).  If this setting is not in the configuration, the code will fall back to the ={Sessions}{ExpireAfter}=
 timer, and if that is not configured, the default is 36000 (10 hours).  Extend this setting to a longer value to give the approver ample time to process the request.
@@ -307,7 +307,7 @@ The Foswiki API version is incremented to version 2.2 in Foswiki 1.1.5 for the f
 
 ---+++ Improvements to User Registration
 
-   * The complete fix for [[http://foswiki.org/Support/SecurityAlert-CVE-2012-1004][CVE-2012-1004]] has been integrated, including pluggable field validations in the User Mapper.  If your installation uses a custom user mapper, there is a new function in the base user mapper <code>lib/Foswiki/Users.pm</code> that performs registration field validations.  Override this method in your custom user mapper to add site specific validations.
+   * The complete fix for [[https://foswiki.org/Support/SecurityAlert-CVE-2012-1004][CVE-2012-1004]] has been integrated, including pluggable field validations in the User Mapper.  If your installation uses a custom user mapper, there is a new function in the base user mapper <code>lib/Foswiki/Users.pm</code> that performs registration field validations.  Override this method in your custom user mapper to add site specific validations.
    * The user registration and group management API calls now all return error messages describing any failures.  All errors are processed through MAKETEXT so that they are translated to the selected language.
    * New options can reject duplicate registrations using the same email, and can either white-list or black-list email domains from registering.
 
@@ -448,7 +448,7 @@ users.
 ---+++ Major JQuery changes
 
    * Foswiki has been updated to include JQuery 1.7.1, and this is now the default version of JQuery.  After installing Foswiki 1.1.4, be sure to visit =bin/configure= and verify that the JQuery Plugin is configured to use this version.
-   * The JQuery Autocomplete plugin has been replaced by the *incompatible* JQueryUI Autocomplete widget.  If your site has implemented forms using the old version of Autocomplete, they will not work until converted to the new API.  See http://foswiki.org/Support/JQueryMigrationGuide
+   * The JQuery Autocomplete plugin has been replaced by the *incompatible* JQueryUI Autocomplete widget.  If your site has implemented forms using the old version of Autocomplete, they will not work until converted to the new API.  See https://foswiki.org/Support/JQueryMigrationGuide
    * The JQuery Textboxtlist plugin has been updated with an incompatible version.  See the above referenced !JQueryMigrationGuide for details.
    * The JQuery Chili syntax highlighting plugin is incompatible with Firefox 7 and Safari Rev. 6-17-2011.
 
@@ -2014,7 +2014,7 @@ to your =bin/LocalLib.cfg=.
 
 
  <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
-   * Set BUGS = http://foswiki.org/Tasks
+   * Set BUGS = https://foswiki.org/Tasks
 -->
 
 *Related Topic:* ReleaseHistory ReleaseNotes01x00

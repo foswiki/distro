@@ -1,12 +1,12 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456498557" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
 <div class='foswikiHelp'>
 This guide describes the steps for installing Foswiki, with __specific steps for installations on Linux with the Apache web server__.%BR%
 If you would prefer to use a different web server, please refer to supplemental documentation when you reach the Apache-specific steps:
-   * *Nginx:* [[http://foswiki.org/Support/FoswikiOnNginx][Foswiki on Nginx]]
-   * *Lighttpd:* [[http://foswiki.org/Support/LighttpdBestPractice][Foswiki on Lighttpd]]
+   * *Nginx:* [[https://foswiki.org/Support/FoswikiOnNginx][Foswiki on Nginx]]
+   * *Lighttpd:* [[https://foswiki.org/Support/LighttpdBestPractice][Foswiki on Lighttpd]]
 </div>
 
 %TOC{title="Contents"}%
@@ -50,7 +50,7 @@ At some point, you will want to re-visit [[#ConfigureFoswiki][Configuring Foswik
 ---+++ Step 1: Download and unpack Foswiki
 
    1 *Go to your site's root directory* as set by Apache (typically within the =/var/www= or =/srv/www= directory) or as set by your hosting company.
-   2 *Download* the Foswiki distribution from http://foswiki.org/Download
+   2 *Download* the Foswiki distribution from https://foswiki.org/Download
       * If you have shell access, you can download the distribution directly using using this command: <pre>wget  https://sourceforge.net/projects/foswiki/files/latest/download</pre>
       * If you do not have shell access to your web server host, see the section [[#UploadingFoswikiDistribution][Uploading the Foswiki distribution to your web server host]] below.
    3 *Unpack the distribution file:*
@@ -364,7 +364,7 @@ For example, =http://myhost.com:123=
 
 This is the 'cgi-bin' part of URLs used to access the Foswiki bin
 directory. For example =/foswiki/bin=.
-See [[http://foswiki.org/Support/ShorterUrlCookbook][ShorterUrlCookbook]]
+See [[https://foswiki.org/Support/ShorterUrlCookbook][ShorterUrlCookbook]]
 for more information on setting up Foswiki to use shorter script URLs.
 
 {ScriptUrlPath} (/foswiki/bin):

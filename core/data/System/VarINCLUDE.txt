@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434650530" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ INCLUDE -- include another topic, or subsection of a topic, or a URL, or Foswiki embedded documentation
 
@@ -19,7 +19,7 @@
 ---++ (Including a web page) Parameters
      %TABLE{sort="off"}%
      | *Parameter* | *Description* | *Default* |
-     | ="http://..."= | A full qualified URL, i.e. =%<nop>INCLUDE{"http://foswiki.org:80/index.html"}%=. Supported content types are =text/html= and =text/plain=. <div class="foswikiHelp">%I% If the URL resolves to an attachment file on the server this will _automatically_ translate to a server-side include.</div> | |
+     | ="http://..."= | A full qualified URL, i.e. =%<nop>INCLUDE{"https://foswiki.org:80/index.html"}%=. Supported content types are =text/html= and =text/plain=. <div class="foswikiHelp">%I% If the URL resolves to an attachment file on the server this will _automatically_ translate to a server-side include.</div> | |
      | =pattern= |Include a subset of a topic or a web page. Specify a RegularExpression that contains the text you want to keep in parenthesis, e.g. =pattern="(from here.*?to here)"=. IncludeTopicsAndWebPages has more. | none |
      | =raw= | When a page is included, normally %WIKITOOLNAME% will process it, doing the following: 1) Alter relative links to point back to originating host, 2) Remove some basic HTML tags (html, head, body, script) and finally 3) Remove newlines from HTML tags spanning multiple lines. If you prefer to include _exactly_ what is in the source of the originating page set this to =on=. %BR% =raw="on"= is short for =disableremoveheaders="on"=, =disableremovescript="on"=, =disableremovebody="on"=, =disablecompresstags="on"= and =disablerewriteurls="on"=. | disabled |
      | =literal= | While using the =raw= option will indeed include the raw content, the included content will still be processed and rendered like regular topic content. To disable parsing of the included content, set the =literal= option to ="on"=. | =off= |

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435550482" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+!! Data Forms
@@ -12,7 +12,7 @@ Next to freeform topic contents, each topic can store additional data in name/va
 
 Topic data is normally not visible when you view a topic (except for a small table at the bottom of the topic - dependent on the used skin). Topic data works "behind the scenes" and facilitates searches, reports and custom displays.
 
-Topic data, or better: structured data, can be used in many ways. The [[http://foswiki.org/Support/SupportQuestions][Foswiki Support questions]] serves as a demonstration how topic data can be used:
+Topic data, or better: structured data, can be used in many ways. The [[https://foswiki.org/Support/SupportQuestions][Foswiki Support questions]] serves as a demonstration how topic data can be used:
    * To create a complete list of "Support Questions" topics
    * To show a subset of all questions that have not been answered yet
    * To display the title and subject of each question
@@ -67,7 +67,7 @@ The name of the data form topic usually ends with "Form". For example, the form 
 *Topic types* %BR%
 You could consider the data form topic as the data _type_. For instance, all topics that use the form <nop>QuestionForm are topics of type "Question".
 
-A useful core feature of Foswiki 1.1 is the automatic selection of view and edit templates based on the name of the form attached to a topic. With this we are really starting build up a topic as something resembling a typed object: its form name being the type identifier, and its form+templates as the details of its implementation. See [[http://foswiki.org/Extensions/AutoViewTemplatePlugin][AutoViewTemplatePlugin]] for details of this feature.
+A useful core feature of Foswiki 1.1 is the automatic selection of view and edit templates based on the name of the form attached to a topic. With this we are really starting build up a topic as something resembling a typed object: its form name being the type identifier, and its form+templates as the details of its implementation. See [[https://foswiki.org/Extensions/AutoViewTemplatePlugin][AutoViewTemplatePlugin]] for details of this feature.
 </div>
 
 <div class="foswikiHelp">
@@ -405,7 +405,7 @@ You can change a form definition, and Foswiki will try to make sure you don't lo
 ---++ Searching in form data
 The best way to search in form data is using the structured query language in the SEARCH macro.
 
-As an example, the search used on [[http://foswiki.org/Support/SupportQuestions][Foswiki Support questions]] is:
+As an example, the search used on [[https://foswiki.org/Support/SupportQuestions][Foswiki Support questions]] is:
 <verbatim>
 %SEARCH{
 	"QuestionForm.Status='Asked'"

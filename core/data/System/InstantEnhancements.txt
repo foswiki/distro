@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1421672966" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Instant Site Enhancements
 
@@ -147,13 +147,13 @@ people:
 | [[Template Topics]] | Use topic and form templates to create new topics |
 | *Administrators* ||
 | %SCRIPTURL{configure}% | Set basic system options |
-| [[InstalledPlugins]] | Install new plugins, skins and other extensions from http://foswiki.org/Extensions |
+| [[InstalledPlugins]] | Install new plugins, skins and other extensions from https://foswiki.org/Extensions |
 | [[Pattern Skin Customization]] | Customising the standard skin |
 | *Developers* ||
 | [[Plugins]] | Write your own plug-in perl code |
-| http://foswiki.org/Development | Where Foswiki development is coordinated and documented |
+| https://foswiki.org/Development | Where Foswiki development is coordinated and documented |
 
-*Remember, Foswiki is an open-source project developed and supported entirely by volunteers.* Once you have built up a bit of expertise, you can say "thank you" to all those people by giving a bit of your time back - see http://foswiki.org/Community/HowYouCanHelp
+*Remember, Foswiki is an open-source project developed and supported entirely by volunteers.* Once you have built up a bit of expertise, you can say "thank you" to all those people by giving a bit of your time back - see https://foswiki.org/Community/HowYouCanHelp
 
 *Related Topics:* AdminDocumentationCategory
 <!-- %JQREQUIRE{"chili"}% -->

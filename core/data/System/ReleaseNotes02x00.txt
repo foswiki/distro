@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1449548212" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0.3
 
@@ -58,7 +58,7 @@ Foswiki 2.0 is shipped with the following: ( __New to Foswiki 2.0__ )
    * *Compatibility support* - TWikiCompatibilityPlugin
 
 ---++ Known issues
-For up-to-date information, see [[http://foswiki.org/Support/KnownIssuesOfFoswiki02x00][Known issues of Foswiki 2.0]]
+For up-to-date information, see [[https://foswiki.org/Support/KnownIssuesOfFoswiki02x00][Known issues of Foswiki 2.0]]
 
 ---+++ Use of non-default ={Store}{Encoding}=
 
@@ -178,7 +178,7 @@ This setting was used to hide the checkbox for controlling whether or not non-Wi
 The recommended replacement is to use a SKIN setting to override foswiki.tmpl.
 
 ---+++ Space delimited square bracket links have been removed.
-The long-deprecated =[<nop>[http://foswiki.org Spaced title]]= link format has been removed. Links must be written as =[<nop>[url][title]]= format if a title is desired.
+The long-deprecated =[<nop>[https://foswiki.org Spaced title]]= link format has been removed. Links must be written as =[<nop>[url][title]]= format if a title is desired.
 
 ---+++ Deprecated =AllowInlineScript= configuration setting removed
 
@@ -250,7 +250,7 @@ and should be replaced in existing code.
 
 The EditTablePlugin has been replaced by the EditRowPlugin. If installed, the EditTablePlugin should be disabled in the configuration.
 The old EditTablePlugin is still available for installation from
-http://foswiki.org/Extensions/EditTablePlugin, but is not being
+https://foswiki.org/Extensions/EditTablePlugin, but is not being
 maintained.
 
 The EditRowPlugin has significant advantages over the old EditTablePlugin.
@@ -1183,9 +1183,9 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 ---
 
 <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
-   * Set BUGS = http://foswiki.org/Tasks
-   * Set FEAT = http://foswiki.org/Development
-   * Set FO = http://foswiki.org
+   * Set BUGS = https://foswiki.org/Tasks
+   * Set FEAT = https://foswiki.org/Development
+   * Set FO = https://foswiki.org
    * Set NOAUTOLINK = 1
 -->
 

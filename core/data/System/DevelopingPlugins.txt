@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435689678" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 ---+ Developing Plugins
 %TOC%
@@ -248,7 +248,7 @@ which must *not* be defined in the =Config.spec= file.%BR% We no longer recommen
 </verbatim></div>
 
 ---+++ Structure of a <code>Config.spec</code> file
-This is a high level outline of the content of a <code>Config.spec</code> file. For full technical details, see [[http://foswiki.org/Development/HowToWriteASpecFile][How To Write A .spec File]]. However the information given here should be sufficient for most extension developers.
+This is a high level outline of the content of a <code>Config.spec</code> file. For full technical details, see [[https://foswiki.org/Development/HowToWriteASpecFile][How To Write A .spec File]]. However the information given here should be sufficient for most extension developers.
 
 The =Config.spec= file for a plugin starts with a line that declares what section the configuration should appear in. The standard for all extensions is:
 <verbatim class="tml">
@@ -334,7 +334,7 @@ As of Foswiki 2.0 you can also use the =ENHANCE= type to enhance the documentati
 </verbatim>
 =ENHANCE= does not have a corresponding =$Foswiki::cfg= value, just a documentation block.
 
-See =lib/Foswiki.spec= for many more examples, and [[http://foswiki.org/Development/HowToWriteASpecFile][How To Write A .spec File]] for more information about the syntax and attributes.
+See =lib/Foswiki.spec= for many more examples, and [[https://foswiki.org/Development/HowToWriteASpecFile][How To Write A .spec File]] for more information about the syntax and attributes.
 
 =Config.spec= files are also used for other (non-plugin) extensions. in this case they are stored under the =Contrib= directory instead of the =Plugins= directory.
 

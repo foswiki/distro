@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457197356" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
 
@@ -51,11 +51,11 @@ VarINCLUDE explains the other parameters.
 
    * You type:
 <verbatim class="tml">
-  %INCLUDE{"http://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
+  %INCLUDE{"https://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
 </verbatim>
 
    * You get:
-%INCLUDE{"http://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
+%INCLUDE{"https://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
 
 <div class="foswikiHelp">%X% Including URLs is disabled by default as it presents a security risk. It may be enabled via [[%SCRIPTURLPATH{"configure"}%][configure]]. _Only enable this if you understand the risk_.</div>
 

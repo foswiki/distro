@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -418,7 +418,7 @@ escaped:
 <tr valign="top">
 <td>
  *Renamed Links:* %BR%
- You can create a link where you specify the link text and the URL separately using nested square brackets =[<nop>[reference][text]]=. Internal link references (e.g. WikiWord) and URLs (e.g. http://foswiki.org/) are both supported.
+ You can create a link where you specify the link text and the URL separately using nested square brackets =[<nop>[reference][text]]=. Internal link references (e.g. WikiWord) and URLs (e.g. https://foswiki.org/) are both supported.
 The rules described under *Forced Links* apply for internal link references.
  %BR% %T% Anchor names can be added as well, to create a link to a specific place in a topic.
 </td><td>
@@ -449,8 +449,8 @@ Email addresses are also linked automatically,  see further details below.
 <verbatim>
    * file://foswiki.org
    * ftp://foswiki.org
-   * https://foswiki.org
    * http://foswiki.org
+   * https://foswiki.org
    * mailto:example@foswiki.org
    * news://foswiki.org
    * nntp://foswiki.org
@@ -462,8 +462,8 @@ Email addresses are also linked automatically,  see further details below.
 <td>
    * file://foswiki.org
    * ftp://foswiki.org
-   * https://foswiki.org
    * http://foswiki.org
+   * https://foswiki.org
    * mailto:example@foswiki.org
    * news://foswiki.org
    * nntp://foswiki.org
@@ -488,7 +488,7 @@ Email addresses are also linked automatically,  see further details below.
 
 =SomeWiki=
 
-<b>http://foswiki.org</b>
+<b>https://foswiki.org</b>
 
 _%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-icon.png_
 </verbatim>
@@ -502,7 +502,7 @@ _%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-icon.png_
 
 =SomeWiki=
 
-<b>http://foswiki.org</b>
+<b>https://foswiki.org</b>
 
 _%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-icon.png_
 </td>

@@ -1,10 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1434713255" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 Foswiki is distributed under the [[http://www.gnu.org/licenses/gpl-2.0.html][Gnu General Public License]], and sources are freely available.
 
-When you download an official Foswiki package from http://foswiki.org/Download, you automatically get most the Foswiki sources in the download package.
+When you download an official Foswiki package from https://foswiki.org/Download, you automatically get most the Foswiki sources in the download package.
 
-Foswiki developers collaborate online using =http://foswiki.org=, using the =Development= and =Tasks= webs, and on github. You can browse and download all the sources at https://github.com/foswiki
+Foswiki developers collaborate online using =https://foswiki.org=, using the =Development= and =Tasks= webs, and on github. You can browse and download all the sources at https://github.com/foswiki
 
 %META:FORM{name="FAQForm"}%
 %META:FIELD{name="TopicTitle" attributes="H" title="<nop>TopicTitle" value="Get Foswiki"}%
