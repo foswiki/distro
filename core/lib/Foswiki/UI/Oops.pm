@@ -107,7 +107,7 @@ sub oops {
     $tmplName ||= 'oops';
 
     # Item5324: Filter to block XSS
-    $tmplName =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;
+    $tmplName =~ s/$Foswiki::regex{webTopicInvalidCharRegex}//g;
 
     # Do not pass on the template parameter otherwise continuation won't work
     $query->delete('template');

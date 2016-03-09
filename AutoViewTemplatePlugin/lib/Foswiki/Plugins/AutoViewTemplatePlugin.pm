@@ -84,7 +84,7 @@ sub initPlugin {
         $tryname =~ s/[^A-Za-z0-9_,.\/]//g;
     }
     else {
-        $tryname =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;
+        $tryname =~ s/$Foswiki::regex{webTopicInvalidCharRegex}//g;
     }
 
     if ( $tryname ne $templateName ) {
