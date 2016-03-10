@@ -412,7 +412,7 @@ HERE
         "HEAD:.*?head::misc7<!--misc7-->.*?SCRIPT:",   # Occurs anywhere in HEAD
         "HEAD:.*?text2<!--head2-->.*?text1<!--head1-->.*?SCRIPT:"
         ,                                              # text1 requires head2
-"HEAD:.*?text5<!--head5: requires= missing ids: script4, script3, script6-->.*?SCRIPT:"
+"HEAD:.*?text5<!--head5: requires= missing ids: script3, script4, script6-->.*?SCRIPT:"
         ,    # head5 somewhere in HEAD zone
 "SCRIPT:.*?text4<!--script4: requires= missing ids: head2-->.*?text3<!--script3-->"
         ,    # script3 requires script4
