@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1454084167" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457670956" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -65,6 +65,7 @@ Install apache and rcs: ==apt-get install apache2 rcs==
 | Locale::Maketext::Lexicon | =liblocale-maketext-lexicon-perl= | Optional, needed for internationalization |
 | Locale::Msgfmt | =liblocale-msgfmt-perl= | Optional, needed for internationalization |
 | LWP | =libwww-perl= | |
+| LWP::Protocol::https | =liblwp-protocol-https-perl= | |
 | URI | =liburi-perl= | |
 | version | =libversion-perl= | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 
@@ -131,6 +132,7 @@ Install apache2, rcs, and perl-CPAN
 | Locale::Maketext::Lexicon | =perl-Locale-Maketext-Lexicon= | Optional, needed for internationalization |
 | Locale::Msgfmt | =perl-Locale-Msgfmt= | Optional, needed for internationalization |
 | LWP | =perl-libwww-perl= | |
+| LWP::Protocol::https | =perl-liblwp-protocol-https= | |
 | URI | =perl-URI= | |
 | version | =perl-Perl-Version= | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 
@@ -201,6 +203,7 @@ Install =www-servers/apache=, =dev-vcs/rcs=, and =dev-lang/perl=
 | Locale::Maketext::Lexicon | =dev-perl/Locale-Maketext-Lexicon= | Optional, needed for internationalization |
 | Locale::Msgfmt | =dev-perl/Locale-Msgfmt= | Optional, needed for internationalization |
 | LWP | =dev-perl/libwww-perl= | |
+| LWP::Protocol::https | =dev-perl/LWP-Protocol-https= | |
 | URI | =dev-perl/URI= | |
 | version | | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 ---+++++!! To install the above packages on Gentoo
@@ -261,6 +264,7 @@ Install =apache24=, =rcs=, and =perl5=
 | Locale::Maketext::Lexicon | =p5-Locale-Maketext-Lexicon= | Optional, needed for internationalization |
 | Locale::Msgfmt | =p5-Locale-Msgfmt= | Optional, needed for internationalization |
 | LWP | =p5-libwww= | |
+| LWP::Protocol::https | =p5-LWP-Protocol-https= | |
 | URI | =p5-URI= | |
 | version | =p5-version= | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 
@@ -322,6 +326,7 @@ If run as root, the modules will be installed in the System perl.   Otherwise th
 | Locale::Maketext::Lexicon | Optional, needed for internationalization |
 | Locale::Msgfmt | Optional, needed for internationalization |
 | LWP | |
+| LWP::Protocol::https | |
 | URI | |
 | version | Must be version 0.77 or newer, included with perl 5.10.1 and newer. |
 
