@@ -39,6 +39,7 @@ BEGIN {
 }
 
 use LWP::Simple;
+use Perl::Tidy;
 
 # COMMIT-MSG CLIENT HOOK for Foswiki git
 #
