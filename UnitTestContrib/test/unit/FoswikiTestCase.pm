@@ -1080,6 +1080,7 @@ sub finishFoswikiSession {
     #use Devel::Refcount;
     #say STDERR "session refcount: ", Devel::Refcount::refcount($this->session);
     $this->clear_session;
+    undef $Foswiki::Plugins::SESSION if $Foswiki::Plugins::SESSION;
     ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
 
     return;

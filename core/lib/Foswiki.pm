@@ -2685,6 +2685,7 @@ sub DEMOLISH {
     $this->clear_plugins;
     $this->clear_forms;
     if ( $this == $Foswiki::Plugins::SESSION ) {
+
         #say STDERR $this, " Here we clear the old Plugins::SESSION";
         undef $Foswiki::Plugins::SESSION;
     }
