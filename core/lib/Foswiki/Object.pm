@@ -154,7 +154,7 @@ sub DEMOLISH {
     #  defined($Foswiki::Plugins::SESSION) ? "SESSION" : "NO SESSION"
     #  if DEBUG;
     if ( $this->can('finish') ) {
-        say STDERR Carp::longmess(
+        say STDERR Carp::shortmess(
             ref($this) . " supports finish() but it shouldn't." );
 
      # SMELL every Foswiki::Object ancestor has to use DEMOLISH as the standard.

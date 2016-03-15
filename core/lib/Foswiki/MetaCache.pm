@@ -89,8 +89,6 @@ Break circular references.
 sub DEMOLISH {
     my $this = shift;
 
-    #undef $this->{session};
-
     #must clear cache every request until the cache is hooked up to Store's save
     foreach my $cuid ( keys( %{ $this->cache } ) ) {
         foreach my $web ( keys( %{ $this->cache->{$cuid} } ) ) {
@@ -286,8 +284,8 @@ sub get {
 sub current_user {
     my $self = shift;
 
-    ASSERT( defined $self->{session} ) if DEBUG;
-    my $user = $self->{session}->{user};
+    ASSERT( defined $self->session ) if DEBUG;
+    my $user = $self->session->user;
     if ( not defined $user ) {
         $user = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
     }

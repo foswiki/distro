@@ -33,6 +33,7 @@ BEGIN {
         eval "use Devel::Leak::Object qw{ GLOBAL_bless };";
         die $@ if $@;
         $Devel::Leak::Object::TRACKSOURCELINES = 1;
+        $Devel::Leak::Object::TRACKSTACK       = 1;
     }
 }
 

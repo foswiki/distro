@@ -168,7 +168,7 @@ sub process {
                     }
                 }
                 $line = $table->stringify();
-                $table->finish();
+                undef $table;
                 $nlines .= $line;
             }
             else {

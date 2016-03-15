@@ -118,12 +118,14 @@ sub BUILD {
 sub DEMOLISH {
     my $this = shift;
 
-    #say STDERR ref($this), "::DEMOLISH; ",
-    #  defined($Foswiki::Plugins::SESSION) ? "SESSION" : "NO SESSION",
-    #  defined( $this->session )           ? "session" : "no session"
-    #  if DEBUG;
-    #use Data::Dumper;
-    #say STDERR Dumper($this);
+    #if (DEBUG) {
+    #    say STDERR ref($this), "::DEMOLISH; ",
+    #      defined($Foswiki::Plugins::SESSION) ? "SESSION" : "NO SESSION", "\n",
+    #      defined( $this->session ) ? "session" : "no session";
+    #    say STDERR "\$this->session = ", $this->session // '*undef*';
+    #    say STDERR "\$Foswiki::Plugins::SESSION = ", $SESSION // '*undef*';
+    #    say STDERR "------------------ end of ", ref($this), '::DEMOLISH';
+    #}
     $this->dispatch('finishPlugin');
 }
 

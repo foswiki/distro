@@ -217,7 +217,7 @@ sub process {
             $line .= '</form>' if $table->attrs->{js} ne 'ignored';
         }
 
-        $table->finish();
+        #$table->finish;
 
         # If this is an included topic, mark the table as having
         # being included so we don't attempt to reprocess it

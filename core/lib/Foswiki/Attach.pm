@@ -9,11 +9,14 @@ A singleton object of this class is used to deal with attachments to topics.
 =cut
 
 package Foswiki::Attach;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 use Unicode::Normalize;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -24,20 +27,21 @@ BEGIN {
 
 our $MARKER = "\0";
 
+has session => (
+    is       => 'rw',
+    clearer  => 1,
+    required => 1,
+    weak_ref => 1,
+    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
+);
+
 =begin TML
 
----++ ClassMethod new($session)
+---++ ClassMethod new(session => $session)
 
 Constructor.
 
 =cut
-
-sub new {
-    my ( $class, $session ) = @_;
-    my $this = bless( { session => $session }, $class );
-
-    return $this;
-}
 
 =begin TML
 
@@ -45,14 +49,6 @@ sub new {
 Break circular references.
 
 =cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    undef $this->{session};
-}
 
 =begin TML
 
@@ -97,7 +93,7 @@ sub renderMetaData {
     my @attachments = $topicObject->find('FILEATTACHMENT');
     return '' unless @attachments;
 
-    my $templates = $this->{session}->templates;
+    my $templates = $this->session->templates;
     $templates->readTemplate($tmplname);
 
     my $rows            = '';
@@ -146,7 +142,7 @@ Generate a version history table for a single attachment
 sub formatVersions {
     my ( $this, $topicObject, %attrs ) = @_;
 
-    my $users = $this->{session}->{users};
+    my $users = $this->session->users;
 
     $attrs{name} =
       Foswiki::Sandbox::untaint( $attrs{name},
@@ -154,7 +150,7 @@ sub formatVersions {
 
     my $revIt = $topicObject->getRevisionHistory( $attrs{name} );
 
-    my $templates = $this->{session}->templates;
+    my $templates = $this->session->templates;
     $templates->readTemplate('attachtables');
 
     my $header = $templates->expandTemplate('ATTACH:versions:header');
@@ -208,7 +204,7 @@ s/%R_(\w+)%/_expandRowAttrs( $this, $1, $topicObject, $info, $attachmentNum, $is
 sub _expandAttrs {
     my ( $this, $attr, $topicObject, $info, $attachmentNum ) = @_;
     my $file = $info->{name} || '';
-    my $users = $this->{session}->{users};
+    my $users = $this->session->users;
 
     require Foswiki::Time;
 
@@ -226,7 +222,7 @@ sub _expandAttrs {
         return $1;
     }
     elsif ( $attr eq 'URL' ) {
-        return $this->{session}->getScriptUrl(
+        return $this->session->getScriptUrl(
             0, 'viewfile', $topicObject->web, $topicObject->topic,
             rev => $info->{version} || undef,
             filename => $file
@@ -306,7 +302,7 @@ sub _expandRowAttrs {
 sub _cUID {
     my ( $this, $info ) = @_;
 
-    my $users = $this->{session}->{users};
+    my $users = $this->session->users;
     my $user = $info->{author} || $info->{user} || 'UnknownUser';
     my $cUID;
     if ($user) {
@@ -372,7 +368,7 @@ sub getAttachmentLink {
 
     my $fileLink = '';
     my $imgSize  = '';
-    my $prefs    = $this->{session}->{prefs};
+    my $prefs    = $this->session->prefs;
 
     if ( $attName =~ m/\.(gif|jpg|jpeg|png)$/i ) {
 

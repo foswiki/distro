@@ -45,9 +45,9 @@ extends 'Unit::TestCase';
 
 has session => (
     is        => 'rw',
-    weak_ref  => 1,
     predicate => 1,
     clearer   => 1,
+    weak_ref  => 1,
     isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki', strictMatch => 1, ),
 );
 has twiki => ( is => 'rw', );
@@ -1057,8 +1057,8 @@ __DO NOT CALL session->finish() yourself__
 sub createNewFoswikiSession {
     my ( $this, $user, $query, @args ) = @_;
 
-    $this->clear_test_topicObject if $this->has_test_topicObject;
-    $this->clear_session          if $this->session;
+    $this->clear_test_topicObject;
+    $this->clear_session;
     ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
     $Foswiki::cfg{Store}{Implementation} ||= 'Foswiki::Store::PlainFile';
     $this->session( Foswiki->new( user => $user, request => $query, @args ) );
@@ -1077,6 +1077,8 @@ sub finishFoswikiSession {
     my ($this) = @_;
 
     #$this->session->finish() if $this->has_session;
+    #use Devel::Refcount;
+    #say STDERR "session refcount: ", Devel::Refcount::refcount($this->session);
     $this->clear_session;
     ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
 

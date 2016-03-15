@@ -29,12 +29,15 @@ easily be coverted into a true singleton (template manager).
 =cut
 
 package Foswiki::Templates;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
 use Foswiki::Attrs ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -52,39 +55,24 @@ my $MAX_EXPANSION_RECURSIONS = 999;
 
 =begin TML
 
----++ ClassMethod new ( $session )
+---++ ClassMethod new ( session => $session )
 
 Constructor. Creates a new template database object.
    * $session - session (Foswiki) object
 
 =cut
 
-sub new {
-    my ( $class, $session ) = @_;
-    my $this = bless( { session => $session }, $class );
-
-    $this->{VARS}                = {};
-    $this->{VARS}->{sep}->{text} = ' | ';
-    $this->{expansionRecursions} = {};
-    return $this;
-}
-
-=begin TML
-
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
-    undef $this->{VARS};
-    undef $this->{session};
-    undef $this->{expansionRecursions};
-}
+has session => (
+    is       => 'rw',
+    clearer  => 1,
+    required => 1,
+    weak_ref => 1,
+    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
+);
+has VARS =>
+  ( is => 'rw', lazy => 1, default => sub { { sep => { text => '|' } } }, );
+has expansionRecursions => ( is => 'rw', lazy => 1, default => sub { {} }, );
+has files => ( is => 'rw', lazy => 1, clearer => 1,, default => sub { {} }, );
 
 =begin TML
 
@@ -97,7 +85,7 @@ Return true if the template exists and is loaded into the cache
 sub haveTemplate {
     my ( $this, $template ) = @_;
 
-    return exists( $this->{VARS}->{$template} );
+    return exists( $this->VARS->{$template} );
 }
 
 # Expand only simple templates that can be expanded statically.
@@ -167,7 +155,7 @@ sub tmplP {
     if ($context) {
         $template = $then if defined($then);
         foreach my $id ( split( /\,\s*/, $context ) ) {
-            unless ( $this->{session}->{context}->{$id} ) {
+            unless ( $this->session->context->{$id} ) {
                 $template = ( $else || '' );
                 last;
             }
@@ -176,20 +164,19 @@ sub tmplP {
 
     return '' unless $template;
 
-    $this->{expansionRecursions}->{$template} += 1;
+    $this->expansionRecursions->{$template} += 1;
 
-    if ( $this->{expansionRecursions}->{$template} > $MAX_EXPANSION_RECURSIONS )
-    {
+    if ( $this->expansionRecursions->{$template} > $MAX_EXPANSION_RECURSIONS ) {
         throw Foswiki::OopsException(
-            'attention',
-            def    => 'template_recursion',
-            params => [$template]
+            template => 'attention',
+            def      => 'template_recursion',
+            params   => [$template]
         );
     }
 
     my $val = '';
-    if ( exists( $this->{VARS}->{$template} ) ) {
-        $val = $this->{VARS}->{$template}->{text};
+    if ( exists( $this->VARS->{$template} ) ) {
+        $val = $this->VARS->{$template}->{text};
         $val = "<!--$template-->\n$val<!--/$template-->\n" if (TRACE);
 
         foreach my $p ( keys %$params ) {
@@ -202,10 +189,10 @@ sub tmplP {
         }
 
         # process default values; this will clean up orphaned %p% params
-        foreach my $p ( keys %{ $this->{VARS}->{$template}->{params} } ) {
+        foreach my $p ( keys %{ $this->VARS->{$template}->{params} } ) {
 
             # resolve dynamic lookups such as %TMPL:DEF{"LIBJS" name="%id%"}%
-            my $pvalue = $this->{VARS}->{$template}->{params}->{$p};
+            my $pvalue = $this->VARS->{$template}->{params}->{$p};
             $pvalue =~ s/\%(.*?)\%/$params->{$1}/g;
             $val    =~ s/%$p%/$pvalue/ge;
         }
@@ -216,7 +203,7 @@ sub tmplP {
         use warnings 'recursion';
     }
 
-    $this->{expansionRecursions}->{$template} -= 1;
+    $this->expansionRecursions->{$template} -= 1;
     return $val;
 }
 
@@ -245,10 +232,10 @@ list of loaded templates, overwriting any previous definition.
 sub readTemplate {
     my ( $this, $name, %opts ) = @_;
     ASSERT($name) if DEBUG;
-    my $skins = $opts{skins} || $this->{session}->getSkin();
-    my $web   = $opts{web}   || $this->{session}->{webName};
+    my $skins = $opts{skins} || $this->session->getSkin();
+    my $web   = $opts{web}   || $this->session->webName;
 
-    $this->{files} = ();
+    $this->clear_files;
 
     # recursively read template file(s)
     my $text = _readTemplateFile( $this, $name, $skins, $web );
@@ -262,9 +249,9 @@ sub readTemplate {
         }
         else {
             throw Foswiki::OopsException(
-                'attention',
-                def    => 'no_such_template',
-                params => [
+                template => 'attention',
+                def      => 'no_such_template',
+                params   => [
                     $name,
 
                     # More info for overridable templates
@@ -307,13 +294,13 @@ sub readTemplate {
                 # template to  key:_PREV
                 my $new_value  = $val;
                 my $prev_key   = $key;
-                my $prev_value = $this->{VARS}->{$prev_key}->{text};
-                $this->{VARS}->{$prev_key}->{text} = $new_value;
+                my $prev_value = $this->VARS->{$prev_key}->{text};
+                $this->VARS->{$prev_key}->{text} = $new_value;
                 while ($prev_value) {
                     $new_value  = $prev_value;
                     $prev_key   = "$prev_key:_PREV";
-                    $prev_value = $this->{VARS}->{$prev_key}->{text};
-                    $this->{VARS}->{$prev_key}->{text} = $new_value;
+                    $prev_value = $this->VARS->{$prev_key}->{text};
+                    $this->VARS->{$prev_key}->{text} = $new_value;
                 }
             }
 
@@ -324,7 +311,7 @@ sub readTemplate {
             $attrs->remove('_DEFAULT');
             $attrs->remove('_RAW');
             foreach my $p ( keys %$attrs ) {
-                $this->{VARS}->{$key}->{params}->{$p} = $attrs->{$p};
+                $this->VARS->{$key}->{params}->{$p} = $attrs->{$p};
             }
 
             # SMELL: unchecked implicit untaint?
@@ -339,13 +326,13 @@ sub readTemplate {
             # key:_PREV
             my $new_value  = $val;
             my $prev_key   = $key;
-            my $prev_value = $this->{VARS}->{$prev_key}->{text};
-            $this->{VARS}->{$prev_key}->{text} = $new_value;
+            my $prev_value = $this->VARS->{$prev_key}->{text};
+            $this->VARS->{$prev_key}->{text} = $new_value;
             while ($prev_value) {
                 $new_value  = $prev_value;
                 $prev_key   = "$prev_key:_PREV";
-                $prev_value = $this->{VARS}->{$prev_key}->{text};
-                $this->{VARS}->{$prev_key}->{text} = $new_value;
+                $prev_value = $this->VARS->{$prev_key}->{text};
+                $this->VARS->{$prev_key}->{text} = $new_value;
             }
 
             $key = '';
@@ -378,7 +365,7 @@ sub readTemplate {
 # STATIC: Return value: raw template text, or undef if read fails
 sub _readTemplateFile {
     my ( $this, $name, $skins, $web ) = @_;
-    my $session = $this->{session};
+    my $session = $this->session;
 
     # zap anything suspicious
     $name =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;
@@ -409,8 +396,8 @@ sub _readTemplateFile {
               Foswiki::Meta->load( $session, $userdirweb, $userdirname );
 
             # Check we are allowed access
-            unless ( $meta->haveAccess( 'VIEW', $session->{user} ) ) {
-                return $this->{session}->inlineAlert( 'alerts', 'access_denied',
+            unless ( $meta->haveAccess( 'VIEW', $session->user ) ) {
+                return $this->session->inlineAlert( 'alerts', 'access_denied',
                     "$userdirweb.$userdirname" );
             }
             my $text = $meta->text();
@@ -540,16 +527,15 @@ sub _readTemplateFile {
                 next
                   if (
                     defined(
-                        $this->{files}
-                          ->{ 'topic' . $session->{user}, $name1, $web1 }
+                        $this->files->{ 'topic' . $session->user, $name1,
+                            $web1 }
                     )
                   );
-                $this->{files}->{ 'topic' . $session->{user}, $name1, $web1 } =
-                  1;
+                $this->files->{ 'topic' . $session->user, $name1, $web1 } = 1;
 
                 # access control
                 my $meta = Foswiki::Meta->load( $session, $web1, $name1 );
-                next unless $meta->haveAccess( 'VIEW', $session->{user} );
+                next unless $meta->haveAccess( 'VIEW', $session->user );
 
                 my $text = $meta->text();
                 $text = '' unless defined $text;
@@ -565,10 +551,10 @@ sub _readTemplateFile {
             }
         }
         elsif ( -e $file ) {
-            next if ( defined( $this->{files}->{$file} ) );
+            next if ( defined( $this->files->{$file} ) );
 
             # recursion prevention.
-            $this->{files}->{$file} = 1;
+            $this->files->{$file} = 1;
 
             my $text = _decomment( _readFile( $session, $file ) );
             $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )

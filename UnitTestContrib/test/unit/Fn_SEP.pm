@@ -1,8 +1,8 @@
-use strict;
 
 # tests for the correct expansion of SEP
 
 package Fn_SEP;
+use v5.14;
 
 use Foswiki;
 

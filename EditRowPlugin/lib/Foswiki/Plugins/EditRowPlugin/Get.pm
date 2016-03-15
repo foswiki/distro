@@ -89,7 +89,7 @@ sub process {
               )
             {
                 $result = $table->getCell($urps);
-                $table->finish();
+                undef $table;
                 last LINE;
             }
         }

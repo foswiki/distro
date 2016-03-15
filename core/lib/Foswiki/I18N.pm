@@ -41,7 +41,7 @@ has _lh => (
     clearer => 1,
     builder => '_initLanguageHandler',
 );
-has _session => (
+has session => (
     is       => 'rw',
     weak_ref => 1,
     init_arg => 'session',
@@ -112,7 +112,7 @@ sub _loadLexicon {
             "
           )
         {
-            $this->_session->logger->log( 'warning',
+            $this->session->logger->log( 'warning',
                 "I18N - Error loading language $lang: $@\n" );
         }
     }
@@ -121,7 +121,7 @@ sub _loadLexicon {
 sub _initI18N {
     my $this = shift;
 
-    my $session     = $this->_session;
+    my $session     = $this->session;
     my $initialised = 0;
 
     # no languages enabled is the same as disabling
@@ -177,7 +177,7 @@ sub _initI18N {
 sub _initLanguageHandler {
     my $this = shift;
 
-    my $session = $this->_session;
+    my $session = $this->session;
     my $lh;
 
     # guesses the language from the CGI environment

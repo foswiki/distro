@@ -10,10 +10,10 @@ Depends on Locale::Maketext::Extract (part of CPAN::Locale::Maketext::Lexicon).
 =cut
 
 package Foswiki::I18N::Extract;
+use v5.14;
 
-use strict;
-use warnings;
-
+use Moo;
+extends qw(Foswiki::Object);
 our $initError;
 
 BEGIN {
@@ -31,6 +31,22 @@ BEGIN {
     }
 }
 
+has session => (
+    is       => 'rw',
+    clearer  => 1,
+    required => 1,
+    weak_ref => 1,
+    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
+);
+has extractor => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        return new Locale::Maketext::Extract;
+    },
+    handles => [qw(extract_file compile write_po)],
+);
+
 ##########################################################
 
 =begin TML
@@ -43,18 +59,25 @@ warnings.
 
 =cut
 
-sub new {
-    my $class   = shift;
-    my $session = shift;
+around BUILDARGS => sub {
+    my $orig = shift;
+
+    try {
+        Foswiki::load_package('Local::Maketext::Extract');
+    }
+    catch {
+        $initError = ref($_) ? $_->stringify : $_;
+    };
+
+    return $orig->(@_);
+};
+
+sub BUILD {
+    my $this = shift;
 
     if ( defined $initError ) {
-        $session->logger->log( 'warning', $initError ) if $session;
-        return;
+        $this->session->logger->log( 'warning', $initError );
     }
-
-    my $self = new Locale::Maketext::Extract;
-    $self->{session} = $session;
-    return bless( $self, $class );
 }
 
 =begin TML
@@ -65,18 +88,18 @@ Extract the strings from =$text=,m using =$file= as the name of the current
 file being read (for comments in PO file, for example). Overrides the base
 class method but calls it so the base behavior is preserved.
 
-As in base class, extracted strings are just stored in the =$self='s internal
+As in base class, extracted strings are just stored in the =$this='s internal
 table for further use (e.g. creating/updating a PO file). Nothing is returned.
 
 =cut
 
 sub extract {
-    my $self = shift;
+    my $this = shift;
     my $file = shift;
     local $_ = shift;
 
     # do existing extraction
-    $self->SUPER::extract( $file, $_ ) unless ( $file =~ m/\.(txt|tmpl)$/ );
+    $this->extractor->extract( $file, $_ ) unless ( $file =~ m/\.(txt|tmpl)$/ );
 
     my $line;
     my $doublequoted = '"(\\\"|[^"])*"';
@@ -89,7 +112,7 @@ sub extract {
         while (m/%MAKETEXT\{\s*(string=)?($doublequoted)/gm) {
             my $str = substr( $2, 1, -1 );
             $str =~ s/\\"/"/g;
-            $self->add_entry( $str, [ $file, $line, '' ] );
+            $this->add_entry( $str, [ $file, $line, '' ] );
         }
         $line++;
     }
@@ -120,7 +143,7 @@ sub extract {
             $str =~ s/\\"/"/g;
 
             # collect the string:
-            $self->add_entry( $str, [ $file, $line, '' ] );
+            $this->add_entry( $str, [ $file, $line, '' ] );
         }
         $line++;
     }

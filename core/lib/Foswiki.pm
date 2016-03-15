@@ -122,7 +122,7 @@ has attach => (
     predicate => 1,
     default   => sub {
         require Foswiki::Attach;
-        new Foswiki::Attach( $_[0] );
+        new Foswiki::Attach( session => $_[0] );
     },
 );
 has cache => (
@@ -335,7 +335,7 @@ has templates => (
     clearer   => 1,
     default   => sub {
         require Foswiki::Templates;
-        return Foswiki::Templates->new( $_[0] );
+        return Foswiki::Templates->new( session => $_[0] );
     },
 );
 has topicName => (
@@ -1106,6 +1106,17 @@ sub BUILD {
           . Data::Dumper->Dump( [ [caller], [ caller(1) ] ] );
     }
 
+    # This is required in case we get an exception during
+    # initialisation, so that we have a session to handle it with.
+    ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+
+    $Foswiki::Plugins::SESSION = $this;
+
+    ASSERT( $Foswiki::Plugins::SESSION,
+"\$Foswiki::Plugins::SESSION was most likely unexpectedly cleared by destructor."
+    );
+    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
+
     my $query = $this->request;
 
     # Phase 2 of Bootstrap.  Web settings require that the Foswiki request
@@ -1123,21 +1134,6 @@ sub BUILD {
               : $bootstrap_message . $phase2_message;
         }
     }
-
-    # This is required in case we get an exception during
-    # initialisation, so that we have a session to handle it with.
-    ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
-
-    # SMELL This global session variable not to exists whatsoever! There're two
-    # ways around this variable to ever exists: a singleton object or every
-    # piece of code requiring access to session to be a part of an object. Yet,
-    # a singleton object doesn't solve a problem with multi-session environments
-    # where code may serve few different requests at once. Think of requests on
-    # hold waiting for some data from external sources while concurring requests
-    # are being processed.
-    $Foswiki::Plugins::SESSION = $this;
-
-    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
     # construct the store object
     my $base = $Foswiki::cfg{Store}{Implementation}
@@ -2686,8 +2682,12 @@ Break circular references.
 sub DEMOLISH {
     my $this = shift;
 
-    #$this->clear_plugins;
-    undef $Foswiki::Plugins::SESSION;
+    $this->clear_plugins;
+    $this->clear_forms;
+    if ( $this == $Foswiki::Plugins::SESSION ) {
+        #say STDERR $this, " Here we clear the old Plugins::SESSION";
+        undef $Foswiki::Plugins::SESSION;
+    }
 }
 
 =begin TML

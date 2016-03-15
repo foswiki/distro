@@ -150,9 +150,8 @@ has session => (
     is       => 'ro',
     clearer  => 1,
     required => 1,
-
-    #weak_ref => 1,
-    isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
+    weak_ref => 1,
+    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
 );
 has web => (
     is        => 'rw',
@@ -571,6 +570,7 @@ sub load {
     my $this;
     my $rev;
 
+    my $session;
     if ( ref($proto) ) {
 
         # Existing unloaded object
@@ -579,12 +579,13 @@ sub load {
         $rev = shift;
     }
     else {
-        ( my $session, my $web, my $topic, $rev ) = @_;
+        my ( $web, $topic );
+        ( $session, $web, $topic, $rev ) = @_;
         $this =
           $proto->new( session => $session, web => $web, topic => $topic );
     }
 
-    my $session = $this->session;
+    $session = $this->session;
 
 #    if (    defined( $this->topic )
 #        and ( not defined($rev) )
