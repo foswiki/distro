@@ -309,6 +309,16 @@ $Foswiki::cfg{Sessions}{UseIPMatching} = 1;
 # that make use of session variables.
 $Foswiki::cfg{Sessions}{EnableGuestSessions} = 1;
 
+# **REGEX LABEL="Topics requiring sessions" EXPERT**
+# If this regular expression matches the Topic in the request, a guest session
+# will be created. Sessions are required for UserRegistration and ResetPassword
+# Pages. As Foswiki supports custom User Registration topics, the expression is
+# anchored at the end, so that it matches any topic name ending in "Registration".
+#
+# Caution: If a page uses Ajax functions to validate formfields, then the helper
+# topic also needs to be listed here.
+$Foswiki::cfg{Sessions}{TopicsRequireGuestSessions} = '(Registration|RegistrationParts|ResetPassword)$';
+
 # **BOOLEAN LABEL="Map IP to Session ID" EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
 # For compatibility with older versions, Foswiki supports the mapping of the
 # clients IP address to a session ID. You can only use this if all
