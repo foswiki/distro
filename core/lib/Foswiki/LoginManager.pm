@@ -567,11 +567,13 @@ sub loadSession {
     # Call to getLoggedIn inserts the auth user into the cgi session
     $this->userLoggedIn($authUser)
       unless ( $authUser eq $Foswiki::cfg{DefaultUserLogin}
-        && !$guestSessions );
+        && !$guestSessions
+        && !$session->inContext('sessionRequired') );
 
     # Cleanup unused guest sessions
     if (   $this->{_cgisession}
         && !$guestSessions
+        && !$session->inContext('sessionRequired')
         && $authUser eq $Foswiki::cfg{DefaultUserLogin} )
     {
         $this->{_cgisession}->delete();
@@ -896,7 +898,8 @@ sub userLoggedIn {
 
             # Don't make a session for the guest user.
             unless ( $authUser eq $Foswiki::cfg{DefaultUserLogin}
-                && !$guestSessions )
+                && !$guestSessions
+                && !$session->inContext('sessionRequired') )
 
             {
                 $this->{_cgisession} =

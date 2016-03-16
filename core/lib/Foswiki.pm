@@ -2178,9 +2178,6 @@ sub new {
     }
     ASSERT( $this->{urlHost} ) if DEBUG;
 
-    # Load (or create) the CGI session
-    $this->{remoteUser} = $this->{users}->loadSession($defaultUser);
-
     $this->{scriptUrlPath} = $Foswiki::cfg{ScriptUrlPath};
     if (   $Foswiki::cfg{GetScriptUrlFromCgi}
         && $url
@@ -2244,6 +2241,20 @@ sub new {
 
     $this->{topicName} = $topic;
     $this->{webName}   = $web;
+
+    if (   !$Foswiki::cfg{Sessions}{EnableGuestSessions}
+        && defined $Foswiki::cfg{Sessions}{TopicsRequireGuestSessions}
+        && $this->{topicName} =~
+        m/$Foswiki::cfg{Sessions}{TopicsRequireGuestSessions}/ )
+    {
+        #print STDERR "FORCE Session - . $topic / " . $query->action() . "\n";
+        $this->{context}{sessionRequired} = 1;
+    }
+
+  #else {    print STDERR "NO Session -  $topic / " . $query->action() . "\n"; }
+
+    # Load (or create) the CGI session
+    $this->{remoteUser} = $this->{users}->loadSession($defaultUser);
 
     # Form definition cache
     $this->{forms} = {};

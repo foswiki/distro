@@ -31,6 +31,8 @@ sub set_up {
     $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
     $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 1;
     $Foswiki::cfg{Plugins}{CommentPlugin}{TestMode}        = 1;
+    $Foswiki::cfg{Sessions}{TopicsRequireGuestSessions} =
+'(CommentPluginTestsTarget|CommentPluginTests|Registration|RegistrationParts|ResetPassword)$';
 
     return;
 }

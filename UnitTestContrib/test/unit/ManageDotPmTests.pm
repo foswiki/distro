@@ -38,6 +38,8 @@ sub set_up {
     $Foswiki::cfg{TrashWebName} = $this->{trash_web};
 
     @FoswikiFnTestCase::mails = ();
+    $Foswiki::cfg{Sessions}{TopicsRequireGuestSessions} =
+      '(WikiGroups|Registration|RegistrationParts|ResetPassword)$';
 
     return;
 }
