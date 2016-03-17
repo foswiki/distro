@@ -30,10 +30,6 @@ BEGIN {
     # deny - hash of HTTP methods that are denied (all others are allowed)
     # 'deny' is not tested if 'allow' is defined
 
-# The "sessionRequired" context should be set if the function requires a CGI
-# session, and should be usable by guests without sessions.  The user registration
-# and Password Reset functions are used by guest users.
-
     # The switchboard can contain entries either as hashes or as arrays.
     # The array format specifies [0] package, [1] function, [2] context
     # and should be used when declaring scripts from plugins that must work
@@ -100,10 +96,7 @@ BEGIN {
     $Foswiki::cfg{SwitchBoard}{register}  = {
         package  => 'Foswiki::UI::Register',
         function => 'register_cgi',
-        context  => {
-            register        => 1,
-            sessionRequired => 1
-        },
+        context  => { register => 1, },
 
         # method verify must allow GET; protect in Foswiki::UI::Register
         #allow => { POST => 1 },
@@ -119,11 +112,8 @@ BEGIN {
     $Foswiki::cfg{SwitchBoard}{resetpasswd} = {
         package  => 'Foswiki::UI::Passwords',
         function => 'resetPassword',
-        context  => {
-            resetpasswd     => 1,
-            sessionRequired => 1
-        },
-        allow => { POST => 1, },
+        context  => { resetpasswd => 1, },
+        allow    => { POST => 1, },
     };
     $Foswiki::cfg{SwitchBoard}{rest} = {
         package  => 'Foswiki::UI::Rest',

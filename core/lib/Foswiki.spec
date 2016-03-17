@@ -314,10 +314,7 @@ $Foswiki::cfg{Sessions}{EnableGuestSessions} = 1;
 # will be created. Sessions are required for UserRegistration and ResetPassword
 # Pages. As Foswiki supports custom User Registration topics, the expression is
 # anchored at the end, so that it matches any topic name ending in "Registration".
-#
-# Caution: If a page uses Ajax functions to validate formfields, then the helper
-# topic also needs to be listed here.
-$Foswiki::cfg{Sessions}{TopicsRequireGuestSessions} = '(Registration|RegistrationParts|ResetPassword)$';
+$Foswiki::cfg{Sessions}{TopicsRequireGuestSessions} = '(Registration|ResetPassword)$';
 
 # **BOOLEAN LABEL="Map IP to Session ID" EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
 # For compatibility with older versions, Foswiki supports the mapping of the
