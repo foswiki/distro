@@ -10,6 +10,7 @@ TARGET=\
   jquery-1.11.3.js \
   jquery-1.12.0.js \
   jquery-1.12.1.js \
+  jquery-1.12.2.js \
   jquery-2.0.0.js \
   jquery-2.0.1.js \
   jquery-2.0.2.js \
@@ -17,6 +18,7 @@ TARGET=\
   jquery-2.1.1.js \
   jquery-2.1.3.js \
   jquery-2.2.0.js \
-  jquery-2.2.1.js
+  jquery-2.2.1.js \
+  jquery-2.2.2.js
 
 -include Makefile.include

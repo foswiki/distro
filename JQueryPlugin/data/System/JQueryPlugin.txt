@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1458294779" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -124,6 +124,17 @@ required for Foswiki 1.1 or later.
 %$DEPENDENCIES%
 
 ---++ Change History
+%TABLE{columnwidths="7em" tablewidth="100%"}%
+|  18 Mar 2016: | (7.01) - added jQery-1.12.2 / jQuery-2.2.2; \
+                           fixed textboxlist loosing tags with leading or trailing spaces; \
+                           updated imagesLoaded |
+|  23 Feb 2016: | (7.00) - modernized button module again; \
+                           removed outdated jQuery versions; \
+                           deprecated bgiframe and media modules; \
+                           updated jquery.form, localScroll, scrollTo, sericalScroll, masonry, jquery.migrate, queryObject, jsrender, sprintf, fontawesome, jquery.stars, superfish, jquery.tabpane to latest versions; \
+                           externalized imagesLoaded from masonry; \
+                           do a deep merge gathering foswikiPreferences from the header; \
+                           added new jquery.i18n module for client-side translations |
 |  03 Feb 2016: | (6.32) - Item13898: Jumpbox example in JQueryAjaxHelper is not working <br/> \
                            Item12560: Split !NameFilter into !AttachmentNameFilter <br/> \
                            Item13854: Set ALLOWTOPICVIEW=* in critical system topics. *Foswiki 1.1.x Requires compatibility patches, or Foswiki 1.1.10* |
