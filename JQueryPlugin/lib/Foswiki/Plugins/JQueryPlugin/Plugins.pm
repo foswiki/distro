@@ -12,8 +12,8 @@ my %themes;
 my $debug;
 my $currentTheme;
 
-use constant JQUERY1_DEFAULT => 'jquery-1.12.1';
-use constant JQUERY2_DEFAULT => 'jquery-2.2.1';
+use constant JQUERY1_DEFAULT => 'jquery-1.12.2';
+use constant JQUERY2_DEFAULT => 'jquery-2.2.2';
 
 =begin TML
 
