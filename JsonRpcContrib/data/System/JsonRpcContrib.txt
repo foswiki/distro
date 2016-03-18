@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1454519814" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1458296956" format="1.1" version="1"}%
 ---+!! %TOPIC%
-%SHORTDESCRIPTION%
+%FORMFIELD{"Description"}%
 
 %TOC%
 
@@ -210,15 +210,12 @@ Forms of this type can easily be sent to the server using %SYSTEMWEB%.JQueryForm
 If a namespace, method, or parameters are specified as part of a JSON-RPC request object as well as using URL parameters, the URL parameters take higher precedence and are merged into the request object.
 
 ---++ Installation Instructions
-
 %$INSTALL_INSTRUCTIONS%
 
----++ Info
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
+---++ Dependencies
+%$DEPENDENCIES%
 
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+---++ Change History
 |  03 Feb 2016: (2.24) | Foswikitask:Item13405: Add NFC normalization of Unicode strings. |
 |  14 Jul 2015: (2.23) | fixed encoding of compressed responses Foswikitask:Item13521 |
 |  14 Jun 2015: (2.22) | Release with Foswiki 2.0.<br />\
@@ -242,21 +239,14 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
                   fixed multi-value params; \
                   fixed compatibility with various JSON cpan libraries |
 |  29 Apr 2011: | initial release |
-|  Dependencies: | %$DEPENDENCIES% |
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Michael Daum"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; 2011-2016 Michael Daum http://michaeldaumconsulting.com and Foswiki Contributors"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/JsonRpcContrib"}%
 %META:FIELD{name="Support" title="Support" value="Foswiki:Support/JsonRpcContrib"}%
-%META:FILEATTACHMENT{name="json2.js.gz" attr="h" comment="" date="1454519814" size="1343" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.jsonrpc.js" attr="h" comment="" date="1454519814" size="1106" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.jsonrpc.js.gz" attr="h" comment="" date="1454519814" size="460" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Makefile" attr="h" comment="" date="1454519814" size="136" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="json2.js" attr="h" comment="" date="1454519814" size="3388" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="json2.uncompressed.js" attr="h" comment="" date="1454519814" size="17409" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.jsonrpc.uncompressed.js" attr="h" comment="" date="1454519814" size="1720" user="ProjectContributor" version="1"}%
