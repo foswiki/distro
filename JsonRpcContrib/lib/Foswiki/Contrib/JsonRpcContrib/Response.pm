@@ -56,7 +56,7 @@ sub print {
     $encoding =~ s/^.*(x-gzip|gzip).*/$1/g;
     my $compressed = 0;
 
-    if ( $Foswiki::cfg{HttpCompress} || $ENV{'SPDY'} ) {
+    if ( $Foswiki::cfg{HttpCompress} || $ENV{'HTTP2'} ) {
         $hopts->{'Content-Encoding'} = $encoding;
         $hopts->{'Vary'}             = 'Accept-Encoding';
         require Compress::Zlib;
