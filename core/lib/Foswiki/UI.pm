@@ -96,7 +96,7 @@ BEGIN {
     $Foswiki::cfg{SwitchBoard}{register}  = {
         package  => 'Foswiki::UI::Register',
         function => 'register_cgi',
-        context  => { register => 1, },
+        context  => { register => 1 },
 
         # method verify must allow GET; protect in Foswiki::UI::Register
         #allow => { POST => 1 },
@@ -112,8 +112,8 @@ BEGIN {
     $Foswiki::cfg{SwitchBoard}{resetpasswd} = {
         package  => 'Foswiki::UI::Passwords',
         function => 'resetPassword',
-        context  => { resetpasswd => 1, },
-        allow    => { POST => 1, },
+        context  => { resetpasswd => 1 },
+        allow    => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{rest} = {
         package  => 'Foswiki::UI::Rest',
