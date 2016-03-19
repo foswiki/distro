@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1458296956" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1458352247" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -216,6 +216,7 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
 %$DEPENDENCIES%
 
 ---++ Change History
+|  18 Mar 2016: (2.25) | Foswikitask:Item14011: Make sure HTTP2 is always compressing. |
 |  03 Feb 2016: (2.24) | Foswikitask:Item13405: Add NFC normalization of Unicode strings. |
 |  14 Jul 2015: (2.23) | fixed encoding of compressed responses Foswikitask:Item13521 |
 |  14 Jun 2015: (2.22) | Release with Foswiki 2.0.<br />\
