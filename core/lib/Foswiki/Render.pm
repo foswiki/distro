@@ -449,6 +449,9 @@ qr/<[Tt][Ee][Xx][Tt][Aa][Rr][Ee][Aa]\b.*?<\/[Tt][Ee][Xx][Tt][Aa][Rr][Ee][Aa]>/s,
             elsif ( $line =~ s/^((\t|   )+): /<div class='foswikiIndent'> / ) {
 
                 # Indent pseudo-list
+                $line .= '&nbsp;'
+                  if ( length($line) eq 28 )
+                  ;    # empty divs are not rendered, so make it non-empty.
                 _addListItem( $this, \@result, '', 'div', 'foswikiIndent', $1 );
                 $isList = 1;
             }

@@ -1634,6 +1634,49 @@ ACTUAL
     $this->do_test( $expected, $actual );
 }
 
+sub test_lists_empty_items {
+    my $this     = shift;
+    my $expected = <<EXPECTED;
+<div class='foswikiIndent'> Para
+</div> <div class='foswikiIndent'> Para
+</div> <div class='foswikiIndent'> &nbsp;
+</div> <div class='foswikiIndent'> Para
+</div>
+<p></p>
+<p></p> <ul>
+<li> Bullet
+</li> <li> Bullet
+</li> <li> 
+</li> <li> Bullet
+</li></ul> 
+<p></p> <ol>
+<li> Num
+</li> <li> Num
+</li> <li> 
+</li> <li> Num
+</li></ol> 
+EXPECTED
+    my $actual = <<'ACTUAL';
+   : Para
+   : Para
+   : 
+   : Para
+
+
+   * Bullet
+   * Bullet
+   * 
+   * Bullet
+
+   1 Num
+   1 Num
+   1 
+   1 Num
+
+ACTUAL
+    $this->do_test( $expected, $actual );
+}
+
 sub test_tableDoesNotTerminateList {
     my $this = shift;
 

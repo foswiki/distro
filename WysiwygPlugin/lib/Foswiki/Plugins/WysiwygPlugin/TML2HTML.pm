@@ -711,6 +711,11 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         {
 
             # Indent pseudo-list
+            push( @result, '</p>' ) if $inParagraph;
+            $inParagraph = 0;
+            $line .= '&nbsp;'
+              if ( length($line) eq 28 )
+              ;    # empty divs are not rendered, so make it non-empty.
             $this->_addListItem( \@result, '', 'div', 'class="foswikiIndent"',
                 $1 );
             $inList = 1;

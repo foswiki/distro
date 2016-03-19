@@ -686,10 +686,11 @@ HERE
 HERE
     },
     {
-        exec => ROUNDTRIP,
+        exec => TML2HTML | ROUNDTRIP,
         name => 'indentColon',
         html => <<'HERE',
 <p>Grim
+</p>
 <div class='foswikiIndent'>
  Snowy
  <div class='foswikiIndent'>
@@ -705,8 +706,8 @@ HERE
 <div class='foswikiIndent'>
  Sunny
 </div>
-<span class=WYSIWYG_HIDDENWHITESPACE style={encoded:'n'}>
-</span>Pleasant
+<p>
+Pleasant
 </p>
 HERE
         tml => <<'HERE',
@@ -718,6 +719,10 @@ Grim
    : Sunny
 Pleasant
 HERE
+
+# SMELL: The closing of the div results in a new paragraph which grows the tml
+# by a blank line.  It only happens once, and does not grow further after repeated
+# edits.
         finaltml => <<'HERE',
 Grim
    : Snowy
@@ -725,7 +730,31 @@ Grim
          : Rainy
       : Dry
    : Sunny
+
 Pleasant
+HERE
+    },
+    {
+        exec => ROUNDTRIP | TML2HTML,
+        name => 'indentColonBlankLine',
+        tml  => <<'HERE',
+   : Indente line 1
+   : Indented line 2 next line is blank
+
+   : New indent after blank line
+   : last indent
+HERE
+        html => <<'HERE',
+<p class="foswikiDeleteMe">&nbsp;</p>
+<div class='foswikiIndent'> Indente line 1
+</div>
+<div class='foswikiIndent'> Indented line 2 next line is blank
+</div>
+<p class='WYSIWYG_NBNL'></p>
+<div class='foswikiIndent'> New indent after blank line
+</div>
+<div class='foswikiIndent'> last indent
+</div>
 HERE
     },
     {
