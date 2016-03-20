@@ -21,11 +21,15 @@ sub process {
 
     my $macro = $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro} || 'EDITTABLE';
 
-    return 0 unless $text =~ /%${macro}({.*?})?%/s;
+    return 0 unless $text =~ /%${macro}(\{.*?\})?%/s;
 
     my $context = Foswiki::Func::getContext();
     return 0 unless $context->{view};
-    return 0 if $context->{static};
+
+    if ( $context->{static} ) {
+        $_[0] =~ s/%${macro}(\{.*?\})?%//s;
+        return 1;
+    }
 
     my $query = Foswiki::Func::getCgiQuery();
     return 0 unless $query;
@@ -253,7 +257,7 @@ sub process {
 __END__
 Author: Crawford Currie http://c-dot.co.uk
 
-Copyright (c) 2008-2011 Foswiki Contributors
+Copyright (c) 2008-2016 Foswiki Contributors
 Copyright (c) 2007 WindRiver Inc. and TWiki Contributors.
 All Rights Reserved. Foswiki Contributors are listed in the
 AUTHORS file in the root of this distribution.
