@@ -680,16 +680,16 @@ BEGIN {
     $contextFreeSyntax{IF} = 1;
 
     # Load LocalSite.cfg
-    if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {
-        $Foswiki::cfg{isVALID} = 1;
-    }
-    else {
-        $bootstrap_message = Foswiki::Configure::Load::bootstrapConfig();
-        eval 'require Foswiki::Plugins::ConfigurePlugin';
-        die
-"LocalSite.cfg load failed, and ConfigurePlugin could not be loaded: $@"
-          if $@;
-    }
+    #    if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {
+    #        $Foswiki::cfg{isVALID} = 1;
+    #    }
+    #    else {
+    #        $bootstrap_message = Foswiki::Configure::Load::bootstrapConfig();
+    #        eval 'require Foswiki::Plugins::ConfigurePlugin';
+    #        die
+    #"LocalSite.cfg load failed, and ConfigurePlugin could not be loaded: $@"
+    #          if $@;
+    #    }
 
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;

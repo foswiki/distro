@@ -32,6 +32,42 @@ BEGIN {
 }
 
 =begin TML
+---++ ClassMethod start(env => \%env)
+
+Determines the type of environment we're running in and creates an instance of
+corresponding class.
+
+=cut
+
+sub start {
+    my %params = @_;
+
+    my $cfg = $Foswiki::app->cfg;
+    my $engine;
+    if ( defined $cfg->data->{Engine} ) {
+        $engine = $cfg->data->{Engine};
+    }
+    elsif ( $params{env}{GATEWAY_INTERFACE} || $params{env}{MOD_PERL} ) {
+        $engine = 'Foswiki::Engine::CGI';
+    }
+    elsif ( $params{env}{'psgi.version'} ) {
+
+        # We don't have PSGI support yet.
+        ...;
+    }
+    else {
+        $engine = 'Foswiki::Engine::CLI';
+    }
+
+    if ($engine) {
+        return $engine->new(%params);
+    }
+    else {
+        return undef;
+    }
+}
+
+=begin TML
 
 ---++ ClassMethod new() -> $engine
 
@@ -250,7 +286,7 @@ doesn't need to overload in children classes.
 sub prepareCookies {
     my ( $this, $req ) = @_;
     eval { require CGI::Cookie };
-    throw Error::Simple($@) if $@;
+    Foswiki::Exception::Fatal->throw( text => $@ ) if $@;
     $req->cookies( scalar( CGI::Cookie->parse( $req->header('Cookie') ) ) )
       if $req->header('Cookie');
 }

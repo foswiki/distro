@@ -5,10 +5,11 @@ use v5.14;
 
 use Cwd;
 
+use Foswiki::Config;
+
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Object);
-with qw(Foswiki::Config);
 
 =begin TML
 
@@ -87,7 +88,13 @@ keys could be defined in =%parameters= hash:
 =cut
 
 sub run {
+    my $class  = shift;
     my %params = @_;
+
+    # Do nice in shared code environment, localize ALL request-related globals.
+    local %Foswiki::app;
+    local %Foswiki::cfg;
+    local %TWiki::cfg;
 
     my $app;
 
@@ -99,7 +106,7 @@ sub run {
     $params{env}{PWD} //= getcwd;
 
     try {
-        $app = Foswiki::App->new(%params);
+        $app = $Foswiki::app = Foswiki::App->new(%params);
         $app->handleRequest;
     }
     catch {
