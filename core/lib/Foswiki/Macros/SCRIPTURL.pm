@@ -15,18 +15,36 @@ BEGIN {
 
 sub SCRIPTURL {
     my ( $this, $params, $topicObject, $relative ) = @_;
+    my ( $web, $topic, $script );
+    $script = $params->{_DEFAULT};
+    $web    = $params->{web};
+
+    my $jsonrest = ( defined $script && $script =~ m/^jsonrpc|rest(:?auth)?$/ );
+
+    if ( !$jsonrest && defined $params->{topic} ) {
+        my @path = split( /[\/.]+/, $params->{topic} );
+        $topic = pop(@path) if scalar(@path);
+        if ( scalar(@path) ) {
+            $web = join( '/', @path )
+              ;    # web= is ignored, so preserve it in the query string
+        }
+        else {
+            delete
+              $params->{web};    # web= used, so drop the duplicate query param.
+        }
+        delete $params->{topic};
+    }
+
     my @p =
       map { $_ => $params->{$_} }
       grep { !/^(_.*|path)$/ }
       keys %$params;
-    my ( $web, $topic, $script );
-    $script = $params->{_DEFAULT};
-    $web    = $params->{web};
-    if ( defined $params->{topic} ) {
-        my @path = split( /[\/.]+/, $params->{topic} );
-        $topic = pop(@path) if scalar(@path);
-        $web = join( '/', @path ) if scalar(@path);    # web= is ignored
+
+    if ( $jsonrest && ( $params->{web} || $params->{topic} || scalar @p ) ) {
+        return
+"<div class='foswikiAlert'>Parameters are not supported when generating rest or jsonrpc URLs.</div>";
     }
+
     return $this->getScriptUrl( !$relative, $script, $web, $topic, @p );
 }
 
@@ -34,7 +52,7 @@ sub SCRIPTURL {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2015-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
