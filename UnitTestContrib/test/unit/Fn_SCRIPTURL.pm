@@ -50,7 +50,7 @@ sub test_SCRIPTURL {
       $this->{test_topicObject}->expandMacros(
         "%SCRIPTURLPATH{\"rest\" topic=\"Main.WebHome\" web=\"System\"}%");
     $this->assert_str_equals(
-"<div class='foswikiAlert'>Paramaters are not supported when generating rest or jsonrpc URLs.</div>",
+"<div class='foswikiAlert'>Parameters are not supported when generating rest or jsonrpc URLs.</div>",
         $result
     );
 
@@ -58,7 +58,7 @@ sub test_SCRIPTURL {
       $this->{test_topicObject}->expandMacros(
         "%SCRIPTURLPATH{\"jsonrpc\" topic=\"Main.WebHome\" web=\"System\"}%");
     $this->assert_str_equals(
-"<div class='foswikiAlert'>Paramaters are not supported when generating rest or jsonrpc URLs.</div>",
+"<div class='foswikiAlert'>Parameters are not supported when generating rest or jsonrpc URLs.</div>",
         $result
     );
 
