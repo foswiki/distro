@@ -188,8 +188,8 @@ sub rethrowAs {
 ---++ ClassMethod transmute($class, $exception)
 
 Reinstantiates $exception into $class. "Coerce" would be more correct term for
-this operation but it's better be avoded because it is occupied by Moo/Moose for
-attribute operation. 
+this operation but this name better be avoded because it is occupied by
+Moo/Moose for an attribute operation.
 
 =cut
 

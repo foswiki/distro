@@ -1,10 +1,11 @@
+# See bottom of file for license and copyright information
 
 package Foswiki::Object;
 use v5.14;
 
 =begin TML
 
----+ package Foswiki::Object
+---+ Class Foswiki::Object
 
 *NOTE:* This document is in draft status and may change as a result of
 a discussion, raised concerns or reasonable proposals.

@@ -4,11 +4,18 @@ package Foswiki::Config;
 use v5.14;
 
 use Assert;
+use Encode;
+use File::Basename;
+use File::Spec;
+use POSIX qw(locale_h);
+use Unicode::Normalize;
+use Cwd qw( abs_path );
+use Try::Tiny;
 use Foswiki ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 # Enable to trace auto-configuration (Bootstrap)
 use constant TRAUTO => 1;
@@ -40,6 +47,8 @@ my %remap = (
 
 has data => (
     is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
     default => sub { {} },
 );
 
@@ -49,12 +58,13 @@ has files => (
     default => sub { [] },
 );
 
-# failedConfig keeps the name of the failed config or spec file.
-has failedConfig => ( is => 'rw', );
-has noExpand     => ( is => 'rw', default => 0, );
-has noSpec       => ( is => 'rw', default => 0, );
-has configSpec   => ( is => 'rw', default => 0, );
-has noLocal      => ( is => 'rw', default => 0, );
+# failed keeps the name of the failed config or spec file.
+has failedConfig     => ( is => 'rw', );
+has bootstrapMessage => ( is => 'rw', );
+has noExpand         => ( is => 'rw', default => 0, );
+has noSpec           => ( is => 'rw', default => 0, );
+has configSpec       => ( is => 'rw', default => 0, );
+has noLocal          => ( is => 'rw', default => 0, );
 
 =begin TML
 
@@ -73,13 +83,16 @@ has noLocal      => ( is => 'rw', default => 0, );
 
 sub BUILD {
     my $this = shift;
+    my ($params) = @_;
 
     # Alias ::cfg for compatibility. Though $app->cfg should be preferred way of
     # accessing config.
     *Foswiki::cfg = $this->data;
     *TWiki::cfg   = $this->data;
 
-    $this->data->{isVALID} = $this->readConfig;
+    $this->data->{isVALID} =
+      $this->readConfig( $this->noExpand, $this->noSpec, $this->configSpec,
+        $this->noLocal, );
 }
 
 sub _workOutOS {
@@ -143,6 +156,7 @@ provide defaults, and it would be silly to have them in two places anyway.
 
 sub readConfig {
     my $this = shift;
+    my ( $noExpand, $noSpec, $configSpec, $noLocal ) = @_;
 
     # To prevent us from overriding the custom code in test mode
     return 1 if $this->data->{ConfigurationFinished};
@@ -156,10 +170,10 @@ sub readConfig {
     # Old configs might not bootstrap the OS settings, so set if needed.
     $this->_workOutOS unless ( $this->data->{OS} && $this->data->{DetailedOS} );
 
-    unless ( $this->noSpec ) {
+    unless ($noSpec) {
         push @{ $this->files }, 'Foswiki.spec';
     }
-    if ( !$this->noSpec && $this->configSpec ) {
+    if ( !$noSpec && $configSpec ) {
         foreach my $dir (@INC) {
             foreach my $subdir ( 'Foswiki/Plugins', 'Foswiki/Contrib' ) {
                 my $d;
@@ -179,7 +193,7 @@ sub readConfig {
             }
         }
     }
-    unless ( $this->noLocal ) {
+    unless ($noLocal) {
         push @{ $this->files }, 'LocalSite.cfg';
     }
 
@@ -245,7 +259,7 @@ CODE
 
     # Expand references to $this->data vars embedded in the values of
     # other $this->data vars.
-    $this->expandValue( $this->data ) unless $this->noExpand;
+    $this->expandValue( $this->data ) unless $noExpand;
 
     $this->data->{ConfigurationFinished} = 1;
 
@@ -334,6 +348,329 @@ sub _handleExpand {
     die "Undefined value in expanded string $_[0]\n" if ( $_[1] == 3 );
     $_[2] = 1;
     return '';
+}
+
+=begin TML
+---++ ObjectMethod bootstrap()
+
+This method tries to determine mandatory configuration defaults to operate
+when no LocalSite.cfg is found.
+
+=cut
+
+sub bootstrap {
+    my $this = shift;
+
+    # Strip off any occasional configuration data which might be a result of
+    # previously failed readConfig.
+    $this->clear_data;
+
+    my $env = $this->app->env;
+
+    print STDERR "AUTOCONFIG: Bootstrap Phase 1: " . Data::Dumper::Dumper($env)
+      if (TRAUTO);
+
+    # Try to create $Foswiki::cfg in a minimal configuration,
+    # using paths and URLs relative to this request. If URL
+    # rewriting is happening in the web server this is likely
+    # to go down in flames, but it gives us the best chance of
+    # recovering. We need to guess values for all the vars that
+
+    # would trigger "undefined" errors
+    my $bin;
+    my $script = '';
+    if ( defined $env->{FOSWIKI_SCRIPTS} ) {
+        $bin = $env->{FOSWIKI_SCRIPTS};
+    }
+    else {
+        eval('require FindBin');
+        Foswiki::Exception::Fatal->throw( text =>
+              "Could not load FindBin to support configuration recovery: $@" )
+          if $@;
+        FindBin::again();    # in case we are under mod_perl or similar
+        $FindBin::Bin =~ m/^(.*)$/;
+        $bin = $1;
+        $FindBin::Script =~ m/^(.*)$/;
+        $script = $1;
+    }
+
+    # Can't use Foswiki::decode_utf8 - this is too early in initialization
+    # SMELL TODO The above must not be true anymore. Yet, why not use
+    # Encode::decode_utf8?
+    print STDERR "AUTOCONFIG: Found Bin dir: "
+      . $bin
+      . ", Script name: $script using FindBin\n"
+      if (TRAUTO);
+
+    $this->data->{ScriptSuffix} = ( fileparse( $script, qr/\.[^.]*/ ) )[2];
+    $this->data->{ScriptSuffix} = ''
+      if ( $this->data->{ScriptSuffix} eq '.fcgi' );
+    print STDERR "AUTOCONFIG: Found SCRIPT SUFFIX "
+      . $this->data->{ScriptSuffix} . "\n"
+      if ( TRAUTO && $this->data->{ScriptSuffix} );
+
+    my %rel_to_root = (
+        DataDir    => { dir => 'data',   required => 0 },
+        LocalesDir => { dir => 'locale', required => 0 },
+        PubDir     => { dir => 'pub',    required => 0 },
+        ToolsDir   => { dir => 'tools',  required => 0 },
+        WorkingDir => {
+            dir           => 'working',
+            required      => 1,
+            validate_file => 'README'
+        },
+        TemplateDir => {
+            dir           => 'templates',
+            required      => 1,
+            validate_file => 'foswiki.tmpl'
+        },
+        ScriptDir => {
+            dir           => 'bin',
+            required      => 1,
+            validate_file => 'setlib.cfg'
+        }
+    );
+
+    # Note that we don't resolve x/../y to y, as this might
+    # confuse soft links
+    my $root = File::Spec->catdir( $bin, File::Spec->updir() );
+    $root =~ s{\\}{/}g;
+    my $fatal = '';
+    my $warn  = '';
+    while ( my ( $key, $def ) = each %rel_to_root ) {
+        $this->data->{$key} = File::Spec->rel2abs( $def->{dir}, $root );
+        $this->data->{$key} = abs_path( $this->data->{$key} );
+        ( $this->data->{$key} ) = $this->data->{$key} =~ m/^(.*)$/;    # untaint
+
+        # Need to decode utf8 back to perl characters.  The file path operations
+        # all worked with bytes, but Foswiki needs characters.
+        $this->data->{$key} = NFC( Encode::decode_utf8( $this->data->{$key} ) );
+
+        print STDERR "AUTOCONFIG: $key = "
+          . Encode::encode_utf8( $this->data->{$key} ) . "\n"
+          if (TRAUTO);
+
+        if ( -d $this->data->{$key} ) {
+            if ( $def->{validate_file}
+                && !-e $this->data->{$key} . "/$def->{validate_file}" )
+            {
+                $fatal .=
+                    "\n{$key} (guessed "
+                  . $this->data->{$key} . ") "
+                  . $this->data->{$key}
+                  . "/$def->{validate_file} not found";
+            }
+        }
+        elsif ( $def->{required} ) {
+            $fatal .= "\n{$key} (guessed " . $this->data->{$key} . ")";
+        }
+        else {
+            $warn .=
+              "\n      * Note: {$key} could not be guessed. Set it manually!";
+        }
+    }
+
+    # Bootstrap the Site Locale and CharSet
+    $this->_bootstrapSiteSettings();
+
+    # Bootstrap the store related settings.
+    $this->_bootstrapStoreSettings();
+
+    if ($fatal) {
+        Foswiki::Exception::Fatal->throw( text => <<EPITAPH );
+Unable to bootstrap configuration. LocalSite.cfg could not be loaded,
+and Foswiki was unable to guess the locations of the following critical
+directories: $fatal
+EPITAPH
+    }
+
+# Re-read Foswiki.spec *and Config.spec*. We need the Config.spec's
+# to get a true picture of our defaults (notably those from
+# JQueryPlugin. Without the Config.spec, no plugins get registered)
+# Don't load LocalSite.cfg if it exists (should normally not exist when bootstrapping)
+    $this->readConfig( 0, 0, 1, 1 );
+
+    $this->_workOutOS();
+    print STDERR "AUTOCONFIG: Detected OS "
+      . $this->data->{OS}
+      . ":  DetailedOS: "
+      . $this->data->{DetailedOS} . " \n"
+      if (TRAUTO);
+
+    $this->data->{isVALID} = 1;
+    $this->setBootstrap();
+
+    # Note: message is not I18N'd because there is no point; there
+    # is no localisation in a default cfg derived from Foswiki.spec
+    my $system_message = <<BOOTS;
+*WARNING !LocalSite.cfg could not be found* (This is normal for a new installation) %BR%
+This Foswiki is running using a bootstrap configuration worked
+out by detecting the layout of the installation.
+BOOTS
+
+    if ($warn) {
+        chomp $system_message;
+        $system_message .= $warn . "\n";
+    }
+    return ( $system_message || '' );
+
+}
+
+=begin TML
+
+---++ ObjectMethod _bootstrapSiteSettings()
+
+Called by bootstrapConfig.  This handles the {Site} settings.
+
+=cut
+
+sub _bootstrapSiteSettings {
+    my $this = shift;
+
+#   Guess a locale first.   This isn't necessarily used, but helps guess a CharSet, which is always used.
+
+    require locale;
+    $this->data->{Site}{Locale} = setlocale(LC_CTYPE);
+
+    print STDERR "AUTOCONFIG: Set initial {Site}{Locale} to  "
+      . $this->data->{Site}{Locale} . "\n";
+}
+
+=begin TML
+
+---++ ObjectMethod _bootstrapStoreSettings()
+
+Called by bootstrapConfig.  This handles the store specific settings.   This in turn
+tests each Store Contib to determine if it's capable of bootstrapping.
+
+=cut
+
+sub _bootstrapStoreSettings {
+    my $this = shift;
+
+    # Ask each installed store to bootstrap itself.
+
+    my @stores = Foswiki::Configure::FileUtil::findPackages(
+        'Foswiki::Contrib::*StoreContrib');
+
+    foreach my $store (@stores) {
+        try {
+            Foswiki::load_package($store);
+        }
+        finally {
+            unless (@_) {
+                my $ok;
+                eval('$ok = $store->can(\'bootstrapStore\')');
+                if ($@) {
+                    print STDERR $@;
+                }
+                else {
+                    $store->bootstrapStore() if ($ok);
+                }
+            }
+        };
+    }
+
+    # Handle the common store settings managed by Core.  Important ones
+    # guessed/checked here include:
+    #  - $Foswiki::cfg{Store}{SearchAlgorithm}
+
+    # Set PurePerl search on Windows, or FastCGI systems.
+    if (
+        (
+               $this->data->{Engine}
+            && $this->data->{Engine} =~ m/(FastCGI|Apache)/
+        )
+        || $^O eq 'MSWin32'
+      )
+    {
+        $this->data->{Store}{SearchAlgorithm} =
+          'Foswiki::Store::SearchAlgorithms::PurePerl';
+        print STDERR
+"AUTOCONFIG: Detected FastCGI, mod_perl or MS Windows. {Store}{SearchAlgorithm} set to PurePerl\n"
+          if (TRAUTO);
+    }
+    else {
+
+        # SMELL: The fork to `grep goes into a loop in the unit tests
+        # Not sure why, for now just default to pure perl bootstrapping
+        # in the unit tests.
+        if ( !$Foswiki::inUnitTestMode ) {
+
+            # Untaint PATH so we can check for grep on the path
+            my $x = $ENV{PATH} || '';
+            $x =~ m/^(.*)$/;
+            $ENV{PATH} = $1;
+            `grep -V 2>&1`;
+            if ($!) {
+                print STDERR
+"AUTOCONFIG: Unable to find a valid 'grep' on the path. Forcing PurePerl search\n"
+                  if (TRAUTO);
+                $this->data->{Store}{SearchAlgorithm} =
+                  'Foswiki::Store::SearchAlgorithms::PurePerl';
+            }
+            else {
+                $this->data->{Store}{SearchAlgorithm} =
+                  'Foswiki::Store::SearchAlgorithms::Forking';
+                print STDERR
+                  "AUTOCONFIG: {Store}{SearchAlgorithm} set to Forking\n"
+                  if (TRAUTO);
+            }
+            $ENV{PATH} = $x;    # re-taint
+        }
+        else {
+            $this->data->{Store}{SearchAlgorithm} =
+              'Foswiki::Store::SearchAlgorithms::PurePerl';
+        }
+    }
+
+    # Detect the NFC / NDF normalization of the file system, and set
+    # NFCNormalizeFilenames if needed.
+    # SMELL: Really this should be done per web, both in data and pub.
+    my $nfcok =
+      Foswiki::Configure::FileUtil::canNfcFilenames( $Foswiki::cfg{DataDir} );
+    if ( defined $nfcok && $nfcok == 1 ) {
+        print STDERR "AUTOCONFIG: Data Storage allows NFC filenames\n"
+          if (TRAUTO);
+        $this->data->{NFCNormalizeFilenames} = 0;
+    }
+    elsif ( defined($nfcok) && $nfcok == 0 ) {
+        print STDERR "AUTOCONFIG: Data Storage enforces NFD filenames\n"
+          if (TRAUTO);
+        $this->data->{NFCNormalizeFilenames} = 1
+          ; #the configure's interface still shows unchecked - so, don't understand.. ;(
+    }
+    else {
+        print STDERR "AUTOCONFIG: WARNING: Unable to detect Normalization.\n";
+        $this->data->{NFCNormalizeFilenames} = 1;    #enable too - safer as none
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod setBootstrap()
+
+This routine is called to initialize the bootstrap process.   It sets the list of
+configuration parameters that will need to be set and "protected" during bootstrap.
+
+If any keys will be set during bootstrap / initial creation of LocalSite.cfg, they
+should be added here so that they are preserved when the %Foswiki::cfg hash is
+wiped and re-initialized from the Foswiki spec.
+
+=cut
+
+sub setBootstrap {
+    my $this = shift;
+
+    # Bootstrap works out the correct values of these keys
+    my @BOOTSTRAP =
+      qw( {DataDir} {DefaultUrlHost} {DetailedOS} {OS} {PubUrlPath} {ToolsDir} {WorkingDir}
+      {PubDir} {TemplateDir} {ScriptDir} {ScriptUrlPath} {ScriptUrlPaths}{view}
+      {ScriptSuffix} {LocalesDir} {Store}{Implementation} {NFCNormalizeFilenames}
+      {Store}{SearchAlgorithm} {Site}{Locale} );
+
+    $this->data->{isBOOTSTRAPPING} = 1;
+    push( @{ $this->data->{BOOTSTRAP} }, @BOOTSTRAP );
 }
 
 1;

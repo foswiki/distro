@@ -53,7 +53,7 @@ sub start {
     elsif ( $params{env}{'psgi.version'} ) {
 
         # We don't have PSGI support yet.
-        ...;
+        $engine = 'Foswiki::Engine::PSGI';
     }
     else {
         $engine = 'Foswiki::Engine::CLI';

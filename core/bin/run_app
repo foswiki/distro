@@ -1,0 +1,5 @@
+#!env perl
+use Cwd;
+use lib Cwd::abs_path("../lib");
+use Foswiki::App;
+exit Foswiki::App->run;

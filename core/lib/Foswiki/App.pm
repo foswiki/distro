@@ -4,7 +4,7 @@ package Foswiki::App;
 use v5.14;
 
 use Cwd;
-
+use Try::Tiny;
 use Foswiki::Config;
 
 use Moo;
@@ -68,11 +68,15 @@ sub BUILD {
     my $this   = shift;
     my $params = shift;
 
-    if ( $this->cfg->{isBOOTSTRAPPING} ) {
+    $Foswiki::app = $this;
 
-        #code
+    unless ( defined $this->engine ) {
+        Foswiki::Exception::Fatal->throw( text => "Cannot initialize engine" );
     }
 
+    unless ( $this->cfg->data->{isVALID} ) {
+        $this->cfg->bootstrap;
+    }
 }
 
 =begin TML
@@ -106,17 +110,21 @@ sub run {
     $params{env}{PWD} //= getcwd;
 
     try {
-        $app = $Foswiki::app = Foswiki::App->new(%params);
+        $app = Foswiki::App->new(%params);
         $app->handleRequest;
     }
     catch {
         my $e = $_;
 
+        unless ( ref($e) && $e->isa('Foswiki::Exception') ) {
+            $e = Foswiki::Exception->transmute($e);
+        }
+
         # Low-level report of errors to user.
-        if ( $app && $app->engine ) {
+        if ( defined $app && defined $app->engine ) {
 
             # TODO Send error output to user using the initialized engine.
-            ...;
+            $app->engine->write( $e->stringify );
         }
         else {
             # Propagade the error using the most primitive way.
@@ -126,7 +134,31 @@ sub run {
 }
 
 sub handleRequest {
+    my $this = shift;
 
+    my $res = Foswiki::UI::handleRequest( $this->request );
+    $this->engine->finalize( $res, $this->request );
+}
+
+=begin TML
+
+--++ ObjectMethod create($className, %initArgs)
+
+Similar to =Foswiki::AppObject::create()= method but for the =Foswiki::App=
+itself.
+
+=cut
+
+sub create {
+    my $this  = shift;
+    my $class = shift;
+
+    unless ( $class->isa('Foswiki::AppObject') ) {
+        Foswiki::Exception::Fatal->throw(
+            text => "Class $class is not a Foswiki::AppObject descendant." );
+    }
+
+    return $class->new( app => $this, @_ );
 }
 
 sub _prepareEngine {
@@ -136,7 +168,7 @@ sub _prepareEngine {
 
     # Foswiki::Engine has to determine what environment are we run within and
     # return an object of corresponding class.
-    $engine = Foswiki::Engine->start( env => $env );
+    $engine = Foswiki::Engine::start( env => $env );
 
     return $engine;
 }
@@ -149,7 +181,7 @@ sub _prepareRequest {
 
 sub _readConfig {
     my $this = shift;
-    my $cfg = Foswiki::Config->new( env => $this->env );
+    my $cfg = $this->create( 'Foswiki::Config', env => $this->env );
     return $cfg;
 }
 
