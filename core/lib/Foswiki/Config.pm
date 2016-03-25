@@ -93,6 +93,8 @@ sub BUILD {
     $this->data->{isVALID} =
       $this->readConfig( $this->noExpand, $this->noSpec, $this->configSpec,
         $this->noLocal, );
+
+    $this->_populatePresets;
 }
 
 sub _workOutOS {
@@ -512,8 +514,7 @@ BOOTS
         chomp $system_message;
         $system_message .= $warn . "\n";
     }
-    return ( $system_message || '' );
-
+    $this->bootstrapMessage( $system_message // '' );
 }
 
 =begin TML
@@ -671,6 +672,147 @@ sub setBootstrap {
 
     $this->data->{isBOOTSTRAPPING} = 1;
     push( @{ $this->data->{BOOTSTRAP} }, @BOOTSTRAP );
+}
+
+# Preset values that are hard-coded and not coming from external sources.
+sub _populatePresets {
+    my $this = shift;
+
+    $this->data->{SwitchBoard} //= {};
+
+    # package - perl package that contains the method for this request
+    # function - name of the function in package
+    # context - hash of context vars to define
+    # allow - hash of HTTP methods to allow (all others are denied)
+    # deny - hash of HTTP methods that are denied (all others are allowed)
+    # 'deny' is not tested if 'allow' is defined
+
+    # The switchboard can contain entries either as hashes or as arrays.
+    # The array format specifies [0] package, [1] function, [2] context
+    # and should be used when declaring scripts from plugins that must work
+    # with Foswiki 1.0.0 and 1.0.4.
+
+    $this->data->{SwitchBoard}{attach} = {
+        package  => 'Foswiki::UI::Attach',
+        function => 'attach',
+        context  => { attach => 1 },
+    };
+    $this->data->{SwitchBoard}{changes} = {
+        package  => 'Foswiki::UI::Changes',
+        function => 'changes',
+        context  => { changes => 1 },
+    };
+    $this->data->{SwitchBoard}{configure} = {
+        package  => 'Foswiki::UI::Configure',
+        function => 'configure'
+    };
+    $this->data->{SwitchBoard}{edit} = {
+        package  => 'Foswiki::UI::Edit',
+        function => 'edit',
+        context  => { edit => 1 },
+    };
+    $this->data->{SwitchBoard}{jsonrpc} = {
+        package  => 'Foswiki::Contrib::JsonRpcContrib',
+        function => 'dispatch',
+        context  => { jsonrpc => 1 },
+    };
+    $this->data->{SwitchBoard}{login} = {
+        package  => undef,
+        function => 'logon',
+        context  => { ( login => 1, logon => 1 ) },
+    };
+    $this->data->{SwitchBoard}{logon} = {
+        package  => undef,
+        function => 'logon',
+        context  => { ( login => 1, logon => 1 ) },
+    };
+    $this->data->{SwitchBoard}{manage} = {
+        package  => 'Foswiki::UI::Manage',
+        function => 'manage',
+        context  => { manage => 1 },
+        allow    => { POST => 1 },
+    };
+    $this->data->{SwitchBoard}{oops} = {
+        package  => 'Foswiki::UI::Oops',
+        function => 'oops_cgi',
+        context  => { oops => 1 },
+    };
+    $this->data->{SwitchBoard}{preview} = {
+        package  => 'Foswiki::UI::Preview',
+        function => 'preview',
+        context  => { preview => 1 },
+    };
+    $this->data->{SwitchBoard}{previewauth} =
+      $this->data->{SwitchBoard}{preview};
+    $this->data->{SwitchBoard}{rdiff} = {
+        package  => 'Foswiki::UI::RDiff',
+        function => 'diff',
+        context  => { diff => 1 },
+    };
+    $this->data->{SwitchBoard}{rdiffauth} = $this->data->{SwitchBoard}{rdiff};
+    $this->data->{SwitchBoard}{register}  = {
+        package  => 'Foswiki::UI::Register',
+        function => 'register_cgi',
+        context  => { register => 1 },
+
+        # method verify must allow GET; protect in Foswiki::UI::Register
+        #allow => { POST => 1 },
+    };
+    $this->data->{SwitchBoard}{rename} = {
+        package  => 'Foswiki::UI::Rename',
+        function => 'rename',
+        context  => { rename => 1 },
+
+        # Rename is 2 stage; protect in Foswiki::UI::Rename
+        #allow => { POST => 1 },
+    };
+    $this->data->{SwitchBoard}{resetpasswd} = {
+        package  => 'Foswiki::UI::Passwords',
+        function => 'resetPassword',
+        context  => { resetpasswd => 1 },
+        allow    => { POST => 1 },
+    };
+    $this->data->{SwitchBoard}{rest} = {
+        package  => 'Foswiki::UI::Rest',
+        function => 'rest',
+        context  => { rest => 1 },
+    };
+    $this->data->{SwitchBoard}{restauth} = $this->data->{SwitchBoard}{rest};
+    $this->data->{SwitchBoard}{save}     = {
+        package  => 'Foswiki::UI::Save',
+        function => 'save',
+        context  => { save => 1 },
+        allow    => { POST => 1 },
+    };
+    $this->data->{SwitchBoard}{search} = {
+        package  => 'Foswiki::UI::Search',
+        function => 'search',
+        context  => { search => 1 },
+    };
+    $this->data->{SwitchBoard}{statistics} = {
+        package  => 'Foswiki::UI::Statistics',
+        function => 'statistics',
+        context  => { statistics => 1 },
+    };
+    $this->data->{SwitchBoard}{upload} = {
+        package  => 'Foswiki::UI::Upload',
+        function => 'upload',
+        context  => { upload => 1 },
+        allow    => { POST => 1 },
+    };
+    $this->data->{SwitchBoard}{viewfile} = {
+        package  => 'Foswiki::UI::Viewfile',
+        function => 'viewfile',
+        context  => { viewfile => 1 },
+    };
+    $this->data->{SwitchBoard}{viewfileauth} =
+      $this->data->{SwitchBoard}{viewfile};
+    $this->data->{SwitchBoard}{view} = {
+        package  => 'Foswiki::UI::View',
+        function => 'view',
+        context  => { view => 1 },
+    };
+    $this->data->{SwitchBoard}{viewauth} = $this->data->{SwitchBoard}{view};
 }
 
 1;

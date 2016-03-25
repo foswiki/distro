@@ -249,7 +249,7 @@ package Foswiki::Exception::ASSERT;
 use Moo;
 extends qw(Foswiki::Exception);
 
-# This class is to distinguish ASSERT-generated exceptions only.
+# This class is only for distinguishing ASSERT-generated exceptions.
 
 sub BUILD {
 

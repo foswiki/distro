@@ -11,156 +11,6 @@ Coordinator of execution flow and service functions used by the UI packages
 package Foswiki::UI;
 use v5.14;
 
-use strict;
-use warnings;
-
-BEGIN {
-
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-
-    #Monitor::MARK("Start of BEGIN block in UI.pm");
-    $Foswiki::cfg{SwitchBoard} ||= {};
-
-    # package - perl package that contains the method for this request
-    # function - name of the function in package
-    # context - hash of context vars to define
-    # allow - hash of HTTP methods to allow (all others are denied)
-    # deny - hash of HTTP methods that are denied (all others are allowed)
-    # 'deny' is not tested if 'allow' is defined
-
-    # The switchboard can contain entries either as hashes or as arrays.
-    # The array format specifies [0] package, [1] function, [2] context
-    # and should be used when declaring scripts from plugins that must work
-    # with Foswiki 1.0.0 and 1.0.4.
-
-    $Foswiki::cfg{SwitchBoard}{attach} = {
-        package  => 'Foswiki::UI::Attach',
-        function => 'attach',
-        context  => { attach => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{changes} = {
-        package  => 'Foswiki::UI::Changes',
-        function => 'changes',
-        context  => { changes => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{configure} = {
-        package  => 'Foswiki::UI::Configure',
-        function => 'configure'
-    };
-    $Foswiki::cfg{SwitchBoard}{edit} = {
-        package  => 'Foswiki::UI::Edit',
-        function => 'edit',
-        context  => { edit => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{jsonrpc} = {
-        package  => 'Foswiki::Contrib::JsonRpcContrib',
-        function => 'dispatch',
-        context  => { jsonrpc => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{login} = {
-        package  => undef,
-        function => 'logon',
-        context  => { ( login => 1, logon => 1 ) },
-    };
-    $Foswiki::cfg{SwitchBoard}{logon} = {
-        package  => undef,
-        function => 'logon',
-        context  => { ( login => 1, logon => 1 ) },
-    };
-    $Foswiki::cfg{SwitchBoard}{manage} = {
-        package  => 'Foswiki::UI::Manage',
-        function => 'manage',
-        context  => { manage => 1 },
-        allow    => { POST => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{oops} = {
-        package  => 'Foswiki::UI::Oops',
-        function => 'oops_cgi',
-        context  => { oops => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{preview} = {
-        package  => 'Foswiki::UI::Preview',
-        function => 'preview',
-        context  => { preview => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{previewauth} =
-      $Foswiki::cfg{SwitchBoard}{preview};
-    $Foswiki::cfg{SwitchBoard}{rdiff} = {
-        package  => 'Foswiki::UI::RDiff',
-        function => 'diff',
-        context  => { diff => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{rdiffauth} = $Foswiki::cfg{SwitchBoard}{rdiff};
-    $Foswiki::cfg{SwitchBoard}{register}  = {
-        package  => 'Foswiki::UI::Register',
-        function => 'register_cgi',
-        context  => { register => 1 },
-
-        # method verify must allow GET; protect in Foswiki::UI::Register
-        #allow => { POST => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{rename} = {
-        package  => 'Foswiki::UI::Rename',
-        function => 'rename',
-        context  => { rename => 1 },
-
-        # Rename is 2 stage; protect in Foswiki::UI::Rename
-        #allow => { POST => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{resetpasswd} = {
-        package  => 'Foswiki::UI::Passwords',
-        function => 'resetPassword',
-        context  => { resetpasswd => 1 },
-        allow    => { POST => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{rest} = {
-        package  => 'Foswiki::UI::Rest',
-        function => 'rest',
-        context  => { rest => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{restauth} = $Foswiki::cfg{SwitchBoard}{rest};
-    $Foswiki::cfg{SwitchBoard}{save}     = {
-        package  => 'Foswiki::UI::Save',
-        function => 'save',
-        context  => { save => 1 },
-        allow    => { POST => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{search} = {
-        package  => 'Foswiki::UI::Search',
-        function => 'search',
-        context  => { search => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{statistics} = {
-        package  => 'Foswiki::UI::Statistics',
-        function => 'statistics',
-        context  => { statistics => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{upload} = {
-        package  => 'Foswiki::UI::Upload',
-        function => 'upload',
-        context  => { upload => 1 },
-        allow    => { POST => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{viewfile} = {
-        package  => 'Foswiki::UI::Viewfile',
-        function => 'viewfile',
-        context  => { viewfile => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{viewfileauth} =
-      $Foswiki::cfg{SwitchBoard}{viewfile};
-    $Foswiki::cfg{SwitchBoard}{view} = {
-        package  => 'Foswiki::UI::View',
-        function => 'view',
-        context  => { view => 1 },
-    };
-    $Foswiki::cfg{SwitchBoard}{viewauth} = $Foswiki::cfg{SwitchBoard}{view};
-
-    #Monitor::MARK("End of BEGIN block in UI.pm");
-}
-
 use Try::Tiny;
 use Assert;
 use CGI  ();
@@ -176,26 +26,32 @@ use Foswiki::ValidationException    ();
 use Foswiki::AccessControlException ();
 use Foswiki::Validation             ();
 use Foswiki::Exception              ();
+use Foswiki::Request::Cache         ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::AppObject);
 
 # Used to lazily load UI handler modules
-our %isInitialized = ();
+has isInitialized => ( is => 'rw', lazy => 1, default => sub { {} }, );
 
 use constant TRACE_REQUEST => 0;
 
 =begin TML
 
----++ StaticMethod handleRequest($req) -> $res
+---++ ObjectMethod handleRequest -> $res
 
 Main coordinator of request-process-response cycle.
 
 =cut
 
 sub handleRequest {
-    my $req = shift;
+    my $this = shift;
+    my $req  = $this->app->request;
 
     my $res;
 
-    my $dispatcher = $Foswiki::cfg{SwitchBoard}{ $req->action() };
+    my $dispatcher = $app->cfg->data->{SwitchBoard}{ $req->action() };
     unless ( defined $dispatcher ) {
         $res = new Foswiki::Response();
         $res->header( -type => 'text/html', -status => '404' );
@@ -221,10 +77,12 @@ sub handleRequest {
         };
     }
 
-    if ( $dispatcher->{package} && !$isInitialized{ $dispatcher->{package} } ) {
+    if ( $dispatcher->{package}
+        && !$this->isInitialized->{ $dispatcher->{package} } )
+    {
         eval qq(use $dispatcher->{package});
         die Foswiki::encode_utf8($@) if $@;
-        $isInitialized{ $dispatcher->{package} } = 1;
+        $this->isInitialized->{ $dispatcher->{package} } = 1;
     }
 
     my $sub = '';
@@ -266,7 +124,6 @@ sub handleRequest {
     }
 
     if ( defined $cache && $cache =~ m/^([a-f0-9]{32})$/ ) {
-        require Foswiki::Request::Cache;
 
         # implicit untaint required, because $cache may be used in a filename.
         # Note that the cache serialises the method and path_info, which
@@ -325,13 +182,13 @@ sub handleRequest {
         }
         return $res;
     }
-    $res = _execute( $req, \&$sub, %{ $dispatcher->{context} } );
+    $res = $this->_execute( \&$sub, %{ $dispatcher->{context} } );
     return $res;
 }
 
 =begin TML
 
----++ StaticMethod _execute($req, $sub, %initialContext) -> $res
+---++ ObjectMethod _execute($sub, %initialContext) -> $res
 
 Creates a Foswiki session object with %initalContext and calls
 $sub method. Returns the Foswiki::Response object.
@@ -339,9 +196,11 @@ $sub method. Returns the Foswiki::Response object.
 =cut
 
 sub _execute {
+    my $this = shift;
     my ( $req, $sub, %initialContext ) = @_;
 
-    my $session;
+    my $app = $this->app;
+
     my $res;
 
     # If we get a known exception from new Foswiki(), then it must have
@@ -388,7 +247,6 @@ sub _execute {
 
             # Cache the original query, so we can complete if if it is
             # confirmed
-            require Foswiki::Request::Cache;
             my $uid = Foswiki::Request::Cache->new()->save($query);
 
             print STDERR "ValidationException: redirect with $uid\n"

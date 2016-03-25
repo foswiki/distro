@@ -13,7 +13,7 @@ extends qw(Foswiki::Object);
 
 =begin TML
 
----+!! package Foswiki::App
+---+!! Class Foswiki::App
 
 The core class of the project responsible for low-level and code glue
 functionality.
@@ -44,6 +44,29 @@ has request => (
     isa =>
       Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request', noUndef => 1, ),
 );
+has macros => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { return $_[0]->create('Foswiki::Macros'); },
+    isa =>
+      Foswiki::Object::isaCLASS( 'macros', 'Foswiki::Macros', noUndef => 1, ),
+);
+has context => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
+);
+has ui => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        return $_[0]->create('Foswiki::UI');
+    },
+);
+
+# App-local $Foswiki::system_message.
+has system_message => ( is => 'rw', );
 
 =begin TML
 
@@ -161,6 +184,65 @@ sub create {
     return $class->new( app => $this, @_ );
 }
 
+=begin TML
+
+---++ ObjectMethod enterContext( $id, $val )
+
+Add the context id $id into the set of active contexts. The $val
+can be anything you like, but should always evaluate to boolean
+TRUE.
+
+An example of the use of contexts is in the use of tag
+expansion. The commonTagsHandler in plugins is called every
+time tags need to be expanded, and the context of that expansion
+is signalled by the expanding module using a context id. So the
+forms module adds the context id "form" before invoking common
+tags expansion.
+
+Contexts are not just useful for tag expansion; they are also
+relevant when rendering.
+
+Contexts are intended for use mainly by plugins. Core modules can
+use $session->inContext( $id ) to determine if a context is active.
+
+=cut
+
+sub enterContext {
+    my ( $this, $id, $val ) = @_;
+    $val ||= 1;
+    $this->context->{$id} = $val;
+}
+
+=begin TML
+
+---++ ObjectMethod leaveContext( $id )
+
+Remove the context id $id from the set of active contexts.
+(see =enterContext= for more information on contexts)
+
+=cut
+
+sub leaveContext {
+    my ( $this, $id ) = @_;
+    my $res = $this->context->{$id};
+    delete $this->context->{$id};
+    return $res;
+}
+
+=begin TML
+
+---++ ObjectMethod inContext( $id )
+
+Return the value for the given context id
+(see =enterContext= for more information on contexts)
+
+=cut
+
+sub inContext {
+    my ( $this, $id ) = @_;
+    return $this->context->{$id};
+}
+
 sub _prepareEngine {
     my $this = shift;
     my $env  = $this->env;
@@ -168,7 +250,7 @@ sub _prepareEngine {
 
     # Foswiki::Engine has to determine what environment are we run within and
     # return an object of corresponding class.
-    $engine = Foswiki::Engine::start( env => $env );
+    $engine = Foswiki::Engine::start( env => $env, app => $this, );
 
     return $engine;
 }

@@ -22,7 +22,7 @@ use Unicode::Normalize;
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -131,7 +131,7 @@ sub prepare {
     }
 
     try {
-        $req = Foswiki::Request->new();
+        $req = $this->create('Foswiki::Request');
         $this->prepareConnection($req);
         $this->prepareQueryParameters($req);
         $this->prepareHeaders($req);
