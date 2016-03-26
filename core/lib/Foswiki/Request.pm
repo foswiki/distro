@@ -23,6 +23,10 @@ Fields:
                files
    * =uri= the request uri
 
+The following fields are parsed from the path_info
+   * =web= the requested web.  Access using web method
+   * =topic= the requested topic. Access using topic
+
 =cut
 
 package Foswiki::Request;
@@ -37,6 +41,8 @@ use Error    ();
 use IO::File ();
 use CGI::Util qw(rearrange);
 use Time::HiRes ();
+
+use constant TRACE => 0;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -87,6 +93,9 @@ sub new {
         start_time     => [Time::HiRes::gettimeofday],
         uploads        => {},
         uri            => '',
+        _pathParsed    => undef,
+        web            => undef,
+        topic          => undef,
     };
 
     bless $this, $class;
@@ -817,12 +826,247 @@ Convenience method to get Referer uri.
 
 sub referer { shift->header('Referer') }
 
+=begin TML
+
+---++ ObjectMethod web() -> $baseweb
+
+Gets the complete Web path parsed from the query path, or the topic=
+query param.  This either returns a valid parsed web path, or undef.
+
+   * It does not filter out any illegal characters.
+   * It does not set a default web.
+
+This is read only.
+
+=cut
+
+sub web {
+    my $this = shift;
+
+    unless ( $this->{_pathParsed} ) {
+        $this->_establishWebTopic();
+    }
+
+    print STDERR "Request->web() returns " . ( $this->{web} || 'undef' ) . "\n"
+      if TRACE;
+    return $this->{web};
+
+}
+
+=begin TML
+
+---++ ObjectMethod topic() -> $basetopic
+
+Gets the complete topic name parsed from the query path, or the topic=
+queryparam.  This either returns a valid parsed topic name, or undef.
+
+   * It does not filter out any illegal characters.
+   * It does not set a default topic.
+
+This is read only.
+
+=cut
+
+sub topic {
+    my $this = shift;
+
+    unless ( $this->{_pathParsed} ) {
+        $this->_establishWebTopic();
+    }
+
+    print STDERR "Request->topic() returns "
+      . ( $this->{topic} || 'undef' ) . "\n"
+      if TRACE;
+    return $this->{topic};
+
+}
+
+sub _establishWebTopic {
+    my $this = shift;
+
+    # Allow topic= query param to override the path
+    my $topicParam = $this->param('topic');
+
+    my $parse = $this->parse($topicParam);
+
+    # Item3270 - here's the appropriate place to enforce spec
+    # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270
+    $this->{topic} = ucfirst( $parse->{topic} )
+      if ( defined $parse->{topic} );
+
+    if ( $topicParam && !$parse->{web} ) {
+        $parse = $this->parse();    # Didn't get a web, so try the path
+    }
+    $this->{web}        = $parse->{web};
+    $this->{errors}     = $parse->{errors};
+    $this->{pathParsed} = 1;
+}
+
+=begin TML
+
+---++ ObjectMethod parse([query path]) -> { web => $web, topic => $topic, errors => (parse error list) }
+
+Parses the rquests query_path and returns a hash of web and topic names.
+If passed a query string, it will parse it and return the extracted
+web / topic.
+
+*This method cannot set the web and topic parsed from the query path.*
+
+Slash (/) can separate webs, subwebs and topics.
+Dot (.) can *only* separate a web path from a topic.
+Trailing slash disambiguates a topic from a subweb when both exist with same name.
+
+If any illegal characters are present (matched by NameFilter),
+then no results except for parse errors are returned.
+
+webExists and topicExists may be called to disambiguate between subwebs and topics
+however the returned web and topic names do not necessarily exist.
+
+Ths following paths are supported:
+   * Main            Extracts webname, topic is undef
+   * Main/Somename   Extracts webname and topic.
+   * Main.Somename   Extracts webname and topic.
+   * Main/Somename/  Forces Somename to be a web, if it also exists as a topic
+
+=cut
+
+sub parse {
+    my ( $this, $path ) = @_;
+
+    require Foswiki::Sandbox;
+
+    my $query_path = $path || Foswiki::urlDecode( $this->path_info() );
+    my $web_path;
+    my @errors;
+
+    print STDERR "Processing path ($query_path)\n" if TRACE;
+
+    return {} unless defined $query_path && length $query_path > 1;
+    $query_path =~ s{/+}{/}g;    # Remove duplicate slashes
+    $query_path =~ s{^/}{}g;     # Remove leading slash
+
+    # trailingSlash Flag - hint that you want the web even if the topic exists
+    my $trailingSlash = ( $query_path =~ s/\/$// );
+
+    # Try the simple,  split on dot, maybe it will work.
+    my ( $tweb, $ttopic ) = split( /\./, $query_path );
+    if ( defined $ttopic ) {
+
+        my $web = Foswiki::Sandbox::untaint( $tweb,
+            \&Foswiki::Sandbox::validateWebName );
+
+        my $topic = Foswiki::Sandbox::untaint( $ttopic,
+            \&Foswiki::Sandbox::validateTopicName );
+
+        push @errors, 'Web failed validation'   unless defined $web;
+        push @errors, 'Topic failed validation' unless defined $topic;
+
+        my $resp = { web => $web, topic => $topic, errors => \@errors };
+
+        #print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
+        return $resp;
+    }
+
+    my @parts = split( /\//, $query_path );    # split the path
+          #print STDERR Data::Dumper::Dumper( \@parts ) if TRACE;
+
+    my $temptopic;
+    my @webs;
+
+    foreach (@parts) {
+        print STDERR "Checking $_\n" if TRACE;
+
+        # Lax check on name to eliminate evil characters.
+        my $p = Foswiki::Sandbox::untaint( $_,
+            \&Foswiki::Sandbox::validateTopicName );
+        unless ($p) {
+            push @errors, 'Path failed validation';
+            my $resp = { web => undef, topic => undef, errors => \@errors };
+
+            #print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
+            return $resp;
+        }
+
+        if ( \$_ == \$parts[-1] ) {    # This is the last part of path
+            print STDERR "Testing last part web "
+              . join( '/', @webs )
+              . "topic $p \n"
+              if TRACE;
+
+            if ( $trailingSlash
+                && $Foswiki::Plugins::SESSION->webExists(
+                    join( '/', @webs, $p ) ) )
+            {
+                print STDERR "Web Exists, Trailing slash, don't check topic: "
+                  . join( '/', @webs, $p ) . "\n"
+                  if TRACE;
+
+                # It exists in Store as a web
+                push @webs, $p;
+            }
+            elsif (
+                $Foswiki::Plugins::SESSION->topicExists(
+                    join( '/', @webs ), $p
+                )
+              )
+            {
+
+                print STDERR "Topic Exists"
+                  . join( '/', @webs )
+                  . "topic  $p \n"
+                  if TRACE;
+
+                $temptopic = $p || '';
+            }
+            elsif (
+                $Foswiki::Plugins::SESSION->webExists( join( '/', @webs, $p ) )
+              )
+            {
+
+                print STDERR "Web Exists " . join( '/', @webs, $p ) . "\n"
+                  if TRACE;
+
+                # It exists in Store as a web
+                push @webs, $p;
+            }
+            elsif ($trailingSlash) {
+                print STDERR "$p: Not a topic,  trailingSlash - treat as web\n"
+                  if TRACE;
+                push @webs, $p;
+            }
+            else {
+                print STDERR " $p: Just a topic. " . scalar @webs . "\n"
+                  if TRACE;
+                $temptopic = $p;
+            }
+        }
+        else {
+            $p = Foswiki::Sandbox::untaint( $_,
+                \&Foswiki::Sandbox::validateWebName );
+            unless ($p) {
+                push @errors, 'Path failed validation';
+                my $resp = { web => undef, topic => undef, errors => \@errors };
+                return $resp;
+            }
+            else {
+                push @webs, $p;
+            }
+        }
+    }
+    my $resp =
+      { web => join( '/', @webs ), topic => $temptopic, errors => \@errors };
+
+    #print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
+    return $resp;
+
+}
+
 1;
 __END__
 
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2016 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root of this
 distribution. NOTE: Please extend that file, not this notice.
 
