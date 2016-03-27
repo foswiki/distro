@@ -2331,8 +2331,6 @@ sub finish {
     undef $this->{topic};
     undef $this->{webName};
     undef $this->{topicName};
-    undef $this->{invalidWeb};
-    undef $this->{invalidTopic};
     undef $this->{_ICONSPACE};
     undef $this->{_EXT2ICON};
     undef $this->{_KNOWNICON};

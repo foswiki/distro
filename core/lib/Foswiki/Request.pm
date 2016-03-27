@@ -96,7 +96,9 @@ sub new {
         uri            => '',
         _pathParsed    => undef,
         web            => undef,
+        invalidWeb     => undef,
         topic          => undef,
+        invalidTopic   => undef,
     };
 
     bless $this, $class;
@@ -882,6 +884,51 @@ sub topic {
 
 }
 
+=begin TML
+
+---++ ObjectMethod invalidWeb() -> "Invalid path component
+
+Returns the bad part of the path, or the entire bad path, depending upon
+the parsing process.  Returns undef when the requested web is valid.
+
+   * It does not filter out or encode any illegal characters. Use caution when returning this string to the UI.
+
+This is read only.
+
+=cut
+
+sub invalidWeb {
+    my $this = shift;
+    return $this->{invalidWeb};
+}
+
+=begin TML
+
+---++ ObjectMethod invalidTopic() -> "Invalid requested topic"
+
+Returns the invalid topic name, when the parser is able to identify it as a topic.
+Returns undef when the requested topic is valid.
+
+   * It does not filter out or encode any illegal characters. Use caution when returning this string to the UI.
+
+This is read only.
+
+=cut
+
+sub invalidTopic {
+    my $this = shift;
+    return $this->{invalidTopic};
+}
+
+=begin TML
+
+---++ private objectMethod _establishWebTopic() ->  n/a
+
+Used internally by the web() and topic() methods to trigger parsing of the url and/or topic= parameter
+and set object variables with the results.
+
+=cut
+
 sub _establishWebTopic {
     my $this = shift;
 
@@ -900,14 +947,19 @@ sub _establishWebTopic {
           Foswiki::Request::parse( $this->path_info() )
           ;    # Didn't get a web, so try the path
     }
-    $this->{web}        = $parse->{web};
-    $this->{errors}     = $parse->{errors};
-    $this->{pathParsed} = 1;
+
+    # Note that Web can still be undefined.  Caller then determines if the
+    # defaultweb query param, or the HomeWeb config parameter should be used.
+
+    $this->{web}          = $parse->{web};
+    $this->{invalidWeb}   = $parse->{invalidWeb};
+    $this->{invalidTopic} = $parse->{invalidTopic};
+    $this->{pathParsed}   = 1;
 }
 
 =begin TML
 
----++ ObjectMethod parse([query path]) -> { web => $web, topic => $topic, errors => (parse error list) }
+---++ staticMethod parse([query path]) -> { web => $web, topic => $topic, invalidWeb => optional, invalidTopic => optional }
 
 Parses the rquests query_path and returns a hash of web and topic names.
 If passed a query string, it will parse it and return the extracted
@@ -919,15 +971,19 @@ Slash (/) can separate webs, subwebs and topics.
 Dot (.) can *only* separate a web path from a topic.
 Trailing slash disambiguates a topic from a subweb when both exist with same name.
 
-If any illegal characters are present (matched by NameFilter),
-then no results except for parse errors are returned.
+If any illegal characters are present, then web and/or topic are undefined.   The original bad
+components are returned in the invalidWeb or invalidTopic entries.
 
 webExists and topicExists may be called to disambiguate between subwebs and topics
 however the returned web and topic names do not necessarily exist.
 
+This routine returns two variables when encountering invalid input:
+   * {invalidWeb}  contains original invalid web / pathinfo content when validation fails.
+   * {invalidTopic} Same function but for topic name
+
 Ths following paths are supported:
    * Main            Extracts webname, topic is undef
-   * Main/Somename   Extracts webname and topic.
+   * Main/Somename   Extracts webname. Somename might be a subweb if it exixsts, or a topic.
    * Main.Somename   Extracts webname and topic.
    * Main/Somename/  Forces Somename to be a web, if it also exists as a topic
 
@@ -937,7 +993,6 @@ sub parse {
     my $query_path = shift;
 
     my $web_path;
-    my @errors;
 
     print STDERR "Processing path ($query_path)\n" if TRACE;
 
@@ -958,12 +1013,11 @@ sub parse {
         my $topic = Foswiki::Sandbox::untaint( $ttopic,
             \&Foswiki::Sandbox::validateTopicName );
 
-        push @errors, 'Web failed validation'   unless defined $web;
-        push @errors, 'Topic failed validation' unless defined $topic;
+        my $resp = { web => $web, topic => $topic };
+        $resp->{invalidWeb}   = $tweb   unless defined $web;
+        $resp->{invalidTopic} = $ttopic unless defined $topic;
 
-        my $resp = { web => $web, topic => $topic, errors => \@errors };
-
-        #print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
+        print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
         return $resp;
     }
 
@@ -985,8 +1039,11 @@ sub parse {
  # in initialization.  throwing an oops exception mostly works but the display
  # has unexpanded macros, and broken links, and no skinning. So for now keep the
  # old architecture.
-            push @errors, 'Path failed validation';
-            my $resp = { web => undef, topic => undef, errors => \@errors };
+            my $resp = {
+                web        => undef,
+                topic      => undef,
+                invalidWeb => $_
+            };
 
             #print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
             return $resp;
@@ -1049,8 +1106,11 @@ sub parse {
             $p = Foswiki::Sandbox::untaint( $_,
                 \&Foswiki::Sandbox::validateWebName );
             unless ($p) {
-                push @errors, 'Path failed validation';
-                my $resp = { web => undef, topic => undef, errors => \@errors };
+                my $resp = {
+                    web        => undef,
+                    topic      => undef,
+                    invalidWeb => $_
+                };
                 return $resp;
             }
             else {
@@ -1058,8 +1118,7 @@ sub parse {
             }
         }
     }
-    my $resp =
-      { web => join( '/', @webs ), topic => $temptopic, errors => \@errors };
+    my $resp = { web => join( '/', @webs ), topic => $temptopic };
 
     #print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
     return $resp;

@@ -548,14 +548,14 @@ sub checkWebExists {
     my ( $session, $webName, $op ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
-    if ( $session->{invalidWeb} ) {
+    if ( my $badWeb = $session->{request}->invalidWeb() ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
             def    => 'bad_web_name',
             web    => $webName,
             topic  => $Foswiki::cfg{WebPrefsTopicName},
-            params => [ $op, $session->{invalidWeb} ]
+            params => [ $op, $badWeb ]
         );
     }
     unless ($webName) {
@@ -594,14 +594,14 @@ sub checkTopicExists {
     my ( $session, $web, $topic, $op ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
-    if ( $session->{invalidTopic} ) {
+    if ( my $badTopic = $session->{request}->invalidTopic() ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
             def    => 'invalid_topic_name',
             web    => $web,
             topic  => $topic,
-            params => [ $op, $session->{invalidTopic} ]
+            params => [ $op, $badTopic ]
         );
     }
 
