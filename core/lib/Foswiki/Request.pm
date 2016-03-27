@@ -40,7 +40,8 @@ use Assert;
 use Error    ();
 use IO::File ();
 use CGI::Util qw(rearrange);
-use Time::HiRes ();
+use Time::HiRes      ();
+use Foswiki::Sandbox ();
 
 use constant TRACE => 0;
 
@@ -887,7 +888,7 @@ sub _establishWebTopic {
     # Allow topic= query param to override the path
     my $topicParam = $this->param('topic');
 
-    my $parse = $this->parse($topicParam);
+    my $parse = Foswiki::Request::parse( $topicParam || $this->path_info() );
 
     # Item3270 - here's the appropriate place to enforce spec
     # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270
@@ -895,7 +896,9 @@ sub _establishWebTopic {
       if ( defined $parse->{topic} );
 
     if ( $topicParam && !$parse->{web} ) {
-        $parse = $this->parse();    # Didn't get a web, so try the path
+        $parse =
+          Foswiki::Request::parse( $this->path_info() )
+          ;    # Didn't get a web, so try the path
     }
     $this->{web}        = $parse->{web};
     $this->{errors}     = $parse->{errors};
@@ -931,11 +934,8 @@ Ths following paths are supported:
 =cut
 
 sub parse {
-    my ( $this, $path ) = @_;
+    my $query_path = shift;
 
-    require Foswiki::Sandbox;
-
-    my $query_path = $path || Foswiki::urlDecode( $this->path_info() );
     my $web_path;
     my @errors;
 
@@ -980,6 +980,11 @@ sub parse {
         my $p = Foswiki::Sandbox::untaint( $_,
             \&Foswiki::Sandbox::validateTopicName );
         unless ($p) {
+
+ # SMELL:   It would be better to throw an exception here, but it's too early
+ # in initialization.  throwing an oops exception mostly works but the display
+ # has unexpanded macros, and broken links, and no skinning. So for now keep the
+ # old architecture.
             push @errors, 'Path failed validation';
             my $resp = { web => undef, topic => undef, errors => \@errors };
 
