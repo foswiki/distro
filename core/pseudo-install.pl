@@ -489,8 +489,8 @@ sub ListGitExtensions {
 
     @rp = $ghrepos->list_org($ghAccount);
 
-    while ( $gh->ghrepos->has_next_page ) {
-        push @rp, $gh->ghrepos->next_page;
+    while ( $gh->repos->has_next_page ) {
+        push @rp, $gh->repos->next_page;
     }
 
     my @extensions;
