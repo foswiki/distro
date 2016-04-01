@@ -35,8 +35,11 @@ Usage: pseudo-install.pl -[G|C][feA][l|c|u] [-E<cfg> <module>] [all|default|
   -E<c> <extn> - include extra configuration values into LocalSite.cfg. <c>.cfg
                  file must exist in the same dir as <extn>'s Config.spec file
   -G[enerate]  - generate default psuedo-install config in $HOME/.buildcontrib
-  -L[ist]      - list all the foswiki extensions that could be installed by asking
-                 all the extension repositories that are known from the .buildcontrib
+  -L[ist]      - list all the foswiki extensions that could be installed by 
+                 listing the repositories under the foswiki github account.
+                 Takes an optional case insensitive filter parameter.
+                 -L ldap would find all extensions containing ldap in their name.
+                 Note: requires Net::GitHub::V3, any may require a github access token
   -N[ohooks]   - Disable linking of git hooks. Not for foswiki repositories!
   -c[opy]      - copy instead of linking %copyByDefault%
   -d[ebug]     - print an activity trace
@@ -51,6 +54,12 @@ Usage: pseudo-install.pl -[G|C][feA][l|c|u] [-E<cfg> <module>] [all|default|
   developer    - core + default + key developer environment
   <module>...  - one or more extensions to install (by name or git URL)
   -s[vn]       - Create subversion connections for git-svn usage
+
+The -L option uses the github API, and is subject to github rate limiting.
+If you get "API rate limit exceeded" errors, you need to get a github access token
+for higher limits.  Assign it to the ENV variable FOSWIKI_GITHUB_TOKEN. 
+export FOSWIKI_GITHUB_TOKEN=the-hex-token-from-github
+See https://help.github.com/articles/creating-an-access-token-for-command-line-use/
 
 Examples:
   softlink and enable FirstPlugin and SomeContrib
@@ -94,7 +103,9 @@ my $installing     = 1;
 my $autoconf       = 0;
 my $listextensions = 0;
 my $config_file    = $ENV{FOSWIKI_PSEUDOINSTALL_CONFIG};
+my $github_token   = $ENV{FOSWIKI_GITHUB_TOKEN};
 my $internal_gzip  = eval { require Compress::Zlib; 1; };
+my $filter         = '';
 my %arg_dispatch   = (
     '-E' => sub {
         my ($cfg)  = @_;
@@ -138,6 +149,7 @@ my %arg_dispatch   = (
     },
     '-L' => sub {
         $listextensions = 1;
+        $filter         = shift(@ARGV);
     }
 );
 my %default_config = (
@@ -482,6 +494,42 @@ sub installModuleByName {
     update_githooks_dir( $moduleDir, $module ) if ($githooks);
 
     return $libDir;
+}
+
+sub ListGitExtensions {
+    require Net::GitHub::V3;
+
+    my %gh_opts;
+    $gh_opts{version} = 3;
+    $gh_opts{access_token} = $github_token if $github_token;
+
+    my $gh = Net::GitHub::V3->new(%gh_opts);
+
+    my $ghAccount = 'foswiki';
+    my $repos;
+    my @rp;
+
+    $repos = $gh->repos;
+
+    @rp = $repos->list_org($ghAccount);
+
+    while ( $gh->repos->has_next_page ) {
+        push @rp, $gh->repos->next_page;
+    }
+
+    my @extensions;
+
+    foreach my $r (@rp) {
+        my $rname = $r->{'name'};
+        next unless $rname =~ m/(Plugin|Contrib|AddOn|Skin)$/;
+        if ($filter) {
+            next unless $rname =~ m/$filter/i;
+        }
+        push @extensions, $rname;
+    }
+
+    print "Extensions available: \n\t"
+      . join( "\n\t", sort(@extensions) ) . "\n\n";
 }
 
 sub ListExtensions {
@@ -1389,7 +1437,7 @@ sub run {
         exit 0 unless ( scalar(@ARGV) );
     }
     if ($listextensions) {
-        ListExtensions();
+        ListGitExtensions();
         exit 0 unless ( scalar(@ARGV) );
     }
     unless ( $do_genconfig
