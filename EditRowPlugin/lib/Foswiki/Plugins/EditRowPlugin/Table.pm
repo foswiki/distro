@@ -679,7 +679,7 @@ sub deleteRowCmd {
     my $row =
         $urps->{erp_row} >= 0
       ? $urps->{erp_row}
-      : $this->totalRows() + $urps->{erp_row} - 1;
+      : $this->totalRows() + $urps->{erp_row};
     return unless $this->deleteRow($row);
 
     return if $urps->{erp_row} < 0;    # full table edit?
