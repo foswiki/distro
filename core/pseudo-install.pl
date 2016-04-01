@@ -53,7 +53,6 @@ Usage: pseudo-install.pl -[G|C][feA][l|c|u] [-E<cfg> <module>] [all|default|
   default      - install core + extensions listed in lib/MANIFEST
   developer    - core + default + key developer environment
   <module>...  - one or more extensions to install (by name or git URL)
-  -s[vn]       - Create subversion connections for git-svn usage
 
 The -L option uses the github API, and is subject to github rate limiting.
 If you get "API rate limit exceeded" errors, you need to get a github access token
@@ -98,7 +97,6 @@ my %extensions_extra_config;
 my $autoenable     = 0;
 my $debug          = 0;
 my $githooks       = 1;
-my $svnconnect     = 0;
 my $installing     = 1;
 my $autoconf       = 0;
 my $listextensions = 0;
@@ -135,9 +133,6 @@ my %arg_dispatch   = (
     '-N' => sub {
         $githooks = 0;
     },
-    '-s' => sub {
-        $svnconnect = 1;
-    },
     '-A' => sub {
         $autoconf = 1;
     },
@@ -155,30 +150,11 @@ my %arg_dispatch   = (
 my %default_config = (
     repos => [
         {
-            type     => 'svn',
-            url      => 'http://svn.foswiki.org',
-            branches => {
-                pharvey => {
-                    WikiDrawPlugin => 'branches/scratch/pharvey/WikiDrawPlugin'
-                },
-                ItaloValcy => {
-                    ImageGalleryPlugin =>
-                      'branches/scratch/ItaloValcy/ImageGalleryPlugin_5x10'
-                },
-                'Release01x00' => { path => 'branches/Release01x00' },
-                'Release01x01' => { path => 'branches/Release01x01' },
-                'trunk'        => { path => 'trunk' },
-                'scratch'      => { path => 'branches/scratch' }
-            }
-        },
-        {
             type => 'git',
             url  => 'https://github.com/foswiki',
-            svn  => 'http://svn.foswiki.org',
             bare => 1,
             note => <<'HERE'
-This will automatically configure any cloned git repo with git-svn to track
-svn.foswiki.org, because the svn value matches the url of the svn repo.
+This is the default Foswiki github repository.
 HERE
         }
     ],
@@ -506,15 +482,15 @@ sub ListGitExtensions {
     my $gh = Net::GitHub::V3->new(%gh_opts);
 
     my $ghAccount = 'foswiki';
-    my $repos;
+    my $ghrepos;
     my @rp;
 
-    $repos = $gh->repos;
+    $ghrepos = $gh->repos;
 
-    @rp = $repos->list_org($ghAccount);
+    @rp = $ghrepos->list_org($ghAccount);
 
-    while ( $gh->repos->has_next_page ) {
-        push @rp, $gh->repos->next_page;
+    while ( $gh->ghrepos->has_next_page ) {
+        push @rp, $gh->ghrepos->next_page;
     }
 
     my @extensions;
@@ -532,117 +508,6 @@ sub ListGitExtensions {
       . join( "\n\t", sort(@extensions) ) . "\n\n";
 }
 
-sub ListExtensions {
-
-    #get all the svn repo info
-    my @extensions;
-    foreach my $repo ( @{ $config{repos} } ) {
-        populateSVNRepoListings($repo);
-
-#TODO: do the same with git repo, and really should make pseudo-install grok zip ExtensionsWeb based...
-        push( @extensions, sort keys( %{ $repo->{extensions} } ) );
-
-        #TODO: i wonder if i can get a summary for them too :)
-    }
-    print "Extensions available: \n\t" . join( "\n\t", @extensions ) . "\n\n";
-}
-
-#TODO: can we cache these???
-#and also populate non-svn repos?
-sub populateSVNRepoListings {
-    my ($svninfo) = @_;
-    my $ctx;
-
-    if ( !eval { require SVN::Client; 1 } ) {
-        warn <<'HERE';
-SVN::Client not installed, unable discover branch listings from SVN
-HERE
-        return;
-    }
-
-    $ctx = SVN::Client->new();
-    $svninfo->{extensions} = {};
-    while ( my ( $branch, $branchdata ) = each( %{ $svninfo->{branches} } ) ) {
-
-        # If it contains a path key, then assume we need to populate the list
-        # of extensions this branch contains via SVN listing
-        if ( $branchdata->{path} ) {
-            my @branchextensions;
-            print "Listing $svninfo->{url}/$branchdata->{path}\n";
-            @branchextensions =
-              keys %{
-                $ctx->ls( $svninfo->{url} . '/' . $branchdata->{path},
-                    'HEAD', 0 )
-              };
-            foreach my $ext (@branchextensions) {
-                if ( $ext ne 't2fos.sh' ) {
-                    $branchdata->{$ext} = $branchdata->{path} . '/' . $ext;
-                    push(
-                        @{ $svninfo->{extensions}->{$ext} },
-                        { branch => $branch, path => $branchdata->{$ext} }
-                    );
-                }
-            }
-        }
-
-        # Else, we have a manual branch+path mapping for a given extension
-        else {
-            while ( my ( $ext, $path ) = each %{$branchdata} ) {
-                push(
-                    @{ $svninfo->{extensions}->{$ext} },
-                    { branch => $branch, path => $path }
-                );
-            }
-        }
-    }
-
-    return;
-}
-
-sub gitClone2GitSVN {
-    my ( $module, $moduleDir, $svninfo ) = @_;
-    my $success = 0;
-
-    if ( $svninfo->{extensions}->{$module} ) {
-        foreach my $branchdata ( @{ $svninfo->{extensions}->{$module} } ) {
-            if ( $branchdata->{branch} ne 'trunk' ) {
-                my $svnremoteref = "refs/remotes/$branchdata->{path}";
-                my $gitremoteref = "origin/$branchdata->{branch}";
-                my $svnurl =
-"$svninfo->{url}/$svninfo->{branches}->{$branchdata->{branch}}->{path}/$module";
-                print "Aliasing $svnremoteref as $gitremoteref\n";
-                do_commands(<<"HERE");
-cd $moduleDir
-git update-ref $svnremoteref $gitremoteref
-HERE
-                print "\tclone from SVN url $svnurl :$svnremoteref\n";
-                do_commands(<<"HERE");
-cd $moduleDir
-git config svn-remote.$branchdata->{branch}.url $svnurl
-git config svn-remote.$branchdata->{branch}.fetch :$svnremoteref
-HERE
-            }
-        }
-        print
-"Aliasing refs/remotes/$svninfo->{branches}->{trunk}->{path}/$module as refs/remotes/trunk &\n";
-        print "Aliasing refs/remotes/trunk as origin/master\n";
-        do_commands(<<"HERE");
-cd $moduleDir
-git update-ref refs/remotes/trunk origin/master
-git svn init $svninfo->{url} -T $svninfo->{branches}->{trunk}->{path}/$module
-HERE
-        $success = 1;
-    }
-    else {
-        print STDERR <<"HERE";
-Could not find $module at $svninfo->{url} in any branch paths,
-module is not configured for git-svn
-HERE
-    }
-
-    return $success;
-}
-
 sub do_commands {
     my ($commands) = @_;
 
@@ -650,35 +515,6 @@ sub do_commands {
     local $ENV{PATH} = untaint( $ENV{PATH} );
 
     return `$commands`;
-}
-
-sub connectGitRepoToSVN {
-    my ( $module, $moduleDir, $svninfo ) = @_;
-
-    if ( !$svninfo->{extensions}->{$module} ) {
-        populateSVNRepoListings($svninfo);
-    }
-
-    return gitClone2GitSVN( $module, $moduleDir, $svninfo );
-}
-
-sub connectGitRepoToSVNByRepoURL {
-    my ( $module, $moduleDir, $svnreponame ) = @_;
-    my $lookingupname = 1;
-    my $repoIndex     = 0;
-
-    while ( $lookingupname && $repoIndex < scalar( @{ $config{repos} } ) ) {
-        if ( $config{repos}->[$repoIndex]->{url} eq $svnreponame ) {
-            $lookingupname = 0;
-            connectGitRepoToSVN( $module, $moduleDir,
-                $config{repos}->[$repoIndex] );
-        }
-        else {
-            $repoIndex = $repoIndex + 1;
-        }
-    }
-
-    return;
 }
 
 sub cloneModuleByName {
@@ -712,10 +548,6 @@ HERE
             cloneModuleByURL( $config{clone_dir}, $url );
             if ( -d $moduleDir ) {
                 $cloned = 1;
-                if ( $svnconnect && $config{repos}->[$repoIndex]->{svn} ) {
-                    connectGitRepoToSVNByRepoURL( $module, $moduleDir,
-                        $config{repos}->[$repoIndex]->{svn} );
-                }
                 print "Cloned $module OK\n";
             }
             else {
@@ -726,62 +558,12 @@ HERE
             $repoIndex = $repoIndex + 1;
         }
     }
-    if ( $svnconnect
-        && !checkModuleByNameHasSVNBranch( 'core', 'Release01x01' ) )
-    {
-        my $svnRepo = getSVNRepoByModuleBranchName( 'core', 'Release01x01' );
-
-        print "It seems your 'core' checkout isn't connected to a svn repo... ";
-        if ($svnRepo) {
-            print "connecting\n";
-            connectGitRepoToSVNByRepoURL( 'core',
-                File::Spec->catdir( $config{clone_dir}, 'core' ),
-                $svnRepo->{url} );
-        }
-        else {
-            print "couldn't find any svn repo containing 'core'\n";
-        }
-    }
 
     return $moduleDir;
 }
 
-sub getSVNRepoByModuleBranchName {
-    my ( $module, $branch ) = @_;
-    my $svnRepo;
-    my $nRepos = scalar( @{ $config{repos} } );
-    my $i      = 0;
-
-    while ( !$svnRepo && $i < $nRepos ) {
-        my $repo = $config{repos}->[$i];
-
-        if ( $repo->{type} eq 'svn' ) {
-            if ( $repo->{branches}->{$branch} ) {
-                if ( $repo->{branches}->{$branch}->{$module} ) {
-                    $svnRepo = $repo;
-                }
-            }
-        }
-        $i += 1;
-    }
-
-    return $svnRepo;
-}
-
-sub checkModuleByNameHasSVNBranch {
-    my ( $module, $branch ) = @_;
-    my $moduleDir = File::Spec->catdir( $config{clone_dir}, $module );
-
-    return do_commands(<<"HERE") ? 1 : 0;
-cd $moduleDir
-git config --get svn-remote.$branch.url
-HERE
-}
-
 sub cloneModuleByURL {
     my ( $target, $source ) = @_;
-
-    #TODO: Make this capable of using svn as an alternative
 
     return gitCloneFromURL( $target, $source );
 }
@@ -1637,7 +1419,7 @@ if ($installed) {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
