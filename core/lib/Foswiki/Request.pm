@@ -935,7 +935,9 @@ sub _establishWebTopic {
     # Allow topic= query param to override the path
     my $topicParam = $this->param('topic');
 
-    my $parse = Foswiki::Request::parse( $topicParam || $this->path_info() );
+    my $parse =
+      Foswiki::Request::parse( $topicParam
+          || Foswiki::urlDecode( $this->path_info() ) );
 
     # Item3270 - here's the appropriate place to enforce spec
     # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270
@@ -944,7 +946,7 @@ sub _establishWebTopic {
 
     if ( $topicParam && !$parse->{web} ) {
         $parse =
-          Foswiki::Request::parse( $this->path_info() )
+          Foswiki::Request::parse( Foswiki::urlDecode( $this->path_info() ) )
           ;    # Didn't get a web, so try the path
     }
 
@@ -954,7 +956,7 @@ sub _establishWebTopic {
     $this->{web}          = $parse->{web};
     $this->{invalidWeb}   = $parse->{invalidWeb};
     $this->{invalidTopic} = $parse->{invalidTopic};
-    $this->{pathParsed}   = 1;
+    $this->{_pathParsed}  = 1;
 }
 
 =begin TML

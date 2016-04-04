@@ -94,7 +94,8 @@ sub prepareHeaders {
 }
 
 sub preparePath {
-    my ( $this, $req ) = @_;
+    my ($this) = @_;
+    my $req = Foswiki::Request->new();
     if ( $ENV{FOSWIKI_ACTION} ) {
         $req->action( $ENV{FOSWIKI_ACTION} );
     }
@@ -106,6 +107,7 @@ sub preparePath {
         $req->pathInfo( $this->{path_info} );
         delete $this->{path_info};
     }
+    return $req;
 }
 
 sub prepareUploads {

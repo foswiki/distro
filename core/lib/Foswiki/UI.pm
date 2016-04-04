@@ -152,6 +152,7 @@ BEGIN {
       $Foswiki::cfg{SwitchBoard}{viewfile};
     $Foswiki::cfg{SwitchBoard}{view} = {
         package  => 'Foswiki::UI::View',
+        request  => 'Foswiki::Request',
         function => 'view',
         context  => { view => 1 },
     };
