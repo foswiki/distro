@@ -140,7 +140,8 @@ sub json {
     my $this = shift;
 
     unless ( defined $this->{json} ) {
-        $this->{json} = JSON->new->pretty(DEBUG)->convert_blessed(1);
+        $this->{json} =
+          JSON->new->pretty(DEBUG)->convert_blessed(1)->allow_nonref(1);
     }
 
     return $this->{json};
