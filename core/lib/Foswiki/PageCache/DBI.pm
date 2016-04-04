@@ -49,10 +49,11 @@ sub new {
         username => $Foswiki::cfg{Cache}{DBI}{Username},
         password => $Foswiki::cfg{Cache}{DBI}{Password},
 
-        pagesTable => $tablePrefix . '_pages',
-        pagesIndex => $tablePrefix . '_pages_index',
-        depsTable  => $tablePrefix . '_deps',
-        depsIndex  => $tablePrefix . '_deps_index',
+        pagesTable     => $tablePrefix . '_pages',
+        pagesIndex     => $tablePrefix . '_pages_index',
+        depsTable      => $tablePrefix . '_deps',
+        depsIndex      => $tablePrefix . '_deps_index',
+        depsTopicIndex => $tablePrefix . '_deps_topics_index',
 
         @_
     };
@@ -632,6 +633,10 @@ HERE
 
     $this->{dbh}->do(
 "create index $this->{depsIndex} on $this->{depsTable} (from_topic, to_topic)"
+    );
+
+    $this->{dbh}->do(
+        "create index $this->{depsTopicIndex} on $this->{depsTable} (to_topic)"
     );
 }
 
