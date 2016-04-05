@@ -145,6 +145,7 @@ BEGIN {
     };
     $Foswiki::cfg{SwitchBoard}{viewfile} = {
         package  => 'Foswiki::UI::Viewfile',
+        request  => 'Foswiki::Request::Attachment',
         function => 'viewfile',
         context  => { viewfile => 1 },
     };

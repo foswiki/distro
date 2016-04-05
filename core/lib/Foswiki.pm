@@ -2014,8 +2014,6 @@ sub new {
         $this->{scriptUrlPath} = $1;
     }
 
-    # See Foswiki::Request for parsing of the path
-
     # Set the default for web
     # Development.AddWebParamToAllCgiScripts: enables
     # bin/script?topic=WebPreferences;defaultweb=Sandbox
@@ -2023,6 +2021,8 @@ sub new {
       Foswiki::Sandbox::untaint( $query->param('defaultweb')
           || $Foswiki::cfg{UsersWebName},
         \&Foswiki::Sandbox::validateWebName );
+
+    # See Foswiki::Request for parsing of the path
 
     $this->{topicName} = $query->topic()
       || $Foswiki::cfg{HomeTopicName};

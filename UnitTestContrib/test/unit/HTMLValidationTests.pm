@@ -8,6 +8,9 @@ use warnings;
 use FoswikiFnTestCase();
 our @ISA = qw( FoswikiFnTestCase );
 
+use Unit::Request;
+use Unit::Request::Attachment;
+
 use Foswiki();
 use Foswiki::Func();
 use Foswiki::UI::View();
@@ -174,7 +177,13 @@ sub call_UI_FN {
     if ($params) {
         %constructor = ( %constructor, %{$params} );
     }
-    my $query = Unit::Request->new( \%constructor );
+    my $query;
+    if ( $SCRIPT_NAME =~ m/^viewfile/ ) {
+        $query = Unit::Request::Attachment->new( \%constructor );
+    }
+    else {
+        $query = Unit::Request->new( \%constructor );
+    }
     $query->path_info("/$web/$topic");
     $query->method('GET');
 
