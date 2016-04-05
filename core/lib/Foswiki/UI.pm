@@ -377,9 +377,9 @@ sub logon {
         && $Foswiki::cfg{LoginManager} eq 'none' )
     {
         throw Foswiki::OopsException(
-            'attention',
-            status => 500,
-            def    => 'login_disabled',
+            template => 'attention',
+            status   => 500,
+            def      => 'login_disabled',
         );
     }
 

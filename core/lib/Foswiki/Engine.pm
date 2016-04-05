@@ -24,6 +24,16 @@ use Moo;
 use namespace::clean;
 extends qw(Foswiki::AppObject);
 
+has env => (
+    is  => 'rw',
+    isa => Foswiki::Object::isaHASH( 'env', noUndef => 1, ),
+    default => sub { $_[0]->app->env },
+);
+
+# pathData attribute is a hash with the following keys: action, path_info, uri
+# uri key can be undef under certain circumstances.
+has pathData => ( is => 'rw', lazy => 1, default => \&_preparePath, );
+
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
@@ -52,7 +62,7 @@ sub start {
     }
     elsif ( $params{env}{'psgi.version'} ) {
 
-        # We don't have PSGI support yet.
+        # SMELL TODO We don't have PSGI support yet.
         $engine = 'Foswiki::Engine::PSGI';
     }
     else {
@@ -77,24 +87,24 @@ Constructs an engine object.
 
 =begin TML
 
----++ ObjectMethod run()
+---++ Obsolete ObjectMethod run()
 
 Start point to Runtime Engines.
 
 =cut
 
-sub run {
-    my $this = shift;
-    my $req  = $this->prepare();
-    if ( ref($req) ) {
-        my $res = Foswiki::UI::handleRequest($req);
-        $this->finalize( $res, $req );
-    }
-}
+#sub run {
+#    my $this = shift;
+#    my $req  = $this->prepare();
+#    if ( ref($req) ) {
+#        my $res = Foswiki::UI::handleRequest($req);
+#        $this->finalize( $res, $req );
+#    }
+#}
 
 =begin TML
 
----++ ObjectMethod prepare() -> $req
+---++ Obsolete ObjectMethod prepare() -> $req
 
 Initialize a Foswiki::Request object by calling many preparation methods
 and returns it, or a status code in case of error.
@@ -142,12 +152,16 @@ sub prepare {
         $this->prepareUploads($req);
     }
     catch {
+        # SMELL returns within Try::Tiny try/catch block doesn't return from the
+        # calling sub but from the try/catch block itself.
         my $e = $_;
         unless ( ref($e) ) {
             Foswiki::Exception::Fatal->rethrow($e);
         }
 
-        if ( $e->isa('Foswiki::EngineException') ) {
+        if (   $e->isa('Foswiki::EngineException')
+            || $e->isa('Foswiki::Exception::Engine') )
+        {
             my $res = $e->response;
             unless ( defined $res ) {
                 $res = Foswiki::Response->new;
@@ -260,16 +274,16 @@ sub prepareHeaders { }
 
 =begin TML
 
----++ ObjectMethod preparePath( $req )
+---++ Private ObjectMethod _preparePath( )
 
 Abstract method, must be defined by inherited classes.
-   * =$req= - Foswiki::Request object to populate
 
-Should fill $req's uri and pathInfo fields.
+Should return a hashref used to initialize the pathData attribute. In other
+words, the hashref must containt keys valid for the attribute (see its comment).
 
 =cut
 
-sub preparePath { }
+sub _preparePath { }
 
 =begin TML
 
@@ -376,7 +390,7 @@ sub finalizeUploads { }
 
 ---++ ObjectMethod finalizeError( $res, $req )
 
-Called if some engine especific error happens.
+Called if some engine specific error happens.
 
    * =$res= - Foswiki::Response object to get data from
    * =$req= - Foswiki::Request object to get data from

@@ -143,40 +143,40 @@ around prepareConnection => sub {
     my $orig = shift;
     my ( $this, $req ) = @_;
 
-    $req->remoteAddress( $ENV{REMOTE_ADDR} );
-    $req->method( $ENV{REQUEST_METHOD} );
+    $req->remoteAddress( $this->env->{REMOTE_ADDR} );
+    $req->method( $this->env->{REQUEST_METHOD} );
 
-    if ( $ENV{HTTPS} && uc( $ENV{HTTPS} ) eq 'ON' ) {
+    if ( $this->env->{HTTPS} && uc( $this->env->{HTTPS} ) eq 'ON' ) {
         $req->secure(1);
     }
 
-    if ( $ENV{SERVER_PORT} && $ENV{SERVER_PORT} == 443 ) {
+    if ( $this->env->{SERVER_PORT} && $this->env->{SERVER_PORT} == 443 ) {
         $req->secure(1);
     }
-    $req->serverPort( $ENV{SERVER_PORT} );
+    $req->serverPort( $this->env->{SERVER_PORT} );
 };
 
 around prepareQueryParameters => sub {
     my $orig = shift;
     my ( $this, $req ) = @_;
-    $orig->( $this, $req, $ENV{QUERY_STRING} )
-      if $ENV{QUERY_STRING};
+    $orig->( $this, $req, $this->env->{QUERY_STRING} )
+      if $this->env->{QUERY_STRING};
 };
 
 around prepareHeaders => sub {
     my $orig = shift;
     my ( $this, $req ) = @_;
-    foreach my $header ( keys %ENV ) {
+    foreach my $header ( keys %{ $this->env } ) {
         next unless $header =~ m/^(?:HTTP|CONTENT|COOKIE)/i;
         ( my $field = $header ) =~ s/^HTTPS?_//;
-        $req->header( $field => $ENV{$header} );
+        $req->header( $field => $this->env->{$header} );
     }
-    $req->remoteUser( $ENV{REMOTE_USER} );
+    $req->remoteUser( $this->env->{REMOTE_USER} );
 };
 
-around preparePath => sub {
+around _preparePath => sub {
     my $orig = shift;
-    my ( $this, $req ) = @_;
+    my ($this) = @_;
 
     # SMELL: "The Microsoft Internet Information Server is broken with
     # respect to additional path information. If you use the Perl DLL
@@ -189,13 +189,13 @@ around preparePath => sub {
     # Clean up PATH_INFO problems, e.g.  Support.CobaltRaqInstall.  A valid
     # PATH_INFO is '/Main/WebHome', i.e. the text after the script name;
     # invalid PATH_INFO is often a full path starting with '/cgi-bin/...'.
-    my $pathInfo = $ENV{PATH_INFO} || '';
+    my $pathInfo = $this->env->{PATH_INFO} || '';
 
     if ( $pathInfo =~ m/['"]/g ) {
         $pathInfo = substr( $pathInfo, 0, ( ( pos $pathInfo ) - 1 ) );
     }
 
-    unless ( defined $ENV{SCRIPT_NAME} ) {
+    unless ( defined $this->env->{SCRIPT_NAME} ) {
 
         # CGI/1.1 (rfc3875) states that the server MUST set
         # SCRIPT_NAME, so if it doens't we have a broken server
@@ -213,16 +213,16 @@ around preparePath => sub {
             response => $res
         );
     }
-    my $cgiScriptPath = $ENV{SCRIPT_NAME};
+    my $cgiScriptPath = $this->env->{SCRIPT_NAME};
     $pathInfo =~ s{^$cgiScriptPath(?:/+|$)}{/};
     my $cgiScriptName = $cgiScriptPath;
     $cgiScriptName =~ s/.*?(\w+)(\.\w+)?$/$1/;
 
     my $action;
-    if ( exists $ENV{FOSWIKI_ACTION} ) {
+    if ( exists $this->env->{FOSWIKI_ACTION} ) {
 
         # This handles scripts that have set $FOSWIKI_ACTION
-        $action = $ENV{FOSWIKI_ACTION};
+        $action = $this->env->{FOSWIKI_ACTION};
     }
     elsif ( exists $Foswiki::cfg{SwitchBoard}{$cgiScriptName} ) {
 
@@ -245,17 +245,18 @@ around preparePath => sub {
     }
     $action ||= 'view';
     ASSERT( defined $pathInfo ) if DEBUG;
-    $req->action($action);
-    $req->pathInfo($pathInfo);
-    $req->uri( $ENV{REQUEST_URI}
-          || $req->url( -absolute => 1, -path => 1, -query => 1 ) );
+    return {
+        action    => $action,
+        path_info => $pathInfo,
+        uri       => $this->env->{REQUEST_URI} // undef,
+    };
 };
 
 around prepareBody => sub {
     my $orig = shift;
     my ( $this, $req ) = @_;
 
-    return unless $ENV{CONTENT_LENGTH};
+    return unless $this->env->{CONTENT_LENGTH};
 
     # Record the master process so we don't reap temp files in
     # sub-processes (see long comment ****)
@@ -277,7 +278,7 @@ around prepareBodyParameters => sub {
     my $orig = shift;
     my ( $this, $req ) = @_;
 
-    return unless $ENV{CONTENT_LENGTH};
+    return unless $this->env->{CONTENT_LENGTH};
     my @plist = $this->cgi->multi_param();
     foreach my $pname (@plist) {
         my $upname = NFC( Foswiki::decode_utf8($pname) );
@@ -302,7 +303,7 @@ around prepareUploads => sub {
     my $orig = shift;
     my ( $this, $req ) = @_;
 
-    return unless $ENV{CONTENT_LENGTH};
+    return unless $this->env->{CONTENT_LENGTH};
     my %uploads;
     foreach my $key ( keys %{ $this->uploads } ) {
         my $fname  = $this->cgi->param($key);

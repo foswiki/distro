@@ -208,7 +208,7 @@ sub expandMacrosOnTopicCreation {
 
     # SMELL Does it really needed in the App model?
     #local $Foswiki::Plugins::SESSION = $this;
-    local $Foswiki::app = $app;
+    local $Foswiki::app = $this->app;
 
     my $text = $topicObject->text();
     if ($text) {

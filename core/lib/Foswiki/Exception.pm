@@ -265,33 +265,67 @@ sub BUILD {
     my $this = shift;
 }
 
-package Foswiki::Exception::Engine;
+=begin TML
+
+---++ Exception Foswiki::Exception::HTTPResponse
+
+Used to send HTTP status responses to the user.
+
+Attributes:
+
+   * =status= - HTTP status code, integer; response status code used if omitted.
+   * =response= - a Foswiki::Response object. If not supplied then the default from $Foswiki::app->response is used.
+   * =text= – read-only, generated using the exception attributes.
+
+=cut
+
+package Foswiki::Exception::HTTPResponse;
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Exception);
 
 our @_newParameters = qw(status reason response);
 
-has status   => ( is => 'ro', required => 1, );
-has reason   => ( is => 'ro', required => 1, );
-has response => ( is => 'ro', required => 1, );
+has status =>
+  ( is => 'ro', lazy => 1, default => sub { $_[0]->response->status, }, );
+has response =>
+  ( is => 'ro', lazy => 1, default => sub { $Foswiki::app->response }, );
+has '+text' => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        return 'EngineException: Status code "' . $this->status;
+    },
+);
 
 =begin TML
+---++ Exception Foswiki::Exception::Engine
 
----++ ObjectMethod stringify() -> $string
+Descendant of =Foswiki::Exception::HTTPResponse=.
 
-Generate a summary string. This is mainly for debugging.
+Attributes:
+
+   * =reason= - reason text, required
+   * =text= – read-only, generated using the exception attributes.
 
 =cut
 
-sub BUILD {
-    my $this = shift;
+package Foswiki::Exception::Engine;
+use Moo;
+extends qw(Foswiki::Exception::HTTPResponse);
 
-    $this->text( 'EngineException: Status code "'
+has reason => ( is => 'ro', required => 1, );
+has '+text' => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        return
+            'EngineException: Status code "'
           . $this->status
           . ' defined because of "'
-          . $this->reason );
-}
+          . $this->reason;
+    },
+);
 
 1;
 __END__

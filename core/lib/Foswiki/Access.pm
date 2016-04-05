@@ -52,6 +52,7 @@ sub create {
 
     print STDERR "using $imp Access Control\n" if MONITOR;
 
+    # SMELL Foswiki::local_class() would be preferable instead of eval.
     my $ok = eval("require $imp; 1;");
     ASSERT( $ok, $@ ) if DEBUG;
     my $this = $imp->new( session => $session, _indirect => 1, );

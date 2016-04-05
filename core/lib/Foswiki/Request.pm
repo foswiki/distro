@@ -23,6 +23,10 @@ Fields:
                files
    * =uri= the request uri
 
+The following fields are parsed from the path_info
+   * =web= the requested web.  Access using web method
+   * =topic= the requested topic. Access using topic
+
 =cut
 
 package Foswiki::Request;
@@ -50,13 +54,13 @@ BEGIN {
 has action => (
     is      => 'rw',
     lazy    => 1,
-    default => '',
+    default => sub { $_[0]->app->engine->pathData->{action} },
     trigger => sub {
         my ( $this, $action ) = @_;
 
         # This will set base_action only the first time action would been set.
         $this->base_action;
-        $ENV{FOSWIKI_ACTION} = $action;
+        $this->app->env->{FOSWIKI_ACTION} = $action;
     },
 );
 has base_action => (
@@ -68,12 +72,38 @@ has base_action => (
   # time. See action attribute trigger.
     default => sub { return $_[0]->action; },
 );
-has path_info      => ( is => 'rw', lazy => 1, default => '', );
+
+=begin TML
+
+---++ ObjectAttribute pathInfo
+
+Request path info.
+
+Note that the attribute contains a *URL encoded byte string*
+i.e. it will only contain characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
+If you intend to analyse it, you will probably have to
+Foswiki::urlDecode it first.
+
+=cut
+
+has pathInfo => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { $_[0]->app->engine->pathData->{path_info} },
+);
 has remote_address => ( is => 'rw', lazy => 1, default => '', );
-has uri            => ( is => 'rw', lazy => 1, default => '', );
-has cookies        => ( is => 'rw', lazy => 1, default => sub { {} }, );
-has headers        => ( is => 'rw', lazy => 1, default => sub { {} }, );
-has _param         => ( is => 'rw', lazy => 1, default => sub { {} }, );
+has uri => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        my $this = shift;
+        $this->app->engine->pathData->{uri}
+          // $this->url( -absolute => 1, -path => 1, -query => 1 );
+    },
+);
+has cookies => ( is => 'rw', lazy => 1, default => sub { {} }, );
+has headers => ( is => 'rw', lazy => 1, default => sub { {} }, );
+has _param  => ( is => 'rw', lazy => 1, default => sub { {} }, );
 has uploads => (
     is      => 'rw',
     lazy    => 1,
@@ -90,7 +120,27 @@ has start_time => (    # start_time cannot be lazy, can it?
     is      => 'rw',
     default => sub { return [Time::HiRes::gettimeofday] },
 );
+has web =>
+  ( is => 'rw', lazy => 1, default => sub { $_[0]->_pathParsed->{web} }, );
+has topic =>
+  ( is => 'rw', lazy => 1, default => sub { $_[0]->_pathParsed->{topic} }, );
+has invalidWeb => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { $_[0]->_pathParsed->{invalidWeb} },
+);
+has invalidTopic => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { $_[0]->_pathParsed->{invalidTopic} },
+);
 has _initializer => ( is => 'ro', init_arg => "initializer", );
+has _pathParsed => (
+    is      => 'rw',
+    lazy    => 1,
+    isa     => Foswiki::Object::isaHASH( '_pathParsed', noUndef => 1 ),
+    default => \&_establishWebTopic,
+);
 
 # Aliases are to be declared after all attribute handling methods are been
 # created but before CGI methods gets imported via cgiRequest attribute
@@ -181,25 +231,6 @@ controls.
 Sets/Gets request method (GET, HEAD, POST).
 
 =cut
-
-=begin TML
-
----++ ObjectMethod pathInfo( [ $path ] ) -> $path
-
-Sets/Gets request path info.
-
-Called without parameters returns current pathInfo.
-
-This is an alias to =path_info()= ObjectAttribute.
-
-Note that the string returned is a *URL encoded byte string*
-i.e. it will only contain characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
-If you intend to analyse it, you will probably have to
-Foswiki::urlDecode it first.
-
-=cut
-
-*pathInfo = \&path_info;
 
 =begin TML
 
@@ -535,7 +566,8 @@ sub delete {
     foreach my $p (@_) {
         next unless exists $this->_param->{$p};
         if ( my $upload = $this->uploads->{ $this->param($p) } ) {
-            $upload->finish;
+
+            #$upload->finish;
             CORE::delete $this->uploads->{ $this->param($p) };
         }
         CORE::delete $this->_param->{$p};
@@ -790,12 +822,219 @@ Convenience method to get Referer uri.
 
 sub referer { shift->header('Referer') }
 
+=begin TML
+
+---++ StaticMethod parse([query path]) -> { web => $web, topic => $topic, invalidWeb => optional, invalidTopic => optional }
+
+Parses the rquests query_path and returns a hash of web and topic names.
+If passed a query string, it will parse it and return the extracted
+web / topic.
+
+*This method cannot set the web and topic parsed from the query path.*
+
+Slash (/) can separate webs, subwebs and topics.
+Dot (.) can *only* separate a web path from a topic.
+Trailing slash disambiguates a topic from a subweb when both exist with same name.
+
+If any illegal characters are present, then web and/or topic are undefined.   The original bad
+components are returned in the invalidWeb or invalidTopic entries.
+
+webExists and topicExists may be called to disambiguate between subwebs and topics
+however the returned web and topic names do not necessarily exist.
+
+This routine returns two variables when encountering invalid input:
+   * {invalidWeb}  contains original invalid web / pathinfo content when validation fails.
+   * {invalidTopic} Same function but for topic name
+
+Ths following paths are supported:
+   * Main            Extracts webname, topic is undef
+   * Main/Somename   Extracts webname. Somename might be a subweb if it exixsts, or a topic.
+   * Main.Somename   Extracts webname and topic.
+   * Main/Somename/  Forces Somename to be a web, if it also exists as a topic
+
+=cut
+
+sub parse {
+    my $query_path = shift;
+
+    my $web_path;
+
+    print STDERR "Processing path ($query_path)\n" if TRACE;
+
+    Foswiki::Exception::Fatal->throw(
+            text => 'No valid query path string passed over to '
+          . __PACKAGE__
+          . '::parse() method' )
+      unless defined $query_path && length $query_path > 1;
+    $query_path =~ s{/+}{/}g;    # Remove duplicate slashes
+    $query_path =~ s{^/}{}g;     # Remove leading slash
+
+    # trailingSlash Flag - hint that you want the web even if the topic exists
+    my $trailingSlash = ( $query_path =~ s/\/$// );
+
+    # Try the simple,  split on dot, maybe it will work.
+    my ( $tweb, $ttopic ) = split( /\./, $query_path );
+    if ( defined $ttopic ) {
+
+        my $web = Foswiki::Sandbox::untaint( $tweb,
+            \&Foswiki::Sandbox::validateWebName );
+
+        my $topic = Foswiki::Sandbox::untaint( $ttopic,
+            \&Foswiki::Sandbox::validateTopicName );
+
+        my $resp = { web => $web, topic => $topic };
+        $resp->{invalidWeb}   = $tweb   unless defined $web;
+        $resp->{invalidTopic} = $ttopic unless defined $topic;
+
+        print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
+        return $resp;
+    }
+
+    my @parts = split( /\//, $query_path );    # split the path
+          #print STDERR Data::Dumper::Dumper( \@parts ) if TRACE;
+
+    my $temptopic;
+    my @webs;
+
+    foreach (@parts) {
+        print STDERR "Checking $_\n" if TRACE;
+
+        # Lax check on name to eliminate evil characters.
+        my $p = Foswiki::Sandbox::untaint( $_,
+            \&Foswiki::Sandbox::validateTopicName );
+        unless ($p) {
+
+ # SMELL:   It would be better to throw an exception here, but it's too early
+ # in initialization.  throwing an oops exception mostly works but the display
+ # has unexpanded macros, and broken links, and no skinning. So for now keep the
+ # old architecture.
+            my $resp = {
+                web        => undef,
+                topic      => undef,
+                invalidWeb => $_
+            };
+
+            #print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
+            return $resp;
+        }
+
+        if ( \$_ == \$parts[-1] ) {    # This is the last part of path
+            print STDERR "Testing last part web "
+              . join( '/', @webs )
+              . "topic $p \n"
+              if TRACE;
+
+            if ( $trailingSlash
+                && $Foswiki::Plugins::SESSION->webExists(
+                    join( '/', @webs, $p ) ) )
+            {
+                print STDERR "Web Exists, Trailing slash, don't check topic: "
+                  . join( '/', @webs, $p ) . "\n"
+                  if TRACE;
+
+                # It exists in Store as a web
+                push @webs, $p;
+            }
+            elsif (
+                $Foswiki::Plugins::SESSION->topicExists(
+                    join( '/', @webs ), $p
+                )
+              )
+            {
+
+                print STDERR "Topic Exists"
+                  . join( '/', @webs )
+                  . "topic  $p \n"
+                  if TRACE;
+
+                $temptopic = $p || '';
+            }
+            elsif (
+                $Foswiki::Plugins::SESSION->webExists( join( '/', @webs, $p ) )
+              )
+            {
+
+                print STDERR "Web Exists " . join( '/', @webs, $p ) . "\n"
+                  if TRACE;
+
+                # It exists in Store as a web
+                push @webs, $p;
+            }
+            elsif ($trailingSlash) {
+                print STDERR "$p: Not a topic,  trailingSlash - treat as web\n"
+                  if TRACE;
+                push @webs, $p;
+            }
+            else {
+                print STDERR " $p: Just a topic. " . scalar @webs . "\n"
+                  if TRACE;
+                $temptopic = $p;
+            }
+        }
+        else {
+            $p = Foswiki::Sandbox::untaint( $_,
+                \&Foswiki::Sandbox::validateWebName );
+            unless ($p) {
+                my $resp = {
+                    web        => undef,
+                    topic      => undef,
+                    invalidWeb => $_
+                };
+                return $resp;
+            }
+            else {
+                push @webs, $p;
+            }
+        }
+    }
+    my $resp = { web => join( '/', @webs ), topic => $temptopic };
+
+    #print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
+    return $resp;
+}
+
+=begin TML
+
+---++ private ObjectMethod _establishWebTopic() ->  \%parsed_path_info
+
+Used as default for =_pathParsed= attribute which is then used by
+=web,topic,invalidWeb,invalidTopic= attribute defaults.
+
+=cut
+
+sub _establishWebTopic {
+    my $this = shift;
+
+    return unless defined $this->_pathParsed;
+
+    # Allow topic= query param to override the path
+    my $topicParam = $this->param('topic');
+    my $pathInfo   = Foswiki::urlDecode( $this->pathInfo );
+
+    my $parse = Foswiki::Request::parse( $topicParam || $pathInfo );
+
+    # Item3270 - here's the appropriate place to enforce spec
+    # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270
+    $parse->{topic} = ucfirst( $parse->{topic} )
+      if ( defined $parse->{topic} );
+
+    if ( $topicParam && !$parse->{web} ) {
+
+        # Didn't get a web, so try the path
+        $parse = Foswiki::Request::parse($pathInfo);
+    }
+
+    # Note that Web can still be undefined.  Caller then determines if the
+    # defaultweb query param, or the HomeWeb config parameter should be used.
+    return $parse;
+}
+
 1;
 __END__
 
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2016 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root of this
 distribution. NOTE: Please extend that file, not this notice.
 
