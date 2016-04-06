@@ -52,121 +52,6 @@ BEGIN {
 
 =begin TML
 
----++ ClassMethod new([$initializer])
-
-Constructs a Foswiki::Request object.
-   * =$initializer= - may be a filehandle or hashref.
-      * If it's a filehandle, it'll be used to reload the Foswiki::Request
-        object. See =save= method. Note: Restore only parameters
-      * It can be a hashref whose keys are parameter names. Values may be 
-        arrayref's to multivalued parameters. Same note as above.
-
-=cut
-
-sub new {
-    my ( $proto, $initializer ) = @_;
-
-    my $this;
-
-    my $class = ref($proto) || $proto;
-
-    $this = {
-        action          => '',
-        cookies         => {},
-        headers         => {},
-        method          => undef,
-        param           => {},
-        param_list      => [],
-        path_info       => '',
-        remote_address  => '',
-        remote_user     => undef,
-        secure          => 0,
-        server_port     => undef,
-        start_time      => [Time::HiRes::gettimeofday],
-        uploads         => {},
-        uri             => '',
-        _pathParsed     => undef,
-        web             => undef,
-        invalidWeb      => undef,
-        topic           => undef,
-        invalidTopic    => undef,
-        filename        => undef,
-        invalidFilename => undef,
-    };
-
-    bless $this, $class;
-
-    if ( ref($initializer) eq 'HASH' ) {
-        while ( my ( $key, $value ) = each %$initializer ) {
-            $this->multi_param(
-                -name  => $key,
-                -value => ref($value) eq 'ARRAY' ? [@$value] : [$value]
-            );
-        }
-    }
-    elsif ( ref($initializer) && UNIVERSAL::isa( $initializer, 'GLOB' ) ) {
-        $this->load($initializer);
-    }
-    return $this;
-}
-
-=begin TML
-
----++ ObjectMethod web() -> $baseweb
-
-Gets the complete Web path parsed from the query path, or the topic=
-query param.  This either returns a valid parsed web path, or undef.
-
-   * It does not filter out any illegal characters.
-   * It does not set a default web.
-
-This is read only.
-
-=cut
-
-sub web {
-    my $this = shift;
-
-    unless ( $this->{_pathParsed} ) {
-        $this->_establishWebTopicAttachment();
-    }
-
-    print STDERR "Request->web() returns " . ( $this->{web} || 'undef' ) . "\n"
-      if $Foswiki::Request::TRACE;
-    return $this->{web};
-
-}
-
-=begin TML
-
----++ ObjectMethod topic() -> $basetopic
-
-Gets the complete topic name parsed from the query path, or the topic=
-queryparam.  This either returns a valid parsed topic name, or undef.
-
-   * It does not filter out any illegal characters.
-   * It does not set a default topic.
-
-This is read only.
-
-=cut
-
-sub topic {
-    my $this = shift;
-
-    unless ( $this->{_pathParsed} ) {
-        $this->_establishWebTopicAttachment();
-    }
-
-    print STDERR "Request->topic() returns "
-      . ( $this->{topic} || 'undef' ) . "\n"
-      if $Foswiki::Request::TRACE;
-    return $this->{topic};
-
-}
-
-=begin TML
-
 ---++ ObjectMethod attachment() -> $filename
 
 Gets the complete attachment name parsed from the query path, or the topic=
@@ -182,7 +67,7 @@ sub attachment {
     my $this = shift;
 
     unless ( $this->{_pathParsed} ) {
-        $this->_establishWebTopicAttachment();
+        $this->_establishAddress();
     }
 
     print STDERR "Request->topic() returns "
@@ -195,31 +80,9 @@ sub attachment {
 
 =begin TML
 
----++ ObjectMethod invalidWeb() -> "Invalid path component
+---++ ObjectMethod invalidAttachment() -> "Invalid requested filename"
 
-Returns the bad part of the path, or the entire bad path, depending upon
-the parsing process.  Returns undef when the requested web is valid.
-
-   * It does not filter out or encode any illegal characters. Use caution when returning this string to the UI.
-
-This is read only.
-
-=cut
-
-sub invalidWeb {
-    my $this = shift;
-    unless ( $this->{_pathParsed} ) {
-        $this->_establishWebTopicAttachment();
-    }
-
-    return $this->{invalidWeb};
-}
-
-=begin TML
-
----++ ObjectMethod invalidTopic() -> "Invalid requested topic"
-
-Returns the invalid topic name, when the parser is able to identify it as a topic.
+Returns the invalid attachment file name, when the parser is able to identify it as a filename.
 Returns undef when the requested topic is valid.
 
    * It does not filter out or encode any illegal characters. Use caution when returning this string to the UI.
@@ -228,18 +91,18 @@ This is read only.
 
 =cut
 
-sub invalidTopic {
+sub invalidAttachment {
     my $this = shift;
     unless ( $this->{_pathParsed} ) {
-        $this->_establishWebTopicAttachment();
+        $this->_establishAddress();
     }
 
-    return $this->{invalidTopic};
+    return $this->{invalidAttachment};
 }
 
 =begin TML
 
----++ private objectMethod _establishWebTopicAttachment() ->  n/a
+---++ private objectMethod _establishAddress() ->  n/a
 
 Used internally by the web(), topic() and attachment() methods to trigger parsing of the url and/or topic= parameter
 and set object variables with the results.  Attachment requests have to also accommodate redirect requests 
@@ -247,7 +110,7 @@ where a pub/Web/Topic/Attachment path is redirected to a bin/viewfile request.
 
 =cut
 
-sub _establishWebTopicAttachment {
+sub _establishAddress {
     my $this = shift;
 
     my $pathInfo;
@@ -296,8 +159,9 @@ sub _establishWebTopicAttachment {
     # Note that Web can still be undefined.  Caller then determines if the
     # defaultweb query param, or the HomeWeb config parameter should be used.
 
-    $this->{web} = $parse->{web} unless defined $this->{web};
-    $this->{topic} = ucfirst( $parse->{topic} ) unless defined $this->{topic};
+    $this->{web}   = $parse->{web}   unless defined $this->{web};
+    $this->{topic} = $parse->{topic} unless defined $this->{topic};
+    $this->{topic} = ucfirst( $this->{topic} ) if defined $this->{topic};
     $this->{invalidWeb} = $parse->{invalidWeb} unless defined $this->{web};
     $this->{invalidTopic} = $parse->{invalidTopic}
       unless defined $this->{topic};

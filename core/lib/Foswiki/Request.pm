@@ -847,7 +847,7 @@ sub web {
     my $this = shift;
 
     unless ( $this->{_pathParsed} ) {
-        $this->_establishWebTopic();
+        $this->_establishAddress();
     }
 
     print STDERR "Request->web() returns " . ( $this->{web} || 'undef' ) . "\n"
@@ -874,7 +874,7 @@ sub topic {
     my $this = shift;
 
     unless ( $this->{_pathParsed} ) {
-        $this->_establishWebTopic();
+        $this->_establishAddress();
     }
 
     print STDERR "Request->topic() returns "
@@ -922,14 +922,14 @@ sub invalidTopic {
 
 =begin TML
 
----++ private objectMethod _establishWebTopic() ->  n/a
+---++ private objectMethod _establishAddress() ->  n/a
 
 Used internally by the web() and topic() methods to trigger parsing of the url and/or topic= parameter
 and set object variables with the results.
 
 =cut
 
-sub _establishWebTopic {
+sub _establishAddress {
     my $this = shift;
 
     # Allow topic= query param to override the path
