@@ -11,6 +11,7 @@ use Error qw( :try );
 
 our $UI_FN;
 our $SCRIPT_NAME;
+our $REQUEST;
 our %expected_status_main_webhome = (
     search => 302,
     save   => 302,
@@ -75,7 +76,9 @@ sub fixture_groups {
         next unless ( ref($dispatcher) eq 'HASH' );    #bad switchboard entry.
 
         my $package = $dispatcher->{package} || 'Foswiki::UI';
+        my $request = $dispatcher->{request} || 'Foswiki::Request';
         eval "require $package; 1;" or next;
+        eval "require $request; 1;" or next;
         my $function = $dispatcher->{function};
         my $sub      = $package->can($function);
 
@@ -83,6 +86,7 @@ sub fixture_groups {
         *{$script} = sub {
             $UI_FN       = $sub;
             $SCRIPT_NAME = $script;
+            $REQUEST     = $request;
         };
         use strict 'refs';
     }
@@ -92,7 +96,12 @@ sub fixture_groups {
 
 sub call_UI_FN {
     my ( $this, $web, $topic, $tmpl ) = @_;
-    my $query = Unit::Request->new(
+
+    my $request = $REQUEST;
+    $request =~ s/^Foswiki::/Unit::/;
+    eval "require $request; 1;";
+
+    my $query = $request->new(
         {
             webName   => [$web],
             topicName => [$topic],
@@ -103,6 +112,7 @@ sub call_UI_FN {
     $query->path_info("/$web/$topic");
     $query->method('POST');
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+
     my ( $responseText, $result, $stdout, $stderr );
     $responseText = "Status: 500";    #errr, boom
     try {
