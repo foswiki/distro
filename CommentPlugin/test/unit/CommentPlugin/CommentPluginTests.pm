@@ -9,6 +9,7 @@ our @ISA = qw( FoswikiFnTestCase );
 use Error ':try';
 
 use Unit::Request();
+use Unit::Request::Rest();
 use Unit::Response();
 use Foswiki();
 use Foswiki::UI::Save();
@@ -241,7 +242,7 @@ HERE
 
     # Compose the query
     my $comm  = "This is the comment";
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             'comment_action' => 'save',
             'comment_type'   => $type,
@@ -513,7 +514,7 @@ HERE
 
     # Compose the query
     my $comm  = "This is the comment";
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             'comment_action' => 'save',
             'comment_type'   => 'above',
@@ -562,7 +563,7 @@ HERE
 
     # Compose the query
     my $comm  = "This is the comment";
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             'comment_action' => 'save',
             'comment_type'   => 'above',
@@ -642,7 +643,7 @@ HERE
 
     # Compose the query
     my $comm  = "This is the comment";
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             'comment_action' => 'save',
             'comment_type'   => 'above',
@@ -703,7 +704,7 @@ HERE
 
     # Compose the query
     my $comm  = "This is the comment";
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             'comment_action' => 'save',
             'comment_type'   => 'below',
@@ -755,7 +756,7 @@ HERE
 
     # Compose the query
     my $comm  = "This is the comment";
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             'comment_action' => 'save',
             'comment_type'   => 'above',
@@ -825,7 +826,7 @@ HERE
         $sample );
 
     # other tests have already covered the non-ajax, no endpoint mode
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             'comment_action' => 'save',
             'comment_type'   => 'above',
@@ -896,7 +897,7 @@ qr/<input type="hidden" name="redirectto" value="$this->{test_web}.$this->{test_
 
     # Compose the query
     my $comm  = "This is the comment";
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             'comment_action' => 'save',
             'comment_type'   => 'returntab',
@@ -941,7 +942,7 @@ HERE
 
     # Compose the query
     my $comm  = "This is the %TOPIC% comment";
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             'comment_action' => 'save',
             'comment_type'   => 'above',
@@ -1002,7 +1003,7 @@ HERE
 
     # Compose the query
     my $comm  = "This is the %TOPIC% comment";
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::Rest->new(
         {
             'comment_action' => 'save',
             'comment_type'   => 'above',

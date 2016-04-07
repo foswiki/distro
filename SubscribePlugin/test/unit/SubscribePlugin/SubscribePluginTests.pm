@@ -13,6 +13,7 @@ use Foswiki;
 use CGI;
 use Foswiki::Plugins::SubscribePlugin;
 use Foswiki::Contrib::MailerContrib;
+use Unit::Request::Rest;
 
 our $UI_FN;
 
@@ -125,7 +126,7 @@ sub test_rest_subscribe {
 
     # Minimalist subscribe request
     my $this = shift;
-    my $query = Unit::Request->new( { action => ['rest'] } );
+    my $query = Unit::Request::Rest->new( { action => ['rest'] } );
     $query->path_info('/SubscribePlugin/subscribe');
     $query->method('post');
     $query->param( topic => "$this->{test_web}.$this->{test_topic}" );
@@ -139,7 +140,7 @@ sub test_rest_subscribe_2 {
 
     # make sure subscribe_topic overrides topic
     my $this = shift;
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::Rest->new( { action => ['rest'], } );
     $query->path_info('/SubscribePlugin/subscribe');
     $query->method('post');
     $query->param( topic      => "Bog.FootRot" );
@@ -157,7 +158,7 @@ sub test_rest_subscribe_remove {
     # make sure subscribe_topic overrides topic
     my $this = shift;
     $this->test_rest_subscribe_2();    # to get the subscription set up
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::Rest->new( { action => ['rest'], } );
     $query->path_info('/SubscribePlugin/subscribe');
     $query->method('post');
     $query->param( subscriber => "Colostomy.BagCollector" );
@@ -174,7 +175,7 @@ sub test_rest_subscribe_remove {
 
 sub test_rest_subscribe_bad {
     my $this = shift;
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::Rest->new( { action => ['rest'], } );
     $query->path_info('/SubscribePlugin/subscribe');
     $query->method('post');
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
@@ -184,7 +185,7 @@ sub test_rest_subscribe_bad {
 
 sub test_subscribe_all {
     my $this = shift;
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::Rest->new( { action => ['rest'], } );
     $query->path_info('/SubscribePlugin/subscribe');
     $query->method('post');
     $query->param( subscriber => $this->{test_user_wikiname} );
@@ -199,7 +200,7 @@ sub test_subscribe_all {
 sub test_subscribe_subweb {
     my $this = shift;
     $this->populateNewWeb("$this->{test_web}/SubWeb");
-    my $query = Unit::Request->new( { action => ['rest'], } );
+    my $query = Unit::Request::Rest->new( { action => ['rest'], } );
     $query->path_info('/SubscribePlugin/subscribe');
     $query->method('post');
     $query->param( subscriber => $this->{test_user_wikiname} );

@@ -184,6 +184,7 @@ sub call_UI_FN {
 
     my $request = $REQUEST || 'Foswiki::Request';
     $request =~ s/^Foswiki::/Unit::/;
+    eval "require $request; 1;";
 
     $query = $request->new( \%constructor );
     $query->path_info("/$web/$topic");
