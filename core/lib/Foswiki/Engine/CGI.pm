@@ -30,6 +30,8 @@ use Moo;
 use namespace::clean;
 extends qw(Foswiki::Engine);
 
+use constant HTTP_COMPLIANT => 1;
+
 use Assert;
 
 BEGIN {
@@ -199,18 +201,9 @@ around _preparePath => sub {
 
         # CGI/1.1 (rfc3875) states that the server MUST set
         # SCRIPT_NAME, so if it doens't we have a broken server
-        my $reason = 'SCRIPT_NAME environment variable not defined';
-        my $res    = new Foswiki::Response();
-        $res->header( -type => 'text/html', -status => 500 );
-        my $html = CGI::start_html('500 - Internal Server Error');
-        $html .= CGI::h1( {}, 'Internal Server Error' );
-        $html .= CGI::p( {}, $reason );
-        $html .= CGI::end_html();
-        $res->print($html);
-        Foswiki::EngineException->throw(
-            status   => 500,
-            reason   => $reason,
-            response => $res
+        Foswiki::Exception::Engine->throw(
+            header => 'Inernal Server Error',
+            text   => 'SCRIPT_NAME environment variable not defined',
         );
     }
     my $cgiScriptPath = $this->env->{SCRIPT_NAME};
@@ -269,7 +262,7 @@ around prepareBody => sub {
     # and it would probably work in Foswiki. Just not tried it)
     my $cgi = new CGI();
     my $err = $cgi->cgi_error;
-    Foswiki::EngineException->throw( status => $1, reason => $2 )
+    Foswiki::Exception::Engine->throw( status => $1, text => $2 )
       if defined $err && $err =~ m/\s*(\d{3})\s*(.*)/;
     $this->cgi($cgi);
 };

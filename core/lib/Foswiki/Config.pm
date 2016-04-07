@@ -95,6 +95,8 @@ sub BUILD {
         $this->noLocal, );
 
     $this->_populatePresets;
+    $this->_guessDefaults;
+    $this->_setupGlobals;
 }
 
 sub _workOutOS {
@@ -811,8 +813,216 @@ sub _populatePresets {
         package  => 'Foswiki::UI::View',
         function => 'view',
         context  => { view => 1 },
+        request  => 'Foswiki::Request',
     };
     $this->data->{SwitchBoard}{viewauth} = $this->data->{SwitchBoard}{view};
+}
+
+# Try to guess values which are not set.
+sub _guessDefaults {
+    my $this = shift;
+
+    # Guess temporary files location if not preset.
+    unless ( $this->data->{TempfileDir} ) {
+
+        # Give it a sane default.
+        if ( $this->data->{OS} eq 'WINDOWS' ) {
+
+            # Windows default tmpdir is the C: root  use something sane.
+            # Configure does a better job,  it should be run.
+            $Foswiki::cfg{TempfileDir} = $Foswiki::cfg{WorkingDir};
+        }
+        else {
+            $Foswiki::cfg{TempfileDir} = File::Spec->tmpdir();
+        }
+    }
+
+    # If not set, default to strikeone validation
+    $this->data->{Validation}{Method} ||= 'strikeone';
+    $this->data->{Validation}{ValidForTime} = $this->data->{LeaseLength}
+      unless defined $this->data->{Validation}{ValidForTime};
+    $this->data->{Validation}{MaxKeys} = 1000
+      unless defined $this->data->{Validation}{MaxKeys};
+}
+
+# Setup global variables/structures dependant on configuration.
+sub _setupGlobals {
+    my $this = shift;
+
+    # Set up pre-compiled regexes for use in rendering.
+    # In the regex hash, all precompiled REs have "Regex" at the
+    # end of the name. Anything else is a string, either intended
+    # for use as a character class, or as a sub-expression in
+    # another compiled RE.
+
+    # Character class components for use in regexes.
+    # (Pre-UTF-8 compatibility; not used in core)
+    $Foswiki::regex{upperAlpha}    = '[:upper:]';
+    $Foswiki::regex{lowerAlpha}    = '[:lower:]';
+    $Foswiki::regex{numeric}       = '[:digit:]';
+    $Foswiki::regex{mixedAlpha}    = '[:alpha:]';
+    $Foswiki::regex{mixedAlphaNum} = '[:alnum:]';
+    $Foswiki::regex{lowerAlphaNum} = '[:lower:][:digit:]';
+    $Foswiki::regex{upperAlphaNum} = '[:upper:][:digit:]';
+
+    # Compile regexes for efficiency and ease of use
+    # Note: qr// locks in regex modes (i.e. '-xism' here) - see Friedl
+    # book at http://regex.info/.
+
+    $Foswiki::regex{linkProtocolPattern} = $this->data->{LinkProtocolPattern}
+      || '(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)';
+
+    # Header patterns based on '+++'. The '###' are reserved for numbered
+    # headers
+    # '---++ Header', '---## Header'
+    $Foswiki::regex{headerPatternDa} = qr/^---+(\++|\#+)(.*)$/m;
+
+    # '<h6>Header</h6>
+    $Foswiki::regex{headerPatternHt} = qr/^<h([1-6])>(.+?)<\/h\1>/mi;
+
+    # '---++!! Header' or '---++ Header %NOTOC% ^top'
+    $Foswiki::regex{headerPatternNoTOC} = '(\!\!+|%NOTOC%)';
+
+    # Foswiki concept regexes
+    $Foswiki::regex{wikiWordRegex} = qr(
+            [[:upper:]]+
+            [[:lower:][:digit:]]+
+            [[:upper:]]+
+            [[:alnum:]]*
+       )xo;
+    $Foswiki::regex{webNameBaseRegex} = qr/[[:upper:]]+[[:alnum:]_]*/;
+    if ( $this->data->{EnableHierarchicalWebs} ) {
+        $Foswiki::regex{webNameRegex} = qr(
+                $Foswiki::regex{webNameBaseRegex}
+                (?:(?:[\.\/]$Foswiki::regex{webNameBaseRegex})+)*
+           )xo;
+    }
+    else {
+        $Foswiki::regex{webNameRegex} = $Foswiki::regex{webNameBaseRegex};
+    }
+    $Foswiki::regex{defaultWebNameRegex} = qr/_[[:alnum:]_]+/;
+    $Foswiki::regex{anchorRegex}         = qr/\#[[:alnum:]:._]+/;
+    my $abbrevLength = $this->data->{AcronymLength} || 3;
+    $Foswiki::regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
+
+    $Foswiki::regex{topicNameRegex} =
+qr/(?:(?:$Foswiki::regex{wikiWordRegex})|(?:$Foswiki::regex{abbrevRegex}))/;
+
+    # Email regex, e.g. for WebNotify processing and email matching
+    # during rendering.
+
+    my $emailAtom = qr([A-Z0-9\Q!#\$%&'*+-/=?^_`{|}~\E])i;    # Per RFC 5322 ]
+
+    # Valid TLD's at http://data.iana.org/TLD/tlds-alpha-by-domain.txt
+    # Version 2012022300, Last Updated Thu Feb 23 15:07:02 2012 UTC
+    my $validTLD = $this->data->{Email}{ValidTLD};
+
+    unless ( eval { qr/$validTLD/ } ) {
+        $validTLD =
+qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX)i;
+
+# Too early to log, should do something here other than die (which prevents fixing)
+# warn is trapped and turned into a die...
+#warn( "{Email}{ValidTLD} does not compile, using default" );
+    }
+
+    $Foswiki::regex{emailAddrRegex} = qr(
+       (?:                            # LEFT Side of Email address
+         (?:$emailAtom+                  # Valid characters left side of email address
+           (?:\.$emailAtom+)*            # And 0 or more dotted atoms
+         )
+       |
+         (?:"[\x21\x23-\x5B\x5D-\x7E\s]+?")   # or a quoted string per RFC 5322
+       )
+       @
+       (?:                          # RIGHT side of Email address
+         (?:                           # FQDN
+           [a-z0-9-]+                     # hostname part
+           (?:\.[a-z0-9-]+)*              # 0 or more alphanumeric domains following a dot.
+           \.(?:                          # TLD
+              (?:[a-z]{2,2})                 # 2 character TLD
+              |
+              $validTLD                      # TLD's longer than 2 characters
+           )
+         )
+         |
+           (?:\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])      # dotted triplets IP Address
+         )
+       )oxi;
+
+    # Item11185: This is how things were before we began Operation Unicode:
+    #
+    # $Foswiki::regex{filenameInvalidCharRegex} = qr/[^[:alnum:]\. _-]/;
+    #
+    # It was only used in Foswiki::Sandbox::sanitizeAttachmentName(), which now
+    # uses $Foswiki::cfg{NameFilter} instead.
+    # See RobustnessTests::test_sanitizeAttachmentName
+    #
+    # Actually, this is used in GenPDFPrincePlugin; let's copy NameFilter
+    $Foswiki::regex{filenameInvalidCharRegex} =
+      qr/$Foswiki::cfg{AttachmentNameFilter}/;
+
+    # Multi-character alpha-based regexes
+    $Foswiki::regex{mixedAlphaNumRegex} = qr/[[:alnum:]]*/;
+
+    # %TAG% name
+    $Foswiki::regex{tagNameRegex} = '[A-Za-z][A-Za-z0-9_:]*';
+
+    # Set statement in a topic
+    $Foswiki::regex{bulletRegex} = '^(?:\t|   )+\*';
+    $Foswiki::regex{setRegex} =
+      $Foswiki::regex{bulletRegex} . '\s+(Set|Local)\s+';
+    $Foswiki::regex{setVarRegex} =
+        $Foswiki::regex{setRegex} . '('
+      . $Foswiki::regex{tagNameRegex}
+      . ')\s*=\s*(.*)$';
+
+    # Character encoding regexes
+
+    # Regex to match only a valid UTF-8 character, taking care to avoid
+    # security holes due to overlong encodings by excluding the relevant
+    # gaps in UTF-8 encoding space - see 'perldoc perlunicode', Unicode
+    # Encodings section.  Tested against Markus Kuhn's UTF-8 test file
+    # at http://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-test.txt.
+    $Foswiki::regex{validUtf8CharRegex} = qr{
+                # Single byte - ASCII
+                [\x00-\x7F]
+                |
+
+                # 2 bytes
+                [\xC2-\xDF][\x80-\xBF]
+                |
+
+                # 3 bytes
+
+                    # Avoid illegal codepoints - negative lookahead
+                    (?!\xEF\xBF[\xBE\xBF])
+
+                    # Match valid codepoints
+                    (?:
+                    ([\xE0][\xA0-\xBF])|
+                    ([\xE1-\xEC\xEE-\xEF][\x80-\xBF])|
+                    ([\xED][\x80-\x9F])
+                    )
+                    [\x80-\xBF]
+                |
+
+                # 4 bytes
+                    (?:
+                    ([\xF0][\x90-\xBF])|
+                    ([\xF1-\xF3][\x80-\xBF])|
+                    ([\xF4][\x80-\x8F])
+                    )
+                    [\x80-\xBF][\x80-\xBF]
+                }xo;
+
+    $Foswiki::regex{validUtf8StringRegex} =
+      qr/^(?:$Foswiki::regex{validUtf8CharRegex})+$/;
+
+    # Check for unsafe search regex mode (affects filtering in) - default
+    # to safe mode
+    $this->data->{ForceUnsafeRegexes} = 0
+      unless defined $this->data->{ForceUnsafeRegexes};
 }
 
 1;

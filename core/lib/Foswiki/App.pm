@@ -6,8 +6,12 @@ use v5.14;
 use constant TRACE_REQUEST => 0;
 
 use Cwd;
+use CGI;
+use Storable qw(dclone);
 use Try::Tiny;
+use Assert;
 use Foswiki::Config ();
+use Foswiki::Engine ();
 
 use Moo;
 use namespace::clean;
@@ -65,7 +69,9 @@ has context => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    default => sub { {} },
+    default => sub {
+        return $_[0]->_dispatcherAttrs->{context} // {},;
+    },
 );
 has ui => (
     is      => 'rw',
@@ -80,11 +86,19 @@ has _dispatcherObject => (
         '_dispatcherObject', 'Foswiki::Object', noUndef => 1
     ),
 );
-has _dispatcherMethod  => ( is => 'rw', );
-has _dispatcherContext => ( is => 'rw', );
+has _dispatcherAttrs => (
+    is  => 'rw',
+    isa => Foswiki::Object::isaHASH( '_dispatcherAttrs', noUndef => 1 ),
+);
 
-# App-local $Foswiki::system_message.
-has system_message => ( is => 'rw', );
+# List of system messages to be displayed to user. Could be used to display non-critical errors or important warnings.
+has system_messages => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { [] },
+    isa     => Foswiki::Object::isaARRAY( 'system_messages', noUndef => 1, ),
+);
 
 =begin TML
 
@@ -136,9 +150,36 @@ sub BUILD {
 #print STDERR " ENGINE changes $oldUmask to  $umask  from $dirPerm and $filePerm \n";
     }
 
+    # Enforce some shell environment variables.
+    # SMELL Would it be tolerated in PSGI?
+    $CGI::TMPDIRECTORY = $ENV{TMPDIR} = $ENV{TEMP} = $ENV{TMP} =
+      $cfg->data->{TempfileDir};
+
+    # Make %ENV safer, preventing hijack of the search path. The
+    # environment is set per-query, so this can't be done in a BEGIN.
+    # This MUST be done before any external programs are run via Sandbox.
+    # or it will fail with taint errors.  See Item13237
+    if ( defined $cfg->data->{SafeEnvPath} ) {
+        $ENV{PATH} = $cfg->data->{SafeEnvPath};
+    }
+    else {
+        # Default $ENV{PATH} must be untainted because
+        # Foswiki may be run with the -T flag.
+        # SMELL: how can we validate the PATH?
+        $this->systemMessage(
+"Unsafe shell variable PATH is used, consider setting SafeEnvPath configuration parameter."
+        );
+        $ENV{PATH} = Foswiki::Sandbox::untaintUnchecked( $ENV{PATH} );
+    }
+    delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
+
+# TODO It's not clear yet as how to deal with logger configuration - see Foswiki::BUILDARGS().
+
     unless ( defined $this->engine ) {
         Foswiki::Exception::Fatal->throw( text => "Cannot initialize engine" );
     }
+
+    $this->_prepareDispatcher;
 
     unless ( $this->cfg->data->{isVALID} ) {
         $this->cfg->bootstrap;
@@ -166,16 +207,28 @@ sub run {
     local %Foswiki::cfg;
     local %TWiki::cfg;
 
+    # Before localizing shell environment we need to preserve and restore it.
+    local %ENV = %ENV;
+
     my $app;
 
     # We use shell environment by default. PSGI would supply its own env
-    # hashref.
-    $params{env} //= \%ENV;
+    # hashref. Because PSGI env is not the same as shell env we would need to
+    # avoid any side effects related to situations when changes to the env
+    # hashref are gettin' translated back onto the shell env.
+    $params{env} //= dclone( \%ENV );
 
     # Use current working dir for fetching the initial setlib.cfg
     $params{env}{PWD} //= getcwd;
 
     try {
+        local $SIG{__DIE__} = sub {
+            Foswiki::Exception::Fatal->rethrow( $_[0] );
+        };
+        local $SIG{__WARN__} =
+          sub { Foswiki::Exception::Fatal->rethrow( $_[0] ); }
+          if DEBUG;
+
         $app = Foswiki::App->new(%params);
         $app->handleRequest;
     }
@@ -189,7 +242,7 @@ sub run {
         # Low-level report of errors to user.
         if ( defined $app && defined $app->engine ) {
 
-            # TODO Send error output to user using the initialized engine.
+            # Send error output to user using the initialized engine.
             $app->engine->write( $e->stringify );
         }
         else {
@@ -203,39 +256,18 @@ sub handleRequest {
     my $this = shift;
 
     my $req = $this->request;
+    my $res = $this->response;
 
     try {
-        $this->_prepareDispatcher;
+        $this->_prepareContext;
         $this->_checkTickle;
-
-        # Get the params cache from the path
-        my $cache = $req->param('foswiki_redirect_cache');
-        if ( defined $cache ) {
-            $req->delete('foswiki_redirect_cache');
-        }
-
-        # If the path specifies a cache path, use that. It's arbitrary
-        # as to which takes precedence (param or path) because we should
-        # never have both at once.
-        my $path_info = $req->pathInfo;
-        if ( $path_info =~ s#/foswiki_redirect_cache/([a-f0-9]{32})## ) {
-            $cache = $1;
-            $req->pathInfo($path_info);
-        }
-
-        if ( defined $cache && $cache =~ m/^([a-f0-9]{32})$/ ) {
-
-          # implicit untaint required, because $cache may be used in a filename.
-          # Note that the cache serialises the method and path_info, which
-          # will be restored.
-            Foswiki::Request::Cache->new->load( $1, $req );
-        }
+        $this->_checkReqCache;
 
         if (TRACE_REQUEST) {
             print STDERR "INCOMING "
               . $req->method() . " "
               . $req->url . " -> "
-              . $sub . "\n";
+              . $this->_dispatcherAttrs->{method} . "\n";
             print STDERR "validation_key: "
               . ( $req->param('validation_key') || 'no key' ) . "\n";
 
@@ -243,57 +275,19 @@ sub handleRequest {
             #print STDERR Data::Dumper->Dump([$req]);
         }
 
-        # XXX TODO vrurg – Continue from here...
-        if ( UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' ) ) {
-            $this->_dispatcherContext->{command_line} = 1;
-        }
-        elsif (
-            defined $req->method
-            && (
-                (
-                    defined $dispatcher->{allow}
-                    && !$dispatcher->{allow}->{ uc( $req->method() ) }
-                )
-                || ( defined $dispatcher->{deny}
-                    && $dispatcher->{deny}->{ uc( $req->method() ) } )
-            )
-          )
-        {
-            $res = new Foswiki::Response();
-            $res->header( -type => 'text/html', -status => '405' );
-            $res->print( '<H1>Bad Request:</H1>  The request method: '
-                  . uc( $req->method() )
-                  . ' is denied for the '
-                  . $req->action()
-                  . ' action.' );
-            if ( uc( $req->method() ) eq 'GET' ) {
-                $res->print( '<br/><br/>'
-                      . 'The <tt><b>'
-                      . $req->action()
-                      . '</b></tt> script can only be called with the <tt>POST</tt> type method'
-                      . '<br/><br/>'
-                      . 'For example:<br/>'
-                      . '&nbsp;&nbsp;&nbsp;<tt>&lt;form method="post" action="%SCRIPTURL{'
-                      . $req->action()
-                      . '}%/%WEB%/%TOPIC%"&gt;</tt><br/>'
-                      . '<br/><br/>See <a href="http://foswiki.org/System/CommandAndCGIScripts#A_61'
-                      . $req->action()
-                      . '_61">System.CommandAndCGIScripts</a> for more information.'
-                );
-            }
-            return $res;
-        }
-        $res = $this->_execute( \&$sub, %{ $dispatcher->{context} } );
-        return $res;
+        $this->_checkActionAccess;
 
-        #my $res = Foswiki::UI::handleRequest( $this->request );
+        my $method = $this->_dispatcherAttrs->{method};
+        $this->_dispatcherObject->$method;
     }
     catch {
         my $e = $_;
+        Foswiki::Exception::Fatal->rethrow($e);
     }
     finally {
         # Whatever happens at this stage we shall be able to reply with a valid
         # HTTP response using valid HTML.
+        # XXX vrurg Sample code from pre-OO implementation.
         $this->engine->finalize( $res, $this->request );
     };
 }
@@ -311,7 +305,7 @@ sub create {
     my $this  = shift;
     my $class = shift;
 
-    #Foswiki::load_class($class);
+    Foswiki::load_class($class);
 
     unless ( $class->isa('Foswiki::AppObject') ) {
         Foswiki::Exception::Fatal->throw(
@@ -380,6 +374,32 @@ sub inContext {
     return $this->context->{$id};
 }
 
+=begin TML
+
+---++ ObjectMethod systemMessage( $message )
+
+Adds a new system message to be displayed to a user (who most likely would be an
+admin) either as a banner on the top of a wiki topic or by a special macro.
+
+This method is to be used with care when really necessary.
+
+=cut
+
+sub systemMessage {
+    my $this = shift;
+    my ($message) = @_;
+    push @{ $this->system_messages }, $message;
+}
+
+sub _prepareContext {
+    my $this = shift;
+    $this->context->{SUPPORTS_PARA_INDENT}   = 1;
+    $this->context->{SUPPORTS_PREF_SET_URLS} = 1;
+    if ( $this->cfg->data->{Password} ) {
+        $this->context->{admin_available} = 1;
+    }
+}
+
 sub _prepareEngine {
     my $this = shift;
     my $env  = $this->env;
@@ -394,14 +414,13 @@ sub _prepareEngine {
 
 # The request attribute default method.
 sub _prepareRequest {
-    my $this    = shift;
-    my $request = $this->engine->prepare;
+    my $this = shift;
 
     # The following is preferable form of Request creation. The request
     # constructor will then initialize itself using $app->engine as the source
     # of information about the environment we're running under.
 
-    # my $request = Foswiki::Request->prepare(app => $this);
+    my $request = Foswiki::Request::prepare( app => $this );
     return $request;
 }
 
@@ -414,21 +433,19 @@ sub _readConfig {
 # Determines what dispatcher to use for the action requested.
 sub _prepareDispatcher {
     my $this = shift;
-    my $req  = $this->request;
+    my $res  = $this->response;
 
-    my $dispatcher = $app->cfg->data->{SwitchBoard}{ $req->action };
+    # Duplicate the entry to avoid changing the original.
+    my $dispatcher =
+      $this->cfg->data->{SwitchBoard}{ $this->engine->pathData->{action} };
     unless ( defined $dispatcher ) {
-        $res = $this->response;
-        $res->header( -type => 'text/html', -status => '404' );
-        my $html = CGI::start_html('404 Not Found');
-        $html .= CGI::h1( {}, 'Not Found' );
-        $html .= CGI::p( {},
-                "The requested URL "
-              . $req->uri
-              . " was not found on this server." );
-        $html .= CGI::end_html();
-        $res->print($html);
-        Foswiki::Exception::HTTPResponse->throw( status => 404, );
+        Foswiki::Exception::HTTPError->throw(
+            status => 404,
+            header => 'Not Found',
+            text   => 'The requested URL '
+              . ( $this->engine->pathData->{uri} // '' )
+              . ' was not found on this server.',
+        );
     }
 
     # SMELL Shouldn't it be deprecated?
@@ -444,10 +461,9 @@ sub _prepareDispatcher {
     }
 
     $dispatcher->{package} //= 'Foswiki::UI';
+    $dispatcher->{method} //= $dispatcher->{function} || 'dispatch';
     $this->_dispatcherObject( $this->create( $dispatcher->{package} ) );
-    $this->_dispatcherMethod( $dispatcher->{method}
-          || $dispatcher->{function} );
-    $this->_dispatcherContext( $dispatcher->{context} );
+    $this->_dispatcherAttrs($dispatcher);
 }
 
 # If the X-Foswiki-Tickle header is present, this request is an attempt to
@@ -471,6 +487,81 @@ sub _checkTickle {
         $res->print($d);
         Foswiki::Exception::HTTPResponse->throw;
     }
+}
+
+sub _checkReqCache {
+    my $this = shift;
+    my $req  = $this->request;
+
+    # Get the params cache from the path
+    my $cache = $req->param('foswiki_redirect_cache');
+    if ( defined $cache ) {
+        $req->delete('foswiki_redirect_cache');
+    }
+
+    # If the path specifies a cache path, use that. It's arbitrary
+    # as to which takes precedence (param or path) because we should
+    # never have both at once.
+    my $path_info = $req->pathInfo;
+    if ( $path_info =~ s#/foswiki_redirect_cache/([a-f0-9]{32})## ) {
+        $cache = $1;
+        $req->pathInfo($path_info);
+    }
+
+    if ( defined $cache && $cache =~ m/^([a-f0-9]{32})$/ ) {
+
+        # implicit untaint required, because $cache may be used in a
+        # filename. Note that the cache serialises the method and path_info,
+        # which will be restored.
+        Foswiki::Request::Cache->new->load( $1, $req );
+    }
+}
+
+sub _checkActionAccess {
+    my $this            = shift;
+    my $req             = $this->request;
+    my $dispatcherAttrs = $this->_dispatcherAttrs;
+
+    if ( UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' ) ) {
+        $dispatcherAttrs->{context}{command_line} = 1;
+    }
+    elsif (
+        defined $req->method
+        && (
+            (
+                defined $dispatcherAttrs->{allow}
+                && !$dispatcherAttrs->{allow}->{ uc( $req->method() ) }
+            )
+            || ( defined $dispatcherAttrs->{deny}
+                && $dispatcherAttrs->{deny}->{ uc( $req->method() ) } )
+        )
+      )
+    {
+        my $res = $this->response;
+        $res->header( -type => 'text/html', -status => '405' );
+        $res->print( '<H1>Bad Request:</H1>  The request method: '
+              . uc( $req->method() )
+              . ' is denied for the '
+              . $req->action()
+              . ' action.' );
+        if ( uc( $req->method() ) eq 'GET' ) {
+            $res->print( '<br/><br/>'
+                  . 'The <tt><b>'
+                  . $req->action()
+                  . '</b></tt> script can only be called with the <tt>POST</tt> type method'
+                  . '<br/><br/>'
+                  . 'For example:<br/>'
+                  . '&nbsp;&nbsp;&nbsp;<tt>&lt;form method="post" action="%SCRIPTURL{'
+                  . $req->action()
+                  . '}%/%WEB%/%TOPIC%"&gt;</tt><br/>'
+                  . '<br/><br/>See <a href="http://foswiki.org/System/CommandAndCGIScripts#A_61'
+                  . $req->action()
+                  . '_61">System.CommandAndCGIScripts</a> for more information.'
+            );
+        }
+        Foswiki::Exception::HTTPResponse->throw;
+    }
+
 }
 
 1;

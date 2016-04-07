@@ -14,6 +14,8 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 package Foswiki::Engine::CLI;
 use v5.14;
 
+use File::Spec;
+
 use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
 use Foswiki::Response        ();
@@ -21,6 +23,8 @@ use Foswiki::Response        ();
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Engine);
+
+use constant HTTP_COMPLIANT => 0;
 
 has path_info => ( is => 'rw', predicate => 1, );
 has user => ( is => 'rw', );
@@ -34,10 +38,12 @@ BEGIN {
     }
 }
 
-around run => sub {
-    my $orig = shift;
-    my $this = shift;
-    my @args = @ARGV;    # Copy, so original @ARGV doesn't get modified
+around BUILDARGS => sub {
+    my $orig   = shift;
+    my $class  = shift;
+    my %params = @_;
+    my @args   = @ARGV;    # Copy, so original @ARGV doesn't get modified
+
     while ( scalar(@args) ) {
         my $name;
         my $arg = shift @args;
@@ -48,22 +54,18 @@ around run => sub {
             ( $name, $arg ) = ( TAINT($1), shift(@args) );
         }
         if ( $name && $name eq 'user' ) {
-            $this->user($arg);
+            $params{user} = $arg;
         }
         elsif ($name) {
-            push @{ $this->plist }, $name
-              unless exists $this->params->{$name};
-            push @{ $this->params->{$name} }, $arg;
+            push @{ $params{plist} }, $name
+              unless exists $params{params}{$name};
+            push @{ $params{params}{$name} }, $arg;
         }
         else {
-            $this->path_info($arg);    # keep it tainted
+            $params{path_info} = $arg;    # keep it tainted
         }
     }
-    my $req = $this->prepare;
-    if ( UNIVERSAL::isa( $req, 'Foswiki::Request' ) ) {
-        my $res = Foswiki::UI::handleRequest($req);
-        $this->finalize( $res, $req );
-    }
+    return $orig->( $class, %params );
 };
 
 around prepareConnection => sub {
@@ -100,20 +102,25 @@ around prepareHeaders => sub {
     }
 };
 
-around preparePath => sub {
-    my $orig = shift;
-    my ( $this, $req ) = @_;
-    if ( $ENV{FOSWIKI_ACTION} ) {
-        $req->action( $ENV{FOSWIKI_ACTION} );
+around _preparePath => sub {
+    my $orig   = shift;
+    my ($this) = @_;
+    my $env    = $this->env;
+    my ( $action, $path_info );
+    if ( $env->{FOSWIKI_ACTION} ) {
+        $action = $env->{FOSWIKI_ACTION};
     }
     else {
-        require File::Spec;
-        $req->action( ( File::Spec->splitpath($0) )[2] );
+        $action = ( File::Spec->splitpath($0) )[2];
     }
     if ( $this->has_path_info ) {
-        $req->pathInfo( $this->path_info );
+        $path_info = $this->path_info;
         $this->clear_path_info;
     }
+    return {
+        action    => $action,
+        path_info => $path_info,
+    };
 };
 
 around prepareUploads => sub {

@@ -9,9 +9,8 @@ UI delegate for view function
 =cut
 
 package Foswiki::UI::View;
+use v5.14;
 
-use strict;
-use warnings;
 use integer;
 use Monitor ();
 use Assert;
@@ -24,6 +23,10 @@ use Foswiki::Store         ();
 use Foswiki::Serialise     ();
 use Foswiki::PageCache     ();
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::AppObject);
+
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
@@ -33,7 +36,7 @@ BEGIN {
 
 =begin TML
 
----++ StaticMethod view( $session )
+---++ StaticMethod view( $app )
 
 =view= command handler.
 This method is designed to be
@@ -52,22 +55,24 @@ The view is controlled by CGI parameters as follows:
 =cut
 
 sub view {
-    my $session = shift;
+    my $this = shift;
+    my $app  = $this->app;
+    my $req  = $app->request;
 
-    my $query = $session->request;
-    my $web   = $session->webName;
-    my $topic = $session->topicName;
-    my $user  = $session->user;
-    my $users = $session->users;
+    my $query = $app->request;
+    my $web   = $req->webName;
+    my $topic = $req->topicName;
+    my $user  = $app->user;
+    my $users = $app->users;
 
-    if ( $session->invalidTopic ) {
+    if ( $req->invalidTopic ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
             def    => 'invalid_topic_name',
             web    => $web,
             topic  => $topic,
-            params => [ $session->invalidTopic ]
+            params => [ $req->invalidTopic ]
         );
     }
     if ( defined $query->param('release_lock')
@@ -75,25 +80,25 @@ sub view {
     {
         $query->delete('release_lock');
         my $topicObject = Foswiki::Meta->new(
-            session => $session,
+            session => $app,
             web     => $web,
             topic   => $topic
         );
 
         my $lease = $topicObject->getLease();
-        if ( $lease && $lease->{user} eq $session->user ) {
+        if ( $lease && $lease->{user} eq $app->user ) {
             $topicObject->clearLease();
         }
         $topicObject->finish();
     }
 
-    return if $session->satisfiedByCache( 'view', $web, $topic );
+    return if $app->satisfiedByCache( 'view', $web, $topic );
 
     Foswiki::Func::writeDebug("computing page for $web.$topic")
       if Foswiki::PageCache::TRACE();
 
-    my $response     = $session->response;
-    my $method       = $session->request->method || '';
+    my $response     = $app->response;
+    my $method       = $app->request->method || '';
     my $raw          = $query->param('raw') || '';
     my $requestedRev = $query->param('rev');
 
@@ -105,7 +110,7 @@ sub view {
     my $indexableView = 1;
     my $viewTemplate;
 
-    Foswiki::UI::checkWebExists( $session, $web, 'view' );
+    Foswiki::UI::checkWebExists( $app, $web, 'view' );
 
     if ( defined $requestedRev ) {
         $requestedRev = Foswiki::Store::cleanUpRevID($requestedRev);
@@ -126,12 +131,12 @@ sub view {
     my $revIt;          # Iterator over the range of available revs
     my $maxRev;
 
-    if ( $session->topicExists( $web, $topic ) ) {
+    if ( $app->topicExists( $web, $topic ) ) {
 
         # Load the most recent rev. This *should* be maxRev, but may
         # not say it is because the TOPICINFO could be up the spout
-        $topicObject = Foswiki::Meta->load( $session, $web, $topic );
-        Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
+        $topicObject = Foswiki::Meta->load( $app, $web, $topic );
+        Foswiki::UI::checkAccess( $app, 'VIEW', $topicObject );
 
         # If we are applying control to the raw view:
         if (   $raw
@@ -141,11 +146,11 @@ sub view {
 
             if ( $Foswiki::cfg{FeatureAccess}{AllowRaw} eq 'authenticated' ) {
                 throw Foswiki::AccessControlException( 'authenticated',
-                    $session->user, $web, $topic, $Foswiki::Meta::reason )
-                  unless $session->inContext("authenticated");
+                    $app->user, $web, $topic, $Foswiki::Meta::reason )
+                  unless $app->inContext("authenticated");
             }
             else {
-                Foswiki::UI::checkAccess( $session, 'RAW', $topicObject )
+                Foswiki::UI::checkAccess( $app, 'RAW', $topicObject )
                   unless $topicObject->haveAccess('CHANGE');
             }
         }
@@ -159,11 +164,11 @@ sub view {
             if ( $Foswiki::cfg{FeatureAccess}{AllowHistory} eq 'authenticated' )
             {
                 throw Foswiki::AccessControlException( 'authenticated',
-                    $session->user, $web, $topic, $Foswiki::Meta::reason )
-                  unless $session->inContext("authenticated");
+                    $app->user, $web, $topic, $Foswiki::Meta::reason )
+                  unless $app->inContext("authenticated");
             }
             else {
-                Foswiki::UI::checkAccess( $session, 'HISTORY', $topicObject );
+                Foswiki::UI::checkAccess( $app, 'HISTORY', $topicObject );
             }
         }
 
@@ -191,10 +196,10 @@ sub view {
 
                 # Load the old revision instead
                 $topicObject =
-                  Foswiki::Meta->load( $session, $web, $topic, $showRev );
+                  Foswiki::Meta->load( $app, $web, $topic, $showRev );
                 if ( !$topicObject->haveAccess('VIEW') ) {
                     throw Foswiki::AccessControlException( 'VIEW',
-                        $session->user, $web, $topic, $Foswiki::Meta::reason );
+                        $app->user, $web, $topic, $Foswiki::Meta::reason );
                 }
                 $logEntry .= 'r' . $requestedRev;
             }
@@ -228,17 +233,17 @@ sub view {
     }
     else {    # Topic does not exist yet
         $topicObject = Foswiki::Meta->new(
-            session => $session,
+            session => $app,
             web     => $web,
             topic   => $topic
         );
 
         # If user would not be able to access the topic, don't reveal that
         # it does not exist
-        Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
+        Foswiki::UI::checkAccess( $app, 'VIEW', $topicObject );
 
         $indexableView = 0;
-        $session->enterContext('new_topic');
+        $app->enterContext('new_topic');
         $response->status(404);
         $showRev      = 1;
         $maxRev       = 0;
@@ -260,7 +265,7 @@ sub view {
 
     $text = '' unless defined $text;
 
-    $session->logger->log(
+    $app->logger->log(
         {
             level    => 'info',
             action   => 'view',
@@ -270,7 +275,7 @@ sub view {
     );
 
     if ( $method && $method eq 'HEAD' ) {
-        return $session->writeCompletePage( '', 'view', 'text/plain' );
+        return $app->writeCompletePage( '', 'view', 'text/plain' );
     }
 
     # Note; must enter all contexts before the template is read, as
@@ -278,7 +283,7 @@ sub view {
     my ( $revTitle, $revArg ) = ( '', '' );
     $revIt->reset();
     if ( $showRev && $showRev != $revIt->next() ) {
-        $session->enterContext('inactive');
+        $app->enterContext('inactive');
 
         # disable edit of previous revisions
         $revTitle = '(r' . $showRev . ')';
@@ -288,7 +293,7 @@ sub view {
     my $template =
          $viewTemplate
       || $query->param('template')
-      || $session->prefs->getPreference('VIEW_TEMPLATE')
+      || $app->prefs->getPreference('VIEW_TEMPLATE')
       || 'view';
 
     # Always use default view template for raw=debug, raw=all and raw=on
@@ -296,10 +301,10 @@ sub view {
         $template = 'view';
     }
 
-    my $tmpl = $session->templates->readTemplate( $template, no_oops => 1 );
+    my $tmpl = $app->templates->readTemplate( $template, no_oops => 1 );
 
     # If the VIEW_TEMPLATE (or other) doesn't exist, default to view.
-    $tmpl = $session->templates->readTemplate('view') unless defined($tmpl);
+    $tmpl = $app->templates->readTemplate('view') unless defined($tmpl);
 
     $tmpl =~ s/%REVTITLE%/$revTitle/g;
     $tmpl =~ s/%REVARG%/$revArg/g;
@@ -317,7 +322,7 @@ sub view {
     # Show revisions around the one being displayed.
     $tmpl =~ s/%REVISIONS%/
       revisionsAround(
-          $session, $topicObject, $requestedRev, $showRev, $maxRev)/e;
+          $app, $topicObject, $requestedRev, $showRev, $maxRev)/e;
 
     ## SMELL: This is also used in Foswiki::_TOC. Could insert a tag in
     ## TOC and remove all those here, finding the parameters only once
@@ -395,13 +400,13 @@ sub view {
     # If minimalist is set, images and anchors will be stripped from text
     my $minimalist = 0;
     if ($contentType) {
-        $minimalist = ( $session->getSkin() =~ m/\brss/ );
+        $minimalist = ( $app->getSkin() =~ m/\brss/ );
     }
-    elsif ( $session->getSkin() =~ m/\brss/ ) {
+    elsif ( $app->getSkin() =~ m/\brss/ ) {
         $contentType = 'text/xml';
         $minimalist  = 1;
     }
-    elsif ( $session->getSkin() =~ m/\bxml/ ) {
+    elsif ( $app->getSkin() =~ m/\bxml/ ) {
         $contentType = 'text/xml';
         $minimalist  = 1;
     }
@@ -411,15 +416,15 @@ sub view {
     else {
         $contentType = 'text/html';
     }
-    $session->prefs->setSessionPreferences(
+    $app->prefs->setSessionPreferences(
         MAXREV  => $maxRev,
         CURRREV => $showRev
     );
 
     # Set page generation mode to RSS if using an RSS skin
-    if ( $session->getSkin() =~ m/\brss/ ) {
-        $session->enterContext('rss');
-        $session->enterContext('absolute_urls');
+    if ( $app->getSkin() =~ m/\brss/ ) {
+        $app->enterContext('rss');
+        $app->enterContext('absolute_urls');
     }
 
     my $page;
@@ -433,7 +438,7 @@ sub view {
     Monitor::MARK('Ready to render');
     if (   $raw eq 'text'
         || $raw eq 'all'
-        || ( $raw && $session->getSkin() eq 'text' ) )
+        || ( $raw && $app->getSkin() eq 'text' ) )
     {
 
         # use raw text
@@ -442,14 +447,14 @@ sub view {
     else {
         my @args = ( $topicObject, $minimalist );
 
-        $session->enterContext('header_text');
+        $app->enterContext('header_text');
         $page = _prepare( $start, @args );
-        $session->leaveContext('header_text');
+        $app->leaveContext('header_text');
         Monitor::MARK('Rendered header');
 
         if ($raw) {
             if ($text) {
-                my $p = $session->prefs;
+                my $p = $app->prefs;
                 $page .= CGI::textarea(
                     -readonly => 'readonly',
                     -rows     => $p->getPreference('EDITBOXHEIGHT'),
@@ -462,21 +467,21 @@ sub view {
             }
         }
         else {
-            $session->enterContext('body_text');
+            $app->enterContext('body_text');
             $page .= _prepare( $text, @args );
-            $session->leaveContext('body_text');
+            $app->leaveContext('body_text');
         }
 
         Monitor::MARK('Rendered body');
-        $session->enterContext('footer_text');
+        $app->enterContext('footer_text');
         $page .= _prepare( $end, @args );
-        $session->leaveContext('footer_text');
+        $app->leaveContext('footer_text');
         Monitor::MARK('Rendered footer');
     }
 
     # Output has to be done in one go, because if we generate the header and
     # then redirect because of some later constraint, some browsers fall over
-    $session->writeCompletePage( $page, 'view', $contentType );
+    $app->writeCompletePage( $page, 'view', $contentType );
     Monitor::MARK('Wrote HTML');
 }
 
@@ -498,7 +503,7 @@ sub _prepare {
 
 =begin TML
 
----++ StaticMethod revisionsAround($session, $topicObject, $requestedRev, $showRev, $maxRev) -> $output
+---++ StaticMethod revisionsAround($app, $topicObject, $requestedRev, $showRev, $maxRev) -> $output
 
 Calculate the revisions spanning the current one for display in the bottom
 bar.
@@ -506,7 +511,7 @@ bar.
 =cut
 
 sub revisionsAround {
-    my ( $session, $topicObject, $requestedRev, $showRev, $maxRev ) = @_;
+    my ( $app, $topicObject, $requestedRev, $showRev, $maxRev ) = @_;
 
     my $revsToShow = $Foswiki::cfg{NumberOfRevisions} + 1;
 
@@ -553,7 +558,7 @@ sub revisionsAround {
         else {
             $output .= CGI::a(
                 {
-                    href => $session->getScriptUrl(
+                    href => $app->getScriptUrl(
                         0,                 'view',
                         $topicObject->web, $topicObject->topic,
                         rev => $revs[$r]
@@ -570,7 +575,7 @@ sub revisionsAround {
             $output .= '&nbsp;'
               . CGI::a(
                 {
-                    href => $session->getScriptUrl(
+                    href => $app->getScriptUrl(
                         0, 'rdiff', $topicObject->web, $topicObject->topic,
                         rev1 => $revs[ $r + 1 ],
                         rev2 => $revs[$r]

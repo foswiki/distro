@@ -40,6 +40,8 @@ use IO::File ();
 use CGI::Util qw(rearrange);
 use Time::HiRes ();
 
+use constant TRACE => 0;
+
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::AppObject);
@@ -89,7 +91,7 @@ Foswiki::urlDecode it first.
 has pathInfo => (
     is      => 'rw',
     lazy    => 1,
-    default => sub { $_[0]->app->engine->pathData->{path_info} },
+    default => sub { $_[0]->app->engine->pathData->{path_info} // '' },
 );
 has remote_address => ( is => 'rw', lazy => 1, default => '', );
 has uri => (
@@ -991,6 +993,40 @@ sub parse {
 
     #print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
     return $resp;
+}
+
+=begin TML
+
+---++ StaticMethod prepare(app => $app)
+
+Prepares and returns a new instance of Foswiki::Request or its derivative
+depending on =action=.
+
+=cut
+
+sub prepare {
+    my %params = @_;
+
+    my $app = $params{app};
+    my $req;
+
+    ASSERT( defined $app && $app->isa('Foswiki::App'),
+        "Incorrect app parameter key: should be a Foswiki::App object" );
+
+    my $reqClass = $app->_dispatcherAttrs->{request};
+
+    unless ( defined $reqClass ) {
+        Foswiki::Exception::HTTPError->throw(
+            status => 500,
+            header => 'Unknown request action',
+            text   => "Cannot determine request class for action '"
+              . $app->engine->pathData->{action} . "'\n",
+        );
+    }
+
+    $req = $reqClass->new(%params);
+
+    return $req;
 }
 
 =begin TML

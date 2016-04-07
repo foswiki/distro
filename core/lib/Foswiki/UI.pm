@@ -45,9 +45,10 @@ Main coordinator of request-process-response cycle.
 
 =cut
 
-sub handleRequest {
+sub _deprecated_handleRequest {
     my $this = shift;
-    my $req  = $this->app->request;
+    my $app  = $this->app;
+    my $req  = $app->request;
 
     my $res;
 
@@ -221,29 +222,29 @@ sub _execute {
         # to be right) because it may occlude the login manager.
         # Exception is when running in CLI environment.
 
-        $session = new Foswiki(
+        $app = new Foswiki(
             ( defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL} )
             ? undef
             : $req->remoteUser(),
             $req, \%initialContext
         );
 
-        $res = $session->response;
+        $res = $app->response;
 
         unless ( defined $res->status() && $res->status() =~ m/^\s*3\d\d/ ) {
-            $session->getLoginManager()->checkAccess();
-            &$sub($session);
+            $app->getLoginManager()->checkAccess();
+            &$sub($app);
         }
     }
     catch {
         my $e = $_;
         if ( $e->isa('Foswiki::ValidationException') ) {
 
-            $session ||= $Foswiki::Plugins::SESSION;
-            $res = $session->response if $session;
+            $app ||= $Foswiki::Plugins::SESSION;
+            $res = $app->response if $app;
             $res ||= new Foswiki::Response();
 
-            my $query = $session->request;
+            my $query = $app->request;
 
             # Cache the original query, so we can complete if if it is
             # confirmed
@@ -256,21 +257,21 @@ sub _execute {
             # has the correct criteria in httpd.conf for Apache login.
             # URL is absolute as required by
             # http://tools.ietf.org/html/rfc2616#section-14.30
-            my $url = $session->getScriptUrl(
-                1,                 'login',
-                $session->webName, $session->topicName,
+            my $url = $app->getScriptUrl(
+                1,             'login',
+                $app->webName, $app->topicName,
                 foswikiloginaction   => 'validate',
                 foswikioriginalquery => $uid
             );
 
-            $session->redirect($url);    # no passthrough
+            $app->redirect($url);    # no passthrough
         }
         elsif ( $e->isa('Foswiki::AccessControlException') ) {
-            $session ||= $Foswiki::Plugins::SESSION;
-            $res = $session->response if $session;
+            $app ||= $Foswiki::Plugins::SESSION;
+            $res = $app->response if $app;
             $res ||= new Foswiki::Response();
 
-            unless ( $session->getLoginManager()->forceAuthentication() ) {
+            unless ( $app->getLoginManager()->forceAuthentication() ) {
 
                 # Login manager did not want to authenticate, perhaps because
                 # we are already authenticated.
@@ -283,19 +284,19 @@ sub _execute {
                     params => [ $e->mode, $e->reason ]
                 );
 
-                $exception->generate($session);
+                $exception->generate($app);
             }
         }
         elsif ( $e->isa('Foswiki::OopsException') ) {
 
-            $session ||= $Foswiki::Plugins::SESSION;
-            $res = $session->response if $session;
+            $app ||= $Foswiki::Plugins::SESSION;
+            $res = $app->response if $app;
             $res ||= new Foswiki::Response();
 
-            $e->generate($session);
+            $e->generate($app);
         }
         elsif ( $e->isa('Foswiki::EngineException') ) {
-            $session ||= $Foswiki::Plugins::SESSION;
+            $app ||= $Foswiki::Plugins::SESSION;
             $res = $e->response;
 
             # Note: do *not* use the response from the session; see notes above
@@ -311,14 +312,14 @@ sub _execute {
                 $html .= CGI::end_html();
                 $res->print( Foswiki::encode_utf8($html) );
             }
-            $Foswiki::engine->finalizeError( $res, $session->request );
+            $Foswiki::engine->finalizeError( $res, $app->request );
         }
         elsif ( $e->isa('Foswiki::Exception') or $e->isa('Error') ) {
 
             # Most usually a 'die'
 
-            $session ||= $Foswiki::Plugins::SESSION;
-            $res = $session->response if $session;
+            $app ||= $Foswiki::Plugins::SESSION;
+            $res = $app->response if $app;
             $res ||= new Foswiki::Response();
 
             $res->header( -type => 'text/plain', -status => '500' )
@@ -331,7 +332,7 @@ sub _execute {
             else {
                 my $mess = $e->stringify();
                 print STDERR $mess;
-                $session->logger->log( 'warning', $mess ) if $session;
+                $app->logger->log( 'warning', $mess ) if $app;
 
                 # tell the browser where to look for more help
                 my $text =
@@ -357,21 +358,21 @@ sub _execute {
             }
         }
     };
-    undef $session;
+    undef $app;
     return $res;
 }
 
 =begin TML
 
----++ StaticMethod logon($session)
+---++ StaticMethod logon($app)
 
 Handler for "logon" action.
-   * =$session= is a Foswiki session object
+   * =$app= is a Foswiki session object
 
 =cut
 
 sub logon {
-    my $session = shift;
+    my $app = shift;
 
     if ( defined $Foswiki::cfg{LoginManager}
         && $Foswiki::cfg{LoginManager} eq 'none' )
@@ -383,20 +384,20 @@ sub logon {
         );
     }
 
-    my $action = $session->request->param('foswikiloginaction');
-    $session->request->delete('foswikiloginaction');
+    my $action = $app->request->param('foswikiloginaction');
+    $app->request->delete('foswikiloginaction');
 
     if ( defined $action && $action eq 'validate' ) {
-        Foswiki::Validation::validate($session);
+        Foswiki::Validation::validate($app);
     }
     else {
-        $session->getLoginManager()->login( $session->request, $session );
+        $app->getLoginManager()->login( $app->request, $app );
     }
 }
 
 =begin TML
 
----++ StaticMethod checkWebExists( $session, $web, $op )
+---++ StaticMethod checkWebExists( $app, $web, $op )
 
 Check if the web exists. If it doesn't, will throw an oops exception.
  $op is the user operation being performed.
@@ -404,17 +405,17 @@ Check if the web exists. If it doesn't, will throw an oops exception.
 =cut
 
 sub checkWebExists {
-    my ( $session, $webName, $op ) = @_;
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
+    my ( $app, $webName, $op ) = @_;
+    ASSERT( $app->isa('Foswiki') ) if DEBUG;
 
-    if ( $session->invalidWeb ) {
+    if ( $app->invalidWeb ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
             def    => 'bad_web_name',
             web    => $webName,
             topic  => $Foswiki::cfg{WebPrefsTopicName},
-            params => [ $op, $session->invalidWeb ]
+            params => [ $op, $app->invalidWeb ]
         );
     }
     unless ($webName) {
@@ -428,7 +429,7 @@ sub checkWebExists {
         );
     }
 
-    unless ( $session->webExists($webName) ) {
+    unless ( $app->webExists($webName) ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
@@ -442,7 +443,7 @@ sub checkWebExists {
 
 =begin TML
 
----++ StaticMethod topicExists( $session, $web, $topic, $op ) => boolean
+---++ StaticMethod topicExists( $app, $web, $topic, $op ) => boolean
 
 Check if the given topic exists, throwing an OopsException
 if it doesn't. $op is the user operation being performed.
@@ -450,21 +451,21 @@ if it doesn't. $op is the user operation being performed.
 =cut
 
 sub checkTopicExists {
-    my ( $session, $web, $topic, $op ) = @_;
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
+    my ( $app, $web, $topic, $op ) = @_;
+    ASSERT( $app->isa('Foswiki') ) if DEBUG;
 
-    if ( $session->invalidTopic ) {
+    if ( $app->invalidTopic ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
             def    => 'invalid_topic_name',
             web    => $web,
             topic  => $topic,
-            params => [ $op, $session->invalidTopic ]
+            params => [ $op, $app->invalidTopic ]
         );
     }
 
-    unless ( $session->topicExists( $web, $topic ) ) {
+    unless ( $app->topicExists( $web, $topic ) ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
@@ -478,7 +479,7 @@ sub checkTopicExists {
 
 =begin TML
 
----++ StaticMethod checkAccess( $session, $mode, $topicObject )
+---++ StaticMethod checkAccess( $app, $mode, $topicObject )
 
 Check if the given mode of access by the given user to the given
 web.topic is permissible, throwing a Foswiki::AccessControlException if not.
@@ -486,66 +487,64 @@ web.topic is permissible, throwing a Foswiki::AccessControlException if not.
 =cut
 
 sub checkAccess {
-    my ( $session, $mode, $topicObject ) = @_;
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
+    my ( $app, $mode, $topicObject ) = @_;
+    ASSERT( $app->isa('Foswiki') ) if DEBUG;
 
     unless ( $topicObject->haveAccess($mode) ) {
-        throw Foswiki::AccessControlException( $mode, $session->user,
+        throw Foswiki::AccessControlException( $mode, $app->user,
             $topicObject->web, $topicObject->topic, $Foswiki::Meta::reason );
     }
 }
 
 =begin TML
 
----++ StaticMethod checkValidationKey( $session )
+---++ StaticMethod checkValidationKey( $app )
 
 Check the validation key for the given action. Throws an exception
 if the validation key isn't valid (handled in _execute(), above)
-   * =$session= - the current session object
+   * =$app= - the current session object
 
 See Foswiki::Validation for more information.
 
 =cut
 
 sub checkValidationKey {
-    my ($session) = @_;
+    my ($app) = @_;
 
     # If validation is disabled, do nothing
     return if ( $Foswiki::cfg{Validation}{Method} eq 'none' );
 
     # No point in command-line mode
-    return if $session->inContext('command_line');
+    return if $app->inContext('command_line');
 
     # Check the nonce before we do anything else
-    my $nonce = $session->request->param('validation_key');
-    $session->request->delete('validation_key');
-    if ( !defined($nonce)
-        || !Foswiki::Validation::isValidNonce( $session->getCGISession(),
-            $nonce ) )
+    my $nonce = $app->request->param('validation_key');
+    $app->request->delete('validation_key');
+    if (   !defined($nonce)
+        || !Foswiki::Validation::isValidNonce( $app->getCGISession(), $nonce ) )
     {
-        throw Foswiki::ValidationException( $session->request->action() );
+        throw Foswiki::ValidationException( $app->request->action() );
     }
-    if ( defined($nonce) && !$session->request->param('preserve_vk') ) {
+    if ( defined($nonce) && !$app->request->param('preserve_vk') ) {
 
         # Expire the nonce. If the user tries to use it again, they will
         # be prompted. Note that if preserve_vk is provided we don't
         # expire the nonce - this is to support browsers that don't
         # implement FormData in javascript (such as IE8)
-        Foswiki::Validation::expireValidationKeys( $session->getCGISession(),
+        Foswiki::Validation::expireValidationKeys( $app->getCGISession(),
             $Foswiki::cfg{Validation}{ExpireKeyOnUse} ? $nonce : undef );
 
         # Write a new validation code into the response
         my $context =
-          $session->request->url( -full => 1, -path => 1, -query => 1 )
-          . time();
-        my $cgis = $session->getCGISession();
+          $app->request->url( -full => 1, -path => 1, -query => 1 ) . time();
+        my $cgis = $app->getCGISession();
         if ($cgis) {
             my $nonce =
               Foswiki::Validation::generateValidationKey( $cgis, $context, 1 );
-            $session->response->pushHeader( 'X-Foswiki-Validation' => $nonce );
+            $app->response->pushHeader( 'X-Foswiki-Validation' => $nonce );
         }
     }
-    $session->request->delete('preserve_vk');
+    $app->request->delete('preserve_vk');
 }
 
 =begin TML

@@ -288,15 +288,77 @@ our @_newParameters = qw(status reason response);
 
 has status =>
   ( is => 'ro', lazy => 1, default => sub { $_[0]->response->status, }, );
-has response =>
-  ( is => 'ro', lazy => 1, default => sub { $Foswiki::app->response }, );
+has response => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        return defined($Foswiki::app)
+          ? $Foswiki::app->response
+          : Foswiki::Response->new;
+    },
+);
 has '+text' => (
     is      => 'ro',
     lazy    => 1,
     default => sub {
-        return 'EngineException: Status code "' . $this->status;
+        return 'HTTP status code "' . $_[0]->status;
     },
 );
+
+sub _useHTTP {
+    my $this = shift;
+    return
+         defined($Foswiki::app)
+      && defined( $Foswiki::app->engine )
+      && $Foswiki::app->engine->HTTPCompliant;
+}
+
+# Simplified version of stringify() method.
+around stringify => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $str = '';
+    if ( $this->_useHTTP ) {
+        $str .= $this->response->printHeaders;
+    }
+
+    $str .= $this->response->body;
+
+    return $str;
+};
+
+package Foswiki::Exception::HTTPError;
+
+use CGI ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Exception::HTTPResponse);
+
+has header => ( is => 'rw', default => '' );
+
+around stringify => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $res = $this->response;
+    $res->body('');
+    if ( $this->_useHTTP ) {
+        $res->header( -type => 'text/html', -status => $this->status );
+        my $html = CGI::start_html( $this->status . ' ' . $this->header );
+        $html .= CGI::h1( {}, $this->header );
+        $html .= CGI::p( {}, $this->text );
+        $html .= CGI::end_html();
+        $res->print($html);
+    }
+    else {
+        $res->print(
+            $this->status . " " . $this->header . "\n\n" . $this->text );
+    }
+
+    return $orig->($this);
+};
 
 =begin TML
 ---++ Exception Foswiki::Exception::Engine
@@ -312,20 +374,22 @@ Attributes:
 
 package Foswiki::Exception::Engine;
 use Moo;
-extends qw(Foswiki::Exception::HTTPResponse);
+extends qw(Foswiki::Exception::HTTPError);
 
-has reason => ( is => 'ro', required => 1, );
-has '+text' => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub {
-        return
-            'EngineException: Status code "'
-          . $this->status
-          . ' defined because of "'
-          . $this->reason;
-    },
-);
+around BUILDARGS => sub {
+    my $orig   = shift;
+    my $class  = shift;
+    my %params = @_;
+
+    $params{status} //= 500;
+    $params{header} //= 'Internal Server Error';
+
+    # Simulate the old Foswiki::EngineException behavior.
+    $params{text} //= $params{response}
+      if defined $params{response};
+
+    return $orig->( $class, %params );
+};
 
 1;
 __END__

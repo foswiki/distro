@@ -525,7 +525,7 @@ BEGIN {
 
     # Set environment var FOSWIKI_NOTAINT to disable taint checks even
     # if Taint::Runtime is installed
-    elsif ( DEBUG && !$ENV{FOSWIKI_NOTAINT} ) {
+    if ( DEBUG && !$ENV{FOSWIKI_NOTAINT} ) {
         eval { require Taint::Runtime; };
         if ($@) {
             print STDERR
@@ -537,13 +537,6 @@ BEGIN {
         }
     }
 
-    # If not set, default to strikeone validation
-    $Foswiki::cfg{Validation}{Method} ||= 'strikeone';
-    $Foswiki::cfg{Validation}{ValidForTime} = $Foswiki::cfg{LeaseLength}
-      unless defined $Foswiki::cfg{Validation}{ValidForTime};
-    $Foswiki::cfg{Validation}{MaxKeys} = 1000
-      unless defined $Foswiki::cfg{Validation}{MaxKeys};
-
     # locale setup
     #
     #
@@ -551,204 +544,35 @@ BEGIN {
     # sorting to work properly, although regexes can still work without
     # this in 'non-locale regexes' mode.
 
-    if ( $Foswiki::cfg{UseLocale} ) {
-
-        # Set environment variables for grep
-        $ENV{LC_CTYPE} = $Foswiki::cfg{Site}{Locale};
-
-        # Load POSIX for I18N support.
-        require POSIX;
-        import POSIX qw( locale_h LC_CTYPE LC_COLLATE );
-
-       # SMELL: mod_perl compatibility note: If Foswiki is running under Apache,
-       # won't this play with the Apache process's locale settings too?
-       # What effects would this have?
-        setlocale( &LC_CTYPE,   $Foswiki::cfg{Site}{Locale} );
-        setlocale( &LC_COLLATE, $Foswiki::cfg{Site}{Locale} );
-    }
-
-    # Set up pre-compiled regexes for use in rendering.
-    # In the regex hash, all precompiled REs have "Regex" at the
-    # end of the name. Anything else is a string, either intended
-    # for use as a character class, or as a sub-expression in
-    # another compiled RE.
-
-    # Character class components for use in regexes.
-    # (Pre-UTF-8 compatibility; not used in core)
-    $regex{upperAlpha}    = '[:upper:]';
-    $regex{lowerAlpha}    = '[:lower:]';
-    $regex{numeric}       = '[:digit:]';
-    $regex{mixedAlpha}    = '[:alpha:]';
-    $regex{mixedAlphaNum} = '[:alnum:]';
-    $regex{lowerAlphaNum} = '[:lower:][:digit:]';
-    $regex{upperAlphaNum} = '[:upper:][:digit:]';
-
-    # Compile regexes for efficiency and ease of use
-    # Note: qr// locks in regex modes (i.e. '-xism' here) - see Friedl
-    # book at http://regex.info/.
-
-    $regex{linkProtocolPattern} = $Foswiki::cfg{LinkProtocolPattern}
-      || '(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)';
-
-    # Header patterns based on '+++'. The '###' are reserved for numbered
-    # headers
-    # '---++ Header', '---## Header'
-    $regex{headerPatternDa} = qr/^---+(\++|\#+)(.*)$/m;
-
-    # '<h6>Header</h6>
-    $regex{headerPatternHt} = qr/^<h([1-6])>(.+?)<\/h\1>/mi;
-
-    # '---++!! Header' or '---++ Header %NOTOC% ^top'
-    $regex{headerPatternNoTOC} = '(\!\!+|%NOTOC%)';
-
-    # Foswiki concept regexes
-    $regex{wikiWordRegex} = qr(
-            [[:upper:]]+
-            [[:lower:][:digit:]]+
-            [[:upper:]]+
-            [[:alnum:]]*
-       )xo;
-    $regex{webNameBaseRegex} = qr/[[:upper:]]+[[:alnum:]_]*/;
-    if ( $Foswiki::cfg{EnableHierarchicalWebs} ) {
-        $regex{webNameRegex} = qr(
-                $regex{webNameBaseRegex}
-                (?:(?:[\.\/]$regex{webNameBaseRegex})+)*
-           )xo;
-    }
-    else {
-        $regex{webNameRegex} = $regex{webNameBaseRegex};
-    }
-    $regex{defaultWebNameRegex} = qr/_[[:alnum:]_]+/;
-    $regex{anchorRegex}         = qr/\#[[:alnum:]:._]+/;
-    my $abbrevLength = $Foswiki::cfg{AcronymLength} || 3;
-    $regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
-
-    $regex{topicNameRegex} =
-      qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/;
-
-    # Email regex, e.g. for WebNotify processing and email matching
-    # during rendering.
-
-    my $emailAtom = qr([A-Z0-9\Q!#\$%&'*+-/=?^_`{|}~\E])i;    # Per RFC 5322 ]
-
-    # Valid TLD's at http://data.iana.org/TLD/tlds-alpha-by-domain.txt
-    # Version 2012022300, Last Updated Thu Feb 23 15:07:02 2012 UTC
-    my $validTLD = $Foswiki::cfg{Email}{ValidTLD};
-
-    unless ( eval { qr/$validTLD/ } ) {
-        $validTLD =
-qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NET|ORG|PRO|TEL|TRAVEL|XXX)i;
-
-# Too early to log, should do something here other than die (which prevents fixing)
-# warn is trapped and turned into a die...
-#warn( "{Email}{ValidTLD} does not compile, using default" );
-    }
-
-    $regex{emailAddrRegex} = qr(
-       (?:                            # LEFT Side of Email address
-         (?:$emailAtom+                  # Valid characters left side of email address
-           (?:\.$emailAtom+)*            # And 0 or more dotted atoms
-         )
-       |
-         (?:"[\x21\x23-\x5B\x5D-\x7E\s]+?")   # or a quoted string per RFC 5322
-       )
-       @
-       (?:                          # RIGHT side of Email address
-         (?:                           # FQDN
-           [a-z0-9-]+                     # hostname part
-           (?:\.[a-z0-9-]+)*              # 0 or more alphanumeric domains following a dot.
-           \.(?:                          # TLD
-              (?:[a-z]{2,2})                 # 2 character TLD
-              |
-              $validTLD                      # TLD's longer than 2 characters
-           )
-         )
-         |
-           (?:\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])      # dotted triplets IP Address
-         )
-       )oxi;
-
-    # Item11185: This is how things were before we began Operation Unicode:
-    #
-    # $regex{filenameInvalidCharRegex} = qr/[^[:alnum:]\. _-]/;
-    #
-    # It was only used in Foswiki::Sandbox::sanitizeAttachmentName(), which now
-    # uses $Foswiki::cfg{NameFilter} instead.
-    # See RobustnessTests::test_sanitizeAttachmentName
-    #
-    # Actually, this is used in GenPDFPrincePlugin; let's copy NameFilter
-    $regex{filenameInvalidCharRegex} = qr/$Foswiki::cfg{AttachmentNameFilter}/;
-
-    # Multi-character alpha-based regexes
-    $regex{mixedAlphaNumRegex} = qr/[[:alnum:]]*/;
-
-    # %TAG% name
-    $regex{tagNameRegex} = '[A-Za-z][A-Za-z0-9_:]*';
-
-    # Set statement in a topic
-    $regex{bulletRegex} = '^(?:\t|   )+\*';
-    $regex{setRegex}    = $regex{bulletRegex} . '\s+(Set|Local)\s+';
-    $regex{setVarRegex} =
-      $regex{setRegex} . '(' . $regex{tagNameRegex} . ')\s*=\s*(.*)$';
-
-    # Character encoding regexes
-
-    # Regex to match only a valid UTF-8 character, taking care to avoid
-    # security holes due to overlong encodings by excluding the relevant
-    # gaps in UTF-8 encoding space - see 'perldoc perlunicode', Unicode
-    # Encodings section.  Tested against Markus Kuhn's UTF-8 test file
-    # at http://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-test.txt.
-    $regex{validUtf8CharRegex} = qr{
-                # Single byte - ASCII
-                [\x00-\x7F]
-                |
-
-                # 2 bytes
-                [\xC2-\xDF][\x80-\xBF]
-                |
-
-                # 3 bytes
-
-                    # Avoid illegal codepoints - negative lookahead
-                    (?!\xEF\xBF[\xBE\xBF])
-
-                    # Match valid codepoints
-                    (?:
-                    ([\xE0][\xA0-\xBF])|
-                    ([\xE1-\xEC\xEE-\xEF][\x80-\xBF])|
-                    ([\xED][\x80-\x9F])
-                    )
-                    [\x80-\xBF]
-                |
-
-                # 4 bytes
-                    (?:
-                    ([\xF0][\x90-\xBF])|
-                    ([\xF1-\xF3][\x80-\xBF])|
-                    ([\xF4][\x80-\x8F])
-                    )
-                    [\x80-\xBF][\x80-\xBF]
-                }xo;
-
-    $regex{validUtf8StringRegex} = qr/^(?:$regex{validUtf8CharRegex})+$/;
-
-    # Check for unsafe search regex mode (affects filtering in) - default
-    # to safe mode
-    $Foswiki::cfg{ForceUnsafeRegexes} = 0
-      unless defined $Foswiki::cfg{ForceUnsafeRegexes};
+   # XXX TODO Reimplement using unicode routines.
+   #if ( $Foswiki::cfg{UseLocale} ) {
+   #
+   #    # Set environment variables for grep
+   #    $ENV{LC_CTYPE} = $Foswiki::cfg{Site}{Locale};
+   #
+   #    # Load POSIX for I18N support.
+   #    require POSIX;
+   #    import POSIX qw( locale_h LC_CTYPE LC_COLLATE );
+   #
+   #   # SMELL: mod_perl compatibility note: If Foswiki is running under Apache,
+   #   # won't this play with the Apache process's locale settings too?
+   #   # What effects would this have?
+   #    setlocale( &LC_CTYPE,   $Foswiki::cfg{Site}{Locale} );
+   #    setlocale( &LC_COLLATE, $Foswiki::cfg{Site}{Locale} );
+   #}
 
     # initialize lib directory early because of later 'cd's
     _getLibDir();
 
     # initialize the runtime engine
-    if ( !defined $Foswiki::cfg{Engine} ) {
-
-        # Caller did not define an engine; try and work it out (mainly for
-        # the benefit of pre-1.0 CGI scripts)
-        $Foswiki::cfg{Engine} = 'Foswiki::Engine::Legacy';
-    }
-    $engine = eval qq(use $Foswiki::cfg{Engine}; $Foswiki::cfg{Engine}->new);
-    die $@ if $@;
+    #if ( !defined $Foswiki::cfg{Engine} ) {
+    #
+    #    # Caller did not define an engine; try and work it out (mainly for
+    #    # the benefit of pre-1.0 CGI scripts)
+    #    $Foswiki::cfg{Engine} = 'Foswiki::Engine::Legacy';
+    #}
+    #$engine = eval qq(use $Foswiki::cfg{Engine}; $Foswiki::cfg{Engine}->new);
+    #die $@ if $@;
 
     #Monitor::MARK('End of BEGIN block in Foswiki.pm');
 }

@@ -24,15 +24,44 @@ use Moo;
 use namespace::clean;
 extends qw(Foswiki::AppObject);
 
+use constant HTTP_COMPLIANT => undef;    # This is a generic class.
+
 has env => (
     is  => 'rw',
     isa => Foswiki::Object::isaHASH( 'env', noUndef => 1, ),
     default => sub { $_[0]->app->env },
 );
 
-# pathData attribute is a hash with the following keys: action, path_info, uri
-# uri key can be undef under certain circumstances.
-has pathData => ( is => 'rw', lazy => 1, default => \&_preparePath, );
+=begin TML
+
+---++ ObjectAttribute pathData
+
+pathData attribute is a hash with the following keys: =action=, =path_info=, =uri=.
+
+The =uri= key can be undef under certain circumstances.
+
+=cut
+
+has pathData => ( is => 'rw', lazy => 1, builder => '_preparePath', );
+
+=begin TML
+
+---++ ObjectAttribute HTMLcompliant
+
+Boolean. True if engine is HTTP compliant. For now the only false is possible
+for the CLI engine class.
+
+Lazy set from Foswiki::Engine::<engine>::HTTP_COMPLIANT constant.
+
+=cut
+
+has HTTPCompliant => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        return eval( ref( $_[0] ) . "::HTTP_COMPLIANT" );
+    },
+);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -70,6 +99,7 @@ sub start {
     }
 
     if ($engine) {
+        Foswiki::load_class($engine);
         return $engine->new(%params);
     }
     else {
@@ -146,7 +176,6 @@ sub prepare {
         $this->prepareQueryParameters($req);
         $this->prepareHeaders($req);
         $this->prepareCookies($req);
-        $this->preparePath($req);
         $this->prepareBody($req);
         $this->prepareBodyParameters($req);
         $this->prepareUploads($req);
@@ -274,7 +303,7 @@ sub prepareHeaders { }
 
 =begin TML
 
----++ Private ObjectMethod _preparePath( )
+---++ ObjectMethod _preparePath( )
 
 Abstract method, must be defined by inherited classes.
 
