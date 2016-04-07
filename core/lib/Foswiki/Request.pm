@@ -961,7 +961,11 @@ sub _establishAddress {
 
 =begin TML
 
----++ staticMethod parse([query path]) -> { web => $web, topic => $topic, invalidWeb => optional, invalidTopic => optional }
+---++ staticMethod parse($query_path, $topic_flag) ->
+    { web          => $web,
+      topic        => $topic,
+      invalidWeb   => optional,
+      invalidTopic => optional }
 
 Parses the rquests query_path and returns a hash of web and topic names.
 If passed a query string, it will parse it and return the extracted
@@ -972,6 +976,9 @@ web / topic.
 Slash (/) can separate webs, subwebs and topics.
 Dot (.) can *only* separate a web path from a topic.
 Trailing slash disambiguates a topic from a subweb when both exist with same name.
+Leading slash disambiguates a web from a topic with a single part request.
+  /blah   is assumed to be a web
+  blah    is assumed to be a topic
 
 If any illegal characters are present, then web and/or topic are undefined.   The original bad
 components are returned in the invalidWeb or invalidTopic entries.
@@ -984,10 +991,17 @@ This routine returns two variables when encountering invalid input:
    * {invalidTopic} Same function but for topic name
 
 Ths following paths are supported:
-   * Main            Extracts webname, topic is undef
-   * Main/Somename   Extracts webname. Somename might be a subweb if it exixsts, or a topic.
-   * Main.Somename   Extracts webname and topic.
-   * Main/Somename/  Forces Somename to be a web, if it also exists as a topic
+   * /Main            Extracts webname, topic is undef
+   * /Main/Somename   Extracts webname. Somename might be a subweb if it exixsts, or a topic.
+   * /Main.Somename   Extracts webname and topic.
+   * /Main/Somename/  Forces Somename to be a web, if it also exists as a topic
+   * Word             Extracts as a topic name
+   * Word/Somename    Extracts as a webname. Somename might be a subweb if it exists.
+
+  SMELL:   It would be better to throw an exception here, but it's too early
+  in initialization.  throwing an oops exception mostly works but the display
+  has unexpanded macros, and broken links, and no skinning. So for now keep the
+  old architecture.
 
 =cut
 
@@ -997,10 +1011,18 @@ sub parse {
     my $web_path;
 
     print STDERR "Processing path ($query_path)\n" if TRACE;
+    my $topic_flag;
+
+    if ( index( $query_path, '/' ) == 0 ) {
+        substr $query_path, 0, 1, "";    # remove first character
+        $topic_flag = 0;
+    }
+    else {
+        $topic_flag = 1;
+    }
 
     return {} unless defined $query_path && length $query_path > 1;
-    $query_path =~ s{/+}{/}g;    # Remove duplicate slashes
-    $query_path =~ s{^/}{}g;     # Remove leading slash
+    $query_path =~ s{/+}{/}g;            # Remove duplicate slashes
 
     # trailingSlash Flag - hint that you want the web even if the topic exists
     my $trailingSlash = ( $query_path =~ s/\/$// );
@@ -1024,7 +1046,23 @@ sub parse {
     }
 
     my @parts = split( /\//, $query_path );    # split the path
-          #print STDERR Data::Dumper::Dumper( \@parts ) if TRACE;
+
+    # Single component.  It's a web unless the $topic_flag is set.
+    if ( scalar(@parts) eq 1 ) {
+        print STDERR "Checking single component:\n" if TRACE;
+        my $resp = {};
+        if ($topic_flag) {
+            $resp->{topic} = Foswiki::Sandbox::untaint( $query_path,
+                \&Foswiki::Sandbox::validateTopicName );
+            $resp->{invalidTopic} = $query_path unless defined $resp->{topic};
+        }
+        else {
+            $resp->{web} = Foswiki::Sandbox::untaint( $query_path,
+                \&Foswiki::Sandbox::validateWebName );
+            $resp->{invalidWeb} = $query_path unless defined $resp->{web};
+        }
+        return $resp;
+    }
 
     my $temptopic;
     my @webs;
@@ -1032,26 +1070,27 @@ sub parse {
     foreach (@parts) {
         print STDERR "Checking $_\n" if TRACE;
 
+        my $lastpart = ( \$_ eq \$parts[-1] );
+
         # Lax check on name to eliminate evil characters.
         my $p = Foswiki::Sandbox::untaint( $_,
             \&Foswiki::Sandbox::validateTopicName );
+
+        # If we have evil, just report the invalid web or topic.
         unless ($p) {
 
- # SMELL:   It would be better to throw an exception here, but it's too early
- # in initialization.  throwing an oops exception mostly works but the display
- # has unexpanded macros, and broken links, and no skinning. So for now keep the
- # old architecture.
-            my $resp = {
-                web        => undef,
-                topic      => undef,
-                invalidWeb => $_
-            };
-
-            #print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
+            my $resp = {};
+            if ( $lastpart && !$trailingSlash ) {
+                $resp->{topic} = undef, $resp->{invalidTopic} = $_;
+            }
+            else {
+                $resp->{web} = undef, $resp->{invalidWeb} = $_;
+            }
             return $resp;
         }
 
-        if ( \$_ == \$parts[-1] ) {    # This is the last part of path
+        # Not evil, now need to figure out if it's a topic or web.
+        if ($lastpart) {    # This is the last part of path
             print STDERR "Testing last part web "
               . join( '/', @webs )
               . "topic $p \n"
