@@ -62,7 +62,6 @@ msgstr ""
 msgid "%1 - Registration failure for %2 (%3)"
 msgstr "%1 - %2 (%3) の登録にエラーが発生しました。"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
@@ -101,11 +100,6 @@ msgstr "%1グループのトピックは更新しました。"
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 は他のFoswikiユーザーがあるリストを持っています。"
-
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
-#, fuzzy
-msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 は既に電子メールアドレスの %2に登録されました"
 
 #: core/templates/messages.tmpl:336
 msgid ""
@@ -353,7 +347,7 @@ msgstr "(もっと多く)"
 msgid "(move attachment)"
 msgstr "(添付ファイルを移動します)"
 
-#: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
+#: core/data/System/ParentList.txt:47 core/data/System/ParentList.txt:51
 msgid "(no parent, orphaned topic)"
 msgstr "(親トピックのない独立のトピック)"
 
@@ -613,7 +607,7 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1285
+#: core/lib/Foswiki/UI/Register.pm:1309
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "確認のメールが %1 に送信されました"
 
@@ -1046,8 +1040,8 @@ msgstr " %1 のメールアドレスが確認できません(パスワードの�
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:35
-#: JQueryPlugin/data/System/VarBUTTON.txt:44
+#: JQueryPlugin/data/System/VarBUTTON.txt:33
+#: JQueryPlugin/data/System/VarBUTTON.txt:43
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
@@ -1095,6 +1089,12 @@ msgstr "大文字と小文字を区別します"
 #: PatternSkin/data/System/WebLeftBarExample.txt:37
 msgid "Categories"
 msgstr "カテゴリー"
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:99
+msgid ""
+"Caution: The password system is currently read only. Users will not be added "
+"to the Password file."
+msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 #, fuzzy
@@ -2301,7 +2301,7 @@ msgstr "何か疑問がございましたら、%1までご連絡ください。"
 msgid "If you have any questions, please contact %1."
 msgstr "何か疑問がございましたら、%1までご連絡ください。"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:183
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:256
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -2344,6 +2344,12 @@ msgid ""
 msgstr ""
 "お使いの旧メールアドレスは全て無効（どんなメールも受け取れない）な場合、ま"
 "た、パスワードを忘れた場合は、 %1 までご連絡ください。"
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:100
+msgid ""
+"If your wiki uses an external password manager, then it may stll safe to "
+"bulk register users.  Please contact %1 if you are unsure."
+msgstr ""
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
@@ -3032,7 +3038,7 @@ msgid ""
 msgstr "注意：この添付ファイルを参照すると、どんなURLであっても切断されます"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:181
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3545,7 +3551,7 @@ msgstr "登録"
 msgid "Registration"
 msgstr "登録"
 
-#: core/lib/Foswiki/UI/Register.pm:712
+#: core/lib/Foswiki/UI/Register.pm:736
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3588,7 +3594,7 @@ msgstr " %1 管理者 %2までご連絡ください"
 msgid "Related Topics:"
 msgstr "関連トピック："
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:115
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:123
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
@@ -3851,7 +3857,6 @@ msgstr "保存して閉じます"
 msgid "Save table"
 msgstr "テーブルを保存します"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
 #: core/templates/registerfailednotremoved.tmpl:19
 #: core/templates/registerfailedremoved.tmpl:20
 #: core/templates/registernotifyadmin.tmpl:17
@@ -4107,7 +4112,7 @@ msgstr ""
 msgid "Size"
 msgstr "サイズ"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:174
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:247
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "いくつかの追加スケジュールと休暇自動通知"
@@ -4127,7 +4132,7 @@ msgstr ""
 "あったとすれば、それはあなたが既に確実に登録に成功したことを意味するのかもし"
 "れません。"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:173
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:246
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4139,7 +4144,6 @@ msgstr ""
 msgid "Sorry, registration has been temporarily disabled."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:92
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -4202,8 +4206,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:31
-#: JQueryPlugin/data/System/VarBUTTON.txt:40
+#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
 #: core/data/System/FrequentlyAskedQuestions.txt:81
@@ -4211,8 +4215,7 @@ msgstr ""
 msgid "Submit"
 msgstr "確定"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:185
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:258
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -4328,7 +4331,6 @@ msgstr "ご登録ありがとうございました"
 msgid "Thank you for denying this registration"
 msgstr "ご登録ありがとうございました"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:272
 #: core/templates/registermessages.tmpl:146
 #: core/templates/registermessages.tmpl:154
 #: core/templates/registermessages.tmpl:167
@@ -4744,7 +4746,6 @@ msgstr ""
 msgid "This is an automated e-mail from %1."
 msgstr "これは %1 より自動的に送信されたメールです。"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:249
 #: core/templates/registerfailednotremoved.tmpl:9
 #: core/templates/registerfailedremoved.tmpl:9
 #: core/templates/registernotifyadmin.tmpl:9
@@ -5383,11 +5384,11 @@ msgstr "警告: トピック%1.%2が見つかりません"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "警告: トピック%1.%2が見つかりません"
 
-#: core/lib/Foswiki/UI/Register.pm:1278
+#: core/lib/Foswiki/UI/Register.pm:1302
 msgid "Warning: Could not send confirmation email"
 msgstr "警告： 確認のメールが送信できません"
 
-#: core/lib/Foswiki/UI/Register.pm:1290
+#: core/lib/Foswiki/UI/Register.pm:1314
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "警告： 確認のメールが送信できませんでした。メールは利用不可になっています。"
@@ -5591,7 +5592,7 @@ msgstr ""
 "fuchsia, green, lime, olive, yellow, navy, blue, teal, or aqua)を使うこともで"
 "きます"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:182
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:255
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "%1を通じてパスワードを変更することができます"
@@ -5754,7 +5755,7 @@ msgstr "パスワードには %1 以上の文字が必要です"
 msgid "Your password:"
 msgstr "あなたのパスワード:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:244
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
@@ -6179,6 +6180,10 @@ msgstr "ビュー"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#, fuzzy
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "%1 は既に電子メールアドレスの %2に登録されました"
 
 #, fuzzy
 #~ msgid "Return to [_0]"
