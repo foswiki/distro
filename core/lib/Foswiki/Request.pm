@@ -1008,7 +1008,7 @@ Ths following paths are supported:
 sub parse {
     my $query_path = shift;
 
-    my $web_path;
+    return {} unless defined $query_path && length($query_path);
 
     print STDERR "Processing path ($query_path)\n" if TRACE;
     my $topic_flag;
@@ -1021,7 +1021,6 @@ sub parse {
         $topic_flag = 1;
     }
 
-    return {} unless defined $query_path && length $query_path > 1;
     $query_path =~ s{/+}{/}g;            # Remove duplicate slashes
 
     # trailingSlash Flag - hint that you want the web even if the topic exists

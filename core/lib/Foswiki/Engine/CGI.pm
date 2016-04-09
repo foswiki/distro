@@ -205,7 +205,10 @@ sub preparePath {
     # the switchboard.
 
     my $dispatcher = $Foswiki::cfg{SwitchBoard}{$action};
-    my $reqobj = $dispatcher->{request} || 'Foswiki::Request';
+    my $reqobj =
+      ( defined $dispatcher )
+      ? $dispatcher->{request} || 'Foswiki::Request'
+      : 'Foswiki::Request';
     eval qq(use $reqobj);
     die Foswiki::encode_utf8($@) if $@;
 
