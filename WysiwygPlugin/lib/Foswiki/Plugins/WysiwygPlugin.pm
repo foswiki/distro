@@ -40,7 +40,7 @@ our $SHORTDESCRIPTION  = 'Translator framework for WYSIWYG editors';
 our $NO_PREFS_IN_TOPIC = 1;
 
 our $VERSION = '1.33';
-our $RELEASE = '11 Feb 2016';
+our $RELEASE = '08 Apr 2016';
 
 our %xmltag;
 

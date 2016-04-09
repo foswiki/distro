@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1460168492" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Slide Show Plugin
 
@@ -172,6 +172,7 @@ The part between the rulers defines the default format of a slide:
 ---++ Plugin info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  08 Apr 2016: (2.31) | Foswikitask:Item14022: Change all foswiki.org links to https. |
 |  08 Sep 2015: (2.30) | Foswikitask:Item13685: add support for scrolling slides |
 |  03 Mar 2015: (2.21) | Foswikitask:Item13281: improved printout |
 |  10 Jan 2014: (2.20) | Foswikitask:Item13198: Fully qualify default template topic.<br />\

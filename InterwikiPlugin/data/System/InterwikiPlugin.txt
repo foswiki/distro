@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1436234283" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1460168492" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Interwiki Plugin
 <!--
@@ -63,6 +63,7 @@ The =INTERWIKIPLUGIN_INTERLINKFORMAT= supports a number of formatting tokens:%ST
 ---++ Plugin Info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|   8 Apr 2016: (1.23)  | Foswikitask:Item14022: Change foswiki.org links to https. |
 |  14 Jun 2014: (1.22)  | Foswikitask:Item13287: Foswikitask:Item13387: Regular expression enhancements, better UTF-8 support. |
 |  03 Oct 2014: (1.21)  | Foswikitask:Item13045: Add per-link override of INTERLINKFORMAT |
 |  24 May 2014: (1.20)  | Foswikitask:Item12819: Expand variables defined in !InterWiki links%BR% \
