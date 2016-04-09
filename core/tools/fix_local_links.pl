@@ -49,11 +49,11 @@ s|<head>.*?<title>\s*(\S*).*?</title>.*?</head>|<head><title>$1</title></head>|g
 
     # Changes all links to attachments to foswiki.org
     $topichtml =~
-s|$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/*|http://foswiki.org/pub/|g;
+s|$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/*|http:s//foswiki.org/pub/|g;
 
     # Changes all links to topics to foswiki.org
     $topichtml =~
-      s|($Foswiki::cfg{DefaultUrlHost}$viewurl)/*|http://foswiki.org/|g;
+      s|($Foswiki::cfg{DefaultUrlHost}$viewurl)/*|http:s//foswiki.org/|g;
 
     #This URL param is not wanted when we link to foswiki.org
     $topichtml =~ s/href="\?skin=plain#/href="#/g;
