@@ -71,9 +71,9 @@ use Scalar::Util          ();
 
 use Moo;
 use namespace::clean;
-extends qw( Foswiki::Object );
+extends qw( Foswiki::AppObject );
 
-our @_newParameters = qw( session );
+#our @_newParameters = qw( session );
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -82,12 +82,6 @@ BEGIN {
     }
 }
 
-has session => (
-    is       => 'ro',
-    clearer  => 1,
-    weak_ref => 1,
-    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
-);
 has main => (
     is      => 'rw',
     lazy    => 1,
@@ -187,10 +181,10 @@ sub _getBackend {
     my $this = shift;
     my ( $web, $topic ) = @_;
 
-    my $metaObject = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $web,
-        topic   => $topic,
+    my $metaObject = $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $topic,
     );
     my $path = $metaObject->getPath;
     unless ( exists $this->paths->{$path} ) {
@@ -316,7 +310,7 @@ sub loadPreferences {
     }
     elsif ( $Foswiki::cfg{LocalSitePreferences} ) {
         my ( $web, $topic ) =
-          $this->session->normalizeWebTopicName( undef,
+          $this->app->normalizeWebTopicName( undef,
             $Foswiki::cfg{LocalSitePreferences} );
 
         # Use the site preferences
@@ -453,7 +447,7 @@ sub loadSitePreferences {
     my $this = shift;
     if ( $Foswiki::cfg{LocalSitePreferences} ) {
         my ( $web, $topic ) =
-          $this->session->normalizeWebTopicName( undef,
+          $this->app->normalizeWebTopicName( undef,
             $Foswiki::cfg{LocalSitePreferences} );
         my $back = $this->_getBackend( $web, $topic );
         $this->main->newLevel($back);

@@ -68,11 +68,13 @@ around BUILDARGS => sub {
     return $orig->( $class, %params );
 };
 
-around prepareConnection => sub {
+around _prepareConnection => sub {
     my $orig = shift;
-    my ( $this, $req ) = @_;
-    $req->remoteAddress('127.0.0.1');
-    $req->method( $ENV{FOSWIKI_ACTION} );
+    my $this = shift;
+    return {
+        remoteAddress => '127.0.0.1',
+        method        => $this->env->{FOSWIKI_ACTION},
+    };
 };
 
 around prepareQueryParameters => sub {

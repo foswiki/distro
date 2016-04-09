@@ -13,7 +13,7 @@ package Foswiki::I18N::Extract;
 use v5.14;
 
 use Moo;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 our $initError;
 
 BEGIN {
@@ -31,13 +31,6 @@ BEGIN {
     }
 }
 
-has session => (
-    is       => 'rw',
-    clearer  => 1,
-    required => 1,
-    weak_ref => 1,
-    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
-);
 has extractor => (
     is      => 'rw',
     lazy    => 1,
@@ -51,9 +44,9 @@ has extractor => (
 
 =begin TML
 
----++ ClassMethod new ( $session ) -> $extract
+---++ ClassMethod new ( app => $app ) -> $extract
 
-Constructor. Creates a fresh new Extract object. A $session object, instance of
+Constructor. Creates a fresh new Extract object. A $app object, instance of
 the Foswiki class, is optional: if it's available, it'll be used for printing
 warnings.
 
@@ -76,7 +69,7 @@ sub BUILD {
     my $this = shift;
 
     if ( defined $initError ) {
-        $this->session->logger->log( 'warning', $initError );
+        $this->app->logger->log( 'warning', $initError );
     }
 }
 

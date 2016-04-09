@@ -46,6 +46,22 @@ has pathData => ( is => 'rw', lazy => 1, builder => '_preparePath', );
 
 =begin TML
 
+---++ ObjectAttribute connectionData
+
+connectionData attribute is a hash with the following keys:
+
+   * =remoteAddress=
+   * =serverPort=
+   * =method=
+   * =secure=
+
+=cut
+
+has connectionData =>
+  ( is => 'rw', lazy => 1, builder => '_prepareConnection', );
+
+=begin TML
+
 ---++ ObjectAttribute HTMLcompliant
 
 Boolean. True if engine is HTTP compliant. For now the only false is possible
@@ -172,7 +188,6 @@ sub prepare {
 
     try {
         $req = $this->create('Foswiki::Request');
-        $this->prepareConnection($req);
         $this->prepareQueryParameters($req);
         $this->prepareHeaders($req);
         $this->prepareCookies($req);
@@ -239,16 +254,13 @@ sub prepare {
 
 =begin TML
 
----++ ObjectMethod prepareConnection( $req )
+---++ ObjectMethod _prepareConnection
 
-Abstract method, must be defined by inherited classes.
-   * =$req= - Foswiki::Request object to populate
-
-Should fill remoteAddr, method and secure fields of =$req= object.
+Initializer method of =connectionData= attribute.
 
 =cut
 
-sub prepareConnection { }
+sub _prepareConnection { }
 
 =begin TML
 
@@ -305,10 +317,7 @@ sub prepareHeaders { }
 
 ---++ ObjectMethod _preparePath( )
 
-Abstract method, must be defined by inherited classes.
-
-Should return a hashref used to initialize the pathData attribute. In other
-words, the hashref must containt keys valid for the attribute (see its comment).
+Initializer method of =pathData=.
 
 =cut
 

@@ -355,14 +355,14 @@ sub _handleExpand {
 }
 
 =begin TML
----++ ObjectMethod bootstrap()
+---++ ObjectMethod bootstrapSystemSettings()
 
 This method tries to determine mandatory configuration defaults to operate
 when no LocalSite.cfg is found.
 
 =cut
 
-sub bootstrap {
+sub bootstrapSystemSettings {
     my $this = shift;
 
     # Strip off any occasional configuration data which might be a result of
@@ -517,6 +517,206 @@ BOOTS
         $system_message .= $warn . "\n";
     }
     $this->bootstrapMessage( $system_message // '' );
+}
+
+=begin TML
+
+---++ ObjectMethod bootstrapWebSettings($script)
+
+Called by bootstrapConfig.  This handles the web environment specific settings only:
+
+   * ={DefaultUrlHost}=
+   * ={ScriptUrlPath}=
+   * ={ScriptUrlPaths}{view}=
+   * ={PubUrlPath}=
+
+=cut
+
+sub bootstrapWebSettings {
+    my $this   = shift;
+    my $script = shift;
+
+    my $app = $this->app;
+    my $req = $app->request;
+
+    print STDERR "AUTOCONFIG: Bootstrap Phase 2: "
+      . Data::Dumper::Dumper( \%ENV )
+      if (TRAUTO);
+
+    # Cannot bootstrap the web side from CLI environments
+    if ( !$app->engine->HTTPCompliant ) {
+        $this->data->{DefaultUrlHost} = 'http://localhost';
+        $this->data->{ScriptUrlPath}  = '/bin';
+        $this->data->{PubUrlPath}     = '/pub';
+        print STDERR
+          "AUTOCONFIG: Bootstrap Phase 2 bypassed! n/a in the CLI Environment\n"
+          if (TRAUTO);
+        return 'Phase 2 boostrap bypassed - n/a in CLI environment\n';
+    }
+
+    my $protocol = $req->protocol;
+
+    # Figure out the DefaultUrlHost
+    if ( $this->env->{HTTP_HOST} ) {
+        $this->data->{DefaultUrlHost} =
+          "$protocol://" . $this->env->{HTTP_HOST};
+        print STDERR "AUTOCONFIG: Set DefaultUrlHost "
+          . $this->data->{DefaultUrlHost}
+          . " from HTTP_HOST "
+          . $this->env->{HTTP_HOST} . " \n"
+          if (TRAUTO);
+    }
+    elsif ( $this->env->{SERVER_NAME} ) {
+        $this->data->{DefaultUrlHost} =
+          "$protocol://" . $this->env->{SERVER_NAME};
+        print STDERR "AUTOCONFIG: Set DefaultUrlHost "
+          . $this->data->{DefaultUrlHost}
+          . " from SERVER_NAME "
+          . $this->env->{SERVER_NAME} . " \n"
+          if (TRAUTO);
+    }
+    elsif ( $this->env->{SCRIPT_URI} ) {
+        ( $this->data->{DefaultUrlHost} ) =
+          $this->env->{SCRIPT_URI} =~ m#^(https?://[^/]+)/#;
+        print STDERR "AUTOCONFIG: Set DefaultUrlHost "
+          . $this->data->{DefaultUrlHost}
+          . " from SCRIPT_URI "
+          . $this->env->{SCRIPT_URI} . " \n"
+          if (TRAUTO);
+    }
+    else {
+
+        # OK, so this is barfilicious. Think of something better.
+        $this->data->{DefaultUrlHost} = "$protocol://localhost";
+        print STDERR
+"AUTOCONFIG: barfilicious: Set DefaultUrlHost $this->data->{DefaultUrlHost} \n"
+          if (TRAUTO);
+    }
+
+# Examine the CGI path.   The 'view' script it typically removed from the
+# URL when using "Short URLs.  If this BEGIN block is being run by
+# 'view',  then $this->data->{ScriptUrlPaths}{view} will be correctly
+# bootstrapped.   If run for any other script, it will be set to a
+# reasonable though probably incorrect default.
+#
+# In order to recover the correct view path when the script is 'configure',
+# the ConfigurePlugin stashes the path to the view script into a session variable.
+# and then recovers it.  When the jsonrpc script is called to save the configuration
+# it then has the VIEWPATH parameter available.  If "view" was never called during
+# configuration, then it will not be set correctly.
+    my $path_info = $req->path_info
+      || '';    #SMELL Sometimes PATH_INFO appears to be undefined.
+    print STDERR "AUTOCONFIG: REQUEST_URI is "
+      . ( $this->env->{REQUEST_URI} || '(undef)' ) . "\n"
+      if (TRAUTO);
+    print STDERR "AUTOCONFIG: SCRIPT_URI  is "
+      . ( $this->env->{SCRIPT_URI} || '(undef)' ) . " \n"
+      if (TRAUTO);
+    print STDERR "AUTOCONFIG: PATH_INFO   is $path_info \n" if (TRAUTO);
+    print STDERR "AUTOCONFIG: ENGINE      is " . $this->data->{Engine} . "\n"
+      if (TRAUTO);
+
+# This code tries to break the url up into <prefix><script><path> ... The script may or may not
+# be present.  Short URLs will omit the script from view operations, and *may* omit the
+# <prefix> for all operations.   Examples of URLs and shortening.
+#
+#  Full:    /foswiki/bin/view/Main/WebHome   /foswiki/bin/edit/Main/WebHome
+#  Full:    /bin/view/Main/WebHome           /bin/edit/Main/WebHome            omitting prefix
+#  Short:   /foswiki/Main/WebHome            /foswiki/bin/edit/Main/WebHome    omitting bin/view
+#  Short:   /Main/WebHome                    /bin/edit/Main/WebHome            omitting prefix and bin/view
+#  Shorter: /Main/WebHome                    /edit/Main/WebHome                omitting prefix and bin in all cases.
+#
+# Note that some of this can't be done as part of the view script.  The only way to know if "bin" is omitted in
+# all cases is when a script other than view runs,   like jsonrpc.
+
+    my $pfx;
+
+    my $suffix =
+      ( defined $this->env->{SCRIPT_URL}
+          && length( $this->env->{SCRIPT_URL} ) < length($path_info) )
+      ? $this->env->{SCRIPT_URL}
+      : $path_info;
+
+    # Try to Determine the prefix of the script part of the URI.
+    if ( $this->env->{SCRIPT_URI} && $this->env->{SCRIPT_URL} ) {
+        if (
+            index( $this->env->{SCRIPT_URI}, $this->data->{DefaultUrlHost} ) eq
+            0 )
+        {
+            $pfx = substr( $this->env->{SCRIPT_URI},
+                length( $this->data->{DefaultUrlHost} ) );
+            $pfx =~ s#$suffix$##;
+            print STDERR
+"AUTOCONFIG: Calculated prefix $pfx from SCRIPT_URI and SCRIPT_URL\n"
+              if (TRAUTO);
+        }
+    }
+
+    unless ( defined $pfx ) {
+        if ( my $idx = index( $this->env->{REQUEST_URI}, $path_info ) ) {
+            $pfx = substr( $this->env->{REQUEST_URI}, 0, $idx + 1 );
+        }
+        $pfx = '' unless ( defined $pfx );
+        print STDERR "AUTOCONFIG: URI Prefix is $pfx\n" if (TRAUTO);
+    }
+
+    # Work out the URL path for Short and standard URLs
+    if ( $this->env->{REQUEST_URI} =~ m{^(.*?)/$script(\b|$)} ) {
+        print STDERR
+"AUTOCONFIG: SCRIPT $script fully contained in REQUEST_URI $ENV{REQUEST_URI}, Not short URLs\n"
+          if (TRAUTO);
+
+        # Conventional URLs   with path and script
+        $this->data->{ScriptUrlPath} = $1;
+        $this->data->{ScriptUrlPaths}{view} =
+          $1 . '/view' . $this->data->{ScriptSuffix};
+
+        # This might not work, depending on the websrver config,
+        # but it's the best we can do
+        $this->data->{PubUrlPath} = "$1/../pub";
+    }
+    else {
+        print STDERR "AUTOCONFIG: Building Short URL paths using prefix $pfx \n"
+          if (TRAUTO);
+        $this->data->{ScriptUrlPath}        = $pfx . '/bin';
+        $this->data->{ScriptUrlPaths}{view} = $pfx;
+        $this->data->{PubUrlPath}           = $pfx . '/pub';
+    }
+
+    if (TRAUTO) {
+        print STDERR
+          "AUTOCONFIG: Using ScriptUrlPath $this->data->{ScriptUrlPath} \n";
+        print STDERR "AUTOCONFIG: Using {ScriptUrlPaths}{view} "
+          . (
+            ( defined $this->data->{ScriptUrlPaths}{view} )
+            ? $this->data->{ScriptUrlPaths}{view}
+            : 'undef'
+          ) . "\n";
+        print STDERR
+          "AUTOCONFIG: Using PubUrlPath: $this->data->{PubUrlPath} \n";
+    }
+
+    # Note: message is not I18N'd because there is no point; there
+    # is no localisation in a default cfg derived from Foswiki.spec
+    my $vp = '';
+    $vp = '?VIEWPATH=' . $this->data->{ScriptUrlPaths}{view}
+      if ( defined $this->data->{ScriptUrlPaths}{view} );
+    my $system_message = <<BOOTS;
+*WARNING !LocalSite.cfg could not be found* (This is normal for a new installation) %BR%
+This Foswiki is running using a bootstrap configuration worked
+out by detecting the layout of the installation.
+To complete the bootstrap process you should either:
+   * Restore the missing !LocalSite.cfg from a backup, *or*
+   * Complete the new Foswiki installation:
+      * visit [[%SCRIPTURL{configure}%$vp][configure]] and save a new configuration.
+      * Register a user and add it to the %USERSWEB%.AdminGroup
+%BR% *You have been logged in as a temporary administrator.*
+Any requests made to this Foswiki will be treated as requests made by an administrator with full rights
+Your temporary administrator rights will "stick" until you've logged out from this session.
+BOOTS
+
+    #'
+    return ( $system_message || '' );
 }
 
 =begin TML

@@ -64,7 +64,6 @@ our %cfg;
 # Other computed constants
 our $foswikiLibDir;
 our %regex;
-our %contextFreeSyntax;
 our $VERSION;
 our $RELEASE;
 our $UNICODE = 1;  # flag that extensions can use to test if the core is unicode
@@ -100,6 +99,8 @@ use namespace::clean;
 extends qw( Foswiki::Object );
 
 use Assert;
+use Exporter qw(import);
+our @EXPORT_OK = qw(%regex);
 
 sub SINGLE_SINGLETONS       { 0 }
 sub SINGLE_SINGLETONS_TRACE { 0 }
@@ -124,23 +125,6 @@ has attach => (
         new Foswiki::Attach( session => $_[0] );
     },
 );
-has cache => (
-    is        => 'rw',
-    lazy      => 1,
-    clearer   => 1,
-    predicate => 1,
-    default   => sub {
-        my $this = shift;
-        if (   $Foswiki::cfg{Cache}{Enabled}
-            && $Foswiki::cfg{Cache}{Implementation} )
-        {
-            eval "require $Foswiki::cfg{Cache}{Implementation}";
-            ASSERT( !$@, $@ ) if DEBUG;
-            return $Foswiki::cfg{Cache}{Implementation}->new();
-        }
-        return undef;
-    },
-);
 has digester => (
     is      => 'ro',
     lazy    => 1,
@@ -162,48 +146,6 @@ has heap => (
     lazy    => 1,
     default => sub { {} },
 );
-has i18n => (
-    is        => 'ro',
-    lazy      => 1,
-    clearer   => 1,
-    predicate => 1,
-    default   => sub {
-        load_package('Foswiki::I18N');
-
-        # language information; must be loaded after
-        # *all possible preferences sources* are available
-        Foswiki::I18N->new( session => $_[0] );
-    },
-);
-has invalidTopic => (
-    is      => 'rw',
-    clearer => 1,
-);
-has invalidWeb => (
-    is      => 'rw',
-    clearer => 1,
-);
-has logger => (
-    is        => 'ro',
-    lazy      => 1,
-    clearer   => 1,
-    predicate => 1,
-    default   => sub {
-        my $this = shift;
-        my $logger;
-        if ( $Foswiki::cfg{Log}{Implementation} ne 'none' ) {
-            load_package( $Foswiki::cfg{Log}{Implementation} );
-            if ($@) {
-                print STDERR "Logger load failed: $@";
-            }
-            else {
-                $logger = $Foswiki::cfg{Log}{Implementation}->new();
-            }
-        }
-        $logger = Foswiki::Logger->new() unless defined $logger;
-        return $logger;
-    },
-);
 has net => (
     is        => 'ro',
     lazy      => 1,
@@ -213,20 +155,6 @@ has net => (
         load_package('Foswiki::Net');
         return Foswiki::Net->new( session => $_[0] );
     },
-);
-has plugins => (
-    is        => 'rw',
-    lazy      => 1,
-    clearer   => 1,
-    predicate => 1,
-    default   => sub { return Foswiki::Plugins->new( session => $_[0] ); },
-);
-has prefs => (
-    is        => 'ro',
-    lazy      => 1,
-    predicate => 1,
-    clearer   => 1,
-    default   => sub { return Foswiki::Prefs->new( session => $_[0] ); },
 );
 has remoteUser => (
     is      => 'rw',
@@ -241,17 +169,6 @@ has renderer => (
         load_package('Foswiki::Render');
         Foswiki::Render->new( session => $_[0] );
     },
-);
-has request => (
-    is        => 'ro',
-    lazy      => 1,
-    clearer   => 1,
-    predicate => 1,
-    coerce    => sub { defined $_[0] ? $_[0] : Foswiki::Request->new },
-    default   => sub {
-        return Foswiki::Request->new;
-    },
-    isa => Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request' ),
 );
 has requestedWebName => ( is => 'rw', clearer => 1, );
 has response => (
@@ -296,29 +213,6 @@ has search => (
     default   => sub {
         require Foswiki::Search;
         return Foswiki::Search->new( session => $_[0] );
-    },
-);
-has store => (
-    is        => 'rw',
-    lazy      => 1,
-    clearer   => 1,
-    predicate => 1,
-    isa =>
-      Foswiki::Object::isaCLASS( 'store', 'Foswiki::Store', noUndef => 1, ),
-    default => sub {
-        my $baseClass = $_[0]->_baseStoreClass;
-        ASSERT( $baseClass, "Foswiki::store base class is not defined" )
-          if DEBUG;
-        return $baseClass->new;
-    },
-);
-has _baseStoreClass => (
-    is      => 'rw',
-    clearer => 1,
-
-    #default => 'Foswiki::Store::PlainFile',
-    isa => sub {
-        ASSERT( defined( $_[0] ), "Foswiki::_baseStoreClass cannot be undef" );
     },
 );
 has templates => (
@@ -376,17 +270,6 @@ has urlHost => (
         ASSERT($urlHost) if DEBUG;
         return $urlHost;
     },
-);
-has user => (
-    is      => 'rw',
-    clearer => 1,
-);
-has users => (
-    is        => 'rw',
-    lazy      => 1,
-    predicate => 1,
-    clearer   => 1,
-    default   => sub { return Foswiki::Users->new( session => $_[0] ); },
 );
 has webName => (
     is      => 'rw',
@@ -692,17 +575,6 @@ around BUILDARGS => sub {
 
 #print STDERR "Overrode LogFileName to $Foswiki::cfg{LogFileName} for PlainFileLogger\n"
         }
-    }
-
-    # Set command_line context if there is no query
-    $params->{context} ||=
-      defined( $params->{request} ) ? {} : { command_line => 1 };
-
-    # This foswiki supports:
-    $params->{context}->{SUPPORTS_PARA_INDENT}   = 1;  #  paragraph indent
-    $params->{context}->{SUPPORTS_PREF_SET_URLS} = 1;  # ?Set+, ?Local+ etc URLs
-    if ( $Foswiki::cfg{Password} ) {
-        $params->{context}->{admin_available} = 1;     # True if sudo supported.
     }
 
     return $params;
@@ -1268,57 +1140,6 @@ sub setETags {
 
     #print STDERR "NOT modified\n";
     return 0;
-}
-
-=begin TML
-
----++ ObjectMethod generateHTTPHeaders( \%hopts )
-
-All parameters are optional.
-   * =\%hopts - optional ref to partially filled in hash of headers (will be written to)
-
-=cut
-
-sub generateHTTPHeaders {
-    my ( $this, $hopts ) = @_;
-
-    $hopts ||= {};
-
-    # DEPRECATED plugins header handler. Plugins should use
-    # modifyHeaderHandler instead.
-    my $pluginHeaders =
-      $this->plugins->dispatch( 'writeHeaderHandler', $this->request )
-      || '';
-    if ($pluginHeaders) {
-        foreach ( split /\r?\n/, $pluginHeaders ) {
-
-            # Implicit untaint OK; data from plugin handler
-            if (m/^([\-a-z]+): (.*)$/i) {
-                $hopts->{$1} = $2;
-            }
-        }
-    }
-
-    my $contentType = $hopts->{'Content-Type'};
-    $contentType = 'text/html' unless $contentType;
-    $contentType .= '; charset=utf-8'
-      if $contentType =~ m!^text/!
-      && $contentType !~ /\bcharset\b/;
-
-    # use our version of the content type
-    $hopts->{'Content-Type'} = $contentType;
-
-    $hopts->{'X-FoswikiAction'} = $this->request->action;
-    $hopts->{'X-FoswikiURI'}    = $this->request->uri;
-
-    # Turn off XSS protection in DEBUG so it doesn't mask problems
-    $hopts->{'X-XSS-Protection'} = 0 if DEBUG;
-
-    $this->plugins->dispatch( 'modifyHeaderHandler', $hopts, $this->request );
-
-    # The headers method resets all headers to what we pass
-    # what we want is simply ensure our headers are there
-    $this->response->setDefaultHeaders($hopts);
 }
 
 # Tests if the $redirect is an external URL, returning false if

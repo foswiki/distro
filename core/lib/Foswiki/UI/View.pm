@@ -60,8 +60,8 @@ sub view {
     my $req  = $app->request;
 
     my $query = $app->request;
-    my $web   = $req->webName;
-    my $topic = $req->topicName;
+    my $web   = $req->web;
+    my $topic = $req->topic;
     my $user  = $app->user;
     my $users = $app->users;
 

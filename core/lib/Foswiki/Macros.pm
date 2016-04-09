@@ -3,8 +3,9 @@
 package Foswiki::Macros;
 use v5.14;
 
-use Foswiki;
+use Foswiki qw(%regex);
 use Foswiki::Attrs ();
+use Assert;
 
 use Moo;
 use namespace::clean;
@@ -90,7 +91,7 @@ sub registerTagHandler {
 
     $this->registered->{$tag} = $handler;
     if ( $syntax && $syntax eq 'context-free' ) {
-        $contextFreeSyntax{$tag} = 1;
+        $this->contextFreeSyntax->{$tag} = 1;
     }
 }
 
@@ -698,7 +699,8 @@ sub _expandMacroOnTopicRendering {
             }
         }
 
-        my $attrs = new Foswiki::Attrs( $args, $contextFreeSyntax{$tag} );
+        my $attrs =
+          new Foswiki::Attrs( $args, $this->contextFreeSyntax->{$tag} );
         if ( ref( $this->registered->{$tag} ) eq 'CODE' ) {
             $e = $this->registered->{$tag}->( $this, $attrs, $topicObject );
         }
@@ -903,8 +905,8 @@ sub _registerDefaultMacros {
         # optimised by the compiler.
         STOPSECTION  => sub { '' },
         ENDSECTION   => sub { '' },
-        WIKIVERSION  => sub { $VERSION },
-        WIKIRELEASE  => sub { $RELEASE },
+        WIKIVERSION  => sub { $Foswiki::VERSION },
+        WIKIRELEASE  => sub { $Foswiki::RELEASE },
         STARTSECTION => sub { '' },
         STARTINCLUDE => sub { '' },
         STOPINCLUDE  => sub { '' },

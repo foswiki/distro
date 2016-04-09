@@ -177,12 +177,12 @@ sub readOnly {
 
     # We expect the path to exist and be writable.
     if ( -e $path && -f _ && -w _ ) {
-        $this->session->enterContext('passwords_modifyable');
+        $this->app->enterContext('passwords_modifyable');
         return 0;
     }
 
     # Otherwise, log a problem.
-    $this->session->logger->log( 'warning',
+    $this->app->logger->log( 'warning',
             'The password file does not exist or cannot be written.'
           . 'Run =configure= and check the setting of {Htpasswd}{FileName}.'
           . ' New user registration has been disabled until this is corrected.'

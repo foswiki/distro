@@ -56,7 +56,7 @@ use CGI::Session     ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 use Assert;
 
@@ -89,31 +89,30 @@ my $guestSessions =
 
 =begin TML
 
----++ StaticMethod makeLoginManager( $session ) -> $Foswiki::LoginManager
+---++ StaticMethod makeLoginManager( $app ) -> $Foswiki::LoginManager
 
 Factory method, used to generate a new Foswiki::LoginManager object
-for the given session.
+for the given app object.
 
 =cut
 
 sub makeLoginManager {
-    my $session = shift;
+    my $app = shift;
 
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
+    ASSERT( $app->isa('Foswiki::App') ) if DEBUG;
 
-    ASSERT( $session->has_request && defined $session->request,
-        "Request object is undefined" )
+    ASSERT( defined $app->request, "Request object is undefined" )
       if DEBUG;
 
     #user is trying to sudo login - use BaseUserMapping
-    if ( $session->request->param('sudo') ) {
+    if ( $app->request->param('sudo') ) {
 
         #promote / login to internal wiki admin
-        $session->enterContext('sudo_login');
+        $app->enterContext('sudo_login');
     }
 
     if ( $Foswiki::cfg{UseClientSessions}
-        && !$session->inContext('command_line') )
+        && !$app->inContext('command_line') )
     {
 
         my $sessionname;
@@ -124,7 +123,7 @@ sub makeLoginManager {
         $use .= '; use CGI::Cookie ()';
         eval $use;
         throw Error::Simple($@) if $@;
-        if ( $session->request->https() ) {
+        if ( $app->request->https() ) {
             $sessionname = 'SFOSWIKISID';
         }
         else {
@@ -144,43 +143,33 @@ sub makeLoginManager {
     if ( $Foswiki::cfg{LoginManager} eq 'none' ) {
 
         # No login manager; just use default behaviours
-        $mgr = Foswiki::LoginManager->new( session => $session );
+        $mgr = $app->create('Foswiki::LoginManager');
     }
     else {
 
         # Rename from old "Client" to new "LoginManager" - see TWikibug:Item3375
         $Foswiki::cfg{LoginManager} =~ s/::Client::/::LoginManager::/;
         my $loginManager = $Foswiki::cfg{LoginManager};
-        if ( $session->inContext('sudo_login') )
+        if ( $app->inContext('sudo_login') )
         {    #TODO: move selection into BaseUserMapper
             $loginManager = 'Foswiki::LoginManager::TemplateLogin';
         }
         eval "require $loginManager";
         Foswiki::Exception->rethrow($@) if $@;
-        $mgr = $loginManager->new( session => $session );
+        $mgr = $app->create($loginManager);
     }
     return $mgr;
 }
 
 =begin TML
 
----++ ClassMethod new ($session)
+---++ ClassMethod new ( app => $app )
 
 Construct the user management object
 
 =cut
 
-our @_newParameters = qw( session );
-has session => (
-    is       => 'ro',
-    weak_ref => 1,
-    isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1, ),
-);
-has twiki => (
-    is      => 'rw',
-    lazy    => 1,
-    default => sub { return $_[0]->session; },
-);
+#our @_newParameters = qw( session );
 has _haveCookie => (
     is      => 'rw',
     lazy    => 1,
@@ -209,18 +198,19 @@ sub BUILD {
     $Foswiki::cfg{Session}{filePermission} = 0600
       unless defined $Foswiki::cfg{Session}{filePermission};
 
-    $this->session->leaveContext('can_login');
+    $this->app->leaveContext('can_login');
     map { $this->_authScripts->{$_} = 1; }
       split( /[\s,]+/, $Foswiki::cfg{AuthScripts} );
 
     # register tag handlers and values
-    Foswiki::registerTagHandler( 'LOGINURL',         \&_LOGINURL );
-    Foswiki::registerTagHandler( 'LOGIN',            \&_LOGIN );
-    Foswiki::registerTagHandler( 'LOGOUT',           \&_LOGOUT );
-    Foswiki::registerTagHandler( 'LOGOUTURL',        \&_LOGOUTURL );
-    Foswiki::registerTagHandler( 'SESSION_VARIABLE', \&_SESSION_VARIABLE );
-    Foswiki::registerTagHandler( 'AUTHENTICATED',    \&_AUTHENTICATED );
-    Foswiki::registerTagHandler( 'CANLOGIN',         \&_CANLOGIN );
+    my $macros = $this->app->macros;
+    $macros->registerTagHandler( 'LOGINURL',         \&_LOGINURL );
+    $macros->registerTagHandler( 'LOGIN',            \&_LOGIN );
+    $macros->registerTagHandler( 'LOGOUT',           \&_LOGOUT );
+    $macros->registerTagHandler( 'LOGOUTURL',        \&_LOGOUTURL );
+    $macros->registerTagHandler( 'SESSION_VARIABLE', \&_SESSION_VARIABLE );
+    $macros->registerTagHandler( 'AUTHENTICATED',    \&_AUTHENTICATED );
+    $macros->registerTagHandler( 'CANLOGIN',         \&_CANLOGIN );
 
     return $this;
 }
@@ -248,7 +238,7 @@ sub DEMOLISH {
 
 =begin TML
 
----++ ClassMethod _real_trace ($session, $impl)
+---++ ClassMethod _real_trace ($app, $impl)
 
 Construct the user management object
 
@@ -271,7 +261,7 @@ else {
 
 =begin TML
 
----++ ClassMethod _IP2SID ($session, $impl)
+---++ ClassMethod _IP2SID ($app, $impl)
 
  read/write IP to SID map, return SID
 
@@ -280,7 +270,7 @@ else {
 sub _IP2SID {
     my ( $this, $sid ) = @_;
 
-    my $ip = $this->session->request->address;
+    my $ip = $this->app->request->address;
 
     return unless $ip;    # no IP address, can't map
 
@@ -327,7 +317,7 @@ passed in here.
 
 sub loadSession {
     my ( $this, $defaultUser, $pwchecker ) = @_;
-    my $session = $this->session;
+    my $app = $this->app;
 
     _trace( $this, "loadSession" );
 
@@ -354,10 +344,10 @@ sub loadSession {
 
     # Client sessions processing either cookie or IP2SID based:
     if (   $Foswiki::cfg{UseClientSessions}
-        && !$session->inContext('command_line')
+        && !$app->inContext('command_line')
         && $Foswiki::cfg{WorkingDir} )
     {
-        $this->_haveCookie( $session->request->header('Cookie') );
+        $this->_haveCookie( $app->request->header('Cookie') );
 
         _trace( $this,
             $this->_haveCookie
@@ -391,7 +381,7 @@ sub loadSession {
 
                 # IP mapping is off; use the request cookie
                 $this->_cgisession(
-                    $this->_loadCreateCGISession( $session->request ) );
+                    $this->_loadCreateCGISession( $app->request ) );
 
             }
 
@@ -438,7 +428,7 @@ sub loadSession {
         # Note that this code only applies to scripts other than login.
         # The login script is handled separately.
 
-        my $script = $session->request->base_action();
+        my $script = $app->request->base_action();
 
         my $login;    # username from CLI/URI parameters
         my $pass;     # password from CLI/URI parameters
@@ -450,12 +440,12 @@ sub loadSession {
         #  - -username/-password parameters allow
         #    CLI to use conventional authentication
 
-        if (   $session->inContext('command_line')
-            && $session->request->param('username') )
+        if (   $app->inContext('command_line')
+            && $app->request->param('username') )
         {
-            $login = $session->request->param('username');
-            $pass = $session->request->param('password') || '';
-            $session->request->delete( 'username', 'password' );
+            $login = $app->request->param('username');
+            $pass = $app->request->param('password') || '';
+            $app->request->delete( 'username', 'password' );
 
             # CLI defaults to Admin User,  but if a
             # user/pass was provided on the cli,  and was wrong,
@@ -475,19 +465,19 @@ sub loadSession {
         # them being accessed later.
 
         if ( !$login ) {
-            if (   defined $session->request->param('username')
+            if (   defined $app->request->param('username')
                 && defined $Foswiki::cfg{Session}{AcceptUserPwParam}
                 && $script =~ m/$Foswiki::cfg{Session}{AcceptUserPwParam}/ )
             {
                 if (
                     $Foswiki::cfg{Session}{AcceptUserPwParamOnGET}
-                    || ( defined $session->request->method()
-                        && uc( $session->request->method() ) eq 'POST' )
+                    || ( defined $app->request->method()
+                        && uc( $app->request->method() ) eq 'POST' )
                   )
                 {
-                    $login = $session->request->param('username');
-                    $pass  = $session->request->param('password');
-                    $session->request->delete( 'username', 'password' );
+                    $login = $app->request->param('username');
+                    $pass  = $app->request->param('password');
+                    $app->request->delete( 'username', 'password' );
                     _trace( $this,
                         "URI Credentials $login accepted for further validation"
                     );
@@ -499,7 +489,7 @@ sub loadSession {
         # Nothing was in the query params. Check query headers.
         if ( !$login ) {
 
-            my $auth = $session->request->http('X-Authorization');
+            my $auth = $app->request->http('X-Authorization');
             if ( defined $auth ) {
                 _trace( $this, "X-Authorization: $auth" );
                 if ( $auth =~ m/^FoswikiBasic (.+)$/ ) {
@@ -532,7 +522,7 @@ sub loadSession {
                 #    $res->header( -type => 'text/html', -status => '401' );
                 #    throw Foswiki::EngineException( 401, $err, $res );
                 # but it would be wrong, because it would require the
-                # exception to be handled before the session object is
+                # exception to be handled before the app object is
                 # properly initialised, which would cause an error.
                 # Instead, we do this, and let the caller handle the error.
                 undef $login;
@@ -543,7 +533,7 @@ sub loadSession {
         else {
 
             # Last ditch attempt; if a user was passed in to this function,
-            # then use it (it is normally {remoteUser} from the session object
+            # then use it (it is normally {remoteUser} from the app object
             # or the -user parameter in the command_line (defaults to admin)
             # Also used in unit tests when creating a newFoswikiSession
             $authUser = $defaultUser;
@@ -560,8 +550,8 @@ sub loadSession {
     if (
         ( $authUser && $authUser ne $Foswiki::cfg{DefaultUserLogin} )
         && (   $this->_cgisession
-            && $session->request
-            && $session->request->param('logout') )
+            && $app->request
+            && $app->request->param('logout') )
       )
     {
 
@@ -572,7 +562,7 @@ sub loadSession {
 
         if ($sudoUser) {
             _trace( $this, "User is logging out from $sudoUser" );
-            $session->logger->log(
+            $app->logger->log(
                 {
                     level  => 'info',
                     action => 'sudo logout',
@@ -588,7 +578,7 @@ sub loadSession {
               $this->redirectToLoggedOutUrl( $authUser, $defaultUser );
         }
     }
-    $session->request->delete('logout');
+    $app->request->delete('logout');
 
     # SMELL:  EXPERIMENTAL - Guest sessions can be made optional:
     #  - unset $Foswiki::cfg{Sessions}{EnableGuestSessions}
@@ -613,7 +603,7 @@ sub loadSession {
     }
 
     if ( $this->_cgisession ) {
-        $session->prefs->setInternalPreferences(
+        $app->prefs->setInternalPreferences(
             SESSIONID  => $this->_cgisession->id(),
             SESSIONVAR => $CGI::Session::NAME
         );
@@ -621,7 +611,7 @@ sub loadSession {
         # Restore CGI Session parameters
         for ( $this->_cgisession->param ) {
             my $value = $this->_cgisession->param($_);
-            $session->prefs->setInternalPreferences( $_ => $value );
+            $app->prefs->setInternalPreferences( $_ => $value );
             $this->_trace( "Setting internal preference $_ to "
                   . ( $value ? $value : 'null' ) );
         }
@@ -653,11 +643,11 @@ sub redirectToLoggedOutUrl {
     my ( $this, $authUser, $defaultUser ) = @_;
     _trace( $this, "User is logging out" );
 
-    my $session = $this->session;
+    my $app = $this->app;
     $defaultUser = $Foswiki::cfg{DefaultUserLogin}
       unless ( defined($defaultUser) );
 
-    $session->logger->log(
+    $app->logger->log(
         {
             level  => 'info',
             action => 'logout',
@@ -667,12 +657,12 @@ sub redirectToLoggedOutUrl {
     );
 
     #TODO: consider if we should risk passing on the urlparams on logout
-    my $path_info = Foswiki::urlDecode( $session->request->path_info() );
-    if ( my $topic = $session->request->param('topic') )
+    my $path_info = Foswiki::urlDecode( $app->request->path_info() );
+    if ( my $topic = $app->request->param('topic') )
     {    #we should at least respect the ?topic= request
         my $topicRequest = Foswiki::Sandbox::untaintUnchecked($topic);
         ( my $web, $topic ) =
-          $this->session->normalizeWebTopicName( undef, $topicRequest );
+          $this->app->normalizeWebTopicName( undef, $topicRequest );
         $path_info = '/' . $web . '/' . $topic;
     }
 
@@ -687,20 +677,20 @@ sub redirectToLoggedOutUrl {
 
         # ForceDefaultUrlHost enabled - probably a reverse proxy.
         $path_info ||= '';
-        my $action = $session->request->{action} || 'view';
-        $redirectUrl = $session->getScriptUrl( '1', $action ) . $path_info;
+        my $action = $app->request->action || 'view';
+        $redirectUrl = $app->getScriptUrl( '1', $action ) . $path_info;
     }
     elsif ($path_info) {
-        $redirectUrl = $session->request->url() . $path_info;
+        $redirectUrl = $app->request->url() . $path_info;
     }
     else {
-        $redirectUrl = $session->request->referer();
+        $redirectUrl = $app->request->referer();
     }
 
     #lets avoid infinite loops
-    $session->request->delete('logout');
+    $app->request->delete('logout');
     $authUser = $defaultUser;
-    $session->redirect( $redirectUrl, 0 );
+    $app->redirect( $redirectUrl, 0 );
 
     return $authUser;
 }
@@ -718,12 +708,12 @@ sub checkAccess {
 
     return unless ( $Foswiki::cfg{UseClientSessions} );
 
-    my $this    = shift;
-    my $session = $this->session;
+    my $this = shift;
+    my $app  = $this->app;
 
-    return if $session->inContext('command_line');
+    return if $app->inContext('command_line');
 
-    unless ( $session->inContext('authenticated')
+    unless ( $app->inContext('authenticated')
         || $Foswiki::cfg{LoginManager} eq 'none' )
     {
 
@@ -731,13 +721,13 @@ sub checkAccess {
         # request *before* any request cache was restored. Otherwise
         # you can end up with an infinite loop - see
         # Foswiki:Development.FoswikiRedirectCache
-        my $action = $session->request->base_action();
+        my $action = $app->request->base_action();
 
         if ( defined $action && $this->_authScripts->{$action} ) {
-            my $topic = $session->topicName;
-            my $web   = $session->webName;
+            my $topic = $app->topicName;
+            my $web   = $app->webName;
             require Foswiki::AccessControlException;
-            throw Foswiki::AccessControlException( $action, $session->user,
+            throw Foswiki::AccessControlException( $action, $app->user,
                 $web, $topic, $action . ' requires authentication' );
         }
     }
@@ -833,16 +823,16 @@ sub userLoggedIn {
           . ( $authUser || 'undef' ) . " - "
           . ( $wikiName || 'undef' ) );
 
-    my $session = $this->session;
-    if ( $session->users ) {
-        $session->user( $session->users->getCanonicalUserID($authUser) );
+    my $app = $this->app;
+    if ( $app->users ) {
+        $app->user( $app->users->getCanonicalUserID($authUser) );
     }
 
-    if ( $session->inContext('command_line') ) {
+    if ( $app->inContext('command_line') ) {
 
         # Command line is automatically 'authenticated' unless the guest user
         # is explicitly requested.  No need for cgi sessions so just return.
-        $session->enterContext('authenticated')
+        $app->enterContext('authenticated')
           if ( $authUser && $authUser ne $Foswiki::cfg{DefaultUserLogin} );
         _trace( $this,
             'userLoggedIn: CLI Session established for: ' . $authUser );
@@ -856,8 +846,7 @@ sub userLoggedIn {
 
             _trace( $this,
                 "Creating a new client session - _cgisession is empty" );
-            $this->_cgisession(
-                $this->_loadCreateCGISession( $session->request ) );
+            $this->_cgisession( $this->_loadCreateCGISession( $app->request ) );
 
             die Foswiki::LoginManager::Session->errstr()
               unless $this->_cgisession;
@@ -868,13 +857,13 @@ sub userLoggedIn {
       || $Foswiki::cfg{DefaultUserLogin};
 
     _trace( $this, "====   Initial user is $sessUser" );
-    _trace( $this, "====   Remote user is " . $session->request->remoteUser() )
-      if defined $session->request->remoteUser();
+    _trace( $this, "====   Remote user is " . $app->request->remoteUser() )
+      if defined $app->request->remoteUser();
 
     if ( $authUser && $authUser ne $Foswiki::cfg{DefaultUserLogin} ) {
         _trace( $this,
                 'Authenticated; converting from '
-              . ( $session->remoteUser || $sessUser || 'undef' ) . ' to '
+              . ( $app->remoteUser || $sessUser || 'undef' ) . ' to '
               . $authUser
               . ' - default '
               . $Foswiki::cfg{DefaultUserLogin} );
@@ -882,26 +871,26 @@ sub userLoggedIn {
         # SMELL: right now anyone that makes a template login url can log
         # in multiple times - should i forbid it
         if ( $Foswiki::cfg{UseClientSessions} ) {
-            if ( defined( $session->remoteUser )
-                && $session->inContext('sudo_login') )
+            if ( defined( $app->remoteUser )
+                && $app->inContext('sudo_login') )
             {
-                $session->logger->log(
+                $app->logger->log(
                     {
                         level  => 'info',
                         action => 'sudo login',
-                        extra  => 'from ' . ( $session->remoteUser || '' ),
+                        extra  => 'from ' . ( $app->remoteUser || '' ),
                         user   => $authUser
                     }
                 );
                 $this->_cgisession->param( 'SUDOFROMAUTHUSER',
-                    $session->remoteUser );
+                    $app->remoteUser );
             }
 
             # SMELL: these are bare logins, so if and when there are
             # multiple usermappings, this would need to include cUID..
             $this->_cgisession->param( 'AUTHUSER', $authUser );
         }
-        $session->enterContext('authenticated');
+        $app->enterContext('authenticated');
     }
     else {
         _trace( $this, "Session is NOT authenticated" );
@@ -909,7 +898,7 @@ sub userLoggedIn {
         # if we are not authenticated, expire any existing session
         $this->_cgisession->clear( ['AUTHUSER'] )
           if ( $Foswiki::cfg{UseClientSessions} );
-        $session->leaveContext('authenticated');
+        $app->leaveContext('authenticated');
     }
     if ( $Foswiki::cfg{UseClientSessions} ) {
 
@@ -931,7 +920,7 @@ sub userLoggedIn {
 
             {
                 $this->_cgisession(
-                    $this->_loadCreateCGISession( $session->request ) );
+                    $this->_loadCreateCGISession( $app->request ) );
                 _trace( $this,
                     "Changed SID from $oldid to " . $this->_cgisession->id() );
                 foreach my $key ( keys %$dataref ) {
@@ -966,7 +955,7 @@ sub _myScriptURLRE {
 
     my $s = $this->_MYSCRIPTURL;
     unless ($s) {
-        $s = quotemeta( $this->session->getScriptUrl( 1, $M1, $M2, $M3 ) );
+        $s = quotemeta( $this->app->getScriptUrl( 1, $M1, $M2, $M3 ) );
         $s =~ s@\\$M1@[^/]*?@go;
         $s =~ s@\\$M2@[^/]*?@go;
         $s =~ s@\\$M3@[^#\?/]*@go;
@@ -1071,7 +1060,7 @@ sub endRenderingHandler {
     return unless ( $Foswiki::cfg{UseClientSessions} );
 
     my $this = shift;
-    return if $this->session->inContext('command_line');
+    return if $this->app->inContext('command_line');
 
     # If cookies are not turned on and transparent CGI session IDs are,
     # grab every URL that is an internal link and pass a CGI variable
@@ -1155,7 +1144,7 @@ sub _addSessionCookieToResponse {
         -path     => '/',
         -domain   => $Foswiki::cfg{Sessions}{CookieRealm} || '',
         -httponly => 1,
-        -secure   => $this->session->request->secure,
+        -secure   => $this->app->request->secure,
     );
 
     # An expiry time is only set if the session has the REMEMBER variable
@@ -1175,7 +1164,7 @@ sub _addSessionCookieToResponse {
         $cookie->expires($exp);
     }
 
-    $this->session->response->cookies( [$cookie] );
+    $this->app->response->cookies( [$cookie] );
 }
 
 sub _delSessionCookieFromResponse {
@@ -1189,11 +1178,11 @@ sub _delSessionCookieFromResponse {
         -path     => '/',
         -domain   => $Foswiki::cfg{Sessions}{CookieRealm} || '',
         -httponly => 1,
-        -secure   => $this->session->request->secure,
+        -secure   => $this->app->request->secure,
         -expires  => '-1d'
     );
 
-    $this->session->response->cookies( [$cookie] );
+    $this->app->response->cookies( [$cookie] );
 }
 
 =begin TML
@@ -1393,14 +1382,14 @@ sub isValidLoginName {
 sub _LOGIN {
 
     #my( $session, $params, $topic, $web ) = @_;
-    my $session = shift;
-    my $this    = $session->getLoginManager();
+    my $app  = shift;
+    my $this = $app->getLoginManager();
 
-    return '' if $session->inContext('authenticated');
+    return '' if $app->inContext('authenticated');
 
     my $url = $this->loginUrl();
     if ($url) {
-        my $text = $session->templates->expandTemplate('LOG_IN');
+        my $text = $app->templates->expandTemplate('LOG_IN');
         return CGI::a( { href => $url }, $text );
     }
     return '';
@@ -1414,13 +1403,13 @@ sub _LOGIN {
 =cut
 
 sub _LOGOUTURL {
-    my ( $session, $params, $topic, $web ) = @_;
-    my $this = $session->getLoginManager();
+    my ( $app, $params, $topic, $web ) = @_;
+    my $this = $app->getLoginManager();
 
-    return $session->getScriptUrl(
+    return $app->getScriptUrl(
         0, 'view',
-        $session->prefs->getPreference('BASEWEB'),
-        $session->prefs->getPreference('BASETOPIC'),
+        $app->prefs->getPreference('BASEWEB'),
+        $app->prefs->getPreference('BASETOPIC'),
         'logout' => 1
     );
 }
@@ -1433,14 +1422,14 @@ sub _LOGOUTURL {
 =cut
 
 sub _LOGOUT {
-    my ( $session, $params, $topic, $web ) = @_;
-    my $this = $session->getLoginManager();
+    my ( $app, $params, $topic, $web ) = @_;
+    my $this = $app->getLoginManager();
 
-    return '' unless $session->inContext('authenticated');
+    return '' unless $app->inContext('authenticated');
 
     my $url = _LOGOUTURL(@_);
     if ($url) {
-        my $text = $session->templates->expandTemplate('LOG_OUT');
+        my $text = $app->templates->expandTemplate('LOG_OUT');
         return CGI::a( { href => $url }, $text );
     }
     return '';
@@ -1454,10 +1443,10 @@ sub _LOGOUT {
 =cut
 
 sub _AUTHENTICATED {
-    my ( $session, $params ) = @_;
-    my $this = $session->getLoginManager();
+    my ( $app, $params ) = @_;
+    my $this = $app->getLoginManager();
 
-    if ( $session->inContext('authenticated') ) {
+    if ( $app->inContext('authenticated') ) {
         return $params->{then} || 1;
     }
     else {
@@ -1472,9 +1461,9 @@ sub _AUTHENTICATED {
 =cut
 
 sub _CANLOGIN {
-    my ( $session, $params ) = @_;
-    my $this = $session->getLoginManager();
-    if ( $session->inContext('can_login') ) {
+    my ( $app, $params ) = @_;
+    my $this = $app->getLoginManager();
+    if ( $app->inContext('can_login') ) {
         return $params->{then} || 1;
     }
     else {
@@ -1489,8 +1478,8 @@ sub _CANLOGIN {
 =cut
 
 sub _SESSION_VARIABLE {
-    my ( $session, $params ) = @_;
-    my $this = $session->getLoginManager();
+    my ( $app, $params ) = @_;
+    my $this = $app->getLoginManager();
     my $name = $params->{_DEFAULT};
 
     if ( defined $name ) {
@@ -1520,8 +1509,8 @@ sub _SESSION_VARIABLE {
 =cut
 
 sub _LOGINURL {
-    my ( $session, $params ) = @_;
-    my $this = $session->users->getLoginManager();
+    my ( $app, $params ) = @_;
+    my $this = $app->users->getLoginManager();
     return $this->loginUrl();
 }
 
@@ -1536,9 +1525,9 @@ sub _dispLogon {
 
     return '' unless $this->_has_cgisession;
 
-    my $session   = $this->session;
-    my $topic     = $session->topicName;
-    my $web       = $session->webName;
+    my $app       = $this->app;
+    my $topic     = $app->topicName;
+    my $web       = $app->webName;
     my $sessionId = $this->_cgisession->id();
 
     my $urlToUse = $this->loginUrl();
@@ -1547,7 +1536,7 @@ sub _dispLogon {
         $urlToUse = _rewriteURL( $this, $urlToUse );
     }
 
-    my $text = $session->templates->expandTemplate('LOG_IN');
+    my $text = $app->templates->expandTemplate('LOG_IN');
     return CGI::a( { class => 'foswikiAlert', href => $urlToUse }, $text );
 }
 
@@ -1561,11 +1550,11 @@ TODO: what does it do?
 =cut
 
 sub _skinSelect {
-    my $this    = shift;
-    my $session = $this->session;
-    my $skins   = $session->prefs->getPreference('SKINS');
-    my $skin    = $session->getSkin();
-    my @skins   = split( /,/, $skins );
+    my $this  = shift;
+    my $app   = $this->app;
+    my $skins = $app->prefs->getPreference('SKINS');
+    my $skin  = $app->getSkin();
+    my @skins = split( /,/, $skins );
     unshift( @skins, 'default' );
     my $options = '';
     foreach my $askin (@skins) {

@@ -18,7 +18,7 @@ use v5.14;
 use Assert;
 
 use Moo;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -29,18 +29,13 @@ BEGIN {
 
 =begin TML
 
----++ ClassMethod new( session => $session ) -> $object
+---++ ClassMethod new( app => $app ) -> $object
 
-Constructs a new password handler of this type, referring to $session
+Constructs a new password handler of this type, referring to $app
 for any required Foswiki services.
 
 =cut
 
-has session => (
-    is       => 'ro',
-    required => 1,
-    weak_ref => 1,
-);
 has error => (
     is      => 'rw',
     clearer => 1,
@@ -59,7 +54,7 @@ Break circular references.
 #sub finish {
 #    my $this = shift;
 #    undef $this->{error};
-#    undef $this->{session};
+#    undef $this->{app};
 #}
 
 =begin TML
@@ -67,7 +62,7 @@ Break circular references.
 ---++ ObjectMethod readOnly(  ) -> boolean
 
 returns true if the password database is not currently modifyable
-also needs to set $this->{session}->enter_context('passwords_modifyable');
+also needs to set $this->app->enter_context('passwords_modifyable');
 if you want to be able to use the existing TopicUserMappingContrib ChangePassword topics
 
 =cut

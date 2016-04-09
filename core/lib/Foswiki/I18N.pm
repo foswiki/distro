@@ -16,7 +16,7 @@ use Try::Tiny;
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -40,11 +40,6 @@ has _lh => (
     lazy    => 1,
     clearer => 1,
     builder => '_initLanguageHandler',
-);
-has session => (
-    is       => 'rw',
-    weak_ref => 1,
-    init_arg => 'session',
 );
 
 has _checked_enabled => ( is => 'rw', );
@@ -112,7 +107,7 @@ sub _loadLexicon {
             "
           )
         {
-            $this->session->logger->log( 'warning',
+            $this->app->logger->log( 'warning',
                 "I18N - Error loading language $lang: $@\n" );
         }
     }
@@ -121,7 +116,7 @@ sub _loadLexicon {
 sub _initI18N {
     my $this = shift;
 
-    my $session     = $this->session;
+    my $app         = $this->app;
     my $initialised = 0;
 
     # no languages enabled is the same as disabling
@@ -131,7 +126,7 @@ sub _initI18N {
         $initialised = 1;
         eval "package Foswiki::I18N::Base; use base qw(Locale::Maketext); 1;";
         if ($@) {
-            $session->logger->log( 'error',
+            $app->logger->log( 'error',
                 "I18N: Couldn't load required perl module Locale::Maketext: "
                   . $@
                   . "\nInstall the module or turn off {UserInterfaceInternationalisation}"
@@ -140,7 +135,7 @@ sub _initI18N {
         }
 
         unless ( $Foswiki::cfg{LocalesDir} && -e $Foswiki::cfg{LocalesDir} ) {
-            $session->logger->log( 'error',
+            $app->logger->log( 'error',
 'I18N: {LocalesDir} not configured. Define it or turn off {UserInterfaceInternationalisation}'
             );
             $initialised = 0;
@@ -152,7 +147,7 @@ sub _initI18N {
 "package Foswiki::I18N::Base; use Locale::Maketext::Lexicon{ en => [ 'Auto' ] } ; 1;";
         if ($@) {
             $initialised = 0;
-            $session->logger->log( 'error',
+            $app->logger->log( 'error',
                     "I18N - Couldn't load default English messages: $@\n"
                   . "Install Locale::Maketext::Lexicon or turn off {UserInterfaceInternationalisation}"
             );
@@ -177,7 +172,7 @@ sub _initI18N {
 sub _initLanguageHandler {
     my $this = shift;
 
-    my $session = $this->session;
+    my $app = $this->app;
     my $lh;
 
     # guesses the language from the CGI environment
@@ -185,9 +180,9 @@ sub _initLanguageHandler {
     #   web/user/session setting must override the language detected from the
     #   browser.
     if ( $this->_initialised ) {
-        $session->enterContext('i18n_enabled');
+        $app->enterContext('i18n_enabled');
         my $userLanguage =
-          _normalize_language_tag( $session->prefs->getPreference('LANGUAGE') );
+          _normalize_language_tag( $app->prefs->getPreference('LANGUAGE') );
         if ($userLanguage) {
             $lh = Foswiki::I18N::Base->get_handle($userLanguage);
         }
@@ -212,7 +207,7 @@ sub _initLanguageHandler {
 
         # we couldn't initialise 'optional' I18N infrastructure, warn that we
         # can only use English if I18N has been requested with configure
-        $session->logger->log( 'warning',
+        $app->logger->log( 'warning',
             'Could not load I18N infrastructure; falling back to English' )
           if $Foswiki::cfg{UserInterfaceInternationalisation};
     }
@@ -235,10 +230,10 @@ around BUILDARGS => sub {
 
 =begin TML
 
----++ ClassMethod new ( $session )
+---++ ClassMethod new ( app => $app )
 
 Constructor. Gets the language object corresponding to the current users
-language. If $session is not a Foswiki object reference, just calls
+language. If $app is not a Foswiki::App object reference, just calls
 Local::Maketext::new (the superclass constructor)
 
 =cut

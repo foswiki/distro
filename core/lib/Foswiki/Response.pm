@@ -22,7 +22,7 @@ use CGI::Util ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -219,6 +219,59 @@ sub getHeader {
     else {
         return;
     }
+}
+
+=begin TML
+
+---++ ObjectMethod generateHTTPHeaders( \%hopts )
+
+All parameters are optional.
+   * =\%hopts - optional ref to partially filled in hash of headers (will be written to)
+
+=cut
+
+sub generateHTTPHeaders {
+    my ( $this, $hopts ) = @_;
+
+    my $app = $this->app;
+
+    $hopts ||= {};
+
+    # DEPRECATED plugins header handler. Plugins should use
+    # modifyHeaderHandler instead.
+    my $pluginHeaders =
+      $app->plugins->dispatch( 'writeHeaderHandler', $this->request )
+      || '';
+    if ($pluginHeaders) {
+        foreach ( split /\r?\n/, $pluginHeaders ) {
+
+            # Implicit untaint OK; data from plugin handler
+            if (m/^([\-a-z]+): (.*)$/i) {
+                $hopts->{$1} = $2;
+            }
+        }
+    }
+
+    my $contentType = $hopts->{'Content-Type'};
+    $contentType = 'text/html' unless $contentType;
+    $contentType .= '; charset=utf-8'
+      if $contentType =~ m!^text/!
+      && $contentType !~ /\bcharset\b/;
+
+    # use our version of the content type
+    $hopts->{'Content-Type'} = $contentType;
+
+    $hopts->{'X-FoswikiAction'} = $this->request->action;
+    $hopts->{'X-FoswikiURI'}    = $this->request->uri;
+
+    # Turn off XSS protection in DEBUG so it doesn't mask problems
+    $hopts->{'X-XSS-Protection'} = 0 if DEBUG;
+
+    $app->plugins->dispatch( 'modifyHeaderHandler', $hopts, $this->request );
+
+    # The headers method resets all headers to what we pass
+    # what we want is simply ensure our headers are there
+    $this->setDefaultHeaders($hopts);
 }
 
 =begin TML

@@ -19,7 +19,7 @@ use Foswiki::Plugin ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 use Assert;
 
@@ -51,13 +51,6 @@ my %onlyOnceHandlers = (
     renderWikiWordHandler         => 1,
 );
 
-has session => (
-    is       => 'rw',
-    weak_ref => 1,
-    required => 1,
-    clearer  => 1,
-    isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1, ),
-);
 has registeredHandlers => (
     is      => 'rw',
     lazy    => 1,
@@ -75,7 +68,7 @@ has plugins => (
 
 ---++ PUBLIC $SESSION
 
-This is a reference to the Foswiki session object. It can be used in
+This is a reference to the Foswiki app object. It can be used in
 plugins to get at the methods of the Foswiki kernel.
 
 You are _highly_ recommended to only use the methods in the
@@ -84,11 +77,11 @@ as kernel methods may change between Foswiki releases.
 
 =cut
 
-our $SESSION;
+#our $SESSION;
 
 =begin TML
 
----++ ClassMethod new( session => $session )
+---++ ClassMethod new( app => $app )
 
 Construct new singleton plugins collection object. The object is a
 container for a list of plugins and the handlers registered by the plugins.
@@ -142,8 +135,8 @@ sub preload {
     my %lookup;
     our @pluginList = ();
 
-    my $session = $this->session;
-    my $query   = $session->request;
+    my $app   = $this->app;
+    my $query = $app->request;
 
     my %already;
     unless ( $Foswiki::cfg{DisableAllPlugins} ) {
@@ -208,7 +201,7 @@ sub preload {
         unless ( $p = $lookup{$pn} ) {
 
             # The 'new' will call the preload handler
-            $p = new Foswiki::Plugin( session => $session, name => $pn );
+            $p = $this->create( 'Foswiki::Plugin', name => $pn );
         }
         push @{ $this->plugins }, $p;
         $lookup{$pn} = $p;
@@ -232,7 +225,7 @@ If allDisabled is set, no plugin handlers will be called.
 sub load {
     my ($this) = @_;
 
-    my $session = $this->session;
+    my $app = $this->app;
 
     # Uncomment this to monitor plugin load times
     #Monitor::MARK('About to initPlugins');
@@ -256,8 +249,7 @@ sub load {
 
         # Report initialisation errors
         if ( $p->{errors} && @{ $p->{errors} } ) {
-            $this->session->logger->log( 'error',
-                join( "\n", @{ $p->{errors} } ) );
+            $this->app->logger->log( 'error', join( "\n", @{ $p->{errors} } ) );
         }
 
         # Uncomment this to monitor plugin load times
@@ -279,8 +271,9 @@ sub settings {
     my $this = shift;
 
     # Set the session for this call stack
-    local $Foswiki::Plugins::SESSION = $this->session;
-    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
+    # SMELL XXX Do we really need this?
+    #local $Foswiki::Plugins::SESSION = $this->app;
+    #ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki::App') ) if DEBUG;
 
     foreach my $plugin ( @{ $this->plugins } ) {
         $plugin->registerSettings($this);
@@ -297,19 +290,19 @@ Initialisation that is done after the user is known.
 
 sub enable {
     my $this     = shift;
-    my $prefs    = $this->session->prefs;
+    my $prefs    = $this->app->prefs;
     my $dissed   = $prefs->getPreference('DISABLEDPLUGINS') || '';
     my %disabled = map { s/^\s+//; s/\s+$//; $_ => 1 } split( /,/, $dissed );
 
-    # Set the session for this call stack
-    local $Foswiki::Plugins::SESSION = $this->session;
-    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
+    # Set the app for this call stack
+    #local $Foswiki::Plugins::SESSION = $this->session;
+    #ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
     foreach my $plugin ( @{ $this->plugins } ) {
         if ( $disabled{ $plugin->{name} } ) {
             $plugin->{disabled} = 1;
             $plugin->{reason} =
-              $this->session->i18n->maketext(
+              $this->app->i18n->maketext(
                 'See the DISABLEDPLUGINS preference setting.');
             push(
                 @{ $plugin->{errors} },
@@ -322,7 +315,7 @@ sub enable {
 
         # Report initialisation errors
         if ( $plugin->{errors} && @{ $plugin->{errors} } ) {
-            $this->session->logger->log( 'warning',
+            $this->app->logger->log( 'warning',
                 join( "\n", @{ $plugin->{errors} } ) );
         }
     }
@@ -385,9 +378,9 @@ sub dispatch {
     foreach my $plugin ( @{ $this->registeredHandlers->{$handlerName} } ) {
 
         # Set the value of $SESSION for this call stack
-        local $SESSION = $this->session;
-        ASSERT( $SESSION && $Foswiki::Plugins::SESSION->isa('Foswiki') )
-          if DEBUG;
+        #local $SESSION = $this->app;
+        #ASSERT( $SESSION && $Foswiki::Plugins::SESSION->isa('Foswiki') )
+        #  if DEBUG;
 
         # apply handler on the remaining list of args
         no strict 'refs';
@@ -421,11 +414,12 @@ sub haveHandlerFor {
 # about them
 #
 sub _handleRESTHANDLERS {
-    my $this = shift->plugins;
+    my $app  = shift;
+    my $this = $app->plugins;
 
     return
 '%MAKETEXT{"The details about REST Handlers are only available to users with Admin authority."}%'
-      unless ( $SESSION->users->isAdmin( $SESSION->user ) );
+      unless ( $app->users->isAdmin( $app->user ) );
 
     require Foswiki::UI::Rest;
     my $restHandlers = Foswiki::UI::Rest::getRegisteredHandlers();
@@ -462,15 +456,16 @@ DONE
 }
 
 # %FAILEDPLUGINS reports reasons why plugins failed to load
-# note this is invoked with the session as the first parameter
+# note this is invoked with the app as the first parameter
 sub _handleFAILEDPLUGINS {
-    my $this = shift->plugins;
+    my $app  = shift;
+    my $this = $app->plugins;
 
     my $text = CGI::start_table(
         {
             border  => 1,
             class   => 'foswikiTable',
-            summary => $this->session->i18n->maketext("Failed plugins")
+            summary => $this->app->i18n->maketext("Failed plugins")
         }
     ) . CGI::Tr( {}, CGI::th( {}, 'Plugin' ) . CGI::th( {}, 'Errors' ) );
 
@@ -489,7 +484,7 @@ sub _handleFAILEDPLUGINS {
         }
         my $web     = $plugin->topicWeb();
         my $modname = '';
-        if ( $SESSION->users->isAdmin( $SESSION->user ) ) {
+        if ( $app->users->isAdmin( $app->user ) ) {
             if ( $Foswiki::cfg{Plugins}{ $plugin->{name} }{Module} ) {
                 $modname =
                   $Foswiki::cfg{Plugins}{ $plugin->{name} }{Module} . ' ';
@@ -516,7 +511,7 @@ sub _handleFAILEDPLUGINS {
         {
             border  => 1,
             class   => 'foswikiTable',
-            summary => $this->session->i18n->maketext("Plugin handlers")
+            summary => $this->app->i18n->maketext("Plugin handlers")
         }
       ) . CGI::Tr( {}, CGI::th( {}, 'Handler' ) . CGI::th( {}, 'Plugins' ) );
 
@@ -548,7 +543,7 @@ sub _handleFAILEDPLUGINS {
       . " plugins*\n\n";
 }
 
-# note this is invoked with the session as the first parameter
+# note this is invoked with the app as the first parameter
 sub _handlePLUGINDESCRIPTIONS {
     my $this = shift->plugins;
     my $text = '';
@@ -559,7 +554,7 @@ sub _handlePLUGINDESCRIPTIONS {
     return CGI::ul( {}, $text );
 }
 
-# note this is invoked with the session as the first parameter
+# note this is invoked with the app as the first parameter
 sub _handleACTIVATEDPLUGINS {
     my $this = shift->plugins;
     my $text = '';

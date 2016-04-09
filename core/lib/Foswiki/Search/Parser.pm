@@ -16,7 +16,7 @@ use Foswiki::Search::Node ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 use Assert;
 
@@ -35,10 +35,6 @@ our $MARKER = "\0";
 
 =cut
 
-has session => (
-    is       => 'rw',
-    weak_ref => 1,
-);
 has initialised => (
     is      => 'rw',
     default => 0,

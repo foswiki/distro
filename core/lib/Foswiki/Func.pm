@@ -76,9 +76,8 @@ BEGIN {
 sub _checkWTA {
     my ( $web, $topic, $attachment ) = @_;
     if ( defined $topic ) {
-        ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-        ( $web, $topic ) =
-          $Foswiki::Plugins::SESSION->normalizeWebTopicName( $web, $topic );
+        ASSERT($Foswiki::app) if DEBUG;
+        ( $web, $topic ) = $Foswiki::app->normalizeWebTopicName( $web, $topic );
     }
     if ( Scalar::Util::tainted($web) ) {
         $web = Foswiki::Sandbox::untaint( $web,
@@ -128,9 +127,9 @@ Return: =$skin= Comma-separated list of skins, e.g. ='gnu,tartan'=. Empty string
 =cut
 
 sub getSkin {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
-    return $Foswiki::Plugins::SESSION->getSkin();
+    return $Foswiki::app->getSkin();
 }
 
 =begin TML
@@ -144,9 +143,9 @@ Return: =$host= URL host, e.g. ="http://example.com:80"=
 =cut
 
 sub getUrlHost {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
-    return $Foswiki::Plugins::SESSION->urlHost;
+    return $Foswiki::app->urlHost;
 }
 
 =begin TML
@@ -177,10 +176,9 @@ sub getScriptUrl {
     my $web    = shift;
     my $topic  = shift;
     my $script = shift;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
-    return $Foswiki::Plugins::SESSION->getScriptUrl( 1, $script, $web, $topic,
-        @_ );
+    return $Foswiki::app->getScriptUrl( 1, $script, $web, $topic, @_ );
 }
 
 =begin TML
@@ -208,10 +206,9 @@ sub getScriptUrlPath {
     my $web    = shift;
     my $topic  = shift;
     my $script = shift;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
-    return $Foswiki::Plugins::SESSION->getScriptUrl( 0, $script, $web, $topic,
-        @_ );
+    return $Foswiki::app->getScriptUrl( 0, $script, $web, $topic, @_ );
 }
 
 =begin TML
@@ -227,9 +224,9 @@ Return: =$url=      URL, e.g. ="http://example.com:80/cgi-bin/view.pl/Main/WebNo
 
 sub getViewUrl {
     my ( $web, $topic ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
-    $web ||= $Foswiki::Plugins::SESSION->webName
+    $web ||= $Foswiki::app->webName
       || $Foswiki::cfg{UsersWebName};
     return getScriptUrl( $web, $topic, 'view' );
 }
@@ -278,7 +275,7 @@ absolute URLs will always be generated.
 =cut
 
 sub getPubUrlPath {
-    return $Foswiki::Plugins::SESSION->getPubURL(@_);
+    return $Foswiki::app->getPubURL(@_);
 }
 
 =begin TML
@@ -332,10 +329,10 @@ if (!$response->is_error() && $response->isa('HTTP::Response')) {
 
 sub getExternalResource {
     my ($url) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app)  if DEBUG;
     ASSERT( defined $url ) if DEBUG;
 
-    return $Foswiki::Plugins::SESSION->net->getExternalResource($url);
+    return $Foswiki::app->net->getExternalResource($url);
 }
 
 =begin TML
@@ -370,8 +367,8 @@ Example:
 =cut
 
 sub getRequestObject {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->request;
+    ASSERT($Foswiki::app) if DEBUG;
+    return $Foswiki::app->request;
 }
 
 =begin TML
@@ -385,9 +382,8 @@ Session keys are stored and retrieved using =setSessionValue= and
 =cut
 
 sub getSessionKeys {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my $hash =
-      $Foswiki::Plugins::SESSION->getLoginManager()->getSessionValues();
+    ASSERT($Foswiki::app) if DEBUG;
+    my $hash = $Foswiki::app->getLoginManager()->getSessionValues();
     return keys %{$hash};
 }
 
@@ -404,9 +400,9 @@ Return: =$value=  Value associated with key; empty string if not set
 sub getSessionValue {
 
     #   my( $key ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
-    return $Foswiki::Plugins::SESSION->getLoginManager()->getSessionValue(@_);
+    return $Foswiki::app->getLoginManager()->getSessionValue(@_);
 }
 
 =begin TML
@@ -423,9 +419,9 @@ Return: true if function succeeded
 sub setSessionValue {
 
     #   my( $key, $value ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
-    $Foswiki::Plugins::SESSION->getLoginManager()->setSessionValue(@_);
+    $Foswiki::app->getLoginManager()->setSessionValue(@_);
 }
 
 =begin TML
@@ -440,9 +436,9 @@ Return: true if the session value was cleared
 =cut
 
 sub clearSessionValue {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
-    return $Foswiki::Plugins::SESSION->getLoginManager()->clearSessionValue(@_);
+    return $Foswiki::app->getLoginManager()->clearSessionValue(@_);
 }
 
 =begin TML
@@ -495,8 +491,8 @@ working, the context ID 'FirstPlugin' will be set.
 =cut
 
 sub getContext {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->context;
+    ASSERT($Foswiki::app) if DEBUG;
+    return $Foswiki::app->context;
 }
 
 =begin TML
@@ -526,7 +522,7 @@ values will be unchanged.
 =cut
 
 sub pushTopicContext {
-    my $session = $Foswiki::Plugins::SESSION;
+    my $session = $Foswiki::app;
     ASSERT($session) if DEBUG;
     my ( $web, $topic ) = _validateWTA(@_);
 
@@ -551,7 +547,7 @@ Returns the Foswiki context to the state it was in before the
 =cut
 
 sub popTopicContext {
-    my $session = $Foswiki::Plugins::SESSION;
+    my $session = $Foswiki::app;
     ASSERT($session) if DEBUG;
     my ( $webName, $topicName ) = $session->prefs->popTopicContext();
     $session->webName($webName);
@@ -626,8 +622,8 @@ Registered tags differ from tags implemented using the old approach (text substi
 
 sub registerTagHandler {
     my ( $tag, $function, $syntax ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
+    ASSERT( $Foswiki::app->isa('Foswiki') ) if DEBUG;
 
     # $pluginContext is undefined if a contrib registers a tag handler.
     my $pluginContext;
@@ -641,7 +637,7 @@ sub registerTagHandler {
         $tag,
         sub {
             my ( $session, $params, $topicObject ) = @_;
-            local $Foswiki::Plugins::SESSION = $session;
+            local $Foswiki::app = $session;
 
             # $pluginContext is defined for all plugins
             # but never defined for contribs.
@@ -753,7 +749,7 @@ For example,
 
 sub registerRESTHandler {
     my ( $alias, $function, %options ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     my $plugin = caller;
     $plugin =~ s/.*:://;    # strip off Foswiki::Plugins:: prefix
 
@@ -763,11 +759,11 @@ sub registerRESTHandler {
     Foswiki::UI::Rest::registerRESTHandler(
         $plugin, $alias,
         sub {
-            my $record = $Foswiki::Plugins::SESSION;
-            $Foswiki::Plugins::SESSION = $_[0];
-            ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
+            my $record = $Foswiki::app;
+            $Foswiki::app = $_[0];
+            ASSERT( $Foswiki::app->isa('Foswiki') ) if DEBUG;
             my $result = &$function(@_);
-            $Foswiki::Plugins::SESSION = $record;
+            $Foswiki::app = $record;
             return $result;
         },
         %options
@@ -819,14 +815,14 @@ preferences set in the plugin topic will be ignored.
 
 sub getPreferencesValue {
     my ( $key, $web ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     if ($web) {
         $web = _checkWTA($web);
         return undef unless defined $web;
 
         # Web preference
         my $webObject = Foswiki::Meta->new(
-            session => $Foswiki::Plugins::SESSION,
+            session => $Foswiki::app,
             web     => $web
         );
         return $webObject->getPreference($key);
@@ -834,7 +830,7 @@ sub getPreferencesValue {
     else {
 
         # Global preference
-        return $Foswiki::Plugins::SESSION->prefs->getPreference($key);
+        return $Foswiki::app->prefs->getPreference($key);
     }
 }
 
@@ -855,11 +851,10 @@ preferences set in the plugin topic will be ignored.
 
 sub getPluginPreferencesValue {
     my ($key) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     my $package = caller;
     $package =~ s/.*:://;    # strip off Foswiki::Plugins:: prefix
-    return $Foswiki::Plugins::SESSION->prefs->getPreference(
-        "\U$package\E_$key");
+    return $Foswiki::app->prefs->getPreference("\U$package\E_$key");
 }
 
 =begin TML
@@ -925,8 +920,7 @@ preferences cannot be redefined using this function.
 
 sub setPreferencesValue {
     my ( $name, $value ) = @_;
-    return $Foswiki::Plugins::SESSION->prefs->setSessionPreferences(
-        $name => $value );
+    return $Foswiki::app->prefs->setSessionPreferences( $name => $value );
 }
 
 =begin TML
@@ -964,20 +958,20 @@ unregistered user.
 
 sub getCanonicalUserID {
     my $user = shift;
-    return $Foswiki::Plugins::SESSION->user unless ($user);
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    return $Foswiki::app->user unless ($user);
+    ASSERT($Foswiki::app) if DEBUG;
     my $cUID;
     if ($user) {
-        $cUID = $Foswiki::Plugins::SESSION->users->getCanonicalUserID($user);
+        $cUID = $Foswiki::app->users->getCanonicalUserID($user);
         if ( !$cUID ) {
 
             # Not a login name or a wiki name. Is it a valid cUID?
-            my $ln = $Foswiki::Plugins::SESSION->users->getLoginName($user);
+            my $ln = $Foswiki::app->users->getLoginName($user);
             $cUID = $user if defined $ln && $ln ne 'unknown';
         }
     }
     else {
-        $cUID = $Foswiki::Plugins::SESSION->user;
+        $cUID = $Foswiki::app->user;
     }
     return $cUID;
 }
@@ -997,14 +991,14 @@ Return: =$wikiName= Wiki Name, e.g. ='JohnDoe'=
 
 sub getWikiName {
     my $user = shift;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     my $cUID = getCanonicalUserID($user);
     unless ( defined $cUID ) {
         my ( $w, $u ) =
           normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $user );
         return $u;
     }
-    return $Foswiki::Plugins::SESSION->users->getWikiName($cUID);
+    return $Foswiki::app->users->getWikiName($cUID);
 }
 
 =begin TML
@@ -1022,14 +1016,14 @@ Return: =$wikiName= Wiki Name, e.g. ="Main.JohnDoe"=
 
 sub getWikiUserName {
     my $user = shift;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     my $cUID = getCanonicalUserID($user);
     unless ( defined $cUID ) {
         my ( $w, $u ) =
           normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $user );
         return "$w.$u";
     }
-    return $Foswiki::Plugins::SESSION->users->webDotWikiName($cUID);
+    return $Foswiki::app->users->webDotWikiName($cUID);
 }
 
 =begin TML
@@ -1054,12 +1048,12 @@ returns undef if the WikiName is not found.
 
 sub wikiToUserName {
     my ($wiki) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     return '' unless $wiki;
 
     my $cUID = getCanonicalUserID($wiki);
     if ($cUID) {
-        my $login = $Foswiki::Plugins::SESSION->users->getLoginName($cUID);
+        my $login = $Foswiki::app->users->getLoginName($cUID);
         return if !$login || $login eq 'unknown';
         return $login;
     }
@@ -1084,8 +1078,8 @@ exist in the mapping, the $loginName parameter is returned. (backward compatibil
 sub userToWikiName {
     my ( $login, $dontAddWeb ) = @_;
     return '' unless $login;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my $users = $Foswiki::Plugins::SESSION->users;
+    ASSERT($Foswiki::app) if DEBUG;
+    my $users = $Foswiki::app->users;
     my $user  = getCanonicalUserID($login);
     return (
           $dontAddWeb
@@ -1112,7 +1106,7 @@ sub emailToWikiNames {
     ASSERT($email) if DEBUG;
 
     my %matches;
-    my $users = $Foswiki::Plugins::SESSION->users;
+    my $users = $Foswiki::app->users;
     my $ua    = $users->findUserByEmail($email);
     if ($ua) {
         foreach my $user (@$ua) {
@@ -1143,22 +1137,20 @@ sub wikinameToEmails {
     my ($wikiname) = @_;
     if ($wikiname) {
         if ( isGroup($wikiname) ) {
-            return $Foswiki::Plugins::SESSION->users->getEmails($wikiname);
+            return $Foswiki::app->users->getEmails($wikiname);
         }
         else {
-            my $uids =
-              $Foswiki::Plugins::SESSION->users->findUserByWikiName($wikiname);
-            my @em = ();
+            my $uids = $Foswiki::app->users->findUserByWikiName($wikiname);
+            my @em   = ();
             foreach my $user (@$uids) {
-                push( @em,
-                    $Foswiki::Plugins::SESSION->users->getEmails($user) );
+                push( @em, $Foswiki::app->users->getEmails($user) );
             }
             return @em;
         }
     }
     else {
-        my $user = $Foswiki::Plugins::SESSION->user;
-        return $Foswiki::Plugins::SESSION->users->getEmails($user);
+        my $user = $Foswiki::app->user;
+        return $Foswiki::app->users->getEmails($user);
     }
 }
 
@@ -1171,9 +1163,8 @@ Test if logged in user is a guest (WikiGuest)
 =cut
 
 sub isGuest {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->user eq
-      $Foswiki::Plugins::SESSION->users->getCanonicalUserID(
+    ASSERT($Foswiki::app) if DEBUG;
+    return $Foswiki::app->user eq $Foswiki::app->users->getCanonicalUserID(
         $Foswiki::cfg{DefaultUserLogin} );
 }
 
@@ -1189,8 +1180,7 @@ the currently logged-in user is assumed.
 
 sub isAnAdmin {
     my $user = shift;
-    return $Foswiki::Plugins::SESSION->users->isAdmin(
-        getCanonicalUserID($user) );
+    return $Foswiki::app->users->isAdmin( getCanonicalUserID($user) );
 }
 
 =begin TML
@@ -1214,7 +1204,7 @@ If =$user= is =undef=, it defaults to the currently logged-in user.
 
 sub isGroupMember {
     my ( $group, $user, $options ) = @_;
-    my $users = $Foswiki::Plugins::SESSION->users;
+    my $users = $Foswiki::app->users;
 
     my $expand = Foswiki::Func::isTrue( $options->{expand}, 1 );
 
@@ -1226,7 +1216,7 @@ sub isGroupMember {
         $user = getCanonicalUserID($user) || $user;
     }
     else {
-        $user = $Foswiki::Plugins::SESSION->user;
+        $user = $Foswiki::app->user;
     }
     return $users->isInGroup( $user, $group, { expand => $expand } );
 }
@@ -1251,9 +1241,9 @@ Use it as follows:
 =cut
 
 sub eachUser {
-    my $it = $Foswiki::Plugins::SESSION->users->eachUser();
+    my $it = $Foswiki::app->users->eachUser();
     $it->{process} = sub {
-        return $Foswiki::Plugins::SESSION->users->getWikiName( $_[0] );
+        return $Foswiki::app->users->getWikiName( $_[0] );
     };
     return $it;
 }
@@ -1269,7 +1259,7 @@ Get an iterator over the names of all groups that the user is a member of.
 
 sub eachMembership {
     my ($user) = @_;
-    my $users = $Foswiki::Plugins::SESSION->users;
+    my $users = $Foswiki::app->users;
 
     if ($user) {
         my $login = wikiToUserName($user);
@@ -1277,7 +1267,7 @@ sub eachMembership {
         $user = getCanonicalUserID($login);
     }
     else {
-        $user = $Foswiki::Plugins::SESSION->user;
+        $user = $Foswiki::app->user;
     }
 
     return $users->eachMembership($user);
@@ -1302,7 +1292,7 @@ Use it as follows:
 =cut
 
 sub eachGroup {
-    my $session = $Foswiki::Plugins::SESSION;
+    my $session = $Foswiki::app;
     my $it      = $session->users->eachGroup();
     return $it;
 }
@@ -1318,7 +1308,7 @@ Checks if =$group= is the name of a user group.
 sub isGroup {
     my ($group) = @_;
 
-    return $Foswiki::Plugins::SESSION->users->isGroup($group);
+    return $Foswiki::app->users->isGroup($group);
 }
 
 =begin TML
@@ -1348,14 +1338,13 @@ sub eachGroupMember {
 
     my $expand = Foswiki::Func::isTrue( $options->{expand}, 1 );
 
-    my $session = $Foswiki::Plugins::SESSION;
+    my $session = $Foswiki::app;
     return
-      unless $Foswiki::Plugins::SESSION->users->isGroup($user);
+      unless $Foswiki::app->users->isGroup($user);
     my $it =
-      $Foswiki::Plugins::SESSION->users->eachGroupMember( $user,
-        { expand => $expand } );
+      $Foswiki::app->users->eachGroupMember( $user, { expand => $expand } );
     $it->{process} = sub {
-        return $Foswiki::Plugins::SESSION->users->getWikiName( $_[0] );
+        return $Foswiki::app->users->getWikiName( $_[0] );
     };
     return $it;
 }
@@ -1370,7 +1359,7 @@ sub eachGroupMember {
 
 sub addUserToGroup {
     my ( $user, $group, $create ) = @_;
-    my $users = $Foswiki::Plugins::SESSION->users;
+    my $users = $Foswiki::app->users;
 
     return () unless ( $users->isGroup($group) || $create );
     if ( defined $user && !$users->isGroup($user) )
@@ -1391,7 +1380,7 @@ sub addUserToGroup {
 
 sub removeUserFromGroup {
     my ( $user, $group ) = @_;
-    my $users = $Foswiki::Plugins::SESSION->users;
+    my $users = $Foswiki::app->users;
 
     return () unless $users->isGroup($group);
 
@@ -1476,22 +1465,21 @@ sub checkAccessPermission {
         return 0 unless ( defined $topic );    #Topic name is illegal
     }
 
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     $text = undef unless $text;
     my $cUID = getCanonicalUserID($user)
       || getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} );
     if ( !defined($meta) ) {
         if ($text) {
             $meta = Foswiki::Meta->new(
-                session => $Foswiki::Plugins::SESSION,
+                session => $Foswiki::app,
                 web     => $web,
                 topic   => $topic,
                 text    => $text
             );
         }
         else {
-            $meta =
-              Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
+            $meta = Foswiki::Meta->load( $Foswiki::app, $web, $topic );
         }
     }
     elsif ($text) {
@@ -1499,7 +1487,7 @@ sub checkAccessPermission {
         # don't alter an existing $meta using the provided text;
         # use a temporary clone instead
         my $tmpMeta = Foswiki::Meta->new(
-            session => $Foswiki::Plugins::SESSION,
+            session => $Foswiki::app,
             web     => $web,
             topic   => $topic,
             text    => $text
@@ -1548,10 +1536,10 @@ sub getListOfWebs {
         $web = _checkWTA($web);
         return () unless defined $web;
     }
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     require Foswiki::WebFilter;
     my $f = new Foswiki::WebFilter( $filter || '' );
-    return $Foswiki::Plugins::SESSION->deepWebList( $f, $web );
+    return $Foswiki::app->deepWebList( $f, $web );
 }
 
 =begin TML
@@ -1584,8 +1572,8 @@ sub webExists {
     my ($web) = _checkWTA(@_);
     return 0 unless defined $web;
 
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->webExists($web);
+    ASSERT($Foswiki::app) if DEBUG;
+    return $Foswiki::app->webExists($web);
 }
 
 =begin TML
@@ -1602,8 +1590,7 @@ sub getTopicList {
 
     my ($web) = _validateWTA(@_);
 
-    my $webObject =
-      Foswiki::Meta->new( session => $Foswiki::Plugins::SESSION, web => $web );
+    my $webObject = Foswiki::Meta->new( session => $Foswiki::app, web => $web );
     my $it = $webObject->eachTopic();
     return $it->all();
 }
@@ -1637,10 +1624,10 @@ To get an expected behaviour it is recommened to specify the current web for $we
 =cut
 
 sub topicExists {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     my ( $web, $topic ) = _checkWTA(@_);
     return 0 unless defined $web && defined $topic;
-    return $Foswiki::Plugins::SESSION->topicExists( $web, $topic );
+    return $Foswiki::app->topicExists( $web, $topic );
 }
 
 =begin TML
@@ -1667,10 +1654,9 @@ sub readTopic {
 
     my ( $web, $topic, $rev ) = @_;
     ( $web, $topic ) = _validateWTA( $web, $topic );
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
-    my $meta =
-      Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic, $rev );
+    my $meta = Foswiki::Meta->load( $Foswiki::app, $web, $topic, $rev );
     return ( $meta, $meta->text() );
 }
 
@@ -1700,22 +1686,20 @@ sub getRevisionInfo {
 
     ( $web, $topic ) = _validateWTA( $web, $topic );
 
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
     my $topicObject;
     my $info;
     if ($attachment) {
-        $topicObject =
-          Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
+        $topicObject = Foswiki::Meta->load( $Foswiki::app, $web, $topic );
         $info = $topicObject->getRevisionInfo( $attachment, $rev );
     }
     else {
-        $topicObject =
-          Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic, $rev );
+        $topicObject = Foswiki::Meta->load( $Foswiki::app, $web, $topic, $rev );
         $info = $topicObject->getRevisionInfo();
     }
     return ( $info->{date},
-        $Foswiki::Plugins::SESSION->users->getWikiName( $info->{author} ),
+        $Foswiki::app->users->getWikiName( $info->{author} ),
         $info->{version}, $info->{comment} );
 }
 
@@ -1735,9 +1719,9 @@ Return: Single-digit revision number, or undef if it couldn't be determined
 sub getRevisionAtTime {
     my ( $web, $topic, $time ) = @_;
     ( $web, $topic ) = _validateWTA( $web, $topic );
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     my $topicObject = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $web,
         topic   => $topic
     );
@@ -1757,7 +1741,7 @@ sub getAttachmentList {
     my ( $web, $topic ) = @_;
     ( $web, $topic ) = _validateWTA( $web, $topic );
     my $topicObject = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $web,
         topic   => $topic
     );
@@ -1785,7 +1769,7 @@ sub attachmentExists {
     return 0 unless defined $web && defined $topic && $attachment;
 
     my $topicObject = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $web,
         topic   => $topic
     );
@@ -1837,20 +1821,20 @@ sub readAttachment {
     ( $web, $topic, $attachment ) = _validateWTA( $web, $topic, $attachment );
     die "Invalid attachment" unless $attachment;
 
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    ASSERT($attachment)                if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
+    ASSERT($attachment)   if DEBUG;
 
     my $result;
 
     my $topicObject = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $web,
         topic   => $topic
     );
     unless ( $topicObject->haveAccess('VIEW') ) {
         Foswiki::AccessControlException->throw(
             mode   => 'VIEW',
-            user   => $Foswiki::Plugins::SESSION->user,
+            user   => $Foswiki::app->user,
             web    => $web,
             topic  => $topic,
             reason => $Foswiki::Meta::reason
@@ -1915,18 +1899,18 @@ sub createWeb {
     if ( defined $baseweb ) {
         ($baseweb) = _validateWTA($baseweb);
     }
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
     my ($parentWeb) = $web =~ m#(.*)/[^/]+$#;
 
     my $rootObject = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $parentWeb
     );
     unless ( $rootObject->haveAccess('CHANGE') ) {
         Foswiki::AccessControlException->throw(
             mode   => 'CHANGE',
-            user   => $Foswiki::Plugins::SESSION->user,
+            user   => $Foswiki::app->user,
             web    => $web,
             topic  => '',
             reason => $Foswiki::Meta::reason
@@ -1934,21 +1918,20 @@ sub createWeb {
     }
 
     my $baseObject = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $baseweb
     );
     unless ( $baseObject->haveAccess('VIEW') ) {
         Foswiki::AccessControlException->throw(
             mode   => 'VIEW',
-            user   => $Foswiki::Plugins::SESSION->user,
+            user   => $Foswiki::app->user,
             web    => $web,
             topic  => '',
             reason => $Foswiki::Meta::reason
         );
     }
 
-    my $webObject =
-      Foswiki::Meta->new( session => $Foswiki::Plugins::SESSION, web => $web );
+    my $webObject = Foswiki::Meta->new( session => $Foswiki::app, web => $web );
     $webObject->populateNewWeb( $baseweb, $opts );
 }
 
@@ -1985,15 +1968,13 @@ Foswiki::Func::moveWeb( "Deadweb", "Trash.Deadweb" );
 =cut
 
 sub moveWeb {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     my ( $from, $to ) = @_;
     ($from) = _validateWTA($from);
     ($to)   = _validateWTA($to);
 
-    $from =
-      Foswiki::Meta->new( session => $Foswiki::Plugins::SESSION, web => $from );
-    $to =
-      Foswiki::Meta->new( session => $Foswiki::Plugins::SESSION, web => $to );
+    $from = Foswiki::Meta->new( session => $Foswiki::app, web => $from );
+    $to   = Foswiki::Meta->new( session => $Foswiki::app, web => $to );
     return $from->move($to);
 
 }
@@ -2012,7 +1993,7 @@ Return: =( $oopsUrl, $loginName, $unlockTime )= - The =$oopsUrl= for calling red
 
 sub checkTopicEditLock {
     my ( $web, $topic, $script ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
     ( $web, $topic ) = _checkWTA( $web, $topic );
     return ( '', '', 0 ) unless defined $web && defined $topic;
@@ -2020,22 +2001,22 @@ sub checkTopicEditLock {
     $script ||= 'edit';
 
     my $topicObject = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $web,
         topic   => $topic
     );
     my $lease = $topicObject->getLease();
     if ($lease) {
         my $remain  = $lease->{expires} - time();
-        my $session = $Foswiki::Plugins::SESSION;
+        my $session = $Foswiki::app;
 
         if ( $remain > 0 ) {
             my $who = $lease->{user};
             require Foswiki::Time;
             my $past = Foswiki::Time::formatDelta( time() - $lease->{taken},
-                $Foswiki::Plugins::SESSION->i18n );
+                $Foswiki::app->i18n );
             my $future = Foswiki::Time::formatDelta( $lease->{expires} - time(),
-                $Foswiki::Plugins::SESSION->i18n );
+                $Foswiki::app->i18n );
             my $url = getScriptUrl(
                 $web, $topic, 'oops',
                 template => 'oopsleaseconflict',
@@ -2072,10 +2053,10 @@ merged.
 
 sub setTopicEditLock {
     my ( $web, $topic, $lock ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     ( $web, $topic ) = _validateWTA( $web, $topic );
     my $topicObject = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $web,
         topic   => $topic
     );
@@ -2115,7 +2096,7 @@ if (Foswiki::Func::topicExists($web, $topic)) {
 } else {
     #if the topic doesn't exist, we can either leave $meta undefined
     #or if we need to set more than just the topic text, we create a new Meta object and use it.
-    $meta = new Foswiki::Meta($Foswiki::Plugins::SESSION, $web, $topic );
+    $meta = new Foswiki::Meta($Foswiki::app, $web, $topic );
     $text = '';
 }
 $text =~ s/APPLE/ORANGE/g;
@@ -2145,10 +2126,10 @@ later.
 
 sub saveTopic {
     my ( $web, $topic, $smeta, $text, $options ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     ( $web, $topic ) = _validateWTA( $web, $topic );
     my $topicObject = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $web,
         topic   => $topic
     );
@@ -2158,7 +2139,7 @@ sub saveTopic {
     {
         Foswiki::AccessControlException->throw(
             mode   => 'CHANGE',
-            user   => $Foswiki::Plugins::SESSION->user,
+            user   => $Foswiki::app->user,
             web    => $web,
             topic  => $topic,
             reason => $Foswiki::Meta::reason
@@ -2217,14 +2198,14 @@ sub moveTopic {
     return if ( $newWeb eq $web && $newTopic eq $topic );
 
     my $from = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $web,
         topic   => $topic
     );
     unless ( $from->haveAccess('CHANGE') ) {
         Foswiki::AccessControlException->throw(
             mode   => 'CHANGE',
-            user   => $Foswiki::Plugins::SESSION->user,
+            user   => $Foswiki::app->user,
             web    => $web,
             topic  => $topic,
             reason => $Foswiki::Meta::reason
@@ -2232,13 +2213,13 @@ sub moveTopic {
     }
 
     my $toWeb = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $newWeb
     );
     unless ( $from->haveAccess('CHANGE') ) {
         Foswiki::AccessControlException->throw(
             mode   => 'CHANGE',
-            user   => $Foswiki::Plugins::SESSION->user,
+            user   => $Foswiki::app->user,
             web    => $newWeb,
             topic  => undef,
             reason => $Foswiki::Meta::reason
@@ -2246,7 +2227,7 @@ sub moveTopic {
     }
 
     my $to = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $newWeb,
         topic   => $newTopic
     );
@@ -2303,16 +2284,16 @@ sub saveAttachment {
     ( $web, $topic, $attachment ) = _validateWTA( $web, $topic, $attachment );
     die "Invalid attachment" unless $attachment;
 
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     my $topicObject = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $web,
         topic   => $topic
     );
     unless ( $topicObject->haveAccess('CHANGE') ) {
         Foswiki::AccessControlException->throw(
             mode   => 'CHANGE',
-            user   => $Foswiki::Plugins::SESSION->user,
+            user   => $Foswiki::app->user,
             web    => $web,
             topic  => $topic,
             reason => $Foswiki::Meta::reason
@@ -2378,11 +2359,11 @@ sub moveAttachment {
         && $newTopic eq $topic
         && $newAttachment eq $attachment );
 
-    my $from = Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
+    my $from = Foswiki::Meta->load( $Foswiki::app, $web, $topic );
     unless ( $from->haveAccess('CHANGE') ) {
         Foswiki::AccessControlException->throw(
             mode  => 'CHANGE',
-            user  => $Foswiki::Plugins::SESSION->user,
+            user  => $Foswiki::app->user,
             web   => $web,
             topic => $topic,
             reson => $Foswiki::Meta::reason
@@ -2398,12 +2379,11 @@ sub moveAttachment {
         $from->moveAttachment( $attachment, $from, @opts );
     }
     else {
-        my $to =
-          Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $newWeb, $newTopic );
+        my $to = Foswiki::Meta->load( $Foswiki::app, $newWeb, $newTopic );
         unless ( $to->haveAccess('CHANGE') ) {
             Foswiki::AccessControlException->throw(
                 mode   => 'CHANGE',
-                user   => $Foswiki::Plugins::SESSION->user,
+                user   => $Foswiki::app->user,
                 web    => $newWeb,
                 topic  => $newTopic,
                 reason => $Foswiki::Meta::reason
@@ -2471,11 +2451,11 @@ sub copyAttachment {
         && $newTopic eq $topic
         && $newAttachment eq $attachment );
 
-    my $from = Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic );
+    my $from = Foswiki::Meta->load( $Foswiki::app, $web, $topic );
     unless ( $from->haveAccess('CHANGE') ) {
         Foswiki::AccessControlException->throw(
             mode   => 'CHANGE',
-            user   => $Foswiki::Plugins::SESSION->user,
+            user   => $Foswiki::app->user,
             web    => $web,
             topic  => $topic,
             reason => $Foswiki::Meta::reason
@@ -2491,12 +2471,11 @@ sub copyAttachment {
         $from->copyAttachment( $attachment, $from, @opts );
     }
     else {
-        my $to =
-          Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $newWeb, $newTopic );
+        my $to = Foswiki::Meta->load( $Foswiki::app, $newWeb, $newTopic );
         unless ( $to->haveAccess('CHANGE') ) {
             Foswiki::AccessControlException->throw(
                 mode   => 'CHANGE',
-                user   => $Foswiki::Plugins::SESSION->user,
+                user   => $Foswiki::app->user,
                 web    => $newWeb,
                 topic  => $newTopic,
                 reason => $Foswiki::Meta::reason
@@ -2563,12 +2542,11 @@ can be assumed.
 
 sub eachChangeSince {
     my ( $web, $time ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     ($web) = _validateWTA($web);
-    ASSERT( $Foswiki::Plugins::SESSION->webExists($web) ) if DEBUG;
+    ASSERT( $Foswiki::app->webExists($web) ) if DEBUG;
 
-    my $webObject =
-      Foswiki::Meta->new( session => $Foswiki::Plugins::SESSION, web => $web );
+    my $webObject = Foswiki::Meta->new( session => $Foswiki::app, web => $web );
     return $webObject->eachChange($time);
 }
 
@@ -2602,7 +2580,7 @@ sub summariseChanges {
     ( $web, $topic ) = _validateWTA( $web, $topic );
 
     my $topicObject = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $web,
         topic   => $topic
     );
@@ -2633,8 +2611,8 @@ Return: =$text=    Template text
 sub readTemplate {
 
     my ( $name, $skin ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->templates->readTemplate(
+    ASSERT($Foswiki::app) if DEBUG;
+    return $Foswiki::app->templates->readTemplate(
         $name,
         skins   => $skin,
         no_oops => 1
@@ -2660,15 +2638,14 @@ If template text is found, extracts include statements and fully expands them.
 =cut
 
 sub loadTemplate {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     my ( $name, $skin, $web ) = @_;
 
     my %opts = ( no_oops => 1 );
     $opts{skins} = $skin if defined $skin;
     ( $opts{web} ) = _validateWTA($web) if defined $web;
 
-    my $tmpl =
-      $Foswiki::Plugins::SESSION->templates->readTemplate( $name, %opts );
+    my $tmpl = $Foswiki::app->templates->readTemplate( $name, %opts );
     $tmpl = '' unless defined $tmpl;
 
     return $tmpl;
@@ -2698,8 +2675,8 @@ eg:
 =cut
 
 sub expandTemplate {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->templates->expandTemplate(@_);
+    ASSERT($Foswiki::app) if DEBUG;
+    return $Foswiki::app->templates->expandTemplate(@_);
 }
 
 =begin TML
@@ -2738,7 +2715,7 @@ not cause this function to be called recursively.
 
 sub expandCommonVariables {
     my ( $text, $topic, $web, $meta ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
     if (DEBUG) {
         for ( my $i = 4 ; $i <= 7 ; $i++ ) {
@@ -2751,12 +2728,10 @@ sub expandCommonVariables {
 
     #ASSERT(!Foswiki::Func::webExists($topic)) if DEBUG;
 
-    ( $web, $topic ) = _validateWTA(
-        $web   || $Foswiki::Plugins::SESSION->webName,
-        $topic || $Foswiki::Plugins::SESSION->topicName
-    );
+    ( $web, $topic ) = _validateWTA( $web || $Foswiki::app->webName,
+        $topic || $Foswiki::app->topicName );
     $meta ||= Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $web,
         topic   => $topic
     );
@@ -2790,11 +2765,11 @@ See also: expandVariables
 =cut
 
 sub expandVariablesOnTopicCreation {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     my $topicObject = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
-        web     => $Foswiki::Plugins::SESSION->webName,
-        topic   => $Foswiki::Plugins::SESSION->topicName,
+        session => $Foswiki::app,
+        web     => $Foswiki::app->webName,
+        topic   => $Foswiki::app->topicName,
         text    => $_[0],
     );
     $topicObject->expandNewTopic();
@@ -2818,11 +2793,11 @@ NOTE: renderText expects that all %MACROS% have already been expanded - it does 
 sub renderText {
 
     my ( $text, $web, $topic ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    $web   ||= $Foswiki::Plugins::SESSION->webName;
+    ASSERT($Foswiki::app) if DEBUG;
+    $web   ||= $Foswiki::app->webName;
     $topic ||= $Foswiki::cfg{HomeTopicName};
     my $webObject = Foswiki::Meta->new(
-        session => $Foswiki::Plugins::SESSION,
+        session => $Foswiki::app,
         web     => $web,
         topic   => $topic
     );
@@ -2846,10 +2821,10 @@ Return: =$text=          XHTML anchor, e.g. ='&lt;a href='/cgi-bin/view/Main/Web
 
 sub internalLink {
     my $pre = shift;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
     #   my( $web, $topic, $label, $anchor, $anchor, $createLink ) = @_;
-    return $pre . $Foswiki::Plugins::SESSION->renderer->internalLink(@_);
+    return $pre . $Foswiki::app->renderer->internalLink(@_);
 }
 
 =begin TML
@@ -2886,7 +2861,7 @@ Foswiki::Func::addToZone( 'script', 'MY_JQUERY',
 sub addToZone {
 
     #my ( $zone, $tag, $data, $requires ) = @_;
-    my $session = $Foswiki::Plugins::SESSION;
+    my $session = $Foswiki::app;
     ASSERT($session) if DEBUG;
 
     $session->zones()->addToZone(@_);
@@ -2907,8 +2882,8 @@ Prints a basic content-type HTML header for text/html to standard out.
 =cut
 
 sub writeHeader {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    $Foswiki::Plugins::SESSION->generateHTTPHeaders();
+    ASSERT($Foswiki::app) if DEBUG;
+    $Foswiki::app->generateHTTPHeaders();
 }
 
 =begin TML
@@ -2950,10 +2925,10 @@ Foswiki installation.
 
 sub redirectCgiQuery {
     my ( $query, $url, $passthru, $status ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
     writeWarning("redirectCgiQuery: not a valid redirect status: $status")
       if $status && $status !~ /^\s*3\d\d.*/;
-    return $Foswiki::Plugins::SESSION->redirect( $url, $passthru, $status );
+    return $Foswiki::app->redirect( $url, $passthru, $status );
 }
 
 =begin TML
@@ -2982,8 +2957,8 @@ use the Perl =File::Temp=  or related =File::Spec= functions.
 
 sub getWorkArea {
     my ($plugin) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->getWorkArea($plugin);
+    ASSERT($Foswiki::app) if DEBUG;
+    return $Foswiki::app->getWorkArea($plugin);
 }
 
 =begin TML
@@ -3097,8 +3072,8 @@ The symbols %<nop>USERSWEB%, %<nop>SYSTEMWEB% and %<nop>DOCWEB% can be used in t
 sub normalizeWebTopicName {
 
     #my( $web, $topic ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->normalizeWebTopicName(@_);
+    ASSERT($Foswiki::app) if DEBUG;
+    return $Foswiki::app->normalizeWebTopicName(@_);
 }
 
 =begin TML
@@ -3134,16 +3109,14 @@ To iterate over the returned topics use:
 
 sub query {
     my ( $searchString, $topics, $options ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
     my $inputTopicSet = $topics;
     if ( $topics and ( ref($topics) eq 'ARRAY' ) ) {
         $inputTopicSet = new Foswiki::ListIterator($topics);
     }
     $options->{type} ||= 'query';
-    my $query =
-      $Foswiki::Plugins::SESSION->search->parseSearch( $searchString,
-        $options );
+    my $query = $Foswiki::app->search->parseSearch( $searchString, $options );
 
     return Foswiki::Meta::query( $query, $inputTopicSet, $options );
 }
@@ -3334,8 +3307,8 @@ Leave a blank line between the last header field and the message body.
 sub sendEmail {
 
     #my( $text, $retries ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->net->sendEmail(@_);
+    ASSERT($Foswiki::app) if DEBUG;
+    return $Foswiki::app->net->sendEmail(@_);
 }
 
 =begin TML
@@ -3375,12 +3348,10 @@ not work with any installation that stores logs in a database.
 
 sub writeEvent {
     my ( $action, $extra ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my $webTopic =
-        $Foswiki::Plugins::SESSION->webName . '.'
-      . $Foswiki::Plugins::SESSION->topicName;
+    ASSERT($Foswiki::app) if DEBUG;
+    my $webTopic = $Foswiki::app->webName . '.' . $Foswiki::app->topicName;
 
-    return $Foswiki::Plugins::SESSION->logger->log(
+    return $Foswiki::app->logger->log(
         {
             level    => 'info',
             action   => $action || '',
@@ -3400,8 +3371,8 @@ Log a warning that may require admin intervention to the warnings log (=data/war
 =cut
 
 sub writeWarning {
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->logger->log(
+    ASSERT($Foswiki::app) if DEBUG;
+    return $Foswiki::app->logger->log(
         {
             level  => 'warning',
             caller => scalar( caller() ),
@@ -3422,8 +3393,8 @@ Log debug message to the debug log
 sub writeDebug {
 
     #   my( $text ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->logger->log(
+    ASSERT($Foswiki::app) if DEBUG;
+    return $Foswiki::app->logger->log(
         {
             level => 'debug',
             extra => \@_
@@ -3471,7 +3442,7 @@ while ($it->hasNext()) {
 
 sub eachEventSince {
     my $time = shift;
-    return $Foswiki::Plugins::SESSION->logger->eachEventSince( $time, 'info' );
+    return $Foswiki::app->logger->eachEventSince( $time, 'info' );
 }
 
 =begin TML
@@ -3770,19 +3741,17 @@ This method returns meta-data embedded in the text. Plugins authors must be very
 
 sub readTopicText {
     my ( $web, $topic, $rev, $ignorePermissions ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
     my $user;
-    $user = $Foswiki::Plugins::SESSION->user
+    $user = $Foswiki::app->user
       unless defined($ignorePermissions);
 
-    my $topicObject =
-      Foswiki::Meta->load( $Foswiki::Plugins::SESSION, $web, $topic, $rev );
+    my $topicObject = Foswiki::Meta->load( $Foswiki::app, $web, $topic, $rev );
 
     my $text;
     if (   $ignorePermissions
-        || $topicObject->haveAccess( 'VIEW', $Foswiki::Plugins::SESSION->user )
-      )
+        || $topicObject->haveAccess( 'VIEW', $Foswiki::app->user ) )
     {
         require Foswiki::Serialise;
         $text = Foswiki::Serialise::serialise( $topicObject, 'Embedded' );
@@ -3836,9 +3805,9 @@ $oopsUrl = Foswiki::Func::saveTopicText( $web, $topic, $text ); # save topic tex
 
 sub saveTopicText {
     my ( $web, $topic, $text, $ignorePermissions, $dontNotify ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
-    my $session = $Foswiki::Plugins::SESSION;
+    my $session = $Foswiki::app;
 
     # extract meta data and merge old attachment meta data
     my $topicObject =
@@ -3924,7 +3893,7 @@ See Foswiki:Development/UpdatingExtensionsScriptZone for more details.
 =cut
 
 sub addToHEAD {
-    my $session = $Foswiki::Plugins::SESSION;
+    my $session = $Foswiki::app;
     ASSERT($session) if DEBUG;
     $session->zones()->addToZone( 'head', @_ );
 }
@@ -3967,7 +3936,7 @@ To iterate over the returned topics use:
 sub searchInWebContent {
 
     my ( $searchString, $webs, $topics, $options ) = @_;
-    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    ASSERT($Foswiki::app) if DEBUG;
 
     my $inputTopicSet = $topics;
     if ( $topics and ( ref($topics) eq 'ARRAY' ) ) {
@@ -3975,9 +3944,7 @@ sub searchInWebContent {
     }
     $options->{type} ||= 'regex';
     $options->{web} = $webs;
-    my $query =
-      $Foswiki::Plugins::SESSION->search->parseSearch( $searchString,
-        $options );
+    my $query = $Foswiki::app->search->parseSearch( $searchString, $options );
 
     my $itr = Foswiki::Meta::query( $query, $inputTopicSet, $options );
     my %matches;

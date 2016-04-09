@@ -116,7 +116,7 @@ use Foswiki::Serialise ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 #use Foswiki::Iterator::NumberRangeIterator;
 
@@ -146,13 +146,6 @@ our $SUMMARY_DEFAULT_CONTEXT = 30;
 our $CHANGES_SUMMARY_LINECOUNT  = 6;
 our $CHANGES_SUMMARY_PLAINTRUNC = 70;
 
-has session => (
-    is       => 'ro',
-    clearer  => 1,
-    required => 1,
-    weak_ref => 1,
-    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
-);
 has web => (
     is        => 'rw',
     predicate => 1,
@@ -186,8 +179,8 @@ has text => (
     clearer   => 1,
     trigger   => sub {
         my $this = shift;
-        $this->session->prefs->invalidatePath($this)
-          if $this->session && $this->session->has_prefs;
+        $this->app->prefs->invalidatePath($this)
+          if $this->app && $this->app->has_prefs;
     },
 );
 
@@ -243,7 +236,7 @@ has _getRev1Info => (
     builder => sub { return {}; },
 );
 
-our @_newParameters = qw(session web topic text);
+#our @_newParameters = qw(app web topic text);
 
 =begin TML
 
@@ -423,31 +416,31 @@ sub registerMETA {
 around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
-    my ( $session, $web, $topic, $text ) = @_;
+    my ( $app, $web, $topic, $text ) = @_;
 
     my %params;
     if ( @_ % 2 == 0 ) {
 
-        # Check if we've got key/value pair profile with session key pointing at
+        # Check if we've got key/value pair profile with app key pointing at
         # another Meta object.
         %params = @_;
-        if ( defined $params{session}
-            && $params{session}->isa('Foswiki::Meta') )
+        if ( defined $params{app}
+            && $params{app}->isa('Foswiki::Meta') )
         {
             ASSERT(  !defined( $params{web} )
                   && !defined( $params{topic} )
                   && !defined( $params{text} ) );
-            my $sourceMeta = $params{session};
-            $params{session} = $sourceMeta->session;
-            $params{web}     = $sourceMeta->web;
-            $params{topic}   = $sourceMeta->topic;
+            my $sourceMeta = $params{app};
+            $params{app}   = $sourceMeta->app;
+            $params{web}   = $sourceMeta->web;
+            $params{topic} = $sourceMeta->topic;
         }
     }
 
-    # If by this point there is no valid session key in the parameters then we
+    # If by this point there is no valid app key in the parameters then we
     # deal with positional parameters.
     my $paramHash;
-    unless ( defined $params{session} && $params{session}->isa('Foswiki') ) {
+    unless ( defined $params{app} && $params{app}->isa('Foswiki::App') ) {
 
         # Let the base BUILDARGS deal with those.
         $paramHash = $orig->( $class, @_ );
@@ -464,8 +457,8 @@ around BUILDARGS => sub {
 
 =begin TML
 
----++ ClassMethod new(session => $session, web => $web, topic => $topic [, text => $text])
-   * =$session= - a Foswiki object (e.g. =$Foswiki::Plugins::SESSION=)
+---++ ClassMethod new(app => $app, web => $web, topic => $topic [, text => $text])
+   * =$app= - a Foswiki::App object 
    * =$web=, =$topic= - the pathname of the object. If both are undef,
      this object is a handle for the root container. If $topic is undef,
      it is the handle to a web. Otherwise it's a handle to a topic.
@@ -479,7 +472,7 @@ the stored object, use the =load= method to load the content.
 
 ---++ ClassMethod new($prototype)
 
-Construct a new, unloaded object, using the session, web and topic in the
+Construct a new, unloaded object, using the app, web and topic in the
 prototype object (which must be type Foswiki::Meta).
 
 =cut
@@ -533,7 +526,7 @@ before text => sub {
 
 =begin TML
 
----++ ClassMethod load($session, $web, $topic, $rev)
+---++ ClassMethod load($app, $web, $topic, $rev)
 
 This constructor will load (or otherwise fetch) the meta-data for a
 named web/topic.
@@ -543,7 +536,7 @@ named web/topic.
 
 This method is functionally identical to:
 <verbatim>
-$this = Foswiki::Meta->new( session => $session, web => $web, topic => $topic );
+$this = Foswiki::Meta->new( app => $app, web => $web, topic => $topic );
 $this->loadVersion( $rev );
 </verbatim>
 
@@ -570,7 +563,7 @@ sub load {
     my $this;
     my $rev;
 
-    my $session;
+    my $app;
     if ( ref($proto) ) {
 
         # Existing unloaded object
@@ -580,12 +573,11 @@ sub load {
     }
     else {
         my ( $web, $topic );
-        ( $session, $web, $topic, $rev ) = @_;
-        $this =
-          $proto->new( session => $session, web => $web, topic => $topic );
+        ( $app, $web, $topic, $rev ) = @_;
+        $this = $proto->new( app => $app, web => $web, topic => $topic );
     }
 
-    $session = $this->session;
+    $app = $this->app;
 
 #    if (    defined( $this->topic )
 #        and ( not defined($rev) )
@@ -597,7 +589,7 @@ sub load {
 #NEW: the metacache has to return a _copy_ of the cached item, otherwise code that ->finish() es its copy will also ->finish() the cached version and any other refs.
 #       which in Sven's opinion means we need to invert things better. (I get ~10% (.2S on 2S req's) speedup on simpler SEARCH topics doing reuse)
 #        my $m =
-#          $session->search->metacache->getMeta( $this->web, $this->topic );
+#          $app->search->metacache->getMeta( $this->web, $this->topic );
 #
 #print STDERR "metacache->getMeta ".join(',', ( $this->web, $this->topic, ref($m) ))."\n";
 #        return $m if ( defined($m) );
@@ -639,8 +631,8 @@ sub unload {
 
     # Avoid collisions, initiate removal from MetaCache only and only if object
     # has been previously stored in the cache.
-    $this->session->search->metacache->removeMeta( $this->web, $this->topic )
-      if $this->inMetaCache && $this->session && $this->session->has_search;
+    $this->app->search->metacache->removeMeta( $this->web, $this->topic )
+      if $this->inMetaCache && $this->app && $this->app->has_search;
     $this->_clear_loadedRev;
     $this->_clear_latestIsLoaded;
     $this->clear_text;
@@ -674,7 +666,7 @@ gets called before an object you have created goes out of scope.
 #    # as this will be done automatically during normal object destruction.
 #    $this->clear_web;
 #    $this->clear_topic;
-#    $this->clear_session;
+#    $this->clear_app;
 #    if (DEBUG) {
 #
 #    #someone keeps adding random references to Meta so to shake them out..
@@ -742,15 +734,16 @@ topic is established from the path used to invoke Foswiki, for example
 
 =cut
 
+# TODO Would be correct to call this method isRequestTopic
 sub isSessionTopic {
     my $this = shift;
     return 0
       unless $this->has_web
       && $this->has_topic
-      && defined $this->session->webName
-      && defined $this->session->topicName;
-    return $this->web eq $this->session->webName
-      && $this->topic eq $this->session->topicName;
+      && defined $this->app->webName
+      && defined $this->app->topicName;
+    return $this->web eq $this->app->webName
+      && $this->topic eq $this->app->topicName;
 }
 
 =begin TML
@@ -770,12 +763,12 @@ sub getPreference {
     my ( $this, $key ) = @_;
 
     unless ( $this->has_web || $this->has_topic ) {
-        return $this->session->prefs->getPreference($key);
+        return $this->app->prefs->getPreference($key);
     }
 
     # make sure the preferences are parsed and cached
     unless ( $this->_has_preferences ) {
-        $this->_preferences( $this->session->prefs->loadPreferences($this) );
+        $this->_preferences( $this->app->prefs->loadPreferences($this) );
     }
     return $this->_preferences->get($key);
 }
@@ -792,13 +785,10 @@ sub getContainer {
     my $this = shift;
 
     if ( $this->has_topic ) {
-        return Foswiki::Meta->new(
-            session => $this->session,
-            web     => $this->web
-        );
+        return $this->create( 'Foswiki::Meta', web => $this->web );
     }
     if ( $this->has_web ) {
-        return Foswiki::Meta->new( session => $this->session );
+        return $this->create('Foswiki::Meta');
     }
     ASSERT( 0, 'no container for this object type' ) if DEBUG;
     return;
@@ -821,10 +811,10 @@ sub existsInStore {
         # only checking for a topic existence already establishes a dependency
         $this->addDependency();
 
-        return $this->session->store->topicExists( $this->web, $this->topic );
+        return $this->app->store->topicExists( $this->web, $this->topic );
     }
     elsif ( $this->has_web ) {
-        return $this->session->store->webExists( $this->web );
+        return $this->app->store->webExists( $this->web );
     }
     else {
         return 1;    # the root always exists
@@ -867,7 +857,7 @@ See Foswiki::PageCache::addDependency().
 =cut
 
 sub addDependency {
-    my $cache = $_[0]->session->cache;
+    my $cache = $_[0]->app->cache;
     return unless $cache;
     return $cache->addDependency( $_[0]->web, $_[0]->topic );
 }
@@ -882,7 +872,7 @@ within the Foswiki::PageCache. See Foswiki::PageCache::fireDependency().
 =cut
 
 sub fireDependency {
-    my $cache = $_[0]->session->cache;
+    my $cache = $_[0]->app->cache;
     return unless $cache;
     return $cache->fireDependency( $_[0]->web, $_[0]->topic );
 }
@@ -900,7 +890,7 @@ sub isCacheable {
 
     return 0 unless $Foswiki::cfg{Cache}{Enabled};
 
-    my $cache = $this->session->cache;
+    my $cache = $this->app->cache;
     return 0 unless $cache;
 
     return $cache->isCacheable( $this->web, $this->topic );
@@ -933,7 +923,7 @@ sub populateNewWeb {
     my ( $this, $templateWeb, $opts ) = @_;
     _assertIsWeb($this) if DEBUG;
 
-    my $session = $this->session;
+    my $app = $this->app;
 
     my ( $parent, $new ) = $this->web =~ m/^(.*)\/([^\.\/]+)$/;
 
@@ -944,7 +934,7 @@ sub populateNewWeb {
                   . ' - Hierarchical webs are disabled' );
         }
 
-        unless ( $session->webExists($parent) ) {
+        unless ( $app->webExists($parent) ) {
             Foswiki::Exception->throw(
                 text => 'Parent web ' . $parent . ' does not exist' );
         }
@@ -952,7 +942,7 @@ sub populateNewWeb {
 
     # Validate that template web exists, or error should be thrown
     if ($templateWeb) {
-        unless ( $session->webExists($templateWeb) ) {
+        unless ( $app->webExists($templateWeb) ) {
             Foswiki::Exception->throw(
                 text => 'Template web ' . $templateWeb . ' does not exist' );
         }
@@ -960,30 +950,26 @@ sub populateNewWeb {
 
     # Make sure there is a preferences topic; this is how we know it's a web
     my $prefsTopicObject;
-    if (
-        !$session->topicExists( $this->web, $Foswiki::cfg{WebPrefsTopicName} ) )
-    {
+    if ( !$app->topicExists( $this->web, $Foswiki::cfg{WebPrefsTopicName} ) ) {
         my $prefsText = 'Preferences';
-        $prefsTopicObject = $this->new(
-            session => $this->session,
-            web     => $this->web,
-            topic   => $Foswiki::cfg{WebPrefsTopicName},
-            text    => $prefsText
+        $prefsTopicObject = $this->create(
+            $this,
+            web   => $this->web,
+            topic => $Foswiki::cfg{WebPrefsTopicName},
+            text  => $prefsText
         );
         $prefsTopicObject->save();
     }
 
     if ($templateWeb) {
-        my $tWebObject = $this->new( session => $session, web => $templateWeb );
+        my $tWebObject = $this->create( $this, web => $templateWeb );
         require Foswiki::WebFilter;
-        my $sys =
-          Foswiki::WebFilter->new('template')->ok( $session, $templateWeb );
+        my $sys = Foswiki::WebFilter->new('template')->ok( $app, $templateWeb );
         my $it = $tWebObject->eachTopic();
         while ( $it->hasNext() ) {
             my $topic = $it->next();
             next unless ( $sys || $topic =~ m/^Web/ );
-            my $to =
-              Foswiki::Meta->load( $this->session, $templateWeb, $topic );
+            my $to = Foswiki::Meta->load( $this->app, $templateWeb, $topic );
 
             # Open attachment filehandles
             my %attfh;
@@ -992,7 +978,7 @@ sub populateNewWeb {
                 $attfh{ $sfa->{name} } = {
                     fh      => $fh,
                     date    => $sfa->{date},
-                    user    => $sfa->{user} || $session->user,
+                    user    => $sfa->{user} || $app->user,
                     comment => $sfa->{comment}
                 };
             }
@@ -1004,7 +990,7 @@ sub populateNewWeb {
 
             # copy fileattachments
             while ( my ( $fa, $sfa ) = each %attfh ) {
-                my $arev = $session->store->saveAttachment(
+                my $arev = $app->store->saveAttachment(
                     $to, $fa,
                     $sfa->{fh},
                     $sfa->{user},
@@ -1016,7 +1002,7 @@ sub populateNewWeb {
                 );
                 close( $sfa->{fh} );
                 ASSERT($arev) if DEBUG;
-                $this->session->store->recordChange(
+                $this->app->store->recordChange(
                     verb       => 'insert',
                     cuid       => $sfa->{user},
                     revision   => $to->_loadedRev,
@@ -1032,7 +1018,7 @@ sub populateNewWeb {
     # we are creating a new web here.
     if ($opts) {
         my $prefsTopicObject =
-          Foswiki::Meta->load( $this->session, $this->web,
+          Foswiki::Meta->load( $this->app, $this->web,
             $Foswiki::cfg{WebPrefsTopicName} );
         my $text = $prefsTopicObject->text;
         foreach my $key ( keys %$opts ) {
@@ -1104,7 +1090,7 @@ sub eachWeb {
 
     # Works on the root, so web may be undef
     ASSERT( !$this->topic, 'this object may not contain webs' ) if DEBUG;
-    return $this->session->store->eachWeb( $this, $all );
+    return $this->app->store->eachWeb( $this, $all );
 
 }
 
@@ -1125,7 +1111,7 @@ sub eachTopic {
         require Foswiki::ListIterator;
         return Foswiki::ListIterator->new( list => [] );
     }
-    return $this->session->store->eachTopic($this);
+    return $this->app->store->eachTopic($this);
 }
 
 =begin TML
@@ -1144,7 +1130,7 @@ only lists the attachments that are normally visible to the user.
 sub eachAttachment {
     my ($this) = @_;
     _assertIsTopic($this) if DEBUG;
-    return $this->session->store->eachAttachment($this);
+    return $this->app->store->eachAttachment($this);
 }
 
 =begin TML
@@ -1189,7 +1175,7 @@ sub eachChange {
 
     # not valid at root level
     _assertIsWeb($this) if DEBUG;
-    return $this->session->store->eachChange( $this, $time );
+    return $this->app->store->eachChange( $this, $time );
 }
 
 ############# TOPIC METHODS #############
@@ -1255,12 +1241,12 @@ sub loadVersion {
     # Note: Since Item12472, the store implementation is expected
     # to call setLoadStatus() in readTopic
     $this->setLoadStatus( undef, undef );
-    my $store = $this->session->store;
+    my $store = $this->app->store;
     ASSERT(
         ref($store) && $store->isa('Foswiki::Store'),
         "Store attribute ($store) is not a valid object!"
     ) if DEBUG;
-    $this->session->store->readTopic( $this, $rev );
+    $this->app->store->readTopic( $this, $rev );
 
     if ( $this->_has_loadedRev ) {
 
@@ -1637,8 +1623,7 @@ sub getRevisionInfo {
     _assertIsTopic($this) if DEBUG;
 
     if ($attachment) {
-        return $this->session->store->getVersionInfo( $this, $rev,
-            $attachment );
+        return $this->app->store->getVersionInfo( $this, $rev, $attachment );
     }
 
     my $info;
@@ -1680,7 +1665,7 @@ sub getRevisionInfo {
     else {
 
         # Delegate to the store
-        $info = $this->session->store->getVersionInfo($this);
+        $info = $this->app->store->getVersionInfo($this);
 
         # cache the result
         $this->setRevisionInfo(%$info);
@@ -1711,21 +1696,21 @@ sub getRev1Info {
     unless ( defined $info->{$attr} ) {
         my $ri = $info->{rev1info};
         unless ($ri) {
-            my $tmp = Foswiki::Meta->load( $this->session, $web, $topic, 1 );
+            my $tmp = Foswiki::Meta->load( $this->app, $web, $topic, 1 );
             $info->{rev1info} = $ri = $tmp->getRevisionInfo();
         }
 
         if ( $attr eq 'createusername' ) {
             $info->{createusername} =
-              $this->session->users->getLoginName( $ri->{author} );
+              $this->app->users->getLoginName( $ri->{author} );
         }
         elsif ( $attr eq 'createwikiname' ) {
             $info->{createwikiname} =
-              $this->session->users->getWikiName( $ri->{author} );
+              $this->app->users->getWikiName( $ri->{author} );
         }
         elsif ( $attr eq 'createwikiusername' ) {
             $info->{createwikiusername} =
-              $this->session->users->webDotWikiName( $ri->{author} );
+              $this->app->users->webDotWikiName( $ri->{author} );
         }
         elsif ($attr eq 'createdate'
             or $attr eq 'createlongdate'
@@ -1776,15 +1761,10 @@ sub merge {
             if ( $thisD && $thisD->{value} ne $otherD->{value} ) {
                 if ( $formDef->isTextMergeable( $thisD->{name} ) ) {
                     require Foswiki::Merge;
-                    my $merged = Foswiki::Merge::merge2(
-                        'A',
-                        $otherD->{value},
-                        'B',
-                        $thisD->{value},
-                        '.*?\s+',
-                        $this->session,
-                        $formDef->getField( $thisD->{name} )
-                    );
+                    my $merged =
+                      Foswiki::Merge::merge2( 'A', $otherD->{value}, 'B',
+                        $thisD->{value}, '.*?\s+', $this->app,
+                        $formDef->getField( $thisD->{name} ) );
 
                     # SMELL: we don't merge attributes or title
                     $thisD->{value} = $merged;
@@ -1906,7 +1886,7 @@ sub renderFormForDisplay {
     my $form;
     my $result;
     try {
-        $form = Foswiki::Form->loadCached( $this->session, $this->web, $fname );
+        $form = Foswiki::Form->loadCached( $this->app, $this->web, $fname );
         $result = $form->renderForDisplay($this);
     }
     catch {
@@ -1915,11 +1895,10 @@ sub renderFormForDisplay {
 
             # Make pseudo-form from field data
             $form =
-              Foswiki::Form->loadCached( $this->session, $this->web, $fname,
+              Foswiki::Form->loadCached( $this->app, $this->web, $fname,
                 $this );
             $result =
-              $this->session->inlineAlert( 'alerts', 'formdef_missing',
-                $fname );
+              $this->app->inlineAlert( 'alerts', 'formdef_missing', $fname );
             $result .= $form->renderForDisplay($this) if $form;
         }
         else {
@@ -1961,7 +1940,7 @@ sub renderFormFieldForDisplay {
         my $result;
         try {
             my $form =
-              Foswiki::Form->loadCached( $this->session, $this->web, $fname );
+              Foswiki::Form->loadCached( $this->app, $this->web, $fname );
             my $field = $form->getField($name);
             if ($field) {
                 $attrs->{usetitle} = $mf->{title};
@@ -2007,12 +1986,12 @@ may result in the topic being read.
 sub haveAccess {
     my ( $this, $mode, $cUID ) = @_;
     $mode ||= 'VIEW';
-    $cUID ||= $this->session->user;
 
-    my $session = $this->session;
+    my $app = $this->app;
+    $cUID ||= $app->user;
 
-    my $ok = $session->access->haveAccess( $mode, $cUID, $this );
-    $reason = $session->access->getReason();
+    my $ok = $app->access->haveAccess( $mode, $cUID, $this );
+    $reason = $app->access->getReason();
     return $ok;
 }
 
@@ -2033,7 +2012,7 @@ sub save {
     my %opts = @_;
     _assertIsTopic($this) if DEBUG;
 
-    my $plugins = $this->session->plugins;
+    my $plugins = $this->app->plugins;
 
     # make sure version and date in TOPICINFO are up-to-date
     # (side effect of getRevisionInfo)
@@ -2068,11 +2047,11 @@ sub save {
         if ( $text ne $pretext ) {
 
             # Create a new object to parse the changed text
-            my $after = Foswiki::Meta->new(
-                session => $this->session,
-                web     => $this->web,
-                topic   => $this->topic,
-                text    => $text
+            my $after = $this->create(
+                'Foswiki::Meta',
+                web   => $this->web,
+                topic => $this->topic,
+                text  => $text
             );
             unless ( $this->stringify() ne $premeta ) {
 
@@ -2116,13 +2095,13 @@ sub save {
     push( @extras, 'minor' )   if $opts{minor};      # don't notify
     push( @extras, 'dontlog' ) if $opts{dontlog};    # don't statisticify
 
-    $this->session->logger->log(
+    $this->app->logger->log(
         {
             level    => 'info',
             action   => 'save',
             webTopic => $this->web . '.' . $this->topic,
             extra    => join( ', ', @extras ),
-            user     => $this->session->user,
+            user     => $this->app->user,
         }
     );
 
@@ -2164,14 +2143,14 @@ sub saveAs {
     $this->web( $opts{web} )     if $opts{web};
     $this->topic( $opts{topic} ) if $opts{topic};
 
-    my $cUID = $opts{author} || $this->session->user;
+    my $cUID = $opts{author} || $this->app->user;
     _assertIsTopic($this) if DEBUG;
 
     unless ( $this->topic eq $Foswiki::cfg{WebPrefsTopicName} ) {
 
         # Don't verify web existance for WebPreferences, as saving
         # WebPreferences creates the web.
-        unless ( $this->session->store->webExists( $this->web ) ) {
+        unless ( $this->app->store->webExists( $this->web ) ) {
             Foswiki::Exception->throw( text => 'Unable to save topic '
                   . $this->topic
                   . ' - web '
@@ -2181,19 +2160,18 @@ sub saveAs {
     }
 
     $this->_atomicLock($cUID);
-    my $i = $this->session->store->getRevisionHistory($this);
+    my $i = $this->app->store->getRevisionHistory($this);
     my $currentRev = $i->hasNext() ? $i->next() : 1;
     try {
         if ( $currentRev && !$opts{forcenewrevision} ) {
 
             # See if we want to replace the existing top revision
             my $mtime1 =
-              $this->session->store->getApproxRevTime( $this->web,
-                $this->topic );
+              $this->app->store->getApproxRevTime( $this->web, $this->topic );
             my $mtime2 = time();
             my $dt     = abs( $mtime2 - $mtime1 );
             if ( $dt <= $Foswiki::cfg{ReplaceIfEditedAgainWithin} ) {
-                my $info = $this->session->store->getVersionInfo($this);
+                my $info = $this->app->store->getVersionInfo($this);
 
                 # same user?
                 if ( $info->{author} eq $cUID ) {
@@ -2204,9 +2182,9 @@ sub saveAs {
                     $info->{reprev} = $info->{version};
                     $info->{date} = $opts{forcedate} || time();
                     $this->setRevisionInfo(%$info);
-                    $this->session->store->repRev( $this, $cUID, %opts );
+                    $this->app->store->repRev( $this, $cUID, %opts );
                     $this->_loadedRev($currentRev);
-                    $this->session->store->recordChange(
+                    $this->app->store->recordChange(
                         verb     => 'update',
                         cuid     => $cUID,
                         revision => $currentRev,
@@ -2218,20 +2196,19 @@ sub saveAs {
                 }
             }
         }
-        my $nextRev = $this->session->store->getNextRevision($this);
+        my $nextRev = $this->app->store->getNextRevision($this);
         $this->setRevisionInfo(
             date => $opts{forcedate} || time(),
             author  => $cUID,
             version => $nextRev,
         );
 
-        my $checkSave =
-          $this->session->store->saveTopic( $this, $cUID, \%opts );
+        my $checkSave = $this->app->store->saveTopic( $this, $cUID, \%opts );
         ASSERT( $checkSave == $nextRev, "$checkSave != $nextRev" ) if DEBUG;
         $this->_loadedRev($nextRev);
         $this->_latestIsLoaded(1);
 
-        $this->session->store->recordChange(
+        $this->app->store->recordChange(
             cuid     => $cUID,
             revision => $nextRev,
             verb     => $nextRev == 1 ? 'insert' : 'update',
@@ -2264,9 +2241,9 @@ sub saveAs {
 sub _atomicLock {
     my ( $this, $cUID ) = @_;
     if ( $this->topic ) {
-        my $logger = $this->session->logger();
+        my $logger = $this->app->logger();
         while (1) {
-            my ( $user, $time ) = $this->session->store->atomicLockInfo($this);
+            my ( $user, $time ) = $this->app->store->atomicLockInfo($this);
             last if ( !$user || $cUID eq $user );
             $logger->log( 'warning',
                     'Lock on '
@@ -2280,7 +2257,7 @@ sub _atomicLock {
             if ( time() - $time > 2 * 60 ) {
                 $logger->log( 'warning',
                     $cUID . " broke ${user}s lock on " . $this->getPath() );
-                $this->session->store->atomicUnlock( $this, $cUID );
+                $this->app->store->atomicUnlock( $this, $cUID );
                 last;
             }
 
@@ -2289,7 +2266,7 @@ sub _atomicLock {
         }
 
         # Topic
-        $this->session->store->atomicLock( $this, $cUID );
+        $this->app->store->atomicLock( $this, $cUID );
     }
     else {
 
@@ -2297,15 +2274,15 @@ sub _atomicLock {
         my $it = $this->eachWeb;
         while ( $it->hasNext ) {
             my $web = $this->web . '/' . $it->next;
-            my $meta = $this->new( session => $this->session, web => $web );
+            my $meta = $this->create( $this, web => $web );
             $meta->_atomicLock($cUID);
         }
         $it = $this->eachTopic;
         while ( $it->hasNext ) {
-            my $meta = $this->new(
-                session => $this->session,
-                web     => $this->web,
-                topic   => $it->next
+            my $meta = $this->create(
+                $this,
+                web   => $this->web,
+                topic => $it->next
             );
             $meta->_atomicLock($cUID);
         }
@@ -2315,21 +2292,21 @@ sub _atomicLock {
 sub _atomicUnlock {
     my ( $this, $cUID ) = @_;
     if ( $this->topic ) {
-        $this->session->store->atomicUnlock($this);
+        $this->app->store->atomicUnlock($this);
     }
     else {
         my $it = $this->eachWeb();
         while ( $it->hasNext() ) {
             my $web = $this->web . '/' . $it->next();
-            my $meta = $this->new( session => $this->session, session => $web );
+            my $meta = $this->create( $this, web => $web );
             $meta->_atomicUnlock($cUID);
         }
         $it = $this->eachTopic();
         while ( $it->hasNext() ) {
-            my $meta = $this->new(
-                session => $this->session,
-                web     => $this->web,
-                topic   => $it->next()
+            my $meta = $this->create(
+                $this,
+                web   => $this->web,
+                topic => $it->next()
             );
             $meta->_atomicUnlock($cUID);
         }
@@ -2354,7 +2331,7 @@ sub move {
     ASSERT( $to->isa('Foswiki::Meta') && $to->web, 'to is not a moving target' )
       if DEBUG;
 
-    my $cUID = $opts{user} || $this->session->user;
+    my $cUID = $opts{user} || $this->app->user;
 
     if ( $this->topic ) {
 
@@ -2390,10 +2367,10 @@ sub move {
             $this->saveAs(
                 dontlog => 1,    # no statistics
             );
-            $from->session->store->moveTopic( $from, $to, $cUID );
+            $from->app->store->moveTopic( $from, $to, $cUID );
             $to->loadVersion();
             ASSERT( defined($to) and defined( $to->{_loadedRev} ) ) if DEBUG;
-            $this->session->store->recordChange(
+            $this->app->store->recordChange(
                 cuid     => $cUID,
                 revision => $to->{_loadedRev},
                 verb     => 'update',
@@ -2416,20 +2393,20 @@ sub move {
     else {
 
         # Move web
-        ASSERT( !$this->session->store->webExists( $to->web ),
+        ASSERT( !$this->app->store->webExists( $to->web ),
             $to->web . " does not exist" )
           if DEBUG;
         $this->_atomicLock($cUID);
-        $this->session->store->moveWeb( $this, $to, $cUID );
+        $this->app->store->moveWeb( $this, $to, $cUID );
 
         # Record the web move as a move of the WebPreferences topic
         my $from =
-          Foswiki::Meta->load( $this->session, $this->web,
+          Foswiki::Meta->load( $this->app, $this->web,
             $Foswiki::cfg{WebPrefsTopicName} );
         my $to =
-          Foswiki::Meta->load( $this->session, $to->web,
+          Foswiki::Meta->load( $this->app, $to->web,
             $Foswiki::cfg{WebPrefsTopicName} );
-        $this->session->store->recordChange(
+        $this->app->store->recordChange(
             cuid     => $cUID,
             revision => $to->{_loadedRev},
             verb     => 'update',
@@ -2445,18 +2422,18 @@ sub move {
     # Log rename
     my $old = $this->web . '.' . ( $this->topic || '' );
     my $new = $to->web . '.' .   ( $to->topic   || '' );
-    $this->session->logger->log(
+    $this->app->logger->log(
         {
             level    => 'info',
             action   => 'rename',
             webTopic => $old,
             extra    => "moved to $new",
-            user     => $this->session->user
+            user     => $this->app->user
         }
     );
 
     # alert plugins of topic move
-    $this->session->plugins->dispatch( 'afterRenameHandler', $this->web,
+    $this->app->plugins->dispatch( 'afterRenameHandler', $this->web,
         $this->topic || '',
         '', $to->web, $to->topic || '', '' );
 }
@@ -2475,12 +2452,12 @@ sub deleteMostRecentRevision {
     my ( $this, %opts ) = @_;
     _assertIsTopic($this) if DEBUG;
     my $rev;
-    my $cUID = $opts{user} || $this->session->user;
+    my $cUID = $opts{user} || $this->app->user;
 
     $this->_atomicLock($cUID);
     try {
-        $rev = $this->session->store->delRev( $this, $cUID );
-        $this->session->store->recordChange(
+        $rev = $this->app->store->delRev( $this, $cUID );
+        $this->app->store->recordChange(
             cuid     => $cUID,
             revision => $rev,
             verb     => 'update',
@@ -2499,13 +2476,13 @@ sub deleteMostRecentRevision {
     # TODO: delete entry in .changes
 
     # write log entry
-    $this->session->logger->log(
+    $this->app->logger->log(
         {
             level    => 'info',
             action   => 'cmd',
             webTopic => $this->web . '.' . $this->topic,
             extra    => "delRev $rev",
-            user     => $this->session->user,
+            user     => $this->app->user,
         }
     );
 }
@@ -2527,7 +2504,7 @@ sub replaceMostRecentRevision {
     my %opts = @_;
     _assertIsTopic($this) if DEBUG;
 
-    my $cUID = $opts{user} || $this->session->user;
+    my $cUID = $opts{user} || $this->app->user;
 
     $this->_atomicLock($cUID);
 
@@ -2556,7 +2533,7 @@ sub replaceMostRecentRevision {
     $this->setRevisionInfo(%$info);
 
     try {
-        $this->session->store->repRev( $this, $info->{author}, @_ );
+        $this->app->store->repRev( $this, $info->{author}, @_ );
     }
     catch {
         Foswiki::Exception->rethrow($_);
@@ -2574,7 +2551,7 @@ sub replaceMostRecentRevision {
     push( @extras, 'minor' )   if $opts{minor};
     push( @extras, 'dontlog' ) if $opts{dontlog};
     push( @extras, 'forced' )  if $opts{forcedate};
-    $this->session->logger->log(
+    $this->app->logger->log(
         {
             level    => 'info',
             action   => 'reprev',
@@ -2610,7 +2587,7 @@ sub getRevisionHistory {
 #        return new Foswiki::Iterator::NumberRangeIterator( $this->_loadedRev, 1 );
 #    }
 
-    return $this->session->store->getRevisionHistory( $this, $attachment );
+    return $this->app->store->getRevisionHistory( $this, $attachment );
 }
 
 =begin TML
@@ -2706,7 +2683,7 @@ Also does not ensure consistency of the store
 
 sub removeFromStore {
     my ( $this, $attachment ) = @_;
-    my $store = $this->session->store;
+    my $store = $this->app->store;
     ASSERT( $this->web, 'this is not a removable object' ) if DEBUG;
 
     if ( !$store->webExists( $this->web ) ) {
@@ -2726,10 +2703,10 @@ sub removeFromStore {
               . $this->topic . '.'
               . $attachment );
     }
-    $store->remove( $this->session->user, $this, $attachment );
-    $this->session->store->recordChange(
+    $store->remove( $this->app->user, $this, $attachment );
+    $this->app->store->recordChange(
         verb => 'remove',
-        cuid => $this->session->user,
+        cuid => $this->app->user,
 
         # revision = -1 when removing webs
         revision => $this->_loadedRev || -1,
@@ -2760,8 +2737,7 @@ Each difference is of the form [ $type, $right, $left ] where
 sub getDifferences {
     my ( $this, $rev2, $contextLines ) = @_;
     _assertIsTopic($this) if DEBUG;
-    return $this->session->store->getRevisionDiff( $this, $rev2,
-        $contextLines );
+    return $this->app->store->getRevisionDiff( $this, $rev2, $contextLines );
 }
 
 =begin TML
@@ -2778,7 +2754,7 @@ Returns a single-digit rev number or 0 if it couldn't be determined
 sub getRevisionAtTime {
     my ( $this, $time ) = @_;
     _assertIsTopic($this) if DEBUG;
-    return $this->session->store->getRevisionAtTime( $this, $time );
+    return $this->app->store->getRevisionAtTime( $this, $time );
 }
 
 =begin TML
@@ -2796,11 +2772,11 @@ sub setLease {
     _assertIsTopic($this) if DEBUG;
     my $t     = time();
     my $lease = {
-        user    => $this->session->user,
+        user    => $this->app->user,
         expires => $t + $length,
         taken   => $t
     };
-    return $this->session->store->setLease( $this, $lease );
+    return $this->app->store->setLease( $this, $lease );
 }
 
 =begin TML
@@ -2819,7 +2795,7 @@ another user is already editing a topic.
 sub getLease {
     my $this = shift;
     _assertIsTopic($this) if DEBUG;
-    return $this->session->store->getLease($this);
+    return $this->app->store->getLease($this);
 }
 
 =begin TML
@@ -2835,7 +2811,7 @@ See =getLease= for more details about Leases.
 sub clearLease {
     my $this = shift;
     _assertIsTopic($this) if DEBUG;
-    $this->session->store->setLease($this);
+    $this->app->store->setLease($this);
 }
 
 =begin TML
@@ -2856,17 +2832,17 @@ sub onTick {
         while ( $it->hasNext() ) {
             my $web = $it->next();
             $web = $this->getPath() . "/$web" if $this->getPath();
-            my $m = $this->new( session => $this->session, web => $web );
+            my $m = $this->create( $this, web => $web );
             $m->onTick($time);
         }
         if ( $this->has_web ) {
             $it = $this->eachTopic();
             while ( $it->hasNext() ) {
                 my $topic       = $it->next();
-                my $topicObject = $this->new(
-                    session => $this->session,
-                    web     => $this->getPath(),
-                    topic   => $topic
+                my $topicObject = $this->create(
+                    $this,
+                    web   => $this->getPath(),
+                    topic => $topic
                 );
                 $topicObject->onTick($time);
             }
@@ -2874,7 +2850,7 @@ sub onTick {
 
         # Clean up spurious leases that may have been left behind
         # during cancelled topic creation
-        $this->session->store->removeSpuriousLeases( $this->getPath() )
+        $this->app->store->removeSpuriousLeases( $this->getPath() )
           if $this->getPath();
     }
     else {
@@ -2904,8 +2880,7 @@ sub getAttachmentRevisionInfo {
     my ( $this, $attachment, $fromrev ) = @_;
     _assertIsTopic($this) if DEBUG;
 
-    return $this->session->store->getVersionInfo( $this, $fromrev,
-        $attachment );
+    return $this->app->store->getVersionInfo( $this, $fromrev, $attachment );
 }
 
 =begin TML
@@ -2948,7 +2923,7 @@ sub attach {
     my $this = shift;
     my %opts = @_;
     my $action;
-    my $plugins = $this->session->plugins;
+    my $plugins = $this->app->plugins;
     _assertIsAttachment( $this, $opts{name} ) if DEBUG;
 
     # make sure we don't save a half-loaded topic stub...
@@ -2977,7 +2952,7 @@ sub attach {
             name       => $opts{name},
             attachment => $opts{name},
             stream     => $opts{stream},
-            user       => $opts{author} || $this->session->user,          # cUID
+            user       => $opts{author} || $this->app->user,              # cUID
             comment    => defined $opts{comment} ? $opts{comment} : '',
         };
 
@@ -3074,12 +3049,12 @@ sub attach {
             $this->loadVersion();
         }
 
-        $opts{author} ||= $this->session->user;
+        $opts{author} ||= $this->app->user;
 
         my $error;
         try {
             my $arev =
-              $this->session->store->saveAttachment( $this, $opts{name},
+              $this->app->store->saveAttachment( $this, $opts{name},
                 $opts{stream}, $opts{author}, \%opts );
 
             $attrs->{version} = $arev;
@@ -3089,7 +3064,7 @@ sub attach {
 
             # Note that there will be two events; the attachment save,
             # followed by the topic update
-            $this->session->store->recordChange(
+            $this->app->store->recordChange(
                 verb => $arev > 1 ? 'update' : 'insert',
                 cuid => $opts{author},
                 revision => $this->_loadedRev || 1,
@@ -3130,8 +3105,7 @@ sub attach {
     if ( $opts{createlink} ) {
         my $text = $this->text();
         $text = '' unless defined $text;
-        $text .=
-          $this->session->attach->getAttachmentLink( $this, $opts{name} );
+        $text .= $this->app->attach->getAttachmentLink( $this, $opts{name} );
         $this->text($text);
     }
 
@@ -3139,13 +3113,13 @@ sub attach {
 
     my @extras = ( $opts{name} );
     push( @extras, 'dontlog' ) if $opts{dontlog};    # no statistics
-    $this->session->logger->log(
+    $this->app->logger->log(
         {
             level    => 'info',
             action   => $action,
             webTopic => $this->web . '.' . $this->topic,
             extra    => join( ', ', @extras ),
-            user     => $this->session->user,
+            user     => $this->app->user,
         }
     );
 
@@ -3167,7 +3141,7 @@ in the object only)
 sub hasAttachment {
     my ( $this, $name ) = @_;
     _assertIsAttachment( $this, $name ) if DEBUG;
-    return $this->session->store->attachmentExists( $this, $name );
+    return $this->app->store->attachmentExists( $this, $name );
 }
 
 =begin TML
@@ -3218,7 +3192,7 @@ sub testAttachment {
     }
 
     return
-      return $this->session->store->testAttachment( $this, $attachment, $test );
+      return $this->app->store->testAttachment( $this, $attachment, $test );
 }
 
 =begin TML
@@ -3250,7 +3224,7 @@ sub openAttachment {
     _assertIsAttachment( $this, $attachment ) if DEBUG;
     ASSERT($attachment) if DEBUG;
 
-    return $this->session->store->openAttachment( $this, $attachment, $mode,
+    return $this->app->store->openAttachment( $this, $attachment, $mode,
         @opts );
 
 }
@@ -3270,7 +3244,7 @@ sub moveAttachment {
     my $name = shift;
     my $to   = shift;
     my %opts = @_;
-    my $cUID = $opts{user} || $this->session->user;
+    my $cUID = $opts{user} || $this->app->user;
     _assertIsAttachment( $this, $name ) if DEBUG;
     _assertIsTopic($to) if DEBUG;
 
@@ -3283,8 +3257,7 @@ sub moveAttachment {
     $to->_atomicLock($cUID);
 
     try {
-        $this->session->store->moveAttachment( $this, $name, $to, $newName,
-            $cUID );
+        $this->app->store->moveAttachment( $this, $name, $to, $newName, $cUID );
 
         # Modify the cache of the old topic
         my $fileAttachment = $this->get( 'FILEATTACHMENT', $name );
@@ -3295,10 +3268,10 @@ sub moveAttachment {
         );
 
         # Add file attachment to new topic
-        $fileAttachment->{name}     = $newName;
-        $fileAttachment->{movefrom} = $this->getPath() . '.' . $name;
-        $fileAttachment->{moveby}  = $this->session->users->getLoginName($cUID);
-        $fileAttachment->{movedto} = $to->getPath() . '.' . $newName;
+        $fileAttachment->{name}      = $newName;
+        $fileAttachment->{movefrom}  = $this->getPath() . '.' . $name;
+        $fileAttachment->{moveby}    = $this->app->users->getLoginName($cUID);
+        $fileAttachment->{movedto}   = $to->getPath() . '.' . $newName;
         $fileAttachment->{movedwhen} = time();
         $to->loadVersion();
         $to->putKeyed( 'FILEATTACHMENT', $fileAttachment );
@@ -3312,7 +3285,7 @@ sub moveAttachment {
             comment => 'gained' . $newName
         );
 
-        $this->session->store->recordChange(
+        $this->app->store->recordChange(
             cuid          => $cUID,
             revision      => $to->{_loadedRev},
             verb          => 'update',
@@ -3334,10 +3307,10 @@ sub moveAttachment {
     };
 
     # alert plugins of attachment move
-    $this->session->plugins->dispatch( 'afterRenameHandler', $this->web,
+    $this->app->plugins->dispatch( 'afterRenameHandler', $this->web,
         $this->topic, $name, $to->{_web}, $to->topic, $newName );
 
-    $this->session->logger->log(
+    $this->app->logger->log(
         {
             level    => 'info',
             action   => 'move',
@@ -3363,7 +3336,7 @@ sub copyAttachment {
     my $name = shift;
     my $to   = shift;
     my %opts = @_;
-    my $cUID = $opts{user} || $this->session->user;
+    my $cUID = $opts{user} || $this->app->user;
     _assertIsAttachment( $this, $name ) if DEBUG;
     _assertIsTopic($to) if DEBUG;
 
@@ -3382,8 +3355,7 @@ sub copyAttachment {
     $to->_atomicLock($cUID);
 
     try {
-        $from->session->store->copyAttachment( $from, $name, $to, $newName,
-            $cUID );
+        $from->app->store->copyAttachment( $from, $name, $to, $newName, $cUID );
 
         # Add file attachment to new topic by copying the old one
         my $fileAttachment = { %{ $from->get( 'FILEATTACHMENT', $name ) } };
@@ -3401,7 +3373,7 @@ sub copyAttachment {
             dontlog => 1,                    # no statistics
             comment => 'gained' . $newName
         );
-        $this->session->store->recordChange(
+        $this->app->store->recordChange(
             verb          => 'copy',
             cuid          => $cUID,
             revision      => $to->{_loadedRev},
@@ -3424,11 +3396,11 @@ sub copyAttachment {
 
     # alert plugins of attachment move
     # SMELL: no defined handler for attachment copies
-    #    $this->session->plugins
+    #    $this->app->plugins
     #      ->dispatch( 'afterCopyHandler', $this->web, $this->topic, $name,
     #        $to->web, $to->topic, $newName );
 
-    $this->session->logger->log(
+    $this->app->logger->log(
         {
             level    => 'info',
             action   => 'copy',
@@ -3455,7 +3427,7 @@ Only valid on topics.
 sub expandNewTopic {
     my ($this) = @_;
     _assertIsTopic($this) if DEBUG;
-    $this->session->expandMacrosOnTopicCreation($this);
+    $this->app->expandMacrosOnTopicCreation($this);
 }
 
 =begin TML
@@ -3471,7 +3443,7 @@ sub expandMacros {
     my ( $this, $text ) = @_;
     _assertIsTopic($this) if DEBUG;
 
-    return $this->session->expandMacros( $text, $this );
+    return $this->app->expandMacros( $text, $this );
 }
 
 =begin TML
@@ -3485,7 +3457,7 @@ Only valid on topics.
 sub renderTML {
     my ( $this, $text ) = @_;
     _assertIsTopic($this) if DEBUG;
-    return $this->session->renderer->getRenderedVersion( $text, $this );
+    return $this->app->renderer->getRenderedVersion( $text, $this );
 }
 
 =begin TML
@@ -3521,8 +3493,7 @@ sub summariseText {
     $text = $this->text() unless defined $text;
     $text = ''            unless defined $text;
 
-    my $plainText =
-      $this->session->renderer->TML2PlainText( $text, $this, $flags );
+    my $plainText = $this->app->renderer->TML2PlainText( $text, $this, $flags );
     $plainText =~ s/\n+/ /g;
 
     # limit to n chars
@@ -3565,8 +3536,8 @@ sub _summariseTextSimple {
 sub _makeSummaryTextSafe {
     my ( $this, $text ) = @_;
 
-    my $session  = $this->session();
-    my $renderer = $session->renderer();
+    my $app      = $this->app;
+    my $renderer = $app->renderer();
 
     # We do not want the summary to contain any $variable that formatted
     # searches can interpret to anything (Item3489).
@@ -3579,7 +3550,7 @@ sub _makeSummaryTextSafe {
     $text =~ s/\:/<nop>\:/g;
     $text =~ s/\s+/ /g;
 
-    return $this->session->renderer->protectPlainText($text);
+    return $this->app->renderer->protectPlainText($text);
 }
 
 =begin TML
@@ -3703,8 +3674,8 @@ In non-tml, lines are truncated to 70 characters. Differences are shown using + 
 sub summariseChanges {
     my ( $this, $orev, $nrev, $tml, $nochecks ) = @_;
     my $summary  = '';
-    my $session  = $this->session();
-    my $renderer = $session->renderer();
+    my $app      = $this->app;
+    my $renderer = $app->renderer();
 
     _assertIsTopic($this) if DEBUG;
     $nrev = $this->getLatestRev() unless $nrev;
@@ -3740,15 +3711,15 @@ sub summariseChanges {
     #print "SSSSSS ntext\n($ntext)\nSSSSSS\n\n";
 
     my $oldTopicObject =
-      Foswiki::Meta->load( $session, $this->web, $this->topic, $orev );
+      Foswiki::Meta->load( $app, $this->web, $this->topic, $orev );
     unless ( $nochecks || $oldTopicObject->haveAccess('VIEW') ) {
 
         # No access to old rev, make a blank topic object
-        $oldTopicObject = Foswiki::Meta->new(
-            session => $session,
-            web     => $this->web,
-            topic   => $this->topic,
-            text    => ''
+        $oldTopicObject = $this->create(
+            'Foswiki::Meta',
+            web   => $this->web,
+            topic => $this->topic,
+            text  => ''
         );
     }
 
@@ -3786,7 +3757,7 @@ sub summariseChanges {
                 $block =~ s/^-(.*)$/CGI::del( {}, $1 )/se;
                 $block =~ s/^\+(.*)$/CGI::ins( {}, $1 )/se;
             }
-            elsif ( $session->inContext('rss') ) {
+            elsif ( $app->inContext('rss') ) {
                 $block =~ s/^-/REMOVED: /;
                 $block =~ s/^\+/INSERTED: /;
             }

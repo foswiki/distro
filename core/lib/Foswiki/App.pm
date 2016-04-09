@@ -26,6 +26,33 @@ functionality.
 
 =cut
 
+has cache => (
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
+        my $this = shift;
+        my $cfg  = $this->cfg;
+        if (   $cfg->data->{Cache}{Enabled}
+            && $cfg->data->{Cache}{Implementation} )
+        {
+            eval "require " . $cfg->data->{Cache}{Implementation};
+            ASSERT( !$@, $@ ) if DEBUG;
+            return $this->create( $cfg->data->{Cache}{Implementation} );
+        }
+        return undef;
+    },
+);
+
+=begin TML
+---++ ObjectAttribute cfg
+
+This attribute stores application configuration object - a =Foswiki::Config=
+instance.
+
+=cut
+
 has cfg => (
     is      => 'rw',
     lazy    => 1,
@@ -36,12 +63,61 @@ has env => (
     is       => 'rw',
     required => 1,
 );
+has logger => (
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
+        my $this = shift;
+        my $cfg  = $this->cfg;
+        my $logger;
+        if ( $cfg->data->{Log}{Implementation} ne 'none' ) {
+            load_package( $cfg->data->{Log}{Implementation} );
+            if ($@) {
+                print STDERR "Logger load failed: $@";
+            }
+            else {
+                $logger = $cfg->data->{Log}{Implementation}->new;
+            }
+        }
+        $logger = Foswiki::Logger->new unless defined $logger;
+        return $logger;
+    },
+);
 has engine => (
     is      => 'rw',
     lazy    => 1,
     default => \&_prepareEngine,
     isa =>
       Foswiki::Object::isaCLASS( 'engine', 'Foswiki::Engine', noUndef => 1, ),
+);
+has i18n => (
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
+        load_package('Foswiki::I18N');
+
+        # language information; must be loaded after
+        # *all possible preferences sources* are available
+        $_[0]->create('Foswiki::I18N');
+    },
+);
+has plugins => (
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub { return $_[0]->create('Foswiki::Plugins'); },
+);
+has prefs => (
+    is        => 'ro',
+    lazy      => 1,
+    predicate => 1,
+    clearer   => 1,
+    default   => sub { return $_[0]->create('Foswiki::Prefs'); },
 );
 has request => (
     is      => 'rw',
@@ -53,10 +129,31 @@ has request => (
 has response => (
     is      => 'rw',
     lazy    => 1,
-    default => sub { new Foswiki::Response },
+    default => sub { $_[0]->create('Foswiki::Response') },
     isa     => Foswiki::Object::isaCLASS(
         'response', 'Foswiki::Response', noUndef => 1,
     ),
+);
+has store => (
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    isa =>
+      Foswiki::Object::isaCLASS( 'store', 'Foswiki::Store', noUndef => 1, ),
+    default => sub {
+        my $baseClass = $_[0]->_baseStoreClass;
+        ASSERT( $baseClass, "Foswiki::store base class is not defined" )
+          if DEBUG;
+        return $baseClass->new;
+    },
+);
+has _baseStoreClass => (
+    is      => 'rw',
+    clearer => 1,
+    isa     => sub {
+        ASSERT( defined( $_[0] ), "Foswiki::_baseStoreClass cannot be undef" );
+    },
 );
 has macros => (
     is      => 'rw',
@@ -70,7 +167,7 @@ has context => (
     lazy    => 1,
     clearer => 1,
     default => sub {
-        return $_[0]->_dispatcherAttrs->{context} // {},;
+        return {};
     },
 );
 has ui => (
@@ -79,6 +176,17 @@ has ui => (
     default => sub {
         return $_[0]->create('Foswiki::UI');
     },
+);
+has user => (
+    is      => 'rw',
+    clearer => 1,
+);
+has users => (
+    is        => 'rw',
+    lazy      => 1,
+    predicate => 1,
+    clearer   => 1,
+    default   => sub { return $_[0]->create('Foswiki::Users'); },
 );
 has _dispatcherObject => (
     is  => 'rw',
@@ -179,11 +287,16 @@ sub BUILD {
         Foswiki::Exception::Fatal->throw( text => "Cannot initialize engine" );
     }
 
-    $this->_prepareDispatcher;
-
     unless ( $this->cfg->data->{isVALID} ) {
         $this->cfg->bootstrap;
     }
+
+    # Override user to be admin if no configuration exists.
+    # Do this really early, so that later changes in isBOOTSTRAPPING can't
+    # change Foswiki's behavior.
+    $this->user('admin') if ( $cfg->data->{isBOOTSTRAPPING} );
+
+    $this->_prepareDispatcher;
 }
 
 =begin TML
@@ -259,7 +372,7 @@ sub handleRequest {
     my $res = $this->response;
 
     try {
-        $this->_prepareContext;
+        $this->_checkBootstrapStage2;
         $this->_checkTickle;
         $this->_checkReqCache;
 
@@ -278,6 +391,7 @@ sub handleRequest {
         $this->_checkActionAccess;
 
         my $method = $this->_dispatcherAttrs->{method};
+        $this->_prepareContext;
         $this->_dispatcherObject->$method;
     }
     catch {
@@ -514,6 +628,23 @@ sub _checkReqCache {
         # filename. Note that the cache serialises the method and path_info,
         # which will be restored.
         Foswiki::Request::Cache->new->load( $1, $req );
+    }
+}
+
+sub _checkBootstrapStage2 {
+    my $this = shift;
+    my $cfg  = $this->cfg;
+
+    # Phase 2 of Bootstrap.  Web settings require that the Foswiki request
+    # has been parsed.
+    if ( $cfg->data->{isBOOTSTRAPPING} ) {
+        my $phase2_message =
+          $cfg->bootstrapWebSettins( $this->request->action );
+        $this->systemMessage(
+            $this->engine->HTTPCompliant
+            ? ( '<div class="foswikiHelp"> ' . $phase2_message . '</div>' )
+            : $phase2_message
+        );
     }
 }
 

@@ -39,6 +39,8 @@ sub create {
     my $this  = shift;
     my $class = shift;
 
+    $class = ref($class) if ref($class);
+
     unless ( $class->isa(__PACKAGE__) ) {
         Foswiki::Exception::Fatal->throw(
             text => "Class $class is not a " . __PACKAGE__ . " descendant." );

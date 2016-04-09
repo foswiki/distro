@@ -37,7 +37,7 @@ BEGIN {
 
 =begin TML
 
----++ ClassMethod new ($session)
+---++ ClassMethod new (app => $app)
 
 Construct the ApacheLogin object
 
@@ -46,7 +46,7 @@ Construct the ApacheLogin object
 sub BUILD {
     my $this = shift;
 
-    $this->session->enterContext('can_login');
+    $this->app->enterContext('can_login');
 
     # Can't logout, though
     Foswiki::registerTagHandler( 'LOGOUT', sub { return '' } );
@@ -63,9 +63,9 @@ Triggered on auth fail
 =cut
 
 sub forceAuthentication {
-    my $this    = shift;
-    my $session = $this->session;
-    my $query   = $session->request;
+    my $this  = shift;
+    my $app   = $this->app;
+    my $query = $app->request;
 
     # See if there is an 'auth' version
     # of this script, may be a result of not being logged in.
@@ -77,7 +77,7 @@ sub forceAuthentication {
 
         # Assemble the new URL using the host, the changed script name,
         # and the path info.
-        my $url = $session->getScriptUrl( 1, $newAction );
+        my $url = $app->getScriptUrl( 1, $newAction );
         if ( $query->path_info() ) {
             $url .= '/'
               unless $url =~ m#/$# || $query->path_info() =~ m#^/#;
@@ -85,7 +85,7 @@ sub forceAuthentication {
         }
 
         # Redirect with passthrough so we don't lose the original query params
-        $session->redirect( $url, 1 );
+        $app->redirect( $url, 1 );
         return 1;
     }
     return 0;
@@ -101,16 +101,16 @@ Content of a login link
 =cut
 
 sub loginUrl {
-    my $this    = shift;
-    my $session = $this->session;
-    my $topic   = $session->topicName;
-    my $web     = $session->webName;
-    return $session->getScriptUrl( 0, 'logon', $web, $topic, @_ );
+    my $this  = shift;
+    my $app   = $this->app;
+    my $topic = $app->topicName;
+    my $web   = $app->webName;
+    return $app->getScriptUrl( 0, 'logon', $web, $topic, @_ );
 }
 
 =begin TML
 
----++ ObjectMethod login( $query, $session )
+---++ ObjectMethod login( $query, $app )
 
 this allows the login and logon cgi-scripts to use the same code. 
 all a logon does, is re-direct to viewauth, and apache then figures out 
@@ -119,15 +119,15 @@ if it needs to challenge the user
 =cut
 
 sub login {
-    my ( $this, $query, $session ) = @_;
+    my ( $this, $query, $app ) = @_;
 
     my $url =
-      $session->getScriptUrl( 0, 'viewauth', $session->webName,
-        $session->topicName, t => time() );
+      $app->getScriptUrl( 0, 'viewauth', $app->webName,
+        $app->topicName, t => time() );
 
     $url .= ( ';' . $query->query_string() ) if $query->query_string();
 
-    $session->redirect( $url, 1 );    # with passthrough
+    $app->redirect( $url, 1 );    # with passthrough
 }
 
 =begin TML
@@ -141,7 +141,7 @@ returns the userLogin if stored in the apache CGI query (ie session)
 sub getUser {
     my $this = shift;
 
-    my $query = $this->session->request;
+    my $query = $this->app->request;
     my $authUser;
 
     # Ignore remote user if we got here via an error

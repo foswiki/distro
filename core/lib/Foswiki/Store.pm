@@ -155,7 +155,7 @@ ERROR
 Get a URL that points at an attachment. The URL may be absolute, or
 relative to the the page being rendered (if that makes sense for the
 store implementation).
-   * =$session - the current Foswiki session
+   * =$app - the current Foswiki app
    * =$web= - name of the web for the URL
    * =$topic= - name of the topic
    * =$attachment= - name of the attachment, defaults to no attachment
@@ -189,7 +189,7 @@ allowed characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
 =cut
 
 sub getAttachmentURL {
-    my ( $this, $session, $web, $topic, $attachment, %options ) = @_;
+    my ( $this, $app, $web, $topic, $attachment, %options ) = @_;
     my $url = $Foswiki::cfg{PubUrlPath} || '';
 
     if ($topic) {
@@ -223,7 +223,7 @@ sub getAttachmentURL {
         # See http://www.ietf.org/rfc/rfc2396.txt for the definition of
         # "absolute URI". Foswiki bastardises this definition by assuming
         # that all relative URLs lack the <authority> component as well.
-        $url = $session->urlHost . $url;
+        $url = $app->request->urlHost . $url;
     }
 
     return $url;
@@ -877,7 +877,7 @@ sub remove {
 
 =begin TML
 
----++ ObjectMethod query($query, $inputTopicSet, $session, \%options) -> $outputTopicSet
+---++ ObjectMethod query($query, $inputTopicSet, $app, \%options) -> $outputTopicSet
 
 Search for data in the store (not web based).
    * =$query= either a =Foswiki::Search::Node= or a =Foswiki::Query::Node=.
@@ -891,7 +891,7 @@ Returns a =Foswiki::Search::InfoCache= iterator
 =cut
 
 sub query {
-    my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
+    my ( $this, $query, $inputTopicSet, $app, $options ) = @_;
     die "Abstract base class";
 }
 

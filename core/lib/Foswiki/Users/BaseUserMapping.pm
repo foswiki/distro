@@ -62,13 +62,13 @@ has error => ( is => 'rw', default => '', );
 
 =begin TML
 
----++ ClassMethod new (session => $session)
+---++ ClassMethod new (app => $app)
 
 Construct the BaseUserMapping object
 
 =cut
 
-# Constructs a new user mapping handler of this type, referring to $session
+# Constructs a new user mapping handler of this type, referring to $app
 # for any required Foswiki services.
 around BUILDARGS => sub {
     my $orig  = shift;

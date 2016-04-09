@@ -45,13 +45,8 @@ BEGIN {
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
-has session => (
-    is       => 'ro',
-    weak_ref => 1,
-    required => 1,
-);
 has mapping_id => (
     is      => 'rw',
     default => '',
@@ -95,24 +90,11 @@ has L2P => (    # login 2 password
 
 =begin TML
 
----++ PROTECTED ClassMethod new (session => $session, mapping_id => $mapping_id)
+---++ PROTECTED ClassMethod new (app => $app, mapping_id => $mapping_id)
 
 Construct a user mapping object, using the given mapping id.
 
 =cut
-
-=begin TML
-
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-#sub finish {
-#    my $this = shift;
-#    undef $this->{mapping_id};
-#    undef $this->{session};
-#}
 
 =begin TML
 
@@ -385,7 +367,7 @@ adds the user specified by the cuid to the group.
 Mapper should throws Foswiki::Exception if errors are encountered.  For example,
 if the group does not exist, and the create flag is not supplied:
 <pre>
-    Foswiki::Exception->throw( text => $this->session
+    Foswiki::Exception->throw( text => $this->app
         ->i18n->maketext('Group does not exist and create not permitted')
     ) unless ($create);
 </pre>
@@ -404,7 +386,7 @@ Mapper should throws Foswiki::Exception if errors are encountered.  For example,
 if the user does not exist in the group:
 <pre>
    Foswiki::Exception->throw(
-      text => $this->session->i18n->maketext(
+      text => $this->app->i18n->maketext(
          'User [_1] not in group, cannot be removed', $cuid
       )
    );

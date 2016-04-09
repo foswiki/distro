@@ -62,7 +62,7 @@ my %reservedFieldNames = map { $_ => 1 }
 my @default_columns = qw/name type size value description attributes default/;
 my %valid_columns = map { $_ => 1 } @default_columns;
 
-our @_newParameters = qw(session web form def);
+#our @_newParameters = qw(app web form def);
 
 has def => (
     is        => 'ro',
@@ -84,9 +84,9 @@ has mandatoryFieldsPresent => (
 
 =begin TML
 
----++ ClassMethod load ( $session, $web, $topic, \@def )
+---++ ClassMethod load ( $app, $web, $topic, \@def )
 
-Looks up a form in the session object or, if it hasn't been read yet,
+Looks up a form in the app object or, if it hasn't been read yet,
 reads it from the form definition topic on disc.
    * =$web= - default web to recover form from, if =$form= doesn't
      specify a web
@@ -103,9 +103,9 @@ in the database is protected against view.
 =cut
 
 sub _validateWebTopic {
-    my ( $session, $web, $form ) = @_;
+    my ( $app, $web, $form ) = @_;
 
-    my ( $vweb, $vtopic ) = $session->normalizeWebTopicName( $web, $form );
+    my ( $vweb, $vtopic ) = $app->normalizeWebTopicName( $web, $form );
 
     # Validating web/topic before usage.
     $vweb =
@@ -117,8 +117,8 @@ sub _validateWebTopic {
         Foswiki::OopsException->throw(
             template => 'attention',
             def      => 'invalid_form_name',
-            web      => $session->webName,
-            topic    => $session->topicName,
+            web      => $app->webName,
+            topic    => $app->topicName,
             params   => [ $web, $form ]
         );
     }
@@ -130,12 +130,12 @@ sub _validateWebTopic {
 # and become a new constructor. Required to stay in compliance with Moo
 # architecture and avoid replacing of the standard new() method.
 sub loadCached {
-    my ( $class, $session, $web, $form, $def ) = @_;
+    my ( $class, $app, $web, $form, $def ) = @_;
 
-    my ( $vweb, $vtopic ) = _validateWebTopic( $session, $web, $form );
+    my ( $vweb, $vtopic ) = _validateWebTopic( $app, $web, $form );
 
     my $this;
-    if ( defined( $this = $session->forms->{"$vweb.$vtopic"} ) ) {
+    if ( defined( $this = $app->forms->{"$vweb.$vtopic"} ) ) {
         unless ( $this->isa('Foswiki::Form') ) {
 
             #recast if we have to - allowing the cache to work its magic
@@ -144,8 +144,8 @@ sub loadCached {
     }
 
     return $this if defined $this;
-    return $class->new(
-        session   => $session,
+    return $this->create(
+        $class,
         web       => $vweb,
         form      => $vtopic,
         _indirect => 1,
@@ -159,9 +159,9 @@ around BUILDARGS => sub {
 
     my $params = $orig->( $class, @_ );
 
-    my $session = $params->{session};
+    my $app = $params->{app};
     my ( $vweb, $vtopic ) =
-      _validateWebTopic( $session, $params->{web}, $params->{form} );
+      _validateWebTopic( $app, $params->{web}, $params->{form} );
 
     # Cast form into topic to as our base Foswiki::Meta knows it.
     $params->{topic} = $vtopic;
@@ -175,12 +175,12 @@ around BUILDARGS => sub {
     delete $params->{_indirect};
 
     # Got to have either a def or a topic
-    unless ( $params->{def} || $session->topicExists( $vweb, $vtopic ) ) {
+    unless ( $params->{def} || $app->topicExists( $vweb, $vtopic ) ) {
         Foswiki::OopsException->throw(
             template => 'attention',
             def      => 'no_form_def',
-            web      => $session->webName,
-            topic    => $session->topicName,
+            web      => $app->webName,
+            topic    => $app->topicName,
             params   => [ $vweb, $vtopic ]
         );
     }
@@ -191,18 +191,18 @@ around BUILDARGS => sub {
 sub BUILD {
     my $this = shift;
 
-    my $session = $this->session;
-    my $web     = $this->web;
-    my $topic   = $this->topic;
+    my $app   = $this->app;
+    my $web   = $this->web;
+    my $topic = $this->topic;
 
     unless ( $this->has_def || $this->haveAccess('VIEW') ) {
-        Foswiki::AccessControlException->throw( 'VIEW', $session->user,
+        Foswiki::AccessControlException->throw( 'VIEW', $app->user,
             $web, $topic, $Foswiki::Meta::reason );
     }
 
     # cache the object before we've parsed it to prevent recursion
     #when there are SEARCH / INCLUDE macros in the form definition
-    $session->forms->{"$web.$topic"} = $this;
+    $app->forms->{"$web.$topic"} = $this;
 
     unless ( $this->has_def ) {
         $this->fields( $this->_parseFormDefinition() );
@@ -237,10 +237,8 @@ sub getAvailableForms {
     # SMELL: Item11527, why aren't we using Foswiki::Func::getPreferencesValue?
     # AKA: Why can't we inherit WEBFORMS from parent webs?
     if ( defined $contextObject->topic ) {
-        $metaObject = Foswiki::Meta->new(
-            session => $contextObject->session,
-            web     => $contextObject->web
-        );
+        $metaObject =
+          $contextObject->create( 'Foswiki::Meta', web => $contextObject->web );
         $legalForms = $metaObject->getPreference('WEBFORMS') || '';
         $legalForms =
           Foswiki::Func::expandCommonVariables( $legalForms,
@@ -461,13 +459,12 @@ sub createField {
         Foswiki::load_package($class);
     }
     catch {
-        $this->session->logger->log( 'error',
-            "error compiling class $class: $@" );
+        $this->app->logger->log( 'error', "error compiling class $class: $@" );
 
         # Type not available; use base type
         $class = 'Foswiki::Form::FieldDefinition';
     };
-    return $class->new( session => $this->session, type => $type, @_ );
+    return $this->create( $class, type => $type, @_ );
 }
 
 # Generate a link to the given topic, so we can bring up details in a
@@ -479,11 +476,11 @@ sub _link {
 
     $topic ||= $string;
     my $defaultToolTip =
-      $this->session->i18n->maketext('Details in separate window');
+      $this->app->i18n->maketext('Details in separate window');
     $tooltip ||= $defaultToolTip;
 
     ( my $web, $topic ) =
-      $this->session->normalizeWebTopicName( $this->web(), $topic );
+      $this->app->normalizeWebTopicName( $this->web(), $topic );
 
     $web =
       Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );
@@ -495,22 +492,22 @@ sub _link {
 
     my $link;
 
-    if ( $this->session->topicExists( $web, $topic ) ) {
+    if ( $this->app->topicExists( $web, $topic ) ) {
         $link = CGI::a(
             {
                 target => $topic,
                 title  => $tooltip,
-                href => $this->session->getScriptUrl( 0, 'view', $web, $topic ),
-                rel  => 'nofollow'
+                href   => $this->app->getScriptUrl( 0, 'view', $web, $topic ),
+                rel    => 'nofollow'
             },
             $string
         );
     }
     else {
-        my $that = Foswiki::Meta->new(
-            session => $this->session,
-            web     => $web,
-            topic   => $topic || $Foswiki::cfg{HomeTopicName}
+        my $that = $this->create(
+            'Foswiki::Meta',
+            web   => $web,
+            topic => $topic || $Foswiki::cfg{HomeTopicName}
         );
         my $expanded = $that->expandMacros($string);
         if ( $tooltip ne $defaultToolTip ) {
@@ -548,12 +545,12 @@ sub renderForEdit {
     my ( $this, $topicObject ) = @_;
     ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
     require CGI;
-    my $session = $this->session;
+    my $app = $this->app;
 
     if ( $this->mandatoryFieldsPresent ) {
-        $session->enterContext('mandatoryfields');
+        $app->enterContext('mandatoryfields');
     }
-    my $tmpl = $session->templates->readTemplate('form');
+    my $tmpl = $app->templates->readTemplate('form');
     $tmpl = $topicObject->expandMacros($tmpl);
 
     $tmpl =~ s/%FORMTITLE%/$this->_link( $this->web.'.'.$this->topic )/ge;
@@ -597,7 +594,7 @@ sub renderForEdit {
             # Give plugin field types a chance first (but no chance to add to
             # col 0 :-(
             # SMELL: assumes that the field value is a string
-            my $output = $session->plugins->dispatch(
+            my $output = $app->plugins->dispatch(
                 'renderFormFieldForEditHandler', $fieldDef->{name},
                 $fieldDef->{type},               $fieldDef->{size},
                 $value,                          $fieldDef->{attributes},
@@ -758,7 +755,7 @@ sub getFields {
 sub renderForDisplay {
     my ( $this, $topicObject ) = @_;
 
-    my $templates = $this->session->templates;
+    my $templates = $this->app->templates;
     $templates->readTemplate('formtables');
 
     my $text = $templates->expandTemplate('FORM:display:header');
@@ -806,10 +803,10 @@ sub _extractPseudoFieldDefs {
 
         # Fields are name, value, title, but there is no other type
         # information so we have to treat them all as "text" :-(
-        my $fieldDef = new Foswiki::Form::FieldDefinition(
-            session => $this->session,
-            name    => $field->{name},
-            title   => $field->{title} || $field->{name}
+        my $fieldDef = $this->create(
+            'Foswiki::Form::FieldDefinition',
+            name  => $field->{name},
+            title => $field->{title} || $field->{name}
         );
         push( @fieldDefs, $fieldDef );
     }

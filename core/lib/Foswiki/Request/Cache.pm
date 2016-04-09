@@ -31,13 +31,13 @@ use Foswiki::Sandbox         ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 use constant TRACE_CACHE => 0;
 
 =begin TML
 
----++ ClassMethod new()
+---++ ClassMethod new( app => $app )
 
 Construct a new request cache.
 

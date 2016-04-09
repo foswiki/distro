@@ -62,7 +62,7 @@ use Foswiki::LoginManager      ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 use Assert;
 
@@ -76,12 +76,6 @@ BEGIN {
     }
 }
 
-has session => (
-    is       => 'rw',
-    weak_ref => 1,
-    clearer  => 1,
-    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
-);
 has mapping => (
     is        => 'rw',
     lazy      => 1,
@@ -137,7 +131,7 @@ has _isAdmin => (
 
 =begin TML
 
----++ ClassMethod new ($session)
+---++ ClassMethod new (app => $app)
 Construct the user management object that is the facade to the BaseUserMapping
 and the user mapping chosen in the configuration.
 
@@ -146,15 +140,14 @@ and the user mapping chosen in the configuration.
 sub BUILD {
     my $this = shift;
 
-    my $session = $this->session;
+    my $app = $this->app;
 
     # making basemapping
     my $implBaseUserMappingManager = $Foswiki::cfg{BaseUserMappingManager}
       || 'Foswiki::Users::BaseUserMapping';
     eval "require $implBaseUserMappingManager";
     Foswiki::Exception->throw( text => $@ ) if $@;
-    $this->basemapping(
-        $implBaseUserMappingManager->new( session => $session ) );
+    $this->basemapping( $this->create($implBaseUserMappingManager) );
 
     my $implUserMappingManager = $Foswiki::cfg{UserMappingManager};
     $implUserMappingManager = 'Foswiki::Users::TopicUserMapping'
@@ -167,16 +160,16 @@ sub BUILD {
         Foswiki::load_package($implUserMappingManager);
 
         #Foswiki::Exception->throw(text => $@) if $@;
-        $this->mapping( $implUserMappingManager->new( session => $session ) );
+        $this->mapping( $this->create($implUserMappingManager) );
     }
 
-    $this->loginManager( Foswiki::LoginManager::makeLoginManager($session) );
+    $this->loginManager( Foswiki::LoginManager::makeLoginManager($app) );
 
     # the UI for rego supported/not is different from rego temporarily
     # turned off
     if ( $this->supportsRegistration() ) {
-        $session->enterContext('registration_supported');
-        $session->enterContext('registration_enabled')
+        $app->enterContext('registration_supported');
+        $app->enterContext('registration_enabled')
           if $Foswiki::cfg{Register}{EnableNewUserRegistration};
     }
 
@@ -217,7 +210,7 @@ sub loginTemplateName {
 
     #use login.sudo.tmpl for admin logins
     return $this->basemapping->loginTemplateName()
-      if ( $this->session->inContext('sudo_login') );
+      if ( $this->app->inContext('sudo_login') );
     return $this->mapping->loginTemplateName() || 'login';
 }
 
@@ -289,7 +282,7 @@ sub initialiseUser {
 
     # For compatibility with older ways of building login managers,
     # plugins can provide an alternate login name.
-    my $plogin = $this->session->plugins->load();
+    my $plogin = $this->app->plugins->load();
 
     #Monitor::MARK("Plugins loaded");
 
@@ -449,7 +442,7 @@ sub getCGISession {
 
 ---++ ObjectMethod getLoginManager() -> $loginManager
 
-Get the Foswiki::LoginManager object associated with this session, if there is
+Get the Foswiki::LoginManager object associated with this app, if there is
 one. May return undef.
 
 =cut
@@ -526,7 +519,7 @@ sub getCanonicalUserID {
             # TopicUserMappingContrib but may be used by other mappers
             # that support user topics)
             my ( $dummy, $nid ) =
-              $this->session->normalizeWebTopicName( '', $identifier );
+              $this->app->normalizeWebTopicName( '', $identifier );
             $identifier = $nid if ( $dummy eq $Foswiki::cfg{UsersWebName} );
 
             my $found = $this->findUserByWikiName($identifier);
@@ -973,7 +966,7 @@ returns 1 if the group is able to be modified by the current logged in user
 sub groupAllowsChange {
     my $this  = shift;
     my $group = shift;
-    my $cuid  = shift || $this->session->{user};
+    my $cuid  = shift || $this->app->user;
 
     return (  $this->basemapping->groupAllowsChange( $group, $cuid )
           and $this->mapping->groupAllowsChange( $group, $cuid ) );

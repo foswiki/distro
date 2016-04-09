@@ -26,8 +26,7 @@ use Foswiki::Infix::Error             ();
 
 use Moo;
 use namespace::clean;
-
-extends 'Foswiki::Object';
+extends qw(Foswiki::AppObject);
 
 use Assert;
 
@@ -40,12 +39,11 @@ BEGIN {
     }
 }
 
-has session => ( is => 'ro', weak_ref => 1, );
 has metacache => (
     is      => 'ro',
     lazy    => 1,
     default => sub {
-        return Foswiki::MetaCache->new( session => $_[0]->session );
+        return $_[0]->create('Foswiki::MetaCache');
     },
 );
 has queryParser => (
@@ -60,8 +58,7 @@ has searchParser => (
     is      => 'ro',
     lazy    => 1,
     default => sub {
-        require Foswiki::Search::Parser;
-        return Foswiki::Search::Parser->new( session => $_[0]->session );
+        return $_[0]->create('Foswiki::Search::Parser');
     },
 );
 
@@ -79,7 +76,7 @@ Break circular references.
 # XXX vrurg finish is not needed as attributes will be cleared automatically.
 #sub finish {
 #    my $this = shift;
-#    undef $this->session;
+#    undef $this->app;
 #
 ## these may well be function objects, but if (a setting changes, it needs to be picked up again.
 #    if ( defined( $this->queryParser ) ) {
@@ -261,18 +258,18 @@ FIXME: =callback= cannot work with format parameter (consider format='| $topic |
 =cut
 
 sub searchWeb {
-    my $this    = shift;
-    my $session = $this->session;
-    ASSERT( defined $session->webName ) if DEBUG;
+    my $this = shift;
+    my $app  = $this->app;
+    ASSERT( defined $app->request->web ) if DEBUG;
     my %params = @_;
 
     my $baseWebObject =
-      Foswiki::Meta->new( session => $session, web => $session->webName );
+      $this->create( 'Foswiki::Meta', web => $app->request->web );
 
     my ( $callback, $cbdata ) = setup_callback( \%params, $baseWebObject );
 
-    my $baseTopic = $params{basetopic} || $session->topicName;
-    my $baseWeb   = $params{baseweb}   || $session->webName;
+    my $baseTopic = $params{basetopic} || $app->topicName;
+    my $baseWeb   = $params{baseweb}   || $app->webName;
     $params{casesensitive} = Foswiki::isTrue( $params{casesensitive} );
     $params{excludeTopics} = $params{excludetopic} || '';
     my $formatDefined = $params{formatdefined} = defined $params{format};
@@ -384,7 +381,7 @@ sub searchWeb {
     $params{pager_urlparam_id} = $paging_ID;
 
     # 1-based system; 0 is not a valid page number
-    $params{showpage} = $session->request->param($paging_ID)
+    $params{showpage} = $app->request->param($paging_ID)
       || $params{showpage};
 
     #append a pager to the end of the search result.
@@ -507,7 +504,7 @@ sub loadTemplates {
         $noSummary,     $noTotal,    $noFooter
     ) = @_;
 
-    my $session = $this->session;
+    my $app = $this->app;
 
     #tmpl loading code.
     my $tmpl = '';
@@ -526,7 +523,7 @@ sub loadTemplates {
     else {
         $template = 'search';
     }
-    $tmpl = $session->templates->readTemplate($template);
+    $tmpl = $app->templates->readTemplate($template);
 
 #print STDERR "}}} $tmpl {{{\n";
 # SMELL: the only META tags in a template will be METASEARCH
@@ -541,23 +538,21 @@ sub loadTemplates {
     my $repeatText;
 
     if ( !defined($tmplTail) ) {
-        $tmplSearch = $session->templates->expandTemplate('SEARCH:searched');
-        $tmplNumber = $session->templates->expandTemplate('SEARCH:count');
+        $tmplSearch = $app->templates->expandTemplate('SEARCH:searched');
+        $tmplNumber = $app->templates->expandTemplate('SEARCH:count');
 
 #it'd be nice to not need this if, but it seem that the noheader setting is ignored if a header= is set. truely bizzare
 #TODO: push up the 'noheader' evaluation to take not of this quirk
 #TODO: um, we die when ASSERT is on with a wide char in print
         unless ($noHeader) {
-            $params->{header} =
-              $session->templates->expandTemplate('SEARCH:header')
+            $params->{header} = $app->templates->expandTemplate('SEARCH:header')
               unless defined $params->{header};
         }
 
-        $repeatText = $session->templates->expandTemplate('SEARCH:format');
+        $repeatText = $app->templates->expandTemplate('SEARCH:format');
 
         unless ($noFooter) {
-            $params->{footer} =
-              $session->templates->expandTemplate('SEARCH:footer')
+            $params->{footer} = $app->templates->expandTemplate('SEARCH:footer')
               unless defined $params->{footer};
         }
     }
@@ -611,12 +606,12 @@ the hash of subs can take care of %MACRO{}% specific complex to evaluate replace
 
 sub formatResults {
     my ( $this, $query, $infoCache, $params ) = @_;
-    my $session = $this->session;
-    my $users   = $session->users;
+    my $app   = $this->app;
+    my $users = $app->users;
     my ( $callback, $cbdata ) = setup_callback($params);
 
-    my $baseTopic     = $session->topicName;
-    my $baseWeb       = $session->webName;
+    my $baseTopic     = $app->topicName;
+    my $baseWeb       = $app->webName;
     my $doBookView    = Foswiki::isTrue( $params->{bookview} );
     my $caseSensitive = Foswiki::isTrue( $params->{casesensitive} );
     my $doExpandVars  = Foswiki::isTrue( $params->{expandvariables} );
@@ -673,11 +668,11 @@ sub formatResults {
         my %new_params;
 
         #kill me please, i can't find a way to just load up the hash :(
-        foreach my $key ( $session->request->param ) {
-            $new_params{$key} = $session->request->param($key);
+        foreach my $key ( $app->request->param ) {
+            $new_params{$key} = $app->request->param($key);
         }
 
-        $session->templates->readTemplate('searchformat');
+        $app->templates->readTemplate('searchformat');
 
         %pager_formatting = (
             'previouspage'  => sub { return $previousidx },
@@ -704,7 +699,7 @@ sub formatResults {
             if ( $previousidx >= 1 ) {
                 $new_params{$paging_ID} = $previousidx;
                 $previouspagebutton =
-                  $session->templates->expandTemplate('SEARCH:pager_previous');
+                  $app->templates->expandTemplate('SEARCH:pager_previous');
             }
             $previouspagebutton =
               $this->formatCommon( $previouspagebutton, \%pager_formatting );
@@ -727,7 +722,7 @@ sub formatResults {
             if ( $nextidx <= $infoCache->numberOfPages() ) {
                 $new_params{$paging_ID} = $nextidx;
                 $nextpagebutton =
-                  $session->templates->expandTemplate('SEARCH:pager_next');
+                  $app->templates->expandTemplate('SEARCH:pager_next');
             }
             $nextpagebutton =
               $this->formatCommon( $nextpagebutton, \%pager_formatting );
@@ -738,7 +733,7 @@ sub formatResults {
             my $pager_control = '';
             if ( $infoCache->numberOfPages() > 1 ) {
                 $pager_control = $params->{pagerformat}
-                  || $session->templates->expandTemplate('SEARCH:pager');
+                  || $app->templates->expandTemplate('SEARCH:pager');
                 $pager_control =
                   $this->formatCommon( $pager_control, \%pager_formatting );
             }
@@ -773,8 +768,8 @@ sub formatResults {
     my $nhits      = 0;         # number of hits (if multiple=on) in current web
     my $headerDone = $noHeader;
 
-    my $web = $baseWeb;
-    my $webObject = Foswiki::Meta->new( session => $session, web => $web );
+    my $web              = $baseWeb;
+    my $webObject        = $this->create( 'Foswiki::Meta', web => $web );
     my $lastWebProcessed = '';
 
     #total number of topics and hits - not reset when we swap webs
@@ -802,7 +797,7 @@ sub formatResults {
               Foswiki::Func::normalizeWebTopicName( '', $listItem );
 
 # add dependencies (TODO: unclear if this should be before the paging, or after the allowView - sadly, it can't be _in_ the infoCache)
-            if ( my $cache = $session->cache ) {
+            if ( my $cache = $app->cache ) {
                 $cache->addDependency( $web, $topic );
             }
 
@@ -811,10 +806,10 @@ sub formatResults {
 
 #TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
 #lets change that
-                $topicMeta = Foswiki::Meta->new(
-                    session => $session,
-                    web     => $web,
-                    topic   => $topic
+                $topicMeta = $this->create(
+                    'Foswiki::Meta',
+                    web   => $web,
+                    topic => $topic
                 );
             }
             $info = $this->metacache->get( $web, $topic, $topicMeta );
@@ -946,8 +941,7 @@ sub formatResults {
             }
 
             if ( $lastWebProcessed ne $web ) {
-                $webObject =
-                  Foswiki::Meta->new( session => $session, web => $web );
+                $webObject = $this->create( 'Foswiki::Meta', web => $web );
                 $lastWebProcessed = $web;
 
                 #reset our web partitioned legacy counts
@@ -1006,7 +1000,7 @@ sub formatResults {
                 return $r;
             };
             my $handleRevInfo = sub {
-                return $session->renderer->renderRevisionInfo(
+                return $app->renderer->renderRevisionInfo(
                     $_[1],
                     $info->{revNum} || 0,
                     '$' . $_[0]
@@ -1130,7 +1124,7 @@ sub formatResults {
         else {
             $footer = '';
         }
-        ##MOVEDUP $webObject = new Foswiki::Meta( $session, $baseWeb );
+        ##MOVEDUP $webObject = new Foswiki::Meta( $app, $baseWeb );
     }
     else {
         if ( ( not $noTotal ) and ( defined( $params->{footercounter} ) ) ) {
@@ -1174,7 +1168,7 @@ sub formatResults {
 sub formatCommon {
     my ( $this, $out, $customKeys ) = @_;
 
-    my $session = $this->session;
+    my $app = $this->app;
 
     foreach my $key ( keys(%$customKeys) ) {
         $out =~ s/\$$key/&{$customKeys->{$key}}()/ges;
@@ -1202,7 +1196,7 @@ sub formatResult {
     my ( $this, $out, $item, $text, $searchOptions, $nonTomKeys, $tomKeys ) =
       @_;
 
-    my $session = $this->session;
+    my $app = $this->app;
 
     #TODO: these need to go away.
     my $revNum     = &{ $nonTomKeys->{'revNum'} }();
@@ -1245,8 +1239,8 @@ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
 
         # load the appropriate template for this item
         my $tmpl =
-          $session->templates->readTemplate( ucfirst $itemView . 'ItemView' );
-        my $text = $session->templates->expandTemplate('LISTITEM');
+          $app->templates->readTemplate( ucfirst $itemView . 'ItemView' );
+        my $text = $app->templates->expandTemplate('LISTITEM');
         $out = $text if $text;
     }
 
@@ -1271,7 +1265,7 @@ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
             $text = $item->text() unless defined $text;
             $text = ''            unless defined $text;
 
-            if ( $item->topic eq $session->topicName ) {
+            if ( $item->topic eq $app->topicName ) {
 
 #TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
 
@@ -1291,7 +1285,7 @@ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
     my $srev = 'r' . $revNum;
     if ( $revNum eq '0' || $revNum eq '1' ) {
         $srev = CGI::span( { class => 'foswikiNew' },
-            ( $session->i18n->maketext('NEW') ) );
+            ( $app->i18n->maketext('NEW') ) );
     }
     $out =~ s/%REVISION%/$srev/;
 

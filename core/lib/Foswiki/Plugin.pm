@@ -14,7 +14,7 @@ use Foswiki::ValidationException    ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 use Assert;
 
@@ -73,11 +73,6 @@ our %deprecated = (
     writeHeaderHandler          => 1,
 );
 
-has session => (
-    is       => 'ro',
-    weak_ref => 1,
-    required => 1,
-);
 has name => (
     is       => 'ro',
     required => 1,
@@ -107,14 +102,14 @@ has topicWeb => (
         unless ( $this->no_topic ) {
 
             # Find the plugin topic, if required
-            my $session = $this->session;
+            my $app = $this->app;
 
             foreach
               my $web ( split( /[, ]+/, $Foswiki::cfg{Plugins}{WebSearchPath} ),
-                $session->webName )
+                $app->request->web )
             {
                 $web = Foswiki::Sandbox::untaintUnchecked($web);    # Item11953
-                if ( $session->topicExists( $web, $this->name ) ) {
+                if ( $app->topicExists( $web, $this->name ) ) {
                     return $web;
                 }
             }
@@ -128,13 +123,13 @@ has topicWeb => (
 has no_topic    => ( is => 'rw', );
 has description => ( is => 'rw', );
 
-our @_newParameters = qw( session name module );
+#our @_newParameters = qw( session name module );
 
 =begin TML
 
----++ ClassMethod new( session => $session, name => $name[, module => $module] )
+---++ ClassMethod new( app => $app, name => $name[, module => $module] )
 
-   * =$session= - Foswiki object
+   * =$app= - Foswiki::App object
    * =$name= - name of the plugin e.g. MyPlugin
    * =$module= - name of implementing package; optional, used for tests.
      Normally =load= is used to discover the module from the config.
@@ -173,7 +168,7 @@ sub BUILD {
 
         # A preload handler can simply die if it doesn't like what it sees
         no strict 'refs';
-        &$fn( $this->session );
+        &$fn( $this->app );
         use strict 'refs';
     }
 }
@@ -207,9 +202,9 @@ sub load {
     # be loaded as a preference from the plugin topic later
     $this->description( eval '$' . $this->module . '::SHORTDESCRIPTION' );
 
-    # Set the session for this call stack
-    local $Foswiki::Plugins::SESSION = $this->session;
-    ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
+    # Set the app for this call stack
+    #local $Foswiki::Plugins::SESSION = $this->session;
+    #ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
     my $sub = $this->module . "::initPlugin";
     if ( !defined(&$sub) ) {
@@ -237,9 +232,9 @@ sub load {
     if ( defined(&$sub) ) {
         no strict 'refs';
         $user = &$sub(
-            $this->session->remoteUser,
-            $this->session->request->url,
-            $this->session->request->path_info
+            $this->app->remoteUser,
+            $this->app->request->url,
+            $this->app->request->path_info
         );
         use strict 'refs';
     }
@@ -255,7 +250,7 @@ sub registerSettings {
 
     return if $this->disabled;
 
-    my $prefs = $this->session->prefs;
+    my $prefs = $this->app->prefs;
     if ( !$this->no_topic ) {
         $prefs->setPluginPreferences( $this->topicWeb, $this->name );
     }
@@ -330,7 +325,7 @@ MESSAGE
             $plugins->addListener( $h, $this );
         }
     }
-    $this->session->enterContext( $this->name . 'Enabled' );
+    $this->app->enterContext( $this->name . 'Enabled' );
 }
 
 # Invoke a handler
@@ -369,18 +364,18 @@ sub getDescription {
 
     unless ( defined $this->description ) {
         my $pref  = uc( $this->name ) . '_SHORTDESCRIPTION';
-        my $prefs = $this->session->prefs;
+        my $prefs = $this->app->prefs;
         $this->description( $prefs->getPreference($pref) || '' );
     }
     if ( $this->disabled ) {
         my $reason = '';
         if ( $this->reason ) {
-            $reason = $this->session->inlineAlert( 'alerts', $this->reason );
+            $reason = $this->app->inlineAlert( 'alerts', $this->reason );
         }
         return
             ' '
           . $this->name . ': '
-          . $this->session->inlineAlert( 'alerts', 'plugin_disabled' )
+          . $this->app->inlineAlert( 'alerts', 'plugin_disabled' )
           . $reason;
     }
 

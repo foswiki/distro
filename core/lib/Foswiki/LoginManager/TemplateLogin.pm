@@ -34,7 +34,7 @@ BEGIN {
 
 =begin TML
 
----++ ClassMethod new ($session, $impl)
+---++ ClassMethod new (app => $app, $impl)
 
 Construct the TemplateLogin object
 
@@ -43,13 +43,13 @@ Construct the TemplateLogin object
 sub BUILD {
     my $this = shift;
 
-    my $session = $this->session;
-    $session->enterContext('can_login');
+    my $app = $this->app;
+    $app->enterContext('can_login');
     if ( $Foswiki::cfg{Sessions}{ExpireCookiesAfter} ) {
-        $session->enterContext('can_remember_login');
+        $app->enterContext('can_remember_login');
     }
     if ( $Foswiki::cfg{TemplateLogin}{PreventBrowserRememberingPassword} ) {
-        $session->enterContext('no_auto_complete_login');
+        $app->enterContext('no_auto_complete_login');
     }
 }
 
@@ -59,7 +59,7 @@ sub BUILD {
 sub _packRequest {
     my ( $uri, $method, $action ) = @_;
     return '' unless $uri;
-    if ( ref($uri) ) {    # first parameter is a $session
+    if ( ref($uri) ) {    # first parameter is a $app
         my $r = $uri->request;
         $uri    = $r->uri();
         $uri    = Foswiki::urlDecode($uri);
@@ -86,12 +86,12 @@ Triggered on auth fail
 =cut
 
 sub forceAuthentication {
-    my $this    = shift;
-    my $session = $this->session;
+    my $this = shift;
+    my $app  = $this->app;
 
-    unless ( $session->inContext('authenticated') ) {
-        my $query    = $session->request;
-        my $response = $session->response;
+    unless ( $app->inContext('authenticated') ) {
+        my $query    = $app->request;
+        my $response = $app->response;
 
         # Respond with a 401 with an appropriate WWW-Authenticate
         # that won't be snatched by the browser, but can be used
@@ -104,11 +104,11 @@ sub forceAuthentication {
 
         $query->param(
             -name  => 'foswiki_origin',
-            -value => _packRequest($session)
+            -value => _packRequest($app)
         );
 
         # Throw back the login page with the 401
-        $this->login( $query, $session );
+        $this->login( $query, $app );
 
         return 1;
     }
@@ -124,17 +124,17 @@ Overrides LoginManager. Content of a login link.
 =cut
 
 sub loginUrl {
-    my $this    = shift;
-    my $session = $this->session;
-    my $topic   = $session->topicName;
-    my $web     = $session->webName;
-    return $session->getScriptUrl( 0, 'login', $web, $topic,
-        foswiki_origin => _packRequest($session) );
+    my $this  = shift;
+    my $app   = $this->app;
+    my $topic = $app->topicName;
+    my $web   = $app->webName;
+    return $app->getScriptUrl( 0, 'login', $web, $topic,
+        foswiki_origin => _packRequest($app) );
 }
 
 =begin TML
 
----++ ObjectMethod login( $query, $session )
+---++ ObjectMethod login( $query, $app )
 
 If a login name and password have been passed in the query, it
 validates these and if authentic, redirects to the original
@@ -155,8 +155,8 @@ database, that can then be displayed by referring to
 =cut
 
 sub login {
-    my ( $this, $query, $session ) = @_;
-    my $users = $session->users;
+    my ( $this, $query, $app ) = @_;
+    my $users = $app->users;
 
     my $origin = $query->param('foswiki_origin');
     my ( $origurl, $origmethod, $origaction ) = _unpackRequest($origin);
@@ -169,12 +169,12 @@ sub login {
 
     # UserMappings can over-ride where the login template is defined
     my $loginTemplate = $users->loginTemplateName();    #defaults to login.tmpl
-    my $tmpl = $session->templates->readTemplate($loginTemplate);
+    my $tmpl = $app->templates->readTemplate($loginTemplate);
 
-    my $banner = $session->templates->expandTemplate('LOG_IN_BANNER');
+    my $banner = $app->templates->expandTemplate('LOG_IN_BANNER');
     my $note   = '';
-    my $topic  = $session->topicName;
-    my $web    = $session->webName;
+    my $topic  = $app->topicName;
+    my $web    = $app->webName;
 
     # CAUTION:  LoginManager::userLoggedIn() will delete and recreate
     # the CGI Session.
@@ -188,8 +188,8 @@ sub login {
         && $loginName
         && $loginName ne $this->_cgisession->param('AUTHUSER') )
     {
-        $banner = $session->templates->expandTemplate('LOGGED_IN_BANNER');
-        $note   = $session->templates->expandTemplate('NEW_USER_NOTE');
+        $banner = $app->templates->expandTemplate('LOGGED_IN_BANNER');
+        $note   = $app->templates->expandTemplate('NEW_USER_NOTE');
     }
 
     my $error = '';
@@ -224,7 +224,7 @@ sub login {
             # the params passed to this script, and they will be used
             # in loadSession if no other user info is available.
             $this->userLoggedIn($loginName);
-            $session->logger->log(
+            $app->logger->log(
                 {
                     level    => 'info',
                     action   => 'login',
@@ -240,7 +240,7 @@ sub login {
             $this->_cgisession->param( 'VALIDATION', $validation )
               if $this->_has_cgisession;
             if ( !$origurl || $origurl eq $query->url() ) {
-                $origurl = $session->getScriptUrl( 0, 'view', $web, $topic );
+                $origurl = $app->getScriptUrl( 0, 'view', $web, $topic );
             }
             else {
 
@@ -263,7 +263,7 @@ sub login {
             # Restore the method used on origUrl so if it was a GET, we
             # get another GET.
             $query->method($origmethod);
-            $session->redirect( $origurl, 1 );
+            $app->redirect( $origurl, 1 );
             return;
         }
         else {
@@ -272,8 +272,8 @@ sub login {
             # used for authentication failures. RFC states: "Authorization
             # will not help and the request SHOULD NOT be repeated" which
             # is not the situation here.
-            $session->response->status(200);
-            $session->logger->log(
+            $app->response->status(200);
+            $app->logger->log(
                 {
                     level    => 'info',
                     action   => 'login',
@@ -281,7 +281,7 @@ sub login {
                     extra    => "AUTHENTICATION FAILURE - $loginName - ",
                 }
             );
-            $banner = $session->templates->expandTemplate('UNRECOGNISED_USER');
+            $banner = $app->templates->expandTemplate('UNRECOGNISED_USER');
         }
     }
     else {
@@ -290,13 +290,13 @@ sub login {
         # valid GET call to http://foswiki/bin/login
         # 4xx cannot be a correct status, as we want the user to retry the
         # same URL with a different login/password
-        $session->response->status(200);
+        $app->response->status(200);
     }
 
     # Remove the validation_key from the *passed through* params. It isn't
     # required, because the form will have a new validation key, and
     # giving the parameter twice will confuse the strikeone Javascript.
-    $session->request->delete('validation_key');
+    $app->request->delete('validation_key');
 
     # set the usernamestep value so it can be re-displayed if we are here due
     # to a failed authentication attempt.
@@ -311,9 +311,9 @@ sub login {
         $path_info = substr( $path_info, 0, ( ( pos $path_info ) - 1 ) );
     }
 
-    # Set session preferences that will be expanded when the login
+    # Set app preferences that will be expanded when the login
     # template is instantiated
-    $session->prefs->setSessionPreferences(
+    $app->prefs->setSessionPreferences(
         FOSWIKI_ORIGIN => Foswiki::entityEncode(
             _packRequest( $origurl, $origmethod, $origaction )
         ),
@@ -330,11 +330,11 @@ sub login {
     );
 
     my $topicObject =
-      Foswiki::Meta->new( session => $session, web => $web, topic => $topic );
+      $this->create( 'Foswiki::Meta', web => $web, topic => $topic );
     $tmpl = $topicObject->expandMacros($tmpl);
     $tmpl = $topicObject->renderTML($tmpl);
     $tmpl =~ s/<nop>//g;
-    $session->writeCompletePage($tmpl);
+    $app->writeCompletePage($tmpl);
 }
 
 1;
