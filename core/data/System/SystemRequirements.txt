@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457670956" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1460213988" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+ System Requirements
 
@@ -19,7 +19,7 @@ Foswiki is written in Perl 5, which is supported on Microsoft Windows as well as
 
 Foswiki is designed to automatically detect the platform and generate a basic configuration the first time the =configure= script is run, but start from your expected default "view" URL, so that Foswiki can figure out your URL scheme.
 
-Prior versions of Foswiki shipped with the important CPAN modules. Foswiki 2.0 does not, and *you must ensure that the perl dependencies listed below are installed before attempting to use Foswiki.* For a detailed report, [[PerlDependencyReport][See PerlDependencyReport]] (admin access only!) or the shell script =tools/dependencies=.
+Prior versions of Foswiki shipped with the important CPAN modules. Foswiki 2.0 does not, and *you must ensure that the perl dependencies listed below are installed before attempting to use Foswiki.* For a detailed report, %IF{"$skin = 'plain'" then="<nop>System.<nop>PerlDependencyReport in your installation" else="[[$percntSYSTEMWEB$percnt.PerlDependencyReport]]"}% (admin access only!) or the shell script =tools/dependencies=.
 
 If you are unable to install CPAN modules, see Foswiki:Extensions.CpanContrib. Install this extension into your Foswiki installation directory if you cannot install Perl modules otherwise.
 
