@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1460168492" format="1.1" version="1"}%
 ---+!! !ModPerlEngineContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -149,6 +149,7 @@ set in %USERSWEB%.SitePreferences, default taken from
 ---++ Info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  08 Apr 2016 (1.03) | Foswikitask:Item14022 Change foswiki.org links to https. |
 |  16 Jan 2016 (1.02) | Foswikitask:Item13926 Fix backwards compatibility with Foswiki 1.1. |
 |  20 Oct 2015 (1.01) | Released with Foswiki 2.0.3.<br />\
                         Foswikitask:Item13830: Unable to upload utf-8 filenames as attachments. |

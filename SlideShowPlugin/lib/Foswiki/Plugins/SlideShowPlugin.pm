@@ -15,8 +15,8 @@ BEGIN {
     }
 }
 
-our $VERSION = 2.30;
-our $RELEASE = '08 Sep 2015';
+our $VERSION = 2.31;
+our $RELEASE = '08 Apr 2016';
 our $SHORTDESCRIPTION =
   'Create web based presentations based on topics with headings';
 our $NO_PREFS_IN_TOPIC = 1;
@@ -51,7 +51,7 @@ sub commonTagsHandler {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
