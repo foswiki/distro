@@ -551,7 +551,7 @@ msgid ""
 msgstr ""
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1309
+#: core/lib/Foswiki/UI/Register.pm:1367
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "%1 adresine onay/doğrulama için bir e-mail gönderilmiştir"
 
@@ -1003,7 +1003,7 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:99
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
 msgid ""
 "Caution: The password system is currently read only. Users will not be added "
 "to the Password file."
@@ -2197,7 +2197,7 @@ msgid ""
 "any more) and you have forgotten your password, please contact %1 for help."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:100
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:97
 msgid ""
 "If your wiki uses an external password manager, then it may stll safe to "
 "bulk register users.  Please contact %1 if you are unsure."
@@ -3361,7 +3361,7 @@ msgstr "Kayıt Ol"
 msgid "Registration"
 msgstr "Kayıt"
 
-#: core/lib/Foswiki/UI/Register.pm:736
+#: core/lib/Foswiki/UI/Register.pm:794
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3403,12 +3403,12 @@ msgstr ""
 msgid "Related Topics:"
 msgstr "İlgili Konular:"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:123
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:693
+#: core/data/System/CommandAndCGIScripts.txt:695
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -5110,11 +5110,11 @@ msgstr ""
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Register.pm:1302
+#: core/lib/Foswiki/UI/Register.pm:1360
 msgid "Warning: Could not send confirmation email"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Register.pm:1314
+#: core/lib/Foswiki/UI/Register.pm:1372
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 
@@ -5526,27 +5526,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "Türkçe"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:173
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:165
 msgid "access denied on root"
 msgstr ""
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:109
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:101
 msgid "access denied on topic"
 msgstr ""
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:145
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:137
 msgid "access denied on web"
 msgstr ""
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:183
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:175
 msgid "access not allowed on root"
 msgstr ""
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:132
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:124
 msgid "access not allowed on topic"
 msgstr "Konuya erişime izin verilmiyor"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:157
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:149
 msgid "access not allowed on web"
 msgstr "Web'e erişime izin verilmiyor"
 

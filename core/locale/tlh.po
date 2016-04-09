@@ -590,7 +590,7 @@ msgstr ""
 "hexadecimal mI&&#39;mey, yIbuS: =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1309
+#: core/lib/Foswiki/UI/Register.pm:1367
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "%1vaD &&#39;olmeH QIn ngelu&&#39;pu&&#39;"
 
@@ -1055,7 +1055,7 @@ msgstr "potlh <nop>DeghHom/Degh&&#39;a&&#39;"
 msgid "Categories"
 msgstr "Seghmey"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:99
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
 #, fuzzy
 msgid ""
 "Caution: The password system is currently read only. Users will not be added "
@@ -2315,7 +2315,7 @@ msgstr ""
 "ej chaw&&#39; <nop>ngoqlIj <nop>DalIjchugh, vaj <nop>QaH <nop>DaSammeH %1 "
 "yIrI&&#39;."
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:100
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:97
 msgid ""
 "If your wiki uses an external password manager, then it may stll safe to "
 "bulk register users.  Please contact %1 if you are unsure."
@@ -3455,7 +3455,7 @@ msgstr "muvta&&#39;bogh lo&&#39;wI&&#39;pu&&#39;&&#39;e&&#39;"
 msgid "Registration"
 msgstr "muvmeH mIw"
 
-#: core/lib/Foswiki/UI/Register.pm:736
+#: core/lib/Foswiki/UI/Register.pm:794
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3499,12 +3499,12 @@ msgstr "loHwI&&#39;vaD ghItlhmey:"
 msgid "Related Topics:"
 msgstr "rurbogh ghItlhmey:"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:123
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:693
+#: core/data/System/CommandAndCGIScripts.txt:695
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -5244,11 +5244,11 @@ msgstr "Qu&&#39;vatlh: ghItlh %1.%2 <nop>vISamlaHbe&&#39;"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Qu&&#39;vatlh: ghItlh %2mo&&#39; mIch %1 <nop>vISamlaHbe&&#39;"
 
-#: core/lib/Foswiki/UI/Register.pm:1302
+#: core/lib/Foswiki/UI/Register.pm:1360
 msgid "Warning: Could not send confirmation email"
 msgstr "Qu&&#39;vatlh: &&#39;olmeH QIn ngeHlaHbe&&#39;"
 
-#: core/lib/Foswiki/UI/Register.pm:1314
+#: core/lib/Foswiki/UI/Register.pm:1372
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Qu&&#39;vatlh: &&#39;olmeH QIn ngeHlaHbe&&#39;, QInmey chu&&#39;Ha&&#39;"
@@ -5698,27 +5698,27 @@ msgstr "[3 Deghmey chIm] * [chIm] Set [chIm] VARIABLENAME [chIm] = [Doch]"
 msgid "_language_name"
 msgstr "tlhIngan Hol"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:173
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:165
 msgid "access denied on root"
 msgstr "&&#39;oQqar <nop>Danaw&&#39; net chaw&&#39;be&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:109
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:101
 msgid "access denied on topic"
 msgstr "ghItlh <nop>Danaw&&#39; net chaw&&#39;be&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:145
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:137
 msgid "access denied on web"
 msgstr "mIch <nop>Danaw&&#39; net chaw&&#39;be&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:183
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:175
 msgid "access not allowed on root"
 msgstr "&&#39;oQqar Danaw&&#39; chaw&&#39;be&&#39;lu&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:132
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:124
 msgid "access not allowed on topic"
 msgstr "ghItlh Danaw&&#39; &&#39;e&&#39; chaw&&#39;be&&#39;lu&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:157
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:149
 msgid "access not allowed on web"
 msgstr "mIchDaq naw' chaw'be'lu'"
 

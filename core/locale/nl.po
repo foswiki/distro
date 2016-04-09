@@ -589,7 +589,7 @@ msgstr ""
 "bijvoorbeeld =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1309
+#: core/lib/Foswiki/UI/Register.pm:1367
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Een bevestigings e-mail is verstuurd naar %1"
 
@@ -1056,7 +1056,7 @@ msgstr "Hoofdlettergevoelig"
 msgid "Categories"
 msgstr "Categorie&&euml;n"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:99
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
 #, fuzzy
 msgid ""
 "Caution: The password system is currently read only. Users will not be added "
@@ -2300,7 +2300,7 @@ msgstr ""
 "mail kunt ontvangen) en je je wachtwoord bent vergeten, neem dan contact op "
 "met %1 voor hulp."
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:100
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:97
 msgid ""
 "If your wiki uses an external password manager, then it may stll safe to "
 "bulk register users.  Please contact %1 if you are unsure."
@@ -3442,7 +3442,7 @@ msgstr "Geregistreerde gebruikers"
 msgid "Registration"
 msgstr "Registreren"
 
-#: core/lib/Foswiki/UI/Register.pm:736
+#: core/lib/Foswiki/UI/Register.pm:794
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3486,12 +3486,12 @@ msgstr "Gerelateerde pagina&#39;s voor beheerders:"
 msgid "Related Topics:"
 msgstr "Gerelateerde pagina&#39;s:"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:123
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:693
+#: core/data/System/CommandAndCGIScripts.txt:695
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -5247,11 +5247,11 @@ msgstr "Waarschuwing: Kan pagina %1.%2 niet vinden"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Waarschuwing: kan web %1 voor pagina %2 niet vinden"
 
-#: core/lib/Foswiki/UI/Register.pm:1302
+#: core/lib/Foswiki/UI/Register.pm:1360
 msgid "Warning: Could not send confirmation email"
 msgstr "Waarschuwing: kon geen bevestigings e-mail versturen"
 
-#: core/lib/Foswiki/UI/Register.pm:1314
+#: core/lib/Foswiki/UI/Register.pm:1372
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Waarschuwing: kon geen bevestigings e-email versturen; versturen van e-mail "
@@ -5715,27 +5715,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "Nederlands"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:173
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:165
 msgid "access denied on root"
 msgstr "toegang tot 'root' niet toegestaan"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:109
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:101
 msgid "access denied on topic"
 msgstr "toegang tot pagina niet toegestaan"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:145
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:137
 msgid "access denied on web"
 msgstr "toegang tot web niet toegestaan"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:183
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:175
 msgid "access not allowed on root"
 msgstr "toegang tot 'root' niet toegestaan"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:132
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:124
 msgid "access not allowed on topic"
 msgstr "toegang tot pagina niet toegestaan"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:157
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:149
 msgid "access not allowed on web"
 msgstr "toegang tot web niet toegestaan"
 

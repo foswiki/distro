@@ -594,7 +594,7 @@ msgid ""
 msgstr "颜色记号始于 # 标记，后面由 6 个位元的 16 进位数组成，如 =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1309
+#: core/lib/Foswiki/UI/Register.pm:1367
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "确认的电子邮件已寄往 %1 "
 
@@ -1061,7 +1061,7 @@ msgstr "区分字母大小写"
 msgid "Categories"
 msgstr "类别"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:99
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
 #, fuzzy
 msgid ""
 "Caution: The password system is currently read only. Users will not be added "
@@ -2290,7 +2290,7 @@ msgstr ""
 "如果您的旧邮件地址失效（您无法收到任何邮件）而又忘记密码的话，请联系 %1 协"
 "助。"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:100
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:97
 msgid ""
 "If your wiki uses an external password manager, then it may stll safe to "
 "bulk register users.  Please contact %1 if you are unsure."
@@ -3480,7 +3480,7 @@ msgstr "注册"
 msgid "Registration"
 msgstr "注册"
 
-#: core/lib/Foswiki/UI/Register.pm:736
+#: core/lib/Foswiki/UI/Register.pm:794
 #, fuzzy
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -3524,12 +3524,12 @@ msgstr "电子邮件寄送失败，请通知您的 %1 管理员 %2"
 msgid "Related Topics:"
 msgstr "相关主题"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:123
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:693
+#: core/data/System/CommandAndCGIScripts.txt:695
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -5284,11 +5284,11 @@ msgstr "警告: 找不到主题%1. %2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "警告: 找不到主题%1. %2"
 
-#: core/lib/Foswiki/UI/Register.pm:1302
+#: core/lib/Foswiki/UI/Register.pm:1360
 msgid "Warning: Could not send confirmation email"
 msgstr "警告: 无法寄送确认邮件"
 
-#: core/lib/Foswiki/UI/Register.pm:1314
+#: core/lib/Foswiki/UI/Register.pm:1372
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "警告: 无法寄送确认邮件，邮件已禁用。"
 
@@ -5724,27 +5724,27 @@ msgstr "[3 个空格] * [空格] Set [空格] VARIABLENAME [空格] = [值]"
 msgid "_language_name"
 msgstr "简体中文"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:173
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:165
 msgid "access denied on root"
 msgstr "禁止浏览根目录"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:109
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:101
 msgid "access denied on topic"
 msgstr "禁止浏览主题"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:145
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:137
 msgid "access denied on web"
 msgstr "禁止浏览子网"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:183
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:175
 msgid "access not allowed on root"
 msgstr "不允许浏览根目录"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:132
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:124
 msgid "access not allowed on topic"
 msgstr "不允许浏览主题"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:157
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:149
 msgid "access not allowed on web"
 msgstr "不允许浏览子网"
 
