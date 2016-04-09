@@ -10,8 +10,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2016-02-15 20:01+0200\n"
 "Last-Translator: Carlinhos  Cecconi <carlinux@terra.com.br>\n"
-"Language-Team: Portuguese (Brazil) "
-"<http://translate.foswiki.org/projects/foswiki/distribution-master/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) <http://translate.foswiki.org/projects/"
+"foswiki/distribution-master/pt_BR/>\n"
 "Language: pt-br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +62,6 @@ msgstr "%1 (padrão)"
 msgid "%1 - Registration failure for %2 (%3)"
 msgstr "%1 - Falha ao registrar %2 (%3)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
@@ -94,10 +93,6 @@ msgstr "Tópico do grupo %1 atualizado."
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 tem uma lista dos outros usuários do Foswiki"
-
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
-msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 foi aprovado e registrado com o e-mail %2"
 
 #: core/templates/messages.tmpl:336
 msgid ""
@@ -328,7 +323,7 @@ msgstr "(mais)"
 msgid "(move attachment)"
 msgstr "(mover anexo)"
 
-#: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
+#: core/data/System/ParentList.txt:47 core/data/System/ParentList.txt:51
 msgid "(no parent, orphaned topic)"
 msgstr "(sem pai, tópico órfão)"
 
@@ -600,7 +595,7 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1285
+#: core/lib/Foswiki/UI/Register.pm:1309
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Um e-mail de confirmação foi enviado para %1"
 
@@ -1019,8 +1014,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:35
-#: JQueryPlugin/data/System/VarBUTTON.txt:44
+#: JQueryPlugin/data/System/VarBUTTON.txt:33
+#: JQueryPlugin/data/System/VarBUTTON.txt:43
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
@@ -1067,6 +1062,15 @@ msgstr "Diferenciar maiúsculas e minúsculas"
 #: PatternSkin/data/System/WebLeftBarExample.txt:37
 msgid "Categories"
 msgstr "Categorias"
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:99
+#, fuzzy
+msgid ""
+"Caution: The password system is currently read only. Users will not be added "
+"to the Password file."
+msgstr ""
+"Desculpe, mas o sistema de senhas atualmente é somente para leitura. Entre "
+"em contato com %1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
@@ -2254,7 +2258,7 @@ msgstr "Se você tiver qualquer dúvida, contate %1"
 msgid "If you have any questions, please contact %1."
 msgstr "Se você tiver qualquer dúvida, contate %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:183
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:256
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -2302,6 +2306,12 @@ msgstr ""
 "Se seus endereços antigos eram todos inválidos (você não poderá receber "
 "qualquer e-mail) e também esqueceu sua senha, contate por favor %1 para "
 "obter ajuda."
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:100
+msgid ""
+"If your wiki uses an external password manager, then it may stll safe to "
+"bulk register users.  Please contact %1 if you are unsure."
+msgstr ""
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
@@ -2377,7 +2387,8 @@ msgstr "Parâmetros incorretos para o script =%1="
 
 #: core/templates/registermessages.tmpl:127
 msgid "Incorrect topic name provided for the templatetopic parameter."
-msgstr "Nome de tópico incorreto tal como informado no parâmetro templatetopic."
+msgstr ""
+"Nome de tópico incorreto tal como informado no parâmetro templatetopic."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
 msgid "Indent"
@@ -2952,7 +2963,7 @@ msgstr ""
 "o mover."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:181
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3444,7 +3455,7 @@ msgstr "Registro"
 msgid "Registration"
 msgstr "Registro"
 
-#: core/lib/Foswiki/UI/Register.pm:712
+#: core/lib/Foswiki/UI/Register.pm:736
 #, fuzzy
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -3490,7 +3501,7 @@ msgstr ""
 msgid "Related Topics:"
 msgstr "Tópicos Relacionados"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:115
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:123
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
@@ -3753,7 +3764,6 @@ msgstr "Salvo como:"
 msgid "Save table"
 msgstr "Salvar tabela"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
 #: core/templates/registerfailednotremoved.tmpl:19
 #: core/templates/registerfailedremoved.tmpl:20
 #: core/templates/registernotifyadmin.tmpl:17
@@ -4006,7 +4016,7 @@ msgstr ""
 msgid "Size"
 msgstr "Tamanho"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:174
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:247
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr ""
@@ -4026,7 +4036,7 @@ msgstr ""
 "duas vezes. Ainda que isso tenha acontecido, é provável que você *já* esteja "
 "registrado."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:173
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:246
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4040,7 +4050,6 @@ msgstr ""
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Desculpe-nos, o registro está temporariamente desativado."
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:92
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -4105,8 +4114,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:31
-#: JQueryPlugin/data/System/VarBUTTON.txt:40
+#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
 #: core/data/System/FrequentlyAskedQuestions.txt:81
@@ -4114,8 +4123,7 @@ msgstr ""
 msgid "Submit"
 msgstr "Enviar"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:185
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:258
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -4229,7 +4237,6 @@ msgstr "Obrigado por se registrar"
 msgid "Thank you for denying this registration"
 msgstr "Obrigado por se registrar"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:272
 #: core/templates/registermessages.tmpl:146
 #: core/templates/registermessages.tmpl:154
 #: core/templates/registermessages.tmpl:167
@@ -4663,7 +4670,6 @@ msgstr "Também conhecido como Cross-site Request Forgery, ou CSRF."
 msgid "This is an automated e-mail from %1."
 msgstr "Este é um e-mail automático de %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:249
 #: core/templates/registerfailednotremoved.tmpl:9
 #: core/templates/registerfailedremoved.tmpl:9
 #: core/templates/registernotifyadmin.tmpl:9
@@ -5311,11 +5317,11 @@ msgstr "Aviso: tópico %1.%2 não encontrado"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Aviso: tópico %1.%2 não encontrado"
 
-#: core/lib/Foswiki/UI/Register.pm:1278
+#: core/lib/Foswiki/UI/Register.pm:1302
 msgid "Warning: Could not send confirmation email"
 msgstr "Atenção: Não foi possível enviar e-mail de confirmação"
 
-#: core/lib/Foswiki/UI/Register.pm:1290
+#: core/lib/Foswiki/UI/Register.pm:1314
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Atenção: Não foi possível enviar e-mail de confirmação, pois o envio de e-"
@@ -5525,7 +5531,7 @@ msgstr ""
 "gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, "
 "blue, teal, ou aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:182
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:255
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "Você pode mudar sua senha em %1"
@@ -5701,7 +5707,7 @@ msgstr "Este site exige caracteres %1 para senhas"
 msgid "Your password:"
 msgstr "Sua senha:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:244
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
@@ -6132,6 +6138,9 @@ msgstr "ver"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "porque você é solicitado a confirmar"
+
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "%1 foi aprovado e registrado com o e-mail %2"
 
 #, fuzzy
 #~ msgid "Return to [_0]"

@@ -62,7 +62,6 @@ msgstr "%1 (standaard)"
 msgid "%1 - Registration failure for %2 (%3)"
 msgstr "%1 - Registratie mislukt voor %2 (%3)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
@@ -94,10 +93,6 @@ msgstr "Groep pagina %1 is vernieuwd."
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 heeft een lijst van andere Foswiki gebruikers"
-
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
-msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 is goedgekeurd en geregistreerd met e-mail %2"
 
 #: core/templates/messages.tmpl:336
 msgid ""
@@ -331,7 +326,7 @@ msgstr "(meer)"
 msgid "(move attachment)"
 msgstr "(bijlage verplaatsen)"
 
-#: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
+#: core/data/System/ParentList.txt:47 core/data/System/ParentList.txt:51
 msgid "(no parent, orphaned topic)"
 msgstr "(geen bovenliggende pagina, verweesde pagina)"
 
@@ -594,7 +589,7 @@ msgstr ""
 "bijvoorbeeld =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1285
+#: core/lib/Foswiki/UI/Register.pm:1309
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Een bevestigings e-mail is verstuurd naar %1"
 
@@ -1012,8 +1007,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:35
-#: JQueryPlugin/data/System/VarBUTTON.txt:44
+#: JQueryPlugin/data/System/VarBUTTON.txt:33
+#: JQueryPlugin/data/System/VarBUTTON.txt:43
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
@@ -1060,6 +1055,15 @@ msgstr "Hoofdlettergevoelig"
 #: PatternSkin/data/System/WebLeftBarExample.txt:37
 msgid "Categories"
 msgstr "Categorie&&euml;n"
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:99
+#, fuzzy
+msgid ""
+"Caution: The password system is currently read only. Users will not be added "
+"to the Password file."
+msgstr ""
+"Sorry, het wachtwoordsysteem blijkt alleen te kunnen lezen, niet "
+"wegschrijven. Neem contact op met %1"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
@@ -2251,7 +2255,7 @@ msgstr "Als je vragen hebt kun je contact opnemen met %1"
 msgid "If you have any questions, please contact %1."
 msgstr "Neem bij vragen contact op met %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:183
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:256
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -2295,6 +2299,12 @@ msgstr ""
 "Als al je oude e-mail adressen niet meer in gebruik zijn (als je daar geen e-"
 "mail kunt ontvangen) en je je wachtwoord bent vergeten, neem dan contact op "
 "met %1 voor hulp."
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:100
+msgid ""
+"If your wiki uses an external password manager, then it may stll safe to "
+"bulk register users.  Please contact %1 if you are unsure."
+msgstr ""
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
@@ -2947,7 +2957,7 @@ msgstr ""
 "na deze verplaatsing."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:181
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3432,7 +3442,7 @@ msgstr "Geregistreerde gebruikers"
 msgid "Registration"
 msgstr "Registreren"
 
-#: core/lib/Foswiki/UI/Register.pm:712
+#: core/lib/Foswiki/UI/Register.pm:736
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3476,7 +3486,7 @@ msgstr "Gerelateerde pagina&#39;s voor beheerders:"
 msgid "Related Topics:"
 msgstr "Gerelateerde pagina&#39;s:"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:115
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:123
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
@@ -3730,7 +3740,6 @@ msgstr ""
 msgid "Save table"
 msgstr "Bewaren"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
 #: core/templates/registerfailednotremoved.tmpl:19
 #: core/templates/registerfailedremoved.tmpl:20
 #: core/templates/registernotifyadmin.tmpl:17
@@ -3968,7 +3977,7 @@ msgstr ""
 msgid "Size"
 msgstr "Grootte"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:174
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:247
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "Sommige voegen afwezigheidsberichten en vakantieschema's toe."
@@ -3987,7 +3996,7 @@ msgstr ""
 "tweemaal versturen als je op een link klikt. In deze situatie is het "
 "mogelijk dat je *wel* succesvol bent reregistreerd."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:173
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:246
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4000,7 +4009,6 @@ msgstr ""
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Sorry, registratie is tijdelijk gedeactiveerd."
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:92
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -4065,8 +4073,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:31
-#: JQueryPlugin/data/System/VarBUTTON.txt:40
+#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
 #: core/data/System/FrequentlyAskedQuestions.txt:81
@@ -4074,8 +4082,7 @@ msgstr ""
 msgid "Submit"
 msgstr "Versturen"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:185
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:258
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -4181,7 +4188,6 @@ msgstr "Bedankt voor je registratie"
 msgid "Thank you for denying this registration"
 msgstr "Bedankt dat je deze registratie geweigerd hebt"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:272
 #: core/templates/registermessages.tmpl:146
 #: core/templates/registermessages.tmpl:154
 #: core/templates/registermessages.tmpl:167
@@ -4624,7 +4630,6 @@ msgstr "Dit staat ook bekend als Cross-site Request Forgery, of CSRF."
 msgid "This is an automated e-mail from %1."
 msgstr "Dit is een geautomatiseerde e-mail van %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:249
 #: core/templates/registerfailednotremoved.tmpl:9
 #: core/templates/registerfailedremoved.tmpl:9
 #: core/templates/registernotifyadmin.tmpl:9
@@ -5242,11 +5247,11 @@ msgstr "Waarschuwing: Kan pagina %1.%2 niet vinden"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Waarschuwing: kan web %1 voor pagina %2 niet vinden"
 
-#: core/lib/Foswiki/UI/Register.pm:1278
+#: core/lib/Foswiki/UI/Register.pm:1302
 msgid "Warning: Could not send confirmation email"
 msgstr "Waarschuwing: kon geen bevestigings e-mail versturen"
 
-#: core/lib/Foswiki/UI/Register.pm:1290
+#: core/lib/Foswiki/UI/Register.pm:1314
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Waarschuwing: kon geen bevestigings e-email versturen; versturen van e-mail "
@@ -5452,7 +5457,7 @@ msgstr ""
 "gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, "
 "blue, teal, of aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:182
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:255
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "Je kunt je wachtwoord wijzigen via %1"
@@ -5623,7 +5628,7 @@ msgstr "Deze site vereist wachtwoorden met ten minste %1 tekens."
 msgid "Your password:"
 msgstr "Je wachtwoord:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:244
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
@@ -6036,6 +6041,9 @@ msgstr "bekijken"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "waarom wordt mij om een bevestiging gevraagd"
+
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "%1 is goedgekeurd en geregistreerd met e-mail %2"
 
 #~ msgid "Return to [_0]"
 #~ msgstr "Ga terug naar [_0]"
