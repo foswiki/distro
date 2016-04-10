@@ -2304,7 +2304,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:100
 msgid ""
-"If your wiki uses an external password manager, then it may stll safe to "
+"If your wiki uses an external password manager, then it may still safe to "
 "bulk register users.  Please contact %1 if you are unsure."
 msgstr ""
 
