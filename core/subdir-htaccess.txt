@@ -9,5 +9,8 @@
 # http.conf file, just set the 'deny from all' there (or locate these
 # directories outside the Web-visible directory tree.)
 
-# Deny all access
-Deny from all
+# Deny all access  (Apache 2.2 syntax)
+ Deny from all
+
+# Deny all access (Apache 2.4 syntax)
+# Require all denied

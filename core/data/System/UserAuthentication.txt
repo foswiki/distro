@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1460217110" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1460338963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ User Authentication
@@ -214,13 +214,13 @@ To set up Apache Login, perform the following steps:
       1 Select =Foswiki::Users::HtPasswdUser= for ={PasswordManager}=.
       1 Select =Foswiki::Users::TopicUserMapping= for ={UserMappingManager}=.
       1 Save your settings.
-      1 Configure your Apache settings for HTTP authentication. Use the Foswiki:Support.ApacheConfigGenerator tool or the =foswiki/bin-htaccess.txt= file to set the following Apache directives on the =bin= scripts:(This example is for Apache 2.2, there are changes required if using Apache 2.4) <sticky>
+      1 Configure your Apache settings for HTTP authentication. Use the Foswiki:Support.ApacheConfigGenerator tool or the =foswiki/bin-htaccess-advanced.txt= file to set the following Apache directives on the =bin= scripts:(This example is for Apache 2.2, there are changes required if using Apache 2.4) <sticky>
       <verbatim>
  AuthType Basic
  <FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|.*auth).*">
  require valid-user
  </FilesMatch></verbatim></sticky>
-      You can also refer to the sample =foswiki_httpd_conf.txt= and =bin-htaccess.txt= files to see how the appropriate Apache directives are specified.
+      You can also refer to the sample =foswiki_httpd_conf.txt= and =bin-htaccess-advanced.txt= files to see how the appropriate Apache directives are specified.
 %ENDSECTION{"ApacheLogin"}%%INCLUDE{"UserAuthentication" section="TESTING"}%
 
 ---++++ Logons via bin/logon

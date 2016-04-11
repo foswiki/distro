@@ -13,7 +13,6 @@
 # configure.   The following 5 strings must be updated:
 #
 # {DataDir}
-# {WorkingDir}
 # {DefaultUrlHost}
 # {ScriptUrlPath}
 #
@@ -24,10 +23,6 @@
 # Example:   "Change all"  {DataDir} /var/www/foswiki/data
 #   AuthUserFile {DataDir}/.htpasswd      becomes
 #   AuthUserFile /var/www/foswiki/data/.htpasswd
-#
-# Replace {WorkingDir} with the full path of a workarea directory (file path,
-# no URL)  e.g. /usr/local/foswiki/working   Do not include a trailing slash.
-# This directory MUST NOT BE ACCESSIBLE VIA THE WEB!
 #
 # Replace {DefaultUrlHost} with the root of all Foswiki URLs e.g.
 # http://myhost.com:123.  This is only used for htdigest authentication and
@@ -58,10 +53,22 @@
 # BrowserMatchNoCase ^SiteSucker anonymous_spider
 BrowserMatchNoCase ^$ anonymous_spider
 
+######################################################################
 # Now set default access rights.
+# - This block will work with Apach 2.2, or 2.4 with mod_access_Compat enabled
+# If this causes errors, comment this out, and enable the 2.4 specific block.
+######################################################################
 Order Allow,Deny
 Allow from all
 Deny from env=anonymous_spider
+
+######################################################################
+# Uncomment this block for Apache 2.4
+######################################################################
+#<RequireAll>
+# Require not env anonymous_spider
+# Require all granted
+#</RequireAll>
 
 # Use CGI & Perl to handle all files in 'bin' directory, i.e. run as scripts -
 # this should remove the need to rename files to end in '.pl' etc, if your web
@@ -132,3 +139,14 @@ Options ExecCGI FollowSymLinks
 #<FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|.*auth).*">
 #       require valid-user
 #</FilesMatch>
+
+# Make sure that any local lib definitions cannot be retrieved.
+# (Use "Require all" statement if needed for Apache 2.4)
+
+<Files  "LocalLib*">
+#  Require all denied
+  Order allow,deny
+  Deny from all
+</Files>
+
+P

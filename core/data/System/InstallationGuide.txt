@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1460338963" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
@@ -127,9 +127,12 @@ In details:
 %TABLE{sort="off"}%
    | *location and name of sample .htaccess file* | *copy sample file to the following location* | *tailoring required (Detailed instuctions in each file)* |
    | =foswiki/root-htaccess.txt= | =foswiki/.htaccess= | _Optional:_ redirect to a default page for empty URL. |
-   | =foswiki/bin-htaccess.txt= | =foswiki/bin/.htaccess= | Yes - Must find/replace all instances of ={DataDir}=, ={DefaultUrlHost}= and ={ScriptUrlPath}= with valid information. The setting =SetHandler cgi-script= is critical to make sure that scripts in the =bin= directory will be executed by Apache. |
-   | =foswiki/pub-htaccess.txt= | =foswiki/pub/.htaccess= | Yes - Must set correct url path on =ErrorDocument= |
-   | =foswiki/subdir-htaccess.txt= | =foswiki/&lt;subdir&gt;/.htaccess= <br />Copy to all other subdirectories below =foswiki=, including =data=, =lib=, =locale=, =templates=, =tools=, =working=.  Copy to any other directories except for =bin= and  =pub= addressed above. | No |</sticky>
+   | =foswiki/bin-htaccess-basic.txt= | =foswiki/bin/.htaccess= | _Optional:_ In most cases this file will "just work" without tailoring.  |
+   | =foswiki/bin-htaccess-advanced.txt= | =foswiki/bin/.htaccess= | *Yes*. Use this file for configuring Apache login, LDAP authentication and other advanced configurations. Must find/replace all instances of ={DataDir}=, ={DefaultUrlHost}= and ={ScriptUrlPath}= with valid information. The setting =SetHandler cgi-script= is critical to make sure that scripts in the =bin= directory will be executed by Apache. |
+   | =foswiki/pub-htaccess.txt= | =foswiki/pub/.htaccess= | _Optional:_ - Uncomment and set correct URL path on the =ErrorDocument= statement for friendly handling of file-not-found errors. |
+   | =foswiki/subdir-htaccess.txt= | =foswiki/&lt;subdir&gt;/.htaccess= <br />Copy to all other subdirectories below =foswiki=, including<br/>\
+                                     =data=, =lib=, =locale=, =templates=, =tools=, =working=.<br/>\
+                                     _All_ directories except for =bin= and  =pub= addressed above. | No |</sticky>
 
 <div class='foswikiHelp'>
 %T% *General points to keep in mind with any of the above Apache configuration approaches:*
