@@ -861,9 +861,9 @@ sub remove {
 
 # Implement Foswiki::Store
 sub query {
-    my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
+    my ( $this, $query, $inputTopicSet, $app, $options ) = @_;
 
-    my $engine;
+    my $searchEngine;
     if ( $query->isa('Foswiki::Query::Node') ) {
         unless ( $this->has_queryObj ) {
             my $module = $Foswiki::cfg{Store}{QueryAlgorithm};
@@ -880,7 +880,7 @@ sub query {
             };
             $this->queryObj( $module->new() );
         }
-        $engine = $this->queryObj;
+        $searchEngine = $this->queryObj;
     }
     else {
         ASSERT( $query->isa('Foswiki::Search::Node') ) if DEBUG;
@@ -900,11 +900,11 @@ sub query {
             };
             $this->searchQueryObj( $module->new() );
         }
-        $engine = $this->searchQueryObj;
+        $searchEngine = $this->searchQueryObj;
     }
 
     no strict 'refs';
-    return $engine->query( $query, $inputTopicSet, $session, $options );
+    return $searchEngine->query( $query, $inputTopicSet, $app, $options );
     use strict 'refs';
 }
 
@@ -1233,9 +1233,8 @@ sub _readChanges {
                 $entry->{topic} = $2;
             }
             $entry->{user} =
-                $Foswiki::Plugins::SESSION
-              ? $Foswiki::Plugins::SESSION->{users}
-              ->getWikiName( $entry->{cuid} )
+                $Foswiki::app
+              ? $Foswiki::app->users->getWikiName( $entry->{cuid} )
               : $entry->{cuid};
             $entry->{more} =
               ( $entry->{minor} ? 'minor ' : '' ) . ( $entry->{comment} || '' );
@@ -1270,8 +1269,8 @@ sub _readChanges {
         }
         $row{minor} = ( $row{more} =~ m/minor/ );
         $row{cuid} =
-            $Foswiki::Plugins::SESSION
-          ? $Foswiki::Plugins::SESSION->users->getCanonicalUserID( $row{user} )
+            $Foswiki::app
+          ? $Foswiki::app->users->getCanonicalUserID( $row{user} )
           : $row{user};
         $row{path} = $web;
         $row{path} .= ".$row{topic}" if $row{topic};

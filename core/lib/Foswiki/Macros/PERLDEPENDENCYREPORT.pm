@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki;
+package Foswiki::Macros;
 
 # Detailed core and plugin dependency report - see
 # System.VarPERLDEPENDENCYREPORT and System.PerlDependencyReport

@@ -1,22 +1,5 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::App;
-use v5.14;
-
-use constant TRACE_REQUEST => 0;
-
-use Cwd;
-use CGI;
-use Storable qw(dclone);
-use Try::Tiny;
-use Assert;
-use Foswiki::Config ();
-use Foswiki::Engine ();
-
-use Moo;
-use namespace::clean;
-extends qw(Foswiki::Object);
-
 =begin TML
 
 ---+!! Class Foswiki::App
@@ -26,6 +9,38 @@ functionality.
 
 =cut
 
+package Foswiki::App;
+use v5.14;
+
+use constant TRACE_REQUEST => 0;
+
+use Assert;
+use Cwd;
+use CGI;
+use Try::Tiny;
+use Storable qw(dclone);
+use Compress::Zlib  ();
+use Foswiki::Config ();
+use Foswiki::Engine ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+
+has access => (
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    isa =>
+      Foswiki::Object::isaCLASS( 'access', 'Foswiki::Access', noUndef => 1, ),
+    default => sub {
+        my $this        = shift;
+        my $accessClass = $this->cfg->data->{AccessControl}
+          || 'Foswiki::Access::TopicACLAccess';
+        return $this->create($accessClass);
+    },
+);
 has cache => (
     is        => 'rw',
     lazy      => 1,
@@ -69,20 +84,13 @@ has logger => (
     clearer   => 1,
     predicate => 1,
     default   => sub {
-        my $this = shift;
-        my $cfg  = $this->cfg;
-        my $logger;
+        my $this        = shift;
+        my $cfg         = $this->cfg;
+        my $loggerClass = 'Foswiki::Logger';
         if ( $cfg->data->{Log}{Implementation} ne 'none' ) {
-            load_package( $cfg->data->{Log}{Implementation} );
-            if ($@) {
-                print STDERR "Logger load failed: $@";
-            }
-            else {
-                $logger = $cfg->data->{Log}{Implementation}->new;
-            }
+            $loggerClass = $cfg->data->{Log}{Implementation};
         }
-        $logger = Foswiki::Logger->new unless defined $logger;
-        return $logger;
+        return $this->create($loggerClass);
     },
 );
 has engine => (
@@ -142,18 +150,19 @@ has store => (
     isa =>
       Foswiki::Object::isaCLASS( 'store', 'Foswiki::Store', noUndef => 1, ),
     default => sub {
-        my $baseClass = $_[0]->_baseStoreClass;
-        ASSERT( $baseClass, "Foswiki::store base class is not defined" )
+        my $storeClass = $Foswiki::cfg{Store}{Implementation}
+          || 'Foswiki::Store::PlainFile';
+        ASSERT( $storeClass, "Foswiki::store base class is not defined" )
           if DEBUG;
-        return $baseClass->new;
+        return $_[0]->create($storeClass);
     },
 );
-has _baseStoreClass => (
-    is      => 'rw',
-    clearer => 1,
-    isa     => sub {
-        ASSERT( defined( $_[0] ), "Foswiki::_baseStoreClass cannot be undef" );
-    },
+has templates => (
+    is        => 'ro',
+    lazy      => 1,
+    predicate => 1,
+    clearer   => 1,
+    default   => sub { return $_[0]->create('Foswiki::Templates'); },
 );
 has macros => (
     is      => 'rw',
@@ -177,6 +186,10 @@ has ui => (
         return $_[0]->create('Foswiki::UI');
     },
 );
+has remoteUser => (
+    is      => 'rw',
+    clearer => 1,
+);
 has user => (
     is      => 'rw',
     clearer => 1,
@@ -191,7 +204,7 @@ has users => (
 has _dispatcherObject => (
     is  => 'rw',
     isa => Foswiki::Object::isaCLASS(
-        '_dispatcherObject', 'Foswiki::Object', noUndef => 1
+        '_dispatcherObject', 'Foswiki::AppObject', noUndef => 1
     ),
 );
 has _dispatcherAttrs => (
@@ -390,6 +403,13 @@ sub handleRequest {
 
         $this->_checkActionAccess;
 
+        # Load (or create) the CGI session This initialization is better be kept
+        # here because $this->user may change later.
+        $this->remoteUser( $this->users->loadSession( $this->user ) );
+
+        # Push global preferences from %SYSTEMWEB%.DefaultPreferences
+        $this->prefs->loadDefaultPreferences();
+
         my $method = $this->_dispatcherAttrs->{method};
         $this->_prepareContext;
         $this->_dispatcherObject->$method;
@@ -486,6 +506,244 @@ Return the value for the given context id
 sub inContext {
     my ( $this, $id ) = @_;
     return $this->context->{$id};
+}
+
+=begin TML
+
+---++ ObjectMethod satisfiedByCache( $action, $web, $topic ) -> $boolean
+
+Try and satisfy the current request for the given web.topic from the cache, given
+the current action (view, edit, rest etc).
+
+If the action is satisfied, the cache content is written to the output and
+true is returned. Otherwise ntohing is written, and false is returned.
+
+Designed for calling from Foswiki::UI::*
+
+=cut
+
+sub satisfiedByCache {
+    my ( $this, $action, $web, $topic ) = @_;
+
+    my $cache = $this->cache;
+    return 0 unless $cache;
+
+    my $cachedPage = $cache->getPage( $web, $topic ) if $cache;
+    return 0 unless $cachedPage;
+
+    Foswiki::Func::writeDebug("found $web.$topic for $action in cache")
+      if Foswiki::PageCache::TRACE();
+    if ( int( $this->response->status || 200 ) >= 500 ) {
+        Foswiki::Func::writeDebug(
+            "Cache retrieval skipped due to non-200 status code "
+              . $this->response->status )
+          if DEBUG;
+        return 0;
+    }
+    Monitor::MARK("found page in cache");
+
+    my $hdrs = { 'Content-Type' => $cachedPage->{contenttype} };
+
+    # render uncacheable areas
+    my $text = $cachedPage->{data};
+
+    if ( $cachedPage->{isdirty} ) {
+        $cache->renderDirtyAreas( \$text );
+
+        # dirty pages are cached in unicode
+        $text = Foswiki::encode_utf8($text);
+    }
+    elsif ( $Foswiki::cfg{HttpCompress} ) {
+
+        # Does the client accept gzip?
+        if ( my $encoding = $this->engine->gzipAccepted ) {
+
+            # Cache has compressed data, just whack it out
+            $hdrs->{'Content-Encoding'} = $encoding;
+            $hdrs->{'Vary'}             = 'Accept-Encoding';
+
+            # Mark the response so we know it was satisfied from the cache
+            $hdrs->{'X-Foswiki-PageCache'} = 1;
+        }
+        else {
+        # e.g. CLI request satisfied from the cache, or old browser that doesn't
+        # support gzip. Non-isdirty pages are cached already utf8-encoded, so
+        # all we have to do is unzip.
+            $text = Compress::Zlib::memGunzip( $cachedPage->{data} );
+        }
+    }    # else { Non-isdirty pages are stored already utf8-encoded }
+
+    # set status
+    my $response = $this->response;
+    if ( $cachedPage->{status} == 302 ) {
+        $response->redirect( $cachedPage->{location} );
+    }
+    else {
+
+     # See Item9941
+     # Don't allow a 200 status to overwrite a status (possibly an error status)
+     # coming from elsewhere in the code. Note that 401's are not cached (they
+     # fail Foswiki::PageCache::isCacheable) but all other statuses are.
+     # SMELL: Cdot doesn't think any other status can get this far.
+        $response->status( $cachedPage->{status} )
+          unless int( $cachedPage->{status} ) == 200;
+    }
+
+    # set remaining headers
+    $text = undef unless $this->setETags( $cachedPage, $hdrs );
+    $response->generateHTTPHeaders($hdrs);
+
+    # send it out
+    $response->body($text) if defined $text;
+
+    Monitor::MARK('Wrote HTML');
+    $this->logger->log(
+        {
+            level    => 'info',
+            action   => $action,
+            webTopic => $web . '.' . $topic,
+            extra    => '(cached)',
+        }
+    );
+
+    return 1;
+}
+
+=begin TML
+
+---++ ObjectMethod setETags( $cachedPage, \%hopts ) -> $boolean
+
+Set etags (and modify status) depending on what the cached page specifies.
+Return 1 if the page has been modified since it was last retrieved, 0 otherwise.
+
+   * =$cachedPage= - page cache to use
+   * =\%hopts - ref to partially filled in hash of headers
+
+=cut
+
+sub setETags {
+    my ( $this, $cachedPage, $hopts ) = @_;
+
+    # check etag and last modification time
+    my $etag         = $cachedPage->{etag};
+    my $lastModified = $cachedPage->{lastmodified};
+
+    $hopts->{'ETag'}          = $etag         if $etag;
+    $hopts->{'Last-Modified'} = $lastModified if $lastModified;
+
+    # only send a 304 if both criteria are true
+    return 1
+      unless (
+           $etag
+        && $lastModified
+
+        && $this->env->{'HTTP_IF_NONE_MATCH'}
+        && $etag eq $this->env->{'HTTP_IF_NONE_MATCH'}
+
+        && $this->env->{'HTTP_IF_MODIFIED_SINCE'}
+        && $lastModified eq $this->env->{'HTTP_IF_MODIFIED_SINCE'}
+      );
+
+    # finally decide on a 304 reply
+    $hopts->{'Status'} = '304 Not Modified';
+
+    #print STDERR "NOT modified\n";
+    return 0;
+}
+
+=begin TML
+
+---++ ObjectMethod getSkin () -> $string
+
+Get the currently requested skin path
+
+=cut
+
+sub getSkin {
+    my $this = shift;
+
+    my @skinpath;
+    my $skins;
+
+    if ( $this->request ) {
+        $skins = $this->request->param('cover');
+        if ( defined $skins
+            && $skins =~ m/([[:alnum:].,\s]+)/ )
+        {
+
+            # Implicit untaint ok - validated
+            $skins = $1;
+            push( @skinpath, split( /,\s]+/, $skins ) );
+        }
+    }
+
+    $skins = $this->prefs->getPreference('COVER');
+    if ( defined $skins
+        && $skins =~ m/([[:alnum:].,\s]+)/ )
+    {
+
+        # Implicit untaint ok - validated
+        $skins = $1;
+        push( @skinpath, split( /[,\s]+/, $skins ) );
+    }
+
+    $skins = $this->request ? $this->request->param('skin') : undef;
+    $skins = $this->prefs->getPreference('SKIN') unless $skins;
+
+    if ( defined $skins && $skins =~ m/([[:alnum:].,\s]+)/ ) {
+
+        # Implicit untaint ok - validated
+        $skins = $1;
+        push( @skinpath, split( /[,\s]+/, $skins ) );
+    }
+
+    return join( ',', @skinpath );
+}
+
+=begin TML
+
+---++ ObjectMethod getPubURL($web, $topic, $attachment, %options) -> $url
+
+Composes a pub url.
+   * =$web= - name of the web for the URL, defaults to $session->{webName}
+   * =$topic= - name of the topic, defaults to $session->{topicName}
+   * =$attachment= - name of the attachment, defaults to no attachment
+Supported %options are:
+   * =topic_version= - version of topic to retrieve attachment from
+   * =attachment_version= - version of attachment to retrieve
+   * =absolute= - requests an absolute URL (rather than a relative path)
+
+If =$web= is not given, =$topic= and =$attachment= are ignored.
+If =$topic= is not given, =$attachment= is ignored.
+
+If =topic_version= is not given, the most recent revision of the topic
+will be linked. Similarly if attachment_version= is not given, the most recent
+revision of the attachment will be assumed. If =topic_version= is specified
+but =attachment_version= is not (or the specified =attachment_version= is not
+present), then the most recent version of the attachment in that topic version
+will be linked.
+
+If Foswiki is running in an absolute URL context (e.g. the skin requires
+absolute URLs, such as print or rss, or Foswiki is running from the
+command-line) then =absolute= will automatically be set.
+
+Note: for compatibility with older plugins, which use %PUBURL*% with
+a constructed URL path, do not use =*= unless =web=, =topic=, and
+=attachment= are all specified.
+
+As required by RFC3986, the returned URL will only contain the
+allowed characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
+
+=cut
+
+sub getPubURL {
+    my ( $this, $web, $topic, $attachment, %options ) = @_;
+
+    $options{absolute} ||=
+      ( $this->inContext('command_line') || $this->inContext('absolute_urls') );
+
+    return $this->store->getAttachmentURL( $this, $web, $topic, $attachment,
+        %options );
 }
 
 =begin TML

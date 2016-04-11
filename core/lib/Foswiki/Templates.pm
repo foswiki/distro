@@ -37,7 +37,7 @@ use Foswiki::Attrs ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -55,20 +55,13 @@ my $MAX_EXPANSION_RECURSIONS = 999;
 
 =begin TML
 
----++ ClassMethod new ( session => $session )
+---++ ClassMethod new ( app => $app )
 
 Constructor. Creates a new template database object.
-   * $session - session (Foswiki) object
+   * $app - application (Foswiki::App) object
 
 =cut
 
-has session => (
-    is       => 'rw',
-    clearer  => 1,
-    required => 1,
-    weak_ref => 1,
-    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
-);
 has VARS =>
   ( is => 'rw', lazy => 1, default => sub { { sep => { text => '|' } } }, );
 has expansionRecursions => ( is => 'rw', lazy => 1, default => sub { {} }, );
@@ -155,7 +148,7 @@ sub tmplP {
     if ($context) {
         $template = $then if defined($then);
         foreach my $id ( split( /\,\s*/, $context ) ) {
-            unless ( $this->session->context->{$id} ) {
+            unless ( $this->app->context->{$id} ) {
                 $template = ( $else || '' );
                 last;
             }
@@ -232,8 +225,8 @@ list of loaded templates, overwriting any previous definition.
 sub readTemplate {
     my ( $this, $name, %opts ) = @_;
     ASSERT($name) if DEBUG;
-    my $skins = $opts{skins} || $this->session->getSkin();
-    my $web   = $opts{web}   || $this->session->webName;
+    my $skins = $opts{skins} || $this->app->getSkin();
+    my $web   = $opts{web}   || $this->app->request->web;
 
     $this->clear_files;
 
@@ -365,7 +358,7 @@ sub readTemplate {
 # STATIC: Return value: raw template text, or undef if read fails
 sub _readTemplateFile {
     my ( $this, $name, $skins, $web ) = @_;
-    my $session = $this->session;
+    my $app = $this->app;
 
     # zap anything suspicious
     $name =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;
@@ -374,8 +367,7 @@ sub _readTemplateFile {
     # the templates directory. No further searching required.
     if ( $name =~ m/\.tmpl$/ ) {
         my $text =
-          _decomment(
-            _readFile( $session, "$Foswiki::cfg{TemplateDir}/$name" ) );
+          _decomment( _readFile( $app, "$Foswiki::cfg{TemplateDir}/$name" ) );
         $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
           if (TRACE);
         return $text;
@@ -391,13 +383,12 @@ sub _readTemplateFile {
 
         # if the name can be parsed into $web.$name, then this is an attempt
         # to explicit include that topic. No further searching required.
-        if ( $session->topicExists( $userdirweb, $userdirname ) ) {
-            my $meta =
-              Foswiki::Meta->load( $session, $userdirweb, $userdirname );
+        if ( $app->store->topicExists( $userdirweb, $userdirname ) ) {
+            my $meta = Foswiki::Meta->load( $app, $userdirweb, $userdirname );
 
             # Check we are allowed access
-            unless ( $meta->haveAccess( 'VIEW', $session->user ) ) {
-                return $this->session->inlineAlert( 'alerts', 'access_denied',
+            unless ( $meta->haveAccess( 'VIEW', $app->user ) ) {
+                return $this->app->inlineAlert( 'alerts', 'access_denied',
                     "$userdirweb.$userdirname" );
             }
             my $text = $meta->text();
@@ -519,23 +510,22 @@ sub _readTemplateFile {
         if ( $candidate->{userdir} ) {
 
             my ( $web1, $name1 ) =
-              $session->normalizeWebTopicName( $web, $file );
+              $app->request->normalizeWebTopicName( $web, $file );
 
-            if ( $session->topicExists( $web1, $name1 ) ) {
+            if ( $app->store->topicExists( $web1, $name1 ) ) {
 
                 # recursion prevention.
                 next
                   if (
                     defined(
-                        $this->files->{ 'topic' . $session->user, $name1,
-                            $web1 }
+                        $this->files->{ 'topic' . $app->user, $name1, $web1 }
                     )
                   );
-                $this->files->{ 'topic' . $session->user, $name1, $web1 } = 1;
+                $this->files->{ 'topic' . $app->user, $name1, $web1 } = 1;
 
                 # access control
-                my $meta = Foswiki::Meta->load( $session, $web1, $name1 );
-                next unless $meta->haveAccess( 'VIEW', $session->user );
+                my $meta = Foswiki::Meta->load( $app, $web1, $name1 );
+                next unless $meta->haveAccess( 'VIEW', $app->user );
 
                 my $text = $meta->text();
                 $text = '' unless defined $text;
@@ -556,7 +546,7 @@ sub _readTemplateFile {
             # recursion prevention.
             $this->files->{$file} = 1;
 
-            my $text = _decomment( _readFile( $session, $file ) );
+            my $text = _decomment( _readFile( $app, $file ) );
             $this->saveTemplateToCache( '_cache', $name, $skins, $web, $text )
               if (TRACE);
             return $text;
@@ -568,7 +558,7 @@ sub _readTemplateFile {
 }
 
 sub _readFile {
-    my ( $session, $fn ) = @_;
+    my ( $app, $fn ) = @_;
     my $F;
 
     if ( open( $F, '<:encoding(utf-8)', $fn ) ) {
@@ -581,7 +571,7 @@ sub _readFile {
         return $text;
     }
     else {
-        $session->logger->log( 'warning', "$fn: $!" );
+        $app->logger->log( 'warning', "$fn: $!" );
         return undef;
     }
 }

@@ -709,7 +709,7 @@ sub eachGroupMember {
     }
 
     if (  !$expanding{$group}
-        && $app->topicExists( $Foswiki::cfg{UsersWebName}, $group ) )
+        && $app->store->topicExists( $Foswiki::cfg{UsersWebName}, $group ) )
     {
         $expanding{$group} = 1;
 

@@ -33,7 +33,7 @@ use namespace::clean;
 extends qw(Foswiki::AppObject);
 
 # Used to lazily load UI handler modules
-has isInitialized => ( is => 'rw', lazy => 1, default => sub { {} }, );
+#has isInitialized => ( is => 'rw', lazy => 1, default => sub { {} }, );
 
 use constant TRACE_REQUEST => 0;
 
@@ -397,18 +397,23 @@ sub logon {
 
 =begin TML
 
----++ StaticMethod checkWebExists( $app, $web, $op )
+---++ ObjectMethod checkWebExists( $web [, $op] )
 
 Check if the web exists. If it doesn't, will throw an oops exception.
- $op is the user operation being performed.
+
+ $op is the user operation being performed. $app->request->action is used if $op
+ is undef.
 
 =cut
 
 sub checkWebExists {
-    my ( $app, $webName, $op ) = @_;
-    ASSERT( $app->isa('Foswiki') ) if DEBUG;
+    my $this = shift;
+    my ( $webName, $op ) = @_;
 
-    if ( $app->invalidWeb ) {
+    my $app = $this->app;
+    $op //= $app->request->action;
+
+    if ( $app->request->invalidWeb ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
@@ -429,7 +434,7 @@ sub checkWebExists {
         );
     }
 
-    unless ( $app->webExists($webName) ) {
+    unless ( $app->store->webExists($webName) ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
@@ -443,16 +448,20 @@ sub checkWebExists {
 
 =begin TML
 
----++ StaticMethod topicExists( $app, $web, $topic, $op ) => boolean
+---++ ObjectMethod topicExists( $web, $topic [, $op] ) => boolean
 
-Check if the given topic exists, throwing an OopsException
-if it doesn't. $op is the user operation being performed.
+Check if the given topic exists, throwing an OopsException if it doesn't. $op is
+the user operation being performed. $app->request->action is used if $op is
+undef.
 
 =cut
 
 sub checkTopicExists {
-    my ( $app, $web, $topic, $op ) = @_;
-    ASSERT( $app->isa('Foswiki') ) if DEBUG;
+    my $this = shift;
+    my ( $web, $topic, $op ) = @_;
+
+    my $app = $this->app;
+    $op //= $app->request->action;
 
     if ( $app->invalidTopic ) {
         throw Foswiki::OopsException(
@@ -479,7 +488,7 @@ sub checkTopicExists {
 
 =begin TML
 
----++ StaticMethod checkAccess( $app, $mode, $topicObject )
+---++ ObjectMethod checkAccess( $mode, $topicObject )
 
 Check if the given mode of access by the given user to the given
 web.topic is permissible, throwing a Foswiki::AccessControlException if not.
@@ -487,8 +496,10 @@ web.topic is permissible, throwing a Foswiki::AccessControlException if not.
 =cut
 
 sub checkAccess {
-    my ( $app, $mode, $topicObject ) = @_;
-    ASSERT( $app->isa('Foswiki') ) if DEBUG;
+    my $this = shift;
+    my ( $mode, $topicObject ) = @_;
+
+    my $app = $this->app;
 
     unless ( $topicObject->haveAccess($mode) ) {
         throw Foswiki::AccessControlException( $mode, $app->user,
@@ -498,7 +509,7 @@ sub checkAccess {
 
 =begin TML
 
----++ StaticMethod checkValidationKey( $app )
+---++ ObjectMethod checkValidationKey
 
 Check the validation key for the given action. Throws an exception
 if the validation key isn't valid (handled in _execute(), above)
@@ -509,7 +520,9 @@ See Foswiki::Validation for more information.
 =cut
 
 sub checkValidationKey {
-    my ($app) = @_;
+    my $this = shift;
+
+    my $app = $this->app;
 
     # If validation is disabled, do nothing
     return if ( $Foswiki::cfg{Validation}{Method} eq 'none' );
@@ -562,7 +575,7 @@ $Foswiki::cfg{SwitchBoard}{publish} = [ "Foswiki::Contrib::Publish", "publish", 
 
 =cut
 
-sub run {
+sub _deprecated_run {
     my ( $method, %context ) = @_;
 
     if ( UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' ) ) {

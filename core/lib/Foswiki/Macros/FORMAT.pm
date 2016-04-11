@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki;
+package Foswiki::Macros;
 use v5.14;
 
 use Try::Tiny;

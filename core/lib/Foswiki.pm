@@ -105,16 +105,6 @@ our @EXPORT_OK = qw(%regex);
 sub SINGLE_SINGLETONS       { 0 }
 sub SINGLE_SINGLETONS_TRACE { 0 }
 
-has access => (
-    is        => 'ro',
-    lazy      => 1,
-    clearer   => 1,
-    predicate => 1,
-    default   => sub {
-        require Foswiki::Access;
-        return Foswiki::Access->create( $_[0] );
-    },
-);
 has attach => (
     is        => 'ro',
     lazy      => 1,
@@ -213,16 +203,6 @@ has search => (
     default   => sub {
         require Foswiki::Search;
         return Foswiki::Search->new( session => $_[0] );
-    },
-);
-has templates => (
-    is        => 'ro',
-    lazy      => 1,
-    predicate => 1,
-    clearer   => 1,
-    default   => sub {
-        require Foswiki::Templates;
-        return Foswiki::Templates->new( session => $_[0] );
     },
 );
 has topicName => (
@@ -927,122 +907,6 @@ BOGUS
     }
 }
 
-# PRIVATE
-sub _gzipAccepted {
-    my $encoding;
-    if ( ( $ENV{'HTTP_ACCEPT_ENCODING'} || '' ) =~
-        /(?:^|\b)((?:x-)?gzip)(?:$|\b)/ )
-    {
-        $encoding = $1;
-    }
-    elsif ( $ENV{'SPDY'} ) {
-        $encoding = 'gzip';
-    }
-    return $encoding;
-}
-
-=begin TML
-
----++ ObjectMethod satisfiedByCache( $action, $web, $topic ) -> $boolean
-
-Try and satisfy the current request for the given web.topic from the cache, given
-the current action (view, edit, rest etc).
-
-If the action is satisfied, the cache content is written to the output and
-true is returned. Otherwise ntohing is written, and false is returned.
-
-Designed for calling from Foswiki::UI::*
-
-=cut
-
-sub satisfiedByCache {
-    my ( $this, $action, $web, $topic ) = @_;
-
-    my $cache = $this->cache;
-    return 0 unless $cache;
-
-    my $cachedPage = $cache->getPage( $web, $topic ) if $cache;
-    return 0 unless $cachedPage;
-
-    Foswiki::Func::writeDebug("found $web.$topic for $action in cache")
-      if Foswiki::PageCache::TRACE();
-    if ( int( $this->response->status() || 200 ) >= 500 ) {
-        Foswiki::Func::writeDebug(
-            "Cache retrieval skipped due to non-200 status code "
-              . $this->response->status() )
-          if DEBUG;
-        return 0;
-    }
-    Monitor::MARK("found page in cache");
-
-    my $hdrs = { 'Content-Type' => $cachedPage->{contenttype} };
-
-    # render uncacheable areas
-    my $text = $cachedPage->{data};
-
-    if ( $cachedPage->{isdirty} ) {
-        $cache->renderDirtyAreas( \$text );
-
-        # dirty pages are cached in unicode
-        $text = encode_utf8($text);
-    }
-    elsif ( $Foswiki::cfg{HttpCompress} ) {
-
-        # Does the client accept gzip?
-        if ( my $encoding = _gzipAccepted() ) {
-
-            # Cache has compressed data, just whack it out
-            $hdrs->{'Content-Encoding'} = $encoding;
-            $hdrs->{'Vary'}             = 'Accept-Encoding';
-
-            # Mark the response so we know it was satisfied from the cache
-            $hdrs->{'X-Foswiki-PageCache'} = 1;
-        }
-        else {
-        # e.g. CLI request satisfied from the cache, or old browser that doesn't
-        # support gzip. Non-isdirty pages are cached already utf8-encoded, so
-        # all we have to do is unzip.
-            require Compress::Zlib;
-            $text = Compress::Zlib::memGunzip( $cachedPage->{data} );
-        }
-    }    # else { Non-isdirty pages are stored already utf8-encoded }
-
-    # set status
-    my $response = $this->response;
-    if ( $cachedPage->{status} == 302 ) {
-        $response->redirect( $cachedPage->{location} );
-    }
-    else {
-
-     # See Item9941
-     # Don't allow a 200 status to overwrite a status (possibly an error status)
-     # coming from elsewhere in the code. Note that 401's are not cached (they
-     # fail Foswiki::PageCache::isCacheable) but all other statuses are.
-     # SMELL: Cdot doesn't think any other status can get this far.
-        $response->status( $cachedPage->{status} )
-          unless int( $cachedPage->{status} ) == 200;
-    }
-
-    # set remaining headers
-    $text = undef unless $this->setETags( $cachedPage, $hdrs );
-    $this->generateHTTPHeaders($hdrs);
-
-    # send it out
-    $response->body($text) if defined $text;
-
-    Monitor::MARK('Wrote HTML');
-    $this->logger->log(
-        {
-            level    => 'info',
-            action   => $action,
-            webTopic => $web . '.' . $topic,
-            extra    => '(cached)',
-        }
-    );
-
-    return 1;
-}
-
 =begin TML
 
 ---++ ObjectMethod setCacheControl( $pageType, \%hopts )
@@ -1494,55 +1358,6 @@ sub isValidEmailAddress {
 
 =begin TML
 
----++ ObjectMethod getSkin () -> $string
-
-Get the currently requested skin path
-
-=cut
-
-sub getSkin {
-    my $this = shift;
-
-    my @skinpath;
-    my $skins;
-
-    if ( $this->request ) {
-        $skins = $this->request->param('cover');
-        if ( defined $skins
-            && $skins =~ m/([[:alnum:].,\s]+)/ )
-        {
-
-            # Implicit untaint ok - validated
-            $skins = $1;
-            push( @skinpath, split( /,\s]+/, $skins ) );
-        }
-    }
-
-    $skins = $this->prefs->getPreference('COVER');
-    if ( defined $skins
-        && $skins =~ m/([[:alnum:].,\s]+)/ )
-    {
-
-        # Implicit untaint ok - validated
-        $skins = $1;
-        push( @skinpath, split( /[,\s]+/, $skins ) );
-    }
-
-    $skins = $this->request ? $this->request->param('skin') : undef;
-    $skins = $this->prefs->getPreference('SKIN') unless $skins;
-
-    if ( defined $skins && $skins =~ m/([[:alnum:].,\s]+)/ ) {
-
-        # Implicit untaint ok - validated
-        $skins = $1;
-        push( @skinpath, split( /[,\s]+/, $skins ) );
-    }
-
-    return join( ',', @skinpath );
-}
-
-=begin TML
-
 ---++ ObjectMethod getScriptUrl( $absolute, $script, $web, $topic, ... ) -> $scriptURL
 
 Returns the URL to a Foswiki script, providing the web and topic as
@@ -1723,60 +1538,6 @@ sub deepWebList {
         }
     }
     return @list;
-}
-
-=begin TML
-
----++ ObjectMethod normalizeWebTopicName( $web, $topic ) -> ( $web, $topic )
-
-Normalize a Web<nop>.<nop>TopicName
-
-See =Foswiki::Func= for a full specification of the expansion (not duplicated
-here)
-
-*WARNING* if there is no web specification (in the web or topic parameters)
-the web defaults to $Foswiki::cfg{UsersWebName}. If there is no topic
-specification, or the topic is '0', the topic defaults to the web home topic
-name.
-
-*WARNING* if the input topic name is tainted, then the output web and
-topic names will be tainted.
-
-=cut
-
-sub normalizeWebTopicName {
-    my ( $this, $web, $topic ) = @_;
-
-    ASSERT( defined $topic ) if DEBUG;
-
-   #SMELL: Item12567: Writing the separator as a character class for some reason
-   # taints all the results including the data ouside the character class..
-    if ( defined $topic && $topic =~ m{^(.*)(?:\.|/)(.*?)$} ) {
-        $web   = $1;
-        $topic = $2;
-
-        if ( DEBUG && !UNTAINTED( $_[2] ) ) {
-
-            # retaint data untainted by RE above
-            $web   = TAINT($web);
-            $topic = TAINT($topic);
-        }
-    }
-    $web   ||= $cfg{UsersWebName};
-    $topic ||= $cfg{HomeTopicName};
-
-    # MAINWEB and TWIKIWEB expanded for compatibility reasons
-    while (
-        $web =~ s/%((MAIN|TWIKI|USERS|SYSTEM|DOC)WEB)%/
-              $this->_expandMacroOnTopicRendering( $1 ) || ''/e
-      )
-    {
-    }
-
-    # Normalize web name to use / and not . as a subweb separator
-    $web =~ s#\.#/#g;
-
-    return ( $web, $topic );
 }
 
 =begin TML

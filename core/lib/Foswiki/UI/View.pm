@@ -2,7 +2,7 @@
 
 =begin TML
 
----+ package Foswiki::UI::View
+---+ Class Foswiki::UI::View
 
 UI delegate for view function
 
@@ -25,7 +25,7 @@ use Foswiki::PageCache     ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::UI);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -36,7 +36,7 @@ BEGIN {
 
 =begin TML
 
----++ StaticMethod view( $app )
+---++ ObjectMethod view( $app )
 
 =view= command handler.
 This method is designed to be
@@ -79,10 +79,10 @@ sub view {
         && $query->param('release_lock') ne '' )
     {
         $query->delete('release_lock');
-        my $topicObject = Foswiki::Meta->new(
-            session => $app,
-            web     => $web,
-            topic   => $topic
+        my $topicObject = $this->create(
+            'Foswiki::Meta',
+            web   => $web,
+            topic => $topic
         );
 
         my $lease = $topicObject->getLease();
@@ -110,7 +110,7 @@ sub view {
     my $indexableView = 1;
     my $viewTemplate;
 
-    Foswiki::UI::checkWebExists( $app, $web, 'view' );
+    $this->checkWebExists($web);
 
     if ( defined $requestedRev ) {
         $requestedRev = Foswiki::Store::cleanUpRevID($requestedRev);
@@ -131,12 +131,12 @@ sub view {
     my $revIt;          # Iterator over the range of available revs
     my $maxRev;
 
-    if ( $app->topicExists( $web, $topic ) ) {
+    if ( $app->store->topicExists( $web, $topic ) ) {
 
         # Load the most recent rev. This *should* be maxRev, but may
         # not say it is because the TOPICINFO could be up the spout
         $topicObject = Foswiki::Meta->load( $app, $web, $topic );
-        Foswiki::UI::checkAccess( $app, 'VIEW', $topicObject );
+        $this->checkAccess( 'VIEW', $topicObject );
 
         # If we are applying control to the raw view:
         if (   $raw
@@ -150,7 +150,7 @@ sub view {
                   unless $app->inContext("authenticated");
             }
             else {
-                Foswiki::UI::checkAccess( $app, 'RAW', $topicObject )
+                $this->checkAccess( 'RAW', $topicObject )
                   unless $topicObject->haveAccess('CHANGE');
             }
         }
@@ -168,7 +168,7 @@ sub view {
                   unless $app->inContext("authenticated");
             }
             else {
-                Foswiki::UI::checkAccess( $app, 'HISTORY', $topicObject );
+                $this->checkAccess( 'HISTORY', $topicObject );
             }
         }
 
@@ -232,15 +232,15 @@ sub view {
         }
     }
     else {    # Topic does not exist yet
-        $topicObject = Foswiki::Meta->new(
-            session => $app,
-            web     => $web,
-            topic   => $topic
+        $topicObject = $this->create(
+            'Foswiki::Meta',
+            web   => $web,
+            topic => $topic
         );
 
         # If user would not be able to access the topic, don't reveal that
         # it does not exist
-        Foswiki::UI::checkAccess( $app, 'VIEW', $topicObject );
+        $this->checkAccess( 'VIEW', $topicObject );
 
         $indexableView = 0;
         $app->enterContext('new_topic');
@@ -321,8 +321,8 @@ sub view {
 
     # Show revisions around the one being displayed.
     $tmpl =~ s/%REVISIONS%/
-      revisionsAround(
-          $app, $topicObject, $requestedRev, $showRev, $maxRev)/e;
+      $this->revisionsAround(
+          $topicObject, $requestedRev, $showRev, $maxRev)/e;
 
     ## SMELL: This is also used in Foswiki::_TOC. Could insert a tag in
     ## TOC and remove all those here, finding the parameters only once
@@ -503,7 +503,7 @@ sub _prepare {
 
 =begin TML
 
----++ StaticMethod revisionsAround($app, $topicObject, $requestedRev, $showRev, $maxRev) -> $output
+---++ ObjectMethod revisionsAround($app, $topicObject, $requestedRev, $showRev, $maxRev) -> $output
 
 Calculate the revisions spanning the current one for display in the bottom
 bar.
@@ -511,7 +511,10 @@ bar.
 =cut
 
 sub revisionsAround {
-    my ( $app, $topicObject, $requestedRev, $showRev, $maxRev ) = @_;
+    my $this = shift;
+    my ( $topicObject, $requestedRev, $showRev, $maxRev ) = @_;
+
+    my $app = $this->app;
 
     my $revsToShow = $Foswiki::cfg{NumberOfRevisions} + 1;
 

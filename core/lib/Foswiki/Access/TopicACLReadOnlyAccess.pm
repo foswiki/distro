@@ -39,17 +39,17 @@ may result in the topic being read.
 around haveAccess => sub {
     my $orig = shift;
     my ( $this, $mode, $cUID, $param1, $param2 ) = @_;
+    my $app = $this->app;
     $mode ||= 'VIEW';
-    $cUID ||= $this->session->user;
+    $cUID ||= $app->user;
 
-    my $session = $this->session;
     $this->clear_failure;
 
     print STDERR "Check $mode access $cUID \n"
       if MONITOR;
 
     # super admin is always allowed
-    if ( $session->{users}->isAdmin($cUID) ) {
+    if ( $app->users->isAdmin($cUID) ) {
         print STDERR "$cUID - ADMIN\n" if MONITOR;
         return 1;
     }

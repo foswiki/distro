@@ -7,7 +7,7 @@ use Try::Tiny;
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 with qw(Foswiki::Macro);
 
 BEGIN {
@@ -46,7 +46,7 @@ sub expand {
         my $crev = $topicObject->getLoadedRev();
         if ( defined $crev && $crev != $rev ) {
             $topicObject =
-              Foswiki::Meta->load( $topicObject->session, $topicObject->web,
+              Foswiki::Meta->load( $topicObject->app, $topicObject->web,
                 $topicObject->topic, $rev );
         }
     }
@@ -77,7 +77,7 @@ sub expand {
     catch {
         if ( $_->isa('Foswiki::Infix::Error') ) {
             $result =
-              $this->session->inlineAlert( 'alerts', 'generic', 'QUERY{',
+              $this->app->inlineAlert( 'alerts', 'generic', 'QUERY{',
                 $params->stringify(), '}:', $_->text );
         }
         else {

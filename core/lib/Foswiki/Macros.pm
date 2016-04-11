@@ -690,7 +690,7 @@ sub _expandMacroOnTopicRendering {
             die $tag unless $tag =~ m/([A-Z_:]+)/i;
             $tag = $1;
             my $modName = "Foswiki::Macros::$tag";
-            load_package($modName);
+            Foswiki::load_package($modName);
             if ( $modName->can('new') ) {
                 $this->registered->{$tag} = $modName;
             }

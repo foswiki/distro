@@ -7,7 +7,7 @@ use Foswiki::Meta  ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 with qw(Foswiki::Macro);
 
 BEGIN {
@@ -26,23 +26,23 @@ has _ffCache => (
 sub expand {
     my ( $this, $args, $topicObject ) = @_;
 
-    my $session = $this->session;
+    my $app = $this->app;
 
     if ( $args->{topic} ) {
         my $web = $args->{web} || $topicObject->web;
         my $topic = $args->{topic};
-        ( $web, $topic ) = $session->normalizeWebTopicName( $web, $topic );
-        $topicObject = Foswiki::Meta->new(
-            session => $session,
-            web     => $web,
-            topic   => $topic
+        ( $web, $topic ) = $app->normalizeWebTopicName( $web, $topic );
+        $topicObject = $this->create(
+            'Foswiki::Meta',
+            web   => $web,
+            topic => $topic
         );
     }
     else {
 
         # SMELL: horrible hack; assumes the current rev comes from the 'rev'
         # parameter. There has to be a better way!
-        my $query = $session->request;
+        my $query = $app->request;
         my $cgiRev;
         $cgiRev = $query->param('rev') if ($query);
         $args->{rev} =
@@ -75,22 +75,22 @@ sub expand {
         $format = '$value';
     }
 
-    # SMELL XXX This is not be stored directly on the session object!
+    # SMELL XXX This is not be stored directly on the app object!
     my $formTopicObject = $this->_ffCache->{ $topicObject->getPath() . $rev };
 
     unless ($formTopicObject) {
         $formTopicObject =
-          Foswiki::Meta->load( $session, $topicObject->web, $topicObject->topic,
+          Foswiki::Meta->load( $app, $topicObject->web, $topicObject->topic,
             $rev );
         unless ( $formTopicObject->haveAccess('VIEW') ) {
 
             # Access violation, create dummy meta with empty text, so
             # it looks like it was already loaded.
-            $formTopicObject = Foswiki::Meta->new(
-                session => $session,
-                web     => $topicObject->web,
-                topic   => $topicObject->topic,
-                text    => ''
+            $formTopicObject = $this->create(
+                'Foswiki::Meta',
+                web   => $topicObject->web,
+                topic => $topicObject->topic,
+                text  => ''
             );
         }
 

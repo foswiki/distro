@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-package Foswiki;
+package Foswiki::Macros;
 
 use strict;
 use warnings;
@@ -22,7 +22,7 @@ sub PUBURL {
     }
     $attachment = $params->{_DEFAULT};
     $params->{absolute} = 1 unless $relative;
-    return $this->getPubURL( $web, $topic, $attachment, %{$params} );
+    return $this->app->getPubURL( $web, $topic, $attachment, %{$params} );
 }
 
 1;

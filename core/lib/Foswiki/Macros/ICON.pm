@@ -14,7 +14,7 @@ use Assert;
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 with qw(Foswiki::Macro);
 
 has ICONSPACE => (
@@ -26,21 +26,22 @@ has ICONSPACE => (
         # SMELL Behaviour change! Before Moo-fication _lookupIcon was trying to
         # initialize ICONSPACE on each call. But it is likely that this
         # behaviour was simple waste of CPU.
-        my $session   = $_[0]->session;
-        my $iconTopic = $session->prefs->getPreference('ICONTOPIC');
+        my $app       = $_[0]->app;
+        my $iconTopic = $app->prefs->getPreference('ICONTOPIC');
         if ( defined($iconTopic) ) {
             $iconTopic =~ s/\s+$//;
             my ( $w, $t ) =
-              $session->normalizeWebTopicName( $session->webName, $iconTopic );
-            if ( $session->topicExists( $w, $t ) ) {
-                return Foswiki::Meta->new(
-                    session => $session,
-                    web     => $w,
-                    topic   => $t
+              $app->request->normalizeWebTopicName( $app->request->web,
+                $iconTopic );
+            if ( $app->store->topicExists( $w, $t ) ) {
+                return $this->create(
+                    'Foswiki::Meta',
+                    web   => $w,
+                    topic => $t
                 );
             }
             else {
-                $session->logger->log( 'warning',
+                $app->logger->log( 'warning',
                     'ICONTOPIC $w.$t does not exist' );
             }
         }
@@ -95,7 +96,7 @@ has ICONSTEMPLATE => (
     default => sub {
 
         #if we fail to load once, don't try again.
-        $_[0]->session->templates->readTemplate('icons');
+        $_[0]->app->templates->readTemplate('icons');
     },
 );
 
@@ -113,7 +114,7 @@ has ICONSTEMPLATE => (
 sub _lookupIcon {
     my ( $this, $choice ) = @_;
 
-    my $session = $this->session;
+    my $app = $this->app;
 
     return undef unless defined $choice;
     return undef unless $this->ICONSPACE;
@@ -166,11 +167,12 @@ sub _getIconURL {
     $path ||= $this->_lookupIcon( $params->{default} );
     $path ||= $this->_lookupIcon('else');
     return unless $path && $path =~ s/\/([^\/]+)$//;
-    my $a       = $1;
-    my $session = $this->session;
+    my $a   = $1;
+    my $app = $this->app;
     my ( $w, $t ) =
-      $session->normalizeWebTopicName( $Foswiki::cfg{SystemWebName}, $path );
-    return $session->getPubURL( $w, $t, $a, %$params );
+      $app->request->normalizeWebTopicName( $Foswiki::cfg{SystemWebName},
+        $path );
+    return $app->getPubURL( $w, $t, $a, %$params );
 }
 
 =begin TML
@@ -191,7 +193,7 @@ the alt parameter. If alt is not given, the main parameter will be used.
 sub expand {
     my ( $this, $params ) = @_;
 
-    my $session = $this->session;
+    my $app = $this->app;
 
     #use icons.tmpl
     if ( defined( $this->ICONSTEMPLATE ) ) {
@@ -203,7 +205,7 @@ sub expand {
           || $params->{default}
           || 'else';    #can default the values if things are undefined though
                         #next unless (defined($iconName));
-        my $html = $session->templates->expandTemplate( "icon:" . $iconName );
+        my $html = $app->templates->expandTemplate( "icon:" . $iconName );
         return $html if ( defined($html) and $html ne '' );
 
         #}
@@ -212,7 +214,7 @@ sub expand {
     #fall back to using the traditional brute force attachment method.
     require Foswiki::Render::IconImage;
     return Foswiki::Render::IconImage::render(
-        $session,
+        $app,
         $this->_getIconURL($params),
         $params->{alt} || $params->{_DEFAULT} || $params->{default} || 'else',
         $params->{quote},

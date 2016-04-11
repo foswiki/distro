@@ -31,6 +31,23 @@ has env => (
     isa => Foswiki::Object::isaHASH( 'env', noUndef => 1, ),
     default => sub { $_[0]->app->env },
 );
+has gzipAccepted => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub {
+        my $this = shift;
+        my $encoding;
+        if ( ( $this->env->{'HTTP_ACCEPT_ENCODING'} || '' ) =~
+            /(?:^|\b)((?:x-)?gzip)(?:$|\b)/ )
+        {
+            $encoding = $1;
+        }
+        elsif ( $this->env->{'SPDY'} ) {
+            $encoding = 'gzip';
+        }
+        return $encoding;
+    },
+);
 
 =begin TML
 

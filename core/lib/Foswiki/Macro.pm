@@ -6,11 +6,6 @@ use v5.14;
 use Moo::Role;
 use namespace::clean;
 
-has session => (
-    is       => 'ro',
-    weak_ref => 1,
-);
-
 requires 'expand';
 
 1;

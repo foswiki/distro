@@ -96,12 +96,13 @@ sub BUILD {
     $this->preload();
 
     unless ($inited) {
-        Foswiki::registerTagHandler( 'PLUGINDESCRIPTIONS',
+        my $macros = $this->app->macros;
+        $macros->registerTagHandler( 'PLUGINDESCRIPTIONS',
             \&_handlePLUGINDESCRIPTIONS );
-        Foswiki::registerTagHandler( 'ACTIVATEDPLUGINS',
+        $macros->registerTagHandler( 'ACTIVATEDPLUGINS',
             \&_handleACTIVATEDPLUGINS );
-        Foswiki::registerTagHandler( 'FAILEDPLUGINS', \&_handleFAILEDPLUGINS );
-        Foswiki::registerTagHandler( 'RESTHANDLERS',  \&_handleRESTHANDLERS );
+        $macros->registerTagHandler( 'FAILEDPLUGINS', \&_handleFAILEDPLUGINS );
+        $macros->registerTagHandler( 'RESTHANDLERS',  \&_handleRESTHANDLERS );
         $inited = 1;
     }
 

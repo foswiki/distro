@@ -3427,7 +3427,7 @@ Only valid on topics.
 sub expandNewTopic {
     my ($this) = @_;
     _assertIsTopic($this) if DEBUG;
-    $this->app->expandMacrosOnTopicCreation($this);
+    $this->app->macros->expandMacrosOnTopicCreation($this);
 }
 
 =begin TML
@@ -3443,7 +3443,7 @@ sub expandMacros {
     my ( $this, $text ) = @_;
     _assertIsTopic($this) if DEBUG;
 
-    return $this->app->expandMacros( $text, $this );
+    return $this->app->macros->expandMacros( $text, $this );
 }
 
 =begin TML

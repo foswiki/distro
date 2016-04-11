@@ -15,7 +15,7 @@ use Assert;
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 use constant MONITOR => 0;
 
@@ -26,72 +26,10 @@ BEGIN {
     }
 }
 
-has session => (
-    is       => 'rw',
-    clearer  => 1,
-    weak_ref => 1,
-    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
-);
 has failure => (
     is      => 'rw',
     clearer => 1,
 );
-
-=begin TML
-
----++ ClassMethod create($session)
-
-Constructor. Never use new on Foswiki::Access!
-
-=cut
-
-sub create {
-    my ( $class, $session ) = @_;
-
-    my $imp = $Foswiki::cfg{AccessControl} || 'Foswiki::Access::TopicACLAccess';
-
-    print STDERR "using $imp Access Control\n" if MONITOR;
-
-    # SMELL Foswiki::local_class() would be preferable instead of eval.
-    my $ok = eval("require $imp; 1;");
-    ASSERT( $ok, $@ ) if DEBUG;
-    my $this = $imp->new( session => $session, _indirect => 1, );
-    ASSERT($this) if DEBUG;
-
-    return $this;
-}
-
-around BUILDARGS => sub {
-    my $orig = shift;
-
-    my $params = $orig->(@_);
-
-    ASSERT( $params->{_indirect},
-            __PACKAGE__
-          . "-derived object are to be instantiated using "
-          . __PACKAGE__
-          . "::create() constructor!" );
-
-    delete $params->{_indirect};
-
-    return $params;
-};
-
-=begin TML
-
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-#sub finish {
-#    my $this = shift;
-#    $this->clear_failure;
-#    $this->clear_session;
-#}
 
 =begin TML
 

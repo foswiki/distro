@@ -8,7 +8,7 @@ use Try::Tiny;
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 with qw(Foswiki::Macro);
 
 BEGIN {
@@ -31,7 +31,7 @@ has evaluating_if => (
 sub expand {
     my ( $this, $params, $topicObject ) = @_;
 
-    my $session = $this->session;
+    my $app = $this->app;
 
     my $texpr = $params->{_DEFAULT};
     $texpr = '' unless defined $texpr;
@@ -60,7 +60,7 @@ sub expand {
     catch {
         if ( $_->isa('Foswiki::Infix::Error') ) {
             $result =
-              $session->inlineAlert( 'alerts', 'generic', 'IF{',
+              $app->inlineAlert( 'alerts', 'generic', 'IF{',
                 $params->stringify(), '}:', $_->text );
         }
         else {

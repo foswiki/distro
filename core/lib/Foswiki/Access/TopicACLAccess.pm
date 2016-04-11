@@ -44,10 +44,10 @@ may result in the topic being read.
 
 sub haveAccess {
     my ( $this, $mode, $cUID, $param1, $param2, $param3 ) = @_;
+    my $app = $this->app;
     $mode ||= 'VIEW';
-    $cUID ||= $this->session->user;
+    $cUID ||= $app->user;
 
-    my $session = $this->session;
     $this->clear_failure;
 
     return 1
@@ -59,7 +59,7 @@ sub haveAccess {
     if ( ref($param1) eq '' ) {
 
         #scalar - treat as web, topic
-        $meta = Foswiki::Meta->load( $session, $param1, $param2 );
+        $meta = Foswiki::Meta->load( $app, $param1, $param2 );
         ASSERT( not defined($param3) )
           if DEBUG
           ;    #attachment ACL not currently supported in traditional topic ACL
@@ -73,7 +73,7 @@ sub haveAccess {
       if MONITOR;
 
     # super admin is always allowed
-    if ( $session->users->isAdmin($cUID) ) {
+    if ( $app->users->isAdmin($cUID) ) {
         print STDERR "$cUID - ADMIN\n" if MONITOR;
         return 1;
     }
@@ -89,9 +89,9 @@ sub haveAccess {
         # Check DENYTOPIC
         if ( defined($deny) ) {
             if ( scalar(@$deny) != 0 ) {
-                if ( $session->users->isInUserList( $cUID, $deny ) ) {
+                if ( $app->users->isInUserList( $cUID, $deny ) ) {
                     $this->failure(
-                        $session->i18n->maketext('access denied on topic') );
+                        $app->i18n->maketext('access denied on topic') );
                     print STDERR 'a ' . $this->failure, "\n" if MONITOR;
                     return 0;
                 }
@@ -109,12 +109,12 @@ sub haveAccess {
 
         # Check ALLOWTOPIC. If this is defined the user _must_ be in it
         if ( defined($allow) && scalar(@$allow) != 0 ) {
-            if ( $session->users->isInUserList( $cUID, $allow ) ) {
+            if ( $app->users->isInUserList( $cUID, $allow ) ) {
                 print STDERR "in ALLOWTOPIC\n" if MONITOR;
                 return 1;
             }
             $this->failure(
-                $session->i18n->maketext('access not allowed on topic') );
+                $app->i18n->maketext('access not allowed on topic') );
             print STDERR 'b ' . $this->failure, "\n" if MONITOR;
             return 0;
         }
@@ -125,9 +125,9 @@ sub haveAccess {
 
         $deny = $this->_getACL( $meta, 'DENYWEB' . $mode );
         if ( defined($deny)
-            && $session->users->isInUserList( $cUID, $deny ) )
+            && $app->users->isInUserList( $cUID, $deny ) )
         {
-            $this->failure( $session->i18n->maketext('access denied on web') );
+            $this->failure( $app->i18n->maketext('access denied on web') );
             print STDERR 'c ' . $this->failure, "\n" if MONITOR;
             return 0;
         }
@@ -137,9 +137,9 @@ sub haveAccess {
         $allow = $this->_getACL( $meta, 'ALLOWWEB' . $mode );
 
         if ( defined($allow) && scalar(@$allow) != 0 ) {
-            unless ( $session->users->isInUserList( $cUID, $allow ) ) {
+            unless ( $app->users->isInUserList( $cUID, $allow ) ) {
                 $this->failure(
-                    $session->i18n->maketext('access not allowed on web') );
+                    $app->i18n->maketext('access not allowed on web') );
                 print STDERR 'd ' . $this->failure, "\n" if MONITOR;
                 return 0;
             }
@@ -152,9 +152,9 @@ sub haveAccess {
         $deny = $this->_getACL( $meta, 'DENYROOT' . $mode );
 
         if ( defined($deny)
-            && $session->users->isInUserList( $cUID, $deny ) )
+            && $app->users->isInUserList( $cUID, $deny ) )
         {
-            $this->failure( $session->i18n->maketext('access denied on root') );
+            $this->failure( $app->i18n->maketext('access denied on root') );
             print STDERR 'e ' . $this->failure, "\n" if MONITOR;
             return 0;
         }
@@ -162,9 +162,9 @@ sub haveAccess {
         $allow = $this->_getACL( $meta, 'ALLOWROOT' . $mode );
 
         if ( defined($allow) && scalar(@$allow) != 0 ) {
-            unless ( $session->users->isInUserList( $cUID, $allow ) ) {
+            unless ( $app->users->isInUserList( $cUID, $allow ) ) {
                 $this->failure(
-                    $session->i18n->maketext('access not allowed on root') );
+                    $app->i18n->maketext('access not allowed on root') );
                 print STDERR 'f ' . $this->failure, "\n" if MONITOR;
                 return 0;
             }

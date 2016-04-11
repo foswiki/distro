@@ -138,10 +138,25 @@ has start_time => (    # start_time cannot be lazy, can it?
     is      => 'rw',
     default => sub { return [Time::HiRes::gettimeofday] },
 );
-has web =>
-  ( is => 'rw', lazy => 1, default => sub { $_[0]->_pathParsed->{web} }, );
-has topic =>
-  ( is => 'rw', lazy => 1, default => sub { $_[0]->_pathParsed->{topic} }, );
+has web => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        my $this = shift;
+        return ( $this->_pathParsed->{web}
+              || $this->param('defaultweb')
+              || $this->app->cfg->data->{UsersWebName} );
+    },
+);
+has topic => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        my $this = shift;
+        return ( $this->_pathParsed->{topic}
+              || $this->app->cfg->data->{HomeTopicName} );
+    },
+);
 has invalidWeb => (
     is      => 'rw',
     lazy    => 1,
@@ -1099,6 +1114,61 @@ sub _establishWebTopic {
     # Note that Web can still be undefined.  Caller then determines if the
     # defaultweb query param, or the HomeWeb config parameter should be used.
     return $parse;
+}
+
+=begin TML
+
+---++ ObjectMethod normalizeWebTopicName( $web, $topic ) -> ( $web, $topic )
+
+Normalize a Web<nop>.<nop>TopicName
+
+See =Foswiki::Func= for a full specification of the expansion (not duplicated
+here)
+
+*WARNING* if there is no web specification (in the web or topic parameters)
+the web defaults to $Foswiki::cfg{UsersWebName}. If there is no topic
+specification, or the topic is '0', the topic defaults to the web home topic
+name.
+
+*WARNING* if the input topic name is tainted, then the output web and
+topic names will be tainted.
+
+=cut
+
+sub normalizeWebTopicName {
+    my ( $this, $web, $topic ) = @_;
+
+    ASSERT( defined $topic ) if DEBUG;
+
+   #SMELL: Item12567: Writing the separator as a character class for some reason
+   # taints all the results including the data ouside the character class..
+    if ( defined $topic && $topic =~ m{^(.*)(?:\.|/)(.*?)$} ) {
+        $web   = $1;
+        $topic = $2;
+
+        if ( DEBUG && !UNTAINTED( $_[2] ) ) {
+
+            # retaint data untainted by RE above
+            $web   = TAINT($web);
+            $topic = TAINT($topic);
+        }
+    }
+    my $cfg = $this->app->cfg;
+    $web   ||= $cfg->data->{UsersWebName};
+    $topic ||= $cfg->data->{HomeTopicName};
+
+    # MAINWEB and TWIKIWEB expanded for compatibility reasons
+    while (
+        $web =~ s/%((MAIN|TWIKI|USERS|SYSTEM|DOC)WEB)%/
+              $this->app->macros->_expandMacroOnTopicRendering( $1 ) || ''/e
+      )
+    {
+    }
+
+    # Normalize web name to use / and not . as a subweb separator
+    $web =~ s#\.#/#g;
+
+    return ( $web, $topic );
 }
 
 1;

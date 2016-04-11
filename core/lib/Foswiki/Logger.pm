@@ -125,15 +125,15 @@ method for "info" level events.
 sub setCommonFields {
 
     # my $fhash = shift
-    my $user = $_[0]->{user} || $Foswiki::Plugins::SESSION->user;
-    my $users = $Foswiki::Plugins::SESSION->users;
+    my $user = $_[0]->{user} || $Foswiki::app->user;
+    my $users = $Foswiki::app->users;
     my $login;
     $login = $users->getLoginName($user) if ($users);
     $_[0]->{user} = $login if $login;
 
     unless ( defined $_[0]->{agent} ) {
         my $agent    = '';
-        my $cgiQuery = $Foswiki::Plugins::SESSION->request;
+        my $cgiQuery = $Foswiki::app->request;
         if ($cgiQuery) {
             my $agentStr = $cgiQuery->user_agent();
             if ($agentStr) {
@@ -152,15 +152,14 @@ m/(MSIE 6|MSIE 7|MSIE 8|MSI 9|Firefox|Opera|Konqueror|Chrome|Safari)/
     }
 
     unless ( defined $_[0]->{remoteAddr} ) {
-        $_[0]->{remoteAddr} =
-          $Foswiki::Plugins::SESSION->request->remoteAddress() || ''
-          if ( defined $Foswiki::Plugins::SESSION->request );
+        $_[0]->{remoteAddr} = $Foswiki::app->request->remoteAddress || ''
+          if ( defined $Foswiki::app->request );
     }
 
     unless ( defined $_[0]->{webTopic} ) {
-        my $webTopic = $Foswiki::Plugins::SESSION->webName || '';
+        my $webTopic = $Foswiki::app->request->web || '';
         $webTopic .= '.' if ($webTopic);
-        $webTopic .= $Foswiki::Plugins::SESSION->topicName || '';
+        $webTopic .= $Foswiki::app->request->topic || '';
         $_[0]->{webTopic} = $webTopic || '';
     }
 
