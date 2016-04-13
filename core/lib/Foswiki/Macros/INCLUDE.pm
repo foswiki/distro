@@ -118,7 +118,7 @@ sub _includeWarning {
     my $message = shift;
 
     if ( $warn eq 'on' ) {
-        return $this->session->inlineAlert( 'alerts', $message, @_ );
+        return $this->app->inlineAlert( 'alerts', $message, @_ );
     }
     elsif ( Foswiki::isTrue($warn) ) {
 
@@ -132,7 +132,7 @@ sub _includeWarning {
             $argument = shift;
         }
         $warn =~ s/\$topic/$argument/g if $argument;
-        return Foswiki::expandStandardEscapes($warn);
+        return $this->app->macros->expandStandardEscapes($warn);
     }    # else fail silently
     return '';
 }
@@ -147,21 +147,22 @@ sub _includeProtocol {
     }
     else {
         $handler = 'Foswiki::IncludeHandlers::' . $handler;
-        return $handler->INCLUDE( $this->session, $control, $params );
+        return $handler->INCLUDE( $this->app, $control, $params );
     }
 }
 
 sub _includeTopic {
     my ( $this, $includingTopicObject, $control, $params ) = @_;
 
-    my $session = $this->session;
+    my $app = $this->app;
+    my $req = $app->request;
 
     my $includedWeb;
     my $includedTopic = $control->{_DEFAULT};
     $includedTopic =~ s/\.txt$//;    # strip optional (undocumented) .txt
 
     ( $includedWeb, $includedTopic ) =
-      $session->normalizeWebTopicName( $includingTopicObject->web,
+      $app->request->normalizeWebTopicName( $includingTopicObject->web,
         $includedTopic );
 
     if ( !Foswiki::isValidTopicName( $includedTopic, 1 ) ) {
@@ -172,7 +173,7 @@ sub _includeTopic {
     }
 
     # See Codev.FailedIncludeWarning for the history.
-    unless ( $session->store->topicExists( $includedWeb, $includedTopic ) ) {
+    unless ( $app->store->topicExists( $includedWeb, $includedTopic ) ) {
         return _includeWarning( $this, $control->{warn}, 'topic_not_found',
             $includedWeb, $includedTopic ),
           'topic_not_found';
@@ -193,23 +194,23 @@ sub _includeTopic {
     # Push the topic context to the included topic, so we can create
     # local (SESSION) macro definitions without polluting the including
     # topic namespace.
-    $session->prefs->pushTopicContext( $session->webName, $session->topicName );
+    $app->prefs->pushTopicContext( $req->web, $req->topic );
 
     $this->_INCLUDES->{$key} = 1;
 
     my $includedTopicObject =
-      Foswiki::Meta->load( $session, $includedWeb, $includedTopic,
+      Foswiki::Meta->load( $app, $includedWeb, $includedTopic,
         $control->{rev} );
     unless ( $includedTopicObject->haveAccess('VIEW') ) {
         if ( Foswiki::isTrue( $control->{warn} ) ) {
-            return $session->inlineAlert( 'alerts', 'access_denied',
+            return $app->inlineAlert( 'alerts', 'access_denied',
                 "[[$includedWeb.$includedTopic]]" ),
               'access_denied';
         }    # else fail silently
         return '', 'access_denied';
     }
-    my $memWeb   = $session->prefs->getPreference('INCLUDINGWEB');
-    my $memTopic = $session->prefs->getPreference('INCLUDINGTOPIC');
+    my $memWeb   = $app->prefs->getPreference('INCLUDINGWEB');
+    my $memTopic = $app->prefs->getPreference('INCLUDINGTOPIC');
 
     my $text       = '';
     my $error      = '';
@@ -217,13 +218,13 @@ sub _includeTopic {
     my $dirtyAreas = {};
     try {
 
-        # Copy params into session level preferences. That way finalisation
+        # Copy params into app level preferences. That way finalisation
         # will apply to them. These preferences will be popped when the topic
         # context is restored after the include.
-        $session->prefs->setSessionPreferences(%$params);
+        $app->prefs->setSessionPreferences(%$params);
 
         # Set preferences that finalisation does *not* apply to
-        $session->prefs->setInternalPreferences(
+        $app->prefs->setInternalPreferences(
             INCLUDINGWEB   => $includingTopicObject->web,
             INCLUDINGTOPIC => $includingTopicObject->topic
         );
@@ -247,7 +248,7 @@ sub _includeTopic {
           if $Foswiki::cfg{Cache}{Enabled};
 
         # handle sections
-        my ( $ntext, $sections ) = Foswiki::parseSections($text);
+        my ( $ntext, $sections ) = $app->macros->parseSections($text);
 
         my $interesting = ( defined $control->{section} );
         if ( $interesting || scalar(@$sections) ) {
@@ -283,10 +284,10 @@ sub _includeTopic {
                             || ( $key eq 'stop' ) );
 
 #don't over-ride existing INCLUDE params and settings (so that nested INCLUDEs pass on their values as they used to), and to avoid FINALISE issues
-                        next if ( $session->prefs->getPreference($key) );
+                        next if ( $app->prefs->getPreference($key) );
                         $defaults{$key} = $s->{$key};
                     }
-                    $session->prefs->setSessionPreferences(%defaults);
+                    $app->prefs->setSessionPreferences(%defaults);
 
                     #we only process the first named section
                     last if ( $control->{section} );
@@ -313,38 +314,38 @@ sub _includeTopic {
             # preference has been set
             if (
                 Foswiki::isTrue(
-                    $session->prefs->getPreference('TOC_HIDE_IF_INCLUDED')
+                    $app->prefs->getPreference('TOC_HIDE_IF_INCLUDED')
                 )
               )
             {
                 $text =~ s/%TOC(?:{(.*?)})?%//g;
             }
 
-            $session->innerExpandMacros( \$text, $includedTopicObject );
+            $app->macros->innerExpandMacros( \$text, $includedTopicObject );
 
             # Item9569: remove verbatim blocks from text passed to
             # commonTagsHandler
             $text = Foswiki::takeOutBlocks( $text, 'verbatim', $verbatim );
 
             # 4th parameter tells plugin that its called for an included file
-            $session->plugins->dispatch( 'commonTagsHandler', $text,
+            $app->plugins->dispatch( 'commonTagsHandler', $text,
                 $includedTopic, $includedWeb, 1, $includedTopicObject );
             Foswiki::putBackBlocks( \$text, $verbatim, 'verbatim' );
 
             # We have to expand tags again, because a plugin may have inserted
             # additional tags.
-            $session->innerExpandMacros( \$text, $includedTopicObject );
+            $app->macros->innerExpandMacros( \$text, $includedTopicObject );
 
             # If needed, fix all 'TopicNames' to 'Web.TopicNames' to get the
             # right context so that links continue to work properly
             if ( $includedWeb ne $includingTopicObject->web ) {
-                my $noautolink = Foswiki::isTrue(
-                    $session->prefs->getPreference('NOAUTOLINK') );
+                my $noautolink =
+                  Foswiki::isTrue( $app->prefs->getPreference('NOAUTOLINK') );
 
           # pre and noautolink parms are used by Foswiki::Render to determine
           # whether or not to process those blocks.
           # Pref_NOAUTOLINK passes the preference setting to _fixupIncludedTopic
-                $text = $session->renderer->forEachLine(
+                $text = $app->renderer->forEachLine(
                     $text,
                     \&_fixupIncludedTopic,
                     {
@@ -356,7 +357,7 @@ sub _includeTopic {
                 );
 
                 # handle tags again because of plugin hook
-                $session->innerExpandMacros( \$text, $includedTopicObject );
+                $app->macros->innerExpandMacros( \$text, $includedTopicObject );
             }
         }
     }
@@ -376,7 +377,7 @@ sub _includeTopic {
         # always restore the context, even in the event of an error
         delete $this->_INCLUDES->{$key};
 
-        $session->prefs->setInternalPreferences(
+        $app->prefs->setInternalPreferences(
             INCLUDINGWEB   => $memWeb,
             INCLUDINGTOPIC => $memTopic
         );
@@ -385,9 +386,9 @@ sub _includeTopic {
         Foswiki::putBackBlocks( \$text, $dirtyAreas, 'dirtyarea' )
           if $Foswiki::cfg{Cache}{Enabled};
 
-        my @context = $session->prefs->popTopicContext();
-        $session->webName( $context[0] );
-        $session->topicName( $context[1] );
+        my @context = $app->prefs->popTopicContext();
+        $req->web( $context[0] );
+        $req->topic( $context[1] );
 
     };
 
@@ -401,7 +402,7 @@ sub _includeTopic {
 sub expand {
     my ( $this, $params, $includingTopicObject ) = @_;
 
-    my $session = $this->session;
+    my $app = $this->app;
 
     # remember args for the key before mangling the params
     my $args = $params->stringify();
@@ -413,7 +414,7 @@ sub expand {
     }
     $control{_sArgs} = $args;
 
-    $control{warn} ||= $session->prefs->getPreference('INCLUDEWARNING');
+    $control{warn} ||= $app->prefs->getPreference('INCLUDEWARNING');
 
     my $text;
 

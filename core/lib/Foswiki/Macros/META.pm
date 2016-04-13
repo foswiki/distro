@@ -4,8 +4,10 @@ package Foswiki::Macros;
 use strict;
 use warnings;
 
-use Foswiki::Meta ();
-use Foswiki::Func ();
+use Foswiki::Render::Moved  ();
+use Foswiki::Render::Parent ();
+use Foswiki::Meta           ();
+use Foswiki::Func           ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -19,6 +21,8 @@ BEGIN {
 # topic you intend to display!
 sub META {
     my ( $this, $params, $topicObject ) = @_;
+
+    my $app = $this->app;
 
     my $option = $params->{_DEFAULT} || '';
     if ( defined( $params->{topic} ) ) {
@@ -54,17 +58,15 @@ sub META {
     elsif ( $option eq 'attachments' ) {
 
         # renders attachment tables
-        return $this->attach->renderMetaData( $topicObject, $params );
+        return $app->attach->renderMetaData( $topicObject, $params );
     }
     elsif ( $option eq 'moved' ) {
-        require Foswiki::Render::Moved;
         return Foswiki::Render::Moved::render( $this, $topicObject, $params );
     }
     elsif ( $option eq 'parent' ) {
 
         # Only parent parameter has the format option and should do std escapes
-        require Foswiki::Render::Parent;
-        return expandStandardEscapes(
+        return $this->expandStandardEscapes(
             Foswiki::Render::Parent::render( $this, $topicObject, $params ) );
     }
 

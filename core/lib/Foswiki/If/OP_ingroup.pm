@@ -43,17 +43,17 @@ sub evaluate {
     my $a =
       $node->params->[0]
       ;    # user cUID/ loginname / WikiName / WebDotWikiName :( (string)
-    my $b       = $node->params->[1];      # group name (string
-    my %domain  = @_;
-    my $session = $domain{tom}->session;
+    my $b      = $node->params->[1];    # group name (string
+    my %domain = @_;
+    my $app    = $domain{tom}->app;
     Foswiki::Exception->throw(
         text => 'No context in which to evaluate "' . $a->stringify() . '"' )
-      unless $session;
-    my $user = $session->users->getCanonicalUserID( $a->evaluate(@_) );
+      unless $app;
+    my $user = $app->users->getCanonicalUserID( $a->evaluate(@_) );
     return 0 unless $user;
     my $group = $b->_evaluate(@_);
     return 0 unless $group;
-    return 1 if ( $session->users->isInGroup( $user, $group ) );
+    return 1 if ( $app->users->isInGroup( $user, $group ) );
     return 0;
 }
 

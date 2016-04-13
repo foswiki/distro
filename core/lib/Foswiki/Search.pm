@@ -165,7 +165,7 @@ sub _extractPattern {
 
     if ($encode) {
 
-        # Reverse the action of Foswiki::expandStandardEscapes
+        # Reverse the action of Foswiki::Macros::expandStandardEscapes
         $text =~ s/$/\$dollar/g;
         $text =~ s/&/\$amp()/g;
         $text =~ s/>/\$gt()/g;
@@ -441,7 +441,7 @@ sub searchWeb {
                 #legacy SEARCH counter support
                 $result =~ s/%NTOPICS%/0/g;
 
-                $result = Foswiki::expandStandardEscapes($result);
+                $result = $app->macros->expandStandardEscapes($result);
                 $result =~ s/\n$//s;               # remove trailing new line
 
                 return $result;
@@ -472,7 +472,7 @@ sub searchWeb {
 
     my $searchResult = join( '', @{ $params{_cbdata} } );
 
-    $searchResult = Foswiki::expandStandardEscapes($searchResult);
+    $searchResult = $app->macros->expandStandardEscapes($searchResult);
 
     # Remove trailing separator or new line if nofinalnewline parameter is set
     my $noFinalNewline = Foswiki::isTrue( $params{nofinalnewline}, 1 );

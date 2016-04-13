@@ -18,7 +18,7 @@ use Assert;
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -27,12 +27,6 @@ BEGIN {
     }
 }
 
-has session => (
-    is       => 'rw',
-    weak_ref => 1,
-    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
-    required => 1,
-);
 has _zones                 => ( is => 'rw', lazy => 1, default => sub { {} }, );
 has _renderZonePlaceholder => ( is => 'rw', lazy => 1, default => sub { {} }, );
 
@@ -164,7 +158,7 @@ sub _renderZoneById {
 sub _renderZone {
     my ( $this, $zone, $params, $topicObject ) = @_;
 
-    my $session = $Foswiki::Plugins::SESSION;
+    my $app = $this->app;
 
     # Check the zone is defined and has not already been rendered
     return '' unless $zone && $this->_zones->{$zone};
@@ -180,10 +174,10 @@ sub _renderZone {
 #print STDERR "_renderZone called with " . Data::Dumper::Dumper( \$topicObject );
 
     unless ( defined $topicObject ) {
-        $topicObject = Foswiki::Meta->new(
-            session => $session,
-            web     => $session->webName,
-            topic   => $session->topicName
+        $topicObject = $this->create(
+            'Foswiki::Meta',
+            web   => $app->request->web,
+            topic => $app->request->topic,
         );
     }
 
@@ -264,7 +258,7 @@ sub _renderZone {
         push @result, $line if $line;
     }
     my $result =
-      Foswiki::expandStandardEscapes( $params->{header}
+      $app->macros->expandStandardEscapes( $params->{header}
           . join( $params->{separator}, @result )
           . $params->{footer} );
 

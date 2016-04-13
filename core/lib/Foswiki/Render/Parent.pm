@@ -16,14 +16,14 @@ BEGIN {
 
 =begin TML
 
----++ StaticMethod render($session, $topicObject, $params) -> $text
+---++ StaticMethod render($app, $topicObject, $params) -> $text
 
 Render parent meta-data. Support for %META%.
 
 =cut
 
 sub render {
-    my ( $session, $topicObject, $ah ) = @_;
+    my ( $app, $topicObject, $ah ) = @_;
     my $dontRecurse = $ah->{dontrecurse} || 0;
     my $depth       = $ah->{depth}       || 0;
     my $noWebHome   = $ah->{nowebhome}   || 0;
@@ -52,7 +52,8 @@ sub render {
 
     while ($parent) {
         $currentDepth++;
-        ( $pWeb, $pTopic ) = $session->normalizeWebTopicName( $pWeb, $parent );
+        ( $pWeb, $pTopic ) =
+          $app->request->normalizeWebTopicName( $pWeb, $parent );
         $parent = $pWeb . '.' . $pTopic;
         last
           if ( $noWebHome && ( $pTopic eq $Foswiki::cfg{HomeTopicName} )
@@ -70,7 +71,7 @@ sub render {
         # Compromise; rather than supporting a hack in the store to support
         # rapid access to parent meta (as in TWiki) accept the hit
         # of reading the whole topic.
-        my $topicObject = Foswiki::Meta->load( $session, $pWeb, $pTopic );
+        my $topicObject = Foswiki::Meta->load( $app, $pWeb, $pTopic );
         my $parentMeta = $topicObject->get('TOPICPARENT');
         $parent = $parentMeta->{name} if $parentMeta;
     }

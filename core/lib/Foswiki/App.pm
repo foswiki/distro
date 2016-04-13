@@ -19,9 +19,11 @@ use Cwd;
 use CGI;
 use Try::Tiny;
 use Storable qw(dclone);
-use Compress::Zlib  ();
-use Foswiki::Config ();
-use Foswiki::Engine ();
+use Compress::Zlib     ();
+use Foswiki::Config    ();
+use Foswiki::Engine    ();
+use Foswiki::Templates ();
+use Foswiki qw(load_package);
 
 use Moo;
 use namespace::clean;
@@ -40,6 +42,13 @@ has access => (
           || 'Foswiki::Access::TopicACLAccess';
         return $this->create($accessClass);
     },
+);
+has attach => (
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub { $_[0]->create('Foswiki::Attach'); },
 );
 has cache => (
     is        => 'rw',
@@ -127,6 +136,15 @@ has prefs => (
     clearer   => 1,
     default   => sub { return $_[0]->create('Foswiki::Prefs'); },
 );
+has renderer => (
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
+        return $_[0]->create('Foswiki::Render');
+    },
+);
 has request => (
     is      => 'rw',
     lazy    => 1,
@@ -200,6 +218,13 @@ has users => (
     predicate => 1,
     clearer   => 1,
     default   => sub { return $_[0]->create('Foswiki::Users'); },
+);
+has zones => (
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub { return $_[0]->create('Foswiki::Render::Zones'); },
 );
 has _dispatcherObject => (
     is  => 'rw',
@@ -451,6 +476,35 @@ sub create {
 
 =begin TML
 
+---++ ObjectMethod deepWebList($filter, $web) -> @list
+
+Deep list subwebs of the named web. $filter is a Foswiki::WebFilter
+object that is used to filter the list. The listing of subwebs is
+dependent on $Foswiki::cfg{EnableHierarchicalWebs} being true.
+
+Webs are returned as absolute web pathnames.
+
+=cut
+
+sub deepWebList {
+    my ( $this, $filter, $rootWeb ) = @_;
+    my @list;
+    my $webObject = $this->create( 'Foswiki::Meta', web => $rootWeb );
+    my $it = $webObject->eachWeb( $this->cfg->data->{EnableHierarchicalWebs} );
+    return $it->all() unless $filter;
+    while ( $it->hasNext() ) {
+        my $w = $rootWeb || '';
+        $w .= '/' if $w;
+        $w .= $it->next();
+        if ( $filter->ok( $this, $w ) ) {
+            push( @list, $w );
+        }
+    }
+    return @list;
+}
+
+=begin TML
+
 ---++ ObjectMethod enterContext( $id, $val )
 
 Add the context id $id into the set of active contexts. The $val
@@ -506,6 +560,62 @@ Return the value for the given context id
 sub inContext {
     my ( $this, $id ) = @_;
     return $this->context->{$id};
+}
+
+=begin TML
+
+---++ ObjectMethod inlineAlert($template, $def, ... ) -> $string
+
+Format an error for inline inclusion in rendered output. The message string
+is obtained from the template 'oops'.$template, and the DEF $def is
+selected. The parameters (...) are used to populate %PARAM1%..%PARAMn%
+
+=cut
+
+sub inlineAlert {
+    my $this     = shift;
+    my $template = shift;
+    my $def      = shift;
+
+    my $req = $this->request;
+
+    # web and topic can be anything; they are not used
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $req->web,
+        topic => $req->topic,
+    );
+    my $text = $this->templates->readTemplate( 'oops' . $template );
+    if ($text) {
+        my $blah = $this->templates->expandTemplate($def);
+        $text =~ s/%INSTANTIATE%/$blah/;
+
+        $text = $topicObject->expandMacros($text);
+        my $n = 1;
+        while ( defined( my $param = shift ) ) {
+            $text =~ s/%PARAM$n%/$param/g;
+            $n++;
+        }
+
+        # Suppress missing params
+        $text =~ s/%PARAM\d+%//g;
+
+        # Suppress missing params
+        $text =~ s/%PARAM\d+%//g;
+    }
+    else {
+
+        # Error in the template system.
+        $text = $topicObject->renderTML(<<MESSAGE);
+---+ Foswiki Installation Error
+Template 'oops$template' not found or returned no text, expanding $def.
+
+Check your configuration settings for {TemplateDir} and {TemplatePath}
+or check for syntax errors in templates,  or a missing TMPL:END.
+MESSAGE
+    }
+
+    return $text;
 }
 
 =begin TML
@@ -607,6 +717,64 @@ sub satisfiedByCache {
     );
 
     return 1;
+}
+
+=begin TML
+
+---++ ObjectMethod setCacheControl( $pageType, \%hopts )
+
+Set the cache control headers in a response
+
+   * =$pageType= - page type - 'view', ;edit' etc
+   * =\%hopts - ref to partially filled in hash of headers
+
+=cut
+
+sub setCacheControl {
+    my ( $this, $pageType, $hopts ) = @_;
+
+    if ( $pageType && $pageType eq 'edit' ) {
+
+        # Edit pages - future versions will extend to
+        # of other types of page, with expiry time driven by page type.
+
+        # Get time now in HTTP header format
+        my $lastModifiedString =
+          Foswiki::Time::formatTime( time, '$http', 'gmtime' );
+
+        # Expiry time is set high to avoid any data loss.  Each instance of
+        # Edit page has a unique URL with time-string suffix (fix for
+        # RefreshEditPage), so this long expiry time simply means that the
+        # browser Back button always works.  The next Edit on this page
+        # will use another URL and therefore won't use any cached
+        # version of this Edit page.
+        my $expireHours   = 24;
+        my $expireSeconds = $expireHours * 60 * 60;
+
+        # and cache control headers, to ensure edit page
+        # is cached until required expiry time.
+        $hopts->{'last-modified'} = $lastModifiedString;
+        $hopts->{expires}         = "+${expireHours}h";
+        $hopts->{'Cache-Control'} = "max-age=$expireSeconds";
+    }
+    else {
+
+        # we need to force the browser into a check on every
+        # request; let the server decide on an 304 as below
+        my $cacheControl = 'max-age=0';
+
+        my $req = $this->request;
+
+        # allow the admin to disable us from setting the max-age, as then
+        # it can't be set by apache
+        $cacheControl = $Foswiki::cfg{BrowserCacheControl}->{ $req->web }
+          if ( $Foswiki::cfg{BrowserCacheControl}
+            && defined( $Foswiki::cfg{BrowserCacheControl}->{ $req->web } ) );
+
+        # don't remove the 'if'; we need the header to not be there at
+        # all for the browser to use the cached version
+        $hopts->{'Cache-Control'} = $cacheControl if ( $cacheControl ne '' );
+    }
 }
 
 =begin TML
@@ -761,6 +929,191 @@ sub systemMessage {
     my $this = shift;
     my ($message) = @_;
     push @{ $this->system_messages }, $message;
+}
+
+=begin TML
+
+---++ ObjectMethod writeCompletePage( $text, $pageType, $contentType )
+
+Write a complete HTML page with basic header to the browser.
+   * =$text= is the text of the page script (&lt;html&gt; to &lt;/html&gt; if it's HTML)
+   * =$pageType= - May be "edit", which will cause headers to be generated that force
+     caching for 24 hours, to prevent Codev.BackFromPreviewLosesText bug, which caused
+     data loss with IE5 and IE6.
+   * =$contentType= - page content type | text/html
+
+This method removes noautolink and nop tags before outputting the page unless
+$contentType is text/plain.
+
+=cut
+
+sub writeCompletePage {
+    my ( $this, $text, $pageType, $contentType ) = @_;
+
+    # true if the body is to be output without encoding to utf8
+    # first. This is the case if the body has been gzipped and/or
+    # rendered from the cache
+    my $binary_body = 0;
+
+    $contentType ||= 'text/html';
+
+    my $cgis = $this->users->getCGISession();
+    if (   $cgis
+        && $contentType =~ m!^text/html!
+        && $Foswiki::cfg{Validation}{Method} ne 'none' )
+    {
+
+        # Don't expire the validation key through login, or when
+        # endpoint is an error.
+        Foswiki::Validation::expireValidationKeys($cgis)
+          unless ( $this->request->action() eq 'login'
+            or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400 );
+
+        my $usingStrikeOne = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
+        if ($usingStrikeOne) {
+
+            # add the validation cookie
+            my $valCookie = Foswiki::Validation::getCookie($cgis);
+            $valCookie->secure( $this->request->secure );
+            $this->response->cookies(
+                [ $this->response->cookies, $valCookie ] );
+
+            # Add the strikeone JS module to the page.
+            my $src = (DEBUG) ? '.uncompressed' : '';
+            $this->zones->addToZone(
+                'script',
+                'JavascriptFiles/strikeone',
+                '<script type="text/javascript" src="'
+                  . $this->getPubURL(
+                    $Foswiki::cfg{SystemWebName}, 'JavascriptFiles',
+                    "strikeone$src.js"
+                  )
+                  . '"></script>',
+                'JQUERYPLUGIN'
+            );
+
+            # Add the onsubmit handler to the form
+            $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
+                Foswiki::Validation::addOnSubmit($1)/gei;
+        }
+
+        my $context =
+          $this->request->url( -full => 1, -path => 1, -query => 1 ) . time();
+
+        # Inject validation key in HTML forms
+        $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
+          $1 . Foswiki::Validation::addValidationKey(
+              $cgis, $context, $usingStrikeOne )/gei;
+
+        #add validation key to HTTP header so we can update it for ajax use
+        $this->response->pushHeader(
+            'X-Foswiki-Validation',
+            Foswiki::Validation::generateValidationKey(
+                $cgis, $context, $usingStrikeOne
+            )
+        ) if ($cgis);
+    }
+
+    if ( $this->zones ) {
+
+        $text = $this->zones()->_renderZones($text);
+    }
+
+    # Validate format of content-type (defined in rfc2616)
+    my $tch = qr/[^\[\]()<>@,;:\\"\/?={}\s]/;
+    if ( $contentType =~ m/($tch+\/$tch+(\s*;\s*$tch+=($tch+|"[^"]*"))*)$/i ) {
+        $contentType = $1;
+    }
+    else {
+        # SMELL: can't compute; faking content-type for backwards compatibility;
+        # any other information might become bogus later anyway
+        $contentType = "text/plain;contenttype=invalid";
+    }
+    my $hdr = "Content-type: " . $1 . "\r\n";
+
+    # Call final handler
+    $this->plugins->dispatch( 'completePageHandler', $text, $hdr );
+
+    # cache final page, but only view and rest
+    my $cachedPage;
+    if ( $contentType ne 'text/plain' ) {
+
+        # Remove <nop> and <noautolink> tags
+        $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
+        if ( $Foswiki::cfg{Cache}{Enabled}
+            && ( $this->inContext('view') || $this->inContext('rest') ) )
+        {
+            $cachedPage = $this->cache->cachePage( $contentType, $text );
+            $this->cache->renderDirtyAreas( \$text )
+              if $cachedPage && $cachedPage->{isdirty};
+        }
+
+        # remove <dirtyarea> tags
+        $text =~ s/<\/?dirtyarea[^>]*>//g;
+
+        # Check that the templates specified clean HTML
+        if (DEBUG) {
+
+            # When tracing is enabled in Foswiki::Templates, then there will
+            # always be a <!--bodyend--> after </html>. So we need to disable
+            # this check.
+            if (   !Foswiki::Templates->TRACE
+                && $contentType =~ m#text/html#
+                && $text =~ m#</html>(.*?\S.*)$#s )
+            {
+                ASSERT( 0, <<BOGUS );
+Junk after </html>: $1. Templates may be bogus
+- Check for excess blank lines at ends of .tmpl files
+-  or newlines after %TMPL:INCLUDE
+- You can enable TRACE in Foswiki::Templates to help debug
+BOGUS
+            }
+        }
+    }
+
+    $this->response->pushHeader( 'X-Foswiki-Monitor-renderTime',
+        $this->request->getTime() );
+
+    my $hopts = { 'Content-Type' => $contentType };
+
+    $this->setCacheControl( $pageType, $hopts );
+
+    if ($cachedPage) {
+        $text = '' unless $this->setETags( $cachedPage, $hopts );
+    }
+
+    if ( $Foswiki::cfg{HttpCompress} && length($text) ) {
+
+        # Generate a zipped page, if the client accepts them
+
+        # SMELL: $ENV{SPDY} is a non-standard way to detect spdy protocol
+        if ( my $encoding = _gzipAccepted() ) {
+            $hopts->{'Content-Encoding'} = $encoding;
+            $hopts->{'Vary'}             = 'Accept-Encoding';
+
+            # check if we take the version from the cache. NOTE: we don't
+            # set X-Foswiki-Pagecache because this is *not* coming from
+            # the cache (well it is, but it was only just put there)
+            if ( $cachedPage && !$cachedPage->{isdirty} ) {
+                $text = $cachedPage->{data};
+            }
+            else {
+                # Not available from the cache, or it has dirty areas
+                $text = Compress::Zlib::memGzip( encode_utf8($text) );
+            }
+            $binary_body = 1;
+        }
+    }    # Otherwise fall through and generate plain text
+
+    # Generate (and print) HTTP headers.
+    $this->response->generateHTTPHeaders($hopts);
+
+    if ($binary_body) {
+        $this->response->body($text);
+    }
+    else {
+        $this->response->print($text);
+    }
 }
 
 sub _prepareContext {

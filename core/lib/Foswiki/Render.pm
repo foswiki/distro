@@ -14,14 +14,14 @@ use Assert;
 use Try::Tiny;
 use CGI ();
 
-use Foswiki                  ();
+use Foswiki qw(urlEncode);
 use Foswiki::Time            ();
 use Foswiki::Sandbox         ();
 use Foswiki::Render::Anchors ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -83,24 +83,18 @@ my %list_types = (
 
 =begin TML
 
----++ ClassMethod new ($session)
+---++ ClassMethod new (app => $app)
 
 Creates a new renderer
 
 =cut
 
-has session => (
-    is       => 'ro',
-    weak_ref => 1,
-    isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1, ),
-    required => 1,
-);
 has NEWLINKFORMAT => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
     default => sub {
-        return $_[0]->session->prefs->getPreference('NEWLINKFORMAT')
+        return $_[0]->app->prefs->getPreference('NEWLINKFORMAT')
           || DEFAULT_NEWLINKFORMAT;
     },
 );
@@ -111,7 +105,7 @@ has LINKTOOLTIPINFO => (
     default => sub {
 
         # Add a tooltip, if it's enabled
-        my $lti = $_[0]->session->prefs->getPreference('LINKTOOLTIPINFO') || '';
+        my $lti = $_[0]->app->prefs->getPreference('LINKTOOLTIPINFO') || '';
         if ( $lti =~ m/^[Oo][Nn]$/ ) {
             $lti = '$username - $date - r$rev: $summary';
         }
@@ -167,6 +161,9 @@ sub internalLink {
         $hasExplicitLinkLabel, $params )
       = @_;
 
+    my $req = $this->app->request;
+    my $cfg = $this->app->cfg;
+
     # Webname/Subweb/ -> Webname/Subweb
     $web =~ s/\/\Z//;
 
@@ -175,8 +172,8 @@ sub internalLink {
     }
 
     #WebHome links to tother webs render as the WebName
-    if (   ( $linkText eq $Foswiki::cfg{HomeTopicName} )
-        && ( $web ne $this->session->webName ) )
+    if (   ( $linkText eq $cfg->data->{HomeTopicName} )
+        && ( $web ne $req->web ) )
     {
         $linkText = $web;
     }
@@ -190,7 +187,7 @@ sub internalLink {
     # should be rendered differently even if the topic author has used a
     # specific link label.
     $linkText =
-      $this->session->plugins->dispatch( 'renderWikiWordHandler', $linkText,
+      $this->app->plugins->dispatch( 'renderWikiWordHandler', $linkText,
         $hasExplicitLinkLabel, $web, $topic )
       || $linkText;
 
@@ -224,9 +221,9 @@ sub getRenderedVersion {
 
     return '' unless defined $text;    # nothing to do
 
-    my $session = $this->session;
-    my $plugins = $session->plugins;
-    my $prefs   = $session->prefs;
+    my $app     = $this->app;
+    my $plugins = $app->plugins;
+    my $prefs   = $app->prefs;
 
     $this->clear_LIST;
 
@@ -593,7 +590,7 @@ qr/<[Tt][Ee][Xx][Tt][Aa][Rr][Ee][Aa]\b.*?<\/[Tt][Ee][Xx][Tt][Aa][Rr][Ee][Aa]>/s,
 
     $text = _adjustH($text);
 
-    $this->session->getLoginManager()->endRenderingHandler($text);
+    $this->app->users->getLoginManager()->endRenderingHandler($text);
 
     $plugins->dispatch( 'postRenderingHandler', $text );
     return $text;
@@ -688,14 +685,14 @@ sub TML2PlainText {
 
     if ( $opts =~ m/expandvar/ ) {
         $text =~ s/(\%)(SEARCH){/$1<nop>$2/g;    # prevent recursion
-        $topicObject = Foswiki::Meta->new( session => $this->session )
+        $topicObject = $this->creare('Foswiki::Meta')
           unless $topicObject;
         $text = $topicObject->expandMacros($text);
     }
     else {
         $text =~ s/%WEB%/$topicObject->web() || ''/ge;
         $text =~ s/%TOPIC%/$topicObject->topic() || ''/ge;
-        my $wtn = $this->session->prefs->getPreference('WIKITOOLNAME')
+        my $wtn = $this->app->prefs->getPreference('WIKITOOLNAME')
           || '';
         $text =~ s/%WIKITOOLNAME%/$wtn/g;
         if ( $opts =~ m/showvar/ ) {
@@ -784,10 +781,10 @@ sub protectPlainText {
 # DEPRECATED: retained for compatibility with various hack-job extensions
 sub makeTopicSummary {
     my ( $this, $text, $topic, $web, $flags ) = @_;
-    my $topicObject = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $web,
-        web     => $topic
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web => $web,
+        web => $topic
     );
     return $topicObject->summariseText( '', $text );
 }
@@ -817,18 +814,18 @@ Obtain and render revision info for a topic.
 sub renderRevisionInfo {
     my ( $this, $topicObject, $rrev, $format ) = @_;
     my $value = $format || 'r$rev - $date - $time - $wikiusername';
-    $value = Foswiki::expandStandardEscapes($value);
+    $value = $this->app->macros->expandStandardEscapes($value);
 
     # nop if there are no format tokens
     return $value
       unless $value =~
 m/\$(?:year|ye|wikiusername|wikiname|week|we|web|wday|username|tz|topic|time|seconds|sec|rev|rcs|month|mo|minutes|min|longdate|isotz|iso|http|hours|hou|epoch|email|dow|day|date)/x;
 
-    my $users = $this->session->users;
+    my $users = $this->app->users;
     if ($rrev) {
         my $loadedRev = $topicObject->getLoadedRev() || 0;
         unless ( $rrev == $loadedRev ) {
-            $topicObject = Foswiki::Meta->new( session => $topicObject );
+            $topicObject = $this->create('Foswiki::Meta');
             $topicObject = $topicObject->load($rrev);
         }
     }
@@ -1296,8 +1293,8 @@ sub _renderWikiWord {
     my ( $this, $web, $topic, $linkText, $anchor, $linkIfAbsent, $keepWebPrefix,
         $params )
       = @_;
-    my $session = $this->session;
-    my $topicExists = $session->topicExists( $web, $topic );
+    my $app = $this->app;
+    my $topicExists = $app->store->topicExists( $web, $topic );
 
     my $singular = '';
     unless ($topicExists) {
@@ -1306,7 +1303,7 @@ sub _renderWikiWord {
         require Foswiki::Plurals;
         $singular = Foswiki::Plurals::singularForm( $web, $topic );
         if ($singular) {
-            $topicExists = $session->topicExists( $web, $singular );
+            $topicExists = $app->store->topicExists( $web, $singular );
             $topic = $singular if $topicExists;
         }
     }
@@ -1315,7 +1312,7 @@ sub _renderWikiWord {
 
         # add a dependency so that the page gets invalidated as soon as the
         # topic is deleted
-        $this->session->cache->addDependency( $web, $topic )
+        $this->app->cache->addDependency( $web, $topic )
           if $Foswiki::cfg{Cache}{Enabled};
 
         return _renderExistingWikiWord( $this, $web, $topic, $linkText, $anchor,
@@ -1331,7 +1328,7 @@ sub _renderWikiWord {
         # add a dependency so that the page gets invalidated as soon as the
         # WikiWord comes into existance
         # Note we *ignore* the params if the target topic does not exist
-        $this->session->cache->addDependency( $web, $topic )
+        $this->app->cache->addDependency( $web, $topic )
           if $Foswiki::cfg{Cache}{Enabled};
 
         return _renderNonExistingWikiWord( $this, $web, $topic, $linkText );
@@ -1346,22 +1343,25 @@ sub _renderWikiWord {
 sub _renderExistingWikiWord {
     my ( $this, $web, $topic, $text, $anchor, $params ) = @_;
 
+    my $req = $this->app->request;
+    my $cfg = $this->app->cfg;
+
     my @cssClasses;
     push( @cssClasses, 'foswikiCurrentWebHomeLink' )
-      if ( ( $web eq $this->session->webName )
-        && ( $topic eq $Foswiki::cfg{HomeTopicName} ) );
+      if ( ( $web eq $req->web )
+        && ( $topic eq $cfg->data->{HomeTopicName} ) );
 
     my $inCurrentTopic = 0;
 
-    if (   ( $web eq $this->session->webName )
-        && ( $topic eq $this->session->topicName ) )
+    if (   ( $web eq $req->web )
+        && ( $topic eq $req->topic ) )
     {
         push( @cssClasses, 'foswikiCurrentTopicLink' );
         $inCurrentTopic = 1;
     }
 
     my %attrs;
-    my $href = $this->session->getScriptUrl( 0, 'view', $web, $topic );
+    my $href = $cfg->getScriptUrl( 0, 'view', $web, $topic );
     if ($params) {
         $href .= $params;
     }
@@ -1379,11 +1379,11 @@ sub _renderExistingWikiWord {
     $attrs{href} = $href;
 
     if ( defined $this->LINKTOOLTIPINFO
-        && $this->session->inContext('view') )
+        && $this->app->inContext('view') )
     {
         require Foswiki::Render::ToolTip;
         my $tooltip =
-          Foswiki::Render::ToolTip::render( $this->session, $web, $topic,
+          Foswiki::Render::ToolTip::render( $this->app, $web, $topic,
             $this->LINKTOOLTIPINFO );
         $attrs{title} = $tooltip if $tooltip;
     }
@@ -1406,10 +1406,11 @@ sub _renderNonExistingWikiWord {
     $ans =~ s/\$web/$web/g;
     $ans =~ s/\$topic/$topic/g;
     $ans =~ s/\$text/$text/g;
-    my $topicObject = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->session->webName,
-        topic   => $this->session->topicName
+    my $req         = $this->app->request;
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $req->web,
+        topic => $req->topic,
     );
     return $topicObject->expandMacros($ans);
 }
@@ -1451,7 +1452,7 @@ sub _handleWikiWord {
 
         # 'Web.TopicName' or 'Web.ABBREV' link:
         if (   $topic eq $Foswiki::cfg{HomeTopicName}
-            && $web ne $this->session->webName )
+            && $web ne $this->app->request->web )
         {
             $text = $web;
         }
@@ -1464,7 +1465,7 @@ sub _handleWikiWord {
     # Have to leave "web part" of ABR.ABR.ABR intact if topic not found
     $keepWeb =
       (      $topic =~ m/^$Foswiki::regex{abbrevRegex}$/
-          && $web ne $this->session->webName );
+          && $web ne $this->app->request->web );
 
     # false means suppress link for non-existing pages
     $linkIfAbsent = ( $topic !~ /^$Foswiki::regex{abbrevRegex}$/ );
@@ -1576,7 +1577,7 @@ sub _handleSquareBracketedLink {
 
     # Topic defaults to the current topic
     my ( $web, $topic ) =
-      $this->session->normalizeWebTopicName( $topicObject->web, $link );
+      $this->app->request->normalizeWebTopicName( $topicObject->web, $link );
 
     return $this->internalLink( $web, $topic, $text, $anchor, 1, undef,
         $hasExplicitLinkLabel, $params );

@@ -50,7 +50,7 @@ sub TOPICLIST {
         $line =~ s/\$qname/"$item"/g;    # Undocumented, DO NOT REMOVE
         my $mark = ( $selection =~ m/ \Q$item\E / ) ? $marker : '';
         $line =~ s/\$marker/$mark/g;
-        $line = expandStandardEscapes($line);
+        $line = $this->expandStandardEscapes($line);
         push( @items, $line );
     }
     return join( $separator, @items );

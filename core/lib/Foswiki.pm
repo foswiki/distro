@@ -100,21 +100,11 @@ extends qw( Foswiki::Object );
 
 use Assert;
 use Exporter qw(import);
-our @EXPORT_OK = qw(%regex);
+our @EXPORT_OK = qw(%regex urlEncode urlDecode make_params load_package);
 
 sub SINGLE_SINGLETONS       { 0 }
 sub SINGLE_SINGLETONS_TRACE { 0 }
 
-has attach => (
-    is        => 'ro',
-    lazy      => 1,
-    clearer   => 1,
-    predicate => 1,
-    default   => sub {
-        require Foswiki::Attach;
-        new Foswiki::Attach( session => $_[0] );
-    },
-);
 has digester => (
     is      => 'ro',
     lazy    => 1,
@@ -149,16 +139,6 @@ has net => (
 has remoteUser => (
     is      => 'rw',
     clearer => 1,
-);
-has renderer => (
-    is        => 'ro',
-    lazy      => 1,
-    clearer   => 1,
-    predicate => 1,
-    default   => sub {
-        load_package('Foswiki::Render');
-        Foswiki::Render->new( session => $_[0] );
-    },
 );
 has requestedWebName => ( is => 'rw', clearer => 1, );
 has response => (
@@ -210,60 +190,9 @@ has topicName => (
     clearer => 1,
 );
 
-# SMELL Shouldn't urlHost attribute be available from the request object?
-has urlHost => (
-    is      => 'rw',
-    lazy    => 1,
-    clearer => 1,
-    default => sub {
-        my $this = shift;
-
-        #{urlHost}  is needed by loadSession..
-        my $url = $this->request->url();
-        my $urlHost;
-        if (   $url
-            && !$Foswiki::cfg{ForceDefaultUrlHost}
-            && $url =~ m{^([^:]*://[^/]*).*$} )
-        {
-            $urlHost = $1;
-
-            if ( $Foswiki::cfg{RemovePortNumber} ) {
-                $urlHost =~ s/\:[0-9]+$//;
-            }
-
-            # If the urlHost in the url is localhost, this is a lot less
-            # useful than the default url host. This is because new CGI("")
-            # assigns this host by default - it's a default setting, used
-            # when there is nothing better available.
-            if ( $urlHost =~ m/^(https?:\/\/)localhost$/i ) {
-                my $protocol = $1;
-
-#only replace localhost _if_ the protocol matches the one specified in the DefaultUrlHost
-                if ( $Foswiki::cfg{DefaultUrlHost} =~ m/^$protocol/i ) {
-                    $urlHost = $Foswiki::cfg{DefaultUrlHost};
-                }
-            }
-        }
-        else {
-            $urlHost = $Foswiki::cfg{DefaultUrlHost};
-        }
-        ASSERT($urlHost) if DEBUG;
-        return $urlHost;
-    },
-);
 has webName => (
     is      => 'rw',
     clearer => 1,
-);
-has zones => (
-    is        => 'ro',
-    lazy      => 1,
-    clearer   => 1,
-    predicate => 1,
-    default   => sub {
-        load_package('Foswiki::Render::Zones');
-        return Foswiki::Render::Zones->new( session => $_[0] );
-    },
 );
 
 our @_newParameters = qw( user request context );
@@ -720,292 +649,6 @@ sub BUILD {
     $this->plugins->enable();
 }
 
-=begin TML
-
----++ ObjectMethod writeCompletePage( $text, $pageType, $contentType )
-
-Write a complete HTML page with basic header to the browser.
-   * =$text= is the text of the page script (&lt;html&gt; to &lt;/html&gt; if it's HTML)
-   * =$pageType= - May be "edit", which will cause headers to be generated that force
-     caching for 24 hours, to prevent Codev.BackFromPreviewLosesText bug, which caused
-     data loss with IE5 and IE6.
-   * =$contentType= - page content type | text/html
-
-This method removes noautolink and nop tags before outputting the page unless
-$contentType is text/plain.
-
-=cut
-
-sub writeCompletePage {
-    my ( $this, $text, $pageType, $contentType ) = @_;
-
-    # true if the body is to be output without encoding to utf8
-    # first. This is the case if the body has been gzipped and/or
-    # rendered from the cache
-    my $binary_body = 0;
-
-    $contentType ||= 'text/html';
-
-    my $cgis = $this->users->getCGISession();
-    if (   $cgis
-        && $contentType =~ m!^text/html!
-        && $Foswiki::cfg{Validation}{Method} ne 'none' )
-    {
-
-        # Don't expire the validation key through login, or when
-        # endpoint is an error.
-        Foswiki::Validation::expireValidationKeys($cgis)
-          unless ( $this->request->action() eq 'login'
-            or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400 );
-
-        my $usingStrikeOne = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
-        if ($usingStrikeOne) {
-
-            # add the validation cookie
-            my $valCookie = Foswiki::Validation::getCookie($cgis);
-            $valCookie->secure( $this->request->secure );
-            $this->response->cookies(
-                [ $this->response->cookies, $valCookie ] );
-
-            # Add the strikeone JS module to the page.
-            my $src = (DEBUG) ? '.uncompressed' : '';
-            $this->zones->addToZone(
-                'script',
-                'JavascriptFiles/strikeone',
-                '<script type="text/javascript" src="'
-                  . $this->getPubURL(
-                    $Foswiki::cfg{SystemWebName}, 'JavascriptFiles',
-                    "strikeone$src.js"
-                  )
-                  . '"></script>',
-                'JQUERYPLUGIN'
-            );
-
-            # Add the onsubmit handler to the form
-            $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
-                Foswiki::Validation::addOnSubmit($1)/gei;
-        }
-
-        my $context =
-          $this->request->url( -full => 1, -path => 1, -query => 1 ) . time();
-
-        # Inject validation key in HTML forms
-        $text =~ s/(<form[^>]*method=['"]POST['"][^>]*>)/
-          $1 . Foswiki::Validation::addValidationKey(
-              $cgis, $context, $usingStrikeOne )/gei;
-
-        #add validation key to HTTP header so we can update it for ajax use
-        $this->response->pushHeader(
-            'X-Foswiki-Validation',
-            Foswiki::Validation::generateValidationKey(
-                $cgis, $context, $usingStrikeOne
-            )
-        ) if ($cgis);
-    }
-
-    if ( $this->zones ) {
-
-        $text = $this->zones()->_renderZones($text);
-    }
-
-    # Validate format of content-type (defined in rfc2616)
-    my $tch = qr/[^\[\]()<>@,;:\\"\/?={}\s]/;
-    if ( $contentType =~ m/($tch+\/$tch+(\s*;\s*$tch+=($tch+|"[^"]*"))*)$/i ) {
-        $contentType = $1;
-    }
-    else {
-        # SMELL: can't compute; faking content-type for backwards compatibility;
-        # any other information might become bogus later anyway
-        $contentType = "text/plain;contenttype=invalid";
-    }
-    my $hdr = "Content-type: " . $1 . "\r\n";
-
-    # Call final handler
-    $this->plugins->dispatch( 'completePageHandler', $text, $hdr );
-
-    # cache final page, but only view and rest
-    my $cachedPage;
-    if ( $contentType ne 'text/plain' ) {
-
-        # Remove <nop> and <noautolink> tags
-        $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
-        if ( $Foswiki::cfg{Cache}{Enabled}
-            && ( $this->inContext('view') || $this->inContext('rest') ) )
-        {
-            $cachedPage = $this->cache->cachePage( $contentType, $text );
-            $this->cache->renderDirtyAreas( \$text )
-              if $cachedPage && $cachedPage->{isdirty};
-        }
-
-        # remove <dirtyarea> tags
-        $text =~ s/<\/?dirtyarea[^>]*>//g;
-
-        # Check that the templates specified clean HTML
-        if (DEBUG) {
-
-            # When tracing is enabled in Foswiki::Templates, then there will
-            # always be a <!--bodyend--> after </html>. So we need to disable
-            # this check.
-            require Foswiki::Templates;
-            if (   !Foswiki::Templates->TRACE
-                && $contentType =~ m#text/html#
-                && $text =~ m#</html>(.*?\S.*)$#s )
-            {
-                ASSERT( 0, <<BOGUS );
-Junk after </html>: $1. Templates may be bogus
-- Check for excess blank lines at ends of .tmpl files
--  or newlines after %TMPL:INCLUDE
-- You can enable TRACE in Foswiki::Templates to help debug
-BOGUS
-            }
-        }
-    }
-
-    $this->response->pushHeader( 'X-Foswiki-Monitor-renderTime',
-        $this->request->getTime() );
-
-    my $hopts = { 'Content-Type' => $contentType };
-
-    $this->setCacheControl( $pageType, $hopts );
-
-    if ($cachedPage) {
-        $text = '' unless $this->setETags( $cachedPage, $hopts );
-    }
-
-    if ( $Foswiki::cfg{HttpCompress} && length($text) ) {
-
-        # Generate a zipped page, if the client accepts them
-
-        # SMELL: $ENV{SPDY} is a non-standard way to detect spdy protocol
-        if ( my $encoding = _gzipAccepted() ) {
-            $hopts->{'Content-Encoding'} = $encoding;
-            $hopts->{'Vary'}             = 'Accept-Encoding';
-
-            # check if we take the version from the cache. NOTE: we don't
-            # set X-Foswiki-Pagecache because this is *not* coming from
-            # the cache (well it is, but it was only just put there)
-            if ( $cachedPage && !$cachedPage->{isdirty} ) {
-                $text = $cachedPage->{data};
-            }
-            else {
-                # Not available from the cache, or it has dirty areas
-                require Compress::Zlib;
-                $text = Compress::Zlib::memGzip( encode_utf8($text) );
-            }
-            $binary_body = 1;
-        }
-    }    # Otherwise fall through and generate plain text
-
-    # Generate (and print) HTTP headers.
-    $this->generateHTTPHeaders($hopts);
-
-    if ($binary_body) {
-        $this->response->body($text);
-    }
-    else {
-        $this->response->print($text);
-    }
-}
-
-=begin TML
-
----++ ObjectMethod setCacheControl( $pageType, \%hopts )
-
-Set the cache control headers in a response
-
-   * =$pageType= - page type - 'view', ;edit' etc
-   * =\%hopts - ref to partially filled in hash of headers
-
-=cut
-
-sub setCacheControl {
-    my ( $this, $pageType, $hopts ) = @_;
-
-    if ( $pageType && $pageType eq 'edit' ) {
-
-        # Edit pages - future versions will extend to
-        # of other types of page, with expiry time driven by page type.
-
-        # Get time now in HTTP header format
-        my $lastModifiedString =
-          Foswiki::Time::formatTime( time, '$http', 'gmtime' );
-
-        # Expiry time is set high to avoid any data loss.  Each instance of
-        # Edit page has a unique URL with time-string suffix (fix for
-        # RefreshEditPage), so this long expiry time simply means that the
-        # browser Back button always works.  The next Edit on this page
-        # will use another URL and therefore won't use any cached
-        # version of this Edit page.
-        my $expireHours   = 24;
-        my $expireSeconds = $expireHours * 60 * 60;
-
-        # and cache control headers, to ensure edit page
-        # is cached until required expiry time.
-        $hopts->{'last-modified'} = $lastModifiedString;
-        $hopts->{expires}         = "+${expireHours}h";
-        $hopts->{'Cache-Control'} = "max-age=$expireSeconds";
-    }
-    else {
-
-        # we need to force the browser into a check on every
-        # request; let the server decide on an 304 as below
-        my $cacheControl = 'max-age=0';
-
-        # allow the admin to disable us from setting the max-age, as then
-        # it can't be set by apache
-        $cacheControl = $Foswiki::cfg{BrowserCacheControl}->{ $this->webName }
-          if ( $Foswiki::cfg{BrowserCacheControl}
-            && defined( $Foswiki::cfg{BrowserCacheControl}->{ $this->webName } )
-          );
-
-        # don't remove the 'if'; we need the header to not be there at
-        # all for the browser to use the cached version
-        $hopts->{'Cache-Control'} = $cacheControl if ( $cacheControl ne '' );
-    }
-}
-
-=begin TML
-
----++ ObjectMethod setETags( $cachedPage, \%hopts ) -> $boolean
-
-Set etags (and modify status) depending on what the cached page specifies.
-Return 1 if the page has been modified since it was last retrieved, 0 otherwise.
-
-   * =$cachedPage= - page cache to use
-   * =\%hopts - ref to partially filled in hash of headers
-
-=cut
-
-sub setETags {
-    my ( $this, $cachedPage, $hopts ) = @_;
-
-    # check etag and last modification time
-    my $etag         = $cachedPage->{etag};
-    my $lastModified = $cachedPage->{lastmodified};
-
-    $hopts->{'ETag'}          = $etag         if $etag;
-    $hopts->{'Last-Modified'} = $lastModified if $lastModified;
-
-    # only send a 304 if both criteria are true
-    return 1
-      unless (
-           $etag
-        && $lastModified
-
-        && $ENV{'HTTP_IF_NONE_MATCH'}
-        && $etag eq $ENV{'HTTP_IF_NONE_MATCH'}
-
-        && $ENV{'HTTP_IF_MODIFIED_SINCE'}
-        && $lastModified eq $ENV{'HTTP_IF_MODIFIED_SINCE'}
-      );
-
-    # finally decide on a 304 reply
-    $hopts->{'Status'} = '304 Not Modified';
-
-    #print STDERR "NOT modified\n";
-    return 0;
-}
-
 # Tests if the $redirect is an external URL, returning false if
 # AllowRedirectUrl is denied
 sub _isRedirectSafe {
@@ -1358,86 +1001,6 @@ sub isValidEmailAddress {
 
 =begin TML
 
----++ ObjectMethod getScriptUrl( $absolute, $script, $web, $topic, ... ) -> $scriptURL
-
-Returns the URL to a Foswiki script, providing the web and topic as
-"path info" parameters.  The result looks something like this:
-"http://host/foswiki/bin/$script/$web/$topic".
-   * =...= - an arbitrary number of name,value parameter pairs that will
-be url-encoded and added to the url. The special parameter name '#' is
-reserved for specifying an anchor. e.g.
-=getScriptUrl('x','y','view','#'=>'XXX',a=>1,b=>2)= will give
-=.../view/x/y?a=1&b=2#XXX=
-
-If $absolute is set, generates an absolute URL. $absolute is advisory only;
-Foswiki can decide to generate absolute URLs (for example when run from the
-command-line) even when relative URLs have been requested.
-
-The default script url is taken from {ScriptUrlPath}, unless there is
-an exception defined for the given script in {ScriptUrlPaths}. Both
-{ScriptUrlPath} and {ScriptUrlPaths} may be absolute or relative URIs. If
-they are absolute, then they will always generate absolute URLs. if they
-are relative, then they will be converted to absolute when required (e.g.
-when running from the command line, or when generating rss). If
-$script is not given, absolute URLs will always be generated.
-
-If either the web or the topic is defined, will generate a full url (including web and topic). Otherwise will generate only up to the script name. An undefined web will default to the main web name.
-
-As required by RFC3986, the returned URL will only contain the
-allowed characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
-
-=cut
-
-sub getScriptUrl {
-    my ( $this, $absolute, $script, $web, $topic, @params ) = @_;
-
-    $absolute ||=
-      ( $this->inContext('command_line') || $this->inContext('absolute_urls') );
-
-    # SMELL: topics and webs that contain spaces?
-
-    my $url;
-    if ( defined $Foswiki::cfg{ScriptUrlPaths} && $script ) {
-        $url = $Foswiki::cfg{ScriptUrlPaths}{$script};
-    }
-    unless ( defined($url) ) {
-        $url = $Foswiki::cfg{ScriptUrlPath};
-        if ($script) {
-            $url .= '/' unless $url =~ m/\/$/;
-            $url .= $script;
-            if (
-                rindex( $url, $Foswiki::cfg{ScriptSuffix} ) !=
-                ( length($url) - length( $Foswiki::cfg{ScriptSuffix} ) ) )
-            {
-                $url .= $Foswiki::cfg{ScriptSuffix} if $script;
-            }
-        }
-    }
-
-    if ( $absolute && $url !~ /^[a-z]+:/ ) {
-
-        # See http://www.ietf.org/rfc/rfc2396.txt for the definition of
-        # "absolute URI". Foswiki bastardises this definition by assuming
-        # that all relative URLs lack the <authority> component as well.
-        $url = $this->urlHost . $url;
-    }
-
-    if ($topic) {
-        ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
-
-        $url .= urlEncode( '/' . $web . '/' . $topic );
-
-    }
-    elsif ($web) {
-        $url .= urlEncode( '/' . $web );
-    }
-    $url .= make_params(@params);
-
-    return $url;
-}
-
-=begin TML
-
 ---++ StaticMethod make_params(...)
 Generate a URL parameters string from parameters given. A parameter
 named '#' will generate a fragment identifier.
@@ -1509,35 +1072,6 @@ sub getPubURL {
 
     return $this->store->getAttachmentURL( $this, $web, $topic, $attachment,
         %options );
-}
-
-=begin TML
-
----++ ObjectMethod deepWebList($filter, $web) -> @list
-
-Deep list subwebs of the named web. $filter is a Foswiki::WebFilter
-object that is used to filter the list. The listing of subwebs is
-dependent on $Foswiki::cfg{EnableHierarchicalWebs} being true.
-
-Webs are returned as absolute web pathnames.
-
-=cut
-
-sub deepWebList {
-    my ( $this, $filter, $rootWeb ) = @_;
-    my @list;
-    my $webObject = new Foswiki::Meta( session => $this, web => $rootWeb );
-    my $it = $webObject->eachWeb( $Foswiki::cfg{EnableHierarchicalWebs} );
-    return $it->all() unless $filter;
-    while ( $it->hasNext() ) {
-        my $w = $rootWeb || '';
-        $w .= '/' if $w;
-        $w .= $it->next();
-        if ( $filter->ok( $this, $w ) ) {
-            push( @list, $w );
-        }
-    }
-    return @list;
 }
 
 =begin TML
@@ -1855,60 +1389,6 @@ sub validatePattern {
     # it anyway, unless one uses re 'eval' which we won't do
     $pattern =~ s/(^|[^\\])([\$\@])/$1\\$2/g;
     return $pattern;
-}
-
-=begin TML
-
----++ ObjectMethod inlineAlert($template, $def, ... ) -> $string
-
-Format an error for inline inclusion in rendered output. The message string
-is obtained from the template 'oops'.$template, and the DEF $def is
-selected. The parameters (...) are used to populate %PARAM1%..%PARAMn%
-
-=cut
-
-sub inlineAlert {
-    my $this     = shift;
-    my $template = shift;
-    my $def      = shift;
-
-    # web and topic can be anything; they are not used
-    my $topicObject = Foswiki::Meta->new(
-        session => $this,
-        web     => $this->webName,
-        topic   => $this->topicName
-    );
-    my $text = $this->templates->readTemplate( 'oops' . $template );
-    if ($text) {
-        my $blah = $this->templates->expandTemplate($def);
-        $text =~ s/%INSTANTIATE%/$blah/;
-
-        $text = $topicObject->expandMacros($text);
-        my $n = 1;
-        while ( defined( my $param = shift ) ) {
-            $text =~ s/%PARAM$n%/$param/g;
-            $n++;
-        }
-
-        # Suppress missing params
-        $text =~ s/%PARAM\d+%//g;
-
-        # Suppress missing params
-        $text =~ s/%PARAM\d+%//g;
-    }
-    else {
-
-        # Error in the template system.
-        $text = $topicObject->renderTML(<<MESSAGE);
----+ Foswiki Installation Error
-Template 'oops$template' not found or returned no text, expanding $def.
-
-Check your configuration settings for {TemplateDir} and {TemplatePath}
-or check for syntax errors in templates,  or a missing TMPL:END.
-MESSAGE
-    }
-
-    return $text;
 }
 
 =begin TML
@@ -2255,49 +1735,6 @@ sub readFile {
     close($IN_FILE);
     $data = '' unless ( defined($data) );
     return $data;
-}
-
-=begin TML
-
----++ StaticMethod expandStandardEscapes($str) -> $unescapedStr
-
-Expands standard escapes used in parameter values to block evaluation. See
-System.FormatTokens for a full list of supported tokens.
-
-=cut
-
-sub expandStandardEscapes {
-    my $text = shift;
-
-    # expand '$n()' and $n! to new line
-    $text =~ s/\$n\(\)/\n/gs;
-    $text =~ s/\$n(?=[^[:alpha:]]|$)/\n/gs;
-
-    # filler, useful for nested search
-    $text =~ s/\$nop(\(\))?//gs;
-
-    # $quot -> "
-    $text =~ s/\$quot(\(\))?/\"/gs;
-
-    # $comma -> ,
-    $text =~ s/\$comma(\(\))?/,/gs;
-
-    # $percent -> %
-    $text =~ s/\$perce?nt(\(\))?/\%/gs;
-
-    # $lt -> <
-    $text =~ s/\$lt(\(\))?/\</gs;
-
-    # $gt -> >
-    $text =~ s/\$gt(\(\))?/\>/gs;
-
-    # $amp -> &
-    $text =~ s/\$amp(\(\))?/\&/gs;
-
-    # $dollar -> $, done last to avoid creating the above tokens
-    $text =~ s/\$dollar(\(\))?/\$/gs;
-
-    return $text;
 }
 
 =begin TML

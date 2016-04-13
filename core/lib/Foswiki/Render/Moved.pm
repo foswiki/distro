@@ -17,14 +17,14 @@ BEGIN {
 
 =begin TML
 
----++ StaticMethod render($session, $topicObject, $params) -> $text
+---++ StaticMethod render($app, $topicObject, $params) -> $text
 
 Render moved meta-data. Support for %META%.
 
 =cut
 
 sub render {
-    my ( $session, $topicObject, $params ) = @_;
+    my ( $app, $topicObject, $params ) = @_;
     my $text   = '';
     my $moved  = $topicObject->get('TOPICMOVED');
     my $prefix = $params->{prefix} || '';
@@ -32,12 +32,14 @@ sub render {
 
     if ($moved) {
         my ( $fromWeb, $fromTopic ) =
-          $session->normalizeWebTopicName( $topicObject->web, $moved->{from} );
+          $app->request->normalizeWebTopicName( $topicObject->web,
+            $moved->{from} );
         my ( $toWeb, $toTopic ) =
-          $session->normalizeWebTopicName( $topicObject->web, $moved->{to} );
+          $app->request->normalizeWebTopicName( $topicObject->web,
+            $moved->{to} );
         my $by    = $moved->{by};
         my $u     = $by;
-        my $users = $session->users;
+        my $users = $app->users;
         $by = $users->webDotWikiName($u) if $u;
         my $date = Foswiki::Time::formatTime( $moved->{date}, '', 'gmtime' );
 
@@ -49,19 +51,19 @@ sub render {
               . CGI::a(
                 {
                     title => (
-                        $session->i18n->maketext(
+                        $app->i18n->maketext(
 'Click to move topic back to previous location, with option to change references.'
                         )
                     ),
-                    href => $session->getScriptUrl(
+                    href => $app->cfg->getScriptUrl(
                         0, 'rename', $topicObject->web, $topicObject->topic
                     ),
                     rel => 'nofollow'
                 },
-                $session->i18n->maketext('Put it back...')
+                $app->i18n->maketext('Put it back...')
               );
         }
-        $text = $session->i18n->maketext(
+        $text = $app->i18n->maketext(
             "[_1] was renamed or moved from [_2] on [_3] by [_4]",
             "<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",
             $date, $by

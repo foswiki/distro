@@ -5,11 +5,12 @@ use v5.14;
 
 use Foswiki qw(%regex);
 use Foswiki::Attrs ();
-use Assert;
 
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::AppObject);
+
+use Assert;
 
 =begin TML
 
@@ -118,6 +119,7 @@ sub expandMacros {
     return '' unless defined $text;
 
     my $app = $this->app;
+    my $req = $app->request;
 
     # Plugin Hook
     $app->plugins->dispatch( 'beforeCommonTagsHandler', $text,
@@ -134,8 +136,8 @@ sub expandMacros {
       if $topicObject->isCacheable();
 
     # Require defaults for plugin handlers :-(
-    my $webContext   = $topicObject->web   || $this->webName;
-    my $topicContext = $topicObject->topic || $this->topicName;
+    my $webContext   = $topicObject->web   || $req->web;
+    my $topicContext = $topicObject->topic || $req->topic;
 
     my $memW = $app->prefs->getPreference('INCLUDINGWEB');
     my $memT = $app->prefs->getPreference('INCLUDINGTOPIC');
@@ -304,6 +306,63 @@ sub expandMacrosOnTopicCreation {
 
 =begin TML
 
+---++ StaticMethod expandStandardEscapes($str) -> $unescapedStr
+
+Expands standard escapes used in parameter values to block evaluation. See
+System.FormatTokens for a full list of supported tokens.
+
+=cut
+
+sub expandStandardEscapes {
+    my $this = shift;
+    my $text = shift;
+
+    # expand '$n()' and $n! to new line
+    $text =~ s/\$n\(\)/\n/gs;
+    $text =~ s/\$n(?=[^[:alpha:]]|$)/\n/gs;
+
+    # filler, useful for nested search
+    $text =~ s/\$nop(\(\))?//gs;
+
+    # $quot -> "
+    $text =~ s/\$quot(\(\))?/\"/gs;
+
+    # $comma -> ,
+    $text =~ s/\$comma(\(\))?/,/gs;
+
+    # $percent -> %
+    $text =~ s/\$perce?nt(\(\))?/\%/gs;
+
+    # $lt -> <
+    $text =~ s/\$lt(\(\))?/\</gs;
+
+    # $gt -> >
+    $text =~ s/\$gt(\(\))?/\>/gs;
+
+    # $amp -> &
+    $text =~ s/\$amp(\(\))?/\&/gs;
+
+    # $dollar -> $, done last to avoid creating the above tokens
+    $text =~ s/\$dollar(\(\))?/\$/gs;
+
+    return $text;
+}
+
+=begin TML
+---++ ObjectMethod exists($macro) -> boolean
+
+Returns true if =$macro= is a registered macro.
+
+=cut
+
+sub exists {
+    my $this = shift;
+    my ($macro) = @_;
+    return defined $this->_macros->{$macro};
+}
+
+=begin TML
+
 ---++ ObjectMethod innerExpandMacros(\$text, $topicObject)
 Expands variables by replacing the variables with their
 values. Some example variables: %<nop>TOPIC%, %<nop>SCRIPTURL%,
@@ -460,6 +519,10 @@ sub _processMacros {
                     $stackTop .=
                       $this->_processMacros( $e, $tagf, $topicObject,
                         $depth - 1 );
+                    ASSERT(
+                        $stackTop !~ /Foswiki::Macr/,
+                        "Foswiki::Macros for $tag"
+                    );
                 }
                 else {
 
@@ -546,6 +609,7 @@ round out the spec.
 =cut
 
 sub parseSections {
+    my $this = shift;
 
     my $text = shift;
 
@@ -671,7 +735,7 @@ sub _expandMacroOnTopicRendering {
                     }
                     my $val = $attrs->{$tag};
                     $val = $tattrs->{default} unless defined $val;
-                    return Foswiki::expandStandardEscapes($val) if defined $val;
+                    return $this->expandStandardEscapes($val) if defined $val;
                     return undef;
                 },
                 $topicObject,
@@ -724,7 +788,7 @@ sub _expandMacroOnTopicRendering {
         # in the absence of any definition.
         my $attrs = new Foswiki::Attrs($args);
         if ( defined $attrs->{default} ) {
-            $e = Foswiki::expandStandardEscapes( $attrs->{default} );
+            $e = $this->expandStandardEscapes( $attrs->{default} );
         }
     }
     return $e;
@@ -767,7 +831,7 @@ sub _registerDefaultMacros {
 
         # deprecated, use ADDTOZONE instead
         ADDTOZONE     => undef,
-        ALLVARIABLES  => sub { $_[0]->prefs->stringify() },
+        ALLVARIABLES  => sub { $_[0]->app->prefs->stringify() },
         ATTACHURL     => undef,
         ATTACHURLPATH => undef,
         CHARSET       => sub { 'utf-8' },
@@ -791,7 +855,7 @@ sub _registerDefaultMacros {
         FORMAT    => undef,
         FORMFIELD => undef,
         FOSWIKI_BROADCAST =>
-          sub { $_[0]->system_message || $Foswiki::system_message || '' },
+          sub { $_[0]->app->system_message || $Foswiki::system_message || '' },
         GMTIME => sub {
             Foswiki::Time::formatTime( time(), $_[1]->{_DEFAULT} || '',
                 'gmtime' );
@@ -801,7 +865,7 @@ sub _registerDefaultMacros {
         HTTP_HOST =>
 
           #deprecated functionality, now implemented using %ENV%
-          sub { $_[0]->request->header('Host') || '' },
+          sub { $_[0]->app->request->header('Host') || '' },
         HTTP         => undef,
         HTTPS        => undef,
         ICON         => undef,
@@ -822,7 +886,7 @@ sub _registerDefaultMacros {
             }
             return $lang;
         },
-        LANGUAGE  => sub { $_[0]->i18n->language(); },
+        LANGUAGE  => sub { $_[0]->app->i18n->language(); },
         LANGUAGES => undef,
         MAKETEXT  => undef,
         META      => undef, # deprecated
@@ -836,14 +900,14 @@ sub _registerDefaultMacros {
           # topics used as templates for new topics)
           sub { $_[1]->{_RAW} ? $_[1]->{_RAW} : '<nop>' },
         PLUGINVERSION => sub {
-            $_[0]->plugins->getPluginVersion( $_[1]->{_DEFAULT} );
+            $_[0]->app->plugins->getPluginVersion( $_[1]->{_DEFAULT} );
         },
         PUBURL      => undef,
         PUBURLPATH  => undef,
         QUERY       => undef,
         QUERYPARAMS => undef,
         QUERYSTRING => sub {
-            my $s = $_[0]->request->queryString();
+            my $s = $_[0]->app->request->queryString();
 
             # Aggressively encode QUERYSTRING (even more than the
             # default) because it might be leveraged for XSS
@@ -855,7 +919,7 @@ sub _registerDefaultMacros {
 
           # DEPRECATED, now implemented using %ENV%
           #move to compatibility plugin in Foswiki 2.0
-          sub { $_[0]->request->remoteAddress() || ''; },
+          sub { $_[0]->app->request->remoteAddress() || ''; },
         REMOTE_PORT =>
 
           # DEPRECATED
@@ -867,19 +931,19 @@ sub _registerDefaultMacros {
         REMOTE_USER =>
 
           # DEPRECATED
-          sub { $_[0]->request->remoteUser() || '' },
+          sub { $_[0]->app->request->remoteUser() || '' },
         RENDERZONE    => undef,
         REVINFO       => undef,
         REVTITLE      => undef,
         REVARG        => undef,
-        SCRIPTNAME    => sub { $_[0]->request->action() },
+        SCRIPTNAME    => sub { $_[0]->app->request->action() },
         SCRIPTURL     => undef,
         SCRIPTURLPATH => undef,
         SEARCH        => undef,
         SEP =>
 
           # Shortcut to %TMPL:P{"sep"}%
-          sub { $_[0]->templates->expandTemplate('sep') },
+          sub { $_[0]->app->templates->expandTemplate('sep') },
         SERVERTIME => sub {
             Foswiki::Time::formatTime( time(), $_[1]->{_DEFAULT} || '',
                 'servertime' );
@@ -889,7 +953,7 @@ sub _registerDefaultMacros {
         SHOWPREFERENCE      => undef,
         SPACEDTOPIC         => undef,
         SPACEOUT            => undef,
-        'TMPL:P'            => sub { $_[0]->templates->tmplP( $_[1] ) },
+        'TMPL:P'            => sub { $_[0]->app->templates->tmplP( $_[1] ) },
         TOPICLIST           => undef,
         URLENCODE           => undef,
         URLPARAM            => undef,

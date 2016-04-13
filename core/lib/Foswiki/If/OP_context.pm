@@ -33,16 +33,16 @@ around BUILDARGS => sub {
 };
 
 sub evaluate {
-    my $this    = shift;
-    my $node    = shift;
-    my $a       = $node->params->[0];
-    my $text    = $a->_evaluate(@_) || '';
-    my %domain  = @_;
-    my $session = $domain{tom}->session;
+    my $this   = shift;
+    my $node   = shift;
+    my $a      = $node->params->[0];
+    my $text   = $a->_evaluate(@_) || '';
+    my %domain = @_;
+    my $app    = $domain{tom}->app;
     Foswiki::Exception->throw(
         text => 'No context in which to evaluate "' . $a->stringify() . '"' )
-      unless $session;
-    return $session->inContext($text) || 0;
+      unless $app;
+    return $app->inContext($text) || 0;
 }
 
 1;

@@ -32,16 +32,16 @@ around BUILDARGS => sub {
 };
 
 sub evaluate {
-    my $this    = shift;
-    my $node    = shift;
-    my $a       = $node->params->[0];
-    my %domain  = @_;
-    my $session = $domain{tom}->session;
+    my $this   = shift;
+    my $node   = shift;
+    my $a      = $node->params->[0];
+    my %domain = @_;
+    my $app    = $domain{tom}->app;
     Foswiki::Exception->throw(
         text => 'No context in which to evaluate "' . $a->stringify() . '"' )
-      unless $session;
+      unless $app;
     my $web = $a->_evaluate(@_) || '';
-    return $session->webExists($web) ? 1 : 0;
+    return $app->store->webExists($web) ? 1 : 0;
 }
 
 1;

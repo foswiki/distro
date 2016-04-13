@@ -28,15 +28,15 @@ around BUILDARGS => sub {
 };
 
 sub evaluate {
-    my $this    = shift;
-    my $node    = shift;
-    my $a       = $node->params->[0];
-    my %domain  = @_;
-    my $session = $domain{tom}->session;
+    my $this   = shift;
+    my $node   = shift;
+    my $a      = $node->params->[0];
+    my %domain = @_;
+    my $app    = $domain{tom}->app;
     Foswiki::Exception->throw(
         text => 'No context in which to evaluate "' . $a->stringify() . '"' )
-      unless $session;
-    my ( $web, $topic ) = ( $session->webName, $a->_evaluate(@_) );
+      unless $app;
+    my ( $web, $topic ) = ( $app->request->web, $a->_evaluate(@_) );
 
     return 0
       unless ( defined $topic && length($topic) )
@@ -44,9 +44,9 @@ sub evaluate {
     return 0
       if ( $topic eq '0' ); # special case, topic name '0' normalizes to WebHome
 
-    ( $web, $topic ) = $session->normalizeWebTopicName( $web, $topic );
+    ( $web, $topic ) = $app->request->normalizeWebTopicName( $web, $topic );
 
-    return $session->topicExists( $web, $topic ) ? 1 : 0;
+    return $app->store->topicExists( $web, $topic ) ? 1 : 0;
 }
 
 1;

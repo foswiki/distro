@@ -16,7 +16,7 @@ use Unicode::Normalize;
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -27,17 +27,9 @@ BEGIN {
 
 our $MARKER = "\0";
 
-has session => (
-    is       => 'rw',
-    clearer  => 1,
-    required => 1,
-    weak_ref => 1,
-    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki', noUndef => 1 ),
-);
-
 =begin TML
 
----++ ClassMethod new(session => $session)
+---++ ClassMethod new(app => $app)
 
 Constructor.
 
@@ -93,7 +85,7 @@ sub renderMetaData {
     my @attachments = $topicObject->find('FILEATTACHMENT');
     return '' unless @attachments;
 
-    my $templates = $this->session->templates;
+    my $templates = $this->app->templates;
     $templates->readTemplate($tmplname);
 
     my $rows            = '';
@@ -142,7 +134,7 @@ Generate a version history table for a single attachment
 sub formatVersions {
     my ( $this, $topicObject, %attrs ) = @_;
 
-    my $users = $this->session->users;
+    my $users = $this->app->users;
 
     $attrs{name} =
       Foswiki::Sandbox::untaint( $attrs{name},
@@ -150,7 +142,7 @@ sub formatVersions {
 
     my $revIt = $topicObject->getRevisionHistory( $attrs{name} );
 
-    my $templates = $this->session->templates;
+    my $templates = $this->app->templates;
     $templates->readTemplate('attachtables');
 
     my $header = $templates->expandTemplate('ATTACH:versions:header');
@@ -204,7 +196,7 @@ s/%R_(\w+)%/_expandRowAttrs( $this, $1, $topicObject, $info, $attachmentNum, $is
 sub _expandAttrs {
     my ( $this, $attr, $topicObject, $info, $attachmentNum ) = @_;
     my $file = $info->{name} || '';
-    my $users = $this->session->users;
+    my $users = $this->app->users;
 
     require Foswiki::Time;
 
@@ -222,7 +214,7 @@ sub _expandAttrs {
         return $1;
     }
     elsif ( $attr eq 'URL' ) {
-        return $this->session->getScriptUrl(
+        return $this->app->cfg->getScriptUrl(
             0, 'viewfile', $topicObject->web, $topicObject->topic,
             rev => $info->{version} || undef,
             filename => $file
@@ -302,7 +294,7 @@ sub _expandRowAttrs {
 sub _cUID {
     my ( $this, $info ) = @_;
 
-    my $users = $this->session->users;
+    my $users = $this->app->users;
     my $user = $info->{author} || $info->{user} || 'UnknownUser';
     my $cUID;
     if ($user) {
@@ -368,7 +360,7 @@ sub getAttachmentLink {
 
     my $fileLink = '';
     my $imgSize  = '';
-    my $prefs    = $this->session->prefs;
+    my $prefs    = $this->app->prefs;
 
     if ( $attName =~ m/\.(gif|jpg|jpeg|png)$/i ) {
 
@@ -425,7 +417,7 @@ sub getAttachmentLink {
 
     require Foswiki::Time;
     $fileLink = Foswiki::Time::formatTime( $fileTime, $fileLink );
-    $fileLink = Foswiki::expandStandardEscapes($fileLink);
+    $fileLink = $this->app->macros->expandStandardEscapes($fileLink);
 
     return $fileLink;
 }

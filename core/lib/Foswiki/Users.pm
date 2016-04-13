@@ -519,7 +519,7 @@ sub getCanonicalUserID {
             # TopicUserMappingContrib but may be used by other mappers
             # that support user topics)
             my ( $dummy, $nid ) =
-              $this->app->normalizeWebTopicName( '', $identifier );
+              $this->app->request->normalizeWebTopicName( '', $identifier );
             $identifier = $nid if ( $dummy eq $Foswiki::cfg{UsersWebName} );
 
             my $found = $this->findUserByWikiName($identifier);

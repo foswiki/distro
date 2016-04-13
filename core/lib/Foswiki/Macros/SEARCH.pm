@@ -27,13 +27,12 @@ sub SEARCH {
 #TODO: this is a common default that should be extracted into a 'test, default and refine' parameters for all formatResult calls
     if ( defined( $params->{separator} ) ) {
         $params->{separator} =
-          Foswiki::expandStandardEscapes( $params->{separator} );
+          $this->expandStandardEscapes( $params->{separator} );
     }
 
     # newline feature replaces newlines within each search result
     if ( defined( $params->{newline} ) ) {
-        $params->{newline} =
-          Foswiki::expandStandardEscapes( $params->{newline} );
+        $params->{newline} = $this->expandStandardEscapes( $params->{newline} );
     }
 
     my $s;

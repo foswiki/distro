@@ -234,13 +234,13 @@ sub generateHTTPHeaders {
     my ( $this, $hopts ) = @_;
 
     my $app = $this->app;
+    my $req = $app->request;
 
     $hopts ||= {};
 
     # DEPRECATED plugins header handler. Plugins should use
     # modifyHeaderHandler instead.
-    my $pluginHeaders =
-      $app->plugins->dispatch( 'writeHeaderHandler', $this->request )
+    my $pluginHeaders = $app->plugins->dispatch( 'writeHeaderHandler', $req )
       || '';
     if ($pluginHeaders) {
         foreach ( split /\r?\n/, $pluginHeaders ) {
@@ -261,13 +261,13 @@ sub generateHTTPHeaders {
     # use our version of the content type
     $hopts->{'Content-Type'} = $contentType;
 
-    $hopts->{'X-FoswikiAction'} = $this->request->action;
-    $hopts->{'X-FoswikiURI'}    = $this->request->uri;
+    $hopts->{'X-FoswikiAction'} = $req->action;
+    $hopts->{'X-FoswikiURI'}    = $req->uri;
 
     # Turn off XSS protection in DEBUG so it doesn't mask problems
     $hopts->{'X-XSS-Protection'} = 0 if DEBUG;
 
-    $app->plugins->dispatch( 'modifyHeaderHandler', $hopts, $this->request );
+    $app->plugins->dispatch( 'modifyHeaderHandler', $hopts, $req );
 
     # The headers method resets all headers to what we pass
     # what we want is simply ensure our headers are there

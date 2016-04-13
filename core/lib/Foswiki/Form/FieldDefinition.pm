@@ -297,8 +297,8 @@ sub populateMetaFromQueryData {
             # Note: we test for 'defined' because value can also be 0 (zero)
             $value = $query->param( $this->name );
             $value = '' unless defined $value;
-            if ( $this->session->inContext('edit') ) {
-                $value = Foswiki::expandStandardEscapes($value);
+            if ( $this->app->inContext('edit') ) {
+                $value = $this->app->macros->expandStandardEscapes($value);
             }
         }
     }

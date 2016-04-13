@@ -223,7 +223,7 @@ sub getAttachmentURL {
         # See http://www.ietf.org/rfc/rfc2396.txt for the definition of
         # "absolute URI". Foswiki bastardises this definition by assuming
         # that all relative URLs lack the <authority> component as well.
-        $url = $app->request->urlHost . $url;
+        $url = $app->cfg->urlHost . $url;
     }
 
     return $url;

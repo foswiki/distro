@@ -586,8 +586,9 @@ sub renderForEdit {
 
                 my $dv = $fieldDef->getDefaultValue($value);
                 if ( defined($dv) ) {
-                    $dv    = $topicObject->expandMacros($dv);
-                    $value = Foswiki::expandStandardEscapes($dv);    # Item2837
+                    $dv = $topicObject->expandMacros($dv);
+                    $value =
+                      $app->macros->expandStandardEscapes($dv);    # Item2837
                 }
             }
 

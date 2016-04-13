@@ -19,9 +19,10 @@ sub VAR {
     my $topic = $topicObject->topic;
 
     # handle %USERSWEB%-type cases
-    ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
+    ( $web, $topic ) =
+      $this->app->request->normalizeWebTopicName( $web, $topic );
 
-    my $webObject = Foswiki::Meta->new( session => $this, web => $web );
+    my $webObject = $this->create( 'Foswiki::Meta', web => $web );
 
     # always return a value, even when the key isn't defined
     return $webObject->getPreference($key) || '';

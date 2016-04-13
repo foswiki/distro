@@ -19,12 +19,13 @@ sub REVINFO {
     my $format = $params->{_DEFAULT} || $params->{format};
     my $web    = $params->{web}      || $topicObject->web;
     my $topic  = $params->{topic}    || $topicObject->topic;
-    my $cgiQuery = $this->request;
+    my $app    = $this->app;
+    my $cgiQuery = $app->request;
     my $cgiRev   = '';
     $cgiRev = $cgiQuery->param('rev') if ($cgiQuery);
     my $rev = Foswiki::Store::cleanUpRevID( $params->{rev} || $cgiRev || '' );
 
-    ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
+    ( $web, $topic ) = $app->request->normalizeWebTopicName( $web, $topic );
     my $loadedRev = $topicObject->getLoadedRev();
     if (   $web ne $topicObject->web
         || $topic ne $topicObject->topic
@@ -32,18 +33,17 @@ sub REVINFO {
         || $loadedRev ne $rev )
     {
         $topicObject =
-          Foswiki::Meta->new( session => $this, web => $web, topic => $topic );
+          Foswiki::Meta->new( app => $app, web => $web, topic => $topic );
 
         # haveAccess will try to load the object on the fly, so make sure
         # it is loaded if rev is defined
         $topicObject = $topicObject->load($rev) if ($rev);
         unless ( $topicObject->haveAccess('VIEW') ) {
-            return $this->inlineAlert( 'alerts', 'access_denied', $web,
-                $topic );
+            return $app->inlineAlert( 'alerts', 'access_denied', $web, $topic );
         }
     }
 
-    return $this->renderer->renderRevisionInfo( $topicObject, $rev, $format );
+    return $app->renderer->renderRevisionInfo( $topicObject, $rev, $format );
 }
 
 1;

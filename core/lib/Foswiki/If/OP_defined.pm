@@ -28,24 +28,24 @@ around BUILDARGS => sub {
 };
 
 sub evaluate {
-    my $this    = shift;
-    my $node    = shift;
-    my $a       = $node->params->[0];
-    my %domain  = @_;
-    my $session = $domain{tom}->session;
+    my $this   = shift;
+    my $node   = shift;
+    my $a      = $node->params->[0];
+    my %domain = @_;
+    my $app    = $domain{tom}->app;
     Foswiki::Exception->throw(
         text => 'No context in which to evaluate "' . $a->stringify() . '"' )
-      unless $session;
+      unless $app;
 
     # NOTE: If::Node::_evaluate(), not Query::Node::evaluate
     my $eval = $a->_evaluate(@_);
 
 #print STDERR "Evaluate ".$node->stringify()." -> ".(defined $eval ? $eval : 'undef')."\n";
     return 0 unless $eval;
-    return 1 if ( defined( $session->request->param($eval) ) );
+    return 1 if ( defined( $app->request->param($eval) ) );
     return 1 if ( defined( $domain{tom}->getPreference($eval) ) );
-    return 1 if ( defined( $session->prefs->getPreference($eval) ) );
-    return 1 if ( exists( $Foswiki::macros{$eval} ) );
+    return 1 if ( defined( $app->prefs->getPreference($eval) ) );
+    return 1 if ( $app->macros->exists($eval) );
     return 0;
 }
 

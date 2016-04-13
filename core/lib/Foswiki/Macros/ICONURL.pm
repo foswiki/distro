@@ -24,7 +24,7 @@ ICONURL macro implementation
 sub ICONURL {
     my ( $this, $params ) = @_;
     $params->{absolute} = 1;
-    return Foswiki::Macros::ICON->new( session => $this )->_getIconURL($params);
+    return $this->create('Foswiki::Macros::ICON')->_getIconURL($params);
 }
 
 1;

@@ -28,18 +28,18 @@ around BUILDARGS => sub {
 };
 
 sub evaluate {
-    my $this    = shift;
-    my $node    = shift;
-    my $a       = $node->params->[0];
-    my %domain  = @_;
-    my $session = $domain{tom}->session;
+    my $this   = shift;
+    my $node   = shift;
+    my $a      = $node->params->[0];
+    my %domain = @_;
+    my $app    = $domain{tom}->app;
     Foswiki::Exception->throw(
         text => 'No context in which to evaluate "' . $a->stringify() . '"' )
-      unless $session;
+      unless $app;
     my $eval = $a->_evaluate(@_);
     return 1 unless $eval;
-    return 0 if ( $session->request->param($eval) );
-    return 0 if ( $session->prefs->getPreference($eval) );
+    return 0 if ( $app->request->param($eval) );
+    return 0 if ( $app->prefs->getPreference($eval) );
     return 1;
 }
 

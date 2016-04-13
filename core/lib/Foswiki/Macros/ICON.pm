@@ -22,11 +22,12 @@ has ICONSPACE => (
     lazy    => 1,
     isa     => Foswiki::Object::isaCLASS( 'ICONSPACE', 'Foswiki::Meta' ),
     default => sub {
+        my $this = shift;
 
         # SMELL Behaviour change! Before Moo-fication _lookupIcon was trying to
         # initialize ICONSPACE on each call. But it is likely that this
         # behaviour was simple waste of CPU.
-        my $app       = $_[0]->app;
+        my $app       = $this->app;
         my $iconTopic = $app->prefs->getPreference('ICONTOPIC');
         if ( defined($iconTopic) ) {
             $iconTopic =~ s/\s+$//;

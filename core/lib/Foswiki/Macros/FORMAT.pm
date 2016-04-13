@@ -27,8 +27,7 @@ sub FORMAT {
     # separator is not defined. FORMAT is a new feature in 1.1 and does
     # not need the backward compatibility that SEARCH needed.
     $params->{separator} = '$n' unless ( defined( $params->{separator} ) );
-    $params->{separator} =
-      Foswiki::expandStandardEscapes( $params->{separator} );
+    $params->{separator} = $this->expandStandardEscapes( $params->{separator} );
 
     my $type = $params->{type} || 'topic';
     $type = 'topic'
@@ -73,7 +72,7 @@ sub FORMAT {
         }
         my ( $ttopics, $searchResult, $tmplTail ) =
           $this->search->formatResults( undef, $listIterator, $params );
-        $s = Foswiki::expandStandardEscapes($searchResult);
+        $s = $this->expandStandardEscapes($searchResult);
     }
     catch {
         my $e = $_;

@@ -15,7 +15,7 @@ sub SPACEOUT {
     my ( $this, $params ) = @_;
     my $spaceOutTopic = $params->{_DEFAULT};
     my $sep           = $params->{'separator'};
-    $spaceOutTopic = spaceOutWikiWord( $spaceOutTopic, $sep );
+    $spaceOutTopic = Foswiki::spaceOutWikiWord( $spaceOutTopic, $sep );
     return $spaceOutTopic;
 }
 

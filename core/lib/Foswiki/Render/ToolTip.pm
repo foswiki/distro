@@ -18,7 +18,7 @@ BEGIN {
 
 =begin TML
 
----++ StaticMethod render($session, $web, $topic, $template) -> $text
+---++ StaticMethod render($app, $web, $topic, $template) -> $text
 
 Returns =title= tooltip info for a link to $web,$topic by filling
 in $template. $template may contain:
@@ -35,18 +35,18 @@ in $template. $template may contain:
 
 # SMELL: should expand standard escapes
 sub render {
-    my ( $session, $web, $topic, $tooltip ) = @_;
+    my ( $app, $web, $topic, $tooltip ) = @_;
 
     # FIXME: This is slow, it can be improved by caching topic rev
     # info and summary
-    my $users = $session->users;
+    my $users = $app->users;
 
     # These are safe to untaint blindly because this method is only
     # called when a regex matches a valid wikiword
     $web   = Foswiki::Sandbox::untaintUnchecked($web);
     $topic = Foswiki::Sandbox::untaintUnchecked($topic);
     my $topicObject =
-      Foswiki::Meta->new( session => $session, web => $web, topic => $topic );
+      Foswiki::Meta->new( app => $app, web => $web, topic => $topic );
 
     my $info = $topicObject->getRevisionInfo();
     $tooltip =~ s/\$web/<nop>$web/g;
@@ -67,7 +67,7 @@ sub render {
         }
         else {
             $summary =
-              $session->inlineAlert( 'alerts', 'access_denied', "$web.$topic" );
+              $app->inlineAlert( 'alerts', 'access_denied', "$web.$topic" );
         }
         $summary = $topicObject->summariseText();
         $summary =~

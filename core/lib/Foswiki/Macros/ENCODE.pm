@@ -52,12 +52,12 @@ sub ENCODE {
                 return $this->inlineAlert( 'alerts', 'ENCODE_bad_3', $o );
             }
             $toks{$o} = 1;
-            $o = quotemeta( expandStandardEscapes($o) );
+            $o = quotemeta( $this->expandStandardEscapes($o) );
             $text =~ s/$o/$e/ge;
         }
         for ( my $i = 0 ; $i <= $#new ; $i++ ) {
             my $e = _s2d($i);
-            my $n = expandStandardEscapes( $new[$i] );
+            my $n = $this->expandStandardEscapes( $new[$i] );
             $text =~ s/$e/$n/g;
         }
         return $text;
@@ -85,7 +85,7 @@ sub ENCODE {
         # because I can't see any situation in which it might have been
         # used in anger.
         # $text =~ s/\r*\n\r*/<br \/>/;
-        return urlEncode($text);
+        return Foswiki::urlEncode($text);
     }
     elsif ( $type =~ m/^(off|none)$/i ) {
 

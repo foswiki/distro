@@ -14,7 +14,7 @@ BEGIN {
 
 =begin TML
 
----++ StaticMethod render($session, $url [, $alt]) -> $html
+---++ StaticMethod render($app, $url [, $alt]) -> $html
 Generate the output for representing an 16x16 icon image. The source of
 the image is taken from =$url=. The optional =$alt= specifies an alt string.
 
@@ -27,7 +27,7 @@ TODO: Sven's not sure this code belongs here - its only use appears to be the IC
 =cut
 
 sub render {
-    my ( $session, $url, $alt, $quote ) = @_;
+    my ( $app, $url, $alt, $quote ) = @_;
 
     if ( !defined($alt) ) {
 
@@ -35,7 +35,7 @@ sub render {
         $alt = $url;
     }
 
-    my $html = $session->templates->expandTemplate("icon:image");
+    my $html = $app->templates->expandTemplate("icon:image");
     $html =~ s/%URL%/$url/ge;
     $html =~ s/%WIDTH%/16/g;
     $html =~ s/%HEIGHT%/16/g;

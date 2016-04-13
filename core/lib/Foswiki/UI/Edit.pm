@@ -367,7 +367,7 @@ sub init_edit {
             # Because the form has been expanded from a Template, we
             # want to expand $percnt-style content right now
             $topicObject->forEachSelectedValue( qr/FIELD/, qr/value/,
-                sub { Foswiki::expandStandardEscapes(@_) },
+                sub { $this->app->macros->expandStandardEscapes(@_) },
             );
         }
         else {

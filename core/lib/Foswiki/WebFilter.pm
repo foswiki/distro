@@ -35,23 +35,23 @@ sub new {
 }
 
 sub ok {
-    my ( $this, $session, $web ) = @_;
+    my ( $this, $app, $web ) = @_;
 
     return 0 if $this->{template} && $web !~ /(?:^_|\/_)/;
 
-    return 1 if ( $web eq $session->webName );
+    return 1 if ( $web eq $app->request->web );
 
     return 0 if $this->{user} && $web =~ m/(?:^_|\/_)/;
 
-    return 0 if !$session->webExists($web);
+    return 0 if !$app->store->webExists($web);
 
-    my $webObject = Foswiki::Meta->new( session => $session, web => $web );
+    my $webObject = Foswiki::Meta->new( app => $app, web => $web );
     my $thisWebNoSearchAll =
       Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
 
     return 0
       if $this->{public}
-      && !$session->users->isAdmin( $session->user )
+      && !$app->users->isAdmin( $app->user )
       && $thisWebNoSearchAll;
 
     return 0 if $this->{allowed} && !$webObject->haveAccess('VIEW');

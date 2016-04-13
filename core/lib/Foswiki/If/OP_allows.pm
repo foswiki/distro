@@ -32,47 +32,47 @@ around BUILDARGS => sub {
 };
 
 sub evaluate {
-    my $this    = shift;
-    my $node    = shift;
-    my $a       = $node->params->[0];            # topic name (string)
-    my $b       = $node->params->[1];            # access mode (string)
-    my $mode    = $b->_evaluate(@_) || 'view';
-    my %domain  = @_;
-    my $session = $domain{tom}->session;
+    my $this   = shift;
+    my $node   = shift;
+    my $a      = $node->params->[0];            # topic name (string)
+    my $b      = $node->params->[1];            # access mode (string)
+    my $mode   = $b->_evaluate(@_) || 'view';
+    my %domain = @_;
+    my $app    = $domain{tom}->app;
     Foswiki::Exception->throw(
         text => 'No context in which to evaluate "' . $a->stringify() . '"' )
-      unless $session;
+      unless $app;
+    my $req = $app->request;
 
     my $str = $a->evaluate(@_);
     return 0 unless $str;
 
-    my ( $web, $topic ) =
-      $session->normalizeWebTopicName( $session->webName, $str );
+    my ( $web, $topic ) = $req->normalizeWebTopicName( $req->web, $str );
 
     my $ok = 0;
 
     # Try for an existing topic first.
-    if ( $session->topicExists( $web, $topic ) ) {
+    if ( $app->store->topicExists( $web, $topic ) ) {
 
         my $topicObject = Foswiki::Meta->new(
-            session => $session,
-            web     => $web,
-            topic   => $topic
+            app   => $app,
+            web   => $web,
+            topic => $topic
         );
         $ok = $topicObject->haveAccess($mode);
     }
 
     # Not an existing web.topic name, see if the string on its own
     # is a web name
-    elsif ( $session->webExists($str) ) {
-        my $webObject = Foswiki::Meta->new( session => $session, web => $str );
+    elsif ( $app->store->webExists($str) ) {
+        my $webObject = Foswiki::Meta->new( app => $app, web => $str );
         $ok = $webObject->haveAccess($mode);
     }
 
     # Not an existing web.topic or a web on it's own; maybe it's
     # web.topic for an existing web but non-existing topic
-    elsif ( $session->webExists($web) ) {
-        my $webObject = Foswiki::Meta->new( session => $session, web => $web );
+    elsif ( $app->store->webExists($web) ) {
+        my $webObject = $this->create( 'Foswiki::Meta', web => $web );
         $ok = $webObject->haveAccess($mode);
     }
     else {

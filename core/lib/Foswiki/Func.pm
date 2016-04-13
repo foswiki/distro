@@ -3073,7 +3073,7 @@ sub normalizeWebTopicName {
 
     #my( $web, $topic ) = @_;
     ASSERT($Foswiki::app) if DEBUG;
-    return $Foswiki::app->normalizeWebTopicName(@_);
+    return $Foswiki::app->request->normalizeWebTopicName(@_);
 }
 
 =begin TML
@@ -3146,7 +3146,7 @@ The set of tokens that is expanded is described in System.FormatTokens.
 =cut
 
 sub decodeFormatTokens {
-    return Foswiki::expandStandardEscapes(@_);
+    return $Foswiki::app->macros->expandStandardEscapes(@_);
 }
 
 =begin TML

@@ -30,7 +30,7 @@ sub WEBLIST {
     $format ||= '$name';
 
     my $separator = $params->{separator} || "\n";
-    $separator = Foswiki::expandStandardEscapes($separator);
+    $separator = $this->expandStandardEscapes($separator);
 
     my $selection = $params->{selection} || '';
     $selection =~ s/\,/ /g;
@@ -49,7 +49,7 @@ sub WEBLIST {
             elsif ( $aweb eq 'webtemplate' ) {
                 $filter = new Foswiki::WebFilter('template,allowed');
             }
-            push( @list, $this->deepWebList( $filter, $rootWeb ) );
+            push( @list, $this->app->deepWebList( $filter, $rootWeb ) );
         }
         else {
             push( @list, $aweb ) if ( $this->webExists($aweb) );
@@ -68,7 +68,7 @@ sub WEBLIST {
         $line         =~ s/\$indentedname/$indenteditem/g;
         my $mark = ( $selection =~ m/ \Q$item\E / ) ? $marker : '';
         $line =~ s/\$marker/$mark/g;
-        $line = Foswiki::expandStandardEscapes($line);
+        $line = $this->expandStandardEscapes($line);
         push( @items, $line );
     }
     return join( $separator, @items );

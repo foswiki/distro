@@ -39,7 +39,7 @@ sub DISPLAYDEPENDENCIES {
         push @lines, $text;
     }
     return '' unless @lines;
-    return expandStandardEscapes(
+    return $this->expandStandardEscapes(
         $header . join( $separator, @lines ) . $footer );
 }
 

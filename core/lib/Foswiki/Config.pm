@@ -1,5 +1,13 @@
 # See bottom of file for license and copyright information
 
+=begin TML
+
+---+!! package Foswiki::Config
+
+Class representing configuration data.
+
+=cut
+
 package Foswiki::Config;
 use v5.14;
 
@@ -11,7 +19,7 @@ use POSIX qw(locale_h);
 use Unicode::Normalize;
 use Cwd qw( abs_path );
 use Try::Tiny;
-use Foswiki ();
+use Foswiki qw(urlEncode urlDecode make_params);
 
 use Moo;
 use namespace::clean;
@@ -45,6 +53,13 @@ my %remap = (
     '{RCS}{WorkAreaDir}'    => '{Store}{WorkAreaDir}'
 );
 
+=begin TML
+---++ Attribute data
+
+Contains configuration hash. =%Foswiki::cfg= is an alias to this attribute.
+
+=cut
+
 has data => (
     is      => 'rw',
     lazy    => 1,
@@ -52,19 +67,81 @@ has data => (
     default => sub { {} },
 );
 
-# What files we read the config from in the order of reading.
+=begin TML
+---++ Attribute files
+
+What files we read the config from in the order of reading.
+
+=cut
+
 has files => (
     is      => 'rw',
     default => sub { [] },
 );
 
-# failed keeps the name of the failed config or spec file.
+=begin TML
+
+---++ Attribute failedConfig
+
+Keeps the name of the failed config or spec file.
+
+=cut
+
 has failedConfig     => ( is => 'rw', );
 has bootstrapMessage => ( is => 'rw', );
 has noExpand         => ( is => 'rw', default => 0, );
 has noSpec           => ( is => 'rw', default => 0, );
 has configSpec       => ( is => 'rw', default => 0, );
 has noLocal          => ( is => 'rw', default => 0, );
+
+# Configuration shortcut attributes.
+
+=begin TML
+
+---++ Attribute urlHost
+
+=cut
+
+has urlHost => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        my $this = shift;
+
+        #{urlHost}  is needed by loadSession..
+        my $url = $this->app->request->url;
+        my $cfg = $this->app->cfg;
+        my $urlHost;
+        if (   $url
+            && !$cfg->data->{ForceDefaultUrlHost}
+            && $url =~ m{^([^:]*://[^/]*).*$} )
+        {
+            $urlHost = $1;
+
+            if ( $cfg->data->{RemovePortNumber} ) {
+                $urlHost =~ s/\:[0-9]+$//;
+            }
+
+            # If the urlHost in the url is localhost, this is a lot less
+            # useful than the default url host. This is because new CGI("")
+            # assigns this host by default - it's a default setting, used
+            # when there is nothing better available.
+            if ( $urlHost =~ m/^(https?:\/\/)localhost$/i ) {
+                my $protocol = $1;
+
+#only replace localhost _if_ the protocol matches the one specified in the DefaultUrlHost
+                if ( $cfg->data->{DefaultUrlHost} =~ m/^$protocol/i ) {
+                    $urlHost = $cfg->data->{DefaultUrlHost};
+                }
+            }
+        }
+        else {
+            $urlHost = $cfg->data->{DefaultUrlHost};
+        }
+        ASSERT($urlHost) if DEBUG;
+        return $urlHost;
+    },
+);
 
 =begin TML
 
@@ -876,6 +953,88 @@ sub setBootstrap {
     push( @{ $this->data->{BOOTSTRAP} }, @BOOTSTRAP );
 }
 
+=begin TML
+
+---++ ObjectMethod getScriptUrl( $absolute, $script, $web, $topic, ... ) -> $scriptURL
+
+Returns the URL to a Foswiki script, providing the web and topic as
+"path info" parameters.  The result looks something like this:
+"http://host/foswiki/bin/$script/$web/$topic".
+   * =...= - an arbitrary number of name,value parameter pairs that will
+be url-encoded and added to the url. The special parameter name '#' is
+reserved for specifying an anchor. e.g.
+=getScriptUrl('x','y','view','#'=>'XXX',a=>1,b=>2)= will give
+=.../view/x/y?a=1&b=2#XXX=
+
+If $absolute is set, generates an absolute URL. $absolute is advisory only;
+Foswiki can decide to generate absolute URLs (for example when run from the
+command-line) even when relative URLs have been requested.
+
+The default script url is taken from {ScriptUrlPath}, unless there is
+an exception defined for the given script in {ScriptUrlPaths}. Both
+{ScriptUrlPath} and {ScriptUrlPaths} may be absolute or relative URIs. If
+they are absolute, then they will always generate absolute URLs. if they
+are relative, then they will be converted to absolute when required (e.g.
+when running from the command line, or when generating rss). If
+$script is not given, absolute URLs will always be generated.
+
+If either the web or the topic is defined, will generate a full url (including web and topic). Otherwise will generate only up to the script name. An undefined web will default to the main web name.
+
+As required by RFC3986, the returned URL will only contain the
+allowed characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
+
+=cut
+
+sub getScriptUrl {
+    my ( $this, $absolute, $script, $web, $topic, @params ) = @_;
+
+    my $app = $this->app;
+
+    $absolute ||=
+      ( $app->inContext('command_line') || $app->inContext('absolute_urls') );
+
+    # SMELL: topics and webs that contain spaces?
+
+    my $url;
+    if ( defined $this->data->{ScriptUrlPaths} && $script ) {
+        $url = $this->data->{ScriptUrlPaths}{$script};
+    }
+    unless ( defined($url) ) {
+        $url = $this->data->{ScriptUrlPath};
+        if ($script) {
+            $url .= '/' unless $url =~ m/\/$/;
+            $url .= $script;
+            if (
+                rindex( $url, $this->data->{ScriptSuffix} ) !=
+                ( length($url) - length( $this->data->{ScriptSuffix} ) ) )
+            {
+                $url .= $this->data->{ScriptSuffix} if $script;
+            }
+        }
+    }
+
+    if ( $absolute && $url !~ /^[a-z]+:/ ) {
+
+        # See http://www.ietf.org/rfc/rfc2396.txt for the definition of
+        # "absolute URI". Foswiki bastardises this definition by assuming
+        # that all relative URLs lack the <authority> component as well.
+        $url = $this->urlHost . $url;
+    }
+
+    if ($topic) {
+        ( $web, $topic ) = $app->request->normalizeWebTopicName( $web, $topic );
+
+        $url .= urlEncode( '/' . $web . '/' . $topic );
+
+    }
+    elsif ($web) {
+        $url .= urlEncode( '/' . $web );
+    }
+    $url .= make_params(@params);
+
+    return $url;
+}
+
 # Preset values that are hard-coded and not coming from external sources.
 sub _populatePresets {
     my $this = shift;
@@ -1030,10 +1189,10 @@ sub _guessDefaults {
 
             # Windows default tmpdir is the C: root  use something sane.
             # Configure does a better job,  it should be run.
-            $Foswiki::cfg{TempfileDir} = $Foswiki::cfg{WorkingDir};
+            $this->data->{TempfileDir} = $this->data->{WorkingDir};
         }
         else {
-            $Foswiki::cfg{TempfileDir} = File::Spec->tmpdir();
+            $this->data->{TempfileDir} = File::Spec->tmpdir();
         }
     }
 

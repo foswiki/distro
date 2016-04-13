@@ -32,21 +32,21 @@ around BUILDARGS => sub {
 };
 
 sub evaluate {
-    my $this    = shift;
-    my $node    = shift;
-    my $a       = $node->params->[0];
-    my %domain  = @_;
-    my $session = $domain{tom}->session;
+    my $this   = shift;
+    my $node   = shift;
+    my $a      = $node->params->[0];
+    my %domain = @_;
+    my $app    = $domain{tom}->app;
     Foswiki::Exception->throw(
         text => 'No context in which to evaluate "' . $a->stringify() . '"' )
-      unless $session;
+      unless $app;
     my $text = $a->_evaluate(@_) || '';
-    if ( $text && defined( $session->request->param($text) ) ) {
-        return $session->request->param($text);
+    if ( $text && defined( $app->request->param($text) ) ) {
+        return $app->request->param($text);
     }
 
     $text = "%$text%";
-    Foswiki::innerExpandMacros( $session, \$text, $domain{tom} );
+    $app->macros->innerExpandMacros( \$text, $domain{tom} );
 
     return $text || '';
 }

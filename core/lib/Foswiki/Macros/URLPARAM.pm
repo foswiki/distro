@@ -35,7 +35,7 @@ sub URLPARAM {
                         $item = $_;
                         $_    = $multiple;
                         $_ .= $item unless (s/\$item/$item/g);
-                        expandStandardEscapes($_)
+                        $this->expandStandardEscapes($_)
                     } @valueArray;
                 }
 
