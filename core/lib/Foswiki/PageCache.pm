@@ -125,7 +125,7 @@ sub genVariationKey {
     my $session    = $Foswiki::Plugins::SESSION;
     my $request    = $session->{request};
     my $action     = substr( ( $request->{action} || 'view' ), 0, 4 );
-    my $serverName = $request->server_name || $Foswiki::cfg{DefaultUrlHost};
+    my $serverName = $session->{urlHost} || $Foswiki::cfg{DefaultUrlHost};
     my $serverPort = $request->server_port || 80;
     $variationKey = '::' . $serverName . '::' . $serverPort . '::' . $action;
 
