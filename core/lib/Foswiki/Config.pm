@@ -64,7 +64,16 @@ has data => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    default => sub { {} },
+    default => sub {
+        my $this = shift;
+        my $data = {};
+
+        # Alias ::cfg for compatibility. Though $app->cfg should be preferred
+        # way of accessing config.
+        *Foswiki::cfg = $data;
+        *TWiki::cfg   = $data;
+        return $data;
+    },
 );
 
 =begin TML
@@ -161,11 +170,6 @@ has urlHost => (
 sub BUILD {
     my $this = shift;
     my ($params) = @_;
-
-    # Alias ::cfg for compatibility. Though $app->cfg should be preferred way of
-    # accessing config.
-    *Foswiki::cfg = $this->data;
-    *TWiki::cfg   = $this->data;
 
     $this->data->{isVALID} =
       $this->readConfig( $this->noExpand, $this->noSpec, $this->configSpec,
@@ -446,6 +450,11 @@ sub bootstrapSystemSettings {
     # previously failed readConfig.
     $this->clear_data;
 
+    # Restore system-default state.
+    $this->_workOutOS();
+    $this->_populatePresets;
+    $this->_guessDefaults;
+
     my $env = $this->app->env;
 
     print STDERR "AUTOCONFIG: Bootstrap Phase 1: " . Data::Dumper::Dumper($env)
@@ -570,13 +579,13 @@ EPITAPH
 # JQueryPlugin. Without the Config.spec, no plugins get registered)
 # Don't load LocalSite.cfg if it exists (should normally not exist when bootstrapping)
     $this->readConfig( 0, 0, 1, 1 );
-
-    $this->_workOutOS();
     print STDERR "AUTOCONFIG: Detected OS "
       . $this->data->{OS}
       . ":  DetailedOS: "
       . $this->data->{DetailedOS} . " \n"
       if (TRAUTO);
+
+    $this->_setupGlobals;
 
     $this->data->{isVALID} = 1;
     $this->setBootstrap();
@@ -631,34 +640,35 @@ sub bootstrapWebSettings {
         return 'Phase 2 boostrap bypassed - n/a in CLI environment\n';
     }
 
+    $this->data->{Engine} //= ref( $app->engine );
+
     my $protocol = $req->protocol;
 
     # Figure out the DefaultUrlHost
-    if ( $this->env->{HTTP_HOST} ) {
-        $this->data->{DefaultUrlHost} =
-          "$protocol://" . $this->env->{HTTP_HOST};
+    if ( $app->env->{HTTP_HOST} ) {
+        $this->data->{DefaultUrlHost} = "$protocol://" . $app->env->{HTTP_HOST};
         print STDERR "AUTOCONFIG: Set DefaultUrlHost "
           . $this->data->{DefaultUrlHost}
           . " from HTTP_HOST "
-          . $this->env->{HTTP_HOST} . " \n"
+          . $app->env->{HTTP_HOST} . " \n"
           if (TRAUTO);
     }
-    elsif ( $this->env->{SERVER_NAME} ) {
+    elsif ( $app->env->{SERVER_NAME} ) {
         $this->data->{DefaultUrlHost} =
-          "$protocol://" . $this->env->{SERVER_NAME};
+          "$protocol://" . $app->env->{SERVER_NAME};
         print STDERR "AUTOCONFIG: Set DefaultUrlHost "
           . $this->data->{DefaultUrlHost}
           . " from SERVER_NAME "
-          . $this->env->{SERVER_NAME} . " \n"
+          . $app->env->{SERVER_NAME} . " \n"
           if (TRAUTO);
     }
-    elsif ( $this->env->{SCRIPT_URI} ) {
+    elsif ( $app->env->{SCRIPT_URI} ) {
         ( $this->data->{DefaultUrlHost} ) =
-          $this->env->{SCRIPT_URI} =~ m#^(https?://[^/]+)/#;
+          $app->env->{SCRIPT_URI} =~ m#^(https?://[^/]+)/#;
         print STDERR "AUTOCONFIG: Set DefaultUrlHost "
           . $this->data->{DefaultUrlHost}
           . " from SCRIPT_URI "
-          . $this->env->{SCRIPT_URI} . " \n"
+          . $app->env->{SCRIPT_URI} . " \n"
           if (TRAUTO);
     }
     else {
@@ -684,10 +694,10 @@ sub bootstrapWebSettings {
     my $path_info = $req->path_info
       || '';    #SMELL Sometimes PATH_INFO appears to be undefined.
     print STDERR "AUTOCONFIG: REQUEST_URI is "
-      . ( $this->env->{REQUEST_URI} || '(undef)' ) . "\n"
+      . ( $app->env->{REQUEST_URI} || '(undef)' ) . "\n"
       if (TRAUTO);
     print STDERR "AUTOCONFIG: SCRIPT_URI  is "
-      . ( $this->env->{SCRIPT_URI} || '(undef)' ) . " \n"
+      . ( $app->env->{SCRIPT_URI} || '(undef)' ) . " \n"
       if (TRAUTO);
     print STDERR "AUTOCONFIG: PATH_INFO   is $path_info \n" if (TRAUTO);
     print STDERR "AUTOCONFIG: ENGINE      is " . $this->data->{Engine} . "\n"
@@ -709,18 +719,18 @@ sub bootstrapWebSettings {
     my $pfx;
 
     my $suffix =
-      ( defined $this->env->{SCRIPT_URL}
-          && length( $this->env->{SCRIPT_URL} ) < length($path_info) )
-      ? $this->env->{SCRIPT_URL}
+      ( defined $app->env->{SCRIPT_URL}
+          && length( $app->env->{SCRIPT_URL} ) < length($path_info) )
+      ? $app->env->{SCRIPT_URL}
       : $path_info;
 
     # Try to Determine the prefix of the script part of the URI.
-    if ( $this->env->{SCRIPT_URI} && $this->env->{SCRIPT_URL} ) {
+    if ( $app->env->{SCRIPT_URI} && $app->env->{SCRIPT_URL} ) {
         if (
-            index( $this->env->{SCRIPT_URI}, $this->data->{DefaultUrlHost} ) eq
+            index( $app->env->{SCRIPT_URI}, $this->data->{DefaultUrlHost} ) eq
             0 )
         {
-            $pfx = substr( $this->env->{SCRIPT_URI},
+            $pfx = substr( $app->env->{SCRIPT_URI},
                 length( $this->data->{DefaultUrlHost} ) );
             $pfx =~ s#$suffix$##;
             print STDERR
@@ -730,15 +740,15 @@ sub bootstrapWebSettings {
     }
 
     unless ( defined $pfx ) {
-        if ( my $idx = index( $this->env->{REQUEST_URI}, $path_info ) ) {
-            $pfx = substr( $this->env->{REQUEST_URI}, 0, $idx + 1 );
+        if ( my $idx = index( $app->env->{REQUEST_URI}, $path_info ) ) {
+            $pfx = substr( $app->env->{REQUEST_URI}, 0, $idx + 1 );
         }
         $pfx = '' unless ( defined $pfx );
         print STDERR "AUTOCONFIG: URI Prefix is $pfx\n" if (TRAUTO);
     }
 
     # Work out the URL path for Short and standard URLs
-    if ( $this->env->{REQUEST_URI} =~ m{^(.*?)/$script(\b|$)} ) {
+    if ( $app->env->{REQUEST_URI} =~ m{^(.*?)/$script(\b|$)} ) {
         print STDERR
 "AUTOCONFIG: SCRIPT $script fully contained in REQUEST_URI $ENV{REQUEST_URI}, Not short URLs\n"
           if (TRAUTO);
@@ -834,21 +844,15 @@ sub _bootstrapStoreSettings {
         'Foswiki::Contrib::*StoreContrib');
 
     foreach my $store (@stores) {
-        try {
-            Foswiki::load_package($store);
+        Foswiki::load_package($store);
+        my $ok;
+        eval('$ok = $store->can(\'bootstrapStore\')');
+        if ($@) {
+            print STDERR $@;
         }
-        finally {
-            unless (@_) {
-                my $ok;
-                eval('$ok = $store->can(\'bootstrapStore\')');
-                if ($@) {
-                    print STDERR $@;
-                }
-                else {
-                    $store->bootstrapStore() if ($ok);
-                }
-            }
-        };
+        else {
+            $store->bootstrapStore() if ($ok);
+        }
     }
 
     # Handle the common store settings managed by Core.  Important ones

@@ -1383,7 +1383,7 @@ sub _LOGIN {
 
     #my( $session, $params, $topic, $web ) = @_;
     my $app  = shift;
-    my $this = $app->getLoginManager();
+    my $this = $app->users->getLoginManager();
 
     return '' if $app->inContext('authenticated');
 
@@ -1404,7 +1404,7 @@ sub _LOGIN {
 
 sub _LOGOUTURL {
     my ( $app, $params, $topic, $web ) = @_;
-    my $this = $app->getLoginManager();
+    my $this = $app->users->getLoginManager();
 
     return $app->getScriptUrl(
         0, 'view',
@@ -1423,7 +1423,7 @@ sub _LOGOUTURL {
 
 sub _LOGOUT {
     my ( $app, $params, $topic, $web ) = @_;
-    my $this = $app->getLoginManager();
+    my $this = $app->users->getLoginManager();
 
     return '' unless $app->inContext('authenticated');
 
@@ -1444,7 +1444,7 @@ sub _LOGOUT {
 
 sub _AUTHENTICATED {
     my ( $app, $params ) = @_;
-    my $this = $app->getLoginManager();
+    my $this = $app->users->getLoginManager();
 
     if ( $app->inContext('authenticated') ) {
         return $params->{then} || 1;
@@ -1462,7 +1462,7 @@ sub _AUTHENTICATED {
 
 sub _CANLOGIN {
     my ( $app, $params ) = @_;
-    my $this = $app->getLoginManager();
+    my $this = $app->users->getLoginManager();
     if ( $app->inContext('can_login') ) {
         return $params->{then} || 1;
     }
@@ -1479,7 +1479,7 @@ sub _CANLOGIN {
 
 sub _SESSION_VARIABLE {
     my ( $app, $params ) = @_;
-    my $this = $app->getLoginManager();
+    my $this = $app->users->getLoginManager();
     my $name = $params->{_DEFAULT};
 
     if ( defined $name ) {

@@ -109,7 +109,7 @@ has topicWeb => (
                 $app->request->web )
             {
                 $web = Foswiki::Sandbox::untaintUnchecked($web);    # Item11953
-                if ( $app->topicExists( $web, $this->name ) ) {
+                if ( $app->store->topicExists( $web, $this->name ) ) {
                     return $web;
                 }
             }
@@ -123,7 +123,7 @@ has topicWeb => (
 has no_topic    => ( is => 'rw', );
 has description => ( is => 'rw', );
 
-#our @_newParameters = qw( session name module );
+#our @_newParameters = qw( app name module );
 
 =begin TML
 
@@ -151,17 +151,22 @@ sub BUILD {
         ) if DEBUG;
     }
 
-    eval "use $p";
-    if ($@) {
-        push(
-            @{ $this->errors },
-            "$p could not be loaded.  Errors were:\n$@\n----"
-        );
-        $this->disabled(1);
-        $this->reason('no_load_plugin');
-    }
-    else {
-        $this->module($p);
+    {
+        local $SIG{__DIE__};
+        local $SIG{__WARN__};
+        eval "use $p";
+        if ($@) {
+            my $errMessage = ref($@) ? $@->stringify : $@;
+            push(
+                @{ $this->errors },
+                "$p could not be loaded.  Errors were:\n$@\n----"
+            );
+            $this->disabled(1);
+            $this->reason('no_load_plugin');
+        }
+        else {
+            $this->module($p);
+        }
     }
     my $fn = "${p}::preload";
     if ( !$this->disabled && defined &$fn ) {
@@ -264,15 +269,15 @@ sub registerHandlers {
 
     my $p         = $this->module;
     my $sub       = $p . "::initPlugin";
-    my $users     = $Foswiki::Plugins::SESSION->{users};
+    my $users     = $Foswiki::app->users;
     my $status    = 0;
     my $exception = '';
     try {
         no strict 'refs';
         $status = &$sub(
-            $Foswiki::Plugins::SESSION->topicName,
-            $Foswiki::Plugins::SESSION->webName,
-            $users->getLoginName( $Foswiki::Plugins::SESSION->user ),
+            $Foswiki::app->request->topic,
+            $Foswiki::app->request->web,
+            $users->getLoginName( $Foswiki::app->user ),
             $this->topicWeb()
         );
         use strict 'refs';

@@ -16,10 +16,10 @@ BEGIN {
 sub WIKIUSERNAME {
     my ( $this, $params ) = @_;
 
-    $params->{format} = $this->app->prefs->getPreference('WIKIUSERNAME')
+    $params->{format} = $this->prefs->getPreference('WIKIUSERNAME')
       || '$wikiusername';
 
-    return $this->USERINFO($params);
+    return USERINFO( $this, $params );
 }
 
 1;

@@ -126,9 +126,9 @@ Overrides LoginManager. Content of a login link.
 sub loginUrl {
     my $this  = shift;
     my $app   = $this->app;
-    my $topic = $app->topicName;
-    my $web   = $app->webName;
-    return $app->getScriptUrl( 0, 'login', $web, $topic,
+    my $topic = $app->request->topic;
+    my $web   = $app->request->web;
+    return $app->cfg->getScriptUrl( 0, 'login', $web, $topic,
         foswiki_origin => _packRequest($app) );
 }
 
@@ -173,8 +173,8 @@ sub login {
 
     my $banner = $app->templates->expandTemplate('LOG_IN_BANNER');
     my $note   = '';
-    my $topic  = $app->topicName;
-    my $web    = $app->webName;
+    my $topic  = $app->request->topic;
+    my $web    = $app->request->web;
 
     # CAUTION:  LoginManager::userLoggedIn() will delete and recreate
     # the CGI Session.
@@ -240,7 +240,7 @@ sub login {
             $this->_cgisession->param( 'VALIDATION', $validation )
               if $this->_has_cgisession;
             if ( !$origurl || $origurl eq $query->url() ) {
-                $origurl = $app->getScriptUrl( 0, 'view', $web, $topic );
+                $origurl = $app->cfg->getScriptUrl( 0, 'view', $web, $topic );
             }
             else {
 

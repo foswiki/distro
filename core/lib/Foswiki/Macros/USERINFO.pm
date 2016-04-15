@@ -20,7 +20,7 @@ my %USERINFO_tokens = (
         my ( $this, $user ) = @_;
         return '' if ($USERINFO_cloak);
 
-        my $username = $this->{users}->getLoginName($user);
+        my $username = $this->users->getLoginName($user);
         $username = 'unknown' unless defined $username;
 
         return $username;
@@ -35,7 +35,7 @@ my %USERINFO_tokens = (
     },
     wikiname => sub {
         my ( $this, $user ) = @_;
-        my $wikiname = $this->{users}->getWikiName($user);
+        my $wikiname = $this->users->getWikiName($user);
 
         $wikiname = 'UnknownUser' unless defined $wikiname;
 
@@ -43,7 +43,7 @@ my %USERINFO_tokens = (
     },
     wikiusername => sub {
         my ( $this, $user ) = @_;
-        my $wikiusername = $this->{users}->webDotWikiName($user);
+        my $wikiusername = $this->users->webDotWikiName($user);
 
         $wikiusername = "$Foswiki::cfg{UsersWebName}.UnknownUser"
           unless defined $wikiusername;
@@ -54,14 +54,14 @@ my %USERINFO_tokens = (
         my ( $this, $user ) = @_;
 
         return '' if ($USERINFO_cloak);
-        return join( ', ', $this->{users}->getEmails($user) );
+        return join( ', ', $this->users->getEmails($user) );
     },
     groups => sub {
         my ( $this, $user ) = @_;
         my @groupNames;
         return '' if ($USERINFO_cloak);
 
-        my $it = $this->{users}->eachMembership($user);
+        my $it = $this->users->eachMembership($user);
 
         while ( $it->hasNext() ) {
             my $group = $it->next();
@@ -76,7 +76,7 @@ my %USERINFO_tokens = (
         my ( $this, $user ) = @_;
 
         return '' if ($USERINFO_cloak);
-        return $this->{users}->isAdmin($user) ? 'true' : 'false';
+        return $this->users->isAdmin($user) ? 'true' : 'false';
     },
 
     # Item2466: $isadmin & $isgroup added November 2011
@@ -84,12 +84,12 @@ my %USERINFO_tokens = (
         my ( $this, $user ) = @_;
 
         return '' if ($USERINFO_cloak);
-        return $this->{users}->isAdmin($user) ? 'true' : 'false';
+        return $this->users->isAdmin($user) ? 'true' : 'false';
     },
     isgroup => sub {
         my ( $this, $user ) = @_;
 
-        return $this->{users}->isGroup($user) ? 'true' : 'false';
+        return $this->users->isGroup($user) ? 'true' : 'false';
     }
 );
 my $USERINFO_tokenregex = join( '|', keys %USERINFO_tokens );
@@ -97,7 +97,7 @@ my $USERINFO_tokenregex = join( '|', keys %USERINFO_tokens );
 sub USERINFO {
     my ( $this, $params ) = @_;
     my $format = $params->{format} || '$username, $wikiusername, $emails';
-    my $user   = $this->{user};
+    my $user   = $this->user;
     my $info   = $format;
 
     if ( $params->{_DEFAULT} ) {
@@ -105,11 +105,11 @@ sub USERINFO {
         return '' if !$user;
 
         # map wikiname to a login name
-        my $cuid = $this->{users}->getCanonicalUserID($user);
+        my $cuid = $this->users->getCanonicalUserID($user);
         if ( !$cuid ) {
 
             # Failed to get a cUID: if it's a group, leave $user alone
-            if ( !$this->{users}->isGroup($user) ) {
+            if ( !$this->users->isGroup($user) ) {
                 return '';
             }
         }
@@ -120,8 +120,8 @@ sub USERINFO {
 
         $USERINFO_cloak =
           (      $Foswiki::cfg{AntiSpam}{HideUserDetails}
-              && !$this->{users}->isAdmin( $this->{user} )
-              && $user ne $this->{user} );
+              && !$this->users->isAdmin( $this->user )
+              && $user ne $this->user );
     }
     else {
         $USERINFO_cloak = 0;
@@ -129,8 +129,8 @@ sub USERINFO {
 
     return '' unless $user;
 
-    $info =~ s/\$($USERINFO_tokenregex)/$this->_USERINFO_token($1, $user)/ge;
-    $info = $this->expandStandardEscapes($info);
+    $info =~ s/\$($USERINFO_tokenregex)/_USERINFO_token($this, $1, $user)/ge;
+    $info = $this->macros->expandStandardEscapes($info);
 
     return $info;
 }

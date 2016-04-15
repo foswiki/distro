@@ -22,8 +22,6 @@ BEGIN {
 sub META {
     my ( $this, $params, $topicObject ) = @_;
 
-    my $app = $this->app;
-
     my $option = $params->{_DEFAULT} || '';
     if ( defined( $params->{topic} ) ) {
         my ( $nweb, $ntopic ) =
@@ -58,7 +56,7 @@ sub META {
     elsif ( $option eq 'attachments' ) {
 
         # renders attachment tables
-        return $app->attach->renderMetaData( $topicObject, $params );
+        return $this->attach->renderMetaData( $topicObject, $params );
     }
     elsif ( $option eq 'moved' ) {
         return Foswiki::Render::Moved::render( $this, $topicObject, $params );
@@ -66,7 +64,7 @@ sub META {
     elsif ( $option eq 'parent' ) {
 
         # Only parent parameter has the format option and should do std escapes
-        return $this->expandStandardEscapes(
+        return $this->macros->expandStandardEscapes(
             Foswiki::Render::Parent::render( $this, $topicObject, $params ) );
     }
 

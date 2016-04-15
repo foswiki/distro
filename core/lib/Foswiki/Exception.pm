@@ -79,6 +79,8 @@ has stacktrace => (
 sub BUILD {
     my $this = shift;
 
+    #say STDERR Carp::longmess(__PACKAGE__ . "::BUILD");
+
     unless ( $this->has_stacktrace ) {
         my $trace = Carp::longmess('');
         $this->_set_stacktrace($trace);
@@ -257,12 +259,17 @@ sub BUILD {
 }
 
 package Foswiki::Exception::Fatal;
+use Carp;
+use Assert;
 use Moo;
+use namespace::clean;
 extends qw(Foswiki::Exception);
 
 # To cover perl/system errors.
 sub BUILD {
     my $this = shift;
+
+    #Carp::cluck __PACKAGE__ . "(" . $this->text . ")" if DEBUG;
 }
 
 =begin TML
@@ -331,6 +338,7 @@ around stringify => sub {
 package Foswiki::Exception::HTTPError;
 
 use CGI ();
+use Assert;
 
 use Moo;
 use namespace::clean;
@@ -349,12 +357,15 @@ around stringify => sub {
         my $html = CGI::start_html( $this->status . ' ' . $this->header );
         $html .= CGI::h1( {}, $this->header );
         $html .= CGI::p( {}, $this->text );
+        $html .= CGI::p( {}, CGI::pre( $this->stacktrace ) ) if DEBUG;
         $html .= CGI::end_html();
         $res->print($html);
     }
     else {
-        $res->print(
-            $this->status . " " . $this->header . "\n\n" . $this->text );
+        $res->print( $this->status . " "
+              . $this->header . "\n\n"
+              . $this->text
+              . ( DEBUG ? $this->stacktrace : '' ) );
     }
 
     return $orig->($this);

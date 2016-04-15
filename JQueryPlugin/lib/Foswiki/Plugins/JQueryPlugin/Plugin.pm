@@ -1,12 +1,51 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::Plugin;
+use v5.14;
 
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 use Foswiki::Func                           ();
 
-use strict;
-use warnings;
 use constant TRACE => 0;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::AppObject);
+
+has author => ( is => 'rw', default => 'unknown', );
+has css => ( is => 'rw', default => sub { [] }, );
+has debug =>
+  ( is => 'ro', default => $Foswiki::cfg{JQueryPlugin}{Debug} || 0, );
+has dependencies => ( is => 'rw', default => sub { [] }, );
+has documentation => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        my $this = shift;
+        my $documentation =
+          $Foswiki::cfg{SystemWebName} . '.JQuery' . ucfirst( $this->name );
+
+        $documentation =~ s/:://g;
+        return $documentation;
+    },
+);
+has homepage   => ( is => 'rw', default => 'unknown', );
+has javascript => ( is => 'rw', default => sub { [] }, );
+has name       => ( is => 'rw', default => $class, );
+has puburl => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        return
+            $Foswiki::cfg{PubUrlPath} . '/'
+          . $Foswiki::cfg{SystemWebName}
+          . '/JQueryPlugin/plugins/'
+          . lc( $_[0]->name );
+    },
+);
+has summary => ( is => 'rw', );
+has tags => ( is => 'rw', default => sub { [] }, );
+has version  => ( is => 'rw', default => 'unknown', );
+has idPrefix => ( is => 'rw', default => 'JQUERYPLUGIN', );
 
 =begin TML
 
@@ -36,7 +75,8 @@ abstract class for a jQuery plugin
 
 =cut
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
 
     # backwards compatibility: the session param is deprecated now
@@ -50,42 +90,8 @@ sub new {
         shift;    # ... it off the args
     }
 
-    my $this = bless(
-        {
-            author        => 'unknown',
-            css           => [],
-            debug         => $Foswiki::cfg{JQueryPlugin}{Debug} || 0,
-            dependencies  => [],
-            documentation => undef,
-            homepage      => 'unknown',
-            javascript    => [],
-            name          => $class,
-            puburl        => '',
-            summary       => undef,
-            tags          => [],
-            version       => 'unknown',
-            idPrefix      => 'JQUERYPLUGIN',
-            @_
-        },
-        $class
-    );
-
-    $this->{documentation} =
-      $Foswiki::cfg{SystemWebName} . '.JQuery' . ucfirst( $this->{name} )
-      unless defined $this->{documentation};
-
-    $this->{documentation} =~ s/:://g;
-
-    unless ( $this->{puburl} ) {
-        $this->{puburl} =
-            $Foswiki::cfg{PubUrlPath} . '/'
-          . $Foswiki::cfg{SystemWebName}
-          . '/JQueryPlugin/plugins/'
-          . lc( $this->{name} );
-    }
-
-    return $this;
-}
+    return $orig->( $class, @_ );
+};
 
 =begin TML
 
@@ -99,25 +105,25 @@ are fulfilled.
 sub init {
     my $this = shift;
 
-    return 0 if $this->{isInit};
-    $this->{isInit} = 1;
+    return 0 if $this->isInit;
+    $this->isInit(1);
 
     my $header = '';
     my $footer = '';
 
     # load all css
-    foreach my $css ( @{ $this->{css} } ) {
+    foreach my $css ( @{ $this->css } ) {
         $header .= $this->renderCSS($css);
     }
 
     # load all javascript
-    foreach my $js ( @{ $this->{javascript} } ) {
+    foreach my $js ( @{ $this->javascript } ) {
         $footer .= $this->renderJS($js);
     }
 
     # load any i18n messages
-    if ( $this->{i18n} ) {
-        $this->renderI18N( $this->{i18n} );
+    if ( $this->i18n ) {
+        $this->renderI18N( $this->i18n );
     }
 
     # gather dependencies
@@ -125,10 +131,11 @@ sub init {
       ('JQUERYPLUGIN::FOSWIKI');    # jquery.foswiki is in there by default
 
     # add i18n when required
-    push @{ $this->{dependencies} }, "i18n" if $this->{i18n};
+    push @{ $this->dependencies }, "i18n" if $this->i18n;
 
-    foreach my $dep ( @{ $this->{dependencies} } ) {
-        if ( $dep =~ /^($this->{idPrefix}|JQUERYPLUGIN|JavascriptFiles)/ )
+    my $idPrefix = $this->idPrefix;
+    foreach my $dep ( @{ $this->dependencies } ) {
+        if ( $dep =~ /^($idPrefix|JQUERYPLUGIN|JavascriptFiles)/ )
         {  # SMELL: there are some jquery modules that depend on non-jquery code
             push @dependencies, $dep;
         }
@@ -150,14 +157,16 @@ sub init {
         }
     }
 
-    Foswiki::Func::addToZone( 'head',
-        $this->{idPrefix} . '::' . uc( $this->{name} ),
-        $header, join( ', ', @dependencies ) );
-    Foswiki::Func::addToZone( 'script',
-        $this->{idPrefix} . '::' . uc( $this->{name} ),
-        $footer, join( ', ', @dependencies ) );
+    Foswiki::Func::addToZone(
+        'head', $idPrefix . '::' . uc( $this->name ),
+        $header, join( ', ', @dependencies )
+    );
+    Foswiki::Func::addToZone(
+        'script', $idPrefix . '::' . uc( $this->name ),
+        $footer, join( ', ', @dependencies )
+    );
 
-    my $contextID = $this->{name} . 'Enabled';
+    my $contextID = $this->name . 'Enabled';
     $contextID =~ s/\W//g;
     Foswiki::Func::getContext()->{$contextID} = 1;
 
@@ -168,10 +177,12 @@ sub renderCSS {
     my ( $this, $text ) = @_;
 
     $text =~ s/\.css$/.uncompressed.css/
-      if $this->{debug} && $text !~ /(\.uncompressed|_src)\./;
-    $text .= '?version=' . $this->{version};
+      if $this->debug && $text !~ /(\.uncompressed|_src)\./;
+    $text .= '?version=' . $this->version;
     $text =
-"<link rel='stylesheet' href='$this->{puburl}/$text' type='text/css' media='all' />\n";
+        "<link rel='stylesheet' href='"
+      . $this->puburl
+      . "/$text' type='text/css' media='all' />\n";
 
     return $text;
 }
@@ -180,10 +191,12 @@ sub renderJS {
     my ( $this, $text ) = @_;
 
     $text =~ s/\.js$/.uncompressed.js/
-      if $this->{debug} && $text !~ /(\.uncompressed|_src)\./;
-    $text .= '?version=' . $this->{version};
+      if $this->debug && $text !~ /(\.uncompressed|_src)\./;
+    $text .= '?version=' . $this->version;
     $text =
-      "<script type='text/javascript' src='$this->{puburl}/$text'></script>\n";
+        "<script type='text/javascript' src='"
+      . $this->puburl
+      . "/$text'></script>\n";
 
     return $text;
 }
@@ -192,18 +205,18 @@ sub renderI18N {
     my ( $this, $path ) = @_;
 
     # open matching localization file if it exists
-    my $session = $Foswiki::Plugins::SESSION;
-    my $langTag = $session->i18n->language();
+    my $app     = $Foswiki::app;
+    my $langTag = $app->i18n->language();
 
     my $messagePath = $path . '/' . $langTag . '.js';
     my $messageFile = $Foswiki::cfg{PubDir} . '/' . $messagePath;
     if ( -f $messageFile ) {
         my $text .=
 "<script type='application/l10n' data-i18n-language='$langTag' data-i18n-namespace='"
-          . uc( $this->{name} )
+          . uc( $this->name )
           . "' src='$Foswiki::cfg{PubUrlPath}/$messagePath' ></script>\n";
         Foswiki::Func::addToZone(
-            'script', uc( $this->{name} ) . "::I8N",
+            'script', uc( $this->name ) . "::I8N",
             $text,    'JQUERYPLUGIN::I18N'
         );
     }
@@ -221,18 +234,18 @@ returns the summary text for this plugin. this is either the =summary= property 
 sub getSummary {
     my $this = shift;
 
-    my $summary = $this->{summary};
+    my $summary = $this->summary;
 
     unless ( defined $summary ) {
         $summary = 'n/a';
-        if ( $this->{'documentation'} ) {
+        if ( $this->documentation ) {
             $summary =
               Foswiki::Func::expandCommonVariables( '%INCLUDE{"'
-                  . $this->{documentation}
+                  . $this->documentation
                   . '" section="summary" warn="off"}%' );
         }
 
-        $this->{summary} = $summary;
+        $this->summary($summary);
     }
 
     return $summary;

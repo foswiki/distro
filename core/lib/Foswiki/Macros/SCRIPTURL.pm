@@ -27,8 +27,7 @@ sub SCRIPTURL {
         $topic = pop(@path) if scalar(@path);
         $web = join( '/', @path ) if scalar(@path);    # web= is ignored
     }
-    return $this->app->cfg->getScriptUrl( !$relative, $script, $web, $topic,
-        @p );
+    return $this->cfg->getScriptUrl( !$relative, $script, $web, $topic, @p );
 }
 
 1;

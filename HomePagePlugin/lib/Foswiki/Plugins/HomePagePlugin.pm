@@ -27,60 +27,62 @@ sub initPlugin {
 sub initializeUserHandler {
     my ( $loginName, $url, $pathInfo ) = @_;
 
-    return
-      unless ( $Foswiki::Plugins::SESSION->inContext('view')
-        || $Foswiki::Plugins::SESSION->inContext('login') );
+    my $app = $Foswiki::app;
+    my $req = $app->request;
+    my $cfg = $app->cfg;
 
     return
-      if ( $Foswiki::Plugins::SESSION->inContext('command_line') );
+      unless ( $app->inContext('view')
+        || $app->inContext('login') );
+
+    return
+      if ( $app->inContext('command_line') );
 
     # Don't override web/topic if specified by url param.
     return
-      if ( $Foswiki::Plugins::SESSION->{request}->param('defaultweb')
-        || $Foswiki::Plugins::SESSION->{request}->param('topic') );
+      if ( $app->request->param('defaultweb')
+        || $app->request->param('topic') );
 
     my $gotoOnLogin =
-      (       $Foswiki::cfg{HomePagePlugin}{GotoHomePageOnLogin}
-          and $Foswiki::Plugins::SESSION->inContext('login') );
+      (       $cfg->data->{HomePagePlugin}{GotoHomePageOnLogin}
+          and $app->inContext('login') );
     if ($gotoOnLogin) {
-        my $test = $Foswiki::Plugins::SESSION->{request}->param('username');
+        my $test = $app->request->param('username');
         $loginName = $test if defined($test);
 
         # pre-load the origurl with the 'login' url which forces
         # templatelogin to use the requested web&topic
-        $Foswiki::Plugins::SESSION->{request}->param(
+        $app->request->param(
             -name  => 'origurl',
-            -value => $Foswiki::Plugins::SESSION->{request}->url()
+            -value => $app->request->url()
         );
     }
 
     # we don't know the user at this point so can only set up the
     # site wide default
-    my $path_info =
-      Foswiki::urlDecode( $Foswiki::Plugins::SESSION->{request}->path_info() );
+    my $path_info = Foswiki::urlDecode( $app->request->path_info() );
 
     return
       unless ( ( $path_info eq '' or $path_info eq '/' )
         or ($gotoOnLogin) );
 
-    my $siteDefault = $Foswiki::cfg{HomePagePlugin}{SiteDefaultTopic};
+    my $siteDefault = $cfg->data->{HomePagePlugin}{SiteDefaultTopic};
 
-    #$Foswiki::cfg{HomePagePlugin}{HostnameMapping}
+    #$cfg->data->{HomePagePlugin}{HostnameMapping}
     my $hostName = lc( Foswiki::Func::getUrlHost() );
-    if (
-        defined( $Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName} ) )
+    if ( defined( $cfg->data->{HomePagePlugin}{HostnameMapping}->{$hostName} ) )
     {
         $siteDefault =
-          $Foswiki::cfg{HomePagePlugin}{HostnameMapping}->{$hostName};
+          $cfg->data->{HomePagePlugin}{HostnameMapping}->{$hostName};
     }
 
     my $wikiName = Foswiki::Func::getWikiName($loginName);
     if ( ( defined $wikiName )
         and
-        Foswiki::Func::topicExists( $Foswiki::cfg{UsersWebName}, $wikiName ) )
+        Foswiki::Func::topicExists( $cfg->data->{UsersWebName}, $wikiName ) )
     {
         my ( $meta, $text ) =
-          Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName}, $wikiName );
+          Foswiki::Func::readTopic( $cfg->data->{UsersWebName}, $wikiName );
 
         # TODO: make fieldname a setting.
         my $field = $meta->get( 'FIELD', 'HomePage' );
@@ -93,19 +95,18 @@ sub initializeUserHandler {
     if ( Foswiki::Func::webExists($siteDefault) ) {
 
         # if they only set a webname, dwim
-        $siteDefault .= '.' . $Foswiki::cfg{HomeTopicName};
+        $siteDefault .= '.' . $cfg->data->{HomeTopicName};
     }
 
     return unless defined $siteDefault;
 
-    my ( $web, $topic ) =
-      $Foswiki::Plugins::SESSION->normalizeWebTopicName( '', $siteDefault );
+    my ( $web, $topic ) = $req->normalizeWebTopicName( '', $siteDefault );
 
     if (   Foswiki::Func::isValidWebName($web)
         && Foswiki::Func::isValidTopicName( $topic, 1 ) )
     {
-        $Foswiki::Plugins::SESSION->{webName}   = $web;
-        $Foswiki::Plugins::SESSION->{topicName} = $topic;
+        $req->web($web);
+        $req->topic($topic);
     }
 
     return;

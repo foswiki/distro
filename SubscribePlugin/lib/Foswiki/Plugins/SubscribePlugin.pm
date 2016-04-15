@@ -15,7 +15,7 @@ use strict;
 use Foswiki::Func                  ();
 use Foswiki::Plugins::JQueryPlugin ();
 use Assert;
-use Error ':try';
+use Try::Tiny;
 use JSON ();
 
 # SMELL: SubscribePlugin requires MailerContrib, which requires URI.  Require URI at compile time, so that SUBSCRIBE
@@ -71,7 +71,7 @@ sub initPlugin {
 
 # Show a button inviting (un)subscription to this topic
 sub _SUBSCRIBE {
-    my ( $session, $params, $topic, $web ) = @_;
+    my ( $app, $params, $topic, $web ) = @_;
 
     return ''
       unless ( Foswiki::Func::getContext()->{'SubscribePluginAllowed'} );
@@ -98,13 +98,13 @@ sub _SUBSCRIBE {
       _template_text( ( $doUnsubscribe ? 'un' : '' ) . 'subscribe', $render );
 
     my $action =
-      $session->i18n->maketext( $doUnsubscribe ? "Unsubscribe" : "Subscribe" );
+      $app->i18n->maketext( $doUnsubscribe ? "Unsubscribe" : "Subscribe" );
 
     $tmpl =~ s/\$action/$action/g;
     $tmpl =~ s/\$topic/$web.$topic/g;
     $tmpl =~ s/\$(subscriber|wikiname)/$who/g;
     $tmpl =~ s/\$remove/$unsubscribe/g;
-    $tmpl =~ s/\$nonce/_getNonce($session)/ge;
+    $tmpl =~ s/\$nonce/_getNonce($app)/ge;
 
     Foswiki::Plugins::JQueryPlugin::createPlugin("subscribe");
 
@@ -115,7 +115,7 @@ sub _SUBSCRIBE {
 # subscribe_subscriber (current user is used if missing)
 # unsubscribe (will unsubscribe if true, subscribe otherwise)
 sub _rest_subscribe {
-    my ( $session, $plugin, $verb, $response ) = @_;
+    my ( $app, $plugin, $verb, $response ) = @_;
     my $query = Foswiki::Func::getCgiQuery();
 
     ASSERT($query) if DEBUG;
@@ -160,7 +160,7 @@ sub _rest_subscribe {
 
     # Add new validation key to HTTP header
     if ( $Foswiki::cfg{Validation}{Method} eq 'strikeone' ) {
-        my $nonce = _getNonce($session);
+        my $nonce = _getNonce($app);
         $response->pushHeader( 'X-Foswiki-Validation' => $nonce )
           if defined $nonce;
     }
@@ -178,11 +178,11 @@ sub _rest_subscribe {
 }
 
 sub _getNonce {
-    my ($session) = @_;
+    my ($app) = @_;
     require Foswiki::Validation;
     my $query   = Foswiki::Func::getCgiQuery();
     my $context = $query->url( -full => 1, -path => 1, -query => 1 ) . time();
-    my $cgis    = $session->getCGISession();
+    my $cgis    = $app->users->getCGISession();
     return '' unless $cgis;
     if ( Foswiki::Validation->can('generateValidationKey') ) {
         return Foswiki::Validation::generateValidationKey( $cgis, $context, 1 );
@@ -248,8 +248,9 @@ sub _subscribe {
         $mess = _template_text( ( $unsubscribe ? 'un' : '' ) . 'subscribe_done',
             $subscriber, $web, $topics );
     }
-    catch Error with {
-        $mess = _template_text( 'cannot_change', shift->{-text} );
+    catch {
+        my $e = $_;
+        $mess = _template_text( 'cannot_change', ref($e) ? $e->text : $e );
         $status = 400;
     };
     return ( $mess, $status );

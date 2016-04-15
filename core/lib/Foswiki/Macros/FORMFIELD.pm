@@ -26,12 +26,10 @@ has _ffCache => (
 sub expand {
     my ( $this, $args, $topicObject ) = @_;
 
-    my $app = $this->app;
-
     if ( $args->{topic} ) {
         my $web = $args->{web} || $topicObject->web;
         my $topic = $args->{topic};
-        ( $web, $topic ) = $app->normalizeWebTopicName( $web, $topic );
+        ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
         $topicObject = $this->create(
             'Foswiki::Meta',
             web   => $web,
@@ -42,7 +40,7 @@ sub expand {
 
         # SMELL: horrible hack; assumes the current rev comes from the 'rev'
         # parameter. There has to be a better way!
-        my $query = $app->request;
+        my $query = $this->request;
         my $cgiRev;
         $cgiRev = $query->param('rev') if ($query);
         $args->{rev} =
@@ -75,12 +73,11 @@ sub expand {
         $format = '$value';
     }
 
-    # SMELL XXX This is not be stored directly on the app object!
     my $formTopicObject = $this->_ffCache->{ $topicObject->getPath() . $rev };
 
     unless ($formTopicObject) {
         $formTopicObject =
-          Foswiki::Meta->load( $app, $topicObject->web, $topicObject->topic,
+          Foswiki::Meta->load( $this, $topicObject->web, $topicObject->topic,
             $rev );
         unless ( $formTopicObject->haveAccess('VIEW') ) {
 
@@ -127,7 +124,7 @@ sub expand {
         $text =~ s/\$form(name)?/$fname/g;
     }
 
-    $text = $app->macros->expandStandardEscapes($text);
+    $text = $this->macros->expandStandardEscapes($text);
 
     # render nop exclamation marks before words as <nop>
     $text =~ s/!($Foswiki::regex{wikiWordRegex})/<nop>$1/gs;

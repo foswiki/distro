@@ -14,7 +14,7 @@ BEGIN {
 sub RENDERZONE {
     my ( $this, $params, $topicObject ) = @_;
 
-    my $zones = $this->app->zones;
+    my $zones = $this->zones;
 
     # Note, that RENDERZONE is not expanded as soon as this function is called.
     # Instead, a placeholder is inserted into the page. Rendering the current

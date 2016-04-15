@@ -15,6 +15,7 @@ use v5.14;
 use constant TRACE_REQUEST => 0;
 
 use Assert;
+use Carp;
 use Cwd;
 use CGI;
 use Try::Tiny;
@@ -206,11 +207,23 @@ has ui => (
 );
 has remoteUser => (
     is      => 'rw',
+    lazy    => 1,
     clearer => 1,
+    default => sub {
+        my $this = shift;
+        my $user = $this->has_user ? $this->user : undef;
+        return $this->users->loadSession($user);
+    },
 );
 has user => (
-    is      => 'rw',
-    clearer => 1,
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
+        my $this = shift;
+        return $this->users->initialiseUser( $this->remoteUser );
+    },
 );
 has users => (
     is        => 'rw',
@@ -326,7 +339,7 @@ sub BUILD {
     }
 
     unless ( $this->cfg->data->{isVALID} ) {
-        $this->cfg->bootstrap;
+        $this->cfg->bootstrapSystemSettings;
     }
 
     # Override user to be admin if no configuration exists.
@@ -374,10 +387,15 @@ sub run {
 
     try {
         local $SIG{__DIE__} = sub {
+
+            #Carp::cluck "die(" . $_[0] . ")";
             Foswiki::Exception::Fatal->rethrow( $_[0] );
         };
-        local $SIG{__WARN__} =
-          sub { Foswiki::Exception::Fatal->rethrow( $_[0] ); }
+        local $SIG{__WARN__} = sub {
+
+            #Carp::cluck "warn(" . $_[0] . ")";
+            Foswiki::Exception::Fatal->rethrow( $_[0] );
+          }
           if DEBUG;
 
         $app = Foswiki::App->new(%params);
@@ -428,12 +446,44 @@ sub handleRequest {
 
         $this->_checkActionAccess;
 
-        # Load (or create) the CGI session This initialization is better be kept
-        # here because $this->user may change later.
-        $this->remoteUser( $this->users->loadSession( $this->user ) );
-
         # Push global preferences from %SYSTEMWEB%.DefaultPreferences
         $this->prefs->loadDefaultPreferences();
+
+        # Static session variables that can be expanded in topics when they are
+        # enclosed in % signs
+        # SMELL: should collapse these into one. The duplication is pretty
+        # pointless.
+        $this->prefs->setInternalPreferences(
+            BASEWEB        => $req->web,
+            BASETOPIC      => $req->topic,
+            INCLUDINGWEB   => $req->web,
+            INCLUDINGTOPIC => $req->topic,
+        );
+
+        # Push plugin settings
+        $this->plugins->settings();
+
+        # Now the rest of the preferences
+        $this->prefs->loadSitePreferences();
+
+        # User preferences only available if we can get to a valid wikiname,
+        # which depends on the user mapper.
+        my $wn = $this->users->getWikiName( $this->user );
+        if ($wn) {
+            $this->prefs->setUserPreferences($wn);
+        }
+
+        $this->prefs->pushTopicContext( $req->web, $req->topic );
+
+        # Set both isadmin and authenticated contexts. If the current user is
+        # admin, then they either authenticated, or we are in bootstrap.
+        if ( $this->users->isAdmin( $this->user ) ) {
+            $this->context->{authenticated} = 1;
+            $this->context->{isadmin}       = 1;
+        }
+
+        # Finish plugin initialization - register handlers
+        $this->plugins->enable();
 
         my $method = $this->_dispatcherAttrs->{method};
         $this->_prepareContext;
@@ -1134,6 +1184,8 @@ sub _prepareEngine {
     # return an object of corresponding class.
     $engine = Foswiki::Engine::start( env => $env, app => $this, );
 
+    $this->cfg->data->{Engine} //= ref($engine);
+
     return $engine;
 }
 
@@ -1168,7 +1220,10 @@ sub _prepareDispatcher {
             status => 404,
             header => 'Not Found',
             text   => 'The requested URL '
-              . ( $this->engine->pathData->{uri} // '' )
+              . (
+                $this->engine->pathData->{uri}
+                  // 'action:' . $this->engine->pathData->{action}
+              )
               . ' was not found on this server.',
         );
     }
@@ -1250,7 +1305,7 @@ sub _checkBootstrapStage2 {
     # has been parsed.
     if ( $cfg->data->{isBOOTSTRAPPING} ) {
         my $phase2_message =
-          $cfg->bootstrapWebSettins( $this->request->action );
+          $cfg->bootstrapWebSettings( $this->request->action );
         $this->systemMessage(
             $this->engine->HTTPCompliant
             ? ( '<div class="foswikiHelp"> ' . $phase2_message . '</div>' )

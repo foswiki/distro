@@ -17,10 +17,10 @@ BEGIN {
 sub USERNAME {
     my ( $this, $params ) = @_;
 
-    $params->{format} = $this->app->prefs->getPreference('USERNAME')
+    $params->{format} = $this->prefs->getPreference('USERNAME')
       || '$username';
 
-    return $this->USERINFO($params);
+    return USERINFO( $this, $params );
 }
 
 1;

@@ -766,7 +766,8 @@ sub _expandMacroOnTopicRendering {
         my $attrs =
           new Foswiki::Attrs( $args, $this->contextFreeSyntax->{$tag} );
         if ( ref( $this->registered->{$tag} ) eq 'CODE' ) {
-            $e = $this->registered->{$tag}->( $this, $attrs, $topicObject );
+            $e =
+              $this->registered->{$tag}->( $this->app, $attrs, $topicObject );
         }
         else {
             # Create macro object unless it already exists.
@@ -831,7 +832,7 @@ sub _registerDefaultMacros {
 
         # deprecated, use ADDTOZONE instead
         ADDTOZONE     => undef,
-        ALLVARIABLES  => sub { $_[0]->app->prefs->stringify() },
+        ALLVARIABLES  => sub { $_[0]->prefs->stringify() },
         ATTACHURL     => undef,
         ATTACHURLPATH => undef,
         CHARSET       => sub { 'utf-8' },
@@ -900,14 +901,14 @@ sub _registerDefaultMacros {
           # topics used as templates for new topics)
           sub { $_[1]->{_RAW} ? $_[1]->{_RAW} : '<nop>' },
         PLUGINVERSION => sub {
-            $_[0]->app->plugins->getPluginVersion( $_[1]->{_DEFAULT} );
+            $_[0]->plugins->getPluginVersion( $_[1]->{_DEFAULT} );
         },
         PUBURL      => undef,
         PUBURLPATH  => undef,
         QUERY       => undef,
         QUERYPARAMS => undef,
         QUERYSTRING => sub {
-            my $s = $_[0]->app->request->queryString();
+            my $s = $_[0]->request->queryString();
 
             # Aggressively encode QUERYSTRING (even more than the
             # default) because it might be leveraged for XSS
@@ -919,7 +920,7 @@ sub _registerDefaultMacros {
 
           # DEPRECATED, now implemented using %ENV%
           #move to compatibility plugin in Foswiki 2.0
-          sub { $_[0]->app->request->remoteAddress() || ''; },
+          sub { $_[0]->request->remoteAddress() || ''; },
         REMOTE_PORT =>
 
           # DEPRECATED
@@ -931,19 +932,19 @@ sub _registerDefaultMacros {
         REMOTE_USER =>
 
           # DEPRECATED
-          sub { $_[0]->app->request->remoteUser() || '' },
+          sub { $_[0]->request->remoteUser() || '' },
         RENDERZONE    => undef,
         REVINFO       => undef,
         REVTITLE      => undef,
         REVARG        => undef,
-        SCRIPTNAME    => sub { $_[0]->app->request->action() },
+        SCRIPTNAME    => sub { $_[0]->request->action() },
         SCRIPTURL     => undef,
         SCRIPTURLPATH => undef,
         SEARCH        => undef,
         SEP =>
 
           # Shortcut to %TMPL:P{"sep"}%
-          sub { $_[0]->app->templates->expandTemplate('sep') },
+          sub { $_[0]->templates->expandTemplate('sep') },
         SERVERTIME => sub {
             Foswiki::Time::formatTime( time(), $_[1]->{_DEFAULT} || '',
                 'servertime' );
@@ -953,7 +954,7 @@ sub _registerDefaultMacros {
         SHOWPREFERENCE      => undef,
         SPACEDTOPIC         => undef,
         SPACEOUT            => undef,
-        'TMPL:P'            => sub { $_[0]->app->templates->tmplP( $_[1] ) },
+        'TMPL:P'            => sub { $_[0]->templates->tmplP( $_[1] ) },
         TOPICLIST           => undef,
         URLENCODE           => undef,
         URLPARAM            => undef,

@@ -447,7 +447,7 @@ sub loadSitePreferences {
     my $this = shift;
     if ( $Foswiki::cfg{LocalSitePreferences} ) {
         my ( $web, $topic ) =
-          $this->app->normalizeWebTopicName( undef,
+          $this->app->request->normalizeWebTopicName( undef,
             $Foswiki::cfg{LocalSitePreferences} );
         my $back = $this->_getBackend( $web, $topic );
         $this->main->newLevel($back);
