@@ -2347,8 +2347,9 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:100
 msgid ""
-"If your wiki uses an external password manager, then it may still safe to "
-"bulk register users.  Please contact %1 if you are unsure."
+"If your wiki uses an external password manager, and the users you want to "
+"register are known to the password manager, then bulk registration may still "
+"be useful.  Please contact %1 if you are unsure."
 msgstr ""
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
