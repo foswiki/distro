@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-01-08 16:07+0200\n"
+"PO-Revision-Date: 2016-04-17 12:05+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/it/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.1\n"
+"X-Generator: Weblate 2.4\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
@@ -642,7 +642,7 @@ msgstr "Modifica le preferenze per questa pagina."
 
 #: core/data/Main/GroupViewTemplate.txt:236
 msgid "Add users or groups to this group"
-msgstr "Aggiungi utenti o gruppi a questo gruppo"
+msgstr "Inserire utenti o gruppi da aggiungere a questo gruppo"
 
 #: core/templates/messages.tmpl:404
 msgid "Adding a %1 preference in WebPreferences"
@@ -4586,7 +4586,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."
-msgstr "Il tuo nome utente è stato rimosso dal Sistema di Autenticazione."
+msgstr "L'utente è stato rimosso dal Sistema di Autenticazione."
 
 #: core/templates/messages.tmpl:13
 msgid "Your user topic has not been renamed. Please e-mail %1 to request this."
