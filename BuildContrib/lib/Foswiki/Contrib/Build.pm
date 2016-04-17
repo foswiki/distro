@@ -50,10 +50,10 @@ our $libpath;       # $basedir/lib/
 our $VERSION;       # Version of BuildContrib
 our $RELEASE;       # Release of BuildContrib
 
-my $UPLOADSITEPUB           = 'http://foswiki.org/pub';
-my $UPLOADSITESCRIPT        = 'http://foswiki.org/bin';
+my $UPLOADSITEPUB           = 'https://foswiki.org/pub';
+my $UPLOADSITESCRIPT        = 'https://foswiki.org/bin';
 my $UPLOADSITESUFFIX        = '';
-my $UPLOADSITEBUGS          = 'http://foswiki.org/Tasks';
+my $UPLOADSITEBUGS          = 'https://foswiki.org/Tasks';
 my $UPLOADSITEEXTENSIONSWEB = "Extensions";
 my $DEFAULTCUSTOMERDB       = "$ENV{HOME}/customerDB";
 my $FOSWIKIAUTHORSFILE      = 'core/AUTHORS';
