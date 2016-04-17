@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-02-11 19:47+0200\n"
+"PO-Revision-Date: 2016-04-17 09:23+0200\n"
 "Last-Translator: Kenneth <kenneth@lavrsen.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.1\n"
+"X-Generator: Weblate 2.4\n"
 
 #: core/data/System/WikiName.txt:3
 msgid "!WikiName"
@@ -208,7 +208,7 @@ msgstr "%1 blev omdøbt eller flyttet fra %2 den %3 af %4"
 #. ("%SYSTEMWEB%.$pluginName",                "${templateName}Template")
 #: AutoViewTemplatePlugin/lib/Foswiki/Plugins/AutoViewTemplatePlugin.pm:97
 msgid "%1: Invalid template name (%2) - Contains invalid characters."
-msgstr "%1: Navnet for templaten (%1) indeholder ugyldige tegn."
+msgstr "%1: Sidenavnet for templaten (%2) indeholder ugyldige tegn."
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -1062,13 +1062,10 @@ msgid "Categories"
 msgstr "Kategorier"
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
-#, fuzzy
 msgid ""
 "Caution: The password system is currently read only. Users will not be added "
 "to the Password file."
-msgstr ""
-"Beklager, systemet der varetager adgangskoder tillader ikke ændringer, "
-"kontakt venligst %1"
+msgstr "Beklager, systemet der varetager adgangskoder tillader ikke ændringer."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
@@ -1740,7 +1737,7 @@ msgstr "Forstør edit-boks"
 
 #: core/templates/more.tmpl:102
 msgid "Enter __none__ to clear the topic parent"
-msgstr "Skriv __none__ for at fjerne forældernavn"
+msgstr "Lad feltet være tomt for at fjerne forældernavn"
 
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
