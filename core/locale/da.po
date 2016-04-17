@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-02-11 19:47+0200\n"
+"PO-Revision-Date: 2016-04-17 08:33+0200\n"
 "Last-Translator: Kenneth <kenneth@lavrsen.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/da/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.1\n"
+"X-Generator: Weblate 2.4\n"
 
 #: core/data/System/WikiName.txt:3
 msgid "!WikiName"
@@ -1725,7 +1725,7 @@ msgstr "Forstør edit-boks"
 
 #: core/templates/more.tmpl:102
 msgid "Enter __none__ to clear the topic parent"
-msgstr "Skriv __none__ for at fjerne forældernavn"
+msgstr "Lad feltet være tomt for at fjerne forældernavn"
 
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
