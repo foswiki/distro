@@ -1128,7 +1128,7 @@ msgstr "Muuta:"
 msgid "Change from"
 msgstr "Muuta:"
 
-#: core/data/System/LanguageSelector.txt:36
+#: core/data/System/LanguageSelector.txt:34
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Vaihda kieli"
@@ -1506,6 +1506,7 @@ msgstr "Debug"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:114
 #: NatEditPlugin/templates/edit.natedit.tmpl:150
+#: core/data/System/LanguageSelector.txt:25
 #, fuzzy
 msgid "Default"
 msgstr "Oletus-sivupohja"
@@ -2355,8 +2356,9 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:97
 msgid ""
-"If your wiki uses an external password manager, then it may still safe to "
-"bulk register users.  Please contact %1 if you are unsure."
+"If your wiki uses an external password manager, and the users you want to "
+"register are known to the password manager, then bulk registration may still "
+"be useful.  Please contact %1 if you are unsure."
 msgstr ""
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
@@ -5758,7 +5760,7 @@ msgstr ""
 msgid "Your email address will be kept confidential."
 msgstr ""
 
-#: core/templates/oopslanguagechanged.tmpl:14
+#: core/templates/oopslanguagechanged.tmpl:17
 #, fuzzy
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
 msgstr "Salasanasi on vaihdettu arvoon %1."

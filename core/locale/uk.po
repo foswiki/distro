@@ -13,8 +13,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.4\n"
 "X-Poedit-Language: Ukrainian\n"
 "X-Poedit-Country: UKRAINE\n"
@@ -1096,7 +1096,7 @@ msgstr "Змінити форму"
 msgid "Change from"
 msgstr "Змінити з"
 
-#: core/data/System/LanguageSelector.txt:36
+#: core/data/System/LanguageSelector.txt:34
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Зміна мови"
@@ -1460,6 +1460,7 @@ msgstr "Відладка"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:114
 #: NatEditPlugin/templates/edit.natedit.tmpl:150
+#: core/data/System/LanguageSelector.txt:25
 msgid "Default"
 msgstr "За умовчанням"
 
@@ -2285,9 +2286,11 @@ msgstr ""
 "з %1."
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:97
+#, fuzzy
 msgid ""
-"If your wiki uses an external password manager, then it may still safe to "
-"bulk register users.  Please contact %1 if you are unsure."
+"If your wiki uses an external password manager, and the users you want to "
+"register are known to the password manager, then bulk registration may still "
+"be useful.  Please contact %1 if you are unsure."
 msgstr ""
 "Масова реєстрація користувачів можлива навіть якщо ваша Вікі використовує "
 "зовнішній менеджер паролів. Зв'яжіться з %1 якщо Ви невпевнені."
@@ -5611,7 +5614,7 @@ msgstr ""
 msgid "Your email address will be kept confidential."
 msgstr "Ваша електронна адреса буде конфіденційною."
 
-#: core/templates/oopslanguagechanged.tmpl:14
+#: core/templates/oopslanguagechanged.tmpl:17
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
 msgstr "Вашу мову було змінено на %1. [[%2][Клікніть для продовження]]."
 
