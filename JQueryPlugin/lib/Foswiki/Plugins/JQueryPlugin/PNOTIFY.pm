@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::PNOTIFY;
-use strict;
-use warnings;
+use v5.14 l
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+  use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,24 +21,21 @@ Constructor
 
 =cut
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
 
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'PNotify',
-            version      => '1.2.0',
-            author       => 'Hunter Perrin',
-            homepage     => 'http://sciactive.com/pnotify/',
-            css          => ['jquery.pnotify.default.css'],
-            javascript   => ['jquery.pnotify.js'],
-            dependencies => ['ui']
-        ),
-        $class
+    return $orig->(
+        $class, @_,
+        name         => 'PNotify',
+        version      => '1.2.0',
+        author       => 'Hunter Perrin',
+        homepage     => 'http://sciactive.com/pnotify/',
+        css          => ['jquery.pnotify.default.css'],
+        javascript   => ['jquery.pnotify.js'],
+        dependencies => ['ui']
     );
-
-    return $this;
-}
+};
 
 1;
 

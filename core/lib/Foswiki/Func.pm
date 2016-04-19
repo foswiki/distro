@@ -146,7 +146,7 @@ Return: =$host= URL host, e.g. ="http://example.com:80"=
 sub getUrlHost {
     ASSERT($Foswiki::app) if DEBUG;
 
-    return $Foswiki::app->urlHost;
+    return $Foswiki::app->cfg->urlHost;
 }
 
 =begin TML

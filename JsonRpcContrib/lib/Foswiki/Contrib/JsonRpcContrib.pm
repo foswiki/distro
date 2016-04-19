@@ -1,10 +1,14 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Contrib::JsonRpcContrib;
+use v5.14;
 
-use strict;
-use warnings;
-use Foswiki::Request ();
+use Foswiki::Request                         ();
+use Foswiki::Contrib::JsonRpcContrib::Server ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
 
 BEGIN {
     # Backwards compatibility for Foswiki 1.1.x
@@ -27,22 +31,32 @@ our $SHORTDESCRIPTION  = 'JSON-RPC interface for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SERVER;
 
+has server => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        return $_[0]->create('Foswiki::Contrib::JsonRpcContrib::Server');
+    },
+    isa => Foswiki::Object::isaCLASS(
+        'SERVER',
+        'Foswiki::Contrib::JsonRpcContrib::Server',
+        noUndef => 1,
+    ),
+);
+
+sub BUILD {
+    my $this = shift;
+
+    $SERVER = $this->server;
+}
+
 sub registerMethod {
-    getServer()->registerMethod(@_);
+    $Foswiki::app->create(__PACKAGE__) unless $SERVER;
+    $SERVER->registerMethod(@_);
 }
 
 sub dispatch {
-    getServer()->dispatch(@_);
-}
-
-sub getServer {
-
-    unless ( defined $SERVER ) {
-        require Foswiki::Contrib::JsonRpcContrib::Server;
-        $SERVER = new Foswiki::Contrib::JsonRpcContrib::Server();
-    }
-
-    return $SERVER;
+    $_[0]->server->dispatch(@_);
 }
 
 1;

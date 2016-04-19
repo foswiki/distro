@@ -239,12 +239,6 @@ has zones => (
     predicate => 1,
     default   => sub { return $_[0]->create('Foswiki::Render::Zones'); },
 );
-has _dispatcherObject => (
-    is  => 'rw',
-    isa => Foswiki::Object::isaCLASS(
-        '_dispatcherObject', 'Foswiki::AppObject', noUndef => 1
-    ),
-);
 has _dispatcherAttrs => (
     is  => 'rw',
     isa => Foswiki::Object::isaHASH( '_dispatcherAttrs', noUndef => 1 ),
@@ -408,6 +402,15 @@ sub run {
             $e = Foswiki::Exception->transmute($e);
         }
 
+        if ( defined $app && defined $app->logger ) {
+            $app->logger->log(
+                {
+                    level => 'error',
+                    extra => [ $e->stringify ],
+                }
+            );
+        }
+
         # Low-level report of errors to user.
         if ( defined $app && defined $app->engine ) {
 
@@ -487,10 +490,14 @@ sub handleRequest {
 
         my $method = $this->_dispatcherAttrs->{method};
         $this->_prepareContext;
-        $this->_dispatcherObject->$method;
+        $this->ui->$method;
     }
     catch {
         my $e = $_;
+
+        # SMELL TODO At this stage we shall be able to display any expection in
+        # a pretty HTMLized way if engine is HTTPCompliant. Rethrowing of an
+        # exception is just a temporary stub.
         Foswiki::Exception::Fatal->rethrow($e);
     }
     finally {
@@ -966,7 +973,7 @@ sub getPubURL {
 
 =begin TML
 
----++ ObjectMethod systemMessage( $message )
+---++ ObjectMethod systemMessage( @messages )
 
 Adds a new system message to be displayed to a user (who most likely would be an
 admin) either as a banner on the top of a wiki topic or by a special macro.
@@ -977,8 +984,10 @@ This method is to be used with care when really necessary.
 
 sub systemMessage {
     my $this = shift;
-    my ($message) = @_;
-    push @{ $this->system_messages }, $message;
+    if (@_) {
+        push @{ $this->system_messages }, @_;
+    }
+    return join( '%BR%', @{ $this->system_messages } );
 }
 
 =begin TML
@@ -1242,7 +1251,7 @@ sub _prepareDispatcher {
 
     $dispatcher->{package} //= 'Foswiki::UI';
     $dispatcher->{method} //= $dispatcher->{function} || 'dispatch';
-    $this->_dispatcherObject( $this->create( $dispatcher->{package} ) );
+    $this->ui( $this->create( $dispatcher->{package} ) );
     $this->_dispatcherAttrs($dispatcher);
 }
 
@@ -1311,6 +1320,7 @@ sub _checkBootstrapStage2 {
             ? ( '<div class="foswikiHelp"> ' . $phase2_message . '</div>' )
             : $phase2_message
         );
+        $this->systemMessage( $cfg->bootstrapMessage );
     }
 }
 

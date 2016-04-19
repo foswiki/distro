@@ -2,20 +2,23 @@
 
 =begin TML
 
----+ package Foswiki::UI::Configure
+---+ Class Foswiki::UI::Configure
 
 UI delegate for configure function, used for editing the configuration.
 
 =cut
 
 package Foswiki::UI::Configure;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
 use Foswiki                  ();
 use Foswiki::Configure::Auth ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -33,15 +36,16 @@ BEGIN {
 =cut
 
 sub configure {
-    my $session = shift;
-    my $topic   = $session->topicName;
-    my $web     = $session->webName;
-    my $query   = $session->request;
+    my $this = shift;
 
-    my $tmplData =
-      $session->templates->readTemplate( 'configure', no_oops => 1 );
+    my $app   = $this->app;
+    my $req   = $app->request;
+    my $topic = $req->topic;
+    my $web   = $req->web;
 
-    $session->logger->log(
+    my $tmplData = $app->templates->readTemplate( 'configure', no_oops => 1 );
+
+    $app->logger->log(
         {
             level    => 'info',
             action   => 'configure',
@@ -49,7 +53,7 @@ sub configure {
         }
     );
 
-    Foswiki::Configure::Auth::checkAccess($session);
+    Foswiki::Configure::Auth::checkAccess($app);
 
     unless ( $Foswiki::cfg{Plugins}{ConfigurePlugin}{Enabled} ) {
         $tmplData =
@@ -76,10 +80,10 @@ next to the bin/ directory (where the scripts are run from).
 MESSAGE
     }
 
-    my $meta = Foswiki::Meta->new(
-        session => $session,
-        web     => $Foswiki::cfg{SystemWebName},
-        topic   => $Foswiki::cfg{SitePrefsTopicName}
+    my $meta = $this->create(
+        'Foswiki::Meta',
+        web   => $Foswiki::cfg{SystemWebName},
+        topic => $Foswiki::cfg{SitePrefsTopicName}
     );
 
     $tmplData = $meta->expandMacros($tmplData);
@@ -88,7 +92,7 @@ MESSAGE
     my $bs = $Foswiki::cfg{isBOOTSTRAPPING} ? 'true' : 'false';
     $tmplData =~ s/%BOOTSTRAPPED%/$bs/gs;
 
-    $session->writeCompletePage($tmplData);
+    $app->writeCompletePage($tmplData);
 }
 
 1;

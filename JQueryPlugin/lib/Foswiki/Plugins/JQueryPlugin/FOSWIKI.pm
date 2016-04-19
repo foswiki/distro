@@ -1,12 +1,14 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::FOSWIKI;
-use strict;
-use warnings;
+use v5.14;
+
 use Foswiki::Func;
 use Foswiki::Plugins;
-use Foswiki::Plugins::JQueryPlugin::Plugin;
 use JSON();
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -24,25 +26,22 @@ Constructor
 
 =cut
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
 
-    my $this = bless(
-        $class->SUPER::new(
-            name       => 'Foswiki',
-            version    => '2.10',
-            author     => 'Michael Daum',
-            homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
-            javascript => ['jquery.foswiki.js'],
-            dependencies =>
-              [ 'JQUERYPLUGIN', 'JQUERYPLUGIN::MIGRATE', 'livequery' ],
-            tags => 'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
-        ),
-        $class
+    return $orig->(
+        $class, @_,
+        name       => 'Foswiki',
+        version    => '2.10',
+        author     => 'Michael Daum',
+        homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
+        javascript => ['jquery.foswiki.js'],
+        dependencies =>
+          [ 'JQUERYPLUGIN', 'JQUERYPLUGIN::MIGRATE', 'livequery' ],
+        tags => 'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
     );
-
-    return $this;
-}
+};
 
 =begin TML
 
@@ -52,10 +51,11 @@ Initialize this plugin by adding the required static files to the html header
 
 =cut
 
-sub init {
+around init => sub {
+    my $orig = shift;
     my $this = shift;
 
-    return unless $this->SUPER::init();
+    return unless $orig->($this);
 
     # get exported prefs
     my $prefs = Foswiki::Func::getPreferencesValue('EXPORTEDPREFERENCES') || '';
@@ -102,7 +102,7 @@ sub init {
 
     Foswiki::Func::addToZone( "script", "JQUERYPLUGIN::FOSWIKI::PREFERENCES",
         $text, "JQUERYPLUGIN::FOSWIKI" );
-}
+};
 
 1;
 __END__

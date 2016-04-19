@@ -117,7 +117,12 @@ has uploads => (
     clearer => 1,
     isa     => Foswiki::Object::isaHASH( 'uploads', noUndef => 1 ),
 );
-has param_list => ( is => 'rw', lazy => 1, default => sub { return []; }, );
+
+# upload_list attribute keeps list of request uploads. Used to initialize
+# uploads attribute with corresponding =Foswiki::Request::Upload= instances.
+has upload_list => ( is => 'rw', lazy => 1, default => sub { [] }, );
+has param_list =>
+  ( is => 'rw', predicate => 1, lazy => 1, default => sub { [] }, );
 has method => (
     is      => 'rw',
     lazy    => 1,
@@ -172,7 +177,7 @@ has _pathParsed => (
     is      => 'rw',
     lazy    => 1,
     isa     => Foswiki::Object::isaHASH( '_pathParsed', noUndef => 1 ),
-    default => \&_establishWebTopic,
+    default => \&_establishAttributes,
 );
 
 # Aliases are to be declared after all attribute handling methods are been
@@ -508,6 +513,11 @@ sub multi_param {
 
 sub param {
     my ( $this, @p ) = @_;
+
+    # Simulate lazy init.
+    unless ( $this->has_param_list ) {
+        $this->_establishParamList;
+    }
 
     my ( $key, @value ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
 
@@ -1077,28 +1087,28 @@ sub prepare {
         );
     }
 
-    $req = $reqClass->new(%params);
+    $req = $app->create( $reqClass, %params );
 
     return $req;
 }
 
 =begin TML
 
----++ private ObjectMethod _establishWebTopic() ->  \%parsed_path_info
+---++ private ObjectMethod _establishAttributes() ->  \%parsed_path_info
 
 Used as default for =_pathParsed= attribute which is then used by
 =web,topic,invalidWeb,invalidTopic= attribute defaults.
 
 =cut
 
-sub _establishWebTopic {
+sub _establishAttributes {
     my $this = shift;
 
     # Allow topic= query param to override the path
     my $topicParam = $this->param('topic');
     my $pathInfo   = Foswiki::urlDecode( $this->pathInfo );
 
-    my $parse = Foswiki::Request::parse( $topicParam || $pathInfo );
+    my $parse = parse( $topicParam || $pathInfo );
 
     # Item3270 - here's the appropriate place to enforce spec
     # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270
@@ -1114,6 +1124,41 @@ sub _establishWebTopic {
     # Note that Web can still be undefined.  Caller then determines if the
     # defaultweb query param, or the HomeWeb config parameter should be used.
     return $parse;
+}
+
+=begin TML
+
+---++ private ObjectMethod _establishParamList() ->  \@params
+
+Used as default for =params_list= attribute.
+
+=cut
+
+sub _establishParamList {
+    my $this = shift;
+
+    my $engine = $this->app->engine;
+
+    return if $this->has_param_list;
+
+    # Initialize param_list before calling $this->param() to avoid deep
+    # recursion.
+    $this->param_list( [] );
+
+    my @params;
+    if ( $this->method ne 'POST' ) {
+        push @params, @{ $engine->queryParameters };
+    }
+
+    # Process body parameters idividually to take care of uploads.
+    foreach my $param ( @{ $engine->bodyParameters } ) {
+        if ( $param->{-upload} ) {
+            push @{ $this->upload_list }, $param->{-name};
+            delete $param->{-upload};
+        }
+        push @params, $param;
+    }
+    $this->param($_) foreach @params;
 }
 
 =begin TML

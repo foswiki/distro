@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::UI::TOOLTIP;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,24 +21,21 @@ Constructor
 
 =cut
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
 
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'UI::Tooltip',
-            version      => '1.10.4',
-            puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
-            author       => 'see http://jqueryui.com/about',
-            homepage     => 'http://api.jqueryui.com/tooltip/',
-            javascript   => ['jquery.ui.tooltip.init.js'],
-            dependencies => [ 'ui', ],
-        ),
-        $class
+    return $orig->(
+        $class, @_,
+        name         => 'UI::Tooltip',
+        version      => '1.10.4',
+        puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
+        author       => 'see http://jqueryui.com/about',
+        homepage     => 'http://api.jqueryui.com/tooltip/',
+        javascript   => ['jquery.ui.tooltip.init.js'],
+        dependencies => [ 'ui', ],
     );
-
-    return $this;
-}
+};
 
 1;
 

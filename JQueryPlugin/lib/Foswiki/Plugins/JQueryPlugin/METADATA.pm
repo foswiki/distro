@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::METADATA;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,23 +21,20 @@ Constructor
 
 =cut
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
 
-    my $this = bless(
-        $class->SUPER::new(
-            name    => 'Metadata',
-            version => '2.1ef2bb44c86f5d0e98d55',
-            author =>
-              'John Resig, Yehuda Katz, Joern Zaefferer, Paul <nop>McLanahan',
-            homepage   => 'https://github.com/MichaelDaum/jquery-metadata',
-            javascript => ['jquery.metadata.js'],
-        ),
-        $class
+    return $orig->(
+        $class, @_,
+        name    => 'Metadata',
+        version => '2.1ef2bb44c86f5d0e98d55',
+        author =>
+          'John Resig, Yehuda Katz, Joern Zaefferer, Paul <nop>McLanahan',
+        homepage   => 'https://github.com/MichaelDaum/jquery-metadata',
+        javascript => ['jquery.metadata.js'],
     );
-
-    return $this;
-}
+};
 
 1;
 __END__

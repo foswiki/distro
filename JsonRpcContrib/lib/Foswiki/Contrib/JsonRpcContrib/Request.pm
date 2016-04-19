@@ -15,25 +15,39 @@
 # As per the GPL, removal of this notice is prohibited.
 
 package Foswiki::Contrib::JsonRpcContrib::Request;
-
-use strict;
-use warnings;
+use v5.14;
 
 use JSON                                    ();
 use Encode                                  ();
 use Foswiki::Contrib::JsonRpcContrib::Error ();
-use Error qw( :try );
+use Try::Tiny;
 use Foswiki::Func    ();
 use Foswiki::Plugins ();
 use constant TRACE => 0;    # toggle me
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::AppObject);
+
+has data => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+    isa     => Foswiki::Object::isaHASH( 'data', noUndef => 1, ),
+);
+has namespace => ( is => 'rw', );
+has json => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { new JSON },
+);
+
 ###############################################################################
-sub new {
-    my ( $class, $session ) = @_;
+sub BUILD {
+    my $this = shift;
 
-    my $request = $session->{request};
-
-    my $this = bless( {}, $class );
+    my $app     = $this->app;
+    my $request = $app->request;
 
     # get json-rpc request object
     my $data = $request->param('POSTDATA');
@@ -49,7 +63,7 @@ sub new {
     $this->initFromString($data);
 
     # get namespace from path info, maybe separate a REST-like method as well
-    my $namespace = $request->pathInfo();
+    my $namespace = $request->pathInfo;
     my $method;
     if ( $namespace =~ /^\/?([^\/]+)(?:\/(.*))?$/ ) {
         $namespace = $1;
@@ -73,7 +87,7 @@ sub new {
     }
 
     # copy id from url params to  json-rpc request if required
-    my $id = $request->param('id') || $this->id();
+    my $id = $request->param('id') || $this->id;
     $this->id($id) if defined $id;
 
     # copy method to json-rpc request
@@ -83,30 +97,35 @@ sub new {
     # check that this is a http POST
     my $httpMethod = $request->method() || "jsonrpc";
 
-    throw Foswiki::Contrib::JsonRpcContrib::Error( -32600,
-        "Method must be POST" )
-      unless $httpMethod =~ /post|jsonrpc/i;
+    throw Foswiki::Contrib::JsonRpcContrib::Error(
+        code => -32600,
+        text => "Method must be POST"
+    ) unless $httpMethod =~ /post|jsonrpc/i;
 
     # some basic checks if this is a proper json-rpc 2.0 request
 
     # must have a version tag
     if ( ( $this->version() || '' ) ne "2.0" ) {
-        throw Foswiki::Contrib::JsonRpcContrib::Error( -32600,
-            "Invalid JSON-RPC request - must be jsonrpc: '2.0'" );
+        throw Foswiki::Contrib::JsonRpcContrib::Error(
+            code => -32600,
+            text => "Invalid JSON-RPC request - must be jsonrpc: '2.0'"
+        );
     }
 
     # must have a method
-    throw Foswiki::Contrib::JsonRpcContrib::Error( -32600,
-        "Invalid JSON-RPC request - no method" )
-      unless defined $this->method();
+    throw Foswiki::Contrib::JsonRpcContrib::Error(
+        code => -32600,
+        text => "Invalid JSON-RPC request - no method"
+    ) unless defined $this->method;
 
-    writeDebug( "method=" . $this->method() ) if TRACE;
+    writeDebug( "method=" . $this->method ) if TRACE;
 
     # must not have any other keys other than these
-    foreach my $key ( keys %{ $this->{data} } ) {
-        throw Foswiki::Contrib::JsonRpcContrib::Error( -32600,
-            "Invalid JSON-RPC request - unknown key $key" )
-          unless $key =~ /^(jsonrpc|method|params|id)$/;
+    foreach my $key ( keys %{ $this->data } ) {
+        throw Foswiki::Contrib::JsonRpcContrib::Error(
+            code => -32600,
+            text => "Invalid JSON-RPC request - unknown key $key"
+        ) unless $key =~ /^(jsonrpc|method|params|id)$/;
     }
 
     return $this;
@@ -117,18 +136,22 @@ sub initFromString {
     my ( $this, $data ) = @_;
 
     # parse json-rpc request
-    eval { $this->{data} = $this->json->decode($data); };
-
-    if ($@) {
-        my $error = $@;
-        $error =~ s/,? +at.*$//s;
-        throw Foswiki::Contrib::JsonRpcContrib::Error( -32700,
-            "Parse error - invalid json-rpc request: $error" );
+    try {
+        $this->data( $this->json->decode($data) );
     }
+    catch {
+        my $error = shift;
+        $error = $error->stringify if ref($error);
+        $error =~ s/,? +at.*$//s;
+        throw Foswiki::Contrib::JsonRpcContrib::Error(
+            code => -32700,
+            text => "Parse error - invalid json-rpc request: $error"
+        );
+    };
 
-    $this->{data}{params} ||= {};
+    $this->data->{params} ||= {};
 
-    return $this->{data};
+    return $this->data;
 }
 
 ##############################################################################
@@ -170,25 +193,6 @@ sub method {
     return $this->{data}{method};
 }
 
-##############################################################################
-sub namespace {
-    my ( $this, $value ) = @_;
-
-    $this->{namespace} = $value if defined $value;
-    return $this->{namespace};
-}
-
-##############################################################################
-sub json {
-    my $this = shift;
-
-    unless ( defined $this->{json} ) {
-        $this->{json} = new JSON;
-    }
-
-    return $this->{json};
-}
-
 ################################################################################
 # static
 sub writeDebug {
@@ -209,7 +213,6 @@ sub toSiteCharSet {
 
     # If the site charset is not utf-8, need to convert it
     # Leave this code using Encode:: - not used on UNICODE core.
-    require Encode;
     return Encode::encode(
         $Foswiki::cfg{Site}{CharSet},
         Encode::decode_utf8($string),

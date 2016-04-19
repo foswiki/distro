@@ -14,7 +14,7 @@ Refer to Foswiki::Engine documentation for explanation about methods below.
 package Foswiki::Engine::CGI;
 use v5.14;
 
-use CGI::Carp;
+use CGI::Carp qw(fatalsToBrowser);
 use Data::Dumper;
 
 use Foswiki                  ();
@@ -83,7 +83,28 @@ if ( defined $SAVE_DESTROY ) {
 has cgi => (
     is      => 'rw',
     clearer => 1,
+    lazy    => 1,
     isa     => Foswiki::Object::isaCLASS( 'cgi', 'CGI' ),
+    default => sub {
+        my $this = shift;
+
+        return unless $this->env->{CONTENT_LENGTH};
+
+        # Record the master process so we don't reap temp files in
+        # sub-processes (see long comment ****)
+        $CONSTRUCTOR_PID = $$;
+
+        # Note that we handle unicode conversion in the various prepare*
+        # methods, rather than using the CGI -utf8 option, which is documented
+        # as breaking uploads (though cdot believes this is because of the
+        # deprecated dual nature of param delivering lightweight file handles,
+        # and it would probably work in Foswiki. Just not tried it)
+        my $cgi = new CGI();
+        my $err = $cgi->cgi_error;
+        Foswiki::Exception::Engine->throw( status => $1, text => $2 )
+          if defined $err && $err =~ m/\s*(\d{3})\s*(.*)/;
+        return $cgi;
+    },
 );
 has uploads => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
 
@@ -157,12 +178,14 @@ around _prepareConnection => sub {
     };
 };
 
-around prepareQueryParameters => sub {
-    my $orig = shift;
-    my ( $this, $req ) = @_;
-    $orig->( $this, $req, $this->env->{QUERY_STRING} )
-      if $this->env->{QUERY_STRING};
-};
+# XXX The base class method now fetches QUERY_STRING on its own. So, why wasting
+# time on extra call?
+#around _prepareQueryParameters => sub {
+#    my $orig = shift;
+#    my ( $this, $req ) = @_;
+#    $orig->( $this, $req, $this->env->{QUERY_STRING} )
+#      if $this->env->{QUERY_STRING};
+#};
 
 around prepareHeaders => sub {
     my $orig = shift;
@@ -244,9 +267,8 @@ around _preparePath => sub {
     };
 };
 
-around prepareBody => sub {
-    my $orig = shift;
-    my ( $this, $req ) = @_;
+sub _prepareCGI {
+    my ($this) = @_;
 
     return unless $this->env->{CONTENT_LENGTH};
 
@@ -263,15 +285,16 @@ around prepareBody => sub {
     my $err = $cgi->cgi_error;
     Foswiki::Exception::Engine->throw( status => $1, text => $2 )
       if defined $err && $err =~ m/\s*(\d{3})\s*(.*)/;
-    $this->cgi($cgi);
-};
+    return $cgi;
+}
 
-around prepareBodyParameters => sub {
+around _prepareBodyParameters => sub {
     my $orig = shift;
-    my ( $this, $req ) = @_;
+    my $this = shift;
 
-    return unless $this->env->{CONTENT_LENGTH};
+    return [] unless $this->env->{CONTENT_LENGTH};
     my @plist = $this->cgi->multi_param();
+    my @params;
     foreach my $pname (@plist) {
         my $upname = NFC( Foswiki::decode_utf8($pname) );
         my @values;
@@ -283,12 +306,15 @@ around prepareBodyParameters => sub {
         else {
             @values = $this->cgi->multi_param($pname);
         }
-        $req->bodyParam( -name => $upname, -value => \@values );
+        my $param = { -name => $upname, -value => \@values };
 
         # Note that we record the encoded name of the upload. It will be
         # decoded in prepareUploads, which rewrites the {uploads} hash.
-        $this->uploads->{$pname} = 1 if scalar( $this->cgi->upload($pname) );
+        $param->{-upload} = 1 if scalar( $this->cgi->upload($pname) );
+
+        push @params, $param;
     }
+    return \@params;
 };
 
 around prepareUploads => sub {
@@ -312,6 +338,7 @@ around prepareUploads => sub {
 around finalizeUploads => sub {
     my $orig = shift;
     my ( $this, $res, $req ) = @_;
+    $orig->( $this, $res, $req );
 
     $req->delete($_) foreach keys %{ $req->uploads };
     $this->clear_cgi;

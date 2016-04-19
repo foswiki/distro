@@ -1068,8 +1068,9 @@ sub _populatePresets {
         context  => { changes => 1 },
     };
     $this->data->{SwitchBoard}{configure} = {
-        package  => 'Foswiki::UI::Configure',
-        function => 'configure'
+        package => 'Foswiki::UI::Configure',
+        method  => 'configure',
+        request => 'Foswiki::Request',
     };
     $this->data->{SwitchBoard}{edit} = {
         package  => 'Foswiki::UI::Edit',
@@ -1077,9 +1078,10 @@ sub _populatePresets {
         context  => { edit => 1 },
     };
     $this->data->{SwitchBoard}{jsonrpc} = {
-        package  => 'Foswiki::Contrib::JsonRpcContrib',
-        function => 'dispatch',
-        context  => { jsonrpc => 1 },
+        package => 'Foswiki::Contrib::JsonRpcContrib',
+        method  => 'dispatch',
+        request => 'Foswiki::Request',
+        context => { jsonrpc => 1 },
     };
     $this->data->{SwitchBoard}{login} = {
         package  => undef,
@@ -1166,9 +1168,10 @@ sub _populatePresets {
         allow    => { POST => 1 },
     };
     $this->data->{SwitchBoard}{viewfile} = {
-        package  => 'Foswiki::UI::Viewfile',
-        function => 'viewfile',
-        context  => { viewfile => 1 },
+        package => 'Foswiki::UI::Viewfile',
+        method  => 'viewfile',
+        context => { viewfile => 1 },
+        request => 'Foswiki::Request::Attachment',
     };
     $this->data->{SwitchBoard}{viewfileauth} =
       $this->data->{SwitchBoard}{viewfile};

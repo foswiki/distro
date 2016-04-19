@@ -15,17 +15,21 @@
 # As per the GPL, removal of this notice is prohibited.
 
 package Foswiki::Contrib::JsonRpcContrib::Server;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Error qw( :try );
+use Try::Tiny;
 use Foswiki::Func                              ();
 use Foswiki::Contrib::JsonRpcContrib::Error    ();
 use Foswiki::Contrib::JsonRpcContrib::Request  ();
 use Foswiki::Contrib::JsonRpcContrib::Response ();
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::AppObject);
+
 use constant TRACE => 0;    # toggle me
+
+has handler => ( is => 'rw', lazy => 1, default => sub { {} }, );
 
 # Error codes for json-rpc response
 # -32700: Parse error - Invalid JSON was received by the server.
@@ -46,22 +50,12 @@ sub writeDebug {
 }
 
 ################################################################################
-# constructor
-sub new {
-    my $class = shift;
-
-    my $this = bless( {}, $class );
-
-    return $this;
-}
-
-################################################################################
 sub registerMethod {
     my ( $this, $namespace, $method, $fnref, $options ) = @_;
 
     writeDebug("registerMethod($namespace, $method, $fnref)") if TRACE;
 
-    $this->{handler}{$namespace}{$method} = {
+    $this->handler->{$namespace}{$method} = {
         function => $fnref,
         options  => $options
     };
@@ -69,24 +63,32 @@ sub registerMethod {
 
 ################################################################################
 sub dispatch {
-    my ( $this, $session ) = @_;
+    my $this = shift;
+    my ($ui) = @_;
+
+    my $app = $ui->app;
 
     writeDebug("called dispatch") if TRACE;
 
-    $Foswiki::Plugins::SESSION = $session;
-    $this->{session} = $session;
-
     my $request;
     try {
-        $request = new Foswiki::Contrib::JsonRpcContrib::Request($session);
+        $request = $app->create('Foswiki::Contrib::JsonRpcContrib::Request');
     }
-    catch Foswiki::Contrib::JsonRpcContrib::Error with {
-        my $error = shift;
-        Foswiki::Contrib::JsonRpcContrib::Response->print(
-            $session,
-            code    => $error->{code},
-            message => $error->{message}
-        );
+    catch {
+        my $error = $_;
+        if ( ref($error)
+            && $error->isa('Foswiki::Contrib::JsonRpcContrib::Error') )
+        {
+            Foswiki::Contrib::JsonRpcContrib::Response->print(
+                $app,
+                code    => $error->code,
+                message => $error->text,
+            );
+        }
+        else {
+            # Shouldn't be here.
+            Foswiki::Exception::Fatal->rethrow($error);
+        }
     };
     return unless defined $request;
 
@@ -94,16 +96,18 @@ sub dispatch {
     #  other value derived from the namespace param
     my $topic = $request->param('topic')
       || $Foswiki::cfg{HomeTopicName};
-    ( $session->{webName}, $session->{topicName} ) =
+    my ( $jsrpcWeb, $jsrpcTopic ) =
       Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
         $topic );
+    $app->request->web($jsrpcWeb);
+    $app->request->topic($jsrpcTopic);
     writeDebug("topic=$topic") if TRACE;
 
     # get handler for this namespace
     my $handler = $this->getHandler($request);
     unless ( defined $handler ) {
         Foswiki::Contrib::JsonRpcContrib::Response->print(
-            $session,
+            $app,
             code    => -32601,
             message => "Invalid invocation - unknown handler for "
               . $request->namespace() . "."
@@ -118,9 +122,9 @@ sub dispatch {
     if ($userName) {
         writeDebug("checking password for $userName") if TRACE;
         my $pass = $request->param('password') || '';
-        unless ( $session->{users}->checkPassword( $userName, $pass ) ) {
+        unless ( $app->users->checkPassword( $userName, $pass ) ) {
             Foswiki::Contrib::JsonRpcContrib::Response->print(
-                $session,
+                $app,
                 code    => 401,
                 message => "Access denied",
                 id      => $request->id()
@@ -128,10 +132,9 @@ sub dispatch {
             return;
         }
 
-        my $cUID     = $session->{users}->getCanonicalUserID($userName);
-        my $wikiName = $session->{users}->getWikiName($cUID);
-        $session->{users}->getLoginManager()
-          ->userLoggedIn( $userName, $wikiName );
+        my $cUID     = $app->users->getCanonicalUserID($userName);
+        my $wikiName = $app->users->getWikiName($cUID);
+        $app->users->getLoginManager()->userLoggedIn( $userName, $wikiName );
     }
 
     # validate the request
@@ -140,12 +143,12 @@ sub dispatch {
         if (
             !defined($nonce)
             || !Foswiki::Validation::isValidNonce(
-                $session->getCGISession(), $nonce
+                $app->users->getCGISession(), $nonce
             )
           )
         {
             Foswiki::Contrib::JsonRpcContrib::Response->print(
-                $session,
+                $app,
                 code    => -32600,
                 message => "Invalid validation code",
                 id      => $request->id()
@@ -168,19 +171,30 @@ sub dispatch {
               . $request->method )
           if TRACE;
         $result =
-          &$function( $session, $request, $session->{response},
-            $handler->{options} );
+          &$function( $app, $request, $app->response, $handler->{options} );
         use strict 'refs';
     }
-    catch Foswiki::Contrib::JsonRpcContrib::Error with {
-        my $error = shift;
-        $result = $error->{message};
-        $code   = $error->{code};
-    }
-    catch Error::Simple with {
-        my $error = shift;
-        $result = $error->{-text};
-        $code   = 1;                 # unknown error
+    catch {
+        my $error = $_;
+        if ( ref($error) ) {
+            if ( $error->isa('Foswiki::Contrib::JsonRpcContrib::Error') ) {
+                $code = $error->code;
+            }
+            else {
+                $code = 1;    # Unknown error
+            }
+            if ( $error->isa('Foswiki::Exception') ) {
+                $result = $error->text;
+            }
+            else {
+                $result = $error->stringify;
+            }
+
+        }
+        else {
+            $result = $error;
+            $code   = 1;
+        }
     };
 
     # finally
@@ -192,14 +206,14 @@ sub dispatch {
         }
         else {
             $url =
-              $session->getScriptUrl( 1, 'view', $session->{webName},
+              $app->cfg->getScriptUrl( 1, 'view', $app->request->web,
                 $redirectto );
         }
-        $session->redirect($url);
+        $app->redirect($url);
     }
     else {
         Foswiki::Contrib::JsonRpcContrib::Response->print(
-            $session,
+            $app,
             code    => $code,
             message => $result,
             id      => $request->id()
@@ -219,7 +233,7 @@ sub getHandler {
     my $method = $request->method();
     return unless $method;
 
-    unless ( defined $this->{handler}{$namespace} ) {
+    unless ( defined $this->handler->{$namespace} ) {
 
         # lazy register handler
         if (   defined $Foswiki::cfg{JsonRpcContrib}{Handler}
@@ -249,9 +263,9 @@ sub getHandler {
         }
     }
 
-    return unless defined $this->{handler}{$namespace};
+    return unless defined $this->handler->{$namespace};
 
-    return $this->{handler}{$namespace}{$method};
+    return $this->handler->{$namespace}{$method};
 }
 
 1;

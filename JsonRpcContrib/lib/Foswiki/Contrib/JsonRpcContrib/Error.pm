@@ -15,25 +15,32 @@
 # As per the GPL, removal of this notice is prohibited.
 
 package Foswiki::Contrib::JsonRpcContrib::Error;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Exception);
 
-use Error ();
-our @ISA = ('Error');    # base class
+has code => ( is => 'rw', );
 
-sub new {
-    my ( $class, $code, $message ) = @_;
+around BUILDARGS => sub {
+    my $orig   = shift;
+    my $class  = shift;
+    my %params = @_;
 
-    return $class->SUPER::new(
-        code    => $code,
-        message => $message,
-    );
-}
+    $params{text} //= $params{message} if $params{message};
+
+    return $orig->( $class, %params );
+};
 
 sub stringify {
     my $this = shift;
-    return "Error($this->{code}): $this->{message}";
+    return "Error(" . $this->code . "): " . $this->text;
+}
+
+# Temporary method to keep compatibility with the old syntax.
+sub message {
+    return $_[0]->text;
 }
 
 1;

@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::MIGRATE;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,22 +21,19 @@ Constructor
 
 =cut
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
 
-    my $this = bless(
-        $class->SUPER::new(
-            name       => 'Migrate',
-            version    => '1.3.0',
-            author     => 'jQuery Foundation, Inc. and other contributors',
-            homepage   => 'https://github.com/jquery/jquery-migrate/',
-            javascript => ['jquery.migrate.js'],
-        ),
-        $class
+    return $orig->(
+        $class, @_,
+        name       => 'Migrate',
+        version    => '1.3.0',
+        author     => 'jQuery Foundation, Inc. and other contributors',
+        homepage   => 'https://github.com/jquery/jquery-migrate/',
+        javascript => ['jquery.migrate.js'],
     );
-
-    return $this;
-}
+};
 
 1;
 

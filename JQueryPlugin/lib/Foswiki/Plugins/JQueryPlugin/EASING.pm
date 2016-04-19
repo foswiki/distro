@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::EASING;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,22 +21,19 @@ Constructor
 
 =cut
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
 
-    my $this = bless(
-        $class->SUPER::new(
-            name       => 'Easing',
-            version    => '1.3',
-            author     => 'George <nop>McGinley Smith',
-            homepage   => 'http://gsgd.co.uk/sandbox/jquery/easing',
-            javascript => ['jquery.easing.js'],
-        ),
-        $class
+    return $orig->(
+        $class, @_,
+        name       => 'Easing',
+        version    => '1.3',
+        author     => 'George <nop>McGinley Smith',
+        homepage   => 'http://gsgd.co.uk/sandbox/jquery/easing',
+        javascript => ['jquery.easing.js'],
     );
-
-    return $this;
-}
+};
 
 1;
 

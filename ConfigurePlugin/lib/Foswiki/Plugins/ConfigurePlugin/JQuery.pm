@@ -3,17 +3,21 @@
 # See Plugin topic for history and plugin information
 
 package Foswiki::Plugins::ConfigurePlugin::JQuery;
-use strict;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin ();
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
-sub new {
-    my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
+around BUILDARGS => sub {
+    my $orig   = shift;
+    my $class  = shift;
+    my %params = @_;
 
-    my $this = $class->SUPER::new(
-        $session,
+    $params{app} //= $Foswiki::app;
+
+    return $orig->(
+        $class, %params,
         name          => 'Configure',
         version       => '1.0',
         author        => 'Crawford Currie',
@@ -28,11 +32,9 @@ sub new {
             'UI',           'JsonRpc',
             'UI::Tabs',     'pnotify',
             'UI::Tooltip',  'UI::Dialog'
-        ]
+        ],
     );
-
-    return $this;
-}
+};
 
 1;
 __END__

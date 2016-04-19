@@ -90,7 +90,6 @@ sub initPlugin {
       keys %Foswiki::Configure::Query::;
 
     foreach my $method (@methods) {
-
         Foswiki::Contrib::JsonRpcContrib::registerMethod( 'configure', $method,
             _JSONwrap("Foswiki::Configure::Query::$method") );
     }
@@ -105,19 +104,19 @@ sub initPlugin {
         $viewpath = $query->param('VIEWPATH');
         if ( defined $viewpath ) {
             $Foswiki::cfg{ScriptUrlPaths}{view} = $viewpath;
-            $Foswiki::Plugins::SESSION->getLoginManager()
+            $Foswiki::app->users->getLoginManager()
               ->setSessionValue( 'VIEWPATH', $viewpath );
             print STDERR "AUTOCONFIG: Applied viewpath $viewpath from URL\n"
               if (Foswiki::Configure::Load::TRAUTO);
         }
         else {
             $viewpath =
-              $Foswiki::Plugins::SESSION->getLoginManager()
+              $Foswiki::app->users->getLoginManager()
               ->getSessionValue('VIEWPATH');
             if ( defined $viewpath ) {
                 $Foswiki::cfg{ScriptUrlPaths}{view} = $viewpath;
                 print STDERR
-                  "AUTOCONFIG: Applied viewpath $viewpath from SESSION\n"
+                  "AUTOCONFIG: Applied viewpath $viewpath from app\n"
                   if (Foswiki::Configure::Load::TRAUTO);
             }
         }
@@ -138,10 +137,10 @@ sub initPlugin {
 sub _JSONwrap {
     my $method = shift;
     return sub {
-        my ( $session, $request ) = @_;
+        my ( $app, $request ) = @_;
 
         if ( $Foswiki::cfg{isVALID} ) {
-            Foswiki::Configure::Auth::checkAccess( $session, 1 );
+            Foswiki::Configure::Auth::checkAccess( $app, 1 );
         }
 
         my $reporter = Foswiki::Configure::Reporter->new();

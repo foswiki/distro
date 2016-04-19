@@ -290,7 +290,8 @@ sub load {
             $pluginDesc->{instance} = 0;
         }
         else {
-            $pluginDesc->{instance} = $pluginDesc->{class}->new();
+            $pluginDesc->{instance} =
+              $Foswiki::app->create( $pluginDesc->{class} );
         }
     }
 

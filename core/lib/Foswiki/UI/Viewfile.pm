@@ -1,16 +1,15 @@
 # See bottom of file for license and copyright information
 package Foswiki::UI::Viewfile;
+use v5.14;
 
 =begin TML
 
----+ package Foswiki::UI::Viewfile
+---+ Class Foswiki::UI::Viewfile
 
 UI delegate for viewfile function
 
 =cut
 
-use strict;
-use warnings;
 use integer;
 
 use Assert;
@@ -18,6 +17,10 @@ use Foswiki                ();
 use Foswiki::UI            ();
 use Foswiki::Sandbox       ();
 use Foswiki::OopsException ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -28,7 +31,7 @@ BEGIN {
 
 =begin TML
 
----++ StaticMethod viewfile( $session, $web, $topic, $query )
+---++ ObjectMethod viewfile( $web, $topic, $query )
 
 =viewfile= command handler.
 This method is designed to be
@@ -41,24 +44,26 @@ Some parameters are passed in CGI query:
 =cut
 
 sub viewfile {
-    my $session = shift;
+    my $this = shift;
 
-    my $query = $session->request;
+    my $app = $this->app;
+    my $req = $app->request;
+    my $env = $app->env;
 
-    my $web   = $session->webName;
-    my $topic = $session->topicName;
+    my $web   = $req->web;
+    my $topic = $req->topic;
 
     my $fileName;
     my $pathInfo;
 
-    if (   defined( $ENV{REDIRECT_STATUS} )
-        && $ENV{REDIRECT_STATUS} != 200
-        && defined( $ENV{REQUEST_URI} ) )
+    if (   defined( $env->{REDIRECT_STATUS} )
+        && $env->{REDIRECT_STATUS} != 200
+        && defined( $env->{REQUEST_URI} ) )
     {
 
         # this is a redirect - can be used to make 404,401 etc URL's
         # more foswiki tailored and is also used in TWikiCompatibility
-        $pathInfo = $ENV{REQUEST_URI};
+        $pathInfo = $env->{REQUEST_URI};
 
         # ignore parameters, as apache would.
         $pathInfo =~ s/^(.*)(\?|#).*/$1/;
@@ -66,17 +71,17 @@ sub viewfile {
         # SMELL: not store agnostic, assume the construction of pub urls
         $pathInfo =~ s|$Foswiki::cfg{PubUrlPath}||;    #remove pubUrlPath
     }
-    elsif ( defined( $query->param('filename') ) ) {
+    elsif ( defined( $req->param('filename') ) ) {
 
         # Attachment name is passed in URL params. This is a (possibly
         # / separated) path relative to the pub/Web/Topic
-        $fileName = $query->param('filename');
+        $fileName = $req->param('filename');
     }
     else {
 
         # This is a standard path extended by the attachment name e.g.
         # /Web/Topic/Attachment.gif
-        $pathInfo = Foswiki::urlDecode( $query->path_info() );
+        $pathInfo = Foswiki::urlDecode( $req->pathInfo );
     }
 
     # If we have path_info but no ?filename=
@@ -90,7 +95,7 @@ sub viewfile {
           Foswiki::Sandbox::untaint( $path[0],
             \&Foswiki::Sandbox::validateWebName );
 
-        while ( $pel && $session->webExists( join( '/', @web, $pel ) ) ) {
+        while ( $pel && $app->store->webExists( join( '/', @web, $pel ) ) ) {
             push( @web, $pel );
             shift(@path);
             $pel =
@@ -112,7 +117,7 @@ sub viewfile {
 
         # Must set the web name, otherwise plugins may barf if
         # they try to manipulate the topic context when an oops is generated.
-        $session->webName($web);
+        $req->web($web);
 
         # The next element on the path has to be the topic name
         $topic =
@@ -131,7 +136,7 @@ sub viewfile {
         }
 
         # See comment about webName above
-        $session->topicName($topic);
+        $req->topic($topic);
 
         # What's left in the path is the attachment name.
         $fileName = join( '/', @path );
@@ -155,9 +160,9 @@ sub viewfile {
 
     #print STDERR "VIEWFILE: web($web), topic($topic), file($fileName)\n";
 
-    my $rev = Foswiki::Store::cleanUpRevID( scalar( $query->param('rev') ) );
+    my $rev = Foswiki::Store::cleanUpRevID( scalar( $req->param('rev') ) );
     my $topicObject =
-      Foswiki::Meta->new( session => $session, web => $web, topic => $topic );
+      $this->create( 'Foswiki::Meta', web => $web, topic => $topic );
 
     # This check will fail if the attachment has no "presence" in metadata
     unless ( $topicObject->hasAttachment($fileName) ) {
@@ -172,11 +177,11 @@ sub viewfile {
     }
 
     # The whole point of viewfile....
-    Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
+    $this->checkAccess( 'VIEW', $topicObject );
 
     my $logEntry = $fileName;
     $logEntry .= ", r$rev" if $rev;
-    $session->logger->log(
+    $app->logger->log(
         {
             level    => 'info',
             action   => 'viewfile',
@@ -190,11 +195,11 @@ sub viewfile {
     my $type = _suffixToMimeType($fileName);
 
     #re-set to 200, in case this was a 404 or other redirect
-    $session->response->status(200);
+    $app->response->status(200);
 
 # Write a custom Content_Disposition header.  The -attachment option does not
 # write the file as "inline", so graphics would get a File Save dialog instead of displayed.
-    $session->response->header(
+    $app->response->header(
         -type                => $type,
         -content_disposition => "inline; filename=\"$fileName\""
     );
@@ -203,7 +208,7 @@ sub viewfile {
 
     # SMELL: Maybe could be less memory hungry if we could
     # set the response body to the file handle.
-    $session->response->body(<$fh>);
+    $app->response->body(<$fh>);
 }
 
 sub _suffixToMimeType {

@@ -28,9 +28,10 @@ has documentation => (
         return $documentation;
     },
 );
-has homepage   => ( is => 'rw', default => 'unknown', );
+has homepage => ( is => 'rw', default => 'unknown', );
 has javascript => ( is => 'rw', default => sub { [] }, );
-has name       => ( is => 'rw', default => $class, );
+has i18n => ( is => 'rw', );
+has name => ( is => 'rw', default => sub { return ref( $_[0] ); }, );
 has puburl => (
     is      => 'rw',
     lazy    => 1,
@@ -46,6 +47,7 @@ has summary => ( is => 'rw', );
 has tags => ( is => 'rw', default => sub { [] }, );
 has version  => ( is => 'rw', default => 'unknown', );
 has idPrefix => ( is => 'rw', default => 'JQUERYPLUGIN', );
+has isInit   => ( is => 'rw', default => 0, );
 
 =begin TML
 

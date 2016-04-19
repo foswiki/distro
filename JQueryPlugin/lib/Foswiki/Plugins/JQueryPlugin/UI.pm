@@ -1,11 +1,13 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::UI;
-use strict;
-use warnings;
-use Foswiki::Plugins                       ();
-use Foswiki::Plugins::JQueryPlugin         ();
-use Foswiki::Plugins::JQueryPlugin::Plugin ();
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+
+use Foswiki::Plugins               ();
+use Foswiki::Plugins::JQueryPlugin ();
+
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -23,24 +25,21 @@ Constructor
 
 =cut
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
 
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'UI',
-            version      => '1.10.4',
-            puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
-            author       => 'see http://jqueryui.com/about',
-            homepage     => 'http://api.jqueryui.com/',
-            javascript   => [ 'jquery-ui.js', ],
-            dependencies => [ 'metadata', 'livequery', 'easing' ],
-        ),
-        $class
+    return $orig->(
+        $class, @_,
+        name         => 'UI',
+        version      => '1.10.4',
+        puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
+        author       => 'see http://jqueryui.com/about',
+        homepage     => 'http://api.jqueryui.com/',
+        javascript   => [ 'jquery-ui.js', ],
+        dependencies => [ 'metadata', 'livequery', 'easing' ],
     );
-
-    return $this;
-}
+};
 
 =begin TML
 
@@ -50,14 +49,16 @@ Initialize this plugin by adding the required static files to the page
 
 =cut
 
-sub init {
+around init => sub {
+    my $orig = shift;
     my $this = shift;
 
-    return unless $this->SUPER::init();
+    return unless $orig->($this);
 
     # load default theme
     Foswiki::Plugins::JQueryPlugin::createTheme();
-}
+};
+
 1;
 
 __END__

@@ -15,54 +15,55 @@
 # As per the GPL, removal of this notice is prohibited.
 
 package Foswiki::Contrib::JsonRpcContrib::Response;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Assert;
 
-use JSON ();
+use Compress::Zlib ();
+use JSON           ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::AppObject);
+
 use constant TRACE => 0;    # toggle me
 
-################################################################################
-sub new {
-    my $class   = shift;
-    my $session = shift;
-
-    my $this = {
-        session => $session,
-        @_
-    };
-
-    return bless( $this, $class );
-}
+has id      => ( is => 'rw', );
+has message => ( is => 'rw', );
+has code    => ( is => 'rw', lazy => 1, default => 0, );
+has json => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        return JSON->new->pretty(DEBUG)->convert_blessed(1);
+    },
+);
 
 ##############################################################################
 # static constructor
 sub print {
-    my $class   = shift;
-    my $session = shift;
+    my $class = shift;
+    my $app   = shift;
 
-    my $this     = $class->new( $session, @_ );
-    my $response = $this->{session}->{response};
-    my $text     = $this->encode();
+    my $this     = $app->create( $class, @_ );
+    my $response = $this->app->response;
+    my $text     = $this->encode;
     my $hopts    = {
-        'status' => $this->code() ? 500 : 200,
+        'status' => $this->code ? 500 : 200,
         'Content-Type' => 'application/json',
     };
 
     # SMELL: code duplication with core ($Foswiki::UNICODE only)
-    my $encoding = $ENV{'HTTP_ACCEPT_ENCODING'} || 'gzip';
+    my $encoding = $app->env->{'HTTP_ACCEPT_ENCODING'} || 'gzip';
     $encoding =~ s/^.*(x-gzip|gzip).*/$1/g;
     my $compressed = 0;
 
-    if ( $Foswiki::cfg{HttpCompress} || $ENV{'SPDY'} ) {
+    if ( $Foswiki::cfg{HttpCompress} || $app->env->{'SPDY'} ) {
         $hopts->{'Content-Encoding'} = $encoding;
         $hopts->{'Vary'}             = 'Accept-Encoding';
-        require Compress::Zlib;
-        $text       = Encode::encode_utf8($text);
-        $text       = Compress::Zlib::memGzip($text);
-        $compressed = 1;
+        $text                        = Encode::encode_utf8($text);
+        $text                        = Compress::Zlib::memGzip($text);
+        $compressed                  = 1;
     }
 
     $response->setDefaultHeaders($hopts);
@@ -75,45 +76,21 @@ sub print {
     }
 }
 
-##############################################################################
-sub id {
-    my ( $this, $value ) = @_;
-
-    $this->{id} = $value if defined $value;
-    return $this->{id};
-}
-
-##############################################################################
-sub code {
-    my ( $this, $value ) = @_;
-
-    $this->{code} = $value if defined $value;
-    return ( $this->{code} || 0 );
-}
-
-##############################################################################
-sub message {
-    my ( $this, $value ) = @_;
-
-    $this->{message} = $value if defined $value;
-    return $this->{message};
-}
-
 ################################################################################
 sub isError {
     my $this = shift;
 
-    return ( $this->code() == 0 ) ? 0 : 1;
+    return ( $this->code == 0 ) ? 0 : 1;
 }
 
 ################################################################################
 sub encode {
     my $this = shift;
 
-    my $code    = $this->code();
-    my $message = $this->message();
+    my $code    = $this->code;
+    my $message = $this->message;
 
-    if ( $this->isError() ) {
+    if ( $this->isError ) {
         $message = {
             jsonrpc => "2.0",
             error   => {
@@ -129,21 +106,10 @@ sub encode {
         };
     }
 
-    my $id = $this->id();
+    my $id = $this->id;
     $message->{id} = $id if defined $id;
 
     return $this->json->encode($message);
-}
-
-################################################################################
-sub json {
-    my $this = shift;
-
-    unless ( defined $this->{json} ) {
-        $this->{json} = JSON->new->pretty(DEBUG)->convert_blessed(1);
-    }
-
-    return $this->{json};
 }
 
 1;

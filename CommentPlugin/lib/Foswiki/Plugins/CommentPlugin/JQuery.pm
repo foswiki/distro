@@ -3,17 +3,16 @@
 # See Plugin topic for history and plugin information
 
 package Foswiki::Plugins::CommentPlugin::JQuery;
-use strict;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin ();
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
-
-    my $this = $class->SUPER::new(
-        $session,
+    return $orig->(
+        $class, @_,
         name          => 'Comment',
         version       => '3.0',
         author        => 'Crawford Currie',
@@ -23,9 +22,7 @@ sub new {
         css           => ["comment.css"],
         javascript    => ["comment.js"]
     );
-
-    return $this;
-}
+};
 
 1;
 __END__

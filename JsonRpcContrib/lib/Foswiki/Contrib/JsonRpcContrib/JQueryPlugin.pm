@@ -1,11 +1,10 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Contrib::JsonRpcContrib::JQueryPlugin;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin ();
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -23,24 +22,21 @@ Constructor
 
 =cut
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
 
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'JsonRpc',
-            version      => '1.0',
-            author       => 'Michael Daum',
-            homepage     => 'http://foswiki.org/Extensions/JsonRpcContrib',
-            javascript   => ['jquery.jsonrpc.js'],
-            puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JsonRpcContrib',
-            dependencies => ['JQUERYPLUGIN::JSON2'],
-        ),
-        $class
+    return $orig->(
+        $class, @_,
+        name         => 'JsonRpc',
+        version      => '1.0',
+        author       => 'Michael Daum',
+        homepage     => 'http://foswiki.org/Extensions/JsonRpcContrib',
+        javascript   => ['jquery.jsonrpc.js'],
+        puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JsonRpcContrib',
+        dependencies => ['JQUERYPLUGIN::JSON2'],
     );
-
-    return $this;
-}
+};
 
 =begin TML
 
@@ -50,11 +46,12 @@ add json2 for browsers <= IE7
 
 =cut
 
-sub init {
+around init => sub {
+    my $orig = shift;
     my $this = shift;
-    return 0 if $this->{isInit};
+    return 0 if $this->isInit;
 
-    $this->SUPER::init();
+    $orig->( $this, @_ );
 
     my $text = '';
 
@@ -70,7 +67,7 @@ HERE
     }
 
     Foswiki::Func::addToZone( 'script', 'JQUERYPLUGIN::JSON2', $text );
-}
+};
 
 1;
 

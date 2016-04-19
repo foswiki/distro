@@ -1,13 +1,21 @@
 # ---+ Extensions
 # ---++ JsonRpcContrib
-# **PERL H LABEL="SwitchBoard - jsonrpc"** 
+# **PERL H LABEL="SwitchBoard - jsonrpc"**
 # This setting is required to enable executing jsonrpc from the bin directory
-$Foswiki::cfg{SwitchBoard}{jsonrpc} = ['Foswiki::Contrib::JsonRpcContrib', 'dispatch', {jsonrpc => 1}];
+$Foswiki::cfg{SwitchBoard}{jsonrpc} = {
+    package => 'Foswiki::Contrib::JsonRpcContrib',
+    method  => 'dispatch',
+    request => 'Foswiki::Request',
+    context => { jsonrpc => 1 },
+};
+
 # ---++ JQueryPlugin
 # ---+++ Extra plugins
 # **BOOLEAN LABEL="JsonRPC"**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{JsonRpc}{Enabled} = 1;
+
 # **STRING LABEL="JsonRPC Module" EXPERT**
-$Foswiki::cfg{JQueryPlugin}{Plugins}{JsonRpc}{Module} = 'Foswiki::Contrib::JsonRpcContrib::JQueryPlugin';
+$Foswiki::cfg{JQueryPlugin}{Plugins}{JsonRpc}{Module} =
+  'Foswiki::Contrib::JsonRpcContrib::JQueryPlugin';
 
 1;

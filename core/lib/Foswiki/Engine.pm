@@ -79,6 +79,22 @@ has connectionData =>
 
 =begin TML
 
+---++ ObjectAttribute queryParameters and bodyParameters
+
+Parameter attributes are arrays of hashrefs with keys =-name= and =-value= where
+the former is a plain string and the latter may be either a scalar or an
+arrayref. In addition to those two =bodyParamaters= element hashref may contain
+additional key =-upload= which value is boolean. 
+
+=cut
+
+has queryParameters =>
+  ( is => 'rw', lazy => 1, builder => '_prepareQueryParameters', );
+has bodyParameters =>
+  ( is => 'rw', lazy => 1, builder => '_prepareBodyParameters', );
+
+=begin TML
+
 ---++ ObjectAttribute HTMLcompliant
 
 Boolean. True if engine is HTTP compliant. For now the only false is possible
@@ -205,11 +221,9 @@ sub prepare {
 
     try {
         $req = $this->create('Foswiki::Request');
-        $this->prepareQueryParameters($req);
         $this->prepareHeaders($req);
         $this->prepareCookies($req);
         $this->prepareBody($req);
-        $this->prepareBodyParameters($req);
         $this->prepareUploads($req);
     }
     catch {
@@ -279,42 +293,31 @@ Initializer method of =connectionData= attribute.
 
 sub _prepareConnection { }
 
-=begin TML
+# Initializer for queryParameters attribute.
+sub _prepareQueryParameters {
+    my $this = shift;
+    my ($queryString) = @_;
 
----++ ObjectMethod prepareQueryParameters( $req, $queryString )
+    # Shall be able to cover most HTTP environments.
+    $queryString //= $this->env->{QUERY_STRING} || ''
+      if $this->HTTPCompliant;
 
-Populates $req with parameters extracted by parsing a
-byte string (which may include url-encoded characters, which may
-in turn be parts of utf8-encoded characters).
-
-Note that parameter names and values are decoded to unicode.
-
-=cut
-
-sub prepareQueryParameters {
-    my ( $this, $req, $queryString ) = @_;
     my @pairs = split /[&;]/, $queryString;
     my ( $param, $value, %params, @plist );
     foreach my $pair (@pairs) {
         ( $param, $value ) = split( '=', $pair, 2 );
 
-        # url decode
-        if ( defined $value ) {
-            $value =~ tr/+/ /;
-            $value =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
-            $value = NFC( Foswiki::decode_utf8($value) );
-        }
         if ( defined $param ) {
+            if ( defined $value ) {
+                $value =~ tr/+/ /;
+                $value = NFC( Foswiki::urlDecode($value) );
+            }
             $param =~ tr/+/ /;
-            $param =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
-            $param = NFC( Foswiki::decode_utf8($param) );
-            push( @{ $params{$param} }, $value );
-            push( @plist,               $param );
+            $param = NFC( Foswiki::urlDecode($param) );
+            push @plist, { -name => $param, -value => $value };
         }
     }
-    foreach my $param (@plist) {
-        (undef) = $req->queryParam( $param, $params{$param} );
-    }
+    return \@plist;
 }
 
 =begin TML
@@ -360,33 +363,8 @@ sub prepareCookies {
       if $req->header('Cookie');
 }
 
-=begin TML
-
----++ ObjectMethod prepareBody( $req )
-
-Abstract method, must be defined by inherited classes.
-   * =$req= - Foswiki::Request object to populate
-
-Should perform any initialization tasks related to body processing.
-
-=cut
-
-sub prepareBody { }
-
-=begin TML
-
----++ ObjectMethod prepareBodyParameters( $req )
-
-Abstract method, must be defined by inherited classes.
-   * =$req= - Foswiki::Request object to populate
-
-Should fill $req's body parameters (parameters that are set in the
-request body, as against the query string). Implementations must
-convert parameter values to unicode.
-
-=cut
-
-sub prepareBodyParameters { }
+# Abstract initializer for bodyParameters
+sub _prepareBodyParameters { return []; }
 
 =begin TML
 

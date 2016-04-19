@@ -850,13 +850,14 @@ sub _registerDefaultMacros {
                 $cfg->data->{DisplayTimeValues}
             );
         },
-        ENCODE    => undef,
-        ENV       => undef,
-        EXPAND    => undef,
-        FORMAT    => undef,
-        FORMFIELD => undef,
-        FOSWIKI_BROADCAST =>
-          sub { $_[0]->app->system_message || $Foswiki::system_message || '' },
+        ENCODE            => undef,
+        ENV               => undef,
+        EXPAND            => undef,
+        FORMAT            => undef,
+        FORMFIELD         => undef,
+        FOSWIKI_BROADCAST => sub {
+            $_[0]->app->systemMessage || $Foswiki::system_message || '';
+        },
         GMTIME => sub {
             Foswiki::Time::formatTime( time(), $_[1]->{_DEFAULT} || '',
                 'gmtime' );
