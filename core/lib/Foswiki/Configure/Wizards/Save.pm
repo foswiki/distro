@@ -163,8 +163,8 @@ sub save {
     # though if an extension was installed from the shell when we weren't
     # looking it might be required.
     my %added;
-    Foswiki::Configure::LoadSpec::addSpecDefaultsToCfg( $root, \%Foswiki::cfg,
-        \%added );
+    Foswiki::Configure::LoadSpec::addSpecDefaultsToCfg( $root,
+        $Foswiki::app->cfg->data, \%added );
 
     my ( $old_content, $backup, @backups ) =
       _backupCurrentContent( $lsc, $reporter );
@@ -174,7 +174,7 @@ sub save {
     if ( defined $old_content && $old_content =~ m/^(.*)$/s ) {
 
         # Eval the old LSC and extract the content (assuming we can)
-        local %Foswiki::cfg;
+        my $holder = $Foswiki::app->cfg->localize;
         {
             our $FALSE = 0;
             our $TRUE  = 1;
@@ -186,11 +186,11 @@ sub save {
             # Continue, but will be unable to detect changes
         }
         else {
-            %orig_content = %Foswiki::cfg;
+            %orig_content = %{ $Foswiki::app->cfg->data };
 
             # Clean out deprecated settings, so they don't occlude the
             # replacements
-            foreach my $key ( keys %Foswiki::Configure::Load::remap ) {
+            foreach my $key ( keys %Foswiki::Config::remap ) {
                 $old_content =~ s/\$\QFoswiki::cfg$key\E\s*=.*?;\s*//sg;
             }
         }
@@ -199,14 +199,14 @@ sub save {
     unless ( defined $old_content ) {
 
         # Construct a new LocalSite.cfg from the spec
-        local %Foswiki::cfg = ();
+        my $holder = $Foswiki::app->cfg->localize;
 
         #---++ StaticMethod readConfig([$noexpand][,$nospec][,$config_spec])
-        Foswiki::Configure::Load::readConfig( 1, 0, 1 );
+        $Foswiki::app->cfg->readConfig( 1, 0, 1 );
         delete $Foswiki::cfg{ConfigurationFinished};
-        $old_content =
-            STD_HEADER
-          . join( '', _generateLSC( $root, \%Foswiki::cfg, '', $reporter ) )
+        $old_content = STD_HEADER
+          . join( '',
+            _generateLSC( $root, $Foswiki::app->cfg->data, '', $reporter ) )
           . "1;\n";
     }
 
@@ -225,10 +225,10 @@ sub save {
             delete $Foswiki::cfg{BOOTSTRAP};
         }
 
-        %Foswiki::cfg = ();
+        $Foswiki::app->cfg->clear_data;
 
         # Read without expansions but with the .spec
-        Foswiki::Configure::Load::readConfig( 1, 0, 1 );
+        $Foswiki::app->cfg->readConfig( 1, 0, 1 );
 
         # apply bootstrapped settings
         # print STDERR join( '', _generateLSC( $root, \%save, '', $reporter ) );
@@ -236,10 +236,10 @@ sub save {
         die "Internal error: $@" if ($@);
     }
     else {
-        %Foswiki::cfg = ();
+        $Foswiki::app->cfg->clean_data;
 
         # Read without expansions but with the .spec
-        Foswiki::Configure::Load::readConfig( 1, 0, 1 );
+        $Foswiki::app->cfg->readConfig( 1, 0, 1 );
     }
 
     # Get changes from 'set' *without* expanding values. this is
@@ -308,15 +308,16 @@ sub save {
 
     delete $Foswiki::cfg{ConfigurationFinished};
     my $new_content =
-        STD_HEADER
-      . join( '', _generateLSC( $root, \%Foswiki::cfg, '', $reporter ) )
+      STD_HEADER
+      . join( '',
+        _generateLSC( $root, $Foswiki::app->cfg->data, '', $reporter ) )
       . "1;\n";
 
     if ( $new_content ne $old_content ) {
         if (DEBUG) {
 
             # Sanity check; can we eval the new content?
-            local %Foswiki::cfg;
+            my $holder = $Foswiki::app->cfg->localize;
             eval $new_content;
             die "***INTERNAL ERROR*** COULD NOT REREAD NEW LSC\n$@" if $@;
         }
@@ -368,8 +369,8 @@ sub save {
 
         if (%orig_content) {
             my @report;
-            _compareConfigs( $root, \%orig_content, \%Foswiki::cfg, \@report,
-                $logger, '' );
+            _compareConfigs( $root, \%orig_content, $Foswiki::app->cfg->data,
+                \@report, $logger, '' );
             if ( scalar @report ) {
                 $reporter->NOTE( "| *Key* | *Old* | *New* |", @report );
             }
@@ -505,7 +506,7 @@ sub _logAndReport {
     }
 }
 
-# $datum starts as \%Foswiki::cfg and recurses down the hash tree
+# $datum starts as $Foswiki::app->cfg->data and recurses down the hash tree
 sub _generateLSC {
     my ( $spec, $datum, $keys, $reporter ) = @_;
 

@@ -287,7 +287,7 @@ sub _getLogsForLevel {
       # to log to locations relative to $Foswiki::cfg{WorkingDir}, DataDir, etc.
       # Windows seemed to be the most difficult to fix - this was the only thing
       # that I could find that worked all the time.
-        Foswiki::Configure::Load::expandValue($log);
+        $Foswiki::app->cfg->expandValue($log);
         $logs{$log} = 1;
     }
 

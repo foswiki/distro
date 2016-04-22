@@ -54,7 +54,7 @@ sub bootstrapStore {
 
         print STDERR
 "AUTOCONFIG: Unable to use PlainFileStore: ,v files were found in data or pub, which indicates this installation is already configured for RCS e.g. $hit\n"
-          if (Foswiki::Configure::Load::TRAUTO);
+          if (Foswiki::Config::TRAUTO);
 
         # See if there is any evidence of PlainFileStore
         if (
@@ -80,7 +80,7 @@ sub bootstrapStore {
     {
         $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
         print STDERR "AUTOCONFIG: Store configured for PlainFile\n"
-          if (Foswiki::Configure::Load::TRAUTO);
+          if (Foswiki::Config::TRAUTO);
     }
 }
 

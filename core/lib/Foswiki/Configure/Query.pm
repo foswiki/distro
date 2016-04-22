@@ -6,7 +6,6 @@ use strict;
 use warnings;
 
 use Assert;
-
 use Foswiki::Configure::Load     ();
 use Foswiki::Configure::Root     ();
 use Foswiki::Configure::LoadSpec ();
@@ -114,8 +113,8 @@ sub getcfg {
     my ( $params, $reporter ) = @_;
 
     # Reload Foswiki::cfg without expansions
-    local %Foswiki::cfg = ( Engine => $Foswiki::cfg{Engine} );
-    Foswiki::Configure::Load::readConfig( 1, 1 );
+    $Foswiki::app->cfg->localize( Engine => $Foswiki::cfg{Engine} );
+    $Foswiki::app->cfg->readConfig( 1, 1 );
 
     my $keys = $params->{keys};    # expect a list
     my $what;
@@ -140,7 +139,7 @@ sub getcfg {
                     return undef;
                 }
                 Foswiki::Configure::LoadSpec::addSpecDefaultsToCfg( $root,
-                    \%Foswiki::cfg );
+                    $Foswiki::app->cfg->data );
             }
             unless ( eval("exists \$Foswiki::cfg$key") ) {
                 $reporter->ERROR("$key not defined");
@@ -155,7 +154,7 @@ sub getcfg {
         }
     }
     else {
-        $what = \%Foswiki::cfg;
+        $what = $Foswiki::app->cfg->data;
     }
     return $what;
 }
@@ -238,23 +237,25 @@ sub getspec {
 
     # Reload Foswiki::cfg without expansions so we get the unexpanded
     # values in the spec structure
-    my $upper_cfg = \%Foswiki::cfg;
-    local %Foswiki::cfg = ( Engine => $Foswiki::cfg{Engine} );
-    if ( $upper_cfg->{isBOOTSTRAPPING} ) {
+    my %upper_cfg = %{ $Foswiki::app->cfg->data };
+    my $holder =
+      $Foswiki::app->cfg->localize( Engine => $Foswiki::cfg{Engine} );
+    if ( $upper_cfg{isBOOTSTRAPPING} ) {
 
         # If we're bootstrapping, retain the values calculated in
         # the bootstrap process. They are almost certainly wrong,
         # but are a better starting point that the .spec defaults.
-        %Foswiki::cfg = %$upper_cfg;
+        $Foswiki::app->cfg->data( \%upper_cfg );
     }
-    Foswiki::Configure::Load::readConfig( 1, 1 );
+    $Foswiki::app->cfg->readConfig( 1, 1 );
 
     my $root = Foswiki::Configure::Root->new();
     Foswiki::Configure::LoadSpec::readSpec( $root, $reporter );
     if ( $reporter->has_level('errors') ) {
         return undef;
     }
-    Foswiki::Configure::LoadSpec::addCfgValuesToSpec( \%Foswiki::cfg, $root );
+    Foswiki::Configure::LoadSpec::addCfgValuesToSpec( $Foswiki::app->cfg->data,
+        $root );
 
     my $depth  = $params->{depth};
     my $search = $params->{get};
@@ -309,7 +310,7 @@ key) will be checked, and *not* the subkey.
 sub check_current_value {
     my ( $params, $frep ) = @_;
 
-    local %Foswiki::cfg = %Foswiki::cfg;
+    my $holder = $Foswiki::app->cfg->localize;
 
     # Load the spec files
     my $root = Foswiki::Configure::Root->new();
@@ -373,8 +374,9 @@ sub check_current_value {
 
         # Reload Foswiki::cfg without expansions so we can find
         # string-embedded dependencies
-        local %Foswiki::cfg = ( Engine => $Foswiki::cfg{Engine} );
-        Foswiki::Configure::Load::readConfig( 1, 0, 1 );
+        my $holder =
+          $Foswiki::app->cfg->localize( Engine => $Foswiki::cfg{Engine} );
+        $Foswiki::app->cfg->readConfig( 1, 0, 1 );
         if ( $params->{with} ) {
             while ( my ( $k, $v ) = each %{ $params->{with} } ) {
                 eval("\$Foswiki::cfg$k=$v");

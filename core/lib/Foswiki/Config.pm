@@ -24,6 +24,7 @@ use Foswiki qw(urlEncode urlDecode make_params);
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::AppObject);
+with qw(Foswiki::Aux::Localize);
 
 # Enable to trace auto-configuration (Bootstrap)
 use constant TRAUTO => 1;
@@ -64,17 +65,22 @@ has data => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
+    isa     => Foswiki::Object::isaHASH( 'data', noUndef => 1, ),
     default => sub {
         my $this = shift;
         my $data = {};
-
-        # Alias ::cfg for compatibility. Though $app->cfg should be preferred
-        # way of accessing config.
-        *Foswiki::cfg = $data;
-        *TWiki::cfg   = $data;
+        $this->_setupGLOBs($data);
         return $data;
     },
+    trigger => sub {
+        my $this = shift;
+        $this->_setupGLOBs( $this->{data} );
+    },
 );
+
+# _dataStack is a storage for configurations active upon localize() method
+# calls.
+has _dataStack => ( is => 'rw', lazy => 1, default => sub { [] }, );
 
 =begin TML
 ---++ Attribute files
@@ -217,6 +223,37 @@ sub _workOutOS {
         # Erm.....
         $this->data->{OS} = 'UNIX';
     }
+}
+
+=begin TML
+
+---++ ObjectMethod localize( %init ) => $holder
+
+This methods preserves current =data= attribute on =_dataStack= and sets =data=
+to the values provided in =%init=.
+
+See also: =Foswiki::Aux::Localize=
+
+=cut
+
+around localize => sub {
+    my $orig = shift;
+    my $this = shift;
+    my %init = @_;
+
+    push @{ $this->_dataStack }, $this->data;
+
+    $this->data( \%init );
+
+    return $orig->($this);
+};
+
+# Restores the last configuration data stored on the stack.
+sub restore {
+    my $this = shift;
+
+    ASSERT( @{ $this->_dataStack } > 0, "Configuration data stack is empty" );
+    $this->data( pop @{ $this->_dataStack } );
 }
 
 =begin TML
@@ -1391,20 +1428,22 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
       unless defined $this->data->{ForceUnsafeRegexes};
 }
 
+sub _setupGLOBs {
+    my $this = shift;
+    my ($data) = @_;
+
+    # Alias ::cfg for compatibility. Though $app->cfg should be preferred
+    # way of accessing config.
+    *Foswiki::cfg = $data;
+    *TWiki::cfg   = $data;
+}
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-Additional copyrights apply to some or all of the code in this
-file as follows:
-
-Copyright (C) 1999-2006 TWiki Contributors. All Rights Reserved.
-TWiki Contributors are listed in the AUTHORS file in the root of
-this distribution. NOTE: Please extend that file, not this notice.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

@@ -73,18 +73,20 @@ around _prepareConnection => sub {
     my $this = shift;
     return {
         remoteAddress => '127.0.0.1',
-        method        => $this->env->{FOSWIKI_ACTION},
+        method        => $this->env->{FOSWIKI_ACTION} // 'GET',
     };
 };
 
-around prepareQueryParameters => sub {
+around _prepareQueryParameters => sub {
     my $orig = shift;
     my ( $this, $req ) = @_;
+    my @params;
     foreach my $name ( @{ $this->plist } ) {
-        $req->param( -name => $name, -value => $this->params->{$name} );
+        push @params, { -name => $name, -value => $this->params->{$name} };
     }
     $this->clear_plist;
     $this->clear_params;
+    return \@params;
 };
 
 around prepareHeaders => sub {

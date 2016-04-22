@@ -98,7 +98,7 @@ Foswiki.spec, which must be found on the @INC path and is always loaded
 first. Then find all settings for extensions in their .spec files.
 
 This *only* reads type specifications, it *does not* read values. For that,
-use Foswiki::Configure::Load::readConfig.
+use $Foswiki::app->cfg->readConfig().
 
    * =$root= - Foswiki::Configure::Root of the model
 

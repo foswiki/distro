@@ -58,7 +58,7 @@ sub bootstrapStore {
 
         print STDERR
 "AUTOCONFIG: Unable to use RCSStore: ,pfv files were found in data or pub, which indicates this installation is already configured for PlainFileStore e.g. $hit\n"
-          if (Foswiki::Configure::Load::TRAUTO);
+          if (Foswiki::Config::TRAUTO);
         if (
             Foswiki::Configure::FileUtil::findFileOnTree(
                 $Foswiki::cfg{DataDir}, qr/,v$/, qr/,pfv$/ )
@@ -78,7 +78,7 @@ sub bootstrapStore {
     unless ( $Foswiki::cfg{Store}{Implementation} ) {
         $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite';
         print STDERR "AUTOCONFIG: Store configured for RcsLite\n"
-          if (Foswiki::Configure::Load::TRAUTO);
+          if (Foswiki::Config::TRAUTO);
     }
 }
 

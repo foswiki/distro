@@ -79,6 +79,12 @@ sub dispatch {
         if ( ref($error)
             && $error->isa('Foswiki::Contrib::JsonRpcContrib::Error') )
         {
+            $app->logger->log(
+                {
+                    level => 'error',
+                    extra => [ $error->stringify ],
+                }
+            );
             Foswiki::Contrib::JsonRpcContrib::Response->print(
                 $app,
                 code    => $error->code,
@@ -175,7 +181,8 @@ sub dispatch {
         use strict 'refs';
     }
     catch {
-        my $error = $_;
+        my $error  = $_;
+        my $logStr = '';
         if ( ref($error) ) {
             if ( $error->isa('Foswiki::Contrib::JsonRpcContrib::Error') ) {
                 $code = $error->code;
@@ -185,16 +192,23 @@ sub dispatch {
             }
             if ( $error->isa('Foswiki::Exception') ) {
                 $result = $error->text;
+                $logStr = $error->stringify;
             }
             else {
-                $result = $error->stringify;
+                $logStr = $result = $error->stringify;
             }
 
         }
         else {
-            $result = $error;
-            $code   = 1;
+            $logStr = $result = $error;
+            $code = 1;
         }
+        $app->logger->log(
+            {
+                level => 'error',
+                extra => [$logStr],
+            }
+        );
     };
 
     # finally
