@@ -1080,7 +1080,9 @@ sub getScriptUrl {
 sub _populatePresets {
     my $this = shift;
 
-    $this->data->{SwitchBoard} //= {};
+    my $cfgData = $this->data;
+
+    $cfgData->{SwitchBoard} //= {};
 
     # package - perl package that contains the method for this request
     # function - name of the function in package
@@ -1094,67 +1096,66 @@ sub _populatePresets {
     # and should be used when declaring scripts from plugins that must work
     # with Foswiki 1.0.0 and 1.0.4.
 
-    $this->data->{SwitchBoard}{attach} = {
+    $cfgData->{SwitchBoard}{attach} = {
         package  => 'Foswiki::UI::Attach',
         function => 'attach',
         context  => { attach => 1 },
     };
-    $this->data->{SwitchBoard}{changes} = {
+    $cfgData->{SwitchBoard}{changes} = {
         package  => 'Foswiki::UI::Changes',
         function => 'changes',
         context  => { changes => 1 },
     };
-    $this->data->{SwitchBoard}{configure} = {
+    $cfgData->{SwitchBoard}{configure} = {
         package => 'Foswiki::UI::Configure',
         method  => 'configure',
         request => 'Foswiki::Request',
     };
-    $this->data->{SwitchBoard}{edit} = {
+    $cfgData->{SwitchBoard}{edit} = {
         package  => 'Foswiki::UI::Edit',
         function => 'edit',
         context  => { edit => 1 },
     };
-    $this->data->{SwitchBoard}{jsonrpc} = {
+    $cfgData->{SwitchBoard}{jsonrpc} = {
         package => 'Foswiki::Contrib::JsonRpcContrib',
         method  => 'dispatch',
         request => 'Foswiki::Request',
         context => { jsonrpc => 1 },
     };
-    $this->data->{SwitchBoard}{login} = {
+    $cfgData->{SwitchBoard}{login} = {
         package  => undef,
         function => 'logon',
         context  => { ( login => 1, logon => 1 ) },
     };
-    $this->data->{SwitchBoard}{logon} = {
+    $cfgData->{SwitchBoard}{logon} = {
         package  => undef,
         function => 'logon',
         context  => { ( login => 1, logon => 1 ) },
     };
-    $this->data->{SwitchBoard}{manage} = {
+    $cfgData->{SwitchBoard}{manage} = {
         package  => 'Foswiki::UI::Manage',
         function => 'manage',
         context  => { manage => 1 },
         allow    => { POST => 1 },
     };
-    $this->data->{SwitchBoard}{oops} = {
+    $cfgData->{SwitchBoard}{oops} = {
         package  => 'Foswiki::UI::Oops',
         function => 'oops_cgi',
         context  => { oops => 1 },
     };
-    $this->data->{SwitchBoard}{preview} = {
+    $cfgData->{SwitchBoard}{preview} = {
         package  => 'Foswiki::UI::Preview',
         function => 'preview',
         context  => { preview => 1 },
     };
-    $this->data->{SwitchBoard}{previewauth} =
-      $this->data->{SwitchBoard}{preview};
-    $this->data->{SwitchBoard}{rdiff} = {
+    $cfgData->{SwitchBoard}{previewauth} = $cfgData->{SwitchBoard}{preview};
+    $cfgData->{SwitchBoard}{rdiff}       = {
         package  => 'Foswiki::UI::RDiff',
         function => 'diff',
         context  => { diff => 1 },
     };
-    $this->data->{SwitchBoard}{rdiffauth} = $this->data->{SwitchBoard}{rdiff};
-    $this->data->{SwitchBoard}{register}  = {
+    $cfgData->{SwitchBoard}{rdiffauth} = $cfgData->{SwitchBoard}{rdiff};
+    $cfgData->{SwitchBoard}{register}  = {
         package  => 'Foswiki::UI::Register',
         function => 'register_cgi',
         context  => { register => 1 },
@@ -1162,7 +1163,7 @@ sub _populatePresets {
         # method verify must allow GET; protect in Foswiki::UI::Register
         #allow => { POST => 1 },
     };
-    $this->data->{SwitchBoard}{rename} = {
+    $cfgData->{SwitchBoard}{rename} = {
         package  => 'Foswiki::UI::Rename',
         function => 'rename',
         context  => { rename => 1 },
@@ -1170,55 +1171,64 @@ sub _populatePresets {
         # Rename is 2 stage; protect in Foswiki::UI::Rename
         #allow => { POST => 1 },
     };
-    $this->data->{SwitchBoard}{resetpasswd} = {
+    $cfgData->{SwitchBoard}{resetpasswd} = {
         package  => 'Foswiki::UI::Passwords',
         function => 'resetPassword',
         context  => { resetpasswd => 1 },
         allow    => { POST => 1 },
     };
-    $this->data->{SwitchBoard}{rest} = {
+    $cfgData->{SwitchBoard}{rest} = {
         package  => 'Foswiki::UI::Rest',
         function => 'rest',
         context  => { rest => 1 },
     };
-    $this->data->{SwitchBoard}{restauth} = $this->data->{SwitchBoard}{rest};
-    $this->data->{SwitchBoard}{save}     = {
+    $cfgData->{SwitchBoard}{restauth} = $cfgData->{SwitchBoard}{rest};
+    $cfgData->{SwitchBoard}{save}     = {
         package  => 'Foswiki::UI::Save',
         function => 'save',
         context  => { save => 1 },
         allow    => { POST => 1 },
     };
-    $this->data->{SwitchBoard}{search} = {
+    $cfgData->{SwitchBoard}{search} = {
         package  => 'Foswiki::UI::Search',
         function => 'search',
         context  => { search => 1 },
     };
-    $this->data->{SwitchBoard}{statistics} = {
+    $cfgData->{SwitchBoard}{statistics} = {
         package  => 'Foswiki::UI::Statistics',
         function => 'statistics',
         context  => { statistics => 1 },
     };
-    $this->data->{SwitchBoard}{upload} = {
+    $cfgData->{SwitchBoard}{upload} = {
         package  => 'Foswiki::UI::Upload',
         function => 'upload',
         context  => { upload => 1 },
         allow    => { POST => 1 },
     };
-    $this->data->{SwitchBoard}{viewfile} = {
+    $cfgData->{SwitchBoard}{viewfile} = {
         package => 'Foswiki::UI::Viewfile',
         method  => 'viewfile',
         context => { viewfile => 1 },
         request => 'Foswiki::Request::Attachment',
     };
-    $this->data->{SwitchBoard}{viewfileauth} =
-      $this->data->{SwitchBoard}{viewfile};
-    $this->data->{SwitchBoard}{view} = {
+    $cfgData->{SwitchBoard}{viewfileauth} = $cfgData->{SwitchBoard}{viewfile};
+    $cfgData->{SwitchBoard}{view}         = {
         package  => 'Foswiki::UI::View',
         function => 'view',
         context  => { view => 1 },
         request  => 'Foswiki::Request',
     };
-    $this->data->{SwitchBoard}{viewauth} = $this->data->{SwitchBoard}{view};
+    $cfgData->{SwitchBoard}{viewauth} = $cfgData->{SwitchBoard}{view};
+
+    # List of supported engines. Used by =Foswiki::Engine::start()= method.
+    $cfgData->{EngineList} = [
+        'CGI',
+
+        #'Apache',
+        #'FastCGI',
+        'CLI'
+        , # CLI engine probe() method always return true because this is the last resort engine.
+    ];
 }
 
 # Try to guess values which are not set.

@@ -36,9 +36,10 @@ use CGI ();
 
 use Assert;
 use Try::Tiny;
-use IO::File ();
-use CGI::Util qw(rearrange);
+use IO::File    ();
 use Time::HiRes ();
+use CGI::Cookie ();
+use CGI::Util qw(rearrange);
 
 use constant TRACE => 0;
 
@@ -107,9 +108,19 @@ has uri => (
           // $this->url( -absolute => 1, -path => 1, -query => 1 );
     },
 );
-has cookies => ( is => 'rw', lazy => 1, default => sub { {} }, );
-has headers => ( is => 'rw', lazy => 1, default => sub { {} }, );
-has _param  => ( is => 'rw', lazy => 1, default => sub { {} }, );
+has cookies => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        my $this = shift;
+        if ( my $cookieHdr = $this->header('Cookie') ) {
+            return scalar( CGI::Cookie->parse($cookieHdr) );
+        }
+        return {};
+    },
+);
+has headers => ( is => 'rw', lazy => 1, default => \&_establishHeaders, );
+has _param => ( is => 'rw', lazy => 1, default => sub { {} }, );
 has uploads => (
     is      => 'rw',
     lazy    => 1,
@@ -120,6 +131,7 @@ has uploads => (
 
 # upload_list attribute keeps list of request uploads. Used to initialize
 # uploads attribute with corresponding =Foswiki::Request::Upload= instances.
+# SMELL Isn't it needed for engine code only?
 has upload_list => ( is => 'rw', lazy => 1, default => sub { [] }, );
 has param_list =>
   ( is => 'rw', predicate => 1, lazy => 1, default => sub { [] }, );
@@ -565,7 +577,6 @@ sub param {
 =cut
 
 sub cookie {
-    eval { require CGI::Cookie; 1 } or throw Error::Simple($@);
     my ( $this, @p ) = @_;
     my ( $name, $value, $path, $secure, $expires ) =
       rearrange( [ 'NAME', [qw(VALUE VALUES)], 'PATH', 'SECURE', 'EXPIRES' ],
@@ -662,18 +673,30 @@ Foswiki::Response =header= method.
 
 =cut
 
+sub _setHeader {
+    my $this       = shift;
+    my $headerHash = shift;
+    my ( $key, @value ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @_ );
+
+    if ($key) {
+        $key =~ tr/_/-/;
+        $key = lc($key);
+
+        if ( defined $value[0] ) {
+            $headerHash->{$key} =
+              ref $value[0] eq 'ARRAY' ? $value[0] : [@value];
+        }
+    }
+
+    return $key;
+}
+
 sub header {
-    my ( $this, @p ) = @_;
-    my ( $key, @value ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
+    my $this = shift;
+
+    my $key = $this->_setHeader( $this->headers, @_ );
 
     return keys %{ $this->headers } unless $key;
-    $key =~ tr/_/-/;
-    $key = lc($key);
-
-    if ( defined $value[0] ) {
-        $this->headers->{$key} =
-          ref $value[0] eq 'ARRAY' ? $value[0] : [@value];
-    }
     if ( defined $this->headers->{$key} ) {
         return wantarray
           ? @{ $this->headers->{$key} }
@@ -1124,6 +1147,26 @@ sub _establishAttributes {
     # Note that Web can still be undefined.  Caller then determines if the
     # defaultweb query param, or the HomeWeb config parameter should be used.
     return $parse;
+}
+
+=begin TML
+
+---++ private ObjectMethod _establishHeaders() ->  \%headers
+
+Used as default for =headers= attribute.
+
+=cut
+
+sub _establishHeaders {
+    my $this = shift;
+
+    my $engine  = $this->app->engine;
+    my $headers = {};
+
+    $this->_setHeader( $headers, $_, $engine->headers->{$_} )
+      foreach keys %{ $engine->headers };
+
+    return $headers;
 }
 
 =begin TML

@@ -211,7 +211,7 @@ has remoteUser => (
     clearer => 1,
     default => sub {
         my $this = shift;
-        my $user = $this->has_user ? $this->user : undef;
+        my $user = $this->has_user ? $this->user : $this->app->engine->user;
         return $this->users->loadSession($user);
     },
 );

@@ -1,9 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::TwistyPlugin::TWISTY;
-use strict;
-use warnings;
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -21,24 +21,25 @@ Constructor
 
 =cut
 
-sub new {
+around BUILDARGS => sub {
+    my $orig  = shift;
     my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
 
-    my $this = bless(
-        $class->SUPER::new(
-            $session,
-            name         => 'Twisty',
-            version      => '1.6.0',
-            author       => 'Rafael Alvarez, Michael Daum, Arthur Clemens',
-            homepage     => 'http://foswiki.org/Extensions/TwistyPlugin',
-            puburl       => '%PUBURLPATH%/%SYSTEMWEB%/TwistyPlugin',
-            dependencies => [ 'livequery', 'JavascriptFiles/foswikiPref' ],
-            javascript   => ['jquery.twisty.js'],
-            css          => ['twisty.css']
-        ),
-        $class
+    return $orig->(
+        $class, @_,
+        name         => 'Twisty',
+        version      => '1.6.0',
+        author       => 'Rafael Alvarez, Michael Daum, Arthur Clemens',
+        homepage     => 'http://foswiki.org/Extensions/TwistyPlugin',
+        puburl       => '%PUBURLPATH%/%SYSTEMWEB%/TwistyPlugin',
+        dependencies => [ 'livequery', 'JavascriptFiles/foswikiPref' ],
+        javascript   => ['jquery.twisty.js'],
+        css          => ['twisty.css']
     );
+};
+
+sub BUILD {
+    my $this = shift;
 
     # The jquery plugin code is using 'sub-cookies' within the FOSWIKIPREF
     # cookie.
@@ -46,8 +47,6 @@ sub new {
       Foswiki::Func::expandTemplate('JavascriptFiles/foswikiPref');
 
     Foswiki::Func::expandCommonVariables($foswikiPrefs);
-
-    return $this;
 }
 
 1;

@@ -452,9 +452,11 @@ sub check_current_value {
             if ( $e =~ m/\S/ ) {
                 my $only_if;
                 eval("\$only_if=$e");
-                die "Syntax error in $spec->{keys} CHECK='iff:$e' - "
-                  . Foswiki::Configure::Reporter::stripStacktrace($@)
-                  if $@;
+                if ($@) {
+                    my $errStr = ref($@) ? $@->stringify : $@;
+                    die "Syntax error in $spec->{keys} CHECK='iff:$e' - "
+                      . Foswiki::Configure::Reporter::stripStacktrace($errStr);
+                }
                 next SPEC unless $only_if;
             }
         }

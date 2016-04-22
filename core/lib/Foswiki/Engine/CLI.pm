@@ -27,8 +27,7 @@ extends qw(Foswiki::Engine);
 use constant HTTP_COMPLIANT => 0;
 
 has path_info => ( is => 'rw', predicate => 1, );
-has user => ( is => 'rw', );
-has plist  => ( is => 'rw', lazy => 1, clearer => 1, default => sub { [] }, );
+has plist => ( is => 'rw', lazy => 1, clearer => 1, default => sub { [] }, );
 has params => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
 
 BEGIN {
@@ -37,6 +36,9 @@ BEGIN {
         import locale();
     }
 }
+
+# CLI is the last resort engine. Thus – always return true on probe.
+sub probe { 1; }
 
 around BUILDARGS => sub {
     my $orig   = shift;
@@ -89,21 +91,21 @@ around _prepareQueryParameters => sub {
     return \@params;
 };
 
-around prepareHeaders => sub {
+# This initializer will be called only when no =user= parameter is set by the
+# object constructor.
+around _prepareUser => sub {
     my $orig = shift;
-    my ( $this, $req ) = @_;
-    if ( defined $this->user ) {
-        $req->remoteUser( $this->user );
-        $this->clear_user;
-    }
-    else {
+    my $this = shift;
+    my $user = $orig->($this);
+    if ( !$user ) {
         if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
-            $req->remoteUser( $Foswiki::cfg{AdminUserLogin} );
+            $user = $Foswiki::cfg{AdminUserLogin};
         }
         else {
-            $req->remoteUser( $Foswiki::cfg{AdminUserWikiName} );
+            $user = $Foswiki::cfg{AdminUserWikiName};
         }
     }
+    return $user;
 };
 
 around _preparePath => sub {
@@ -143,8 +145,6 @@ around prepareUploads => sub {
     $req->clear_uploads;
     $req->uploads( \%uploads );
 };
-
-around prepareCookies => sub { };
 
 around finalizeHeaders => sub { };
 

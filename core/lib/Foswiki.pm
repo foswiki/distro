@@ -1076,7 +1076,7 @@ sub getPubURL {
 
 =begin TML
 
----++ StaticMethod load_package( $full_package_name )
+---++ StaticMethod load_package( $full_package_name [, %params ] )
 
 Will cleanly load the package or fail. This is better than 'eval "require $package"'.
 

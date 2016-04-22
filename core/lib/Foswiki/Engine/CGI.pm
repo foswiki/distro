@@ -108,6 +108,12 @@ has cgi => (
 );
 has uploads => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
 
+# Check if this is CGI ennvironment.
+sub probe {
+    my %params = @_;
+    return $params{env}{GATEWAY_INTERFACE} || $params{env}{MOD_PERL};
+}
+
 #around run => sub {
 #    my $orig = shift;
 #    my $this = shift;
@@ -187,15 +193,22 @@ around _prepareConnection => sub {
 #      if $this->env->{QUERY_STRING};
 #};
 
-around prepareHeaders => sub {
-    my $orig = shift;
-    my ( $this, $req ) = @_;
+around _prepareHeaders => sub {
+    my $orig    = shift;
+    my $this    = shift;
+    my $headers = $orig->($this);
     foreach my $header ( keys %{ $this->env } ) {
         next unless $header =~ m/^(?:HTTP|CONTENT|COOKIE)/i;
         ( my $field = $header ) =~ s/^HTTPS?_//;
-        $req->header( $field => $this->env->{$header} );
+        $headers->{$field} = $this->env->{$header};
     }
-    $req->remoteUser( $this->env->{REMOTE_USER} );
+    return $headers;
+};
+
+around _prepareUser => sub {
+    my $orig = shift;
+    my $this = shift;
+    return $this->env->{REMOTE_USER};
 };
 
 around _preparePath => sub {

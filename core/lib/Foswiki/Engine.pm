@@ -112,6 +112,26 @@ has HTTPCompliant => (
     },
 );
 
+=begin TML
+
+---++ ObjectAttribute user
+
+Suggested username.
+
+=cut
+
+has user => ( is => 'rw', lazy => 1, builder => '_prepareUser', );
+
+=begin TML
+
+---++ ObjectAttribute headers
+
+Hashref of headers.
+
+=cut
+
+has headers => ( is => 'rw', lazy => 1, builder => '_prepareHeaders', );
+
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
@@ -123,7 +143,11 @@ BEGIN {
 ---++ ClassMethod start(env => \%env)
 
 Determines the type of environment we're running in and creates an instance of
-corresponding class.
+corresponding class. The environment is been detected by:
+
+   * reading configuration key =Engine=;
+   * loading all engines defined by =EngineList= configuration key and calling their =probe()= static method;
+   * assuming that if no engine has been detected that it's CLI is in use.
 
 =cut
 
@@ -135,16 +159,20 @@ sub start {
     if ( defined $cfg->data->{Engine} ) {
         $engine = $cfg->data->{Engine};
     }
-    elsif ( $params{env}{GATEWAY_INTERFACE} || $params{env}{MOD_PERL} ) {
-        $engine = 'Foswiki::Engine::CGI';
-    }
-    elsif ( $params{env}{'psgi.version'} ) {
-
-        # SMELL TODO We don't have PSGI support yet.
-        $engine = 'Foswiki::Engine::PSGI';
-    }
     else {
-        $engine = 'Foswiki::Engine::CLI';
+        foreach my $shortName ( @{ $cfg->data->{EngineList} } ) {
+            my $engMod = "Foswiki::Engine::$shortName";
+
+            # Do not catch errors here because engines have to be impeccable.
+            # Nothing is allowed to fail.
+            Foswiki::load_package( $engMod, method => 'probe' );
+            my $probe = eval "\\&${engMod}::probe";
+            die $@ if $@;
+            if ( $probe->(%params) ) {
+                $engine = $engMod;
+                last;
+            }
+        }
     }
 
     if ($engine) {
@@ -221,9 +249,6 @@ sub prepare {
 
     try {
         $req = $this->create('Foswiki::Request');
-        $this->prepareHeaders($req);
-        $this->prepareCookies($req);
-        $this->prepareBody($req);
         $this->prepareUploads($req);
     }
     catch {
@@ -322,16 +347,23 @@ sub _prepareQueryParameters {
 
 =begin TML
 
----++ ObjectMethod prepareHeaders( $req )
+---++ ObjectMethod _prepareHeaders
 
-Abstract method, must be defined by inherited classes.
-   * =$req= - Foswiki::Request object to populate
-
-Should fill $req's headers and remoteUser fields.
+Initializer for the =headers= object attribute.
 
 =cut
 
-sub prepareHeaders { }
+sub _prepareHeaders { return {}; }
+
+=begin TML
+
+---++ ObjectMethod _prepareUser
+
+Initializer for the =user= object attribute.
+
+=cut
+
+sub _prepareUser { return shift->env->{REMOTE_USER}; }
 
 =begin TML
 
@@ -342,26 +374,6 @@ Initializer method of =pathData=.
 =cut
 
 sub _preparePath { }
-
-=begin TML
-
----++ ObjectMethod prepareCookies( $req )
-
-   * =$req= - Foswiki::Request object to populate
-
-Should fill $req's cookie field. This method take cookie data from
-previously populated headers field and initializes from it. Maybe 
-doesn't need to overload in children classes.
-
-=cut
-
-sub prepareCookies {
-    my ( $this, $req ) = @_;
-    eval { require CGI::Cookie };
-    Foswiki::Exception::Fatal->throw( text => $@ ) if $@;
-    $req->cookies( scalar( CGI::Cookie->parse( $req->header('Cookie') ) ) )
-      if $req->header('Cookie');
-}
 
 # Abstract initializer for bodyParameters
 sub _prepareBodyParameters { return []; }
