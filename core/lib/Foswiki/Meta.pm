@@ -2946,6 +2946,11 @@ sub attach {
             seek( $opts{stream}, 0, 0 );    # seek to beginning
             binmode( $opts{stream} );
 
+            # recalculate filesize as beforeUploadHandler may have modified the content
+            if (defined $opts{filesize}) {
+                $opts{filesize} = (stat($attrs->{stream}))[7];
+            }
+
             $handlers_called = 1;
         }
 
