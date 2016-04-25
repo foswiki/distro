@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2016-04-17 09:23+0200\n"
 "Last-Translator: Kenneth <kenneth@lavrsen.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/da/>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2114,7 +2114,7 @@ msgstr "Lodret lineal"
 msgid "How about attaching your photo?"
 msgstr "Måske har du lyst til at vedhæfte et foto af dig selv?"
 
-#: core/templates/registerconfirm.tmpl:4
+#: core/templates/registerconfirm.tmpl:3
 msgid "How to activate your %1 registration"
 msgstr "Således aktiverer du din %1-registrering"
 
@@ -2224,7 +2224,7 @@ msgid "If you enter a different name, make sure the topic exists."
 msgstr ""
 "Hvis du indtaster et nyt sidenavn, vær da sikker på at siden eksisterer."
 
-#: core/templates/registerconfirm.tmpl:15
+#: core/templates/registerconfirm.tmpl:14
 #: core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
@@ -2961,7 +2961,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
-#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
+#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:13
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
 msgid "Note:"
@@ -4211,7 +4211,7 @@ msgstr ""
 "Tak fordi du registrerede dig i e-samarbejds-platformen %1. Gem venligst "
 "denne e-mail til senere reference."
 
-#: core/templates/registerconfirm.tmpl:10
+#: core/templates/registerconfirm.tmpl:9
 msgid ""
 "Thank you for registering in the %1 collaboration platform. Your "
 "verification code is %2."
@@ -5611,7 +5611,7 @@ msgstr "Du skal specificere et gyldig brugernavn for at tilføje til en gruppe."
 msgid "You need to specify a valid member to remove from a group."
 msgstr "Du skal specificere et gyldig brugernavn for at fjerne fra en gruppe."
 
-#: core/templates/registerconfirm.tmpl:12
+#: core/templates/registerconfirm.tmpl:11
 msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"

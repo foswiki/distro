@@ -2094,7 +2094,7 @@ msgstr ""
 msgid "How about attaching your photo?"
 msgstr "Hva med å legge ved ditt bilde?"
 
-#: core/templates/registerconfirm.tmpl:4
+#: core/templates/registerconfirm.tmpl:3
 msgid "How to activate your %1 registration"
 msgstr "Hvordan aktivere din %1 registrasjon"
 
@@ -2198,7 +2198,7 @@ msgstr "Dersom du ikke mottar en bekreftelses epost innen en time, "
 msgid "If you enter a different name, make sure the topic exists."
 msgstr "Dersom du skriver et annet navn, forsikre deg om at siden eksisterer."
 
-#: core/templates/registerconfirm.tmpl:15
+#: core/templates/registerconfirm.tmpl:14
 #: core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
@@ -2926,7 +2926,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
-#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
+#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:13
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
 msgid "Note:"
@@ -4220,7 +4220,7 @@ msgstr ""
 "Takk for at du registrerte deg i %1 samarbeidsplattformen. Vennligst lagre "
 "denne eposten for senere referanse."
 
-#: core/templates/registerconfirm.tmpl:10
+#: core/templates/registerconfirm.tmpl:9
 msgid ""
 "Thank you for registering in the %1 collaboration platform. Your "
 "verification code is %2."
@@ -5593,7 +5593,7 @@ msgstr "Du må angi en gyldig bruker for å legge til en gruppe."
 msgid "You need to specify a valid member to remove from a group."
 msgstr "Du må angi en gyldig bruker for å fjerne fra en gruppe."
 
-#: core/templates/registerconfirm.tmpl:12
+#: core/templates/registerconfirm.tmpl:11
 msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"

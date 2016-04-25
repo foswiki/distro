@@ -2078,7 +2078,7 @@ msgstr ""
 msgid "How about attaching your photo?"
 msgstr "당신의 사진을 올려주세요."
 
-#: core/templates/registerconfirm.tmpl:4
+#: core/templates/registerconfirm.tmpl:3
 msgid "How to activate your %1 registration"
 msgstr "사용자 %1 등록을 활성화 하는 방법"
 
@@ -2172,7 +2172,7 @@ msgstr ""
 msgid "If you enter a different name, make sure the topic exists."
 msgstr ""
 
-#: core/templates/registerconfirm.tmpl:15
+#: core/templates/registerconfirm.tmpl:14
 #: core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
@@ -2908,7 +2908,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
-#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
+#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:13
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
 msgid "Note:"
@@ -4174,7 +4174,7 @@ msgstr ""
 "%1 위키 플랫폼에 등록해주셔서 감사합니다. 추후 참조를 위하여 이메일을 입력해"
 "주세요."
 
-#: core/templates/registerconfirm.tmpl:10
+#: core/templates/registerconfirm.tmpl:9
 msgid ""
 "Thank you for registering in the %1 collaboration platform. Your "
 "verification code is %2."
@@ -5447,7 +5447,7 @@ msgstr ""
 msgid "You need to specify a valid member to remove from a group."
 msgstr ""
 
-#: core/templates/registerconfirm.tmpl:12
+#: core/templates/registerconfirm.tmpl:11
 msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"

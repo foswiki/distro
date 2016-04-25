@@ -2115,7 +2115,7 @@ msgstr "Horizontale lijn"
 msgid "How about attaching your photo?"
 msgstr "Wat dacht je van het bijvoegen van je foto?"
 
-#: core/templates/registerconfirm.tmpl:4
+#: core/templates/registerconfirm.tmpl:3
 msgid "How to activate your %1 registration"
 msgstr "Hoe activeer je je %1 registratie"
 
@@ -2229,7 +2229,7 @@ msgstr "Als je niet binnen een uur een verificatie e-mail ontvangt, "
 msgid "If you enter a different name, make sure the topic exists."
 msgstr "Als je een andere naam opgeeft, controleer dan of de pagina bestaat."
 
-#: core/templates/registerconfirm.tmpl:15
+#: core/templates/registerconfirm.tmpl:14
 #: core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
@@ -2959,7 +2959,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
-#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
+#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:13
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
 msgid "Note:"
@@ -4203,7 +4203,7 @@ msgstr ""
 "Bedankt voor je registratie in het %1 samenwerkingsplatform. Bewaar deze e-"
 "mail voor toekomstige referentie."
 
-#: core/templates/registerconfirm.tmpl:10
+#: core/templates/registerconfirm.tmpl:9
 msgid ""
 "Thank you for registering in the %1 collaboration platform. Your "
 "verification code is %2."
@@ -5558,7 +5558,7 @@ msgstr ""
 msgid "You need to specify a valid member to remove from a group."
 msgstr ""
 
-#: core/templates/registerconfirm.tmpl:12
+#: core/templates/registerconfirm.tmpl:11
 msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"

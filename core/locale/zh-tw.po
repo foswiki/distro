@@ -2023,7 +2023,7 @@ msgstr "水平標尺"
 msgid "How about attaching your photo?"
 msgstr "附上您的照片如何?"
 
-#: core/templates/registerconfirm.tmpl:4
+#: core/templates/registerconfirm.tmpl:3
 msgid "How to activate your %1 registration"
 msgstr "如何啟動 %1 您的註冊"
 
@@ -2119,7 +2119,7 @@ msgstr "若您未在一小時內收到確認的電子郵件， "
 msgid "If you enter a different name, make sure the topic exists."
 msgstr "如果您輸入不同的名稱，請確認該主題存在。"
 
-#: core/templates/registerconfirm.tmpl:15
+#: core/templates/registerconfirm.tmpl:14
 #: core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
@@ -2830,7 +2830,7 @@ msgstr "移動後，任何引用此附件的 URL 都將失效。"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
-#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
+#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:13
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
 msgid "Note:"
@@ -4045,7 +4045,7 @@ msgid ""
 "e-mail for future reference."
 msgstr "謝謝您在 %1 合作平臺註冊。請保留本郵件以供未來參考。"
 
-#: core/templates/registerconfirm.tmpl:10
+#: core/templates/registerconfirm.tmpl:9
 msgid ""
 "Thank you for registering in the %1 collaboration platform. Your "
 "verification code is %2."
@@ -5327,7 +5327,7 @@ msgstr "您必須指定有效的使用者才能加入群組。"
 msgid "You need to specify a valid member to remove from a group."
 msgstr "您必須指定有效的使用者才能移出一個群組。"
 
-#: core/templates/registerconfirm.tmpl:12
+#: core/templates/registerconfirm.tmpl:11
 msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"

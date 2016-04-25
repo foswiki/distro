@@ -2132,7 +2132,7 @@ msgstr "tlhegh <nop>SaS"
 msgid "How about attaching your photo?"
 msgstr "mIlloghlIj Dachel <nop>DaneH&&#39;a&&#39;?"
 
-#: core/templates/registerconfirm.tmpl:4
+#: core/templates/registerconfirm.tmpl:3
 msgid "How to activate your %1 registration"
 msgstr "chay&&#39; muvmeH mIwlIj Dachu&&#39;laH"
 
@@ -2246,7 +2246,7 @@ msgstr ""
 "latlh pong <nop>DaghItlhchugh, vaj ghItlhvam tu&&#39;lu&&#39; &&#39;e&&#39; "
 "yI&&#39;ol."
 
-#: core/templates/registerconfirm.tmpl:15
+#: core/templates/registerconfirm.tmpl:14
 #: core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
@@ -2972,7 +2972,7 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
-#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
+#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:13
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
 msgid "Note:"
@@ -4224,7 +4224,7 @@ msgid ""
 "e-mail for future reference."
 msgstr ""
 
-#: core/templates/registerconfirm.tmpl:10
+#: core/templates/registerconfirm.tmpl:9
 msgid ""
 "Thank you for registering in the %1 collaboration platform. Your "
 "verification code is %2."
@@ -5552,7 +5552,7 @@ msgstr ""
 msgid "You need to specify a valid member to remove from a group."
 msgstr ""
 
-#: core/templates/registerconfirm.tmpl:12
+#: core/templates/registerconfirm.tmpl:11
 msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"

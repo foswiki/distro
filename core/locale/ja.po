@@ -2171,7 +2171,7 @@ msgstr ""
 msgid "How about attaching your photo?"
 msgstr "あなたの写真を添付してはいかがですか?"
 
-#: core/templates/registerconfirm.tmpl:4
+#: core/templates/registerconfirm.tmpl:3
 msgid "How to activate your %1 registration"
 msgstr "どうのようにあなたの%1登録をアクティブにしますか"
 
@@ -2276,7 +2276,7 @@ msgstr ""
 "違うトピック名を入力した場合、そのトピック名が存在するかどうかをご確認くださ"
 "い。"
 
-#: core/templates/registerconfirm.tmpl:15
+#: core/templates/registerconfirm.tmpl:14
 #: core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
@@ -3040,7 +3040,7 @@ msgstr "注意：この添付ファイルを参照すると、どんなURLであ
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
-#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
+#: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:13
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
 msgid "Note:"
@@ -4346,7 +4346,7 @@ msgstr ""
 " %1 コラボレーションプラットフォームをご登録してありがとうございました。今後"
 "の参考にこのメールを保存してください。"
 
-#: core/templates/registerconfirm.tmpl:10
+#: core/templates/registerconfirm.tmpl:9
 msgid ""
 "Thank you for registering in the %1 collaboration platform. Your "
 "verification code is %2."
@@ -5682,7 +5682,7 @@ msgstr ""
 msgid "You need to specify a valid member to remove from a group."
 msgstr ""
 
-#: core/templates/registerconfirm.tmpl:12
+#: core/templates/registerconfirm.tmpl:11
 msgid ""
 "You now need to verify your e-mail address. You can do so by entering %1 in "
 "the form presented to you when this e-mail was sent, or by visiting %2"
