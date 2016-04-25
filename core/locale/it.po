@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-04-17 12:05+0200\n"
+"PO-Revision-Date: 2016-04-25 14:02+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/it/>\n"
@@ -1282,7 +1282,7 @@ msgstr "Padre attuale:"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
 msgid "Current password"
-msgstr "Attuale password"
+msgstr "Password attuale"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Date"
@@ -3569,7 +3569,7 @@ msgstr "La prenotazione della pagina è scaduta %1 fa."
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:164
 msgid "The login name you use to sign in."
-msgstr "Il nome di login che utilizzi per accedere."
+msgstr "Il nome di login che utilizzi per collegarti."
 
 #: core/templates/messages.tmpl:93
 msgid "The name of the topic must not be empty."
