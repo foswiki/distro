@@ -1,15 +1,14 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Checkers::Email::EnableSMIME;
-
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use v5.14;
 
 use Foswiki::Configure::Load;
 use Foswiki::Configure::Dependency ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 our @mods = (
     {
@@ -45,9 +44,9 @@ sub check_current_value {
     }
 
     my $selfCert = "\$Foswiki::cfg{DataDir}/SmimeCertificate.pem";
-    Foswiki::Configure::Load::expandValue($selfCert);
+    $Foswiki::app->cfg->expandValue($selfCert);
     my $selfKey = "\$Foswiki::cfg{DataDir}/SmimePrivateKey.pem";
-    Foswiki::Configure::Load::expandValue($selfKey);
+    $Foswiki::app->cfg->expandValue($selfKey);
 
     unless (
            $Foswiki::cfg{Email}{SmimeCertificateFile}

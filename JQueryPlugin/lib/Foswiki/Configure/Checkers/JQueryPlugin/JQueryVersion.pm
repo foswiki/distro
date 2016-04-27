@@ -1,12 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::JQueryPlugin::JQueryVersion;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checker ();
 use File::Spec();
-our @ISA = qw( Foswiki::Configure::Checker );
+
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Configure::Checker );
 
 sub check {
     my $this      = shift;

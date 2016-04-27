@@ -1,21 +1,20 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::PLUGIN_MODULE;
+use v5.14;
 
 # Common (type) checker used by all {Plugins}{Module} sub-keys.
 # It is selected in Pluggables/PLUGINS. It should *not* be used in
 # .spec files.
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
 use Assert;
+
+use Moo;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $keys = $this->{item}->{keys};
+    my $keys = $this->item->attrs->{keys};
 
     # NOTE: this checker is also invoked from the PLUGIN_ENABLED
     # checker, hence the /{Enabled}$/
@@ -71,7 +70,7 @@ sub check_current_value {
     }
 
     # if there's an explicit checker, invoke it
-    my $ec = Foswiki::Configure::Checker::loadChecker( $this->{item}, 1 );
+    my $ec = Foswiki::Configure::Checker::loadChecker( $this->item, 1 );
     $ec->check_current_value($reporter) if ($ec);
 }
 

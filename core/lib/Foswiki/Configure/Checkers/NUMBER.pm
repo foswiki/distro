@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::NUMBER;
+use v5.14;
 
 # Default checker for NUMBER items
 #
@@ -12,11 +13,8 @@ package Foswiki::Configure::Checkers::NUMBER;
 #
 # Use this checker if possible; otherwise subclass the item-specific checker from it.
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
@@ -29,13 +27,13 @@ sub check_current_value {
         return;
     }
 
-    my $min = $this->{item}->CHECK_option('min');
+    my $min = $this->item->CHECK_option('min');
     if ( defined $min ) {
         $reporter->ERROR("Value must be at least $min")
           if ( $val < $min );
     }
 
-    my $max = $this->{item}->CHECK_option('max');
+    my $max = $this->item->CHECK_option('max');
     if ( defined $max ) {
         $reporter->ERROR("Value must be no greater than $max")
           if ( $val > $max );

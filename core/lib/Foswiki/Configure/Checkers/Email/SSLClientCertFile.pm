@@ -1,22 +1,21 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Checkers::Email::SSLClientCertFile;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+extends qw(Foswiki::Configure::Checkers::Certificate::ClientChecker);
 
-use Foswiki::Configure::Checkers::Certificate::ClientChecker ();
-our @ISA = ('Foswiki::Configure::Checkers::Certificate::ClientChecker');
-
-sub check_current_value {
+around check_current_value => sub {
+    my $orig = shift;
     my ( $this, $reporter ) = @_;
 
     return
       unless ( $Foswiki::cfg{Email}{MailMethod} =~ m/^Net::SMTP/
         && $Foswiki::cfg{Email}{SSLClientCertFile} );
 
-    return $this->SUPER::check_current_value($reporter);
-}
+    return $orig->( $this, $reporter );
+};
 1;
 
 __END__

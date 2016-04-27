@@ -1,15 +1,14 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::URL;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Assert;
 
 use Foswiki::IP qw/$IPv6Avail :regexp :info/;
 
-require Foswiki::Configure::Checker;
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 # This is a generic (item-independent) checker for URIs.
 #
@@ -42,11 +41,11 @@ my $uriRE = qr|(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*)(\?[^#]*)?(#.*)?|o;
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
-    my $keys = $this->{item}->{keys};
+    my $keys = $this->item->attrs->{keys};
 
     my $val = $this->checkExpandedValue($reporter);
 
-    checkURI( $reporter, $val, %{ $this->{item}->{CHECK} } );
+    checkURI( $reporter, $val, %{ $this->item->attrs->{CHECK} } );
 }
 
 sub _list2hash {

@@ -4,9 +4,6 @@
 # License is at end of module.
 # Removal of Copyright and/or License prohibited.
 
-use strict;
-use warnings;
-
 =pod
 
 ---+ package Foswiki::Configure::Checkers::CertificateChecker
@@ -21,10 +18,13 @@ are slightly different.
 =cut
 
 package Foswiki::Configure::Checkers::Certificate;
+use v5.14;
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
 use Foswiki::Configure::Load;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 use MIME::Base64;
 
@@ -127,7 +127,7 @@ sub checkUsage {
 
     # Expand any references to other variables
 
-    Foswiki::Configure::Load::expandValue($value);
+    $Foswiki::app->cfg->expandValue($value);
 
     unless ( defined $value && length $value ) {
         return ();

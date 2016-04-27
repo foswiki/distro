@@ -1,14 +1,13 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::WorkingDir;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Assert;
-use Foswiki::Configure::Checkers::PATH ();
-our @ISA = ('Foswiki::Configure::Checkers::PATH');
-
 use Foswiki::Configure::FileUtil ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checkers::PATH);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;

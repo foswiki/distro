@@ -1,12 +1,11 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::SafeEnvPath;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checker ();
 use Scalar::Util qw( tainted );
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 # Unix or Linux, Windows ActiveState Perl, using PERL5SHELL set to cygwin shell
 #   path separator is :

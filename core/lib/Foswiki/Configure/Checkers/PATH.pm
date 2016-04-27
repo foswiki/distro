@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::PATH;
+use v5.14;
 
 # Default checker for PATH items
 #
@@ -17,14 +18,12 @@ package Foswiki::Configure::Checkers::PATH;
 #
 # Use this checker if possible; otherwise subclass the item-specific checker from it.
 
-use strict;
-use warnings;
-
 use Assert;
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
-
 use Foswiki::Configure::FileUtil ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
@@ -34,7 +33,7 @@ sub check_current_value {
 
     #Note: CHECK_option returns only the *First* entry of the perms check array.
     # Checks of the top level must be the first entry in the check.
-    my $perms = $this->{item}->CHECK_option('perms');
+    my $perms = $this->item->CHECK_option('perms');
 
     if ( defined $perms ) {
         if ( $perms =~ m/F/ && !-f $path ) {
@@ -74,9 +73,9 @@ sub validate_permissions {
 
     use filetest 'access';
 
-    my $path = eval("\$Foswiki::cfg$this->{item}->{keys}");
+    my $path = eval( "\$Foswiki::cfg" . $this->item->attrs->{keys} );
 
-    my $check = $this->{item}->{CHECK}->{perms};
+    my $check = $this->item->attrs->{CHECK}->{perms};
 
     while (@$check) {
         my $fileCount   = 0;

@@ -4,17 +4,15 @@
 # License is at end of module.
 # Removal of Copyright and/or License prohibited.
 
-use strict;
-use warnings;
-
 package Foswiki::Configure::Checkers::Certificate::ClientChecker;
+use v5.14;
 
-use Foswiki::Configure::Checkers::Certificate ();
-our @ISA = ('Foswiki::Configure::Checkers::Certificate');
+use Moo;
+extends qw(Foswiki::Configure::Checkers::Certificate);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
-    $this->checkUsage( $this->{item}->{keys}, 'client', $reporter );
+    $this->checkUsage( $this->item->attrs->{keys}, 'client', $reporter );
 }
 
 1;

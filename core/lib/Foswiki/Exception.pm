@@ -1,5 +1,7 @@
 # See bottom of file for license and copyright information
 
+use v5.14;
+
 =begin TML
 
 ---+ package Foswiki::Exception
@@ -47,12 +49,14 @@ nor in Ubuntu 15.10 repository, nor in CentOS. Though it is a part of FreeBSD po
 package Foswiki::Exception;
 use Carp;
 use Assert;
+use Scalar::Util qw(blessed);
+
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Object);
 with 'Throwable';
 
-our $EXCEPTION_TRACE = 0;
+our $EXCEPTION_TRACE = 1;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -93,6 +97,7 @@ sub BUILD {
           . " didn't set a meaningful error text in case it would be treated as a simple Foswiki::Exception"
     ) unless $this->text;
 
+    Foswiki::Func::writeDebug( $this->stringify ) if DEBUG;
     say STDERR "New exception object created: ", $this->stringify
       if DEBUG && $EXCEPTION_TRACE;
 }
@@ -106,6 +111,13 @@ sub stringify {
         ? "\n" . $this->stacktrace
         : ' at ' . $this->file . ' line ' . $this->line
       );
+}
+
+# We must not get into this. But if we do then let's not hide a error but let it
+# thru to the end user via JsonRPC interfaces.
+sub TO_JSON {
+    my $this = shift;
+    return $this->stringify;
 }
 
 =begin TML
@@ -245,6 +257,45 @@ sub transmute {
         }
     }
     return $class->new( text => $e, @_ );
+}
+
+=begin TML
+
+---++ StaticMethod errorStr($error)
+
+Gets a error in $error and converts it into a text message by trying to
+determine error type and properly stringify it.
+
+=cut
+
+sub errorStr {
+    my ($err) = @_;
+
+    my $str = $err;
+
+    if ( ref($err) ) {
+        if ( blessed($err) ) {
+            if ( $err->can('stringify') ) {
+                $str = $err->stringify;
+            }
+            elsif ( $err->can('text') ) {
+                $str = $err->text;
+            }
+            else {
+                $str =
+                    "Error object of type "
+                  . ref($err)
+                  . " doesn't support stringification.";
+            }
+        }
+        else {
+            $str =
+                "Cannot convert "
+              . ref($err)
+              . " reference into a meaningful error message.";
+        }
+    }
+    return $str;
 }
 
 package Foswiki::Exception::ASSERT;
@@ -406,23 +457,9 @@ around BUILDARGS => sub {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2013-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-Additional copyrights apply to some or all of the code in this
-file as follows:
-
-Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org
-and TWiki Contributors. All Rights Reserved. TWiki Contributors
-are listed in the AUTHORS file in the root of this distribution.
-Copyright (C) 2005 Martin at Cleaver.org
-Copyright (C) 2005-2007 TWiki Contributors
-
-and also based/inspired on Catalyst framework, whose Author is
-Sebastian Riedel. Refer to
-http://search.cpan.org/~mramberg/Catalyst-Runtime-5.7010/lib/Catalyst.pm
-for more credit and liscence details.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

@@ -1,11 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::Register::NeedApproval;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;

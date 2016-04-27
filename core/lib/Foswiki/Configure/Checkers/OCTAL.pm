@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::OCTAL;
+use v5.14;
 
 # Default checker for OCTAL items
 #
@@ -11,13 +12,11 @@ package Foswiki::Configure::Checkers::OCTAL;
 #
 # Use this checker if possible; otherwise subclass the item-specific checker from it.
 
-use strict;
-use warnings;
-
 use Assert;
 
-use Foswiki::Configure::Checkers::NUMBER ();
-our @ISA = ('Foswiki::Configure::Checkers::NUMBER');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checkers::NUMBER);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
@@ -25,14 +24,14 @@ sub check_current_value {
     my $val = $this->checkExpandedValue($reporter);
     return unless defined $val;
 
-    my $min = $this->{item}->CHECK_option('min');
+    my $min = $this->item->CHECK_option('min');
     if ( defined $min ) {
         my $v = oct($min);
         $reporter->ERROR("Value must be at least $min")
           if ( defined $v && $val < $v );
     }
 
-    my $max = $this->{item}->CHECK_option('max');
+    my $max = $this->item->CHECK_option('max');
     if ( defined $max ) {
         my $v = oct($max);
         $reporter->ERROR("Value must be no greater than $max")

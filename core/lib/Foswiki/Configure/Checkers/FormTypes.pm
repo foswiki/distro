@@ -1,11 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::FormTypes;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checkers::PERL ();
-our @ISA = ('Foswiki::Configure::Checkers::PERL');
+use Moo;
+extends qw(Foswiki::Configure::Checkers::PERL);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;

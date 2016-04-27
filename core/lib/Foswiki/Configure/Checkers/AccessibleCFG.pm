@@ -1,13 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::AccessibleCFG;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Assert;
 
-use Foswiki::Configure::Checkers::PERL ();
-our @ISA = ('Foswiki::Configure::Checkers::PERL');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checkers::PERL);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;

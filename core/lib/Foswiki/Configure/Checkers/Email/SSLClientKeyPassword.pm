@@ -1,12 +1,10 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Checkers::Email::SSLClientKeyPassword;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checkers::Certificate::KeyPasswordChecker ();
-our @ISA = qw( Foswiki::Configure::Checkers::Certificate::KeyPasswordChecker );
+use Moo;
+extends qw( Foswiki::Configure::Checkers::Certificate::KeyPasswordChecker );
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;

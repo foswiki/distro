@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::STRING;
+use v5.14;
 
 # Default checker for STRING items
 #
@@ -14,14 +15,14 @@ package Foswiki::Configure::Checkers::STRING;
 # Use this checker if possible; otherwise subclass the
 # item-specific checker from it.
 
-use strict;
-use warnings;
-
 use Assert;
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
 
-sub check_current_value {
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
+
+around check_current_value => sub {
+    my $orig = shift;
     my ( $this, $reporter ) = @_;
 
     my $value = $this->checkExpandedValue($reporter);
@@ -29,11 +30,11 @@ sub check_current_value {
 
     my $len = length($value);
 
-    my $min = $this->{item}->CHECK_option('min');
-    my $max = $this->{item}->CHECK_option('max');
+    my $min = $this->item->CHECK_option('min');
+    my $max = $this->item->CHECK_option('max');
 
-    my $accept = $this->{item}->CHECK_option('accept');
-    my $filter = $this->{item}->CHECK_option('filter');
+    my $accept = $this->item->CHECK_option('accept');
+    my $filter = $this->item->CHECK_option('filter');
 
     if ( defined $min && $len < $min ) {
         $reporter->ERROR("Length must be at least $min");
@@ -63,7 +64,7 @@ sub check_current_value {
         $reporter->ERROR("This value is not acceptable")
           unless ($ok);
     }
-}
+};
 
 1;
 __END__

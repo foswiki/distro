@@ -1,11 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::Store::PlainFile::Implementation;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
@@ -46,7 +44,7 @@ HERE
 
 sub _checkDir {
     my ( $ddir, $reporter ) = @_;
-    Foswiki::Configure::Load::expandValue($ddir);
+    $Foswiki::app->cfg->expandValue($ddir);
 
     my $bad =
       Foswiki::Configure::FileUtil::findFileOnTree( $ddir, qr/,v$/, qr/,pfv$/ );
@@ -62,7 +60,7 @@ sub _checkDir {
 
 sub _checkPFV {
     my $ddir = shift;
-    Foswiki::Configure::Load::expandValue($ddir);
+    $Foswiki::app->cfg->expandValue($ddir);
 
     my $bad =
       Foswiki::Configure::FileUtil::findFileOnTree( $ddir, qr/,pfv$/, qr/,v$/ );

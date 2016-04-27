@@ -32,10 +32,13 @@ has id      => ( is => 'rw', );
 has message => ( is => 'rw', );
 has code    => ( is => 'rw', lazy => 1, default => 0, );
 has json => (
-    is      => 'rw',
+    is      => 'ro',
     lazy    => 1,
     default => sub {
-        return JSON->new->pretty(DEBUG)->convert_blessed(1);
+        my $json = JSON->new;
+        $json->pretty(DEBUG);
+        $json->convert_blessed(1);
+        return $json;
     },
 );
 

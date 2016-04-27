@@ -1,18 +1,16 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::TempfileDir;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
     my $e;
 
     my $tmpdir = $Foswiki::cfg{TempfileDir};
-    Foswiki::Configure::Load::expandValue($tmpdir);
+    $Foswiki::app->cfg->expandValue($tmpdir);
 
     unless ($tmpdir) {
         File::Spec->tmpdir() =~ m/^(.*)$/;

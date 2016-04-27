@@ -1,25 +1,29 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::Store::Encoding;
+use v5.14;
 
-use strict;
-use warnings;
+use Encode ();
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    if ( $^O =~ m/darwin/i && $Foswiki::cfg{Store}{Encoding} !~ /^utf-?8$/i ) {
-        $reporter->ERROR(
-            "OS-X file system does not support encodings other than utf-8.");
-    }
-
     if ( $Foswiki::cfg{Store}{Encoding} ) {
+
+        if (   $^O =~ m/darwin/i
+            && $Foswiki::cfg{Store}{Encoding} !~ /^utf-?8$/i )
+        {
+            $reporter->ERROR(
+                "OS-X file system does not support encodings other than utf-8."
+            );
+        }
 
         # Test if this is actually an available encoding:
         eval {
-            require Encode;
+            # SMELL Encode::find_encoding would be much better to use.
             Encode::encode( $Foswiki::cfg{Store}{Encoding}, 'test', 0 );
         };
         if ($@) {

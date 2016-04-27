@@ -1,11 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::REGEX;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+extends qw(Foswiki::Configure::Checker);
 
 # This is a generic (item-independent) checker for regular expressions.
 sub check_current_value {

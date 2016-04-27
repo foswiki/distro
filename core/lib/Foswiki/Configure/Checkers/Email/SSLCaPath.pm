@@ -1,11 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::Email::SSLCaPath;
+use v5.14;
 
-use strict;
-use warnings;
-
-require Foswiki::Configure::Checker;
-our @ISA = qw/Foswiki::Configure::Checker/;
+use Moo;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
@@ -15,7 +13,7 @@ sub check_current_value {
         && $Foswiki::cfg{Email}{SSLVerifyServer} );
 
     my $file = $Foswiki::cfg{Email}{SSLCaFile};
-    Foswiki::Configure::Load::expandValue($file);
+    $Foswiki::app->cfg->expandValue($file);
 
     if ( $file && !-r $file ) {
         $reporter->ERROR("Unable to read $file");
@@ -37,7 +35,7 @@ sub check_current_value {
     }
 
     my $cfile = $Foswiki::cfg{Email}{SSLCrlFile};
-    Foswiki::Configure::Load::expandValue($cfile);
+    $Foswiki::app->cfg->expandValue($cfile);
     if ( $Foswiki::cfg{Email}{SSLCheckCRL}
         && !( $path || $cfile ) )
     {

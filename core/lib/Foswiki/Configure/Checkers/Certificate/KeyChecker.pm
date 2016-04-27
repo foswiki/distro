@@ -4,9 +4,6 @@
 # License is at end of module.
 # Removal of Copyright and/or License prohibited.
 
-use strict;
-use warnings;
-
 =pod
 
 ---+ package Foswiki::Configure::Checkers::Certificate::KeyChecker
@@ -21,13 +18,15 @@ are slightly different.
 =cut
 
 package Foswiki::Configure::Checkers::Certificate::KeyChecker;
-
-require Foswiki::Configure::Checker;
-our @ISA = qw(Foswiki::Configure::Checker);
+use v5.14;
 
 use Foswiki::Configure::Load ();
 
 use Assert;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 sub check {
     ASSERT( 0, "Subclasses must implement this" ) if DEBUG;
@@ -217,7 +216,7 @@ sub validateKeys {
 
     # Expand any references to other variables
 
-    Foswiki::Configure::Load::expandValue($value);
+    $Foswiki::app->cfg->expandValue($value);
 
     return '' unless ( defined $value && length $value );
     my $xpv = "<b>Note:</b> $value";

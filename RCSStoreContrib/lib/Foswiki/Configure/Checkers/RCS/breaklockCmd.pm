@@ -1,7 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::RCS::breaklockCmd;
-use Foswiki::Configure::Checkers::RCSChecker ();
-our @ISA = ('Foswiki::Configure::Checkers::RCSChecker');
+use v5.14;
+
+use Moo;
+extends qw(Foswiki::Configure::Checkers::RCSChecker);
 
 use strict;
 use warnings;

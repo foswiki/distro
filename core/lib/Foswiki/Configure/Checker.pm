@@ -23,17 +23,21 @@ using the =loadChecker= factory method described below.
 =cut
 
 package Foswiki::Configure::Checker;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Data::Dumper ();
 use File::Spec   ();
 
 use Assert;
+use Try::Tiny;
 
 use Foswiki::Configure::Load       ();
 use Foswiki::Configure::Dependency ();
+use Foswiki::Exception             ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 use constant GUESSED_MESSAGE => <<'HERE';
 I had to guess this setting in order to continue checking. You must
@@ -43,21 +47,33 @@ HERE
 
 my %checkers;
 
-# Construct a new Checker, attaching the given $item from the model.
-# This is not normally used by other classes, but is provided in case
-# a subclass needs to override it for any reason.
-sub new {
-    my ( $class, $item ) = @_;
+has item => (
+    is  => 'rw',
+    isa => Foswiki::Object::isaCLASS( 'item', 'Foswiki::Configure::Item' ),
+);
+has reporter => (
+    is => 'rw',
+    isa =>
+      Foswiki::Object::isaCLASS( 'reporter', 'Foswiki::Configure::Reporter' ),
+    clearer => 1,
+);
 
-    my $this = bless( { item => $item }, $class );
-}
+=begin TML
+
+---++ ClassMethod new( item => $item )
+
+Construct a new Checker, attaching the given $item from the model. This is not
+normally used by other classes, but is provided in case a subclass needs to
+override it for any reason.
+
+=cut
 
 =begin TML
 
 ---++ StaticMethod loadChecker($item [, $explicit]) -> $checker
 
 Loads the Foswiki::Configure::Checker subclass for the
-given $item. For example, given the $item->{keys} '{Beans}{Mung}', it
+given $item. For example, given the $item->attrs->{keys} '{Beans}{Mung}', it
 will try and load Foswiki::Configure::Checkers::Beans::Mung
 
 An item may specify a different checker to load if it has the
@@ -86,17 +102,17 @@ sub loadChecker {
     my ( $item, $explicit ) = @_;
     my $id;
 
-    if ( !$explicit && $item->{CHECKER} ) {
+    if ( !$explicit && $item->attrs->{CHECKER} ) {
 
         # Checker override
-        $id = $item->{CHECKER};
+        $id = $item->attrs->{CHECKER};
     }
     else {
-        ASSERT( $item && $item->{keys} ) if DEBUG;
+        ASSERT( $item && $item->attrs->{keys} ) if DEBUG;
 
         # Convert {key}{s} to key::s, removing illegal characters
         # [-_\w] are legal. - => _.
-        $id = $item->{keys};
+        $id = $item->attrs->{keys};
 
         $id =~ s{\{([^\}]*)\}}{
             my $lbl = $1;
@@ -105,12 +121,12 @@ sub loadChecker {
           and substr( $id, -2 ) = '';
     }
 
-    foreach my $chkmod ( $id, $item->{typename} ) {
+    foreach my $chkmod ( $id, $item->attrs->{typename} ) {
         if ( defined $checkers{$chkmod} ) {
             if ( $checkers{$chkmod} ) {
 
                 #print STDERR "Returning cached $chkmod\n";
-                return $checkers{$chkmod}->new($item);
+                return $checkers{$chkmod}->new( item => $item );
             }
         }
         else {
@@ -121,16 +137,17 @@ sub loadChecker {
                 )
               )
             {
-                eval("require $checkClass");
-                unless ($@) {
-                    $checkers{$chkmod} = $checkClass;
+                #eval("require $checkClass");
+                try {
+                    Foswiki::load_class($checkClass);
+                }
+                catch {
+                    Foswiki::Exception::Fatal->rethrow($_);
+                };
+                $checkers{$chkmod} = $checkClass;
 
-                    #print STDERR "Returning NEW cached $chkmod\n";
-                    return $checkClass->new($item);
-                }
-                else {
-                    die "Checker $checkClass failed to load: $@\n";
-                }
+                #print STDERR "Returning NEW cached $chkmod\n";
+                return $checkClass->new( item => $item );
             }
 
             #print STDERR "Caching empty $chkmod\n";
@@ -162,15 +179,15 @@ sub check_current_value {
     # finding a check_current_value implementation, then see if
     # there is a check().
     if ( $this->can('check') ) {
-        $this->{reporter} = $reporter;
-        $this->check( $this->{item} );
-        delete $this->{reporter};
+        $this->reporter($reporter);
+        $this->check( $this->item );
+        $this->clear_reporter;
     }
 }
 
 ###################################################################
 # Compatibility methods
-# Note that ASSERT($this->{reporter} if DEBUG is used to confirm that
+# Note that ASSERT($this->reporter) if DEBUG is used to confirm that
 # the call has come from an implementation of check()
 
 # Get the value of the named configuration var.
@@ -192,7 +209,7 @@ sub check_current_value {
 # expanded as the string 'undef')
 sub getCfg {
     my ( $this, $name ) = @_;
-    $name ||= $this->{item}->{keys};
+    $name ||= $this->item->attrs->{keys};
 
     my $item = '$Foswiki::cfg' . $name;
     Foswiki::Configure::Load::expandValue($item);
@@ -205,7 +222,7 @@ sub getCfg {
 sub getCfgUndefOk {
 
     my ( $this, $name, $undef ) = @_;
-    $name ||= $this->{item}->{keys};
+    $name ||= $this->item->attrs->{keys};
 
     my $item = '$Foswiki::cfg' . $name;
     Foswiki::Configure::Load::expandValue( $item, defined $undef ? $undef : 1 );
@@ -228,8 +245,8 @@ sub check {
 # *must not* call this.
 sub NOTE {
     my $this = shift;
-    ASSERT( $this->{reporter} ) if DEBUG;
-    $this->{reporter}->NOTE(@_);
+    ASSERT( $this->reporter ) if DEBUG;
+    $this->reporter->NOTE(@_);
     return join( ' ', @_ );
 }
 
@@ -237,8 +254,8 @@ sub NOTE {
 # *must not* call this.
 sub WARN {
     my $this = shift;
-    ASSERT( $this->{reporter} ) if DEBUG;
-    $this->{reporter}->WARN(@_);
+    ASSERT( $this->reporter ) if DEBUG;
+    $this->reporter->WARN(@_);
     return join( ' ', @_ );
 }
 
@@ -246,8 +263,8 @@ sub WARN {
 # *must not* call this.
 sub ERROR {
     my $this = shift;
-    ASSERT( $this->{reporter} ) if DEBUG;
-    $this->{reporter}->ERROR(@_);
+    ASSERT( $this->reporter ) if DEBUG;
+    $this->reporter->ERROR(@_);
     return join( ' ', @_ );
 }
 
@@ -257,8 +274,8 @@ sub ERROR {
 # *must not* call this.
 sub setItemValue {
     my ( $this, $value, $keys ) = @_;
-    $keys ||= $this->{item}->{keys};
-    ASSERT( $this->{reporter} ) if DEBUG;
+    $keys ||= $this->item->attrs->{keys};
+    ASSERT( $this->reporter ) if DEBUG;
 
     eval("\$Foswiki::cfg$keys = \$value;");
     if ($@) {
@@ -271,8 +288,8 @@ sub setItemValue {
 # *must not* call this.
 sub getItemCurrentValue {
     my $this = shift;
-    my $keys = shift || $this->{item}->{keys};
-    ASSERT( $this->{reporter} ) if DEBUG;
+    my $keys = shift || $this->item->attrs->{keys};
+    ASSERT( $this->reporter ) if DEBUG;
     my $value = eval("\$Foswiki::cfg$keys");
     if ($@) {
         die "Unable to get value for $keys\n";
@@ -286,8 +303,8 @@ sub getItemCurrentValue {
 # *must not* call this.
 sub getItemDefaultValue {
     my $this = shift;
-    my $keys = shift || $this->{item}->{keys};
-    ASSERT( $this->{reporter} ) if DEBUG;
+    my $keys = shift || $this->item->attrs->{keys};
+    ASSERT( $this->reporter ) if DEBUG;
 
     no warnings 'once';
     my $value = eval("\$$Foswiki::Configure::defaultCfg->$keys");
@@ -301,7 +318,7 @@ sub getItemDefaultValue {
 # *must not* call this.
 sub checkGnuProgram {
     my ( $this, $prog ) = @_;
-    ASSERT( $this->{reporter} ) if DEBUG;
+    ASSERT( $this->reporter ) if DEBUG;
     Foswiki::Configure::FileUtil::checkGNUProgram( $prog, $this );
     return '';
 }
@@ -310,7 +327,7 @@ sub checkGnuProgram {
 # *must not* call this.
 sub checkPerlModule {
     my ( $this, $module, $note, $version ) = @_;
-    ASSERT( $this->{reporter} ) if DEBUG;
+    ASSERT( $this->reporter ) if DEBUG;
     my %mod = (
         name           => $module,
         usage          => $note,
@@ -319,11 +336,11 @@ sub checkPerlModule {
     );
     Foswiki::Configure::Dependency::checkPerlModules( \%mod );
     if ( $mod{ok} ) {
-        $this->{reporter}->NOTE( $mod{check_result} );
+        $this->reporter->NOTE( $mod{check_result} );
         return '';
     }
     else {
-        $this->{reporter}->ERROR( $mod{check_result} );
+        $this->reporter->ERROR( $mod{check_result} );
         return 'ERROR';
     }
 }
@@ -364,8 +381,8 @@ Report the expanded value of a parameter. Return the expanded value.
 sub checkExpandedValue {
     my ( $this, $reporter ) = @_;
 
-    my $raw   = $this->{item}->getRawValue();
-    my $value = $this->{item}->getExpandedValue();
+    my $raw   = $this->item->getRawValue();
+    my $value = $this->item->getExpandedValue();
 
     my $field = $value;
 
@@ -374,18 +391,18 @@ sub checkExpandedValue {
     }
 
     if ( !defined $field ) {
-        if ( !$this->{item}->CHECK_option('undefok') ) {
+        if ( !$this->item->CHECK_option('undefok') ) {
             $reporter->ERROR("May not be undefined");
         }
         $field = 'undef';
     }
 
-    if ( $field eq '' && !$this->{item}->CHECK_option('emptyok') ) {
+    if ( $field eq '' && !$this->item->CHECK_option('emptyok') ) {
         $reporter->ERROR("May not be empty");
     }
 
     if ( ref($field) ) {
-        $field = $this->{item}->encodeValue($field);
+        $field = $this->item->encodeValue($field);
     }
 
     #print STDERR "field=$field, raw=$raw\n";

@@ -1,12 +1,11 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::DisplayTimeValues;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Assert;
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;

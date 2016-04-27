@@ -23,34 +23,69 @@ all subclasses of this class:
 =cut
 
 package Foswiki::Configure::Item;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Foswiki::Configure::LoadSpec ();
+use Foswiki::Exception           ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 # Schema for dynamic attributes
 use constant ATTRSPEC => {};
 
-sub new {
-    my ( $class, @opts ) = @_;
+has attrs => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
+    trigger => sub {
+        my $this = shift;
+        my ($newAttrs) = @_;
+        if ( $newAttrs->{opts} ) {
+            $this->_parseOptions( $newAttrs->{opts} );
+            delete $this->attrs->{opts};
+        }
+    },
+    isa => Foswiki::Object::isaHASH( 'attrs', noUndef => 1, ),
+);
+has _parent => (
+    is      => 'rw',
+    clearer => 1,
+    isa => Foswiki::Object::isaCLASS( '_parent', 'Foswiki::Configure::Item' ),
+);
+has _vobCache => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
+    isa     => Foswiki::Object::isaHASH( '_vobCache', noUndef => 1 ),
+);
 
-    my $this = bless(
-        {
-            _parent => undef,
-            depth   => 0,
+=begin TML
 
-            # Serialisable attribtes
-            desc       => '',
-            defined_at => undef    # where it is defined [ "file", line ]
-        },
-        $class
-    );
+---++ ClassMethod new(%attrs)
 
-    $this->set(@opts);
+=cut
 
-    return $this;
-}
+around BUILDARGS => sub {
+    my $orig   = shift;
+    my $class  = shift;
+    my %params = @_;
+
+    $params{depth} //= 0;
+    $params{desc}  //= '';
+
+    foreach my $attr ( keys %params ) {
+        unless ( $class->can($attr) ) {
+            $params{attrs}{$attr} = $params{$attr};
+            delete $params{$attr};
+        }
+    }
+
+    return $orig->( $class, %params );
+};
 
 sub stringify {
     my $this = shift;
@@ -59,16 +94,16 @@ sub stringify {
     return $s;
 }
 
-sub DESTROY {
+sub DEMOLISH {
     my $this = shift;
 
     # Clear dynamic attributes
-    foreach my $field ( keys %{ $this->{ATTRSPEC} } ) {
-        undef $this->{$field};
-    }
+    #foreach my $field ( keys %{ $this->ATTRSPEC } ) {
+    #    undef $this->attrs->{$field};
+    #}
 
     # Undef unserialisable internals
-    map { undef $this->{$_} } grep { /^__/ } keys %$this;
+    #map { undef $this->attrs->{$_} } grep { /^__/ } keys %{$this->attrs};
 }
 
 =begin TML
@@ -97,6 +132,8 @@ early in the list before appending options from other sources.
 
 =cut
 
+# SMELL set was used by the old constructor only as it seems. Shan't it be
+# deprecated?
 sub set {
     my ( $this, @params ) = @_;
 
@@ -108,7 +145,7 @@ sub set {
             $this->_parseOptions($v);
         }
         else {
-            $this->{$k} = $v;
+            $this->attrs->{$k} = $v;
         }
     }
 }
@@ -125,15 +162,15 @@ sub _parseOptions {
     # Parcel out defaults
     while ( my ( $attr, $spec ) = each %{ $this->ATTRSPEC } ) {
         next unless ref($spec);
-        if ( !defined $this->{$attr} && defined $spec->{default} ) {
+        if ( !defined $this->attrs->{$attr} && defined $spec->{default} ) {
             if ( ref $spec->{default} eq 'ARRAY' ) {
-                @{ $this->{$attr} } = @{ $spec->{default} };
+                @{ $this->attrs->{$attr} } = @{ $spec->{default} };
             }
             elsif ( ref $spec->{default} eq 'HASH' ) {
-                %{ $this->{$attr} } = %{ $spec->{default} };
+                %{ $this->attrs->{$attr} } = %{ $spec->{default} };
             }
             else {
-                $this->{$attr} = $spec->{default};
+                $this->attrs->{$attr} = $spec->{default};
             }
         }
     }
@@ -182,7 +219,7 @@ sub _parseOptions {
             $val = 1;
         }
         if ($remove) {
-            delete $this->{$key};
+            delete $this->attrs->{$key};
             $val = undef;
         }
 
@@ -190,13 +227,14 @@ sub _parseOptions {
             && !$Foswiki::Configure::LoadSpec::RAW_VALS )
         {
             my $fn = $spec->{handler};
-            $this->{key} = $this->$fn( $val, $key );
+            $this->attrs->{key} = $this->$fn( $val, $key );
         }
         else {
-            $this->{$key} = $val;
+            $this->attrs->{$key} = $val;
         }
     }
-    die "Parse failed at $str" unless $str =~ m/^\s*$/;
+    Foswiki::Exception::Fatal->throw( text => "Parse failed at $str" )
+      unless $str =~ m/^\s*$/;
 }
 
 =begin TML
@@ -210,7 +248,7 @@ sub clear {
     my $this = shift;
     return unless (@_);
 
-    delete @{$this}{@_};
+    delete @{ $this->attrs }{@_};
 }
 
 =begin TML
@@ -224,11 +262,11 @@ Concatenate $str to the string value of $key.
 sub append {
     my ( $this, $key, $str ) = @_;
 
-    if ( $this->{$key} ) {
-        $this->{$key} .= "\n$str";
+    if ( $this->attrs->{$key} ) {
+        $this->attrs->{$key} .= "\n$str";
     }
     else {
-        $this->{$key} .= $str;
+        $this->attrs->{$key} .= $str;
     }
 }
 
@@ -243,7 +281,7 @@ has the given boolean attribute
 
 sub hasDeep {
     my ( $this, $attrname ) = @_;
-    return $this->{$attrname};
+    return $this->attrs->{$attrname};
 }
 
 =begin TML
@@ -295,10 +333,10 @@ sub getPath {
     my $this = shift;
     my @path = ();
 
-    if ( $this->{_parent} ) {
-        @path = $this->{_parent}->getPath();
-        push( @path, $this->{_parent}->{headline} )
-          if $this->{_parent}->{headline};
+    if ( $this->_parent ) {
+        @path = $this->_parent->getPath();
+        push( @path, $this->_parent->headline )
+          if $this->_parent->headline;
     }
     return @path;
 }
@@ -319,8 +357,8 @@ use (e.g. serialisation).
 
 sub unparent {
     my $this = shift;
-    delete $this->{_parent};
-    delete $this->{_vobCache};
+    $this->_clear_parent;
+    $this->_clear_vobCache;
 }
 
 =begin TML
@@ -348,7 +386,7 @@ sub prune {
 ---++ ObjectMethod getSectionObject($head, $depth) -> $item
 
 This gets the section object that has the heading $head and
-$this->{depth} == $depth below this item. If $depth is not given,
+$this->attrs->{depth} == $depth below this item. If $depth is not given,
 will return the first headline that matches.
 
 Subclasses must provide an implementation.
@@ -382,14 +420,14 @@ sub _matches {
     while ( my ( $k, $e ) = each %search ) {
         if ( ref($e) ) {
             return 0
-              unless ( ref( $this->{"_$k"} )
-                && $this->{"_$k"}->isa('Foswiki::Configure::Item')
-                && $this->{"_$k"}->_matches(%$e) );
+              unless ( ref( $this->attrs->{"_$k"} )
+                && $this->attrs->{"_$k"}->isa('Foswiki::Configure::Item')
+                && $this->attrs->{"_$k"}->_matches(%$e) );
         }
         elsif ( !defined $e ) {
-            return 0 if defined $this->{$k};
+            return 0 if defined $this->attrs->{$k};
         }
-        elsif ( !defined $this->{$k} || $this->{$k} ne $e ) {
+        elsif ( !defined $this->attrs->{$k} || $this->attrs->{$k} ne $e ) {
             return 0;
         }
     }
@@ -455,7 +493,7 @@ otherwise.
 # Default impl assumes a leaf node
 sub promoteSetting {
     my ( $this, $setting ) = @_;
-    return $this->{$setting};
+    return $this->attrs->{$setting};
 }
 
 =begin TML
@@ -510,7 +548,7 @@ sub TO_JSON {
         class => ref($this),
 
         # Don't serialise anything with a leading __
-        map { $_ => $this->{$_} } grep { !/^_/ } keys %$this
+        map { $_ => $this->attrs->{$_} } grep { !/^_/ } keys %{ $this->attrs }
     };
     return $struct;
 }

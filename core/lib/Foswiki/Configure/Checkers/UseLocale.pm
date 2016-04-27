@@ -1,14 +1,13 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::UseLocale;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Assert;
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
-
 use Foswiki::Configure::Dependency ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 our @required = ();
 

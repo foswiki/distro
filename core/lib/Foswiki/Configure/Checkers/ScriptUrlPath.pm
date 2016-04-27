@@ -1,29 +1,28 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::ScriptUrlPath;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+extends qw(Foswiki::Configure::Checkers::URLPATH);
 
-use Foswiki::Configure::Checkers::URLPATH ();
-our @ISA = ('Foswiki::Configure::Checkers::URLPATH');
-
-sub check_current_value {
+around check_current_value => sub {
+    my $orig = shift;
     my ( $this, $reporter ) = @_;
 
     # Check Script URL Path against REQUEST_URI
-    $this->SUPER::check_current_value($reporter);
+    $orig->( $this, $reporter );
 
     # SMELL: doesn't this duplicate notrail?
-    if ( $this->{item}->getExpandedValue() =~ m/\/+$/ ) {
+    if ( $this->item->getExpandedValue() =~ m/\/+$/ ) {
         $reporter->WARN('A trailing / is not recommended');
     }
-}
+};
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

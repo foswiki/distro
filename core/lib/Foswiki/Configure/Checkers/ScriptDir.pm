@@ -1,17 +1,15 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::ScriptDir;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checkers::PATH ();
-our @ISA = ('Foswiki::Configure::Checkers::PATH');
+use Moo;
+extends qw(Foswiki::Configure::Checkers::PATH);
 
 # Wizard method
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $dir = $this->{item}->getExpandedValue();
+    my $dir = $this->item->getExpandedValue();
 
     my $ext = $Foswiki::cfg{ScriptSuffix} || '';
     my $errs = '';

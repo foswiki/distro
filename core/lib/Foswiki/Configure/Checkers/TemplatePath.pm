@@ -1,13 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::TemplatePath;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Foswiki::Configure::Load ();
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
@@ -19,7 +18,7 @@ sub check_current_value {
     foreach my $orig (@path) {
         $n++;
         my $path = $orig;
-        Foswiki::Configure::Load::expandValue($path);
+        $Foswiki::app->cfg->expandValue($path);
         push( @expanded, "   * $path" );
 
         if ( $path =~ m/\$(?!name|web|skin)/ ) {

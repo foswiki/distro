@@ -1,11 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::JQueryPlugin::Plugins::SimpleModal::Enabled;
+use v5.14;
 
-use warnings;
-use strict;
-
-use Foswiki::Configure::Checker ();
-our @ISA = qw( Foswiki::Configure::Checker );
+use Moo;
+extends qw( Foswiki::Configure::Checker );
 
 sub check {
     my $this = shift;

@@ -1,11 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::Htpasswd::FileName;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
@@ -18,7 +16,7 @@ sub check_current_value {
       if ( $Foswiki::cfg{PasswordManager} ne 'Foswiki::Users::HtPasswdUser' );
 
     my $f = $Foswiki::cfg{Htpasswd}{FileName};
-    Foswiki::Configure::Load::expandValue($f);
+    $Foswiki::app->cfg->expandValue($f);
 
     ($f) = $f =~ m/(.*)/;    # Untaint needed to prevent a failure.
 

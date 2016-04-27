@@ -1,13 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::AuthScripts;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+extends qw(Foswiki::Configure::Checker);
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
-
-sub check_current_value {
+around check_current_value => sub {
+    my $orig = shift;
     my ( $this, $reporter ) = @_;
     my $msg = '';
 
@@ -42,7 +41,7 @@ EOF
     }
 
     my $dir = $Foswiki::cfg{ScriptDir};
-    Foswiki::Configure::Load::expandValue($dir);
+    $Foswiki::app->cfg->expandValue($dir);
 
     my $unauth = '';
     unless ( opendir( D, $dir ) ) {
@@ -83,8 +82,9 @@ any script ending in "auth" should be included in the list of ={AuthScripts}=.
 EOF
         );
     }
-}
+};
 
+1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 

@@ -52,17 +52,18 @@ Processes are used to parse 'FEEDBACK' and 'CHECK' values.
 package Foswiki::Configure::Value;
 
 use strict;
-use warnings;
+use v5.14;
 
 use Data::Dumper ();
 
 use Assert;
 
-use Foswiki::Configure::Item ();
-our @ISA = ('Foswiki::Configure::Item');
-
 use Foswiki::Configure::FileUtil ();
 use Foswiki::Configure::Reporter ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Item);
 
 # Options valid in a .spec for a leaf value
 use constant ATTRSPEC => {
@@ -108,7 +109,7 @@ our %rename_options = ( nullok => 'undefok' );
 
 =begin TML
 
----++ ClassMethod new($typename, %options)
+---++ ClassMethod new( typename => $typename, attrs => \%attrs )
    * =$typename= e.g 'STRING', name of one of the Foswiki::Configure::TypeUIs
      Defaults to 'UNKNOWN' if not given ('', 0 or undef).
 
@@ -127,38 +128,27 @@ default is provided or not. undef is a valid default.
 
 =cut
 
-sub new {
-    my ( $class, $typename, @options ) = @_;
+sub BUILD {
+    my $this = shift;
 
-    my $this = $class->SUPER::new(
-        typename => ( $typename || 'UNKNOWN' ),
-        keys => '',
-
-        # We do not give it a value here, because the presence of
-        # the key indicates that a default is provided.
-        #default    => undef,
-        @options
-    );
-    $this->{CHECK} ||= {};
-    $this->{CHECK}->{undefok} = 0
-      unless defined $this->{CHECK}->{undefok};
-    $this->{CHECK}->{emptyok} = 1
-      unless defined $this->{CHECK}->{emptyok};    # required for legacy
-
-    return $this;
+    $this->attrs->{CHECK} ||= {};
+    $this->attrs->{CHECK}->{undefok} //= 0;
+    $this->attrs->{CHECK}->{emptyok} //= 1;    # required for legacy
 }
 
 # Return true if this value is one of the preformatted types. Values for
 # these types transfer verbatim from the UI to the LocalSite.cfg
 sub isFormattedType {
     my $this = shift;
-    return $this->{typename} eq 'PERL';
+    return $this->attrs->{typename} eq 'PERL';
 }
 
 sub parseTypeParams {
     my ( $this, $str ) = @_;
 
-    if ( $this->{typename} =~ m/^(SELECT|BOOLGROUP)/ ) {
+    my $attrs = $this->attrs;
+
+    if ( $attrs->{typename} =~ m/^(SELECT|BOOLGROUP)/ ) {
 
         # SELECT types *always* start with a comma-separated list of
         # things to select from. These things may be words or wildcard
@@ -171,7 +161,7 @@ sub parseTypeParams {
             elsif ( $str =~ s/^([-A-Za-z0-9:.*]+)// || $str =~ m/(\s)*,/ ) {
                 my $v = $1;
                 $v = '' unless defined $v;
-                if ( $v =~ m/\*/ && $this->{typename} eq 'SELECTCLASS' ) {
+                if ( $v =~ m/\*/ && $attrs->{typename} eq 'SELECTCLASS' ) {
 
                     # Populate the class list
                     push( @picks,
@@ -185,12 +175,12 @@ sub parseTypeParams {
                 die "Illegal .spec at '$str'";
             }
         } while ( $str =~ s/\s*,\s*// );
-        $this->{select_from} = [@picks];
+        $attrs->{select_from} = [@picks];
     }
     elsif ( $str =~ s/^\s*(\d+(?:x\d+)?)// ) {
 
         # Width specifier for e.g. STRING
-        $this->{SIZE} = $1;
+        $attrs->{SIZE} = $1;
     }
     return $str;
 }
@@ -221,7 +211,7 @@ sub _FEEDBACK {
 
     die "FEEDBACK parse failed at $str" unless $str =~ m/^\s*$/;
 
-    push @{ $this->{FEEDBACK} }, \%fb;
+    push @{ $this->attrs->{FEEDBACK} }, \%fb;
 }
 
 # Spec file options are:
@@ -283,10 +273,10 @@ sub _CHECK {
             die "CHECK parse failed: 'no$name' is not allowed";
         }
         if ( scalar(@opts) == 0 ) {
-            $this->{CHECK}->{$name} = $set;
+            $this->attrs->{CHECK}->{$name} = $set;
         }
         else {
-            $this->{CHECK}->{$name} = \@opts;
+            $this->attrs->{CHECK}->{$name} = \@opts;
         }
     }
     die "CHECK parse failed, expected name at $str in $ostr"
@@ -296,8 +286,8 @@ sub _CHECK {
 # M => CHECK="noemptyok noundefok"
 sub _MANDATORY {
     my $this = shift;
-    $this->{CHECK}->{emptyok} = 0;
-    $this->{CHECK}->{undefok} = 0;
+    $this->attrs->{CHECK}->{emptyok} = 0;
+    $this->attrs->{CHECK}->{undefok} = 0;
 }
 
 # A value is a leaf, so this is a NOP.
@@ -316,12 +306,14 @@ return $this if the keys match.
 sub getValueObject {
     my ( $this, $keys ) = @_;
 
-    return ( $this->{keys} && $keys eq $this->{keys} ) ? $this : undef;
+    return ( $this->attrs->{keys} && $keys eq $this->attrs->{keys} )
+      ? $this
+      : undef;
 }
 
 sub getAllValueKeys {
     my $this = shift;
-    return ( $this->{keys} );
+    return ( $this->attrs->{keys} );
 }
 
 =begin TML
@@ -339,18 +331,18 @@ sub getRawValue {
 
     if (DEBUG) {
         my $path = \%Foswiki::cfg;
-        my $x    = $this->{keys};
+        my $x    = $this->attrs->{keys};
         ASSERT( defined $x );
         my $p = '$Foswiki::cfg';
         while ( $x =~ s/^{(.*?)}// ) {
             $path = $path->{$1};
             $p .= "{$1}";
 
-            #print STDERR "$this->{keys} is undefined at $p"
+            #print STDERR $this->attrs->{keys}, " is undefined at $p"
             #  unless defined $path;
         }
     }
-    return eval("\$Foswiki::cfg$this->{keys}");
+    return eval( "\$Foswiki::cfg" . $this->attrs->{keys} );
 }
 
 =begin TML
@@ -370,7 +362,7 @@ sub getExpandedValue {
 
     my $val = $this->getRawValue();
     return undef unless defined $val;
-    Foswiki::Configure::Load::expandValue($val);
+    $Foswiki::app->cfg->expandValue($val);
     return $val;
 }
 
@@ -408,10 +400,10 @@ sub encodeValue {
     elsif ( ref($value) ) {
         return Foswiki::Configure::Reporter::uneval( $value, 2 );
     }
-    elsif ( $this->{typename} eq 'OCTAL' ) {
+    elsif ( $this->attrs->{typename} eq 'OCTAL' ) {
         return sprintf( '0%o', $value );
     }
-    elsif ( $this->{typename} eq 'BOOLEAN' ) {
+    elsif ( $this->attrs->{typename} eq 'BOOLEAN' ) {
         return $value ? 1 : 0;
     }
 
@@ -437,10 +429,10 @@ sub decodeValue {
         $value = eval($value);
         die $@ if $@;
     }
-    elsif ( $this->{typename} eq 'OCTAL' ) {
+    elsif ( $this->attrs->{typename} eq 'OCTAL' ) {
         $value = oct($value);
     }
-    elsif ( $this->{typename} eq 'BOOLEAN' ) {
+    elsif ( $this->attrs->{typename} eq 'BOOLEAN' ) {
         $value = $value ? 1 : 0;
     }
 
@@ -464,17 +456,17 @@ then =CHECK_option('c')= will return true and
 
 sub CHECK_option {
     my ( $this, $opt ) = @_;
-    if ( ref( $this->{CHECK}->{$opt} ) eq 'ARRAY' ) {
-        return $this->{CHECK}->{$opt}->[0];
+    if ( ref( $this->attrs->{CHECK}->{$opt} ) eq 'ARRAY' ) {
+        return $this->attrs->{CHECK}->{$opt}->[0];
     }
-    return $this->{CHECK}->{$opt};
+    return $this->attrs->{CHECK}->{$opt};
     return undef;
 }
 
 # Implements Foswiki::Configure::item
 sub search {
     my ( $this, $re ) = @_;
-    if ( $this->{keys} =~ m/$re/i ) {
+    if ( $this->attrs->{keys} =~ m/$re/i ) {
         return ($this);
     }
     return ();
@@ -484,8 +476,8 @@ sub search {
 sub getPath {
     my $this = shift;
     my @path;
-    @path = $this->{_parent}->getPath() if ( $this->{_parent} );
-    push( @path, $this->{keys} );
+    @path = $this->_parent->getPath() if ( $this->_parent );
+    push( @path, $this->attrs->{keys} );
     return @path;
 }
 
@@ -494,11 +486,11 @@ sub find_also_dependencies {
     my ( $this, $root ) = @_;
     ASSERT($root) if DEBUG;
 
-    return unless $this->{CHECK_ON_CHANGE};
-    foreach my $slave ( split( /[\s,]+/, $this->{CHECK_ON_CHANGE} ) ) {
+    return unless $this->attrs->{CHECK_ON_CHANGE};
+    foreach my $slave ( split( /[\s,]+/, $this->attrs->{CHECK_ON_CHANGE} ) ) {
         my $vob = $root->getValueObject($slave);
         next unless ($vob);
-        my $check = $vob->{CHECK};
+        my $check = $vob->attrs->{CHECK};
         if ($check) {
             $check->{also} ||= [];
             push( @{ $check->{also} }, $slave );
@@ -513,7 +505,7 @@ sub find_also_dependencies {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2013-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2013-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

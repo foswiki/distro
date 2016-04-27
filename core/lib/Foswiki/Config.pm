@@ -91,6 +91,8 @@ What files we read the config from in the order of reading.
 
 has files => (
     is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
     default => sub { [] },
 );
 
@@ -120,6 +122,7 @@ has noLocal          => ( is => 'rw', default => 0, );
 has urlHost => (
     is      => 'rw',
     lazy    => 1,
+    clearer => 1,
     default => sub {
         my $this = shift;
 
@@ -241,9 +244,16 @@ around localize => sub {
     my $this = shift;
     my %init = @_;
 
-    push @{ $this->_dataStack }, $this->data;
+    push @{ $this->_dataStack },
+      {
+        data    => $this->data,
+        files   => $this->files,
+        urlHost => $this->urlHost,
+      };
 
     $this->data( \%init );
+    $this->clear_files;
+    $this->clear_urlHost;
 
     return $orig->($this);
 };
@@ -253,7 +263,10 @@ sub restore {
     my $this = shift;
 
     ASSERT( @{ $this->_dataStack } > 0, "Configuration data stack is empty" );
-    $this->data( pop @{ $this->_dataStack } );
+    my $prevState = pop @{ $this->_dataStack };
+    foreach my $attr ( keys %$prevState ) {
+        $this->$attr( $prevState->{$attr} );
+    }
 }
 
 =begin TML
@@ -808,16 +821,15 @@ sub bootstrapWebSettings {
     }
 
     if (TRAUTO) {
-        print STDERR
-          "AUTOCONFIG: Using ScriptUrlPath $this->data->{ScriptUrlPath} \n";
-        print STDERR "AUTOCONFIG: Using {ScriptUrlPaths}{view} "
+        say STDERR "AUTOCONFIG: Using ScriptUrlPath ",
+          $this->data->{ScriptUrlPath};
+        say STDERR "AUTOCONFIG: Using {ScriptUrlPaths}{view} "
           . (
             ( defined $this->data->{ScriptUrlPaths}{view} )
             ? $this->data->{ScriptUrlPaths}{view}
             : 'undef'
-          ) . "\n";
-        print STDERR
-          "AUTOCONFIG: Using PubUrlPath: $this->data->{PubUrlPath} \n";
+          );
+        say STDERR "AUTOCONFIG: Using PubUrlPath: ", $this->data->{PubUrlPath};
     }
 
     # Note: message is not I18N'd because there is no point; there

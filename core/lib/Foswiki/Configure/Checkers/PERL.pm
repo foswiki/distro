@@ -1,20 +1,19 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::PERL;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Assert;
 
-require Foswiki::Configure::Checker;
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
 
-    my $value = $this->{item}->getRawValue();
+    my $value = $this->item->getRawValue();
     if ( !defined $value ) {
-        unless ( $this->{item}->CHECK_option('undefok') ) {
+        unless ( $this->item->CHECK_option('undefok') ) {
             $reporter->ERROR('May not be undefined');
         }
         return;

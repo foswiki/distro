@@ -1,14 +1,13 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::LANGUAGE;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Assert;
 use Foswiki::I18N;
 
-require Foswiki::Configure::Checker;
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 =begin TML
 
@@ -29,9 +28,9 @@ sub check_current_value {
     return unless $enabled;
 
     my $dir = $Foswiki::cfg{LocalesDir};
-    Foswiki::Configure::Load::expandValue($dir);
+    $Foswiki::app->cfg->expandValue($dir);
 
-    my $lang = $this->{item}->{keys};
+    my $lang = $this->item->attrs->{keys};
     unless ( $lang =~ s/^\{Languages\}\{'?([\w-]+)'?\}\{Enabled\}$/$1/ ) {
         die "Invalid item key $lang for LANGUAGE";
     }

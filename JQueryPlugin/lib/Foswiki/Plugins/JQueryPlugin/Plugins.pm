@@ -4,6 +4,7 @@ package Foswiki::Plugins::JQueryPlugin::Plugins;
 use strict;
 use warnings;
 use Foswiki::Func();
+use Try::Tiny;
 
 my @iconSearchPath;
 my %iconCache;
@@ -282,17 +283,28 @@ sub load {
 
     unless ( defined $pluginDesc->{instance} ) {
 
-        eval "require $pluginDesc->{class};";
-
-        if ($@) {
-            Foswiki::Func::writeDebug(
-                "ERROR: can't load jQuery plugin $pluginName: $@");
-            $pluginDesc->{instance} = 0;
-        }
-        else {
+        try {
+            Foswiki::load_class( $pluginDesc->{class} );
             $pluginDesc->{instance} =
               $Foswiki::app->create( $pluginDesc->{class} );
         }
+        catch {
+            my $errStr = Foswiki::Exception::errorStr($_);
+            Foswiki::Func::writeDebug(
+                "ERROR: can't load jQuery plugin $pluginName: $errStr");
+            $pluginDesc->{instance} = 0;
+        };
+
+        #eval "require $pluginDesc->{class};";
+        #if ($@) {
+        #    Foswiki::Func::writeDebug(
+        #        "ERROR: can't load jQuery plugin $pluginName: $@");
+        #    $pluginDesc->{instance} = 0;
+        #}
+        #else {
+        #    $pluginDesc->{instance} =
+        #      $Foswiki::app->create( $pluginDesc->{class} );
+        #}
     }
 
     return $pluginDesc->{instance};

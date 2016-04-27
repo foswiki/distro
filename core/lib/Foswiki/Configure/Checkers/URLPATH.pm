@@ -1,13 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::URLPATH;
-
-use strict;
-use warnings;
-
-require Foswiki::Configure::Checker;
-our @ISA = ('Foswiki::Configure::Checker');
+use v5.14;
 
 use Foswiki::Configure::Checkers::URL ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
@@ -15,7 +14,7 @@ sub check_current_value {
     my $value = $this->checkExpandedValue($reporter);
     return unless defined $value;
 
-    my %check = %{ $this->{item}->{CHECK} };
+    my %check = %{ $this->item->attrs->{CHECK} };
 
     # Force the following 'options' to specialize URL to URLPATH.
     $check{parts} = [
@@ -34,14 +33,14 @@ sub check_current_value {
     $check{authtype} = [];
 
     Foswiki::Configure::Checkers::URL::checkURI( $reporter,
-        $this->{item}->getExpandedValue(), %check );
+        $this->item->getExpandedValue(), %check );
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

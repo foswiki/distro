@@ -1,17 +1,18 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Checkers::Certificate::KeyPasswordChecker;
-
-use strict;
-use warnings;
+use v5.14;
 
 # Generic Checker class for private key file passwords
 #
 # This checker can not be a Type-generic checker because
 # it invokes checks on a related item (its file)
 
-require Foswiki::Configure::Checker;
-our @ISA = qw(Foswiki::Configure::Checker);
+use Assert;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 # This MUST be subclassed; item must provide related enable and file key values
 # to check and provideFeedback methods.  See SmimeKeyPassword for an example.
@@ -19,7 +20,6 @@ our @ISA = qw(Foswiki::Configure::Checker);
 # CHECK= items:
 #    filter:'regexp' - Invalid characters
 #    min:n - minimum length
-use Assert;
 
 sub check {
     ASSERT( 0, "Subclasses must implement this" ) if DEBUG;
@@ -28,9 +28,9 @@ sub check {
 sub checkEnabled {
     my ( $this, $enabled, $reporter ) = @_;
 
-    my $keys = $this->{item}->{keys};
+    my $keys = $this->item->attrs->{keys};
 
-    my $value = $this->{item}->getExpandedValue();
+    my $value = $this->item->getExpandedValue();
 
     # Unused passwords should not be hanging around.
 
@@ -42,11 +42,11 @@ sub checkEnabled {
     }
 
     if ( defined $value ) {
-        my $filter = $this->{item}->CHECK_option('filter');
+        my $filter = $this->item->CHECK_option('filter');
         $reporter->ERROR("Password contains illegal characters")
           if ( defined $filter && $value =~ qr{$filter} );
 
-        my $min = $this->{item}->CHECK_option('min');
+        my $min = $this->item->CHECK_option('min');
         $reporter->ERROR("Password must be at least $min characters long")
           if ( defined $min && length($value) < $min );
     }

@@ -1,12 +1,10 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Checkers::Email::SSLClientKeyFile;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checkers::Certificate::KeyChecker ();
-our @ISA = ('Foswiki::Configure::Checkers::Certificate::KeyChecker');
+use Moo;
+extends qw(Foswiki::Configure::Checkers::Certificate::KeyChecker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
@@ -18,7 +16,7 @@ sub check_current_value {
     $reporter->ERROR("Key file must be specified")
       unless ( $Foswiki::cfg{Email}{SSLClientKeyFile} );
 
-    $this->SUPER::validateKeys( $this->{item}->{keys},
+    $this->validateKeys( $this->{item}->{keys},
         '{Email}{SSLClientKeyPassword}', $reporter );
 }
 

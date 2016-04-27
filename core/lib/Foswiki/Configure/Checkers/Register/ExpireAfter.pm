@@ -1,20 +1,19 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::Register::ExpireAfter;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+extends qw(Foswiki::Configure::Checkers::NUMBER);
 
-require Foswiki::Configure::Checkers::NUMBER;
-our @ISA = ('Foswiki::Configure::Checkers::NUMBER');
-
-sub check_current_value {
+around check_current_value => sub {
+    my $orig = shift;
     my ( $this, $reporter ) = @_;
 
     return
       unless ( $Foswiki::cfg{Register}{NeedVerification}
         || $Foswiki::cfg{Register}{NeedApproval} );
 
-    $this->SUPER::check_current_value($reporter);
+    $orig->( $this, $reporter );
 
     if ( $Foswiki::cfg{Register}{ExpireAfter} < 0 ) {
         $reporter->WARN(<<'MESSAGE');
@@ -22,7 +21,7 @@ Foswiki will *not* clean up pending registrations automatically. Make sure you
 have a cron job running the =tools/tick_foswiki.pl= script.
 MESSAGE
     }
-}
+};
 
 1;
 __END__

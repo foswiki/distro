@@ -1,11 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::Htpasswd::Encoding;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+extends qw(Foswiki::Configure::Checker);
 
 use Foswiki::Configure::Dependency ();
 
@@ -55,7 +53,7 @@ sub check_current_value {
       if ( $Foswiki::cfg{PasswordManager} ne 'Foswiki::Users::HtPasswdUser' );
 
     my $passwordFile = $Foswiki::cfg{Htpasswd}{FileName};
-    Foswiki::Configure::Load::expandValue($passwordFile);
+    $Foswiki::app->cfg->expandValue($passwordFile);
     ($passwordFile) =
       $passwordFile =~ m/(.*)/;    # Untaint needed to prevent a failure.
     my $passwords;
@@ -77,7 +75,7 @@ sub check_current_value {
     my $enc = $Foswiki::cfg{Htpasswd}{Encoding};
     if ( $Foswiki::cfg{Htpasswd}{AutoDetect} || $enc eq 'crypt' ) {
         my $passwordFile = $Foswiki::cfg{Htpasswd}{FileName};
-        Foswiki::Configure::Load::expandValue($passwordFile);
+        $Foswiki::app->cfg->expandValue($passwordFile);
 
         if ( $enc eq 'crypt' ) {
             if ( $Foswiki::cfg{Htpasswd}{AutoDetect} && -f $passwordFile ) {

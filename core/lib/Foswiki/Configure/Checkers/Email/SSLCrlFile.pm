@@ -1,12 +1,10 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Checkers::Email::SSLCrlFile;
+use v5.14;
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
@@ -74,7 +72,7 @@ sub check_current_value {
         }
     }
     my $path =
-      Foswiki::Configure::Load::expand( $Foswiki::cfg{Email}{SSLCaPath} );
+      Foswiki::Configure::Load::expanded( $Foswiki::cfg{Email}{SSLCaPath} );
     if ( $path && !( -d $path && -r $path ) ) {
         $reporter->ERROR(
             -d $path ? "$path is not readable" : "$path is not a directory" );

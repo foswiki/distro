@@ -310,7 +310,7 @@ key) will be checked, and *not* the subkey.
 sub check_current_value {
     my ( $params, $frep ) = @_;
 
-    my $holder = $Foswiki::app->cfg->localize;
+    my $holder = $Foswiki::app->cfg->localize( %{ $Foswiki::app->cfg->data } );
 
     # Load the spec files
     my $root = Foswiki::Configure::Root->new();
@@ -443,7 +443,7 @@ sub check_current_value {
 
   SPEC:
     foreach my $spec (@checko) {
-        my $e = $spec->{CHECK}->{iff};
+        my $e = $spec->attrs->{CHECK}->{iff};
         if ( defined $e ) {
             $e = $e->[0];
 
@@ -454,24 +454,30 @@ sub check_current_value {
                 eval("\$only_if=$e");
                 if ($@) {
                     my $errStr = ref($@) ? $@->stringify : $@;
-                    die "Syntax error in $spec->{keys} CHECK='iff:$e' - "
-                      . Foswiki::Configure::Reporter::stripStacktrace($errStr);
+                    Foswiki::Exception::Fatal->throw(
+                            text => "Syntax error in "
+                          . $spec->attrs->{keys}
+                          . " CHECK='iff:$e' - "
+                          . Foswiki::Configure::Reporter::stripStacktrace(
+                            $errStr)
+                    );
                 }
                 next SPEC unless $only_if;
             }
         }
         my $checker = Foswiki::Configure::Checker::loadChecker($spec);
         next unless $checker;
-        ASSERT( $spec->{keys} ) if DEBUG;
+        ASSERT( $spec->attrs->{keys} ) if DEBUG;
         $reporter->clear();
-        $reporter->NOTE("Checking $spec->{keys}") if $params->{trace};
+        $reporter->NOTE( "Checking " . $spec->attrs->{keys} )
+          if $params->{trace};
         $checker->check_current_value($reporter);
         my @path = $spec->getPath();
         pop(@path);    # remove keys
         push(
             @report,
             {
-                keys    => $spec->{keys},
+                keys    => $spec->attrs->{keys},
                 path    => [@path],
                 reports => $reporter->messages(),
                 hints   => $reporter->hints()

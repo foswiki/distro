@@ -1,14 +1,13 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::ExtensionsRepositories;
-
-use strict;
-use warnings;
-
-require Foswiki::Configure::Checker;
-our @ISA = ('Foswiki::Configure::Checker');
+use v5.14;
 
 use Foswiki::Configure::Checkers::URL ();
 use Foswiki::Configure::Load          ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 # Checks the Extensions repository list.
 # Syntax:

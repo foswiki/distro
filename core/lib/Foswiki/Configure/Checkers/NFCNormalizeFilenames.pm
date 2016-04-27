@@ -1,15 +1,14 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::NFCNormalizeFilenames;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Encode;
 use Unicode::Normalize;
 use Foswiki::Configure::FileUtil ();
 
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;

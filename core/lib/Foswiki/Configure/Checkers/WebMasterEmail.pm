@@ -1,13 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::WebMasterEmail;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+extends qw(Foswiki::Configure::Checkers::EMAILADDRESS);
 
-use Foswiki::Configure::Checkers::EMAILADDRESS ();
-our @ISA = ('Foswiki::Configure::Checkers::EMAILADDRESS');
-
-sub check_current_value {
+around check_current_value => sub {
+    my $orig = shift;
     my ( $this, $reporter ) = @_;
 
     my $value = $this->checkExpandedValue($reporter);
@@ -35,7 +34,7 @@ DONE
     }
 
     # Check Script URL Path against EMAILADDRESS
-    $this->SUPER::check_current_value($reporter);
+    $orig->( $this, $reporter );
 
     my @mods = (
         {
@@ -59,7 +58,7 @@ DONE
         }
     }
 
-}
+};
 
 1;
 __END__

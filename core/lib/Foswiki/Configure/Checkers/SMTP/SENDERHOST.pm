@@ -1,13 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::SMTP::SENDERHOST;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Foswiki::IP qw/:info/;
 
-require Foswiki::Configure::Checker;
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;

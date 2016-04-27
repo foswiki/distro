@@ -1,19 +1,18 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::Cache::DependencyFilter;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+extends qw(Foswiki::Configure::Checkers::REGEX);
 
-use Foswiki::Configure::Checkers::REGEX ();
-our @ISA = ('Foswiki::Configure::Checkers::REGEX');
-
-sub check_current_value {
+around check_current_value => sub {
+    my $orig = shift;
     my ( $this, $reporter ) = @_;
-    $this->SUPER::check_current_value($reporter)
+    $orig->( $this, $reporter )
       if $Foswiki::cfg{Cache}{Enabled};
-}
+  }
 
-1;
+  1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 

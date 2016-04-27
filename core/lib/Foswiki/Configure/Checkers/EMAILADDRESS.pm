@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::EMAILADDRESS;
+use v5.14;
 
 # CHECK options in spec file
 #  CHECK="option option:val option:val,val,val"
@@ -8,11 +9,8 @@ package Foswiki::Configure::Checkers::EMAILADDRESS;
 #
 # Use this checker if possible; otherwise subclass the item-specific checker from it.
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
@@ -20,12 +18,12 @@ sub check_current_value {
     my $value = $this->checkExpandedValue($reporter);
     return unless defined $value;
 
-    my $list = $this->{item}->CHECK_option('list');
+    my $list = $this->item->CHECK_option('list');
 
     $reporter->ERROR("A valid e-mail address is required")
       unless ( $value
-        || $this->{item}->CHECK_option('undefok')
-        || $this->{item}->CHECK_option('emptyok') );
+        || $this->item->CHECK_option('undefok')
+        || $this->item->CHECK_option('emptyok') );
 
     my @addrs;
     @addrs = split( /,\s*/, $value ) if ( defined $list );

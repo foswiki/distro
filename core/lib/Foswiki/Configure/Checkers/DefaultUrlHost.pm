@@ -1,18 +1,17 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::DefaultUrlHost;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+extends qw(Foswiki::Configure::Checkers::URL);
 
-use Foswiki::Configure::Checkers::URL ();
-our @ISA = ('Foswiki::Configure::Checkers::URL');
-
-sub check_current_value {
+around check_current_value => sub {
+    my $orig = shift;
     my ( $this, $reporter ) = @_;
 
     my $d = $this->checkExpandedValue($reporter);
     return unless $d;
-    $this->SUPER::check_current_value($reporter);
+    $orig->( $this, $reporter );
 
     if ( $Foswiki::cfg{DefaultUrlHost} =~ m/^\s+/ ) {
         $reporter->ERROR(
@@ -31,7 +30,7 @@ sub check_current_value {
               . 'If this setting and the URL are both correct, you could also add the URL to the \'expert setting\' =PermittedRedirectHostUrls=.'
         );
     }
-}
+};
 
 1;
 __END__

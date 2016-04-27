@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::RCS::rlogDateCmd;
-use Foswiki::Configure::Checkers::RCSChecker ();
-our @ISA = ('Foswiki::Configure::Checkers::RCSChecker');
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+extends qw(Foswiki::Configure::Checkers::RCSChecker);
 
 sub check {
     my $this = shift;

@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Section;
+use v5.14;
 
 =begin TML
 
@@ -13,11 +14,9 @@ all subclasses of this class. See Foswiki::Configure::Item for details.
 
 =cut
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Item ();
-our @ISA = ('Foswiki::Configure::Item');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Item);
 
 # Attributes legal on a section header
 use constant ATTRSPEC => {
@@ -34,19 +33,17 @@ Constructor.
 
 =cut
 
-sub new {
-    my ( $class, @opts ) = @_;
+around BUILDARGS => sub {
+    my $orig   = shift;
+    my $class  = shift;
+    my %params = @_;
 
-    my $this = $class->SUPER::new(
-        children  => [],
-        headline  => 'UNKNOWN',
-        typename  => 'SECTION',
-        _vobCache => {},          # Do not serialise
-        @opts
-    );
+    $params{children} //= [];
+    $params{headline} //= 'UNKNOWN';
+    $params{typename} //= 'SECTION';
 
-    return $this;
-}
+    return $orig->( $class, %params );
+};
 
 =begin TML
 
@@ -57,13 +54,13 @@ Add a child node under this node.
 
 sub addChild {
     my ( $this, $child ) = @_;
-    foreach my $kid ( @{ $this->{children} } ) {
+    foreach my $kid ( @{ $this->attrs->{children} } ) {
         die "Subnode already present; cannot add again" if $child eq $kid;
     }
-    $child->{_parent} = $this;
-    $child->{depth}   = $this->{depth} + 1;
+    $child->_parent($this);
+    $child->attrs->{depth} = $this->attrs->{depth} + 1;
 
-    push( @{ $this->{children} }, $child );
+    push( @{ $this->attrs->{children} }, $child );
 
     $this->_addToVobCache($child);
 }
@@ -73,21 +70,21 @@ sub _addToVobCache {
     my ( $this, $child ) = @_;
 
     if ( $child->isa('Foswiki::Configure::Section') ) {
-        while ( my ( $k, $v ) = each %{ $child->{_vobCache} } ) {
-            $this->{_vobCache}->{$k} = $v;
+        while ( my ( $k, $v ) = each %{ $child->_vobCache } ) {
+            $this->_vobCache->{$k} = $v;
         }
     }
     else {
-        $this->{_vobCache}->{ $child->{keys} } = $child;
+        $this->_vobCache->{ $child->attrs->{keys} } = $child;
     }
-    $this->{_parent}->_addToVobCache($child) if $this->{_parent};
+    $this->_parent->_addToVobCache($child) if $this->_parent;
 }
 
 # See Foswiki::Configure::Item
 sub hasDeep {
     my ( $this, $attrname ) = @_;
-    return 1 if $this->{$attrname};
-    foreach my $kid ( @{ $this->{children} } ) {
+    return 1 if $this->attrs->{$attrname};
+    foreach my $kid ( @{ $this->attrs->{children} } ) {
         return 1 if $kid->hasDeep($attrname);
     }
     return 0;
@@ -97,8 +94,8 @@ sub hasDeep {
 sub unparent {
     my $this = shift;
 
-    if ( $this->{children} ) {
-        foreach my $c ( @{ $this->{children} } ) {
+    if ( $this->attrs->{children} ) {
+        foreach my $c ( @{ $this->attrs->{children} } ) {
             $c->unparent();
         }
     }
@@ -110,10 +107,10 @@ sub prune {
     my ( $this, $depth ) = @_;
 
     if ( $depth == 0 ) {
-        delete $this->{children};
+        delete $this->attrs->{children};
     }
-    elsif ( $this->{children} ) {
-        foreach my $c ( @{ $this->{children} } ) {
+    elsif ( $this->attrs->{children} ) {
+        foreach my $c ( @{ $this->attrs->{children} } ) {
             $c->prune( $depth - 1 );
         }
     }
@@ -125,9 +122,9 @@ sub visit {
     my ( $this, $visitor ) = @_;
     my %visited;
     return 0 unless $visitor->startVisit($this);
-    foreach my $child ( @{ $this->{children} } ) {
+    foreach my $child ( @{ $this->attrs->{children} } ) {
         if ( $visited{$child} ) {
-            die join( ' ', @{ $this->{children} } );
+            die join( ' ', @{ $this->attrs->{children} } );
         }
         $visited{$child} = 1;
         return 0 unless $child->visit($visitor);
@@ -140,12 +137,12 @@ sub visit {
 # See Foswiki::Configure::Item
 sub getSectionObject {
     my ( $this, $head, $depth ) = @_;
-    if ( $this->{headline} eq $head
-        && ( !defined $depth || $this->{depth} == $depth ) )
+    if ( $this->attrs->{headline} eq $head
+        && ( !defined $depth || $this->attrs->{depth} == $depth ) )
     {
         return $this;
     }
-    foreach my $child ( @{ $this->{children} } ) {
+    foreach my $child ( @{ $this->attrs->{children} } ) {
         my $cvo = $child->getSectionObject( $head, $depth );
         return $cvo if $cvo;
     }
@@ -157,13 +154,13 @@ sub getSectionObject {
 # find the appropriate leaf Value.
 sub getValueObject {
     my ( $this, $keys ) = @_;
-    return $this->{_vobCache}->{$keys};
+    return $this->_vobCache->{$keys};
 }
 
 # Implements Foswiki::Configure::Item
 sub getAllValueKeys {
     my $this = shift;
-    return keys %{ $this->{_vobCache} };
+    return keys %{ $this->_vobCache };
 }
 
 # Implements Foswiki::Configure::Item
@@ -171,18 +168,18 @@ sub promoteSetting {
     my ( $this, $setting ) = @_;
     my $on_me = 1;
 
-    foreach my $child ( @{ $this->{children} } ) {
+    foreach my $child ( @{ $this->attrs->{children} } ) {
         $on_me = 0 unless $child->promoteSetting($setting);
     }
 
     if ($on_me) {
-        $this->{$setting} = 1;
+        $this->attrs->{$setting} = 1;
     }
     else {
-        delete $this->{$setting};
+        delete $this->attrs->{$setting};
     }
 
-    return $this->{$setting};
+    return $this->attrs->{$setting};
 }
 
 # Implements Foswiki::Configure::Item
@@ -190,8 +187,8 @@ sub getPath {
     my $this = shift;
 
     my @path;
-    @path = $this->{_parent}->getPath() if ( $this->{_parent} );
-    push( @path, $this->{headline} ) if $this->{headline};
+    @path = $this->_parent->getPath() if ( $this->_parent );
+    push( @path, $this->attrs->{headline} ) if $this->attrs->{headline};
 
     return @path;
 }
@@ -201,8 +198,8 @@ sub search {
     my ( $this, $re ) = @_;
 
     my @result = ();
-    push( @result, $this ) if $this->{headline} =~ m/$re/i;
-    foreach my $child ( @{ $this->{children} } ) {
+    push( @result, $this ) if $this->attrs->{headline} =~ m/$re/i;
+    foreach my $child ( @{ $this->attrs->{children} } ) {
         push( @result, $child->search($re) );
     }
     return @result;
@@ -220,11 +217,11 @@ sub find {
         return ($this);
     }
 
-    return () unless $this->{children};
+    return () unless $this->attrs->{children};
 
     # Search children
     my @result = ();
-    foreach my $child ( @{ $this->{children} } ) {
+    foreach my $child ( @{ $this->attrs->{children} } ) {
         push( @result, $child->find(@_) );
     }
 
@@ -237,7 +234,7 @@ sub find_also_dependencies {
 
     $root ||= $this;
 
-    foreach my $kid ( @{ $this->{children} } ) {
+    foreach my $kid ( @{ $this->attrs->{children} } ) {
         $kid->find_also_dependencies($root);
     }
 }

@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::DATE;
+use v5.14;
 
 # Default checker for DATE items
 #
@@ -11,13 +12,11 @@ package Foswiki::Configure::Checkers::DATE;
 #
 # Use this checker if possible; otherwise subclass the item-specific checker from it.
 
-use strict;
-use warnings;
-
 use Foswiki::Time qw/-nofoswiki/;
 
-use Foswiki::Configure::Checker ();
-our @ISA = qw/Foswiki::Configure::Checker/;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 sub check_current_value {
     my ( $this, $reporter ) = @_;
@@ -25,8 +24,8 @@ sub check_current_value {
     my $value = $this->checkExpandedValue($reporter);
     return unless defined $value;
 
-    my $zone = $this->{item}->CHECK_option('zone') || 'utc';
-    my $normalize = !$this->{item}->CHECK_option('raw');
+    my $zone = $this->item->CHECK_option('zone') || 'utc';
+    my $normalize = !$this->item->CHECK_option('raw');
 
     if ( $value =~ m/\S/ ) {
         my $binval = Foswiki::Time::parseTime( $value, $zone eq 'local' );
@@ -42,7 +41,7 @@ sub check_current_value {
             $reporter->ERROR("Unrecognized format for date");
         }
     }
-    elsif ( !$this->{item}->CHECK_option('emptyok') ) {
+    elsif ( !$this->item->CHECK_option('emptyok') ) {
         $reporter->ERROR('A date/time must be provided for this item');
     }
 }

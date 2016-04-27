@@ -1,10 +1,11 @@
 package Foswiki::Configure::Checkers::RCSChecker;
-use Foswiki::Configure::Checker ();
-our @ISA = ('Foswiki::Configure::Checker');
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 use constant REQUIRED_RCS_VERSION => 5.7;
 

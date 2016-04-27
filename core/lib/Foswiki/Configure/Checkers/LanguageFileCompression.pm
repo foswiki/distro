@@ -1,13 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::LanguageFileCompression;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Assert;
 
-require Foswiki::Configure::Checker;
-our @ISA = ('Foswiki::Configure::Checker');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Checker);
 
 =begin TML
 
@@ -67,7 +66,7 @@ sub compressLanguage {
     my ( $reporter, $lang ) = @_;
 
     my $dir = $Foswiki::cfg{LocalesDir};
-    Foswiki::Configure::Load::expandValue($dir);
+    $Foswiki::app->cfg->expandValue($dir);
 
     my $ok = -r "$dir/$lang.mo" && -M "$dir/$lang.po" >= -M "$dir/$lang.mo";
 
