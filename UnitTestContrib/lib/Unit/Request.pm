@@ -21,10 +21,8 @@ sub new {
 
     # Taint everything
     foreach my $k ( @{ $this->{param_list} } ) {
-        foreach my $k ( @{ $this->{param_list} } ) {
-            foreach ( @{ $this->{param}{$k} } ) {
-                $_ = TAINT($_) if defined $_;
-            }
+        foreach ( @{ $this->{param}{$k} } ) {
+            $_ = TAINT($_) if defined $_;
         }
     }
     return $this;

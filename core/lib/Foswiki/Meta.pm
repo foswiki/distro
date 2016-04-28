@@ -440,9 +440,9 @@ sub load {
     if ( ref($proto) ) {
 
         # Existing unloaded object
-        ASSERT( !$this->{_loadedRev} ) if DEBUG;
         $this = $proto;
-        $rev  = shift;
+        ASSERT( !$this->{_loadedRev} ) if DEBUG;
+        $rev = shift;
     }
     else {
         ( my $session, my $web, my $topic, $rev ) = @_;
@@ -2609,7 +2609,7 @@ sub removeFromStore {
     }
 
     if ( $attachment && !$this->hasAttachment($attachment) ) {
-        ASSERT( $this->{topic}, 'this is not a removable object' ) if DEBUG;
+        ASSERT( $this->{_topic}, 'this is not a removable object' ) if DEBUG;
         throw Error::Simple( 'No such attachment '
               . $this->{_web} . '.'
               . $this->{_topic} . '.'
