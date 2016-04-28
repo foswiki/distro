@@ -33,7 +33,8 @@ sub check_current_value {
     #                $guessed = 1;
     #            }
     #            elsif (
-    #                Foswiki::Configure::Load::expand(
+    #               # SMELL,  Must not modify config settings by expanding them
+    #                Foswiki::Configure::Load::expandValue(
     #                    $Foswiki::cfg{Email}{SSLCaFile}
     #                )
     #              )
@@ -73,8 +74,8 @@ sub check_current_value {
             $reporter->ERROR("$file is world-writable");
         }
     }
-    my $path =
-      Foswiki::Configure::Load::expand( $Foswiki::cfg{Email}{SSLCaPath} );
+    my $path = $Foswiki::cfg{Email}{SSLCaPath};
+    Foswiki::Configure::Load::expandValue($path);
     if ( $path && !( -d $path && -r $path ) ) {
         $reporter->ERROR(
             -d $path ? "$path is not readable" : "$path is not a directory" );
