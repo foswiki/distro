@@ -30,8 +30,8 @@ The testcases below assume that the correct interpretation is the one used in Ed
 
 =cut
 
-use FoswikiTestCase();
-our @ISA = qw( FoswikiTestCase );
+use FoswikiFnTestCase();
+our @ISA = qw( FoswikiFnTestCase );
 use Error qw( :try );
 
 use Foswiki::UI::Edit();
