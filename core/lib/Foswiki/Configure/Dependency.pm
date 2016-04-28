@@ -13,13 +13,15 @@ It is also used to examine the installed version of a Foswiki module.
 =cut
 
 package Foswiki::Configure::Dependency;
-
-use strict;
-use warnings;
+use v5.14;
 
 use version 0.77;
 
 use Assert;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 my @MNAMES  = qw(jan feb mar apr may jun jul aug sep oct nov dec);
 my $mnamess = join( '|', @MNAMES );
@@ -89,8 +91,8 @@ my $LAX_ALPHA_PART = qr/_[0-9]+/;
 
 my $LAX_DECIMAL_VERSION =
   qr/ $LAX_INTEGER_PART (?: \. | $FRACTION_PART $LAX_ALPHA_PART? )?
-	|
-	$FRACTION_PART $LAX_ALPHA_PART?
+    |
+    $FRACTION_PART $LAX_ALPHA_PART?
     /x;
 
 # Lax dotted-decimal version number.  Distinguished by having either
@@ -100,9 +102,9 @@ my $LAX_DECIMAL_VERSION =
 # so when there is no "v", the leading part is optional
 
 my $LAX_DOTTED_DECIMAL_VERSION = qr/
-	v $LAX_INTEGER_PART (?: $LAX_DOTTED_DECIMAL_PART+ $LAX_ALPHA_PART? )?
-	|
-	$LAX_INTEGER_PART? $LAX_DOTTED_DECIMAL_PART{2,} $LAX_ALPHA_PART?
+    v $LAX_INTEGER_PART (?: $LAX_DOTTED_DECIMAL_PART+ $LAX_ALPHA_PART? )?
+    |
+    $LAX_INTEGER_PART? $LAX_DOTTED_DECIMAL_PART{2,} $LAX_ALPHA_PART?
     /x;
 
 # Complete lax version number syntax -- should generally be used
@@ -115,6 +117,38 @@ my $LAX_DOTTED_DECIMAL_VERSION = qr/
 my $LAX = qr/ $LAX_DECIMAL_VERSION | $LAX_DOTTED_DECIMAL_VERSION /x;
 
 #--------------------------------------------------------------------------#
+
+has description =>
+  ( is => 'rw', default => 'This module has no description.', );
+has name => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        my $this = shift;
+        my $name;
+        unless ( $name = $this->module ) {
+
+            # If {name} is defined but {module} is not, we'll have to work that
+            # out when we try to load the module in studyInstallation.
+            Foswiki::Exception::Fatal->throw(
+                text => "No name or module in dependency" );
+        }
+        $name =~ s/^.*:://;
+        return $name;
+    },
+);
+has module           => ( is => 'rw', );
+has installed        => ( is => 'rw', );
+has installedVersion => ( is => 'rw', );
+has installedRelease => ( is => 'rw', );
+has location         => ( is => 'rw', );
+has notes            => ( is => 'rw', default => '', );
+has trigger          => ( is => 'rw', default => 1, );
+has type => ( is => 'rw', default => 'external', );    # assume external module
+
+# If no version condition is given, assume we will just test that the
+# module is installed (any version)
+has version => ( is => 'rw', default => '>=0', );
 
 =begin TML
 
@@ -139,33 +173,6 @@ Create an object instance representing a single dependency, as read from DEPENDE
 
 =cut
 
-sub new {
-    my ( $class, %opts ) = @_;
-    my $this = bless( \%opts, $class );
-
-    # If {module} is defined but not {name}, we can usually work it out
-    if ( $this->{module} && !$this->{name} ) {
-        $this->{name} = $this->{module};
-        $this->{name} =~ s/^.*:://;
-    }
-
-    # If {name} is defined but {module} is not, we'll have to work that
-    # out when we try to load the module in studyInstallation.
-    die "No name or module in dependency" unless $this->{name};
-
-    # If no version condition is given, assume we will just test that the
-    # module is installed (any version)
-    $this->{version} ||= '>=0';
-
-    # Other defaults
-    $this->{trigger} ||= 1;
-    $this->{type} ||= 'external';    # assume external module
-    $this->{description} ||= 'This module has no description.';
-    $this->{notes} = '';
-
-    return $this;
-}
-
 =begin TML
 
 ---++ ObjectMethod check() -> ($ok, $msg)
@@ -181,36 +188,44 @@ sub checkDependency {
     my $this = shift;
 
     # reject non-Perl dependencies
-    if ( $this->{type} !~ /^(?:perl|cpan)$/i ) {
+    if ( $this->type !~ /^(?:perl|cpan)$/i ) {
+        my ( $module, $type ) = ( $this->module, $this->type );
         return ( 0, <<LALA );
-$this->{module} is type '$this->{type}', and cannot be automatically checked.
+${module} is type '${type}', and cannot be automatically checked.
 Please check it manually and install if necessary.
 LALA
     }
 
     # Examine the current install of the module
     if ( !$this->studyInstallation() ) {
+        my ( $module,  $type )  = ( $this->module,  $this->type );
+        my ( $version, $notes ) = ( $this->version, $this->notes );
         return ( 0, <<TINKYWINKY );
-$this->{module} version $this->{version} required
--- $this->{type} $this->{notes}
+${module} version ${version} required
+-- ${type} ${notes}
 TINKYWINKY
     }
-    elsif ( $this->{version} =~ m/^\s*([<>=]+)?\s*(.+)/ ) {
+    elsif ( $this->version =~ m/^\s*([<>=]+)?\s*(.+)/ ) {
 
         # the version field is a condition
         my $op = $1 || '>=';
         my $requiredVersion = $2;
         unless ( $this->compare_versions( $op, $requiredVersion ) ) {
 
+            my ( $module, $installedRelease ) =
+              ( $this->module, $this->installedRelease );
+
             # module doesn't meet this condition
             return ( 0, <<PO );
-$this->{module} version $op $requiredVersion required
--- installed version is $this->{installedRelease}
+${module} version $op $requiredVersion required
+-- installed version is ${installedRelease}
 PO
         }
     }
+    my ( $module, $installedRelease ) =
+      ( $this->module, $this->installedRelease );
     return ( 1, <<DIPSY );
-$this->{module} version $this->{installedRelease} installed
+${module} version ${installedRelease} installed
 DIPSY
 }
 
@@ -232,44 +247,44 @@ sub studyInstallation {
 
     my ( $inst, $ver, $loc, $rel );
 
-    if ( !$this->{module} ) {
-        my $lib = ( $this->{name} =~ m/Plugin$/ ) ? 'Plugins' : 'Contrib';
+    if ( !$this->module ) {
+        my $lib = ( $this->name =~ m/Plugin$/ ) ? 'Plugins' : 'Contrib';
         foreach my $namespace (qw(Foswiki TWiki)) {
-            my $path = $namespace . '::' . $lib . '::' . $this->{name};
+            my $path = $namespace . '::' . $lib . '::' . $this->name;
             ( $inst, $ver, $loc, $rel ) =
               extractModuleVersion( $path, 'magic' );
             if ($inst) {
-                $this->{module} = $path;
+                $this->module = $path;
                 last;
             }
         }
     }
     else {
         ( $inst, $ver, $loc, $rel ) =
-          extractModuleVersion( $this->{module},
-            $this->{module} =~ m/(?:Foswiki|TWiki)/ );
+          extractModuleVersion( $this->module,
+            $this->module =~ m/(?:Foswiki|TWiki)/ );
     }
 
     if ($inst) {
-        $this->{installedVersion} = $ver;
-        $this->{installedRelease} = $rel || $ver;
-        $this->{installed}        = 1;
-        $this->{location}         = $loc;
+        $this->installedVersion($ver);
+        $this->installedRelease( $rel || $ver );
+        $this->installed(1);
+        $this->location($loc);
         if ( -l $loc ) {
 
             # Assume pseudo-installed
-            $this->{installedVersion} = '9999.99_999';
+            $this->installedVersion('9999.99_999');
         }
     }
     else {
-        $this->{notes}            = "module is not installed";
-        $this->{installedVersion} = '';
-        $this->{installedRelease} = '';
-        $this->{location}         = '';
+        $this->notes("module is not installed");
+        $this->installedVersion('');
+        $this->installedRelease('');
+        $this->location('');
         return 0;
     }
 
-    return 0 unless $this->{module};
+    return 0 unless $this->module;
     return 1;
 }
 
@@ -297,14 +312,14 @@ sub compare_using_cpan_version {
 
 sub compare_versions {
     my $this = shift;
-    if ( $this->{type} eq 'perl' ) {
+    if ( $this->type eq 'perl' ) {
 
-       #print STDERR "Comparing TYPE PERL $this->{module}\n" if $this->{module};
+     #print STDERR "Comparing TYPE PERL ", $this->module, "\n" if $this->module;
         return $this->_compare_extension_versions(@_);
     }
     else {
 
-        #print STDERR "Comparing TYPE cpan $this->{module}\n";
+        #print STDERR "Comparing TYPE cpan ", $this->module, "\n";
         return $this->_compare_cpan_versions(@_);
     }
 }
@@ -313,7 +328,7 @@ sub compare_versions {
 sub _compare_cpan_versions {
     my ( $this, $op, $b ) = @_;
 
-    my $a = $this->{installedVersion};
+    my $a = $this->installedVersion;
 
     return 0 if not defined $op or not exists $STRINGOPMAP{$op};
     my $string_op = $STRINGOPMAP{$op};
@@ -440,8 +455,8 @@ sub _compare_extension_versions {
     # $b - what we are comparing to (from DEPENDENCIES or configure FastReport)
     my ( $this, $op, $reqVer ) = @_;
 
-    my $aRELEASE = $this->{installedRelease};
-    my $aVERSION = $this->{installedVersion};
+    my $aRELEASE = $this->installedRelease;
+    my $aVERSION = $this->installedVersion;
 
     # If the operator is not defined, or invalid, return false
     if ( not defined $op or not exists $STRINGOPMAP{$op} ) {

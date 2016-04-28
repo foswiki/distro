@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Wizards::Plugins;
+use v5.14;
 
 =begin TML
 
@@ -9,16 +10,14 @@ Wizard to verify script paths.
 
 =cut
 
-use strict;
-use warnings;
-
 use Assert;
 use Foswiki;
 
 use Foswiki::Configure::Load ();
 
-require Foswiki::Configure::Wizard;
-our @ISA = ('Foswiki::Configure::Wizard');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Wizard);
 
 =begin TML
 
@@ -192,11 +191,11 @@ sub _setEnable {
         # Add it to the $spec
         $spec->addChild(
             Foswiki::Configure::Value->new(
-                'BOOLEAN',
-                LABEL   => $plu,
-                keys    => "${clef}{Enabled}",
-                CHECKER => 'PLUGIN_MODULE',
-                default => '0'
+                typename => 'BOOLEAN',
+                LABEL    => $plu,
+                keys     => "${clef}{Enabled}",
+                CHECKER  => 'PLUGIN_MODULE',
+                default  => '0'
             )
         );
     }
@@ -221,11 +220,11 @@ sub _setModule {
         # Add it to the $spec
         $spec->addChild(
             Foswiki::Configure::Value->new(
-                'STRING',
-                LABEL   => "$plu Module",
-                keys    => "{Plugins}{$plu}{Module}",
-                CHECKER => 'PLUGIN_MODULE',
-                default => 'Foswiki::Plugins::$plu'
+                typename => 'STRING',
+                LABEL    => "$plu Module",
+                keys     => "{Plugins}{$plu}{Module}",
+                CHECKER  => 'PLUGIN_MODULE',
+                default  => 'Foswiki::Plugins::$plu'
             )
         );
     }

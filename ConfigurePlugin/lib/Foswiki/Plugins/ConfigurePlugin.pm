@@ -148,7 +148,11 @@ sub _JSONwrap {
         no strict 'refs';
         my $response;
 
-        eval { require Taint::Runtime; };
+        eval {
+            local $SIG{__DIE__};
+            local $SIG{__WARN__};
+            require Taint::Runtime;
+        };
         if ($@) {
             $response = &$method( $request->params(), $reporter );
         }

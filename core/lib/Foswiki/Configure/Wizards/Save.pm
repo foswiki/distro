@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Wizards::Save;
+use v5.14;
 
 =begin TML
 
@@ -9,9 +10,6 @@ Wizard to generate LocalSite.cfg file from current $Foswiki::cfg,
 taking a backup as necessary.
 
 =cut
-
-use strict;
-use warnings;
 
 use Assert;
 
@@ -23,8 +21,9 @@ use Foswiki::Configure::LoadSpec ();
 use Foswiki::Configure::Checker  ();
 use Foswiki::Configure::FileUtil ();
 
-use Foswiki::Configure::Wizard ();
-our @ISA = ('Foswiki::Configure::Wizard');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Wizard);
 
 use constant TRACE_SAVE => 0;
 
@@ -116,7 +115,8 @@ sub _backupCurrentContent {
         chown $uid, $gid, $backup;
     }
     else {
-        die "Unable to open $path.$n for write: $!\n";
+        Foswiki::Exception::Fatal->throw(
+            text => "Unable to open $path.$n for write: $!\n" );
     }
     umask($um);
 
@@ -141,8 +141,8 @@ sub save {
     my $isBootstrap = $Foswiki::cfg{isBOOTSTRAPPING};
 
     my $logger;
-    if ($Foswiki::Plugins::SESSION) {
-        $logger = $Foswiki::Plugins::SESSION->logger;
+    if ($Foswiki::app) {
+        $logger = $Foswiki::app->logger;
     }
     elsif ( defined $this->param('logger') ) {
         $logger = $this->param('logger');
@@ -181,7 +181,8 @@ sub save {
             eval($1);
         }
         if ($@) {
-            print STDERR "Error reading existing $lsc: $@";
+            print STDERR "Error reading existing $lsc: ",
+              Foswiki::Exception::errorStr($@);
 
             # Continue, but will be unable to detect changes
         }
@@ -247,11 +248,11 @@ sub save {
     if ( $this->param('set') ) {
         while ( my ( $k, $v ) = each %{ $this->param('set') } ) {
             my $spec = $root->getValueObject($k);
-            eval("\$spec->{old_value} = \$Foswiki::cfg$k") if $spec;
+            eval("\$spec->attrs->{old_value} = \$Foswiki::cfg$k") if $spec;
             if ( $spec && defined $v && !ref($v) ) {
                 $v =~ m/^(.*)$/s;
-                $v = $1;                      # untaint
-                $spec->{saving_value} = $v;
+                $v = $1;                             # untaint
+                $spec->attrs->{saving_value} = $v;
                 eval { $v = $spec->decodeValue($v); };
                 if ($@) {
                     $reporter->ERROR(
@@ -270,11 +271,11 @@ sub save {
                 eval("\$Foswiki::cfg$k=\$v");
             }
             elsif ($spec->CHECK_option('undefok')
-                || $spec->{typename} eq 'BOOLEAN' )
+                || $spec->attrs->{typename} eq 'BOOLEAN' )
             {
                 print STDERR "CLEARING $k\n" if TRACE_SAVE;
                 eval("undef \$Foswiki::cfg$k");
-                $spec->{saving_value} = undef;
+                $spec->attrs->{saving_value} = undef;
             }
             else {
                 $reporter->ERROR(
@@ -295,11 +296,11 @@ sub save {
             # when a configuration value is saved.  It can modify the value
             # being saved, such as to hash a password, but never modify other
             # values.
-            if ( $spec && $spec->{ONSAVE} ) {
+            if ( $spec && $spec->attrs->{ONSAVE} ) {
                 my $checker = Foswiki::Configure::Checker::loadChecker($spec);
                 if ( $checker && $checker->can('onSave') ) {
                     eval(
-"\$checker->onSave( \$reporter, \$k, \$Foswiki::cfg$k, \$spec->{old_value} )"
+"\$checker->onSave( \$reporter, \$k, \$Foswiki::cfg$k, \$spec->attrs->{old_value} )"
                     );
                 }
             }

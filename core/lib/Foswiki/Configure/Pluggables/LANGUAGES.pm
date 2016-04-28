@@ -30,7 +30,7 @@ sub construct {
          $Foswiki::cfg{LocalesDir}
       || Foswiki::Configure::FileUtil::findFileOnPath('../locale')
       || '';
-    Foswiki::Configure::Load::expandValue($d);
+    $Foswiki::app->cfg->expandValue($d);
 
     opendir( DIR, $d )
       or die "Failed to open LocalesDir $Foswiki::cfg{LocalesDir}";
@@ -66,7 +66,7 @@ sub construct {
         }
 
         my $value = Foswiki::Configure::Value->new(
-            'BOOLEAN',
+            typename   => 'BOOLEAN',
             LABEL      => $label,
             keys       => '{Languages}{' . $keys . '}{Enabled}',
             default    => 0,

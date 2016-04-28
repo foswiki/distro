@@ -14,8 +14,6 @@ use strict;
 use warnings;
 
 use Assert;
-use Foswiki::Configure::Pluggable ();
-our @ISA = ('Foswiki::Configure::Pluggable');
 
 sub construct {
     my ( $class, $settings, $file, $line ) = @_;

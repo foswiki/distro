@@ -1,13 +1,15 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Reporter;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Assert;
 
 use JSON         ();
 use Data::Dumper ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
 
 # Number of levels of a stack trace to keep
 use constant KEEP_STACK_LEVELS => 0;    #( (DEBUG) ? 2 : 0 );
@@ -47,19 +49,46 @@ ERROR message.
 
 =cut
 
-sub new {
-    my ($class) = @_;
+=begin TML
 
-    my $this = bless(
-        {
-            messages => [],
-            changes  => {},
-            hints    => {}
-        },
-        $class
-    );
-    $this->clear();
-    return $this;
+---++ ObjectAttribute messages -> \@messages
+
+Get the content of the reporter. @messages is an ordered array of hashes,
+each of which has fields:
+   * level: one of errors, warnings, notes
+   * text: text of the message
+Each message corresponds to a single parameter to one of the ERROR,
+WARN or NOTES methods.
+
+=cut
+
+=begin TML
+
+---++ ObjectAttribute changes -> \%changes
+
+Get the content of the reporter. %changes is a hash mapping a key
+to a (new) value. Each entry corresponds to a call to the CHANGED
+method (though multiple calls to CHANGED with the same keys will
+only result in one entry).
+
+=cut
+
+=begin TML
+
+---++ ObjectAttribute hints -> \%hints
+
+Get the content of the hints hash. Flags are used to supply hints to the
+UI as to how errors may be resolved.
+
+=cut
+
+has messages => ( is => 'rw', lazy => 1, clearer => 1, default => sub { [] }, );
+has changes  => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
+has hints    => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
+
+sub BUILD {
+    my $this = shift;
+    $this->clear;
 }
 
 =begin TML
@@ -73,7 +102,7 @@ message. Returns the reporter to allow chaining.
 
 sub NOTE {
     my $this = shift;
-    push( @{ $this->{messages} }, map { { level => 'notes', text => $_ } } @_ );
+    push( @{ $this->messages }, map { { level => 'notes', text => $_ } } @_ );
     return $this;
 }
 
@@ -88,10 +117,8 @@ message. Returns the reporter to allow chaining.
 
 sub WARN {
     my $this = shift;
-    push(
-        @{ $this->{messages} },
-        map { { level => 'warnings', text => $_ } } @_
-    );
+    push( @{ $this->messages },
+        map { { level => 'warnings', text => $_ } } @_ );
 }
 
 =begin TML
@@ -105,8 +132,7 @@ message. Returns the reporter to allow chaining.
 
 sub ERROR {
     my $this = shift;
-    push( @{ $this->{messages} },
-        map { { level => 'errors', text => $_ } } @_ );
+    push( @{ $this->messages }, map { { level => 'errors', text => $_ } } @_ );
     return $this;
 }
 
@@ -126,7 +152,7 @@ Returns the reporter to allow chaining.
 
 sub CHANGED {
     my ( $this, $keys ) = @_;
-    $this->{changes}->{$keys} = uneval( eval("\$Foswiki::cfg$keys") );
+    $this->changes->{$keys} = uneval( eval("\$Foswiki::cfg$keys") );
     return $this;
 }
 
@@ -162,7 +188,7 @@ $level is one of notes, warnings or errors.
 
 sub has_level {
     my ( $this, $level ) = @_;
-    foreach my $m ( @{ $this->{messages} } ) {
+    foreach my $m ( @{ $this->messages } ) {
         return 1 if ( $m->{level} eq $level );
     }
     return 0;
@@ -188,9 +214,9 @@ If =$value= is given, the previous value is returned.
 sub hint {
     my ( $this, $hint, $value ) = @_;
 
-    my $curval = $this->{$hint};
+    my $curval = $this->hints->{$hint};
     if ( defined $value ) {
-        $this->{hints}{$hint} = $value;
+        $this->hints->{$hint} = $value;
     }
     return $curval;
 }
@@ -206,61 +232,9 @@ Returns the reporter to allow chaining.
 
 sub clear {
     my $this = shift;
-    $this->{messages} = [];
-    $this->{changes}  = {};
-    $this->{hints}    = {};
-    return $this;
-}
-
-=begin TML
-
----++ ObjectMethod messages() -> \@messages
-
-Get the content of the reporter. @messages is an ordered array of hashes,
-each of which has fields:
-   * level: one of errors, warnings, notes
-   * text: text of the message
-Each message corresponds to a single parameter to one of the ERROR,
-WARN or NOTES methods.
-
-=cut
-
-sub messages {
-    my ($this) = @_;
-
-    return $this->{messages};
-}
-
-=begin TML
-
----++ ObjectMethod changes() -> \%changes
-
-Get the content of the reporter. %changes is a hash mapping a key
-to a (new) value. Each entry corresponds to a call to the CHANGED
-method (though multiple calls to CHANGED with the same keys will
-only result in one entry).
-
-=cut
-
-sub changes {
-    my ($this) = @_;
-
-    return $this->{changes};
-}
-
-=begin TML
-
----++ ObjectMethod hints() -> \%hints
-
-Get the content of the hints hash. Flags are used to supply hints to the
-UI as to how errors may be resolved.
-
-=cut
-
-sub hints {
-    my ($this) = @_;
-
-    return $this->{hints};
+    $this->clear_messages;
+    $this->clear_changes;
+    $this->clear_hints;
 }
 
 =begin TML
@@ -300,7 +274,7 @@ sub stringify {
               )
               . $_->{text}
           }
-          grep { $all_levels || $l{ $_->{level} } } @{ $this->messages() }
+          grep { $all_levels || $l{ $_->{level} } } @{ $this->messages }
     );
 
     if ( $all_levels || $l{changes} ) {
@@ -309,11 +283,11 @@ sub stringify {
             map {
                 ( $many_levels ? 'CHANGE: ' : '' ) . "$_ = "
                   . (
-                    defined $this->changes()->{$_}
-                    ? $this->changes()->{$_}
+                    defined $this->changes->{$_}
+                    ? $this->changes->{$_}
                     : 'undef'
                   )
-            } keys %{ $this->changes() }
+            } keys %{ $this->changes }
         );
     }
     return '' unless scalar(@report);

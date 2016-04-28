@@ -1,14 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Wizards::ExploreExtensions;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Assert;
 
 =begin TML
 
----+ package Foswiki::Configure::Wizards:ExploreExtensions
+---+ Class Foswiki::Configure::Wizards:ExploreExtensions
 
 Visits remote extensions repositories to pull down details of
 available extensions. These are then presented to the reporter
@@ -16,11 +14,12 @@ in tabular form.
 
 =cut
 
-require Foswiki::Configure::Wizard;
-our @ISA = ('Foswiki::Configure::Wizard');
-
 use Foswiki::Configure::Dependency ();
 use Foswiki::Func                  ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Wizard);
 
 # THE FOLLOWING MUST BE MAINTAINED CONSISTENT WITH Extensions.JsonReport
 # They describe the format of an extension topic.
@@ -53,6 +52,9 @@ my $MNAME   = qr/$mnamess/i;
 my %N2M;
 foreach ( 0 .. $#MNAMES ) { $N2M{ $MNAMES[$_] } = $_; }
 
+has list => ( is => 'rw', lazy => 1, default => sub { {} }, predicate => 1, );
+has errors => ( is => 'rw', lazy => 1, default => sub { [] }, );
+
 # Convert a date in the formats dd mm yyyy or dd Mmm yyyy to a unique integer
 sub d2n {
     my ( $d, $m, $y ) = @_;
@@ -67,10 +69,7 @@ sub _getListOfExtensions {
       ( $Foswiki::RELEASE, $Foswiki::VERSION, $Foswiki::Plugins::VERSION );
 
     my @consulted = ();
-    return ( $this->{list} ) if $this->{list};
-
-    $this->{list}   = {};
-    $this->{errors} = [];
+    return ( $this->list ) if $this->has_list;
 
     foreach my $place ( findRepositories() ) {
         next unless defined $place->{data};
@@ -125,7 +124,7 @@ MESS
                         $errorMsg .=
 " you probably need to add the optional =,username,password)= options to the repository definition";
                     }
-                    push( @{ $this->{errors} }, $errorMsg );
+                    push( @{ $this->errors }, $errorMsg );
                 }
                 else {
 
@@ -149,14 +148,14 @@ MESS
             }
             else {
                 push(
-                    @{ $this->{errors} },
+                    @{ $this->errors },
                     "Error accessing $place->{name}: no content"
                 );
             }
         }
         else {
             push(
-                @{ $this->{errors} },
+                @{ $this->errors },
                 "Error accessing $place->{name}: " . $response->message()
             );
 
@@ -164,14 +163,14 @@ MESS
             eval('require LWP');
             if ($@) {
                 push(
-                    @{ $this->{errors} },
+                    @{ $this->errors },
                     "This may be because the CPAN 'LWP' module isn't installed."
                 );
             }
         }
     }
 
-    return ( $this->{list}, @consulted );
+    return ( $this->list, @consulted );
 }
 
 sub _studyRow {
@@ -205,7 +204,7 @@ sub _studyRow {
         }
     }
 
-    $this->{list}->{ $dep->{name} } = $dep;
+    $this->list->{ $dep->{name} } = $dep;
     return '';
 }
 
@@ -262,7 +261,7 @@ sub _get_extensions {
 
     $reporter->NOTE( "> Looked in " . join( ' ', @consultedLocations ) );
 
-    $reporter->ERROR( @{ $this->{errors} } ) if scalar( @{ $this->{errors} } );
+    $reporter->ERROR( @{ $this->errors } ) if scalar( @{ $this->errors } );
 
     if ( $set eq 'Installed' ) {
         $reporter->NOTE("> *Found $installedCount Installed extensions* ");

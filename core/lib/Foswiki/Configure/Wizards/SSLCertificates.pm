@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Wizards::SSLCertificates;
+use v5.14;
 
 =begin TML
 
@@ -9,13 +10,11 @@ Wizard to check SSL certificates.
 
 =cut
 
-use strict;
-use warnings;
-
 use Foswiki::Configure::Checker ();
 
-use Foswiki::Configure::Wizard ();
-our @ISA = ('Foswiki::Configure::Wizard');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Wizard);
 
 =begin TML
 
@@ -252,7 +251,7 @@ sub show_active {
     my ( $this, $reporter ) = @_;
 
     my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
-    Foswiki::Configure::Load::expandValue($certfile);
+    $Foswiki::app->cfg->expandValue($certfile);
 
     unless ( -r $certfile ) {
         return $this->ERROR("No Certificate is installed");
@@ -308,9 +307,9 @@ sub install_cert {
     my ( $this, $reporter ) = @_;
 
     my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
-    Foswiki::Configure::Load::expandValue($certfile);
+    $Foswiki::app->cfg->expandValue($certfile);
     my $keyfile = '$Foswiki::cfg{DataDir}' . "/SmimePrivateKey.pem";
-    Foswiki::Configure::Load::expandValue($keyfile);
+    $Foswiki::app->cfg->expandValue($keyfile);
 
     unless ( -r "$certfile.csr" && -r "$keyfile.csr" ) {
         $reporter->ERROR("No pending Certificate request");

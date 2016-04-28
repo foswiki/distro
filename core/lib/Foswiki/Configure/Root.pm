@@ -8,17 +8,17 @@ The root of the configuration item tree.
 =cut
 
 package Foswiki::Configure::Root;
+use v5.14;
 
-use strict;
-use warnings;
+use Moo;
+extends qw(Foswiki::Configure::Section);
 
-use Foswiki::Configure::Section ();
-our @ISA = ('Foswiki::Configure::Section');
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
 
-sub new {
-    my ($class) = @_;
-    return $class->SUPER::new( headline => '' );
-}
+    return $orig->( $class, @_, headline => '' );
+};
 
 1;
 __END__

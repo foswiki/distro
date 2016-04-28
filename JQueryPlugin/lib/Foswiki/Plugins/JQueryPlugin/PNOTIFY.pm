@@ -1,8 +1,8 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::PNOTIFY;
-use v5.14 l
+use v5.14;
 
-  use Moo;
+use Moo;
 extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML

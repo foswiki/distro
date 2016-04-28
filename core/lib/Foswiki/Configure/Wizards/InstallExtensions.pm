@@ -1,8 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Wizards::InstallExtensions;
-
-use strict;
-use warnings;
+use v5.14;
 
 use File::Copy ();
 use File::Spec ();
@@ -12,18 +10,19 @@ use Assert;
 
 =begin TML
 
----+ package Foswiki::Configure::Wizards:InstallExtensions
+---+ Class Foswiki::Configure::Wizards:InstallExtensions
 
 Install and remove extensions
 
 =cut
 
-require Foswiki::Configure::Wizard;
-our @ISA = ('Foswiki::Configure::Wizard');
-
 use Foswiki::Configure::Package                    ();
 use Foswiki::Configure::Dependency                 ();
 use Foswiki::Configure::Wizards::ExploreExtensions ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Wizard);
 
 my %validArgs = (
     USELOCAL => 1,

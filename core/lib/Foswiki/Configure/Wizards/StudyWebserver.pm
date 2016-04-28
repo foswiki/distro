@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Wizards::StudyWebserver;
+use v5.14;
 
 =begin TML
 
@@ -7,18 +8,16 @@ package Foswiki::Configure::Wizards::StudyWebserver;
 
 =cut
 
-use strict;
-use warnings;
-
 use CGI        ();
 use FindBin    ();
 use File::Spec ();
 use JSON       ();
-
-use Foswiki::Configure::Wizard ();
-our @ISA = ('Foswiki::Configure::Wizard');
+use Try::Tiny;
 
 use Foswiki::Net ();
+
+use Moo;
+extends qw(Foswiki::Configure::Wizard);
 
 our $inc_rubric =
 '@INC library path _This is the Perl library path, used to load Foswiki modules, third-party modules used by some plugins, and Perl built-in modules_ ';
@@ -36,6 +35,8 @@ sub report {
 
     $reporter->NOTE('---+ Environment Variables');
 
+    my $env = $Foswiki::app->env;
+
     # Check the execution environment
 
     my $XENV = $this->_getScriptENV($reporter);
@@ -43,10 +44,10 @@ sub report {
     my $uid = getlogin() || getpwuid($>);
 
     my @groups;
-    eval {
+    try {
         @groups = map { lc( getgrgid($_) ) } split( ' ', $( );
-    };
-    if ($@) {
+    }
+    catch {
 
         # Try to use Cygwin's 'id' command - may be on the path,
         # since Cygwin is probably installed to supply ls, egrep,
@@ -64,8 +65,8 @@ sub report {
 "Unable to query execution environment. The following analysis only reflects the configure environment."
         );
         $reporter->NOTE('| *Variable* | *Configure* |');
-        for my $key ( sort keys %ENV ) {
-            my $value   = $ENV{$key};
+        for my $key ( sort keys %{$env} ) {
+            my $value   = $env->{$key};
             my $decoded = '';
             if ( $key eq 'HTTP_COOKIE' && $value ) {
 
@@ -190,14 +191,14 @@ HERE
     # in current distributions.
 
     $Foswiki::cfg{DETECTED}{ModPerlLoaded} =
-      ( exists $ENV{SERVER_SOFTWARE}
-          && ( $ENV{SERVER_SOFTWARE} =~ m/mod_perl/ ) )
+      ( exists $env->{SERVER_SOFTWARE}
+          && ( $env->{SERVER_SOFTWARE} =~ m/mod_perl/ ) )
       || ( exists $XENV->{ENV}->{SERVER_SOFTWARE}
         && ( $XENV->{ENV}->{SERVER_SOFTWARE} =~ m/mod_perl/ ) );
 
     # Detect whether we are actually running under mod_perl
     # - test for MOD_PERL alone, which is enough.
-    $Foswiki::cfg{DETECTED}{UsingModPerl} = exists $ENV{MOD_PERL};
+    $Foswiki::cfg{DETECTED}{UsingModPerl} = exists $env->{MOD_PERL};
 
     $Foswiki::cfg{DETECTED}{ModPerlVersion} =
       eval('use mod_perl2; return $mod_perl2::VERSION');
@@ -381,13 +382,15 @@ sub _compareHashes {
 sub _getScriptENV {
     my ( $this, $reporter ) = @_;
 
+    my $env = $Foswiki::app->env;
+
     my @pars = (
         -name    => 'FOSWIKI_CONFIGURATION',
         -value   => time,
         -path    => '/',
         -expires => "+1h"
     );
-    push @pars, -secure => 1 if ( $ENV{HTTPS} && $ENV{HTTPS} eq 'on' );
+    push @pars, -secure => 1 if ( $env->{HTTPS} && $env->{HTTPS} eq 'on' );
     my $cookie = CGI->cookie(@pars);
     local $Foswiki::VERSION = "CONFIGURATION";
     my $net = Foswiki::Net->new;
@@ -471,7 +474,7 @@ sub _getScriptENV {
 }
 
 sub _getBinDir {
-    my $dir = $ENV{SCRIPT_FILENAME} || '.';
+    my $dir = $Foswiki::app->env->{SCRIPT_FILENAME} || '.';
     $dir =~ s(/+configure[^/]*$)();
     return $dir;
 }

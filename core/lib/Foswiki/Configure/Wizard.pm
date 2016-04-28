@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Wizard;
+use v5.14;
 
 =begin TML
 
@@ -32,10 +33,18 @@ See the documentation for the UI for more information.
 
 =cut
 
-use strict;
-use warnings;
-
 use Assert;
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+
+has param_source => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+    isa     => Foswiki::Object::isaHASH('param_source'),
+);
 
 =begin TML
 
@@ -54,15 +63,19 @@ sub loadWizard {
 
     my $class = 'Foswiki::Configure::Wizards::' . $name;
 
-    eval("require $class");
-    die "Failed to load wizard $class: $@" if $@;
+    my $wizardObj;
 
-    return $class->new($param_source);
-}
+    try {
+        Foswiki::load_class($class);
+        $wizardObj = $class->new( param_source => $param_source );
+    }
+    catch {
+        Foswiki::Exception::Fatal->throw(
+            text => "Failed to load wizard $class: "
+              . Foswiki::Exception::errorStr($_) );
+    };
 
-sub new {
-    my ( $class, $ps ) = @_;
-    return bless( { param_source => $ps }, $class );
+    return $wizardObj;
 }
 
 =begin TML
@@ -75,7 +88,7 @@ Returns the value of a parameter that was given when the wizard was invoked.
 
 sub param {
     my ( $this, $param ) = @_;
-    return $this->{param_source}->{$param};
+    return $this->param_source->{$param};
 }
 
 1;

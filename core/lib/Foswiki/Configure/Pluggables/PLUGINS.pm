@@ -59,20 +59,20 @@ sub construct {
         push(
             @$settings,
             Foswiki::Configure::Value->new(
-                'BOOLEAN',
-                LABEL   => $plugin,
-                keys    => "{Plugins}{$plugin}{Enabled}",
-                default => '0',                             # Not enabled
-                EXPERT  => $expert{$plugin}
+                typename => 'BOOLEAN',
+                LABEL    => $plugin,
+                keys     => "{Plugins}{$plugin}{Enabled}",
+                default  => '0',                             # Not enabled
+                EXPERT   => $expert{$plugin}
             )
         );
         push(
             @$settings,
             Foswiki::Configure::Value->new(
-                'STRING',
-                CHECKER => 'PLUGIN_MODULE',
-                LABEL   => "$plugin Module",
-                keys    => "{Plugins}{$plugin}{Module}",
+                typename => 'STRING',
+                CHECKER  => 'PLUGIN_MODULE',
+                LABEL    => "$plugin Module",
+                keys     => "{Plugins}{$plugin}{Module}",
 
                 # Note: as tempting as it may seem, DO NOT set
                 # undefok. Otherwise hints will be invisible.

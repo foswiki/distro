@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Wizards::SendTestEmail;
+use v5.14;
 
 =begin TML
 
@@ -9,11 +10,8 @@ Wizard to test email.
 
 =cut
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Wizard ();
-our @ISA = ('Foswiki::Configure::Wizard');
+use Moo;
+extends qw(Foswiki::Configure::Wizard);
 
 # Use to disable stream redirection during $net->sendEmail. This is
 # required because Foswiki::Net doesn't use the Foswiki::Sandbox :-(
@@ -36,10 +34,10 @@ sub send {
 
     # Expand a couple of required config settings for
     # Foswiki::Net::sendEmail after making sure we can restore them.
-    Foswiki::Configure::Load::expandValue(
+    $Foswiki::app->cfg->expandValue(
         $Foswiki::cfg{Email}{SmimeCertificateFile} );
 
-    Foswiki::Configure::Load::expandValue( $Foswiki::cfg{Email}{SmimeKeyFile} );
+    $Foswiki::app->cfg->expandValue( $Foswiki::cfg{Email}{SmimeKeyFile} );
 
     if ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} =~ m/FastCGI/ ) {
         $noredirect = 1;    # FCGI doesn't allow redirection of STDERR

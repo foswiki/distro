@@ -1,23 +1,22 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Wizards::AutoConfigureEmail;
+use v5.14;
 
 =begin TML
 
----++ package Foswiki::Configure::Wizards::AutoConfigureEmail
+---++ Class Foswiki::Configure::Wizards::AutoConfigureEmail
 
 Wizard to try to autoconfigure email.
 
 =cut
 
-use strict;
-use warnings;
+use Foswiki::IP qw/$IPv6Avail :regexp :info/;
 
-use Foswiki::Configure::Wizard ();
-our @ISA = ('Foswiki::Configure::Wizard');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Wizard);
 
 use constant DEBUG_SSL => 1;
-
-use Foswiki::IP qw/$IPv6Avail :regexp :info/;
 
 # N.B. Below the block comment are not enabled placeholders
 # Search order (specify hash key).  Agents with custom sniffers
@@ -103,8 +102,8 @@ sub autoconfigure {
                 '$Foswiki::cfg{DataDir}/SmimePrivateKey.pem',
             );
         }
-        Foswiki::Configure::Load::expandValue($certFile);
-        Foswiki::Configure::Load::expandValue($keyFile);
+        $Foswiki::app->cfg->expandValue($certFile);
+        $Foswiki::app->cfg->expandValue($keyFile);
 
         unless ( $certFile && $keyFile && -r $certFile && -r $keyFile ) {
             $reporter->ERROR( <<NOCERT );

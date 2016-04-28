@@ -50,6 +50,7 @@ use strict;
 use warnings;
 
 use Assert;
+use Try::Tiny;
 
 =begin TML
 
@@ -67,8 +68,15 @@ sub load {
     my $name = shift;
 
     my $modelName = 'Foswiki::Configure::Pluggables::' . $name;
-    eval("require $modelName; ${modelName}::construct(\@_);");
-    die $@ if $@;
+    try {
+        Foswiki::load_package( $modelName, method => 'construct' );
+        no strict 'refs';
+        &{"${modelName}::construct"}(@_);
+        use strict 'refs';
+    }
+    catch {
+        Foswiki::Exception::Fatal->rethrow($_);
+    };
 }
 
 1;

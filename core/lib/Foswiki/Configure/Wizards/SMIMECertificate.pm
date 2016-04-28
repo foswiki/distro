@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Wizards::SMIMECertificate;
+use v5.14;
 
 =begin TML
 
@@ -9,11 +10,8 @@ Wizard methods to handle SMIME certificates.
 
 =cut
 
-use strict;
-use warnings;
-
-use Foswiki::Configure::Wizard ();
-our @ISA = ('Foswiki::Configure::Wizard');
+use Moo;
+extends qw(Foswiki::Configure::Wizard);
 
 =begin TML
 
@@ -34,9 +32,9 @@ sub generate_cert {
     $checks ||= { '.selfSigned' => 1 };
 
     my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
-    Foswiki::Configure::Load::expandValue($certfile);
+    $Foswiki::app->cfg->expandValue($certfile);
     my $keyfile = '$Foswiki::cfg{DataDir}' . "/SmimePrivateKey.pem";
-    Foswiki::Configure::Load::expandValue($keyfile);
+    $Foswiki::app->cfg->expandValue($keyfile);
 
     my $ok = 1;
     unless ( $Foswiki::cfg{WebMasterEmail} ) {
@@ -296,9 +294,9 @@ sub cancel_cert {
     my $ok = 1;
 
     my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
-    Foswiki::Configure::Load::expandValue($certfile);
+    $Foswiki::app->cfg->expandValue($certfile);
     my $keyfile = '$Foswiki::cfg{DataDir}' . "/SmimePrivateKey.pem";
-    Foswiki::Configure::Load::expandValue($keyfile);
+    $Foswiki::app->cfg->expandValue($keyfile);
 
     if ( -f "$certfile.csr" || -f "$keyfile.csr" ) {
         if ( -f "$certfile.csr" && !unlink("$certfile.csr") ) {
@@ -334,7 +332,7 @@ sub show_request {
     my ( $this, $reporter ) = @_;
 
     my $certfile = '$Foswiki::cfg{DataDir}' . "/SmimeCertificate.pem";
-    Foswiki::Configure::Load::expandValue($certfile);
+    $Foswiki::app->cfg->expandValue($certfile);
     my $csrfile = "$certfile.csr";
 
     unless ( -r $csrfile ) {

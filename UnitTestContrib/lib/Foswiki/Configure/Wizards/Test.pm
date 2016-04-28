@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Wizards::Test;
+use v5.14;
 
 =begin TML
 
@@ -9,13 +10,10 @@ Wizard to test configure parameter passing
 
 =cut
 
-use strict;
-use warnings;
-
 use Assert;
 
-use Foswiki::Configure::Wizard ();
-our @ISA = ('Foswiki::Configure::Wizard');
+use Moo;
+extends qw(Foswiki::Configure::Wizard);
 
 =begin TML
 

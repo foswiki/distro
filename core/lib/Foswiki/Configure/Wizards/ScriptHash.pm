@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Wizards::ScriptHash;
+use v5.14;
 
 =begin TML
 
@@ -9,9 +10,6 @@ Wizard to verify script paths.
 
 =cut
 
-use strict;
-use warnings;
-
 use Assert;
 
 use JSON ();
@@ -19,8 +17,9 @@ use JSON ();
 use Foswiki::Configure::Dependency ();
 use Foswiki::Configure::Load       ();
 
-require Foswiki::Configure::Wizard;
-our @ISA = ('Foswiki::Configure::Wizard');
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Wizard);
 
 =begin TML
 

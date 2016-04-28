@@ -42,7 +42,7 @@ EOF
         eval(
 "Foswiki::Configure::Checkers::Store::${implementation}::Implementation->check_current_value( \$reporter )"
         );
-        $reporter->NOTE( ref($@) ? $@->stringify : $@ ) if ($@);
+        $reporter->NOTE( Foswiki::Exception::errorStr($@) ) if ($@);
     }
 }
 
