@@ -222,8 +222,8 @@ sub cachePage {
     my $refresh = $request->param('refresh') || '';
     my $variationKey = $this->genVariationKey();
 
-    # remove old entries
-    if ( $refresh =~ m/^(on|cache|all)$/ ) {
+    # remove old entries.  Note refresh=all handled in getPage
+    if ( $refresh =~ m/^(on|cache)$/ ) {
         $this->deletePage( $web, $topic );    # removes all variations
     }
     else {
@@ -335,13 +335,10 @@ sub getPage {
 
     if ( $refresh eq 'fire' ) {    # simulates a "save" of the current topic
         $this->fireDependency( $web, $topic );
-
-        #return undef;
     }
 
     if ( $refresh =~ m/^(on|cache)$/ ) {
         $this->deletePage( $web, $topic );    # removes all variations
-                                              #return undef;
     }
 
     # check cacheability
