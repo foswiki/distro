@@ -223,7 +223,7 @@ sub cachePage {
     my $variationKey = $this->genVariationKey();
 
     # remove old entries
-    if ( $session->inContext("isadmin") && $refresh =~ m/^(on|cache|all)$/ ) {
+    if ( $refresh =~ m/^(on|cache|all)$/ ) {
         $this->deletePage( $web, $topic );    # removes all variations
     }
     else {
@@ -316,6 +316,7 @@ sub getPage {
 
         if ( $session->{users}->isAdmin( $session->{user} ) ) {
             $this->deleteAll();
+            return undef;
         }
         else {
             my $session = $Foswiki::Plugins::SESSION;
@@ -334,6 +335,13 @@ sub getPage {
 
     if ( $refresh eq 'fire' ) {    # simulates a "save" of the current topic
         $this->fireDependency( $web, $topic );
+
+        #return undef;
+    }
+
+    if ( $refresh =~ m/^(on|cache)$/ ) {
+        $this->deletePage( $web, $topic );    # removes all variations
+                                              #return undef;
     }
 
     # check cacheability
