@@ -420,7 +420,7 @@ sub checkWebExists {
             def    => 'bad_web_name',
             web    => $webName,
             topic  => $Foswiki::cfg{WebPrefsTopicName},
-            params => [ $op, $app->invalidWeb ]
+            params => [ $op, $app->request->invalidWeb ]
         );
     }
     unless ($webName) {
