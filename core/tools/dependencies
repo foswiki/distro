@@ -51,7 +51,7 @@ my $result = Getopt::Long::GetOptions(
 
 $all = ($all) ? 'all' : 'missing';
 
-print Foswiki::cliDependencyReport($all);
+print Foswiki::Macros::cliDependencyReport($all);
 
 1;
 __END__
