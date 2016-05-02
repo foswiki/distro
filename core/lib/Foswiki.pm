@@ -912,8 +912,6 @@ sub satisfiedByCache {
             $hdrs->{'Content-Encoding'} = $encoding;
             $hdrs->{'Vary'}             = 'Accept-Encoding';
 
-            # Mark the response so we know it was satisfied from the cache
-            $hdrs->{'X-Foswiki-PageCache'} = 1;
         }
         else {
         # e.g. CLI request satisfied from the cache, or old browser that doesn't
@@ -941,6 +939,8 @@ sub satisfiedByCache {
     }
 
     # set remaining headers
+    # Mark the response so we know it was satisfied from the cache
+    $hdrs->{'X-Foswiki-PageCache'} = 1;
     $text = undef unless $this->setETags( $cachedPage, $hdrs );
     $this->generateHTTPHeaders($hdrs);
 
