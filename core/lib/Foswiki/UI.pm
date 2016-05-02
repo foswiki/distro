@@ -463,14 +463,14 @@ sub checkTopicExists {
     my $app = $this->app;
     $op //= $app->request->action;
 
-    if ( $app->invalidTopic ) {
+    if ( $app->request->invalidTopic ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
             def    => 'invalid_topic_name',
             web    => $web,
             topic  => $topic,
-            params => [ $op, $app->invalidTopic ]
+            params => [ $op, $app->request->invalidTopic ]
         );
     }
 
