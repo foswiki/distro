@@ -208,8 +208,39 @@ sub tear_down {
     unlink("$Foswiki::cfg{WorkingDir}/${$}_generic.db");
 }
 
+sub clearCache {
+    my $this = shift;
+
+    my $query = Unit::Request->new( { skin => ['none'], refresh => 'all', } );
+    $query->path_info("/System/WebHome");
+    $query->method('GET');
+
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin},
+        $query, { view => 1 } );
+
+    my ( $resp, $result, $stdout, $stderr ) = $this->capture(
+        sub {
+            try {
+                no strict 'refs';
+                &{$UI_FN}( $this->{session} );
+                use strict 'refs';
+                $Foswiki::engine->finalize( $this->{session}{response},
+                    $this->{session}{request} );
+            }
+            catch Foswiki::OopsException with {
+                my $e = shift;
+                $this->assert( 0, "Incorrect exception: " . $e->stringify() );
+            };
+
+        }
+    );
+
+}
+
 sub check {
     my ( $this, $pathinfo ) = @_;
+
+    $this->clearCache();
 
     $UI_FN ||= $this->getUIFn( $this->{uifn} );
     $Foswiki::cfg{Cache}{Debug} = 1;
@@ -305,6 +336,8 @@ sub check_refresh {
     my $this     = shift;
     my $pathinfo = shift;
     my $refresh  = shift;
+
+    $this->clearCache();
 
     my $user =
       ( $refresh eq 'all' )
