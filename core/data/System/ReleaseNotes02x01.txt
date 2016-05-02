@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1461555540" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1462215486" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.1
 
@@ -52,7 +52,8 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.0.3 was built on 15 Nov 2015. It is a release that contains 17 fixes and 1 enhancement.
 %ENDTWISTY{}%
    * Foswiki 2.1.0 was built on 02 Feb 2016. It is a release that contains 37 fixes and 14 enhancements. It closes 7 Feature Requests.
-   * Foswiki 2.1.1-RC2 was built on 25 Apr 2016. It is a release that contains 36 fixes and 21 enhancements.
+   * Foswiki 2.1.1 was built on 30 Apr 2016. It is a release that contains 36 fixes and 21 enhancements.
+   * Foswiki 2.1.2 was built on 2 May 2016. It is a release that contains 1 fix.
 
 
 ---++ Pre-installed Extensions
@@ -303,6 +304,10 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14047][Item14047]] | Simplify the htaccess configuration examples. |
 | [[%BUGS%/Item4992][Item4992]] | Work out how to translate Javascript strings. |
 
+---++ Foswiki Release 2.1.2 Details
+---+++ Fixes
+
+| [[%BUGS%/Item14061][Item14061]] | Non-admin users are unable to refresh the page cache using the =refresh= query param. It's silently ignored. |
 
 </noautolink>
 
