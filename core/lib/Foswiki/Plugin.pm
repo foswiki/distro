@@ -156,11 +156,12 @@ sub BUILD {
         local $SIG{__WARN__};
         eval "use $p";
         if ($@) {
-            my $errMessage = ref($@) ? $@->stringify : $@;
-            push(
-                @{ $this->errors },
-                "$p could not be loaded.  Errors were:\n$@\n----"
-            );
+            my $errMessage =
+                "$p could not be loaded.  Errors were:\n"
+              . Foswiki::Exception::errorStr($@)
+              . "\n----";
+            push( @{ $this->errors }, $errMessage );
+            Foswiki::Func::writeDebug($errMessage);
             $this->disabled(1);
             $this->reason('no_load_plugin');
         }
