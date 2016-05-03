@@ -43,7 +43,6 @@ class.
 package Foswiki::Aux::Localize;
 use v5.14;
 
-use Foswiki::Object      ();
 use Foswiki::Aux::Holder ();
 
 use Moo::Role;

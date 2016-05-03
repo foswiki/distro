@@ -84,7 +84,8 @@ package Foswiki::AccessControlException;
 use v5.14;
 
 use Moo;
-extends 'Foswiki::Exception';
+use namespace::clean;
+extends qw(Foswiki::Exception);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -127,10 +128,16 @@ Generate a summary string. This is mainly for debugging.
 around stringify => sub {
     my $orig  = shift;
     my $this  = shift;
-    my $topic = $this->{topic}
+    my $topic = $this->topic
       || '';   # Access checks of Web objects causes uninitialized string errors
     return
-"AccessControlException: Access to $this->{mode} $this->{web}.$topic for $this->{user} is denied. $this->{reason}";
+        "AccessControlException: Access to "
+      . $this->mode . " "
+      . $this->web
+      . ".$topic for "
+      . $this->user
+      . " is denied. "
+      . $this->reason;
 };
 
 1;

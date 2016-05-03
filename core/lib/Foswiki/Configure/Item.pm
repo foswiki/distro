@@ -50,18 +50,6 @@ has attrs => (
     },
     isa => Foswiki::Object::isaHASH( 'attrs', noUndef => 1, ),
 );
-has _parent => (
-    is      => 'rw',
-    clearer => 1,
-    isa => Foswiki::Object::isaCLASS( '_parent', 'Foswiki::Configure::Item' ),
-);
-has _vobCache => (
-    is      => 'rw',
-    lazy    => 1,
-    clearer => 1,
-    default => sub { {} },
-    isa     => Foswiki::Object::isaHASH( '_vobCache', noUndef => 1 ),
-);
 
 =begin TML
 
@@ -333,10 +321,10 @@ sub getPath {
     my $this = shift;
     my @path = ();
 
-    if ( $this->_parent ) {
-        @path = $this->_parent->getPath();
-        push( @path, $this->_parent->headline )
-          if $this->_parent->headline;
+    if ( my $parent = $this->attrs->{_parent} ) {
+        @path = $parent->getPath();
+        push( @path, $parent->headline )
+          if $parent->headline;
     }
     return @path;
 }
@@ -357,8 +345,8 @@ use (e.g. serialisation).
 
 sub unparent {
     my $this = shift;
-    $this->_clear_parent;
-    $this->_clear_vobCache;
+    delete $this->attrs->{_parent};
+    delete $this->attrs->{_vobCache};
 }
 
 =begin TML
@@ -417,17 +405,18 @@ All search terms must be matched.
 sub _matches {
     my ( $this, %search ) = @_;
 
+    my $attrs = $this->attrs;
     while ( my ( $k, $e ) = each %search ) {
         if ( ref($e) ) {
             return 0
-              unless ( ref( $this->attrs->{"_$k"} )
-                && $this->attrs->{"_$k"}->isa('Foswiki::Configure::Item')
-                && $this->attrs->{"_$k"}->_matches(%$e) );
+              unless ( ref( $attrs->{"_$k"} )
+                && $attrs->{"_$k"}->isa('Foswiki::Configure::Item')
+                && $attrs->{"_$k"}->_matches(%$e) );
         }
         elsif ( !defined $e ) {
-            return 0 if defined $this->attrs->{$k};
+            return 0 if defined $attrs->{$k};
         }
-        elsif ( !defined $this->attrs->{$k} || $this->attrs->{$k} ne $e ) {
+        elsif ( !defined $attrs->{$k} || $attrs->{$k} ne $e ) {
             return 0;
         }
     }

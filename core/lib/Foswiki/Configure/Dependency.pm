@@ -137,12 +137,14 @@ has name => (
         return $name;
     },
 );
+has data             => ( is => 'rw', );
 has module           => ( is => 'rw', );
 has installed        => ( is => 'rw', );
 has installedVersion => ( is => 'rw', );
 has installedRelease => ( is => 'rw', );
 has location         => ( is => 'rw', );
 has notes            => ( is => 'rw', default => '', );
+has repository       => ( is => 'rw', );
 has trigger          => ( is => 'rw', default => 1, );
 has type => ( is => 'rw', default => 'external', );    # assume external module
 
@@ -254,7 +256,7 @@ sub studyInstallation {
             ( $inst, $ver, $loc, $rel ) =
               extractModuleVersion( $path, 'magic' );
             if ($inst) {
-                $this->module = $path;
+                $this->module($path);
                 last;
             }
         }

@@ -1,5 +1,200 @@
 # See bottom of file for license and copyright information
 
+# Subclass of reporter that writes reports to a file
+# as well as passing them to another logger.
+# TODO: abstract this out and share with tools/extender.pl
+package LoggingReporter;
+use File::Spec;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Object);
+
+# $super - Foswiki::Configure::Reporter to pass all reports to
+# %options can include:
+#  filename => Override of generated name including path
+#  action   => Action - Install, Remove etc.
+#  path     => Override the default logging path
+#  pkgname  => name of package being installed
+#  nolog    => if true, don't log to file
+# Default name:  pkgname-[action]-yyyymmdd-hhmmss.log
+
+has reporter => (
+    is  => 'rw',
+    isa => Foswiki::Object::isaCLASS(
+        'reporter',
+        'Foswiki::Configure::Reporter',
+        noUndef => 1,
+    ),
+    required => 1,
+);
+has nolog => ( is => 'rw', default => 0, );
+has logfile => (
+    is       => 'rw',
+    lazy     => 1,
+    init_arg => 'filename',
+    default  => sub {
+        my $this = shift;
+        my $timestamp =
+          Foswiki::Time::formatTime( time(),
+            '$year$mo$day-$hours$minutes$seconds' );
+        my $logfile = File::Spec->catfile( $this->_path,
+            $this->_pkgname . "-$timestamp-" . $this->action . ".log" );
+        $Foswiki::app->cfg->expandValue($logile);
+        return $logfile;
+    },
+);
+has _action => ( is => 'ro', init_arg => 'action', default => 'run', );
+has _path => (
+    is       => 'ro',
+    lazy     => 1,
+    init_arg => 'path',
+    default  => sub {
+        return "$Foswiki::cfg{Log}{Dir}/configure";
+    },
+);
+has _pkgname => ( is => 'ro', init_arg => 'pkgname', default => '', );
+
+sub _log {
+    my $this = shift;
+    use filetest 'access';
+
+    # Don't actually write any logs if simulating the install
+    return if $this->nolog;
+
+    my $text = join( "\n", @_ ) . "\n";
+
+    # Take out block formatting tags
+    $text =~ s/<\/?verbatim>//g;
+
+    # Take out active elements
+    $text =~ s/<button.*?<\/button?//g;
+
+    unless ( -e $this->logfile ) {
+        my @path =
+          split( /[\/\\]+/, $this->logfile, -1 );    # -1 allows directories
+        pop(@path);
+        if ( scalar(@path) ) {
+            umask( oct(777) - $Foswiki::cfg{Store}{dirPermission} );
+            File::Path::mkpath( join( '/', @path ),
+                0, $Foswiki::cfg{Store}{dirPermission} );
+        }
+    }
+
+    if ( open( my $file, '>>', Foswiki::encode_utf8( $this->logfile ) ) ) {
+        binmode $file, ":encoding(utf-8)";
+        print $file $text;
+        close($file);
+    }
+    else {
+        if ( !-w $this->logfile ) {
+            Foswiki::Exception::Fatal->throw(
+                    text => "ERROR: Could not open logfile "
+                  . $this->logfile
+                  . " for write. Your admin should 'configure' now and fix the errors!"
+            );
+        }
+
+        # die to force the admin to get permissions correct
+        Foswiki::Exception::Fatal->throw(
+            text => 'ERROR: Could not write to ' . $this->logfile . ": $!" );
+    }
+}
+
+sub NOTE {
+    my $this = shift;
+
+    $this->reporter->NOTE(@_);
+    $this->_log(@_);
+}
+
+sub WARN {
+    my ( $this, @p ) = @_;
+    return unless scalar(@p);
+    $this->reporter->WARN(@p);
+    unless ( $p[0] =~ s/^>/> *WARNING:* / ) {
+        $p[0] = "> *WARNING:* ";
+    }
+    $this->_log(@p);
+}
+
+sub ERROR {
+    my ( $this, @p ) = @_;
+    return unless scalar(@p);
+    $this->reporter->ERROR(@p);
+    unless ( $p[0] =~ s/^>/> *ERROR:* / ) {
+        $p[0] = "> *ERROR:* ";
+    }
+    $this->_log(@p);
+}
+
+sub CHANGED {
+    my ( $this, $keys ) = @_;
+    $this->reporter->CHANGED($keys);
+    my $val = $this->reporter->{changes}->{$keys};
+    $this->_log("> _Changed:_ $keys = $val");
+}
+
+sub WIZARD {
+    return shift->reporter->WIZARD(@_);
+}
+
+sub messages {
+    return shift->reporter->messages(@_);
+}
+
+sub changes {
+    return shift->reporter->changes(@_);
+}
+
+package _SpecChecker;
+
+use Assert;
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Configure::Visitor);
+
+has reporter => (
+    is  => 'rw',
+    isa => Foswiki::Object::isaCLASS(
+        'reporter',
+        'Foswiki::Configure::Reporter',
+        noUndef => 1,
+    ),
+    required => 1,
+);
+has simulated => ( is => 'rw', required => 1, );
+
+sub startVisit {
+    my ( $this, $node ) = @_;
+    return 1
+      unless $node->{keys}
+      && exists $node->{default};
+    my $val;
+    if ( $node->isFormattedType() ) {
+
+        # We're pulling in a formatted type, such as PERL. We have
+        # code later to help handle formatted types represented as
+        # strings so we can save the string default rather than evaling
+        # it and destroying the formatting.
+        $val = $node->{default};
+    }
+    else {
+        $val = eval( $node->{default} );
+    }
+    if ( $this->simulated ) {
+        $this->reporter->NOTE( "\t* $node->{keys} = "
+              . Foswiki::Configure::Reporter::uneval($val) );
+    }
+    else {
+        return 1 if ( eval("exists \$Foswiki::cfg$node->{keys}") );
+        eval("\$Foswiki::cfg$node->{keys}=\$val");
+        ASSERT( !$@, $@ ) if DEBUG;
+        $this->reporter->CHANGED( $node->{keys} );
+    }
+    return 1;
+}
+sub endVisit { return 1 }
+
 =begin TML
 
 ---+ package Foswiki::Configure::Package
@@ -150,156 +345,6 @@ sub option {
 
     $this->options->{$name} = $value if scalar(@_) == 3;
     return $this->options->{$name};
-}
-
-{
-    # Subclass of reporter that writes reports to a file
-    # as well as passing them to another logger.
-    # TODO: abstract this out and share with tools/extender.pl
-    package LoggingReporter;
-    use File::Spec;
-    use Moo;
-    use namespace::clean;
-    extends qw(Foswiki::Object);
-
-    # $super - Foswiki::Configure::Reporter to pass all reports to
-    # %options can include:
-    #  filename => Override of generated name including path
-    #  action   => Action - Install, Remove etc.
-    #  path     => Override the default logging path
-    #  pkgname  => name of package being installed
-    #  nolog    => if true, don't log to file
-    # Default name:  pkgname-[action]-yyyymmdd-hhmmss.log
-
-    has reporter => (
-        is  => 'rw',
-        isa => Foswiki::Object::isaCLASS(
-            'reporter',
-            'Foswiki::Configure::Reporter',
-            noUndef => 1,
-        ),
-        required => 1,
-    );
-    has nolog => ( is => 'rw', default => 0, );
-    has logfile => (
-        is       => 'rw',
-        lazy     => 1,
-        init_arg => 'filename',
-        default  => sub {
-            my $this = shift;
-            my $timestamp =
-              Foswiki::Time::formatTime( time(),
-                '$year$mo$day-$hours$minutes$seconds' );
-            my $logfile = File::Spec->catfile( $this->_path,
-                $this->_pkgname . "-$timestamp-" . $this->action . ".log" );
-            $Foswiki::app->cfg->expandValue($logile);
-            return $logfile;
-        },
-    );
-    has _action => ( is => 'ro', init_arg => 'action', default => 'run', );
-    has _path => (
-        is       => 'ro',
-        lazy     => 1,
-        init_arg => 'path',
-        default  => sub {
-            return "$Foswiki::cfg{Log}{Dir}/configure";
-        },
-    );
-    has _pkgname => ( is => 'ro', init_arg => 'pkgname', default => '', );
-
-    sub _log {
-        my $this = shift;
-        use filetest 'access';
-
-        # Don't actually write any logs if simulating the install
-        return if $this->nolog;
-
-        my $text = join( "\n", @_ ) . "\n";
-
-        # Take out block formatting tags
-        $text =~ s/<\/?verbatim>//g;
-
-        # Take out active elements
-        $text =~ s/<button.*?<\/button?//g;
-
-        unless ( -e $this->logfile ) {
-            my @path =
-              split( /[\/\\]+/, $this->logfile, -1 );    # -1 allows directories
-            pop(@path);
-            if ( scalar(@path) ) {
-                umask( oct(777) - $Foswiki::cfg{Store}{dirPermission} );
-                File::Path::mkpath( join( '/', @path ),
-                    0, $Foswiki::cfg{Store}{dirPermission} );
-            }
-        }
-
-        if ( open( my $file, '>>', Foswiki::encode_utf8( $this->logfile ) ) ) {
-            binmode $file, ":encoding(utf-8)";
-            print $file $text;
-            close($file);
-        }
-        else {
-            if ( !-w $this->logfile ) {
-                Foswiki::Exception::Fatal->throw(
-                        text => "ERROR: Could not open logfile "
-                      . $this->logfile
-                      . " for write. Your admin should 'configure' now and fix the errors!"
-                );
-            }
-
-            # die to force the admin to get permissions correct
-            Foswiki::Exception::Fatal->throw(
-                    text => 'ERROR: Could not write to '
-                  . $this->logfile
-                  . ": $!" );
-        }
-    }
-
-    sub NOTE {
-        my $this = shift;
-
-        $this->reporter->NOTE(@_);
-        $this->_log(@_);
-    }
-
-    sub WARN {
-        my ( $this, @p ) = @_;
-        return unless scalar(@p);
-        $this->reporter->WARN(@p);
-        unless ( $p[0] =~ s/^>/> *WARNING:* / ) {
-            $p[0] = "> *WARNING:* ";
-        }
-        $this->_log(@p);
-    }
-
-    sub ERROR {
-        my ( $this, @p ) = @_;
-        return unless scalar(@p);
-        $this->reporter->ERROR(@p);
-        unless ( $p[0] =~ s/^>/> *ERROR:* / ) {
-            $p[0] = "> *ERROR:* ";
-        }
-        $this->_log(@p);
-    }
-
-    sub CHANGED {
-        my ( $this, $keys ) = @_;
-        $this->reporter->CHANGED($keys);
-        my $val = $this->reporter->{changes}->{$keys};
-        $this->_log("> _Changed:_ $keys = $val");
-    }
-
-    sub WIZARD {
-        return shift->reporter->WIZARD(@_);
-    }
-
-    sub messages {
-        return shift->reporter->messages(@_);
-    }
-
-    sub changes {
-        return shift->reporter->changes(@_);
-    }
 }
 
 =begin TML
@@ -509,52 +554,6 @@ HERE
           . ( $this->option('SIMULATE') ? 'simulated' : 'finished' ) );
 
     return ( 1, \%plugins, \%cpanDeps );
-}
-
-{
-
-    package _SpecChecker;
-
-    use Assert;
-    use Foswiki::Configure::Visitor ();
-
-    our @ISA = ('Foswiki::Configure::Visitor');
-
-    sub new {
-        my ( $class, $r, $sim ) = @_;
-        return bless( { reporter => $r, simulated => $sim }, $class );
-    }
-
-    sub startVisit {
-        my ( $this, $node ) = @_;
-        return 1
-          unless $node->{keys}
-          && exists $node->{default};
-        my $val;
-        if ( $node->isFormattedType() ) {
-
-            # We're pulling in a formatted type, such as PERL. We have
-            # code later to help handle formatted types represented as
-            # strings so we can save the string default rather than evaling
-            # it and destroying the formatting.
-            $val = $node->{default};
-        }
-        else {
-            $val = eval( $node->{default} );
-        }
-        if ( $this->simulated ) {
-            $this->reporter->NOTE( "\t* $node->{keys} = "
-                  . Foswiki::Configure::Reporter::uneval($val) );
-        }
-        else {
-            return 1 if ( eval("exists \$Foswiki::cfg$node->{keys}") );
-            eval("\$Foswiki::cfg$node->{keys}=\$val");
-            ASSERT( !$@, $@ ) if DEBUG;
-            $this->reporter->CHANGED( $node->{keys} );
-        }
-        return 1;
-    }
-    sub endVisit { return 1 }
 }
 
 # Map a standard filename from the default paths to any alternate file
@@ -1017,7 +1016,11 @@ sub _install {
     }
     if ($ok) {
         $spec->visit(
-            _SpecChecker->new( $reporter, $this->option('SIMULATE') ) );
+            _SpecChecker->new(
+                reporter  => $reporter,
+                simulated => $this->option('SIMULATE')
+            )
+        );
 
         $reporter->NOTE( "> ${simulated}Installed:  "
               . $this->pkgname

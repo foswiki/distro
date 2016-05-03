@@ -1,7 +1,5 @@
 # See bottom of file for license and copyright information
 
-use v5.14;
-
 =begin TML
 
 ---+ package Foswiki::Exception
@@ -47,16 +45,17 @@ nor in Ubuntu 15.10 repository, nor in CentOS. Though it is a part of FreeBSD po
 =cut
 
 package Foswiki::Exception;
-use Carp;
+use v5.14;
+require Carp;
 use Assert;
-use Scalar::Util qw(blessed);
+require Scalar::Util;
 
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Object);
 with 'Throwable';
 
-our $EXCEPTION_TRACE = 1;
+our $EXCEPTION_TRACE = 0;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -83,8 +82,6 @@ has stacktrace => (
 sub BUILD {
     my $this = shift;
 
-    #say STDERR Carp::longmess(__PACKAGE__ . "::BUILD");
-
     unless ( $this->has_stacktrace ) {
         my $trace = Carp::longmess('');
         $this->_set_stacktrace($trace);
@@ -97,7 +94,15 @@ sub BUILD {
           . " didn't set a meaningful error text in case it would be treated as a simple Foswiki::Exception"
     ) unless $this->text;
 
-    Foswiki::Func::writeDebug( $this->stringify ) if DEBUG;
+    if ( DEBUG && defined $Foswiki::app ) {
+        $Foswiki::app->logger->log(
+            {
+                level => 'debug',
+                extra => [ $this->stringify ],
+            }
+        );
+    }
+
     say STDERR "New exception object created: ", $this->stringify
       if DEBUG && $EXCEPTION_TRACE;
 }
@@ -274,7 +279,7 @@ sub errorStr {
     my $str = $err;
 
     if ( ref($err) ) {
-        if ( blessed($err) ) {
+        if ( Scalar::Util::blessed($err) ) {
             if ( $err->can('stringify') ) {
                 $str = $err->stringify;
             }
@@ -304,24 +309,11 @@ extends qw(Foswiki::Exception);
 
 # This class is only for distinguishing ASSERT-generated exceptions.
 
-sub BUILD {
-
-    #say STDERR "Exception::ASSERT", Carp::longmess;
-}
-
 package Foswiki::Exception::Fatal;
-use Carp;
-use Assert;
 use Moo;
-use namespace::clean;
 extends qw(Foswiki::Exception);
 
 # To cover perl/system errors.
-sub BUILD {
-    my $this = shift;
-
-    #Carp::cluck __PACKAGE__ . "(" . $this->text . ")" if DEBUG;
-}
 
 =begin TML
 

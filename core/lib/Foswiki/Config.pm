@@ -12,7 +12,7 @@ package Foswiki::Config;
 use v5.14;
 
 use Assert;
-use Encode;
+use Encode ();
 use File::Basename;
 use File::Spec;
 use POSIX qw(locale_h);

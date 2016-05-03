@@ -94,106 +94,97 @@ our $inUnitTestMode = 0;
 
 use Try::Tiny;
 
-use Moo;
-use namespace::clean;
-extends qw( Foswiki::Object );
+#use Moo;
+#use namespace::clean;
+#extends qw( Foswiki::Object );
 
 use Assert;
 use Exporter qw(import);
-our @EXPORT_OK = qw(%regex urlEncode urlDecode make_params load_package);
+our @EXPORT_OK =
+  qw(%regex urlEncode urlDecode make_params load_package load_class);
 
 sub SINGLE_SINGLETONS       { 0 }
 sub SINGLE_SINGLETONS_TRACE { 0 }
 
-has digester => (
-    is      => 'ro',
-    lazy    => 1,
-    clearer => 1,
-    default => sub { return Digest::MD5->new; },
-);
-has forms => (
-    is      => 'ro',
-    lazy    => 1,
-    clearer => 1,
-    default => sub { {} },
-);
-
-# Heap is to be used for data persistent over session lifetime.
-# Usage: $sessiom->heap->{key} = <your data>;
-has heap => (
-    is      => 'rw',
-    clearer => 1,
-    lazy    => 1,
-    default => sub { {} },
-);
-has net => (
-    is        => 'ro',
-    lazy      => 1,
-    clearer   => 1,
-    predicate => 1,
-    default   => sub {
-        load_package('Foswiki::Net');
-        return Foswiki::Net->new( session => $_[0] );
-    },
-);
-has remoteUser => (
-    is      => 'rw',
-    clearer => 1,
-);
-has requestedWebName => ( is => 'rw', clearer => 1, );
-has response => (
-    is      => 'rw',
-    lazy    => 1,
-    clearer => 1,
-    default => sub { return Foswiki::Response->new; },
-);
-has sandbox => (
-    is      => 'ro',
-    default => 'Foswiki::Sandbox',
-    clearer => 1,
-);
-has scriptUrlPath => (
-    is      => 'ro',
-    lazy    => 1,
-    clearer => 1,
-    default => sub {
-        my $this          = shift;
-        my $scriptUrlPath = $Foswiki::cfg{ScriptUrlPath};
-        my $url           = $this->request->url;
-        if (   $Foswiki::cfg{GetScriptUrlFromCgi}
-            && $url
-            && $url =~ m{^[^:]*://[^/]*(.*)/.*$}
-            && $1 )
-        {
-
-            # SMELL: this is a really dangerous hack. It will fail
-            # spectacularly with mod_perl.
-            # SMELL: why not just use $query->script_name?
-            # SMELL: unchecked implicit untaint?
-            $scriptUrlPath = $1;
-        }
-        return $scriptUrlPath;
-    },
-);
-has search => (
-    is        => 'ro',
-    lazy      => 1,
-    clearer   => 1,
-    predicate => 1,
-    default   => sub {
-        require Foswiki::Search;
-        return Foswiki::Search->new( session => $_[0] );
-    },
-);
-has topicName => (
-    is      => 'rw',
-    clearer => 1,
-);
-
-has webName => (
-    is      => 'rw',
-    clearer => 1,
-);
+#has digester => (
+#    is      => 'ro',
+#    lazy    => 1,
+#    clearer => 1,
+#    default => sub { return Digest::MD5->new; },
+#);
+#has forms => (
+#    is      => 'ro',
+#    lazy    => 1,
+#    clearer => 1,
+#    default => sub { {} },
+#);
+#
+## Heap is to be used for data persistent over session lifetime.
+## Usage: $sessiom->heap->{key} = <your data>;
+#has heap => (
+#    is      => 'rw',
+#    clearer => 1,
+#    lazy    => 1,
+#    default => sub { {} },
+#);
+#has remoteUser => (
+#    is      => 'rw',
+#    clearer => 1,
+#);
+#has requestedWebName => ( is => 'rw', clearer => 1, );
+#has response => (
+#    is      => 'rw',
+#    lazy    => 1,
+#    clearer => 1,
+#    default => sub { return Foswiki::Response->new; },
+#);
+#has sandbox => (
+#    is      => 'ro',
+#    default => 'Foswiki::Sandbox',
+#    clearer => 1,
+#);
+#has scriptUrlPath => (
+#    is      => 'ro',
+#    lazy    => 1,
+#    clearer => 1,
+#    default => sub {
+#        my $this          = shift;
+#        my $scriptUrlPath = $Foswiki::cfg{ScriptUrlPath};
+#        my $url           = $this->request->url;
+#        if (   $Foswiki::cfg{GetScriptUrlFromCgi}
+#            && $url
+#            && $url =~ m{^[^:]*://[^/]*(.*)/.*$}
+#            && $1 )
+#        {
+#
+#            # SMELL: this is a really dangerous hack. It will fail
+#            # spectacularly with mod_perl.
+#            # SMELL: why not just use $query->script_name?
+#            # SMELL: unchecked implicit untaint?
+#            $scriptUrlPath = $1;
+#        }
+#        return $scriptUrlPath;
+#    },
+#);
+#has search => (
+#    is        => 'ro',
+#    lazy      => 1,
+#    clearer   => 1,
+#    predicate => 1,
+#    default   => sub {
+#        require Foswiki::Search;
+#        return Foswiki::Search->new( session => $_[0] );
+#    },
+#);
+#has topicName => (
+#    is      => 'rw',
+#    clearer => 1,
+#);
+#
+#has webName => (
+#    is      => 'rw',
+#    clearer => 1,
+#);
 
 our @_newParameters = qw( user request context );
 
@@ -310,10 +301,10 @@ BEGIN {
     use version 0.77; $VERSION = version->declare('v2.1.0');
     $RELEASE = 'Foswiki-2.1.0';
 
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
+    #if ( $Foswiki::cfg{UseLocale} ) {
+    #    require locale;
+    #    import locale();
+    #}
 
     # Set environment var FOSWIKI_NOTAINT to disable taint checks even
     # if Taint::Runtime is installed
@@ -400,7 +391,7 @@ script run. Session objects do not persist between mod_perl runs.
 
 =cut
 
-around BUILDARGS => sub {
+sub __deprecated_BUILDARGS {
     my $orig = shift;
 
     my $params = $orig->(@_);
@@ -487,7 +478,7 @@ around BUILDARGS => sub {
     }
 
     return $params;
-};
+}
 
 sub BUILD {
     my $this = shift;

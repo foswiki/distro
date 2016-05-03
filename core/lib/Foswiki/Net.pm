@@ -22,7 +22,7 @@ use Foswiki::IP qw/:regexp :info $IPv6Avail/;
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::Object);
+extends qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -35,13 +35,6 @@ our $LWPAvailable;
 our $noHTTPResponse;    # if set, forces local impl of HTTP::Response
 our $SSLAvailable;      # Set to defined false to prevent using SSL
 
-# note that the session is *optional*
-has session => (
-    is        => 'ro',
-    weak_ref  => 1,
-    predicate => 1,
-    isa       => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
-);
 has mailHandler => (
     is        => 'rw',
     predicate => 1,
@@ -378,8 +371,8 @@ sub _logMailError {
         return;
     }
     my $logger;
-    if ( $this->has_session ) {
-        $logger = $this->session->logger;
+    if ( $this->has_app ) {
+        $logger = $this->app->logger;
     }
     else {
         $logger = $Foswiki::cfg{Log}{Implementation};

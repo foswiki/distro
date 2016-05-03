@@ -34,6 +34,7 @@ See the documentation for the UI for more information.
 =cut
 
 use Assert;
+use Try::Tiny;
 
 use Moo;
 use namespace::clean;

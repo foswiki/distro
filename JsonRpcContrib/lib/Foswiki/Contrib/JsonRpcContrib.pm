@@ -10,14 +10,14 @@ use Moo;
 use namespace::clean;
 extends qw(Foswiki::UI);
 
-BEGIN {
-    # Backwards compatibility for Foswiki 1.1.x
-    unless ( Foswiki::Request->can('multi_param') ) {
-        no warnings 'redefine';
-        *Foswiki::Request::multi_param = \&Foswiki::Request::param;
-        use warnings 'redefine';
-    }
-}
+#BEGIN {
+#    # Backwards compatibility for Foswiki 1.1.x
+#    unless ( Foswiki::Request->can('multi_param') ) {
+#        no warnings 'redefine';
+#        *Foswiki::Request::multi_param = \&Foswiki::Request::param;
+#        use warnings 'redefine';
+#    }
+#}
 
 =begin TML
 

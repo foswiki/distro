@@ -58,6 +58,7 @@ use Try::Tiny;
 use Assert;
 
 use Foswiki                         ();
+use Foswiki::App                    ();
 use Foswiki::Plugins                ();
 use Foswiki::Meta                   ();
 use Foswiki::AccessControlException ();

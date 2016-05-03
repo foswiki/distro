@@ -5,8 +5,8 @@
 
 use strict;
 use locale;    # so result of lc() is tainted
-use Foswiki::Exception;
 
+require Foswiki::Exception;
 our $DIRTY = lc('x');    # Used in TAINT
 our $soft  = 0;
 

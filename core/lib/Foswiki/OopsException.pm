@@ -93,7 +93,7 @@ use v5.14;
 use Assert;
 use Moo;
 use namespace::clean;
-extends 'Foswiki::Exception';
+extends qw(Foswiki::Exception);
 
 our @_newParameters = qw( template );
 

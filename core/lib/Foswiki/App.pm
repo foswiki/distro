@@ -15,16 +15,16 @@ use v5.14;
 use constant TRACE_REQUEST => 0;
 
 use Assert;
-use Carp;
 use Cwd;
-use CGI;
 use Try::Tiny;
 use Storable qw(dclone);
+use CGI                ();
 use Compress::Zlib     ();
 use Foswiki::Config    ();
 use Foswiki::Engine    ();
 use Foswiki::Templates ();
-use Foswiki qw(load_package);
+use Foswiki::Exception ();
+use Foswiki qw(load_package load_class);
 
 use Moo;
 use namespace::clean;
@@ -62,7 +62,7 @@ has cache => (
         if (   $cfg->data->{Cache}{Enabled}
             && $cfg->data->{Cache}{Implementation} )
         {
-            eval "require " . $cfg->data->{Cache}{Implementation};
+            load_class( $cfg->data->{Cache}{Implementation} );
             ASSERT( !$@, $@ ) if DEBUG;
             return $this->create( $cfg->data->{Cache}{Implementation} );
         }
@@ -122,6 +122,13 @@ has i18n => (
         # *all possible preferences sources* are available
         $_[0]->create('Foswiki::I18N');
     },
+);
+has net => (
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub { return $_[0]->create('Foswiki::Net'); },
 );
 has plugins => (
     is        => 'rw',
@@ -382,12 +389,12 @@ sub run {
     try {
         local $SIG{__DIE__} = sub {
 
-            #Carp::cluck "die(" . $_[0] . ")";
+            # Somehow overriding of __DIE__ clashes with remote perl debugger in
+            # Komodo unless we die again instantly.
+            die $_[0] if (caller)[0] =~ /^DB::/;
             Foswiki::Exception::Fatal->rethrow( $_[0] );
         };
         local $SIG{__WARN__} = sub {
-
-            #Carp::cluck "warn(" . $_[0] . ")";
             Foswiki::Exception::Fatal->rethrow( $_[0] );
           }
           if DEBUG;
@@ -713,7 +720,7 @@ sub redirect {
 
     return unless $this->request;
 
-    ( $url, my $anchor ) = splitAnchorFromUrl($url);
+    ( $url, my $anchor ) = Foswiki::splitAnchorFromUrl($url);
 
     if ( $passthru && defined $this->request->method() ) {
         my $existing = '';
@@ -752,7 +759,7 @@ sub redirect {
     # prevent phishing by only allowing redirect to configured host
     # do this check as late as possible to catch _any_ last minute hacks
     # TODO: this should really use URI
-    if ( !_isRedirectSafe($url) ) {
+    if ( !Foswiki::_isRedirectSafe($url) ) {
 
         # goto oops if URL is trying to take us somewhere dangerous
         $url = $this->cfg->getScriptUrl(

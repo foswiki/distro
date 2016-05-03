@@ -57,8 +57,8 @@ sub addChild {
     foreach my $kid ( @{ $this->attrs->{children} } ) {
         die "Subnode already present; cannot add again" if $child eq $kid;
     }
-    $child->_parent($this);
-    $child->attrs->{depth} = $this->attrs->{depth} + 1;
+    $child->attrs->{_parent} = $this;
+    $child->attrs->{depth}   = $this->attrs->{depth} + 1;
 
     push( @{ $this->attrs->{children} }, $child );
 
@@ -70,14 +70,14 @@ sub _addToVobCache {
     my ( $this, $child ) = @_;
 
     if ( $child->isa('Foswiki::Configure::Section') ) {
-        while ( my ( $k, $v ) = each %{ $child->_vobCache } ) {
-            $this->_vobCache->{$k} = $v;
+        while ( my ( $k, $v ) = each %{ $child->attrs->{_vobCache} } ) {
+            $this->attrs->{_vobCache}->{$k} = $v;
         }
     }
     else {
-        $this->_vobCache->{ $child->attrs->{keys} } = $child;
+        $this->attrs->{_vobCache}->{ $child->attrs->{keys} } = $child;
     }
-    $this->_parent->_addToVobCache($child) if $this->_parent;
+    $this->attrs->{_parent}->_addToVobCache($child) if $this->attrs->{_parent};
 }
 
 # See Foswiki::Configure::Item
@@ -154,13 +154,13 @@ sub getSectionObject {
 # find the appropriate leaf Value.
 sub getValueObject {
     my ( $this, $keys ) = @_;
-    return $this->_vobCache->{$keys};
+    return $this->attrs->{_vobCache}->{$keys};
 }
 
 # Implements Foswiki::Configure::Item
 sub getAllValueKeys {
     my $this = shift;
-    return keys %{ $this->_vobCache };
+    return keys %{ $this->attrs->{_vobCache} };
 }
 
 # Implements Foswiki::Configure::Item
@@ -187,7 +187,7 @@ sub getPath {
     my $this = shift;
 
     my @path;
-    @path = $this->_parent->getPath() if ( $this->_parent );
+    @path = $this->attrs->{_parent}->getPath() if ( $this->attrs->{_parent} );
     push( @path, $this->attrs->{headline} ) if $this->attrs->{headline};
 
     return @path;

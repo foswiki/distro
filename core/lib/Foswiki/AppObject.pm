@@ -20,8 +20,9 @@ use namespace::clean;
 extends qw(Foswiki::Object);
 
 has app => (
-    is       => 'ro',
-    weak_ref => 1,
+    is        => 'ro',
+    predicate => 1,
+    weak_ref  => 1,
     isa => Foswiki::Object::isaCLASS( 'app', 'Foswiki::App', noUndef => 1, ),
     required => 1,
 );

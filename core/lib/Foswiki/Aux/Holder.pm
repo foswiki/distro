@@ -11,7 +11,7 @@ Auxiliary class.
 package Foswiki::Aux::Holder;
 use v5.14;
 
-use Foswiki::Object ();
+require Foswiki::Object;
 
 use Moo;
 use namespace::clean;

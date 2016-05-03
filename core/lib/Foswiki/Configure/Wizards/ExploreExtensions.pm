@@ -248,7 +248,7 @@ sub _get_extensions {
 
     # count
     while ( my ( $key, $ext ) = each %$exts ) {
-        if ( $ext->{installedRelease} ) {
+        if ( $ext->installedRelease ) {
             $installedCount++;
             $installedExts->{$key} = $ext;
         }
@@ -348,7 +348,7 @@ CHECKBOXES
     {
         my $ext = $exts->{$key};
 
-        next if $ext->{name} eq 'EmptyPlugin';    # special case
+        next if $ext->name eq 'EmptyPlugin';    # special case
 
         # $ext is type Foswiki::Configure::Dependency, and studyInstallation
         # has already been called, so {installedRelease} and {installedVersion}
@@ -358,15 +358,15 @@ CHECKBOXES
 
         my $status = "";
 
-        if ( $ext->{installedRelease} ) {
+        if ( $ext->installedRelease ) {
 
             # The module is installed; check the version
-            if ( $ext->{installedVersion} eq '9999.99_999' ) {
+            if ( $ext->installedVersion eq '9999.99_999' ) {
 
                 # pseudo-installed
                 $status = ' _is pseudo-installed_ ';
             }
-            elsif ( $ext->compare_versions( '<', $ext->{version} ) ) {
+            elsif ( $ext->compare_versions( '<', $ext->version ) ) {
 
                 # Installed version is < available version
 
@@ -386,14 +386,16 @@ CHECKBOXES
         my $thd =
             "<input type='checkbox'"
           . " class='wizard_checkbox'"
-          . " name='$ext->{name}'"
-          . " value='$ext->{repository}'/> ";
+          . " name='"
+          . $ext->name . "'"
+          . " value='"
+          . $ext->repository . "'/> ";
 
-        $thd .= "[[$ext->{data}$ext->{name}][";
-        $thd .= $ext->{name} || 'Unknown';
+        $thd .= "[[" . $ext->data . $ext->name . "][";
+        $thd .= $ext->name || 'Unknown';
         $thd .= ']]';
         $thd =~ s/!(\w+)/$1/g;    # remove ! escape syntax from text
-        $thd .= " <sup>[$ext->{repository}]</sup>"
+        $thd .= " <sup>[" . $ext->repository . "]</sup>"
           if ( scalar(@consultedLocations) > 1 );
 
         $thd .= " $status";
@@ -401,10 +403,10 @@ CHECKBOXES
         # Do the data
         my @cols;
         foreach my $f ( @{ $tableHeads{$set} } ) {
-            my $tdd = $ext->{$f} || '';
+            my $tdd = $ext->$f || '';
             $tdd =~ s/!(\w+)/$1/g;    # remove ! escape syntax from text
-            if ( $f eq 'description' && $ext->{compatibility} ) {
-                $tdd .= "<br />$ext->{compatibility}";
+            if ( $f eq 'description' && $ext->compatibility ) {
+                $tdd .= "<br />" . $ext->compatibility;
             }
             push( @cols, $tdd );
         }

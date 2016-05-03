@@ -476,7 +476,7 @@ sub search {
 sub getPath {
     my $this = shift;
     my @path;
-    @path = $this->_parent->getPath() if ( $this->_parent );
+    @path = $this->attrs->{_parent}->getPath() if ( $this->attrs->{_parent} );
     push( @path, $this->attrs->{keys} );
     return @path;
 }
