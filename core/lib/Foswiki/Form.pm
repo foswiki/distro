@@ -33,6 +33,7 @@ use v5.14;
 
 use Assert;
 
+use Foswiki qw(expandStandardEscapes);
 use Foswiki::Sandbox                   ();
 use Foswiki::Form::FieldDefinition     ();
 use Foswiki::Form::ListFieldDefinition ();
@@ -497,8 +498,9 @@ sub _link {
             {
                 target => $topic,
                 title  => $tooltip,
-                href   => $this->app->getScriptUrl( 0, 'view', $web, $topic ),
-                rel    => 'nofollow'
+                href =>
+                  $this->app->cfg->getScriptUrl( 0, 'view', $web, $topic ),
+                rel => 'nofollow'
             },
             $string
         );
@@ -586,9 +588,8 @@ sub renderForEdit {
 
                 my $dv = $fieldDef->getDefaultValue($value);
                 if ( defined($dv) ) {
-                    $dv = $topicObject->expandMacros($dv);
-                    $value =
-                      $app->macros->expandStandardEscapes($dv);    # Item2837
+                    $dv    = $topicObject->expandMacros($dv);
+                    $value = expandStandardEscapes($dv);        # Item2837
                 }
             }
 

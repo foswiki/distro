@@ -35,7 +35,7 @@ sub URLPARAM {
                         $item = $_;
                         $_    = $multiple;
                         $_ .= $item unless (s/\$item/$item/g);
-                        $this->expandStandardEscapes($_)
+                        Foswiki::expandStandardEscapes($_)
                     } @valueArray;
                 }
 

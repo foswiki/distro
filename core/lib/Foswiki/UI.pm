@@ -257,7 +257,7 @@ sub _execute {
             # has the correct criteria in httpd.conf for Apache login.
             # URL is absolute as required by
             # http://tools.ietf.org/html/rfc2616#section-14.30
-            my $url = $app->getScriptUrl(
+            my $url = $app->cfg->getScriptUrl(
                 1,             'login',
                 $app->webName, $app->topicName,
                 foswikiloginaction   => 'validate',

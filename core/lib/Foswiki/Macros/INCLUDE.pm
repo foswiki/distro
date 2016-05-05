@@ -132,7 +132,7 @@ sub _includeWarning {
             $argument = shift;
         }
         $warn =~ s/\$topic/$argument/g if $argument;
-        return $this->app->macros->expandStandardEscapes($warn);
+        return Foswiki::expandStandardEscapes($warn);
     }    # else fail silently
     return '';
 }

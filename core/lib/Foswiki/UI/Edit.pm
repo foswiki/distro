@@ -13,7 +13,7 @@ Edit command handler
 use Assert;
 use Try::Tiny;
 
-use Foswiki                ();
+use Foswiki qw(expandStandardEscapes);
 use Foswiki::UI            ();
 use Foswiki::OopsException ();
 use Foswiki::Form          ();
@@ -367,7 +367,7 @@ sub init_edit {
             # Because the form has been expanded from a Template, we
             # want to expand $percnt-style content right now
             $topicObject->forEachSelectedValue( qr/FIELD/, qr/value/,
-                sub { $this->app->macros->expandStandardEscapes(@_) },
+                sub { expandStandardEscapes(@_) },
             );
         }
         else {

@@ -130,7 +130,7 @@ sub USERINFO {
     return '' unless $user;
 
     $info =~ s/\$($USERINFO_tokenregex)/_USERINFO_token($this, $1, $user)/ge;
-    $info = $this->macros->expandStandardEscapes($info);
+    $info = Foswiki::expandStandardEscapes($info);
 
     return $info;
 }

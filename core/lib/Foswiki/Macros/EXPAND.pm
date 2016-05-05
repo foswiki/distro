@@ -16,7 +16,7 @@ sub EXPAND {
     my $macro = $params->{_DEFAULT};
     return $this->inlineAlert( 'alerts', 'EXPAND_nomacro' )
       unless $macro;
-    $macro = $this->expandStandardEscapes($macro);
+    $macro = Foswiki::expandStandardEscapes($macro);
     my $scope = $params->{scope};
     my $meta;
     if ($scope) {

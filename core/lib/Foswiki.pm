@@ -101,7 +101,7 @@ use Try::Tiny;
 use Assert;
 use Exporter qw(import);
 our @EXPORT_OK =
-  qw(%regex urlEncode urlDecode make_params load_package load_class);
+  qw(%regex urlEncode urlDecode make_params load_package load_class expandStandardEscapes);
 
 sub SINGLE_SINGLETONS       { 0 }
 sub SINGLE_SINGLETONS_TRACE { 0 }
@@ -1328,6 +1328,49 @@ sub entityDecode {
     my $text = shift;
 
     $text =~ s/&#(\d+);/chr($1)/ge;
+    return $text;
+}
+
+=begin TML
+
+---++ StaticMethod expandStandardEscapes($str) -> $unescapedStr
+
+Expands standard escapes used in parameter values to block evaluation. See
+System.FormatTokens for a full list of supported tokens.
+
+=cut
+
+sub expandStandardEscapes {
+    my $text = shift;
+
+    # expand '$n()' and $n! to new line
+    $text =~ s/\$n\(\)/\n/gs;
+    $text =~ s/\$n(?=[^[:alpha:]]|$)/\n/gs;
+
+    # filler, useful for nested search
+    $text =~ s/\$nop(\(\))?//gs;
+
+    # $quot -> "
+    $text =~ s/\$quot(\(\))?/\"/gs;
+
+    # $comma -> ,
+    $text =~ s/\$comma(\(\))?/,/gs;
+
+    # $percent -> %
+    $text =~ s/\$perce?nt(\(\))?/\%/gs;
+
+    # $lt -> <
+    $text =~ s/\$lt(\(\))?/\</gs;
+
+    # $gt -> >
+    $text =~ s/\$gt(\(\))?/\>/gs;
+
+    # $amp -> &
+    $text =~ s/\$amp(\(\))?/\&/gs;
+
+    # $dollar -> $, done last to avoid creating the above tokens
+    $text =~ s/\$dollar(\(\))?/\$/gs;
+
     return $text;
 }
 

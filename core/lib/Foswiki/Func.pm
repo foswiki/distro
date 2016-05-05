@@ -57,7 +57,7 @@ use Scalar::Util ();
 use Try::Tiny;
 use Assert;
 
-use Foswiki                         ();
+use Foswiki qw(expandStandardEscapes);
 use Foswiki::App                    ();
 use Foswiki::Plugins                ();
 use Foswiki::Meta                   ();
@@ -180,7 +180,7 @@ sub getScriptUrl {
     my $script = shift;
     ASSERT($Foswiki::app) if DEBUG;
 
-    return $Foswiki::app->getScriptUrl( 1, $script, $web, $topic, @_ );
+    return $Foswiki::app->cfg->getScriptUrl( 1, $script, $web, $topic, @_ );
 }
 
 =begin TML
@@ -210,7 +210,7 @@ sub getScriptUrlPath {
     my $script = shift;
     ASSERT($Foswiki::app) if DEBUG;
 
-    return $Foswiki::app->getScriptUrl( 0, $script, $web, $topic, @_ );
+    return $Foswiki::app->cfg->getScriptUrl( 0, $script, $web, $topic, @_ );
 }
 
 =begin TML
@@ -1574,7 +1574,7 @@ sub webExists {
     return 0 unless defined $web;
 
     ASSERT($Foswiki::app) if DEBUG;
-    return $Foswiki::app->webExists($web);
+    return $Foswiki::app->store->webExists($web);
 }
 
 =begin TML
@@ -2537,7 +2537,7 @@ sub eachChangeSince {
     my ( $web, $time ) = @_;
     ASSERT($Foswiki::app) if DEBUG;
     ($web) = _validateWTA($web);
-    ASSERT( $Foswiki::app->webExists($web) ) if DEBUG;
+    ASSERT( $Foswiki::app->store->webExists($web) ) if DEBUG;
 
     my $webObject = $Foswiki::app->create( 'Foswiki::Meta', web => $web );
     return $webObject->eachChange($time);
@@ -3141,7 +3141,7 @@ The set of tokens that is expanded is described in System.FormatTokens.
 =cut
 
 sub decodeFormatTokens {
-    return $Foswiki::app->macros->expandStandardEscapes(@_);
+    return expandStandardEscapes(@_);
 }
 
 =begin TML

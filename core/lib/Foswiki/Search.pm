@@ -12,7 +12,7 @@ This module implements all the search functionality.
 
 use Try::Tiny;
 
-use Foswiki                           ();
+use Foswiki qw(expandStandardEscapes);
 use Foswiki::Sandbox                  ();
 use Foswiki::Search::InfoCache        ();
 use Foswiki::Search::ResultSet        ();
@@ -441,7 +441,7 @@ sub searchWeb {
                 #legacy SEARCH counter support
                 $result =~ s/%NTOPICS%/0/g;
 
-                $result = $app->macros->expandStandardEscapes($result);
+                $result = expandStandardEscapes($result);
                 $result =~ s/\n$//s;               # remove trailing new line
 
                 return $result;
@@ -472,7 +472,7 @@ sub searchWeb {
 
     my $searchResult = join( '', @{ $params{_cbdata} } );
 
-    $searchResult = $app->macros->expandStandardEscapes($searchResult);
+    $searchResult = expandStandardEscapes($searchResult);
 
     # Remove trailing separator or new line if nofinalnewline parameter is set
     my $noFinalNewline = Foswiki::isTrue( $params{nofinalnewline}, 1 );

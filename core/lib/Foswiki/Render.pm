@@ -14,7 +14,7 @@ use Assert;
 use Try::Tiny;
 use CGI ();
 
-use Foswiki qw(urlEncode);
+use Foswiki qw(urlEncode expandStandardEscapes);
 use Foswiki::Time            ();
 use Foswiki::Sandbox         ();
 use Foswiki::Render::Anchors ();
@@ -814,7 +814,7 @@ Obtain and render revision info for a topic.
 sub renderRevisionInfo {
     my ( $this, $topicObject, $rrev, $format ) = @_;
     my $value = $format || 'r$rev - $date - $time - $wikiusername';
-    $value = $this->app->macros->expandStandardEscapes($value);
+    $value = expandStandardEscapes($value);
 
     # nop if there are no format tokens
     return $value

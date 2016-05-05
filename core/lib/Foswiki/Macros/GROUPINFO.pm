@@ -137,7 +137,7 @@ s/\$allowschange\((.*?)\)/$this->users->groupAllowsChange( $cUID , $this->users-
     else {
         $result = $header . join( $sep, @rows ) . $footer;
     }
-    return $this->expandStandardEscapes($result);
+    return Foswiki::expandStandardEscapes($result);
 }
 
 1;

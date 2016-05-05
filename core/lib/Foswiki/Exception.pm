@@ -64,16 +64,67 @@ BEGIN {
     }
 }
 
-has line => (
-    is        => 'rwp',
-    predicate => 1,
-);
+=begin TML
+
+---++ ObjectAttribute file
+
+Name of the file where the exception has been raised as returned by the =caller=
+funtion.
+
+=cut
+
 has file => (
     is        => 'rwp',
     predicate => 1,
 );
-has text   => ( is => 'rwp', );
+
+=begin TML
+
+---++ ObjectAttribute line
+
+Number of the line in the source file where the exception has been raised as
+returned by the =caller= funtion.
+
+=cut
+
+has line => (
+    is        => 'rwp',
+    predicate => 1,
+);
+
+=begin TML
+
+---++ ObjectAttribute text
+
+Simple text explaining what's went wrong. Must always be set to something
+meaningful. If child class doesn't expect this attribute to be set by a user
+then it must generate it using other attributes.
+
+=cut
+
+has text => ( is => 'rwp', );
+
+=begin TML
+
+---++ ObjectAttribute object
+
+Might be set by the object which generated the exception to inidicate the source
+of problem.
+
+=cut
+
 has object => ( is => 'ro', );
+
+=begin TML
+
+---++ ObjectAttribute stacktrace
+
+Contains full stack trace if =DEBUG= is =TRUE=. The trace includes calls to
+=Foswiki::Exception= methods too to provide as much information for tracing down
+errors as possible.
+
+=cut
+
 has stacktrace => (
     is        => 'rwp',
     predicate => 1,

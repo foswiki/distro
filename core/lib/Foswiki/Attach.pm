@@ -13,6 +13,7 @@ use v5.14;
 
 use Assert;
 use Unicode::Normalize;
+use Foswiki qw(expandStandardEscapes);
 
 use Moo;
 use namespace::clean;
@@ -417,7 +418,7 @@ sub getAttachmentLink {
 
     require Foswiki::Time;
     $fileLink = Foswiki::Time::formatTime( $fileTime, $fileLink );
-    $fileLink = $this->app->macros->expandStandardEscapes($fileLink);
+    $fileLink = expandStandardEscapes($fileLink);
 
     return $fileLink;
 }

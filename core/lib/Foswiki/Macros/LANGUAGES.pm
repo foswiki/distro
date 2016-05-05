@@ -39,7 +39,7 @@ sub LANGUAGES {
         $result .= $item;
         $i++;
     }
-    $result = $this->expandStandardEscapes($result);
+    $result = Foswiki::expandStandardEscapes($result);
 
     return $result;
 }

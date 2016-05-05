@@ -18,6 +18,7 @@ use v5.14;
 
 use Assert;
 use CGI ();
+use Foswiki qw(expandStandardEscapes);
 
 use Moo;
 use namespace::clean;
@@ -298,7 +299,7 @@ sub populateMetaFromQueryData {
             $value = $query->param( $this->name );
             $value = '' unless defined $value;
             if ( $this->app->inContext('edit') ) {
-                $value = $this->app->macros->expandStandardEscapes($value);
+                $value = expandStandardEscapes($value);
             }
         }
     }

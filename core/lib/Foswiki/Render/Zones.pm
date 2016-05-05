@@ -15,6 +15,7 @@ package Foswiki::Render::Zones;
 use v5.14;
 
 use Assert;
+use Foswiki qw(expandStandardEscapes);
 
 use Moo;
 use namespace::clean;
@@ -258,7 +259,7 @@ sub _renderZone {
         push @result, $line if $line;
     }
     my $result =
-      $app->macros->expandStandardEscapes( $params->{header}
+      expandStandardEscapes( $params->{header}
           . join( $params->{separator}, @result )
           . $params->{footer} );
 

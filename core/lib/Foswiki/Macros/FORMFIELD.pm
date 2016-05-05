@@ -124,7 +124,7 @@ sub expand {
         $text =~ s/\$form(name)?/$fname/g;
     }
 
-    $text = $this->macros->expandStandardEscapes($text);
+    $text = Foswiki::expandStandardEscapes($text);
 
     # render nop exclamation marks before words as <nop>
     $text =~ s/!($Foswiki::regex{wikiWordRegex})/<nop>$1/gs;

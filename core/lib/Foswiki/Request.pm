@@ -1012,9 +1012,8 @@ sub parse {
               . "topic $p \n"
               if TRACE;
 
-            if ( $trailingSlash
-                && $Foswiki::Plugins::SESSION->webExists(
-                    join( '/', @webs, $p ) ) )
+            if (   $trailingSlash
+                && $Foswiki::app->store->webExists( join( '/', @webs, $p ) ) )
             {
                 print STDERR "Web Exists, Trailing slash, don't check topic: "
                   . join( '/', @webs, $p ) . "\n"
@@ -1024,10 +1023,7 @@ sub parse {
                 push @webs, $p;
             }
             elsif (
-                $Foswiki::Plugins::SESSION->topicExists(
-                    join( '/', @webs ), $p
-                )
-              )
+                $Foswiki::app->store->topicExists( join( '/', @webs ), $p ) )
             {
 
                 print STDERR "Topic Exists"
@@ -1037,9 +1033,7 @@ sub parse {
 
                 $temptopic = $p || '';
             }
-            elsif (
-                $Foswiki::Plugins::SESSION->webExists( join( '/', @webs, $p ) )
-              )
+            elsif ( $Foswiki::app->store->webExists( join( '/', @webs, $p ) ) )
             {
 
                 print STDERR "Web Exists " . join( '/', @webs, $p ) . "\n"

@@ -50,11 +50,11 @@ sub expand {
         $expr = $this->ifParser->parse($texpr);
         if ( $expr->evaluate( tom => $topicObject, data => $topicObject ) ) {
             $params->{then} = '' unless defined $params->{then};
-            $result = $app->macros->expandStandardEscapes( $params->{then} );
+            $result = Foswiki::expandStandardEscapes( $params->{then} );
         }
         else {
             $params->{else} = '' unless defined $params->{else};
-            $result = $app->macros->expandStandardEscapes( $params->{else} );
+            $result = Foswiki::expandStandardEscapes( $params->{else} );
         }
     }
     catch {

@@ -561,7 +561,7 @@ sub revisionsAround {
         else {
             $output .= CGI::a(
                 {
-                    href => $app->getScriptUrl(
+                    href => $app->cfg->getScriptUrl(
                         0,                 'view',
                         $topicObject->web, $topicObject->topic,
                         rev => $revs[$r]
@@ -578,7 +578,7 @@ sub revisionsAround {
             $output .= '&nbsp;'
               . CGI::a(
                 {
-                    href => $app->getScriptUrl(
+                    href => $app->cfg->getScriptUrl(
                         0, 'rdiff', $topicObject->web, $topicObject->topic,
                         rev1 => $revs[ $r + 1 ],
                         rev2 => $revs[$r]

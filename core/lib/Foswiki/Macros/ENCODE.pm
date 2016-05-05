@@ -52,12 +52,12 @@ sub ENCODE {
                 return $this->inlineAlert( 'alerts', 'ENCODE_bad_3', $o );
             }
             $toks{$o} = 1;
-            $o = quotemeta( $this->expandStandardEscapes($o) );
+            $o = quotemeta( Foswiki::expandStandardEscapes($o) );
             $text =~ s/$o/$e/ge;
         }
         for ( my $i = 0 ; $i <= $#new ; $i++ ) {
             my $e = _s2d($i);
-            my $n = $this->expandStandardEscapes( $new[$i] );
+            my $n = Foswiki::expandStandardEscapes( $new[$i] );
             $text =~ s/$e/$n/g;
         }
         return $text;

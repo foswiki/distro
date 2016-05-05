@@ -39,7 +39,7 @@ sub DISPLAYDEPENDENCIES {
         push @lines, $text;
     }
     return '' unless @lines;
-    return $this->expandStandardEscapes(
+    return Foswiki::expandStandardEscapes(
         $header . join( $separator, @lines ) . $footer );
 }
 

@@ -29,8 +29,8 @@ sub QUERYPARAMS {
 
     # Expand standard escapes early.  We must not expand escapes contained
     # in the param data.
-    $format    = $this->expandStandardEscapes($format);
-    $separator = $this->expandStandardEscapes($separator);
+    $format    = Foswiki::expandStandardEscapes($format);
+    $separator = Foswiki::expandStandardEscapes($separator);
 
     my @list;
     foreach my $name ( $this->request->multi_param() ) {

@@ -64,7 +64,7 @@ sub META {
     elsif ( $option eq 'parent' ) {
 
         # Only parent parameter has the format option and should do std escapes
-        return $this->macros->expandStandardEscapes(
+        return Foswiki::expandStandardEscapes(
             Foswiki::Render::Parent::render( $this, $topicObject, $params ) );
     }
 

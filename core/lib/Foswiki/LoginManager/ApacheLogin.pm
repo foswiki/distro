@@ -77,7 +77,7 @@ sub forceAuthentication {
 
         # Assemble the new URL using the host, the changed script name,
         # and the path info.
-        my $url = $app->getScriptUrl( 1, $newAction );
+        my $url = $app->cfg->getScriptUrl( 1, $newAction );
         if ( $query->path_info() ) {
             $url .= '/'
               unless $url =~ m#/$# || $query->path_info() =~ m#^/#;
@@ -105,7 +105,7 @@ sub loginUrl {
     my $app   = $this->app;
     my $topic = $app->topicName;
     my $web   = $app->webName;
-    return $app->getScriptUrl( 0, 'logon', $web, $topic, @_ );
+    return $app->cfg->getScriptUrl( 0, 'logon', $web, $topic, @_ );
 }
 
 =begin TML
@@ -122,8 +122,8 @@ sub login {
     my ( $this, $query, $app ) = @_;
 
     my $url =
-      $app->getScriptUrl( 0, 'viewauth', $app->webName,
-        $app->topicName, t => time() );
+      $app->cfg->getScriptUrl( 0, 'viewauth', $app->request->web,
+        $app->request->topic, t => time() );
 
     $url .= ( ';' . $query->query_string() ) if $query->query_string();
 

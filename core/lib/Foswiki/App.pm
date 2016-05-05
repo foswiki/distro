@@ -110,6 +110,15 @@ has engine => (
     isa =>
       Foswiki::Object::isaCLASS( 'engine', 'Foswiki::Engine', noUndef => 1, ),
 );
+
+# Heap is to be used for data persistent over session lifetime.
+# Usage: $sessiom->heap->{key} = <your data>;
+has heap => (
+    is      => 'rw',
+    clearer => 1,
+    lazy    => 1,
+    default => sub { {} },
+);
 has i18n => (
     is        => 'ro',
     lazy      => 1,

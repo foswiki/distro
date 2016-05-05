@@ -3,7 +3,7 @@
 package Foswiki::Macros;
 use v5.14;
 
-use Foswiki qw(%regex);
+use Foswiki qw(%regex expandStandardEscapes);
 use Foswiki::Attrs ();
 
 use Moo;
@@ -302,50 +302,6 @@ sub expandMacrosOnTopicCreation {
         # kill markers used to prevent variable expansion
         $p->{value} =~ s/%NOP%//g;
     }
-}
-
-=begin TML
-
----++ StaticMethod expandStandardEscapes($str) -> $unescapedStr
-
-Expands standard escapes used in parameter values to block evaluation. See
-System.FormatTokens for a full list of supported tokens.
-
-=cut
-
-sub expandStandardEscapes {
-    my $this = shift;
-    my $text = shift;
-
-    # expand '$n()' and $n! to new line
-    $text =~ s/\$n\(\)/\n/gs;
-    $text =~ s/\$n(?=[^[:alpha:]]|$)/\n/gs;
-
-    # filler, useful for nested search
-    $text =~ s/\$nop(\(\))?//gs;
-
-    # $quot -> "
-    $text =~ s/\$quot(\(\))?/\"/gs;
-
-    # $comma -> ,
-    $text =~ s/\$comma(\(\))?/,/gs;
-
-    # $percent -> %
-    $text =~ s/\$perce?nt(\(\))?/\%/gs;
-
-    # $lt -> <
-    $text =~ s/\$lt(\(\))?/\</gs;
-
-    # $gt -> >
-    $text =~ s/\$gt(\(\))?/\>/gs;
-
-    # $amp -> &
-    $text =~ s/\$amp(\(\))?/\&/gs;
-
-    # $dollar -> $, done last to avoid creating the above tokens
-    $text =~ s/\$dollar(\(\))?/\$/gs;
-
-    return $text;
 }
 
 =begin TML
@@ -735,7 +691,7 @@ sub _expandMacroOnTopicRendering {
                     }
                     my $val = $attrs->{$tag};
                     $val = $tattrs->{default} unless defined $val;
-                    return $this->expandStandardEscapes($val) if defined $val;
+                    return expandStandardEscapes($val) if defined $val;
                     return undef;
                 },
                 $topicObject,
@@ -789,7 +745,7 @@ sub _expandMacroOnTopicRendering {
         # in the absence of any definition.
         my $attrs = new Foswiki::Attrs($args);
         if ( defined $attrs->{default} ) {
-            $e = $this->expandStandardEscapes( $attrs->{default} );
+            $e = expandStandardEscapes( $attrs->{default} );
         }
     }
     return $e;

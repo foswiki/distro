@@ -678,7 +678,7 @@ sub redirectToLoggedOutUrl {
         # ForceDefaultUrlHost enabled - probably a reverse proxy.
         $path_info ||= '';
         my $action = $app->request->action || 'view';
-        $redirectUrl = $app->getScriptUrl( '1', $action ) . $path_info;
+        $redirectUrl = $app->cfg->getScriptUrl( '1', $action ) . $path_info;
     }
     elsif ($path_info) {
         $redirectUrl = $app->request->url() . $path_info;
@@ -955,7 +955,7 @@ sub _myScriptURLRE {
 
     my $s = $this->_MYSCRIPTURL;
     unless ($s) {
-        $s = quotemeta( $this->app->getScriptUrl( 1, $M1, $M2, $M3 ) );
+        $s = quotemeta( $this->app->cfg->getScriptUrl( 1, $M1, $M2, $M3 ) );
         $s =~ s@\\$M1@[^/]*?@go;
         $s =~ s@\\$M2@[^/]*?@go;
         $s =~ s@\\$M3@[^#\?/]*@go;
@@ -1406,7 +1406,7 @@ sub _LOGOUTURL {
     my ( $app, $params, $topic, $web ) = @_;
     my $this = $app->users->getLoginManager();
 
-    return $app->getScriptUrl(
+    return $app->cfg->getScriptUrl(
         0, 'view',
         $app->prefs->getPreference('BASEWEB'),
         $app->prefs->getPreference('BASETOPIC'),
