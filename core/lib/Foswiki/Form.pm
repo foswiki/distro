@@ -106,7 +106,7 @@ in the database is protected against view.
 sub _validateWebTopic {
     my ( $app, $web, $form ) = @_;
 
-    my ( $vweb, $vtopic ) = $app->normalizeWebTopicName( $web, $form );
+    my ( $vweb, $vtopic ) = $app->request->normalizeWebTopicName( $web, $form );
 
     # Validating web/topic before usage.
     $vweb =
@@ -145,7 +145,7 @@ sub loadCached {
     }
 
     return $this if defined $this;
-    return $this->create(
+    return $app->create(
         $class,
         web       => $vweb,
         form      => $vtopic,
@@ -176,7 +176,7 @@ around BUILDARGS => sub {
     delete $params->{_indirect};
 
     # Got to have either a def or a topic
-    unless ( $params->{def} || $app->topicExists( $vweb, $vtopic ) ) {
+    unless ( $params->{def} || $app->store->topicExists( $vweb, $vtopic ) ) {
         Foswiki::OopsException->throw(
             template => 'attention',
             def      => 'no_form_def',
@@ -481,7 +481,7 @@ sub _link {
     $tooltip ||= $defaultToolTip;
 
     ( my $web, $topic ) =
-      $this->app->normalizeWebTopicName( $this->web(), $topic );
+      $this->app->request->normalizeWebTopicName( $this->web(), $topic );
 
     $web =
       Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );
@@ -493,7 +493,7 @@ sub _link {
 
     my $link;
 
-    if ( $this->app->topicExists( $web, $topic ) ) {
+    if ( $this->app->store->topicExists( $web, $topic ) ) {
         $link = CGI::a(
             {
                 target => $topic,

@@ -12,8 +12,9 @@ BEGIN {
 }
 
 sub TOPICLIST {
-    my ( $this, $params ) = @_;
-    my $format = $params->{_DEFAULT} || $params->{'format'} || '$topic';
+    my ( $app, $params ) = @_;
+    my $req       = $app->request;
+    my $format    = $params->{_DEFAULT} || $params->{'format'} || '$topic';
     my $separator = $params->{separator} || "\n";
     $separator =~ s/\$n/\n/;
     my $selection = $params->{selection} || '';
@@ -21,15 +22,15 @@ sub TOPICLIST {
     $selection = " $selection ";
     my $marker = $params->{marker} || 'selected="selected"';
 
-    my $web = $params->{web} || $this->{webName};
+    my $web = $params->{web} || $req->web;
     $web =~ s#\.#/#g;
 
-    my $webObject = Foswiki::Meta->new( session => $this, web => $web );
+    my $webObject = $app->create( 'Foswiki::Meta', web => $web );
     my $thisWebNoSearchAll =
       Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
     return ''
       if !defined( $params->{web} )
-      && $web ne $this->{webName}
+      && $web ne $req->web
       && $thisWebNoSearchAll;
 
     return '' unless $webObject->haveAccess();
@@ -40,7 +41,7 @@ sub TOPICLIST {
         my $item = $it->next();
 
         my $topicObject =
-          Foswiki::Meta->new( session => $this, web => $web, topic => $item );
+          $app->create( 'Foswiki::Meta', web => $web, topic => $item );
         next unless $topicObject->haveAccess("VIEW");
 
         my $line = $format;
@@ -60,7 +61,7 @@ sub TOPICLIST {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

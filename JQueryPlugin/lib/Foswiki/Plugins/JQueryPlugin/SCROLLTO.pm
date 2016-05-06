@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::SCROLLTO;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,23 +21,14 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'ScrollTo',
-            version      => '2.1.2',
-            author       => 'Ariel Flesler',
-            homepage     => 'https://github.com/flesler/jquery.scrollTo',
-            javascript   => [ 'jquery.scrollTo.js', 'jquery.scrollTo.init.js' ],
-            dependencies => ['easing'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'ScrollTo',
+    version      => '2.1.2',
+    author       => 'Ariel Flesler',
+    homepage     => 'https://github.com/flesler/jquery.scrollTo',
+    javascript   => [ 'jquery.scrollTo.js', 'jquery.scrollTo.init.js' ],
+    dependencies => ['easing'],
+);
 
 1;
 

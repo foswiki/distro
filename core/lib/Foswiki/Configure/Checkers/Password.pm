@@ -18,7 +18,7 @@ sub check_current_value {
     # Foswiki::Func is not available. However in a script context
     # this option isn't interesting anyway.
     return
-      unless defined $Foswiki::Plugins::SESSION
+      unless defined $Foswiki::app
       && eval("require Foswiki::Func");
     my $it = Foswiki::Func::eachGroupMember( $Foswiki::cfg{SuperAdminGroup} );
     my @admins;

@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::DEBUG;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,23 +21,14 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name       => 'Debug',
-            version    => '20080225',
-            author     => 'Stephane Lenclud',
-            homepage   => 'http://www.glyphix.com',
-            css        => ['jquery.debug.css'],
-            javascript => ['jquery.debug.js'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'Debug',
+    version    => '20080225',
+    author     => 'Stephane Lenclud',
+    homepage   => 'http://www.glyphix.com',
+    css        => ['jquery.debug.css'],
+    javascript => ['jquery.debug.js'],
+);
 
 1;
 

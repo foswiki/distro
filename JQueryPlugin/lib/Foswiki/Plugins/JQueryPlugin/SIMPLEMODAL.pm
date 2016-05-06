@@ -1,10 +1,8 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::SIMPLEMODAL;
-use strict;
-use warnings;
-
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+use Moo;
+extends qw(Foswiki::Plugins::JQueryPlugin::Plugin);
 
 =begin TML
 
@@ -22,25 +20,15 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name     => 'SimpleModal',
-            version  => '1.4.2',
-            author   => 'Eric Martin',
-            homepage => 'http://www.ericmmartin.com/projects/simplemodal',
-            css      => ['jquery.simplemodal.css'],
-            javascript =>
-              [ 'jquery.simplemodal.js', 'jquery.simplemodal.init.js' ],
-            dependencies => ['ui'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'SimpleModal',
+    version      => '1.4.2',
+    author       => 'Eric Martin',
+    homepage     => 'http://www.ericmmartin.com/projects/simplemodal',
+    css          => ['jquery.simplemodal.css'],
+    javascript   => [ 'jquery.simplemodal.js', 'jquery.simplemodal.init.js' ],
+    dependencies => ['ui'],
+);
 
 1;
 

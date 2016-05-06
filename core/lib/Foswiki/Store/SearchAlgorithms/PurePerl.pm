@@ -49,7 +49,7 @@ use constant MONITOR => 0;
 
 # This is the 'old' interface, prior to Sven's massive search refactoring.
 sub _search {
-    my ( $searchString, $web, $inputTopicSet, $session, $options ) = @_;
+    my ( $searchString, $web, $inputTopicSet, $app, $options ) = @_;
 
     local $/ = "\n";
     my %seen;
@@ -116,7 +116,7 @@ sub _search {
 
 #ok, for initial validation, naively call the code with a web.
 sub _webQuery {
-    my ( $this, $query, $web, $inputTopicSet, $session, $options ) = @_;
+    my ( $this, $query, $web, $inputTopicSet, $app, $options ) = @_;
     ASSERT( !$query->isEmpty() ) if DEBUG;
 
     # default scope is 'text'
@@ -129,7 +129,7 @@ sub _webQuery {
 
         #then we start with the whole web?
         #TODO: i'm sure that is a flawed assumption
-        my $webObject = Foswiki::Meta->new( session => $session, web => $web );
+        my $webObject = $this->create( 'Foswiki::Meta', web => $web );
         $topicSet =
           Foswiki::Search::InfoCache::getTopicListIterator( $webObject,
             $options );
@@ -181,7 +181,7 @@ sub _webQuery {
         my $textMatches;
         unless ( $options->{'scope'} eq 'topic' ) {
             $textMatches =
-              _search( $tokenCopy, $web, $topicSet, $session->store, $options );
+              _search( $tokenCopy, $web, $topicSet, $app->store, $options );
         }
 
         #bring the text matches into the topicMatch hash
@@ -208,8 +208,8 @@ sub _webQuery {
             @scopeTextList = keys(%topicMatches);
         }
 
-        $topicSet = Foswiki::Search::InfoCache->new(
-            session    => $Foswiki::Plugins::SESSION,
+        $topicSet = $this->create(
+            'Foswiki::Search::InfoCache',
             defaultWeb => $web,
             topicList  => \@scopeTextList
         );

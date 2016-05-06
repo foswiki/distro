@@ -62,7 +62,8 @@ use Foswiki::LoginManager      ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 use Assert;
 
@@ -918,7 +919,6 @@ sub eachMembership {
 
     #stop if the user has no wikiname (generally means BugsItem4771)
     unless ( defined($wikiname) ) {
-        require Foswiki::ListIterator;
         return Foswiki::ListIterator->new( list => [] );
     }
 

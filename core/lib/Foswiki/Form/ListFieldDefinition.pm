@@ -58,19 +58,19 @@ sub getOptions {
 
     if ( !scalar(@vals) ) {
         my $topic = $this->definingTopic || $this->name;
-        my $session = $this->session;
+        my $app = $this->app;
 
         my ( $fieldWeb, $fieldTopic ) =
-          $session->normalizeWebTopicName( $this->web, $topic );
+          $app->request->normalizeWebTopicName( $this->web, $topic );
 
         $fieldWeb = Foswiki::Sandbox::untaint( $fieldWeb,
             \&Foswiki::Sandbox::validateWebName );
         $fieldTopic = Foswiki::Sandbox::untaint( $fieldTopic,
             \&Foswiki::Sandbox::validateTopicName );
 
-        if ( $session->topicExists( $fieldWeb, $fieldTopic ) ) {
+        if ( $app->store->topicExists( $fieldWeb, $fieldTopic ) ) {
 
-            my $meta = Foswiki::Meta->load( $session, $fieldWeb, $fieldTopic );
+            my $meta = Foswiki::Meta->load( $app, $fieldWeb, $fieldTopic );
             if ( $meta->haveAccess('VIEW') ) {
 
                 # Process SEARCHES for Lists

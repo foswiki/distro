@@ -9,7 +9,8 @@ use constant TRACE => 0;
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 has author => ( is => 'rw', default => 'unknown', );
 has css => ( is => 'rw', default => sub { [] }, );
@@ -81,6 +82,8 @@ around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
 
+    my %params;
+
     # backwards compatibility: the session param is deprecated now
     if ( ref( $_[0] ) =~ /^Foswiki/ ) {
         my ( $package, $file, $line ) = caller;
@@ -92,7 +95,14 @@ around BUILDARGS => sub {
         shift;    # ... it off the args
     }
 
-    return $orig->( $class, @_ );
+    no strict 'refs';
+    my $paramsHashName = $class . '::pluginParams';
+    if ( defined *{$paramsHashName}{HASH} ) {
+        %params = %{$paramsHashName};
+    }
+    use strict 'refs';
+
+    return $orig->( $class, %params, @_ );
 };
 
 =begin TML

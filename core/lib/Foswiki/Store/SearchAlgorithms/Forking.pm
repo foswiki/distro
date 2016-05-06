@@ -51,7 +51,7 @@ BEGIN {
 # to search algorithms (prior to Sven's massive search refactoring. It was
 # simply called 'search')
 sub _search {
-    my ( $searchString, $web, $inputTopicSet, $session, $options ) = @_;
+    my ( $searchString, $web, $inputTopicSet, $app, $options ) = @_;
 
     # SMELL: I18N: 'grep' must use locales if needed,
     # for case-insensitive searching.
@@ -177,7 +177,7 @@ sub _search {
 
 #ok, for initial validation, naively call the code with a web.
 sub _webQuery {
-    my ( $this, $query, $web, $inputTopicSet, $session, $options ) = @_;
+    my ( $this, $query, $web, $inputTopicSet, $app, $options ) = @_;
     ASSERT( !$query->isEmpty() ) if DEBUG;
 
     #print STDERR "ForkingSEARCH(".join(', ', @{ $query->tokens() }).")\n";
@@ -191,7 +191,7 @@ sub _webQuery {
 
         #then we start with the whole web
         #TODO: i'm sure that is a flawed assumption
-        my $webObject = Foswiki::Meta->new( session => $session, web => $web );
+        my $webObject = $this->create( 'Foswiki::Meta', web => $web );
         $topicSet =
           Foswiki::Search::InfoCache::getTopicListIterator( $webObject,
             $options );
@@ -244,7 +244,7 @@ sub _webQuery {
         # scope='text', e.g. grep search on topic text:
         unless ( $options->{'scope'} eq 'topic' ) {
             my $textMatches =
-              _search( $tokenCopy, $web, $topicSet, $session, $options );
+              _search( $tokenCopy, $web, $topicSet, $app, $options );
 
             #bring the text matches into the topicMatch hash
             if ($textMatches) {
@@ -274,8 +274,8 @@ sub _webQuery {
         }
 
         # reduced topic list for next token
-        $topicSet = Foswiki::Search::InfoCache->new(
-            session    => $Foswiki::Plugins::SESSION,
+        $topicSet = $this->create(
+            'Foswiki::Search::InfoCache',
             defaultWeb => $web,
             topicList  => \@scopeTextList
         );

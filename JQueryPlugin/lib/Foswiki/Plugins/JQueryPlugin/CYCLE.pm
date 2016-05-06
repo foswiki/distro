@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::CYCLE;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,23 +21,14 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'Cycle',
-            version      => '3.0.3',
-            author       => 'M. Alsup',
-            homepage     => 'http://www.malsup.com/jquery/cycle',
-            javascript   => [ 'jquery.cycle.js', 'jquery.cycle.init.js' ],
-            dependencies => [ 'metadata', 'livequery' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'Cycle',
+    version      => '3.0.3',
+    author       => 'M. Alsup',
+    homepage     => 'http://www.malsup.com/jquery/cycle',
+    javascript   => [ 'jquery.cycle.js', 'jquery.cycle.init.js' ],
+    dependencies => [ 'metadata', 'livequery' ],
+);
 
 1;
 __END__

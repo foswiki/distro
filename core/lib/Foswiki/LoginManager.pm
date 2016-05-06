@@ -56,7 +56,8 @@ use CGI::Session     ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 use Assert;
 

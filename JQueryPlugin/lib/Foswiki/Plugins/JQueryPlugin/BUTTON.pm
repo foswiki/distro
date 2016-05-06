@@ -1,9 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::BUTTON;
-use strict;
-use warnings;
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -21,25 +21,16 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'Button',
-            version      => '2.0',
-            author       => 'Michael Daum',
-            homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
-            tags         => 'BUTTON',
-            css          => ['jquery.button.css'],
-            javascript   => ['jquery.button.init.js'],
-            dependencies => [ 'metadata', 'livequery', 'JQUERYPLUGIN::FORM' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'Button',
+    version      => '2.0',
+    author       => 'Michael Daum',
+    homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
+    tags         => 'BUTTON',
+    css          => ['jquery.button.css'],
+    javascript   => ['jquery.button.init.js'],
+    dependencies => [ 'metadata', 'livequery', 'JQUERYPLUGIN::FORM' ],
+);
 
 =begin TML
 

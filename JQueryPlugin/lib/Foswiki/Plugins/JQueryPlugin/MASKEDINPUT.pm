@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::MASKEDINPUT;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,24 +21,14 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name     => 'MaskedInput',
-            version  => '1.4.1',
-            author   => 'Josh Bush',
-            homepage => 'http://digitalbush.com/projects/masked-input-plugin',
-            javascript =>
-              [ 'jquery.maskedinput.js', 'jquery.maskedinput.init.js' ],
-            dependencies => [ 'metadata', 'livequery' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'MaskedInput',
+    version      => '1.4.1',
+    author       => 'Josh Bush',
+    homepage     => 'http://digitalbush.com/projects/masked-input-plugin',
+    javascript   => [ 'jquery.maskedinput.js', 'jquery.maskedinput.init.js' ],
+    dependencies => [ 'metadata', 'livequery' ],
+);
 
 1;
 

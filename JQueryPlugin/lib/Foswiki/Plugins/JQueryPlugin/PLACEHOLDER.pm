@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::PLACEHOLDER;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,22 +21,13 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name       => 'Placeholder',
-            version    => 'r1',
-            author     => 'Sam Grossberg',
-            homepage   => 'https://github.com/samgro',
-            javascript => ['jquery.placeholder.js'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'Placeholder',
+    version    => 'r1',
+    author     => 'Sam Grossberg',
+    homepage   => 'https://github.com/samgro',
+    javascript => ['jquery.placeholder.js'],
+);
 
 1;
 

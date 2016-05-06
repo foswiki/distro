@@ -112,12 +112,6 @@ sub SINGLE_SINGLETONS_TRACE { 0 }
 #    clearer => 1,
 #    default => sub { return Digest::MD5->new; },
 #);
-#has forms => (
-#    is      => 'ro',
-#    lazy    => 1,
-#    clearer => 1,
-#    default => sub { {} },
-#);
 #
 ## Heap is to be used for data persistent over session lifetime.
 ## Usage: $sessiom->heap->{key} = <your data>;
@@ -164,16 +158,6 @@ sub SINGLE_SINGLETONS_TRACE { 0 }
 #            $scriptUrlPath = $1;
 #        }
 #        return $scriptUrlPath;
-#    },
-#);
-#has search => (
-#    is        => 'ro',
-#    lazy      => 1,
-#    clearer   => 1,
-#    predicate => 1,
-#    default   => sub {
-#        require Foswiki::Search;
-#        return Foswiki::Search->new( session => $_[0] );
 #    },
 #);
 #has topicName => (
@@ -1706,30 +1690,6 @@ intended as a work area for plugins etc. The directory will exist.
 sub getWorkArea {
     my ( $this, $key ) = @_;
     return $this->store->getWorkArea($key);
-}
-
-=begin TML
-
----++ ObjectMethod getApproxRevTime (  $web, $topic  ) -> $epochSecs
-
-Get an approximate rev time for the latest rev of the topic. This method
-is used to optimise searching. Needs to be as fast as possible.
-
-SMELL: is there a reason this is in Foswiki.pm, and not in Search?
-
-=cut
-
-sub getApproxRevTime {
-    my ( $this, $web, $topic ) = @_;
-
-    my $metacache = $this->search->metacache;
-    if ( $metacache->hasCached( $web, $topic ) ) {
-
-        #don't kill me - this should become a property on Meta
-        return $metacache->get( $web, $topic )->{modified};
-    }
-
-    return $this->store->getApproxRevTime( $web, $topic );
 }
 
 1;

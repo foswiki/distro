@@ -23,6 +23,7 @@ use Foswiki qw(expandStandardEscapes);
 use Moo;
 use namespace::clean;
 extends qw( Foswiki::Object );
+with qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -31,11 +32,10 @@ BEGIN {
     }
 }
 
-has session     => ( is => 'ro', weak_ref => 1, required => 1, );
-has name        => ( is => 'ro', lazy     => 1, default  => '', );
-has attributes  => ( is => 'ro', lazy     => 1, default  => '', );
-has description => ( is => 'ro', lazy     => 1, default  => '', );
-has type        => ( is => 'ro', lazy     => 1, default  => '', );
+has name        => ( is => 'ro', lazy => 1, default => '', );
+has attributes  => ( is => 'ro', lazy => 1, default => '', );
+has description => ( is => 'ro', lazy => 1, default => '', );
+has type        => ( is => 'ro', lazy => 1, default => '', );
 has default        => ( is => 'rw', predicate => 1, );
 has validModifiers => ( is => 'rw', lazy      => 1, default => sub { [] }, );
 has value          => ( is => 'rw', lazy      => 1, );

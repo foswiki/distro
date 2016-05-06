@@ -14,7 +14,6 @@ use Foswiki::Meta            ();
 use Foswiki::MetaCache       ();
 use Foswiki::Query::Node     ();
 use Foswiki::Query::HoistREs ();
-use Foswiki::ListIterator();
 use Foswiki::Iterator::FilterIterator();
 use Foswiki::Iterator::ProcessIterator();
 use Foswiki::Iterator::PagerIterator();
@@ -29,6 +28,7 @@ BEGIN {
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 use constant MONITOR => 0;
 
@@ -56,12 +56,12 @@ need to inherit from this class (as long as all the methods are implemented).
 
 =begin TML
 
----++ ObjectMethod query( $query, $webs, $inputTopicSet, $session, $options ) -> $infoCache
+---++ ObjectMethod query( $query, $webs, $inputTopicSet, $app, $options ) -> $infoCache
    * =$query= - A Foswiki::Query::Node object
    * =$web= - name of the web being searched, or may be an array reference
               to a set of webs to search
    * =$inputTopicSet= - iterator over names of topics in that web to search
-   * =$session= - reference to the store object
+   * =$app= - reference to the store object
    * =$options= - hash of requested options
 This is the top-level interface to a query algorithm. A store module can call
 this method to start the 'hard work' query process. That process will call
@@ -76,7 +76,7 @@ this is a default implementation of the query() sub that uses the specific algor
 =cut
 
 sub query {
-    my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
+    my ( $this, $query, $inputTopicSet, $app, $options ) = @_;
 
     if ( $query->isEmpty() )
     {    #TODO: does this do anything in a type=query context?
@@ -93,13 +93,12 @@ sub query {
     my $date = $options->{'date'} || '';
 
     # Fold constants
-    my $context =
-      Foswiki::Meta->new( session => $session, web => $session->webName );
+    my $context = $app->create( 'Foswiki::Meta', web => $app->request->web );
     print STDERR "--- before: " . $query->stringify() . "\n" if MONITOR;
     $query->simplify( tom => $context, data => $context );
     print STDERR "--- simplified: " . $query->stringify() . "\n" if MONITOR;
 
-    my $webItr = $this->getWebIterator( $session, $options );
+    my $webItr = $this->getWebIterator( $app, $options );
 
     #do the search
     my $queryItr = Foswiki::Iterator::ProcessIterator->new(
@@ -108,9 +107,10 @@ sub query {
             my $web    = shift;
             my $params = shift;
 
-            my $infoCache =
-              $this->_webQuery( $params->{query}, $web, $params->{inputset},
-                $params->{session}, $params->{options} );
+            my $infoCache = $this->_webQuery(
+                $params->{query}, $web, $params->{inputset},
+                $params->{app},   $params->{options}
+            );
 
             if ($date) {
                 $infoCache->filterByDate($date);
@@ -121,7 +121,7 @@ sub query {
         data => {
             query    => $query,
             inputset => $inputTopicSet,
-            session  => $session,
+            app      => $app,
             options  => $options
         }
     );
@@ -180,21 +180,19 @@ sub addACLFilter {
               Foswiki::Func::normalizeWebTopicName( '', $listItem );
 
             my $topicMeta =
-              $Foswiki::Plugins::SESSION->search->metacache->addMeta( $web,
-                $topic );
+              $Foswiki::app->search->metacache->addMeta( $web, $topic );
             if ( not defined($topicMeta) ) {
 
 #TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
 #lets change that
-                $topicMeta = Foswiki::Meta->new(
-                    session => $Foswiki::Plugins::SESSION,
-                    web     => $web,
-                    topic   => $topic
+                $topicMeta = Foswiki::app->create(
+                    'Foswiki::Meta',
+                    web   => $web,
+                    topic => $topic
                 );
             }
             my $info =
-              $Foswiki::Plugins::SESSION->search->metacache->get( $web, $topic,
-                $topicMeta );
+              $Foswiki::app->search->metacache->get( $web, $topic, $topicMeta );
             ##ASSERT( defined( $info->{tom} ) ) if DEBUG;
 
 # Check security (don't show topics the current user does not have permission to view)
@@ -207,12 +205,12 @@ sub addACLFilter {
 
 sub getWebIterator {
     my $this    = shift;
-    my $session = shift;
+    my $app     = shift;
     my $options = shift;
 
     my $webNames = $options->{web}       || '';
     my $recurse  = $options->{'recurse'} || '';
-    my $isAdmin  = $session->users->isAdmin( $session->user );
+    my $isAdmin  = $app->users->isAdmin( $app->user );
 
     #get a complete list of webs to search
     my $searchAllFlag = ( $webNames =~ m/(^|[\,\s])(all|on)([\,\s]|$)/i );
@@ -227,10 +225,9 @@ sub getWebIterator {
             my $params = shift;
 
             # can't process what ain't thar
-            return 0 unless $session->webExists($web);
+            return 0 unless $app->store->webExists($web);
 
-            my $webObject =
-              Foswiki::Meta->new( session => $session, web => $web );
+            my $webObject = $app->create( 'Foswiki::Meta', web => $web );
             my $thisWebNoSearchAll =
               Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
 
@@ -240,7 +237,7 @@ sub getWebIterator {
               if ( $searchAllFlag
                 && !$isAdmin
                 && ( $thisWebNoSearchAll || $web =~ m/^[\.\_]/ )
-                && $web ne $session->webName );
+                && $web ne $app->request->web );
             return 1;
         },
         data => {},
@@ -405,7 +402,7 @@ sub getRefTopic {
 
     # Get a referenced topic
     my ( $this, $relativeTo, $w, $t, $rev ) = @_;
-    my $meta = Foswiki::Meta->load( $relativeTo->session, $w, $t, $rev );
+    my $meta = Foswiki::Meta->load( $relativeTo->app, $w, $t, $rev );
     print STDERR "----- getRefTopic($w, $t) -> "
       . ( $meta->getLoadedRev() ) . "\n"
       if MONITOR;
@@ -444,7 +441,7 @@ Meta - it rather uses the store.
 
 sub getListOfWebs {
     my ( $webName, $recurse, $searchAllFlag ) = @_;
-    my $session = $Foswiki::Plugins::SESSION;
+    my $app = $Foswiki::app;
 
     my %excludeWeb;
     my @tmpWebs;
@@ -468,25 +465,23 @@ sub getListOfWebs {
                     my $webObject;
                     my $prefix = "$web/";
                     if ( $web =~ m/^(all|on)$/i ) {
-                        $webObject = Foswiki::Meta->new( session => $session );
-                        $prefix = '';
+                        $webObject = $app->create('Foswiki::Meta');
+                        $prefix    = '';
                     }
                     else {
                         $web = Foswiki::Sandbox::untaint( $web,
                             \&Foswiki::Sandbox::validateWebName );
                         ASSERT($web) if DEBUG;
                         push( @tmpWebs, $web );
-                        $webObject = Foswiki::Meta->new(
-                            session => $session,
-                            web     => $web
-                        );
+                        $webObject =
+                          $app->create( 'Foswiki::Meta', web => $web );
                     }
                     my $it = $webObject->eachWeb(1);
                     while ( $it->hasNext() ) {
                         my $w = $prefix . $it->next();
                         next
                           unless Foswiki::WebFilter->user_allowed()
-                          ->ok( $session, $w );
+                          ->ok( $app, $w );
                         $w = Foswiki::Sandbox::untaint( $w,
                             \&Foswiki::Sandbox::validateWebName );
                         ASSERT($web) if DEBUG;
@@ -506,21 +501,18 @@ sub getListOfWebs {
 
         # default to current web
         my $web =
-          Foswiki::Sandbox::untaint( $session->webName,
+          Foswiki::Sandbox::untaint( $app->request->web,
             \&Foswiki::Sandbox::validateWebName );
         push( @tmpWebs, $web );
         if ( Foswiki::isTrue($recurse) ) {
-            require Foswiki::Meta;
-            my $webObject = Foswiki::Meta->new(
-                session => $session,
-                web     => $session->webName
-            );
+            my $webObject =
+              $app->create( 'Foswiki::Meta', web => $app->request->web, );
             my $it =
               $webObject->eachWeb( $Foswiki::cfg{EnableHierarchicalWebs} );
             while ( $it->hasNext() ) {
-                my $w = $session->webName . '/' . $it->next();
+                my $w = $app->request->web . '/' . $it->next();
                 next
-                  unless Foswiki::WebFilter->user_allowed()->ok( $session, $w );
+                  unless Foswiki::WebFilter->user_allowed()->ok( $app, $w );
                 $w = Foswiki::Sandbox::untaint( $w,
                     \&Foswiki::Sandbox::validateWebName );
                 push( @tmpWebs, $w );

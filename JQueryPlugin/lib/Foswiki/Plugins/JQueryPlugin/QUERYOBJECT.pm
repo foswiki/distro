@@ -1,9 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::QUERYOBJECT;
-use strict;
-use warnings;
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -21,22 +21,13 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name     => 'QueryObject',
-            version  => '2.2.2',
-            author   => 'Blair Mitchelmore',
-            homepage => 'https://github.com/alrusdi/jquery-plugin-query-object',
-            javascript => ['jquery.queryobject.js']
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'QueryObject',
+    version    => '2.2.2',
+    author     => 'Blair Mitchelmore',
+    homepage   => 'https://github.com/alrusdi/jquery-plugin-query-object',
+    javascript => ['jquery.queryobject.js']
+);
 
 1;
 __END__

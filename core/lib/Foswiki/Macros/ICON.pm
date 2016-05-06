@@ -14,7 +14,8 @@ use Assert;
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 with qw(Foswiki::Macro);
 
 has ICONSPACE => (

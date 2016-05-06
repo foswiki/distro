@@ -71,7 +71,8 @@ use Scalar::Util          ();
 
 use Moo;
 use namespace::clean;
-extends qw( Foswiki::AppObject );
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 #our @_newParameters = qw( session );
 

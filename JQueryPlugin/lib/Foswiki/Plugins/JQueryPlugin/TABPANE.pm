@@ -1,11 +1,10 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::TABPANE;
-use strict;
-use warnings;
-
-use Foswiki::Func                          ();
-use Foswiki::Plugins::JQueryPlugin::Plugin ();
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+use Foswiki::Func ();
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::Plugins::JQueryPlugin::Plugin);
 
 =begin TML
 
@@ -23,25 +22,16 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'Tabpane',
-            version      => '1.23',
-            author       => 'Michael Daum',
-            homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
-            tags         => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
-            css          => ['jquery.tabpane.css'],
-            javascript   => ['jquery.tabpane.js'],
-            dependencies => [ 'metadata', 'livequery', 'easing' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'Tabpane',
+    version      => '1.23',
+    author       => 'Michael Daum',
+    homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
+    tags         => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
+    css          => ['jquery.tabpane.css'],
+    javascript   => ['jquery.tabpane.js'],
+    dependencies => [ 'metadata', 'livequery', 'easing' ],
+);
 
 =begin TML
 

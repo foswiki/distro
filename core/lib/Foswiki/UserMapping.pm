@@ -45,7 +45,8 @@ BEGIN {
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 has mapping_id => (
     is      => 'rw',

@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::MASONRY;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,23 +21,14 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'Masonry',
-            version      => '3.3.2',
-            author       => 'David <nop>DeSandro',
-            homepage     => 'http://masonry.desandro.com',
-            javascript   => ['jquery.masonry.js'],
-            dependencies => [ 'metadata', 'livequery', 'imagesloaded' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'Masonry',
+    version      => '3.3.2',
+    author       => 'David <nop>DeSandro',
+    homepage     => 'http://masonry.desandro.com',
+    javascript   => ['jquery.masonry.js'],
+    dependencies => [ 'metadata', 'livequery', 'imagesloaded' ],
+);
 
 1;
 

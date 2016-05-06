@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::CORNER;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,23 +21,14 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'Corner',
-            version      => '2.12',
-            author       => 'Dave Methvin, Mike Alsup',
-            homepage     => 'http://jquery.malsup.com/corner',
-            javascript   => [ 'jquery.corner.js', 'jquery.corner.init.js' ],
-            dependencies => ['livequery'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'Corner',
+    version      => '2.12',
+    author       => 'Dave Methvin, Mike Alsup',
+    homepage     => 'http://jquery.malsup.com/corner',
+    javascript   => [ 'jquery.corner.js', 'jquery.corner.init.js' ],
+    dependencies => ['livequery'],
+);
 
 1;
 

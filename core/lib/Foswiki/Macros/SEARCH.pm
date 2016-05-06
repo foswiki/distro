@@ -14,14 +14,14 @@ BEGIN {
 }
 
 sub SEARCH {
-    my ( $this, $params, $topicObject ) = @_;
+    my ( $app, $params, $topicObject ) = @_;
 
     # pass on all attrs, and add some more
     #$params->{_callback} = undef;
     $params->{baseweb}   = $topicObject->web;
     $params->{basetopic} = $topicObject->topic;
     $params->{search}    = $params->{_DEFAULT} if defined $params->{_DEFAULT};
-    $params->{type}      = $this->prefs->getPreference('SEARCHVARDEFAULTTYPE')
+    $params->{type}      = $app->prefs->getPreference('SEARCHVARDEFAULTTYPE')
       unless ( $params->{type} );
 
 #TODO: this is a common default that should be extracted into a 'test, default and refine' parameters for all formatResult calls
@@ -38,7 +38,7 @@ sub SEARCH {
 
     my $s;
     try {
-        $s = $this->search->searchWeb(%$params);
+        $s = $app->search->searchWeb(%$params);
     }
     catch {
         my $exception = $_;
@@ -72,7 +72,7 @@ sub SEARCH {
         # error message
         $message =~ s/%([A-Z]*[{%])/%<nop>$1/g;
         $message =~ s/\n/<br \/>/g;
-        $s = $this->inlineAlert( 'alerts', 'bad_search', $message );
+        $s = $app->inlineAlert( 'alerts', 'bad_search', $message );
     };
     return $s;
 }
@@ -81,7 +81,7 @@ sub SEARCH {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

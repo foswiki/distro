@@ -22,7 +22,8 @@ use Unicode::Normalize;
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 use constant HTTP_COMPLIANT => undef;    # This is a generic class.
 
@@ -407,7 +408,7 @@ take any appropriate finalize actions, such as delete temporary files.
 
 sub finalize {
     my ( $this, $res, $req ) = @_;
-    if ( $res->outputHasStarted() ) {
+    if ( $res->outputHasStarted ) {
         $this->flush( $res, $req );
     }
     else {
@@ -469,7 +470,7 @@ Should call finalizeCookies and then send $res' headers to client.
 sub finalizeHeaders {
     my ( $this, $res, $req ) = @_;
     $this->finalizeCookies($res);
-    if ( $req && $req->method() && uc( $req->method() ) eq 'HEAD' ) {
+    if ( $req && $req->method && uc( $req->method ) eq 'HEAD' ) {
         $res->body('');
         $res->deleteHeader('Content-Length');
     }
@@ -551,7 +552,7 @@ the header.
 sub flush {
     my ( $this, $res, $req ) = @_;
 
-    unless ( $res->outputHasStarted() ) {
+    unless ( $res->outputHasStarted ) {
         $res->deleteHeader('Content-Length');
         $this->finalizeUploads( $res, $req );
         $this->finalizeHeaders( $res, $req );
@@ -559,10 +560,11 @@ sub flush {
         $res->outputHasStarted(1);
     }
 
-    my $body = $res->body();
+    my $body = $res->body;
 
     if ( Scalar::Util::blessed($body) || ref($body) eq 'GLOB' ) {
-        throw Foswiki::EngineException('Cannot flush non-text response body');
+        Foswiki::Exception::Engine->throw(
+            response => 'Cannot flush non-text response body' );
     }
 
     $this->write($body);

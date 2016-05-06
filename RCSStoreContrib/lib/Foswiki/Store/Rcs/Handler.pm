@@ -1654,8 +1654,8 @@ sub readChanges {
                 $entry->{topic} = $2;
             }
             $entry->{user} =
-                $Foswiki::Plugins::SESSION
-              ? $Foswiki::Plugins::SESSION->users->getWikiName( $entry->{cuid} )
+                $Foswiki::app
+              ? $Foswiki::app->users->getWikiName( $entry->{cuid} )
               : $entry->{cuid};
             $entry->{more} =
               ( $entry->{minor} ? 'minor ' : '' ) . ( $entry->{comment} || '' );

@@ -10,6 +10,7 @@ use Foswiki::Iterator::FilterIterator ();
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::ListIterator);
+with qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -39,7 +40,7 @@ use Assert;
 
 =begin TML
 
----++ ClassMethod new(session => $session, defaultWeb => $defaultWeb, topicList => \@topicList)
+---++ ClassMethod new(app => $app, defaultWeb => $defaultWeb, topicList => \@topicList)
 Initialise a new list of topics, allowing their data to be lazy loaded
 if and when needed.
 
@@ -56,12 +57,6 @@ Because this Iterator can be created and filled dynamically, once the Iterator h
 #TODO: or..... make reset() make the object mutable again, so we can change the elements in the list, but re-use the meta cache??
 #CONSIDER: convert the internals to a hash[tomAddress] = {matches->[list of resultint text bits], othermeta...} - except this does not give us order :/
 
-has session => (
-    is       => 'rw',
-    weak_ref => 1,
-    init_arg => 'session',
-    required => 1,
-);
 has _defaultWeb => (
     is       => 'rw',
     init_arg => 'defaultWeb',
@@ -128,7 +123,7 @@ sub addTopic {
     $this->count( $this->count + 1 );
     push( @{ $this->list }, $webtopic );
     if ( defined($meta) ) {
-        $this->session->search->metacache->addMeta( $web, $topic, $meta );
+        $this->app->search->metacache->addMeta( $web, $topic, $meta );
     }
     $this->clear_sorted;
 }
@@ -164,7 +159,7 @@ sub sortResults {
     return if ( $this->sorted );
     $this->sorted(1);
 
-    my $session = $this->session;
+    my $app = $this->app;
 
     my $sortOrder = $params->{order} || '';
     my $revSort   = Foswiki::isTrue( $params->{reverse} );
@@ -215,7 +210,7 @@ sub sortResults {
                 my ( $web, $topic ) =
                   Foswiki::Func::normalizeWebTopicName( $this->_defaultWeb,
                     $_ );
-                [ $session->getApproxRevTime( $web, $topic ), $_ ]
+                [ $app->search->getApproxRevTime( $web, $topic ), $_ ]
               } @{ $this->list };
             @tmpList = reverse(@tmpList) if ($revSort);
 
@@ -267,7 +262,7 @@ sub filterByDate {
     my ( $this, $date ) = @_;
     ASSERT( !defined( $this->filter ) ) if DEBUG;
 
-    my $session = $Foswiki::Plugins::SESSION;
+    my $app = $Foswiki::app;
 
     require Foswiki::Time;
     my @ends = Foswiki::Time::parseInterval($date);
@@ -280,7 +275,7 @@ sub filterByDate {
             my ( $web, $topic ) =
               Foswiki::Func::normalizeWebTopicName( $this->_defaultWeb,
                 $webtopic );
-            my $topicdate = $session->getApproxRevTime( $web, $topic );
+            my $topicdate = $app->search->getApproxRevTime( $web, $topic );
 
             return !( $topicdate < $ends[0] || $topicdate > $ends[1] );
 
@@ -324,7 +319,7 @@ sub sortTopics {
         return;
     }
 
-    my $metacache = $Foswiki::Plugins::SESSION->search->metacache;
+    my $metacache = $Foswiki::app->search->metacache;
 
     # populate the cache for each topic
     foreach my $webtopic ( @{$listRef} ) {
@@ -361,7 +356,7 @@ sub sortTopics {
         # SMELL: CDot isn't clear why this is needed, but it is otherwise
         # we end up with the users all being identified as "undef"
         $info->{editby} =
-          $info->{tom}->session->users->getWikiName( $info->{editby} );
+          $info->{tom}->app->users->getWikiName( $info->{editby} );
     }
     @{$listRef} = map { $_->[1] }
       sort { _compare( $b, $a, $revSort ) }
@@ -500,9 +495,9 @@ sub getTopicListIterator {
 
         # topic list without wildcards
         # convert pattern into a topic list
-        my @list = grep {
-            $Foswiki::Plugins::SESSION->topicExists( $webObject->web, $_ )
-        } split( /,\s*|\|/, $options->{includeTopics} );
+        my @list =
+          grep { $Foswiki::app->store->topicExists( $webObject->web, $_ ) }
+          split( /,\s*|\|/, $options->{includeTopics} );
         $it = new Foswiki::ListIterator( \@list );
     }
     else {

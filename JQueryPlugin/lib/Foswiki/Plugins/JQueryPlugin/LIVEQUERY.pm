@@ -21,19 +21,13 @@ Constructor
 
 =cut
 
-around BUILDARGS => sub {
-    my $orig  = shift;
-    my $class = shift;
-
-    return $orig->(
-        $class, @_,
-        name       => 'LiveQuery',
-        version    => '1.3.1',
-        author     => 'Brandon Aaron, Alexander Zaytsev',
-        homepage   => 'https://github.com/hazzik/livequery',
-        javascript => ['jquery.livequery.js'],
-    );
-};
+our %pluginParams = (
+    name       => 'LiveQuery',
+    version    => '1.3.1',
+    author     => 'Brandon Aaron, Alexander Zaytsev',
+    homepage   => 'https://github.com/hazzik/livequery',
+    javascript => ['jquery.livequery.js'],
+);
 
 1;
 

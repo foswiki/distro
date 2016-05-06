@@ -337,14 +337,13 @@ sub _processSubscriptions {
 
 # i18N doesn't change when we change LANGUAGE, so we have to stomp it.
 sub _stompI18N {
-    if ( $Foswiki::Plugins::SESSION->can('reset_i18n') ) {
-        $Foswiki::Plugins::SESSION->reset_i18n();
+    if ( $Foswiki::app->can('reset_i18n') ) {
+        $Foswiki::app->reset_i18n();
     }
-    elsif ( $Foswiki::Plugins::SESSION->{i18n} ) {
+    elsif ( $Foswiki::app->i18n ) {
 
         # Muddy boots.
-        $Foswiki::Plugins::SESSION->i18n->finish();
-        undef $Foswiki::Plugins::SESSION->{i18n};
+        $Foswiki::app->clear_i18n;
     }
 }
 
@@ -377,7 +376,8 @@ sub _loadUserPreferences {
         my ( $uw, $ut ) =
           Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
             $name );
-        $meta = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $uw, $ut );
+        $meta =
+          $Foswiki::app->create( 'Foswiki::Meta', web => $uw, topic => $ut );
         $email2meta->{$email} = $meta;
     }
     if ($meta) {
@@ -540,7 +540,7 @@ sub _sendNewsletterMail {
     # SMELL: Have to hack into the core to set internal preferences :-(
     my %old =
       map { $_ => undef } qw(BASEWEB BASETOPIC INCLUDINGWEB INCLUDINGTOPIC);
-    if ( defined $Foswiki::Plugins::SESSION->{SESSION_TAGS} ) {
+    if ( defined $Foswiki::app->heap->{SESSION_TAGS} ) {
 
         # In 1.0.6 and earlier, have to handle some session tags ourselves
         # because pushTopicContext doesn't do it. **
@@ -551,8 +551,8 @@ sub _sendNewsletterMail {
     Foswiki::Func::pushTopicContext( $web, $topic );
 
     # See ** above
-    if ( defined $Foswiki::Plugins::SESSION->{SESSION_TAGS} ) {
-        my $stags = $Foswiki::Plugins::SESSION->{SESSION_TAGS};
+    if ( defined $Foswiki::app->heap->{SESSION_TAGS} ) {
+        my $stags = $Foswiki::app->heap->{SESSION_TAGS};
         $stags->{BASEWEB}        = $web;
         $stags->{BASETOPIC}      = $topic;
         $stags->{INCLUDINGWEB}   = $web;
@@ -665,12 +665,12 @@ sub _sendNewsletterMail {
     Foswiki::Func::popTopicContext();
 
     # SMELL: See ** above
-    if ( defined $Foswiki::Plugins::SESSION->{SESSION_TAGS} ) {
+    if ( defined $Foswiki::app->heap->{SESSION_TAGS} ) {
 
         # In 1.0.6 and earlier, have to handle some session tags ourselves
         # because pushTopicContext doesn't do it. **
         foreach my $macro ( keys %old ) {
-            $Foswiki::Plugins::SESSION->{SESSION_TAGS}{$macro} = $old{$macro};
+            $Foswiki::app->heap->{SESSION_TAGS}{$macro} = $old{$macro};
         }
     }
 }

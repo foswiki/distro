@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::VALIDATE;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,26 +21,17 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name       => 'Validate',
-            version    => '1.11.0',
-            author     => 'Joern Zaefferer',
-            homepage   => 'http://jqueryvalidation.org/',
-            javascript => [
-                'jquery.validate.js', 'jquery.validate.methods.js',
-                'jquery.validate.init.js'
-            ],
-            dependencies => ['form'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'Validate',
+    version    => '1.11.0',
+    author     => 'Joern Zaefferer',
+    homepage   => 'http://jqueryvalidation.org/',
+    javascript => [
+        'jquery.validate.js', 'jquery.validate.methods.js',
+        'jquery.validate.init.js'
+    ],
+    dependencies => ['form'],
+);
 
 =begin TML
 
@@ -51,14 +41,15 @@ Initialize this plugin by adding the required static files to the page
 
 =cut
 
-sub init {
+around init => sub {
+    my $orig = shift;
     my $this = shift;
 
-    return unless $this->SUPER::init();
+    return unless $orig->($this);
 
     # open matching localization file if it exists
-    my $session = $Foswiki::Plugins::SESSION;
-    my $langTag = $session->i18n->language();
+    my $app     = $this->app;
+    my $langTag = $app->i18n->language();
     my $messagePath =
         $Foswiki::cfg{SystemWebName}
       . '/JQueryPlugin/plugins/validate/localization/messages_'
@@ -72,8 +63,7 @@ sub init {
             $text,    'JQUERYPLUGIN::VALIDATE'
         );
     }
-
-}
+};
 
 1;
 __END__

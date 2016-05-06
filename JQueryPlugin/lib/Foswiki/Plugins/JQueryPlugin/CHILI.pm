@@ -1,10 +1,8 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::CHILI;
-use strict;
-use warnings;
-
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+use Moo;
+extends qw(Foswiki::Plugins::JQueryPlugin::Plugin);
 
 =begin TML
 
@@ -22,23 +20,14 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'Chili',
-            version      => '2.2_1',
-            author       => 'Andrea Ercolino',
-            homepage     => 'https://github.com/aercolino/Chili',
-            javascript   => [ 'jquery.chili.js', 'jquery.chili.init.js' ],
-            dependencies => [ 'metadata', 'livequery' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'Chili',
+    version      => '2.2_1',
+    author       => 'Andrea Ercolino',
+    homepage     => 'https://github.com/aercolino/Chili',
+    javascript   => [ 'jquery.chili.js', 'jquery.chili.init.js' ],
+    dependencies => [ 'metadata', 'livequery' ],
+);
 
 1;
 

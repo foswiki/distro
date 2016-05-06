@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::COOKIE;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,23 +21,14 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name    => 'Cookie',
-            version => '20100921',   # based on the blog posting on the homepage
-            author => 'Klaus Hartl, Uzbekjon',
-            homepage =>
+our %pluginParams = (
+    name    => 'Cookie',
+    version => '20100921',    # based on the blog posting on the homepage
+    author => 'Klaus Hartl, Uzbekjon',
+    homepage =>
 'http://jquery-howto.blogspot.com/2010/09/jquery-cookies-getsetdelete-plugin.html',
-            javascript => ['jquery.cookie.js'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+    javascript => ['jquery.cookie.js'],
+);
 
 1;
 __END__

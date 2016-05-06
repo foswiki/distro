@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::HOVERINTENT;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,23 +21,13 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name    => 'hoverIntent',
-            version => '1.8.0',
-            author  => 'Brian Cherne',
-            homepage =>
-              'http://cherne.net/brian/resources/jquery.hoverIntent.html',
-            javascript => ['jquery.hoverIntent.js'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'hoverIntent',
+    version    => '1.8.0',
+    author     => 'Brian Cherne',
+    homepage   => 'http://cherne.net/brian/resources/jquery.hoverIntent.html',
+    javascript => ['jquery.hoverIntent.js'],
+);
 
 1;
 

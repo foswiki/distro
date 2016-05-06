@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::BLOCKUI;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,23 +21,14 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name       => 'blockUI',
-            version    => '2.59',
-            author     => 'M. Alsup',
-            homepage   => 'http://malsup.com/jquery/block/',
-            css        => ['jquery.blockUI.css'],
-            javascript => [ 'jquery.blockUI.js', 'jquery.blockUI.init.js' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'blockUI',
+    version    => '2.59',
+    author     => 'M. Alsup',
+    homepage   => 'http://malsup.com/jquery/block/',
+    css        => ['jquery.blockUI.css'],
+    javascript => [ 'jquery.blockUI.js', 'jquery.blockUI.init.js' ],
+);
 
 1;
 

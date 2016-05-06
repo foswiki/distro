@@ -26,22 +26,15 @@ Constructor
 
 =cut
 
-around BUILDARGS => sub {
-    my $orig  = shift;
-    my $class = shift;
-
-    return $orig->(
-        $class, @_,
-        name       => 'Foswiki',
-        version    => '2.10',
-        author     => 'Michael Daum',
-        homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
-        javascript => ['jquery.foswiki.js'],
-        dependencies =>
-          [ 'JQUERYPLUGIN', 'JQUERYPLUGIN::MIGRATE', 'livequery' ],
-        tags => 'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
-    );
-};
+our %pluginParams = (
+    name         => 'Foswiki',
+    version      => '2.10',
+    author       => 'Michael Daum',
+    homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
+    javascript   => ['jquery.foswiki.js'],
+    dependencies => [ 'JQUERYPLUGIN', 'JQUERYPLUGIN::MIGRATE', 'livequery' ],
+    tags         => 'JQTHEME, JQREQUIRE, JQICON, JQICONPATH, JQPLUGINS',
+);
 
 =begin TML
 

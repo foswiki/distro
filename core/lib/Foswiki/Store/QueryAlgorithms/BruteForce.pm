@@ -60,28 +60,25 @@ use constant MONITOR => 0;
 
 # Query over a single web
 sub _webQuery {
-    my ( $this, $query, $web, $inputTopicSet, $session, $options ) = @_;
+    my ( $this, $query, $web, $inputTopicSet, $app, $options ) = @_;
 
-    my $resultTopicSet = Foswiki::Search::InfoCache->new(
-        session => $Foswiki::Plugins::SESSION,
-        web     => $web
-    );
+    my $resultTopicSet =
+      $this->create( 'Foswiki::Search::InfoCache', web => $web );
 
     # see if this query can be fasttracked.
     # TODO: is this simplification call appropriate here, or should it
     # go in Search.pm
     # TODO: what about simplify to constant in _this_ web?
     my $queryIsAConstantFastpath;    # undefined if this is a 'real' query'
-    my $context =
-      Foswiki::Meta->new( session => $session, web => $session->webName );
+    my $context = $this->create( 'Foswiki::Meta', web => $app->request->web );
     $query->simplify( tom => $context, data => $context );
 
     if ( $query->evaluatesToConstant() ) {
         print STDERR "-- constant?\n" if MONITOR;
 
         # SMELL: use any old topic
-        my $cache = $Foswiki::Plugins::SESSION->search->metacache->get( $web,
-            'WebPreferences' );
+        my $cache =
+          $this->app->search->metacache->get( $web, 'WebPreferences' );
         my $meta = $cache->{tom};
         $queryIsAConstantFastpath =
           $query->evaluate( tom => $meta, data => $meta );
@@ -135,7 +132,7 @@ sub _webQuery {
 
         # then we start with the whole web?
         # TODO: i'm sure that is a flawed assumption
-        my $webObject = Foswiki::Meta->new( session => $session, web => $web );
+        my $webObject = $this->create( 'Foswiki::Meta', web => $web );
         $topicSet =
           Foswiki::Search::InfoCache::getTopicListIterator( $webObject,
             $options );
@@ -164,8 +161,7 @@ sub _webQuery {
 
         $topicSet->reset();
         $topicSet =
-          $session->store->query( $searchQuery, $topicSet, $session,
-            $searchOptions );
+          $app->store->query( $searchQuery, $topicSet, $app, $searchOptions );
     }
     else {
 
@@ -191,8 +187,7 @@ sub _webQuery {
 
                 # TODO: preload the meta cache if we're doing date
                 # based filtering - else the wrong filedate will be used
-                $Foswiki::Plugins::SESSION->search->metacache->get( $Iweb,
-                    $topic );
+                $this->app->search->metacache->get( $Iweb, $topic );
             }
 
             # TODO: frustratingly, there is no way to evaluate a
@@ -200,9 +195,7 @@ sub _webQuery {
             $resultTopicSet->addTopics( $Iweb, $topic );
         }
         else {
-            my $meta =
-              $Foswiki::Plugins::SESSION->search->metacache->addMeta( $Iweb,
-                $topic );
+            my $meta = $this->app->search->metacache->addMeta( $Iweb, $topic );
             print STDERR "-- evaluate $Iweb, $topic\n" if MONITOR;
             next unless ( defined($meta) );    #not a valid or loadable topic
 

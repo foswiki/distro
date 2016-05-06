@@ -372,7 +372,6 @@ sub getRevisionHistory {
 
     unless ( _d _historyDir( $meta, $attachment ) ) {
         my @list = ();
-        require Foswiki::ListIterator;
         if ( _e _latestFile( $meta, $attachment ) ) {
             push( @list, 1 );
         }
@@ -737,13 +736,12 @@ sub eachAttachment {
     my $dh;
     my $ed = _encode( _getPub($meta), 1 );
     opendir( $dh, $ed )
-      or return Foswiki::ListIterator->( list => [] );
+      or return $this->create( 'Foswiki::ListIterator', list => [] );
     my @list =
       map { _decode($_) }
       grep { !/^[.*_]/ && !/,pfv$/ && ( -f "$ed/$_" ) } readdir($dh);
     closedir($dh);
 
-    require Foswiki::ListIterator;
     return Foswiki::ListIterator->new( list => \@list );
 }
 
@@ -763,7 +761,6 @@ sub eachTopic {
       grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } _readdir($dh);
     closedir($dh);
 
-    require Foswiki::ListIterator;
     return Foswiki::ListIterator->new( list => \@list );
 }
 
@@ -810,7 +807,6 @@ sub eachWeb {
         @list = @expandedList;
     }
     @list = sort(@list);
-    require Foswiki::ListIterator;
     return Foswiki::ListIterator->new( list => \@list );
 }
 
@@ -878,7 +874,7 @@ sub query {
                       . ( ref($_) ? $_->stringify : $_ ) )
                   if defined $_;
             };
-            $this->queryObj( $module->new() );
+            $this->queryObj( $this->create($module) );
         }
         $searchEngine = $this->queryObj;
     }
@@ -898,7 +894,7 @@ sub query {
                       . ( ref($_) ? $_->stringify : $_ ) )
                   if defined $_;
             };
-            $this->searchQueryObj( $module->new() );
+            $this->searchQueryObj( $this->create($module) );
         }
         $searchEngine = $this->searchQueryObj;
     }
@@ -1341,7 +1337,6 @@ sub eachChange {
     my ( $this, $meta, $since ) = @_;
 
     my $file = "$Foswiki::cfg{DataDir}/" . $meta->web . "/.changes";
-    require Foswiki::ListIterator;
 
     my @changes;
     if ( _r $file ) {

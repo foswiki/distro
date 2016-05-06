@@ -25,6 +25,7 @@ use Foswiki::Users::BaseUserMapping ();
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 #use Monitor ();
 #Monitor::MonitorMethod('Foswiki::MetaCache', 'getTopicListIterator');
@@ -40,15 +41,10 @@ BEGIN {
 
 =begin TML
 
----++ ClassMethod new($session)
+---++ ClassMethod new( app => $app )
 
 =cut
 
-has session => (
-    is       => 'rw',
-    weak_ref => 1,
-    isa      => Foswiki::Object::isaCLASS( 'session', 'Foswiki' ),
-);
 has cache => (
     is      => 'rw',
     lazy    => 1,
@@ -69,7 +65,7 @@ has undef_count => (
 has meta_cache_session_user => (
     is      => 'ro',
     lazy    => 1,
-    default => sub { return $_[0]->session->user; },
+    default => sub { return $_[0]->app->user; },
 );
 
 #need to delete from cache if the store saves / updates it :/
@@ -126,7 +122,7 @@ sub hasCached {
     ASSERT( defined($topic) ) if DEBUG;
     return unless ( defined($topic) );
 
-    return ( $this->session->user
+    return ( $this->app->user
           and defined( $this->cache->{ $this->current_user }{$web}{$topic} ) );
 }
 
@@ -174,7 +170,7 @@ sub addMeta {
     }
 
     if ( not defined($meta) ) {
-        $meta = Foswiki::Meta->load( $this->session, $web, $topic );
+        $meta = Foswiki::Meta->load( $this->app, $web, $topic );
     }
     if (    ( defined($meta) and $meta ne '' )
         and defined( $meta->latestIsLoaded )
@@ -230,6 +226,8 @@ sub get {
     my ( $this, $web, $topic, $meta ) = @_;
     ASSERT( $meta->isa('Foswiki::Meta') ) if ( defined($meta) and DEBUG );
 
+    my $app = $this->app;
+
 #sadly, Search.pm actually beleives that it can send out for info on Meta objects that do not exist
 #ASSERT( defined($meta->getLoadedRev) ) if ( defined($meta) and DEBUG );
 
@@ -266,26 +264,25 @@ sub get {
 #Ideally, the Store2::Meta object will _not_ contain any session info, and anything that is session / user oriented gets stored in another object that links to the 'database' object.
 #it'll probably be better to make the MetaCache know what
 #Item10097: make the cache multi-user safe by storing the haveAccess on a per user basis
-        if ( not defined( $info->{ $this->session->user } ) ) {
-            $info->{ $this->session->user } = {};
+        my $user = $app->user;
+        if ( not defined( $info->{$user} ) ) {
+            $info->{$user} = {};
         }
-        if ( not defined( $info->{ $this->session->user }{allowView} ) ) {
-            $info->{ $this->session->user }{allowView} =
-              $info->{tom}->haveAccess('VIEW');
+        if ( not defined( $info->{$user}{allowView} ) ) {
+            $info->{$user}{allowView} = $info->{tom}->haveAccess('VIEW');
         }
 
         #use the cached permission
-        $info->{allowView} = $info->{ $this->session->user }{allowView};
+        $info->{allowView} = $info->{$user}{allowView};
     }
 
     return $info;
 }
 
 sub current_user {
-    my $self = shift;
+    my $this = shift;
 
-    ASSERT( defined $self->session ) if DEBUG;
-    my $user = $self->session->user;
+    my $user = $this->app->user;
     if ( not defined $user ) {
         $user = $Foswiki::Users::BaseUserMapping::UNKNOWN_USER_CUID;
     }

@@ -30,7 +30,8 @@ use Foswiki::Request::Cache         ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 # Used to lazily load UI handler modules
 #has isInitialized => ( is => 'rw', lazy => 1, default => sub { {} }, );

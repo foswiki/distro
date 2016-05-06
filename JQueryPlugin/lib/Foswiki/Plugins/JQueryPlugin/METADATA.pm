@@ -21,20 +21,13 @@ Constructor
 
 =cut
 
-around BUILDARGS => sub {
-    my $orig  = shift;
-    my $class = shift;
-
-    return $orig->(
-        $class, @_,
-        name    => 'Metadata',
-        version => '2.1ef2bb44c86f5d0e98d55',
-        author =>
-          'John Resig, Yehuda Katz, Joern Zaefferer, Paul <nop>McLanahan',
-        homepage   => 'https://github.com/MichaelDaum/jquery-metadata',
-        javascript => ['jquery.metadata.js'],
-    );
-};
+our %pluginParams = (
+    name     => 'Metadata',
+    version  => '2.1ef2bb44c86f5d0e98d55',
+    author   => 'John Resig, Yehuda Katz, Joern Zaefferer, Paul <nop>McLanahan',
+    homepage => 'https://github.com/MichaelDaum/jquery-metadata',
+    javascript => ['jquery.metadata.js'],
+);
 
 1;
 __END__

@@ -21,19 +21,13 @@ Constructor
 
 =cut
 
-around BUILDARGS => sub {
-    my $orig  = shift;
-    my $class = shift;
-
-    return $orig->(
-        $class, @_,
-        name       => 'Easing',
-        version    => '1.3',
-        author     => 'George <nop>McGinley Smith',
-        homepage   => 'http://gsgd.co.uk/sandbox/jquery/easing',
-        javascript => ['jquery.easing.js'],
-    );
-};
+our %pluginParams = (
+    name       => 'Easing',
+    version    => '1.3',
+    author     => 'George <nop>McGinley Smith',
+    homepage   => 'http://gsgd.co.uk/sandbox/jquery/easing',
+    javascript => ['jquery.easing.js'],
+);
 
 1;
 

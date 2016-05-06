@@ -1,10 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::POPUPWINDOW;
-use strict;
-use warnings;
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+
 use Foswiki::Func;
+
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,25 +24,15 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name     => 'PopUpWindow',
-            version  => '1.0.1',
-            author   => 'Arthur Clemens',
-            homepage => 'http://foswiki.org/Extensions/JQueryPopUpWindow',
-            tags     => 'POPUPWINDOW',
-            javascript =>
-              [ 'jquery.popupwindow.js', 'jquery.popupwindow.init.js' ],
-            dependencies => ['livequery'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'PopUpWindow',
+    version      => '1.0.1',
+    author       => 'Arthur Clemens',
+    homepage     => 'http://foswiki.org/Extensions/JQueryPopUpWindow',
+    tags         => 'POPUPWINDOW',
+    javascript   => [ 'jquery.popupwindow.js', 'jquery.popupwindow.init.js' ],
+    dependencies => ['livequery'],
+);
 
 =begin TML
 

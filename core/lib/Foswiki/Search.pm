@@ -26,7 +26,8 @@ use Foswiki::Infix::Error             ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 use Assert;
 
@@ -50,7 +51,7 @@ has queryParser => (
     is      => 'ro',
     lazy    => 1,
     default => sub {
-        require Foswiki::Query::Parser;
+        Foswiki::load_class('Foswiki::Query::Parser');
         return Foswiki::Query::Parser->new;
     },
 );
@@ -260,6 +261,7 @@ FIXME: =callback= cannot work with format parameter (consider format='| $topic |
 sub searchWeb {
     my $this = shift;
     my $app  = $this->app;
+    my $req  = $app->request;
     ASSERT( defined $app->request->web ) if DEBUG;
     my %params = @_;
 
@@ -268,8 +270,8 @@ sub searchWeb {
 
     my ( $callback, $cbdata ) = setup_callback( \%params, $baseWebObject );
 
-    my $baseTopic = $params{basetopic} || $app->topicName;
-    my $baseWeb   = $params{baseweb}   || $app->webName;
+    my $baseTopic = $params{basetopic} || $req->topic;
+    my $baseWeb   = $params{baseweb}   || $req->web;
     $params{casesensitive} = Foswiki::isTrue( $params{casesensitive} );
     $params{excludeTopics} = $params{excludetopic} || '';
     my $formatDefined = $params{formatdefined} = defined $params{format};
@@ -607,11 +609,12 @@ the hash of subs can take care of %MACRO{}% specific complex to evaluate replace
 sub formatResults {
     my ( $this, $query, $infoCache, $params ) = @_;
     my $app   = $this->app;
+    my $req   = $app->request;
     my $users = $app->users;
     my ( $callback, $cbdata ) = setup_callback($params);
 
-    my $baseTopic     = $app->topicName;
-    my $baseWeb       = $app->webName;
+    my $baseTopic     = $req->topic;
+    my $baseWeb       = $req->web;
     my $doBookView    = Foswiki::isTrue( $params->{bookview} );
     my $caseSensitive = Foswiki::isTrue( $params->{casesensitive} );
     my $doExpandVars  = Foswiki::isTrue( $params->{expandvariables} );
@@ -1197,6 +1200,7 @@ sub formatResult {
       @_;
 
     my $app = $this->app;
+    my $req = $app->request;
 
     #TODO: these need to go away.
     my $revNum     = &{ $nonTomKeys->{'revNum'} }();
@@ -1265,7 +1269,7 @@ s/\$formfield\(\s*([^\)]*)\s*\)/displayFormField( $item, $1, $newLine )/ges;
             $text = $item->text() unless defined $text;
             $text = ''            unless defined $text;
 
-            if ( $item->topic eq $app->topicName ) {
+            if ( $item->topic eq $req->topic ) {
 
 #TODO: extract the diffusion and generalise to whatever MACRO we are processing - anything with a format can loop
 
@@ -1411,6 +1415,28 @@ sub displayFormField {
             newline       => $newline
         }
     );
+}
+
+=begin TML
+
+---++ ObjectMethod getApproxRevTime (  $web, $topic  ) -> $epochSecs
+
+Get an approximate rev time for the latest rev of the topic. This method
+is used to optimise searching. Needs to be as fast as possible.
+
+=cut
+
+sub getApproxRevTime {
+    my ( $this, $web, $topic ) = @_;
+
+    my $metacache = $this->metacache;
+    if ( $metacache->hasCached( $web, $topic ) ) {
+
+        #don't kill me - this should become a property on Meta
+        return $metacache->get( $web, $topic )->{modified};
+    }
+
+    return $this->app->store->getApproxRevTime( $web, $topic );
 }
 
 #my ($callback, $cbdata) = setup_callback(\%params, $baseWebObject);

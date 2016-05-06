@@ -88,6 +88,12 @@ has env => (
     is       => 'rw',
     required => 1,
 );
+has forms => (
+    is      => 'ro',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { {} },
+);
 has logger => (
     is        => 'ro',
     lazy      => 1,
@@ -125,7 +131,6 @@ has i18n => (
     clearer   => 1,
     predicate => 1,
     default   => sub {
-        load_package('Foswiki::I18N');
 
         # language information; must be loaded after
         # *all possible preferences sources* are available
@@ -176,6 +181,15 @@ has response => (
     isa     => Foswiki::Object::isaCLASS(
         'response', 'Foswiki::Response', noUndef => 1,
     ),
+);
+has search => (
+    is        => 'ro',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
+        return $_[0]->create('Foswiki::Search');
+    },
 );
 has store => (
     is        => 'rw',
@@ -535,9 +549,9 @@ sub create {
 
     Foswiki::load_class($class);
 
-    unless ( $class->isa('Foswiki::AppObject') ) {
+    unless ( $class->does('Foswiki::AppObject') ) {
         Foswiki::Exception::Fatal->throw(
-            text => "Class $class is not a Foswiki::AppObject descendant." );
+            text => "Class $class doesn't do Foswiki::AppObject role." );
     }
 
     return $class->new( app => $this, @_ );

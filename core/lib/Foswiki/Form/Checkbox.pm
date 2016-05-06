@@ -65,20 +65,20 @@ sub getDisplayValue {
 sub renderForEdit {
     my ( $this, $topicObject, $value ) = @_;
 
-    my $session = $this->session;
-    my $extra   = '';
+    my $app   = $this->app;
+    my $extra = '';
     if ( $this->type =~ m/\+buttons/ ) {
         $extra = "<div class='foswikiButtonBox'>";
         $extra .= CGI::button(
             -class   => 'foswikiButton',
-            -value   => $session->i18n->maketext('Set all'),
+            -value   => $app->i18n->maketext('Set all'),
             -onClick => 'jQuery(this).parents("form").find("input[name='
               . $this->name
               . ']").prop("checked", true);',
         );
         $extra .= CGI::button(
             -class   => 'foswikiButton',
-            -value   => $session->i18n->maketext('Clear all'),
+            -value   => $app->i18n->maketext('Clear all'),
             -onClick => 'jQuery(this).parents("form").find("input[name='
               . $this->name
               . ']").prop("checked", false);',

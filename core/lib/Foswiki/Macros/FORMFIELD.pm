@@ -7,7 +7,8 @@ use Foswiki::Meta  ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 with qw(Foswiki::Macro);
 
 BEGIN {
@@ -26,10 +27,12 @@ has _ffCache => (
 sub expand {
     my ( $this, $args, $topicObject ) = @_;
 
+    my $app = $this->app;
+
     if ( $args->{topic} ) {
         my $web = $args->{web} || $topicObject->web;
         my $topic = $args->{topic};
-        ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
+        ( $web, $topic ) = $app->request->normalizeWebTopicName( $web, $topic );
         $topicObject = $this->create(
             'Foswiki::Meta',
             web   => $web,
@@ -40,7 +43,7 @@ sub expand {
 
         # SMELL: horrible hack; assumes the current rev comes from the 'rev'
         # parameter. There has to be a better way!
-        my $query = $this->request;
+        my $query = $app->request;
         my $cgiRev;
         $cgiRev = $query->param('rev') if ($query);
         $args->{rev} =
@@ -77,7 +80,7 @@ sub expand {
 
     unless ($formTopicObject) {
         $formTopicObject =
-          Foswiki::Meta->load( $this, $topicObject->web, $topicObject->topic,
+          Foswiki::Meta->load( $app, $topicObject->web, $topicObject->topic,
             $rev );
         unless ( $formTopicObject->haveAccess('VIEW') ) {
 

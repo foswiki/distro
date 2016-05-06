@@ -5,7 +5,8 @@ use v5.14;
 use Try::Tiny;
 
 use Moo;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 with qw(Foswiki::Macro);
 
 BEGIN {

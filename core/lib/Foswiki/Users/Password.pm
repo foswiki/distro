@@ -18,7 +18,8 @@ use v5.14;
 use Assert;
 
 use Moo;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {

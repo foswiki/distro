@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::EMPTY;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,28 +21,18 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
+our %pluginParams = (
+    name     => 'Empty',
+    version  => '1.0',
+    author   => 'First Last',
+    homepage => 'http://...',
+    tags     => 'EMPTY',
+    i18n => $Foswiki::cfg{SystemWebName} . "/JQueryPlugin/plugins/empty/i18n",
+    css  => ['jquery.empty.css'],
+    javascript => ['jquery.empty.js'],
 
-    my $this = bless(
-        $class->SUPER::new(
-            name     => 'Empty',
-            version  => '1.0',
-            author   => 'First Last',
-            homepage => 'http://...',
-            tags     => 'EMPTY',
-            i18n     => $Foswiki::cfg{SystemWebName}
-              . "/JQueryPlugin/plugins/empty/i18n",
-            css        => ['jquery.empty.css'],
-            javascript => ['jquery.empty.js'],
-
-            #dependencies => ['some other plugin'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+    #dependencies => ['some other plugin'],
+);
 
 =begin TML
 

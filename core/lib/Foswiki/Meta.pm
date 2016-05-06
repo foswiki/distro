@@ -116,7 +116,8 @@ use Foswiki::Serialise ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 #use Foswiki::Iterator::NumberRangeIterator;
 
@@ -570,14 +571,13 @@ sub load {
         $this = $proto;
         ASSERT( !$this->_loadedRev ) if DEBUG;
         $rev = shift;
+        $app = $this->app;
     }
     else {
         my ( $web, $topic );
         ( $app, $web, $topic, $rev ) = @_;
-        $this = $proto->new( app => $app, web => $web, topic => $topic );
+        $this = $app->create( $proto, web => $web, topic => $topic );
     }
-
-    $app = $this->app;
 
 #    if (    defined( $this->topic )
 #        and ( not defined($rev) )
@@ -1069,8 +1069,8 @@ Returns an Foswiki::Search::InfoCache iterator
 
 sub query {
     my ( $query, $inputTopicSet, $options ) = @_;
-    return $Foswiki::Plugins::SESSION->store->query( $query, $inputTopicSet,
-        $Foswiki::Plugins::SESSION, $options );
+    return $Foswiki::app->store->query( $query, $inputTopicSet,
+        $Foswiki::app, $options );
 }
 
 =begin TML
@@ -1108,7 +1108,6 @@ sub eachTopic {
     if ( !$this->web ) {
 
         # Root
-        require Foswiki::ListIterator;
         return Foswiki::ListIterator->new( list => [] );
     }
     return $this->app->store->eachTopic($this);

@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::IMAGESLOADED;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,22 +21,13 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name       => 'ImagesLoaded',
-            version    => '4.0.0',
-            author     => 'David <nop>DeSandro',
-            homepage   => 'http://imagesloaded.desandro.com/',
-            javascript => ['imagesloaded.js'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'ImagesLoaded',
+    version    => '4.0.0',
+    author     => 'David <nop>DeSandro',
+    homepage   => 'http://imagesloaded.desandro.com/',
+    javascript => ['imagesloaded.js'],
+);
 
 1;
 

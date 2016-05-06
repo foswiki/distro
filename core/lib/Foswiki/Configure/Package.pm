@@ -461,7 +461,7 @@ sub install {
         $this->pkgname, 'view' )
       : '';
     my $instUrl =
-      $Foswiki::Plugins::SESSION
+      $Foswiki::app
       ? Foswiki::Func::getScriptUrl( $Foswiki::cfg{SystemWebName},
         'InstalledPlugins', 'view' )
       : '';
@@ -914,7 +914,7 @@ sub _install {
         if (
             $file =~ m/^data/                      # File for the data directory
             && $file =~ m/^data\/(.*)\/(\w+).txt$/ # and is a topic
-            && $Foswiki::Plugins::SESSION
+            && $Foswiki::app
             && (
                 -e "$target,v"         # rcs history file exists
                 || -e "$target,pfv"    # pfv versions directory exists
@@ -963,11 +963,11 @@ sub _install {
                         "> ${simulated}Checked in: $file  as $tweb.$ttopic")
                       if DEBUG;
                     $checkedIn++;
-                    my $meta = Foswiki::Meta->new(
-                        session => $Foswiki::Plugins::SESSION,
-                        web     => $tweb,
-                        topic   => $ttopic,
-                        text    => $contents
+                    my $meta = $Foswiki::app->create(
+                        'Foswiki::Meta',
+                        web   => $tweb,
+                        topic => $ttopic,
+                        text  => $contents
                     );
 
                     $ok = 0

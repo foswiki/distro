@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::WIKIWORD;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,24 +21,14 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name       => 'WikiWord',
-            version    => '3.20',
-            author     => 'Michael Daum',
-            homepage   => 'http://foswiki.org/Extensions/JQueryPlugin',
-            javascript => ['wikiword.js'],
-            dependencies =>
-              [ 'JQUERYPLUGIN', 'FOSWIKI', 'livequery', 'metadata' ]
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginsParams = (
+    name         => 'WikiWord',
+    version      => '3.20',
+    author       => 'Michael Daum',
+    homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
+    javascript   => ['wikiword.js'],
+    dependencies => [ 'JQUERYPLUGIN', 'FOSWIKI', 'livequery', 'metadata' ],
+);
 
 1;
 

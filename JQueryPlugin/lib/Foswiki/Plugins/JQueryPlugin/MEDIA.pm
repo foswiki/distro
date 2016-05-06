@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::MEDIA;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -23,23 +22,14 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'Media',
-            version      => '0.99',
-            author       => 'M. Alsup',
-            homepage     => 'http://malsup.com/jquery/media',
-            javascript   => [ 'jquery.media.js', 'jquery.media.init.js', ],
-            dependencies => [ 'metadata', 'livequery' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'Media',
+    version      => '0.99',
+    author       => 'M. Alsup',
+    homepage     => 'http://malsup.com/jquery/media',
+    javascript   => [ 'jquery.media.js', 'jquery.media.init.js', ],
+    dependencies => [ 'metadata', 'livequery' ],
+);
 
 1;
 

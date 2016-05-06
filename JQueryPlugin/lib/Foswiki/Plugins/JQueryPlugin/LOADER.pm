@@ -1,30 +1,20 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::LOADER;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'Loader',
-            version      => '2.10',
-            author       => 'Michael Daum',
-            homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
-            tags         => 'LOADER',
-            css          => ['jquery.loader.css'],
-            javascript   => ['jquery.loader.js'],
-            dependencies => [ 'metadata', 'easing' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'Loader',
+    version      => '2.10',
+    author       => 'Michael Daum',
+    homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
+    tags         => 'LOADER',
+    css          => ['jquery.loader.css'],
+    javascript   => ['jquery.loader.js'],
+    dependencies => [ 'metadata', 'easing' ],
+);
 
 1;
 

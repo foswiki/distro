@@ -1,30 +1,18 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Plugins::JQueryPlugin::MOUSEWHEEL;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin ();
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
-sub new {
-    my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
-
-    my $this = bless(
-        $class->SUPER::new(
-            $session,
-            name       => 'MouseWheel',
-            version    => '3.1.13',
-            author     => 'jQuery Foundation and other contributors',
-            homepage   => 'https://github.com/jquery/jquery-mousewheel',
-            javascript => [ 'jquery.mousewheel.js', ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'MouseWheel',
+    version    => '3.1.13',
+    author     => 'jQuery Foundation and other contributors',
+    homepage   => 'https://github.com/jquery/jquery-mousewheel',
+    javascript => [ 'jquery.mousewheel.js', ],
+);
 
 1;
 

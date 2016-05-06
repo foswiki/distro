@@ -1,10 +1,10 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Plugins::JQueryPlugin::AUTOCOMPLETE;
-use strict;
-use warnings;
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,26 +22,15 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name    => 'Autocomplete',
-            version => '1.2.2',
-            author =>
-              'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Joern Zaefferer',
-            homepage => 'https://github.com/agarzola/jQueryAutocompletePlugin',
-            css      => ['jquery.autocomplete.css'],
-            javascript =>
-              [ 'jquery.autocomplete.js', 'jquery.autocomplete.init.js' ],
-            dependencies => [ 'metadata', 'livequery', 'JQUERYPLUGIN::UI' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+out %pluginParams = (
+    name    => 'Autocomplete',
+    version => '1.2.2',
+    author => 'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Joern Zaefferer',
+    homepage     => 'https://github.com/agarzola/jQueryAutocompletePlugin',
+    css          => ['jquery.autocomplete.css'],
+    javascript   => [ 'jquery.autocomplete.js', 'jquery.autocomplete.init.js' ],
+    dependencies => [ 'metadata', 'livequery', 'JQUERYPLUGIN::UI' ],
+);
 
 1;
 __END__

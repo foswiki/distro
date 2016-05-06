@@ -1,10 +1,8 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::TOOLTIP;
-use strict;
-use warnings;
-
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+use Moo;
+extends qw(Foswiki::Plugins::JQueryPlugin::Plugin);
 
 =begin TML
 
@@ -22,25 +20,15 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name    => 'Tooltip',
-            version => '1.3',
-            author  => 'Joern Zaefferer',
-            homepage =>
-              'http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/',
-            css          => ['jquery.tooltip.css'],
-            javascript   => [ 'jquery.tooltip.js', 'jquery.tooltip.init.js' ],
-            dependencies => [ 'metadata', 'livequery' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'Tooltip',
+    version    => '1.3',
+    author     => 'Joern Zaefferer',
+    homepage   => 'http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/',
+    css        => ['jquery.tooltip.css'],
+    javascript => [ 'jquery.tooltip.js', 'jquery.tooltip.init.js' ],
+    dependencies => [ 'metadata', 'livequery' ],
+);
 
 1;
 

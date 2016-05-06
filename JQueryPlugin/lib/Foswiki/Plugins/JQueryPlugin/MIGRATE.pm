@@ -21,19 +21,13 @@ Constructor
 
 =cut
 
-around BUILDARGS => sub {
-    my $orig  = shift;
-    my $class = shift;
-
-    return $orig->(
-        $class, @_,
-        name       => 'Migrate',
-        version    => '1.3.0',
-        author     => 'jQuery Foundation, Inc. and other contributors',
-        homepage   => 'https://github.com/jquery/jquery-migrate/',
-        javascript => ['jquery.migrate.js'],
-    );
-};
+our %pluginParams = (
+    name       => 'Migrate',
+    version    => '1.3.0',
+    author     => 'jQuery Foundation, Inc. and other contributors',
+    homepage   => 'https://github.com/jquery/jquery-migrate/',
+    javascript => ['jquery.migrate.js'],
+);
 
 1;
 

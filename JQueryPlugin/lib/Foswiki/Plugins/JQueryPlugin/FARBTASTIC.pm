@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::FARBTASTIC;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,25 +21,15 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name     => 'Farbtastic',
-            version  => '1.2',
-            author   => 'Steven Wittens',
-            homepage => 'http://acko.net/dev/farbtastic',
-            css      => ['jquery.farbtastic.css'],
-            javascript =>
-              [ 'jquery.farbtastic.js', 'jquery.farbtastic.init.js' ],
-            dependencies => [ 'ui', 'metadata', 'livequery' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'Farbtastic',
+    version      => '1.2',
+    author       => 'Steven Wittens',
+    homepage     => 'http://acko.net/dev/farbtastic',
+    css          => ['jquery.farbtastic.css'],
+    javascript   => [ 'jquery.farbtastic.js', 'jquery.farbtastic.init.js' ],
+    dependencies => [ 'ui', 'metadata', 'livequery' ],
+);
 
 1;
 

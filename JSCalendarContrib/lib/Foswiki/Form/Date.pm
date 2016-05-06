@@ -68,10 +68,10 @@ sub renderForEdit {
     else {
 
         # Pre 1.1
-        my $session = $this->session;
+        my $app = $this->app;
         $value =
-          $session->renderer->getRenderedVersion(
-            $session->handleCommonTags( $value, $web, $topic ) );
+          $app->renderer->getRenderedVersion(
+            $app->handleCommonTags( $value, $web, $topic ) );
     }
     return ( '', $value );
 }

@@ -12,10 +12,9 @@ use Foswiki::Configure::FileUtil   ();
 use Foswiki::Configure::Auth       ();
 
 sub PERLDEPENDENCYREPORT {
-    my ( $this, $params ) = @_;
-    my $session = $Foswiki::Plugins::SESSION;
+    my ( $app, $params ) = @_;
 
-    Foswiki::Configure::Auth::checkAccess($session);
+    Foswiki::Configure::Auth::checkAccess($app);
 
     my $inc = 'missing';
 
@@ -340,7 +339,7 @@ s,\[\[(https?://[^\]]+)\]\[([^\]]+)\](?:\[[^\]]*\])?\],$dlink"$1">$2</a>,gms;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

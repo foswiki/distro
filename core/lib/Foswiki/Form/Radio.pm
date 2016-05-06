@@ -43,7 +43,6 @@ sub renderForEdit {
     my ( $this, $topicObject, $value ) = @_;
 
     my $selected = '';
-    my $session  = $this->session;
     my %attrs;
 
     foreach my $item ( @{ $this->getOptions() } ) {

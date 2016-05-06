@@ -1,9 +1,8 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::SUPERSUBS;
-use strict;
-use warnings;
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+use Moo;
+extends qw(Foswiki::Plugins::JQueryPlugin::Plugin);
 
 =begin TML
 
@@ -21,24 +20,14 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name    => 'Supersubs',
-            version => '0.3b',
-            author  => 'Joel Birch',
-            homepage =>
-              'http://users.tpg.com.au/j_birch/plugins/superfish/#sample5',
-            javascript   => ['jquery.supersubs.js'],
-            dependencies => ['superfish'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'Supersubs',
+    version    => '0.3b',
+    author     => 'Joel Birch',
+    homepage   => 'http://users.tpg.com.au/j_birch/plugins/superfish/#sample5',
+    javascript => ['jquery.supersubs.js'],
+    dependencies => ['superfish'],
+);
 
 1;
 __END__

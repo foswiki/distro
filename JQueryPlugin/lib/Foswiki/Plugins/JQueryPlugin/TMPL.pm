@@ -1,14 +1,8 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::TMPL;
-
-use strict;
-use warnings;
-
-use Foswiki::Func                          ();
-use Foswiki::Attrs                         ();
-use Foswiki::Plugins::JQueryPlugin::Plugin ();
-use Error::Simple                          ();
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+use Moo;
+extends qw(Foswiki::Plugins::JQueryPlugin::Plugin);
 
 =begin TML
 
@@ -26,22 +20,13 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name       => 'Tmpl',
-            version    => '1.0.0pre_1',
-            author     => 'Boris Moore',
-            homepage   => 'http://github.com/jquery/jquery-tmpl',
-            javascript => [ 'jquery.tmpl.js', 'jquery.tmpl-loader.js' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'Tmpl',
+    version    => '1.0.0pre_1',
+    author     => 'Boris Moore',
+    homepage   => 'http://github.com/jquery/jquery-tmpl',
+    javascript => [ 'jquery.tmpl.js', 'jquery.tmpl-loader.js' ],
+);
 
 1;
 

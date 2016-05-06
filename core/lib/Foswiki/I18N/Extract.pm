@@ -13,7 +13,9 @@ package Foswiki::I18N::Extract;
 use v5.14;
 
 use Moo;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
+
 our $initError;
 
 BEGIN {

@@ -23,7 +23,8 @@ use Foswiki qw(urlEncode urlDecode make_params);
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 with qw(Foswiki::Aux::Localize);
 
 # Enable to trace auto-configuration (Bootstrap)

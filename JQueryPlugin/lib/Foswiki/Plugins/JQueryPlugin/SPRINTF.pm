@@ -1,30 +1,17 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Plugins::JQueryPlugin::SPRINTF;
-use strict;
-use warnings;
+use v5.14;
+use Moo;
+extends qw(Foswiki::Plugins::JQueryPlugin::Plugin);
 
-use Foswiki::Plugins::JQueryPlugin::Plugin ();
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
-
-sub new {
-    my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
-
-    my $this = bless(
-        $class->SUPER::new(
-            $session,
-            name       => 'Sprintf',
-            version    => '1.0.3',
-            author     => 'Alexandru Marasteanu',
-            homepage   => 'https://github.com/alexei/sprintf.js',
-            javascript => [ 'sprintf.js', ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'Sprintf',
+    version    => '1.0.3',
+    author     => 'Alexandru Marasteanu',
+    homepage   => 'https://github.com/alexei/sprintf.js',
+    javascript => [ 'sprintf.js', ],
+);
 
 1;
 

@@ -13,11 +13,10 @@ use Config;
 use Foswiki::Configure::Auth;
 
 sub SERVERINFORMATION {
-    my ( $this, $params ) = @_;
+    my ( $app, $params ) = @_;
     my $authorized;
-    my $session = $Foswiki::Plugins::SESSION;
 
-    Foswiki::Configure::Auth::checkAccess($session);
+    Foswiki::Configure::Auth::checkAccess($app);
 
     my $report;
     if ( ( !defined $params->{_DEFAULT} )
@@ -187,7 +186,7 @@ DONE
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2014-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

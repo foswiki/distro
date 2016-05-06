@@ -8,7 +8,8 @@ use Foswiki::Attrs ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 use Assert;
 
@@ -209,8 +210,7 @@ the topic object.
 sub expandMacrosOnTopicCreation {
     my ( $this, $topicObject ) = @_;
 
-    # SMELL Does it really needed in the App model?
-    #local $Foswiki::Plugins::SESSION = $this;
+    # SMELL Is it really required with the App model?
     local $Foswiki::app = $this->app;
 
     my $text = $topicObject->text();

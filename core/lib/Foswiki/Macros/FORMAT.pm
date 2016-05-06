@@ -15,7 +15,7 @@ BEGIN {
 }
 
 sub FORMAT {
-    my ( $this, $params, $topicObject ) = @_;
+    my ( $app, $params, $topicObject ) = @_;
     my $list_str = defined $params->{_DEFAULT} ? $params->{_DEFAULT} : '';
 
     my @list = split( /,\s*/, $list_str );
@@ -40,7 +40,7 @@ sub FORMAT {
     $params->{basetopic} = $topicObject->topic;
     $params->{search}    = $params->{_DEFAULT}
       if defined $params->{_DEFAULT};
-    $params->{type} = $this->prefs->getPreference('SEARCHVARDEFAULTTYPE')
+    $params->{type} = $app->prefs->getPreference('SEARCHVARDEFAULTTYPE')
       unless ( $params->{type} );
 
     #do not polute FORMAT with the per web legacy mess (the code would be
@@ -51,7 +51,6 @@ sub FORMAT {
         my $listIterator;
 
         if ( $type eq 'string' ) {
-            require Foswiki::ListIterator;
             $listIterator = Foswiki::ListIterator->new( list => \@list );
         }
         else {
@@ -65,14 +64,14 @@ sub FORMAT {
             } @list;
 
             require Foswiki::Search::InfoCache;
-            $listIterator = Foswiki::Search::InfoCache->new(
-                session    => $this,
+            $listIterator = $app->create(
+                'Foswiki::Search::InfoCache',
                 defaultWeb => $params->{baseweb},
                 topicList  => \@topics
             );
         }
         my ( $ttopics, $searchResult, $tmplTail ) =
-          $this->search->formatResults( undef, $listIterator, $params );
+          $app->search->formatResults( undef, $listIterator, $params );
         $s = Foswiki::expandStandardEscapes($searchResult);
     }
     catch {
@@ -96,7 +95,7 @@ sub FORMAT {
         # Block recursions kicked off by the text being repeated in the
         # error message
         $message =~ s/%([A-Z]*[{%])/%<nop>$1/g;
-        $s = $this->inlineAlert( 'alerts', 'bad_search', $message );
+        $s = $app->inlineAlert( 'alerts', 'bad_search', $message );
     };
 
     return $s;
@@ -106,7 +105,7 @@ sub FORMAT {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2011 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -1,9 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::FORM;
-use strict;
-use warnings;
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -21,22 +21,13 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name       => 'Form',
-            version    => '3.51.0',
-            author     => 'M. Alsup',
-            homepage   => 'http://malsup.com/jquery/form',
-            javascript => ['jquery.form.js'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'Form',
+    version    => '3.51.0',
+    author     => 'M. Alsup',
+    homepage   => 'http://malsup.com/jquery/form',
+    javascript => ['jquery.form.js'],
+);
 
 1;
 

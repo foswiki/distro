@@ -1,10 +1,8 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::TREEVIEW;
-use strict;
-use warnings;
-
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+use Moo;
+extends qw(Foswiki::Plugins::JQueryPlugin::Plugin);
 
 =begin TML
 
@@ -20,28 +18,18 @@ This is the perl stub for the jquery.treeview plugin.
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name    => 'Treeview',
-            version => '1.4',
-            author  => 'Joern Zaefferer',
-            homepage =>
-              'http://bassistance.de/jquery-plugins/jquery-plugin-treeview',
-            css        => ['jquery.treeview.css'],
-            javascript => [
-                'jquery.treeview.js', 'jquery.treeview.async.js',
-                'jquery.treeview.init.js'
-            ],
-            dependencies => [ 'metadata', 'livequery' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'Treeview',
+    version    => '1.4',
+    author     => 'Joern Zaefferer',
+    homepage   => 'http://bassistance.de/jquery-plugins/jquery-plugin-treeview',
+    css        => ['jquery.treeview.css'],
+    javascript => [
+        'jquery.treeview.js', 'jquery.treeview.async.js',
+        'jquery.treeview.init.js'
+    ],
+    dependencies => [ 'metadata', 'livequery' ],
+);
 
 1;
 __END__

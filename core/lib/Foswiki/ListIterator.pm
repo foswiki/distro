@@ -33,7 +33,7 @@ BEGIN {
 
 =begin TML
 
----++ new(\@list)
+---++ new(list => \@list)
 
 Create a new iterator over the given list. Designed primarily for operations
 over fully defined lists of object references. The list is not damaged in

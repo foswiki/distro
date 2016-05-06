@@ -44,9 +44,8 @@ sub evaluate {
     foreach my $v (@$node) {
 
         # Has to be relative to the web of the topic we are querying
-        my ( $w, $t ) =
-          $Foswiki::Plugins::SESSION->normalizeWebTopicName(
-            $Foswiki::Plugins::SESSION->webName, $v );
+        my $req = $Foswiki::app->request;
+        my ( $w, $t ) = $req->normalizeWebTopicName( $req->web, $v );
         try {
             my $submeta =
               $Foswiki::cfg{Store}{QueryAlgorithm}

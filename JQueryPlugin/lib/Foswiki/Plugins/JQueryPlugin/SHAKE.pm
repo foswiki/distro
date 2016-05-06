@@ -1,10 +1,8 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::SHAKE;
-use strict;
-use warnings;
-
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+use Moo;
+extends qw(Foswiki::Plugins::JQueryPlugin::Plugin);
 
 =begin TML
 
@@ -22,23 +20,14 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name    => 'Shake',
-            version => '20080501',         # based on blog posting
-            author  => 'Antony Kennedy',
-            homepage =>
+our %pluginParams = (
+    name    => 'Shake',
+    version => '20080501',         # based on blog posting
+    author  => 'Antony Kennedy',
+    homepage =>
 'http://www.zeroedandnoughted.com/index.php/2008/05/01/jquery-plugin-to-emulate-shake-on-login-failure-in-osx-login-box/',
-            javascript => ['jquery.shake.js'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+    javascript => ['jquery.shake.js'],
+);
 
 1;
 __END__

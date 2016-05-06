@@ -14,7 +14,7 @@ BEGIN {
 }
 
 sub SET {
-    my ( $this, $params, $topicObject ) = @_;
+    my ( $app, $params, $topicObject ) = @_;
 
     my $name = $params->{_DEFAULT} || $params->{name};
 
@@ -23,8 +23,7 @@ sub SET {
     my $value = $params->{value};
     $value = '' unless defined $value;    # unset
 
-    $Foswiki::Plugins::SESSION->{prefs}
-      ->setSessionPreferences( $name => $value );
+    $Foswiki::app->prefs->setSessionPreferences( $name => $value );
 
     return '';
 }
@@ -32,7 +31,7 @@ sub SET {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2012-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

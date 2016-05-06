@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::GRADIENT;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,22 +21,13 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name       => 'Gradient',
-            version    => '1.0',
-            author     => 'Brandon Aaron Last',
-            homepage   => 'http://brandonaaron.net',
-            javascript => [ 'jquery.gradient.js', 'jquery.gradient.init.js' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name       => 'Gradient',
+    version    => '1.0',
+    author     => 'Brandon Aaron Last',
+    homepage   => 'http://brandonaaron.net',
+    javascript => [ 'jquery.gradient.js', 'jquery.gradient.init.js' ],
+);
 
 1;
 

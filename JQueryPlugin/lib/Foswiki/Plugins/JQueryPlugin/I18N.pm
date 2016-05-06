@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::I18N;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,23 +21,14 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'I18N',
-            version      => '1.0',
-            author       => 'Michael Daum',
-            homepage     => 'https://foswiki.org/Extensions/JQueryPlugin',
-            javascript   => ['i18n.js'],
-            dependencies => ['livequery'],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'I18N',
+    version      => '1.0',
+    author       => 'Michael Daum',
+    homepage     => 'https://foswiki.org/Extensions/JQueryPlugin',
+    javascript   => ['i18n.js'],
+    dependencies => ['livequery'],
+);
 
 1;
 

@@ -1,10 +1,8 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::SLIMBOX;
-use strict;
-use warnings;
-
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use v5.14;
+use Moo;
+extends qw(Foswiki::Plugins::JQueryPlugin::Plugin);
 
 =begin TML
 
@@ -22,24 +20,15 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'Slimbox',
-            version      => '2.05',
-            author       => 'Christophe Beyls',
-            homepage     => 'https://github.com/cbeyls/slimbox',
-            css          => ['slimbox2.css'],
-            javascript   => [ 'slimbox2.js', 'slimbox2.init.js' ],
-            dependencies => [ 'metadata', 'livequery' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'Slimbox',
+    version      => '2.05',
+    author       => 'Christophe Beyls',
+    homepage     => 'https://github.com/cbeyls/slimbox',
+    css          => ['slimbox2.css'],
+    javascript   => [ 'slimbox2.js', 'slimbox2.init.js' ],
+    dependencies => [ 'metadata', 'livequery' ],
+);
 
 =begin TML
 

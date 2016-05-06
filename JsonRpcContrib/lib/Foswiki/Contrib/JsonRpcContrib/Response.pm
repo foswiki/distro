@@ -24,7 +24,8 @@ use JSON           ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 use constant TRACE => 0;    # toggle me
 

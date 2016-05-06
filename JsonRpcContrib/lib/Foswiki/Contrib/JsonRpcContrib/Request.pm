@@ -27,7 +27,8 @@ use constant TRACE => 0;    # toggle me
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 has data => (
     is      => 'rw',

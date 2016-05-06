@@ -5,19 +5,17 @@ use v5.14;
 
 =begin TML
 
----+ Class Foswiki::AppObject;
+---+ Role Foswiki::AppObject;
 
-This is the base class for all classes which cannot be instantiated without
-active =Foswiki::App= object.
+This role is for all classes which cannot be instantiated without active
+=Foswiki::App= object.
 
 =cut
 
 use Assert;
 use Foswiki::Exception;
 
-use Moo;
-use namespace::clean;
-extends qw(Foswiki::Object);
+use Moo::Role;
 
 has app => (
     is        => 'ro',
@@ -30,9 +28,9 @@ has app => (
 =begin TML
 ---++ ObjectMethod create($className, %initArgs)
 
-Creates a new object of =Foswiki::AppObject= based class. It's a wrapper to
-the =new()= constructor which automatically passes =app= parameter to the newly
-created object.
+Creates a new object of a class with =Foswiki::AppObject= role. It's a wrapper
+to the =new()= constructor which automatically passes =app= parameter to the
+newly created object.
 
 =cut
 
@@ -42,9 +40,11 @@ sub create {
 
     $class = ref($class) if ref($class);
 
-    unless ( $class->isa(__PACKAGE__) ) {
+    Foswiki::load_class($class);
+
+    unless ( $class->does(__PACKAGE__) ) {
         Foswiki::Exception::Fatal->throw(
-            text => "Class $class is not a " . __PACKAGE__ . " descendant." );
+            text => "Class $class doesn't do " . __PACKAGE__ . " role." );
     }
 
     return $class->new( app => $this->app, @_ );

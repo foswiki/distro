@@ -1,11 +1,10 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::NIFTY;
+use v5.14;
 use Foswiki::Func ();
-use strict;
-use warnings;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -23,22 +22,18 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
+our %pluginParams = (
+    name       => 'Nifty',
+    version    => '2.0',
+    author     => 'Paul Bakaus, Alessandro Fulciniti',
+    homepage   => 'http://...',
+    css        => [ 'jquery.nifty.css', 'jquery.rounded.css' ],
+    javascript => [ 'jquery.nifty.js', 'jquery.rounded.js' ],
+);
 
-    my $this = bless(
-        $class->SUPER::new(
-            name       => 'Nifty',
-            version    => '2.0',
-            author     => 'Paul Bakaus, Alessandro Fulciniti',
-            homepage   => 'http://...',
-            css        => [ 'jquery.nifty.css', 'jquery.rounded.css' ],
-            javascript => [ 'jquery.nifty.js', 'jquery.rounded.js' ],
-        ),
-        $class
-    );
-
-    $this->{summary} = <<'HERE';
+sub BUILD {
+    my $this = shift;
+    $this->summary( <<'HERE' );
 %RED%DEPRECATED%ENDCOLOR%
 
 Nifty for jQuery is a modified and optimized version of Nifty Corners Cube.
@@ -50,8 +45,6 @@ HERE
 
     Foswiki::Func::writeWarning(
         "the jquery.nifty plugin is deprecated. please use jquery.corner");
-
-    return $this;
 }
 
 1;

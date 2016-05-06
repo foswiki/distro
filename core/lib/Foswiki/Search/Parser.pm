@@ -16,7 +16,8 @@ use Foswiki::Search::Node ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::AppObject);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 use Assert;
 
@@ -31,7 +32,7 @@ our $MARKER = "\0";
 
 =begin TML
 
----++ ClassMethod new($session)
+---++ ClassMethod new(app => $app)
 
 =cut
 
@@ -48,8 +49,8 @@ sub _initialise {
     return if ( $this->initialised );
 
     # Build pattern of stop words
-    my $WMARK = chr(0);                  # Set a word marker
-    my $prefs = $this->session->prefs;
+    my $WMARK = chr(0);              # Set a word marker
+    my $prefs = $this->app->prefs;
     ASSERT($prefs) if DEBUG;
     my $stopwords = $prefs->getPreference('SEARCHSTOPWORDS') || '';
     $stopwords =~ s/[\s\,]+/$WMARK/g;
@@ -59,21 +60,6 @@ sub _initialise {
 
     $this->initialised(1);
 }
-
-=begin TML
-
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-#sub finish {
-#    my $self = shift;
-#
-#    undef $self->{session};
-#    undef $self->{stopwords};
-#    undef $self->{initialised};
-#}
 
 =begin TML
 
