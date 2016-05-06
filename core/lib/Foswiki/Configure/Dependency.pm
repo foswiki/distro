@@ -138,6 +138,7 @@ has name => (
     },
 );
 has data             => ( is => 'rw', );
+has compatibility    => ( is => 'rw', );
 has module           => ( is => 'rw', );
 has installed        => ( is => 'rw', );
 has installedVersion => ( is => 'rw', );
@@ -145,6 +146,7 @@ has installedRelease => ( is => 'rw', );
 has location         => ( is => 'rw', );
 has notes            => ( is => 'rw', default => '', );
 has repository       => ( is => 'rw', );
+has release          => ( is => 'rw', );
 has trigger          => ( is => 'rw', default => 1, );
 has type => ( is => 'rw', default => 'external', );    # assume external module
 

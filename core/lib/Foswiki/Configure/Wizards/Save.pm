@@ -237,7 +237,7 @@ sub save {
         die "Internal error: $@" if ($@);
     }
     else {
-        $Foswiki::app->cfg->clean_data;
+        $Foswiki::app->cfg->clear_data;
 
         # Read without expansions but with the .spec
         $Foswiki::app->cfg->readConfig( 1, 0, 1 );
@@ -404,11 +404,12 @@ sub _compareConfigs {
 
         #print STDERR "REPORT ON $vs->{keys} $old $new\n";
         if ( $old ne $new ) {
-            if ( $vs->{typename} eq 'PASSWORD' ) {
+            if ( $vs->attrs->{typename} eq 'PASSWORD' ) {
                 $old = '_[redacted]_';
                 $new = '_[redacted]_';
             }
-            $old = "($vs->{default})" if $old eq 'undef' && $vs->{default};
+            $old = "(" . $vs->attrs->{default} . ")"
+              if $old eq 'undef' && $vs->attrs->{default};
             _logAndReport( $report, $logger, $keypath, $old, $new );
             return 0;
         }

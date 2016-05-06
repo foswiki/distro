@@ -480,7 +480,7 @@ sub __deprecated_BUILDARGS {
     return $params;
 }
 
-sub BUILD {
+sub __deprecated_BUILD {
     my $this = shift;
 
     if (SINGLE_SINGLETONS_TRACE) {
@@ -1204,7 +1204,7 @@ sub _parsePath {
     return ( $web, $topic );
 }
 
-sub DEMOLISH {
+sub __depreacated_DEMOLISH {
     my $this = shift;
 
     $this->clear_plugins;

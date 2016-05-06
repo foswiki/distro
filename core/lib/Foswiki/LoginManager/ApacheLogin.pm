@@ -119,7 +119,10 @@ if it needs to challenge the user
 =cut
 
 sub login {
-    my ( $this, $query, $app ) = @_;
+    my $this = shift;
+
+    $app //= $this->app;
+    my $query = $app->request;
 
     my $url =
       $app->cfg->getScriptUrl( 0, 'viewauth', $app->request->web,

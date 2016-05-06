@@ -155,7 +155,9 @@ database, that can then be displayed by referring to
 =cut
 
 sub login {
-    my ( $this, $query, $app ) = @_;
+    my $this  = shift;
+    my $app   = $this->app;
+    my $query = $app->request;
     my $users = $app->users;
 
     my $origin = $query->param('foswiki_origin');

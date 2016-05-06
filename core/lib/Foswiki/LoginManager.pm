@@ -828,6 +828,8 @@ sub userLoggedIn {
         $app->user( $app->users->getCanonicalUserID($authUser) );
     }
 
+    my $remoteUser = $app->has_remoteUser ? $app->remoteUser : undef;
+
     if ( $app->inContext('command_line') ) {
 
         # Command line is automatically 'authenticated' unless the guest user
@@ -857,13 +859,13 @@ sub userLoggedIn {
       || $Foswiki::cfg{DefaultUserLogin};
 
     _trace( $this, "====   Initial user is $sessUser" );
-    _trace( $this, "====   Remote user is " . $app->request->remoteUser() )
-      if defined $app->request->remoteUser();
+    _trace( $this, "====   Remote user is " . $remoteUser )
+      if defined $remoteUser;
 
     if ( $authUser && $authUser ne $Foswiki::cfg{DefaultUserLogin} ) {
         _trace( $this,
                 'Authenticated; converting from '
-              . ( $app->remoteUser || $sessUser || 'undef' ) . ' to '
+              . ( $remoteUser || $sessUser || 'undef' ) . ' to '
               . $authUser
               . ' - default '
               . $Foswiki::cfg{DefaultUserLogin} );
@@ -871,19 +873,18 @@ sub userLoggedIn {
         # SMELL: right now anyone that makes a template login url can log
         # in multiple times - should i forbid it
         if ( $Foswiki::cfg{UseClientSessions} ) {
-            if ( defined( $app->remoteUser )
+            if ( defined($remoteUser)
                 && $app->inContext('sudo_login') )
             {
                 $app->logger->log(
                     {
                         level  => 'info',
                         action => 'sudo login',
-                        extra  => 'from ' . ( $app->remoteUser || '' ),
+                        extra  => 'from ' . ( $remoteUser || '' ),
                         user   => $authUser
                     }
                 );
-                $this->_cgisession->param( 'SUDOFROMAUTHUSER',
-                    $app->remoteUser );
+                $this->_cgisession->param( 'SUDOFROMAUTHUSER', $remoteUser );
             }
 
             # SMELL: these are bare logins, so if and when there are

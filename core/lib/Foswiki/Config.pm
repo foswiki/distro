@@ -1137,11 +1137,13 @@ sub _populatePresets {
     $cfgData->{SwitchBoard}{login} = {
         package  => undef,
         function => 'logon',
+        request  => 'Foswiki::Request',
         context  => { ( login => 1, logon => 1 ) },
     };
     $cfgData->{SwitchBoard}{logon} = {
         package  => undef,
         function => 'logon',
+        request  => 'Foswiki::Request',
         context  => { ( login => 1, logon => 1 ) },
     };
     $cfgData->{SwitchBoard}{manage} = {
@@ -1153,6 +1155,7 @@ sub _populatePresets {
     $cfgData->{SwitchBoard}{oops} = {
         package  => 'Foswiki::UI::Oops',
         function => 'oops_cgi',
+        request  => 'Foswiki::Request',
         context  => { oops => 1 },
     };
     $cfgData->{SwitchBoard}{preview} = {

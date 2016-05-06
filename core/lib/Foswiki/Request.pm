@@ -140,6 +140,8 @@ has method => (
     lazy    => 1,
     default => sub { $_[0]->app->engine->connectionData->{method} },
 );
+
+# SMELL XXX remote_user is not used anymore, it is now Foswiki::App::remoteUser attribute.
 has remote_user => ( is => 'rw', );
 has server_port => (
     is      => 'rw',

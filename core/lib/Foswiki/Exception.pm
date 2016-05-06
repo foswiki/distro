@@ -146,12 +146,7 @@ sub BUILD {
     ) unless $this->text;
 
     if ( DEBUG && defined $Foswiki::app ) {
-        $Foswiki::app->logger->log(
-            {
-                level => 'debug',
-                extra => [ $this->stringify ],
-            }
-        );
+        $Foswiki::app->logger->log( 'debug', $this->stringify, );
     }
 
     say STDERR "New exception object created: ", $this->stringify

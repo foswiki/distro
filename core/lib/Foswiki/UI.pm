@@ -372,7 +372,9 @@ Handler for "logon" action.
 =cut
 
 sub logon {
-    my $app = shift;
+    my $this = shift;
+    my $app  = $this->app;
+    my $req  = $app->request;
 
     if ( defined $Foswiki::cfg{LoginManager}
         && $Foswiki::cfg{LoginManager} eq 'none' )
@@ -384,14 +386,14 @@ sub logon {
         );
     }
 
-    my $action = $app->request->param('foswikiloginaction');
-    $app->request->delete('foswikiloginaction');
+    my $action = $req->param('foswikiloginaction');
+    $req->delete('foswikiloginaction');
 
     if ( defined $action && $action eq 'validate' ) {
         Foswiki::Validation::validate($app);
     }
     else {
-        $app->getLoginManager()->login( $app->request, $app );
+        $app->users->loginManager->login;
     }
 }
 

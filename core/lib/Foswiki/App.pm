@@ -222,12 +222,13 @@ has ui => (
     },
 );
 has remoteUser => (
-    is      => 'rw',
-    lazy    => 1,
-    clearer => 1,
-    default => sub {
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    default   => sub {
         my $this = shift;
-        my $user = $this->has_user ? $this->user : $this->app->engine->user;
+        my $user = $this->has_user ? $this->user : $this->engine->user;
         return $this->users->loadSession($user);
     },
 );
@@ -419,12 +420,7 @@ sub run {
         }
 
         if ( defined $app && defined $app->logger ) {
-            $app->logger->log(
-                {
-                    level => 'error',
-                    extra => [ $e->stringify ],
-                }
-            );
+            $app->logger->log( 'error', $e->stringify, );
         }
 
         # Low-level report of errors to user.
@@ -1330,6 +1326,16 @@ sub _prepareEngine {
 # The request attribute default method.
 sub _prepareRequest {
     my $this = shift;
+
+    state $preparing = 0;
+
+    if ($preparing) {
+        Foswiki::Exception::Fatal->throw(
+            text => 'Circular call to _prepareRequest' );
+    }
+    else {
+        $preparing = 1;
+    }
 
     # The following is preferable form of Request creation. The request
     # constructor will then initialize itself using $app->engine as the source
