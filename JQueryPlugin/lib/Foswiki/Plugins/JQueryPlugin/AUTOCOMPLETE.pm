@@ -22,7 +22,7 @@ Constructor
 
 =cut
 
-out %pluginParams = (
+our %pluginParams = (
     name    => 'Autocomplete',
     version => '1.2.2',
     author => 'Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Joern Zaefferer',
