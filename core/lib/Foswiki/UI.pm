@@ -57,6 +57,7 @@ BEGIN {
     $Foswiki::cfg{SwitchBoard}{jsonrpc} = {
         package  => 'Foswiki::Contrib::JsonRpcContrib',
         function => 'dispatch',
+        request  => 'Foswiki::Request::JSON',
         context  => { jsonrpc => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{login} = {

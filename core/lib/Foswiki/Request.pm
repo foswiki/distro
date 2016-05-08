@@ -470,6 +470,9 @@ sub multi_param {
 sub param {
     my ( $this, @p ) = @_;
 
+    print STDERR "REQUEST param() Entered\n";
+    print STDERR Data::Dumper::Dumper( \@p );
+
     my ( $key, @value ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
 
     # param() - just return the list of param names
@@ -479,7 +482,7 @@ sub param {
 # http://blog.gerv.net/2014.10/new-class-of-vulnerability-in-perl-web-applications
     if ( DEBUG && wantarray ) {
         my ( $package, $filename, $line ) = caller;
-        if ( $package ne 'Foswiki::Request' ) {
+        if ( substr( $package, 0, 16 ) ne 'Foswiki::Request' ) {
             ASSERT( 0,
 "Foswiki::Request::param called in list context from package $package, $filename line $line, declare as scalar, or call multi_param. "
             );

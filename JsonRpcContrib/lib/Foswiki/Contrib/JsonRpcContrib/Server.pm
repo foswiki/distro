@@ -25,7 +25,7 @@ use Foswiki::Contrib::JsonRpcContrib::Error    ();
 use Foswiki::Contrib::JsonRpcContrib::Request  ();
 use Foswiki::Contrib::JsonRpcContrib::Response ();
 
-use constant TRACE => 0;    # toggle me
+use constant TRACE => 1;    # toggle me
 
 # Error codes for json-rpc response
 # -32700: Parse error - Invalid JSON was received by the server.
@@ -42,6 +42,7 @@ use constant TRACE => 0;    # toggle me
 ################################################################################
 # static
 sub writeDebug {
+    print STDERR $_[0] . "\n";
     Foswiki::Func::writeDebug '- JsonRpcContrib::Server - ' . $_[0];
 }
 
@@ -76,28 +77,23 @@ sub dispatch {
     $Foswiki::Plugins::SESSION = $session;
     $this->{session} = $session;
 
-    my $request;
-    try {
-        $request = new Foswiki::Contrib::JsonRpcContrib::Request($session);
-    }
-    catch Foswiki::Contrib::JsonRpcContrib::Error with {
-        my $error = shift;
-        Foswiki::Contrib::JsonRpcContrib::Response->print(
-            $session,
-            code    => $error->{code},
-            message => $error->{message}
-        );
-    };
-    return unless defined $request;
+    my $request = Foswiki::Func::getRequestObject();
 
-    # get topic parameter and set the location overriding any
-    #  other value derived from the namespace param
-    my $topic = $request->param('topic')
-      || $Foswiki::cfg{HomeTopicName};
-    ( $session->{webName}, $session->{topicName} ) =
-      Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
-        $topic );
-    writeDebug("topic=$topic") if TRACE;
+    unless ( $request->isa('Foswiki::Request::JSON') ) {
+        print STDERR "NOT Foswiki::Request::JSON \n";
+        try {
+            $request = new Foswiki::Contrib::JsonRpcContrib::Request($session);
+        }
+        catch Foswiki::Contrib::JsonRpcContrib::Error with {
+            my $error = shift;
+            Foswiki::Contrib::JsonRpcContrib::Response->print(
+                $session,
+                code    => $error->{code},
+                message => $error->{message}
+            );
+        };
+    }
+    return unless defined $request;
 
     # get handler for this namespace
     my $handler = $this->getHandler($request);
@@ -106,8 +102,8 @@ sub dispatch {
             $session,
             code    => -32601,
             message => "Invalid invocation - unknown handler for "
-              . $request->namespace() . "."
-              . $request->method(),
+              . ( $request->namespace() || '' ) . "."
+              . ( $request->method() || '' ),
             id => $request->id()
         );
         return;
@@ -213,6 +209,7 @@ sub dispatch {
 sub getHandler {
     my ( $this, $request ) = @_;
 
+    print STDERR "getHandler called\n";
     my $namespace = $request->namespace();
     return unless $namespace;
 
