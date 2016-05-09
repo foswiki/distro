@@ -438,16 +438,28 @@ sub run {
             $app->logger->log( 'error', $e->stringify, );
         }
 
+        my $errStr = Foswiki::Exception::errorStr($e);
+
         # Low-level report of errors to user.
         if ( defined $app && $app->has_engine ) {
 
+            $errStr = '<pre>' . Foswiki::entityEncode($errStr) . '</pre>';
+
             # Send error output to user using the initialized engine.
-            $rc =
-              $app->engine->finalizeReturn( [ 500, [], [ $e->stringify ] ] );
+            $rc = $app->engine->finalizeReturn(
+                [
+                    500,
+                    [
+                        'Content-Type'   => 'text/html; charset=utf-8',
+                        'Content-Length' => length($errStr),
+                    ],
+                    [$errStr]
+                ]
+            );
         }
         else {
             # Propagade the error using the most primitive way.
-            die( ref($e) ? $e->stringify : $e );
+            die $errStr;
         }
     };
     return $rc;

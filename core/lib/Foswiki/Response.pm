@@ -552,7 +552,7 @@ sub as_array {
         push @{ $rc[1] }, $hdr => $_ foreach @$val;
     }
 
-    $rc[2] = $this->body;
+    $rc[2] = [ $this->body ];
 
     return \@rc;
 }

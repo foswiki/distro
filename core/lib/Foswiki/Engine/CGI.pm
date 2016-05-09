@@ -354,7 +354,7 @@ around finalizeReturn => sub {
     my ($return) = @_;
 
     $this->write( $this->stringifyHeaders($return) );
-    $this->write( $return->[2] );
+    $this->write( @{ $return->[2] } );
 
     return 0;
 };
