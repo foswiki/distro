@@ -110,9 +110,10 @@ has logger => (
     },
 );
 has engine => (
-    is      => 'rw',
-    lazy    => 1,
-    default => \&_prepareEngine,
+    is        => 'rw',
+    lazy      => 1,
+    predicate => 1,
+    default   => \&_prepareEngine,
     isa =>
       Foswiki::Object::isaCLASS( 'engine', 'Foswiki::Engine', noUndef => 1, ),
 );
@@ -399,7 +400,7 @@ sub run {
     # Before localizing shell environment we need to preserve and restore it.
     local %ENV = %ENV;
 
-    my $app;
+    my ( $app, $rc );
 
     # We use shell environment by default. PSGI would supply its own env
     # hashref. Because PSGI env is not the same as shell env we would need to
@@ -423,8 +424,8 @@ sub run {
           }
           if DEBUG;
 
-        $app = Foswiki::App->new(%params);
-        $app->handleRequest;
+        $app = $class->new(%params);
+        $rc  = $app->handleRequest;
     }
     catch {
         my $e = $_;
@@ -438,16 +439,18 @@ sub run {
         }
 
         # Low-level report of errors to user.
-        if ( defined $app && defined $app->engine ) {
+        if ( defined $app && $app->has_engine ) {
 
             # Send error output to user using the initialized engine.
-            $app->engine->write( $e->stringify );
+            $rc =
+              $app->engine->finalizeReturn( [ 500, [], [ $e->stringify ] ] );
         }
         else {
             # Propagade the error using the most primitive way.
             die( ref($e) ? $e->stringify : $e );
         }
     };
+    return $rc;
 }
 
 sub handleRequest {
@@ -455,6 +458,7 @@ sub handleRequest {
 
     my $req = $this->request;
     my $res = $this->response;
+    my $rc;
 
     try {
         $this->_checkBootstrapStage2;
@@ -525,13 +529,13 @@ sub handleRequest {
         # a pretty HTMLized way if engine is HTTPCompliant. Rethrowing of an
         # exception is just a temporary stub.
         Foswiki::Exception::Fatal->rethrow($e);
-    }
-    finally {
-        # Whatever happens at this stage we shall be able to reply with a valid
-        # HTTP response using valid HTML.
-        # XXX vrurg Sample code from pre-OO implementation.
-        $this->engine->finalize( $res, $this->request );
     };
+
+    my $return = $res->as_array;
+    $res->outputHasStarted(1);
+    $rc = $this->engine->finalizeReturn($return);
+
+    return $rc;
 }
 
 =begin TML
@@ -1332,7 +1336,7 @@ sub _prepareEngine {
     # return an object of corresponding class.
     $engine = Foswiki::Engine::start( env => $env, app => $this, );
 
-    $this->cfg->data->{Engine} //= ref($engine);
+    $this->cfg->data->{Engine} //= ref($engine) if $engine;
 
     return $engine;
 }

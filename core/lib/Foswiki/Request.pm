@@ -55,6 +55,15 @@ BEGIN {
     }
 }
 
+=begin TML
+
+---++ ObjectAttribute action([$action]) -> $action
+
+
+Gets/Sets action requested (view, edit, save, ...)
+
+=cut
+
 has action => (
     is      => 'rw',
     lazy    => 1,
@@ -67,6 +76,19 @@ has action => (
         $this->app->env->{FOSWIKI_ACTION} = $action;
     },
 );
+
+=begin TML
+
+---++ ObjectAttribute base_action() -> $action
+
+Get the first action ever set in this request object. This remains
+unchanged even if a request cache is unwrapped on to of this request.
+The idea is that callers can always find out the action that initiated
+the HTTP request. This is required for (for example) checking access
+controls.
+
+=cut
+
 has base_action => (
     is        => 'ro',
     lazy      => 1,
@@ -109,6 +131,16 @@ has uri => (
           // $this->url( -absolute => 1, -path => 1, -query => 1 );
     },
 );
+
+=begin TML
+
+ObjectAttribute cookies( \%cookies ) -> $hashref
+
+Gets/Sets cookies hashref. Keys are cookie names
+and values CGI::Cookie objects.
+
+=cut
+
 has cookies => (
     is      => 'rw',
     lazy    => 1,
@@ -122,20 +154,48 @@ has cookies => (
 );
 has headers => ( is => 'rw', lazy => 1, default => \&_establishHeaders, );
 has _param => ( is => 'rw', lazy => 1, default => sub { {} }, );
+
+=begin TML
+
+---++ ObjectAttribute uploads( [ \%uploads ] ) -> $hashref
+
+Gets/Sets request uploads field. Keys are uploaded file names,
+as sent by browser, and values are Foswiki::Request::Upload objects.
+
+=cut
+
 has uploads => (
     is      => 'rw',
     lazy    => 1,
     default => sub { {} },
-    clearer => 1,
     isa     => Foswiki::Object::isaHASH( 'uploads', noUndef => 1 ),
 );
 
 # upload_list attribute keeps list of request uploads. Used to initialize
 # uploads attribute with corresponding =Foswiki::Request::Upload= instances.
 # SMELL Isn't it needed for engine code only?
-has upload_list => ( is => 'rw', lazy => 1, default => sub { [] }, );
-has param_list =>
-  ( is => 'rw', predicate => 1, lazy => 1, default => sub { [] }, );
+has upload_list => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { [] },
+    isa     => Foswiki::Object::isaARRAY( 'upload_list', noUndef => 1, ),
+);
+has param_list => (
+    is        => 'rw',
+    predicate => 1,
+    lazy      => 1,
+    default   => sub { [] },
+    isa       => Foswiki::Object::isaARRAY( 'param_list', noUndef => 1, ),
+);
+
+=begin TML
+
+---++ ObjectAttribute method( [ $method ] ) -> $method
+
+Sets/Gets request method (GET, HEAD, POST).
+
+=cut
+
 has method => (
     is      => 'rw',
     lazy    => 1,
@@ -255,35 +315,6 @@ sub BUILD {
         $this->load( $this->_initializer );
     }
 }
-
-=begin TML
-
----++ ObjectAttribute action([$action]) -> $action
-
-
-Gets/Sets action requested (view, edit, save, ...)
-
-=cut
-
-=begin TML
-
----++ ObjectAttribute base_action() -> $action
-
-Get the first action ever set in this request object. This remains
-unchanged even if a request cache is unwrapped on to of this request.
-The idea is that callers can always find out the action that initiated
-the HTTP request. This is required for (for example) checking access
-controls.
-
-=cut
-
-=begin TML
-
----++ ObjectAttribute method( [ $method ] ) -> $method
-
-Sets/Gets request method (GET, HEAD, POST).
-
-=cut
 
 =begin TML
 
@@ -601,15 +632,6 @@ sub cookie {
 
 =begin TML
 
-ObjectAttribute cookies( \%cookies ) -> $hashref
-
-Gets/Sets cookies hashref. Keys are cookie names
-and values CGI::Cookie objects.
-
-=cut
-
-=begin TML
-
 ---++ ObjectMethod delete( @paramNames )
 
 Deletes parameters from request.
@@ -628,8 +650,9 @@ sub delete {
             CORE::delete $this->uploads->{ $this->param($p) };
         }
         CORE::delete $this->_param->{$p};
-        @{ $this->param_list } = grep { $_ ne $p } @{ $this->param_list };
     }
+    my %deleted_key = map { $_ => 1 } @_;
+    $this->param_list( [ grep { !$deleted_key{$_} } @{ $this->param_list } ] );
 }
 
 =begin TML
@@ -645,6 +668,20 @@ Deletes all parameter name and value(s).
 sub deleteAll {
     my $this = shift;
     $this->delete( $this->param() );
+}
+
+=begin TML
+
+---++ ObjectMethod deleteUploads()
+
+Deletes all upload parameters.
+
+=cut
+
+sub deleteUploads {
+    my $this = shift;
+
+    $this->delete( keys %{ $this->uploads } );
 }
 
 =begin TML
@@ -813,15 +850,6 @@ sub tmpFileName {
       ? $this->uploads->{$fname}->tmpFileName
       : undef;
 }
-
-=begin TML
-
----++ ObjectAttribute uploads( [ \%uploads ] ) -> $hashref
-
-Gets/Sets request uploads field. Keys are uploaded file names,
-as sent by browser, and values are Foswiki::Request::Upload objects.
-
-=cut
 
 # ======== possible accessors =======
 # auth_type

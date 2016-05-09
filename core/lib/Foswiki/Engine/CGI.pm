@@ -348,22 +348,25 @@ around prepareUploads => sub {
     $req->uploads( \%uploads );
 };
 
-around finalizeUploads => sub {
-    my $orig = shift;
-    my ( $this, $res, $req ) = @_;
-    $orig->( $this, $res, $req );
+around finalizeReturn => sub {
+    my $orig     = shift;
+    my $this     = shift;
+    my ($return) = @_;
 
-    $req->delete($_) foreach keys %{ $req->uploads };
-    $this->clear_cgi;
+    $this->write( $this->stringifyHeaders($return) );
+    $this->write( $return->[2] );
+
+    return 0;
 };
 
-around finalizeHeaders => sub {
-    my $orig = shift;
-    my ( $this, $res, $req ) = @_;
-    $orig->( $this, $res, $req );
+around stringifyHeaders => sub {
+    my $orig     = shift;
+    my $this     = shift;
+    my ($return) = @_;
 
-    my $hdr = $res->printHeaders;
-    $this->write($hdr);
+    # Add the Status header which is not there by PSGI spec.
+    push @{ $return->[1] }, 'Status' => $return->[0];
+    return $orig->( $this, $return );
 };
 
 around write => sub {

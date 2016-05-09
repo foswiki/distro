@@ -219,7 +219,7 @@ and returns it, or a status code in case of error.
 
 =cut
 
-sub prepare {
+sub __deprecated_prepare {
     my $this = shift;
     my $req;
 
@@ -397,125 +397,39 @@ sub prepareUploads { }
 
 =begin TML
 
----++ ObjectMethod finalize($res, $req)
-
-Finalizes the request by calling many methods to send response to client and 
-take any appropriate finalize actions, such as delete temporary files.
-   * =$res= is the Foswiki::Response object
-   * =$req= it the Foswiki::Request object.
-
+---++ ObjectMethod stringifyHeaders
 =cut
 
-sub finalize {
-    my ( $this, $res, $req ) = @_;
-    if ( $res->outputHasStarted ) {
-        $this->flush( $res, $req );
+sub stringifyHeaders {
+    my $this = shift;
+    my ($return) = @_;
+
+    my $CRLF    = "\x0D\x0A";
+    my $headers = '';
+
+    for ( my $i = 0 ; $i < scalar( @{ $return->[1] } ) ; $i += 2 ) {
+        my ( $hdr, $val ) = @{ $return->[1] }[ $i, $i + 1 ];
+        $headers .= $hdr . ': ' . Foswiki::encode_utf8($val) . $CRLF;
     }
-    else {
-        $this->finalizeUploads( $res, $req );
-        $this->finalizeHeaders( $res, $req );
-        $this->finalizeBody($res);
-    }
+
+    return $headers . $CRLF;
 }
 
-=begin TML
+#=begin TML
+#
+#---++ ObjectMethod _writeBody( $body )
+#
+#   * =$body= - the third element of PSGI return array
+#
+#Should send response body to client. This method calls =write()=
+#as needed, so engines should redefine that method insted of this one.
+#
+#=cut
 
----++ ObjectMethod finalizeUploads( $res, $req )
-
-Abstract method, must be defined by inherited classes.
-   * =$res= - Foswiki::Response object to get data from
-   * =$req= - Foswiki::Request object to get data from
-
-Should delete any temp files created in preparation phase.
-
-=cut
-
-sub finalizeUploads { }
-
-=begin TML
-
----++ ObjectMethod finalizeError( $res, $req )
-
-Called if some engine specific error happens.
-
-   * =$res= - Foswiki::Response object to get data from
-   * =$req= - Foswiki::Request object to get data from
-
-=cut
-
-sub finalizeError {
-    my ( $this, $res, $req ) = @_;
-    $this->finalizeHeaders( $res, $req );
-    $this->finalizeBody( $res, $req );
-
-    # Item12590: prevent duplicated output by later call to finalize()
-    $res->body('');
-    $res->outputHasStarted(1);
-}
-
-=begin TML
-
----++ ObjectMethod finalizeHeaders( $res, $req )
-
-Base method, must be redefined by inherited classes. For convenience
-this method deals with HEAD requests related stuff. Children classes
-should call SUPER.
-   * =$res= - Foswiki::Response object to get data from
-   * =$req= - Foswiki::Request object to get data from
-
-Should call finalizeCookies and then send $res' headers to client.
-
-=cut
-
-sub finalizeHeaders {
-    my ( $this, $res, $req ) = @_;
-    $this->finalizeCookies($res);
-    if ( $req && $req->method && uc( $req->method ) eq 'HEAD' ) {
-        $res->body('');
-        $res->deleteHeader('Content-Length');
-    }
-}
-
-=begin TML
-
----++ ObjectMethod finalizeCookies( $res )
-
-   * =$res= - Foswiki::Response object to both get data from and populate
-
-Should populate $res' headers field with cookies, if any.
-
-=cut
-
-sub finalizeCookies {
-    my ( $this, $res ) = @_;
-
-    # SMELL: Review comment below, from CGI:
-    #    if the user indicates an expiration time, then we need
-    #    both an Expires and a Date header (so that the browser is
-    #    uses OUR clock)
-    $res->pushHeader( 'Set-Cookie',
-        Scalar::Util::blessed $_
-          && $_->isa('CGI::Cookie') ? $_->as_string : $_ )
-      foreach $res->cookies;
-}
-
-=begin TML
-
----++ ObjectMethod finalizeBody( $res, $req )
-
-   * =$res= - Foswiki::Response object to get data from
-   * =$req= - Foswiki::Request object to get data from
-
-Should send $res' body to client. This method calls =write()=
-as needed, so engines should redefine that method insted of this one.
-
-=cut
-
-sub finalizeBody {
-    my ( $this, $res, $req ) = @_;
-    my $body = $res->body;
+sub _writeBody {
+    my $this = shift;
+    my ($body) = @_;
     return unless defined $body;
-    $this->prepareWrite($res);
     if ( Scalar::Util::blessed($body) && $body->can('read')
         or ref $body eq 'GLOB' )
     {
@@ -530,26 +444,26 @@ sub finalizeBody {
     }
 }
 
-=begin TML
+#=begin TML
+#
+#---++ flush($res, $req)
+#
+#Forces the response headers to be emitted if they haven't already been sent
+#(note that this may in some circumstances result in cookies being missed)
+#before flushing what is in the body so far.
+#
+#Before headers are sent, any Content-length is removed, as a call to
+#flush is a statement that there's more to follow, but we don't know
+#how much at this point.
+#
+#This function should be used with great care! It requires that the output
+#headers are fully complete before it is first called. Once it *has* been
+#called, the response object will refuse any modifications that would alter
+#the header.
+#
+#=cut
 
----++ flush($res, $req)
-
-Forces the response headers to be emitted if they haven't already been sent
-(note that this may in some circumstances result in cookies being missed)
-before flushing what is in the body so far.
-
-Before headers are sent, any Content-length is removed, as a call to
-flush is a statement that there's more to follow, but we don't know
-how much at this point.
-
-This function should be used with great care! It requires that the output
-headers are fully complete before it is first called. Once it *has* been
-called, the response object will refuse any modifications that would alter
-the header.
-
-=cut
-
-sub flush {
+sub __depreacted_flush {
     my ( $this, $res, $req ) = @_;
 
     unless ( $res->outputHasStarted ) {
@@ -573,17 +487,24 @@ sub flush {
 
 =begin TML
 
----++ ObjectMethod prepareWrite( $res )
+---++ ObjectMethod finalizeReturn(\@rc) => $rc
 
-Abstract method, may be defined by inherited classes.
-   * =$res= - Foswiki::Response object to get data from
+Abstract method, must be defined by inherited classes.
 
-Should perform any task needed before writing.
-That's ok if none needed ;-)
+   * =@rc= - 3-element array as defined by PSGI spec.
 
+This method must process supplied =@rc= array in correspondance to current
+environment requirements and return the value which will become the
+application's return value. For PSGI it would return @rc itself; for CGI – shell
+exit code; and so on.
+   
 =cut
 
-sub prepareWrite { }
+sub finalizeReturn {
+    ASSERT( __PACKAGE__
+          . '::finalizeReturn is a pure virtual method - should never be called'
+    );
+}
 
 =begin TML
 
@@ -597,7 +518,8 @@ Should send $buffer to client.
 =cut
 
 sub write {
-    ASSERT('Pure virtual method - should never be called');
+    ASSERT( __PACKAGE__
+          . '::write is a pure virtual method - should never be called' );
 }
 
 1;
