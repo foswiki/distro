@@ -79,8 +79,17 @@ sub dispatch {
 
     my $request = Foswiki::Func::getRequestObject();
 
-    unless ( $request->isa('Foswiki::Request::JSON') ) {
-        print STDERR "NOT Foswiki::Request::JSON \n";
+    if ( $request->isa('Foswiki::Request::JSON') ) {
+        if ( my $error = $request->jsonerror() ) {
+            Foswiki::Contrib::JsonRpcContrib::Response->print(
+                $session,
+                code    => $error->{code},
+                message => $error->{message}
+            );
+            return;
+        }
+    }
+    else {
         try {
             $request = new Foswiki::Contrib::JsonRpcContrib::Request($session);
         }

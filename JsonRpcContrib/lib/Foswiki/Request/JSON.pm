@@ -44,7 +44,8 @@ sub new {
     my $this = $class->SUPER::new( $_[1], $_[2] );
 
     # Add few more attributes
-    $this->{_jsondata} = undef;
+    $this->{_jsondata}  = undef;
+    $this->{_jsonerror} = undef;
     bless $this, $class;
 
     return $this;
@@ -129,6 +130,9 @@ sub _establishJSON {
     my $foo  = shift;
     my $data;    # = shift;
 
+    # if already initialized, no need to repeat
+    return if ( defined $this->{_jsondata} );
+
     $data = ( ref($foo) eq 'ARRAY' ) ? shift @$foo : $foo;
 
     $data ||= '{"jsonrpc":"2.0"}';    # Minimal setup
@@ -150,11 +154,11 @@ sub _establishJSON {
     my $namespace = $1;
 
     $this->{namespace} = $namespace;
-    print STDERR "======== NAMESPACE $namespace\n";
 
     # check that this is a http POST
     my $httpMethod = $this->SUPER::method() || 'jsonrpc';
-    throw Foswiki::Contrib::JsonRpcContrib::Error( -32600,
+    $this->{_jsonerror} =
+      new Foswiki::Contrib::JsonRpcContrib::Error( -32600,
         "Method must be POST" )
       unless $httpMethod =~ /post|jsonrpc/i;
 
@@ -162,13 +166,14 @@ sub _establishJSON {
 
     # must have a version tag
     if ( ( $this->version() || '' ) ne "2.0" ) {
-        print STDERR "VERSION returned " . $this->version() . "\n";
-        throw Foswiki::Contrib::JsonRpcContrib::Error( -32600,
+        $this->{_jsonerror} =
+          new Foswiki::Contrib::JsonRpcContrib::Error( -32600,
             "Invalid JSON-RPC request - must be jsonrpc: '2.0'" );
     }
 
-    # must have a method
-    throw Foswiki::Contrib::JsonRpcContrib::Error( -32600,
+    # must have a json method
+    $this->{_jsonerror} =
+      new Foswiki::Contrib::JsonRpcContrib::Error( -32600,
         "Invalid JSON-RPC request - no method" )
       unless defined $this->method();
 
@@ -177,7 +182,8 @@ sub _establishJSON {
 
     # must not have any other keys other than these
     foreach my $key ( keys %{ $this->{_jsondata} } ) {
-        throw Foswiki::Contrib::JsonRpcContrib::Error( -32600,
+        $this->{_jsonerror} =
+          new Foswiki::Contrib::JsonRpcContrib::Error( -32600,
             "Invalid JSON-RPC request - unknown key $key" )
           unless $key =~ /^(jsonrpc|method|params|id)$/;
     }
@@ -194,13 +200,18 @@ sub initFromString {
     if ($@) {
         my $error = $@;
         $error =~ s/,? +at.*$//s;
-        throw Foswiki::Contrib::JsonRpcContrib::Error( -32700,
+        $this->{_jsonerror} =
+          new Foswiki::Contrib::JsonRpcContrib::Error( -32700,
             "Parse error - invalid json-rpc request: $error" );
     }
 
     $this->{_jsondata}{params} ||= {};
 
     return $this->{_jsondata};
+}
+
+sub jsonerror {
+    return $_[0]->{_jsonerror};
 }
 
 ##############################################################################
@@ -274,6 +285,17 @@ Call SUPER::method() to access the http method.
 
 sub method {
     my ( $this, $value ) = @_;
+
+    if ( defined $value && !defined $this->{_jsondata} && lc($value) ne 'post' )
+    {
+        $this->{_jsonerror} =
+          new Foswiki::Contrib::JsonRpcContrib::Error( -32600,
+            "Method must be POST" );
+    }
+
+    unless ( defined $this->{_jsondata} ) {
+        return $this->SUPER::method($value);
+    }
 
     $this->{_jsondata}{method} = $value if defined $value;
     return $this->{_jsondata}{method};

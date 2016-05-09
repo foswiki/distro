@@ -470,9 +470,6 @@ sub multi_param {
 sub param {
     my ( $this, @p ) = @_;
 
-    print STDERR "REQUEST param() Entered\n";
-    print STDERR Data::Dumper::Dumper( \@p );
-
     my ( $key, @value ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
 
     # param() - just return the list of param names
