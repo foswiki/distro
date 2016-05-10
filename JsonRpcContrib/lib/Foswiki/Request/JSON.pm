@@ -44,229 +44,90 @@ sub new {
     my $this = $class->SUPER::new( $_[1], $_[2] );
 
     # Add few more attributes
-    $this->{_jsondata}  = undef;
-    $this->{_jsonerror} = undef;
+    $this->{json}       = undef;    # JSON object
+    $this->{_jsondata}  = undef;    # Anchors the posted JSON data
+    $this->{_jsonerror} = undef
+      ;  # Points to a Foswiki::Contrib::JsonRpcContrib::Error if error detected
+    $this->{namespace} = undef;    # The JSON namespace
     bless $this, $class;
 
     return $this;
 }
 
-##############################################################################
-#
+=begin TML
+
+---+ Methods overriding Foswiki::Request
+---++ ObjectMethod pathInfo( $value ) -> $pathInfo
+
+Overides Foswiki::Request::pathInfo().  See Foswiki::Request for documentation.
+
+This method parses the pathInfo for JSON requests.  It extracts the Namespace,
+optional method from the path.  eg:  bin/jsonrpc/SomeNamespace/themethod
+
+=cut
+
+sub pathInfo {
+    my ( $this, $pathInfo ) = @_;
+
+    return $_[0]->SUPER::pathInfo() if @_ == 1;
+
+    my $decodedInfo = Foswiki::urlDecode($pathInfo);
+
+# Foswiki JSON invocations are defined as having a Namespace (pluginName)
+# and method (handler in that plugin). Namespace is set in the query path, method
+# is provided in the json data.
+
+    unless ( $decodedInfo =~ /^\/?([^\/\.]+)(?:[\/\.](.*))?$/ ) {
+        $this->{_jsonerror} =
+          new Foswiki::Contrib::JsonRpcContrib::Error( -32600,
+            "Invalid Namespace / method" );
+        return $this->SUPER::pathInfo( $_[1] );
+    }
+
+    my $namespace = $1;
+    my $method    = $2;
+
+    $this->{namespace} = $namespace;
+
+    if ( defined $method ) {
+        $this->jsonmethod($method);
+    }
+
+    return $this->SUPER::pathInfo( $_[1] );
+}
 
 =begin TML
----++ ObjectMethod param( [-name => $name, -value => $value             |
-                           -name => $name, -values => [ $v1, $v2, ... ] |
-                           $name, $v1, $v2, ...                         |
-                           name, [ $v1, $v2, ... ]
-                           ] ) -> @paramNames | @values | $firstValue
+---++ ObjectMethod param( $key, $value ) -> $value
 
-   * Called without parameters returns all parameter names
-   * Called only with parameter name or with -name => 'name'
-      * In list context returns all associated values (maybe empty list)
-      * In scalar context returns first value (maybe undef)
-   * Called with name and list of values or with
-     -name => 'name', -value => 'value' or -name => 'name', -values => [ ... ]
-     sets parameter value
-   * Returns parameter values as UTF-8 encoded binary strings
+See Foswiki::Request for complete calling documentation.  This method extends the base param
+method for *read only* access to the JSON data.  It is recommended to use the simpler
+jsonparam method for read/write access to the JSON dtaa.
 
-Resonably compatible with CGI.
-
-*NOTE* this method will assert if it is called in a list context. A list
-context might be:
-   * in a list of parameters e.g. =my_function( $query->param( ...=
-   * assigning to a list e.g. =my @l = $query->param(...=
-   * in a loop condition e.g. =foreach ($query->param(...=
-
-The following are *scalar* contexts:
-   * =defined($query->param( ...= is OK
-   * =lc($query->param( ...= is OK
-   * =... if ( $query->param( ...= is OK
-
-In a list context, you should call =multi_param= (fully compatible) to
-retrieve list parameters.
+   * If called with a value (to write)  the data is written to the CGI request NOT to the JSON data.
+   * If called with a key that does not exist in the JSON data, the SUPER::param() is called, to return the CGI query param.
+   * If a key exists in both the CGI params, and the JSON params,  the CGI data will not be reachable.
+   * If called with no parameters, the list of CGI params are returned, NOT the JSON parameters. Use params() to get the JSON parameters
 
 =cut
 
 sub param {
     my ( $this, @p ) = @_;
 
-    my ( $key, @value ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
+    return $this->SUPER::param() unless scalar @p;
 
-  # param() - just return the list of param names
-  # (This has nothing to do with JSON,  but is needed for Request compatibility)
-    return @{ $this->{param_list} } unless defined $key;
+    my ( $key, @value ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
 
     # Intercept POSTDATA assignment, and process the JSON data
     if ( $key eq 'POSTDATA' && scalar @value ) {
         $this->_establishJSON( $value[0] );
     }
 
-    return unless defined $key;
-
-    # SMELL:  JSON version is read-only
-    #$this->{data}{params}{$key} = $value if defined $value;
-
     # If key doesn't exist in json data,  the fall back to CGI.
-    return $this->{data}{params}{$key}
-      if ( defined $this->{data}{params}{$key} );
+    return $this->{_jsondata}{params}{$key}
+      if ( defined $this->{_jsondata}{params}{$key} );
 
     # Process
     return $this->SUPER::param(@p);
-
-}
-
-=begin TML
-
----++ private objectMethod _establishJSON() ->  n/a
-
-Used internally by the web(), topic(), Namespace and method  methods to trigger parsing of the url
-and POST data, and sets object variables with the results.
-
-=cut
-
-sub _establishJSON {
-    my $this = shift;
-    my $foo  = shift;
-    my $data;    # = shift;
-
-    # if already initialized, no need to repeat
-    return if ( defined $this->{_jsondata} );
-
-    $data = ( ref($foo) eq 'ARRAY' ) ? shift @$foo : $foo;
-
-    $data ||= '{"jsonrpc":"2.0"}';    # Minimal setup
-    writeDebug("data=$data") if Foswiki::Request::TRACE;
-
-    $this->initFromString($data);
-
-    my $pathInfo = Foswiki::urlDecode( $this->path_info() );
-
-# Foswiki JSON invocations are defined as having a Namespace (pluginName)
-# and method (handler in that plugin). Namespace is set in the query path, method
-# is provided in the json data.
-
-    unless ( $pathInfo =~ /^\/?([^\/\.]+)(?:[\/\.](.*))?$/ ) {
-        $this->{invalidNamespace} = Foswiki::urlEncode($pathInfo);
-        die "invalid namespace";
-    }
-
-    my $namespace = $1;
-
-    $this->{namespace} = $namespace;
-
-    # check that this is a http POST
-    my $httpMethod = $this->SUPER::method() || 'jsonrpc';
-    $this->{_jsonerror} =
-      new Foswiki::Contrib::JsonRpcContrib::Error( -32600,
-        "Method must be POST" )
-      unless $httpMethod =~ /post|jsonrpc/i;
-
-    # some basic checks if this is a proper json-rpc 2.0 request
-
-    # must have a version tag
-    if ( ( $this->version() || '' ) ne "2.0" ) {
-        $this->{_jsonerror} =
-          new Foswiki::Contrib::JsonRpcContrib::Error( -32600,
-            "Invalid JSON-RPC request - must be jsonrpc: '2.0'" );
-    }
-
-    # must have a json method
-    $this->{_jsonerror} =
-      new Foswiki::Contrib::JsonRpcContrib::Error( -32600,
-        "Invalid JSON-RPC request - no method" )
-      unless defined $this->method();
-
-    writeDebug( "method=" . $this->{_jsondata}{method} )
-      if Foswiki::Request::TRACE;
-
-    # must not have any other keys other than these
-    foreach my $key ( keys %{ $this->{_jsondata} } ) {
-        $this->{_jsonerror} =
-          new Foswiki::Contrib::JsonRpcContrib::Error( -32600,
-            "Invalid JSON-RPC request - unknown key $key" )
-          unless $key =~ /^(jsonrpc|method|params|id)$/;
-    }
-
-}
-
-##############################################################################
-sub initFromString {
-    my ( $this, $data ) = @_;
-
-    # parse json-rpc request
-    eval { $this->{_jsondata} = $this->json->decode($data); };
-
-    if ($@) {
-        my $error = $@;
-        $error =~ s/,? +at.*$//s;
-        $this->{_jsonerror} =
-          new Foswiki::Contrib::JsonRpcContrib::Error( -32700,
-            "Parse error - invalid json-rpc request: $error" );
-    }
-
-    $this->{_jsondata}{params} ||= {};
-
-    return $this->{_jsondata};
-}
-
-sub jsonerror {
-    return $_[0]->{_jsonerror};
-}
-
-##############################################################################
-sub json {
-    my $this = shift;
-
-    unless ( defined $this->{json} ) {
-        $this->{json} = new JSON;
-    }
-
-    return $this->{json};
-}
-
-##############################################################################
-sub version {
-    my ( $this, $value ) = @_;
-
-    $this->{_jsondata}{jsonrpc} = $value if defined $value;
-    return $this->{_jsondata}{jsonrpc} || '';
-}
-
-##############################################################################
-sub id {
-    my ( $this, $value ) = @_;
-
-    $this->{_jsondata}{id} = $value if defined $value;
-    return $this->{_jsondata}{id} || '';
-}
-
-##############################################################################
-sub params {
-    return $_[0]->{_jsondata}{params};
-}
-
-=begin TML
-
----++ ObjectMethod namespace() ->$jsonNamespace
-
-Gets the JSON namespace parsed from the query path.
-This either returns a valid parsed namespace, or undef.
-
-   * It does not filter out any illegal characters.
-   * There is no default Namespace.
-
-This is read only.
-
-=cut
-
-sub namespace {
-    my $this = shift;
-
-    print STDERR "Request->namespace() returns "
-      . ( $this->{namespace} || 'undef' ) . "\n"
-      if Foswiki::Request::TRACE;
-    return $this->{namespace};
 
 }
 
@@ -293,12 +154,254 @@ sub method {
             "Method must be POST" );
     }
 
-    unless ( defined $this->{_jsondata} ) {
+    # "write" - set the CGI method.
+    if ( defined $value ) {
         return $this->SUPER::method($value);
     }
 
+    unless ( defined $this->{_jsondata}{method} ) {
+        return $this->SUPER::method($value);
+    }
+
+    return $this->{_jsondata}{method};
+}
+
+=begin TML
+
+---+ Private methods
+---++ private objectMethod _establishJSON( $string | @array ) ->  n/a
+
+Used internally by the web(), topic(), Namespace and method  methods to trigger parsing of the url
+and POST data, and sets object variables with the results.
+
+=cut
+
+sub _establishJSON {
+    my $this = shift;
+    my $foo  = shift;
+    my $data;
+
+    # if already initialized, no need to repeat
+    return if ( defined $this->{_jsondata}{jsonrpc} );
+
+    $data = ( ref($foo) eq 'ARRAY' ) ? shift @$foo : $foo;
+
+    $data ||= '{"jsonrpc":"2.0"}';    # Minimal setup
+    writeDebug("data=$data") if Foswiki::Request::TRACE;
+
+    $this->initFromString($data);
+
+    # some basic checks if this is a proper json-rpc 2.0 request
+
+    # must have a version tag
+    if ( ( $this->version() || '' ) ne "2.0" ) {
+        $this->{_jsonerror} =
+          new Foswiki::Contrib::JsonRpcContrib::Error( -32600,
+            "Invalid JSON-RPC request - must be jsonrpc: '2.0'" );
+    }
+
+    # must have a json method
+    $this->{_jsonerror} =
+      new Foswiki::Contrib::JsonRpcContrib::Error( -32600,
+        "Invalid JSON-RPC request - no method" )
+      unless defined $this->jsonmethod();
+
+    writeDebug( "method=" . $this->jsonmethod() || 'undef' )
+      if Foswiki::Request::TRACE;
+
+    # must not have any other keys other than these
+    foreach my $key ( keys %{ $this->{_jsondata} } ) {
+        $this->{_jsonerror} =
+          new Foswiki::Contrib::JsonRpcContrib::Error( -32600,
+            "Invalid JSON-RPC request - unknown key $key" )
+          unless $key =~ /^(jsonrpc|method|params|id)$/;
+    }
+
+}
+
+=begin TML
+---++ private objectMethod initFromString() -> %jsondata 
+
+Initializes the {_jsondata} hash by processing the POSTDATA from the request.
+
+=cut
+
+sub initFromString {
+    my ( $this, $data ) = @_;
+
+    # parse json-rpc request
+    eval { $this->{_jsondata} = $this->json->decode($data); };
+
+    if ($@) {
+        my $error = $@;
+        $error =~ s/,? +at.*$//s;
+        $this->{_jsonerror} =
+          new Foswiki::Contrib::JsonRpcContrib::Error( -32700,
+            "Parse error - invalid json-rpc request: $error" );
+    }
+
+    $this->{_jsondata}{params} ||= {};
+
+    return $this->{_jsondata};
+}
+
+=begin TML
+
+---++ private objectMethod _establishAddress() ->  n/a
+
+Used internally by the web() and topic() methods to trigger parsing of the JSON topic parameter
+or the CGI topic parameer, and set object variables with the results.
+
+=cut
+
+sub _establishAddress {
+    my $this = shift;
+
+    # Allow topic= query param to override the path.  By calling param, vs.
+    # jsonparam(), the CGI param is used if the json request does not provide
+    # a topic param.
+    my $topicParam = $this->param('topic');
+
+    my $parse = Foswiki::Request::parse($topicParam);
+
+    # Item3270 - here's the appropriate place to enforce spec
+    # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270
+    $this->{topic} = ucfirst( $parse->{topic} )
+      if ( defined $parse->{topic} );
+
+    # Note that Web can still be undefined.  Caller then determines if the
+    # defaultweb query param, or the HomeWeb config parameter should be used.
+
+    $this->{web}          = $parse->{web};
+    $this->{invalidWeb}   = $parse->{invalidWeb};
+    $this->{invalidTopic} = $parse->{invalidTopic};
+    $this->{_pathParsed}  = 1;
+}
+
+=begin TML
+
+---+ JSON specific request methods 
+---++ objectMethod json() -> $JSON object
+
+Returns the JSON object, or a new JSON object if wne has not already been created.
+=cut
+
+sub json {
+    my $this = shift;
+
+    unless ( defined $this->{json} ) {
+        $this->{json} = new JSON;
+    }
+
+    return $this->{json};
+}
+
+=begin TML
+
+---++ objectMethod jsonerror( ) -> $error object
+
+Used to defer errors detected during request processing that
+are reported later.  
+
+=cut
+
+sub jsonerror {
+
+    return $_[0]->{_jsonerror};
+}
+
+=begin TML
+---++ objectMethod jsonparam( $key, $value ) -> $value
+
+Read/write implementaion of a JSON specific param() method.
+While param() will read data from the JSON object, this method
+can both read and write.
+
+=cut
+
+sub jsonparam {
+    my ( $this, $key, $value ) = @_;
+
+    return unless defined $key;
+    $this->{_jsondata}{params}{$key} = $value if defined $value;
+    return $this->{_jsondata}{params}{$key};
+}
+
+=begin TML
+---++ objectMethod jsonmethod( $value ) -> $method
+
+Read/write implementaion of a JSON specific method() method.
+While method() will read data from the JSON object, this method
+can both read and write.
+
+=cut
+
+sub jsonmethod {
+    my ( $this, $value ) = @_;
+
     $this->{_jsondata}{method} = $value if defined $value;
     return $this->{_jsondata}{method};
+}
+
+=begin TML
+---++ ObjectMethod version( $value ) -> $version 
+
+Returns the version from the parsed JSON data.  If a value is provided,
+the version string is replaced.
+
+=cut
+
+sub version {
+    my ( $this, $value ) = @_;
+
+    $this->{_jsondata}{jsonrpc} = $value if defined $value;
+    return $this->{_jsondata}{jsonrpc} || '';
+}
+
+=begin TML
+---++ ObjectMethod id( $value ) -> $id 
+
+Returns the id from the parsed JSON data.   If a value is provided,
+the id is replaced.
+
+=cut
+
+sub id {
+    my ( $this, $value ) = @_;
+
+    $this->{_jsondata}{id} = $value if defined $value;
+    return $this->{_jsondata}{id} || '';
+}
+
+=begin TML
+---++ ObjectMethod params() -> %params
+
+Returns the parameters hash from the parsed JSON data.
+=cut
+
+sub params {
+    return $_[0]->{_jsondata}{params};
+}
+
+=begin TML
+
+---++ ObjectMethod namespace() ->$jsonNamespace
+
+Gets the JSON namespace parsed from the query path.
+This either returns a valid parsed namespace, or undef.
+
+   * It does not filter out any illegal characters.
+   * There is no default Namespace.
+
+This is read only.
+
+=cut
+
+sub namespace {
+    my ( $this, $value ) = @_;
+
+    $this->{namespace} = $value if defined $value;
+    return $this->{namespace};
 }
 
 =begin TML
@@ -354,73 +457,6 @@ sub topic {
       if Foswiki::Request::TRACE;
     return $this->{topic};
 
-}
-
-=begin TML
-
----++ ObjectMethod invalidWeb() -> "Invalid path component
-
-Returns the bad part of the path, or the entire bad path, depending upon
-the parsing process.  Returns undef when the requested web is valid.
-
-   * It does not filter out or encode any illegal characters. Use caution when returning this string to the UI.
-
-This is read only.
-
-=cut
-
-sub invalidWeb {
-    my $this = shift;
-    return $this->{invalidWeb};
-}
-
-=begin TML
-
----++ ObjectMethod invalidTopic() -> "Invalid requested topic"
-
-Returns the invalid topic name, when the parser is able to identify it as a topic.
-Returns undef when the requested topic is valid.
-
-   * It does not filter out or encode any illegal characters. Use caution when returning this string to the UI.
-
-This is read only.
-
-=cut
-
-sub invalidTopic {
-    my $this = shift;
-    return $this->{invalidTopic};
-}
-
-=begin TML
-
----++ private objectMethod _establishAddress() ->  n/a
-
-Used internally by the web() and topic() methods to trigger parsing of the url and/or topic= parameter
-and set object variables with the results.
-
-=cut
-
-sub _establishAddress {
-    my $this = shift;
-
-    # Allow topic= query param to override the path
-    my $topicParam = $this->param('topic');
-
-    my $parse = Foswiki::Request::parse($topicParam);
-
-    # Item3270 - here's the appropriate place to enforce spec
-    # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270
-    $this->{topic} = ucfirst( $parse->{topic} )
-      if ( defined $parse->{topic} );
-
-    # Note that Web can still be undefined.  Caller then determines if the
-    # defaultweb query param, or the HomeWeb config parameter should be used.
-
-    $this->{web}          = $parse->{web};
-    $this->{invalidWeb}   = $parse->{invalidWeb};
-    $this->{invalidTopic} = $parse->{invalidTopic};
-    $this->{_pathParsed}  = 1;
 }
 
 1;

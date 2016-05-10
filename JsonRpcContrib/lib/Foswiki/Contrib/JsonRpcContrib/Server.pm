@@ -25,7 +25,7 @@ use Foswiki::Contrib::JsonRpcContrib::Error    ();
 use Foswiki::Contrib::JsonRpcContrib::Request  ();
 use Foswiki::Contrib::JsonRpcContrib::Response ();
 
-use constant TRACE => 1;    # toggle me
+use constant TRACE => 0;    # toggle me
 
 # Error codes for json-rpc response
 # -32700: Parse error - Invalid JSON was received by the server.

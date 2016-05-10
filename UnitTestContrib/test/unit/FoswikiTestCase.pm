@@ -934,6 +934,7 @@ sub captureWithKey {
                  $request->isa('Unit::Request')
               || $request->isa('Unit::Request::Attachment')
               || $request->isa('Unit::Request::Rest')
+              || $request->isa('Unit::Request::JSON')
         ),
         "Could not find the Unit::Request object"
     );
