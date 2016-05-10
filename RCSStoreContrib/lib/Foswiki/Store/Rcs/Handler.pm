@@ -35,6 +35,7 @@ use File::Copy            ();
 use File::Copy::Recursive ();
 use File::Spec            ();
 use File::Path            ();
+use Unicode::Normalize;
 
 use Fcntl qw( :DEFAULT :flock SEEK_SET );
 use Encode ();
@@ -583,12 +584,15 @@ sub getTopicNames {
     # the name filter is used to ensure we don't return filenames
     # that contain illegal characters as topic names.
     my @topicList =
+      map { $_->[0] }
+      sort { $a->[1] cmp $b->[1] }
+      map { [ $_, NFKD($_) ] }
       map { /^(.*)\.txt$/; $1; }
-      sort { NFKD($a) cmp NFKD($b) }    # unicode aware
       grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ }
 
       # Must _decode before applying the NameFilter and sort
       map( _decode($_), readdir($dh) );
+
     closedir($dh);
     return @topicList;
 }
