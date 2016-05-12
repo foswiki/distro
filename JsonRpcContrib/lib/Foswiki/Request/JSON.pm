@@ -66,8 +66,13 @@ optional method from the path.  eg:  bin/jsonrpc/SomeNamespace/themethod
 
 =cut
 
+*path_info = \&pathInfo;
+
 sub pathInfo {
     my ( $this, $pathInfo ) = @_;
+
+    print STDERR " pathInfo entered " . Data::Dumper::Dumper( \$pathInfo )
+      if Foswiki::Request::TRACE;
 
     return $_[0]->SUPER::pathInfo() if @_ == 1;
 
@@ -146,6 +151,9 @@ Call SUPER::method() to access the http method.
 
 sub method {
     my ( $this, $value ) = @_;
+
+    print STDERR "method entered " . Data::Dumper::Dumper( \$value )
+      if Foswiki::Request::TRACE;
 
     if ( defined $value && !defined $this->{_jsondata} && lc($value) ne 'post' )
     {
@@ -228,6 +236,9 @@ Initializes the {_jsondata} hash by processing the POSTDATA from the request.
 
 sub initFromString {
     my ( $this, $data ) = @_;
+
+    print STDERR "initFromString\n$data\n"
+      if Foswiki::Request::TRACE;
 
     # parse json-rpc request
     eval { $this->{_jsondata} = $this->json->decode($data); };
@@ -338,6 +349,9 @@ can both read and write.
 
 sub jsonmethod {
     my ( $this, $value ) = @_;
+
+    print STDERR "jsonmethod entered " . Data::Dumper::Dumper( \$value )
+      if Foswiki::Request::TRACE;
 
     $this->{_jsondata}{method} = $value if defined $value;
     return $this->{_jsondata}{method};

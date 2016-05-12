@@ -218,7 +218,6 @@ sub dispatch {
 sub getHandler {
     my ( $this, $request ) = @_;
 
-    print STDERR "getHandler called\n";
     my $namespace = $request->namespace();
     return unless $namespace;
 
