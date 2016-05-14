@@ -247,8 +247,19 @@ has invalidTopic => (
     lazy    => 1,
     default => sub { $_[0]->_pathParsed->{invalidTopic} },
 );
+
+=begin TML
+
+---++ ObjectAttribute taintAll
+
+Construction-time flag indicating that all =param_list= elements must be
+tainted. Unit test support only.
+
+=cut
+
+has taintAll     => ( is => 'ro', default  => 0, );
 has _initializer => ( is => 'ro', init_arg => "initializer", );
-has _pathParsed => (
+has _pathParsed  => (
     is      => 'rw',
     lazy    => 1,
     isa     => Foswiki::Object::isaHASH( '_pathParsed', noUndef => 1 ),
@@ -314,6 +325,18 @@ sub BUILD {
     {
         $this->load( $this->_initializer );
     }
+
+    if ( $this->app->inUnitTestMode || $this->taintAll ) {
+
+        # Support unit tests by implementing deprecated Unit::Request class
+        # 'taint everything' functionality.
+        foreach my $k ( @{ $this->param_list } ) {
+            foreach ( @{ $this->_param->{$k} } ) {
+                $_ = TAINT($_) if defined $_;
+            }
+        }
+    }
+
 }
 
 =begin TML
@@ -1119,12 +1142,21 @@ sub prepare {
     my %params = @_;
 
     my $app = $params{app};
+    ASSERT(
+        defined $app && ref($app) && $app->isa('Foswiki::App'),
+        "Request preparation requires a valid \$app object"
+    );
     my $req;
 
     ASSERT( defined $app && $app->isa('Foswiki::App'),
         "Incorrect app parameter key: should be a Foswiki::App object" );
 
     my $reqClass = $app->_dispatcherAttrs->{request};
+
+    ASSERT(
+        defined $reqClass,
+        "determine Request class for action " . $app->engine->pathData->{action}
+    );
 
     unless ( defined $reqClass ) {
         Foswiki::Exception::HTTPError->throw(

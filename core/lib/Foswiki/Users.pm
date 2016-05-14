@@ -146,8 +146,10 @@ sub BUILD {
     # making basemapping
     my $implBaseUserMappingManager = $Foswiki::cfg{BaseUserMappingManager}
       || 'Foswiki::Users::BaseUserMapping';
-    eval "require $implBaseUserMappingManager";
-    Foswiki::Exception->throw( text => $@ ) if $@;
+    Foswiki::load_package($implBaseUserMappingManager);
+
+    #eval "require $implBaseUserMappingManager";
+    #Foswiki::Exception::Fatal->throw( text => $@ ) if $@;
     $this->basemapping( $this->create($implBaseUserMappingManager) );
 
     my $implUserMappingManager = $Foswiki::cfg{UserMappingManager};
@@ -436,6 +438,8 @@ Get the currect CGI session object
 
 sub getCGISession {
     my $this = shift;
+    say STDERR "APP:", $this->app, ", LOGINMANAGER:", $this->loginManager,
+      ", CGISESS:", $this->loginManager->_cgisession // '*undef*';
     return $this->loginManager->getCGISession();
 }
 

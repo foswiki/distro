@@ -282,8 +282,8 @@ BEGIN {
 
     # DO NOT CHANGE THE FORMAT OF $VERSION.
     # Use $RELEASE for a descriptive version.
-    use version 0.77; $VERSION = version->declare('v2.1.0');
-    $RELEASE = 'Foswiki-2.1.0';
+    use version 0.77; $VERSION = version->declare('v2.99.0');
+    $RELEASE = 'Foswiki-2.99.0';
 
     #if ( $Foswiki::cfg{UseLocale} ) {
     #    require locale;

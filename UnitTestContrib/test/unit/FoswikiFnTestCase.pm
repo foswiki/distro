@@ -26,7 +26,8 @@ targeting single classes).
 
 use Foswiki();
 use Unit::Request();
-use Unit::Response();
+
+#use Unit::Response();
 use Foswiki::UI::Register();
 use Try::Tiny;
 use Carp qw(cluck);
@@ -69,8 +70,10 @@ has test_user_cuid     => ( is => 'rw', );
 has response           => (
     is        => 'rw',
     clearer   => 1,
+    lazy      => 1,
     predicate => 1,
-    isa       => Foswiki::Object::isaCLASS( 'response', 'Unit::Response' ),
+    isa       => Foswiki::Object::isaCLASS( 'response', 'Foswiki::Response' ),
+    default   => sub { return $_[0]->create('Foswiki::Response'); },
 );
 
 =begin TML
@@ -117,14 +120,19 @@ around set_up => sub {
 
     $orig->( $this, @_ );
 
-    my $query = Unit::Request->new( initializer => "" );
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
+    my $env = $this->app->cloneEnv;
+    $env->{FOSWIKI_TEST_PATH_INFO} =
+      "/" . $this->test_web . "/" . $this->test_topic;
 
     # Note: some tests are testing Foswiki::UI which also creates a session
-    $this->createNewFoswikiSession( undef, $query );
-    $this->response( new Unit::Response() );
+    $this->createNewFoswikiApp(
+        env           => $env,
+        requestParams => { initializer => "" },
+    );
+
+    #$this->response( $this->create('Unit::Response') );
     @mails = ();
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     my $webObject = $this->populateNewWeb( $this->test_web );
     undef $webObject;
     $this->clear_test_topicObject;
@@ -147,15 +155,15 @@ around set_up => sub {
         $this->test_user_surname, $this->test_user_email
     );
     $this->test_user_cuid(
-        $this->session->users->getCanonicalUserID( $this->test_user_login ) );
+        $this->app->users->getCanonicalUserID( $this->test_user_login ) );
 };
 
 around tear_down => sub {
     my $orig = shift;
     my $this = shift;
 
-    $this->removeWebFixture( $this->session, $this->test_web );
-    $this->removeWebFixture( $this->session, $Foswiki::cfg{UsersWebName} );
+    $this->removeWebFixture( $this->app, $this->test_web );
+    $this->removeWebFixture( $this->app, $Foswiki::cfg{UsersWebName} );
     unlink( $Foswiki::cfg{Htpasswd}{FileName} );
     $orig->( $this, @_ );
 
@@ -171,7 +179,7 @@ Remove a temporary web fixture (data and pub)
 
 sub removeWeb {
     my ( $this, $web ) = @_;
-    $this->removeWebFixture( $this->session, $web );
+    $this->removeWebFixture( $this->app, $web );
 }
 
 =begin TML
@@ -199,9 +207,9 @@ Can be used by subclasses to register test users.
 
 sub registerUser {
     my ( $this, $loginname, $forename, $surname, $email ) = @_;
-    my $q = $this->session->request;
+    my $q = $this->app->request;
 
-    my $params = {
+    my $reqParams = {
         'TopicName'     => ['UserRegistration'],
         'Twk1Email'     => [$email],
         'Twk1WikiName'  => ["$forename$surname"],
@@ -213,24 +221,29 @@ sub registerUser {
     };
 
     if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
-        $params->{"Twk1LoginName"} = $loginname;
+        $reqParams->{"Twk1LoginName"} = $loginname;
     }
-    my $query = Unit::Request->new( initializer => $params );
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
+    my $env = $this->app->cloneEnv;
+    $env->{FOSWIKI_TEST_PATH_INFO} =
+      "/" . $this->users_web . "/UserRegistration";
 
-    $this->createNewFoswikiSession( undef, $query );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => $reqParams, },
+        env           => $env,
+    );
     $this->assert(
-        $this->session->topicExists(
+        $this->app->store->topicExists(
             $this->test_web, $Foswiki::cfg{WebPrefsTopicName}
         )
     );
 
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     try {
+        my $uiRegister = $this->create('Foswiki::UI::Register');
         $this->captureWithKey(
             register_cgi => \&Foswiki::UI::Register::register_cgi,
-            $this->session
+            $uiRegister,
         );
     }
     catch {
@@ -261,8 +274,8 @@ sub registerUser {
     };
 
     # Reload caches
-    $this->createNewFoswikiSession( undef, $q );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp( undef, $q );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 }
 
 1;

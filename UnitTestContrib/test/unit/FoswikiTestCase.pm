@@ -23,8 +23,8 @@ use Data::Dumper;
 use Foswiki();
 use Foswiki::Meta();
 use Foswiki::Plugins();
-use Unit::Request();
-use Unit::Response();
+
+#use Unit::Response();
 use Try::Tiny;
 use Storable();
 
@@ -41,16 +41,22 @@ our $didOnlyOnceChecks = 0;
 
 use Moo;
 use namespace::clean;
-extends 'Unit::TestCase';
+extends qw(Unit::TestCase);
 
-has session => (
+has app => (
     is        => 'rw',
+    lazy      => 1,
     predicate => 1,
     clearer   => 1,
-    weak_ref  => 1,
-    isa => Foswiki::Object::isaCLASS( 'session', 'Foswiki', strictMatch => 1, ),
+    isa => Foswiki::Object::isaCLASS( 'app', 'Foswiki::App', noUndef => 1, ),
+    default => sub {
+        if ( defined $Foswiki::app ) {
+            return $Foswiki::app;
+        }
+        return Foswiki::App->new( env => \%ENV );
+    },
 );
-has twiki => ( is => 'rw', );
+has twiki => ( is => 'rw', lazy => 1, default => sub { $_[0]->app }, );
 has test_topicObject => (
     is        => 'rw',
     clearer   => 1,
@@ -69,7 +75,7 @@ has test_topicObject => (
           && $_[0]->[0]->isa('Foswiki::Meta') ? $_[0]->[0] : $_[0];
     },
 );
-has request    => ( is => 'rw', );
+has request => ( is => 'rw', weak_ref => 1, );
 has test_web   => ( is => 'rw', );
 has test_topic => ( is => 'rw', );
 
@@ -80,9 +86,16 @@ has __EnvSafe => (
     default => sub { {} },
 );
 
-# __EnvReset defines environment variables to be deleted or set to predefined
-# values. If a variable key has undefined value then it is deleted. Otherwise it
-# is set to the value defined.
+=begin TML
+
+---++ ObjectAttribute __EnvReset
+
+__EnvReset defines environment variables to be deleted or set to predefined
+values. If a variable key has undefined value then it is deleted. Otherwise it
+is set to the value defined.
+
+=cut
+
 has __EnvReset => (
     is      => 'rw',
     lazy    => 1,
@@ -97,8 +110,16 @@ BEGIN {
 #        Tests still seem to run without them being added here.
 #push( @INC, "$ENV{FOSWIKI_HOME}/lib" ) if defined( $ENV{FOSWIKI_HOME} );
 #unshift @INC, '../../bin';    # SMELL: dodgy
-    require 'setlib.cfg';
-    $SIG{__DIE__} = sub { Carp::confess $_[0] };
+#    require 'setlib.cfg';
+#$SIG{__DIE__} = sub { Carp::confess $_[0] };
+}
+
+# Simulate Foswiki::AppObject
+sub create {
+    my $this = shift;
+    ASSERT( defined $this->app,
+        "app attribute is not defined on " . ref($this) . " object" );
+    return $this->app->create(@_);
 }
 
 sub _test_with_deps {
@@ -268,10 +289,10 @@ Checks to see if =$plugin= is enabled
 sub check_plugin_enabled {
     my ( $this, $plugin ) = @_;
 
-    # Many tests don't have a $session data member.
+    # Many tests don't have a $app data member.
     #return (
-    #    $this->has_session
-    #    ? $this->session->inContext( $plugin . 'Enabled' )
+    #    $this->has_app
+    #    ? $this->app->inContext( $plugin . 'Enabled' )
     #    : $Foswiki::cfg{Plugins}{$plugin}{Enabled}
     #);
     return $Foswiki::cfg{Plugins}{$plugin}{Enabled};
@@ -550,8 +571,11 @@ sub populateNewWeb {
     my ( $this, $web, $template, $opts ) = @_;
     my $webObject;
 
-    require Foswiki::Store;
-    if ( defined &Foswiki::Store::create ) {
+    # SMELL It seems like create method was supposed to be a part of new
+    # Foswiki::Store (so called 'Store 2') semantics which actually wasn't
+    # developed after all. For now it conflicts with Foswiki::Object create
+    # method and has to be avoided.
+    if ( 0 && defined &Foswiki::Store::create ) {
 
         # store2
         $webObject = Foswiki::Store->create( address => { web => $web } );
@@ -559,10 +583,7 @@ sub populateNewWeb {
     else {
 
         # pre-store2, Foswiki 1.1.x and below
-        $webObject = Foswiki::Meta->new(
-            session => $Foswiki::Plugins::SESSION,
-            web     => $web
-        );
+        $webObject = $this->create( 'Foswiki::Meta', web => $web );
     }
     $webObject->populateNewWeb( $template, $opts );
     return $webObject;
@@ -574,10 +595,10 @@ sub populateNewWeb {
 
 Get an unloaded topic object.
 
-Equivalent to Foswiki::Meta->new, we take the session from $this->session.
+Equivalent to Foswiki::Meta->new, we take the app from $this->app.
 
-That assumes all the tests are playing nice, and aren't doing Foswiki->new()
-themselves (using createNewFoswikiSession instead).
+That assumes all the tests are playing nice, and aren't doing Foswiki::App->new()
+themselves (using createNewFoswikiApp instead).
 
 =cut
 
@@ -587,10 +608,10 @@ sub getUnloadedTopicObject {
     ASSERT( defined $web );
     ASSERT( defined $topic );
 
-    return Foswiki::Meta->new(
-        session => $this->session,
-        web     => $web,
-        topic   => $topic
+    return $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $topic
     );
 }
 
@@ -615,10 +636,7 @@ sub getWebObject {
     else {
 
         # pre-store2, Foswiki 1.1.x and below
-        $webObject = Foswiki::Meta->new(
-            session => $Foswiki::Plugins::SESSION,
-            web     => $web
-        );
+        $webObject = $this->create( 'Foswiki::Meta', web => $web );
     }
 
     return $webObject;
@@ -729,7 +747,7 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
         closedir(F);
     }
 
-    ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+    ASSERT( !defined $Foswiki::app ) if SINGLE_SINGLETONS;
 
     $Foswiki::cfg{WorkingDir} = $this->tempDir;
     mkdir("$Foswiki::cfg{WorkingDir}/tmp");
@@ -739,12 +757,14 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
 
     # Force completion of %Foswiki::cfg
     # This must be done before moving the logging.
-    my $query = new Unit::Request();
     $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
-    my $tmp = Foswiki->new( user => undef, request => $query );
-    ASSERT( defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+    my $tmp = Foswiki::App->new(
+        user => undef,
+        env  => $this->app->cloneEnv,
+    );
+    ASSERT( defined $Foswiki::app ) if SINGLE_SINGLETONS;
     undef $tmp;    # finish() will be called automatically.
-    ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+    ASSERT( !defined $Foswiki::app ) if SINGLE_SINGLETONS;
 
     # Note this does not do much, except for some tests that use it directly.
     # The first call to File::Temp caches the temp directory name, so
@@ -783,12 +803,12 @@ around tear_down => sub {
     my $orig = shift;
     my $this = shift;
 
-    if ( $this->has_session ) {
-        ASSERT( $this->session->isa('Foswiki') ) if SINGLE_SINGLETONS;
-        $this->finishFoswikiSession();
+    if ( $this->has_app ) {
+        ASSERT( $this->app->isa('Foswiki::App') ) if SINGLE_SINGLETONS;
+        $this->finishFoswikiSession;
     }
     $this->_clear_tempDir;
-    %Foswiki::cfg = eval $this->__FoswikiSafe;
+    $this->app->cfg->data( { eval $this->__FoswikiSafe } );
     foreach my $sym ( keys %ENV ) {
         unless ( defined( $this->__EnvSafe->{$sym} ) ) {
             delete $ENV{$sym};
@@ -857,24 +877,24 @@ sub removeFromStore {
     my ( $this, $web, $topic ) = @_;
 
     ASSERT( !defined $topic, '$topic not implemented' );
-    $this->removeWebFixture( $this->session, $web );
+    $this->removeWebFixture( $this->app, $web );
 
     return;
 }
 
 =begin TML
 
----++ ObjectMethod removeWebFixture($session, $web)
+---++ ObjectMethod removeWebFixture($app, $web)
 
 Remove a temporary web fixture (data and pub)
 
 =cut
 
 sub removeWebFixture {
-    my ( $this, $session, $web ) = @_;
+    my ( $this, $app, $web ) = @_;
 
     try {
-        my $webObject = Foswiki::Meta->new( session => $session, web => $web );
+        my $webObject = $this->create( 'Foswiki::Meta', web => $web );
         $webObject->removeFromStore();
     }
     catch {
@@ -893,13 +913,13 @@ sub removeWebFixture {
 
 =begin TML
 
----++ ObjectMethod capture(\&fn, [,$session], ...) -> ($responseText, $result, $stdout, $stderr)
+---++ ObjectMethod capture(\&fn, [,$app], ...) -> ($responseText, $result, $stdout, $stderr)
 
 Like Unit::TestCase::captureSTD, except it captures the HTTP response
 as well as STDOUT and STDERR.
 
-$session can be passed in which case the response body will be taken from
-that session; otherwise it will use $Foswiki::Plugins::SESSION.
+$app can be passed in which case the response body will be taken from
+that app; otherwise it will use $Foswiki::app.
 
 $responseText includes HTTP headers.
 
@@ -908,22 +928,18 @@ $result is the result of the function.
 =cut
 
 sub capture {
-    my ( $this, $fn, $session, @args ) = @_;
+    my ( $this, $fn, @args ) = @_;
 
     # $fn may create a new Foswiki singleton, so it should take care to avoid
     # stomping on the existing one without $this->finishFoswikiSession() or
-    # createNewFoswikiSession()
-    my ( $stdout, $stderr, $result ) =
-      $this->captureSTD( $fn, $session, @args );
+    # createNewFoswikiApp()
+    my ( $stdout, $stderr, $result ) = $this->captureSTD( $fn, @args );
 
-    ASSERT( ref($session) || ref($Foswiki::Plugins::SESSION) );
-    my $response =
-      UNIVERSAL::isa( $session, 'Foswiki' )
-      ? $session->response
-      : $Foswiki::Plugins::SESSION->response;
+    my $app      = $this->app;
+    my $response = $app->response;
 
     my $responseText = '';
-    if ( $response->outputHasStarted() ) {
+    if ( $response->outputHasStarted ) {
 
         #we're streaming the output as we generate it
         #in 2010 (foswiki 1.1) this is used in the statistics script
@@ -932,8 +948,7 @@ sub capture {
     else {
 
         # Capture headers
-        require Foswiki::Engine;
-        Foswiki::Engine->finalizeCookies($response);
+        $response->finalize;
         foreach my $header ( keys %{ $response->headers } ) {
             $responseText .= $header . ': ' . $_ . "\x0D\x0A"
               foreach $response->getHeader($header);
@@ -941,7 +956,7 @@ sub capture {
         $responseText .= "\x0D\x0A";
 
         # Capture body
-        $responseText .= $response->body() if $response->body();
+        $responseText .= $response->body if $response->body;
     }
 
     return ( $responseText, $result, $stdout, $stderr );
@@ -949,7 +964,7 @@ sub capture {
 
 =begin TML
 
----++ ObjectMethod captureWithKey(\&fn, [,$session], ...) -> ($responseText, $result, $stdout, $stderr)
+---++ ObjectMethod captureWithKey(\&fn, [,$app], ...) -> ($responseText, $result, $stdout, $stderr)
 
 Invoke capture with first setting a strikeone validation key
 so it's authorized. First parameter is the action name,
@@ -965,24 +980,24 @@ sub captureWithKey {
     return $this->capture(@_) if $Foswiki::cfg{Validation}{Method} eq 'none';
 
     # If we pass a Foswiki object to capture, use that
-    # otherwise take $Foswiki::Plugins::SESSION
+    # otherwise take $Foswiki::app
     # and we fallback to the one from the test object
     my $fatwilly;
-    if ( UNIVERSAL::isa( $_[1], 'Foswiki' ) ) {
+    if ( UNIVERSAL::isa( $_[1], 'Foswiki::App' ) ) {
         $fatwilly = $_[1];
     }
-    elsif ( UNIVERSAL::isa( $Foswiki::Plugins::SESSION, 'Foswiki' ) ) {
-        $fatwilly = $Foswiki::Plugins::SESSION;
+    elsif ( UNIVERSAL::isa( $Foswiki::app, 'Foswiki::App' ) ) {
+        $fatwilly = $Foswiki::app;
     }
     else {
         $fatwilly = $this->twiki;
     }
-    $this->assert( $fatwilly->isa('Foswiki'),
+    $this->assert( $fatwilly->isa('Foswiki::App'),
         "Could not find the Foswiki object" );
 
     # Now we have to manually craft the validation checkings
     require Foswiki::Validation;
-    my $cgis = $fatwilly->getCGISession;
+    my $cgis = $fatwilly->users->getCGISession;
     my $strikeone = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
     my $key =
       Foswiki::Validation::addValidationKey( $cgis, $action, $strikeone );
@@ -993,8 +1008,8 @@ sub captureWithKey {
     }
     my ( $k, $v ) = ( $1, $2 );
     my $request = $fatwilly->request;
-    $this->assert( $request->isa('Unit::Request'),
-        "Could not find the Unit::Request object" );
+    $this->assert( $request->isa('Foswiki::Request'),
+        "Could not find the Foswiki::Request object" );
 
     # As we won't be clicking using javascript, we have to fake that part too
     if ($strikeone) {
@@ -1042,46 +1057,49 @@ sub getUIFn {
 
 =begin TML
 
----++ ObjectMethod createNewFoswikiSession($user, $query, params) -> ref to new Foswiki obj
+---++ ObjectMethod createNewFoswikiApp(user => $user, request => $query, @params) -> ref to new Foswiki::App obj
 
 cleans up the existing Foswiki object, and creates a new one
 
-params have to be key/value pairs and are passed directly to the new Foswiki() call
+@params have to be key/value pairs and are passed directly to the new Foswiki() call
 
 typically called to force a full re-initialisation either with new preferences, topics, users, groups or CFG
 
-__DO NOT CALL session->finish() yourself__
-
 =cut
 
-sub createNewFoswikiSession {
-    my ( $this, $user, $query, @args ) = @_;
+sub createNewFoswikiApp {
+    my $this = shift;
+
+    my %params = @_;
 
     $this->clear_test_topicObject;
-    $this->clear_session;
-    ASSERT( !defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+    ASSERT( !defined $Foswiki::app ) if SINGLE_SINGLETONS;
     $Foswiki::cfg{Store}{Implementation} ||= 'Foswiki::Store::PlainFile';
-    $this->session( Foswiki->new( user => $user, request => $query, @args ) );
-    $this->request( $this->session->request );
-    ASSERT( defined $Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+
+    $params{env} //= $this->app->cloneEnv;
+    my $app = Foswiki::App->new(%params);
+    $this->app($app);
+    $this->request( $this->app->request );
+    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 12;
+    ASSERT( defined $Foswiki::app ) if SINGLE_SINGLETONS;
+
     if ( $this->test_web && $this->test_topic ) {
         $this->test_topicObject(
             ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )
             [0] );
     }
 
-    return $this->session;
+    return $this->app;
 }
 
 sub finishFoswikiSession {
     my ($this) = @_;
 
-    #$this->session->finish() if $this->has_session;
     #use Devel::Refcount;
-    #say STDERR "session refcount: ", Devel::Refcount::refcount($this->session);
-    $this->clear_session;
-    undef $Foswiki::Plugins::SESSION if $Foswiki::Plugins::SESSION;
-    ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+    #say STDERR "app refcount: ", Devel::Refcount::refcount($this->app);
+    $this->clear_app;
+    undef $Foswiki::app if $Foswiki::app;
+    ASSERT( !$Foswiki::app ) if SINGLE_SINGLETONS;
 
     return;
 }

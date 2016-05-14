@@ -89,10 +89,18 @@ additional key =-upload= which value is boolean.
 
 =cut
 
-has queryParameters =>
-  ( is => 'rw', lazy => 1, builder => '_prepareQueryParameters', );
-has bodyParameters =>
-  ( is => 'rw', lazy => 1, builder => '_prepareBodyParameters', );
+has queryParameters => (
+    is      => 'rw',
+    lazy    => 1,
+    isa     => Foswiki::Object::isaARRAY( 'queryParameters', noUndef => 1 ),
+    builder => '_prepareQueryParameters',
+);
+has bodyParameters => (
+    is      => 'rw',
+    lazy    => 1,
+    isa     => Foswiki::Object::isaARRAY( 'bodyParameters', noUndef => 1 ),
+    builder => '_prepareBodyParameters',
+);
 
 =begin TML
 
@@ -156,11 +164,11 @@ sub start {
     my %params = @_;
 
     my $cfg = $Foswiki::app->cfg;
+    my $env = $Foswiki::app->env;
     my $engine;
-    if ( defined $cfg->data->{Engine} ) {
-        $engine = $cfg->data->{Engine};
-    }
-    else {
+    $engine //= $cfg->data->{Engine};
+    $engine //= $env->{FOSWIKI_ENGINE};
+    unless ( defined $engine ) {
         foreach my $shortName ( @{ $cfg->data->{EngineList} } ) {
             my $engMod = "Foswiki::Engine::$shortName";
 
@@ -526,7 +534,7 @@ sub write {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

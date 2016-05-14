@@ -38,16 +38,7 @@ sub create {
     my $this  = shift;
     my $class = shift;
 
-    $class = ref($class) if ref($class);
-
-    Foswiki::load_class($class);
-
-    unless ( $class->does(__PACKAGE__) ) {
-        Foswiki::Exception::Fatal->throw(
-            text => "Class $class doesn't do " . __PACKAGE__ . " role." );
-    }
-
-    return $class->new( app => $this->app, @_ );
+    return $this->app->create( $class, @_ );
 }
 
 1;

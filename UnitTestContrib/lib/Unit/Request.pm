@@ -5,6 +5,9 @@ package Unit::Request;
 
 ---+ package Unit::Request
 
+Deprecated class as of Foswiki 2.99.0. Can be replaced by combination of
+=Foswiki::Engine::Test= and =Foswiki::App= =requestParams= init key.
+
 =cut
 
 use Assert;
@@ -79,7 +82,7 @@ __DATA__
 
 Author: Gilmar Santos Jr
 
-Copyright (C) 2008-2010 Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

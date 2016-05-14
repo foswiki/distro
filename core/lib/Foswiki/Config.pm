@@ -79,10 +79,6 @@ has data => (
     },
 );
 
-# _dataStack is a storage for configurations active upon localize() method
-# calls.
-has _dataStack => ( is => 'rw', lazy => 1, default => sub { [] }, );
-
 =begin TML
 ---++ Attribute files
 
@@ -93,7 +89,6 @@ What files we read the config from in the order of reading.
 has files => (
     is      => 'rw',
     lazy    => 1,
-    clearer => 1,
     default => sub { [] },
 );
 
@@ -240,35 +235,15 @@ See also: =Foswiki::Aux::Localize=
 
 =cut
 
+sub setLocalizableAttributes { return [qw(data files urlHost)]; }
+
 around localize => sub {
     my $orig = shift;
     my $this = shift;
     my %init = @_;
 
-    push @{ $this->_dataStack },
-      {
-        data    => $this->data,
-        files   => $this->files,
-        urlHost => $this->urlHost,
-      };
-
-    $this->data( \%init );
-    $this->clear_files;
-    $this->clear_urlHost;
-
-    return $orig->($this);
+    return $orig->( $this, data => \%init, );
 };
-
-# Restores the last configuration data stored on the stack.
-sub restore {
-    my $this = shift;
-
-    ASSERT( @{ $this->_dataStack } > 0, "Configuration data stack is empty" );
-    my $prevState = pop @{ $this->_dataStack };
-    foreach my $attr ( keys %$prevState ) {
-        $this->$attr( $prevState->{$attr} );
-    }
-}
 
 =begin TML
 
@@ -293,6 +268,19 @@ provide defaults, and it would be silly to have them in two places anyway.
 sub readConfig {
     my $this = shift;
     my ( $noExpand, $noSpec, $configSpec, $noLocal ) = @_;
+
+    my $testKey = '__TEST_VALUE__';
+    $this->data->{$testKey} = 'Test is OK';
+    ASSERT(
+        $Foswiki::cfg{$testKey} eq $this->data->{$testKey},
+"%Foswiki::cfg is not mapped to the active Foswiki::Config object data attribute"
+    );
+    $testKey = '__TEST_ANOTHER__';
+    $Foswiki::cfg{$testKey} = "Now it different";
+    ASSERT(
+        $Foswiki::cfg{$testKey} eq $this->data->{$testKey},
+        "Foswiki::Config data attribute is not mapped to the %Foswiki::cfg hash"
+    );
 
     # To prevent us from overriding the custom code in test mode
     return 1 if $this->data->{ConfigurationFinished};
@@ -1172,9 +1160,9 @@ sub _populatePresets {
     };
     $cfgData->{SwitchBoard}{rdiffauth} = $cfgData->{SwitchBoard}{rdiff};
     $cfgData->{SwitchBoard}{register}  = {
-        package  => 'Foswiki::UI::Register',
-        function => 'register_cgi',
-        context  => { register => 1 },
+        package => 'Foswiki::UI::Register',
+        method  => 'register_cgi',
+        context => { register => 1 },
 
         # method verify must allow GET; protect in Foswiki::UI::Register
         #allow => { POST => 1 },

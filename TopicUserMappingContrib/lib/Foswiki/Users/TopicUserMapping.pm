@@ -44,7 +44,6 @@ has passwords => (
         my $implPasswordManager = $Foswiki::cfg{PasswordManager};
         $implPasswordManager = 'Foswiki::Users::Password'
           if ( $implPasswordManager eq 'none' );
-        Foswiki::load_package($implPasswordManager);
         return $_[0]->create($implPasswordManager);
     },
 );
@@ -348,7 +347,7 @@ sub _maintainUsersTopic {
     my $usersTopicObject;
 
     if (
-        $this->app->topicExists(
+        $this->app->store->topicExists(
             $Foswiki::cfg{UsersWebName},
             $Foswiki::cfg{UsersTopicName}
         )
@@ -832,7 +831,7 @@ sub groupAllowsView {
     $groupWeb = $Foswiki::cfg{UsersWebName};
 
     $groupName = undef
-      if ( not $this->app->topicExists( $groupWeb, $groupName ) );
+      if ( not $this->app->store->topicExists( $groupWeb, $groupName ) );
 
     return Foswiki::Func::checkAccessPermission( 'VIEW', $user, undef,
         $groupName, $groupWeb );
@@ -867,7 +866,7 @@ sub groupAllowsChange {
     $groupWeb = $Foswiki::cfg{UsersWebName};
 
     $groupName = undef
-      if ( not $this->app->topicExists( $groupWeb, $groupName ) );
+      if ( not $this->app->store->topicExists( $groupWeb, $groupName ) );
 
     return Foswiki::Func::checkAccessPermission( 'CHANGE', $user, undef,
         $groupName, $groupWeb );
@@ -1125,9 +1124,14 @@ sub removeUserFromGroup {
     my $user     = $this->app->user;
     my $usersObj = $this->app->users;
 
-    if ( $usersObj->isGroup($groupName)
-        and
-        ( $this->app->topicExists( $Foswiki::cfg{UsersWebName}, $groupName ) ) )
+    if (
+        $usersObj->isGroup($groupName)
+        and (
+            $this->app->store->topicExists(
+                $Foswiki::cfg{UsersWebName}, $groupName
+            )
+        )
+      )
     {
 
         if (   !$usersObj->isInGroup( $cuid, $groupName, { expand => 0 } )
@@ -1705,7 +1709,7 @@ sub _loadMapping {
     {
         my $app = $this->app;
         if (
-            $app->topicExists(
+            $app->store->topicExists(
                 $Foswiki::cfg{UsersWebName},
                 $Foswiki::cfg{UsersTopicName}
             )

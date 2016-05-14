@@ -525,7 +525,9 @@ See Foswiki::Validation for more information.
 sub checkValidationKey {
     my $this = shift;
 
-    my $app = $this->app;
+    my $app   = $this->app;
+    my $req   = $app->request;
+    my $users = $app->users;
 
     # If validation is disabled, do nothing
     return if ( $Foswiki::cfg{Validation}{Method} eq 'none' );
@@ -534,33 +536,33 @@ sub checkValidationKey {
     return if $app->inContext('command_line');
 
     # Check the nonce before we do anything else
-    my $nonce = $app->request->param('validation_key');
-    $app->request->delete('validation_key');
+    my $nonce = $req->param('validation_key');
+    $req->delete('validation_key');
     if (   !defined($nonce)
-        || !Foswiki::Validation::isValidNonce( $app->getCGISession(), $nonce ) )
+        || !Foswiki::Validation::isValidNonce( $users->getCGISession(), $nonce )
+      )
     {
-        throw Foswiki::ValidationException( $app->request->action() );
+        throw Foswiki::ValidationException( $req->action() );
     }
-    if ( defined($nonce) && !$app->request->param('preserve_vk') ) {
+    if ( defined($nonce) && !$req->param('preserve_vk') ) {
 
         # Expire the nonce. If the user tries to use it again, they will
         # be prompted. Note that if preserve_vk is provided we don't
         # expire the nonce - this is to support browsers that don't
         # implement FormData in javascript (such as IE8)
-        Foswiki::Validation::expireValidationKeys( $app->getCGISession(),
+        Foswiki::Validation::expireValidationKeys( $users->getCGISession(),
             $Foswiki::cfg{Validation}{ExpireKeyOnUse} ? $nonce : undef );
 
         # Write a new validation code into the response
-        my $context =
-          $app->request->url( -full => 1, -path => 1, -query => 1 ) . time();
-        my $cgis = $app->getCGISession();
+        my $context = $req->url( -full => 1, -path => 1, -query => 1 ) . time();
+        my $cgis = $users->getCGISession();
         if ($cgis) {
             my $nonce =
               Foswiki::Validation::generateValidationKey( $cgis, $context, 1 );
             $app->response->pushHeader( 'X-Foswiki-Validation' => $nonce );
         }
     }
-    $app->request->delete('preserve_vk');
+    $req->delete('preserve_vk');
 }
 
 =begin TML

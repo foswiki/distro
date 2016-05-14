@@ -125,10 +125,7 @@ has keep => (
     is      => 'ro',
     default => '',
 );
-has params => (
-    is      => 'rwp',
-    default => '',
-);
+has params => ( is => 'rwp', );
 has status => (
     is      => 'rw',
     default => 500,
@@ -152,12 +149,26 @@ NOTE: parameter values are automatically and unconditionally entity-encoded
 
 =cut
 
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
+
+    my %params = @_;
+
+    if ( defined $params{params} && !( ref( $params{params} ) eq 'ARRAY' ) ) {
+        $params{params} = [ $params{params} ];
+    }
+
+    return $orig->( $class, %params );
+};
+
 sub BUILD {
     my $this = shift;
     $this->_set_template( $this->template || 'generic' );
-    if ( ref( $this->params ) ne 'ARRAY' ) {
-        $this->_set_params( [ $this->params ] );
-    }
+
+    #if ( ref( $this->params ) ne 'ARRAY' ) {
+    #    $this->_set_params( [ $this->params ] );
+    #}
 
     # Make it easier to locate a problem if Oops is treated as a simple
     # Foswiki::Exception.

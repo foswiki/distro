@@ -6,7 +6,9 @@ use v5.14;
 
 use Try::Tiny;
 use FindBin;
-use Cwd ();
+use Cwd        ();
+use File::Path ();
+require Foswiki::App;
 my $starting_root;
 
 sub _findRelativeTo {
@@ -29,8 +31,6 @@ BEGIN {
 "exporting FOSWIKI_ASSERTS=1 for extra checking; disable by exporting FOSWIKI_ASSERTS=0\n";
         $ENV{FOSWIKI_ASSERTS} = 1;
     }
-
-    $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
 
     # root the tree
     my $here = Cwd::abs_path;
@@ -66,6 +66,20 @@ while ( scalar(@ARGV) && $ARGV[0] =~ /^-/ ) {
     $options{ shift(@ARGV) } = 1;
 }
 
+my ( $app, $cfg );
+local %ENV = %ENV;
+try {
+    my $env = \%ENV;
+    $env->{FOSWIKI_ACTION} =
+      'view';    # SMELL Shan't we add a 'test' action to the SwitchBoard?
+    $env->{FOSWIKI_ENGINE} = 'Foswiki::Engine::Test';
+    $app = Foswiki::App->new( env => $env );
+    $cfg = $app->cfg;
+}
+catch {
+    die Foswiki::Exception::errorStr($_);
+};
+
 my ( $stdout, $stderr, $log );    # will be destroyed at the end, if created
 if ( $options{-log} and not $options{-worker} ) {
     require Unit::Eavesdrop;
@@ -97,9 +111,7 @@ else {
 }
 
 if ( $options{-clean} ) {
-    require File::Path;
-    require Foswiki;
-    my $rmDir = $Foswiki::cfg{DataDir};
+    my $rmDir = $cfg->data->{DataDir};
     opendir( my $dataDir, $rmDir ) or die "Can't open directory $rmDir: $!";
     my @x = grep { s/^(Temp.*)/$rmDir\/$1/ } readdir($dataDir);
     foreach my $x (@x) {
@@ -109,7 +121,7 @@ if ( $options{-clean} ) {
 
     closedir $dataDir;
 
-    $rmDir = $Foswiki::cfg{PubDir};
+    $rmDir = $cfg->data->{PubDir};
     opendir( my $pubDir, "$rmDir" ) or die "Can't open directory $rmDir: $!";
     @x = grep { s/^(Temp.*)/$rmDir\/$1/ } readdir($pubDir);
     foreach my $x (@x) {
@@ -126,12 +138,11 @@ if ( $options{-clean} ) {
 
 if ( not $options{-worker} ) {
     require Foswiki;
-    if ( defined $Foswiki::cfg{DataDir} && $Foswiki::cfg{DataDir} ne 'NOT SET' )
-    {
-        testForFiles( $Foswiki::cfg{DataDir}, '/Temp*' );
+    if ( defined $cfg->data->{DataDir} && $cfg->data->{DataDir} ne 'NOT SET' ) {
+        testForFiles( $cfg->data->{DataDir}, '/Temp*' );
     }
-    if ( defined $Foswiki::cfg{PubDir} && $Foswiki::cfg{PubDir} ne 'NOT SET' ) {
-        testForFiles( $Foswiki::cfg{PubDir}, '/Temp*' );
+    if ( defined $cfg->data->{PubDir} && $cfg->data->{PubDir} ne 'NOT SET' ) {
+        testForFiles( $cfg->data->{PubDir}, '/Temp*' );
     }
 }
 
@@ -146,14 +157,7 @@ try {
     }
 }
 catch {
-    my $e = shift;
-    if ( ref($e) && $e->can('stringify') ) {
-        say STDERR $e->stringify;
-    }
-    else {
-        say STDERR $e;
-    }
-
+    say STDERR Foswiki::Exception::errorStr($_);
 };
 
 print STDERR "Run was logged to $log\n" if $options{-log};

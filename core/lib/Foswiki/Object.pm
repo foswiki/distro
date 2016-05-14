@@ -21,7 +21,7 @@ features.
 =cut
 
 use Foswiki::Exception;
-use Carp;
+require Carp;
 
 use Moo;
 use namespace::clean;
@@ -67,8 +67,9 @@ This limitation will remain actual until constructor are no more called with pos
 
 =cut
 
-has __orig_file => ( is => 'rw', clearer => 1, );
-has __orig_line => ( is => 'rw', clearer => 1, );
+has __orig_file  => ( is => 'rw', clearer => 1, );
+has __orig_line  => ( is => 'rw', clearer => 1, );
+has __orig_stack => ( is => 'rw', clearer => 1, );
 
 sub BUILDARGS {
     my ( $class, @params ) = @_;
@@ -137,6 +138,7 @@ sub BUILD {
             $pkg =~ /^(Foswiki::Object|Moo::|Method::Generate::Constructor)/ );
         $this->__orig_file($file);
         $this->__orig_line($line);
+        $this->__orig_stack( Carp::longmess('') );
     }
 
 }
@@ -308,7 +310,7 @@ sub isaCLASS {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2013 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

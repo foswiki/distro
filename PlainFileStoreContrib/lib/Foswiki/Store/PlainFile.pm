@@ -1308,7 +1308,7 @@ sub recordChange {
 
     my $web = $args{path};
     if ( $web =~ m/\./ ) {
-        ($web) = Foswiki->normalizeWebTopicName( undef, $web );
+        ($web) = $this->app->request->normalizeWebTopicName( undef, $web );
     }
 
     # Can't log changes in a non_existent web

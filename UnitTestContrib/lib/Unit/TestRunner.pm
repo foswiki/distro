@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright
 package Unit::TestRunner;
+use v5.14;
 
 =begin TML
 
@@ -10,13 +11,11 @@ script that runs testcases.
 
 =cut
 
-use strict;
-use warnings;
-
 use Devel::Symdump();
 use File::Spec();
 use Try::Tiny;
 use Unit::TestCase;
+use Foswiki::Exception ();
 
 use Moo;
 use namespace::clean;
@@ -28,7 +27,6 @@ use Assert;
 sub CHECKLEAK { 0 }
 
 BEGIN {
-    use Foswiki::Exception;
     if (CHECKLEAK) {
         eval "use Devel::Leak::Object qw{ GLOBAL_bless };";
         die $@ if $@;

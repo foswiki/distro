@@ -175,6 +175,14 @@ has request => (
     isa =>
       Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request', noUndef => 1, ),
 );
+
+# _requestParams hash is used to initialize a new request object.
+has _requestParams => (
+    is       => 'ro',
+    init_arg => 'requestParams',
+    lazy     => 1,
+    default  => sub { {} },
+);
 has response => (
     is      => 'rw',
     lazy    => 1,
@@ -285,6 +293,17 @@ has system_messages => (
     isa     => Foswiki::Object::isaARRAY( 'system_messages', noUndef => 1, ),
 );
 
+has inUnitTestMode => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        my $this   = shift;
+        my $inTest = $Foswiki::inUnitTestMode
+          || ( $this->has_engine && ref( $this->engine ) =~ /::Test$/ );
+        return $inTest;
+    },
+);
+
 =begin TML
 
 ---++ ClassMethod new([%parameters])
@@ -295,14 +314,6 @@ The following keys could be defined in =%parameters= hash:
 |=env=|hashref|Environment hash such as shell environment or PSGI env| 
 
 =cut
-
-around BUILDARGS => sub {
-    my $orig   = shift;
-    my $class  = shift;
-    my %params = @_;
-
-    return $orig->( $class, %params );
-};
 
 sub BUILD {
     my $this   = shift;
@@ -368,12 +379,15 @@ sub BUILD {
         $this->cfg->bootstrapSystemSettings;
     }
 
+    $this->_prepareDispatcher;
+
+    # Check if we can get CGI session.
+    ASSERT( $this->remoteUser, "set remoteUser" );
+
     # Override user to be admin if no configuration exists.
     # Do this really early, so that later changes in isBOOTSTRAPPING can't
     # change Foswiki's behavior.
     $this->user('admin') if ( $cfg->data->{isBOOTSTRAPPING} );
-
-    $this->_prepareDispatcher;
 }
 
 =begin TML
@@ -563,6 +577,8 @@ sub create {
     my $this  = shift;
     my $class = shift;
 
+    $class = ref($class) if ref($class);
+
     Foswiki::load_class($class);
 
     unless ( $class->does('Foswiki::AppObject') ) {
@@ -571,6 +587,21 @@ sub create {
     }
 
     return $class->new( app => $this, @_ );
+}
+
+=begin TML
+
+---++ ObjectMethod cloneEnv => \%envHash
+
+Clones current application =env= hash.
+
+=cut
+
+sub cloneEnv {
+    my $this = shift;
+
+    # SMELL Some smarter method must be used here.
+    return \%{ $this->env };
 }
 
 =begin TML
@@ -1363,15 +1394,26 @@ sub _prepareRequest {
         Foswiki::Exception::Fatal->throw(
             text => 'Circular call to _prepareRequest' );
     }
-    else {
-        $preparing = 1;
-    }
+    $preparing = 1;
 
     # The following is preferable form of Request creation. The request
     # constructor will then initialize itself using $app->engine as the source
     # of information about the environment we're running under.
 
-    my $request = Foswiki::Request::prepare( app => $this );
+    # app must be the last key of init hash to avoid occasional override from
+    # user-supplied parameters.
+    my $request;
+    try {
+        $request =
+          Foswiki::Request::prepare( %{ $this->_requestParams }, app => $this,
+          );
+    }
+    catch {
+        Foswiki::Exception::Fatal->rethrow($_);
+    }
+    finally {
+        $preparing = 0;
+    };
     return $request;
 }
 
@@ -1494,7 +1536,9 @@ sub _checkActionAccess {
     my $req             = $this->request;
     my $dispatcherAttrs = $this->_dispatcherAttrs;
 
-    if ( UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' ) ) {
+    if (   UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' )
+        || UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::Test' ) )
+    {
         $dispatcherAttrs->{context}{command_line} = 1;
     }
     elsif (

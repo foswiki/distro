@@ -7,8 +7,8 @@
 This role determines classes which are able to simulate =local= Perl operator
 using OO approach. They do it by providing two methods: =localize()= and
 =restore()=. The first one cleans up object to some desired state. For example –
-by cleaning up all attributes or by settings some/all of them to user-provided
-values. Then it creates a instance of =Foswiki::Aux::Holder= class and passes it
+by cleaning up all attributes and by settings some of them to user-provided
+values. An instance of =Foswiki::Aux::Holder= class is been created then and stores
 a refernce to the object being localized. The holder is supposed to be stored in
 a =my= variable within same scope for where we would like the =local= operator
 to be active. When we leaving the scope the holder object destroyer method calls
@@ -47,17 +47,123 @@ use Foswiki::Aux::Holder ();
 
 use Moo::Role;
 
+use Try::Tiny;
+
+# _dataStack is a storage for configurations active upon localize() method
+# calls.
+has _dataStack => ( is => 'rw', lazy => 1, default => sub { [] }, );
+
 =begin TML
 
----++ ObjectMethod localize() => $holder
+---++ ObjectAttribute _localizableAttributes
 
-Returns a newly created =Foswiki::Aux::Holder= instance. The actual localization
-shall be done by the class with this role.
+Array of object attributes to be saved on =_dataStack=.
+
+=cut
+
+has _localizableAttributes =>
+  ( is => 'ro', lazy => 1, builder => 'setLocalizableAttributes', );
+
+=begin TML
+
+---++ ObjectAttribute _localizeState => $stateStr
+
+Have one of the following values:
+
+   * '' (empty string) – object is in normal state;
+   * localizing – object is being currently localized, i.e. the =localize()= method is working.
+   * restoring - object is being currently restored, i.e. the =restore()= method is working.
+
+=cut
+
+has _localizeState => ( is => 'rw', lazy => 1, clearer => 1, default => '', );
+
+# Removes attribute from the object.
+sub _clearAttrs {
+    my $this = shift;
+    my @attrs = @_ > 0 ? @_ : @{ $this->_localizableAttributes };
+
+    # Cache clear methods found by previous runs.
+    state %methodsCache;
+
+    my $class = ref($this);
+
+    my $classCache = ( $methodsCache{$class} //= {} );
+
+    foreach my $attr (@attrs) {
+
+        if ( !defined $classCache->{$attr} ) {
+            my $clear_method = $attr;
+
+            # Take care of the lead _ in the attribute name.
+            $clear_method =~ s/^(_?)//;
+            my $prefix = $1 // '';
+            $clear_method = "${prefix}clear_${clear_method}";
+            unless ( $classCache->{$attr} = $class->can($clear_method) ) {
+                $classCache->{$attr} = eval "sub { delete \$_[0]->{'$attr'} }";
+            }
+        }
+
+        $classCache->{$attr}->($this);
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod localize( %newAttributes ) => $holder
+
+This method pushes on =_dataStack= all attributes defined by
+=_localizableAttributes=. New attribute values are set using =%newAttributes=
+hash.
+
+Returns a newly created =Foswiki::Aux::Holder= instance.
+
+If a class with this role wants to implement its own localization method then it
+must not inherit this method but =doLocalize()=. 
+
+*NOTE* This method operates on low-level object hash accessing directly
+attribute keys on =$this=. This is due to risk of auto-vivification of some lazy
+attributes with defined =default= or =builder= properties. This way it avoids
+storing of non-set attributes too without demanding =predicate= attribute
+property to be set true.
+
+Contrary to this new attribute values are set using normal
+=$this-&gt;attr($newValue)= method.
 
 =cut
 
 sub localize {
-    return Foswiki::Aux::Holder->new( object => $_[0] );
+    my $this = shift;
+
+    $this->_localizeState('localizing');
+    try {
+        $this->doLocalize(@_);
+    }
+    catch {
+        Foswiki::Exception::Fatal->rethrow($_);
+    }
+    finally {
+        $this->_clear_localizeState;
+    };
+
+    return Foswiki::Aux::Holder->new( object => $this );
+}
+
+sub doLocalize {
+    my $this          = shift;
+    my %newAttributes = @_;
+
+    my $dataHash =
+      { map { exists $this->{$_} ? ( $_ => $this->{$_} ) : () }
+          @{ $this->_localizableAttributes } };
+
+    push @{ $this->_dataStack }, $dataHash;
+
+    $this->_clearAttrs;
+
+    foreach my $attr ( keys %newAttributes ) {
+        $this->$attr( $newAttributes{$attr} // undef );
+    }
 }
 
 =begin TML
@@ -69,7 +175,33 @@ This method shall restore a object to its state before the last call to the
 
 =cut
 
-requires 'restore';
+sub restore {
+    my $this = shift;
+
+    $this->_localizeState('restoring');
+    try {
+        $this->doRestore(@_);
+    }
+    catch {
+        Foswiki::Exception::Fatal->rethrow($_);
+    }
+    finally {
+        $this->_clear_localizeState;
+    };
+}
+
+sub doRestore {
+    my $this = shift;
+
+    $this->_clearAttrs;
+
+    my $prevState = pop @{ $this->_dataStack };
+    foreach my $attr ( @{ $this->_localizableAttributes } ) {
+        $this->$attr( $prevState->{$attr} ) if exists $prevState->{$attr};
+    }
+}
+
+requires '_localizableAttributes';
 
 1;
 __END__

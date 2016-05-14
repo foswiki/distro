@@ -26,7 +26,7 @@ extends qw(Foswiki::Engine);
 
 use constant HTTP_COMPLIANT => 0;
 
-has path_info => ( is => 'rw', predicate => 1, );
+has path_info => ( is => 'rw', clearer => 1, predicate => 1, );
 has plist => ( is => 'rw', lazy => 1, clearer => 1, default => sub { [] }, );
 has params => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
 
@@ -75,7 +75,7 @@ around _prepareConnection => sub {
     my $this = shift;
     return {
         remoteAddress => '127.0.0.1',
-        method        => $this->env->{FOSWIKI_ACTION} // 'GET',
+        method        => $this->env->{FOSWIKI_METHOD} // 'GET',
     };
 };
 
@@ -145,8 +145,6 @@ around prepareUploads => sub {
     $req->clear_uploads;
     $req->uploads( \%uploads );
 };
-
-around finalizeHeaders => sub { };
 
 around write => sub {
     my $orig = shift;

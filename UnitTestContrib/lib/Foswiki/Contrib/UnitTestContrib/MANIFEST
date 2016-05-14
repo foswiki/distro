@@ -9,6 +9,7 @@ lib/Foswiki/Contrib/UnitTestContrib/LastResortWontLoad.pm 0644
 lib/Foswiki/Contrib/UnitTestContrib/MissingDependency.pm 0644
 lib/Foswiki/Contrib/UnitTestContrib/MultiDottedVersion.pm 0644
 lib/Foswiki/UI/Test.pm 0644
+lib/Foswiki/Engine/Test.pm 0644
 lib/Unit/CGIEngine.pm 0644
 lib/Unit/Eavesdrop.pm 0644
 lib/Unit/ExternalEngine.pm 0644

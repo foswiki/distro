@@ -923,7 +923,8 @@ sub populateNewWeb {
     my ( $this, $templateWeb, $opts ) = @_;
     _assertIsWeb($this) if DEBUG;
 
-    my $app = $this->app;
+    my $app   = $this->app;
+    my $store = $app->store;
 
     my ( $parent, $new ) = $this->web =~ m/^(.*)\/([^\.\/]+)$/;
 
@@ -934,7 +935,7 @@ sub populateNewWeb {
                   . ' - Hierarchical webs are disabled' );
         }
 
-        unless ( $app->webExists($parent) ) {
+        unless ( $store->webExists($parent) ) {
             Foswiki::Exception->throw(
                 text => 'Parent web ' . $parent . ' does not exist' );
         }
@@ -942,7 +943,7 @@ sub populateNewWeb {
 
     # Validate that template web exists, or error should be thrown
     if ($templateWeb) {
-        unless ( $app->webExists($templateWeb) ) {
+        unless ( $store->webExists($templateWeb) ) {
             Foswiki::Exception->throw(
                 text => 'Template web ' . $templateWeb . ' does not exist' );
         }
@@ -950,7 +951,8 @@ sub populateNewWeb {
 
     # Make sure there is a preferences topic; this is how we know it's a web
     my $prefsTopicObject;
-    if ( !$app->topicExists( $this->web, $Foswiki::cfg{WebPrefsTopicName} ) ) {
+    if ( !$store->topicExists( $this->web, $Foswiki::cfg{WebPrefsTopicName} ) )
+    {
         my $prefsText = 'Preferences';
         $prefsTopicObject = $this->create(
             $this,

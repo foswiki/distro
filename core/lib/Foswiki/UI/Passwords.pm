@@ -9,15 +9,18 @@ Shares a message template with Register.pm (registermessages.tmpl)
 =cut
 
 package Foswiki::UI::Passwords;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 use Try::Tiny;
 
 use Foswiki                ();
 use Foswiki::OopsException ();
 use Foswiki::Sandbox       ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -28,7 +31,7 @@ BEGIN {
 
 =begin TML
 
----++ StaticMethod resetPassword($session)
+---++ ObjectMethod resetPassword
 
 Generates a password. Mails it to them and asks them to change it. Entry
 point intended to be called from UI::run
@@ -36,14 +39,16 @@ point intended to be called from UI::run
 =cut
 
 sub resetPassword {
-    my $session = shift;
-    my $query   = $session->{request};
-    my $topic   = $session->{topicName};
-    my $web     = $session->{webName};
-    my $user    = $session->{user};
+    my $this = shift;
+
+    my $app   = $this->app;
+    my $req   = $app->request;
+    my $topic = $req->topic;
+    my $web   = $req->web;
+    my $user  = $app->user;
 
     unless ( $Foswiki::cfg{EnableEmail} ) {
-        my $err = $session->i18n->maketext(
+        my $err = $app->i18n->maketext(
             'Email has been disabled for this Foswiki installation');
         Foswiki::OopsException->throw(
             template => 'register',
@@ -53,14 +58,14 @@ sub resetPassword {
         );
     }
 
-    my @userNames = $query->multi_param('LoginName');
+    my @userNames = $req->multi_param('LoginName');
     unless (@userNames) {
         Foswiki::OopsException->throw(
             template => 'register',
             def      => 'no_users_to_reset'
         );
     }
-    my $introduction = $query->param('Introduction') || '';
+    my $introduction = $req->param('Introduction') || '';
 
     # need admin priv if resetting bulk, or resetting another user
     my $isBulk = ( scalar(@userNames) > 1 );
@@ -69,7 +74,7 @@ sub resetPassword {
 
         # Only admin is able to reset more than one password or
         # another user's password.
-        unless ( $session->{users}->isAdmin($user) ) {
+        unless ( $app->users->isAdmin($user) ) {
             throw Foswiki::OopsException(
                 template => 'accessdenied',
                 status   => 403,
@@ -88,15 +93,14 @@ sub resetPassword {
     }
 
     # Parameters have been checked, check the validation key
-    Foswiki::UI::checkValidationKey($session);
+    $this->checkValidationKey;
 
     # Collect all messages into one string
     my $message = '';
     my $good    = 1;
     foreach my $userName (@userNames) {
         $good = $good
-          && _resetUsersPassword( $session, $userName, $introduction,
-            \$message );
+          && $this->_resetUsersPassword( $userName, $introduction, \$message );
     }
 
     my $action = '';
@@ -131,12 +135,14 @@ sub resetPassword {
 
 # return status
 sub _resetUsersPassword {
-    my ( $session, $login, $introduction, $pMess ) = @_;
+    my $this = shift;
+    my ( $login, $introduction, $pMess ) = @_;
 
-    my $users = $session->{users};
+    my $app   = $this->app;
+    my $users = $app->users;
 
     unless ($login) {
-        $$pMess .= $session->inlineAlert( 'alertsnohtml', 'bad_user', '' );
+        $$pMess .= $app->inlineAlert( 'alertsnohtml', 'bad_user', '' );
         return 0;
     }
 
@@ -145,8 +151,7 @@ sub _resetUsersPassword {
     unless ( $user && $users->userExists($user) ) {
 
         # Not an error.
-        $$pMess .=
-          $session->inlineAlert( 'alertsnohtml', 'missing_user', $login );
+        $$pMess .= $app->inlineAlert( 'alertsnohtml', 'missing_user', $login );
         return 0;
     }
 
@@ -154,12 +159,12 @@ sub _resetUsersPassword {
     my $password = Foswiki::Users::randomPassword();
 
     unless ( $users->setPassword( $user, $password, 1 ) ) {
-        $$pMess .= $session->inlineAlert( 'alertsnohtml', 'reset_bad', $user );
+        $$pMess .= $app->inlineAlert( 'alertsnohtml', 'reset_bad', $user );
         return 0;
     }
 
     # Now that we have successfully reset the password we log the event
-    $session->logger->log(
+    $app->logger->log(
         {
             level  => 'info',
             action => 'resetpasswd',
@@ -168,21 +173,19 @@ sub _resetUsersPassword {
     );
 
     # absolute URL context for email generation
-    $session->enterContext('absolute_urls');
+    $app->enterContext('absolute_urls');
 
     my @em   = $users->getEmails($user);
     my $sent = 0;
     if ( !scalar(@em) ) {
-        $$pMess .=
-          $session->inlineAlert( 'alertsnohtml', 'no_email_for', $user );
+        $$pMess .= $app->inlineAlert( 'alertsnohtml', 'no_email_for', $user );
     }
     else {
         my $ln = $users->getLoginName($user);
         my $wn = $users->getWikiName($user);
         foreach my $email (@em) {
             require Foswiki::UI::Register;
-            my $err = _sendEmail(
-                $session,
+            my $err = $this->_sendEmail(
                 webName       => $Foswiki::cfg{UsersWebName},
                 LoginName     => $ln,
                 FirstLastName => Foswiki::spaceOutWikiWord($wn),
@@ -193,8 +196,7 @@ sub _resetUsersPassword {
             );
 
             if ($err) {
-                $$pMess .=
-                  $session->inlineAlert( 'alertsnohtml', 'generic', $err );
+                $$pMess .= $app->inlineAlert( 'alertsnohtml', 'generic', $err );
             }
             else {
                 $sent = 1;
@@ -202,10 +204,10 @@ sub _resetUsersPassword {
         }
     }
 
-    $session->leaveContext('absolute_urls');
+    $app->leaveContext('absolute_urls');
 
     if ($sent) {
-        $$pMess .= $session->inlineAlert(
+        $$pMess .= $app->inlineAlert(
             'alertsnohtml', 'new_sys_pass',
             $users->getLoginName($user),
             $users->getWikiName($user)
@@ -217,27 +219,30 @@ sub _resetUsersPassword {
 
 # sends $p->{template} with substitutions from $data
 sub _sendEmail {
-    my ( $session, %data ) = @_;
+    my $this = shift;
+    my (%data) = @_;
 
-    my $text = $session->templates->readTemplate('mailresetpassword');
+    my $app = $this->app;
+
+    my $text = $app->templates->readTemplate('mailresetpassword');
     foreach my $field ( keys %data ) {
         my $f = uc($field);
         $text =~ s/\%$f\%/$data{$field}/g;
     }
 
-    my $topicObject = Foswiki::Meta->new(
-        session => $session,
-        web     => $Foswiki::cfg{UsersWebName},
-        topic   => $data{WikiName}
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $Foswiki::cfg{UsersWebName},
+        topic => $data{WikiName}
     );
     $text = $topicObject->expandMacros($text);
 
-    return $session->net->sendEmail($text);
+    return $app->net->sendEmail($text);
 }
 
 =begin TML
 
----++ StaticMethod changePasswordAndOrEmail( $session )
+---++ ObjectMethod changePasswordAndOrEmail
 
 Change the user's password and/or email. Details of the user and password
 are passed in CGI parameters.
@@ -245,19 +250,20 @@ are passed in CGI parameters.
 =cut
 
 sub changePasswordAndOrEmail {
-    my $session = shift;
+    my $this = shift;
 
-    my $topic       = $session->{topicName};
-    my $webName     = $session->{webName};
-    my $query       = $session->{request};
-    my $requestUser = $session->{user};
+    my $app         = $this->app;
+    my $topic       = $req->topic;
+    my $webName     = $req->web;
+    my $req         = $app->request;
+    my $requestUser = $app->user;
 
-    my $oldpassword = $query->param('oldpassword');
-    my $login       = $query->param('username');
-    my $passwordA   = $query->param('password');
-    my $passwordB   = $query->param('passwordA');
-    my $email       = $query->param('email');
-    my $topicName   = $query->param('TopicName');
+    my $oldpassword = $req->param('oldpassword');
+    my $login       = $req->param('username');
+    my $passwordA   = $req->param('password');
+    my $passwordB   = $req->param('passwordA');
+    my $email       = $req->param('email');
+    my $topicName   = $req->param('TopicName');
 
     # check if required fields are filled in
     unless ($login) {
@@ -270,7 +276,7 @@ sub changePasswordAndOrEmail {
         );
     }
 
-    my $users = $session->{users};
+    my $users = $app->users;
 
     unless ($login) {
         throw Foswiki::OopsException(
@@ -367,13 +373,13 @@ sub changePasswordAndOrEmail {
     }
 
     # Parameters have been checked, check the validation key
-    Foswiki::UI::checkValidationKey($session);
+    $this->checkValidationKey;
 
     if ( defined $email ) {
 
         my $oldEmails = join( ', ', $users->getEmails($cUID) );
         my $return = $users->setEmails( $cUID, split( /\s+/, $email ) );
-        $session->logger->log(
+        $app->logger->log(
             {
                 level    => 'info',
                 action   => 'changepasswd',
@@ -395,7 +401,7 @@ sub changePasswordAndOrEmail {
             );
         }
         else {
-            $session->logger->log(
+            $app->logger->log(
                 {
                     level  => 'info',
                     action => 'changepasswd',
