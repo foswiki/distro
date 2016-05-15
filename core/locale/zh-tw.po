@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-01-15 13:27+0200\n"
+"PO-Revision-Date: 2016-05-15 09:46+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
-"foswiki/distribution-master/zh_TW/>\n"
+"Language-Team: Traditional Chinese "
+"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.1\n"
+"X-Generator: Weblate 2.4\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
@@ -947,7 +947,7 @@ msgstr "%2 不能變更 %1"
 
 #: core/templates/messages.tmpl:394
 msgid "Cache =refresh=all= denied for non-admin users."
-msgstr ""
+msgstr "快取 =全部=刷新= 拒絕非管理員用戶。"
 
 #: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:287
 msgid "Can't find user %1"
@@ -1013,11 +1013,10 @@ msgid "Categories"
 msgstr "類別"
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
-#, fuzzy
 msgid ""
 "Caution: The password system is currently read only. Users will not be added "
 "to the Password file."
-msgstr "抱歉，目前密碼系統唯讀，請聯繫 %1"
+msgstr "注意：目前密碼系統為唯讀。使用者將無法增加到密碼檔中。"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
@@ -2192,7 +2191,7 @@ msgid ""
 "If your wiki uses an external password manager, and the users you want to "
 "register are known to the password manager, then bulk registration may still "
 "be useful.  Please contact %1 if you are unsure."
-msgstr ""
+msgstr "若您的維基系統使用外部密碼管理程式，且密碼管理程式知道您將註冊的用戶們，此時批次註冊仍可能有用。如果您不確定，請聯繫 %1 。"
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
@@ -4576,11 +4575,10 @@ msgid "To login as another user please do so [[%1][here]]."
 msgstr "以另一個使用者登入，請點 [[%1][這裡]]。"
 
 #: core/templates/messages.tmpl:398
-#, fuzzy
 msgid ""
 "To refresh the cache for just this topic, <a href='%1' rel='nofollow' > "
 "click here </a> "
-msgstr "取得新版 <a href='%1' rel='nofollow'>這裡</a>。"
+msgstr "更新本主題的快取，<a href='%1' rel='nofollow'>點這裡</a> "
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -5306,7 +5304,7 @@ msgstr "您需關閉瀏覽器，使變更生效。"
 msgid ""
 "You must be the =%1= super user, or a member of the %2, to clear the global "
 "cache for all topics."
-msgstr ""
+msgstr "您必須是 =%1= 超級用戶，或是 %2 的成員，才能清除所有主題的全部快取。"
 
 #: core/templates/messages.tmpl:89
 msgid "You must pass a topic name."
