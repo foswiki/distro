@@ -108,11 +108,9 @@ sub test_attach_filename_xss {
         "Expected to see harmless trace of filename (sCrIpT)" );
 
     # ...but must not allow pop-up alert
-    $this->assert_does_not_match(
-        qr/<sCrIpT>alert\(66562\)<\/sCrIpT>/,
+    $this->assert_does_not_match( qr/<sCrIpT>alert\(66562\)<\/sCrIpT>/,
         $respText,
-        "Detected Javascript injection: <sCrIpT>alert\(66562\)<\/sCrIpT>"
-    );
+        "Detected Javascript injection: <sCrIpT>alert\(66562\)<\/sCrIpT>" );
 
 }
 
