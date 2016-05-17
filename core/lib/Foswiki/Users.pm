@@ -438,8 +438,6 @@ Get the currect CGI session object
 
 sub getCGISession {
     my $this = shift;
-    say STDERR "APP:", $this->app, ", LOGINMANAGER:", $this->loginManager,
-      ", CGISESS:", $this->loginManager->_cgisession // '*undef*';
     return $this->loginManager->getCGISession();
 }
 

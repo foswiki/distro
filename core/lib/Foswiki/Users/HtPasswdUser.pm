@@ -308,8 +308,8 @@ sub _readPasswd {
     my $tID;
     my $pwcount = 0;
     while ( defined( $line = <$IN_FILE> ) ) {
-        next if ( substr( $line, 0, 1 ) eq '#' );
         chomp $line;
+        next unless length($line) && ( substr( $line, 0, 1 ) ne '#' );
         $pwcount++;
         my @fields = split( /:/, $line, 5 );
 

@@ -61,8 +61,11 @@ Array of object attributes to be saved on =_dataStack=.
 
 =cut
 
-has _localizableAttributes =>
-  ( is => 'ro', lazy => 1, builder => 'setLocalizableAttributes', );
+has _localizableAttributes => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub { return [ $_[0]->setLocalizableAttributes ]; },
+);
 
 =begin TML
 
@@ -77,6 +80,8 @@ Have one of the following values:
 =cut
 
 has _localizeState => ( is => 'rw', lazy => 1, clearer => 1, default => '', );
+
+has _localizeFlags => ( is => 'rw', lazy => 1, builder => 'setLocalizeFlags', );
 
 # Removes attribute from the object.
 sub _clearAttrs {
@@ -159,7 +164,7 @@ sub doLocalize {
 
     push @{ $this->_dataStack }, $dataHash;
 
-    $this->_clearAttrs;
+    $this->_clearAttrs if $this->_localizeFlags->{clearAttributes};
 
     foreach my $attr ( keys %newAttributes ) {
         $this->$attr( $newAttributes{$attr} // undef );
@@ -168,7 +173,7 @@ sub doLocalize {
 
 =begin TML
 
----++ Required ObjectMethod restore()
+---++ ObjectMethod ObjectMethod restore()
 
 This method shall restore a object to its state before the last call to the
 =localize()= method.
@@ -193,7 +198,7 @@ sub restore {
 sub doRestore {
     my $this = shift;
 
-    $this->_clearAttrs;
+    $this->_clearAttrs if $this->_localizeFlags->{clearAttributes};
 
     my $prevState = pop @{ $this->_dataStack };
     foreach my $attr ( @{ $this->_localizableAttributes } ) {
@@ -201,7 +206,20 @@ sub doRestore {
     }
 }
 
-requires '_localizableAttributes';
+sub setLocalizeFlags {
+    return { clearAttributes => 1, };
+}
+
+=begin TML
+
+---++ Required setLocalizableAttributes => @attrList
+
+Must return a list of attributes to be stored/restored upon localization
+procedure.
+
+=cut
+
+requires 'setLocalizableAttributes';
 
 1;
 __END__

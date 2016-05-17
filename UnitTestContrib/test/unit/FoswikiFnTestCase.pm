@@ -207,7 +207,8 @@ Can be used by subclasses to register test users.
 
 sub registerUser {
     my ( $this, $loginname, $forename, $surname, $email ) = @_;
-    my $q = $this->app->request;
+
+    $this->pushApp;
 
     my $reqParams = {
         'TopicName'     => ['UserRegistration'],
@@ -274,8 +275,9 @@ sub registerUser {
     };
 
     # Reload caches
-    $this->createNewFoswikiApp( undef, $q );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    #$this->createNewFoswikiApp( requestParams => $q );
+    #$this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->popApp;
 }
 
 1;

@@ -43,6 +43,7 @@ with CGI accelerators such as mod_perl.
 =cut
 
 use Cwd qw( abs_path );
+use Module::Load;
 use File::Spec               ();
 use Monitor                  ();
 use CGI                      ();  # Always required to get html generation tags;
@@ -968,6 +969,8 @@ sub _package_defined {
     return $pkgLoaded;
 }
 
+# SMELL Wouldn't it be more reliable to use Module::Load? Or Class::Load? Though
+# the latter requires additional CPAN module installed.
 sub load_package {
     my $fullname = shift;
     my %params   = @_;

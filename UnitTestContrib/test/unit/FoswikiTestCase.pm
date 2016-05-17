@@ -1,4 +1,4 @@
-# See botto . "/working"m of file for license and copyright
+# See bottom of file for license and copyright
 
 package FoswikiTestCase;
 
@@ -19,6 +19,7 @@ you can always create a new web based on that web.
 use Assert;
 
 use Data::Dumper;
+use Scalar::Util qw(blessed);
 
 use Foswiki();
 use Foswiki::Meta();
@@ -42,21 +43,23 @@ our $didOnlyOnceChecks = 0;
 use Moo;
 use namespace::clean;
 extends qw(Unit::TestCase);
+with qw(Foswiki::Aux::Localize);
 
 has app => (
     is        => 'rw',
     lazy      => 1,
     predicate => 1,
     clearer   => 1,
-    isa => Foswiki::Object::isaCLASS( 'app', 'Foswiki::App', noUndef => 1, ),
+    isa => Foswiki::Object::isaCLASS( 'app', 'Unit::TestApp', noUndef => 1, ),
     default => sub {
         if ( defined $Foswiki::app ) {
             return $Foswiki::app;
         }
-        return Foswiki::App->new( env => \%ENV );
+        return Unit::TestApp->new( env => \%ENV );
     },
 );
-has twiki => ( is => 'rw', lazy => 1, default => sub { $_[0]->app }, );
+has twiki =>
+  ( is => 'rw', clearer => 1, lazy => 1, default => sub { $_[0]->app }, );
 has test_topicObject => (
     is        => 'rw',
     clearer   => 1,
@@ -78,6 +81,8 @@ has test_topicObject => (
 has request => ( is => 'rw', weak_ref => 1, );
 has test_web   => ( is => 'rw', );
 has test_topic => ( is => 'rw', );
+
+has _holderStack => ( is => 'rw', lazy => 1, default => sub { [] }, );
 
 has __EnvSafe => (
     is      => 'rw',
@@ -597,7 +602,7 @@ Get an unloaded topic object.
 
 Equivalent to Foswiki::Meta->new, we take the app from $this->app.
 
-That assumes all the tests are playing nice, and aren't doing Foswiki::App->new()
+That assumes all the tests are playing nice, and aren't doing Unit::TestApp->new()
 themselves (using createNewFoswikiApp instead).
 
 =cut
@@ -758,13 +763,16 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
     # Force completion of %Foswiki::cfg
     # This must be done before moving the logging.
     $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
-    my $tmp = Foswiki::App->new(
+    $this->pushApp;
+    my $tmp = Unit::TestApp->new(
         user => undef,
         env  => $this->app->cloneEnv,
+        cfg  => $this->app->cfg->clone,
     );
     ASSERT( defined $Foswiki::app ) if SINGLE_SINGLETONS;
     undef $tmp;    # finish() will be called automatically.
     ASSERT( !defined $Foswiki::app ) if SINGLE_SINGLETONS;
+    $this->popApp;
 
     # Note this does not do much, except for some tests that use it directly.
     # The first call to File::Temp caches the temp directory name, so
@@ -804,7 +812,7 @@ around tear_down => sub {
     my $this = shift;
 
     if ( $this->has_app ) {
-        ASSERT( $this->app->isa('Foswiki::App') ) if SINGLE_SINGLETONS;
+        ASSERT( $this->app->isa('Unit::TestApp') ) if SINGLE_SINGLETONS;
         $this->finishFoswikiSession;
     }
     $this->_clear_tempDir;
@@ -983,16 +991,16 @@ sub captureWithKey {
     # otherwise take $Foswiki::app
     # and we fallback to the one from the test object
     my $fatwilly;
-    if ( UNIVERSAL::isa( $_[1], 'Foswiki::App' ) ) {
+    if ( UNIVERSAL::isa( $_[1], 'Unit::TestApp' ) ) {
         $fatwilly = $_[1];
     }
-    elsif ( UNIVERSAL::isa( $Foswiki::app, 'Foswiki::App' ) ) {
+    elsif ( UNIVERSAL::isa( $Foswiki::app, 'Unit::TestApp' ) ) {
         $fatwilly = $Foswiki::app;
     }
     else {
         $fatwilly = $this->twiki;
     }
-    $this->assert( $fatwilly->isa('Foswiki::App'),
+    $this->assert( $fatwilly->isa('Unit::TestApp'),
         "Could not find the Foswiki object" );
 
     # Now we have to manually craft the validation checkings
@@ -1057,7 +1065,7 @@ sub getUIFn {
 
 =begin TML
 
----++ ObjectMethod createNewFoswikiApp(user => $user, request => $query, @params) -> ref to new Foswiki::App obj
+---++ ObjectMethod createNewFoswikiApp(user => $user, request => $query, @params) -> ref to new Unit::TestApp obj
 
 cleans up the existing Foswiki object, and creates a new one
 
@@ -1077,10 +1085,9 @@ sub createNewFoswikiApp {
     $Foswiki::cfg{Store}{Implementation} ||= 'Foswiki::Store::PlainFile';
 
     $params{env} //= $this->app->cloneEnv;
-    my $app = Foswiki::App->new(%params);
+    my $app = Unit::TestApp->new( cfg => $this->app->cfg->clone, %params );
     $this->app($app);
     $this->request( $this->app->request );
-    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 12;
     ASSERT( defined $Foswiki::app ) if SINGLE_SINGLETONS;
 
     if ( $this->test_web && $this->test_topic ) {
@@ -1088,6 +1095,8 @@ sub createNewFoswikiApp {
             ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )
             [0] );
     }
+
+    $this->_fixupAppObjects;
 
     return $this->app;
 }
@@ -1153,6 +1162,64 @@ sub toSiteCharSet {
         Encode::FB_CROAK    # should never happen
     );
 }
+
+sub setLocalizableAttributes {
+    return qw(app twiki test_topicObject);
+}
+
+around setLocalizeFlags => sub {
+    my $orig  = shift;
+    my $flags = $orig->(@_);
+
+    # Don't clean app on localizing as we might need it until the new one is
+    # created.
+    $flags->{clearAttributes} = 0;
+
+    return $flags;
+};
+
+# Correct all Foswiki::AppObject to use currently active Foswiki::App object.
+# SMELL Hacky but shall be transparent for any derived test case class.
+sub _fixupAppObjects {
+    my $this = shift;
+
+    my $app = $this->app;
+
+    foreach my $attr ( keys %$this ) {
+        if (
+               blessed( $this->{$attr} )
+            && $this->$attr->isa('Foswiki::Object')
+            && $this->$attr->does('Foswiki::AppObject')
+            && ( !defined( $this->$attr->app )
+                || ( $this->$attr->app != $app ) )
+          )
+        {
+            $this->$attr->_set_app($app);
+        }
+    }
+}
+
+sub pushApp {
+    my $this = shift;
+
+    my $holderObj = $this->localize(@_);
+
+    push @{ $this->_holderStack }, $holderObj;
+}
+
+sub popApp {
+    my $this = shift;
+
+    ASSERT( @{ $this->_holderStack } > 0, "Empty stack of holder objects" )
+      if DEBUG;
+
+    pop @{ $this->_holderStack };
+
+    $Foswiki::app = $this->app;
+    $this->app->cfg->_setupGLOBs;
+    $this->_fixupAppObjects;
+}
+
 1;
 __DATA__
 

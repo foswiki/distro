@@ -75,7 +75,7 @@ has data => (
     },
     trigger => sub {
         my $this = shift;
-        $this->_setupGLOBs( $this->{data} );
+        $this->_setupGLOBs;
     },
 );
 
@@ -235,7 +235,7 @@ See also: =Foswiki::Aux::Localize=
 
 =cut
 
-sub setLocalizableAttributes { return [qw(data files urlHost)]; }
+sub setLocalizableAttributes { return qw(data files urlHost); }
 
 around localize => sub {
     my $orig = shift;
@@ -268,19 +268,6 @@ provide defaults, and it would be silly to have them in two places anyway.
 sub readConfig {
     my $this = shift;
     my ( $noExpand, $noSpec, $configSpec, $noLocal ) = @_;
-
-    my $testKey = '__TEST_VALUE__';
-    $this->data->{$testKey} = 'Test is OK';
-    ASSERT(
-        $Foswiki::cfg{$testKey} eq $this->data->{$testKey},
-"%Foswiki::cfg is not mapped to the active Foswiki::Config object data attribute"
-    );
-    $testKey = '__TEST_ANOTHER__';
-    $Foswiki::cfg{$testKey} = "Now it different";
-    ASSERT(
-        $Foswiki::cfg{$testKey} eq $this->data->{$testKey},
-        "Foswiki::Config data attribute is not mapped to the %Foswiki::cfg hash"
-    );
 
     # To prevent us from overriding the custom code in test mode
     return 1 if $this->data->{ConfigurationFinished};
@@ -1446,11 +1433,32 @@ sub _setupGLOBs {
     my $this = shift;
     my ($data) = @_;
 
+    $data //= $this->{data};
+
     # Alias ::cfg for compatibility. Though $app->cfg should be preferred
     # way of accessing config.
     *Foswiki::cfg = $data;
     *TWiki::cfg   = $data;
 }
+
+# Check if $Foswiki::cfg is an alias to this object's data attribute. Useful for
+# debugging only.
+sub _validateBindings {
+    my $this    = shift;
+    my $testKey = '__TEST_VALUE__';
+    $this->data->{$testKey} = 'Test is OK';
+    ASSERT(
+        $Foswiki::cfg{$testKey} eq $this->data->{$testKey},
+"%Foswiki::cfg is not mapped to the active Foswiki::Config object data attribute"
+    );
+    $testKey = '__TEST_ANOTHER__';
+    $Foswiki::cfg{$testKey} = "Now it different";
+    ASSERT(
+        $Foswiki::cfg{$testKey} eq $this->data->{$testKey},
+        "Foswiki::Config data attribute is not mapped to the %Foswiki::cfg hash"
+    );
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

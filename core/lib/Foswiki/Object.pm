@@ -20,8 +20,9 @@ features.
 
 =cut
 
-use Foswiki::Exception;
 require Carp;
+use Scalar::Util qw(blessed refaddr weaken isweak);
+use Foswiki::Exception;
 
 use Moo;
 use namespace::clean;
@@ -143,13 +144,6 @@ sub BUILD {
 
 }
 
-#sub finish {
-#
-#    # Plug for objects with no finish() method. Temporary, until the destruction
-#    # stage is reviewed.
-#    #Foswki::Exception->throw( text => "Methods finish() called." );
-#}
-
 sub DEMOLISH {
     my $this = shift;
 
@@ -177,6 +171,112 @@ sub DEMOLISH {
             }
         }
     }
+}
+
+has __clone_heap =>
+  ( is => 'rw', clearer => 1, lazy => 1, default => sub { {} }, );
+
+sub _cloneData {
+    my $this = shift;
+    my ( $val, $attr ) = @_;
+
+    my $heap = $this->__clone_heap;
+
+    my $cloned;
+    if ( my $dataType = ref($val) ) {
+        my $refAddr = refaddr($val);
+
+        # Check if ref has been cloned before and avoid deep recursion.
+        if ( defined $heap->{cloning_ref}{$refAddr} ) {
+            Foswiki::Exception::Fatal->throw( text =>
+                  "Circular dependecy detected on a object being cloned" );
+        }
+        elsif ( defined $heap->{cloned_ref}{$refAddr} ) {
+
+            # This reference was already cloned once, try to replicate the
+            # original data structure by preserving references too.
+            $cloned = $heap->{cloned_ref}{$refAddr};
+        }
+        else {
+            # Record the reference being cloned.
+            $heap->{cloning_ref}{$refAddr} = $attr;
+            if ( my $class = blessed($val) ) {
+                if ( $val->can('clone') ) {
+                    $cloned = $val->clone;
+                }
+                else {
+                    # Class without clone method. Try to copy it 'manually' by
+                    # cloning as a hash and blessing the resulting hashref into
+                    # $val's class.
+                    $cloned = $this->_cloneData( \%$val, $attr );
+                    bless $cloned, ref($val)
+                      if $cloned != $val;
+                }
+            }
+            else {
+                if ( $dataType eq 'ARRAY' ) {
+                    $cloned = [];
+                    my $idx = 0;
+                    foreach my $item (@$val) {
+                        push @$cloned,
+                          $this->_cloneData( $item, "${attr}.array[$idx]" );
+                        $idx++;
+                    }
+                }
+                elsif ( $dataType eq 'HASH' ) {
+                    $cloned = {};
+                    foreach my $key ( keys %$val ) {
+                        $cloned->{$key} =
+                          $this->_cloneData( $val->{$key},
+                            "${attr}.hash{$key}" );
+                    }
+                }
+                elsif ( $dataType eq 'SCALAR' ) {
+                    $cloned = \$$val;
+                }
+                else {
+                    # One-to-one copy for non-clonable refs.
+                    $cloned = $val;
+                }
+            }
+
+            # Record the cloned reference.
+            $heap->{cloned_ref}{$refAddr} = $cloned;
+            delete $heap->{cloning_ref}{$refAddr};
+        }
+
+        weaken($cloned) if isweak($val);
+    }
+    else {
+        $cloned = $val;
+    }
+
+    return $cloned;
+}
+
+# XXX Experimental.
+# clone works on low-level bypassing Moo's accessor methods.
+sub clone {
+    my $this = shift;
+
+    $this->_clear__clone_heap;
+    my @profile;
+    foreach my $attr ( keys %$this ) {
+        my $clone_method = "_clone_" . $attr;
+        my $attrVal;
+        if ( my $method = $this->can($clone_method) ) {
+            $attrVal = $method->($this);
+        }
+        else {
+            $attrVal = $this->_cloneData( $this->{$attr}, $attr );
+        }
+
+        push @profile, $attr, $attrVal;
+    }
+
+    my $newObj = ref($this)->new(@profile);
+
+    return $newObj;
 }
 
 sub _normalizeAttributeName {

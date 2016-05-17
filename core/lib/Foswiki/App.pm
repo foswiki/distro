@@ -178,7 +178,7 @@ has request => (
 
 # _requestParams hash is used to initialize a new request object.
 has _requestParams => (
-    is       => 'ro',
+    is       => 'rwp',
     init_arg => 'requestParams',
     lazy     => 1,
     default  => sub { {} },
@@ -587,21 +587,6 @@ sub create {
     }
 
     return $class->new( app => $this, @_ );
-}
-
-=begin TML
-
----++ ObjectMethod cloneEnv => \%envHash
-
-Clones current application =env= hash.
-
-=cut
-
-sub cloneEnv {
-    my $this = shift;
-
-    # SMELL Some smarter method must be used here.
-    return \%{ $this->env };
 }
 
 =begin TML

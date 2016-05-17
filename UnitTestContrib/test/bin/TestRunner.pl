@@ -8,7 +8,7 @@ use Try::Tiny;
 use FindBin;
 use Cwd        ();
 use File::Path ();
-require Foswiki::App;
+require Unit::TestApp;
 my $starting_root;
 
 sub _findRelativeTo {
@@ -73,7 +73,7 @@ try {
     $env->{FOSWIKI_ACTION} =
       'view';    # SMELL Shan't we add a 'test' action to the SwitchBoard?
     $env->{FOSWIKI_ENGINE} = 'Foswiki::Engine::Test';
-    $app = Foswiki::App->new( env => $env );
+    $app = Unit::TestApp->new( env => $env );
     $cfg = $app->cfg;
 }
 catch {

@@ -18,7 +18,7 @@ use Foswiki::Exception;
 use Moo::Role;
 
 has app => (
-    is        => 'ro',
+    is        => 'rwp',
     predicate => 1,
     weak_ref  => 1,
     isa => Foswiki::Object::isaCLASS( 'app', 'Foswiki::App', noUndef => 1, ),
@@ -39,6 +39,10 @@ sub create {
     my $class = shift;
 
     return $this->app->create( $class, @_ );
+}
+
+sub _clone_app {
+    return $_[0]->app;
 }
 
 1;
