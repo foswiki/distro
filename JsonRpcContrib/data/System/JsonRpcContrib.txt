@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1458352247" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1463450464" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -118,7 +118,7 @@ If the procedure fails for any reason the JSON response will have the format
 
 The following error codes are defined:
    * -32700: Parse error - Invalid JSON was received by the server.
-   * -32600: Invalid Request - The JSON sent is not a valid Request object.
+   * -32600: Invalid Request - The JSON sent is not a valid Request object, or request was not a POSt.
    * -32601: Method not found - The method does not exist / is not available.
    * -32602: Invalid params - Invalid method parameter(s).
    * -32603: Internal error - Internal JSON-RPC error.

@@ -75,7 +75,7 @@ sub json_authtest {
 }
 
 # Simple jsonrpc, using posted data
-sub test_simple {
+sub test_simple_postdata {
     my $this = shift;
     Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
         \&json_handler );
@@ -91,17 +91,11 @@ sub test_simple {
       $this->capture( $UI_FN, $this->{session} );
 
     $this->assert_matches( qr/"result" : "SUCCESS"/, $response );
-
-    #print STDERR "==================================\n";
-    #print STDERR "RESPONSE: " . Data::Dumper::Dumper( \$response );
-    #print STDERR "RESULT    " . Data::Dumper::Dumper( \$result );
-    #print STDERR "STDOUT    " . Data::Dumper::Dumper( \$out );
-    #print STDERR "STDERR    " . Data::Dumper::Dumper( \$err );
     return;
 }
 
 # Simple jsonrpc, using query params
-sub test_query_params {
+sub test_simple_query_params {
     my $this = shift;
     Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
         \&json_handler );
@@ -116,12 +110,6 @@ sub test_query_params {
       $this->capture( $UI_FN, $this->{session} );
 
     $this->assert_matches( qr/"result" : "SUCCESS"/, $response );
-
-    #print STDERR "==================================\n";
-    #print STDERR "RESPONSE: " . Data::Dumper::Dumper( \$response );
-    #print STDERR "RESULT    " . Data::Dumper::Dumper( \$result );
-    #print STDERR "STDOUT    " . Data::Dumper::Dumper( \$out );
-    #print STDERR "STDERR    " . Data::Dumper::Dumper( \$err );
     return;
 }
 
@@ -142,15 +130,32 @@ sub test_method_missing {
 
     $this->assert_matches( qr/"code" : -32601/, $response );
 
-    #print STDERR "==================================\n";
-    #print STDERR "RESPONSE: " . Data::Dumper::Dumper( \$response );
-    #print STDERR "RESULT    " . Data::Dumper::Dumper( \$result );
-    #print STDERR "STDOUT    " . Data::Dumper::Dumper( \$out );
-    #print STDERR "STDERR    " . Data::Dumper::Dumper( \$err );
     return;
 }
 
-sub test_simple_POST_required {
+# -32600: Invalid Request - The JSON sent is not a valid Request object.
+sub test_invalid_request {
+    my $this = shift;
+    Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
+        \&json_handler );
+
+    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
+    $query->path_info( '/' . __PACKAGE__ . '/saywhat' );
+    $query->param( 'POSTDATA',
+'{"jsonrpc":"2.0","method":"trial","params":"wizard":"ScriptHash","method":"verify","keys":"{ScriptUrlPaths}{view}","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}'
+    );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    my ( $response, $result, $out, $err ) =
+      $this->capture( $UI_FN, $this->{session} );
+    $this->assert_matches( qr/"code" : -32600/, $response );
+    $this->assert_matches(
+        qr/"message" : "Invalid JSON-RPC request - must be jsonrpc: '2.0'"/,
+        $response );
+
+    return;
+}
+
+sub test_post_required {
     my $this = shift;
     Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
         \&json_handler );
@@ -168,11 +173,6 @@ sub test_simple_POST_required {
     $this->assert_matches( qr/"code" : -32600/,                   $response );
     $this->assert_matches( qr/"message" : "Method must be POST"/, $response );
 
-    #print STDERR "==================================\n";
-    #print STDERR "RESPONSE: " . Data::Dumper::Dumper( \$response );
-    #print STDERR "RESULT    " . Data::Dumper::Dumper( \$result );
-    #print STDERR "STDOUT    " . Data::Dumper::Dumper( \$out );
-    #print STDERR "STDERR    " . Data::Dumper::Dumper( \$err );
     return;
 }
 
@@ -191,6 +191,54 @@ sub test_500 {
 
     $this->assert_matches( qr#^Status: 500#m, $text );
     $this->assert_matches( qr#"code" : 1#,    $text );  # Code 1 if handler dies
+    return;
+}
+
+# Test the redirectto parameter as a json param
+sub test_redirectto {
+    my $this = shift;
+    Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
+        \&json_handler );
+
+    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
+    $query->path_info( '/' . __PACKAGE__ . '/trial' );
+    $query->method('post');
+    $query->param( 'POSTDATA',
+'{"jsonrpc":"2.0","method":"trial","params":{"wizard":"ScriptHash","method":"verify","redirectto":"'
+          . "$this->{test_web}/$this->{test_topic}"
+          . '","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}'
+    );
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    my ( $response, $result, $out, $err ) =
+      $this->capture( $UI_FN, $this->{session} );
+
+    $this->assert_matches( qr#^Status: 302#m, $response );
+    $this->assert_matches(
+        qr#^Location:.*$this->{test_web}/$this->{test_topic}\s*$#m, $response );
+
+    return;
+}
+
+# Test the redirectto parameter with anchor
+sub future_test_redirectto_Anchor {
+    my $this = shift;
+    Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
+
+    my $query = Unit::Request::JSON->new(
+        {
+            action     => ['rest'],
+            redirectto => "$this->{test_web}/$this->{test_topic}#MyAnch",
+        }
+    );
+    $query->path_info( '/' . __PACKAGE__ . '/trial' );
+    $query->method('post');
+    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
+    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    $this->assert_matches( qr#^Status: 302#m, $text );
+    $this->assert_matches(
+        qr#^Location:.*$this->{test_web}/$this->{test_topic}\#MyAnch\s*$#m,
+        $text );
+
     return;
 }
 
@@ -303,122 +351,6 @@ sub future_test_authmethods {
     return;
 }
 
-# Test the endPoint parameter
-sub future_test_endPoint {
-    my $this = shift;
-    Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
-
-    my $query = Unit::Request::JSON->new(
-        {
-            action   => ['rest'],
-            endPoint => "$this->{test_web}/$this->{test_topic}",
-        }
-    );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    &$UI_FN( $this->{session} );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
-    $this->assert_matches( qr#^Status: 302#m, $text );
-    $this->assert_matches(
-        qr#^Location:.*$this->{test_web}/$this->{test_topic}\s*$#m, $text );
-
-    return;
-}
-
-# Test the redirectto parameter
-sub future_test_redirectto {
-    my $this = shift;
-    Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
-
-    my $query = Unit::Request::JSON->new(
-        {
-            action     => ['rest'],
-            redirectto => "$this->{test_web}/$this->{test_topic}",
-        }
-    );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    &$UI_FN( $this->{session} );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
-    $this->assert_matches( qr#^Status: 302#m, $text );
-    $this->assert_matches(
-        qr#^Location:.*$this->{test_web}/$this->{test_topic}\s*$#m, $text );
-
-    return;
-}
-
-# Test the endPoint parameter with anchor
-sub future_test_endPoint_Anchor {
-    my $this = shift;
-    Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
-
-    my $query = Unit::Request::JSON->new(
-        {
-            action   => ['rest'],
-            endPoint => "$this->{test_web}/$this->{test_topic}#MyAnch",
-        }
-    );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
-    $this->assert_matches( qr#^Status: 302#m, $text );
-    $this->assert_matches(
-        qr#^Location:.*$this->{test_web}/$this->{test_topic}\#MyAnch\s*$#m,
-        $text );
-
-    return;
-}
-
-# Test the redirectto parameter with anchor
-sub future_test_redirectto_Anchor {
-    my $this = shift;
-    Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
-
-    my $query = Unit::Request::JSON->new(
-        {
-            action     => ['rest'],
-            redirectto => "$this->{test_web}/$this->{test_topic}#MyAnch",
-        }
-    );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
-    $this->assert_matches( qr#^Status: 302#m, $text );
-    $this->assert_matches(
-        qr#^Location:.*$this->{test_web}/$this->{test_topic}\#MyAnch\s*$#m,
-        $text );
-
-    return;
-}
-
-# Test the endPoint parameter with querystring
-sub future_test_endPoint_Query {
-    my $this = shift;
-    Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
-
-    my $query = Unit::Request::JSON->new(
-        {
-            action   => ['rest'],
-            endPoint => "$this->{test_web}/$this->{test_topic}?blah1=;q=2;y=3",
-        }
-    );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
-    $this->assert_matches( qr#^Status: 302#m, $text );
-    $this->assert_matches(
-qr#^Location:.*$this->{test_web}/$this->{test_topic}\?blah1=;q=2;y=3\s*$#m,
-        $text
-    );
-
-    return;
-}
-
 # Test the redirectto parameter with querystring
 sub future_test_redirectto_Query {
     my $this = shift;
@@ -444,37 +376,7 @@ qr#^Location:.*$this->{test_web}/$this->{test_topic}\?blah1=;q=2;y=3\s*$#m,
     return;
 }
 
-# Test the endPoint parameter with querystring
-sub future_test_endPoint_Illegal {
-    my $this = shift;
-    Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
-
-    my $query = Unit::Request::JSON->new(
-        {
-            action   => ['rest'],
-            endPoint => 'http://this/that?blah=1;q=2',
-        }
-    );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->{session} =
-      $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my $text = '';
-    try {
-        ($text) = $this->capture( $UI_FN, $this->{session} );
-    }
-    catch Foswiki::EngineException with {
-        my $e = shift;
-        $this->assert_equals( 404, $e->{status}, $e );
-    }
-    otherwise {
-        $this->assert(0);
-    };
-
-    return;
-}
-
-# Test the redirectto parameter with querystring
+# Test the redirectto parameter with illegal
 sub future_test_redirectto_Illegal {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
@@ -592,32 +494,6 @@ sub future_test_authenticate {
     return;
 }
 
-# Test the endPoint parameter with a URL
-sub future_test_endPoint_URL {
-    my $this = shift;
-    $this->expect_failure( 'Redirect to a URL is new in 1.2',
-        with_dep => 'Foswiki,<,1.2' );
-    Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
-    $Foswiki::cfg{PermittedRedirectHostUrls} = 'http://lolcats.com';
-
-    my $query = Unit::Request::JSON->new(
-        {
-            action   => ['rest'],
-            endPoint => "http://lolcats.com/funny?pussy=cat",
-        }
-    );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    &$UI_FN( $this->{session} );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
-    $this->assert_matches( qr#^Status: 302#m, $text );
-    $this->assert_matches(
-        qr#^Location: http://lolcats.com/funny\?pussy=cat\s*$#m, $text );
-
-    return;
-}
-
 # Test the redirectto parameter with a URL
 sub future_test_redirectto_URL {
     my $this = shift;
@@ -638,29 +514,6 @@ sub future_test_redirectto_URL {
     $this->assert_matches( qr#^Status: 302#m, $text );
     $this->assert_matches(
         qr#^Location: http://lolcats.com/funny\?pussy=cat\s*$#m, $text );
-
-    return;
-}
-
-# Test the endPoint parameter with a bad URL
-sub future_test_endPoint_badURL {
-    my $this = shift;
-    $this->expect_failure( 'Redirect to a URL is new in 1.2',
-        with_dep => 'Foswiki,<,1.2' );
-    Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
-
-    my $query = Unit::Request::JSON->new(
-        {
-            action   => ['rest'],
-            endPoint => "http://lolcats.com/funny?pussy=cat",
-        }
-    );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    &$UI_FN( $this->{session} );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
-    $this->assert_matches( qr#^Status: 403#m, $text );
 
     return;
 }
