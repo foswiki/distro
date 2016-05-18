@@ -78,32 +78,26 @@ BEGIN {
 }
 
 has mapping => (
-    is        => 'rw',
-    lazy      => 1,
-    predicate => 1,
-    clearer   => 1,
-    default   => sub { {} },
+    is  => 'rw',
+    isa => Foswiki::Object::isaCLASS(
+        'mapping', 'Foswiki::Object', does => 'Foswiki::UserMapping',
+    ),
 );
 has basemapping => (
-    is        => 'rw',
-    predicate => 1,
-    clearer   => 1,
+    is  => 'rw',
+    isa => Foswiki::Object::isaCLASS(
+        'basemapping', 'Foswiki::Object', does => 'Foswiki::UserMapping',
+    ),
 );
-has loginManager => (
-    is        => 'rw',
-    predicate => 1,
-    clearer   => 1,
-);
+has loginManager => ( is => 'rw', );
 has login2cUID => (
     is      => 'rw',
     lazy    => 1,
-    clearer => 1,
     default => sub { {} },
 );
 has wikiName2cUID => (
     is      => 'rw',
     lazy    => 1,
-    clearer => 1,
     default => sub { {} },
 );
 
@@ -114,19 +108,16 @@ has wikiName2cUID => (
 has cUID2WikiName => (
     is      => 'rw',
     lazy    => 1,
-    clearer => 1,
     default => sub { {} },
 );
 has cUID2Login => (
     is      => 'rw',
     lazy    => 1,
-    clearer => 1,
     default => sub { {} },
 );
 has _isAdmin => (
     is      => 'rw',
     lazy    => 1,
-    clearer => 1,
     default => sub { {} },
 );
 

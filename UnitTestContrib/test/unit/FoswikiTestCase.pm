@@ -906,16 +906,8 @@ sub removeWebFixture {
         $webObject->removeFromStore();
     }
     catch {
-        my $e = $_;
-        print STDERR "Unexpected exception while removing web $web\n";
-        if ($e) {
-            if ( ref($e) && $e->can('stringify') ) {
-                say STDERR $e->stringify;
-            }
-            else {
-                say STDERR $e;
-            }
-        }
+        say STDERR "Unexpected exception while removing web $web";
+        say STDERR Foswiki::Exception::errorStr($_);
     };
 }
 

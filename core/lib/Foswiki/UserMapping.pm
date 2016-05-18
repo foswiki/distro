@@ -2,7 +2,7 @@
 
 =begin TML
 
----+ package Foswiki::UserMapping
+---+ Role Foswiki::UserMapping
 
 This is a virtual base class (a.k.a an interface) for all user mappers. It is
 *not* useable as a mapping in Foswiki - use the BaseUserMapping for default
@@ -43,10 +43,7 @@ BEGIN {
     }
 }
 
-use Moo;
-use namespace::clean;
-extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
+use Moo::Role;
 
 has mapping_id => (
     is      => 'rw',
@@ -87,6 +84,26 @@ has L2P => (    # login 2 password
     lazy    => 1,
     clearer => 1,
     default => sub { {} },
+);
+
+requires qw(
+  addUser
+  addUserToGroup
+  eachGroup
+  eachGroupMember
+  eachMembership
+  eachUser
+  findUserByWikiName
+  getLoginName
+  groupAllowsChange
+  groupAllowsView
+  isAdmin
+  isGroup
+  login2cUID
+  removeUser
+  removeUserFromGroup
+  userExists
+  invalidate
 );
 
 =begin TML
@@ -145,7 +162,7 @@ sub handlesUser {
 
 =begin TML
 
----++ ObjectMethod login2cUID($login, $dontcheck) -> cUID
+---++ Required login2cUID($login, $dontcheck) -> cUID
 
 Convert a login name to the corresponding canonical user name. The
 canonical name can be any string of 7-bit alphanumeric and underscore
@@ -164,13 +181,9 @@ getCanonicalUserID will still be called if login2cUID is not defined.
 
 =cut
 
-sub login2cUID {
-    ASSERT( 0, 'Must be implemented' );
-}
-
 =begin TML
 
----++ ObjectMethod getLoginName ($cUID) -> login
+---++ Required getLoginName ($cUID) -> login
 
 Converts an internal cUID to that user's login
 (undef on failure)
@@ -179,13 +192,9 @@ Subclasses *must* implement this method.
 
 =cut
 
-sub getLoginName {
-    ASSERT(0);
-}
-
 =begin TML
 
----++ ObjectMethod addUser ($login, $wikiname, $password, $emails) -> $cUID
+---++ Required addUser ($login, $wikiname, $password, $emails) -> $cUID
 
 Add a user to the persistent mapping that maps from usernames to wikinames
 and vice-versa.
@@ -209,24 +218,14 @@ Throws an Foswiki::Exception if user adding is not supported (the default).
 
 =cut
 
-sub addUser {
-    Foswiki::Exception->throw(
-        'Failed to add user: adding users is not supported');
-}
-
 =begin TML
 
----++ ObjectMethod removeUser( $cUID ) -> $boolean
+---++ Required removeUser( $cUID ) -> $boolean
 
 Delete the users entry from this mapper. Throws an Foswiki::Exception if
 user removal is not supported (the default).
 
 =cut
-
-sub removeUser {
-    Foswiki::Exception->throw(
-        'Failed to remove user: user removal is not supported');
-}
 
 =begin TML
 
@@ -245,7 +244,7 @@ sub getWikiName {
 
 =begin TML
 
----++ ObjectMethod userExists($cUID) -> $boolean
+---++ Required userExists($cUID) -> $boolean
 
 Determine if the user already exists or not. Whether a user exists
 or not is determined by the password manager.
@@ -254,13 +253,9 @@ Subclasses *must* implement this method.
 
 =cut
 
-sub userExists {
-    ASSERT(0);
-}
-
 =begin TML
 
----++ ObjectMethod eachUser () -> $iterator
+---++ Required eachUser () -> $iterator
 
 Get an iterator over the list of all cUIDs of the registered
 users *not* including groups.
@@ -269,13 +264,9 @@ Subclasses *must* implement this method.
 
 =cut
 
-sub eachUser {
-    ASSERT(0);
-}
-
 =begin TML
 
----++ ObjectMethod eachGroupMember ($group, $expand) -> $iterator
+---++ Required eachGroupMember ($group, $expand) -> $iterator
 
 Return a iterator over the canonical user ids of users that are members
 of this group. Should only be called on groups.
@@ -288,13 +279,9 @@ Subclasses *must* implement this method.
 
 =cut
 
-sub eachGroupMember {
-    ASSERT(0);
-}
-
 =begin TML
 
----++ ObjectMethod isGroup ($name) -> boolean
+---++ Required isGroup ($name) -> boolean
 
 Establish if a user refers to a group or not. If $name is not
 a group name it will probably be a canonical user id, though that
@@ -304,13 +291,9 @@ Subclasses *must* implement this method.
 
 =cut
 
-sub isGroup {
-    ASSERT(0);
-}
-
 =begin TML
 
----++ ObjectMethod eachGroup () -> $iterator
+---++ Required eachGroup () -> $iterator
 
 Get an iterator over the list of all the group names.
 
@@ -318,13 +301,9 @@ Subclasses *must* implement this method.
 
 =cut
 
-sub eachGroup {
-    ASSERT(0);
-}
-
 =begin TML
 
----++ ObjectMethod eachMembership($cUID) -> $iterator
+---++ Required eachMembership($cUID) -> $iterator
 
 Return an iterator over the names of groups that $cUID is a member of.
 
@@ -332,33 +311,21 @@ Subclasses *must* implement this method.
 
 =cut
 
-sub eachMembership {
-    ASSERT(0);
-}
-
 =begin TML
 
----++ ObjectMethod groupAllowsView($group) -> boolean
+---++ Required groupAllowsView($group) -> boolean
 
 returns 1 if the group is able to be viewed by the current logged in user
 
 =cut
 
-sub groupAllowsView {
-    return 1;
-}
-
 =begin TML
 
----++ ObjectMethod groupAllowsChange($group) -> boolean
+---++ Required groupAllowsChange($group) -> boolean
 
 returns 1 if the group is able to be modified by the current logged in user
 
 =cut
-
-sub groupAllowsChange {
-    return 0;
-}
 
 =begin TML
 
@@ -374,10 +341,6 @@ if the group does not exist, and the create flag is not supplied:
 </pre>
 
 =cut
-
-sub addUserToGroup {
-    return 0;
-}
 
 =begin TML
 
@@ -395,21 +358,13 @@ if the user does not exist in the group:
 
 =cut
 
-sub removeUserFromGroup {
-    return 0;
-}
-
 =begin TML
 
----++ ObjectMethod isAdmin( $cUID ) -> $boolean
+---++ Required isAdmin( $cUID ) -> $boolean
 
 True if the user is an administrator.
 
 =cut
-
-sub isAdmin {
-    return 0;
-}
 
 =begin TML
 
@@ -496,7 +451,7 @@ sub setEmails {
 
 =begin TML
 
----++ ObjectMethod findUserByWikiName ($wikiname) -> list of cUIDs associated with that wikiname
+---++ Required findUserByWikiName ($wikiname) -> list of cUIDs associated with that wikiname
    * =$wikiname= - wikiname to look up
 Return a list of canonical user names for the users that have this wikiname.
 Since a single wikiname might be used by multiple login ids, we need a list.
@@ -507,10 +462,6 @@ expanded.
 Subclasses *must* implement this method.
 
 =cut
-
-sub findUserByWikiName {
-    ASSERT(0);
-}
 
 =begin TML
 
@@ -610,11 +561,20 @@ sub validateRegistrationField {
     return $_[2];
 }
 
+=begin TML
+
+---++ Required invalidate
+
+Invalidates mapping object – i.e. demands that users database is re-read and if
+any caches are built they are to be reset.
+
+=cut
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

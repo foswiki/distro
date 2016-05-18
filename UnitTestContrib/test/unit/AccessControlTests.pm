@@ -46,23 +46,26 @@ around set_up => sub {
     my $this = shift;
     $orig->($this);
 
+    my $app   = $this->app;
+    my $users = $app->users;
+
     my ($topicObject) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
         $Foswiki::cfg{DefaultUserWikiName} );
     $topicObject->text('');
     $topicObject->save();
     undef $topicObject;
     $this->registerUser( 'white', 'Mr', "White", 'white@example.com' );
-    $MrWhite = $this->session->users->getCanonicalUserID('white');
+    $MrWhite = $users->getCanonicalUserID('white');
     $this->registerUser( 'blue', 'Mr', "Blue", 'blue@example.com' );
-    $MrBlue = $this->session->users->getCanonicalUserID('blue');
+    $MrBlue = $users->getCanonicalUserID('blue');
     $this->registerUser( 'orange', 'Mr', "Orange", 'orange@example.com' );
-    $MrOrange = $this->session->users->getCanonicalUserID('orange');
+    $MrOrange = $users->getCanonicalUserID('orange');
     $this->registerUser( 'green', 'Mr', "Green", 'green@example.com' );
-    $MrGreen = $this->session->users->getCanonicalUserID('green');
+    $MrGreen = $users->getCanonicalUserID('green');
     $this->registerUser( 'yellow', 'Mr', "Yellow", 'yellow@example.com' );
-    $MrYellow = $this->session->users->getCanonicalUserID('yellow');
+    $MrYellow = $users->getCanonicalUserID('yellow');
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     my $users_web = $this->users_web;
     ($topicObject) =
       Foswiki::Func::readTopic( $users_web, "ReservoirDogsGroup" );
@@ -78,6 +81,8 @@ THIS
 
 sub DENIED {
     my ( $this, $mode, $user, $web, $topic ) = @_;
+
+    my $app = $this->app;
     $web   ||= $this->test_web;
     $topic ||= $this->test_topic;
     my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
@@ -85,11 +90,10 @@ sub DENIED {
         "$user $mode $web.$topic" );
 
     if ($post11) {
-        $this->assert(
-            !$this->session->access->haveAccess( $mode, $user, $topicObject ),
+        $this->assert( !$app->access->haveAccess( $mode, $user, $topicObject ),
             "$user $mode $web.$topic" );
         $this->assert(
-            !$this->session->access->haveAccess(
+            !$app->access->haveAccess(
                 $mode, $user, $topicObject->web, $topicObject->topic
             ),
             "$user $mode $web.$topic"
@@ -102,6 +106,7 @@ sub DENIED {
 
 sub PERMITTED {
     my ( $this, $mode, $user, $web, $topic ) = @_;
+    my $app = $this->app;
     $web   ||= $this->test_web;
     $topic ||= $this->test_topic;
     my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
@@ -109,11 +114,10 @@ sub PERMITTED {
         "$user $mode $web.$topic" );
 
     if ($post11) {
-        $this->assert(
-            $this->session->access->haveAccess( $mode, $user, $topicObject ),
+        $this->assert( $app->access->haveAccess( $mode, $user, $topicObject ),
             "$user $mode $web.$topic" );
         $this->assert(
-            $this->session->access->haveAccess(
+            $app->access->haveAccess(
                 $mode, $user, $topicObject->web, $topicObject->topic
             ),
             "$user $mode $web.$topic"
@@ -143,7 +147,7 @@ THIS
     $topicObject->save();
     undef $topicObject;
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->PERMITTED( "VIEW", $MrGreen );
     $this->DENIED( "VIEW", $MrYellow );
     $this->DENIED( "VIEW", $MrOrange );
@@ -166,7 +170,7 @@ THIS
     $topicObject->save();
     undef $topicObject;
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->PERMITTED( "VIEW", $MrGreen );
     $this->PERMITTED( "VIEW", $MrYellow );
     $this->PERMITTED( "VIEW", $MrOrange );
@@ -189,7 +193,7 @@ THIS
     $topicObject->save();
     undef $topicObject;
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->PERMITTED( "VIEW", $MrGreen );
     $this->PERMITTED( "VIEW", $MrYellow );
     $this->PERMITTED( "VIEW", $MrOrange );
@@ -212,7 +216,7 @@ THIS
     $topicObject->save();
     undef $topicObject;
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->PERMITTED( "VIEW", $MrGreen );
     $this->PERMITTED( "VIEW", $MrYellow );
     $this->PERMITTED( "VIEW", $MrOrange );
@@ -236,7 +240,7 @@ THIS
     $topicObject->save();
     undef $topicObject;
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->PERMITTED( "VIEW", $MrOrange );
     $this->DENIED( "VIEW", $MrGreen );
     $this->DENIED( "VIEW", $MrYellow );
@@ -261,19 +265,23 @@ THIS
     $topicObject->save();
     undef $topicObject;
 
-    my $topicquery = Unit::Request->new( initializer => "" );
-    $topicquery->path_info( "/" . $this->test_web . "/" . $this->test_topic );
+    my @appParams = (
+        requestParams => { initializer => "", },
+        engineParams =>
+          { path_info => "/" . $this->test_web . "/" . $this->test_topic, },
+    );
 
     # renew Foswiki, so WebPreferences gets re-read
-    $this->createNewFoswikiSession();
+    # SMELL Perhaps can be replaced with $app->clear_prefs for simplicity.
+    $this->createNewFoswikiApp;
     $this->PERMITTED( "VIEW", $MrOrange );
-    $this->createNewFoswikiSession( undef, $topicquery );
+    $this->createNewFoswikiApp(@appParams);
     $this->DENIED( "VIEW", $MrGreen );
-    $this->createNewFoswikiSession( undef, $topicquery );
+    $this->createNewFoswikiApp(@appParams);
     $this->DENIED( "VIEW", $MrYellow );
-    $this->createNewFoswikiSession( undef, $topicquery );
+    $this->createNewFoswikiApp(@appParams);
     $this->DENIED( "VIEW", $MrWhite );
-    $this->createNewFoswikiSession( undef, $topicquery );
+    $this->createNewFoswikiApp(@appParams);
     $this->DENIED( "view", $MrBlue );
 
     return;
@@ -296,15 +304,15 @@ THIS
     undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->PERMITTED( "VIEW", $MrOrange );
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->DENIED( "VIEW", $MrGreen );
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->DENIED( "VIEW", $MrYellow );
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->DENIED( "VIEW", $MrWhite );
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->DENIED( "view", $MrBlue );
 
     return;
@@ -334,15 +342,15 @@ THIS
     undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->PERMITTED( "VIEW", $MrOrange );
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->DENIED( "VIEW", $MrGreen );
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->PERMITTED( "VIEW", $MrYellow );
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->DENIED( "VIEW", $MrWhite );
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->DENIED( "view", $MrBlue );
 
     return;
@@ -364,7 +372,7 @@ THIS
     undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text("Null points");
@@ -396,7 +404,7 @@ THIS
     undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(<<'THIS');
@@ -446,7 +454,7 @@ THIS
     $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = 1;
 
     # renew Foswiki, so WebPreferences gets re-read
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     $this->PERMITTED( "VIEW", $MrOrange );
     $this->PERMITTED( "VIEW", $MrGreen );
@@ -458,7 +466,7 @@ THIS
     if ( $this->check_dependency('Foswiki,>=,1.2') ) {
 
         $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = 0;
-        $this->createNewFoswikiSession();
+        $this->createNewFoswikiApp;
 
         $this->DENIED( "VIEW", $MrOrange );
         $this->PERMITTED( "VIEW", $MrGreen );
@@ -497,7 +505,7 @@ THIS
     undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->PERMITTED( "VIEW", $MrOrange );
     $this->DENIED( "VIEW", $MrGreen );
     $this->DENIED( "VIEW", $MrYellow );
@@ -537,7 +545,7 @@ THIS
     $Foswiki::cfg{AccessControlACL}{EnableDeprecatedEmptyDeny} = 1;
 
     # renew Foswiki, so WebPreferences gets re-read
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->PERMITTED( "VIEW", $MrOrange );
     $this->PERMITTED( "VIEW", $MrGreen );
     $this->PERMITTED( "VIEW", $MrYellow );
@@ -564,7 +572,7 @@ THIS
     undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->DENIED( "VIEW", $MrOrange );
     $this->DENIED( "VIEW", $MrGreen );
     $this->DENIED( "VIEW", $MrYellow );
@@ -592,7 +600,7 @@ THIS
     undef $topicObject;
 
     # renew Foswiki, so WebPreferences gets re-read
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text("Null points");
@@ -622,7 +630,7 @@ THIS
     );
     $topicObject->save();
     undef $topicObject;
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->PERMITTED( "VIEW", $MrOrange );
     $this->DENIED( "VIEW", $MrGreen );
     $this->PERMITTED( "VIEW", $MrYellow );
@@ -661,7 +669,7 @@ THIS
     $topicObject->text($text);
     $topicObject->save();
     undef $topicObject;
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
@@ -687,7 +695,7 @@ sub test_setInMETA {
     $topicObject->putKeyed( 'PREFERENCE', $args );
     $topicObject->save();
     undef $topicObject;
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
@@ -717,7 +725,7 @@ THIS
     $topicObject->putKeyed( 'PREFERENCE', $args );
     $topicObject->save();
     undef $topicObject;
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
@@ -762,7 +770,7 @@ THIS
     undef $topicObject;
 
     # Ensure that MrOrange can read the subweb and MrGreen the parent web
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->PERMITTED( "VIEW", $MrOrange, $subweb );
     $this->DENIED( "VIEW", $MrGreen, $subweb );
     $this->PERMITTED( "VIEW", $MrGreen );
@@ -800,7 +808,7 @@ THIS
     $topicObject->save();
     undef $topicObject;
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     $this->PERMITTED( "VIEW", $MrGreen, $subweb );
     $this->DENIED( "VIEW", $MrOrange, $subweb );
     $this->PERMITTED( "VIEW", $MrGreen );
@@ -838,7 +846,7 @@ THIS
 THIS
     $topicObject->save();
     undef $topicObject;
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     $this->DENIED( "VIEW", $MrOrange, $subweb );
     $this->PERMITTED( "VIEW", $MrGreen, $subweb );
@@ -856,6 +864,9 @@ sub test_login_redirect_preserves_anchor {
     my $this       = shift;
     my $test_topic = 'TestAnchor';
 
+    my $app = $this->app;
+    my $cfg = $app->cfg;
+
     # Create a topic with an anchor, viewable only by MrYellow
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $test_topic );
@@ -869,32 +880,48 @@ THIS
     undef $topicObject;
 
     # Request the page with the full UI
-    my $query = Unit::Request->new(
-        initializer => {
-            webName   => [ $this->test_web ],
-            topicName => ["$test_topic"],
-        }
-    );
-    $query->path_info( "/" . $this->test_web . "/$test_topic" );
-    $query->method('GET');
-    $query->action('view');
-    my $viewUrl =
-      $this->session->getScriptUrl( 0, 'view', $this->test_web, $test_topic );
-    $query->uri("$viewUrl");
-    $this->finishFoswikiSession();
+    #my $query = Unit::Request->new(
+    #    initializer => {
+    #        webName   => [ $this->test_web ],
+    #        topicName => ["$test_topic"],
+    #    }
+    #);
+    #$query->path_info( "/" . $this->test_web . "/$test_topic" );
+    #$query->method('GET');
+    #$query->action('view');
+    my $viewUrl = $cfg->getScriptUrl( 0, 'view', $this->test_web, $test_topic );
+
+    #$query->uri("$viewUrl");
+
+    #$this->finishFoswikiSession();
     my ($text) = $this->capture(
         sub {
-            my $response = Foswiki::UI::handleRequest($query);
-            $this->createNewFoswikiSession( undef, $query );
-            $this->session->response($response);
+            $this->createNewFoswikiApp(
+                requestParams => {
+                    initializer => {
+                        webName   => [ $this->test_web ],
+                        topicName => ["$test_topic"],
+                    },
+                },
+                engineParams => {
+                    simulate          => 'cgi',
+                    initialAttributes => {
+                        path_info => "/" . $this->test_web . "/$test_topic",
+                        method    => 'GET',
+                        action    => 'view',
+                        uri       => $viewUrl,
+                    },
+                },
+            );
+            return $this->app->handleRequest;
         }
     );
 
     # Get the login and view URLs to compare
     my $loginUrl =
-      $this->session->getScriptUrl( 0, 'login', $this->test_web, $test_topic );
+      $cfg->getScriptUrl( 0, 'login', $this->test_web, $test_topic );
     my $fullViewUrl =
-      $this->session->getScriptUrl( 1, 'view', $this->test_web, $test_topic );
+      $cfg->getScriptUrl( 1, 'view', $this->test_web, $test_topic );
 
     # Item11121: the test doesn't tolerate ShortURLs, for example.
     # ShortURLs may involve a {ScriptUrlPaths}{view} of '' or something

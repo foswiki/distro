@@ -162,8 +162,11 @@ around tear_down => sub {
     my $orig = shift;
     my $this = shift;
 
-    $this->removeWebFixture( $this->app, $this->test_web );
-    $this->removeWebFixture( $this->app, $Foswiki::cfg{UsersWebName} );
+    my $app = $this->app;
+    my $cfg = $app->cfg;
+
+    $this->removeWebFixture( $app, $this->test_web );
+    $this->removeWebFixture( $app, $cfg->data->{UsersWebName} );
     unlink( $Foswiki::cfg{Htpasswd}{FileName} );
     $orig->( $this, @_ );
 
@@ -225,13 +228,10 @@ sub registerUser {
         $reqParams->{"Twk1LoginName"} = $loginname;
     }
 
-    my $env = $this->app->cloneEnv;
-    $env->{FOSWIKI_TEST_PATH_INFO} =
-      "/" . $this->users_web . "/UserRegistration";
-
     $this->createNewFoswikiApp(
         requestParams => { initializer => $reqParams, },
-        env           => $env,
+        engineParams =>
+          { path_info => "/" . $this->users_web . "/UserRegistration", },
     );
     $this->assert(
         $this->app->store->topicExists(
@@ -278,6 +278,9 @@ sub registerUser {
     #$this->createNewFoswikiApp( requestParams => $q );
     #$this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     $this->popApp;
+
+    # Reset
+    $this->app->users->mapping->invalidate;
 }
 
 1;

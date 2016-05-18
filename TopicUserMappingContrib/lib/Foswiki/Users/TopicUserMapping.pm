@@ -35,7 +35,8 @@ use Foswiki::Func         ();
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::UserMapping);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject Foswiki::UserMapping);
 
 has passwords => (
     is      => 'ro',
@@ -51,8 +52,8 @@ has _eachGroupMember =>
   ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
 has singleGroupMembers =>
   ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
-has groupsList     => ( is => 'rw', );
-has _MAP_OF_EMAILS => ( is => 'rw', );
+has groupsList     => ( is => 'rw', clearer => 1, );
+has _MAP_OF_EMAILS => ( is => 'rw', clearer => 1, );
 has CACHED         => ( is => 'rw', default => 0, );
 
 #use Monitor;
@@ -140,8 +141,11 @@ define $this->mapping_id = 'TopicUserMapping_';
 
 =cut
 
-sub handlesUser {
-    my ( $this, $cUID, $login, $wikiname ) = @_;
+around handlesUser => sub {
+    my $orig = shift;
+    my $this = shift;
+    my ( $cUID, $login, $wikiname ) = @_;
+
     my $mapping_id = $this->mapping_id;
     if ( defined $cUID && !length($mapping_id) ) {
 
@@ -164,7 +168,7 @@ sub handlesUser {
     }
 
     return 0;
-}
+};
 
 =begin TML
 
@@ -1608,14 +1612,15 @@ returns the string unchanged if no issue found.
 
 =cut
 
-sub validateRegistrationField {
-
-    #my ($this, $field, $value) = @_;
+around validateRegistrationField => sub {
+    my $orig = shift;
     my $this = shift;
 
+    #my ($this, $field, $value) = @_;
+
 # For now just let Foswiki::UserMapping do the validation - nothing special needed.
-    return $this->SUPER::validateRegistrationField(@_);
-}
+    return $orig->( $this, @_ );
+};
 
 # TODO: and probably flawed in light of multiple cUIDs mapping to one wikiname
 sub _cacheUser {
@@ -1794,6 +1799,14 @@ sub _expandUserList {
         }
     }
     return \@l;
+}
+
+sub invalidate {
+    my $this = shift;
+
+    $this->CACHED(0);
+    $this->clear_groupsList;
+    $this->_clear_MAP_OF_EMAILS;
 }
 
 1;

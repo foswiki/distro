@@ -16,12 +16,26 @@ extends qw(Foswiki::App);
 #        qw(
 #          access attach cache cfg env forms
 #          logger engine heap i18n plugins prefs
-#          renderer request _requestParams response
+#          renderer request requestParams response
 #          search store templates macros context
 #          ui remoteUser user users zones _dispatcherAttrs
 #          )
 #    ;
 #}
+
+# requestParams hash is used to initialize a new request object.
+has requestParams => (
+    is      => 'rwp',
+    lazy    => 1,
+    default => sub { {} },
+);
+
+# engineParams hash is used to initialize a new engine object.
+has engineParams => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
 
 sub BUILD {
     my $this = shift;
@@ -56,6 +70,20 @@ sub cloneEnv {
     # SMELL Use Foswiki::Object internals.
     return $this->_cloneData( $this->env, 'env' );
 }
+
+around _prepareRequest => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    return $orig->( $this, %{ $this->requestParams } );
+};
+
+around _prepareEngine => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    return $orig->( $this, %{ $this->engineParams } );
+};
 
 1;
 

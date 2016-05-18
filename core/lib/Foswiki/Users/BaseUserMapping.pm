@@ -37,7 +37,8 @@ use Crypt::PasswdMD5 qw(apache_md5_crypt);
 
 use Moo;
 use namespace::clean;
-extends qw(Foswiki::UserMapping);
+extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject Foswiki::UserMapping);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -168,6 +169,34 @@ Break circular references.
 #    undef $this->{GROUPS};
 #    $this->SUPER::finish();
 #}
+
+sub addUser {
+    Foswiki::Exception->throw(
+        'Adding users is not supported by BaseUserMapping');
+}
+
+sub removeUser {
+    Foswiki::Exception->throw(
+        'User removal is not supported by BaseUserMapping');
+}
+
+sub addUserToGroup {
+    Foswiki::Exception->throw(
+        'Adding users to groups is not supported by BaseUserMapping');
+}
+
+sub removeUserFromGroup {
+    Foswiki::Exception->throw(
+        'Removal of users from groups is not supported by BaseUserMapping');
+}
+
+sub groupAllowsView {
+    return 1;
+}
+
+# This is a static mapping, no invalidation possible.
+sub invalidate {
+}
 
 =begin TML
 

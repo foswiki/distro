@@ -31,6 +31,19 @@ use Moo;
 use namespace::clean;
 extends qw(Foswiki::Engine);
 
+has simulate => (
+    is      => 'rw',
+    default => 'psgi',
+    coerce  => sub {
+        my $method = lc shift;
+        Foswiki::Engine::Fatal->throw( text =>
+              "Unknown test engine simulate environment requested: $method" )
+          unless $method =~ /^(psgi|cgi)$/;
+        return $method;
+    },
+);
+has initialAttributes => ( is => 'rw', default => sub { {} }, );
+
 around BUILDARGS => sub {
     my $orig   = shift;
     my $class  = shift;
@@ -43,13 +56,19 @@ around BUILDARGS => sub {
     return $orig->( $class, %defaults, @_ );
 };
 
+# Form a data hash using keys either from initialAttributes (higher prio) or
+# from env.
 sub initFromEnv {
-    my $this     = shift;
-    my %initHash = map {
+    my $this      = shift;
+    my $initAttrs = $this->initialAttributes;
+    my $env       = $this->env;
+    my %initHash  = map {
         my $eKey = uc( 'FOSWIKI_TEST_' . $_ );
-        defined( $this->env->{$eKey} )
-          ? ( $_ => $this->env->{$eKey} )
-          : ()
+        defined( $initAttrs->{$_} ) ? ( $_ => $initAttrs->{$_} )
+          : (
+            defined( $env->{$eKey} ) ? ( $_ => $env->{$eKey} )
+            : ()
+          )
     } @_;
     return \%initHash;
 }
@@ -79,9 +98,27 @@ around _prepareQueryParameters => sub {
     my $orig = shift;
     my $this = shift;
 
-    return $orig->( $this, $this->env->{FOSWIKI_TEST_QUERY_STRING} )
-      if defined $this->env->{FOSWIKI_TEST_QUERY_STRING};
+    my $queryString = $this->initialAttributes->{query_string}
+      // $this->env->{FOSWIKI_TEST_QUERY_STRING};
+
+    return $orig->( $this, $queryString ) if defined $queryString;
     return [];
+};
+
+around finalizeReturn => sub {
+    my $orig     = shift;
+    my $this     = shift;
+    my ($return) = @_;
+
+    my $rc = $return;
+    if ( $this->simulate eq 'cgi' ) {
+        $rc = 0;
+
+        push @{ $return->[1] }, 'Status' => $return->[0];
+        print $this->stringifyHeaders($return);
+        print @{ $return->[2] };
+    }
+    return $rc;
 };
 
 1;

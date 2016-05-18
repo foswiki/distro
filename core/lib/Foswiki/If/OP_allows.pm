@@ -54,8 +54,8 @@ sub evaluate {
     # Try for an existing topic first.
     if ( $app->store->topicExists( $web, $topic ) ) {
 
-        my $topicObject = Foswiki::Meta->new(
-            app   => $app,
+        my $topicObject = $app->create(
+            'Foswiki::Meta',
             web   => $web,
             topic => $topic
         );
@@ -65,14 +65,14 @@ sub evaluate {
     # Not an existing web.topic name, see if the string on its own
     # is a web name
     elsif ( $app->store->webExists($str) ) {
-        my $webObject = Foswiki::Meta->new( app => $app, web => $str );
+        my $webObject = $app->create( 'Foswiki::Meta', web => $str );
         $ok = $webObject->haveAccess($mode);
     }
 
     # Not an existing web.topic or a web on it's own; maybe it's
     # web.topic for an existing web but non-existing topic
     elsif ( $app->store->webExists($web) ) {
-        my $webObject = $this->create( 'Foswiki::Meta', web => $web );
+        my $webObject = $app->create( 'Foswiki::Meta', web => $web );
         $ok = $webObject->haveAccess($mode);
     }
     else {

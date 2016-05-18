@@ -81,7 +81,7 @@ instance.
 has cfg => (
     is      => 'rw',
     lazy    => 1,
-    default => \&_readConfig,
+    builder => '_readConfig',
     isa => Foswiki::Object::isaCLASS( 'cfg', 'Foswiki::Config', noUndef => 1, ),
 );
 has env => (
@@ -113,7 +113,7 @@ has engine => (
     is        => 'rw',
     lazy      => 1,
     predicate => 1,
-    default   => \&_prepareEngine,
+    builder   => '_prepareEngine',
     isa =>
       Foswiki::Object::isaCLASS( 'engine', 'Foswiki::Engine', noUndef => 1, ),
 );
@@ -171,17 +171,9 @@ has renderer => (
 has request => (
     is      => 'rw',
     lazy    => 1,
-    default => \&_prepareRequest,
+    builder => '_prepareRequest',
     isa =>
       Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request', noUndef => 1, ),
-);
-
-# _requestParams hash is used to initialize a new request object.
-has _requestParams => (
-    is       => 'rwp',
-    init_arg => 'requestParams',
-    lazy     => 1,
-    default  => sub { {} },
 );
 has response => (
     is      => 'rw',
@@ -1357,12 +1349,13 @@ sub _prepareContext {
 
 sub _prepareEngine {
     my $this = shift;
+    my @args = @_;
     my $env  = $this->env;
     my $engine;
 
     # Foswiki::Engine has to determine what environment are we run within and
     # return an object of corresponding class.
-    $engine = Foswiki::Engine::start( env => $env, app => $this, );
+    $engine = Foswiki::Engine::start( env => $env, app => $this, @args );
 
     $this->cfg->data->{Engine} //= ref($engine) if $engine;
 
@@ -1372,6 +1365,7 @@ sub _prepareEngine {
 # The request attribute default method.
 sub _prepareRequest {
     my $this = shift;
+    my @args = @_;
 
     state $preparing = 0;
 
@@ -1389,9 +1383,7 @@ sub _prepareRequest {
     # user-supplied parameters.
     my $request;
     try {
-        $request =
-          Foswiki::Request::prepare( %{ $this->_requestParams }, app => $this,
-          );
+        $request = Foswiki::Request::prepare( app => $this, @args );
     }
     catch {
         Foswiki::Exception::Fatal->rethrow($_);
