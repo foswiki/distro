@@ -89,7 +89,7 @@ sub DEMOLISH {
     foreach my $cuid ( keys( %{ $this->cache } ) ) {
         foreach my $web ( keys( %{ $this->cache->{$cuid} } ) ) {
             foreach my $topic ( keys( %{ $this->cache->{$cuid}->{$web} } ) ) {
-                undef $this->cache->{$cuid}{$web}{$topic};
+                delete $this->cache->{$cuid}{$web}{$topic};
                 $this->undef_count( $this->undef_count + 1 );
             }
             undef $this->cache->{$cuid}{$web};
@@ -234,7 +234,7 @@ sub get {
     if ( !defined($topic) ) {
 
 #there are some instances - like the result set sorting, where we need to quickly pass "$web.$topic"
-        ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( '', $web );
+        ( $web, $topic ) = $app->request->normalizeWebTopicName( '', $web );
     }
 
     my $m = $this->addMeta( $web, $topic, $meta );

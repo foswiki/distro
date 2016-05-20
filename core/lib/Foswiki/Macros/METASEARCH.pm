@@ -21,11 +21,11 @@ sub _collate {
 }
 
 sub METASEARCH {
-    my ( $this, $params, $topicObject ) = @_;
+    my ( $app, $params, $topicObject ) = @_;
 
     my $attrType  = $params->{type}  || 'FIELD';
-    my $attrWeb   = $params->{web}   || $this->{webName};
-    my $attrTopic = $params->{topic} || $this->{topicName};
+    my $attrWeb   = $params->{web}   || $app->request->web;
+    my $attrTopic = $params->{topic} || $app->request->topic;
 
     my $searchVal = 'XXX';
 
@@ -48,7 +48,7 @@ sub METASEARCH {
 
     my $text = '';
     if ( $params->{format} ) {
-        $text = $this->search->searchWeb(
+        $text = $app->search->searchWeb(
             format    => $params->{format},
             search    => $searchVal,
             web       => $attrWeb,
@@ -62,10 +62,9 @@ sub METASEARCH {
         );
     }
     else {
-        $this->search->searchWeb(
+        $app->search->searchWeb(
             _callback => \&_collate,
             _cbdata   => \$text,
-            ,
             search    => $searchVal,
             web       => $attrWeb,
             type      => 'regex',

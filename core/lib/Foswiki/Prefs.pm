@@ -133,17 +133,13 @@ has internals => (
     default   => sub { {} },
 );
 
-around BUILDARGS => sub {
-    my $orig  = shift;
-    my $proto = shift;
+sub BUILD {
+    my $this = shift;
 
-    my $class = ref($proto) || $proto;
+    my $cfg = $this->app->cfg;
 
-    eval "use $Foswiki::cfg{Store}{PrefsBackend} ()";
-    die $@ if $@;
-
-    return $orig->( $class, @_ );
-};
+    Foswiki::load_package( $cfg->data->{Store}{PrefsBackend} );
+}
 
 =begin TML
 
@@ -190,7 +186,7 @@ sub _getBackend {
     my $path = $metaObject->getPath;
     unless ( exists $this->paths->{$path} ) {
         $this->paths->{$path} =
-          $Foswiki::cfg{Store}{PrefsBackend}->new($metaObject);
+          $Foswiki::cfg{Store}{PrefsBackend}->new( topicObject => $metaObject );
     }
     return $this->paths->{$path};
 }
@@ -276,7 +272,8 @@ sub _getWebPrefsObj {
     foreach (@websToAdd) {
         $part .= '/' if $part;
         $part .= $_;
-        $this->webprefs->{$part} = Foswiki::Prefs::Web->new( $stack, $level++ );
+        $this->webprefs->{$part} =
+          Foswiki::Prefs::Web->new( stack => $stack, level => $level++ );
     }
     return $this->webprefs->{$web};
 }
@@ -304,7 +301,9 @@ sub loadPreferences {
     my $obj;
 
     if ( $topicObject->has_topic ) {
-        $obj = $Foswiki::cfg{Store}{PrefsBackend}->new($topicObject);
+        $obj =
+          $Foswiki::cfg{Store}{PrefsBackend}
+          ->new( topicObject => $topicObject );
     }
     elsif ( $topicObject->has_web ) {
         $obj = $this->_getWebPrefsObj( $topicObject->web );

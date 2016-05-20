@@ -28,7 +28,7 @@ BEGIN {
     }
 }
 
-our @_newParameters = qw( topicObject );
+#our @_newParameters = qw( topicObject );
 
 has values => (
     is      => 'rw',

@@ -359,7 +359,7 @@ sub innerExpandMacros {
 
     # SMELL Does it really needed in the App model?
     #local $Foswiki::Plugins::SESSION = $this;
-    local $Foswiki::app = $app;
+    #local $Foswiki::app = $app;
 
     # NOTE TO DEBUGGERS
     # The depth parameter in the following call controls the maximum number
@@ -656,6 +656,62 @@ sub parseSections {
     return ( $ntext, \@list );
 }
 
+=begin TML
+
+---++ execMacro($macroName, \%attrs, $topicObject) => $string
+
+Executes macro defined by its name $macroName.
+
+   * =%attrs= is a hash of attributes or a =Foswiki::Attrs= instance.
+   * =$topicObject= ...
+
+=cut
+
+sub execMacro {
+    my $this = shift;
+    my ( $macroName, $attrs, $topicObject ) = @_;
+
+    my $rc;
+
+    # vrurg Macro could either be a reference to an object or a sub. Though
+    # generally OO is preferred but for plguins registering a handling sub
+    # could be of more convenience for a while.
+    unless ( defined( $this->registered->{$macroName} ) ) {
+
+        # Demand-load the macro module
+        die $macroName unless $macroName =~ m/([A-Z_:]+)/i;
+        $macroName = $1;
+        my $modName = "Foswiki::Macros::$macroName";
+        Foswiki::load_package($modName);
+        if ( $modName->can('new') ) {
+            $this->registered->{$macroName} = $modName;
+        }
+        else {
+            $this->registered->{$macroName} = eval "\\&$macroName";
+        }
+    }
+
+    if ( ref( $this->registered->{$macroName} ) eq 'CODE' ) {
+        $rc =
+          $this->registered->{$macroName}->( $this->app, $attrs, $topicObject );
+    }
+    else {
+        # Create macro object unless it already exists.
+        unless ( defined $this->_macros->{$macroName} ) {
+            $this->_macros->{$macroName} =
+              $this->create( $this->registered->{$macroName} );
+            ASSERT( $this->_macros->{$macroName}->does('Foswiki::Macro'),
+                    "Invalid macro module "
+                  . $this->registered->{$macroName}
+                  . "; must do Foswiki::Macro role" )
+              if DEBUG;
+        }
+        $rc = $this->_macros->{$macroName}->expand( $attrs, $topicObject );
+    }
+
+    return $rc;
+}
+
 # Handle expansion of a tag during topic rendering
 # $tag is the tag name
 # $args is the bit in the {} (if there are any)
@@ -700,44 +756,10 @@ sub _expandMacroOnTopicRendering {
         }
     }
     elsif ( exists( $this->registered->{$tag} ) ) {
-
-        # vrurg Macro could either be a reference to an object or a sub. Though
-        # generally OO is preferred but for plguins registering a handling sub
-        # could be of more convenience for a while.
-        unless ( defined( $this->registered->{$tag} ) ) {
-
-            # Demand-load the macro module
-            die $tag unless $tag =~ m/([A-Z_:]+)/i;
-            $tag = $1;
-            my $modName = "Foswiki::Macros::$tag";
-            Foswiki::load_package($modName);
-            if ( $modName->can('new') ) {
-                $this->registered->{$tag} = $modName;
-            }
-            else {
-                $this->registered->{$tag} = eval "\\&$tag";
-            }
-        }
-
         my $attrs =
           new Foswiki::Attrs( $args, $this->contextFreeSyntax->{$tag} );
-        if ( ref( $this->registered->{$tag} ) eq 'CODE' ) {
-            $e =
-              $this->registered->{$tag}->( $this->app, $attrs, $topicObject );
-        }
-        else {
-            # Create macro object unless it already exists.
-            unless ( defined $this->_macros->{$tag} ) {
-                $this->_macros->{$tag} =
-                  $this->create( $this->registered->{$tag} );
-                ASSERT( $this->_macros->{$tag}->does('Foswiki::Macro'),
-                        "Invalid macro module "
-                      . $this->registered->{$tag}
-                      . "; must do Foswiki::Macro role" )
-                  if DEBUG;
-            }
-            $e = $this->_macros->{$tag}->expand( $attrs, $topicObject );
-        }
+
+        $e = $this->execMacro( $tag, $attrs, $topicObject );
     }
     elsif ( $args && $args =~ m/\S/ ) {
 

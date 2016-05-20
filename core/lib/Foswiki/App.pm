@@ -81,7 +81,7 @@ instance.
 has cfg => (
     is      => 'rw',
     lazy    => 1,
-    builder => '_readConfig',
+    builder => '_prepareConfig',
     isa => Foswiki::Object::isaCLASS( 'cfg', 'Foswiki::Config', noUndef => 1, ),
 );
 has env => (
@@ -157,7 +157,7 @@ has prefs => (
     lazy      => 1,
     predicate => 1,
     clearer   => 1,
-    default   => sub { return $_[0]->create('Foswiki::Prefs'); },
+    builder   => '_preparePrefs',
 );
 has renderer => (
     is        => 'ro',
@@ -380,6 +380,8 @@ sub BUILD {
     # Do this really early, so that later changes in isBOOTSTRAPPING can't
     # change Foswiki's behavior.
     $this->user('admin') if ( $cfg->data->{isBOOTSTRAPPING} );
+
+    $this->_readPrefs;
 }
 
 =begin TML
@@ -496,35 +498,6 @@ sub handleRequest {
         }
 
         $this->_checkActionAccess;
-
-        # Push global preferences from %SYSTEMWEB%.DefaultPreferences
-        $this->prefs->loadDefaultPreferences();
-
-        # Static session variables that can be expanded in topics when they are
-        # enclosed in % signs
-        # SMELL: should collapse these into one. The duplication is pretty
-        # pointless.
-        $this->prefs->setInternalPreferences(
-            BASEWEB        => $req->web,
-            BASETOPIC      => $req->topic,
-            INCLUDINGWEB   => $req->web,
-            INCLUDINGTOPIC => $req->topic,
-        );
-
-        # Push plugin settings
-        $this->plugins->settings();
-
-        # Now the rest of the preferences
-        $this->prefs->loadSitePreferences();
-
-        # User preferences only available if we can get to a valid wikiname,
-        # which depends on the user mapper.
-        my $wn = $this->users->getWikiName( $this->user );
-        if ($wn) {
-            $this->prefs->setUserPreferences($wn);
-        }
-
-        $this->prefs->pushTopicContext( $req->web, $req->topic );
 
         # Set both isadmin and authenticated contexts. If the current user is
         # admin, then they either authenticated, or we are in bootstrap.
@@ -1362,6 +1335,49 @@ sub _prepareEngine {
     return $engine;
 }
 
+sub _preparePrefs {
+    my $this = shift;
+
+    my $prefs = $this->create('Foswiki::Prefs');
+
+    return $prefs;
+}
+
+sub _readPrefs {
+    my $this = shift;
+
+    my $req = $this->request;
+
+    # Push global preferences from %SYSTEMWEB%.DefaultPreferences
+    $this->prefs->loadDefaultPreferences();
+
+    # Static session variables that can be expanded in topics when they are
+    # enclosed in % signs
+    # SMELL: should collapse these into one. The duplication is pretty
+    # pointless.
+    $this->prefs->setInternalPreferences(
+        BASEWEB        => $req->web,
+        BASETOPIC      => $req->topic,
+        INCLUDINGWEB   => $req->web,
+        INCLUDINGTOPIC => $req->topic,
+    );
+
+    # Push plugin settings
+    $this->plugins->settings();
+
+    # Now the rest of the preferences
+    $this->prefs->loadSitePreferences();
+
+    # User preferences only available if we can get to a valid wikiname,
+    # which depends on the user mapper.
+    my $wn = $this->users->getWikiName( $this->user );
+    if ($wn) {
+        $this->prefs->setUserPreferences($wn);
+    }
+
+    $this->prefs->pushTopicContext( $req->web, $req->topic );
+}
+
 # The request attribute default method.
 sub _prepareRequest {
     my $this = shift;
@@ -1394,7 +1410,7 @@ sub _prepareRequest {
     return $request;
 }
 
-sub _readConfig {
+sub _prepareConfig {
     my $this = shift;
     my $cfg = $this->create( 'Foswiki::Config', env => $this->env );
     return $cfg;

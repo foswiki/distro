@@ -1232,7 +1232,7 @@ sub verify_SEARCH_3860 {
       $this->test_topicObject->expandMacros( $this->toSiteCharSet(<<'HERE') );
 %SEARCH{"BLEEGLE" topic="OkÆTopic" format="$wikiname $wikiusername" nonoise="on" }%
 HERE
-    my $wn = $this->session->users->getWikiName( $this->session->user );
+    my $wn = $this->app->users->getWikiName( $this->app->user );
     $this->assert_str_equals( "$wn " . $this->users_web . ".$wn\n", $result );
 
     $result =
@@ -1481,8 +1481,8 @@ sub test_nofinalnewline {
 }
 
 sub test_formatted_search_summary_with_exclamation_marks {
-    my $this    = shift;
-    my $session = $this->session;
+    my $this = shift;
+    my $app  = $this->app;
 
     $this->set_up_for_formatted_search();
     my $actual, my $expected;
@@ -1509,8 +1509,8 @@ sub test_formatted_search_summary_with_exclamation_marks {
 
 # Item8718
 sub test_formatted_search_with_exclamation_marks_inside_bracket_link {
-    my $this    = shift;
-    my $session = $this->session;
+    my $this = shift;
+    my $app  = $this->app;
 
     $this->set_up_for_formatted_search();
     my $actual, my $expected;
@@ -1588,8 +1588,8 @@ sub test_format_displayed_value {
 }
 
 sub test_METASEARCH {
-    my $this    = shift;
-    my $session = $this->session;
+    my $this = shift;
+    my $app  = $this->app;
 
     $this->set_up_for_formatted_search();
     my $actual, my $expected;
@@ -1784,11 +1784,14 @@ HERE
     $topicObject->save();
     undef $topicObject;
 
-    my $query = Unit::Request->new( initializer => '' );
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
-
-    $this->createNewFoswikiSession( undef, $query );
-    $this->assert_str_equals( $this->test_web, $this->session->webName );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => '', },
+        engineParams  => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/" . $this->test_topic, },
+        },
+    );
+    $this->assert_str_equals( $this->test_web, $this->app->request->web );
 
     return;
 }
@@ -2225,14 +2228,14 @@ HERE
       $this->test_topicObject->expandMacros(
         '%SEARCH{"text ~ \'*QueryTopicTwo*\'" ' . $stdCrap );
 
-    $this->assert( $this->session->search );
-    $this->assert( $this->session->search->metacache );
+    $this->assert( $this->app->search );
+    $this->assert( $this->app->search->metacache );
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, 'QueryTopicTwo' );
 
     $this->assert(
-        $this->session->search->metacache->hasCached(
+        $this->app->search->metacache->hasCached(
             $this->test_web, 'QueryTopicTwo'
         )
     );
@@ -2243,7 +2246,7 @@ HERE
     $topicObject->inMetaCache(1);
     undef $topicObject;
     $this->assert(
-        !$this->session->search->metacache->hasCached(
+        !$this->app->search->metacache->hasCached(
             $this->test_web, 'QueryTopicTwo'
         )
     );
@@ -2454,7 +2457,7 @@ HERE
 #extractFormat feature
     $this->assert_str_equals(
         'Apache is the well known web server.',
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
 'Apache is the [[http://www.apache.org/httpd/][well known web server]].'
         )
     );
@@ -2462,25 +2465,25 @@ HERE
     #test a few others to try to not break things
     $this->assert_matches(
 qr/Apache is the\s+http:\/\/www\.apache\.org\/httpd\/ well known web server\s*\./,
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
 'Apache is the [[http://www.apache.org/httpd/ well known web server]].'
         )
     );
     $this->assert_str_equals(
         'Apache is the well known web server.',
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
             'Apache is the [[ApacheServer][well known web server]].')
     );
 
     #SMELL: an unexpected result :/
     $this->assert_str_equals(
         'Apache is the   well known web server  .',
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
             'Apache is the [[well known web server]].')
     );
     $this->assert_str_equals(
         'Apache is the well known web server.',
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
             'Apache is the well known web server.')
     );
 
@@ -2504,7 +2507,7 @@ sub _getTopicList {
     my $webObject = $this->getWebObject($web);
 
     # Run the search on topics in this web
-    my $search = $this->session->search();
+    my $search = $this->app->search();
     my $iter =
       Foswiki::Search::InfoCache::getTopicListIterator( $webObject, $options );
 
@@ -2751,8 +2754,8 @@ sub verify_getTopicList {
 }
 
 sub verify_casesensitivesetting {
-    my $this    = shift;
-    my $session = $this->session;
+    my $this = shift;
+    my $app  = $this->app;
 
     my $actual, my $expected;
 
@@ -4085,8 +4088,8 @@ Number of topics: 4
 CRUD
 
     # Now we create the WikiGuest user topic, to test both outputs
-    my $session = $this->session;
-    if ( !$session->topicExists( 'TemporarySEARCHUsersWeb', 'WikiGuest' ) ) {
+    my $app = $this->app;
+    if ( !$app->store->topicExists( 'TemporarySEARCHUsersWeb', 'WikiGuest' ) ) {
         my ($userTopic) =
           Foswiki::Func::readTopic( 'TemporarySEARCHUsersWeb', 'WikiGuest' );
         $userTopic->text('Just this poor old WikiGuest');
@@ -4094,7 +4097,7 @@ CRUD
         undef $userTopic;
     }
     $this->assert(
-        $session->topicExists( 'TemporarySEARCHUsersWeb', 'WikiGuest' ),
+        $app->store->topicExists( 'TemporarySEARCHUsersWeb', 'WikiGuest' ),
         'Failed to create user topic in TemporarySEACHUsersWeb'
     );
 
@@ -4885,7 +4888,7 @@ HERE
     #TODO: sadly, the core Handlers don't set the filedate
     # even though they could
     # my $file_date =
-    #   $this->session->store
+    #   $this->app->store
     #   ->getApproxRevTime( $this->test_web, "VeryOldTopic" );
     # $this->assert_num_equals(86420, $file_date);
 
@@ -5463,12 +5466,15 @@ HERE
 
 sub test_delayed_expansion {
     my $this = shift;
-    $this->assert( eval " require Foswiki::Macros::SEARCH; 1; "
-          and not $EVAL_ERROR );
+
+    my $macros = $this->app->macros;
+
+    #$this->assert( eval " require Foswiki::Macros::SEARCH; 1; "
+    #      and not $EVAL_ERROR );
 
     # SMELL This won't work if SEARCH macro gets converted into a object.
-    my $result = $Foswiki::Plugins::SESSION->SEARCH(
-        {
+    my $result = $this->app->macros->execMacro(
+        SEARCH => {
             _DEFAULT  => "1",
             type      => "query",
             nonoise   => "on",
@@ -5484,8 +5490,8 @@ sub test_delayed_expansion {
 WebHome, WebIndex, WebPreferences, WebHome, WebIndex, WebPreferences
 EXPECT
 
-    $result = $Foswiki::Plugins::SESSION->SEARCH(
-        {
+    $result = $macros->execMacro(
+        SEARCH => {
             _DEFAULT  => "1",
             type      => "query",
             nonoise   => "on",
@@ -5502,8 +5508,8 @@ EXPECT
 EXPECT
 
 #Item8849: the header (and similarly footer) are expended once too often, FOREACh and SEARCH should return the raw TML, which is _then_ expanded
-    $result = $Foswiki::Plugins::SESSION->SEARCH(
-        {
+    $result = $macros->execMacro(
+        SEARCH => {
             _DEFAULT  => "1",
             type      => "query",
             nonoise   => "on",
@@ -5862,11 +5868,14 @@ HERE
     $topicObject->save( forcedate => 1108413782, author => 'Gerald' );
     undef $topicObject;
 
-    my $query = Unit::Request->new( initializer => '' );
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
-
-    $this->createNewFoswikiSession( undef, $query );
-    $this->assert_str_equals( $this->test_web, $this->session->webName );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => '', },
+        engineParams  => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/" . $this->test_topic, },
+        }
+    );
+    $this->assert_str_equals( $this->test_web, $this->app->request->web );
 
     return;
 }
@@ -6800,12 +6809,15 @@ HERE
 "form.name='Profile/Definitions.Acacia_Sequence_Form' AND Acacia_TraceSet/Acacia_PCRProduct/Acacia_Extract/Acacia_LaneNumber < 5"
           => ''
     );
-    my $query = Unit::Request->new( initializer => '' );
 
-    $query->path_info( "/$test_web/" . $this->test_topic );
-
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $query );
-    $this->assert_str_equals( $this->test_web, $this->session->webName );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => '', },
+        engineParams  => {
+            initialAttributes =>
+              { path_info => "/$test_web/" . $this->test_topic, },
+        }
+    );
+    $this->assert_str_equals( $this->test_web, $this->app->request->web );
     while ( my ( $fwaddress, $metatext ) = each %topics ) {
         my ( $web, $topic ) =
           Foswiki::Func::normalizeWebTopicName( '', $fwaddress );

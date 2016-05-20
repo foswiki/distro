@@ -106,7 +106,8 @@ in the database is protected against view.
 sub _validateWebTopic {
     my ( $app, $web, $form ) = @_;
 
-    my ( $vweb, $vtopic ) = $app->request->normalizeWebTopicName( $web, $form );
+    my $req = $app->request;
+    my ( $vweb, $vtopic ) = $req->normalizeWebTopicName( $web, $form );
 
     # Validating web/topic before usage.
     $vweb =
@@ -118,7 +119,7 @@ sub _validateWebTopic {
         Foswiki::OopsException->throw(
             template => 'attention',
             def      => 'invalid_form_name',
-            web      => $app->webName,
+            web      => $req->web,
             topic    => $app->topicName,
             params   => [ $web, $form ]
         );
@@ -161,6 +162,7 @@ around BUILDARGS => sub {
     my $params = $orig->( $class, @_ );
 
     my $app = $params->{app};
+    my $req = $app->request;
     my ( $vweb, $vtopic ) =
       _validateWebTopic( $app, $params->{web}, $params->{form} );
 
@@ -180,8 +182,8 @@ around BUILDARGS => sub {
         Foswiki::OopsException->throw(
             template => 'attention',
             def      => 'no_form_def',
-            web      => $app->webName,
-            topic    => $app->topicName,
+            web      => $req->web,
+            topic    => $req->topic,
             params   => [ $vweb, $vtopic ]
         );
     }

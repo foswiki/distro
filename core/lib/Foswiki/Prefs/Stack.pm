@@ -64,15 +64,6 @@ has map => (
     default => sub { {} },
 );
 
-around BUILDARGS => sub {
-    my $orig  = shift;
-    my $proto = shift;
-
-    my $class = ref($proto) || $proto;
-
-    return $orig->( $class, @_ );
-};
-
 =begin TML
 
 ---++ ObjectMethod finish()

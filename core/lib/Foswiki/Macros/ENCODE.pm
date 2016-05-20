@@ -66,10 +66,10 @@ sub ENCODE {
     $type ||= 'url';
 
     if ( $type =~ m/^entit(y|ies)$/i ) {
-        return entityEncode($text);
+        return Foswiki::entityEncode($text);
     }
     elsif ( $type =~ m/^html$/i ) {
-        return entityEncode( $text, "\n\r" );
+        return Foswiki::entityEncode( $text, "\n\r" );
     }
     elsif ( $type =~ m/^quotes?$/i ) {
 

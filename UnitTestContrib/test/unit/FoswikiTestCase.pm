@@ -24,6 +24,7 @@ use Scalar::Util qw(blessed);
 use Foswiki();
 use Foswiki::Meta();
 use Foswiki::Plugins();
+use Foswiki::Store();
 
 #use Unit::Response();
 use Try::Tiny;
@@ -632,8 +633,11 @@ sub getWebObject {
     my ( $this, $web ) = @_;
     my $webObject;
 
-    require Foswiki::Store;
-    if ( defined &Foswiki::Store::create ) {
+    # SMELL It seems like create method was supposed to be a part of new
+    # Foswiki::Store (so called 'Store 2') semantics which actually wasn't
+    # developed after all. For now it conflicts with Foswiki::Object create
+    # method and has to be avoided.
+    if ( 0 && Foswiki::Store->can('create') ) {
 
         # store2
         $webObject = Foswiki::Store->load( address => { web => $web } );

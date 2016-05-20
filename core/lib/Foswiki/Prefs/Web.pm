@@ -27,7 +27,7 @@ BEGIN {
     }
 }
 
-our @_newParameters = qw( stack level );
+#our @_newParameters = qw( stack level );
 
 has stack => (
     is  => 'ro',
