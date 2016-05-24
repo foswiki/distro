@@ -79,6 +79,7 @@ sub register_cgi {
     }
     else {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'attention',
             web      => $req->web,
             topic    => $req->topic,
@@ -99,6 +100,7 @@ sub _action_register {
         && uc( $req->method ) ne 'POST' )
     {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'attention',
             web      => $req->web,
             topic    => $req->topic,
@@ -109,6 +111,7 @@ sub _action_register {
 
     if ( !$app->inContext('registration_supported') ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             web      => $req->web,
             topic    => $req->topic,
@@ -117,6 +120,7 @@ sub _action_register {
     }
     if ( !$app->cfg->data->{Register}{EnableNewUserRegistration} ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             web      => $req->web,
             topic    => $req->topic,
@@ -158,6 +162,7 @@ sub _action_verify {
 
     if ( !exists $data->{Email} ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             status   => 200,
             web      => $Foswiki::cfg{UsersWebName},
@@ -168,6 +173,7 @@ sub _action_verify {
     }
 
     Foswiki::OopsException->throw(
+        app      => $app,
         template => 'register',
         def      => 'bad_ver_code',
         params   => [ $code, 'Invalid verification code ' ]
@@ -198,6 +204,7 @@ sub _action_disapprove {
 
     # Display the form to optionally gather feedback and email the rejectee
     Foswiki::OopsException->throw(
+        app      => $app,
         template => 'register',
         status   => 200,
         web      => $Foswiki::cfg{UsersWebName},
@@ -215,6 +222,7 @@ sub _action_approve {
     my $code = $app->request->param('code');
 
     Foswiki::OopsException->throw(
+        app      => $app,
         template => 'register',
         def      => 'bad_ver_code',
         params   => [ $code, 'Invalid approval code ' ]
@@ -227,6 +235,7 @@ sub _action_approve {
     $this->_complete( $data, 0 );
 
     Foswiki::OopsException->throw(
+        app      => $app,
         template => 'register',
         status   => 200,
         web      => $Foswiki::cfg{UsersWebName},
@@ -268,6 +277,7 @@ sub _checkApproval {
 "Registration rejected: registration_mail_failed - Email: $data->{EmailAddress}, Error $err"
             );
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'register',
                 def      => 'registration_mail_failed',
                 web      => $Foswiki::cfg{UsersWebName},
@@ -276,6 +286,7 @@ sub _checkApproval {
             );
         }
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             status   => 200,
             web      => $Foswiki::cfg{UsersWebName},
@@ -299,6 +310,7 @@ sub _checkApproval {
 
     if ( !exists $data->{Email} ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             status   => 200,
             web      => $Foswiki::cfg{UsersWebName},
@@ -313,6 +325,7 @@ sub _checkApproval {
     my $cUID = $users->getCanonicalUserID( $data->{WikiName} );
     if ( $cUID && $users->userExists($cUID) ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             status   => 200,
             web      => $Foswiki::cfg{UsersWebName},
@@ -337,6 +350,7 @@ sub _resetPassword {
     my $req = $app->request;
     if ( !$app->inContext('passwords_modifyable') ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             web      => $req->web,
             topic    => $req->topic,
@@ -391,6 +405,7 @@ sub bulkRegister {
 
     unless ( $users->isAdmin($user) ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'accessdenied',
             status   => 403,
             def      => 'only_group',
@@ -720,6 +735,7 @@ sub _innerRegister {
         $app->logger->log( 'warning',
             "Registration rejected: validateTopicName failed for $oldName" );
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             def      => 'bad_wikiname',
             web      => $data->{webName},
@@ -755,6 +771,7 @@ sub _requireConfirmation {
         $app->logger->log( 'warning',
             "$type rejected: validateTopicName failed for $oldName" );
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             def      => 'bad_wikiname',
             web      => $data->{webName},
@@ -820,6 +837,7 @@ sub _requireConfirmation {
 "Registration rejected: registration_mail_failed - Email: $data->{EmailAddress}, Error $err"
                 );
                 Foswiki::OopsException->throw(
+                    app      => $app,
                     template => 'register',
                     def      => 'registration_mail_failed',
                     web      => $data->{webName},
@@ -835,6 +853,7 @@ sub _requireConfirmation {
         );
 
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'attention',
             def      => 'send_mail_error',
             web      => $data->{webName},
@@ -844,6 +863,7 @@ sub _requireConfirmation {
     }
 
     Foswiki::OopsException->throw(
+        app      => $app,
         template => 'register',
         status   => 200,
         def      => $template,                  # confirm or approve
@@ -881,6 +901,7 @@ sub deleteUser {
         && uc( $req->method ) ne 'POST' )
     {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'attention',
             web      => $webName,
             topic    => $topic,
@@ -891,6 +912,7 @@ sub deleteUser {
 
     unless ( $req->param('user') ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             web      => $webName,
             topic    => $topic,
@@ -916,6 +938,7 @@ sub deleteUser {
 
         if ( ( $user ne $cUID ) && ( $myWikiName ne $userWikiName ) ) {
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'register',
                 web      => $webName,
                 topic    => $topic,
@@ -927,6 +950,7 @@ sub deleteUser {
         # check if user entry exists
         if ( !$users->userExists($cUID) ) {
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'register',
                 web      => $webName,
                 topic    => $topic,
@@ -940,6 +964,7 @@ sub deleteUser {
             $users->checkPassword( $users->getLoginName($cUID), $password ) )
         {
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'register',
                 web      => $webName,
                 topic    => $topic,
@@ -954,6 +979,7 @@ sub deleteUser {
             \&Foswiki::Sandbox::validateTopicName
         );
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             web      => $webName,
             topic    => $topic,
@@ -971,6 +997,7 @@ sub deleteUser {
     Foswiki::Func::writeWarning("$cUID: $lm");
 
     Foswiki::OopsException->throw(
+        app      => $app,
         template => 'register',
         status   => 200,
         def      => 'remove_user_done',
@@ -1010,6 +1037,7 @@ sub addUserToGroup {
     if ( !$groupName or $groupName eq '' ) {
         my $userNames = scalar(@userNames) ? join( ',', @userNames ) : '';
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             def      => 'no_group_specified_for_add_to_group',
             web      => $web,
@@ -1040,6 +1068,7 @@ sub addUserToGroup {
             };
 
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'register',
                 status   => 200,
                 def      => 'group_upgraded',
@@ -1054,6 +1083,7 @@ sub addUserToGroup {
         && !$create )
     {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             def      => 'no_group_and_no_create',
             web      => $web,
@@ -1117,6 +1147,7 @@ sub addUserToGroup {
         $app->logger->log( 'warning',
             "failed: " . scalar(@failed) . " Succeeded " . scalar(@succeeded) );
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             web      => $web,
             topic    => $topic,
@@ -1128,6 +1159,7 @@ sub addUserToGroup {
     my $url = $app->redirectto();
     unless ($url) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             status   => 200,
             def      => 'added_users_to_group',
@@ -1169,6 +1201,7 @@ sub removeUserFromGroup {
         or ( $userNames[0] eq '' ) )
     {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             def      => 'no_users_to_remove_from_group'
         );
@@ -1178,12 +1211,14 @@ sub removeUserFromGroup {
     }
     if ( !$groupName or $groupName eq '' ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             def      => 'no_group_specified_for_remove_from_group'
         );
     }
     unless ( Foswiki::Func::isGroup($groupName) ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             def      => 'problem_removing_from_group'
         );
@@ -1216,6 +1251,7 @@ sub removeUserFromGroup {
     }
     if (@failed) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             web      => $web,
             topic    => $topic,
@@ -1227,6 +1263,7 @@ sub removeUserFromGroup {
     my $url = $app->redirectto();
     unless ($url) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             status   => 200,
             def      => 'removed_users_from_group',
@@ -1379,6 +1416,7 @@ sub _complete {
             $app->logger->log( 'warning',
                 'Registration failed: ' . $e->stringify() );
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'register',
                 web      => $data->{webName},
                 topic    => $topic,
@@ -1464,6 +1502,7 @@ sub _complete {
 
         # and finally display thank you page
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             status   => 200,
             web      => $Foswiki::cfg{UsersWebName},
@@ -1783,6 +1822,7 @@ sub _validateRegistration {
 
             # Login name is required, barf
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'register',
                 web      => $data->{webName},
                 topic    => $req->topic,
@@ -1800,6 +1840,7 @@ sub _validateRegistration {
         {
             # Login name is not allowed, barf
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'register',
                 web      => $data->{webName},
                 topic    => $req->topic,
@@ -1814,6 +1855,7 @@ sub _validateRegistration {
         $app->users->getLoginManager()->isValidLoginName( $data->{LoginName} ) )
     {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             web      => $data->{webName},
             topic    => $app->topicName,
@@ -1862,6 +1904,7 @@ sub _validateRegistration {
 "Registration rejected:  LoginName $data->{LoginName} or WikiName $wikiname already known to Mapper"
         );
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             web      => $data->{webName},
             topic    => $req->topic,
@@ -1882,6 +1925,7 @@ sub _validateRegistration {
 "Registration rejected: Topic $Foswiki::cfg{UsersWebName}.$data->{WikiName}  already exists."
         );
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             web      => $data->{webName},
             topic    => $req->topic,
@@ -1896,6 +1940,7 @@ sub _validateRegistration {
             "Registration rejected:  $data->{WikiName} is not a valid WikiWord."
         );
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             web      => $data->{webName},
             topic    => $req->topic,
@@ -1918,6 +1963,7 @@ sub _validateRegistration {
 "Registration rejected for $data->{WikiName}: requested password is too short."
             );
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'register',
                 web      => $data->{webName},
                 topic    => $req->topic,
@@ -1934,6 +1980,7 @@ sub _validateRegistration {
 "Registration rejected for $data->{WikiName}: passwords do not match."
             );
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'register',
                 web      => $data->{webName},
                 topic    => $req->topic,
@@ -1951,6 +1998,7 @@ sub _validateRegistration {
 "Registration rejected: $data->{Email} failed the system email regex check."
         );
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             web      => $data->{webName},
             topic    => $req->topic,
@@ -1971,6 +2019,7 @@ sub _validateRegistration {
 "Registration rejected: $data->{Email} rejected by the {Register}{EmailFilter}."
         );
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             def      => 'rej_email',
             web      => $data->{webName},
@@ -1991,6 +2040,7 @@ sub _validateRegistration {
                 "Registration rejected: $data->{Email} already registered by: "
                   . join( ', ', @existingNames ) );
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'register',
                 web      => $data->{webName},
                 topic    => $req->topic,
@@ -2014,6 +2064,7 @@ sub _validateRegistration {
             $app->logger->log( 'warning',
                 'Registration rejected: The submitted form was empty' );
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'attention',
                 web      => $data->{webName},
                 topic    => $req->topic,
@@ -2034,6 +2085,7 @@ sub _validateRegistration {
                 'Registration rejected: missing required fields: '
                   . join( ',', @missing ) );
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'attention',
                 web      => $data->{webName},
                 topic    => $req->topic,
@@ -2056,6 +2108,7 @@ sub _validateRegistration {
         my $e = $_;
         Foswiki::OopsException->rethrowAs(
             $_,
+            app      => $app,
             template => 'register',
             web      => $data->{webName},
             topic    => $req->topic,
@@ -2084,10 +2137,11 @@ sub _validateTemplateTopic {
                 'Registration rejected: invalid templatetopic requested: '
                   . $template );
             throw Foswiki::OopsException(
-                'register',
-                web   => $req->web,
-                topic => $req->topic,
-                def   => 'bad_templatetopic',
+                app      => $app,
+                template => 'register',
+                web      => $req->web,
+                topic    => $req->topic,
+                def      => 'bad_templatetopic',
             );
         }
     );
@@ -2101,10 +2155,11 @@ sub _validateTemplateTopic {
 'Registration rejected: invalid templatetopic webname requested: '
                   . $web );
             throw Foswiki::OopsException(
-                'register',
-                web   => $req->web,
-                topic => $req->topic,
-                def   => 'bad_templatetopic',
+                app      => $app,
+                template => 'register',
+                web      => $req->web,
+                topic    => $req->topic,
+                def      => 'bad_templatetopic',
             );
         }
     );
@@ -2120,12 +2175,13 @@ sub _validateTemplateTopic {
               . $templateWeb . "."
               . $templateTopic );
         throw Foswiki::OopsException(
-            'register',
-            uweb  => $Foswiki::cfg{UsersWebName},
-            tmpl  => $templateTopic,
-            web   => $req->web,
-            topic => $req->topic,
-            def   => 'bad_templatetopic',
+            app      => $app,
+            template => 'register',
+            uweb     => $Foswiki::cfg{UsersWebName},
+            tmpl     => $templateTopic,
+            web      => $req->web,
+            topic    => $req->topic,
+            def      => 'bad_templatetopic',
         );
     }
     return "$templateWeb.$templateTopic";
@@ -2216,6 +2272,7 @@ sub _loadPendingRegistration {
     }
     catch {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             def      => 'bad_ver_code',
             params   => [ $code, 'Invalid code' ],
@@ -2229,12 +2286,14 @@ sub _loadPendingRegistration {
             && $app->users->userExists( $users->[0] ) )
         {
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'register',
                 def      => 'duplicate_activation',
                 params   => [$wikiName],
             );
         }
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             def      => 'bad_ver_code',
             params   => [ $code, 'Code is not recognised' ],
@@ -2246,6 +2305,7 @@ sub _loadPendingRegistration {
     do $file;
     $data->{form} = $form if $form;
     Foswiki::OopsException->throw(
+        app      => $app,
         template => 'register',
         def      => 'bad_ver_code',
         params   => [ $code, 'Bad activation code' ]
@@ -2281,6 +2341,7 @@ sub _getDataFromQuery {
             }
             catch {
                 Foswiki::OopsException->throw(
+                    app      => $app,
                     template => 'register',
                     def      => 'invalid_field',
                     params   => [$name]

@@ -71,7 +71,7 @@ sub setUrl {
 
         #print STDERR "\t setting $param, ".join(',', @{$params{$param}})."\n";
     }
-    $this->path_info( Foswiki::Sandbox::untaintUnchecked($path) );
+    $this->pathInfo( Foswiki::Sandbox::untaintUnchecked($path) );
 
     #print STDERR "pathinfo = $path\n";
 }

@@ -94,8 +94,9 @@ use Assert;
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Exception);
+with qw(Foswiki::AppObject);
 
-our @_newParameters = qw( template );
+#our @_newParameters = qw( template );
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -190,31 +191,34 @@ around BUILDARGS => sub {
 
 =begin TML
 
----++ ObjectMethod stringify( [$session] ) -> $string
+---++ ObjectMethod stringify( [$wihtTemplate] ) -> $string
 
-Generates a string representation for the object. if a session is passed in,
-and the exception specifies a def, then that def is expanded. This is to allow
+Generates a string representation for the object. if $withTemplate is true, and
+the exception specifies a def, then that def is expanded. This is to allow
 internal expansion of oops exceptions for example when performing bulk
 operations, and also for debugging.
 
 =cut
 
 around stringify => sub {
-    my $orig = shift;
-    my ( $this, $session ) = @_;
+    my $orig           = shift;
+    my $this           = shift;
+    my ($withTemplate) = @_;
+
+    my $app = $this->app;
 
     my $template = $this->template;
     my $def      = $this->def;
-    if ( $template && $def && $session ) {
+    if ( $template && $def && $withTemplate ) {
 
         # load the defs
-        $session->templates->readTemplate( 'oops' . $template, no_oops => 1 );
-        my $message = $session->templates->expandTemplate($def)
+        $app->templates->readTemplate( 'oops' . $template, no_oops => 1 );
+        my $message = $app->templates->expandTemplate($def)
           || "Failed to find '$def' in 'oops$template'";
-        my $topicObject = Foswiki::Meta->new(
-            session => $session,
-            web     => $this->web,
-            topic   => $this->topic
+        my $topicObject = $this->create(
+            'Foswiki::Meta',
+            web   => $this->web,
+            topic => $this->topic
         );
         $message = $topicObject->expandMacros($message);
         my $n = 1;
@@ -247,11 +251,12 @@ around stringify => sub {
 # This redirect has been replaced by the generate function below and should
 # not be called in new code.
 sub redirect {
-    my ( $this, $session ) = @_;
+    my $this = shift;
 
-    my @p = $this->_prepareResponse($session);
-    my $url = $session->getScriptUrl( 1, 'oops', $this->web, $this->topic, @p );
-    $session->redirect( $url, 1 );
+    my $app = $this->app;
+    my @p   = $this->_prepareResponse;
+    my $url = $app->getScriptUrl( 1, 'oops', $this->web, $this->topic, @p );
+    $app->redirect( $url, 1 );
 }
 
 =begin TML
@@ -265,18 +270,22 @@ can be overridden using the 'status => ' parameter to the constructor.
 =cut
 
 sub generate {
-    my ( $this, $session ) = @_;
+    my $this = shift;
 
-    my @p = $this->_prepareResponse($session);
-    $session->{response}->status( $this->status );
-    require Foswiki::UI::Oops;
-    Foswiki::UI::Oops::oops( $session, $this->web, $this->topic,
-        $session->{request}, 0 );
+    my $app = $this->app;
+    my $res = $app->response;
+    my $req = $app->request;
+    my @p   = $this->_prepareResponse;
+    $res->status( $this->status );
+    my $oops = $this->create('Foswiki::UI::Oops');
+    $oops->oops( $this->web, $this->topic, 0 );
 }
 
 sub _prepareResponse {
-    my ( $this, $session ) = @_;
-    my @p = ();
+    my $this = shift;
+    my @p    = ();
+
+    my $req = $this->app->request;
 
     $this->_set_template( "oops" . $this->template )
       unless $this->template =~ m/^oops/;
@@ -285,7 +294,7 @@ sub _prepareResponse {
     my $n = 1;
     push( @p, map { 'param' . ( $n++ ) => $_ } @{ $this->params } );
     while ( my $p = shift(@p) ) {
-        $session->{request}->param( -name => $p, -value => shift(@p) );
+        $req->param( -name => $p, -value => shift(@p) );
     }
     return @p;
 }

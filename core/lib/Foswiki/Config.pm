@@ -717,7 +717,7 @@ sub bootstrapWebSettings {
 # and then recovers it.  When the jsonrpc script is called to save the configuration
 # it then has the VIEWPATH parameter available.  If "view" was never called during
 # configuration, then it will not be set correctly.
-    my $path_info = $req->path_info
+    my $path_info = $req->pathInfo
       || '';    #SMELL Sometimes PATH_INFO appears to be undefined.
     print STDERR "AUTOCONFIG: REQUEST_URI is "
       . ( $app->env->{REQUEST_URI} || '(undef)' ) . "\n"

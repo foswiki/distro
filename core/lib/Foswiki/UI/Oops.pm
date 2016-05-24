@@ -9,12 +9,15 @@ UI delegate for oops function
 =cut
 
 package Foswiki::UI::Oops;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
 use Foswiki ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -38,17 +41,14 @@ values in the query.
 =cut
 
 sub oops_cgi {
-    my $session = shift;
-    my $topic   = $session->topicName;
-    my $web     = $session->webName;
-    my $query   = $session->request;
+    my $this = shift;
 
-    oops( $session, $web, $topic, $query, 0 );
+    $this->oops( $req->web, $req->topic, 0 );
 }
 
 =begin TML
 
----++ StaticMethod oops($session, $web, $topic, $query, $keep)
+---++ StaticMethod oops($web, $topic, $keep)
 
 The body of an oops script call, abstracted out so it can be called for
 the case where an oops is required, but all the parameters in the query
@@ -56,21 +56,26 @@ must be saved for passing on to another URL invoked from a form in
 the template. If $keep is defined, it must be a reference to a hash
 (usually an oopsexception) that defines the parameters to the
 script (template, def etc). In this case, all the parameters in
-the =$query= are added as hiddens into the expanded template.
+the =$req= are added as hiddens into the expanded template.
 
 =cut
 
 sub oops {
-    my ( $session, $web, $topic, $query, $keep ) = @_;
+    my $this = shift;
+    my ( $web, $topic, $keep ) = @_;
+
+    my $app       = $this->app;
+    my $req       = $app->req;
+    my $templates = $app->templates;
 
     # Foswikitask:Item885: web and topic are required to have values
-    $web ||= $session->webName;
+    $web ||= $req->web;
 
     # If web name is completely missing, it may have contained
     # illegal characters
     $web ||= '';
 
-    $topic ||= $session->topicName;
+    $topic ||= $req->topic;
 
     my $tmplName;
     my $def;
@@ -93,9 +98,9 @@ sub oops {
         }
     }
     else {
-        $tmplName = $query->param('template');
-        $def      = $query->param('def');
-        while ( defined( my $param = $query->param( 'param' . $n ) ) ) {
+        $tmplName = $req->param('template');
+        $def      = $req->param('def');
+        while ( defined( my $param = $req->param( 'param' . $n ) ) ) {
 
             # Don't accept internal render tokens in parameters
             #$param =~ s/[\x00-\x03]//g;
@@ -110,9 +115,9 @@ sub oops {
     $tmplName =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;
 
     # Do not pass on the template parameter otherwise continuation won't work
-    $query->delete('template');
+    $req->delete('template');
 
-    my $tmplData = $session->templates->readTemplate( $tmplName, no_oops => 1 );
+    my $tmplData = $templates->readTemplate( $tmplName, no_oops => 1 );
 
     if ( !defined($tmplData) ) {
 
@@ -131,16 +136,16 @@ MESSAGE
         if ( defined $def ) {
 
             # if a def is specified, instantiate that def
-            my $blah = $session->templates->expandTemplate($def);
+            my $blah = $templates->expandTemplate($def);
             $tmplData =~ s/%INSTANTIATE%/$blah/;
         }
 
         # Warning: do NOT attempt to instantiate a topic object with
         # a null or bogus web name!
-        my $topicObject = Foswiki::Meta->new(
-            session => $session,
-            web     => $web || $Foswiki::cfg{SystemWebName},
-            topic   => $topic
+        my $topicObject = $this->(
+            'Foswiki::Meta',
+            web => $web || $Foswiki::cfg{SystemWebName},
+            topic => $topic
         );
         $tmplData = $topicObject->expandMacros($tmplData);
         $n        = 1;
@@ -158,7 +163,7 @@ MESSAGE
         $tmplData = $topicObject->renderTML($tmplData);
     }
 
-    $session->writeCompletePage($tmplData);
+    $app->writeCompletePage($tmplData);
 }
 
 1;

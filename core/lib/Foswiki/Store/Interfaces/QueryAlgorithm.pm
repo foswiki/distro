@@ -185,7 +185,7 @@ sub addACLFilter {
 
 #TODO: OMG! Search.pm relies on Meta::load (in the metacache) returning a meta object even when the topic does not exist.
 #lets change that
-                $topicMeta = Foswiki::app->create(
+                $topicMeta = $Foswiki::app->create(
                     'Foswiki::Meta',
                     web   => $web,
                     topic => $topic

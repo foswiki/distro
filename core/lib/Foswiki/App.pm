@@ -436,11 +436,7 @@ sub run {
         $rc  = $app->handleRequest;
     }
     catch {
-        my $e = $_;
-
-        unless ( ref($e) && $e->isa('Foswiki::Exception') ) {
-            $e = Foswiki::Exception->transmute($e);
-        }
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
 
         if ( defined $app && defined $app->logger ) {
             $app->logger->log( 'error', $e->stringify, );
@@ -514,12 +510,34 @@ sub handleRequest {
         $this->ui->$method;
     }
     catch {
-        my $e = $_;
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
 
         # SMELL TODO At this stage we shall be able to display any expection in
         # a pretty HTMLized way if engine is HTTPCompliant. Rethrowing of an
         # exception is just a temporary stub.
-        Foswiki::Exception::Fatal->rethrow($e);
+        if ( $e->isa('Foswiki::AccessControlException') ) {
+            $res = $this->response;
+
+            unless ( $this->users->getLoginManager->forceAuthentication ) {
+
+                # Login manager did not want to authenticate, perhaps because
+                # we are already authenticated.
+                my $exception = $this->create(
+                    'Foswiki::OopsException',
+                    template => 'accessdenied',
+                    status   => 403,
+                    web      => $e->web,
+                    topic    => $e->topic,
+                    def      => 'topic_access',
+                    params   => [ $e->mode, $e->reason ]
+                );
+
+                $exception->generate;
+            }
+        }
+        else {
+            Foswiki::Exception::Fatal->rethrow($e);
+        }
     };
 
     my $return = $res->as_array;

@@ -614,12 +614,7 @@ sub runOne {
                     # exceptions with stacktrace for simplified error tracing.
                     local $SIG{__DIE__} = sub {
                         my $e = shift;
-                        if ( ref($e) && $e->isa('Foswiki::Exception') ) {
-                            $e->rethrow;
-                        }
-                        else {
-                            Foswiki::Exception::Fatal->rethrow($e);
-                        }
+                        Foswiki::Exception::Fatal->rethrow($e);
                       }
                       if DEBUG;
                     $tester->set_up($test);

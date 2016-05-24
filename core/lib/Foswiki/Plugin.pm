@@ -241,7 +241,7 @@ sub load {
         $user = &$sub(
             $this->app->remoteUser,
             $this->app->request->url,
-            $this->app->request->path_info
+            $this->app->request->pathInfo
         );
         use strict 'refs';
     }

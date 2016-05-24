@@ -69,6 +69,7 @@ around set_up => sub {
     my $users_web = $this->users_web;
     ($topicObject) =
       Foswiki::Func::readTopic( $users_web, "ReservoirDogsGroup" );
+    my $curUser = $this->app->user;
     $topicObject->text(<<"THIS");
    * Set GROUP = MrWhite, $users_web.MrBlue
    * Set ALLOWTOPICVIEW = $users_web.ReservoirDogsGroup
@@ -135,6 +136,7 @@ sub PERMITTED {
 # Test that explicitly defined users are denied topic view
 sub test_denytopic {
     my $this = shift;
+
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     my $users_web = $this->users_web;
@@ -880,15 +882,6 @@ THIS
     undef $topicObject;
 
     # Request the page with the full UI
-    #my $query = Unit::Request->new(
-    #    initializer => {
-    #        webName   => [ $this->test_web ],
-    #        topicName => ["$test_topic"],
-    #    }
-    #);
-    #$query->path_info( "/" . $this->test_web . "/$test_topic" );
-    #$query->method('GET');
-    #$query->action('view');
     my $viewUrl = $cfg->getScriptUrl( 0, 'view', $this->test_web, $test_topic );
 
     #$query->uri("$viewUrl");

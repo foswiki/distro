@@ -786,7 +786,7 @@ See baseclass for documentation
 
 sub eachGroup {
     my ($this) = @_;
-    _getListOfGroups($this);
+    $this->_getListOfGroups;
     return new Foswiki::ListIterator( list => \@{ $this->groupsList } );
 }
 
@@ -1659,39 +1659,51 @@ sub _getListOfGroups {
     my $this  = shift;
     my $reset = shift;
 
+    my $app = $this->app;
+
     ASSERT( $this->isa('Foswiki::Users::TopicUserMapping') ) if DEBUG;
 
     if ( !$this->groupsList || $reset ) {
-        my $users = $this->app->users;
+        my $users = $app->users;
         $this->groupsList( [] );
 
         #create a MetaCache _before_ we do silly things with the app's users
-        $this->app->search->metacache();
+        $app->search->metacache();
 
         # Temporarily set the user to admin, otherwise it cannot see groups
         # where %USERSWEB% is protected from view
-        # SMELL XXXMOO Broken: this has to be done differently!
+        # SMELL Broken: this has to be done differently!
         #local $this->app->{user} = $Foswiki::cfg{SuperAdminGroup};
+        my $curUser = $app->user;
 
-        $this->app->search->searchWeb(
-            _callback => \&_collateGroups,
-            _cbdata   => {
-                list  => $this->groupsList,
-                users => $users
-            },
-            web       => $Foswiki::cfg{UsersWebName},
-            topic     => "*Group",
-            scope     => 'topic',
-            search    => '1',
-            type      => 'query',
-            nosummary => 'on',
-            nosearch  => 'on',
-            noheader  => 'on',
-            nototal   => 'on',
-            noempty   => 'on',
-            format    => '$topic',
-            separator => '',
-        );
+        try {
+            $app->user( $app->cfg->data->{SuperAdminGroup} );
+            $app->search->searchWeb(
+                _callback => \&_collateGroups,
+                _cbdata   => {
+                    list  => $this->groupsList,
+                    users => $users
+                },
+                web       => $Foswiki::cfg{UsersWebName},
+                topic     => "*Group",
+                scope     => 'topic',
+                search    => '1',
+                type      => 'query',
+                nosummary => 'on',
+                nosearch  => 'on',
+                noheader  => 'on',
+                nototal   => 'on',
+                noempty   => 'on',
+                format    => '$topic',
+                separator => '',
+            );
+        }
+        catch {
+            Foswiki::Exception::Fatal->rethrow($_);
+        }
+        finally {
+            $app->user($curUser);
+        };
     }
     return $this->groupsList;
 }

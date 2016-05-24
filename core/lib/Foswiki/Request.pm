@@ -14,7 +14,7 @@ Fields:
    * =method= request method (GET, HEAD, POST)
    * =param= hashref of parameters, both query and body ones
    * =param_list= arrayref with parameter names in received order
-   * =path_info= path_info of request (eg. /WebName/TopciName)
+   * =pathInfo= path_info of request (eg. /WebName/TopciName)
    * =remote_address= Client's IP address
    * =remote_user= Remote HTTP authenticated user
    * =secure= Boolean value about use of encryption

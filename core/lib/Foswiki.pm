@@ -551,7 +551,7 @@ sub __deprecated_BUILD {
     # bin/script?topic=WebPreferences;defaultweb=Sandbox
     my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
 
-    my $webtopic      = urlDecode( $query->path_info() || '' );
+    my $webtopic      = urlDecode( $query->pathInfo || '' );
     my $topicOverride = '';
     my $topic         = $query->param('topic');
     if ( defined $topic ) {

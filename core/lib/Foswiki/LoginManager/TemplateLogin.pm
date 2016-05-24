@@ -32,6 +32,8 @@ BEGIN {
     }
 }
 
+has forcedAuth => ( is => 'rw', lazy => 1, default => 0, );
+
 =begin TML
 
 ---++ ClassMethod new (app => $app, $impl)
@@ -90,7 +92,7 @@ sub forceAuthentication {
     my $app  = $this->app;
 
     unless ( $app->inContext('authenticated') ) {
-        my $query    = $app->request;
+        my $req      = $app->request;
         my $response = $app->response;
 
         # Respond with a 401 with an appropriate WWW-Authenticate
@@ -102,13 +104,15 @@ sub forceAuthentication {
               . ( $Foswiki::cfg{AuthRealm} || "" ) . '"'
         );
 
-        $query->param(
+        $req->param(
             -name  => 'foswiki_origin',
             -value => _packRequest($app)
         );
 
         # Throw back the login page with the 401
-        $this->login( $query, $app );
+        $this->forcedAuth(1)
+          ;    # Inform the login() method to leave the status unchanged.
+        $this->login;
 
         return 1;
     }
@@ -134,7 +138,7 @@ sub loginUrl {
 
 =begin TML
 
----++ ObjectMethod login( $query, $app )
+---++ ObjectMethod login
 
 If a login name and password have been passed in the query, it
 validates these and if authentic, redirects to the original
@@ -157,17 +161,18 @@ database, that can then be displayed by referring to
 sub login {
     my $this  = shift;
     my $app   = $this->app;
-    my $query = $app->request;
+    my $req   = $app->request;
+    my $res   = $app->response;
     my $users = $app->users;
 
-    my $origin = $query->param('foswiki_origin');
+    my $origin = $req->param('foswiki_origin');
     my ( $origurl, $origmethod, $origaction ) = _unpackRequest($origin);
-    my $loginName = $query->param('username');
-    my $loginPass = $query->param('password');
-    my $remember  = $query->param('remember');
+    my $loginName = $req->param('username');
+    my $loginPass = $req->param('password');
+    my $remember  = $req->param('remember');
 
     # Eat these so there's no risk of accidental passthrough
-    $query->delete( 'foswiki_origin', 'username', 'password' );
+    $req->delete( 'foswiki_origin', 'username', 'password' );
 
     # UserMappings can over-ride where the login template is defined
     my $loginTemplate = $users->loginTemplateName();    #defaults to login.tmpl
@@ -175,8 +180,8 @@ sub login {
 
     my $banner = $app->templates->expandTemplate('LOG_IN_BANNER');
     my $note   = '';
-    my $topic  = $app->request->topic;
-    my $web    = $app->request->web;
+    my $topic  = $req->topic;
+    my $web    = $req->web;
 
     # CAUTION:  LoginManager::userLoggedIn() will delete and recreate
     # the CGI Session.
@@ -237,11 +242,11 @@ sub login {
 
             # remove the sudo param - its only to tell TemplateLogin
             # that we're using BaseMapper..
-            $query->delete('sudo');
+            $req->delete('sudo');
 
             $this->_cgisession->param( 'VALIDATION', $validation )
               if $this->_has_cgisession;
-            if ( !$origurl || $origurl eq $query->url() ) {
+            if ( !$origurl || $origurl eq $req->url() ) {
                 $origurl = $app->cfg->getScriptUrl( 0, 'view', $web, $topic );
             }
             else {
@@ -253,18 +258,18 @@ sub login {
                 if ( $origurl =~ s/\?([^#]*)// ) {
                     foreach my $pair ( split( /[&;]/, $1 ) ) {
                         if ( $pair =~ m/(.*?)=(.*)/ ) {
-                            $query->param( $1, TAINT($2) );
+                            $req->param( $1, TAINT($2) );
                         }
                     }
                 }
 
                 # Restore the action too
-                $query->action($origaction) if $origaction;
+                $req->action($origaction) if $origaction;
             }
 
             # Restore the method used on origUrl so if it was a GET, we
             # get another GET.
-            $query->method($origmethod);
+            $req->method($origmethod);
             $app->redirect( $origurl, 1 );
             return;
         }
@@ -274,7 +279,7 @@ sub login {
             # used for authentication failures. RFC states: "Authorization
             # will not help and the request SHOULD NOT be repeated" which
             # is not the situation here.
-            $app->response->status(200);
+            $res->status(200);
             $app->logger->log(
                 {
                     level    => 'info',
@@ -292,23 +297,25 @@ sub login {
         # valid GET call to http://foswiki/bin/login
         # 4xx cannot be a correct status, as we want the user to retry the
         # same URL with a different login/password
-        $app->response->status(200);
+        # Make an exception for a case when status is set by the
+        # forceAuthentication() method.
+        $res->status(200) unless $this->forcedAuth;
     }
 
     # Remove the validation_key from the *passed through* params. It isn't
     # required, because the form will have a new validation key, and
     # giving the parameter twice will confuse the strikeone Javascript.
-    $app->request->delete('validation_key');
+    $req->delete('validation_key');
 
     # set the usernamestep value so it can be re-displayed if we are here due
     # to a failed authentication attempt.
-    $query->param( -name => 'usernamestep', -value => $loginName );
+    $req->param( -name => 'usernamestep', -value => $loginName );
 
     # TODO: add JavaScript password encryption in the template
     $origurl ||= '';
 
     # Truncate the path_info at the first quote
-    my $path_info = $query->path_info();
+    my $path_info = $req->pathInfo;
     if ( $path_info =~ m/['"]/g ) {
         $path_info = substr( $path_info, 0, ( ( pos $path_info ) - 1 ) );
     }
@@ -336,7 +343,7 @@ sub login {
     $tmpl = $topicObject->expandMacros($tmpl);
     $tmpl = $topicObject->renderTML($tmpl);
     $tmpl =~ s/<nop>//g;
-    $app->writeCompletePage($tmpl);
+    $res->body($tmpl);
 }
 
 1;

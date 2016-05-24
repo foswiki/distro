@@ -3,7 +3,6 @@ package Foswiki::Macros;
 
 use strict;
 use warnings;
-require Foswiki::Macros::ENCODE;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -15,6 +14,10 @@ BEGIN {
 sub QUERYPARAMS {
     my ( $this, $params ) = @_;
     return '' unless $this->request;
+
+    my $req    = $this->request;
+    my $macros = $this->macros;
+
     my $format =
       defined $params->{format}
       ? $params->{format}
@@ -33,14 +36,18 @@ sub QUERYPARAMS {
     $separator = Foswiki::expandStandardEscapes($separator);
 
     my @list;
-    foreach my $name ( $this->request->multi_param() ) {
+    foreach my $name ( $req->multi_param() ) {
 
         # Issues multi-valued parameters as separate hiddens
-        my @values = $this->request->multi_param($name);
+        my @values = $req->multi_param($name);
         foreach my $value (@values) {
             $value = '' unless defined $value;
-            $name  = $this->ENCODE( { type => $encoding, _DEFAULT => $name } );
-            $value = $this->ENCODE( { type => $encoding, _DEFAULT => $value } );
+            $name =
+              $macros->execMacro( 'ENCODE',
+                { type => $encoding, _DEFAULT => $name } );
+            $value =
+              $macros->execMacro( 'ENCODE',
+                { type => $encoding, _DEFAULT => $value } );
 
             my $entry = $format;
             $entry =~ s/\$\01/$name/g;

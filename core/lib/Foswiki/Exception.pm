@@ -49,6 +49,7 @@ use v5.14;
 require Carp;
 use Assert;
 require Scalar::Util;
+use Data::Dumper;
 
 use Moo;
 use namespace::clean;
@@ -217,7 +218,6 @@ catch {
 
 sub rethrow {
     my $class = shift;
-    my ($e) = @_;
 
     if ( ref($class) && $class->isa('Foswiki::Exception') ) {
 
@@ -225,11 +225,10 @@ sub rethrow {
         # is not what is expected from rethrow.
         $class->throw;
     }
-    if ( ref($e) && $e->isa('Foswiki::Exception') ) {
-        $e->throw;
-    }
 
-    $class->transmute(@_)->throw;
+    my $e = shift;
+
+    $class->transmute( $e, 0, @_ )->throw;
 }
 
 =begin TML
@@ -245,26 +244,40 @@ attributes unless =$exception= class is equal to =$class=.
 
 sub rethrowAs {
     my $class = shift;
-    $class->transmute(@_)->throw;
+    my $e     = shift;
+    $class->transmute( $e, 1, @_ )->throw;
 }
 
 =begin TML
 
----++ ClassMethod transmute($class, $exception)
+---++ ClassMethod transmute($class, $exception, $enforce) => $exceptionObject
 
-Reinstantiates $exception into $class. "Coerce" would be more correct term for
-this operation but this name better be avoded because it is occupied by
-Moo/Moose for an attribute operation.
+Reinstantiates $exception into $class.
+
+If =$enforce= is *FALSE* and =$exception='s class is a =Foswiki::Exception=
+descendant then no action would be taken. If =$enforce= is true then no matter
+what the =$exception= type is - it would be coerced into =$class=.
+
+=transmute()= will do its best while trying to find a best way to convert =$exception= and use whatever method is possible:
+
+   * Check if =$exception= is a deprecated =Error= thrown by some old-style Foswiki code.
+   * Check if =$exception= is an object and can do =stringify()= or =as_text()= methods in the order thet mentioned here.
+   * Simply use =Data::Dumper= to provide user with as much information about what's went wrong as possible.
 
 =cut
 
 sub transmute {
-    my $class = shift;
-    my $e     = shift;    # Original exception
+    my $class   = shift;
+    my $e       = shift;
+    my $enforce = shift;
+
     $class = ref($class) if ref($class);
+    ASSERT( $class->isa('Foswiki::Exception'),
+        "Bad destination exception type $class for transmuting" )
+      if DEBUG;
     if ( ref($e) ) {
         if ( $e->isa('Foswiki::Exception') ) {
-            if ( ref($e) eq $class ) {
+            if ( !$enforce || ( ref($e) eq $class ) ) {
                 return $e;
             }
             return $class->new( %$e, @_ );
@@ -302,7 +315,9 @@ sub transmute {
         else {
             # Finally we're no idea what kind of a object has been thrown to us.
             return $class->new(
-                text => "Unknown class of exception received: " . ref($e),
+                text => "Unknown class of exception received: "
+                  . ref($e) . "\n"
+                  . Dumper($e),
                 @_
             );
         }
