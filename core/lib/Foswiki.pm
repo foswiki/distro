@@ -660,52 +660,6 @@ sub _isRedirectSafe {
 
 =begin TML
 
----++ ObjectMethod redirectto($url) -> $url
-
-If the CGI parameter 'redirectto' is present on the query, then will validate
-that it is a legal redirection target (url or topic name). If 'redirectto'
-is not present on the query, performs the same steps on $url.
-
-Returns undef if the target is not valid, and the target URL otherwise.
-
-=cut
-
-sub redirectto {
-    my ( $this, $url ) = @_;
-
-    my $redirecturl = $this->request->param('redirectto');
-    $redirecturl = $url unless $redirecturl;
-
-    return unless $redirecturl;
-
-    if ( $redirecturl =~ m#^$regex{linkProtocolPattern}://# ) {
-
-        # assuming URL
-        return $redirecturl if _isRedirectSafe($redirecturl);
-        return;
-    }
-
-    my @attrs = ();
-
-    # capture anchor
-    if ( $redirecturl =~ s/#(.*)// ) {
-        push( @attrs, '#' => $1 );
-    }
-
-    # capture params
-    if ( $redirecturl =~ s/\?(.*)// ) {
-        push( @attrs, map { split( '=', $_, 2 ) } split( /[;&]/, $1 ) );
-    }
-
-    # assuming 'web.topic' or 'topic'
-    my ( $w, $t ) =
-      $this->normalizeWebTopicName( $this->webName, $redirecturl );
-
-    return $this->getScriptUrl( 0, 'view', $w, $t, @attrs );
-}
-
-=begin TML
-
 ---++ StaticMethod splitAnchorFromUrl( $url ) -> ( $url, $anchor )
 
 Takes a full url (including possible query string) and splits off the anchor.

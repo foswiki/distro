@@ -15,14 +15,11 @@ use Moo;
 use namespace::clean;
 extends qw( FoswikiFnTestCase );
 
-our $UI_FN;
-
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
     $Foswiki::cfg{LegacyRESTSecurity} = 1;
     $orig->( $this, @_ );
-    $UI_FN ||= $this->getUIFn('rest');
 
     return;
 };
@@ -53,9 +50,9 @@ sub skip {
 
 # A simple REST handler
 sub rest_handler {
-    my ( $session, $subject, $verb ) = @_;
+    my ( $app, $subject, $verb ) = @_;
 
-    Carp::confess $session unless $session->isa('Foswiki');
+    Carp::confess $app     unless $app->isa('Foswiki::App');
     Carp::confess $subject unless $subject eq 'RESTTests';
     Carp::confess $verb    unless $verb eq 'trial';
 
@@ -64,7 +61,7 @@ sub rest_handler {
 
 # A simple REST handler with error
 sub rest_and_be_thankful {
-    my ( $session, $subject, $verb ) = @_;
+    my ( $app, $subject, $verb ) = @_;
 
     die "meistersinger";
 
@@ -73,27 +70,28 @@ sub rest_and_be_thankful {
 
 # A REST handler for checking context
 sub rest_context {
-    my ( $session, $subject, $verb ) = @_;
+    my ( $app, $subject, $verb ) = @_;
 
-    my $web   = $session->webName;
-    my $topic = $session->topicName;
+    my $req   = $app->request;
+    my $web   = $req->web;
+    my $topic = $req->topic;
 
     Foswiki::Func::pushTopicContext( $web, $Foswiki::cfg{NotifyTopicName} );
     Foswiki::Func::popTopicContext();
 
-    my $newweb = $session->webName;
+    my $newweb = $req->web;
 
     return "$newweb";
 }
 
 # A REST handler for checking authentication
 sub rest_authtest {
-    my ( $session, $subject, $verb ) = @_;
+    my ( $app, $subject, $verb ) = @_;
 
-    my $auth  = ( $session->inContext('authenticated') ) ? 'AUTH'  : 'UNAUTH';
-    my $cli   = ( $session->inContext('command_line') )  ? 'CLI'   : 'CGI';
-    my $adm   = ( Foswiki::Func::isAnAdmin() )           ? 'ADMIN' : '';
-    my $guest = ( Foswiki::Func::isGuest() )             ? 'GUEST' : '';
+    my $auth  = ( $app->inContext('authenticated') ) ? 'AUTH'  : 'UNAUTH';
+    my $cli   = ( $app->inContext('command_line') )  ? 'CLI'   : 'CGI';
+    my $adm   = ( Foswiki::Func::isAnAdmin() )       ? 'ADMIN' : '';
+    my $guest = ( Foswiki::Func::isGuest() )         ? 'GUEST' : '';
 
     return "RESULTS:$auth.$cli.$adm.$guest";
 }
@@ -113,15 +111,8 @@ sub test_authmethods {
         description => 'Example handler for Empty Plugin'
     );
 
-    my $query = Unit::Request->new( initializer => { action => ['rest'], } );
-
-    $query->setUrl( '/'
-          . __PACKAGE__
-          . "/trial?username="
-          . $this->test_user_login
-          . ";password=''" );
-    $query->method('post');
-    $query->action('rest');
+    # PATH_INFO is the default source of request initialization. But we want uri
+    # be the one.
 
     my $text;
 
@@ -132,9 +123,29 @@ sub test_authmethods {
     #
     # Auth failed session - should fail with 401 due to invalid password
     #
-    $this->createNewFoswikiSession( undef, $query );
     try {
-        ($text) = $this->capture( $UI_FN, $this->session );
+        ($text) = $this->capture(
+            sub {
+                $this->createNewFoswikiApp(
+                    requestParams =>
+                      { initializer => { action => ['rest'], }, },
+                    engineParams => {
+                        simulate          => 'cgi',
+                        initialAttributes => {
+                            uri => '/'
+                              . __PACKAGE__
+                              . "/trial?username="
+                              . $this->test_user_login
+                              . ";password=''",
+                            path_info => '/' . __PACKAGE__ . "/trial",
+                            method    => 'post',
+                            action    => 'rest',
+                        },
+                    },
+                );
+                return $this->app->handleRequest;
+            },
+        );
     }
     catch {
         my $e = $_;
@@ -148,12 +159,27 @@ sub test_authmethods {
 
     # Auth but no validation key - fail with 403
     #
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
 
     try {
-        ($text) = $this->capture( $UI_FN, $this->session );
+        ($text) = $this->capture(
+            sub {
+                $this->createNewFoswikiApp(
+                    requestParams =>
+                      { initializer => { action => ['rest'], }, },
+                    engineParams => {
+                        simulate          => 'cgi',
+                        initialAttributes => {
+                            uri       => '/' . __PACKAGE__ . '/trial',
+                            path_info => '/' . __PACKAGE__ . "/trial",
+                            method    => 'post',
+                            action    => 'rest',
+                        },
+                    },
+                    user => $this->test_user_login,
+                );
+                return $this->app->handleRequest;
+            }
+        );
     }
     catch {
         my $e = $_;
@@ -167,12 +193,27 @@ sub test_authmethods {
 
     # Auth and key, but GET, not post,  fail with 405
     #
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('get');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
 
     try {
-        ($text) = $this->capture( $UI_FN, $this->session );
+        ($text) = $this->capture(
+            sub {
+                $this->createNewFoswikiApp(
+                    requestParams =>
+                      { initializer => { action => ['rest'], }, },
+                    engineParams => {
+                        simulate          => 'cgi',
+                        initialAttributes => {
+                            uri       => '/' . __PACKAGE__ . '/trial',
+                            path_info => '/' . __PACKAGE__ . "/trial",
+                            method    => 'get',
+                            action    => 'rest',
+                        },
+                    },
+                    user => $this->test_user_login,
+                );
+                return $this->app->handleRequest;
+            }
+        );
     }
     catch {
         my $e = $_;
@@ -186,9 +227,24 @@ sub test_authmethods {
 
     # Authenticated,  POST and validation key - should work
     #
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $query->method('post');
-    ($text) = $this->captureWithKey( rest => $UI_FN, $this->session );
+    ($text) = $this->captureWithKey(
+        rest => sub {
+            $this->createNewFoswikiApp(
+                requestParams => { initializer => { action => ['rest'], }, },
+                engineParams  => {
+                    simulate          => 'cgi',
+                    initialAttributes => {
+                        uri       => '/' . __PACKAGE__ . '/trial',
+                        path_info => '/' . __PACKAGE__ . "/trial",
+                        method    => 'post',
+                        action    => 'rest',
+                    },
+                },
+                user => $this->test_user_login,
+            );
+            return $this->app->handleRequest;
+        }
+    );
 
     $this->assert_matches( qr/RESULTS:AUTH\.CGI\.\./, $text );
 
@@ -202,14 +258,46 @@ sub test_authmethods {
 
     # Unauthenticated, POST with validation key - Now should work
     #
-    $this->createNewFoswikiSession( 'guest', $query );
-    ($text) = $this->captureWithKey( rest => $UI_FN, $this->session );
+    ($text) = $this->captureWithKey(
+        rest => sub {
+            $this->createNewFoswikiApp(
+                requestParams => { initializer => { action => ['rest'], }, },
+                engineParams  => {
+                    simulate          => 'cgi',
+                    initialAttributes => {
+                        uri       => '/' . __PACKAGE__ . '/trial',
+                        path_info => '/' . __PACKAGE__ . "/trial",
+                        method    => 'post',
+                        action    => 'rest',
+                    },
+                },
+                user => 'guest',
+            );
+            return $this->app->handleRequest;
+        }
+    );
     $this->assert_matches( qr/RESULTS:UNAUTH\.CGI\.\.GUEST/, $text );
 
     # Authenticated, POST with validation key from Admin User
     #
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $query );
-    ($text) = $this->captureWithKey( rest => $UI_FN, $this->session );
+    ($text) = $this->captureWithKey(
+        rest => sub {
+            $this->createNewFoswikiApp(
+                requestParams => { initializer => { action => ['rest'], }, },
+                engineParams  => {
+                    simulate          => 'cgi',
+                    initialAttributes => {
+                        uri       => '/' . __PACKAGE__ . '/trial',
+                        path_info => '/' . __PACKAGE__ . "/trial",
+                        method    => 'post',
+                        action    => 'rest',
+                    },
+                },
+                user => $Foswiki::cfg{AdminUserLogin},
+            );
+            return $this->app->handleRequest;
+        }
+    );
     $this->assert_matches( qr/RESULTS:AUTH\.CGI\.ADMIN\./, $text );
 
     return;
@@ -220,11 +308,23 @@ sub test_simple {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new( initializer => { action => ['rest'], } );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->capture( $UI_FN, $this->session );
+    my ($text) = $this->capture(
+        sub {
+            $this->createNewFoswikiApp(
+                requestParams => { initializer => { action => ['rest'], }, },
+                engineParams  => {
+                    simulate          => 'cgi',
+                    initialAttributes => {
+                        path_info => '/' . __PACKAGE__ . '/trial',
+                        method    => 'post',
+                        action    => 'rest',
+                    },
+                },
+                user => $this->test_user_login,
+            );
+            return $this->app->handleRequest;
+        }
+    );
 
     return;
 }
@@ -234,17 +334,31 @@ sub test_endPoint {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action   => ['rest'],
-            endPoint => $this->test_web . "/" . $this->test_topic,
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action   => ['rest'],
+                endPoint => $this->test_web . "/" . $this->test_topic,
+            },
+        },
+        engineParams => {
+            simulate          => 'psgi',
+            initialAttributes => {
+                path_info => '/' . __PACKAGE__ . '/trial',
+                method    => 'post',
+                action    => 'rest',
+            },
+        },
+        user => $this->test_user_login,
+    );
+    $this->app->handleRequest;
+    my ($text) = $this->capture(
+        sub {
+            $this->app->clear_response;
+            $this->app->engine->simulate('cgi');
+            return $this->app->handleRequest;
         }
     );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    &$UI_FN( $this->session );
-    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
     my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     $this->assert_matches( qr#^Location:.*$test_web/$test_topic\s*$#m, $text );
@@ -257,17 +371,31 @@ sub test_redirectto {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action     => ['rest'],
-            redirectto => $this->test_web . "/" . $this->test_topic,
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action   => ['rest'],
+                endPoint => $this->test_web . "/" . $this->test_topic,
+            },
+        },
+        engineParams => {
+            simulate          => 'psgi',
+            initialAttributes => {
+                path_info => '/' . __PACKAGE__ . '/trial',
+                method    => 'post',
+                action    => 'rest',
+            },
+        },
+        user => $this->test_user_login,
+    );
+    $this->app->handleRequest;
+    my ($text) = $this->capture(
+        sub {
+            $this->app->clear_response;
+            $this->app->engine->simulate('cgi');
+            return $this->app->handleRequest;
         }
     );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    &$UI_FN( $this->session );
-    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
     my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     $this->assert_matches( qr#^Location:.*$test_web/$test_topic\s*$#m, $text );
@@ -280,16 +408,30 @@ sub test_endPoint_Anchor {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action   => ['rest'],
-            endPoint => $this->test_web . "/" . $this->test_topic . "#MyAnch",
+    my ($text) = $this->capture(
+        sub {
+            $this->createNewFoswikiApp(
+                requestParams => {
+                    initializer => {
+                        action   => ['rest'],
+                        endPoint => $this->test_web . "/"
+                          . $this->test_topic
+                          . "#MyAnch",
+                    },
+                },
+                engineParams => {
+                    simulate          => 'cgi',
+                    initialAttributes => {
+                        path_info => '/' . __PACKAGE__ . '/trial',
+                        method    => 'post',
+                        action    => 'rest',
+                    },
+                },
+                user => $this->test_user_login,
+            );
+            return $this->app->handleRequest;
         }
     );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
     my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     $this->assert_matches( qr#^Location:.*$test_web/$test_topic\#MyAnch\s*$#m,
@@ -303,16 +445,30 @@ sub test_redirectto_Anchor {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action     => ['rest'],
-            redirectto => $this->test_web . "/" . $this->test_topic . "#MyAnch",
+    my ($text) = $this->capture(
+        sub {
+            $this->createNewFoswikiApp(
+                requestParams => {
+                    initializer => {
+                        action     => ['rest'],
+                        redirectto => $this->test_web . "/"
+                          . $this->test_topic
+                          . "#MyAnch",
+                    },
+                },
+                engineParams => {
+                    simulate          => 'cgi',
+                    initialAttributes => {
+                        path_info => '/' . __PACKAGE__ . '/trial',
+                        method    => 'post',
+                        action    => 'rest',
+                    },
+                },
+                user => $this->test_user_login,
+            );
+            return $this->app->handleRequest;
         }
     );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
     my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     $this->assert_matches( qr#^Location:.*$test_web/$test_topic\#MyAnch\s*$#m,
@@ -326,18 +482,30 @@ sub test_endPoint_Query {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action   => ['rest'],
-            endPoint => $this->test_web . "/"
-              . $this->test_topic
-              . "?blah1=;q=2;y=3",
+    my ($text) = $this->capture(
+        sub {
+            $this->createNewFoswikiApp(
+                requestParams => {
+                    initializer => {
+                        action   => ['rest'],
+                        endPoint => $this->test_web . "/"
+                          . $this->test_topic
+                          . "?blah1=;q=2;y=3",
+                    },
+                },
+                engineParams => {
+                    simulate          => 'cgi',
+                    initialAttributes => {
+                        path_info => '/' . __PACKAGE__ . '/trial',
+                        method    => 'post',
+                        action    => 'rest',
+                    },
+                },
+                user => $this->test_user_login,
+            );
+            return $this->app->handleRequest;
         }
     );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
     my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     $this->assert_matches(
@@ -351,18 +519,30 @@ sub test_redirectto_Query {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action     => ['rest'],
-            redirectto => $this->test_web . "/"
-              . $this->test_topic
-              . "?blah1=;q=2;y=3",
+    my ($text) = $this->capture(
+        sub {
+            $this->createNewFoswikiApp(
+                requestParams => {
+                    initializer => {
+                        action     => ['rest'],
+                        redirectto => $this->test_web . "/"
+                          . $this->test_topic
+                          . "?blah1=;q=2;y=3",
+                    },
+                },
+                engineParams => {
+                    simulate          => 'cgi',
+                    initialAttributes => {
+                        path_info => '/' . __PACKAGE__ . '/trial',
+                        method    => 'post',
+                        action    => 'rest',
+                    },
+                },
+                user => $this->test_user_login,
+            );
+            return $this->app->handleRequest;
         }
     );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
     my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
     $this->assert_matches(
@@ -376,18 +556,30 @@ sub test_endPoint_Illegal {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action   => ['rest'],
-            endPoint => 'http://this/that?blah=1;q=2',
-        }
-    );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my $text = '';
     try {
-        ($text) = $this->capture( $UI_FN, $this->session );
+        ($text) = $this->capture(
+            sub {
+                $this->createNewFoswikiApp(
+                    requestParams => {
+                        initializer => {
+                            action   => ['rest'],
+                            endPoint => 'http://this/that?blah=1;q=2',
+                        },
+                    },
+                    engineParams => {
+                        simulate          => 'cgi',
+                        initialAttributes => {
+                            path_info => '/' . __PACKAGE__ . '/trial',
+                            method    => 'post',
+                            action    => 'rest',
+                        },
+                    },
+                    user => $this->test_user_login,
+                );
+                return $this->app->handleRequest;
+            }
+        );
     }
     catch {
         my $e = $_;
@@ -407,18 +599,30 @@ sub test_redirectto_Illegal {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action     => ['rest'],
-            redirectto => 'http://this/that?blah=1;q=2',
-        }
-    );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my $text = '';
     try {
-        ($text) = $this->capture( $UI_FN, $this->session );
+        ($text) = $this->capture(
+            sub {
+                $this->createNewFoswikiApp(
+                    requestParams => {
+                        initializer => {
+                            action     => ['rest'],
+                            redirectto => 'http://this/that?blah=1;q=2',
+                        },
+                    },
+                    engineParams => {
+                        simulate          => 'cgi',
+                        initialAttributes => {
+                            path_info => '/' . __PACKAGE__ . '/trial',
+                            method    => 'post',
+                            action    => 'rest',
+                        },
+                    },
+                    user => $this->test_user_login,
+                );
+                return $this->app->handleRequest;
+            }
+        );
     }
     catch {
         my $e = $_;
@@ -439,12 +643,25 @@ sub test_http_allow {
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler,
         http_allow => 'GET' );
 
-    my $query = Unit::Request->new( initializer => { action => ['rest'], } );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('POST');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
     try {
-        $this->capture( $UI_FN, $this->session );
+        $this->capture(
+            sub {
+                $this->createNewFoswikiApp(
+                    requestParams =>
+                      { initializer => { action => ['rest'], }, },
+                    engineParams => {
+                        simulate          => 'cgi',
+                        initialAttributes => {
+                            path_info => '/' . __PACKAGE__ . '/trial',
+                            method    => 'post',
+                            action    => 'rest',
+                        },
+                    },
+                    user => $this->test_user_login,
+                );
+                return $this->app->handleRequest;
+            }
+        );
     }
     catch {
         my $e = $_;
@@ -455,9 +672,23 @@ sub test_http_allow {
             $e->rethrow;
         }
     };
-    $query->method('GET');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->capture( $UI_FN, $this->session );
+    $this->capture(
+        sub {
+            $this->createNewFoswikiApp(
+                requestParams => { initializer => { action => ['rest'], }, },
+                engineParams  => {
+                    simulate          => 'cgi',
+                    initialAttributes => {
+                        path_info => '/' . __PACKAGE__ . '/trial',
+                        method    => 'get',
+                        action    => 'rest',
+                    },
+                },
+                user => $this->test_user_login,
+            );
+            return $this->app->handleRequest;
+        }
+    );
 
     return;
 }
@@ -468,14 +699,26 @@ sub test_validate {
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler,
         validate => 1 );
 
-    my $query = Unit::Request->new( initializer => { action => ['rest'], } );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-
     # Make sure a request with no validation key is trapped
     try {
-        $this->capture( $UI_FN, $this->session );
+        $this->capture(
+            sub {
+                $this->createNewFoswikiApp(
+                    requestParams =>
+                      { initializer => { action => ['rest'], }, },
+                    engineParams => {
+                        simulate          => 'cgi',
+                        initialAttributes => {
+                            path_info => '/' . __PACKAGE__ . '/trial',
+                            method    => 'post',
+                            action    => 'rest',
+                        },
+                    },
+                    user => $this->test_user_login,
+                );
+                return $this->app->handleRequest;
+            }
+        );
     }
     catch {
         my $e = $_;
@@ -489,7 +732,23 @@ sub test_validate {
     };
 
     # Make sure a request with validation is OK
-    $this->captureWithKey( rest => $UI_FN, $this->session );
+    $this->captureWithKey(
+        rest => sub {
+            $this->createNewFoswikiApp(
+                requestParams => { initializer => { action => ['rest'], }, },
+                engineParams  => {
+                    simulate          => 'cgi',
+                    initialAttributes => {
+                        path_info => '/' . __PACKAGE__ . '/trial',
+                        method    => 'post',
+                        action    => 'rest',
+                    },
+                },
+                user => $this->test_user_login,
+            );
+            return $this->app->handleRequest;
+        }
+    );
 
     return;
 }
@@ -500,14 +759,26 @@ sub test_authenticate {
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler,
         authenticate => 1 );
 
-    my $query = Unit::Request->new( initializer => { action => ['rest'], } );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( undef, $query );
-
     # Make sure a request with no authentication is trapped
     try {
-        $this->capture( $UI_FN, $this->session );
+        $this->capture(
+            sub {
+                $this->createNewFoswikiApp(
+                    requestParams =>
+                      { initializer => { action => ['rest'], }, },
+                    engineParams => {
+                        simulate          => 'cgi',
+                        initialAttributes => {
+                            path_info => '/' . __PACKAGE__ . '/trial',
+                            method    => 'post',
+                            action    => 'rest',
+                        },
+                    },
+                    user => undef,
+                );
+                return $this->app->handleRequest;
+            }
+        );
     }
     catch {
         my $e = $_;
@@ -521,8 +792,23 @@ sub test_authenticate {
     };
 
     # Make sure a request with session authentication is OK
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->capture( $UI_FN, $this->session );
+    $this->capture(
+        sub {
+            $this->createNewFoswikiApp(
+                requestParams => { initializer => { action => ['rest'], }, },
+                engineParams  => {
+                    simulate          => 'cgi',
+                    initialAttributes => {
+                        path_info => '/' . __PACKAGE__ . '/trial',
+                        method    => 'post',
+                        action    => 'rest',
+                    },
+                },
+                user => $this->test_user_login,
+            );
+            return $this->app->handleRequest;
+        }
+    );
 
     return;
 }
@@ -535,17 +821,31 @@ sub test_endPoint_URL {
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
     $Foswiki::cfg{PermittedRedirectHostUrls} = 'http://lolcats.com';
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action   => ['rest'],
-            endPoint => "http://lolcats.com/funny?pussy=cat",
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action   => ['rest'],
+                endPoint => "http://lolcats.com/funny?pussy=cat",
+            },
+        },
+        engineParams => {
+            simulate          => 'psgi',
+            initialAttributes => {
+                path_info => '/' . __PACKAGE__ . '/trial',
+                method    => 'post',
+                action    => 'rest',
+            },
+        },
+        user => $this->test_user_login,
+    );
+    $this->app->handleRequest;
+    my ($text) = $this->capture(
+        sub {
+            $this->app->clear_response;
+            $this->app->engine->simulate('cgi');
+            return $this->app->handleRequest;
         }
     );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    &$UI_FN( $this->session );
-    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
     $this->assert_matches(
         qr#^Location: http://lolcats.com/funny\?pussy=cat\s*$#m, $text );
@@ -559,17 +859,31 @@ sub test_redirectto_URL {
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
     $Foswiki::cfg{PermittedRedirectHostUrls} = 'http://lolcats.com';
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action     => ['rest'],
-            redirectto => "http://lolcats.com/funny?pussy=cat",
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action     => ['rest'],
+                redirectto => "http://lolcats.com/funny?pussy=cat",
+            },
+        },
+        engineParams => {
+            simulate          => 'psgi',
+            initialAttributes => {
+                path_info => '/' . __PACKAGE__ . '/trial',
+                method    => 'post',
+                action    => 'rest',
+            },
+        },
+        user => $this->test_user_login,
+    );
+    $this->app->handleRequest;
+    my ($text) = $this->capture(
+        sub {
+            $this->app->clear_response;
+            $this->app->engine->simulate('cgi');
+            return $this->app->handleRequest;
         }
     );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    &$UI_FN( $this->session );
-    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 302#m, $text );
     $this->assert_matches(
         qr#^Location: http://lolcats.com/funny\?pussy=cat\s*$#m, $text );
@@ -584,17 +898,31 @@ sub test_endPoint_badURL {
         with_dep => 'Foswiki,<,1.2' );
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action   => ['rest'],
-            endPoint => "http://lolcats.com/funny?pussy=cat",
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action   => ['rest'],
+                endPoint => "http://lolcats.com/funny?pussy=cat",
+            },
+        },
+        engineParams => {
+            simulate          => 'psgi',
+            initialAttributes => {
+                path_info => '/' . __PACKAGE__ . '/trial',
+                method    => 'post',
+                action    => 'rest',
+            },
+        },
+        user => $this->test_user_login,
+    );
+    $this->app->handleRequest;
+    my ($text) = $this->capture(
+        sub {
+            $this->app->clear_response;
+            $this->app->engine->simulate('cgi');
+            return $this->app->handleRequest;
         }
     );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    &$UI_FN( $this->session );
-    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 403#m, $text );
 
     return;
@@ -605,17 +933,31 @@ sub test_redirectto_badURL {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action     => ['rest'],
-            redirectto => "http://lolcats.com/funny?pussy=cat",
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action     => ['rest'],
+                redirectto => "http://lolcats.com/funny?pussy=cat",
+            },
+        },
+        engineParams => {
+            simulate          => 'psgi',
+            initialAttributes => {
+                path_info => '/' . __PACKAGE__ . '/trial',
+                method    => 'post',
+                action    => 'rest',
+            },
+        },
+        user => $this->test_user_login,
+    );
+    $this->app->handleRequest;
+    my ($text) = $this->capture(
+        sub {
+            $this->app->clear_response;
+            $this->app->engine->simulate('cgi');
+            return $this->app->handleRequest;
         }
     );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    &$UI_FN( $this->session );
-    my ($text) = $this->capture( $UI_FN, $this->session );
     $this->assert_matches( qr#^Status: 403#m, $text );
 
     return;
@@ -626,12 +968,26 @@ sub test_500 {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_and_be_thankful );
 
-    my $query = Unit::Request->new( initializer => { action => ['rest'], } );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    &$UI_FN( $this->session );
-    my ($text) = $this->capture( $UI_FN, $this->session );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => { action => ['rest'], }, },
+        engineParams  => {
+            simulate          => 'psgi',
+            initialAttributes => {
+                path_info => '/' . __PACKAGE__ . '/trial',
+                method    => 'post',
+                action    => 'rest',
+            },
+        },
+        user => $this->test_user_login,
+    );
+    $this->app->handleRequest;
+    my ($text) = $this->capture(
+        sub {
+            $this->app->clear_response;
+            $this->app->engine->simulate('cgi');
+            return $this->app->handleRequest;
+        }
+    );
     $this->assert_matches( qr#^Status: 500#m, $text );
     return;
 }
@@ -642,11 +998,23 @@ sub test_topic_context {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'context', \&rest_context );
 
-    my $query = Unit::Request->new( initializer => { action => ['rest'], } );
-    $query->path_info( '/' . __PACKAGE__ . '/context' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    my ($text) = $this->capture( $UI_FN, $this->session );
+    my ($text) = $this->capture(
+        sub {
+            $this->createNewFoswikiApp(
+                requestParams => { initializer => { action => ['rest'], }, },
+                engineParams  => {
+                    simulate          => 'cgi',
+                    initialAttributes => {
+                        path_info => '/' . __PACKAGE__ . '/context',
+                        method    => 'post',
+                        action    => 'rest',
+                    },
+                },
+                user => $this->test_user_login,
+            );
+            return $this->app->handleRequest;
+        }
+    );
 
     $this->assert_matches( qr#$Foswiki::cfg{UsersWebName}#,
         $text, "Users web context was lost" );

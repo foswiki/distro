@@ -759,7 +759,7 @@ sub registerRESTHandler {
 
     # Use an anonymous function so it gets inlined at compile time.
     # Make sure we don't mangle the session reference.
-    require Foswiki::UI::Rest;
+    Foswiki::load_class('Foswiki::UI::Rest');
     Foswiki::UI::Rest::registerRESTHandler(
         $plugin, $alias,
         sub {

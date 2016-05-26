@@ -65,6 +65,7 @@ use CGI::Util ();
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 has webDeps => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
 has deps         => ( is => 'rw', lazy => 1, default => sub { {} }, );
@@ -124,8 +125,8 @@ sub genVariationKey {
     my $variationKey = $this->variationKey;
     return $variationKey if defined $variationKey;
 
-    my $session    = $Foswiki::Plugins::SESSION;
-    my $request    = $session->request;
+    my $app        = $this->app;
+    my $request    = $app->request;
     my $action     = substr( ( $request->action || 'view' ), 0, 4 );
     my $serverName = $request->server_name || $Foswiki::cfg{DefaultUrlHost};
     my $serverPort = $request->server_port || 80;
@@ -136,7 +137,7 @@ sub genVariationKey {
       . (
         (
                  $Foswiki::cfg{HttpCompress}
-              && $Foswiki::engine->isa('Foswiki::Engine::CLI')
+              && $app->engine->isa('Foswiki::Engine::CLI')
         )
         ? 1
         : 0
@@ -144,12 +145,12 @@ sub genVariationKey {
 
     # add language tag
     if ( $Foswiki::cfg{UserInterfaceInternationalisation} ) {
-        my $language = $session->i18n->language();
+        my $language = $app->i18n->language();
         $variationKey .= "::language=$language" if $language;
     }
 
     # get information from the session object
-    my $sessionValues = $session->getLoginManager()->getSessionValues();
+    my $sessionValues = $app->users->getLoginManager()->getSessionValues();
     foreach my $key ( sort keys %$sessionValues ) {
 
       # SMELL: add a setting to make exclusion of session variables configurable
@@ -211,10 +212,10 @@ as well as dependency and expiration information
 sub cachePage {
     my ( $this, $contentType, $data ) = @_;
 
-    my $session = $Foswiki::Plugins::SESSION;
-    my $request = $session->request;
-    my $web     = $session->webName;
-    my $topic   = $session->topicName;
+    my $app     = $this->app;
+    my $request = $app->request;
+    my $web     = $request->web;
+    my $topic   = $request->topic;
     $web =~ s/\//./g;
 
     Foswiki::Func::writeDebug("called cachePage($web, $topic)") if TRACE;
@@ -259,7 +260,7 @@ sub cachePage {
         $lastModified = Foswiki::Time::formatTime( $time, '$http', 'gmtime' );
     }
 
-    my $headers   = $session->response->headers();
+    my $headers   = $app->response->headers();
     my $status    = $headers->{Status} || 200;
     my $variation = {
         contenttype  => $contentType,
@@ -273,7 +274,7 @@ sub cachePage {
 
     # get cache-expiry preferences and add it to the bucket if available
     my $expire = $request->param("cache_expire");
-    $expire = $session->prefs->getPreference('CACHEEXPIRE')
+    $expire = $app->prefs->getPreference('CACHEEXPIRE')
       unless defined $expire;
     $variation->{expire} = CGI::Util::expire_calc($expire)
       if defined $expire;
@@ -312,17 +313,16 @@ sub getPage {
     Foswiki::Func::writeDebug("getPage($web.$topic)") if TRACE;
 
     # check url param
-    my $session = $Foswiki::Plugins::SESSION;
-    my $refresh = $session->request->param('refresh') || '';
+    my $app     = $this->app;
+    my $request = $app->request;
+    my $refresh = $request->param('refresh') || '';
     if ( $refresh eq 'all' ) {
 
-        if ( $session->users->isAdmin( $session->user ) ) {
+        if ( $app->users->isAdmin( $app->user ) ) {
             $this->deleteAll();
         }
         else {
-            my $session = $Foswiki::Plugins::SESSION;
-            my $request = $session->request;
-            my $action  = substr( ( $request->action || 'view' ), 0, 4 );
+            my $action = substr( ( $request->action || 'view' ), 0, 4 );
             unless ( $action eq 'rest' ) {
                 throw Foswiki::OopsException(
                     template => 'accessdenied',
@@ -395,6 +395,9 @@ for the "CACHEABLE" preference variable.
 sub isCacheable {
     my ( $this, $web, $topic ) = @_;
 
+    my $app     = $this->app;
+    my $request = $app->request;
+
     my $webTopic = $web . '.' . $topic;
 
     my $isCacheable = $this->_isCacheable->{$webTopic};
@@ -405,24 +408,22 @@ sub isCacheable {
     # by default we try to cache as much as possible
     $isCacheable = 1;
 
-    my $session = $Foswiki::Plugins::SESSION;
-
     # check for errors parsing the url path
-    $isCacheable = 0 if $session->invalidWeb || $session->invalidTopic;
+    $isCacheable = 0 if $request->invalidWeb || $request->invalidTopic;
 
     # POSTs and HEADs aren't cacheable
-    my $method = $session->request->method;
+    my $method = $request->method;
     $isCacheable = 0 if $method && $method =~ m/^(?:POST|HEAD)$/;
 
     if ($isCacheable) {
 
         # check prefs value
-        my $flag = $session->prefs->getPreference('CACHEABLE');
+        my $flag = $app->prefs->getPreference('CACHEABLE');
         $isCacheable = 0 if defined $flag && !Foswiki::isTrue($flag);
     }
 
     # don't cache 401 Not authorized responses
-    my $headers = $session->response->headers();
+    my $headers = $app->response->headers();
     my $status  = $headers->{Status};
     $isCacheable = 0 if $status && $status eq 401;
 
@@ -448,8 +449,8 @@ sub addDependency {
     return unless $depTopic =~ m/^[[:upper:]]/;
 
     # omit dependencies triggered from inside a dirtyarea
-    my $session = $Foswiki::Plugins::SESSION;
-    return if $session->inContext('dirtyarea');
+    my $app = $this->app;
+    return if $app->inContext('dirtyarea');
 
     $depWeb =~ s/\//\./g;
     my $depWebTopic = $depWeb . '.' . $depTopic;
@@ -497,9 +498,9 @@ sub getWebDependencies {
     my ( $this, $web ) = @_;
 
     unless ( defined $this->webDeps ) {
-        my $session = $Foswiki::Plugins::SESSION;
+        my $app = $this->app;
         my $webDeps =
-             $session->prefs->getPreference( 'WEBDEPENDENCIES', $web )
+             $app->prefs->getPreference( 'WEBDEPENDENCIES', $web )
           || $Foswiki::cfg{Cache}{WebDependencies}
           || '';
 
@@ -508,7 +509,7 @@ sub getWebDependencies {
         # normalize topics
         foreach my $dep ( split( /\s*,\s*/, $webDeps ) ) {
             my ( $depWeb, $depTopic ) =
-              $session->normalizeWebTopicName( $web, $dep );
+              $app->request->normalizeWebTopicName( $web, $dep );
 
             Foswiki::Func::writeDebug("found webdep $depWeb.$depTopic")
               if TRACE;
@@ -626,13 +627,17 @@ sub renderDirtyAreas {
 
     Foswiki::Func::writeDebug("called renderDirtyAreas") if TRACE;
 
-    my $session = $Foswiki::Plugins::SESSION;
-    $session->enterContext('dirtyarea');
+    my $app     = $this->app;
+    my $request = $app->request;
+    $app->enterContext('dirtyarea');
 
     # remember the current page length to recompute the content length below
-    my $found = 0;
-    my $topicObj =
-      new Foswiki::Meta( $session, $session->webName, $session->topicName );
+    my $found    = 0;
+    my $topicObj = $this->create(
+        'Foswiki::Meta',
+        web   => $request->web,
+        topic => $request->topic
+    );
 
     # expand dirt
     while ( $$text =~
@@ -647,7 +652,7 @@ s/<dirtyarea([^>]*?)>(?!.*<dirtyarea)(.*?)<\/dirtyarea>/$this->_handleDirtyArea(
     # remove any dirtyarea leftovers
     $$text =~ s/<\/?dirtyarea>//g;
 
-    $session->leaveContext('dirtyarea');
+    $app->leaveContext('dirtyarea');
 }
 
 # called by renderDirtyAreas() to process each dirty area in isolation
@@ -660,9 +665,9 @@ sub _handleDirtyArea {
     #Foswiki::Func::writeDebug("in text=$text") if TRACE;
 
     # add dirtyarea params
-    my $params  = new Foswiki::Attrs($args);
-    my $session = $Foswiki::Plugins::SESSION;
-    my $prefs   = $session->prefs;
+    my $params = new Foswiki::Attrs($args);
+    my $app    = $this->app;
+    my $prefs  = $app->prefs;
 
     $prefs->pushTopicContext( $topicObj->web, $topicObj->topic );
     $params->remove('_RAW');

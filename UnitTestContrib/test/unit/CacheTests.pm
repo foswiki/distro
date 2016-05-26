@@ -210,44 +210,55 @@ around tear_down => sub {
 sub check {
     my ( $this, $pathinfo ) = @_;
 
-    $UI_FN ||= $this->getUIFn( $this->uifn );
-    $Foswiki::cfg{Cache}{Debug} = 1;
-    my $query = Unit::Request->new( initializer => { skin => ['none'], } );
-    $query->path_info($pathinfo);
-    $query->method('GET');
+    #$UI_FN ||= $this->getUIFn( $this->uifn );
+    $this->app->cfg->data->{Cache}{Debug} = 1;
 
-    $this->createNewFoswikiSession( $this->test_user_login,
-        $query, context => { $this->uifn => 1 }, );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => { skin => ['none'], }, },
+        engineParams  => {
+            simulate          => 'cgi',
+            initialAttributes => {
+                path_info => $pathinfo,
+                method    => 'GET',
+                action    => $this->uifn,
+            },
+        },
+        context => { $this->uifn => 1 },
+        user    => $this->test_user_login,
+    );
 
     # This first request should *not* be satisfied from the cache, but
     # the cache should be populated with the result.
     my $p1start = Benchmark->new();
     my ( $one, $result, $stdout, $stderr ) = $this->capture(
         sub {
-            no strict 'refs';
-            &{$UI_FN}( $this->session );
-            use strict 'refs';
-            $Foswiki::engine->finalize( $this->session->response,
-                $this->session->request );
+            return $this->app->handleRequest;
         }
     );
     my $p1end = Benchmark->new();
 
     #print STDERR "P1: $stderr\n" if $stderr;
 
-    $this->createNewFoswikiSession( $this->test_user_login,
-        $query, context => { $this->uifn => 1 }, );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => { skin => ['none'], }, },
+        engineParams  => {
+            simulate          => 'cgi',
+            initialAttributes => {
+                path_info => $pathinfo,
+                method    => 'GET',
+                action    => $this->uifn,
+            },
+        },
+        context => { $this->uifn => 1, },
+        user    => $this->test_user_login,
+    );
 
     # This second request should be satisfied from the cache
     # How do we know it was?
     my $p2start = Benchmark->new();
     ( my $two, $result, $stdout, $stderr ) = $this->capture(
         sub {
-            no strict 'refs';
-            &{$UI_FN}( $this->session );
-            use strict 'refs';
-            $Foswiki::engine->finalize( $this->session->response,
-                $this->session->request );
+            return $this->app->handleRequest;
         }
     );
     my $p2end = Benchmark->new();
@@ -264,10 +275,8 @@ sub check {
     my $two_heads = $1;
     $this->assert( $two_heads =~ /^X-Foswiki-Pagecache: 1$/im, $two_heads );
 
-    print STDERR "To cache:   "
-      . timestr( timediff( $p1end, $p1start ) ) . "\n";
-    print STDERR "From cache: "
-      . timestr( timediff( $p2end, $p2start ) ) . "\n";
+    print "To cache:   " . timestr( timediff( $p1end, $p1start ) ) . "\n";
+    print "From cache: " . timestr( timediff( $p2end, $p2start ) ) . "\n";
 
     return if $one eq $two;
 

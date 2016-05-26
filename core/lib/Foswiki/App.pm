@@ -18,6 +18,7 @@ use Assert;
 use Cwd;
 use Try::Tiny;
 use Storable qw(dclone);
+use Foswiki qw(%regex);
 use CGI                ();
 use Compress::Zlib     ();
 use Foswiki::Config    ();
@@ -178,6 +179,7 @@ has request => (
 has response => (
     is      => 'rw',
     lazy    => 1,
+    clearer => 1,
     default => sub { $_[0]->create('Foswiki::Response') },
     isa     => Foswiki::Object::isaCLASS(
         'response', 'Foswiki::Response', noUndef => 1,
@@ -831,6 +833,52 @@ sub redirect {
 
 =begin TML
 
+---++ ObjectMethod redirectto($url) -> $url
+
+If the CGI parameter 'redirectto' is present on the query, then will validate
+that it is a legal redirection target (url or topic name). If 'redirectto'
+is not present on the query, performs the same steps on $url.
+
+Returns undef if the target is not valid, and the target URL otherwise.
+
+=cut
+
+sub redirectto {
+    my ( $this, $url ) = @_;
+
+    my $req         = $this->request;
+    my $redirecturl = $req->param('redirectto');
+    $redirecturl = $url unless $redirecturl;
+
+    return unless $redirecturl;
+
+    if ( $redirecturl =~ m#^$regex{linkProtocolPattern}://# ) {
+
+        # assuming URL
+        return $redirecturl if Foswiki::_isRedirectSafe($redirecturl);
+        return;
+    }
+
+    my @attrs = ();
+
+    # capture anchor
+    if ( $redirecturl =~ s/#(.*)// ) {
+        push( @attrs, '#' => $1 );
+    }
+
+    # capture params
+    if ( $redirecturl =~ s/\?(.*)// ) {
+        push( @attrs, map { split( '=', $_, 2 ) } split( /[;&]/, $1 ) );
+    }
+
+    # assuming 'web.topic' or 'topic'
+    my ( $w, $t ) = $req->normalizeWebTopicName( $req->web, $redirecturl );
+
+    return $this->cfg->getScriptUrl( 0, 'view', $w, $t, @attrs );
+}
+
+=begin TML
+
 ---++ ObjectMethod satisfiedByCache( $action, $web, $topic ) -> $boolean
 
 Try and satisfy the current request for the given web.topic from the cache, given
@@ -1229,7 +1277,7 @@ sub writeCompletePage {
 
     if ( $this->zones ) {
 
-        $text = $this->zones()->_renderZones($text);
+        $text = $this->zones->_renderZones($text);
     }
 
     # Validate format of content-type (defined in rfc2616)
@@ -1300,7 +1348,7 @@ BOGUS
         # Generate a zipped page, if the client accepts them
 
         # SMELL: $ENV{SPDY} is a non-standard way to detect spdy protocol
-        if ( my $encoding = _gzipAccepted() ) {
+        if ( my $encoding = $this->engine->gzipAccepted ) {
             $hopts->{'Content-Encoding'} = $encoding;
             $hopts->{'Vary'}             = 'Accept-Encoding';
 

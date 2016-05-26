@@ -23,7 +23,7 @@ Fields:
                files
    * =uri= the request uri
 
-The following fields are parsed from the path_info
+The following fields are parsed from the =pathInfo=
    * =web= the requested web.  Access using web method
    * =topic= the requested topic. Access using topic
 
@@ -263,7 +263,7 @@ has _pathParsed  => (
     is      => 'rw',
     lazy    => 1,
     isa     => Foswiki::Object::isaHASH( '_pathParsed', noUndef => 1 ),
-    default => \&_establishAttributes,
+    builder => '_establishAttributes',
 );
 
 # Aliases are to be declared after all attribute handling methods are been
@@ -1174,7 +1174,7 @@ sub prepare {
 
 =begin TML
 
----++ private ObjectMethod _establishAttributes() ->  \%parsed_path_info
+---++ private ObjectMethod _establishAttributes($userPathInfo) ->  \%parsed_path_info
 
 Used as default for =_pathParsed= attribute which is then used by
 =web,topic,invalidWeb,invalidTopic= attribute defaults.
@@ -1183,12 +1183,13 @@ Used as default for =_pathParsed= attribute which is then used by
 
 sub _establishAttributes {
     my $this = shift;
+    my ($userPathInfo) = @_;
 
-    # Allow topic= query param to override the path
+    # Allow topic query param to override the path
     my $topicParam = $this->param('topic');
     my $pathInfo   = Foswiki::urlDecode( $this->pathInfo );
 
-    my $parse = parse( $topicParam || $pathInfo );
+    my $parse = parse( $userPathInfo || $topicParam || $pathInfo );
 
     # Item3270 - here's the appropriate place to enforce spec
     # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270

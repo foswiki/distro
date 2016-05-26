@@ -21,6 +21,8 @@ use Assert;
 use Data::Dumper;
 use Scalar::Util qw(blessed);
 
+require Digest::MD5;
+
 use Foswiki();
 use Foswiki::Meta();
 use Foswiki::Plugins();
@@ -428,7 +430,7 @@ sub _check_dependency {
     # Eg. Foswiki::Plugins::ZonePlugin,>=3.1,perl
     # TODO: type?
     if ( $what =~ m/^([^,]+)\s*(,\s*([^,]+),([^,]+))?/ ) {
-        require Foswiki::Configure::Dependency;
+        Foswiki::load_package('Foswiki::Configure::Dependency');
         my ( $module, $equality, $version ) = ( $1, $3, $4 );
         print STDERR "_check_dependency, testing $module "
           . ( $equality || '""' ) . ' '
@@ -1017,7 +1019,6 @@ sub captureWithKey {
 
     # As we won't be clicking using javascript, we have to fake that part too
     if ($strikeone) {
-        require Digest::MD5;
         $v = Digest::MD5::md5_hex( $v, Foswiki::Validation::_getSecret($cgis) );
     }
     $request->param(

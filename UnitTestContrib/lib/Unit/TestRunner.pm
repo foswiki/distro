@@ -635,8 +635,7 @@ sub runOne {
                 catch {
                     # If for some reason any code within try just dies then why
                     # stringify what's not an exception object?
-                    my $exceptionMessage =
-                      ref($_) && $_->can('stringify') ? $_->stringify : $_;
+                    my $exceptionMessage = Foswiki::Exception::errorStr($_);
                     safe_print "*** ", $exceptionMessage, "\n";
                     if ( $tester->expecting_failure ) {
                         $action .=

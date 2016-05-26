@@ -1170,6 +1170,7 @@ sub _populatePresets {
     };
     $cfgData->{SwitchBoard}{rest} = {
         package  => 'Foswiki::UI::Rest',
+        request  => 'Foswiki::Request::Rest',
         function => 'rest',
         context  => { rest => 1 },
     };

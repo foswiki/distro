@@ -204,11 +204,14 @@ sub _cloneData {
                 if ( $val->can('clone') ) {
                     $cloned = $val->clone;
                 }
+                elsif ( ref($val) eq 'Regexp' ) {
+                    $cloned = $val;
+                }
                 else {
                     # Class without clone method. Try to copy it 'manually' by
                     # cloning as a hash and blessing the resulting hashref into
                     # $val's class.
-                    $cloned = $this->_cloneData( \%$val, $attr );
+                    $cloned = $this->_cloneData( \%{$val}, $attr );
                     bless $cloned, ref($val)
                       if $cloned != $val;
                 }

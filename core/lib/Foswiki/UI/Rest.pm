@@ -11,11 +11,13 @@ UI delegate for REST interface
 package Foswiki::UI::Rest;
 use v5.14;
 
-use strict;
-use warnings;
 use Foswiki ();
 use Try::Tiny;
 use Foswiki::PageCache ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -44,10 +46,10 @@ for a given subject. See System.CommandAndCGIScripts#rest for more info.
 
 The handler function must be of the form:
 <verbatim>
-sub handler(\%session, $subject, $verb, $response) -> $text
+sub handler($app, $subject, $verb, $response) -> $text
 </verbatim>
 where:
-   * =\%session= - a reference to the Foswiki session object (may be ignored)
+   * =$app= - a reference to the Foswiki application object
    * =$subject= - The invoked subject (may be ignored)
    * =$verb= - The invoked verb (may be ignored)
    * =$response= reference to the Foswiki::Response object that is used to compose a reply to the request
@@ -86,14 +88,16 @@ sub registerRESTHandler {
 }
 
 sub rest {
-    my ( $session, %initialContext ) = @_;
+    my $this = shift;
 
-    my $req = $session->request;
-    my $res = $session->response;
+    my $app = $this->app;
+    my $req = $app->request;
+    my $res = $app->response;
+    my $env = $app->env;
     my $err;
 
     # Referer is useful for logging REST request errors
-    my $referer = ( defined $ENV{HTTP_REFERER} ) ? $ENV{HTTP_REFERER} : '';
+    my $referer = ( defined $env->{HTTP_REFERER} ) ? $env->{HTTP_REFERER} : '';
 
     # Must define topic param in the query to avoid plugins being
     # passed the path_info when the are initialised. We can't affect
@@ -105,7 +109,7 @@ sub rest {
             $err = 'ERROR: (400) Invalid REST invocation'
               . " - Invalid topic parameter $topic\n";
             $res->print($err);
-            $session->logger->log( 'warning', "REST rejected: " . $err,
+            $app->logger->log( 'warning', "REST rejected: " . $err,
                 " - $referer", );
             Foswiki::EngineException->throw(
                 status   => 400,
@@ -124,27 +128,31 @@ sub rest {
     }
 
     return
-      if $session->satisfiedByCache( 'rest', $session->webName,
-        $session->topicName );
+      if $app->satisfiedByCache( 'rest', $req->web, $req->topic );
 
     Foswiki::Func::writeDebug(
-        "computing REST for " . $session->webName . "." . $session->topicName )
+        "computing REST for " . $req->web . "." . $req->topic )
       if Foswiki::PageCache::TRACE();
-
-    my $pathInfo = Foswiki::urlDecode( $req->pathInfo );
 
     # Foswiki rest invocations are defined as having a subject (pluginName)
     # and verb (restHandler in that plugin). Make sure the path_info is
     # well-structured.
-    unless ( $pathInfo =~ m#/(.*?)[./]([^/]*)# ) {
+    if ( $req->invalidSubject || $req->invalidVerb ) {
+
+        my $errDetail =
+          $req->invalidSubject
+          ? "subject " . $req->invalidSubject
+          : "verb " . $req->invalidVerb;
 
         $res->header( -type => 'text/html', -status => '400' );
         $err =
-          "ERROR: (400) Invalid REST invocation - $pathInfo is malformed\n";
+            "ERROR: (400) Invalid REST invocation - "
+          . $errDetail
+          . " is malformed\n";
         $res->print($err);
-        $session->logger->log( 'warning', "REST rejected: " . $err,
+        $app->logger->log( 'warning', "REST rejected: " . $err,
             " - $referer", );
-        _listHandlers($res) if $session->inContext('command_line');
+        _listHandlers($res) if $app->inContext('command_line');
         Foswiki::EngineException->throw(
             status   => 400,
             reason   => $err,
@@ -153,7 +161,7 @@ sub rest {
     }
 
     # Implicit untaint OK - validated later
-    my ( $subject, $verb ) = ( $1, $2 );
+    my ( $subject, $verb ) = ( $req->subject, $req->verb );
 
     my $record = $restDispatch{$subject}{$verb};
 
@@ -162,10 +170,10 @@ sub rest {
         $res->header( -type => 'text/html', -status => '404' );
         $err =
             'ERROR: (404) Invalid REST invocation - '
-          . $pathInfo
+          . $req->pathInfo
           . ' does not refer to a known handler';
-        _listHandlers($res) if $session->inContext('command_line');
-        $session->logger->log( 'warning', "REST rejected: " . $err,
+        _listHandlers($res) if $app->inContext('command_line');
+        $app->logger->log( 'warning', "REST rejected: " . $err,
             " - $referer", );
         $res->print($err);
         Foswiki::EngineException->throw(
@@ -192,12 +200,12 @@ sub rest {
             $record->{authenticate} = 1 unless defined $record->{authenticate};
             $record->{validate}     = 1 unless defined $record->{validate};
         }
-        $session->logger->log( 'warning', $msg, " $subject/$verb - $referer", );
+        $app->logger->log( 'warning', $msg, " $subject/$verb - $referer", );
     }
 
     # Check the method is allowed
     if ( $record->{http_allow} && defined $req->method() ) {
-        unless ( $session->inContext('command_line') ) {
+        unless ( $app->inContext('command_line') ) {
             my %allowed =
               map { $_ => 1 } split( /[,\s]+/, $record->{http_allow} );
             unless ( $allowed{ uc( $req->method() ) } ) {
@@ -206,7 +214,7 @@ sub rest {
                     'ERROR: (405) Bad Request: '
                   . uc( $req->method() )
                   . ' denied';
-                $session->logger->log(
+                $app->logger->log(
                     'warning',
                     "REST rejected: " . $err,
                     " $subject/$verb - $referer",
@@ -225,12 +233,15 @@ sub rest {
     if ( $record->{authenticate} ) {
 
         # no need to exempt cli.  LoginManager sets authenticated correctly.
-        unless ( $session->inContext('authenticated')
+        unless ( $app->inContext('authenticated')
             || $Foswiki::cfg{LoginManager} eq 'none' )
         {
             $res->header( -type => 'text/html', -status => '401' );
-            $err = "ERROR: (401) $pathInfo requires you to be logged in";
-            $session->logger->log(
+            $err =
+                "ERROR: (401) "
+              . $req->pathInfo
+              . " requires you to be logged in";
+            $app->logger->log(
                 'warning',
                 "REST rejected: " . $err,
                 " $subject/$verb - $referer"
@@ -253,7 +264,7 @@ sub rest {
     # and we want a simple engine exception here.
     if (   $record->{validate}
         && $Foswiki::cfg{Validation}{Method} ne 'none'
-        && !$session->inContext('command_line')
+        && !$app->inContext('command_line')
         && uc( $req->method() eq 'POST' ) )
     {
 
@@ -261,13 +272,13 @@ sub rest {
         if (
             !defined($nonce)
             || !Foswiki::Validation::isValidNonce(
-                $session->getCGISession(), $nonce
+                $app->users->getCGISession(), $nonce
             )
           )
         {
             $res->header( -type => 'text/html', -status => '403' );
             $err = "ERROR: (403) Invalid validation code";
-            $session->logger->log(
+            $app->logger->log(
                 'warning',
                 "REST rejected: " . $err,
                 " $subject/$verb - $referer"
@@ -283,11 +294,11 @@ sub rest {
 
     my $function = $record->{function};
 
-    $session->logger->log(
+    $app->logger->log(
         {
             level    => 'info',
             action   => 'rest',
-            webTopic => $session->webName . '.' . $session->topicName,
+            webTopic => $req->web . '.' . $req->topic,
             extra    => "$subject $verb",
         }
     );
@@ -297,7 +308,7 @@ sub rest {
 
     try {
         no strict 'refs';
-        $result = &$function( $session, $subject, $verb, $session->response );
+        $result = &$function( $app, $subject, $verb, $app->response );
         use strict 'refs';
     }
     catch {
@@ -308,16 +319,18 @@ sub rest {
         # SMELL Actually OopsException was inheriting from Error, not
         # Error::Simple. Not sure how to handle it here but would try to follow
         # the pre-Moo pattern.
-        if (   !ref($e)
-            && !$e->isa('Foswiki::AccessControlException')
-            && !$e->isa('Foswiki::OopsException') )
+        if (
+            !ref($e)
+            || (   !$e->isa('Foswiki::AccessControlException')
+                && !$e->isa('Foswiki::OopsException') )
+          )
         {
-            $session->response->header(
+            $app->response->header(
                 -status  => 500,
                 -type    => 'text/plain',
                 -charset => 'UTF-8'
             );
-            $session->response->print( 'ERROR: (500) Internal server error - '
+            $app->response->print( 'ERROR: (500) Internal server error - '
                   . ( ref($_) ? $_->stringify : $_ ) );
             $error = 1;
         }
@@ -335,21 +348,21 @@ sub rest {
         # the endPoint and validating it early fails.
 
         # endPoint still supported for compatibility
-        my $target = $session->redirectto( scalar( $req->param('endPoint') ) );
+        my $target = $app->redirectto( scalar( $req->param('endPoint') ) );
 
         if ( defined($target) ) {
-            $session->redirect($target);
+            $app->redirect($target);
         }
         else {
             if (   defined $req->param('redirectto')
                 || defined $req->param('endPoint') )
             {
-                $session->response->header(
+                $app->response->header(
                     -status  => 403,
                     -type    => 'text/plain',
                     -charset => 'UTF-8'
                 );
-                $session->response->print(
+                $app->response->print(
                         'ERROR: (403) Invalid REST invocation - '
                       . ' redirectto does not refer to a valid redirect target'
                 );
@@ -362,7 +375,7 @@ sub rest {
 
         # If the handler doesn't want to handle all the details of the
         # response, they can return a page here and get it 200'd
-        $session->writeCompletePage($result);
+        $app->writeCompletePage($result);
     }
 
     # Otherwise it's assumed that the handler dealt with the response.

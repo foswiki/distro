@@ -53,8 +53,10 @@ around stringify => sub {
     my $orig = shift;
     my $this = shift;
     my ( $status, $reason ) = ( $this->status, $this->reason );
-    return
-      qq(EngineException: Status code "$status" defined because of "$reason".);
+    $this->_set_text(
+        qq(EngineException: Status code "$status" defined because of "$reason".)
+    );
+    return $orig->( $this, @_ );
 };
 
 1;

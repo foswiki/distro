@@ -83,8 +83,7 @@ sub registerTagHandler {
     my $this = shift;
     my ( $tag, $handler, $syntax ) = @_;
 
-    Foswiki::Exception::Fatal->throw(
-        text => "Attempt to re-register an existing tag " . $tag, )
+    $this->app->logger->log( 'warning', "Re-registering existing tag " . $tag, )
       if exists $this->registered->{$tag};
 
     Foswiki::Exception::Fatal->throw(
