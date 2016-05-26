@@ -12,11 +12,12 @@ use Moo;
 use namespace::clean;
 extends qw(FoswikiFnTestCase);
 
-has uifn        => ( is => 'rw', );
+has testAction => ( is => 'rw', );
+has testUri => ( is => 'rw', clearer => 1, );
+has testPathInfo =>
+  ( is => 'rw', clearer => 1, lazy => 1, default => sub { $_[0]->testUri }, );
 has oldDbiDsn   => ( is => 'rw', );
 has oldCacheDsn => ( is => 'rw', );
-
-my $UI_FN;
 
 sub fixture_groups {
     my $this = shift;
@@ -160,12 +161,23 @@ sub NoCompress {
 
 sub view {
     my $this = shift;
-    $this->uifn('view');
+    $this->testAction('view');
+}
+
+sub rest_handler {
+    return '';
 }
 
 sub rest {
     my $this = shift;
-    $this->uifn('rest');
+    $this->testAction('rest');
+    Foswiki::Func::registerRESTHandler(
+        'trial', \&rest_handler,
+        authenticate => 0,
+        validate     => 0,
+        http_allow   => 'GET',
+    );
+    $this->testPathInfo( '/' . __PACKAGE__ . '/trial' );
 }
 
 my %twistyIDs;
@@ -192,9 +204,12 @@ around set_up => sub {
 
     $Foswiki::cfg{HttpCompress} = 0;
     $Foswiki::cfg{Cache}{Compress} = 0;
-    $UI_FN ||= $this->getUIFn('view');
     $this->oldDbiDsn( $Foswiki::cfg{Cache}{DBI}{DSN} );
     $this->oldCacheDsn( $Foswiki::cfg{Cache}{DSN} );
+    delete $this->app->env->{FOSWIKI_TEST_PATH_INFO};
+    delete $this->app->env->{FOSWIKI_TEST_ACTION};
+    $this->clear_testUri;
+    $this->clear_testPathInfo;
 };
 
 around tear_down => sub {
@@ -210,20 +225,26 @@ around tear_down => sub {
 sub check {
     my ( $this, $pathinfo ) = @_;
 
-    #$UI_FN ||= $this->getUIFn( $this->uifn );
     $this->app->cfg->data->{Cache}{Debug} = 1;
 
     $this->createNewFoswikiApp(
-        requestParams => { initializer => { skin => ['none'], }, },
-        engineParams  => {
-            simulate          => 'cgi',
-            initialAttributes => {
-                path_info => $pathinfo,
-                method    => 'GET',
-                action    => $this->uifn,
+        requestParams => {
+            initializer => {
+                skin     => ['none'],
+                action   => [ $this->testAction ],
+                endPoint => $this->testUri,
             },
         },
-        context => { $this->uifn => 1 },
+        engineParams => {
+            simulate          => 'cgi',
+            initialAttributes => {
+                uri       => $this->testUri,
+                path_info => $this->testPathInfo,
+                method    => 'GET',
+                action    => $this->testAction,
+            },
+        },
+        context => { $this->testAction => 1 },
         user    => $this->test_user_login,
     );
 
@@ -240,16 +261,23 @@ sub check {
     #print STDERR "P1: $stderr\n" if $stderr;
 
     $this->createNewFoswikiApp(
-        requestParams => { initializer => { skin => ['none'], }, },
-        engineParams  => {
-            simulate          => 'cgi',
-            initialAttributes => {
-                path_info => $pathinfo,
-                method    => 'GET',
-                action    => $this->uifn,
+        requestParams => {
+            initializer => {
+                skin     => ['none'],
+                action   => [ $this->testAction ],
+                endPoint => $this->testUri,
             },
         },
-        context => { $this->uifn => 1, },
+        engineParams => {
+            simulate          => 'cgi',
+            initialAttributes => {
+                uri       => $this->testUri,
+                path_info => $this->testPathInfo,
+                method    => 'GET',
+                action    => $this->testAction,
+            },
+        },
+        context => { $this->testAction => 1, },
         user    => $this->test_user_login,
     );
 
@@ -310,12 +338,14 @@ s/<(span|div)([^>]*?)(\d+?)(show|hide|toggle)([^>]*?)>/'<'.$1.$2._mangleID($3).$
 
 sub verify_simple {
     my $this = shift;
-    $this->check('/');
+    $this->testUri('/');
+    $this->check;
 }
 
 sub verify_topic {
     my $this = shift;
-    $this->check("/$Foswiki::cfg{SystemWebName}/FileAttribute");
+    $this->testUri("/$Foswiki::cfg{SystemWebName}/FileAttribute");
+    $this->check;
 }
 
 sub verify_utf8_topic {
@@ -328,7 +358,8 @@ sub verify_utf8_topic {
     $meta->text($topic);
     $meta->save();
 
-    $this->check( Encode::encode_utf8("/$web/$topic") );
+    $this->testUri( Encode::encode_utf8("/$web/$topic") );
+    $this->check;
 }
 
 1;
