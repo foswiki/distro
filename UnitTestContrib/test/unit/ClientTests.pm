@@ -9,6 +9,7 @@ use Foswiki::LoginManager();
 use Unit::Request();
 use Try::Tiny;
 use Digest::MD5 qw(md5_hex);
+use Scalar::Util qw(blessed);
 
 use Moo;
 use namespace::clean;
@@ -82,7 +83,7 @@ sub set_up_for_verify {
     #print STDERR "\n------------- set_up -----------------\n";
     my $this = shift;
 
-    $this->createNewFoswikiSession( undef, Unit::Request->new() );
+    $this->createNewFoswikiApp;
     $this->assert( $Foswiki::cfg{TempfileDir}
           && -d $Foswiki::cfg{TempfileDir} );
     $Foswiki::cfg{UseClientSessions}  = 1;
@@ -96,19 +97,21 @@ sub set_up_for_verify {
 }
 
 sub set_up_user {
-    my $this = shift;
-    if ( $this->session->users->supportsRegistration() ) {
+    my $this  = shift;
+    my $app   = $this->app;
+    my $users = $app->users;
+    if ( $users->supportsRegistration() ) {
         $userLogin    = 'joe';
         $userWikiName = 'JoeDoe';
         $user_id =
-          $this->session->users->addUser( $userLogin, $userWikiName,
+          $users->addUser( $userLogin, $userWikiName,
             'secrect_password', 'email@home.org.au' );
         $this->annotate("create $userLogin user - cUID = $user_id\n");
     }
     else {
         $userLogin    = $Foswiki::cfg{AdminUserLogin};
-        $user_id      = $this->session->users->getCanonicalUserID($userLogin);
-        $userWikiName = $this->session->users->getWikiName($user_id);
+        $user_id      = $users->getCanonicalUserID($userLogin);
+        $userWikiName = $users->getWikiName($user_id);
         $this->annotate("no registration support (using admin)\n");
     }
 
@@ -120,11 +123,8 @@ sub set_up_user {
 around capture => sub {
     my $orig = shift;
     my $this = shift;
-    my ( $proc, $session, @args ) = @_;
-    $session->getLoginManager()->checkAccess();
-    $orig->( $this, $proc, $session, @args );
-
-    return;
+    $this->app->users->getLoginManager()->checkAccess();
+    return $orig->( $this, @_ );
 };
 
 sub verify_edit {
@@ -132,70 +132,81 @@ sub verify_edit {
     #print STDERR "\n------------- verify_edit -----------------\n";
 
     my $this = shift;
-    my ( $query, $text );
+    my ($text);
 
     #close this Foswiki session - its using the wrong mapper and login
 
-    $query = Unit::Request->new();
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
-    $this->createNewFoswikiSession( undef, $query );
+    $this->createNewFoswikiApp(
+        engineParams => {
+            simulate          => 'cgi',
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/" . $this->test_topic,
+                action    => 'view',
+            },
+        },
+    );
 
     $this->set_up_user();
     try {
-        ($text) = $this->capture( $VIEW_UI_FN, $this->session );
+        ($text) = $this->capture(
+            sub {
+                return $this->app->handleRequest;
+            }
+        );
     }
     catch {
         my $e = $_;
-        unless ( ref($e) ) {
-
-            # Take care of possible die's of errors.
-            Foswiki::Exception->throw( text => $e );
-        }
 
         # SMELL Error::Simple and Foswiki::Exception are not really equivalent.
-        if (   $e->isa('Foswiki::OopsException')
-            || $e->isa('Error::Simple')
-            || ref($e) eq 'Foswiki::Exception' )
-        {
+        if ( blessed($e) && $e->isa('Foswiki::OopsException') ) {
+
+            # Fail but stringify Oops into human-readable form.
             $this->assert( 0, $e->stringify() );
         }
         else {
-            $e->throw;
+            Foswiki::Exception::Fatal->rethrow($e);
         }
     };
 
-    $query = Unit::Request->new();
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
-    $query->param( '-breaklock', 1 );
-
-    $this->createNewFoswikiSession( undef, $query );
+    $this->createNewFoswikiApp(
+        engineParams => {
+            simulate          => 'cgi',
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/" . $this->test_topic,
+                action    => 'edit',
+            },
+        },
+    );
+    $this->app->request->param( '-breaklock', 1 );
 
     try {
-        ($text) = $this->capture( $EDIT_UI_FN, $this->session );
+        ($text) = $this->capture(
+            sub {
+                return $this->app->handleRequest;
+            }
+        );
     }
     catch {
         my $e = $_;
+        $e = Foswiki::Exception::Fatal->transmute( $e, 0 );
         unless ( $e->isa('Foswiki::AccessControlException') ) {
-
-         # SMELL Error::Simple and Foswiki::Exception are not really equivalent.
-            if ( $e->isa('Error::Simple') || ref($e) eq 'Foswiki::Exception' ) {
-                $this->assert( 0, $e->stringify() );
-            }
-            elsif ( $Foswiki::cfg{LoginManager} ne 'none' ) {
+            if (  !$e->isa('Foswiki::Exception::Fatal')
+                && $Foswiki::cfg{LoginManager} ne 'none' )
+            {
                 $this->assert( 0,
                         "expected an access control exception: "
                       . $Foswiki::cfg{LoginManager}
                       . "\n$text" );
             }
+            else {
+                $e->rethrow;
+            }
         }
     };
 
-    $query = Unit::Request->new();
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
-
     $this->annotate("new session using $userLogin\n");
 
-    $this->createNewFoswikiSession( $userLogin, $query );
+    $this->createNewFoswikiApp( user => $userLogin, );
 
 #clear the lease - one of the previous tests may have different usermapper & thus different user
     Foswiki::Func::setTopicEditLock( $this->test_web, $this->test_topic, 0 );
@@ -206,7 +217,8 @@ sub verify_edit {
 sub verify_sudo_login {
     my $this = shift;
 
-    unless ( $this->session->getLoginManager()->can("login") ) {
+    my $users = $this->app->users;
+    unless ( $users->getLoginManager()->can("login") ) {
         return;
     }
     my $secret = "a big mole on my left buttock";
@@ -215,25 +227,28 @@ sub verify_sudo_login {
     my $crypted = '$1234asdf$' . Digest::MD5::md5_hex( '$1234asdf$' . $secret );
     $Foswiki::cfg{Password} = $crypted;
 
-    my $query = Unit::Request->new(
-        initializer => {
-            username => [ $Foswiki::cfg{AdminUserLogin} ],
-            password => [$secret],
-            Logon    => [1],
-            skin     => ['none'],
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                username => [ $Foswiki::cfg{AdminUserLogin} ],
+                password => [$secret],
+                Logon    => [1],
+                skin     => ['none'],
+            },
+        },
+        engineParams => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/" . $this->test_topic, },
         }
     );
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
-
-    $this->createNewFoswikiSession( undef, $query );
-    $this->session->getLoginManager()->login( $query, $this->session );
+    $this->app->users->getLoginManager->login;
     my $script = $Foswiki::cfg{LoginManager} =~ m/Apache/ ? 'viewauth' : 'view';
     my $surly =
-      $this->session->getScriptUrl( 0, $script, $this->test_web,
+      $this->app->cfg->getScriptUrl( 0, $script, $this->test_web,
         $this->test_topic );
-    $this->assert_matches( qr/^302/, $this->session->response->status() );
+    $this->assert_matches( qr/^302/, $this->app->response->status() );
     $this->assert_matches( qr/^$surly/,
-        $this->session->response->headers->{Location} );
+        $this->app->response->headers->{Location} );
 
     # Verify that old crypted password works
     $crypted = crypt( $secret, "12" );
@@ -242,25 +257,28 @@ sub verify_sudo_login {
     # SMELL: 8 character truncated password will match.
     $secret = substr( $secret, 0, 8 );
 
-    $query = Unit::Request->new(
-        initializer => {
-            username => [ $Foswiki::cfg{AdminUserLogin} ],
-            password => [$secret],
-            Logon    => [1],
-            skin     => ['none'],
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                username => [ $Foswiki::cfg{AdminUserLogin} ],
+                password => [$secret],
+                Logon    => [1],
+                skin     => ['none'],
+            },
+        },
+        engineParams => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/" . $this->test_topic, },
         }
     );
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
-
-    $this->createNewFoswikiSession( undef, $query );
-    $this->session->getLoginManager->login( $query, $this->session );
+    $this->app->users->getLoginManager->login;
     $script = $Foswiki::cfg{LoginManager} =~ m/Apache/ ? 'viewauth' : 'view';
     $surly =
-      $this->session->getScriptUrl( 0, $script, $this->test_web,
+      $this->app->cfg->getScriptUrl( 0, $script, $this->test_web,
         $this->test_topic );
-    $this->assert_matches( qr/^302/, $this->session->response->status );
+    $this->assert_matches( qr/^302/, $this->app->response->status );
     $this->assert_matches( qr/^$surly/,
-        $this->session->response->headers->{Location} );
+        $this->app->response->headers->{Location} );
 
     return;
 }

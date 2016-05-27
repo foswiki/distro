@@ -53,6 +53,7 @@ use Try::Tiny;
 
 use Foswiki::Sandbox ();
 use CGI::Session     ();
+require Foswiki::AccessControlException;
 
 use Moo;
 use namespace::clean;
@@ -100,13 +101,15 @@ for the given app object.
 sub makeLoginManager {
     my $app = shift;
 
+    my $req = $app->request;
+
     ASSERT( $app->isa('Foswiki::App') ) if DEBUG;
 
-    ASSERT( defined $app->request, "Request object is undefined" )
+    ASSERT( defined $req, "Request object is undefined" )
       if DEBUG;
 
     #user is trying to sudo login - use BaseUserMapping
-    if ( $app->request->param('sudo') ) {
+    if ( $req->param('sudo') ) {
 
         #promote / login to internal wiki admin
         $app->enterContext('sudo_login');
@@ -124,7 +127,7 @@ sub makeLoginManager {
         $use .= '; use CGI::Cookie ()';
         eval $use;
         throw Error::Simple($@) if $@;
-        if ( $app->request->https() ) {
+        if ( $req->https() ) {
             $sessionname = 'SFOSWIKISID';
         }
         else {
@@ -155,8 +158,6 @@ sub makeLoginManager {
         {    #TODO: move selection into BaseUserMapper
             $loginManager = 'Foswiki::LoginManager::TemplateLogin';
         }
-        eval "require $loginManager";
-        Foswiki::Exception->rethrow($@) if $@;
         $mgr = $app->create($loginManager);
     }
     return $mgr;
@@ -711,6 +712,7 @@ sub checkAccess {
 
     my $this = shift;
     my $app  = $this->app;
+    my $req  = $app->request;
 
     return if $app->inContext('command_line');
 
@@ -725,11 +727,15 @@ sub checkAccess {
         my $action = $app->request->base_action();
 
         if ( defined $action && $this->_authScripts->{$action} ) {
-            my $topic = $app->topicName;
-            my $web   = $app->webName;
-            require Foswiki::AccessControlException;
-            throw Foswiki::AccessControlException( $action, $app->user,
-                $web, $topic, $action . ' requires authentication' );
+            my $topic = $req->topic;
+            my $web   = $req->web;
+            Foswiki::AccessControlException->throw(
+                mode   => $action,
+                user   => $app->user,
+                web    => $web,
+                topic  => $topic,
+                reason => $action . ' requires authentication'
+            );
         }
     }
 }
@@ -1528,8 +1534,9 @@ sub _dispLogon {
     return '' unless $this->_has_cgisession;
 
     my $app       = $this->app;
-    my $topic     = $app->topicName;
-    my $web       = $app->webName;
+    my $req       = $app->request;
+    my $topic     = $req->topic;
+    my $web       = $req->web;
     my $sessionId = $this->_cgisession->id();
 
     my $urlToUse = $this->loginUrl();

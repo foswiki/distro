@@ -281,6 +281,7 @@ sub _getLogsForLevel {
 
     foreach my $lvl (@$level) {
         ASSERT( defined $LEVEL2LOG{$lvl} ) if DEBUG;
+        ASSERT( defined $Foswiki::cfg{Log}{Dir} ) if DEBUG;
         my $log = $Foswiki::cfg{Log}{Dir} . '/' . $LEVEL2LOG{$lvl} . '.log';
 
       # SMELL: Expand should not be needed, except if bin/configure tries

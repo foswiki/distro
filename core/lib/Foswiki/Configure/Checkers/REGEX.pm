@@ -2,7 +2,10 @@
 package Foswiki::Configure::Checkers::REGEX;
 use v5.14;
 
+use Try::Tiny;
+
 use Moo;
+use namespace::clean;
 extends qw(Foswiki::Configure::Checker);
 
 # This is a generic (item-independent) checker for regular expressions.
@@ -12,14 +15,17 @@ sub check_current_value {
     my $str = $this->checkExpandedValue($reporter);
     return unless defined $str;
 
-    eval { qr/$str/ };
-    if ($@) {
-        my $msg = Foswiki::Configure::Reporter::stripStacktrace($@);
+    try { qr/$str/ }
+    catch {
+        my $msg =
+          Foswiki::Configure::Reporter::stripStacktrace(
+            Foswiki::Exception::errorStr($_) );
         $reporter->ERROR(<<"MESS");
 Invalid regular expression: $msg <p />
 See <a href="http://www.perl.com/doc/manual/html/pod/perlre.html">perl.com</a> for help with Perl regular expressions.
 MESS
-    }
+
+    };
 }
 
 1;

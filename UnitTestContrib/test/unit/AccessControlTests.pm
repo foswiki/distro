@@ -884,8 +884,6 @@ THIS
     # Request the page with the full UI
     my $viewUrl = $cfg->getScriptUrl( 0, 'view', $this->test_web, $test_topic );
 
-    #$query->uri("$viewUrl");
-
     #$this->finishFoswikiSession();
     my ($text) = $this->capture(
         sub {

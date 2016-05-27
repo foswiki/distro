@@ -94,7 +94,7 @@ BEGIN {
     }
 }
 
-our @_newParameters = qw( mode user web topic reason );
+#our @_newParameters = qw( mode user web topic reason );
 
 has web    => ( is => 'ro', required => 1, );
 has topic  => ( is => 'ro', required => 1, );

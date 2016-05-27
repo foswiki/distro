@@ -476,9 +476,9 @@ sub __deprecated_BUILD {
 
     # This is required in case we get an exception during
     # initialisation, so that we have a session to handle it with.
-    ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
+    #ASSERT( !$Foswiki::Plugins::SESSION ) if SINGLE_SINGLETONS;
 
-    $Foswiki::Plugins::SESSION = $this;
+    #$Foswiki::Plugins::SESSION = $this;
 
     ASSERT( $Foswiki::Plugins::SESSION,
 "\$Foswiki::Plugins::SESSION was most likely unexpectedly cleared by destructor."

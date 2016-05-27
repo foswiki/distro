@@ -97,39 +97,47 @@ sub test_getspec_headline {
     my $spec     = Foswiki::Configure::Query::getspec( \%params, $reporter );
     $this->assert( !$reporter->has_level('errors') );
     $this->assert_num_equals( 1, scalar @$spec );
-    $this->assert_str_equals( 'UnitTestContrib', $spec->[0]->{headline} );
-    my $N = scalar @{ $spec->[0]->{children} };
+    $this->assert_str_equals( 'UnitTestContrib',
+        $spec->[0]->attrs->{headline} );
+    my $N = scalar @{ $spec->[0]->attrs->{children} };
     $this->assert($N);
     my $i = 0;
 
-    while ( $i < $N && $spec->[0]->{children}->[$i]->{headline} ne 'Configure' )
+    while ($i < $N
+        && $spec->[0]->attrs->{children}->[$i]->attrs->{headline} ne
+        'Configure' )
     {
         $i++;
     }
     $this->assert( $i < $N );
     $this->assert_str_equals( 'Configure',
-        $spec->[0]->{children}->[$i]->{headline} );
-    my $brats = $spec->[0]->{children}->[$i]->{children};
+        $spec->[0]->attrs->{children}->[$i]->attrs->{headline} );
+    my $brats = $spec->[0]->attrs->{children}->[$i]->attrs->{children};
     $this->assert_not_null($brats);
     $this->assert_str_equals( '{UnitTestContrib}{Configure}{STRING}',
-        $brats->[0]->{keys} );
+        $brats->[0]->attrs->{keys} );
 
     $params{depth} = 1;
     $spec = Foswiki::Configure::Query::getspec( \%params, $reporter );
     $this->assert( !$reporter->has_level('errors') );
     $this->assert_num_equals( 1, scalar @$spec );
-    $this->assert_str_equals( 'UnitTestContrib', $spec->[0]->{headline} );
-    $N = scalar @{ $spec->[0]->{children} };
+    $this->assert_str_equals( 'UnitTestContrib',
+        $spec->[0]->attrs->{headline} );
+    $N = scalar @{ $spec->[0]->attrs->{children} };
     $this->assert($N);
     $i = 0;
-    while ( $i < $N && $spec->[0]->{children}->[$i]->{headline} ne 'Configure' )
+
+    while ($i < $N
+        && $spec->[0]->attrs->{children}->[$i]->attrs->{headline} ne
+        'Configure' )
     {
         $i++;
     }
     $this->assert( $i < $N );
     $this->assert_str_equals( 'Configure',
-        $spec->[0]->{children}->[$i]->{headline} );
-    $this->assert_null( $spec->[0]->{children}->[$i]->{children} );
+        $spec->[0]->attrs->{children}->[$i]->attrs->{headline} );
+    $this->assert_null(
+        $spec->[0]->attrs->{children}->[$i]->attrs->{children} );
 }
 
 sub test_getspec_parent {
@@ -142,7 +150,7 @@ sub test_getspec_parent {
     $this->assert($N);
     my $i = 0;
 
-    while ( $i < $N && $spec->[$i]->{headline} ne 'Configure' ) {
+    while ( $i < $N && $spec->[$i]->attrs->{headline} ne 'Configure' ) {
         $i++;
     }
     $this->assert( $i < $N );
@@ -156,26 +164,27 @@ sub test_getspec_STRING {
     $this->assert( !$reporter->has_level('errors') );
     $this->assert_num_equals( 1, scalar @$spec );
     $spec = $spec->[0];
-    $this->assert_str_equals( 'STRING',   $spec->{typename} );
-    $this->assert_str_equals( "'STRING'", $spec->{default} );
+    $this->assert_str_equals( 'STRING',   $spec->attrs->{typename} );
+    $this->assert_str_equals( "'STRING'", $spec->attrs->{default} );
     $this->assert_str_equals( '{UnitTestContrib}{Configure}{STRING}',
-        $spec->{keys} );
-    $this->assert_matches( qr/^When you press.*of report.*$/s, $spec->{desc} );
-    $this->assert_num_equals( 4, $spec->{depth} );
-    $this->assert_num_equals( 2, scalar @{ $spec->{defined_at} } );
-    $this->assert_num_equals( 2, scalar @{ $spec->{FEEDBACK} } );
-    my $fb = $spec->{FEEDBACK}->[0];
+        $spec->attrs->{keys} );
+    $this->assert_matches( qr/^When you press.*of report.*$/s,
+        $spec->attrs->{desc} );
+    $this->assert_num_equals( 4, $spec->attrs->{depth} );
+    $this->assert_num_equals( 2, scalar @{ $spec->attrs->{defined_at} } );
+    $this->assert_num_equals( 2, scalar @{ $spec->attrs->{FEEDBACK} } );
+    my $fb = $spec->attrs->{FEEDBACK}->[0];
     $this->assert( $fb->{auth} );
     $this->assert_str_equals( 'Test',     $fb->{wizard} );
     $this->assert_str_equals( 'test1',    $fb->{method} );
     $this->assert_str_equals( 'Test one', $fb->{label} );
-    $fb = $spec->{FEEDBACK}->[1];
+    $fb = $spec->attrs->{FEEDBACK}->[1];
     $this->assert( !$fb->{auth} );
     $this->assert_str_equals( 'Test',     $fb->{wizard} );
     $this->assert_str_equals( 'test1',    $fb->{method} );
     $this->assert_str_equals( 'Test two', $fb->{label} );
 
-    my $ch = $spec->{CHECK};
+    my $ch = $spec->attrs->{CHECK};
     $this->assert_num_equals( 3,  $ch->{min}->[0] );
     $this->assert_num_equals( 20, $ch->{max}->[0] );
 
@@ -184,9 +193,9 @@ sub test_getspec_STRING {
     $this->assert( !$reporter->has_level('errors') );
     $this->assert_num_equals( 1, scalar @$spec );
     $spec = $spec->[0];
-    $this->assert_str_equals( $params{get}->{keys}, $spec->{keys} );
-    $this->assert_str_equals( 'PATH',               $spec->{typename} );
-    $this->assert_str_equals( "'empty'",            $spec->{default} );
+    $this->assert_str_equals( $params{get}->{keys}, $spec->attrs->{keys} );
+    $this->assert_str_equals( 'PATH',               $spec->attrs->{typename} );
+    $this->assert_str_equals( "'empty'",            $spec->attrs->{default} );
 }
 
 sub test_getspec_REGEX {
@@ -199,12 +208,12 @@ sub test_getspec_REGEX {
     #print STDERR Data::Dumper->Dump( [$spec] );
     $this->assert( !$reporter->has_level('errors') );
     $this->assert_num_equals( 1, scalar @$spec );
-    $spec = $spec->[0];
-    $this->assert_str_equals( 'REGEX',                $spec->{typename} );
-    $this->assert_str_equals( '\'^regex$\'',          $spec->{default} );
-    $this->assert_str_equals( 'Default: \'^regex$\'', $spec->{desc} );
+    my $specAttrs = $spec->[0]->attrs;
+    $this->assert_str_equals( 'REGEX',                $specAttrs->{typename} );
+    $this->assert_str_equals( '\'^regex$\'',          $specAttrs->{default} );
+    $this->assert_str_equals( 'Default: \'^regex$\'', $specAttrs->{desc} );
     $this->assert_str_equals( '{UnitTestContrib}{Configure}{REGEX}',
-        $spec->{keys} );
+        $specAttrs->{keys} );
 }
 
 sub test_getspec_no_LSC {
@@ -220,7 +229,7 @@ sub test_getspec_no_LSC {
     $this->assert( !$reporter->has_level('errors') );
     $this->assert_num_equals( 1, scalar @$spec );
     $spec = $spec->[0];
-    $this->assert_str_equals( 'SECTION', $spec->{typename} );
+    $this->assert_str_equals( 'SECTION', $spec->attrs->{typename} );
 }
 
 sub test_getspec_badkey {

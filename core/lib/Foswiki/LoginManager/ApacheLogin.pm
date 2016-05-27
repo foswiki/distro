@@ -49,7 +49,7 @@ sub BUILD {
     $this->app->enterContext('can_login');
 
     # Can't logout, though
-    Foswiki::registerTagHandler( 'LOGOUT', sub { return '' } );
+    $this->app->macros->registerTagHandler( 'LOGOUT', sub { return '' } );
     return $this;
 }
 
@@ -121,7 +121,7 @@ if it needs to challenge the user
 sub login {
     my $this = shift;
 
-    $app //= $this->app;
+    my $app   = $this->app;
     my $query = $app->request;
 
     my $url =

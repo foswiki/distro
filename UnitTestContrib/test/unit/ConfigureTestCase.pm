@@ -79,22 +79,16 @@ LSC
           if -e $this->lscpath;
     }
 
-    $Foswiki::Plugins::SESSION = $this->session;
+    $| = 1;
 };
 
 around tear_down => sub {
     my $orig = shift;
     my $this = shift;
 
-    # make sure the correct config comes back
-    $Foswiki::cfg{ConfigurationFinished} = 0;
-    Foswiki::Configure::Load::readConfig( 0, 0 );
-
     # Got to restore this, otherwise SUPER::tear_down will eat
     # the one restored from LSC
     $Foswiki::cfg{WorkingDir} = $this->test_work_dir;
-
-    $orig->($this);
 
     #say STDERR "Tearing down ", $this->{lscpath};
     if ( $this->wrote_lsc ) {
@@ -109,6 +103,12 @@ around tear_down => sub {
             unlink $this->lscpath;
         }
     }
+
+    # make sure the correct config comes back
+    $Foswiki::cfg{ConfigurationFinished} = 0;
+    $this->app->cfg->readConfig( 0, 0 );
+
+    $orig->($this);
 };
 
 1;

@@ -368,8 +368,6 @@ sub stripStacktrace {
 
     return '' unless ( length $message );
 
-    print STDERR $message;
-
     my @lines = split( /\n/, $message );
     splice( @lines, KEEP_STACK_LEVELS + 1 );
     return join(

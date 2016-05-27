@@ -5,6 +5,8 @@ use v5.14;
 use strict;
 use warnings;
 
+use Try::Tiny;
+
 use Assert;
 use Foswiki::Configure::Load     ();
 use Foswiki::Configure::Root     ();
@@ -47,18 +49,31 @@ sub _getSetParams {
                 $reporter->ERROR("$k was not found in any Config.spec");
                 next;
             }
+            my $skipValue = 0;
             if ( defined $value && !ref($value) ) {
                 $value =~ m/^(.*)$/s;    # UNTAINT
                 $value = $1;
-                eval { $value = $spec->decodeValue($value); };
-                if ($@) {
-                    $reporter->ERROR(
+                try {
+                    $value = $spec->decodeValue($value);
+                }
+                catch {
+                    my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+                    if ( $e->isa('Foswiki::Exception::Fatal') ) {
+                        $reporter->ERROR(
                             "The value of $k was unreadable: <verbatim>"
-                          . Foswiki::Configure::Reporter::stripStacktrace($@)
-                          . '</verbatim>' );
-                    next;
+                              . Foswiki::Configure::Reporter::stripStacktrace(
+                                Foswiki::Exception::errorStr($e)
+                              )
+                              . '</verbatim>'
+                        );
+                        $skipValue = 1;
+                    }
+                    else {
+                        $e->rethrow;
+                    }
                 }
             }
+            next if $skipValue;
             if ( defined $value ) {
                 if ( $spec->isFormattedType() || ref($value) ) {
                     print STDERR "GETSET $k="
@@ -113,7 +128,8 @@ sub getcfg {
     my ( $params, $reporter ) = @_;
 
     # Reload Foswiki::cfg without expansions
-    $Foswiki::app->cfg->localize( Engine => $Foswiki::cfg{Engine} );
+    my $cfgHolder =
+      $Foswiki::app->cfg->localize( Engine => $Foswiki::cfg{Engine} );
     $Foswiki::app->cfg->readConfig( 1, 1 );
 
     my $keys = $params->{keys};    # expect a list
@@ -324,7 +340,13 @@ sub check_current_value {
     my $reporter = Foswiki::Configure::Reporter->new();
 
     # Apply "set" values to $Foswiki::cfg
-    eval { _getSetParams( $params, $root, $frep ); };
+    try {
+        _getSetParams( $params, $root, $frep );
+    }
+    catch {
+        my $e = $_;
+        Foswiki::Exception::Fatal->rethrow($e);
+    };
     if ( $frep->has_level('errors') ) {
         return [ { reports => $frep->messages() } ];
     }
@@ -398,11 +420,11 @@ sub check_current_value {
             print STDERR "\t'$k' is a key\n" if TRACE_CHECK;
             push( @checko, $v );
             if ( $params->{check_dependencies}
-                && defined $v->{CHECK}->{also} )
+                && defined $v->attrs->{CHECK}->{also} )
             {
 
                 # Look at the CHECK="also:" explicit dependencies
-                foreach my $dep ( @{ $v->{CHECK}->{also} } ) {
+                foreach my $dep ( @{ $v->attrs->{CHECK}->{also} } ) {
                     next if $check{$dep};
                     print STDERR "\t... has a check:also for $dep\n"
                       if TRACE_CHECK;

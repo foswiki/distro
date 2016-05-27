@@ -1100,6 +1100,7 @@ sub _populatePresets {
         request => 'Foswiki::Request',
     };
     $cfgData->{SwitchBoard}{edit} = {
+        request  => 'Foswiki::Request',
         package  => 'Foswiki::UI::Edit',
         function => 'edit',
         context  => { edit => 1 },

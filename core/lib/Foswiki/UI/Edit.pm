@@ -19,6 +19,10 @@ use Foswiki::OopsException ();
 use Foswiki::Form          ();
 use Foswiki::Serialise     ();
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
+
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
@@ -37,70 +41,72 @@ CGI parameters are documented in System.CommandAndCGIScripts.
 =cut
 
 sub edit {
-    my $session = shift;
-    my ( $topicObject, $tmpl ) = init_edit( $session, 'edit' );
-    finalize_edit( $session, $topicObject, $tmpl );
+    my $this = shift;
+    my ( $topicObject, $tmpl ) = $this->init_edit('edit');
+    $this->finalize_edit( $topicObject, $tmpl );
 }
 
 sub init_edit {
-    my ( $session, $templateName ) = @_;
-    my $query = $session->request;
-    my $web   = $session->webName;
-    my $topic = $session->topicName;
-    my $user  = $session->user;
-    my $users = $session->users;
+    my $this = shift;
+    my ($templateName) = @_;
+
+    my $app   = $this->app;
+    my $req   = $app->request;
+    my $web   = $req->web;
+    my $topic = $req->topic;
+    my $user  = $app->user;
+    my $users = $app->users;
+    my $store = $app->store;
 
     # empty means edit both form and text, "form" means edit form only,
     # "text" means edit text only
-    my $editaction = $query->param('action') || '';
+    my $editaction = $req->param('action') || '';
     $editaction =~ m/^(form|text)$/i;
     $editaction = lc( $1 || '' );
 
-    my $adminCmd   = $query->param('cmd')        || '';
-    my $redirectTo = $query->param('redirectto') || '';
-    my $onlyWikiName =
-      Foswiki::isTrue( scalar( $query->param('onlywikiname') ) );
-    my $onlyNewTopic =
-      Foswiki::isTrue( scalar( $query->param('onlynewtopic') ) );
-    my $formTemplate  = $query->param('formtemplate')  || '';
-    my $templateTopic = $query->param('templatetopic') || '';
+    my $adminCmd   = $req->param('cmd')        || '';
+    my $redirectTo = $req->param('redirectto') || '';
+    my $onlyWikiName = Foswiki::isTrue( scalar( $req->param('onlywikiname') ) );
+    my $onlyNewTopic = Foswiki::isTrue( scalar( $req->param('onlynewtopic') ) );
+    my $formTemplate = $req->param('formtemplate') || '';
+    my $templateTopic = $req->param('templatetopic') || '';
     my $notemplateexpansion =
-      Foswiki::isTrue( scalar( $query->param('notemplateexpansion') ) );
+      Foswiki::isTrue( scalar( $req->param('notemplateexpansion') ) );
 
     # apptype is deprecated undocumented legacy
     my $cgiAppType =
-         $query->param('contenttype')
-      || $query->param('apptype')
+         $req->param('contenttype')
+      || $req->param('apptype')
       || 'text/html';
-    my $parentTopic = $query->param('topicparent') || '';
-    my $ptext = $query->param('text');
+    my $parentTopic = $req->param('topicparent') || '';
+    my $ptext = $req->param('text');
 
     my $revision;
-    if ( defined $query->param('rev') ) {
+    if ( defined $req->param('rev') ) {
         $revision =
-          Foswiki::Store::cleanUpRevID( scalar( $query->param('rev') ) );
+          Foswiki::Store::cleanUpRevID( scalar( $req->param('rev') ) );
         unless ($revision) {
 
             # Invalid request, remove it from the query.
             $revision = undef;
-            $query->delete('rev');
+            $req->delete('rev');
         }
     }
 
-    Foswiki::UI::checkWebExists( $session, $web, 'edit' );
+    $this->checkWebExists( $web, 'edit' );
 
-    my $topicObject = Foswiki::Meta->load( $session, $web, $topic );
+    my $topicObject = Foswiki::Meta->load( $app, $web, $topic );
     my $extraLog    = '';
-    my $topicExists = $session->topicExists( $web, $topic );
+    my $topicExists = $store->topicExists( $web, $topic );
 
     # If you want to edit, you have to be able to view and change.
-    Foswiki::UI::checkAccess( $session, 'VIEW',   $topicObject );
-    Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
+    $this->checkAccess( 'VIEW',   $topicObject );
+    $this->checkAccess( 'CHANGE', $topicObject );
 
     # Check lease, unless we have been instructed to ignore it
     # or if we are using the 10X's or AUTOINC topic name for
     # dynamic topic names.
-    my $breakLock = $query->param('breaklock') || '';
+    my $breakLock = $req->param('breaklock') || '';
     unless ( $breakLock || $topic =~ m/X{10}/ || $topic =~ m/AUTOINC\d+/ ) {
         my $lease = $topicObject->getLease();
         if ($lease) {
@@ -126,19 +132,20 @@ sub init_edit {
                         $def = 'lease_old';
                         $past =
                           Foswiki::Time::formatDelta( $t - $lease->{expires},
-                            $session->i18n );
+                            $app->i18n );
                         $future = '';
                     }
                 }
                 else {
 
                     # The lease is active
-                    $def  = 'lease_active';
-                    $past = Foswiki::Time::formatDelta( $t - $lease->{taken},
-                        $session->i18n );
+                    $def = 'lease_active';
+                    $past =
+                      Foswiki::Time::formatDelta( $t - $lease->{taken},
+                        $app->i18n );
                     $future =
                       Foswiki::Time::formatDelta( $lease->{expires} - $t,
-                        $session->i18n );
+                        $app->i18n );
                 }
                 if ($def) {
 
@@ -187,28 +194,28 @@ sub init_edit {
 
     # Get edit template
     my $template =
-         $query->param('template')
-      || $session->prefs->getPreference('EDIT_TEMPLATE')
+         $req->param('template')
+      || $app->prefs->getPreference('EDIT_TEMPLATE')
       || $templateName;
 
-    my $tmpl = $session->templates->readTemplate( $template . $editaction,
-        no_oops => 1 );
+    my $tmpl =
+      $app->templates->readTemplate( $template . $editaction, no_oops => 1 );
 
     if ( !defined($tmpl) ) {
-        $tmpl = $session->templates->readTemplate( $template, no_oops => 1 );
+        $tmpl = $app->templates->readTemplate( $template, no_oops => 1 );
     }
 
     # Item2151: We cannot throw exceptions for invalid edit templates
     # because the user cannot correct it. Instead we fall back to default
     # and write a warning log entry to aid fault finding for the admin
     if ( !defined($tmpl) ) {
-        $session->logger->log( 'warning',
+        $app->logger->log( 'warning',
                 "Edit template $template does not exist. "
               . "Falling back to $templateName! ($web.$topic)" );
 
         # This may still OopsException if the template system is up
         # the creek.
-        $tmpl = $session->templates->readTemplate($templateName);
+        $tmpl = $app->templates->readTemplate($templateName);
     }
 
     if ($revision) {
@@ -221,7 +228,7 @@ sub init_edit {
         else {
 
             # no checkbox in template, so force revision
-            $session->request->param(
+            $app->request->param(
                 -name  => 'forcenewrevision',
                 -value => '1'
             );
@@ -230,7 +237,7 @@ sub init_edit {
         # Load $topicObject with the right revision
         $topicObject->unload();
         $topicObject->finish();
-        $topicObject = Foswiki::Meta->load( $session, $web, $topic, $revision );
+        $topicObject = Foswiki::Meta->load( $app, $web, $topic, $revision );
     }
 
     my $templateWeb = $web;
@@ -242,7 +249,7 @@ sub init_edit {
 
             # User specified template. Validate it.
             my ( $invalidTemplateWeb, $invalidTemplateTopic ) =
-              $session->normalizeWebTopicName( $templateWeb, $templateTopic );
+              $req->normalizeWebTopicName( $templateWeb, $templateTopic );
 
             $templateWeb = Foswiki::Sandbox::untaint( $invalidTemplateWeb,
                 \&Foswiki::Sandbox::validateWebName );
@@ -264,13 +271,13 @@ sub init_edit {
 
             # Web-specific default template
             $templateTopic = 'WebTopicEditTemplate';
-            if ( !$session->topicExists( $templateWeb, $templateTopic ) ) {
+            if ( !$store->topicExists( $templateWeb, $templateTopic ) ) {
 
                 # System default template
                 $templateWeb = $Foswiki::cfg{SystemWebName};
             }
         }
-        if ( $session->topicExists( $templateWeb, $templateTopic ) ) {
+        if ( $store->topicExists( $templateWeb, $templateTopic ) ) {
 
             # Validated
             $templateWeb   = Foswiki::Sandbox::untaintUnchecked($templateWeb);
@@ -289,9 +296,8 @@ sub init_edit {
 
         $tmpl =~ s/%NEWTOPIC%/1/;
 
-        my $ttom =
-          Foswiki::Meta->load( $session, $templateWeb, $templateTopic );
-        Foswiki::UI::checkAccess( $session, 'VIEW', $ttom );
+        my $ttom = Foswiki::Meta->load( $app, $templateWeb, $templateTopic );
+        $this->checkAccess( 'VIEW', $ttom );
         $templateTopic = $templateWeb . '.' . $templateTopic;
 
         $extraLog = "(not exist)";
@@ -348,7 +354,7 @@ sub init_edit {
     elsif ($parentTopic) {
         my $parentWeb;
         ( $parentWeb, $parentTopic ) =
-          $session->normalizeWebTopicName( $web, $parentTopic );
+          $req->normalizeWebTopicName( $web, $parentTopic );
         if ( $parentWeb ne $web ) {
             $parentTopic = $parentWeb . '.' . $parentTopic;
         }
@@ -404,7 +410,7 @@ sub init_edit {
         # works by allowing an edit of the embedded store form of
         # the topic, which is then saved over the previous
         # top revision.
-        my $basemeta = Foswiki::Meta->load( $session, $web, $topic );
+        my $basemeta = Foswiki::Meta->load( $app, $web, $topic );
 
         # No need to check permissions; we are admin if we got here.
         my $rawText = Foswiki::Serialise::serialise( $basemeta, 'Embedded' );
@@ -416,12 +422,12 @@ sub init_edit {
     }
     else {
         my $text = $topicObject->text();
-        $session->plugins->dispatch( 'beforeEditHandler', $text, $topic, $web,
+        $app->plugins->dispatch( 'beforeEditHandler', $text, $topic, $web,
             $topicObject );
         $topicObject->text($text);
     }
 
-    $session->logger->log(
+    $app->logger->log(
         {
             level    => 'info',
             action   => 'edit',
@@ -435,10 +441,10 @@ sub init_edit {
     # Take a copy of the new topic in case the rendering process
     # reloads it. This can happen if certain macros are present, and
     # will damage the object.
-    my $tmplObject = Foswiki::Meta->new(
-        session => $session,
-        web     => $topicObject->web,
-        topic   => $topicObject->topic
+    my $tmplObject = $this->create(
+        'Foswiki::Meta',
+        web   => $topicObject->web,
+        topic => $topicObject->topic
     );
     $tmplObject->copyFrom($topicObject);
 
@@ -457,8 +463,7 @@ sub init_edit {
           Foswiki::Func::normalizeWebTopicName( $topicObject->web(), $form );
         my $formDef;
         try {
-            $formDef =
-              Foswiki::Form->loadCached( $session, $formWeb, $formTopic );
+            $formDef = Foswiki::Form->loadCached( $app, $formWeb, $formTopic );
         }
         catch {
             unless ( ref($_) && $_->isa('Foswiki::OopsException') ) {
@@ -471,12 +476,13 @@ sub init_edit {
 
             # Reverse-engineer a form definition from the topic.
             # Allow OopsException to propagate
-            $formDef = Foswiki::Form->new( $session, $formWeb, $formTopic,
+            $formDef =
+              $this->create( 'Foswiki::Form', $formWeb, $formTopic,
                 $topicObject );
         }
 
         # Update with field values from the query
-        $formDef->getFieldValuesFromQuery( $session->request, $topicObject );
+        $formDef->getFieldValuesFromQuery( $app->request, $topicObject );
 
         # And render them for editing
         # SMELL: these are both side-effecting functions, that will set
@@ -490,10 +496,10 @@ sub init_edit {
         }
     }
     else {
-        my $webObject = Foswiki::Meta->new( session => $session, web => $web );
+        my $webObject = $this->create( 'Foswiki::Meta', web => $web );
         my @forms = Foswiki::Form::getAvailableForms($topicObject);
         if ( scalar(@forms) ) {
-            $formText = $session->templates->readTemplate('addform');
+            $formText = $app->templates->readTemplate('addform');
             $formText = $topicObject->expandMacros($formText);
         }
     }
@@ -505,15 +511,16 @@ sub init_edit {
 }
 
 sub finalize_edit {
+    my $this = shift;
+    my ( $topicObject, $tmpl ) = @_;
 
-    my ( $session, $topicObject, $tmpl ) = @_;
-
-    my $query = $session->request;
+    my $app = $this->app;
+    my $req = $app->request;
 
     # apptype is deprecated undocumented legacy
     my $cgiAppType =
-         $query->param('contenttype')
-      || $query->param('apptype')
+         $req->param('contenttype')
+      || $req->param('apptype')
       || 'text/html';
 
     my $text = $topicObject->text() || '';
@@ -524,7 +531,7 @@ sub finalize_edit {
 
     $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
 
-    $session->writeCompletePage( $tmpl, 'edit', $cgiAppType );
+    $app->writeCompletePage( $tmpl, 'edit', $cgiAppType );
 }
 
 1;

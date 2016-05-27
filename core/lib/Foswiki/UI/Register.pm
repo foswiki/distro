@@ -1858,7 +1858,7 @@ sub _validateRegistration {
             app      => $app,
             template => 'register',
             web      => $data->{webName},
-            topic    => $app->topicName,
+            topic    => $app->request->topic,
             def      => 'bad_loginname',
             params   => [ $data->{LoginName} ]
         );
@@ -2481,8 +2481,8 @@ sub _processDeleteUser {
     }
 
     # Remove the user from the mapping manager
-    if ( $cUID && $Foswiki::Plugins::SESSION->users->userExists($cUID) ) {
-        $Foswiki::Plugins::SESSION->users->removeUser($cUID);
+    if ( $cUID && $Foswiki::app->users->userExists($cUID) ) {
+        $Foswiki::app->users->removeUser($cUID);
         $message    .= " - user removed from Mapping Manager \n";
         $logMessage .= "Mapping removed, ";
     }
@@ -2533,7 +2533,7 @@ sub _processDeleteUser {
             # Spoof the user so we can delete their topic. Don't need to
             # do this for the REST handler, but we do for the registration
             # abort.
-            my $safe = $Foswiki::Plugins::SESSION->user;
+            my $safe = $Foswiki::app->user;
 
             my $newTopic = "$paramHash->{prefix}$wikiname" . time;
             try {
@@ -2546,7 +2546,7 @@ sub _processDeleteUser {
             }
             finally {
                 # Restore the original user
-                $Foswiki::Plugins::SESSION->user($safe);
+                $Foswiki::app->user($safe);
                 if (@_) {
                     $_[0]->throw;
                 }

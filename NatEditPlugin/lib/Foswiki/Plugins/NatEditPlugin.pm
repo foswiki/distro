@@ -223,12 +223,12 @@ sub beforeEditHandler {
     return if $doneNonce;
     $doneNonce = 1;
 
-    my $session = $Foswiki::Plugins::SESSION;
-    my $cgis    = $session->getCGISession();
+    my $app  = $Foswiki::app;
+    my $cgis = $app->users->loginManager->getCGISession();
     return unless $cgis;
 
-    my $response = $session->{response};
-    my $request  = $session->{request};
+    my $response = $app->response;
+    my $request  = $app->request;
 
     my $context = $request->url( -full => 1, -path => 1, -query => 1 ) . time();
     my $useStrikeOne = ( $Foswiki::cfg{Validation}{Method} eq 'strikeone' );
