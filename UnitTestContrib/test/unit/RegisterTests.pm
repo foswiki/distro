@@ -1687,7 +1687,7 @@ sub verify_resetPasswordOkay {
         }
     );
 
-    $query->path_info( '/' . $this->{users_web} . '/WebHome' );
+    $query->path_info( '/' . $this->{users_web} . '/UserRegistration' );
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
@@ -1739,7 +1739,7 @@ sub verify_resetPasswordNoSuchUser {
         }
     );
 
-    $query->path_info( '/.' . $this->{users_web} . '/WebHome' );
+    $query->path_info( '/.' . $this->{users_web} . '/UserRegistration' );
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
@@ -1781,7 +1781,7 @@ sub verify_resetPasswordNeedPrivilegeForMultipleReset {
         }
     );
 
-    $query->path_info( '/.' . $this->{users_web} . '/WebHome' );
+    $query->path_info( '/.' . $this->{users_web} . '/UserRegistration' );
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
@@ -1826,7 +1826,7 @@ sub verify_resetPasswordNoPassword {
         }
     );
 
-    $query->path_info( '/' . $this->{users_web} . '/WebHome' );
+    $query->path_info( '/' . $this->{users_web} . '/ResetPassword' );
     my $fh;
     open( $fh, ">:encoding(utf-8)", $Foswiki::cfg{Htpasswd}{FileName} )
       || die $!;
@@ -2498,7 +2498,7 @@ sub verify_resetPassword_NoWikiUsersEntry {
         }
     );
 
-    $query->path_info( '/' . $this->{users_web} . '/WebHome' );
+    $query->path_info( '/' . $this->{users_web} . '/ResetPassword' );
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 

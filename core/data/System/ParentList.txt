@@ -1,29 +1,30 @@
-%META:TOPICINFO{author="ProjectContributor" date="1394718135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1459790135" format="1.1"  version="1"}%
 ---+!! Parent list
+
 Generated list of (potential) parent topics.
 
 ---++ select
+
 To use this list in Foswiki applications, use:
 <verbatim>
 %INCLUDE{
     "%SYSTEMWEB%.ParentList"
     section="select"
-}%
-</verbatim>
+}%</verbatim>
 
 ---+++ Parameters
 | *Parameter* | *Effect* | *Default value* |
-| =size=      | Size of the select box | 10 |
-| =web=       | Topics from which web | current web |
+| =size=  | Size of the select box | 10 |
+| =web=  | Topics from which web | current web |
 | =selected=  | The currently selected topic | none |
 
 ---+++ Result
+
 Using default settings
 %INCLUDE{
     "%SYSTEMWEB%.ParentList"
     section="select"
 }%
-
 
 <verbatim class='foswikiHidden'>
 %STARTSECTION{"select"}%<select name='topicparent' size='%IF{
@@ -48,5 +49,8 @@ Using default settings
 	}%"
 }%
 <option value="">%MAKETEXT{"(no parent, orphaned topic)"}%</option>
-</select>%ENDSECTION{"select"}%
-</verbatim>
+</select>%ENDSECTION{"select"}%</verbatim>
+
+<!--
+   * Set CACHEABLE = off
+-->

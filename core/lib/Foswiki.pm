@@ -211,8 +211,8 @@ BEGIN {
 
     # DO NOT CHANGE THE FORMAT OF $VERSION.
     # Use $RELEASE for a descriptive version.
-    use version 0.77; $VERSION = version->declare('v2.1.0');
-    $RELEASE = 'Foswiki-2.1.0';
+    use version 0.77; $VERSION = version->declare('v2.1.2');
+    $RELEASE = 'Foswiki-2.1.2';
 
     # Default handlers for different %TAGS%
     # Where an entry is set as 'undef', the tag will be demand-loaded
@@ -912,8 +912,6 @@ sub satisfiedByCache {
             $hdrs->{'Content-Encoding'} = $encoding;
             $hdrs->{'Vary'}             = 'Accept-Encoding';
 
-            # Mark the response so we know it was satisfied from the cache
-            $hdrs->{'X-Foswiki-PageCache'} = 1;
         }
         else {
         # e.g. CLI request satisfied from the cache, or old browser that doesn't
@@ -941,6 +939,8 @@ sub satisfiedByCache {
     }
 
     # set remaining headers
+    # Mark the response so we know it was satisfied from the cache
+    $hdrs->{'X-Foswiki-PageCache'} = 1;
     $text = undef unless $this->setETags( $cachedPage, $hdrs );
     $this->generateHTTPHeaders($hdrs);
 
@@ -1997,9 +1997,6 @@ sub new {
     }
     ASSERT( $this->{urlHost} ) if DEBUG;
 
-    # Load (or create) the CGI session
-    $this->{remoteUser} = $this->{users}->loadSession($defaultUser);
-
     $this->{scriptUrlPath} = $Foswiki::cfg{ScriptUrlPath};
     if (   $Foswiki::cfg{GetScriptUrlFromCgi}
         && $url
@@ -2027,6 +2024,20 @@ sub new {
     $this->{topicName} = $query->topic()
       || $Foswiki::cfg{HomeTopicName};
     $this->{webName} = $query->web() || $defaultweb;
+
+    if (   !$Foswiki::cfg{Sessions}{EnableGuestSessions}
+        && defined $Foswiki::cfg{Sessions}{TopicsRequireGuestSessions}
+        && $this->{topicName} =~
+        m/$Foswiki::cfg{Sessions}{TopicsRequireGuestSessions}/ )
+    {
+        #print STDERR "FORCE Session - . $topic / " . $query->action() . "\n";
+        $this->{context}{sessionRequired} = 1;
+    }
+
+  #else {    print STDERR "NO Session -  $topic / " . $query->action() . "\n"; }
+
+    # Load (or create) the CGI session
+    $this->{remoteUser} = $this->{users}->loadSession($defaultUser);
 
     # Form definition cache
     $this->{forms} = {};

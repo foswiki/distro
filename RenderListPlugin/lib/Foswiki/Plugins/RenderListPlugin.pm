@@ -13,8 +13,8 @@ use vars qw(
   $pubUrl $attachUrl
 );
 
-our $VERSION           = '2.27';
-our $RELEASE           = '2.27';
+our $VERSION           = '2.28';
+our $RELEASE           = '2.28';
 our $pluginName        = 'RenderListPlugin';    # Name of this Plugin
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION = 'Render bullet lists in a variety of formats';

@@ -1,0 +1,58 @@
+# Sample bin/.htaccess file.   If you require .htaccess files for your apache
+# configuration, tailor this file using the below instructions.  See
+# bin-htaccess-advanced for a more complete configuration example.
+#
+# This file is intended for a simple Foswiki installation using Foswiki
+# Template login authentication.  It will frequently "just work"
+# without needing further tailoring.
+
+##################################
+#  Bot / Spider controls
+##################################
+
+# We set an environment variable called anonymous_spider
+# Setting a BrowserMatchNoCase to ^$ is important. It prevents Foswiki from
+# including its own topics as URLs and also prevents other Foswikis from
+# doing the same. This is important to prevent the most obvious
+# Denial of Service attacks.
+# You can expand this by adding more BrowserMatchNoCase statements to
+# block evil browser agents trying the impossible task of mirroring a Foswiki
+# Example:
+# BrowserMatchNoCase ^SiteSucker anonymous_spider
+BrowserMatchNoCase ^$ anonymous_spider
+
+######################################################################
+# Now set default access rights.
+# - This block will work with Apach 2.2, or 2.4 with mod_access_Compat enabled
+# If this causes errors, comment this out, and enable the 2.4 specific block.
+######################################################################
+Order Allow,Deny
+Allow from all
+Deny from env=anonymous_spider
+
+######################################################################
+# Uncomment this block for Apache 2.4
+######################################################################
+#<RequireAll>
+# Require not env anonymous_spider
+# Require all granted
+#</RequireAll>
+
+# Use CGI & Perl to handle all files in 'bin' directory, i.e. run as scripts -
+# this should remove the need to rename files to end in '.pl' etc, if your web
+# hosting provider permits this.  Remove if using mod_perl.  Look at
+# http://foswiki.org/Extensions/FastCGIEngineContrib to get info about FastCGI
+# support.
+SetHandler cgi-script
+
+# Set options for excuting CGI and allow symlinks for e.g. viewauth
+# This also unsets any options allowing directory indexing etc.
+Options ExecCGI FollowSymLinks
+
+# Make sure that any local lib definitions cannot be retrieved
+<Files  "LocalLib*">
+#  Require all denied
+  Order allow,deny
+  Deny from all
+</Files>
+

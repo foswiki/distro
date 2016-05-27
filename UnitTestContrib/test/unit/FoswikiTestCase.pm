@@ -718,9 +718,6 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
     $Foswiki::cfg{AdminUserLogin}      = 'root';
     $Foswiki::cfg{SuperAdminGroup}     = 'AdminGroup';
 
-    # The unit tests really need CGI sessions or captureWithKey fails
-    $Foswiki::cfg{Sessions}{EnableGuestSessions} = 1;
-
     # This must be done *after* disabling/enabling the plugins
     # so that tests derived from this class can enable additional plugins.
     # (Core plugins may be disabled, but their initPlugin method will still

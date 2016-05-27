@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1455156569" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1459790135" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Page Caching
 How to get the best from HTML Caching.
@@ -253,17 +253,24 @@ Before Foswiki is able to use !MySQL for caching, several conditions must be met
    Enter password:  ........
    Welcome to the MySQL monitor.  Commands end with ; or \g.
 
-   mysql> create database foswiki;
+   mysql> create database foswiki_db;
    Query OK, 1 row affected (0.00 sec)
 
    mysql>  grant usage on *.* to foswiki@localhost identified by 'foswikipass';
    Query OK, 0 rows affected (0.00 sec)
 
-   mysql> grant all privileges on foswiki.* to foswiki@localhost ;
+   mysql> grant all privileges on foswiki_db.* to foswiki@localhost ;
    Query OK, 0 rows affected (0.00 sec)
+
+   mysql> FLUSH PRIVILEGES;
+   Query OK, 0 rows affected (0.00 sec)
+
+   mysql> exit
+   Bye
+
    </verbatim>
    * Foswiki must be configured with the database, user and password information.  For example:
-      * ={Cache}{DBI}{MySQL}{Database} = 'foswiki';=
+      * ={Cache}{DBI}{MySQL}{Database} = 'foswiki_db';=
       * ={Cache}{DBI}{MySQL}{Host} = 'localhost';=
       * ={Cache}{DBI}{MySQL}{Password} = 'foswikipass';=
       * ={Cache}{DBI}{MySQL}{Port} = '';=

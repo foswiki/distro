@@ -125,7 +125,7 @@ sub genVariationKey {
     my $session    = $Foswiki::Plugins::SESSION;
     my $request    = $session->{request};
     my $action     = substr( ( $request->{action} || 'view' ), 0, 4 );
-    my $serverName = $request->server_name || $Foswiki::cfg{DefaultUrlHost};
+    my $serverName = $session->{urlHost} || $Foswiki::cfg{DefaultUrlHost};
     my $serverPort = $request->server_port || 80;
     $variationKey = '::' . $serverName . '::' . $serverPort . '::' . $action;
 
@@ -222,8 +222,8 @@ sub cachePage {
     my $refresh = $request->param('refresh') || '';
     my $variationKey = $this->genVariationKey();
 
-    # remove old entries
-    if ( $session->inContext("isadmin") && $refresh =~ m/^(on|cache|all)$/ ) {
+    # remove old entries.  Note refresh=all handled in getPage
+    if ( $refresh =~ m/^(on|cache)$/ ) {
         $this->deletePage( $web, $topic );    # removes all variations
     }
     else {
@@ -316,6 +316,7 @@ sub getPage {
 
         if ( $session->{users}->isAdmin( $session->{user} ) ) {
             $this->deleteAll();
+            return undef;
         }
         else {
             my $session = $Foswiki::Plugins::SESSION;
@@ -334,6 +335,10 @@ sub getPage {
 
     if ( $refresh eq 'fire' ) {    # simulates a "save" of the current topic
         $this->fireDependency( $web, $topic );
+    }
+
+    if ( $refresh =~ m/^(on|cache)$/ ) {
+        $this->deletePage( $web, $topic );    # removes all variations
     }
 
     # check cacheability

@@ -5,8 +5,8 @@ use strict;
 use warnings;
 use vars qw( $debug $mode $override $isEditAction $pluginName);
 
-our $VERSION           = '1.23';
-our $RELEASE           = '2015-12-07';
+our $VERSION           = '1.24';
+our $RELEASE           = '2016-04-08';
 our $SHORTDESCRIPTION  = 'Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE';
 our $NO_PREFS_IN_TOPIC = 1;
 
@@ -186,7 +186,7 @@ __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2008 Oliver Krueger <oliver@wiki-one.net>
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

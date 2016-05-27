@@ -270,6 +270,9 @@ pub/System/JQueryPlugin/jquery-1.12.1.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.12.2.js 0644
 pub/System/JQueryPlugin/jquery-1.12.2.js.gz 0644
 pub/System/JQueryPlugin/jquery-1.12.2.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-1.12.3.js 0644
+pub/System/JQueryPlugin/jquery-1.12.3.js.gz 0644
+pub/System/JQueryPlugin/jquery-1.12.3.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-1.9.1.js 0644
 pub/System/JQueryPlugin/jquery-1.9.1.js.gz 0644
 pub/System/JQueryPlugin/jquery-1.9.1.uncompressed.js 0644
@@ -303,6 +306,9 @@ pub/System/JQueryPlugin/jquery-2.2.1.uncompressed.js 0644
 pub/System/JQueryPlugin/jquery-2.2.2.js 0644
 pub/System/JQueryPlugin/jquery-2.2.2.js.gz 0644
 pub/System/JQueryPlugin/jquery-2.2.2.uncompressed.js 0644
+pub/System/JQueryPlugin/jquery-2.2.3.js 0644
+pub/System/JQueryPlugin/jquery-2.2.3.js.gz 0644
+pub/System/JQueryPlugin/jquery-2.2.3.uncompressed.js 0644
 pub/System/JQueryPlugin/Makefile 0644
 pub/System/JQueryPlugin/Makefile.include 0644
 pub/System/JQueryPlugin/noconflict.js 0644

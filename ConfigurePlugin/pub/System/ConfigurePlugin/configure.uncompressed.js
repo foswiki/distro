@@ -1013,7 +1013,7 @@ if (0) {
         var $root = $('#root'), 
             bs = foswiki.getPreference('is_bootstrapped') === 'true';
 
-        json_rpc_url += foswiki.getPreference('scriptsuffix');
+        json_rpc_url = foswiki.getScriptUrlPath('jsonrpc');
 
         //init_whirly();
 

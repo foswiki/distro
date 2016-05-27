@@ -1380,10 +1380,10 @@ sub _renderExistingWikiWord {
             $this->{LINKTOOLTIPINFO} = '$username - $date - r$rev: $summary';
         }
         elsif ( $this->{LINKTOOLTIPINFO} =~ m/^([Oo][Ff][Ff])?$/ ) {
-            undef $this->{LINKTOOLTIPINFO};
+            $this->{LINKTOOLTIPINFO} = '';
         }
     }
-    if ( defined $this->{LINKTOOLTIPINFO}
+    if (   $this->{LINKTOOLTIPINFO} ne ''
         && $this->{session}->inContext('view') )
     {
         require Foswiki::Render::ToolTip;
