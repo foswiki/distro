@@ -208,7 +208,7 @@ sub _includeTopic {
     my $count = grep( $key, keys %{ $this->{_INCLUDES} } );
     $key .= $control->{_sArgs};
     if ( $this->{_INCLUDES}->{$key} || $count > 99 ) {
-        return _includeWarning( $this, $control->{warn}, 'already_included',
+        return $this->_includeWarning( $control->{warn}, 'already_included',
             "$includedWeb.$includedTopic", '' ),
           'already_included';
     }
@@ -218,19 +218,20 @@ sub _includeTopic {
     # topic namespace.
     $this->{prefs}->pushTopicContext( $this->{webName}, $this->{topicName} );
 
-    $this->{_INCLUDES}->{$key} = 1;
-
     my $includedTopicObject =
       Foswiki::Meta->load( $this, $includedWeb, $includedTopic,
         $control->{rev} );
     unless ( $includedTopicObject->haveAccess('VIEW') ) {
+        $this->{prefs}->popTopicContext();    # Undo the push if access denied
         if ( isTrue( $control->{warn} ) ) {
-            return $this->inlineAlert( 'alerts', 'access_denied',
-                "[[$includedWeb.$includedTopic]]" ),
+            return $this->_includeWarning( $control->{warn}, 'access_denied',
+                "$includedWeb.$includedTopic", '' ),
               'access_denied';
-        }    # else fail silently
+        }                                     # else fail silently
         return '', 'access_denied';
     }
+    $this->{_INCLUDES}->{$key} = 1;
+
     my $memWeb   = $this->{prefs}->getPreference('INCLUDINGWEB');
     my $memTopic = $this->{prefs}->getPreference('INCLUDINGTOPIC');
 
