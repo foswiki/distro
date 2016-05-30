@@ -15,6 +15,14 @@ use Benchmark qw(:hireswallclock);
 
 my $UI_FN;
 
+# Global configuration
+#
+#  $this->{param_refresh} - value for referesh= param
+#  $this->{param_topic}   - value for topic= param
+#  $this->{param_load}    - value for load= param, used by the /JQueryPlugin/tmpl rest handler
+#  $this->{path_info}     - path_info for the query
+#  $this->{query}         - Query object
+
 sub fixture_groups {
     my $this = shift;
     my @page;
@@ -68,6 +76,15 @@ sub fixture_groups {
             'timing'
         ],
     );
+}
+
+sub skip {
+    my ( $this, $test ) = @_;
+
+    return "simple test not compatible with rest transactions"
+      if ( defined $test && $test =~ m/verify_simple/ && $test =~ m/_rest_/ );
+
+    return undef;
 }
 
 sub dbcheckDBI {
@@ -167,12 +184,57 @@ sub NoCompress {
 
 sub view {
     my $this = shift;
-    $this->{uifn} = 'view';
+    $this->{uifn}  = 'view';
+    $UI_FN         = $this->getUIFn( $this->{uifn} );
+    $this->{query} = Unit::Request->new( { skin => ['none'], } );
+    $this->{query}->method('GET');
+
+    $this->{path_info} = '/$Foswiki::cfg{SystemWebName}/FileAttribute';
 }
 
 sub rest {
     my $this = shift;
     $this->{uifn} = 'rest';
+    $UI_FN = $this->getUIFn( $this->{uifn} );
+    require Unit::Request::Rest;
+    $this->{query} = Unit::Request::Rest->new( { skin => ['none'], } );
+
+    # SMELL: Only GET requests are cached.  Also, the choice of REST handler
+    # is important.  Handlers that generate their own output rather than using
+    # the Foswiki page handler are not cached.
+
+    $this->{query}->method('GET');
+    $this->{path_info} = '/JQueryPlugin/tmpl';
+
+    $this->{param_topic} = "$Foswiki::cfg{SystemWebName}.FileAttribute";
+
+# SMELL: Name of template to load - generates a not found error, but it's cached.
+    $this->{param_load} = 'Foo';
+}
+
+sub refresh_all {
+    my $this = shift;
+    $this->{param_refresh} = 'all';
+}
+
+sub refresh_on {
+    my $this = shift;
+    $this->{param_refresh} = 'on';
+}
+
+sub refresh_cache {
+    my $this = shift;
+    $this->{param_refresh} = 'cache';
+}
+
+sub refresh_fire {
+    my $this = shift;
+    $this->{param_refresh} = 'fire';
+}
+
+sub timing {
+    my $this = shift;
+    $this->{param_refresh} = '';
 }
 
 my %twistyIDs;
@@ -198,7 +260,6 @@ sub set_up {
 
     $Foswiki::cfg{HttpCompress} = 0;
     $Foswiki::cfg{Cache}{Compress} = 0;
-    $UI_FN ||= $this->getUIFn('view');
 }
 
 sub tear_down {
@@ -208,21 +269,23 @@ sub tear_down {
     unlink("$Foswiki::cfg{WorkingDir}/${$}_generic.db");
 }
 
-sub clearCache {
+sub _clearCache {
     my $this = shift;
 
-    my $query = Unit::Request->new( { skin => ['none'], refresh => 'all', } );
-    $query->path_info("/System/WebHome");
-    $query->method('GET');
+    my $clear = Unit::Request->new( { skin => ['none'], refresh => 'all', } );
+    $clear->path_info("/System/WebHome");
+    $clear->method('GET');
 
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin},
-        $query, { view => 1 } );
+        $clear, { view => 1 } );
+
+    my $_clrUI_FN = $this->getUIFn("view");
 
     my ( $resp, $result, $stdout, $stderr ) = $this->capture(
         sub {
             try {
                 no strict 'refs';
-                &{$UI_FN}( $this->{session} );
+                &{$_clrUI_FN}( $this->{session} );
                 use strict 'refs';
                 $Foswiki::engine->finalize( $this->{session}{response},
                     $this->{session}{request} );
@@ -237,54 +300,22 @@ sub clearCache {
 
 }
 
-sub check {
-    my ( $this, $pathinfo ) = @_;
+# Check timing and general cache operation.
+sub check_timing {
+    my ($this) = @_;
 
-    $this->clearCache();
-
-    $UI_FN ||= $this->getUIFn( $this->{uifn} );
     $Foswiki::cfg{Cache}{Debug} = 1;
-    my $query = Unit::Request->new( { skin => ['none'], } );
-    $query->path_info($pathinfo);
-    $query->method('GET');
-
-    $this->createNewFoswikiSession( $this->{test_user_login},
-        $query, { $this->{uifn} => 1 } );
+    $this->_clearCache();
 
     # This first request should *not* be satisfied from the cache, but
     # the cache should be populated with the result.
     my $p1start = Benchmark->new();
-    my ( $one, $result, $stdout, $stderr ) = $this->capture(
-        sub {
-            no strict 'refs';
-            &{$UI_FN}( $this->{session} );
-            use strict 'refs';
-            $Foswiki::engine->finalize( $this->{session}{response},
-                $this->{session}{request} );
-        }
-    );
-    my $p1end = Benchmark->new();
+    my $one     = $this->_runQuery();
+    my $p1end   = Benchmark->new();
 
-    #print STDERR "P1: $stderr\n" if $stderr;
-
-    $this->createNewFoswikiSession( $this->{test_user_login},
-        $query, { $this->{uifn} => 1 } );
-
-    # This second request should be satisfied from the cache
-    # How do we know it was?
     my $p2start = Benchmark->new();
-    ( my $two, $result, $stdout, $stderr ) = $this->capture(
-        sub {
-            no strict 'refs';
-            &{$UI_FN}( $this->{session} );
-            use strict 'refs';
-            $Foswiki::engine->finalize( $this->{session}{response},
-                $this->{session}{request} );
-        }
-    );
-    my $p2end = Benchmark->new();
-
-    #print STDERR "P2: $stderr\n" if $stderr;
+    my $two     = $this->_runQuery();
+    my $p2end   = Benchmark->new();
 
     $this->assert( $one =~ s/\r//g,          'Failed to remove \r' );
     $this->assert( $one =~ s/^(.*?)\n\n+//s, 'Failed to remove HTTP headers' );
@@ -331,30 +362,35 @@ s/<(span|div)([^>]*?)(\d+?)(show|hide|toggle)([^>]*?)>/'<'.$1.$2._mangleID($3).$
     return;
 }
 
-sub check_refresh {
+# Run a query using the global settings established by the variations.
+sub _runQuery {
+    my $this    = shift;
+    my $refresh = shift;
 
-    my $this     = shift;
-    my $pathinfo = shift;
-    my $refresh  = shift;
-
-    $this->clearCache();
+    $this->{uifn} ||= 'view';
 
     my $user =
-      ( $refresh eq 'all' )
+      ( $this->{param_refresh} eq 'all' )
       ? $Foswiki::cfg{AdminUserLogin}
       : $this->{test_user_login};
 
-    $UI_FN ||= $this->getUIFn( $this->{uifn} );
-    $Foswiki::cfg{Cache}{Debug} = 1;
-    my $query = Unit::Request->new( { skin => ['none'], } );
-    $query->path_info($pathinfo);
-    $query->method('GET');
+    $this->{query}->path_info( $this->{path_info} );
+    $this->{query}->param( 'topic', $this->{param_topic} )
+      if defined $this->{param_topic};
+    $this->{query}->param( 'load', $this->{param_load} )
+      if defined $this->{param_load};
 
-    $this->createNewFoswikiSession( $user, $query, { $this->{uifn} => 1 } );
+    if ($refresh) {
+        $this->{query}->param( 'refresh', $refresh );
+    }
+    else {
+        $this->{query}->delete('refresh');
+    }
 
-    # This first request should *not* be satisfied from the cache, but
-    # the cache should be populated with the result.
-    my ( $one, $result, $stdout, $stderr ) = $this->capture(
+    $this->createNewFoswikiSession( $user, $this->{query},
+        { $this->{uifn} => 1 } );
+
+    my ( $resp, $result, $stdout, $stderr ) = $this->capture(
         sub {
             no strict 'refs';
             &{$UI_FN}( $this->{session} );
@@ -363,37 +399,34 @@ sub check_refresh {
                 $this->{session}{request} );
         }
     );
+    return $resp;
+}
 
-    $this->createNewFoswikiSession( $user, $query, { $this->{uifn} => 1 } );
+sub check_refresh {
+
+    my $this = shift;
+
+    $this->_clearCache();
+
+    my $user =
+      ( $this->{param_refresh} eq 'all' )
+      ? $Foswiki::cfg{AdminUserLogin}
+      : $this->{test_user_login};
+
+    $Foswiki::cfg{Cache}{Debug} = 1;
+
+    $this->_runQuery();
+
+    # This first request should prime the cache
+    my $one = $this->_runQuery( $this->{param_refresh} );
 
     # This second request should be satisfied from the cache
-    # How do we know it was?
-    ( my $two, $result, $stdout, $stderr ) = $this->capture(
-        sub {
-            no strict 'refs';
-            &{$UI_FN}( $this->{session} );
-            use strict 'refs';
-            $Foswiki::engine->finalize( $this->{session}{response},
-                $this->{session}{request} );
-        }
-    );
-
-    $query = Unit::Request->new( { skin => ['none'], refresh => $refresh, } );
-    $query->path_info($pathinfo);
-    $query->method('GET');
-    $this->createNewFoswikiSession( $user, $query, { $this->{uifn} => 1 } );
+    my $two = $this->_runQuery();
 
     # This third request with refresh should not be satisfied from the cache
-    # How do we know it was?
-    ( my $three, $result, $stdout, $stderr ) = $this->capture(
-        sub {
-            no strict 'refs';
-            &{$UI_FN}( $this->{session} );
-            use strict 'refs';
-            $Foswiki::engine->finalize( $this->{session}{response},
-                $this->{session}{request} );
-        }
-    );
+
+    my $three = $this->_runQuery( $this->{param_refresh} );
+
     $this->assert( $one =~ s/\r//g,          'Failed to remove \r' );
     $this->assert( $one =~ s/^(.*?)\n\n+//s, 'Failed to remove HTTP headers' );
     my $one_head = $1;
@@ -409,7 +442,7 @@ sub check_refresh {
         'Failed to remove HTTP headers' );
     my $three_heads = $1;
 
-    if ($refresh) {
+    if ( $this->{param_refresh} ) {
         $this->assert_does_not_match( qr/X-Foswiki-Pagecache: 1/i,
             $three_heads );
     }
@@ -420,50 +453,39 @@ sub check_refresh {
     return;
 }
 
-sub refresh_all {
-    my $this = shift;
-    $this->{refresh} = 'all';
-}
-
-sub refresh_on {
-    my $this = shift;
-    $this->{refresh} = 'on';
-}
-
-sub refresh_cache {
-    my $this = shift;
-    $this->{refresh} = 'cache';
-}
-
-sub refresh_fire {
-    my $this = shift;
-    $this->{refresh} = 'fire';
-}
-
-sub timing {
-    my $this = shift;
-    $this->{refresh} = undef;
-}
-
 sub verify_simple {
     my $this = shift;
 
-    if ( $this->{refresh} ) {
-        $this->check_refresh( '/', $this->{refresh} );
+    $this->{path_info}   = "/";
+    $this->{param_topic} = undef;
+    $this->{param_load}  = undef;
+
+    if ( $this->{param_refresh} ) {
+        $this->check_refresh();
     }
     else {
-        $this->check('/');
+        $this->check_timing();
     }
 }
 
 sub verify_topic {
     my $this = shift;
-    if ( $this->{refresh} ) {
-        $this->check_refresh( "/$Foswiki::cfg{SystemWebName}/FileAttribute",
-            $this->{refresh} );
+
+    if ( $this->{uifn} eq 'rest' ) {
+        $this->{path_info}   = '/JQueryPlugin/tmpl';
+        $this->{param_topic} = "$Foswiki::cfg{SystemWebName}.FileAttribute";
+        $this->{param_load}  = 'Foo';
     }
     else {
-        $this->check("/$Foswiki::cfg{SystemWebName}/FileAttribute");
+        $this->{path_info}   = "/$Foswiki::cfg{SystemWebName}/FileAttribute";
+        $this->{param_topic} = undef;
+        $this->{param_load}  = undef;
+    }
+    if ( $this->{param_refresh} ) {
+        $this->check_refresh();
+    }
+    else {
+        $this->check_timing();
     }
 }
 
@@ -477,12 +499,21 @@ sub verify_utf8_topic {
     $meta->text($topic);
     $meta->save();
 
-    if ( $this->{refresh} ) {
-        $this->check_refresh( Encode::encode_utf8("/$web/$topic"),
-            $this->{refresh} );
+    if ( $this->{uifn} eq 'rest' ) {
+        $this->{path_info}   = '/JQueryPlugin/tmpl';
+        $this->{param_topic} = "$web.$topic";
+        $this->{param_load}  = 'Foo';
     }
     else {
-        $this->check( Encode::encode_utf8("/$web/$topic") );
+        $this->{path_info}   = Foswiki::encode_utf8("/$web/$topic");
+        $this->{param_topic} = undef;
+        $this->{param_load}  = undef;
+    }
+    if ( $this->{param_refresh} ) {
+        $this->check_refresh();
+    }
+    else {
+        $this->check_timing();
     }
 }
 
@@ -493,19 +524,19 @@ sub test_refresh_all {
     SQLite();    # Initialized the cache
     $Foswiki::cfg{Cache}{Enabled} = 1;
 
-    my $pathinfo = "/System/FileAttribute";
+    $this->{path_info} = "/System/FileAttribute";
 
     $UI_FN ||= $this->getUIFn("view");
     $Foswiki::cfg{Cache}{Debug} = 1;
 
     # First, make sure the topic is in the cache.
 
-    my $query = Unit::Request->new( { skin => ['none'] } );
-    $query->path_info($pathinfo);
-    $query->method('GET');
+    $this->{query} = Unit::Request->new( { skin => ['none'] } );
+    $this->{query}->path_info( $this->{path_info} );
+    $this->{query}->method('GET');
 
     $this->createNewFoswikiSession( $this->{test_user_login},
-        $query, { view => 1 } );
+        $this->{query}, { view => 1 } );
 
     my ( $junk, $result, $stdout, $stderr ) = $this->capture(
         sub {
@@ -520,13 +551,14 @@ sub test_refresh_all {
     # Now attempt a refresh=all, from a non-admin user
     # it should fail with an oops exception
 
-    $query = Unit::Request->new( { skin => ['none'], refresh => 'all', } );
-    $query->path_info($pathinfo);
-    $query->method('GET');
+    $this->{query} =
+      Unit::Request->new( { skin => ['none'], refresh => 'all', } );
+    $this->{query}->path_info( $this->{path_info} );
+    $this->{query}->method('GET');
 
     #$this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin},
     $this->createNewFoswikiSession( $this->{test_user_login},
-        $query, { view => 1 } );
+        $this->{query}, { view => 1 } );
 
     ( my $one, $result, $stdout, $stderr ) = $this->capture(
         sub {
@@ -551,12 +583,12 @@ sub test_refresh_all {
     # Make sure that the page is still cached,  that it wasn't removed
     # during the oops processing
 
-    $query = Unit::Request->new( { skin => ['none'], } );
-    $query->path_info($pathinfo);
-    $query->method('GET');
+    $this->{query} = Unit::Request->new( { skin => ['none'], } );
+    $this->{query}->path_info( $this->{path_info} );
+    $this->{query}->method('GET');
 
     $this->createNewFoswikiSession( $this->{test_user_login},
-        $query, { view => 1 } );
+        $this->{query}, { view => 1 } );
 
     ( my $two, $result, $stdout, $stderr ) = $this->capture(
         sub {
@@ -575,12 +607,13 @@ sub test_refresh_all {
 
     # Now refresh the cache as an admin
 
-    $query = Unit::Request->new( { skin => ['none'], refresh => 'all', } );
-    $query->path_info($pathinfo);
-    $query->method('GET');
+    $this->{query} =
+      Unit::Request->new( { skin => ['none'], refresh => 'all', } );
+    $this->{query}->path_info( $this->{path_info} );
+    $this->{query}->method('GET');
 
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin},
-        $query, { view => 1 } );
+        $this->{query}, { view => 1 } );
 
     ( my $three, $result, $stdout, $stderr ) = $this->capture(
         sub {
@@ -607,12 +640,12 @@ sub test_refresh_all {
 
     # Make sure that the page is not cached
 
-    $query = Unit::Request->new( { skin => ['none'], } );
-    $query->path_info($pathinfo);
-    $query->method('GET');
+    $this->{query} = Unit::Request->new( { skin => ['none'], } );
+    $this->{query}->path_info( $this->{path_info} );
+    $this->{query}->method('GET');
 
     $this->createNewFoswikiSession( $this->{test_user_login},
-        $query, { view => 1 } );
+        $this->{query}, { view => 1 } );
 
     ( my $four, $result, $stdout, $stderr ) = $this->capture(
         sub {
