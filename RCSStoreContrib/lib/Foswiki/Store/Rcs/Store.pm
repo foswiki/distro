@@ -554,7 +554,8 @@ sub recordChange {
     # Support for Foswiki < 2
     my $topic = '.';
     if ( $web =~ /\./ ) {
-        ( $web, $topic ) = Foswiki->normalizeWebTopicName( undef, $web );
+        ( $web, $topic ) =
+          $this->app->request->normalizeWebTopicName( undef, $web );
     }
 
     my $handler = $this->getHandler($web);

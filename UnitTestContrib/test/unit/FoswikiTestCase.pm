@@ -81,7 +81,13 @@ has test_topicObject => (
           && $_[0]->[0]->isa('Foswiki::Meta') ? $_[0]->[0] : $_[0];
     },
 );
-has request => ( is => 'rw', weak_ref => 1, );
+has request => (
+    is       => 'rw',
+    weak_ref => 1,
+    lazy     => 1,
+    default  => sub { $_[0]->app->request },
+    clearer  => 1,
+);
 has test_web   => ( is => 'rw', );
 has test_topic => ( is => 'rw', );
 
@@ -891,21 +897,23 @@ sub removeFromStore {
     my ( $this, $web, $topic ) = @_;
 
     ASSERT( !defined $topic, '$topic not implemented' );
-    $this->removeWebFixture( $this->app, $web );
+    $this->removeWebFixture($web);
 
     return;
 }
 
 =begin TML
 
----++ ObjectMethod removeWebFixture($app, $web)
+---++ ObjectMethod removeWebFixture($web)
 
 Remove a temporary web fixture (data and pub)
 
 =cut
 
 sub removeWebFixture {
-    my ( $this, $app, $web ) = @_;
+    my ( $this, $web ) = @_;
+
+    ASSERT( !ref( $_[1] ), "Old-style call to removeWebFixture" );
 
     try {
         my $webObject = $this->create( 'Foswiki::Meta', web => $web );
@@ -1084,7 +1092,6 @@ sub createNewFoswikiApp {
     $params{env} //= $this->app->cloneEnv;
     my $app = Unit::TestApp->new( cfg => $this->app->cfg->clone, %params );
     $this->app($app);
-    $this->request( $this->app->request );
     ASSERT( defined $Foswiki::app ) if SINGLE_SINGLETONS;
 
     if ( $this->test_web && $this->test_topic ) {

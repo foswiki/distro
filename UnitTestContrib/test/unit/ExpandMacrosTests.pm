@@ -17,23 +17,30 @@ my $dontCare =
 
 my $macroWasHere = "ThereWasA_MACRO_Here";
 
-my $saveMacroExists;
-my $saveMacroHandler;
+has _saveMacroExists  => ( is => 'rw', );
+has _saveMacroHandler => ( is => 'rw', );
 
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
     $orig->( $this, @_ );
-    $saveMacroExists        = exists $Foswiki::macros{MACRO};
-    $saveMacroHandler       = $Foswiki::macros{MACRO};
-    $Foswiki::macros{MACRO} = \&_testMacroHandler;
+    my $macros = $this->app->macros;
+    $this->_saveMacroExists( $macros->exists('MACRO') );
+    $this->_saveMacroHandler( $macros->_macros->{MACRO} )
+      ;    # SMELL Sensitive to macros internals.
+    $macros->registerTagHandler( 'MACRO', \&_testMacroHandler );
 };
 
 around tear_down => sub {
-    my $orig = shift;
-    my $this = shift;
-    $Foswiki::macros{MACRO} = $saveMacroHandler;
-    delete $Foswiki::macros{MACRO} if not $saveMacroExists;
+    my $orig   = shift;
+    my $this   = shift;
+    my $macros = $this->app->macros;
+    if ( $this->_saveMacroExists ) {
+        $macros->registerTagHandler( $this->_saveMacroHandler );
+    }
+    else {
+        delete $macros->_macros->{MACRO}; # SMELL Sensitive to macros internals.
+    }
     $orig->( $this, @_ );
 };
 
@@ -230,7 +237,7 @@ sub _expand {
 }
 
 sub _testMacroHandler {
-    my ( $session, $attrs, $topic ) = @_;
+    my ( $app, $attrs, $topic ) = @_;
 
     # Check that all expected attributes are present, and have the correct value
     $test->assert( scalar(@expected), "MACRO handler called too many times" );

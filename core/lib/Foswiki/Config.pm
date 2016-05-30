@@ -245,6 +245,15 @@ around localize => sub {
     return $orig->( $this, data => \%init, );
 };
 
+around doLocalize => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    $orig->( $this, @_ );
+
+    $this->_setupGLOBs;
+};
+
 =begin TML
 
 ---++ ObjectMethod readConfig
@@ -1435,7 +1444,7 @@ sub _setupGLOBs {
     my $this = shift;
     my ($data) = @_;
 
-    $data //= $this->{data};
+    $data //= $this->data;
 
     # Alias ::cfg for compatibility. Though $app->cfg should be preferred
     # way of accessing config.

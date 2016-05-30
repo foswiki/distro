@@ -70,7 +70,7 @@ around set_up => sub {
 
     $this->rootdir($root);
     $this->user( $Foswiki::cfg{AdminUserLogin} );
-    $this->createNewFoswikiSession( $this->user );
+    $this->createNewFoswikiApp( user => $this->user );
     $this->test_web('Testsystemweb1234');
     my $webObject = $this->populateNewWeb( $this->test_web );
     undef $webObject;
@@ -106,9 +106,9 @@ around tear_down => sub {
     my $orig = shift;
     my $this = shift;
 
-    $this->removeWebFixture( $this->session, $this->test_web );
-    $this->removeWebFixture( $this->session, $this->trash_web );
-    $this->removeWebFixture( $this->session, $this->sandbox_web );
+    $this->removeWebFixture( $this->test_web );
+    $this->removeWebFixture( $this->trash_web );
+    $this->removeWebFixture( $this->sandbox_web );
     eval { rmtree( $this->tempdir ) };    # Cleanup any old tests
     $orig->( $this, @_ );
 
@@ -1916,7 +1916,7 @@ sub test_Load_expandValue {
 
     my $logv = '$Foswiki::cfg{WorkingDir}/test';
     require Foswiki::Configure::Load;
-    Foswiki::Configure::Load::expandValue($logv);
+    $this->app->cfg->expandValue($logv);
     $this->assert_str_equals( "$Foswiki::cfg{WorkingDir}/test", $logv );
 
     return;

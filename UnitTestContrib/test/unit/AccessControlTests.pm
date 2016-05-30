@@ -891,7 +891,7 @@ THIS
                 requestParams => {
                     initializer => {
                         webName   => [ $this->test_web ],
-                        topicName => ["$test_topic"],
+                        topicName => [$test_topic],
                     },
                 },
                 engineParams => {

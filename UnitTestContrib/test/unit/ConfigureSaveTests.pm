@@ -18,8 +18,10 @@ extends qw( ConfigureTestCase );
 
 # TODO: this needs to test that backups are correctly made
 sub test_changecfg {
+    my $this = shift;
 
-    my $this   = shift;
+    my $cfg = $this->app->cfg;
+
     my $params = {
         set => {
 
@@ -43,9 +45,10 @@ sub test_changecfg {
         }
     };
 
-    Foswiki::Configure::Load::readConfig( 0, 0 );
+    $cfg->readConfig( 0, 0 );
 
-    my $wizard   = Foswiki::Configure::Wizards::Save->new($params);
+    my $wizard =
+      Foswiki::Configure::Wizards::Save->new( param_source => $params );
     my $reporter = Foswiki::Configure::Reporter->new();
     $wizard->save($reporter);
 
@@ -125,11 +128,11 @@ q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |>
     $c = Foswiki::Sandbox::untaintUnchecked($c);
     my %blah;
     eval $c;
-    %Foswiki::cfg = ();    #{ConfigurationFinished} = 0;
-    Foswiki::Configure::Load::readConfig( 1, 1 );
+    $cfg->clear_data;    #{ConfigurationFinished} = 0;
+    $cfg->readConfig( 1, 1 );
 
     #print STDERR Data::Dumper->Dump([\%Foswiki::cfg]);
-    delete $Foswiki::cfg{ConfigurationFinished};
+    delete $cfg->data->{ConfigurationFinished};
 
     $this->assert_null( $blah{TempfileDir} );
     $this->assert_num_equals( 99, $blah{UnitTestContrib}{Configure}{NUMBER} );

@@ -43,6 +43,7 @@ values in the query.
 sub oops_cgi {
     my $this = shift;
 
+    my $req = $this->app->request;
     $this->oops( $req->web, $req->topic, 0 );
 }
 
@@ -65,7 +66,7 @@ sub oops {
     my ( $web, $topic, $keep ) = @_;
 
     my $app       = $this->app;
-    my $req       = $app->req;
+    my $req       = $app->request;
     my $templates = $app->templates;
 
     # Foswikitask:Item885: web and topic are required to have values
@@ -142,7 +143,7 @@ MESSAGE
 
         # Warning: do NOT attempt to instantiate a topic object with
         # a null or bogus web name!
-        my $topicObject = $this->(
+        my $topicObject = $this->create(
             'Foswiki::Meta',
             web => $web || $Foswiki::cfg{SystemWebName},
             topic => $topic

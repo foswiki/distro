@@ -13,6 +13,9 @@ BEGIN {
 
 sub EXPAND {
     my ( $this, $params ) = @_;
+
+    my $req = $this->request;
+
     my $macro = $params->{_DEFAULT};
     return $this->inlineAlert( 'alerts', 'EXPAND_nomacro' )
       unless $macro;
@@ -20,21 +23,19 @@ sub EXPAND {
     my $scope = $params->{scope};
     my $meta;
     if ($scope) {
-        my ( $web, $topic ) =
-          $this->normalizeWebTopicName( $this->webName, $scope );
+        my ( $web, $topic ) = $req->normalizeWebTopicName( $req->web, $scope );
         return $this->inlineAlert( 'alerts', 'EXPAND_noscope', $scope )
-          unless $this->topicExists( $web, $topic );
-        $meta =
-          new Foswiki::Meta( session => $this, web => $web, topic => $topic );
+          unless $this->store->topicExists( $web, $topic );
+        $meta = $this->create( 'Foswiki::Meta', web => $web, topic => $topic );
         return $this->inlineAlert( 'alerts', 'EXPAND_noaccess', $scope )
           unless $meta->haveAccess('VIEW');
         $this->prefs->pushTopicContext( $web, $topic );
     }
     else {
-        $meta = Foswiki::Meta->new(
-            session => $this,
-            web     => $this->webName,
-            topic   => $this->topicName
+        $meta = $this->create(
+            'Foswiki::Meta',
+            web   => $req->web,
+            topic => $req->topic,
         );
     }
     my $expansion = $meta->expandMacros($macro);

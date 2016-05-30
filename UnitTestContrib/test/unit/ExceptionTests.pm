@@ -9,35 +9,23 @@ use Moo;
 use namespace::clean;
 extends qw( FoswikiFnTestCase );
 
-my $UI_FN;
-
-around set_up => sub {
-    my $orig = shift;
-    my $this = shift;
-    $orig->( $this, @_ );
-    $UI_FN ||= $this->getUIFn('oops');
-
-    return;
-};
-
 # Check an OopsException with one non-array parameter
 sub test_simpleOopsException {
     my $this = shift;
     try {
         Foswiki::OopsException->throw(
-            'templatename',
-            web    => 'webname',
-            topic  => 'topicname',
-            def    => 'defname',
-            keep   => 1,
-            params => 'phlegm'
+            app      => $this->app,
+            template => 'templatename',
+            web      => 'webname',
+            topic    => 'topicname',
+            def      => 'defname',
+            keep     => 1,
+            params   => 'phlegm'
         );
     }
     catch {
-        my $e = $_;
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
         if ( $e->isa('Foswiki::OopsException') ) {
-            my $e = shift;
-            $this->assert( $e->isa('Foswiki::OopsException') );
             $this->assert_str_equals( 'webname',   $e->web );
             $this->assert_str_equals( 'topicname', $e->topic );
             $this->assert_str_equals( 'defname',   $e->def );
@@ -50,7 +38,7 @@ qr/^OopsException\(templatename\/defname web=>webname topic=>topicname keep=>1 p
             );
         }
         else {
-            $e->throw;
+            $e->rethrow;
         }
     };
 
@@ -62,16 +50,16 @@ sub test_multiparamOopsException {
     my $this = shift;
     try {
         Foswiki::OopsException->throw(
-            'templatename',
-            web    => 'webname',
-            topic  => 'topicname',
-            params => [ 'phlegm', '<pus>' ]
+            app      => $this->app,
+            template => 'templatename',
+            web      => 'webname',
+            topic    => 'topicname',
+            params   => [ 'phlegm', '<pus>' ]
         );
     }
     catch {
-        my $e = $_;
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
         if ( $e->isa('Foswiki::OopsException') ) {
-            $this->assert( $e->isa('Foswiki::OopsException') );
             $this->assert_str_equals( 'webname',      $e->web );
             $this->assert_str_equals( 'topicname',    $e->topic );
             $this->assert_str_equals( 'templatename', $e->template );
@@ -83,7 +71,7 @@ qr/^OopsException\(templatename web=>webname topic=>topicname params=>\[phlegm,<
             );
         }
         else {
-            $e->throw;
+            $e->rethrow;
         }
     };
 
@@ -91,14 +79,14 @@ qr/^OopsException\(templatename web=>webname topic=>topicname params=>\[phlegm,<
 }
 
 sub upchuck {
-    my $session = shift;
-    my $e       = Foswiki::OopsException->new(
-        'templatename',
-        web    => 'webname',
-        topic  => 'topicname',
-        params => [ 'phlegm', '<pus>' ]
+    my $this = shift;
+    my $e    = Foswiki::OopsException->create(
+        template => 'templatename',
+        web      => 'webname',
+        topic    => 'topicname',
+        params   => [ 'phlegm', '<pus>' ]
     );
-    $e->redirect($session);
+    $e->redirect;
 
     return;
 }
@@ -106,8 +94,8 @@ sub upchuck {
 # Test for DEPRECATED redirect
 sub deprecated_test_redirectOopsException {
     my $this = shift;
-    $this->createNewFoswikiSession();
-    my ($output) = $this->capture( \&upchuck, $this->session );
+    $this->createNewFoswikiApp;
+    my ($output) = $this->capture( \&upchuck );
     $this->assert_matches( qr/^Status: 302.*$/m, $output );
     $this->assert_matches(
 qr#^Location: http.*/oops/webname/topicname?template=oopstemplatename;param1=phlegm;param2=%26%2360%3bpus%26%2362%3b$#m,
@@ -119,8 +107,13 @@ qr#^Location: http.*/oops/webname/topicname?template=oopstemplatename;param1=phl
 
 sub test_AccessControlException {
     my $this = shift;
-    my $ace  = Foswiki::AccessControlException->new( 'FRY', 'burger', 'Spiders',
-        'FlumpNuts', 'Because it was there.' );
+    my $ace  = Foswiki::AccessControlException->new(
+        mode   => 'FRY',
+        user   => 'burger',
+        web    => 'Spiders',
+        topic  => 'FlumpNuts',
+        reason => 'Because it was there.'
+    );
     $this->assert_str_equals(
 "AccessControlException: Access to FRY Spiders.FlumpNuts for burger is denied. Because it was there.",
         $ace->stringify()
@@ -130,22 +123,38 @@ sub test_AccessControlException {
 }
 
 sub test_oopsScript {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            skin     => 'none',
-            template => 'oopsgeneric',
-            def      => 'message',
-            param1   => 'heading',
-            param2   => '<pus>',
-            param3   => 'snot@dot.dat',
-            param4   => 'phlegm',
-            param5   => "the cat\nsat on\nthe rat"
+    my $this      = shift;
+    my $oopsWeb   = "Flum";
+    my $oopsTopic = "DeDum";
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                skin     => 'none',
+                template => 'oopsgeneric',
+                def      => 'message',
+                param1   => 'heading',
+                param2   => '<pus>',
+                param3   => 'snot@dot.dat',
+                param4   => 'phlegm',
+                param5   => "the cat\nsat on\nthe rat",
+            },
+        },
+        engineParams => {
+            simulate          => 'cgi',
+            initialAttributes => {
+                path_info => "/$oopsWeb/$oopsTopic",
+                uri       => $this->app->cfg->getScriptUrl(
+                    0, 'oops', $oopsWeb, $oopsTopic
+                ),
+                action => 'oops',
+            },
+        },
+    );
+    my ($output) = $this->capture(
+        sub {
+            $this->app->handleRequest;
         }
     );
-    $this->createNewFoswikiSession( undef, $query );
-    my ($output) =
-      $this->capture( $UI_FN, $this->session, "Flum", "DeDum", $query, 0 );
     $this->assert_matches( qr/^phlegm$/m,           $output );
     $this->assert_matches( qr/^&#60;pus&#62;$/m,    $output );
     $this->assert_matches( qr/^snot&#64;dot.dat$/m, $output );

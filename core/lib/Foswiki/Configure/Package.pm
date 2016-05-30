@@ -4,7 +4,10 @@
 # as well as passing them to another logger.
 # TODO: abstract this out and share with tools/extender.pl
 package LoggingReporter;
+use v5.14;
+
 use File::Spec;
+
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Object);
@@ -38,8 +41,8 @@ has logfile => (
           Foswiki::Time::formatTime( time(),
             '$year$mo$day-$hours$minutes$seconds' );
         my $logfile = File::Spec->catfile( $this->_path,
-            $this->_pkgname . "-$timestamp-" . $this->action . ".log" );
-        $Foswiki::app->cfg->expandValue($logile);
+            $this->_pkgname . "-$timestamp-" . $this->_action . ".log" );
+        $Foswiki::app->cfg->expandValue($logfile);
         return $logfile;
     },
 );
@@ -154,12 +157,7 @@ use namespace::clean;
 extends qw(Foswiki::Configure::Visitor);
 
 has reporter => (
-    is  => 'rw',
-    isa => Foswiki::Object::isaCLASS(
-        'reporter',
-        'Foswiki::Configure::Reporter',
-        noUndef => 1,
-    ),
+    is       => 'rw',
     required => 1,
 );
 has simulated => ( is => 'rw', required => 1, );
@@ -280,9 +278,9 @@ has seen       => ( is => 'rw', );
 has options    => ( is => 'rw', lazy => 1, default => sub { {} }, );
 
 has _dependencies => ( is => 'rw', lazy => 1, default => sub { [] }, );
-has _manifest     => ( is => 'rw', );
-has _prepost_code => ( is => 'rw', );
-has _loaded       => ( is => 'rw', );
+has _manifest     => ( is => 'rw', lazy => 1, default => sub { {} }, );
+has _prepost_code => ( is => 'rw', lazy => 1, default => '', );
+has _loaded       => ( is => 'rw', lazy => 1, default => 0, );
 
 around BUILDARGS => sub {
     my $orig   = shift;
@@ -318,7 +316,7 @@ sub DEMOLISH {
     }
 }
 
-=begin TML
+=begin TML      
 
 ---++ ObjectMethod module()
 
@@ -382,7 +380,7 @@ sub install {
 
     $reporter->NOTE( "---+ Installing " . $this->pkgname );
 
-    unless ( $this->loaded ) {
+    unless ( $this->_loaded ) {
 
         # Recover the manifest from the _installer file
         $reporter->NOTE("> Loading package installer");
@@ -1841,7 +1839,7 @@ sub _installDependencies {
                 repository => $this->repository,
                 module     => $dep->{name},
                 seen       => $this->seen,
-                %{ $this->_options }
+                %{ $this->options }
             );
             my ( $ok, $plugins, $cpan ) = $deppkg->install( $reporter, $spec );
             if ($ok) {
@@ -1919,8 +1917,7 @@ HERE
 sub _getUrl {
     my ($url) = @_;
 
-    require Foswiki::Net;
-    my $tn       = new Foswiki::Net();
+    my $tn       = $Foswiki::app->create('Foswiki::Net');
     my $response = $tn->getExternalResource($url);
     return $response;
 }

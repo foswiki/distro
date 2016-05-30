@@ -165,8 +165,8 @@ around tear_down => sub {
     my $app = $this->app;
     my $cfg = $app->cfg;
 
-    $this->removeWebFixture( $app, $this->test_web );
-    $this->removeWebFixture( $app, $cfg->data->{UsersWebName} );
+    $this->removeWebFixture( $this->test_web );
+    $this->removeWebFixture( $cfg->data->{UsersWebName} );
     unlink( $Foswiki::cfg{Htpasswd}{FileName} );
     $orig->( $this, @_ );
 
@@ -182,7 +182,7 @@ Remove a temporary web fixture (data and pub)
 
 sub removeWeb {
     my ( $this, $web ) = @_;
-    $this->removeWebFixture( $this->app, $web );
+    $this->removeWebFixture($web);
 }
 
 =begin TML

@@ -17,6 +17,7 @@ use v5.14;
 
 use Assert;
 use Try::Tiny;
+use URI;
 
 use Foswiki::IP qw/:regexp :info $IPv6Avail/;
 
@@ -142,22 +143,21 @@ if (!$response->is_error() && $response->isa('HTTP::Response')) {
 sub getExternalResource {
     my ( $this, $url, %options ) = @_;
 
-    require URI::URL;
-
-    my $uri = URI::URL->new($url);
+    my $uri = URI->new($url);
     my $proxyHost =
       $this->has_PROXYHOST ? $this->PROXYHOST : $Foswiki::cfg{PROXY}{HOST};
-    my $puri = $proxyHost ? URI::URL->new($proxyHost) : undef;
+    my $puri = $proxyHost ? URI->new($proxyHost) : undef;
 
     # Don't remove $LWPAvailable; it is required to disable LWP when unit
     # testing
     unless ( defined $LWPAvailable ) {
         eval 'require LWP';
-        die $@ if $@;
+
+        #die $@ if $@;
         $LWPAvailable = ($@) ? 0 : 1;
     }
     if ($LWPAvailable) {
-        return _GETUsingLWP( $this, $uri, $puri, %options );
+        return $this->_GETUsingLWP( $uri, $puri, %options );
     }
 
     # Fallback mechanism
@@ -332,7 +332,7 @@ sub _GETUsingLWP {
     my $user;
     my $pass;
     ( $user, $pass ) = split( ':', $uri->userinfo(), 2 )
-      if ( $uri->userinfo() );
+      if $uri->userinfo;
     my $ua =
       Foswiki::Net::UserCredAgent->new( user => $user, password => $pass );
     $ua->proxy( [ 'http', 'https' ], $puri->as_string() ) if $puri;

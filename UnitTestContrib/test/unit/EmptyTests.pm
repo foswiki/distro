@@ -18,22 +18,25 @@ around set_up => sub {
 
     # You can now safely modify $Foswiki::cfg
 
-    my $topicquery = Unit::Request->new( initializer => '' );
-    $topicquery->path_info('/TestCases/WebHome');
     try {
-        $this->createNewFoswikiSession( 'AdminUser' || '' );
-        my $user = $this->session->user;
+        $this->createNewFoswikiApp(
+            requestParams => { initializer => '', },
+            engineParams =>
+              { initialAttributes => { path_info => '/TestCases/WebHome', }, },
+            user => 'AdminUser',
+        );
+        my $user = $this->app->user;
 
         # You can create webs here; don't forget to tear them down
 
         # Create a web like this:
         my $webObject =
           $this->populateNewWeb( "Temporarytestweb1", "_default" );
-        $webObject->finish();
+        undef $webObject;
 
         # Copy a system web like this:
         $webObject = $this->populateNewWeb( "Temporarysystemweb", "System" );
-        $webObject->finish();
+        undef $webObject;
 
         # Create a topic like this:
 
@@ -42,15 +45,11 @@ around set_up => sub {
 
     }
     catch {
-        my $e = $_;
-        if ( $e->isa('Foswiki::AccessControlException') ) {
-            $this->assert( 0, $e->stringify() );
-        }
-        elsif ( $e->isa('Error::Simple') ) {
-            $this->assert( 0, $e->stringify() || '' );
+        if ( $_->isa('Foswiki::AccessControlException') ) {
+            $this->assert( 0, $_->stringify() );
         }
         else {
-            $e->throw;
+            Foswiki::Exception::Fatal->rethrow($_);
         }
     };
 
@@ -63,8 +62,8 @@ around tear_down => sub {
 
     # Remove fixture webs; warning, if one of these
     # dies, you may end up with spurious test webs
-    $this->removeWebFixture( $this->session, "Temporarytestweb1" );
-    $this->removeWebFixture( $this->session, "Temporarysystemweb" );
+    $this->removeWebFixture("Temporarytestweb1");
+    $this->removeWebFixture("Temporarysystemweb");
 
     # Always do this, and always do it last
     $orig->($this);

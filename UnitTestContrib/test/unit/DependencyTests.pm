@@ -17,7 +17,7 @@ sub test_check_dep_not_perl {
 
     # Check an external dependency
     # 0, Module is type external, and cannot be automatically checked.
-    my $dep = new Foswiki::Configure::Dependency(
+    my $dep = Foswiki::Configure::Dependency->new(
         type    => "external",
         module  => "libpcap",
         version => "1.0.0"
@@ -32,7 +32,7 @@ sub test_check_dep_last_resort1 {
 
     # Check a module that won't load, so that the
     # last resort "code scraping" is used to recover version.
-    my $dep = new Foswiki::Configure::Dependency(
+    my $dep = Foswiki::Configure::Dependency->new(
         type   => "perl",
         module => "Foswiki::Contrib::UnitTestContrib::LastResortWontLoad",
     );
@@ -49,7 +49,7 @@ sub test_check_dep_not_module {
 
     # Check a non-existing module
     # 0,
-    my $dep = new Foswiki::Configure::Dependency(
+    my $dep = Foswiki::Configure::Dependency->new(
         type   => "perl",
         module => "Non::Existing::Module"
     );
@@ -65,7 +65,7 @@ qr/Non::Existing::Module version >=0 required\s*--\s*perl module is not installe
 sub test_check_foswiki_rev {
     my ($this) = @_;
 
-    my $dep = new Foswiki::Configure::Dependency(
+    my $dep = Foswiki::Configure::Dependency->new(
         type    => 'perl',
         module  => 'Foswiki',
         version => '1.1.3'
@@ -83,7 +83,7 @@ sub test_check_dep_carp {
     # Check a normally installed dependency
     # 1, Carp v1.03 installed
     my $dep =
-      new Foswiki::Configure::Dependency( type => "cpan", module => "Carp" );
+      Foswiki::Configure::Dependency->new( type => "cpan", module => "Carp" );
     my ( $ok, $message ) = $dep->checkDependency();
     $this->assert_equals( 1, $ok );
     $this->assert_matches( qr/Carp version .* installed/, $message );
@@ -95,7 +95,7 @@ sub test_check_dep_carp_with_version {
 
     # Check a normally installed dependency
     # 1, Carp v1.03 installed
-    my $dep = new Foswiki::Configure::Dependency(
+    my $dep = Foswiki::Configure::Dependency->new(
         type    => "cpan",
         module  => "Carp",
         version => 0.1

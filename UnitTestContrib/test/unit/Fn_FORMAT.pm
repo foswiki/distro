@@ -179,7 +179,7 @@ sub test_SEARCH_3860 {
     my $result = $this->test_topicObject->expandMacros( <<'HERE');
 %FORMAT{"OkTopic" format="$wikiname $wikiusername" nonoise="on" }%
 HERE
-    my $wn = $this->session->users->getWikiName( $this->session->user );
+    my $wn = $this->app->users->getWikiName( $this->app->user );
     $this->assert_str_equals( "$wn " . $this->users_web . ".$wn\n", $result );
 
     $result = $this->test_topicObject->expandMacros( <<'HERE');
@@ -253,8 +253,8 @@ sub test_same_topic_listed_twice {
 
 #TODO: ?? sumarizeText fails?
 sub DISABLEtest_formatted_search_summary_with_exclamation_marks {
-    my $this    = shift;
-    my $session = $this->session;
+    my $this = shift;
+    my $app  = $this->app;
 
     $this->set_up_for_formatted_search();
     my $actual, my $expected;
@@ -549,10 +549,10 @@ EXPECT
 
 sub test_delayed_expansion {
     my $this = shift;
-    eval "require Foswiki::Macros::FORMAT";
 
-    my $result = $Foswiki::Plugins::SESSION->FORMAT(
-        {
+    my $macros = $this->app->macros;
+    my $result = $macros->execMacro(
+        FORMAT => {
             _DEFAULT  => "WebHome,WebIndex, WebPreferences",
             format    => '$topic',
             separator => ", ",
@@ -563,8 +563,8 @@ sub test_delayed_expansion {
 WebHome, WebIndex, WebPreferences
 EXPECT
 
-    $result = $Foswiki::Plugins::SESSION->FORMAT(
-        {
+    $result = $macros->execMacro(
+        FORMAT => {
             _DEFAULT  => "WebHome,WebIndex, WebPreferences",
             format    => '$percentWIKINAME$percent',
             separator => ", ",
@@ -575,8 +575,8 @@ EXPECT
 %WIKINAME%, %WIKINAME%, %WIKINAME%
 EXPECT
 
-    $result = $Foswiki::Plugins::SESSION->FORMAT(
-        {
+    $result = $macros->execMacro(
+        FORMAT => {
             _DEFAULT  => "WebHome,WebIndex, WebPreferences",
             header    => '$percentINCLUDE{Main.WebHome}$percent',
             footer    => '$percentINCLUDE{Main.WebHome}$percent',

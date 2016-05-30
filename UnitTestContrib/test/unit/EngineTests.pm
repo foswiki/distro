@@ -24,6 +24,11 @@ BEGIN {
     }
 }
 
+sub skip {
+    return
+"Foswiki engines has changed too drastically for this suite to make any sense. Shall be replaced with Plack::Test perhaps.";
+}
+
 #use Storable qw(freeze thaw); # unreliable
 sub freeze {
     return Data::Dumper->Dump( [ $_[0] ] );
