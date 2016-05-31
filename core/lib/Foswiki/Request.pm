@@ -1013,6 +1013,8 @@ sub parse {
     print STDERR "Processing path ($query_path)\n" if TRACE;
     my $topic_flag;
 
+    $query_path =~ s{/+}{/}g;    # Remove duplicate slashes
+
     if ( index( $query_path, '/' ) == 0 ) {
         substr $query_path, 0, 1, "";    # remove first character
         $topic_flag = 0;
@@ -1020,8 +1022,6 @@ sub parse {
     else {
         $topic_flag = 1;
     }
-
-    $query_path =~ s{/+}{/}g;            # Remove duplicate slashes
 
     # trailingSlash Flag - hint that you want the web even if the topic exists
     my $trailingSlash = ( $query_path =~ s/\/$// );
