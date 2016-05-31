@@ -653,7 +653,9 @@ lib/Foswiki/Render/Parent.pm 0444
 lib/Foswiki/Render/ToolTip.pm 0444
 lib/Foswiki/Render/Zones.pm 0444
 lib/Foswiki/Request.pm 0444
+lib/Foswiki/Request/Attachment.pm 0444
 lib/Foswiki/Request/Cache.pm 0444
+lib/Foswiki/Request/Rest.pm 0444
 lib/Foswiki/Request/Upload.pm 0444
 lib/Foswiki/Response.pm 0444
 lib/Foswiki/Sandbox.pm 0444

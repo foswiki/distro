@@ -10,6 +10,7 @@ use Foswiki();
 use Foswiki::UI();
 use Foswiki::UI::Viewfile();
 use Unit::Request();
+use Unit::Request::Attachment();
 use Error qw( :try );
 use File::Path qw(mkpath);
 
@@ -149,7 +150,7 @@ sub sneakAttachmentsToTopic {
 
 sub viewfile {
     my ( $this, $url, $wantHdrs ) = @_;
-    my $query = Unit::Request->new( {} );
+    my $query = Unit::Request::Attachment->new( {} );
     $query->setUrl($url);
     $query->method('GET');
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );

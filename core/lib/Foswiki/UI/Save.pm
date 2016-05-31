@@ -479,14 +479,14 @@ WARN
       $session->normalizeWebTopicName( $session->{webName},
         $session->{topicName} );
 
-    if ( $session->{invalidTopic} ) {
+    if ( my $badTopic = $session->{request}->invalidTopic() ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
             def    => 'invalid_topic_name',
             web    => $web,
             topic  => $topic,
-            params => [ $session->{invalidTopic} ]
+            params => [$badTopic]
         );
     }
 
