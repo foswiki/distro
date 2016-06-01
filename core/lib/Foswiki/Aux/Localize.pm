@@ -139,10 +139,11 @@ Contrary to this new attribute values are set using normal
 
 sub localize {
     my $this = shift;
+    my @args = @_;
 
     $this->_localizeState('localizing');
     try {
-        $this->doLocalize(@_);
+        $this->doLocalize(@args);
     }
     catch {
         Foswiki::Exception::Fatal->rethrow($_);

@@ -25,7 +25,7 @@ Macro handling and expansion class.
 has registered => (
     is      => 'rw',
     lazy    => 1,
-    default => \&_registerDefaultMacros,
+    builder => '_registerDefaultMacros',
     isa     => Foswiki::Object::isaHASH( 'registered', noUndef => 1, ),
 );
 has contextFreeSyntax => (
@@ -313,7 +313,7 @@ Returns true if =$macro= is a registered macro.
 sub exists {
     my $this = shift;
     my ($macro) = @_;
-    return defined $this->_macros->{$macro};
+    return defined $this->registered->{$macro};
 }
 
 =begin TML
@@ -833,7 +833,7 @@ sub _registerDefaultMacros {
         FORMAT            => undef,
         FORMFIELD         => undef,
         FOSWIKI_BROADCAST => sub {
-            $_[0]->app->systemMessage || $Foswiki::system_message || '';
+            $_[0]->systemMessage || $Foswiki::system_message || '';
         },
         GMTIME => sub {
             Foswiki::Time::formatTime( time(), $_[1]->{_DEFAULT} || '',
@@ -844,7 +844,7 @@ sub _registerDefaultMacros {
         HTTP_HOST =>
 
           #deprecated functionality, now implemented using %ENV%
-          sub { $_[0]->app->request->header('Host') || '' },
+          sub { $_[0]->request->header('Host') || '' },
         HTTP         => undef,
         HTTPS        => undef,
         ICON         => undef,
@@ -865,7 +865,7 @@ sub _registerDefaultMacros {
             }
             return $lang;
         },
-        LANGUAGE  => sub { $_[0]->app->i18n->language(); },
+        LANGUAGE  => sub { $_[0]->i18n->language(); },
         LANGUAGES => undef,
         MAKETEXT  => undef,
         META      => undef, # deprecated

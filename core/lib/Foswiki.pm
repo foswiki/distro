@@ -1644,7 +1644,7 @@ intended as a work area for plugins etc. The directory will exist.
 
 =cut
 
-sub getWorkArea {
+sub __deprecated_getWorkArea {
     my ( $this, $key ) = @_;
     return $this->store->getWorkArea($key);
 }

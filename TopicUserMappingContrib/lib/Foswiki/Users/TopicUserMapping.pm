@@ -829,7 +829,8 @@ sub groupAllowsView {
     $Group = Foswiki::Sandbox::untaint( $Group,
         \&Foswiki::Sandbox::validateTopicName );
     my ( $groupWeb, $groupName ) =
-      $this->app->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
+      $this->app->request->normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+        $Group );
 
 # If a Group or User topic normalized somewhere else,  doesn't make sense, so ignore the Webname
     $groupWeb = $Foswiki::cfg{UsersWebName};
@@ -860,7 +861,8 @@ sub groupAllowsChange {
     $Group = Foswiki::Sandbox::untaint( $Group,
         \&Foswiki::Sandbox::validateTopicName );
     my ( $groupWeb, $groupName ) =
-      $this->app->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
+      $this->app->request->normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+        $Group );
 
     # SMELL: Should NobodyGroup be configurable?
     return 0 if $groupName eq 'NobodyGroup';
@@ -891,7 +893,8 @@ sub addUserToGroup {
     $Group = Foswiki::Sandbox::untaint( $Group,
         \&Foswiki::Sandbox::validateTopicName );
     my ( $groupWeb, $groupName ) =
-      $this->app->normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $Group );
+      $this->app->request->normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+        $Group );
 
     Foswki::Exception->throw( text =>
           $this->app->i18n->maketext( 'Users cannot be added to [_1]', $Group )
@@ -1105,7 +1108,7 @@ sub removeUserFromGroup {
     $groupName = Foswiki::Sandbox::untaint( $groupName,
         \&Foswiki::Sandbox::validateTopicName );
     my ( $groupWeb, $groupTopic ) =
-      $this->app->normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+      $this->app->request->normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
         $groupName );
 
     Foswiki::Exception->throw(

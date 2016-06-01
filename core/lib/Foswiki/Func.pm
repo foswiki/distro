@@ -2953,7 +2953,7 @@ use the Perl =File::Temp=  or related =File::Spec= functions.
 sub getWorkArea {
     my ($plugin) = @_;
     ASSERT($Foswiki::app) if DEBUG;
-    return $Foswiki::app->getWorkArea($plugin);
+    return $Foswiki::app->store->getWorkArea($plugin);
 }
 
 =begin TML

@@ -163,8 +163,10 @@ sub test_FORMFIELD_format {
 sub test_FORMFIELD_topic {
     my $this = shift;
 
+    my $req = $this->app->request;
+
     my ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'TestForm' );
-    $this->session->webName( $this->test_web );
+    $req->web( $this->test_web );
     my $result = $topicObject->expandMacros('%FORMFIELD{"Marjorie"}%');
     $this->assert_str_equals( '', $result );
     $result = $topicObject->expandMacros(
@@ -197,7 +199,7 @@ sub test_FORMFIELD_web {
     $this->_createTopic( $this->other_web, $topicObject );
 
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'TestForm' );
-    $this->session->webName( $this->test_web );
+    $this->app->request->web( $this->test_web );
 
     my $result = $topicObject->expandMacros('%FORMFIELD{"Marjorie"}%');
     $this->assert_str_equals( '', $result );
@@ -219,7 +221,7 @@ sub test_FORMFIELD_web {
     $this->assert_str_equals( '99', $result );
 
     # remove other web
-    $this->removeWebFixture( $this->session, $this->other_web );
+    $this->removeWebFixture( $this->other_web );
 }
 
 # Check if ! and <nop> are properly rendered

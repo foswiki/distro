@@ -19,7 +19,7 @@ extends qw( FoswikiFnTestCase );
 has tmpdatafile    => ( is => 'rw', );
 has tmpdatafile2   => ( is => 'rw', );
 has test_web2      => ( is => 'rw', );
-has _backup_config => ( is => 'rw', );
+has _configHolders => ( is => 'rw', default => sub { [] }, );
 
 sub TRACE { return 0 }
 
@@ -103,17 +103,22 @@ around BUILDARGS => sub {
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
+    $| = 1;
     $orig->( $this, @_ );
 
-    my ($topicObject) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
-        $Foswiki::cfg{DefaultUserWikiName} );
+    my ($topicObject) = Foswiki::Func::readTopic(
+        $this->app->cfg->data->{UsersWebName},
+        $this->app->cfg->data->{DefaultUserWikiName}
+    );
     $topicObject->save();
     undef $topicObject;
     $this->registerUser( 'white', 'Mr', "White", 'white@example.com' );
-    $MrWhite = $this->session->users->getCanonicalUserID('white');
+    $MrWhite = $this->app->users->getCanonicalUserID('white');
 
-    $this->tmpdatafile( $Foswiki::cfg{TempfileDir} . '/tmpity-tmp.gif' );
-    $this->tmpdatafile2( $Foswiki::cfg{TempfileDir} . '/tmpity-tmp2.gif' );
+    $this->tmpdatafile(
+        $this->app->cfg->data->{TempfileDir} . '/tmpity-tmp.gif' );
+    $this->tmpdatafile2(
+        $this->app->cfg->data->{TempfileDir} . '/tmpity-tmp2.gif' );
     $this->test_web2( $this->test_web . 'Extra' );
     my $webObject = $this->populateNewWeb( $this->test_web2 );
 
@@ -125,8 +130,9 @@ around tear_down => sub {
     my $this = shift;
     unlink $this->tmpdatafile;
     unlink $this->tmpdatafile2;
-    $this->removeWebFixture( $this->session, $this->test_web2 );
+    $this->removeWebFixture( $this->test_web2 );
     $orig->($this);
+    $| = 0;
 
     return;
 };
@@ -165,7 +171,7 @@ sub test_saveFile_readFile {
 Now is the time for all
 Jack and Jill went up the hill.
 ASCII
-    my $f = "$Foswiki::cfg{WorkingDir}/${$}.dat";
+    my $f = $this->app->cfg->data->{WorkingDir} . "/${$}.dat";
     Foswiki::Func::saveFile( $f, $text );
     my $newtext = Foswiki::Func::readFile($f);
     $this->assert_equals( length($text), length($newtext) );
@@ -179,10 +185,11 @@ ASCII
 
 sub test_saveFile_readFile_Binary {
     my $this = shift;
-    my $data = Foswiki::Func::readFile(
-        "$Foswiki::cfg{PubDir}/System/ProjectLogos/foswiki-logo.png");
+    my $data =
+      Foswiki::Func::readFile( $this->app->cfg->data->{PubDir}
+          . "/System/ProjectLogos/foswiki-logo.png" );
     $this->assert( length($data) );    # make sure we actually get something
-    my $f = "$Foswiki::cfg{WorkingDir}/${$}.dat";
+    my $f = $this->app->cfg->data->{WorkingDir} . "/${$}.dat";
     Foswiki::Func::saveFile( $f, $data );
     my $newdata = Foswiki::Func::readFile($f);
     $this->assert_equals( length($data), length($newdata) );
@@ -196,7 +203,7 @@ sub test_saveFile_readFile_Unicode {
 Dolorěṁ dêḻêcťůṡ iľļó áńįṁị îpşaṁ auṫ. Sapìëňte possiṁuś ratìoňe ļaboŕįõsām ĥįc ṗariatúř ëť. Rerụṁ ìṫaqūė excēpțuři ńeṁọ vọḻuṗťaś volŭṗtaş aüteṁ ratiòne ńéṡcîuṉț. Mødí qúø veḻîṫ saèpe ŕēpelĺènḋuś eť. Culṗă ṗraēsēńtium vero äb ödïo. Vero ċőrṗöŕīŝ doļőŕ ḋůċimus ḻàḃorum ódio paríatur quia. Reịçîêndįṡ eț pāřiatūr omṅis. Consěqúatůr íṁpedįť ćòṅsēquatuř quăși. Cöňseqųaṫùr dīștinçtío nëṁó ịste.
 Voḻŭṗťas illo rèćusandaė ęt dįcťã nôṉ qųaŝ qui pørŕo. Iṗsűm ñọn iŝte võłůpṫáțųṁ. Unde qùo űť cumque ṗerḟeŕenḋiš ďiĝnisšįmoş et. Vọľuptațèṁ ňịĥil ďọļôr doloř ešť verītátïş. Uńdē ĥìc ēūm viṫae ut oṁñịș ďọloř. Dọlõrėm ṗerfërêndìș miňus řąťìọnë exṗlićåḃo. Temṗọrá nôbîs teṁpore pariaṫůr et. Voľuptáțê ṫenetur omniš est áụt eĺigendi. Quí vèlit ea moĺlìṫiā qụişqüãṁ möĺeštîaë đebitîṡ veĺit năṁ.
 POWETRY
-    my $f = "$Foswiki::cfg{WorkingDir}/${$}.dat";
+    my $f = $this->app->cfg->data->{WorkingDir} . "/${$}.dat";
     Foswiki::Func::saveFile( $f, $text, 1 );
     my $newtext = Foswiki::Func::readFile( $f, 1 );
     $this->assert_str_equals( $text, $newtext );
@@ -205,17 +212,22 @@ POWETRY
 
 sub test_createWeb_permissions {
     my $this = shift;
-    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+    $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+    $this->pushApp;
 
+    $this->createNewFoswikiApp(
+        user => $this->app->cfg->data->{AdminUserLogin} );
+
+    my $defaultUserWikiName = $this->app->cfg->data->{DefaultUserWikiName};
     $this->assert(
         !Foswiki::Func::saveTopicText(
-            $this->test_web, $Foswiki::cfg{WebPrefsTopicName}, <<"HERE") );
-\t* Set DENYWEBCHANGE = $Foswiki::cfg{DefaultUserWikiName}
+            $this->test_web, $this->app->cfg->data->{WebPrefsTopicName},
+            <<"HERE") );
+\t* Set DENYWEBCHANGE = $defaultUserWikiName
 HERE
 
-    $this->createNewFoswikiSession();
+    $this->popApp;
 
     # Verify that create of a root web is denied by default user.
     try {
@@ -255,15 +267,16 @@ qr/Access to CHANGE TemporaryFuncTestWebFunc\/Blahsub. for BaseUserMapping_666 i
     $this->assert( !Foswiki::Func::webExists( $this->test_web . "/Blahsub" ),
         "Test should not have created the web" );
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiApp(
+        user => $this->app->cfg->data->{AdminUserLogin} );
 
     Foswiki::Func::saveTopicText(
         $this->test_web, 'WebPreferences', <<"END",
-\t* Set ALLOWWEBCHANGE = $Foswiki::cfg{DefaultUserWikiName}
+\t* Set ALLOWWEBCHANGE = $defaultUserWikiName
 END
     );
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
 # Verify that create of a sub web is allowed by default user if allowed in webPreferences.
     try {
@@ -284,7 +297,7 @@ END
         )
     );
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     # Verify that createWeb copys the _default web.
     try {
@@ -311,9 +324,10 @@ END
 
 sub test_Item9021 {
     my $this = shift;
-    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+    $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiApp(
+        user => $this->app->cfg->data->{AdminUserLogin} );
 
     try {
         Foswiki::Func::createWeb( $this->test_web . "Missing/Blah" );
@@ -339,9 +353,10 @@ sub test_Item9021 {
 
 sub test_createWeb_InvalidBase {
     my $this = shift;
-    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+    $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiApp(
+        user => $this->app->cfg->data->{AdminUserLogin} );
 
     try {
         Foswiki::Func::createWeb( $this->test_web . "InvaliBase",
@@ -364,9 +379,10 @@ sub test_createWeb_InvalidBase {
 
 sub test_createWeb_hierarchyDisabled {
     my $this = shift;
-    $Foswiki::cfg{EnableHierarchicalWebs} = 0;
+    $this->app->cfg->data->{EnableHierarchicalWebs} = 0;
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiApp(
+        user => $this->app->cfg->data->{AdminUserLogin} );
 
     try {
         Foswiki::Func::createWeb( $this->test_web . "/Subweb" );
@@ -389,7 +405,7 @@ sub test_createWeb_hierarchyDisabled {
 sub test_createWeb_pref_option {
     my $this = shift;
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
 # Verify that create of a sub web is allowed by default user if allowed in webPreferences.
     try {
@@ -416,7 +432,7 @@ sub test_createWeb_pref_option {
 
 sub test_moveWeb {
     my $this = shift;
-    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+    $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
 
     my $webObject = $this->populateNewWeb( $this->test_web . "Blah" );
     undef $webObject;
@@ -434,7 +450,7 @@ sub test_moveWeb {
     $this->assert( Foswiki::Func::webExists( $this->test_web . 'Blah2' ) );
     $this->assert(
         Foswiki::Func::webExists( $this->test_web . 'Blah2/SubWeb' ) );
-    $this->removeWebFixture( $this->session, $this->test_web . 'Blah2' );
+    $this->removeWebFixture( $this->test_web . 'Blah2' );
 
     return;
 }
@@ -443,11 +459,11 @@ sub test_getViewUrl {
     my $this = shift;
     my $ss;
 
-    if ( defined $Foswiki::cfg{ScriptUrlPaths}{view} ) {
-        $ss = $Foswiki::cfg{ScriptUrlPaths}{view};
+    if ( defined $this->app->cfg->data->{ScriptUrlPaths}{view} ) {
+        $ss = $this->app->cfg->data->{ScriptUrlPaths}{view};
     }
     else {
-        $ss = 'view' . $Foswiki::cfg{ScriptSuffix};
+        $ss = 'view' . $this->app->cfg->data->{ScriptSuffix};
     }
 
     # relative to specified web
@@ -460,8 +476,8 @@ sub test_getViewUrl {
     $result = Foswiki::Func::getViewUrl( "", "WebHome" );
     $this->assert_matches( qr!$ss/$test_web/WebHome!, $result );
 
-    $this->createNewFoswikiSession( undef,
-        Unit::Request->new( initializer => { topic => "Sausages.AndMash" } ) );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => { topic => "Sausages.AndMash" }, }, );
 
     $result = Foswiki::Func::getViewUrl( "Sausages", "AndMash" );
     $this->assert_matches( qr!${ss}/Sausages/AndMash!, $result );
@@ -476,7 +492,7 @@ sub test_getScriptUrl {
     my $this = shift;
 
     my $users_web = $this->users_web;
-    my $ss        = 'wibble' . $Foswiki::cfg{ScriptSuffix};
+    my $ss        = 'wibble' . $this->app->cfg->data->{ScriptSuffix};
     my $result =
       Foswiki::Func::getScriptUrl( $this->users_web, "WebHome", 'wibble' );
     $this->assert_matches( qr!/$ss/$users_web/WebHome!, $result );
@@ -484,9 +500,11 @@ sub test_getScriptUrl {
     $result = Foswiki::Func::getScriptUrl( "", "WebHome", 'wibble' );
     $this->assert_matches( qr!/$ss/$users_web/WebHome!, $result );
 
-    my $q = Unit::Request->new( initializer => {} );
-    $q->path_info('/Sausages/AndMash');
-    $this->createNewFoswikiSession( undef, $q );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => {}, },
+        engineParams =>
+          { initialAttributes => { path_info => '/Sausages/AndMash', }, },
+    );
 
     $result = Foswiki::Func::getScriptUrl( "Sausages", "AndMash", 'wibble' );
     $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
@@ -542,7 +560,7 @@ sub test_getOopsUrl {
 sub test_leases {
     my $this = shift;
 
-    my $testtopic = $Foswiki::cfg{HomeTopicName};
+    my $testtopic = $this->app->cfg->data->{HomeTopicName};
 
     # Check that there is no lease on the home topic
     my ( $oops, $login, $time ) =
@@ -707,7 +725,7 @@ NONNY
 
 sub test_attachments {
     my $this = shift;
-    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+    $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
 
     my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
     my $data2 = "\0h\1a\2l\3b\4h\5a\6l\7b";
@@ -822,7 +840,7 @@ sub test_attachments {
 
 sub test_attachment_comment {
     my $this = shift;
-    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+    $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
 
     my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
     my $data2 = "\0h\1a\2l\3b\4h\5a\6l\7b";
@@ -881,7 +899,7 @@ sub test_attachment_comment {
 
 sub test_noauth_saveAttachment {
     my $this = shift;
-    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+    $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
 
     my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
     my $name1 = 'blahblahblah.gif';
@@ -934,8 +952,7 @@ sub test_noauth_saveTopic {
     my $ttext =
 " APPLE \n   * Set ALLOWTOPICVIEW = SomeUser \n   * Set DENYTOPICCHANGE = BaseUserMapping_666,MrWhite \n ";
 
-    my $query = Unit::Request->new();
-    $this->createNewFoswikiSession( $userLogin, $query );
+    $this->createNewFoswikiApp( user => $userLogin );
     Foswiki::Func::saveTopicText( $this->test_web, $topic, $ttext );
 
     $this->assert( Foswiki::Func::topicExists( $this->test_web, $topic ) );
@@ -997,13 +1014,14 @@ qr/^AccessControlException: Access to CHANGE TemporaryFuncTestWebFunc.BlahBlahcw
 sub test_resaveDenied {
     my $this = shift;
 
+    my $defaultUserWikiName = $this->app->cfg->data->{DefaultUserWikiName};
     Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         <<"HEY" );
-   * Set DENYTOPICCHANGE = $Foswiki::cfg{DefaultUserWikiName}
+   * Set DENYTOPICCHANGE = $defaultUserWikiName
 HEY
     Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
         <<"NONNY", { ignorepermissions => 1 } );
-   * Set DENYTOPICCHANGE = $Foswiki::cfg{DefaultUserWikiName}
+   * Set DENYTOPICCHANGE = $defaultUserWikiName
 NONNY
     try {
         Foswiki::Func::saveTopic( $this->test_web, $this->test_topic, undef,
@@ -1022,7 +1040,7 @@ NONNY
 
 sub test_subweb_attachments {
     my $this = shift;
-    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+    $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
 
     my $data  = "\0b\1l\2a\3h\4b\5l\6a\7h";
     my $data2 = "\0h\1a\2l\3b\4h\5a\6l\7b";
@@ -1090,7 +1108,8 @@ sub test_subweb_attachments {
     #
     my $ft = '';
     $ft = Foswiki::Func::getPubDir() . "/" . $web;
-    if ( $Foswiki::cfg{Store}{Implementation} =~ /PlainFile|RcsWrap|RcsWrite/ )
+    if ( $this->app->cfg->data->{Store}{Implementation} =~
+        /PlainFile|RcsWrap|RcsWrite/ )
     {
         $this->assert( ( -d $ft ), "Web directory for attachment not created" );
         $ft .= "/" . $topic;
@@ -1098,7 +1117,9 @@ sub test_subweb_attachments {
             "Topic directory for attachment not created?" );
         $this->assert( ( -e $ft . "/$name1" ),
             "Attachment file $ft/$name1  was not written to disk?" );
-        if ( $Foswiki::cfg{Store}{Implementation} =~ /RcsWrap|RcsWrite/ ) {
+        if ( $this->app->cfg->data->{Store}{Implementation} =~
+            /RcsWrap|RcsWrite/ )
+        {
             $this->assert(
                 ( -e $ft . "/$name1,v" ),
                 "Attachment RCS Filename $ft/$name1,v was not written to disk?"
@@ -1166,7 +1187,7 @@ sub test_getrevinfo {
     my $this  = shift;
     my $topic = "RevInfo";
     my $now   = time();
-    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+    $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
 
     my $webObject = $this->populateNewWeb( $this->test_web . "/Blah" );
     undef $webObject;
@@ -1561,7 +1582,7 @@ sub test_attachmentExists {
 
     my $topic = "AttachmentExists";
 
-    $this->write_file( "$Foswiki::cfg{TempfileDir}/testfile.txt",
+    $this->write_file( $this->app->cfg->data->{TempfileDir} . "/testfile.txt",
         "one two three" );
 
     Foswiki::Func::saveTopicText( $this->test_web, $topic, 'foo' );
@@ -1570,7 +1591,7 @@ sub test_attachmentExists {
         $topic,
         "testfile.txt",
         {
-            file    => "$Foswiki::cfg{TempfileDir}/testfile.txt",
+            file    => $this->app->cfg->data->{TempfileDir} . "/testfile.txt",
             comment => "a comment"
         }
     );
@@ -1635,8 +1656,7 @@ sub test_extractParameters {
 sub test_w2em {
     my $this = shift;
 
-    my $ems =
-      join( ',', $this->session->users->getEmails( $this->session->user ) );
+    my $ems = join( ',', $this->app->users->getEmails( $this->app->user ) );
     my $user = Foswiki::Func::getWikiName();
     $this->assert_str_equals( $ems, Foswiki::Func::wikiToEmail($user) );
 
@@ -1645,17 +1665,17 @@ sub test_w2em {
 
 sub test_normalizeWebTopicName {
     my $this = shift;
-    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+    $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
     my ( $w, $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( 'Web', 'Topic' );
     $this->assert_str_equals( 'Web',   $w );
     $this->assert_str_equals( 'Topic', $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', 'Topic' );
-    $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'Topic',                     $t );
+    $this->assert_str_equals( $this->app->cfg->data->{UsersWebName}, $w );
+    $this->assert_str_equals( 'Topic',                               $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', '' );
-    $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'WebHome',                   $t );
+    $this->assert_str_equals( $this->app->cfg->data->{UsersWebName}, $w );
+    $this->assert_str_equals( 'WebHome',                             $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', 'Web/Topic' );
     $this->assert_str_equals( 'Web',   $w );
     $this->assert_str_equals( 'Topic', $t );
@@ -1666,30 +1686,30 @@ sub test_normalizeWebTopicName {
     $this->assert_str_equals( 'Web2',  $w );
     $this->assert_str_equals( 'Topic', $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '%USERSWEB%', 'Topic' );
-    $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'Topic',                     $t );
+    $this->assert_str_equals( $this->app->cfg->data->{UsersWebName}, $w );
+    $this->assert_str_equals( 'Topic',                               $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '%USERSWEB%', 'Topic' );
-    $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'Topic',                     $t );
+    $this->assert_str_equals( $this->app->cfg->data->{UsersWebName}, $w );
+    $this->assert_str_equals( 'Topic',                               $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( 'Web', '' );
-    $this->assert_str_equals( 'Web',                        $w );
-    $this->assert_str_equals( $Foswiki::cfg{HomeTopicName}, $t );
+    $this->assert_str_equals( 'Web',                                  $w );
+    $this->assert_str_equals( $this->app->cfg->data->{HomeTopicName}, $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '%SYSTEMWEB%', 'Topic' );
-    $this->assert_str_equals( $Foswiki::cfg{SystemWebName}, $w );
-    $this->assert_str_equals( 'Topic',                      $t );
+    $this->assert_str_equals( $this->app->cfg->data->{SystemWebName}, $w );
+    $this->assert_str_equals( 'Topic',                                $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '%SYSTEMWEB%', 'Topic' );
-    $this->assert_str_equals( $Foswiki::cfg{SystemWebName}, $w );
-    $this->assert_str_equals( 'Topic',                      $t );
+    $this->assert_str_equals( $this->app->cfg->data->{SystemWebName}, $w );
+    $this->assert_str_equals( 'Topic',                                $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '%DOCWEB%', 'Topic' );
-    $this->assert_str_equals( $Foswiki::cfg{SystemWebName}, $w );
-    $this->assert_str_equals( 'Topic',                      $t );
+    $this->assert_str_equals( $this->app->cfg->data->{SystemWebName}, $w );
+    $this->assert_str_equals( 'Topic',                                $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', '%USERSWEB%.Topic' );
-    $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'Topic',                     $t );
+    $this->assert_str_equals( $this->app->cfg->data->{UsersWebName}, $w );
+    $this->assert_str_equals( 'Topic',                               $t );
     ( $w, $t ) =
       Foswiki::Func::normalizeWebTopicName( '', '%SYSTEMWEB%.Topic' );
-    $this->assert_str_equals( $Foswiki::cfg{SystemWebName}, $w );
-    $this->assert_str_equals( 'Topic',                      $t );
+    $this->assert_str_equals( $this->app->cfg->data->{SystemWebName}, $w );
+    $this->assert_str_equals( 'Topic',                                $t );
     ( $w, $t ) =
       Foswiki::Func::normalizeWebTopicName( '%USERSWEB%', 'Web2.Topic' );
     $this->assert_str_equals( 'Web2',  $w );
@@ -1716,12 +1736,14 @@ sub test_normalizeWebTopicName {
     $this->assert_str_equals( 'Topic',       $t );
     ( $w, $t ) =
       Foswiki::Func::normalizeWebTopicName( '%USERSWEB%.Wibble', 'Topic' );
-    $this->assert_str_equals( $Foswiki::cfg{UsersWebName} . '/Wibble', $w );
-    $this->assert_str_equals( 'Topic',                                 $t );
+    $this->assert_str_equals( $this->app->cfg->data->{UsersWebName} . '/Wibble',
+        $w );
+    $this->assert_str_equals( 'Topic', $t );
     ( $w, $t ) =
       Foswiki::Func::normalizeWebTopicName( '%SYSTEMWEB%.Wibble', 'Topic' );
-    $this->assert_str_equals( $Foswiki::cfg{SystemWebName} . '/Wibble', $w );
-    $this->assert_str_equals( 'Topic',                                  $t );
+    $this->assert_str_equals(
+        $this->app->cfg->data->{SystemWebName} . '/Wibble', $w );
+    $this->assert_str_equals( 'Topic', $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '%USERSWEB%.Wibble',
         'Wibble.Web2.Topic' );
     $this->assert_str_equals( 'Wibble/Web2', $w );
@@ -1736,8 +1758,8 @@ sub test_normalizeWebTopicName {
     $this->assert_str_equals( 'Sandbox',          $w );
     $this->assert_str_equals( 'ALLOWTOPICCHANGE', $t );
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', 'ALLOWTOPICCHANGE' );
-    $this->assert_str_equals( $Foswiki::cfg{UsersWebName}, $w );
-    $this->assert_str_equals( 'ALLOWTOPICCHANGE',          $t );
+    $this->assert_str_equals( $this->app->cfg->data->{UsersWebName}, $w );
+    $this->assert_str_equals( 'ALLOWTOPICCHANGE',                    $t );
 
     ( $w, $t ) = Foswiki::Func::normalizeWebTopicName( '', 'Web.' );
     $this->assert_str_equals( 'Web',     $w );
@@ -1773,82 +1795,84 @@ sub test_normalizeWebTopicName {
 sub test_checkWebAccessPermission {
     my $this = shift;
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiApp(
+        user => $this->app->cfg->data->{AdminUserLogin} );
 
+    my $defaultUserWikiName = $this->app->cfg->data->{DefaultUserWikiName};
     Foswiki::Func::saveTopicText( $this->test_web,
-        $Foswiki::cfg{WebPrefsTopicName}, <<"HERE");
-\t* Set DENYWEBCHANGE = $Foswiki::cfg{DefaultUserWikiName}
+        $this->app->cfg->data->{WebPrefsTopicName}, <<"HERE");
+\t* Set DENYWEBCHANGE = $defaultUserWikiName
 HERE
 
     Foswiki::Func::saveTopicText( $this->test_web, 'WeeblesWobble', <<"HERE");
-\t* Set ALLOWTOPICCHANGE = $Foswiki::cfg{DefaultUserWikiName}
+\t* Set ALLOWTOPICCHANGE = $defaultUserWikiName
 HERE
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     # Test with undefined topic - web permissions tested
     my $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         undef, undef, $this->test_web );
     $this->assert($access);
 
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         undef, undef, $this->test_web );
     $this->assert( !$access );
 
     # Test with null topic - default topic (WebHome) permissions tested
     $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         undef, '', $this->test_web );
     $this->assert($access);
 
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         undef, '', $this->test_web );
     $this->assert( !$access );
 
     # Test with valid topic - web permissions overridden by topic
     $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         undef, 'WeeblesWobble', $this->test_web );
     $this->assert($access);
 
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         undef, 'WeeblesWobble', $this->test_web );
     $this->assert($access);
 
     # Test with invalid topic - web permissions applied (Item2380)
     $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         undef, 'WibblesWobble', $this->test_web );
     $this->assert($access);
 
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         undef, 'WibblesWobble', $this->test_web );
     $this->assert( !$access );
 
     # Test for missing web name, default to Users web (Main)
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         undef, 'WibblesWobble', undef );
     $this->assert($access);
 
     # Test for null web name, default to Users web (Main)
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         undef, 'WibblesWobble', '' );
     $this->assert($access);
 
@@ -1857,7 +1881,7 @@ HERE
     $taintedTopic = Assert::TAINT($taintedTopic);
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         undef, $taintedTopic, $this->test_web );
     $this->assert($access);
 
@@ -1867,7 +1891,7 @@ HERE
     $taintedTopic = Assert::TAINT($taintedTopic);
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         undef, $taintedTopic, $this->test_web );
     $this->assert( !$access );
 
@@ -1878,33 +1902,34 @@ sub test_checkAccessPermission {
     my $this  = shift;
     my $topic = "NoWayJose";
 
+    my $defaultUserWikiName = $this->app->cfg->data->{DefaultUserWikiName};
     Foswiki::Func::saveTopicText(
         $this->test_web, $topic, <<"END",
-\t* Set DENYTOPICVIEW = $Foswiki::cfg{DefaultUserWikiName}
+\t* Set DENYTOPICVIEW = $defaultUserWikiName
 END
     );
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     my $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         undef, $topic, $this->test_web );
     $this->assert( !$access );    # no access because the text says DENY
 
     $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         '', $topic, $this->test_web );
     $this->assert( !$access );    # no access still
 
     $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         0, $topic, $this->test_web );
     $this->assert( !$access );    # no access still
 
     $access = Foswiki::Func::checkAccessPermission(
         'VIEW',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         "Please me, let me go",
         $topic, $this->test_web
     );
@@ -1921,18 +1946,19 @@ END
             name  => 'ALLOWTOPICVIEW',
             title => 'ALLOWTOPICVIEW',
             type  => 'Set',
-            value => $Foswiki::cfg{DefaultUserWikiName}
+            value => $this->app->cfg->data->{DefaultUserWikiName}
         }
     );
 
     $access = Foswiki::Func::checkAccessPermission(
         'VIEW',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         "   * Set ALLOWTOPICVIEW = NotASoul\n",
         $topic, $this->test_web, $meta
     );
     $this->assert( $access,
-        "VIEW access denied for " . $Foswiki::cfg{DefaultUserWikiName} )
+        "VIEW access denied for "
+          . $this->app->cfg->data->{DefaultUserWikiName} )
       ;    # got access now as META's ALLOW overrides the text's ALLOW
 
     undef $meta;
@@ -1943,16 +1969,14 @@ END
             name  => 'DENYTOPICVIEW',
             title => 'DENYTOPICVIEW',
             type  => 'Set',
-            value => $Foswiki::cfg{DefaultUserWikiName}
+            value => $this->app->cfg->data->{DefaultUserWikiName}
         }
     );
     $access = Foswiki::Func::checkAccessPermission(
         'VIEW',
-        $Foswiki::cfg{DefaultUserWikiName},
-        "   * Set ALLOWTOPICVIEW = $Foswiki::cfg{DefaultUserWikiName}\n",
-        $topic,
-        $this->test_web,
-        $meta
+        $this->app->cfg->data->{DefaultUserWikiName},
+        "   * Set ALLOWTOPICVIEW = $defaultUserWikiName\n",
+        $topic, $this->test_web, $meta
     );
     undef $meta;
     $this->assert( !$access );    # no access as META overrides text
@@ -1962,38 +1986,38 @@ END
     #first up on a web we can write to
     $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', $this->test_web );
     $this->assert($access);
 
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', $this->test_web );
     $this->assert($access);
 
     $access =
       Foswiki::Func::checkAccessPermission( 'DONTTHINGTHEREISSUCHAPERM',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', 'System' );
     $this->assert($access);
 
     #next System, which we shouldn't be able to write to
     $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', 'System' );
     $this->assert($access);
 
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', 'System' );
     $this->assert( !$access );
 
     $access =
       Foswiki::Func::checkAccessPermission( 'DONTTHINGTHEREISSUCHAPERM',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', 'System' );
     $this->assert($access);
 
@@ -2002,14 +2026,14 @@ END
     # the permissions in that web allow it. Test checks CDot's view.
     $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', '_default' );
     $this->assert($access);
 
     # However CHANGE access is denied for non-admins
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', '_default' );
     $this->assert( !$access );
 
@@ -2018,7 +2042,7 @@ END
     # existant permission, we should be given access.
     $access =
       Foswiki::Func::checkAccessPermission( 'DONTTHINKTHEREISSUCHAPERM',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', '_default' );
     $this->assert($access);
 
@@ -2029,19 +2053,19 @@ END
     # control check should fail.
     $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', 'NonExistantWeb' );
     $this->assert($access);
 
     $access =
       Foswiki::Func::checkAccessPermission( 'CHANGE',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', 'NonExistantWeb' );
     $this->assert($access);
 
     $access =
       Foswiki::Func::checkAccessPermission( 'DONTTHINGTHEREISSUCHAPERM',
-        $Foswiki::cfg{DefaultUserWikiName},
+        $this->app->cfg->data->{DefaultUserWikiName},
         '', 'NoSuchTopicPleaseDontMakeIt', 'NonExistantWeb' );
     $this->assert($access);
 
@@ -2052,30 +2076,31 @@ sub test_checkAccessPermission_login_name {
     my $this  = shift;
     my $topic = "NoWayJose";
 
+    my $defaultUserWikiName = $this->app->cfg->data->{DefaultUserWikiName};
     Foswiki::Func::saveTopicText(
         $this->test_web, $topic, <<"END",
-\t* Set DENYTOPICVIEW = $Foswiki::cfg{DefaultUserWikiName}
+\t* Set DENYTOPICVIEW = $defaultUserWikiName
 END
     );
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     my $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
-        $Foswiki::cfg{DefaultUserLogin},
+        $this->app->cfg->data->{DefaultUserLogin},
         undef, $topic, $this->test_web );
     $this->assert( !$access );
     $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
-        $Foswiki::cfg{DefaultUserLogin},
+        $this->app->cfg->data->{DefaultUserLogin},
         '', $topic, $this->test_web );
     $this->assert( !$access );
     $access =
       Foswiki::Func::checkAccessPermission( 'VIEW',
-        $Foswiki::cfg{DefaultUserLogin},
+        $this->app->cfg->data->{DefaultUserLogin},
         0, $topic, $this->test_web );
     $this->assert( !$access );
     $access = Foswiki::Func::checkAccessPermission(
         'VIEW',
-        $Foswiki::cfg{DefaultUserLogin},
+        $this->app->cfg->data->{DefaultUserLogin},
         "Please me, let me go",
         $topic, $this->test_web
     );
@@ -2089,17 +2114,17 @@ END
             name  => 'ALLOWTOPICVIEW',
             title => 'ALLOWTOPICVIEW',
             type  => 'Set',
-            value => $Foswiki::cfg{DefaultUserWikiName}
+            value => $this->app->cfg->data->{DefaultUserWikiName}
         }
     );
     $access = Foswiki::Func::checkAccessPermission(
         'VIEW',
-        $Foswiki::cfg{DefaultUserLogin},
+        $this->app->cfg->data->{DefaultUserLogin},
         "   * Set ALLOWTOPICVIEW = NotASoul\n",
         $topic, $this->test_web, $meta
     );
     $this->assert( $access,
-        "VIEW access denied for " . $Foswiki::cfg{DefaultUserLogin} )
+        "VIEW access denied for " . $this->app->cfg->data->{DefaultUserLogin} )
       ;    # ACCESS as META's ALLOW overrides the text's ALLOW
 
     undef $meta;
@@ -2110,13 +2135,13 @@ END
             name  => 'DENYTOPICVIEW',
             title => 'DENYTOPICVIEW',
             type  => 'Set',
-            value => $Foswiki::cfg{DefaultUserWikiName}
+            value => $this->app->cfg->data->{DefaultUserWikiName}
         }
     );
     $access = Foswiki::Func::checkAccessPermission(
         'VIEW',
-        $Foswiki::cfg{DefaultUserLogin},
-        "   * Set ALLOWTOPICVIEW = $Foswiki::cfg{DefaultUserWikiName}\n",
+        $this->app->cfg->data->{DefaultUserLogin},
+        "   * Set ALLOWTOPICVIEW = $defaultUserWikiName\n",
         $topic, $this->test_web, $meta
     );
     $this->assert( !$access );
@@ -2255,21 +2280,21 @@ TEST
 
 sub test_eachChangeSince {
     my $this = shift;
-    $Foswiki::cfg{Store}{RememberChangesFor} = 5;    # very bad memory
+    $this->app->cfg->data->{Store}{RememberChangesFor} = 5;    # very bad memory
 
     require Foswiki::Users::BaseUserMapping;
-    my $user1 = $Foswiki::cfg{DefaultUserLogin};
-    my $user2 = $this->session->users->findUserByWikiName("ScumBag")->[0];
+    my $user1 = $this->app->cfg->data->{DefaultUserLogin};
+    my $user2 = $this->app->users->findUserByWikiName("ScumBag")->[0];
 
     sleep(1);    # to move into a new time step
     my $start = time();
 
-    $this->createNewFoswikiSession($user1);
+    $this->createNewFoswikiApp( user => $user1 );
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, "ClutterBuck" );
     $meta->text("One");
     $meta->save();
 
-    $this->createNewFoswikiSession($user2);
+    $this->createNewFoswikiApp( user => $user2 );
     undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, "PiggleNut" );
     $meta->text("One");
@@ -2279,13 +2304,13 @@ sub test_eachChangeSince {
     sleep(1);
     my $mid = time();
 
-    $this->createNewFoswikiSession($user2);
+    $this->createNewFoswikiApp( user => $user2 );
     undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, "ClutterBuck" );
     $meta->text("One");
     $meta->save();
 
-    $this->createNewFoswikiSession($user1);
+    $this->createNewFoswikiApp( user => $user1 );
     undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, "PiggleNut" );
     $meta->text("Two");
@@ -2298,7 +2323,8 @@ sub test_eachChangeSince {
     $change = $it->next();
     $this->assert_str_equals( "PiggleNut", $change->{topic} );
     $this->assert_equals( 2, $change->{revision} );
-    $this->assert_equals( $Foswiki::cfg{DefaultUserWikiName}, $change->{user} );
+    $this->assert_equals( $this->app->cfg->data->{DefaultUserWikiName},
+        $change->{user} );
     $this->assert( $it->hasNext() );
     $change = $it->next();
     $this->assert_str_equals( "ClutterBuck", $change->{topic} );
@@ -2312,7 +2338,8 @@ sub test_eachChangeSince {
     $change = $it->next();
     $this->assert_str_equals( "ClutterBuck", $change->{topic} );
     $this->assert_equals( 1, $change->{revision} );
-    $this->assert_equals( $Foswiki::cfg{DefaultUserWikiName}, $change->{user} );
+    $this->assert_equals( $this->app->cfg->data->{DefaultUserWikiName},
+        $change->{user} );
     $this->assert( !$it->hasNext() );
 
     $it = Foswiki::Func::eachChangeSince( $this->test_web, $mid );
@@ -2320,7 +2347,8 @@ sub test_eachChangeSince {
     $change = $it->next();
     $this->assert_str_equals( "PiggleNut", $change->{topic} );
     $this->assert_equals( 2, $change->{revision} );
-    $this->assert_equals( $Foswiki::cfg{DefaultUserWikiName}, $change->{user} );
+    $this->assert_equals( $this->app->cfg->data->{DefaultUserWikiName},
+        $change->{user} );
     $change = $it->next();
     $this->assert_str_equals( "ClutterBuck", $change->{topic} );
     $this->assert_equals( 2,         $change->{revision} );
@@ -2362,9 +2390,10 @@ sub test_4308 {
 
 sub test_4411 {
     my $this = shift;
-    $this->assert( Foswiki::Func::isGuest(), $this->session->user );
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
-    $this->assert( !Foswiki::Func::isGuest(), $this->session->user );
+    $this->assert( Foswiki::Func::isGuest(), $this->app->user );
+    $this->createNewFoswikiApp(
+        user => $this->app->cfg->data->{AdminUserLogin} );
+    $this->assert( !Foswiki::Func::isGuest(), $this->app->user );
 
     return;
 }
@@ -2375,15 +2404,18 @@ sub test_setPreferences {
     Foswiki::Func::setPreferencesValue( "PSIBG", "KJHD" );
     $this->assert_str_equals( "KJHD",
         Foswiki::Func::getPreferencesValue("PSIBG") );
-    my $q = Foswiki::Func::getRequestObject();
 
     ####
     Foswiki::Func::saveTopicText( $this->test_web,
-        $Foswiki::cfg{WebPrefsTopicName}, <<'HERE');
+        $this->app->cfg->data->{WebPrefsTopicName}, <<'HERE');
    * Set PSIBG = naff
    * Set FINALPREFERENCES = PSIBG
 HERE
-    $this->createNewFoswikiSession( $Foswiki::cfg{GuestUserLogin}, $q );
+
+ #my $q = Foswiki::Func::getRequestObject();
+ #$this->createNewFoswikiSession( $this->app->cfg->data->{GuestUserLogin}, $q );
+    $this->createNewFoswikiApp( user => $this->app->cfg->data->{GuestUserLogin},
+    );
     $this->assert_str_equals( "naff",
         Foswiki::Func::getPreferencesValue("PSIBG") );
     Foswiki::Func::setPreferencesValue( "PSIBG", "KJHD" );
@@ -2391,10 +2423,13 @@ HERE
         Foswiki::Func::getPreferencesValue("PSIBG") );
     ###
     Foswiki::Func::saveTopicText( $this->test_web,
-        $Foswiki::cfg{WebPrefsTopicName}, <<'HERE');
+        $this->app->cfg->data->{WebPrefsTopicName}, <<'HERE');
    * Set PSIBG = naff
 HERE
-    $this->createNewFoswikiSession( $Foswiki::cfg{GuestUserLogin}, $q );
+
+ #$this->createNewFoswikiSession( $this->app->cfg->data->{GuestUserLogin}, $q );
+    $this->createNewFoswikiApp( user => $this->app->cfg->data->{GuestUserLogin},
+    );
     $this->assert_str_equals( "naff",
         Foswiki::Func::getPreferencesValue("PSIBG") );
     Foswiki::Func::setPreferencesValue( "PSIBG", "KJHD" );
@@ -2477,7 +2512,7 @@ sub test_getAttachmentList {
     my $this = shift;
 
     my $shortname = "testfile.gif";
-    my $filename  = "$Foswiki::cfg{TempfileDir}/$shortname";
+    my $filename  = $this->app->cfg->data->{TempfileDir} . "/$shortname";
     $this->write_file( $filename, "Naff\n" );
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $meta->text("One");
@@ -2544,19 +2579,15 @@ sub test_pushPopContext {
 SETS
 
     # Force re-read of prefs
-    $this->createNewFoswikiSession(
-        undef,
-        Unit::Request->new(
-            initializer => { topic => $this->test_web . ".$topic1" }
-        )
-    );
+    $this->createNewFoswikiApp( requestParams =>
+          { initializer => { topic => $this->test_web . ".$topic1" }, }, );
 
     Foswiki::Func::saveTopicText( $this->test_web, $topic2, <<'SETS' );
    * Set ICE = SLIPPERY
 SETS
 
-    $this->assert_equals( $this->test_web, $this->session->webName );
-    $this->assert_equals( $topic1,         $this->session->topicName );
+    $this->assert_equals( $this->test_web, $this->request->web );
+    $this->assert_equals( $topic1,         $this->request->topic );
     $this->assert_equals( $this->test_web,
         Foswiki::Func::getPreferencesValue('BASEWEB') );
     $this->assert_equals( $topic1,
@@ -2569,8 +2600,8 @@ SETS
 
     Foswiki::Func::pushTopicContext( $this->test_web, $topic2 );
 
-    $this->assert_equals( $this->test_web, $this->session->webName );
-    $this->assert_equals( $topic2,         $this->session->topicName );
+    $this->assert_equals( $this->test_web, $this->request->web );
+    $this->assert_equals( $topic2,         $this->request->topic );
     $this->assert_equals( $this->test_web,
         Foswiki::Func::getPreferencesValue('BASEWEB') );
     $this->assert_equals( $topic2,
@@ -2584,8 +2615,8 @@ SETS
 
     Foswiki::Func::popTopicContext();
 
-    $this->assert_equals( $this->test_web, $this->session->webName );
-    $this->assert_equals( $topic1,         $this->session->topicName );
+    $this->assert_equals( $this->test_web, $this->request->web );
+    $this->assert_equals( $topic1,         $this->request->topic );
     $this->assert_equals( $this->test_web,
         Foswiki::Func::getPreferencesValue('BASEWEB') );
     $this->assert_equals( $topic1,
@@ -2682,12 +2713,13 @@ sub do_attachment {
     my $data = "\0b\1l\2a\3h\4b\5l\6a\7h";
     my $stream;
 
-    require Unit::Request;
-    $query = Unit::Request->new( initializer => "" );
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
-    $this->createNewFoswikiSession( undef, $query );
-    $this->request($query);
-    $this->response( Unit::Response->new() );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "", },
+        engineParams  => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/" . $this->test_topic, },
+        }
+    );
     $this->clear_test_topicObject;
     $this->test_topicObject(
         Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) );
@@ -2716,11 +2748,11 @@ sub do_attachment {
     my ($sanitized) = Foswiki::Sandbox::sanitizeAttachmentName($name);
     $this->assert_str_equals( $name, $sanitized );
 
-    if ( $Foswiki::cfg{Store}{Implementation} =~ /PlainFile|Rcs/ ) {
+    if ( $this->app->cfg->data->{Store}{Implementation} =~ /PlainFile|Rcs/ ) {
         require File::Spec;
         $this->assert(
             -f File::Spec->catfile(
-                File::Spec->splitdir( $Foswiki::cfg{PubDir} ),
+                File::Spec->splitdir( $this->app->cfg->data->{PubDir} ),
                 $this->test_web, $this->test_topic, $name
             )
         );
@@ -2758,7 +2790,8 @@ sub do_attachment {
 sub _save_config {
     my ($this) = @_;
 
-    $this->_backup_config( \%Foswiki::cfg );
+    push @{ $this->_configHolders },
+      $this->app->cfg->localize( %{ $this->app->cfg->data } );
 
     return;
 }
@@ -2766,7 +2799,7 @@ sub _save_config {
 sub _restore_config {
     my ($this) = @_;
 
-    %Foswiki::cfg = %{ $this->_backup_config };
+    pop @{ $this->_configHolders };
 
     return;
 }
@@ -2777,8 +2810,8 @@ sub _test_path_func {
     $this->assert( ref($func) eq 'CODE' );
     $junk ||= '';
     $this->_save_config();
-    $Foswiki::cfg{ScriptUrlPath} = '/path/to/bin';
-    delete $Foswiki::cfg{ScriptUrlPaths};
+    $this->app->cfg->data->{ScriptUrlPath} = '/path/to/bin';
+    delete $this->app->cfg->data->{ScriptUrlPaths};
     print "Testing no args\n" if TRACE;
     $this->assert_str_equals( $junk . '/path/to/bin', $func->() );
     print "Testing script only\n" if TRACE;
@@ -2791,13 +2824,10 @@ sub _test_path_func {
     );
 
     foreach my $test (@scripturl_tests) {
-        $Foswiki::cfg{ScriptUrlPath} = '/path/to/bin';
-        delete $Foswiki::cfg{ScriptUrlPaths};
-        if ( $test->{cfg} ) {
-            %Foswiki::cfg = ( %Foswiki::cfg, %{ $test->{cfg} } );
-        }
+        $this->app->cfg->data->{ScriptUrlPath} = '/path/to/bin';
+        delete $this->app->cfg->data->{ScriptUrlPaths};
+        $this->app->cfg->patch( $test->{cfg} ) if $test->{cfg};
 
-        #$this->createNewFoswikiSession();
         while ( my ( $script, $path ) = each %{ $test->{expected} } ) {
             my $expected_path = $junk . $path . '/Web/Topic';
             my $actual_path = $func->( 'Web', 'Topic', $script );
@@ -2805,7 +2835,8 @@ sub _test_path_func {
             if (TRACE) {
                 require Data::Dumper;
                 print "Testing script '$script' with ScriptUrlPaths: "
-                  . Data::Dumper->Dump( [ $Foswiki::cfg{ScriptUrlPaths} ] );
+                  . Data::Dumper->Dump(
+                    [ $this->app->cfg->data->{ScriptUrlPaths} ] );
                 print "\tExpected: '$expected_path', got: '$actual_path'\n";
             }
             $this->assert_str_equals( $expected_path, $actual_path );
@@ -2823,7 +2854,7 @@ sub test_getScriptUrl_spec {
     my ($this) = @_;
 
     $this->_test_path_func( \&Foswiki::Func::getScriptUrl,
-        $Foswiki::cfg{DefaultUrlHost} );
+        $this->app->cfg->data->{DefaultUrlHost} );
 
     return;
 }
@@ -2841,7 +2872,9 @@ sub test_saveTopicTextEmbeddedMeta {
     my $this = shift;
 
     # Only works on filesystem based stores
-    return unless ( $Foswiki::cfg{Store}{Implementation} =~ /PlainFile|Rcs/ );
+    return
+      unless (
+        $this->app->cfg->data->{Store}{Implementation} =~ /PlainFile|Rcs/ );
 
     my $topic    = 'SaveTopicText2';
     my $origtext = <<'NONNY';
@@ -2863,7 +2896,11 @@ NONNY
     #'
     Foswiki::Func::saveTopicText( $this->test_web, $topic, $origtext );
     my $rawtext = Foswiki::Func::readFile(
-        $Foswiki::cfg{DataDir} . '/' . $this->test_web . "/$topic.txt", 1 );
+        $this->app->cfg->data->{DataDir} . '/'
+          . $this->test_web
+          . "/$topic.txt",
+        1
+    );
     $this->assert_str_not_equals( $origtext, $rawtext );
 
     my $readtext = Foswiki::Func::readTopicText( $this->test_web, $topic );
@@ -2919,41 +2956,54 @@ sub test_getUrlHost {
 
     my $query;
 
-    require Unit::Request;
-    $query = Unit::Request->new( initializer => "" );
+    my $cfg = $this->app->cfg;
+    $cfg->data->{DefaultUrlHost}      = 'http://foswiki.org';
+    $cfg->data->{ForceDefaultUrlHost} = 0;
 
-    #$query->path_info("/".$this->test_web."/".$this->test_topic);
-    $Foswiki::cfg{DefaultUrlHost}      = 'http://foswiki.org';
-    $Foswiki::cfg{ForceDefaultUrlHost} = 0;
-
-    $query->setUrl('http://localhost/Main/SvenDowideit');
-    $this->createNewFoswikiSession( undef, $query );
-    $this->assert_str_equals( $Foswiki::cfg{DefaultUrlHost},
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "", },
+        engineParams => { setUrl => 'http://localhost/Main/SvenDowideit', },
+    );
+    $this->assert_str_equals( $this->app->cfg->data->{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );
 
-    $query->setUrl('http://localhost:8080/Main/SvenDowideit');
-    $this->createNewFoswikiSession( undef, $query );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "", },
+        engineParams =>
+          { setUrl => 'http://localhost:8080/Main/SvenDowideit', },
+    );
     $this->assert_str_equals( 'http://localhost:8080',
         Foswiki::Func::getUrlHost() );
 
-    $query->setUrl('https://localhost/Main/SvenDowideit');
-    $this->createNewFoswikiSession( undef, $query );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "", },
+        engineParams => { setUrl => 'https://localhost/Main/SvenDowideit', },
+    );
     $this->assert_str_equals( 'https://localhost',
         Foswiki::Func::getUrlHost() );
 
-    $query->setUrl('https://localhost:8080/Main/SvenDowideit');
-    $this->createNewFoswikiSession( undef, $query );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "", },
+        engineParams =>
+          { setUrl => 'https://localhost:8080/Main/SvenDowideit', },
+    );
     $this->assert_str_equals( 'https://localhost:8080',
         Foswiki::Func::getUrlHost() );
 
-    $Foswiki::cfg{RemovePortNumber} = 1;
-    $query->setUrl('http://localhost:8080/Main/SvenDowideit');
-    $this->createNewFoswikiSession( undef, $query );
-    $this->assert_str_equals( $Foswiki::cfg{DefaultUrlHost},
+    $this->app->cfg->data->{RemovePortNumber} = 1;
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "", },
+        engineParams =>
+          { setUrl => 'http://localhost:8080/Main/SvenDowideit', },
+    );
+    $this->assert_str_equals( $this->app->cfg->data->{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );
 
-    $query->setUrl('https://localhost:8080/Main/SvenDowideit');
-    $this->createNewFoswikiSession( undef, $query );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "", },
+        engineParams =>
+          { setUrl => 'https://localhost:8080/Main/SvenDowideit', },
+    );
     $this->assert_str_equals( 'https://localhost',
         Foswiki::Func::getUrlHost() );
 
@@ -2966,30 +3016,38 @@ sub test_getUrlHost_ForceDefaultUrlHost {
 
     my $query;
 
-    require Unit::Request;
-    $query = Unit::Request->new( initializer => "" );
+    $this->app->cfg->data->{DefaultUrlHost}      = 'http://foswiki.org';
+    $this->app->cfg->data->{ForceDefaultUrlHost} = 1;
 
-    $Foswiki::cfg{DefaultUrlHost}      = 'http://foswiki.org';
-    $Foswiki::cfg{ForceDefaultUrlHost} = 1;
-
-    $query->setUrl('http://localhost/Main/SvenDowideit');
-    $this->createNewFoswikiSession( undef, $query );
-    $this->assert_str_equals( $Foswiki::cfg{DefaultUrlHost},
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "", },
+        engineParams => { setUrl => 'http://localhost/Main/SvenDowideit', },
+    );
+    $this->assert_str_equals( $this->app->cfg->data->{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );
 
-    $query->setUrl('http://localhost:8080/Main/SvenDowideit');
-    $this->createNewFoswikiSession( undef, $query );
-    $this->assert_str_equals( $Foswiki::cfg{DefaultUrlHost},
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "", },
+        engineParams =>
+          { setUrl => 'http://localhost:8080/Main/SvenDowideit', },
+    );
+    $this->assert_str_equals( $this->app->cfg->data->{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );
 
-    $query->setUrl('https://www.foswiki.org/Main/SvenDowideit');
-    $this->createNewFoswikiSession( undef, $query );
-    $this->assert_str_equals( $Foswiki::cfg{DefaultUrlHost},
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "", },
+        engineParams =>
+          { setUrl => 'https://www.foswiki.org/Main/SvenDowideit', },
+    );
+    $this->assert_str_equals( $this->app->cfg->data->{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );
 
-    $query->setUrl('https:8443//www.foswiki.org/Main/SvenDowideit');
-    $this->createNewFoswikiSession( undef, $query );
-    $this->assert_str_equals( $Foswiki::cfg{DefaultUrlHost},
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "", },
+        engineParams =>
+          { setUrl => 'https:8443//www.foswiki.org/Main/SvenDowideit', },
+    );
+    $this->assert_str_equals( $this->app->cfg->data->{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );
 
 }

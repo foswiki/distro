@@ -53,8 +53,8 @@ THIS
 around tear_down => sub {
     my $orig = shift;
     my $this = shift;
-    $this->removeWebFixture( $this->session, $this->test_web . "Hidden" )
-      if ( $this->session->webExists( $this->test_web . "Hidden" ) );
+    $this->removeWebFixture( $this->test_web . "Hidden" )
+      if ( $this->app->store->webExists( $this->test_web . "Hidden" ) );
     $orig->($this);
 };
 

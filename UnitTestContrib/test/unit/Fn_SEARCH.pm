@@ -6815,7 +6815,8 @@ HERE
         engineParams  => {
             initialAttributes =>
               { path_info => "/$test_web/" . $this->test_topic, },
-        }
+        },
+        user => $this->app->cfg->data->{AdminUserLogin},
     );
     $this->assert_str_equals( $this->test_web, $this->app->request->web );
     while ( my ( $fwaddress, $metatext ) = each %topics ) {

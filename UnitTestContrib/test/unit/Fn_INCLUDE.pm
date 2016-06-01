@@ -31,7 +31,7 @@ around set_up => sub {
 around tear_down => sub {
     my $orig = shift;
     my $this = shift;
-    $this->removeWebFixture( $this->session, $this->other_web );
+    $this->removeWebFixture( $this->other_web );
     $orig->( $this, @_ );
 };
 

@@ -34,7 +34,7 @@ SPLOT
     $topicObject->save();
     undef $topicObject;
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $result = $topicObject->expandMacros("%VAR{\"VAR\"}%");

@@ -117,6 +117,7 @@ sub _validateWebTopic {
 
     unless ( $vweb && $vtopic ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'attention',
             def      => 'invalid_form_name',
             web      => $req->web,
@@ -180,6 +181,7 @@ around BUILDARGS => sub {
     # Got to have either a def or a topic
     unless ( $params->{def} || $app->store->topicExists( $vweb, $vtopic ) ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'attention',
             def      => 'no_form_def',
             web      => $req->web,

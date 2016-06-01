@@ -46,7 +46,7 @@ sub skip {
 
 sub simpleTest {
     my ( $this, %test ) = @_;
-    $this->session->enterContext('test');
+    $this->app->enterContext('test');
     my $text =
       $this->test_topicObject->expandMacros( '%QUERY{"' . $test{test} . '"}%' );
 

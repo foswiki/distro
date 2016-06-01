@@ -152,7 +152,7 @@ has cookies => (
         return {};
     },
 );
-has headers => ( is => 'rw', lazy => 1, default => \&_establishHeaders, );
+has headers => ( is => 'rw', lazy => 1, builder => '_establishHeaders', );
 has _param => ( is => 'rw', lazy => 1, default => sub { {} }, );
 
 =begin TML

@@ -73,6 +73,10 @@ around _establishAttributes => sub {
     # the web/topic.
     my $parse;
     if ( $this->param('topic') ) {
+
+        # SMELL XXX We must use the SUPER method to parse topic as it may fetch
+        # web from PATH_INFO which is incorrect for REST. Parsing has to be done
+        # right here.
         $parse = $orig->( $this, $this->param('topic') );
         print STDERR Data::Dumper::Dumper( \$parse )
           if $Foswiki::Request::TRACE;

@@ -4,8 +4,6 @@ use v5.14;
 
 use diagnostics -verbose;
 use Foswiki();
-use Foswiki::UI::Manage();
-use Foswiki::UI::Save();
 
 use Moo;
 use namespace::clean;

@@ -85,8 +85,12 @@ has request => (
     is       => 'rw',
     weak_ref => 1,
     lazy     => 1,
-    default  => sub { $_[0]->app->request },
-    clearer  => 1,
+    default  => sub {
+        $_[0]->app->request;
+    },
+    clearer => 1,
+    isa =>
+      Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request', noUndef => 1, ),
 );
 has test_web   => ( is => 'rw', );
 has test_topic => ( is => 'rw', );
@@ -1086,6 +1090,7 @@ sub createNewFoswikiApp {
     my %params = @_;
 
     $this->clear_test_topicObject;
+    $this->clear_request;
     ASSERT( !defined $Foswiki::app ) if SINGLE_SINGLETONS;
     $Foswiki::cfg{Store}{Implementation} ||= 'Foswiki::Store::PlainFile';
 

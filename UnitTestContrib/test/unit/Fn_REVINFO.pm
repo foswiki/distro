@@ -27,7 +27,7 @@ around set_up => sub {
     my $this = shift;
     $orig->( $this, @_ );
     $this->guest_wikiname( Foswiki::Func::getWikiName() );
-    $this->session->user( $this->test_user_cuid );    # OUCH
+    $this->app->user( $this->test_user_cuid );    # OUCH
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, "GropeGroup" );
     $topicObject->text("   * Set GROUP = ScumBag,WikiGuest\n");
@@ -313,7 +313,7 @@ sub test_42 {
     $topicObject->text("   * Set ALLOWTOPICVIEW = CarlosCastenada\n");
     $topicObject->save();
     undef $topicObject;
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'GlumDrop' );
     my $ui = $topicObject->expandMacros(
             '%REVINFO{topic="'

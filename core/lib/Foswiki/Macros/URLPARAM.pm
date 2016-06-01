@@ -68,7 +68,7 @@ sub _handleURLPARAMValue {
         $value =~ s/\r?\n/$newLine/g if ( defined $newLine );
         foreach my $e ( split( /\s*,\s*/, $encode ) ) {
             if ( $e =~ m/entit(y|ies)/i ) {
-                $value = entityEncode($value);
+                $value = Foswiki::entityEncode($value);
             }
             elsif ( $e =~ m/^quotes?$/i ) {
                 $value =~
@@ -78,7 +78,7 @@ sub _handleURLPARAMValue {
 
                 # Legacy, see ENCODE
                 #$value =~ s/\r*\n\r*/<br \/>/;
-                $value = urlEncode($value);
+                $value = Foswiki::urlEncode($value);
             }
             elsif ( $e =~ m/^safe$/i ) {
 

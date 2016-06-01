@@ -70,10 +70,10 @@ around tear_down => sub {
     unlink( $this->t_datapath2 ) if $this->t_datapath2;
     $this->removeWeb( $this->t_web )
       if ( $this->t_web
-        && $this->session->store->webExists( $this->t_web ) );
+        && $this->app->store->webExists( $this->t_web ) );
     $this->removeWeb( $this->t_web2 )
       if ( $this->t_web2
-        && $this->session->store->webExists( $this->t_web2 ) );
+        && $this->app->store->webExists( $this->t_web2 ) );
     $orig->($this);
 };
 

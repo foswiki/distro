@@ -27,6 +27,8 @@ A instance of this class initialize itself using the following sources of data:
 
 =cut
 
+use Assert;
+
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Engine);
@@ -42,7 +44,7 @@ has simulate => (
         return $method;
     },
 );
-has initialAttributes => ( is => 'rw', default => sub { {} }, );
+has initialAttributes => ( is => 'rw', default => sub { { headers => {}, } }, );
 
 around BUILDARGS => sub {
     my $orig   = shift;
@@ -55,6 +57,16 @@ around BUILDARGS => sub {
     }
     return $orig->( $class, %defaults, @_ );
 };
+
+sub BUILD {
+    my $this = shift;
+    my ($args) = @_;
+
+    if ( $args->{setUrl} ) {
+        $this->setUrl( $args->{setUrl} );
+    }
+
+}
 
 # Form a data hash using keys either from initialAttributes (higher prio) or
 # from env.
@@ -104,6 +116,62 @@ around _prepareQueryParameters => sub {
     return $orig->( $this, $queryString ) if defined $queryString;
     return [];
 };
+
+around _prepareHeaders => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $headers = $orig->($this);
+    foreach my $header ( keys %{ $this->env } ) {
+        next unless $header =~ m/^FOSWIKI_TEST_(?:HTTP|CONTENT|COOKIE)/i;
+        ( my $field = $header ) =~ s/^FOSWIKI_TEST_//;
+        $field =~ s/^HTTPS?_//;
+        $headers->{$field} = $this->env->{$header};
+    }
+
+    # Initial attributes override environment values.
+    my $initAttrs = $this->initialAttributes;
+    if ( defined $initAttrs->{headers} ) {
+        ASSERT(
+            ref( $initAttrs->{headers} ) eq 'HASH',
+            "Initial test engine headers key is a hashref"
+        );
+        $headers->{$_} = $initAttrs->{headers}{$_}
+          foreach keys %{ $initAttrs->{headers} };
+    }
+
+    return $headers;
+};
+
+sub setUrl {
+    my $this = shift;
+    my ($queryString) = @_;
+
+    my $initAttrs = $this->initialAttributes;
+    my $path      = $queryString;
+    my $urlParams = '';
+    if ( $queryString =~ /(.*)\?(.*)/ ) {
+        $path      = $1;
+        $urlParams = $2;
+    }
+
+    if ( $path =~ s/(https?):\/\/(.*?)\/// ) {
+        my $protocol = $1;
+        my $host     = $2;
+        if ( $protocol =~ /https/i ) {
+            $initAttrs->{secure} = 1;
+        }
+        else {
+            $initAttrs->{secure} = 0;
+        }
+
+        #print STDERR "setting Host to $host\n";
+        $initAttrs->{headers}{Host} = $host;
+    }
+
+    $initAttrs->{query_string} = $urlParams;
+    $initAttrs->{path_info}    = Foswiki::Sandbox::untaintUnchecked($path);
+}
 
 around finalizeReturn => sub {
     my $orig     = shift;

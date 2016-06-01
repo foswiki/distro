@@ -24,7 +24,8 @@ sub GROUPS {
         # Nop it to prevent wikiname expansion unless the topic exists.
         my $groupLink = "<nop>$group";
         $groupLink = '[[' . $Foswiki::cfg{UsersWebName} . ".$group][$group]]"
-          if ( $this->topicExists( $Foswiki::cfg{UsersWebName}, $group ) );
+          if (
+            $this->store->topicExists( $Foswiki::cfg{UsersWebName}, $group ) );
         my $descr        = "| $groupLink |";
         my $it           = $this->users->eachGroupMember($group);
         my $limit_output = 32;

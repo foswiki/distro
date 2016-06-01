@@ -52,7 +52,7 @@ sub WEBLIST {
             push( @list, $this->deepWebList( $filter, $rootWeb ) );
         }
         else {
-            push( @list, $aweb ) if ( $this->webExists($aweb) );
+            push( @list, $aweb ) if ( $this->store->webExists($aweb) );
         }
     }
 

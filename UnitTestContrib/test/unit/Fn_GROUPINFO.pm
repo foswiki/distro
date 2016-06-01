@@ -224,7 +224,8 @@ sub test_expandHiddenUser {
 sub test_expandHiddenUserAsAdmin {
     my $this = shift;
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiApp(
+        user => $this->app->cfg->data->{AdminUserLogin} );
     $this->clear_test_topicObject;
     $this->test_topicObject(
         Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) );

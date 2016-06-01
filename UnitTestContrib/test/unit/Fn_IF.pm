@@ -87,7 +87,7 @@ sub test_8 {
     my $this = shift;
     $this->simpleTest(
         test => '$ WIKINAME = \''
-          . Foswiki::Func::getWikiName( $this->session->user ) . "'",
+          . Foswiki::Func::getWikiName( $this->app->user ) . "'",
         then => 1,
         else => 0
     );
@@ -99,7 +99,7 @@ sub test_8a {
     my $this = shift;
     $this->simpleTest(
         test => '$ \'WIKINAME\' = \''
-          . Foswiki::Func::getWikiName( $this->session->user ) . "'",
+          . Foswiki::Func::getWikiName( $this->app->user ) . "'",
         then => 1,
         else => 0
     );
@@ -424,7 +424,7 @@ sub test_42 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->session->user )
+          . Foswiki::Func::getWikiName( $this->app->user )
           . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
@@ -438,7 +438,7 @@ sub test_42a {
     $this->simpleTest(
         test => "'"
           . Foswiki::Func::wikiToUserName(
-            Foswiki::Func::getWikiName( $this->session->user )
+            Foswiki::Func::getWikiName( $this->app->user )
           )
           . "' ingroup 'WikiGuest'",
         then => 0,
@@ -451,7 +451,7 @@ sub test_42a {
 sub test_42b {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $this->session->user . "' ingroup 'WikiGuest'",
+        test => "'" . $this->app->user . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -464,7 +464,7 @@ sub test_43 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->session->user )
+          . Foswiki::Func::getWikiName( $this->app->user )
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
         else => 1
@@ -478,7 +478,7 @@ sub test_43a {
     $this->simpleTest(
         test => "'"
           . Foswiki::Func::wikiToUserName(
-            Foswiki::Func::getWikiName( $this->session->user )
+            Foswiki::Func::getWikiName( $this->app->user )
           )
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
@@ -492,7 +492,7 @@ sub test_43b {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $this->session->user
+          . $this->app->user
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
         else => 1
@@ -507,7 +507,7 @@ sub test_44 {
     $this->simpleTest(
         test => "'"
           . Foswiki::Func::wikiToUserName(
-            Foswiki::Func::getWikiName( $this->session->user )
+            Foswiki::Func::getWikiName( $this->app->user )
           )
           . "' ingroup '$Foswiki::cfg{SuperAdminGroup}'",
         then => 0,
@@ -521,7 +521,7 @@ sub test_44a {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->session->user )
+          . Foswiki::Func::getWikiName( $this->app->user )
           . "' ingroup '$Foswiki::cfg{SuperAdminGroup}'",
         then => 0,
         else => 1
@@ -534,7 +534,7 @@ sub test_44b {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $this->session->user
+          . $this->app->user
           . "' ingroup '$Foswiki::cfg{SuperAdminGroup}'",
         then => 0,
         else => 1
@@ -549,7 +549,7 @@ sub test_45 {
     $this->simpleTest(
         test => "'"
           . Foswiki::Func::wikiToUserName(
-            Foswiki::Func::getWikiName( $this->session->user )
+            Foswiki::Func::getWikiName( $this->app->user )
           )
           . "' ingroup 'GropeGroup'",
         then => 1,
@@ -563,7 +563,7 @@ sub test_45a {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->session->user )
+          . Foswiki::Func::getWikiName( $this->app->user )
           . "' ingroup 'GropeGroup'",
         then => 1,
         else => 0
@@ -578,7 +578,7 @@ sub test_45b {
     # Test using cUID should FAIL. Users of %IF should only use login and
     # display names, the cUID is internal use only.
     $this->simpleTest(
-        test => "'" . $this->session->user . "' ingroup 'GropeGroup'",
+        test => "'" . $this->app->user . "' ingroup 'GropeGroup'",
         then => 0,
         else => 1
     );
@@ -772,7 +772,7 @@ sub test_62 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->session->user )
+          . Foswiki::Func::getWikiName( $this->app->user )
           . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
@@ -785,7 +785,7 @@ sub test_63 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->session->user )
+          . Foswiki::Func::getWikiName( $this->app->user )
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
         else => 1
@@ -798,7 +798,7 @@ sub test_64 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->session->user )
+          . Foswiki::Func::getWikiName( $this->app->user )
           . "' ingroup '"
           . $Foswiki::cfg{SuperAdminGroup} . "'",
         then => 0,
@@ -812,7 +812,7 @@ sub test_65 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->session->user )
+          . Foswiki::Func::getWikiName( $this->app->user )
           . "' ingroup 'GropeGroup'",
         then => 1,
         else => 0
@@ -1313,7 +1313,7 @@ sub set_up {
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, "GropeGroup" );
     $topicObject->text( "   * Set GROUP = "
-          . Foswiki::Func::getWikiName( $this->session->user )
+          . Foswiki::Func::getWikiName( $this->app->user )
           . "\n" );
     $topicObject->save();
     undef $topicObject;
@@ -1329,7 +1329,7 @@ sub set_up {
 
 sub simpleTest {
     my ( $this, %test ) = @_;
-    $this->session->enterContext('test');
+    $this->app->enterContext('test');
 
     # reset the cache
     undef $Foswiki::Query::Node::isAccessibleCfg;
@@ -1340,11 +1340,11 @@ sub simpleTest {
     $this->request->param( 'empty',    '' );
     $this->request->param( 'notempty', 'v' );
     $this->request->param( 'empty',    '' );
-    $this->session->prefs->setInternalPreferences(
+    $this->app->prefs->setInternalPreferences(
         'NOTEMPTY' => 'V',
         'EMPTY'    => ''
     );
-    $this->session->prefs->setSessionPreferences(
+    $this->app->prefs->setSessionPreferences(
         'SNOTEMPTY' => 'V',
         'SEMPTY'    => ''
     );
@@ -1430,7 +1430,7 @@ PONG
 
 sub test_ALLOWS_and_EXISTS {
     my $this = shift;
-    my $wn   = Foswiki::Func::getWikiName( $this->session->user );
+    my $wn   = Foswiki::Func::getWikiName( $this->app->user );
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, "DeadDog" );
     $meta->text( <<"PONG");
    * Set ALLOWTOPICVIEW = WibbleFloon
@@ -1575,9 +1575,13 @@ PONG
             expect => "0"
         }
     );
-    my $request = Unit::Request->new( initializer => {} );
-    $request->path_info( "/" . $this->test_web . "/" . $this->test_topic );
-    $this->createNewFoswikiSession( undef, $request );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => {}, },
+        engineParams  => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/" . $this->test_topic, },
+        },
+    );
     ($meta) = Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
 
     foreach my $test (@tests) {
@@ -1625,7 +1629,7 @@ PONG
 
     $this->assert_num_equals( $ti->{version}, 1 );
     $this->assert(
-        $this->{session}->topicExists( $this->{test_web}, $topicName ) );
+        $this->app->store->topicExists( $this->test_web, $topicName ) );
 
 #TODO: these need to be moved into Fn_META and then implemented (its a really simple change in Foswiki.pm
 #    $this->assert_str_equals(
@@ -1637,7 +1641,7 @@ PONG
 #        '1'
 #    );
 #    $this->assert_str_equals(
-#        $meta->expandMacros('%META{"' . $this->{test_web} . '.' . $topicName . '/info.rev"}%'),
+#        $meta->expandMacros('%META{"' . $this->test_web . '.' . $topicName . '/info.rev"}%'),
 #        '1'
 #    );
 
@@ -1653,7 +1657,7 @@ PONG
     push(
         @tests,
         {
-            test   => "'$this->{test_web}.$topicName'/info.version = '1'",
+            test   => "'" . $this->test_web . ".$topicName'/info.version = '1'",
             expect => "1"
         }
     );

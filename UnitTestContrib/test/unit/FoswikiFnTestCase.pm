@@ -25,7 +25,6 @@ targeting single classes).
 =cut
 
 use Foswiki();
-use Unit::Request();
 
 #use Unit::Response();
 use Foswiki::UI::Register();
@@ -73,7 +72,7 @@ has response           => (
     lazy      => 1,
     predicate => 1,
     isa       => Foswiki::Object::isaCLASS( 'response', 'Foswiki::Response' ),
-    default   => sub { return $_[0]->create('Foswiki::Response'); },
+    default   => sub { return $_[0]->app->response; },
 );
 
 =begin TML
@@ -121,13 +120,16 @@ around set_up => sub {
     $orig->( $this, @_ );
 
     my $env = $this->app->cloneEnv;
-    $env->{FOSWIKI_TEST_PATH_INFO} =
-      "/" . $this->test_web . "/" . $this->test_topic;
 
     # Note: some tests are testing Foswiki::UI which also creates a session
     $this->createNewFoswikiApp(
-        env           => $env,
+
+        #env           => $env,
         requestParams => { initializer => "" },
+        engineParams  => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/" . $this->test_topic },
+        },
     );
 
     #$this->response( $this->create('Unit::Response') );

@@ -32,8 +32,8 @@ around set_up => sub {
 
     File::Path::mkpath($test_tmpls);
 
-    $this->createNewFoswikiSession();
-    $tmpls = $this->session->templates;
+    $this->createNewFoswikiApp;
+    $tmpls = $this->app->templates;
 
     $Foswiki::cfg{TemplateDir} = $test_tmpls;
     $Foswiki::cfg{TemplatePath} =
@@ -164,14 +164,13 @@ sub test_SET_empty2 {
 sub test_SET_topic_context {
     my $this = shift;
 
-    $this->session->{prefs}
-      ->pushTopicContext( $this->test_web, $this->test_topic );
+    $this->app->prefs->pushTopicContext( $this->test_web, $this->test_topic );
     my $result =
       $this->test_topicObject->expandMacros('%SET{"foo" value="bar"}%');
 
     $this->assert_str_equals( "", $result );
 
-    $this->session->prefs->popTopicContext();
+    $this->app->prefs->popTopicContext();
 
     $result =
       $this->test_topicObject->expandMacros(

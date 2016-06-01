@@ -24,7 +24,7 @@ FORM
     $topicObject->save();
     undef $topicObject;
     my $def =
-      Foswiki::Form->loadCached( $this->session, $this->test_web, 'TestForm' );
+      Foswiki::Form->loadCached( $this->app, $this->test_web, 'TestForm' );
     $this->assert($def);
     $this->assert_equals( 1, scalar @{ $def->getFields() } );
     my $f = $def->getField('Date');
@@ -56,7 +56,7 @@ FORM
     $topicObject->save();
     undef $topicObject;
     my $def =
-      Foswiki::Form->loadCached( $this->session, $this->test_web, 'TestForm' );
+      Foswiki::Form->loadCached( $this->app, $this->test_web, 'TestForm' );
 
     $this->assert_equals( 7, scalar @{ $def->getFields() } );
     my $f = $def->getField('Select');
@@ -139,7 +139,7 @@ FORM
     undef $topicObject;
 
     my $def =
-      Foswiki::Form->loadCached( $this->session, $this->test_web, 'TestForm' );
+      Foswiki::Form->loadCached( $this->app, $this->test_web, 'TestForm' );
 
     $this->assert_equals( 1, scalar @{ $def->getFields() } );
     my $f = $def->getField('ValsElsewhere');
@@ -176,8 +176,7 @@ FORM
 FORM
     $topicObject->save();
     undef $topicObject;
-    my $def =
-      Foswiki::Form->loadCached( $this->session, $test_web, 'TestForm' );
+    my $def = Foswiki::Form->loadCached( $this->app, $test_web, 'TestForm' );
 
     $this->assert_equals( 1, scalar @{ $def->getFields() } );
     my $f = $def->getField('ValsElsewhere');
@@ -214,7 +213,7 @@ FORM
     $topicObject->save();
     undef $topicObject;
     my $def =
-      Foswiki::Form->loadCached( $this->session, $this->test_web, 'TestForm' );
+      Foswiki::Form->loadCached( $this->app, $this->test_web, 'TestForm' );
 
     $this->assert_equals( 1, scalar @{ $def->getFields() } );
     my $f = $def->getField('Ecks');
@@ -247,7 +246,7 @@ FORM
     $topicObject->save();
     undef $topicObject;
     my $def =
-      Foswiki::Form->loadCached( $this->session, $this->test_web, 'TestForm' );
+      Foswiki::Form->loadCached( $this->app, $this->test_web, 'TestForm' );
 
     $this->assert_equals( 1, scalar @{ $def->getFields() } );
     my $f = $def->getField('Ecks');
@@ -277,7 +276,7 @@ FORM
     undef $topicObject;
 
     my $def =
-      Foswiki::Form->loadCached( $this->session, $this->test_web, 'TestForm' );
+      Foswiki::Form->loadCached( $this->app, $this->test_web, 'TestForm' );
 
     my $f = $def->getField('Ecks');
     $this->assert_str_equals( 'SplodgeOne;Blah',
@@ -301,7 +300,7 @@ FORM
     undef $topicObject;
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SplodgeOne' );
     my $form =
-      Foswiki::Form->loadCached( $this->session, $this->test_web,
+      Foswiki::Form->loadCached( $this->app, $this->test_web,
         'NonExistantForm', $meta );
     my $f = $form->getField('Ecks');
     $this->assert_str_equals( '',     $f->getDefaultValue() );
@@ -323,7 +322,7 @@ FORM
     $topicObject->save();
     undef $topicObject;
     my $def =
-      Foswiki::Form->loadCached( $this->session, $this->test_web, 'TestForm' );
+      Foswiki::Form->loadCached( $this->app, $this->test_web, 'TestForm' );
 
     my $f = $def->getField('Select');
     $this->assert_str_equals( 'select+values', $f->type );
@@ -338,9 +337,10 @@ FORM
 sub test_Item10987_formObjClass {
     my ($this) = @_;
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName} );
+    $this->createNewFoswikiApp(
+        user => $this->app->cfg->data->{AdminUserWikiName} );
     my $formObj =
-      Foswiki::Form->loadCached( $this->session, $Foswiki::cfg{SystemWebName},
+      Foswiki::Form->loadCached( $this->app, $Foswiki::cfg{SystemWebName},
         'UserForm' );
     $this->assert( $formObj->isa('Foswiki::Form') );
     my @fields = $formObj->getFields();

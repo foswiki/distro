@@ -225,8 +225,10 @@ around set_up => sub {
     my $orig = shift;
     my $this = shift;
 
+    $| = 1;
+
     $orig->( $this, @_ );
-    $this->sup( $this->session->getScriptUrl( 0, 'view' ) );
+    $this->sup( $this->app->cfg->getScriptUrl( 0, 'view' ) );
     my ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'H_' );
     $topicObject->text("BLEEGLE");
     $topicObject->save();
@@ -261,13 +263,15 @@ around tear_down => sub {
     my $orig = shift;
     my $this = shift;
 
-    $this->removeWebFixture( $this->session, 'Aa' )
+    $this->removeWebFixture('Aa')
       if ( Foswiki::Func::webExists('Aa') );
-    $this->removeWebFixture( $this->session, 'AA' )
+    $this->removeWebFixture('AA')
       if ( Foswiki::Func::webExists('AA') );
-    $this->removeWebFixture( $this->session, 'This(is)' )
+    $this->removeWebFixture('This(is)')
       if ( Foswiki::Func::webExists('This(is)') );
     $orig->( $this, @_ );
+
+    $| = 0;
 };
 
 around loadExtraConfig => sub {
@@ -307,7 +311,7 @@ sub _gen_sanity_tests {
 # can see the nops.
 sub do_test {
     my ( $this, $expected, $actual, $noHtml ) = @_;
-    my $session = $this->session;
+    my $app = $this->app;
 
     $actual = $this->test_topicObject->expandMacros($actual);
     $actual = $this->test_topicObject->renderTML($actual);
@@ -1031,11 +1035,10 @@ sub test_shortAcronyms {
     # regular expressions.
     my $abbrevLength = 2;
     $Foswiki::regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
-    require Class::Unload;
-    $this->session->clear_renderer;
+    Foswiki::load_package('Class::Unload');
+    $this->app->clear_renderer;
     Class::Unload->unload('Foswiki::Render');
     Foswiki::load_class('Foswiki::Render');
-    $this->session->renderer( Foswiki::Render->( $this->session ) );
 
     my ( $sup, $test_web ) = ( $this->sup, $this->test_web );
     my $expected = <<EXPECTED;
@@ -1061,11 +1064,10 @@ ACTUAL
     # and compile render again so subsequent tests don't fail.
     $abbrevLength = $Foswiki::cfg{AcronymLength} || 3;
     $Foswiki::regex{abbrevRegex} = qr/[[:upper:]]{$abbrevLength,}s?\b/;
-    require Class::Unload;
-    $this->session->clear_renderer;
+    Foswiki::load_package('Class::Unload');
+    $this->app->clear_renderer;
     Class::Unload->unload('Foswiki::Render');
     Foswiki::load_class('Foswiki::Render');
-    $this->session->renderer( Foswiki::Render->new( $this->session ) );
 
 }
 
@@ -1405,7 +1407,7 @@ sub test_4067_entities {
 sub test_internalLinkSpacedText_Item8713 {
     my $this = shift;
 
-    my $editURI = $this->session->getScriptUrl( 0, 'edit' );
+    my $editURI = $this->app->cfg->getScriptUrl( 0, 'edit' );
 
     my $expected = <<EXPECTED;
 <a class="foswikiNewLink" href="$editURI/DiscussWikiPhilosophyVs/Technology?topicparent=TemporaryFormattingTestWebFormatting.TestTopicFormatting" rel="nofollow" title="Create this topic">discuss 'wiki': philosophy vs. technology</a>
@@ -1461,7 +1463,7 @@ sub test_render_PlainText {
 #extractFormat feature
     $this->assert_str_equals(
         'Apache is the well known web server.',
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
 'Apache is the [[http://www.apache.org/httpd/][well known web server]].'
         )
     );
@@ -1469,67 +1471,67 @@ sub test_render_PlainText {
     #test a few others to try to not break things
     $this->assert_matches(
 qr/Apache is the\s+http:\/\/www\.apache\.org\/httpd\/ well known web server\s*\./,
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
 'Apache is the [[http://www.apache.org/httpd/ well known web server]].'
         )
     );
     $this->assert_str_equals(
         'Apache is the well known web server.',
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
             'Apache is the [[ApacheServer][well known web server]].')
     );
 
     #SMELL: an unexpected result :/
     $this->assert_str_equals(
         'Apache is the   well known web server  .',
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
             'Apache is the [[well known web server]].')
     );
     $this->assert_str_equals(
         'Apache is the well known web server.',
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
             'Apache is the well known web server.')
     );
 
     #non formatting uses of formatting markup
     $this->assert_str_equals(
         'Apache 2*3 is the well known web server.',
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
             'Apache 2*3 is the [[ApacheServer][well known web server]].')
     );
     $this->assert_str_equals(
         'Apache 2=3 is the well known web server.',
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
             'Apache 2=3 is the [[ApacheServer][well known web server]].')
     );
 
     $this->assert_str_equals(
         'Apache 1_1 is the well known web server.',
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
             'Apache 1_1 is the [[ApacheServer][well known web server]].')
     );
 
 #    $this->assert_str_equals(
 #        'Apache 1_1 is the %SEARCH{"one" section="two"}% well known web server.',
-#        $this->session->renderer->TML2PlainText(
+#        $this->app->renderer->TML2PlainText(
 #            'Apache 1_1 is the %SEARCH{"one" section="two"}% [[ApacheServer][well known web server]].')
 #    );
 #formatting uses of formatting markup
     $this->assert_str_equals(
         'Apache 2.3 is the well known web server.',
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
             'Apache *2.3* is the [[ApacheServer][well known web server]].')
     );
 
     $this->assert_str_equals(
         'Apache 1.1 is the well known web server.',
-        $this->session->renderer->TML2PlainText(
+        $this->app->renderer->TML2PlainText(
             '__Apache 1.1__ is the [[ApacheServer][well known web server]].')
     );
 
 #    $this->assert_str_equals(
 #        'Apache 1_1 _is_ the %INCLUDE{"one" section="two"}% well known web server.',
-#        $this->session->renderer->TML2PlainText(
+#        $this->app->renderer->TML2PlainText(
 #            'Apache 1_1 is the %INCLUDE{"one" section="two"}% [[ApacheServer][well known web server]].')
 #    );
 }
@@ -1906,7 +1908,8 @@ sub _create_link_test_fixtures {
 
     $this->_create_topic( $this->test_web, 'Aa' );
     $this->_create_topic( $this->test_web, 'AA' );
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin} );
+    $this->createNewFoswikiApp(
+        user => $this->app->cfg->data->{AdminUserLogin} );
     Foswiki::Func::createWeb('Aa');
     $this->_create_topic( 'Aa', 'Bb' );
     Foswiki::Func::createWeb('AA');
@@ -1929,9 +1932,9 @@ sub _create_link_test_fixtures {
 sub _remove_link_test_fixtures {
     my $this = shift;
 
-    $this->removeWebFixture( $this->session, 'Aa' );
-    $this->removeWebFixture( $this->session, 'AA' );
-    $this->removeWebFixture( $this->session, 'This(is)' );
+    $this->removeWebFixture('Aa');
+    $this->removeWebFixture('AA');
+    $this->removeWebFixture('This(is)');
 
     return;
 }

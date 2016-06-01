@@ -111,54 +111,6 @@ has noLocal          => ( is => 'rw', default => 0, );
 
 =begin TML
 
----++ Attribute urlHost
-
-=cut
-
-has urlHost => (
-    is      => 'rw',
-    lazy    => 1,
-    clearer => 1,
-    default => sub {
-        my $this = shift;
-
-        #{urlHost}  is needed by loadSession..
-        my $url = $this->app->request->url;
-        my $cfg = $this->app->cfg;
-        my $urlHost;
-        if (   $url
-            && !$cfg->data->{ForceDefaultUrlHost}
-            && $url =~ m{^([^:]*://[^/]*).*$} )
-        {
-            $urlHost = $1;
-
-            if ( $cfg->data->{RemovePortNumber} ) {
-                $urlHost =~ s/\:[0-9]+$//;
-            }
-
-            # If the urlHost in the url is localhost, this is a lot less
-            # useful than the default url host. This is because new CGI("")
-            # assigns this host by default - it's a default setting, used
-            # when there is nothing better available.
-            if ( $urlHost =~ m/^(https?:\/\/)localhost$/i ) {
-                my $protocol = $1;
-
-#only replace localhost _if_ the protocol matches the one specified in the DefaultUrlHost
-                if ( $cfg->data->{DefaultUrlHost} =~ m/^$protocol/i ) {
-                    $urlHost = $cfg->data->{DefaultUrlHost};
-                }
-            }
-        }
-        else {
-            $urlHost = $cfg->data->{DefaultUrlHost};
-        }
-        ASSERT($urlHost) if DEBUG;
-        return $urlHost;
-    },
-);
-
-=begin TML
-
 ---++ ClassMethod new([noExpand => 0/1][, noSpec => 0/1][, configSpec => 0/1][, noLoad => 0/1])
    
    * =noExpand= - suppress expansion of $Foswiki vars embedded in
@@ -1071,6 +1023,71 @@ sub getScriptUrl {
     $url .= make_params(@params);
 
     return $url;
+}
+
+=begin TML
+
+---++ ObjectMethod patch(%cfgChunk) or patch(\%cfgChunk)
+
+Patches the config object data with keys in =%cfgChunk=. Keys already existing
+in the config data are overriden with those from the chunk.
+
+=cut
+
+sub patch {
+    my $this = shift;
+    my %cfgChunk;
+    if ( @_ == 1 ) {
+        %cfgChunk = %{ $_[0] };
+    }
+    else {
+        %cfgChunk = @_;
+    }
+    my $data = $this->data;
+    $data->{$_} = $cfgChunk{$_} foreach keys %cfgChunk;
+}
+
+=begin TML
+
+---++ ObjectMethod urlHost
+
+=cut
+
+sub urlHost {
+    my $this = shift;
+
+    #{urlHost}  is needed by loadSession..
+    my $url = $this->app->request->url;
+    my $cfg = $this->app->cfg;
+    my $urlHost;
+    if (   $url
+        && !$cfg->data->{ForceDefaultUrlHost}
+        && $url =~ m{^([^:]*://[^/]*).*$} )
+    {
+        $urlHost = $1;
+
+        if ( $cfg->data->{RemovePortNumber} ) {
+            $urlHost =~ s/\:[0-9]+$//;
+        }
+
+        # If the urlHost in the url is localhost, this is a lot less
+        # useful than the default url host. This is because new CGI("")
+        # assigns this host by default - it's a default setting, used
+        # when there is nothing better available.
+        if ( $urlHost =~ m/^(https?:\/\/)localhost$/i ) {
+            my $protocol = $1;
+
+#only replace localhost _if_ the protocol matches the one specified in the DefaultUrlHost
+            if ( $cfg->data->{DefaultUrlHost} =~ m/^$protocol/i ) {
+                $urlHost = $cfg->data->{DefaultUrlHost};
+            }
+        }
+    }
+    else {
+        $urlHost = $cfg->data->{DefaultUrlHost};
+    }
+    ASSERT($urlHost) if DEBUG;
+    return $urlHost;
 }
 
 # Preset values that are hard-coded and not coming from external sources.

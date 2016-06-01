@@ -169,8 +169,8 @@ sub rest {
     unless ($record) {
         $res->header( -type => 'text/html', -status => '404' );
         $err =
-            'ERROR: (404) Invalid REST invocation - '
-          . $req->pathInfo
+          'ERROR: (404) Invalid REST invocation - '
+          . $req->pathInfo    # SMELL Insecure, must be encoded!
           . ' does not refer to a known handler';
         _listHandlers($res) if $app->inContext('command_line');
         $app->logger->log( 'warning', "REST rejected: " . $err,
@@ -238,8 +238,8 @@ sub rest {
         {
             $res->header( -type => 'text/html', -status => '401' );
             $err =
-                "ERROR: (401) "
-              . $req->pathInfo
+              "ERROR: (401) "
+              . $req->pathInfo    # SMELL Insecure, must be encoded!
               . " requires you to be logged in";
             $app->logger->log(
                 'warning',
