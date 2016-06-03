@@ -71,7 +71,7 @@ optional method from the path.  eg:  bin/jsonrpc/SomeNamespace/themethod
 sub pathInfo {
     my ( $this, $pathInfo ) = @_;
 
-    print STDERR " pathInfo entered " . Data::Dumper::Dumper( \$pathInfo )
+    _writeDebug( "pathInfo entered " . Data::Dumper::Dumper( \$pathInfo ) )
       if Foswiki::Request::TRACE;
 
     return $_[0]->SUPER::pathInfo() if @_ == 1;
@@ -152,7 +152,7 @@ Call SUPER::method() to access the http method.
 sub method {
     my ( $this, $value ) = @_;
 
-    print STDERR "method entered " . Data::Dumper::Dumper( \$value )
+    _writeDebug( "method entered " . Data::Dumper::Dumper( \$value ) )
       if Foswiki::Request::TRACE;
 
     if ( defined $value && !defined $this->{_jsondata} && lc($value) ne 'post' )
@@ -195,7 +195,7 @@ sub _establishJSON {
     $data = ( ref($foo) eq 'ARRAY' ) ? shift @$foo : $foo;
 
     $data ||= '{"jsonrpc":"2.0"}';    # Minimal setup
-    writeDebug("data=$data") if Foswiki::Request::TRACE;
+    _writeDebug("data=$data") if Foswiki::Request::TRACE;
 
     $this->initFromString($data);
 
@@ -214,7 +214,7 @@ sub _establishJSON {
         "Invalid JSON-RPC request - no method" )
       unless defined $this->jsonmethod();
 
-    writeDebug( "method=" . $this->jsonmethod() || 'undef' )
+    _writeDebug( "jsonmethod=" . ( $this->jsonmethod() || 'undef' ) )
       if Foswiki::Request::TRACE;
 
     # must not have any other keys other than these
@@ -237,11 +237,15 @@ Initializes the {_jsondata} hash by processing the POSTDATA from the request.
 sub initFromString {
     my ( $this, $data ) = @_;
 
-    print STDERR "initFromString\n$data\n"
-      if Foswiki::Request::TRACE;
+    _writeDebug("initFromString\n$data") if Foswiki::Request::TRACE;
 
     # parse json-rpc request
-    eval { $this->{_jsondata} = $this->json->decode($data); };
+    eval {
+        %{ $this->{_jsondata} } =
+          ( %{ $this->{_jsondata} }, %{ $this->json->decode($data) } );
+    };
+    _writeDebug(
+        "after jsondata=" . Data::Dumper::Dumper( $this->{_jsondata} ) );
 
     if ($@) {
         my $error = $@;
@@ -350,7 +354,8 @@ can both read and write.
 sub jsonmethod {
     my ( $this, $value ) = @_;
 
-    print STDERR "jsonmethod entered " . Data::Dumper::Dumper( \$value )
+    _writeDebug(
+        "jsonmethod entered (this=$this)" . Data::Dumper::Dumper( \$value ) )
       if Foswiki::Request::TRACE;
 
     $this->{_jsondata}{method} = $value if defined $value;
@@ -439,7 +444,7 @@ sub web {
         $this->_establishAddress();
     }
 
-    print STDERR "Request->web() returns " . ( $this->{web} || 'undef' ) . "\n"
+    _writeDebug( "Request->web() returns " . ( $this->{web} || 'undef' ) )
       if Foswiki::Request::TRACE;
     return $this->{web};
 
@@ -466,11 +471,15 @@ sub topic {
         $this->_establishAddress();
     }
 
-    print STDERR "Request->topic() returns "
-      . ( $this->{topic} || 'undef' ) . "\n"
+    _writeDebug( "Request->topic() returns " . ( $this->{topic} || 'undef' ) )
       if Foswiki::Request::TRACE;
     return $this->{topic};
 
+}
+
+# static
+sub _writeDebug {
+    Foswiki::Func::writeDebug("- JsonRpcContrib::Request - $_[0]");
 }
 
 1;
