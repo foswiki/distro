@@ -244,8 +244,6 @@ sub initFromString {
         %{ $this->{_jsondata} } =
           ( %{ $this->{_jsondata} }, %{ $this->json->decode($data) } );
     };
-    _writeDebug(
-        "after jsondata=" . Data::Dumper::Dumper( $this->{_jsondata} ) );
 
     if ($@) {
         my $error = $@;
