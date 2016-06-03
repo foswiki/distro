@@ -479,7 +479,7 @@ sub topic {
 
 # static
 sub _writeDebug {
-    Foswiki::Func::writeDebug("- JsonRpcContrib::Request - $_[0]");
+    print STDERR "- Foswiki::Request::JSON - $_[0]\n";
 }
 
 1;
