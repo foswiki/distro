@@ -14,7 +14,7 @@ use Exporter;
 our @ISA = ('Exporter');
 
 # XXX Set to 1 by default until OO-fication is done.
-use constant DEBUG => 1 || ( $ENV{FOSWIKI_ASSERTS} ) ? 1 : 0;
+use constant DEBUG => ( $ENV{FOSWIKI_ASSERTS} ) ? 1 : 0;
 our @EXPORT = qw(ASSERT UNTAINTED TAINT DEBUG);
 
 our $soft = 0;

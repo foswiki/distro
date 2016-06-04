@@ -253,9 +253,9 @@ sub changePasswordAndOrEmail {
     my $this = shift;
 
     my $app         = $this->app;
+    my $req         = $app->request;
     my $topic       = $req->topic;
     my $webName     = $req->web;
-    my $req         = $app->request;
     my $requestUser = $app->user;
 
     my $oldpassword = $req->param('oldpassword');

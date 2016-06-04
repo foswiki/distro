@@ -50,100 +50,28 @@ sub viewfile {
     my $req = $app->request;
     my $env = $app->env;
 
-    my $web   = $req->web;
-    my $topic = $req->topic;
+    my $web      = $req->web;
+    my $topic    = $req->topic;
+    my $filename = $req->attachment;
 
     my $fileName;
     my $pathInfo;
 
-    if (   defined( $env->{REDIRECT_STATUS} )
-        && $env->{REDIRECT_STATUS} != 200
-        && defined( $env->{REQUEST_URI} ) )
-    {
-
-        # this is a redirect - can be used to make 404,401 etc URL's
-        # more foswiki tailored and is also used in TWikiCompatibility
-        $pathInfo = $env->{REQUEST_URI};
-
-        # ignore parameters, as apache would.
-        $pathInfo =~ s/^(.*)(\?|#).*/$1/;
-
-        # SMELL: not store agnostic, assume the construction of pub urls
-        $pathInfo =~ s|$Foswiki::cfg{PubUrlPath}||;    #remove pubUrlPath
-    }
-    elsif ( defined( $req->param('filename') ) ) {
-
-        # Attachment name is passed in URL params. This is a (possibly
-        # / separated) path relative to the pub/Web/Topic
-        $fileName = $req->param('filename');
-    }
-    else {
-
-        # This is a standard path extended by the attachment name e.g.
-        # /Web/Topic/Attachment.gif
-        $pathInfo = Foswiki::urlDecode( $req->pathInfo );
-    }
-
-    # If we have path_info but no ?filename=
-    if ($pathInfo) {
-        my @path = split( /\/+/, $pathInfo );
-        shift(@path) unless ( $path[0] );    # remove leading empty string
-
-        # work out the web, topic and filename
-        my @web;
-        my $pel =
-          Foswiki::Sandbox::untaint( $path[0],
-            \&Foswiki::Sandbox::validateWebName );
-
-        while ( $pel && $app->store->webExists( join( '/', @web, $pel ) ) ) {
-            push( @web, $pel );
-            shift(@path);
-            $pel =
-              Foswiki::Sandbox::untaint( $path[0],
-                \&Foswiki::Sandbox::validateWebName );
-        }
-
-        $web = join( '/', @web );
-        unless ($web) {
-            Foswiki::OopsException->throw(
-                template => 'attention',
-                def      => 'no_such_attachment',
-                web      => 'Unknown',
-                topic    => 'Unknown',
-                status   => 404,
-                params   => ['?']
-            );
-        }
-
-        # Must set the web name, otherwise plugins may barf if
-        # they try to manipulate the topic context when an oops is generated.
-        $req->web($web);
-
-        # The next element on the path has to be the topic name
-        $topic =
-          Foswiki::Sandbox::untaint( shift(@path),
-            \&Foswiki::Sandbox::validateTopicName );
-
-        if ( !$topic ) {
-            Foswiki::OopsException->throw(
-                template => 'attention',
-                def      => 'no_such_attachment',
-                web      => $web,
-                topic    => 'Unknown',
-                status   => 404,
-                params   => ['?']
-            );
-        }
-
-        # See comment about webName above
-        $req->topic($topic);
-
-        # What's left in the path is the attachment name.
-        $fileName = join( '/', @path );
+    if ( !$topic ) {
+        Foswiki::OopsException->throw(
+            app      => $app,
+            template => 'attention',
+            def      => 'no_such_attachment',
+            web      => $web,
+            topic    => 'Unknown',
+            status   => 404,
+            params   => ['?']
+        );
     }
 
     if ( !$fileName ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'attention',
             def      => 'no_such_attachment',
             web      => $web,
@@ -152,11 +80,6 @@ sub viewfile {
             params   => ['?']
         );
     }
-
-    # Note that there may be directories below the pub/web/topic, so
-    # simply sanitizing the attachment name won't work.
-    $fileName = Foswiki::Sandbox::untaint( $fileName,
-        \&Foswiki::Sandbox::validateAttachmentName );
 
     #print STDERR "VIEWFILE: web($web), topic($topic), file($fileName)\n";
 
@@ -167,6 +90,7 @@ sub viewfile {
     # This check will fail if the attachment has no "presence" in metadata
     unless ( $topicObject->hasAttachment($fileName) ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'attention',
             def      => 'no_such_attachment',
             web      => $web,
@@ -208,6 +132,8 @@ sub viewfile {
 
     # SMELL: Maybe could be less memory hungry if we could
     # set the response body to the file handle.
+    # vrurg: This is absolutely straightforward with PSGI where body could be a
+    # IO::Handle object.
     $app->response->body(<$fh>);
 }
 

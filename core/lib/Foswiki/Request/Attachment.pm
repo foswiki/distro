@@ -37,7 +37,7 @@ has filename => (
     is      => 'rw',
     lazy    => 1,
     default => sub {
-        my $this = shift;
+        return $_[0]->_pathParsed->{filename};
     },
 );
 

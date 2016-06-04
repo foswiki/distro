@@ -2414,8 +2414,14 @@ HERE
 
  #my $q = Foswiki::Func::getRequestObject();
  #$this->createNewFoswikiSession( $this->app->cfg->data->{GuestUserLogin}, $q );
-    $this->createNewFoswikiApp( user => $this->app->cfg->data->{GuestUserLogin},
+    my %appInitParams = (
+        requestParams =>
+          $this->app->_cloneData( $this->app->requestParams, 'requestParams' ),
+        engineParams =>
+          $this->app->_cloneData( $this->app->engineParams, 'engineParams' ),
     );
+    $this->createNewFoswikiApp( %appInitParams,
+        user => $this->app->cfg->data->{GuestUserLogin}, );
     $this->assert_str_equals( "naff",
         Foswiki::Func::getPreferencesValue("PSIBG") );
     Foswiki::Func::setPreferencesValue( "PSIBG", "KJHD" );
@@ -2428,8 +2434,8 @@ HERE
 HERE
 
  #$this->createNewFoswikiSession( $this->app->cfg->data->{GuestUserLogin}, $q );
-    $this->createNewFoswikiApp( user => $this->app->cfg->data->{GuestUserLogin},
-    );
+    $this->createNewFoswikiApp( %appInitParams,
+        user => $this->app->cfg->data->{GuestUserLogin}, );
     $this->assert_str_equals( "naff",
         Foswiki::Func::getPreferencesValue("PSIBG") );
     Foswiki::Func::setPreferencesValue( "PSIBG", "KJHD" );

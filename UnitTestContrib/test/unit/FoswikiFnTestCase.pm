@@ -119,12 +119,7 @@ around set_up => sub {
 
     $orig->( $this, @_ );
 
-    my $env = $this->app->cloneEnv;
-
-    # Note: some tests are testing Foswiki::UI which also creates a session
     $this->createNewFoswikiApp(
-
-        #env           => $env,
         requestParams => { initializer => "" },
         engineParams  => {
             initialAttributes =>
@@ -132,7 +127,6 @@ around set_up => sub {
         },
     );
 
-    #$this->response( $this->create('Unit::Response') );
     @mails = ();
     $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     my $webObject = $this->populateNewWeb( $this->test_web );

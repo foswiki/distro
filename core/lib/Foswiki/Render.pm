@@ -826,7 +826,11 @@ m/\$(?:year|ye|wikiusername|wikiname|week|we|web|wday|username|tz|topic|time|sec
     if ($rrev) {
         my $loadedRev = $topicObject->getLoadedRev() || 0;
         unless ( $rrev == $loadedRev ) {
-            $topicObject = $this->create('Foswiki::Meta');
+            $topicObject = $this->create(
+                'Foswiki::Meta',
+                web   => $topicObject->web,
+                topic => $topicObject->topic
+            );
             $topicObject = $topicObject->load($rrev);
         }
     }

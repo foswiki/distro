@@ -537,6 +537,9 @@ sub handleRequest {
                 $exception->generate;
             }
         }
+        elsif ( $e->isa('Foswiki::OopsException') ) {
+            $e->generate;
+        }
         else {
             Foswiki::Exception::Fatal->rethrow($e);
         }

@@ -405,7 +405,8 @@ sub prepareUploads { }
 
 =begin TML
 
----++ ObjectMethod stringifyHeaders
+---++ ObjectMethod stringifyHeaders(\@psgiReturnArray) => $headersText
+
 =cut
 
 sub stringifyHeaders {
@@ -421,6 +422,19 @@ sub stringifyHeaders {
     }
 
     return $headers . $CRLF;
+}
+
+=begin TML
+
+---++ ObjectMethod stringifyBody(\@psgiReturnArray) => $bodyText
+
+=cut
+
+sub stringifyBody {
+    my $this = shift;
+    my ($return) = @_;
+
+    return join( '', @{ $return->[2] } );
 }
 
 #=begin TML

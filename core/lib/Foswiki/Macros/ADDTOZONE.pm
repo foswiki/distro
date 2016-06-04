@@ -12,7 +12,7 @@ BEGIN {
 }
 
 sub ADDTOZONE {
-    my ( $this, $params, $topicObject ) = @_;
+    my ( $app, $params, $topicObject ) = @_;
 
     my $zones = $params->{_DEFAULT} || $params->{zone} || 'head';
     my $id    = $params->{id}       || $params->{tag}  || '';
@@ -26,7 +26,7 @@ sub ADDTOZONE {
     if ( $topic || $section ) {
         my $web = $topicObject->web;
         $topic ||= $topicObject->topic;
-        ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
+        ( $web, $topic ) = $app->request->normalizeWebTopicName( $web, $topic );
 
         # generate TML only and delay expansion until the zone is rendered
         $text = '%INCLUDE{"' . $web . '.' . $topic . '"';
@@ -40,7 +40,7 @@ sub ADDTOZONE {
 #print STDERR "WARNING: ADDTOZONE was called for zone 'body' ... rerouting it to zone 'script' ... please fix your templates\n";
             $zone = 'script';
         }
-        $this->zones->addToZone( $zone, $id, $text, $requires );
+        $app->zones->addToZone( $zone, $id, $text, $requires );
     }
 
     return (DEBUG) ? "<!--A2Z:$id-->" : '';

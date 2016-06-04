@@ -58,9 +58,13 @@ sub checkAccess {
                 );
             }
             else {
-                throw Foswiki::AccessControlException( 'VIEW',
-                    $session->{user}, 'System', 'Configuration',
-                    'Denied by {FeatureAccess}{Configure} Setting' );
+                throw Foswiki::AccessControlException(
+                    mode   => 'VIEW',
+                    user   => $session->{user},
+                    web    => 'System',
+                    topic  => 'Configuration',
+                    reason => 'Denied by {FeatureAccess}{Configure} Setting'
+                );
             }
         }
     }
@@ -71,9 +75,13 @@ sub checkAccess {
                     'Access to configure denied for non-admin users' );
             }
             else {
-                throw Foswiki::AccessControlException( 'VIEW',
-                    $session->{user}, 'System', 'Configuration',
-                    'Not an admin' );
+                throw Foswiki::AccessControlException(
+                    mode   => 'VIEW',
+                    user   => $session->{user},
+                    web    => 'System',
+                    topic  => 'Configuration',
+                    reason => 'Not an admin'
+                );
             }
         }
     }

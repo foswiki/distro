@@ -265,6 +265,7 @@ sub clone {
     $this->_clear__clone_heap;
     my @profile;
     foreach my $attr ( keys %$this ) {
+        next if $attr =~ /^__/;    # Skip debug-level attrs.
         my $clone_method = "_clone_" . $attr;
         my $attrVal;
         if ( my $method = $this->can($clone_method) ) {

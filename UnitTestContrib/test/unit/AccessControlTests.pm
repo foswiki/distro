@@ -895,7 +895,6 @@ THIS
                     },
                 },
                 engineParams => {
-                    simulate          => 'cgi',
                     initialAttributes => {
                         path_info => "/" . $this->test_web . "/$test_topic",
                         method    => 'GET',

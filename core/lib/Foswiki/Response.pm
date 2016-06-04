@@ -483,7 +483,8 @@ sub print {
     $this->body( $this->body . Foswiki::encode_utf8( join( '', @_ ) ) );
 }
 
-sub finalize {
+# This method was used by FoswikiTestCase only.
+sub __deprecated_finalize {
     my $this = shift;
 
     Foswiki::Exception::Fatal->throw( text => ref($this)

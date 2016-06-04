@@ -1169,12 +1169,14 @@ sub _populatePresets {
     $cfgData->{SwitchBoard}{previewauth} = $cfgData->{SwitchBoard}{preview};
     $cfgData->{SwitchBoard}{rdiff}       = {
         package  => 'Foswiki::UI::RDiff',
+        request  => 'Foswiki::Request',
         function => 'diff',
         context  => { diff => 1 },
     };
     $cfgData->{SwitchBoard}{rdiffauth} = $cfgData->{SwitchBoard}{rdiff};
     $cfgData->{SwitchBoard}{register}  = {
         package => 'Foswiki::UI::Register',
+        request => 'Foswiki::Request',
         method  => 'register_cgi',
         context => { register => 1 },
 

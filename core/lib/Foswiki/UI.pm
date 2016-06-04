@@ -197,7 +197,7 @@ $sub method. Returns the Foswiki::Response object.
 
 =cut
 
-sub _execute {
+sub __deprecated_execute {
     my $this = shift;
     my ( $req, $sub, %initialContext ) = @_;
 
@@ -477,7 +477,7 @@ sub checkTopicExists {
         );
     }
 
-    unless ( $app->topicExists( $web, $topic ) ) {
+    unless ( $app->store->topicExists( $web, $topic ) ) {
         throw Foswiki::OopsException(
             'accessdenied',
             status => 404,
@@ -505,8 +505,13 @@ sub checkAccess {
     my $app = $this->app;
 
     unless ( $topicObject->haveAccess($mode) ) {
-        throw Foswiki::AccessControlException( $mode, $app->user,
-            $topicObject->web, $topicObject->topic, $Foswiki::Meta::reason );
+        throw Foswiki::AccessControlException(
+            mode   => $mode,
+            user   => $app->user,
+            web    => $topicObject->web,
+            topic  => $topicObject->topic,
+            reason => $Foswiki::Meta::reason
+        );
     }
 }
 

@@ -14,12 +14,15 @@ use Moo;
 use namespace::clean;
 extends qw( FoswikiFnTestCase );
 
-my $UI_FN;
-my $SCRIPT_NAME;
-my $SKIN_NAME;
+has script_name => ( is => 'rw' );
+has skin_name   => ( is => 'rw' );
 my %expected_status = (
     search => 302,
-    save   => 302
+    save   => 302,
+
+    # SMELL The old non-OO version was handling viewfile completely differently!
+    viewfile     => 404,
+    viewfileauth => 404,
 );
 
 #TODO: this is beause we're calling the UI::function, not UI:Execute - need to re-write it to use the full engine
@@ -42,17 +45,21 @@ my %expect_table_summary_warnings = ( edit => 1 );
 around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
-    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
     return $orig->( $class, @_, testSuite => "UIFnCompile" );
 };
+
+sub BUILD {
+    my $this = shift;
+    $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
+}
 
 around loadExtraConfig => sub {
     my $orig = shift;
     my $this = shift;
 
     # $this - the Test::Unit::TestCase object
-    $Foswiki::cfg{JQueryPlugin}{Plugins}{PopUpWindow}{Enabled} = 1;
-    $Foswiki::cfg{FeatureAccess}{Configure} = 'ScumBag';
+    $this->app->cfg->data->{JQueryPlugin}{Plugins}{PopUpWindow}{Enabled} = 1;
+    $this->app->cfg->data->{FeatureAccess}{Configure} = 'ScumBag';
 
     $orig->( $this, @_ );
 
@@ -104,9 +111,12 @@ around set_up => sub {
 };
 
 sub fixture_groups {
+    my $this = shift;
     my @scripts;
 
-    foreach my $script ( keys( %{ $Foswiki::cfg{SwitchBoard} } ) ) {
+    my $cfg = $this->app->cfg;
+
+    foreach my $script ( keys( %{ $cfg->data->{SwitchBoard} } ) ) {
         next
           unless $script =~
 m/^(attach|changes|compare|compareauth|configure|edit|jsonrpc|login|logon|manage|oops|preview|previewauth|rdiff|rdiffauth|register|rename|resetpasswd|rest|restauth|save|search|statistics|upload|viewauth|viewfile|viewfileauth)$/;
@@ -114,42 +124,55 @@ m/^(attach|changes|compare|compareauth|configure|edit|jsonrpc|login|logon|manage
         next if ( defined( &{$script} ) );
 
         #print STDERR "defining sub $script()\n";
-        my $dispatcher = $Foswiki::cfg{SwitchBoard}{$script};
+        my $dispatcher = $cfg->data->{SwitchBoard}{$script};
         if ( ref($dispatcher) eq 'ARRAY' ) {
 
             # Old-style array entry in switchboard from a plugin
             my @array = @{$dispatcher};
             $dispatcher = {
-                package  => $array[0],
-                function => $array[1],
-                context  => $array[2],
+                package => $array[0],
+                method  => $array[1],
+                context => $array[2],
             };
         }
         next unless ( ref($dispatcher) eq 'HASH' );    #bad switchboard entry.
 
-        my $package  = $dispatcher->{package} || 'Foswiki::UI';
-        my $function = $dispatcher->{function};
-        my $sub      = $package . '::' . $function;
+        my $package = $dispatcher->{package} || 'Foswiki::UI';
+        my $method = $dispatcher->{method} // $dispatcher->{function};
+        my $sub = $package . '::' . $method;
+
+        $this->script_name($script);
 
         #print STDERR "call $sub\n";
-        if (
-            not(
-                eval {
-                    no strict 'refs';
-                    *{$script} = sub {
-                        Foswiki::load_package( $package, method => $sub )
-                          if ( defined($package) );
-                        $UI_FN       = $sub;
-                        $SCRIPT_NAME = $script;
-                    };
-                    use strict 'refs';
-                    1;
-                }
-            )
-          )
-        {
-            die $@;
+        #if (
+        #    not(
+        #        eval {
+        #            no strict 'refs';
+        #            *{$script} = sub {
+        #                Foswiki::load_package( $package, method => $sub )
+        #                  if ( defined($package) );
+        #                $UI_FN       = $sub;
+        #                $SCRIPT_NAME = $script;
+        #            };
+        #            use strict 'refs';
+        #            1;
+        #        }
+        #    )
+        #  )
+        #{
+        #    die $@;
+        #}
+        try {
+            no strict 'refs';
+            *{$script} = sub {
+                my $this = shift;
+                $this->script_name($script);
+            };
+            use strict 'refs';
         }
+        catch {
+            Foswiki::Exception::Fatal->rethrow($_);
+        };
     }
 
     my @skins;
@@ -163,7 +186,7 @@ m/^(attach|changes|compare|compareauth|configure|edit|jsonrpc|login|logon|manage
         eval {
             no strict 'refs';
             *{$skin} = sub {
-                $SKIN_NAME = $skin;
+                $this->skin_name($skin);
             };
             use strict 'refs';
         };
@@ -180,38 +203,39 @@ sub call_UI_FN {
     my %constructor = (
         webName   => [$web],
         topicName => [$topic],
-        skin      => $SKIN_NAME
+        skin      => $this->skin_name,
     );
     if ($params) {
         %constructor = ( %constructor, %{$params} );
     }
-    my $query = Unit::Request->new( initializer => \%constructor );
-    $query->path_info("/$web/$topic");
-    $query->method('GET');
 
 #turn off ASSERTS so we get less plain text erroring - the user should always see html
     local $ENV{FOSWIKI_ASSERTS} = 0;
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->createNewFoswikiApp(
+        user          => $this->test_user_login,
+        env           => \%ENV,
+        requestParams => { initializer => \%constructor, },
+        engineParams  => {
+            initialAttributes => {
+                path_info => "/$web/$topic",
+                method    => "GET",
+                action    => $this->script_name,
+            },
+        },
+    );
     my ( $responseText, $result, $stdout, $stderr );
     $responseText = 'Status: 500';    #errr, boom
     try {
         ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
-            $SCRIPT_NAME => sub {
-                no strict 'refs';
-                &{$UI_FN}( $this->session );
-                use strict 'refs';
-                $Foswiki::engine->finalize( $this->session->response,
-                    $this->session->request );
+            $this->script_name => sub {
+                return $this->app->handleRequest;
             }
         );
     }
     catch {
-        my $e = $_;
-        unless (
-            ref($e)
-            && (   $e->isa('Foswiki::OopsException')
-                || $e->isa('Foswiki::EngineException') )
-          )
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        unless ( $e->isa('Foswiki::OopsException')
+            || $e->isa('Foswiki::EngineException') )
         {
             Foswiki::Exception::Fatal->rethrow($e);
         }
@@ -219,9 +243,19 @@ sub call_UI_FN {
     };
 
     $this->assert($responseText);
-    $this->assert_matches( qr/^1?$/, $result,
-        "$SCRIPT_NAME returned '$result'" )
-      if defined $result;
+    $this->assert(
+        defined($result),
+        "Undefined return from "
+          . $this->script_name
+          . " script."
+          . (
+            $stderr
+            ? " script error output:\n" . $stderr
+            : ( $stdout ? " script output:\n" . $stdout : '' )
+          )
+    );
+    $this->assert( ref($result) eq 'ARRAY',
+        "Capture returned " . ( ref($result) // $result // '*undef*' ) );
 
     # Item11945: Foswiki now logs when bad or missing form types are used, so
     # check STDERR is only a single line & that it contains that warning
@@ -230,40 +264,29 @@ sub call_UI_FN {
             !$stderr || ( scalar( $stderr =~ m/([\r\n]+)/g ) == 1
                 && $stderr =~ m/error compiling class Foswiki::Form::Nuffin/ )
         ),
-        "$SCRIPT_NAME errored: '$stderr'"
+        $this->script_name . " errored: '$stderr'"
     ) if defined $stderr;
 
-    # Remove CGI header
-    my $CRLF = "\015\012";    # "\r\n" is not portable
-    my ( $header, $body );
-    if ( $responseText =~ m/^(.*?)$CRLF$CRLF(.+)$/s
-        or ( $stdout && $stdout =~ m/^(.*?)$CRLF$CRLF(.*)$/s ) )
-    {
+    my $engine = $this->app->engine;
 
-        # Response can be in stdout if the request is split, like for
-        # statistics
-        $header = $1;    # untaint is OK, it's a test
-        $body   = $2;
-    }
-    else {
-        $header = '';
-        $body   = $responseText;
-    }
+    my ( $header, $body ) =
+      ( $engine->stringifyHeaders($result), $engine->stringifyBody($result) );
 
-    my $status = 666;
-    if ( $header =~ m/^Status: (\d*).*/ms ) {
-        $status = $1;
-    }
+    #if ( $responseText =~ m/^(.*?)$CRLF$CRLF(.+)$/s
+    #    or ( $stdout && $stdout =~ m/^(.*?)$CRLF$CRLF(.*)$/s ) )
+    #{
+    #
+    #    # Response can be in stdout if the request is split, like for
+    #    # statistics
+    #    $header = $1;    # untaint is OK, it's a test
+    #    $body   = $2;
+    #}
+    #else {
+    #    $header = '';
+    #    $body   = $responseText;
+    #}
 
-    # aparently we allow the web server to add a 200 status thus risking that
-    # an error situation is marked as 200
-    # $this->assert_num_not_equals(666, $status,
-    #     "no response Status set in probably valid reply\nHEADER: $header\n");
-    if ( $status == 666 ) {
-        $status = 200;
-    }
-
-    return ( $status, $header, $body, $stdout, $stderr );
+    return ( $result->[0], $header, $body, $stdout, $stderr );
 }
 
 sub do_save_attachment {
@@ -294,12 +317,20 @@ sub add_attachment {
         createlink => $params->{createlink} || 1,
     );
     $this->assert(
-        open( $save_params{stream}, '>', $Foswiki::cfg{TempfileDir} . $name ) );
+        open(
+            $save_params{stream}, '>',
+            $this->app->cfg->data->{TempfileDir} . $name
+        )
+    );
     my $size = do_create_file( $save_params{stream}, $data );
     $this->assert( close( $save_params{stream} ) );
     $save_params{filesize} = $size;
     $this->assert(
-        open( $save_params{stream}, '<', $Foswiki::cfg{TempfileDir} . $name ) );
+        open(
+            $save_params{stream}, '<',
+            $this->app->cfg->data->{TempfileDir} . $name
+        )
+    );
     do_save_attachment( $web, $topic, $name, \%save_params );
     $this->assert( close( $save_params{stream} ) );
 
@@ -378,7 +409,9 @@ HERE
 sub verify_switchboard_function {
     my $this = shift;
 
-    my $testcase = 'HTMLValidation_' . $SCRIPT_NAME . '_' . $SKIN_NAME;
+    my $SCRIPT_NAME = $this->script_name;
+    my $SKIN_NAME   = $this->skin_name;
+    my $testcase    = 'HTMLValidation_' . $SCRIPT_NAME . '_' . $SKIN_NAME;
 
     create_form_topic( $this, $this->test_web, 'MyForm' );
     add_form_and_data( $this, $this->test_web, $this->test_topic, 'MyForm' );
@@ -394,7 +427,8 @@ sub verify_switchboard_function {
         return;
     }
 
-    $this->assert_num_equals( $expected_status{$SCRIPT_NAME} || 200, $status );
+    $this->assert_num_equals( $expected_status{ $this->script_name } || 200,
+        $status );
     if ( $status != 302 ) {
         $this->assert_num_not_equals( 500, $status,
             'exception thrown, or status not set properly' );
@@ -600,9 +634,8 @@ sub test_edit_without_urlparam_presets {
     my ($this) = @_;
 
     require Foswiki::UI::Edit;
-    $UI_FN       = 'Foswiki::UI::Edit::edit';
-    $SCRIPT_NAME = 'edit';
-    $SKIN_NAME   = 'default';
+    $this->script_name('edit');
+    $this->skin_name('default');
 
     create_form_topic( $this, $this->test_web, 'MyForm' );
     add_form_and_data( $this, $this->test_web, $this->test_topic, 'MyForm' );
@@ -643,13 +676,11 @@ sub test_edit_without_urlparam_presets {
 sub test_edit_with_urlparam_presets {
     my ($this) = @_;
 
-    require Foswiki::UI::Edit;
-    $UI_FN       = 'Foswiki::UI::Edit::edit';
-    $SCRIPT_NAME = 'edit';
-    $SKIN_NAME   = 'default';
+    $this->script_name('edit');
+    $this->skin_name('default');
 
-    create_form_topic( $this, $this->test_web, 'MyForm' );
-    add_form_and_data( $this, $this->test_web, $this->test_topic, 'MyForm' );
+    $this->create_form_topic( $this->test_web, 'MyForm' );
+    $this->add_form_and_data( $this->test_web, $this->test_topic, 'MyForm' );
 
     my ( $status, $header, $text ) = $this->call_UI_FN(
         $this->test_web,

@@ -22,6 +22,7 @@ use Data::Dumper;
 use Scalar::Util qw(blessed);
 
 require Digest::MD5;
+require Foswiki::Validation;
 
 use Foswiki();
 use Foswiki::Meta();
@@ -955,9 +956,12 @@ sub capture {
 
     my $app      = $this->app;
     my $response = $app->response;
+    my $engine   = $app->engine;
+
+    my $psgiMode = !$engine->isa('Engine::Test') || $engine->simulate eq 'psgi';
 
     my $responseText = '';
-    if ( $response->outputHasStarted ) {
+    if ( !$psgiMode && $response->outputHasStarted ) {
 
         #we're streaming the output as we generate it
         #in 2010 (foswiki 1.1) this is used in the statistics script
@@ -966,18 +970,54 @@ sub capture {
     else {
 
         # Capture headers
-        $response->finalize;
-        foreach my $header ( keys %{ $response->headers } ) {
-            $responseText .= $header . ': ' . $_ . "\x0D\x0A"
-              foreach $response->getHeader($header);
-        }
-        $responseText .= "\x0D\x0A";
+        my $return = $response->as_array;
+
+        # Put back Status header which is expected by a number of tests.
+        push @{ $return->[1] }, 'Status' => $return->[0];
+        $responseText = $engine->stringifyHeaders($return);
 
         # Capture body
-        $responseText .= $response->body if $response->body;
+        $responseText .= join( '', @{ $return->[2] } );
     }
 
     return ( $responseText, $result, $stdout, $stderr );
+}
+
+sub _generateValidation {
+    my $this = shift;
+    my ($action) = @_;
+
+    my $app = $this->app;
+
+    $this->assert( $app->isa('Unit::TestApp'),
+        "Could not find the Foswiki object" );
+
+    my $req = $app->request;
+    my $cfg = $app->cfg;
+
+    # Now we have to manually craft the validation checkings
+    my $cgis = $app->users->getCGISession;
+    my $strikeone = $cfg->data->{Validation}{Method} eq 'strikeone';
+    my $key =
+      Foswiki::Validation::addValidationKey( $cgis, $action, $strikeone );
+    unless (
+        $key =~ qr/^<input .*name=['"](\w+)['"].*value=["']\??(.*)["'].*$/ )
+    {
+        $this->assert( 0, "Could not extract validation key from $key" );
+    }
+    my ( $k, $v ) = ( $1, $2 );
+    $this->assert( $req->isa('Foswiki::Request'),
+        "Could not find the Foswiki::Request object" );
+
+    # As we won't be clicking using javascript, we have to fake that part too
+    if ($strikeone) {
+        $v = Digest::MD5::md5_hex( $v, Foswiki::Validation::_getSecret($cgis) );
+    }
+    $req->param(
+        -name  => $k,
+        -value => $v
+    );
+    $req->method('POST');
 }
 
 =begin TML
@@ -995,49 +1035,10 @@ sub captureWithKey {
     my $action = shift;
 
     # Shortcut if user doesn't want validation
-    return $this->capture(@_) if $Foswiki::cfg{Validation}{Method} eq 'none';
+    return $this->capture(@_)
+      if $this->app->cfg->data->{Validation}{Method} eq 'none';
 
-    # If we pass a Foswiki object to capture, use that
-    # otherwise take $Foswiki::app
-    # and we fallback to the one from the test object
-    my $fatwilly;
-    if ( UNIVERSAL::isa( $_[1], 'Unit::TestApp' ) ) {
-        $fatwilly = $_[1];
-    }
-    elsif ( UNIVERSAL::isa( $Foswiki::app, 'Unit::TestApp' ) ) {
-        $fatwilly = $Foswiki::app;
-    }
-    else {
-        $fatwilly = $this->twiki;
-    }
-    $this->assert( $fatwilly->isa('Unit::TestApp'),
-        "Could not find the Foswiki object" );
-
-    # Now we have to manually craft the validation checkings
-    require Foswiki::Validation;
-    my $cgis = $fatwilly->users->getCGISession;
-    my $strikeone = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
-    my $key =
-      Foswiki::Validation::addValidationKey( $cgis, $action, $strikeone );
-    unless (
-        $key =~ qr/^<input .*name=['"](\w+)['"].*value=["']\??(.*)["'].*$/ )
-    {
-        $this->assert( 0, "Could not extract validation key from $key" );
-    }
-    my ( $k, $v ) = ( $1, $2 );
-    my $request = $fatwilly->request;
-    $this->assert( $request->isa('Foswiki::Request'),
-        "Could not find the Foswiki::Request object" );
-
-    # As we won't be clicking using javascript, we have to fake that part too
-    if ($strikeone) {
-        $v = Digest::MD5::md5_hex( $v, Foswiki::Validation::_getSecret($cgis) );
-    }
-    $request->param(
-        -name  => $k,
-        -value => $v
-    );
-    $request->method('POST');
+    $this->_generateValidation($action);
     $this->capture(@_);
 }
 
@@ -1057,18 +1058,19 @@ sub getUIFn {
     my $this   = shift;
     my $script = shift;
     require Foswiki::UI;
-    $this->assert( $Foswiki::cfg{SwitchBoard}{$script}, $script );
-    $this->assert( $Foswiki::cfg{SwitchBoard}{$script}->{package},
+    my $cfg = $this->app->cfg;
+    $this->assert( $cfg->data->{SwitchBoard}{$script}, $script );
+    $this->assert( $cfg->data->{SwitchBoard}{$script}->{package},
         "$script package not set" );
-    my $fn = $Foswiki::cfg{SwitchBoard}{$script}->{package};
+    my $fn = $cfg->data->{SwitchBoard}{$script}->{package};
     Foswiki::load_package( $fn,
-        method => $Foswiki::cfg{SwitchBoard}{$script}->{function}, );
+        method => $cfg->data->{SwitchBoard}{$script}->{function}, );
 
     #eval "require $fn";
     #die "DIED during (require $fn)\n" . $@ if $@;
-    $this->assert( $Foswiki::cfg{SwitchBoard}{$script}->{function},
+    $this->assert( $cfg->data->{SwitchBoard}{$script}->{function},
         "$script function not set" );
-    $fn .= '::' . $Foswiki::cfg{SwitchBoard}{$script}->{function};
+    $fn .= '::' . $cfg->data->{SwitchBoard}{$script}->{function};
     return \&$fn;
 }
 
