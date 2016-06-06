@@ -95,18 +95,36 @@ sub prepareHeaders {
 
 sub preparePath {
     my ($this) = @_;
-    my $req = Foswiki::Request->new();
+
+    # Create the request.  The type of request object is determined by
+    # the switchboard.
+
+    my $action;
+
     if ( $ENV{FOSWIKI_ACTION} ) {
-        $req->action( $ENV{FOSWIKI_ACTION} );
+        $action = $ENV{FOSWIKI_ACTION};
     }
     else {
         require File::Spec;
-        $req->action( ( File::Spec->splitpath($0) )[2] );
+        $action = ( File::Spec->splitpath($0) )[2];
     }
+
+    my $dispatcher = $Foswiki::cfg{SwitchBoard}{$action};
+    my $reqobj =
+      ( defined $dispatcher )
+      ? $dispatcher->{request} || 'Foswiki::Request'
+      : 'Foswiki::Request';
+    eval qq(use $reqobj);
+    die Foswiki::encode_utf8($@) if $@;
+
+    my $req = $reqobj->new();
+    $req->action($action);
+
     if ( exists $this->{path_info} ) {
         $req->pathInfo( $this->{path_info} );
         delete $this->{path_info};
     }
+
     return $req;
 }
 
