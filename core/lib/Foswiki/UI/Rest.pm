@@ -99,34 +99,6 @@ sub rest {
     # Referer is useful for logging REST request errors
     my $referer = ( defined $env->{HTTP_REFERER} ) ? $env->{HTTP_REFERER} : '';
 
-    # Must define topic param in the query to avoid plugins being
-    # passed the path_info when the are initialised. We can't affect
-    # the path_info, but we *can* persuade Foswiki to ignore it.
-    my $topic = $req->param('topic');
-    if ($topic) {
-        unless ( $topic =~ m/\.|\// ) {
-            $res->header( -type => 'text/html', -status => '400' );
-            $err = 'ERROR: (400) Invalid REST invocation'
-              . " - Invalid topic parameter $topic\n";
-            $res->print($err);
-            $app->logger->log( 'warning', "REST rejected: " . $err,
-                " - $referer", );
-            Foswiki::EngineException->throw(
-                status   => 400,
-                reason   => $err,
-                response => $res
-            );
-        }
-    }
-    else {
-
-        # No topic specified, but we still have to set a topic to stop
-        # plugins being passed the subject and verb in place of a topic.
-        Foswiki::Func::popTopicContext();
-        Foswiki::Func::pushTopicContext( $Foswiki::cfg{UsersWebName},
-            $Foswiki::cfg{HomeTopicName} );
-    }
-
     return
       if $app->satisfiedByCache( 'rest', $req->web, $req->topic );
 
@@ -175,7 +147,6 @@ sub rest {
         _listHandlers($res) if $app->inContext('command_line');
         $app->logger->log( 'warning', "REST rejected: " . $err,
             " - $referer", );
-        $res->print($err);
         Foswiki::EngineException->throw(
             status   => 404,
             reason   => $err,

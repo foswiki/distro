@@ -174,7 +174,7 @@ sub _getIconURL {
     my ( $w, $t ) =
       $app->request->normalizeWebTopicName( $Foswiki::cfg{SystemWebName},
         $path );
-    return $app->getPubURL( $w, $t, $a, %$params );
+    return $app->cfg->getPubURL( $w, $t, $a, %$params );
 }
 
 =begin TML

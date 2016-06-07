@@ -22,7 +22,7 @@ sub PUBURL {
     }
     $attachment = $params->{_DEFAULT};
     $params->{absolute} = 1 unless $relative;
-    return $this->getPubURL( $web, $topic, $attachment, %{$params} );
+    return $this->cfg->getPubURL( $web, $topic, $attachment, %{$params} );
 }
 
 1;

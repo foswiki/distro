@@ -74,7 +74,7 @@ sub register_cgi {
         # absolute URL context for email generation
         $app->enterContext('absolute_urls');
 
-        $handlerSub->($this);
+        $this->$handlerSub;
         $app->leaveContext('absolute_urls');
     }
     else {
@@ -83,7 +83,8 @@ sub register_cgi {
             template => 'attention',
             web      => $req->web,
             topic    => $req->topic,
-            def      => 'unrecognized_action'
+            def      => 'unrecognized_action',
+            status   => 501,
         );
     }
 }

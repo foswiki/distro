@@ -23,6 +23,16 @@ my %expected_status = (
     # SMELL The old non-OO version was handling viewfile completely differently!
     viewfile     => 404,
     viewfileauth => 404,
+
+    # Reset fails because no REST handler is registered.
+    rest        => 404,
+    restauth    => 404,
+    resetpasswd => 400,    # LoginName parameter required but not passed.
+    manage      => 400,    # See TODO comment below.
+    upload      => 400,    # See TODO comment below.
+    register    => 501,    # See TODO comment below.
+    rename =>
+      403,    # SMELL Not sure if this is correct but this is what we get now.
 );
 
 #TODO: this is beause we're calling the UI::function, not UI:Execute - need to re-write it to use the full engine

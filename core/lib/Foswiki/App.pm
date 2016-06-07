@@ -514,11 +514,12 @@ sub handleRequest {
     catch {
         my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
 
+        $res = $this->response;
+
         # SMELL TODO At this stage we shall be able to display any expection in
         # a pretty HTMLized way if engine is HTTPCompliant. Rethrowing of an
         # exception is just a temporary stub.
         if ( $e->isa('Foswiki::AccessControlException') ) {
-            $res = $this->response;
 
             unless ( $this->users->getLoginManager->forceAuthentication ) {
 
@@ -539,6 +540,15 @@ sub handleRequest {
         }
         elsif ( $e->isa('Foswiki::OopsException') ) {
             $e->generate;
+        }
+        elsif ( $e->isa('Foswiki::EngineException') ) {
+            $res->header( -type => 'text/html', );
+            $res->status( $e->status );
+            my $html = CGI::start_html( $e->status . ' Bad Request' );
+            $html .= CGI::h1( {}, 'Bad Request' );
+            $html .= CGI::p( {}, $e->reason );
+            $html .= CGI::end_html();
+            $res->print( Foswiki::encode_utf8($html) );
         }
         else {
             Foswiki::Exception::Fatal->rethrow($e);
@@ -757,19 +767,19 @@ sub redirect {
     my ( $url, $passthru, $status ) = @_;
     ASSERT( defined $url ) if DEBUG;
 
-    return unless $this->request;
+    my $req = $this->request;
 
     ( $url, my $anchor ) = Foswiki::splitAnchorFromUrl($url);
 
-    if ( $passthru && defined $this->request->method() ) {
+    if ( $passthru && defined $req->method() ) {
         my $existing = '';
         if ( $url =~ s/\?(.*)$// ) {
             $existing = $1;    # implicit untaint OK; recombined later
         }
-        if ( uc( $this->request->method() ) eq 'POST' ) {
+        if ( uc( $req->method() ) eq 'POST' ) {
 
             # Redirecting from a post to a get
-            my $cache = $this->cacheQuery();
+            my $cache = $req->cacheQuery;
             if ($cache) {
                 if ( $url eq '/' ) {
                     $url = $this->cfg->getScriptUrl( 1, 'view' );
@@ -780,8 +790,8 @@ sub redirect {
         else {
 
             # Redirecting a get to a get; no need to use passthru
-            if ( $this->request->query_string() ) {
-                $url .= '?' . $this->request->query_string();
+            if ( $req->query_string() ) {
+                $url .= '?' . $req->query_string();
             }
             if ($existing) {
                 if ( $url =~ m/\?/ ) {
@@ -1132,52 +1142,6 @@ sub getSkin {
 
 =begin TML
 
----++ ObjectMethod getPubURL($web, $topic, $attachment, %options) -> $url
-
-Composes a pub url.
-   * =$web= - name of the web for the URL, defaults to $session->{webName}
-   * =$topic= - name of the topic, defaults to $session->{topicName}
-   * =$attachment= - name of the attachment, defaults to no attachment
-Supported %options are:
-   * =topic_version= - version of topic to retrieve attachment from
-   * =attachment_version= - version of attachment to retrieve
-   * =absolute= - requests an absolute URL (rather than a relative path)
-
-If =$web= is not given, =$topic= and =$attachment= are ignored.
-If =$topic= is not given, =$attachment= is ignored.
-
-If =topic_version= is not given, the most recent revision of the topic
-will be linked. Similarly if attachment_version= is not given, the most recent
-revision of the attachment will be assumed. If =topic_version= is specified
-but =attachment_version= is not (or the specified =attachment_version= is not
-present), then the most recent version of the attachment in that topic version
-will be linked.
-
-If Foswiki is running in an absolute URL context (e.g. the skin requires
-absolute URLs, such as print or rss, or Foswiki is running from the
-command-line) then =absolute= will automatically be set.
-
-Note: for compatibility with older plugins, which use %PUBURL*% with
-a constructed URL path, do not use =*= unless =web=, =topic=, and
-=attachment= are all specified.
-
-As required by RFC3986, the returned URL will only contain the
-allowed characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
-
-=cut
-
-sub getPubURL {
-    my ( $this, $web, $topic, $attachment, %options ) = @_;
-
-    $options{absolute} ||=
-      ( $this->inContext('command_line') || $this->inContext('absolute_urls') );
-
-    return $this->store->getAttachmentURL( $this, $web, $topic, $attachment,
-        %options );
-}
-
-=begin TML
-
 ---++ ObjectMethod systemMessage( @messages )
 
 Adds a new system message to be displayed to a user (who most likely would be an
@@ -1248,8 +1212,8 @@ sub writeCompletePage {
                 'script',
                 'JavascriptFiles/strikeone',
                 '<script type="text/javascript" src="'
-                  . $this->getPubURL(
-                    $Foswiki::cfg{SystemWebName}, 'JavascriptFiles',
+                  . $this->cfg->getPubURL(
+                    $this->cfg->data->{SystemWebName}, 'JavascriptFiles',
                     "strikeone$src.js"
                   )
                   . '"></script>',

@@ -9,16 +9,18 @@ UI delegate for attachment management functions
 =cut
 
 package Foswiki::UI::Upload;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 use Try::Tiny;
 
 use Foswiki                ();
-use Foswiki::UI            ();
 use Foswiki::Sandbox       ();
 use Foswiki::OopsException ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -29,12 +31,12 @@ BEGIN {
 
 =begin TML
 
----++ StaticMethod upload( $session )
+---++ ObjectMethod upload
 
 =upload= command handler.
 This method is designed to be
 invoked via the =UI::run= method.
-CGI parameters, passed in $query:
+CGI parameters, passed in $req:
 
 Does the work of uploading an attachment to a topic.
 
@@ -58,14 +60,15 @@ Does the work of uploading an attachment to a topic.
 =cut
 
 sub upload {
-    my $session = shift;
+    my $this = shift;
 
-    my $query = $session->request;
-    if ( $query->param('noredirect') ) {
+    my $app = $this->app;
+    my $req = $app->request;
+    if ( $req->param('noredirect') ) {
         my $message;
         my $status = 200;
         try {
-            $message = _upload($session);
+            $message = $this->_upload;
         }
         catch {
             my $e = $_;
@@ -87,43 +90,44 @@ sub upload {
         };
         $message = ( ( $status < 400 ) ? 'OK' : 'ERROR' ) . ": $message";
 
-        $session->response->header(
-            -status => $status,
-            -type   => 'text/plain'
-        );
-        $session->response->print($message);
+        my $res = $app->response;
+        $res->header( -type => 'text/plain' );
+        $res->status($status);
+        $res->print($message);
     }
     else {
 
         # allow exceptions to propagate
-        _upload($session);
+        $this->_upload;
 
-        my $nurl =
-          $session->redirectto( $session->webName . "." . $session->topicName )
-          || $session->getScriptUrl( 1, 'view', $session->webName,
-            $session->topicName );
-        $session->redirect($nurl) if ($nurl);
+        my $req   = $app->request;
+        my $web   = $req->web;
+        my $topic = $req->topic;
+        my $nurl  = $app->redirectto( $web . "." . $topic )
+          || $app->cfg->getScriptUrl( 1, 'view', $web, $topic );
+        $app->redirect($nurl) if ($nurl);
 
     }
 }
 
 # Real work of upload
 sub _upload {
-    my $session = shift;
+    my $this = shift;
 
-    my $query = $session->request;
-    my $web   = $session->webName;
-    my $topic = $session->topicName;
-    my $user  = $session->user;
+    my $app   = $this->app;
+    my $req   = $app->request;
+    my $web   = $req->web;
+    my $topic = $req->topic;
+    my $user  = $app->user;
 
-    Foswiki::UI::checkValidationKey($session);
+    $this->checkValidationKey;
 
-    my $hideFile    = $query->param('hidefile')    || '';
-    my $fileComment = $query->param('filecomment') || '';
-    my $createLink  = $query->param('createlink')  || '';
-    my $doPropsOnly = $query->param('changeproperties');
-    my $filePath    = $query->param('filepath')    || '';
-    my $fileName    = $query->param('filename')    || '';
+    my $hideFile    = $req->param('hidefile')    || '';
+    my $fileComment = $req->param('filecomment') || '';
+    my $createLink  = $req->param('createlink')  || '';
+    my $doPropsOnly = $req->param('changeproperties');
+    my $filePath    = $req->param('filepath')    || '';
+    my $fileName    = $req->param('filename')    || '';
     if ( $filePath && !$fileName ) {
         $filePath =~ m|([^/\\]*$)|;
         $fileName = $1;
@@ -135,10 +139,10 @@ sub _upload {
     $fileName    =~ s/\s*$//;
     $filePath    =~ s/\s*$//;
 
-    Foswiki::UI::checkWebExists( $session, $web, $topic, 'attach files to' );
-    Foswiki::UI::checkTopicExists( $session, $web, $topic, 'attach files to' );
+    $this->checkWebExists( $web, $topic, 'attach files to' );
+    $this->checkTopicExists( $web, $topic, 'attach files to' );
     my ($topicObject) = Foswiki::Func::readTopic( $web, $topic );
-    Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
+    $this->checkAccess( 'CHANGE', $topicObject );
 
     my $origName = $fileName;
 
@@ -152,10 +156,10 @@ sub _upload {
     my ( $fileSize, $fileDate, $tmpFilePath ) = '';
 
     unless ($doPropsOnly) {
-        my $fh = $query->param('filepath');
+        my $fh = $req->param('filepath');
 
         try {
-            $tmpFilePath = $query->tmpFileName($fh);
+            $tmpFilePath = $req->tmpFileName($fh);
         }
         catch {
 
@@ -163,15 +167,17 @@ sub _upload {
             # something like that
             Foswiki::OopsException->rethrowAs(
                 $_,
+                app      => $app,
                 template => 'attention',
                 def      => 'zero_size_upload',
                 web      => $web,
                 topic    => $topic,
-                params   => [ ( $filePath || '""' ) ]
+                params   => [ ( $filePath || '""' ) ],
+                status   => 400,
             );
         };
 
-        $stream = $query->upload('filepath');
+        $stream = $req->upload('filepath');
 
         # check if upload has non zero size
         if ($stream) {
@@ -181,26 +187,30 @@ sub _upload {
         }
         unless ( $fileSize && $fileName ) {
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'attention',
                 def      => 'zero_size_upload',
                 web      => $web,
                 topic    => $topic,
-                params   => [ ( $filePath || '""' ) ]
+                params   => [ ( $filePath || '""' ) ],
+                status   => 400,
             );
         }
 
-        my $maxSize = $session->prefs->getPreference('ATTACHFILESIZELIMIT')
+        my $maxSize = $app->prefs->getPreference('ATTACHFILESIZELIMIT')
           || 0;
         $maxSize =~ s/\s+$//;
         $maxSize = 0 unless ( $maxSize =~ m/([0-9]+)/ );
 
         if ( $maxSize && $fileSize > $maxSize * 1024 ) {
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'attention',
                 def      => 'oversized_upload',
                 web      => $web,
                 topic    => $topic,
-                params   => [ $fileName, $maxSize ]
+                params   => [ $fileName, $maxSize ],
+                status   => 400,
             );
         }
     }
@@ -218,15 +228,16 @@ sub _upload {
         );
     }
     catch {
-        $session->logger->log( 'error', ( ref($_) ? $_->stringify : $_ ) );
+        $app->logger->log( 'error', ( ref($_) ? $_->stringify : $_ ) );
         Foswiki::OopsException->rethrowAs(
             $_,
+            app      => $app,
             template => 'attention',
             def      => 'save_error',
             web      => $web,
             topic    => $topic,
             params   => [
-                $session->i18n->maketext(
+                $app->i18n->maketext(
                     'Operation [_1] failed with an internal error', 'save'
                 )
             ],
@@ -236,6 +247,7 @@ sub _upload {
 
     if ( $fileName ne $origName ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'attention',
             status   => 200,
             def      => 'upload_name_changed',

@@ -9,9 +9,8 @@ Statistics extraction and presentation
 =cut
 
 package Foswiki::UI::Statistics;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 use File::Copy qw(copy);
 use IO::File ();
@@ -25,6 +24,10 @@ use Foswiki::Time                   ();
 use Foswiki::Meta                   ();
 use Foswiki::AccessControlException ();
 
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
+
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
@@ -34,68 +37,70 @@ BEGIN {
 
 =begin TML
 
----++ StaticMethod statistics( $session )
+---++ ObjectMethod statistics
 
 =statistics= command handler.
-This method is designed to be
-invoked via the =UI::run= method.
 
 Generate statistics topic.
-If a web is specified in the session object, generate WebStatistics
+If a web is specified in the request object, generate WebStatistics
 topic update for that web. Otherwise do it for all webs
 
 =cut
 
 sub statistics {
-    my $session = shift;
+    my $this = shift;
 
-    my $webName = $session->webName;
+    my $app     = $this->app;
+    my $req     = $app->request;
+    my $res     = $app->response;
+    my $cfg     = $app->cfg;
+    my $webName = $req->web;
 
     my $tmp = '';
 
     # web to redirect to after finishing
-    my $destWeb = $Foswiki::cfg{UsersWebName};
-    my $logDate = $session->request->param('logdate') || '';
+    my $destWeb = $cfg->data->{UsersWebName};
+    my $logDate = $req->param('logdate') || '';
     $logDate =~ s/[^0-9]//g;    # remove all non numerals
 
-    unless ( $session->inContext('command_line') ) {
+    unless ( $app->inContext('command_line') ) {
 
         # running from CGI
-        $session->generateHTTPHeaders();
-        $session->response->print(
+        $res->generateHTTPHeaders;
+        $res->print(
             CGI::start_html( -title => 'Foswiki: Create Usage Statistics' ) );
 
-        if ( uc( $session->request->method() ) ne 'POST' ) {
+        if ( uc( $req->method ) ne 'POST' ) {
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'attention',
-                web      => $session->webName,
-                topic    => $session->topicName,
+                web      => $webName,
+                topic    => $req->topic,
                 def      => 'post_method_only',
                 params   => ['statistics']
             );
         }
     }
 
-    if ( defined $Foswiki::cfg{Stats}{StatisticsGroup}
-        && length( $Foswiki::cfg{Stats}{StatisticsGroup} ) > 0 )
+    if ( defined $cfg->data->{Stats}{StatisticsGroup}
+        && length( $cfg->data->{Stats}{StatisticsGroup} ) > 0 )
     {
         unless (
             Foswiki::Func::isGroupMember(
-                $Foswiki::cfg{Stats}{StatisticsGroup}
+                $cfg->data->{Stats}{StatisticsGroup}
             )
             || Foswiki::Func::isAnAdmin()
           )
         {
-            _printMsg( $session,
-                'Statistics not permitted for user - exiting' );
+            $this->_printMsg('Statistics not permitted for user - exiting');
             return;
         }
     }
 
     # Initial messages
-    _printMsg( $session, 'Foswiki: Create Usage Statistics' );
-    _printMsg( $session, '!Do not interrupt this script!' );
-    _printMsg( $session, '(Please wait until page download has finished)' );
+    $this->_printMsg('Foswiki: Create Usage Statistics');
+    $this->_printMsg('!Do not interrupt this script!');
+    $this->_printMsg('(Please wait until page download has finished)');
 
     unless ($logDate) {
         $logDate =
@@ -109,17 +114,17 @@ sub statistics {
         $logMonth = $2;
     }
     else {
-        _printMsg( $session, "!Error in date $logDate - must be YYYYMM" );
+        $this->_printMsg("!Error in date $logDate - must be YYYYMM");
         return;
     }
 
     my $logMonthYear =
       $Foswiki::Time::ISOMONTH[ $logMonth - 1 ] . ' ' . $logYear;
-    _printMsg( $session, "* Statistics for $logMonthYear" );
+    $this->_printMsg("* Statistics for $logMonthYear");
 
     # Do a single data collection pass on the temporary copy of logfile,
     # then process each web once.
-    my $data = _collectLogData( $session, $logMonth, $logYear );
+    my $data = $this->_collectLogData( $logMonth, $logYear );
 
     my @weblist;
 
@@ -127,11 +132,11 @@ sub statistics {
     # topic rules which are more forgiving than the Web validations.
     # This field will be missing rather than defaulted if no web is
     # specified in the URL.
-    my $webSet = $session->request->param('webs')
-      || $session->requestedWebName;
+    my $webSet = $req->param('webs');
 
-    my $recurse =
-      Foswiki::Func::isTrue( scalar( $session->request->param('subwebs') ) );
+# || $session->requestedWebName; # XXX Not there anymore with the new Request model.
+
+    my $recurse = Foswiki::Func::isTrue( scalar( $req->param('subwebs') ) );
 
     if ($webSet) {
 
@@ -142,18 +147,16 @@ sub statistics {
             if ($web) {
                 push( @weblist, $web );
                 if ($recurse) {
-                    my $webObj =
-                      Foswiki::Meta->new( session => $session, web => $web );
+                    my $webObj = $this->create( 'Foswiki::Meta', web => $web );
                     my $subweb = $webObj->web();
                     my $it     = $webObj->eachWeb($recurse);
                     while ( $it->hasNext() ) {
                         my $w = $it->next();
                         next
                           unless Foswiki::WebFilter->user()
-                          ->ok( $session, "$subweb/$w" );
+                          ->ok( $app, "$subweb/$w" );
                         push( @weblist, "$subweb/$w" );
                     }
-                    $webObj->finish();
                 }
             }
         }
@@ -161,11 +164,11 @@ sub statistics {
     else {
 
         # otherwise do all user webs:
-        my $root = Foswiki::Meta->new( session => $session );
-        my $it = $root->eachWeb($recurse);
+        my $root = $this->create('Foswiki::Meta');
+        my $it   = $root->eachWeb($recurse);
         while ( $it->hasNext() ) {
             my $w = $it->next();
-            next unless Foswiki::WebFilter->user()->ok( $session, $w );
+            next unless Foswiki::WebFilter->user()->ok( $app, $w );
             push( @weblist, $w );
         }
     }
@@ -174,23 +177,22 @@ sub statistics {
     foreach my $web (@weblist) {
         try {
             $destWeb =
-              _processWeb( $session, $web, $logMonthYear, $data, $firstTime );
+              $this->_processWeb( $web, $logMonthYear, $data, $firstTime );
         }
         catch {
             unless ( ref($_) && $_->isa('Foswiki::AccessControlException ') ) {
                 Foswiki::Exception->rethrow($_);
             }
-            _printMsg( $session,
+            $this->_printMsg(
                 '!  - ERROR: no permission to CHANGE statistics topic in '
                   . $web );
         };
         $firstTime = 0;
 
-        if ( !$session->inContext('command_line') ) {
-            $tmp = $Foswiki::cfg{Stats}{TopicName};
-            my $url = $session->getScriptUrl( 0, 'view', $web, $tmp );
-            _printMsg(
-                $session,
+        if ( !$app->inContext('command_line') ) {
+            $tmp = $cfg->data->{Stats}{TopicName};
+            my $url = $cfg->getScriptUrl( 0, 'view', $web, $tmp );
+            $this->_printMsg(
                 '* Go to '
                   . CGI::a(
                     {
@@ -203,9 +205,9 @@ sub statistics {
             );
         }
     }
-    _printMsg( $session, 'End creating usage statistics' );
-    $session->response->print( CGI::end_html() )
-      unless ( $session->inContext('command_line') );
+    $this->_printMsg('End creating usage statistics');
+    $res->print( CGI::end_html() )
+      unless ( $app->inContext('command_line') );
 }
 
 # Debug only
@@ -242,7 +244,10 @@ sub _debugPrintHash {
 #   $contrib{$web}{"Main.".$WikiName} == number of saves/uploads, by user
 
 sub _collectLogData {
-    my ( $session, $startMonth, $startYear ) = @_;
+    my $this = shift;
+    my ( $startMonth, $startYear ) = @_;
+
+    my $app = $this->app;
 
     # Log file contains: $user, $action, $webTopic, $extra, $remoteAddr
     # $user - cUID of user - default current user,
@@ -267,9 +272,9 @@ sub _collectLogData {
         statUploadsRef => {}
     };
 
-    my $users = $session->users;
+    my $users = $app->users;
 
-    my $it = $session->logger->eachEventSince( $start, 'info' );
+    my $it = $app->logger->eachEventSince( $start, 'info' );
     while ( $it->hasNext() ) {
         my $line = $it->next();
         my $date = shift(@$line);
@@ -355,7 +360,7 @@ m/moved to ($Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}|$Fos
                 next if $w && $w =~ m/(?:^_|\/_)/;
             }
 
-            $session->logger->log( 'debug',
+            $app->logger->log( 'debug',
                 'WebStatistics: Bad logfile line ' . join( '|', @$line ) )
               if (DEBUG);
         }
@@ -365,18 +370,23 @@ m/moved to ($Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}|$Fos
 }
 
 sub _processWeb {
-    my ( $session, $web, $theLogMonthYear, $data, $isFirstTime ) = @_;
+    my $this = shift;
+    my ( $web, $theLogMonthYear, $data, $isFirstTime ) = @_;
 
-    my ( $topic, $user ) = ( $session->topicName, $session->user );
+    my $app = $this->app;
+    my $req = $app->request;
+    my $cfg = $app->cfg;
+
+    my ( $topic, $user ) = ( $req->topic, $app->user );
 
     if ($isFirstTime) {
-        _printMsg( $session, '* Executed by ' . $user );
+        $this->_printMsg( '* Executed by ' . $user );
     }
 
-    _printMsg( $session, "* Reporting on $web web" );
+    $this->_printMsg("* Reporting on $web web");
 
     unless ( Foswiki::Func::webExists($web) ) {
-        _printMsg( $session, "!Web $web does not exist,  skipping.." );
+        $this->_printMsg("!Web $web does not exist,  skipping..");
         return;
     }
 
@@ -387,15 +397,14 @@ sub _processWeb {
     $statViews   ||= 0;
     $statSaves   ||= 0;
     $statUploads ||= 0;
-    _printMsg( $session,
-        "  - view: $statViews, save: $statSaves, upload: $statUploads" );
+    $this->_printMsg(
+        "  - view: $statViews, save: $statSaves, upload: $statUploads");
 
     # Get the top N views and contribs in this web
     my (@topViews) =
-      _getTopList( $Foswiki::cfg{Stats}{TopViews}, $web, $data->{viewRef} );
+      _getTopList( $cfg->data->{Stats}{TopViews}, $web, $data->{viewRef} );
     my (@topContribs) =
-      _getTopList( $Foswiki::cfg{Stats}{TopContrib}, $web,
-        $data->{contribRef} );
+      _getTopList( $cfg->data->{Stats}{TopContrib}, $web, $data->{contribRef} );
 
     # Print information to stdout
     my $statTopViews        = '';
@@ -403,18 +412,18 @@ sub _processWeb {
     if (@topViews) {
         $statTopViews = join( CGI::br(), @topViews );
         $topViews[0] =~ s/[\[\]]*//g;
-        _printMsg( $session, '  - top view: ' . $topViews[0] );
+        $this->_printMsg( '  - top view: ' . $topViews[0] );
     }
     if (@topContribs) {
         $statTopContributors = join( CGI::br(), @topContribs );
-        _printMsg( $session, '  - top contributor: ' . $topContribs[0] );
+        $this->_printMsg( '  - top contributor: ' . $topContribs[0] );
     }
 
     # Update the WebStatistics topic
 
     my $tmp;
     my $meta;
-    my $statsTopic = $Foswiki::cfg{Stats}{TopicName};
+    my $statsTopic = $cfg->data->{Stats}{TopicName};
 
     # DEBUG
     # $statsTopic = 'TestStatistics';		# Create this by hand
@@ -424,75 +433,77 @@ sub _processWeb {
 
     my $autoCreate    = 0;
     my $autoCreateMsg = 'prohibited';
-    if ( defined $Foswiki::cfg{Stats}{AutoCreateTopic} ) {
-        if ( $Foswiki::cfg{Stats}{AutoCreateTopic} eq 'Allowed' ) {
+    if ( defined $cfg->data->{Stats}{AutoCreateTopic} ) {
+        if ( $cfg->data->{Stats}{AutoCreateTopic} eq 'Allowed' ) {
             $autoCreateMsg = 'not requested';
-            $autoCreate    = $session->request->param('autocreate')
-              if defined $session->request->param('autocreate');
+            $autoCreate    = $req->param('autocreate')
+              if defined $req->param('autocreate');
         }
         else {
             $autoCreate = 1
-              if ( $Foswiki::cfg{Stats}{AutoCreateTopic} eq 'Always' );
+              if ( $cfg->data->{Stats}{AutoCreateTopic} eq 'Always' );
         }
     }
 
-    unless ( $session->topicExists( $web, $statsTopic ) ) {
+    unless ( $app->store->topicExists( $web, $statsTopic ) ) {
         if ($autoCreate) {
             my $statsTemplate = $statsTopic . 'Template';
             if (
-                $session->topicExists(
-                    $Foswiki::cfg{UsersWebName},
+                $app->store->topicExists(
+                    $cfg->data->{UsersWebName},
                     $statsTemplate
                 )
               )
             {
-                $statsTemplateWeb = $Foswiki::cfg{UsersWebName};
+                $statsTemplateWeb = $cfg->data->{UsersWebName};
             }
             elsif (
-                $session->topicExists(
-                    $Foswiki::cfg{SystemWebName},
+                $app->store->topicExists(
+                    $cfg->data->{SystemWebName},
                     $statsTemplate
                 )
               )
             {
-                $statsTemplateWeb = $Foswiki::cfg{SystemWebName};
+                $statsTemplateWeb = $cfg->data->{SystemWebName};
             }
             if ($statsTemplateWeb) {
-                my $webMeta = Foswiki::Meta->load( $session, $web );
-                Foswiki::UI::checkAccess( $session, 'CHANGE', $webMeta );
-                _printMsg( $session,
+                my $webMeta = Foswiki::Meta->load( $app, $web );
+                $this->checkAccess( 'CHANGE', $webMeta );
+                $this->_printMsg(
 "* Creating $web.$statsTopic using template $statsTemplateWeb.$statsTemplate"
                 );
-                $tmplObject = Foswiki::Meta->load( $session, $statsTemplateWeb,
+                $tmplObject = Foswiki::Meta->load( $app, $statsTemplateWeb,
                     $statsTemplate );
-                Foswiki::UI::checkAccess( $session, 'VIEW', $tmplObject );
-                $meta = Foswiki::Meta->new(
-                    session => $session,
-                    web     => $web,
-                    topic   => $statsTopic
+                $this->checkAccess( 'VIEW', $tmplObject );
+                $meta = $this->create(
+                    'Foswiki::Meta',
+                    web   => $web,
+                    topic => $statsTopic
                 );
                 $meta->copyFrom($tmplObject);
                 $meta->text( $tmplObject->text() );
             }
             else {
-                _printMsg( $session,
-"! Warning: Template topic $statsTemplate not found in $Foswiki::cfg{UsersWebName} or $Foswiki::cfg{SystemWebName}.  Unable to generate statistics in $web web."
-                );
+                $this->_printMsg(
+                        "! Warning: Template topic $statsTemplate not found in "
+                      . $cfg->data->{UsersWebName} . " or "
+                      . $cfg->data->{SystemWebName}
+                      . ".  Unable to generate statistics in $web web." );
                 return $web;
             }
         }
         else {
-            _printMsg( $session,
+            $this->_printMsg(
 "! Warning: No updates done, topic $web.$statsTopic does not exist, and autocreate $autoCreateMsg."
             );
             return $web;
         }
     }
     else {
-        $meta = Foswiki::Meta->load( $session, $web, $statsTopic );
+        $meta = Foswiki::Meta->load( $app, $web, $statsTopic );
     }
 
-    Foswiki::UI::checkAccess( $session, 'CHANGE', $meta );
+    $this->checkAccess( 'CHANGE', $meta );
     my @lines = split( /\r?\n/, $meta->text );
     my $statLine;
     my $idxStat = -1;
@@ -542,7 +553,7 @@ sub _processWeb {
     $meta->text($text);
     $meta->save( minor => 1, dontlog => 1 );
 
-    _printMsg( $session, "  - Topic $statsTopic updated" );
+    $this->_printMsg("  - Topic $statsTopic updated");
 
     return $web;
 }
@@ -604,9 +615,12 @@ sub _getTopList {
 }
 
 sub _printMsg {
-    my ( $session, $msg ) = @_;
+    my $this = shift;
+    my ($msg) = @_;
 
-    if ( $session->inContext('command_line') ) {
+    my $app = $this->app;
+
+    if ( $app->inContext('command_line') ) {
         $msg =~ s/&nbsp;/ /g;
     }
     else {
@@ -628,8 +642,7 @@ sub _printMsg {
         $msg =~
 s/==([A-Z]*)==/'=='.CGI::span( { class=>'foswikiAlert' }, $1 ).'=='/ge;
     }
-    $session->response->print( $msg . "\n" ) if $msg;
-    $Foswiki::engine->flush( $session->response, $session->request );
+    $app->response->print( $msg . "\n" ) if $msg;
 }
 
 1;

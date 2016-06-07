@@ -621,6 +621,37 @@ sub param {
 
 =begin TML
 
+---++ ObjectMethod cacheQuery -> $queryString
+
+Caches the current query in the params cache, and returns a rewritten
+query string for the cache to be picked up again on the other side of a
+redirect.
+
+We can't encode post params into a redirect, because they may exceed the
+size of the GET request. So we cache the params, and reload them when the
+redirect target is reached.
+
+=cut
+
+sub cacheQuery {
+    my $this = shift;
+
+    return '' unless ( $this->param );
+
+    # Don't double-cache
+    return '' if ( $this->param('foswiki_redirect_cache') );
+
+    my $uid = $this->create('Foswiki::Request::Cache')->save($this);
+    if ( $this->app->cfg->data->{UsePathForRedirectCache} ) {
+        return '/foswiki_redirect_cache/' . $uid;
+    }
+    else {
+        return '?foswiki_redirect_cache=' . $uid;
+    }
+}
+
+=begin TML
+
 ---++ ObjectMethod cookie($name [, $value, $path, $secure, $expires]) -> $value
 
    * If called  without parameters returns a list of cookie names.

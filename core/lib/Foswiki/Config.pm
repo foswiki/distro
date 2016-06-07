@@ -945,6 +945,135 @@ sub setBootstrap {
 
 =begin TML
 
+---++ ObjectMethod getAttachmentURL( $web, $topic, $attachment, %options ) -> $url
+
+Get a URL that points at an attachment. The URL may be absolute, or
+relative to the the page being rendered (if that makes sense for the
+store implementation).
+   * =$web= - name of the web for the URL
+   * =$topic= - name of the topic
+   * =$attachment= - name of the attachment, defaults to no attachment
+   * %options - parameters to be attached to the URL
+
+Supported %options are:
+   * =topic_version= - version of topic to retrieve attachment from
+   * =attachment_version= - version of attachment to retrieve
+   * =absolute= - if the returned URL must be absolute, rather than relative
+
+If =$web= is not given, =$topic= and =$attachment= are ignored/
+If =$topic= is not given, =$attachment= is ignored.
+
+If =topic_version= is not given, the most recent revision of the topic
+should be linked. Similarly if attachment_version= is not given, the most recent
+revision of the attachment will be assumed. If =topic_version= is specified
+but =attachment_version= is not (or the specified =attachment_version= is not
+present), then the most recent version of the attachment in that topic version
+will be linked. Stores may not support =topic_version= and =attachment_version=.
+
+The default implementation is suitable for use with stores that put
+attachments in a web-visible directory, pointed at by
+$Foswiki::cfg{PubUrlPath}. As such it may also be used as a
+fallback for distributed topics (such as those in System) when content is not
+held in the store itself (e.g. if the store doesn't recognise the web it
+can call SUPER::getAttachmentURL)
+
+As required by RFC3986, the returned URL may only contain the
+allowed characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
+
+=cut
+
+sub getAttachmentURL {
+    my ( $this, $web, $topic, $attachment, %options ) = @_;
+
+    ASSERT( !ref($web), "Old format of getAttachmentURL call" );
+
+    my $url = $this->data->{PubUrlPath} || '';
+
+    if ($topic) {
+        ( $web, $topic ) = Foswiki::Func::normalizeWebTopicName( $web, $topic );
+    }
+
+    if ($web) {
+        $url .= '/' . Foswiki::urlEncode($web);
+        if ($topic) {
+            if ( defined $options{topic_version} ) {
+
+                # TODO: check that the given topic version exists
+            }
+            $url .= '/' . Foswiki::urlEncode($topic);
+            if ($attachment) {
+                if ( defined $options{attachment_version} ) {
+
+                    # TODO: check that this attachment version actually
+                    # exists on the requested topic version
+                }
+
+                # TODO: check that the attachment actually exists on the
+                # topic at this revision
+                $url .= '/' . Foswiki::urlEncode($attachment);
+            }
+        }
+    }
+
+    if ( $options{absolute} && $url !~ /^[a-z]+:/ ) {
+
+        # See http://www.ietf.org/rfc/rfc2396.txt for the definition of
+        # "absolute URI". Foswiki bastardises this definition by assuming
+        # that all relative URLs lack the <authority> component as well.
+        $url = $this->urlHost . $url;
+    }
+
+    return $url;
+}
+
+=begin TML
+
+---++ ObjectMethod getPubURL($web, $topic, $attachment, %options) -> $url
+
+Composes a pub url.
+   * =$web= - name of the web for the URL, defaults to $session->{webName}
+   * =$topic= - name of the topic, defaults to $session->{topicName}
+   * =$attachment= - name of the attachment, defaults to no attachment
+Supported %options are:
+   * =topic_version= - version of topic to retrieve attachment from
+   * =attachment_version= - version of attachment to retrieve
+   * =absolute= - requests an absolute URL (rather than a relative path)
+
+If =$web= is not given, =$topic= and =$attachment= are ignored.
+If =$topic= is not given, =$attachment= is ignored.
+
+If =topic_version= is not given, the most recent revision of the topic
+will be linked. Similarly if attachment_version= is not given, the most recent
+revision of the attachment will be assumed. If =topic_version= is specified
+but =attachment_version= is not (or the specified =attachment_version= is not
+present), then the most recent version of the attachment in that topic version
+will be linked.
+
+If Foswiki is running in an absolute URL context (e.g. the skin requires
+absolute URLs, such as print or rss, or Foswiki is running from the
+command-line) then =absolute= will automatically be set.
+
+Note: for compatibility with older plugins, which use %PUBURL*% with
+a constructed URL path, do not use =*= unless =web=, =topic=, and
+=attachment= are all specified.
+
+As required by RFC3986, the returned URL will only contain the
+allowed characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
+
+=cut
+
+sub getPubURL {
+    my ( $this, $web, $topic, $attachment, %options ) = @_;
+
+    $options{absolute} ||=
+      (      $this->app->inContext('command_line')
+          || $this->app->inContext('absolute_urls') );
+
+    return $this->getAttachmentURL( $web, $topic, $attachment, %options );
+}
+
+=begin TML
+
 ---++ ObjectMethod getScriptUrl( $absolute, $script, $web, $topic, ... ) -> $scriptURL
 
 Returns the URL to a Foswiki script, providing the web and topic as
@@ -1112,18 +1241,20 @@ sub _populatePresets {
 
     $cfgData->{SwitchBoard}{attach} = {
         package  => 'Foswiki::UI::Attach',
+        request  => 'Foswiki::Request::Attachment',
         function => 'attach',
         context  => { attach => 1 },
     };
     $cfgData->{SwitchBoard}{changes} = {
         package  => 'Foswiki::UI::Changes',
+        request  => 'Foswiki::Request',
         function => 'changes',
         context  => { changes => 1 },
     };
     $cfgData->{SwitchBoard}{configure} = {
         package => 'Foswiki::UI::Configure',
-        method  => 'configure',
         request => 'Foswiki::Request',
+        method  => 'configure',
     };
     $cfgData->{SwitchBoard}{edit} = {
         request  => 'Foswiki::Request',
@@ -1133,6 +1264,7 @@ sub _populatePresets {
     };
     $cfgData->{SwitchBoard}{jsonrpc} = {
         package => 'Foswiki::Contrib::JsonRpcContrib',
+        request => 'Foswiki::Request::JSON',
         method  => 'dispatch',
         request => 'Foswiki::Request',
         context => { jsonrpc => 1 },
@@ -1151,6 +1283,7 @@ sub _populatePresets {
     };
     $cfgData->{SwitchBoard}{manage} = {
         package  => 'Foswiki::UI::Manage',
+        request  => 'Foswiki::Request',
         function => 'manage',
         context  => { manage => 1 },
         allow    => { POST => 1 },
@@ -1163,6 +1296,7 @@ sub _populatePresets {
     };
     $cfgData->{SwitchBoard}{preview} = {
         package  => 'Foswiki::UI::Preview',
+        request  => 'Foswiki::Request',
         function => 'preview',
         context  => { preview => 1 },
     };
@@ -1185,6 +1319,7 @@ sub _populatePresets {
     };
     $cfgData->{SwitchBoard}{rename} = {
         package  => 'Foswiki::UI::Rename',
+        request  => 'Foswiki::Request',
         function => 'rename',
         context  => { rename => 1 },
 
@@ -1193,6 +1328,7 @@ sub _populatePresets {
     };
     $cfgData->{SwitchBoard}{resetpasswd} = {
         package  => 'Foswiki::UI::Passwords',
+        request  => 'Foswiki::Request',
         function => 'resetPassword',
         context  => { resetpasswd => 1 },
         allow    => { POST => 1 },
@@ -1206,31 +1342,35 @@ sub _populatePresets {
     $cfgData->{SwitchBoard}{restauth} = $cfgData->{SwitchBoard}{rest};
     $cfgData->{SwitchBoard}{save}     = {
         package  => 'Foswiki::UI::Save',
+        request  => 'Foswiki::Request',
         function => 'save',
         context  => { save => 1 },
         allow    => { POST => 1 },
     };
     $cfgData->{SwitchBoard}{search} = {
         package  => 'Foswiki::UI::Search',
+        request  => 'Foswiki::Request',
         function => 'search',
         context  => { search => 1 },
     };
     $cfgData->{SwitchBoard}{statistics} = {
         package  => 'Foswiki::UI::Statistics',
+        request  => 'Foswiki::Request',
         function => 'statistics',
         context  => { statistics => 1 },
     };
     $cfgData->{SwitchBoard}{upload} = {
         package  => 'Foswiki::UI::Upload',
+        request  => 'Foswiki::Request',
         function => 'upload',
         context  => { upload => 1 },
         allow    => { POST => 1 },
     };
     $cfgData->{SwitchBoard}{viewfile} = {
         package => 'Foswiki::UI::Viewfile',
+        request => 'Foswiki::Request::Attachment',
         method  => 'viewfile',
         context => { viewfile => 1 },
-        request => 'Foswiki::Request::Attachment',
     };
     $cfgData->{SwitchBoard}{viewfileauth} = $cfgData->{SwitchBoard}{viewfile};
     $cfgData->{SwitchBoard}{view}         = {

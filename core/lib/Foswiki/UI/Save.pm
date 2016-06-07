@@ -9,17 +9,19 @@ UI delegate for save function
 =cut
 
 package Foswiki::UI::Save;
+use v5.14;
 
-use strict;
-use warnings;
 use Try::Tiny;
 use Assert;
 
 use Foswiki                 ();
-use Foswiki::UI             ();
 use Foswiki::Meta           ();
 use Foswiki::OopsException  ();
 use Foswiki::Prefs::Request ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -30,14 +32,18 @@ BEGIN {
 
 # Used by save and preview
 sub buildNewTopic {
-    my ( $session, $topicObject, $script ) = @_;
+    my $this = shift;
 
-    my $query = $session->request;
+    my ( $topicObject, $script ) = @_;
 
-    unless ( $query->param() ) {
+    my $app = $this->app;
+    my $req = $app->request;
+
+    unless ( $req->param() ) {
 
         # insufficient parameters to save
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'attention',
             def      => 'bad_script_parameters',
             web      => $topicObject->web,
@@ -46,25 +52,25 @@ sub buildNewTopic {
         );
     }
 
-    Foswiki::UI::checkWebExists( $session, $topicObject->web, 'save' );
+    $this->checkWebExists( $topicObject->web, 'save' );
 
     my $topicExists =
-      $session->topicExists( $topicObject->web, $topicObject->topic );
+      $app->store->topicExists( $topicObject->web, $topicObject->topic );
 
     # Prevent creating a topic in a web without change access
     unless ($topicExists) {
         my $webObject =
-          Foswiki::Meta->new( session => $session, web => $topicObject->web );
-        Foswiki::UI::checkAccess( $session, 'CHANGE', $webObject );
+          $this->create( 'Foswiki::Meta', web => $topicObject->web );
+        $this->checkAccess( 'CHANGE', $webObject );
     }
 
     # Prevent saving existing topic?
-    my $onlyNewTopic =
-      Foswiki::isTrue( scalar( $query->param('onlynewtopic') ) );
+    my $onlyNewTopic = Foswiki::isTrue( scalar( $req->param('onlynewtopic') ) );
     if ( $onlyNewTopic && $topicExists ) {
 
         # Topic exists and user requested oops if it exists
         Foswiki::OopsException->template(
+            app      => $app,
             template => 'attention',
             def      => 'topic_exists',
             web      => $topicObject->web,
@@ -73,8 +79,7 @@ sub buildNewTopic {
     }
 
     # prevent non-Wiki names?
-    my $onlyWikiName =
-      Foswiki::isTrue( scalar( $query->param('onlywikiname') ) );
+    my $onlyWikiName = Foswiki::isTrue( scalar( $req->param('onlywikiname') ) );
     if (   ($onlyWikiName)
         && ( !$topicExists )
         && ( !Foswiki::isValidTopicName( $topicObject->topic ) ) )
@@ -82,6 +87,7 @@ sub buildNewTopic {
 
         # do not allow non-wikinames
         Foswiki::OopsException->template(
+            app      => $app,
             template => 'attention',
             def      => 'not_wikiword',
             web      => $topicObject->web,
@@ -91,11 +97,11 @@ sub buildNewTopic {
     }
 
     my $saveOpts = {};
-    $saveOpts->{minor}            = 1 if $query->param('dontnotify');
-    $saveOpts->{forcenewrevision} = 1 if $query->param('forcenewrevision');
+    $saveOpts->{minor}            = 1 if $req->param('dontnotify');
+    $saveOpts->{forcenewrevision} = 1 if $req->param('forcenewrevision');
     my ( $ancestorRev, $ancestorDate );
 
-    my $templateTopic = $query->param('templatetopic');
+    my $templateTopic = $req->param('templatetopic');
 
     my $templateWeb = $topicObject->web;
     my $ttom;    # template topic
@@ -107,18 +113,17 @@ sub buildNewTopic {
 
         # Initialise from existing topic
 
-        Foswiki::UI::checkAccess( $session, 'VIEW',   $topicObject );
-        Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
-        $text        = $topicObject->text();            # text of last rev
-        $ancestorRev = $query->param('originalrev');    # rev edit started on
-
+        $this->checkAccess( 'VIEW',   $topicObject );
+        $this->checkAccess( 'CHANGE', $topicObject );
+        $text        = $topicObject->text();          # text of last rev
+        $ancestorRev = $req->param('originalrev');    # rev edit started on
     }
     elsif ($templateTopic) {
 
         # User specified template. Validate it.
 
         my ( $invalidTemplateWeb, $invalidTemplateTopic ) =
-          $session->normalizeWebTopicName( $templateWeb, $templateTopic );
+          $req->normalizeWebTopicName( $templateWeb, $templateTopic );
 
         $templateWeb = Foswiki::Sandbox::untaint( $invalidTemplateWeb,
             \&Foswiki::Sandbox::validateWebName );
@@ -127,14 +132,16 @@ sub buildNewTopic {
 
         unless ( $templateWeb && $templateTopic ) {
             Foswiki::OopsException->template(
+                app      => $app,
                 template => 'attention',
                 def      => 'invalid_topic_parameter',
                 params =>
-                  [ scalar( $query->param('templatetopic') ), 'templatetopic' ]
+                  [ scalar( $req->param('templatetopic') ), 'templatetopic' ]
             );
         }
-        unless ( $session->topicExists( $templateWeb, $templateTopic ) ) {
+        unless ( $app->store->topicExists( $templateWeb, $templateTopic ) ) {
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'attention',
                 def      => 'no_such_topic_template',
                 web      => $templateWeb,
@@ -143,11 +150,11 @@ sub buildNewTopic {
         }
 
         # Initialise new topic from template topic
-        $ttom = Foswiki::Meta->load( $session, $templateWeb, $templateTopic );
-        Foswiki::UI::checkAccess( $session, 'VIEW', $ttom );
+        $ttom = Foswiki::Meta->load( $app, $templateWeb, $templateTopic );
+        $this->checkAccess( 'VIEW', $ttom );
 
         $text = $ttom->text();
-        $text = '' if $query->param('newtopic');    # created by edit
+        $text = '' if $req->param('newtopic');    # created by edit
         $topicObject->text($text);
 
         foreach my $k ( keys %{ $ttom->metaData } ) {
@@ -181,11 +188,11 @@ sub buildNewTopic {
     # $text now contains either text from an existing topic.
     # or text obtained from a template topic. Now determine if
     # the query params will override it.
-    if ( defined $query->param('text') ) {
+    if ( defined $req->param('text') ) {
 
         # text is defined in the query, save that text, overriding anything
         # from the template or the previous rev of the topic
-        $text = $query->param('text');
+        $text = $req->param('text');
         $text =~ s/\r//g;
         $text .= "\n" unless $text =~ m/\n$/s;
     }
@@ -194,7 +201,7 @@ sub buildNewTopic {
     $text = '' unless defined $text;
 
     # Change the parent, if appropriate
-    my $newParent = $query->param('topicparent');
+    my $newParent = $req->param('topicparent');
     if ($newParent) {
         if ( $newParent eq 'none' ) {
             $topicObject->remove('TOPICPARENT');
@@ -203,18 +210,18 @@ sub buildNewTopic {
 
             # Validate the new parent (it must be a legal topic name)
             my ( $vweb, $vtopic ) =
-              $session->normalizeWebTopicName( $topicObject->web(),
-                $newParent );
+              $req->normalizeWebTopicName( $topicObject->web(), $newParent );
             $vweb = Foswiki::Sandbox::untaint( $vweb,
                 \&Foswiki::Sandbox::validateWebName );
             $vtopic = Foswiki::Sandbox::untaint( $vtopic,
                 \&Foswiki::Sandbox::validateTopicName );
             unless ( $vweb && $vtopic ) {
                 Foswiki::OopsException->throw(
+                    app      => $app,
                     template => 'attention',
                     def      => 'invalid_topic_parameter',
-                    web      => $session->webName,
-                    topic    => $session->topicName,
+                    web      => $req->web,
+                    topic    => $req->topic,
                     params   => [ $newParent, 'topicparent' ]
                 );
             }
@@ -227,9 +234,9 @@ sub buildNewTopic {
     }
 
     # Set preference values from query
-    Foswiki::Prefs::Request::set( $query, $topicObject );
+    Foswiki::Prefs::Request::set( $req, $topicObject );
 
-    my $formName = $query->param('formtemplate');
+    my $formName = $req->param('formtemplate');
     my $formDef;
 
     if ($formName) {
@@ -253,7 +260,7 @@ sub buildNewTopic {
     if ($formName) {
         require Foswiki::Form;
         $formDef =
-          Foswiki::Form->loadCached( $session, $topicObject->web, $formName );
+          Foswiki::Form->loadCached( $app, $topicObject->web, $formName );
         $topicObject->put( 'FORM', { name => $formName } );
 
         # Remove fields that don't exist on the new form def.
@@ -268,13 +275,14 @@ sub buildNewTopic {
 
         # override existing fields with values from the query
         my ( $seen, $missing ) =
-          $formDef->getFieldValuesFromQuery( $query, $topicObject );
+          $formDef->getFieldValuesFromQuery( $req, $topicObject );
         if ( $seen && @$missing ) {
 
             # chuck up if there is at least one field value defined in the
             # query and a mandatory field was not defined in the
             # query or by an existing value.
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'attention',
                 def      => 'mandatory_field',
                 web      => $topicObject->web,
@@ -292,6 +300,7 @@ sub buildNewTopic {
 
             # Badly formatted ancestor
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'attention',
                 def      => 'bad_script_parameters',
                 web      => $topicObject->web,
@@ -317,13 +326,13 @@ sub buildNewTopic {
                 && $info->{date}
                 && $ancestorDate ne $info->{date}
             )
-            && $info->{author} ne $session->user
+            && $info->{author} ne $app->user
           )
         {
 
             # Load the prev rev again, so we can do a 3 way merge
             my $prevTopicObject =
-              Foswiki::Meta->load( $session, $topicObject->web,
+              Foswiki::Meta->load( $app, $topicObject->web,
                 $topicObject->topic );
 
             require Foswiki::Merge;
@@ -337,7 +346,7 @@ sub buildNewTopic {
 
                 # If the ancestor revision was generated by a reprev,
                 # then the original is lost and we can't 3-way merge
-                $session->plugins->dispatch(
+                $app->plugins->dispatch(
                     'beforeMergeHandler', $text,
                     $pti->{version},      $prevTopicObject->text,
                     undef,                undef,
@@ -347,15 +356,15 @@ sub buildNewTopic {
                 $text =
                   Foswiki::Merge::merge2( $pti->{version},
                     $prevTopicObject->text, $info->{version}, $text, '.*?\n',
-                    $session );
+                    $app );
             }
             else {
 
                 # common ancestor; we can 3-way merge
                 my $ancestorMeta =
-                  Foswiki::Meta->load( $session, $topicObject->web,
+                  Foswiki::Meta->load( $app, $topicObject->web,
                     $topicObject->topic, $ancestorRev );
-                $session->plugins->dispatch(
+                $app->plugins->dispatch(
                     'beforeMergeHandler', $text,
                     $info->{version},     $prevTopicObject->text,
                     $ancestorRev,         $ancestorMeta->text(),
@@ -365,7 +374,7 @@ sub buildNewTopic {
                 $text =
                   Foswiki::Merge::merge3( $ancestorRev, $ancestorMeta->text(),
                     $info->{version}, $prevTopicObject->text, 'new', $text,
-                    '.*?\n', $session );
+                    '.*?\n', $app );
             }
             if ($formDef) {
                 $topicObject->merge( $prevTopicObject, $formDef );
@@ -380,13 +389,16 @@ sub buildNewTopic {
 
 =begin TML
 
----++ StaticMethod expandAUTOINC($session, $web, $topic) -> $topic
+---++ ObjectMethod expandAUTOINC($web, $topic) -> $topic
 Expand AUTOINC\d+ in the topic name to the next topic name available
 
 =cut
 
 sub expandAUTOINC {
-    my ( $session, $web, $topic ) = @_;
+    my $this = shift;
+    my ( $web, $topic ) = @_;
+
+    my $app = $this->app;
 
     # Do not remove, keep as undocumented feature for compatibility with
     # TWiki 4.0.x: Allow for dynamic topic creation by replacing strings
@@ -394,17 +406,17 @@ sub expandAUTOINC {
     if ( $topic =~ m/X{10}/ ) {
         my $n           = 0;
         my $baseTopic   = $topic;
-        my $topicObject = Foswiki::Meta->new(
-            session => $session,
-            web     => $web,
-            topic   => $baseTopic
+        my $topicObject = $this->create(
+            'Foswiki::Meta',
+            web   => $web,
+            topic => $baseTopic
         );
         $topicObject->clearLease();
         do {
             $topic = $baseTopic;
             $topic =~ s/X{10}X*/$n/e;
             $n++;
-        } while ( $session->topicExists( $web, $topic ) );
+        } while ( $app->store->topicExists( $web, $topic ) );
     }
 
     # Allow for more flexible topic creation with sortable names.
@@ -414,13 +426,13 @@ sub expandAUTOINC {
         my $start       = $2;
         my $pad         = length($start);
         my $post        = $3;
-        my $topicObject = Foswiki::Meta->new(
-            session => $session,
-            web     => $web,
-            topic   => $topic
+        my $topicObject = $this->create(
+            'Foswiki::Meta',
+            web   => $web,
+            topic => $topic
         );
         $topicObject->clearLease();
-        my $webObject = Foswiki::Meta->new( session => $session, web => $web );
+        my $webObject = $this->create( 'Foswiki::Meta', web => $web );
         my $it = $webObject->eachTopic();
 
         while ( $it->hasNext() ) {
@@ -436,11 +448,9 @@ sub expandAUTOINC {
 
 =begin TML
 
----++ StaticMethod save($session)
+---++ ObjectMethod save
 
 Command handler for =save= command.
-This method is designed to be
-invoked via the =UI::run= method.
 
 See System.CommandAndCGIScripts for details of parameters.
 
@@ -450,9 +460,11 @@ some point.
 =cut
 
 sub save {
-    my $session = shift;
+    my $this = shift;
 
-    my $query = $session->request;
+    my $app = $this->app;
+    my $req = $app->request;
+    my $cfg = $app->cfg;
 
     my $saveaction = '';
     foreach my $action (
@@ -460,7 +472,7 @@ sub save {
         addform replaceform delRev repRev )
       )
     {
-        if ( $query->param( 'action_' . $action ) ) {
+        if ( $req->param( 'action_' . $action ) ) {
             $saveaction = $action;
             last;
         }
@@ -468,9 +480,9 @@ sub save {
 
     # the 'action' parameter has been deprecated, though is still available
     # for compatibility with old templates.
-    if ( !$saveaction && $query->param('action') ) {
-        $saveaction = lc( $query->param('action') );
-        $session->logger->log( 'warning', <<WARN);
+    if ( !$saveaction && $req->param('action') ) {
+        $saveaction = lc( $req->param('action') );
+        $app->logger->log( 'warning', <<WARN);
 Use of deprecated "action" parameter to "save". Correct your templates!
 WARN
 
@@ -480,33 +492,32 @@ WARN
     }
 
     if ( $saveaction eq 'preview' ) {
-        require Foswiki::UI::Preview;
-        Foswiki::UI::Preview::preview($session);
+        $this->create('Foswiki::UI::Preview')->preview;
         return;
     }
 
-    my ( $web, $topic ) =
-      $session->normalizeWebTopicName( $session->webName, $session->topicName );
+    my ( $web, $topic ) = $req->normalizeWebTopicName( $req->web, $req->topic );
 
-    if ( $session->invalidTopic ) {
+    if ( $req->invalidTopic ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'accessdenied',
             status   => 404,
             def      => 'invalid_topic_name',
             web      => $web,
             topic    => $topic,
-            params   => [ $session->invalidTopic ]
+            params   => [ $req->invalidTopic ]
         );
     }
 
-    $topic = expandAUTOINC( $session, $web, $topic );
+    $topic = $this->expandAUTOINC( $web, $topic );
 
     my $topicObject =
-      Foswiki::Meta->new( session => $session, web => $web, topic => $topic );
+      $this->create( 'Foswiki::Meta', web => $web, topic => $topic );
 
     if ( $saveaction eq 'cancel' ) {
         my $lease = $topicObject->getLease();
-        if ( $lease && $lease->{user} eq $session->user ) {
+        if ( $lease && $lease->{user} eq $app->user ) {
             $topicObject->clearLease();
         }
 
@@ -514,48 +525,45 @@ WARN
         my ( $w, $t ) = ( '', '' );
         foreach my $test (
             $topic,
-            scalar( $query->param('topicparent') ),
-            $Foswiki::cfg{HomeTopicName}
+            scalar( $req->param('topicparent') ),
+            $cfg->data->{HomeTopicName}
           )
         {
-            ( $w, $t ) = $session->normalizeWebTopicName( $web, $test );
+            ( $w, $t ) = $req->normalizeWebTopicName( $web, $test );
 
             # Validate topic name
             $t = Foswiki::Sandbox::untaint( $t,
                 \&Foswiki::Sandbox::validateTopicName );
-            last if ( $session->topicExists( $w, $t ) );
+            last if ( $app->store->topicExists( $w, $t ) );
         }
-        $session->redirect( $session->redirectto("$w.$t") );
+        $app->redirect( $app->redirectto("$w.$t") );
 
         return;
     }
 
     # Do this *before* we do any query parameter rewriting
-    Foswiki::UI::checkValidationKey($session);
+    $this->checkValidationKey;
 
-    my $editaction = lc( $query->param('editaction') || '' );
-    my $edit = $query->param('edit') || 'edit';
+    my $editaction = lc( $req->param('editaction') || '' );
+    my $edit = $req->param('edit') || 'edit';
 
     ## SMELL: The form affecting actions do not preserve edit and editparams
     # preview+submitChangeForm is deprecated undocumented legacy
     if (   $saveaction eq 'addform'
         || $saveaction eq 'replaceform'
-        || $saveaction eq 'preview' && $query->param('submitChangeForm') )
+        || $saveaction eq 'preview' && $req->param('submitChangeForm') )
     {
         require Foswiki::UI::ChangeForm;
-        $session->writeCompletePage(
-            Foswiki::UI::ChangeForm::generate(
-                $session, $topicObject, $editaction
-            )
-        );
+        $app->writeCompletePage( $this->create('Foswiki::UI::ChangeForm')
+              ->generate( $topicObject, $editaction ) );
         return;
     }
 
     my $redirecturl;
 
     if ( $saveaction eq 'checkpoint' ) {
-        $query->param( -name => 'dontnotify', -value => 'checked' );
-        my $edittemplate = $query->param('template');
+        $req->param( -name => 'dontnotify', -value => 'checked' );
+        my $edittemplate = $req->param('template');
         my %p = ( t => time() );
 
         # map editaction -> action and edittemplat -> template
@@ -564,18 +572,18 @@ WARN
 
         # Pass through selected parameters
         foreach my $pthru (qw(redirectto skin cover nowysiwyg action)) {
-            $p{$pthru} = $query->param($pthru);
+            $p{$pthru} = $req->param($pthru);
         }
 
-        $redirecturl = $session->getScriptUrl( 1, $edit, $web, $topic, %p );
+        $redirecturl = $app->cfg->getScriptUrl( 1, $edit, $web, $topic, %p );
 
-        $redirecturl .= $query->param('editparams')
-          if $query->param('editparams');    # May contain anchor
+        $redirecturl .= $req->param('editparams')
+          if $req->param('editparams');    # May contain anchor
 
         my $lease = $topicObject->getLease();
 
-        if ( $lease && $lease->{user} eq $session->user ) {
-            $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
+        if ( $lease && $lease->{user} eq $app->user ) {
+            $topicObject->setLease( $cfg->data->{LeaseLength} );
         }
 
         # drop through
@@ -584,11 +592,11 @@ WARN
 
         # redirect to topic view or any other redirectto
         # specified as an url param
-        $redirecturl = $session->redirectto("$web.$topic");
+        $redirecturl = $app->redirectto("$web.$topic");
     }
 
     if ( $saveaction eq 'quietsave' ) {
-        $query->param( -name => 'dontnotify', -value => 'checked' );
+        $req->param( -name => 'dontnotify', -value => 'checked' );
         $saveaction = 'save';
 
         # drop through
@@ -600,20 +608,21 @@ WARN
         # reverting spammed topics. These functions support rewriting
         # history, in a Joe Stalin kind of way. They should be replaced with
         # mechanisms for hiding revisions.
-        $query->param( -name => 'cmd', -value => $saveaction );
+        $req->param( -name => 'cmd', -value => $saveaction );
 
         # drop through
     }
 
-    my $adminCmd = $query->param('cmd') || 0;
-    if ( $adminCmd && !$session->users->isAdmin( $session->user ) ) {
+    my $adminCmd = $req->param('cmd') || 0;
+    if ( $adminCmd && !$app->users->isAdmin( $app->user ) ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'accessdenied',
             status   => 403,
             def      => 'only_group',
             web      => $web,
             topic    => $topic,
-            params   => [ $Foswiki::cfg{SuperAdminGroup} ]
+            params   => [ $cfg->data->{SuperAdminGroup} ]
         );
     }
 
@@ -624,15 +633,16 @@ WARN
             $topicObject->deleteMostRecentRevision();
         }
         catch {
-            $session->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
+            $app->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
             Foswiki::OopsException->rethrowAs(
                 $_,
+                app      => $app,
                 template => 'attention',
                 def      => 'save_error',
                 web      => $web,
                 topic    => $topic,
                 params   => [
-                    $session->i18n->maketext(
+                    $app->i18n->maketext(
                         'Operation [_1] failed with an internal error',
                         'delRev'
                     )
@@ -641,7 +651,7 @@ WARN
 
         };
 
-        $session->redirect($redirecturl);
+        $app->redirect($redirecturl);
         return;
     }
 
@@ -650,21 +660,22 @@ WARN
         # replace top revision with the text from the query, trying to
         # make it look as much like the original as possible. The query
         # text is expected to contain %META as well as text.
-        $topicObject->text( scalar $query->param('text') );
+        $topicObject->text( scalar $req->param('text') );
 
         try {
             $topicObject->replaceMostRecentRevision( forcedate => 1 );
         }
         catch {
-            $session->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
+            $app->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
             Foswiki::OopsException->rethrowAs(
                 $_,
+                app      => $app,
                 template => 'attention',
                 def      => 'save_error',
                 web      => $web,
                 topic    => $topic,
                 params   => [
-                    $session->i18n->maketext(
+                    $app->i18n->maketext(
                         'Operation [_1] failed with an internal error',
                         'repRev'
                     )
@@ -673,19 +684,19 @@ WARN
 
         };
 
-        $session->redirect($redirecturl);
+        $app->redirect($redirecturl);
         return;
     }
 
     # This is where the permissions are checked.  Error will be thrown
     # if the save won't be allowed.
     my ( $saveOpts, $merged, $attachments ) =
-      buildNewTopic( $session, $topicObject, 'save' );
+      $this->buildNewTopic( $topicObject, 'save' );
 
     if ( $saveaction =~ m/^(save|checkpoint)$/ ) {
         my $text = $topicObject->text();
         $text = '' unless defined $text;
-        $session->plugins->dispatch( 'afterEditHandler', $text,
+        $app->plugins->dispatch( 'afterEditHandler', $text,
             $topicObject->topic, $topicObject->web, $topicObject );
         $topicObject->text($text);
     }
@@ -694,15 +705,16 @@ WARN
         $topicObject->save(%$saveOpts);
     }
     catch {
-        $session->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
+        $app->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
         Foswiki::OopsException->rethrowAs(
             $_,
+            app      => $app,
             template => 'attention',
             def      => 'save_error',
             web      => $topicObject->web,
             topic    => $topicObject->topic,
             params   => [
-                $session->i18n->maketext(
+                $app->i18n->maketext(
                     'Operation [_1] failed with an internal error', 'save'
                 )
             ],
@@ -721,15 +733,16 @@ WARN
                 $a->{tom}->copyAttachment( $a->{name}, $topicObject );
             }
             catch {
-                $session->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
+                $app->logger->log( 'error', ( ref($_) ? $_->text : $_ ) );
                 Foswiki::OopsException->rethrowAs(
                     $_,
+                    app      => $app,
                     template => 'attention',
                     def      => 'save_error',
                     web      => $topicObject->web,
                     topic    => $topicObject->topic,
                     params   => [
-                        $session->i18n->maketext(
+                        $app->i18n->maketext(
                             'Operation [_1] failed with an internal error',
                             'copyAttachment'
                         )
@@ -742,12 +755,13 @@ WARN
     my $lease = $topicObject->getLease();
 
     # clear the lease, if (and only if) we own it
-    if ( $lease && $lease->{user} eq $session->user ) {
+    if ( $lease && $lease->{user} eq $app->user ) {
         $topicObject->clearLease();
     }
 
     if ($merged) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'attention',
             status   => 200,
             def      => 'merge_notice',
@@ -757,7 +771,7 @@ WARN
         );
     }
 
-    $session->redirect($redirecturl);
+    $app->redirect($redirecturl);
 }
 
 1;

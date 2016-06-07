@@ -292,7 +292,8 @@ sub _prepareResponse {
     push( @p, template => $this->template );
     push( @p, def => $this->def ) if $this->def;
     my $n = 1;
-    push( @p, map { 'param' . ( $n++ ) => $_ } @{ $this->params } );
+    push( @p, map { 'param' . ( $n++ ) => $_ } @{ $this->params } )
+      if defined $this->params;
     while ( my $p = shift(@p) ) {
         $req->param( -name => $p, -value => shift(@p) );
     }

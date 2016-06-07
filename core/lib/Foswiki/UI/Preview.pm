@@ -1,13 +1,14 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::UI::Preview;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Foswiki                ();
-use Foswiki::UI::Save      ();
 use Foswiki::OopsException ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
 
 use Assert;
 
@@ -19,21 +20,24 @@ BEGIN {
 }
 
 sub preview {
-    my $session = shift;
+    my $this = shift;
 
-    my $query = $session->request;
-    my $web   = $session->webName;
-    my $topic = $session->topicName;
-    my $user  = $session->user;
+    my $app       = $this->app;
+    my $req       = $app->request;
+    my $templates = $app->templates;
+    my $web       = $req->web;
+    my $topic     = $req->topic;
+    my $user      = $app->user;
 
-    if ( $session->invalidTopic ) {
+    if ( $req->invalidTopic ) {
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'accessdenied',
             status   => 404,
             def      => 'invalid_topic_name',
             web      => $web,
             topic    => $topic,
-            params   => [ $session->invalidTopic ]
+            params   => [ $req->invalidTopic ]
         );
     }
 
@@ -41,13 +45,14 @@ sub preview {
     # give enough time for a new topic with the same name to be created.
     # It would be better to do it only on an actual save.
 
-    $topic = Foswiki::UI::Save::expandAUTOINC( $session, $web, $topic );
+    my $saveObj = $this->create('Foswiki::UI::Save');
+    $topic = $saveObj->expandAUTOINC( $web, $topic );
 
     my $topicObject =
-      Foswiki::Meta->new( session => $session, web => $web, topic => $topic );
+      $this->create( 'Foswiki::Meta', web => $web, topic => $topic );
 
     my ( $saveOpts, $merged ) =
-      Foswiki::UI::Save::buildNewTopic( $session, $topicObject, 'preview' );
+      $saveObj->buildNewTopic( $topicObject, 'preview' );
 
     # Note: param(formtemplate) has already been decoded by buildNewTopic
     # so the $meta entry reflects if it was used.
@@ -58,13 +63,14 @@ sub preview {
     if ($form) {
         $formName = $form->{name};    # used later on as well
         require Foswiki::Form;
-        my $formDef = Foswiki::Form->loadCached( $session, $web, $formName );
+        my $formDef = Foswiki::Form->loadCached( $app, $web, $formName );
         unless ($formDef) {
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'attention',
                 def      => 'no_form_def',
-                web      => $session->webName,
-                topic    => $session->topicName,
+                web      => $req->web,
+                topic    => $req->topic,
                 params   => [ $web, $formName ]
             );
         }
@@ -72,14 +78,14 @@ sub preview {
     }
 
     my $text = $topicObject->text() || '';
-    $session->plugins->dispatch( 'afterEditHandler', $text, $topic, $web,
+    $app->plugins->dispatch( 'afterEditHandler', $text, $topic, $web,
         $topicObject );
 
     # Load the template for the view
     my $content  = $text;
-    my $template = $session->prefs->getPreference('VIEW_TEMPLATE');
+    my $template = $app->prefs->getPreference('VIEW_TEMPLATE');
     if ($template) {
-        my $vt = $session->templates->readTemplate( $template, no_oops => 1 );
+        my $vt = $templates->readTemplate( $template, no_oops => 1 );
         if ($vt) {
 
             # We can't just use a VIEW_TEMPLATE directly because it
@@ -87,12 +93,12 @@ sub preview {
             # need is defined by the %TMPL:DEF{"content"}% within it, so
             # we can just pull it out and instantiate that small bit.
 
-            $content = $session->templates->expandTemplate('content');
+            $content = $templates->expandTemplate('content');
             $content =~ s/%TEXT%/$text/g;
         }
     }
 
-    my $tmpl = $session->templates->readTemplate('preview');
+    my $tmpl = $templates->readTemplate('preview');
 
     if ( $saveOpts->{minor} ) {
         $tmpl =~ s/%DONTNOTIFYCHECKBOX%/checked="checked"/g;
@@ -106,10 +112,10 @@ sub preview {
     else {
         $tmpl =~ s/%FORCENEWREVISIONCHECKBOX%//g;
     }
-    my $saveCmd = $query->param('cmd') || '';
+    my $saveCmd = $req->param('cmd') || '';
     $tmpl =~ s/%CMD%/$saveCmd/g;
 
-    my $redirectTo = $query->param('redirectto') || '';
+    my $redirectTo = $req->param('redirectto') || '';
     $tmpl =~ s/%REDIRECTTO%/$redirectTo/g;
 
     $formName ||= '';
@@ -136,7 +142,7 @@ sub preview {
     $displayText =~ s/(<[^>]*\bon[A-Za-z]+=)('[^']*'|"[^"]*")/$1''/gis;
 
     # let templates know the context so they can act on it
-    $session->enterContext( 'preview', 1 );
+    $app->enterContext( 'preview', 1 );
 
     # note: preventing linkage in rendered form can only happen in templates
     # see formtables.tmpl
@@ -157,23 +163,23 @@ sub preview {
 
     # I don't know _where_ these should be done,
     # so I'll do them as late as possible
-    my $originalrev = $query->param('originalrev');    # rev edit started on
+    my $originalrev = $req->param('originalrev');    # rev edit started on
          #ASSERT($originalrev ne '%ORIGINALREV%') if DEBUG;
     $tmpl =~ s/%ORIGINALREV%/$originalrev/g if ( defined($originalrev) );
 
-    my $templatetopic = $query->param('templatetopic');
+    my $templatetopic = $req->param('templatetopic');
 
     #ASSERT($templatetopic ne '%TEMPLATETOPIC%') if DEBUG;
     $tmpl =~ s/%TEMPLATETOPIC%/$templatetopic/g if ( defined($templatetopic) );
 
     #this one's worrying, its special, and not set much at all
     #$tmpl =~ s/%SETTINGSTOPIC%/$settingstopic/g;
-    my $newtopic = $query->param('newtopic');
+    my $newtopic = $req->param('newtopic');
 
     #ASSERT($newtopic ne '%NEWTOPIC%') if DEBUG;
     $tmpl =~ s/%NEWTOPIC%/$newtopic/g if ( defined($newtopic) );
 ###
-    $session->writeCompletePage($tmpl);
+    $app->writeCompletePage($tmpl);
 }
 
 sub _reTargetLink {

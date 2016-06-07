@@ -676,39 +676,6 @@ sub splitAnchorFromUrl {
 
 =begin TML
 
----++ ObjectMethod cacheQuery() -> $queryString
-
-Caches the current query in the params cache, and returns a rewritten
-query string for the cache to be picked up again on the other side of a
-redirect.
-
-We can't encode post params into a redirect, because they may exceed the
-size of the GET request. So we cache the params, and reload them when the
-redirect target is reached.
-
-=cut
-
-sub cacheQuery {
-    my $this  = shift;
-    my $query = $this->request;
-
-    return '' unless ( $query->param() );
-
-    # Don't double-cache
-    return '' if ( $query->param('foswiki_redirect_cache') );
-
-    require Foswiki::Request::Cache;
-    my $uid = Foswiki::Request::Cache->new()->save($query);
-    if ( $Foswiki::cfg{UsePathForRedirectCache} ) {
-        return '/foswiki_redirect_cache/' . $uid;
-    }
-    else {
-        return '?foswiki_redirect_cache=' . $uid;
-    }
-}
-
-=begin TML
-
 ---++ ObjectMethod getCGISession() -> $cgisession
 
 Get the CGI::Session object associated with this session, if there is
@@ -844,52 +811,6 @@ sub make_params {
         $url .= '?' . join( ';', @ps );
     }
     return $url . $anchor;
-}
-
-=begin TML
-
----++ ObjectMethod getPubURL($web, $topic, $attachment, %options) -> $url
-
-Composes a pub url.
-   * =$web= - name of the web for the URL, defaults to $session->{webName}
-   * =$topic= - name of the topic, defaults to $session->{topicName}
-   * =$attachment= - name of the attachment, defaults to no attachment
-Supported %options are:
-   * =topic_version= - version of topic to retrieve attachment from
-   * =attachment_version= - version of attachment to retrieve
-   * =absolute= - requests an absolute URL (rather than a relative path)
-
-If =$web= is not given, =$topic= and =$attachment= are ignored.
-If =$topic= is not given, =$attachment= is ignored.
-
-If =topic_version= is not given, the most recent revision of the topic
-will be linked. Similarly if attachment_version= is not given, the most recent
-revision of the attachment will be assumed. If =topic_version= is specified
-but =attachment_version= is not (or the specified =attachment_version= is not
-present), then the most recent version of the attachment in that topic version
-will be linked.
-
-If Foswiki is running in an absolute URL context (e.g. the skin requires
-absolute URLs, such as print or rss, or Foswiki is running from the
-command-line) then =absolute= will automatically be set.
-
-Note: for compatibility with older plugins, which use %PUBURL*% with
-a constructed URL path, do not use =*= unless =web=, =topic=, and
-=attachment= are all specified.
-
-As required by RFC3986, the returned URL will only contain the
-allowed characters -A-Za-z0-9_.~!*\'();:@&=+$,/?%#[]
-
-=cut
-
-sub getPubURL {
-    my ( $this, $web, $topic, $attachment, %options ) = @_;
-
-    $options{absolute} ||=
-      ( $this->inContext('command_line') || $this->inContext('absolute_urls') );
-
-    return $this->store->getAttachmentURL( $this, $web, $topic, $attachment,
-        %options );
 }
 
 =begin TML

@@ -1,16 +1,17 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::UI::Changes;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Assert;
 use Try::Tiny;
 
 use Foswiki       ();
-use Foswiki::UI   ();
 use Foswiki::Time ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -21,15 +22,17 @@ BEGIN {
 
 # Command handler for changes command
 sub changes {
-    my $session = shift;
+    my $this = shift;
 
-    my $query = $session->request;
-    my $webObject =
-      Foswiki::Meta->new( session => $session, web => $session->webName );
+    my $app       = $this->app;
+    my $req       = $app->request;
+    my $users     = $app->users;
+    my $templates = $app->templates;
+    my $webObject = $this->create( 'Foswiki::Meta', web => $req->web );
 
-    Foswiki::UI::checkWebExists( $session, $webObject->web, 'find changes in' );
+    $this->checkWebExists( $webObject->web, 'find changes in' );
 
-    my $text = $session->templates->readTemplate('changes');
+    my $text = $templates->readTemplate('changes');
     my ( $page, $eachChange, $after ) = split( /%REPEAT%/, $text );
 
     if ( !defined($after) ) {
@@ -40,17 +43,17 @@ sub changes {
         $page  = $header;
         $after = $footer;
 
-        $eachChange = $session->templates->expandTemplate('CHANGES:format');
+        $eachChange = $templates->expandTemplate('CHANGES:format');
     }
 
-    my $showMinor = $query->param('minor');
+    my $showMinor = $req->param('minor');
     unless ($showMinor) {
         my $comment =
             CGI::b( {}, 'Note: ' )
           . 'This page is showing major changes only. '
           . CGI::a(
             {
-                href => $query->url() . '/' . $webObject->web() . '?minor=1',
+                href => $req->url() . '/' . $webObject->web() . '?minor=1',
                 rel  => 'nofollow'
             },
             'View all changes'
@@ -67,11 +70,11 @@ sub changes {
         next if ( !$showMinor && $change->{minor} );
         next if $done{ $change->{topic} };
         next
-          unless $session->topicExists( $webObject->web, $change->{topic} );
-        my $topicObject = Foswiki::Meta->new(
-            session => $session,
-            web     => $webObject->web,
-            topic   => $change->{topic}
+          unless $app->store->topicExists( $webObject->web, $change->{topic} );
+        my $topicObject = $this->create(
+            'Foswiki::Meta',
+            web   => $webObject->web,
+            topic => $change->{topic}
         );
         next unless $topicObject->haveAccess('VIEW');
         my $summary =
@@ -80,11 +83,11 @@ sub changes {
         $thisChange =~ s/%TOPICNAME%/$change->{topic}/g;
         my $wikiuser =
             $change->{user}
-          ? $session->users->webDotWikiName( $change->{user} )
+          ? $users->webDotWikiName( $change->{user} )
           : '';
         my $wikiname =
             $change->{user}
-          ? $session->users->getWikiName( $change->{user} )
+          ? $users->getWikiName( $change->{user} )
           : '';
         $thisChange =~ s/%AUTHOR%/$wikiuser/g;
         $thisChange =~ s/\$wikiname/<nop>$wikiname/g;
@@ -102,7 +105,7 @@ sub changes {
         $done{ $change->{topic} } = 1;
     }
 
-    $session->logger->log(
+    $app->logger->log(
         {
             level    => 'info',
             action   => 'changes',
@@ -112,22 +115,22 @@ sub changes {
 
     $page .= $after;
 
-    my $topicObject = Foswiki::Meta->new(
-        session => $session,
-        web     => $session->webName,
-        topic   => $session->topicName
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $req->web,
+        topic => $req->topic,
     );
     $page = $topicObject->expandMacros($page);
     $page = $topicObject->renderTML($page);
 
-    $session->writeCompletePage($page);
+    $app->writeCompletePage($page);
 }
 
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

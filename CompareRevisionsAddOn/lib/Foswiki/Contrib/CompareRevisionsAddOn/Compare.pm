@@ -9,18 +9,19 @@
 #
 ########################################################################
 package Foswiki::Contrib::CompareRevisionsAddOn::Compare;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 
-use Foswiki::UI      ();
-use Foswiki::Func    ();
-use Foswiki::Plugins ();
-use Encode           ();
+use Foswiki::Func ();
+use Encode        ();
 
 use HTML::TreeBuilder ();
 use Algorithm::Diff   ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
 
 my $HTMLElement = 'HTML::Element';
 my $class_add   = 'craCompareAdd';
@@ -32,32 +33,37 @@ my $scripturl;
 my $v40plus = HTML::TreeBuilder->can('no_expand_entities');
 
 sub compare {
-    my $session = shift;
+    my $this = shift;
 
-    $Foswiki::Plugins::SESSION = $session;
+    my $app = $this->app;
 
-    my $query   = $session->{request};
-    my $webName = $session->{webName};
-    my $topic   = $session->{topicName};
+    my $req     = $app->request;
+    my $webName = $req->web;
+    my $topic   = $req->topic;
+    my $cfgData = $app->cfg->data;
 
-    Foswiki::UI::checkWebExists( $session, $webName, 'compare' );
-    Foswiki::UI::checkTopicExists( $session, $webName, $topic, 'compare' );
+    $this->checkWebExists( $webName, 'compare' );
+    $this->checkTopicExists( $webName, $topic, 'compare' );
 
-    my $topicObject = Foswiki::Meta->load( $session, $webName, $topic );
-    Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
+    my $topicObject = Foswiki::Meta->load( $app, $webName, $topic );
+    $this->checkAccess( 'VIEW', $topicObject );
 
     # If we are applying control to the revisions:
-    if ( defined $Foswiki::cfg{FeatureAccess}{AllowHistory}
-        && $Foswiki::cfg{FeatureAccess}{AllowHistory} ne 'all' )
+    if ( defined $cfgData->{FeatureAccess}{AllowHistory}
+        && $cfgData->{FeatureAccess}{AllowHistory} ne 'all' )
     {
 
-        if ( $Foswiki::cfg{FeatureAccess}{AllowHistory} eq 'authenticated' ) {
-            throw Foswiki::AccessControlException( 'authenticated',
-                $session->{user}, $webName, $topic, $Foswiki::Meta::reason )
-              unless $session->inContext("authenticated");
+        if ( $cfgData->{FeatureAccess}{AllowHistory} eq 'authenticated' ) {
+            throw Foswiki::AccessControlException(
+                mode   => 'authenticated',
+                user   => $app->user,
+                web    => $webName,
+                topic  => $topic,
+                reason => $Foswiki::Meta::reason
+            ) unless $app->inContext("authenticated");
         }
         else {
-            Foswiki::UI::checkAccess( $session, 'HISTORY', $topicObject );
+            $this->checkAccess( 'HISTORY', $topicObject );
         }
     }
 
@@ -66,14 +72,14 @@ sub compare {
     # Check, if interweave or sidebyside
 
     my $renderStyle =
-         $query->param('render')
+         $req->param('render')
       || Foswiki::Func::getPreferencesValue("COMPARERENDERSTYLE")
       || 'interweave';
     $interweave = $renderStyle eq 'interweave';
 
     # Check context
 
-    my $context = $query->param('context');
+    my $context = $req->param('context');
     $context = Foswiki::Func::getPreferencesValue("COMPARECONTEXT")
       unless defined($context);
     if ( defined $context ) {
@@ -87,14 +93,14 @@ sub compare {
     # Get Revisions. rev2 default to maxrev, rev1 to rev2-1
 
     my $maxrev = ( Foswiki::Func::getRevisionInfo( $webName, $topic ) )[2];
-    my $rev2 = $query->param('rev2') || $maxrev;
+    my $rev2 = $req->param('rev2') || $maxrev;
     $rev2 =~ s/^1\.// if $rev2;
 
     # Fix for Codev.SecurityAlertExecuteCommandsWithRev
     $rev2 = $maxrev unless ( $rev2 =~ s/.*?([0-9]+).*/$1/o );
     $rev2 = $maxrev if $rev2 > $maxrev;
     $rev2 = 1       if $rev2 < 1;
-    my $rev1 = $query->param('rev1') || $rev2 - 1;
+    my $rev1 = $req->param('rev1') || $rev2 - 1;
     $rev1 =~ s/^1\.// if $rev1;
 
     # Fix for Codev.SecurityAlertExecuteCommandsWithRev
@@ -107,18 +113,18 @@ sub compare {
     # Set skin temporarily to classic, so attachments and forms
     # are not rendered with twisty tables
 
-    my $savedskin = $query->param('skin');
+    my $savedskin = $req->param('skin');
     $savedskin =~ s/[^$Foswiki::regex{mixedAlphaNum}.,\s]//go
       if defined $savedskin;
-    $query->param( 'skin', 'classic' );
+    $req->param( 'skin', 'classic' );
 
     # Get the HTML trees of the specified versions.
     # Note that the trees are built using UNICODE text, and it is
     # only at the end that the result is converted back to utf8 bytes.
 
-    my $tree2 = _getTree( $session, $webName, $topic, $rev2 );
+    my $tree2 = $this->_getTree( $webName, $topic, $rev2 );
     if ( $tree2 =~ /^http:.*oops/ ) {
-        Foswiki::Func::redirectCgiQuery( $query, $tree2 );
+        Foswiki::Func::redirectCgiQuery( $req, $tree2 );
     }
 
     # TablePlugin must reinitialise to reset all table counters (Item1911)
@@ -136,18 +142,18 @@ sub compare {
         }
     }
 
-    my $tree1 = _getTree( $session, $webName, $topic, $rev1 );
+    my $tree1 = $this->_getTree( $webName, $topic, $rev1 );
     if ( $tree1 =~ /^http:.*oops/ ) {
-        Foswiki::Func::redirectCgiQuery( $query, $tree1 );
+        Foswiki::Func::redirectCgiQuery( $req, $tree1 );
     }
 
     # Reset the skin
 
     if ($savedskin) {
-        $query->param( 'skin', $savedskin );
+        $req->param( 'skin', $savedskin );
     }
     else {
-        $query->delete('skin');
+        $req->delete('skin');
     }
 
     # Get revision info for the two revisions
@@ -286,8 +292,8 @@ sub compare {
 
         last
           if $i == 1
-          || ( $Foswiki::cfg{NumberOfRevisions} > 0
-            && $i == $maxrev - $Foswiki::cfg{NumberOfRevisions} + 1 );
+          || ( $cfgData->{NumberOfRevisions} > 0
+            && $i == $maxrev - $cfgData->{NumberOfRevisions} + 1 );
         if ( $i == $rev2 && $i - 1 == $rev1 ) {
             $revisions .= "  &lt;";
         }
@@ -325,8 +331,15 @@ sub compare {
     $tree2 = $tree2->parent() while defined $tree2->parent();
     $tree2->delete();
 
-    $session->writeCompletePage( $output, 'view' );
-    $session->logEvent( 'compare', $webName . '.' . $topic, "$rev1 $rev2" );
+    $app->writeCompletePage( $output, 'view' );
+    $app->logger->log(
+        {
+            level    => 'info',
+            action   => 'compare',
+            webTopic => $webName . '.' . $topic,
+            extra    => "$rev1 $rev2",
+        }
+    );
 
 }
 
@@ -334,8 +347,11 @@ sub compare {
 # CAUTION: the utf8 content of the topic is automatically decoded to unicode,
 # and it's unicode that will appear in the tree.
 sub _getTree {
+    my $this = shift;
 
-    my ( $session, $webName, $topicName, $rev ) = @_;
+    my ( $webName, $topicName, $rev ) = @_;
+
+    my $app = $this->app;
 
     # Read document
 
@@ -344,7 +360,7 @@ sub _getTree {
     $text .= "\n" . '%META{"form"}%';
     $text .= "\n" . '%META{"attachments"}%';
 
-    $session->enterContext( 'can_render_meta', $meta );
+    $app->enterContext( 'can_render_meta', $meta );
     $text = Foswiki::Func::expandCommonVariables( $text, $topicName, $webName,
         $meta );
     $text = Foswiki::Func::renderText( $text, $webName );
@@ -622,7 +638,7 @@ sub getRevInfo {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -9,16 +9,18 @@ UI delegate for attachment management functions
 =cut
 
 package Foswiki::UI::Attach;
+use v5.14;
 
-use strict;
-use warnings;
 use Assert;
 use Try::Tiny;
 
 use Foswiki                ();
-use Foswiki::UI            ();
 use Foswiki::Sandbox       ();
 use Foswiki::OopsException ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -29,31 +31,30 @@ BEGIN {
 
 =begin TML
 
----++ StaticMethod attach( $session )
+---++ ObjectMethod attach
 
 =attach= command handler.
-This method is designed to be
-invoked via the =UI::run= method.
 
 Generates a prompt page for adding an attachment.
 
 =cut
 
 sub attach {
-    my $session = shift;
+    my $this = shift;
 
-    my $query = $session->request;
-    my $web   = $session->webName;
-    my $topic = $session->topicName;
+    my $app   = $this->app;
+    my $req   = $app->request;
+    my $web   = $req->web;
+    my $topic = $req->topic;
 
-    Foswiki::UI::checkWebExists( $session, $web,, 'attach' );
-    Foswiki::UI::checkTopicExists( $session, $web, $topic, 'upload files to' );
+    $this->checkWebExists( $web,, 'attach' );
+    $this->checkTopicExists( $web, $topic, 'upload files to' );
 
-    my $topicObject = Foswiki::Meta->load( $session, $web, $topic );
-    Foswiki::UI::checkAccess( $session, 'VIEW',   $topicObject );
-    Foswiki::UI::checkAccess( $session, 'CHANGE', $topicObject );
+    my $topicObject = Foswiki::Meta->load( $app, $web, $topic );
+    $this->checkAccess( 'VIEW',   $topicObject );
+    $this->checkAccess( 'CHANGE', $topicObject );
 
-    my $fileName = $query->param('filename') || '';
+    my $fileName = $req->param('filename') || '';
     my $args = $topicObject->get( 'FILEATTACHMENT', $fileName );
     $args = {
         name    => $fileName,
@@ -69,7 +70,7 @@ sub attach {
     # FIXME: Move down, log only if successful (or with error msg?)
     # Attach is a read function, only has potential for a change
 
-    $session->logger->log(
+    $app->logger->log(
         {
             level    => 'info',
             action   => 'attach',
@@ -82,17 +83,17 @@ sub attach {
     my $tmpl         = '';
     my $atext        = '';
     if ($fileName) {
-        $tmpl = $session->templates->readTemplate('attachagain');
+        $tmpl = $app->templates->readTemplate('attachagain');
         my $u = $args->{user};
-        $fileWikiUser = $session->users->webDotWikiName($u) if $u;
+        $fileWikiUser = $app->users->webDotWikiName($u) if $u;
     }
     else {
-        $tmpl = $session->templates->readTemplate('attachnew');
+        $tmpl = $app->templates->readTemplate('attachnew');
     }
     if ($fileName) {
 
         # must come after templates have been read
-        $atext .= $session->attach->formatVersions( $topicObject, %$args );
+        $atext .= $app->attach->formatVersions( $topicObject, %$args );
     }
     $tmpl =~ s/%ATTACHTABLE%/$atext/g;
     $tmpl =~ s/%FILEUSER%/$fileWikiUser/g;
@@ -106,7 +107,7 @@ sub attach {
     $args->{comment} = Foswiki::entityEncode( $args->{comment} );
     $tmpl =~ s/%FILECOMMENT%/$args->{comment}/g;
 
-    $session->writeCompletePage($tmpl);
+    $app->writeCompletePage($tmpl);
 }
 
 1;

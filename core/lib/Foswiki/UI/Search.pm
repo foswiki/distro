@@ -9,11 +9,13 @@ UI functions for searching.
 =cut
 
 package Foswiki::UI::Search;
-
-use strict;
-use warnings;
+use v5.14;
 
 use Foswiki ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -24,7 +26,7 @@ BEGIN {
 
 =begin TML
 
----++ StaticMethod search( $session )
+---++ ObjectMethod search
 
 Deprecated - now redirects to WebSearch topic.
 
@@ -60,14 +62,15 @@ Perform a search as dictated by CGI parameters:
 =cut
 
 sub search {
-    my $session = shift;
+    my $this = shift;
 
-    my $query   = $session->request;
-    my $webName = $session->webName;
+    my $app     = $this->app;
+    my $req     = $app->request;
+    my $webName = $req->web;
 
     #TODO: is WebSearch a constant?
-    my $searchUrl = $session->getScriptUrl( 1, 'view', $webName, 'WebSearch' );
-    $session->redirect( $searchUrl, 1 );    # with passthrough
+    my $searchUrl = $app->cfg->getScriptUrl( 1, 'view', $webName, 'WebSearch' );
+    $app->redirect( $searchUrl, 1 );    # with passthrough
 }
 
 1;

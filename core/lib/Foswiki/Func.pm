@@ -277,7 +277,7 @@ absolute URLs will always be generated.
 =cut
 
 sub getPubUrlPath {
-    return $Foswiki::app->getPubURL(@_);
+    return $Foswiki::app->cfg->getPubURL(@_);
 }
 
 =begin TML
