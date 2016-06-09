@@ -25,14 +25,14 @@ BEGIN {
 
 =begin TML
 
----++ StaticMethod merge2( $arev, $a, $brev, $b, $sep, $session, $info )
+---++ StaticMethod merge2( $arev, $a, $brev, $b, $sep, $app, $info )
 
    * =$arev= - rev for $a (string)
    * =$a= - first ('original') string
    * =$brev= - rev for $b (string)
    * =$b= - second ('new') string
    * =$sep= = separator, string RE e.g. '.*?\n' for lines
-   * =$session= - Foswiki object
+   * =$app= - Foswiki::App object
    * =$info= - data block passed to plugins merge handler. Conventionally this will identify the source of the text being merged (the source form field, or undef for the body text)
 
 Perform a merge of two versions of the same text, using
@@ -53,18 +53,18 @@ The plugins =mergeHandler= is called for each merge.
 Call it like this:
 <verbatim>
 $newText = Foswiki::Merge::merge2(
-   $oldrev, $old, $newrev, $new, '.*?\n', $session, $info );
+   $oldrev, $old, $newrev, $new, '.*?\n', $app, $info );
 </verbatim>
 
 =cut
 
 sub merge2 {
-    my ( $va, $ia, $vb, $ib, $sep, $session, $info ) = @_;
+    my ( $va, $ia, $vb, $ib, $sep, $app, $info ) = @_;
 
     my @a = split( /($sep)/, $ia );
     my @b = split( /($sep)/, $ib );
 
-    ASSERT( $session && $session->isa('Foswiki') ) if DEBUG;
+    ASSERT( $app && $app->isa('Foswiki::App') ) if DEBUG;
 
     my @out;
     require Algorithm::Diff;
@@ -81,21 +81,20 @@ sub merge2 {
         \@out,
         \@a,
         \@b,
-        $session, $info
+        $app, $info
     );
     return join( '', @out );
 }
 
 sub _acceptA {
-    my ( $a, $b, $out, $ai, $bi, $session, $info ) = @_;
+    my ( $a, $b, $out, $ai, $bi, $app, $info ) = @_;
 
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
+    ASSERT( $app->isa('Foswiki::App') ) if DEBUG;
 
     #print STDERR "From A: '$ai->[$a]'\n";
     # accept text from the old version without asking for resolution
     my $merged =
-      $session->{plugins}
-      ->dispatch( 'mergeHandler', ' ', $ai->[$a], undef, $info );
+      $app->plugins->dispatch( 'mergeHandler', ' ', $ai->[$a], undef, $info );
     if ( defined $merged ) {
         push( @$out, $merged );
     }
@@ -105,14 +104,13 @@ sub _acceptA {
 }
 
 sub _acceptB {
-    my ( $a, $b, $out, $ai, $bi, $session, $info ) = @_;
+    my ( $a, $b, $out, $ai, $bi, $app, $info ) = @_;
 
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
+    ASSERT( $app->isa('Foswiki::App') ) if DEBUG;
 
     #print STDERR "From B: '$bi->[$b]'\n";
     my $merged =
-      $session->{plugins}
-      ->dispatch( 'mergeHandler', ' ', $bi->[$b], undef, $info );
+      $app->plugins->dispatch( 'mergeHandler', ' ', $bi->[$b], undef, $info );
     if ( defined $merged ) {
         push( @$out, $merged );
     }
@@ -122,9 +120,9 @@ sub _acceptB {
 }
 
 sub _change {
-    my ( $a, $b, $out, $ai, $bi, $session, $info ) = @_;
+    my ( $a, $b, $out, $ai, $bi, $app, $info ) = @_;
     my $merged;
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
+    ASSERT( $app->isa('Foswiki::App') ) if DEBUG;
 
     # Diff isn't terribly smart sometimes; it will generate changes
     # with a or b empty, which I would have thought should have
@@ -136,8 +134,8 @@ sub _change {
 
             # this insert is replacing something with something
             $merged =
-              $session->{plugins}
-              ->dispatch( 'mergeHandler', 'c', $ai->[$a], $bi->[$b], $info );
+              $app->plugins->dispatch( 'mergeHandler', 'c', $ai->[$a],
+                $bi->[$b], $info );
             if ( defined $merged ) {
                 push( @$out, $merged );
             }
@@ -148,8 +146,8 @@ sub _change {
         }
         else {
             $merged =
-              $session->{plugins}
-              ->dispatch( 'mergeHandler', '-', $ai->[$a], $bi->[$b], $info );
+              $app->plugins->dispatch( 'mergeHandler', '-', $ai->[$a],
+                $bi->[$b], $info );
             if ( defined $merged ) {
                 push( @$out, $merged );
             }
@@ -162,8 +160,8 @@ sub _change {
 
         # inserting new
         $merged =
-          $session->{plugins}
-          ->dispatch( 'mergeHandler', '+', $ai->[$a], $bi->[$b], $info );
+          $app->plugins->dispatch( 'mergeHandler', '+', $ai->[$a], $bi->[$b],
+            $info );
 
         #print STDERR "From B: '$bi->[$b]'\n";
         if ( defined $merged ) {
@@ -178,8 +176,8 @@ sub _change {
         # otherwise this insert is not replacing anything
         #print STDERR "From B: '$bi->[$b]'\n";
         $merged =
-          $session->{plugins}
-          ->dispatch( 'mergeHandler', ' ', $ai->[$a], $bi->[$b], $info );
+          $app->plugins->dispatch( 'mergeHandler', ' ', $ai->[$a], $bi->[$b],
+            $info );
         if ( defined $merged ) {
             push( @$out, $merged );
         }
@@ -299,7 +297,7 @@ sub _equal {
 =begin TML
 
 ---++ StaticMethod merge3( $arev, $a, $brev, $b, $crev, $c, $sep,
-                          $session, $info )
+                          $app, $info )
 
    * =$arev= - rev for common ancestor (id e.g. ver no)
    * =$a= - common ancestor
@@ -308,7 +306,7 @@ sub _equal {
    * =$crev= - rev no for second derivative string (id)
    * =$c= - second derivative string
    * =$sep= = separator, string RE e.g. '.*?\n' for lines
-   * =$session= - Foswiki object
+   * =$app= - Foswiki::App object
    * =$info= - data block passed to plugins merge handler. Conventionally this will identify the source of the text being merged (the source form field, or undef for the body text)
 
 Perform a merge of two versions (b and c) of the same text, using
@@ -343,7 +341,7 @@ call it like this:
 =cut
 
 sub merge3 {
-    my ( $arev, $ia, $brev, $ib, $crev, $ic, $sep, $session, $info ) = @_;
+    my ( $arev, $ia, $brev, $ib, $crev, $ic, $sep, $app, $info ) = @_;
 
     $sep = "\r?\n" if ( !defined($sep) );
 
@@ -471,8 +469,8 @@ sub merge3 {
                         pop @cconf;
                     }
                     _handleConflict(
-                        \@out, \@aconf, \@bconf, \@cconf,  $arev,
-                        $brev, $crev,   $sep,    $session, $info
+                        \@out, \@aconf, \@bconf, \@cconf, $arev,
+                        $brev, $crev,   $sep,    $app,    $info
                     );
                     $conflict = 0;
                     push @out, @merged;
@@ -483,8 +481,8 @@ sub merge3 {
 
                 # the line is non-conflicting
                 my $merged =
-                  $session->{plugins}
-                  ->dispatch( 'mergeHandler', ' ', $dline, $dline, $info );
+                  $app->plugins->dispatch( 'mergeHandler', ' ', $dline, $dline,
+                    $info );
                 if ( defined $merged ) {
                     push( @out, $merged );
                 }
@@ -506,8 +504,8 @@ sub merge3 {
         }
 
         _handleConflict(
-            \@out, \@aconf, \@bconf, \@cconf,  $arev,
-            $brev, $crev,   $sep,    $session, $info
+            \@out, \@aconf, \@bconf, \@cconf, $arev,
+            $brev, $crev,   $sep,    $app,    $info
         );
     }
     push @out, @merged;
@@ -524,18 +522,18 @@ my $conflictAttrs = { class => 'foswikiConflict' };
 my $conflictB = CGI::b( {}, 'CONFLICT' );
 
 sub _handleConflict {
-    my (
-        $out,  $aconf, $bconf, $cconf,   $arev,
-        $brev, $crev,  $sep,   $session, $info
-    ) = @_;
+    my ( $out, $aconf, $bconf, $cconf, $arev, $brev, $crev, $sep, $app, $info )
+      = @_;
     my ( @a, @b, @c );
 
     @a = grep( $_, @$aconf );
     @b = grep( $_, @$bconf );
     @c = grep( $_, @$cconf );
-    my $merged =
-      $session->{plugins}
-      ->dispatch( 'mergeHandler', 'c', join( '', @b ), join( '', @c ), $info );
+    my $merged = $app->plugins->dispatch(
+        'mergeHandler', 'c',
+        join( '', @b ),
+        join( '', @c ), $info
+    );
     if ( defined $merged ) {
         push( @$out, $merged );
     }

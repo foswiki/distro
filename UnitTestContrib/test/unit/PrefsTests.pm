@@ -64,7 +64,7 @@ around tear_down => sub {
     my $orig = shift;
     my $this = shift;
 
-    $this->removeWebFixture( $Foswiki::app, $testSysWeb );
+    $this->removeWebFixture($testSysWeb);
     $orig->($this);
 };
 

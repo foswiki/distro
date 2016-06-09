@@ -19,16 +19,17 @@ has logger => ( is => 'rw', );
 our $logDir;
 
 around set_up => sub {
-    my $orig = shift;
-    my $this = shift;
-    delete $Foswiki::cfg{LogFileName};
-    delete $Foswiki::cfg{DebugFileName};
-    delete $Foswiki::cfg{WarningFileName};
-    delete $Foswiki::cfg{ConfigureLogFileName};
+    my $orig    = shift;
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
+    delete $cfgData->{LogFileName};
+    delete $cfgData->{DebugFileName};
+    delete $cfgData->{WarningFileName};
+    delete $cfgData->{ConfigureLogFileName};
     $orig->( $this, @_ );
     $logDir = "logDir$$";
-    $Foswiki::cfg{Log}{Dir} = "$logDir";
-    mkdir $Foswiki::cfg{Log}{Dir};
+    $cfgData->{Log}{Dir} = "$logDir";
+    mkdir $cfgData->{Log}{Dir};
 };
 
 around tear_down => sub {
@@ -154,72 +155,76 @@ sub skip {
 }
 
 sub CompatibilityLogger {
-    my $this = shift;
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
     require Foswiki::Logger::Compatibility;
-    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
-    $this->logger( Foswiki::Logger::Compatibility->new() );
-    $Foswiki::cfg{LogFileName}          = "$logDir/logfile%DATE%";
-    $Foswiki::cfg{DebugFileName}        = "$logDir/debug%DATE%";
-    $Foswiki::cfg{WarningFileName}      = "$logDir/warn%DATE%!!";
-    $Foswiki::cfg{ConfigureLogFileName} = "$logDir/configure%DATE%!!";
+    $cfgData->{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
+    $this->logger( $this->create('Foswiki::Logger::Compatibility') );
+    $cfgData->{LogFileName}          = "$logDir/logfile%DATE%";
+    $cfgData->{DebugFileName}        = "$logDir/debug%DATE%";
+    $cfgData->{WarningFileName}      = "$logDir/warn%DATE%!!";
+    $cfgData->{ConfigureLogFileName} = "$logDir/configure%DATE%!!";
 
     return;
 }
 
 sub PlainFileLogger {
-    my $this = shift;
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
     require Foswiki::Logger::PlainFile;
-    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::PlainFile';
-    $this->logger( Foswiki::Logger::PlainFile->new() );
+    $cfgData->{Log}{Implementation} = 'Foswiki::Logger::PlainFile';
+    $this->logger( $this->create('Foswiki::Logger::PlainFile') );
 
     return;
 }
 
 sub ObfuscatingLogger {
-    my $this = shift;
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
     require Foswiki::Logger::PlainFile::Obfuscating;
-    $Foswiki::cfg{Log}{Implementation} =
-      'Foswiki::Logger::PlainFile::Obfuscating';
-    $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 1;
-    $this->logger( Foswiki::Logger::PlainFile::Obfuscating->new() );
+    $cfgData->{Log}{Implementation} = 'Foswiki::Logger::PlainFile::Obfuscating';
+    $cfgData->{Log}{Obfuscating}{MaskIP} = 1;
+    $this->logger( $this->create('Foswiki::Logger::PlainFile::Obfuscating') );
 
     return;
 }
 
 sub LogDispatchFileLogger {
-    my $this = shift;
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
     require Foswiki::Logger::LogDispatch;
-    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
-    $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 1;
-    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
-    $Foswiki::cfg{Log}{LogDispatch}{MaskIP}               = 'none';
-    $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
-    $Foswiki::cfg{Log}{LogDispatch}{File}{FileLevels}     = {
+    $cfgData->{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
+    $cfgData->{Log}{LogDispatch}{File}{Enabled}        = 1;
+    $cfgData->{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
+    $cfgData->{Log}{LogDispatch}{MaskIP}               = 'none';
+    $cfgData->{Log}{LogDispatch}{Screen}{Enabled}      = 1;
+    $cfgData->{Log}{LogDispatch}{File}{FileLevels}     = {
         'events'    => 'info:info',
         'configure' => 'notice:notice',
         'error'     => 'warning:emergency',
         'debug'     => 'debug:debug',
     };
-    $this->logger( Foswiki::Logger::LogDispatch->new() );
+    $this->logger( $this->create('Foswiki::Logger::LogDispatch') );
 
     return;
 }
 
 sub LogDispatchFileObfuscatingLogger {
-    my $this = shift;
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
     require Foswiki::Logger::LogDispatch;
-    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
-    $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 1;
-    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
-    $Foswiki::cfg{Log}{LogDispatch}{MaskIP}               = 'x.x.x.x';
-    $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
-    $Foswiki::cfg{Log}{LogDispatch}{File}{FileLevels}     = {
+    $cfgData->{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
+    $cfgData->{Log}{LogDispatch}{File}{Enabled}        = 1;
+    $cfgData->{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
+    $cfgData->{Log}{LogDispatch}{MaskIP}               = 'x.x.x.x';
+    $cfgData->{Log}{LogDispatch}{Screen}{Enabled}      = 1;
+    $cfgData->{Log}{LogDispatch}{File}{FileLevels}     = {
         'events'    => 'info:info',
         'configure' => 'notice:notice',
         'error'     => 'warning:emergency',
         'debug'     => 'debug:debug',
     };
-    $this->logger( Foswiki::Logger::LogDispatch->new() );
+    $this->logger( $this->create('Foswiki::Logger::LogDispatch') );
 
     return;
 }
@@ -227,13 +232,15 @@ sub LogDispatchFileObfuscatingLogger {
 sub LogDispatchFileRollingLogger {
     my $this = shift;
     require Foswiki::Logger::LogDispatch;
-    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
-    $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 0;
-    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 1;
-    $Foswiki::cfg{Log}{LogDispatch}{MaskIP}               = 'none';
-    $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
-    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Pattern} = '-%d{yyyy-MM}.log';
-    $this->logger( Foswiki::Logger::LogDispatch->new() );
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
+    $cfgData->{Log}{LogDispatch}{File}{Enabled}             = 0;
+    $cfgData->{Log}{Log}{LogDispatch}{FileRolling}{Enabled} = 1;
+    $cfgData->{Log}{Log}{LogDispatch}{MaskIP}               = 'none';
+    $cfgData->{Log}{Log}{LogDispatch}{Screen}{Enabled}      = 1;
+    $cfgData->{Log}{Log}{LogDispatch}{FileRolling}{Pattern} =
+      '-%d{yyyy-MM}.log';
+    $this->logger( $this->create('Foswiki::Logger::LogDispatch') );
 
     return;
 }
@@ -281,6 +288,8 @@ sub verify_eachEventSince_MultiLevelsV0 {
     my $ipaddr = '1.2.3.4';
     my $tmpIP  = $ipaddr;
 
+    my $cfgData = $this->app->cfg->data;
+
 #  For the PlainFile::Obfuscating logger,  have the warning record hash the IP addrss
 #  SMELL: This is a bit bogus, as the logger only obfuscates the 6th parameter of the log call
 #  and this is *only* used for "info" type messages.  The unit test however calls all log types
@@ -289,7 +298,7 @@ sub verify_eachEventSince_MultiLevelsV0 {
     $this->logger->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
     $this->logger->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
     $this->logger->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
-      if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
+      if $cfgData->{Log}{Implementation} =~ m/LogDispatch/;
     sleep 1;
     $this->logger->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
     $this->logger->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
@@ -304,17 +313,17 @@ sub verify_eachEventSince_MultiLevelsV0 {
     $this->logger->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
     $this->logger->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
     $this->logger->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
-      if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
+      if $cfgData->{Log}{Implementation} =~ m/LogDispatch/;
 
-    if ( $Foswiki::cfg{Log}{Implementation} eq
+    if ( $cfgData->{Log}{Implementation} eq
         'Foswiki::Logger::PlainFile::Obfuscating' )
     {
-        $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
+        $cfgData->{Log}{Obfuscating}{MaskIP} = 0;
     }
     $this->logger->warn( 'blahwarning', "Green", "Eggs", "and", $tmpIP );
 
     my $logIP =
-      ( $Foswiki::cfg{Log}{Implementation} eq
+      ( $cfgData->{Log}{Implementation} eq
           'Foswiki::Logger::PlainFile::Obfuscating' ) ? 'x.x.x.x' : '1.2.3.4';
 
     my @levels = qw(debug info notice warning error critical alert emergency);
@@ -342,10 +351,11 @@ sub verify_eachEventSince_MultiLevelsV0 {
 }
 
 sub verify_eachEventSince_MultiLevelsV1 {
-    my $this   = shift;
-    my $time   = time;
-    my $ipaddr = '1.2.3.4';
-    my $tmpIP  = $ipaddr;
+    my $this    = shift;
+    my $time    = time;
+    my $ipaddr  = '1.2.3.4';
+    my $tmpIP   = $ipaddr;
+    my $cfgData = $this->app->cfg->data;
 
 #  For the PlainFile::Obfuscating logger,  have the warning record hash the IP addrss
 #  SMELL: This is a bit bogus, as the logger only obfuscates the 6th parameter of the log call
@@ -355,7 +365,7 @@ sub verify_eachEventSince_MultiLevelsV1 {
     $this->logger->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
     $this->logger->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
     $this->logger->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
-      if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
+      if $cfgData->{Log}{Implementation} =~ m/LogDispatch/;
     sleep 1;
     $this->logger->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
     $this->logger->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
@@ -370,21 +380,21 @@ sub verify_eachEventSince_MultiLevelsV1 {
     $this->logger->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
     $this->logger->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
     $this->logger->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
-      if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
+      if $cfgData->{Log}{Implementation} =~ m/LogDispatch/;
 
-    if ( $Foswiki::cfg{Log}{Implementation} eq
+    if ( $cfgData->{Log}{Implementation} eq
         'Foswiki::Logger::PlainFile::Obfuscating' )
     {
-        $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
+        $cfgData->{Log}{Obfuscating}{MaskIP} = 0;
     }
     $this->logger->warn( 'blahwarning', "Green", "Eggs", "and", $tmpIP );
 
     my $logIP =
-      ( $Foswiki::cfg{Log}{Implementation} eq
+      ( $cfgData->{Log}{Implementation} eq
           'Foswiki::Logger::PlainFile::Obfuscating' ) ? 'x.x.x.x' : '1.2.3.4';
 
     my @levels =
-      ( $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/ )
+      ( $cfgData->{Log}{Implementation} =~ m/LogDispatch/ )
       ? qw(debug info notice warning error critical alert emergency)
       : qw(debug info warning error critical alert emergency);
 
@@ -424,28 +434,29 @@ sub verify_LogDispatchCompatRoutines {
 #  and this is *only* used for "info" type messages.  The unit test however calls all log types
 #  with multiple parameters, so Obfuscation happens on any log level.
 
+    my $cfgData = $this->app->cfg->data;
     $this->logger->debug( 'blahdebug', "Green", "Eggs", "and", $tmpIP );
     $this->logger->info( 'blahinfo', "Green", "Eggs", "and", $tmpIP );
     $this->logger->notice( 'blahnotice', "Green", "Eggs", "and", $tmpIP )
-      if $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/;
+      if $cfgData->{Log}{Implementation} =~ m/LogDispatch/;
     $this->logger->error( 'blaherror', "Green", "Eggs", "and", $tmpIP );
     $this->logger->critical( 'blahcritical', "Green", "Eggs", "and", $tmpIP );
     $this->logger->alert( 'blahalert', "Green", "Eggs", "and", $tmpIP );
     $this->logger->emergency( 'blahemergency', "Green", "Eggs", "and", $tmpIP );
 
-    if ( $Foswiki::cfg{Log}{Implementation} eq
+    if ( $cfgData->{Log}{Implementation} eq
         'Foswiki::Logger::PlainFile::Obfuscating' )
     {
-        $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
+        $cfgData->{Log}{Obfuscating}{MaskIP} = 0;
     }
     $this->logger->warn( 'blahwarning', "Green", "Eggs", "and", $tmpIP );
 
     my $logIP =
-      ( $Foswiki::cfg{Log}{Implementation} eq
+      ( $cfgData->{Log}{Implementation} eq
           'Foswiki::Logger::PlainFile::Obfuscating' ) ? 'x.x.x.x' : '1.2.3.4';
 
     my @levels =
-      ( $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/ )
+      ( $cfgData->{Log}{Implementation} =~ m/LogDispatch/ )
       ? qw(debug info notice warning error critical alert emergency)
       : qw(debug info warning error critical alert emergency);
     foreach my $level (@levels) {
@@ -456,13 +467,13 @@ sub verify_LogDispatchCompatRoutines {
         my $t    = shift( @{$data} );
         $this->assert( $t >= $time, "$t $time" );
         $ipaddr = 'x.x.x.x'
-          if ( $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/
-            && defined $Foswiki::cfg{Log}{LogDispatch}{MaskIP}
-            && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
+          if ( $cfgData->{Log}{Implementation} =~ m/LogDispatch/
+            && defined $cfgData->{Log}{LogDispatch}{MaskIP}
+            && $cfgData->{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
             && $level eq 'info' );
 
         $ipaddr = '109.104.118.183'
-          if ( $Foswiki::cfg{Log}{Implementation} eq
+          if ( $cfgData->{Log}{Implementation} eq
             'Foswiki::Logger::PlainFile::Obfuscating'
             && $level eq 'warning' );
 
@@ -485,6 +496,8 @@ sub verify_simpleWriteAndReplayEmbeddedNewlines {
     my $ipaddr = '1.2.3.4';
     my $tmpIP  = $ipaddr;
 
+    my $cfgData = $this->app->cfg->data;
+
     # Verify the three levels used by Foswiki; debug, info and warning
     foreach my $level (qw(debug info warning)) {
 
@@ -493,11 +506,11 @@ sub verify_simpleWriteAndReplayEmbeddedNewlines {
 #  and this is *only* used for "info" type messages.  The unit test however calls all log types
 #  with multiple parameters, so Obfuscation happens on any log level.
 
-        if ( $Foswiki::cfg{Log}{Implementation} eq
+        if ( $cfgData->{Log}{Implementation} eq
             'Foswiki::Logger::PlainFile::Obfuscating'
             && $level eq 'warning' )
         {
-            $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
+            $cfgData->{Log}{Obfuscating}{MaskIP} = 0;
         }
 
         $this->logger->log( $level, $level, "Green", "Eggs",
@@ -505,7 +518,7 @@ sub verify_simpleWriteAndReplayEmbeddedNewlines {
     }
 
     my $logIP =
-      ( $Foswiki::cfg{Log}{Implementation} eq
+      ( $cfgData->{Log}{Implementation} eq
           'Foswiki::Logger::PlainFile::Obfuscating' ) ? 'x.x.x.x' : '1.2.3.4';
 
     foreach my $level (qw(debug info warning)) {
@@ -516,13 +529,13 @@ sub verify_simpleWriteAndReplayEmbeddedNewlines {
         my $t    = shift( @{$data} );
         $this->assert( $t >= $time, "$t $time" );
         $ipaddr = 'x.x.x.x'
-          if ( $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/
-            && defined $Foswiki::cfg{Log}{LogDispatch}{MaskIP}
-            && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
+          if ( $cfgData->{Log}{Implementation} =~ m/LogDispatch/
+            && defined $cfgData->{Log}{LogDispatch}{MaskIP}
+            && $cfgData->{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
             && $level eq 'info' );
 
         $ipaddr = '109.104.118.183'
-          if ( $Foswiki::cfg{Log}{Implementation} eq
+          if ( $cfgData->{Log}{Implementation} eq
             'Foswiki::Logger::PlainFile::Obfuscating'
             && $level eq 'warning' );
 
@@ -555,6 +568,8 @@ sub verify_simpleWriteAndReplay {
     my $ipaddr = '1.2.3.4';
     my $tmpIP  = $ipaddr;
 
+    my $cfgData = $this->app->cfg->data;
+
     # Verify the three levels used by Foswiki; debug, info and warning
     foreach my $level (qw(debug info warning)) {
 
@@ -563,18 +578,18 @@ sub verify_simpleWriteAndReplay {
 #  and this is *only* used for "info" type messages.  The unit test however calls all log types
 #  with multiple parameters, so Obfuscation happens on any log level.
 
-        if ( $Foswiki::cfg{Log}{Implementation} eq
+        if ( $cfgData->{Log}{Implementation} eq
             'Foswiki::Logger::PlainFile::Obfuscating'
             && $level eq 'warning' )
         {
-            $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
+            $cfgData->{Log}{Obfuscating}{MaskIP} = 0;
         }
 
         $this->logger->log( $level, $level, "Green", "Eggs", "and", $tmpIP );
     }
 
     my $logIP =
-      ( $Foswiki::cfg{Log}{Implementation} eq
+      ( $cfgData->{Log}{Implementation} eq
           'Foswiki::Logger::PlainFile::Obfuscating' ) ? 'x.x.x.x' : '1.2.3.4';
 
     foreach my $level (qw(debug info warning)) {
@@ -585,13 +600,13 @@ sub verify_simpleWriteAndReplay {
         my $t    = shift( @{$data} );
         $this->assert( $t >= $time, "$t $time" );
         $ipaddr = 'x.x.x.x'
-          if ( $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/
-            && defined $Foswiki::cfg{Log}{LogDispatch}{MaskIP}
-            && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
+          if ( $cfgData->{Log}{Implementation} =~ m/LogDispatch/
+            && defined $cfgData->{Log}{LogDispatch}{MaskIP}
+            && $cfgData->{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
             && $level eq 'info' );
 
         $ipaddr = '109.104.118.183'
-          if ( $Foswiki::cfg{Log}{Implementation} eq
+          if ( $cfgData->{Log}{Implementation} eq
             'Foswiki::Logger::PlainFile::Obfuscating'
             && $level eq 'warning' );
 
@@ -614,8 +629,10 @@ sub verify_simpleWriteAndReplayHashEventFilter {
 
     return unless $this->logger->acceptsHash;
 
+    my $cfgData = $this->app->cfg->data;
+
     # Filter dropped Eggs.
-    $Foswiki::cfg{Log}{Action}{Dropped} = 0;
+    $cfgData->{Log}{Action}{Dropped} = 0;
 
     # Verify the three levels used by Foswiki; debug, info and warning
     foreach my $level (qw(debug info warning)) {
@@ -655,10 +672,10 @@ sub verify_simpleWriteAndReplayHashEventFilter {
         my $t    = shift( @{$data} );
         $this->assert( $t >= $time, "$t $time" );
         $ipaddr = (
-            $Foswiki::cfg{Log}{Implementation} =~ m/Obfuscat/
+            $cfgData->{Log}{Implementation} =~ m/Obfuscat/
               || ( $level eq 'info'
-                && $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/
-                && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x' )
+                && $cfgData->{Log}{Implementation} =~ m/LogDispatch/
+                && $cfgData->{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x' )
         ) ? 'x.x.x.x' : '1.2.3.4';
 
         my $expected =
@@ -681,6 +698,8 @@ sub verify_simpleWriteAndReplayHashInterface {
 
     return unless $this->logger->acceptsHash;
 
+    my $cfgData = $this->app->cfg->data;
+
     # Verify the three levels used by Foswiki; debug, info and warning
     foreach my $level (qw(debug info warning)) {
 
@@ -689,11 +708,11 @@ sub verify_simpleWriteAndReplayHashInterface {
 #  and this is *only* used for "info" type messages.  The unit test however calls all log types
 #  with multiple parameters, so Obfuscation happens on any log level.
 
-        if ( $Foswiki::cfg{Log}{Implementation} eq
+        if ( $cfgData->{Log}{Implementation} eq
             'Foswiki::Logger::PlainFile::Obfuscating'
             && $level eq 'warning' )
         {
-            $Foswiki::cfg{Log}{Obfuscating}{MaskIP} = 0;
+            $cfgData->{Log}{Obfuscating}{MaskIP} = 0;
         }
         if ( $level eq 'info' ) {
             $this->logger->log(
@@ -716,7 +735,7 @@ sub verify_simpleWriteAndReplayHashInterface {
     }
 
     my $logIP =
-      ( $Foswiki::cfg{Log}{Implementation} eq
+      ( $cfgData->{Log}{Implementation} eq
           'Foswiki::Logger::PlainFile::Obfuscating' ) ? 'x.x.x.x' : '1.2.3.4';
 
     foreach my $level (qw(debug info warning)) {
@@ -727,13 +746,13 @@ sub verify_simpleWriteAndReplayHashInterface {
         my $t    = shift( @{$data} );
         $this->assert( $t >= $time, "$t $time" );
         $ipaddr = 'x.x.x.x'
-          if ( $Foswiki::cfg{Log}{Implementation} =~ m/LogDispatch/
-            && defined $Foswiki::cfg{Log}{LogDispatch}{MaskIP}
-            && $Foswiki::cfg{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
+          if ( $cfgData->{Log}{Implementation} =~ m/LogDispatch/
+            && defined $cfgData->{Log}{LogDispatch}{MaskIP}
+            && $cfgData->{Log}{LogDispatch}{MaskIP} eq 'x.x.x.x'
             && $level eq 'info' );
 
         $ipaddr = '109.104.118.183'
-          if ( $Foswiki::cfg{Log}{Implementation} eq
+          if ( $cfgData->{Log}{Implementation} eq
             'Foswiki::Logger::PlainFile::Obfuscating'
             && $level eq 'warning' );
 
@@ -773,7 +792,7 @@ sub PlainFileTestTime {
 # Test specific to PlainFile logger
 sub test_PlainFileEachEventSinceOnSeveralLogs {
     my $this   = shift;
-    my $logger = Foswiki::Logger::PlainFile->new();
+    my $logger = $this->create('Foswiki::Logger::PlainFile');
 
     # Write out the logfiles manually.  Log rotate code doesn't handle
     # the contrived dates well.
@@ -847,18 +866,19 @@ sub test_PlainFileEachEventSinceOnSeveralLogs {
 
 # Test specific to LogDispatch File logger
 sub test_LogDispatchFileEachEventSinceOnSeveralLogs {
-    my $this = shift;
-    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
-    $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 1;
-    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
-    $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 1;
-    $Foswiki::cfg{Log}{LogDispatch}{File}{FileLevels}     = {
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
+    $cfgData->{Log}{LogDispatch}{File}{Enabled}        = 1;
+    $cfgData->{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
+    $cfgData->{Log}{LogDispatch}{Screen}{Enabled}      = 1;
+    $cfgData->{Log}{LogDispatch}{File}{FileLevels}     = {
         'events' => 'info:info',
         'error'  => 'notice:emergency',
         'debug'  => 'debug:debug',
     };
     require Foswiki::Logger::LogDispatch;
-    my $logger = Foswiki::Logger::LogDispatch->new();
+    my $logger = $this->create('Foswiki::Logger::LogDispatch');
     my $cache  = \&Foswiki::Logger::LogDispatch::_time;
     no warnings 'redefine';
     *Foswiki::Logger::LogDispatch::_time = \&PlainFileTestTime;
@@ -917,18 +937,19 @@ sub test_LogDispatchFileEachEventSinceOnSeveralLogs {
 
 # Test specific to LogDispatch FileRolling logger
 sub test_LogDispatchFileRollingEachEventSinceOnSeveralLogs {
-    my $this = shift;
-    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
-    $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}           = 0;
-    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled}    = 1;
-    $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}         = 1;
-    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{FileLevels} = {
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
+    $cfgData->{Log}{LogDispatch}{File}{Enabled}           = 0;
+    $cfgData->{Log}{LogDispatch}{FileRolling}{Enabled}    = 1;
+    $cfgData->{Log}{LogDispatch}{Screen}{Enabled}         = 1;
+    $cfgData->{Log}{LogDispatch}{FileRolling}{FileLevels} = {
         'events' => 'info:info',
         'error'  => 'notice:emergency',
         'debug'  => 'debug:debug',
     };
     require Foswiki::Logger::LogDispatch;
-    my $logger = Foswiki::Logger::LogDispatch->new();
+    my $logger = $this->create('Foswiki::Logger::LogDispatch');
     my $cache  = \&Foswiki::Logger::LogDispatch::_time;
     no warnings 'redefine';
     *Foswiki::Logger::LogDispatch::_time = \&PlainFileTestTime;
@@ -987,18 +1008,19 @@ sub test_LogDispatchFileRollingEachEventSinceOnSeveralLogs {
 
 # Test specific to LogDispatch File logger
 sub test_LogDispatchFileFiltered {
-    my $this = shift;
-    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
-    $Foswiki::cfg{Log}{LogDispatch}{File}{Enabled}        = 1;
-    $Foswiki::cfg{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
-    $Foswiki::cfg{Log}{LogDispatch}{Screen}{Enabled}      = 0;
-    $Foswiki::cfg{Log}{LogDispatch}{File}{FileLevels}     = {
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Log}{Implementation} = 'Foswiki::Logger::LogDispatch';
+    $cfgData->{Log}{LogDispatch}{File}{Enabled}        = 1;
+    $cfgData->{Log}{LogDispatch}{FileRolling}{Enabled} = 0;
+    $cfgData->{Log}{LogDispatch}{Screen}{Enabled}      = 0;
+    $cfgData->{Log}{LogDispatch}{File}{FileLevels}     = {
         'events' => 'info:info:(?i)green|BLUE',
         'error'  => 'notice:emergency',
         'debug'  => 'debug:debug',
     };
     require Foswiki::Logger::LogDispatch;
-    my $logger = Foswiki::Logger::LogDispatch->new();
+    my $logger = $this->create('Foswiki::Logger::LogDispatch');
 
     $logger->log( 'info', "Seal GREEN" );
     $logger->log( 'info', "Dolphin" );
@@ -1131,9 +1153,9 @@ sub _tzOffset {
 sub verify_rotate_events {
     my ( $this, $num_events ) = @_;
 
+    my $cfgData = $this->app->cfg->data;
     return
-      unless $Foswiki::cfg{Log}{Implementation} =~
-      '^Foswiki::Logger::PlainFile';
+      unless $cfgData->{Log}{Implementation} =~ '^Foswiki::Logger::PlainFile';
 
     my $tzOffset = _tzOffset();
 
@@ -1152,9 +1174,9 @@ sub verify_rotate_events {
     $mode              = oct(777);
 
     # Don't try to rotate a non-existant log
-    my $lfn = "$Foswiki::cfg{Log}{Dir}/events.log";
+    my $lfn = "$cfgData->{Log}{Dir}/events.log";
 
-    my $logger = Foswiki::Logger::PlainFile->new();
+    my $logger = $this->create('Foswiki::Logger::PlainFile');
     $this->assert( !-e $lfn );
     $logger->_rotate($plainFileTestTime);
     $this->assert( !-e $lfn );
@@ -1266,9 +1288,9 @@ sub verify_timing_rotate_events {
 sub verify_rotate_debug {
     my $this = shift;
 
+    my $cfgData = $this->app->cfg->data;
     return
-      unless $Foswiki::cfg{Log}{Implementation} =~
-      '^Foswiki::Logger::PlainFile';
+      unless $cfgData->{Log}{Implementation} =~ '^Foswiki::Logger::PlainFile';
 
     my $tzOffset = _tzOffset();
 
@@ -1287,9 +1309,9 @@ sub verify_rotate_debug {
     $mode              = oct(777);
 
     # Don't try to rotate a non-existant log
-    my $lfn = "$Foswiki::cfg{Log}{Dir}/debug.log";
+    my $lfn = "$cfgData->{Log}{Dir}/debug.log";
 
-    my $logger = Foswiki::Logger::PlainFile->new();
+    my $logger = $this->create('Foswiki::Logger::PlainFile');
     $this->assert( !-e $lfn );
     $logger->_rotate($plainFileTestTime);
     $this->assert( !-e $lfn );
@@ -1356,9 +1378,9 @@ sub verify_rotate_debug {
 sub verify_rotate_error {
     my $this = shift;
 
+    my $cfgData = $this->app->cfg->data;
     return
-      unless $Foswiki::cfg{Log}{Implementation} =~
-      '^Foswiki::Logger::PlainFile';
+      unless $cfgData->{Log}{Implementation} =~ '^Foswiki::Logger::PlainFile';
 
     my $tzOffset = _tzOffset();
 
@@ -1377,9 +1399,9 @@ sub verify_rotate_error {
     $mode              = oct(777);
 
     # Don't try to rotate a non-existant log
-    my $lfn = "$Foswiki::cfg{Log}{Dir}/error.log";
+    my $lfn = "$cfgData->{Log}{Dir}/error.log";
 
-    my $logger = Foswiki::Logger::PlainFile->new();
+    my $logger = $this->create('Foswiki::Logger::PlainFile');
     $this->assert( !-e $lfn );
     $logger->_rotate($plainFileTestTime);
     $this->assert( !-e $lfn );

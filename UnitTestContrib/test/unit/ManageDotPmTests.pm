@@ -23,8 +23,6 @@ has new_user_wikiname => ( is => 'rw', );
 
 #$Error::Debug = 1;
 
-my $REG_UI_FN;
-my $MAN_UI_FN;
 my $REG_TMPL;
 
 my $session_id;    # Capture session ID immediately after registering a new user
@@ -33,17 +31,16 @@ my $session_id;    # Capture session ID immediately after registering a new user
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
+    $| = 1;
     $orig->( $this, @_ );
 
-    $REG_UI_FN ||= $this->getUIFn('register');
-    $MAN_UI_FN ||= $this->getUIFn('manage');
     $REG_TMPL =
       ( $this->check_dependency('Foswiki,<,1.2') ) ? 'attention' : 'register';
 
     $this->trash_web('Testtrashweb1234');
     my $webObject = $this->populateNewWeb( $this->trash_web );
     undef $webObject;
-    $Foswiki::cfg{TrashWebName} = $this->trash_web;
+    $this->app->cfg->data->{TrashWebName} = $this->trash_web;
 
     @FoswikiFnTestCase::mails = ();
 
@@ -54,31 +51,41 @@ around tear_down => sub {
     my $orig = shift;
     my $this = shift;
 
-    $this->removeWebFixture( $this->session, $this->trash_web )
-      if ( $this->session->webExists( $this->trash_web ) );
-    $this->removeWebFixture( $this->session, $this->test_web . "NewExtra" )
-      if ( $this->session->webExists( $this->test_web . "NewExtra" ) );
-    $this->removeWebFixture( $this->session, $this->test_web . "EmptyNewExtra" )
-      if ( $this->session->webExists( $this->test_web . "EmptyNewExtra" ) );
+    my $store = $this->app->store;
+
+    $this->removeWebFixture( $this->trash_web )
+      if ( $store->webExists( $this->trash_web ) );
+    $this->removeWebFixture( $this->test_web . "NewExtra" )
+      if ( $store->webExists( $this->test_web . "NewExtra" ) );
+    $this->removeWebFixture( $this->test_web . "EmptyNewExtra" )
+      if ( $store->webExists( $this->test_web . "EmptyNewExtra" ) );
 
     $orig->($this);
+    $| = 0;
 
     return;
 };
+
+# Foswiki::App handleRequestException callback function.
+sub _cbHRE {
+    my $obj  = shift;
+    my %args = @_;
+    $args{params}{exception}->rethrow;
+}
 
 ###################################
 #verify tests
 
 sub AllowLoginName {
     my $this = shift;
-    $Foswiki::cfg{Register}{AllowLoginName} = 1;
+    $this->app->cfg->data->{Register}{AllowLoginName} = 1;
 
     return;
 }
 
 sub DontAllowLoginName {
     my $this = shift;
-    $Foswiki::cfg{Register}{AllowLoginName} = 0;
+    $this->app->cfg->data->{Register}{AllowLoginName} = 0;
     $this->new_user_login( $this->new_user_wikiname );
 
     #$this->test_user_login( $this->test_user_wikiname );
@@ -87,38 +94,46 @@ sub DontAllowLoginName {
 }
 
 sub TemplateLoginManager {
-    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
+    my $this = shift;
+    $this->app->cfg->data->{LoginManager} =
+      'Foswiki::LoginManager::TemplateLogin';
 
     return;
 }
 
 sub ApacheLoginManager {
-    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::ApacheLogin';
+    my $this = shift;
+    $this->app->cfg->data->{LoginManager} =
+      'Foswiki::LoginManager::ApacheLogin';
 
     return;
 }
 
 sub NoLoginManager {
-    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager';
+    my $this = shift;
+    $this->app->cfg->data->{LoginManager} = 'Foswiki::LoginManager';
 
     return;
 }
 
 sub HtPasswdManager {
-    $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
+    my $this = shift;
+    $this->app->cfg->data->{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
 
     return;
 }
 
 sub NonePasswdManager {
-    $Foswiki::cfg{PasswordManager} = 'none';
+    my $this = shift;
+    $this->app->cfg->data->{PasswordManager} = 'none';
 
     return;
 }
 
 sub BaseUserMapping {
     my $this = shift;
-    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
+    $this->app->cfg->data->{UserMappingManager} =
+      'Foswiki::Users::BaseUserMapping';
     $this->set_up_for_verify();
 
     return;
@@ -126,7 +141,8 @@ sub BaseUserMapping {
 
 sub TopicUserMapping {
     my $this = shift;
-    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
+    $this->app->cfg->data->{UserMappingManager} =
+      'Foswiki::Users::TopicUserMapping';
     $this->set_up_for_verify();
 
     return;
@@ -155,7 +171,7 @@ sub fixture_groups {
 sub set_up_for_verify {
     my $this = shift;
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     @FoswikiFntestCase::mails = ();
 
@@ -195,31 +211,35 @@ sub _registerUserException {
         'action'           => ['register']
     };
 
-    if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
+    if ( $this->app->cfg->data->{Register}{AllowLoginName} ) {
         $params->{"${pfx}1LoginName"} = $loginname;
     }
-    my $query = Unit::Request->new( initializer => $params );
-
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( undef, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => $params },
+        engineParams  => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+            },
+        },
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     my $exception;
     try {
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub {
+                return $this->app->handleRequest;
+            },
+        );
     }
     catch {
-        my $exception = $_;
-        if ( ref($exception) ) {
-            if ( $exception->isa('Foswiki::OopsException') ) {
-                if (   ( $REG_TMPL eq $exception->template )
-                    && ( "thanks" eq $exception->def ) )
-                {
-                    $exception = undef;    #the only correct answer
-                }
+        my $exception = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $exception->isa('Foswiki::OopsException') ) {
+            if (   ( $REG_TMPL eq $exception->template )
+                && ( "thanks" eq $exception->def ) )
+            {
+                $exception = undef;    #the only correct answer
             }
-        }
-        else {
-            $exception = Foswiki::Exception->new( text => $_ );
         }
     };
 
@@ -228,9 +248,8 @@ sub _registerUserException {
     $session_id = Foswiki::Func::getSessionValue('_SESSION_ID');
 
     # Reload caches
-    my $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp;
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     return $exception;
 }
@@ -238,39 +257,36 @@ sub _registerUserException {
 sub addUserToGroup {
     my ( $this, $params ) = @_;
 
-    #my $queryHash = shift;
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => $params, },
+        engineParams  => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/WikiGroups",
+                action    => 'manage',
+            },
+        },
 
-    my $query = Unit::Request->new( initializer => $params );
-
-    $query->path_info( "/" . $this->users_web . "/WikiGroups" );
-    $this->createNewFoswikiSession( undef, $query );
+        # Skip handleRequest exception processing by the app.
+        callbacks => { handleRequestException => \&_cbHRE, },
+    );
 
     my ( $responseText, $result, $stdout, $stderr );
 
     my $exception;
     try {
-        no strict 'refs';
         ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
-            manage => $this->getUIFn('manage'),
-            $this->session
-        );
-        no strict 'refs';
+            manage => sub { return $this->app->handleRequest; } );
     }
     catch {
-        $exception = $_;
-        if ( ref($exception) ) {
-            if ( $exception->isa('Foswiki::OopsException') ) {
-                if (   ( $REG_TMPL eq $exception->template )
-                    && ( "added_users_to_group" eq $exception->def ) )
-                {
+        $exception = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $exception->isa('Foswiki::OopsException') ) {
+            if (   ( $REG_TMPL eq $exception->template )
+                && ( "added_users_to_group" eq $exception->def ) )
+            {
 
-            #TODO: confirm that that onle the expected group and user is created
-                    undef $exception;    #the only correct answer
-                }
+            #TODO: confirm that that only the expected group and user is created
+                undef $exception;    #the only correct answer
             }
-        }
-        else {
-            $exception = Foswiki::Exception->new( text => $_ );
         }
 
     };
@@ -283,36 +299,32 @@ sub removeUserFromGroup {
 
     #my $queryHash = shift;
 
-    my $query = Unit::Request->new( initializer => $params );
-
-    $query->path_info( "/" . $this->users_web . "/WikiGroups" );
-    $this->createNewFoswikiSession( undef, $query );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => $params, },
+        engineParams  => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/WikiGroups",
+                action    => 'manage',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
+    );
 
     my $exception;
     try {
-        no strict 'refs';
         $this->captureWithKey(
-            manage => $this->getUIFn('manage'),
-            $this->session
-        );
-        no strict 'refs';
+            manage => sub { return $this->app->handleRequest }, );
     }
     catch {
-        $exception = $_;
-        if ( ref($exception) ) {
-            if ( $exception->isa('Foswiki::OopsException') ) {
-                if (   ( $REG_TMPL eq $exception->template )
-                    && ( "removed_users_from_group" eq $exception->def ) )
-                {
+        $exception = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $exception->isa('Foswiki::OopsException') ) {
+            if (   ( $REG_TMPL eq $exception->template )
+                && ( "removed_users_from_group" eq $exception->def ) )
+            {
 
             #TODO: confirm that that onle the expected group and user is created
-                    undef $exception;    #the only correct answer
-                }
+                undef $exception;    #the only correct answer
             }
-
-        }
-        else {
-            $exception = Foswiki::Exception->new( text => $_ );
         }
     };
     return $exception;
@@ -340,14 +352,13 @@ sub test_SingleAddToNewGroupCreate {
     $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
-    my $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
+    $this->reCreateFoswikiApp;
 
     $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
 
 #SMELL: (maybe) yes, at the moment, the currently logged in user _is_ also added to the group - this ensures that they are able to complete the operation - as we're saving once per user
     $this->assert(
-        Foswiki::Func::isGroupMember( "NewGroup", $this->session->user ) );
+        Foswiki::Func::isGroupMember( "NewGroup", $this->app->user ) );
     $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
 
     return;
@@ -384,14 +395,13 @@ sub test_DoubleAddToNewGroupCreate {
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
-    my $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
+    $this->reCreateFoswikiApp;
 
     $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
 
 #SMELL: (maybe) yes, at the moment, the currently logged in user _is_ also added to the group - this ensures that they are able to complete the operation - as we're saving once per user
     $this->assert(
-        Foswiki::Func::isGroupMember( "NewGroup", $this->session->user ) );
+        Foswiki::Func::isGroupMember( "NewGroup", $this->app->user ) );
     $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
     $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
@@ -424,7 +434,7 @@ sub test_TwiceAddToNewGroupCreate {
 
     $ret = $this->addUserToGroup(
         {
-            'username'  => [ $this->session->user ],
+            'username'  => [ $this->app->user ],
             'groupname' => ['NewGroup'],
             'create'    => [1],
             'action'    => ['addUserToGroup']
@@ -438,14 +448,13 @@ sub test_TwiceAddToNewGroupCreate {
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
-    my $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
+    $this->reCreateFoswikiApp;
 
     $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
 
 #SMELL: (maybe) yes, at the moment, the currently logged in user _is_ also added to the group - this ensures that they are able to complete the operation - as we're saving once per user
     $this->assert(
-        Foswiki::Func::isGroupMember( "NewGroup", $this->session->user ) );
+        Foswiki::Func::isGroupMember( "NewGroup", $this->app->user ) );
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
@@ -466,14 +475,13 @@ sub test_TwiceAddToNewGroupCreate {
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
-    $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
+    $this->reCreateFoswikiApp;
 
     $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
 
 #SMELL: (maybe) yes, at the moment, the currently logged in user _is_ also added to the group - this ensures that they are able to complete the operation - as we're saving once per user
     $this->assert(
-        Foswiki::Func::isGroupMember( "NewGroup", $this->session->user ) );
+        Foswiki::Func::isGroupMember( "NewGroup", $this->app->user ) );
     $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
@@ -495,14 +503,13 @@ sub test_TwiceAddToNewGroupCreate {
     $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
-    $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
+    $this->reCreateFoswikiApp;
 
     $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
 
 #SMELL: (maybe) yes, at the moment, the currently logged in user _is_ also added to the group - this ensures that they are able to complete the operation - as we're saving once per user
     $this->assert(
-        Foswiki::Func::isGroupMember( "NewGroup", $this->session->user ) );
+        Foswiki::Func::isGroupMember( "NewGroup", $this->app->user ) );
     $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
     $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
     $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
@@ -521,8 +528,7 @@ sub test_TwiceAddToNewGroupCreate {
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu4" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
-    $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
+    $this->reCreateFoswikiApp;
     $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu2" ) );
     $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu3" ) );
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu4" ) );
@@ -539,8 +545,7 @@ sub test_TwiceAddToNewGroupCreate {
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu2" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
-    $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
+    $this->reCreateFoswikiApp;
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu2" ) );
     $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu3" ) );
@@ -576,8 +581,7 @@ sub test_SingleAddToNewGroupNoCreate {
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
-    my $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
+    $this->reCreateFoswikiApp;
 
     $this->assert(
         !Foswiki::Func::topicExists( $this->users_web, "AnotherNewGroup" ) );
@@ -603,14 +607,13 @@ sub test_NoUserAddToNewGroupCreate {
     $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
-    my $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
+    $this->reCreateFoswikiApp;
 
     $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
 
     # If not running as admin, current user is automatically added to the group.
     $this->assert(
-        Foswiki::Func::isGroupMember( "NewGroup", $this->session->user ) );
+        Foswiki::Func::isGroupMember( "NewGroup", $this->app->user ) );
 
     return;
 }
@@ -636,8 +639,7 @@ sub test_InvalidUserAddToNewGroupCreate {
     $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
-    my $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
+    $this->reCreateFoswikiApp;
 
     $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
 
@@ -651,8 +653,7 @@ sub test_InvalidUserAddToNewGroupCreate {
     );
 
     #need to reload to force Foswiki to reparse Groups :(
-    $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
+    $this->reCreateFoswikiApp;
 
     $this->assert( Foswiki::Func::isGroupMember( "NewGroup", 'Us_aaUser' ) );
 
@@ -663,8 +664,8 @@ sub test_NoUserAddToNewGroupCreateAsAdmin {
     my $this = shift;
     my $ret;
 
-    my $query = $this->request;
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName}, $query );
+    $this->reCreateFoswikiApp(
+        user => $this->app->cfg->data->{AdminUserWikiName}, );
 
     $ret = $this->addUserToGroup(
         {
@@ -679,14 +680,14 @@ sub test_NoUserAddToNewGroupCreateAsAdmin {
     $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
-    $this->createNewFoswikiSession( undef, $query );
+    $this->reCreateFoswikiApp;
 
     $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
 
     # If running as admin, no user is automatically added to the group.
     $this->assert(
         !Foswiki::Func::isGroupMember(
-            "NewGroup", $Foswiki::cfg{AdminUserWikiName}
+            "NewGroup", $this->app->cfg->data->{AdminUserWikiName}
         )
     );
 
@@ -718,8 +719,7 @@ sub test_RemoveFromNonExistantGroup {
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
-    my $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
+    $this->reCreateFoswikiApp;
 
     $this->assert(
         !Foswiki::Func::topicExists( $this->users_web, "AnotherNewGroup" ) );
@@ -753,8 +753,7 @@ sub test_RemoveNoUserFromExistantGroup {
     $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
-    my $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
+    $this->reCreateFoswikiApp;
 
     $this->assert(
         !Foswiki::Func::topicExists( $this->users_web, "AnotherNewGroup" ) );
@@ -774,58 +773,66 @@ sub verify_resetEmailOkay {
     $this->assert_null( $ret, "Simple rego should work" );
 
     my $uname =
-      ( $Foswiki::cfg{Register}{AllowLoginName} ) ? 'brian' : 'BrianGriffin';
-    my $cUID = $this->session->users->getCanonicalUserID($uname);
-    $this->assert( $this->session->users->userExists($cUID),
-        "new user created" );
+      ( $this->app->cfg->data->{Register}{AllowLoginName} )
+      ? 'brian'
+      : 'BrianGriffin';
+    my $cUID = $this->app->users->getCanonicalUserID($uname);
+    $this->assert( $this->app->users->userExists($cUID), "new user created" );
     my $newPassU = '12345';
     my $oldPassU = 1;         #force set
     $this->assert(
-        $this->session->users->setPassword( $cUID, $newPassU, $oldPassU ) );
+        $this->app->users->setPassword( $cUID, $newPassU, $oldPassU ) );
     my $newEmail = 'brian@family.guy';
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'LoginName'   => [$uname],
-            'TopicName'   => ['ChangeEmailAddress'],
-            'username'    => [$uname],
-            'oldpassword' => ['12345'],
-            'email'       => [$newEmail],
-            'action'      => ['changePassword']
-        }
+    $this->createNewFoswikiApp(
+        user          => $uname,
+        requestParams => {
+            initializer => {
+                'LoginName'   => [$uname],
+                'TopicName'   => ['ChangeEmailAddress'],
+                'username'    => [$uname],
+                'oldpassword' => ['12345'],
+                'email'       => [$newEmail],
+                'action'      => ['changePassword']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => '/' . $this->users_web . '/WebHome',
+                action    => 'manage',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
     );
 
-    $query->path_info( '/' . $this->users_web . '/WebHome' );
-    $this->createNewFoswikiSession( $uname, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     try {
-        $this->captureWithKey( manage => $MAN_UI_FN, $this->session );
+        $this->captureWithKey(
+            manage => sub {
+                return $this->app->handleRequest;
+            },
+        );
     }
     catch {
-        my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "email_changed", $e->def,
-                    $e->stringify() );
-                $this->assert_str_equals(
-                    $newEmail,
-                    ${ $e->params }[0],
-                    ${ $e->params }[0]
-                );
-            }
-            else {
-                $e->rethrow;
-            }
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "email_changed", $e->def,
+                $e->stringify() );
+            $this->assert_str_equals(
+                $newEmail,
+                ${ $e->params }[0],
+                ${ $e->params }[0]
+            );
         }
         else {
-            Foswiki::Exception::Fatal->rethrow(
-                text => "expected an oops redirect but got: " . $_ );
+            $e->_set_text( "expected an oops redirect but got: " . $e->text );
+            $e->rethrow;
         }
     };
 
-    my @emails = $this->session->users->getEmails($cUID);
+    my @emails = $this->app->users->getEmails($cUID);
     $this->assert_str_equals( $newEmail, $emails[0] );
 
     return;
@@ -833,7 +840,9 @@ sub verify_resetEmailOkay {
 
 sub verify_bulkRegister {
     my $this = shift;
-    $Foswiki::cfg{MinPasswordLength} = 2;
+
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{MinPasswordLength} = 2;
 
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, 'NewUserTemplate' );
@@ -879,53 +888,58 @@ EOM
 
     my $logTopic = 'UnprocessedRegistrations2Log';
     my $file =
-      $Foswiki::cfg{DataDir} . '/' . $this->test_web . '/' . $regTopic . '.txt';
+      $cfgData->{DataDir} . '/' . $this->test_web . '/' . $regTopic . '.txt';
     my $fh = FileHandle->new();
 
     die "Can't write $file" unless ( $fh->open(">$file") );
     print $fh $testReg;
     $fh->close;
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'LogTopic'              => [$logTopic],
-            'EmailUsersWithDetails' => ['0'],
-            'OverwriteHomeTopics'   => ['1'],
-            'action'                => ['bulkRegister'],
-        }
+    $this->createNewFoswikiApp(
+        user          => $cfgData->{AdminUserWikiName},
+        requestParams => {
+            initializer => {
+                'LogTopic'              => [$logTopic],
+                'EmailUsersWithDetails' => ['0'],
+                'OverwriteHomeTopics'   => ['1'],
+                'action'                => ['bulkRegister'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/$regTopic",
+                action    => 'manage',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
     );
 
-    $query->path_info( "/" . $this->test_web . "/$regTopic" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-    $this->session->topicName($regTopic);
-    $this->session->webName( $this->test_web );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+
+    # SMELL We've set path_info, web and topic must be set from it.
+    #$req->topic($regTopic);
+    #$req->web( $this->test_web );
 
     my ( $responseText, $result, $stdout, $stderr );
 
     try {
         ( $responseText, $result, $stdout, $stderr ) =
-          $this->captureWithKey( manage => $MAN_UI_FN, $this->session );
+          $this->captureWithKey(
+            manage => sub { return $this->app->handleRequest; }, );
         print STDERR "=========== $stderr ===========\n";
     }
     catch {
-        my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                print STDERR $e->stringify();
-                print STDERR "======= $stderr======\n";
-                Foswiki::Exception->throw(
-                    text => $e->stringify() . " UNEXPECTED" );
-            }
-            else {
-                print STDERR "======= $stderr ======\n";
-                Foswiki::Exception->rethrow($e);
-            }
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::OopsException') ) {
+            print STDERR $e->stringify();
+            print STDERR "======= $stderr======\n";
+            Foswiki::Exception->throw(
+                text => $e->stringify() . " UNEXPECTED" );
         }
         else {
             print STDERR "======= $stderr ======\n";
-            Foswiki::Exception::Fatal->rethrow(
-                text => "expected an oops redirect but got: " . $_ );
+            $e->_set_text( "expected an oops redirect but got: " . $e->text );
+            $e->rethrow;
         }
     };
     $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
@@ -941,10 +955,13 @@ EOM
 # SMELL:  The registration log is created in UsersWeb, and not in the web containing the
 # list of users to be registered.   Needs some thought.
     $this->assert(
-        Foswiki::Func::topicExists( $Foswiki::cfg{UsersWebName}, $logTopic ) );
+        Foswiki::Func::topicExists(
+            $this->app->cfg->data->{UsersWebName}, $logTopic
+        )
+    );
 
     my $readMeta =
-      Foswiki::Meta->load( $this->session, $Foswiki::cfg{UsersWebName},
+      Foswiki::Meta->load( $this->app, $this->app->cfg->data->{UsersWebName},
         $logTopic );
     my $topicText = $readMeta->text();
 
@@ -952,7 +969,7 @@ EOM
 
     my @expected;
 
-    if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
+    if ( $this->app->cfg->data->{Register}{AllowLoginName} ) {
         push @expected, qw(TestBulkUser1 TestBulkUser3);
         $this->assert_matches(
 qr/\QThe [[System.UserName][login username]]\E is a required parameter. Registration rejected./,
@@ -979,12 +996,12 @@ qr/You cannot register twice, the name 'TestBulkUser4' is already registered\./,
         print STDERR "TESTING $wikiname\n";
         $this->assert(
             Foswiki::Func::topicExists(
-                $Foswiki::cfg{UsersWebName}, $wikiname
+                $this->app->cfg->data->{UsersWebName}, $wikiname
             ),
             "Missing $wikiname"
         );
         my $utext =
-          Foswiki::Func::readTopicText( $Foswiki::cfg{UsersWebName},
+          Foswiki::Func::readTopicText( $this->app->cfg->data->{UsersWebName},
             $wikiname );
         $this->assert_matches( qr/Alternate user template/, $utext )
           if ( $wikiname =~ m/[12]$/ );
@@ -1015,53 +1032,55 @@ EOM
 
     my $logTopic = 'UnprocessedRegistrations2Log';
     my $file =
-      $Foswiki::cfg{DataDir} . '/' . $this->test_web . '/' . $regTopic . '.txt';
+        $this->app->cfg->data->{DataDir} . '/'
+      . $this->test_web . '/'
+      . $regTopic . '.txt';
     my $fh = FileHandle->new();
 
     die "Can't write $file" unless ( $fh->open(">$file") );
     print $fh $testReg;
     $fh->close;
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'LogTopic'              => [$logTopic],
-            'EmailUsersWithDetails' => ['0'],
-            'OverwriteHomeTopics'   => ['1'],
-            'action'                => ['bulkRegister'],
-        }
+    $this->createNewFoswikiApp(
+        user          => $this->app->cfg->data->{AdminUserWikiName},
+        requestParams => {
+            initializer => {
+                'LogTopic'              => [$logTopic],
+                'EmailUsersWithDetails' => ['0'],
+                'OverwriteHomeTopics'   => ['1'],
+                'action'                => ['bulkRegister'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/$regTopic",
+                action    => 'manage',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
     );
 
-    $query->path_info( "/" . $this->test_web . "/$regTopic" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-    $this->session->topicName($regTopic);
-    $this->session->webName( $this->test_web );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+
     try {
         my ($text) = $this->captureWithKey(
-            manage => $MAN_UI_FN,
-            $this->session
-        );
+            manage => sub { return $this->app->handleRequest; }, );
 
 #TODO: um, really need to test what the output was, and
 #TODO: test if a user was registered..
 #$this->assert( '', $text);
-#my $readMeta = Foswiki::Meta->load( $this->session, $this->test_web, 'TemporaryRegistrationTestWebRegistration/UnprocessedRegistrations2Log' );
+#my $readMeta = Foswiki::Meta->load( $this->app, $this->test_web, 'TemporaryRegistrationTestWebRegistration/UnprocessedRegistrations2Log' );
 #$this->assert( '', $readMeta->text());
     }
     catch {
-        my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopseException') ) {
-                Foswiki::Exception::Fatal->throw(
-                    text => $e->stringify . " UNEXPECTED" );
-            }
-            else {
-                Foswiki::Exception::Fatal->rethrow($e);
-            }
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::OopseException') ) {
+            Foswiki::Exception::Fatal->throw(
+                text => $e->stringify . " UNEXPECTED" );
         }
         else {
-            Foswiki::Exception::Fatal->rethrow(
-                text => "expected an oops redirect but got: " . $_ );
+            $e->_set_text( "expected an oops redirect but got: " . $e->text );
+            $e->rethrow;
         }
     };
     $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
@@ -1076,50 +1095,55 @@ sub verify_deleteUser {
     $this->assert_null( $ret, "Respect mah authoritah" );
 
     my $uname =
-      ( $Foswiki::cfg{Register}{AllowLoginName} ) ? 'eric' : 'EricCartman';
-    my $cUID     = $this->session->users->getCanonicalUserID($uname);
+      ( $this->app->cfg->data->{Register}{AllowLoginName} )
+      ? 'eric'
+      : 'EricCartman';
+    my $cUID     = $this->app->users->getCanonicalUserID($uname);
     my $newPassU = '12345';
-    my $oldPassU = 1;                                                 #force set
+    my $oldPassU = 1;                                               #force set
     $this->assert(
-        $this->session->users->setPassword( $cUID, $newPassU, $oldPassU ) );
+        $this->app->users->setPassword( $cUID, $newPassU, $oldPassU ) );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'password' => ['12345'],
-            'action'   => ['deleteUserAccount'],
-            'user'     => [$cUID],
-        }
+    $this->createNewFoswikiApp(
+        user          => $uname,
+        requestParams => {
+            initializer => {
+                'password' => ['12345'],
+                'action'   => ['deleteUserAccount'],
+                'user'     => [$cUID],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/Arbitrary",
+                action    => 'manage',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
     );
-    $query->path_info( "/" . $this->test_web . "/Arbitrary" );
-    $this->createNewFoswikiSession( $uname, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-    $this->session->topicName('Arbitrary');
-    $this->session->webName( $this->test_web );
+
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( manage => $MAN_UI_FN, $this->session );
+        $this->captureWithKey(
+            manage => sub { return $this->app->handleRequest; }, );
     }
     catch {
-        my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "remove_user_done", $e->def,
-                    $e->stringify() );
-                $this->assert_str_equals(
-                    'EricCartman',
-                    ${ $e->params }[0],
-                    ${ $e->params }[0]
-                );
-            }
-            else {
-                Foswiki::Exception::Fatal->rethrow($e);
-            }
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "remove_user_done", $e->def,
+                $e->stringify() );
+            $this->assert_str_equals(
+                'EricCartman',
+                ${ $e->params }[0],
+                ${ $e->params }[0]
+            );
         }
         else {
-            Foswiki::Exception::Fatal->rethrow(
-                text => "expected an oops redirect but got: " . $_ );
+            $e->_set_text( "expected an oops redirect but got: " . $e->text );
+            $e->rethrow;
         }
     }
 
@@ -1135,7 +1159,8 @@ sub verify_deleteUserAsAdmin {
     $this->new_user_wikiname('EricCartman');
     $this->new_user_login('eric');
 
-    $this->assert( -e "$Foswiki::cfg{WorkingDir}/tmp/cgisess_$session_id" );
+    $this->assert(
+        -e $this->app->cfg->data->{WorkingDir} . "/tmp/cgisess_$session_id" );
 
     $this->assert(
         Foswiki::Func::addUserToGroup(
@@ -1143,57 +1168,65 @@ sub verify_deleteUserAsAdmin {
         )
     );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'user'      => $this->new_user_wikiname,
-            action      => 'deleteUserAccount',
-            removeTopic => '1',
-        }
-    );
     my $uname =
-      ( $Foswiki::cfg{Register}{AllowLoginName} ) ? 'eric' : 'EricCartman';
+      ( $this->app->cfg->data->{Register}{AllowLoginName} )
+      ? 'eric'
+      : 'EricCartman';
 
-    $this->createNewFoswikiSession( 'AdminUser', $query );
-    $query->method('POST');
-    $query->path_info("/System/ManagingUsers");
+    $this->createNewFoswikiApp(
+        user          => 'AdminUser',
+        requestParams => {
+            initializer => {
+                'user'      => $this->new_user_wikiname,
+                action      => 'deleteUserAccount',
+                removeTopic => '1',
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                method    => 'POST',
+                action    => 'manage',
+                path_info => "/System/ManagingUsers",
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
+    );
+
     my $resp   = '';
     my $out    = '';
     my $result = '';
     my $err    = '';
     try {
         ( $resp, $result, $out, $err ) =
-          $this->captureWithKey( manage => $MAN_UI_FN, $this->session );
+          $this->captureWithKey(
+            manage => sub { return $this->app->handleRequest; }, );
     }
     catch {
-        my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "remove_user_done", $e->def,
-                    $e->stringify() );
-                $this->assert_str_equals(
-                    'EricCartman',
-                    ${ $e->params }[0],
-                    ${ $e->params }[0]
-                );
-                my $trash_web = $this->trash_web;
-                $this->assert_matches(
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "remove_user_done", $e->def,
+                $e->stringify() );
+            $this->assert_str_equals(
+                'EricCartman',
+                ${ $e->params }[0],
+                ${ $e->params }[0]
+            );
+            my $trash_web = $this->trash_web;
+            $this->assert_matches(
 qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user removed from EricCartmanGroup.*user topic moved to $trash_web\.DeletedUserEricCartman[0-9]{10,10}/s,
-                    ${ $e->params }[1]
-                );
-            }
-            else {
-                Foswiki::Exception::Fatal->rethrow($e);
-            }
+                ${ $e->params }[1]
+            );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but got: " . $_ );
+            $e->_set_text( "expected an oops redirect but got: " . $e->text );
+            $e->rethrow;
         }
     };
 
-    $this->assert( !-e "$Foswiki::cfg{WorkingDir}/tmp/cgisess_$session_id" );
+    $this->assert(
+        !-e $this->app->cfg->data->{WorkingDir} . "/tmp/cgisess_$session_id" );
 
     $this->assert(
         !Foswiki::Func::isGroupMember(
@@ -1206,19 +1239,21 @@ qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user remove
     # HtPasswdUser
     my ( $new_user_login, $new_user_wikiname ) =
       ( $this->new_user_login, $this->new_user_wikiname );
-    $this->assert_null(`grep $new_user_login $Foswiki::cfg{Htpasswd}{FileName}`)
-      if $Foswiki::cfg{Register}{AllowLoginName};
-    $this->assert_null(
-        `grep $new_user_wikiname $Foswiki::cfg{Htpasswd}{FileName}`);
+    my $htpasswdFile = $this->app->cfg->data->{Htpasswd}{FileName};
+    $this->assert_null(`grep $new_user_login $htpasswdFile`)
+      if $this->app->cfg->data->{Register}{AllowLoginName};
+    $this->assert_null(`grep $new_user_wikiname $htpasswdFile`);
 
-    my ( $crap, $wu ) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
-        $Foswiki::cfg{UsersTopicName} );
+    my ( $crap, $wu ) = Foswiki::Func::readTopic(
+        $this->app->cfg->data->{UsersWebName},
+        $this->app->cfg->data->{UsersTopicName}
+    );
     $this->assert( $wu !~ /$new_user_wikiname/s );
     $this->assert( $wu !~ /$new_user_login/s );
 
     $this->assert(
         !Foswiki::Func::topicExists(
-            $Foswiki::cfg{UsersWebName},
+            $this->app->cfg->data->{UsersWebName},
             $this->new_user_wikiname
         )
     );
@@ -1241,98 +1276,110 @@ sub verify_deleteUserWithPrefix {
 
     # Test with an invalid prefix
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'user'      => $this->new_user_wikiname,
-            action      => 'deleteUserAccount',
-            removeTopic => '1',
-            topicPrefix => 'foo@#$',
-        }
-    );
     my $uname =
-      ( $Foswiki::cfg{Register}{AllowLoginName} ) ? 'eric' : 'EricCartman';
+      ( $this->app->cfg->data->{Register}{AllowLoginName} )
+      ? 'eric'
+      : 'EricCartman';
 
-    $this->createNewFoswikiSession( 'AdminUser', $query );
-    $query->method('POST');
-    $query->path_info("/System/ManagingUsers");
+    $this->createNewFoswikiApp(
+        user          => 'AdminUser',
+        requestParams => {
+            initializer => {
+                'user'      => $this->new_user_wikiname,
+                action      => 'deleteUserAccount',
+                removeTopic => '1',
+                topicPrefix => 'foo@#$',
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/System/ManagingUsers",
+                method    => 'POST',
+                action    => 'manage',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
+    );
+
     my $resp   = '';
     my $out    = '';
     my $result = '';
     my $err    = '';
     try {
         ( $resp, $result, $out, $err ) =
-          $this->captureWithKey( manage => $MAN_UI_FN, $this->session );
+          $this->captureWithKey(
+            manage => sub { return $this->app->handleRequest; }, );
     }
     catch {
-        my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( '500', $e->status, $e->stringify() );
-                $this->assert_str_equals( 'bad_prefix', $e->def,
-                    $e->stringify() );
-            }
-            else {
-                Foswiki::Exception::Fatal->rethrow($e);
-            }
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( '500', $e->status, $e->stringify() );
+            $this->assert_str_equals( 'bad_prefix', $e->def, $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but got: " . $_ );
+            $e->_set_text( "expected an oops redirect but got: " . $e->text );
+            $e->rethrow;
         }
     };
 
     # Test again, with a valid prefix
 
-    $query = Unit::Request->new(
-        initializer => {
-            'user'      => $this->new_user_wikiname,
-            action      => 'deleteUserAccount',
-            removeTopic => '1',
-            topicPrefix => 'KilledKenny',
-        }
-    );
     $uname =
-      ( $Foswiki::cfg{Register}{AllowLoginName} ) ? 'eric' : 'EricCartman';
+      ( $this->app->cfg->data->{Register}{AllowLoginName} )
+      ? 'eric'
+      : 'EricCartman';
 
-    $this->createNewFoswikiSession( 'AdminUser', $query );
-    $query->method('POST');
-    $query->path_info("/System/ManagingUsers");
+    $this->createNewFoswikiApp(
+        user          => 'AdminUser',
+        requestParams => {
+            initializer => {
+                'user'      => $this->new_user_wikiname,
+                action      => 'deleteUserAccount',
+                removeTopic => '1',
+                topicPrefix => 'KilledKenny',
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/System/ManagingUsers",
+                method    => 'POST',
+                action    => 'manage',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
+    );
     $resp   = '';
     $out    = '';
     $result = '';
     $err    = '';
     try {
         ( $resp, $result, $out, $err ) =
-          $this->captureWithKey( manage => $MAN_UI_FN, $this->session );
+          $this->captureWithKey(
+            manage => sub { return $this->app->handleRequest; }, );
     }
     catch {
-        my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "remove_user_done", $e->def,
-                    $e->stringify() );
-                $this->assert_str_equals(
-                    'EricCartman',
-                    ${ $e->params }[0],
-                    ${ $e->params }[0]
-                );
-                my $trash_web = $this->trash_web;
-                $this->assert_matches(
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "remove_user_done", $e->def,
+                $e->stringify() );
+            $this->assert_str_equals(
+                'EricCartman',
+                ${ $e->params }[0],
+                ${ $e->params }[0]
+            );
+            my $trash_web = $this->trash_web;
+            $this->assert_matches(
 qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user removed from EricCartmanGroup.*user topic moved to $trash_web\.KilledKennyEricCartman[0-9]{10,10}/s,
-                    ${ $e->params }[1]
-                );
-            }
-            else {
-                Foswiki::Exception::Fatal->rethrow($e);
-            }
+                ${ $e->params }[1]
+            );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but got: " . $_ );
+            $e->_set_text( "expected an oops redirect but got: " . $e->text );
+            $e->rethrow;
         }
     };
 
@@ -1348,19 +1395,21 @@ qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user remove
     my ( $new_user_wikiname, $new_user_login ) =
       ( $this->new_user_wikiname, $this->new_user_login );
     my $sh_out;
-    $this->assert_null(`grep $new_user_login $Foswiki::cfg{Htpasswd}{FileName}`)
-      if $Foswiki::cfg{Register}{AllowLoginName};
-    $this->assert_null(
-        `grep $new_user_wikiname $Foswiki::cfg{Htpasswd}{FileName}`);
+    my $htpasswdFile = $this->app->cfg->data->{Htpasswd}{FileName};
+    $this->assert_null(`grep $new_user_login $htpasswdFile`)
+      if $this->app->cfg->data->{Register}{AllowLoginName};
+    $this->assert_null(`grep $new_user_wikiname $htpasswdFile`);
 
-    my ( $crap, $wu ) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
-        $Foswiki::cfg{UsersTopicName} );
+    my ( $crap, $wu ) = Foswiki::Func::readTopic(
+        $this->app->cfg->data->{UsersWebName},
+        $this->app->cfg->data->{UsersTopicName}
+    );
     $this->assert( $wu !~ /$new_user_wikiname/s );
     $this->assert( $wu !~ /$new_user_login/s );
 
     $this->assert(
         !Foswiki::Func::topicExists(
-            $Foswiki::cfg{UsersWebName},
+            $this->app->cfg->data->{UsersWebName},
             $this->new_user_wikiname
         )
     );
@@ -1369,54 +1418,55 @@ qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user remove
 sub test_createDefaultWeb {
     my $this   = shift;
     my $newWeb = $this->test_web . 'NewExtra';    #no, this is not nested
-    my $query  = Unit::Request->new(
-        initializer => {
-            'action'  => ['createweb'],
-            'baseweb' => ['_default'],
-
-            #            'newtopic' => ['qwer'],            #TODO: er, what the?
-            'newweb'      => [$newWeb],
-            'nosearchall' => ['on'],
-            'webbgcolor'  => ['fuchsia'],
-            'websummary'  => ['twinkle twinkle little star'],
-        }
-    );
-    my $test_web = $this->test_web;
-    $query->path_info("/$this->test_web/Arbitrary");
 
     # SMELL: Test fails unless the "user" is the AdminGroup.
-    $this->createNewFoswikiSession( $Foswiki::cfg{SuperAdminGroup}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-    $this->session->topicName('Arbitrary');
-    $this->session->webName( $this->test_web );
+    $this->createNewFoswikiApp(
+        user          => $this->app->cfg->data->{SuperAdminGroup},
+        requestParams => {
+            initializer => {
+                'action'  => ['createweb'],
+                'baseweb' => ['_default'],
+
+            #            'newtopic' => ['qwer'],            #TODO: er, what the?
+                'newweb'      => [$newWeb],
+                'nosearchall' => ['on'],
+                'webbgcolor'  => ['fuchsia'],
+                'websummary'  => ['twinkle twinkle little star'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/Arbitrary",
+                action    => 'manage',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
+    );
+
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
         my ( $stdout, $stderr, $result ) =
-          $this->captureWithKey( manage => $MAN_UI_FN, $this->session );
+          $this->captureWithKey(
+            manage => sub { return $this->app->handleRequest; }, );
     }
     catch {
-        my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( 'attention', $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "created_web", $e->def,
-                    $e->stringify() );
-                print STDERR "captured STDERR: " . $this->stderr . "\n"
-                  if ( defined( $this->stderr ) );
-            }
-            else {
-                Foswiki::Exception::Fatal->rethrow($e);
-            }
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( 'attention', $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "created_web", $e->def, $e->stringify() );
+            print STDERR "captured STDERR: " . $this->stderr . "\n"
+              if ( defined( $this->stderr ) );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but got: " . $_ );
+            $e->_set_text( "expected an oops redirect but got: " . $e->text );
+            $e->rethrow;
         }
     };
 
     #check that the settings we created with happened.
-    $this->assert( $this->session->webExists($newWeb) );
+    $this->assert( $this->app->store->webExists($newWeb) );
     my $webObject = $this->getWebObject($newWeb);
     $this->assert_equals( 'fuchsia', $webObject->getPreference('WEBBGCOLOR') );
     $this->assert_equals( 'on',      $webObject->getPreference('SITEMAPLIST') );
@@ -1467,39 +1517,51 @@ TEXT
     $testTopic->save();
     undef $testTopic;
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'action'      => ['saveSettings'],
-            'action_save' => ['x'],
-            'text' =>
+    $this->createNewFoswikiApp(
+        user          => $this->test_user_login,
+        requestParams => {
+            initializer => {
+                'action'      => ['saveSettings'],
+                'action_save' => ['x'],
+                'text' =>
 "Ignore this line\n   * Set NEWSET = new set\n   * Local NEWLOCAL = new local\nIgnore that line",
-            'originalrev' => 1
-        }
+                'originalrev' => 1
+            }
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/SaveSettings",
+                action    => 'manage',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
     );
-    my $test_web = $this->test_web;
-    $query->path_info("/$test_web/SaveSettings");
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
+
     try {
         my ( $stdout, $stderr, $result ) =
-          $this->captureWithKey( manage => $MAN_UI_FN, $this->session );
+          $this->captureWithKey(
+            manage => sub { return $this->app->handleRequest; }, );
     }
     catch {
         Foswiki::Exception::Fatal->rethrow($_);
     };
 
-    $query = Unit::Request->new( initializer => {} );
-    $query->path_info("/$test_web/SaveSettings");
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->assert_equals( "text set",
-        $this->session->prefs->getPreference('TEXTSET') );
-    $this->assert_equals( "text local",
-        $this->session->prefs->getPreference('TEXTLOCAL') );
-    $this->assert_null( $this->session->prefs->getPreference('METASET') );
-    $this->assert_null( $this->session->prefs->getPreference('METALOCAL') );
-    $this->assert_equals( "new set",
-        $this->session->prefs->getPreference('NEWSET') );
-    $this->assert_equals( "new local",
-        $this->session->prefs->getPreference('NEWLOCAL') );
+    $this->createNewFoswikiApp(
+        user          => $this->test_user_login,
+        requestParams => { intializer => {}, },
+        engineParams  => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/SaveSettings", },
+        },
+    );
+
+    my $prefs = $this->app->prefs;
+    $this->assert_equals( "text set",   $prefs->getPreference('TEXTSET') );
+    $this->assert_equals( "text local", $prefs->getPreference('TEXTLOCAL') );
+    $this->assert_null( $prefs->getPreference('METASET') );
+    $this->assert_null( $prefs->getPreference('METALOCAL') );
+    $this->assert_equals( "new set",   $prefs->getPreference('NEWSET') );
+    $this->assert_equals( "new local", $prefs->getPreference('NEWLOCAL') );
     my ( $tdate, $tuser, $trev, $tcomment ) =
       Foswiki::Func::getRevisionInfo( $this->test_web, 'SaveSettings' );
     $this->assert_equals( 2, $trev );
@@ -1526,23 +1588,32 @@ TEXT
     $testTopic->save();
     undef $testTopic;
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'action'      => ['saveSettings'],
-            'action_save' => ['Save'],
-            'text' =>
+    $this->createNewFoswikiApp(
+        user          => $this->test_user_login,
+        requestParams => {
+            initializer => {
+                'action'      => ['saveSettings'],
+                'action_save' => ['Save'],
+                'text' =>
 "Ignore this line\n   * Set NEWSET = new set\n   * Local NEWLOCAL = new local\n   * Set ALLOWTOPICCHANGE = "
-              . $this->test_user_wikiname
-              . "\nIgnore that line",
-            'originalrev' => 1
-        }
+                  . $this->test_user_wikiname
+                  . "\nIgnore that line",
+                'originalrev' => 1
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/SaveSettings",
+                action    => 'manage',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
     );
-    my $test_web = $this->test_web;
-    $query->path_info("/$test_web/SaveSettings");
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
+
     try {
         my ( $stdout, $stderr, $result ) =
-          $this->captureWithKey( manage => $MAN_UI_FN, $this->session );
+          $this->captureWithKey(
+            manage => sub { return $this->app->handleRequest; }, );
     }
     catch {
         if ( !( ref($_) && $_->isa('Foswiki::AccessControlException') ) ) {
@@ -1551,19 +1622,22 @@ TEXT
 
     };
 
-    $query = Unit::Request->new( initializer => {} );
-    $query->path_info("/$test_web/SaveSettings");
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->assert_equals( "text set",
-        $this->session->prefs->getPreference('TEXTSET') );
-    $this->assert_equals( "text local",
-        $this->session->prefs->getPreference('TEXTLOCAL') );
-    $this->assert_equals( "meta set",
-        $this->session->prefs->getPreference('METASET') );
-    $this->assert_equals( "meta local",
-        $this->session->prefs->getPreference('METALOCAL') );
-    $this->assert_null( $this->session->prefs->getPreference('NEWSET') );
-    $this->assert_null( $this->session->prefs->getPreference('NEWLOCAL') );
+    $this->createNewFoswikiApp(
+        user          => $this->test_user_login,
+        requestParams => { initializer => {}, },
+        engineParams  => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/SaveSettings", },
+        },
+    );
+
+    my $prefs = $this->app->prefs;
+    $this->assert_equals( "text set",   $prefs->getPreference('TEXTSET') );
+    $this->assert_equals( "text local", $prefs->getPreference('TEXTLOCAL') );
+    $this->assert_equals( "meta set",   $prefs->getPreference('METASET') );
+    $this->assert_equals( "meta local", $prefs->getPreference('METALOCAL') );
+    $this->assert_null( $prefs->getPreference('NEWSET') );
+    $this->assert_null( $prefs->getPreference('NEWLOCAL') );
     my ( $tdate, $tuser, $trev, $tcomment ) =
       Foswiki::Func::getRevisionInfo( $this->test_web, 'SaveSettings' );
     $this->assert_equals( 1, $trev );
@@ -1588,39 +1662,51 @@ TEXT
     $testTopic->save();
     undef $testTopic;
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'action'        => ['saveSettings'],
-            'action_cancel' => ['Cancel'],
-            'text' =>
+    $this->createNewFoswikiApp(
+        user          => $this->test_user_login,
+        requestParams => {
+            initializer => {
+                'action'        => ['saveSettings'],
+                'action_cancel' => ['Cancel'],
+                'text' =>
 "Ignore this line\n   * Set NEWSET = new set\n   * Local NEWLOCAL = new local\nIgnore that line",
-            'originalrev' => 1
-        }
+                'originalrev' => 1
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/SaveSettings",
+                action    => 'manage',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
     );
-    my $test_web = $this->test_web;
-    $query->path_info("/$test_web/SaveSettings");
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
+
     try {
         my ( $stdout, $stderr, $result ) =
-          $this->captureWithKey( manage => $MAN_UI_FN, $this->session );
+          $this->captureWithKey(
+            manage => sub { return $this->app->handleRequest; }, );
     }
     catch {
         Foswiki::Exception::Fatal->rethrow($_);
     };
 
-    $query = Unit::Request->new( initializer => {} );
-    $query->path_info("/$test_web/SaveSettings");
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->assert_equals( "text set",
-        $this->session->prefs->getPreference('TEXTSET') );
-    $this->assert_equals( "text local",
-        $this->session->prefs->getPreference('TEXTLOCAL') );
-    $this->assert_null( $this->session->prefs->getPreference('NEWSET') );
-    $this->assert_null( $this->session->prefs->getPreference('NEWLOCAL') );
-    $this->assert_equals( "meta set",
-        $this->session->prefs->getPreference('METASET') );
-    $this->assert_equals( "meta local",
-        $this->session->prefs->getPreference('METALOCAL') );
+    $this->createNewFoswikiApp(
+        user          => $this->test_user_login,
+        requestParams => { initializer => {}, },
+        engineParams  => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/SaveSettings", },
+        },
+    );
+
+    my $prefs = $this->app->prefs;
+    $this->assert_equals( "text set",   $prefs->getPreference('TEXTSET') );
+    $this->assert_equals( "text local", $prefs->getPreference('TEXTLOCAL') );
+    $this->assert_null( $prefs->getPreference('NEWSET') );
+    $this->assert_null( $prefs->getPreference('NEWLOCAL') );
+    $this->assert_equals( "meta set",   $prefs->getPreference('METASET') );
+    $this->assert_equals( "meta local", $prefs->getPreference('METALOCAL') );
     my ( $tdate, $tuser, $trev, $tcomment ) =
       Foswiki::Func::getRevisionInfo( $this->test_web, 'SaveSettings' );
     $this->assert_equals( 1, $trev );
@@ -1645,21 +1731,30 @@ TEXT
     $testTopic->save();
     undef $testTopic;
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'action'      => ['saveSettings'],
-            'action_save' => [''],
-            'text' =>
+    $this->createNewFoswikiApp(
+        user          => $this->test_user_login,
+        requestParams => {
+            initializer => {
+                'action'      => ['saveSettings'],
+                'action_save' => [''],
+                'text' =>
 "Ignore this line\n   * Set NEWSET = new set\n   * Local NEWLOCAL = new local\nIgnore that line",
-            'originalrev' => 1
-        }
+                'originalrev' => 1
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/SaveSettings",
+                action    => 'manage',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
     );
-    my $test_web = $this->test_web;
-    $query->path_info("/$test_web/SaveSettings");
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
+
     try {
         my ( $stdout, $stderr, $result ) =
-          $this->captureWithKey( manage => $MAN_UI_FN, $this->session );
+          $this->captureWithKey(
+            manage => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
@@ -1674,19 +1769,22 @@ TEXT
         }
     };
 
-    $query = Unit::Request->new( initializer => {} );
-    $query->path_info("/$test_web/SaveSettings");
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->assert_equals( "text set",
-        $this->session->prefs->getPreference('TEXTSET') );
-    $this->assert_equals( "text local",
-        $this->session->prefs->getPreference('TEXTLOCAL') );
-    $this->assert_null( $this->session->prefs->getPreference('NEWSET') );
-    $this->assert_null( $this->session->prefs->getPreference('NEWLOCAL') );
-    $this->assert_equals( "meta set",
-        $this->session->prefs->getPreference('METASET') );
-    $this->assert_equals( "meta local",
-        $this->session->prefs->getPreference('METALOCAL') );
+    $this->createNewFoswikiApp(
+        user          => $this->test_user_login,
+        requestParams => { initializer => {}, },
+        engineParams  => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/SaveSettings", },
+        },
+    );
+
+    my $prefs = $this->app->prefs;
+    $this->assert_equals( "text set",   $prefs->getPreference('TEXTSET') );
+    $this->assert_equals( "text local", $prefs->getPreference('TEXTLOCAL') );
+    $this->assert_null( $prefs->getPreference('NEWSET') );
+    $this->assert_null( $prefs->getPreference('NEWLOCAL') );
+    $this->assert_equals( "meta set",   $prefs->getPreference('METASET') );
+    $this->assert_equals( "meta local", $prefs->getPreference('METALOCAL') );
     my ( $tdate, $tuser, $trev, $tcomment ) =
       Foswiki::Func::getRevisionInfo( $this->test_web, 'SaveSettings' );
     $this->assert_equals( 1, $trev );
@@ -1699,57 +1797,59 @@ TEXT
 sub test_createEmptyWeb {
     my $this   = shift;
     my $newWeb = $this->test_web . 'EmptyNewExtra';    #no, this is not nested
-    my $query  = Unit::Request->new(
-        initializer => {
-            'action'  => ['createweb'],
-            'baseweb' => ['_empty'],
-
-            #            'newtopic' => ['qwer'],            #TODO: er, what the?
-            'newweb'      => [$newWeb],
-            'nosearchall' => ['on'],
-            'webbgcolor'  => ['fuchsia'],
-            'websummary'  => ['somthing there.'],
-
-#TODO: I don't think this is what will get passed through - it should probably deal correctly with ['somenewskin','another']
-            'SKIN' => ['somenewskin,another'],
-        }
-    );
-    my $test_web = $this->test_web;
-    $query->path_info("/$test_web/Arbitrary");
 
     # SMELL: Test fails unless the "user" is the AdminGroup.
-    $this->createNewFoswikiSession( $Foswiki::cfg{SuperAdminGroup}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-    $this->session->topicName('Arbitrary');
-    $this->session->webName( $this->test_web );
+
+    $this->createNewFoswikiApp(
+        user          => $this->app->cfg->data->{SuperAdminGroup},
+        requestParams => {
+            initializer => {
+                'action'  => ['createweb'],
+                'baseweb' => ['_empty'],
+
+            #            'newtopic' => ['qwer'],            #TODO: er, what the?
+                'newweb'      => [$newWeb],
+                'nosearchall' => ['on'],
+                'webbgcolor'  => ['fuchsia'],
+                'websummary'  => ['somthing there.'],
+
+#TODO: I don't think this is what will get passed through - it should probably deal correctly with ['somenewskin','another']
+                'SKIN' => ['somenewskin,another'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/SaveSettings",
+                action    => 'manage',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
+    );
+
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
         my ( $stdout, $stderr, $result ) =
-          $this->captureWithKey( manage => $MAN_UI_FN, $this->session );
+          $this->captureWithKey(
+            manage => sub { return $this->app->handleRequest; }, );
     }
     catch {
-        my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( "attention", $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "created_web", $e->def,
-                    $e->stringify() );
-                print STDERR "captured STDERR: " . $this->stderr . "\n"
-                  if ( defined( $this->stderr ) );
-            }
-            else {
-                Foswiki::Exception::Fatal->rethrow($e);
-            }
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( "attention", $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "created_web", $e->def, $e->stringify() );
+            print STDERR "captured STDERR: " . $this->stderr . "\n"
+              if ( defined( $this->stderr ) );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but got: " . $_ );
+            $e->_set_text( "expected an oops redirect but got: " . $e->text );
+            $e->rethrow;
         }
     };
 
     #check that the settings we created with happened.
-    $this->assert( $this->session->webExists($newWeb) );
+    $this->assert( $this->app->store->webExists($newWeb) );
     my $webObject = $this->getWebObject($newWeb);
     $this->assert_equals( 'fuchsia', $webObject->getPreference('WEBBGCOLOR') );
     $this->assert_equals( 'somenewskin,another',

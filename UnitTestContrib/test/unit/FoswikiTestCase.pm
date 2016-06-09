@@ -1112,6 +1112,43 @@ sub createNewFoswikiApp {
     return $this->app;
 }
 
+=begin TML
+
+---++ ObjectMethod reCreateFoswikiApp
+
+Creates a new app object using currently active one as the template.
+
+=cut
+
+sub reCreateFoswikiApp {
+    my $this = shift;
+
+    my $app    = $this->app;
+    my $req    = $app->request;
+    my $engine = $app->engine;
+
+    # SMELL This is incomplete set of parameters to be set. Would be extended as
+    # needed.
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => (
+                defined $req->_initializer
+                ? $req->_initializer
+                : ''
+            ),
+        },
+        engineParams => {
+            simulate          => $engine->simulate,
+            initialAttributes => {
+                path_info => $req->pathInfo,
+                method    => $req->method,
+                action    => $req->action,
+            },
+        },
+        @_
+    );
+}
+
 sub finishFoswikiSession {
     my ($this) = @_;
 

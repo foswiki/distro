@@ -44,23 +44,23 @@ around set_up => sub {
     my $this = shift;
 
     $orig->( $this, @_ );
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     @mudge = ();
-    $this->session->plugins( HackJob->new() );
+    $this->app->plugins( HackJob->new() );
     $info = { argle => "bargle" };
 };
 
 sub _merge3 {
     my ( $ia, $ib, $ic ) = @_;
     return Foswiki::Merge::merge3( 'a', $ia, 'b', $ib, 'c', $ic, ' ',
-        $Foswiki::Plugins::SESSION, $info );
+        $Foswiki::app, $info );
 }
 
 sub _merge2 {
     my ( $ia, $ib ) = @_;
 
     return Foswiki::Merge::merge2( 'a', $ia, 'b', $ib, ' ',
-        $Foswiki::Plugins::SESSION, $info );
+        $Foswiki::app, $info );
 }
 
 sub _readfile {
@@ -228,7 +228,7 @@ Very nice.<br>
 EOF
 
     $dd = Foswiki::Merge::merge3( "r1", $aa, "r2", $bb, "r3", $cc, '\n',
-        $Foswiki::Plugins::SESSION, $info );
+        $Foswiki::app, $info );
     $this->assert_str_equals( $ee, $dd );
 
     $cc = <<"EOF";
@@ -250,7 +250,7 @@ Very nice.<br>
 EOF
 
     $dd = Foswiki::Merge::merge3( "r1", $aa, "r2", $bb, "r3", $cc, '\n',
-        $Foswiki::Plugins::SESSION, $info );
+        $Foswiki::app, $info );
     $this->assert_str_equals( $ee, $dd );
 
     return;

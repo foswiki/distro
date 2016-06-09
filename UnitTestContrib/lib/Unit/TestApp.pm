@@ -37,6 +37,19 @@ has engineParams => (
     default => sub { {} },
 );
 
+# Hash of the test callbacks to be registered on the app object.
+has callbacks => (
+    is        => 'rw',
+    lazy      => 1,
+    predicate => 1,
+    isa       => Foswiki::Object::isaHASH('callbacks'),
+    default   => sub { {} },
+);
+has _cbRegistered => (
+    is      => 'rw',
+    default => 0,
+);
+
 sub BUILD {
     my $this = shift;
 
@@ -71,6 +84,22 @@ sub cloneEnv {
     return $this->_cloneData( $this->env, 'env' );
 }
 
+sub registerCallbacks {
+    my $this = shift;
+
+    return if $this->_cbRegistered;
+
+    foreach my $cbName ( keys %{ $this->callbacks } ) {
+        $this->registerCallback(
+            $cbName,
+            $this->callbacks->{$cbName},
+            { app => $this, }
+        );
+    }
+
+    $this->_cbRegistered(1);
+}
+
 around _prepareRequest => sub {
     my $orig = shift;
     my $this = shift;
@@ -83,6 +112,15 @@ around _prepareEngine => sub {
     my $this = shift;
 
     return $orig->( $this, %{ $this->engineParams } );
+};
+
+around handleRequest => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    $this->registerCallbacks;
+
+    return $orig->( $this, @_ );
 };
 
 1;

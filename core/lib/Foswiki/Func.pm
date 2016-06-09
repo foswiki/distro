@@ -404,7 +404,7 @@ sub getSessionValue {
     #   my( $key ) = @_;
     ASSERT($Foswiki::app) if DEBUG;
 
-    return $Foswiki::app->getLoginManager()->getSessionValue(@_);
+    return $Foswiki::app->users->getLoginManager()->getSessionValue(@_);
 }
 
 =begin TML

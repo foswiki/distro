@@ -29,8 +29,8 @@ The testcases below assume that the correct interpretation is the one used in Ed
 
 =cut
 
-use Foswiki::UI::Edit();
-use Unit::Request();
+use Foswiki::Attrs    ();
+use Foswiki::UI::Edit ();
 use Try::Tiny;
 
 use Moo;
@@ -103,21 +103,14 @@ around set_up => sub {
     my $this = shift;
     $orig->( $this, @_ );
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin},
-        $this->request );
-    Foswiki::Func::createWeb($testweb);
-    $this->createNewFoswikiSession( undef, $this->request );
-    if ( $this->session->can('getPubURL') ) {
+    my $cfgData = $this->app->cfg->data;
 
-        # FW 1.2 and later
-        $aurl =
-          $this->session->getPubURL( $testweb, $testform, undef,
-            absolute => 1 );
-    }
-    else {
-        # up to FW 1.1.9
-        $aurl = $this->session->getPubUrl( 1, $testweb, $testform );
-    }
+    $this->createNewFoswikiApp( user => $cfgData->{AdminUserLogin} );
+    Foswiki::Func::createWeb($testweb);
+    $this->createNewFoswikiApp;
+    my $app = $this->app;
+    my $cfg = $app->cfg;
+    $aurl = $cfg->getPubURL( $testweb, $testform, undef, absolute => 1 );
 
     my ($to) = Foswiki::Func::readTopic( $testweb, $testtopic1 );
     $to->put(
@@ -340,7 +333,7 @@ around set_up => sub {
 
     Foswiki::Func::saveTopic( $testweb, "MyeditTemplate", undef, $edittmpl1 );
 
-    $this->session->enterContext('edit');
+    $app->enterContext('edit');
 
     return;
 };
@@ -349,7 +342,7 @@ around tear_down => sub {
     my $orig = shift;
     my $this = shift;
 
-    $this->removeWebFixture( $this->session, $testweb );
+    $this->removeWebFixture($testweb);
     $orig->($this);
 
     return;
@@ -367,26 +360,19 @@ sub get_formfield {
 
 sub setup_formtests {
     my ( $this, $web, $topic, $params ) = @_;
-    my $q = Unit::Request->new();
 
-    $q->path_info("/$web/$topic");
-
-    #$this->session->webName   = $web;
-    #$this->session->topicName = $topic;
-
-    require Foswiki::Attrs;
     my $attr = Foswiki::Attrs->new($params);
-    foreach my $k ( keys %{$attr} ) {
-        next if $k eq '_RAW';
-        $q->param( -name => $k, -value => $attr->{$k} );
-    }
-    $this->createNewFoswikiSession( undef, $q );
-    $this->session->enterContext('edit');
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => {%$attr}, },
+        engineParams =>
+          { initialAttributes => { path_info => "/$web/$topic", }, },
+    );
+    $this->app->enterContext('edit');
 
     # Now generate the form. We pass a template which throws everything away
     # but the form to allow for simpler analysis.
     my ( $text, $tmpl ) =
-      Foswiki::UI::Edit::init_edit( $this->session, 'myedit' );
+      $this->create('Foswiki::UI::Edit')->init_edit('myedit');
 
     return $tmpl;
 }
@@ -823,24 +809,26 @@ Simple description of problem</textarea>', get_formfield( 2, $text )
 # Item10874, originally Item10446
 # Test that ?formtemplate=MyForm works without web prefix on an unsaved topic
 sub test_unsavedtopic_rendersform {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            webName      => [$testweb],
-            topicName    => ['MissingTopic'],
-            formtemplate => ["$testform"]
-        }
+    my $this     = shift;
+    my $fatwilly = $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                webName      => [$testweb],
+                topicName    => ['MissingTopic'],
+                formtemplate => ["$testform"]
+            }
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/$testweb/MissingTopic",
+                method    => 'POST',
+                action    => 'edit',
+            },
+        },
     );
-    $query->path_info("/$testweb/MissingTopic");
-    $query->method('POST');
-    my $fatwilly = $this->createNewFoswikiSession( undef, $query );
     my ($text) = $this->capture(
         sub {
-            no strict 'refs';
-            &{ $this->getUIFn('edit') }($fatwilly);
-            use strict 'refs';
-            $Foswiki::engine->finalize( $fatwilly->response,
-                $fatwilly->request );
+            return $this->app->handleRequest;
         }
     );
     $this->assert_html_matches(

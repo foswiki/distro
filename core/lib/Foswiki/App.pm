@@ -30,6 +30,7 @@ use Foswiki qw(load_package load_class);
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Object);
+with qw(Foswiki::Aux::Callbacks);
 
 has access => (
     is        => 'ro',
@@ -514,9 +515,9 @@ sub handleRequest {
     catch {
         my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
 
-        $res = $this->response;
+        $this->callback( 'handleRequestException', { exception => $e, } );
 
-        # SMELL TODO At this stage we shall be able to display any expection in
+        # SMELL TODO At this stage we shall be able to display any exception in
         # a pretty HTMLized way if engine is HTTPCompliant. Rethrowing of an
         # exception is just a temporary stub.
         if ( $e->isa('Foswiki::AccessControlException') ) {
@@ -1606,11 +1607,15 @@ sub _checkActionAccess {
 
 }
 
+sub _validCallbacks {
+    return qw(handleRequestException);
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

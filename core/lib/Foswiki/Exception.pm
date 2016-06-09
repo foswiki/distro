@@ -506,6 +506,44 @@ around BUILDARGS => sub {
     return $orig->( $class, %params );
 };
 
+=begin TML
+
+---++ Exception Foswiki::Exception::CB
+
+Root of callback support exception tree.
+
+=cut
+
+package Foswiki::Exception::CB;
+use Moo;
+extends qw(Foswiki::Exception);
+
+=begin TML
+
+---++ Exception Foswiki::Exception::CB::Last
+
+Must be raised by a callback code to signal it wants to be the last on the
+execution chain.
+
+=cut
+
+package Foswiki::Exception::CB::Last;
+use Moo;
+extends qw(Foswiki::Exception::CB);
+
+=begin TML
+
+---++ ObjectAttribute returnValue
+
+The value to be returned by =Foswiki::Aux::Callbacks::callback()= method.
+
+=cut
+
+has returnValue => (
+    is        => 'ro',
+    predicate => 1,
+);
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
