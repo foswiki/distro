@@ -219,27 +219,6 @@ sub BUILD {
 
 =begin TML
 
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-#sub finish {
-#    my $this = shift;
-#    $this->complete();    # call to flush the session if not already done
-#    $this->_clear_cgisession;
-#}
-
-sub DEMOLISH {
-    my $this = shift;
-    $this->complete;
-}
-
-=begin TML
-
 ---++ ClassMethod _real_trace ($app, $impl)
 
 Construct the user management object
@@ -758,6 +737,9 @@ sub complete {
           if $this->_cgisession->errstr;
     }
 
+    # SMELL When called from DEMOLISH it's not guaranteed that
+    # $Foswiki::app->cfg still alive. Thus 'undef in expression' warning and
+    # sessions are not getting expired.
     return unless ( $Foswiki::cfg{Sessions}{ExpireAfter} > 0 );
 
     expireDeadSessions();

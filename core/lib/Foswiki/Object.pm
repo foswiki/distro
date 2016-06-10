@@ -22,7 +22,7 @@ features.
 
 require Carp;
 use Scalar::Util qw(blessed refaddr weaken isweak);
-use Foswiki::Exception;
+require Foswiki::Exception;
 
 use Moo;
 use namespace::clean;

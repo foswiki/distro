@@ -40,7 +40,7 @@ around set_up => sub {
     my $orig = shift;
     my $this = shift;
     $orig->( $this, @_ );
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     Foswiki::Func::saveTopic( $this->test_web, "MetaTestsForm", undef, <<FORM);
 | *Name* | *Type* | *Size* | *Values* | *Tooltip message* |
@@ -55,10 +55,10 @@ FORM
 # Field that can only have one copy
 sub test_single {
     my $this = shift;
-    my $meta = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => $topic
+    my $meta = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => $topic
     );
 
     $meta->put( "TOPICINFO", $args0 );
@@ -77,10 +77,10 @@ sub test_single {
 
 sub test_multiple {
     my $this = shift;
-    my $meta = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => $topic
+    my $meta = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => $topic
     );
 
     $meta->putKeyed( "FIELD", $args0 );
@@ -107,10 +107,10 @@ sub test_multiple {
 # Field with value 0 and value ''  This does not cover Item8738
 sub test_zero_empty {
     my $this = shift;
-    my $meta = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => $topic
+    my $meta = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => $topic
     );
 
     my $args_zero = {
@@ -139,10 +139,10 @@ sub test_zero_empty {
 
 sub test_removeSingle {
     my $this = shift;
-    my $meta = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => $topic
+    my $meta = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => $topic
     );
 
     $meta->put( "TOPICINFO", $args0 );
@@ -156,10 +156,10 @@ sub test_removeSingle {
 
 sub test_removeMultiple {
     my $this = shift;
-    my $meta = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => $topic
+    my $meta = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => $topic
     );
 
     $meta->putKeyed( "FIELD", $args0 );
@@ -184,10 +184,10 @@ sub test_removeMultiple {
 
 sub test_foreach {
     my $this = shift;
-    my $meta = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => $topic
+    my $meta = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => $topic
     );
 
     $meta->putKeyed( "FIELD", { name => "a", value => "aval" } );
@@ -236,10 +236,10 @@ sub fleegle {
 
 sub test_copyFrom {
     my $this = shift;
-    my $meta = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => $topic
+    my $meta = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => $topic
     );
 
     $meta->putKeyed( "FIELD", { name => "a", value => "aval" } );
@@ -247,10 +247,10 @@ sub test_copyFrom {
     $meta->putKeyed( "FIELD", { name => "c", value => "cval" } );
     $meta->put( "FINAGLE", { name => "a", value => "aval" } );
 
-    my $new = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => $topic
+    my $new = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => $topic
     );
     $new->copyFrom($meta);
 
@@ -263,10 +263,10 @@ sub test_copyFrom {
     $this->assert_str_equals( "", $d->{collected} );
 
     undef $new;
-    $new = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => $topic
+    $new = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => $topic
     );
     $new->copyFrom( $meta, 'FIELD' );
 
@@ -277,10 +277,10 @@ sub test_copyFrom {
     $this->assert_str_equals( "", $d->{collected} );
 
     undef $new;
-    $new = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => $topic
+    $new = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => $topic
     );
     $new->copyFrom( $meta, 'FIELD', qr/^(a|b)$/ );
     $new->forEachSelectedValue( qr/^FIELD$/, qr/^value$/, \&fleegle, $d );
@@ -294,10 +294,10 @@ sub test_copyFrom {
 sub test_formfield {
     my $this = shift;
 
-    my $m1 = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => $topic
+    my $m1 = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => $topic
     );
     $m1->put( "TOPICINFO", $args0 );
     $m1->putKeyed( "FORM", { name => "MetaTestsForm" } );
@@ -319,27 +319,27 @@ sub test_parent {
         my $child       = $testTopic . $depth;
         my $parent      = $testTopic . ( $depth + 1 );
         my $text        = "This is ancestor number $depth";
-        my $topicObject = Foswiki::Meta->new(
-            session => $this->session,
-            web     => $web,
-            topic   => $child,
-            text    => $text
+        my $topicObject = $this->create(
+            'Foswiki::Meta',
+            web   => $web,
+            topic => $child,
+            text  => $text
         );
         $topicObject->put( "TOPICPARENT", { name => $parent } );
         $topicObject->save();
     }
-    my $ttopicObject = Foswiki::Meta->new(
-        session => $this->{session},
-        web     => $web,
-        topic   => $testTopic . '6',
-        text    => 'Final ancestor'
+    my $ttopicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $testTopic . '6',
+        text  => 'Final ancestor'
     );
     $ttopicObject->save();
     undef $ttopicObject;
 
     for my $depth ( 1 .. 5 ) {
         my $child       = $testTopic . $depth;
-        my $topicObject = Foswiki::Meta->load( $this->session, $web, $child );
+        my $topicObject = Foswiki::Meta->load( $this->app, $web, $child );
         my $parent      = $topicObject->getParent();
         $this->assert_str_equals(
             $parent,
@@ -401,18 +401,17 @@ sub test_parent {
     }
 
     # Test nowebhome
-    $ttopicObject = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $web,
-        topic   => $testTopic . '6',
-        text    => 'Final ancestor with WebHome as parent'
+    $ttopicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $testTopic . '6',
+        text  => 'Final ancestor with WebHome as parent'
     );
     $ttopicObject->put( "TOPICPARENT",
         { name => $web . '.' . $Foswiki::cfg{HomeTopicName} } );
     $ttopicObject->save();
     undef $ttopicObject;
-    $ttopicObject =
-      Foswiki::Meta->load( $this->session, $web, $testTopic . '1' );
+    $ttopicObject = Foswiki::Meta->load( $this->app, $web, $testTopic . '1' );
     my $str = $ttopicObject->expandMacros('%META{"parent"}%');
     $this->assert_str_equals(
         $str,
@@ -656,11 +655,11 @@ GUNK
 $gunk
 EVIL
 
-    my $topicObject = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => "BadMeta",
-        text    => $text
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => "BadMeta",
+        text  => $text
     );
 
     $this->assert_equals( $text, $topicObject->text() . "\n" );
@@ -689,11 +688,11 @@ EVIL
 %META:TOPICPARENT{}%
 EVIL
     undef $topicObject;
-    $topicObject = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => "BadMeta",
-        text    => $text
+    $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => "BadMeta",
+        text  => $text
     );
     $topicObject->save();
     $text = $topicObject->text();
@@ -709,11 +708,11 @@ EVIL
 $gunk
 GOOD
     undef $topicObject;
-    $topicObject = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => "GoodMeta",
-        text    => $text
+    $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => "GoodMeta",
+        text  => $text
     );
     $topicObject->save();
     $this->assert_equals( $gunk, $topicObject->text() );
@@ -728,7 +727,7 @@ GOOD
 sub test_registerMETA {
     my $this = shift;
 
-    my $o = Foswiki::Meta->new( session => $this->session );
+    my $o = $this->create('Foswiki::Meta');
 
     # Check an unregistered tag
     $this->assert(
@@ -861,11 +860,11 @@ HERE
         many    => 1,
         require => [qw(name value)],
     );
-    my $topicObject = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => "registerArrayMetaTest",
-        text    => $text
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => "registerArrayMetaTest",
+        text  => $text
     );
     $topicObject->save();
 
@@ -907,11 +906,11 @@ HERE
     );
     Foswiki::Meta::registerMETA( 'SLPROPERTYVALUE',
         require => [qw(name value)], );
-    my $topicObject = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => "registerArrayMetaTest",
-        text    => $text
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => "registerArrayMetaTest",
+        text  => $text
     );
     $topicObject->save();
 
@@ -927,16 +926,15 @@ EXPECTED
 
 sub test_getRevisionHistory {
     my $this        = shift;
-    my $topicObject = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => 'RevIt',
-        text    => "Rev 1"
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => 'RevIt',
+        text  => "Rev 1"
     );
     $this->assert_equals( 1, $topicObject->save() );
     undef $topicObject;
-    $topicObject =
-      Foswiki::Meta->load( $this->session, $this->test_web, 'RevIt' );
+    $topicObject = Foswiki::Meta->load( $this->app, $this->test_web, 'RevIt' );
     my $revIt = $topicObject->getRevisionHistory();
     $this->assert( $revIt->hasNext() );
     $this->assert_equals( 1, $revIt->next() );
@@ -945,8 +943,7 @@ sub test_getRevisionHistory {
     $topicObject->text('Rev 2');
     $this->assert_equals( 2, $topicObject->save( forcenewrevision => 1 ) );
     undef $topicObject;
-    $topicObject =
-      Foswiki::Meta->load( $this->session, $this->test_web, 'RevIt' );
+    $topicObject = Foswiki::Meta->load( $this->app, $this->test_web, 'RevIt' );
     $revIt = $topicObject->getRevisionHistory();
     $this->assert( $revIt->hasNext() );
     $this->assert_equals( 2, $revIt->next() );
@@ -957,8 +954,7 @@ sub test_getRevisionHistory {
     $topicObject->text('Rev 3');
     $this->assert_equals( 3, $topicObject->save( forcenewrevision => 1 ) );
     undef $topicObject;
-    $topicObject =
-      Foswiki::Meta->load( $this->session, $this->test_web, 'RevIt' );
+    $topicObject = Foswiki::Meta->load( $this->app, $this->test_web, 'RevIt' );
     $revIt = $topicObject->getRevisionHistory();
     $this->assert( $revIt->hasNext() );
     $this->assert_equals( 3, $revIt->next() );
@@ -973,16 +969,15 @@ sub test_getRevisionHistory {
 
 sub test_summariseChanges {
     my $this        = shift;
-    my $topicObject = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => 'RevIt',
-        text    => "Line 1\n\nLine 2\n\nLine 3"
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => 'RevIt',
+        text  => "Line 1\n\nLine 2\n\nLine 3"
     );
     $this->assert_equals( 1, $topicObject->save() );
     undef $topicObject;
-    $topicObject =
-      Foswiki::Meta->load( $this->session, $this->test_web, 'RevIt' );
+    $topicObject = Foswiki::Meta->load( $this->app, $this->test_web, 'RevIt' );
     my $revIt = $topicObject->getRevisionHistory();
     $this->assert( $revIt->hasNext() );
     $this->assert_equals( 1, $revIt->next() );
@@ -993,8 +988,7 @@ sub test_summariseChanges {
     $topicObject->text("Line 1\n\nLine 3");
     $this->assert_equals( 2, $topicObject->save( forcenewrevision => 1 ) );
     undef $topicObject;
-    $topicObject =
-      Foswiki::Meta->load( $this->session, $this->test_web, 'RevIt' );
+    $topicObject = Foswiki::Meta->load( $this->app, $this->test_web, 'RevIt' );
     $revIt = $topicObject->getRevisionHistory();
     $this->assert( $revIt->hasNext() );
     $this->assert_equals( 2, $revIt->next() );
@@ -1007,8 +1001,7 @@ sub test_summariseChanges {
     $topicObject->text("Line 1\n<nop>SomeOtherData\nLine 3");
     $this->assert_equals( 3, $topicObject->save( forcenewrevision => 1 ) );
     undef $topicObject;
-    $topicObject =
-      Foswiki::Meta->load( $this->session, $this->test_web, 'RevIt' );
+    $topicObject = Foswiki::Meta->load( $this->app, $this->test_web, 'RevIt' );
     $revIt = $topicObject->getRevisionHistory();
     $this->assert( $revIt->hasNext() );
     $this->assert_equals( 3, $revIt->next() );
@@ -1057,13 +1050,13 @@ RESULT
         $topicObject->summariseChanges( undef, undef, 1 ) );
 
     #$topicObject =
-    #  Foswiki::Meta->load($this->session, $this->test_web, 'RevIt', '1' );
+    #  Foswiki::Meta->load($this->app, $this->test_web, 'RevIt', '1' );
     #print "REV1 \n====\n".$topicObject->text()."\n====\n";
     #$topicObject =
-    #  Foswiki::Meta->load($this->session, $this->test_web, 'RevIt', '2' );
+    #  Foswiki::Meta->load($this->app, $this->test_web, 'RevIt', '2' );
     #print "REV2 \n====\n".$topicObject->text()."\n====\n";
     #$topicObject =
-    #  Foswiki::Meta->load($this->session, $this->test_web, 'RevIt', '3' );
+    #  Foswiki::Meta->load($this->app, $this->test_web, 'RevIt', '3' );
     #print "REV3 \n====\n".$topicObject->text()."\n====\n";
     undef $topicObject;
 
@@ -1073,22 +1066,21 @@ RESULT
 sub test_haveAccess {
     my $this = shift;
 
-    my $topicObject = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => 'WebHome'
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => 'WebHome'
     );
     $this->assert( $topicObject->haveAccess('VIEW') );
     $this->assert( $topicObject->haveAccess('CHANGE') );
     undef $topicObject;
 
-    my $webObject =
-      Foswiki::Meta->new( session => $this->session, web => $this->test_web );
+    my $webObject = $this->create( 'Foswiki::Meta', web => $this->test_web );
     $this->assert( $webObject->haveAccess('VIEW') );
     $this->assert( $webObject->haveAccess('CHANGE') );
     undef $webObject;
 
-    my $rootObject = Foswiki::Meta->new( session => $this->session );
+    my $rootObject = $this->create('Foswiki::Meta');
     $this->assert( $rootObject->haveAccess('VIEW') );
     $this->assert( not $rootObject->haveAccess('CHANGE') );
 
@@ -1100,10 +1092,10 @@ sub test_haveAccess {
 sub test_setEmbededStoreForm_DOUBLE {
     my $this = shift;
 
-    my $meta = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => 'TestTopic'
+    my $meta = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => 'TestTopic'
     );
     $meta->setEmbeddedStoreForm(<<'HERE');
 %META:TOPICINFO{author="TemiVarghese" comment="reprev" date="1306913758" format="1.1" reprev="10" version="10"}%
@@ -1135,10 +1127,10 @@ HERE
 sub test_setEmbededStoreForm_NotFirstLine {
     my $this = shift;
 
-    my $meta = Foswiki::Meta->new(
-        session => $this->session,
-        web     => $this->test_web,
-        topic   => 'TestTopic'
+    my $meta = $this->create(
+        'Foswiki::Meta',
+        web   => $this->test_web,
+        topic => 'TestTopic'
     );
     $meta->setEmbeddedStoreForm(<<'HERE');
 SOMETHING ELSE

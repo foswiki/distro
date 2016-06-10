@@ -387,6 +387,13 @@ sub BUILD {
     $this->_readPrefs;
 }
 
+sub DEMOLISH {
+    my $this = shift;
+
+    # Clean up sessions before we finish.
+    $this->users->loginManager->complete;
+}
+
 =begin TML
 
 ---++ StaticMethod run([%parameters])

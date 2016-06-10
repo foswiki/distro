@@ -5,7 +5,7 @@ use v5.14;
 use Foswiki::Net;
 
 use Moo;
-extends qw( Unit::TestCase );
+extends qw( FoswikiTestCase );
 
 our $expectedHeader;
 
@@ -14,7 +14,7 @@ has net => (
     lazy    => 1,
     clearer => 1,
     default => sub {
-        return Foswiki::Net->new;
+        return $_[0]->create('Foswiki::Net');
     }
 );
 

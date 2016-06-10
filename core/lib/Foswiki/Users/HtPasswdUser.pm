@@ -760,6 +760,7 @@ sub setPassword {
     }
 
     my $lockHandle;
+    my $failed = 0;
     try {
         $lockHandle = _lockPasswdFile(LOCK_EX);
 
@@ -787,11 +788,13 @@ sub setPassword {
         print STDERR "ERROR: failed to setPassword - $! ($e)";
         $this->error('unknown error in setPassword')
           unless ( $this->error && length( $this->error ) );
-        return undef;
+        $failed = 1;
     }
     finally {
         _unlockPasswdFile($lockHandle) if $lockHandle;
     };
+
+    return undef if $failed;
 
     $this->clear_error;
     return 1;
