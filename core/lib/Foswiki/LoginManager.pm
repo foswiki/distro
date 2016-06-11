@@ -83,12 +83,6 @@ use constant TRACE => $Foswiki::cfg{Trace}{LoginManager} || 0;
 
 use constant CGIDRIVER => 'driver:File;serializer:Storable';
 
-# GusestSessions should default to enabled, since much of Foswiki depends on
-# having a valid session.
-my $guestSessions =
-  ( !defined $Foswiki::cfg{Sessions}{EnableGuestSessions}
-      || $Foswiki::cfg{Sessions}{EnableGuestSessions} );
-
 =begin TML
 
 ---++ StaticMethod makeLoginManager( $app ) -> $Foswiki::LoginManager
@@ -189,6 +183,19 @@ has _cgisession => (
     isa       => Foswiki::Object::isaCLASS(
         '_cgisession', 'Foswiki::LoginManager::Session'
     ),
+);
+
+# GusestSessions should default to enabled, since much of Foswiki depends on
+# having a valid session.
+has _guestSessions => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub {
+        my $cfgData = $_[0]->app->cfg->data;
+        return ( !defined $cfgData->{Sessions}{EnableGuestSessions}
+              || $cfgData->{Sessions}{EnableGuestSessions} );
+
+    },
 );
 has _MYSCRIPTURL => ( is => 'rw', );
 
@@ -310,7 +317,7 @@ sub loadSession {
     # means beyond foswiki e.g. Basic Auth.  getUser is defined in the
     # LoginManager.  The default returns undef.
 
-    my $authUser = $this->getUser($this);
+    my $authUser = $this->getUser;
     _trace( $this, "Webserver says user is $authUser" ) if ($authUser);
 
     # If the NO_FOSWIKI_SESSION environment variable is defined, then
@@ -570,11 +577,11 @@ sub loadSession {
     # Call to getLoggedIn inserts the auth user into the cgi session
     $this->userLoggedIn($authUser)
       unless ( $authUser eq $Foswiki::cfg{DefaultUserLogin}
-        && !$guestSessions );
+        && !$this->_guestSessions );
 
     # Cleanup unused guest sessions
     if (   $this->_cgisession
-        && !$guestSessions
+        && !$this->_guestSessions
         && $authUser eq $Foswiki::cfg{DefaultUserLogin} )
     {
         $this->_cgisession->delete();
@@ -813,7 +820,7 @@ sub userLoggedIn {
           . ( $wikiName || 'undef' ) );
 
     my $app = $this->app;
-    if ( $app->users ) {
+    if ( $authUser && $app->users ) {
         $app->user( $app->users->getCanonicalUserID($authUser) );
     }
 
@@ -906,7 +913,7 @@ sub userLoggedIn {
 
             # Don't make a session for the guest user.
             unless ( $authUser eq $Foswiki::cfg{DefaultUserLogin}
-                && !$guestSessions )
+                && !$this->_guestSessions )
 
             {
                 $this->_cgisession(

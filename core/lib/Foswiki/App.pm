@@ -246,8 +246,7 @@ has remoteUser => (
     predicate => 1,
     default   => sub {
         my $this = shift;
-        my $user = $this->has_user ? $this->user : $this->engine->user;
-        return $this->users->loadSession($user);
+        return $this->users->loadSession( $this->engine->user );
     },
 );
 has user => (
@@ -255,10 +254,7 @@ has user => (
     lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    default   => sub {
-        my $this = shift;
-        return $this->users->initialiseUser( $this->remoteUser );
-    },
+    builder   => '_prepareUser',
 );
 has users => (
     is        => 'rw',
@@ -376,14 +372,20 @@ sub BUILD {
 
     $this->_prepareDispatcher;
 
-    # Check if we can get CGI session.
-    ASSERT( $this->remoteUser, "set remoteUser" );
-
     # Override user to be admin if no configuration exists.
     # Do this really early, so that later changes in isBOOTSTRAPPING can't
     # change Foswiki's behavior.
-    $this->user('admin') if ( $cfg->data->{isBOOTSTRAPPING} );
+    if ( $cfg->data->{isBOOTSTRAPPING} ) {
+        $this->engine->user('admin');
+    }
+    else {
+        my $plogin = $this->plugins->load;
+        $this->engine->user($plogin) if $plogin;
+    }
 
+    $this->user( $this->users->initialiseUser( $this->remoteUser ) );
+
+    # Read preferences which may depend on user being authenticated.
     $this->_readPrefs;
 }
 
@@ -1390,7 +1392,9 @@ sub _readPrefs {
     my $req = $this->request;
 
     # Push global preferences from %SYSTEMWEB%.DefaultPreferences
-    $this->prefs->loadDefaultPreferences();
+    $this->prefs->loadDefaultPreferences;
+
+    $this->prefs->loadPresetPreferences;
 
     # Static session variables that can be expanded in topics when they are
     # enclosed in % signs
@@ -1454,6 +1458,7 @@ sub _prepareRequest {
 sub _prepareConfig {
     my $this = shift;
     my $cfg = $this->create( 'Foswiki::Config', env => $this->env );
+    $this->callback('postConfig');
     return $cfg;
 }
 
@@ -1615,7 +1620,7 @@ sub _checkActionAccess {
 }
 
 sub _validCallbacks {
-    return qw(handleRequestException);
+    return qw(handleRequestException postConfig);
 }
 
 1;

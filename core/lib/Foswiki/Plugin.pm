@@ -213,19 +213,18 @@ sub load {
     #local $Foswiki::Plugins::SESSION = $this->session;
     #ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
-    my $sub = $this->module . "::initPlugin";
-    if ( !defined(&$sub) ) {
-        push( @{ $this->errors }, $sub . ' is not defined' );
+    my $sub = $this->module->can("initPlugin");
+    if ( !defined($sub) ) {
+        push( @{ $this->errors },
+            $this->module . " doesn't have initPlugin()" );
         $this->disabled(1);
         $this->reason('no_initPlugin');
         return;
     }
 
-    $sub = $this->module . '::earlyInitPlugin';
-    if ( defined(&$sub) ) {
-        no strict 'refs';
-        my $error = &$sub();
-        use strict 'refs';
+    $sub = $this->module->can('earlyInitPlugin');
+    if ( defined($sub) ) {
+        my $error = $sub->();
         if ($error) {
             push( @{ $this->errors }, $sub . ' failed: ' . $error );
             $this->disabled(1);
@@ -235,15 +234,13 @@ sub load {
     }
 
     my $user;
-    $sub = $this->module . '::initializeUserHandler';
-    if ( defined(&$sub) ) {
-        no strict 'refs';
-        $user = &$sub(
+    $sub = $this->module->can('initializeUserHandler');
+    if ( defined($sub) ) {
+        $user = $sub->(
             $this->app->remoteUser,
             $this->app->request->url,
             $this->app->request->pathInfo
         );
-        use strict 'refs';
     }
 
 #print STDERR "Compile ", $this->module, ": ".timestr(timediff(new Benchmark, $begin))."\n";
@@ -270,19 +267,17 @@ sub registerHandlers {
     return if $this->disabled;
 
     my $p         = $this->module;
-    my $sub       = $p . "::initPlugin";
+    my $sub       = $p->can("initPlugin");
     my $users     = $Foswiki::app->users;
     my $status    = 0;
     my $exception = '';
     try {
-        no strict 'refs';
-        $status = &$sub(
+        $status = $sub->(
             $Foswiki::app->request->topic,
             $Foswiki::app->request->web,
             $users->getLoginName( $Foswiki::app->user ),
             $this->topicWeb()
         );
-        use strict 'refs';
     }
     catch {
         if (   $_->isa('Foswiki::AccessControlException')

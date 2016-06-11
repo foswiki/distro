@@ -42,8 +42,6 @@ if you have a recent enough version.
 
 use version 0.77; our $VERSION = version->parse("2.4");
 
-our $inited = 0;
-
 my %onlyOnceHandlers = (
     registrationHandler           => 1,
     writeHeaderHandler            => 1,
@@ -52,6 +50,7 @@ my %onlyOnceHandlers = (
     renderWikiWordHandler         => 1,
 );
 
+has inited => ( is => 'rw', default => 0 );
 has registeredHandlers => (
     is      => 'rw',
     lazy    => 1,
@@ -96,7 +95,7 @@ sub BUILD {
     # Load the plugins code and invoke preload handlers
     $this->preload();
 
-    unless ($inited) {
+    unless ( $this->inited ) {
         my $macros = $this->app->macros;
         $macros->registerTagHandler( 'PLUGINDESCRIPTIONS',
             \&_handlePLUGINDESCRIPTIONS );
@@ -104,7 +103,7 @@ sub BUILD {
             \&_handleACTIVATEDPLUGINS );
         $macros->registerTagHandler( 'FAILEDPLUGINS', \&_handleFAILEDPLUGINS );
         $macros->registerTagHandler( 'RESTHANDLERS',  \&_handleRESTHANDLERS );
-        $inited = 1;
+        $this->inited(1);
     }
 
     return $this;
@@ -301,14 +300,15 @@ sub enable {
     #ASSERT( $Foswiki::Plugins::SESSION->isa('Foswiki') ) if DEBUG;
 
     foreach my $plugin ( @{ $this->plugins } ) {
-        if ( $disabled{ $plugin->{name} } ) {
-            $plugin->{disabled} = 1;
-            $plugin->{reason} =
-              $this->app->i18n->maketext(
-                'See the DISABLEDPLUGINS preference setting.');
+        if ( $disabled{ $plugin->name } ) {
+            $plugin->disabled(1);
+            $plugin->reason(
+                $this->app->i18n->maketext(
+                    'See the DISABLEDPLUGINS preference setting.')
+            );
             push(
-                @{ $plugin->{errors} },
-                $plugin->{name} . ' has been disabled'
+                @{ $plugin->errors },
+                $plugin->name( $plugin->name . ' has been disabled' )
             ) if DEBUG;
         }
         else {
@@ -316,9 +316,9 @@ sub enable {
         }
 
         # Report initialisation errors
-        if ( $plugin->{errors} && @{ $plugin->{errors} } ) {
+        if ( $plugin->errors && @{ $plugin->errors } ) {
             $this->app->logger->log( 'warning',
-                join( "\n", @{ $plugin->{errors} } ) );
+                join( "\n", @{ $plugin->errors } ) );
         }
     }
 }

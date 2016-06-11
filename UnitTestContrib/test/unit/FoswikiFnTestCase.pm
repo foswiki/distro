@@ -89,28 +89,30 @@ around loadExtraConfig => sub {
 
     $orig->( $this, @_ );
 
-    #$Foswiki::cfg{Store}{Implementation}   = "Foswiki::Store::RcsLite";
-    $Foswiki::cfg{Store}{Implementation}   = "Foswiki::Store::PlainFile";
-    $Foswiki::cfg{RCS}{AutoAttachPubFiles} = 0;
+    my $cfgData = $this->app->cfg->data;
 
-    $Foswiki::cfg{Register}{AllowLoginName} = 1;
-    $Foswiki::cfg{Htpasswd}{FileName} = "$Foswiki::cfg{WorkingDir}/htpasswd";
-    unless ( -e $Foswiki::cfg{Htpasswd}{FileName} ) {
+    #$cfgData->{Store}{Implementation}   = "Foswiki::Store::RcsLite";
+    $cfgData->{Store}{Implementation}   = "Foswiki::Store::PlainFile";
+    $cfgData->{RCS}{AutoAttachPubFiles} = 0;
+
+    $cfgData->{Register}{AllowLoginName} = 1;
+    $cfgData->{Htpasswd}{FileName}       = $cfgData->{WorkingDir} . "/htpasswd";
+    unless ( -e $cfgData->{Htpasswd}{FileName} ) {
         my $fh;
-        open( $fh, ">:encoding(utf-8)", $Foswiki::cfg{Htpasswd}{FileName} )
+        open( $fh, ">:encoding(utf-8)", $cfgData->{Htpasswd}{FileName} )
           || die $!;
         close($fh) || die $!;
     }
-    $Foswiki::cfg{PasswordManager}       = 'Foswiki::Users::HtPasswdUser';
-    $Foswiki::cfg{Htpasswd}{GlobalCache} = 0;
-    $Foswiki::cfg{UserMappingManager}    = 'Foswiki::Users::TopicUserMapping';
-    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
-    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
-    $Foswiki::cfg{RenderLoggedInButUnknownUsers} = 0;
+    $cfgData->{PasswordManager}       = 'Foswiki::Users::HtPasswdUser';
+    $cfgData->{Htpasswd}{GlobalCache} = 0;
+    $cfgData->{UserMappingManager}    = 'Foswiki::Users::TopicUserMapping';
+    $cfgData->{LoginManager}          = 'Foswiki::LoginManager::TemplateLogin';
+    $cfgData->{Register}{EnableNewUserRegistration} = 1;
+    $cfgData->{RenderLoggedInButUnknownUsers} = 0;
 
-    $Foswiki::cfg{Register}{NeedVerification} = 0;
-    $Foswiki::cfg{MinPasswordLength}          = 0;
-    $Foswiki::cfg{UsersWebName}               = $this->users_web;
+    $cfgData->{Register}{NeedVerification} = 0;
+    $cfgData->{MinPasswordLength}          = 0;
+    $cfgData->{UsersWebName}               = $this->users_web;
 };
 
 around set_up => sub {
@@ -162,6 +164,8 @@ around tear_down => sub {
     my $cfg = $app->cfg;
 
     $this->removeWebFixture( $this->test_web );
+    $this->assert_str_not_equals( $cfg->data->{UsersWebName},
+        'Main', "UsersWebName equals to 'Main'" );
     $this->removeWebFixture( $cfg->data->{UsersWebName} );
     unlink( $Foswiki::cfg{Htpasswd}{FileName} );
     $orig->( $this, @_ );

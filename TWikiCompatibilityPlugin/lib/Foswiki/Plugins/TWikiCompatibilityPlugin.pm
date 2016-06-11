@@ -55,8 +55,9 @@ This may not be enough for Plugins that do have in topic preferences.
 
 sub earlyInitPlugin {
 
-    my $session = $Foswiki::Plugins::SESSION;
-    _patchWebTopic( $session->{webName}, $session->{topicName} );
+    my $app = $Foswiki::app;
+    my $req = $app->request;
+    _patchWebTopic( $req->web, $req->topic );
 
     #Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB
     #TODO: should we test for existance and other things?

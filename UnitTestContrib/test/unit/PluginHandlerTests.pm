@@ -28,9 +28,9 @@ extends qw( FoswikiFnTestCase );
 
 my $systemWeb = "TemporaryPluginHandlersSystemWeb";
 
-has code_root   => ( is => 'rw', );
-has plugin_pm   => ( is => 'rw', );
-has plugin_name => ( is => 'rw', );
+has code_root   => ( is => 'rw', clearer => 1, );
+has plugin_pm   => ( is => 'rw', clearer => 1, );
+has plugin_name => ( is => 'rw', clearer => 1, );
 
 around BUILDARGS => sub {
     my $orig = shift;
@@ -46,10 +46,12 @@ around set_up => sub {
     my $testWebObject = $this->populateNewWeb( $this->test_web );
     undef $testWebObject;
 
+    my $cfgData = $this->app->cfg->data;
+
     # Disable all plugins
-    foreach my $key ( keys %{ $Foswiki::cfg{Plugins} } ) {
-        next unless ref( $Foswiki::cfg{Plugins}{$key} ) eq 'HASH';
-        $Foswiki::cfg{Plugins}{$key}{Enabled} = 0;
+    foreach my $key ( keys %{ $cfgData->{Plugins} } ) {
+        next unless ref( $cfgData->{Plugins}{$key} ) eq 'HASH';
+        $cfgData->{Plugins}{$key}{Enabled} = 0;
     }
 
     # Locate the code
@@ -65,19 +67,31 @@ around set_up => sub {
     die "Can't find code" unless $found;
     $this->code_root("$found/Foswiki/Plugins/");
     my $webObject =
-      $this->populateNewWeb( $systemWeb, $Foswiki::cfg{SystemWebName} );
+      $this->populateNewWeb( $systemWeb, $cfgData->{SystemWebName} );
     undef $webObject;
-    $Foswiki::cfg{SystemWebName} = $systemWeb;
-    $Foswiki::cfg{Plugins}{WebSearchPath} = $systemWeb;
+    $cfgData->{SystemWebName} = $systemWeb;
+    $cfgData->{Plugins}{WebSearchPath} = $systemWeb;
 };
 
 around tear_down => sub {
     my $orig = shift;
     my $this = shift;
 
-    $this->removeWebFixture( $this->session, $systemWeb );
-    unlink( $this->plugin_pm );
-    Symbol::delete_package( "Foswiki::Foswiki::" . $this->plugin_name );
+    my $cfgData = $this->app->cfg->data;
+    $this->removeWebFixture($systemWeb);
+    if ( $this->plugin_name ) {
+        unlink( $this->plugin_pm );
+        Symbol::delete_package( "Foswiki::Foswiki::" . $this->plugin_name );
+        $cfgData->{Plugins}{ $this->plugin_name }{Enabled} = 0;
+        undef $cfgData->{Plugins}{ $this->plugin_name }{Module};
+    }
+
+    $this->createNewFoswikiApp;    # for tear_down
+
+    $this->clear_plugin_name;
+    $this->clear_plugin_pm;
+    $this->clear_code_root;
+
     $orig->($this);
 };
 
@@ -87,6 +101,8 @@ around tear_down => sub {
 # disable the plugin.
 sub makePlugin {
     my ( $this, $test, $pcode, $disabled ) = @_;
+
+    my $cfgData = $this->app->cfg->data;
 
     $this->plugin_name( ucfirst("${test}Plugin") );
     $this->plugin_pm( $this->code_root . $this->plugin_name . ".pm" );
@@ -121,8 +137,7 @@ HERE
     print $F $code;
     $this->assert( close($F) );
     try {
-        my ($topicObject) =
-          Foswiki::Func::readTopic( $Foswiki::cfg{SystemWebName},
+        my ($topicObject) = Foswiki::Func::readTopic( $cfgData->{SystemWebName},
             $this->plugin_name );
         $topicObject->text(<<'EOF');
    * Set PLUGINVAR = Blah
@@ -133,14 +148,24 @@ EOF
     catch {
         Foswiki::Exception::Fatal->rethrow($_);
     };
-    $Foswiki::cfg{Plugins}{ $this->plugin_name }{Enabled} =
-      ( $disabled ? 0 : 1 );
-    $Foswiki::cfg{Plugins}{ $this->plugin_name }{Module} =
+    $cfgData->{Plugins}{ $this->plugin_name }{Enabled} = ( $disabled ? 0 : 1 );
+    $cfgData->{Plugins}{ $this->plugin_name }{Module} =
       "Foswiki::Plugins::" . $this->plugin_name;
 
     # Set up $tester =
-    eval "\$Foswiki::Plugins::" . $this->plugin_name . "::tester = \$this;";
-    $this->createNewFoswikiSession();    # default user
+    try {
+        no strict 'refs';
+        *{ "Foswiki::Plugins::" . $this->plugin_name . "::tester" } = \$this;
+        use strict 'refs';
+    }
+    catch {
+        Foswiki::Exception::Fatal->rethrow($_);
+    };
+    $this->createNewFoswikiApp;    # default user
+        # SMELL Not a very good idea to simulate app's handleRequest() code.
+    my $app = $this->app;
+    $app->_checkBootstrapStage2;
+    $app->plugins->enable;
     $this->checkCalls( $disabled ? 0 : 1, 'initPlugin' );
 
     return;
@@ -148,10 +173,22 @@ EOF
 
 sub checkCalls {
     my ( $this, $number, $name ) = @_;
-    my $saw =
-        eval "\$Foswiki::Plugins::"
-      . $this->plugin_name
-      . "::called->{$name} || 0";
+    my $saw;
+
+    #=
+    #    eval "\$Foswiki::Plugins::"
+    #  . $this->plugin_name
+    #  . "::called->{$name} || 0";
+    try {
+        no strict 'refs';
+        $saw =
+          ${ "Foswiki::Plugins::" . $this->plugin_name . "::called" }->{$name}
+          // 0;
+        use strict 'refs';
+    }
+    catch {
+        Foswiki::Exception::Fatal->rethrow($_);
+    };
     $this->assert_equals( $number, $saw,
         "calls($name) $saw != $number " . join( ' ', caller ) );
 
@@ -161,7 +198,7 @@ sub checkCalls {
 sub test_saveHandlers {
     my $this = shift;
 
-    my $user = $this->session->user;
+    my $user = $this->app->user;
     $this->assert_not_null($user);
     my ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'Tropic' );
     my $text = $topicObject->text() || '';
@@ -177,8 +214,12 @@ sub test_saveHandlers {
     };
     undef $topicObject;
 
-    my $q = Foswiki::Func::getRequestObject();
-    $this->createNewFoswikiSession( $Foswiki::cfg{GuestUserLogin}, $q );
+    $this->reCreateFoswikiApp(
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{GuestUserLogin}, },
+        }
+    );
 
     $this->makePlugin( 'saveHandlers', <<'HERE');
 sub beforeSaveHandler {
@@ -379,7 +420,7 @@ sub initializeUserHandler {
     die "initializeUserHandler" unless !$called->{initializeUserHandler};
     $called->{initializeUserHandler}++;
     my $ru = $_[0] || 'undef';
-    die "RU $ru" unless $ru eq ($Foswiki::Plugins::SESSION->remoteUser||'undef');
+    die "RU $ru" unless $ru eq ($Foswiki::app->remoteUser||'undef');
     my $url = $_[1] || 'undef';
     die "URL $url" unless $url eq (Foswiki::Func::getCgiQuery()->url() || undef);
     my $path = $_[2] || 'undef';
@@ -408,15 +449,13 @@ HERE
         #    $this->assert( 0, "earlyInitPlugin exception lost" );
         #};
         if ( ref($_) ) {
-            $this->assert( 0, "earlyInitPlugin exception lost" );
+            $this->assert( 0,
+                    "earlyInitPlugin exception "
+                  . ref($_)
+                  . " lost:\n"
+                  . Foswiki::Exception::errorStr($_) );
         }
-
     };
-    unlink( $this->plugin_pm );
-    Symbol::delete_package( "Foswiki::Foswiki::" . $this->plugin_name );
-    $Foswiki::cfg{Plugins}{ $this->plugin_name }{Enabled} = 0;
-    undef $Foswiki::cfg{Plugins}{ $this->plugin_name }{Module};
-    $this->createNewFoswikiSession();    # for tear_down
 }
 
 # Test that the rendering handlers are called in the correct sequence.
@@ -989,12 +1028,6 @@ HERE
         }
 
     };
-    unlink( $this->plugin_pm );
-    Symbol::delete_package( "Foswiki::Foswiki::" . $this->plugin_name );
-    $Foswiki::cfg{Plugins}{ $this->plugin_name }{Enabled} = 0;
-    undef $Foswiki::cfg{Plugins}{ $this->plugin_name }{Module};
-    $this->createNewFoswikiSession();    # for tear_down
-    return;
 }
 
 sub test_preload_with_EngineException {
@@ -1021,16 +1054,12 @@ HERE
         }
 
     };
-    unlink( $this->plugin_pm );
-    Symbol::delete_package( "Foswiki::Foswiki::" . $this->plugin_name );
-    $Foswiki::cfg{Plugins}{ $this->plugin_name }{Enabled} = 0;
-    undef $Foswiki::cfg{Plugins}{ $this->plugin_name }{Module};
-    $this->createNewFoswikiSession();    # for tear_down
-    return;
 }
 
 sub test_finishPlugin {
     my $this = shift;
+    $this->pushApp;
+    $this->reCreateFoswikiApp;
     $this->makePlugin( 'finishPlugin', <<'HERE');
 sub finishPlugin {
     $called->{finishPlugin}++;
@@ -1039,7 +1068,7 @@ HERE
 
     $this->finishFoswikiSession();
     $this->checkCalls( 1, 'finishPlugin' );
-    $this->createNewFoswikiSession();
+    $this->popApp;
 
     return;
 }

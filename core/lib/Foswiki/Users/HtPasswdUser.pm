@@ -476,14 +476,21 @@ sub _savePasswd {
     my $this = shift;
     my $db   = shift;
 
-    unless ( -e "$Foswiki::cfg{Htpasswd}{FileName}" ) {
+    my $cfgData = $this->app->cfg->data;
+
+    unless ( -e $cfgData->{Htpasswd}{FileName} ) {
+
+        my $readme;
 
        # Item4544: Document special format used in .htpasswd for email addresses
-        open( my $readme, '>', "$Foswiki::cfg{Htpasswd}{FileName}.README" )
-          or
-          Foswiki::Exception->throw( text => $Foswiki::cfg{Htpasswd}{FileName}
-              . '.README open failed: '
-              . $! );
+        unless (
+            open( $readme, '>', $cfgData->{Htpasswd}{FileName} . ".README" ) )
+        {
+            Foswiki::Exception::Fatal->throw(
+                    text => $Foswiki::cfg{Htpasswd}{FileName}
+                  . '.README open failed: '
+                  . $! );
+        }
 
         print $readme <<'EoT';
 Foswiki uses a specially crafted .htpasswd file format that should not be
@@ -785,7 +792,8 @@ sub setPassword {
     catch {
         my $e = $_;
         $this->error($!);
-        print STDERR "ERROR: failed to setPassword - $! ($e)";
+        print STDERR "ERROR: failed to setPassword - $! ("
+          . Foswiki::Exception::errorStr($e) . ")";
         $this->error('unknown error in setPassword')
           unless ( $this->error && length( $this->error ) );
         $failed = 1;

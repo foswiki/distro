@@ -133,6 +133,17 @@ has internals => (
     default   => sub { {} },
 );
 
+# presets is a hash key/values which are requested to be set right after the defaults.
+# Plugins can use it to set preferences during earlyInitPlugin stage.
+has _presets => (
+    is        => 'rw',
+    lazy      => 1,
+    clearer   => 1,
+    predicate => 1,
+    isa       => Foswiki::Object::isaHASH('presets'),
+    default   => sub { {} },
+);
+
 sub BUILD {
     my $this = shift;
 
@@ -436,6 +447,15 @@ sub loadDefaultPreferences {
     $this->main->newLevel($back);
 }
 
+sub loadPresetPreferences {
+    my $this = shift;
+
+    return unless $this->main->size;
+
+    $this->setSessionPreferences( %{ $this->_presets } );
+    $this->_clear_presets;
+}
+
 =begin TML
 
 ---++ ObjectMethod loadSitePreferences()
@@ -456,6 +476,23 @@ sub loadSitePreferences {
 
 =begin TML
 
+---++ ObjectMethod addPreset(%prefs)
+
+Preferences defined by =%prefs= hash will be stored and set when the preferences
+framework is properly initialized and defaults are read.
+
+=cut
+
+sub addPresets {
+    my $this = shift;
+    Foswiki::Exception::Fatal->throw(
+        text => "Odd number of elements in preset" )
+      if scalar(@_) % 2 == 1;
+    $this->_presets( { %{ $this->_presets }, @_ } );
+}
+
+=begin TML
+
 ---++ ObjectMethod setSessionPreferences( %values )
 
 Set the preference values in the parameters in the SESSION stack.
@@ -463,12 +500,20 @@ Set the preference values in the parameters in the SESSION stack.
 =cut
 
 sub setSessionPreferences {
-    my ( $this, %values ) = @_;
-    my $stack = $this->main;
-    my $num   = 0;
-    while ( my ( $k, $v ) = each %values ) {
-        next if $stack->finalized($k);
-        $num += $stack->insert( 'Set', $k, $v );
+    my $this     = shift;
+    my (%values) = @_;
+    my $stack    = $this->main;
+    my $num      = 0;
+    if ( $stack->size > 0 ) {
+        while ( my ( $k, $v ) = each %values ) {
+            next if $stack->finalized($k);
+            $num += $stack->insert( 'Set', $k, $v );
+        }
+    }
+    else {
+        # Defaults aren't read yet. Store values as preset.
+        # SMELL $num is 0, which may confuse the calling party.
+        $this->addPresets(@_);
     }
 
     return $num;

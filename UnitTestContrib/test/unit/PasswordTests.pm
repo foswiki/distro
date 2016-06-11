@@ -16,15 +16,23 @@ my $SALTED = 1;
 
 has users1 => ( is => 'rw', );
 has users2 => ( is => 'rw', );
+has junkpasswd => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { $_[0]->app->cfg->data->{TempfileDir} . "/junkpasswd" },
+);
 
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
 
+    $| = 1;
+
     $orig->( $this, @_ );
 
-    $this->createNewFoswikiSession();
-    $Foswiki::cfg{Htpasswd}{FileName} = "$Foswiki::cfg{TempfileDir}/junkpasswd";
+    $this->createNewFoswikiApp;
+    $this->app->cfg->data->{Htpasswd}{FileName} = $this->junkpasswd;
 
     $this->users1(
         {
@@ -68,26 +76,42 @@ around set_up => sub {
     return;
 };
 
-sub loadExtraConfig {
+around loadExtraConfig => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::loadExtraConfig(@_);
 
-    $Foswiki::cfg{Htpasswd}{FileName} = "$Foswiki::cfg{TempfileDir}/junkpasswd";
-    unlink "$Foswiki::cfg{TempfileDir}/junkpasswd"
-      if ( -e "$Foswiki::cfg{TempfileDir}/junkpasswd" );
+    $orig->( $this, @_ );
 
-    $Foswiki::cfg{Htpasswd}{DetectModification} = 1;
-    $Foswiki::cfg{Htpasswd}{GlobalCache}        = 1;
+    my $junkpasswd = $this->junkpasswd;
+    my $cfgData    = $this->app->cfg->data;
+    $cfgData->{Htpasswd}{FileName} = $this->junkpasswd;
+    unlink $this->junkpasswd
+      if ( -e $junkpasswd );
 
-}
+    $cfgData->{Htpasswd}{DetectModification} = 1;
+    $cfgData->{Htpasswd}{GlobalCache}        = 1;
 
-sub tear_down {
+};
+
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
-    unlink $Foswiki::cfg{Htpasswd}{FileName};
-    $this->SUPER::tear_down();
+    unlink $this->app->cfg->data->{Htpasswd}{FileName};
+
+    $orig->( $this, @_ );
+
+    $| = 0;
 
     return;
-}
+};
+
+around createNewFoswikiApp => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    $this->clear_junkpasswd;
+    return $orig->( $this, @_ );
+};
 
 sub doTests {
     my ( $this, $impl, $salted ) = @_;
@@ -267,12 +291,13 @@ sub skip {
 sub test_random_Pass {
     my $this = shift;
 
-    $Foswiki::cfg{MinPasswordLength} = 4;
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{MinPasswordLength} = 4;
     my $pass1 = Foswiki::Users::randomPassword();
     $this->assert_num_equals( 8, length($pass1),
         "Returned other than 8 characters" );
 
-    $Foswiki::cfg{MinPasswordLength} = 12;
+    $cfgData->{MinPasswordLength} = 12;
     my $pass2 = Foswiki::Users::randomPassword();
     $this->assert_num_equals( 12, length($pass2),
         "Returned other than 12 characters" );
@@ -286,18 +311,19 @@ sub test_random_Pass {
 sub test_disabled_entry {
     my $this = shift;
 
-    $Foswiki::cfg{AuthRealm} = 'MyNewRealmm';
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 1;
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{AuthRealm} = 'MyNewRealmm';
+    $cfgData->{Htpasswd}{AutoDetect} = 1;
 
     my %encrapted;
     my %encoded;
-    my $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    my $impl = $this->create('Foswiki::Users::HtPasswdUser');
     $impl->ClearCache() if $impl->can('ClearCache');
 
 # The following lines were generated with the apache htdigest and htpasswd command
 # Each one generated with an empty password.
 
-    open( my $fh, '>:encoding(utf-8)', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
+    open( my $fh, '>:encoding(utf-8)', $this->junkpasswd )
       || die "Unable to open \n $! \n\n ";
     print $fh Encode::encode_utf8(<<'DONE');
 alligator:Pfo62LcyAuTjA:crypt@example.com
@@ -314,13 +340,13 @@ DONE
 
     # Verify that no algorithm will validate an empty password entry
     # Against a blank password.
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    $cfgData->{Htpasswd}{AutoDetect} = 0;
+    $impl = $this->create('Foswiki::Users::HtPasswdUser');
 
     # Make sure file is detected as modified.
     sleep 2;
 
-    open( $fh, '>:encoding(utf-8)', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
+    open( $fh, '>:encoding(utf-8)', $this->junkpasswd )
       || die "Unable to open \n $! \n\n ";
     print $fh <<'DONE';
 crypt::crypt@example.com
@@ -334,8 +360,8 @@ DONE
     foreach
       my $algo ( 'apache-md5', 'htdigest-md5', 'crypt', 'sha1', 'crypt-md5' )
     {
-        $Foswiki::cfg{Htpasswd}{Encoding} = $algo;
-        $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+        $cfgData->{Htpasswd}{Encoding} = $algo;
+        $impl = $this->create('Foswiki::Users::HtPasswdUser');
 
         foreach my $user ( 'crypt', 'apache-md5', 'sha1', 'htdigest-md5',
             'crypt-md5' )
@@ -346,12 +372,12 @@ DONE
 
     # Verify that each algorithm can reset an empty password entry
     # But need to autodetect to not corrupt existing entries
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 1;
+    $cfgData->{Htpasswd}{AutoDetect} = 1;
     foreach
       my $user ( 'crypt', 'apache-md5', 'sha1', 'htdigest-md5', 'crypt-md5' )
     {
-        $Foswiki::cfg{Htpasswd}{Encoding} = $user;
-        $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+        $cfgData->{Htpasswd}{Encoding} = $user;
+        $impl = $this->create('Foswiki::Users::HtPasswdUser');
 
         my $added = $impl->setPassword( $user, "pw$user", 1 );
         $this->assert_null( $impl->error() );
@@ -360,8 +386,8 @@ DONE
     #dumpFile();
 
     # Verify that the passwords were reset
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 1;
-    $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    $cfgData->{Htpasswd}{AutoDetect} = 1;
+    $impl = $this->create('Foswiki::Users::HtPasswdUser');
     foreach my $user ( 'crypt', 'apache-md5', 'sha1', 'crypt-md5' ) {
         $this->assert( $impl->checkPassword( $user, "pw$user" ),
             "Failure for $user" );
@@ -373,8 +399,9 @@ DONE
 sub test_htpasswd_auto {
     my $this = shift;
 
-    $Foswiki::cfg{AuthRealm} = 'MyNewRealmm';
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 1;
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{AuthRealm} = 'MyNewRealmm';
+    $cfgData->{Htpasswd}{AutoDetect} = 1;
 
     # Limited support to autodetect a plain text password.
     # It fails if the password is 13 characters long, since it could
@@ -384,7 +411,7 @@ sub test_htpasswd_auto {
 
     my %encrapted;
     my %encoded;
-    my $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    my $impl = $this->create('Foswiki::Users::HtPasswdUser');
     $impl->ClearCache() if $impl->can('ClearCache');
 
 # The following lines were generated with the apache htdigest and htpasswd command
@@ -392,7 +419,7 @@ sub test_htpasswd_auto {
 
     my @users =
       ( 'alligator', 'bat', 'budgie', 'dodo', 'lion', 'mole', 'tortise' );
-    open( my $fh, '>:encoding(utf-8)', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
+    open( my $fh, '>:encoding(utf-8)', $this->junkpasswd )
       || die "Unable to open \n $! \n\n ";
     print $fh <<'DONE';
 alligator:njQ4t57Dts41s
@@ -427,10 +454,10 @@ DONE
     # Make sure the file timestamp has changed enough to be detected
     sleep 2;
 
-    $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    $impl = $this->create('Foswiki::Users::HtPasswdUser');
 
     # Test again with email addresses present
-    open( $fh, '>:encoding(utf-8)', "$Foswiki::cfg{TempfileDir}/junkpasswd" )
+    open( $fh, '>:encoding(utf-8)', $this->junkpasswd )
       || die "Unable to open \n $! \n\n ";
     print $fh <<'DONE';
 alligator:njQ4t57Dts41s:ally@masai.mara
@@ -480,8 +507,8 @@ DONE
         );
     }
 
-    $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
-    $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    $cfgData->{Htpasswd}{Encoding} = 'md5';
+    $impl = $this->create('Foswiki::Users::HtPasswdUser');
 
     # force-change them to users2 password again,  Verify emails have survived.
     foreach my $user (@users) {
@@ -506,9 +533,9 @@ DONE
 
     # Check and change passwords again, with a modified realm
     # And use new value for Encoding
-    $Foswiki::cfg{Htpasswd}{Encoding} = 'htdigest-md5';
-    $Foswiki::cfg{AuthRealm} = 'Another New Realm';
-    $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    $cfgData->{Htpasswd}{Encoding} = 'htdigest-md5';
+    $cfgData->{AuthRealm} = 'Another New Realm';
+    $impl = $this->create('Foswiki::Users::HtPasswdUser');
 
     foreach my $user (@users) {
         my $added = $impl->setPassword(
@@ -530,8 +557,8 @@ DONE
 
     #dumpFile();
 
-    $Foswiki::cfg{Htpasswd}{Encoding} = 'apache-md5';
-    $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    $cfgData->{Htpasswd}{Encoding} = 'apache-md5';
+    $impl = $this->create('Foswiki::Users::HtPasswdUser');
 
     # force-change them to users2 password again, migrating to apache_md5.
     foreach my $user (@users) {
@@ -552,8 +579,8 @@ DONE
         $this->assert_str_equals( 'apache-md5', $encoded{$user}->{enc} );
     }
 
-    $Foswiki::cfg{Htpasswd}{Encoding} = 'bcrypt';
-    $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    $cfgData->{Htpasswd}{Encoding} = 'bcrypt';
+    $impl = $this->create('Foswiki::Users::HtPasswdUser');
 
     # force-change them to users2 password again, migrating to bcrypt.
     foreach my $user (@users) {
@@ -579,25 +606,26 @@ DONE
     return;
 }
 
-sub dumpFile {
-    open( my $IN_FILE, '<:encoding(utf-8)',
-        "$Foswiki::cfg{TempfileDir}/junkpasswd" )
-      or die $!;
-    my $line;
-    while ( defined( $line = <$IN_FILE> ) ) {
-        print STDERR $line . "\n";
-    }
-    ASSERT( close($IN_FILE) );
-
-    return;
-}
+#sub dumpFile {
+#    open( my $IN_FILE, '<:encoding(utf-8)',
+#        $this->junkpasswd )
+#      or die $!;
+#    my $line;
+#    while ( defined( $line = <$IN_FILE> ) ) {
+#        print STDERR $line . "\n";
+#    }
+#    ASSERT( close($IN_FILE) );
+#
+#    return;
+#}
 
 sub test_htpasswd_crypt_md5 {
     my $this = shift;
 
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $Foswiki::cfg{Htpasswd}{Encoding}   = 'crypt-md5';
-    my $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Htpasswd}{AutoDetect} = 0;
+    $cfgData->{Htpasswd}{Encoding}   = 'crypt-md5';
+    my $impl = $this->create('Foswiki::Users::HtPasswdUser');
     $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests( $impl, $SALTED );
@@ -608,9 +636,10 @@ sub test_htpasswd_crypt_md5 {
 sub test_htpasswd_bcrypt {
     my $this = shift;
 
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $Foswiki::cfg{Htpasswd}{Encoding}   = 'bcrypt';
-    my $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Htpasswd}{AutoDetect} = 0;
+    $cfgData->{Htpasswd}{Encoding}   = 'bcrypt';
+    my $impl = $this->create('Foswiki::Users::HtPasswdUser');
     $this->assert($impl);
     $impl->ClearCache() if $impl->can('ClearCache');
     $this->doTests( $impl, $SALTED );
@@ -620,9 +649,11 @@ sub test_htpasswd_bcrypt {
 
 sub test_htpasswd_crypt_crypt {
     my $this = shift;
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $Foswiki::cfg{Htpasswd}{Encoding}   = 'crypt';
-    my $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Htpasswd}{AutoDetect} = 0;
+    $cfgData->{Htpasswd}{Encoding}   = 'crypt';
+    my $impl = $this->create('Foswiki::Users::HtPasswdUser');
     $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests( $impl, $SALTED );
@@ -640,10 +671,11 @@ sub test_htpasswd_sha1 {
     #    $this->annotate("CANNOT RUN SHA1 TESTS: $mess");
     #}
 
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $Foswiki::cfg{Htpasswd}{Encoding}   = 'sha1';
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Htpasswd}{AutoDetect} = 0;
+    $cfgData->{Htpasswd}{Encoding}   = 'sha1';
 
-    my $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    my $impl = $this->create('Foswiki::Users::HtPasswdUser');
     $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests($impl);
@@ -654,12 +686,13 @@ sub test_htpasswd_sha1 {
 sub test_htpasswd_plain {
     my $this = shift;
 
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $Foswiki::cfg{Htpasswd}{Encoding}   = 'plain';
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Htpasswd}{AutoDetect} = 0;
+    $cfgData->{Htpasswd}{Encoding}   = 'plain';
 
     # User mole has empty password - not permitted when plain text passwords
     $this->users1->{mole}->{pass} = 'grub';
-    my $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    my $impl = $this->create('Foswiki::Users::HtPasswdUser');
     $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests($impl);
@@ -670,10 +703,11 @@ sub test_htpasswd_plain {
 sub test_htpasswd_md5 {
     my $this = shift;
 
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $Foswiki::cfg{Htpasswd}{Encoding}   = 'md5';
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Htpasswd}{AutoDetect} = 0;
+    $cfgData->{Htpasswd}{Encoding}   = 'md5';
 
-    my $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    my $impl = $this->create('Foswiki::Users::HtPasswdUser');
     $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests($impl);
@@ -684,17 +718,18 @@ sub test_htpasswd_md5 {
 sub test_htpasswd_htdigest_md5 {
     my $this = shift;
 
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $Foswiki::cfg{Htpasswd}{Encoding}   = 'htdigest-md5';
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Htpasswd}{AutoDetect} = 0;
+    $cfgData->{Htpasswd}{Encoding}   = 'htdigest-md5';
 
-    my $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    my $impl = $this->create('Foswiki::Users::HtPasswdUser');
     $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests($impl);
 
     # Verify the passwords using deprecated md5, should be identical
-    $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
-    $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    $cfgData->{Htpasswd}{Encoding} = 'md5';
+    $impl = $this->create('Foswiki::Users::HtPasswdUser');
     foreach my $user ( sort keys %{ $this->users1 } ) {
         if ( $user !~ /(?:alligator|mole|budgie)/ ) {
             $this->assert(
@@ -708,9 +743,10 @@ sub test_htpasswd_htdigest_md5 {
 sub test_htpasswd_htdigest_preserves_email {
     my $this = shift;
 
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 1;
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Htpasswd}{AutoDetect} = 1;
 
-    my $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    my $impl = $this->create('Foswiki::Users::HtPasswdUser');
     $impl->ClearCache() if $impl->can('ClearCache');
 
     my @users = sort keys %{ $this->users1 };
@@ -720,8 +756,8 @@ sub test_htpasswd_htdigest_preserves_email {
       )
     {
         my $user = pop @users;
-        $Foswiki::cfg{Htpasswd}{Encoding} = $algo;
-        $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+        $cfgData->{Htpasswd}{Encoding} = $algo;
+        $impl = $this->create('Foswiki::Users::HtPasswdUser');
         my $added = $impl->setPassword( $user, $this->users1->{$user}->{pass} );
         $this->assert_null( $impl->error() );
         $impl->setEmails( $user, $this->users1->{$user}->{emails} );
@@ -730,8 +766,8 @@ sub test_htpasswd_htdigest_preserves_email {
 
     #dumpFile();
     @users = sort keys %{ $this->users1 };
-    $Foswiki::cfg{Htpasswd}{Encoding} = 'htdigest-md5';
-    $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    $cfgData->{Htpasswd}{Encoding} = 'htdigest-md5';
+    $impl = $this->create('Foswiki::Users::HtPasswdUser');
     foreach my $algo (
         'apache-md5', 'htdigest-md5', 'crypt', 'sha1',
         'crypt-md5',  'md5',          'bcrypt'
@@ -757,10 +793,11 @@ sub test_htpasswd_apache_md5 {
         $this->annotate("CANNOT RUN APACHE MD5 TESTS: $mess");
     }
 
-    $Foswiki::cfg{Htpasswd}{AutoDetect} = 0;
-    $Foswiki::cfg{Htpasswd}{Encoding}   = 'apache-md5';
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Htpasswd}{AutoDetect} = 0;
+    $cfgData->{Htpasswd}{Encoding}   = 'apache-md5';
 
-    my $impl = Foswiki::Users::HtPasswdUser->new( session => $this->session );
+    my $impl = $this->create('Foswiki::Users::HtPasswdUser');
     $impl->ClearCache() if $impl->can('ClearCache');
     $this->assert($impl);
     $this->doTests( $impl, 0 );

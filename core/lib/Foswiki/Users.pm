@@ -276,7 +276,9 @@ sub initialiseUser {
 
     # For compatibility with older ways of building login managers,
     # plugins can provide an alternate login name.
-    my $plogin = $this->app->plugins->load();
+    #my $plogin = $this->app->plugins->load();
+
+    my $plogin = $this->app->engine->user;
 
     #Monitor::MARK("Plugins loaded");
 

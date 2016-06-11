@@ -605,6 +605,7 @@ sub runOne {
                 print "SKIP\t$test - $skip\n";
             }
             else {
+                local $| = 1;
                 Devel::Leak::Object::checkpoint() if CHECKLEAK;
                 print "\t$test\n";
                 $action .= "\n# $test\n    ";

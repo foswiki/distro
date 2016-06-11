@@ -1076,11 +1076,11 @@ sub getUIFn {
 
 =begin TML
 
----++ ObjectMethod createNewFoswikiApp(user => $user, request => $query, @params) -> ref to new Unit::TestApp obj
+---++ ObjectMethod createNewFoswikiApp(%params) -> ref to new Unit::TestApp obj
 
 cleans up the existing Foswiki object, and creates a new one
 
-@params have to be key/value pairs and are passed directly to the new Foswiki() call
+=%params= are passed directly to the =Foswiki::App= constructor.
 
 typically called to force a full re-initialisation either with new preferences, topics, users, groups or CFG
 
@@ -1098,7 +1098,10 @@ sub createNewFoswikiApp {
 
     $params{env} //= $this->app->cloneEnv;
     my $app = Unit::TestApp->new( cfg => $this->app->cfg->clone, %params );
+
+    $this->_fixupAppObjects;
     $this->app($app);
+
     ASSERT( defined $Foswiki::app ) if SINGLE_SINGLETONS;
 
     if ( $this->test_web && $this->test_topic ) {
@@ -1106,8 +1109,6 @@ sub createNewFoswikiApp {
             ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )
             [0] );
     }
-
-    $this->_fixupAppObjects;
 
     return $this->app;
 }

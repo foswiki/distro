@@ -143,6 +143,13 @@ around _prepareHeaders => sub {
     return $headers;
 };
 
+around _prepareUser => sub {
+    my $orig     = shift;
+    my $this     = shift;
+    my $initHash = $this->initFromEnv(qw(user remote_user));
+    return $initHash->{user} // $initHash->{remote_user};
+};
+
 sub setUrl {
     my $this = shift;
     my ($queryString) = @_;
