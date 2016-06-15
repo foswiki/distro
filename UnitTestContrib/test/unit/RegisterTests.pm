@@ -36,6 +36,15 @@ use Moo;
 use namespace::clean;
 extends qw( FoswikiFnTestCase );
 
+has regUI => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub {
+        return $_[0]->create('Foswiki::UI::Register');
+    },
+);
+
 my $systemWeb = "TemporaryRegisterTestsSystemWeb";
 
 around BUILDARGS => sub {
@@ -43,8 +52,6 @@ around BUILDARGS => sub {
     return $orig->( @_, testSuite => 'Registration' );
 };
 
-my $REG_UI_FN;
-my $RP_UI_FN;
 my $REG_TMPL;
 
 sub skip {
@@ -98,10 +105,11 @@ has new_user_fullname => ( is => 'rw', );
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
+
     $orig->( $this, @_ );
 
-    $REG_UI_FN ||= $this->getUIFn('register');
-    $RP_UI_FN  ||= $this->getUIFn('resetpasswd');
+    my $cfgData = $this->app->cfg->data;
+
     $REG_TMPL =
       ( $this->check_dependency('Foswiki,<,1.2') ) ? 'attention' : 'register';
 
@@ -147,7 +155,7 @@ EOF2
         undef $topicObject;
         ($topicObject) =
           Foswiki::Func::readTopic( $this->users_web,
-            $Foswiki::cfg{SuperAdminGroup} );
+            $cfgData->{SuperAdminGroup} );
         my $test_user_wikiname = $this->test_user_wikiname;
         $topicObject->text(<<"EOF");
    * Set GROUP = $test_user_wikiname
@@ -169,65 +177,93 @@ EOF
         undef $topicObject;
 
         my $webObject =
-          $this->populateNewWeb( $systemWeb, $Foswiki::cfg{SystemWebName} );
+          $this->populateNewWeb( $systemWeb, $cfgData->{SystemWebName} );
         undef $webObject;
-        $Foswiki::cfg{SystemWebName} = $systemWeb;
-        $Foswiki::cfg{EnableEmail}   = 1;
+        $cfgData->{SystemWebName} = $systemWeb;
+        $cfgData->{EnableEmail}   = 1;
 
     }
     catch {
         Foswiki::Exception::Fatal->rethrow($_);
     };
 
-    $Error::Debug = 1;
-
     @FoswikiFnTestCase::mails = ();
 
     return;
 };
 
-sub loadExtraConfig {
-    my $this = shift;
-    $this->SUPER::loadExtraConfig(@_);
-
-    $Foswiki::cfg{Register}{UniqueEmail}      = 0;
-    $Foswiki::cfg{Register}{EmailFilter}      = '';
-    $Foswiki::cfg{Register}{NeedVerification} = 0;
-    $Foswiki::cfg{Register}{NeedApproval}     = 0;
-}
-
-sub tear_down {
+around loadExtraConfig => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->removeWebFixture( $this->session, $systemWeb );
-    $this->SUPER::tear_down();
+    $this->clear_regUI;
+
+    $orig->( $this, @_ );
+
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Register}{UniqueEmail}      = 0;
+    $cfgData->{Register}{EmailFilter}      = '';
+    $cfgData->{Register}{NeedVerification} = 0;
+    $cfgData->{Register}{NeedApproval}     = 0;
+};
+
+around tear_down => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    $this->removeWebFixture($systemWeb);
+
+    $orig->( $this, @_ );
 
     return;
+};
+
+around createNewFoswikiApp => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $newApp = $orig->( $this, @_ );
+
+    $this->clear_regUI;
+
+    return $newApp;
+};
+
+# Foswiki::App handleRequestException callback function.
+sub _cbHRE {
+    my $obj  = shift;
+    my %args = @_;
+    $args{params}{exception}->rethrow;
 }
 
 # fixture
 sub registerAccount {
     my $this = shift;
 
+    my $cfgData = $this->app->cfg->data;
+
     $this->registerVerifyOk();
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'code'   => [ $this->session->heap->{DebugVerificationCode} ],
-            'action' => ['verify']
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'code'   => [ $this->app->heap->{DebugVerificationCode} ],
+                'action' => ['verify']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
     );
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $cfgData = $this->app->cfg->data;
+
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        if ( $this->check_dependency('Foswiki,<,1.2') ) {
-            Foswiki::UI::Register::_complete( $this->session );
-        }
-        else {
-            Foswiki::UI::Register::_action_verify( $this->session );
-        }
+        $this->regUI->_action_verify;
     }
     catch {
         my $e = $_;
@@ -247,7 +283,7 @@ sub registerAccount {
                         }
                         else {
                             $this->assert_matches(
-qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
+qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
                                 $mail->header('To')
                             );
                         }
@@ -270,8 +306,8 @@ qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
     };
 
     $this->assert(
-        $this->session->topicExists(
-            $Foswiki::cfg{UsersWebName},
+        $this->app->store->topicExists(
+            $cfgData->{UsersWebName},
             $this->new_user_wikiname
         )
     );
@@ -283,14 +319,14 @@ qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
 
 sub AllowLoginName {
     my $this = shift;
-    $Foswiki::cfg{Register}{AllowLoginName} = 1;
+    $this->app->cfg->data->{Register}{AllowLoginName} = 1;
 
     return;
 }
 
 sub DontAllowLoginName {
     my $this = shift;
-    $Foswiki::cfg{Register}{AllowLoginName} = 0;
+    $this->app->cfg->data->{Register}{AllowLoginName} = 0;
     $this->new_user_login( $this->new_user_wikiname );
 
     #$this->test_user_login( $this->test_user_wikiname );
@@ -299,38 +335,46 @@ sub DontAllowLoginName {
 }
 
 sub TemplateLoginManager {
-    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
+    my $this = shift;
+    $this->app->cfg->data->{LoginManager} =
+      'Foswiki::LoginManager::TemplateLogin';
 
     return;
 }
 
 sub ApacheLoginManager {
-    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::ApacheLogin';
+    my $this = shift;
+    $this->app->cfg->data->{LoginManager} =
+      'Foswiki::LoginManager::ApacheLogin';
 
     return;
 }
 
 sub NoLoginManager {
-    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager';
+    my $this = shift;
+    $this->app->cfg->data->{LoginManager} = 'Foswiki::LoginManager';
 
     return;
 }
 
 sub HtPasswdManager {
-    $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
+    my $this = shift;
+    $this->app->cfg->data->{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
 
     return;
 }
 
 sub NonePasswdManager {
-    $Foswiki::cfg{PasswordManager} = 'none';
+    my $this = shift;
+    $this->app->cfg->data->{PasswordManager} = 'none';
 
     return;
 }
 
 sub BaseUserMapping {
     my $this = shift;
-    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
+    $this->app->cfg->data->{UserMappingManager} =
+      'Foswiki::Users::BaseUserMapping';
     $this->set_up_for_verify();
 
     return;
@@ -338,7 +382,8 @@ sub BaseUserMapping {
 
 sub TopicUserMapping {
     my $this = shift;
-    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
+    $this->app->cfg->data->{UserMappingManager} =
+      'Foswiki::Users::TopicUserMapping';
     $this->set_up_for_verify();
 
     return;
@@ -371,7 +416,7 @@ sub fixture_groups {
 sub set_up_for_verify {
     my $this = shift;
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     @FoswikiFntestCase::mails = ();
 
@@ -380,16 +425,17 @@ sub set_up_for_verify {
 
 ###################################
 sub verify_userTopicWithPMWithoutForm {
-    my $this = shift;
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
     $this->assert(
-        !$this->session->topicExists(
-            $Foswiki::cfg{UsersWebName},
+        !$this->app->store->topicExists(
+            $cfgData->{UsersWebName},
             $this->new_user_wikiname
         ),
         "cannot re-register user who's topic exists"
     );
     $this->registerAccount();
-    my ($meta) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+    my ($meta) = Foswiki::Func::readTopic( $cfgData->{UsersWebName},
         $this->new_user_wikiname );
     my $text = $meta->text;
     my (
@@ -407,7 +453,7 @@ sub verify_userTopicWithPMWithoutForm {
     $this->assert( $text =~ s/^\s*\* Last Name: $new_user_sname$//m,  $text );
     $this->assert( $text =~ s/^\s*\* Comment:\s*$//m,                 $text );
     $this->assert( $text =~ s/^\s*\* Name: $new_user_fullname$//m,    $text );
-    $this->assert( $text =~ s/$Foswiki::cfg{UsersWebName}\.$new_user_wikiname//,
+    $this->assert( $text =~ s/$cfgData->{UsersWebName}\.$new_user_wikiname//,
         $text );
     $this->assert( $text =~ s/$new_user_wikiname//, $text );
     $this->assert_matches( qr/\s*AFTER\s*/, $text );
@@ -420,16 +466,17 @@ sub verify_userTopicWithoutPMWithoutForm {
 
     # Switch off the password manager to force email to be written to user
     # topic
-    $Foswiki::cfg{PasswordManager} = 'none';
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{PasswordManager} = 'none';
     $this->assert(
-        !$this->session->topicExists(
-            $Foswiki::cfg{UsersWebName},
+        !$this->app->store->topicExists(
+            $cfgData->{UsersWebName},
             $this->new_user_wikiname
         ),
         "cannot re-register user who's topic exists"
     );
     $this->registerAccount();
-    my ($meta) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+    my ($meta) = Foswiki::Func::readTopic( $cfgData->{UsersWebName},
         $this->new_user_wikiname );
     my $text = $meta->text;
     undef $meta;
@@ -449,7 +496,7 @@ sub verify_userTopicWithoutPMWithoutForm {
     $this->assert( $text =~ s/^\s*\* Comment:\s*$//m,                 $text );
     $this->assert( $text =~ s/^\s*\* Name: $new_user_fullname$//m,    $text );
     $this->assert( $text =~ s/^\s*\* Email: $new_user_email$//m,      $text );
-    $this->assert( $text =~ s/$Foswiki::cfg{UsersWebName}\.$new_user_wikiname//,
+    $this->assert( $text =~ s/$cfgData->{UsersWebName}\.$new_user_wikiname//,
         $text );
     $this->assert( $text =~ s/$new_user_wikiname//, $text );
     $this->assert_matches( qr/\s*AFTER\s*/, $text );
@@ -460,9 +507,11 @@ sub verify_userTopicWithoutPMWithoutForm {
 sub verify_userTopicWithoutPMWithForm {
     my $this = shift;
 
+    my $cfgData = $this->app->cfg->data;
+
     # Switch off the password manager to force email to be written to user
     # topic
-    $Foswiki::cfg{PasswordManager} = 'none';
+    $cfgData->{PasswordManager} = 'none';
 
     # Change the new user topic to include the form
     my ($m) = Foswiki::Func::readTopic( $this->users_web, 'NewUserTemplate' );
@@ -518,7 +567,7 @@ BODY
 
     $this->registerAccount();
 
-    my ($meta) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+    my ($meta) = Foswiki::Func::readTopic( $cfgData->{UsersWebName},
         $this->new_user_wikiname );
     my $text = $meta->text;
 
@@ -547,6 +596,8 @@ BODY
 sub verify_userTopicWithPMWithForm {
     my $this = shift;
 
+    my $cfgData = $this->app->cfg->data;
+
     # Change the new user topic to include the form
     my ($m) = Foswiki::Func::readTopic( $this->users_web, 'NewUserTemplate' );
     $m->text(<<"BODY" );
@@ -599,7 +650,7 @@ BODY
     undef $m;
 
     $this->registerAccount();
-    my ($meta) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+    my ($meta) = Foswiki::Func::readTopic( $cfgData->{UsersWebName},
         $this->new_user_wikiname );
     my $text = $meta->text;
     $this->assert_not_null( $meta->get('FORM') );
@@ -618,12 +669,14 @@ BODY
 }
 
 #Register a user, and then verify it
-#Assumes the verification code is $this->session->heap->{DebugVerificationCode}
+#Assumes the verification code is $this->app->heap->{DebugVerificationCode}
 #Uses mixed Fwk and Twk prefixes
 sub registerVerifyOk {
     my $this = shift;
-    $Foswiki::cfg{Register}{NeedVerification} = 1;
-    $Foswiki::cfg{Register}{NeedApproval}     = 0;
+
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Register}{NeedVerification} = 1;
+    $cfgData->{Register}{NeedApproval}     = 0;
     my $params = {
         'TopicName'     => ['UserRegistration'],
         'Fwk1Email'     => [ $this->new_user_email ],
@@ -635,55 +688,70 @@ sub registerVerifyOk {
         'action'        => ['register']
     };
 
-    if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
+    if ( $cfgData->{Register}{AllowLoginName} ) {
         $params->{"Twk1LoginName"} = $this->new_user_login;
     }
-    my $query = Unit::Request->new( initializer => $params );
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => $params, },
+        engineParams  => {
+            initialAttributes => {
+                user      => $cfgData->{DefaultUserLogin},
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+    );
+    $cfgData = $this->app->cfg->data;
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        use strict 'refs';
+        $this->captureWithKey(
+            register => sub {
+                $this->app->handleRequest;
+            },
+        );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "confirm", $e->def, $e->stringify() );
-                $this->assert_matches( $this->new_user_email, $e->params->[0],
-                    $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "confirm", $e->def, $e->stringify() );
+            $this->assert_matches( $this->new_user_email, $e->params->[0],
+                $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
-    my $code = shift || $this->session->heap->{DebugVerificationCode};
-    $query = Unit::Request->new(
-        initializer => {
-            'code'   => [$code],
-            'action' => ['verify']
-        }
-    );
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->heap->{DebugVerificationCode} = $code;
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    my $code = shift || $this->app->heap->{DebugVerificationCode};
 
-    $code = $this->session->request->param('code');
-    my $data =
-      Foswiki::UI::Register::_loadPendingRegistration( $this->session, $code );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'code'   => [$code],
+                'action' => ['verify']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+    );
+
+    $cfgData = $this->app->cfg->data;
+    $this->app->heap->{DebugVerificationCode} = $code;
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+
+    $code = $this->app->request->param('code');
+    my $data = $this->regUI->_loadPendingRegistration($code);
 
     $this->assert_equals( $data->{VerificationCode}, $code );
     $this->assert( $data->{Email} );
@@ -727,9 +795,10 @@ sub verify_registerBadVerify_Twk {
 
 #Register a user, then give a bad verification code. It should barf.
 sub _registerBadVerify {
-    my $this = shift;
-    my $pfx  = shift;
-    $Foswiki::cfg{Register}{NeedVerification} = 1;
+    my $this    = shift;
+    my $pfx     = shift;
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Register}{NeedVerification} = 1;
     my $params = {
         'TopicName'        => ['UserRegistration'],
         "${pfx}1Email"     => [ $this->new_user_email ],
@@ -741,57 +810,66 @@ sub _registerBadVerify {
         'action'           => ['register']
     };
 
-    if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
+    if ( $cfgData->{Register}{AllowLoginName} ) {
         $params->{"Twk1LoginName"} = $this->new_user_login;
     }
-    my $query = Unit::Request->new( initializer => $params );
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => $params, },
+        engineParams  => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                user      => $cfgData->{DefaultUserLogin},
+                action    => 'register',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+    );
+    $cfgData = $this->app->cfg->data;
+
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     try {
-        no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        use strict 'refs';
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_matches( $this->new_user_email, $e->params->[0],
-                    $e->stringify() );
-                $this->assert_str_equals( $REG_TMPL, $e->template );
-                $this->assert_str_equals( "confirm", $e->def );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_matches( $this->new_user_email, $e->params->[0],
+                $e->stringify() );
+            $this->assert_str_equals( $REG_TMPL, $e->template );
+            $this->assert_str_equals( "confirm", $e->def );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
 
     };
 
-    my $code = $this->session->heap->{DebugVerificationCode};
-    $query = Unit::Request->new(
-        initializer => {
-            'code'   => ["BadCode"],
-            'action' => ['verify']
-        }
+    my $code = $this->app->heap->{DebugVerificationCode};
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'code'   => ["BadCode"],
+                'action' => ['verify']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
     );
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+
+    $cfgData = $this->app->cfg->data;
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        if ( $this->check_dependency('Foswiki,<,1.2') ) {
-            Foswiki::UI::Register::_complete( $this->session );
-        }
-        else {
-            Foswiki::UI::Register::_action_verify( $this->session );
-        }
+        $this->regUI->_action_verify;
     }
     catch {
         my $e = $_;
@@ -814,7 +892,7 @@ sub _registerBadVerify {
     $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
     my $mess = $FoswikiFnTestCase::mails[0];
     $this->assert_matches(
-        qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
+        qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
         $mess->header('From') );
     my $new_user_email = $this->new_user_email;
     $this->assert_matches( qr/.*\b$new_user_email\b/, $mess->header('To') );
@@ -826,7 +904,7 @@ sub _registerBadVerify {
 }
 
 # Register a user with verification explicitly switched off
-# (SUPER's tear_down will take care for re-installing %Foswiki::cfg)
+# (SUPER's tear_down will take care for re-installing $this->app->cfg)
 sub verify_registerNoVerifyOk_Twk {
     my ( $this, @args ) = @_;
     $this->_registerNoVerifyOk( 'Twk', @args );
@@ -835,7 +913,7 @@ sub verify_registerNoVerifyOk_Twk {
 }
 
 # Register a user with verification explicitly switched off
-# (SUPER's tear_down will take care for re-installing %Foswiki::cfg)
+# (SUPER's tear_down will take care for re-installing $this->app->cfg)
 sub verify_registerNoVerifyOk_Fwk {
     my ( $this, @args ) = @_;
     $this->_registerNoVerifyOk( 'Fwk', @args );
@@ -844,11 +922,14 @@ sub verify_registerNoVerifyOk_Fwk {
 }
 
 # Register a user with verification explicitly switched off
-# (SUPER's tear_down will take care for re-installing %Foswiki::cfg)
+# (SUPER's tear_down will take care for re-installing $this->app->cfg)
 sub _registerNoVerifyOk {
     my $this = shift;
     my $pfx  = shift;
-    $Foswiki::cfg{Register}{NeedVerification} = 0;
+
+    my $cfgData = $this->app->cfg->data;
+
+    $cfgData->{Register}{NeedVerification} = 0;
     my $params = {
         'TopicName'        => ['UserRegistration'],
         "${pfx}1Email"     => [ $this->new_user_email ],
@@ -860,57 +941,62 @@ sub _registerNoVerifyOk {
         'action'           => ['register']
     };
 
-    if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
+    if ( $cfgData->{Register}{AllowLoginName} ) {
         $params->{"Twk1LoginName"} = $this->new_user_login;
     }
-    my $query = Unit::Request->new( initializer => $params );
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => $params, },
+        engineParams  => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+    );
+
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
-                $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
-                my $done = '';
-                foreach my $mail (@FoswikiFnTestCase::mails) {
-                    if ( $mail->header('Subject') =~ m/^.*Registration for/m ) {
-                        my $new_user_email = $this->new_user_email;
-                        if ( $mail->header('To') =~ m/^.*\b$new_user_email\b/m )
-                        {
-                            $this->assert( !$done,
-                                $done . "\n---------\n" . $mail );
-                            $done = $mail;
-                        }
-                        else {
-                            $this->assert_matches(
-qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
-                                $mail->header('To')
-                            );
-                        }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
+            $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
+            my $done = '';
+            foreach my $mail (@FoswikiFnTestCase::mails) {
+                if ( $mail->header('Subject') =~ m/^.*Registration for/m ) {
+                    my $new_user_email = $this->new_user_email;
+                    if ( $mail->header('To') =~ m/^.*\b$new_user_email\b/m ) {
+                        $this->assert( !$done,
+                            $done . "\n---------\n" . $mail );
+                        $done = $mail;
                     }
                     else {
-                        $this->assert( 0, $mail );
+                        $this->assert_matches(
+qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
+                            $mail->header('To')
+                        );
                     }
                 }
-                $this->assert($done);
-                @FoswikiFnTestCase::mails = ();
+                else {
+                    $this->assert( 0, $mail );
+                }
             }
-            else {
-                $e->rethrow;
-            }
+            $this->assert($done);
+            @FoswikiFnTestCase::mails = ();
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $_ );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
@@ -920,52 +1006,60 @@ qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
 # Register a user with a password which is too short - must be rejected
 sub verify_rejectShortPassword {
     my $this = shift;
-    $Foswiki::cfg{Register}{NeedVerification} = 0;
-    $Foswiki::cfg{MinPasswordLength}          = 6;
-    $Foswiki::cfg{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
-    $Foswiki::cfg{Register}{AllowLoginName}   = 0;
-    my $query = Unit::Request->new(
-        initializer => {
-            'TopicName'    => ['UserRegistration'],
-            'Twk1Email'    => [ $this->new_user_email ],
-            'Twk1WikiName' => [ $this->new_user_wikiname ],
-            'Twk1Name'     => [ $this->new_user_fullname ],
-            'Twk0Comment'  => [''],
+
+    my $cfgData = $this->app->cfg->data;
+
+    $cfgData->{Register}{NeedVerification} = 0;
+    $cfgData->{MinPasswordLength}          = 6;
+    $cfgData->{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
+    $cfgData->{Register}{AllowLoginName}   = 0;
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'    => ['UserRegistration'],
+                'Twk1Email'    => [ $this->new_user_email ],
+                'Twk1WikiName' => [ $this->new_user_wikiname ],
+                'Twk1Name'     => [ $this->new_user_fullname ],
+                'Twk0Comment'  => [''],
 
            #                         'Twk1LoginName' => [$this->new_user_login],
-            'Twk1FirstName' => [ $this->new_user_fname ],
-            'Twk1LastName'  => [ $this->new_user_sname ],
-            'Twk1Password'  => ['12345'],
-            'Twk1Confirm'   => ['12345'],
-            'action'        => ['register'],
-        }
+                'Twk1FirstName' => [ $this->new_user_fname ],
+                'Twk1LastName'  => [ $this->new_user_sname ],
+                'Twk1Password'  => ['12345'],
+                'Twk1Confirm'   => ['12345'],
+                'action'        => ['register'],
+            }
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "bad_password", $e->def,
-                    $e->stringify() );
-                $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-                @FoswikiFnTestCase::mails = ();
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "bad_password", $e->def,
+                $e->stringify() );
+            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+            @FoswikiFnTestCase::mails = ();
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received:" . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     }
 
@@ -975,107 +1069,116 @@ sub verify_rejectShortPassword {
 # Register a user with an invalid template topic - must be rejected
 sub verify_userTopictemplate {
     my $this = shift;
-    $Foswiki::cfg{Register}{NeedVerification} = 0;
-    $Foswiki::cfg{MinPasswordLength}          = 4;
-    $Foswiki::cfg{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
-    $Foswiki::cfg{Register}{AllowLoginName}   = 0;
-    my $query = Unit::Request->new(
-        initializer => {
-            'TopicName'    => ['UserRegistration'],
-            'Twk1Email'    => [ $this->new_user_email ],
-            'Twk1WikiName' => [ $this->new_user_wikiname ],
-            'Twk1Name'     => [ $this->new_user_fullname ],
-            'Twk0Comment'  => [''],
+
+    my $cfgData = $this->app->cfg->data;
+
+    $cfgData->{Register}{NeedVerification} = 0;
+    $cfgData->{MinPasswordLength}          = 4;
+    $cfgData->{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
+    $cfgData->{Register}{AllowLoginName}   = 0;
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'    => ['UserRegistration'],
+                'Twk1Email'    => [ $this->new_user_email ],
+                'Twk1WikiName' => [ $this->new_user_wikiname ],
+                'Twk1Name'     => [ $this->new_user_fullname ],
+                'Twk0Comment'  => [''],
 
            #                         'Twk1LoginName' => [$this->new_user_login],
-            'Twk1FirstName' => [ $this->new_user_fname ],
-            'Twk1LastName'  => [ $this->new_user_sname ],
-            'Twk1Password'  => ['12345'],
-            'Twk1Confirm'   => ['12345'],
-            'templatetopic' => ['FooBar'],
-            'action'        => ['register'],
-        }
+                'Twk1FirstName' => [ $this->new_user_fname ],
+                'Twk1LastName'  => [ $this->new_user_sname ],
+                'Twk1Password'  => ['12345'],
+                'Twk1Confirm'   => ['12345'],
+                'templatetopic' => ['FooBar'],
+                'action'        => ['register'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "bad_templatetopic", $e->def,
-                    $e->stringify() );
-                $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-                @FoswikiFnTestCase::mails = ();
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "bad_templatetopic", $e->def,
+                $e->stringify() );
+            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+            @FoswikiFnTestCase::mails = ();
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
-    my $query2 = Unit::Request->new(
-        initializer => {
-            'TopicName'    => ['UserRegistration'],
-            'Twk1Email'    => [ $this->new_user_email ],
-            'Twk1WikiName' => [ $this->new_user_wikiname ],
-            'Twk1Name'     => [ $this->new_user_fullname ],
-            'Twk0Comment'  => [''],
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'    => ['UserRegistration'],
+                'Twk1Email'    => [ $this->new_user_email ],
+                'Twk1WikiName' => [ $this->new_user_wikiname ],
+                'Twk1Name'     => [ $this->new_user_fullname ],
+                'Twk0Comment'  => [''],
 
            #                         'Twk1LoginName' => [$this->new_user_login],
-            'Twk1FirstName' => [ $this->new_user_fname ],
-            'Twk1LastName'  => [ $this->new_user_sname ],
-            'Twk1Password'  => ['12345'],
-            'Twk1Confirm'   => ['12345'],
-            'templatetopic' => ['AltUserTemplate'],
-            'action'        => ['register'],
-        }
+                'Twk1FirstName' => [ $this->new_user_fname ],
+                'Twk1LastName'  => [ $this->new_user_sname ],
+                'Twk1Password'  => ['12345'],
+                'Twk1Confirm'   => ['12345'],
+                'templatetopic' => ['AltUserTemplate'],
+                'action'        => ['register'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-
-    $query2->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query2 );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        #no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-
-        #use strict 'refs';
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
-                $this->assert_matches( $this->new_user_email, $e->params->[0],
-                    $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
+            $this->assert_matches( $this->new_user_email, $e->params->[0],
+                $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $_ );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
     $this->assert(
-        $this->session->topicExists(
-            $Foswiki::cfg{UsersWebName},
+        $this->app->store->topicExists(
+            $cfgData->{UsersWebName},
             $this->new_user_wikiname
         )
     );
@@ -1088,7 +1191,7 @@ sub verify_userTopictemplate {
           . $this->users_web . "."
           . $this->new_user_wikiname
     );
-    my $utext = Foswiki::Func::readTopicText( $Foswiki::cfg{UsersWebName},
+    my $utext = Foswiki::Func::readTopicText( $cfgData->{UsersWebName},
         $this->new_user_wikiname );
     $this->assert_matches( qr/Alternate user template/, $utext );
 
@@ -1098,116 +1201,126 @@ sub verify_userTopictemplate {
 # Register a user with an email which is already in use.
 sub verify_rejectDuplicateEmail {
     my $this = shift;
-    $Foswiki::cfg{Register}{NeedVerification} = 0;
-    $Foswiki::cfg{Register}{UniqueEmail}      = 1;
 
-    #$Foswiki::cfg{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
-    $Foswiki::cfg{Register}{AllowLoginName} = 0;
-    my $query = Unit::Request->new(
-        initializer => {
-            'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => ['joe@gooddomain.net'],
-            'Twk1WikiName'  => [ $this->new_user_wikiname ],
-            'Twk1Name'      => [ $this->new_user_fullname ],
-            'Twk0Comment'   => [''],
-            'Twk1FirstName' => [ $this->new_user_fname ],
-            'Twk1LastName'  => [ $this->new_user_sname ],
-            'Twk1Password'  => ['12345'],
-            'Twk1Confirm'   => ['12345'],
-            'action'        => ['register'],
-        }
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Register}{NeedVerification} = 0;
+    $cfgData->{Register}{UniqueEmail}      = 1;
+
+    #$cfgData->{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
+    $cfgData->{Register}{AllowLoginName} = 0;
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'     => ['UserRegistration'],
+                'Twk1Email'     => ['joe@gooddomain.net'],
+                'Twk1WikiName'  => [ $this->new_user_wikiname ],
+                'Twk1Name'      => [ $this->new_user_fullname ],
+                'Twk0Comment'   => [''],
+                'Twk1FirstName' => [ $this->new_user_fname ],
+                'Twk1LastName'  => [ $this->new_user_sname ],
+                'Twk1Password'  => ['12345'],
+                'Twk1Confirm'   => ['12345'],
+                'action'        => ['register'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
-                $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
-                my $done = '';
-                foreach my $mail (@FoswikiFnTestCase::mails) {
-                    if ( $mail->header('Subject') =~ m/^.*Registration for/m ) {
-                        if ( $mail->header('To') =~
-                            m/^.*\bjoe\@gooddomain.net\b/m )
-                        {
-                            $this->assert( !$done,
-                                $done . "\n---------\n" . $mail );
-                            $done = $mail;
-                        }
-                        else {
-                            $this->assert_matches(
-qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
-                                $mail->header('To')
-                            );
-                        }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
+            $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
+            my $done = '';
+            foreach my $mail (@FoswikiFnTestCase::mails) {
+                if ( $mail->header('Subject') =~ m/^.*Registration for/m ) {
+                    if ( $mail->header('To') =~ m/^.*\bjoe\@gooddomain.net\b/m )
+                    {
+                        $this->assert( !$done,
+                            $done . "\n---------\n" . $mail );
+                        $done = $mail;
                     }
                     else {
-                        $this->assert( 0, $mail );
+                        $this->assert_matches(
+qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
+                            $mail->header('To')
+                        );
                     }
                 }
-                $this->assert($done);
-                @FoswikiFnTestCase::mails = ();
+                else {
+                    $this->assert( 0, $mail );
+                }
             }
-            else {
-                $e->rethrow;
-            }
+            $this->assert($done);
+            @FoswikiFnTestCase::mails = ();
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but recevied: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
     #  Verify that The 2nd registration is stopped.
-    $query = Unit::Request->new(
-        initializer => {
-            'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => ['joe@gooddomain.net'],
-            'Twk1WikiName'  => [ $this->new_user_wikiname . '2' ],
-            'Twk1Name'      => [ $this->new_user_fullname . '2' ],
-            'Twk0Comment'   => [''],
-            'Twk1FirstName' => [ $this->new_user_fname . '2' ],
-            'Twk1LastName'  => [ $this->new_user_sname . '2' ],
-            'Twk1Password'  => ['12345678'],
-            'Twk1Confirm'   => ['12345678'],
-            'action'        => ['register'],
-        }
-    );
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'     => ['UserRegistration'],
+                'Twk1Email'     => ['joe@gooddomain.net'],
+                'Twk1WikiName'  => [ $this->new_user_wikiname . '2' ],
+                'Twk1Name'      => [ $this->new_user_fullname . '2' ],
+                'Twk0Comment'   => [''],
+                'Twk1FirstName' => [ $this->new_user_fname . '2' ],
+                'Twk1LastName'  => [ $this->new_user_sname . '2' ],
+                'Twk1Password'  => ['12345678'],
+                'Twk1Confirm'   => ['12345678'],
+                'action'        => ['register'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "dup_email", $e->def,
-                    $e->stringify() );
-                $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-                @FoswikiFnTestCase::mails = ();
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "dup_email", $e->def, $e->stringify() );
+            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+            @FoswikiFnTestCase::mails = ();
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
@@ -1217,104 +1330,107 @@ qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
 # preRegister a user with an email which is already in use.
 sub verify_rejectDuplicatePendingEmail {
     my $this = shift;
-    $Foswiki::cfg{Register}{NeedVerification} = 1;
-    $Foswiki::cfg{Register}{UniqueEmail}      = 1;
-    $Foswiki::cfg{Register}{ExpireAfter}      = '-23600';
 
-    #$Foswiki::cfg{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
-    $Foswiki::cfg{Register}{AllowLoginName} = 0;
+    my $cfgData = $this->app->cfg->data;
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => ['joe@dupdomain.net'],
-            'Twk1WikiName'  => [ $this->new_user_wikiname ],
-            'Twk1Name'      => [ $this->new_user_fullname ],
-            'Twk0Comment'   => [''],
-            'Twk1FirstName' => [ $this->new_user_fname ],
-            'Twk1LastName'  => [ $this->new_user_sname ],
-            'Twk1Password'  => ['12345'],
-            'Twk1Confirm'   => ['12345'],
-            'action'        => ['register'],
-        }
+    $cfgData->{Register}{NeedVerification} = 1;
+    $cfgData->{Register}{UniqueEmail}      = 1;
+    $cfgData->{Register}{ExpireAfter}      = '-23600';
+
+    #$cfgData->{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
+    $cfgData->{Register}{AllowLoginName} = 0;
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'     => ['UserRegistration'],
+                'Twk1Email'     => ['joe@dupdomain.net'],
+                'Twk1WikiName'  => [ $this->new_user_wikiname ],
+                'Twk1Name'      => [ $this->new_user_fullname ],
+                'Twk0Comment'   => [''],
+                'Twk1FirstName' => [ $this->new_user_fname ],
+                'Twk1LastName'  => [ $this->new_user_sname ],
+                'Twk1Password'  => ['12345'],
+                'Twk1Confirm'   => ['12345'],
+                'action'        => ['register'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+
     );
-
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "confirm", $e->def, $e->stringify() );
-                $this->assert_matches( 'joe@dupdomain.net', $e->params->[0],
-                    $e->stringify() );
-                @FoswikiFnTestCase::mails = ();
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "confirm", $e->def, $e->stringify() );
+            $this->assert_matches( 'joe@dupdomain.net', $e->params->[0],
+                $e->stringify() );
+            @FoswikiFnTestCase::mails = ();
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
     #  Verify that The 2nd registration is stopped.
-    $query = Unit::Request->new(
-        initializer => {
-            'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => ['joe@dupdomain.net'],
-            'Twk1WikiName'  => [ $this->new_user_wikiname . '2' ],
-            'Twk1Name'      => [ $this->new_user_fullname . '2' ],
-            'Twk0Comment'   => [''],
-            'Twk1FirstName' => [ $this->new_user_fname . '2' ],
-            'Twk1LastName'  => [ $this->new_user_sname . '2' ],
-            'Twk1Password'  => ['12345678'],
-            'Twk1Confirm'   => ['12345678'],
-            'action'        => ['register'],
-        }
-    );
-
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-
-    #$this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-    $Foswiki::cfg{Register}{NeedVerification} = 1;
-    $Foswiki::cfg{Register}{UniqueEmail}      = 1;
+    #$query = Unit::Request->new(
+    #    initializer => {
+    #        'TopicName'     => ['UserRegistration'],
+    #        'Twk1Email'     => ['joe@dupdomain.net'],
+    #        'Twk1WikiName'  => [ $this->new_user_wikiname . '2' ],
+    #        'Twk1Name'      => [ $this->new_user_fullname . '2' ],
+    #        'Twk0Comment'   => [''],
+    #        'Twk1FirstName' => [ $this->new_user_fname . '2' ],
+    #        'Twk1LastName'  => [ $this->new_user_sname . '2' ],
+    #        'Twk1Password'  => ['12345678'],
+    #        'Twk1Confirm'   => ['12345678'],
+    #        'action'        => ['register'],
+    #    }
+    #);
+    #
+    #$query->path_info( "/" . $this->users_web . "/UserRegistration" );
+    #$this->createNewFoswikiSession( $cfgData->{DefaultUserLogin}, $query );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $cfgData->{Register}{NeedVerification} = 1;
+    $cfgData->{Register}{UniqueEmail}      = 1;
 
     # Should use Sessions expiration if Registration is not defined.
-    $Foswiki::cfg{Register}{ExpireAfter} = undef;
-    $Foswiki::cfg{Sessions}{ExpireAfter} = '-23600';
+    $cfgData->{Register}{ExpireAfter} = undef;
+    $cfgData->{Sessions}{ExpireAfter} = '-23600';
 
     try {
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "dup_email", $e->def,
-                    $e->stringify() );
-                $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-                @FoswikiFnTestCase::mails = ();
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "dup_email", $e->def, $e->stringify() );
+            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+            @FoswikiFnTestCase::mails = ();
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
@@ -1324,119 +1440,131 @@ sub verify_rejectDuplicatePendingEmail {
 # Register a user with an email which is filtered by EmailFilter
 sub verify_rejectFilteredEmail {
     my $this = shift;
-    $Foswiki::cfg{Register}{NeedVerification} = 0;
-    $Foswiki::cfg{Register}{UniqueEmail}      = 0;
+
+    my $cfgData = $this->app->cfg->data;
+
+    $cfgData->{Register}{NeedVerification} = 0;
+    $cfgData->{Register}{UniqueEmail}      = 0;
 
     # Include a trailing and other whitespace - a common config error
-    $Foswiki::cfg{Register}{EmailFilter} =
+    $cfgData->{Register}{EmailFilter} =
       '@(?!( gooddomain\.com | gooddomain\.net )$) ';
-    $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
-    $Foswiki::cfg{Register}{AllowLoginName} = 0;
-    my $query = Unit::Request->new(
-        initializer => {
-            'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => [ $this->new_user_email ],
-            'Twk1WikiName'  => [ $this->new_user_wikiname ],
-            'Twk1Name'      => [ $this->new_user_fullname ],
-            'Twk0Comment'   => [''],
-            'Twk1FirstName' => [ $this->new_user_fname ],
-            'Twk1LastName'  => [ $this->new_user_sname ],
-            'Twk1Password'  => ['12345'],
-            'Twk1Confirm'   => ['12345'],
-            'action'        => ['register'],
-        }
-    );
+    $cfgData->{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
+    $cfgData->{Register}{AllowLoginName} = 0;
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'     => ['UserRegistration'],
+                'Twk1Email'     => [ $this->new_user_email ],
+                'Twk1WikiName'  => [ $this->new_user_wikiname ],
+                'Twk1Name'      => [ $this->new_user_fullname ],
+                'Twk0Comment'   => [''],
+                'Twk1FirstName' => [ $this->new_user_fname ],
+                'Twk1LastName'  => [ $this->new_user_sname ],
+                'Twk1Password'  => ['12345'],
+                'Twk1Confirm'   => ['12345'],
+                'action'        => ['register'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "rej_email", $e->def,
-                    $e->stringify() );
-                $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-                @FoswikiFnTestCase::mails = ();
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "rej_email", $e->def, $e->stringify() );
+            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+            @FoswikiFnTestCase::mails = ();
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
     #  Also verify that a good domain makes it through
-    $query = Unit::Request->new(
-        initializer => {
-            'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => ['joe@gooddomain.net'],
-            'Twk1WikiName'  => [ $this->new_user_wikiname ],
-            'Twk1Name'      => [ $this->new_user_fullname ],
-            'Twk0Comment'   => [''],
-            'Twk1FirstName' => [ $this->new_user_fname ],
-            'Twk1LastName'  => [ $this->new_user_sname ],
-            'Twk1Password'  => ['12345678'],
-            'Twk1Confirm'   => ['12345678'],
-            'action'        => ['register'],
-        }
-    );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'     => ['UserRegistration'],
+                'Twk1Email'     => ['joe@gooddomain.net'],
+                'Twk1WikiName'  => [ $this->new_user_wikiname ],
+                'Twk1Name'      => [ $this->new_user_fullname ],
+                'Twk0Comment'   => [''],
+                'Twk1FirstName' => [ $this->new_user_fname ],
+                'Twk1LastName'  => [ $this->new_user_sname ],
+                'Twk1Password'  => ['12345678'],
+                'Twk1Confirm'   => ['12345678'],
+                'action'        => ['register'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
-                $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
-                my $done = '';
-                foreach my $mail (@FoswikiFnTestCase::mails) {
-                    if ( $mail->header('Subject') =~ m/^.*Registration for/m ) {
-                        if ( $mail->header('To') =~
-                            m/^.*\bjoe\@gooddomain.net\b/m )
-                        {
-                            $this->assert( !$done,
-                                $done . "\n---------\n" . $mail );
-                            $done = $mail;
-                        }
-                        else {
-                            $this->assert_matches(
-qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
-                                $mail->header('To')
-                            );
-                        }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
+            $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
+            my $done = '';
+            foreach my $mail (@FoswikiFnTestCase::mails) {
+                if ( $mail->header('Subject') =~ m/^.*Registration for/m ) {
+                    if ( $mail->header('To') =~ m/^.*\bjoe\@gooddomain.net\b/m )
+                    {
+                        $this->assert( !$done,
+                            $done . "\n---------\n" . $mail );
+                        $done = $mail;
                     }
                     else {
-                        $this->assert( 0, $mail );
+                        $this->assert_matches(
+qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
+                            $mail->header('To')
+                        );
                     }
                 }
-                $this->assert($done);
-                @FoswikiFnTestCase::mails = ();
+                else {
+                    $this->assert( 0, $mail );
+                }
             }
-            else {
-                $e->rethrow;
-            }
+            $this->assert($done);
+            @FoswikiFnTestCase::mails = ();
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
@@ -1446,61 +1574,69 @@ qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
 # Register a user with invalid characters in a field - like < html
 sub verify_rejectEvilContent {
     my $this = shift;
-    $Foswiki::cfg{Register}{NeedVerification} = 0;
-    $Foswiki::cfg{MinPasswordLength}          = 6;
-    $Foswiki::cfg{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
-    $Foswiki::cfg{Register}{AllowLoginName}   = 0;
-    my $query = Unit::Request->new(
-        initializer => {
-            'TopicName'        => ['UserRegistration'],
-            'Twk1Email'        => [ $this->new_user_email ],
-            'Twk1WikiName'     => [ $this->new_user_wikiname ],
-            'Twk1Name'         => [ $this->new_user_fullname ],
-            'Twk0Comment'      => ['<blah>'],
-            'Twk1FirstName'    => [ $this->new_user_fname ],
-            'Twk1LastName'     => [ $this->new_user_sname ],
-            'Twk1Password'     => ['123<><>aaa'],
-            'Twk1Confirm'      => ['123<><>aaa'],
-            'Twk0Organization' => ['<script>Bad stuff</script>'],
-            'action'           => ['register'],
-        }
-    );
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    my $cfgData = $this->app->cfg->data;
+
+    $cfgData->{Register}{NeedVerification} = 0;
+    $cfgData->{MinPasswordLength}          = 6;
+    $cfgData->{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
+    $cfgData->{Register}{AllowLoginName}   = 0;
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'        => ['UserRegistration'],
+                'Twk1Email'        => [ $this->new_user_email ],
+                'Twk1WikiName'     => [ $this->new_user_wikiname ],
+                'Twk1Name'         => [ $this->new_user_fullname ],
+                'Twk0Comment'      => ['<blah>'],
+                'Twk1FirstName'    => [ $this->new_user_fname ],
+                'Twk1LastName'     => [ $this->new_user_sname ],
+                'Twk1Password'     => ['123<><>aaa'],
+                'Twk1Confirm'      => ['123<><>aaa'],
+                'Twk0Organization' => ['<script>Bad stuff</script>'],
+                'action'           => ['register'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( "200", $e->status, $e->stringify() );
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( "200", $e->status, $e->stringify() );
 
-                $this->assert_matches(
+            $this->assert_matches(
 qr/.*Comment: &#60;blah&#62;.*Organization: &#60;script&#62;Bad stuff&#60;\/script&#62;/ms,
-                    $FoswikiFnTestCase::mails[0]->body()
-                );
+                $FoswikiFnTestCase::mails[0]->body()
+            );
 
-                my ($meta) =
-                  Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
-                    $this->new_user_wikiname );
-                my $text = $meta->text;
-                undef $meta;
-                $this->assert_matches(
+            my ($meta) = Foswiki::Func::readTopic( $cfgData->{UsersWebName},
+                $this->new_user_wikiname );
+            my $text = $meta->text;
+            undef $meta;
+            $this->assert_matches(
 qr/.*Comment: &#60;blah&#62;.*Organization: &#60;script&#62;Bad stuff&#60;\/script&#62;/ms,
-                    $text
-                );
-            }
-            else {
-                $e->rethrow;
-            }
+                $text
+            );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
@@ -1509,61 +1645,66 @@ qr/.*Comment: &#60;blah&#62;.*Organization: &#60;script&#62;Bad stuff&#60;\/scri
 
 # Register a user with a password which is too short
 sub verify_shortPassword {
-    my $this = shift;
-    $Foswiki::cfg{Register}{NeedVerification} = 0;
-    $Foswiki::cfg{MinPasswordLength}          = 6;
-    $Foswiki::cfg{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
-    $Foswiki::cfg{Register}{AllowLoginName}   = 1;
-    my $query = Unit::Request->new(
-        initializer => {
-            'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => [ $this->new_user_email ],
-            'Twk1WikiName'  => [ $this->new_user_wikiname ],
-            'Twk1Name'      => [ $this->new_user_fullname ],
-            'Twk0Comment'   => [''],
-            'Twk1LoginName' => [ $this->new_user_login ],
-            'Twk1FirstName' => [ $this->new_user_fname ],
-            'Twk1LastName'  => [ $this->new_user_sname ],
-            'Twk1Password'  => ['12345'],
-            'Twk1Confirm'   => ['12345'],
-            'action'        => ['register'],
-        }
-    );
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Register}{NeedVerification} = 0;
+    $cfgData->{MinPasswordLength}          = 6;
+    $cfgData->{PasswordManager}            = 'Foswiki::Users::HtPasswdUser';
+    $cfgData->{Register}{AllowLoginName}   = 1;
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'     => ['UserRegistration'],
+                'Twk1Email'     => [ $this->new_user_email ],
+                'Twk1WikiName'  => [ $this->new_user_wikiname ],
+                'Twk1Name'      => [ $this->new_user_fullname ],
+                'Twk0Comment'   => [''],
+                'Twk1LoginName' => [ $this->new_user_login ],
+                'Twk1FirstName' => [ $this->new_user_fname ],
+                'Twk1LastName'  => [ $this->new_user_sname ],
+                'Twk1Password'  => ['12345'],
+                'Twk1Confirm'   => ['12345'],
+                'action'        => ['register'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        use strict 'refs';
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
 
         my $cUID =
-          $this->session->users->getCanonicalUserID( $this->new_user_login );
-        $this->assert( $this->session->users->userExists($cUID),
+          $this->app->users->getCanonicalUserID( $this->new_user_login );
+        $this->assert( $this->app->users->userExists($cUID),
             "new user created" );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "bad_password", $e->def,
-                    $e->stringify() );
-                $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "bad_password", $e->def,
+                $e->stringify() );
+            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
 
 # don't check the FoswikiFnTestCase::mails in this test case - this is done elsewhere
-                @FoswikiFnTestCase::mails = ();
-            }
-            else {
-                $e->rethrow;
-            }
+            @FoswikiFnTestCase::mails = ();
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
@@ -1578,119 +1719,136 @@ sub verify_duplicateActivation {
     my $this = shift;
 
     # Start similar to registration with verification
-    $Foswiki::cfg{Register}{NeedVerification} = 1;
-    my $query = Unit::Request->new(
-        initializer => {
-            'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => [ $this->new_user_email ],
-            'Twk1WikiName'  => [ $this->new_user_wikiname ],
-            'Twk1Name'      => [ $this->new_user_fullname ],
-            'Twk1LoginName' => [ $this->new_user_login ],
-            'Twk1FirstName' => [ $this->new_user_fname ],
-            'Twk1LastName'  => [ $this->new_user_sname ],
-            'action'        => ['register'],
-        }
-    );
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Register}{NeedVerification} = 1;
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserName}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'     => ['UserRegistration'],
+                'Twk1Email'     => [ $this->new_user_email ],
+                'Twk1WikiName'  => [ $this->new_user_wikiname ],
+                'Twk1Name'      => [ $this->new_user_fullname ],
+                'Twk1LoginName' => [ $this->new_user_login ],
+                'Twk1FirstName' => [ $this->new_user_fname ],
+                'Twk1LastName'  => [ $this->new_user_sname ],
+                'action'        => ['register'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     try {
-        no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        use strict 'refs';
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "confirm", $e->def, $e->stringify() );
-                $this->assert_matches( $this->new_user_email, $e->params->[0],
-                    $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "confirm", $e->def, $e->stringify() );
+            $this->assert_matches( $this->new_user_email, $e->params->[0],
+                $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
-    # Read the verification code before finish()'ing the session
-    my $debugVerificationCode = $this->session->heap->{DebugVerificationCode};
+    # Read the verification code before finishing the app
+    my $debugVerificationCode = $this->app->heap->{DebugVerificationCode};
 
     # For verification process everything including finish(), so don't just
     # call verifyEmails
     my $code = shift || $debugVerificationCode;
-    $query = Unit::Request->new(
-        initializer => {
-            'code'   => [$code],
-            'action' => ['verify'],
-        }
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'code'   => [$code],
+                'action' => ['verify'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+
     );
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserName}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+
     try {
-        no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        use strict 'refs';
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
     # and now for something completely different: Do it all over again
     @FoswikiFnTestCase::mails = ();
-    $query                    = Unit::Request->new(
-        initializer => {
-            'code'   => [$code],
-            'action' => ['verify'],
-        }
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'code'   => [$code],
+                'action' => ['verify'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+
     );
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserName}, $query );
-    $this->session->net->setMailHandler( \&sentMail );
+    $this->app->net->setMailHandler( \&sentMail );
+
     try {
-        no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        use strict 'refs';
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "duplicate_activation", $e->def,
-                    $e->stringify() );
-                $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "duplicate_activation", $e->def,
+                $e->stringify() );
+            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
     @FoswikiFnTestCase::mails = ();
@@ -1704,70 +1862,70 @@ sub verify_duplicateActivation {
 sub verify_resetPasswordOkay {
     my $this = shift;
 
+    my $cfgData = $this->app->cfg->data;
     ## Need to create an account (else oopsnotwikiuser)
     ### with a known email address (else oopsregemail)
 
     $this->registerAccount();
-    my $cUID =
-      $this->session->users->getCanonicalUserID( $this->new_user_login );
-    $this->assert( $this->session->users->userExists($cUID),
+    my $cUID = $this->app->users->getCanonicalUserID( $this->new_user_login );
+    $this->assert( $this->app->users->userExists($cUID),
         " $cUID does not exist?" );
     my $newPassU = '12345';
     my $oldPassU = 1;         #force set
     $this->assert(
-        $this->session->users->setPassword( $cUID, $newPassU, $oldPassU ) );
+        $this->app->users->setPassword( $cUID, $newPassU, $oldPassU ) );
     $this->assert(
-        $this->session->users->checkPassword(
-            $this->new_user_login, $newPassU
-        )
-    );
-    my @emails = $this->session->users->getEmails($cUID);
+        $this->app->users->checkPassword( $this->new_user_login, $newPassU ) );
+    my @emails = $this->app->users->getEmails($cUID);
     $this->assert_str_equals( $this->new_user_email, $emails[0] );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'LoginName' => [ $this->new_user_login ],
-            'TopicName' => ['ResetPassword'],
-            'action'    => ['resetPassword']
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'LoginName' => [ $this->new_user_login ],
+                'TopicName' => ['ResetPassword'],
+                'action'    => ['resetPassword']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/WebHome",
+                action    => 'resetpasswd',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-
-    $query->path_info( '/' . $this->users_web . '/WebHome' );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( register => $RP_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "reset_ok", $e->def,
-                    $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "reset_ok", $e->def, $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
     $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
     my $mess = $FoswikiFnTestCase::mails[0];
     $this->assert_matches(
-        qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
+        qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
         $mess->header('From') );
     my $new_user_email = $this->new_user_email;
     $this->assert_matches( qr/.*\b$new_user_email/, $mess->header('To') );
 
     #lets make sure the password actually was reset
-    $this->assert( !$this->session->users->checkPassword( $cUID, $newPassU ) );
-    my @post_emails = $this->session->users->getEmails($cUID);
+    $this->assert( !$this->app->users->checkPassword( $cUID, $newPassU ) );
+    my @post_emails = $this->app->users->getEmails($cUID);
     $this->assert_str_equals( $this->new_user_email, $post_emails[0] );
 
     return;
@@ -1776,39 +1934,44 @@ sub verify_resetPasswordOkay {
 sub verify_resetPasswordNoSuchUser {
     my $this = shift;
 
+    my $cfgData = $this->app->cfg->data;
+
     # This time we don't set up the testWikiName, so it should fail.
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'LoginName' => [ $this->new_user_wikiname ],
-            'TopicName' => ['ResetPassword'],
-            'action'    => ['resetPassword']
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'LoginName' => [ $this->new_user_wikiname ],
+                'TopicName' => ['ResetPassword'],
+                'action'    => ['resetPassword']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/WebHome",
+                action    => 'resetpasswd',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-
-    $query->path_info( '/.' . $this->users_web . '/WebHome' );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( register => $RP_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "reset_bad", $e->def,
-                    $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "reset_bad", $e->def, $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
     $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
@@ -1819,40 +1982,46 @@ sub verify_resetPasswordNoSuchUser {
 sub verify_resetPasswordNeedPrivilegeForMultipleReset {
     my $this = shift;
 
+    my $cfgData = $this->app->cfg->data;
+
     # This time we don't set up the testWikiName, so it should fail.
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'LoginName' =>
-              [ $this->test_user_wikiname, $this->new_user_wikiname ],
-            'TopicName' => ['ResetPassword'],
-            'action'    => ['resetPassword']
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'LoginName' =>
+                  [ $this->test_user_wikiname, $this->new_user_wikiname ],
+                'TopicName' => ['ResetPassword'],
+                'action'    => ['resetPassword']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/WebHome",
+                action    => 'resetpasswd',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-
-    $query->path_info( '/.' . $this->users_web . '/WebHome' );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( register => $RP_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_matches( qr/$Foswiki::cfg{SuperAdminGroup}/,
-                    $e->stringify() );
-                $this->assert_str_equals( 'accessdenied', $e->template );
-                $this->assert_str_equals( 'only_group',   $e->def );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_matches( qr/$cfgData->{SuperAdminGroup}/,
+                $e->stringify() );
+            $this->assert_str_equals( 'accessdenied', $e->template );
+            $this->assert_str_equals( 'only_group',   $e->def );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
     $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
@@ -1865,44 +2034,49 @@ sub verify_resetPasswordNeedPrivilegeForMultipleReset {
 sub verify_resetPasswordNoPassword {
     my $this = shift;
 
+    my $cfgData = $this->app->cfg->data;
+
     $this->registerAccount();
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'LoginName' => [ $this->new_user_wikiname ],
-            'TopicName' => ['ResetPassword'],
-            'action'    => ['resetPassword']
-        }
-    );
-
-    $query->path_info( '/' . $this->users_web . '/WebHome' );
     my $fh;
-    open( $fh, ">:encoding(utf-8)", $Foswiki::cfg{Htpasswd}{FileName} )
+    open( $fh, ">:encoding(utf-8)", $cfgData->{Htpasswd}{FileName} )
       || die $!;
     close($fh) || die $!;
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'LoginName' => [ $this->new_user_wikiname ],
+                'TopicName' => ['ResetPassword'],
+                'action'    => ['resetPassword']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/WebHome",
+                action    => 'resetpasswd',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( register => $RP_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "reset_bad", $e->def,
-                    $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "reset_bad", $e->def, $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
@@ -1929,34 +2103,27 @@ sub verify_UnregisteredUser {
         WikiName         => "GitWit"
     };
 
-    my $file = Foswiki::UI::Register::_codeFile( $regSave->{VerificationCode} );
+    my $file = $this->regUI->_codeFile( $regSave->{VerificationCode} );
     $this->assert( open( my $F, '>', $file ) );
     print $F Data::Dumper->Dump( [ $regSave, undef ], [ 'data', 'form' ] );
     $this->assert( close $F );
 
-    my $result2 =
-      Foswiki::UI::Register::_loadPendingRegistration( $this->session,
-        "GitWit.0" );
+    my $result2 = $this->regUI->_loadPendingRegistration("GitWit.0");
     $this->assert_deep_equals( $result2, $regSave );
 
     try {
 
         # this is a deliberate attempt to reload an already used token.
         # this should fail!
-        Foswiki::UI::Register::_clearPendingRegistrationsForUser("GitWit.0");
+        $this->regUI->_clearPendingRegistrationsForUser("GitWit.0");
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_matches( qr/has no file/, $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_matches( qr/has no file/, $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw( text => $e );
+            $e->rethrow;
         }
     };
 
@@ -1972,11 +2139,9 @@ sub verify_missingElements {
     my @required = ( "one", "two", "six" );
 
     $this->assert_deep_equals(
-        [ Foswiki::UI::Register::_missingElements( \@present, \@required ) ],
-        ["six"] );
+        [ $this->regUI->_missingElements( \@present, \@required ) ], ["six"] );
     $this->assert_deep_equals(
-        [ Foswiki::UI::Register::_missingElements( \@present, \@present ) ],
-        [] );
+        [ $this->regUI->_missingElements( \@present, \@present ) ], [] );
 
     return;
 }
@@ -1984,7 +2149,8 @@ sub verify_missingElements {
 sub verify_buildRegistrationEmail {
     my ($this) = shift;
 
-    my %data = (
+    my $cfgData = $this->app->cfg->data;
+    my %data    = (
         'CompanyName' => '',
         'Country'     => 'Saudi Arabia',
         'Password'    => 'mypassword',
@@ -2024,7 +2190,7 @@ sub verify_buildRegistrationEmail {
                 'name'  => 'Password',
             }
         ],
-        'VerificationCode' => $this->session->heap->{DebugVerificationCode},
+        'VerificationCode' => $this->app->heap->{DebugVerificationCode},
         'Name'             => $this->new_user_fullname,
         'webName'          => $this->users_web,
         'WikiName'         => $this->new_user_wikiname,
@@ -2037,11 +2203,12 @@ sub verify_buildRegistrationEmail {
         'Confirm'          => 'mypassword'
     );
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin} );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp( engineParams =>
+          { initialAttributes => { user => $cfgData->{DefaultUserLogin}, }, } );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     my $actual =
-      Foswiki::UI::Register::_buildConfirmationEmail( $this->session, \%data,
+      $this->regUI->_buildConfirmationEmail( \%data,
         "%FIRSTLASTNAME% - %WIKINAME% - %EMAILADDRESS%\n\n%FORMDATA%", 0 );
 
     my ( $new_user_fullname, $new_user_wikiname, $new_user_email ) = (
@@ -2088,9 +2255,10 @@ sub visible {
 }
 
 sub verify_disabled_registration {
-    my $this = shift;
-    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 0;
-    $Foswiki::cfg{Register}{NeedVerification}          = 0;
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Register}{EnableNewUserRegistration} = 0;
+    $cfgData->{Register}{NeedVerification}          = 0;
     my $pfx    = 'Twk1';
     my $params = {
         'TopicName'        => ['UserRegistration'],
@@ -2103,43 +2271,40 @@ sub verify_disabled_registration {
         'action'           => ['register']
     };
 
-    if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
+    if ( $cfgData->{Register}{AllowLoginName} ) {
         $params->{"Twk1LoginName"} = $this->new_user_login;
     }
-    my $query = Unit::Request->new( initializer => $params );
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => $params, },
+        engineParams  => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        use strict 'refs';
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "registration_disabled", $e->def,
-                    $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "registration_disabled", $e->def,
+                $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw( text => " but received: " . $e );
-
-            # Original exception code.
-            #$this->assert( 0,
-            #        "expected registration_disabled, got "
-            #      . $e->stringify() . ' {'
-            #      . $e->template . '}  {'
-            #      . $e->def . '} '
-            #      . ref($e) );
+            $e->_set_text(
+                "expected registration_disabled, got: " . $e->stringify );
+            $e->rethrow;
         }
     };
 
@@ -2149,155 +2314,162 @@ sub verify_disabled_registration {
 sub test_PendingRegistrationManualCleanup {
     my $this = shift;
 
-    $Foswiki::cfg{Register}{AllowLoginName}            = 0;
-    $Foswiki::cfg{Register}{NeedVerification}          = 1;
-    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
-    $Foswiki::cfg{Register}{UniqueEmail}               = 0;
-    $Foswiki::cfg{Register}{ExpireAfter}               = '-600';
-    $Foswiki::cfg{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
-    $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
-    my $query = Unit::Request->new(
-        initializer => {
-            'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => [ $this->new_user_email ],
-            'Twk1WikiName'  => [ $this->new_user_wikiname ],
-            'Twk1Name'      => [ $this->new_user_fullname ],
-            'Twk0Comment'   => [''],
-            'Twk1FirstName' => [ $this->new_user_fname ],
-            'Twk1LastName'  => [ $this->new_user_sname ],
-            'action'        => ['register']
-        }
-    );
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Register}{AllowLoginName}            = 0;
+    $cfgData->{Register}{NeedVerification}          = 1;
+    $cfgData->{Register}{EnableNewUserRegistration} = 1;
+    $cfgData->{Register}{UniqueEmail}               = 0;
+    $cfgData->{Register}{ExpireAfter}               = '-600';
+    $cfgData->{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
+    $cfgData->{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'     => ['UserRegistration'],
+                'Twk1Email'     => [ $this->new_user_email ],
+                'Twk1WikiName'  => [ $this->new_user_wikiname ],
+                'Twk1Name'      => [ $this->new_user_fullname ],
+                'Twk0Comment'   => [''],
+                'Twk1FirstName' => [ $this->new_user_fname ],
+                'Twk1LastName'  => [ $this->new_user_sname ],
+                'action'        => ['register']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        use strict 'refs';
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "confirm", $e->def, $e->stringify() );
-                $this->assert_matches( $this->new_user_email, $e->params->[0],
-                    $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "confirm", $e->def, $e->stringify() );
+            $this->assert_matches( $this->new_user_email, $e->params->[0],
+                $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
-    my $code = shift || $this->session->heap->{DebugVerificationCode};
+    my $code = shift || $this->app->heap->{DebugVerificationCode};
 
-    my $file  = "$Foswiki::cfg{WorkingDir}/registration_approvals/$code";
+    my $file  = "$cfgData->{WorkingDir}/registration_approvals/$code";
     my $mtime = ( time() - 610 );
 
     utime( $mtime, $mtime, $file )
       || $this->assert( 0, "couldn't touch $file: $!" );
 
-    Foswiki::UI::Register::expirePendingRegistrations();
+    $this->regUI->expirePendingRegistrations();
     $this->assert( !( -f $file ), 'expired registration file not removed' );
 }
 
 sub test_PendingRegistrationAutoCleanup {
     my $this = shift;
 
-    $Foswiki::cfg{Register}{AllowLoginName}            = 0;
-    $Foswiki::cfg{Register}{NeedVerification}          = 1;
-    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
-    $Foswiki::cfg{Register}{UniqueEmail}               = 0;
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Register}{AllowLoginName}            = 0;
+    $cfgData->{Register}{NeedVerification}          = 1;
+    $cfgData->{Register}{EnableNewUserRegistration} = 1;
+    $cfgData->{Register}{UniqueEmail}               = 0;
 
     # Should use Sessions expiration if Registration is not defined.
-    $Foswiki::cfg{Register}{ExpireAfter} = undef;
-    $Foswiki::cfg{Sessions}{ExpireAfter} = 600;
-    $Foswiki::cfg{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
-    $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
-    my $query = Unit::Request->new(
-        initializer => {
-            'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => [ $this->new_user_email ],
-            'Twk1WikiName'  => [ $this->new_user_wikiname ],
-            'Twk1Name'      => [ $this->new_user_fullname ],
-            'Twk0Comment'   => [''],
-            'Twk1FirstName' => [ $this->new_user_fname ],
-            'Twk1LastName'  => [ $this->new_user_sname ],
-            'action'        => ['register']
-        }
-    );
+    $cfgData->{Register}{ExpireAfter} = undef;
+    $cfgData->{Sessions}{ExpireAfter} = 600;
+    $cfgData->{LoginManager}          = 'Foswiki::LoginManager::TemplateLogin';
+    $cfgData->{PasswordManager}       = 'Foswiki::Users::HtPasswdUser';
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'     => ['UserRegistration'],
+                'Twk1Email'     => [ $this->new_user_email ],
+                'Twk1WikiName'  => [ $this->new_user_wikiname ],
+                'Twk1Name'      => [ $this->new_user_fullname ],
+                'Twk0Comment'   => [''],
+                'Twk1FirstName' => [ $this->new_user_fname ],
+                'Twk1LastName'  => [ $this->new_user_sname ],
+                'action'        => ['register'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        use strict 'refs';
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "confirm", $e->def, $e->stringify() );
-                $this->assert_matches( $this->new_user_email, $e->params->[0],
-                    $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "confirm", $e->def, $e->stringify() );
+            $this->assert_matches( $this->new_user_email, $e->params->[0],
+                $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
-    my $code = shift || $this->session->heap->{DebugVerificationCode};
+    my $code = shift || $this->app->heap->{DebugVerificationCode};
 
-    my $file  = "$Foswiki::cfg{WorkingDir}/registration_approvals/$code";
+    my $file  = "$cfgData->{WorkingDir}/registration_approvals/$code";
     my $mtime = ( time() - 611 );
 
     utime( $mtime, $mtime, $file )
       || $this->assert( 0, "couldn't touch $file: $!" );
 
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
         no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        use strict 'refs';
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "confirm", $e->def, $e->stringify() );
-                $this->assert_matches( $this->new_user_email, $e->params->[0],
-                    $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "confirm", $e->def, $e->stringify() );
+            $this->assert_matches( $this->new_user_email, $e->params->[0],
+                $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
@@ -2306,57 +2478,62 @@ sub test_PendingRegistrationAutoCleanup {
 
 # "Make sure that if AllowLoginName is disabled, Registration doesn't use it.
 sub test_Item12205 {
-    my $this = shift;
-    $Foswiki::cfg{Register}{AllowLoginName}            = 0;
-    $Foswiki::cfg{Register}{NeedVerification}          = 0;
-    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
-    $Foswiki::cfg{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
-    $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
-    my $query = Unit::Request->new(
-        initializer => {
-            'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => [ $this->new_user_email ],
-            'Twk1WikiName'  => [ $this->new_user_wikiname ],
-            'Twk1Name'      => [ $this->new_user_fullname ],
-            'Twk0LoginName' => ['somename'],
-            'Twk0Comment'   => [''],
-            'Twk1FirstName' => [ $this->new_user_fname ],
-            'Twk1LastName'  => [ $this->new_user_sname ],
-            'action'        => ['register']
-        }
-    );
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Register}{AllowLoginName}            = 0;
+    $cfgData->{Register}{NeedVerification}          = 0;
+    $cfgData->{Register}{EnableNewUserRegistration} = 1;
+    $cfgData->{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
+    $cfgData->{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'     => ['UserRegistration'],
+                'Twk1Email'     => [ $this->new_user_email ],
+                'Twk1WikiName'  => [ $this->new_user_wikiname ],
+                'Twk1Name'      => [ $this->new_user_fullname ],
+                'Twk0LoginName' => ['somename'],
+                'Twk0Comment'   => [''],
+                'Twk1FirstName' => [ $this->new_user_fname ],
+                'Twk1LastName'  => [ $this->new_user_sname ],
+                'action'        => ['register']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        use strict 'refs';
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                my $template =
-                  ( $this->check_dependency('Foswiki,<,1.2') )
-                  ? 'attention'
-                  : 'register';
-                $this->assert_str_equals( $template, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "unsupport_loginname", $e->def,
-                    $e->stringify() );
-                $this->assert_matches( 'somename', $e->params->[0],
-                    $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            my $template =
+              ( $this->check_dependency('Foswiki,<,1.2') )
+              ? 'attention'
+              : 'register';
+            $this->assert_str_equals( $template, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "unsupport_loginname", $e->def,
+                $e->stringify() );
+            $this->assert_matches( 'somename', $e->params->[0],
+                $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
@@ -2371,52 +2548,57 @@ sub test_Item12205 {
 # {LoginManager} = 'Foswiki::LoginManager::TemplateLogin'
 # {PasswordManager} = 'Foswiki::Users::HtPasswdUser'
 sub test_3951 {
-    my $this = shift;
-    $Foswiki::cfg{Register}{AllowLoginName}            = 0;
-    $Foswiki::cfg{Register}{NeedVerification}          = 0;
-    $Foswiki::cfg{Register}{NeedApproval}              = 0;
-    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
-    $Foswiki::cfg{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
-    $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
-    my $query = Unit::Request->new(
-        initializer => {
-            'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => [ $this->new_user_email ],
-            'Twk1WikiName'  => [ $this->new_user_wikiname ],
-            'Twk1Name'      => [ $this->new_user_fullname ],
-            'Twk0Comment'   => [''],
-            'Twk1FirstName' => [ $this->new_user_fname ],
-            'Twk1LastName'  => [ $this->new_user_sname ],
-            'action'        => ['register']
-        }
-    );
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Register}{AllowLoginName}            = 0;
+    $cfgData->{Register}{NeedVerification}          = 0;
+    $cfgData->{Register}{NeedApproval}              = 0;
+    $cfgData->{Register}{EnableNewUserRegistration} = 1;
+    $cfgData->{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
+    $cfgData->{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'     => ['UserRegistration'],
+                'Twk1Email'     => [ $this->new_user_email ],
+                'Twk1WikiName'  => [ $this->new_user_wikiname ],
+                'Twk1Name'      => [ $this->new_user_fullname ],
+                'Twk0Comment'   => [''],
+                'Twk1FirstName' => [ $this->new_user_fname ],
+                'Twk1LastName'  => [ $this->new_user_sname ],
+                'action'        => ['register']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        use strict 'refs';
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
-                $this->assert_matches( $this->new_user_email, $e->params->[0],
-                    $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
+            $this->assert_matches( $this->new_user_email, $e->params->[0],
+                $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
@@ -2426,37 +2608,46 @@ sub test_3951 {
 # "User gets added to password system, despite a failure adding
 #  them to the mapping"
 sub test_4061 {
-    my $this = shift;
-    $Foswiki::cfg{Register}{AllowLoginName}            = 0;
-    $Foswiki::cfg{Register}{NeedVerification}          = 0;
-    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
-    $Foswiki::cfg{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
-    $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
-    my $query = Unit::Request->new(
-        initializer => {
-            'TopicName'     => ['UserRegistration'],
-            'Twk1Email'     => [ $this->new_user_email ],
-            'Twk1WikiName'  => [ $this->new_user_wikiname ],
-            'Twk1Name'      => [ $this->new_user_fullname ],
-            'Twk0Comment'   => [''],
-            'Twk1FirstName' => [ $this->new_user_fname ],
-            'Twk1LastName'  => [ $this->new_user_sname ],
-            'action'        => ['register']
-        }
-    );
+    my $this    = shift;
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{Register}{AllowLoginName}            = 0;
+    $cfgData->{Register}{NeedVerification}          = 0;
+    $cfgData->{Register}{EnableNewUserRegistration} = 1;
+    $cfgData->{LoginManager}    = 'Foswiki::LoginManager::TemplateLogin';
+    $cfgData->{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
 
     # Make WikiUsers read-only
     chmod( 0444,
-"$Foswiki::cfg{DataDir}/$Foswiki::cfg{UsersWebName}/$Foswiki::cfg{UsersTopicName}.txt"
+"$cfgData->{DataDir}/$cfgData->{UsersWebName}/$cfgData->{UsersTopicName}.txt"
     );
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'TopicName'     => ['UserRegistration'],
+                'Twk1Email'     => [ $this->new_user_email ],
+                'Twk1WikiName'  => [ $this->new_user_wikiname ],
+                'Twk1Name'      => [ $this->new_user_fullname ],
+                'Twk0Comment'   => [''],
+                'Twk1FirstName' => [ $this->new_user_fname ],
+                'Twk1LastName'  => [ $this->new_user_sname ],
+                'action'        => ['register']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     $this->assert(
-        open( my $fh, "<:encoding(utf-8)", $Foswiki::cfg{Htpasswd}{FileName} )
-    );
+        open( my $fh, "<:encoding(utf-8)", $cfgData->{Htpasswd}{FileName} ) );
     my ( $before, $stuff );
     {
         local $/ = undef;
@@ -2464,54 +2655,48 @@ sub test_4061 {
     }
     $this->assert( close($fh) );
     try {
-        no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        use strict 'refs';
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "problem_adding", $e->def,
-                    $e->stringify() );
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "problem_adding", $e->def,
+                $e->stringify() );
 
-                # Verify that they have not been added to .htpasswd
-                $this->assert(
-                    open(
-                        $fh, "<:encoding(utf-8)",
-                        $Foswiki::cfg{Htpasswd}{FileName}
-                    )
-                );
-                {
-                    local $/ = undef;
-                    $stuff = <$fh>;
-                }
-                $this->assert( close($fh) );
-                $this->assert_str_equals( $before, $stuff );
+            # Verify that they have not been added to .htpasswd
+            $this->assert(
+                open(
+                    $fh, "<:encoding(utf-8)", $cfgData->{Htpasswd}{FileName}
+                )
+            );
+            {
+                local $/ = undef;
+                $stuff = <$fh>;
+            }
+            $this->assert( close($fh) );
+            $this->assert_str_equals( $before, $stuff );
 
-                # Verify they have no user topic
-                $this->assert(
-                    !Foswiki::Func::topicExists(
-                        $this->users_web, $this->new_user_wikiname
-                    )
-                );
-            }
-            else {
-                $e->rethrow;
-            }
+            # Verify they have no user topic
+            $this->assert(
+                !Foswiki::Func::topicExists(
+                    $this->users_web, $this->new_user_wikiname
+                )
+            );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     }
     finally {
         chmod( 0777,
-                "$Foswiki::cfg{DataDir}/"
+                "$cfgData->{DataDir}/"
               . $this->users_web
-              . "/$Foswiki::cfg{UsersTopicName}.txt" );
+              . "/$cfgData->{UsersTopicName}.txt" );
     };
 
     return;
@@ -2524,90 +2709,91 @@ sub test_4061 {
 sub verify_resetPassword_NoWikiUsersEntry {
     my $this = shift;
 
+    my $cfgData = $this->app->cfg->data;
     ## Need to create an account (else oopsnotwikiuser)
     ### with a known email address (else oopsregemail)
 
     $this->registerAccount();
 
     #Remove the WikiUsers entry - by deleting it :)
-    my ($from) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
-        $Foswiki::cfg{UsersTopicName} );
-    my ($to) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
-        $Foswiki::cfg{UsersTopicName} . 'DELETED' );
+    my ($from) = Foswiki::Func::readTopic( $cfgData->{UsersWebName},
+        $cfgData->{UsersTopicName} );
+    my ($to) = Foswiki::Func::readTopic( $cfgData->{UsersWebName},
+        $cfgData->{UsersTopicName} . 'DELETED' );
     $from->move($to);
     undef $from;
     undef $to;
 
     #force a reload to unload existing user caches, and then restart as guest
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     $this->assert(
         !Foswiki::Func::topicExists(
-            $Foswiki::cfg{UsersWebName},
-            $Foswiki::cfg{UsersTopicName}
+            $cfgData->{UsersWebName},
+            $cfgData->{UsersTopicName}
         )
     );
 
-    my $cUID =
-      $this->session->users->getCanonicalUserID( $this->new_user_login );
-    $this->assert( $this->session->users->userExists($cUID),
+    my $cUID = $this->app->users->getCanonicalUserID( $this->new_user_login );
+    $this->assert( $this->app->users->userExists($cUID),
         " $cUID does not exist?" );
     my $newPassU = '12345';
     my $oldPassU = 1;         #force set
     $this->assert(
-        $this->session->users->setPassword( $cUID, $newPassU, $oldPassU ) );
+        $this->app->users->setPassword( $cUID, $newPassU, $oldPassU ) );
     $this->assert(
-        $this->session->users->checkPassword(
-            $this->new_user_login, $newPassU
-        )
-    );
-    my @emails = $this->session->users->getEmails($cUID);
+        $this->app->users->checkPassword( $this->new_user_login, $newPassU ) );
+    my @emails = $this->app->users->getEmails($cUID);
     $this->assert_str_equals( $this->new_user_email, $emails[0] );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            'LoginName' => [ $this->new_user_login ],
-            'TopicName' => ['ResetPassword'],
-            'action'    => ['resetPassword']
-        }
-    );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'LoginName' => [ $this->new_user_login ],
+                'TopicName' => ['ResetPassword'],
+                'action'    => ['resetPassword']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/WebHome",
+                action    => 'resetpasswd',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
 
-    $query->path_info( '/' . $this->users_web . '/WebHome' );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        $this->captureWithKey( register => $RP_UI_FN, $this->session );
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "reset_ok", $e->def,
-                    $e->stringify() );
-            }
-            else {
-                $e->rethrow;
-            }
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "reset_ok", $e->def, $e->stringify() );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
     $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
     my $mess = $FoswikiFnTestCase::mails[0];
     $this->assert_matches(
-        qr/$Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,
+        qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
         $mess->header('From') );
     my $new_user_email = $this->new_user_email;
     $this->assert_matches( qr/.*\b$new_user_email/, $mess->header('To') );
 
     #lets make sure the password actually was reset
-    $this->assert( !$this->session->users->checkPassword( $cUID, $newPassU ) );
-    my @post_emails = $this->session->users->getEmails($cUID);
+    $this->assert( !$this->app->users->checkPassword( $cUID, $newPassU ) );
+    my @post_emails = $this->app->users->getEmails($cUID);
     $this->assert_str_equals( $this->new_user_email, $post_emails[0] );
 
     return;
@@ -2616,7 +2802,8 @@ sub verify_resetPassword_NoWikiUsersEntry {
 sub registerUserException {
     my ( $this, $loginname, $forename, $surname, $email ) = @_;
 
-    my $params = {
+    my $cfgData = $this->app->cfg->data;
+    my $params  = {
         'TopicName'     => ['UserRegistration'],
         'Twk1Email'     => [$email],
         'Twk1WikiName'  => ["$forename$surname"],
@@ -2627,20 +2814,26 @@ sub registerUserException {
         'action'        => ['register']
     };
 
-    if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
+    if ( $cfgData->{Register}{AllowLoginName} ) {
         $params->{"Twk1LoginName"} = $loginname;
     }
-    my $query = Unit::Request->new( initializer => $params );
 
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => $params, },
+        engineParams  => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
 
-    $this->createNewFoswikiSession( undef, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     my $exception;
     try {
-        no strict 'refs';
-        $this->captureWithKey( register => $REG_UI_FN, $this->session );
-        no strict 'refs';
+        $this->captureWithKey(
+            register => sub { return $this->app->handleRequest; }, );
     }
     catch {
         # SMELL TODO This logic is highly dependant on what exceptions are
@@ -2671,15 +2864,14 @@ sub registerUserException {
     };
 
     # Reload caches
-    my $q = $this->request;
-    $this->createNewFoswikiSession( undef, $q );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->reCreateFoswikiApp;
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     return $exception;
 }
 
-#$Foswiki::cfg{NameFilter} = qr/[\s\*?~^\$@%`"'&;|<>\[\]\x00-\x1f]/;
-#$Foswiki::cfg{LoginNameFilterIn} = qr/^[^\s\*?~^\$@%`"'&;|<>\x00-\x1f]+$/;
+#$cfgData->{NameFilter} = qr/[\s\*?~^\$@%`"'&;|<>\[\]\x00-\x1f]/;
+#$cfgData->{LoginNameFilterIn} = qr/^[^\s\*?~^\$@%`"'&;|<>\x00-\x1f]+$/;
 sub verify_Default_LoginNameFilterIn {
     my $this = shift;
     my $ret;
@@ -2740,8 +2932,9 @@ sub verify_Modified_LoginNameFilterIn_At {
     my $this = shift;
     my $ret;
 
-    my $oldCfg = $Foswiki::cfg{LoginNameFilterIn};
-    $Foswiki::cfg{LoginNameFilterIn} = qr/^[^\s\*?~^\$%`"'&;|<>\x00-\x1f]+$/;
+    my $cfgData = $this->app->cfg->data;
+    my $oldCfg  = $cfgData->{LoginNameFilterIn};
+    $cfgData->{LoginNameFilterIn} = qr/^[^\s\*?~^\$%`"'&;|<>\x00-\x1f]+$/;
 
     $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu',
         'asdf@example.com' );
@@ -2777,7 +2970,7 @@ sub verify_Modified_LoginNameFilterIn_At {
         "question logon should fail"
     );
 
-    $Foswiki::cfg{LoginNameFilterIn} = $oldCfg;
+    $cfgData->{LoginNameFilterIn} = $oldCfg;
 
     return;
 }
@@ -2786,8 +2979,9 @@ sub verify_Modified_LoginNameFilterIn_Liberal {
     my $this = shift;
     my $ret;
 
-    my $oldCfg = $Foswiki::cfg{LoginNameFilterIn};
-    $Foswiki::cfg{LoginNameFilterIn} = qr/^.*$/;
+    my $cfgData = $this->app->cfg->data;
+    my $oldCfg  = $cfgData->{LoginNameFilterIn};
+    $cfgData->{LoginNameFilterIn} = qr/^.*$/;
 
     $ret = $this->registerUserException( 'asdf', 'Asdf', 'Poiu',
         'asdf@example.com' );
@@ -2809,12 +3003,12 @@ sub verify_Modified_LoginNameFilterIn_Liberal {
         'asdf2@example.com' );
     $this->assert_null( $ret, "question?logon should succed" );
 
-    $Foswiki::cfg{LoginNameFilterIn} = $oldCfg;
+    $cfgData->{LoginNameFilterIn} = $oldCfg;
 
     return;
 }
 
-#$Foswiki::cfg{NameFilter} = qr/[\s\*?~^\$@%`"'&;|<>\[\]\x00-\x1f]/;
+#$cfgData->{NameFilter} = qr/[\s\*?~^\$@%`"'&;|<>\[\]\x00-\x1f]/;
 #this regex is only used later in the mapper - during rego, we actually use the isWikiWord test
 sub verify_Default_NameFilter {
     my $this = shift;
@@ -2882,6 +3076,8 @@ sub verify_Default_NameFilter {
 sub verify_registerVerifyOKApproved {
     my $this = shift;
 
+    my $cfgData = $this->app->cfg->data;
+
     # We can't use the default ScumBag user for registration
     # approvals, because it was created before the AllowLoginName
     # setting was established, and will always have a LoginName
@@ -2889,138 +3085,157 @@ sub verify_registerVerifyOKApproved {
         'approve@example.com' );
     @FoswikiFnTestCase::mails = ();
 
-    $Foswiki::cfg{Register}{NeedVerification} = 1;
+    $cfgData->{Register}{NeedVerification} = 1;
 
     $this->registerVerifyOk();
 
     # We're sitting with a valid registration code waiting for the next step
     # need to verify that we issue an approval.
-    my $query = Unit::Request->new(
-        initializer => {
-            'code'   => [ scalar $this->session->request->param('code') ],
-            'action' => ['verify']
-        }
-    );
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'code'   => [ scalar $this->app->request->param('code') ],
+                'action' => ['verify']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
 
-    $Foswiki::cfg{Register}{NeedApproval} = 1;
-    $Foswiki::cfg{Register}{Approvers}    = 'RegoApprover';
+    );
+    $cfgData = $this->app->cfg->data;
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+
+    $cfgData->{Register}{NeedApproval} = 1;
+    $cfgData->{Register}{Approvers}    = 'RegoApprover';
     try {
-        if ( $this->check_dependency('Foswiki,<,1.2') ) {
-            Foswiki::UI::Register::_complete( $this->session );
-        }
-        else {
-            Foswiki::UI::Register::_action_verify( $this->session );
-        }
+        $this->regUI->_action_verify;
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "approve", $e->def );
-                $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
-                foreach my $mail (@FoswikiFnTestCase::mails) {
-                    $this->assert_matches( qr/registration approval required/m,
-                        $mail->header('Subject') );
-                    $this->assert_matches(
-                        qr/RegoApprover <approve\@example.com>/m,
-                        $mail->header('To') );
-                    $this->assert_matches( qr/^\s*\* Name: Walter Pigeon/m,
-                        $mail->body() );
-                    $this->assert_matches(
-                        qr/^\s*\* Email: kakapo\@ground.dwelling.parrot.net/m,
-                        $mail->body() );
-                    $this->assert(
-                        $mail->as_string() =~
-                          m/action=3Dapprove;code=3D(.*?);/m,
-                        $mail->as_string() . "MISSING APPROVAL"
-                    );
-                    $this->assert_equals(
-                        $this->session->heap->{DebugVerificationCode}, $1 );
-                }
-                @FoswikiFnTestCase::mails = ();
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "approve", $e->def );
+            $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
+            foreach my $mail (@FoswikiFnTestCase::mails) {
+                $this->assert_matches( qr/registration approval required/m,
+                    $mail->header('Subject') );
+                $this->assert_matches( qr/RegoApprover <approve\@example.com>/m,
+                    $mail->header('To') );
+                $this->assert_matches( qr/^\s*\* Name: Walter Pigeon/m,
+                    $mail->body() );
+                $this->assert_matches(
+                    qr/^\s*\* Email: kakapo\@ground.dwelling.parrot.net/m,
+                    $mail->body() );
+                my $mailBody = $mail->body_str;
+                $this->assert( $mailBody =~ m/action=approve;code=(.*?);/m,
+                    $mailBody . "MISSING APPROVAL" );
+                $this->assert_equals( $this->app->heap->{DebugVerificationCode},
+                    $1 );
             }
-            else {
-                $e->rethrow;
-            }
+            @FoswikiFnTestCase::mails = ();
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
-    $query = Unit::Request->new(
-        initializer => {
-            'code'   => [ $this->session->heap->{DebugVerificationCode} ],
-            'action' => ['approve']
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'code'   => [ $this->app->heap->{DebugVerificationCode} ],
+                'action' => ['approve']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+
+        # Preserve the heap data.
+        heap => $this->_cloneData( $this->app->heap, 'heap' ),
     );
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
 
     # Make sure we get bounced unless we are logged in
     try {
-        Foswiki::UI::Register::_action_approve( $this->session );
+        $this->regUI->_action_approve;
     }
     catch {
-        my $e = $_;
-        unless ( ref($e) && $e->isa('Foswiki::AccessControlException') ) {
-            Foswiki::Exception::Fatal->rethrow($e);
+        unless ( $_->isa('Foswiki::AccessControlException') ) {
+            $_->rethrow;
         }
-
     };
 
-    $this->createNewFoswikiSession( 'scumbag', $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'code'   => [ $this->app->heap->{DebugVerificationCode} ],
+                'action' => ['approve']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => 'scumbag',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
+        heap => $this->_cloneData( $this->app->heap, 'heap' ),
+    );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        Foswiki::UI::Register::_action_approve( $this->session );
+        $this->regUI->_action_approve;
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
+        if ( $e->isa('Foswiki::OopsException') ) {
 
-                # verify that we are sending mail to the registrant
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "rego_approved", $e->def );
+            # verify that we are sending mail to the registrant
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "rego_approved", $e->def );
 
        # Make sure the confirmations are sent; one to the user, one to the admin
-                $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
-                foreach my $mail (@FoswikiFnTestCase::mails) {
-                    if ( $mail->header('To') =~ m/^Wiki/m ) {
-                        $this->assert_matches( qr/^Wiki Administrator/m,
-                            $mail->header('To') );
-                    }
-                    else {
-                        $this->assert_matches( qr/^Walter Pigeon/m,
-                            $mail->header('To') );
-                    }
-                    $this->assert_matches(
-                        qr/^Foswiki - Registration for WalterPigeon/m,
-                        $mail->header('Subject') );
+            $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
+            foreach my $mail (@FoswikiFnTestCase::mails) {
+                if ( $mail->header('To') =~ m/^Wiki/m ) {
+                    $this->assert_matches( qr/^Wiki Administrator/m,
+                        $mail->header('To') );
                 }
-                @FoswikiFnTestCase::mails = ();
+                else {
+                    $this->assert_matches( qr/^Walter Pigeon/m,
+                        $mail->header('To') );
+                }
+                $this->assert_matches(
+                    qr/^Foswiki - Registration for WalterPigeon/m,
+                    $mail->header('Subject') );
             }
-            else {
-                $e->rethrow;
-            }
+            @FoswikiFnTestCase::mails = ();
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
     $this->assert(
-        $this->session->topicExists(
-            $Foswiki::cfg{UsersWebName},
+        $this->app->store->topicExists(
+            $cfgData->{UsersWebName},
             $this->new_user_wikiname
         )
     );
@@ -3031,6 +3246,8 @@ sub verify_registerVerifyOKApproved {
 sub verify_registerVerifyOKDisapproved {
     my $this = shift;
 
+    my $cfgData = $this->app->cfg->data;
+
     # We can't use the default ScumBag user for registration
     # approvals, because it was created before the AllowLoginName
     # setting was established, and will always have a LoginName
@@ -3038,112 +3255,114 @@ sub verify_registerVerifyOKDisapproved {
         'approve@example.com' );
     @FoswikiFnTestCase::mails = ();
 
-    $Foswiki::cfg{Register}{NeedVerification} = 1;
+    $cfgData->{Register}{NeedVerification} = 1;
 
     $this->registerVerifyOk();
 
     # We're sitting with a valid registration code waiting for the next step
     # need to verify that we issue an approval.
-    my $query = Unit::Request->new(
-        initializer => {
-            'code'   => [ scalar $this->session->request->param('code') ],
-            'action' => ['verify']
-        }
-    );
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'code'   => [ scalar $this->app->request->param('code') ],
+                'action' => ['verify']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => $cfgData->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
 
-    $Foswiki::cfg{Register}{NeedApproval} = 1;
-    $Foswiki::cfg{Register}{Approvers}    = 'RegoApprover';
+    );
+    $cfgData = $this->app->cfg->data;
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+
+    $cfgData->{Register}{NeedApproval} = 1;
+    $cfgData->{Register}{Approvers}    = 'RegoApprover';
     try {
-        if ( $this->check_dependency('Foswiki,<,1.2') ) {
-            Foswiki::UI::Register::_complete( $this->session );
-        }
-        else {
-            Foswiki::UI::Register::_action_verify( $this->session );
-        }
+        $this->regUI->_action_verify;
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "approve", $e->def );
-                $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
-                foreach my $mail (@FoswikiFnTestCase::mails) {
-                    $this->assert_matches(
-                        qr/^.* registration approval required/m,
-                        $mail->header('Subject') );
-                    $this->assert_matches(
-                        qr/^RegoApprover <approve\@example.com>/m,
-                        $mail->header('To') );
-                    $this->assert_matches( qr/^\s*\* Name: Walter Pigeon/m,
-                        $mail->body() );
-                    $this->assert_matches(
-                        qr/^\s*\* Email: kakapo\@ground.dwelling.parrot.net/m,
-                        $mail->body() );
-                    $this->assert(
-                        $mail->as_string() =~
-                          m/action=3Ddisapprove;code=3D(.*?);/m,
-                        $mail->as_string() . "MISSING DISAPPROVAL"
-                    );
-                    $this->assert_equals(
-                        $this->session->heap->{DebugVerificationCode}, $1 );
-                }
-                @FoswikiFnTestCase::mails = ();
+        if ( $e->isa('Foswiki::OopsException') ) {
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "approve", $e->def );
+            $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
+            foreach my $mail (@FoswikiFnTestCase::mails) {
+                $this->assert_matches( qr/^.* registration approval required/m,
+                    $mail->header('Subject') );
+                $this->assert_matches(
+                    qr/^RegoApprover <approve\@example.com>/m,
+                    $mail->header('To') );
+                $this->assert_matches( qr/^\s*\* Name: Walter Pigeon/m,
+                    $mail->body() );
+                $this->assert_matches(
+                    qr/^\s*\* Email: kakapo\@ground.dwelling.parrot.net/m,
+                    $mail->body() );
+                my $mailBody = $mail->body_str;
+                $this->assert( $mailBody =~ m/action=disapprove;code=(.*?);/m,
+                    $mailBody . "MISSING DISAPPROVAL" );
+                $this->assert_equals( $this->app->heap->{DebugVerificationCode},
+                    $1 );
             }
-            else {
-                $e->rethrow;
-            }
+            @FoswikiFnTestCase::mails = ();
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
-    $query = Unit::Request->new(
-        initializer => {
-            'code'    => [ $this->session->heap->{DebugVerificationCode} ],
-            'action'  => ['disapprove'],
-            'referee' => ['TheBoss']
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'code'    => [ $this->app->heap->{DebugVerificationCode} ],
+                'action'  => ['disapprove'],
+                'referee' => ['TheBoss']
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->users_web . "/UserRegistration",
+                action    => 'register',
+                user      => 'scumbag',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-    $query->path_info( "/" . $this->users_web . "/UserRegistration" );
-    $this->createNewFoswikiSession( 'scumbag', $query );
-    $this->session->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
-        Foswiki::UI::Register::_action_disapprove( $this->session );
+        $this->regUI->_action_disapprove;
     }
     catch {
         my $e = $_;
-        if ( ref($e) ) {
-            if ( $e->isa('Foswiki::OopsException') ) {
+        if ( $e->isa('Foswiki::OopsException') ) {
 
-                # verify that we are sending mail to the registrant
-                $this->assert_str_equals( $REG_TMPL, $e->template,
-                    $e->stringify() );
-                $this->assert_str_equals( "rego_denied", $e->def );
+            # verify that we are sending mail to the registrant
+            $this->assert_str_equals( $REG_TMPL, $e->template,
+                $e->stringify() );
+            $this->assert_str_equals( "rego_denied", $e->def );
 
-                # Make sure no mails are sent (yet)
-                $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-            }
-            else {
-                $e->rethrow;
-            }
+            # Make sure no mails are sent (yet)
+            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
         }
         else {
-            Foswiki::Exception::Fatal->throw(
-                text => "expected an oops redirect but received: " . $e );
+            $e->_set_text( "expected an oops redirect but received: "
+                  . Foswiki::Exception::errorStr($e) );
+            $e->rethrow;
         }
     };
 
     $this->assert(
-        !$this->session->topicExists(
-            $Foswiki::cfg{UsersWebName},
+        !$this->app->store->topicExists(
+            $cfgData->{UsersWebName},
             $this->new_user_wikiname
         )
     );

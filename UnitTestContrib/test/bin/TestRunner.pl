@@ -11,6 +11,9 @@ use File::Path ();
 require Unit::TestApp;
 my $starting_root;
 
+# Simplify debugging by making both stderr and stdout non-buffered.
+$| = 1;
+
 sub _findRelativeTo {
     my ( $startdir, $name ) = @_;
 

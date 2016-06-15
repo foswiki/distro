@@ -175,8 +175,10 @@ sub _includeTopic {
 
     # See Codev.FailedIncludeWarning for the history.
     unless ( $app->store->topicExists( $includedWeb, $includedTopic ) ) {
-        return _includeWarning( $this, $control->{warn}, 'topic_not_found',
-            $includedWeb, $includedTopic ),
+        return $this->_includeWarning(
+            $control->{warn}, 'topic_not_found',
+            $includedWeb,     $includedTopic
+          ),
           'topic_not_found';
     }
 

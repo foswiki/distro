@@ -392,8 +392,6 @@ sub BUILD {
 sub DEMOLISH {
     my $this = shift;
 
-    # Clean up sessions before we finish.
-    $this->users->loginManager->complete;
 }
 
 =begin TML
@@ -568,6 +566,11 @@ sub handleRequest {
     my $return = $res->as_array;
     $res->outputHasStarted(1);
     $rc = $this->engine->finalizeReturn($return);
+
+    # Clean up sessions before we finish.
+    # SMELL Not sure if it really belongs here but being called in DEMOLISH()
+    # it fails because users attribute gets destroyed by the time.
+    $this->users->loginManager->complete;
 
     return $rc;
 }
