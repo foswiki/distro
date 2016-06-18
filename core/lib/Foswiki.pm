@@ -59,6 +59,8 @@ use Foswiki::Exception;
 # still breaks some unicode byte strings
 $CGI::ENCODE_ENTITIES = q{&<>"'};
 
+our $app;
+
 # Site configuration constants
 our %cfg;
 

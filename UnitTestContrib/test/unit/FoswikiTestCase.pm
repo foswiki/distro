@@ -62,8 +62,9 @@ has app => (
         return Unit::TestApp->new( env => \%ENV );
     },
 );
-has twiki =>
-  ( is => 'rw', clearer => 1, lazy => 1, default => sub { $_[0]->app }, );
+
+#has twiki =>
+#  ( is => 'rw', clearer => 1, lazy => 1, default => sub { $_[0]->app }, );
 has test_topicObject => (
     is        => 'rw',
     clearer   => 1,
@@ -786,6 +787,8 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
         env  => $this->app->cloneEnv,
         cfg  => $this->app->cfg->clone,
     );
+    ASSERT( $tmp->cfg->app == $tmp,
+        "Object app attr doesn't point to the new app" );
     ASSERT( defined $Foswiki::app ) if SINGLE_SINGLETONS;
     undef $tmp;    # finish() will be called automatically.
     ASSERT( !defined $Foswiki::app ) if SINGLE_SINGLETONS;
@@ -827,11 +830,6 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
 around tear_down => sub {
     my $orig = shift;
     my $this = shift;
-
-    if ( $this->has_app ) {
-        ASSERT( $this->app->isa('Unit::TestApp') ) if SINGLE_SINGLETONS;
-        $this->finishFoswikiSession;
-    }
     $this->_clear_tempDir;
     $this->app->cfg->data( { eval $this->__FoswikiSafe } );
     foreach my $sym ( keys %ENV ) {
@@ -856,6 +854,11 @@ around tear_down => sub {
     foreach my $thing ( keys %$Foswiki::Meta::VALIDATE ) {
         delete $Foswiki::Meta::VALIDATE{$thing}
           unless $Foswiki::Meta::VALIDATE{$thing}->{_default};
+    }
+
+    if ( $this->has_app ) {
+        ASSERT( $this->app->isa('Unit::TestApp') ) if SINGLE_SINGLETONS;
+        $this->finishFoswikiSession;
     }
 };
 
@@ -1099,8 +1102,8 @@ sub createNewFoswikiApp {
     $params{env} //= $this->app->cloneEnv;
     my $app = Unit::TestApp->new( cfg => $this->app->cfg->clone, %params );
 
-    $this->_fixupAppObjects;
     $this->app($app);
+    $this->_fixupAppObjects;
 
     ASSERT( defined $Foswiki::app ) if SINGLE_SINGLETONS;
 
@@ -1238,7 +1241,7 @@ sub _fixupAppObjects {
         if (
                blessed( $this->{$attr} )
             && $this->$attr->isa('Foswiki::Object')
-            && $this->$attr->does('Foswiki::AppObject')
+            && $this->$attr->can('_set_app')
             && ( !defined( $this->$attr->app )
                 || ( $this->$attr->app != $app ) )
           )

@@ -168,8 +168,10 @@ around tear_down => sub {
         'Main', "UsersWebName equals to 'Main'" );
     $this->removeWebFixture( $cfg->data->{UsersWebName} );
     unlink( $Foswiki::cfg{Htpasswd}{FileName} );
-    $orig->( $this, @_ );
 
+    @mails = ();
+
+    $orig->( $this, @_ );
 };
 
 =begin TML
@@ -230,8 +232,10 @@ sub registerUser {
 
     $this->createNewFoswikiApp(
         requestParams => { initializer => $reqParams, },
-        engineParams =>
-          { path_info => "/" . $this->users_web . "/UserRegistration", },
+        engineParams  => {
+            initialAttributes =>
+              { path_info => "/" . $this->users_web . "/UserRegistration", },
+        },
     );
     $this->assert(
         $this->app->store->topicExists(

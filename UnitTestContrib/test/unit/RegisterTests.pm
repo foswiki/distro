@@ -567,7 +567,8 @@ BODY
 
     $this->registerAccount();
 
-    my ($meta) = Foswiki::Func::readTopic( $cfgData->{UsersWebName},
+    my ($meta) =
+      Foswiki::Func::readTopic( $this->app->cfg->data->{UsersWebName},
         $this->new_user_wikiname );
     my $text = $meta->text;
 
@@ -2418,6 +2419,7 @@ sub test_PendingRegistrationAutoCleanup {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
+    $cfgData = $this->app->cfg->data;
     $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     try {
@@ -2827,7 +2829,6 @@ sub registerUserException {
             },
         },
         callbacks => { handleRequestException => \&_cbHRE },
-
     );
     $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     my $exception;
@@ -2855,7 +2856,6 @@ sub registerUserException {
                 $exception = Foswiki::Exception::RTInfo->transmute($exception);
                 $exception->template('died');
             }
-
         }
         else {
             $exception = Foswiki::Exception::RTInfo->transmute($exception);

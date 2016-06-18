@@ -76,11 +76,15 @@ try {
     $env->{FOSWIKI_ACTION} =
       'view';    # SMELL Shan't we add a 'test' action to the SwitchBoard?
     $env->{FOSWIKI_ENGINE} = 'Foswiki::Engine::Test';
-    $app = Unit::TestApp->new( env => $env );
+    $app = Unit::TestApp->new(
+        env          => $env,
+        engineParams => { initialAttributes => { action => 'view', }, },
+    );
     $cfg = $app->cfg;
 }
 catch {
-    die Foswiki::Exception::errorStr($_);
+    say STDERR Foswiki::Exception::errorStr($_);
+    exit 1;
 };
 
 my ( $stdout, $stderr, $log );    # will be destroyed at the end, if created
@@ -140,7 +144,6 @@ if ( $options{-clean} ) {
 }
 
 if ( not $options{-worker} ) {
-    require Foswiki;
     if ( defined $cfg->data->{DataDir} && $cfg->data->{DataDir} ne 'NOT SET' ) {
         testForFiles( $cfg->data->{DataDir}, '/Temp*' );
     }
@@ -161,11 +164,21 @@ try {
 }
 catch {
     say STDERR Foswiki::Exception::errorStr($_);
+}
+finally {
+    undef $app;
 };
 
 print STDERR "Run was logged to $log\n" if $options{-log};
 
 Cwd::chdir($starting_root) if ($starting_root);
+if (Unit::TestRunner::CHECKLEAK) {
+    eval {
+        require Devel::MAT::Dumper;
+        Devel::MAT::Dumper::dump(
+            $starting_root . "/working/logs/FOSWIKI.pmat" );
+    };
+}
 exit $exit;
 
 sub testForFiles {

@@ -130,10 +130,11 @@ around stringify => sub {
     my $this  = shift;
     my $topic = $this->topic
       || '';   # Access checks of Web objects causes uninitialized string errors
+    my $web = $this->web // '*UNDEF*';
     return
         "AccessControlException: Access to "
       . $this->mode . " "
-      . $this->web
+      . $web
       . ".$topic for "
       . $this->user
       . " is denied. "

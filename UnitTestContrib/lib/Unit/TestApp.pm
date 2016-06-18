@@ -3,7 +3,9 @@
 package Unit::TestApp;
 use v5.14;
 
-use Scalar::Util qw(blessed);
+use Assert;
+
+use Scalar::Util qw(blessed weaken refaddr);
 
 use Moo;
 use namespace::clean;
@@ -89,12 +91,11 @@ sub registerCallbacks {
 
     return if $this->_cbRegistered;
 
+    my $cbData = { app => $this, };
+    weaken( $cbData->{app} );
     foreach my $cbName ( keys %{ $this->callbacks } ) {
-        $this->registerCallback(
-            $cbName,
-            $this->callbacks->{$cbName},
-            { app => $this, }
-        );
+        $this->registerCallback( $cbName, $this->callbacks->{$cbName},
+            $cbData );
     }
 
     $this->_cbRegistered(1);

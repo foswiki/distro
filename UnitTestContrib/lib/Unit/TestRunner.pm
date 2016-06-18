@@ -24,7 +24,7 @@ extends 'Foswiki::Object';
 
 use Assert;
 
-sub CHECKLEAK { 0 }
+sub CHECKLEAK { 1 }
 
 BEGIN {
     if (CHECKLEAK) {
@@ -605,7 +605,6 @@ sub runOne {
                 print "SKIP\t$test - $skip\n";
             }
             else {
-                local $| = 1;
                 Devel::Leak::Object::checkpoint() if CHECKLEAK;
                 print "\t$test\n";
                 $action .= "\n# $test\n    ";

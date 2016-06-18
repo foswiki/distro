@@ -740,8 +740,12 @@ sub complete {
 
     if ( $this->_cgisession ) {
         $this->_cgisession->flush;
-        die $this->_cgisession->errstr
-          if $this->_cgisession->errstr;
+        if ( $this->_cgisession->errstr ) {
+            if (DEBUG) {
+                Carp::confess( $this->_cgisession->errstr );
+            }
+            die $this->_cgisession->errstr;
+        }
     }
 
     # SMELL When called from DEMOLISH it's not guaranteed that

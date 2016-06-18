@@ -276,13 +276,14 @@ sub __deprecated_execute {
 
                 # Login manager did not want to authenticate, perhaps because
                 # we are already authenticated.
-                my $exception = new Foswiki::OopsException(
-                    'accessdenied',
-                    status => 403,
-                    web    => $e->web,
-                    topic  => $e->topic,
-                    def    => 'topic_access',
-                    params => [ $e->mode, $e->reason ]
+                my $exception = $this->create(
+                    'Foswiki::OopsException',
+                    template => 'accessdenied',
+                    status   => 403,
+                    web      => $e->web,
+                    topic    => $e->topic,
+                    def      => 'topic_access',
+                    params   => [ $e->mode, $e->reason ]
                 );
 
                 $exception->generate($app);
@@ -381,6 +382,7 @@ sub logon {
         && $Foswiki::cfg{LoginManager} eq 'none' )
     {
         throw Foswiki::OopsException(
+            app      => $app,
             template => 'attention',
             status   => 500,
             def      => 'login_disabled',
@@ -418,33 +420,36 @@ sub checkWebExists {
 
     if ( $app->request->invalidWeb ) {
         throw Foswiki::OopsException(
-            'accessdenied',
-            status => 404,
-            def    => 'bad_web_name',
-            web    => $webName,
-            topic  => $Foswiki::cfg{WebPrefsTopicName},
-            params => [ $op, $app->request->invalidWeb ]
+            app      => $app,
+            template => 'accessdenied',
+            status   => 404,
+            def      => 'bad_web_name',
+            web      => $webName,
+            topic    => $Foswiki::cfg{WebPrefsTopicName},
+            params   => [ $op, $app->request->invalidWeb ]
         );
     }
     unless ($webName) {
         throw Foswiki::OopsException(
-            'accessdenied',
-            status => 404,
-            def    => 'bad_web_name',
-            web    => $webName,
-            topic  => $Foswiki::cfg{WebPrefsTopicName},
-            params => [$op]
+            app      => $app,
+            template => 'accessdenied',
+            status   => 404,
+            def      => 'bad_web_name',
+            web      => $webName,
+            topic    => $Foswiki::cfg{WebPrefsTopicName},
+            params   => [$op]
         );
     }
 
     unless ( $app->store->webExists($webName) ) {
         throw Foswiki::OopsException(
-            'accessdenied',
-            status => 404,
-            def    => 'no_such_web',
-            web    => $webName,
-            topic  => $Foswiki::cfg{WebPrefsTopicName},
-            params => [$op]
+            app      => $app,
+            template => 'accessdenied',
+            status   => 404,
+            def      => 'no_such_web',
+            web      => $webName,
+            topic    => $Foswiki::cfg{WebPrefsTopicName},
+            params   => [$op]
         );
     }
 }
@@ -468,23 +473,25 @@ sub checkTopicExists {
 
     if ( $app->request->invalidTopic ) {
         throw Foswiki::OopsException(
-            'accessdenied',
-            status => 404,
-            def    => 'invalid_topic_name',
-            web    => $web,
-            topic  => $topic,
-            params => [ $op, $app->request->invalidTopic ]
+            app      => $app,
+            template => 'accessdenied',
+            status   => 404,
+            def      => 'invalid_topic_name',
+            web      => $web,
+            topic    => $topic,
+            params   => [ $op, $app->request->invalidTopic ]
         );
     }
 
     unless ( $app->store->topicExists( $web, $topic ) ) {
         throw Foswiki::OopsException(
-            'accessdenied',
-            status => 404,
-            def    => 'no_such_topic',
-            web    => $web,
-            topic  => $topic,
-            params => [$op]
+            app      => $app,
+            template => 'accessdenied',
+            status   => 404,
+            def      => 'no_such_topic',
+            web      => $web,
+            topic    => $topic,
+            params   => [$op]
         );
     }
 }

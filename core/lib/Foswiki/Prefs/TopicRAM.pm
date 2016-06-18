@@ -43,7 +43,8 @@ has local => (
     isa     => Foswiki::Object::isaHASH( 'local', noUndef => 1 ),
 );
 has topicObject => (
-    is => 'ro',
+    is       => 'ro',
+    weak_ref => 1,
     isa =>
       Foswiki::Object::isaCLASS( 'topicObject', 'Foswiki::Meta', noUndef => 1 ),
     required => 1,

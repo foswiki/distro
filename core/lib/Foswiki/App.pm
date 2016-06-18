@@ -312,8 +312,8 @@ sub BUILD {
 
     $Foswiki::app = $this;
 
-    my $cfg = $this->cfg;
-    if ( $cfg->data->{Store}{overrideUmask} && $cfg->data->{OS} ne 'WINDOWS' ) {
+    my $cfgData = $this->cfg->data;
+    if ( $cfgData->{Store}{overrideUmask} && $cfgData->{OS} ne 'WINDOWS' ) {
 
 # Note: The addition of zero is required to force dirPermission and filePermission
 # to be numeric.   Without the additition, certain values of the permissions cause
@@ -323,8 +323,8 @@ sub BUILD {
             (
                 oct(777) - (
                     (
-                        $cfg->data->{Store}{dirPermission} + 0 |
-                          $cfg->data->{Store}{filePermission} + 0
+                        $cfgData->{Store}{dirPermission} + 0 |
+                          $cfgData->{Store}{filePermission} + 0
                     )
                 ) & oct(777)
             )
@@ -340,14 +340,14 @@ sub BUILD {
     # Enforce some shell environment variables.
     # SMELL Would it be tolerated in PSGI?
     $CGI::TMPDIRECTORY = $ENV{TMPDIR} = $ENV{TEMP} = $ENV{TMP} =
-      $cfg->data->{TempfileDir};
+      $cfgData->{TempfileDir};
 
     # Make %ENV safer, preventing hijack of the search path. The
     # environment is set per-query, so this can't be done in a BEGIN.
     # This MUST be done before any external programs are run via Sandbox.
     # or it will fail with taint errors.  See Item13237
-    if ( defined $cfg->data->{SafeEnvPath} ) {
-        $ENV{PATH} = $cfg->data->{SafeEnvPath};
+    if ( defined $cfgData->{SafeEnvPath} ) {
+        $ENV{PATH} = $cfgData->{SafeEnvPath};
     }
     else {
         # Default $ENV{PATH} must be untainted because
@@ -366,7 +366,7 @@ sub BUILD {
         Foswiki::Exception::Fatal->throw( text => "Cannot initialize engine" );
     }
 
-    unless ( $this->cfg->data->{isVALID} ) {
+    unless ( $cfgData->{isVALID} ) {
         $this->cfg->bootstrapSystemSettings;
     }
 
@@ -375,7 +375,7 @@ sub BUILD {
     # Override user to be admin if no configuration exists.
     # Do this really early, so that later changes in isBOOTSTRAPPING can't
     # change Foswiki's behavior.
-    if ( $cfg->data->{isBOOTSTRAPPING} ) {
+    if ( $cfgData->{isBOOTSTRAPPING} ) {
         $this->engine->user('admin');
     }
     else {
@@ -391,6 +391,27 @@ sub BUILD {
 
 sub DEMOLISH {
     my $this = shift;
+    my ($in_global) = @_;
+
+    # Clean up sessions before we finish.
+    if ( 0 && DEBUG ) {
+        if ($in_global) {
+            say STDERR ">>>>";
+            say STDERR Carp::longmess( ref($this) . '::DEMOLISH' );
+            say STDERR "Object from ", $this->{__orig_file}, ":",
+              $this->{__orig_line};
+            say STDERR $this->{__orig_stack};
+            say STDERR "<<<<";
+            require Devel::MAT::Dumper;
+        }
+        else {
+            say STDERR ref($this) . '::DEMOLISH';
+            say STDERR "Object from ", $this->{__orig_file}, ":",
+              $this->{__orig_line};
+            say STDERR $this->{__orig_stack};
+        }
+    }
+    $this->users->loginManager->complete;
 
 }
 
@@ -411,9 +432,8 @@ sub run {
     my %params = @_;
 
     # Do nice in shared code environment, localize ALL request-related globals.
-    local %Foswiki::app;
+    local $Foswiki::app;
     local %Foswiki::cfg;
-    local %TWiki::cfg;
 
     # Before localizing shell environment we need to preserve and restore it.
     local %ENV = %ENV;
