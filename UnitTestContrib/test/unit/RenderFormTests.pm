@@ -58,7 +58,7 @@ around set_up => sub {
 HERE
 
     # Force reload to pick up WebPreferences
-    $this->createNewFoswikiSession( undef, $this->session->request );
+    $this->reCreateFoswikiApp;
 
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, $testtopic1 );
     $meta->put( 'FORM', { name => 'InitializationForm' } );
@@ -161,7 +161,7 @@ HERE
 
     Foswiki::Func::saveTopic( $this->test_web, $testtopic1, $meta, 'TT1' );
 
-    $meta->finish();
+    undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, $testtopic2 );
     $meta->put( 'FORM', { name => 'InitializationForm', } );
     $meta->putKeyed(
@@ -292,7 +292,7 @@ sub test_render_formfield_raw {
     my $this = shift;
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, $testtopic2 );
     my $text   = $meta->text;
-    my $render = $this->session->renderer;
+    my $render = $this->app->renderer;
     my $res;
 
     $res = $meta->renderFormFieldForDisplay(
@@ -363,10 +363,10 @@ Foo, Baz
 </td></tr><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue 6 </td><td>
 Three </td></tr></table></div>
 HERE
-    $meta->finish();
+    undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, $testtopic1 );
     $text = $meta->text;
-    $this->session->enterContext('preview');
+    $this->app->enterContext('preview');
     $res = $meta->renderFormForDisplay();
     $this->assert_html_equals( <<"HERE", $res );
 <div class="foswikiForm foswikiFormStep"><noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> <table class='foswikiFormTable' border='1' summary='%MAKETEXT{"Form data"}%'><noautolink><tr style='vertical-align:top'><td class='foswikiFormTableRow foswikiFirstCol' style='text-align:right'> Issue Name </td><td>
@@ -390,7 +390,7 @@ Two
 </td></tr></noautolink>
 </table></div>
 HERE
-    $this->session->leaveContext('preview');
+    $this->app->leaveContext('preview');
     return;
 }
 
@@ -404,7 +404,7 @@ sub test_render_for_edit {
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, $testtopic1 );
     my $text = $meta->text;
     my $formDef =
-      Foswiki::Form->loadCached( $this->session, $this->test_web,
+      Foswiki::Form->loadCached( $this->app, $this->test_web,
         "InitializationForm" );
     my $res = $formDef->renderForEdit($meta);
 
@@ -436,7 +436,7 @@ HERE
 
     #Foswiki::Func::writeDebug("-----------------\n$res\n------------------");
 
-    my $viewUrl = $this->session->getScriptUrl( 0, 'view' );
+    my $viewUrl = $this->app->cfg->getScriptUrl( 0, 'view' );
     $expected =~ s/%VIEWURL%/$viewUrl/g;
 
     $this->assert_html_equals( $expected, $res );
@@ -449,7 +449,7 @@ sub test_render_hidden {
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, $testtopic1 );
     my $text = $meta->text;
     my $formDef =
-      Foswiki::Form->loadCached( $this->session, $this->test_web,
+      Foswiki::Form->loadCached( $this->app, $this->test_web,
         "InitializationForm" );
     my $res = $formDef->renderHidden($meta);
     $this->assert_html_equals( <<'HERE', $res );
@@ -598,7 +598,7 @@ sub test_getAvailableForms {
     $this->expect_failure( 'Item11527 needs to be fixed!',
         with_dep => 'Foswiki,<,1.2' );
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     my ($topicObj) =
       Foswiki::Func::readTopic( $this->test_web,
         $Foswiki::cfg{WebPrefsTopicName} );
@@ -612,7 +612,6 @@ sub test_getAvailableForms {
     require Foswiki::Form;
     my @forms = Foswiki::Form::getAvailableForms($topicObj);
     $this->assert_str_equals( $expandedpref, join( ',', @forms ) );
-    $topicObj->finish();
 
     return;
 }
@@ -710,9 +709,9 @@ sub test_getAvailableForms {
 #
 #    $Foswiki::cfg{Store}{ImplementationClasses} =
 #      ['Foswiki::Store::UnitTestFilter'];
-#    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName} );
+#    $this->createNewFoswikiApp( $Foswiki::cfg{AdminUserWikiName} );
 #    my $formObj =
-#      Foswiki::Form->loadCached( $this->session, $this->test_web,
+#      Foswiki::Form->loadCached( $this->app, $this->test_web,
 #        'FoswikiReleaseForm' );
 #
 ##query can be called twice - once as a QuerySearch, and once as the regex search underlying it
@@ -720,15 +719,15 @@ sub test_getAvailableForms {
 ##. scalar(@Foswiki::Store::UnitTestFilter::changeStack) . "\n";
 #    $this->assert( scalar(@Foswiki::Store::UnitTestFilter::changeStack) <= 2 );
 #
-#    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName} );
+#    $this->createNewFoswikiApp( $Foswiki::cfg{AdminUserWikiName} );
 #    my ($topicObject) =
 #      Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
-#    my $tmpl = $this->session->templates->readTemplate('view');
+#    my $tmpl = $this->app->templates->readTemplate('view');
 #    $tmpl =~ m/^(.*)%TEXT%(.*)$/s;
 #    my $end = $2;
 #    $topicObject->expandMacros($end);
 #
-#    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserWikiName} );
+#    $this->createNewFoswikiApp( $Foswiki::cfg{AdminUserWikiName} );
 #
 #    #    my ( $web, $topic, $tmpl, $raw, $ctype, $skin ) = @_;
 #    my $web   = $this->test_web;
@@ -748,14 +747,14 @@ sub test_getAvailableForms {
 #    );
 #    $query->path_info("/$web/$topic");
 #    $query->method('POST');
-#    $this->createNewFoswikiSession( $this->test_user_login, $query );
+#    $this->createNewFoswikiApp( $this->test_user_login, $query );
 #    my ( $text, $result, $stdout, $stderr ) = $this->capture(
 #        sub {
 #            no strict 'refs';
-#            &{$UI_FN}( $this->session );
+#            &{$UI_FN}( $this->app );
 #            use strict 'refs';
-#            $Foswiki::engine->finalize( $this->session->response,
-#                $this->session->request );
+#            $Foswiki::engine->finalize( $this->app->response,
+#                $this->app->request );
 #        }
 #    );
 #

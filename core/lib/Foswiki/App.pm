@@ -228,9 +228,7 @@ has context => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    default => sub {
-        return {};
-    },
+    builder => '_prepareContext',
 );
 has ui => (
     is      => 'rw',
@@ -536,7 +534,6 @@ sub handleRequest {
         $this->plugins->enable();
 
         my $method = $this->_dispatcherAttrs->{method};
-        $this->_prepareContext;
         $this->ui->$method;
     }
     catch {
@@ -1379,11 +1376,16 @@ BOGUS
 
 sub _prepareContext {
     my $this = shift;
-    $this->context->{SUPPORTS_PARA_INDENT}   = 1;
-    $this->context->{SUPPORTS_PREF_SET_URLS} = 1;
+    my $context = $this->_dispatcherAttrs->{context} // {};
+    $context->{SUPPORTS_PARA_INDENT}   = 1;
+    $context->{SUPPORTS_PREF_SET_URLS} = 1;
     if ( $this->cfg->data->{Password} ) {
-        $this->context->{admin_available} = 1;
+        $context->{admin_available} = 1;
     }
+    if ( $this->engine->isa('Foswiki::Engine::CLI') ) {
+        $context->{command_line} = 1;
+    }
+    return $context;
 }
 
 sub _prepareEngine {
@@ -1601,7 +1603,8 @@ sub _checkActionAccess {
     if (   UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' )
         || UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::Test' ) )
     {
-        $dispatcherAttrs->{context}{command_line} = 1;
+        # Done in _prepareContext
+        #$dispatcherAttrs->{context}{command_line} = 1;
     }
     elsif (
         defined $req->method

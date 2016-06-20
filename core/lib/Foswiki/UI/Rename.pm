@@ -63,7 +63,7 @@ sub rename {
     my $app              = $this->app;
     my $req              = $app->request;
     my $oldWeb           = $req->web;
-    my $oldTopic         = $req->web;
+    my $oldTopic         = $req->topic;
     my $action           = $req->param('action') || '';
     my $redirectto_param = $req->param('redirectto') || '';
 
@@ -216,7 +216,7 @@ sub _renameTopicOrAttachment {
 
             $this->checkTopicExists( $newWeb, $newTopic, 'rename' );
 
-            my $new = Foswiki::Meta->load( $newWeb, $newTopic );
+            my $new = Foswiki::Meta->load( $app, $newWeb, $newTopic );
 
             # does new attachment already exist?
             if ( $new->hasAttachment($newAttachment) ) {
@@ -1631,7 +1631,7 @@ sub _getReferringTopics {
         while ( $matches->hasNext ) {
             my $webtopic = $matches->next;
             my ( $web, $searchTopic ) =
-              $req->normalizeWebTopicName( $searchWeb, $webtopic );
+              $app->request->normalizeWebTopicName( $searchWeb, $webtopic );
             next
               if ( $searchWeb eq $om->web
                 && $om->topic

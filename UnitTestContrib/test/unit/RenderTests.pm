@@ -18,55 +18,55 @@ around set_up => sub {
     my ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'OkTopic' );
     $topicObject->text("BLEEGLE blah/matchme.blah");
     $topicObject->save( forcedate => $timestamp + 120 );
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'OkATopic' );
     $topicObject->text("BLEEGLE dontmatchme.blah");
     $topicObject->save( forcedate => $timestamp + 240 );
-    $topicObject->finish();
+    undef $topicObject;
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'OkBTopic' );
     $topicObject->text("BLEEGLE dont.matchmeblah");
     $topicObject->save( forcedate => $timestamp + 480 );
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'LunchLink' );
     $topicObject->text("BLEEGLE [[Lunch'Link]] dont.matchmeblah");
     $topicObject->save( forcedate => $timestamp + 480 );
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, 'OneSingleQuote' );
     $topicObject->text("BLEEGLE [[OkBTopic][Lunch'nLearn]] dont.matchmeblah");
     $topicObject->save( forcedate => $timestamp + 480 );
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, 'OneDoubleQuote' );
     $topicObject->text('BLEEGLE [[OkBTopic][Lunch"nLearn]] dont.matchmeblah');
     $topicObject->save( forcedate => $timestamp + 480 );
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'SingleQuote' );
     $topicObject->text("BLEEGLE [[OkBTopic][Lunch'n'Learn]] dont.matchmeblah");
     $topicObject->save( forcedate => $timestamp + 480 );
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'DoubleQuote' );
     $topicObject->text('BLEEGLE [[OkBTopic][Lunch"n"Learn]] dont.matchmeblah');
     $topicObject->save( forcedate => $timestamp + 480 );
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'NoTopicLink' );
     $topicObject->text(
         "BLEEGLE [[LunchNLearn][Lunch n Learn]] dont.matchmeblah");
     $topicObject->save( forcedate => $timestamp + 480 );
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, 'QuoteNoTopicLink' );
     $topicObject->text(
         "BLEEGLE [[LunchNLearn][Lunch'n'Learn]] dont.matchmeblah");
     $topicObject->save( forcedate => $timestamp + 480 );
-    $topicObject->finish();
+    undef $topicObject;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
@@ -96,15 +96,19 @@ around set_up => sub {
    * ATTACHFILESIZELIMIT = %ATTACHFILESIZELIMIT%
 HERE
     $topicObject->save( forcedate => $timestamp + 480 );
-    $topicObject->finish();
+    undef $topicObject;
 
     #give us a new session so the prefs are re-loaded
-    my $query = Unit::Request->new( initializer => '' );
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
-    $this->createNewFoswikiSession( undef, $query );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "" },
+        engineParams  => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/" . $this->test_topic },
+        },
+    );
 
     #need to be in view script context for tooltips to be processed.
-    Foswiki::Func::getContext()->{view} = 1;
+    $this->app->context->{view} = 1;
 
 };
 
@@ -119,12 +123,25 @@ around tear_down => sub {
     # See EmptyTests for an example
 };
 
+around createNewFoswikiApp => sub {
+    my $orig = shift;
+    my $this = shift;
+    my $app  = $orig->( $this, @_ );
+
+    # Some plugins are interfering with rendering process.
+    # Special not on HomePagePlugin which unconditionally sets web/topic on
+    # request even whtn they're already set by the engine.
+    $app->cfg->data->{DisableAllPlugins} = 1;
+
+    return $app;
+};
+
 sub test_TOOLTIPS_on {
     my $this = shift;
 
     my $scriptUrlPath =
-      Foswiki::Func::getScriptUrlPath( $this->test_web, $this->test_topic,
-        'view' );
+      $this->app->cfg->getScriptUrl( 0, 'view', $this->test_web,
+        $this->test_topic );
     my $test_topic = $this->test_topic;
     $scriptUrlPath =~ s/$test_topic//;
 
@@ -163,7 +180,7 @@ HERE
     $this->assert_str_equals( 'on', $linktooltipinfo );
 
     my $sessionlinktooltipinfo =
-      $this->session->prefs->getPreference('LINKTOOLTIPINFO');
+      $this->app->prefs->getPreference('LINKTOOLTIPINFO');
     $this->assert_str_equals( 'on', $sessionlinktooltipinfo );
 
     my $ex1 = Foswiki::Func::expandCommonVariables(
@@ -198,15 +215,19 @@ sub test_TOOLTIPS_on_space {
    * ATTACHFILESIZELIMIT = %ATTACHFILESIZELIMIT%
 HERE
     $topicObject->save();
-    $topicObject->finish();
+    undef $topicObject;
 
     #give us a new session so the prefs are re-loaded
-    my $query = Unit::Request->new( initializer => '' );
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
-    $this->createNewFoswikiSession( undef, $query );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "" },
+        engineParams  => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/" . $this->test_topic },
+        },
+    );
 
     #need to be in view script context for tooltips to be processed.
-    Foswiki::Func::getContext()->{view} = 1;
+    $this->app->context->{view} = 1;
 
     ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
@@ -214,12 +235,12 @@ HERE
     $this->assert_str_equals( 'on ', $linktooltipinfo );
 
     my $sessionlinktooltipinfo =
-      $this->session->prefs->getPreference('LINKTOOLTIPINFO');
+      $this->app->prefs->getPreference('LINKTOOLTIPINFO');
     $this->assert_str_equals( 'on ', $sessionlinktooltipinfo );
 
     my $scriptUrlPath =
-      Foswiki::Func::getScriptUrlPath( $this->test_web, $this->test_topic,
-        'view' );
+      $this->app->cfg->getScriptUrl( 0, 'view', $this->test_web,
+        $this->test_topic );
     my $test_topic = $this->test_topic;
     $scriptUrlPath =~ s/$test_topic//;
 
@@ -266,10 +287,15 @@ EXPECTED
 sub test_TOOLTIPS_other_topic_context {
     my $this = shift;
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     #need to be in view script context for tooltips to be processed.
-    Foswiki::Func::getContext()->{view} = 1;
+    $this->app->context->{view} = 1;
+
+    #Simulate command line context. Previously this context was magically set
+    #depdnding on presence of $query parameter in Foswiki session constructor
+    #call which is... er... somewhat dubios way.
+    $this->app->context->{command_line} = 1;
 
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
@@ -277,11 +303,12 @@ sub test_TOOLTIPS_other_topic_context {
     $this->assert_str_equals( 'on', $linktooltipinfo );
 
     my $sessionlinktooltipinfo =
-      $this->session->prefs->getPreference('LINKTOOLTIPINFO');
+      $this->app->prefs->getPreference('LINKTOOLTIPINFO');
     $this->assert_str_equals( 'off', $sessionlinktooltipinfo );
 
     my $scriptUrl =
-      Foswiki::Func::getScriptUrl( $this->test_web, $this->test_topic, 'view' );
+      $this->app->cfg->getScriptUrl( 1, 'view', $this->test_web,
+        $this->test_topic );
     my $test_topic = $this->test_topic;
     $scriptUrl =~ s/$test_topic//;
 
@@ -331,10 +358,10 @@ EXPECTED
 sub test_EscapeInStyles {
     my $this = shift;
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     #need to be in view script context for tooltips to be processed.
-    Foswiki::Func::getContext()->{view} = 1;
+    $this->app->context->{view} = 1;
 
     my $topicText = <<TOPIC;
 <style type="text/css">
@@ -362,10 +389,15 @@ TOPIC
 sub test_GeneralEscaping {
     my $this = shift;
 
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     #need to be in view script context for tooltips to be processed.
-    Foswiki::Func::getContext()->{view} = 1;
+    $this->app->context->{view} = 1;
+
+    #Simulate command line context. Previously this context was magically set
+    #depdnding on presence of $query parameter in Foswiki session constructor
+    #call which is... er... somewhat dubios way.
+    $this->app->context->{command_line} = 1;
 
     my $topicText = <<'TOPIC';
 
@@ -402,7 +434,8 @@ TOPIC
     $topicObject->text($topicText);
 
     my $scriptUrl =
-      Foswiki::Func::getScriptUrl( $this->test_web, $this->test_topic, 'view' );
+      $this->app->cfg->getScriptUrl( 1, 'view', $this->test_web,
+        $this->test_topic );
     my $test_topic = $this->test_topic;
     $scriptUrl =~ s/\/$test_topic//;    # Remove the topic
 

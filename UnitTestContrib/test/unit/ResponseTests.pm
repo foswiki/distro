@@ -44,7 +44,7 @@ around tear_down => sub {
 
 sub test_empty_new {
     my ($this) = @_;
-    my $res = Foswiki::Response->new;
+    my $res = $this->create('Foswiki::Response');
 
     $this->assert_null( $res->status, 'Non-empty initial status' ) if not DEBUG;
     $this->assert_null( $res->body, 'Non-empty initial body' );
@@ -74,12 +74,12 @@ sub test_empty_new {
 
 sub test_status {
     my ($this) = @_;
-    my $res = Foswiki::Response->new;
+    my $res = $this->create('Foswiki::Response');
 
-    my @status = ( 200, 302, 401, 402, '404 not found', 500 );
+    my @status = ( 200, 302, 401, 402, 404, 500 );
     foreach (@status) {
         $res->status($_);
-        $this->assert_str_equals( $_, $res->status,
+        $this->assert_equals( $_, $res->status,
             'Wrong return value from status()' );
     }
     $res->status('ivalid status');
@@ -91,7 +91,7 @@ sub test_status {
 
 sub test_charset {
     my ($this) = @_;
-    my $res = Foswiki::Response->new;
+    my $res = $this->create('Foswiki::Response');
 
     foreach (qw(utf8 iso-8859-1 iso-8859-15 utf16)) {
         $res->charset($_);
@@ -103,7 +103,7 @@ sub test_charset {
 
 sub test_headers {
     my ($this) = @_;
-    my $res = Foswiki::Response->new;
+    my $res = $this->create('Foswiki::Response');
 
     my %hdr = (
         'CoNtEnT-tYpE' => 'text/plain; charset=utf8',
@@ -117,7 +117,7 @@ sub test_headers {
     );
     $res->headers( \%hdr );
     $this->assert_deep_equals(
-        [ sort qw(Content-Type Status Connection F-O-O-Bar Set-Cookie Date) ],
+        [ sort qw(Content-Type Connection F-O-O-Bar Set-Cookie Date) ],
         [ sort $res->getHeader() ],
         'Wrong header field names'
     );
@@ -131,11 +131,7 @@ sub test_headers {
         $res->getHeader('CONTENT-TYPE'),
         'Wrong header value'
     );
-    $this->assert_str_equals(
-        '200 OK',
-        $res->getHeader('Status'),
-        'Wrong header value'
-    );
+    $this->assert_equals( 200, $res->status, 'Wrong header value' );
     $this->assert_str_equals(
         'baz',
         $res->getHeader('F-o-o-bAR'),
@@ -174,7 +170,7 @@ sub test_headers {
 
     $res->deleteHeader(qw(coNNection content-TYPE set-cookie f-o-o-bar date));
     $this->assert_deep_equals(
-        [qw(Pragma Status)],
+        [qw(Pragma)],
         [ sort $res->getHeader ],
         'Wrong header fields'
     );
@@ -183,7 +179,7 @@ sub test_headers {
 
 sub test_cookie {
     my ($this) = @_;
-    my $res = Foswiki::Response->new;
+    my $res = $this->create('Foswiki::Response');
     require CGI::Cookie;
     my $c1 = CGI::Cookie->new(
         -name   => 'FOSWIKISID',
@@ -202,7 +198,7 @@ sub test_cookie {
 
 sub test_body {
     my ($this) = @_;
-    my $res    = Foswiki::Response->new;
+    my $res    = $this->create('Foswiki::Response');
     my $length = int( rand( 2**20 ) );
     my $body;
     for ( my $i = 0 ; $i < $length ; $i++ ) {
@@ -220,7 +216,7 @@ sub test_body {
 
 sub test_print {
     my ($this) = @_;
-    my $res = Foswiki::Response->new;
+    my $res = $this->create('Foswiki::Response');
     my $body =
 'تمام انسان آزاد اور حقوق و عزت کے اعتبار سے برابر پیدا ہوئے ہیں۔ انہیں ضمیر اور عقل ودیعت ہوئی ہے۔ اس لئے انہیں ایک دوسرے کے ساتھ بھائی چارے کا سلوک کرنا چاہئے۔';
     $res->print($body);
@@ -231,7 +227,7 @@ sub test_print {
 sub test_redirect {
     my ($this) = @_;
 
-    my $res = Foswiki::Response->new;
+    my $res = $this->create('Foswiki::Response');
     my ( $uri, $status ) = ();
     $uri = 'http://foo.bar';
     $res->redirect($uri);
@@ -240,15 +236,12 @@ sub test_redirect {
         $res->getHeader('Location'),
         'Wrong Location header'
     );
-    $this->assert_matches(
-        '^3\d\d',
-        $res->getHeader('Status'),
-        'Wrong generated Status code'
-    );
+    $this->assert_matches( '^3\d\d', $res->status,
+        'Wrong generated Status code' );
 
-    $res    = Foswiki::Response->new;
+    $res    = $this->create('Foswiki::Response');
     $uri    = 'http://bar.foo.baz/path/to/script/path/info';
-    $status = '301 Moved Permanently';
+    $status = '301';
     require CGI::Cookie;
     my $cookie = CGI::Cookie->new(
         -name   => 'Cookie',
@@ -261,18 +254,15 @@ sub test_redirect {
         $res->getHeader('Location'),
         'Wrong Location header'
     );
-    $this->assert_str_equals(
-        $status,
-        $res->getHeader('Status'),
-        'Wrong returned Status header'
-    );
+    $this->assert_equals( $status, $res->status,
+        'Wrong returned Status header' );
     $this->assert_deep_equals( [$cookie], [ $res->cookies ], 'Wrong cookie!' );
     return;
 }
 
 sub test_header {
     my ($this) = @_;
-    my $res = Foswiki::Response->new;
+    my $res = $this->create('Foswiki::Response');
 
     require CGI::Cookie;
     my $cookie = CGI::Cookie->new(
@@ -282,7 +272,7 @@ sub test_header {
     );
     $res->header(
         -type       => 'text/plain',
-        -status     => '200 OK',
+        -status     => 200,
         -cookie     => $cookie,
         -expires    => '+2h',
         -Connection => 'close',
@@ -293,8 +283,7 @@ sub test_header {
         $res->getHeader('Content-Type'),
         'Wrong content-type'
     );
-    $this->assert_str_equals( '200 OK', $res->getHeader('Status'),
-        'Wrong status' );
+    $this->assert_equals( 200, $res->status, 'Wrong status' );
     $this->assert_str_equals(
         'close',
         $res->getHeader('Connection'),

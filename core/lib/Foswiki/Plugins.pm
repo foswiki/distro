@@ -136,11 +136,12 @@ sub preload {
     my %lookup;
     our @pluginList = ();
 
-    my $app   = $this->app;
-    my $query = $app->request;
+    my $app     = $this->app;
+    my $query   = $app->request;
+    my $cfgData = $app->cfg->data;
 
     my %already;
-    unless ( $Foswiki::cfg{DisableAllPlugins} ) {
+    unless ( $cfgData->{DisableAllPlugins} ) {
 
         # debugenableplugins only supported in DEBUG and unit test modes
         if (
@@ -169,15 +170,15 @@ sub preload {
             }
         }
         else {
-            if ( $Foswiki::cfg{PluginsOrder} ) {
+            if ( $cfgData->{PluginsOrder} ) {
                 foreach
-                  my $plugin ( split( /[,\s]+/, $Foswiki::cfg{PluginsOrder} ) )
+                  my $plugin ( split( /[,\s]+/, $cfgData->{PluginsOrder} ) )
                 {
 
                     # Note this allows the same plugin to be listed
                     # multiple times! Thus their handlers can be called
                     # more than once. This is *desireable*.
-                    if ( $Foswiki::cfg{Plugins}{$plugin}{Enabled} ) {
+                    if ( $cfgData->{Plugins}{$plugin}{Enabled} ) {
                         $plugin = Foswiki::Sandbox::untaintUnchecked($plugin)
                           ;    # Item 11953
                         push( @pluginList, $plugin );
@@ -185,9 +186,9 @@ sub preload {
                     }
                 }
             }
-            foreach my $plugin ( sort keys %{ $Foswiki::cfg{Plugins} } ) {
-                next unless ref( $Foswiki::cfg{Plugins}{$plugin} ) eq 'HASH';
-                if ( $Foswiki::cfg{Plugins}{$plugin}{Enabled}
+            foreach my $plugin ( sort keys %{ $cfgData->{Plugins} } ) {
+                next unless ref( $cfgData->{Plugins}{$plugin} ) eq 'HASH';
+                if ( $cfgData->{Plugins}{$plugin}{Enabled}
                     && !$already{$plugin} )
                 {
                     push( @pluginList, $plugin );

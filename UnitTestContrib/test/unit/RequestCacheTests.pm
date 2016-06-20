@@ -32,14 +32,14 @@ sub test_simpleparams {
         'undef'     => undef,
         multi_undef => [],
     );
-    my $req = Foswiki::Request->new( initializer => \%init );
+    my $req = $this->create( 'Foswiki::Request', initializer => \%init );
     $req->method("BURP");
     $req->path_info("/bad/wolf");
     $req->action("puke");
-    my $cache = Foswiki::Request::Cache->new;
+    my $cache = $this->create('Foswiki::Request::Cache');
     my $uid   = $cache->save($req);
     $this->assert($uid);
-    $req = Foswiki::Request->new( initializer => '' );
+    $req = $this->create( 'Foswiki::Request', initializer => '' );
     $cache->load( $uid, $req );
     my @values = $req->multi_param('multi');
     $this->assert_str_equals( 2,    scalar @values, 'Wrong number of values' );
@@ -72,14 +72,14 @@ sub test_simpleparams_utf8 {
 
     #my $pathinfo = Foswiki::urlEncode("/vústění/posvětit");
     my $pathinfo = Encode::encode_utf8("/vústění/posvětit");
-    my $req = Foswiki::Request->new( initializer => \%init );
+    my $req = $this->create( 'Foswiki::Request', initializer => \%init );
     $req->method("BURP");
     $req->path_info($pathinfo);
     $req->action("puke");
-    my $cache = Foswiki::Request::Cache->new;
+    my $cache = $this->create('Foswiki::Request::Cache');
     my $uid   = $cache->save($req);
     $this->assert($uid);
-    $req = Foswiki::Request->new( initializer => '' );
+    $req = $this->create( 'Foswiki::Request', initializer => '' );
     $cache->load( $uid, $req );
     my @values = $req->multi_param('multi');
     $this->assert_str_equals( 2,     scalar @values, 'Wrong number of values' );
@@ -105,7 +105,7 @@ sub test_simpleparams_utf8 {
 # obviously)
 sub test_upload {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
 
     my $tmp = File::Temp->new(%tempFileOptions);
     print $tmp "XXX";
@@ -122,10 +122,10 @@ sub test_upload {
     );
     $req->uploads( \%uploads );
 
-    my $cache = Foswiki::Request::Cache->new;
+    my $cache = $this->create('Foswiki::Request::Cache');
     my $uid   = $cache->save($req);
     $this->assert($uid);
-    $req = Foswiki::Request->new( initializer => '' );
+    $req = $this->create( 'Foswiki::Request', initializer => '' );
     $cache->load( $uid, $req );
 
     my $uploads = $req->uploads();
@@ -146,7 +146,7 @@ sub test_expire {
         'undef'     => undef,
         multi_undef => [],
     );
-    my $req = Foswiki::Request->new( initliazer => \%init );
+    my $req = $this->create( 'Foswiki::Request', initliazer => \%init );
     my $tmp = File::Temp->new(%tempFileOptions);
     print $tmp "XXX";
     $tmp->close();
@@ -161,7 +161,7 @@ sub test_expire {
         tmpname => $tmp->filename,
     );
     $req->uploads( \%uploads );
-    my $cache = Foswiki::Request::Cache->new;
+    my $cache = $this->create('Foswiki::Request::Cache');
     my $uid   = $cache->save($req);
 
     $this->assert( -e "$Foswiki::cfg{WorkingDir}/tmp/passthru_${uid}" );

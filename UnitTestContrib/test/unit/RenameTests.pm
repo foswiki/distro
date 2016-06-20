@@ -2,7 +2,6 @@ package RenameTests;
 use v5.14;
 
 use Foswiki();
-use Foswiki::UI::Rename();
 use Try::Tiny;
 use File::Temp();
 
@@ -20,25 +19,54 @@ my ( $notawwtopic1, $notawwtopic2, $notawwtopic3 ) = (
     : ( "random", "Random", "ranDom" )
 );
 my $debug = 0;
-my $UI_FN;
 
 has new_web => ( is => 'rw', );
+has renUI => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    default => sub { return $_[0]->create('Foswiki::UI::Rename'); },
+);
 
 sub _reset_session_with_cuid {
-    my ( $this, $query_opts, $cuid ) = @_;
-    my $query = Unit::Request->new( initializer => $query_opts );
+    my ( $this, $query_opts, $cuid, $app_opts ) = @_;
 
-    $query->path_info( $query_opts->{path_info} ) if $query_opts->{path_info};
-    $cuid ||= $this->test_user_login;
-    $this->createNewFoswikiSession( $cuid, $query );
+    my %appInit = defined $app_opts ? %$app_opts : ();
+
+    $appInit{engineParams}{initialAttributes}{action} //= 'rename';
+
+    if ($query_opts) {
+        foreach my $key (qw(topic path_info)) {
+            if ( exists $query_opts->{$key} ) {
+                $appInit{engineParams}{initialAttributes}{$key} =
+                  $query_opts->{$key};
+
+                #delete $query_opts->{$key};
+            }
+        }
+    }
+
+    $appInit{requestParams} = { initializer => $query_opts };
+    $appInit{engineParams}{initialAttributes}{user} =
+      defined $cuid ? $cuid : $this->test_user_wikiname;
+
+    $this->clear_renUI;
+    $this->createNewFoswikiApp(%appInit);
 
     return;
 }
 
 sub _reset_session {
-    my ( $this, $query_opts ) = @_;
+    my ( $this, $query_opts, $app_opts ) = @_;
 
-    return $this->_reset_session_with_cuid($query_opts);
+    return $this->_reset_session_with_cuid( $query_opts, undef, $app_opts );
+}
+
+# Foswiki::App handleRequestException callback function.
+sub _cbHRE {
+    my $obj  = shift;
+    my %args = @_;
+    $args{params}{exception}->rethrow;
 }
 
 # Set up the test fixture. The idea behind the tests is to populate a
@@ -51,14 +79,13 @@ around set_up => sub {
 
     $orig->( $this, @_ );
 
-    $UI_FN ||= $this->getUIFn('rename');
-
     $this->new_web( $this->test_web . 'New' );
 
     # Need priveleged user to create root webs with Foswiki::Func.
     $this->_reset_session_with_cuid(
         { topic => "/" . $this->test_web . "/OldTopic" },
-        $Foswiki::cfg{AdminUserLogin} );
+        $this->app->cfg->data->{AdminUserLogin}
+    );
     Foswiki::Func::createWeb( $this->new_web );
 
     # Topic text that contains all the different kinds of topic reference
@@ -208,7 +235,8 @@ THIS
     undef $meta;
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->new_web, $Foswiki::cfg{HomeTopicName} );
+      Foswiki::Func::readTopic( $this->new_web,
+        $this->app->cfg->data->{HomeTopicName} );
     $topicObject->text('junk');
     $topicObject->save();
     undef $topicObject;
@@ -333,14 +361,14 @@ THIS
 around tear_down => sub {
     my $orig = shift;
     my $this = shift;
-    $this->removeWebFixture( $this->session, $this->new_web );
-    $this->removeWebFixture( $this->session, "Renamedweb" . $this->test_web )
+    $this->removeWebFixture( $this->new_web );
+    $this->removeWebFixture( "Renamedweb" . $this->test_web )
       if ( Foswiki::Func::webExists( "Renamedweb" . $this->test_web ) );
-    $this->removeWebFixture( $this->session, $this->test_web . "EdNet" )
+    $this->removeWebFixture( $this->test_web . "EdNet" )
       if ( Foswiki::Func::webExists( $this->test_web . "EdNet" ) );
-    $this->removeWebFixture( $this->session, $this->test_web . "RenamedEdNet" )
+    $this->removeWebFixture( $this->test_web . "RenamedEdNet" )
       if ( Foswiki::Func::webExists( $this->test_web . "RenamedEdNet" ) );
-    $this->removeWebFixture( $this->session, $this->test_web . "Root" )
+    $this->removeWebFixture( $this->test_web . "Root" )
       if ( Foswiki::Func::webExists( $this->test_web . "Root" ) );
     $orig->($this);
 };
@@ -369,8 +397,7 @@ sub checkReferringTopics {
     my ( $this, $web, $topic, $all, $expected, $forgiving ) = @_;
 
     my ($m) = Foswiki::Func::readTopic( $web, $topic );
-    my $refs =
-      Foswiki::UI::Rename::_getReferringTopics( $this->session, $m, $all );
+    my $refs = $this->renUI->_getReferringTopics( $m, $all );
     undef $m;
 
     $this->assert_str_equals( 'HASH', ref($refs) );
@@ -472,10 +499,12 @@ sub test_renameTemplateThisWeb {
 
             # The topic in the path should not matter
             path_info => "/" . $this->test_web . "/SanityCheck"
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
-    $this->captureWithKey( rename => $UI_FN, $this->session );
+    $this->captureWithKey( rename => sub { return $this->app->handleRequest; },
+    );
 
     $this->assert(
         Foswiki::Func::topicExists( $this->test_web, 'NewViewTemplate' ) );
@@ -872,11 +901,13 @@ sub test_renameTopic_same_web_new_topic_name {
 
             # The topic in the path should not matter
             path_info => "/" . $this->test_web . "/SanityCheck"
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     my ( $responseText, $result, $stdout, $stderr ) =
-      $this->captureWithKey( rename => $UI_FN, $this->session );
+      $this->captureWithKey(
+        rename => sub { return $this->app->handleRequest; }, );
 
     # Uncomment to get output from rename command
     #print STDERR $responseText . $result . $stdout . $stderr . "\n";
@@ -1090,11 +1121,14 @@ sub test_renameTopic_same_web_new_topic_name_slash_delim {
 
             # The topic in the path should not matter
             path_info => "/" . $this->test_web . "/SanityCheck"
-        }
+        },
+
+        #{ callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     my ( $responseText, $result, $stdout, $stderr ) =
-      $this->captureWithKey( rename => $UI_FN, $this->session );
+      $this->captureWithKey(
+        rename => sub { return $this->app->handleRequest; }, );
 
     # Uncomment to get output from rename command
     #print STDERR $responseText . $result . $stdout . $stderr . "\n";
@@ -1129,10 +1163,12 @@ sub test_renameTopic_new_web_same_topic_name {
             ],
             topic     => 'OldTopic',
             path_info => "/" . $this->test_web
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
-    $this->captureWithKey( rename => $UI_FN, $this->session );
+    $this->captureWithKey( rename => sub { return $this->app->handleRequest; },
+    );
 
     $this->assert( Foswiki::Func::topicExists( $this->new_web, 'OldTopic' ) );
     $this->assert( !Foswiki::Func::topicExists( $this->test_web, 'OldTopic' ) );
@@ -1277,11 +1313,13 @@ sub test_renameTopic_new_web_same_topic_name_no_access {
             newtopic  => ['OldTopic'],
             topic     => 'OldTopic',
             path_info => "/" . $this->test_web
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     try {
-        my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
+        my ($text) = $this->captureWithKey(
+            rename => sub { return $this->app->handleRequest; }, );
         $this->assert( 0, $text );
     }
     catch {
@@ -1329,12 +1367,14 @@ sub test_renameTopic_nonWikiWord_same_web_new_topic_name {
 
             # The topic in the path should not matter
             path_info => "/" . $this->test_web . "/SanityCheck"
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     #print STDERR "Doing Rename\n";
     my ( $stdout, $stderr, $result ) =
-      $this->captureWithKey( rename => $UI_FN, $this->session );
+      $this->captureWithKey(
+        rename => sub { return $this->app->handleRequest; }, );
 
 #print STDERR "Rename STDOUT = ($this->{stdout})\n STDERR = ($this->{stderr})\n RESULT = ($result)\n" ;
 
@@ -1382,18 +1422,21 @@ THIS
             newtopic         => 'upperCase',
             referring_topics => [ $this->test_web . ".NewTopic" ],
             path_info        => "/" . $this->test_web
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
-    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
-    my $ext = $Foswiki::cfg{ScriptSuffix};
+    my ($text) =
+      $this->captureWithKey(
+        rename => sub { return $this->app->handleRequest; }, );
+    my $ext = $this->app->cfg->data->{ScriptSuffix};
     $this->assert_matches( qr/^Status:\s+302/ms, $text );
 
     my $ss =
-        $Foswiki::cfg{ScriptUrlPath} . '/view'
-      . $Foswiki::cfg{ScriptSuffix} . '/';
-    $ss = $Foswiki::cfg{ScriptUrlPaths}{view} . '/'
-      if ( defined $Foswiki::cfg{ScriptUrlPaths}{view} );
+        $this->app->cfg->data->{ScriptUrlPath} . '/view'
+      . $this->app->cfg->data->{ScriptSuffix} . '/';
+    $ss = $this->app->cfg->data->{ScriptUrlPaths}{view} . '/'
+      if ( defined $this->app->cfg->data->{ScriptUrlPaths}{view} );
     my $test_web = $this->test_web;
     $this->assert_matches( qr([lL]ocation:\s+$ss$test_web/UpperCase)s, $text );
     $this->check( $this->test_web, 'UpperCase', $topicObject, <<'THIS', 100 );
@@ -1419,23 +1462,23 @@ sub test_renameTopic_TOPICRENAME_access_denied {
             newweb    => $this->test_web,
             newtopic  => 'NewTopic',
             path_info => "/" . $this->test_web
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     try {
-        no strict 'refs';
-        my ( $text, $result ) = &{$UI_FN}( $this->session );
-        use strict 'refs';
+        $this->app->handleRequest;
         $this->assert(0);
     }
     catch {
         my $e = $_;
         if ( ref($e) && $e->isa('Foswiki::AccessControlException') ) {
-            $this->assert_str_equals(
-                'AccessControlException: Access to RENAME '
-                  . $this->test_web
-                  . '.OldTopic for scum is denied. access not allowed on topic',
-                $e->stringify()
+            $this->assert(
+                index( $e->stringify(),
+                        'AccessControlException: Access to RENAME '
+                      . $this->test_web
+                      . '.OldTopic for scum is denied. access not allowed on topic'
+                ) == 0
             );
         }
         else {
@@ -1451,7 +1494,7 @@ sub test_renameTopic_WEBRENAME_access_denied {
     my $topictext = "   * Set ALLOWWEBRENAME = GungaDin\n";
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web,
-        $Foswiki::cfg{WebPrefsTopicName} );
+        $this->app->cfg->data->{WebPrefsTopicName} );
     $topicObject->text($topictext);
     $topicObject->save();
     undef $topicObject;
@@ -1462,23 +1505,23 @@ sub test_renameTopic_WEBRENAME_access_denied {
             newweb    => $this->test_web,
             newtopic  => 'NewTopic',
             path_info => "/" . $this->test_web
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     try {
-        no strict 'refs';
-        my ( $text, $result ) = &{$UI_FN}( $this->session );
-        use strict 'refs';
+        $this->app->handleRequest;
         $this->assert(0);
     }
     catch {
         my $e = $_;
         if ( ref($e) && $e->isa('Foswiki::AccessControlException') ) {
-            $this->assert_str_equals(
-                'AccessControlException: Access to RENAME '
-                  . $this->test_web
-                  . '.OldTopic for scum is denied. access not allowed on web',
-                $e->stringify()
+            $this->assert(
+                index( $e->stringify(),
+                        'AccessControlException: Access to RENAME '
+                      . $this->test_web
+                      . '.OldTopic for scum is denied. access not allowed on web'
+                ) == 0
             );
         }
         else {
@@ -1509,10 +1552,12 @@ sub test_renameTopic_preserves_history {
             newweb    => $this->test_web,
             newtopic  => $topicName . 'Renamed',
             path_info => "/" . $this->test_web
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
-    $this->captureWithKey( rename => $UI_FN, $this->session );
+    $this->captureWithKey( rename => sub { return $this->app->handleRequest; },
+    );
     my ($m) =
       Foswiki::Func::readTopic( $this->test_web, $topicName . 'Renamed' );
     $this->assert_equals( $history[-1], $m->text );
@@ -1538,10 +1583,12 @@ sub test_renameTopic_ensure_leases_are_released {
             newweb    => $this->test_web,
             newtopic  => 'NewTopic',
             path_info => "/" . $this->test_web
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
-    $this->captureWithKey( rename => $UI_FN, $this->session );
+    $this->captureWithKey( rename => sub { return $this->app->handleRequest; },
+    );
     undef $m;
     ($m) = Foswiki::Func::readTopic( $this->test_web, 'OldTopic' );
     my $lease = $m->getLease();
@@ -1554,21 +1601,21 @@ sub test_makeSafeTopicName {
     my $this = shift;
 
     {
-        my $result   = Foswiki::UI::Rename::_safeTopicName('Abc/Def');
+        my $result   = $this->renUI->_safeTopicName('Abc/Def');
         my $expected = 'Abc_Def';
         print("result=$result.\n")     if $debug;
         print("expected=$expected.\n") if $debug;
         $this->assert( $result eq $expected );
     }
     {
-        my $result   = Foswiki::UI::Rename::_safeTopicName('Abc.Def');
+        my $result   = $this->renUI->_safeTopicName('Abc.Def');
         my $expected = 'Abc_Def';
         print("result=$result.\n")     if $debug;
         print("expected=$expected.\n") if $debug;
         $this->assert( $result eq $expected );
     }
     {
-        my $result   = Foswiki::UI::Rename::_safeTopicName('Abc Def');
+        my $result   = $this->renUI->_safeTopicName('Abc Def');
         my $expected = 'AbcDef';
         print("result=$result.\n")     if $debug;
         print("expected=$expected.\n") if $debug;
@@ -1585,7 +1632,9 @@ sub test_renameWeb_1307a {
     Foswiki::Func::createWeb( $this->test_web . "/Renamedweb/Subweb" );
     Foswiki::Func::createWeb( $this->test_web . "/Notrenamedweb" );
     my $vue =
-"$Foswiki::cfg{DefaultUrlHost}/$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}";
+        $this->app->cfg->data->{DefaultUrlHost} . "/"
+      . $this->app->cfg->data->{ScriptUrlPath} . "/view"
+      . $this->app->cfg->data->{ScriptSuffix};
     my ($m) = Foswiki::Func::readTopic( $this->test_web . "/Notrenamedweb",
         'ReferringTopic' );
     my $test_web = $this->test_web;
@@ -1610,9 +1659,11 @@ CONTENT
             newsubweb        => "Renamedweb",
             referring_topics => [ $m->getPath() ],
             path_info        => "/" . $this->test_web . "/Renamedweb/WebHome"
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
-    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
+    $this->captureWithKey( rename => sub { return $this->app->handleRequest; },
+    );
     $this->assert(
         Foswiki::Func::webExists(
             $this->test_web . "/Notrenamedweb/Renamedweb"
@@ -1655,12 +1706,15 @@ sub test_renameWeb_1307b {
     my $this = shift;
 
     # Need priveleged user to create root webs with Foswiki::Func.
-    $this->_reset_session_with_cuid( undef, $Foswiki::cfg{AdminUserLogin} );
+    $this->_reset_session_with_cuid( undef,
+        $this->app->cfg->data->{AdminUserLogin} );
     Foswiki::Func::createWeb( "Renamed" . $this->test_web );
     Foswiki::Func::createWeb( "Renamed" . $this->test_web . "/Subweb" );
     Foswiki::Func::createWeb( $this->test_web );
     my $vue =
-"$Foswiki::cfg{DefaultUrlHost}/$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}";
+        $this->app->cfg->data->{DefaultUrlHost} . "/"
+      . $this->app->cfg->data->{ScriptUrlPath} . "/view"
+      . $this->app->cfg->data->{ScriptSuffix};
     my ($m) = Foswiki::Func::readTopic( $this->test_web, 'ReferringTopic' );
     my $test_web = $this->test_web;
     $m->text( <<"CONTENT" );
@@ -1682,7 +1736,7 @@ CONTENT
     # group. Fortunately we have a private users web.
     my ($grope) =
       Foswiki::Func::readTopic( $this->users_web,
-        $Foswiki::cfg{SuperAdminGroup} );
+        $this->app->cfg->data->{SuperAdminGroup} );
     my $test_user_wikiname = $this->test_user_wikiname;
     $grope->text(<<"EOF");
    * Set GROUP = $test_user_wikiname
@@ -1696,11 +1750,14 @@ EOF
             newsubweb        => "Renamed" . $this->test_web,
             referring_topics => [ $m->getPath() ],
             path_info        => "/Renamed" . $this->test_web . "/WebHome"
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
     undef $m;
 
-    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
+    my ($text) =
+      $this->captureWithKey(
+        rename => sub { return $this->app->handleRequest; }, );
     $this->assert(
         Foswiki::Func::webExists(
             $this->test_web . "/Renamed" . $this->test_web
@@ -1742,11 +1799,14 @@ sub test_renameWeb_10259 {
     my $this = shift;
 
     # Need priveleged user to create root webs with Foswiki::Func.
-    $this->_reset_session_with_cuid( undef, $Foswiki::cfg{AdminUserLogin} );
+    $this->_reset_session_with_cuid( undef,
+        $this->app->cfg->data->{AdminUserLogin} );
     Foswiki::Func::createWeb( $this->test_web . "EdNet" );
 
     my $vue =
-"$Foswiki::cfg{DefaultUrlHost}/$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}";
+        $this->app->cfg->data->{DefaultUrlHost} . "/"
+      . $this->app->cfg->data->{ScriptUrlPath} . "/view"
+      . $this->app->cfg->data->{ScriptSuffix};
 
     my ($m) =
       Foswiki::Func::readTopic( $this->test_web . "EdNet", 'ReferringTopic' );
@@ -1768,7 +1828,7 @@ CONTENT
     # group. Fortunately we have a private users web.
     my ($grope) =
       Foswiki::Func::readTopic( $this->users_web,
-        $Foswiki::cfg{SuperAdminGroup} );
+        $this->app->cfg->data->{SuperAdminGroup} );
     my $test_user_wikiname = $this->test_user_wikiname;
     $grope->text( <<"EOF");
    * Set GROUP = $test_user_wikiname
@@ -1782,11 +1842,14 @@ EOF
             newsubweb        => $this->test_web . "RenamedEdNet",
             referring_topics => [ $m->getPath() ],
             path_info        => "/" . $this->test_web . "EdNet/WebHome"
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
     undef $m;
 
-    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
+    my ($text) =
+      $this->captureWithKey(
+        rename => sub { return $this->app->handleRequest; }, );
     $this->assert(
         Foswiki::Func::webExists( $this->test_web . "RenamedEdNet" ) );
     $this->assert( !Foswiki::Func::webExists( $this->test_web . "EdNet" ) );
@@ -1851,12 +1914,15 @@ sub test_renameSubWeb_10259 {
     my $this = shift;
 
     # Need priveleged user to create root webs with Foswiki::Func.
-    $this->_reset_session_with_cuid( undef, $Foswiki::cfg{AdminUserLogin} );
+    $this->_reset_session_with_cuid( undef,
+        $this->app->cfg->data->{AdminUserLogin} );
     Foswiki::Func::createWeb( $this->test_web . "Root" );
     Foswiki::Func::createWeb( $this->test_web . "Root/EdNet" );
 
     my $vue =
-"$Foswiki::cfg{DefaultUrlHost}/$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}";
+        $this->app->cfg->data->{DefaultUrlHost} . "/"
+      . $this->app->cfg->data->{ScriptUrlPath} . "/view"
+      . $this->app->cfg->data->{ScriptSuffix};
 
     my ($m) = Foswiki::Func::readTopic( $this->test_web . "Root/EdNet",
         'ReferringTopic' );
@@ -1878,7 +1944,7 @@ CONTENT
     # group. Fortunately we have a private users web.
     my ($grope) =
       Foswiki::Func::readTopic( $this->users_web,
-        $Foswiki::cfg{SuperAdminGroup} );
+        $this->app->cfg->data->{SuperAdminGroup} );
     my $test_user_wikiname = $this->test_user_wikiname;
     $grope->text(<<"EOF");
    * Set GROUP = $test_user_wikiname
@@ -1891,11 +1957,14 @@ EOF
             newsubweb        => $this->test_web . "Root/NewEdNet",
             referring_topics => [ $m->getPath() ],
             path_info        => "/" . $this->test_web . "Root/EdNet/WebHome"
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
     undef $m;
 
-    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
+    my ($text) =
+      $this->captureWithKey(
+        rename => sub { return $this->app->handleRequest; }, );
     $this->assert(
         Foswiki::Func::webExists( $this->test_web . "Root/NewEdNet" ) );
     $this->assert( !Foswiki::Func::webExists( $this->test_web . "EdNet" ) );
@@ -1982,11 +2051,14 @@ sub test_rename_attachment {
             newtopic      => ['NewTopic'],
             newweb        => $this->test_web,
             path_info     => "/" . $this->test_web . "/" . $this->test_topic
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     my $test_web = $this->test_web;
-    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
+    my ($text) =
+      $this->captureWithKey(
+        rename => sub { return $this->app->handleRequest; }, );
     $this->assert_matches( qr/Status: 302/,         $text );
     $this->assert_matches( qr#/$test_web/NewTopic#, $text );
     $this->assert(
@@ -2030,11 +2102,14 @@ sub test_move_attachment_RENAME_Topic_denied {
             newtopic      => ['NewTopic'],
             newweb        => $this->test_web,
             path_info     => "/" . $this->test_web . "/" . $this->test_topic
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     my $test_web = $this->test_web;
-    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
+    my ($text) =
+      $this->captureWithKey(
+        rename => sub { return $this->app->handleRequest; }, );
     $this->assert_matches( qr/Status: 302/,         $text );
     $this->assert_matches( qr#/$test_web/NewTopic#, $text );
     $this->assert(
@@ -2061,11 +2136,14 @@ sub test_move_attachment_RENAME_Topic_denied {
             newtopic      => [ $this->test_topic ],
             newweb        => $this->test_web,
             path_info     => "/" . $this->test_web . "/NewTopic"
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     try {
-        ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
+        ($text) =
+          $this->captureWithKey(
+            rename => sub { return $this->app->handleRequest; }, );
         $this->assert( 0, $text );
     }
     catch {
@@ -2127,11 +2205,14 @@ sub test_move_attachment_RENAME_Web_denied {
             newtopic      => ['NewTopic'],
             newweb        => $this->new_web,
             path_info     => "/" . $this->test_web . "/" . $this->test_topic
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     my $new_web = $this->new_web;
-    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
+    my ($text) =
+      $this->captureWithKey(
+        rename => sub { return $this->app->handleRequest; }, );
     $this->assert_matches( qr/Status: 302/,        $text );
     $this->assert_matches( qr#/$new_web/NewTopic#, $text );
     $this->assert(
@@ -2176,11 +2257,14 @@ sub test_rename_attachment_Rename_Denied_Change_Allowed {
             newtopic      => ['NewTopic'],
             newweb        => $this->test_web,
             path_info     => "/" . $this->test_web . "/" . $this->test_topic
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     my $test_web = $this->test_web;
-    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
+    my ($text) =
+      $this->captureWithKey(
+        rename => sub { return $this->app->handleRequest; }, );
     $this->assert_matches( qr/Status: 302/,         $text );
     $this->assert_matches( qr#/$test_web/NewTopic#, $text );
     $this->assert(
@@ -2223,11 +2307,14 @@ sub test_rename_attachment_Rename_Allowed_Change_Denied {
             newtopic      => ['NewTopic'],
             newweb        => $this->test_web,
             path_info     => "/" . $this->test_web . "/" . $this->test_topic
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     try {
-        my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
+        my ($text) =
+          $this->captureWithKey(
+            rename => sub { return $this->app->handleRequest; }, );
         $this->assert( 0, $text );
     }
     catch {
@@ -2254,7 +2341,7 @@ sub test_rename_attachment_Rename_Allowed_Change_Denied {
 sub test_rename_attachment_not_in_meta {
     my $this = shift;
 
-    return unless $Foswiki::cfg{Store}{Implementation} =~ /Rcs/;
+    return unless $this->app->cfg->data->{Store}{Implementation} =~ /Rcs/;
 
     my ($to) = Foswiki::Func::readTopic( $this->test_web, 'NewTopic' );
     $to->text('Wibble');
@@ -2274,13 +2361,16 @@ sub test_rename_attachment_not_in_meta {
             newtopic      => ['NewTopic'],
             newweb        => $this->test_web,
             path_info     => "/" . $this->test_web . "/" . $this->test_topic
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     my ($text);
 
     my $test_web = $this->test_web;
-    ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
+    ($text) =
+      $this->captureWithKey(
+        rename => sub { return $this->app->handleRequest; }, );
     $this->assert_matches( qr/Status: 302/,         $text );
     $this->assert_matches( qr#/$test_web/NewTopic#, $text );
     $this->assert(
@@ -2313,11 +2403,14 @@ sub test_rename_attachment_no_dest_topic {
             newtopic      => ['NewTopic'],
             newweb        => $this->test_web,
             path_info     => "/" . $this->test_web . "/" . $this->test_topic
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     try {
-        my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
+        my ($text) =
+          $this->captureWithKey(
+            rename => sub { return $this->app->handleRequest; }, );
         $this->assert( 0, $text );
     }
     catch {
@@ -2348,7 +2441,7 @@ sub do_not_test_rename_attachment_not_on_disc {
     $to->attach( name => 'dis.dat', file => $stream->filename );
     undef $to;
 
-    unless ( -e "$Foswiki::cfg{PubDir}/"
+    unless ( -e $this->app->cfg->data->{PubDir} . "/"
         . $this->test_web . "/"
         . $this->test_topic
         . "/dis.dat" )
@@ -2358,7 +2451,7 @@ sub do_not_test_rename_attachment_not_on_disc {
         $this->assert(0);
     }
 
-    unlink( "$Foswiki::cfg{PubDir}/"
+    unlink( $this->app->cfg->data->{PubDir} . "/"
           . $this->test_web . "/"
           . $this->test_topic
           . "/dis.dat" );
@@ -2375,11 +2468,14 @@ sub do_not_test_rename_attachment_not_on_disc {
             newtopic      => ['NewTopic'],
             newweb        => $this->test_web,
             path_info     => "/" . $this->test_web . "/" . $this->test_topic
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
 
     my $test_web = $this->test_web;
-    my ($text) = $this->captureWithKey( rename => $UI_FN, $this->session );
+    my ($text) =
+      $this->captureWithKey(
+        rename => sub { return $this->app->handleRequest; }, );
     $this->assert_matches( qr/Status: 302/,         $text );
     $this->assert_matches( qr#/$test_web/NewTopic#, $text );
     $this->assert(
@@ -2405,7 +2501,8 @@ sub test_renameWeb_10990 {
     my $webname        = "Renamed" . $this->test_web;
 
     # Need priveleged user to create root webs with Foswiki::Func.
-    $this->_reset_session_with_cuid( undef, $Foswiki::cfg{AdminUserLogin} );
+    $this->_reset_session_with_cuid( undef,
+        $this->app->cfg->data->{AdminUserLogin} );
     Foswiki::Func::createWeb($webname);
 
     # need rename access on the root for this one, which is a bit of a
@@ -2413,7 +2510,7 @@ sub test_renameWeb_10990 {
     # group. Fortunately we have a private users web.
     my ($grope) =
       Foswiki::Func::readTopic( $this->users_web,
-        $Foswiki::cfg{SuperAdminGroup} );
+        $this->app->cfg->data->{SuperAdminGroup} );
     my $test_user_wikiname = $this->test_user_wikiname;
     $grope->text(<<"EOF");
    * Set GROUP = $test_user_wikiname
@@ -2427,18 +2524,19 @@ EOF
             newsubweb        => $RENAMED_prefix . $this->test_web,
             referring_topics => [$webname],
             path_info        => "/Renamed" . $this->test_web . "/WebHome"
-        }
+        },
+        { callbacks => { handleRequestException => \&_cbHRE }, },
     );
     my ( $text, $result, $stdout, $stderr ) =
-      $this->captureWithKey( rename => $UI_FN, $this->session );
+      $this->captureWithKey(
+        rename => sub { return $this->app->handleRequest; }, );
 
     $this->assert(
         Foswiki::Func::webExists( $RENAMED_prefix . $this->test_web ) );
     $this->assert( !Foswiki::Func::webExists( "Renamed" . $this->test_web ) );
 
     #now remove it!
-    $this->removeWebFixture( $this->session,
-        $RENAMED_prefix . $this->test_web );
+    $this->removeWebFixture( $RENAMED_prefix . $this->test_web );
 
     return;
 }

@@ -57,7 +57,8 @@ has body => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    default => '',
+
+    #default => '',
     trigger => sub {
         $_[0]->headers->{'Content-Length'} = length( $_[1] );
     },
@@ -108,7 +109,7 @@ has status => (
           if DEBUG;
     },
     coerce => sub {
-        $_[0] =~ m/^\d{3}/ ? $_[0] : undef;
+        $_[0] =~ m/^(\d{3})/ ? int($1) : undef;
     },
 );
 has headers => (

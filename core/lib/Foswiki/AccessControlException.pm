@@ -80,8 +80,9 @@ the function or parameter.
 # AND ENSURE ALL POD DOCUMENTATION IS COMPLETE AND ACCURATE.
 
 package Foswiki::AccessControlException;
-
 use v5.14;
+
+use Assert;
 
 use Moo;
 use namespace::clean;
@@ -138,7 +139,8 @@ around stringify => sub {
       . ".$topic for "
       . $this->user
       . " is denied. "
-      . $this->reason;
+      . $this->reason
+      . ( DEBUG ? $this->stacktrace : "" );
 };
 
 1;

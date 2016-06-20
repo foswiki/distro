@@ -1230,7 +1230,7 @@ sub _establishAttributes {
     if ( $topicParam && !$parse->{web} ) {
 
         # Didn't get a web, so try the path
-        $parse = Foswiki::Request::parse($pathInfo);
+        $parse = { %{ Foswiki::Request::parse($pathInfo) }, %$parse };
     }
 
     # Note that Web can still be undefined.  Caller then determines if the
