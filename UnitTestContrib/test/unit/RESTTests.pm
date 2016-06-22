@@ -130,7 +130,6 @@ sub test_authmethods {
                     requestParams =>
                       { initializer => { action => ['rest'], }, },
                     engineParams => {
-                        simulate          => 'cgi',
                         initialAttributes => {
                             uri => '/'
                               . __PACKAGE__
@@ -167,15 +166,14 @@ sub test_authmethods {
                     requestParams =>
                       { initializer => { action => ['rest'], }, },
                     engineParams => {
-                        simulate          => 'cgi',
                         initialAttributes => {
                             uri       => '/' . __PACKAGE__ . '/trial',
                             path_info => '/' . __PACKAGE__ . "/trial",
                             method    => 'post',
                             action    => 'rest',
+                            user      => $this->test_user_login,
                         },
                     },
-                    user => $this->test_user_login,
                 );
                 return $this->app->handleRequest;
             }
@@ -201,15 +199,14 @@ sub test_authmethods {
                     requestParams =>
                       { initializer => { action => ['rest'], }, },
                     engineParams => {
-                        simulate          => 'cgi',
                         initialAttributes => {
                             uri       => '/' . __PACKAGE__ . '/trial',
                             path_info => '/' . __PACKAGE__ . "/trial",
                             method    => 'get',
                             action    => 'rest',
+                            user      => $this->test_user_login,
                         },
                     },
-                    user => $this->test_user_login,
                 );
                 return $this->app->handleRequest;
             }
@@ -232,15 +229,14 @@ sub test_authmethods {
             $this->createNewFoswikiApp(
                 requestParams => { initializer => { action => ['rest'], }, },
                 engineParams  => {
-                    simulate          => 'cgi',
                     initialAttributes => {
                         uri       => '/' . __PACKAGE__ . '/trial',
                         path_info => '/' . __PACKAGE__ . "/trial",
                         method    => 'post',
                         action    => 'rest',
+                        user      => $this->test_user_login,
                     },
                 },
-                user => $this->test_user_login,
             );
             return $this->app->handleRequest;
         }
@@ -263,15 +259,14 @@ sub test_authmethods {
             $this->createNewFoswikiApp(
                 requestParams => { initializer => { action => ['rest'], }, },
                 engineParams  => {
-                    simulate          => 'cgi',
                     initialAttributes => {
                         uri       => '/' . __PACKAGE__ . '/trial',
                         path_info => '/' . __PACKAGE__ . "/trial",
                         method    => 'post',
                         action    => 'rest',
+                        user      => 'guest',
                     },
                 },
-                user => 'guest',
             );
             return $this->app->handleRequest;
         }
@@ -285,15 +280,14 @@ sub test_authmethods {
             $this->createNewFoswikiApp(
                 requestParams => { initializer => { action => ['rest'], }, },
                 engineParams  => {
-                    simulate          => 'cgi',
                     initialAttributes => {
                         uri       => '/' . __PACKAGE__ . '/trial',
                         path_info => '/' . __PACKAGE__ . "/trial",
                         method    => 'post',
                         action    => 'rest',
+                        user      => $Foswiki::cfg{AdminUserLogin},
                     },
                 },
-                user => $Foswiki::cfg{AdminUserLogin},
             );
             return $this->app->handleRequest;
         }
@@ -313,14 +307,13 @@ sub test_simple {
             $this->createNewFoswikiApp(
                 requestParams => { initializer => { action => ['rest'], }, },
                 engineParams  => {
-                    simulate          => 'cgi',
                     initialAttributes => {
                         path_info => '/' . __PACKAGE__ . '/trial',
                         method    => 'post',
                         action    => 'rest',
+                        user      => $this->test_user_login,
                     },
                 },
-                user => $this->test_user_login,
             );
             return $this->app->handleRequest;
         }
@@ -342,20 +335,18 @@ sub test_endPoint {
             },
         },
         engineParams => {
-            simulate          => 'psgi',
             initialAttributes => {
                 path_info => '/' . __PACKAGE__ . '/trial',
                 method    => 'post',
                 action    => 'rest',
+                user      => $this->test_user_login,
             },
         },
-        user => $this->test_user_login,
     );
     $this->app->handleRequest;
     my ($text) = $this->capture(
         sub {
             $this->app->clear_response;
-            $this->app->engine->simulate('cgi');
             return $this->app->handleRequest;
         }
     );
@@ -379,20 +370,18 @@ sub test_redirectto {
             },
         },
         engineParams => {
-            simulate          => 'psgi',
             initialAttributes => {
                 path_info => '/' . __PACKAGE__ . '/trial',
                 method    => 'post',
                 action    => 'rest',
+                user      => $this->test_user_login,
             },
         },
-        user => $this->test_user_login,
     );
     $this->app->handleRequest;
     my ($text) = $this->capture(
         sub {
             $this->app->clear_response;
-            $this->app->engine->simulate('cgi');
             return $this->app->handleRequest;
         }
     );
@@ -420,14 +409,13 @@ sub test_endPoint_Anchor {
                     },
                 },
                 engineParams => {
-                    simulate          => 'cgi',
                     initialAttributes => {
                         path_info => '/' . __PACKAGE__ . '/trial',
                         method    => 'post',
                         action    => 'rest',
+                        user      => $this->test_user_login,
                     },
                 },
-                user => $this->test_user_login,
             );
             return $this->app->handleRequest;
         }
@@ -457,14 +445,13 @@ sub test_redirectto_Anchor {
                     },
                 },
                 engineParams => {
-                    simulate          => 'cgi',
                     initialAttributes => {
                         path_info => '/' . __PACKAGE__ . '/trial',
                         method    => 'post',
                         action    => 'rest',
+                        user      => $this->test_user_login,
                     },
                 },
-                user => $this->test_user_login,
             );
             return $this->app->handleRequest;
         }
@@ -481,28 +468,27 @@ sub test_redirectto_Anchor {
 sub test_endPoint_Query {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'trial', \&rest_handler );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action   => ['rest'],
+                endPoint => $this->test_web . "/"
+                  . $this->test_topic
+                  . "?blah1=;q=2;y=3",
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => '/' . __PACKAGE__ . '/trial',
+                method    => 'post',
+                action    => 'rest',
+                user      => $this->test_user_login,
+            },
+        },
+    );
 
     my ($text) = $this->capture(
         sub {
-            $this->createNewFoswikiApp(
-                requestParams => {
-                    initializer => {
-                        action   => ['rest'],
-                        endPoint => $this->test_web . "/"
-                          . $this->test_topic
-                          . "?blah1=;q=2;y=3",
-                    },
-                },
-                engineParams => {
-                    simulate          => 'cgi',
-                    initialAttributes => {
-                        path_info => '/' . __PACKAGE__ . '/trial',
-                        method    => 'post',
-                        action    => 'rest',
-                    },
-                },
-                user => $this->test_user_login,
-            );
             return $this->app->handleRequest;
         }
     );
@@ -531,14 +517,13 @@ sub test_redirectto_Query {
                     },
                 },
                 engineParams => {
-                    simulate          => 'cgi',
                     initialAttributes => {
                         path_info => '/' . __PACKAGE__ . '/trial',
                         method    => 'post',
                         action    => 'rest',
+                        user      => $this->test_user_login,
                     },
                 },
-                user => $this->test_user_login,
             );
             return $this->app->handleRequest;
         }
@@ -568,14 +553,13 @@ sub test_endPoint_Illegal {
                         },
                     },
                     engineParams => {
-                        simulate          => 'cgi',
                         initialAttributes => {
                             path_info => '/' . __PACKAGE__ . '/trial',
                             method    => 'post',
                             action    => 'rest',
+                            user      => $this->test_user_login,
                         },
                     },
-                    user => $this->test_user_login,
                 );
                 return $this->app->handleRequest;
             }
@@ -611,14 +595,13 @@ sub test_redirectto_Illegal {
                         },
                     },
                     engineParams => {
-                        simulate          => 'cgi',
                         initialAttributes => {
                             path_info => '/' . __PACKAGE__ . '/trial',
                             method    => 'post',
                             action    => 'rest',
+                            user      => $this->test_user_login,
                         },
                     },
-                    user => $this->test_user_login,
                 );
                 return $this->app->handleRequest;
             }
@@ -650,14 +633,13 @@ sub test_http_allow {
                     requestParams =>
                       { initializer => { action => ['rest'], }, },
                     engineParams => {
-                        simulate          => 'cgi',
                         initialAttributes => {
                             path_info => '/' . __PACKAGE__ . '/trial',
                             method    => 'post',
                             action    => 'rest',
+                            user      => $this->test_user_login,
                         },
                     },
-                    user => $this->test_user_login,
                 );
                 return $this->app->handleRequest;
             }
@@ -677,14 +659,13 @@ sub test_http_allow {
             $this->createNewFoswikiApp(
                 requestParams => { initializer => { action => ['rest'], }, },
                 engineParams  => {
-                    simulate          => 'cgi',
                     initialAttributes => {
                         path_info => '/' . __PACKAGE__ . '/trial',
                         method    => 'get',
                         action    => 'rest',
+                        user      => $this->test_user_login,
                     },
                 },
-                user => $this->test_user_login,
             );
             return $this->app->handleRequest;
         }
@@ -707,14 +688,13 @@ sub test_validate {
                     requestParams =>
                       { initializer => { action => ['rest'], }, },
                     engineParams => {
-                        simulate          => 'cgi',
                         initialAttributes => {
                             path_info => '/' . __PACKAGE__ . '/trial',
                             method    => 'post',
                             action    => 'rest',
+                            user      => $this->test_user_login,
                         },
                     },
-                    user => $this->test_user_login,
                 );
                 return $this->app->handleRequest;
             }
@@ -737,14 +717,13 @@ sub test_validate {
             $this->createNewFoswikiApp(
                 requestParams => { initializer => { action => ['rest'], }, },
                 engineParams  => {
-                    simulate          => 'cgi',
                     initialAttributes => {
                         path_info => '/' . __PACKAGE__ . '/trial',
                         method    => 'post',
                         action    => 'rest',
+                        user      => $this->test_user_login,
                     },
                 },
-                user => $this->test_user_login,
             );
             return $this->app->handleRequest;
         }
@@ -767,14 +746,13 @@ sub test_authenticate {
                     requestParams =>
                       { initializer => { action => ['rest'], }, },
                     engineParams => {
-                        simulate          => 'cgi',
                         initialAttributes => {
                             path_info => '/' . __PACKAGE__ . '/trial',
                             method    => 'post',
                             action    => 'rest',
+                            user      => undef,
                         },
                     },
-                    user => undef,
                 );
                 return $this->app->handleRequest;
             }
@@ -797,14 +775,13 @@ sub test_authenticate {
             $this->createNewFoswikiApp(
                 requestParams => { initializer => { action => ['rest'], }, },
                 engineParams  => {
-                    simulate          => 'cgi',
                     initialAttributes => {
                         path_info => '/' . __PACKAGE__ . '/trial',
                         method    => 'post',
                         action    => 'rest',
+                        user      => $this->test_user_login,
                     },
                 },
-                user => $this->test_user_login,
             );
             return $this->app->handleRequest;
         }
@@ -829,20 +806,18 @@ sub test_endPoint_URL {
             },
         },
         engineParams => {
-            simulate          => 'psgi',
             initialAttributes => {
                 path_info => '/' . __PACKAGE__ . '/trial',
                 method    => 'post',
                 action    => 'rest',
+                user      => $this->test_user_login,
             },
         },
-        user => $this->test_user_login,
     );
     $this->app->handleRequest;
     my ($text) = $this->capture(
         sub {
             $this->app->clear_response;
-            $this->app->engine->simulate('cgi');
             return $this->app->handleRequest;
         }
     );
@@ -867,20 +842,18 @@ sub test_redirectto_URL {
             },
         },
         engineParams => {
-            simulate          => 'psgi',
             initialAttributes => {
                 path_info => '/' . __PACKAGE__ . '/trial',
                 method    => 'post',
                 action    => 'rest',
+                user      => $this->test_user_login,
             },
         },
-        user => $this->test_user_login,
     );
     $this->app->handleRequest;
     my ($text) = $this->capture(
         sub {
             $this->app->clear_response;
-            $this->app->engine->simulate('cgi');
             return $this->app->handleRequest;
         }
     );
@@ -906,20 +879,18 @@ sub test_endPoint_badURL {
             },
         },
         engineParams => {
-            simulate          => 'psgi',
             initialAttributes => {
                 path_info => '/' . __PACKAGE__ . '/trial',
                 method    => 'post',
                 action    => 'rest',
+                user      => $this->test_user_login,
             },
         },
-        user => $this->test_user_login,
     );
     $this->app->handleRequest;
     my ($text) = $this->capture(
         sub {
             $this->app->clear_response;
-            $this->app->engine->simulate('cgi');
             return $this->app->handleRequest;
         }
     );
@@ -941,20 +912,18 @@ sub test_redirectto_badURL {
             },
         },
         engineParams => {
-            simulate          => 'psgi',
             initialAttributes => {
                 path_info => '/' . __PACKAGE__ . '/trial',
                 method    => 'post',
                 action    => 'rest',
+                user      => $this->test_user_login,
             },
         },
-        user => $this->test_user_login,
     );
     $this->app->handleRequest;
     my ($text) = $this->capture(
         sub {
             $this->app->clear_response;
-            $this->app->engine->simulate('cgi');
             return $this->app->handleRequest;
         }
     );
@@ -971,20 +940,18 @@ sub test_500 {
     $this->createNewFoswikiApp(
         requestParams => { initializer => { action => ['rest'], }, },
         engineParams  => {
-            simulate          => 'psgi',
             initialAttributes => {
                 path_info => '/' . __PACKAGE__ . '/trial',
                 method    => 'post',
                 action    => 'rest',
+                user      => $this->test_user_login,
             },
         },
-        user => $this->test_user_login,
     );
     $this->app->handleRequest;
     my ($text) = $this->capture(
         sub {
             $this->app->clear_response;
-            $this->app->engine->simulate('cgi');
             return $this->app->handleRequest;
         }
     );
@@ -997,21 +964,20 @@ sub test_500 {
 sub test_topic_context {
     my $this = shift;
     Foswiki::Func::registerRESTHandler( 'context', \&rest_context );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => { action => ['rest'], }, },
+        engineParams  => {
+            initialAttributes => {
+                path_info => '/' . __PACKAGE__ . '/context',
+                method    => 'post',
+                action    => 'rest',
+                user      => $this->test_user_login,
+            },
+        },
+    );
 
     my ($text) = $this->capture(
         sub {
-            $this->createNewFoswikiApp(
-                requestParams => { initializer => { action => ['rest'], }, },
-                engineParams  => {
-                    simulate          => 'cgi',
-                    initialAttributes => {
-                        path_info => '/' . __PACKAGE__ . '/context',
-                        method    => 'post',
-                        action    => 'rest',
-                    },
-                },
-                user => $this->test_user_login,
-            );
             return $this->app->handleRequest;
         }
     );

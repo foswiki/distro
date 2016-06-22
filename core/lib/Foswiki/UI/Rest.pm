@@ -278,9 +278,7 @@ sub rest {
     my $error = 0;
 
     try {
-        no strict 'refs';
-        $result = &$function( $app, $subject, $verb, $app->response );
-        use strict 'refs';
+        $result = $function->( $app, $subject, $verb, $app->response );
     }
     catch {
         my $e = $_;

@@ -19,17 +19,6 @@ extends qw( FoswikiTestCase );
 
 my $slash = ( $^O eq 'MSWin32' ) ? '\\' : '/';
 
-has request => (
-    is => 'rw',
-    isa =>
-      Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request', noUndef => 1 )
-);
-has response => (
-    is => 'rw',
-    isa =>
-      Foswiki::Object::isaCLASS( 'request', 'Foswiki::Response', noUndef => 1 )
-);
-
 sub BUILD {
     my $this  = shift;
     my $class = ref($this);
@@ -43,7 +32,7 @@ around set_up => sub {
     $orig->( $this, @_ );
     $this->__EnvReset->{$_} = 'C' foreach grep { /(?:^LANG$|^LC_)/ } keys %ENV;
     $Foswiki::cfg{Site}{Locale} = 'en_US.UTF-8';
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
     Foswiki::Sandbox::_assessPipeSupport();
 };
 
@@ -284,12 +273,13 @@ sub test_sanitizeAttachmentName_unicode {
     my $query;
 
     $Foswiki::cfg{Store}{Encoding} = 'utf-8';
-    require Unit::Request;
-    $query = Unit::Request->new( initializer => "" );
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
-    $this->createNewFoswikiSession( undef, $query );
-    $this->request($query);
-    $this->response( Unit::Response->new );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "", },
+        engineParams  => {
+            initialAttributes =>
+              { path_info => "/" . $this->test_web . "/" . $this->test_topic, },
+        },
+    );
     $this->test_topicObject(
         ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )[0] );
     $this->test_topicObject->text("BLEEGLE\n");

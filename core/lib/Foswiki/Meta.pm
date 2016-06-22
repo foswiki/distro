@@ -210,9 +210,21 @@ has _indices => (
 );
 has _preferences => (
     is        => 'rw',
+    weak_ref  => 1,
     lazy      => 1,
     predicate => 1,
     clearer   => 1,
+    trigger   => sub {
+        my $this = shift;
+
+        # SMELL Experimental. To avoid circular dependency between a topic
+        # object and it's preferences object which points backs thru its
+        # topicObject attribute we shall weaken the _preferences attribute but
+        # instead store the _preferences object in some semi-permanent store.
+        # Shall be replaced with some universal caching framework later.
+        # See DEMOLISH for more.
+        $this->app->heap->{topic_preferences}{ $this->_id } = $_[0];
+    },
 );
 has _latestIsLoaded => (
     is      => 'rw',
@@ -484,11 +496,6 @@ sub BUILD {
     # Note: internal fields are prepended with _. All uppercase
     # fields will be assumed to be meta-data.
 
-    # Preferences cache object. We store a pointer, rather than looking
-    # up the name each time, because we want to be able to invalidate the
-    # loaded preferences if this object is loaded.
-    #$this->_clear_preferences;
-
     if ( $this->has_text && defined $this->text ) {
 
         # User supplied topic body forces us to consider this as the
@@ -629,6 +636,9 @@ which may have surprising effects on other code that shares the object.
 sub unload {
     my $this = shift;
 
+    # Delete preferences object loaded for this meta object.
+    delete $this->app->heap->{topic_preferences}{ $this->_id };
+
     # Avoid collisions, initiate removal from MetaCache only and only if object
     # has been previously stored in the cache.
     $this->app->search->metacache->removeMeta( $this->web, $this->topic )
@@ -636,10 +646,6 @@ sub unload {
     $this->_clear_loadedRev;
     $this->_clear_latestIsLoaded;
     $this->clear_text;
-
-    # SMELL: _preferences object class must define DEMOLISH method and use to
-    # finalize the object.
-    $this->_clear_preferences;
 
     # Unload meta-data
     $this->clear_metaData;

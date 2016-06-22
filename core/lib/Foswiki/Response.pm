@@ -554,7 +554,9 @@ sub as_array {
         push @{ $rc[1] }, $hdr => $_ foreach @$val;
     }
 
-    $rc[2] = [ $this->body ];
+    # Never return undef body. Though let the attribute be undef to handle some
+    # special cases.
+    $rc[2] = [ $this->body // '' ];
 
     return \@rc;
 }

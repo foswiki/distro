@@ -72,6 +72,18 @@ has __orig_file  => ( is => 'rw', clearer => 1, );
 has __orig_line  => ( is => 'rw', clearer => 1, );
 has __orig_stack => ( is => 'rw', clearer => 1, );
 
+has _id => (
+    is      => 'ro',
+    lazy    => 1,
+    clearer => 1,
+    default => sub {
+        my $this  = shift;
+        my $strID = ref($this) . '_' . refaddr($this);
+        $strID =~ s/:/_/g;
+        return $strID;
+    },
+);
+
 sub BUILDARGS {
     my ( $class, @params ) = @_;
 
@@ -259,13 +271,24 @@ sub _cloneData {
 
 # XXX Experimental.
 # clone works on low-level bypassing Moo's accessor methods.
+my @skip_attrs = qw(_id);
+
 sub clone {
     my $this = shift;
 
     $this->_clear__clone_heap;
     my @profile;
+    my $skipRx = '^(' . join( '|', @skip_attrs ) . ')$';
     foreach my $attr ( keys %$this ) {
-        next if $attr =~ /^__/;    # Skip debug-level attrs.
+        next if $attr =~ /$skipRx/;
+        my $destAttr = $attr;
+        if ( $destAttr =~ /^__/ ) {
+
+            # Debug attributes would be preserved but those coming from the
+            # source object would be kinda pushed on a stack by adding extra __
+            # prefix. This way we could trace an object history.
+            $destAttr = "__$destAttr";
+        }
         my $clone_method = "_clone_" . $attr;
         my $attrVal;
         if ( my $method = $this->can($clone_method) ) {
@@ -275,7 +298,7 @@ sub clone {
             $attrVal = $this->_cloneData( $this->{$attr}, $attr );
         }
 
-        push @profile, $attr, $attrVal;
+        push @profile, $destAttr, $attrVal;
     }
 
     my $newObj = ref($this)->new(@profile);
