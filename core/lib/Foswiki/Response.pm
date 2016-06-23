@@ -429,7 +429,11 @@ sub pushHeader {
 # Wrapper method for the object attribute.
 sub cookies {
     my $this = shift;
-    $this->setCookies(@_) if @_;
+    if (@_) {
+        ASSERT( !$this->outputHasStarted, 'Too late to change cookies' )
+          if DEBUG;
+        $this->setCookies(@_) if @_;
+    }
     return @{ $this->getCookies };
 }
 
@@ -496,16 +500,6 @@ sub __deprecated_finalize {
 
     $req->deleteUploads;
 
-    # Finalize cookies.
-    # SMELL: Review comment below, from CGI:
-    #    if the user indicates an expiration time, then we need
-    #    both an Expires and a Date header (so that the browser is
-    #    uses OUR clock)
-    $this->pushHeader( 'Set-Cookie',
-        Scalar::Util::blessed($_)
-          && $_->isa('CGI::Cookie') ? $_->as_string : $_ )
-      foreach $this->cookies;
-
     # Finalize the rest of the headers.
     if ( $req && $req->method && uc( $req->method ) eq 'HEAD' ) {
         $this->clear_body;
@@ -552,6 +546,21 @@ sub as_array {
 
         # Generate multiple header entries – one per value.
         push @{ $rc[1] }, $hdr => $_ foreach @$val;
+    }
+
+    # Set cookies.
+    # SMELL: Review comment below, from CGI:
+    #    if the user indicates an expiration time, then we need both an Expires
+    #    and a Date header (so that the browser is using OUR clock)
+    if ( scalar( $this->cookies ) > 0 ) {
+        foreach my $cookie ( $this->cookies ) {
+            push @{ $rc[1] }, 'Set-Cookie' => (
+                Scalar::Util::blessed($cookie)
+                  && $cookie->isa('CGI::Cookie')
+                ? $cookie->as_string
+                : $cookie
+            );
+        }
     }
 
     # Never return undef body. Though let the attribute be undef to handle some

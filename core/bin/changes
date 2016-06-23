@@ -1,32 +1,9 @@
 #! /usr/bin/env perl
 # See bottom of file for license and copyright information
-use strict;
-use warnings;
-
-use File::Spec;
-
-BEGIN {
-    if ( defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL} ) {
-        $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
-        use CGI::Carp qw(fatalsToBrowser);
-        $SIG{__DIE__} = \&CGI::Carp::confess;
-    }
-    else {
-        $Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
-        require Carp;
-        $SIG{__DIE__} = \&Carp::confess;
-    }
-    my ( $volume, $binDir, $action ) = File::Spec->splitpath(__FILE__);
-    my $setlib = File::Spec->catpath( $volume, $binDir, 'setlib.cfg' );
-    @INC = ( '.', grep { $_ ne '.' } @INC ) unless $binDir;
-    require $setlib;
-    $action =~ s/\..*$//;    # Remove eventual file extension
-    $ENV{FOSWIKI_ACTION} = $action;
-}
-
-use Foswiki     ();
-use Foswiki::UI ();
-$Foswiki::engine->run();
+use Cwd;
+use lib Cwd::abs_path("../lib");
+use Foswiki::App;
+exit Foswiki::App->run;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 

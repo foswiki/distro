@@ -71,6 +71,19 @@ around tear_down => sub {
     $orig->($this);
 };
 
+around createNewFoswikiApp => sub {
+    my $orig = shift;
+    my $this = shift;
+    my $app  = $orig->( $this, @_ );
+
+    # Some plugins are interfering with rendering process.
+    # Special not on HomePagePlugin which unconditionally sets web/topic on
+    # request even whtn they're already set by the engine.
+    $app->cfg->data->{DisableAllPlugins} = 1;
+
+    return $app;
+};
+
 sub _set {
     my ( $this, $web, $topic, $pref, $val, $type ) = @_;
     $this->assert_not_null($web);
@@ -137,7 +150,7 @@ sub _setUserPref {
     return;
 }
 
-sub test_system {
+sub test_system_prefs {
     my $this = shift;
     $this->_setDefaultPref( "SOURCE",           "DEFAULT" );
     $this->_setDefaultPref( "FINALPREFERENCES", "" );
@@ -145,7 +158,9 @@ sub test_system {
     $this->_setWebPref( "FINALPREFERENCES", "" );
     $this->_setUserPref( "FINALPREFERENCES", "" );
 
-    my $t = $this->createNewFoswikiApp( user => $this->test_user_login );
+    my $t =
+      $this->createNewFoswikiApp( engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, }, );
     $this->assert_str_equals( "DEFAULT", $t->prefs->getPreference("SOURCE") );
 
     return;
@@ -161,7 +176,9 @@ sub test_local {
     $this->_setWebPref( "FINALPREFERENCES", "" );
     $this->_setUserPref( "FINALPREFERENCES", "" );
 
-    my $t = $this->createNewFoswikiApp( user => $this->test_user_login );
+    my $t =
+      $this->createNewFoswikiApp( engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, }, );
     $this->assert_str_equals( "SITE", $t->prefs->getPreference("SOURCE") );
 
     return;
@@ -178,7 +195,8 @@ sub test_web_prefs {
     $this->_setUserPref( "FINALPREFERENCES", "" );
 
     my $t = $this->createNewFoswikiApp(
-        user => $this->test_user_login,
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
         %topicAppParams,
     );
     $this->assert_str_equals( "WEB", $t->prefs->getPreference("SOURCE") );
@@ -186,7 +204,7 @@ sub test_web_prefs {
     return;
 }
 
-sub test_user {
+sub test_user_prefs {
     my $this = shift;
 
     $this->_setUserPref( "SOURCE", "USER" );
@@ -197,7 +215,12 @@ sub test_user {
     $this->_setUserPref( "FINALPREFERENCES", "" );
 
     my $t = $this->createNewFoswikiApp(
-        user => $this->test_user_login,
+        engineParams => {
+            initialAttributes => {
+                user      => $this->test_user_login,
+                path_info => "/" . $this->test_web . "/" . $this->test_topic,
+            },
+        },
         %topicAppParams,
     );
     $this->assert_str_equals( "USER", $t->prefs->getPreference("SOURCE") );
@@ -215,7 +238,8 @@ sub test_topic_prefs {
     $this->_setUserPref( "FINALPREFERENCES", "" );
 
     my $t = $this->createNewFoswikiApp(
-        user => $this->test_user_login,
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
         %topicAppParams,
     );
     $this->assert_str_equals( "TOPIC", $t->prefs->getPreference("SOURCE") );
@@ -237,7 +261,8 @@ sub test_order {
     $this->_setWebPref( "FINALPREFERENCES", "" );
     $this->_setUserPref( "FINALPREFERENCES", "" );
     my $t = $this->createNewFoswikiApp(
-        user => $this->test_user_login,
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
         %topicAppParams,
     );
     $this->assert_str_equals( "TOPIC", $t->prefs->getPreference("SOURCE") );
@@ -260,7 +285,8 @@ sub test_finalSystem {
     $this->_setUserPref( "FINALPREFERENCES", "" );
 
     my $t = $this->createNewFoswikiApp(
-        user => $this->test_user_login,
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
         %topicAppParams,
     );
     $this->assert_str_equals( "DEFAULT", $t->prefs->getPreference("SOURCE") );
@@ -283,7 +309,8 @@ sub test_finalSite {
     $this->_setUserPref( "FINALPREFERENCES", "" );
 
     my $t = $this->createNewFoswikiApp(
-        user => $this->test_user_login,
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
         %topicAppParams,
     );
     $this->assert_str_equals( "SITE", $t->prefs->getPreference("SOURCE") );
@@ -306,7 +333,8 @@ sub test_finalWeb {
     $this->_setUserPref( "FINALPREFERENCES", "" );
 
     my $t = $this->createNewFoswikiApp(
-        user => $this->test_user_login,
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
         %topicAppParams,
     );
     $this->assert_str_equals( "WEB", $t->prefs->getPreference("SOURCE") );
@@ -348,7 +376,8 @@ sub test_nouser {
     $this->_setUserPref( "FINALPREFERENCES", "" );
 
     my $t = $this->createNewFoswikiApp(
-        user => $this->test_user_login,
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
         %topicAppParams,
     );
     $this->assert_str_equals( "WEB",
@@ -363,10 +392,7 @@ sub test_local_to_default {
     $this->_setDefaultPref( "SOURCE", "GLOBAL" );
     $this->_setDefaultPref( "SOURCE", "LOCAL", "Local" );
 
-    my $t = $this->createNewFoswikiApp(
-        user => $this->test_user_login,
-        %topicAppParams,
-    );
+    my $t = $this->createNewFoswikiApp( %topicAppParams, );
     $this->assert_str_equals( "GLOBAL", $t->prefs->getPreference("SOURCE") );
 
     $t = $this->createNewFoswikiApp(
@@ -391,7 +417,8 @@ sub test_local_to_site {
     $this->_setSitePref( "SOURCE", "LOCAL", "Local" );
 
     my $t = $this->createNewFoswikiApp(
-        user => $this->test_user_login,
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
         %topicAppParams,
     );
     $this->assert_str_equals( "GLOBAL", $t->prefs->getPreference("SOURCE") );
@@ -400,9 +427,13 @@ sub test_local_to_site {
         $this->app->cfg->data->{LocalSitePreferences} );
 
     $t = $this->createNewFoswikiApp(
-        user          => $this->test_user_login,
         requestParams => { initializer => '', },
-        engineParams  => { initialAttributes => { path_info => "/$tw/$tt", }, },
+        engineParams  => {
+            initialAttributes => {
+                path_info => "/$tw/$tt",
+                user      => $this->test_user_login,
+            },
+        },
     );
     $this->assert_str_equals( "LOCAL", $t->prefs->getPreference("SOURCE") );
 
@@ -416,17 +447,18 @@ sub test_local_to_user {
     $this->_setUserPref( "SOURCE", "LOCAL", "Local" );
 
     my $t = $this->createNewFoswikiApp(
-        user => $this->test_user_login,
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
         %topicAppParams
     );
     $this->assert_str_equals( "GLOBAL", $t->prefs->getPreference("SOURCE") );
 
     $t = $this->createNewFoswikiApp(
-        user          => $this->test_user_login,
         requestParams => { initializer => '', },
         engineParams  => {
             initialAttributes => {
-                    path_info => "/"
+                user      => $this->test_user_login,
+                path_info => "/"
                   . $this->app->cfg->data->{UsersWebName} . "/"
                   . $this->test_user_wikiname,
             },
@@ -444,19 +476,20 @@ sub test_local_to_web {
     $this->_setWebPref( "SOURCE", "LOCAL", "Local" );
 
     my $t = $this->createNewFoswikiApp(
-        user => $this->test_user_login,
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
         %topicAppParams,
     );
     $this->assert_str_equals( "GLOBAL", $t->prefs->getPreference("SOURCE") );
 
     $t = $this->createNewFoswikiApp(
-        user          => $this->test_user_login,
         requestParams => { initializer => '', },
         engineParams  => {
             initialAttributes => {
-                    path_info => "/"
+                path_info => "/"
                   . $this->test_web . "/"
                   . $this->app->cfg->data->{WebPrefsTopicName},
+                user => $this->test_user_login,
             },
         }
     );
@@ -473,7 +506,8 @@ sub test_whitespace {
     $this->_setTopicPref( "THREE", "VAL\n   " );
 
     my $t = $this->createNewFoswikiApp(
-        user => $this->test_user_login,
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
         %topicAppParams,
     );
     $this->assert_str_equals( "VAL ", $t->prefs->getPreference("ONE") );

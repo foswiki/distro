@@ -3,14 +3,11 @@ use v5.14;
 
 use Foswiki();
 use Foswiki::UI::Save();
-use Unit::Request();
 use Try::Tiny;
 
 use Moo;
 use namespace::clean;
 extends qw( FoswikiFnTestCase );
-
-my $UI_FN;
 
 my $testform1 = <<'HERE';
 | *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
@@ -99,8 +96,6 @@ around set_up => sub {
     my $this = shift;
     $orig->( $this, @_ );
 
-    $UI_FN ||= $this->getUIFn('save');
-
     $this->test_user_2_forename('Buck');
     $this->test_user_2_surname('Rogers');
     $this->test_user_2_wikiname(
@@ -156,23 +151,50 @@ CONTENT
     return;
 };
 
+# Foswiki::App handleRequestException callback function.
+sub _cbHRE {
+    my $obj  = shift;
+    my %args = @_;
+    $args{params}{exception}->rethrow;
+}
+
+around createNewFoswikiApp => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my %params = @_;
+
+    $params{engineParams}{initialAttributes}{action} //= 'save';
+
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
+
+    return $orig->( $this, @_,
+        callbacks => { handleRequestException => \&_cbHRE }, );
+};
+
 # AUTOINC
 sub test_AUTOINC {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            action => ['save'],
-            text   => ['nowt'],
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action => ['save'],
+                text   => ['nowt'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                user      => $this->test_user_login,
+                path_info => '/' . $this->test_web . '.TestAutoAUTOINC00',
+                method    => 'post',
+            },
+        },
     );
-    $query->path_info( '/' . $this->test_web . '.TestAutoAUTOINC00' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my %old;
     foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         $old{$t} = 1;
     }
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     my $seen = 0;
     foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         if ( $t eq 'TestAuto00' ) {
@@ -183,9 +205,22 @@ sub test_AUTOINC {
         }
     }
     $this->assert($seen);
-    $query->method('pOsT');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action => ['save'],
+                text   => ['nowt'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                user      => $this->test_user_login,
+                path_info => '/' . $this->test_web . '.TestAutoAUTOINC00',
+                method    => 'pOsT',
+            },
+        },
+    );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     $seen = 0;
     foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
 
@@ -203,20 +238,26 @@ sub test_AUTOINC {
 
 # 10X
 sub test_XXXXXXXXXX {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            action => ['save'],
-            text   => ['nowt'],
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action => ['save'],
+                text   => ['nowt'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                user      => $this->test_user_login,
+                path_info => '/' . $this->test_web . '.TestTopicXXXXXXXXXX',
+            },
+        },
     );
-    $query->path_info( '/' . $this->test_web . '.TestTopicXXXXXXXXXX' );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my %old;
     foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         $old{$t} = 1;
     }
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     my $seen = 0;
     foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         if ( $t eq 'TestTopic0' ) {
@@ -227,8 +268,21 @@ sub test_XXXXXXXXXX {
         }
     }
     $this->assert($seen);
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action => ['save'],
+                text   => ['nowt'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                user      => $this->test_user_login,
+                path_info => '/' . $this->test_web . '.TestTopicXXXXXXXXXX',
+            },
+        },
+    );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     $seen = 0;
     foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         if ( $t =~ m/^TestTopic[01]$/ ) {
@@ -245,24 +299,30 @@ sub test_XXXXXXXXXX {
 
 # 9X
 sub test_XXXXXXXXX {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            action => ['save'],
-            text   => ['nowt'],
-        }
-    );
-    $query->path_info( "/" . $this->test_web . "/TestTopicXXXXXXXXX" );
+    my $this = shift;
     $this->assert(
-        !$this->session->topicExists( $this->test_web, 'TestTopic0' ) );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
+        !$this->app->store->topicExists( $this->test_web, 'TestTopic0' ) );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action => ['save'],
+                text   => ['nowt'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                user      => $this->test_user_login,
+                path_info => '/' . $this->test_web . '.TestTopicXXXXXXXXX',
+            },
+        },
+    );
     my %old;
     foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         $old{$t} = 1;
     }
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     $this->assert(
-        !$this->session->topicExists( $this->test_web, 'TestTopic0' ) );
+        !$this->app->store->topicExists( $this->test_web, 'TestTopic0' ) );
     my $seen = 0;
     foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         if ( $t eq 'TestTopicXXXXXXXXX' ) {
@@ -279,20 +339,26 @@ sub test_XXXXXXXXX {
 
 #11X
 sub test_XXXXXXXXXXX {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            action => ['save'],
-            text   => ['nowt'],
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action => ['save'],
+                text   => ['nowt'],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                user      => $this->test_user_login,
+                path_info => '/' . $this->test_web . '.TestTopicXXXXXXXXXX',
+            },
+        },
     );
-    $query->path_info( "/" . $this->test_web . "/TestTopicXXXXXXXXXXX" );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my %old;
     foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         $old{$t} = 1;
     }
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     my $seen = 0;
     foreach my $t ( Foswiki::Func::getTopicList( $this->test_web ) ) {
         if ( $t eq 'TestTopic0' ) {
@@ -308,15 +374,18 @@ sub test_XXXXXXXXXXX {
 }
 
 sub test_emptySave {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            action => ['save'],
-            topic  => [ $this->test_web . '.EmptyTestSaveScriptTopic' ]
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action => ['save'],
+                topic  => [ $this->test_web . '.EmptyTestSaveScriptTopic' ],
+            },
+        },
+        enginParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     my ($meta) =
       Foswiki::Func::readTopic( $this->test_web, 'EmptyTestSaveScriptTopic' );
     my $text = $meta->text;
@@ -329,9 +398,10 @@ sub test_emptySave {
 sub test_simpleTextPreview {
     my $this = shift;
     my ( $test_web, $test_topic ) = ( $this->test_web, $this->test_topic );
-    my $query = Unit::Request->new(
-        initializer => {
-            text => [<<HERE],
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text => [<<HERE],
 CUT##
 <a href="blah.com">no target</a>
 <a href='bloo.com' target=_self>self undelim</a>
@@ -340,17 +410,19 @@ CUT##
 <a href='blerg.com' target="your'_self'" asdf="what">messed up</a>
 ##CUT
 HERE
-            action => ['preview'],
-            topic  => [ $this->test_web . '.DeleteTestSaveScriptTopic' ]
-        }
+                action => ['preview'],
+                topic  => [ $test_web . '.DeleteTestSaveScriptTopic' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    my ( $results, $stdout, $stderr ) =
-      $this->captureWithKey( save => $UI_FN, $this->session );
+    my ( $text, $results, $stdout, $stderr ) =
+      $this->captureWithKey( save => sub { $this->app->handleRequest }, );
 
-    $results =~ s/.*CUT##(.*?)##CUT.*/$1/ms;
+    $text =~ s/.*CUT##(.*?)##CUT.*/$1/ms;
 
-    $this->assert_html_equals( <<HERE, $results );
+    $this->assert_html_equals( <<HERE, $text );
 <a target="_blank" href="blah.com">no target</a>
 <a href='bloo.com' target="_blank">self undelim</a>
 <a href='blerg.com' target="_blank" asdf="what">self SQ</a>
@@ -364,16 +436,19 @@ HERE
 }
 
 sub test_simpleTextSave {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            text   => ['CORRECT'],
-            action => ['save'],
-            topic  => [ $this->test_web . '.DeleteTestSaveScriptTopic' ]
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text   => ['CORRECT'],
+                action => ['save'],
+                topic  => [ $this->test_web . '.DeleteTestSaveScriptTopic' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     my ($meta) =
       Foswiki::Func::readTopic( $this->test_web, 'DeleteTestSaveScriptTopic' );
     my $text = $meta->text;
@@ -384,19 +459,23 @@ sub test_simpleTextSave {
 }
 
 sub test_simpleTextSaveDeniedWebCHANGE {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            text   => ['CORRECT'],
-            action => ['save'],
-            topic  => [ $this->test_web . '.DeleteTestSaveScriptTopic3' ]
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text   => ['CORRECT'],
+                action => ['save'],
+                topic  => [ $this->test_web . '.DeleteTestSaveScriptTopic3' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_3_login, }, },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-    $this->createNewFoswikiSession( $this->test_user_3_login, $query );
 
     my $exception;
     try {
-        $this->captureWithKey( save => $UI_FN, $this->session );
+        $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     }
     catch {
         $exception = $_;
@@ -421,7 +500,7 @@ qr/AccessControlException: Access to CHANGE TemporarySaveTestWebSave. for duck i
         $exception->stringify
     );
     $this->assert(
-        !$this->session->topicExists(
+        !$this->app->store->topicExists(
             $this->test_web, 'DeleteTestSaveScriptTopic3'
         )
     );
@@ -430,25 +509,31 @@ qr/AccessControlException: Access to CHANGE TemporarySaveTestWebSave. for duck i
 }
 
 sub test_templateTopicTextSave {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            text   => ['Template Topic'],
-            action => ['save'],
-            topic  => [ $this->test_web . '.TemplateTopic' ]
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text   => ['Template Topic'],
+                action => ['save'],
+                topic  => [ $this->test_web . '.TemplateTopic' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
-    $query = Unit::Request->new(
-        initializer => {
-            templatetopic => ['TemplateTopic'],
-            action        => ['save'],
-            topic         => [ $this->test_web . '.TemplateTopic' ]
-        }
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text   => ['Template Topic'],
+                action => ['save'],
+                topic  => [ $this->test_web . '.TemplateTopic' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'TemplateTopic' );
     my $text = $meta->text;
     $this->assert_matches( qr/Template Topic/, $text );
@@ -459,25 +544,31 @@ sub test_templateTopicTextSave {
 
 # Save over existing topic
 sub test_prevTopicTextSave {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            text   => ['WRONG'],
-            action => ['save'],
-            topic  => [ $this->test_web . '.PrevTopicTextSave' ]
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text   => ['WRONG'],
+                action => ['save'],
+                topic  => [ $this->test_web . '.PrevTopicTextSave' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
-    $query = Unit::Request->new(
-        initializer => {
-            text   => ['CORRECT'],
-            action => ['save'],
-            topic  => [ $this->test_web . '.PrevTopicTextSave' ]
-        }
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text   => ['CORRECT'],
+                action => ['save'],
+                topic  => [ $this->test_web . '.PrevTopicTextSave' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     my ($meta) =
       Foswiki::Func::readTopic( $this->test_web, 'PrevTopicTextSave' );
     my $text = $meta->text;
@@ -489,17 +580,21 @@ sub test_prevTopicTextSave {
 
 # Save into missing web
 sub test_missingWebSave {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            text   => ['WRONG'],
-            action => ['save'],
-            topic  => [ 'MissingWeb' . '.PrevTopicTextSave' ]
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text   => ['WRONG'],
+                action => ['save'],
+                topic  => ['MissingWeb.PrevTopicTextSave']
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
     try {
-        $this->captureWithKey( save => $UI_FN, $this->session );
+        $this->captureWithKey( save => sub { $this->app->handleRequest }, );
         $this->assert( 0, 'save into missing web worked' );
     }
     catch {
@@ -517,24 +612,31 @@ sub test_missingWebSave {
 
 # Save over existing topic with no text
 sub test_prevTopicEmptyTextSave {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            text   => ['CORRECT'],
-            action => ['save'],
-            topic  => [ $this->test_web . '.PrevTopicEmptyTextSave' ]
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text   => ['CORRECT'],
+                action => ['save'],
+                topic  => [ $this->test_web . '.PrevTopicEmptyTextSave' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
-    $query = Unit::Request->new(
-        initializer => {
-            action => ['save'],
-            topic  => [ $this->test_web . '.PrevTopicEmptyTextSave' ]
-        }
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action => ['save'],
+                topic  => [ $this->test_web . '.PrevTopicEmptyTextSave' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     my ($meta) =
       Foswiki::Func::readTopic( $this->test_web, 'PrevTopicEmptyTextSave' );
     my $text = $meta->text;
@@ -545,20 +647,23 @@ sub test_prevTopicEmptyTextSave {
 }
 
 sub test_simpleFormSave {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            text         => ['CORRECT'],
-            formtemplate => ['TestForm1'],
-            action       => ['save'],
-            'Textfield'  => ['Flintstone'],
-            topic        => [ $this->test_web . '.SimpleFormSave' ]
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text         => ['CORRECT'],
+                formtemplate => ['TestForm1'],
+                action       => ['save'],
+                'Textfield'  => ['Flintstone'],
+                topic        => [ $this->test_web . '.SimpleFormSave' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     $this->assert(
-        $this->session->topicExists( $this->test_web, 'SimpleFormSave' ) );
+        $this->app->store->topicExists( $this->test_web, 'SimpleFormSave' ) );
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave' );
     my $text = $meta->text;
     $this->assert_matches( qr/^CORRECT\s*$/, $text );
@@ -572,32 +677,39 @@ sub test_simpleFormSave {
 }
 
 sub test_templateTopicFormSave {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            text         => ['Template Topic'],
-            formtemplate => ['TestForm1'],
-            'Select'     => ['Value_1'],
-            'Textfield'  => ['Fred'],
-            action       => ['save'],
-            topic        => [ $this->test_web . '.TemplateTopic' ]
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text         => ['Template Topic'],
+                formtemplate => ['TestForm1'],
+                'Select'     => ['Value_1'],
+                'Textfield'  => ['Fred'],
+                action       => ['save'],
+                topic        => [ $this->test_web . '.TemplateTopic' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
 
     my ($xmeta) = Foswiki::Func::readTopic( $this->test_web, 'TemplateTopic' );
     my $xtext = $xmeta->text;
     undef $xmeta;
-    $query = Unit::Request->new(
-        initializer => {
-            templatetopic => ['TemplateTopic'],
-            action        => ['save'],
-            topic         => [ $this->test_web . '.TemplateTopicAgain' ]
-        }
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                templatetopic => ['TemplateTopic'],
+                action        => ['save'],
+                topic         => [ $this->test_web . '.TemplateTopicAgain' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     my ($meta) =
       Foswiki::Func::readTopic( $this->test_web, 'TemplateTopicAgain' );
     my $text = $meta->text;
@@ -613,29 +725,36 @@ sub test_templateTopicFormSave {
 }
 
 sub test_prevTopicFormSave {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            text         => ['Template Topic'],
-            formtemplate => ['TestForm1'],
-            'Select'     => ['Value_1'],
-            'Textfield'  => ['Rubble'],
-            action       => ['save'],
-            topic        => [ $this->test_web . '.PrevTopicFormSave' ]
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text         => ['Template Topic'],
+                formtemplate => ['TestForm1'],
+                'Select'     => ['Value_1'],
+                'Textfield'  => ['Rubble'],
+                action       => ['save'],
+                topic        => [ $this->test_web . '.PrevTopicFormSave' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
-    $query = Unit::Request->new(
-        initializer => {
-            action      => ['save'],
-            'Textfield' => ['Barney'],
-            topic       => [ $this->test_web . '.PrevTopicFormSave' ]
-        }
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action      => ['save'],
+                'Textfield' => ['Barney'],
+                topic       => [ $this->test_web . '.PrevTopicFormSave' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my ( $responseText, $result, $stdout, $stderr ) =
-      $this->captureWithKey( save => $UI_FN, $this->session );
+      $this->captureWithKey( save => sub { $this->app->handleRequest }, );
 
     # Uncomment to get output from command
     #print STDERR $responseText . $result . $stdout . $stderr . "\n";
@@ -654,24 +773,27 @@ sub test_prevTopicFormSave {
 }
 
 sub test_simpleFormSave1 {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            action               => ['save'],
-            text                 => [$testtext_nometa],
-            formtemplate         => ['TestForm1'],
-            'Select'             => ['Value_2'],
-            'Radio'              => ['3'],
-            'Checkbox'           => ['red'],
-            'CheckboxandButtons' => ['hamster'],
-            'Textfield'          => ['Test'],
-            topic                => [ $this->test_web . '.SimpleFormTopic' ]
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action               => ['save'],
+                text                 => [$testtext_nometa],
+                formtemplate         => ['TestForm1'],
+                'Select'             => ['Value_2'],
+                'Radio'              => ['3'],
+                'Checkbox'           => ['red'],
+                'CheckboxandButtons' => ['hamster'],
+                'Textfield'          => ['Test'],
+                topic                => [ $this->test_web . '.SimpleFormTopic' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     $this->assert(
-        $this->session->topicExists( $this->test_web, 'SimpleFormTopic' ) );
+        $this->app->store->topicExists( $this->test_web, 'SimpleFormTopic' ) );
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormTopic' );
     my $text = $meta->text;
     $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
@@ -685,7 +807,7 @@ sub test_simpleFormSave1 {
 # are deleted.
 sub test_simpleFormSave2 {
     my $this = shift;
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     my ($oldmeta) =
       Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave2' );
@@ -697,23 +819,26 @@ sub test_simpleFormSave2 {
     undef $oldmeta;
     $meta->save( user => $this->test_user_login );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action               => ['save'],
-            text                 => [$testtext_nometa],
-            formtemplate         => ['TestForm3'],
-            'Select'             => ['Value_2'],
-            'Radio'              => ['3'],
-            'Checkbox'           => ['red'],
-            'CheckboxandButtons' => ['hamster'],
-            'Textfield'          => ['Test'],
-            topic                => [ $this->test_web . '.SimpleFormSave2' ]
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action               => ['save'],
+                text                 => [$testtext_nometa],
+                formtemplate         => ['TestForm3'],
+                'Select'             => ['Value_2'],
+                'Radio'              => ['3'],
+                'Checkbox'           => ['red'],
+                'CheckboxandButtons' => ['hamster'],
+                'Textfield'          => ['Test'],
+                topic                => [ $this->test_web . '.SimpleFormSave2' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     $this->assert(
-        $this->session->topicExists( $this->test_web, 'SimpleFormSave2' ) );
+        $this->app->store->topicExists( $this->test_web, 'SimpleFormSave2' ) );
     undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave2' );
     my $text = $meta->text;
@@ -729,7 +854,7 @@ sub test_simpleFormSave2 {
 # during saves.
 sub test_simpleFormSave3 {
     my $this = shift;
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     my ($oldmeta) =
       Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave3' );
@@ -741,23 +866,26 @@ sub test_simpleFormSave3 {
     undef $oldmeta;
     $meta->save( user => $this->test_user_login );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action               => ['save'],
-            text                 => [$testtext_nometa],
-            formtemplate         => ['TestForm1'],
-            'Select'             => ['Value_2'],
-            'Radio'              => ['3'],
-            'Checkbox'           => ['red'],
-            'CheckboxandButtons' => ['hamster'],
-            'Textfield'          => ['Test'],
-            topic                => [ $this->test_web . '.SimpleFormSave3' ]
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action               => ['save'],
+                text                 => [$testtext_nometa],
+                formtemplate         => ['TestForm1'],
+                'Select'             => ['Value_2'],
+                'Radio'              => ['3'],
+                'Checkbox'           => ['red'],
+                'CheckboxandButtons' => ['hamster'],
+                'Textfield'          => ['Test'],
+                topic                => [ $this->test_web . '.SimpleFormSave3' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     $this->assert(
-        $this->session->topicExists( $this->test_web, 'SimpleFormSave3' ) );
+        $this->app->store->topicExists( $this->test_web, 'SimpleFormSave3' ) );
     undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave3' );
     my $text = $meta->text;
@@ -772,20 +900,23 @@ sub test_simpleFormSave3 {
 # The purpose of this test is to confirm that we can save the value 0
 # We have made this bug several times in history
 sub test_simpleFormSaveZeroValue {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            text         => ['CORRECT'],
-            formtemplate => ['TestForm1'],
-            action       => ['save'],
-            'Textfield'  => ['0'],
-            topic        => [ $this->test_web . '.SimpleFormSave' ]
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text         => ['CORRECT'],
+                formtemplate => ['TestForm1'],
+                action       => ['save'],
+                'Textfield'  => ['0'],
+                topic        => [ $this->test_web . '.SimpleFormSave' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     $this->assert(
-        $this->session->topicExists( $this->test_web, 'SimpleFormSave' ) );
+        $this->app->store->topicExists( $this->test_web, 'SimpleFormSave' ) );
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave' );
     my $text = $meta->text;
     $this->assert_matches( qr/^CORRECT\s*$/, $text );
@@ -800,20 +931,23 @@ sub test_simpleFormSaveZeroValue {
 # Testing empty value form field values - Item9970
 # The purpose of this test is to confirm that we can save an empty value
 sub test_simpleFormSaveEmptyValue {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            text         => ['CORRECT'],
-            formtemplate => ['TestForm1'],
-            action       => ['save'],
-            'Textfield'  => [''],
-            topic        => [ $this->test_web . '.SimpleFormSave' ]
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text         => ['CORRECT'],
+                formtemplate => ['TestForm1'],
+                action       => ['save'],
+                'Textfield'  => [''],
+                topic        => [ $this->test_web . '.SimpleFormSave' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     $this->assert(
-        $this->session->topicExists( $this->test_web, 'SimpleFormSave' ) );
+        $this->app->store->topicExists( $this->test_web, 'SimpleFormSave' ) );
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'SimpleFormSave' );
     my $text = $meta->text;
     $this->assert_matches( qr/^CORRECT\s*$/, $text );
@@ -831,15 +965,18 @@ sub test_templateTopicWithMeta {
 
     Foswiki::Func::saveTopicText( $this->test_web, "TemplateTopic",
         $testtext1 );
-    my $query = Unit::Request->new(
-        initializer => {
-            templatetopic => ['TemplateTopic'],
-            action        => ['save'],
-            topic         => [ $this->test_web . '.TemplateTopicWithMeta' ]
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                templatetopic => ['TemplateTopic'],
+                action        => ['save'],
+                topic         => [ $this->test_web . '.TemplateTopicWithMeta' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     my ($meta) =
       Foswiki::Func::readTopic( $this->test_web, 'TemplateTopicWithMeta' );
     my $text = $meta->text;
@@ -854,12 +991,16 @@ sub test_templateTopicWithMeta {
 sub test_templateTopicWithAttachments {
     my $this = shift;
 
-    $this->assert(
-        open( my $FILE, ">", "$Foswiki::cfg{TempfileDir}/testfile.txt" ) );
+    my $FILE;
+    my $testfile = $this->app->cfg->data->{TempfileDir} . "/testfile.txt";
+    $this->assert( open( $FILE, ">", $testfile ), "Write to $testfile: $!" );
     print $FILE "one two three";
     $this->assert( close($FILE) );
     $this->assert(
-        open( $FILE, ">", "$Foswiki::cfg{TempfileDir}/testfile2.txt" ) );
+        open(
+            $FILE, ">", $this->app->cfg->data->{TempfileDir} . "/testfile2.txt"
+        )
+    );
     print $FILE "four five six";
     $this->assert( close($FILE) );
 
@@ -888,15 +1029,18 @@ sub test_templateTopicWithAttachments {
         }
     );
 
-    my $query = Unit::Request->new(
-        initializer => {
-            templatetopic => ['TemplateTopic'],
-            action        => ['save'],
-            topic         => [ $this->test_web . ".$testTopic" ]
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                templatetopic => ['TemplateTopic'],
+                action        => ['save'],
+                topic         => [ $this->test_web . ".$testTopic" ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
 
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->test_web, $testTopic );
@@ -922,7 +1066,7 @@ sub test_templateTopicWithAttachments {
 
 sub test_merge {
     my $this = shift;
-    $this->createNewFoswikiSession();
+    $this->createNewFoswikiApp;
 
     # Set up the original topic that the two edits started on
     my ($oldmeta) = Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
@@ -941,61 +1085,65 @@ sub test_merge {
 
     # Now build a query for the save at the end of the first edit,
     # forcing a revision increment.
-    my $query1 = Unit::Request->new(
-        initializer => {
-            action               => ['save'],
-            text                 => ["Soggy bat"],
-            originalrev          => $original,
-            forcenewrevision     => 1,
-            formtemplate         => ['TestForm4'],
-            'Select'             => ['Value_2'],
-            'Radio'              => ['3'],
-            'Checkbox'           => ['red'],
-            'CheckboxandButtons' => ['hamster'],
-            'Textfield'          => ['Bat'],
-            'Textarea'           => [ <<'GUMP' ],
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action               => ['save'],
+                text                 => ["Soggy bat"],
+                originalrev          => $original,
+                forcenewrevision     => 1,
+                formtemplate         => ['TestForm4'],
+                'Select'             => ['Value_2'],
+                'Radio'              => ['3'],
+                'Checkbox'           => ['red'],
+                'CheckboxandButtons' => ['hamster'],
+                'Textfield'          => ['Bat'],
+                'Textarea'           => [ <<'GUMP' ],
 Glug Glug
 Blog Glog
 Bungdit Din
 Glaggie
 GUMP
-            topic => [ $this->test_web . '.MergeSave' ]
-        }
+                topic => [ $this->test_web . '.MergeSave' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-
-    # Do the save
-    $this->createNewFoswikiSession( $this->test_user_login, $query1 );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     $info = $meta->getRevisionInfo();
 
     #print STDERR "First edit saved as $info->{version}_$info->{date}\n";
 
     # Build a second query for the other save, based on the same original
     # version as the previous edit
-    my $query2 = Unit::Request->new(
-        initializer => {
-            action               => ['save'],
-            text                 => ["Wet rat"],
-            originalrev          => $original,
-            formtemplate         => ['TestForm4'],
-            'Select'             => ['Value_2'],
-            'Radio'              => ['3'],
-            'Checkbox'           => ['red'],
-            'CheckboxandButtons' => ['hamster'],
-            'Textfield'          => ['Rat'],
-            'Textarea'           => [ <<'GUMP' ],
+    # This time we expect a merge exception
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action               => ['save'],
+                text                 => ["Wet rat"],
+                originalrev          => $original,
+                formtemplate         => ['TestForm4'],
+                'Select'             => ['Value_2'],
+                'Radio'              => ['3'],
+                'Checkbox'           => ['red'],
+                'CheckboxandButtons' => ['hamster'],
+                'Textfield'          => ['Rat'],
+                'Textarea'           => [ <<'GUMP' ],
 Spletter Glug
 Blog Splut
 Bungdit Din
 GUMP
-            topic => [ $this->test_web . '.MergeSave' ]
-        }
+                topic => [ $this->test_web . '.MergeSave' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_2_login, }, },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-
-    # Do the save. This time we expect a merge exception
-    $this->createNewFoswikiSession( $this->test_user_2_login, $query2 );
     try {
-        $this->captureWithKey( save => $UI_FN, $this->session );
+        $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     }
     catch {
         my $e = shift;
@@ -1044,91 +1192,6 @@ ZIS
     return;
 }
 
-# CC commented this test out, because it doesn't bear any relationship to any
-# documented interaction mode for the save script :-/
-#sub test_restoreRevision {
-#    my $this = shift;
-#
-#    # first write topic without meta
-#    my $query = Unit::Request->new({
-#        text => [ 'FIRST REVISION' ],
-#        action => [ 'save' ],
-#        topic => [ $this->test_web.'.DeleteTestRestoreRevisionTopic' ]
-#       });
-#    $this->createNewFoswikiSession( $this->test_user_login, $query );
-#    $this->captureWithKey( save => &$UI_FN, $this->session);
-#
-#    # retrieve revision number
-#    my ($meta) = Foswiki::Func::readTopic($this->test_web, 'DeleteTestRestoreRevisionTopic');
-#    my $text = $meta->text;
-#    my $info = $meta->getRevisionInfo();
-#
-#    my $original = "$info->{version}_$info->{date}";
-#    $this->assert_equals(1, $info->{version});
-#
-#    # write second revision with meta
-#    $query = Unit::Request->new({
-#                         action => [ 'save' ],
-#			 text   => [ 'SECOND REVISION' ],
-#			             originalrev => $original,
-#                         forcenewrevision => 1,
-#                         formtemplate => [ 'TestForm1' ],
-#                         'Select' => [ 'Value_2' ],
-#                         'Radio' => [ '3' ],
-#                         'Checkbox' => [ 'red' ],
-#                         'CheckboxandButtons' => [ 'hamster' ],
-#                         'Textfield' => [ 'Test' ],
-#			 topic  => [ $this->test_web.'.DeleteTestRestoreRevisionTopic' ]
-#                        });
-#    $this->createNewFoswikiSession( $this->test_user_login, $query);
-#    $this->captureWithKey( save => $UI_FN, $this->session);
-#
-#    ($meta) = Foswiki::Func::readTopic($this->test_web, 'DeleteTestRestoreRevisionTopic');
-#    $text = $meta->text;
-#    $info = $meta->getRevisionInfo();
-#    $original = "$info->{version}_$info->{date}";
-#    $this->assert_equals(2, $info->{version});
-#
-#    # now restore topic to revision 1
-#    # the form should be removed as well
-#    $query = Unit::Request->new({
-#        action => [ 'manage' ],
-#        rev => 1,
-#        forcenewrevision => 1,
-#        topic => [ $this->test_web.'.DeleteTestRestoreRevisionTopic' ]
-#       });
-#    $this->createNewFoswikiSession( $this->test_user_login, $query );
-#    $this->captureWithKey( save => $UI_FN, $this->session);
-#    ($meta) = Foswiki::Func::readTopic($this->test_web, 'DeleteTestRestoreRevisionTopic');
-#    $text = $meta->text;
-#    $info = $meta->getRevisionInfo();
-#    $original = "$info->{version}_$info->{date}";
-#    $this->assert_equals(3, $info->{version});
-#    $this->assert_matches(qr/FIRST REVISION/, $text);
-#    $this->assert_null($meta->get('FORM'));
-#
-#    # and restore topic to revision 2
-#    # the form should be re-appended
-#    $query = Unit::Request->new({
-#        action => [ 'manage' ],
-#        rev => 2,
-#        forcenewrevision => 1,
-#        topic => [ $this->test_web.'.DeleteTestRestoreRevisionTopic' ]
-#       });
-#    $this->createNewFoswikiSession( $this->test_user_login, $query );
-#    $this->captureWithKey( save => $UI_FN, $this->session);
-#    ($meta) = Foswiki::Func::readTopic($this->test_web, 'DeleteTestRestoreRevisionTopic');
-#    $text = $meta->text;
-#    $info = $meta->getRevisionInfo();
-#    $original = "$info->{version}_$info->{date}";
-#    $this->assert_equals(4, $info->{rev});
-#    $this->assert_matches(qr/SECOND REVISION/, $text);
-#    $this->assert_not_null($meta->get('FORM'));
-#    $this->assert_str_equals('TestForm1', $meta->get('FORM')->{name});
-#    # field default values should be all ''
-#    $this->assert_str_equals('Test', $meta->get('FIELD', 'Textfield' )->{value});
-#}
-
 # test interaction with reprev. Testcase:
 #
 # 1. A edits and saves (rev 1 now on disc)
@@ -1144,7 +1207,8 @@ sub test_1897 {
     # make sure we have time to complete the test
     $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 7200;
 
-    $this->createNewFoswikiSession( $this->test_user_login );
+    $this->createNewFoswikiApp( engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, }, );
 
     my ($oldmeta) = Foswiki::Func::readTopic( $this->test_web, 'MergeSave' );
     my $oldtext = $testtext1;
@@ -1174,16 +1238,19 @@ sub test_1897 {
     sleep(1);    # tick the clock to ensure the date changes
 
     # A saves again, reprev triggers to create rev 1 again
-    $query = Unit::Request->new(
-        initializer => {
-            action      => ['save'],
-            text        => ["Sweaty\ncat"],
-            originalrev => $original,
-            topic       => [ $this->test_web . '.MergeSave' ]
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action      => ['save'],
+                text        => ["Sweaty\ncat"],
+                originalrev => $original,
+                topic       => [ $this->test_web . '.MergeSave' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
 
     # make sure it's still rev 1 as expected
     my $text2;
@@ -1199,17 +1266,21 @@ sub test_1897 {
     $this->assert( $repRevDate != $orgDate );
 
     # User B saves; make sure we get a merge notice.
-    $query = Unit::Request->new(
-        initializer => {
-            action      => ['save'],
-            text        => ["Smelly\nrat"],
-            originalrev => $original,
-            topic       => [ $this->test_web . '.MergeSave' ]
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action      => ['save'],
+                text        => ["Smelly\nrat"],
+                originalrev => $original,
+                topic       => [ $this->test_web . '.MergeSave' ]
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_2_login, }, },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-    $this->createNewFoswikiSession( $this->test_user_2_login, $query );
     try {
-        $this->captureWithKey( save => $UI_FN, $this->session );
+        $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     }
     catch {
         my $e = shift;
@@ -1243,7 +1314,8 @@ sub test_cmdEqualsReprev {
     # make sure we have time to complete the test
     $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 7200;
 
-    $this->createNewFoswikiSession( $this->test_user_login );
+    $this->createNewFoswikiApp( engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, }, );
 
     my ($oldmeta) = Foswiki::Func::readTopic( $this->test_web, 'RepRev' );
     my $oldtext = $testtext1;
@@ -1269,17 +1341,21 @@ sub test_cmdEqualsReprev {
     sleep(1);    # tick the clock to ensure the date changes
 
     # admin reprevs to create rev 1 again with new text
-    $query = Unit::Request->new(
-        initializer => {
-            action => ['save'],
-            text   => ["A Tale of Two Cities"],
-            cmd    => ['repRev'],
-            topic  => [ $this->test_web . '.RepRev' ]
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action => ['save'],
+                text   => ["A Tale of Two Cities"],
+                cmd    => ['repRev'],
+                topic  => [ $this->test_web . '.RepRev' ]
+            },
+        },
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{SuperAdminGroup}, },
+        },
     );
-
-    $this->createNewFoswikiSession( $Foswiki::cfg{SuperAdminGroup}, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
 
     # make sure it's still rev 1 as expected
     my $text2;
@@ -1302,18 +1378,23 @@ sub test_cmdEqualsReprev {
 }
 
 sub test_missingTemplateTopic {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            templatetopic => ['NonExistantTemplateTopic'],
-            action        => ['save'],
-            topic         => [ $this->test_web . '.FlibbleDeDib' ]
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                templatetopic => ['NonExistantTemplateTopic'],
+                action        => ['save'],
+                topic         => [ $this->test_web . '.FlibbleDeDib' ]
+            },
+        },
+        engineParams => {
+            initialAttributes =>
+              { user => $this->test_user_login, method => 'post', },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
     try {
-        $this->captureWithKey( save => $UI_FN, $this->session );
+        $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     }
     catch {
         my $e = shift;
@@ -1329,17 +1410,23 @@ sub test_missingTemplateTopic {
 }
 
 sub test_addform {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            action => ['addform'],
-            topic  => [ $this->test_web . "." . $this->test_topic ],
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action => ['addform'],
+                topic  => [ $this->test_web . "." . $this->test_topic ],
+            },
+        },
+        engineParams => {
+            initialAttributes =>
+              { user => $this->test_user_login, method => 'POST', },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-    $query->method('POST');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
     try {
-        my ($text) = $this->captureWithKey( save => $UI_FN, $this->session );
+        my ($text) =
+          $this->captureWithKey( save => sub { $this->app->handleRequest }, );
 
         foreach my $val (qw(TestForm1 TestForm2 TestForm3 TestForm4)) {
             ( my $tf ) = $text =~ m/.*(<input .*?value="$val".*?>).*/;
@@ -1356,17 +1443,22 @@ sub test_addform {
 sub test_get {
     my $this = shift;
 
-    my $query = Unit::Request->new(
-        initializer => {
-            action => ['save'],
-            topic  => [ $this->test_web . "." . $this->test_topic ]
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                action => ['save'],
+                topic  => [ $this->test_web . "." . $this->test_topic ]
+            },
+        },
+        engineParams => {
+            initialAttributes =>
+              { user => $this->test_user_login, method => 'GET', },
+        },
+        callbacks => { handleRequestException => \&_cbHRE },
     );
-    $query->method('GET');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-
     try {
-        my ($text) = $this->captureWithKey( save => $UI_FN, $this->session );
+        my ($text) =
+          $this->captureWithKey( save => sub { $this->app->handleRequest }, );
         $this->assert_matches( qr/^Status: 403.*$/m, $text );
     }
     catch {
@@ -1378,20 +1470,23 @@ sub test_get {
 }
 
 sub test_preferenceSave {
-    my $this  = shift;
-    my $query = Unit::Request->new(
-        initializer => {
-            text             => ["CORRECT\n   * Set UNSETME = x\n"],
-            action           => ['save'],
-            topic            => [ $this->test_web . '.PrefTopic' ],
-            "Set+SETME"      => ['set me'],
-            "Set+SETME2"     => ['set me 2'],
-            "Local+LOCALME"  => ['local me'],
-            "Local+LOCALME2" => ['local me 2']
-        }
+    my $this = shift;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text             => ["CORRECT\n   * Set UNSETME = x\n"],
+                action           => ['save'],
+                topic            => [ $this->test_web . '.PrefTopic' ],
+                "Set+SETME"      => ['set me'],
+                "Set+SETME2"     => ['set me 2'],
+                "Local+LOCALME"  => ['local me'],
+                "Local+LOCALME2" => ['local me 2']
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, 'PrefTopic' );
     my $text = $meta->text;
     $this->assert_equals( 'local me',
@@ -1404,23 +1499,26 @@ sub test_preferenceSave {
         $meta->get( 'PREFERENCE', 'SETME2' )->{value} );
     undef $meta;
 
-    $query = Unit::Request->new(
-        initializer => {
-            text             => ["CORRECT\n   * Set UNSETME = x\n"],
-            action           => ['save'],
-            topic            => [ $this->test_web . '.PrefTopic' ],
-            "Unset+SETME"    => [1],
-            "Unset+LOCALME2" => [1],
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                text             => ["CORRECT\n   * Set UNSETME = x\n"],
+                action           => ['save'],
+                topic            => [ $this->test_web . '.PrefTopic' ],
+                "Unset+SETME"    => [1],
+                "Unset+LOCALME2" => [1],
 
-            # Default+ does nothing without a corresponding Set+ or Local+
-            "Set+SETME2"      => ['set me 2'],
-            "Local+LOCALME"   => ['local me'],
-            "Default+LOCALME" => ['local me'],
-            "Default+SETME2"  => ['set me 2']
-        }
+                # Default+ does nothing without a corresponding Set+ or Local+
+                "Set+SETME2"      => ['set me 2'],
+                "Local+LOCALME"   => ['local me'],
+                "Default+LOCALME" => ['local me'],
+                "Default+SETME2"  => ['set me 2']
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
     );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->captureWithKey( save => $UI_FN, $this->session );
+    $this->captureWithKey( save => sub { $this->app->handleRequest }, );
     ($meta) = Foswiki::Func::readTopic( $this->test_web, 'PrefTopic' );
     $text = $meta->text;
     $this->assert_null( $meta->get( 'PREFERENCE', 'SETME' ) );

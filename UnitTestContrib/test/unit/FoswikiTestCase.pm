@@ -680,6 +680,7 @@ around set_up => sub {
     my $this = shift;
 
     $orig->( $this, @_ );
+    my $cfgData = $this->app->cfg->data;
 
     $this->_clear__EnvSafe;
     foreach my $sym ( keys %ENV ) {
@@ -700,9 +701,9 @@ around set_up => sub {
     # in lib/MANIFEST) are enabled, but they are *all* enabled.
 
     # First disable all plugins
-    foreach my $k ( keys %{ $Foswiki::cfg{Plugins} } ) {
-        next unless ref( $Foswiki::cfg{Plugins}{$k} ) eq 'HASH';
-        $Foswiki::cfg{Plugins}{$k}{Enabled} = 0;
+    foreach my $k ( keys %{ $cfgData->{Plugins} } ) {
+        next unless ref( $cfgData->{Plugins}{$k} ) eq 'HASH';
+        $cfgData->{Plugins}{$k}{Enabled} = 0;
     }
 
     # then reenable only those listed in MANIFEST
@@ -718,14 +719,14 @@ around set_up => sub {
 
             # Don't enable EmptyPlugin - Disabled by default
             if ( $extension =~ m/Plugin$/ && $extension ne 'EmptyPlugin' ) {
-                unless ( exists $Foswiki::cfg{Plugins}{$extension}{Module} ) {
-                    $Foswiki::cfg{Plugins}{$extension}{Module} =
+                unless ( exists $cfgData->{Plugins}{$extension}{Module} ) {
+                    $cfgData->{Plugins}{$extension}{Module} =
                       'Foswiki::Plugins::' . $extension;
                     print STDERR "WARNING: $extension has no module defined, "
                       . "it might not load!\n"
-                      . "\tGuessed it to $Foswiki::cfg{Plugins}{$extension}{Module}\n";
+                      . "\tGuessed it to $cfgData->{Plugins}{$extension}{Module}\n";
                 }
-                $Foswiki::cfg{Plugins}{$extension}{Enabled} = 1;
+                $cfgData->{Plugins}{$extension}{Enabled} = 1;
             }
 
             # Is there a Config.spec?
@@ -772,15 +773,16 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
 
     ASSERT( !defined $Foswiki::app ) if SINGLE_SINGLETONS;
 
-    $Foswiki::cfg{WorkingDir} = $this->tempDir;
-    mkdir("$Foswiki::cfg{WorkingDir}/tmp");
-    mkdir("$Foswiki::cfg{WorkingDir}/registration_approvals");
-    mkdir("$Foswiki::cfg{WorkingDir}/work_areas");
-    mkdir("$Foswiki::cfg{WorkingDir}/requestTmp");
+    $this->app->cfg->data->{WorkingDir} = $this->tempDir;
+    foreach my $subdir (qw(tmp registration_approvals work_areas requestTmp)) {
+        my $newDir =
+          File::Spec->catfile( $this->app->cfg->data->{WorkingDir}, $subdir );
+        ASSERT( mkdir($newDir), "mkdir($newDir) : $!" );
+    }
 
     # Force completion of %Foswiki::cfg
     # This must be done before moving the logging.
-    $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::PlainFile';
+    $cfgData->{Store}{Implementation} = 'Foswiki::Store::PlainFile';
     $this->pushApp;
     my $tmp = Unit::TestApp->new(
         user => undef,
@@ -797,24 +799,24 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
     # Note this does not do much, except for some tests that use it directly.
     # The first call to File::Temp caches the temp directory name, so
     # this value won't get used for anything created by File::Temp
-    $Foswiki::cfg{TempfileDir} = "$Foswiki::cfg{WorkingDir}/requestTmp";
+    $cfgData->{TempfileDir} = "$cfgData->{WorkingDir}/requestTmp";
 
     # Move logging into a temporary directory
     my $logdir = Cwd::getcwd() . '/testlogs';
     $logdir =~ m/^(.*)$/;
     $logdir = $1;
-    $Foswiki::cfg{Log}{Dir} = $logdir;
+    $cfgData->{Log}{Dir} = $logdir;
     mkdir($logdir) unless -d $logdir;
-    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
-    $Foswiki::cfg{LogFileName}         = "$logdir/FoswikiTestCase.log";
-    $Foswiki::cfg{WarningFileName}     = "$logdir/FoswikiTestCase.warn";
-    $Foswiki::cfg{DebugFileName}       = "$logdir/FoswikiTestCase.debug";
-    $Foswiki::cfg{AdminUserWikiName}   = 'AdminUser';
-    $Foswiki::cfg{AdminUserLogin}      = 'root';
-    $Foswiki::cfg{SuperAdminGroup}     = 'AdminGroup';
+    $cfgData->{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
+    $cfgData->{LogFileName}         = "$logdir/FoswikiTestCase.log";
+    $cfgData->{WarningFileName}     = "$logdir/FoswikiTestCase.warn";
+    $cfgData->{DebugFileName}       = "$logdir/FoswikiTestCase.debug";
+    $cfgData->{AdminUserWikiName}   = 'AdminUser';
+    $cfgData->{AdminUserLogin}      = 'root';
+    $cfgData->{SuperAdminGroup}     = 'AdminGroup';
 
     # The unit tests really need CGI sessions or captureWithKey fails
-    $Foswiki::cfg{Sessions}{EnableGuestSessions} = 1;
+    $cfgData->{Sessions}{EnableGuestSessions} = 1;
 
     # This must be done *after* disabling/enabling the plugins
     # so that tests derived from this class can enable additional plugins.

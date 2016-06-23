@@ -9,15 +9,18 @@ Service functions used by the UI packages
 =cut
 
 package Foswiki::UI::ChangeForm;
+use v5.14;
 
-use strict;
-use warnings;
 use Try::Tiny;
 use Assert;
 
 use Foswiki       ();
 use Foswiki::Form ();
 use Foswiki::Func ();
+
+use Moo;
+use namespace::clean;
+extends qw(Foswiki::UI);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -28,18 +31,19 @@ BEGIN {
 
 =begin TML
 
----+ ClassMethod generate( $session, $web, $topic, $editaction )
+---+ ObjectMethod generate( $web, $topic, $editaction )
 
 Generate the page that supports selection of the form.
 
 =cut
 
 sub generate {
-    my ( $session, $topicObject, $editaction ) = @_;
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
+    my $this = shift;
+    my ( $topicObject, $editaction ) = @_;
 
-    my $page = $session->templates->readTemplate('changeform');
-    my $q    = $session->request;
+    my $app  = $this->app;
+    my $page = $app->templates->readTemplate('changeform');
+    my $q    = $app->request;
 
     my $formName = $q->param('formtemplate') || '';
     my $fqFormName;
@@ -55,7 +59,7 @@ sub generate {
         $fqFormName = $formName;
     }
     else {
-        $fqFormName = _normalizeName( $topicObject, $formName );
+        $fqFormName = $this->_normalizeName( $topicObject, $formName );
     }
 
     my @webforms = Foswiki::Form::getAvailableForms($topicObject);
@@ -64,7 +68,7 @@ sub generate {
     my $formList      = '';
     my $formElemCount = 0;
     foreach my $webform (@webforms) {
-        my $fqwebform = _normalizeName( $topicObject, $webform );
+        my $fqwebform = $this->_normalizeName( $topicObject, $webform );
 
         $formElemCount++;
         $formList .= CGI::br() if ($formList);
@@ -98,7 +102,7 @@ sub generate {
       if $parent;
     $page =~ s/%TOPICPARENT%/$parent/g;
 
-    my $redirectTo = $session->redirectto() || '';
+    my $redirectTo = $app->redirectto() || '';
     $page =~ s/%REDIRECTTO%/$redirectTo/g;
 
     my $text = '';
@@ -118,6 +122,7 @@ sub generate {
 }
 
 sub _normalizeName {
+    my $this = shift;
     my ( $topicObject, $name ) = @_;
 
     if ($name) {
