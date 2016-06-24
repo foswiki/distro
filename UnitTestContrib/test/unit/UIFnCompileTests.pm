@@ -9,13 +9,34 @@ use Moo;
 use namespace::clean;
 extends qw( FoswikiFnTestCase );
 
-our $UI_FN;
-our $SCRIPT_NAME;
 our %expected_status_main_webhome = (
-    search => 302,
-    save   => 302,
-    login  => 200,
-    logon  => 200,
+    search       => 302,
+    save         => 302,
+    login        => 200,
+    logon        => 200,
+    attach       => 200,
+    preview      => 200,
+    rdiff        => 200,
+    rest         => 404,
+    restauth     => 404,
+    changes      => 200,
+    edit         => 200,
+    compare      => 200,
+    rdiffauth    => 200,
+    statistics   => 200,
+    compareauth  => 200,
+    oops         => 200,
+    previewauth  => 200,
+    changes      => 200,
+    rename       => 200,
+    upload       => 400,
+    resetpasswd  => 400,
+    register     => 501,
+    view         => 200,
+    viewfile     => 404,
+    viewfileauth => 404,
+    viewauth     => 200,
+    manage       => 400,
 );
 
 # TODO: this is beause we're calling the UI::function, not UI:Execute - need to
@@ -32,6 +53,8 @@ our %expect_non_html = (
     statistics   => 1,
 );
 
+has test_action => ( is => 'rw', );
+
 around BUILDARGS => sub {
     my $orig = shift;
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
@@ -40,6 +63,7 @@ around BUILDARGS => sub {
 };
 
 sub fixture_groups {
+    my $this = shift;
     my @groups;
 
     foreach my $script ( keys( %{ $Foswiki::cfg{SwitchBoard} } ) ) {
@@ -68,13 +92,12 @@ sub fixture_groups {
 
         my $package = $dispatcher->{package} || 'Foswiki::UI';
         eval "require $package; 1;" or next;
-        my $function = $dispatcher->{function};
-        my $sub      = $package->can($function);
+        my $function = $dispatcher->{function} // $dispatcher->{method};
+        my $sub = $package->can($function);
 
         no strict 'refs';
         *{$script} = sub {
-            $UI_FN       = $sub;
-            $SCRIPT_NAME = $script;
+            $this->test_action($script);
         };
         use strict 'refs';
     }
@@ -82,29 +105,52 @@ sub fixture_groups {
     return \@groups;
 }
 
+around createNewFoswikiApp => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $app = $orig->( $this, @_ );
+
+    $app->cfg->data->{Plugins}{HomePagePlugin}{Enabled} = 0;
+
+    return $app;
+};
+
+# Foswiki::App handleRequestException callback function.
+sub _cbHRE {
+    my $obj  = shift;
+    my %args = @_;
+    $args{params}{exception}->rethrow;
+}
+
 sub call_UI_FN {
     my ( $this, $web, $topic, $tmpl ) = @_;
-    my $query = Unit::Request->new(
-        initializer => {
-            webName   => [$web],
-            topicName => [$topic],
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                webName   => [$web],
+                topicName => [$topic],
 
-            #            template  => [$tmpl],
-        }
+                #            template  => [$tmpl],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/$web/$topic",
+                method    => 'POST',
+                user      => $this->test_user_login,
+                action    => $this->test_action,
+            },
+        },
+
+        #callbacks => { handleRequestException => \&_cbHRE },
     );
-    $query->path_info("/$web/$topic");
-    $query->method('POST');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
     my ( $responseText, $result, $stdout, $stderr );
     $responseText = "Status: 500";    #errr, boom
     try {
         ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
             switchboard => sub {
-                no strict 'refs';
-                &{ ${UI_FN} }( $this->session );
-                use strict 'refs';
-                $Foswiki::engine->finalize( $this->session->response,
-                    $this->session->request );
+                return $this->app->handleRequest;
             }
         );
     }
@@ -161,13 +207,14 @@ sub verify_switchboard_function {
     # prevents the use of BasicAuth - and we really should avoid preventing an
     # admin from setting the security policy where possible. 666 is a default
     # used in the UI_FN code above for 'unset'
-    $this->assert_num_equals(
-        $expected_status_main_webhome{$SCRIPT_NAME} || 666,
-        $status,
-        "GOT Status : $status\nHEADER: $header\n\nSTDERR: "
-          . ( $stderr || '' ) . "\n"
-    );
-    if ( !defined( $expect_non_html{$SCRIPT_NAME} ) ) {
+    my $expectStatus = $expected_status_main_webhome{ $this->test_action }
+      || 666;
+    $this->assert_num_equals( $expectStatus, $status,
+            "GOT Status : $status (EXPECTED: $expectStatus)\n"
+          . "HEADER: $header\n\n<<<<<STDERR: "
+          . ( $stderr || '' )
+          . ">>>>>>STDERR\n" );
+    if ( !defined( $expect_non_html{ $this->test_action } ) ) {
         $this->assert_str_not_equals( '', $header );
         if ( $status != 302 ) {
             $this->assert_str_not_equals( '', $result, "$status: $result" );
@@ -195,18 +242,39 @@ sub verify_switchboard_function_nonExistantWeb {
     # TODO: save - no idea why it's returning OK-nostatus - especially as
     # NoSuchTopic works. It ought to return a 302
     our %expected_status = (
-
-        #        compare => 302, throws but doesn't catch no_such_web exception
-        search => 302,
-        login  => 200,
-        logon  => 200,
+        attach       => 404,
+        changes      => 404,
+        compare      => 404,
+        compareauth  => 404,
+        edit         => 404,
+        login        => 200,
+        logon        => 200,
+        manage       => 400,
+        oops         => 200,
+        preview      => 404,
+        previewauth  => 404,
+        rdiff        => 404,
+        rdiffauth    => 404,
+        register     => 501,
+        rename       => 404,
+        resetpasswd  => 400,
+        rest         => 404,
+        save         => 404,
+        search       => 302,
+        upload       => 404,
+        view         => 404,
+        viewauth     => 404,
+        viewfile     => 404,
+        viewfileauth => 404,
+        statistics   => 200,
+        restauth     => 404,
     );
-    $this->assert_num_equals(
-        $expected_status{$SCRIPT_NAME} || 666,
-        $status,
-        "GOT Status : $status\nHEADER: $header\n\nSTDERR: "
-          . ( $stderr || '' ) . "\n"
-    );
+    my $expectStatus = $expected_status{ $this->test_action } || 666;
+    $this->assert_num_equals( $expectStatus, $status,
+            "GOT Status : $status (EXPECTED: $expectStatus)\n"
+          . "HEADER: $header\n\n<<<<<STDERR: "
+          . ( $stderr || '' )
+          . ">>>>>STDERR\n" );
 
     return;
 }
@@ -221,21 +289,39 @@ sub verify_switchboard_function_nonExistantTopic {
       $this->call_UI_FN( $this->test_web, 'NoSuchTopicBySven' );
 
     our %expected_status = (
-
-       #        compare => 302, throws but doesn't catch no_such_topic exception
-        search   => 302,
-        save     => 302,
-        login    => 200,
-        logon    => 200,
-        viewauth => 404,
-        view     => 404,
+        attach       => 404,
+        changes      => 200,
+        compare      => 404,
+        compareauth  => 404,
+        edit         => 200,
+        login        => 200,
+        logon        => 200,
+        manage       => 400,
+        oops         => 200,
+        preview      => 200,
+        previewauth  => 200,
+        rdiff        => 404,
+        rdiffauth    => 404,
+        register     => 501,
+        rename       => 403,
+        resetpasswd  => 400,
+        rest         => 404,
+        save         => 302,
+        search       => 302,
+        upload       => 404,
+        view         => 404,
+        viewauth     => 404,
+        viewfile     => 404,
+        viewfileauth => 404,
+        statistics   => 200,
+        restauth     => 404,
     );
-    $this->assert_num_equals(
-        $expected_status{$SCRIPT_NAME} || 666,
-        $status,
-        "GOT Status : $status\nHEADER: $header\n\nSTDERR: "
-          . ( $stderr || '' ) . "\n"
-    );
+    my $expectStatus = $expected_status{ $this->test_action } || 666;
+    $this->assert_num_equals( $expectStatus, $status,
+            "GOT Status : $status (EXPECTED: $expectStatus)\n"
+          . "HEADER: $header\n\n<<<<<STDERR: "
+          . ( $stderr || '' )
+          . ">>>>>STDERR\n" );
 
     return;
 }

@@ -47,7 +47,9 @@ around set_up => sub {
     my $this = shift;
     $orig->( $this, @_ );
 
-    $this->tempdir( $Foswiki::cfg{TempfileDir} . '/test_TemplateTests' );
+    my $cfgData = $this->app->cfg->data;
+
+    $this->tempdir( $cfgData->{TempfileDir} . '/test_TemplateTests' );
     File::Path::mkpath( $this->tempdir );
 
     my $here = $this->tempdir;
@@ -58,17 +60,18 @@ around set_up => sub {
     File::Path::mkpath($test_tmpls);
     File::Path::mkpath($test_data);
 
-    $this->createNewFoswikiSession();
-    $tmpls = $this->session->templates;
+    $this->createNewFoswikiApp;
+    $cfgData = $this->app->cfg->data;
+    $tmpls   = $this->app->templates;
 
-    $Foswiki::cfg{TemplateDir} = $test_tmpls;
-    $Foswiki::cfg{DataDir}     = $test_data;
-    $Foswiki::cfg{TemplatePath} =
+    $cfgData->{TemplateDir} = $test_tmpls;
+    $cfgData->{DataDir}     = $test_data;
+    $cfgData->{TemplatePath} =
 '$Foswiki::cfg{PubDir}/$web/$name.$skin.tmpl,$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl,$Foswiki::cfg{TemplateDir}/$name.$skin.tmpl,$Foswiki::cfg{TemplateDir}/$web/$name.tmpl,$Foswiki::cfg{TemplateDir}/$name.tmpl,$web.$skinSkin$nameTemplate,$Foswiki::cfg{SystemWebName}.$skinSkin$nameTemplate,$web.$nameTemplate,$Foswiki::cfg{SystemWebName}.$nameTemplate';
-    $Foswiki::cfg{TemplatePath} =~
-      s/\$Foswiki::cfg\{TemplateDir\}/$Foswiki::cfg{TemplateDir}/geo;
-    $Foswiki::cfg{TemplatePath} =~
-      s/\$Foswiki::cfg\{SystemWebName\}/$Foswiki::cfg{SystemWebName}/ge;
+    $cfgData->{TemplatePath} =~
+      s/\$Foswiki::cfg\{TemplateDir\}/$cfgData->{TemplateDir}/geo;
+    $cfgData->{TemplatePath} =~
+      s/\$Foswiki::cfg\{SystemWebName\}/$cfgData->{SystemWebName}/ge;
 
     return;
 };
@@ -345,7 +348,7 @@ sub test_directLookupInUsertopic {
 sub test_WebTopicsA {
     my $this = shift;
     my $data;
-    my $sys = $Foswiki::cfg{SystemWebName};
+    my $sys = $this->app->cfg->data->{SystemWebName};
 
     # $SystemWebName.${name}Template
     write_topic( $sys, 'ScriptTemplate' );
@@ -367,7 +370,7 @@ sub test_WebTopicsA {
 sub test_WebTopicsB {
     my $this = shift;
     my $data;
-    my $sys = $Foswiki::cfg{SystemWebName};
+    my $sys = $this->app->cfg->data->{SystemWebName};
 
     # $SystemWebName.${skin}Skin${name}Template
     write_topic( $sys, 'ScriptTemplate' );
@@ -388,7 +391,7 @@ sub test_WebTopicsB {
 sub test_WebTopicsC {
     my $this = shift;
     my $data;
-    my $sys = $Foswiki::cfg{SystemWebName};
+    my $sys = $this->app->cfg->data->{SystemWebName};
 
     # $web.${name}Template
     write_topic( $sys,  'ScriptTemplate' );
@@ -410,7 +413,7 @@ sub test_WebTopicsC {
 sub test_WebTopicsD {
     my $this = shift;
     my $data;
-    my $sys = $Foswiki::cfg{SystemWebName};
+    my $sys = $this->app->cfg->data->{SystemWebName};
 
     # $web.${skin}Skin${name}Template
     write_topic( $sys,  'ScriptTemplate' );
@@ -433,7 +436,7 @@ sub test_WebTopicsD {
 sub test_webTopicsE {
     my $this = shift;
     my $data;
-    my $sys = $Foswiki::cfg{SystemWebName};
+    my $sys = $this->app->cfg->data->{SystemWebName};
 
     # $web.$name
     write_topic( $sys,  'ScriptTemplate' );
@@ -459,7 +462,7 @@ sub test_webTopicsE {
 #
 #    my $this = shift;
 #    my $data;
-#    my $sys = $Foswiki::cfg{SystemWebName};
+#    my $sys = $this->app->cfg->data->{SystemWebName};
 #
 #    write_template( 'script' );
 #    write_template( 'script.skinned' );

@@ -30,17 +30,16 @@ These methods are documented in the Foswiki:Store abstract base class
 =cut
 
 package Foswiki::Store::Rcs::Store;
-use strict;
-use warnings;
+use v5.14;
 
 use Assert;
 use Encode;
 
-use Foswiki          ();
-use Foswiki::Meta    ();
-use Foswiki::Sandbox ();
-use Foswiki::Serialise();
-use Foswiki::Exception();
+use Foswiki            ();
+use Foswiki::Meta      ();
+use Foswiki::Sandbox   ();
+use Foswiki::Serialise ();
+use Foswiki::Exception ();
 
 use Moo;
 use namespace::clean;
@@ -362,11 +361,10 @@ sub getVersionInfo {
         else {
             # Load into a new object to avoid blowing away the object we
             # were passed; then selectively get the bits we want.
-            my $dummy = Foswiki::Meta->new( session => $topicObject );
+            my $dummy = Foswiki::Meta->new( app => $topicObject );
             $dummy->loadVersion();
             $info = $dummy->get('TOPICINFO');
             $topicObject->put( 'TOPICINFO', $info );
-            $dummy->finish();
         }
     }
 
@@ -652,7 +650,7 @@ sub query {
             die
 "Bad {Store}{QueryAlgorithm}; suggest you run configure and select a different algorithm\n$@"
               if $@;
-            $this->queryObj( $module->new() );
+            $this->queryObj( $this->create($module) );
         }
         $engine = $this->queryObj;
     }
@@ -664,7 +662,7 @@ sub query {
             die
 "Bad {Store}{SearchAlgorithm}; suggest you run configure and select a different algorithm\n$@"
               if $@;
-            $this->searchQueryObj( $module->new() );
+            $this->searchQueryObj( $this->create($module) );
         }
         $engine = $this->searchQueryObj;
     }

@@ -3,7 +3,6 @@ use v5.14;
 use utf8;
 
 use Foswiki             ();
-use Unit::Request       ();
 use Foswiki::UI::Upload ();
 use Try::Tiny;
 use File::Temp;
@@ -12,7 +11,6 @@ use Moo;
 use namespace::clean;
 extends qw( FoswikiFnTestCase );
 
-my $UI_FN;
 my $FORM = { name => 'BogusForm' };
 my @FIELDS = ( { name => 'Message', value => 'Abandon ship!' } );
 my %FIELDShash = map { $_->{name} => $_ } @FIELDS;
@@ -27,7 +25,6 @@ around set_up => sub {
     my $orig = shift;
     my $this = shift;
     $orig->( $this, @_ );
-    $UI_FN ||= $this->getUIFn('upload');
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text("   * Set ATTACHFILESIZELIMIT = 511\n");
@@ -62,6 +59,13 @@ sub skip {
 
 }
 
+# Foswiki::App handleRequestException callback function.
+sub _cbHRE {
+    my $obj  = shift;
+    my %args = @_;
+    $args{params}{exception}->rethrow;
+}
+
 sub do_upload {
     my ( $this, $fn, $data, $cuid, @arga ) = @_;
     my %params = @arga;
@@ -76,43 +80,50 @@ sub do_upload {
         $args{$k} = [$v];
     }
 
-    my $query = Unit::Request->new( initializer => \%args );
-    $query->method('POST');
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
     my $fh      = File::Temp->new();
     my $tmpfile = $fh->filename;
     print $fh $data;
     seek( $fh, 0, 0 );
-    $query->param( -name => 'filepath', -value => $fn );
     my %uploads = ();
     require Foswiki::Request::Upload;
     $uploads{$fn} = Foswiki::Request::Upload->new(
         headers => {},
         tmpname => $tmpfile
     );
-    $query->uploads( \%uploads );
 
-    my $stream = $query->upload('filepath');
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => \%args,
+            uploads     => \%uploads,
+        },
+        engineParams => {
+            initialAttributes => {
+                user      => $cuid,
+                method    => 'POST',
+                action    => 'upload',
+                path_info => "/" . $this->test_web . "/" . $this->test_topic,
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
+    );
+    $this->app->request->param( -name => 'filepath', -value => $fn );
+
+    #$this->app->request->uploads( \%uploads );
+
+    my $stream = $this->app->request->upload('filepath');
     $this->assert($stream);
     seek( $stream, 0, 0 );
-
-    $this->createNewFoswikiSession( $cuid, $query );
 
     Foswiki::Func::setPreferencesValue( 'ATTACHEDFILELINKFORMAT',
         $params{linkformat} )
       if ( defined $params{linkformat} );
 
     my ($text) = $this->captureWithKey(
-        'upload',
-        sub {
-            no strict 'refs';
-            $UI_FN->( $this->session );
-            use strict 'refs';
-            $Foswiki::engine->finalize( $this->session->response,
-                $this->session->request );
+        upload => sub {
+            my @rc = $this->app->handleRequest;
             $this->_assert_meta_stillgood();
-        },
-        $this->session
+            return @rc;
+        }
     );
     return $text;
 }
@@ -282,9 +293,15 @@ sub test_oversized_upload {
         webName   => [ $this->test_web ],
         topicName => [ $this->test_topic ],
     );
-    my $query = Unit::Request->new( initializer => \%args );
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => \%args, },
+        engineParams  => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/" . $this->test_topic,
+                user      => $this->test_user_login,
+            },
+        },
+    );
     my $data = '00000000000000000000000000000000000000';
     my $sz   = Foswiki::Func::getPreferencesValue('ATTACHFILESIZELIMIT') * 1024;
     $data .= $data while length($data) <= $sz;

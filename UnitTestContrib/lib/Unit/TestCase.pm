@@ -487,13 +487,18 @@ sub assert_deep_equals {
     }
     elsif ( UNIVERSAL::isa( $expected, 'HASH' ) ) {
         $this->assert( UNIVERSAL::isa( $got, 'HASH' ) );
+        my $isFoswikiObj = UNIVERSAL::isa( $expected, 'Foswiki::Object' )
+          || UNIVERSAL::isa( $got, 'Foswiki::Object' );
         my %matched;
         for ( keys %$expected ) {
+            next
+              if $isFoswikiObj
+              && /^__/;  # Skip debug attributes of Foswiki::Object descendants.
             $this->assert_deep_equals( $expected->{$_}, $got->{$_}, $mess,
                 $sniffed, @path, "{$_}" );
             $matched{$_} = 1;
         }
-        for ( keys %$got ) {
+        for ( grep { !$isFoswikiObj || !/^__/ } keys %$got ) {
             $this->assert( $matched{$_}, $_ );
         }
     }

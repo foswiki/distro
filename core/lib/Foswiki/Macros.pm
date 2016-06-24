@@ -216,7 +216,7 @@ sub expandMacrosOnTopicCreation {
     if ($text) {
 
         # Chop out templateonly sections
-        my ( $ntext, $sections ) = parseSections($text);
+        my ( $ntext, $sections ) = $this->parseSections($text);
         if ( scalar(@$sections) ) {
 
             # Note that if named templateonly sections overlap,
@@ -256,7 +256,7 @@ sub expandMacrosOnTopicCreation {
             $topicObject, 16 );
 
         # expand all variables for type="expandvariables" sections
-        ( $ntext, $sections ) = parseSections($text);
+        ( $ntext, $sections ) = $this->parseSections($text);
         if ( scalar(@$sections) ) {
             foreach my $s ( reverse @$sections ) {
                 if ( $s->{type} eq 'expandvariables' ) {

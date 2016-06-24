@@ -72,7 +72,7 @@ has __orig_file  => ( is => 'rw', clearer => 1, );
 has __orig_line  => ( is => 'rw', clearer => 1, );
 has __orig_stack => ( is => 'rw', clearer => 1, );
 
-has _id => (
+has __id => (
     is      => 'ro',
     lazy    => 1,
     clearer => 1,
@@ -271,16 +271,17 @@ sub _cloneData {
 
 # XXX Experimental.
 # clone works on low-level bypassing Moo's accessor methods.
-my @skip_attrs = qw(_id);
 
 sub clone {
     my $this = shift;
 
     $this->_clear__clone_heap;
     my @profile;
-    my $skipRx = '^(' . join( '|', @skip_attrs ) . ')$';
+
+    #my $skipRx = '^(' . join( '|', @skip_attrs ) . ')$';
     foreach my $attr ( keys %$this ) {
-        next if $attr =~ /$skipRx/;
+
+        #next if $attr =~ /$skipRx/;
         my $destAttr = $attr;
         if ( $destAttr =~ /^__/ ) {
 

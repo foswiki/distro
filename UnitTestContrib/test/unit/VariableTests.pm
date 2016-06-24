@@ -23,9 +23,15 @@ around set_up => sub {
 
     $orig->( $this, @_ );
 
-    my $query = Unit::Request->new( initializer => "" );
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
-    $this->createNewFoswikiSession( 'scum', $query );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "", },
+        engineParams  => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/" . $this->test_topic,
+                user      => "scum",
+            },
+        },
+    );
     $this->clear_test_topicObject;
     $this->test_topicObject(
         ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )[0] );
@@ -35,7 +41,7 @@ around set_up => sub {
 
 sub test_embeddedExpansions {
     my $this = shift;
-    $this->session->prefs->setSessionPreferences(
+    $this->app->prefs->setSessionPreferences(
         EGGSAMPLE => 'Egg sample',
         A         => 'EGG',
         B         => 'SAMPLE',
@@ -149,7 +155,7 @@ sub test_macroParams {
     # Check default given, given but null, not given
     # Check quotes and other standard expansions
     # Check override of standard macros
-    $this->session->prefs->setSessionPreferences(
+    $this->app->prefs->setSessionPreferences(
         ARFLE => '%BARFLE{default="gloop"}%',
         TING  => '%DEFAULT% %DEFAULT{default="tong"}%',
         ALING => '\'%DEFAULT%\' \'%DEFAULT{default="tong"}%\'',

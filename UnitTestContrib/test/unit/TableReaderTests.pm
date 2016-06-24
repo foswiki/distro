@@ -30,7 +30,7 @@ INPUT
     $this->assert( !$@, $@ );
     my $r = Foswiki::Tables::Reader->new();
     my $meta =
-      Foswiki::Meta->load( $this->session, $this->test_web, $this->test_topic );
+      Foswiki::Meta->load( $this->app, $this->test_web, $this->test_topic );
     $meta->text($in);
     my $result = $r->parse( $meta->text, $meta );
 
@@ -70,7 +70,7 @@ INPUT
     $this->assert( !$@, $@ );
     my $r = Foswiki::Tables::Reader->new();
     my $meta =
-      Foswiki::Meta->load( $this->session, $this->test_web, $this->test_topic );
+      Foswiki::Meta->load( $this->app, $this->test_web, $this->test_topic );
     $meta->text($in);
     my $result = $r->parse( $meta->text, $meta );
 

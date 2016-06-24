@@ -223,7 +223,7 @@ has _preferences => (
         # instead store the _preferences object in some semi-permanent store.
         # Shall be replaced with some universal caching framework later.
         # See DEMOLISH for more.
-        $this->app->heap->{topic_preferences}{ $this->_id } = $_[0];
+        $this->app->heap->{topic_preferences}{ $this->__id } = $_[0];
     },
 );
 has _latestIsLoaded => (
@@ -637,7 +637,7 @@ sub unload {
     my $this = shift;
 
     # Delete preferences object loaded for this meta object.
-    delete $this->app->heap->{topic_preferences}{ $this->_id };
+    delete $this->app->heap->{topic_preferences}{ $this->__id };
 
     # Avoid collisions, initiate removal from MetaCache only and only if object
     # has been previously stored in the cache.

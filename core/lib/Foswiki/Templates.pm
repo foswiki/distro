@@ -162,6 +162,7 @@ sub tmplP {
 
     if ( $this->expansionRecursions->{$template} > $MAX_EXPANSION_RECURSIONS ) {
         throw Foswiki::OopsException(
+            app      => $this->app,
             template => 'attention',
             def      => 'template_recursion',
             params   => [$template]
@@ -243,6 +244,7 @@ sub readTemplate {
         }
         else {
             throw Foswiki::OopsException(
+                app      => $this->app,
                 template => 'attention',
                 def      => 'no_such_template',
                 params   => [

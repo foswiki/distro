@@ -197,12 +197,12 @@ sub _early_line {
     my $attrs = Foswiki::Attrs->new($args);
 
     my %read = ( $this->meta->getPath() => 1 );
-    my $session = $this->meta->session;
+    my $app = $this->meta->app;
     while ( $attrs->{include} ) {
         my ( $iw, $it ) =
-          $session->normalizeWebTopicName( $this->meta->web,
+          $app->request->normalizeWebTopicName( $this->meta->web,
             $attrs->{include} );
-        if ( $session->topicExists( $iw, $it ) ) {
+        if ( $app->store->topicExists( $iw, $it ) ) {
             if ( $read{"$iw.$it"} ) {
                 $line = CGI::span( { class => 'foswikiAlert' },
                     "Recursive include of $attrs->{include}" );
@@ -210,7 +210,7 @@ sub _early_line {
             }
             else {
                 $read{"$iw.$it"} = 1;
-                my $meta = Foswiki::Meta->load( $session, $iw, $it );
+                my $meta = Foswiki::Meta->load( $app, $iw, $it );
 
                # Replace attrs with the first matching macro in the include text
                # If there is none, we're done

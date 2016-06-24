@@ -328,6 +328,7 @@ sub sanitizeAttachmentName {
         }
         catch {
             Foswiki::OopsException->throw(
+                app      => $Foswiki::app,
                 template => 'attention',
                 def      => 'unsupported_filename',
                 params   => [

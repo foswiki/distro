@@ -23,6 +23,7 @@ has app => (
     weak_ref  => 1,
     isa => Foswiki::Object::isaCLASS( 'app', 'Foswiki::App', noUndef => 1, ),
     required => 1,
+    clearer  => 1,
 );
 
 =begin TML

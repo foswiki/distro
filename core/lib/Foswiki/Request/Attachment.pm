@@ -123,10 +123,13 @@ around _establishAttributes => sub {
     # Use the Request parser, since no filename is in the topic param.
     if ( $this->param('topic') ) {
         my $tparse = Foswiki::Request::parse( $this->param('topic') );
-        @{$parse}{ keys %$tparse } = @{$tparse}{ keys %$tparse };
+        foreach my $key ( keys %$tparse ) {
+            next unless defined $tparse->{$key};
+            $parse->{$key} = $tparse->{$key};
+        }
     }
 
-    $parse->{topic} = ucfirst( $parse->{topic} );
+    $parse->{topic} = ucfirst( $parse->{topic} ) if defined $parse->{topic};
 
     #SMELL: validateAttachmentName still does a "filter-out" of invalid chars.
     $parse->{filename} = Foswiki::Sandbox::untaint(
