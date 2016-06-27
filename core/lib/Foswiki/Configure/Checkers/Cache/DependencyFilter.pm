@@ -10,9 +10,9 @@ around check_current_value => sub {
     my ( $this, $reporter ) = @_;
     $orig->( $this, $reporter )
       if $Foswiki::cfg{Cache}{Enabled};
-  }
+};
 
-  1;
+1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
