@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-12-07 22:01+0200\n"
+"PO-Revision-Date: 2016-06-27 15:20+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.1\n"
+"X-Generator: Weblate 2.4\n"
 "X-Poedit-Language: Ukrainian\n"
 "X-Poedit-Country: UKRAINE\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -2354,7 +2354,7 @@ msgstr "Нема змін"
 
 #: core/templates/more.tmpl:208
 msgid "No child topics"
-msgstr "Немає дочерніх тим"
+msgstr "Немає дочірніх тем"
 
 #: core/templates/messages.tmpl:497 core/templates/messages.tmpl:548
 msgid "No group name specified"
@@ -4521,7 +4521,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."
-msgstr "Ваше ім'я користувача було вилучене з системи аутентифікації."
+msgstr "Ваше ім'я користувача було вилучено з системи аутентифікації."
 
 #: core/templates/messages.tmpl:13
 msgid "Your user topic has not been renamed. Please e-mail %1 to request this."
