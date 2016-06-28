@@ -1013,7 +1013,7 @@ sub parse {
     print STDERR "Processing path ($query_path)\n" if TRACE;
     my $topic_flag;
 
-    $query_path =~ s{^/+}{/}g;    # Remove duplicate leading slashes
+    $query_path =~ s{/+}{/}g;    # Remove duplicate slashes
 
 # SMELL:  The leading slash is *always* present in the pathInfo, but should
 # not be there in the topic=blah  query param.   So if the leading slash is missing,
@@ -1034,7 +1034,7 @@ sub parse {
 
     # Single component.  It's a web unless the $topic_flag is set.
     if ( scalar(@parts) eq 1 ) {
-        print STDERR "Checking single component:\n" if TRACE;
+        print STDERR "Checking single component: $query_path \n" if TRACE;
         my $resp = {};
         if ($topic_flag) {
             $resp->{topic} = Foswiki::Sandbox::untaint( $query_path,

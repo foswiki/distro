@@ -128,6 +128,9 @@ EOF
     );
 }
 
+#  Note, the ViewScriptTests also has some url parsing tests, so
+#  check there too!
+#
 sub test_Request_parse {
     my $this = shift;
     my @paths = my @comparisons = (
@@ -149,11 +152,12 @@ sub test_Request_parse {
             '', 'WebHome', undef, undef
         ],
 
-        [ '/Main/WebHome',   undef, 'Main', 'WebHome', undef,  undef ],
-        [ '//Main//WebHome', undef, 'Main', 'WebHome', undef,  undef ],
-        [ '/Main..WebHome',  undef, 'Main', 'WebHome', undef,  undef ],
-        [ '/blah/asdf',      undef, undef,  undef,     'blah', undef ],
-        [ '/Main.WebHome',   undef, 'Main', 'WebHome', undef,  undef ],
+        [ '/Main/WebHome',   undef, 'Main',    'WebHome', undef,  undef ],
+        [ '//Main//WebHome', undef, 'Main',    'WebHome', undef,  undef ],
+        [ '//Sandbox///',    undef, 'Sandbox', undef,     undef,  undef ],
+        [ '/Main..WebHome',  undef, 'Main',    'WebHome', undef,  undef ],
+        [ '/blah/asdf',      undef, undef,     undef,     'blah', undef ],
+        [ '/Main.WebHome',   undef, 'Main',    'WebHome', undef,  undef ],
         [ '/Web/SubWeb.WebHome', undef, 'Web/SubWeb', 'WebHome', undef, undef ],
         [ '/Web/SubWeb/WebHome', undef, 'Web/SubWeb', 'WebHome', undef, undef ],
         [ '/Web.Subweb.WebHome', undef, 'Web/Subweb', 'WebHome', undef, undef ],
