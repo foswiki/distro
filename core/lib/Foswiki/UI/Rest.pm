@@ -135,7 +135,9 @@ sub rest {
 
         $res->header( -type => 'text/html', -status => '400' );
         $err =
-          "ERROR: (400) Invalid REST invocation - $pathInfo is malformed\n";
+            "ERROR: (400) Invalid REST invocation - "
+          . Foswiki::urlEncode($pathInfo)
+          . " is malformed\n";
         $res->print($err);
         $session->logger->log( 'warning', "REST rejected: " . $err,
             " - $referer", );
@@ -150,10 +152,11 @@ sub rest {
 
     # Check we have this handler
     unless ($record) {
+
         $res->header( -type => 'text/html', -status => '404' );
         $err =
             'ERROR: (404) Invalid REST invocation - '
-          . $pathInfo
+          . Foswiki::urlEncode($pathInfo)
           . ' does not refer to a known handler';
         _listHandlers($res) if $session->inContext('command_line');
         $session->logger->log( 'warning', "REST rejected: " . $err,
