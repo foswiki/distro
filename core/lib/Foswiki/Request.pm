@@ -1013,7 +1013,7 @@ sub parse {
     print STDERR "Processing path ($query_path)\n" if TRACE;
     my $topic_flag;
 
-    $query_path =~ s{/+}{/}g;    # Remove duplicate slashes
+    $query_path =~ s{^/+}{/}g;    # Remove duplicate leading slashes
 
 # SMELL:  The leading slash is *always* present in the pathInfo, but should
 # not be there in the topic=blah  query param.   So if the leading slash is missing,
@@ -1037,14 +1037,16 @@ sub parse {
         print STDERR "Checking single component: $query_path \n" if TRACE;
         my $resp = {};
         if ($topic_flag) {
-            $resp->{topic} = Foswiki::Sandbox::untaint( $query_path,
+            $resp->{topic} =
+              Foswiki::Sandbox::untaint( $parts[0],
                 \&Foswiki::Sandbox::validateTopicName );
-            $resp->{invalidTopic} = $query_path unless defined $resp->{topic};
+            $resp->{invalidTopic} = $parts[0] unless defined $resp->{topic};
         }
         else {
-            $resp->{web} = Foswiki::Sandbox::untaint( $query_path,
+            $resp->{web} =
+              Foswiki::Sandbox::untaint( $parts[0],
                 \&Foswiki::Sandbox::validateWebName );
-            $resp->{invalidWeb} = $query_path unless defined $resp->{web};
+            $resp->{invalidWeb} = $parts[0] unless defined $resp->{web};
         }
         return $resp;
     }
