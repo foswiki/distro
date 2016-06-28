@@ -128,6 +128,71 @@ EOF
     );
 }
 
+sub test_Request_parse {
+    my $this = shift;
+    my @paths = my @comparisons = (
+
+        #Query Path  Params,     Web     topic,   invalidWeb,   invalidTopic
+        [ '/', undef, '', undef, undef, undef ],
+        [ '/', { topic => 'Main.WebHome' }, 'Main', 'WebHome', undef, undef ],
+
+        # topic= overrides any pathinfo
+        [
+            '/Foo/Bar', { topic => 'Main.WebHome' },
+            'Main', 'WebHome',
+            undef,  undef
+        ],
+
+# defaultweb is not processed by the request object, so web is unset by the Request.
+        [
+            '/', { defaultweb => 'Sandbox', topic => 'WebHome' },
+            '', 'WebHome', undef, undef
+        ],
+
+        [ '/Main/WebHome',   undef, 'Main', 'WebHome', undef,  undef ],
+        [ '//Main//WebHome', undef, 'Main', 'WebHome', undef,  undef ],
+        [ '/Main..WebHome',  undef, 'Main', 'WebHome', undef,  undef ],
+        [ '/blah/asdf',      undef, undef,  undef,     'blah', undef ],
+        [ '/Main.WebHome',   undef, 'Main', 'WebHome', undef,  undef ],
+        [ '/Web/SubWeb.WebHome', undef, 'Web/SubWeb', 'WebHome', undef, undef ],
+        [ '/Web/SubWeb/WebHome', undef, 'Web/SubWeb', 'WebHome', undef, undef ],
+        [ '/Web.Subweb.WebHome', undef, 'Web/Subweb', 'WebHome', undef, undef ],
+        [
+            '/Web.Subweb.Webhome/', undef, 'Web/Subweb/Webhome', undef,
+            undef,                  undef
+        ],
+        [ '/3#/blah',          undef, undef, undef, '3#',  undef ],
+        [ '/Web.a<script>lah', undef, undef, undef, undef, 'a<script>lah' ],
+
+        # This next one  works because of auto fix-up of lower case topic name
+        [ '/Blah/asdf', undef, 'Blah', 'Asdf', undef, undef ],
+    );
+    my $tn = 0;
+    foreach my $set (@paths) {
+        $tn++;
+        my $req = new Foswiki::Request( $set->[1] );
+        $req->pathInfo( $set->[0] );
+        $this->createNewFoswikiSession( 'AdminUser', $req );
+
+        #print STDERR $req->pathInfo() . " web "
+        #  . ( ( defined $req->web() ) ? $req->web() : 'undef' )
+        #  . " topic "
+        #  . ( ( defined $req->topic() ) ? $req->topic() : 'undef' ) . "\n";
+
+        $this->assert_str_equals( $set->[0], $req->pathInfo,
+            "Test $tn: Wrong pathInfo value" );
+        $this->assert_equals( $set->[2], $req->web(),
+            "Test $tn: Incorrect web returned" );
+        $this->assert_equals( $set->[3], $req->topic(),
+            "Test $tn: Incorrect topic returned" );
+
+        $this->assert_equals( $set->[4], $req->invalidWeb(),
+            "Test $tn: Unexpected invalid web" );
+        $this->assert_equals( $set->[5], $req->invalidTopic(),
+            "Test $tn: Unexpected invalid topic" );
+    }
+}
+
 sub test_action {
     my $this = shift;
     my $req  = new Foswiki::Request("");
