@@ -77,6 +77,8 @@ THIS
     $topicObject->save();
     undef $topicObject;
 
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
+
     return;
 };
 
@@ -866,9 +868,6 @@ sub test_login_redirect_preserves_anchor {
     my $this       = shift;
     my $test_topic = 'TestAnchor';
 
-    my $app = $this->app;
-    my $cfg = $app->cfg;
-
     # Create a topic with an anchor, viewable only by MrYellow
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $test_topic );
@@ -882,36 +881,38 @@ THIS
     undef $topicObject;
 
     # Request the page with the full UI
-    my $viewUrl = $cfg->getScriptUrl( 0, 'view', $this->test_web, $test_topic );
+    my $viewUrl =
+      $this->app->cfg->getScriptUrl( 0, 'view', $this->test_web, $test_topic );
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                webName   => [ $this->test_web ],
+                topicName => [$test_topic],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/$test_topic",
+                action    => 'view',
+                method    => 'GET',
+                uri       => $viewUrl,
+            },
+        },
+    );
 
     #$this->finishFoswikiSession();
     my ($text) = $this->capture(
         sub {
-            $this->createNewFoswikiApp(
-                requestParams => {
-                    initializer => {
-                        webName   => [ $this->test_web ],
-                        topicName => [$test_topic],
-                    },
-                },
-                engineParams => {
-                    initialAttributes => {
-                        path_info => "/" . $this->test_web . "/$test_topic",
-                        method    => 'GET',
-                        action    => 'view',
-                        uri       => $viewUrl,
-                    },
-                },
-            );
             return $this->app->handleRequest;
         }
     );
 
     # Get the login and view URLs to compare
     my $loginUrl =
-      $cfg->getScriptUrl( 0, 'login', $this->test_web, $test_topic );
+      $this->app->cfg->getScriptUrl( 0, 'login', $this->test_web, $test_topic );
     my $fullViewUrl =
-      $cfg->getScriptUrl( 1, 'view', $this->test_web, $test_topic );
+      $this->app->cfg->getScriptUrl( 1, 'view', $this->test_web, $test_topic );
 
     # Item11121: the test doesn't tolerate ShortURLs, for example.
     # ShortURLs may involve a {ScriptUrlPaths}{view} of '' or something

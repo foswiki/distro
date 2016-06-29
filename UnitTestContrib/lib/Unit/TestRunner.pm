@@ -24,7 +24,7 @@ extends 'Foswiki::Object';
 
 use Assert;
 
-sub CHECKLEAK { 1 }
+sub CHECKLEAK { 0 }
 
 BEGIN {
     if (CHECKLEAK) {

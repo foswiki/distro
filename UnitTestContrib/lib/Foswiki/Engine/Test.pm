@@ -15,11 +15,14 @@ A instance of this class initialize itself using the following sources of data:
    * Key =__foswikiEngineTestInit= on =env= attribute hash. This key must be a
      hashref which is passed to the parent constructor as a hash of defaults
      alongside with user supplied parameters in =new()= call. User parameters
-     has preference of the defaults.
+     has preference over the defaults.
+   * For both defaults and user parameters =setUrl= key of =initialAttributes=
+     hash may be used to set those parameters which are not set implicitly by
+     corresponding source.
    * =FOSWIKI_TEST_= prefixed =env= attribute hash keys for individual keys of
      =*Data= attributes. For example, =$engine->pathData->{path_info}= would be
      set from =FOSWIKI_TEST_PATH_INFO=. These are used only when corresponding
-     =*Data= attribute is not initialized over object construction stage.
+     =*Data= attribute is not initialized at object construction stage.
    * Similar to other engines =FOSWIKI_ACTION= might be used if none of the
      above sources provided a value for the =pathData->{action}= key.
    * =FOSWIKI_TEST_QUERY_STRING= is used for setting =queryParameters=
@@ -55,18 +58,14 @@ around BUILDARGS => sub {
     if ( defined $params{env}{__foswikiEngineTestInit} ) {
         %defaults = %{ $params{env}{__foswikiEngineTestInit} };
     }
-    return $orig->( $class, %defaults, @_ );
+
+    mergeAttrs(
+        \%params,   parseURL( $params{initialAttributes}{setUrl} ),
+        \%defaults, parseURL( $defaults{initialAttributes}{setUrl} )
+    );
+
+    return $orig->( $class, %params );
 };
-
-sub BUILD {
-    my $this = shift;
-    my ($args) = @_;
-
-    if ( $args->{setUrl} ) {
-        $this->setUrl( $args->{setUrl} );
-    }
-
-}
 
 # Form a data hash using keys either from initialAttributes (higher prio) or
 # from env.
@@ -150,11 +149,43 @@ around _prepareUser => sub {
     return $initHash->{user} // $initHash->{remote_user};
 };
 
-sub setUrl {
-    my $this = shift;
+sub mergeAttrs {
+    my @hashes = @_;
+    ASSERT( UNIVERSAL::isa( $_, 'HASH' ),
+        "Non-hash parameter in call to mergeAttrs()" )
+      foreach @hashes;
+    my $base = shift @hashes;
+
+    my %skipKeys;
+    foreach my $extra (@hashes) {
+        foreach my $key ( keys %$extra ) {
+            next if $skipKeys{$key};
+            if ( UNIVERSAL::isa( $base->{$key}, 'HASH' ) ) {
+
+                # Nested hashes.
+                my @subhashes;
+                $skipKeys{$key} = 1;
+                push @subhashes, $_
+                  foreach grep { UNIVERSAL::isa( $_, 'HASH' ) }
+                  map { $_->{$key} } @hashes;
+                mergeAttrs( $base->{$key}, @subhashes );
+            }
+            elsif ( !defined( $base->{$key} ) && defined $extra->{$key} ) {
+                $skipKeys{$key} = 1
+                  ; # Key is now set, no need to check agains the rest of the attribute hashes.
+                $base->{$key} = $extra->{$key};
+            }
+        }
+    }
+}
+
+sub parseURL {
     my ($queryString) = @_;
 
-    my $initAttrs = $this->initialAttributes;
+    return () unless $queryString;
+
+    my %attrs     = ( initialAttributes => {} );
+    my $initAttrs = $attrs{initialAttributes};
     my $path      = $queryString;
     my $urlParams = '';
     if ( $queryString =~ /(.*)\?(.*)/ ) {
@@ -178,6 +209,7 @@ sub setUrl {
 
     $initAttrs->{query_string} = $urlParams;
     $initAttrs->{path_info}    = Foswiki::Sandbox::untaintUnchecked($path);
+    return \%attrs;
 }
 
 around finalizeReturn => sub {

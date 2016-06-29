@@ -3,7 +3,6 @@ use v5.14;
 
 use Foswiki();
 use Foswiki::UI::View();
-use Unit::Request();
 use Unit::Response();
 my $UI_FN;
 
@@ -17,11 +16,8 @@ around set_up => sub {
     my $this = shift;
 
     $orig->( $this, @_ );
-    $UI_FN ||= $this->getUIFn('view');
-    my $query = Unit::Request->new();
-    $this->createNewFoswikiSession( undef, $query );
-    $this->request($query);
-    $this->response( Unit::Response->new() );
+    $this->createNewFoswikiApp(
+        engineParams => { initialAttributes => { action => 'view', }, }, );
 
     return;
 };
@@ -29,13 +25,13 @@ around set_up => sub {
 sub _viewSection {
     my ( $this, $section ) = @_;
 
-    $this->session->webName('TestCases');
-    $this->session->topicName('IncludeFixtures');
-    $this->request->param( '-name' => 'skin', '-value' => 'text' );
-    $this->request->path_info('TestCases/IncludeFixtures');
+    $this->app->request->web('TestCases');
+    $this->app->request->topic('IncludeFixtures');
+    $this->app->request->param( '-name' => 'skin', '-value' => 'text' );
+    $this->app->request->path_info('TestCases/IncludeFixtures');
 
-    $this->request->param( '-name' => 'section', '-value' => $section );
-    my ($text) = $this->capture( $UI_FN, $this->session );
+    $this->app->request->param( '-name' => 'section', '-value' => $section );
+    my ($text) = $this->capture( sub { $this->app->handleRequest } );
     $text =~ s/(.*?)\r?\n\r?\n//s;
 
     return ($text);

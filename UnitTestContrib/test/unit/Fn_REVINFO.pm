@@ -25,6 +25,7 @@ around BUILDARGS => sub {
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
     $orig->( $this, @_ );
     $this->guest_wikiname( Foswiki::Func::getWikiName() );
     $this->app->user( $this->test_user_cuid );    # OUCH

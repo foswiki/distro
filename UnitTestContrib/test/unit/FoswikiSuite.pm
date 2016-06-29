@@ -7,8 +7,6 @@ use Moo;
 use namespace::clean;
 extends 'Unit::TestSuite';
 
-our @_newParameters = @Unit::TestSuite::_newParameters;
-
 # Assumes we are run from the "test/unit" directory
 
 sub list_tests {

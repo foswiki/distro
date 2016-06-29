@@ -575,7 +575,7 @@ EPITAPH
     $this->_setupGlobals;
 
     $this->data->{isVALID} = 1;
-    $this->setBootstrap();
+    $this->setBootstrap;
 
     # Note: message is not I18N'd because there is no point; there
     # is no localisation in a default cfg derived from Foswiki.spec

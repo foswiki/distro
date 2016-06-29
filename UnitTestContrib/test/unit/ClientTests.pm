@@ -6,7 +6,6 @@ use v5.14;
 
 use Foswiki();
 use Foswiki::LoginManager();
-use Unit::Request();
 use Try::Tiny;
 use Digest::MD5 qw(md5_hex);
 use Scalar::Util qw(blessed);
@@ -26,14 +25,14 @@ around set_up => sub {
     my $orig = shift;
     my $this = shift;
     $orig->( $this, @_ );
-    $EDIT_UI_FN ||= $this->getUIFn('edit');
-    $VIEW_UI_FN ||= $this->getUIFn('view');
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
     $topicObject->text(<<'CONSTRAINT');
    * Set ALLOWTOPICCHANGE = AdminGroup
 CONSTRAINT
     $topicObject->save();
+
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
 
     return;
 };

@@ -14,6 +14,13 @@ use Moo;
 use namespace::clean;
 extends qw( ConfigureTestCase );
 
+around set_up => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    return $orig->( $this, @_ );
+};
+
 sub test_getcfg {
     my $this   = shift;
     my $params = {

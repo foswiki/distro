@@ -1306,9 +1306,12 @@ sub test_107 {
     return;
 }
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up(@_);
+
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
+    $orig->( $this, @_ );
 
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->users_web, "GropeGroup" );
@@ -1325,7 +1328,7 @@ sub set_up {
     $topicObject->save();
 
     return;
-}
+};
 
 sub simpleTest {
     my ( $this, %test ) = @_;

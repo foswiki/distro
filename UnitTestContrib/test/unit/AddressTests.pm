@@ -274,11 +274,17 @@ around set_up => sub {
     my $this = shift;
 
     # We don't want the overhead of creating a new session for each tests
-    my $query = Unit::Request->new( initializer => "" );
     $orig->($this);
-    $query->path_info( "/" . $this->test_web . "/" . $this->test_topic );
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $query );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => "", },
+        engineParams  => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/" . $this->test_topic,
+                user      => $this->app->cfg->data->{AdminUserLogin},
+            },
+        },
+    );
 
     $this->test_topicObject(
         Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) );

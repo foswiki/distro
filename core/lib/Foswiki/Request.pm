@@ -184,7 +184,6 @@ has param_list => (
     is        => 'rw',
     predicate => 1,
     lazy      => 1,
-    default   => sub { [] },
     isa       => Foswiki::Object::isaARRAY( 'param_list', noUndef => 1, ),
 );
 
@@ -330,6 +329,7 @@ sub BUILD {
 
         # Support unit tests by implementing deprecated Unit::Request class
         # 'taint everything' functionality.
+        $this->_establishParamList;
         foreach my $k ( @{ $this->param_list } ) {
             foreach ( @{ $this->_param->{$k} } ) {
                 $_ = TAINT($_) if defined $_;
@@ -1013,6 +1013,9 @@ Ths following paths are supported:
 sub parse {
     my $query_path = shift // '';
 
+    return {} unless defined $query_path && length $query_path > 0;
+    $query_path =~ s{^/+}{/}g;    # Remove duplicate leading slashes
+
     print STDERR "Processing path ($query_path)\n" if TRACE;
     my $topic_flag;
 
@@ -1023,9 +1026,6 @@ sub parse {
     else {
         $topic_flag = 1;
     }
-
-    return {} unless defined $query_path && length $query_path > 0;
-    $query_path =~ s{/+}{/}g;            # Remove duplicate slashes
 
     # trailingSlash Flag - hint that you want the web even if the topic exists
     my $trailingSlash = ( $query_path =~ s/\/$// );
@@ -1057,12 +1057,12 @@ sub parse {
         if ($topic_flag) {
             $resp->{topic} = Foswiki::Sandbox::untaint( $query_path,
                 \&Foswiki::Sandbox::validateTopicName );
-            $resp->{invalidTopic} = $query_path unless defined $resp->{topic};
+            $resp->{invalidTopic} = $parts[0] unless defined $resp->{topic};
         }
         else {
             $resp->{web} = Foswiki::Sandbox::untaint( $query_path,
                 \&Foswiki::Sandbox::validateWebName );
-            $resp->{invalidWeb} = $query_path unless defined $resp->{web};
+            $resp->{invalidWeb} = $parts[0] unless defined $resp->{web};
         }
         return $resp;
     }

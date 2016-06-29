@@ -5,15 +5,12 @@ use Assert;
 use Foswiki               ();
 use Foswiki::UI           ();
 use Foswiki::UI::Viewfile ();
-use Unit::Request         ();
 use Try::Tiny;
 use File::Path qw(mkpath);
 
 use Moo;
 use namespace::clean;
 extends qw( FoswikiFnTestCase );
-
-my $UI_FN;
 
 has test_subweb => ( is => 'rw', );
 
@@ -52,11 +49,14 @@ around set_up => sub {
     $topic = 'TestTopic1';
 
     try {
-        $this->createNewFoswikiSession('AdminUser');
+        $this->createNewFoswikiApp(
+            engineParams => { initialAttributes => { user => 'AdminUser', }, },
+            callbacks => { handleRequestException => \&_cbHRE, },
+        );
 
         my $webObject = $this->populateNewWeb( $this->test_subweb );
         undef $webObject;
-        $this->assert( $this->session->webExists( $this->test_subweb ) );
+        $this->assert( $this->app->store->webExists( $this->test_subweb ) );
         ($topicObject) =
           Foswiki::Func::readTopic( $this->test_subweb,
             $Foswiki::cfg{HomeTopicName} );
@@ -64,7 +64,7 @@ around set_up => sub {
         $topicObject->save();
         undef $topicObject;
         $this->assert(
-            $this->session->topicExists(
+            $this->app->store->topicExists(
                 $this->test_subweb, $Foswiki::cfg{HomeTopicName}
             )
         );
@@ -107,6 +107,13 @@ around set_up => sub {
     return;
 };
 
+# Foswiki::App handleRequestException callback function.
+sub _cbHRE {
+    my $obj  = shift;
+    my %args = @_;
+    $args{params}{exception}->rethrow;
+}
+
 sub touchFile {
     my ( $dir, $file ) = @_;
     my $filename = "$dir/$file";
@@ -129,7 +136,8 @@ sub touchFile {
 
 sub sneakAttachmentsToTopic {
     my ( $this, $web, $topic, @filenames ) = @_;
-    my $path = $Foswiki::cfg{PubDir} . "/$web/$topic";
+
+    my $path = $this->app->cfg->data->{PubDir} . "/$web/$topic";
     mkpath($path);
 
     #print STDERR "DEBUG: dir=$path\n";
@@ -151,28 +159,28 @@ sub sneakAttachmentsToTopic {
 
 sub viewfile {
     my ( $this, $url, $wantHdrs ) = @_;
-    my $query = Unit::Request->new( initializer => {} );
-    $query->setUrl($url);
-    $query->method('GET');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $UI_FN ||= $this->getUIFn('viewfile');
-    $this->request($query);
-    $this->response( Unit::Response->new() );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => {}, },
+        engineParams  => {
+            initialAttributes => {
+                setUrl => $url,
+                method => 'GET',
+                action => 'viewfile',
+                user   => $this->test_user_login,
+            },
+        },
+        callbacks => {
+            handleRequestException => sub {
+                my $obj  = shift;
+                my %args = @_;
+                $obj->response->print(
+                    Foswiki::Exception::errorStr( $args{params}{exception} ) );
+            },
+        },
+    );
     my ($text) = $this->capture(
         sub {
-            try {
-                no strict 'refs';
-                &{$UI_FN}( $this->session );
-                use strict 'refs';
-            }
-            catch {
-                $this->session->response->print(
-                    ref($_) ? $_->stringify() : $_ );
-            }
-            finally {
-                $Foswiki::engine->finalize( $this->session->response,
-                    $this->session->request );
-            };
+            $this->app->handleRequest;
         }
     );
 
@@ -347,19 +355,19 @@ sub test_simple_web_secured_topic_direct_path {
       . $this->test_web
       . '.SecureTopic for scum is denied. access not allowed on topic';
 
-    $this->assert_equals( $expectedError,
+    $this->assert_str_contains( $expectedError,
         $this->viewfile( "/" . $this->test_web . "/SecureTopic/one.txt" ) );
-    $this->assert_equals( $expectedError,
+    $this->assert_str_contains( $expectedError,
         $this->viewfile( "/" . $this->test_web . "/SecureTopic/two.txt" ) );
-    $this->assert_equals( $expectedError,
+    $this->assert_str_contains( $expectedError,
         $this->viewfile( "/" . $this->test_web . "/SecureTopic/inc/file.txt" )
     );
 
-    $this->assert_equals( $expectedError,
+    $this->assert_str_contains( $expectedError,
         $this->viewfile( "/" . $this->test_web . "/SecureTopic//one.txt" ) );
-    $this->assert_equals( $expectedError,
+    $this->assert_str_contains( $expectedError,
         $this->viewfile( "/" . $this->test_web . "//SecureTopic/two.txt" ) );
-    $this->assert_equals( $expectedError,
+    $this->assert_str_contains( $expectedError,
         $this->viewfile( "/" . $this->test_web . "/SecureTopic/inc//file.txt" )
     );
 
@@ -374,45 +382,45 @@ sub test_simple_web_secured_topic_filename_param {
       . $this->test_web
       . '.SecureTopic for scum is denied. access not allowed on topic';
 
-    $this->assert_equals(
+    $this->assert_str_contains(
         $expectedError,
         $this->viewfile(
             "/" . $this->test_web . "/SecureTopic?filename=one.txt"
         )
     );
-    $this->assert_equals(
+    $this->assert_str_contains(
         $expectedError,
         $this->viewfile(
             "/" . $this->test_web . "/SecureTopic?filename=two.txt"
         )
     );
-    $this->assert_equals(
+    $this->assert_str_contains(
         $expectedError,
         $this->viewfile(
             "/" . $this->test_web . "/SecureTopic?filename=inc/file.txt"
         )
     );
 
-#Note1 $this->assert_equals('OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+#Note1 $this->assert_str_contains('OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
 #                            $this->viewfile("/$this->test_web/SecureTopic/?filename=one.txt"));
-#Note1 $this->assert_equals('OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+#Note1 $this->assert_str_contains('OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
 #                            $this->viewfile("/$this->test_web/SecureTopic/?filename=two.txt"));
-#Note1 $this->assert_equals('OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
+#Note1 $this->assert_str_contains('OopsException(accessdenied/topic_access web=>TemporaryViewFileScriptTestWebViewFileScript topic=>SecureTopic params=>[VIEW,access not allowed on topic])',
 #                            $this->viewfile("/$this->test_web/SecureTopic/?filename=inc/file.txt"));
 
-    $this->assert_equals(
+    $this->assert_str_contains(
         $expectedError,
         $this->viewfile(
             "/" . $this->test_web . "/SecureTopic?filename=/one.txt"
         )
     );
-    $this->assert_equals(
+    $this->assert_str_contains(
         $expectedError,
         $this->viewfile(
             "/" . $this->test_web . "/SecureTopic?filename=/two.txt"
         )
     );
-    $this->assert_equals(
+    $this->assert_str_contains(
         $expectedError,
         $this->viewfile(
             "/" . $this->test_web . "/SecureTopic?filename=/inc/file.txt"
@@ -430,22 +438,22 @@ sub test_nested_web_secured_topic_direct_path {
       . $this->test_subweb
       . '.SecureTopic for scum is denied. access not allowed on topic';
 
-    $this->assert_equals( $expectedError,
+    $this->assert_str_contains( $expectedError,
         $this->viewfile( "/" . $this->test_subweb . "/SecureTopic/one.txt" ) );
-    $this->assert_equals( $expectedError,
+    $this->assert_str_contains( $expectedError,
         $this->viewfile( "/" . $this->test_subweb . "/SecureTopic/two.txt" ) );
-    $this->assert_equals(
+    $this->assert_str_contains(
         $expectedError,
         $this->viewfile(
             "/" . $this->test_subweb . "/SecureTopic/inc/file.txt"
         )
     );
 
-    $this->assert_equals( $expectedError,
+    $this->assert_str_contains( $expectedError,
         $this->viewfile( "/" . $this->test_subweb . "/SecureTopic//one.txt" ) );
-    $this->assert_equals( $expectedError,
+    $this->assert_str_contains( $expectedError,
         $this->viewfile( "/" . $this->test_subweb . "//SecureTopic/two.txt" ) );
-    $this->assert_equals(
+    $this->assert_str_contains(
         $expectedError,
         $this->viewfile(
             "/" . $this->test_subweb . "/SecureTopic/inc//file.txt"
@@ -463,45 +471,45 @@ sub test_nested_web_secured_topic_filename_param {
       . $this->test_subweb
       . '.SecureTopic for scum is denied. access not allowed on topic';
 
-    $this->assert_equals(
+    $this->assert_str_contains(
         $expectedError,
         $this->viewfile(
             "/" . $this->test_subweb . "/SecureTopic?filename=one.txt"
         )
     );
-    $this->assert_equals(
+    $this->assert_str_contains(
         $expectedError,
         $this->viewfile(
             "/" . $this->test_subweb . "/SecureTopic?filename=two.txt"
         )
     );
-    $this->assert_equals(
+    $this->assert_str_contains(
         $expectedError,
         $this->viewfile(
             "/" . $this->test_subweb . "/SecureTopic?filename=inc/file.txt"
         )
     );
 
-#Note1 $this->assert_equals('OopsException(accessdenied/topic_access web=>'.$this->{test_subweb} topic=>'.SecureTopic params=>[VIEW,access not allowed on topic])',
+#Note1 $this->assert_str_contains('OopsException(accessdenied/topic_access web=>'.$this->{test_subweb} topic=>'.SecureTopic params=>[VIEW,access not allowed on topic])',
 #                            $this->viewfile("/$this->{test_subweb}/SecureTopic/?filename=one.txt"));
-#Note1 $this->assert_equals('OopsException(accessdenied/topic_access web=>'.$this->{test_subweb} topic=>'.SecureTopic params=>[VIEW,access not allowed on topic])',
+#Note1 $this->assert_str_contains('OopsException(accessdenied/topic_access web=>'.$this->{test_subweb} topic=>'.SecureTopic params=>[VIEW,access not allowed on topic])',
 #                            $this->viewfile("/$this->{test_subweb}/SecureTopic/?filename=two.txt"));
-#Note1 $this->assert_equals('OopsException(accessdenied/topic_access web=>'.$this->{test_subweb} topic=>'.SecureTopic params=>[VIEW,access not allowed on topic])',
+#Note1 $this->assert_str_contains('OopsException(accessdenied/topic_access web=>'.$this->{test_subweb} topic=>'.SecureTopic params=>[VIEW,access not allowed on topic])',
 #                            $this->viewfile("/$this->{test_subweb}/SecureTopic/?filename=inc/file.txt"));
 
-    $this->assert_equals(
+    $this->assert_str_contains(
         $expectedError,
         $this->viewfile(
             "/" . $this->test_subweb . "/SecureTopic?filename=/one.txt"
         )
     );
-    $this->assert_equals(
+    $this->assert_str_contains(
         $expectedError,
         $this->viewfile(
             "/" . $this->test_subweb . "/SecureTopic?filename=/two.txt"
         )
     );
-    $this->assert_equals(
+    $this->assert_str_contains(
         $expectedError,
         $this->viewfile(
             "/" . $this->test_subweb . "/SecureTopic?filename=/inc/file.txt"
@@ -509,7 +517,7 @@ sub test_nested_web_secured_topic_filename_param {
     );
 
 #illegal requests - use .. and funny chars and shell tricks to get access to files outside of life.
-#$this->assert_equals("relative path in filename ../SecureTopic/one.txt at /data/home/www/foswiki/trunk/core/lib/Foswiki/Sandbox.pm line 136.\n",
+#$this->assert_str_contains("relative path in filename ../SecureTopic/one.txt at /data/home/www/foswiki/trunk/core/lib/Foswiki/Sandbox.pm line 136.\n",
 #                    $this->viewfile("/$this->{test_subweb}/TestTopic1/../SecureTopic/one.txt"));
 #TODO: add more nasty tricks
 

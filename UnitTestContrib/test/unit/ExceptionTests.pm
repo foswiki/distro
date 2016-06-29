@@ -114,7 +114,7 @@ sub test_AccessControlException {
         topic  => 'FlumpNuts',
         reason => 'Because it was there.'
     );
-    $this->assert_str_equals(
+    $this->assert_str_contains(
 "AccessControlException: Access to FRY Spiders.FlumpNuts for burger is denied. Because it was there.",
         $ace->stringify()
     );

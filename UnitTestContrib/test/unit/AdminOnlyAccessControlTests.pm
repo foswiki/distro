@@ -92,6 +92,8 @@ THIS
     $topicObject->save();
     undef $topicObject;
 
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
+
     return;
 };
 
@@ -741,27 +743,27 @@ THIS
     my $viewUrl =
       $this->app->cfg->getScriptUrl( 0, 'view', $this->test_web, $test_topic );
 
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                webName   => [ $this->test_web ],
+                topicName => ["$test_topic"],
+            },
+
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/$test_topic",
+                method    => 'GET',
+                action    => 'view',
+                uri       => $viewUrl,
+            },
+        },
+    );
+
     # Request the page with the full UI
     my ($text) = $this->capture(
         sub {
-            $this->createNewFoswikiApp(
-                requestParams => {
-                    initializer => {
-                        webName   => [ $this->test_web ],
-                        topicName => ["$test_topic"],
-                    },
-
-                },
-                engineParams => {
-                    simulate          => 'cgi',
-                    initialAttributes => {
-                        path_info => "/" . $this->test_web . "/$test_topic",
-                        method    => 'GET',
-                        action    => 'view',
-                        uri       => $viewUrl,
-                    },
-                },
-            );
             return $this->app->handleRequest;
         }
     );

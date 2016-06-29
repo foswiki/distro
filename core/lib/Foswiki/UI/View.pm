@@ -214,7 +214,7 @@ sub view {
             # future as well).  $text is cleared unless a named section
             # matching the 'section' URL parameter is found.
             my ( $ntext, $sections ) =
-              Foswiki::parseSections( $topicObject->text() );
+              $this->app->macros->parseSections( $topicObject->text() );
             $text = '';    # in the beginning, there was ... NO section
           FINDSECTION:
             for my $s (@$sections) {

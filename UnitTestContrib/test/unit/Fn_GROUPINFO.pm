@@ -225,7 +225,11 @@ sub test_expandHiddenUserAsAdmin {
     my $this = shift;
 
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
     $this->clear_test_topicObject;
     $this->test_topicObject(
         Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) );

@@ -324,6 +324,23 @@ sub assert_null {
 
 =begin TML
 
+---++ ObjectMethod assert_str_contains($expected, $got [, $message])
+
+Fail the test unless =$got= contains =$expected=. =$message= is optional.
+
+=cut
+
+sub assert_str_contains {
+    my ( $this, $expected, $got, $mess ) = @_;
+    $this->assert_not_null( $expected, "Expected value may not be null" );
+    $this->assert_not_null( $got,
+        $mess || "Expected:'$expected'\n But got null value\n" );
+    $this->assert( index( $got, $expected ) != -1,
+        $mess || "Expected string:'$expected'\nnot found in:'$got'\n" );
+}
+
+=begin TML
+
 ---++ ObjectMethod assert_str_equals($expected, $got [, $message])
 
 Fail the test unless $got eq $expected. $message is optional.
@@ -641,6 +658,9 @@ sub assert_URI_equals {
     #print "COMPARE $got == $expected\n";
     my $e = URI->new($expected);
     my $g = URI->new($got);
+
+    $mess //= "Expected URI:'$expected'\nBut got:'$got'\n";
+
     $this->assert( $g->eq($e), $mess );
 }
 

@@ -90,8 +90,6 @@ around set_up => sub {
     my $this = shift;
     $orig->( $this, @_ );
 
-    $UI_FN ||= $this->getUIFn('view');
-
     #set up nested web $this->test_web/Nest
     $this->test_subweb( $this->test_web . '/Nest' );
     my $topic = 'TestTopic1';
@@ -134,11 +132,14 @@ around set_up => sub {
     undef $meta;
 
     try {
-        $this->createNewFoswikiSession('AdminUser');
+        $this->createNewFoswikiApp(
+            engineParams => { initialAttributes => { user => 'AdminUser', }, },
+            callbacks => { handleRequestException => \&_cbHRE, },
+        );
 
         my $webObject = $this->populateNewWeb( $this->test_subweb );
         undef $webObject;
-        $this->assert( $this->session->webExists( $this->test_subweb ) );
+        $this->assert( $this->app->store->webExists( $this->test_subweb ) );
         my ($topicObject) =
           Foswiki::Func::readTopic( $this->test_subweb,
             $Foswiki::cfg{HomeTopicName} );
@@ -146,7 +147,7 @@ around set_up => sub {
         $topicObject->save();
         undef $topicObject;
         $this->assert(
-            $this->session->topicExists(
+            $this->app->store->topicExists(
                 $this->test_subweb, $Foswiki::cfg{HomeTopicName}
             )
         );
@@ -169,12 +170,15 @@ around set_up => sub {
     $topic = 'TestTopic1';
 
     try {
-        $this->createNewFoswikiSession('AdminUser');
+        $this->createNewFoswikiApp(
+            engineParams => { initialAttributes => { user => 'AdminUser', }, },
+            callbacks => { handleRequestException => \&_cbHRE, },
+        );
 
         my $webObject = $this->populateNewWeb( $this->test_clashingsubweb );
         undef $webObject;
         $this->assert(
-            $this->session->webExists( $this->test_clashingsubweb ) );
+            $this->app->store->webExists( $this->test_clashingsubweb ) );
         ($topicObject) =
           Foswiki::Func::readTopic( $this->test_clashingsubweb,
             $Foswiki::cfg{HomeTopicName} );
@@ -182,7 +186,7 @@ around set_up => sub {
         $topicObject->save();
         undef $topicObject;
         $this->assert(
-            $this->session->topicExists(
+            $this->app->store->topicExists(
                 $this->test_clashingsubweb, $Foswiki::cfg{HomeTopicName}
             )
         );
@@ -199,34 +203,51 @@ around set_up => sub {
     return;
 };
 
+around createNewFoswikiApp => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $app = $orig->( $this, @_ );
+
+    $app->cfg->data->{DisableAllPlugins} = 1;
+
+    return $app;
+};
+
+# Foswiki::App handleRequestException callback function.
+sub _cbHRE {
+    my $obj  = shift;
+    my %args = @_;
+    $args{params}{exception}->rethrow;
+}
+
 sub setup_view {
     my ( $this, $web, $topic, $tmpl, $raw, $ctype, $skin, $method ) = @_;
-    my $query = Unit::Request->new(
-        initializer => {
-            webName     => [$web],
-            topicName   => [$topic],
-            template    => [$tmpl],
-            raw         => [$raw],
-            contenttype => [$ctype],
-            skin        => [$skin],
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                webName     => [$web],
+                topicName   => [$topic],
+                template    => [$tmpl],
+                raw         => [$raw],
+                contenttype => [$ctype],
+                skin        => [$skin],
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/$web/$topic",
+                method    => $method // 'POST',
+                user      => $this->test_user_login,
+                action    => 'view',
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
     );
-    $query->path_info("/$web/$topic");
-    $method ||= 'POST';
-    $query->method($method);
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    my ($text) = $this->capture(
-        sub {
-            no strict 'refs';
-            &{$UI_FN}( $this->session );
-            use strict 'refs';
-            $Foswiki::engine->finalize( $this->session->response,
-                $this->session->request );
-        }
-    );
+    my ($text) = $this->capture( sub { $this->app->handleRequest } );
 
     my $editUrl =
-      $this->session->getScriptUrl( '0', 'edit', $this->test_web, 'WebHome' );
+      $this->app->cfg->getScriptUrl( '0', 'edit', $this->test_web, 'WebHome' );
 
     $text =~ s/\r//g;
     $text =~ s/(^.*?\n\n+)//s;    # remove CGI header
@@ -403,12 +424,18 @@ postposttemplate', $text
 
 sub urltest {
     my ( $this, $url, $web, $topic ) = @_;
-    my $query = Unit::Request->new( initializer => {} );
-    $query->setUrl($url);
-    $query->method('GET');
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
-    $this->assert_equals( $web,   $this->session->webName );
-    $this->assert_equals( $topic, $this->session->topicName );
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => {}, },
+        engineParams  => {
+            initialAttributes => {
+                setUrl => $url,
+                method => 'GET',
+                user   => $this->test_user_login,
+            },
+        },
+    );
+    $this->assert_equals( $web,   $this->app->request->web );
+    $this->assert_equals( $topic, $this->app->request->topic );
 
     return;
 }
@@ -712,13 +739,23 @@ sub test_urlparsing {
     #invalid..
 
     # - Invalid web name - Tasks.Item8713
-    $this->urltest( '/A:B/WebPreferences', $Foswiki::cfg{UsersWebName},
-        'WebPreferences' );
-    $this->urltest( '/A\'":B/WebPreferences', $Foswiki::cfg{UsersWebName},
-        'WebPreferences' );
+    $this->urltest(
+        '/A:B/WebPreferences',
+        $this->app->cfg->data->{UsersWebName},
+        $this->app->cfg->data->{HomeTopicName}
+    );
+    $this->urltest(
+        '/A\'":B/WebPreferences',
+        $this->app->cfg->data->{UsersWebName},
+        $this->app->cfg->data->{HomeTopicName}
+    );
 
     #invalid topic name
-    $this->urltest( '/System/WebPre@ferences', 'System', 'WebHome' );
+    $this->urltest(
+        '/System/WebPre@ferences',
+        $this->app->cfg->data->{UsersWebName},
+        $this->app->cfg->data->{HomeTopicName}
+    );
 
     return;
 }

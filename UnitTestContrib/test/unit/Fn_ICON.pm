@@ -24,6 +24,8 @@ around set_up => sub {
     my $orig = shift;
     my $this = shift;
 
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
+
     $orig->( $this, @_ );
 
     my $it = Foswiki::Func::getPreferencesValue('ICONTOPIC');
@@ -31,6 +33,7 @@ around set_up => sub {
     $this->reliconurl( $Foswiki::cfg{PubUrlPath} . '/'
           . Foswiki::Func::expandCommonVariables($it) );
     $this->absiconurl( $Foswiki::cfg{DefaultUrlHost} . $this->reliconurl );
+
 };
 
 sub test_ICONURL {

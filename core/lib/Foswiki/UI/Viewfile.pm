@@ -52,9 +52,8 @@ sub viewfile {
 
     my $web      = $req->web;
     my $topic    = $req->topic;
-    my $filename = $req->attachment;
+    my $fileName = $req->attachment;
 
-    my $fileName;
     my $pathInfo;
 
     if ( !$topic ) {

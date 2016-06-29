@@ -46,10 +46,12 @@ nor in Ubuntu 15.10 repository, nor in CentOS. Though it is a part of FreeBSD po
 
 package Foswiki::Exception;
 use v5.14;
-require Carp;
+
 use Assert;
-require Scalar::Util;
 use Data::Dumper;
+use Try::Tiny;
+use Carp         ();
+use Scalar::Util ();
 
 use Moo;
 use namespace::clean;
@@ -146,8 +148,26 @@ sub BUILD {
           . " didn't set a meaningful error text in case it would be treated as a simple Foswiki::Exception"
     ) unless $this->text;
 
-    if ( DEBUG && defined $Foswiki::app ) {
-        $Foswiki::app->logger->log( 'debug', $this->stringify, );
+    state $tryLogging = 1;
+    if (   $tryLogging
+        && DEBUG
+        && defined $Foswiki::app
+        && $Foswiki::app->has_logger )
+    {
+
+        # Do our best to log this exception. Though the logging process is
+        # pretty much complicated and may generate an exception any time;
+        # especially in debug mode. In such a case we shall just suppress any
+        # extra exception.
+        local $SIG{__DIE__};
+        local $SIG{__WARN__};
+        try {
+            # If a Foswiki::Exception gets thrown make sure we don't go into
+            # recursion.
+            $tryLogging = 0;
+            $Foswiki::app->logger->log( 'debug', $this->stringify, );
+            $tryLogging = 1;
+        };
     }
 
     say STDERR "New exception object created: ", $this->stringify

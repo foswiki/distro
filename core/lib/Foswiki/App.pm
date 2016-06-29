@@ -1501,7 +1501,7 @@ sub _prepareDispatcher {
             header => 'Not Found',
             text   => 'The requested URL '
               . (
-                $this->engine->pathData->{uri}
+                $this->engine->request->uri
                   // 'action:' . $this->engine->pathData->{action}
               )
               . ' was not found on this server.',
