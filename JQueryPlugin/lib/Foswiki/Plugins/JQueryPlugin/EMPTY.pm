@@ -42,11 +42,12 @@ Initialize this plugin by adding the required static files to the html header
 
 =cut
 
-sub DISinit {
+around DISinit => sub {
+    my $orig = shift;
     my $this = shift;
 
-    return unless $this->SUPER::init();
-}
+    return unless $orig->( $this, @_ );
+};
 
 =begin TML
 
@@ -63,8 +64,8 @@ and also
 
 <verbatim>
 sub handleEMPTY {
-  my $session = shift;
-  my $plugin = createPlugin('Empty', $session);
+  my $app = shift;
+  my $plugin = createPlugin('Empty', $app);
   return $plugin->handleEMPTY(@_) if $plugin;
   return '';
 }

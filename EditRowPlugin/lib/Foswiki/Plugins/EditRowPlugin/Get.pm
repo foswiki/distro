@@ -17,7 +17,7 @@ use constant TRACE => 0;
 #    * erp_row
 #    * erp_col
 sub process {
-    my ( $session, $plugin, $verb, $response ) = @_;
+    my ( $app, $plugin, $verb, $response ) = @_;
     my $query = Foswiki::Func::getCgiQuery();
 
     unless ($query) {

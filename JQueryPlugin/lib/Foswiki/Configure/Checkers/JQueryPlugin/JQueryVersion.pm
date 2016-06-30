@@ -9,9 +9,11 @@ use namespace::clean;
 extends qw( Foswiki::Configure::Checker );
 
 sub check {
-    my $this      = shift;
-    my $e         = '';
-    my $jqversion = $Foswiki::cfg{JQueryPlugin}{JQueryVersion};
+    my $this = shift;
+    my $e    = '';
+
+    my $cfgData   = $Foswiki::app->cfg->data;
+    my $jqversion = $cfgData->{JQueryPlugin}{JQueryVersion};
 
     if ( !$jqversion ) {
         return $this->ERROR(<<'MESSAGE');
@@ -29,9 +31,8 @@ MESSAGE
     if (
         not -f File::Spec->catfile(
             File::Spec->splitdir( $Foswiki::cfg{PubDir} ),
-            $Foswiki::cfg{SystemWebName},
-            'JQueryPlugin',
-            $jqversion . '.js'
+            $cfgData->{SystemWebName},
+            'JQueryPlugin', $jqversion . '.js'
         )
       )
     {

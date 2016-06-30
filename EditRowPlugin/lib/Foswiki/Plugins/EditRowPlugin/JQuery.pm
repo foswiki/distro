@@ -14,31 +14,21 @@
 # http://www.gnu.org/copyleft/gpl.html
 
 package Foswiki::Plugins::EditRowPlugin::JQuery;
-use strict;
+use v5.14;
 
-use Assert;
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
-use Foswiki::Plugins::JQueryPlugin::Plugin ();
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
-
-sub new {
-    my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
-
-    my $this = $class->SUPER::new(
-        $session,
-        name          => 'EditRow',
-        version       => '1.0',
-        author        => 'Crawford Currie',
-        homepage      => 'http://foswiki.org/Extensions/EditRowPlugin',
-        puburl        => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin',
-        css           => ["erp.css"],
-        documentation => "$Foswiki::cfg{SystemWebName}.EditRowPlugin",
-        javascript    => [ "erp.js", "TableSort.js" ],
-        dependencies  => [ 'UI', 'JEditable' ]
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name          => 'EditRow',
+    version       => '1.0',
+    author        => 'Crawford Currie',
+    homepage      => 'http://foswiki.org/Extensions/EditRowPlugin',
+    puburl        => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin',
+    css           => ["erp.css"],
+    documentation => "$Foswiki::cfg{SystemWebName}.EditRowPlugin",
+    javascript    => [ "erp.js", "TableSort.js" ],
+    dependencies  => [ 'UI', 'JEditable' ]
+);
 
 1;

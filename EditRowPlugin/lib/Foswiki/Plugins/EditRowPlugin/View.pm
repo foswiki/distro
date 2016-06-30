@@ -17,7 +17,7 @@ use Foswiki::Func();
 #    * erp_table
 #    * erp_row
 sub process {
-    my ( $text, $web, $topic, $meta ) = @_;
+    my ( $app, $text, $web, $topic, $meta ) = @_;
 
     my $macro = $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro} || 'EDITTABLE';
 
@@ -33,15 +33,20 @@ sub process {
     return 0
       if Foswiki::Func::getPreferencesFlag('EDITROWPLUGIN_DISABLE') =~ /full/;
 
-    Foswiki::Plugins::JQueryPlugin::registerPlugin( 'EditRow',
+    my $pluginName = "EditRow";
+    Foswiki::Plugins::JQueryPlugin::registerPlugin( $pluginName,
         'Foswiki::Plugins::EditRowPlugin::JQuery' );
-    unless (
-        Foswiki::Plugins::JQueryPlugin::createPlugin(
-            "EditRow", $Foswiki::Plugins::SESSION
-        )
-      )
+    unless ( Foswiki::Plugins::JQueryPlugin::createPlugin( $pluginName, $app ) )
     {
-        die 'Failed to register JQuery plugin';
+        Foswiki::Exception::Fatal->throw(
+            text => "Failed to register JQuery plugin $pluginName: "
+              . (
+                DEBUG
+                ? Foswiki::Plugins::JQueryPlugin::Plugins::getPluginError(
+                    'EditRow')
+                : ''
+              )
+        );
     }
 
     require Foswiki::Plugins::EditRowPlugin::TableParser;
@@ -245,7 +250,7 @@ sub process {
     }
 
     if ($hasTables) {
-        $_[0] = join( "\n", @$content ) . ( $endsWithNewline ? "\n" : '' );
+        $_[1] = join( "\n", @$content ) . ( $endsWithNewline ? "\n" : '' );
         return 1;
     }
     return 0;

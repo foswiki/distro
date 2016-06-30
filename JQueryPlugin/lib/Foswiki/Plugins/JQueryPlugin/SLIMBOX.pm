@@ -44,9 +44,9 @@ sub init {
     return unless $this->SUPER::init();
 
     # add translations to head
-    my $session = $Foswiki::Plugins::SESSION;
+    my $app = $this->app;
     my $counterText =
-      $session->i18n->maketext( "Image [_1] of [_2]", "{x}", "{y}" );
+      $app->i18n->maketext( "Image [_1] of [_2]", "{x}", "{y}" );
     Foswiki::Func::addToZone( "head", "JQUERYPLUGIN::SLIMBOX::COUNTERTEXT",
             '<meta name="foswiki.ImagePlugin.counterText" content="'
           . $counterText

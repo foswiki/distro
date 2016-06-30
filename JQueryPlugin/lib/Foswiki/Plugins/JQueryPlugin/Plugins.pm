@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
 package Foswiki::Plugins::JQueryPlugin::Plugins;
+use v5.14;
 
 use strict;
 use warnings;
@@ -293,6 +294,7 @@ sub load {
             Foswiki::Func::writeDebug(
                 "ERROR: can't load jQuery plugin $pluginName: $errStr");
             $pluginDesc->{instance} = 0;
+            $pluginDesc->{error}    = $errStr;
         };
 
         #eval "require $pluginDesc->{class};";
@@ -422,6 +424,22 @@ sub getPlugins {
     }
 
     return @plugins;
+}
+
+=begin TML
+
+---++ ClassMethod getPluginError($pluginName) => $error_message or undef
+
+Returns last error message for plugin =$pluginName=, or empty string if there
+was no error, or undef if there is no plugin with this name.
+
+=cut
+
+sub getPluginError {
+    my $pluginName = lc(shift);
+
+    return undef unless exists $plugins{$pluginName};
+    return $plugins{$pluginName}{error} // '';
 }
 
 =begin TML

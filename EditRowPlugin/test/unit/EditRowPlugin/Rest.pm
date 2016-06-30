@@ -7,7 +7,6 @@ extends qw(FoswikiFnTestCase);
 
 sub gettit {
     my ( $this, $t, $r, $c ) = @_;
-    $this->clear_session;
     my %qd = (
         erp_version => "VERSION",
         erp_topic   => $this->test_web . "." . $this->test_topic,
@@ -15,16 +14,17 @@ sub gettit {
     );
     $qd{erp_row} = $r if defined $r;
     $qd{erp_col} = $c if defined $c;
-    my $query = Unit::Request->new( initializer => \%qd );
-    $this->session(
-        Foswiki->new( user => $this->test_user_login, request => $query ) );
-    my $response = Foswiki::Response->new();
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => \%qd, },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
+    );
     $this->assert_null(
         Foswiki::Plugins::EditRowPlugin::Get::process(
-            $this->session, "EditRowPlugin", "get", $response
+            $this->app, "EditRowPlugin", "get", $this->app->response
         )
     );
-    return $response->body();
+    return $this->app->response->body;
 }
 
 sub test_rest_get {
@@ -43,7 +43,6 @@ sub test_rest_get {
 INPUT
     $this->test_topicObject->save();
     $this->clear_test_topicObject;
-    $this->clear_session;
 
     $this->assert_equals( '"1"', $this->gettit( 0, 0, 0 ) );
 
@@ -76,7 +75,6 @@ sub test_rest_save {
 INPUT
     $this->test_topicObject->save();
     $this->clear_test_topicObject;
-    $this->clear_session;
 
     my %qd = (
         CELLDATA    => "Spitoon",
@@ -88,16 +86,17 @@ INPUT
         erp_table   => "TABLE_1",
         noredirect  => 1,                                           # for AJAX
     );
-    my $query = Unit::Request->new( initializer => \%qd );
-    $this->session(
-        Foswiki->new( user => $this->test_user_login, request => $query ) );
-    my $response = Foswiki::Response->new();
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => \%qd, },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
+    );
     $this->assert_null(
         Foswiki::Plugins::EditRowPlugin::Save::process(
-            $this->session, "EditRowPlugin", "save", $response
+            $this->app, "EditRowPlugin", "save", $this->app->response
         )
     );
-    $this->assert_equals( "RESPONSESpitoon", $response->body() );
+    $this->assert_equals( "RESPONSESpitoon", $this->app->response->body );
     $this->clear_test_topicObject;
     $this->test_topicObject(
         ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )[0] );

@@ -9,7 +9,10 @@ sub check {
     my $this = shift;
     my $warnings;
 
-    if ( $Foswiki::cfg{JQueryPlugin}{Plugins}{Autocomplete}{Enabled} ) {
+    if (
+        $Foswiki::app->cfg->data->{JQueryPlugin}{Plugins}{Autocomplete}{Enabled}
+      )
+    {
         $warnings .= $this->WARN(<<'HERE');
 Autocomplete has been deprecated.  Please use the autocomplete plugin part of the jQuery-ui package. 
 The new plugin is not backwards compatible. See the JQueryPlugin documentation for further details.

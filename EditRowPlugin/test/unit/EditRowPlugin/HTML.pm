@@ -15,19 +15,27 @@ around loadExtraConfig => sub {
     $Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled} = 0;
 };
 
+around createNewFoswikiApp => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $app = $orig->( $this, @_ );
+
+    $app->plugins->enable;
+
+    return $app;
+};
+
 sub test_simple_view {
     my $this = shift;
     require Foswiki::Plugins::EditRowPlugin::View;
     $this->assert( !$@, $@ );
     $this->clear_test_topicObject;
-    $this->clear_session;
-    my $query = Unit::Request->new( initializer => {} );
-    $this->session(
-        Foswiki->new(
-            user    => $this->test_user_login,
-            request => $query,
-            context => { view => 1 }
-        )
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => {}, },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
+        context => { view => 1 }
     );
     $this->test_topicObject(
         ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )[0] );
@@ -38,8 +46,9 @@ sub test_simple_view {
 INPUT
     $this->assert(
         Foswiki::Plugins::EditRowPlugin::View::process(
-            $in,               $this->test_web,
-            $this->test_topic, $this->test_topicObject
+            $this->app,      $in,
+            $this->test_web, $this->test_topic,
+            $this->test_topicObject
         )
     );
     $this->assert( $in =~ s/<!-- STARTINCLUDE.*?-->\s*(.*)\s*<!--.*/$1/s, $in );
@@ -125,18 +134,14 @@ sub test_Item12953 {
     require Foswiki::Plugins::EditRowPlugin::View;
     $this->assert( !$@, $@ );
     $this->clear_test_topicObject;
-    $this->clear_session;
-    my $query = Unit::Request->new( initializer => {} );
-    $this->session(
-        Foswiki->new(
-            user    => $this->test_user_login,
-            request => $query,
-            context => { view => 1 }
-        )
+    $this->createNewFoswikiApp(
+        requestParams => { initializer => {}, },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
+        context => { view => 1 }
     );
     $this->test_topicObject(
-        ( Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} ) )
-        [0] );
+        ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )[0] );
 
     my $in = <<INPUT;
 %EDITTABLE{
@@ -146,8 +151,9 @@ sub test_Item12953 {
 INPUT
     $this->assert(
         Foswiki::Plugins::EditRowPlugin::View::process(
-            $in,               $this->test_web,
-            $this->test_topic, $this->test_topicObject
+            $this->app,      $in,
+            $this->test_web, $this->test_topic,
+            $this->test_topicObject
         )
     );
     $this->assert( $in =~ s/\s*<!-- STARTINCLUDE.*?-->\s*(.*)\s*<!--.*/$1/s,
@@ -187,18 +193,19 @@ sub test_edit_view_default {
     require Foswiki::Plugins::EditRowPlugin::View;
     $this->assert( !$@, $@ );
     $this->clear_test_topicObject;
-    $this->clear_session;
-    my $query = Unit::Request->new(
-        initializer => {
-            erp_topic => $this->test_web . "." . $this->test_topic,
-            erp_table => 'TABLE_0'
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                erp_topic => $this->test_web . "." . $this->test_topic,
+                erp_table => 'TABLE_0'
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
+        context => { view => 1 },
     );
-    $this->session(
-        Foswiki->new( $this->{test_user_login}, $query, { view => 1 } ) );
     $this->test_topicObject(
-        ( Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} ) )
-        [0] );
+        ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )[0] );
 
     my $in = <<INPUT;
 %EDITTABLE%
@@ -206,8 +213,9 @@ sub test_edit_view_default {
 INPUT
     $this->assert(
         Foswiki::Plugins::EditRowPlugin::View::process(
-            $in,               $this->test_web,
-            $this->test_topic, $this->test_topicObject
+            $this->app,      $in,
+            $this->test_web, $this->test_topic,
+            $this->test_topicObject
         )
     );
     $this->assert( $in =~ s/<!-- STARTINCLUDE.*?-->\s*(.*)\s*<!--.*/$1/s, $in );
@@ -250,18 +258,19 @@ sub test_edit_view_no_js {
     require Foswiki::Plugins::EditRowPlugin::View;
     $this->assert( !$@, $@ );
     $this->clear_test_topicObject;
-    $this->clear_session;
-    my $query = Unit::Request->new(
-        initializer => {
-            erp_topic => $this->test_web . "." . $this->test_topic,
-            erp_table => 'TABLE_0'
-        }
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                erp_topic => $this->test_web . "." . $this->test_topic,
+                erp_table => 'TABLE_0'
+            },
+        },
+        engineParams =>
+          { initialAttributes => { user => $this->test_user_login, }, },
+        context => { view => 1 },
     );
-    $this->session(
-        Foswiki->new( $this->{test_user_login}, $query, { view => 1 } ) );
     $this->test_topicObject(
-        ( Foswiki::Func::readTopic( $this->{test_web}, $this->{test_topic} ) )
-        [0] );
+        ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )[0] );
 
     my $in = <<INPUT;
 %EDITTABLE{js="ignore"}%
@@ -269,8 +278,9 @@ sub test_edit_view_no_js {
 INPUT
     $this->assert(
         Foswiki::Plugins::EditRowPlugin::View::process(
-            $in,               $this->test_web,
-            $this->test_topic, $this->test_topicObject
+            $this->app,      $in,
+            $this->test_web, $this->test_topic,
+            $this->test_topicObject
         )
     );
     $this->assert( $in =~ s/<!-- STARTINCLUDE.*?-->\s*(.*)\s*<!--.*/$1/s, $in );

@@ -218,8 +218,8 @@ sub moveAttachment {
     my $oldLatest = _latestFile( $oldTopicObject, $oldAtt );
     if ( _e $oldLatest ) {
         my $newLatest = _latestFile( $newTopicObject, $newAtt );
-        _moveFile( $oldLatest, $newLatest );
-        _moveFile(
+        $this->_moveFile( $oldLatest, $newLatest );
+        $this->_moveFile(
             _historyDir( $oldTopicObject, $oldAtt ),
             _historyDir( $newTopicObject, $newAtt )
         );
@@ -250,12 +250,12 @@ sub copyAttachment {
     my $oldbase = _getPub($oldTopicObject);
     if ( _e "$oldbase/$oldAtt" ) {
         my $newbase = _getPub($newTopicObject);
-        _copyFile(
+        $this->_copyFile(
             _latestFile( $oldTopicObject, $oldAtt ),
             _latestFile( $newTopicObject, $newAtt )
         );
         if ( -e _historyDir( $oldTopicObject, $oldAtt ) ) {
-            _copyFile(
+            $this->_copyFile(
                 _historyDir( $oldTopicObject, $oldAtt ),
                 _historyDir( $newTopicObject, $newAtt )
             );
@@ -287,16 +287,18 @@ sub attachmentExists {
 sub moveTopic {
     my ( $this, $oldTopicObject, $newTopicObject, $cUID ) = @_;
 
-    _saveDamage($oldTopicObject);
+    $this->_saveDamage($oldTopicObject);
 
     my @revs;
     my $rev = _numRevisions( \@revs, $oldTopicObject );
 
-    _moveFile( _latestFile($oldTopicObject), _latestFile($newTopicObject) );
-    _moveFile( _historyDir($oldTopicObject), _historyDir($newTopicObject) );
+    $this->_moveFile( _latestFile($oldTopicObject),
+        _latestFile($newTopicObject) );
+    $this->_moveFile( _historyDir($oldTopicObject),
+        _historyDir($newTopicObject) );
     my $pub = _getPub($oldTopicObject);
     if ( _d $pub ) {
-        _moveFile( $pub, _getPub($newTopicObject) );
+        $this->_moveFile( $pub, _getPub($newTopicObject) );
     }
     if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
         if ( $newTopicObject->web ne $oldTopicObject->web ) {
@@ -327,13 +329,13 @@ sub moveWeb {
     my $oldbase = _getData($oldWebObject);
     my $newbase = _getData($newWebObject);
 
-    _moveFile( $oldbase, $newbase );
+    $this->_moveFile( $oldbase, $newbase );
 
     $oldbase = _getPub($oldWebObject);
     if ( _d $oldbase ) {
         $newbase = _getPub($newWebObject);
 
-        _moveFile( $oldbase, $newbase );
+        $this->_moveFile( $oldbase, $newbase );
     }
 
     if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
@@ -363,7 +365,7 @@ sub testAttachment {
 sub openAttachment {
     my ( $this, $meta, $att, $mode, @opts ) = @_;
     ASSERT($att) if DEBUG;
-    return _openBinaryStream( $meta, $att, $mode, @opts );
+    return $this->_openBinarySystem( $meta, $att, $mode, @opts );
 }
 
 # Implement Foswiki::Store
@@ -459,7 +461,7 @@ sub saveAttachment {
 
     ASSERT($name) if DEBUG;
 
-    _saveDamage( $meta, $name );
+    $this->_saveDamage( $meta, $name );
 
     my @revs;
     my $rn = _numRevisions( \@revs, $meta, $name ) + 1;
@@ -467,9 +469,9 @@ sub saveAttachment {
       ( $this->attachmentExists( $meta, $name ) ) ? 'update' : 'insert';
 
     my $latest = _latestFile( $meta, $name );
-    _saveStream( $latest, $stream );
+    $this->_saveStream( $latest, $stream );
     my $hf = _historyFile( $meta, $name, $rn );
-    _mkPathTo($hf);
+    $this->_mkPathTo($hf);
     File::Copy::copy( _encode( $latest, 1 ), _encode( $hf, 1 ) )
       or die "PlainFile: failed to copy $latest to $hf: $!";
 
@@ -492,7 +494,7 @@ sub saveAttachment {
     }
 
     my $mf = _metaFile( $meta, $name, $rn );
-    _writeMetaFile( $mf, $cUID, $comment );
+    $this->_writeMetaFile( $mf, $cUID, $comment );
 
     return $rn;
 }
@@ -501,7 +503,7 @@ sub saveAttachment {
 sub saveTopic {
     my ( $this, $meta, $cUID, $options ) = @_;
 
-    _saveDamage($meta);
+    $this->_saveDamage($meta);
 
     my $verb = ( _e _latestFile($meta) ) ? 'update' : 'insert';
     my @revs;
@@ -515,12 +517,13 @@ sub saveTopic {
 
     # Create new latest
     my $latest = _latestFile($meta);
-    _saveFile( $latest, Foswiki::Serialise::serialise( $meta, 'Embedded' ) );
+    $this->_saveFile( $latest,
+        Foswiki::Serialise::serialise( $meta, 'Embedded' ) );
 
     # Create history file by copying latest (modification date
     # doesn't matter, so long as it's >= $latest)
     my $hf = _historyFile( $meta, undef, $rn );
-    _mkPathTo($hf);
+    $this->_mkPathTo($hf);
     File::Copy::copy( _encode( $latest, 1 ), _encode( $hf, 1 ) )
       or die "PlainFile: failed to copy $latest to $hf: $!";
     if ( $options->{forcedate} ) {
@@ -531,7 +534,7 @@ sub saveTopic {
     }
 
     my $mf = _metaFile( $meta, undef, $rn );
-    _writeMetaFile( $mf, $cUID, $options->{comment} );
+    $this->_writeMetaFile( $mf, $cUID, $options->{comment} );
 
     if ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 ) {
         my $extra = $options->{minor} ? 'minor' : '';
@@ -552,7 +555,7 @@ sub saveTopic {
 sub repRev {
     my ( $this, $meta, $cUID, %options ) = @_;
 
-    _saveDamage($meta);
+    $this->_saveDamage($meta);
 
     my @revs;
     my $rn = _numRevisions( \@revs, $meta );
@@ -567,13 +570,14 @@ sub repRev {
     $ti->{date}    = $options{forcedate} || time;
     $ti->{author}  = $cUID;
 
-    _saveFile( $latest, Foswiki::Serialise::serialise( $meta, 'Embedded' ) );
+    $this->_saveFile( $latest,
+        Foswiki::Serialise::serialise( $meta, 'Embedded' ) );
 
-    _mkPathTo($hf);
+    $this->_mkPathTo($hf);
     File::Copy::copy( _encode( $latest, 1 ), _encode( $hf, 1 ) )
       or die "PlainFile: failed to copy $latest to $hf: $!";
     my $mf = _metaFile( $meta, undef, $rn );
-    _writeMetaFile( $mf, $cUID, $options{comment} );
+    $this->_writeMetaFile( $mf, $cUID, $options{comment} );
 
     if ( $options{forcedate} ) {
         _utime( $options{forcedate}, $options{forcedate}, $latest )    # touch
@@ -600,7 +604,7 @@ sub repRev {
 sub delRev {
     my ( $this, $meta, $cUID ) = @_;
 
-    _saveDamage($meta);
+    $this->_saveDamage($meta);
 
     my @revs;
     _loadRevs( \@revs, _historyDir($meta) );
@@ -671,7 +675,7 @@ sub atomicLockInfo {
 sub atomicLock {
     my ( $this, $meta, $cUID ) = @_;
     my $filename = _getData($meta) . '.lock';
-    _saveFile( $filename, $cUID . "\n" . time );
+    $this->_saveFile( $filename, $cUID . "\n" . time );
 }
 
 # Implement Foswiki::Store
@@ -818,15 +822,15 @@ sub remove {
 
         # Topic or attachment
         _unlink( _latestFile( $meta, $attachment ) );
-        _rmtree( _encode( _historyDir( $meta, $attachment ), 1 ) );
-        _rmtree( _encode( _getPub($meta), 1 ) )
+        $this->_rmtree( _encode( _historyDir( $meta, $attachment ), 1 ) );
+        $this->_rmtree( _encode( _getPub($meta), 1 ) )
           unless ($attachment);    # topic only
     }
     else {
 
         # Web
-        _rmtree( _encode( _getData($meta), 1 ) );
-        _rmtree( _encode( _getPub($meta),  1 ) );
+        $this->_rmtree( _encode( _getData($meta), 1 ) );
+        $this->_rmtree( _encode( _getPub($meta),  1 ) );
     }
 
     return unless ( $Foswiki::Store::STORE_FORMAT_VERSION < 1.2 );
@@ -948,7 +952,7 @@ sub setLease {
 
     my $filename = _getData($meta) . '.lease';
     if ($lease) {
-        _saveFile( $filename, join( "\n", %$lease ) );
+        $this->_saveFile( $filename, join( "\n", %$lease ) );
     }
     elsif ( _e $filename ) {
         _unlink($filename)
@@ -1124,6 +1128,7 @@ sub _numRevisions {
 # Of course you may not care that the author is not modified by external
 # processes.....
 sub _saveDamage {
+    my $this = shift;
     my ( $meta, $attachment ) = @_;
     my $d;
 
@@ -1160,14 +1165,14 @@ DONE
           . time()
           . '" format="1.1" version="'
           . $rev . '"}%' . "\n$t";
-        _saveFile( $latest, $t );
+        $this->_saveFile( $latest, $t );
 
         # Creating the history second ensures it is more recent than the
         # latest.
     }
 
     my $hf = _historyFile( $meta, $attachment, $rev );
-    _mkPathTo($hf);
+    $this->_mkPathTo($hf);
     File::Copy::copy( _encode( $latest, 1 ), _encode( $hf, 1 ) )
       or die "PlainFile: failed to copy to $hf: $!";
 }
@@ -1204,9 +1209,10 @@ sub _readMetaFile {
 }
 
 sub _writeMetaFile {
-    my $mf = shift;
-    _mkPathTo($mf);
-    _saveFile( $mf, join( "\n", map { defined $_ ? $_ : '' } @_ ) );
+    my $this = shift;
+    my $mf   = shift;
+    $this->_mkPathTo($mf);
+    $this->_saveFile( $mf, join( "\n", map { defined $_ ? $_ : '' } @_ ) );
 }
 
 sub _readChanges {
@@ -1329,7 +1335,7 @@ sub recordChange {
     # Add the new change to the end of the file
     $args{time} = time;
     push( @changes, \%args );
-    _saveFile( $file, $json->encode( \@changes ) );
+    $this->_saveFile( $file, $json->encode( \@changes ) );
 }
 
 # Implement Foswiki::Store
@@ -1371,6 +1377,7 @@ sub _readTextFile {
 
 # Open a stream onto a (binary) file
 sub _openBinaryStream {
+    my $this = shift;
     my ( $meta, $att, $mode, %opts ) = @_;
     my $stream;
 
@@ -1384,7 +1391,7 @@ sub _openBinaryStream {
     }
     else {
         $path = _latestFile( $meta, $att );
-        _mkPathTo($path) if ( $mode =~ m/>/ );
+        $this->_mkPathTo($path) if ( $mode =~ m/>/ );
     }
     unless ( open( $stream, $mode, _encode( $path, 1 ) ) ) {
         die("PlainFile: open stream $mode '$path' failed: $!");
@@ -1395,8 +1402,9 @@ sub _openBinaryStream {
 
 # Save a file
 sub _saveFile {
+    my $this = shift;
     my ( $file, $text ) = @_;
-    _mkPathTo($file);
+    $this->_mkPathTo($file);
     my $efile = _encode( $file, 1 );
     my $fh;
     open( $fh, '>', $efile )
@@ -1417,9 +1425,10 @@ sub _saveFile {
 
 # Save a (binary) stream to a file
 sub _saveStream {
+    my $this = shift;
     my ( $file, $fh ) = @_;
 
-    _mkPathTo($file);
+    $this->_mkPathTo($file);
     my $F;
     my $efile = _encode( $file, 1 );
     open( $F, '>', $efile ) or die "PlainFile: open $file failed: $!";
@@ -1436,9 +1445,10 @@ sub _saveStream {
 # Move a file or directory from one absolute file path to another.
 # if the destination already exists it's an error.
 sub _moveFile {
+    my $this = shift;
     my ( $from, $to ) = @_;
     die "PlainFile: move target $to already exists" if _e $to;
-    _mkPathTo($to);
+    $this->_mkPathTo($to);
     my $ok;
     my $efrom = _encode( $from, 1 );
     $ok = File::Copy::Recursive::rmove( $efrom, _encode( $to, 1 ) );
@@ -1448,10 +1458,11 @@ sub _moveFile {
 # Copy a file or directory from one absolute file path to another.
 # if the destination already exists it's an error.
 sub _copyFile {
+    my $this = shift;
     my ( $from, $to ) = @_;
 
     die "PlainFile: move target $to already exists" if _e $to;
-    _mkPathTo($to);
+    $this->_mkPathTo($to);
     my $ok;
     my $efrom = _encode( $from, 1 );
     if ( -d $efrom ) {
@@ -1465,6 +1476,7 @@ sub _copyFile {
 
 # Make all directories above the path
 sub _mkPathTo {
+    my $this = shift;
     my $file = _encode( shift, 1, 'FilenameEncoding' );
 
     ASSERT( File::Spec->file_name_is_absolute($file), $file ) if DEBUG;
@@ -1480,9 +1492,12 @@ sub _mkPathTo {
     my $err;
     eval {
         File::Path::mkpath(
-            $path, 0,
-            $Foswiki::cfg{Store}{dirPermission},
-            { error => \$err }
+            $path,
+            {
+                verbose => 0,
+                mode    => $this->app->cfg->data->{Store}{dirPermission},
+                error   => \$err,
+            }
         );
     };
     if ( scalar @{$err} ) {
@@ -1498,6 +1513,7 @@ sub _mkPathTo {
 
 # Remove an entire directory tree. $root must be encoded.
 sub _rmtree {
+    my $this = shift;
     my $root = shift;
     my $D;
     if ( opendir( $D, $root ) ) {
@@ -1508,7 +1524,7 @@ sub _rmtree {
             $entry =~ m/^(.*)$/;
             $entry = "$root/$1";
             if ( -d $entry ) {
-                _rmtree($entry);
+                $this->_rmtree($entry);
             }
             elsif ( !unlink($entry) && -e $entry ) {
                 my $mess = 'PlainFile: Failed to delete file '
@@ -1528,7 +1544,7 @@ sub _rmtree {
         closedir($D);
 
         if ( !rmdir($root) ) {
-            if ( $Foswiki::cfg{OS} ne 'WINDOWS' ) {
+            if ( $this->app->cfg->data->{OS} ne 'WINDOWS' ) {
                 die 'PlainFile: Failed to delete ' . _decode($root) . ": $!";
             }
             else {

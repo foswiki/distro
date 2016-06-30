@@ -55,8 +55,8 @@ sub init {
     return unless $this->SUPER::init();
 
     # open matching localization file if it exists
-    my $session = $Foswiki::Plugins::SESSION;
-    my $langTag = $session->i18n->language();
+    my $app     = $this->app;
+    my $langTag = $app->i18n->language();
     my $messagePath =
         $Foswiki::cfg{SystemWebName}
       . '/JQueryPlugin/i18n/jquery.ui.datepicker-'

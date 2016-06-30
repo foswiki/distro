@@ -24,7 +24,7 @@ use constant TRACE => 0;
 #      match the latest rev of the topic, the save will be aborted.
 #    * erp_stop_edit - if true, stop editing after save complete
 sub process {
-    my ( $session, $plugin, $verb, $response ) = @_;
+    my ( $app, $plugin, $verb, $response ) = @_;
     my $query = Foswiki::Func::getCgiQuery();
 
     unless ($query) {
@@ -230,7 +230,7 @@ sub process {
             require Foswiki::Validation;
             my $context =
               $query->url( -full => 1, -path => 1, -query => 1 ) . time();
-            my $cgis = $session->getCGISession();
+            my $cgis = $app->users->getCGISession();
             my $nonce;
             if ( Foswiki::Validation->can('generateValidationKey') ) {
                 $nonce =

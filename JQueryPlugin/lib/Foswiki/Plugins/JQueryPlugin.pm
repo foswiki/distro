@@ -158,148 +158,148 @@ sub registerTheme {
 
 =begin TML
 
----++ handleButton($session, $params, $topic, $web) -> $result
+---++ handleButton($app, $params, $topic, $web) -> $result
 
 Handles the =%<nop>BUTTON% tag. 
 
 =cut
 
 sub handleButton {
-    my $session = shift;
+    my $app = shift;
 
-    my $plugin = createPlugin( 'Button', $session );
+    my $plugin = createPlugin( 'Button', $app );
     return $plugin->handleButton(@_) if $plugin;
     return '';
 }
 
 =begin TML
 
----++ handleRestTmpl($session, $params, $topic, $web) -> $result
+---++ handleRestTmpl($app, $params, $topic, $web) -> $result
 
 Handles the tmpl rest handler
 
 =cut
 
 sub handleRestTmpl {
-    my $session = shift;
+    my $app = shift;
 
-    my $plugin = createPlugin( 'render', $session );
-    return $plugin->restTmpl( $session, @_ ) if $plugin;
+    my $plugin = createPlugin( 'render', $app );
+    return $plugin->restTmpl( $app, @_ ) if $plugin;
     return '';
 }
 
 =begin TML
 
----++ handlePopUpWindow($session, $params, $topic, $web) -> $result
+---++ handlePopUpWindow($app, $params, $topic, $web) -> $result
 
 Handles the =%<nop>POPUPWINDOW% tag. 
 
 =cut
 
 sub handlePopUpWindow {
-    my $session = shift;
+    my $app = shift;
 
-    my $plugin = createPlugin( 'PopUpWindow', $session );
+    my $plugin = createPlugin( 'PopUpWindow', $app );
     return $plugin->handlePopUpWindow(@_) if $plugin;
     return '';
 }
 
 =begin TML
 
----++ handleToggle($session, $params, $topic, $web) -> $result
+---++ handleToggle($app, $params, $topic, $web) -> $result
 
 Handles the =%<nop>TOGGLE% tag. 
 
 =cut
 
 sub handleToggle {
-    my $session = shift;
+    my $app = shift;
 
-    my $plugin = createPlugin( 'Toggle', $session );
+    my $plugin = createPlugin( 'Toggle', $app );
     return $plugin->handleToggle(@_) if $plugin;
     return '';
 }
 
 =begin TML
 
----++ handleTabPane($session, $params, $topic, $web) -> $result
+---++ handleTabPane($app, $params, $topic, $web) -> $result
 
 Handles the =%<nop>TABPANE% tag. 
 
 =cut
 
 sub handleTabPane {
-    my $session = shift;
+    my $app = shift;
 
-    my $plugin = createPlugin( 'Tabpane', $session );
+    my $plugin = createPlugin( 'Tabpane', $app );
     return $plugin->handleTabPane(@_) if $plugin;
     return '';
 }
 
 =begin TML
 
----++ handleTab($session, $params, $topic, $web) -> $result
+---++ handleTab($app, $params, $topic, $web) -> $result
 
 Handles the =%<nop>TAB% tag. 
 
 =cut
 
 sub handleTab {
-    my $session = shift;
+    my $app = shift;
 
-    my $plugin = createPlugin( 'Tabpane', $session );
+    my $plugin = createPlugin( 'Tabpane', $app );
     return $plugin->handleTab(@_) if $plugin;
     return '';
 }
 
 =begin TML
 
----++ handleEndTab($session, $params, $topic, $web) -> $result
+---++ handleEndTab($app, $params, $topic, $web) -> $result
 
 Handles the =%<nop>ENDTAB% tag. 
 
 =cut
 
 sub handleEndTab {
-    my $session = shift;
+    my $app = shift;
 
-    my $plugin = createPlugin( 'Tabpane', $session );
+    my $plugin = createPlugin( 'Tabpane', $app );
     return $plugin->handleEndTab(@_) if $plugin;
     return '';
 }
 
 =begin TML
 
----++ handleEndTabPane($session, $params, $topic, $web) -> $result
+---++ handleEndTabPane($app, $params, $topic, $web) -> $result
 
 Handles the =%<nop>ENDTABPANE% tag. 
 
 =cut
 
 sub handleEndTabPane {
-    my $session = shift;
+    my $app = shift;
 
-    my $plugin = createPlugin( 'Tabpane', $session );
+    my $plugin = createPlugin( 'Tabpane', $app );
     return $plugin->handleEndTabPane(@_) if $plugin;
     return '';
 }
 
 =begin TML
 
----++ handleJQueryRequire($session, $params, $topic, $web) -> $result
+---++ handleJQueryRequire($app, $params, $topic, $web) -> $result
 
 Handles the =%<nop>JQREQUIRE% tag. 
 
 =cut
 
 sub handleJQueryRequire {
-    my ( $session, $params, $theTopic, $theWeb ) = @_;
+    my ( $app, $params, $theTopic, $theWeb ) = @_;
 
     my $plugins = $params->{_DEFAULT} || '';
     my $warn = Foswiki::Func::isTrue( $params->{warn}, 1 );
     my $errorMsg = '';
     foreach my $pluginName ( split( /\s*,\s*/, $plugins ) ) {
-        my $plugin = createPlugin( $pluginName, $session );
+        my $plugin = createPlugin( $pluginName, $app );
         $errorMsg .= _inlineError("No such plugin $pluginName")
           if !$plugin && $warn;
     }
@@ -309,14 +309,14 @@ sub handleJQueryRequire {
 
 =begin TML
 
----++ handleJQueryTheme($session, $params, $topic, $web) -> $result
+---++ handleJQueryTheme($app, $params, $topic, $web) -> $result
 
 Handles the =%<nop>JQTHEME% tag. 
 
 =cut
 
 sub handleJQueryTheme {
-    my ( $session, $params, $theTopic, $theWeb ) = @_;
+    my ( $app, $params, $theTopic, $theWeb ) = @_;
 
     my $themeName = $params->{_DEFAULT}
       || $Foswiki::cfg{JQueryPlugin}{JQueryTheme};
@@ -331,14 +331,14 @@ sub handleJQueryTheme {
 
 =begin TML
 
----++ handleJQueryIconPath($session, $params, $topic, $web) -> $result
+---++ handleJQueryIconPath($app, $params, $topic, $web) -> $result
 
 Handles the =%<nop>JQICONPATH% tag. 
 
 =cut
 
 sub handleJQueryIconPath {
-    my ( $session, $params, $theTopic, $theWeb ) = @_;
+    my ( $app, $params, $theTopic, $theWeb ) = @_;
 
     my $iconName = $params->{_DEFAULT} || '';
     return Foswiki::Plugins::JQueryPlugin::Plugins::getIconUrlPath($iconName);
@@ -346,14 +346,14 @@ sub handleJQueryIconPath {
 
 =begin TML
 
----++ handleJQueryIcon($session, $params, $topic, $web) -> $result
+---++ handleJQueryIcon($app, $params, $topic, $web) -> $result
 
 Handles the =%<nop>JQICON% tag. 
 
 =cut
 
 sub handleJQueryIcon {
-    my ( $session, $params, $theTopic, $theWeb ) = @_;
+    my ( $app, $params, $theTopic, $theWeb ) = @_;
 
     my $iconName  = $params->{_DEFAULT} || '';
     my $iconAlt   = $params->{alt}      || $iconName;
@@ -404,14 +404,14 @@ sub handleJQueryIcon {
 
 =begin TML
 
----++ handleJQueryPlugins($session, $params, $topic, $web) -> $result
+---++ handleJQueryPlugins($app, $params, $topic, $web) -> $result
 
 Handles the =%<nop>JQPLUGINS% tag. 
 
 =cut
 
 sub handleJQueryPlugins {
-    my ( $session, $params, $theTopic, $theWeb ) = @_;
+    my ( $app, $params, $theTopic, $theWeb ) = @_;
 
     my $thePlugin    = $params->{_DEFAULT} || '';
     my $theFormat    = $params->{format};

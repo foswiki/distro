@@ -5,6 +5,8 @@ use v5.14;
 use Foswiki::Plugins::JQueryPlugin::Plugins ();
 use Foswiki::Func                           ();
 
+use Assert;
+
 use constant TRACE => 0;
 
 use Moo;
@@ -164,7 +166,13 @@ sub init {
                 # require Devel::StackTrace;
                 # $trace = Devel::StackTrace->new()->as_string()."\n";
 
-                print STDERR "ERROR: can't load plugin for $dep\n" . $trace;
+                say STDERR "ERROR: can't load JQuery plugin for $dep:",
+                  (
+                    DEBUG
+                    ? Foswiki::Plugins::JQueryPlugin::Plugins::getPluginError(
+                        $dep) // 'there is no plugin with this name'
+                    : ''
+                  );
             }
         }
     }
