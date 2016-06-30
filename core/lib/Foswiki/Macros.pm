@@ -705,7 +705,9 @@ sub execMacro {
                   . "; must do Foswiki::Macro role" )
               if DEBUG;
         }
-        $rc = $this->_macros->{$macroName}->expand( $attrs, $topicObject );
+        $rc =
+          $this->_macros->{$macroName}
+          ->expand( $attrs, $topicObject, @macroArgs );
     }
 
     return $rc;
