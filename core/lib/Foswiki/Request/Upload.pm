@@ -38,7 +38,6 @@ sub DEMOLISH {
 
     #SMELL: Note: untaint filename. Taken from CGI.pm
     # (had to be updated for OSX in Dec2008)
-    say STDERR __PACKAGE__, "::DEMOLISH";
     $this->tmpname =~ m{^([a-zA-Z0-9_\+ \'\":/.\$\\~-]+)$};
     my $file = $1;
     if ( scalar( unlink($file) ) != 1 ) {

@@ -636,8 +636,14 @@ which may have surprising effects on other code that shares the object.
 sub unload {
     my $this = shift;
 
+#if ( DEBUG && !defined $this->{app} ) {
+#    say STDERR Carp::longmess( "App is undefined in object created at ",
+#        $this->__orig_file, ":", $this->__orig_line, " {{", $this->__orig_stack, "}}" );
+#}
+
     # Delete preferences object loaded for this meta object.
-    delete $this->app->heap->{topic_preferences}{ $this->__id };
+    delete $this->app->heap->{topic_preferences}{ $this->__id }
+      if defined $this->app && defined $this->app->heap->{topic_preferences};
 
     # Avoid collisions, initiate removal from MetaCache only and only if object
     # has been previously stored in the cache.
@@ -963,7 +969,7 @@ sub populateNewWeb {
         $prefsTopicObject = $this->create(
             $this,
             web   => $this->web,
-            topic => $Foswiki::cfg{WebPrefsTopicName},
+            topic => $this->app->cfg->data->{WebPrefsTopicName},
             text  => $prefsText
         );
         $prefsTopicObject->save();

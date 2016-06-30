@@ -108,7 +108,8 @@ sub test_antispam {
     $Foswiki::cfg{AntiSpam}{HideUserDetails} = 1;
 
     # ScumBag should only see his own information
-    $this->createNewFoswikiApp( user => "ScumBag" );
+    $this->createNewFoswikiApp(
+        engineParams => { initialAttributes => { user => "ScumBag" }, }, );
     my $ui = $this->test_topicObject->expandMacros(<<"HERE");
 %USERINFO{"ScumBag" format="$testformat"}%
 HERE
@@ -139,7 +140,11 @@ HERE
 
     # Admin user should see everything
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
     $ui = $this->test_topicObject->expandMacros(<<"HERE");
 %USERINFO{"ScumBag" format="$testformat"}%
 HERE

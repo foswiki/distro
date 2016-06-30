@@ -105,7 +105,10 @@ around set_up => sub {
 
     my $cfgData = $this->app->cfg->data;
 
-    $this->createNewFoswikiApp( user => $cfgData->{AdminUserLogin} );
+    $cfgData->{DisableAllPlugins} = 1;
+
+    $this->createNewFoswikiApp( engineParams =>
+          { initialAttributes => { user => $cfgData->{AdminUserLogin}, }, }, );
     Foswiki::Func::createWeb($testweb);
     $this->createNewFoswikiApp;
     my $app = $this->app;

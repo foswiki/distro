@@ -88,6 +88,7 @@ around BUILDARGS => sub {
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
     $orig->( $this, @_ );
 
     #set up nested web $this->test_web/Nest
@@ -207,9 +208,9 @@ around createNewFoswikiApp => sub {
     my $orig = shift;
     my $this = shift;
 
-    my $app = $orig->( $this, @_ );
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
 
-    $app->cfg->data->{DisableAllPlugins} = 1;
+    my $app = $orig->( $this, @_ );
 
     return $app;
 };

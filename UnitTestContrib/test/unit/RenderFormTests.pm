@@ -49,6 +49,9 @@ CODE
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
+
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
+
     $orig->( $this, @_ );
 
     Foswiki::Func::saveTopic( $this->test_web, "WebPreferences", undef,

@@ -81,6 +81,8 @@ sub skip {
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
+
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
     $orig->( $this, @_ );
 
     # Force pure perl text search; the query alg may map to a plain text

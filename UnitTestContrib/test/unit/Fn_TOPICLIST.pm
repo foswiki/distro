@@ -23,6 +23,8 @@ around set_up => sub {
     my $orig = shift;
     my $this = shift;
 
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
+
     $orig->( $this, @_ );
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
     my $webObject = $this->populateNewWeb( $this->test_web . "/SubWeb" );

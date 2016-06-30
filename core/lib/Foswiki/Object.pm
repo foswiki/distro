@@ -201,7 +201,8 @@ sub _cloneData {
         # Check if ref has been cloned before and avoid deep recursion.
         if ( defined $heap->{cloning_ref}{$refAddr} ) {
             Foswiki::Exception::Fatal->throw( text =>
-                  "Circular dependecy detected on a object being cloned" );
+"Circular dependecy detected on a object being cloned for attribute $attr"
+            );
         }
         elsif ( defined $heap->{cloned_ref}{$refAddr} ) {
 
@@ -223,7 +224,9 @@ sub _cloneData {
                     # Class without clone method. Try to copy it 'manually' by
                     # cloning as a hash and blessing the resulting hashref into
                     # $val's class.
-                    $cloned = $this->_cloneData( \%{$val}, $attr );
+                    # SMELL Pretty much unreliable for complex classes.
+                    $cloned =
+                      $this->_cloneData( {%$val}, "$attr.blessed($class)" );
                     bless $cloned, ref($val)
                       if $cloned != $val;
                 }
@@ -303,6 +306,8 @@ sub clone {
     }
 
     my $newObj = ref($this)->new(@profile);
+
+    $this->_clear__clone_heap;
 
     return $newObj;
 }

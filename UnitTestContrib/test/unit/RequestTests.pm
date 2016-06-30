@@ -19,17 +19,21 @@ around set_up => sub {
 # Test default empty constructor
 sub test_empty_new {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
 
-    $this->assert_str_equals( '', $req->action, '$req->action() not empty' );
-    $this->assert_str_equals( '', $req->pathInfo,
-        '$req->pathInfo() not empty' );
-    $this->assert_str_equals( '', $req->remoteAddress,
-        '$req->remoteAddress() not empty' );
-    $this->assert_str_equals( '', $req->uri, '$req->uri() not empty' );
-    $this->assert_null( $req->method,     '$req->method() not null' );
+    $this->assert_equals( $this->app->engine->pathData->{action},
+        $req->action, '$req->action not set from engine' );
+    $this->assert_equals( $this->app->engine->pathData->{path_info} // '',
+        $req->pathInfo, '$req->pathInfo not empty' );
+    $this->assert_equals( $this->app->engine->connectionData->{remoteAddress},
+        $req->remoteAddress, '$req->remoteAddress not set from engine' );
+    $this->assert_equals( $this->app->engine->connectionData->{method},
+        $req->method, '$req->method not set from engine' );
+    $this->assert_equals( $this->app->engine->connectionData->{method},
+        $req->method, '$req->method not set from engine' );
+    $this->assert_equals( $this->app->engine->connectionData->{serverPort},
+        $req->serverPort, '$req->serverPort not set from engine' );
     $this->assert_null( $req->remoteUser, '$req->remoteUser() not null' );
-    $this->assert_null( $req->serverPort, '$req->serverPort() not null' );
 
     my @list = $req->header();
     $this->assert_str_equals( 0, scalar @list, '$req->header not empty' );
@@ -58,7 +62,7 @@ sub test_new_from_hash {
         'undef'     => undef,
         multi_undef => [],
     );
-    my $req = Foswiki::Request->new( initializer => \%init );
+    my $req = $this->create( 'Foswiki::Request', initializer => \%init );
     $this->assert_str_equals(
         5,
         scalar $req->multi_param(),
@@ -102,7 +106,7 @@ empty=
 EOF
     );
     seek( $tmp, 0, 0 );
-    my $req = Foswiki::Request->new( initializer => $tmp );
+    my $req = $this->create( 'Foswiki::Request', initializer => $tmp );
     $this->assert_str_equals(
         4,
         scalar $req->param(),
@@ -131,26 +135,26 @@ EOF
 
 sub test_action {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
+    $this->assert_str_equals( $this->app->engine->pathData->{action},
+        $req->action, 'Wrong initial "action" value: not set from engine' );
     foreach (qw(view edit save upload preview rdiff)) {
-        $this->assert_str_not_equals( $_, $req->action,
-            'Wrong initial "action" value' );
         $req->action($_);
         $this->assert_str_equals( $_, $req->action, 'Wrong action value' );
-        $this->assert_str_equals( $_, $ENV{FOSWIKI_ACTION},
-            'Wrong FOSWIKI_ACTION environment' );
+        $this->assert_str_equals(
+            $_,
+            $this->app->env->{FOSWIKI_ACTION},
+            'Wrong FOSWIKI_ACTION environment'
+        );
     }
 }
 
 sub test_method {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
+    $this->assert_equals( $this->app->engine->connectionData->{method},
+        $req->method, 'Wrong initial "method" value: not set from engine' );
     foreach (qw(GET HEAD POST)) {
-        $this->assert_str_not_equals(
-            $_,
-            $req->method || '',
-            'Wrong initial "method" value'
-        );
         $req->method($_);
         $this->assert_str_equals( $_, $req->method, 'Wrong method value' );
     }
@@ -158,7 +162,7 @@ sub test_method {
 
 sub test_pathInfo {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
     foreach ( qw(/ /abc /abc/ /abc/def /abc/def/), '' ) {
         $this->assert_str_not_equals( $_, $req->pathInfo,
             'Wrong initial "pathInfo" value' );
@@ -169,7 +173,7 @@ sub test_pathInfo {
 
 sub test_protocol {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
     $req->secure(0);
     $this->assert_str_equals( 'http', $req->protocol, 'Wrong protocol' );
     $this->assert_num_equals( 0, $req->secure, 'Wrong secure flag' );
@@ -180,7 +184,7 @@ sub test_protocol {
 
 sub test_uri {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
     foreach ( qw(/ /abc/def /abc/ /Web/Topic?a=b&b=c), '' ) {
         $this->assert_str_not_equals( $_, $req->uri,
             'Wrong initial "uri" value' );
@@ -191,7 +195,7 @@ sub test_uri {
 
 sub test_remoteAddress {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
     foreach (qw(127.0.0.1 10.1.1.1 192.168.0.1)) {
         $req->remoteAddress($_);
         $this->assert_str_equals( $_, $req->remoteAddress,
@@ -201,7 +205,7 @@ sub test_remoteAddress {
 
 sub test_remoteUser {
     my $this = shift;
-    my $req = Foswiki::Request->new( intializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
     foreach (qw(WikiGuest guest foo bar Baz)) {
         $req->remoteUser($_);
         $this->assert_str_equals( $_, $req->remoteUser,
@@ -211,7 +215,7 @@ sub test_remoteUser {
 
 sub test_serverPort {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
     foreach (qw(80 443 8080)) {
         $req->serverPort($_);
         $this->assert_num_equals( $_, $req->serverPort,
@@ -221,7 +225,7 @@ sub test_serverPort {
 
 sub test_queryString {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
     $req->param( -name => 'simple1', -value => 's1' );
     $this->assert_equals( 'simple1=s1', $req->query_string,
         'Wrong query string' );
@@ -238,12 +242,12 @@ sub test_queryString {
 
 sub perform_url_test {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
     my ( $secure, $host, $action, $path ) = @_;
     $req->secure($secure);
     $req->header( Host => $host );
     $req->action($action);
-    $req->path_info($path);
+    $req->pathInfo($path);
     $req->param( -name => 'simple1', -value => 's1 s1' );
     $req->param( -name => 'simple2', -value => 's2' );
     $req->multi_param( -name => 'multi', -value => [qw(m1 m2)] );
@@ -341,7 +345,7 @@ sub test_url_alien_suffix {
 
 sub test_query_param {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
 
     $req->queryParam( -name => 'q1', -value => 'v1' );
     my @result = $req->multi_param('q1');
@@ -401,7 +405,7 @@ sub test_query_param {
     $this->assert_deep_equals( [ 0, '', 0 ],
         \@result, 'wrong value from queryParam()' );
 
-    $req = Foswiki::Request->new( initializer => "" );
+    $req = $this->create( 'Foswiki::Request', initializer => "" );
     $req->method('POST');
     $req->queryParam( -name => 'q1', -value => 'v1' );
     @result = $req->multi_param('q1');
@@ -414,7 +418,7 @@ sub test_query_param {
 
 sub test_body_param {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
 
     $req->bodyParam( -name => 'q1', -value => 'v1' );
     my @result = $req->multi_param('q1');
@@ -474,7 +478,7 @@ sub test_body_param {
 
 sub test_cookies {
     my $this    = shift;
-    my $req     = Foswiki::Request->new( initializer => "" );
+    my $req     = $this->create( 'Foswiki::Request', initializer => "" );
     my %cookies = ();
     $cookies{c1} = $req->cookie( -name => 'c1', -value => 'value1' );
     $this->assert(
@@ -534,7 +538,7 @@ sub test_cookies {
 
 sub test_delete {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
 
     $req->multi_param( -name => 'q2', -values => [qw(v1 v2)] );
     $req->param( -name => 'q1',   -value => 'v1' );
@@ -586,7 +590,7 @@ sub test_delete {
 
 sub test_delete_all {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
 
     $req->multi_param( -name => 'q2', -values => [qw(v1 v2)] );
     $req->param( -name => 'q1', -value => 'v1' );
@@ -643,7 +647,7 @@ sub test_delete_all {
 
 sub test_header {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
 
     $req->header( 'h-1' => 'v1' );
     my @result = $req->header('H-1');
@@ -679,7 +683,7 @@ sub test_header {
 
 sub test_save {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
     scalar $req->param( -name => 'simple',  -value => 's1' );
     scalar $req->param( -name => 'simple2', -value => 's2' );
     scalar $req->multi_param( -name => 'multi', -value => [qw(m1 m2)] );
@@ -715,7 +719,7 @@ empty=
 EOF
     );
     seek( $tmp, 0, 0 );
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
     $req->load($tmp);
     $this->assert_str_equals(
         4,
@@ -745,7 +749,7 @@ EOF
 
 sub test_upload {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
 
     require File::Temp;
     my $tmp = File::Temp->new( UNLINK => 1 );
@@ -785,7 +789,7 @@ EOF
 
 sub test_accessors {
     my $this = shift;
-    my $req = Foswiki::Request->new( initializer => "" );
+    my $req = $this->create( 'Foswiki::Request', initializer => "" );
 
     my $accept =
       'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8';

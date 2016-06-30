@@ -783,18 +783,19 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
     # Force completion of %Foswiki::cfg
     # This must be done before moving the logging.
     $cfgData->{Store}{Implementation} = 'Foswiki::Store::PlainFile';
-    $this->pushApp;
-    my $tmp = Unit::TestApp->new(
-        user => undef,
-        env  => $this->app->cloneEnv,
-        cfg  => $this->app->cfg->clone,
-    );
-    ASSERT( $tmp->cfg->app == $tmp,
-        "Object app attr doesn't point to the new app" );
-    ASSERT( defined $Foswiki::app ) if SINGLE_SINGLETONS;
-    undef $tmp;    # finish() will be called automatically.
-    ASSERT( !defined $Foswiki::app ) if SINGLE_SINGLETONS;
-    $this->popApp;
+
+    #$this->pushApp;
+    #my $tmp = Unit::TestApp->new(
+    #    user => undef,
+    #    env  => $this->app->cloneEnv,
+    #    cfg  => $this->app->cfg->clone,
+    #);
+    #ASSERT( $tmp->cfg->app == $tmp,
+    #    "Object app attr doesn't point to the new app" );
+    #ASSERT( defined $Foswiki::app ) if SINGLE_SINGLETONS;
+    #undef $tmp;    # finish() will be called automatically.
+    #ASSERT( !defined $Foswiki::app ) if SINGLE_SINGLETONS;
+    #$this->popApp;
 
     # Note this does not do much, except for some tests that use it directly.
     # The first call to File::Temp caches the temp directory name, so
@@ -1107,6 +1108,12 @@ sub createNewFoswikiApp {
     $this->app($app);
     $this->_fixupAppObjects;
 
+    # WorkDir is set to _tempDir but _tempDir might be cleaned up before $app
+    # gets completely shutdown. This draws some app frameworks to fail upon
+    # cleanup as they rely upon WorkDir. By storing the _tempDir object on app's
+    # heap we let them shutdown cleanly.
+    $app->heap->{TestCase_TempDir} = $this->_tempDir;
+
     ASSERT( defined $Foswiki::app ) if SINGLE_SINGLETONS;
 
     if ( $this->test_web && $this->test_topic ) {
@@ -1255,6 +1262,7 @@ sub _fixupAppObjects {
 
 sub pushApp {
     my $this = shift;
+    my %params;
 
     my $holderObj = $this->localize(@_);
 
@@ -1270,6 +1278,7 @@ sub popApp {
     pop @{ $this->_holderStack };
 
     $Foswiki::app = $this->app;
+
     $this->app->cfg->_setupGLOBs;
     $this->_fixupAppObjects;
 }

@@ -225,8 +225,7 @@ around set_up => sub {
     my $orig = shift;
     my $this = shift;
 
-    $| = 1;
-
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
     $orig->( $this, @_ );
     $this->sup( $this->app->cfg->getScriptUrl( 0, 'view' ) );
     my ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'H_' );
@@ -1909,7 +1908,11 @@ sub _create_link_test_fixtures {
     $this->_create_topic( $this->test_web, 'Aa' );
     $this->_create_topic( $this->test_web, 'AA' );
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
     Foswiki::Func::createWeb('Aa');
     $this->_create_topic( 'Aa', 'Bb' );
     Foswiki::Func::createWeb('AA');

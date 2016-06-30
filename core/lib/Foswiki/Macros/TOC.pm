@@ -37,18 +37,21 @@ BEGIN {
 #    * $headingPatternDa : ---++... dashes section heading
 #    * $headingPatternHt : &lt;h[1-6]> HTML section heading &lt;/h[1-6]>
 sub TOC {
-    my ( $this, $text, $topicObject, $args, $tocInstance ) = @_;
-
-    my $app = $this->app;
+    my ( $this, $args, $topicObject, $text, $tocInstance ) = @_;
 
     require Foswiki::Attrs;
-    my $params      = new Foswiki::Attrs($args);
-    my $isSameTopic = 1;                           # is the toc for this topic?
+    my $params =
+      UNIVERSAL::isa( $args, 'Foswiki::Attrs' )
+      ? $args
+      : new Foswiki::Attrs($args);
+    my $isSameTopic = 1;    # is the toc for this topic?
 
     my $tocTopic = $params->{_DEFAULT};
     my $tocWeb   = $params->{web};
     my $tocId    = $params->{id};
     my $align    = $params->{align};
+
+    $text //= $topicObject->text;
 
     unless ( defined $tocId ) {
         $tocInstance = '' if ( !defined $tocInstance || $tocInstance eq '1' );
@@ -59,7 +62,7 @@ sub TOC {
         $tocWeb   ||= $topicObject->web;
         $tocTopic ||= $topicObject->topic;
         ( $tocWeb, $tocTopic ) =
-          $app->request->normalizeWebTopicName( $tocWeb, $tocTopic );
+          $this->request->normalizeWebTopicName( $tocWeb, $tocTopic );
 
         if ( $tocWeb eq $topicObject->web && $tocTopic eq $topicObject->topic )
         {
@@ -69,9 +72,9 @@ sub TOC {
 
             # Data for topic coming from another topic
             $params->{differentTopic} = 1;
-            $topicObject = Foswiki::Meta->load( $app, $tocWeb, $tocTopic );
+            $topicObject = Foswiki::Meta->load( $this, $tocWeb, $tocTopic );
             if ( !$topicObject->haveAccess('VIEW') ) {
-                return $app->inlineAlert( 'alerts', 'access_denied',
+                return $this->inlineAlert( 'alerts', 'access_denied',
                     $tocWeb, $tocTopic );
             }
             $text        = $topicObject->text;
@@ -100,15 +103,15 @@ sub TOC {
     $text =~ s/\0/</g;            # restore "protected" comments
 
     my $maxDepth = $params->{depth};
-    $maxDepth ||= $app->prefs->getPreference('TOC_MAX_DEPTH')
+    $maxDepth ||= $this->prefs->getPreference('TOC_MAX_DEPTH')
       || 6;
-    my $minDepth = $app->prefs->getPreference('TOC_MIN_DEPTH')
+    my $minDepth = $this->prefs->getPreference('TOC_MIN_DEPTH')
       || 1;
 
     # get the title attribute
     my $title =
          $params->{title}
-      || $app->prefs->getPreference('TOC_TITLE')
+      || $this->prefs->getPreference('TOC_TITLE')
       || '';
     $title = CGI::span( { class => 'foswikiTocTitle' }, $title ) if ($title);
 
@@ -116,7 +119,7 @@ sub TOC {
     my $result  = '';
 
     # Find URL parameters
-    my $query   = $app->request;
+    my $query   = $this->request;
     my @qparams = ();
     foreach my $name ( $query->param ) {
         next if ( $name eq 'keywords' );
@@ -139,7 +142,7 @@ sub TOC {
     # clear the set of unique anchornames in order to inhibit
     # the 'relabeling' of anchor names if the same topic is processed
     # more than once, cf. explanation in expandMacros()
-    my $anchors = $app->renderer->getAnchorNames($topicObject);
+    my $anchors = $this->renderer->getAnchorNames($topicObject);
     $anchors->clear();
 
     $text =~ s/^(\#$Foswiki::regex{wikiWordRegex})/
@@ -232,7 +235,7 @@ sub TOC {
           $isSameTopic
           ? Foswiki::make_params(@qparams) . '#'
           . $a->{anchor}
-          : $app->cfg->getScriptUrl(
+          : $this->cfg->getScriptUrl(
             0, 'view', $topicObject->web, $topicObject->topic,
             '#' => $a->{anchor},
             @qparams

@@ -196,7 +196,11 @@ sub set_up_for_verify {
     my $this = shift;
 
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
 
     try {
         $this->registerUser( $loginname{UserA}, 'User', 'A',
@@ -1645,7 +1649,11 @@ sub verify_addToGroup {
     # Force a re-read
 
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
 
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserZ' ) );
 
@@ -1655,7 +1663,11 @@ sub verify_addToGroup {
     # Force a re-read
 
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
 
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA86' ) );
     $this->assert( !Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
@@ -1665,7 +1677,11 @@ sub verify_addToGroup {
     # Force a re-read
 
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
 
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA86' ) );
     $this->assert( Foswiki::Func::isGroupMember( 'ZeeGroup', 'UserA' ) );
@@ -1721,7 +1737,11 @@ sub verify_NestedGroups {
     # Force a re-read
 
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
 
     #test nested groups
     $this->assert( Foswiki::Func::addUserToGroup( 'UserZ', 'TeeGroup', 1 ) );
@@ -1730,7 +1750,8 @@ sub verify_NestedGroups {
 
     # Force a re-read
 
-    $this->createNewFoswikiApp( user => 'UserZ' );
+    $this->createNewFoswikiApp(
+        engineParams => { initialAttributes => { user => 'UserZ', }, }, );
 
     my $it = Foswiki::Func::eachGroupMember('TeeGroup');
     my @list;
@@ -2073,7 +2094,11 @@ sub DISABLEDverify_denyNonAdminReadOfAdminGroupTopic {
     # Force a re-read
 
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
 
     $this->assert( Foswiki::Func::addUserToGroup( 'UserB', 'AdminGroup', 1 ) );
 
@@ -2087,7 +2112,11 @@ sub DISABLEDverify_denyNonAdminReadOfAdminGroupTopic {
     {
 
         $this->createNewFoswikiApp(
-            user => $this->app->cfg->data->{AdminUserLogin} );
+            engineParams => {
+                initialAttributes =>
+                  { user => $this->app->cfg->data->{AdminUserLogin}, },
+            },
+        );
 
         my $it = Foswiki::Func::eachGroupMember('AdminGroup');
         my @list;
@@ -2106,7 +2135,8 @@ sub DISABLEDverify_denyNonAdminReadOfAdminGroupTopic {
 
         # Force a re-read
 
-        $this->createNewFoswikiApp( user => 'UserB' );
+        $this->createNewFoswikiApp(
+            engineParams => { initialAttributes => { user => 'UserB', }, }, );
 
         my $it = Foswiki::Func::eachGroupMember('AdminGroup');
         my @list;
@@ -2123,7 +2153,8 @@ sub DISABLEDverify_denyNonAdminReadOfAdminGroupTopic {
 
         # Force a re-read
 
-        $this->createNewFoswikiApp( user => 'UserZ' );
+        $this->createNewFoswikiApp(
+            engineParams => { initialAttributes => { user => 'UserZ', }, }, );
 
         my $it = Foswiki::Func::eachGroupMember('AdminGroup');
         my @list;

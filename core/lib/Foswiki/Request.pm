@@ -202,8 +202,8 @@ has method => (
 );
 
 # SMELL XXX remote_user is not used anymore, it is now Foswiki::App::remoteUser attribute.
-has remote_user => ( is => 'rw', );
-has server_port => (
+has remoteUser => ( is => 'rw', );
+has serverPort => (
     is      => 'rw',
     lazy    => 1,
     default => sub { $_[0]->app->engine->connectionData->{serverPort} },
@@ -271,8 +271,8 @@ has _pathParsed  => (
 *Delete        = \&delete;
 *remote_addr   = \&remote_address;
 *remoteAddress = \&remote_address;
-*remoteUser    = \&remote_user;
-*serverPort    = \&server_port;
+*remote_user   = \&remoteUser;
+*server_port   = \&serverPort;
 *delete_all    = \&deleteAll;
 *user_agent    = \&userAgent;
 
@@ -1048,19 +1048,21 @@ sub parse {
         return $resp;
     }
 
-    my @parts = split( /\//, $query_path );    # split the path
+    my @parts = split( /[\/.]+/, $query_path );    # split the path
 
     # Single component.  It's a web unless the $topic_flag is set.
     if ( scalar(@parts) eq 1 ) {
         print STDERR "Checking single component:\n" if TRACE;
         my $resp = {};
         if ($topic_flag) {
-            $resp->{topic} = Foswiki::Sandbox::untaint( $query_path,
+            $resp->{topic} =
+              Foswiki::Sandbox::untaint( $parts[0],
                 \&Foswiki::Sandbox::validateTopicName );
             $resp->{invalidTopic} = $parts[0] unless defined $resp->{topic};
         }
         else {
-            $resp->{web} = Foswiki::Sandbox::untaint( $query_path,
+            $resp->{web} =
+              Foswiki::Sandbox::untaint( $parts[0],
                 \&Foswiki::Sandbox::validateWebName );
             $resp->{invalidWeb} = $parts[0] unless defined $resp->{web};
         }

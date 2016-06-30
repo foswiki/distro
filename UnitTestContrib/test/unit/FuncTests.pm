@@ -103,7 +103,7 @@ around BUILDARGS => sub {
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
-    $| = 1;
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
     $orig->( $this, @_ );
 
     my ($topicObject) = Foswiki::Func::readTopic(
@@ -217,7 +217,11 @@ sub test_createWeb_permissions {
     $this->pushApp;
 
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
 
     my $defaultUserWikiName = $this->app->cfg->data->{DefaultUserWikiName};
     $this->assert(
@@ -268,7 +272,11 @@ qr/Access to CHANGE TemporaryFuncTestWebFunc\/Blahsub. for BaseUserMapping_666 i
         "Test should not have created the web" );
 
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
 
     Foswiki::Func::saveTopicText(
         $this->test_web, 'WebPreferences', <<"END",
@@ -327,7 +335,11 @@ sub test_Item9021 {
     $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
 
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
 
     try {
         Foswiki::Func::createWeb( $this->test_web . "Missing/Blah" );
@@ -356,7 +368,11 @@ sub test_createWeb_InvalidBase {
     $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
 
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
 
     try {
         Foswiki::Func::createWeb( $this->test_web . "InvaliBase",
@@ -382,7 +398,11 @@ sub test_createWeb_hierarchyDisabled {
     $this->app->cfg->data->{EnableHierarchicalWebs} = 0;
 
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
 
     try {
         Foswiki::Func::createWeb( $this->test_web . "/Subweb" );
@@ -952,7 +972,8 @@ sub test_noauth_saveTopic {
     my $ttext =
 " APPLE \n   * Set ALLOWTOPICVIEW = SomeUser \n   * Set DENYTOPICCHANGE = BaseUserMapping_666,MrWhite \n ";
 
-    $this->createNewFoswikiApp( user => $userLogin );
+    $this->createNewFoswikiApp(
+        engineParams => { initialAttributes => { user => $userLogin, }, }, );
     Foswiki::Func::saveTopicText( $this->test_web, $topic, $ttext );
 
     $this->assert( Foswiki::Func::topicExists( $this->test_web, $topic ) );
@@ -1796,7 +1817,11 @@ sub test_checkWebAccessPermission {
     my $this = shift;
 
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
 
     my $defaultUserWikiName = $this->app->cfg->data->{DefaultUserWikiName};
     Foswiki::Func::saveTopicText( $this->test_web,
@@ -2289,12 +2314,14 @@ sub test_eachChangeSince {
     sleep(1);    # to move into a new time step
     my $start = time();
 
-    $this->createNewFoswikiApp( user => $user1 );
+    $this->createNewFoswikiApp(
+        engineParams => { initialAttributes => { user => $user1, }, }, );
     my ($meta) = Foswiki::Func::readTopic( $this->test_web, "ClutterBuck" );
     $meta->text("One");
     $meta->save();
 
-    $this->createNewFoswikiApp( user => $user2 );
+    $this->createNewFoswikiApp(
+        engineParams => { initialAttributes => { user => $user2, }, }, );
     undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, "PiggleNut" );
     $meta->text("One");
@@ -2304,13 +2331,17 @@ sub test_eachChangeSince {
     sleep(1);
     my $mid = time();
 
-    $this->createNewFoswikiApp( user => $user2 );
+    $this->createNewFoswikiApp(
+        engineParams => { initialAttributes => { user => $user2, }, }, );
+
     undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, "ClutterBuck" );
     $meta->text("One");
     $meta->save();
 
-    $this->createNewFoswikiApp( user => $user1 );
+    $this->createNewFoswikiApp(
+        engineParams => { initialAttributes => { user => $user1, }, }, );
+
     undef $meta;
     ($meta) = Foswiki::Func::readTopic( $this->test_web, "PiggleNut" );
     $meta->text("Two");
@@ -2392,7 +2423,11 @@ sub test_4411 {
     my $this = shift;
     $this->assert( Foswiki::Func::isGuest(), $this->app->user );
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserLogin} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserLogin}, },
+        },
+    );
     $this->assert( !Foswiki::Func::isGuest(), $this->app->user );
 
     return;
@@ -2420,8 +2455,9 @@ HERE
         engineParams =>
           $this->app->_cloneData( $this->app->engineParams, 'engineParams' ),
     );
-    $this->createNewFoswikiApp( %appInitParams,
-        user => $this->app->cfg->data->{GuestUserLogin}, );
+    $appInitParams{engineParams}{initialAttributes}{user} =
+      $this->app->cfg->data->{GuestUserLogin};
+    $this->createNewFoswikiApp(%appInitParams);
     $this->assert_str_equals( "naff",
         Foswiki::Func::getPreferencesValue("PSIBG") );
     Foswiki::Func::setPreferencesValue( "PSIBG", "KJHD" );
@@ -2434,8 +2470,7 @@ HERE
 HERE
 
  #$this->createNewFoswikiSession( $this->app->cfg->data->{GuestUserLogin}, $q );
-    $this->createNewFoswikiApp( %appInitParams,
-        user => $this->app->cfg->data->{GuestUserLogin}, );
+    $this->createNewFoswikiApp(%appInitParams);
     $this->assert_str_equals( "naff",
         Foswiki::Func::getPreferencesValue("PSIBG") );
     Foswiki::Func::setPreferencesValue( "PSIBG", "KJHD" );
@@ -2962,36 +2997,45 @@ sub test_getUrlHost {
 
     my $query;
 
-    my $cfg = $this->app->cfg;
-    $cfg->data->{DefaultUrlHost}      = 'http://foswiki.org';
-    $cfg->data->{ForceDefaultUrlHost} = 0;
+    $this->app->cfg->data->{DefaultUrlHost}      = 'http://foswiki.org';
+    $this->app->cfg->data->{ForceDefaultUrlHost} = 0;
 
     $this->createNewFoswikiApp(
         requestParams => { initializer => "", },
-        engineParams => { setUrl => 'http://localhost/Main/SvenDowideit', },
+        engineParams  => {
+            intialAttributes =>
+              { setUrl => 'http://localhost/Main/SvenDowideit', },
+        },
     );
     $this->assert_str_equals( $this->app->cfg->data->{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );
 
     $this->createNewFoswikiApp(
         requestParams => { initializer => "", },
-        engineParams =>
-          { setUrl => 'http://localhost:8080/Main/SvenDowideit', },
+        engineParams  => {
+            initialAttributes =>
+              { setUrl => 'http://localhost:8080/Main/SvenDowideit', },
+        },
     );
     $this->assert_str_equals( 'http://localhost:8080',
         Foswiki::Func::getUrlHost() );
 
     $this->createNewFoswikiApp(
         requestParams => { initializer => "", },
-        engineParams => { setUrl => 'https://localhost/Main/SvenDowideit', },
+        engineParams  => {
+            initialAttributes =>
+              { setUrl => 'https://localhost/Main/SvenDowideit', },
+        },
     );
     $this->assert_str_equals( 'https://localhost',
         Foswiki::Func::getUrlHost() );
 
     $this->createNewFoswikiApp(
         requestParams => { initializer => "", },
-        engineParams =>
-          { setUrl => 'https://localhost:8080/Main/SvenDowideit', },
+        engineParams  => {
+            initialAttributes =>
+              { setUrl => 'https://localhost:8080/Main/SvenDowideit', },
+        },
     );
     $this->assert_str_equals( 'https://localhost:8080',
         Foswiki::Func::getUrlHost() );
@@ -2999,16 +3043,20 @@ sub test_getUrlHost {
     $this->app->cfg->data->{RemovePortNumber} = 1;
     $this->createNewFoswikiApp(
         requestParams => { initializer => "", },
-        engineParams =>
-          { setUrl => 'http://localhost:8080/Main/SvenDowideit', },
+        engineParams  => {
+            initialAttributes =>
+              { setUrl => 'http://localhost:8080/Main/SvenDowideit', },
+        },
     );
     $this->assert_str_equals( $this->app->cfg->data->{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );
 
     $this->createNewFoswikiApp(
         requestParams => { initializer => "", },
-        engineParams =>
-          { setUrl => 'https://localhost:8080/Main/SvenDowideit', },
+        engineParams  => {
+            initialAttributes =>
+              { setUrl => 'https://localhost:8080/Main/SvenDowideit', },
+        },
     );
     $this->assert_str_equals( 'https://localhost',
         Foswiki::Func::getUrlHost() );
@@ -3027,31 +3075,40 @@ sub test_getUrlHost_ForceDefaultUrlHost {
 
     $this->createNewFoswikiApp(
         requestParams => { initializer => "", },
-        engineParams => { setUrl => 'http://localhost/Main/SvenDowideit', },
+        engineParams  => {
+            initialAttributes =>
+              { setUrl => 'http://localhost/Main/SvenDowideit', },
+        },
     );
     $this->assert_str_equals( $this->app->cfg->data->{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );
 
     $this->createNewFoswikiApp(
         requestParams => { initializer => "", },
-        engineParams =>
-          { setUrl => 'http://localhost:8080/Main/SvenDowideit', },
+        engineParams  => {
+            initialAttributes =>
+              { setUrl => 'http://localhost:8080/Main/SvenDowideit', },
+        },
     );
     $this->assert_str_equals( $this->app->cfg->data->{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );
 
     $this->createNewFoswikiApp(
         requestParams => { initializer => "", },
-        engineParams =>
-          { setUrl => 'https://www.foswiki.org/Main/SvenDowideit', },
+        engineParams  => {
+            initialAttributes =>
+              { setUrl => 'https://www.foswiki.org/Main/SvenDowideit', },
+        },
     );
     $this->assert_str_equals( $this->app->cfg->data->{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );
 
     $this->createNewFoswikiApp(
         requestParams => { initializer => "", },
-        engineParams =>
-          { setUrl => 'https:8443//www.foswiki.org/Main/SvenDowideit', },
+        engineParams  => {
+            initialAttributes =>
+              { setUrl => 'https:8443//www.foswiki.org/Main/SvenDowideit', },
+        },
     );
     $this->assert_str_equals( $this->app->cfg->data->{DefaultUrlHost},
         Foswiki::Func::getUrlHost() );

@@ -13,6 +13,15 @@ extends qw( FoswikiFnTestCase );
 
 use Assert;
 
+around set_up => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
+
+    $orig->( $this, @_ );
+};
+
 sub test_minimalForm {
     my $this = shift;
 
@@ -338,7 +347,11 @@ sub test_Item10987_formObjClass {
     my ($this) = @_;
 
     $this->createNewFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserWikiName} );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserWikiName}, },
+        },
+    );
     my $formObj =
       Foswiki::Form->loadCached( $this->app, $Foswiki::cfg{SystemWebName},
         'UserForm' );

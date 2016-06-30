@@ -51,6 +51,9 @@ our $AElig;
 around set_up => sub {
     my $orig = shift;
     my ($this) = shift;
+
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
+
     $orig->( $this, @_ );
 
     my $timestamp = time();
@@ -1482,7 +1485,6 @@ sub test_nofinalnewline {
 
 sub test_formatted_search_summary_with_exclamation_marks {
     my $this = shift;
-    my $app  = $this->app;
 
     $this->set_up_for_formatted_search();
     my $actual, my $expected;
@@ -1510,7 +1512,6 @@ sub test_formatted_search_summary_with_exclamation_marks {
 # Item8718
 sub test_formatted_search_with_exclamation_marks_inside_bracket_link {
     my $this = shift;
-    my $app  = $this->app;
 
     $this->set_up_for_formatted_search();
     my $actual, my $expected;
@@ -1589,7 +1590,6 @@ sub test_format_displayed_value {
 
 sub test_METASEARCH {
     my $this = shift;
-    my $app  = $this->app;
 
     $this->set_up_for_formatted_search();
     my $actual, my $expected;
@@ -2755,7 +2755,6 @@ sub verify_getTopicList {
 
 sub verify_casesensitivesetting {
     my $this = shift;
-    my $app  = $this->app;
 
     my $actual, my $expected;
 
@@ -4088,8 +4087,12 @@ Number of topics: 4
 CRUD
 
     # Now we create the WikiGuest user topic, to test both outputs
-    my $app = $this->app;
-    if ( !$app->store->topicExists( 'TemporarySEARCHUsersWeb', 'WikiGuest' ) ) {
+    if (
+        !$this->app->store->topicExists(
+            'TemporarySEARCHUsersWeb', 'WikiGuest'
+        )
+      )
+    {
         my ($userTopic) =
           Foswiki::Func::readTopic( 'TemporarySEARCHUsersWeb', 'WikiGuest' );
         $userTopic->text('Just this poor old WikiGuest');
@@ -4097,7 +4100,9 @@ CRUD
         undef $userTopic;
     }
     $this->assert(
-        $app->store->topicExists( 'TemporarySEARCHUsersWeb', 'WikiGuest' ),
+        $this->app->store->topicExists(
+            'TemporarySEARCHUsersWeb', 'WikiGuest'
+        ),
         'Failed to create user topic in TemporarySEACHUsersWeb'
     );
 
@@ -6813,10 +6818,11 @@ HERE
     $this->createNewFoswikiApp(
         requestParams => { initializer => '', },
         engineParams  => {
-            initialAttributes =>
-              { path_info => "/$test_web/" . $this->test_topic, },
+            initialAttributes => {
+                path_info => "/$test_web/" . $this->test_topic,
+                user      => $this->app->cfg->data->{AdminUserLogin},
+            },
         },
-        user => $this->app->cfg->data->{AdminUserLogin},
     );
     $this->assert_str_equals( $this->test_web, $this->app->request->web );
     while ( my ( $fwaddress, $metatext ) = each %topics ) {

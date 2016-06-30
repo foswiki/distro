@@ -11,11 +11,12 @@ script that runs testcases.
 
 =cut
 
-use Devel::Symdump();
-use File::Spec();
 use Try::Tiny;
 use Unit::TestCase;
 use Foswiki::Exception ();
+use Unit::Eavesdrop    ();
+use Devel::Symdump     ();
+use File::Spec         ();
 
 use Moo;
 use namespace::clean;
@@ -24,7 +25,7 @@ extends 'Foswiki::Object';
 
 use Assert;
 
-sub CHECKLEAK { 0 }
+sub CHECKLEAK { 0 || $ENV{FOSWIKI_CHECKLEAK} }
 
 BEGIN {
     if (CHECKLEAK) {
@@ -424,7 +425,7 @@ sub runOneInNewProcess {
         "-worker", $suite,, $testToRun, $tempfilename
       );
     my $command = join( ' ', @command );
-    print "Running: $command\n";
+    print "RUNNING AS PROCESS: $command\n";
 
     $ENV{PATH} =~ /(.*)/;
     $ENV{PATH} = $1;        # untaint
@@ -498,13 +499,12 @@ DIE
     $tempfilename = $1;
 
     my $suite = $testSuiteModule;
-    eval "use $suite";
-    die $@ if $@;
+
+    Foswiki::load_package($suite);
 
     my $tester = $suite->new( testSuite => $suite );
 
     my $log = "stdout.$$.log";
-    require Unit::Eavesdrop;
     open( my $logfh, ">", $log ) || die $!;
     print STDERR "Logging to $log\n";
     my $stdout = new Unit::Eavesdrop('STDOUT');
@@ -518,17 +518,22 @@ DIE
     my $action = __PACKAGE__->runOne( $tester, $suite, $testToRun );
 
     {
-        local $SIG{__WARN__} = sub { die $_[0]; };
-        eval { close $logfh; };
-        if ($@) {
-            if ( $@ =~ /Bad file descriptor/ and $suite eq 'EngineTests' ) {
+        local $SIG{__WARN__} = sub {
+            my $e = shift;
+            Foswiki::Exception::Fatal->rethrow($e);
+        };
+        try {
+            close $logfh;
+        }
+        catch {
+            my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+            my $errmsg = $e->stringify;
+            unless ($errmsg =~ /Bad file descriptor/
+                and $suite eq 'EngineTests' )
+            {
 
-                # This is expected - ignore it
-            }
-            else {
-
-                # propagate the error
-                die $@;
+                # Expected for EngineTests - ignore it. Otherwise – rethrow.
+                $e->rethrow;
             }
         }
     }

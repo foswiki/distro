@@ -21,8 +21,6 @@ has stderr            => ( is => 'rw', );
 has new_user_login    => ( is => 'rw', );
 has new_user_wikiname => ( is => 'rw', );
 
-#$Error::Debug = 1;
-
 my $REG_TMPL;
 
 my $session_id;    # Capture session ID immediately after registering a new user
@@ -31,7 +29,8 @@ my $session_id;    # Capture session ID immediately after registering a new user
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
-    $| = 1;
+
+    $this->app->cfg->data->{DisableAllPlugins} = 1;
     $orig->( $this, @_ );
 
     $REG_TMPL =
@@ -665,7 +664,11 @@ sub test_NoUserAddToNewGroupCreateAsAdmin {
     my $ret;
 
     $this->reCreateFoswikiApp(
-        user => $this->app->cfg->data->{AdminUserWikiName}, );
+        engineParams => {
+            initialAttributes =>
+              { user => $this->app->cfg->data->{AdminUserWikiName}, },
+        },
+    );
 
     $ret = $this->addUserToGroup(
         {
@@ -785,7 +788,6 @@ sub verify_resetEmailOkay {
     my $newEmail = 'brian@family.guy';
 
     $this->createNewFoswikiApp(
-        user          => $uname,
         requestParams => {
             initializer => {
                 'LoginName'   => [$uname],
@@ -800,6 +802,7 @@ sub verify_resetEmailOkay {
             initialAttributes => {
                 path_info => '/' . $this->users_web . '/WebHome',
                 action    => 'manage',
+                user      => $uname,
             },
         },
         callbacks => { handleRequestException => \&_cbHRE, },
@@ -896,7 +899,6 @@ EOM
     $fh->close;
 
     $this->createNewFoswikiApp(
-        user          => $cfgData->{AdminUserWikiName},
         requestParams => {
             initializer => {
                 'LogTopic'              => [$logTopic],
@@ -909,6 +911,7 @@ EOM
             initialAttributes => {
                 path_info => "/" . $this->test_web . "/$regTopic",
                 action    => 'manage',
+                user      => $cfgData->{AdminUserWikiName},
             },
         },
         callbacks => { handleRequestException => \&_cbHRE, },
@@ -1042,7 +1045,6 @@ EOM
     $fh->close;
 
     $this->createNewFoswikiApp(
-        user          => $this->app->cfg->data->{AdminUserWikiName},
         requestParams => {
             initializer => {
                 'LogTopic'              => [$logTopic],
@@ -1055,6 +1057,7 @@ EOM
             initialAttributes => {
                 path_info => "/" . $this->test_web . "/$regTopic",
                 action    => 'manage',
+                user      => $this->app->cfg->data->{AdminUserWikiName},
             },
         },
         callbacks => { handleRequestException => \&_cbHRE, },
@@ -1105,7 +1108,6 @@ sub verify_deleteUser {
         $this->app->users->setPassword( $cUID, $newPassU, $oldPassU ) );
 
     $this->createNewFoswikiApp(
-        user          => $uname,
         requestParams => {
             initializer => {
                 'password' => ['12345'],
@@ -1117,6 +1119,7 @@ sub verify_deleteUser {
             initialAttributes => {
                 path_info => "/" . $this->test_web . "/Arbitrary",
                 action    => 'manage',
+                user      => $uname,
             },
         },
         callbacks => { handleRequestException => \&_cbHRE, },
@@ -1174,7 +1177,6 @@ sub verify_deleteUserAsAdmin {
       : 'EricCartman';
 
     $this->createNewFoswikiApp(
-        user          => 'AdminUser',
         requestParams => {
             initializer => {
                 'user'      => $this->new_user_wikiname,
@@ -1187,6 +1189,7 @@ sub verify_deleteUserAsAdmin {
                 method    => 'POST',
                 action    => 'manage',
                 path_info => "/System/ManagingUsers",
+                user      => 'AdminUser',
             },
         },
         callbacks => { handleRequestException => \&_cbHRE, },
@@ -1282,7 +1285,6 @@ sub verify_deleteUserWithPrefix {
       : 'EricCartman';
 
     $this->createNewFoswikiApp(
-        user          => 'AdminUser',
         requestParams => {
             initializer => {
                 'user'      => $this->new_user_wikiname,
@@ -1296,6 +1298,7 @@ sub verify_deleteUserWithPrefix {
                 path_info => "/System/ManagingUsers",
                 method    => 'POST',
                 action    => 'manage',
+                user      => 'AdminUser',
             },
         },
         callbacks => { handleRequestException => \&_cbHRE, },
@@ -1332,7 +1335,6 @@ sub verify_deleteUserWithPrefix {
       : 'EricCartman';
 
     $this->createNewFoswikiApp(
-        user          => 'AdminUser',
         requestParams => {
             initializer => {
                 'user'      => $this->new_user_wikiname,
@@ -1346,6 +1348,7 @@ sub verify_deleteUserWithPrefix {
                 path_info => "/System/ManagingUsers",
                 method    => 'POST',
                 action    => 'manage',
+                user      => 'AdminUser',
             },
         },
         callbacks => { handleRequestException => \&_cbHRE, },
@@ -1421,7 +1424,6 @@ sub test_createDefaultWeb {
 
     # SMELL: Test fails unless the "user" is the AdminGroup.
     $this->createNewFoswikiApp(
-        user          => $this->app->cfg->data->{SuperAdminGroup},
         requestParams => {
             initializer => {
                 'action'  => ['createweb'],
@@ -1438,6 +1440,7 @@ sub test_createDefaultWeb {
             initialAttributes => {
                 path_info => "/" . $this->test_web . "/Arbitrary",
                 action    => 'manage',
+                user      => $this->app->cfg->data->{SuperAdminGroup},
             },
         },
         callbacks => { handleRequestException => \&_cbHRE, },
@@ -1518,7 +1521,6 @@ TEXT
     undef $testTopic;
 
     $this->createNewFoswikiApp(
-        user          => $this->test_user_login,
         requestParams => {
             initializer => {
                 'action'      => ['saveSettings'],
@@ -1532,6 +1534,7 @@ TEXT
             initialAttributes => {
                 path_info => "/" . $this->test_web . "/SaveSettings",
                 action    => 'manage',
+                user      => $this->test_user_login,
             },
         },
         callbacks => { handleRequestException => \&_cbHRE, },
@@ -1547,11 +1550,12 @@ TEXT
     };
 
     $this->createNewFoswikiApp(
-        user          => $this->test_user_login,
         requestParams => { intializer => {}, },
         engineParams  => {
-            initialAttributes =>
-              { path_info => "/" . $this->test_web . "/SaveSettings", },
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/SaveSettings",
+                user      => $this->test_user_login,
+            },
         },
     );
 
@@ -1589,7 +1593,6 @@ TEXT
     undef $testTopic;
 
     $this->createNewFoswikiApp(
-        user          => $this->test_user_login,
         requestParams => {
             initializer => {
                 'action'      => ['saveSettings'],
@@ -1605,6 +1608,7 @@ TEXT
             initialAttributes => {
                 path_info => "/" . $this->test_web . "/SaveSettings",
                 action    => 'manage',
+                user      => $this->test_user_login,
             },
         },
         callbacks => { handleRequestException => \&_cbHRE, },
@@ -1623,11 +1627,12 @@ TEXT
     };
 
     $this->createNewFoswikiApp(
-        user          => $this->test_user_login,
         requestParams => { initializer => {}, },
         engineParams  => {
-            initialAttributes =>
-              { path_info => "/" . $this->test_web . "/SaveSettings", },
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/SaveSettings",
+                user      => $this->test_user_login,
+            },
         },
     );
 
@@ -1663,7 +1668,6 @@ TEXT
     undef $testTopic;
 
     $this->createNewFoswikiApp(
-        user          => $this->test_user_login,
         requestParams => {
             initializer => {
                 'action'        => ['saveSettings'],
@@ -1677,6 +1681,7 @@ TEXT
             initialAttributes => {
                 path_info => "/" . $this->test_web . "/SaveSettings",
                 action    => 'manage',
+                user      => $this->test_user_login,
             },
         },
         callbacks => { handleRequestException => \&_cbHRE, },
@@ -1692,11 +1697,12 @@ TEXT
     };
 
     $this->createNewFoswikiApp(
-        user          => $this->test_user_login,
         requestParams => { initializer => {}, },
         engineParams  => {
-            initialAttributes =>
-              { path_info => "/" . $this->test_web . "/SaveSettings", },
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/SaveSettings",
+                user      => $this->test_user_login,
+            },
         },
     );
 
@@ -1732,7 +1738,6 @@ TEXT
     undef $testTopic;
 
     $this->createNewFoswikiApp(
-        user          => $this->test_user_login,
         requestParams => {
             initializer => {
                 'action'      => ['saveSettings'],
@@ -1746,6 +1751,7 @@ TEXT
             initialAttributes => {
                 path_info => "/" . $this->test_web . "/SaveSettings",
                 action    => 'manage',
+                user      => $this->test_user_login,
             },
         },
         callbacks => { handleRequestException => \&_cbHRE, },
@@ -1770,11 +1776,12 @@ TEXT
     };
 
     $this->createNewFoswikiApp(
-        user          => $this->test_user_login,
         requestParams => { initializer => {}, },
         engineParams  => {
-            initialAttributes =>
-              { path_info => "/" . $this->test_web . "/SaveSettings", },
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/SaveSettings",
+                user      => $this->test_user_login,
+            },
         },
     );
 
@@ -1801,7 +1808,6 @@ sub test_createEmptyWeb {
     # SMELL: Test fails unless the "user" is the AdminGroup.
 
     $this->createNewFoswikiApp(
-        user          => $this->app->cfg->data->{SuperAdminGroup},
         requestParams => {
             initializer => {
                 'action'  => ['createweb'],
@@ -1821,6 +1827,7 @@ sub test_createEmptyWeb {
             initialAttributes => {
                 path_info => "/" . $this->test_web . "/SaveSettings",
                 action    => 'manage',
+                user      => $this->app->cfg->data->{SuperAdminGroup},
             },
         },
         callbacks => { handleRequestException => \&_cbHRE, },

@@ -166,10 +166,9 @@ sub expandMacros {
     # are complete, and has to reprocess the entire topic.
 
     if ( $text =~ m/%TOC(?:\{.*\})?%/ ) {
-        Foswiki::load_package('Foswiki::Macros::TOC');
         my $tocInstance = 1;
         $text =~
-s/%TOC(?:\{(.*?)\})?%/$this->TOC($text, $topicObject, $1, $tocInstance++)/ge;
+s/%TOC(?:\{(.*?)\})?%/$this->execMacro('TOC', $1, $topicObject, $text, $tocInstance++)/ge;
     }
 
     # Codev.FormattedSearchWithConditionalOutput: remove <nop> lines,
@@ -668,7 +667,7 @@ Executes macro defined by its name $macroName.
 
 sub execMacro {
     my $this = shift;
-    my ( $macroName, $attrs, $topicObject ) = @_;
+    my ( $macroName, $attrs, $topicObject, @macroArgs ) = @_;
 
     my $rc;
 
@@ -692,7 +691,8 @@ sub execMacro {
 
     if ( ref( $this->registered->{$macroName} ) eq 'CODE' ) {
         $rc =
-          $this->registered->{$macroName}->( $this->app, $attrs, $topicObject );
+          $this->registered->{$macroName}
+          ->( $this->app, $attrs, $topicObject, @macroArgs );
     }
     else {
         # Create macro object unless it already exists.

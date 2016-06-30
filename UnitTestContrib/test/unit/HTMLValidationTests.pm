@@ -31,8 +31,6 @@ my %expected_status = (
     manage      => 400,    # See TODO comment below.
     upload      => 400,    # See TODO comment below.
     register    => 501,    # See TODO comment below.
-    rename =>
-      403,    # SMELL Not sure if this is correct but this is what we get now.
 );
 
 #TODO: this is beause we're calling the UI::function, not UI:Execute - need to re-write it to use the full engine
@@ -41,9 +39,9 @@ my %expect_non_html = (
     restauth     => 1,
     viewfile     => 1,
     viewfileauth => 1,
-    register     => 1,    #TODO: missing action make it throw an exception
-    manage       => 1,    #TODO: missing action make it throw an exception
-    upload       => 1,    #TODO: zero size upload
+    register     => 1,     #TODO: missing action make it throw an exception
+    manage       => 1,     #TODO: missing action make it throw an exception
+    upload       => 1,     #TODO: zero size upload
     resetpasswd  => 1,
 );
 
@@ -221,8 +219,12 @@ sub call_UI_FN {
 
 #turn off ASSERTS so we get less plain text erroring - the user should always see html
     local $ENV{FOSWIKI_ASSERTS} = 0;
+
+    # HomePagePlugin currently breaks everything by enforcing web/topic and
+    # ignoring what's been set in parameters.
+    $this->app->cfg->data->{Plugins}{HomePagePlugin}{Enabled} = 0;
+
     $this->createNewFoswikiApp(
-        user          => $this->test_user_login,
         env           => \%ENV,
         requestParams => { initializer => \%constructor, },
         engineParams  => {
@@ -230,6 +232,7 @@ sub call_UI_FN {
                 path_info => "/$web/$topic",
                 method    => "GET",
                 action    => $this->script_name,
+                user      => $this->test_user_login,
             },
         },
     );

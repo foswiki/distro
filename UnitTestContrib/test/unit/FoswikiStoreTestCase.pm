@@ -8,6 +8,7 @@ use utf8;
 #
 # Subclasses are expected to implement set_up_for_verify()
 #
+use Foswiki::Exception ();
 use File::Spec();
 use Try::Tiny;
 
@@ -55,7 +56,7 @@ around set_up => sub {
     my $orig = shift;
     my $this = shift;
     $orig->( $this, @_ );
-    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+    $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
 
     # Data for attachments
     $this->t_data( join( '', map( chr($_), ( 0 .. 255 ) ) ) );
@@ -97,14 +98,22 @@ sub fixture_groups {
                 next unless $alg =~ s/^(.*)\.pm$/$1/;
                 next if $alg =~ m/RcsWrap/ && !$this->rcs_installed;
                 ($alg) = $alg =~ m/^(.*)$/ms;    # untaint
-                Foswiki::load_package("Foswiki::Store::$alg");
+                my $module = "Foswiki::Store::$alg";
+                try {
+                    Foswiki::load_package($module);
+                }
+                catch {
+                    my $errmsg = Foswiki::Exception::errorStr(
+                        Foswiki::Exception::Fatal->transmute( $_, 0 ) );
+                    say STDERR "Skipping ", $module,
+                      " because of the error: ", $errmsg;
+                };
                 my $algname = $alg;
                 next if defined &{$algname};
                 no strict 'refs';
                 *{$algname} = sub {
                     my $self = shift;
-                    $Foswiki::cfg{Store}{Implementation} =
-                      'Foswiki::Store::' . $alg;
+                    $Foswiki::cfg{Store}{Implementation} = $module;
                     $self->set_up_for_verify();
                 };
                 use strict 'refs';

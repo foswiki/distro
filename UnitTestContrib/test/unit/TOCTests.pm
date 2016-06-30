@@ -14,7 +14,6 @@ use Foswiki;
 use Foswiki::UI::Edit;
 use Foswiki::Form;
 use Foswiki::Macros::TOC;
-use Unit::Request;
 use Unit::Response;
 
 use Moo;
@@ -61,12 +60,10 @@ sub skip {
 sub setup_TOCtests {
     my ( $this, $text, $params, $tocparams ) = @_;
 
-    my $query = new Unit::Request();
+    $surl = $this->app->cfg->getScriptUrl(1);
 
-    $surl = $this->session->getScriptUrl(1);
-
-    $this->session->webName( $this->test_web );
-    $this->session->topicName( $this->test_topic );
+    $this->app->request->web( $this->test_web );
+    $this->app->request->topic( $this->test_topic );
 
     use Foswiki::Attrs;
     my $attr = new Foswiki::Attrs($params);
@@ -78,7 +75,8 @@ sub setup_TOCtests {
     # Now generate the TOC
     my ($topicObject) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
-    my $res = $this->session->TOC( $text, $topicObject, $tocparams );
+    my $res =
+      $this->app->macros->execMacro( 'TOC', $tocparams, $topicObject, $text );
 
     eval 'use HTML::TreeBuilder; use HTML::Element;';
     if ($@) {
@@ -182,7 +180,7 @@ s/<div class="foswikiToc" id="foswikiTOC">/<a name="foswikiTOC"><\/a><div class=
 sub test_Item9009 {
     my $this = shift;
 
-    my $url = $this->session->getScriptUrl( 0, 'view' );
+    my $url = $this->app->cfg->getScriptUrl( 0, 'view' );
 
     my $text = <<'HERE';
 ---+ A level 1 head!line
@@ -227,7 +225,7 @@ s/<div class="foswikiToc" id="foswikiTOC">/<a name="foswikiTOC"><\/a><div class=
 sub test_Item11353 {
     my $this = shift;
 
-    my $url = $this->session->getScriptUrl( 0, 'view' );
+    my $url = $this->app->cfg->getScriptUrl( 0, 'view' );
 
     my $text = <<'HERE';
 ---+ A level 1 head!line <!--1-->
@@ -270,7 +268,7 @@ s/<div class="foswikiToc" id="foswikiTOC">/<a name="foswikiTOC"><\/a><div class=
 sub test_Item2458 {
     my $this = shift;
 
-    my $url = $this->session->getScriptUrl( 0, 'view' );
+    my $url = $this->app->cfg->getScriptUrl( 0, 'view' );
 
     my $text = <<'HERE';
 %TOC%
