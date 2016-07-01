@@ -365,7 +365,7 @@ sub testAttachment {
 sub openAttachment {
     my ( $this, $meta, $att, $mode, @opts ) = @_;
     ASSERT($att) if DEBUG;
-    return $this->_openBinarySystem( $meta, $att, $mode, @opts );
+    return $this->_openBinaryStream( $meta, $att, $mode, @opts );
 }
 
 # Implement Foswiki::Store

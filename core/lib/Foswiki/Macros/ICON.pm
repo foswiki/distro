@@ -79,7 +79,12 @@ has EXT2ICON => (
                 $icons->close();
             }
             catch {
-                ASSERT( 0, $_[0] ) if DEBUG;
+                ASSERT(
+                    0,
+                    Foswiki::Exception::errorStr(
+                        Foswiki::Exception::Fatal->transmute( $_, 0 )
+                    )
+                ) if DEBUG;
                 $ext2icon = {};
             };
         }
