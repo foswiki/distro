@@ -175,8 +175,7 @@ sub start {
             # Do not catch errors here because engines have to be impeccable.
             # Nothing is allowed to fail.
             Foswiki::load_package( $engMod, method => 'probe' );
-            my $probe = eval "\\&${engMod}::probe";
-            die $@ if $@;
+            my $probe = $engMod->can('probe');
             if ( $probe->(%params) ) {
                 $engine = $engMod;
                 last;

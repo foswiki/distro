@@ -1,5 +1,4 @@
 # See bottom of file for license and copyright information
-use v5.14;
 
 =begin TML
 
@@ -13,6 +12,8 @@ Refer to Foswiki::Engine documentation for explanation about methods below.
 
 package Foswiki::Engine::CGI;
 use v5.14;
+
+use Assert;
 
 use CGI::Carp qw(fatalsToBrowser);
 use Data::Dumper;
@@ -31,8 +32,6 @@ use namespace::clean;
 extends qw(Foswiki::Engine);
 
 use constant HTTP_COMPLIANT => 1;
-
-use Assert;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {

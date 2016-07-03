@@ -751,7 +751,7 @@ sub complete {
     # SMELL When called from DEMOLISH it's not guaranteed that
     # $Foswiki::app->cfg still alive. Thus 'undef in expression' warning and
     # sessions are not getting expired.
-    return unless ( $Foswiki::cfg{Sessions}{ExpireAfter} > 0 );
+    return unless ( $this->app->cfg->data->{Sessions}{ExpireAfter} > 0 );
 
     expireDeadSessions();
 }

@@ -143,7 +143,7 @@ sub BUILD {
     #Foswiki::Exception::Fatal->throw( text => $@ ) if $@;
     $this->basemapping( $this->create($implBaseUserMappingManager) );
 
-    my $implUserMappingManager = $Foswiki::cfg{UserMappingManager};
+    my $implUserMappingManager = $Foswiki::cfg{UserMappingManager} || 'none';
     $implUserMappingManager = 'Foswiki::Users::TopicUserMapping'
       if ( $implUserMappingManager eq 'none' );
 

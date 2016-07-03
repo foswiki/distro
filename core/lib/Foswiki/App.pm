@@ -310,7 +310,12 @@ sub BUILD {
 
     $Foswiki::app = $this;
 
+    unless ( $this->cfg->data->{isVALID} ) {
+        $this->cfg->bootstrapSystemSettings;
+    }
+
     my $cfgData = $this->cfg->data;
+
     if ( $cfgData->{Store}{overrideUmask} && $cfgData->{OS} ne 'WINDOWS' ) {
 
 # Note: The addition of zero is required to force dirPermission and filePermission
@@ -338,7 +343,7 @@ sub BUILD {
     # Enforce some shell environment variables.
     # SMELL Would it be tolerated in PSGI?
     $CGI::TMPDIRECTORY = $ENV{TMPDIR} = $ENV{TEMP} = $ENV{TMP} =
-      $cfgData->{TempfileDir};
+      $this->cfg->data->{TempfileDir};
 
     # Make %ENV safer, preventing hijack of the search path. The
     # environment is set per-query, so this can't be done in a BEGIN.
@@ -364,11 +369,8 @@ sub BUILD {
         Foswiki::Exception::Fatal->throw( text => "Cannot initialize engine" );
     }
 
-    unless ( $cfgData->{isVALID} ) {
-        $this->cfg->bootstrapSystemSettings;
-    }
-
     $this->_prepareDispatcher;
+    $this->_checkBootstrapStage2;
 
     # Override user to be admin if no configuration exists.
     # Do this really early, so that later changes in isBOOTSTRAPPING can't
@@ -505,7 +507,6 @@ sub handleRequest {
     my $rc;
 
     try {
-        $this->_checkBootstrapStage2;
         $this->_checkTickle;
         $this->_checkReqCache;
 
@@ -1656,20 +1657,6 @@ Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 Copyright (C) 2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
-
-Additional copyrights apply to some or all of the code in this
-file as follows:
-
-Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org
-and TWiki Contributors. All Rights Reserved. TWiki Contributors
-are listed in the AUTHORS file in the root of this distribution.
-Copyright (C) 2005 Martin at Cleaver.org
-Copyright (C) 2005-2007 TWiki Contributors
-
-and also based/inspired on Catalyst framework, whose Author is
-Sebastian Riedel. Refer to
-http://search.cpan.org/~mramberg/Catalyst-Runtime-5.7010/lib/Catalyst.pm
-for more credit and liscence details.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

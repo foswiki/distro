@@ -479,9 +479,11 @@ sub bootstrapSystemSettings {
       . ", Script name: $script using FindBin\n"
       if (TRAUTO);
 
+    my $engine = $this->app->engine;
     $this->data->{ScriptSuffix} = ( fileparse( $script, qr/\.[^.]*/ ) )[2];
     $this->data->{ScriptSuffix} = ''
-      if ( $this->data->{ScriptSuffix} eq '.fcgi' );
+      if ( $engine->isa('Foswiki::Engine::FastCGI')
+        || $engine->isa('Foswiki::Engine::PSGI') );
     print STDERR "AUTOCONFIG: Found SCRIPT SUFFIX "
       . $this->data->{ScriptSuffix} . "\n"
       if ( TRAUTO && $this->data->{ScriptSuffix} );
@@ -610,7 +612,7 @@ sub bootstrapWebSettings {
     my $script = shift;
 
     my $app = $this->app;
-    my $req = $app->request;
+    my $env = $app->env;
 
     print STDERR "AUTOCONFIG: Bootstrap Phase 2: "
       . Data::Dumper::Dumper( \%ENV )
@@ -629,33 +631,32 @@ sub bootstrapWebSettings {
 
     $this->data->{Engine} //= ref( $app->engine );
 
-    my $protocol = $req->protocol;
+    my $protocol = $app->engine->connectionData->{secure} ? 'https' : 'http';
 
     # Figure out the DefaultUrlHost
-    if ( $app->env->{HTTP_HOST} ) {
-        $this->data->{DefaultUrlHost} = "$protocol://" . $app->env->{HTTP_HOST};
+    if ( $env->{HTTP_HOST} ) {
+        $this->data->{DefaultUrlHost} = "$protocol://" . $env->{HTTP_HOST};
         print STDERR "AUTOCONFIG: Set DefaultUrlHost "
           . $this->data->{DefaultUrlHost}
           . " from HTTP_HOST "
-          . $app->env->{HTTP_HOST} . " \n"
+          . $env->{HTTP_HOST} . " \n"
           if (TRAUTO);
     }
-    elsif ( $app->env->{SERVER_NAME} ) {
-        $this->data->{DefaultUrlHost} =
-          "$protocol://" . $app->env->{SERVER_NAME};
+    elsif ( $env->{SERVER_NAME} ) {
+        $this->data->{DefaultUrlHost} = "$protocol://" . $env->{SERVER_NAME};
         print STDERR "AUTOCONFIG: Set DefaultUrlHost "
           . $this->data->{DefaultUrlHost}
           . " from SERVER_NAME "
-          . $app->env->{SERVER_NAME} . " \n"
+          . $env->{SERVER_NAME} . " \n"
           if (TRAUTO);
     }
-    elsif ( $app->env->{SCRIPT_URI} ) {
+    elsif ( $env->{SCRIPT_URI} ) {
         ( $this->data->{DefaultUrlHost} ) =
-          $app->env->{SCRIPT_URI} =~ m#^(https?://[^/]+)/#;
+          $env->{SCRIPT_URI} =~ m#^(https?://[^/]+)/#;
         print STDERR "AUTOCONFIG: Set DefaultUrlHost "
           . $this->data->{DefaultUrlHost}
           . " from SCRIPT_URI "
-          . $app->env->{SCRIPT_URI} . " \n"
+          . $env->{SCRIPT_URI} . " \n"
           if (TRAUTO);
     }
     else {
@@ -678,13 +679,13 @@ sub bootstrapWebSettings {
 # and then recovers it.  When the jsonrpc script is called to save the configuration
 # it then has the VIEWPATH parameter available.  If "view" was never called during
 # configuration, then it will not be set correctly.
-    my $path_info = $req->pathInfo
+    my $path_info = $app->engine->pathData->{path_info}
       || '';    #SMELL Sometimes PATH_INFO appears to be undefined.
     print STDERR "AUTOCONFIG: REQUEST_URI is "
-      . ( $app->env->{REQUEST_URI} || '(undef)' ) . "\n"
+      . ( $env->{REQUEST_URI} || '(undef)' ) . "\n"
       if (TRAUTO);
     print STDERR "AUTOCONFIG: SCRIPT_URI  is "
-      . ( $app->env->{SCRIPT_URI} || '(undef)' ) . " \n"
+      . ( $env->{SCRIPT_URI} || '(undef)' ) . " \n"
       if (TRAUTO);
     print STDERR "AUTOCONFIG: PATH_INFO   is $path_info \n" if (TRAUTO);
     print STDERR "AUTOCONFIG: ENGINE      is " . $this->data->{Engine} . "\n"
@@ -706,18 +707,16 @@ sub bootstrapWebSettings {
     my $pfx;
 
     my $suffix =
-      ( defined $app->env->{SCRIPT_URL}
-          && length( $app->env->{SCRIPT_URL} ) < length($path_info) )
-      ? $app->env->{SCRIPT_URL}
+      ( defined $env->{SCRIPT_URL}
+          && length( $env->{SCRIPT_URL} ) < length($path_info) )
+      ? $env->{SCRIPT_URL}
       : $path_info;
 
     # Try to Determine the prefix of the script part of the URI.
-    if ( $app->env->{SCRIPT_URI} && $app->env->{SCRIPT_URL} ) {
-        if (
-            index( $app->env->{SCRIPT_URI}, $this->data->{DefaultUrlHost} ) eq
-            0 )
-        {
-            $pfx = substr( $app->env->{SCRIPT_URI},
+    if ( $env->{SCRIPT_URI} && $env->{SCRIPT_URL} ) {
+        if ( index( $env->{SCRIPT_URI}, $this->data->{DefaultUrlHost} ) eq 0 ) {
+            $pfx =
+              substr( $env->{SCRIPT_URI},
                 length( $this->data->{DefaultUrlHost} ) );
             $pfx =~ s#$suffix$##;
             print STDERR
@@ -727,17 +726,19 @@ sub bootstrapWebSettings {
     }
 
     unless ( defined $pfx ) {
-        if ( my $idx = index( $app->env->{REQUEST_URI}, $path_info ) ) {
-            $pfx = substr( $app->env->{REQUEST_URI}, 0, $idx + 1 );
+        if ( my $idx = index( $env->{REQUEST_URI}, $path_info ) ) {
+            $pfx = substr( $env->{REQUEST_URI}, 0, $idx + 1 );
         }
         $pfx = '' unless ( defined $pfx );
         print STDERR "AUTOCONFIG: URI Prefix is $pfx\n" if (TRAUTO);
     }
 
     # Work out the URL path for Short and standard URLs
-    if ( $app->env->{REQUEST_URI} =~ m{^(.*?)/$script(\b|$)} ) {
+    if ( $env->{REQUEST_URI} =~ m{^(.*?)/$script(\b|$)} ) {
         print STDERR
-"AUTOCONFIG: SCRIPT $script fully contained in REQUEST_URI $ENV{REQUEST_URI}, Not short URLs\n"
+          "AUTOCONFIG: SCRIPT $script fully contained in REQUEST_URI "
+          . $env->{REQUEST_URI}
+          . ", Not short URLs\n"
           if (TRAUTO);
 
         # Conventional URLs   with path and script
@@ -940,6 +941,8 @@ sub setBootstrap {
       {Store}{SearchAlgorithm} {Site}{Locale} );
 
     $this->data->{isBOOTSTRAPPING} = 1;
+    ASSERT( $this->data->{isBOOTSTRAPPING} );
+    $this->data->{AisBOOTSTRAPPING} = 1;
     push( @{ $this->data->{BOOTSTRAP} }, @BOOTSTRAP );
 }
 
@@ -1383,6 +1386,7 @@ sub _populatePresets {
 
     # List of supported engines. Used by =Foswiki::Engine::start()= method.
     $cfgData->{EngineList} = [
+        'PSGI',
         'CGI',
 
         #'Apache',
@@ -1608,7 +1612,6 @@ sub _setupGLOBs {
     # Alias ::cfg for compatibility. Though $app->cfg should be preferred
     # way of accessing config.
     *Foswiki::cfg = $data;
-    *TWiki::cfg   = $data;
 }
 
 # Check if $Foswiki::cfg is an alias to this object's data attribute. Useful for

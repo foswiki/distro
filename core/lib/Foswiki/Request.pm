@@ -1284,7 +1284,7 @@ sub _establishParamList {
         push @params, @{ $engine->queryParameters };
     }
 
-    # Process body parameters idividually to take care of uploads.
+    # Process body parameters individually to take care of uploads.
     foreach my $param ( @{ $engine->bodyParameters } ) {
         if ( $param->{-upload} ) {
             push @{ $this->upload_list }, $param->{-name};

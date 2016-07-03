@@ -542,9 +542,12 @@ sub as_array {
 
     foreach my $hdr ( $this->getHeader ) {
         my $val = $headers->{$hdr};
-        $val = [$val] unless ref($val);
+        $val = [$val] unless ref($val) eq 'ARRAY';
 
         # Generate multiple header entries – one per value.
+        Foswiki::Exception::Fatal->throw(
+            text => "Header $hdr: val isn't an arrayref but:" . ref($val) )
+          unless ref($val) eq 'ARRAY';
         push @{ $rc[1] }, $hdr => $_ foreach @$val;
     }
 
