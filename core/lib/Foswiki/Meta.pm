@@ -749,13 +749,14 @@ topic is established from the path used to invoke Foswiki, for example
 # TODO Would be correct to call this method isRequestTopic
 sub isSessionTopic {
     my $this = shift;
+    my $req  = $this->app->request;
     return 0
       unless $this->has_web
       && $this->has_topic
-      && defined $this->app->webName
-      && defined $this->app->topicName;
-    return $this->web eq $this->app->webName
-      && $this->topic eq $this->app->topicName;
+      && defined $req->web
+      && defined $req->topic;
+    return $this->web eq $req->web
+      && $this->topic eq $req->topic;
 }
 
 =begin TML

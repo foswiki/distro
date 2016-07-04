@@ -121,7 +121,7 @@ sub _validateWebTopic {
             template => 'attention',
             def      => 'invalid_form_name',
             web      => $req->web,
-            topic    => $app->topicName,
+            topic    => $req->topic,
             params   => [ $web, $form ]
         );
     }

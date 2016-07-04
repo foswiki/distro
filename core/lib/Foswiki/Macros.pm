@@ -344,8 +344,8 @@ sub innerExpandMacros {
     my $memWeb   = $app->prefs->getPreference('WEB');
 
     # Historically this couldn't be called on web objects.
-    my $webContext   = $topicObject->web   || $this->webName;
-    my $topicContext = $topicObject->topic || $this->topicName;
+    my $webContext   = $topicObject->web   || $app->request->web;
+    my $topicContext = $topicObject->topic || $app->request->topic;
 
     $app->prefs->setInternalPreferences(
         TOPIC => $topicContext,

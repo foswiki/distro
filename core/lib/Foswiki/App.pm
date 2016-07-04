@@ -844,8 +844,8 @@ sub redirect {
         # goto oops if URL is trying to take us somewhere dangerous
         $url = $this->cfg->getScriptUrl(
             1, 'oops',
-            $this->webName   || $Foswiki::cfg{UsersWebName},
-            $this->topicName || $Foswiki::cfg{HomeTopicName},
+            $this->request->web   || $Foswiki::cfg{UsersWebName},
+            $this->request->topic || $Foswiki::cfg{HomeTopicName},
             template => 'oopsredirectdenied',
             def      => 'redirect_denied',
             param1   => "$url",

@@ -20,7 +20,6 @@ use v5.14;
 use Try::Tiny;
 use Foswiki::Func                              ();
 use Foswiki::Contrib::JsonRpcContrib::Error    ();
-use Foswiki::Contrib::JsonRpcContrib::Request  ();
 use Foswiki::Contrib::JsonRpcContrib::Response ();
 
 use Moo;
@@ -71,33 +70,16 @@ sub dispatch {
 
     writeDebug("called dispatch") if TRACE;
 
-    my $request;
-    try {
-        $request = $app->create('Foswiki::Contrib::JsonRpcContrib::Request');
+    my $request = $app->request;
+
+    if ( my $error = $request->jsonerror ) {
+        Foswiki::Contrib::JsonRpcContrib::Response->print(
+            $app,
+            code    => $error->code,
+            message => $error->message,
+        );
+        return;
     }
-    catch {
-        my $error = $_;
-        if ( ref($error)
-            && $error->isa('Foswiki::Contrib::JsonRpcContrib::Error') )
-        {
-            $app->logger->log(
-                {
-                    level => 'error',
-                    extra => [ $error->stringify ],
-                }
-            );
-            Foswiki::Contrib::JsonRpcContrib::Response->print(
-                $app,
-                code    => $error->code,
-                message => $error->text,
-            );
-        }
-        else {
-            # Shouldn't be here.
-            Foswiki::Exception::Fatal->rethrow($error);
-        }
-    };
-    return unless defined $request;
 
     # get topic parameter and set the location overriding any
     #  other value derived from the namespace param
@@ -117,9 +99,9 @@ sub dispatch {
             $app,
             code    => -32601,
             message => "Invalid invocation - unknown handler for "
-              . $request->namespace() . "."
-              . $request->method(),
-            id => $request->id()
+              . $request->namespace . "."
+              . $request->jsonmethod,
+            id => $request->id
         );
         return;
     }
@@ -165,7 +147,7 @@ sub dispatch {
     }
 
     Foswiki::Func::writeEvent( 'jsonrpc',
-        $request->namespace() . ' ' . $request->method() );
+        $request->namespace() . ' ' . $request->jsonmethod );
 
     # call
     my $code = 0;
@@ -175,7 +157,7 @@ sub dispatch {
         my $function = $handler->{function};
         writeDebug( "calling handler for "
               . $request->namespace . "."
-              . $request->method )
+              . $request->jsonmethod )
           if TRACE;
         $result =
           &$function( $app, $request, $app->response, $handler->{options} );
@@ -242,10 +224,10 @@ sub dispatch {
 sub getHandler {
     my ( $this, $request ) = @_;
 
-    my $namespace = $request->namespace();
+    my $namespace = $request->namespace;
     return unless $namespace;
 
-    my $method = $request->method();
+    my $method = $request->jsonmethod;
     return unless $method;
 
     unless ( defined $this->handler->{$namespace} ) {

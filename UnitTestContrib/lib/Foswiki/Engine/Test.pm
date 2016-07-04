@@ -149,6 +149,13 @@ around _prepareUser => sub {
     return $initHash->{user} // $initHash->{remote_user};
 };
 
+around _preparePostData => sub {
+    my $orig     = shift;
+    my $this     = shift;
+    my $initHash = $this->initFromEnv(qw(postData));
+    return $initHash->{postData};
+};
+
 sub mergeAttrs {
     my @hashes = @_;
     ASSERT( UNIVERSAL::isa( $_, 'HASH' ),

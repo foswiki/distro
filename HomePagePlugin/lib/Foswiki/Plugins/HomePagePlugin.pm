@@ -60,7 +60,7 @@ sub initializeUserHandler {
 
     # we don't know the user at this point so can only set up the
     # site wide default
-    my $path_info = Foswiki::urlDecode( $app->request->path_info() );
+    my $path_info = Foswiki::urlDecode( $app->request->pathInfo );
 
     return
       unless ( ( $path_info eq '' or $path_info eq '/' )

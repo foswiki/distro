@@ -32,8 +32,6 @@ The following fields are parsed from the =pathInfo=
 package Foswiki::Request;
 use v5.14;
 
-use CGI ();
-
 use Assert;
 use Try::Tiny;
 use IO::File    ();
@@ -116,6 +114,7 @@ has pathInfo => (
     is      => 'rw',
     lazy    => 1,
     default => sub { $_[0]->app->engine->pathData->{path_info} // '' },
+    trigger => 1,
 );
 has remote_address => (
     is      => 'rw',
@@ -198,7 +197,9 @@ Sets/Gets request method (GET, HEAD, POST).
 has method => (
     is      => 'rw',
     lazy    => 1,
-    default => sub { $_[0]->app->engine->connectionData->{method} },
+    clearer => 1,
+    builder => '_establishMethod',
+    trigger => 1,
 );
 
 # SMELL XXX remote_user is not used anymore, it is now Foswiki::App::remoteUser attribute.
@@ -220,21 +221,12 @@ has start_time => (    # start_time cannot be lazy, can it?
 has web => (
     is      => 'rw',
     lazy    => 1,
-    default => sub {
-        my $this = shift;
-        return ( $this->_pathParsed->{web}
-              || $this->param('defaultweb')
-              || $this->app->cfg->data->{UsersWebName} );
-    },
+    builder => '_establishWeb',
 );
 has topic => (
     is      => 'rw',
     lazy    => 1,
-    default => sub {
-        my $this = shift;
-        return ( $this->_pathParsed->{topic}
-              || $this->app->cfg->data->{HomeTopicName} );
-    },
+    builder => '_establishTopic',
 );
 has invalidWeb => (
     is      => 'rw',
@@ -275,19 +267,6 @@ has _pathParsed  => (
 *server_port   = \&serverPort;
 *delete_all    = \&deleteAll;
 *user_agent    = \&userAgent;
-
-# cgiRequest attribute can be used directly but with `handles` property it
-# simulates inheritance from CGI. Must be defined after all other attributes to
-# avoid reimporting CGI methods which of same names as existing attributes.
-has cgiRequest => (
-    is      => 'ro',
-    lazy    => 1,
-    default => sub { return CGI->new; },
-    handles => [
-        grep { !( /^:/ || __PACKAGE__->can($_) ) }
-        map { @{ $CGI::EXPORT_TAGS{$_} } } keys %CGI::EXPORT_TAGS
-    ],
-);
 
 sub getTime {
     my $this     = shift;
@@ -1295,6 +1274,24 @@ sub _establishParamList {
     $this->param($_) foreach @params;
 }
 
+sub _establishWeb {
+    my $this = shift;
+    return ( $this->_pathParsed->{web}
+          || $this->param('defaultweb')
+          || $this->app->cfg->data->{UsersWebName} );
+}
+
+sub _establishTopic {
+    my $this = shift;
+    return ( $this->_pathParsed->{topic}
+          || $this->app->cfg->data->{HomeTopicName} );
+}
+
+sub _establishMethod {
+    my $this = shift;
+    return $this->app->engine->connectionData->{method};
+}
+
 =begin TML
 
 ---++ ObjectMethod normalizeWebTopicName( $web, $topic ) -> ( $web, $topic )
@@ -1349,6 +1346,10 @@ sub normalizeWebTopicName {
 
     return ( $web, $topic );
 }
+
+# Stub methods, could be overriden by inherting classes.
+sub _trigger_pathInfo { }
+sub _trigger_method   { }
 
 1;
 __END__

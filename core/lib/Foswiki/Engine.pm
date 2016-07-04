@@ -104,6 +104,20 @@ has bodyParameters => (
 
 =begin TML
 
+---++ ObjectAttribute postData
+
+Containts raw, non-decoded, POST data.
+
+=cut
+
+has postData => (
+    is      => 'ro',
+    lazy    => 1,
+    builder => '_preparePostData',
+);
+
+=begin TML
+
 ---++ ObjectAttribute HTMLcompliant
 
 Boolean. True if engine is HTTP compliant. For now the only false is possible
@@ -357,7 +371,7 @@ sub _prepareQueryParameters {
 
 ---++ ObjectMethod _prepareHeaders
 
-Initializer for the =headers= object attribute.
+Abstract initializer for the =headers= object attribute.
 
 =cut
 
@@ -372,6 +386,16 @@ Initializer for the =user= object attribute.
 =cut
 
 sub _prepareUser { return shift->env->{REMOTE_USER}; }
+
+=begin TML
+
+---++ ObjectMethod _preparePostData
+
+Abstract initializer for the =postData= object attribute.
+
+=cut
+
+sub _preparePostData { }
 
 =begin TML
 
@@ -463,47 +487,6 @@ sub _writeBody {
     else {
         $this->write($body);
     }
-}
-
-#=begin TML
-#
-#---++ flush($res, $req)
-#
-#Forces the response headers to be emitted if they haven't already been sent
-#(note that this may in some circumstances result in cookies being missed)
-#before flushing what is in the body so far.
-#
-#Before headers are sent, any Content-length is removed, as a call to
-#flush is a statement that there's more to follow, but we don't know
-#how much at this point.
-#
-#This function should be used with great care! It requires that the output
-#headers are fully complete before it is first called. Once it *has* been
-#called, the response object will refuse any modifications that would alter
-#the header.
-#
-#=cut
-
-sub __depreacted_flush {
-    my ( $this, $res, $req ) = @_;
-
-    unless ( $res->outputHasStarted ) {
-        $res->deleteHeader('Content-Length');
-        $this->finalizeUploads( $res, $req );
-        $this->finalizeHeaders( $res, $req );
-        $this->prepareWrite($res);
-        $res->outputHasStarted(1);
-    }
-
-    my $body = $res->body;
-
-    if ( Scalar::Util::blessed($body) || ref($body) eq 'GLOB' ) {
-        Foswiki::Exception::Engine->throw(
-            response => 'Cannot flush non-text response body' );
-    }
-
-    $this->write($body);
-    $res->body('');
 }
 
 =begin TML

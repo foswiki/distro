@@ -259,8 +259,8 @@ sub __deprecated_execute {
             # URL is absolute as required by
             # http://tools.ietf.org/html/rfc2616#section-14.30
             my $url = $app->cfg->getScriptUrl(
-                1,             'login',
-                $app->webName, $app->topicName,
+                1,                  'login',
+                $app->request->web, $app->request->topic,
                 foswikiloginaction   => 'validate',
                 foswikioriginalquery => $uid
             );

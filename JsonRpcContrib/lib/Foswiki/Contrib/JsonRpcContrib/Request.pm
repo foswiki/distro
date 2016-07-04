@@ -92,15 +92,14 @@ sub BUILD {
     $this->id($id) if defined $id;
 
     # copy method to json-rpc request
-    $method = $request->param('method') if defined $request->param("method");
-    $this->method($method) if defined $method;
+    $this->method( $request->jsonmethod ) if defined $request->jsonmethod;
 
     # check that this is a http POST
-    my $httpMethod = $request->method() || "jsonrpc";
+    my $httpMethod = $request->method || "jsonrpc";
 
     throw Foswiki::Contrib::JsonRpcContrib::Error(
         code => -32600,
-        text => "Method must be POST"
+        text => "Method must be POST, not " . $httpMethod
     ) unless $httpMethod =~ /post|jsonrpc/i;
 
     # some basic checks if this is a proper json-rpc 2.0 request

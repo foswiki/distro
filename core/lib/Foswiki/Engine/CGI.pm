@@ -79,8 +79,12 @@ if ( defined $SAVE_DESTROY ) {
     };
 }
 
+has uploads => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
+
+# cgi attribute must be defined after all other attributes to avoid `handle`
+# reimporting of CGI methods with the same names as existing attributes.
 has cgi => (
-    is      => 'rw',
+    is      => 'ro',
     clearer => 1,
     lazy    => 1,
     isa     => Foswiki::Object::isaCLASS( 'cgi', 'CGI' ),
@@ -104,8 +108,11 @@ has cgi => (
           if defined $err && $err =~ m/\s*(\d{3})\s*(.*)/;
         return $cgi;
     },
+    handles => [
+        grep { !( /^:/ || __PACKAGE__->can($_) ) }
+        map { @{ $CGI::EXPORT_TAGS{$_} } } keys %CGI::EXPORT_TAGS
+    ],
 );
-has uploads => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
 
 # Check if this is CGI ennvironment.
 sub probe {
@@ -345,6 +352,13 @@ around prepareUploads => sub {
     }
     $this->clear_uploads;
     $req->uploads( \%uploads );
+};
+
+around _preparePostData => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    return defined $this->cgi ? $this->cgi->param('POSTDATA') : undef;
 };
 
 around finalizeReturn => sub {

@@ -14,8 +14,8 @@ BEGIN {
 sub DISPLAYDEPENDENCIES {
     my ( $this, $params ) = @_;
 
-    my $web       = $params->{web}    || $this->webName;
-    my $topic     = $params->{topic}  || $this->topicName;
+    my $web       = $params->{web}    || $this->request->web;
+    my $topic     = $params->{topic}  || $this->request->topic;
     my $header    = $params->{header} || '';
     my $footer    = $params->{footer} || '';
     my $format    = $params->{format} || '   1 [[$web.$topic]]';

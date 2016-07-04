@@ -28,6 +28,9 @@ has psgi => (
     default => sub {
         return Plack::Request->new( $_[0]->env );
     },
+
+    # Import methods used by configure for transparent use.
+    handles => [qw(request_uri path_info secure)],
 );
 
 sub probe {
@@ -69,6 +72,8 @@ around _preparePath => sub {
     my $orig = shift;
     my ($this) = @_;
 
+    my $app      = $this->app;
+    my $cfgData  = $app->cfg->data;
     my $psgi     = $this->psgi;
     my $pathInfo = $psgi->path_info;
 
@@ -96,7 +101,7 @@ around _preparePath => sub {
         # This handles scripts that have set $FOSWIKI_ACTION
         $action = $this->env->{FOSWIKI_ACTION};
     }
-    elsif ( exists $Foswiki::cfg{SwitchBoard}{$cgiScriptName} ) {
+    elsif ( exists $cfgData->{SwitchBoard}{$cgiScriptName} ) {
 
         # This handles other named CGI scripts that have a switchboard entry
         # but haven't set $FOSWIKI_ACTION (old-style run scripts)
@@ -108,7 +113,7 @@ around _preparePath => sub {
         # name as the function
         $pathInfo =~ m{^/([^/]+)(.*)};
         my $first = $1;    # implicit untaint OK; checked below
-        if ( exists $Foswiki::cfg{SwitchBoard}{$first} ) {
+        if ( exists $cfgData->{SwitchBoard}{$first} ) {
 
             # The path is of the form script/function/...
             $action = $first;
@@ -169,6 +174,12 @@ around _prepareQueryParameters => sub {
         };
     }
     return \@params;
+};
+
+around _preparePostData => sub {
+    my $orig = shift;
+    my $this = shift;
+    return $this->psgi->raw_body;
 };
 
 around finalizeReturn => sub {

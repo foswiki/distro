@@ -19,21 +19,21 @@ use warnings;
 
 =begin TML
 
----++ StaticMethod checkAccess( $session, $die )
+---++ StaticMethod checkAccess( $app, $die )
 
 Throws an AccessControlException  if access is denied. 
 
 =cut
 
 sub checkAccess {
-    my $session = shift;
-    my $json    = shift;    # JSON needs throw JSON errors.
+    my $app  = shift;
+    my $json = shift;    # JSON needs throw JSON errors.
 
     return
       if ( defined $Foswiki::cfg{LoginManager}
         && $Foswiki::cfg{LoginManager} eq 'none' );
 
-    my $wikiname = Foswiki::Func::getWikiName( $session->{user} );
+    my $wikiname = Foswiki::Func::getWikiName( $app->user );
 
     return
       if ( defined $Foswiki::cfg{AdminUserWikiName}
@@ -60,7 +60,7 @@ sub checkAccess {
             else {
                 throw Foswiki::AccessControlException(
                     mode   => 'VIEW',
-                    user   => $session->{user},
+                    user   => $app->user,
                     web    => 'System',
                     topic  => 'Configuration',
                     reason => 'Denied by {FeatureAccess}{Configure} Setting'
@@ -77,7 +77,7 @@ sub checkAccess {
             else {
                 throw Foswiki::AccessControlException(
                     mode   => 'VIEW',
-                    user   => $session->{user},
+                    user   => $app->user,
                     web    => 'System',
                     topic  => 'Configuration',
                     reason => 'Not an admin'

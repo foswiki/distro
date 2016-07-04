@@ -442,7 +442,8 @@ sub bootstrapSystemSettings {
     $this->_populatePresets;
     $this->_guessDefaults;
 
-    my $env = $this->app->env;
+    my $env    = $this->app->env;
+    my $engine = $this->app->engine;
 
     print STDERR "AUTOCONFIG: Bootstrap Phase 1: " . Data::Dumper::Dumper($env)
       if (TRAUTO);
@@ -479,7 +480,6 @@ sub bootstrapSystemSettings {
       . ", Script name: $script using FindBin\n"
       if (TRAUTO);
 
-    my $engine = $this->app->engine;
     $this->data->{ScriptSuffix} = ( fileparse( $script, qr/\.[^.]*/ ) )[2];
     $this->data->{ScriptSuffix} = ''
       if ( $engine->isa('Foswiki::Engine::FastCGI')
@@ -611,15 +611,16 @@ sub bootstrapWebSettings {
     my $this   = shift;
     my $script = shift;
 
-    my $app = $this->app;
-    my $env = $app->env;
+    my $app    = $this->app;
+    my $env    = $app->env;
+    my $engine = $app->engine;
 
     print STDERR "AUTOCONFIG: Bootstrap Phase 2: "
       . Data::Dumper::Dumper( \%ENV )
       if (TRAUTO);
 
     # Cannot bootstrap the web side from CLI environments
-    if ( !$app->engine->HTTPCompliant ) {
+    if ( !$engine->HTTPCompliant ) {
         $this->data->{DefaultUrlHost} = 'http://localhost';
         $this->data->{ScriptUrlPath}  = '/bin';
         $this->data->{PubUrlPath}     = '/pub';
@@ -629,9 +630,9 @@ sub bootstrapWebSettings {
         return 'Phase 2 boostrap bypassed - n/a in CLI environment\n';
     }
 
-    $this->data->{Engine} //= ref( $app->engine );
+    $this->data->{Engine} //= ref($engine);
 
-    my $protocol = $app->engine->connectionData->{secure} ? 'https' : 'http';
+    my $protocol = $engine->secure ? 'https' : 'http';
 
     # Figure out the DefaultUrlHost
     if ( $env->{HTTP_HOST} ) {
@@ -663,8 +664,8 @@ sub bootstrapWebSettings {
 
         # OK, so this is barfilicious. Think of something better.
         $this->data->{DefaultUrlHost} = "$protocol://localhost";
-        print STDERR
-"AUTOCONFIG: barfilicious: Set DefaultUrlHost $this->data->{DefaultUrlHost} \n"
+        say STDERR "AUTOCONFIG: barfilicious: Set DefaultUrlHost "
+          . $this->data->{DefaultUrlHost}
           if (TRAUTO);
     }
 
@@ -679,16 +680,16 @@ sub bootstrapWebSettings {
 # and then recovers it.  When the jsonrpc script is called to save the configuration
 # it then has the VIEWPATH parameter available.  If "view" was never called during
 # configuration, then it will not be set correctly.
-    my $path_info = $app->engine->pathData->{path_info}
+    my $path_info = $engine->path_info
       || '';    #SMELL Sometimes PATH_INFO appears to be undefined.
-    print STDERR "AUTOCONFIG: REQUEST_URI is "
-      . ( $env->{REQUEST_URI} || '(undef)' ) . "\n"
+    my $request_uri = $engine->request_uri;
+    say STDERR "AUTOCONFIG: REQUEST_URI is " . ( $request_uri || '(undef)' )
       if (TRAUTO);
-    print STDERR "AUTOCONFIG: SCRIPT_URI  is "
-      . ( $env->{SCRIPT_URI} || '(undef)' ) . " \n"
+    say STDERR "AUTOCONFIG: SCRIPT_URI  is "
+      . ( $env->{SCRIPT_URI} || '(undef)' )
       if (TRAUTO);
-    print STDERR "AUTOCONFIG: PATH_INFO   is $path_info \n" if (TRAUTO);
-    print STDERR "AUTOCONFIG: ENGINE      is " . $this->data->{Engine} . "\n"
+    say STDERR "AUTOCONFIG: PATH_INFO   is $path_info" if (TRAUTO);
+    say STDERR "AUTOCONFIG: ENGINE      is " . $this->data->{Engine}
       if (TRAUTO);
 
 # This code tries to break the url up into <prefix><script><path> ... The script may or may not
@@ -726,18 +727,18 @@ sub bootstrapWebSettings {
     }
 
     unless ( defined $pfx ) {
-        if ( my $idx = index( $env->{REQUEST_URI}, $path_info ) ) {
-            $pfx = substr( $env->{REQUEST_URI}, 0, $idx + 1 );
+        if ( my $idx = index( $request_uri, $path_info ) ) {
+            $pfx = substr( $request_uri, 0, $idx + 1 );
         }
         $pfx = '' unless ( defined $pfx );
         print STDERR "AUTOCONFIG: URI Prefix is $pfx\n" if (TRAUTO);
     }
 
     # Work out the URL path for Short and standard URLs
-    if ( $env->{REQUEST_URI} =~ m{^(.*?)/$script(\b|$)} ) {
+    if ( $request_uri =~ m{^(.*?)/$script(\b|$)} ) {
         print STDERR
           "AUTOCONFIG: SCRIPT $script fully contained in REQUEST_URI "
-          . $env->{REQUEST_URI}
+          . $request_uri
           . ", Not short URLs\n"
           if (TRAUTO);
 
