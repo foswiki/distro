@@ -118,7 +118,11 @@ jsonparam method for read/write access to the JSON dtaa.
 sub param {
     my ( $this, @p ) = @_;
 
-    return $this->SUPER::param() unless scalar @p;
+    unless ( scalar @p ) {
+        my @params = $this->SUPER::param();
+        push @params, 'POSTDATA';
+        return @params;
+    }
 
     my ( $key, @value ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
 
@@ -133,7 +137,10 @@ sub param {
 
     # Process
     return $this->SUPER::param(@p);
+}
 
+sub multi_param {
+    return param(@_);
 }
 
 =begin TML
@@ -254,6 +261,7 @@ sub initFromString {
     }
 
     $this->{_jsondata}{params} ||= {};
+    $this->{_jsondata}{params}{POSTDATA} = $data;
 
     return $this->{_jsondata};
 }
