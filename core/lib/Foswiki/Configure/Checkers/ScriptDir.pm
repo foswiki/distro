@@ -32,15 +32,17 @@ HERE
         if (  !$ext
             && $script =~ m/(\..*)$/
             && $script !~ /\.cfg$/
-            && $script !~ /\.fcgi$/ )
+            && $script !~ /\.(?:fcgi|psgi)$/ )
         {
             $err .=
               "   * has a suffix ($1), but no script suffix is configured.\n";
         }
 
-        #  Verify that scripts are executable
+        # Verify that scripts are executable
+        # PSGI doesn't require the executable bit.
         if (   $^O ne 'MSWin32'
             && $script !~ /\.cfg$/
+            && !$Foswiki::app->engine->isa('Foswiki::Engine::PSGI')
             && !-x "$dir/$script" )
         {
             $err .=

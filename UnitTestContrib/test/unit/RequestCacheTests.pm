@@ -34,7 +34,7 @@ sub test_simpleparams {
     );
     my $req = $this->create( 'Foswiki::Request', initializer => \%init );
     $req->method("BURP");
-    $req->path_info("/bad/wolf");
+    $req->pathInfo("/bad/wolf");
     $req->action("puke");
     my $cache = $this->create('Foswiki::Request::Cache');
     my $uid   = $cache->save($req);
@@ -55,7 +55,7 @@ sub test_simpleparams {
     @values = $req->multi_param('multi_undef');
     $this->assert_str_equals( 0, scalar @values, 'Wrong parameter value' );
     $this->assert_str_equals( "BURP",      $req->method() );
-    $this->assert_str_equals( "/bad/wolf", $req->path_info() );
+    $this->assert_str_equals( "/bad/wolf", $req->pathInfo() );
     $this->assert_str_equals( "puke",      $req->action() );
 }
 
@@ -74,7 +74,7 @@ sub test_simpleparams_utf8 {
     my $pathinfo = Encode::encode_utf8("/vústění/posvětit");
     my $req = $this->create( 'Foswiki::Request', initializer => \%init );
     $req->method("BURP");
-    $req->path_info($pathinfo);
+    $req->pathInfo($pathinfo);
     $req->action("puke");
     my $cache = $this->create('Foswiki::Request::Cache');
     my $uid   = $cache->save($req);
@@ -95,7 +95,7 @@ sub test_simpleparams_utf8 {
     @values = $req->multi_param('multi_undef');
     $this->assert_str_equals( 0, scalar @values, 'Wrong parameter value' );
     $this->assert_str_equals( "BURP",    $req->method() );
-    $this->assert_str_equals( $pathinfo, $req->path_info() );
+    $this->assert_str_equals( $pathinfo, $req->pathInfo() );
     $this->assert_str_equals( "puke",    $req->action() );
 }
 

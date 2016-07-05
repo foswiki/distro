@@ -176,7 +176,8 @@ sub parseJSON {
     if ( ( $jsondata->{jsonrpc} || '' ) ne "2.0" ) {
         $this->jsonerror(
             new Foswiki::Contrib::JsonRpcContrib::Error(
-                -32600, "Invalid JSON-RPC request - must be jsonrpc: '2.0'"
+                code => -32600,
+                text => "Invalid JSON-RPC request - must be jsonrpc: '2.0'",
             )
         );
     }
@@ -184,7 +185,8 @@ sub parseJSON {
     # must have a json method
     $this->jsonerror(
         new Foswiki::Contrib::JsonRpcContrib::Error(
-            -32600, "Invalid JSON-RPC request - no method"
+            code => -32600,
+            text => "Invalid JSON-RPC request - no method"
         )
     ) unless defined $jsondata->{method};
 
@@ -192,7 +194,8 @@ sub parseJSON {
     foreach my $key ( keys %{$jsondata} ) {
         $this->jsonerror(
             new Foswiki::Contrib::JsonRpcContrib::Error(
-                -32600, "Invalid JSON-RPC request - unknown key $key"
+                code => -32600,
+                text => "Invalid JSON-RPC request - unknown key $key"
             )
         ) unless $key =~ /^(jsonrpc|method|params|id)$/;
     }
@@ -222,7 +225,8 @@ sub initFromString {
         $error =~ s/,? +at.*$//s;
         $this->_jsonerror(
             new Foswiki::Contrib::JsonRpcContrib::Error(
-                -32700, "Parse error - invalid json-rpc request: $error"
+                code => -32700,
+                text => "Parse error - invalid json-rpc request: $error"
             )
         );
     };
@@ -334,12 +338,12 @@ This is read only.
 
 =cut
 
-around _establishWeb => sub {
-    my $orig = shift;
-    my $this = shift;
-
-    return $this->_pathParsed->{web};
-};
+#around _establishWeb => sub {
+#    my $orig = shift;
+#    my $this = shift;
+#
+#    return $this->_pathParsed->{web};
+#};
 
 =begin TML
 
@@ -355,12 +359,12 @@ This is read only.
 
 =cut
 
-around _establishTopic => sub {
-    my $orig = shift;
-    my $this = shift;
-
-    return $this->_pathParsed->{topic};
-};
+#around _establishTopic => sub {
+#    my $orig = shift;
+#    my $this = shift;
+#
+#    return $this->_pathParsed->{topic};
+#};
 
 =begin TML
 
@@ -394,7 +398,8 @@ around _trigger_method => sub {
     if ( defined $value && $this->_has_jsondata && lc($value) ne 'post' ) {
         $this->jsonerror(
             new Foswiki::Contrib::JsonRpcContrib::Error(
-                -32600, "Method must be POST, not " . $value
+                code => -32600,
+                text => "Method must be POST, not " . $value
             )
         );
     }
@@ -426,7 +431,8 @@ sub _establishNamespace {
     unless ( $decodedInfo =~ /^\/?([^\/\.]+)(?:[\/\.](.*))?$/ ) {
         $this->jsonerror(
             new Foswiki::Contrib::JsonRpcContrib::Error(
-                -32600, "Invalid Namespace / method"
+                code => -32600,
+                text => "Invalid Namespace / method"
             )
         );
         return;

@@ -14,7 +14,7 @@ and over a confirmation, such as a strikeone validation. In these cases we
 need to cache not just the request parameters, but also any uploads
 associated with the request. We also need the means to keep the cache tidy.
 
-Note that the cache records the method() and path_info() of the original
+Note that the cache records the method() and pathInfo() of the original
 request and restores them on reload.
 
 =cut
@@ -74,7 +74,7 @@ sub save {
       . $!;
 
     # Serialize some key info from the request
-    foreach my $field (qw(method path_info action)) {
+    foreach my $field (qw(method pathInfo action)) {
         print $F $field, '=', ( $req->$field() || '' ), "\n";
         print STDERR "CACHE $uid> $field(" . ( $req->$field() || '' ) . ")\n"
           if (TRACE_CACHE);

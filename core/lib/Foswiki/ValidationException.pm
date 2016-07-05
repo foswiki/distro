@@ -21,7 +21,7 @@ BEGIN {
     }
 }
 
-has actions => ( is => 'rw', required => 1, );
+has action => ( is => 'rw', required => 1, );
 
 =begin TML
 

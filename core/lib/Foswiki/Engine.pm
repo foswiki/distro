@@ -69,6 +69,7 @@ has pathData => ( is => 'rw', lazy => 1, builder => '_preparePath', );
 connectionData attribute is a hash with the following keys:
 
    * =remoteAddress=
+   * =serverName=
    * =serverPort=
    * =method=
    * =secure=

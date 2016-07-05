@@ -15,7 +15,7 @@ Fields:
    * =param= hashref of parameters, both query and body ones
    * =param_list= arrayref with parameter names in received order
    * =pathInfo= path_info of request (eg. /WebName/TopciName)
-   * =remote_address= Client's IP address
+   * =remoteAddress= Client's IP address
    * =remote_user= Remote HTTP authenticated user
    * =secure= Boolean value about use of encryption
    * =server_port= Port that the webserver listens on
@@ -116,7 +116,7 @@ has pathInfo => (
     default => sub { $_[0]->app->engine->pathData->{path_info} // '' },
     trigger => 1,
 );
-has remote_address => (
+has remoteAddress => (
     is      => 'rw',
     lazy    => 1,
     default => sub { $_[0]->app->engine->connectionData->{remoteAddress} },
@@ -209,10 +209,20 @@ has serverPort => (
     lazy    => 1,
     default => sub { $_[0]->app->engine->connectionData->{serverPort} },
 );
+has serverName => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { $_[0]->app->engine->connectionData->{serverName} },
+);
 has secure => (
     is      => 'rw',
     lazy    => 1,
     default => sub { $_[0]->app->engine->connectionData->{secure} },
+);
+has server_name => (
+    is      => 'ro',
+    lazy    => 1,
+    default => sub { $_[0]->app->env->{SERVER_NAME} },
 );
 has start_time => (    # start_time cannot be lazy, can it?
     is      => 'rw',
@@ -260,13 +270,12 @@ has _pathParsed  => (
 # Aliases are to be declared after all attribute handling methods are been
 # created but before CGI methods gets imported via cgiRequest attribute
 # handling.
-*Delete        = \&delete;
-*remote_addr   = \&remote_address;
-*remoteAddress = \&remote_address;
-*remote_user   = \&remoteUser;
-*server_port   = \&serverPort;
-*delete_all    = \&deleteAll;
-*user_agent    = \&userAgent;
+*Delete         = \&delete;
+*remote_addr    = \&remoteAddress;
+*remote_address = \&remoteAddress;
+*remote_user    = \&remoteUser;
+*delete_all     = \&deleteAll;
+*user_agent     = \&userAgent;
 
 sub getTime {
     my $this     = shift;
@@ -576,7 +585,7 @@ sub param {
 # http://blog.gerv.net/2014.10/new-class-of-vulnerability-in-perl-web-applications
     if ( DEBUG && wantarray ) {
         my ( $package, $filename, $line ) = caller;
-        if ( $package ne 'Foswiki::Request' ) {
+        unless ( UNIVERSAL::isa( $package, 'Foswiki::Request' ) ) {
             ASSERT( 0,
 "Foswiki::Request::param called in list context from package $package, $filename line $line, declare as scalar, or call multi_param. "
             );

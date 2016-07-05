@@ -15,6 +15,7 @@ use v5.14;
 
 use Assert;
 use Plack::Request;
+use Unicode::Normalize;
 
 use Moo;
 use namespace::clean;
@@ -49,6 +50,7 @@ around _prepareConnection => sub {
         method        => $psgi->method,
         secure        => $psgi->secure,
         serverPort    => $this->env->{SERVER_PORT},
+        serverName    => $this->env->{SERVER_NAME},
     };
 };
 

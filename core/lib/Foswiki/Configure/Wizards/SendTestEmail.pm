@@ -294,7 +294,7 @@ U4kyGRD1h/t/K/8VYAAe30lsvO6PVgAAAABJRU5ErkJggg==
 --=_=0i0k0i0w0s0o0fXuOi0E0A--
 MAILTEST
 
-        my $net = Foswiki::Net->new();
+        my $net = $Foswiki::app->create('Foswiki::Net');
 
         # Redirect streams so we can capture errors from the sendmail
         # program (which does not use Foswiki::Sandbox)

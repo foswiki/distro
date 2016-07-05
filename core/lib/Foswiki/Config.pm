@@ -128,12 +128,14 @@ sub BUILD {
     my $this = shift;
     my ($params) = @_;
 
+    $this->_workOutOS;
+    $this->_populatePresets;
+    $this->_guessDefaults;
+
     $this->data->{isVALID} =
       $this->readConfig( $this->noExpand, $this->noSpec, $this->configSpec,
         $this->noLocal, );
 
-    $this->_populatePresets;
-    $this->_guessDefaults;
     $this->_setupGlobals;
 }
 
@@ -187,7 +189,7 @@ See also: =Foswiki::Aux::Localize=
 
 =cut
 
-sub setLocalizableAttributes { return qw(data files urlHost); }
+sub setLocalizableAttributes { return qw(data files); }
 
 around localize => sub {
     my $orig = shift;
@@ -438,7 +440,7 @@ sub bootstrapSystemSettings {
     $this->clear_data;
 
     # Restore system-default state.
-    $this->_workOutOS();
+    $this->_workOutOS;
     $this->_populatePresets;
     $this->_guessDefaults;
 
@@ -736,6 +738,7 @@ sub bootstrapWebSettings {
 
     # Work out the URL path for Short and standard URLs
     if ( $request_uri =~ m{^(.*?)/$script(\b|$)} ) {
+        my $spfx = $1;
         print STDERR
           "AUTOCONFIG: SCRIPT $script fully contained in REQUEST_URI "
           . $request_uri
@@ -743,13 +746,14 @@ sub bootstrapWebSettings {
           if (TRAUTO);
 
         # Conventional URLs   with path and script
-        $this->data->{ScriptUrlPath} = $1;
+        $this->data->{ScriptUrlPath} = $spfx;
         $this->data->{ScriptUrlPaths}{view} =
-          $1 . '/view' . $this->data->{ScriptSuffix};
+          $spfx . '/view' . $this->data->{ScriptSuffix};
 
         # This might not work, depending on the websrver config,
         # but it's the best we can do
-        $this->data->{PubUrlPath} = "$1/../pub";
+        $this->data->{PubUrlPath} =
+          ( length($spfx) ? "$spfx/.." : "" ) . "/pub";
     }
     else {
         print STDERR "AUTOCONFIG: Building Short URL paths using prefix $pfx \n"
@@ -1270,7 +1274,6 @@ sub _populatePresets {
         package => 'Foswiki::Contrib::JsonRpcContrib',
         request => 'Foswiki::Request::JSON',
         method  => 'dispatch',
-        request => 'Foswiki::Request',
         context => { jsonrpc => 1 },
     };
     $cfgData->{SwitchBoard}{login} = {

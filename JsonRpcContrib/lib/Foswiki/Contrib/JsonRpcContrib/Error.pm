@@ -17,11 +17,13 @@
 package Foswiki::Contrib::JsonRpcContrib::Error;
 use v5.14;
 
+use Assert;
+
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Exception);
 
-has code => ( is => 'rw', );
+has code => ( is => 'rw', required => 1, );
 
 around BUILDARGS => sub {
     my $orig   = shift;

@@ -28,7 +28,7 @@ sub _viewSection {
     $this->app->request->web('TestCases');
     $this->app->request->topic('IncludeFixtures');
     $this->app->request->param( '-name' => 'skin', '-value' => 'text' );
-    $this->app->request->path_info('TestCases/IncludeFixtures');
+    $this->app->request->pathInfo('TestCases/IncludeFixtures');
 
     $this->app->request->param( '-name' => 'section', '-value' => $section );
     my ($text) = $this->capture( sub { $this->app->handleRequest } );

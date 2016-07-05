@@ -551,10 +551,9 @@ sub checkValidationKey {
     my $nonce = $req->param('validation_key');
     $req->delete('validation_key');
     if (   !defined($nonce)
-        || !Foswiki::Validation::isValidNonce( $users->getCGISession(), $nonce )
-      )
+        || !Foswiki::Validation::isValidNonce( $users->getCGISession, $nonce ) )
     {
-        throw Foswiki::ValidationException( $req->action() );
+        throw Foswiki::ValidationException( action => $req->action );
     }
     if ( defined($nonce) && !$req->param('preserve_vk') ) {
 

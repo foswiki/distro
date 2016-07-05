@@ -187,6 +187,7 @@ around _prepareConnection => sub {
         method        => $this->env->{REQUEST_METHOD},
         secure        => $secure,
         serverPort    => $this->env->{SERVER_PORT},
+        serverName    => $this->env->{SERVER_NAME},
     };
 };
 

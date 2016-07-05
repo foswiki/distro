@@ -31,7 +31,16 @@ use constant TRACE => 0;    # toggle me
 
 has id      => ( is => 'rw', );
 has message => ( is => 'rw', );
-has code    => ( is => 'rw', lazy => 1, default => 0, );
+has code    => (
+    is      => 'rw',
+    lazy    => 1,
+    default => 0,
+    isa     => sub {
+        Foswiki::Exception::Fatal->throw(
+            text => __PACKAGE__ . "::code object attribute cannot be undef" )
+          unless defined $_[0];
+    },
+);
 has json => (
     is      => 'ro',
     lazy    => 1,

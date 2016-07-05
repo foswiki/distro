@@ -128,8 +128,8 @@ sub genVariationKey {
     my $app        = $this->app;
     my $request    = $app->request;
     my $action     = substr( ( $request->action || 'view' ), 0, 4 );
-    my $serverName = $request->server_name || $Foswiki::cfg{DefaultUrlHost};
-    my $serverPort = $request->server_port || 80;
+    my $serverName = $request->serverName || $Foswiki::cfg{DefaultUrlHost};
+    my $serverPort = $request->serverPort || 80;
     $variationKey = '::' . $serverName . '::' . $serverPort . '::' . $action;
 
     # add a flag to distinguish compressed from uncompressed cache entries

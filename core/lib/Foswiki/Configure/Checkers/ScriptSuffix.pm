@@ -12,7 +12,9 @@ sub check_current_value {
     my ( $this, $reporter ) = @_;
 
     my $currentSuffix = ( fileparse( $0, qr/\.[^.]*/ ) )[2];
-    $currentSuffix = '' if ( $currentSuffix eq '.fcgi' );
+    $currentSuffix = ''
+      if $Foswiki::app->engine->isa('Foswiki::Engine::FastCGO')
+      || $Foswiki::app->engine->isa('Foswiki::Engine::PSGI');
     my $expectedSuffix = $Foswiki::cfg{ScriptSuffix} || '';
 
     if ( $currentSuffix ne $expectedSuffix ) {

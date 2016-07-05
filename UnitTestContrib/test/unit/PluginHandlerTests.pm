@@ -424,7 +424,7 @@ sub initializeUserHandler {
     my $url = $_[1] || 'undef';
     die "URL $url" unless $url eq (Foswiki::Func::getCgiQuery()->url() || undef);
     my $path = $_[2] || 'undef';
-    die "PATH $path" unless $path eq (Foswiki::Func::getCgiQuery->path_info() || 'undef');
+    die "PATH $path" unless $path eq (Foswiki::Func::getCgiQuery->pathInfo() || 'undef');
 }
 HERE
     $this->checkCalls( 1, 'earlyInitPlugin' );
