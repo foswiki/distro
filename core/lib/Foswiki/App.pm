@@ -597,8 +597,11 @@ sub handleRequest {
 
 --++ ObjectMethod create($className, %initArgs)
 
-Similar to =Foswiki::AppObject::create()= method but for the =Foswiki::App=
-itself.
+Creates a new object of class =$className=. If the class does =Foswiki::App=
+role then constructor gets called with =app= key pointing to the Foswiki::App
+object.
+
+This method loads class module automatically.
 
 =cut
 
@@ -610,12 +613,14 @@ sub create {
 
     Foswiki::load_class($class);
 
-    unless ( $class->does('Foswiki::AppObject') ) {
-        Foswiki::Exception::Fatal->throw(
-            text => "Class $class doesn't do Foswiki::AppObject role." );
+    my $object;
+    if ( $class->does('Foswiki::AppObject') ) {
+        $object = $class->new( app => $this, @_ );
     }
-
-    return $class->new( app => $this, @_ );
+    else {
+        $object = $class->new(@_);
+    }
+    return $object;
 }
 
 =begin TML

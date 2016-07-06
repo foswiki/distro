@@ -1,19 +1,19 @@
-    # See bottom of file for license and copyright information
+# See bottom of file for license and copyright information
 
-    # Inner class that represents section headings temporarily during the
-    # parse. They are expanded to section blocks at the end.
-    package SectionMarker;
-    use Moo;
-    extends qw(Foswiki::Configure::Item);
+# Inner class that represents section headings temporarily during the
+# parse. They are expanded to section blocks at the end.
+package SectionMarker;
+use Moo;
+extends qw(Foswiki::Configure::Item);
 
-    has Depth    => ( is => 'rw', );
-    has Headline => ( is => 'rw', );
+has Depth    => ( is => 'rw', );
+has Headline => ( is => 'rw', );
 
-    sub BUILD { my $this = shift; $this->Depth( $this->Depth + 1 ); }
+sub BUILD { my $this = shift; $this->Depth( $this->Depth + 1 ); }
 
-    sub getValueObject { return; }
+sub getValueObject { return; }
 
-    package Foswiki::Configure::LoadSpec;
+package Foswiki::Configure::LoadSpec;
 
 =begin TML
 
@@ -67,23 +67,24 @@ An *extension* is a placeholder for a Foswiki::Configure::Pluggable.
 
 =cut
 
-    use strict;
-    use warnings;
+use strict;
+use warnings;
 
-    use Assert;
+use Assert;
+use Try::Tiny;
 
-    use Foswiki::Configure::Section   ();
-    use Foswiki::Configure::Value     ();
-    use Foswiki::Configure::Item      ();
-    use Foswiki::Configure::Load      ();
-    use Foswiki::Configure::FileUtil  ();
-    use Foswiki::Configure::Pluggable ();
-    use Foswiki::Configure::Reporter  ();
+use Foswiki::Configure::Section   ();
+use Foswiki::Configure::Value     ();
+use Foswiki::Configure::Item      ();
+use Foswiki::Configure::Load      ();
+use Foswiki::Configure::FileUtil  ();
+use Foswiki::Configure::Pluggable ();
+use Foswiki::Configure::Reporter  ();
 
-    our $TRUE  = 1;    # Required for checking default value syntax
-    our $FALSE = 0;
+our $TRUE  = 1;    # Required for checking default value syntax
+our $FALSE = 0;
 
-    use constant TRACE => 0;
+use constant TRACE => 0;
 
 =begin TML
 
@@ -95,13 +96,13 @@ Default behaviour is to parse the strings.
 
 =cut
 
-    our $RAW_VALS = 0;
+our $RAW_VALS = 0;
 
-    sub _debugItem {
-        my $item = shift;
-        return ( $item->attrs->{typename} || 'Section' ) . ' '
-          . ( $item->attrs->{keys} || $item->attrs->{headline} || '???' );
-    }
+sub _debugItem {
+    my $item = shift;
+    return ( $item->attrs->{typename} || 'Section' ) . ' '
+      . ( $item->attrs->{keys} || $item->attrs->{headline} || '???' );
+}
 
 =begin TML
 
@@ -118,118 +119,117 @@ use $Foswiki::app->cfg->readConfig().
 
 =cut
 
-    sub readSpec {
-        my ( $root, $reporter ) = @_;
+sub readSpec {
+    my ( $root, $reporter ) = @_;
 
-        my $file = Foswiki::Configure::FileUtil::findFileOnPath('Foswiki.spec');
-        if ($file) {
-            parse( $file, $root, $reporter );
-        }
-
-        my %read;
-        foreach my $dir (@INC) {
-            foreach my $subdir (
-                'Foswiki/Plugins', 'Foswiki/Contrib',
-                'TWiki/Plugins',   'TWiki/Contrib'
-              )
-            {
-
-                _findSpecsFrom( "$dir/$subdir", $root, \%read, $reporter );
-            }
-        }
-
-        foreach my $file ( sort keys %read ) {
-            parse( $read{$file}, $root, $reporter );
-        }
-
+    my $file = Foswiki::Configure::FileUtil::findFileOnPath('Foswiki.spec');
+    if ($file) {
+        parse( $file, $root, $reporter );
     }
 
-    sub _findSpecsFrom {
-        my ( $dir, $root, $read, $reporter ) = @_;
+    my %read;
+    foreach my $dir (@INC) {
+        foreach my $subdir (
+            'Foswiki/Plugins', 'Foswiki/Contrib',
+            'TWiki/Plugins',   'TWiki/Contrib'
+          )
+        {
 
-        return unless opendir( D, $dir );
-
-        # note we ignore specs from any extension where the name starts
-        # with "Empty" e.g. EmptyPlugin, EmptyContrib
-        my @specfiles;
-        foreach my $extension ( sort grep { !/^\./ && !/^Empty/ } readdir D ) {
-
-            next if $read->{$extension};
-
-            $extension =~ m/(.*)/;
-            $extension = $1;    # untaint
-            my $file = "$dir/$extension/Config.spec";
-            next unless -e $file;
-            $read->{$extension} = $file;
+            _findSpecsFrom( "$dir/$subdir", $root, \%read, $reporter );
         }
-        closedir(D);
     }
 
-    # Process the config array and add section objects
-    sub _extractSections {
-        my ( $settings, $root ) = @_;
+    foreach my $file ( sort keys %read ) {
+        parse( $read{$file}, $root, $reporter );
+    }
 
-        my $section = $root;
-        my $depth   = 0;
+}
 
-        foreach my $item (@$settings) {
-            if ( $item->isa('SectionMarker') ) {
-                my $opts     = '';
-                my $headline = $item->Headline;
-                if ( $headline =~ s/^(.*?)\s*--\s*(.*?)\s*$/$1/ ) {
-                    $opts = $2;
-                    $item->Headline($headline);
-                }
-                my $ns =
-                  $root->getSectionObject( $item->Headline, $item->Depth );
-                if ($ns) {
-                    $depth = $item->Depth;
-                }
-                else {
-                    while ( $depth > $item->Depth - 1 ) {
-                        $section = $section->attrs->{_parent};
-                        $depth--;
-                    }
-                    while ( $depth < $item->Depth - 1 ) {
-                        my $ns = new Foswiki::Configure::Section();
-                        $section->addChild($ns);
-                        $section = $ns;
-                        $depth++;
-                    }
-                    $ns = new Foswiki::Configure::Section(
-                        headline => $item->Headline,
-                        opts     => $opts
-                    );
-                    $ns->attrs->{desc} = $item->attrs->{desc};
-                    $section->addChild($ns);
-                    $depth++;
-                }
-                $section = $ns;
+sub _findSpecsFrom {
+    my ( $dir, $root, $read, $reporter ) = @_;
+
+    return unless opendir( D, $dir );
+
+    # note we ignore specs from any extension where the name starts
+    # with "Empty" e.g. EmptyPlugin, EmptyContrib
+    my @specfiles;
+    foreach my $extension ( sort grep { !/^\./ && !/^Empty/ } readdir D ) {
+
+        next if $read->{$extension};
+
+        $extension =~ m/(.*)/;
+        $extension = $1;    # untaint
+        my $file = "$dir/$extension/Config.spec";
+        next unless -e $file;
+        $read->{$extension} = $file;
+    }
+    closedir(D);
+}
+
+# Process the config array and add section objects
+sub _extractSections {
+    my ( $settings, $root ) = @_;
+
+    my $section = $root;
+    my $depth   = 0;
+
+    foreach my $item (@$settings) {
+        if ( $item->isa('SectionMarker') ) {
+            my $opts     = '';
+            my $headline = $item->Headline;
+            if ( $headline =~ s/^(.*?)\s*--\s*(.*?)\s*$/$1/ ) {
+                $opts = $2;
+                $item->Headline($headline);
             }
-            elsif ( $item->isa('Foswiki::Configure::Value') ) {
-
-                # Skip it if we already have a settings object for these
-                # keys (first loaded always takes precedence, irrespective
-                # of which section it is in)
-                my $vo = $root->getValueObject( $item->attrs->{keys} );
-                next if ($vo);
-                $section->addChild($item);
+            my $ns = $root->getSectionObject( $item->Headline, $item->Depth );
+            if ($ns) {
+                $depth = $item->Depth;
             }
             else {
-                $section->addChild($item);
+                while ( $depth > $item->Depth - 1 ) {
+                    $section = $section->attrs->{_parent};
+                    $depth--;
+                }
+                while ( $depth < $item->Depth - 1 ) {
+                    my $ns = new Foswiki::Configure::Section();
+                    $section->addChild($ns);
+                    $section = $ns;
+                    $depth++;
+                }
+                $ns = new Foswiki::Configure::Section(
+                    headline => $item->Headline,
+                    opts     => $opts
+                );
+                $ns->attrs->{desc} = $item->attrs->{desc};
+                $section->addChild($ns);
+                $depth++;
             }
+            $section = $ns;
         }
-    }
+        elsif ( $item->isa('Foswiki::Configure::Value') ) {
 
-    # See if we have already build a value object for these keys
-    sub _getValueObject {
-        my ( $keys, $settings ) = @_;
-        foreach my $item (@$settings) {
-            my $i = $item->getValueObject($keys);
-            return $i if $i;
+            # Skip it if we already have a settings object for these
+            # keys (first loaded always takes precedence, irrespective
+            # of which section it is in)
+            my $vo = $root->getValueObject( $item->attrs->{keys} );
+            next if ($vo);
+            $section->addChild($item);
         }
-        return;
+        else {
+            $section->addChild($item);
+        }
     }
+}
+
+# See if we have already build a value object for these keys
+sub _getValueObject {
+    my ( $keys, $settings ) = @_;
+    foreach my $item (@$settings) {
+        my $i = $item->getValueObject($keys);
+        return $i if $i;
+    }
+    return;
+}
 
 =begin TML
 
@@ -240,234 +240,233 @@ configuration it describes
 
 =cut
 
-    sub parse {
-        my ( $file, $root, $reporter ) = @_;
-        my $fh;
+sub parse {
+    my ( $file, $root, $reporter ) = @_;
+    my $fh;
 
-        unless ( open( $fh, '<', $file ) ) {
-            $reporter->ERROR("$file open failed: $!");
-            return '';
+    unless ( open( $fh, '<', $file ) ) {
+        $reporter->ERROR("$file open failed: $!");
+        return '';
+    }
+
+    local $/ = "\n";
+    my $open = undef;    # current setting or section
+    my $isEnhancing = 0; # Is the current $open an existing item being enhanced?
+    my @settings;
+    my $sectionNum = 0;
+
+    $reporter->NOTE("Loading specs from $file") if TRACE;
+
+    while ( my $l = <$fh> ) {
+        chomp $l;
+
+        my $context = "$file: $.";
+
+        # Continuation lines
+
+        while ( $l =~ s/\\$// ) {
+            my $cont = <$fh>;
+            last unless defined $cont;
+            chomp $cont;
+            $cont =~ s/^#// if ( $l =~ m/^#/ );
+            $cont =~ s/^\s+/ /;
+            if ( $cont =~ m/^#/ ) {
+                $l .= '\\';
+            }
+            else {
+                $l .= $cont;
+            }
         }
 
-        local $/ = "\n";
-        my $open = undef;    # current setting or section
-        my $isEnhancing =
-          0;    # Is the current $open an existing item being enhanced?
-        my @settings;
-        my $sectionNum = 0;
+        last if ( $l =~ m/^(1;|__[A-Z]+__)/ );
+        next if ( $l =~ m/^\s*$/ || $l =~ m/^\s*#!/ );
 
-        $reporter->NOTE("Loading specs from $file") if TRACE;
+        if ( $l =~ m/^#\s*\*\*\s*([A-Z]+)\s*(.*?)\s*\*\*\s*$/ ) {
 
-        while ( my $l = <$fh> ) {
-            chomp $l;
+            # **STRING 30 EXPERT**
+            if ( $open && !$isEnhancing ) {
+                $reporter->NOTE(
+                    "\tClosed " . _debugItem($open) . ' at ' . __LINE__ )
+                  if TRACE;
+                push( @settings, $open );
+                $open = undef;
+            }
+            if ( $1 eq 'ENHANCE' ) {
 
-            my $context = "$file: $.";
+                # Enhance an existing value
+                $open = $root->getValueObject($2);
+                $reporter->ERROR("$context: No such value $2")
+                  unless $open;
+                $isEnhancing = $open ? 1 : 0;
+                $reporter->NOTE( "\tEnhancing " . $open->attrs->{keys} )
+                  if TRACE && $open;
+            }
+            else {
+                my $type = $1;
+                my $opts = $2;
+                try {
+                    $open = Foswiki::Configure::Value->new(
+                        typename   => $type,
+                        opts       => $opts,
+                        defined_at => [ $file, $. ]
+                    );
+                    $reporter->NOTE( "\tOpened " . $open->attrs->{typename} )
+                      if TRACE;
+                }
+                catch {
+                    my $err = Foswiki::Exception::errorStr(
+                        Foswiki::Exception->transmute( $_, 0 ) );
+                    $reporter->ERROR("$context: $err");
+                    $open = undef;
+                };
+                $isEnhancing = 0;
+            }
+        }
 
-            # Continuation lines
+        elsif (
+            $l =~ m/^(#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg([^=\s]*)\s*=\s*(.*?)$/ )
+        {
 
-            while ( $l =~ s/\\$// ) {
+            # $Foswiki::cfg{Rice}{Brown} =
+
+            my $optional = $1;
+            my $keys     = $2;
+            my $value    = $3;
+
+            if ( $keys eq '{WebMasterName}' ) {
+                ASSERT($open) if DEBUG;
+            }
+            unless ( $keys =~ m/^$Foswiki::Configure::Load::ITEMREGEX$/ ) {
+                $reporter->ERROR("$context: Invalid item specifier $keys");
+                $open = undef;
+                next;
+            }
+
+            # Restore initial \n for continued lines
+            $value .= "\n" unless $value =~ m/\s*;\s*$/;
+
+            # Read the value verbatim, retaining internal \s
+            while ( $value !~ s/\s*;\s*$//s ) {
                 my $cont = <$fh>;
                 last unless defined $cont;
-                chomp $cont;
-                $cont =~ s/^#// if ( $l =~ m/^#/ );
-                $cont =~ s/^\s+/ /;
-                if ( $cont =~ m/^#/ ) {
-                    $l .= '\\';
-                }
-                else {
-                    $l .= $cont;
-                }
+                $value .= $cont;
             }
 
-            last if ( $l =~ m/^(1;|__[A-Z]+__)/ );
-            next if ( $l =~ m/^\s*$/ || $l =~ m/^\s*#!/ );
+            # check it's a valid perl expression, ignoring uninitialised
+            # variable warnings inside strings.
+            $value =~ m/^\s*(.*?)[\s;]*$/s;    # trim and untaint
+            $value = $1;
+            no warnings;
+            eval($value);
+            use warnings;
+            $reporter->ERROR( "$context: Cannot eval value '$value': "
+                  . Foswiki::Configure::Reporter::stripStacktrace($@) )
+              if $@;
 
-            if ( $l =~ m/^#\s*\*\*\s*([A-Z]+)\s*(.*?)\s*\*\*\s*$/ ) {
-
-                # **STRING 30 EXPERT**
-                if ( $open && !$isEnhancing ) {
-                    $reporter->NOTE(
-                        "\tClosed " . _debugItem($open) . ' at ' . __LINE__ )
-                      if TRACE;
-                    push( @settings, $open );
-                    $open = undef;
-                }
-                if ( $1 eq 'ENHANCE' ) {
-
-                    # Enhance an existing value
-                    $open = $root->getValueObject($2);
-                    $reporter->ERROR("$context: No such value $2")
-                      unless $open;
-                    $isEnhancing = $open ? 1 : 0;
-                    $reporter->NOTE( "\tEnhancing " . $open->attrs->{keys} )
-                      if TRACE && $open;
-                }
-                else {
-                    my $type = $1;
-                    my $opts = $2;
-                    eval {
-                        $open = Foswiki::Configure::Value->new(
-                            typename   => $type,
-                            opts       => $opts,
-                            defined_at => [ $file, $. ]
-                        );
-                        $reporter->NOTE(
-                            "\tOpened " . $open->attrs->{typename} )
-                          if TRACE;
-                    };
-
-                    if ($@) {
-                        $reporter->ERROR("$context: $@");
-                        $open = undef;
-                    }
-                    $isEnhancing = 0;
-                }
-            }
-
-            elsif ( $l =~
-                m/^(#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg([^=\s]*)\s*=\s*(.*?)$/ )
-            {
-
-                # $Foswiki::cfg{Rice}{Brown} =
-
-                my $optional = $1;
-                my $keys     = $2;
-                my $value    = $3;
-
-                if ( $keys eq '{WebMasterName}' ) {
-                    ASSERT($open) if DEBUG;
-                }
-                unless ( $keys =~ m/^$Foswiki::Configure::Load::ITEMREGEX$/ ) {
-                    $reporter->ERROR("$context: Invalid item specifier $keys");
-                    $open = undef;
-                    next;
-                }
-
-                # Restore initial \n for continued lines
-                $value .= "\n" unless $value =~ m/\s*;\s*$/;
-
-                # Read the value verbatim, retaining internal \s
-                while ( $value !~ s/\s*;\s*$//s ) {
-                    my $cont = <$fh>;
-                    last unless defined $cont;
-                    $value .= $cont;
-                }
-
-                # check it's a valid perl expression, ignoring uninitialised
-                # variable warnings inside strings.
-                $value =~ m/^\s*(.*?)[\s;]*$/s;    # trim and untaint
-                $value = $1;
-                no warnings;
-                eval($value);
-                use warnings;
-                $reporter->ERROR( "$context: Cannot eval value '$value': "
-                      . Foswiki::Configure::Reporter::stripStacktrace($@) )
-                  if $@;
-
-                if ( $open && $open->isa('SectionMarker') ) {
-                    unless ($isEnhancing) {
-                        $reporter->NOTE( "\tClosed "
-                              . _debugItem($open) . ' at '
-                              . __LINE__ )
-                          if TRACE;
-                        push( @settings, $open );
-                        $open = undef;
-                    }
-                }
-
-                if ( !$open ) {
-                    next if $root->getValueObject($keys);
-
-                    # A pluggable may have already added an entry for these keys
-                    next if ( _getValueObject( $keys, \@settings ) );
-
-                    # This is an untyped value.
-                    $open =
-                      Foswiki::Configure::Value->new( typename => 'UNKNOWN' );
-                    $isEnhancing = 0;
-                }
-                $open->attrs->{defined_at} = [ $file, $. ];
-
-                # Record the value *string*, internal formatting et al.
-                # This is the best way to retain perl formatting while
-                # being sensitive to changes.
-                $open->attrs->{default} = $1;
-
-             # Configure treats all regular expressions as simple quoted string,
-             # Convert from qr/ /  notation to a simple quoted string
-                if (   $open->attrs->{typename} eq 'REGEX'
-                    && $open->attrs->{default} =~ m/^qr(.)(.*)\1$/ )
-                {
-
-                    # Convert a qr// into a quoted string
-
-                    # Strip off useless furniture (?^: ... )
-                    while ( $open->attrs->{default} =~ s/^\(\?\^:(.*)\)$/$1/ ) {
-                    }
-
-                    # Convert quoting for a single-quoted string. All we
-                    # need to do is protect single quote
-                    $open->attrs->{default} =~ s/'/\\'/g;
-                    $open->attrs->{default} =
-                      "'" . $open->attrs->{default} . "'";
-                }
-                elsif ( $open->attrs->{typename} eq 'REGEX' ) {
-                    $open->attrs->{default} =~
-                      s/\\'/'/g;    # unescape any escaped ' for quoted string.
-                }
-
-                $open->attrs->{keys} = $keys;
+            if ( $open && $open->isa('SectionMarker') ) {
                 unless ($isEnhancing) {
                     $reporter->NOTE(
                         "\tClosed " . _debugItem($open) . ' at ' . __LINE__ )
                       if TRACE;
                     push( @settings, $open );
-                }
-                $open        = undef;
-                $isEnhancing = 0;
-            }
-
-            elsif ( $l =~ m/^#\s*\*([A-Z]+)\*/ ) {
-
-                # *FINDEXTENSIONS* pluggable
-                my $name   = $1;
-                my $subset = \@settings;
-
-                if ($isEnhancing) {
-                    $reporter->ERROR(
-"$context: Cannot ENHANCE a non-section with a Pluggable"
-                      )
-                      if ( $open
-                        && !$open->isa('Foswiki::Configure::Section') );
-                    $subset      = \@{ $open->attrs->{children} };
-                    $isEnhancing = $open;
-                }
-                elsif ($open) {
-                    if (   !$open->isa('Foswiki::Configure::Section')
-                        && !$open->isa('SectionMarker') )
-                    {
-                        my $otype = $open->attrs->{typename} || $open;
-                        $reporter->ERROR(
-                            "$context: Incomplete $otype declaration");
-                    }
-                    elsif ( !$isEnhancing ) {
-                        push( @settings, $open );
-                        $reporter->NOTE( "\tClosed "
-                              . _debugItem($open) . ' at '
-                              . __LINE__ )
-                          if TRACE;
-                    }
                     $open = undef;
                 }
+            }
 
-                eval {
-                    Foswiki::Configure::Pluggable::load( $name, $subset, $file,
-                        $. );
-                };
-                if ($@) {
-                    $reporter->WARN("Can't load pluggable $name: $@");
+            if ( !$open ) {
+                next if $root->getValueObject($keys);
+
+                # A pluggable may have already added an entry for these keys
+                next if ( _getValueObject( $keys, \@settings ) );
+
+                # This is an untyped value.
+                $open = Foswiki::Configure::Value->new( typename => 'UNKNOWN' );
+                $isEnhancing = 0;
+            }
+            $open->attrs->{defined_at} = [ $file, $. ];
+
+            # Record the value *string*, internal formatting et al.
+            # This is the best way to retain perl formatting while
+            # being sensitive to changes.
+            $open->attrs->{default} = $1;
+
+            # Configure treats all regular expressions as simple quoted string,
+            # Convert from qr/ /  notation to a simple quoted string
+            if (   $open->attrs->{typename} eq 'REGEX'
+                && $open->attrs->{default} =~ m/^qr(.)(.*)\1$/ )
+            {
+
+                # Convert a qr// into a quoted string
+
+                # Strip off useless furniture (?^: ... )
+                while ( $open->attrs->{default} =~ s/^\(\?\^:(.*)\)$/$1/ ) {
                 }
-                elsif ($isEnhancing) {
+
+                # Convert quoting for a single-quoted string. All we
+                # need to do is protect single quote
+                $open->attrs->{default} =~ s/'/\\'/g;
+                $open->attrs->{default} = "'" . $open->attrs->{default} . "'";
+            }
+            elsif ( $open->attrs->{typename} eq 'REGEX' ) {
+                $open->attrs->{default} =~
+                  s/\\'/'/g;    # unescape any escaped ' for quoted string.
+            }
+
+            $open->attrs->{keys} = $keys;
+            unless ($isEnhancing) {
+                $reporter->NOTE(
+                    "\tClosed " . _debugItem($open) . ' at ' . __LINE__ )
+                  if TRACE;
+                push( @settings, $open );
+            }
+            $open        = undef;
+            $isEnhancing = 0;
+        }
+
+        elsif ( $l =~ m/^#\s*\*([A-Z]+)\*/ ) {
+
+            # *FINDEXTENSIONS* pluggable
+            my $name   = $1;
+            my $subset = \@settings;
+
+            if ($isEnhancing) {
+                $reporter->ERROR(
+                    "$context: Cannot ENHANCE a non-section with a Pluggable")
+                  if ( $open
+                    && !$open->isa('Foswiki::Configure::Section') );
+                $subset      = \@{ $open->attrs->{children} };
+                $isEnhancing = $open;
+            }
+            elsif ($open) {
+                if (   !$open->isa('Foswiki::Configure::Section')
+                    && !$open->isa('SectionMarker') )
+                {
+                    my $otype = $open->attrs->{typename} || $open;
+                    $reporter->ERROR("$context: Incomplete $otype declaration");
+                }
+                elsif ( !$isEnhancing ) {
+                    push( @settings, $open );
+                    $reporter->NOTE(
+                        "\tClosed " . _debugItem($open) . ' at ' . __LINE__ )
+                      if TRACE;
+                }
+                $open = undef;
+            }
+
+            try {
+                Foswiki::Configure::Pluggable::load( $name, $subset, $file,
+                    $. );
+            }
+            catch {
+                $reporter->WARN(
+                    "Can't load pluggable $name: "
+                      . Foswiki::Exception::errorStr(
+                        Foswiki::Exception->transmute( $_, 0 )
+                      )
+                );
+            }
+            finally {
+                if ( @_ == 0 && $isEnhancing ) {
 
                     # Have to shoehorn in parent links
                     foreach my $kid (@$subset) {
@@ -475,61 +474,59 @@ configuration it describes
                           unless $kid->{_parent};
                     }
                 }
+            };
 
-                $isEnhancing = 0;
-            }
+            $isEnhancing = 0;
+        }
 
-            elsif ( $l =~ m/^#\s*---\+(\+*) *(.*?)$/ ) {
+        elsif ( $l =~ m/^#\s*---\+(\+*) *(.*?)$/ ) {
 
-                # ---++ Section
-                $sectionNum++;
-                if ( $open && !$isEnhancing ) {
+            # ---++ Section
+            $sectionNum++;
+            if ( $open && !$isEnhancing ) {
 
                # We have an open item.  If it's a value, we don't want to create
                # it since that will confuse the UI.  Report such errors.
-                    if ( $open->isa('Foswiki::Configure::Value') ) {
-                        my $otype = $open->attrs->{typename};
-                        $reporter->ERROR(
-                            "$context: Incomplete $otype declaration");
-                    }
-                    elsif ( !$isEnhancing ) {
-                        push( @settings, $open );
-                        $reporter->NOTE( "\tClosed "
-                              . _debugItem($open) . ' at '
-                              . __LINE__ )
-                          if TRACE;
-                    }
+                if ( $open->isa('Foswiki::Configure::Value') ) {
+                    my $otype = $open->attrs->{typename};
+                    $reporter->ERROR("$context: Incomplete $otype declaration");
                 }
-                $open =
-                  new SectionMarker( Depth => length($1), Headline => $2 );
-                $isEnhancing = 0;
+                elsif ( !$isEnhancing ) {
+                    push( @settings, $open );
+                    $reporter->NOTE(
+                        "\tClosed " . _debugItem($open) . ' at ' . __LINE__ )
+                      if TRACE;
+                }
             }
-
-            elsif ( $l =~ m/^#\s?(.*)$/ ) {
-
-                # Bog standard comment
-                $open->append( 'desc', $1 ) if $open;
-            }
+            $open = new SectionMarker( Depth => length($1), Headline => $2 );
+            $isEnhancing = 0;
         }
-        close($fh);
-        if ( $open && !$isEnhancing ) {
-            if ( $open->isa('Foswiki::Configure::Value') ) {
-                my $otype = $open->attrs->{typename};
-                $reporter->ERROR("$file:$.: Incomplete $otype declaration");
-            }
-            else {
-                push( @settings, $open ) unless $isEnhancing;
-                $reporter->NOTE(
-                    "\tClosed " . _debugItem($open) . ' at ' . __LINE__ )
-                  if TRACE;
-            }
-        }
-        _extractSections( \@settings, $root );
 
-        # Promote the EXPERT setting up to those containers where
-        # all children have it
-        $root->promoteSetting('EXPERT');
+        elsif ( $l =~ m/^#\s?(.*)$/ ) {
+
+            # Bog standard comment
+            $open->append( 'desc', $1 ) if $open;
+        }
     }
+    close($fh);
+    if ( $open && !$isEnhancing ) {
+        if ( $open->isa('Foswiki::Configure::Value') ) {
+            my $otype = $open->attrs->{typename};
+            $reporter->ERROR("$file:$.: Incomplete $otype declaration");
+        }
+        else {
+            push( @settings, $open ) unless $isEnhancing;
+            $reporter->NOTE(
+                "\tClosed " . _debugItem($open) . ' at ' . __LINE__ )
+              if TRACE;
+        }
+    }
+    _extractSections( \@settings, $root );
+
+    # Promote the EXPERT setting up to those containers where
+    # all children have it
+    $root->promoteSetting('EXPERT');
+}
 
 =begin TML
 
@@ -540,15 +537,15 @@ safe for use in an eval.
 
 =cut
 
-    sub protectKeys {
-        my $k = shift;
-        $k =~ s/^\{(.*)\}$/$1/;
-        return '{'
-          . join(
-            '}{', map { protectKey($_) }
-              split( /\}\{/, $k )
-          ) . '}';
-    }
+sub protectKeys {
+    my $k = shift;
+    $k =~ s/^\{(.*)\}$/$1/;
+    return '{'
+      . join(
+        '}{', map { protectKey($_) }
+          split( /\}\{/, $k )
+      ) . '}';
+}
 
 =begin TML
 
@@ -559,22 +556,22 @@ safe for use as a perl hash index.
 
 =cut
 
-    sub protectKey {
-        my $k = shift;
-        return $k if $k =~ m/^[a-z_][a-z0-9_]*$/i;
+sub protectKey {
+    my $k = shift;
+    return $k if $k =~ m/^[a-z_][a-z0-9_]*$/i;
 
-        # Remove existing quotes, if there
-        $k =~ s/^(["'])(.*)\1$/$2/i;
+    # Remove existing quotes, if there
+    $k =~ s/^(["'])(.*)\1$/$2/i;
 
-        # Use ' to suppress interpolation (just in case)
-        $k =~ s/'/\\'/g;    # escape '
-        $k = "'$k'";
-        if (DEBUG) {
-            eval($k);
-            ASSERT( !$@, $k );
-        }
-        return $k;
+    # Use ' to suppress interpolation (just in case)
+    $k =~ s/'/\\'/g;    # escape '
+    $k = "'$k'";
+    if (DEBUG) {
+        eval($k);
+        ASSERT( !$@, $k );
     }
+    return $k;
+}
 
 =begin TML
 
@@ -589,30 +586,30 @@ default (unexpanded) from the spec to the %cfg, if it exists.
 
 =cut
 
-    sub addSpecDefaultsToCfg {
-        my ( $spec, $cfg, $added ) = @_;
+sub addSpecDefaultsToCfg {
+    my ( $spec, $cfg, $added ) = @_;
 
-        if ( $spec->attrs->{children} ) {
-            foreach my $child ( @{ $spec->attrs->{children} } ) {
-                addSpecDefaultsToCfg( $child, $cfg );
-            }
-        }
-        else {
-            if ( exists( $spec->attrs->{default} )
-                && eval( "!exists(\$cfg->" . $spec->attrs->{keys} . ")" ) )
-            {
-                # {default} stores a value string. Convert it to the
-                # value suitable for storing in cfg
-                say STDERR "Defaulting ", $spec->attrs->{keys} if TRACE;
-                my $value = eval( $spec->attrs->{default} );
-                eval(   "\$cfg->"
-                      . $spec->attrs->{keys} . "="
-                      . $spec->attrs->{default} );
-                $added->{ $spec->attrs->{keys} } = $spec->attrs->{default}
-                  if $added;
-            }
+    if ( $spec->attrs->{children} ) {
+        foreach my $child ( @{ $spec->attrs->{children} } ) {
+            addSpecDefaultsToCfg( $child, $cfg );
         }
     }
+    else {
+        if ( exists( $spec->attrs->{default} )
+            && eval( "!exists(\$cfg->" . $spec->attrs->{keys} . ")" ) )
+        {
+            # {default} stores a value string. Convert it to the
+            # value suitable for storing in cfg
+            say STDERR "Defaulting ", $spec->attrs->{keys} if TRACE;
+            my $value = eval( $spec->attrs->{default} );
+            eval(   "\$cfg->"
+                  . $spec->attrs->{keys} . "="
+                  . $spec->attrs->{default} );
+            $added->{ $spec->attrs->{keys} } = $spec->attrs->{default}
+              if $added;
+        }
+    }
+}
 
 =begin TML
 
@@ -628,32 +625,32 @@ Note that the %cfg should contain *unexpanded* values.
 
 =cut
 
-    sub addCfgValuesToSpec {
-        my ( $cfg, $spec ) = @_;
-        if ( $spec->attrs->{children} ) {
-            foreach my $child ( @{ $spec->attrs->{children} } ) {
-                addCfgValuesToSpec( $cfg, $child );
-            }
+sub addCfgValuesToSpec {
+    my ( $cfg, $spec ) = @_;
+    if ( $spec->attrs->{children} ) {
+        foreach my $child ( @{ $spec->attrs->{children} } ) {
+            addCfgValuesToSpec( $cfg, $child );
         }
-        else {
-            if ( eval( "exists(\$cfg->" . $spec->attrs->{keys} . ")" ) ) {
+    }
+    else {
+        if ( eval( "exists(\$cfg->" . $spec->attrs->{keys} . ")" ) ) {
 
-                # Encode the value as something that can be handled by
-                # UIs
-                my $value = eval( "\$cfg->" . $spec->attrs->{keys} );
-                ASSERT( !$@ ) if DEBUG;
-                $spec->attrs->{current_value} = $spec->encodeValue($value);
-            }
+            # Encode the value as something that can be handled by
+            # UIs
+            my $value = eval( "\$cfg->" . $spec->attrs->{keys} );
+            ASSERT( !$@ ) if DEBUG;
+            $spec->attrs->{current_value} = $spec->encodeValue($value);
+        }
 
      # Don't do this; it's not the case that the default value
      # will end up in LocalSite.cfg
      #elsif (exists($spec->attrs->{default})) {
      #    eval("\$spec->attrs->{current_value}=eval(\$spec->attrs->{default})");
      #}
-        }
     }
+}
 
-    1;
+1;
 __END__
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

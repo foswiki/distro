@@ -10,6 +10,10 @@ use v5.14;
 This role is for all classes which cannot be instantiated without active
 =Foswiki::App= object.
 
+---++ ObjectMethod create($className, @args) => $object
+
+Method create() is imported from Foswiki::App class.
+
 =cut
 
 use Assert;
@@ -24,23 +28,8 @@ has app => (
     isa => Foswiki::Object::isaCLASS( 'app', 'Foswiki::App', noUndef => 1, ),
     required => 1,
     clearer  => 1,
+    handles  => [qw(create)],
 );
-
-=begin TML
----++ ObjectMethod create($className, %initArgs)
-
-Creates a new object of a class with =Foswiki::AppObject= role. It's a wrapper
-to the =new()= constructor which automatically passes =app= parameter to the
-newly created object.
-
-=cut
-
-sub create {
-    my $this  = shift;
-    my $class = shift;
-
-    return $this->app->create( $class, @_ );
-}
 
 sub _clone_app {
     return $_[0]->app;

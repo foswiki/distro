@@ -26,14 +26,18 @@ sub construct {
     # Insert a bunch of configuration items based on what's in
     # the locales dir
 
+    # Force initialize i18n
+    $Foswiki::app->i18n->_lh;
+
     my $d =
-         $Foswiki::cfg{LocalesDir}
+         $Foswiki::app->cfg->data->{LocalesDir}
       || Foswiki::Configure::FileUtil::findFileOnPath('../locale')
       || '';
     $Foswiki::app->cfg->expandValue($d);
 
     opendir( DIR, $d )
-      or die "Failed to open LocalesDir $Foswiki::cfg{LocalesDir}";
+      or die "Failed to open LocalesDir "
+      . $Foswiki::app->cfg->data->{LocalesDir};
 
     my %langs;
     foreach my $file ( readdir DIR ) {

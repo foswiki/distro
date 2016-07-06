@@ -39,7 +39,7 @@ sub check_current_value {
       unless ( -r "$dir/$lang.po" );
 
     # Code taken from Foswki::I18N
-    my $h = Foswiki::I18N->get_handle($lang);
+    my $h = Foswiki::I18N::Base->get_handle($lang);
     my $name = eval { $h->maketext("_language_name") };
     unless ($name) {
         $reporter->ERROR(

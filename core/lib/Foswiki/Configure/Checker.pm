@@ -33,7 +33,7 @@ use Try::Tiny;
 
 use Foswiki::Configure::Load       ();
 use Foswiki::Configure::Dependency ();
-use Foswiki::Exception             ();
+use Foswiki::Exception;
 
 use Moo;
 use namespace::clean;

@@ -14,7 +14,6 @@ lib/Unit/CGIEngine.pm 0644
 lib/Unit/Eavesdrop.pm 0644
 lib/Unit/ExternalEngine.pm 0644
 lib/Unit/HTMLDiffer.pm 0644
-lib/Unit/Request.pm 0644
 lib/Unit/Response.pm 0644
 lib/Unit/TestCase.pm 0644
 lib/Unit/TestRunner.pm 0644

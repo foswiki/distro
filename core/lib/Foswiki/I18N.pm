@@ -58,11 +58,12 @@ interface.
 =cut
 
 sub available_languages {
+    my $this = shift;
 
     my @available;
 
     while ( my ( $langCode, $langOptions ) =
-        each %{ $Foswiki::cfg{Languages} } )
+        each %{ $this->app->cfg->data->{Languages} } )
     {
         if ( $langOptions->{Enabled} ) {
             push( @available, _normalize_language_tag($langCode) );
@@ -86,7 +87,7 @@ sub _loadLexicon {
     my $this = shift;
     my ( $lang, $dir ) = @_;
 
-    $dir ||= $Foswiki::cfg{LocalesDir};
+    $dir ||= $this->app->cfg->data->{LocalesDir};
 
     my $langFile = "$dir/$lang.po";
 
@@ -118,12 +119,13 @@ sub _initI18N {
     my $this = shift;
 
     my $app         = $this->app;
+    my $cfgData     = $app->cfg->data;
     my $initialised = 0;
 
     # no languages enabled is the same as disabling
     # {UserInterfaceInternationalisation}
-    my @languages = available_languages();
-    if ( $Foswiki::cfg{UserInterfaceInternationalisation} && @languages ) {
+    my @languages = $this->available_languages;
+    if ( $cfgData->{UserInterfaceInternationalisation} && @languages ) {
         $initialised = 1;
         eval "package Foswiki::I18N::Base; use base qw(Locale::Maketext); 1;";
         if ($@) {
@@ -135,7 +137,7 @@ sub _initI18N {
             $initialised = 0;
         }
 
-        unless ( $Foswiki::cfg{LocalesDir} && -e $Foswiki::cfg{LocalesDir} ) {
+        unless ( $cfgData->{LocalesDir} && -e $cfgData->{LocalesDir} ) {
             $app->logger->log( 'error',
 'I18N: {LocalesDir} not configured. Define it or turn off {UserInterfaceInternationalisation}'
             );
@@ -154,14 +156,14 @@ sub _initI18N {
             );
         }
 
-        opendir( my $dh, "$Foswiki::cfg{LocalesDir}/" ) || next;
+        opendir( my $dh, "$cfgData->{LocalesDir}/" ) || next;
         my @subDirs =
-          grep { !/^\./ && -d "$Foswiki::cfg{LocalesDir}/$_" } readdir $dh;
+          grep { !/^\./ && -d "$cfgData->{LocalesDir}/$_" } readdir $dh;
         closedir $dh;
 
         foreach my $lang (@languages) {
             $this->_loadLexicon($lang);
-            $this->_loadLexicon( $lang, "$Foswiki::cfg{LocalesDir}/$_" )
+            $this->_loadLexicon( $lang, "$cfgData->{LocalesDir}/$_" )
               foreach @subDirs;
         }
 
@@ -210,7 +212,7 @@ sub _initLanguageHandler {
         # can only use English if I18N has been requested with configure
         $app->logger->log( 'warning',
             'Could not load I18N infrastructure; falling back to English' )
-          if $Foswiki::cfg{UserInterfaceInternationalisation};
+          if $app->cfg->data->{UserInterfaceInternationalisation};
     }
 
     return $lh;
@@ -284,7 +286,7 @@ sub maketext {
           if DEBUG;
         return
 "<span class='foswikiAlert'>ERROR: Translation failed, see server error log.</span>";
-    }
+    };
 }
 
 =begin TML
@@ -328,16 +330,18 @@ sub _discover_languages {
     my $this       = shift;
     my $cache_open = 0;
 
+    my $cfgData = $this->app->cfg->data;
+
     #use the cache, if available
-    if ( open LANGUAGE, '<', "$Foswiki::cfg{WorkingDir}/languages.cache" ) {
+    if ( open LANGUAGE, '<', $cfgData->{WorkingDir} . "/languages.cache" ) {
         $cache_open = 1;
         foreach my $line ( map { Foswiki::decode_utf8($_) } <LANGUAGE> ) {
             my ( $key, $name ) = split( '=', $line );
 
             # Filter on enabled languages
             next
-              unless ( $Foswiki::cfg{Languages}{$key}
-                && $Foswiki::cfg{Languages}{$key}{Enabled} );
+              unless ( $cfgData->{Languages}{$key}
+                && $cfgData->{Languages}{$key}{Enabled} );
             chop($name);
             _add_language( $this, $key, $name );
         }
@@ -346,16 +350,16 @@ sub _discover_languages {
 
         # Rebuild the cache, filtering on enabled languages.
         $cache_open =
-          open( LANGUAGE, '>', "$Foswiki::cfg{WorkingDir}/languages.cache" );
-        foreach my $tag ( available_languages() ) {
+          open( LANGUAGE, '>', "$cfgData->{WorkingDir}/languages.cache" );
+        foreach my $tag ( $this->available_languages ) {
             my $h = Foswiki::I18N::Base->get_handle($tag);
             my $name = eval { $h->maketext("_language_name") } or next;
             print LANGUAGE Foswiki::encode_utf8("$tag=$name\n") if $cache_open;
 
             # Filter on enabled languages
             next
-              unless ( $Foswiki::cfg{Languages}{$tag}
-                && $Foswiki::cfg{Languages}{$tag}{Enabled} );
+              unless ( $cfgData->{Languages}{$tag}
+                && $cfgData->{Languages}{$tag}{Enabled} );
             _add_language( $this, $tag, $name );
         }
     }

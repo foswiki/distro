@@ -68,15 +68,8 @@ sub load {
     my $name = shift;
 
     my $modelName = 'Foswiki::Configure::Pluggables::' . $name;
-    try {
-        Foswiki::load_package( $modelName, method => 'construct' );
-        no strict 'refs';
-        &{"${modelName}::construct"}(@_);
-        use strict 'refs';
-    }
-    catch {
-        Foswiki::Exception::Fatal->rethrow($_);
-    };
+    Foswiki::load_package( $modelName, method => 'construct' );
+    $modelName->can('construct')->(@_);
 }
 
 1;
