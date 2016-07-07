@@ -119,6 +119,17 @@ has postData => (
 
 =begin TML
 
+---++ ObjectAttribute uploads
+
+Hash of =$filename => \%uploadInfo= pairs.
+
+=cut
+
+has uploads =>
+  ( is => 'rw', lazy => 1, clearer => 1, builder => '_prepareUploads', );
+
+=begin TML
+
 ---++ ObjectAttribute HTMLcompliant
 
 Boolean. True if engine is HTTP compliant. For now the only false is possible
@@ -411,12 +422,14 @@ sub _preparePath { }
 # Abstract initializer for bodyParameters
 sub _prepareBodyParameters { return []; }
 
+# Abstract initializer for uploads
+sub _prepareUploads { return {}; }
+
 =begin TML
 
----++ ObjectMethod prepareUploads( $req )
+---++ ObjectMethod prepareUploads( )
 
 Abstract method, must be defined by inherited classes.
-   * =$req= - Foswiki::Request object to populate
 
 Should fill $req's {uploads} field. This is a hashref whose keys are
 upload names and values Foswiki::Request::Upload objects.

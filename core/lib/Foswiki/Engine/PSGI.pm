@@ -138,7 +138,6 @@ around _prepareBodyParameters => sub {
     my $psgi = $this->psgi;
     return [] unless $psgi->content_length;
 
-    # SMELL XXX TODO Find out how to manage it with PSGI.
     my $params = $psgi->body_parameters;
     my @params;
     foreach my $pname ( $params->keys ) {
@@ -149,6 +148,7 @@ around _prepareBodyParameters => sub {
             -name  => $upname,
             -value => \@values,
 
+            # SMELL uploads are handled by dedicated psgi->uploads
             # Note that we record the encoded name of the upload. It will be
             # decoded in prepareUploads, which rewrites the {uploads} hash.
             -upload => ( scalar( $psgi->upload($pname) ) ? 1 : 0 ),
@@ -182,6 +182,26 @@ around _preparePostData => sub {
     my $orig = shift;
     my $this = shift;
     return $this->psgi->raw_body;
+};
+
+around _prepareUploads => sub {
+    my $orig = shift;
+    my ( $this, $req ) = @_;
+
+    my @uploads;
+    my $psgi = $this->psgi;
+    foreach my $key ( keys %{ $psgi->uploads } ) {
+        my $upload = $psgi->upload($key);
+        push @uploads,
+          {
+            filename    => $upload->filename,
+            basename    => $upload->basename,
+            tmpname     => $upload->path,
+            contentType => $upload->content_type,
+            size        => $upload->size,
+          };
+    }
+    return \@uploads;
 };
 
 around finalizeReturn => sub {

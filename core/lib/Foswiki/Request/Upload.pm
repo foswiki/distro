@@ -19,8 +19,11 @@ use Moo;
 use namespace::clean;
 extends qw(Foswiki::Object);
 
-has headers => ( is => 'ro', );
-has tmpname => ( is => 'rw', );
+has filename    => ( is => 'ro', );
+has size        => ( is => 'ro', );
+has contentType => ( is => 'ro', );
+has basename    => ( is => 'ro', );
+has tmpname     => ( is => 'ro', );
 
 =begin TML
 

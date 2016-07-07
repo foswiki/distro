@@ -79,8 +79,6 @@ if ( defined $SAVE_DESTROY ) {
     };
 }
 
-has uploads => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
-
 # cgi attribute must be defined after all other attributes to avoid `handle`
 # reimporting of CGI methods with the same names as existing attributes.
 has cgi => (

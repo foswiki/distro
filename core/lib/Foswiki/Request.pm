@@ -19,8 +19,7 @@ Fields:
    * =remote_user= Remote HTTP authenticated user
    * =secure= Boolean value about use of encryption
    * =server_port= Port that the webserver listens on
-   * =uploads= hashref whose keys are parameter name of uploaded
-               files
+   * =uploads= arrayref of Foswiki::Request::Upload objects
    * =uri= the request uri
 
 The following fields are parsed from the =pathInfo=
@@ -166,8 +165,8 @@ as sent by browser, and values are Foswiki::Request::Upload objects.
 has uploads => (
     is      => 'rw',
     lazy    => 1,
-    default => sub { {} },
-    isa     => Foswiki::Object::isaHASH( 'uploads', noUndef => 1 ),
+    builder => '_establishUploads',
+    isa     => Foswiki::Object::isaARRAY( 'uploads', noUndef => 1 ),
 );
 
 # upload_list attribute keeps list of request uploads. Used to initialize
@@ -686,12 +685,6 @@ sub delete {
     my $this = shift;
     foreach my $p (@_) {
         next unless exists $this->_param->{$p};
-        if ( my $upload = $this->uploads->{ $this->param($p) } ) {
-
-            #$upload->finish;
-            CORE::delete $this->uploads->{ $this->param($p) };
-        }
-        CORE::delete $this->_param->{$p};
     }
     my %deleted_key = map { $_ => 1 } @_;
     $this->param_list( [ grep { !$deleted_key{$_} } @{ $this->param_list } ] );
@@ -1299,6 +1292,17 @@ sub _establishTopic {
 sub _establishMethod {
     my $this = shift;
     return $this->app->engine->connectionData->{method};
+}
+
+sub _establishUploads {
+    my $this       = shift;
+    my $rawUploads = $this->app->engine->uploads;
+    my @reqUploads;
+    foreach my $upload (@$rawUploads) {
+        push @reqUploads,
+          $this->create( 'Foswiki::Request::Upload', %$upload, );
+    }
+    return \@reqUploads;
 }
 
 =begin TML

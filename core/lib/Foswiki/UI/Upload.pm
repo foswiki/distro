@@ -110,9 +110,23 @@ sub upload {
     }
 }
 
-# Real work of upload
 sub _upload {
     my $this = shift;
+
+    my @msgs;
+    foreach my $upload ( @{ $this->app->request->uploads } ) {
+        push @msgs, $this->_upload_file($upload);
+    }
+
+    # XXX Temporary!
+    # SMELL Any other way to return mupltiple messages? A template?
+    return join( '', map { "<p>$_</p>" } @msgs );
+}
+
+# Real work of upload
+sub _upload_file {
+    my $this   = shift;
+    my $upload = shift;
 
     my $app   = $this->app;
     my $req   = $app->request;
@@ -126,8 +140,10 @@ sub _upload {
     my $fileComment = $req->param('filecomment') || '';
     my $createLink  = $req->param('createlink')  || '';
     my $doPropsOnly = $req->param('changeproperties');
-    my $filePath    = $req->param('filepath')    || '';
-    my $fileName    = $req->param('filename')    || '';
+    my $filePath    = $upload->filename          || '';
+    my $fileName    = $upload->basename          || '';
+    my $tmpFilePath = $upload->tmpname;
+    my $fileSize    = $upload->size;
     if ( $filePath && !$fileName ) {
         $filePath =~ m|([^/\\]*$)|;
         $fileName = $1;
@@ -153,39 +169,18 @@ sub _upload {
       Foswiki::Sandbox::sanitizeAttachmentName($fileName);
 
     my $stream;
-    my ( $fileSize, $fileDate, $tmpFilePath ) = '';
+    my ( $streamSize, $fileDate );
 
     unless ($doPropsOnly) {
-        my $fh = $req->param('filepath');
-
-        try {
-            $tmpFilePath = $req->tmpFileName($fh);
-        }
-        catch {
-
-            # Item5130, Item5133 - Illegal file name, bad path,
-            # something like that
-            Foswiki::OopsException->rethrowAs(
-                $_,
-                app      => $app,
-                template => 'attention',
-                def      => 'zero_size_upload',
-                web      => $web,
-                topic    => $topic,
-                params   => [ ( $filePath || '""' ) ],
-                status   => 400,
-            );
-        };
-
-        $stream = $req->upload('filepath');
+        $stream = $upload->handle;
 
         # check if upload has non zero size
         if ($stream) {
             my @stats = stat $stream;
-            $fileSize = $stats[7];
-            $fileDate = $stats[9];
+            $streamSize = $stats[7];
+            $fileDate   = $stats[9];
         }
-        unless ( $fileSize && $fileName ) {
+        unless ( $streamSize && $fileName ) {
             Foswiki::OopsException->throw(
                 app      => $app,
                 template => 'attention',
@@ -195,6 +190,11 @@ sub _upload {
                 params   => [ ( $filePath || '""' ) ],
                 status   => 400,
             );
+        }
+        unless ( $streamSize == $fileSize ) {
+
+            # TODO Check if actual file size is the same as declared in POST
+            # headers. Prevent broken uploads.
         }
 
         my $maxSize = $app->prefs->getPreference('ATTACHFILESIZELIMIT')
