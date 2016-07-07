@@ -6,16 +6,39 @@ use lib Cwd::abs_path("../lib"),
 use Foswiki::App;
 use HTTP::Server::PSGI;
 
+use constant CHECKLEAK => 0;
+
+BEGIN {
+    if (CHECKLEAK) {
+        eval "use Devel::Leak::Object qw{ GLOBAL_bless };";
+        die $@ if $@;
+        $Devel::Leak::Object::TRACKSOURCELINES = 1;
+        $Devel::Leak::Object::TRACKSTACK       = 1;
+    }
+}
+
 my $app = sub {
     my $env = shift;
+    
+    Devel::Leak::Object::checkpoint if CHECKLEAK;
+    
     my $rc = Foswiki::App->run( env => $env, );
-    #$env->{'psgix.harakiri.commit'} = 1;
+
+    if (CHECKLEAK) {
+        Devel::Leak::Object::status;
+        eval {
+            require Devel::MAT::Dumper;
+            Devel::MAT::Dumper::dump(
+                $starting_root . "/working/logs/foswiki_debug_psgi.pmat" );
+        };
+    }
+
     return $rc;
 };
 
 my $server = HTTP::Server::PSGI->new(
-    host => "127.0.0.1",
-    port => 5000,
+    host    => "127.0.0.1",
+    port    => 5000,
     timeout => 120,
 );
 

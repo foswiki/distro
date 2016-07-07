@@ -195,6 +195,8 @@ sub noUsersRegistered {
 sub set_up_for_verify {
     my $this = shift;
 
+    $this->app->cfg->data->{UserInterfaceInternationalisation} = 0;
+
     $this->createNewFoswikiApp(
         engineParams => {
             initialAttributes =>

@@ -3,8 +3,8 @@ package Foswiki::Plugins::JQueryPlugin::UI::AUTOCOMPLETE;
 use strict;
 use warnings;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Moo;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -22,24 +22,15 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'UI::Autocomplete',
-            version      => '1.10.4',
-            puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
-            author       => 'see http://jqueryui.com/about',
-            homepage     => 'http://api.jqueryui.com/autocomplete/',
-            javascript   => ['jquery.ui.autocomplete.init.js'],
-            dependencies => [ 'ui', ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'UI::Autocomplete',
+    version      => '1.10.4',
+    puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
+    author       => 'see http://jqueryui.com/about',
+    homepage     => 'http://api.jqueryui.com/autocomplete/',
+    javascript   => ['jquery.ui.autocomplete.init.js'],
+    dependencies => [ 'ui', ],
+);
 
 1;
 

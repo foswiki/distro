@@ -11,6 +11,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 package Foswiki::Plugins::NatEditPlugin::RestSave;
+use v5.14;
 
 use strict;
 use warnings;
@@ -18,12 +19,14 @@ use Foswiki::UI::Save      ();
 use Foswiki::OopsException ();
 use Foswiki::Validation    ();
 use Encode                 ();
-use Error qw( :try );
+use Try::Tiny;
 
 sub handle {
-    my ( $session, $plugin, $verb, $response ) = @_;
+    my $app = shift;
+    my ( $plugin, $verb, $response ) = @_;
 
-    my $request = $session->{request};
+    my $request = $app->request;
+    my $cfgData = $app->cfg->data;
 
     foreach my $key ( $request->multi_param() ) {
         my @val = $request->multi_param($key);
@@ -37,10 +40,11 @@ sub handle {
         }
 
         if ( ref $val[0] eq 'ARRAY' ) {
-            $request->param( $key, [ map( toSiteCharSet($_), @{ $val[0] } ) ] );
+            $request->param( $key,
+                [ map( toSiteCharSet( $app, $_ ), @{ $val[0] } ) ] );
         }
         else {
-            $request->param( $key, [ map( toSiteCharSet($_), @val ) ] );
+            $request->param( $key, [ map( toSiteCharSet( $app, $_ ), @val ) ] );
         }
     }
 
@@ -48,17 +52,17 @@ sub handle {
     my $error;
     my $status = 200;
     try {
-        Foswiki::UI::Save::save($session);
+        $app->create('Foswiki::UI::Save')->save;
 
         # get a new lease
         my $topicObject =
-          Foswiki::Meta->new( $session, $session->{webName},
-            $session->{topicName} );
-        $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
+          $app->create( 'Foswiki::Meta', $request->web, $request->topic );
+        $topicObject->setLease( $cfgData->{LeaseLength} );
 
     }
-    catch Foswiki::OopsException with {
-        $error  = shift;
+    catch {
+        $error = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        $error->rethrow unless $error->isa('Foswiki::OopsException');
         $status = 419;
     };
 
@@ -69,11 +73,11 @@ sub handle {
     # add validation key to HTTP header, if required
     unless ( $response->getHeader('X-Foswiki-Validation') ) {
 
-        my $cgis = $session->getCGISession();
+        my $cgis = $app->users->getCGISession();
         my $context =
           $request->url( -full => 1, -path => 1, -query => 1 ) . time();
 
-        my $usingStrikeOne = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
+        my $usingStrikeOne = $cfgData->{Validation}{Method} eq 'strikeone';
 
         $response->pushHeader( 'X-Foswiki-Validation',
             _generateValidationKey( $cgis, $context, $usingStrikeOne ) );
@@ -106,28 +110,28 @@ sub stringifyError {
 
     my $s = '';
 
-    $s .= $error->{-text} if defined $error->{-text};
-    $s .= ' ' . join( ',', @{ $error->{params} } )
-      if defined $error->{params};
+    $s .= $error->text if defined $error->text;
+    $s .= ' ' . join( ',', @{ $error->params } )
+      if defined $error->params;
 
     return $s;
 }
 
 sub toSiteCharSet {
-    my $string = shift;
+    my ( $app, $string ) = @_;
 
     return $string unless $string;
 
     return $string if $Foswiki::UNICODE;
 
     return $string
-      if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8/i );
+      if ( $app->cfg->data->{Site}{CharSet} =~ /^utf-?8/i );
 
     # If the site charset is not utf-8, need to convert it
     # Leave this code using Encode:: - not used on UNICODE core.
     require Encode;
     return Encode::encode(
-        $Foswiki::cfg{Site}{CharSet},
+        $app->cfg->data->{Site}{CharSet},
         Encode::decode_utf8($string),
         Encode::FB_PERLQQ
     );

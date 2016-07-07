@@ -22,24 +22,15 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-
-    my $this = bless(
-        $class->SUPER::new(
-            name         => 'UI::Datepicker',
-            version      => '1.10.4',
-            puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
-            author       => 'see http://jqueryui.com/about',
-            homepage     => 'http://api.jqueryui.com/datepicker/',
-            javascript   => ['jquery.ui.datepicker.init.js'],
-            dependencies => [ 'ui', 'livequery' ],
-        ),
-        $class
-    );
-
-    return $this;
-}
+our %pluginParams = (
+    name         => 'UI::Datepicker',
+    version      => '1.10.4',
+    puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
+    author       => 'see http://jqueryui.com/about',
+    homepage     => 'http://api.jqueryui.com/datepicker/',
+    javascript   => ['jquery.ui.datepicker.init.js'],
+    dependencies => [ 'ui', 'livequery' ],
+);
 
 =begin TML
 
@@ -49,28 +40,30 @@ Initialize this plugin by adding the required static files to the page
 
 =cut
 
-sub init {
+around init => sub {
+    my $orig = shift;
     my $this = shift;
 
-    return unless $this->SUPER::init();
+    return unless $orig->( $this, @_ );
 
     # open matching localization file if it exists
     my $app     = $this->app;
+    my $cfgData = $app->cfg->data;
     my $langTag = $app->i18n->language();
     my $messagePath =
-        $Foswiki::cfg{SystemWebName}
+        $cfgData->{SystemWebName}
       . '/JQueryPlugin/i18n/jquery.ui.datepicker-'
       . $langTag . '.js';
 
-    my $messageFile = $Foswiki::cfg{PubDir} . '/' . $messagePath;
+    my $messageFile = $cfgData->{PubDir} . '/' . $messagePath;
     if ( -f $messageFile ) {
         Foswiki::Func::addToZone(
             'script', "JQUERYPLUGIN::UI::LANG",
             <<"HERE", 'JQUERYPLUGIN::UI' );
-<script type='text/javascript' src='$Foswiki::cfg{PubUrlPath}/$messagePath'></script>
+<script type='text/javascript' src='$cfgData->{PubUrlPath}/$messagePath'></script>
 HERE
     }
-}
+};
 
 1;
 

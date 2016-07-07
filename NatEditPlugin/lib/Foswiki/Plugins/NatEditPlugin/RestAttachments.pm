@@ -16,14 +16,16 @@ use strict;
 use warnings;
 
 use Foswiki::Func ();
-use Error qw( :try );
-use JSON ();
+use JSON          ();
 
 sub handle {
-    my ( $session, $plugin, $verb, $response ) = @_;
+    my $app = shift;
+    my ( $plugin, $verb, $response ) = @_;
 
-    my $web   = $session->{webName};
-    my $topic = $session->{topicName};
+    my $req = $app->request;
+
+    my $web   = $req->web;
+    my $topic = $req->topic;
 
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
     my @results = ();
@@ -38,8 +40,7 @@ sub handle {
 
         my @attachments = $meta->find("FILEATTACHMENT");
 
-        my $request = $session->{request};
-        my $term    = $request->param("term");
+        my $term = $req->param("term");
 
         my $context = Foswiki::Func::getContext();
         foreach

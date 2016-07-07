@@ -23,6 +23,9 @@ around BUILDARGS => sub {
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
+
+    $this->app->cfg->data->{UserInterfaceInternationalisation} = 0;
+
     $orig->( $this, @_ );
     $this->other_web( $this->test_web . "other" );
     my $webObject = $this->populateNewWeb( $this->other_web );

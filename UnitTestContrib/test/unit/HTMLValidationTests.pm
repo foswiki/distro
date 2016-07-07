@@ -102,6 +102,7 @@ around set_up => sub {
 
     #print STDERR "HTML::Tidy Version: ".$HTML::Tidy::VERSION."\n";
     #print STDERR "libtidy Version: ".HTML::Tidy::libtidy_version()."\n";
+    $this->app->cfg->data->{UserInterfaceInternationalisation} = 0;
 
     $orig->( $this, @_ );
 

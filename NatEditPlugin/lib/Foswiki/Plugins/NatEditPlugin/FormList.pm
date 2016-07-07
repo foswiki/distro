@@ -29,7 +29,8 @@ SMELL: should be added to the core
 =cut
 
 sub handle {
-    my ( $session, $params, $theTopic, $theWeb ) = @_;
+    my $app = shift;
+    my ( $params, $theTopic, $theWeb ) = @_;
 
     my $theFormat =
          $params->{_DEFAULT}
@@ -61,7 +62,7 @@ sub handle {
     $legalForms =~ s/\s*$//;
     my %forms = map {
         my ( $formWeb, $formTopic ) =
-          $session->normalizeWebTopicName( $theWeb, $_ );
+          $app->request->normalizeWebTopicName( $theWeb, $_ );
         $_ => {
             web   => $formWeb,
             topic => $formTopic,

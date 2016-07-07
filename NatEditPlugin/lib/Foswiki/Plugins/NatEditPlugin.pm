@@ -21,15 +21,6 @@ use Foswiki::Validation ();
 use Foswiki::Request    ();
 use Foswiki::Sandbox    ();
 
-BEGIN {
-    # Backwards compatibility for Foswiki 1.1.x
-    unless ( Foswiki::Request->can('multi_param') ) {
-        no warnings 'redefine';
-        *Foswiki::Request::multi_param = \&Foswiki::Request::param;
-        use warnings 'redefine';
-    }
-}
-
 our $VERSION           = '9.07';
 our $RELEASE           = '06 Jan 2016';
 our $NO_PREFS_IN_TOPIC = 1;

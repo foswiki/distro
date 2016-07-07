@@ -88,7 +88,10 @@ around BUILDARGS => sub {
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
-    $this->app->cfg->data->{DisableAllPlugins} = 1;
+
+    $this->app->cfg->data->{UserInterfaceInternationalisation} = 0;
+    $this->app->cfg->data->{DisableAllPlugins}                 = 1;
+
     $orig->( $this, @_ );
 
     #set up nested web $this->test_web/Nest

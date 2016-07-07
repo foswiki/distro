@@ -648,7 +648,10 @@ sub unload {
     # Avoid collisions, initiate removal from MetaCache only and only if object
     # has been previously stored in the cache.
     $this->app->search->metacache->removeMeta( $this->web, $this->topic )
-      if $this->inMetaCache && $this->app && $this->app->has_search;
+      if $this->inMetaCache
+      && $this->app
+      && $this->app->has_search
+      && $this->app->search->metacache;
     $this->_clear_loadedRev;
     $this->_clear_latestIsLoaded;
     $this->clear_text;

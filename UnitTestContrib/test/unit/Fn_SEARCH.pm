@@ -43,7 +43,7 @@ around BUILDARGS => sub {
 # This test is run in a separate process to be able to reclaim that memory
 # after the test is complete.
 sub run_in_new_process {
-    return 0;
+    return 1;
 }
 
 our $AElig;
@@ -52,7 +52,8 @@ around set_up => sub {
     my $orig = shift;
     my ($this) = shift;
 
-    $this->app->cfg->data->{DisableAllPlugins} = 1;
+    $this->app->cfg->data->{UserInterfaceInternationalisation} = 0;
+    $this->app->cfg->data->{DisableAllPlugins}                 = 1;
 
     $orig->( $this, @_ );
 

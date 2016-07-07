@@ -94,6 +94,9 @@ has test_user_3_email    => ( is => 'rw', );
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
+
+    $this->app->cfg->data->{UserInterfaceInternationalisation} = 0;
+
     $orig->( $this, @_ );
 
     $this->test_user_2_forename('Buck');

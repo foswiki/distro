@@ -14,12 +14,13 @@
 # http://www.gnu.org/copyleft/gpl.html
 
 package Foswiki::Plugins::NatEditPlugin::NATEDIT;
-use strict;
-use warnings;
+use v5.14;
 
-use Foswiki::Func                          ();
-use Foswiki::Plugins::JQueryPlugin::Plugin ();
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Foswiki::Func ();
+
+use Moo;
+use namespace::clean;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -37,36 +38,36 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
+around BUILDARGS => sub {
+    my $orig   = shift;
+    my $class  = shift;
+    my %params = @_;
 
-    my $this = bless(
-        $class->SUPER::new(
-            name          => 'NatEdit',
-            version       => '4.01',
-            author        => 'Michael Daum',
-            homepage      => 'http://foswiki.org/Extensions/NatEditPlugin',
-            puburl        => '%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin',
-            css           => ['styles.css'],
-            documentation => "$Foswiki::cfg{SystemWebName}.NatEditPlugin",
-            javascript    => ['jquery.natedit.js'],
-            dependencies  => [
-                'JQUERYPLUGIN::FOSWIKI::PREFERENCES', 'textboxlist',
-                'pnotify',                            'fontawesome',
-                'form',                               'validate',
-                'ui',                                 'ui::dialog',
-                'ui::tooltip',                        'tabpane',
-                'ui::autocomplete',                   'ui::button',
-                'button',                             'loader',
-                'JQUERYPLUGIN::UPLOADER',             'blockui',
-                'render',
-            ],
-        ),
-        $class
+    my $app = $params{app};
+
+    return $orig->(
+        $class, @_,
+        name          => 'NatEdit',
+        version       => '4.01',
+        author        => 'Michael Daum',
+        homepage      => 'http://foswiki.org/Extensions/NatEditPlugin',
+        puburl        => '%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin',
+        css           => ['styles.css'],
+        documentation => $app->cfg->data->{SystemWebName} . ".NatEditPlugin",
+        javascript    => ['jquery.natedit.js'],
+        dependencies  => [
+            'JQUERYPLUGIN::FOSWIKI::PREFERENCES', 'textboxlist',
+            'pnotify',                            'fontawesome',
+            'form',                               'validate',
+            'ui',                                 'ui::dialog',
+            'ui::tooltip',                        'tabpane',
+            'ui::autocomplete',                   'ui::button',
+            'button',                             'loader',
+            'JQUERYPLUGIN::UPLOADER',             'blockui',
+            'render',
+        ],
     );
-
-    return $this;
-}
+};
 
 =begin TML
 
@@ -76,10 +77,11 @@ Initialize this plugin by adding the required static files to the html header
 
 =cut
 
-sub init {
+around init => sub {
+    my $orig = shift;
     my $this = shift;
 
-    return unless $this->SUPER::init();
+    return unless $orig->( $this, @_ );
 
     Foswiki::Func::addToZone(
         "script", "NATEDIT::PREFERENCES",
@@ -93,6 +95,6 @@ sub init {
   }
 }</script>
 HERE
-}
+};
 
 1;

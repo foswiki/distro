@@ -34,10 +34,10 @@ around set_up => sub {
     my $orig = shift;
     my $this = shift;
 
-    $this->__EnvReset->{$_} = undef
-      foreach grep { /(?:^LANG$|^LC_)/ } keys %ENV;
-
     $orig->( $this, @_ );
+
+    # Get around non-English system locale problem.
+    $this->app->prefs->setSessionPreferences( LANGUAGE => 'en', );
 
     ($topicObject) = Foswiki::Func::readTopic( $this->test_web, 'WebHome' );
 };

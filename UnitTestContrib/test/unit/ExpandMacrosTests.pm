@@ -23,6 +23,9 @@ has _saveMacroHandler => ( is => 'rw', );
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
+
+    $this->app->cfg->data->{UserInterfaceInternationalisation} = 0;
+
     $orig->( $this, @_ );
     my $macros = $this->app->macros;
     $this->_saveMacroExists( $macros->exists('MACRO') );

@@ -14,6 +14,15 @@ around BUILDARGS => sub {
     return $orig->( $class, @_, testSuite => 'ENCODE' );
 };
 
+around set_up => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    $this->app->cfg->data->{UserInterfaceInternationalisation} = 0;
+
+    return $orig->( $this, @_ );
+};
+
 sub test_default {
     my $this = shift;
 

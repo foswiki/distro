@@ -35,7 +35,8 @@ we need an empty addform.nat.tmp to switch off this feature of FORMFIELDS
 =cut
 
 sub handle {
-    my ( $session, $params, $theTopic, $theWeb ) = @_;
+    my $app = shift;
+    my ( $params, $theTopic, $theWeb ) = @_;
 
     Foswiki::Plugins::JQueryPlugin::createPlugin("natedit");
 
@@ -66,16 +67,15 @@ sub handle {
     }
 
     if ($form) {
-        $actionText = $session->{i18n}->maketext("Change form");
+        $actionText = $app->i18n->maketext("Change form");
         $actionTitle =
-          $session->{i18n}->maketext( "Change the current form of <nop>[_1]",
+          $app->i18n->maketext( "Change the current form of <nop>[_1]",
             "$theWeb.$theTopic" );
     }
     elsif ( Foswiki::Func::getPreferencesValue( 'WEBFORMS', $theWeb ) ) {
-        $actionText = $session->{i18n}->maketext("Add form");
-        $actionTitle =
-          $session->{i18n}
-          ->maketext( "Add a new form to <nop>[_1]", "$theWeb.$theTopic" );
+        $actionText  = $app->i18n->maketext("Add form");
+        $actionTitle = $app->i18n->maketext( "Add a new form to <nop>[_1]",
+            "$theWeb.$theTopic" );
     }
     else {
         return '';

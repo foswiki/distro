@@ -77,6 +77,8 @@ around set_up => sub {
     my $orig = shift;
     my $this = shift;
 
+    $this->app->cfg->data->{UserInterfaceInternationalisation} = 0;
+
     $orig->( $this, @_ );
 
     $this->new_web( $this->test_web . 'New' );
