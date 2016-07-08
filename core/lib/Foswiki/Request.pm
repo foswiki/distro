@@ -685,6 +685,7 @@ sub delete {
     my $this = shift;
     foreach my $p (@_) {
         next unless exists $this->_param->{$p};
+        CORE::delete $this->_param->{$p};
     }
     my %deleted_key = map { $_ => 1 } @_;
     $this->param_list( [ grep { !$deleted_key{$_} } @{ $this->param_list } ] );

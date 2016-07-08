@@ -535,7 +535,7 @@ sub as_array {
     my $headers = $this->headers;
 
     ASSERT( !defined $headers->{Status},
-        "the Status header is not set implicitly" )
+        "the Status header has been set implicitly but shouldn't" )
       if DEBUG;
 
     $rc[0] = $this->status;

@@ -55,8 +55,11 @@ sub handle {
         $app->create('Foswiki::UI::Save')->save;
 
         # get a new lease
-        my $topicObject =
-          $app->create( 'Foswiki::Meta', $request->web, $request->topic );
+        my $topicObject = $app->create(
+            'Foswiki::Meta',
+            web   => $request->web,
+            topic => $request->topic
+        );
         $topicObject->setLease( $cfgData->{LeaseLength} );
 
     }
@@ -67,8 +70,8 @@ sub handle {
     };
 
     # clear redirect enforced by a checkpoint action
-    $response->deleteHeader( "Location", "Status" );
-    $response->pushHeader( "Status", $status );
+    $response->deleteHeader("Location");
+    $response->status($status);
 
     # add validation key to HTTP header, if required
     unless ( $response->getHeader('X-Foswiki-Validation') ) {
