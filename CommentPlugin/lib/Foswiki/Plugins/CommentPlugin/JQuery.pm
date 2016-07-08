@@ -9,8 +9,9 @@ use Moo;
 extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 around BUILDARGS => sub {
-    my $orig  = shift;
-    my $class = shift;
+    my $orig   = shift;
+    my $class  = shift;
+    my %params = @_;
     return $orig->(
         $class, @_,
         name          => 'Comment',
@@ -18,9 +19,10 @@ around BUILDARGS => sub {
         author        => 'Crawford Currie',
         homepage      => 'http://foswiki.org/Extensions/CommentPlugin',
         puburl        => '%PUBURLPATH%/%SYSTEMWEB%/CommentPlugin',
-        documentation => "$Foswiki::cfg{SystemWebName}.CommentPlugin",
-        css           => ["comment.css"],
-        javascript    => ["comment.js"]
+        documentation => $params{app}->cfg->data->{SystemWebName}
+          . ".CommentPlugin",
+        css        => ["comment.css"],
+        javascript => ["comment.js"]
     );
 };
 

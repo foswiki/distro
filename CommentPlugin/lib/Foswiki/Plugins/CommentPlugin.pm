@@ -44,7 +44,7 @@ sub initPlugin {
         'Foswiki::Plugins::CommentPlugin::JQuery' );
     unless (
         Foswiki::Plugins::JQueryPlugin::createPlugin(
-            "Comment", $Foswiki::Plugins::SESSION
+            "Comment", $Foswiki::app
         )
       )
     {
@@ -63,7 +63,7 @@ sub initPlugin {
 }
 
 sub _COMMENT {
-    my ( $session, $params, $topic, $web ) = @_;
+    my ( $app, $params, $topic, $web ) = @_;
 
     # Indexing each macro instance
     $params->{comment_index} = $commentIndex++;
@@ -111,8 +111,8 @@ sub _COMMENT {
 # parameter is not set, we pass the exception on to the UI package.
 
 sub _restSave {
-    my $session  = shift;
-    my $response = $session->response;
+    my $app      = shift;
+    my $response = $app->response;
     my $query    = Foswiki::Func::getCgiQuery();
 
     my ( $web, $topic ) =
@@ -194,7 +194,7 @@ sub _restSave {
                     my $context =
                       $query->url( -full => 1, -path => 1, -query => 1 )
                       . time();
-                    my $cgis = $session->getCGISession();
+                    my $cgis = $app->users->getCGISession();
                     my $nonce;
                     if ( Foswiki::Validation->can('generateValidationKey') ) {
                         $nonce =
@@ -214,7 +214,7 @@ sub _restSave {
                 # Decorate the response to show it's been ajax-added.
                 # It's TML, and free format, so there's a limit as to
                 # how clever we can be.
-                my $pht = $session->i18n->maketext(
+                my $pht = $app->i18n->maketext(
 'This is a temporary placeholder for your new comment. Refresh the topic to see the actual comment.'
                 );
                 $output =
