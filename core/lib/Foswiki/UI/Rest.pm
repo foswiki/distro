@@ -140,6 +140,7 @@ sub rest {
 
     # Check we have this handler
     unless ($record) {
+
         $res->header( -type => 'text/html', -status => '404' );
         $err =
             'ERROR: (404) Invalid REST invocation - '
