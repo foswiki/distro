@@ -1962,7 +1962,7 @@ sub _sendEmail {
     foreach my $field ( keys %$data ) {
         my $f = uc($field);
         unless ( $text =~ s/\%$f\%/$data->{$field}/g ) {
-            unless ( $field =~ m/^Password|form|webName/
+            unless ( $field =~ m/^Password|Confirm|form|webName/
                 || !defined( $data->{$field} )
                 || $data->{$field} !~ /\W/ )
             {
