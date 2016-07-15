@@ -32,23 +32,20 @@ use Moo;
 use namespace::clean;
 extends qw(Foswiki::Object);
 
-# Schema for dynamic attributes
-use constant ATTRSPEC => {};
-
 has attrs => (
-    is      => 'rw',
+    is       => 'rw',
+    lazy     => 1,
+    trigger  => sub { $_[0]->_checkOpts; },
+    isa      => Foswiki::Object::isaHASH( 'attrs', noUndef => 1, ),
+    required => 1,
+);
+
+# Schema for dynamic attributes
+has ATTRSPEC => (
+    is      => 'ro',
     lazy    => 1,
-    clearer => 1,
-    default => sub { {} },
-    trigger => sub {
-        my $this = shift;
-        my ($newAttrs) = @_;
-        if ( $newAttrs->{opts} ) {
-            $this->_parseOptions( $newAttrs->{opts} );
-            delete $this->attrs->{opts};
-        }
-    },
-    isa => Foswiki::Object::isaHASH( 'attrs', noUndef => 1, ),
+    builder => '_establishATTRSPEC',
+    isa     => Foswiki::Object::isaHASH( 'ATTRSPEC', noUndef => 1, ),
 );
 
 =begin TML
@@ -66,14 +63,32 @@ around BUILDARGS => sub {
     $params{desc}  //= '';
 
     foreach my $attr ( keys %params ) {
+        $params{attrs}{$attr} = $params{$attr};
         unless ( $class->can($attr) ) {
-            $params{attrs}{$attr} = $params{$attr};
             delete $params{$attr};
         }
     }
 
     return $orig->( $class, %params );
 };
+
+sub BUILD {
+    my $this = shift;
+
+    $this->_checkOpts;
+}
+
+sub _checkOpts {
+    my $this = shift;
+    if ( $this->attrs->{opts} ) {
+        $this->_parseOptions( $this->attrs->{opts} );
+        delete $this->attrs->{opts};
+    }
+}
+
+sub _establishATTRSPEC {
+    return {};
+}
 
 sub stringify {
     my $this = shift;

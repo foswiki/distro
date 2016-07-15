@@ -18,12 +18,6 @@ use Moo;
 use namespace::clean;
 extends qw(Foswiki::Configure::Item);
 
-# Attributes legal on a section header
-use constant ATTRSPEC => {
-    EXPERT => {},
-    SORTED => {}
-};
-
 =begin TML
 
 ---++ ClassMethod new(@opts)
@@ -43,6 +37,14 @@ around BUILDARGS => sub {
     $params{typename} //= 'SECTION';
 
     return $orig->( $class, %params );
+};
+
+# Attributes legal on a section header
+around _establishATTRSPEC => sub {
+    return {
+        EXPERT => {},
+        SORTED => {}
+    };
 };
 
 =begin TML

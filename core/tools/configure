@@ -22,21 +22,19 @@
 #
 # As per the GPL, removal of this notice is prohibited.
 
+use v5.14;
 use warnings;
 use strict;
 
 use Encode;
 use Getopt::Long;
+use Storable qw(dclone);
 use Pod::Usage   ();
 use Data::Dumper ();
 
 # Assume we are in the tools dir, and we can find bin and lib from there
-use FindBin ();
-$FindBin::Bin =~ /^(.*)$/;
-my $bin = $1;
-
-use lib "$FindBin::Bin/../bin";
-require 'setlib.cfg';
+use FindBin;
+use lib "$FindBin::Bin/../lib";
 
 # SMELL: setlib does "require CGI" which sets STDIN to binmode.
 binmode( STDIN, ':crlf' );
@@ -44,28 +42,32 @@ binmode( STDIN, ':crlf' );
 # require, not use.  The libpath is resolved by setlib.cfg,
 # so "use SomeModule;" will fail.
 
-require Assert;
+use Assert;
 
-require Foswiki::Configure::Root;
-require Foswiki::Configure::LoadSpec;
-require Foswiki::Configure::Load;
-require Foswiki::Configure::Query;
+use Foswiki::App;
+
+#require Foswiki::Configure::Root;
+#require Foswiki::Configure::LoadSpec;
+#require Foswiki::Configure::Load;
+#require Foswiki::Configure::Query;
 
 {
 
     package Foswiki::Configure::ShellReporter;
 
-    require Foswiki::Configure::Reporter;
-    our @ISA = ('Foswiki::Configure::Reporter');
+    use Moo;
+    use namespace::clean;
+    extends qw(Foswiki::Configure::Reporter);
 
-    sub new {
-        return bless( {}, $_[0] );
-    }
+    has notes    => ( is => 'rw', default => 0, );
+    has warnings => ( is => 'rw', default => 0, );
+    has errors   => ( is => 'rw', default => 0, );
 
-    sub NOTE {
+    around NOTE => sub {
+        my $orig = shift;
         my $this = shift;
         my $text = join( "\n", @_ ) . "\n";
-        $this->{notes}++;
+        $this->notes( $this->notes + 1 );
 
         # Take out block formatting tags
         $text =~ s/<\/?verbatim>//g;
@@ -73,37 +75,42 @@ require Foswiki::Configure::Query;
         # Take out active elements
         $text =~ s/<(button|select|option|textarea).*?<\/\1>//g;
         print $text;
-    }
+    };
 
-    sub WARN {
+    around WARN => sub {
+        my $orig = shift;
         my $this = shift;
-        $this->{warnings}++;
+        $this->warnings( $this->warnings + 1 );
         print "WARNING: ";
         $this->NOTE(@_);
-    }
+    };
 
-    sub ERROR {
+    around ERROR => sub {
+        my $orif = shift;
         my $this = shift;
-        $this->{errors}++;
+        $this->errors( $this->errors + 1 );
         print "#### ERROR: ";
         $this->NOTE(@_);
-    }
+    };
 
-    sub CHANGED {
+    around CHANGED => sub {
+        my $orig = shift;
         my ( $this, $k ) = @_;
-        $this->SUPER::CHANGED($k);
 
-        print "\$Foswiki::cfg$k = $this->{changes}->{$k};\n";
-    }
+        $orig->( $this, $k );
 
-    sub WIZARD {
+        print "\$Foswiki::cfg$k = " . $this->changes->{$k} . ";\n";
+    };
+
+    around WIZARD => sub {
         return '';
-    }
+    };
 
-    sub has_level {
+    around has_level => sub {
+        my $orig = shift;
         my ( $this, $level ) = @_;
-        return $this->{$level};
-    }
+        return $this->$level;
+    };
 };
 
 # Command-line parameter handling
@@ -250,25 +257,31 @@ sub _prompt {
 #$Foswiki::Configure::LoadSpec::RAW_VALS = 1;
 
 # Initialise
-if ( Foswiki::Configure::Load::readConfig( 0, 0, 0 ) ) {
-    $Foswiki::cfg{isVALID} = 1;
+my $app = Foswiki::App->new( env => dclone( \%ENV ), );
+
+# Force config re-read to be independant of any possible variations in config
+# constructor.
+my $cfg = $app->cfg;
+$cfg->clear_data;
+if ( $cfg->readConfig( 0, 0, 0 ) ) {
+    $cfg->data->{isVALID} = 1;
 }
 
-my $root     = Foswiki::Configure::Root->new();
-my $reporter = Foswiki::Configure::ShellReporter->new();
+my $root     = $app->create('Foswiki::Configure::Root');
+my $reporter = $app->create('Foswiki::Configure::ShellReporter');
 
 Foswiki::Configure::LoadSpec::readSpec( $root, $reporter );
 if ( $reporter->has_level('errors') ) {
     exit 1;
 }
 
-unless ( $Foswiki::cfg{isVALID} ) {
-    %Foswiki::cfg = ();
+unless ( $cfg->data->{isVALID} ) {
+    $cfg->clear_data;
     print STDERR "LocalSite.cfg load failed\n"
       . Foswiki::Configure::Reporter::stripStacktrace($@);
 
     # Run the bootstrap process. This guesses all the critical path settings.
-    Foswiki::Configure::Load::bootstrapConfig();
+    $cfg->bootstrapSystemSettings;
 
 #SMELL: Another way to do this would be to loop through $Foswiki::cfg{BOOTSTRAP} array
 #       of config keys, But this allows customized prompts and defaults.  Anything prompted
@@ -299,7 +312,7 @@ unless ( $Foswiki::cfg{isVALID} ) {
         unless ($@) {
             _prompt( $root, '{Password}', undef,
                 "Enter a password for the 'admin' sudo account.\n" );
-            push( @{ $Foswiki::cfg{BOOTSTRAP} }, '{Password}' );
+            push( @{ $cfg->data->{BOOTSTRAP} }, '{Password}' );
         }
         else {
             print
@@ -314,27 +327,27 @@ unless ( $Foswiki::cfg{isVALID} ) {
 # But the encoding needs to be reversed when passing it through the command prompt
 
         _prompt( $root, '{ScriptDir}',
-            Encode::encode_utf8( $Foswiki::cfg{ScriptDir} ) );
-        _prompt( $root, '{ScriptSuffix}', $Foswiki::cfg{ScriptSuffix},
+            Encode::encode_utf8( $cfg->data->{ScriptDir} ) );
+        _prompt( $root, '{ScriptSuffix}', $cfg->data->{ScriptSuffix},
             undef, 1 );
         _prompt( $root, '{DataDir}',
-            Encode::encode_utf8( $Foswiki::cfg{DataDir} ) );
+            Encode::encode_utf8( $cfg->data->{DataDir} ) );
         _prompt( $root, '{PubDir}',
-            Encode::encode_utf8( $Foswiki::cfg{PubDir} ) );
+            Encode::encode_utf8( $cfg->data->{PubDir} ) );
         _prompt( $root, '{TemplateDir}',
-            Encode::encode_utf8( $Foswiki::cfg{TemplateDir} ) );
+            Encode::encode_utf8( $cfg->data->{TemplateDir} ) );
         _prompt( $root, '{LocalesDir}',
-            Encode::encode_utf8( $Foswiki::cfg{LocalesDir} ) );
+            Encode::encode_utf8( $cfg->data->{LocalesDir} ) );
         _prompt( $root, '{WorkingDir}',
-            Encode::encode_utf8( $Foswiki::cfg{WorkingDir} ) );
+            Encode::encode_utf8( $cfg->data->{WorkingDir} ) );
         _prompt( $root, '{ToolsDir}',
-            Encode::encode_utf8( $Foswiki::cfg{ToolsDir} ) );
+            Encode::encode_utf8( $cfg->data->{ToolsDir} ) );
         _prompt( $root, '{Store}{Implementation}',
-            $Foswiki::cfg{Store}{Implementation} );
-        _prompt( $root, '{Store}{Encoding}', $Foswiki::cfg{Store}{Encoding},
+            $cfg->data->{Store}{Implementation} );
+        _prompt( $root, '{Store}{Encoding}', $cfg->data->{Store}{Encoding},
             undef, 1 );
         _prompt( $root, '{Store}{SearchAlgorithm}',
-            $Foswiki::cfg{Store}{SearchAlgorithm} );
+            $cfg->data->{Store}{SearchAlgorithm} );
 
         print
 "You should now run tools/configure -check to validate your new configuration!\n";
@@ -449,17 +462,18 @@ sub _set_logger {
     my $params = shift;
 
     unless ( $params->{logger} ) {
-        if ( $Foswiki::cfg{Log}{Implementation} eq 'none' ) {
-            $params->{logger} = Foswiki::Logger->new();
+        if ( $cfg->data->{Log}{Implementation} eq 'none' ) {
+            $params->{logger} = $app->create('Foswiki::Logger');
         }
         else {
-            eval "require $Foswiki::cfg{Log}{Implementation}";
+            eval "require " . $cfg->data->{Log}{Implementation};
             if ($@) {
                 print STDERR "Logger load failed: $@";
-                $params->{logger} = Foswiki::Logger->new();
+                $params->{logger} = $app->create('Foswiki::Logger');
             }
             else {
-                $params->{logger} = $Foswiki::cfg{Log}{Implementation}->new();
+                $params->{logger} =
+                  $app->create( $cfg->data->{Log}{Implementation} );
             }
         }
     }

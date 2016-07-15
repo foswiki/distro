@@ -50,8 +50,6 @@ Processes are used to parse 'FEEDBACK' and 'CHECK' values.
 =cut
 
 package Foswiki::Configure::Value;
-
-use strict;
 use v5.14;
 
 use Data::Dumper ();
@@ -64,26 +62,6 @@ use Foswiki::Configure::Reporter ();
 use Moo;
 use namespace::clean;
 extends qw(Foswiki::Configure::Item);
-
-# Options valid in a .spec for a leaf value
-use constant ATTRSPEC => {
-    CHECK           => { handler   => '_CHECK' },
-    CHECKER         => {},
-    CHECK_ON_CHANGE => {},
-    DISPLAY_IF      => { openclose => 1 },
-    ENABLE_IF       => { openclose => 1 },
-    EXPERT          => {},
-    FEEDBACK        => { handler   => '_FEEDBACK' },
-    HIDDEN          => {},
-    MULTIPLE        => {},         # Allow multiple select
-    SPELLCHECK      => {},
-    LABEL           => {},
-    ONSAVE          => {},         # Call Checker->onSave() when set.
-
-    # Rename single character options (legacy)
-    H => 'HIDDEN',
-    M => { handler => '_MANDATORY' }
-};
 
 # Legal options for a CHECK. The number indicates the number of expected
 # parameters; -1 means '0 or more'
@@ -135,6 +113,28 @@ sub BUILD {
     $this->attrs->{CHECK}->{undefok} //= 0;
     $this->attrs->{CHECK}->{emptyok} //= 1;    # required for legacy
 }
+
+# Options valid in a .spec for a leaf value
+around _establishATTRSPEC => sub {
+    return {
+        CHECK           => { handler   => '_CHECK' },
+        CHECKER         => {},
+        CHECK_ON_CHANGE => {},
+        DISPLAY_IF      => { openclose => 1 },
+        ENABLE_IF       => { openclose => 1 },
+        EXPERT          => {},
+        FEEDBACK        => { handler   => '_FEEDBACK' },
+        HIDDEN          => {},
+        MULTIPLE        => {},         # Allow multiple select
+        SPELLCHECK      => {},
+        LABEL           => {},
+        ONSAVE          => {},         # Call Checker->onSave() when set.
+
+        # Rename single character options (legacy)
+        H => 'HIDDEN',
+        M => { handler => '_MANDATORY' },
+    };
+};
 
 # Return true if this value is one of the preformatted types. Values for
 # these types transfer verbatim from the UI to the LocalSite.cfg

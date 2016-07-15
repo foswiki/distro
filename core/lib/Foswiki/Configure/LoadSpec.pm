@@ -3,6 +3,7 @@
 # Inner class that represents section headings temporarily during the
 # parse. They are expanded to section blocks at the end.
 package SectionMarker;
+use v5.14;
 use Moo;
 extends qw(Foswiki::Configure::Item);
 
@@ -14,6 +15,7 @@ sub BUILD { my $this = shift; $this->Depth( $this->Depth + 1 ); }
 sub getValueObject { return; }
 
 package Foswiki::Configure::LoadSpec;
+use v5.14;
 
 =begin TML
 
@@ -73,13 +75,12 @@ use warnings;
 use Assert;
 use Try::Tiny;
 
-use Foswiki::Configure::Section   ();
-use Foswiki::Configure::Value     ();
-use Foswiki::Configure::Item      ();
-use Foswiki::Configure::Load      ();
-use Foswiki::Configure::FileUtil  ();
-use Foswiki::Configure::Pluggable ();
-use Foswiki::Configure::Reporter  ();
+use Foswiki::Configure::Section;
+use Foswiki::Configure::Value;
+use Foswiki::Configure::Load;
+use Foswiki::Configure::FileUtil;
+use Foswiki::Configure::Pluggable;
+use Foswiki::Configure::Reporter;
 
 our $TRUE  = 1;    # Required for checking default value syntax
 our $FALSE = 0;
@@ -308,7 +309,7 @@ sub parse {
                     $open = Foswiki::Configure::Value->new(
                         typename   => $type,
                         opts       => $opts,
-                        defined_at => [ $file, $. ]
+                        defined_at => [ $file, $. ],
                     );
                     $reporter->NOTE( "\tOpened " . $open->attrs->{typename} )
                       if TRACE;

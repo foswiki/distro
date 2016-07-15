@@ -510,11 +510,11 @@ HERE
             # Add it to the $spec
             $spec->addChild(
                 Foswiki::Configure::Value->new(
-                    'BOOLEAN',
-                    LABEL   => $plu,
-                    keys    => "{Plugins}{$plu}{Enabled}",
-                    CHECKER => 'PLUGIN_MODULE',
-                    default => '1'
+                    typename => 'BOOLEAN',
+                    LABEL    => $plu,
+                    keys     => "{Plugins}{$plu}{Enabled}",
+                    CHECKER  => 'PLUGIN_MODULE',
+                    default  => '1'
                 )
             );
         }
@@ -529,11 +529,11 @@ HERE
             # Add it to the $spec
             $spec->addChild(
                 Foswiki::Configure::Value->new(
-                    'STRING',
-                    LABEL   => "$plu Module",
-                    keys    => "{Plugins}{$plu}{Module}",
-                    CHECKER => 'PLUGIN_MODULE',
-                    default => 'Foswiki::Plugins::$plu'
+                    typename => 'STRING',
+                    LABEL    => "$plu Module",
+                    keys     => "{Plugins}{$plu}{Module}",
+                    CHECKER  => 'PLUGIN_MODULE',
+                    default  => 'Foswiki::Plugins::$plu'
                 )
             );
         }
