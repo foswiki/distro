@@ -314,7 +314,9 @@ sub save {
         _generateLSC( $root, $Foswiki::app->cfg->data, '', $reporter ) )
       . "1;\n";
 
-    if ( $new_content ne $old_content ) {
+    if (   $new_content ne $old_content
+        || $reporter->hint('require_save') )
+    {
         if (DEBUG) {
 
             # Sanity check; can we eval the new content?
