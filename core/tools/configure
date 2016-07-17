@@ -185,6 +185,10 @@ my @methods =
   grep { $_ =~ /^[a-z]/ }
   keys %Foswiki::Configure::Query::;
 
+# SMELL:  The above search for methods fails.
+# Manually push  in the methods that master discovered.
+push @methods, (qw(search getcfg getspec wizard check_current_value));
+
 foreach my $a (@methods) {
     if ( $actions{$a} ) {
         $action = $a;
