@@ -8,12 +8,13 @@ use warnings;
 use Try::Tiny;
 
 use Assert;
-use Foswiki::Configure::Load     ();
-use Foswiki::Configure::Root     ();
-use Foswiki::Configure::LoadSpec ();
-use Foswiki::Configure::Reporter ();
-use Foswiki::Configure::Checker  ();
-use Foswiki::Configure::Wizard   ();
+
+#use Foswiki::Configure::Load     ();
+#use Foswiki::Configure::Root     ();
+#use Foswiki::Configure::LoadSpec ();
+#use Foswiki::Configure::Reporter ();
+#use Foswiki::Configure::Checker  ();
+#use Foswiki::Configure::Wizard   ();
 
 use constant TRACE_CHECK  => 0;
 use constant TRACE_GETSET => 0;

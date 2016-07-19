@@ -44,12 +44,9 @@ binmode( STDIN, ':crlf' );
 
 use Assert;
 
+use Foswiki;
 use Foswiki::App;
-
-#require Foswiki::Configure::Root;
-#require Foswiki::Configure::LoadSpec;
-#require Foswiki::Configure::Load;
-#require Foswiki::Configure::Query;
+use Foswiki::Configure::Query;
 
 {
 
@@ -187,7 +184,7 @@ my @methods =
 
 # SMELL:  The above search for methods fails.
 # Manually push  in the methods that master discovered.
-push @methods, (qw(search getcfg getspec wizard check_current_value));
+#push @methods, (qw(search getcfg getspec wizard check_current_value));
 
 foreach my $a (@methods) {
     if ( $actions{$a} ) {

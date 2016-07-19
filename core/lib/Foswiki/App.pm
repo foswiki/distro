@@ -25,6 +25,7 @@ use Foswiki::Config    ();
 use Foswiki::Engine    ();
 use Foswiki::Templates ();
 use Foswiki::Exception ();
+use Foswiki::Sandbox   ();
 use Foswiki qw(load_package load_class);
 
 use Moo;
