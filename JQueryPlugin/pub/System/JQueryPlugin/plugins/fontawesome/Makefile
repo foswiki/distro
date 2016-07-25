@@ -9,9 +9,6 @@ TARGET=\
   fontawesome-webfont.woff \
   fontawesome-webfont.woff2 
 
-FONTAWESOME_GIT=fontawesome-git
-FONTAWESOME_ANIMATION_GIT=fontawesome-animation-git
-
 -include $(FOSWIKI_ROOT)/pub/System/JQueryPlugin/Makefile.include
 
 git: git-fontawesome git-fontawesome-animation
@@ -31,21 +28,21 @@ ifneq (,$(wildcard git-fontawesome))
 fontawesome.uncompressed.css: git-fontawesome/css/font-awesome.css 
 	cat $^ |sed 's/..\/fonts\///g' > $@
 
-%.otf: fontawesome-git/fonts/%.otf
+%.otf: git-fontawesome/fonts/%.otf
 	cp $< $@
 
-%.eot: fontawesome-git/fonts/%.eot
+%.eot: git-fontawesome/fonts/%.eot
 	cp $< $@
 
-%.svg: fontawesome-git/fonts/%.svg
+%.svg: git-fontawesome/fonts/%.svg
 	cp $< $@
 
-%.ttf: fontawesome-git/fonts/%.ttf
+%.ttf: git-fontawesome/fonts/%.ttf
 	cp $< $@
 
-%.woff: fontawesome-git/fonts/%.woff
+%.woff: git-fontawesome/fonts/%.woff
 	cp $< $@
 
-%.woff2: fontawesome-git/fonts/%.woff2
+%.woff2: git-fontawesome/fonts/%.woff2
 	cp $< $@
 endif
