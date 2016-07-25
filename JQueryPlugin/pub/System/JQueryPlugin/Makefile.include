@@ -3,16 +3,19 @@ FOSWIKI_LIB=$(FOSWIKI_ROOT)/lib
 JQUERYPLUGIN_LIB=$(FOSWIKI_LIB)/Foswiki/Plugins/JQueryPlugin
 
 MINIFYJS=$(shell if which uglifyjs >/dev/null; then echo $(UGLIFYJS); else echo $(NOMINIFYJS); fi)
-MINIFYCSS=$(shell if which cssmin >/dev/null; then echo $(CSSMIN); else echo $(NOMINIFYCSS); fi)
-
 UGLIFYJS="uglifyjs -m -b beautify=false,ascii-only=true"
-CSSMIN="cssmin"
-
-NOMINIFYCSS="echo 'WARNING: no css minifier found' >&2"
 NOMINIFYJS="echo 'WARNING: no javascript minifier found' >&2"
+
+MINIFYCSS=$(shell if which cssmin >/dev/null; then echo $(CSSMIN); else echo $(NOMINIFYCSS); fi)
+CSSMIN="cssmin"
+NOMINIFYCSS="echo 'WARNING: no css minifier found' >&2"
 
 JSLINT=$(shell if which eslint > /dev/null; then echo $(ESHINT); else echo $(NOJSLINT); fi)
 NOJSLINT="echo 'WARNING: no javascrit linter found' >&2"
+
+SASS=$(shell if which node-sass >/dev/null; then echo $(SASS_CMD); else echo $(NOSASS); fi)
+SASS_CMD="node-sass --output-style expanded"
+NOSASS="echo 'WARNING: no sass preprocessor found' >&2"
 
 ESHINT="eslint"
 GZIP="gzip"
@@ -58,6 +61,10 @@ jslint: subdirs $(TARGET:.js=.jslint)
 %.css: %.uncompressed.css
 	@echo minifying $@ from $<
 	@$(MINIFYCSS) $< > $@
+
+%.uncompressed.css: %.scss
+	@echo sassing $@ from $<
+	@$(SASS) $< > $@
 
 %.css: %_src.css
 	@echo minifying $@ from $<
