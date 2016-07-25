@@ -3,7 +3,7 @@ jQuery(function($) {
 'use strict';
   
   var datepickerDefaults = {
-    dateFormat:'yy-mm-dd',
+    dateFormat:'yy/mm/dd',
     firstDay: 1,
     showOn: 'button',
     buttonText: "<i class='fa fa-calendar'></i>"
@@ -12,7 +12,7 @@ jQuery(function($) {
   $(".jqUIDatepicker").livequery(function() {
     var $this = $(this), 
         opts = $.extend({}, datepickerDefaults, $this.data(), $this.metadata()),
-        maxZIndex = 1, val = $this.val();
+        maxZIndex = 100, val = $this.val();
 
     $this.parents().each(function() {
       var zIndex = parseInt($(this).css("z-index"), 10);
