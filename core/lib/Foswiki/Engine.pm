@@ -85,8 +85,7 @@ has connectionData =>
 
 Parameter attributes are arrays of hashrefs with keys =-name= and =-value= where
 the former is a plain string and the latter may be either a scalar or an
-arrayref. In addition to those two =bodyParamaters= element hashref may contain
-additional key =-upload= which value is boolean. 
+arrayref.
 
 =cut
 
@@ -423,7 +422,7 @@ sub _preparePath { }
 sub _prepareBodyParameters { return []; }
 
 # Abstract initializer for uploads
-sub _prepareUploads { return {}; }
+sub _prepareUploads { return []; }
 
 =begin TML
 

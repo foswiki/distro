@@ -114,7 +114,7 @@ sub _upload {
     my $this = shift;
 
     my @msgs;
-    foreach my $upload ( @{ $this->app->request->uploads } ) {
+    foreach my $upload ( values %{ $this->app->request->uploads } ) {
         push @msgs, $this->_upload_file($upload);
     }
 

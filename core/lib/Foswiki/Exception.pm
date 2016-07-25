@@ -384,11 +384,11 @@ sub errorStr {
     return $str;
 }
 
-package Foswiki::Exception::ASSERT;
+package Foswiki::Exception::Harmless;
 use Moo;
 extends qw(Foswiki::Exception);
 
-# This class is only for distinguishing ASSERT-generated exceptions.
+# For informational exceptions.
 
 package Foswiki::Exception::Fatal;
 use Moo;
@@ -396,9 +396,67 @@ extends qw(Foswiki::Exception);
 
 # To cover perl/system errors.
 
+package Foswiki::Exception::ASSERT;
+use Moo;
+extends qw(Foswiki::Exception::Fatal);
+
+# This class is only for distinguishing ASSERT-generated exceptions.
+
 =begin TML
 
----++ Exception Foswiki::Exception::HTTPResponse
+---++ Exception Foswiki::Exception::CB
+
+Root of callback support exception tree.
+
+=cut
+
+package Foswiki::Exception::CB;
+use Moo;
+extends qw(Foswiki::Exception);
+
+=begin TML
+
+---+ Exception Foswiki::Exception::CB::Last
+
+Must be raised by a callback code to signal it wants to be the last on the
+execution chain.
+
+=cut
+
+package Foswiki::Exception::CB::Last;
+use Moo;
+extends qw(Foswiki::Exception::CB);
+
+=begin TML
+
+---++ ObjectAttribute returnValue
+
+The value to be returned by =Foswiki::Aux::Callbacks::callback()= method.
+
+=cut
+
+has returnValue => (
+    is        => 'ro',
+    predicate => 1,
+);
+
+=begin TML
+
+---+ Exception Foswiki::Exception::Cfg::InvalidKeyName
+
+If configuration key doesn't pass validation.
+
+=cut
+
+package Foswiki::Exception::Cfg::InvalidKeyName;
+use Moo;
+extends qw(Foswiki::Exception::Fatal);
+
+has keyName => ( is => 'rw', required => 1, );
+
+=begin TML
+
+---+ Exception Foswiki::Exception::HTTPResponse
 
 Used to send HTTP status responses to the user.
 
@@ -525,44 +583,6 @@ around BUILDARGS => sub {
 
     return $orig->( $class, %params );
 };
-
-=begin TML
-
----++ Exception Foswiki::Exception::CB
-
-Root of callback support exception tree.
-
-=cut
-
-package Foswiki::Exception::CB;
-use Moo;
-extends qw(Foswiki::Exception);
-
-=begin TML
-
----++ Exception Foswiki::Exception::CB::Last
-
-Must be raised by a callback code to signal it wants to be the last on the
-execution chain.
-
-=cut
-
-package Foswiki::Exception::CB::Last;
-use Moo;
-extends qw(Foswiki::Exception::CB);
-
-=begin TML
-
----++ ObjectAttribute returnValue
-
-The value to be returned by =Foswiki::Aux::Callbacks::callback()= method.
-
-=cut
-
-has returnValue => (
-    is        => 'ro',
-    predicate => 1,
-);
 
 1;
 __END__

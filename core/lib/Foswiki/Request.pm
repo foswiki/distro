@@ -19,7 +19,7 @@ Fields:
    * =remote_user= Remote HTTP authenticated user
    * =secure= Boolean value about use of encryption
    * =server_port= Port that the webserver listens on
-   * =uploads= arrayref of Foswiki::Request::Upload objects
+   * =uploads= hashref of Foswiki::Request::Upload objects
    * =uri= the request uri
 
 The following fields are parsed from the =pathInfo=
@@ -155,7 +155,7 @@ has _param => ( is => 'rw', lazy => 1, default => sub { {} }, );
 
 =begin TML
 
----++ ObjectAttribute uploads( [ \%uploads ] ) -> $hashref
+---++ ObjectAttribute uploads -> $hashref
 
 Gets/Sets request uploads field. Keys are uploaded file names,
 as sent by browser, and values are Foswiki::Request::Upload objects.
@@ -166,18 +166,9 @@ has uploads => (
     is      => 'rw',
     lazy    => 1,
     builder => '_establishUploads',
-    isa     => Foswiki::Object::isaARRAY( 'uploads', noUndef => 1 ),
+    isa     => Foswiki::Object::isaHASH( 'uploads', noUndef => 1 ),
 );
 
-# upload_list attribute keeps list of request uploads. Used to initialize
-# uploads attribute with corresponding =Foswiki::Request::Upload= instances.
-# SMELL Isn't it needed for engine code only?
-has upload_list => (
-    is      => 'rw',
-    lazy    => 1,
-    default => sub { [] },
-    isa     => Foswiki::Object::isaARRAY( 'upload_list', noUndef => 1, ),
-);
 has param_list => (
     is        => 'rw',
     predicate => 1,
@@ -685,6 +676,10 @@ sub delete {
     my $this = shift;
     foreach my $p (@_) {
         next unless exists $this->_param->{$p};
+        my $pval = $this->param($p);
+        if ( exists $this->uploads->{$pval} ) {
+            CORE::delete $this->uploads->{$pval};
+        }
         CORE::delete $this->_param->{$p};
     }
     my %deleted_key = map { $_ => 1 } @_;
@@ -1268,10 +1263,6 @@ sub _establishParamList {
 
     # Process body parameters individually to take care of uploads.
     foreach my $param ( @{ $engine->bodyParameters } ) {
-        if ( $param->{-upload} ) {
-            push @{ $this->upload_list }, $param->{-name};
-            delete $param->{-upload};
-        }
         push @params, $param;
     }
     $this->param($_) foreach @params;
@@ -1298,12 +1289,12 @@ sub _establishMethod {
 sub _establishUploads {
     my $this       = shift;
     my $rawUploads = $this->app->engine->uploads;
-    my @reqUploads;
+    my %reqUploads;
     foreach my $upload (@$rawUploads) {
-        push @reqUploads,
-          $this->create( 'Foswiki::Request::Upload', %$upload, );
+        $reqUploads{ $upload->{filename} } =
+          $this->create( 'Foswiki::Request::Upload', %$upload );
     }
-    return \@reqUploads;
+    return \%reqUploads;
 }
 
 =begin TML

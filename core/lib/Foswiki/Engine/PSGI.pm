@@ -147,11 +147,6 @@ around _prepareBodyParameters => sub {
         my $param = {
             -name  => $upname,
             -value => \@values,
-
-            # SMELL uploads are handled by dedicated psgi->uploads
-            # Note that we record the encoded name of the upload. It will be
-            # decoded in prepareUploads, which rewrites the {uploads} hash.
-            -upload => ( scalar( $psgi->upload($pname) ) ? 1 : 0 ),
         };
         push @params, $param;
     }
@@ -197,6 +192,7 @@ around _prepareUploads => sub {
             filename    => $upload->filename,
             basename    => $upload->basename,
             tmpname     => $upload->path,
+            headers     => $upload->headers,
             contentType => $upload->content_type,
             size        => $upload->size,
           };
