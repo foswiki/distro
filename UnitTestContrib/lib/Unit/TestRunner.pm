@@ -184,7 +184,7 @@ sub start {
         print "Running $suite\n";
 
 # vrurg: To much burden to maintain compatibility with pre-Moo positional argument passing.
-        my $tester = $suite->new( testSuite => $suite );
+        my $tester = $suite->new( testSuite => $suite, );
         if ( $tester->isa('Unit::TestSuite') ) {
 
             # Get a list of included tests

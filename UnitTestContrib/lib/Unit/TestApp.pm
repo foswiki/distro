@@ -6,6 +6,7 @@ use v5.14;
 use Assert;
 
 use Scalar::Util qw(blessed weaken refaddr);
+use Try::Tiny;
 
 use Moo;
 use namespace::clean;
@@ -51,6 +52,16 @@ has _cbRegistered => (
     is      => 'rw',
     default => 0,
 );
+
+around BUILDARGS => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    # SMELL The global $inUnitTestMode must be gone.
+    $Foswiki::inUnitTestMode = 1;
+
+    return $orig->( $this, inUnitTestMode => 1, @_ );
+};
 
 sub BUILD {
     my $this = shift;
@@ -121,7 +132,26 @@ around handleRequest => sub {
 
     $this->registerCallbacks;
 
-    return $orig->( $this, @_ );
+    my $rc;
+    try {
+        $this->callback('testPreHandleRequest');
+        $rc = $orig->( $this, @_ );
+    }
+    catch {
+        Foswiki::Exception::Fatal->rethrow($_);
+    }
+    finally {
+        $this->callback( 'testPostHandleRequest', { rc => $rc }, );
+    };
+
+    return $rc;
+};
+
+around _validCallbacks => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    return $orig->($this), qw(testPreHandleRequest testPostHandleRequest);
 };
 
 1;

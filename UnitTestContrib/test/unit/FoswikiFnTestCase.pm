@@ -37,10 +37,6 @@ use Moo;
 use namespace::clean;
 extends qw(FoswikiTestCase);
 
-has testSuite => (
-    is       => 'ro',
-    required => 1,
-);
 has test_web => (
     is      => 'rw',
     lazy    => 1,

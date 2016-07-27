@@ -52,7 +52,7 @@ sub SEARCH {
         # care of it.
         # If code is executed in unit test mode then avoid HTMLization of error
         # report.
-        if ( $Foswiki::inUnitTestMode
+        if ( $app->inUnitTestMode
             && !$exception->isa('Foswiki::Infix::Error') )
         {
             Foswiki::Exception::Fatal->rethrow($exception);

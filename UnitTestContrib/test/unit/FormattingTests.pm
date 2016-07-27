@@ -64,18 +64,18 @@ my %link_tests = (
     },
 
     # Extra spacey
-    ' a a ' =>
-      { topic => 'AA', autolink => 0, relative => 'web', normal => undef },
-    ' a a / b b ' =>
-      { address => 'AA.BB', autolink => 0, relative => 0, normal => undef },
-    ' a a . b b ' =>
-      { address => 'AA.BB', autolink => 0, relative => 0, normal => undef },
-    ' a a . b b / cc ' =>
-      { address => 'AA/BB.Cc', autolink => 0, relative => 0, normal => undef },
-    ' a a / b b . cc ' =>
-      { address => 'AA/BB.Cc', autolink => 0, relative => 0, normal => undef },
-    ' a a . b b . cc ' =>
-      { address => 'AA.BB.Cc', autolink => 0, relative => 0, normal => undef },
+    ' a a a ' =>
+      { topic => 'AAA', autolink => 0, relative => 'web', normal => undef },
+    ' a a a / b b ' =>
+      { address => 'AAA.BB', autolink => 0, relative => 0, normal => undef },
+    ' a a a . b b ' =>
+      { address => 'AAA.BB', autolink => 0, relative => 0, normal => undef },
+    ' a a a . b b / cc ' =>
+      { address => 'AAA/BB.Cc', autolink => 0, relative => 0, normal => undef },
+    ' a a a / b b . cc ' =>
+      { address => 'AAA/BB.Cc', autolink => 0, relative => 0, normal => undef },
+    ' a a a . b b . cc ' =>
+      { address => 'AAA.BB.Cc', autolink => 0, relative => 0, normal => undef },
 
     # Spacey
     ' aa ' =>
@@ -265,8 +265,8 @@ around tear_down => sub {
 
     $this->removeWebFixture('Aa')
       if ( Foswiki::Func::webExists('Aa') );
-    $this->removeWebFixture('AA')
-      if ( Foswiki::Func::webExists('AA') );
+    $this->removeWebFixture('AAA')
+      if ( Foswiki::Func::webExists('AAA') );
     $this->removeWebFixture('This(is)')
       if ( Foswiki::Func::webExists('This(is)') );
     $orig->( $this, @_ );
@@ -1907,7 +1907,7 @@ sub _create_link_test_fixtures {
     my $this = shift;
 
     $this->_create_topic( $this->test_web, 'Aa' );
-    $this->_create_topic( $this->test_web, 'AA' );
+    $this->_create_topic( $this->test_web, 'AAA' );
     $this->createNewFoswikiApp(
         engineParams => {
             initialAttributes =>
@@ -1916,17 +1916,17 @@ sub _create_link_test_fixtures {
     );
     Foswiki::Func::createWeb('Aa');
     $this->_create_topic( 'Aa', 'Bb' );
-    Foswiki::Func::createWeb('AA');
-    $this->_create_topic( 'AA', 'Bb' );
+    Foswiki::Func::createWeb('AAA');
+    $this->_create_topic( 'AAA', 'Bb' );
 
-    # Legacy behaviour - [[ aa . bb ]] -> AA.BB :(
-    $this->_create_topic( 'AA', 'BB' );
+    # Legacy behaviour - [[ aa . bb ]] -> AAA.BB :(
+    $this->_create_topic( 'AAA', 'BB' );
     Foswiki::Func::createWeb('Aa/Bb');
     $this->_create_topic( 'Aa/Bb', 'Cc' );
     Foswiki::Func::createWeb('Aa/bb');
     $this->_create_topic( 'Aa/bb', 'Cc' );
-    Foswiki::Func::createWeb('AA/BB');
-    $this->_create_topic( 'AA/BB', 'Cc' );
+    Foswiki::Func::createWeb('AAA/BB');
+    $this->_create_topic( 'AAA/BB', 'Cc' );
     Foswiki::Func::createWeb('This(is)');
     $this->_create_topic( 'This(is)', 'My!' );
 
@@ -1937,7 +1937,7 @@ sub _remove_link_test_fixtures {
     my $this = shift;
 
     $this->removeWebFixture('Aa');
-    $this->removeWebFixture('AA');
+    $this->removeWebFixture('AAA');
     $this->removeWebFixture('This(is)');
 
     return;
@@ -1991,9 +1991,9 @@ sub _uri_unescape {
 sub _check_rendered_linktext {
     my ( $this, $linktext, $expected ) = @_;
     my $editpath      = Foswiki::Func::getScriptUrlPath( undef, undef, 'edit' );
-    my $editpathregex = qr/^.*\Q$editpath\E\/([^"]*)/;
+    my $editpathregex = qr/^.*?\Q$editpath\E\/([^"]*)/;
     my $viewpath      = Foswiki::Func::getScriptUrlPath( undef, undef, 'view' );
-    my $viewpathregex = qr/^.*\Q$viewpath\E\/([^"]*)/;
+    my $viewpathregex = qr/^.*?\Q$viewpath\E\/([^"]*)/;
     my $html          = $this->test_topicObject->renderTML("[[$linktext]]");
     my $expectedAddress;
     my $expectedAddrObj;
@@ -2050,7 +2050,6 @@ sub test_sanity_link_tests {
 
     $this->_create_link_test_fixtures();
     while ( my ( $linktext, $expected ) = each %link_tests ) {
-
         if ($linktext) {
             $this->_check_rendered_linktext( $linktext, $expected );
         }

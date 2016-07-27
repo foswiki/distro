@@ -109,7 +109,7 @@ sub registerCallback {
 
 =begin TML
 
----++ ObjectMethod callback($name, @params)
+---++ ObjectMethod callback($name, \%params)
 
 =cut
 

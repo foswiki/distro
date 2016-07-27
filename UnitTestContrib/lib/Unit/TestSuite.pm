@@ -18,11 +18,7 @@ use Moo;
 use namespace::clean;
 extends qw( Unit::TestCase );
 
-# SMELL This property is a placeholder for test suite name parameter passed on
-# on object creation. Need to be reconsidered.
-has testSuite => ( is => 'rw', );
-
-our @_newParameters = qw( testSuite );
+#our @_newParameters = qw( testSuite );
 
 sub include_tests {
     return ();

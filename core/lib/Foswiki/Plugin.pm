@@ -268,7 +268,7 @@ sub registerHandlers {
 
     my $p         = $this->module;
     my $sub       = $p->can("initPlugin");
-    my $users     = $Foswiki::app->users;
+    my $users     = $this->app->users;
     my $status    = 0;
     my $exception = '';
     try {
@@ -284,7 +284,7 @@ sub registerHandlers {
             || $_->isa('Foswiki::OopsException')
             || $_->isa('Foswiki::ValidationException')
             || !ref($_)
-            || $Foswiki::inUnitTestMode )
+            || $this->app->inUnitTestMode )
         {
             # SMELL Not sure how did it work with with Error.pm and die of
             # errors previously.

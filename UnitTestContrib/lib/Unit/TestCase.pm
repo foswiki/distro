@@ -85,6 +85,7 @@ has verify_permutations => (
     lazy    => 1,
     default => sub { {} },
 );
+has testSuite => ( is => 'ro', required => 1, );
 
 =begin TML
 

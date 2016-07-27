@@ -465,6 +465,26 @@ sub load_class {
 
 =begin TML
 
+---++ StaticMethod validatePattern( $pattern ) -> $pattern
+
+Validate a pattern provided in a parameter to $pattern so that
+dangerous chars (interpolation and execution) are disabled.
+
+=cut
+
+sub validatePattern {
+    my $pattern = shift;
+
+    # Escape unescaped $ and @ characters that might interpolate
+    # an internal variable.
+    # There is no need to defuse (??{ and (?{ as perl won't allow
+    # it anyway, unless one uses re 'eval' which we won't do
+    $pattern =~ s/(^|[^\\])([\$\@])/$1\\$2/g;
+    return $pattern;
+}
+
+=begin TML
+
 ---++ StaticMethod entityEncode( $text [, $extras] ) -> $encodedText
 
 Escape special characters to HTML numeric entities. This is *not* a generic

@@ -52,6 +52,7 @@ sub resetPassword {
         my $err = $app->i18n->maketext(
             'Email has been disabled for this Foswiki installation');
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'register',
             topic    => $cfgData->{HomeTopicName},
             def      => 'reset_bad',

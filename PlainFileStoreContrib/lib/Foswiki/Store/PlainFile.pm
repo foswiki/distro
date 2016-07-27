@@ -1136,7 +1136,7 @@ sub _saveDamage {
     return unless ( _e $latest );
 
     if (   $Foswiki::cfg{Extensions}{PlainFileStoreContrib}{CheckForRCS}
-        && !$Foswiki::inUnitTestMode
+        && !$this->app->inUnitTestMode
         && _e("$latest,v") )
     {
         my $path =

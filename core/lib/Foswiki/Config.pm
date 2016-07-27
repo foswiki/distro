@@ -70,12 +70,12 @@ has data => (
     default => sub {
         my $this = shift;
         my $data = {};
-        $this->_setupGLOBs($data);
+        $this->assignGLOB($data);
         return $data;
     },
     trigger => sub {
         my $this = shift;
-        $this->_setupGLOBs;
+        $this->assignGLOB;
     },
 );
 
@@ -90,6 +90,25 @@ has files => (
     is      => 'rw',
     lazy    => 1,
     default => sub { [] },
+);
+
+=begin TML
+
+---++ ObjectAttribute lscFile
+
+Default filename for local site configuration. Can be set from the following
+sources (in the order from hight priority to lower):
+
+   * corresponding constructor parameter
+   * environment (or PSGI env) variable FOSWIKI_CONFIG
+   * default constant 'LocalSite.cfg'
+=cut
+
+has lscFile => (
+    is   => 'rwp',
+    lazy => 1,
+    default =>
+      sub { return $_[0]->app->env->{FOSWIKI_CONFIG} || 'LocalSite.cfg'; },
 );
 
 =begin TML
@@ -145,7 +164,7 @@ sub _workOutOS {
         $this->data->{DetailedOS} = $^O;
     }
     return if $this->data->{OS};
-    if ( $this->data->{DetailedOS} =~ m/darwin/i ) {    # MacOS X
+    if ( $this->data->{DetailedOS} =~ m/darwin/i ) {    # Mac OS X
         $this->data->{OS} = 'UNIX';
     }
     elsif ( $this->data->{DetailedOS} =~ m/Win/i ) {
@@ -205,7 +224,7 @@ around doLocalize => sub {
 
     $orig->( $this, @_ );
 
-    $this->_setupGLOBs;
+    $this->assignGLOB;
 };
 
 =begin TML
@@ -267,8 +286,9 @@ sub readConfig {
             }
         }
     }
+    my $lscFile = $this->lscFile;
     unless ($noLocal) {
-        push @{ $this->files }, 'LocalSite.cfg';
+        push @{ $this->files }, $lscFile;
     }
 
     for my $file ( @{ $this->files } ) {
@@ -283,7 +303,7 @@ sub readConfig {
             }
             next if ( !DEBUG && ( $file =~ m/Config\.spec$/ ) );
             if ( not defined $return ) {
-                unless ( $! == 2 && $file eq 'LocalSite.cfg' ) {
+                unless ( $! == 2 && $file eq $lscFile ) {
 
                     # LocalSite.cfg doesn't exist, which is OK
                     warn "couldn't do $file: $!";
@@ -558,8 +578,9 @@ sub bootstrapSystemSettings {
     $this->_bootstrapStoreSettings();
 
     if ($fatal) {
+        my $lscFile = $this->lscFile;
         Foswiki::Exception::Fatal->throw( text => <<EPITAPH );
-Unable to bootstrap configuration. LocalSite.cfg could not be loaded,
+Unable to bootstrap configuration. $lscFile could not be loaded,
 and Foswiki was unable to guess the locations of the following critical
 directories: $fatal
 EPITAPH
@@ -871,7 +892,7 @@ sub _bootstrapStoreSettings {
         # SMELL: The fork to `grep goes into a loop in the unit tests
         # Not sure why, for now just default to pure perl bootstrapping
         # in the unit tests.
-        if ( !$Foswiki::inUnitTestMode ) {
+        if ( !$this->app->inUnitTestMode ) {
 
             # Untaint PATH so we can check for grep on the path
             my $x = $ENV{PATH} || '';
@@ -949,6 +970,117 @@ sub setBootstrap {
     ASSERT( $this->data->{isBOOTSTRAPPING} );
     $this->data->{AisBOOTSTRAPPING} = 1;
     push( @{ $this->data->{BOOTSTRAP} }, @BOOTSTRAP );
+}
+
+=begin TML
+
+---++ ObjectMethod get()
+
+$app->cfg->get(Root => Branch => Leaf =>);
+$app->cfg->get([qw(Root Branch Leaf)]);
+$app->cfg->get("Root.Branch.Leaf");
+$app->cfg->get("{Root}{Branch}{Leaf}");
+
+=cut
+
+sub _validateCfgKey {
+    my $this = shift;
+    my ($keyName) = @_;
+
+    Foswiki::Exception::Cfg::InvalidKeyName->throw(
+        text    => "Key name cannot be undef",
+        keyName => undef,
+    ) unless defined($keyName);
+
+    Foswiki::Exception::Cfg::InvalidKeyName->throw(
+        text => "Key name must be a scalar value, not "
+          . ref($keyName)
+          . " reference",
+        keyName => $keyName,
+    ) if ref($keyName);
+
+    Foswiki::Exception::Cfg::InvalidKeyName->throw(
+        text    => "Invalid config key name `$keyName`",
+        keyName => $keyName,
+    ) unless $keyName =~ /^[[:alnum:]_]+$/;
+}
+
+sub _arg2keys {
+    my $this = shift;
+    my @keys;
+
+    if ( @_ == 1 ) {
+        if ( ref( $_[0] ) ) {
+            Foswiki::Exception::Fatal->throw(
+                text => "Reference passed is not an arrayref but "
+                  . ref( $_[0] ), )
+              unless ref( $_[0] ) eq 'ARRAY';
+            @keys = @{ $_[0] };
+        }
+        elsif ( $_[0] =~ /^(?:{[^{}]+})+$/ ) {
+            @keys = $_[0] =~ /{([^{}]+)}/g;
+        }
+        else {
+            @keys = split '.', $_[0];
+        }
+    }
+    elsif ( @_ > 1 ) {
+        @keys = @_;
+    }
+
+    Foswiki::Exception::Fatal->throw(
+        text => "No valid config keys found in the method arguments" )
+      unless @keys > 0;
+
+    $this->_validateCfgKey($_) foreach @keys;
+
+    return @keys;
+}
+
+sub _getSubHash {
+    my $this = shift;
+    my @keys = @_;
+
+    my $subHash = $this->data;
+    my $cfgPath;
+
+    while ( @keys > 1 ) {
+        my $key = shift @keys;
+        $cfgPath = defined $cfgPath ? "$cfgPath.$key" : $key;
+        $subHash = $subHash->{$key};
+        Foswiki::Exception::Fatal->throw(
+            text => "Not a hash ref value in $cfgPath", )
+          unless ref($subHash) eq 'HASH';
+    }
+
+    return ( $subHash, $keys[0] );
+}
+
+sub get {
+    my $this = shift;
+
+    my ( $subHash, $leafName ) = $this->_getSubHash( $this->_arg2keys(@_) );
+
+    return $subHash->{$leafName};
+}
+
+=begin TML
+
+---++ ObjectMethod set($cfgPath => $value)
+
+$app->cfg->set([qw(Root Branch Leaf)], $value);
+$app->cfg->set("Root.Branch.Leaf", $value);
+$app->cfg->set("{Root}{Branch}{Leaf}", $value);
+=cut
+
+sub set {
+    my $this = shift;
+    my ( $cfgPath, $value ) = @_;
+
+    my ( $subHash, $leafName ) =
+      $this->_getSubHash( $this->_arg2keys($cfgPath) );
+
+    $subHash->{$leafName} = $value;
 }
 
 =begin TML
@@ -1607,7 +1739,16 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
       unless defined $this->data->{ForceUnsafeRegexes};
 }
 
-sub _setupGLOBs {
+=begin TML
+
+---++ ObjectMethod assignGLOB()
+
+Sets the global =%Foswiki::cfg= hash to be an alias to the config's object
+=data= attribute.
+
+=cut
+
+sub assignGLOB {
     my $this = shift;
     my ($data) = @_;
 

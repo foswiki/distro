@@ -1489,7 +1489,7 @@ sub _prepareRequest {
 
 sub _prepareConfig {
     my $this = shift;
-    my $cfg = $this->create( 'Foswiki::Config', env => $this->env );
+    my $cfg  = $this->create('Foswiki::Config');
     $this->callback('postConfig');
     return $cfg;
 }

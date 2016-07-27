@@ -1279,7 +1279,7 @@ sub popApp {
 
     $Foswiki::app = $this->app;
 
-    $this->app->cfg->_setupGLOBs;
+    $this->app->cfg->assignGLOB;
     $this->_fixupAppObjects;
 }
 
