@@ -51,7 +51,11 @@ BEGIN {
 # to search algorithms (prior to Sven's massive search refactoring. It was
 # simply called 'search')
 sub _search {
-    my ( $searchString, $web, $inputTopicSet, $app, $options ) = @_;
+    my $this = shift;
+    my ( $searchString, $web, $inputTopicSet, $options ) = @_;
+
+    my $app     = $this->app;
+    my $cfgData = $app->cfg->data;
 
     # SMELL: I18N: 'grep' must use locales if needed,
     # for case-insensitive searching.
@@ -60,10 +64,10 @@ sub _search {
     if ( $options->{type}
         && ( $options->{type} eq 'regex' || $options->{wordboundaries} ) )
     {
-        $program = $Foswiki::cfg{Store}{EgrepCmd};
+        $program = $cfgData->{Store}{EgrepCmd};
     }
     else {
-        $program = $Foswiki::cfg{Store}{FgrepCmd};
+        $program = $cfgData->{Store}{FgrepCmd};
     }
 
     if ( $options->{casesensitive} ) {
@@ -88,7 +92,7 @@ sub _search {
         $searchString = '\b' . $searchString . '\b';
     }
 
-    if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) {
+    if ( $cfgData->{DetailedOS} eq 'MSWin32' ) {
 
         #try to escape the ^ and "" for native windows grep and apache
         $searchString =~ s/\[\^/[^^/g;
@@ -102,7 +106,7 @@ sub _search {
     my $matches = '';
 
     #SMELL, TODO, replace with Store call.
-    my $sDir = $Foswiki::cfg{DataDir} . '/' . $web . '/';
+    my $sDir = $cfgData->{DataDir} . '/' . $web . '/';
 
     # process topics in sets, fix for Codev.ArgumentListIsTooLongForSearch
     my $maxTopicsInSet = 512;    # max number of topics for a grep call
@@ -112,7 +116,7 @@ sub _search {
         # as this is a leaky abstraction.
         # heck, on pre WinXP its only 2048, post XP its 8191 -
         # http://support.microsoft.com/kb/830473
-    if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' ) {
+    if ( $cfgData->{DetailedOS} eq 'MSWin32' ) {
 
         #tune the number based on the length of "$sDir/WebSearchAdvanced.txt"
         #30 is a guess - wotamess
@@ -177,8 +181,10 @@ sub _search {
 
 #ok, for initial validation, naively call the code with a web.
 sub _webQuery {
-    my ( $this, $query, $web, $inputTopicSet, $app, $options ) = @_;
+    my ( $this, $query, $web, $inputTopicSet, $options ) = @_;
     ASSERT( !$query->isEmpty() ) if DEBUG;
+
+    my $app = $this->app;
 
     #print STDERR "ForkingSEARCH(".join(', ', @{ $query->tokens() }).")\n";
     # default scope is 'text'
@@ -244,7 +250,7 @@ sub _webQuery {
         # scope='text', e.g. grep search on topic text:
         unless ( $options->{'scope'} eq 'topic' ) {
             my $textMatches =
-              _search( $tokenCopy, $web, $topicSet, $app, $options );
+              $this->_search( $tokenCopy, $web, $topicSet, $options );
 
             #bring the text matches into the topicMatch hash
             if ($textMatches) {

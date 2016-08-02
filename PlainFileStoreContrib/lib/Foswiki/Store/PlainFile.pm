@@ -861,7 +861,9 @@ sub remove {
 
 # Implement Foswiki::Store
 sub query {
-    my ( $this, $query, $inputTopicSet, $app, $options ) = @_;
+    my ( $this, $query, $inputTopicSet, $options ) = @_;
+
+    my $app = $this->app;
 
     my $searchEngine;
     if ( $query->isa('Foswiki::Query::Node') ) {
@@ -904,7 +906,7 @@ sub query {
     }
 
     no strict 'refs';
-    return $searchEngine->query( $query, $inputTopicSet, $app, $options );
+    return $searchEngine->query( $query, $inputTopicSet, $options );
     use strict 'refs';
 }
 

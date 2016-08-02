@@ -19,14 +19,18 @@ use Cwd;
 use Try::Tiny;
 use Storable qw(dclone);
 use Foswiki qw(%regex);
-use CGI                ();
-use Compress::Zlib     ();
-use Foswiki::Config    ();
-use Foswiki::Engine    ();
-use Foswiki::Templates ();
-use Foswiki::Exception ();
-use Foswiki::Sandbox   ();
-use Foswiki qw(load_package load_class);
+
+# SMELL CGI is only used for generating a simple error page using HTML tags
+# shortcut functions. Must be replaced with something more reasonable.
+use CGI ();
+use Compress::Zlib;
+use Foswiki::Engine;
+use Foswiki::Templates;
+use Foswiki::Exception;
+use Foswiki::Sandbox;
+use Foswiki::WebFilter;
+use Foswiki::Time;
+use Foswiki qw(load_package load_class isTrue);
 
 use Moo;
 use namespace::clean;
@@ -950,10 +954,10 @@ sub satisfiedByCache {
     my $cachedPage = $cache->getPage( $web, $topic ) if $cache;
     return 0 unless $cachedPage;
 
-    Foswiki::Func::writeDebug("found $web.$topic for $action in cache")
+    $this->writeDebug("found $web.$topic for $action in cache")
       if Foswiki::PageCache::TRACE();
     if ( int( $this->response->status || 200 ) >= 500 ) {
-        Foswiki::Func::writeDebug(
+        $this->writeDebug(
             "Cache retrieval skipped due to non-200 status code "
               . $this->response->status )
           if DEBUG;
@@ -1607,8 +1611,8 @@ sub _checkActionAccess {
     my $req             = $this->request;
     my $dispatcherAttrs = $this->_dispatcherAttrs;
 
-    if (   UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' )
-        || UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::Test' ) )
+    if (   UNIVERSAL::isa( $this->engine, 'Foswiki::Engine::CLI' )
+        || UNIVERSAL::isa( $this->engine, 'Foswiki::Engine::Test' ) )
     {
         # Done in _prepareContext
         #$dispatcherAttrs->{context}{command_line} = 1;
@@ -1654,6 +1658,2139 @@ sub _checkActionAccess {
 
 sub _validCallbacks {
     return qw(handleRequestException postConfig);
+}
+
+#
+# API Section
+#
+
+=begin TML
+
+---++ API methods
+
+=cut
+
+# Given $web, $web and $topic, or $web $topic and $attachment, validate
+# and untaint each of them and return. If any fails to validate it will
+# be returned as undef.
+sub _checkWTA {
+    my $this = shift;
+    my ( $web, $topic, $attachment ) = @_;
+    if ( defined $topic ) {
+        ( $web, $topic ) =
+          $this->request->normalizeWebTopicName( $web, $topic );
+    }
+    if ( Scalar::Util::tainted($web) ) {
+        $web = Foswiki::Sandbox::untaint( $web,
+            \&Foswiki::Sandbox::validateWebName );
+    }
+    return ($web) unless defined $web && defined $topic;
+
+    if ( Scalar::Util::tainted($topic) ) {
+        $topic = Foswiki::Sandbox::untaint( $topic,
+            \&Foswiki::Sandbox::validateTopicName );
+    }
+    return ( $web, $topic ) unless defined $topic && defined $attachment;
+
+    if ( Scalar::Util::tainted($attachment) ) {
+        $attachment = Foswiki::Sandbox::untaint( $attachment,
+            \&Foswiki::Sandbox::validateAttachmentName );
+    }
+    return ( $web, $topic, $attachment );
+
+}
+
+# Validate a web.topic.attachment and throw an exception if the
+# validation fails
+sub _validateWTA {
+    my $this = shift;
+    my ( $web, $topic, $attachment ) = @_;
+    my ( $w, $t, $a ) = $this->_checkWTA( $web, $topic, $attachment );
+    die 'Invalid web'        if ( defined $web        && !defined $w );
+    die 'Invalid topic'      if ( defined $topic      && !defined $t );
+    die 'Invalid attachment' if ( defined $attachment && !defined $a );
+    return ( $w, $t, $a );
+}
+
+=begin TML
+
+---+++ ObjectMethod getUrlHost( ) -> $host
+
+Get protocol, domain and optional port of script URL
+
+Return: =$host= URL host, e.g. ="http://example.com:80"=
+
+=cut
+
+sub getUrlHost {
+    return $_[0]->cfg->urlHost;
+}
+
+=begin TML
+
+---+++ ObjectMethod getScriptUrl( $web, $topic, $script, ... ) -> $url
+
+Compose fully qualified URL
+   * =$web=    - Web name, e.g. ='Main'=
+   * =$topic=  - Topic name, e.g. ='WebNotify'=
+   * =$script= - Script name, e.g. ='view'=
+   * =...= - an arbitrary number of name=>value parameter pairs that will be url-encoded and added to the url. The special parameter name '#' is reserved for specifying an anchor. e.g. <tt>getScriptUrl('x','y','view','#'=>'XXX',a=>1,b=>2)</tt> will give <tt>.../view/x/y?a=1&b=2#XXX</tt>
+
+Return: =$url=       URL, e.g. ="http://example.com:80/cgi-bin/view.pl/Main/WebNotify"=
+
+*Examples:*
+<verbatim class="perl">
+my $url;
+# $url eq 'http://wiki.example.org/url/to/bin'
+$url = $app->getScriptUrl();
+# $url eq 'http://wiki.example.org/url/to/bin/edit'
+$url = $app->getScriptUrl(undef, undef, 'edit');
+# $url eq 'http://wiki.example.org/url/to/bin/edit/Web/Topic'
+$url = $app->getScriptUrl('Web', 'Topic', 'edit');</verbatim>
+
+=cut
+
+sub getScriptUrl {
+    my $this   = shift;
+    my $web    = shift;
+    my $topic  = shift;
+    my $script = shift;
+
+    return $this->cfg->getScriptUrl( 1, $script, $web, $topic, @_ );
+}
+
+=begin TML
+
+---+++ ObjectMethod getScriptUrlPath( $web, $topic, $script, ... ) -> $path
+
+Compose absolute URL path. See $app->getScriptUrl
+
+*Examples:*
+<verbatim class="perl">
+my $path;
+# $path eq '/path/to/bin'
+$path = $app->getScriptUrlPath();
+# $path eq '/path/to/bin/edit'
+$path = $app->getScriptUrlPath(undef, undef, 'edit');
+# $path eq '/path/to/bin/edit/Web/Topic'
+$path = $app->getScriptUrlPath('Web', 'Topic', 'edit');</verbatim>
+
+*Since:* 19 Jan 2012 (when called without parameters, this function is
+backwards-compatible with the old version which was deprecated 28 Nov 2008).
+
+=cut
+
+sub getScriptUrlPath {
+    my $this   = shift;
+    my $web    = shift;
+    my $topic  = shift;
+    my $script = shift;
+
+    return $this->cfg->getScriptUrl( 0, $script, $web, $topic, @_ );
+}
+
+=begin TML
+
+---+++ ObjectMethod getViewUrl( $web, $topic ) -> $url
+
+Compose fully qualified view URL
+   * =$web=   - Web name, e.g. ='Main'=. The current web is taken if empty
+   * =$topic= - Topic name, e.g. ='WebNotify'=
+Return: =$url=      URL, e.g. ="http://example.com:80/cgi-bin/view.pl/Main/WebNotify"=
+
+=cut
+
+sub getViewUrl {
+    my $this = shift;
+    my ( $web, $topic ) = @_;
+
+    $web ||= $this->request->web || $this->cfg->data->{UsersWebName};
+    return $this->getScriptUrl( $web, $topic, 'view' );
+}
+
+=begin TML
+
+---+++ ObjectMethod getSessionKeys() -> @keys
+Get a list of all the names of session variables. The list is unsorted.
+
+Session keys are stored and retrieved using =setSessionValue= and
+=getSessionValue=.
+
+=cut
+
+sub getSessionKeys {
+    my $this = shift;
+    my $hash = $this->getLoginManager->getSessionValues;
+    return keys %{$hash};
+}
+
+=begin TML
+
+---+++ ObjectMethod pushTopicContext($web, $topic)
+   * =$web= - new web
+   * =$topic= - new topic
+Change the Foswiki context, adding the requested =$web.$topic= onto the
+preferences stack.  Any preferences found in =$web.$topic= will be used
+in place of preferences previously set in the stack, provided that they
+were not finalized in a lower level.  Preferences set in the prior
+=web.topic= are *not* cleared.  =$web.$topic= replaces and adds to
+preferences but does not remove preferences that it does not set.
+
+Note that if the new topic is not readable by the logged in user due to
+access control considerations, there will *not* be an exception. It is the
+duty of the caller to check access permissions before changing the topic.
+All other errors will throw an exception.
+
+It is the duty of the caller to restore the original context by calling
+=popTopicContext=.
+
+Note that this call does *not* re-initialise plugins, so if you have used
+global variables to remember the web and topic in =initPlugin=, then those
+values will be unchanged.
+
+=cut
+
+sub pushTopicContext {
+    my $this = shift;
+    my ( $web, $topic ) = $this->_validateWTA(@_);
+
+    $this->prefs->pushTopicContext( $web, $topic );
+    $this->request->web($web);
+    $this->request->topic($topic);
+    $this->prefs->setInternalPreferences(
+        BASEWEB        => $web,
+        BASETOPIC      => $topic,
+        INCLUDINGWEB   => $web,
+        INCLUDINGTOPIC => $topic
+    );
+}
+
+=begin TML
+
+---+++ ObjectMethod popTopicContext()
+
+Returns the Foswiki context to the state it was in before the
+=pushTopicContext= was called.
+
+=cut
+
+sub popTopicContext {
+    my $this = shift;
+    my ( $web, $topic ) = $this->prefs->popTopicContext();
+    $this->request->web($web);
+    $this->request->topic($topic);
+}
+
+=begin TML
+
+---+++ ObjectMethod getDefaultUserName -> $loginName
+Get default user name as defined in the configuration as =DefaultUserLogin=
+
+Return: =$loginName= Default user name, e.g. ='guest'=
+
+=cut
+
+sub getDefaultUserName {
+    my $this = shift;
+    return $this->cfg->data->{DefaultUserLogin};
+}
+
+=begin TML
+
+---+++ ObjectMethod getCanonicalUserID( $user ) -> $cUID
+   * =$user= can be a login, wikiname or web.wikiname
+Return the cUID of the specified user. A cUID is a unique identifier which
+is assigned by Foswiki for each user.
+BEWARE: While the default TopicUserMapping uses a cUID that looks like a user's
+LoginName, some characters may be modified to make them compatible with rcs.
+Other usermappings may use other conventions - the !JoomlaUserMapping
+for example, has cUIDs like 'JoomlaeUserMapping_1234'.
+
+If $user is undefined, it assumes the currently logged-in user.
+
+Return: =$cUID=, an internal unique and portable escaped identifier for
+registered users. This may be autogenerated for an authenticated but
+unregistered user.
+
+=cut
+
+sub getCanonicalUserID {
+    my $this = shift;
+    my $user = shift;
+    return $this->user unless ($user);
+    my $cUID = $this->users->getCanonicalUserID($user);
+    if ( !$cUID ) {
+
+        # Not a login name or a wiki name. Is it a valid cUID?
+        my $ln = $this->users->getLoginName($user);
+        $cUID = $user if defined $ln && $ln ne 'unknown';
+    }
+    return $cUID;
+}
+
+=begin TML
+
+---+++ ObjectMethod getWikiName( $user ) -> $wikiName
+
+return the WikiName of the specified user
+if $user is undefined Get Wiki name of logged in user
+
+   * $user can be a cUID, login, wikiname or web.wikiname
+
+Return: =$wikiName= Wiki Name, e.g. ='JohnDoe'=
+
+=cut
+
+sub getWikiName {
+    my $this = shift;
+    my $user = shift;
+    my $cUID = $this->getCanonicalUserID($user);
+    unless ( defined $cUID ) {
+        my ( $w, $u ) =
+          normalizeWebTopicName( $this->cfg->data->{UsersWebName}, $user );
+        return $u;
+    }
+    return $this->users->getWikiName($cUID);
+}
+
+=begin TML
+
+---+++ ObjectMethod getWikiUserName( $user ) -> $wikiName
+
+return the userWeb.WikiName of the specified user
+if $user is undefined Get Wiki name of logged in user
+
+   * $user can be a cUID, login, wikiname or web.wikiname
+
+Return: =$wikiName= Wiki Name, e.g. ="Main.JohnDoe"=
+
+=cut
+
+sub getWikiUserName {
+    my $this = shift;
+    my $user = shift;
+    my $cUID = $this->getCanonicalUserID($user);
+    unless ( defined $cUID ) {
+        my ( $w, $u ) =
+          normalizeWebTopicName( $this->cfg->data->{UsersWebName}, $user );
+        return "$w.$u";
+    }
+    return $this->users->webDotWikiName($cUID);
+}
+
+=begin TML
+
+---+++ ObjectMethod wikiToUserName( $id ) -> $loginName
+Translate a Wiki name to a login name.
+   * =$id= - Wiki name, e.g. ='Main.JohnDoe'= or ='JohnDoe'=.
+     $id may also be a login name. This will normally
+     be transparent, but should be borne in mind if you have login names
+     that are also legal wiki names.
+
+Return: =$loginName=   Login name of user, e.g. ='jdoe'=, or undef if not
+matched.
+
+Note that it is possible for several login names to map to the same wikiname.
+This function will only return the *first* login name that maps to the
+wikiname.
+
+returns undef if the WikiName is not found.
+
+=cut 
+
+sub wikiToUserName {
+    my $this = shift;
+    my ($wiki) = @_;
+    return '' unless $wiki;
+
+    my $cUID = $this->getCanonicalUserID($wiki);
+    if ($cUID) {
+        my $login = $this->users->getLoginName($cUID);
+        return if !$login || $login eq 'unknown';
+        return $login;
+    }
+    return;
+}
+
+=begin TML
+
+---+++ ObjectMethod userToWikiName( $loginName, $dontAddWeb ) -> $wikiName
+Translate a login name to a Wiki name
+   * =$loginName=  - Login name, e.g. ='jdoe'=. This may
+     also be a wiki name. This will normally be transparent, but may be
+     relevant if you have login names that are also valid wiki names.
+   * =$dontAddWeb= - Do not add web prefix if ="1"=
+Return: =$wikiName=      Wiki name of user, e.g. ='Main.JohnDoe'= or ='JohnDoe'=
+
+userToWikiName will always return a name. If the user does not
+exist in the mapping, the $loginName parameter is returned. (backward compatibility)
+
+=cut
+
+sub userToWikiName {
+    my $this = shift;
+    my ( $login, $dontAddWeb ) = @_;
+    return '' unless $login;
+    my $users = $this->users;
+    my $user  = $this->getCanonicalUserID($login);
+    return (
+          $dontAddWeb
+        ? $login
+        : ( $this->cfg->data->{UsersWebName} . '.' . $login )
+    ) unless $user and $users->userExists($user);
+    return $users->getWikiName($user) if $dontAddWeb;
+    return $users->webDotWikiName($user);
+}
+
+=begin TML
+
+---+++ ObjectMethod emailToWikiNames( $email, $dontAddWeb ) -> @wikiNames
+   * =$email= - email address to look up
+   * =$dontAddWeb= - Do not add web prefix if ="1"=
+Find the wikinames of all users who have the given email address as their
+registered address. Since several users could register with the same email
+address, this returns a list of wikinames rather than a single wikiname.
+
+=cut
+
+sub emailToWikiNames {
+    my $this = shift;
+    my ( $email, $dontAddWeb ) = @_;
+    ASSERT($email) if DEBUG;
+
+    my %matches;
+    my $users = $this->users;
+    my $ua    = $users->findUserByEmail($email);
+    if ($ua) {
+        foreach my $user (@$ua) {
+            if ($dontAddWeb) {
+                $matches{ $users->getWikiName($user) } = 1;
+            }
+            else {
+                $matches{ $users->webDotWikiName($user) } = 1;
+            }
+        }
+    }
+
+    return sort keys %matches;
+}
+
+=begin TML
+
+---+++ ObjectMethod wikinameToEmails( $user ) -> @emails
+   * =$user= - wikiname of user to look up
+Returns the registered email addresses of the named user. If $user is
+undef, returns the registered email addresses for the logged-in user.
+
+$user may also be a group.
+
+=cut
+
+sub wikinameToEmails {
+    my $this       = shift;
+    my ($wikiname) = @_;
+    my $users      = $this->users;
+    if ($wikiname) {
+        if ( $users->isGroup($wikiname) ) {
+            return $users->getEmails($wikiname);
+        }
+        else {
+            my $uids = $users->findUserByWikiName($wikiname);
+            my @em   = ();
+            foreach my $user (@$uids) {
+                push( @em, $users->getEmails($user) );
+            }
+            return @em;
+        }
+    }
+    my $user = $this->user;
+    return $users->getEmails($user);
+}
+
+=begin TML
+
+---+++ ObjectMethod isGuest( ) -> $boolean
+
+Test if logged in user is a guest (WikiGuest)
+
+=cut
+
+sub isGuest {
+    my $this = shift;
+    return $this->user eq
+      $this->users->getCanonicalUserID( $this->cfg->data->{DefaultUserLogin} );
+}
+
+=begin TML
+
+---+++ ObjectMethod isAnAdmin( $id ) -> $boolean
+
+Find out if the user is an admin or not. If the user is not given,
+the currently logged-in user is assumed.
+   * $id can be either a login name or a WikiName
+
+=cut
+
+sub isAnAdmin {
+    my $this = shift;
+    my $user = shift;
+    return $this->users->isAdmin( $this->getCanonicalUserID($user) );
+}
+
+=begin TML
+
+---+++ ObjectMethod isGroupMember( $group, $id, $options ) -> $boolean
+
+Find out if $id is in the named group.  The expand option controls whether or not nested groups are searched.
+
+e.g. Is jordi in the HesperionXXGroup, and not in a nested group. e.g.
+<verbatim>
+if( $app->isGroupMember( "HesperionXXGroup", "jordi", { expand => 0 } )) {
+    ...
+}
+</verbatim>
+If =$user= is =undef=, it defaults to the currently logged-in user.
+
+   * $id can be a login name or a WikiName
+   * Nested groups are expanded unless $options{ expand => } is set to false.
+
+=cut
+
+sub isGroupMember {
+    my $this = shift;
+    my ( $group, $user, $options ) = @_;
+    my $users = $this->users;
+
+    my $expand = isTrue( $options->{expand}, 1 );
+
+    return () unless $users->isGroup($group);
+    if ($user) {
+
+        #my $login = wikiToUserName( $user );
+        #return 0 unless $login;
+        $user = $this->getCanonicalUserID($user) || $user;
+    }
+    else {
+        $user = $this->user;
+    }
+    return $users->isInGroup( $user, $group, { expand => $expand } );
+}
+
+=begin TML
+
+---+++ ObjectMethod eachUser() -> $iterator
+Get an iterator over the list of all the registered users *not* including
+groups. The iterator will return each wiki name in turn (e.g. 'FredBloggs').
+
+Use it as follows:
+<verbatim>
+    my $it = $app->eachUser();
+    while ($it->hasNext()) {
+        my $user = $it->next();
+        # $user is a wikiname
+    }
+</verbatim>
+
+*WARNING* on large sites, this could be a long list!
+
+=cut
+
+# SMELL Better be something like usersIterator method in Foswiki::Users.
+sub eachUser {
+    my $this  = shift;
+    my $users = $this->users;
+    my $it    = $users->eachUser();
+    $it->process(
+        sub {
+            return $users->getWikiName( $_[0] );
+        }
+    );
+    return $it;
+}
+
+=begin TML
+
+---+++ ObjectMethod eachMembership($id) -> $iterator
+   * =$id= - WikiName or login name of the user.
+     If =$id= is =undef=, defaults to the currently logged-in user.
+Get an iterator over the names of all groups that the user is a member of.
+
+=cut
+
+sub eachMembership {
+    my $this   = shift;
+    my ($user) = @_;
+    my $users  = $this->users;
+
+    if ($user) {
+        my $login = $this->wikiToUserName($user);
+        return 0 unless $login;
+        $user = $this->getCanonicalUserID($login);
+    }
+    else {
+        $user = $this->user;
+    }
+
+    return $users->eachMembership($user);
+}
+
+=begin TML
+
+---+++ eachGroupMember($group) -> $iterator
+Get an iterator over all the members of the named group. Returns undef if
+$group is not a valid group.  Nested groups are expanded unless the
+expand option is set to false.
+
+Use it as follows:  Process all users in RadioHeadGroup without expanding nested groups
+<verbatim>
+    my $iterator = $app->eachGroupMember('RadioheadGroup', {expand => 'false');
+    while ($it->hasNext()) {
+        my $user = $it->next();
+        # $user is a wiki name e.g. 'TomYorke', 'PhilSelway'
+        #   With expand set to false, group names can also be returned.
+        #   Users are not checked to exist.
+    }
+</verbatim>
+
+*WARNING* on large sites, this could be a long list!
+
+=cut
+
+sub eachGroupMember {
+    my $this = shift;
+    my ( $user, $options ) = @_;
+
+    my $users = $this->users;
+
+    my $expand = isTrue( $options->{expand}, 1 );
+
+    return
+      unless $users->isGroup($user);
+    my $it = $users->eachGroupMember( $user, { expand => $expand } );
+    $it->process(
+        sub {
+            return $users->getWikiName( $_[0] );
+        }
+    );
+    return $it;
+}
+
+=begin TML
+
+---+++ addUserToGroup( $id, $group, $create ) -> $boolean
+
+   * $id can be a login name or a WikiName
+
+=cut
+
+sub addUserToGroup {
+    my $this = shift;
+    my ( $user, $group, $create ) = @_;
+    my $users = $this->users;
+
+    return () unless ( $users->isGroup($group) || $create );
+    if ( defined $user && !$users->isGroup($user) )
+    {    #requires isInGroup to also work on nested groupnames
+        $user = $this->getCanonicalUserID($user) || $user;
+        return unless ( defined($user) );
+    }
+    return $users->addUserToGroup( $user, $group, $create );
+}
+
+=begin TML
+
+---+++ removeUserFromGroup( $group, $id ) -> $boolean
+
+   * $id can be a login name or a WikiName
+
+=cut
+
+sub removeUserFromGroup {
+    my $this = shift;
+    my ( $user, $group ) = @_;
+    my $users = $this->users;
+
+    return () unless $users->isGroup($group);
+
+    if ( !$users->isGroup($user) )
+    {    #requires isInGroup to also work on nested groupnames
+        $user = $this->getCanonicalUserID($user) || $user;
+        return unless ( defined($user) );
+    }
+    return $users->removeUserFromGroup( $user, $group );
+}
+
+=begin TML
+
+---+++ ObjectMethod checkAccessPermission( $type, $id, $text, $topic, $web, $meta ) -> $boolean
+
+Check access permission for a topic based on the
+[[%SYSTEMWEB%.AccessControl]] rules
+   * =$type=     - Access type, required, e.g. ='VIEW'=, ='CHANGE'=.
+   * =$id=  - WikiName of remote user, required, e.g. ="RickShaw"=.
+     $id may also be a login name.
+     If =$id= is '', 0 or =undef= then access is *always permitted*.  This is used
+     by other functions if the caller should be able to bypass access checks.
+   * =$text=     - Topic text, optional. If 'perl false' (undef, 0 or ''),
+     topic =$web.$topic= is consulted. =$text= may optionally contain embedded
+     =%META:PREFERENCE= tags. Provide this parameter if:
+      1 You are setting different access controls in the text to those defined
+      in the stored topic,
+      1 You already have the topic text in hand, and want to help avoid
+        having to read it again,
+      1 You are providing a =$meta= parameter.
+   * =$topic=    - Topic name, optional, e.g. ='PrivateStuff'=, '' or =undef=
+      * If undefined, the Web preferences are checked.
+      * If null, the default (WebHome) topic is checked.
+      * If topic specified but does not exist, the web preferences are checked, 
+      allowing the caller to determine 
+      _"If the topic existed, would the operation be permitted"._
+   * =$web=      - Web name, required, e.g. ='Sandbox'=
+      * If missing, the default Users Web (Main) is used.
+   * =$meta=     - Meta-data object, as returned by =readTopic=. Optional.
+     If =undef=, but =$text= is defined, then access controls will be parsed
+     from =$text=. If defined, then metadata embedded in =$text= will be
+     ignored. This parameter is always ignored if =$text= is undefined.
+     Settings in =$meta= override =Set= settings in $text.
+A perl true result indicates that access is permitted.
+
+*Note* the weird parameter order is due to compatibility constraints with
+earlier releases.
+
+<blockquote class="foswikiHelp">
+%T% *Tip:* if you want, you can use this method to check your own access control types. For example, if you:
+   * Set ALLOWTOPICSPIN = IncyWincy
+in =ThatWeb.ThisTopic=, then a call to =checkAccessPermission('SPIN', 'IncyWincy', undef, 'ThisTopic', 'ThatWeb', undef)= will return =true=.
+</blockquote>
+
+*Example code:*
+
+<verbatim>
+    use Try::Tiny;
+    use Foswiki::AccessControlException;
+    ...
+    unless (
+        $app->checkAccessPermission(
+            "VIEW", $session->{user}, undef, $topic, $web
+        )
+      )
+    {
+        Foswiki::AccessControlException->throw( "VIEW", $session->{user}, $web,
+            $topic,  $Foswiki::Meta::reason );
+    }
+</verbatim>
+
+=cut
+
+sub checkAccessPermission {
+    my $this = shift;
+    my ( $type, $user, $text, $inTopic, $inWeb, $meta ) = @_;
+    return 1 unless ($user);
+
+    my ( $web, $topic ) = $this->_checkWTA( $inWeb, $inTopic );
+    return 0 unless defined $web;    #Web name is illegal.
+    if ( defined $inTopic ) {
+        my $top = $topic;
+        return 0 unless ( defined $topic );    #Topic name is illegal
+    }
+
+    $text = undef unless $text;
+    my $cUID = $this->getCanonicalUserID($user)
+      || $this->getCanonicalUserID( $this->cfg->data->{DefaultUserLogin} );
+    if ( !defined($meta) ) {
+        if ($text) {
+            $meta = $this->create(
+                'Foswiki::Meta',
+                web   => $web,
+                topic => $topic,
+                text  => $text
+            );
+        }
+        else {
+            $meta = Foswiki::Meta->load( $this, $web, $topic );
+        }
+    }
+    elsif ($text) {
+
+        # don't alter an existing $meta using the provided text;
+        # use a temporary clone instead
+        my $tmpMeta = $this->create(
+            'Foswiki::Meta',
+            web   => $web,
+            topic => $topic,
+            text  => $text
+        );
+        $tmpMeta->copyFrom($meta);
+        $meta = $tmpMeta;
+
+    }    # Otherwise meta overrides text - Item2953
+
+    return $meta->haveAccess( $type, $cUID );
+}
+
+=begin TML
+
+---+++ ObjectMethod getListOfWebs( $filter [, $web] ) -> @webs
+
+   * =$filter= - spec of web types to recover
+Gets a list of webs, filtered according to the spec in the $filter,
+which may include one of:
+   1 'user' (for only user webs)
+   2 'template' (for only template webs i.e. those starting with "_")
+=$filter= may also contain the word 'public' which will further filter
+out webs that have NOSEARCHALL set on them.
+'allowed' filters out webs the current user can't read.
+   * =$web= - (*Since* 2009-01-01) name of web to get list of subwebs for. Defaults to the root.
+              note that if set, the list will not contain the web specified in $web
+
+For example, the deprecated getPublicWebList function can be duplicated
+as follows:
+<verbatim>
+   my @webs = $app->getListOfWebs( "user,public" );
+</verbatim>
+
+=cut
+
+sub getListOfWebs {
+    my $this   = shift;
+    my $filter = shift;
+    my $web    = shift;
+    if ( defined $web ) {
+        $web = $this->_checkWTA($web);
+        return () unless defined $web;
+    }
+    my $f = new Foswiki::WebFilter( $filter || '' );
+    return $this->deepWebList( $f, $web );
+}
+
+=begin TML
+
+---+++ ObjectMethod webExists( $web ) -> $boolean
+
+Test if web exists
+   * =$web= - Web name, required, e.g. ='Sandbox'=
+
+=cut
+
+sub webExists {
+    my $this = shift;
+    my ($web) = $this->_checkWTA(@_);
+    return 0 unless defined $web;
+
+    return $this->store->webExists($web);
+}
+
+=begin TML
+
+---+++ ObjectMethod topicExists( $web, $topic ) -> $boolean
+
+Test if topic exists
+   * =$web=   - Web name, optional, e.g. ='Main'=.
+   * =$topic= - Topic name, required, e.g. ='TokyoOffice'=, or ="Main.TokyoOffice"=
+
+$web and $topic are parsed as described in the documentation for =normalizeWebTopicName=.
+Specifically, the %USERSWEB% is used if $web is not specified and $topic has no web specifier.
+To get an expected behaviour it is recommened to specify the current web for $web; don't leave it empty.
+
+=cut
+
+sub topicExists {
+    my $this = shift;
+    my ( $web, $topic ) = $this->_checkWTA(@_);
+    return 0 unless defined $web && defined $topic;
+    return $this->store->topicExists( $web, $topic );
+}
+
+=begin TML
+
+---+++ ObjectMethod readTopic( $web, $topic, $rev ) -> ( $meta, $text )
+
+Read topic text and meta data, regardless of access permissions.
+   * =$web= - Web name, required, e.g. ='Main'=
+   * =$topic= - Topic name, required, e.g. ='TokyoOffice'=
+   * =$rev= - revision to read (default latest)
+Return: =( $meta, $text )= Meta data object and topic text
+
+=$meta= is a perl 'object' of class =Foswiki::Meta=. This class is
+fully documented in the source code documentation shipped with the
+release, or can be inspected in the =lib/Foswiki/Meta.pm= file.
+
+This method *ignores* topic access permissions. You should be careful to use
+=checkAccessPermission= to ensure the current user has read access to the
+topic.
+
+=cut
+
+sub readTopic {
+    my $this = shift;
+
+    my ( $web, $topic, $rev ) = @_;
+    ( $web, $topic ) = $this->_validateWTA( $web, $topic );
+
+    my $meta = Foswiki::Meta->load( $this, $web, $topic, $rev );
+    return ( $meta, $meta->text() );
+}
+
+=begin TML
+
+---+++ ObjectMethod getTopicList( $web ) -> @topics
+
+Get list of all topics in a web
+   * =$web= - Web name, required, e.g. ='Sandbox'=
+Return: =@topics= Topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'WebNotify' )=
+
+=cut
+
+sub getTopicList {
+    my $this = shift;
+
+    my ($web) = $this->_validateWTA(@_);
+
+    my $webObject = $this->create( 'Foswiki::Meta', web => $web );
+    my $it = $webObject->eachTopic();
+    return $it->all();
+}
+
+=begin TML
+
+---+++ ObjectMethod getRevisionInfo($web, $topic, $rev, $attachment ) -> ( $date, $user, $rev, $comment ) 
+
+Get revision info of a topic or attachment
+   * =$web= - Web name, optional, e.g. ='Main'=
+   * =$topic=   - Topic name, required, e.g. ='TokyoOffice'=
+   * =$rev=     - revsion number, or tag name (can be in the format 1.2, or just the minor number)
+   * =$attachment=                 -attachment filename
+Return: =( $date, $user, $rev, $comment )= List with: ( last update date, login name of last user, minor part of top revision number, comment of attachment if attachment ), e.g. =( 1234561, 'phoeny', "5",  )=
+| $date | in epochSec |
+| $user | Wiki name of the author (*not* login name) |
+| $rev | actual rev number |
+| $comment | comment given for uploaded attachment |
+
+NOTE: if you are trying to get revision info for a topic, use
+=$meta->getRevisionInfo= instead if you can - it is significantly
+more efficient.
+
+=cut
+
+sub getRevisionInfo {
+    my $this = shift;
+    my ( $web, $topic, $rev, $attachment ) = @_;
+
+    ( $web, $topic ) = $this->_validateWTA( $web, $topic );
+
+    my $topicObject;
+    my $info;
+    if ($attachment) {
+        $topicObject = Foswiki::Meta->load( $this, $web, $topic );
+        $info = $topicObject->getRevisionInfo( $attachment, $rev );
+    }
+    else {
+        $topicObject = Foswiki::Meta->load( $this, $web, $topic, $rev );
+        $info = $topicObject->getRevisionInfo();
+    }
+    return ( $info->{date}, $this->users->getWikiName( $info->{author} ),
+        $info->{version}, $info->{comment} );
+}
+
+=begin TML
+
+---+++ ObjectMethod getRevisionAtTime( $web, $topic, $time ) -> $rev
+
+Get the revision number of a topic at a specific time.
+   * =$web= - web for topic
+   * =$topic= - topic
+   * =$time= - time (in epoch secs) for the rev
+Return: Single-digit revision number, or undef if it couldn't be determined
+(either because the topic isn't that old, or there was a problem)
+
+=cut
+
+sub getRevisionAtTime {
+    my $this = shift;
+    my ( $web, $topic, $time ) = @_;
+    ( $web, $topic ) = $this->_validateWTA( $web, $topic );
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $topic
+    );
+    return $topicObject->getRevisionAtTime($time);
+}
+
+=begin TML
+
+---+++ ObjectMethod getAttachmentList( $web, $topic ) -> @list
+Get a list of the attachments on the given topic.
+
+*Since:* 31 Mar 2009
+
+=cut
+
+sub getAttachmentList {
+    my $this = shift;
+    my ( $web, $topic ) = @_;
+    ( $web, $topic ) = $this->_validateWTA( $web, $topic );
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $topic
+    );
+    my $it = $topicObject->eachAttachment();
+    return sort $it->all();
+}
+
+=begin TML
+
+---+++ ObjectMethod attachmentExists( $web, $topic, $attachment ) -> $boolean
+
+Test if attachment exists
+   * =$web=   - Web name, optional, e.g. =Main=.
+   * =$topic= - Topic name, required, e.g. =TokyoOffice=, or =Main.TokyoOffice=
+   * =$attachment= - attachment name, e.g.=logo.gif=
+$web and $topic are parsed as described in the documentation for =normalizeWebTopicName=.
+
+The attachment must exist in the store (it is not sufficient for it to be referenced
+in the object only)
+
+=cut
+
+sub attachmentExists {
+    my $this = shift;
+    my ( $web, $topic, $attachment ) = $this->_checkWTA(@_);
+    return 0 unless defined $web && defined $topic && $attachment;
+
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $topic
+    );
+    return $topicObject->hasAttachment($attachment);
+}
+
+=begin TML
+
+---+++ ObjectMethod readAttachment( $web, $topic, $name, $rev ) -> $data
+
+   * =$web= - web for topic - must not be tainted
+   * =$topic= - topic - must not be tainted
+   * =$name= - attachment name - must not be tainted
+   * =$rev= - revision to read (default latest)
+Read an attachment from the store for a topic, and return it as a string. The
+names of attachments on a topic can be recovered from the meta-data returned
+by =readTopic=. If the attachment does not exist, or cannot be read, undef
+will be returned. If the revision is not specified, the latest version will
+be returned.
+
+View permission on the topic is required for the
+read to be successful.  Access control violations are flagged by a
+Foswiki::AccessControlException. Permissions are checked for the current user.
+
+<verbatim>
+use Try::Tiny;
+use Foswiki::AccessControlException ();
+
+my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+my @attachments = $meta->find( 'FILEATTACHMENT' );
+foreach my $a ( @attachments ) {
+   try {
+       my $data = Foswiki::Func::readAttachment( $web, $topic, $a->{name} );
+       ...
+   } catch Foswiki::AccessControlException with {
+   };
+}
+</verbatim>
+
+This is the way 99% of extensions will access attachments.
+See =Foswiki::Meta::openAttachment= for a lower level interface that does
+not check access controls.
+
+=cut
+
+sub readAttachment {
+    my $this = shift;
+    my ( $web, $topic, $attachment, $rev ) = @_;
+
+    ( $web, $topic, $attachment ) =
+      $this->_validateWTA( $web, $topic, $attachment );
+    Foswiki::Exception::Fatal->throw( text => "Invalid attachment" )
+      unless $attachment;
+
+    my $result;
+
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $topic
+    );
+    unless ( $topicObject->haveAccess('VIEW') ) {
+        Foswiki::AccessControlException->throw(
+            mode   => 'VIEW',
+            user   => $this->user,
+            web    => $web,
+            topic  => $topic,
+            reason => $topicObject->reason,
+        );
+    }
+    my $fh;
+    try {
+        $fh = $topicObject->openAttachment( $attachment, '<', version => $rev );
+    }
+    catch {
+        # SMELL XXX Exception must be processed and perhaps propagaded!
+        $fh = undef;
+    };
+    return undef unless $fh;
+    local $/;
+    my $data = <$fh>;
+    return $data;
+}
+
+=begin TML
+
+---++ Manipulating
+
+=cut
+
+=begin TML
+
+---+++ ObjectMethod createWeb( $newWeb, $baseWeb, $opts )
+
+   * =$newWeb= is the name of the new web.
+   * =$baseWeb= is the name of an existing web (a template web). If the base
+     web is a system web, all topics in it will be copied into the new web. If it is
+     a normal web, only topics starting with 'Web' will be copied. If no base web is
+     specified, an empty web (with no topics) will be created. If it is specified
+     but does not exist, an error will be thrown.
+   * =$opts= is a ref to a hash that contains settings to be modified in
+the web preferences topic in the new web.
+
+<verbatim>
+use Try::Tiny;
+use Foswiki::AccessControlException ();
+
+try {
+    Foswiki::Func::createWeb( "Newweb" );
+} catch Foswiki::AccessControlException with {
+    my $e = shift;
+    # see documentation on Foswiki::AccessControlException
+} catch Foswiki::OopsException with {
+        shift->throw();    # propagate
+} catch Error with {
+    my $e = shift;
+    # see documentation on Error
+} otherwise {
+    ...
+};
+</verbatim>
+
+=cut
+
+sub createWeb {
+    my $this = shift;
+    my ( $web, $baseweb, $opts ) = @_;
+    ($web) = $this->_validateWTA($web);
+    if ( defined $baseweb ) {
+        ($baseweb) = $this->_validateWTA($baseweb);
+    }
+
+    my ($parentWeb) = $web =~ m#(.*)/[^/]+$#;
+
+    my $rootObject = $this->create( 'Foswiki::Meta', web => $parentWeb );
+    unless ( $rootObject->haveAccess('CHANGE') ) {
+        Foswiki::AccessControlException->throw(
+            mode   => 'CHANGE',
+            user   => $this->user,
+            web    => $web,
+            topic  => '',
+            reason => $rootObject->reason,
+        );
+    }
+
+    my $baseObject = $this->create( 'Foswiki::Meta', web => $baseweb );
+    unless ( $baseObject->haveAccess('VIEW') ) {
+        Foswiki::AccessControlException->throw(
+            mode   => 'VIEW',
+            user   => $this->user,
+            web    => $web,
+            topic  => '',
+            reason => $baseObject->reason,
+        );
+    }
+
+    my $webObject = $this->create( 'Foswiki::Meta', web => $web );
+    $webObject->populateNewWeb( $baseweb, $opts );
+}
+
+=begin TML
+
+---+++ ObjectMethod moveWeb( $oldName, $newName )
+
+Move (rename) a web.
+
+<verbatim>
+use Try::Tiny;
+use Foswiki::AccessControlException ();
+
+try {
+    Foswiki::Func::moveWeb( "Oldweb", "Newweb" );
+} catch Foswiki::AccessControlException with {
+    my $e = shift;
+    # see documentation on Foswiki::AccessControlException
+} catch Foswiki::OopsException with {
+        shift->throw();    # propagate
+} catch Error with {
+    my $e = shift;
+    # see documentation on Error::Simple
+} otherwise {
+    ...
+};
+</verbatim>
+
+To delete a web, move it to a subweb of =Trash=
+<verbatim>
+Foswiki::Func::moveWeb( "Deadweb", "Trash.Deadweb" );
+</verbatim>
+
+=cut
+
+sub moveWeb {
+    my $this = shift;
+    my ( $from, $to ) = @_;
+    ($from) = $this->_validateWTA($from);
+    ($to)   = $this->_validateWTA($to);
+
+    $from = $this->create( 'Foswiki::Meta', web => $from );
+    $to   = $this->create( 'Foswiki::Meta', web => $to );
+    return $from->move($to);
+}
+
+=begin TML
+
+---+++ ObjectMethod checkTopicEditLock( $web, $topic, $script ) -> ( $oopsUrl, $loginName, $unlockTime )
+
+Check if a lease has been taken by some other user.
+   * =$web= Web name, e.g. ="Main"=, or empty
+   * =$topic= Topic name, e.g. ="MyTopic"=, or ="Main.MyTopic"=
+Return: =( $oopsUrl, $loginName, $unlockTime )= - The =$oopsUrl= for calling =redirect()=, user's =$loginName=, and estimated =$unlockTime= in minutes, or ( '', '', 0 ) if no lease exists.
+   * =$script= The script to invoke when continuing with the edit
+
+=cut
+
+sub checkTopicEditLock {
+    my $this = shift;
+    my ( $web, $topic, $script ) = @_;
+
+    ( $web, $topic ) = $this->_checkWTA( $web, $topic );
+    return ( '', '', 0 ) unless defined $web && defined $topic;
+
+    $script ||= 'edit';
+
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $topic
+    );
+    my $lease = $topicObject->getLease();
+    if ($lease) {
+        my $remain = $lease->{expires} - time();
+
+        if ( $remain > 0 ) {
+            my $who  = $lease->{user};
+            my $past = Foswiki::Time::formatDelta( time() - $lease->{taken},
+                $this->i18n );
+            my $future = Foswiki::Time::formatDelta( $lease->{expires} - time(),
+                $this->i18n );
+            my $url = $this->getScriptUrl(
+                $web, $topic, 'oops',
+                template => 'oopsleaseconflict',
+                def      => 'lease_active',
+                param1   => $who,
+                param2   => $past,
+                param3   => $future,
+                param4   => $script
+            );
+            my $login = $this->users->getLoginName($who);
+            return ( $url, $login || $who, $remain / 60 );
+        }
+    }
+    return ( '', '', 0 );
+}
+
+=begin TML
+
+---+++ ObjectMethod setTopicEditLock( $web, $topic, $lock )
+
+   * =$web= Web name, e.g. ="Main"=, or empty
+   * =$topic= Topic name, e.g. ="MyTopic"=, or ="Main.MyTopic"=
+   * =$lock= 1 to lease the topic, 0 to clear an existing lease
+
+Takes out a "lease" on the topic. The lease doesn't prevent
+anyone from editing and changing the topic, but it does redirect them
+to a warning screen, so this provides some protection. The =edit= script
+always takes out a lease.
+
+It is *impossible* to fully lock a topic. Concurrent changes will be
+merged.
+
+=cut
+
+sub setTopicEditLock {
+    my $this = shift;
+    my ( $web, $topic, $lock ) = @_;
+    ( $web, $topic ) = $this->_validateWTA( $web, $topic );
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $topic
+    );
+    if ($lock) {
+        $topicObject->setLease( $this->cfg->data->{LeaseLength} );
+    }
+    else {
+        $topicObject->clearLease();
+    }
+    return '';
+}
+
+=begin TML
+
+---+++ ObjectMethod saveTopic( $web, $topic, $meta, $text, $options )
+
+   * =$web= - web for the topic
+   * =$topic= - topic name
+   * =$meta= - reference to Foswiki::Meta object 
+     (optional, set to undef to create a new topic containing just text,
+     or to just change that topic's text)
+   * =$text= - text of the topic (without embedded meta-data!!!
+   * =\%options= - ref to hash of save options
+     =\%options= may include:
+     | =dontlog= | mark this change so it doesn't appear in the statistics |
+     | =minor= | True if this change is not to be notified |
+     | =forcenewrevision= | force the save to increment the revision counter |
+     | =ignorepermissions= | don't check acls |
+For example,
+<verbatim>
+use Try::Tiny;
+use Foswiki::AccessControlException ();
+
+my( $meta, $text );
+if ($app->topicExists($web, $topic)) {
+    ( $meta, $text ) = $app->readTopic( $web, $topic );
+} else {
+    #if the topic doesn't exist, we can either leave $meta undefined
+    #or if we need to set more than just the topic text, we create a new Meta object and use it.
+    $meta = $app->create('Foswiki::Meta', web => $web, topic => $topic );
+    $text = '';
+}
+$text =~ s/APPLE/ORANGE/g;
+try {
+    $app->saveTopic( $web, $topic, $meta, $text );
+} catch Foswiki::AccessControlException with {
+    my $e = shift;
+    # see documentation on Foswiki::AccessControlException
+} catch Foswiki::OopsException with {
+        shift->throw();    # propagate
+} catch Error with {
+    my $e = shift;
+    # see documentation on Error::Simple
+} otherwise {
+    ...
+};
+</verbatim>
+
+In the event of an error an exception will be thrown. Callers can elect
+to trap the exceptions thrown, or allow them to propagate to the calling
+environment. May throw Foswiki::OopsException or Error::Simple.
+
+*Note:* The =ignorepermissions= option is only available in Foswiki 1.1 and
+later.
+
+=cut
+
+sub saveTopic {
+    my $this = shift;
+    my ( $web, $topic, $smeta, $text, $options ) = @_;
+    ( $web, $topic ) = $this->_validateWTA( $web, $topic );
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $topic
+    );
+
+    $options //= {};
+
+    unless ( $options->{ignorepermissions}
+        || $topicObject->haveAccess('CHANGE') )
+    {
+        Foswiki::AccessControlException->throw(
+            mode   => 'CHANGE',
+            user   => $this->user,
+            web    => $web,
+            topic  => $topic,
+            reason => $topicObject->reason,
+        );
+    }
+
+    # Set the new text and meta, now that access to the existing topic
+    # is verified
+    $topicObject->text($text);
+    $topicObject->copyFrom($smeta) if $smeta;
+    return $topicObject->save(%$options);
+}
+
+=begin TML
+
+---+++ ObjectMethod moveTopic( $web, $topic, $newWeb, $newTopic )
+
+   * =$web= source web - required
+   * =$topic= source topic - required
+   * =$newWeb= dest web
+   * =$newTopic= dest topic
+Renames the topic. Throws an exception if something went wrong.
+If $newWeb is undef, it defaults to $web. If $newTopic is undef, it defaults
+to $topic.
+
+The destination topic must not already exist.
+
+Rename a topic to the $Foswiki::cfg{TrashWebName} to delete it.
+
+<verbatim>
+use Try::Tiny;
+
+try {
+    moveTopic( "Work", "TokyoOffice", "Trash", "ClosedOffice" );
+} catch Foswiki::AccessControlException with {
+    my $e = shift;
+    # see documentation on Foswiki::AccessControlException
+} catch Foswiki::OopsException with {
+        shift->throw();    # propagate
+} catch Error with {
+    my $e = shift;
+    # see documentation on Error::Simple
+} otherwise {
+    ...
+};
+</verbatim>
+
+=cut
+
+sub moveTopic {
+    my $this = shift;
+    my ( $web, $topic, $newWeb, $newTopic ) = @_;
+    ( $web, $topic ) = $this->_validateWTA( $web, $topic );
+    ( $newWeb, $newTopic ) =
+      $this->_validateWTA( $newWeb || $web, $newTopic || $topic );
+
+    return if ( $newWeb eq $web && $newTopic eq $topic );
+
+    my $from = $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $topic
+    );
+    unless ( $from->haveAccess('CHANGE') ) {
+        Foswiki::AccessControlException->throw(
+            mode   => 'CHANGE',
+            user   => $this->user,
+            web    => $web,
+            topic  => $topic,
+            reason => $from->reason,
+        );
+    }
+
+    my $toWeb = $this->create( 'Foswiki::Meta', web => $newWeb );
+    unless ( $from->haveAccess('CHANGE') ) {
+        Foswiki::AccessControlException->throw(
+            mode   => 'CHANGE',
+            user   => $this->user,
+            web    => $newWeb,
+            topic  => undef,
+            reason => $toWeb->reason,
+        );
+    }
+
+    my $to = $this->create(
+        'Foswiki::Meta',
+        web   => $newWeb,
+        topic => $newTopic
+    );
+
+    $from->move($to);
+}
+
+=begin TML
+
+---+++ ObjectMethod saveAttachment( $web, $topic, $attachment, \%opts )
+   * =$web= - web for topic
+   * =$topic= - topic to atach to
+   * =$attachment= - name of the attachment
+   * =\%opts= - Ref to hash of options
+Create an attachment on the given topic.
+=\%opts= may include:
+| =dontlog= | mark this change so it is not picked up in statistics |
+| =comment= | comment for save |
+| =hide= | if the attachment is to be hidden in normal topic view |
+| =stream= | Stream of file to upload |
+| =file= | Name of a file to use for the attachment data. ignored if stream is set. Local file on the server. |
+| =filepath= | Client path to file |
+| =filesize= | Size of uploaded data |
+| =filedate= | Date |
+| =createlink= | Set true to create a link at the end of the topic |
+| =notopicchange= | Set to true to *prevent* this upload being recorded in the meta-data of the topic. |
+Save an attachment to the store for a topic. On success, returns undef.
+If there is an error, an exception will be thrown. The current user must
+have CHANGE access on the topic being attached to.
+
+<verbatim>
+    try {
+        Foswiki::Func::saveAttachment( $web, $topic, 'image.gif',
+                                     { file => 'image.gif',
+                                       comment => 'Picture of Health',
+                                       hide => 1 } );
+   } catch Foswiki::AccessControlException with {
+      # Topic CHANGE access denied
+   } catch Foswiki::OopsException with {
+        shift->throw();    # propagate
+   } catch Error with {
+      # see documentation on Error
+   } otherwise {
+      ...
+   };
+</verbatim>
+This is the way 99% of extensions will create new attachments. See
+=Foswiki::Meta::openAttachment= for a much lower-level interface.
+
+=cut
+
+sub saveAttachment {
+    my $this = shift;
+    my ( $web, $topic, $attachment, $data ) = @_;
+    ( $web, $topic, $attachment ) =
+      $this->_validateWTA( $web, $topic, $attachment );
+    Foswiki::Exception::Fatal->throw( text => "Invalid attachment" )
+      unless $attachment;
+
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $topic
+    );
+    unless ( $topicObject->haveAccess('CHANGE') ) {
+        Foswiki::AccessControlException->throw(
+            mode   => 'CHANGE',
+            user   => $this->user,
+            web    => $web,
+            topic  => $topic,
+            reason => $topicObject->reason,
+        );
+    }
+    $topicObject->attach( name => $attachment, %$data );
+}
+
+=begin TML
+
+---+++ ObjectMethod moveAttachment( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment )
+
+   * =$web= source web - required
+   * =$topic= source topic - required
+   * =$attachment= source attachment - required
+   * =$newWeb= dest web
+   * =$newTopic= dest topic
+   * =$newAttachment= dest attachment
+Renames the attachment. Throws an exception on error or access violation.
+If $newWeb is undef, it defaults to $web. If $newTopic is undef, it defaults
+to $topic. If $newAttachment is undef, it defaults to $attachment. If all of $newWeb, $newTopic and $newAttachment are undef, it is an error.
+
+The destination topic must already exist, but the destination attachment must
+*not* exist.
+
+Rename an attachment to $Foswiki::cfg{TrashWebName}.TrashAttament to delete it.
+
+<verbatim>
+use Try::Tiny;
+
+try {
+   # move attachment between topics
+   moveAttachment( "Countries", "Germany", "AlsaceLorraine.dat",
+                     "Countries", "France" );
+   # Note destination attachment name is defaulted to the same as source
+} catch Foswiki::AccessControlException with {
+   my $e = shift;
+   # see documentation on Foswiki::AccessControlException
+} catch Foswiki::OopsException with {
+        shift->throw();    # propagate
+} catch Error with {
+   my $e = shift;
+   # see documentation on Error
+};
+</verbatim>
+
+=cut
+
+sub moveAttachment {
+    my $this = shift;
+    my ( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment ) = @_;
+
+    ( $web, $topic, $attachment ) =
+      $this->_validateWTA( $web, $topic, $attachment );
+    Foswiki::Exception::Fatal->throw( text => "Invalid attachment" )
+      unless $attachment;
+
+    ( $newWeb, $newTopic, $newAttachment ) = $this->_validateWTA(
+        $newWeb        || $web,
+        $newTopic      || $topic,
+        $newAttachment || $attachment
+    );
+
+    return
+      if ( $newWeb eq $web
+        && $newTopic eq $topic
+        && $newAttachment eq $attachment );
+
+    my $from = Foswiki::Meta->load( $this, $web, $topic );
+    unless ( $from->haveAccess('CHANGE') ) {
+        Foswiki::AccessControlException->throw(
+            mode  => 'CHANGE',
+            user  => $this->user,
+            web   => $web,
+            topic => $topic,
+            reson => $from->reason,
+        );
+    }
+    my @opts;
+    push( @opts, new_name => $newAttachment ) if defined $newAttachment;
+
+    if (   $web eq $newWeb
+        && $topic eq $newTopic
+        && defined $newAttachment )
+    {
+        $from->moveAttachment( $attachment, $from, @opts );
+    }
+    else {
+        my $to = Foswiki::Meta->load( $this, $newWeb, $newTopic );
+        unless ( $to->haveAccess('CHANGE') ) {
+            Foswiki::AccessControlException->throw(
+                mode   => 'CHANGE',
+                user   => $this->user,
+                web    => $newWeb,
+                topic  => $newTopic,
+                reason => $to->reason,
+            );
+        }
+
+        $from->moveAttachment( $attachment, $to, @opts );
+    }
+}
+
+=begin TML
+
+---+++ ObjectMethod copyAttachment( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment )
+
+   * =$web= source web - required
+   * =$topic= source topic - required
+   * =$attachment= source attachment - required
+   * =$newWeb= dest web
+   * =$newTopic= dest topic
+   * =$newAttachment= dest attachment
+Copies the attachment. Throws an exception on error or access violation.
+If $newWeb is undef, it defaults to $web. If $newTopic is undef, it defaults
+to $topic. If $newAttachment is undef, it defaults to $attachment. If all of $newWeb, $newTopic and $newAttachment are undef, it is an error.
+
+The destination topic must already exist, but the destination attachment must
+*not* exist.
+
+<verbatim>
+use Try::Tiny;
+
+try {
+   # copy attachment between topics
+   copyAttachment( "Countries", "Germany", "AlsaceLorraine.dat",
+                     "Countries", "France" );
+   # Note destination attachment name is defaulted to the same as source
+} catch Foswiki::AccessControlException with {
+   my $e = shift;
+   # see documentation on Foswiki::AccessControlException
+} catch Foswiki::OopsException with {
+        shift->throw();    # propagate
+} catch Error with {
+   my $e = shift;
+   # see documentation on Error
+};
+</verbatim>
+
+*Since:* 19 Jul 2010
+
+=cut
+
+sub copyAttachment {
+    my $this = shift;
+    my ( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment ) = @_;
+
+    ( $web, $topic, $attachment ) =
+      $this->_validateWTA( $web, $topic, $attachment );
+    Foswiki::Exception::Fatal->throw( text => "Invalid attachment" )
+      unless $attachment;
+
+    ( $newWeb, $newTopic, $newAttachment ) = $this->_validateWTA(
+        $newWeb        || $web,
+        $newTopic      || $topic,
+        $newAttachment || $attachment
+    );
+
+    return
+      if ( $newWeb eq $web
+        && $newTopic eq $topic
+        && $newAttachment eq $attachment );
+
+    my $from = Foswiki::Meta->load( $this, $web, $topic );
+    unless ( $from->haveAccess('CHANGE') ) {
+        Foswiki::AccessControlException->throw(
+            mode   => 'CHANGE',
+            user   => $this->user,
+            web    => $web,
+            topic  => $topic,
+            reason => $from->reason,
+        );
+    }
+    my @opts;
+    push( @opts, new_name => $newAttachment ) if defined $newAttachment;
+
+    if (   $web eq $newWeb
+        && $topic eq $newTopic
+        && defined $newAttachment )
+    {
+        $from->copyAttachment( $attachment, $from, @opts );
+    }
+    else {
+        my $to = Foswiki::Meta->load( $this, $newWeb, $newTopic );
+        unless ( $to->haveAccess('CHANGE') ) {
+            Foswiki::AccessControlException->throw(
+                mode   => 'CHANGE',
+                user   => $this->user,
+                web    => $newWeb,
+                topic  => $newTopic,
+                reason => $to->reason,
+            );
+        }
+
+        $from->copyAttachment( $attachment, $to, @opts );
+    }
+}
+
+=begin TML
+
+---++ Finding changes
+
+=cut
+
+=begin TML
+
+---+++ ObjectMethod eachChangeSince($web, $time) -> $iterator
+
+Get an iterator over the list of all the changes in the given web between
+=$time= and now. $time is a time in seconds since 1st Jan 1970, and is not
+guaranteed to return any changes that occurred before (now - 
+{Store}{RememberChangesFor}). {Store}{RememberChangesFor}) is a
+setting in =configure=. Changes are returned in *most-recent-first*
+order.
+
+Use it as follows:
+<verbatim>
+    my $iterator = $app->eachChangeSince(
+        $web, time() - 7 * 24 * 60 * 60); # the last 7 days
+    while ($iterator->hasNext()) {
+        my $change = $iterator->next();
+        ...
+    }
+</verbatim>
+=$change= is a reference to a hash containing the following fields:
+   * =verb= - the action - one of
+      * =update= - a web, topic or attachment has been modified
+      * =insert= - a web, topic or attachment is being inserted
+      * =remove= - a topic or attachment is being removed
+   * =time= - time of the change, in epoch-secs
+   * =cuid= - canonical UID of the user who is making the change
+   * =revision= - the revision of the topic that the change appears in
+   * =path= - web.topic path for the affected
+   * =attachment= - attachment name (optional)
+   * =oldpath= - web.topic path for the origin of a move
+   * =oldattachment= - origin of move
+   * =minor= - boolean true if this change is flagged as minor
+   * =comment= - descriptive text
+
+The following additional fields are *deprecated* and will be removed
+in Foswiki 2.0:
+   * =more= - formatted string indicating if the change was minor or not
+   * =topic= - name of the topic the change occurred to
+   * =user= - wikiname of the user who made the change
+These additional fields
+
+If you are writing an extension that requires compatibility with
+Foswiki < 2 only the =more=, =revision=, =time=, =topic= and =user=
+can be assumed.
+
+=cut
+
+sub eachChangeSince {
+    my $this = shift;
+    my ( $web, $time ) = @_;
+    ($web) = $this->_validateWTA($web);
+    ASSERT( $this->store->webExists($web) ) if DEBUG;
+
+    my $webObject = $this->create( 'Foswiki::Meta', web => $web );
+    return $webObject->eachChange($time);
+}
+
+=begin TML
+
+---+++ ObjectMethod summariseChanges($web, $topic, $orev, $nrev, $tml, $nochecks) -> $text
+Generate a summary of the changes between rev $orev and rev $nrev of the
+given topic.
+   * =$web=, =$topic= - topic (required)
+   * =$orev= - older rev (required)
+   * =$nrev= - later rev (may be undef for the latest)
+   * =$tml= - if true will generate renderable TML (i.e. HTML with NOPs. if false will generate a summary suitable for use in plain text (mail, for example)
+Generate a (max 3 line) summary of the differences between the revs.
+   * =$nochecks= if true, will suppress access control checks. (*Since* 2.0)
+
+If there is only one rev, a topic summary will be returned.
+
+If =$tml= is not set, all HTML will be removed.
+
+In non-tml, lines are truncated to 70 characters. Differences are shown using + and - to indicate added and removed text.
+
+If access is denied to either revision, then it will be treated as blank
+text.
+
+*Since* 2009-03-06
+
+=cut
+
+sub summariseChanges {
+    my $this = shift;
+    my ( $web, $topic, $orev, $nrev, $tml, $nochecks ) = @_;
+    ( $web, $topic ) = $this->_validateWTA( $web, $topic );
+
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $topic
+    );
+    return $topicObject->summariseChanges(
+        Foswiki::Store::cleanUpRevID($orev),
+        Foswiki::Store::cleanUpRevID($nrev),
+        $tml, $nochecks
+    );
+}
+
+=begin TML
+
+---++ Templates
+
+=cut
+
+=begin TML
+
+---+++ ObjectMethod readTemplate( $name, $skin ) -> $text
+
+Read a template or skin. Embedded [[%SYSTEMWEB%.SkinTemplates][template directives]] get expanded
+   * =$name= - Template name, e.g. ='view'=
+   * =$skin= - Comma-separated list of skin names, optional, e.g. ='print'=
+Return: =$text=    Template text
+
+=cut
+
+sub readTemplate {
+    my $this = shift;
+    my ( $name, $skin ) = @_;
+    return $this->templates->readTemplate(
+        $name,
+        skins   => $skin,
+        no_oops => 1
+    ) || '';
+}
+
+=begin TML
+
+---+++ ObjectMethod loadTemplate ( $name, $skin, $web ) -> $text
+
+   * =$name= - template file name
+   * =$skin= - comma-separated list of skins to use (default: current skin)
+   * =$web= - the web to look in for topics that contain templates (default: current web)
+Return: expanded template text (what's left after removal of all %TMPL:DEF% statements)
+
+Reads a template and extracts template definitions, adding them to the
+list of loaded templates, overwriting any previous definition.
+
+How Foswiki searches for templates is described in SkinTemplates.
+
+If template text is found, extracts include statements and fully expands them.
+
+=cut
+
+sub loadTemplate {
+    my $this = shift;
+    my ( $name, $skin, $web ) = @_;
+
+    my %opts = ( no_oops => 1 );
+    $opts{skins} = $skin if defined $skin;
+    ( $opts{web} ) = $this->_validateWTA($web) if defined $web;
+
+    my $tmpl = $this->templates->readTemplate( $name, %opts );
+    $tmpl = '' unless defined $tmpl;
+
+    return $tmpl;
+}
+
+=begin TML
+
+---+++ ObjectMethod expandCommonVariables( $text, $topic, $web, $meta ) -> $text
+
+Expand all common =%<nop>VARIABLES%=
+   * =$text=  - Text with variables to expand, e.g. ='Current user is %<nop>WIKIUSER%'=
+   * =$topic= - Current topic name, optional, e.g. ='WebNotify'=
+   * =$web=   - Web name, optional, e.g. ='Main'=. The current web is taken if missing
+   * =$meta=  - topic meta-data to use while expanding
+Return: =$text=     Expanded text, e.g. ='Current user is <nop>WikiGuest'=
+
+See also: expandVariablesOnTopicCreation
+
+*Caution:* This function needs all the installed plugins to have gone through initialization.
+Never call this function from within an initPlugin handler,  bad things happen.
+
+*Caution:* This function ultimately calls the following handlers:
+   * =beforeCommonTagsHandler=
+   * =commonTagsHandler=
+   * =registered macro handlers=
+   * =afterCommonTagsHandler=
+
+%X% *It is possible to create an infinite loop if expandCommonVariables is called in any of these handlers.* 
+It can be used, but care should be taken to ensure that the text being expanded does
+not cause this function to be called recursively.
+
+=cut
+
+sub expandCommonVariables {
+    my $this = shift;
+    my ( $text, $topic, $web, $meta ) = @_;
+
+    if (DEBUG) {
+        for ( my $i = 4 ; $i <= 7 ; $i++ ) {
+            my $caller = ( caller($i) )[3];
+            Foswiki::Exception::Fatal->throw(
+                text => "expandCommonVariables called during registration" )
+              if ( defined $caller
+                && $caller eq 'Foswiki::Plugin::registerHandlers' );
+        }
+    }
+
+    ( $web, $topic ) = $this->_validateWTA( $web || $this->request->web,
+        $topic || $this->request->topic );
+    $meta ||= $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $topic
+    );
+
+    return $meta->expandMacros($text);
+}
+
+=begin TML
+
+---+++ ObjectMethod expandVariablesOnTopicCreation ( $text ) -> $text
+
+Expand the limited set of variables that are always expanded during topic creation
+   * =$text= - the text to process
+Return: text with variables expanded
+
+Expands only the variables expected in templates that must be statically
+expanded in new content.
+
+The expanded variables are:
+   * =%<nop>DATE%= Signature-format date
+   * =%<nop>SERVERTIME%= See [[Macros]]
+   * =%<nop>GMTIME%= See [[Macros]]
+   * =%<nop>USERNAME%= Base login name
+   * =%<nop>WIKINAME%= Wiki name
+   * =%<nop>WIKIUSERNAME%= Wiki name with prepended web
+   * =%<nop>URLPARAM{...}%= - Parameters to the current CGI query
+   * =%<nop>NOP%= No-op
+
+See also: expandVariables
+
+=cut
+
+sub expandVariablesOnTopicCreation {
+    my $this        = shift;
+    my $topicObject = $this->create(
+        'Foswiki::Meta',
+        web   => $this->request->web,
+        topic => $this->request->topic,
+        text  => $_[0],
+    );
+    $topicObject->expandNewTopic();
+    return $topicObject->text();
+}
+
+=begin TML
+
+---+++ ObjectMethod renderText( $text, $web, $topic ) -> $text
+
+Render text from TML into XHTML as defined in [[%SYSTEMWEB%.TextFormattingRules]]
+   * =$text= - Text to render, e.g. ='*bold* text and =fixed font='=
+   * =$web=  - Web name, optional, e.g. ='Main'=. The current web is taken if missing
+   * =$topic= - topic name, optional, defaults to web home
+Return: =$text=    XHTML text, e.g. ='&lt;b>bold&lt;/b> and &lt;code>fixed font&lt;/code>'=
+
+NOTE: renderText expects that all %MACROS% have already been expanded - it does not expand them for you (call expandCommonVariables above).
+
+=cut
+
+sub renderText {
+    my $this = shift;
+    my ( $text, $web, $topic ) = @_;
+
+    $web   ||= $this->request->web;
+    $topic ||= $this->cfg->data->{HomeTopicName};
+    my $webObject = $this->create(
+        'Foswiki::Meta',
+        web   => $web,
+        topic => $topic
+    );
+    return $webObject->renderTML($text);
+}
+
+=begin TML
+
+---+++ ObjectMethod internalLink( $pre, $web, $topic, $label, $anchor, $createLink ) -> $text
+
+Render topic name and link label into an XHTML link. Normally you do not need to call this funtion, it is called internally by =renderText()=
+   * =$pre=        - Text occuring before the link syntax, optional
+   * =$web=        - Web name, required, e.g. ='Main'=
+   * =$topic=      - Topic name to link to, required, e.g. ='WebNotify'=
+   * =$label=      - Link label, required. Usually the same as =$topic=, e.g. ='notify'=
+   * =$anchor=     - Anchor, optional, e.g. ='#Jump'=
+   * =$createLink= - Set to ='1'= to add question linked mark after topic name if topic does not exist;<br /> set to ='0'= to suppress link for non-existing topics
+Return: =$text=          XHTML anchor, e.g. ='&lt;a href='/cgi-bin/view/Main/WebNotify#Jump'>notify&lt;/a>'=
+
+=cut
+
+sub internalLink {
+    my $this = shift;
+    my $pre  = shift;
+
+    return $pre . $this->renderer->internalLink(@_);
+}
+
+=begin TML
+
+---+++ ObjectMethod query($searchString, $topics, \%options ) -> iterator (resultset)
+
+Query the topic data in the specified webs. A programatic interface to SEARCH results.
+
+   * =$searchString= - the search string, as appropriate for the selected type
+   * =$topics= - undef OR reference to a ResultSet, Iterator, or array containing the web.topics to be evaluated. 
+                 if undef, then all the topics in the webs specified will be evaluated.
+   * =\%option= - reference to an options hash
+The =\%options= hash may contain the following options:
+   * =type= - =regex=, =keyword=, =query=, ... defaults to =query=
+   * =web= - The web/s to search in - string can have the same form as the =web= param of SEARCH (if not specified, defaults to BASEWEB)
+   * =casesensitive= - false to ignore case (default true)
+   * =files_without_match= - true to return files only (default false). If =files_without_match= is specified, it will return on the first match in each topic (i.e. it will return only one match per 
+   * topic, excludetopic and other params as per SEARCH)
+   * =includeTopics= - Seach only in this topic, a topic with asterisk wildcards, or a list of topics separated by comma
+   * =excludeTopics= - Exclude search in this topic, a topic with asterisk wildcards, or a list of topics separated by comma
+
+To iterate over the returned topics use:
+<verbatim>
+    my $matches = $app->query( "Slimy Toad", undef,
+            { web => 'Main,San*', casesensitive => 0, files_without_match => 0 } );
+    while ($matches->hasNext) {
+        my $webtopic = $matches->next;
+        my ($web, $topic) = $app->request->normalizeWebTopicName('', $webtopic);
+      ...etc
+</verbatim>
+
+=cut
+
+sub query {
+    my $this = shift;
+    my ( $searchString, $topics, $options ) = @_;
+
+    my $inputTopicSet = $topics;
+    if ( $topics and ( ref($topics) eq 'ARRAY' ) ) {
+        $inputTopicSet =
+          $this->create( 'Foswiki::ListIterator', list => $topics );
+    }
+    $options->{type} ||= 'query';
+    my $query = $this->search->parseSearch( $searchString, $options );
+
+    return $this->store->query( $query, $inputTopicSet, $options );
+}
+
+=begin TML
+
+---+++ ObjectMethod writeEvent( $action, $extra )
+
+Log an event.
+   * =$action= - name of the event (keep them unique!)
+   * =$extra= - arbitrary extra information to add to the log.
+You can enumerate the contents of the log using the =eachEventSince= function.
+
+=cut
+
+sub writeEvent {
+    my $this = shift;
+    my ( $action, $extra ) = @_;
+    my $webTopic = $this->request->web . '.' . $this->request->topic;
+
+    return $this->logger->log(
+        {
+            level    => 'info',
+            action   => $action || '',
+            webTopic => $webTopic || '',
+            extra    => $extra || '',
+        }
+    );
+}
+
+=begin TML
+
+---+++ ObjectMethof writeWarning( $text )
+
+Log a warning that may require admin intervention to the warnings log (=data/warn*.txt=)
+   * =$text= - Text to write; timestamp gets added
+
+=cut
+
+sub writeWarning {
+    my $this = shift;
+    return $this->logger->log(
+        {
+            level  => 'warning',
+            caller => scalar( caller() ),
+            extra  => \@_
+        }
+    );
+}
+
+=begin TML
+
+---+++ ObjectMethod writeDebug( $text )
+
+Log debug message to the debug log 
+   * =$text= - Text to write; timestamp gets added
+
+=cut
+
+sub writeDebug {
+    my $this = shift;
+    return $this->logger->log(
+        {
+            level => 'debug',
+            extra => \@_
+        }
+    );
 }
 
 1;

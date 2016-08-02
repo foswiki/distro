@@ -83,6 +83,8 @@ sub construct {
             last if ( $n == 1 && !/^#!.*\bperl\b/ );
             last if ( $n > 200 || /^__END__/ );
             next if (/^\s*#/);
+
+            # SMELL XXX $Foswiki::engine isn't in use anymore.
             next unless (/^\s*\$Foswiki::engine\s*->\s*run/);
             $engine = 1;
             last;

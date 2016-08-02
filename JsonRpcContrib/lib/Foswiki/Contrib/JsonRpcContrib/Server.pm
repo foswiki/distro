@@ -46,14 +46,15 @@ has handler => ( is => 'rw', lazy => 1, default => sub { {} }, );
 ################################################################################
 # static
 sub writeDebug {
-    Foswiki::Func::writeDebug '- JsonRpcContrib::Server - ' . $_[0];
+    my $this = shift;
+    $this->app->writeDebug( '- JsonRpcContrib::Server - ' . $_[0] );
 }
 
 ################################################################################
 sub registerMethod {
     my ( $this, $namespace, $method, $fnref, $options ) = @_;
 
-    writeDebug("registerMethod($namespace, $method, $fnref)") if TRACE;
+    $this->writeDebug("registerMethod($namespace, $method, $fnref)") if TRACE;
 
     $this->handler->{$namespace}{$method} = {
         function => $fnref,
@@ -68,7 +69,7 @@ sub dispatch {
 
     my $app = $ui->app;
 
-    writeDebug("called dispatch") if TRACE;
+    $this->writeDebug("called dispatch") if TRACE;
 
     my $request = $app->request;
 
@@ -90,7 +91,7 @@ sub dispatch {
         $topic );
     $app->request->web($jsrpcWeb);
     $app->request->topic($jsrpcTopic);
-    writeDebug("topic=$topic") if TRACE;
+    $this->writeDebug("topic=$topic") if TRACE;
 
     # get handler for this namespace
     my $handler = $this->getHandler($request);
@@ -109,7 +110,7 @@ sub dispatch {
     # if there's login info, try and apply it
     my $userName = $request->param('username');
     if ($userName) {
-        writeDebug("checking password for $userName") if TRACE;
+        $this->writeDebug("checking password for $userName") if TRACE;
         my $pass = $request->param('password') || '';
         unless ( $app->users->checkPassword( $userName, $pass ) ) {
             Foswiki::Contrib::JsonRpcContrib::Response->print(
@@ -155,7 +156,7 @@ sub dispatch {
     try {
         no strict 'refs';
         my $function = $handler->{function};
-        writeDebug( "calling handler for "
+        $this->writeDebug( "calling handler for "
               . $request->namespace . "."
               . $request->jsonmethod )
           if TRACE;
@@ -242,7 +243,8 @@ sub getHandler {
             my $def =
               $Foswiki::cfg{JsonRpcContrib}{Handler}{$namespace}{$method};
 
-            writeDebug("compiling $def->{package} for $namespace.$method")
+            $this->writeDebug(
+                "compiling $def->{package} for $namespace.$method")
               if TRACE;
             eval qq(use $def->{package});
 

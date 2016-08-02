@@ -168,7 +168,9 @@ sub _genDefaultAppSub {
             eval {
                 require Devel::MAT::Dumper;
                 Devel::MAT::Dumper::dump( $FindBin::Bin
-                      . "/../working/logs/foswiki_debug_psgi.pmat" );
+                      . "/../working/logs/"
+                      . $this->testSuite
+                      . ".pmat" );
             };
         }
 

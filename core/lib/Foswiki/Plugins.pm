@@ -15,6 +15,7 @@ handler calls to registered plugins.
 package Foswiki::Plugins;
 use v5.14;
 
+use Foswiki qw(findCallerByPrefix);
 use Foswiki::Plugin ();
 
 use Moo;
@@ -569,6 +570,117 @@ sub _handleACTIVATEDPLUGINS {
     }
     $text =~ s/\,\s*$//;
     return $text;
+}
+
+=begin TML
+
+---++ API methods
+
+=cut
+
+=begin TML=
+
+---+++ registerTagHandler( $var, \&fn, $syntax )
+
+Should only be called from initPlugin.
+
+Register a function to handle a simple variable. Handles both %<nop>VAR% and 
+%<nop>VAR{...}%. Registered variables are treated the same as internal macros, 
+and are expanded at the same time. This is a _lot_ more efficient than using the =commonTagsHandler=.
+   * =$var= - The name of the variable, i.e. the 'MYVAR' part of %<nop>MYVAR%. 
+   The variable name *must* match /^[A-Z][A-Z0-9_]*$/ or it won't work.
+   * =\&fn= - Reference to the handler function.
+   * =$syntax= can be 'classic' (the default) or 'context-free'. (context-free may be removed in future)
+   'classic' syntax is appropriate where you want the variable to support classic syntax 
+   i.e. to accept the standard =%<nop>MYVAR{ "unnamed" param1="value1" param2="value2" }%= syntax, 
+   as well as an unquoted default parameter, such as =%<nop>MYVAR{unquoted parameter}%=. 
+   If your variable will only use named parameters, you can use 'context-free' syntax, 
+   which supports a more relaxed syntax. For example, 
+   %MYVAR{param1=value1, value 2, param3="value 3", param4='value 5"}%
+
+The variable handler function must be of the form:
+<verbatim>
+sub handler(\%session, \%params, $topic, $web, $topicObject)
+</verbatim>
+where:
+   * =\%session= - a reference to the session object (may be ignored)
+   * =\%params= - a reference to a Foswiki::Attrs object containing parameters. This can be used as a simple hash that maps parameter names to values, with _DEFAULT being the name for the default parameter.
+   * =$topic= - name of the topic in the query
+   * =$web= - name of the web in the query
+   * =$topicObject= - is the Foswiki::Meta object for the topic *Since* 2009-03-06
+for example, to execute an arbitrary command on the server, you might do this:
+<verbatim>
+sub initPlugin{
+   Foswiki::Func::registerTagHandler('EXEC', \&boo);
+}
+
+sub boo {
+    my( $session, $params, $topic, $web, $topicObject ) = @_;
+    my $cmd = $params->{_DEFAULT};
+
+    return "NO COMMAND SPECIFIED" unless $cmd;
+
+    my $result = `$cmd 2>&1`;
+    return $params->{silent} ? '' : $result;
+}
+</verbatim>
+would let you do this:
+=%<nop>EXEC{"ps -Af" silent="on"}%=
+
+Registered tags differ from tags implemented using the old approach (text substitution in =commonTagsHandler=) in the following ways:
+   * registered tags are evaluated at the same time as system tags, such as %SERVERTIME. =commonTagsHandler= is only called later, when all system tags have already been expanded (though they are expanded _again_ after =commonTagsHandler= returns).
+   * registered tag names can only contain alphanumerics and _ (underscore)
+   * registering a tag =FRED= defines both =%<nop>FRED{...}%= *and also* =%FRED%=.
+   * registered tag handlers *cannot* return another tag as their only result (e.g. =return '%<nop>SERVERTIME%';=). It won't work.
+
+=cut
+
+sub registerTagHandler {
+    my $this = shift;
+    my ( $tag, $function, $syntax ) = @_;
+
+    my $app = $this->app;
+
+    # $pluginContext is undefined if a contrib registers a tag handler.
+    my $pluginContext;
+
+    # Check two stack frames because this method could be called by deprecated
+    # Foswiki::Func function.
+    my $callingPlugin = findCallerByPrefix('Foswiki::Plugins::');
+    if ( defined $callingPlugin ) {
+        $callingPlugin =~ /^Foswiki::Plugins::(\w+)$/;
+        $pluginContext = $1 . 'Enabled';
+    }
+
+    # Use an anonymous function so it gets inlined at compile time.
+    # Make sure we don't mangle the session reference.
+    $app->macros->registerTagHandler(
+        $tag,
+        sub {
+            my ( $this, $params, $topicObject ) = @_;
+
+            #local $Foswiki::app = $session;
+
+            # $pluginContext is defined for all plugins
+            # but never defined for contribs.
+            # This is convenient, because contribs cannot be disabled
+            # at run-time, either.
+            if ( defined $pluginContext ) {
+
+                # Registered tag handlers should only be called if the plugin
+                # is enabled. Disabled plugins can still have tag handlers
+                # registered in persistent environments (e.g. modperl)
+                # and also for rest handlers that disable plugins.
+                # See Item1871
+                return unless $this->inContext($pluginContext);
+            }
+
+            # Compatibility; expand $topicObject to the topic and web
+            return &$function( $this, $params, $topicObject->topic,
+                $topicObject->web, $topicObject );
+        },
+        $syntax
+    );
 }
 
 1;

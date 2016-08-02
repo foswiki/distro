@@ -19,17 +19,15 @@ use namespace::clean;
 has object => (
     is           => 'rw',
     requiredlazy => 1,
-    weak_ref     => 1,                           # Not sure we need it here.
-    isa          => Foswiki::Object::isaCLASS(
-        'object', 'Foswiki::Object',
-        does    => 'Foswiki::Aux::Localize',
-        noUndef => 1,
-    ),
+    weak_ref     => 1,      # Not sure we need it here.
+    isa =>
+      Foswiki::Object::isaCLASS( 'object', 'Foswiki::Object', noUndef => 1, ),
 );
 
 sub DEMOLISH {
     my $this = shift;
-    $this->object->restore;
+    $this->object->restore
+      if $this->object->can('restore');
 }
 
 1;

@@ -8,7 +8,6 @@ use Try::Tiny;
 use FindBin;
 use Cwd        ();
 use File::Path ();
-require Unit::TestApp;
 my $starting_root;
 
 # Simplify debugging by making both stderr and stdout non-buffered.
@@ -63,6 +62,7 @@ BEGIN {
 # to avoid compiling Foswiki.pm before FOSWIKI_ASSERTS have been set
 #use Foswiki;   # If you take this out then TestRunner.pl will fail on IndigoPerl
 use Unit::TestRunner;
+use Unit::TestApp;
 
 my %options;
 while ( scalar(@ARGV) && $ARGV[0] =~ /^-/ ) {

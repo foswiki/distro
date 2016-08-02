@@ -805,8 +805,6 @@ sub eachUser {
         iterators  => \@list,
         uniqueOnly => 1
     );
-
-    return shift->{mapping}->eachUser(@_);
 }
 
 =begin TML

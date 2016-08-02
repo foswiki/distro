@@ -1626,7 +1626,7 @@ sub _getReferringTopics {
         my $options =
           { casesensitive => 1, type => 'regex', web => $searchWeb };
         my $req = $app->search->parseSearch( $searchString, $options );
-        my $matches = Foswiki::Meta::query( $req, undef, $options );
+        my $matches = $app->store->query( $req, undef, $options );
 
         while ( $matches->hasNext ) {
             my $webtopic = $matches->next;

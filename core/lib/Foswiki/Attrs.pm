@@ -387,6 +387,36 @@ sub findFirstOccurenceAttrs {
     return '';
 }
 
+=begin TML
+
+---+++ StaticMethod extractParameters($attr ) -> %params
+
+Extract all parameters from a variable string and returns a hash of parameters
+   * =$attr= - Attribute string
+Return: =%params=  Hash containing all parameters. The nameless parameter is stored in key =_DEFAULT=
+
+   * Example:
+      * Variable: =%<nop>TEST{ 'nameless' name1="val1" name2="val2" }%=
+      * First extract text between ={...}= to get: ='nameless' name1="val1" name2="val2"=
+      * Then call this on the text: <br />
+   * params = Foswiki::Func::extractParameters( $text );=
+      * The =%params= hash contains now: <br />
+        =_DEFAULT => 'nameless'= <br />
+        =name1 => "val1"= <br />
+        =name2 => "val2"=
+
+=cut
+
+sub extractParameters {
+    my ($attr) = @_;
+    my $params = new Foswiki::Attrs($attr);
+
+    # take out _RAW and _ERROR (compatibility)
+    delete $params->{_RAW};
+    delete $params->{_ERROR};
+    return %$params;
+}
+
 # ---++ StaticMethod extractValue() -> $string
 #
 # Legacy support, formerly known as extractNameValuePair. This

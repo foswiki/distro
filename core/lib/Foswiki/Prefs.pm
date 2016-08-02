@@ -68,6 +68,7 @@ use Foswiki::Prefs::HASH  ();
 use Foswiki::Prefs::Stack ();
 use Foswiki::Prefs::Web   ();
 use Scalar::Util          ();
+use Foswiki qw(findCaller);
 
 use Moo;
 use namespace::clean;
@@ -612,6 +613,132 @@ sub stringify {
     }
 
     return join( "\n", @list ) . "\n";
+}
+
+=begin TML
+
+---++ API
+
+=cut
+
+=begin TML
+
+---+++ ObjectMethod getValue( $key, $web ) -> $value
+
+Get a preferences value for the currently requested context, from the currently request topic, its web and the site.
+   * =$key= - Preference name
+   * =$web= - Name of web, optional. If defined, we shortcircuit to WebPreferences (ignoring SitePreferences). This is really only useful for ACLs.
+   
+Return: =$value=  Preferences value; undefined if not set
+
+   * Example for preferences setting:
+      * WebPreferences topic has: =* Set WEBBGCOLOR = #FFFFC0=
+      * =my $webColor = $app->prefs->getValue( 'WEBBGCOLOR', 'Sandbox' );=
+
+   * Example for MyPlugin setting:
+      * if the %SYSTEMWEB%.MyPlugin topic has: =* Set COLOR = red=
+      * Use ="MYPLUGIN_COLOR"= for =$key=
+      * =my $color = $app->prefs->getValue( "MYPLUGIN_COLOR" );=
+
+*NOTE:* If =$NO_PREFS_IN_TOPIC= is enabled in the plugin, then
+preferences set in the plugin topic will be ignored.
+
+=cut
+
+sub getValue {
+    my $this = shift;
+    my ( $key, $web ) = @_;
+
+    if ($web) {
+        $web = $this->app->_checkWTA($web);
+        return undef unless defined $web;
+
+        # Web preference
+        my $webObject = $this->create( 'Foswiki::Meta', web => $web );
+        return $webObject->getPreference($key);
+    }
+    return $this->getPreference($key);
+}
+
+=begin TML
+
+---+++ ObjectMethod getPluginValue( $key ) -> $value
+
+Get a preferences value from your Plugin
+   * =$key= - Plugin Preferences key w/o PLUGINNAME_ prefix.
+Return: =$value=  Preferences value; empty string if not set
+
+__Note__: This function will will *only* work when called from the Plugin.pm
+file itself. it *will not work* if called from a sub-package (e.g.
+Foswiki::Plugins::MyPlugin::MyModule)
+
+*NOTE:* If =$NO_PREFS_IN_TOPIC= is enabled in the plugin, then
+preferences set in the plugin topic will be ignored.
+
+=cut
+
+sub _guessCallingPlugin {
+    my $this = shift;
+    my $package =
+      findCaller( qr/^(?:Foswiki::Prefs|Foswiki|Foswiki::Func)::[^:]+$/, 1 )
+      // '';
+    return undef unless defined $package;
+    $package =~ s/(.*):://;    # strip off Foswiki::Plugins:: prefix
+    return $package;
+}
+
+sub getPluginValue {
+    my $this       = shift;
+    my ($key)      = @_;
+    my $pluginName = $this->_guessCallingPlugin;
+    return $this->getPreference("\U$pluginName\E_$key");
+}
+
+=begin TML
+
+---+++ ObjectMethod getFlag( $key, $web ) -> $value
+
+Get a preferences flag from Foswiki or from a Plugin
+   * =$key= - Preferences key
+   * =$web= - Name of web, optional. Current web if not specified; does not apply to settings of Plugin topics
+Return: =$value=  Preferences flag ='1'= (if set), or ="0"= (for preferences values ="off"=, ="no"= and ="0"=)
+
+   * Example for Plugin setting:
+      * MyPlugin topic has: =* Set SHOWHELP = off=
+      * Use ="MYPLUGIN_SHOWHELP"= for =$key=
+      * =my $showHelp = $app->prefs->getFlag( "MYPLUGIN_SHOWHELP" );=
+
+*NOTE:* If =$NO_PREFS_IN_TOPIC= is enabled in the plugin, then
+preferences set in the plugin topic will be ignored.
+
+=cut
+
+sub getFlag {
+    my $this = shift;
+    my $t    = $this->getValue(@_);
+    return Foswiki::isTrue($t);
+}
+
+=begin TML
+
+---+++ ObjectMethod getPluginFlag( $key ) -> $boolean
+
+Get a preferences flag from your Plugin
+   * =$key= - Plugin Preferences key w/o PLUGINNAME_ prefix.
+Return: false for preferences values ="off"=, ="no"= and ="0"=, or values not set at all. True otherwise.
+
+__Note__: This function will will *only* work when called from the Plugin.pm file itself. it *will not work* if called from a sub-package (e.g. Foswiki::Plugins::MyPlugin::MyModule)
+
+*NOTE:* If =$NO_PREFS_IN_TOPIC= is enabled in the plugin, then
+preferences set in the plugin topic will be ignored.
+
+=cut
+
+sub getPluginFlag {
+    my $this       = shift;
+    my ($key)      = @_;
+    my $pluginName = $this->_guessCallingPlugin;
+    return $this->getFlag("\U$pluginName\E_$key");
 }
 
 1;

@@ -29,7 +29,7 @@ my %expected_status = (
     restauth    => 404,
     resetpasswd => 400,    # LoginName parameter required but not passed.
     manage      => 400,    # See TODO comment below.
-    upload      => 400,    # See TODO comment below.
+    upload      => 302,    # See TODO comment below.
     register    => 501,    # See TODO comment below.
 );
 

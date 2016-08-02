@@ -76,7 +76,9 @@ this is a default implementation of the query() sub that uses the specific algor
 =cut
 
 sub query {
-    my ( $this, $query, $inputTopicSet, $app, $options ) = @_;
+    my ( $this, $query, $inputTopicSet, $options ) = @_;
+
+    my $app = $this->app;
 
     if ( $query->isEmpty() )
     {    #TODO: does this do anything in a type=query context?
@@ -107,10 +109,9 @@ sub query {
             my $web    = shift;
             my $params = shift;
 
-            my $infoCache = $this->_webQuery(
-                $params->{query}, $web, $params->{inputset},
-                $params->{app},   $params->{options}
-            );
+            my $infoCache =
+              $this->_webQuery( $params->{query}, $web, $params->{inputset},
+                $params->{options} );
 
             if ($date) {
                 $infoCache->filterByDate($date);

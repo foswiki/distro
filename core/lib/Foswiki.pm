@@ -6,44 +6,10 @@ use v5.14;    # First version to accept v-numbers.
 
 ---+ package Foswiki
 
-Foswiki operates by creating a singleton object (known as the Session
-object) that acts as a point of reference for all the different
-modules in the system. This package is the class for this singleton,
-and also contains the vast bulk of the basic constants and the per-
-site configuration mechanisms.
-
-Global variables are avoided wherever possible to avoid problems
-with CGI accelerators such as mod_perl.
-
----++ Public Data members
-   * =request=          Pointer to the Foswiki::Request
-   * =response=         Pointer to the Foswiki::Response
-   * =context=          Hash of context ids
-   * =plugins=          Foswiki::Plugins singleton
-   * =prefs=            Foswiki::Prefs singleton
-   * =remoteUser=       Login ID when using ApacheLogin. Maintained for
-                        compatibility only, do not use.
-   * =requestedWebName= Name of web found in URL path or =web= URL parameter
-   * =scriptUrlPath=    URL path to the current script. May be dynamically
-                        extracted from the URL path if {GetScriptUrlFromCgi}.
-                        Only required to support {GetScriptUrlFromCgi} and
-                        not consistently used. Avoid.
-   * =access=         Foswiki::Access singleton
-   * =store=            Foswiki::Store singleton
-   * =topicName=        Name of topic found in URL path or =topic= URL
-                        parameter
-   * =urlHost=          Host part of the URL (including the protocol)
-                        determined during intialisation and defaulting to
-                        {DefaultUrlHost}
-   * =user=             Unique user ID of logged-in user
-   * =users=            Foswiki::Users singleton
-   * =webName=          Name of web found in URL path, or =web= URL parameter,
-                        or {UsersWebName}
 
 =cut
 
 use Cwd qw( abs_path );
-use Module::Load;
 use File::Spec   ();
 use Monitor      ();
 use CGI          ();    # Always required to get html generation tags;
@@ -67,7 +33,6 @@ our $RELEASE;
 our $UNICODE = 1;  # flag that extensions can use to test if the core is unicode
 our $TRUE    = 1;
 our $FALSE   = 0;
-our $engine;
 our $TranslationToken = "\0";    # Do not deprecate - used in many plugins
 our $system_message;             # Important broadcast message from the system
 my $bootstrap_message = '';      # Bootstrap message.
@@ -99,7 +64,8 @@ use Try::Tiny;
 use Assert;
 use Exporter qw(import);
 our @EXPORT_OK =
-  qw(%regex urlEncode urlDecode make_params load_package load_class expandStandardEscapes);
+  qw(%regex urlEncode urlDecode make_params load_package load_class
+  expandStandardEscapes findCaller findCallerByPrefix isTrue);
 
 sub SINGLE_SINGLETONS       { 0 }
 sub SINGLE_SINGLETONS_TRACE { 0 }
@@ -252,32 +218,6 @@ sub splitAnchorFromUrl {
 
     ( $url, my $anchor ) = $url =~ m/^(.*?)(#(.*?))*$/;
     return ( $url, $anchor );
-}
-
-=begin TML
-
----++ ObjectMethod getCGISession() -> $cgisession
-
-Get the CGI::Session object associated with this session, if there is
-one. May return undef.
-
-=cut
-
-sub getCGISession {
-    $_[0]->users->getCGISession();
-}
-
-=begin TML
-
----++ ObjectMethod getLoginManager() -> $loginManager
-
-Get the Foswiki::LoginManager object associated with this session, if there is
-one. May return undef.
-
-=cut
-
-sub getLoginManager {
-    $_[0]->users->getLoginManager();
 }
 
 =begin TML
@@ -845,6 +785,123 @@ sub putBackBlocks {
     $ntext .= $otext;    # Append any remaining text.
     $$text = $ntext;     # Replace the entire text
 
+}
+
+=begin TML
+
+---++ StaticMethod findCaller($regex, $negate) -> $moduleName || undef
+
+Returns first module name matching =$regex= found in the call stack as given
+by Perl function =caller()=. Returns undef if no module matching the regex
+found.
+
+If =$negate= is true than the first module which doesn't match is returned.
+
+=cut
+
+sub findCaller {
+    my ( $regex, $negate ) = @_;
+
+    my $level = 1;
+    while ( defined( my $modName = caller($level) ) ) {
+        my $found = $modName =~ $regex;
+        $found = !$found if $negate;
+        if ($found) {
+            return wantarray ? ( $modName, $level ) : $modName;
+        }
+        $level++;
+    }
+
+    return undef;
+}
+
+=begin TML
+
+---++ StaticMethod findCallerByPrefix($prefix) -> $moduleName || undef
+
+Returns first module name which name starts with $prefix found in the call stack
+as returned by Perl function =caller()=. Returns undef if no module with the
+prefix is found.
+
+=cut
+
+sub findCallerByPrefix {
+    my $prefix = shift;
+
+    my $match = qr/^\Q$prefix\E/;
+    return findCaller($match);
+}
+
+=begin TML
+
+---+++ StaticMethod readFile( $filename, $unicode ) -> $text
+
+Read file, low level. Used for Plugin workarea.
+   * =$filename= - Full path name of file
+   * =$unicode= - Specify that file contains unicode text  *New with Foswiki 2.0*
+Return: =$text= Content of file, empty if not found
+
+__NOTE:__ Use this function only for the Plugin workarea, *not* for topics and attachments. Use the appropriate functions to manipulate topics and attachments.
+
+Foswiki 2.0 APIs generally all use UNICODE strings, and all data is properly decoded from/to utf-8 at the edge.  *This API is an exception!*
+Because this API can be used to retrieve data of any type including binary data, it is *not* decoded to unicode by default.
+By default, data is read as raw bytes, without any encoding layer.
+
+If you are using this API to read topic originated data, topic names, etc. then you should set the =$unicode= flag so that the data returned is a valid perl character string.
+
+=cut
+
+sub readFile {
+    my ( $name, $unicode ) = @_;
+    my $data = '';
+    my $IN_FILE;
+    open( $IN_FILE, '<', $name ) || return '';
+
+    if ($unicode) {
+        binmode $IN_FILE, ':encoding(utf-8)';
+    }
+    local $/ = undef;    # set to read to EOF
+    $data = <$IN_FILE>;
+    close($IN_FILE);
+    $data = '' unless $data;    # no undefined
+    return $data;
+}
+
+=begin TML
+
+---+++ StaticMethod saveFile( $filename, $text, $unicode )
+
+Save file, low level. Used for Plugin workarea.
+   * =$filename= - Full path name of file
+   * =$text=     - Text to save
+   * =$unicode=  - Flag indicates that $text string should be saved as utf-8. *New with Foswiki 2.0*
+
+Return:                none
+
+__NOTE:__ Use this function only for the Plugin workarea, *not* for topics and attachments. Use the appropriate functions to manipulate topics and attachments.
+
+Foswiki 2.0 APIs generally all use UNICODE strings, and all data is properly decoded from/to utf-8 at the edge.  *This API is an exception!*
+Because this API can be used to save data of any type including binary data, it is *not* decoded to unicode by default.
+By default, data is written as raw bytes, without any encoding layer.
+
+If you are using this API to write topic data, topic names, etc. then you should set the =$unicode= flag so that the data returned as a valid perl character string.
+
+Failure to set the =$unicode= flag when required will result in perl "Wide character in print" errors.
+
+=cut
+
+sub saveFile {
+    my ( $name, $text, $unicode ) = @_;
+    my $FILE;
+    unless ( open( $FILE, '>', $name ) ) {
+        die "Can't create file $name - $!\n";
+    }
+
+    if ($unicode) {
+        binmode $FILE, ':encoding(utf-8)';
+    }
+    print $FILE $text;
+    close($FILE);
 }
 
 1;

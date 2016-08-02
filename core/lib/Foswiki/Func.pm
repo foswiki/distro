@@ -74,43 +74,9 @@ BEGIN {
 # Given $web, $web and $topic, or $web $topic and $attachment, validate
 # and untaint each of them and return. If any fails to validate it will
 # be returned as undef.
-sub _checkWTA {
-    my ( $web, $topic, $attachment ) = @_;
-    if ( defined $topic ) {
-        ASSERT($Foswiki::app) if DEBUG;
-        ( $web, $topic ) =
-          $Foswiki::app->request->normalizeWebTopicName( $web, $topic );
-    }
-    if ( Scalar::Util::tainted($web) ) {
-        $web = Foswiki::Sandbox::untaint( $web,
-            \&Foswiki::Sandbox::validateWebName );
-    }
-    return ($web) unless defined $web && defined $topic;
-
-    if ( Scalar::Util::tainted($topic) ) {
-        $topic = Foswiki::Sandbox::untaint( $topic,
-            \&Foswiki::Sandbox::validateTopicName );
-    }
-    return ( $web, $topic ) unless defined $topic && defined $attachment;
-
-    if ( Scalar::Util::tainted($attachment) ) {
-        $attachment = Foswiki::Sandbox::untaint( $attachment,
-            \&Foswiki::Sandbox::validateAttachmentName );
-    }
-    return ( $web, $topic, $attachment );
-
-}
 
 # Validate a web.topic.attachment and throw an exception if the
 # validation fails
-sub _validateWTA {
-    my ( $web, $topic, $attachment ) = @_;
-    my ( $w, $t, $a ) = _checkWTA( $web, $topic, $attachment );
-    die 'Invalid web'        if ( defined $web        && !defined $w );
-    die 'Invalid topic'      if ( defined $topic      && !defined $t );
-    die 'Invalid attachment' if ( defined $attachment && !defined $a );
-    return ( $w, $t, $a );
-}
 
 =begin TML
 
@@ -127,12 +93,6 @@ Get the skin path, set by the =SKIN= and =COVER= preferences variables or the =s
 Return: =$skin= Comma-separated list of skins, e.g. ='gnu,tartan'=. Empty string if none.
 
 =cut
-
-sub getSkin {
-    ASSERT($Foswiki::app) if DEBUG;
-
-    return $Foswiki::app->getSkin();
-}
 
 =begin TML
 
@@ -174,15 +134,6 @@ $url = Foswiki::Func::getScriptUrl('Web', 'Topic', 'edit');</verbatim>
 
 =cut
 
-sub getScriptUrl {
-    my $web    = shift;
-    my $topic  = shift;
-    my $script = shift;
-    ASSERT($Foswiki::app) if DEBUG;
-
-    return $Foswiki::app->cfg->getScriptUrl( 1, $script, $web, $topic, @_ );
-}
-
 =begin TML
 
 ---+++ getScriptUrlPath( $web, $topic, $script, ... ) -> $path
@@ -204,15 +155,6 @@ backwards-compatible with the old version which was deprecated 28 Nov 2008).
 
 =cut
 
-sub getScriptUrlPath {
-    my $web    = shift;
-    my $topic  = shift;
-    my $script = shift;
-    ASSERT($Foswiki::app) if DEBUG;
-
-    return $Foswiki::app->cfg->getScriptUrl( 0, $script, $web, $topic, @_ );
-}
-
 =begin TML
 
 ---+++ getViewUrl( $web, $topic ) -> $url
@@ -223,15 +165,6 @@ Compose fully qualified view URL
 Return: =$url=      URL, e.g. ="http://example.com:80/cgi-bin/view.pl/Main/WebNotify"=
 
 =cut
-
-sub getViewUrl {
-    my ( $web, $topic ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-
-    $web ||= $Foswiki::app->request->web
-      || $Foswiki::cfg{UsersWebName};
-    return getScriptUrl( $web, $topic, 'view' );
-}
 
 =begin TML
 
@@ -329,14 +262,6 @@ if (!$response->is_error() && $response->isa('HTTP::Response')) {
 
 =cut
 
-sub getExternalResource {
-    my ($url) = @_;
-    ASSERT($Foswiki::app)  if DEBUG;
-    ASSERT( defined $url ) if DEBUG;
-
-    return $Foswiki::app->net->getExternalResource($url);
-}
-
 =begin TML
 
 ---+++ getRequestObject( ) -> $query
@@ -383,12 +308,6 @@ Session keys are stored and retrieved using =setSessionValue= and
 
 =cut
 
-sub getSessionKeys {
-    ASSERT($Foswiki::app) if DEBUG;
-    my $hash = $Foswiki::app->getLoginManager()->getSessionValues();
-    return keys %{$hash};
-}
-
 =begin TML
 
 ---+++ getSessionValue( $key ) -> $value
@@ -398,14 +317,6 @@ Get a session value from the client session module
 Return: =$value=  Value associated with key; empty string if not set
 
 =cut
-
-sub getSessionValue {
-
-    #   my( $key ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-
-    return $Foswiki::app->users->getLoginManager()->getSessionValue(@_);
-}
 
 =begin TML
 
@@ -418,14 +329,6 @@ Return: true if function succeeded
 
 =cut
 
-sub setSessionValue {
-
-    #   my( $key, $value ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-
-    $Foswiki::app->getLoginManager()->setSessionValue(@_);
-}
-
 =begin TML
 
 ---+++ clearSessionValue( $key ) -> $boolean
@@ -436,12 +339,6 @@ Clear a session value that was set using =setSessionValue=.
 Return: true if the session value was cleared
 
 =cut
-
-sub clearSessionValue {
-    ASSERT($Foswiki::app) if DEBUG;
-
-    return $Foswiki::app->getLoginManager()->clearSessionValue(@_);
-}
 
 =begin TML
 
@@ -523,22 +420,6 @@ values will be unchanged.
 
 =cut
 
-sub pushTopicContext {
-    my $app = $Foswiki::app;
-    ASSERT($app) if DEBUG;
-    my ( $web, $topic ) = _validateWTA(@_);
-
-    $app->prefs->pushTopicContext( $web, $topic );
-    $app->request->web($web);
-    $app->request->topic($topic);
-    $app->prefs->setInternalPreferences(
-        BASEWEB        => $web,
-        BASETOPIC      => $topic,
-        INCLUDINGWEB   => $web,
-        INCLUDINGTOPIC => $topic
-    );
-}
-
 =begin TML
 
 ---+++ popTopicContext()
@@ -547,14 +428,6 @@ Returns the Foswiki context to the state it was in before the
 =pushTopicContext= was called.
 
 =cut
-
-sub popTopicContext {
-    my $app = $Foswiki::app;
-    ASSERT($app) if DEBUG;
-    my ( $web, $topic ) = $app->prefs->popTopicContext();
-    $app->request->web($web);
-    $app->request->topic($topic);
-}
 
 =begin TML
 
@@ -621,49 +494,6 @@ Registered tags differ from tags implemented using the old approach (text substi
    * registered tag handlers *cannot* return another tag as their only result (e.g. =return '%<nop>SERVERTIME%';=). It won't work.
 
 =cut
-
-# SMELL Must be a Foswiki::Plugins method.
-sub registerTagHandler {
-    my ( $tag, $function, $syntax ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-    ASSERT( $Foswiki::app->isa('Foswiki::App') ) if DEBUG;
-
-    # $pluginContext is undefined if a contrib registers a tag handler.
-    my $pluginContext;
-    if ( caller =~ m/^Foswiki::Plugins::(\w+)/ ) {
-        $pluginContext = $1 . 'Enabled';
-    }
-
-    # Use an anonymous function so it gets inlined at compile time.
-    # Make sure we don't mangle the session reference.
-    $Foswiki::app->macros->registerTagHandler(
-        $tag,
-        sub {
-            my ( $this, $params, $topicObject ) = @_;
-
-            #local $Foswiki::app = $session;
-
-            # $pluginContext is defined for all plugins
-            # but never defined for contribs.
-            # This is convenient, because contribs cannot be disabled
-            # at run-time, either.
-            if ( defined $pluginContext ) {
-
-                # Registered tag handlers should only be called if the plugin
-                # is enabled. Disabled plugins can still have tag handlers
-                # registered in persistent environments (e.g. modperl)
-                # and also for rest handlers that disable plugins.
-                # See Item1871
-                return unless $this->inContext($pluginContext);
-            }
-
-            # Compatibility; expand $topicObject to the topic and web
-            return &$function( $this, $params, $topicObject->topic,
-                $topicObject->web, $topicObject );
-        },
-        $syntax
-    );
-}
 
 =begin TML=
 
@@ -751,6 +581,7 @@ For example,
 
 =cut
 
+# XXX vrurg Not sure how to deal with this one.
 sub registerRESTHandler {
     my ( $alias, $function, %options ) = @_;
     ASSERT($Foswiki::app) if DEBUG;
@@ -818,21 +649,8 @@ preferences set in the plugin topic will be ignored.
 =cut
 
 sub getPreferencesValue {
-    my ( $key, $web ) = @_;
     ASSERT($Foswiki::app) if DEBUG;
-    if ($web) {
-        $web = _checkWTA($web);
-        return undef unless defined $web;
-
-        # Web preference
-        my $webObject = $Foswiki::app->create( 'Foswiki::Meta', web => $web );
-        return $webObject->getPreference($key);
-    }
-    else {
-
-        # Global preference
-        return $Foswiki::app->prefs->getPreference($key);
-    }
+    return $Foswiki::app->prefs->getValue(@_);
 }
 
 =begin TML
@@ -851,11 +669,8 @@ preferences set in the plugin topic will be ignored.
 =cut
 
 sub getPluginPreferencesValue {
-    my ($key) = @_;
     ASSERT($Foswiki::app) if DEBUG;
-    my $package = caller;
-    $package =~ s/.*:://;    # strip off Foswiki::Plugins:: prefix
-    return $Foswiki::app->prefs->getPreference("\U$package\E_$key");
+    return $Foswiki::app->prefs->getPluginValue(@_);
 }
 
 =begin TML
@@ -878,10 +693,8 @@ preferences set in the plugin topic will be ignored.
 =cut
 
 sub getPreferencesFlag {
-
-    #   my( $key, $web ) = @_;
-    my $t = getPreferencesValue(@_);
-    return Foswiki::isTrue($t);
+    ASSERT($Foswiki::app) if DEBUG;
+    return $Foswiki::app->prefs->getFlag(@_);
 }
 
 =begin TML
@@ -900,10 +713,8 @@ preferences set in the plugin topic will be ignored.
 =cut
 
 sub getPluginPreferencesFlag {
-    my ($key) = @_;
-    my $package = caller;
-    $package =~ s/.*:://;    # strip off Foswiki::Plugins:: prefix
-    return getPreferencesFlag("\U$package\E_$key");
+    ASSERT($Foswiki::app) if DEBUG;
+    return $Foswiki::app->prefs->getPluginFlag(@_);
 }
 
 =begin TML
@@ -920,8 +731,8 @@ preferences cannot be redefined using this function.
 =cut
 
 sub setPreferencesValue {
-    my ( $name, $value ) = @_;
-    return $Foswiki::app->prefs->setSessionPreferences( $name => $value );
+    ASSERT($Foswiki::app) if DEBUG;
+    return $Foswiki::app->prefs->setSessionPreferences(@_);
 }
 
 =begin TML
@@ -933,10 +744,6 @@ Get default user name as defined in the configuration as =DefaultUserLogin=
 Return: =$loginName= Default user name, e.g. ='guest'=
 
 =cut
-
-sub getDefaultUserName {
-    return $Foswiki::cfg{DefaultUserLogin};
-}
 
 =begin TML
 
@@ -957,26 +764,6 @@ unregistered user.
 
 =cut
 
-sub getCanonicalUserID {
-    my $user = shift;
-    return $Foswiki::app->user unless ($user);
-    ASSERT($Foswiki::app) if DEBUG;
-    my $cUID;
-    if ($user) {
-        $cUID = $Foswiki::app->users->getCanonicalUserID($user);
-        if ( !$cUID ) {
-
-            # Not a login name or a wiki name. Is it a valid cUID?
-            my $ln = $Foswiki::app->users->getLoginName($user);
-            $cUID = $user if defined $ln && $ln ne 'unknown';
-        }
-    }
-    else {
-        $cUID = $Foswiki::app->user;
-    }
-    return $cUID;
-}
-
 =begin TML
 
 ---+++ getWikiName( $user ) -> $wikiName
@@ -990,18 +777,6 @@ Return: =$wikiName= Wiki Name, e.g. ='JohnDoe'=
 
 =cut
 
-sub getWikiName {
-    my $user = shift;
-    ASSERT($Foswiki::app) if DEBUG;
-    my $cUID = getCanonicalUserID($user);
-    unless ( defined $cUID ) {
-        my ( $w, $u ) =
-          normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $user );
-        return $u;
-    }
-    return $Foswiki::app->users->getWikiName($cUID);
-}
-
 =begin TML
 
 ---+++ getWikiUserName( $user ) -> $wikiName
@@ -1014,18 +789,6 @@ if $user is undefined Get Wiki name of logged in user
 Return: =$wikiName= Wiki Name, e.g. ="Main.JohnDoe"=
 
 =cut
-
-sub getWikiUserName {
-    my $user = shift;
-    ASSERT($Foswiki::app) if DEBUG;
-    my $cUID = getCanonicalUserID($user);
-    unless ( defined $cUID ) {
-        my ( $w, $u ) =
-          normalizeWebTopicName( $Foswiki::cfg{UsersWebName}, $user );
-        return "$w.$u";
-    }
-    return $Foswiki::app->users->webDotWikiName($cUID);
-}
 
 =begin TML
 
@@ -1047,20 +810,6 @@ returns undef if the WikiName is not found.
 
 =cut 
 
-sub wikiToUserName {
-    my ($wiki) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-    return '' unless $wiki;
-
-    my $cUID = getCanonicalUserID($wiki);
-    if ($cUID) {
-        my $login = $Foswiki::app->users->getLoginName($cUID);
-        return if !$login || $login eq 'unknown';
-        return $login;
-    }
-    return;
-}
-
 =begin TML
 
 ---+++ userToWikiName( $loginName, $dontAddWeb ) -> $wikiName
@@ -1076,21 +825,6 @@ exist in the mapping, the $loginName parameter is returned. (backward compatibil
 
 =cut
 
-sub userToWikiName {
-    my ( $login, $dontAddWeb ) = @_;
-    return '' unless $login;
-    ASSERT($Foswiki::app) if DEBUG;
-    my $users = $Foswiki::app->users;
-    my $user  = getCanonicalUserID($login);
-    return (
-          $dontAddWeb
-        ? $login
-        : ( $Foswiki::cfg{UsersWebName} . '.' . $login )
-    ) unless $user and $users->userExists($user);
-    return $users->getWikiName($user) if $dontAddWeb;
-    return $users->webDotWikiName($user);
-}
-
 =begin TML
 
 ---+++ emailToWikiNames( $email, $dontAddWeb ) -> @wikiNames
@@ -1101,27 +835,6 @@ registered address. Since several users could register with the same email
 address, this returns a list of wikinames rather than a single wikiname.
 
 =cut
-
-sub emailToWikiNames {
-    my ( $email, $dontAddWeb ) = @_;
-    ASSERT($email) if DEBUG;
-
-    my %matches;
-    my $users = $Foswiki::app->users;
-    my $ua    = $users->findUserByEmail($email);
-    if ($ua) {
-        foreach my $user (@$ua) {
-            if ($dontAddWeb) {
-                $matches{ $users->getWikiName($user) } = 1;
-            }
-            else {
-                $matches{ $users->webDotWikiName($user) } = 1;
-            }
-        }
-    }
-
-    return sort keys %matches;
-}
 
 =begin TML
 
@@ -1134,27 +847,6 @@ $user may also be a group.
 
 =cut
 
-sub wikinameToEmails {
-    my ($wikiname) = @_;
-    if ($wikiname) {
-        if ( isGroup($wikiname) ) {
-            return $Foswiki::app->users->getEmails($wikiname);
-        }
-        else {
-            my $uids = $Foswiki::app->users->findUserByWikiName($wikiname);
-            my @em   = ();
-            foreach my $user (@$uids) {
-                push( @em, $Foswiki::app->users->getEmails($user) );
-            }
-            return @em;
-        }
-    }
-    else {
-        my $user = $Foswiki::app->user;
-        return $Foswiki::app->users->getEmails($user);
-    }
-}
-
 =begin TML
 
 ---+++ isGuest( ) -> $boolean
@@ -1162,12 +854,6 @@ sub wikinameToEmails {
 Test if logged in user is a guest (WikiGuest)
 
 =cut
-
-sub isGuest {
-    ASSERT($Foswiki::app) if DEBUG;
-    return $Foswiki::app->user eq $Foswiki::app->users->getCanonicalUserID(
-        $Foswiki::cfg{DefaultUserLogin} );
-}
 
 =begin TML
 
@@ -1178,11 +864,6 @@ the currently logged-in user is assumed.
    * $id can be either a login name or a WikiName
 
 =cut
-
-sub isAnAdmin {
-    my $user = shift;
-    return $Foswiki::app->users->isAdmin( getCanonicalUserID($user) );
-}
 
 =begin TML
 
@@ -1203,25 +884,6 @@ If =$user= is =undef=, it defaults to the currently logged-in user.
 
 =cut
 
-sub isGroupMember {
-    my ( $group, $user, $options ) = @_;
-    my $users = $Foswiki::app->users;
-
-    my $expand = Foswiki::Func::isTrue( $options->{expand}, 1 );
-
-    return () unless $users->isGroup($group);
-    if ($user) {
-
-        #my $login = wikiToUserName( $user );
-        #return 0 unless $login;
-        $user = getCanonicalUserID($user) || $user;
-    }
-    else {
-        $user = $Foswiki::app->user;
-    }
-    return $users->isInGroup( $user, $group, { expand => $expand } );
-}
-
 =begin TML
 
 ---+++ eachUser() -> $iterator
@@ -1241,14 +903,6 @@ Use it as follows:
 
 =cut
 
-sub eachUser {
-    my $it = $Foswiki::app->users->eachUser();
-    $it->{process} = sub {
-        return $Foswiki::app->users->getWikiName( $_[0] );
-    };
-    return $it;
-}
-
 =begin TML
 
 ---+++ eachMembership($id) -> $iterator
@@ -1257,22 +911,6 @@ sub eachUser {
 Get an iterator over the names of all groups that the user is a member of.
 
 =cut
-
-sub eachMembership {
-    my ($user) = @_;
-    my $users = $Foswiki::app->users;
-
-    if ($user) {
-        my $login = wikiToUserName($user);
-        return 0 unless $login;
-        $user = getCanonicalUserID($login);
-    }
-    else {
-        $user = $Foswiki::app->user;
-    }
-
-    return $users->eachMembership($user);
-}
 
 =begin TML
 
@@ -1292,12 +930,6 @@ Use it as follows:
 
 =cut
 
-sub eachGroup {
-    my $session = $Foswiki::app;
-    my $it      = $session->users->eachGroup();
-    return $it;
-}
-
 =begin TML
 
 ---+++ isGroup( $group ) -> $boolean
@@ -1305,12 +937,6 @@ sub eachGroup {
 Checks if =$group= is the name of a user group.
 
 =cut
-
-sub isGroup {
-    my ($group) = @_;
-
-    return $Foswiki::app->users->isGroup($group);
-}
 
 =begin TML
 
@@ -1334,22 +960,6 @@ Use it as follows:  Process all users in RadioHeadGroup without expanding nested
 
 =cut
 
-sub eachGroupMember {
-    my ( $user, $options ) = @_;
-
-    my $expand = Foswiki::Func::isTrue( $options->{expand}, 1 );
-
-    my $session = $Foswiki::app;
-    return
-      unless $Foswiki::app->users->isGroup($user);
-    my $it =
-      $Foswiki::app->users->eachGroupMember( $user, { expand => $expand } );
-    $it->{process} = sub {
-        return $Foswiki::app->users->getWikiName( $_[0] );
-    };
-    return $it;
-}
-
 =begin TML
 
 ---+++ addUserToGroup( $id, $group, $create ) -> $boolean
@@ -1358,19 +968,6 @@ sub eachGroupMember {
 
 =cut
 
-sub addUserToGroup {
-    my ( $user, $group, $create ) = @_;
-    my $users = $Foswiki::app->users;
-
-    return () unless ( $users->isGroup($group) || $create );
-    if ( defined $user && !$users->isGroup($user) )
-    {    #requires isInGroup to also work on nested groupnames
-        $user = getCanonicalUserID($user) || $user;
-        return unless ( defined($user) );
-    }
-    return $users->addUserToGroup( $user, $group, $create );
-}
-
 =begin TML
 
 ---+++ removeUserFromGroup( $group, $id ) -> $boolean
@@ -1378,20 +975,6 @@ sub addUserToGroup {
    * $id can be a login name or a WikiName
 
 =cut
-
-sub removeUserFromGroup {
-    my ( $user, $group ) = @_;
-    my $users = $Foswiki::app->users;
-
-    return () unless $users->isGroup($group);
-
-    if ( !$users->isGroup($user) )
-    {    #requires isInGroup to also work on nested groupnames
-        $user = getCanonicalUserID($user) || $user;
-        return unless ( defined($user) );
-    }
-    return $users->removeUserFromGroup( $user, $group );
-}
 
 =begin TML
 
@@ -1455,52 +1038,6 @@ in =ThatWeb.ThisTopic=, then a call to =checkAccessPermission('SPIN', 'IncyWincy
 
 =cut
 
-sub checkAccessPermission {
-    my ( $type, $user, $text, $inTopic, $inWeb, $meta ) = @_;
-    return 1 unless ($user);
-
-    my ( $web, $topic ) = _checkWTA( $inWeb, $inTopic );
-    return 0 unless defined $web;    #Web name is illegal.
-    if ( defined $inTopic ) {
-        my $top = $topic;
-        return 0 unless ( defined $topic );    #Topic name is illegal
-    }
-
-    ASSERT($Foswiki::app) if DEBUG;
-    $text = undef unless $text;
-    my $cUID = getCanonicalUserID($user)
-      || getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} );
-    if ( !defined($meta) ) {
-        if ($text) {
-            $meta = $Foswiki::app->create(
-                'Foswiki::Meta',
-                web   => $web,
-                topic => $topic,
-                text  => $text
-            );
-        }
-        else {
-            $meta = Foswiki::Meta->load( $Foswiki::app, $web, $topic );
-        }
-    }
-    elsif ($text) {
-
-        # don't alter an existing $meta using the provided text;
-        # use a temporary clone instead
-        my $tmpMeta = $Foswiki::app->create(
-            'Foswiki::Meta',
-            web   => $web,
-            topic => $topic,
-            text  => $text
-        );
-        $tmpMeta->copyFrom($meta);
-        $meta = $tmpMeta;
-
-    }    # Otherwise meta overrides text - Item2953
-
-    return $meta->haveAccess( $type, $cUID );
-}
-
 =begin TML
 
 ---++ Traversing
@@ -1530,19 +1067,6 @@ as follows:
 
 =cut
 
-sub getListOfWebs {
-    my $filter = shift;
-    my $web    = shift;
-    if ( defined $web ) {
-        $web = _checkWTA($web);
-        return () unless defined $web;
-    }
-    ASSERT($Foswiki::app) if DEBUG;
-    require Foswiki::WebFilter;
-    my $f = new Foswiki::WebFilter( $filter || '' );
-    return $Foswiki::app->deepWebList( $f, $web );
-}
-
 =begin TML
 
 ---+++ isValidWebName( $name [, $system] ) -> $boolean
@@ -1569,14 +1093,6 @@ Test if web exists
 
 =cut
 
-sub webExists {
-    my ($web) = _checkWTA(@_);
-    return 0 unless defined $web;
-
-    ASSERT($Foswiki::app) if DEBUG;
-    return $Foswiki::app->store->webExists($web);
-}
-
 =begin TML
 
 ---+++ getTopicList( $web ) -> @topics
@@ -1586,15 +1102,6 @@ Get list of all topics in a web
 Return: =@topics= Topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'WebNotify' )=
 
 =cut
-
-sub getTopicList {
-
-    my ($web) = _validateWTA(@_);
-
-    my $webObject = $Foswiki::app->create( 'Foswiki::Meta', web => $web );
-    my $it = $webObject->eachTopic();
-    return $it->all();
-}
 
 =begin TML
 
@@ -1624,13 +1131,6 @@ To get an expected behaviour it is recommened to specify the current web for $we
 
 =cut
 
-sub topicExists {
-    ASSERT($Foswiki::app) if DEBUG;
-    my ( $web, $topic ) = _checkWTA(@_);
-    return 0 unless defined $web && defined $topic;
-    return $Foswiki::app->store->topicExists( $web, $topic );
-}
-
 =begin TML
 
 ---+++ readTopic( $web, $topic, $rev ) -> ( $meta, $text )
@@ -1650,16 +1150,6 @@ This method *ignores* topic access permissions. You should be careful to use
 topic.
 
 =cut
-
-sub readTopic {
-
-    my ( $web, $topic, $rev ) = @_;
-    ( $web, $topic ) = _validateWTA( $web, $topic );
-    ASSERT($Foswiki::app) if DEBUG;
-
-    my $meta = Foswiki::Meta->load( $Foswiki::app, $web, $topic, $rev );
-    return ( $meta, $meta->text() );
-}
 
 =begin TML
 
@@ -1682,28 +1172,6 @@ more efficient.
 
 =cut
 
-sub getRevisionInfo {
-    my ( $web, $topic, $rev, $attachment ) = @_;
-
-    ( $web, $topic ) = _validateWTA( $web, $topic );
-
-    ASSERT($Foswiki::app) if DEBUG;
-
-    my $topicObject;
-    my $info;
-    if ($attachment) {
-        $topicObject = Foswiki::Meta->load( $Foswiki::app, $web, $topic );
-        $info = $topicObject->getRevisionInfo( $attachment, $rev );
-    }
-    else {
-        $topicObject = Foswiki::Meta->load( $Foswiki::app, $web, $topic, $rev );
-        $info = $topicObject->getRevisionInfo();
-    }
-    return ( $info->{date},
-        $Foswiki::app->users->getWikiName( $info->{author} ),
-        $info->{version}, $info->{comment} );
-}
-
 =begin TML
 
 ---+++ getRevisionAtTime( $web, $topic, $time ) -> $rev
@@ -1717,18 +1185,6 @@ Return: Single-digit revision number, or undef if it couldn't be determined
 
 =cut
 
-sub getRevisionAtTime {
-    my ( $web, $topic, $time ) = @_;
-    ( $web, $topic ) = _validateWTA( $web, $topic );
-    ASSERT($Foswiki::app) if DEBUG;
-    my $topicObject = $Foswiki::app->create(
-        'Foswiki::Meta',
-        web   => $web,
-        topic => $topic
-    );
-    return $topicObject->getRevisionAtTime($time);
-}
-
 =begin TML
 
 ---+++ getAttachmentList( $web, $topic ) -> @list
@@ -1737,18 +1193,6 @@ Get a list of the attachments on the given topic.
 *Since:* 31 Mar 2009
 
 =cut
-
-sub getAttachmentList {
-    my ( $web, $topic ) = @_;
-    ( $web, $topic ) = _validateWTA( $web, $topic );
-    my $topicObject = $Foswiki::app->create(
-        'Foswiki::Meta',
-        web   => $web,
-        topic => $topic
-    );
-    my $it = $topicObject->eachAttachment();
-    return sort $it->all();
-}
 
 =begin TML
 
@@ -1764,18 +1208,6 @@ The attachment must exist in the store (it is not sufficient for it to be refere
 in the object only)
 
 =cut
-
-sub attachmentExists {
-    my ( $web, $topic, $attachment ) = _checkWTA(@_);
-    return 0 unless defined $web && defined $topic && $attachment;
-
-    my $topicObject = $Foswiki::app->create(
-        'Foswiki::Meta',
-        web   => $web,
-        topic => $topic
-    );
-    return $topicObject->hasAttachment($attachment);
-}
 
 =begin TML
 
@@ -1815,44 +1247,6 @@ See =Foswiki::Meta::openAttachment= for a lower level interface that does
 not check access controls.
 
 =cut
-
-sub readAttachment {
-    my ( $web, $topic, $attachment, $rev ) = @_;
-
-    ( $web, $topic, $attachment ) = _validateWTA( $web, $topic, $attachment );
-    die "Invalid attachment" unless $attachment;
-
-    ASSERT($Foswiki::app) if DEBUG;
-    ASSERT($attachment)   if DEBUG;
-
-    my $result;
-
-    my $topicObject = $Foswiki::app->create(
-        'Foswiki::Meta',
-        web   => $web,
-        topic => $topic
-    );
-    unless ( $topicObject->haveAccess('VIEW') ) {
-        Foswiki::AccessControlException->throw(
-            mode   => 'VIEW',
-            user   => $Foswiki::app->user,
-            web    => $web,
-            topic  => $topic,
-            reason => $Foswiki::Meta::reason
-        );
-    }
-    my $fh;
-    try {
-        $fh = $topicObject->openAttachment( $attachment, '<', version => $rev );
-    }
-    catch {
-        $fh = undef;
-    };
-    return undef unless $fh;
-    local $/;
-    my $data = <$fh>;
-    return $data;
-}
 
 =begin TML
 
@@ -1894,43 +1288,6 @@ try {
 
 =cut
 
-sub createWeb {
-    my ( $web, $baseweb, $opts ) = @_;
-    ($web) = _validateWTA($web);
-    if ( defined $baseweb ) {
-        ($baseweb) = _validateWTA($baseweb);
-    }
-    ASSERT($Foswiki::app) if DEBUG;
-
-    my ($parentWeb) = $web =~ m#(.*)/[^/]+$#;
-
-    my $rootObject =
-      $Foswiki::app->create( 'Foswiki::Meta', web => $parentWeb );
-    unless ( $rootObject->haveAccess('CHANGE') ) {
-        Foswiki::AccessControlException->throw(
-            mode   => 'CHANGE',
-            user   => $Foswiki::app->user,
-            web    => $web,
-            topic  => '',
-            reason => $Foswiki::Meta::reason
-        );
-    }
-
-    my $baseObject = $Foswiki::app->create( 'Foswiki::Meta', web => $baseweb );
-    unless ( $baseObject->haveAccess('VIEW') ) {
-        Foswiki::AccessControlException->throw(
-            mode   => 'VIEW',
-            user   => $Foswiki::app->user,
-            web    => $web,
-            topic  => '',
-            reason => $Foswiki::Meta::reason
-        );
-    }
-
-    my $webObject = $Foswiki::app->create( 'Foswiki::Meta', web => $web );
-    $webObject->populateNewWeb( $baseweb, $opts );
-}
-
 =begin TML
 
 ---+++ moveWeb( $oldName, $newName )
@@ -1963,18 +1320,6 @@ Foswiki::Func::moveWeb( "Deadweb", "Trash.Deadweb" );
 
 =cut
 
-sub moveWeb {
-    ASSERT($Foswiki::app) if DEBUG;
-    my ( $from, $to ) = @_;
-    ($from) = _validateWTA($from);
-    ($to)   = _validateWTA($to);
-
-    $from = $Foswiki::app->create( 'Foswiki::Meta', web => $from );
-    $to   = $Foswiki::app->create( 'Foswiki::Meta', web => $to );
-    return $from->move($to);
-
-}
-
 =begin TML
 
 ---+++ checkTopicEditLock( $web, $topic, $script ) -> ( $oopsUrl, $loginName, $unlockTime )
@@ -1986,48 +1331,6 @@ Return: =( $oopsUrl, $loginName, $unlockTime )= - The =$oopsUrl= for calling red
    * =$script= The script to invoke when continuing with the edit
 
 =cut
-
-sub checkTopicEditLock {
-    my ( $web, $topic, $script ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-
-    ( $web, $topic ) = _checkWTA( $web, $topic );
-    return ( '', '', 0 ) unless defined $web && defined $topic;
-
-    $script ||= 'edit';
-
-    my $topicObject = $Foswiki::app->create(
-        'Foswiki::Meta',
-        web   => $web,
-        topic => $topic
-    );
-    my $lease = $topicObject->getLease();
-    if ($lease) {
-        my $remain  = $lease->{expires} - time();
-        my $session = $Foswiki::app;
-
-        if ( $remain > 0 ) {
-            my $who = $lease->{user};
-            require Foswiki::Time;
-            my $past = Foswiki::Time::formatDelta( time() - $lease->{taken},
-                $Foswiki::app->i18n );
-            my $future = Foswiki::Time::formatDelta( $lease->{expires} - time(),
-                $Foswiki::app->i18n );
-            my $url = getScriptUrl(
-                $web, $topic, 'oops',
-                template => 'oopsleaseconflict',
-                def      => 'lease_active',
-                param1   => $who,
-                param2   => $past,
-                param3   => $future,
-                param4   => $script
-            );
-            my $login = $session->users->getLoginName($who);
-            return ( $url, $login || $who, $remain / 60 );
-        }
-    }
-    return ( '', '', 0 );
-}
 
 =begin TML
 
@@ -2046,24 +1349,6 @@ It is *impossible* to fully lock a topic. Concurrent changes will be
 merged.
 
 =cut
-
-sub setTopicEditLock {
-    my ( $web, $topic, $lock ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-    ( $web, $topic ) = _validateWTA( $web, $topic );
-    my $topicObject = $Foswiki::app->create(
-        'Foswiki::Meta',
-        web   => $web,
-        topic => $topic
-    );
-    if ($lock) {
-        $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
-    }
-    else {
-        $topicObject->clearLease();
-    }
-    return '';
-}
 
 =begin TML
 
@@ -2120,35 +1405,6 @@ later.
 
 =cut
 
-sub saveTopic {
-    my ( $web, $topic, $smeta, $text, $options ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-    ( $web, $topic ) = _validateWTA( $web, $topic );
-    my $topicObject = $Foswiki::app->create(
-        'Foswiki::Meta',
-        web   => $web,
-        topic => $topic
-    );
-
-    unless ( $options->{ignorepermissions}
-        || $topicObject->haveAccess('CHANGE') )
-    {
-        Foswiki::AccessControlException->throw(
-            mode   => 'CHANGE',
-            user   => $Foswiki::app->user,
-            web    => $web,
-            topic  => $topic,
-            reason => $Foswiki::Meta::reason
-        );
-    }
-
-    # Set the new text and meta, now that access to the existing topic
-    # is verified
-    $topicObject->text($text);
-    $topicObject->copyFrom($smeta) if $smeta;
-    return $topicObject->save(%$options);
-}
-
 =begin TML
 
 ---+++ moveTopic( $web, $topic, $newWeb, $newTopic )
@@ -2184,49 +1440,6 @@ try {
 </verbatim>
 
 =cut
-
-sub moveTopic {
-    my ( $web, $topic, $newWeb, $newTopic ) = @_;
-    ( $web, $topic ) = _validateWTA( $web, $topic );
-    ( $newWeb, $newTopic ) =
-      _validateWTA( $newWeb || $web, $newTopic || $topic );
-
-    return if ( $newWeb eq $web && $newTopic eq $topic );
-
-    my $from = $Foswiki::app->create(
-        'Foswiki::Meta',
-        web   => $web,
-        topic => $topic
-    );
-    unless ( $from->haveAccess('CHANGE') ) {
-        Foswiki::AccessControlException->throw(
-            mode   => 'CHANGE',
-            user   => $Foswiki::app->user,
-            web    => $web,
-            topic  => $topic,
-            reason => $Foswiki::Meta::reason
-        );
-    }
-
-    my $toWeb = $Foswiki::app->create( 'Foswiki::Meta', web => $newWeb );
-    unless ( $from->haveAccess('CHANGE') ) {
-        Foswiki::AccessControlException->throw(
-            mode   => 'CHANGE',
-            user   => $Foswiki::app->user,
-            web    => $newWeb,
-            topic  => undef,
-            reason => $Foswiki::Meta::reason
-        );
-    }
-
-    my $to = $Foswiki::app->create(
-        'Foswiki::Meta',
-        web   => $newWeb,
-        topic => $newTopic
-    );
-
-    $from->move($to);
-}
 
 =begin TML
 
@@ -2272,29 +1485,6 @@ This is the way 99% of extensions will create new attachments. See
 
 =cut
 
-sub saveAttachment {
-    my ( $web, $topic, $attachment, $data ) = @_;
-    ( $web, $topic, $attachment ) = _validateWTA( $web, $topic, $attachment );
-    die "Invalid attachment" unless $attachment;
-
-    ASSERT($Foswiki::app) if DEBUG;
-    my $topicObject = $Foswiki::app->create(
-        'Foswiki::Meta',
-        web   => $web,
-        topic => $topic
-    );
-    unless ( $topicObject->haveAccess('CHANGE') ) {
-        Foswiki::AccessControlException->throw(
-            mode   => 'CHANGE',
-            user   => $Foswiki::app->user,
-            web    => $web,
-            topic  => $topic,
-            reason => $Foswiki::Meta::reason
-        );
-    }
-    $topicObject->attach( name => $attachment, %$data );
-}
-
 =begin TML
 
 ---+++ moveAttachment( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment )
@@ -2335,58 +1525,6 @@ try {
 
 =cut
 
-sub moveAttachment {
-    my ( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment ) = @_;
-
-    ( $web, $topic, $attachment ) = _validateWTA( $web, $topic, $attachment );
-    die "Invalid attachment" unless $attachment;
-
-    ( $newWeb, $newTopic, $newAttachment ) = _validateWTA(
-        $newWeb        || $web,
-        $newTopic      || $topic,
-        $newAttachment || $attachment
-    );
-
-    return
-      if ( $newWeb eq $web
-        && $newTopic eq $topic
-        && $newAttachment eq $attachment );
-
-    my $from = Foswiki::Meta->load( $Foswiki::app, $web, $topic );
-    unless ( $from->haveAccess('CHANGE') ) {
-        Foswiki::AccessControlException->throw(
-            mode  => 'CHANGE',
-            user  => $Foswiki::app->user,
-            web   => $web,
-            topic => $topic,
-            reson => $Foswiki::Meta::reason
-        );
-    }
-    my @opts;
-    push( @opts, new_name => $newAttachment ) if defined $newAttachment;
-
-    if (   $web eq $newWeb
-        && $topic eq $newTopic
-        && defined $newAttachment )
-    {
-        $from->moveAttachment( $attachment, $from, @opts );
-    }
-    else {
-        my $to = Foswiki::Meta->load( $Foswiki::app, $newWeb, $newTopic );
-        unless ( $to->haveAccess('CHANGE') ) {
-            Foswiki::AccessControlException->throw(
-                mode   => 'CHANGE',
-                user   => $Foswiki::app->user,
-                web    => $newWeb,
-                topic  => $newTopic,
-                reason => $Foswiki::Meta::reason
-            );
-        }
-
-        $from->moveAttachment( $attachment, $to, @opts );
-    }
-}
-
 =begin TML
 
 ---+++ copyAttachment( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment )
@@ -2426,58 +1564,6 @@ try {
 *Since:* 19 Jul 2010
 
 =cut
-
-sub copyAttachment {
-    my ( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment ) = @_;
-
-    ( $web, $topic, $attachment ) = _validateWTA( $web, $topic, $attachment );
-    die "Invalid attachment" unless $attachment;
-
-    ( $newWeb, $newTopic, $newAttachment ) = _validateWTA(
-        $newWeb        || $web,
-        $newTopic      || $topic,
-        $newAttachment || $attachment
-    );
-
-    return
-      if ( $newWeb eq $web
-        && $newTopic eq $topic
-        && $newAttachment eq $attachment );
-
-    my $from = Foswiki::Meta->load( $Foswiki::app, $web, $topic );
-    unless ( $from->haveAccess('CHANGE') ) {
-        Foswiki::AccessControlException->throw(
-            mode   => 'CHANGE',
-            user   => $Foswiki::app->user,
-            web    => $web,
-            topic  => $topic,
-            reason => $Foswiki::Meta::reason
-        );
-    }
-    my @opts;
-    push( @opts, new_name => $newAttachment ) if defined $newAttachment;
-
-    if (   $web eq $newWeb
-        && $topic eq $newTopic
-        && defined $newAttachment )
-    {
-        $from->copyAttachment( $attachment, $from, @opts );
-    }
-    else {
-        my $to = Foswiki::Meta->load( $Foswiki::app, $newWeb, $newTopic );
-        unless ( $to->haveAccess('CHANGE') ) {
-            Foswiki::AccessControlException->throw(
-                mode   => 'CHANGE',
-                user   => $Foswiki::app->user,
-                web    => $newWeb,
-                topic  => $newTopic,
-                reason => $Foswiki::Meta::reason
-            );
-        }
-
-        $from->copyAttachment( $attachment, $to, @opts );
-    }
-}
 
 =begin TML
 
@@ -2533,16 +1619,6 @@ can be assumed.
 
 =cut
 
-sub eachChangeSince {
-    my ( $web, $time ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-    ($web) = _validateWTA($web);
-    ASSERT( $Foswiki::app->store->webExists($web) ) if DEBUG;
-
-    my $webObject = $Foswiki::app->create( 'Foswiki::Meta', web => $web );
-    return $webObject->eachChange($time);
-}
-
 =begin TML
 
 ---+++ summariseChanges($web, $topic, $orev, $nrev, $tml, $nochecks) -> $text
@@ -2568,22 +1644,6 @@ text.
 
 =cut
 
-sub summariseChanges {
-    my ( $web, $topic, $orev, $nrev, $tml, $nochecks ) = @_;
-    ( $web, $topic ) = _validateWTA( $web, $topic );
-
-    my $topicObject = $Foswiki::app->create(
-        'Foswiki::Meta',
-        web   => $web,
-        topic => $topic
-    );
-    return $topicObject->summariseChanges(
-        Foswiki::Store::cleanUpRevID($orev),
-        Foswiki::Store::cleanUpRevID($nrev),
-        $tml, $nochecks
-    );
-}
-
 =begin TML
 
 ---++ Templates
@@ -2600,17 +1660,6 @@ Read a template or skin. Embedded [[%SYSTEMWEB%.SkinTemplates][template directiv
 Return: =$text=    Template text
 
 =cut
-
-sub readTemplate {
-
-    my ( $name, $skin ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-    return $Foswiki::app->templates->readTemplate(
-        $name,
-        skins   => $skin,
-        no_oops => 1
-    ) || '';
-}
 
 =begin TML
 
@@ -2629,20 +1678,6 @@ How Foswiki searches for templates is described in SkinTemplates.
 If template text is found, extracts include statements and fully expands them.
 
 =cut
-
-sub loadTemplate {
-    ASSERT($Foswiki::app) if DEBUG;
-    my ( $name, $skin, $web ) = @_;
-
-    my %opts = ( no_oops => 1 );
-    $opts{skins} = $skin if defined $skin;
-    ( $opts{web} ) = _validateWTA($web) if defined $web;
-
-    my $tmpl = $Foswiki::app->templates->readTemplate( $name, %opts );
-    $tmpl = '' unless defined $tmpl;
-
-    return $tmpl;
-}
 
 =begin TML
 
@@ -2666,11 +1701,6 @@ eg:
         '"profile" USER="' . $user . '" TYPE="' . $type . '"' );
 
 =cut
-
-sub expandTemplate {
-    ASSERT($Foswiki::app) if DEBUG;
-    return $Foswiki::app->templates->expandTemplate(@_);
-}
 
 =begin TML
 
@@ -2706,34 +1736,6 @@ not cause this function to be called recursively.
 
 =cut
 
-sub expandCommonVariables {
-    my ( $text, $topic, $web, $meta ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-
-    if (DEBUG) {
-        for ( my $i = 4 ; $i <= 7 ; $i++ ) {
-            my $caller = ( caller($i) )[3];
-            ASSERT( 0, "expandCommonVariables called during registration" )
-              if ( defined $caller
-                && $caller eq 'Foswiki::Plugin::registerHandlers' );
-        }
-    }
-
-    #ASSERT(!Foswiki::Func::webExists($topic)) if DEBUG;
-
-    ( $web, $topic ) = _validateWTA(
-        $web   || $Foswiki::app->request->web,
-        $topic || $Foswiki::app->request->topic
-    );
-    $meta ||= $Foswiki::app->create(
-        'Foswiki::Meta',
-        web   => $web,
-        topic => $topic
-    );
-
-    return $meta->expandMacros($text);
-}
-
 =begin TML
 
 ---+++ expandVariablesOnTopicCreation ( $text ) -> $text
@@ -2759,18 +1761,6 @@ See also: expandVariables
 
 =cut
 
-sub expandVariablesOnTopicCreation {
-    ASSERT($Foswiki::app) if DEBUG;
-    my $topicObject = $Foswiki::app->create(
-        'Foswiki::Meta',
-        web   => $Foswiki::app->request->web,
-        topic => $Foswiki::app->request->topic,
-        text  => $_[0],
-    );
-    $topicObject->expandNewTopic();
-    return $topicObject->text();
-}
-
 =begin TML
 
 ---+++ renderText( $text, $web, $topic ) -> $text
@@ -2784,20 +1774,6 @@ Return: =$text=    XHTML text, e.g. ='&lt;b>bold&lt;/b> and &lt;code>fixed font&
 NOTE: renderText expects that all %MACROS% have already been expanded - it does not expand them for you (call expandCommonVariables above).
 
 =cut
-
-sub renderText {
-
-    my ( $text, $web, $topic ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-    $web   ||= $Foswiki::app->request->web;
-    $topic ||= $Foswiki::cfg{HomeTopicName};
-    my $webObject = $Foswiki::app->create(
-        'Foswiki::Meta',
-        web   => $web,
-        topic => $topic
-    );
-    return $webObject->renderTML($text);
-}
 
 =begin TML
 
@@ -2813,14 +1789,6 @@ Render topic name and link label into an XHTML link. Normally you do not need to
 Return: =$text=          XHTML anchor, e.g. ='&lt;a href='/cgi-bin/view/Main/WebNotify#Jump'>notify&lt;/a>'=
 
 =cut
-
-sub internalLink {
-    my $pre = shift;
-    ASSERT($Foswiki::app) if DEBUG;
-
-    #   my( $web, $topic, $label, $anchor, $anchor, $createLink ) = @_;
-    return $pre . $Foswiki::app->renderer->internalLink(@_);
-}
 
 =begin TML
 
@@ -2853,15 +1821,6 @@ Foswiki::Func::addToZone( 'script', 'MY_JQUERY',
 
 =cut=
 
-sub addToZone {
-
-    #my ( $zone, $tag, $data, $requires ) = @_;
-    my $session = $Foswiki::app;
-    ASSERT($session) if DEBUG;
-
-    $session->zones()->addToZone(@_);
-}
-
 =begin TML
 
 ---++ Controlling page output
@@ -2870,20 +1829,9 @@ sub addToZone {
 
 =begin TML
 
----+++ writeHeader()
-
-Prints a basic content-type HTML header for text/html to standard out.
-
-=cut
-
-sub writeHeader {
-    ASSERT($Foswiki::app) if DEBUG;
-    $Foswiki::app->generateHTTPHeaders();
-}
-
-=begin TML
-
 ---+++ redirectCgiQuery( $query, $url, $passthru, $status )
+
+*DEPRECATED* Use =Foswiki::App::redirect()= method instead.
 
 Redirect to URL
    * =$query= - CGI query object. Ignored, only there for compatibility. The session CGI query object is used instead.
@@ -2950,12 +1898,6 @@ use the Perl =File::Temp=  or related =File::Spec= functions.
 
 =cut
 
-sub getWorkArea {
-    my ($plugin) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-    return $Foswiki::app->store->getWorkArea($plugin);
-}
-
 =begin TML
 
 ---+++ readFile( $filename, $unicode ) -> $text
@@ -2976,19 +1918,7 @@ If you are using this API to read topic originated data, topic names, etc. then 
 =cut
 
 sub readFile {
-    my ( $name, $unicode ) = @_;
-    my $data = '';
-    my $IN_FILE;
-    open( $IN_FILE, '<', $name ) || return '';
-
-    if ($unicode) {
-        binmode $IN_FILE, ':encoding(utf-8)';
-    }
-    local $/ = undef;    # set to read to EOF
-    $data = <$IN_FILE>;
-    close($IN_FILE);
-    $data = '' unless $data;    # no undefined
-    return $data;
+    return Foswiki::readFile(@_);
 }
 
 =begin TML
@@ -3015,17 +1945,7 @@ Failure to set the =$unicode= flag when required will result in perl "Wide chara
 =cut
 
 sub saveFile {
-    my ( $name, $text, $unicode ) = @_;
-    my $FILE;
-    unless ( open( $FILE, '>', $name ) ) {
-        die "Can't create file $name - $!\n";
-    }
-
-    if ($unicode) {
-        binmode $FILE, ':encoding(utf-8)';
-    }
-    print $FILE $text;
-    close($FILE);
+    return Foswiki::saveFile(@_);
 }
 
 =begin TML
@@ -3064,13 +1984,6 @@ The symbols %<nop>USERSWEB%, %<nop>SYSTEMWEB% and %<nop>DOCWEB% can be used in t
 
 =cut
 
-sub normalizeWebTopicName {
-
-    #my( $web, $topic ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-    return $Foswiki::app->request->normalizeWebTopicName(@_);
-}
-
 =begin TML
 
 ---+++ query($searchString, $topics, \%options ) -> iterator (resultset)
@@ -3102,23 +2015,11 @@ To iterate over the returned topics use:
 
 =cut
 
-sub query {
-    my ( $searchString, $topics, $options ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-
-    my $inputTopicSet = $topics;
-    if ( $topics and ( ref($topics) eq 'ARRAY' ) ) {
-        $inputTopicSet = new Foswiki::ListIterator($topics);
-    }
-    $options->{type} ||= 'query';
-    my $query = $Foswiki::app->search->parseSearch( $searchString, $options );
-
-    return Foswiki::Meta::query( $query, $inputTopicSet, $options );
-}
-
 =begin TML
 
 ---+++ decodeFormatTokens($str) -> $unencodedString
+
+Alias for =Foswiki::expandStandardEscapes()=.
 
 Foswiki has an informal standard set of tokens used in =format=
 parameters that are used to block evaluation of paramater strings.
@@ -3140,13 +2041,13 @@ The set of tokens that is expanded is described in System.FormatTokens.
 
 =cut
 
-sub decodeFormatTokens {
-    return expandStandardEscapes(@_);
-}
+*decodeFormatTokens = \&Foswiki::expandStandardEscapes;
 
 =begin TML
 
 ---+++ sanitizeAttachmentName($fname) -> ($fileName, $origName)
+
+Alias for =Foswiki::Sandbox::sanitizeAttachmentName()=.
 
 Given a file path, sanitise it according to the rules for transforming
 attachment names. Returns
@@ -3162,10 +2063,7 @@ attachment names are uploaded.
 
 =cut
 
-sub sanitizeAttachmentName {
-    require Foswiki::Sandbox;
-    return Foswiki::Sandbox::sanitizeAttachmentName(@_);
-}
+*sanitizeAttachmentName = \&Foswiki::Sandbox::sanitizeAttachmentName;
 
 =begin TML
 
@@ -3176,11 +2074,7 @@ With parameter $sep any string may be used as separator between the word compone
 
 =cut
 
-sub spaceOutWikiWord {
-
-    #my ( $word, $sep ) = @_;
-    return Foswiki::spaceOutWikiWord(@_);
-}
+*spaceOutWikiWord = \&Foswiki::spaceOutWikiWord;
 
 =begin TML
 
@@ -3196,12 +2090,7 @@ not specified it is taken as 0.
 
 =cut
 
-sub isTrue {
-
-    #   my ( $value, $default ) = @_;
-
-    return Foswiki::isTrue(@_);
-}
+*isTrue = \&Foswiki::isTrue;
 
 =begin TML
 
@@ -3212,9 +2101,7 @@ Check for a valid WikiWord or WikiName
 
 =cut
 
-sub isValidWikiWord {
-    return Foswiki::isValidWikiWord(@_);
-}
+*isValidWikiWord = \&Foswiki::isValidWikiWord;
 
 =begin TML
 
@@ -3236,16 +2123,7 @@ Return: =%params=  Hash containing all parameters. The nameless parameter is sto
 
 =cut
 
-sub extractParameters {
-    my ($attr) = @_;
-    require Foswiki::Attrs;
-    my $params = new Foswiki::Attrs($attr);
-
-    # take out _RAW and _ERROR (compatibility)
-    delete $params->{_RAW};
-    delete $params->{_ERROR};
-    return %$params;
-}
+*extractParameters = \&Foswiki::Attrs::extractParameters;
 
 =begin TML
 
@@ -3267,10 +2145,7 @@ Return: =$value=   Extracted value
 
 =cut
 
-sub extractNameValuePair {
-    require Foswiki::Attrs;
-    return Foswiki::Attrs::extractValue(@_);
-}
+*extractNameValuePair = \&Foswiki::Attrs::extractValue;
 
 =begin TML
 
@@ -3298,13 +2173,6 @@ A. Peasant
 Leave a blank line between the last header field and the message body.
 
 =cut
-
-sub sendEmail {
-
-    #my( $text, $retries ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-    return $Foswiki::app->net->sendEmail(@_);
-}
 
 =begin TML
 
@@ -3341,22 +2209,6 @@ not work with any installation that stores logs in a database.
 
 =cut
 
-sub writeEvent {
-    my ( $action, $extra ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-    my $webTopic =
-      $Foswiki::app->request->web . '.' . $Foswiki::app->request->topic;
-
-    return $Foswiki::app->logger->log(
-        {
-            level    => 'info',
-            action   => $action || '',
-            webTopic => $webTopic || '',
-            extra    => $extra || '',
-        }
-    );
-}
-
 =begin TML
 
 ---+++ writeWarning( $text )
@@ -3366,17 +2218,6 @@ Log a warning that may require admin intervention to the warnings log (=data/war
 
 =cut
 
-sub writeWarning {
-    ASSERT($Foswiki::app) if DEBUG;
-    return $Foswiki::app->logger->log(
-        {
-            level  => 'warning',
-            caller => scalar( caller() ),
-            extra  => \@_
-        }
-    );
-}
-
 =begin TML
 
 ---+++ writeDebug( $text )
@@ -3385,18 +2226,6 @@ Log debug message to the debug log
    * =$text= - Text to write; timestamp gets added
 
 =cut
-
-sub writeDebug {
-
-    #   my( $text ) = @_;
-    ASSERT($Foswiki::app) if DEBUG;
-    return $Foswiki::app->logger->log(
-        {
-            level => 'debug',
-            extra => \@_
-        }
-    );
-}
 
 =begin TML
 
@@ -3436,10 +2265,10 @@ while ($it->hasNext()) {
 
 =cut
 
-sub eachEventSince {
-    my $time = shift;
-    return $Foswiki::app->logger->eachEventSince( $time, 'info' );
-}
+#sub eachEventSince {
+#    my $time = shift;
+#    return $Foswiki::app->logger->eachEventSince( $time, 'info' );
+#}
 
 =begin TML
 
@@ -3473,7 +2302,7 @@ See System.DevelopingPlugins for more information
 
 =cut
 
-sub getRegularExpression {
+sub _deprecated_getRegularExpression {
     my ($regexName) = @_;
     return $Foswiki::regex{$regexName};
 }
@@ -3486,7 +2315,7 @@ sub getRegularExpression {
 
 =cut
 
-sub getWikiToolName { return $Foswiki::cfg{WikiToolName}; }
+sub _deprecated_getWikiToolName { return $Foswiki::cfg{WikiToolName}; }
 
 =begin TML
 
@@ -3496,7 +2325,7 @@ sub getWikiToolName { return $Foswiki::cfg{WikiToolName}; }
 
 =cut
 
-sub getMainWebname { return $Foswiki::cfg{UsersWebName}; }
+sub _deprecated_getMainWebname { return $Foswiki::cfg{UsersWebName}; }
 
 =begin TML
 
@@ -3506,7 +2335,7 @@ sub getMainWebname { return $Foswiki::cfg{UsersWebName}; }
 
 =cut
 
-sub getTwikiWebname { return $Foswiki::cfg{SystemWebName}; }
+sub _deprecated_getTwikiWebname { return $Foswiki::cfg{SystemWebName}; }
 
 =begin TML
 
@@ -3543,7 +2372,7 @@ then you can use =getScriptUrl= instead:
 
 =cut
 
-sub getOopsUrl {
+sub _deprecated_getOopsUrl {
     my ( $web, $topic, $template, @params ) = @_;
 
     my $n = 1;
@@ -3571,7 +2400,7 @@ $wikiName may also be a login name.
 
 =cut
 
-sub wikiToEmail {
+sub _deprecated_wikiToEmail {
     my ($user) = @_;
     my @emails = wikinameToEmails($user);
     if ( scalar(@emails) ) {
@@ -3604,7 +2433,7 @@ foreach my $type (qw( ALLOW DENY )) {
 
 =cut
 
-sub permissionsSet {
+sub _deprecated_permissionsSet {
     my ($web) = @_;
 
     foreach my $type (qw( ALLOW DENY )) {
@@ -3630,7 +2459,7 @@ Return: =@webs= List of all public webs *and subwebs*
 
 =cut
 
-sub getPublicWebList {
+sub _deprecated_getPublicWebList {
     return getListOfWebs("user,public");
 }
 
@@ -3649,7 +2478,7 @@ Return: =$text=        Formatted time string
 
 =cut
 
-sub formatTime {
+sub _deprecated_formatTime {
 
     #   my ( $epSecs, $format, $timezone ) = @_;
     require Foswiki::Time;
@@ -3669,7 +2498,7 @@ Return: =$text=      Formatted time string
 
 =cut
 
-sub formatGmTime {
+sub _deprecated_formatGmTime {
 
     #   my ( $epSecs, $format ) = @_;
     require Foswiki::Time;
@@ -3685,7 +2514,7 @@ to manipulate topics instead
 
 =cut
 
-sub getDataDir {
+sub _deprecated_getDataDir {
     return $Foswiki::cfg{DataDir};
 }
 
@@ -3698,7 +2527,7 @@ to manipulate attachments instead
 
 =cut
 
-sub getPubDir { return $Foswiki::cfg{PubDir}; }
+sub _deprecated_getPubDir { return $Foswiki::cfg{PubDir}; }
 
 =begin TML
 
@@ -3710,13 +2539,13 @@ use this method, as =getRequestObject= will not be available.
 
 =cut
 
-sub getCgiQuery { return getRequestObject(); }
+sub _deprecated_getCgiQuery { return getRequestObject(); }
 
 # Removed; it was never used
-sub checkDependencies {
-    die
-"checkDependencies removed; contact plugin author or maintainer and tell them to use BuildContrib DEPENDENCIES instead";
-}
+#sub checkDependencies {
+#    die
+#"checkDependencies removed; contact plugin author or maintainer and tell them to use BuildContrib DEPENDENCIES instead";
+#}
 
 =begin TML
 
@@ -3735,7 +2564,7 @@ This method returns meta-data embedded in the text. Plugins authors must be very
 
 =cut
 
-sub readTopicText {
+sub _deprecated_readTopicText {
     my ( $web, $topic, $rev, $ignorePermissions ) = @_;
     ASSERT($Foswiki::app) if DEBUG;
 
@@ -3799,7 +2628,7 @@ $oopsUrl = Foswiki::Func::saveTopicText( $web, $topic, $text ); # save topic tex
 
 =cut
 
-sub saveTopicText {
+sub _deprecated_saveTopicText {
     my ( $web, $topic, $text, $ignorePermissions, $dontNotify ) = @_;
     ASSERT($Foswiki::app) if DEBUG;
 
@@ -3815,7 +2644,7 @@ sub saveTopicText {
 
     my $outcome = '';
     unless ( $ignorePermissions || $topicObject->haveAccess('CHANGE') ) {
-        my @caller = caller();
+        my @caller = caller(1);
         return getScriptUrl(
             $web, $topic, 'oops',
             template => 'oopsattention',
@@ -3888,7 +2717,7 @@ See Foswiki:Development/UpdatingExtensionsScriptZone for more details.
 
 =cut
 
-sub addToHEAD {
+sub _deprecated_addToHEAD {
     my $session = $Foswiki::app;
     ASSERT($session) if DEBUG;
     $session->zones()->addToZone( 'head', @_ );
@@ -3929,20 +2758,21 @@ To iterate over the returned topics use:
 
 =cut
 
-sub searchInWebContent {
+sub _deprecated_searchInWebContent {
 
     my ( $searchString, $webs, $topics, $options ) = @_;
     ASSERT($Foswiki::app) if DEBUG;
 
     my $inputTopicSet = $topics;
     if ( $topics and ( ref($topics) eq 'ARRAY' ) ) {
-        $inputTopicSet = new Foswiki::ListIterator($topics);
+        $inputTopicSet =
+          $Foswiki::app->create( 'Foswiki::ListIterator', list => $topics );
     }
     $options->{type} ||= 'regex';
     $options->{web} = $webs;
     my $query = $Foswiki::app->search->parseSearch( $searchString, $options );
 
-    my $itr = Foswiki::Meta::query( $query, $inputTopicSet, $options );
+    my $itr = $Foswiki::app->store->query( $query, $inputTopicSet, $options );
     my %matches;
     while ( $itr->hasNext ) {
         my $webtopic = $itr->next;
@@ -3951,6 +2781,59 @@ sub searchInWebContent {
         $matches{$searchTopic} = 1;
     }
     return \%matches;
+}
+
+# %_funcPrefixMap defines what must be prepended by AUTOLOAD to the function
+# name instead of `$Foswiki::app->'. For example, for a static function this
+# could be changed to just `Foswiki::' if prototype is defined there. Not that
+# for some more complicated cases where function maps into a method with
+# different name in a different class this wouldn't work and manually defined
+# function is required. See getUrlHost, for instance.
+my %_funcPrefixMap = (
+    getExternalResource   => '$Foswiki::app->net->',
+    getSessionValue       => '$Foswiki::app->users->getLoginManager->',
+    setSessionValue       => '$Foswiki::app->users->getLoginManager->',
+    clearSessionValue     => '$Foswiki::app->users->getLoginManager->',
+    registerTagHandler    => '$Foswiki::app->plugins->',
+    eachGroup             => '$Foswiki::app->users->',
+    isGroup               => '$Foswiki::app->users->',
+    expandTemplate        => '$Foswiki::app->templates->',
+    addToZone             => '$Foswiki::app->zones->',
+    getWorkArea           => '$Foswiki::app->store->',
+    normalizeWebTopicName => '$Foswiki::app->request->',
+    sendEmail             => '$Foswiki::app->net->',
+);
+
+our $AUTOLOAD;
+
+sub AUTOLOAD {
+
+    #say STDERR "AUTOLOAD($AUTOLOAD)";
+    ( my $func = $AUTOLOAD ) =~ s/^.*:://;
+    my $deprecatedFunc = "_deprecated_$func";
+    my $funcBody;
+    if ( __PACKAGE__->can($deprecatedFunc) ) {
+        $funcBody = <<FBDY;
+    \$Foswiki::app->logger->warn(
+"Function $AUTOLOAD is deprecated; read Foswiki::Func manual to find how to deal with it!"
+    );
+    return ${deprecatedFunc}(\@_);
+FBDY
+    }
+    else {
+        my $funcPrefix = $_funcPrefixMap{$func} // '$Foswiki::app->';
+        $funcBody = <<FBDY;
+    ASSERT(\$Foswiki::app) if DEBUG;
+    return ${funcPrefix}${func}(\@_);
+FBDY
+    }
+    eval <<FUNC;
+sub $func {
+$funcBody
+}
+FUNC
+    Foswiki::Exception::Fatal->throw( text => $@ ) if $@;
+    goto &$func;
 }
 
 1;

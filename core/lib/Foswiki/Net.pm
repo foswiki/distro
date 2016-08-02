@@ -167,9 +167,8 @@ sub getExternalResource {
             $SSLAvailable = $@ ? 0 : 1;
         }
         unless ( $uri->scheme() eq 'https' && $SSLAvailable ) {
-            require Foswiki::Net::HTTPResponse;
-            return new Foswiki::Net::HTTPResponse(
-                "LWP not available for handling protocol: $url");
+            return $this->create( 'Foswiki::Net::HTTPResponse',
+                message => "LWP not available for handling protocol: $url" );
         }
     }
 
@@ -211,9 +210,9 @@ sub getExternalResource {
             if ( !defined $puri->scheme()
                 || $puri->scheme() eq 'https' && !$SSLAvailable )
             {
-                require Foswiki::Net::HTTPResponse;
-                return new Foswiki::Net::HTTPResponse(
-                    "Proxy settings are invalid, check configure ({PROXY}{HOST}"
+                return $this->create( 'Foswiki::Net::HTTPResponse',
+                    message =>
+"Proxy settings are invalid, check configure ({PROXY}{HOST}"
                 );
             }
             elsif ( $puri->scheme() eq 'https' ) {
@@ -296,7 +295,6 @@ sub getExternalResource {
         if ( $@ || $noHTTPResponse ) {
 
             # Nope, no HTTP::Response, have to do things the hard way :-(
-            require Foswiki::Net::HTTPResponse;
             $response = Foswiki::Net::HTTPResponse->parse($result);
         }
         else {
@@ -305,8 +303,8 @@ sub getExternalResource {
     }
     catch {
         my $message = ref($_) ? $_->stringify : $_;
-        Foswiki::load_package('Foswiki::Net::HTTPResponse');
-        $response = Foswiki::Net::HTTPResponse->new( message => $message );
+        $response =
+          $this->create( 'Foswiki::Net::HTTPResponse', message => $message );
     };
     return $response;
 }

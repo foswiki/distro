@@ -49,7 +49,10 @@ use constant MONITOR => 0;
 
 # This is the 'old' interface, prior to Sven's massive search refactoring.
 sub _search {
-    my ( $searchString, $web, $inputTopicSet, $app, $options ) = @_;
+    my $this = shift;
+    my ( $searchString, $web, $inputTopicSet, $options ) = @_;
+
+    my $cfgData = $this->app->cfg->data;
 
     local $/ = "\n";
     my %seen;
@@ -80,7 +83,7 @@ sub _search {
     }
 
     #SMELL, TODO, replace with Store call.
-    my $sDir = $Foswiki::cfg{DataDir} . '/' . $web . '/';
+    my $sDir = $cfgData->{DataDir} . '/' . $web . '/';
     $inputTopicSet->reset();
   FILE:
     while ( $inputTopicSet->hasNext() ) {
@@ -90,7 +93,7 @@ sub _search {
 
 #TODO: need to BM if this is faster than doing it via an object in the MetaCache.
         my $file;
-        my $enc = $Foswiki::cfg{Store}{Encoding} || 'utf-8';
+        my $enc = $cfgData->{Store}{Encoding} || 'utf-8';
         if (
             open(
                 $file, "<:encoding($enc)",
@@ -116,8 +119,10 @@ sub _search {
 
 #ok, for initial validation, naively call the code with a web.
 sub _webQuery {
-    my ( $this, $query, $web, $inputTopicSet, $app, $options ) = @_;
+    my ( $this, $query, $web, $inputTopicSet, $options ) = @_;
     ASSERT( !$query->isEmpty() ) if DEBUG;
+
+    my $app = $this->app;
 
     # default scope is 'text'
     $options->{'scope'} = 'text'
@@ -181,7 +186,7 @@ sub _webQuery {
         my $textMatches;
         unless ( $options->{'scope'} eq 'topic' ) {
             $textMatches =
-              _search( $tokenCopy, $web, $topicSet, $app->store, $options );
+              $this->_search( $tokenCopy, $web, $topicSet, $options );
         }
 
         #bring the text matches into the topicMatch hash

@@ -2602,7 +2602,7 @@ sub test_query {
         { web => 'System', casesensitive => 0, files_without_match => 0 } );
 
     $this->assert( $matches->hasNext )
-      ;    #gosh i hope we alway have a document with the word broken in it..
+      ;    #gosh i hope we always have a document with the word broken in it..
     my $webtopic = $matches->next;
     my ( $web, $searchTopic ) =
       Foswiki::Func::normalizeWebTopicName( '', $webtopic );
@@ -2685,7 +2685,7 @@ sub test_writeEvent {
     Foswiki::Func::writeEvent("bacon");
     Foswiki::Func::writeEvent();
     Foswiki::Func::writeEvent( "toast", "jam" );
-    my $it = Foswiki::Func::eachEventSince($now);
+    my $it = $this->app->logger->eachEventSince( $now, 'info' );
     $this->assert( $it->hasNext() );
     my $e = $it->next();
     $this->assert_equals( $now,      $e->[0] );

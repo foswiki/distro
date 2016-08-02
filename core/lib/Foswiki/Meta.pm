@@ -185,6 +185,22 @@ has text => (
     },
 );
 
+=begin TML
+
+---++ ObjectAttribute reason => $text
+
+Text explanation of the last operations result. See =hasAttachment()= method for
+example.
+
+=cut
+
+has reason => (
+    is      => 'rw',
+    trigger => sub {
+        $reason = $_[1];
+    },
+);
+
 has metaData => (
     is      => 'rw',
     lazy    => 1,
@@ -1087,8 +1103,7 @@ Returns an Foswiki::Search::InfoCache iterator
 
 sub query {
     my ( $query, $inputTopicSet, $options ) = @_;
-    return $Foswiki::app->store->query( $query, $inputTopicSet,
-        $Foswiki::app, $options );
+    return $Foswiki::app->store->query( $query, $inputTopicSet, $options );
 }
 
 =begin TML
@@ -2008,7 +2023,7 @@ sub haveAccess {
     $cUID ||= $app->user;
 
     my $ok = $app->access->haveAccess( $mode, $cUID, $this );
-    $reason = $app->access->getReason();
+    $this->reason( $app->access->getReason() );
     return $ok;
 }
 

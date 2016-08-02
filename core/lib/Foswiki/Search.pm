@@ -413,7 +413,7 @@ sub searchWeb {
 
 #NOTE: as of Jun2011 foswiki 2.0's query() returns a result set filtered by ACL and paged to $showpage
 #TODO: work out if and how to avoid it
-    my $infoCache = Foswiki::Meta::query( $query, undef, \%params );
+    my $infoCache = $app->store->query( $query, undef, \%params );
 
 ################### Do the Rendering
 

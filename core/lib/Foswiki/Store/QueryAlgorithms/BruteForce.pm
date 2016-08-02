@@ -60,7 +60,9 @@ use constant MONITOR => 0;
 
 # Query over a single web
 sub _webQuery {
-    my ( $this, $query, $web, $inputTopicSet, $app, $options ) = @_;
+    my ( $this, $query, $web, $inputTopicSet, $options ) = @_;
+
+    my $app = $this->app;
 
     my $resultTopicSet =
       $this->create( 'Foswiki::Search::InfoCache', web => $web );
@@ -161,7 +163,7 @@ sub _webQuery {
 
         $topicSet->reset();
         $topicSet =
-          $app->store->query( $searchQuery, $topicSet, $app, $searchOptions );
+          $app->store->query( $searchQuery, $topicSet, $searchOptions );
     }
     else {
 

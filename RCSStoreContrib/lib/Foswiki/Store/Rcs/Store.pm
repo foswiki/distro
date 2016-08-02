@@ -640,7 +640,7 @@ sub remove {
 }
 
 sub query {
-    my ( $this, $query, $inputTopicSet, $session, $options ) = @_;
+    my ( $this, $query, $inputTopicSet, $options ) = @_;
 
     my $engine;
     if ( $query->isa('Foswiki::Query::Node') ) {
@@ -668,7 +668,7 @@ sub query {
     }
 
     no strict 'refs';
-    return $engine->query( $query, $inputTopicSet, $session, $options );
+    return $engine->query( $query, $inputTopicSet, $options );
     use strict 'refs';
 }
 
