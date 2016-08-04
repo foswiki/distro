@@ -49,6 +49,7 @@ System.DevelopingPlugins.
 # deprecated functions section.
 
 package Foswiki::Func;
+use v5.14;
 
 use strict;
 use warnings;
@@ -2814,10 +2815,15 @@ sub AUTOLOAD {
     my $funcBody;
     if ( __PACKAGE__->can($deprecatedFunc) ) {
         $funcBody = <<FBDY;
-    \$Foswiki::app->logger->warn(
+        state \$callCount = 100;
+        if ( \$callCount == 100 ) {
+            \$Foswiki::app->logger->warn(
 "Function $AUTOLOAD is deprecated; read Foswiki::Func manual to find how to deal with it!"
-    );
-    return ${deprecatedFunc}(\@_);
+            );
+            \$callCount = 0;
+        }
+        \$callCount++;
+        return ${deprecatedFunc}(\@_);
 FBDY
     }
     else {

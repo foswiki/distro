@@ -20,6 +20,7 @@ use Unicode::Normalize;
 use Cwd qw( abs_path );
 use Try::Tiny;
 use Foswiki qw(urlEncode urlDecode make_params);
+use Foswiki::Configure::FileUtil;
 
 use Moo;
 use namespace::clean;
