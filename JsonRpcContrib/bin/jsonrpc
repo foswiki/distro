@@ -3,7 +3,12 @@
 use Cwd;
 use lib Cwd::abs_path("../lib");
 use Foswiki::App;
-exit Foswiki::App->run;
+use Plack::Loader;
+
+my $app = sub {
+    return Foswiki::App->run( env => shift, );
+};
+Plack::Loader->auto->run($app);
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
