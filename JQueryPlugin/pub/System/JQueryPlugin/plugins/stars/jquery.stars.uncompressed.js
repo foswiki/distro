@@ -1,5 +1,5 @@
 /*
- * jQuery Stars plugin 1.10
+ * jQuery Stars plugin 2.00
  *
  * Copyright (c) 2014-2016 Foswiki Contributors http://foswiki.org
  *
@@ -14,8 +14,7 @@
   // Create the defaults once 
   var defaults = {
     split: 1,
-    numStars: 5,
-    widthStar: 16
+    numStars: 5
   };
 
   // plugin constructor 
@@ -73,7 +72,6 @@
       self.opts.split = 1;
     } 
 
-    self.width = self.opts.numStars * self.opts.widthStar;
 
     self._prec = 0;
     if (self.opts.split > 1) {
@@ -89,10 +87,15 @@
     self.blockMouseMove = false;
     self.timeoutId = undefined;
 
-    self.elem.attr("type", "hidden");
-    self.container = $("<div />").addClass("jqStarsContainer").insertAfter(self.elem).width(self.width);
+    self.elem.hide();
+    self.container = $("<div />").addClass("jqStarsContainer").insertAfter(self.elem); 
     self.labelElem = $("<span />").addClass("jqStarsLabel").insertAfter(self.container);
     self.onElem = $("<div />").addClass("jqStarsOn").appendTo(self.container);
+
+    self.widthStar = parseInt(self.container.css("background-size"), 10);
+    self.width = self.opts.numStars * self.widthStar;
+
+    self.container.width(self.width);
 
     if (self.elem.is(":disabled")) {
       self.container.addClass("jqStarsReadOnly");
@@ -102,7 +105,7 @@
       // event handler
       self.container.on("mousemove", function(ev) {
         if (!self.blockMouseMove) {
-          self.displayAtIndex((ev.clientX - self.container.position().left) / self.opts.widthStar);
+          self.displayAtIndex((ev.clientX - self.container.position().left) / self.widthStar);
         }
       });
 
@@ -125,7 +128,7 @@
       });
 
       self.container.on("click", function(ev) {
-        self.displayAtIndex((ev.clientX - self.container.position().left) / self.opts.widthStar);
+        self.displayAtIndex((ev.clientX - self.container.position().left) / self.widthStar);
         self.container.addClass("jqStarsSelected");
         self.blockMouseMove = true;
         self.selectAtIndex(self._tmpIndex);
@@ -192,7 +195,7 @@
       index = Math.ceil(index * self.opts.split) / self.opts.split;
       index = self._toFixed(index);
 
-      width = self.opts.widthStar * index;
+      width = self.widthStar * index;
       label = self.getDisplayVal(index);
     }
 

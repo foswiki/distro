@@ -1,5 +1,5 @@
 /*
- * jQuery Loader plugin 2.10
+ * jQuery Loader plugin 2.11
  *
  * Copyright (c) 2011-2016 Foswiki Contributors http://foswiki.org
  *
@@ -18,6 +18,7 @@ jQuery(function($) {
     params: undefined,
     topic: undefined,
     section: undefined,
+    skin: 'text',
     select: undefined,
     minHeight: 0,
     effect: 'fade', // show, fade, slide, blind, clip, drop, explode, fold, puff, pulsate, highlight
@@ -138,7 +139,7 @@ jQuery(function($) {
         $elem = $(self.element),
         web = self.options.web || foswiki.getPreference("WEB"),
         topic = self.options.topic || foswiki.getPreference("TOPIC"),
-        params = $.extend({ "skin": "text"}, self.options.params);
+        params = $.extend({}, self.options.params);
 
     // construct url
     if (typeof(self.options.url) === 'undefined') {
@@ -147,6 +148,10 @@ jQuery(function($) {
 
     if (typeof(self.options.section) !== 'undefined') {
       params.section = self.options.section;
+    }
+
+    if (typeof(self.options.skin) !== 'undefined' && self.options.skin) {
+      params.skin = self.options.skin;
     }
 
     // trigger beforeload

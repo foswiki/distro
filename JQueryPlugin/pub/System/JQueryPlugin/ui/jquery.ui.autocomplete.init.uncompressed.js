@@ -10,7 +10,7 @@ jQuery(function($) {
     var $this = $(this), 
         cache = {}, lastXhr,
         src = $this.attr('autocomplete'),
-        opts = $.extend({ source: src }, defaults, $this.metadata());
+        opts = $.extend({ source: src }, defaults, $this.data(), $this.metadata());
 
     if (opts.cache && typeof(opts.source) === 'string') {
       // wrap source url into a cache 

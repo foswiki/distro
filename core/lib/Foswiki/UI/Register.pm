@@ -141,6 +141,15 @@ sub _action_register {
         $this->_requireConfirmation( $data, 'Verification', 'confirm',
             $data->{Email} );
     }
+    elsif ( $Foswiki::cfg{Register}{NeedApproval} ) {
+        my $query = $app->request;
+        my $data = _getDataFromQuery( $app->users, $query );
+        $data->{FirstLastName} = $data->{Name};
+        my $approvers = $Foswiki::cfg{Register}{Approvers}
+          || $Foswiki::cfg{AdminUserWikiName};
+        _requireConfirmation( $app, $data, 'Approval', 'approve',
+            $approvers );
+    }
     else {
 
         # No need for confirmation
@@ -2218,7 +2227,7 @@ sub _sendEmail {
     foreach my $field ( keys %$data ) {
         my $f = uc($field);
         unless ( $text =~ s/\%$f\%/$data->{$field}/g ) {
-            unless ( $field =~ m/^Password|form|webName/
+            unless ( $field =~ m/^Password|Confirm|form|webName/
                 || !defined( $data->{$field} )
                 || $data->{$field} !~ /\W/ )
             {

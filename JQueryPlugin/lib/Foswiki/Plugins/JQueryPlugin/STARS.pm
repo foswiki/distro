@@ -22,7 +22,7 @@ Constructor
 
 our %pluginParams = (
     name         => 'Stars',
-    version      => '1.10',
+    version      => '2.00',
     author       => 'Michael Daum',
     homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
     css          => [ 'jquery.stars.css', ],

@@ -1,6 +1,6 @@
 /**
- * Foswiki setups wrt jQuery
- *
+ * jQuery-foswiki: javascript base for foswiki
+ * Version: 2.11
  */
 
 /*global XMLHttpRequest:false, StrikeOne:false */
@@ -148,8 +148,8 @@ var foswiki = foswiki || {
   foswiki.getPubUrl = function(web, topic, file, params) {
     return _getPubUrl(1, web, topic, file, params);
   };
-  foswiki.getPubUrlPath = function(web, topic, params) {
-    return _getPubUrl(0, web, topic, params);
+  foswiki.getPubUrlPath = function(web, topic, file, params) {
+    return _getPubUrl(0, web, topic, file, params);
   };
 
   /**

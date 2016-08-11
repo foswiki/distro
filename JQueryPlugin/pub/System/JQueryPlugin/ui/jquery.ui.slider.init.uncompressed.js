@@ -23,7 +23,7 @@ jQuery(function($) {
       }
     }
 
-    opts = $.extend({}, sliderDefaults, opts, $this.metadata());
+    opts = $.extend({}, sliderDefaults, opts, $this.data(), $this.metadata());
     $this.empty().removeClass("jqUISlider").slider(opts);    
   });
 });

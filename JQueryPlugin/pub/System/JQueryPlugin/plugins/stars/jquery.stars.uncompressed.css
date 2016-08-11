@@ -1,31 +1,34 @@
 .jqStars {
   white-space:nowrap;
-}
-.jqStarsContainer {
   display:inline-block;
-  background-image:url(star.png);
-  background-repeat:repeat-x;
   height:16px;
-  vertical-align:text-bottom;
+  line-height:16px;
+}
+.jqStarsLabel,
+.jqStarsContainer,
+.jqStarsOn,
+.jqStarsDelete {
+  background-position:0 0;
+  background-size:16px;
+  background-repeat:repeat-x;
+  display:inline-block;
+  height:16px;
+  line-height:16px;
+  vertical-align:bottom;
+}
+.jqStarsOn,
+.jqStarsContainer {
+  background-image:url(stars.svg);
 }
 .jqStarsLabel {
-  display:inline-block;
-  margin-left:0.5em;
-}
-.jqStarsOn {
-  display:inline-block;
-  background-image:url(star.png);
-  background-repeat:repeat-x;
-  height:16px;
+  margin-left:0.3em;
 }
 .jqStarsDelete {
-  display:inline-block;
-  vertical-align:text-bottom;
-  background-image:url(delete.gif);
+  margin-right:0.5em;
+  background-image:url(delete.svg);
   background-repeat:no-repeat;
+  background-position:0 1px;
   width:16px;
-  height:16px;
-  margin-right:3px;
 }
 .jqStarsDelete:hover {
   background-position:0 -16px;

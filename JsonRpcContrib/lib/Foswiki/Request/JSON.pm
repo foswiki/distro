@@ -448,6 +448,11 @@ sub _establishNamespace {
     return $namespace;
 }
 
+# static
+sub _writeDebug {
+    print STDERR "- Foswiki::Request::JSON - $_[0]\n";
+}
+
 1;
 
 __END__

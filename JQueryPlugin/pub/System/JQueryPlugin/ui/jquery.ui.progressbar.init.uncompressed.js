@@ -2,12 +2,12 @@
 jQuery(function($) {
   
   // progressbar
-  $(".jqUIProgressBar").livequery(function() {
+  $(".jqUIProgressBar:not(.jqUIProgressBarInited)").livequery(function() {
     var $this = $(this), 
         value = parseInt($this.text(), 10),
-        opts = $.extend({ value: value }, $this.metadata());
+        opts = $.extend({ value: value }, $this.data(), $this.metadata());
 
-    $this.empty().removeClass("jqUIProgressbar").progressbar(opts);    
+    $this.addClass("jqUIProgressBarInited").progressbar(opts);    
   });
 
 });

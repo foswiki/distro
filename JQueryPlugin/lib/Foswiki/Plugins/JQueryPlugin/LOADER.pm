@@ -7,7 +7,7 @@ extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 our %pluginParams = (
     name         => 'Loader',
-    version      => '2.10',
+    version      => '2.11',
     author       => 'Michael Daum',
     homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
     tags         => 'LOADER',

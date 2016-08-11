@@ -23,7 +23,7 @@ Constructor
 
 our %pluginParams = (
     name     => 'FontAwesome',
-    version  => '4.5.0',
+    version  => '4.6.3',
     author   => 'Dave Gandy',
     homepage => 'http://fontawesome.io',
     css      => [ 'fontawesome.css', 'icon-animate.css' ],
