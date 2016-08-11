@@ -19,14 +19,6 @@ has testPathInfo =>
 has oldDbiDsn   => ( is => 'rw', );
 has oldCacheDsn => ( is => 'rw', );
 
-# Global configuration
-#
-#  $this->{param_refresh} - value for referesh= param
-#  $this->{param_topic}   - value for topic= param
-#  $this->{param_load}    - value for load= param, used by the /JQueryPlugin/tmpl rest handler
-#  $this->{path_info}     - path_info for the query
-#  $this->{query}         - Query object
-
 sub fixture_groups {
     my $this = shift;
     my @page;
@@ -186,50 +178,7 @@ sub NoCompress {
 
 sub view {
     my $this = shift;
-<<<<<<< HEAD
     $this->testAction('view');
-}
-
-sub rest_handler {
-    return '';
-=======
-    $this->{uifn}  = 'view';
-    $UI_FN         = $this->getUIFn( $this->{uifn} );
-    $this->{query} = Unit::Request->new( { skin => ['none'], } );
-    $this->{query}->method('GET');
-
-    $this->{path_info} = '/$Foswiki::cfg{SystemWebName}/FileAttribute';
->>>>>>> master-May31
-}
-
-sub rest {
-    my $this = shift;
-<<<<<<< HEAD
-    $this->testAction('rest');
-    Foswiki::Func::registerRESTHandler(
-        'trial', \&rest_handler,
-        authenticate => 0,
-        validate     => 0,
-        http_allow   => 'GET',
-    );
-    $this->testPathInfo( '/' . __PACKAGE__ . '/trial' );
-=======
-    $this->{uifn} = 'rest';
-    $UI_FN = $this->getUIFn( $this->{uifn} );
-    require Unit::Request::Rest;
-    $this->{query} = Unit::Request::Rest->new( { skin => ['none'], } );
-
-    # SMELL: Only GET requests are cached.  Also, the choice of REST handler
-    # is important.  Handlers that generate their own output rather than using
-    # the Foswiki page handler are not cached.
-
-    $this->{query}->method('GET');
-    $this->{path_info} = '/JQueryPlugin/tmpl';
-
-    $this->{param_topic} = "$Foswiki::cfg{SystemWebName}.FileAttribute";
-
-# SMELL: Name of template to load - generates a not found error, but it's cached.
-    $this->{param_load} = 'Foo';
 }
 
 sub refresh_all {
@@ -255,7 +204,22 @@ sub refresh_fire {
 sub timing {
     my $this = shift;
     $this->{param_refresh} = '';
->>>>>>> master-May31
+}
+
+sub rest_handler {
+    return '';
+}
+
+sub rest {
+    my $this = shift;
+    $this->testAction('rest');
+    Foswiki::Func::registerRESTHandler(
+        'trial', \&rest_handler,
+        authenticate => 0,
+        validate     => 0,
+        http_allow   => 'GET',
+    );
+    $this->testPathInfo( '/' . __PACKAGE__ . '/trial' );
 }
 
 my %twistyIDs;
@@ -282,7 +246,6 @@ around set_up => sub {
 
     $Foswiki::cfg{HttpCompress} = 0;
     $Foswiki::cfg{Cache}{Compress} = 0;
-<<<<<<< HEAD
     $this->oldDbiDsn( $Foswiki::cfg{Cache}{DBI}{DSN} );
     $this->oldCacheDsn( $Foswiki::cfg{Cache}{DSN} );
     delete $this->app->env->{FOSWIKI_TEST_PATH_INFO};
@@ -293,11 +256,6 @@ around set_up => sub {
 
 around tear_down => sub {
     my $orig = shift;
-=======
-}
-
-sub tear_down {
->>>>>>> master-May31
     my $this = shift;
     $Foswiki::cfg{Cache}{DBI}{DSN} = $this->oldDbiDsn;
     $Foswiki::cfg{Cache}{DSN} = $this->oldCacheDsn;
@@ -307,9 +265,37 @@ sub tear_down {
 };
 
 sub _clearCache {
-    my $this = shift;
+    my ( $this, $pathinfo ) = @_;
 
-<<<<<<< HEAD
+    $this->app->cfg->data->{Cache}{Debug} = 1;
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                skin     => ['none'],
+                action   => ['view'],
+                endPoint => $this->testUri,
+            },
+        },
+        engineParams => {
+            simulate          => 'cgi',
+            initialAttributes => {
+                uri       => "/$Foswiki::cfg{SystemWebName}/FileAttribute",
+                path_info => $this->testPathInfo,
+                method    => 'GET',
+                action    => $this->testAction,
+            },
+        },
+        context => { $this->testAction => 1 },
+        user    => $this->test_user_login,
+    );
+
+    return $this->app->handleRequest;
+}
+
+sub check {
+    my ( $this, $pathinfo ) = @_;
+
     $this->app->cfg->data->{Cache}{Debug} = 1;
 
     $this->createNewFoswikiApp(
@@ -332,41 +318,19 @@ sub _clearCache {
         context => { $this->testAction => 1 },
         user    => $this->test_user_login,
     );
-=======
-    my $clear = Unit::Request->new( { skin => ['none'], refresh => 'all', } );
-    $clear->path_info("/System/WebHome");
-    $clear->method('GET');
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin},
-        $clear, { view => 1 } );
->>>>>>> master-May31
-
-    my $_clrUI_FN = $this->getUIFn("view");
-
-    my ( $resp, $result, $stdout, $stderr ) = $this->capture(
+    # This first request should *not* be satisfied from the cache, but
+    # the cache should be populated with the result.
+    my $p1start = Benchmark->new();
+    my ( $one, $result, $stdout, $stderr ) = $this->capture(
         sub {
-<<<<<<< HEAD
             return $this->app->handleRequest;
-=======
-            try {
-                no strict 'refs';
-                &{$_clrUI_FN}( $this->{session} );
-                use strict 'refs';
-                $Foswiki::engine->finalize( $this->{session}{response},
-                    $this->{session}{request} );
-            }
-            catch Foswiki::OopsException with {
-                my $e = shift;
-                $this->assert( 0, "Incorrect exception: " . $e->stringify() );
-            };
-
->>>>>>> master-May31
         }
     );
+    my $p1end = Benchmark->new();
 
-}
+    print STDERR "P1: $stderr\n" if $stderr;
 
-<<<<<<< HEAD
     $this->createNewFoswikiApp(
         requestParams => {
             initializer => {
@@ -388,23 +352,14 @@ sub _clearCache {
         user    => $this->test_user_login,
     );
 
-    # This second request should be satisfied from the cache
-    # How do we know it was?
-    my $p2start = Benchmark->new();
-    ( my $two, $result, $stdout, $stderr ) = $this->capture(
-        sub {
-            return $this->app->handleRequest;
-        }
-    );
-    my $p2end = Benchmark->new();
-=======
+}
+
 # Check timing and general cache operation.
 sub check_timing {
     my ($this) = @_;
 
     $Foswiki::cfg{Cache}{Debug} = 1;
     $this->_clearCache();
->>>>>>> master-May31
 
     # This first request should *not* be satisfied from the cache, but
     # the cache should be populated with the result.
@@ -426,8 +381,10 @@ sub check_timing {
     my $two_heads = $1;
     $this->assert_matches( qr/X-Foswiki-Pagecache: 1/i, $two_heads );
 
-    print "To cache:   " . timestr( timediff( $p1end, $p1start ) ) . "\n";
-    print "From cache: " . timestr( timediff( $p2end, $p2start ) ) . "\n";
+    print STDERR "To cache:   "
+      . timestr( timediff( $p1end, $p1start ) ) . "\n";
+    print STDERR "From cache: "
+      . timestr( timediff( $p2end, $p2start ) ) . "\n";
 
     return if $one eq $two;
 
@@ -490,7 +447,6 @@ sub _runQuery {
     my ( $resp, $result, $stdout, $stderr ) = $this->capture(
         sub {
             no strict 'refs';
-            &{$UI_FN}( $this->{session} );
             use strict 'refs';
             $Foswiki::engine->finalize( $this->{session}{response},
                 $this->{session}{request} );
@@ -552,48 +508,22 @@ sub check_refresh {
 
 sub verify_simple {
     my $this = shift;
-<<<<<<< HEAD
     $this->testUri('/');
-    $this->check;
-=======
 
-    $this->{path_info}   = "/";
-    $this->{param_topic} = undef;
-    $this->{param_load}  = undef;
+    #$this->check;
 
     if ( $this->{param_refresh} ) {
-        $this->check_refresh();
+        $this->check_refresh;
     }
     else {
-        $this->check_timing();
+        $this->check_timing;
     }
->>>>>>> master-May31
 }
 
 sub verify_topic {
     my $this = shift;
-<<<<<<< HEAD
     $this->testUri("/$Foswiki::cfg{SystemWebName}/FileAttribute");
     $this->check;
-=======
-
-    if ( $this->{uifn} eq 'rest' ) {
-        $this->{path_info}   = '/JQueryPlugin/tmpl';
-        $this->{param_topic} = "$Foswiki::cfg{SystemWebName}.FileAttribute";
-        $this->{param_load}  = 'Foo';
-    }
-    else {
-        $this->{path_info}   = "/$Foswiki::cfg{SystemWebName}/FileAttribute";
-        $this->{param_topic} = undef;
-        $this->{param_load}  = undef;
-    }
-    if ( $this->{param_refresh} ) {
-        $this->check_refresh();
-    }
-    else {
-        $this->check_timing();
-    }
->>>>>>> master-May31
 }
 
 sub verify_utf8_topic {
@@ -606,174 +536,8 @@ sub verify_utf8_topic {
     $meta->text($topic);
     $meta->save();
 
-<<<<<<< HEAD
     $this->testUri( Encode::encode_utf8("/$web/$topic") );
     $this->check;
-=======
-    if ( $this->{uifn} eq 'rest' ) {
-        $this->{path_info}   = '/JQueryPlugin/tmpl';
-        $this->{param_topic} = "$web.$topic";
-        $this->{param_load}  = 'Foo';
-    }
-    else {
-        $this->{path_info}   = Foswiki::encode_utf8("/$web/$topic");
-        $this->{param_topic} = undef;
-        $this->{param_load}  = undef;
-    }
-    if ( $this->{param_refresh} ) {
-        $this->check_refresh();
-    }
-    else {
-        $this->check_timing();
-    }
-}
-
-#  Make sure that only admin users can issue refresh_all
-sub test_refresh_all {
-    my $this = shift;
-
-    SQLite();    # Initialized the cache
-    $Foswiki::cfg{Cache}{Enabled} = 1;
-
-    $this->{path_info} = "/System/FileAttribute";
-
-    $UI_FN ||= $this->getUIFn("view");
-    $Foswiki::cfg{Cache}{Debug} = 1;
-
-    # First, make sure the topic is in the cache.
-
-    $this->{query} = Unit::Request->new( { skin => ['none'] } );
-    $this->{query}->path_info( $this->{path_info} );
-    $this->{query}->method('GET');
-
-    $this->createNewFoswikiSession( $this->{test_user_login},
-        $this->{query}, { view => 1 } );
-
-    my ( $junk, $result, $stdout, $stderr ) = $this->capture(
-        sub {
-            no strict 'refs';
-            &{$UI_FN}( $this->{session} );
-            use strict 'refs';
-            $Foswiki::engine->finalize( $this->{session}{response},
-                $this->{session}{request} );
-        }
-    );
-
-    # Now attempt a refresh=all, from a non-admin user
-    # it should fail with an oops exception
-
-    $this->{query} =
-      Unit::Request->new( { skin => ['none'], refresh => 'all', } );
-    $this->{query}->path_info( $this->{path_info} );
-    $this->{query}->method('GET');
-
-    #$this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin},
-    $this->createNewFoswikiSession( $this->{test_user_login},
-        $this->{query}, { view => 1 } );
-
-    ( my $one, $result, $stdout, $stderr ) = $this->capture(
-        sub {
-            try {
-                no strict 'refs';
-                &{$UI_FN}( $this->{session} );
-                use strict 'refs';
-                $Foswiki::engine->finalize( $this->{session}{response},
-                    $this->{session}{request} );
-                $this->assert( 0, "refresh=all allowed by a non-admin user!" );
-            }
-            catch Foswiki::OopsException with {
-                my $e = shift;
-                $this->assert_str_equals( "cache_refresh", $e->{def},
-                    $e->stringify() );
-                $this->assert_str_equals( "accessdenied", $e->{template},
-                    $e->stringify() );
-            }
-        }
-    );
-
-    # Make sure that the page is still cached,  that it wasn't removed
-    # during the oops processing
-
-    $this->{query} = Unit::Request->new( { skin => ['none'], } );
-    $this->{query}->path_info( $this->{path_info} );
-    $this->{query}->method('GET');
-
-    $this->createNewFoswikiSession( $this->{test_user_login},
-        $this->{query}, { view => 1 } );
-
-    ( my $two, $result, $stdout, $stderr ) = $this->capture(
-        sub {
-            no strict 'refs';
-            &{$UI_FN}( $this->{session} );
-            use strict 'refs';
-            $Foswiki::engine->finalize( $this->{session}{response},
-                $this->{session}{request} );
-        }
-    );
-
-    $this->assert( $two =~ s/\r//g,          'Failed to remove \r' );
-    $this->assert( $two =~ s/^(.*?)\n\n+//s, 'Failed to remove HTTP headers' );
-    my $two_heads = $1;
-    $this->assert_matches( qr/X-Foswiki-Pagecache: 1/i, $two_heads );
-
-    # Now refresh the cache as an admin
-
-    $this->{query} =
-      Unit::Request->new( { skin => ['none'], refresh => 'all', } );
-    $this->{query}->path_info( $this->{path_info} );
-    $this->{query}->method('GET');
-
-    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin},
-        $this->{query}, { view => 1 } );
-
-    ( my $three, $result, $stdout, $stderr ) = $this->capture(
-        sub {
-            try {
-                no strict 'refs';
-                &{$UI_FN}( $this->{session} );
-                use strict 'refs';
-                $Foswiki::engine->finalize( $this->{session}{response},
-                    $this->{session}{request} );
-            }
-            catch Foswiki::OopsException with {
-                my $e = shift;
-                $this->assert( 0, "Incorrect exception: " . $e->stringify() );
-            };
-
-        }
-    );
-
-    $this->assert( $three =~ s/\r//g, 'Failed to remove \r' );
-    $this->assert( $three =~ s/^(.*?)\n\n+//s,
-        'Failed to remove HTTP headers' );
-    my $three_heads = $1;
-    $this->assert_does_not_match( qr/X-Foswiki-Pagecache: 1/i, $three_heads );
-
-    # Make sure that the page is not cached
-
-    $this->{query} = Unit::Request->new( { skin => ['none'], } );
-    $this->{query}->path_info( $this->{path_info} );
-    $this->{query}->method('GET');
-
-    $this->createNewFoswikiSession( $this->{test_user_login},
-        $this->{query}, { view => 1 } );
-
-    ( my $four, $result, $stdout, $stderr ) = $this->capture(
-        sub {
-            no strict 'refs';
-            &{$UI_FN}( $this->{session} );
-            use strict 'refs';
-            $Foswiki::engine->finalize( $this->{session}{response},
-                $this->{session}{request} );
-        }
-    );
-
-    $this->assert( $four =~ s/\r//g,          'Failed to remove \r' );
-    $this->assert( $four =~ s/^(.*?)\n\n+//s, 'Failed to remove HTTP headers' );
-    my $four_heads = $1;
-    $this->assert_does_not_match( qr/X-Foswiki-Pagecache: 1/i, $four_heads );
-
->>>>>>> master-May31
 }
 
 1;
