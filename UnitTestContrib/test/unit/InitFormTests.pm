@@ -35,7 +35,7 @@ use Try::Tiny;
 
 use Moo;
 use namespace::clean;
-extends qw( FoswikiTestCase );
+extends qw( FoswikiFnTestCase );
 
 my $testweb    = "TemporaryTestWeb";
 my $testtopic1 = "InitTestTopic1";

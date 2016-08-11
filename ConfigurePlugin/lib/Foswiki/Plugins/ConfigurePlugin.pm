@@ -31,8 +31,8 @@ package Foswiki::Plugins::ConfigurePlugin;
 use strict;
 use warnings;
 
-our $VERSION           = '1.04';
-our $RELEASE           = '03 Feb 2016';
+our $VERSION           = '1.05';
+our $RELEASE           = '11 Apr 2016';
 our $SHORTDESCRIPTION  = '=configure= interface using json-rpc';
 our $NO_PREFS_IN_TOPIC = 1;
 

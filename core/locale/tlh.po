@@ -59,7 +59,6 @@ msgstr "%1 (motlh)"
 msgid "%1 - Registration failure for %2 (%3)"
 msgstr "%2vaD (%3) Qagh %1 - muvmeH mIw"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
@@ -91,10 +90,6 @@ msgstr "%1 ghom ghItlh chu&&#39;moHlu&&#39;."
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1Daq latlh lo&&#39;wI&&#39; tetlh tu&&#39;lu&&#39;"
-
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
-msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 lajlu&&#39; &&#39;ej muvmeH QIn Quv %2 lo&&#39;lu&&#39;"
 
 #: core/templates/messages.tmpl:336
 msgid ""
@@ -327,7 +322,7 @@ msgstr "(latlh)"
 msgid "(move attachment)"
 msgstr "(tep vIHmoH)"
 
-#: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
+#: core/data/System/ParentList.txt:47 core/data/System/ParentList.txt:51
 msgid "(no parent, orphaned topic)"
 msgstr "(qup Hutlh, ghItlh mob)"
 
@@ -595,7 +590,7 @@ msgstr ""
 "hexadecimal mI&&#39;mey, yIbuS: =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1285
+#: core/lib/Foswiki/UI/Register.pm:1367
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "%1vaD &&#39;olmeH QIn ngelu&&#39;pu&&#39;"
 
@@ -1011,8 +1006,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:35
-#: JQueryPlugin/data/System/VarBUTTON.txt:44
+#: JQueryPlugin/data/System/VarBUTTON.txt:33
+#: JQueryPlugin/data/System/VarBUTTON.txt:43
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
@@ -1060,6 +1055,15 @@ msgstr "potlh <nop>DeghHom/Degh&&#39;a&&#39;"
 msgid "Categories"
 msgstr "Seghmey"
 
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
+#, fuzzy
+msgid ""
+"Caution: The password system is currently read only. Users will not be added "
+"to the Password file."
+msgstr ""
+"Do&&#39;Ha&&#39;, <nop>DaHjaj laDlaH neH chaw&&#39; ngoq pat. <nop>DaH %1 "
+"yIrI&&#39;"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
 msgstr "jojDaq lan"
@@ -1092,7 +1096,7 @@ msgstr "yu&&#39;muD qa&&#39;"
 msgid "Change from"
 msgstr "Daq choH"
 
-#: core/data/System/LanguageSelector.txt:36
+#: core/data/System/LanguageSelector.txt:34
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Hol choH"
@@ -1469,6 +1473,7 @@ msgstr "<nop>QaghHa&&#39;moH"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:114
 #: NatEditPlugin/templates/edit.natedit.tmpl:150
+#: core/data/System/LanguageSelector.txt:25
 msgid "Default"
 msgstr "motlh"
 
@@ -2268,7 +2273,7 @@ msgstr "vay&&#39; Daghel <nop>DaneHchugh, vaj %1 yIrI&&#39;"
 msgid "If you have any questions, please contact %1."
 msgstr "vay&&#39; Daghel <nop>DaneHchugh vaj %1 yIrI&&#39;."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:183
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:256
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -2310,6 +2315,13 @@ msgstr ""
 "Qapbe&&#39;chugh <nop>QInQuvlIj qan (vaj Dalo&&#39;laHbe&&#39;>taH), &&#39;"
 "ej chaw&&#39; <nop>ngoqlIj <nop>DalIjchugh, vaj <nop>QaH <nop>DaSammeH %1 "
 "yIrI&&#39;."
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:97
+msgid ""
+"If your wiki uses an external password manager, and the users you want to "
+"register are known to the password manager, then bulk registration may still "
+"be useful.  Please contact %1 if you are unsure."
+msgstr ""
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
@@ -2960,7 +2972,7 @@ msgstr ""
 "SIqbogh URLmey."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:181
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3445,7 +3457,7 @@ msgstr "muvta&&#39;bogh lo&&#39;wI&&#39;pu&&#39;&&#39;e&&#39;"
 msgid "Registration"
 msgstr "muvmeH mIw"
 
-#: core/lib/Foswiki/UI/Register.pm:712
+#: core/lib/Foswiki/UI/Register.pm:794
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3489,12 +3501,12 @@ msgstr "loHwI&&#39;vaD ghItlhmey:"
 msgid "Related Topics:"
 msgstr "rurbogh ghItlhmey:"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:115
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:693
+#: core/data/System/CommandAndCGIScripts.txt:695
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3747,7 +3759,6 @@ msgstr "pol &&#39;ej mej"
 msgid "Save table"
 msgstr "wa&&#39;chaw pol"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
 #: core/templates/registerfailednotremoved.tmpl:19
 #: core/templates/registerfailedremoved.tmpl:20
 #: core/templates/registernotifyadmin.tmpl:17
@@ -3986,7 +3997,7 @@ msgstr "qI&&#39;meH pong"
 msgid "Size"
 msgstr "ngI&&#39;"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:174
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:247
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "&&#39;ISjaH, jey De&&#39; qoj luchel &&#39;op."
@@ -4005,7 +4016,7 @@ msgstr ""
 "rarwI&&#39;Daq &&#39;uylu&&#39;chugh &&#39;<nop>oH <nop>ngeHmeH. bI&&#39;"
 "uyta&&#39;chugh, vaj chaq *Qapchu&&#39;qu&&#39;* <nop>muvmeH <nop>mIwlIj."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:173
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:246
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4020,7 +4031,6 @@ msgstr ""
 "Do&&#39;Ha&&#39;, muvmeH mIw chu&&#39;Ha&&#39;lu&&#39;. ru&&#39; ghu&&#39;"
 "vam."
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:92
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -4087,8 +4097,8 @@ msgstr "Degh botlh tlhegh"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:31
-#: JQueryPlugin/data/System/VarBUTTON.txt:40
+#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
 #: core/data/System/FrequentlyAskedQuestions.txt:81
@@ -4096,8 +4106,7 @@ msgstr "Degh botlh tlhegh"
 msgid "Submit"
 msgstr "ngeH"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:185
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:258
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -4204,7 +4213,6 @@ msgstr "batlh muvmeH mIw Da&&#39;olta&&#39;"
 msgid "Thank you for denying this registration"
 msgstr "batlh muvmeH mIwvam <nop>DalajHa&&#39;ta&&#39;"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:272
 #: core/templates/registermessages.tmpl:146
 #: core/templates/registermessages.tmpl:154
 #: core/templates/registermessages.tmpl:167
@@ -4634,7 +4642,6 @@ msgstr "rut wanI&&#39;vamvaD Cross-site Request Forgery (CSRF) ponglu&&#39;."
 msgid "This is an automated e-mail from %1."
 msgstr "QInvam <nop>DungeHta&&#39; %1 De&&#39;wI&&#39;."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:249
 #: core/templates/registerfailednotremoved.tmpl:9
 #: core/templates/registerfailedremoved.tmpl:9
 #: core/templates/registernotifyadmin.tmpl:9
@@ -5239,11 +5246,11 @@ msgstr "Qu&&#39;vatlh: ghItlh %1.%2 <nop>vISamlaHbe&&#39;"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Qu&&#39;vatlh: ghItlh %2mo&&#39; mIch %1 <nop>vISamlaHbe&&#39;"
 
-#: core/lib/Foswiki/UI/Register.pm:1278
+#: core/lib/Foswiki/UI/Register.pm:1360
 msgid "Warning: Could not send confirmation email"
 msgstr "Qu&&#39;vatlh: &&#39;olmeH QIn ngeHlaHbe&&#39;"
 
-#: core/lib/Foswiki/UI/Register.pm:1290
+#: core/lib/Foswiki/UI/Register.pm:1372
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Qu&&#39;vatlh: &&#39;olmeH QIn ngeHlaHbe&&#39;, QInmey chu&&#39;Ha&&#39;"
@@ -5452,7 +5459,7 @@ msgstr ""
 "(black, silver, gray, white, maroon, red, purple, fuchsia, green, lime, "
 "olive, yellow, navy, blue, teal, aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:182
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:255
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "%1Daq chaw&&#39; ngoqlIj <nop>DachoHlaH"
@@ -5583,7 +5590,7 @@ msgstr ""
 msgid "Your email address will be kept confidential."
 msgstr "reH QIn <nop>QuvlIj peghlu&&#39;."
 
-#: core/templates/oopslanguagechanged.tmpl:14
+#: core/templates/oopslanguagechanged.tmpl:17
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
 msgstr "<nop>DaH %1 Hol Dalo&&#39;choH. [[%2][bIruchmeH yI&&#39;uy]]."
 
@@ -5614,7 +5621,7 @@ msgstr "%1 Deghmey ghaj chaw&&#39; ngoqlIj net poQ."
 msgid "Your password:"
 msgstr "chaw&&#39; ngoqlIj:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:244
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
@@ -5693,27 +5700,27 @@ msgstr "[3 Deghmey chIm] * [chIm] Set [chIm] VARIABLENAME [chIm] = [Doch]"
 msgid "_language_name"
 msgstr "tlhIngan Hol"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:173
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:165
 msgid "access denied on root"
 msgstr "&&#39;oQqar <nop>Danaw&&#39; net chaw&&#39;be&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:109
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:101
 msgid "access denied on topic"
 msgstr "ghItlh <nop>Danaw&&#39; net chaw&&#39;be&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:145
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:137
 msgid "access denied on web"
 msgstr "mIch <nop>Danaw&&#39; net chaw&&#39;be&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:183
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:175
 msgid "access not allowed on root"
 msgstr "&&#39;oQqar Danaw&&#39; chaw&&#39;be&&#39;lu&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:132
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:124
 msgid "access not allowed on topic"
 msgstr "ghItlh Danaw&&#39; &&#39;e&&#39; chaw&&#39;be&&#39;lu&&#39;"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:157
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:149
 msgid "access not allowed on web"
 msgstr "mIchDaq naw' chaw'be'lu'"
 
@@ -6025,6 +6032,9 @@ msgstr "bej"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "qatlh naDev bI&&#39;olnIS"
+
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "%1 lajlu&&#39; &&#39;ej muvmeH QIn Quv %2 lo&&#39;lu&&#39;"
 
 #~ msgid "Return to [_0]"
 #~ msgstr "[_0]Daq chegh"

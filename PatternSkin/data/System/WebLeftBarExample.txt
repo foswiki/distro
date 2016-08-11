@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1459801632" format="1.1" version="1"}%
 %META:TOPICPARENT{name="WebHome"}%
 %INCLUDE{"%IF{"context can_login" then="%SYSTEMWEB%.WebLeftBarLogin" else="<nop>"}%" warn="off"}%
 
@@ -35,7 +35,7 @@
    * %WEBPREFSTOPIC%
 
    * <b>%MAKETEXT{"Categories"}%</b>
-%SEARCH{"parent.name='Category' AND name!='%BASETOPIC%'" web="%BASEWEB%" type="query"
+%SEARCH{"parent.name='Category' AND name!='%BASETOPIC%'" web="%BASEWEB%" topic="*Category" type="query"
 nonoise="on" format="   * [[$topic]]"}%
 %ENDSECTION{"topics"}%
 

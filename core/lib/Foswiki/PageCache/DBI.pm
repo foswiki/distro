@@ -61,6 +61,11 @@ has depsIndex => (
     lazy    => 1,
     default => sub { return $_[0]->_tablePrefix . '_deps_index' },
 );
+has depsTopicIndex => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { return $_[0]->_tablePrefix . '_deps_topics_index' },
+);
 has cacheDir => (
     is      => 'ro',
     default => sub {
@@ -689,6 +694,11 @@ HERE
           . $this->depsIndex . " on "
           . $this->depsTable
           . " (from_topic, to_topic)" );
+
+    $this->dbh->do( "create index "
+          . $this->depsTopicIndex . " on "
+          . $this->depsTable
+          . " (to_topic)" );
 }
 
 =begin TML

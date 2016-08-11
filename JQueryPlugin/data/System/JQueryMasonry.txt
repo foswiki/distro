@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1456220586" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1461624105" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 %JQPLUGINS{"masonry"
@@ -12,7 +12,7 @@
 %STARTSECTION{"summary"}%
 Masonry is a <nop>JavaScript grid layout library. It works by placing elements in optimal 
 position based on available vertical space, sort of like a mason fitting stones in a wall. 
-You’ve probably seen it in use all over the Internet.
+You've probably seen it in use all over the Internet.
 %ENDSECTION{"summary"}%
 
 ---++ Screenshot
@@ -70,7 +70,7 @@ All options are optional, but columnWidth and itemSelector are recommended.
    * =isOriginLeft: true= %BR%
      Controls the horizontal flow of the layout. By default, item elements start positioning at the left, with =isOriginLeft: true=. Set =isOriginLeft: false= for right-to-left layouts.
    * =isOriginTop: true= %BR%
-     Controls the vertical flow of the layout. By default, item elements start positioning at the top, with =isOriginTop: true=. Set =isOriginTop: false= for bottom-up layouts. It’s like Tetris!
+     Controls the vertical flow of the layout. By default, item elements start positioning at the top, with =isOriginTop: true=. Set =isOriginTop: false= for bottom-up layouts. It's like Tetris!
    * =containerStyle: {position:relative}= %BR%
      CSS styles that are applied to the container element, set to =null= to disable any css
    * =transitionDuration: '0.4s'=
@@ -155,4 +155,4 @@ See more demos at http://masonry.desandro.com/
 </style>
 </literal>
 
-%META:FILEATTACHMENT{name="jQuery-Masonry.jpg" attr="h" comment="" date="1456220586" size="35840" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="jQuery-Masonry.jpg" attr="h" comment="" date="1461624105" size="35840" user="ProjectContributor" version="1"}%

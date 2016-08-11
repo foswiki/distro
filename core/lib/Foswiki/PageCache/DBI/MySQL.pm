@@ -107,6 +107,11 @@ HERE
           . $this->depsIndex . " on "
           . $this->depsTable
           . " (from_topic, to_topic)" );
+
+    $this->dbh->do( "create index "
+          . $this->depsTopicIndex . " on "
+          . $this->depsTable
+          . " (to_topic)" );
 }
 
 1;

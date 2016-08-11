@@ -59,7 +59,6 @@ msgstr "%1 (default)"
 msgid "%1 - Registration failure for %2 (%3)"
 msgstr "%1 - Registreringsfeil for %2 (%3)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
@@ -91,10 +90,6 @@ msgstr "%1 gruppe side oppgradert."
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 har en liste over andre Foswiki brukere"
-
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
-msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 er godkjent og registrert med epost %2"
 
 #: core/templates/messages.tmpl:336
 msgid ""
@@ -325,7 +320,7 @@ msgstr "(mer)"
 msgid "(move attachment)"
 msgstr "(flytt vedlegg)"
 
-#: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
+#: core/data/System/ParentList.txt:47 core/data/System/ParentList.txt:51
 msgid "(no parent, orphaned topic)"
 msgstr "(ingen foreldre, foreldreløs side)"
 
@@ -587,7 +582,7 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1285
+#: core/lib/Foswiki/UI/Register.pm:1367
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "En bekreftelses epost har blitt sent til %1"
 
@@ -998,8 +993,8 @@ msgstr "Kan ikke finne epost adresse for %1 (nødvendig for å resette passord)"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:35
-#: JQueryPlugin/data/System/VarBUTTON.txt:44
+#: JQueryPlugin/data/System/VarBUTTON.txt:33
+#: JQueryPlugin/data/System/VarBUTTON.txt:43
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
@@ -1047,6 +1042,15 @@ msgstr "Store/små bokstaver"
 msgid "Categories"
 msgstr "Kategorier"
 
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
+#, fuzzy
+msgid ""
+"Caution: The password system is currently read only. Users will not be added "
+"to the Password file."
+msgstr ""
+"Beklager, passordsystemet er for øyeblikke kun med lesetilgang, vennligst "
+"kontakt %1"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
 msgstr "Midtstill"
@@ -1079,7 +1083,7 @@ msgstr "Endre skjema"
 msgid "Change from"
 msgstr "Endre fra"
 
-#: core/data/System/LanguageSelector.txt:36
+#: core/data/System/LanguageSelector.txt:34
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Endre språk"
@@ -1451,6 +1455,7 @@ msgstr "Debug"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:114
 #: NatEditPlugin/templates/edit.natedit.tmpl:150
+#: core/data/System/LanguageSelector.txt:25
 msgid "Default"
 msgstr "Standard"
 
@@ -2220,7 +2225,7 @@ msgstr "Dersom du har spørsmål vennligst kontakt %1"
 msgid "If you have any questions, please contact %1."
 msgstr "Dersom du harspørsmål vennlighst kontakt %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:183
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:256
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr "Hvis du ikke har satt et passord enda eller vil endre det, gå til: %1"
@@ -2262,6 +2267,13 @@ msgstr ""
 "Hvis alle dine gamle epostadresser er ugyldige (dersom du ikke kan motta "
 "epost der lenger) og du har glemt ditt passord, vennligst kontakt %1 for "
 "hjelp."
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:97
+msgid ""
+"If your wiki uses an external password manager, and the users you want to "
+"register are known to the password manager, then bulk registration may still "
+"be useful.  Please contact %1 if you are unsure."
+msgstr ""
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
@@ -2914,7 +2926,7 @@ msgstr ""
 "etter denne flyttingen."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:181
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3415,7 +3427,7 @@ msgstr "Registrer"
 msgid "Registration"
 msgstr "Registrering"
 
-#: core/lib/Foswiki/UI/Register.pm:712
+#: core/lib/Foswiki/UI/Register.pm:794
 #, fuzzy
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -3459,12 +3471,12 @@ msgstr "Epost kunne ikke sendes. Vennligst informer din %1 administrator, %2"
 msgid "Related Topics:"
 msgstr "Relaterte Sider"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:115
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:693
+#: core/data/System/CommandAndCGIScripts.txt:695
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3724,7 +3736,6 @@ msgstr "Lagret til:"
 msgid "Save table"
 msgstr "Lagre tabell"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
 #: core/templates/registerfailednotremoved.tmpl:19
 #: core/templates/registerfailedremoved.tmpl:20
 #: core/templates/registernotifyadmin.tmpl:17
@@ -3976,7 +3987,7 @@ msgstr ""
 msgid "Size"
 msgstr "Størrelse"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:174
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:247
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "Noen legger inn avtaler og ferievarsling."
@@ -3995,7 +4006,7 @@ msgstr ""
 "ganger når du klikker på en link. Hvis dette skjedde med deg kan de hende du "
 "faktisk *er* registrert."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:173
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:246
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4009,7 +4020,6 @@ msgstr ""
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Beklager, Registrering er midlertidig deaktivert"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:92
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -4074,8 +4084,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:31
-#: JQueryPlugin/data/System/VarBUTTON.txt:40
+#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
 #: core/data/System/FrequentlyAskedQuestions.txt:81
@@ -4083,8 +4093,7 @@ msgstr ""
 msgid "Submit"
 msgstr "Send"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:185
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:258
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -4198,7 +4207,6 @@ msgstr "Takk for at du registrerte deg"
 msgid "Thank you for denying this registration"
 msgstr "Takk for at du registrerte deg"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:272
 #: core/templates/registermessages.tmpl:146
 #: core/templates/registermessages.tmpl:154
 #: core/templates/registermessages.tmpl:167
@@ -4637,7 +4645,6 @@ msgstr ""
 msgid "This is an automated e-mail from %1."
 msgstr "Dette er en automatisk epost fra %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:249
 #: core/templates/registerfailednotremoved.tmpl:9
 #: core/templates/registerfailedremoved.tmpl:9
 #: core/templates/registernotifyadmin.tmpl:9
@@ -5276,11 +5283,11 @@ msgstr "Advarsel: Kan ikke finne siden %1.%2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Advarsel: Kan ikke finne siden %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:1278
+#: core/lib/Foswiki/UI/Register.pm:1360
 msgid "Warning: Could not send confirmation email"
 msgstr "Advarsel: Kunne ikke sende bekreftelses epost"
 
-#: core/lib/Foswiki/UI/Register.pm:1290
+#: core/lib/Foswiki/UI/Register.pm:1372
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "Advarsel: Kunne ikke sende bekreftekses epost, epost er deaktivert"
 
@@ -5486,7 +5493,7 @@ msgstr ""
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
 "teal, or aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:182
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:255
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "Du kan endre ditt passord via %1"
@@ -5628,7 +5635,7 @@ msgstr ""
 msgid "Your email address will be kept confidential."
 msgstr "Din epost adresse vil bli holdt konfidensiell."
 
-#: core/templates/oopslanguagechanged.tmpl:14
+#: core/templates/oopslanguagechanged.tmpl:17
 #, fuzzy
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
 msgstr "Ditt passord er endret til %1."
@@ -5661,7 +5668,7 @@ msgstr "Denne webløsningen krever minst %1 tegns passord"
 msgid "Your password:"
 msgstr "Ditt passord"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:244
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
@@ -5744,27 +5751,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "Norsk"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:173
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:165
 msgid "access denied on root"
 msgstr "tilgang nektes til root"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:109
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:101
 msgid "access denied on topic"
 msgstr "tilgang nektes for side"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:145
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:137
 msgid "access denied on web"
 msgstr "tilgang nektes for web"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:183
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:175
 msgid "access not allowed on root"
 msgstr "tilgang ikke tillatt til root"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:132
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:124
 msgid "access not allowed on topic"
 msgstr "tilgang ikke tillatt til side"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:157
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:149
 msgid "access not allowed on web"
 msgstr "tilgang ikke tillatt til web"
 
@@ -6084,6 +6091,9 @@ msgstr "vis"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "hvorfor du blir bedt om å bekrefte"
+
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "%1 er godkjent og registrert med epost %2"
 
 #, fuzzy
 #~ msgid "Return to [_0]"

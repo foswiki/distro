@@ -61,7 +61,6 @@ msgstr ""
 msgid "%1 - Registration failure for %2 (%3)"
 msgstr "Rejestracja nie powiodła się dla %2 (%3)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
@@ -97,11 +96,6 @@ msgstr "temat grupy %1 zaktualizowany."
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 - lista innych użytkowników Foswiki"
-
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
-#, fuzzy
-msgid "%1 has been approved and registered with e-mail %2"
-msgstr "Użytkownik %1 został zarejestrowany z adresem email: %2"
 
 #: core/templates/messages.tmpl:336
 msgid ""
@@ -342,7 +336,7 @@ msgstr "(więcej)"
 msgid "(move attachment)"
 msgstr "(przenieś załącznik)"
 
-#: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
+#: core/data/System/ParentList.txt:47 core/data/System/ParentList.txt:51
 msgid "(no parent, orphaned topic)"
 msgstr "(sierota-brak strony nadrzędnej)"
 
@@ -611,7 +605,7 @@ msgstr ""
 "heksadecymalnych, np.: =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1285
+#: core/lib/Foswiki/UI/Register.pm:1367
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Do użytkownika %1 wysłano list z potwierdzeniem"
 
@@ -1043,8 +1037,8 @@ msgstr "Brak adresu email użytkownika %1 (wymagany do zresetowania hasła)"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:35
-#: JQueryPlugin/data/System/VarBUTTON.txt:44
+#: JQueryPlugin/data/System/VarBUTTON.txt:33
+#: JQueryPlugin/data/System/VarBUTTON.txt:43
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
@@ -1093,6 +1087,15 @@ msgstr "uwzględnij wielkość liter"
 msgid "Categories"
 msgstr "Kategorie"
 
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
+#, fuzzy
+msgid ""
+"Caution: The password system is currently read only. Users will not be added "
+"to the Password file."
+msgstr ""
+"Przykro nam, ale system haseł jest obecnie w trybie do odczytu, prosimy o "
+"kontakt z %1"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
 msgstr "Wyśrodkuj"
@@ -1128,7 +1131,7 @@ msgstr "Zmień formularz"
 msgid "Change from"
 msgstr "Poprzednia nazwa:"
 
-#: core/data/System/LanguageSelector.txt:36
+#: core/data/System/LanguageSelector.txt:34
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Zmień język"
@@ -1513,6 +1516,7 @@ msgstr "Wyświetl błędy"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:114
 #: NatEditPlugin/templates/edit.natedit.tmpl:150
+#: core/data/System/LanguageSelector.txt:25
 #, fuzzy
 msgid "Default"
 msgstr "Szablon domyślny"
@@ -2310,7 +2314,7 @@ msgstr "W razie problemów, skontaktuj się z %1"
 msgid "If you have any questions, please contact %1."
 msgstr "W razie problemów, skontaktuj się z: %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:183
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:256
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -2353,6 +2357,13 @@ msgid ""
 msgstr ""
 "Jeśli wszystkie twoje adresy email są niepoprawne i jeśli zapomniałeś hasło, "
 "to skontaktuj się z administratorem: %1."
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:97
+msgid ""
+"If your wiki uses an external password manager, and the users you want to "
+"register are known to the password manager, then bulk registration may still "
+"be useful.  Please contact %1 if you are unsure."
+msgstr ""
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
@@ -3049,7 +3060,7 @@ msgstr ""
 "uszkodzone."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:181
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3565,7 +3576,7 @@ msgstr "Zarejestruj się"
 msgid "Registration"
 msgstr "Rejestracja"
 
-#: core/lib/Foswiki/UI/Register.pm:712
+#: core/lib/Foswiki/UI/Register.pm:794
 #, fuzzy
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -3609,12 +3620,12 @@ msgstr "Powiadom administratora: %2."
 msgid "Related Topics:"
 msgstr "Zobacz także:"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:115
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:693
+#: core/data/System/CommandAndCGIScripts.txt:695
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3870,7 +3881,6 @@ msgstr "Zapisz i wyjdź"
 msgid "Save table"
 msgstr "Zapisz tabelę"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
 #: core/templates/registerfailednotremoved.tmpl:19
 #: core/templates/registerfailedremoved.tmpl:20
 #: core/templates/registernotifyadmin.tmpl:17
@@ -4127,7 +4137,7 @@ msgstr ""
 msgid "Size"
 msgstr "Rozmiar"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:174
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:247
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr ""
@@ -4148,7 +4158,7 @@ msgstr ""
 "wysyłają powiadomienie dwukrotnie. Jeśli tak się stało, to znaczy, że "
 "rejestracja przebiegła pomyślnie i twoje konto *jest* zarejestrowane."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:173
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:246
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4162,7 +4172,6 @@ msgstr ""
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Przykro nam, ale Rejestracja została tymczasowo wyłączona"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:92
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -4228,8 +4237,8 @@ msgstr "Tekst przekreślony"
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:31
-#: JQueryPlugin/data/System/VarBUTTON.txt:40
+#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
 #: core/data/System/FrequentlyAskedQuestions.txt:81
@@ -4237,8 +4246,7 @@ msgstr "Tekst przekreślony"
 msgid "Submit"
 msgstr "Prześlij"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:185
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:258
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -4356,7 +4364,6 @@ msgstr "Dziękujemy za zarejestrowanie się"
 msgid "Thank you for denying this registration"
 msgstr "Dziękujemy za zarejestrowanie się"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:272
 #: core/templates/registermessages.tmpl:146
 #: core/templates/registermessages.tmpl:154
 #: core/templates/registermessages.tmpl:167
@@ -4783,7 +4790,6 @@ msgstr ""
 msgid "This is an automated e-mail from %1."
 msgstr "Ten list został wygenerowany automatycznie przez %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:249
 #: core/templates/registerfailednotremoved.tmpl:9
 #: core/templates/registerfailedremoved.tmpl:9
 #: core/templates/registernotifyadmin.tmpl:9
@@ -5435,11 +5441,11 @@ msgstr "Uwaga: nie można odnaleźć strony %1.%2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Uwaga: nie można odnaleźć strony %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:1278
+#: core/lib/Foswiki/UI/Register.pm:1360
 msgid "Warning: Could not send confirmation email"
 msgstr "Uwaga: Nie można wysłać listu z potwierdzeniem."
 
-#: core/lib/Foswiki/UI/Register.pm:1290
+#: core/lib/Foswiki/UI/Register.pm:1372
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "Uwaga: Nie można wysłać listu z potwierdzeniem, email został wyłączony"
 
@@ -5646,7 +5652,7 @@ msgstr ""
 "maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, teal, "
 "of aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:182
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:255
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "Hasło można zmienić na stronie: %1"
@@ -5781,7 +5787,7 @@ msgstr ""
 msgid "Your email address will be kept confidential."
 msgstr ""
 
-#: core/templates/oopslanguagechanged.tmpl:14
+#: core/templates/oopslanguagechanged.tmpl:17
 #, fuzzy
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
 msgstr "Twoje hasło zostało zmienione. Nowe hasło, to: %1."
@@ -5814,7 +5820,7 @@ msgstr "Hasło powinno mieć przynajmniej %1 znaków(ki)"
 msgid "Your password:"
 msgstr "Hasło:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:244
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
@@ -5896,27 +5902,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "Polski"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:173
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:165
 msgid "access denied on root"
 msgstr "Brak dostępu"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:109
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:101
 msgid "access denied on topic"
 msgstr "Brak dostępu"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:145
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:137
 msgid "access denied on web"
 msgstr "Brak dostępu"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:183
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:175
 msgid "access not allowed on root"
 msgstr "Brak dostępu"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:132
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:124
 msgid "access not allowed on topic"
 msgstr "Brak dostępu"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:157
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:149
 msgid "access not allowed on web"
 msgstr "Brak dostępu"
 
@@ -6239,6 +6245,10 @@ msgstr "wyświetl"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr "dlaczego jesteś pytany o potwierdzenie"
+
+#, fuzzy
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "Użytkownik %1 został zarejestrowany z adresem email: %2"
 
 #, fuzzy
 #~ msgid "Return to [_0]"

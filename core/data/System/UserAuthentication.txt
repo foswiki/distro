@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1448247346" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1460338963" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ User Authentication
@@ -214,13 +214,13 @@ To set up Apache Login, perform the following steps:
       1 Select =Foswiki::Users::HtPasswdUser= for ={PasswordManager}=.
       1 Select =Foswiki::Users::TopicUserMapping= for ={UserMappingManager}=.
       1 Save your settings.
-      1 Configure your Apache settings for HTTP authentication. Use the Foswiki:Support.ApacheConfigGenerator tool or the =foswiki/bin-htaccess.txt= file to set the following Apache directives on the =bin= scripts:(This example is for Apache 2.2, there are changes required if using Apache 2.4) <sticky>
+      1 Configure your Apache settings for HTTP authentication. Use the Foswiki:Support.ApacheConfigGenerator tool or the =foswiki/bin-htaccess-advanced.txt= file to set the following Apache directives on the =bin= scripts:(This example is for Apache 2.2, there are changes required if using Apache 2.4) <sticky>
       <verbatim>
  AuthType Basic
  <FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|.*auth).*">
  require valid-user
  </FilesMatch></verbatim></sticky>
-      You can also refer to the sample =foswiki_httpd_conf.txt= and =bin-htaccess.txt= files to see how the appropriate Apache directives are specified.
+      You can also refer to the sample =foswiki_httpd_conf.txt= and =bin-htaccess-advanced.txt= files to see how the appropriate Apache directives are specified.
 %ENDSECTION{"ApacheLogin"}%%INCLUDE{"UserAuthentication" section="TESTING"}%
 
 ---++++ Logons via bin/logon
@@ -315,13 +315,13 @@ See Foswiki:Support.SupplementalDocuments for more information.
 
 %STOPINCLUDE%
 <!--
-%STARTSECTION{"TESTING"}%   1 Verify that registration works by registering yourself with the [[%SYSTEMWEB%.UserRegistration]] topic. If there are problems, try these troubleshooting tips: %IF{
+%STARTSECTION{"TESTING"}%   1 Verify that registration works by registering yourself with the %IF{"$skin = 'plain'" then="<nop>%SYSTEMWEB%.<nop>UserRegistration" else="[[$percntSYSTEMWEB$percnt.UserRegistration]]"}% topic. If there are problems, try these troubleshooting tips: %IF{
       "'%INSTALLGUIDE%'='1'"
       then="$n      1 If you are reading this from the INSTALL.html file, you can enter [[%SYSTEMWEB%.UserRegistration]] into the 'Jump' box in the top right of any Foswiki page."}%
-      1 %STARTSECTION{"SMTPNOTE"}%*Note:* If e-mail is enabled in %IF{"context command_line" then="configure" else="[[%SCRIPTURLPATH{"configure"}%][configure]]"}%, Foswiki will  not allow any new registrations unless e-mail is functional. In order to avoid issues, return to the =Mail and Proxies=, =Email Test= tab in =configure= and verify that Foswiki can successfully send e-mail.%ENDSECTION{"SMTPNOTE"}%
+      1 %STARTSECTION{"SMTPNOTE"}%*Note:* If e-mail is enabled in %IF{"$skin = 'plain'" then="configure" else="[[%SCRIPTURLPATH{"configure"}%][configure]]"}%, Foswiki will  not allow any new registrations unless e-mail is functional. In order to avoid issues, return to the =Mail and Proxies=, =Email Test= tab in =configure= and verify that Foswiki can successfully send e-mail.%ENDSECTION{"SMTPNOTE"}%
       1 If your !PasswordManager is =HtPasswdUser= (the default), check the =.htpasswd= file is being updated correctly with a new entry. If not, check ={Htpasswd}{FileName}= is correct (under =Security and Authentication= on the =Password= tab in =configure=), and that the webserver user has write permission.
-   1 Create a new topic (in [[%SANDBOXWEB%.%HOMETOPIC%][%SANDBOXWEB%]] web for example) to confirm that authentication works.
-   1 *Add users to the %USERSWEB%.AdminGroup*. Edit the %USERSWEB%.AdminGroup topic in the %USERSWEB% web to include users that should have administrator status. Read [[InstallationGuide#DefineAdminUser][defining adminstrator user(s)]] for more information.
+   1 Create a new topic (in  %IF{"$skin = 'plain'" then="<nop>%SANDBOXWEB%.%HOMETOPIC%" else="[[$percntSANDBOXWEB$percnt.%HOMETOPIC%][$percntSANDBOXWEB$percnt]]"}% web for example) to confirm that authentication works.
+   1 *Add users to the %USERSWEB%.AdminGroup*. Edit the %USERSWEB%.AdminGroup topic in the %USERSWEB% web to include users that should have administrator status. Read [[InstallationGuide#AboutAdminUsers][defining adminstrator user(s)]] for more information.
    <div class="foswikiHelp"> %X% *This is a very important step*, as users in this group can access _all_ topics, independent of Foswiki access controls.</div>%ENDSECTION{"TESTING"}%
 -->
 ---

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1455628764" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1460168492" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
 %FORMFIELD{"Description"}%
@@ -995,6 +995,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
    * Test if the "Total" in the first table in this topic is correct.
 
 ---++ Change History
+|  08 Apr 2016: (1.22) | Foswikitask:Item13883: Fix typo in documentation. |
 |  15 Oct 2015: (1.21) | Foswikitask:Item13811: Fixed memory leak using CALCULATE in a persistent perl environment.<br />\
                          Foswikitask:Item13796: Encode &lt; and &gt; when emitted by CALC or CALCULATE. |
 |  27 Jul 2015: (1.20) | Copyright update, released with Foswiki 2.0.1 |

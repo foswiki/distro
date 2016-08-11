@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1449548212" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1460168492" format="1.1" version="1"}%
 ---+ <nop>AutoViewTemplatePlugin
 %SHORTDESCRIPTION%
 
@@ -77,6 +77,7 @@ The following settings can be defined in configure
 %JQREQUIRE{"chili"}%
 -->
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  8  Apr 2016: | Released with Foswiki 2.1.1. Foswikitask:Item14014: Template files not working in hierarchical webs. |
 |  7  Dec 2015: | Released with Foswiki 2.1. Foswikitask:Item13554: Enable non-ascii template names. |
 |  18 Aug 2015: | Foswikitask:Item13625: AutoViewTemplatePlugin: reports Invalid template name ( Warning: Can't find named section viewtemplate in topic...) when used in "section" mode and no section exists. |
 |  24 Jul 2015: | Released with Foswiki 2.0.1. Foswikitask:Item13554: Warn if invalid template name generated. |

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1458294779" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1460294027" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,9 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  10 Apr 2016: | (7.04) - Item14042: it's jquery-1.12.3 not jquey-1.12.3 |
+|  06 Apr 2016: | (7.03) - Item14042: added jQuery-1.12.3 / jQuery-2.2.3 |
+|  04 Apr 2016: | (7.02) - Item14024: fix issue with JSON::XS 3.02 in some environments |
 |  18 Mar 2016: | (7.01) - added jQery-1.12.2 / jQuery-2.2.2; \
                            fixed textboxlist loosing tags with leading or trailing spaces; \
                            updated imagesLoaded |

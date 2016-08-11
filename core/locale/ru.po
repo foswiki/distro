@@ -66,7 +66,6 @@ msgstr ""
 msgid "%1 - Registration failure for %2 (%3)"
 msgstr "%1 - Неудачная регистрация для %2 (%3)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:243
 #: core/templates/registernotify.tmpl:3
 #: core/templates/registernotifyadmin.tmpl:3
 msgid "%1 - Registration for %2 (%3)"
@@ -101,11 +100,6 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:40
 msgid "%1 has a list of other Foswiki users"
 msgstr "%1 содержит список других пользователей Foswiki"
-
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
-#, fuzzy
-msgid "%1 has been approved and registered with e-mail %2"
-msgstr "%1 зарегистрирован с адресом электронной почты %2"
 
 #: core/templates/messages.tmpl:336
 msgid ""
@@ -352,7 +346,7 @@ msgstr "(больше)"
 msgid "(move attachment)"
 msgstr "(переместить файл)"
 
-#: core/data/System/ParentList.txt:46 core/data/System/ParentList.txt:50
+#: core/data/System/ParentList.txt:47 core/data/System/ParentList.txt:51
 msgid "(no parent, orphaned topic)"
 msgstr "(нет родителя, тема–сирота)"
 
@@ -617,7 +611,7 @@ msgstr ""
 "шестнадцатиричных цифр, например, =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1285
+#: core/lib/Foswiki/UI/Register.pm:1367
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Письмо подтверждения отправлено по электронной почте: %1"
 
@@ -1057,8 +1051,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:176
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
-#: JQueryPlugin/data/System/VarBUTTON.txt:35
-#: JQueryPlugin/data/System/VarBUTTON.txt:44
+#: JQueryPlugin/data/System/VarBUTTON.txt:33
+#: JQueryPlugin/data/System/VarBUTTON.txt:43
 #: NatEditPlugin/templates/edit.natedit.tmpl:59
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:190
 #: PatternSkin/data/System/PatternSkinElements.txt:419
@@ -1107,6 +1101,15 @@ msgstr "С учётом регистра"
 msgid "Categories"
 msgstr "Категории"
 
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
+#, fuzzy
+msgid ""
+"Caution: The password system is currently read only. Users will not be added "
+"to the Password file."
+msgstr ""
+"Простите, система паролей сейчас доступна только на чтение, свяжитесь, "
+"пожалуйста, с %1"
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
 msgstr ""
@@ -1143,7 +1146,7 @@ msgstr "Изменить с:"
 msgid "Change from"
 msgstr "Изменить с:"
 
-#: core/data/System/LanguageSelector.txt:36
+#: core/data/System/LanguageSelector.txt:34
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Сменить язык"
@@ -1530,6 +1533,7 @@ msgstr "Отладка"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:114
 #: NatEditPlugin/templates/edit.natedit.tmpl:150
+#: core/data/System/LanguageSelector.txt:25
 #, fuzzy
 msgid "Default"
 msgstr "Шаблон по умолчанию"
@@ -2338,7 +2342,7 @@ msgstr "Если у вас есть какие-либо вопросы, пожа
 msgid "If you have any questions, please contact %1."
 msgstr "Если у Вас есть какие-либо вопросы, пожалуйста, пишите %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:183
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:256
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -2382,6 +2386,13 @@ msgstr ""
 "Если Ваш старый адрес электронной почты неверен (либо Вы не можете больше "
 "получать на него почту) и Вы забыли свой пароль, пожалуйста, свяжитесь %1 "
 "для того, чтобы получить помощь."
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:97
+msgid ""
+"If your wiki uses an external password manager, and the users you want to "
+"register are known to the password manager, then bulk registration may still "
+"be useful.  Please contact %1 if you are unsure."
+msgstr ""
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
@@ -3071,7 +3082,7 @@ msgstr ""
 "перемещения."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:181
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3600,7 +3611,7 @@ msgstr "Зарегистрироваться"
 msgid "Registration"
 msgstr "Регистрация"
 
-#: core/lib/Foswiki/UI/Register.pm:712
+#: core/lib/Foswiki/UI/Register.pm:794
 #, fuzzy
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -3646,12 +3657,12 @@ msgstr ""
 msgid "Related Topics:"
 msgstr "Связанные темы"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:115
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:693
+#: core/data/System/CommandAndCGIScripts.txt:695
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -3911,7 +3922,6 @@ msgstr "Сохранено в:"
 msgid "Save table"
 msgstr "Сохранить таблицу"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:257
 #: core/templates/registerfailednotremoved.tmpl:19
 #: core/templates/registerfailedremoved.tmpl:20
 #: core/templates/registernotifyadmin.tmpl:17
@@ -4167,7 +4177,7 @@ msgstr ""
 msgid "Size"
 msgstr "Размер"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:174
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:247
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr ""
@@ -4188,7 +4198,7 @@ msgstr ""
 "таким образом, что один и тот же запрос отправляется дважды. Возможно, что "
 "Вы *уже* зарегистрировались."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:173
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:246
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4202,7 +4212,6 @@ msgstr ""
 msgid "Sorry, registration has been temporarily disabled."
 msgstr "Простите, регистрация временно отключена"
 
-#: TopicUserMappingContrib/data/System/BulkRegistration.txt:92
 #: TopicUserMappingContrib/data/System/BulkResetPassword.txt:22
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
@@ -4267,8 +4276,8 @@ msgstr ""
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:103
 #: JQueryPlugin/data/System/JQueryTextboxList.txt:97
 #: JQueryPlugin/data/System/JQueryValidate.txt:34
-#: JQueryPlugin/data/System/VarBUTTON.txt:31
-#: JQueryPlugin/data/System/VarBUTTON.txt:40
+#: JQueryPlugin/data/System/VarBUTTON.txt:28
+#: JQueryPlugin/data/System/VarBUTTON.txt:38
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
 #: core/data/System/FrequentlyAskedQuestions.txt:81
@@ -4276,8 +4285,7 @@ msgstr ""
 msgid "Submit"
 msgstr "Применить"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:185
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:258
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -4392,7 +4400,6 @@ msgstr "Спасибо за регистрацию"
 msgid "Thank you for denying this registration"
 msgstr "Спасибо за регистрацию"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:272
 #: core/templates/registermessages.tmpl:146
 #: core/templates/registermessages.tmpl:154
 #: core/templates/registermessages.tmpl:167
@@ -4826,7 +4833,6 @@ msgstr ""
 msgid "This is an automated e-mail from %1."
 msgstr "Это автоматическое уведомление от %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:249
 #: core/templates/registerfailednotremoved.tmpl:9
 #: core/templates/registerfailedremoved.tmpl:9
 #: core/templates/registernotifyadmin.tmpl:9
@@ -5471,11 +5477,11 @@ msgstr "Внимание: Не могу найти тему %1.%2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Внимание: Не могу найти тему %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:1278
+#: core/lib/Foswiki/UI/Register.pm:1360
 msgid "Warning: Could not send confirmation email"
 msgstr "Внимание: Не удалось послать подтверждение по электронной почте"
 
-#: core/lib/Foswiki/UI/Register.pm:1290
+#: core/lib/Foswiki/UI/Register.pm:1372
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Внимание: Не удалось послать подтверждение по электронной почте, почта была "
@@ -5688,7 +5694,7 @@ msgstr ""
 "silver,  gray, white, maroon, red, purple, fuchsia, green, lime, olive, "
 "yellow, navy, blue, teal или aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:182
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:255
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "Вы можете изменить свой пароль при помощи %1"
@@ -5824,7 +5830,7 @@ msgstr ""
 msgid "Your email address will be kept confidential."
 msgstr ""
 
-#: core/templates/oopslanguagechanged.tmpl:14
+#: core/templates/oopslanguagechanged.tmpl:17
 #, fuzzy
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
 msgstr "Ваш пароль изменен на %1."
@@ -5857,7 +5863,7 @@ msgstr "Требуется ввести пароль длиной не мене�
 msgid "Your password:"
 msgstr "Ваш пароль:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:171
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:244
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
@@ -5942,27 +5948,27 @@ msgstr ""
 msgid "_language_name"
 msgstr "Русский"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:173
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:165
 msgid "access denied on root"
 msgstr "доступ отклонён"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:109
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:101
 msgid "access denied on topic"
 msgstr "доступ к теме отклонён"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:145
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:137
 msgid "access denied on web"
 msgstr "доступ к разделу отклонён"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:183
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:175
 msgid "access not allowed on root"
 msgstr "доступ запрещён"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:132
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:124
 msgid "access not allowed on topic"
 msgstr "доступ к теме запрещён"
 
-#: core/lib/Foswiki/Access/TopicACLAccess.pm:157
+#: core/lib/Foswiki/Access/TopicACLAccess.pm:149
 msgid "access not allowed on web"
 msgstr "доступ к разделу запрещён"
 
@@ -6291,6 +6297,10 @@ msgstr "Просмотреть"
 #: core/templates/validate.tmpl:42
 msgid "why you are being asked to confirm"
 msgstr ""
+
+#, fuzzy
+#~ msgid "%1 has been approved and registered with e-mail %2"
+#~ msgstr "%1 зарегистрирован с адресом электронной почты %2"
 
 #, fuzzy
 #~ msgid "Return to [_0]"

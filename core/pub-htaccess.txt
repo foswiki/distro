@@ -19,7 +19,7 @@ Allow from all
 # so others can test your idea.
 # Caution:  If your directories are reached by SymLinks,  this option will
 # result in 403 errors.  Replace it with    "Options FollowSymLinks"
-Options None
+Options FollowSymLinks
 
 # We need to protect the entire pub directory tree against any kind of script execution
 # Foswiki has a renaming protection scheme that alters certain file names to prevent
@@ -45,8 +45,8 @@ AddType text/plain .shtml .php .php3 .phtml .phtm .pl .py .cgi
 
 #for TWikiCompatibility - or even to make 'attachment not found's more user friendly
 # - This statement must be tailored with the {ScriptUrlPath}.  See
-# bin/.htaccess.txt for details.
-ErrorDocument 404 /foswiki/bin/viewfile
+# bin-htaccess-advanced.txt for details.
+# ErrorDocument 404 /foswiki/bin/viewfile
 
 #add an Expires header that is sufficiently in the future that the browser does not even ask if its uptodate
 # reducing the load on the server significantly

@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1460171793" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 2.1.0
+---+!! Foswiki Release 2.1.1
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -52,6 +52,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.0.3 was built on 15 Nov 2015. It is a release that contains 17 fixes and 1 enhancement.
 %ENDTWISTY{}%
    * Foswiki 2.1.0 was built on 02 Feb 2016. It is a release that contains 37 fixes and 14 enhancements. It closes 7 Feature Requests.
+   * Foswiki 2.1.1-RC1 was built on 08 Apr 2016. It is a release that contains 30 fixes and 20 enhancements.
 
 
 ---++ Pre-installed Extensions
@@ -76,6 +77,22 @@ A partial workaround is implemented in the PubLinkFixupPlugin This Plugin will a
 However the TinyMCEPlugin is still unable to render image links while editing a topic.
 
 See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
+
+---++ Important changes in Foswiki 2.1.1
+---+++ Page Caching
+The Foswiki PageCache has added another index on the dependencies table.
+After installing this update, you should issue the =refresh=all= option to
+drop the foswiki cache tables, and allow them to be recreated.  This will
+create the new index.
+
+---+++ JQuery
+This release updates to a newer maintenance version of JQuery.  You should
+visit =bin/configure= and select the updated versions of JQuery.
+
+---+++ New CPAN dependency, and foswiki.org changes
+Due to upstream changes, the Perl LWP package has been split into two
+packages.  You may need to install =LWP::Protocol::https= for https support in
+extension installation and accessing remote sites with the INCLUDE macro.
 
 ---++ Important changes in Foswiki 2.1
 
@@ -167,27 +184,22 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 
 ---+++ Fixes
 
+| [[%BUGS%/Item10916][Item10916]] | Pencils disappear after row move when both js and non-js controls are present. |
+| [[%BUGS%/Item11609][Item11609]] | No information how to un-set a topic parent. |
 | [[%BUGS%/Item12067][Item12067]] | Removing members via WikiGroups not possible when login name different from WikiName. |
 | [[%BUGS%/Item12569][Item12569]] | Sorting in tableplugin is wrong in German. |
 | [[%BUGS%/Item13405][Item13405]] | Unicode Normalisation. |
+| [[%BUGS%/Item13677][Item13677]] | regression: extension tabs in configure aren't sorted alphabetically anymore. |
 | [[%BUGS%/Item13699][Item13699]] | Mail sending fails when non-latin text in utf8 is being sent. |
 | [[%BUGS%/Item13857][Item13857]] | Mac OS X RCS "not found" by configure. |
+| [[%BUGS%/Item13860][Item13860]] | UploadFilter isn't blocking HTML attachments. |
 | [[%BUGS%/Item13863][Item13863]] | FileAttachment: generated filenames are not correct foswiki 2.0.3 mod_cgi, utf-8 store when uploaded from OS X. |
 | [[%BUGS%/Item13865][Item13865]] | Configure file permissions checker detects ,pfv directories as possible webs. |
-| [[%BUGS%/Item13880][Item13880]] | TML rendered in =head= and =script= zones causes malformed html in WebCreateNewTopic. |
-| [[%BUGS%/Item13917][Item13917]] | NameFilter not working on 2.0 / 2.1 if configure reset to default is used. |
-| [[%BUGS%/Item13924][Item13924]] | Old style UserRegistration pages not working on 2.1 beta 1. |
-
-The following fixes will also be incorporated into Foswiki 2.0.4
-
-| [[%BUGS%/Item10916][Item10916]] | Pencils disappear after row move when both js and non-js controls are present. |
-| [[%BUGS%/Item11609][Item11609]] | No information how to un-set a topic parent. |
-| [[%BUGS%/Item13677][Item13677]] | regression: extension tabs in configure aren't sorted alphabetically anymore. |
-| [[%BUGS%/Item13860][Item13860]] | UploadFilter isn't blocking HTML attachments. |
 | [[%BUGS%/Item13869][Item13869]] | FoswikiServerInformation warns about undefined variables. |
 | [[%BUGS%/Item13870][Item13870]] | RCSStoreContrib configure check error by syntax  shell  command error in RCSChecker.pm. |
 | [[%BUGS%/Item13875][Item13875]] | Configure fails to perserve permissions when backing up config. |
 | [[%BUGS%/Item13877][Item13877]] | Certificate wizards not functional, always generates CSR,  dependencies not documented. |
+| [[%BUGS%/Item13880][Item13880]] | TML rendered in =head= and =script= zones causes malformed html in WebCreateNewTopic. |
 | [[%BUGS%/Item13881][Item13881]] | Table header problem in unicode named web/topic. |
 | [[%BUGS%/Item13885][Item13885]] | PatternSkin should be backwards compatible to Foswiki 1.1. |
 | [[%BUGS%/Item13886][Item13886]] | Default id="foswikiTOC" creates illegal duplicate CSS IDs when multiple TOC macros are present. |
@@ -204,6 +216,8 @@ The following fixes will also be incorporated into Foswiki 2.0.4
 | [[%BUGS%/Item13906][Item13906]] | EditRowPlugin create table row without spaces. |
 | [[%BUGS%/Item13912][Item13912]] | perldoc does not process bulk_copy.pl correctly because of missing POD marker. |
 | [[%BUGS%/Item13913][Item13913]] | CLI scripts broken on windows.  setlib.cfg issues "require CGI" which sets binmode on STDIN and breaks prompts. |
+| [[%BUGS%/Item13917][Item13917]] | NameFilter not working on 2.0 / 2.1 if configure reset to default is used. |
+| [[%BUGS%/Item13924][Item13924]] | Old style UserRegistration pages not working on 2.1 beta 1. |
 | [[%BUGS%/Item13925][Item13925]] | Leading spaces in DefaultUrlHost causes malformed URL links. |
 | [[%BUGS%/Item13926][Item13926]] | ModPerlEngineContrib is not backwards compatible with Foswiki 1.1.x. |
 | [[%BUGS%/Item13927][Item13927]] | Configure rcs checker crashes if configured command is not found. |
@@ -213,20 +227,74 @@ The following fixes will also be incorporated into Foswiki 2.0.4
 | [[%BUGS%/Item12560][Item12560]] | NameFilter should reject colon, conflicts with Interwiki links.  Restructure filters to improve flexibility. |
 | [[%BUGS%/Item13436][Item13436]] | Adding the class parameter to the TablePlugin. |
 | [[%BUGS%/Item13444][Item13444]] | Foswiki::Net::getExternalResource does a poor job of parsing URLs. |
+| [[%BUGS%/Item13553][Item13553]] | Add form-definition-table template. |
 | [[%BUGS%/Item13554][Item13554]] | Foswiki doesn't work with accented Template names. |
 | [[%BUGS%/Item13594][Item13594]] | Implement feature AddConcatOptionToAttrs. |
 | [[%BUGS%/Item13848][Item13848]] | Deprecate, and restrict HTTP and HTTPS macros. |
 | [[%BUGS%/Item13849][Item13849]] | Implement MakeZonesLessIntrusive. |
 | [[%BUGS%/Item13854][Item13854]] | Implemement MakeItEasierToBlockSystemWebGuestAccess. |
 | [[%BUGS%/Item13864][Item13864]] | Implement CustomNewUserTemplates - Registration can override the template for the user topic. |
+| [[%BUGS%/Item13866][Item13866]] | Add a file permission fixer script to tools. |
 | [[%BUGS%/Item13867][Item13867]] | bin/upload failed from the command line. |
 | [[%BUGS%/Item13874][Item13874]] | Don't encode URLs in links inserted by Upload. |
-
-The following enhancements will also be included in Foswiki 2.0.4
-
-| [[%BUGS%/Item13553][Item13553]] | Add form-definition-table template. |
-| [[%BUGS%/Item13866][Item13866]] | Add a file permission fixer script to tools. |
 | [[%BUGS%/Item13914][Item13914]] | rewriteshebang should use setlib,  don't make user enter -I ../lib. |
+
+---++ Foswiki Release 2.1.1 Details
+---+++ Fixes
+
+| [[%BUGS%/Item13795][Item13795]] | Redundant url params generated by %SCRIPTURLPATH macro. |
+| [[%BUGS%/Item13941][Item13941]] | %EDITTABLE macro visible in print mode. |
+| [[%BUGS%/Item13944][Item13944]] | Foswiki::Func::addToHEAD  (deprecated in 2010) breaks with Foswiki 2.1 Zones rewrite. |
+| [[%BUGS%/Item13945][Item13945]] | Software error with Perl 5.10. Can't find Ascii Unicode entity. |
+| [[%BUGS%/Item13947][Item13947]] | Issues in Store Implementaton and Cache Implementation checkers. |
+| [[%BUGS%/Item13950][Item13950]] | Refresh cache needs better controls, to minimize bot clicks. |
+| [[%BUGS%/Item13957][Item13957]] | TinyMCEPlugin does not handle indent correctly. |
+| [[%BUGS%/Item13958][Item13958]] | The indent feature with colon does not render an empty line. |
+| [[%BUGS%/Item13960][Item13960]] | Wysiwyg editor cannot right align a table cell if the content of the cell is a "0". |
+| [[%BUGS%/Item13975][Item13975]] | Do a deep merge gathering foswikiPreferences. |
+| [[%BUGS%/Item13989][Item13989]] | When you disable guest sessions you also disable all registration and reset of password. |
+| [[%BUGS%/Item13995][Item13995]] | Search  $changes renders a simple summary.   |
+| [[%BUGS%/Item13997][Item13997]] | Incorrect assumption about encodings in Foswiki::Store. |
+| [[%BUGS%/Item14000][Item14000]] | Wrong row is deleted by EditRowPlugin in full table edit mode. |
+| [[%BUGS%/Item14004][Item14004]] | EditRowPlugin textarea doesn't honor the dimensions. |
+| [[%BUGS%/Item14008][Item14008]] | Configure checker should warn/error if AutoAttachPubFiles is used with PlainFile store. |
+| [[%BUGS%/Item14010][Item14010]] | Add mime type for woff2. |
+| [[%BUGS%/Item14011][Item14011]] | Make sure HTTP2 is always compressing HTML.  |
+| [[%BUGS%/Item14012][Item14012]] | Prevent page caching under certain conditions. |
+| [[%BUGS%/Item14013][Item14013]] | Make sure zones are stable when reloading a page. |
+| [[%BUGS%/Item14014][Item14014]] | Comment plugin unable to use template files in hierarchical webs in Foswiki 2.1. |
+| [[%BUGS%/Item14022][Item14022]] | All internal links should be changed to https://foswik.org to avoid redirects. |
+| [[%BUGS%/Item14024][Item14024]] | JQueryPlugin (v6.32) might not initialise correctly with current JSON (v2.90) / JSON-XS (v3.02) modules w/o allow_nonref. |
+| [[%BUGS%/Item14025][Item14025]] | JsonRpcContrib requires allow_nonref (when using JSON-XS v3.02). |
+| [[%BUGS%/Item14032][Item14032]] | INCLUDE doesn't rewrite other webs' links in 2.1. |
+| [[%BUGS%/Item14035][Item14035]] | Plain file logger fails to rotate the log. |
+| [[%BUGS%/Item14037][Item14037]] | PageCache needs an index on the to_topic field. |
+| [[%BUGS%/Item14038][Item14038]] | PageCache generates too many dependencies on System.ParentList. |
+| [[%BUGS%/Item14039][Item14039]] | System.SkinBrowser takes too long to render due to Search performance. |
+| [[%BUGS%/Item975][Item975]] | BulkRegistration should work with ApacheLogin. |
+
+---+++ Enhancements
+
+| [[%BUGS%/Item13970][Item13970]] | Modernize BUTTON. |
+| [[%BUGS%/Item13971][Item13971]] | Add latest jquery and remove some outdated versions. |
+| [[%BUGS%/Item13972][Item13972]] | Update fontawesome and extend %JQICON to be able to use fontawesome icons. |
+| [[%BUGS%/Item13973][Item13973]] | Deprecate bgiframe and media jquery plugins. |
+| [[%BUGS%/Item13974][Item13974]] | Update jquery.form to latest upstream version. |
+| [[%BUGS%/Item13976][Item13976]] | Update localScroll, scrollTo and serialScroll. |
+| [[%BUGS%/Item13977][Item13977]] | Update JQuery maskedInput. |
+| [[%BUGS%/Item13978][Item13978]] | Update JQuery masonry and externalize imagesLoaded module. |
+| [[%BUGS%/Item13979][Item13979]] | Update jquery.migrate. |
+| [[%BUGS%/Item13980][Item13980]] | Update jquery.queryObject. |
+| [[%BUGS%/Item13981][Item13981]] | Update jquery.render. |
+| [[%BUGS%/Item13982][Item13982]] | Update jquery.sprintf. |
+| [[%BUGS%/Item13983][Item13983]] | Update jquery.stars. |
+| [[%BUGS%/Item13984][Item13984]] | Update jquery superfish. |
+| [[%BUGS%/Item13985][Item13985]] | Update jquery.tabpane. |
+| [[%BUGS%/Item13996][Item13996]] | BulkRegistration should process the AddToGroups field. |
+| [[%BUGS%/Item14005][Item14005]] | Custom registration needs to pass user template name to email templates. |
+| [[%BUGS%/Item14028][Item14028]] | Add jquery-1.12.1 / jquery-2.2.1. |
+| [[%BUGS%/Item14042][Item14042]] | Add jquery-1.12.3 / jquery-2.2.3. |
+| [[%BUGS%/Item4992][Item4992]] | Work out how to translate Javascript strings. |
 
 
 </noautolink>

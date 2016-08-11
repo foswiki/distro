@@ -10,5 +10,8 @@
 
 %TMPL:DEF{"webaction"}% *%MAKETEXT{"Attention"}%* %TMPL:END%
 
-%TMPL:DEF{"message"}%%SESSION_VARIABLE{"LANGUAGE" set="%URLPARAM{language}%"}%
-%MAKETEXT{"Your language has been changed to [_1]. ~[~[[_2]~]~[click to proceed~]~]." args="*%SESSION_VARIABLE{LANGUAGE}%*, %SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%"}%%TMPL:END%
+%TMPL:DEF{"message"}%%IF{"$'URLPARAM{language}'='default'" 
+  then="$percntSESSION_VARIABLE{\"LANGUAGE\" clear=\" \"}$percnt"
+  else="$percntSESSION_VARIABLE{\"LANGUAGE\" set=\"%URLPARAM{language}%\"}$percnt"
+}%
+%MAKETEXT{"Your language has been changed to [_1]. ~[~[[_2]~]~[click to proceed~]~]." args="*%URLPARAM{language}%*, %SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%"}%%TMPL:END%
