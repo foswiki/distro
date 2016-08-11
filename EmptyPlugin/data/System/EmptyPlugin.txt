@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1443123313" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Empty Plugin
 %FORMFIELD{"Description"}%
@@ -46,6 +46,6 @@ clashes with other extensions that may try to use the same name.
 %META:FIELD{name="Copyright" value="%25$CREATEDYEAR%25, %25$CREATED_AUTHOR%25, All Rights Reserved"}%
 %META:FIELD{name="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Repository" value="https://github.com/foswiki/%25$ROOTMODULE%25"}%
-%META:FIELD{name="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
-%META:FIELD{name="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Home" value="https://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Support" value="https://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%

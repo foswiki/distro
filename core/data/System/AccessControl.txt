@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1435796369" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457197356" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Access Control
@@ -100,7 +100,8 @@ A member of the Super Admin Group has *unrestricted access* throughout the wiki,
 
 Access to webs and topics is controlled by:
 
-   * the ={AuthScripts}= setting in [[%SCRIPTURLPATH{"configure"}%][configure]] -&gt; Security and Authentication -&gt; Login; and
+   * The ={AuthScripts}= setting in [[%SCRIPTURLPATH{"configure"}%][configure]] -&gt; Security and Authentication -&gt; Login; 
+   * The ={FeatureAccess}= settings in [[%SCRIPTURLPATH{"configure"}%][configure]] -&gt; Security and Authentication -&gt; Access Control; and
    * setting the values of certain [[PreferenceSettings][preferences]].
 
 These preferences have the general form:
@@ -113,6 +114,9 @@ topics in the current web.  (Some extensions add additional modes.  Ex. ALLOWTOP
    * Restricting VIEW blocks viewing and searching of content. When you restrict VIEW to a topic or web, this also restricts [[VarINCLUDE][INCLUDE]] and [[FormattedSearch][Formatted SEARCH]] from showing the content of the topics.
    * Restricting CHANGE blocks creating new topics, changing topics or attaching files.
    * Restricting RENAME prevents renaming of topics within a web.
+And, when enabled by ={FeatureAccess}= settings:
+   * Restricting HISTORY blocks access to older revisions of topics by the =rev== URL parameter.
+   * Restricting RAW blocks access to the =raw== topic text.
 
 <div class='foswikiHelp'>%X% *There is an important distinction between CHANGE access and RENAME access.* A user can CHANGE a topic, but thanks to version control their changes cannot be lost (the history of the topic before the change is recorded). However if a topic or web is renamed, that history may be lost. Typically a site will only give RENAME access to administrators and content owners.
 
@@ -137,6 +141,12 @@ You can define restrictions on who is allowed to view a <nop>%WIKITOOLNAME% web.
       * ==Set <nop>ALLOWWEBCHANGE = &lt; comma-delimited list of users and groups &gt;==
       * ==Set <nop>DENYWEBRENAME = &lt; comma-delimited list of users and groups &gt;==
       * ==Set <nop>ALLOWWEBRENAME = &lt; comma-delimited list of users and groups &gt;==
+   * If ={FeatureAccess}{AllowRaw}= is set to ==acl== in configure, then the following rules are also active:
+      * ==Set <nop>ALLOWWEBRAW = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>DENYWEBRAW = &lt; comma-delimited list of users and groups &gt;==
+   * If ={FeatureAccess}{AllowHistory}= is set to ==acl== in configure, then the following rules are also active:
+      * ==Set <nop>ALLOWWEBHISTORY = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>DENYWEBHISTORY = &lt; comma-delimited list of users and groups &gt;==
 
 You can also use the asterisk (*) in any of the above settings if you want it to match all possible users.
 
@@ -152,12 +162,22 @@ Creation and renaming of sub-webs is controlled by the WEBCHANGE setting on the 
       * ==Set <nop>ALLOWTOPICCHANGE = &lt; comma-delimited list of users and groups &gt;==
       * ==Set <nop>DENYTOPICRENAME = &lt; comma-delimited list of users and groups &gt;==
       * ==Set <nop>ALLOWTOPICRENAME = &lt; comma-delimited list of users and groups &gt;==
+   * If ={FeatureAccess}{AllowRaw}= is set to ==acl== in configure, then the following rules are also active:
+      * ==Set <nop>ALLOWTOPICRAW = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>DENYTOPICRAW = &lt; comma-delimited list of users and groups &gt;==
+   * If ={FeatureAccess}{AllowHistory}= is set to ==acl== in configure, then the following rules are also active:
+      * ==Set <nop>ALLOWTOPICHISTORY = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>DENYTOPICHISTORY = &lt; comma-delimited list of users and groups &gt;==
 
 You can also use an asterisk (*) in any of these settings to match all possible users.
 <div class='foswikiHelp'>%X% *Caution!* Settings are always taken from the latest (current) revision of a topic. If older revisions of a topic had more restrictive access controls, they will not be used when accessing the older revision. If the topic was restricted because it contained sensitive information, and that information was removed, it still exists in the topic history. Once you remove the access restrictions, the topic history will be viewable.</div>
 
 Remember when opening up access to specific topics within a restricted web that other topics in the web - for example, the !WebLeftBar - may also need to be accessed when viewing the topics. The message you get when you are denied access should tell you what topic you were not permitted to access.
 
+---++++ Access rules in Foswki version 1.x
+If your administrator has enabled ={AccessControlACL}{EnableDeprecatedEmptyDeny}= in the Foswiki configuration then the old behaviour will still work and  an empty DENY setting means _do not deny anyone the right to access_, in other words __allow all access__.
+
+Click this link to see more documentation on the prior behaviour.  %TWISTY{showlink="Show Foswiki 1.x ACL documentation"}%
 <div class='foswikiHelp'>
 %X% If your site started out life using an earlier version of Foswiki, you might have seen that from Foswiki 2.0 onwards, *the empty DENY has been removed*. This rule has been replaced by =*= wildcards in the ALLOW and DENY rules.
 
@@ -173,8 +193,9 @@ As of Foswiki 2.0, the empty DENY setting is now meaningless, _unless explicitly
 | Allow selected users | Set ALLOW to desired users/groups | Set ALLOW to desired users/groups |
 | Deny selected users | Set DENY to desired users/groups | Set DENY to desired users/groups |
 
-If your administrator has enabled ={AccessControlACL}{EnableDeprecatedEmptyDeny}= in the Foswiki configuration then the old behaviour will still work and  an empty DENY setting means _do not deny anyone the right to access_. If DENYTOPICVIEW is set to an empty value anyone has access even if ALLOWTOPICVIEW or ALLOWWEBVIEW is defined. This allows you to have very restrictive default access rights to an entire web and still allow individual topics to have more open access.
+If DENYTOPICVIEW is set to an empty value anyone has access even if ALLOWTOPICVIEW or ALLOWWEBVIEW is defined. This allows you to have very restrictive default access rights to an entire web and still allow individual topics to have more open access.
 </div>
+%ENDTWISTY%
 ---++++ Wildcard matching
 
 When =*= is set in a rule, it says that any user identity will match that rule.  Setting =ALLOW= to =*= says "Allow ALL", setting * to DENY says "Deny ALL".
@@ -283,14 +304,14 @@ If needed, you can further restrict access to selected webs with ALLOWWEBVIEW an
 ---++++ When using Template Login
 
 [[UserAuthentication#TemplateLogin][User authentication with TemplateLogin]] is enabled on your site.   To require login for *all* scripts:
-   * Add all scripts in the =foswiki/bin= directory (except for =login=, =logon= and =configure=) to the list of ={AuthScripts}= in [[%SCRIPTURL{"configure"}%][configure]], =Security And Authentication= tab, =Login= sub-tab, For a default Foswiki installation:
+   * Add all scripts in the =foswiki/bin= directory (except for =login=, =logon=) to the list of ={AuthScripts}= in [[%SCRIPTURL{"configure"}%][configure]], =Security And Authentication= tab, =Login= sub-tab, For a default Foswiki installation:
 
    * Default (open) site:
 <verbatim>
-{AuthScripts} = 'attach,compareauth,edit,manage,previewauth,rdiffauth,rename,restauth,save,statistics,upload,viewauth,viewfileauth';</verbatim>
+{AuthScripts} = 'attach,compareauth,configure,edit,manage,previewauth,rdiffauth,rename,restauth,save,statistics,upload,viewauth,viewfileauth';</verbatim>
    * Restricted (closed) site:
 <verbatim>
-{AuthScripts} = 'attach,changes,compare,compareauth,edit,manage,oops,preview,previewauth,rdiff,rdiffauth,register,rename,resetpasswd,rest,restauth,save,search,statistics,upload,view,viewauth,viewfile,viewfileauth</verbatim>
+{AuthScripts} = 'attach,changes,compare,compareauth,configure,edit,jsonrpc,manage,oops,preview,previewauth,rdiff,rdiffauth,register,rename,resetpasswd,rest,restauth,save,search,statistics,upload,view,viewauth,viewfile,viewfileauth</verbatim>
 
 <div class='foswikiHelp'>%X% If you install extensions that add scripts, you must also remember to add the new scripts to this list or the new scripts will not be protected.</div>
 
@@ -325,6 +346,26 @@ Use the following setup is used to "lock down" the Wiki to logged in users, whil
       * *Set &lt;nop&gt;ALLOWTOPICVIEW = ** Set this in each topic that needs to be unlocked for unauthenticated users.
       * *Note:* ALLOWTOPICVIEW is evaluated before DENYWEBVIEW. Access is permitted if the authenticated person (or wildcard) is in the ALLOWTOPICVIEW list.
  The list of topics that need to be unlocked in the %SYSTEMWEB% web for login, password reset, registration, and guest access when the %SYSTEMWEB% has been locked down is rather extensive.
+
+---+++ Control access to topic History and Raw text.
+
+Foswiki 2.0 now restricts the guest user from access to topic history and raw topic text.  This is configurable.  See:
+[[%SCRIPTURLPATH{configure}][configure]] =Security and Authentication > Access Control > {FeatureAccess}{AllowRaw}=  and ={FeatureAccess}{AllowHistory}=  (They are expert level settings, so the "Show expert options" button in the lower left corner must be pressed.)
+
+Each of these setting has 3 choices:
+   * =authenticated= - This is the default.  Anyone who is logged in has access
+   * =acl= - The feature can be controlled per web or topic using ALLOW or DENY ACLs.
+   * =all= - Open access like on Foswiki 1.x
+
+When set to =acl=, then standard DENY and ALLOW processing is performed, RAW
+and HISTORY are added to the VIEW, CHANGE and RENAME access already described here.
+
+If you want to use ACL level controls, but also want WikiGuest blocked by default, you need to edit every WebPreferences topic and set the following:
+   * ==Set <nop>DENYWEBRAW = %USERSWEB%.WikiGuest==
+   * ==Set <nop>DENYWEBHISTORY = %USERSWEB%.WikiGuest==
+
+Note that these ACL controls block access to the =raw== and =rev== url parameters. They are not enforced internaly in the "Store". Wiki applications still can access prior revisions, and anyone with CHANGE authority can edit the raw topic text.
+
 ---+++ Show control settings
 
 You can list the access controls affecting a topic using the [[VarSHOWPREFERENCE][%%NOP%SHOWPREFERENCE{}%]] macro in the topic, thus:
@@ -344,6 +385,12 @@ Alternatively, place them in HTML comment markers, but this exposes the access s
  * Set DENYTOPICCHANGE = %USERSWEB%.SomeGroup <br />
 --&gt;
 </pre>
+
+---+++ Controlling access to the %SYSTEMWEB% web.
+
+Some search engines penalize sites for publishing "duplicate information".  The Wiki documentation in the %SYSTEMWEB% web falls into that category. Foswiki now
+has "ALLOWTOPICVIEW = *" settings on critical %SYSTEMWEB% topics that require guest access, such as ResetPassword, UserRegistration, and other template topics.
+You should be able to restrict guest access to the %SYSTEMWEB% and retain good operation for guests. 
 
 %STOPINCLUDE%
 

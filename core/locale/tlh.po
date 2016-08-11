@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-01-09 09:41+0200\n"
+"PO-Revision-Date: 2016-02-17 13:56+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -201,9 +201,8 @@ msgstr "%3 %2vo&#39; %1Daq pongqa&#39; pagh vIHmoHta&#39; %4"
 
 #. ("%SYSTEMWEB%.$pluginName",                "${templateName}Template")
 #: AutoViewTemplatePlugin/lib/Foswiki/Plugins/AutoViewTemplatePlugin.pm:97
-#, fuzzy
 msgid "%1: Invalid template name (%2) - Contains invalid characters."
-msgstr "Deghmey <nop>QaQbe&&#39; ngaS ghItlh pong (%1)."
+msgstr "%1: qarbe&&#39; ghantoH pong (%2) - Deghmey <nop>QaQbe&&#39; ngaS."
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -4771,11 +4770,12 @@ msgid "To login as another user please do so [[%1][here]]."
 msgstr "latlh lo&&#39;wI&&#39; <nop>DagheSmeH, vaj [[%1][yI&&#39;elqa&&#39;]]."
 
 #: core/templates/messages.tmpl:398
-#, fuzzy
 msgid ""
 "To refresh the cache for just this topic, <a href='%1' rel='nofollow' > "
 "click here </a> "
-msgstr "<a href='%1' rel='nofollow'>naDev</a> nav chu&&#39; yISuq."
+msgstr ""
+"ghItlhvam qawHaq neH chu&&#39;<nop>moHmeH, <a href='%1' rel='nofollow' > "
+"naDev yI&&#39;uy&&#39; </a> "
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "

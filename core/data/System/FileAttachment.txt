@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1457496285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ File Attachments
@@ -135,7 +135,7 @@ Move unwanted Attachments to web =Trash=, topic =TrashAttachment=.
 In most installations, attachments are not secured. Anyone can read them if they know the name of the web, topic and attachment.
 
 To secure attachments, you have to control access to the attachments through
-the =viewfile= script, which requires a change in your web server configuration. To see how to configure Apache to do this, see http://foswiki.org/Support/ApacheConfigGenerator#Attachments
+the =viewfile= script, which requires a change in your web server configuration. To see how to configure Apache to do this, see https://foswiki.org/Support/ApacheConfigGenerator#Attachments
 %ENDSECTION{"attach:info"}%
 ---++ Examples
 Following you will find some examples of screens and tables related to this topic and referenced throughout the previous text. The appearance of these tables might vary, depending on what [[Skins][skin]] is used on your Foswiki installation.
@@ -262,5 +262,5 @@ Describe the file so other people know what it is.
 ---
 *Related Topics:* UserDocumentationCategory
 
-%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="1437500521" size="30" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="1437500521" size="94" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="1457496285" size="30" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="1457496285" size="94" user="ProjectContributor" version="1"}%

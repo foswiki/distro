@@ -364,7 +364,7 @@ sub _readTemplateFile {
     my $app = $this->app;
 
     # zap anything suspicious
-    $name =~ s/$Foswiki::regex{filenameInvalidCharRegex}//g;
+    $name =~ s/$Foswiki::regex{webTopicInvalidCharRegex}//g;
 
     # if the name ends in .tmpl, then this is an explicit include from
     # the templates directory. No further searching required.

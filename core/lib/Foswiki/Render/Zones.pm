@@ -213,7 +213,8 @@ sub _renderZone {
         undef $this->_zones->{script};
     }
     else {
-        my @zoneIDs = values %{ $this->_zones->{$zone} };
+        my @zoneIDs =
+          sort { $a->{id} cmp $b->{id} } values %{ $this->_zones->{$zone} };
 
         foreach my $zoneID (@zoneIDs) {
             $this->_visitZoneID( $zoneID, \%visited, \@total );
@@ -287,7 +288,9 @@ sub _visitZoneID {
 
     $visited->{$zoneID} = 1;
 
-    foreach my $requiredZoneID ( @{ $zoneID->{requires} } ) {
+    foreach my $requiredZoneID ( sort { $a->{id} cmp $b->{id} }
+        @{ $zoneID->{requires} } )
+    {
         my $zoneIDToVisit;
 
         if ( $Foswiki::cfg{MergeHeadAndScriptZones}

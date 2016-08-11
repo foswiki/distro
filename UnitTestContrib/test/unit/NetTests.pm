@@ -60,7 +60,7 @@ sub verify_getExternalResource {
     # need a known, simple, robust URL to get
     my $response =
       $this->net->getExternalResource(
-        'http://foswiki.org/System/FAQWhatIsWikiWiki');
+        'https://foswiki.org/System/FAQWhatIsWikiWiki');
     $this->assert_equals( 200, $response->code() );
 
     # Note: HTTP::Response doesn't clean out \r correctly

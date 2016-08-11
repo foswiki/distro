@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1454442922" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
 ---+!! !ModPerlEngineContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -169,9 +169,9 @@ set in %USERSWEB%.SitePreferences, default taken from
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.GilmarSantosJr"}%
 %META:FIELD{name="Copyright" title="Copyright" value="&copy; 2009-2015 Gilmar Santos Jr and Foswiki Contributors"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
+%META:FIELD{name="Home" title="Home" value="https://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%$ROOTMODULE%"}%
+%META:FIELD{name="Support" title="Support" value="https://foswiki.org/Support/%$ROOTMODULE%"}%
 %META:FIELD{name="Version" title="Version" value="%$VERSION%"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/ModPerlEngineContrib"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1446868059" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 ---+!! Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
 
@@ -7,8 +7,9 @@ Embed topics, or subsections of topics, or other web pages.
 The [[VarINCLUDE][%<nop>INCLUDE{...}%]] macro embeds the content of the specified topic at the place where the [[VarINCLUDE][INCLUDE]] is used. The whole content or only parts of of a page can be included.
 <div class="foswikiHelp">
 %H% If permitted in [[%SCRIPTURLPATH{"configure"}%][configure]], content from any arbitrary URL may be included also. This is disabled by default because it may be used for malicious purposes, especially on public installations.
+See: _Security and Authentication > Environment >_ ={INCLUDE}{AllowURLs}=.
 
-%H% If your web server connects to the internet via a proxy server, ={PROXY}{HOST}= and ={PROXY}{PORT}= settings should be set in [[%SCRIPTURLPATH{"configure"}%][configure]].
+%H% If your web server connects to the internet via a proxy server, Proxy settings should be set in [[%SCRIPTURLPATH{"configure"}%][configure]]. See: _Security and Authentication > Proxies >_ ={PROXY}{HOST}=
 </div>
 
 %TOC%
@@ -50,11 +51,11 @@ VarINCLUDE explains the other parameters.
 
    * You type:
 <verbatim class="tml">
-  %INCLUDE{"http://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
+  %INCLUDE{"https://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
 </verbatim>
 
    * You get:
-%INCLUDE{"http://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
+%INCLUDE{"https://foswiki.org/Support/FrequentlyAskedQuestion?skin=text"}%
 
 <div class="foswikiHelp">%X% Including URLs is disabled by default as it presents a security risk. It may be enabled via [[%SCRIPTURLPATH{"configure"}%][configure]]. _Only enable this if you understand the risk_.</div>
 

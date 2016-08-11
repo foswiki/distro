@@ -14,8 +14,8 @@ use warnings;
 use Foswiki::Configure::FileUtil;
 use Foswiki::Configure::Load;
 
-our $VERSION          = '1.44';
-our $RELEASE          = '2016-02-03';
+our $VERSION          = '1.45';
+our $RELEASE          = '2016-03-06';
 our $SHORTDESCRIPTION = 'Store Foswiki data using plain text files';
 
 1;

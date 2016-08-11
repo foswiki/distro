@@ -30,10 +30,10 @@ sub htmlEditor {
     return Foswiki::Render::html(
         'textarea',
         {
-            class   => 'erpJS_input',
-            rows    => $rows,
-            columns => $cols,
-            name    => $cell->getElementName()
+            class => 'erpJS_input',
+            rows  => $rows,
+            cols  => $cols,
+            name  => $cell->getElementName()
         },
         $tmptext
     );
