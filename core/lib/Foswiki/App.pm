@@ -32,10 +32,11 @@ use Foswiki::WebFilter;
 use Foswiki::Time;
 use Foswiki qw(load_package load_class isTrue);
 
-use Moo;
+use Foswiki::Class qw(callbacks);
 use namespace::clean;
 extends qw(Foswiki::Object);
-with qw(Foswiki::Aux::Callbacks);
+
+callback_names qw(handleRequestException postConfig);
 
 has access => (
     is        => 'ro',
@@ -1654,10 +1655,6 @@ sub _checkActionAccess {
         Foswiki::Exception::HTTPResponse->throw;
     }
 
-}
-
-sub _validCallbacks {
-    return qw(handleRequestException postConfig);
 }
 
 #

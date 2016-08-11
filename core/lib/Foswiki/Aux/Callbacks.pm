@@ -6,8 +6,29 @@
 
 *Experimental*
 
+_This documentation is a draft as callbacks are not finalized and are changing_
+
 Support of callbacks for classes which may need them. Might be replaced by
 future new plugins code or become a part of it.
+
+A callback name is a composition of namespace and it's short name combined by
+'::'. By default namespace is equal to the name of module which is registering
+the callback. For example, =Foswiki::App= is registering =postConfig= callback.
+In this case it could be referenced by the name =Foswiki::App::postConfig=.
+Whenever namespace could be guessed callback can be referenced by it's short
+name. So, when =Foswiki::App= is calling =postConfig= it can do it by simply
+issuing the following call:
+
+<verbatim>
+$this->callback('postConfig', $params);
+</verbatim>
+
+and the namespace will be guessed by the =callback= method using caller's
+package name.
+
+Similarly to this a client registering callback might use the shortname but it
+will work only when the name is used only in one namespace. Otherwise an
+exception (ASSERT) with error will be raised.
 
 Callback is a coderef (a sub) which gets called at certain moments of a class
 life cycle. A callback sub is called with the following arguments:
@@ -59,27 +80,61 @@ use v5.14;
 use Assert;
 use Try::Tiny;
 
+# Hash of registered callback names in a form of:
+# $_registeredNames{'Foswiki::NameSpace'}{callbackName} = 1;
+my %_registeredCBNames;
+my %_cbNameIndex;
+
 use Moo::Role;
 
-has _validCBs => (
-    is      => 'rw',
-    lazy    => 1,
-    default => sub { return [ $_[0]->_validCallbacks ]; },
-);
-has _validIndex => (
-    is      => 'rw',
-    clearer => 1,
-    lazy    => 1,
-    default => sub {
-        my $this = shift;
-        return { map { $_ => 1 } @{ $this->_validCBs } };
-    },
-);
 has _registeredCB => (
     is      => 'rw',
     lazy    => 1,
     default => sub { {} },
 );
+
+# Splits full callback name into namespace and short name.
+sub _splitCBName {
+    my $this = shift;
+
+    $_[0] =~ /^(.*)::([^:]+)$/;
+    return ( $1, $2 );
+}
+
+# Returns currently active Foswiki::App object.
+sub _getApp {
+    my $this = shift;
+
+    return (
+          $this->isa('Foswiki::App')
+        ? $this
+        : ( $this->does('Foswiki::AppObject') ? $this->app : $Foswiki::app )
+    );
+}
+
+# Normilizes callback name to it's full form of 'namespace::cbName'. If cbName
+# is short (i.e. doesn't contain ::) then namespace if fetched from index. If
+# more than one namespace registered a callback with the same name then assert
+# exception is raised.
+sub _guessCallbackName {
+    my $this = shift;
+    my ($name) = @_;
+
+    return $name if $name =~ /::/;
+
+    my @ns = @{ $_cbNameIndex{$name} };
+
+    return $name unless @ns;
+
+    ASSERT(
+        @ns == 1,
+        "Ambiguous callback name `$name': registered by "
+          . scalar(@ns)
+          . " namespace(s)"
+    );
+
+    return $ns[0] . '::' . $name;
+}
 
 =begin TML
 
@@ -97,10 +152,11 @@ sub registerCallback {
 
     ASSERT( ref($fn) eq 'CODE', "callback must be a coderef" );
 
-    ASSERT( $this->_validIndex->{$name},
-        "callback '$name' must be supported by class " . ref($this) );
+    $name = $this->_guessCallbackName($name);
 
-    push @{ $this->_registeredCB->{$name} },
+    ASSERT( $_registeredCBNames{$name}, "unknown callback '$name'" );
+
+    push @{ $this->_getApp->heap->{_aux_registered_callbacks}{$name} },
       {
         code => $fn,
         data => $userData,
@@ -117,11 +173,16 @@ sub callback {
     my $this = shift;
     my ( $name, $params ) = @_;
 
-    ASSERT( $this->_validIndex->{$name},
-        "callback '$name' must be supported by class " . ref($this) );
+    $name = caller . "::$name" unless $name =~ /::/;
+
+    ASSERT( $_registeredCBNames{$name}, "unknown callback '$name'" );
 
     my $lastException;
-    foreach my $cbInfo ( @{ $this->_registeredCB->{$name} } ) {
+    my $cbList = $this->_getApp->heap->{_aux_registered_callbacks}{$name};
+
+    return unless $cbList;
+
+    foreach my $cbInfo (@$cbList) {
         try {
             $cbInfo->{code}
               ->( $this, data => $cbInfo->{data}, params => $params, );
@@ -154,15 +215,17 @@ sub callback {
     return;
 }
 
-=begin TML
+sub registerCallbackNames {
+    my $namespace = shift;
+    $namespace = ref($namespace) || $namespace;
 
----++ RequiredMethod _validCallbacks => \@cbList
+    foreach (@_) {
+        my $cbName = "${namespace}::$_" unless /::/;
+        $_registeredCBNames{$cbName} = 1;
+        push @{ $_cbNameIndex{$_} }, $namespace;
+    }
 
-Returns a list of names of callbacks valid for a class.
-
-=cut
-
-requires '_validCallbacks';
+}
 
 1;
 __END__

@@ -8,9 +8,11 @@ use Assert;
 use Scalar::Util qw(blessed weaken refaddr);
 use Try::Tiny;
 
-use Moo;
+use Foswiki::Class qw(callbacks);
 use namespace::clean;
 extends qw(Foswiki::App);
+
+callback_names qw(testPreHandleRequest testPostHandleRequest);
 
 #with qw(Foswiki::Aux::Localize);
 
@@ -145,13 +147,6 @@ around handleRequest => sub {
     };
 
     return $rc;
-};
-
-around _validCallbacks => sub {
-    my $orig = shift;
-    my $this = shift;
-
-    return $orig->($this), qw(testPreHandleRequest testPostHandleRequest);
 };
 
 1;

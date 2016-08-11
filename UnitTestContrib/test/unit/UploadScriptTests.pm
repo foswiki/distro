@@ -6,6 +6,7 @@ use Foswiki             ();
 use Foswiki::UI::Upload ();
 use Try::Tiny;
 use File::Temp;
+use File::Basename;
 
 use Moo;
 use namespace::clean;
@@ -84,11 +85,16 @@ sub do_upload {
     my $tmpfile = $fh->filename;
     print $fh $data;
     seek( $fh, 0, 0 );
+    my ($fileSize) = ( $fh->stat )[7];
     my %uploads = ();
     require Foswiki::Request::Upload;
-    $uploads{$fn} = Foswiki::Request::Upload->new(
-        headers => {},
-        tmpname => $tmpfile
+    $uploads{$fn} = $this->create(
+        'Foswiki::Request::Upload',
+        headers  => {},
+        tmpname  => $tmpfile,
+        filename => $fn,
+        basename => fileparse($fn),
+        size     => $fileSize,
     );
 
     $this->createNewFoswikiApp(
@@ -246,7 +252,7 @@ sub test_noredirect_param {
         noredirect       => 1,
         changeproperties => 0,
     );
-    $this->assert_matches( qr/^OK: Flappadoodle.txt uploaded/ms, $result );
+    $this->assert_matches( qr/^OK:.*Flappadoodle.txt uploaded/ms, $result );
 
     return;
 }

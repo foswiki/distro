@@ -422,9 +422,9 @@ sub initializeUserHandler {
     my $ru = $_[0] || 'undef';
     die "RU $ru" unless $ru eq ($Foswiki::app->remoteUser||'undef');
     my $url = $_[1] || 'undef';
-    die "URL $url" unless $url eq (Foswiki::Func::getCgiQuery()->url() || undef);
+    die "URL $url" unless $url eq ($Foswiki::app->request->url || undef);
     my $path = $_[2] || 'undef';
-    die "PATH $path" unless $path eq (Foswiki::Func::getCgiQuery->pathInfo() || 'undef');
+    die "PATH $path" unless $path eq ($Foswiki::app->request->pathInfo || 'undef');
 }
 HERE
     $this->checkCalls( 1, 'earlyInitPlugin' );
