@@ -19,9 +19,9 @@ BEGIN {
 # Move to compatibility module in Foswiki 2.0
 sub SPACEDTOPIC {
     my ( $this, $params, $topicObject ) = @_;
-    my $topic = spaceOutWikiWord( $topicObject->topic );
+    my $topic = Foswiki::spaceOutWikiWord( $topicObject->topic );
     $topic =~ s/ / */g;
-    return urlEncode($topic);
+    return Foswiki::urlEncode($topic);
 }
 
 1;

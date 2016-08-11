@@ -107,10 +107,12 @@ around BUILDARGS => sub {
 
     my %params = @_;
     ASSERT( UNTAINTED( $params{web} ), "web $params{web} is tainted!" )
-      if DEBUG;
+      if DEBUG && $params{web};
     ASSERT( UNTAINTED( $params{topic} ), "topic $params{topic} is tainted!" )
       if DEBUG && $params{topic};
-    ASSERT( UNTAINTED( $params{attachment} ) ) if DEBUG && $params{attachment};
+    ASSERT( UNTAINTED( $params{attachment} ) )
+      if DEBUG
+      && $params{attachment};
 
     Foswiki::Exception->throw( text => $class
           . "::new cannot be called directly, use loadCache() instead." )
@@ -623,10 +625,10 @@ sub getTopicNames {
     # the name filter is used to ensure we don't return filenames
     # that contain illegal characters as topic names.
     my @topicList =
-      map { $_->[0] }
+      map  { $_->[0] }
       sort { $a->[1] cmp $b->[1] }
-      map { [ $_, NFKD($_) ] }
-      map { /^(.*)\.txt$/; $1; }
+      map  { [ $_, NFKD($_) ] }
+      map  { /^(.*)\.txt$/; $1; }
       grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ }
 
       # Must _decode before applying the NameFilter and sort

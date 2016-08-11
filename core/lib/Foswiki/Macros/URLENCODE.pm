@@ -12,7 +12,7 @@ BEGIN {
     }
 }
 
-*Foswiki::URLENCODE = \&Foswiki::ENCODE;
+*URLENCODE = \&Foswiki::Macros::ENCODE;
 
 1;
 __END__

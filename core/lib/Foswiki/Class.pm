@@ -18,7 +18,7 @@ use Moo;
 
 with
 
-<verbtaim>
+<verbatim>
 use Foswiki::Class;
 </verbatim>
 
@@ -26,13 +26,14 @@ use Foswiki::Class;
 
 The following parameters are support by this module:
 
+| *Parameter* | *Description* |
 | =callbacks= | Provide support for callbacks |
 
 ---++ Callbacks support.
 
 When =callbacks= parameter is used:
 
-<verbtaim>
+<verbatim>
 use Foswiki::Class qw(callbacks);
 </verbatim>
 

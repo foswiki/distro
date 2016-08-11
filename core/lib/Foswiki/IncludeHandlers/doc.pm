@@ -28,26 +28,28 @@ use constant PUBLISHED_API_TOPIC => 'PublishedAPI';
 
 # Include embedded doc in a core module
 sub INCLUDE {
-    my ( $ignore, $session, $control, $params ) = @_;
+    my ( $includeMacro, $control, $params ) = @_;
+
+    my $app           = $includeMacro->app;
     my %removedblocks = ();
     my $class         = $control->{_DEFAULT} || 'doc:Foswiki';
     my $publicOnly    = ( $params->{publicOnly} || '' ) eq 'on';
-    Foswiki::Func::setPreferencesValue( 'SMELLS', '' );
+    $app->prefs->setSessionPreferences( 'SMELLS', '' );
 
     # SMELL This is no longer being used in PerlDoc ...
-    #    Foswiki::Func::setPreferencesValue( 'DOC_PARENT', '' );
-    Foswiki::Func::setPreferencesValue( 'DOC_CHILDREN', '' );
-    Foswiki::Func::setPreferencesValue( 'DOC_TITLE',    '---++ !! !%TOPIC%' );
+    #    $app->prefs->setSessionPreferences( 'DOC_PARENT', '' );
+    $app->prefs->setSessionPreferences( 'DOC_CHILDREN', '' );
+    $app->prefs->setSessionPreferences( 'DOC_TITLE',    '---++ !! !%TOPIC%' );
     $class =~ s/[a-z]+://;    # remove protocol
     $class ||= 'Foswiki';     # provide a reasonable default
 
     #    return '' unless $class && $class =~ m/^Foswiki/;
     $class =~ s/[^\w:]//g;
 
-    my %publicPackages = map { $_ => 1 } _loadPublishedAPI();
+    my %publicPackages = map { $_ => 1 } _loadPublishedAPI($app);
     my $visibility = exists $publicPackages{$class} ? 'public' : 'internal';
-    _setNavigation( $class, $publicOnly, \%publicPackages );
-    Foswiki::Func::setPreferencesValue( 'DOC_TITLE',
+    _setNavigation( $app, $class, $publicOnly, \%publicPackages );
+    $app->prefs->setSessionPreferences( 'DOC_TITLE',
         "---++ !! =$visibility package= " . _renderTitle($class) );
 
     my $pmfile;
@@ -65,7 +67,7 @@ sub INCLUDE {
     my $inPod      = 0;
     my $pod        = '';
     my $howSmelly  = 0;
-    my $showSmells = !Foswiki::Func::isGuest();
+    my $showSmells = !$app->isGuest();
     local $/ = undef;
     my $perl = <$PMFILE>;
     my $isa;
@@ -127,12 +129,11 @@ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
           . " *SMELL / FIX / TODO count: $howSmelly*\n"
           . '</blockquote>';
         $pod .= $podSmell;
-        Foswiki::Func::setPreferencesValue( 'SMELLS', $podSmell );
+        $app->prefs->setSessionPreferences( 'SMELLS', $podSmell );
     }
 
     $pod =
-      Foswiki::Macros::INCLUDE::applyPatternToIncludedText( $pod,
-        $control->{pattern} )
+      $includeMacro->applyPatternToIncludedText( $pod, $control->{pattern} )
       if ( $control->{pattern} );
 
     # Adjust the root heading level
@@ -150,14 +151,14 @@ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
 
 # set DOC_CHILDREN preference value to a list of sub-packages.
 sub _setNavigation {
-    my ( $class, $publicOnly, $publicPackages ) = @_;
+    my ( $app, $class, $publicOnly, $publicPackages ) = @_;
     my @children;
     my %childrenDesc;
     my $classPrefix = $class . '::';
 
 #    my $classParent = $class;
 #    $classParent =~ s/::[^:]+$//;
-#    Foswiki::Func::setPreferencesValue( 'DOC_PARENT', _doclink($classParent) );
+#    $app->prefs->setSessionPreferences( 'DOC_PARENT', _doclink($classParent) );
     $class =~ s#::#/#g;
 
     foreach my $inc (@INC) {
@@ -189,7 +190,7 @@ sub _setNavigation {
         }
     }
     $children .= '</ul>';
-    Foswiki::Func::setPreferencesValue( 'DOC_CHILDREN', $children );
+    $app->prefs->setSessionPreferences( 'DOC_CHILDREN', $children );
 }
 
 # get a summary of the pod documentation by looking directly after the ---+ package TML.
@@ -241,9 +242,9 @@ sub _getPackSummary ($) {
 }
 
 sub _loadPublishedAPI {
+    my $app = shift;
     my ( $meta, $text ) =
-      Foswiki::Func::readTopic( $Foswiki::cfg{SystemWebName},
-        PUBLISHED_API_TOPIC );
+      $app->readTopic( $Foswiki::cfg{SystemWebName}, PUBLISHED_API_TOPIC );
     my @ret;
     for my $line ( split /\r?\n/, $text ) {
 

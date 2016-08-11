@@ -633,7 +633,7 @@ sub create {
 
 ---++ ObjectMethod deepWebList($filter, $web) -> @list
 
-Deep list subwebs of the named web. $filter is a Foswiki::WebFilter
+Deep list subwebs of the named web. $filter is a =Foswiki::WebFilter=
 object that is used to filter the list. The listing of subwebs is
 dependent on $Foswiki::cfg{EnableHierarchicalWebs} being true.
 
@@ -1236,10 +1236,11 @@ sub writeCompletePage {
         # Don't expire the validation key through login, or when
         # endpoint is an error.
         Foswiki::Validation::expireValidationKeys($cgis)
-          unless ( $this->request->action() eq 'login'
+          unless ( $this->request->action eq 'login'
             or ( $ENV{REDIRECT_STATUS} || 0 ) >= 400 );
 
-        my $usingStrikeOne = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
+        my $usingStrikeOne =
+          $this->cfg->data->{Validation}{Method} eq 'strikeone';
         if ($usingStrikeOne) {
 
             # add the validation cookie

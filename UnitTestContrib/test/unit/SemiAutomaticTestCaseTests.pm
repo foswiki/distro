@@ -1,11 +1,10 @@
 package SemiAutomaticTestCaseTests;
 use v5.14;
 
-use Foswiki();
-use Foswiki::UI::View();
+use Foswiki;
 use Try::Tiny;
 
-use Moo;
+use Foswiki::Class;
 use namespace::clean;
 extends qw( FoswikiFnTestCase );
 
@@ -134,47 +133,47 @@ around set_up => sub {
     $orig->( $this, @_ );
 
     # Testcases are written using good anchors
-    $Foswiki::cfg{RequireCompatibleAnchors} = 0;
+    $this->app->cfg->data->{RequireCompatibleAnchors} = 0;
 
     # Test using an RCS store, fo which we have some bogus topics.
-    $Foswiki::cfg{Store}{Implementation} = 'Foswiki::Store::RcsLite';
+    $this->app->cfg->data->{Store}{Implementation} = 'Foswiki::Store::RcsLite';
     for ( my $i = 1 ; $i <= scalar @test_comma_v ; $i++ ) {
-        my $f = "$Foswiki::cfg{DataDir}/TestCases/SearchTestTopic$i.txt,v";
+        my $f = $this->app->cfg->data->{DataDir}
+          . "/TestCases/SearchTestTopic$i.txt,v";
         unlink $f if -e $f;
         open( F, '>', $f ) || die $!;
         print F $test_comma_v[ $i - 1 ];
         close(F);
     }
 
-    $VIEW_UI_FN ||= $this->getUIFn('view');
+    #$VIEW_UI_FN ||= $this->getUIFn('view');
 
     # This user is used in some testcases. All we need to do is make sure
     # their topic exists in the test users web
     if (
-        !$this->session->topicExists(
-            $Foswiki::cfg{UsersWebName}, 'WikiGuest'
+        !$this->app->store->topicExists(
+            $this->app->cfg->data->{UsersWebName}, 'WikiGuest'
         )
       )
     {
         my ($to) =
-          Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName}, 'WikiGuest' );
+          $this->app->readTopic( $this->app->cfg->data->{UsersWebName},
+            'WikiGuest' );
         $to->text('This user is used in some testcases');
-        $to->save();
-        $to->finish();
+        $to->save;
+        undef $to;
     }
     if (
-        !$this->session->topicExists(
-            $Foswiki::cfg{UsersWebName},
+        !$this->app->store->topicExists(
+            $this->app->cfg->data->{UsersWebName},
             'UnknownUser'
         )
       )
     {
-        my ($to) =
-          Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName},
+        my ($to) = $this->app->readTopic( $this->app->cfg->data->{UsersWebName},
             'UnknownUser' );
         $to->text('This user is used in some testcases');
-        $to->save();
-        $to->finish();
+        $to->save;
     }
 };
 
@@ -182,7 +181,8 @@ around tear_down => sub {
     my $orig = shift;
     my $this = shift;
     for ( my $i = 1 ; $i <= scalar @test_comma_v ; $i++ ) {
-        my $f = "$Foswiki::cfg{DataDir}/TestCases/SearchTestTopic$i.txt,v";
+        my $f = $this->app->cfg->data->{DataDir}
+          . "/TestCases/SearchTestTopic$i.txt,v";
         unlink $f if -e $f;
     }
     $orig->($this);
@@ -193,8 +193,8 @@ around list_tests => sub {
     my ( $this, $suite ) = @_;
     my @set = $orig->( $this, @_ );
 
-    $this->createNewFoswikiSession();
-    unless ( $this->session->webExists('TestCases') ) {
+    $this->createNewFoswikiApp;
+    unless ( $this->app->store->webExists('TestCases') ) {
         print STDERR
           "Cannot run semi-automatic test cases; TestCases web not found";
         return;
@@ -205,7 +205,7 @@ around list_tests => sub {
 "Cannot run semi-automatic test cases; could not find TestFixturePlugin";
         return;
     }
-    foreach my $case ( Foswiki::Func::getTopicList('TestCases') ) {
+    foreach my $case ( $this->app->getTopicList('TestCases') ) {
         next unless $case =~ m/^TestCaseAuto/;
         my $test = 'SemiAutomaticTestCaseTests::test_' . $case;
         no strict 'refs';
@@ -213,40 +213,79 @@ around list_tests => sub {
         use strict 'refs';
         push( @set, $test );
     }
-    $this->finishFoswikiSession();
+    $this->createNewFoswikiApp;
     return @set;
 };
 
 sub run_testcase {
     my ( $this, $testcase ) = @_;
-    my $query = Unit::Request->new(
-        initializer => {
-            test => 'compare',
-            debugenableplugins =>
-              'TestFixturePlugin,SpreadSheetPlugin,InterwikiPlugin',
-            skin => 'pattern'
-        }
-    );
-    $query->path_info("/TestCases/$testcase");
-    $Foswiki::cfg{INCLUDE}{AllowURLs} = 1;
-    $Foswiki::cfg{Plugins}{TestFixturePlugin}{Enabled} = 1;
-    $Foswiki::cfg{Plugins}{TestFixturePlugin}{Module} =
+    $this->app->cfg->data->{INCLUDE}{AllowURLs} = 1;
+    $this->app->cfg->data->{Plugins}{TestFixturePlugin}{Enabled} = 1;
+    $this->app->cfg->data->{Plugins}{TestFixturePlugin}{Module} =
       'Foswiki::Plugins::TestFixturePlugin';
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                test => 'compare',
+                debugenableplugins =>
+                  'TestFixturePlugin,SpreadSheetPlugin,InterwikiPlugin',
+                skin => 'pattern'
+            }
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/TestCases/$testcase",
+                user      => $this->test_user_login,
+                action    => 'view',
+            },
+        },
+    );
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->users_web, 'ProjectContributor' );
+      $this->app->readTopic( $this->users_web, 'ProjectContributor' );
     $topicObject->text('none');
-    $topicObject->save();
-    $topicObject->finish();
-    my ($text) = $this->capture( $VIEW_UI_FN, $this->session );
+    $topicObject->save;
+    undef $topicObject;
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                test => 'compare',
+                debugenableplugins =>
+                  'TestFixturePlugin,SpreadSheetPlugin,InterwikiPlugin',
+                skin => 'pattern'
+            }
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/TestCases/$testcase",
+                user      => $this->test_user_login,
+                action    => 'view',
+            },
+        },
+    );
+    my ($text) = $this->capture( sub { $this->app->handleRequest } );
 
     unless ( $text =~ m#<font color="green">ALL TESTS PASSED</font># ) {
         $this->assert(
             open( my $F, '>:encoding(utf8)', "${testcase}_run.html" ) );
         print $F $text;
         $this->assert( close $F );
-        $query->delete('test');
-        ($text) = $this->capture( $VIEW_UI_FN, $this->session );
+        $this->createNewFoswikiApp(
+            requestParams => {
+                initializer => {
+                    debugenableplugins =>
+                      'TestFixturePlugin,SpreadSheetPlugin,InterwikiPlugin',
+                    skin => 'pattern'
+                }
+            },
+            engineParams => {
+                initialAttributes => {
+                    path_info => "/TestCases/$testcase",
+                    user      => $this->test_user_login,
+                    action    => 'view',
+                },
+            },
+        );
+        ($text) = $this->capture( sub { $this->app->handleRequest } );
         $this->assert( open( $F, '>:encoding(utf8)', "${testcase}.html" ) );
         print $F $text;
         $this->assert( close $F );

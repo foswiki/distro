@@ -28,7 +28,9 @@ BEGIN {
 our $template_url;
 
 sub INCLUDE {
-    my ( $ignore, $session, $control, $options ) = @_;
+    my ( $includeMacro, $control, $options ) = @_;
+
+    my $app = $includeMacro->app;
 
     my $text = '';
     my $url  = $control->{_DEFAULT};
@@ -40,7 +42,7 @@ sub INCLUDE {
     # attachment URLs, it is the only place this can really be done.
     unless ($template_url) {
         $template_url = quotemeta(
-            $session->getPubURL( 'WEB', 'TOPIC', 'ATTACHMENT', absolute => 1 )
+            $app->cfg->getPubURL( 'WEB', 'TOPIC', 'ATTACHMENT', absolute => 1 )
         );
         $template_url =~ s/WEB/($Foswiki::regex{webNameRegex})/;
         $template_url =~ s{TOPIC}{([^/.]+)};
@@ -54,13 +56,13 @@ sub INCLUDE {
 
         # FIXME: Check for MIME type, not file suffix
         if ( $incAtt =~ m/\.(txt|html?)$/i ) {
-            my $topicObject = Foswiki::Meta->new(
-                session => $session,
-                web     => $incWeb,
-                topic   => $incTopic
+            my $topicObject = $app->create(
+                'Foswiki::Meta',
+                web   => $incWeb,
+                topic => $incTopic
             );
             unless ( $topicObject->hasAttachment($incAtt) ) {
-                return $session->_includeWarning( $control->{warn},
+                return $includeMacro->_includeWarning( $control->{warn},
                     'bad_attachment', $url );
             }
             if (   $incWeb ne $control->{inWeb}
@@ -69,7 +71,7 @@ sub INCLUDE {
 
                 # CODE_SMELL: Does not account for not yet authenticated user
                 unless ( $topicObject->haveAccess('VIEW') ) {
-                    return $session->_includeWarning( $control->{warn},
+                    return $includeMacro->_includeWarning( $control->{warn},
                         'access_denied', "$incWeb.$incTopic" );
                 }
             }
@@ -80,12 +82,12 @@ sub INCLUDE {
             unless ( $control->{raw} ) {
 
                 # SMELL: assumes the construction of pub URLs
-                my $tu = $session->getPubURL();
+                my $tu = $app->cfg->getPubURL();
                 $tu =~ m!^((?:[a-z]+:)?/*[^/]*)(/[^#?]*)!;
                 $text = _cleanupIncludedHTML( $text, $1, $2, $options );
             }
             $text =
-              Foswiki::Macros::INCLUDE::applyPatternToIncludedText( $text,
+              $includeMacro->applyPatternToIncludedText( $text,
                 $control->{pattern} )
               if ( $control->{pattern} );
             $text = "<literal>\n" . $text . "\n</literal>"
@@ -96,18 +98,20 @@ sub INCLUDE {
         # fall through; try to include file over http based on MIME setting
     }
 
-    return $session->_includeWarning( $control->{warn}, 'urls_not_allowed' )
-      unless $Foswiki::cfg{INCLUDE}{AllowURLs};
+    return $includeMacro->_includeWarning( $control->{warn},
+        'urls_not_allowed' )
+      unless $app->cfg->data->{INCLUDE}{AllowURLs};
 
     # SMELL: should use the URI module from CPAN to parse the URL
     # SMELL: but additional CPAN adds to code bloat
     unless ( $url =~ m!^https?:! ) {
         $text =
-          $session->_includeWarning( $control->{warn}, 'bad_protocol', $url );
+          $includeMacro->_includeWarning( $control->{warn}, 'bad_protocol',
+            $url );
         return $text;
     }
 
-    my $response = $session->net->getExternalResource($url);
+    my $response = $app->net->getExternalResource($url);
     if ( !$response->is_error() ) {
         my $contentType = $response->header('content-type');
         $text = $response->content();
@@ -123,11 +127,11 @@ sub INCLUDE {
         }
         else {
             $text =
-              $session->_includeWarning( $control->{warn}, 'bad_content',
+              $includeMacro->_includeWarning( $control->{warn}, 'bad_content',
                 $contentType );
         }
         $text =
-          Foswiki::Macros::INCLUDE::applyPatternToIncludedText( $text,
+          $includeMacro->applyPatternToIncludedText( $text,
             $control->{pattern} )
           if ( $control->{pattern} );
         $text = "<literal>\n" . $text . "\n</literal>"
@@ -135,7 +139,7 @@ sub INCLUDE {
     }
     else {
         $text =
-          $session->_includeWarning( $control->{warn}, 'geturl_failed',
+          $includeMacro->_includeWarning( $control->{warn}, 'geturl_failed',
             $url . ' ' . $response->message() );
     }
 

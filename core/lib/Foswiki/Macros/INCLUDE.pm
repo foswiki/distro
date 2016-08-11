@@ -4,7 +4,7 @@ use v5.14;
 
 use Try::Tiny;
 
-use Moo;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 with qw(Foswiki::AppObject);
 with qw(Foswiki::Macro);
@@ -177,15 +177,24 @@ sub _includeWarning {
 sub _includeProtocol {
     my ( $this, $handler, $control, $params ) = @_;
 
-    eval 'use Foswiki::IncludeHandlers::' . $handler . ' ()';
-    if ($@) {
-        return $this->_includeWarning( $control->{warn}, 'bad_include_path',
-            "BROKEN $handler for " . $control->{_DEFAULT} );
+    my $handlerModule = 'Foswiki::IncludeHandlers::' . $handler;
+    my $rc;
+    try {
+        Foswiki::load_package($handlerModule);
+        my $handlerSub = $handlerModule->can('INCLUDE');
+        $rc = $handlerSub->( $this, $control, $params );
     }
-    else {
-        $handler = 'Foswiki::IncludeHandlers::' . $handler;
-        return $handler->INCLUDE( $this->app, $control, $params );
-    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        ( my $errmsg = Foswiki::entityEncode( $e->stringify ) ) =~
+          s|\n|<br/>|sg;
+        $rc = $this->_includeWarning( $control->{warn}, 'bad_include_path',
+                "BROKEN $handler for "
+              . $control->{_DEFAULT}
+              . ":<br/>"
+              . $errmsg );
+    };
+    return $rc;
 }
 
 sub _includeTopic {
