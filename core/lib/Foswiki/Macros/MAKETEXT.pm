@@ -46,11 +46,20 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, $max, $min, $param_erro
         && $Locale::Maketext::VERSION
         && $Locale::Maketext::VERSION < 1.23 );    # escape any escapes
 
-    my @args = split( /\s*,\s*/, $argsStr );
+    my @args;
+    if ( defined $params->{args} ) {
+        @args = split( /\s*,\s*/, $argsStr );
 
-    # fill omitted args with empty strings
-    while ( ( scalar(@args) ) < $max ) {
-        push( @args, '' );
+        # fill omitted args with empty strings
+        while ( ( scalar(@args) ) < $max ) {
+            push( @args, '' );
+        }
+    }
+    else {
+        my $idx = 0;
+        while ( ++$idx <= $max ) {
+            push( @args, $params->{"arg$idx"} || '' );
+        }
     }
 
     # do the magic:

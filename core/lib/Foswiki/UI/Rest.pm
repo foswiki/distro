@@ -134,8 +134,21 @@ sub rest {
 
     # Implicit untaint OK - validated later
     my ( $subject, $verb ) = ( $req->subject, $req->verb );
+    if ( $req->invalidVerb() ) {
 
-    my $record = $restDispatch{$subject}{$verb};
+        $res->header( -type => 'text/html', -status => '400' );
+        $err =
+            "ERROR: (400) Invalid REST invocation - Verb: "
+          . $req->invalidVerb()
+          . " is malformed\n";
+        $res->print($err);
+        $app->logger->log( 'warning', "REST rejected: " . $err,
+            " - $referer", );
+        _listHandlers($res) if $app->inContext('command_line');
+        throw Foswiki::EngineException( 400, $err, $res );
+    }
+
+    my $record  = $restDispatch{$subject}{$verb};
 
     # Check we have this handler
     unless ($record) {
@@ -152,6 +165,35 @@ sub rest {
             reason   => $err,
             response => $res
         );
+    }
+
+    # SMELL: The SubscribePlugin abuses the topic= url param, passing
+    # in an asterisk wildcard to requst subscription to all topics.
+    # The plugin should use a subscribe_topic parameter rather than
+    # abusing the system parsed topic parameter.
+
+    #if ( $req->invalidTopic() ) {
+    #    $res->header( -type => 'text/html', -status => '400' );
+    #    $err =
+    #        'ERROR: (400) Invalid REST invocation'
+    #      . " - Invalid topic parameter "
+    #      . $req->invalidTopic() . "\n";
+    #    $res->print($err);
+    #    $session->logger->log( 'warning', "REST rejected: " . $err,
+    #        " - $referer", );
+    #    throw Foswiki::EngineException( 400, $err, $res );
+    #}
+
+    if ( $req->invalidWeb() ) {
+        $res->header( -type => 'text/html', -status => '400' );
+        $err =
+            'ERROR: (400) Invalid REST invocation'
+          . " - Invalid topic parameter Web part: "
+          . $req->invalidWeb() . "\n";
+        $res->print($err);
+        $app->logger->log( 'warning', "REST rejected: " . $err,
+            " - $referer", );
+        throw Foswiki::EngineException( 400, $err, $res );
     }
 
     # Log warnings if defaults are needed.
@@ -364,7 +406,7 @@ sub _listHandlers {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

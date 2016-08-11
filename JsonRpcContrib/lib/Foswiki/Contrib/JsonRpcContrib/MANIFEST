@@ -9,6 +9,7 @@ lib/Foswiki/Contrib/JsonRpcContrib.pm 0644
 lib/Foswiki/Contrib/JsonRpcContrib/Request.pm 0644
 lib/Foswiki/Contrib/JsonRpcContrib/Response.pm 0644
 lib/Foswiki/Contrib/JsonRpcContrib/Server.pm 0644
+lib/Foswiki/Request/JSON.pm 0644
 pub/System/JsonRpcContrib/jquery.jsonrpc.js 0644
 pub/System/JsonRpcContrib/jquery.jsonrpc.js.gz 0644
 pub/System/JsonRpcContrib/jquery.jsonrpc.uncompressed.js 0644

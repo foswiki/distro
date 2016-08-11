@@ -4,6 +4,7 @@ package CommentPluginTests;
 use v5.14;
 
 use Unit::Request();
+use Unit::Request::Rest();
 use Unit::Response();
 use Foswiki();
 use Foswiki::UI::Save();

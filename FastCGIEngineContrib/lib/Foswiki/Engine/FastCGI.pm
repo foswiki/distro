@@ -183,7 +183,7 @@ sub preparePath {
     $ENV{PATH_INFO} =~ s#^$Foswiki::cfg{ScriptUrlPath}/*#/#
       if ( $ENV{PATH_INFO} && defined $Foswiki::cfg{ScriptUrlPath} );
 
-    $this->SUPER::preparePath(@_);
+    return $this->SUPER::preparePath();
 }
 
 sub write {

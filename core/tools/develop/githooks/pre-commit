@@ -283,11 +283,11 @@ sub checkFILEATTACHMENT {
             ) unless ( $auth eq 'ProjectContributor' );
             my $date = $attrs->{date} || 0;
             my $t = time;
-            push( @$err, "date must be within $WINDOW seconds of $t" )
+            push( @$err, "FILEATTACHMENT$name: date must be within $WINDOW seconds of $t" )
               unless $date =~ /^\d+$/
               && abs( $t - $date ) < $WINDOW;
             my $ver = $attrs->{version} || 0;
-            push( @$err, "version must be 1" )
+            push( @$err, "FILEATTACHMENT$name: version must be 1" )
               unless $attrs->{version} eq '1';
         }
     }

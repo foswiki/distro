@@ -249,6 +249,8 @@ Start point to Runtime Engines.
 Initialize a Foswiki::Request object by calling many preparation methods
 and returns it, or a status code in case of error.
 
+The actual request object is created in preparePath.
+
 =cut
 
 sub __deprecated_prepare {
@@ -393,6 +395,9 @@ sub _prepareHeaders { return {}; }
 ---++ ObjectMethod _prepareUser
 
 Initializer for the =user= object attribute.
+
+Returns =$req= - Foswiki::Request object, populated with the action and the path.
+
 
 =cut
 

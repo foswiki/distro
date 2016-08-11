@@ -225,8 +225,8 @@ sub cachePage {
     my $refresh = $request->param('refresh') || '';
     my $variationKey = $this->genVariationKey();
 
-    # remove old entries
-    if ( $app->inContext("isadmin") && $refresh =~ m/^(on|cache|all)$/ ) {
+    # remove old entries.  Note refresh=all handled in getPage
+    if ( $refresh =~ m/^(on|cache)$/ ) {
         $this->deletePage( $web, $topic );    # removes all variations
     }
     else {
@@ -320,6 +320,7 @@ sub getPage {
 
         if ( $app->users->isAdmin( $app->user ) ) {
             $this->deleteAll();
+            return undef;
         }
         else {
             my $action = substr( ( $request->action || 'view' ), 0, 4 );
@@ -336,6 +337,10 @@ sub getPage {
 
     if ( $refresh eq 'fire' ) {    # simulates a "save" of the current topic
         $this->fireDependency( $web, $topic );
+    }
+
+    if ( $refresh =~ m/^(on|cache)$/ ) {
+        $this->deletePage( $web, $topic );    # removes all variations
     }
 
     # check cacheability

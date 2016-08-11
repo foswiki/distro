@@ -91,6 +91,7 @@ sub fixture_groups {
         next unless ( ref($dispatcher) eq 'HASH' );    #bad switchboard entry.
 
         my $package = $dispatcher->{package} || 'Foswiki::UI';
+        my $request = $dispatcher->{request} || 'Foswiki::Request';
         eval "require $package; 1;" or next;
         my $function = $dispatcher->{function} // $dispatcher->{method};
         my $sub = $package->can($function);

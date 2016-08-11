@@ -1386,7 +1386,19 @@ sub _renderExistingWikiWord {
     $attrs{class} = join( ' ', @cssClasses ) if ( $#cssClasses >= 0 );
     $attrs{href} = $href;
 
-    if ( defined $this->LINKTOOLTIPINFO
+    # Add a tooltip, if it's enabled
+    unless ( defined( $this->{LINKTOOLTIPINFO} ) ) {
+        $this->{LINKTOOLTIPINFO} =
+          $this->app->prefs->getPreference('LINKTOOLTIPINFO')
+          || '';
+        if ( $this->{LINKTOOLTIPINFO} =~ m/^[Oo][Nn]$/ ) {
+            $this->{LINKTOOLTIPINFO} = '$username - $date - r$rev: $summary';
+        }
+        elsif ( $this->{LINKTOOLTIPINFO} =~ m/^([Oo][Ff][Ff])?$/ ) {
+            $this->{LINKTOOLTIPINFO} = '';
+        }
+    }
+    if (   $this->{LINKTOOLTIPINFO} ne ''
         && $this->app->inContext('view') )
     {
         require Foswiki::Render::ToolTip;

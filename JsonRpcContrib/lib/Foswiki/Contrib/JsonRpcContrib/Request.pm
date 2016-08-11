@@ -172,9 +172,15 @@ sub id {
 
 ##############################################################################
 sub param {
-    my ( $this, $key, $value ) = @_;
+    my ( $this, @p )     = @_;
+    my ( $key,  $value ) = @p;
+
+    print STDERR "Jsonrpc::Request::param() entered\n";
+    print STDERR Data::Dumper::Dumper( \@p );
 
     return unless $key;
+
+    print STDERR Data::Dumper::Dumper( \$this->{data}{params}{$key} );
 
     $this->{data}{params}{$key} = $value if defined $value;
     return $this->{data}{params}{$key};
@@ -182,6 +188,8 @@ sub param {
 
 ##############################################################################
 sub params {
+    print STDERR "Jsonrpc::Request::params() entered\n";
+    print STDERR Data::Dumper::Dumper( \$_[0]->{data}{params} );
     return $_[0]->{data}{params};
 }
 
@@ -189,7 +197,9 @@ sub params {
 sub method {
     my ( $this, $value ) = @_;
 
+    print STDERR "Jsonrpc::Request::method() entered\n";
     $this->{data}{method} = $value if defined $value;
+    print STDERR Data::Dumper::Dumper( \$_[0]->{data}{method} );
     return $this->{data}{method};
 }
 
