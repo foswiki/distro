@@ -1947,7 +1947,8 @@ sub getWikiName {
     my $cUID = $this->getCanonicalUserID($user);
     unless ( defined $cUID ) {
         my ( $w, $u ) =
-          normalizeWebTopicName( $this->cfg->data->{UsersWebName}, $user );
+          $this->request->normalizeWebTopicName(
+            $this->cfg->data->{UsersWebName}, $user );
         return $u;
     }
     return $this->users->getWikiName($cUID);
@@ -1972,7 +1973,8 @@ sub getWikiUserName {
     my $cUID = $this->getCanonicalUserID($user);
     unless ( defined $cUID ) {
         my ( $w, $u ) =
-          normalizeWebTopicName( $this->cfg->data->{UsersWebName}, $user );
+          $this->request->normalizeWebTopicName(
+            $this->cfg->data->{UsersWebName}, $user );
         return "$w.$u";
     }
     return $this->users->webDotWikiName($cUID);

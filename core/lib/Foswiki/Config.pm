@@ -1677,6 +1677,8 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
     $Foswiki::regex{filenameInvalidCharRegex} =
       qr/$Foswiki::cfg{AttachmentNameFilter}/;
 
+    $Foswiki::regex{webTopicInvalidCharRegex} = qr/$Foswiki::cfg{NameFilter}/;
+
     # Multi-character alpha-based regexes
     $Foswiki::regex{mixedAlphaNumRegex} = qr/[[:alnum:]]*/;
 
