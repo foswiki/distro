@@ -1892,7 +1892,7 @@ sub verify_resetPasswordOkay {
         },
         engineParams => {
             initialAttributes => {
-                path_info => "/" . $this->users_web . "/WebHome",
+                path_info => "/" . $this->users_web . "/UserRegistration",
                 action    => 'resetpasswd',
                 user      => $cfgData->{DefaultUserLogin},
             },
@@ -1951,7 +1951,7 @@ sub verify_resetPasswordNoSuchUser {
         },
         engineParams => {
             initialAttributes => {
-                path_info => "/" . $this->users_web . "/WebHome",
+                path_info => "/" . $this->users_web . "/UserRegistration",
                 action    => 'resetpasswd',
                 user      => $cfgData->{DefaultUserLogin},
             },
@@ -2000,7 +2000,7 @@ sub verify_resetPasswordNeedPrivilegeForMultipleReset {
         },
         engineParams => {
             initialAttributes => {
-                path_info => "/" . $this->users_web . "/WebHome",
+                path_info => "/" . $this->users_web . "/UserRegistration",
                 action    => 'resetpasswd',
                 user      => $cfgData->{DefaultUserLogin},
             },
@@ -2056,7 +2056,7 @@ sub verify_resetPasswordNoPassword {
         },
         engineParams => {
             initialAttributes => {
-                path_info => "/" . $this->users_web . "/WebHome",
+                path_info => "/" . $this->users_web . "/ResetPassword",
                 action    => 'resetpasswd',
                 user      => $cfgData->{DefaultUserLogin},
             },
@@ -2760,7 +2760,7 @@ sub verify_resetPassword_NoWikiUsersEntry {
         },
         engineParams => {
             initialAttributes => {
-                path_info => "/" . $this->users_web . "/WebHome",
+                path_info => "/" . $this->users_web . "/ResetPassword",
                 action    => 'resetpasswd',
                 user      => $cfgData->{DefaultUserLogin},
             },

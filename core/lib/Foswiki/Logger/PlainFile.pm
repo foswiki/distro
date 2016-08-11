@@ -295,14 +295,6 @@ sub _getLogsForLevel {
     return ( keys %logs );
 }
 
-sub _time2month {
-    my $time = shift;
-    return undef unless ( defined $time );
-    my @t = localtime($time);
-    $t[5] += 1900;
-    return sprintf( '%0.4d%0.2d', $t[5], $t[4] + 1 );
-}
-
 # See if the log needs to be rotated. If the log was last modified
 # last month, we need to rotate it.
 sub _rotate {
@@ -315,7 +307,7 @@ sub _rotate {
     return if ( $now < $nextCheckDue{$level} );
 
     # Work out the current month
-    my $curMonth = _time2month($now);
+    my $curMonth = Foswiki::Time::formatTime( $now, '$year$mo', 'servertime' );
     print STDERR "Current MONTH = $curMonth\n" if (TRACE);
 
     # After this check, don't check again for a month.
@@ -328,8 +320,10 @@ sub _rotate {
     else {
         $m = sprintf( '%0.2d', $m );
     }
-    $nextCheckDue{$level} = Foswiki::Time::parseTime("$y-$m-01");
-    print STDERR "Next log check due $nextCheckDue{$level} for $level\n"
+    $nextCheckDue{$level} =
+      Foswiki::Time::parseTime( "$y-$m-01", 1 );    # use local (server) time.
+    print STDERR
+      "Next log check due $nextCheckDue{$level} for $level, now: $now\n"
       if (TRACE);
 
     # If there's no existing log, there's nothing to rotate
@@ -337,8 +331,9 @@ sub _rotate {
 
     # Check when the log was last modified. If it was in the previous
     # month, if may need to be rotated.
-    my @stat     = _stat($log);
-    my $modMonth = _time2month( $stat[9] );
+    my @stat = _stat($log);
+    my $modMonth =
+      Foswiki::Time::formatTime( $stat[9], '$year$mo', 'servertime' );
     print STDERR "compare $modMonth,  $curMonth\n" if (TRACE);
     return if ( $modMonth == $curMonth );
 

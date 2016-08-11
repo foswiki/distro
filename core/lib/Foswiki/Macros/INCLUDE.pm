@@ -9,6 +9,9 @@ extends qw(Foswiki::Object);
 with qw(Foswiki::AppObject);
 with qw(Foswiki::Macro);
 
+use Foswiki::Render;
+use Foswiki::Func;
+
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
         require locale;
@@ -65,8 +68,24 @@ sub _fixupIncludedTopic {
     unless ( $options->{Pref_NOAUTOLINK} || $options->{in_noautolink} ) {
 
         # 'TopicName' to 'Web.TopicName'
-        $text =~
-s#(?:^|(?<=[\s(]))($Foswiki::regex{wikiWordRegex})(?=\s|\)|$)#$fromWeb.$1#g;
+        $text =~ s{
+              $Foswiki::Render::STARTWW
+              (
+               (:? $Foswiki::regex{wikiWordRegex})    # Wikiword
+               (:?$Foswiki::regex{anchorRegex})?      # Optional anchor
+              )
+              $Foswiki::Render::ENDWW
+           }
+           {$fromWeb.$1}gx;
+
+        # 'ACRONYM' to 'Web.ACRONYM' but only if the topic exists.
+        $text =~ s{
+              $Foswiki::Render::STARTWW
+               ($Foswiki::regex{abbrevRegex})      # Acronym
+               ($Foswiki::regex{anchorRegex})?     # Optional anchor
+              $Foswiki::Render::ENDWW
+           }
+           {_fixAcronymLink($fromWeb,$1,$2)}gex;
     }
 
     # Handle explicit [[]] everywhere
@@ -75,6 +94,19 @@ s#(?:^|(?<=[\s(]))($Foswiki::regex{wikiWordRegex})(?=\s|\)|$)#$fromWeb.$1#g;
       _fixIncludeLink( $fromWeb, $1, $2 )/geo;
 
     return $text;
+}
+
+# Acronyms only link if the topic exists.
+sub _fixAcronymLink {
+
+    my $anchor = $_[2] || '';
+
+    if ( Foswiki::Func::topicExists( $_[0], $_[1] ) ) {
+        return "$_[0].$_[1]$anchor";
+    }
+    else {
+        return "$_[1]$anchor";
+    }
 }
 
 # Add a web reference to a [[...][...]] link in an included topic
@@ -101,6 +133,10 @@ m#^($Foswiki::regex{webNameRegex}\.|$Foswiki::regex{defaultWebNameRegex}\.|$Fosw
 
     # If link is only an anchor, leave it as is (Foswikitask:Item771)
     return "[[$link][$label]]" if $link =~ m/^#/;
+
+    # Collapse a spaced out wikiword
+    $link = ucfirst($link);
+    $link =~ s/\s([[:alnum:]])/\U$1/g;
 
     if ( Foswiki::isValidTopicName( $link, 1 ) ) {
         return "[[$web.$link][$label]]";

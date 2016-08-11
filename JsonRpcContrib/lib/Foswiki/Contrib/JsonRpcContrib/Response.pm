@@ -71,7 +71,7 @@ sub print {
     $encoding =~ s/^.*(x-gzip|gzip).*/$1/g;
     my $compressed = 0;
 
-    if ( $Foswiki::cfg{HttpCompress} || $app->env->{'SPDY'} ) {
+    if ( $Foswiki::cfg{HttpCompress} || $app->env->{'HTTP2'} ) {
         $hopts->{'Content-Encoding'} = $encoding;
         $hopts->{'Vary'}             = 'Accept-Encoding';
         $text                        = Encode::encode_utf8($text);

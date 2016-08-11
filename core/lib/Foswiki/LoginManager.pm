@@ -562,6 +562,11 @@ sub loadSession {
             $authUser = $sudoUser;
         }
         else {
+            $this->{_cgisession}->delete();
+            $this->{_cgisession}->flush();
+            $this->{_cgisession} = undef;
+            $this->_delSessionCookieFromResponse();
+
             $authUser =
               $this->redirectToLoggedOutUrl( $authUser, $defaultUser );
         }
@@ -570,31 +575,18 @@ sub loadSession {
 
     # SMELL:  EXPERIMENTAL - Guest sessions can be made optional:
     #  - unset $Foswiki::cfg{Sessions}{EnableGuestSessions}
-    # No sense creating or keeping sessions for guest users.
+    #
     # Note that if guests can comment, update, or otherwise POST to
-    # Foswiki, then Guest Sessions should be enabled.
+    # Foswiki, then pages with forms should be listed in
+    # $Foswiki::cfg{Sessions}{TopicsRequireGuestSessions}
 
     # Call to getLoggedIn inserts the auth user into the cgi session
     $this->userLoggedIn($authUser)
       unless ( $authUser eq $Foswiki::cfg{DefaultUserLogin}
-        && !$this->_guestSessions );
-
-    # Cleanup unused guest sessions
-    if (   $this->_cgisession
         && !$this->_guestSessions
-        && $authUser eq $Foswiki::cfg{DefaultUserLogin} )
-    {
-        $this->_cgisession->delete();
-        $this->_cgisession->flush();
-        $this->_cgisession = undef;
-        $this->_delSessionCookieFromResponse();
-    }
+        && !$app->inContext('sessionRequired') );
 
-    if ( $this->_cgisession ) {
-        $app->prefs->setInternalPreferences(
-            SESSIONID  => $this->_cgisession->id(),
-            SESSIONVAR => $CGI::Session::NAME
-        );
+    if ( $this->{_cgisession} ) {
 
         # Restore CGI Session parameters
         for ( $this->_cgisession->param ) {
@@ -908,6 +900,7 @@ sub userLoggedIn {
 
             my $oldid   = $this->_cgisession->id();
             my $dataref = $this->_cgisession->dataref();
+            _trace( $this, "Replace the session $sessUser -> $authUser " );
 
 # SMELL: Needed to both delete and undef the old sesson or for some reason
 # Session->new() manages to find / use the old session and the ID doesn't change
@@ -917,7 +910,8 @@ sub userLoggedIn {
 
             # Don't make a session for the guest user.
             unless ( $authUser eq $Foswiki::cfg{DefaultUserLogin}
-                && !$this->_guestSessions )
+                && !$this->_guestSessions 
+                && !$app->inContext('sessionRequired') )
 
             {
                 $this->_cgisession(
@@ -942,6 +936,15 @@ sub userLoggedIn {
               if $this->_cgisession->errstr();
         }
     }
+
+    if ( $this->{_cgisession} ) {
+        $this->_addSessionCookieToResponse();
+        $app->prefs->setInternalPreferences(
+            SESSIONID  => $this->{_cgisession}->id(),
+            SESSIONVAR => $CGI::Session::NAME
+        );
+    }
+
 }
 
 =begin TML

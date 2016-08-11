@@ -23,7 +23,7 @@ Constructor
 
 our %pluginParams = (
     name       => 'ImagesLoaded',
-    version    => '4.0.0',
+    version    => '4.1.0',
     author     => 'David <nop>DeSandro',
     homepage   => 'http://imagesloaded.desandro.com/',
     javascript => ['imagesloaded.js'],
