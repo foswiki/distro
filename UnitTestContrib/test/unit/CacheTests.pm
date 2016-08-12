@@ -34,11 +34,9 @@ sub fixture_groups {
                 next if ( grep { $_ eq $alg } @page );
 
                 my $dbcheckfn = "dbcheck_$alg";
-                no strict 'refs';
-                if ( defined &{$dbcheckfn} ) {
-                    next unless &$dbcheckfn();
+                if ( $this->can($dbcheckfn) ) {
+                    next unless $this->$dbcheckfn;
                 }
-                use strict 'refs';
 
                 if ( defined &{$alg} ) {
                     push( @page, $alg );
@@ -49,7 +47,7 @@ sub fixture_groups {
                     no strict 'refs';
                     *{$alg} = sub {
                         my $this = shift;
-                        $Foswiki::cfg{CacheManager} =
+                        $this->app->cfg->data->{CacheManager} =
                           'Foswiki::PageCache::' . $alg;
                     };
                     use strict 'refs';
@@ -85,24 +83,25 @@ sub skip {
 }
 
 sub dbcheckDBI {
+    my $this = shift;
     my ( $dbn, $cfg ) = @_;
     my $dbh;
     eval {
         require DBI;
         my $dsn =
             "dbi:$dbn:database="
-          . ( $Foswiki::cfg{Cache}{DBI}{$cfg}{Database} || 'foswiki' )
+          . ( $this->app->cfg->data->{Cache}{DBI}{$cfg}{Database} || 'foswiki' )
           . ';host='
-          . ( $Foswiki::cfg{Cache}{DBI}{$cfg}{Host} || 'localhost' )
+          . ( $this->app->cfg->data->{Cache}{DBI}{$cfg}{Host} || 'localhost' )
           . (
-            $Foswiki::cfg{Cache}{DBI}{$cfg}{Port}
-            ? ';port=' . $Foswiki::cfg{Cache}{DBI}{$cfg}{Port}
+            $this->app->cfg->data->{Cache}{DBI}{$cfg}{Port}
+            ? ';port=' . $this->app->cfg->data->{Cache}{DBI}{$cfg}{Port}
             : ''
           );
         $dbh = DBI->connect(
             $dsn,
-            $Foswiki::cfg{Cache}{DBI}{$cfg}{Username},
-            $Foswiki::cfg{Cache}{DBI}{$cfg}{Password},
+            $this->app->cfg->data->{Cache}{DBI}{$cfg}{Username},
+            $this->app->cfg->data->{Cache}{DBI}{$cfg}{Password},
             {
                 PrintError => 0,
                 RaiseError => 1
@@ -118,61 +117,76 @@ sub dbcheckDBI {
 }
 
 sub dbcheck_SQLite {
-    $Foswiki::cfg{Cache}{DSN} = "dbi:SQLite:dbname=generic.db";
-    return dbcheckDBI( 'SQLite', 'Generic' );
+    my $this = shift;
+    $this->app->cfg->data->{Cache}{DSN} = "dbi:SQLite:dbname=generic.db";
+    return $this->dbcheckDBI( 'SQLite', 'Generic' );
 }
 
 sub SQLite {
+    my $this = shift;
     Foswiki::load_package('Foswiki::PageCache::DBI::SQLite');
-    $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::SQLite';
-    $Foswiki::cfg{Cache}{DBI}{SQLite}{Filename} =
-      "$Foswiki::cfg{WorkingDir}/${$}_sqlite.db";
-    $Foswiki::cfg{Cache}{Enabled} = 1;
+    $this->cfg->data->{Cache}{Implementation} =
+      'Foswiki::PageCache::DBI::SQLite';
+    $this->cfg->data->{Cache}{DBI}{SQLite}{Filename} =
+      $this->cfg->data->{WorkingDir} . "/${$}_sqlite.db";
+    $this->cfg->data->{Cache}{Enabled} = 1;
 }
 
 sub dbcheck_PostgreSQL {
-    return dbcheckDBI( 'Pg', 'PostgreSQL' );
+    my $this = shift;
+    return $this->dbcheckDBI( 'Pg', 'PostgreSQL' );
 }
 
 sub PostgreSQL {
+    my $this = shift;
     Foswiki::load_package('Foswiki::PageCache::DBI::PostgreSQL');
-    $Foswiki::cfg{Cache}{Implementation} =
+    $this->cfg->data->{Cache}{Implementation} =
       'Foswiki::PageCache::DBI::PostgreSQL';
-    $Foswiki::cfg{Cache}{Enabled} = 1;
+    $this->cfg->data->{Cache}{Enabled} = 1;
 }
 
 sub dbcheck_MySQL {
-    return dbcheckDBI( 'mysql', 'MySQL' );
+    my $this = shift;
+    return $this->dbcheckDBI( 'mysql', 'MySQL' );
 }
 
 sub MySQL {
+    my $this = shift;
     Foswiki::load_package('Foswiki::PageCache::DBI::MySQL');
-    $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::MySQL';
-    $Foswiki::cfg{Cache}{Enabled}        = 1;
+    $this->cfg->data->{Cache}{Implementation} =
+      'Foswiki::PageCache::DBI::MySQL';
+    $this->cfg->data->{Cache}{Enabled} = 1;
 }
 
 sub dbcheck_Generic {
-    return dbcheck_SQLite();
+    my $this = shift;
+    return $this->dbcheck_SQLite();
 }
 
 sub Generic {
-    $Foswiki::cfg{Cache}{DBI}{DSN} =
-      "dbi:SQLite:dbname=$Foswiki::cfg{WorkingDir}/${$}_generic.db";
+    my $this = shift;
+    $this->cfg->data->{Cache}{DBI}{DSN} =
+        "dbi:SQLite:dbname="
+      . $this->cfg->data->{WorkingDir}
+      . "/${$}_generic.db";
     Foswiki::load_package('Foswiki::PageCache::DBI::Generic');
-    $Foswiki::cfg{Cache}{Implementation} = 'Foswiki::PageCache::DBI::Generic';
-    $Foswiki::cfg{Cache}{Enabled}        = 1;
+    $this->cfg->data->{Cache}{Implementation} =
+      'Foswiki::PageCache::DBI::Generic';
+    $this->cfg->data->{Cache}{Enabled} = 1;
 }
 
 sub Compress {
-    $Foswiki::cfg{HttpCompress} = 1;
-    $Foswiki::cfg{Cache}{Compress} = 1;
+    my $this = shift;
+    $this->cfg->data->{HttpCompress} = 1;
+    $this->cfg->data->{Cache}{Compress} = 1;
 
     return;
 }
 
 sub NoCompress {
-    $Foswiki::cfg{HttpCompress} = 0;
-    $Foswiki::cfg{Cache}{Compress} = 0;
+    my $this = shift;
+    $this->cfg->data->{HttpCompress} = 0;
+    $this->cfg->data->{Cache}{Compress} = 0;
 
     return;
 }
@@ -242,13 +256,13 @@ sub _mangleID {
 around set_up => sub {
     my $orig = shift;
     my $this = shift;
-    $Foswiki::cfg{Cache}{Enabled} = 0;
+    $this->app->cfg->data->{Cache}{Enabled} = 0;
     $orig->( $this, @_ );
 
-    $Foswiki::cfg{HttpCompress} = 0;
-    $Foswiki::cfg{Cache}{Compress} = 0;
-    $this->oldDbiDsn( $Foswiki::cfg{Cache}{DBI}{DSN} );
-    $this->oldCacheDsn( $Foswiki::cfg{Cache}{DSN} );
+    $this->app->cfg->data->{HttpCompress} = 0;
+    $this->app->cfg->data->{Cache}{Compress} = 0;
+    $this->oldDbiDsn( $this->app->cfg->data->{Cache}{DBI}{DSN} );
+    $this->oldCacheDsn( $this->app->cfg->data->{Cache}{DSN} );
     delete $this->app->env->{FOSWIKI_TEST_PATH_INFO};
     delete $this->app->env->{FOSWIKI_TEST_ACTION};
     $this->clear_testUri;
@@ -258,11 +272,11 @@ around set_up => sub {
 around tear_down => sub {
     my $orig = shift;
     my $this = shift;
-    $Foswiki::cfg{Cache}{DBI}{DSN} = $this->oldDbiDsn;
-    $Foswiki::cfg{Cache}{DSN} = $this->oldCacheDsn;
+    $this->app->cfg->data->{Cache}{DBI}{DSN} = $this->oldDbiDsn;
+    $this->app->cfg->data->{Cache}{DSN} = $this->oldCacheDsn;
     $orig->($this);
-    unlink("$Foswiki::cfg{WorkingDir}/${$}_sqlite.db");
-    unlink("$Foswiki::cfg{WorkingDir}/${$}_generic.db");
+    unlink( $this->app->cfg->data->{WorkingDir} . "/${$}_sqlite.db" );
+    unlink( $this->app->cfg->data->{WorkingDir} . "/${$}_generic.db" );
 };
 
 sub _clearCache {
@@ -276,9 +290,9 @@ sub _clearCache {
             initializer => {
 
                 #refresh  => 'all',
-                skin     => ['none'],
-                action   => ['view'],
-                endPoint => '/Main/WebHome',
+                skin       => ['none'],
+                action     => ['view'],
+                redirectto => '/Main/WebHome',
             },
         },
         engineParams => {
@@ -288,11 +302,11 @@ sub _clearCache {
                 path_info => '/Main/WebHome',
                 method    => 'GET',
                 action    => 'view',
+                user      => $this->app->cfg->data->{AdminUserLogin},
             },
         },
-        context => { view => 1 },
-        user    => $Foswiki::cfg{AdminUserLogin},
     );
+    $this->app->enterContext->('view');
     print STDERR "_clearcache App created\n";
 
     my ( $one, $result, $stdout, $stderr ) = $this->capture(
@@ -320,9 +334,9 @@ sub _runQuery {
     $this->createNewFoswikiApp(
         requestParams => {
             initializer => {
-                skin     => ['none'],
-                action   => [ $this->testAction ],
-                endPoint => $this->testUri,
+                skin       => ['none'],
+                action     => [ $this->testAction ],
+                redirectto => $this->testUri,
             },
         },
         engineParams => {
@@ -332,11 +346,12 @@ sub _runQuery {
                 path_info => $this->testPathInfo,
                 method    => 'GET',
                 action    => $this->testAction,
+                user      => $this->test_user_login,
             },
         },
-        context => { $this->testAction => 1 },
-        user    => $this->test_user_login,
     );
+
+    $this->app->enterContext( $this->testAction );
 
     my ( $one, $result, $stdout, $stderr ) = $this->capture(
         sub {
@@ -355,9 +370,9 @@ sub check {
     $this->createNewFoswikiApp(
         requestParams => {
             initializer => {
-                skin     => ['none'],
-                action   => [ $this->testAction ],
-                endPoint => $this->testUri,
+                skin       => ['none'],
+                action     => [ $this->testAction ],
+                redirectto => $this->testUri,
             },
         },
         engineParams => {
@@ -367,11 +382,12 @@ sub check {
                 path_info => $this->testPathInfo,
                 method    => 'GET',
                 action    => $this->testAction,
+                user      => $this->test_user_login,
             },
         },
-        context => { $this->testAction => 1 },
-        user    => $this->test_user_login,
     );
+
+    $this->app->enterContext( $this->testAction );
 
     # This first request should *not* be satisfied from the cache, but
     # the cache should be populated with the result.
@@ -388,9 +404,9 @@ sub check {
     $this->createNewFoswikiApp(
         requestParams => {
             initializer => {
-                skin     => ['none'],
-                action   => [ $this->testAction ],
-                endPoint => $this->testUri,
+                skin       => ['none'],
+                action     => [ $this->testAction ],
+                redirectto => $this->testUri,
             },
         },
         engineParams => {
@@ -400,11 +416,12 @@ sub check {
                 path_info => $this->testPathInfo,
                 method    => 'GET',
                 action    => $this->testAction,
+                user      => $this->test_user_login,
             },
         },
-        context => { $this->testAction => 1, },
-        user    => $this->test_user_login,
     );
+
+    $this->app->enterContext( $this->testAction );
 
 }
 
@@ -412,7 +429,7 @@ sub check {
 sub check_timing {
     my ($this) = @_;
 
-    $Foswiki::cfg{Cache}{Debug} = 1;
+    $this->app->cfg->data->{Cache}{Debug} = 1;
     $this->_clearCache();
 
     # This first request should *not* be satisfied from the cache, but
@@ -478,10 +495,10 @@ sub check_refresh {
 
     my $user =
       ( $this->{param_refresh} eq 'all' )
-      ? $Foswiki::cfg{AdminUserLogin}
+      ? $this->app->cfg->data->{AdminUserLogin}
       : $this->{test_user_login};
 
-    $Foswiki::cfg{Cache}{Debug} = 1;
+    $this->app->cfg->data->{Cache}{Debug} = 1;
 
     $this->_runQuery();
 
@@ -537,7 +554,8 @@ sub verify_simple {
 
 sub verify_topic {
     my $this = shift;
-    $this->testUri("/$Foswiki::cfg{SystemWebName}/FileAttribute");
+    $this->testUri(
+        "/" . $this->app->cfg->data->{SystemWebName} . "/FileAttribute" );
     $this->check;
 }
 
