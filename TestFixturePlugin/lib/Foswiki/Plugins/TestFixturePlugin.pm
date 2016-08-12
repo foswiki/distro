@@ -14,12 +14,14 @@
 # http://www.gnu.org/copyleft/gpl.html
 #
 package Foswiki::Plugins::TestFixturePlugin;
+use v5.14;
 
 use strict;
 
 use Foswiki::Func                                   ();    # The plugins API
 use Foswiki::Attrs                                  ();
 use Foswiki::Plugins::TestFixturePlugin::HTMLDiffer ();
+use Foswiki::Exception;
 
 # This is a test plugin designed to interact with Foswiki testcases.
 # It should NOT be shipped with a release.
@@ -70,17 +72,17 @@ sub _parse {
             $gathering = 1;
         }
         elsif ( $tok =~ m/<!--\s*\/$tag\s*-->/ ) {
-            throw Error::Simple(
-                "<!-- /$tag --> found without matching <!-- $tag --> $lastTok")
-              unless ($gathering);
+            Foswiki::Exception::Fatal->throw( text =>
+                  "<!-- /$tag --> found without matching <!-- $tag --> $lastTok"
+            ) unless ($gathering);
             push( @list, { text => $lastTok, options => $opt } );
             $gathering = 0;
         }
         elsif ($gathering
             && $tok =~ m/^<!--\/?\s*(expected|actual).*?-->$/ )
         {
-            throw Error::Simple(
-                "$tok encountered when in open <!-- $tag --> bracket");
+            Foswiki::Exception::Fatal->throw(
+                text => "$tok encountered when in open <!-- $tag --> bracket" );
         }
         $lastTok = $tok;
     }
@@ -124,7 +126,7 @@ sub _compareExpectedWithActual {
             $e->{text} = $et;
         }
         if ( $e->{options} =~ m/\bexpand\b/ ) {
-            $et = Foswiki::Func::expandCommonVariables( $et, $topic, $web );
+            $et = $Foswiki::app->expandCommonVariables( $et, $topic, $web );
             $et =~ s/<noexpand>//g;
         }
         my $at      = $actual->[$i]->{text};
@@ -174,7 +176,7 @@ sub _processDiff {
 sub initPlugin {
     ( $topic, $web ) = @_;
 
-    Foswiki::Func::registerTagHandler( 'STRICTTAG', \&_STRICTTAG );
+    $Foswiki::app->plugins->registerTagHandler( 'STRICTTAG', \&_STRICTTAG );
 
     return 1;
 }
@@ -219,13 +221,13 @@ s/%insidePreHandler(\d+)%/$iph++;"$1IPH${iph}_line1\n$1IPH${iph}_line2\n$1IPH${i
 }
 
 sub postRenderingHandler {
-    my $q = Foswiki::Func::getCgiQuery();
+    my $q = $Foswiki::app->request;
     my $t;
     $t = $q->param('test') if ($q);
     $t = '' unless $t;
 
     if ( $t eq 'compare' && $_[0] =~ m/<!--\s*actual\s*-->/ ) {
-        my ( $meta, $expected ) = Foswiki::Func::readTopic( $web, $topic );
+        my ( $meta, $expected ) = $Foswiki::app->readTopic( $web, $topic );
         my $res = _compareExpectedWithActual(
             _parse( $expected, 'expected' ),
             _parse( $_[0],     'actual' ),
@@ -233,7 +235,7 @@ sub postRenderingHandler {
         );
         if ($res) {
             my $failmsg =
-              Foswiki::Func::expandCommonVariables('%FAILMSG{default=""}%');
+              $Foswiki::app->expandCommonVariables('%FAILMSG{default=""}%');
             $res =
               "<font color=\"red\">TESTS FAILED</font><p />$failmsg<p />$res";
         }
