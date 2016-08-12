@@ -2036,7 +2036,7 @@ sub _check_rendered_linktext {
     my $editpath      = Foswiki::Func::getScriptUrlPath( undef, undef, 'edit' );
     my $editpathregex = qr/^.*?\Q$editpath\E\/([^"]*)/;
     my $viewpath      = Foswiki::Func::getScriptUrlPath( undef, undef, 'view' );
-    my $viewpathregex = qr/^.*?\Q$viewpath\E\/([^"]*)/;
+    my $viewpathregex = qr/^.*href="\Q$viewpath\E\/([^"]*)/;
     my $html          = $this->test_topicObject->renderTML("[[$linktext]]");
     my $expectedAddress;
     my $expectedAddrObj;
@@ -2104,9 +2104,6 @@ sub test_sanity_link_tests {
 
 sub test_ampersand_querystring {
     my ($this) = shift;
-
-    $this->expect_failure( 'Test does\'t cater to ShortURL configurations',
-        using => 'ShortURLs' );
 
     $this->_check_rendered_linktext(
         $this->test_topic . "?q=r&s=t",
