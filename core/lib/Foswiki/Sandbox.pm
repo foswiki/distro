@@ -239,10 +239,12 @@ sub _cleanUpFilePath {
         $component ||= '';
         next if $component eq '.';
         if ( $component eq '..' ) {
-            throw Error::Simple( 'relative path in filename ' . $string );
+            Foswiki::Exception::Fatal->throw(
+                text => 'relative path in filename ' . $string );
         }
         elsif ( $component =~ m/$Foswiki::cfg{AttachmentNameFilter}/ ) {
-            throw Error::Simple( 'illegal characters in file name component "'
+            Foswiki::Exception::Fatal->throw(
+                    text => 'illegal characters in file name component "'
                   . $component
                   . '" of filename '
                   . $string );
@@ -374,7 +376,8 @@ sub _buildCommandLine {
                 # implicit untaint of template OK
                 my ( $p, $flag ) = ( $1, $2 );
                 if ( !exists $params{$p} ) {
-                    throw Error::Simple( 'unknown parameter name ' . $p );
+                    Foswiki::Exception::Fatal->throw(
+                        text => 'unknown parameter name ' . $p );
                 }
                 my $type = ref $params{$p};
                 my @params;
@@ -385,7 +388,8 @@ sub _buildCommandLine {
                     @params = @{ $params{$p} };
                 }
                 else {
-                    throw Error::Simple( $type . ' reference passed in ' . $p );
+                    Foswiki::Exception::Fatal->throw(
+                        text => $type . ' reference passed in ' . $p );
                 }
 
                 for my $param (@params) {
@@ -411,8 +415,8 @@ sub _buildCommandLine {
                             push @targs, $1;
                         }
                         else {
-                            throw Error::Simple(
-                                "invalid number argument '$param' $t");
+                            Foswiki::Exception::Fatal->throw(
+                                text => "invalid number argument '$param' $t" );
                         }
                     }
                     elsif ( $flag eq 'S' ) {
@@ -423,8 +427,8 @@ sub _buildCommandLine {
                             push @targs, untaintUnchecked($param);
                         }
                         else {
-                            throw Error::Simple(
-                                "invalid string argument '$param' $t");
+                            Foswiki::Exception::Fatal->throw(
+                                text => "invalid string argument '$param' $t" );
                         }
                     }
                     elsif ( $flag eq 'D' ) {
@@ -436,12 +440,13 @@ sub _buildCommandLine {
                             push @targs, $1;
                         }
                         else {
-                            throw Error::Simple(
-                                "invalid date argument '$param' $t");
+                            Foswiki::Exception::Fatal->throw(
+                                text => "invalid date argument '$param' $t" );
                         }
                     }
                     else {
-                        throw Error::Simple( 'illegal flag in ' . $t );
+                        Foswiki::Exception::Fatal->throw(
+                            text => 'illegal flag in ' . $t );
                     }
                 }
             }
@@ -565,7 +570,8 @@ sub sysCommand {
 
         my $pid = open( $handle, '-|' );
 
-        throw Error::Simple( 'open of pipe failed: ' . $! ) unless defined $pid;
+        Foswiki::Exception::Fatal->throw( text => 'open of pipe failed: ' . $! )
+          unless defined $pid;
 
         if ($pid) {
 
@@ -575,7 +581,8 @@ sub sysCommand {
             close $handle;
             $exit = ( $? >> 8 );
             if ( $exit == $key && $data =~ m/$key: (.*)/ ) {
-                throw Error::Simple("exec of $template failed: $1");
+                Foswiki::Exception::Fatal->throw(
+                    text => "exec of $template failed: $1" );
             }
         }
         else {
@@ -603,10 +610,12 @@ sub sysCommand {
         my $writeHandle;
 
         pipe( $readHandle, $writeHandle )
-          || throw Error::Simple( 'could not create pipe: ' . $! );
+          || Foswiki::Exception::Fatal->throw(
+            text => 'could not create pipe: ' . $! );
 
         my $pid = fork();
-        throw Error::Simple( 'fork() failed: ' . $! ) unless defined($pid);
+        Foswiki::Exception::Fatal->throw( text => 'fork() failed: ' . $! )
+          unless defined($pid);
 
         if ($pid) {
 
@@ -620,7 +629,8 @@ sub sysCommand {
             $pid = wait;    # wait for child process so we can get exit status
             $exit = ( $? >> 8 );
             if ( $exit == $key && $data =~ m/$key: (.*)/ ) {
-                throw Error::Simple( 'exec failed: ' . $1 );
+                Foswiki::Exception::Fatal->throw(
+                    text => 'exec failed: ' . $1 );
             }
 
         }

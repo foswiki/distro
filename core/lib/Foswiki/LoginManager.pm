@@ -120,7 +120,7 @@ sub makeLoginManager {
         }
         $use .= '; use CGI::Cookie ()';
         eval $use;
-        throw Error::Simple($@) if $@;
+        Foswiki::Exception::Fatal->throw( text => $@ ) if $@;
         if ( $req->https() ) {
             $sessionname = 'SFOSWIKISID';
         }
@@ -910,7 +910,7 @@ sub userLoggedIn {
 
             # Don't make a session for the guest user.
             unless ( $authUser eq $Foswiki::cfg{DefaultUserLogin}
-                && !$this->_guestSessions 
+                && !$this->_guestSessions
                 && !$app->inContext('sessionRequired') )
 
             {

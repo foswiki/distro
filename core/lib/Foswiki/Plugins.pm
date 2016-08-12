@@ -162,7 +162,8 @@ sub preload {
                         $pn,
                         sub {
                             my $pn = shift;
-                            throw Error::Simple('Bad debugenableplugins')
+                            Foswiki::Exception::Fatal->throw(
+                                text => 'Bad debugenableplugins' )
                               unless $pn =~ m/^[a-zA-Z0-9_]+$/;
                             return $pn;
                         }

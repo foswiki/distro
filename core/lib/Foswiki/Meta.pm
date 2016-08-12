@@ -3209,7 +3209,7 @@ time (see perldoc -f -X for more information)
 Other standard Perl file tests may also be supported on some store
 implementations, but cannot be relied on.
 
-Errors will be signalled by an Error::Simple exception.
+Errors will be signalled by an exception.
 
 =cut
 

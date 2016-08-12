@@ -255,10 +255,8 @@ has remoteUser => (
 );
 has user => (
     is        => 'rw',
-    lazy      => 1,
     clearer   => 1,
     predicate => 1,
-    builder   => '_prepareUser',
 );
 has users => (
     is        => 'rw',
