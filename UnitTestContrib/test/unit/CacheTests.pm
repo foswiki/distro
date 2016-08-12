@@ -19,6 +19,7 @@ has testPathInfo =>
 has oldDbiDsn     => ( is => 'rw', );
 has oldCacheDsn   => ( is => 'rw', );
 has param_refresh => ( is => 'rw', );
+has testUserLogin => ( is => 'rw', default => sub { $_[0]->test_user_login }, );
 
 sub fixture_groups {
     my $this = shift;
@@ -125,11 +126,11 @@ sub dbcheck_SQLite {
 sub SQLite {
     my $this = shift;
     Foswiki::load_package('Foswiki::PageCache::DBI::SQLite');
-    $this->cfg->data->{Cache}{Implementation} =
+    $this->app->cfg->data->{Cache}{Implementation} =
       'Foswiki::PageCache::DBI::SQLite';
-    $this->cfg->data->{Cache}{DBI}{SQLite}{Filename} =
-      $this->cfg->data->{WorkingDir} . "/${$}_sqlite.db";
-    $this->cfg->data->{Cache}{Enabled} = 1;
+    $this->app->cfg->data->{Cache}{DBI}{SQLite}{Filename} =
+      $this->app->cfg->data->{WorkingDir} . "/${$}_sqlite.db";
+    $this->app->cfg->data->{Cache}{Enabled} = 1;
 }
 
 sub dbcheck_PostgreSQL {
@@ -140,9 +141,9 @@ sub dbcheck_PostgreSQL {
 sub PostgreSQL {
     my $this = shift;
     Foswiki::load_package('Foswiki::PageCache::DBI::PostgreSQL');
-    $this->cfg->data->{Cache}{Implementation} =
+    $this->app->cfg->data->{Cache}{Implementation} =
       'Foswiki::PageCache::DBI::PostgreSQL';
-    $this->cfg->data->{Cache}{Enabled} = 1;
+    $this->app->cfg->data->{Cache}{Enabled} = 1;
 }
 
 sub dbcheck_MySQL {
@@ -153,9 +154,9 @@ sub dbcheck_MySQL {
 sub MySQL {
     my $this = shift;
     Foswiki::load_package('Foswiki::PageCache::DBI::MySQL');
-    $this->cfg->data->{Cache}{Implementation} =
+    $this->app->cfg->data->{Cache}{Implementation} =
       'Foswiki::PageCache::DBI::MySQL';
-    $this->cfg->data->{Cache}{Enabled} = 1;
+    $this->app->cfg->data->{Cache}{Enabled} = 1;
 }
 
 sub dbcheck_Generic {
@@ -165,28 +166,28 @@ sub dbcheck_Generic {
 
 sub Generic {
     my $this = shift;
-    $this->cfg->data->{Cache}{DBI}{DSN} =
+    $this->app->cfg->data->{Cache}{DBI}{DSN} =
         "dbi:SQLite:dbname="
-      . $this->cfg->data->{WorkingDir}
+      . $this->app->cfg->data->{WorkingDir}
       . "/${$}_generic.db";
     Foswiki::load_package('Foswiki::PageCache::DBI::Generic');
-    $this->cfg->data->{Cache}{Implementation} =
+    $this->app->cfg->data->{Cache}{Implementation} =
       'Foswiki::PageCache::DBI::Generic';
-    $this->cfg->data->{Cache}{Enabled} = 1;
+    $this->app->cfg->data->{Cache}{Enabled} = 1;
 }
 
 sub Compress {
     my $this = shift;
-    $this->cfg->data->{HttpCompress} = 1;
-    $this->cfg->data->{Cache}{Compress} = 1;
+    $this->app->cfg->data->{HttpCompress} = 1;
+    $this->app->cfg->data->{Cache}{Compress} = 1;
 
     return;
 }
 
 sub NoCompress {
     my $this = shift;
-    $this->cfg->data->{HttpCompress} = 0;
-    $this->cfg->data->{Cache}{Compress} = 0;
+    $this->app->cfg->data->{HttpCompress} = 0;
+    $this->app->cfg->data->{Cache}{Compress} = 0;
 
     return;
 }
@@ -283,16 +284,15 @@ sub _clearCache {
     my ( $this, $pathinfo ) = @_;
 
     $this->app->cfg->data->{Cache}{Debug} = 1;
-    print STDERR "_clearCache entered\n";
 
     $this->createNewFoswikiApp(
         requestParams => {
             initializer => {
 
-                #refresh  => 'all',
-                skin       => ['none'],
-                action     => ['view'],
-                redirectto => '/Main/WebHome',
+                refresh  => 'all',
+                skin     => ['none'],
+                action   => ['view'],
+                endPoint => '/Main/WebHome',
             },
         },
         engineParams => {
@@ -306,7 +306,8 @@ sub _clearCache {
             },
         },
     );
-    $this->app->enterContext->('view');
+
+    #$this->app->enterContext->('view');
     print STDERR "_clearcache App created\n";
 
     my ( $one, $result, $stdout, $stderr ) = $this->capture(
@@ -314,7 +315,8 @@ sub _clearCache {
             return $this->app->handleRequest;
         }
     );
-    print STDERR "_clearcache exit\n";
+
+=begin TML
     print STDERR
 "== ONE ===\n$one\n==========================================================================\n";
     print STDERR
@@ -324,19 +326,30 @@ sub _clearCache {
     print STDERR
 "== STDERR ===\n$stderr\n==========================================================================\n";
     return;
+=cut
+
 }
 
 sub _runQuery {
-    my $this = shift;
+    my $this    = shift;
+    my $refresh = shift;
 
     $this->app->cfg->data->{Cache}{Debug} = 1;
+
+    $refresh =
+      ($refresh)
+      ? $this->param_refresh
+      : '';
+
+    print STDERR "REFRESH set to $refresh\n";
 
     $this->createNewFoswikiApp(
         requestParams => {
             initializer => {
-                skin       => ['none'],
-                action     => [ $this->testAction ],
-                redirectto => $this->testUri,
+                refresh  => $refresh,
+                skin     => ['none'],
+                action   => [ $this->testAction ],
+                endPoint => $this->testUri,
             },
         },
         engineParams => {
@@ -346,9 +359,10 @@ sub _runQuery {
                 path_info => $this->testPathInfo,
                 method    => 'GET',
                 action    => $this->testAction,
-                user      => $this->test_user_login,
+                user      => $this->testUserLogin,
             },
         },
+        context => { $this->testAction => 1 },
     );
 
     $this->app->enterContext( $this->testAction );
@@ -493,24 +507,23 @@ sub check_refresh {
 
     $this->_clearCache();
 
-    my $user =
-      ( $this->{param_refresh} eq 'all' )
-      ? $this->app->cfg->data->{AdminUserLogin}
-      : $this->{test_user_login};
+    $this->testUserLogin(
+        ( $this->param_refresh eq 'all' )
+        ? $this->app->cfg->data->{AdminUserLogin}
+        : $this->{test_user_login}
+    );
 
     $this->app->cfg->data->{Cache}{Debug} = 1;
 
-    $this->_runQuery();
-
     # This first request should prime the cache
-    my $one = $this->_runQuery( $this->{param_refresh} );
+    my $one = $this->_runQuery();
 
     # This second request should be satisfied from the cache
     my $two = $this->_runQuery();
 
     # This third request with refresh should not be satisfied from the cache
 
-    my $three = $this->_runQuery( $this->{param_refresh} );
+    my $three = $this->_runQuery(1);
 
     $this->assert( $one =~ s/\r//g,          'Failed to remove \r' );
     $this->assert( $one =~ s/^(.*?)\n\n+//s, 'Failed to remove HTTP headers' );
