@@ -1013,7 +1013,11 @@ sub parse {
     print STDERR "Processing path ($query_path)\n" if TRACE;
     my $topic_flag;
 
-    $query_path =~ s{/+}{/}g;    # Remove duplicate slashes
+    $query_path =~ s{^/+}{/}g;    # Remove duplicate leading slashes
+
+# SMELL:  The leading slash is *always* present in the pathInfo, but should
+# not be there in the topic=blah  query param.   So if the leading slash is missing,
+# then we assume we are parsing a topic= parameter, and not the URI.
 
     if ( index( $query_path, '/' ) == 0 ) {
         substr $query_path, 0, 1, "";    # remove first character
@@ -1026,39 +1030,23 @@ sub parse {
     # trailingSlash Flag - hint that you want the web even if the topic exists
     my $trailingSlash = ( $query_path =~ s/\/$// );
 
-    # Try the simple,  split on dot, maybe it will work.
-    my ( $tweb, $ttopic ) = split( /\./, $query_path );
-    if ( defined $ttopic ) {
-
-        my $web = Foswiki::Sandbox::untaint( $tweb,
-            \&Foswiki::Sandbox::validateWebName );
-
-        my $topic = Foswiki::Sandbox::untaint( $ttopic,
-            \&Foswiki::Sandbox::validateTopicName );
-
-        my $resp = { web => $web, topic => $topic };
-        $resp->{invalidWeb}   = $tweb   unless defined $web;
-        $resp->{invalidTopic} = $ttopic unless defined $topic;
-
-        print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
-        return $resp;
-    }
-
-    my @parts = split( /\//, $query_path );    # split the path
+    my @parts = split( /[\/.]+/, $query_path );   # split the path, dot or slash
 
     # Single component.  It's a web unless the $topic_flag is set.
     if ( scalar(@parts) eq 1 ) {
-        print STDERR "Checking single component:\n" if TRACE;
+        print STDERR "Checking single component: $query_path \n" if TRACE;
         my $resp = {};
         if ($topic_flag) {
-            $resp->{topic} = Foswiki::Sandbox::untaint( $query_path,
+            $resp->{topic} =
+              Foswiki::Sandbox::untaint( $parts[0],
                 \&Foswiki::Sandbox::validateTopicName );
-            $resp->{invalidTopic} = $query_path unless defined $resp->{topic};
+            $resp->{invalidTopic} = $parts[0] unless defined $resp->{topic};
         }
         else {
-            $resp->{web} = Foswiki::Sandbox::untaint( $query_path,
+            $resp->{web} =
+              Foswiki::Sandbox::untaint( $parts[0],
                 \&Foswiki::Sandbox::validateWebName );
-            $resp->{invalidWeb} = $query_path unless defined $resp->{web};
+            $resp->{invalidWeb} = $parts[0] unless defined $resp->{web};
         }
         return $resp;
     }
