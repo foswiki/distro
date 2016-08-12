@@ -16,8 +16,9 @@ has testAction => ( is => 'rw', );
 has testUri => ( is => 'rw', clearer => 1, );
 has testPathInfo =>
   ( is => 'rw', clearer => 1, lazy => 1, default => sub { $_[0]->testUri }, );
-has oldDbiDsn   => ( is => 'rw', );
-has oldCacheDsn => ( is => 'rw', );
+has oldDbiDsn     => ( is => 'rw', );
+has oldCacheDsn   => ( is => 'rw', );
+has param_refresh => ( is => 'rw', );
 
 sub fixture_groups {
     my $this = shift;
@@ -268,19 +269,66 @@ sub _clearCache {
     my ( $this, $pathinfo ) = @_;
 
     $this->app->cfg->data->{Cache}{Debug} = 1;
+    print STDERR "_clearCache entered\n";
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+
+                #refresh  => 'all',
+                skin     => ['none'],
+                action   => ['view'],
+                endPoint => '/Main/WebHome',
+            },
+        },
+        engineParams => {
+            simulate          => 'cgi',
+            initialAttributes => {
+                uri       => "/Main/WebHome",
+                path_info => '/Main/WebHome',
+                method    => 'GET',
+                action    => 'view',
+            },
+        },
+        context => { view => 1 },
+        user    => $Foswiki::cfg{AdminUserLogin},
+    );
+    print STDERR "_clearcache App created\n";
+
+    my ( $one, $result, $stdout, $stderr ) = $this->capture(
+        sub {
+            return $this->app->handleRequest;
+        }
+    );
+    print STDERR "_clearcache exit\n";
+    print STDERR
+"== ONE ===\n$one\n==========================================================================\n";
+    print STDERR
+"== RESULT ===\n$result\n==========================================================================\n";
+    print STDERR
+"== STDOUT ===\n$stdout\n==========================================================================\n";
+    print STDERR
+"== STDERR ===\n$stderr\n==========================================================================\n";
+    return;
+}
+
+sub _runQuery {
+    my $this = shift;
+
+    $this->app->cfg->data->{Cache}{Debug} = 1;
 
     $this->createNewFoswikiApp(
         requestParams => {
             initializer => {
                 skin     => ['none'],
-                action   => ['view'],
+                action   => [ $this->testAction ],
                 endPoint => $this->testUri,
             },
         },
         engineParams => {
             simulate          => 'cgi',
             initialAttributes => {
-                uri       => "/$Foswiki::cfg{SystemWebName}/FileAttribute",
+                uri       => $this->testUri,
                 path_info => $this->testPathInfo,
                 method    => 'GET',
                 action    => $this->testAction,
@@ -290,7 +338,13 @@ sub _clearCache {
         user    => $this->test_user_login,
     );
 
-    return $this->app->handleRequest;
+    my ( $one, $result, $stdout, $stderr ) = $this->capture(
+        sub {
+            return $this->app->handleRequest;
+        }
+    );
+
+    return $one;
 }
 
 sub check {
@@ -414,45 +468,6 @@ s/<(span|div)([^>]*?)(\d+?)(show|hide|toggle)([^>]*?)>/'<'.$1.$2._mangleID($3).$
     $this->assert_html_equals( $one, $two );
 
     return;
-}
-
-# Run a query using the global settings established by the variations.
-sub _runQuery {
-    my $this    = shift;
-    my $refresh = shift;
-
-    $this->{uifn} ||= 'view';
-
-    my $user =
-      ( $this->{param_refresh} eq 'all' )
-      ? $Foswiki::cfg{AdminUserLogin}
-      : $this->{test_user_login};
-
-    $this->{query}->path_info( $this->{path_info} );
-    $this->{query}->param( 'topic', $this->{param_topic} )
-      if defined $this->{param_topic};
-    $this->{query}->param( 'load', $this->{param_load} )
-      if defined $this->{param_load};
-
-    if ($refresh) {
-        $this->{query}->param( 'refresh', $refresh );
-    }
-    else {
-        $this->{query}->delete('refresh');
-    }
-
-    $this->createNewFoswikiSession( $user, $this->{query},
-        { $this->{uifn} => 1 } );
-
-    my ( $resp, $result, $stdout, $stderr ) = $this->capture(
-        sub {
-            no strict 'refs';
-            use strict 'refs';
-            $Foswiki::engine->finalize( $this->{session}{response},
-                $this->{session}{request} );
-        }
-    );
-    return $resp;
 }
 
 sub check_refresh {

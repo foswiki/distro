@@ -968,6 +968,9 @@ sub satisfiedByCache {
 
     my $hdrs = { 'Content-Type' => $cachedPage->{contenttype} };
 
+    # Mark the response so we know it was satisfied from the cache
+    $hdrs->{'X-Foswiki-PageCache'} = 1;
+
     # render uncacheable areas
     my $text = $cachedPage->{data};
 
@@ -986,8 +989,6 @@ sub satisfiedByCache {
             $hdrs->{'Content-Encoding'} = $encoding;
             $hdrs->{'Vary'}             = 'Accept-Encoding';
 
-            # Mark the response so we know it was satisfied from the cache
-            $hdrs->{'X-Foswiki-PageCache'} = 1;
         }
         else {
         # e.g. CLI request satisfied from the cache, or old browser that doesn't
