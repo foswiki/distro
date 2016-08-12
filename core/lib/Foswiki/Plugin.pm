@@ -7,6 +7,7 @@ package Foswiki::Plugin;
 
 use Try::Tiny;
 
+use Foswiki::Func;
 use Foswiki::Plugins                ();
 use Foswiki::AccessControlException ();
 use Foswiki::OopsException          ();
