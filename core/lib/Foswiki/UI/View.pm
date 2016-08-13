@@ -145,9 +145,13 @@ sub view {
         {
 
             if ( $Foswiki::cfg{FeatureAccess}{AllowRaw} eq 'authenticated' ) {
-                throw Foswiki::AccessControlException( 'authenticated',
-                    $app->user, $web, $topic, $Foswiki::Meta::reason )
-                  unless $app->inContext("authenticated");
+                Foswiki::AccessControlException->throw(
+                    mode   => 'raw',
+                    user   => $app->user,
+                    web    => $web,
+                    topic  => $topic,
+                    reason => 'Authentication required'
+                ) unless $app->inContext("authenticated");
             }
             else {
                 $this->checkAccess( 'RAW', $topicObject )
@@ -163,9 +167,13 @@ sub view {
 
             if ( $Foswiki::cfg{FeatureAccess}{AllowHistory} eq 'authenticated' )
             {
-                throw Foswiki::AccessControlException( 'authenticated',
-                    $app->user, $web, $topic, $Foswiki::Meta::reason )
-                  unless $app->inContext("authenticated");
+                Foswiki::AccessControlException->throw(
+                    mode   => 'history',
+                    user   => $app->user,
+                    web    => $web,
+                    topic  => $topic,
+                    reason => 'Authentication required'
+                ) unless $app->inContext("authenticated");
             }
             else {
                 $this->checkAccess( 'HISTORY', $topicObject );
@@ -198,8 +206,13 @@ sub view {
                 $topicObject =
                   Foswiki::Meta->load( $app, $web, $topic, $showRev );
                 if ( !$topicObject->haveAccess('VIEW') ) {
-                    throw Foswiki::AccessControlException( 'VIEW',
-                        $app->user, $web, $topic, $Foswiki::Meta::reason );
+                    Foswiki::AccessControlException->throw(
+                        mode   => 'VIEW',
+                        user   => $app->user,
+                        web    => $web,
+                        topic  => $topic,
+                        reason => $topicObject->reason
+                    );
                 }
                 $logEntry .= 'r' . $requestedRev;
             }
