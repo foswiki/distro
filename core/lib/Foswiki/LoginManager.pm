@@ -537,7 +537,7 @@ sub loadSession {
     # is this a logout?
     if (
         ( $authUser && $authUser ne $Foswiki::cfg{DefaultUserLogin} )
-        && (   $this->_cgisession
+        && (   $this->_has_cgisession
             && $app->request
             && $app->request->param('logout') )
       )
@@ -562,9 +562,9 @@ sub loadSession {
             $authUser = $sudoUser;
         }
         else {
-            $this->{_cgisession}->delete();
-            $this->{_cgisession}->flush();
-            $this->{_cgisession} = undef;
+            $this->_cgisession->delete();
+            $this->_cgisession->flush();
+            $this->_clear_cgisession;
             $this->_delSessionCookieFromResponse();
 
             $authUser =
@@ -586,7 +586,7 @@ sub loadSession {
         && !$this->_guestSessions
         && !$app->inContext('sessionRequired') );
 
-    if ( $this->{_cgisession} ) {
+    if ( $this->_has_cgisession ) {
 
         # Restore CGI Session parameters
         for ( $this->_cgisession->param ) {
@@ -730,7 +730,7 @@ to. Flush the user's session (if any) to disk.
 sub complete {
     my $this = shift;
 
-    if ( $this->_cgisession ) {
+    if ( $this->_has_cgisession ) {
         $this->_cgisession->flush;
         if ( $this->_cgisession->errstr ) {
             if (DEBUG) {
@@ -843,7 +843,7 @@ sub userLoggedIn {
             $this->_cgisession( $this->_loadCreateCGISession( $app->request ) );
 
             die Foswiki::LoginManager::Session->errstr()
-              unless $this->_cgisession;
+              unless $this->_has_cgisession;
         }
     }
 
@@ -937,10 +937,10 @@ sub userLoggedIn {
         }
     }
 
-    if ( $this->{_cgisession} ) {
+    if ( $this->_has_cgisession ) {
         $this->_addSessionCookieToResponse();
         $app->prefs->setInternalPreferences(
-            SESSIONID  => $this->{_cgisession}->id(),
+            SESSIONID  => $this->_cgisession->id(),
             SESSIONVAR => $CGI::Session::NAME
         );
     }
@@ -1035,7 +1035,7 @@ sub _rewriteURL {
 sub _rewriteFORM {
     my ( $this, $url, $rest ) = @_;
 
-    return $url . $rest unless $this->_cgisession;
+    return $url . $rest unless $this->_has_cgisession;
 
     my $s = _myScriptURLRE($this);
 
@@ -1203,7 +1203,7 @@ sub rewriteRedirectUrl {
 
     my ( $this, $url ) = @_;
 
-    return $url unless $this->_cgisession;
+    return $url unless $this->_has_cgisession;
 
     if ( $Foswiki::cfg{Sessions}{IDsInURLs} && !$this->_haveCookie ) {
         $url = _rewriteURL( $this, $url );
@@ -1255,7 +1255,7 @@ Get the value of a session variable.
 
 sub getSessionValue {
     my ( $this, $key ) = @_;
-    return unless $this->_cgisession;
+    return unless $this->_has_cgisession;
 
     return $this->_cgisession->param($key);
 }
