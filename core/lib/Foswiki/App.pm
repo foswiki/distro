@@ -357,12 +357,13 @@ sub BUILD {
         $ENV{PATH} = $cfgData->{SafeEnvPath};
     }
     else {
-        # Default $ENV{PATH} must be untainted because
-        # Foswiki may be run with the -T flag.
-        # SMELL: how can we validate the PATH?
-        $this->systemMessage(
-"Unsafe shell variable PATH is used, consider setting SafeEnvPath configuration parameter."
-        );
+# Default $ENV{PATH} must be untainted because
+# Foswiki may be run with the -T flag.
+# SMELL: how can we validate the PATH?
+# Configure now warns, suppress the broadcast warning.
+#        $this->systemMessage(
+#"Unsafe shell variable PATH is used, consider setting SafeEnvPath configuration parameter."
+#        );
         $ENV{PATH} = Foswiki::Sandbox::untaintUnchecked( $ENV{PATH} );
     }
     delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
