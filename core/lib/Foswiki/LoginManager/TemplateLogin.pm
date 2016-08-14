@@ -343,6 +343,10 @@ sub login {
     $tmpl = $topicObject->expandMacros($tmpl);
     $tmpl = $topicObject->renderTML($tmpl);
     $tmpl =~ s/<nop>//g;
+    if ( $app->zones ) {
+
+        $tmpl = $app->zones->_renderZones($tmpl);
+    }
     $res->body($tmpl);
 }
 
