@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1440762818" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1471367578" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! %SYSTEMWEB%.PatternSkin Customization
 
@@ -332,25 +332,39 @@ raw_link
 ---++ Other page parts
 
 ---+++ I want to insert text outside of the topic content
-
 !PatternSkin has 2 'buckets' to write additional content to: =contentheader= and =contentfooter=, both defined in =view.pattern.tmpl=. These containers can contain text or html and are placed directly before and after the topic text.
 
 Both modules are wrapped in CSS containers:
-   * =contentheader= - wrapped in =div= of class =foswikiContentHeader=
-   * =contentfooter= - wrapped in =div= of class =foswikiContentFooter=
+   * =contentheader= - wrapped in =div= of class =foswikiContentHeader=. Expands =beforetext= template.
+   * =contentfooter= - wrapped in =div= of class =foswikiContentFooter=. Expands =aftertext= template.
    
+Note: the =contentheader= and =contentfooter= templates are
+PatternSkin specific names for the =beforetext= and =aftertext= templates.  For best
+compatibility with other skins, you should override =beforetext=, and/or =aftertext=.
+
 To put contents *before* the main text, use the custom skin approach as described above.%BR%
 So our custom template contains:
 <verbatim class="tml">
 %TMPL:INCLUDE{"view"}%
-%TMPL:DEF{"contentheader"}%This is the text before%TMPL:END%
+%TMPL:DEF{"beforetext"}%This is the text before%TMPL:END%
 </verbatim>
 
 Use the same procedure for contents to be put *after* the topic text:
 <verbatim class="tml">
 %TMPL:INCLUDE{"view"}%
-%TMPL:DEF{"contentfooter"}%This is the text after%TMPL:END%
+%TMPL:DEF{"aftertext"}%This is the text after%TMPL:END%
 </verbatim>
+
+<div class="foswikiHelp">%T% Hint: These templates are often used by
+extensions to add to the page above or below the topic contents.  Rather than
+simply replacing them, consider extending them by using the =TMPL:PREV= option
+to expand the previous definition of the template.
+<verbatim class="tml">
+%TMPL:INCLUDE{"view"}%
+%TMPL:DEF{"beforetext"}%This text prefaces other aftertext templates.%TMPL:PREV%%TMPL:END%
+%TMPL:DEF{"aftertext"}%%TMPL:PREV%This text extends other aftertext templates.%TMPL:END%
+</verbatim>
+</div>
 
 ---+++ I want to place the form at the top
 

@@ -38,8 +38,9 @@ sub check_current_value {
     }
 
     unless ( $Foswiki::cfg{SafeEnvPath} ) {
-        $reporter->NOTE(
-"Without a setting of {SafeEnvPath}, the PATH used will be taken from the PATH environment variable: $envPath"
+        $reporter->WARN(
+"Without a setting of {SafeEnvPath}, the PATH used will be taken from the PATH environment variable: =$envPath= \
+For best security, it is recommended to enable and set the SafeEnvPath."
         );
         return;
     }

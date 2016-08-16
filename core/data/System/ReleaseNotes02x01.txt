@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1462215486" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1471367578" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.1
 
@@ -101,6 +101,9 @@ extension installation and accessing remote sites with the INCLUDE macro.
 
 The =%<nop>HTTP%= and =%<nop>HTTPS%= macros are deprecated and will be removed in a future release.  These macros now restrict the available information to the
 =Accept-language= and =User-Agent= headers.  The list of available headers is now configurable.
+
+The PatternSkin created =contentheader= and =contentfooter= as aliases for the =beforetext= and =aftertext= templates and deprecated the older templates.  As
+this broke compatibity with other skins, that deprecation has been reversed.  For best compatibiliy continue to use =beforetext= and =aftertext=.
 
 ---++ API Change
 
