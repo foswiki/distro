@@ -72,20 +72,20 @@ require Foswiki::Configure::Query;
 
         # Take out active elements
         $text =~ s/<(button|select|option|textarea).*?<\/\1>//g;
-        print $text;
+        print Encode::encode_utf8($text);
     }
 
     sub WARN {
         my $this = shift;
         $this->{warnings}++;
-        print "WARNING: ";
+        print Encode::encode_utf8("WARNING: ");
         $this->NOTE(@_);
     }
 
     sub ERROR {
         my $this = shift;
         $this->{errors}++;
-        print "#### ERROR: ";
+        print Encode::encode_utf8("#### ERROR: ");
         $this->NOTE(@_);
     }
 
@@ -93,7 +93,8 @@ require Foswiki::Configure::Query;
         my ( $this, $k ) = @_;
         $this->SUPER::CHANGED($k);
 
-        print "\$Foswiki::cfg$k = $this->{changes}->{$k};\n";
+        print Encode::encode_utf8(
+            "\$Foswiki::cfg$k = $this->{changes}->{$k};\n");
     }
 
     sub WIZARD {
