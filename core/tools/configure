@@ -78,14 +78,14 @@ require Foswiki::Configure::Query;
     sub WARN {
         my $this = shift;
         $this->{warnings}++;
-        print Encode::encode_utf8("WARNING: ");
+        print "WARNING: ";
         $this->NOTE(@_);
     }
 
     sub ERROR {
         my $this = shift;
         $this->{errors}++;
-        print Encode::encode_utf8("#### ERROR: ");
+        print "#### ERROR: ";
         $this->NOTE(@_);
     }
 
