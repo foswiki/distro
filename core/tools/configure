@@ -71,7 +71,7 @@ use Foswiki::Configure::Query;
 
         # Take out active elements
         $text =~ s/<(button|select|option|textarea).*?<\/\1>//g;
-        print $text;
+        print Encode::encode_utf8($text);
     };
 
     around WARN => sub {
@@ -96,7 +96,8 @@ use Foswiki::Configure::Query;
 
         $orig->( $this, $k );
 
-        print "\$Foswiki::cfg$k = " . $this->changes->{$k} . ";\n";
+        print Encode::encode_utf8(
+            "\$Foswiki::cfg$k = " . $this->changes->{$k} . ";\n");
     };
 
     around WIZARD => sub {
@@ -111,7 +112,6 @@ use Foswiki::Configure::Query;
 };
 
 # Command-line parameter handling
-
 my $params = {
     keys   => [],
     method => 'check_current_value',

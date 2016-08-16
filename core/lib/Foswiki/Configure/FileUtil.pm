@@ -417,7 +417,7 @@ sub checkTreePerms {
     if (   $perms =~ m/p/
         && $path =~ m/\Q$Foswiki::cfg{DataDir}\E\/(.+)$/
         && -d $path
-        && ( substr( $path, -4 ) ne ',pfv' ) )
+        && $path !~ m#,pfv# )
     {
         unless ( -e "$path/$Foswiki::cfg{WebPrefsTopicName}.txt" ) {
             unless ( $report{missingFile}++ > $options{maxMissingFile} ) {
@@ -460,7 +460,7 @@ sub checkTreePerms {
     opendir( my $Dfh, $path )
       or return "Directory $path is not readable.";
 
-    foreach my $e ( grep { !/^\./ } _readdir($Dfh) ) {
+    foreach my $e ( grep { !/^\.\.?$/ } _readdir($Dfh) ) {
         my $p = $path . '/' . $e;
         my $subreport = checkTreePerms( $p, $perms, %options );
         while ( my ( $k, $v ) = each %report ) {
