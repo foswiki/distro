@@ -114,10 +114,8 @@ use Encode ();
 
 use Foswiki::Serialise ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 #use Foswiki::Iterator::NumberRangeIterator;
 
@@ -443,45 +441,39 @@ sub registerMETA {
 ############# GENERIC METHODS #############
 
 around BUILDARGS => sub {
-    my $orig  = shift;
-    my $class = shift;
-    my ( $app, $web, $topic, $text ) = @_;
+    my $orig   = shift;
+    my $class  = shift;
+    my %params = @_;
 
-    my %params;
-    if ( @_ % 2 == 0 ) {
+    $class ||= ref($class);
 
-        # Check if we've got key/value pair profile with app key pointing at
-        # another Meta object.
-        %params = @_;
-        if ( defined $params{app}
-            && $params{app}->isa('Foswiki::Meta') )
-        {
-            ASSERT(  !defined( $params{web} )
-                  && !defined( $params{topic} )
-                  && !defined( $params{text} ) );
-            my $sourceMeta = $params{app};
-            $params{app}   = $sourceMeta->app;
-            $params{web}   = $sourceMeta->web;
-            $params{topic} = $sourceMeta->topic;
-        }
+    #my ( $app, $web, $topic, $text ) = @_;
+
+    # Check if we've got key/value pair profile with app key pointing at
+    # another Meta object.
+    if ( defined $params{app}
+        && $params{app}->isa('Foswiki::Meta') )
+    {
+        ASSERT(
+            !defined( $params{web} )
+              && !defined( $params{topic} )
+              && !defined( $params{text} ),
+            "Initialization of a new "
+              . $class
+              . " object from another object of "
+              . __PACKAGE__
+              . " type must not define neither web, nor topic, nor text attributes."
+        );
+        my $sourceMeta = $params{app};
+        $params{app}   = $sourceMeta->app;
+        $params{web}   = $sourceMeta->web;
+        $params{topic} = $sourceMeta->topic;
     }
 
-    # If by this point there is no valid app key in the parameters then we
-    # deal with positional parameters.
-    my $paramHash;
-    unless ( defined $params{app} && $params{app}->isa('Foswiki::App') ) {
+    delete $params{web}   unless defined $params{web};
+    delete $params{topic} unless defined $params{topic};
 
-        # Let the base BUILDARGS deal with those.
-        $paramHash = $orig->( $class, @_ );
-    }
-    else {
-        $paramHash = {%params};
-    }
-
-    delete $paramHash->{web}   unless defined $paramHash->{web};
-    delete $paramHash->{topic} unless defined $paramHash->{topic};
-
-    return $paramHash;
+    return $orig->( $class, %params );
 };
 
 =begin TML
@@ -508,6 +500,9 @@ prototype object (which must be type Foswiki::Meta).
 
 sub BUILD {
     my $this = shift;
+
+    ASSERT( $this->does('Foswiki::AppObject'), "No AppObject role!" );
+    ASSERT( $this->can('app'),                 "No app method!" );
 
     # Note: internal fields are prepended with _. All uppercase
     # fields will be assumed to be meta-data.
@@ -3022,12 +3017,18 @@ sub attach {
                 while ( $r = sysread( $opts{stream}, $transfer, 0x80000 ) ) {
                     if ( !defined $r ) {
                         next if ( $! == Errno::EINTR );
-                        die "system read error: $!\n";
+                        Foswiki::Exception::FileOp->throw(
+                            file => "(a temporary handle)",
+                            op   => "sysread"
+                        );
                     }
                     my $offset = 0;
                     while ($r) {
                         my $w = syswrite( $fh, $transfer, $r, $offset );
-                        die "system write error: $!\n" unless ( defined $w );
+                        Foswiki::Exception::FileOp->throw(
+                            file => "(a temporary handle)",
+                            op   => "syswrite",
+                        ) unless ( defined $w );
                         $offset += $w;
                         $r -= $w;
                     }
@@ -3045,7 +3046,10 @@ sub attach {
 
             # Have to assume it's changed, even if it hasn't.
             open( $attrs->{stream}, '<', $attrs->{tmpFilename} )
-              || die "Internal error: $!";
+              || Foswiki::Exception::FileOp(
+                file => $attrs->{tmpFilename},
+                op   => "open"
+              );
             binmode( $attrs->{stream} );
             $opts{stream} = $attrs->{stream};
 

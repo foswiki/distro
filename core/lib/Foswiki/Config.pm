@@ -1,5 +1,8 @@
 # See bottom of file for license and copyright information
 
+package Foswiki::Config;
+use v5.14;
+
 =begin TML
 
 ---+!! package Foswiki::Config
@@ -7,9 +10,6 @@
 Class representing configuration data.
 
 =cut
-
-package Foswiki::Config;
-use v5.14;
 
 use Assert;
 use Encode ();
@@ -22,10 +22,8 @@ use Try::Tiny;
 use Foswiki qw(urlEncode urlDecode make_params);
 use Foswiki::Configure::FileUtil;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 with qw(Foswiki::Aux::Localize);
 
 # Enable to trace auto-configuration (Bootstrap)

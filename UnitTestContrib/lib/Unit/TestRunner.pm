@@ -18,12 +18,10 @@ use Unit::Eavesdrop    ();
 use Devel::Symdump     ();
 use File::Spec         ();
 
-use Moo;
-use namespace::clean;
-
-extends 'Foswiki::Object';
-
 use Assert;
+
+use Foswiki::Class;
+extends qw(Foswiki::Object);
 
 sub CHECKLEAK { 0 || $ENV{FOSWIKI_CHECKLEAK} }
 

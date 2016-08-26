@@ -18,7 +18,6 @@ package Foswiki::Request::Attachment;
 use v5.14;
 
 use Assert;
-use Error            ();
 use IO::File         ();
 use Foswiki::Sandbox ();
 

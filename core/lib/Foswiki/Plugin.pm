@@ -274,9 +274,9 @@ sub registerHandlers {
     my $exception = '';
     try {
         $status = $sub->(
-            $Foswiki::app->request->topic,
-            $Foswiki::app->request->web,
-            $users->getLoginName( $Foswiki::app->user ),
+            $this->app->request->topic,
+            $this->app->request->web,
+            $users->getLoginName( $this->app->user ),
             $this->topicWeb()
         );
     }

@@ -19,6 +19,8 @@ Method create() is imported from Foswiki::App class.
 use Assert;
 use Foswiki::Exception;
 
+require Foswiki::Object;
+
 use Moo::Role;
 
 has app => (

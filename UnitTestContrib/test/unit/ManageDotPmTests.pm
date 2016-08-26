@@ -44,7 +44,7 @@ around set_up => sub {
     $this->app->cfg->data->{TrashWebName} = $this->trash_web;
 
     @FoswikiFnTestCase::mails = ();
-    $Foswiki::cfg{Sessions}{TopicsRequireGuestSessions} =
+    $this->app->cfg->data->{Sessions}{TopicsRequireGuestSessions} =
       '(WikiGroups|Registration|RegistrationParts|ResetPassword)$';
 
     return;
@@ -64,7 +64,6 @@ around tear_down => sub {
       if ( $store->webExists( $this->test_web . "EmptyNewExtra" ) );
 
     $orig->($this);
-    $| = 0;
 
     return;
 };
@@ -248,7 +247,8 @@ sub _registerUserException {
 
 # Capture the session id for the user we just registered.  This is used to confirm
 # that the deleteUser removes the correct cgisess_ file.
-    $session_id = Foswiki::Func::getSessionValue('_SESSION_ID');
+    $session_id =
+      $this->app->users->getLoginManager->getSessionValue('_SESSION_ID');
 
     # Reload caches
     $this->createNewFoswikiApp;
@@ -337,9 +337,12 @@ sub test_SingleAddToNewGroupCreate {
     my $this = shift;
     my $ret;
 
+    say STDERR __PACKAGE__, "::1";
+
     $ret = $this->registerUserExceptionTwk( 'asdf', 'Asdf', 'Poiu',
         'asdf@example.com' );
     $this->assert_null( $ret, "Simple rego should work" );
+    say STDERR __PACKAGE__, "::10";
 
     $ret = $this->addUserToGroup(
         {
@@ -350,19 +353,23 @@ sub test_SingleAddToNewGroupCreate {
         }
     );
     $this->assert_null( $ret, "Simple add to new group" );
+    say STDERR __PACKAGE__, "::20";
 
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
+    say STDERR __PACKAGE__, "::30";
 
     #need to reload to force Foswiki to reparse Groups :(
     $this->reCreateFoswikiApp;
 
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
+    say STDERR __PACKAGE__, "::40";
 
 #SMELL: (maybe) yes, at the moment, the currently logged in user _is_ also added to the group - this ensures that they are able to complete the operation - as we're saving once per user
-    $this->assert(
-        Foswiki::Func::isGroupMember( "NewGroup", $this->app->user ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", $this->app->user ) );
+    say STDERR __PACKAGE__, "::41";
+    $this->assert( $this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
+    say STDERR __PACKAGE__, "::50";
 
     return;
 }
@@ -392,22 +399,21 @@ sub test_DoubleAddToNewGroupCreate {
 
     $this->assert_null( $ret, "Simple add to new group" );
 
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "QwerPoiu" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "ZxcvPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
     $this->reCreateFoswikiApp;
 
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
 
 #SMELL: (maybe) yes, at the moment, the currently logged in user _is_ also added to the group - this ensures that they are able to complete the operation - as we're saving once per user
-    $this->assert(
-        Foswiki::Func::isGroupMember( "NewGroup", $this->app->user ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", $this->app->user ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "QwerPoiu" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "ZxcvPoiu" ) );
 
     return;
 }
@@ -445,22 +451,21 @@ sub test_TwiceAddToNewGroupCreate {
     );
     $this->assert_null( $ret, "add myself" );
 
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "QwerPoiu" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "ZxcvPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
     $this->reCreateFoswikiApp;
 
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
 
 #SMELL: (maybe) yes, at the moment, the currently logged in user _is_ also added to the group - this ensures that they are able to complete the operation - as we're saving once per user
-    $this->assert(
-        Foswiki::Func::isGroupMember( "NewGroup", $this->app->user ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", $this->app->user ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "QwerPoiu" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "ZxcvPoiu" ) );
 
     $ret = $this->addUserToGroup(
         {
@@ -472,22 +477,21 @@ sub test_TwiceAddToNewGroupCreate {
     );
     $this->assert_null( $ret, "second add user" );
 
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "QwerPoiu" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "ZxcvPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
     $this->reCreateFoswikiApp;
 
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
 
 #SMELL: (maybe) yes, at the moment, the currently logged in user _is_ also added to the group - this ensures that they are able to complete the operation - as we're saving once per user
-    $this->assert(
-        Foswiki::Func::isGroupMember( "NewGroup", $this->app->user ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", $this->app->user ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "QwerPoiu" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "ZxcvPoiu" ) );
 
     $ret = $this->addUserToGroup(
         {
@@ -500,25 +504,24 @@ sub test_TwiceAddToNewGroupCreate {
     );
     $this->assert_null( $ret, "third add user" );
 
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "QwerPoiu" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "ZxcvPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
     $this->reCreateFoswikiApp;
 
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
 
 #SMELL: (maybe) yes, at the moment, the currently logged in user _is_ also added to the group - this ensures that they are able to complete the operation - as we're saving once per user
-    $this->assert(
-        Foswiki::Func::isGroupMember( "NewGroup", $this->app->user ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "QwerPoiu" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu2" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu3" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu4" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", $this->app->user ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "QwerPoiu" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "ZxcvPoiu" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "ZxcvPoiu2" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "ZxcvPoiu3" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "ZxcvPoiu4" ) );
 
     $ret = $this->removeUserFromGroup(
         {
@@ -528,13 +531,13 @@ sub test_TwiceAddToNewGroupCreate {
         }
     );
     $this->assert_null( $ret, "remove one user" );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu4" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "ZxcvPoiu4" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
     $this->reCreateFoswikiApp;
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu2" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu3" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu4" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "ZxcvPoiu2" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "ZxcvPoiu3" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "ZxcvPoiu4" ) );
 
     $ret = $this->removeUserFromGroup(
         {
@@ -544,15 +547,15 @@ sub test_TwiceAddToNewGroupCreate {
         }
     );
     $this->assert_null( $ret, "remove two user" );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu2" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "ZxcvPoiu" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "ZxcvPoiu2" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
     $this->reCreateFoswikiApp;
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu2" ) );
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu3" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "ZxcvPoiu4" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "ZxcvPoiu" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "ZxcvPoiu2" ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", "ZxcvPoiu3" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "ZxcvPoiu4" ) );
 
     return;
 }
@@ -580,15 +583,15 @@ sub test_SingleAddToNewGroupNoCreate {
 
     #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
     $this->assert(
-        !Foswiki::Func::topicExists( $this->users_web, "AnotherNewGroup" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
+        !$this->app->topicExists( $this->users_web, "AnotherNewGroup" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
     $this->reCreateFoswikiApp;
 
     $this->assert(
-        !Foswiki::Func::topicExists( $this->users_web, "AnotherNewGroup" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
+        !$this->app->topicExists( $this->users_web, "AnotherNewGroup" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
 
     return;
 }
@@ -607,16 +610,15 @@ sub test_NoUserAddToNewGroupCreate {
     );
 
     #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
     $this->reCreateFoswikiApp;
 
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
 
     # If not running as admin, current user is automatically added to the group.
-    $this->assert(
-        Foswiki::Func::isGroupMember( "NewGroup", $this->app->user ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", $this->app->user ) );
 
     return;
 }
@@ -639,12 +641,12 @@ sub test_InvalidUserAddToNewGroupCreate {
     $this->assert_matches( qr/Invalid username/, $ret->{params}[0] );
 
     #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
     $this->reCreateFoswikiApp;
 
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
 
     $ret = $this->addUserToGroup(
         {
@@ -658,7 +660,7 @@ sub test_InvalidUserAddToNewGroupCreate {
     #need to reload to force Foswiki to reparse Groups :(
     $this->reCreateFoswikiApp;
 
-    $this->assert( Foswiki::Func::isGroupMember( "NewGroup", 'Us_aaUser' ) );
+    $this->assert( $this->app->isGroupMember( "NewGroup", 'Us_aaUser' ) );
 
     return;
 }
@@ -684,16 +686,16 @@ sub test_NoUserAddToNewGroupCreateAsAdmin {
     );
 
     #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
     $this->reCreateFoswikiApp;
 
-    $this->assert( Foswiki::Func::topicExists( $this->users_web, "NewGroup" ) );
+    $this->assert( $this->app->topicExists( $this->users_web, "NewGroup" ) );
 
     # If running as admin, no user is automatically added to the group.
     $this->assert(
-        !Foswiki::Func::isGroupMember(
+        !$this->app->isGroupMember(
             "NewGroup", $this->app->cfg->data->{AdminUserWikiName}
         )
     );
@@ -722,15 +724,15 @@ sub test_RemoveFromNonExistantGroup {
 
     #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
     $this->assert(
-        !Foswiki::Func::topicExists( $this->users_web, "AnotherNewGroup" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
+        !$this->app->topicExists( $this->users_web, "AnotherNewGroup" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
     $this->reCreateFoswikiApp;
 
     $this->assert(
-        !Foswiki::Func::topicExists( $this->users_web, "AnotherNewGroup" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
+        !$this->app->topicExists( $this->users_web, "AnotherNewGroup" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
 
     return;
 }
@@ -756,15 +758,15 @@ sub test_RemoveNoUserFromExistantGroup {
 
     #SMELL: TopicUserMapping specific - we don't refresh Groups cache :(
     $this->assert(
-        !Foswiki::Func::topicExists( $this->users_web, "AnotherNewGroup" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
+        !$this->app->topicExists( $this->users_web, "AnotherNewGroup" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
 
     #need to reload to force Foswiki to reparse Groups :(
     $this->reCreateFoswikiApp;
 
     $this->assert(
-        !Foswiki::Func::topicExists( $this->users_web, "AnotherNewGroup" ) );
-    $this->assert( !Foswiki::Func::isGroupMember( "NewGroup", "AsdfPoiu" ) );
+        !$this->app->topicExists( $this->users_web, "AnotherNewGroup" ) );
+    $this->assert( !$this->app->isGroupMember( "NewGroup", "AsdfPoiu" ) );
 
     return;
 }
@@ -852,7 +854,7 @@ sub verify_bulkRegister {
     $cfgData->{MinPasswordLength} = 2;
 
     my ($topicObject) =
-      Foswiki::Func::readTopic( $this->users_web, 'NewUserTemplate' );
+      $this->app->readTopic( $this->users_web, 'NewUserTemplate' );
     $topicObject->text(<<'EOF');
 %NOP{Ignore this}%
 Default user template
@@ -866,7 +868,7 @@ AFTER
 EOF
     $topicObject->save();
 
-    Foswiki::Func::saveTopic( $this->users_web, 'AltUserTemplate', undef,
+    $this->app->saveTopic( $this->users_web, 'AltUserTemplate', undef,
         <<'EOF2' );
 %NOP{Ignore this}%
 Alternate user template
@@ -957,12 +959,12 @@ EOM
     #print STDERR Data::Dumper::Dumper( \$stdout );
     #print STDERR Data::Dumper::Dumper( \$stderr );
 
-    $this->assert( Foswiki::Func::topicExists( $this->test_web, $regTopic ) );
+    $this->assert( $this->app->topicExists( $this->test_web, $regTopic ) );
 
 # SMELL:  The registration log is created in UsersWeb, and not in the web containing the
 # list of users to be registered.   Needs some thought.
     $this->assert(
-        Foswiki::Func::topicExists(
+        $this->app->topicExists(
             $this->app->cfg->data->{UsersWebName}, $logTopic
         )
     );
@@ -1002,11 +1004,13 @@ qr/You cannot register twice, the name 'TestBulkUser4' is already registered\./,
     foreach my $wikiname (@expected) {
         print STDERR "TESTING $wikiname\n";
         $this->assert(
-            Foswiki::Func::topicExists(
+            $this->app->topicExists(
                 $this->app->cfg->data->{UsersWebName}, $wikiname
             ),
             "Missing $wikiname"
         );
+
+        # SMELL Use of deprecated API
         my $utext =
           Foswiki::Func::readTopicText( $this->app->cfg->data->{UsersWebName},
             $wikiname );
@@ -1170,7 +1174,7 @@ sub verify_deleteUserAsAdmin {
         -e $this->app->cfg->data->{WorkingDir} . "/tmp/cgisess_$session_id" );
 
     $this->assert(
-        Foswiki::Func::addUserToGroup(
+        $this->app->addUserToGroup(
             $this->new_user_wikiname, $this->new_user_wikiname . 'Group', 1
         )
     );
@@ -1236,7 +1240,7 @@ qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user remove
         !-e $this->app->cfg->data->{WorkingDir} . "/tmp/cgisess_$session_id" );
 
     $this->assert(
-        !Foswiki::Func::isGroupMember(
+        !$this->app->isGroupMember(
             $this->new_user_wikiname, $this->new_user_wikiname . 'Group'
         )
     );
@@ -1251,7 +1255,7 @@ qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user remove
       if $this->app->cfg->data->{Register}{AllowLoginName};
     $this->assert_null(`grep $new_user_wikiname $htpasswdFile`);
 
-    my ( $crap, $wu ) = Foswiki::Func::readTopic(
+    my ( $crap, $wu ) = $this->app->readTopic(
         $this->app->cfg->data->{UsersWebName},
         $this->app->cfg->data->{UsersTopicName}
     );
@@ -1259,7 +1263,7 @@ qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user remove
     $this->assert( $wu !~ /$new_user_login/s );
 
     $this->assert(
-        !Foswiki::Func::topicExists(
+        !$this->app->topicExists(
             $this->app->cfg->data->{UsersWebName},
             $this->new_user_wikiname
         )
@@ -1276,7 +1280,7 @@ sub verify_deleteUserWithPrefix {
     $this->new_user_login('eric');
 
     $this->assert(
-        Foswiki::Func::addUserToGroup(
+        $this->app->addUserToGroup(
             $this->new_user_wikiname, $this->new_user_wikiname . 'Group', 1
         )
     );
@@ -1391,7 +1395,7 @@ qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user remove
     };
 
     $this->assert(
-        !Foswiki::Func::isGroupMember(
+        !$this->app->isGroupMember(
             $this->new_user_wikiname, $this->new_user_wikiname . 'Group'
         )
     );
@@ -1407,7 +1411,7 @@ qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user remove
       if $this->app->cfg->data->{Register}{AllowLoginName};
     $this->assert_null(`grep $new_user_wikiname $htpasswdFile`);
 
-    my ( $crap, $wu ) = Foswiki::Func::readTopic(
+    my ( $crap, $wu ) = $this->app->readTopic(
         $this->app->cfg->data->{UsersWebName},
         $this->app->cfg->data->{UsersTopicName}
     );
@@ -1415,7 +1419,7 @@ qr/user removed from Mapping Manager.*removed cgisess_${session_id}.*user remove
     $this->assert( $wu !~ /$new_user_login/s );
 
     $this->assert(
-        !Foswiki::Func::topicExists(
+        !$this->app->topicExists(
             $this->app->cfg->data->{UsersWebName},
             $this->new_user_wikiname
         )
@@ -1480,14 +1484,14 @@ sub test_createDefaultWeb {
     undef $webObject;
 
 #check that the topics from _default web are actually in the new web, and make sure they are expectently similar
-    my @expectedTopicsItr = Foswiki::Func::getTopicList('_default');
+    my @expectedTopicsItr = $this->app->getTopicList('_default');
     foreach my $expectedTopic (@expectedTopicsItr) {
-        $this->assert( Foswiki::Func::topicExists( $newWeb, $expectedTopic ) );
+        $this->assert( $this->app->topicExists( $newWeb, $expectedTopic ) );
         my ( $eMeta, $eText ) =
-          Foswiki::Func::readTopic( '_default', $expectedTopic );
+          $this->app->readTopic( '_default', $expectedTopic );
         undef $eMeta;
         my ( $nMeta, $nText ) =
-          Foswiki::Func::readTopic( $newWeb, $expectedTopic );
+          $this->app->readTopic( $newWeb, $expectedTopic );
         undef $nMeta;
 
    #change the params set above to what they were in the template WebPreferences
@@ -1511,8 +1515,7 @@ sub test_saveSettings_allowed {
     my $this = shift;
 
     # Create a test topic
-    my ($testTopic) =
-      Foswiki::Func::readTopic( $this->test_web, "SaveSettings" );
+    my ($testTopic) = $this->app->readTopic( $this->test_web, "SaveSettings" );
     $testTopic->text( <<'TEXT');
 Philosophers, philosophers, everywhere,
    * Set TEXTSET = text set
@@ -1571,7 +1574,7 @@ TEXT
     $this->assert_equals( "new set",   $prefs->getPreference('NEWSET') );
     $this->assert_equals( "new local", $prefs->getPreference('NEWLOCAL') );
     my ( $tdate, $tuser, $trev, $tcomment ) =
-      Foswiki::Func::getRevisionInfo( $this->test_web, 'SaveSettings' );
+      $this->app->getRevisionInfo( $this->test_web, 'SaveSettings' );
     $this->assert_equals( 2, $trev );
 
     return;
@@ -1582,8 +1585,7 @@ sub test_saveSettings_denied {
     my $this = shift;
 
     # Create a test topic
-    my ($testTopic) =
-      Foswiki::Func::readTopic( $this->test_web, "SaveSettings" );
+    my ($testTopic) = $this->app->readTopic( $this->test_web, "SaveSettings" );
     $testTopic->text(<<'TEXT');
 Philosophers, philosophers, everywhere,
    * Set ALLOWTOPICCHANGE = ZeusAndHera
@@ -1648,7 +1650,7 @@ TEXT
     $this->assert_null( $prefs->getPreference('NEWSET') );
     $this->assert_null( $prefs->getPreference('NEWLOCAL') );
     my ( $tdate, $tuser, $trev, $tcomment ) =
-      Foswiki::Func::getRevisionInfo( $this->test_web, 'SaveSettings' );
+      $this->app->getRevisionInfo( $this->test_web, 'SaveSettings' );
     $this->assert_equals( 1, $trev );
 
     return;
@@ -1658,8 +1660,7 @@ sub test_saveSettings_cancel {
     my $this = shift;
 
     # Create a test topic
-    my ($testTopic) =
-      Foswiki::Func::readTopic( $this->test_web, "SaveSettings" );
+    my ($testTopic) = $this->app->readTopic( $this->test_web, "SaveSettings" );
     $testTopic->text( <<'TEXT');
 Philosophers, philosophers, everywhere,
    * Set TEXTSET = text set
@@ -1718,7 +1719,7 @@ TEXT
     $this->assert_equals( "meta set",   $prefs->getPreference('METASET') );
     $this->assert_equals( "meta local", $prefs->getPreference('METALOCAL') );
     my ( $tdate, $tuser, $trev, $tcomment ) =
-      Foswiki::Func::getRevisionInfo( $this->test_web, 'SaveSettings' );
+      $this->app->getRevisionInfo( $this->test_web, 'SaveSettings' );
     $this->assert_equals( 1, $trev );
 
     return;
@@ -1728,8 +1729,7 @@ sub test_saveSettings_invalid {
     my $this = shift;
 
     # Create a test topic
-    my ($testTopic) =
-      Foswiki::Func::readTopic( $this->test_web, "SaveSettings" );
+    my ($testTopic) = $this->app->readTopic( $this->test_web, "SaveSettings" );
     $testTopic->text( <<'TEXT');
 Philosophers, philosophers, everywhere,
    * Set TEXTSET = text set
@@ -1797,7 +1797,7 @@ TEXT
     $this->assert_equals( "meta set",   $prefs->getPreference('METASET') );
     $this->assert_equals( "meta local", $prefs->getPreference('METALOCAL') );
     my ( $tdate, $tuser, $trev, $tcomment ) =
-      Foswiki::Func::getRevisionInfo( $this->test_web, 'SaveSettings' );
+      $this->app->getRevisionInfo( $this->test_web, 'SaveSettings' );
     $this->assert_equals( 1, $trev );
 
     return;
@@ -1871,19 +1871,19 @@ sub test_createEmptyWeb {
     #$this->assert_equals('on', $webObject->getPreference('SITEMAPLIST'));
 
 #check that the topics from _default web are actually in the new web, and make sure they are expectently similar
-    my @expectedTopicsItr = Foswiki::Func::getTopicList('_empty');
+    my @expectedTopicsItr = $this->app->getTopicList('_empty');
     foreach my $expectedTopic (@expectedTopicsItr) {
-        $this->assert( Foswiki::Func::topicExists( $newWeb, $expectedTopic ) );
+        $this->assert( $this->app->topicExists( $newWeb, $expectedTopic ) );
 
         next
           if ( $expectedTopic eq 'WebPreferences' )
           ;    # we've modified the topic alot
 
         my ( $eMeta, $eText ) =
-          Foswiki::Func::readTopic( '_empty', $expectedTopic );
+          $this->app->readTopic( '_empty', $expectedTopic );
         undef $eMeta;
         my ( $nMeta, $nText ) =
-          Foswiki::Func::readTopic( $newWeb, $expectedTopic );
+          $this->app->readTopic( $newWeb, $expectedTopic );
         undef $nMeta;
 
    #change the params set above to what they were in the template WebPreferences

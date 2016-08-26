@@ -20,8 +20,7 @@ use Foswiki::LoginManager  ();
 use Foswiki::OopsException ();
 use Foswiki::Sandbox       ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::UI);
 
 BEGIN {
@@ -120,7 +119,7 @@ sub _action_register {
             def      => 'registration_not_supported'
         );
     }
-    if ( !$app->cfg->data->{Register}{EnableNewUserRegistration} ) {
+    if ( !$cfgData->{Register}{EnableNewUserRegistration} ) {
         Foswiki::OopsException->throw(
             app      => $app,
             template => 'register',
@@ -141,14 +140,13 @@ sub _action_register {
         $this->_requireConfirmation( $data, 'Verification', 'confirm',
             $data->{Email} );
     }
-    elsif ( $Foswiki::cfg{Register}{NeedApproval} ) {
+    elsif ( $cfgData->{Register}{NeedApproval} ) {
         my $query = $app->request;
         my $data = _getDataFromQuery( $app->users, $query );
         $data->{FirstLastName} = $data->{Name};
-        my $approvers = $Foswiki::cfg{Register}{Approvers}
-          || $Foswiki::cfg{AdminUserWikiName};
-        _requireConfirmation( $app, $data, 'Approval', 'approve',
-            $approvers );
+        my $approvers = $cfgData->{Register}{Approvers}
+          || $cfgData->{AdminUserWikiName};
+        _requireConfirmation( $app, $data, 'Approval', 'approve', $approvers );
     }
     else {
 
@@ -954,7 +952,7 @@ sub deleteUser {
 
     # This is the old behavior - remove the current logged in user.  For safety
     # Make sure the requested user = current user.
-    unless ( Foswiki::Func::isAnAdmin() ) {
+    unless ( $app->isAnAdmin() ) {
 
         if ( ( $user ne $cUID ) && ( $myWikiName ne $userWikiName ) ) {
             Foswiki::OopsException->throw(
@@ -1014,7 +1012,7 @@ sub deleteUser {
         { cuid => $user, removeTopic => $removeTopic, prefix => $topicPrefix }
       );
 
-    Foswiki::Func::writeWarning("$cUID: $lm");
+    $app->writeWarning("$cUID: $lm");
 
     Foswiki::OopsException->throw(
         app      => $app,
@@ -1077,7 +1075,7 @@ sub addUserToGroup {
         # list, and the group exists
         # then we're trying to upgrade the user topic.
         # I'm not sure what other mappers might make of this..
-        if ( $create and Foswiki::Func::isGroup($groupName) ) {
+        if ( $create and $app->users->isGroup($groupName) ) {
             try {
                 $users->addUserToGroup( undef, $groupName, $create );
             }
@@ -1100,7 +1098,7 @@ sub addUserToGroup {
         }
     }
 
-    if (   !Foswiki::Func::isGroup($groupName)
+    if (   !$app->users->isGroup($groupName)
         && !$create )
     {
         Foswiki::OopsException->throw(
@@ -1123,7 +1121,7 @@ sub addUserToGroup {
     # He can afterwards remove himself if needed
     # We make an exception if you are an admin as they can always edit anything
 
-    if (    !Foswiki::Func::isGroup($groupName)
+    if (    !$app->users->isGroup($groupName)
         and !$users->isAdmin($user)
         and $create )
     {
@@ -1144,9 +1142,8 @@ sub addUserToGroup {
         $u = '' if ( $u eq '<none>' );
 
         next
-          if ( Foswiki::Func::isGroup($groupName)
-            && Foswiki::Func::isGroupMember( $groupName, $u, { expand => 0 } )
-          );
+          if ( $app->users->isGroup($groupName)
+            && $app->isGroupMember( $groupName, $u, { expand => 0 } ) );
 
         try {
             $u = $users->validateRegistrationField( 'username', $u );
@@ -1237,7 +1234,7 @@ sub removeUserFromGroup {
             def      => 'no_group_specified_for_remove_from_group'
         );
     }
-    unless ( Foswiki::Func::isGroup($groupName) ) {
+    unless ( $app->users->isGroup($groupName) ) {
         Foswiki::OopsException->throw(
             app      => $app,
             template => 'register',
@@ -1256,7 +1253,7 @@ sub removeUserFromGroup {
 
         next if ( $u eq '' );
         try {
-            Foswiki::Func::removeUserFromGroup( $u, $groupName );
+            $app->removeUserFromGroup( $u, $groupName );
             push( @succeeded, $u );
         }
         catch {
@@ -1362,7 +1359,7 @@ sub _complete {
         my $regoAgent        = $app->user;
         my $enableAddToGroup = 1;
 
-        if ( Foswiki::Func::isGuest($regoAgent) ) {
+        if ( $app->users->isGuest( $app->getCanonicalUserID($regoAgent) ) ) {
             $app->user(
                 $app->users->getCanonicalUserID(
                     $cfgData->{Register}{RegistrationAgentWikiName}
@@ -1399,16 +1396,12 @@ sub _complete {
                     push @addedTo, $groupName;
                 }
                 catch {
-                    my $e = shift;
                     $app->logger->log( 'warning',
                         "Registration: Failure adding $cUID to $groupName" );
+                    Foswiki::Exception::Fatal->rethrow($_);
                 }
                 finally {
                     $app->user($safe);
-                    if (@_) {
-                        $_[0]->throw;
-                    }
-
                 };
             }
         }
@@ -1416,35 +1409,27 @@ sub _complete {
         $data->{AddToGroups} = join( ',', @addedTo );
     }
     catch {
-        my $e = $_;
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+
+        # Whatever went wrong – remove the incompletely registered user.
+        $users->removeUser( $data->{LoginName}, $data->{WikiName} )
+          if ( $users->userExists( $data->{WikiName} ) );
+
         if ( $e->isa('Foswiki::OopsException') ) {
-            $users->removeUser( $data->{LoginName}, $data->{WikiName} )
-              if ( $users->userExists( $data->{WikiName} ) );
             $e->rethrow;
-
-            #Foswiki::OopsException->throw ( @_ ); # Propagate
         }
-        else {
 
-            if ( !ref($e) ) {
-                Foswiki::Exception->rethrow($e);
-            }
-
-            $users->removeUser( $data->{LoginName}, $data->{WikiName} )
-              if ( $users->userExists( $data->{WikiName} ) );
-
-            # Log the error
-            $app->logger->log( 'warning',
-                'Registration failed: ' . $e->stringify() );
-            Foswiki::OopsException->throw(
-                app      => $app,
-                template => 'register',
-                web      => $data->{webName},
-                topic    => $topic,
-                def      => 'problem_adding',
-                params   => [ $data->{WikiName}, $e->stringify() ]
-            );
-        }
+        # Log the error
+        my $errStr = Foswiki::Exception::errorStr($e);
+        $app->logger->log( 'warning', 'Registration failed: ' . $errStr );
+        Foswiki::OopsException->throw(
+            app      => $app,
+            template => 'register',
+            web      => $data->{webName},
+            topic    => $topic,
+            def      => 'problem_adding',
+            params   => [ $data->{WikiName}, $errStr ]
+        );
     };
 
     # Plugin to do some other post processing of the user.
@@ -1546,7 +1531,7 @@ sub _createUserTopic {
     ($template) = $template =~ m/^(.*)$/;
 
     ( $fromWeb, $template ) =
-      Foswiki::Func::normalizeWebTopicName( $fromWeb, $template );
+      $app->request->normalizeWebTopicName( $fromWeb, $template );
 
     if ( !$app->store->topicExists( $fromWeb, $template ) ) {
 
@@ -2054,7 +2039,7 @@ sub _validateRegistration {
 
     # Optional check if email address is already registered
     if ( $cfgData->{Register}{UniqueEmail} ) {
-        my @existingNames = Foswiki::Func::emailToWikiNames( $data->{Email} );
+        my @existingNames = $app->emailToWikiNames( $data->{Email} );
         if ( $cfgData->{Register}{NeedVerification} ) {
             my @pending =
               $this->_checkPendingRegistrations( $data->{Email}, $exp );
@@ -2151,7 +2136,7 @@ sub _validateTemplateTopic {
     my $req     = $app->request;
 
     my ( $templateWeb, $templateTopic ) =
-      Foswiki::Func::normalizeWebTopicName( $cfgData->{UserWebName},
+      $req->normalizeWebTopicName( $cfgData->{UserWebName},
         $_[0] || 'NewUserTemplate' );
 
     $templateTopic = Foswiki::Sandbox::untaint(
@@ -2497,15 +2482,16 @@ sub _processDeleteUser {
     my $this      = shift;
     my $paramHash = shift;
 
-    my $cfgData = $this->app->cfg->data;
+    my $app     = $this->app;
+    my $cfgData = $app->cfg->data;
 
     my $user = $paramHash->{cuid};
 
     # Obtain all the user info before removing things.   If there is no mapping
     # for the user, then assume the entered username will be removed.
-    my $cUID     = Foswiki::Func::getCanonicalUserID($user);
-    my $wikiname = ($cUID) ? Foswiki::Func::getWikiName($cUID) : $user;
-    my $email    = join( ',', Foswiki::Func::wikinameToEmails($wikiname) );
+    my $cUID     = $app->getCanonicalUserID($user);
+    my $wikiname = ($cUID) ? $app->getWikiName($cUID) : $user;
+    my $email    = join( ',', $app->wikinameToEmails($wikiname) );
 
     my ( $message, $logMessage ) =
       ( "Processing $wikiname($email)\n", "Processing $wikiname($email) " );
@@ -2536,25 +2522,23 @@ sub _processDeleteUser {
     }
 
     # If a group topic has been entered, don't remove it.
-    if ( Foswiki::Func::isGroup($wikiname) ) {
+    if ( $app->users->isGroup($wikiname) ) {
         $message    .= " Cannot remove group $wikiname \n";
         $logMessage .= "Cannot remove group $wikiname, ";
         return ( $message, $logMessage );
     }
 
     # Remove the user from any groups.
-    my $it = Foswiki::Func::eachGroup();
+    my $it = $app->users->eachGroup();
     $logMessage .= "Removed from groups: ";
     while ( $it->hasNext() ) {
         my $group = $it->next();
 
         #$message .= "Checking $group for ($wikiname)\n";
-        if (
-            Foswiki::Func::isGroupMember( $group, $wikiname, { expand => 0 } ) )
-        {
+        if ( $app->isGroupMember( $group, $wikiname, { expand => 0 } ) ) {
             $message    .= "user removed from $group \n";
             $logMessage .= "$group, ";
-            Foswiki::Func::removeUserFromGroup( $wikiname, $group );
+            $app->removeUserFromGroup( $wikiname, $group );
         }
     }
 
@@ -2562,9 +2546,9 @@ sub _processDeleteUser {
 
         # Remove the users topic, moving it to trash web
         ( my $web, $wikiname ) =
-          Foswiki::Func::normalizeWebTopicName( $cfgData->{UsersWebName},
+          $app->request->normalizeWebTopicName( $cfgData->{UsersWebName},
             $wikiname );
-        if ( Foswiki::Func::topicExists( $web, $wikiname ) ) {
+        if ( $app->topicExists( $web, $wikiname ) ) {
 
             # Spoof the user so we can delete their topic. Don't need to
             # do this for the REST handler, but we do for the registration
@@ -2573,7 +2557,7 @@ sub _processDeleteUser {
 
             my $newTopic = "$paramHash->{prefix}$wikiname" . time;
             try {
-                Foswiki::Func::moveTopic( $web, $wikiname,
+                $app->moveTopic( $web, $wikiname,
                     $cfgData->{TrashWebName}, $newTopic );
                 $message .=
 " - user topic moved to $cfgData->{TrashWebName}.$newTopic \n";

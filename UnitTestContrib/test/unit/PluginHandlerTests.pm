@@ -1058,7 +1058,7 @@ HERE
 
 sub test_finishPlugin {
     my $this = shift;
-    $this->pushApp;
+    $this->saveState;
     $this->reCreateFoswikiApp;
     $this->makePlugin( 'finishPlugin', <<'HERE');
 sub finishPlugin {
@@ -1068,7 +1068,7 @@ HERE
 
     $this->finishFoswikiSession();
     $this->checkCalls( 1, 'finishPlugin' );
-    $this->popApp;
+    $this->restoreState;
 
     return;
 }

@@ -1,5 +1,8 @@
 # See bottom of file for license and copyright information
 
+package Foswiki::App;
+use v5.14;
+
 =begin TML
 
 ---+!! Class Foswiki::App
@@ -9,16 +12,12 @@ functionality.
 
 =cut
 
-package Foswiki::App;
-use v5.14;
-
 use constant TRACE_REQUEST => 0;
 
 use Assert;
 use Cwd;
 use Try::Tiny;
 use Storable qw(dclone);
-use Foswiki qw(%regex);
 
 # SMELL CGI is only used for generating a simple error page using HTML tags
 # shortcut functions. Must be replaced with something more reasonable.
@@ -30,10 +29,9 @@ use Foswiki::Exception;
 use Foswiki::Sandbox;
 use Foswiki::WebFilter;
 use Foswiki::Time;
-use Foswiki qw(load_package load_class isTrue);
+use Foswiki qw(%regex load_package load_class isTrue);
 
 use Foswiki::Class qw(callbacks);
-use namespace::clean;
 extends qw(Foswiki::Object);
 
 callback_names qw(handleRequestException postConfig);
@@ -253,10 +251,18 @@ has remoteUser => (
         return $this->users->loadSession( $this->engine->user );
     },
 );
+
+# XXX user attribute must have complicated options like lazy or builder.
+# Otherwise there is high risk of Perl or Moo optimizing RO-calls to this
+# attribute leading to corrupt stack if passed over as a method attribute and
+# then set to a different value deep in the call stack. For example if there is
+# a call: $app->addUserToGroup($app->user, ...) - it may cause corrupt stack
+# because TopicUserMapping temporarily escalates current user to Admin
+# privileges.
 has user => (
-    is        => 'rw',
-    clearer   => 1,
-    predicate => 1,
+    is      => 'rw',
+    lazy    => 1,
+    builder => '_prepareUser',
 );
 has users => (
     is        => 'rw',
@@ -317,6 +323,8 @@ sub BUILD {
     unless ( $this->cfg->data->{isVALID} ) {
         $this->cfg->bootstrapSystemSettings;
     }
+
+    $this->callback('postConfig');
 
     my $cfgData = $this->cfg->data;
 
@@ -398,24 +406,6 @@ sub DEMOLISH {
     my $this = shift;
     my ($in_global) = @_;
 
-    # Clean up sessions before we finish.
-    if ( 0 && DEBUG ) {
-        if ($in_global) {
-            say STDERR ">>>>";
-            say STDERR Carp::longmess( ref($this) . '::DEMOLISH' );
-            say STDERR "Object from ", $this->{__orig_file}, ":",
-              $this->{__orig_line};
-            say STDERR $this->{__orig_stack};
-            say STDERR "<<<<";
-            require Devel::MAT::Dumper;
-        }
-        else {
-            say STDERR ref($this) . '::DEMOLISH';
-            say STDERR "Object from ", $this->{__orig_file}, ":",
-              $this->{__orig_line};
-            say STDERR $this->{__orig_stack};
-        }
-    }
     $this->users->loginManager->complete;
 
 }
@@ -446,9 +436,9 @@ sub run {
     my ( $app, $rc );
 
     # We use shell environment by default. PSGI would supply its own env
-    # hashref. Because PSGI env is not the same as shell env we would need to
-    # avoid any side effects related to situations when changes to the env
-    # hashref are gettin' translated back onto the shell env.
+    # hashref. Because PSGI env is not the same as shell env we must clone the
+    # latter in order to avoid any side effects related to situations when
+    # changes to the env hashref are gettin' translated back onto the shell env.
     $params{env} //= dclone( \%ENV );
 
     # Use current working dir for fetching the initial setlib.cfg
@@ -1198,6 +1188,8 @@ sub systemMessage {
     if (@_) {
         push @{ $this->system_messages }, @_;
     }
+
+    # SMELL Something better than %BR% shall be used here.
     return join( '%BR%', @{ $this->system_messages } );
 }
 
@@ -1496,7 +1488,6 @@ sub _prepareRequest {
 sub _prepareConfig {
     my $this = shift;
     my $cfg  = $this->create('Foswiki::Config');
-    $this->callback('postConfig');
     return $cfg;
 }
 
@@ -1537,6 +1528,13 @@ sub _prepareDispatcher {
     $dispatcher->{method} //= $dispatcher->{function} || 'dispatch';
     $this->ui( $this->create( $dispatcher->{package} ) );
     $this->_dispatcherAttrs($dispatcher);
+}
+
+sub _prepareUser {
+    my $this = shift;
+
+    #return $this->users->initialiseUser( $this->remoteUser );
+    return undef;
 }
 
 # If the X-Foswiki-Tickle header is present, this request is an attempt to
@@ -2117,8 +2115,7 @@ Test if logged in user is a guest (WikiGuest)
 
 sub isGuest {
     my $this = shift;
-    return $this->user eq
-      $this->users->getCanonicalUserID( $this->cfg->data->{DefaultUserLogin} );
+    return $this->users->isGuest( $this->getCanonicalUserID( $this->user ) );
 }
 
 =begin TML

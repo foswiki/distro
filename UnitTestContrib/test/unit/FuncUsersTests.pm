@@ -165,9 +165,9 @@ sub HtPasswordPasswordManager {
 # See the pod doc in Unit::TestCase for details of how to use this
 sub fixture_groups {
     return (
-        [ 'NoLoginManager', 'ApacheLoginManager', 'TemplateLoginManager' ],
-        [ 'AllowLoginName', 'DontAllowLoginName' ],
-        [ 'NonePasswordManager', 'HtPasswordPasswordManager' ],
+        [ 'TemplateLoginManager', 'NoLoginManager', 'ApacheLoginManager', ],
+        [ 'AllowLoginName',            'DontAllowLoginName', ],
+        [ 'HtPasswordPasswordManager', 'NonePasswordManager', ],
         ['TopicUserMapping']
     );    #TODO: 'BaseUserMapping'
 }

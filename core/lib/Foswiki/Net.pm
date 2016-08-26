@@ -535,7 +535,7 @@ sub sendEmail {
             $retries = 0;
         }
         catch {
-            my $msg = ref($_) ? $_->stringify() : $_;
+            my $msg = Foswiki::Exception::errorStr($_);
             ( my $to ) = $text =~ m/^To:\s*(.*?)$/im;
 
             # Lines we threw are marked, already logged, and safe to return.

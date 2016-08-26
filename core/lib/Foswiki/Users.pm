@@ -1,5 +1,8 @@
 # See bottom of file for license and copyright information
 
+package Foswiki::Users;
+use v5.14;
+
 =begin TML
 
 ---+ package Foswiki::Users
@@ -53,9 +56,6 @@ to a user.
    * $name may be a group or a cUID
 
 =cut
-
-package Foswiki::Users;
-use v5.14;
 
 use Foswiki::AggregateIterator ();
 use Foswiki::LoginManager      ();
@@ -278,7 +278,8 @@ sub initialiseUser {
     # plugins can provide an alternate login name.
     #my $plogin = $this->app->plugins->load();
 
-    my $plogin = $this->app->engine->user;
+    my $plogin  = $this->app->engine->user;
+    my $cfgData = $this->app->cfg->data;
 
     #Monitor::MARK("Plugins loaded");
 
@@ -308,7 +309,7 @@ sub initialiseUser {
             $this->cUID2WikiName->{$cUID} = $login;
 
             # needs to be WikiName safe
-            $this->cUID2WikiName->{$cUID} =~ s/$Foswiki::cfg{NameFilter}//g;
+            $this->cUID2WikiName->{$cUID} =~ s/$cfgData->{NameFilter}//g;
             $this->cUID2WikiName->{$cUID} =~ s/\.//g;
 
             $this->login2cUID->{$login} = $cUID;
@@ -318,7 +319,7 @@ sub initialiseUser {
 
     # if we get here without a login id, we are a guest. Get the guest
     # cUID.
-    $cUID ||= $this->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} );
+    $cUID ||= $this->getCanonicalUserID( $cfgData->{DefaultUserLogin} );
 
     return $cUID;
 }
@@ -623,6 +624,9 @@ True if the user is an admin
 sub isAdmin {
     my ( $this, $cUID ) = @_;
 
+    # SMELL Why do we demain exclusively cUID here? What's the problem to
+    # call getCanonicalUserID()?
+
     return 0 unless defined $cUID;
 
     return $this->_isAdmin->{$cUID}
@@ -640,6 +644,22 @@ sub isAdmin {
     $this->_isAdmin->{$cUID} =
       ( $mapping->isAdmin($cUID) || $otherMapping->isAdmin($cUID) );
     return $this->_isAdmin->{$cUID};
+}
+
+=begin TML
+
+---++ ObjectMethod isGuest( $cUID ) -> $boolean
+
+True if the =$cUID= is guest.
+
+=cut
+
+sub isGuest {
+    my $this = shift;
+    my ($cUID) = @_;
+
+    return $cUID eq
+      $this->getCanonicalUserID( $this->app->cfg->data->{DefaultUserLogin} );
 }
 
 =begin TML

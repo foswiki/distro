@@ -78,8 +78,6 @@ LSC
         die "Can't open  " . $this->lscpath . " for write: $!"
           if -e $this->lscpath;
     }
-
-    $| = 1;
 };
 
 around tear_down => sub {

@@ -31,31 +31,10 @@ use Foswiki::UI::Register();
 use Try::Tiny;
 use Carp qw(cluck);
 
-our @mails;
-
 use Moo;
 use namespace::clean;
 extends qw(FoswikiTestCase);
 
-has test_web => (
-    is      => 'rw',
-    lazy    => 1,
-    clearer => 1,
-    builder => sub {
-        my $testSuite = $_[0]->testSuite;
-        return 'Temporary' . $testSuite . 'TestWeb' . $testSuite;
-    },
-);
-has test_topic => (
-    is      => 'rw',
-    lazy    => 1,
-    builder => sub { return 'TestTopic' . $_[0]->testSuite; },
-);
-has users_web => (
-    is      => 'rw',
-    lazy    => 1,
-    builder => sub { return 'Temporary' . $_[0]->testSuite . 'UsersWeb'; },
-);
 has test_user_forename => ( is => 'rw', );
 has test_user_surname  => ( is => 'rw', );
 has test_user_wikiname => ( is => 'rw', );
@@ -91,24 +70,7 @@ around loadExtraConfig => sub {
     $cfgData->{Store}{Implementation}   = "Foswiki::Store::PlainFile";
     $cfgData->{RCS}{AutoAttachPubFiles} = 0;
 
-    $cfgData->{Register}{AllowLoginName} = 1;
-    $cfgData->{Htpasswd}{FileName}       = $cfgData->{WorkingDir} . "/htpasswd";
-    unless ( -e $cfgData->{Htpasswd}{FileName} ) {
-        my $fh;
-        open( $fh, ">:encoding(utf-8)", $cfgData->{Htpasswd}{FileName} )
-          || die $!;
-        close($fh) || die $!;
-    }
-    $cfgData->{PasswordManager}       = 'Foswiki::Users::HtPasswdUser';
-    $cfgData->{Htpasswd}{GlobalCache} = 0;
-    $cfgData->{UserMappingManager}    = 'Foswiki::Users::TopicUserMapping';
-    $cfgData->{LoginManager}          = 'Foswiki::LoginManager::TemplateLogin';
-    $cfgData->{Register}{EnableNewUserRegistration} = 1;
-    $cfgData->{RenderLoggedInButUnknownUsers} = 0;
-
-    $cfgData->{Register}{NeedVerification} = 0;
-    $cfgData->{MinPasswordLength}          = 0;
-    $cfgData->{UsersWebName}               = $this->users_web;
+    $this->setupUserRegistration;
 };
 
 around set_up => sub {
@@ -125,8 +87,6 @@ around set_up => sub {
         },
     );
 
-    @mails = ();
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     my $webObject = $this->populateNewWeb( $this->test_web );
     undef $webObject;
     $this->clear_test_topicObject;
@@ -165,8 +125,6 @@ around tear_down => sub {
     $this->removeWebFixture( $cfg->data->{UsersWebName} );
     unlink( $Foswiki::cfg{Htpasswd}{FileName} );
 
-    @mails = ();
-
     $orig->( $this, @_ );
 };
 
@@ -181,106 +139,6 @@ Remove a temporary web fixture (data and pub)
 sub removeWeb {
     my ( $this, $web ) = @_;
     $this->removeWebFixture($web);
-}
-
-=begin TML
-
----++ StaticMethod sentMail($net, $mess)
-
-Default implementation for the callback used by Net.pm. Sent mails are
-pushed onto a global variable @FoswikiFnTestCase::mails.
-
-=cut
-
-sub sentMail {
-    my ( $net, $mess ) = @_;
-    push( @mails, $mess );
-    return undef;
-}
-
-=begin TML
-
----++ ObjectMethod registerUser($loginname, $forename, $surname, $email)
-
-Can be used by subclasses to register test users.
-
-=cut
-
-sub registerUser {
-    my ( $this, $loginname, $forename, $surname, $email ) = @_;
-
-    $this->pushApp;
-
-    my $reqParams = {
-        'TopicName'     => ['UserRegistration'],
-        'Twk1Email'     => [$email],
-        'Twk1WikiName'  => ["$forename$surname"],
-        'Twk1Name'      => ["$forename $surname"],
-        'Twk0Comment'   => [''],
-        'Twk1FirstName' => [$forename],
-        'Twk1LastName'  => [$surname],
-        'action'        => ['register']
-    };
-
-    if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
-        $reqParams->{"Twk1LoginName"} = $loginname;
-    }
-
-    $this->createNewFoswikiApp(
-        requestParams => { initializer => $reqParams, },
-        engineParams  => {
-            initialAttributes =>
-              { path_info => "/" . $this->users_web . "/UserRegistration", },
-        },
-    );
-    $this->assert(
-        $this->app->store->topicExists(
-            $this->test_web, $Foswiki::cfg{WebPrefsTopicName}
-        )
-    );
-
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-    try {
-        my $uiRegister = $this->create('Foswiki::UI::Register');
-        $this->captureWithKey(
-            register_cgi => \&Foswiki::UI::Register::register_cgi,
-            $uiRegister,
-        );
-    }
-    catch {
-        my $e = $_;
-        if ( $e->isa('Foswiki::OopsException') ) {
-            if ( $this->check_dependency('Foswiki,<,1.2') ) {
-                $this->assert_str_equals( "attention", $e->{template},
-                    $e->stringify() );
-                $this->assert_str_equals( "thanks", $e->{def},
-                    $e->stringify() );
-            }
-            else {
-                $this->assert_str_equals( "register", $e->{template},
-                    $e->stringify() );
-                $this->assert_str_equals( "thanks", $e->{def},
-                    $e->stringify() );
-            }
-        }
-        elsif ( $e->isa('Foswiki::AccessControlException') ) {
-            $this->assert( 0, $e->stringify );
-        }
-        elsif ( $e->isa('Foswiki::Exception') ) {
-            $this->assert( 0, $e->stringify );
-        }
-        else {
-            $this->assert( 0, "expected an oops redirect" );
-        }
-    };
-
-    # Reload caches
-    #$this->createNewFoswikiApp( requestParams => $q );
-    #$this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
-    $this->popApp;
-
-    # Reset
-    $this->app->users->mapping->invalidate;
 }
 
 1;

@@ -270,8 +270,6 @@ around tear_down => sub {
     $this->removeWebFixture('This(is)')
       if ( Foswiki::Func::webExists('This(is)') );
     $orig->( $this, @_ );
-
-    $| = 0;
 };
 
 around loadExtraConfig => sub {

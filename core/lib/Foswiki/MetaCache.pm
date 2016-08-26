@@ -22,13 +22,8 @@ use Foswiki::Func                   ();
 use Foswiki::Meta                   ();
 use Foswiki::Users::BaseUserMapping ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
-
-#use Monitor ();
-#Monitor::MonitorMethod('Foswiki::MetaCache', 'getTopicListIterator');
 
 use constant TRACE => 0;
 

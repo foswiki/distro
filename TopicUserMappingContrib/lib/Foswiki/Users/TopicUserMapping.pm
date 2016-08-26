@@ -33,16 +33,15 @@ use Try::Tiny;
 use Foswiki::ListIterator ();
 use Foswiki::Func         ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject Foswiki::UserMapping);
+with qw(Foswiki::UserMapping);
 
 has passwords => (
     is      => 'ro',
     lazy    => 1,
     default => sub {
-        my $implPasswordManager = $Foswiki::cfg{PasswordManager};
+        my $implPasswordManager = $_[0]->app->cfg->data->{PasswordManager};
         $implPasswordManager = 'Foswiki::Users::Password'
           if ( $implPasswordManager eq 'none' );
         return $_[0]->create($implPasswordManager);
@@ -235,8 +234,8 @@ sub getLoginName {
 sub _userReallyExists {
     my ( $this, $login ) = @_;
 
-    if (   $Foswiki::cfg{Register}{AllowLoginName}
-        || $Foswiki::cfg{PasswordManager} eq 'none' )
+    if (   $this->app->cfg->data->{Register}{AllowLoginName}
+        || $this->app->cfg->data->{PasswordManager} eq 'none' )
     {
 
         # need to use the WikiUsers file
@@ -348,12 +347,14 @@ and vice-versa. The default implementation uses a special topic called
 sub _maintainUsersTopic {
     my ( $this, $action, $login, $wikiname ) = @_;
 
+    my $cfgData = $this->app->cfg->data;
+
     my $usersTopicObject;
 
     if (
         $this->app->store->topicExists(
-            $Foswiki::cfg{UsersWebName},
-            $Foswiki::cfg{UsersTopicName}
+            $cfgData->{UsersWebName},
+            $cfgData->{UsersTopicName}
         )
       )
     {
@@ -361,8 +362,8 @@ sub _maintainUsersTopic {
         # Load existing users topic
         $usersTopicObject = $this->create(
             'Foswiki::Meta',
-            web   => $Foswiki::cfg{UsersWebName},
-            topic => $Foswiki::cfg{UsersTopicName},
+            web   => $cfgData->{UsersWebName},
+            topic => $cfgData->{UsersTopicName},
         );
     }
     else {
@@ -371,18 +372,18 @@ sub _maintainUsersTopic {
 
         # Construct a new users topic from the template
         my $templateTopicObject =
-          Foswiki::Meta->load( $this->app, $Foswiki::cfg{SystemWebName},
+          Foswiki::Meta->load( $this->app, $cfgData->{SystemWebName},
             'UsersTemplate' );
         $usersTopicObject = $this->create(
             'Foswiki::Meta',
-            web   => $Foswiki::cfg{UsersWebName},
-            topic => $Foswiki::cfg{UsersTopicName},
+            web   => $cfgData->{UsersWebName},
+            topic => $cfgData->{UsersTopicName},
             text  => $templateTopicObject->text()
         );
 
         $usersTopicObject->copyFrom($templateTopicObject);
         $usersTopicObject->put( "TOPICPARENT",
-            { name => $Foswiki::cfg{HomeTopicName} } );
+            { name => $cfgData->{HomeTopicName} } );
     }
 
     my $entry = "   * $wikiname - ";
@@ -390,7 +391,7 @@ sub _maintainUsersTopic {
 
     require Foswiki::Time;
     my $today =
-      Foswiki::Time::formatTime( time(), $Foswiki::cfg{DefaultDateFormat},
+      Foswiki::Time::formatTime( time(), $cfgData->{DefaultDateFormat},
         'gmtime' );
 
     my $user;
@@ -418,7 +419,7 @@ sub _maintainUsersTopic {
 m/^\s+\*\s($Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*(?:-\s*\w+\s*)?-\s*(.*)/
               )
             {
-                $web   = $1 || $Foswiki::cfg{UsersWebName};
+                $web   = $1 || $cfgData->{UsersWebName};
                 $name  = $2;
                 $odate = $3;
 
@@ -481,7 +482,7 @@ m/^\s+\*\s($Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*(
 
               # SMELL: why is this Admin and not the RegoAgent??
               $this->app->users->getCanonicalUserID(
-                $Foswiki::cfg{AdminUserLogin}
+                $cfgData->{AdminUserLogin}
               )
         );
     }
@@ -550,12 +551,13 @@ If there is no matching WikiName or LoginName, it returns undef.
 sub getWikiName {
     my ( $this, $cUID ) = @_;
     my $mapping_id = $this->mapping_id;
+    my $cfgData    = $this->app->cfg->data;
     ASSERT($cUID) if DEBUG;
     ASSERT( $cUID =~ m/^$mapping_id/ ) if DEBUG;
 
     my $wikiname;
 
-    if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
+    if ( $cfgData->{Register}{AllowLoginName} ) {
         $this->_loadMapping();
         $wikiname = $this->U2W->{$cUID};
     }
@@ -569,7 +571,7 @@ sub getWikiName {
         if ($wikiname) {
 
             # sanitise the generated WikiName
-            $wikiname =~ s/$Foswiki::cfg{NameFilter}//g;
+            $wikiname =~ s/$cfgData->{NameFilter}//g;
         }
     }
 
@@ -589,13 +591,15 @@ sub userExists {
     my ( $this, $cUID ) = @_;
     ASSERT($cUID) if DEBUG;
 
+    my $cfgData = $this->app->cfg->data;
+
     # Do this to avoid a password manager lookup
     return 1 if $cUID eq $this->app->user;
 
     my $loginName = $this->getLoginName($cUID);
     return 0 unless defined($loginName);
 
-    return 1 if ( $loginName eq $Foswiki::cfg{DefaultUserLogin} );
+    return 1 if ( $loginName eq $cfgData->{DefaultUserLogin} );
 
     # Foswiki allows *groups* to log in
     return 1 if ( $this->isGroup($loginName) );
@@ -605,7 +609,7 @@ sub userExists {
       if ( $this->passwords->canFetchUsers()
         && $this->passwords->fetchPass($loginName) );
 
-    unless ( $Foswiki::cfg{Register}{AllowLoginName}
+    unless ( $cfgData->{Register}{AllowLoginName}
         && $this->passwords->canFetchUsers() )
     {
 
@@ -613,11 +617,7 @@ sub userExists {
         #and if AllowLoginName is also off, then the only way to know if
         #the user has registered is to test for user topic?
         my $wikiname = $this->app->users->getWikiName($cUID);
-        if (
-            Foswiki::Func::topicExists(
-                $Foswiki::cfg{UsersWebName}, $wikiname
-            )
-          )
+        if ( Foswiki::Func::topicExists( $cfgData->{UsersWebName}, $wikiname ) )
         {
             return 1;
         }
@@ -669,6 +669,8 @@ my %expanding;    # Prevents loops in nested groups
 sub eachGroupMember {
     my ( $this, $group, $options ) = @_;
 
+    my $cfgData = $this->app->cfg->data;
+
     my $expand = $options->{expand};
 
     if ( Scalar::Util::tainted($group) ) {
@@ -712,14 +714,13 @@ sub eachGroupMember {
     }
 
     if (  !$expanding{$group}
-        && $app->store->topicExists( $Foswiki::cfg{UsersWebName}, $group ) )
+        && $app->store->topicExists( $cfgData->{UsersWebName}, $group ) )
     {
         $expanding{$group} = 1;
 
         #        print "Expanding $group \n";
         my $groupTopicObject =
-          Foswiki::Meta->load( $this->app, $Foswiki::cfg{UsersWebName},
-            $group );
+          Foswiki::Meta->load( $this->app, $cfgData->{UsersWebName}, $group );
 
         if ( !$expand ) {
             $singleGroupMembers =
@@ -757,8 +758,10 @@ See baseclass for documentation
 sub isGroup {
     my ( $this, $user ) = @_;
 
+    my $cfgData = $this->app->cfg->data;
+
     # Groups have the same username as wikiname as canonical name
-    return 1 if $user eq $Foswiki::cfg{SuperAdminGroup};
+    return 1 if $user eq $cfgData->{SuperAdminGroup};
 
     return 0 unless ( $user =~ m/Group$/ );
 
@@ -826,14 +829,16 @@ sub groupAllowsView {
     my $user = $this->app->user;
     return 1 if $this->app->users->isAdmin($user);
 
+    my $cfgData = $this->app->cfg->data;
+
     $Group = Foswiki::Sandbox::untaint( $Group,
         \&Foswiki::Sandbox::validateTopicName );
     my ( $groupWeb, $groupName ) =
-      $this->app->request->normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+      $this->app->request->normalizeWebTopicName( $cfgData->{UsersWebName},
         $Group );
 
 # If a Group or User topic normalized somewhere else,  doesn't make sense, so ignore the Webname
-    $groupWeb = $Foswiki::cfg{UsersWebName};
+    $groupWeb = $cfgData->{UsersWebName};
 
     $groupName = undef
       if ( not $this->app->store->topicExists( $groupWeb, $groupName ) );
@@ -858,10 +863,12 @@ sub groupAllowsChange {
     my $user  = shift;
     ASSERT( defined $user ) if DEBUG;
 
+    my $cfgData = $this->app->cfg->data;
+
     $Group = Foswiki::Sandbox::untaint( $Group,
         \&Foswiki::Sandbox::validateTopicName );
     my ( $groupWeb, $groupName ) =
-      $this->app->request->normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+      $this->app->request->normalizeWebTopicName( $cfgData->{UsersWebName},
         $Group );
 
     # SMELL: Should NobodyGroup be configurable?
@@ -869,7 +876,7 @@ sub groupAllowsChange {
     return 1 if $this->app->users->isAdmin($user);
 
 # If a Group or User topic normalized somewhere else,  doesn't make sense, so ignore the Webname
-    $groupWeb = $Foswiki::cfg{UsersWebName};
+    $groupWeb = $cfgData->{UsersWebName};
 
     $groupName = undef
       if ( not $this->app->store->topicExists( $groupWeb, $groupName ) );
@@ -890,10 +897,11 @@ cuid be a groupname which is added like it was an unknown user
 
 sub addUserToGroup {
     my ( $this, $cuid, $Group, $create ) = @_;
+    my $cfgData = $this->app->cfg->data;
     $Group = Foswiki::Sandbox::untaint( $Group,
         \&Foswiki::Sandbox::validateTopicName );
     my ( $groupWeb, $groupName ) =
-      $this->app->request->normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+      $this->app->request->normalizeWebTopicName( $cfgData->{UsersWebName},
         $Group );
 
     Foswki::Exception->throw( text =>
@@ -937,7 +945,7 @@ sub addUserToGroup {
 
         my @l;
         foreach my $ident ( split( /[\,\s]+/, $membersString ) ) {
-            $ident =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
+            $ident =~ s/^($cfgData->{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
             push( @l, $ident ) if $ident;
         }
         $membersString = join( ', ', @l );
@@ -1006,7 +1014,7 @@ sub addUserToGroup {
     );
 
     # reparse groups brute force :/
-    _getListOfGroups( $this, 1 ) if ($create);
+    $this->_getListOfGroups(1) if ($create);
     return 1;
 }
 
@@ -1087,10 +1095,11 @@ sub _writeGroupTopic {
     #TODO: should also consider securing the new topic?
     my $user = $this->app->user;
     $groupTopicObject->saveAs(
-        web              => $groupWeb,
-        topic            => $groupName,
-        author           => $user,
-        forcenewrevision => ( $groupName eq $Foswiki::cfg{SuperAdminGroup} )
+        web    => $groupWeb,
+        topic  => $groupName,
+        author => $user,
+        forcenewrevision =>
+          ( $groupName eq $this->app->cfg->data->{SuperAdminGroup} )
         ? 1
         : 0
     );
@@ -1105,10 +1114,13 @@ sub _writeGroupTopic {
 
 sub removeUserFromGroup {
     my ( $this, $cuid, $groupName ) = @_;
+
+    my $cfgData = $this->app->cfg->data;
+
     $groupName = Foswiki::Sandbox::untaint( $groupName,
         \&Foswiki::Sandbox::validateTopicName );
     my ( $groupWeb, $groupTopic ) =
-      $this->app->request->normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+      $this->app->request->normalizeWebTopicName( $cfgData->{UsersWebName},
         $groupName );
 
     Foswiki::Exception->throw(
@@ -1120,12 +1132,10 @@ sub removeUserFromGroup {
     Foswiki::Exception->throw(
         text => $this->app->i18n->maketext(
             '[_1] cannot be removed from [_2]',
-            (
-                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup}
-            )
+            ( $cfgData->{AdminUserWikiName}, $cfgData->{SuperAdminGroup} )
         )
       )
-      if ( $groupName eq "$Foswiki::cfg{SuperAdminGroup}"
+      if ( $groupName eq $cfgData->{SuperAdminGroup}
         && $cuid eq 'BaseUserMapping_333' );
 
     my $user     = $this->app->user;
@@ -1135,7 +1145,7 @@ sub removeUserFromGroup {
         $usersObj->isGroup($groupName)
         and (
             $this->app->store->topicExists(
-                $Foswiki::cfg{UsersWebName}, $groupName
+                $cfgData->{UsersWebName}, $groupName
             )
         )
       )
@@ -1152,7 +1162,7 @@ sub removeUserFromGroup {
             );
         }
         my $groupTopicObject =
-          Foswiki::Meta->load( $this->app, $Foswiki::cfg{UsersWebName},
+          Foswiki::Meta->load( $this->app, $cfgData->{UsersWebName},
             $groupName );
         if ( !$groupTopicObject->haveAccess( 'CHANGE', $user ) ) {
 
@@ -1170,7 +1180,7 @@ sub removeUserFromGroup {
         my $membersString = $groupTopicObject->getPreference('GROUP');
         my @l;
         foreach my $ident ( split( /[\,\s]+/, $membersString ) ) {
-            $ident =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
+            $ident =~ s/^($cfgData->{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
             next if ( $ident eq $WikiName );
             next if ( $ident eq $LoginName );
             next if ( $ident eq $cuid );
@@ -1237,11 +1247,11 @@ sub isAdmin {
     my $isAdmin = 0;
 
     # TODO: this might not apply now that we have BaseUserMapping - test
-    if ( $cUID eq $Foswiki::cfg{SuperAdminGroup} ) {
+    if ( $cUID eq $this->app->cfg->data->{SuperAdminGroup} ) {
         $isAdmin = 1;
     }
     else {
-        my $sag = $Foswiki::cfg{SuperAdminGroup};
+        my $sag = $this->app->cfg->data->{SuperAdminGroup};
         $isAdmin = $this->isInGroup( $cUID, $sag );
     }
 
@@ -1264,7 +1274,7 @@ sub findUserByEmail {
     my ( $this, $email ) = @_;
     ASSERT($email) if DEBUG;
     my @users;
-    if (  !$Foswiki::cfg{TopicUserMapping}{ForceManageEmails}
+    if (  !$this->app->cfg->data->{TopicUserMapping}{ForceManageEmails}
         && $this->passwords->isManagingEmails() )
     {
         my $logins = $this->passwords->findUserByEmail($email);
@@ -1331,7 +1341,7 @@ sub getEmails {
             }
         }
         else {
-            if (  !$Foswiki::cfg{TopicUserMapping}{ForceManageEmails}
+            if (  !$this->app->cfg->data->{TopicUserMapping}{ForceManageEmails}
                 && $this->passwords->isManagingEmails() )
             {
 
@@ -1371,7 +1381,7 @@ sub setEmails {
     my $this = shift;
     my $user = shift;
 
-    if (  !$Foswiki::cfg{TopicUserMapping}{ForceManageEmails}
+    if (  !$this->app->cfg->data->{TopicUserMapping}{ForceManageEmails}
         && $this->passwords->isManagingEmails() )
     {
         $this->passwords->setEmails( $this->getLoginName($user), @_ );
@@ -1400,7 +1410,7 @@ sub mapper_getEmails {
 
     my $topicObject = Foswiki::Meta->load(
         $app,
-        $Foswiki::cfg{UsersWebName},
+        $app->cfg->data->{UsersWebName},
         $app->users->getWikiName($user)
     );
 
@@ -1445,7 +1455,7 @@ sub mapper_setEmails {
     my $user = $app->users->getWikiName($cUID);
 
     my $topicObject =
-      Foswiki::Meta->load( $app, $Foswiki::cfg{UsersWebName}, $user );
+      Foswiki::Meta->load( $app, $app->cfg->data->{UsersWebName}, $user );
 
     if ( $topicObject->get('FORM') ) {
 
@@ -1492,7 +1502,7 @@ sub findUserByWikiName {
     if ( $this->isGroup($wn) ) {
         push( @users, $wn );
     }
-    elsif ( $Foswiki::cfg{Register}{AllowLoginName} ) {
+    elsif ( $this->app->cfg->data->{Register}{AllowLoginName} ) {
 
         #        print STDERR "AllowLoginName discovered \n";
 
@@ -1548,8 +1558,8 @@ sub checkPassword {
 
  # If we don't have a PasswordManager and use TemplateLogin,  always allow login
     return 1
-      if ( $Foswiki::cfg{PasswordManager} eq 'none'
-        && $Foswiki::cfg{LoginManager} eq
+      if ( $this->app->cfg->data->{PasswordManager} eq 'none'
+        && $this->app->cfg->data->{LoginManager} eq
         'Foswiki::LoginManager::TemplateLogin' );
 
     return $this->passwords->checkPassword( $login, $pw );
@@ -1651,10 +1661,9 @@ sub _cacheUser {
 
 # callback for search function to collate results
 sub _collateGroups {
-    my $ref   = shift;
-    my $group = shift;
+    my ( $ref, $group ) = @_;
     return unless $group;
-    push( @{ $ref->{list} }, $group );
+    push @{ $ref->{list} }, $group;
 }
 
 # get a list of groups defined in this Wiki
@@ -1671,7 +1680,7 @@ sub _getListOfGroups {
         $this->groupsList( [] );
 
         #create a MetaCache _before_ we do silly things with the app's users
-        $app->search->metacache();
+        $app->search->metacache;
 
         # Temporarily set the user to admin, otherwise it cannot see groups
         # where %USERSWEB% is protected from view
@@ -1681,13 +1690,14 @@ sub _getListOfGroups {
 
         try {
             $app->user( $app->cfg->data->{SuperAdminGroup} );
+
             $app->search->searchWeb(
                 _callback => \&_collateGroups,
                 _cbdata   => {
                     list  => $this->groupsList,
                     users => $users
                 },
-                web       => $Foswiki::cfg{UsersWebName},
+                web       => $app->cfg->data->{UsersWebName},
                 topic     => "*Group",
                 scope     => 'topic',
                 search    => '1',
@@ -1698,7 +1708,7 @@ sub _getListOfGroups {
                 nototal   => 'on',
                 noempty   => 'on',
                 format    => '$topic',
-                separator => '',
+                separator => ''
             );
         }
         catch {
@@ -1720,25 +1730,27 @@ sub _loadMapping {
     return if $this->CACHED;
     $this->CACHED(1);
 
+    my $cfgData = $this->app->cfg->data;
+
   #TODO: should only really do this mapping IF the user is in the password file.
   #       except if we can't 'fetchUsers' like in the Passord='none' case -
   #       in which case the only time we
   #       know a login is real, is when they are logged in :(
-    if (   ( $Foswiki::cfg{Register}{AllowLoginName} )
+    if (   ( $cfgData->{Register}{AllowLoginName} )
         || ( !$this->passwords->canFetchUsers() ) )
     {
         my $app = $this->app;
         if (
             $app->store->topicExists(
-                $Foswiki::cfg{UsersWebName},
-                $Foswiki::cfg{UsersTopicName}
+                $cfgData->{UsersWebName},
+                $cfgData->{UsersTopicName}
             )
           )
         {
             my $usersTopicObject = Foswiki::Meta->load(
                 $app,
-                $Foswiki::cfg{UsersWebName},
-                $Foswiki::cfg{UsersTopicName}
+                $cfgData->{UsersWebName},
+                $cfgData->{UsersTopicName}
             );
             my $text = $usersTopicObject->text() || '';
 
@@ -1766,6 +1778,8 @@ s/^\s*\* (?:$Foswiki::regex{webNameRegex}\.)?($Foswiki::regex{wikiWordRegex})\s*
 sub _expandUserList {
     my ( $this, $names, $expand ) = @_;
 
+    my $cfgData = $this->app->cfg->data;
+
     $expand = 1 unless ( defined $expand );
 
     #    print STDERR "_expandUserList called  $names - expand $expand \n";
@@ -1780,7 +1794,7 @@ sub _expandUserList {
     foreach my $ident ( split( /[\,\s]+/, $names ) ) {
 
         # Dump the web specifier if userweb
-        $ident =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
+        $ident =~ s/^($cfgData->{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
         next unless $ident;
         if ( $this->isGroup($ident) ) {
             if ( !$expand ) {

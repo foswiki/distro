@@ -20,11 +20,11 @@ appropriate to the event that caused the exception (default 500).
 Extensions may throw =Foswiki::OopsException=. For example:
 
 <verbatim>
-use Error qw(:try);
+use Foswiki::Exception;
 
 ...
 
-throw Foswiki::OopsException( 'bathplugin',
+Foswiki::OopsException->throw( 'bathplugin',
                             status => 418,
                             web => $web,
                             topic => $topic,

@@ -135,7 +135,6 @@ around tear_down => sub {
     unlink $this->tmpdatafile2;
     $this->removeWebFixture( $this->test_web2 );
     $orig->($this);
-    $| = 0;
 
     return;
 };
@@ -217,7 +216,7 @@ sub test_createWeb_permissions {
     my $this = shift;
     $this->app->cfg->data->{EnableHierarchicalWebs} = 1;
 
-    $this->pushApp;
+    $this->saveState;
 
     $this->createNewFoswikiApp(
         engineParams => {
@@ -234,7 +233,7 @@ sub test_createWeb_permissions {
 \t* Set DENYWEBCHANGE = $defaultUserWikiName
 HERE
 
-    $this->popApp;
+    $this->restoreState;
 
     # Verify that create of a root web is denied by default user.
     try {

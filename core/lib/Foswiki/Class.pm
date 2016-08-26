@@ -1,5 +1,8 @@
 # See bottom of file for license and copyright information
 
+package Foswiki::Class;
+use v5.14;
+
 =begin TML
 
 ---+!! Module Foswiki::Class
@@ -69,42 +72,71 @@ manually by the class using =with=.
 
 =cut
 
-package Foswiki::Class;
-use v5.14;
+# Naming conventions for this module:
+# _install_something – functions that install feature `something' into the target module;
+# _handler_someword - function which implements exported keyword `someword'
 
 use Carp;
 
+require Moo::Role;
 require Moo;
+require namespace::clean;
+use B::Hooks::EndOfScope 'on_scope_end';
+
 our @ISA = qw(Moo);
+
+my %_assignedRoles;
 
 sub import {
     my ($class) = shift;
     my $target = caller;
 
     # Define options we would provide for classes.
-    my %options = ( callbacks => 0, );
+    my %options = (
+        callbacks => {
+            use => 0,
+
+            # Keywords exported with this option.
+            keywords => [qw(callback_names)],
+        },
+        app => { use => 0, },
+    );
 
     my @p;
+    my @noNsClean = qw(meta);
     while (@_) {
         my $param = shift;
         if ( exists $options{$param} ) {
-            $options{$param} = 1;
+            my $opt = $options{$param};
+            $opt->{use} = 1;
+            push @noNsClean, @{ $opt->{keywords} } if defined $opt->{keywords};
         }
         else {
             push @p, $param;
         }
     }
 
-    foreach my $option ( keys %options ) {
+    foreach my $option ( grep { $options{$_}{use} } keys %options ) {
         my $installer = __PACKAGE__->can("_install_$option");
+        die "INTERNAL:There is no installer for option $option"
+          unless defined $installer;
         $installer->( $class, $target );
     }
+
+    on_scope_end {
+        $class->_apply_roles;
+    };
+
+    namespace::clean->import(
+        -cleanee => $target,
+        -except  => \@noNsClean,
+    );
 
     @_ = ( $class, @p );
     goto &Moo::import;
 }
 
-# Actually we're duplicating Moo::_install_coderef here in way. But we better
+# Actually we're duplicating Moo::_install_coderef here in a way. But we better
 # avoid using a module's internalls.
 sub _inject_code {
     my ( $name, $code ) = @_;
@@ -114,24 +146,36 @@ sub _inject_code {
     use strict "refs";
 }
 
-sub _assign_role {
-    my ( $target, $role ) = @_;
-    unless ( $target->does($role) ) {
-        eval "package $target; use Moo; with qw($role); 1;";
-        Carp::confess "Cannot assign role $role to $target: $@" if $@;
+sub _apply_roles {
+    my $class = shift;
+    foreach my $target ( keys %_assignedRoles ) {
+        Moo::Role->apply_roles_to_package( $target,
+            @{ $_assignedRoles{$target} } );
+        $class->_maybe_reset_handlemoose($target);
+        delete $_assignedRoles{$target};
     }
+}
+
+sub _assign_role {
+    my ( $class, $role ) = @_;
+    push @{ $_assignedRoles{$class} }, $role;
 }
 
 sub _install_callbacks {
     my ( $class, $target ) = @_;
 
+    _assign_role( $target, 'Foswiki::Aux::Callbacks' );
     _inject_code( "${target}::callback_names", \&_handler_callbacks );
 }
 
 sub _handler_callbacks {
     my $target = caller;
-    _assign_role( $target, 'Foswiki::Aux::Callbacks' );
     Foswiki::Aux::Callbacks::registerCallbackNames( $target, @_ );
+}
+
+sub _install_app {
+    my ( $class, $target ) = @_;
+    _assign_role( $target, 'Foswiki::AppObject' );
 }
 
 1;

@@ -24,10 +24,8 @@ use Foswiki::WebFilter                ();
 use Foswiki::MetaCache                ();
 use Foswiki::Infix::Error             ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 use Assert;
 
@@ -262,11 +260,10 @@ sub searchWeb {
     my $this = shift;
     my $app  = $this->app;
     my $req  = $app->request;
-    ASSERT( defined $app->request->web ) if DEBUG;
+    ASSERT( defined $req->web ) if DEBUG;
     my %params = @_;
 
-    my $baseWebObject =
-      $this->create( 'Foswiki::Meta', web => $app->request->web );
+    my $baseWebObject = $app->create( 'Foswiki::Meta', web => $req->web );
 
     my ( $callback, $cbdata ) = setup_callback( \%params, $baseWebObject );
 

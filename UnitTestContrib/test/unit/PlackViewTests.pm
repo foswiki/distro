@@ -6,16 +6,9 @@ use v5.14;
 use Assert;
 use HTTP::Request::Common;
 
-use Moo;
+use Foswiki::Class;
 use namespace::clean;
 extends qw(Unit::PlackTestCase);
-
-around initialize => sub {
-    my $orig = shift;
-    my $this = shift;
-
-    $orig->( $this, @_ );
-};
 
 around prepareTestClientList => sub {
     my $orig = shift;
@@ -42,7 +35,9 @@ around prepareTestClientList => sub {
 
 sub client_simple {
     my $this = shift;
-    my $test = shift;
+    my %args = @_;
+
+    my $test = $args{testObject};
 
     my $expected =
       '<h1 id="Welcome_to_the_Main_web">  Welcome to the Main web </h1>

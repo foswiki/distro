@@ -27,8 +27,6 @@ around set_up => sub {
     my $orig = shift;
     my $this = shift;
 
-    $| = 1;
-
     $orig->( $this, @_ );
 
     $this->createNewFoswikiApp;
@@ -99,8 +97,6 @@ around tear_down => sub {
     unlink $this->app->cfg->data->{Htpasswd}{FileName};
 
     $orig->( $this, @_ );
-
-    $| = 0;
 
     return;
 };

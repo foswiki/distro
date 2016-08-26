@@ -81,7 +81,8 @@ Have one of the following values:
 
 has _localizeState => ( is => 'rw', lazy => 1, clearer => 1, default => '', );
 
-has _localizeFlags => ( is => 'rw', lazy => 1, builder => 'setLocalizeFlags', );
+has _localizeFlags =>
+  ( is => 'rw', lazy => 1, builder => '_setLocalizeFlags', );
 
 # Removes attribute from the object.
 sub _clearAttrs {
@@ -208,7 +209,11 @@ sub doRestore {
 }
 
 sub setLocalizeFlags {
-    return { clearAttributes => 1, };
+    return clearAttributes => 1;
+}
+
+sub _setLocalizeFlags {
+    return { $_[0]->setLocalizeFlags };
 }
 
 =begin TML

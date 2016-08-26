@@ -9,7 +9,6 @@ use Scalar::Util qw(blessed weaken refaddr);
 use Try::Tiny;
 
 use Foswiki::Class qw(callbacks);
-use namespace::clean;
 extends qw(Foswiki::App);
 
 callback_names qw(testPreHandleRequest testPostHandleRequest);
@@ -114,6 +113,12 @@ sub registerCallbacks {
     $this->_cbRegistered(1);
 }
 
+before _prepareConfig => sub {
+    my $this = shift;
+
+    $this->registerCallbacks;
+};
+
 around _prepareRequest => sub {
     my $orig = shift;
     my $this = shift;
@@ -131,8 +136,6 @@ around _prepareEngine => sub {
 around handleRequest => sub {
     my $orig = shift;
     my $this = shift;
-
-    $this->registerCallbacks;
 
     my $rc;
     try {

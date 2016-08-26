@@ -1,5 +1,8 @@
 # See bottom of file for license and copyright information
 
+package Foswiki::Store;
+use v5.14;
+
 =begin TML
 
 ---+ package Foswiki::Store
@@ -49,9 +52,6 @@ attachment names, and unicode topic content. The store is expected
 to do any necessary encoding/decoding from/to unicode.
 
 =cut
-
-package Foswiki::Store;
-use v5.14;
 
 use Try::Tiny;
 use Assert;

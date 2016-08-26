@@ -47,21 +47,7 @@ our $didOnlyOnceChecks = 0;
 use Moo;
 use namespace::clean;
 extends qw(Unit::TestCase);
-with qw(Foswiki::Aux::Localize);
-
-has app => (
-    is        => 'rw',
-    lazy      => 1,
-    predicate => 1,
-    clearer   => 1,
-    isa => Foswiki::Object::isaCLASS( 'app', 'Unit::TestApp', noUndef => 1, ),
-    default => sub {
-        if ( defined $Foswiki::app ) {
-            return $Foswiki::app;
-        }
-        return Unit::TestApp->new( env => \%ENV );
-    },
-);
+with qw(Foswiki::Aux::Localize Unit::FoswikiTestRole);
 
 #has twiki =>
 #  ( is => 'rw', clearer => 1, lazy => 1, default => sub { $_[0]->app }, );
@@ -94,35 +80,6 @@ has request => (
     isa =>
       Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request', noUndef => 1, ),
 );
-has test_web   => ( is => 'rw', );
-has test_topic => ( is => 'rw', );
-
-has _holderStack => ( is => 'rw', lazy => 1, default => sub { [] }, );
-
-has __EnvSafe => (
-    is      => 'rw',
-    lazy    => 1,
-    clearer => 1,
-    default => sub { {} },
-);
-
-=begin TML
-
----++ ObjectAttribute __EnvReset
-
-__EnvReset defines environment variables to be deleted or set to predefined
-values. If a variable key has undefined value then it is deleted. Otherwise it
-is set to the value defined.
-
-=cut
-
-has __EnvReset => (
-    is      => 'rw',
-    lazy    => 1,
-    clearer => 1,
-    default => sub { {} },
-);
-has __FoswikiSafe => ( is => 'rw', );
 
 BEGIN {
 
@@ -132,19 +89,6 @@ BEGIN {
 #unshift @INC, '../../bin';    # SMELL: dodgy
 #    require 'setlib.cfg';
 #$SIG{__DIE__} = sub { Carp::confess $_[0] };
-}
-
-# Simulate Foswiki::AppObject
-sub create {
-    my $this = shift;
-    ASSERT( defined $this->app,
-        "app attribute is not defined on " . ref($this) . " object" );
-    return $this->app->create(@_);
-}
-
-sub _test_with_deps {
-    my ( $this, $test, %skip_data ) = @_;
-
 }
 
 =begin TML
@@ -231,11 +175,14 @@ sub skip_test_if {
 
 # Checks we only need to run once per test run
 sub _onceOnlyChecks {
+    my $this = shift;
     return if $didOnlyOnceChecks;
+
+    my $cfgData = $this->app->cfg->data;
 
     # Make sure we can create directories in $Foswiki::cfg{DataDir}, otherwise
     # the tests will mysteriously fail.
-    my $t = "$Foswiki::cfg{DataDir}/UnitTestCheckDir";
+    my $t = $cfgData->{DataDir} . "/UnitTestCheckDir";
     if ( -e $t ) {
         rmdir($t) || die "Could not remove old $t: $!";
     }
@@ -247,14 +194,15 @@ sub _onceOnlyChecks {
     # Make sure we can disallow write permissions. Foswiki tests should
     # always be run as a non-admin user, so that they can test scenarios
     # where access permissions are denied.
-    $t = "$Foswiki::cfg{DataDir}/UnitTestCheckFile";
+    $t = $cfgData->{DataDir} . "/UnitTestCheckFile";
     if ( -e $t ) {
         unlink($t)
           || die "Could not remove old $t: $!";
     }
     open( F, '>', $t )
       || die "Could not create $t: $!\nUser running tests "
-      . "has to be able to create files in $Foswiki::cfg{DataDir}";
+      . "has to be able to create files in "
+      . $cfgData->{DataDir};
     print F "Blah";
     close(F);
     chmod( 0444, $t )
@@ -682,139 +630,25 @@ around set_up => sub {
     $orig->( $this, @_ );
     my $cfgData = $this->app->cfg->data;
 
-    $this->_clear__EnvSafe;
-    foreach my $sym ( keys %ENV ) {
-        next unless defined($sym);
-        $this->__EnvSafe->{$sym} = $ENV{$sym};
-    }
-
     # Tell the world we are running unit tests. Nasty, but needed to
     # avoid corruption of data spaces when unit tests are run alongside
     # a running wiki.
     $Foswiki::inUnitTestMode = 1;
 
-    # This needs to be a deep copy
-    $this->__FoswikiSafe(
-        Data::Dumper->Dump( [ \%Foswiki::cfg ], ['*Foswiki::cfg'] ) );
+    # This is about both config and %ENV
+    $this->preserveEnvironment;
 
-    # Disable/enable plugins so that only core extensions (those defined
-    # in lib/MANIFEST) are enabled, but they are *all* enabled.
-
-    # First disable all plugins
-    foreach my $k ( keys %{ $cfgData->{Plugins} } ) {
-        next unless ref( $cfgData->{Plugins}{$k} ) eq 'HASH';
-        $cfgData->{Plugins}{$k}{Enabled} = 0;
-    }
-
-    # then reenable only those listed in MANIFEST
-    my $home = $ENV{FOSWIKI_HOME} || '../..';
-    $home = '../..' unless -e "$ENV{FOSWIKI_HOME}/lib/MANIFEST";
-    open( F, "$home/lib/MANIFEST" ) || die $!;
-    my @moreConfig;
-    local $/ = "\n";
-    while (<F>) {
-        if (/^!include .*?([^\/]+)\/([^\/]+)$/) {
-            my ( $subdir, $extension ) = ( $1, $2 );
-            chomp $extension;
-
-            # Don't enable EmptyPlugin - Disabled by default
-            if ( $extension =~ m/Plugin$/ && $extension ne 'EmptyPlugin' ) {
-                unless ( exists $cfgData->{Plugins}{$extension}{Module} ) {
-                    $cfgData->{Plugins}{$extension}{Module} =
-                      'Foswiki::Plugins::' . $extension;
-                    print STDERR "WARNING: $extension has no module defined, "
-                      . "it might not load!\n"
-                      . "\tGuessed it to $cfgData->{Plugins}{$extension}{Module}\n";
-                }
-                $cfgData->{Plugins}{$extension}{Enabled} = 1;
-            }
-
-            # Is there a Config.spec?
-            if (
-                open( G, "<",
-                    "../../lib/Foswiki/$subdir/$extension/Config.spec"
-                )
-              )
-            {
-                local $/ = undef;
-                my $config = <G>;
-                close(G);
-
-                # Add the config unless already defined in LocalSite.cfg
-                $config =~
-s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "exists $2"); ''/ges;
-            }
-        }
-    }
-    close(F);
-
-    # Additional config picked up from plugins Config.spec's
-    if ( scalar @moreConfig ) {
-        unshift( @moreConfig, 'my $FALSE = 0; my $TRUE = 1;' );
-        my $cmd = join( "\n", @moreConfig );
-
-        #print STDERR $cmd; # Additional config from enabled extensions
-        eval $cmd;
-        die $@ if $@;
-    }
-
-    # Take a look at installed contribs and see if they demand any
-    # additional setup.
-    if ( opendir( F, "$home/lib/Foswiki/Contrib" ) ) {
-        foreach my $d ( grep { /^[A-Za-z]+Contrib$/ } readdir(F) ) {
-            next unless -e "$home/lib/Foswiki/Contrib/$d/UnitTestSetup.pm";
-            my $setup = "Foswiki::Contrib::$d" . '::UnitTestSetup';
-            $setup =~ m/^(.*)$/;    # untaint
-            eval "require $1" || die $@;
-            $setup->set_up();
-        }
-        closedir(F);
-    }
+    $this->setupPlugins;
 
     ASSERT( !defined $Foswiki::app ) if SINGLE_SINGLETONS;
-
-    $this->app->cfg->data->{WorkingDir} = $this->tempDir;
-    foreach my $subdir (qw(tmp registration_approvals work_areas requestTmp)) {
-        my $newDir =
-          File::Spec->catfile( $this->app->cfg->data->{WorkingDir}, $subdir );
-        ASSERT( mkdir($newDir), "mkdir($newDir) : $!" );
-    }
 
     # Force completion of %Foswiki::cfg
     # This must be done before moving the logging.
     $cfgData->{Store}{Implementation} = 'Foswiki::Store::PlainFile';
 
-    #$this->pushApp;
-    #my $tmp = Unit::TestApp->new(
-    #    user => undef,
-    #    env  => $this->app->cloneEnv,
-    #    cfg  => $this->app->cfg->clone,
-    #);
-    #ASSERT( $tmp->cfg->app == $tmp,
-    #    "Object app attr doesn't point to the new app" );
-    #ASSERT( defined $Foswiki::app ) if SINGLE_SINGLETONS;
-    #undef $tmp;    # finish() will be called automatically.
-    #ASSERT( !defined $Foswiki::app ) if SINGLE_SINGLETONS;
-    #$this->popApp;
+    $this->setupDirs;
 
-    # Note this does not do much, except for some tests that use it directly.
-    # The first call to File::Temp caches the temp directory name, so
-    # this value won't get used for anything created by File::Temp
-    $cfgData->{TempfileDir} = "$cfgData->{WorkingDir}/requestTmp";
-
-    # Move logging into a temporary directory
-    my $logdir = Cwd::getcwd() . '/testlogs';
-    $logdir =~ m/^(.*)$/;
-    $logdir = $1;
-    $cfgData->{Log}{Dir} = $logdir;
-    mkdir($logdir) unless -d $logdir;
-    $cfgData->{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
-    $cfgData->{LogFileName}         = "$logdir/FoswikiTestCase.log";
-    $cfgData->{WarningFileName}     = "$logdir/FoswikiTestCase.warn";
-    $cfgData->{DebugFileName}       = "$logdir/FoswikiTestCase.debug";
-    $cfgData->{AdminUserWikiName}   = 'AdminUser';
-    $cfgData->{AdminUserLogin}      = 'root';
-    $cfgData->{SuperAdminGroup}     = 'AdminGroup';
+    $this->setupAdminUser;
 
     # The unit tests really need CGI sessions or captureWithKey fails
     $cfgData->{Sessions}{EnableGuestSessions} = 1;
@@ -825,7 +659,7 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
     # have been called when the first Foswiki object was created, above.)
     $this->loadExtraConfig(@_);
 
-    _onceOnlyChecks();
+    $this->_onceOnlyChecks();
 
 };
 
@@ -833,25 +667,10 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
 around tear_down => sub {
     my $orig = shift;
     my $this = shift;
-    $this->_clear_tempDir;
-    $this->app->cfg->data( { eval $this->__FoswikiSafe } );
-    foreach my $sym ( keys %ENV ) {
-        unless ( defined( $this->__EnvSafe->{$sym} ) ) {
-            delete $ENV{$sym};
-        }
-        else {
-            $ENV{$sym} = $this->__EnvSafe->{$sym};
-        }
-    }
 
-    foreach my $sym ( keys %{ $this->__EnvReset } ) {
-        if ( defined $this->__EnvReset->{$sym} ) {
-            $ENV{$sym} = $this->__EnvReset->{$sym};
-        }
-        else {
-            delete $ENV{$sym};
-        }
-    }
+    $this->_clear_tempDir;
+
+    $this->restoreEnvironment;
 
     # Clear down non-default META types.
     foreach my $thing ( keys %$Foswiki::Meta::VALIDATE ) {
@@ -924,7 +743,7 @@ Remove a temporary web fixture (data and pub)
 sub removeWebFixture {
     my ( $this, $web ) = @_;
 
-    ASSERT( !ref( $_[1] ), "Old-style call to removeWebFixture" );
+    ASSERT( !ref( $_[1] ), "Non-OO call to removeWebFixture" );
 
     try {
         my $webObject = $this->create( 'Foswiki::Meta', web => $web );
@@ -1082,51 +901,6 @@ sub getUIFn {
 
 =begin TML
 
----++ ObjectMethod createNewFoswikiApp(%params) -> ref to new Unit::TestApp obj
-
-cleans up the existing Foswiki object, and creates a new one
-
-=%params= are passed directly to the =Foswiki::App= constructor.
-
-typically called to force a full re-initialisation either with new preferences, topics, users, groups or CFG
-
-=cut
-
-sub createNewFoswikiApp {
-    my $this = shift;
-
-    my %params = @_;
-
-    $this->clear_test_topicObject;
-    $this->clear_request;
-    ASSERT( !defined $Foswiki::app ) if SINGLE_SINGLETONS;
-    $Foswiki::cfg{Store}{Implementation} ||= 'Foswiki::Store::PlainFile';
-
-    $params{env} //= $this->app->cloneEnv;
-    my $app = Unit::TestApp->new( cfg => $this->app->cfg->clone, %params );
-
-    $this->app($app);
-    $this->_fixupAppObjects;
-
-    # WorkDir is set to _tempDir but _tempDir might be cleaned up before $app
-    # gets completely shutdown. This draws some app frameworks to fail upon
-    # cleanup as they rely upon WorkDir. By storing the _tempDir object on app's
-    # heap we let them shutdown cleanly.
-    $app->heap->{TestCase_TempDir} = $this->_tempDir;
-
-    ASSERT( defined $Foswiki::app ) if SINGLE_SINGLETONS;
-
-    if ( $this->test_web && $this->test_topic ) {
-        $this->test_topicObject(
-            ( Foswiki::Func::readTopic( $this->test_web, $this->test_topic ) )
-            [0] );
-    }
-
-    return $this->app;
-}
-
-=begin TML
-
 ---++ ObjectMethod reCreateFoswikiApp
 
 Creates a new app object using currently active one as the template.
@@ -1229,59 +1003,29 @@ sub setLocalizableAttributes {
 }
 
 around setLocalizeFlags => sub {
-    my $orig  = shift;
-    my $flags = $orig->(@_);
+    my $orig = shift;
 
     # Don't clean app on localizing as we might need it until the new one is
     # created.
-    $flags->{clearAttributes} = 0;
-
-    return $flags;
+    return $orig->(@_), clearAttributes => 0;
 };
 
-# Correct all Foswiki::AppObject to use currently active Foswiki::App object.
-# SMELL Hacky but shall be transparent for any derived test case class.
-sub _fixupAppObjects {
+around createNewFoswikiApp => sub {
+    my $orig = shift;
     my $this = shift;
 
-    my $app = $this->app;
+    $this->clear_test_topicObject;
+    $this->clear_request;
 
-    foreach my $attr ( keys %$this ) {
-        if (
-               blessed( $this->{$attr} )
-            && $this->$attr->isa('Foswiki::Object')
-            && $this->$attr->can('_set_app')
-            && ( !defined( $this->$attr->app )
-                || ( $this->$attr->app != $app ) )
-          )
-        {
-            $this->$attr->_set_app($app);
-        }
+    my $newApp = $orig->( $this, @_ );
+
+    if ( $this->test_web && $this->test_topic ) {
+        $this->test_topicObject(
+            ( $newApp->readTopic( $this->test_web, $this->test_topic ) )[0] );
     }
-}
 
-sub pushApp {
-    my $this = shift;
-    my %params;
-
-    my $holderObj = $this->localize(@_);
-
-    push @{ $this->_holderStack }, $holderObj;
-}
-
-sub popApp {
-    my $this = shift;
-
-    ASSERT( @{ $this->_holderStack } > 0, "Empty stack of holder objects" )
-      if DEBUG;
-
-    pop @{ $this->_holderStack };
-
-    $Foswiki::app = $this->app;
-
-    $this->app->cfg->assignGLOB;
-    $this->_fixupAppObjects;
-}
+    return $newApp;
+};
 
 1;
 __DATA__

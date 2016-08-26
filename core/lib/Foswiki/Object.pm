@@ -21,11 +21,11 @@ features.
 =cut
 
 require Carp;
-use Scalar::Util qw(blessed refaddr weaken isweak);
 require Foswiki::Exception;
+use Try::Tiny;
+use Scalar::Util qw(blessed refaddr weaken isweak);
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 
 use Assert;
 
@@ -84,7 +84,11 @@ has __id => (
     },
 );
 
-sub BUILDARGS {
+has __clone_heap =>
+  ( is => 'rw', clearer => 1, lazy => 1, default => sub { {} }, );
+
+around BUILDARGS {
+    my $orig = shift;
     my ( $class, @params ) = @_;
 
     # Skip processing if already have passed with a hash ref.
@@ -137,7 +141,7 @@ sub BUILDARGS {
     use strict 'refs';
 
     return $paramHash;
-}
+};
 
 sub BUILD {
     my $this = shift;
@@ -153,7 +157,6 @@ sub BUILD {
         $this->__orig_line($line);
         $this->__orig_stack( Carp::longmess('') );
     }
-
 }
 
 sub DEMOLISH {
@@ -184,9 +187,6 @@ sub DEMOLISH {
         }
     }
 }
-
-has __clone_heap =>
-  ( is => 'rw', clearer => 1, lazy => 1, default => sub { {} }, );
 
 sub _cloneData {
     my $this = shift;
@@ -290,7 +290,7 @@ sub clone {
 
             # Debug attributes would be preserved but those coming from the
             # source object would be kinda pushed on a stack by adding extra __
-            # prefix. This way we could trace an object history.
+            # prefix. This way we could trace object's history.
             $destAttr = "__$destAttr";
         }
         my $clone_method = "_clone_" . $attr;
