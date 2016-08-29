@@ -404,7 +404,7 @@ extends qw(Foswiki::Exception);
 sub BUILD {
     my $this = shift;
 
-    say STDERR $this->stacktrace;
+    say STDERR $this->stringify, $this->stacktrace;
 }
 
 # To cover perl/system errors.

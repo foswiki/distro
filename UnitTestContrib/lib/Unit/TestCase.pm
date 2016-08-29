@@ -169,7 +169,7 @@ sub fixture_groups {
 
 =begin TML
 
----++ ObjectMethod list_tests() -> $list
+---++ ObjectMethod list_tests() -> @list
 
 Returns a list of the names of test functions defined by the testcase.
 This method can be overridden to give an alternative list of tests.

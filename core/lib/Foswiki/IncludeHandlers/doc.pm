@@ -11,11 +11,13 @@ method INCLUDE which generates perl documentation for a Foswiki class.
 =cut
 
 package Foswiki::IncludeHandlers::doc;
+use v5.14;
 
 use strict;
 use warnings;
 
-use Foswiki ();
+use File::Spec ();
+use Foswiki    ();
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -50,16 +52,9 @@ sub INCLUDE {
     my $visibility = exists $publicPackages{$class} ? 'public' : 'internal';
     _setNavigation( $app, $class, $publicOnly, \%publicPackages );
     $app->prefs->setSessionPreferences( 'DOC_TITLE',
-        "---++ !! =$visibility package= " . _renderTitle($class) );
+        "---++ !! =$visibility package= " . _renderTitle( $app, $class ) );
 
-    my $pmfile;
-    $class =~ s#::#/#g;
-    foreach my $inc (@INC) {
-        if ( -f "$inc/$class.pm" ) {
-            $pmfile = "$inc/$class.pm";
-            last;
-        }
-    }
+    my $pmfile = _getPmFile( $app, $class );
     return '' unless $pmfile;
 
     my $PMFILE;
@@ -73,9 +68,11 @@ sub INCLUDE {
     my $isa;
     my $inSuppressedMethod;
 
-    if ( $perl =~ m/our\s+\@ISA\s*=\s*\(\s*['"](.*?)['"]\s*\)/ ) {
+    if (   $perl =~ m/our\s+\@ISA\s*=\s*\(\s*['"](.*?)['"]\s*\)/
+        || $perl =~ m/extends\s+(?:qw\(|'|")(.+?)(?:\)|'|");/ )
+    {
         $isa = " ==is a== $1";
-        $isa =~ s#\s(Foswiki(?:::[A-Z]\w+)+)#' ' . _doclink($1)#ge;
+        $isa =~ s#\s(\w+?(?:::[A-Z]\w+)+)#' ' . _doclink($app, $1)#ge;
     }
     $perl = Foswiki::takeOutBlocks( $perl, 'verbatim', \%removedblocks );
     foreach my $line ( split( /\r?\n/, $perl ) ) {
@@ -96,9 +93,13 @@ sub INCLUDE {
 s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
             }
             else {
-                $line =~ s#\b(Foswiki(?:::[A-Z]\w+)+)#_doclink($1)#ge;
+                # Check for module names not prefixed with colon or left square
+                # bracket.
+                $line =~
+                  s#(?<![\[:])\b(\w+?(?:::[A-Z]\w+)+)#_doclink($app, $1)#ge;
             }
-            if ( $line =~ s/^(---\++\s+)(\w+Method)\s+/$1=$2= / ) {
+            if ( $line =~ s/^(---\++\s+)(\w+(?:Method|Attribute))\s+/$1=$2= / )
+            {
                 $line =~ s/\s+[-=]>\s+/ &rarr; /;
                 if ( $publicOnly && $line =~ m/Method=\s+_/ ) {
                     $inSuppressedMethod = 1;
@@ -149,6 +150,25 @@ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
     return $pod;
 }
 
+sub _getPmFile {
+    my ( $app, $class ) = @_;
+    state %cachedPMs;
+    state $fwPath;
+
+    unless ( defined $fwPath ) {
+        $fwPath = ( File::Spec->splitpath( $INC{'Foswiki.pm'} ) )[1];
+    }
+
+    return $cachedPMs{$class} if $cachedPMs{$class};
+
+    my $pmfile = '';
+    ( my $classFile = $class ) =~ s#::#/#g;
+    $classFile = File::Spec->catfile( $fwPath, "$classFile.pm" );
+    $pmfile = $classFile if ( -f $classFile );
+    $cachedPMs{$class} = $pmfile;
+    return $pmfile;
+}
+
 # set DOC_CHILDREN preference value to a list of sub-packages.
 sub _setNavigation {
     my ( $app, $class, $publicOnly, $publicPackages ) = @_;
@@ -158,7 +178,7 @@ sub _setNavigation {
 
 #    my $classParent = $class;
 #    $classParent =~ s/::[^:]+$//;
-#    $app->prefs->setSessionPreferences( 'DOC_PARENT', _doclink($classParent) );
+#    $app->prefs->setSessionPreferences( 'DOC_PARENT', _doclink($app, $classParent) );
     $class =~ s#::#/#g;
 
     foreach my $inc (@INC) {
@@ -186,7 +206,7 @@ sub _setNavigation {
         foreach my $child (@children) {
             my $desc =
               $childrenDesc{$child} ? ' - ' . $childrenDesc{$child} : '';
-            $children .= '<li>' . _doclink($child) . "$desc</li>\n";
+            $children .= '<li>' . _doclink( $app, $child ) . "$desc</li>\n";
         }
     }
     $children .= '</ul>';
@@ -257,22 +277,37 @@ sub _loadPublishedAPI {
 
 # Make each intermediate package into a doc link.
 sub _renderTitle {
-    my $pack = $_[0];
+    my $app       = shift;
+    my $pack      = $_[0];
     my @packComps = split '::', $pack;
     my @packLinks =
-      map { _doclink( ( join '::', @packComps[ 0 .. $_ ] ), $packComps[$_] ) }
-      0 .. $#packComps - 1;
+      map {
+        _doclink( $app, ( join '::', @packComps[ 0 .. $_ ] ), $packComps[$_] )
+      } 0 .. $#packComps - 1;
     my $packageTitle = join '::', @packLinks, $packComps[$#packComps];
     return $packageTitle;
 }
 
 sub _doclink ($) {
+    my $app    = shift;
     my $module = $_[0];
+    $module =~ s/^_(.+)(_)$/$1/;
+    my $formatChar = $2 // '';
     my $title = $_[1] || $module;
 
+    my $pmfile = _getPmFile( $app, $module );
+
     # SMELL relying on TML to set publicOnly
-    return
-"[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=$module%IF{\"\$publicOnly = 'on'\" then=\";publicOnly=on\"}%][$title]]";
+    return $formatChar
+      . (
+        $pmfile
+        ? ( "[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module="
+              . $module
+              . "%IF{\"\$publicOnly = 'on'\" then=\";publicOnly=on\"}%]["
+              . $title
+              . "]]" )
+        : "[[CPAN:$module][$title]]"
+      ) . $formatChar;
 }
 
 1;

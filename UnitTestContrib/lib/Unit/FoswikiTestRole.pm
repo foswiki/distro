@@ -15,6 +15,7 @@ use Assert;
 use Try::Tiny;
 use File::Spec;
 use Scalar::Util qw(blessed);
+use Foswiki::Exception;
 
 BEGIN {
     if (Unit::TestRunner::CHECKLEAK) {
@@ -32,6 +33,13 @@ use Moo::Role;
 
 our @mails;
 
+=begin TML
+---++ ObjectAttribute app
+
+Test case application object.
+
+=cut
+
 has app => (
     is        => 'rw',
     lazy      => 1,
@@ -46,17 +54,41 @@ has app => (
     },
     handles => [qw(create)],
 );
+
+=begin TML
+---++ ObjectAttribute test_web
+
+Default test web name.
+
+=cut
+
 has test_web => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
     default => sub { return $_[0]->testWebName; },
 );
+
+=begin TML
+---++ ObjectAttribute test_topic
+
+Default test topic name.
+
+=cut
+
 has test_topic => (
     is      => 'rw',
     lazy    => 1,
     default => sub { return 'TestTopic' . $_[0]->testSuite; },
 );
+
+=begin TML
+---++ ObjectAttribute test_topic
+
+Default users web for test.
+
+=cut
+
 has users_web => (
     is      => 'rw',
     lazy    => 1,
@@ -64,6 +96,8 @@ has users_web => (
 );
 
 has _holderStack => ( is => 'rw', lazy => 1, default => sub { [] }, );
+
+# List of webs created with populateNewWeb method.
 has _testWebs => (
     is        => 'rw',
     lazy      => 1,
@@ -422,7 +456,12 @@ sub setupDirs {
     foreach my $subdir (qw(tmp registration_approvals work_areas requestTmp)) {
         my $newDir =
           File::Spec->catfile( $this->app->cfg->data->{WorkingDir}, $subdir );
-        ASSERT( mkdir($newDir), "mkdir($newDir) : $!" );
+        unless ( -d $newDir || mkdir($newDir) ) {
+            Foswiki::Exception::FileOp->throw(
+                file => $newDir,
+                op   => "mkdir",
+            );
+        }
     }
 
     # Note this does not do much, except for some tests that use it directly.
@@ -445,6 +484,7 @@ sub setupDirs {
 
 =begin TML
 
+#setupAdminUser
 ---++ ObjectMethod setupAdminUser(%userData)
 
 Sets this test administrator user data. The =%userData= hash may have the

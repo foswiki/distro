@@ -18,12 +18,15 @@ around prepareTestClientList => sub {
 
     push @$tests, (
         {
-            client => \&client_simple,
-            name   => 'probe',
-            init   => sub {
+            # This is intentional use of client-prefixed function to demonstrate
+            # both methods of defining a test. What makes these tests different
+            # is initRequest key.
+            client      => \&clientSimple,
+            name        => 'probe',
+            initRequest => sub {
                 my $this = shift;
                 my %args = @_;
-                my $app  = $args{data}{app};
+                my $app  = $args{serverApp};
 
                 $app->cfg->data->{UsersWebName} = 'Sandbox';
             },
@@ -33,11 +36,11 @@ around prepareTestClientList => sub {
     return $tests;
 };
 
-sub client_simple {
+sub clientSimple {
     my $this = shift;
     my %args = @_;
 
-    my $test = $args{testObject};
+    my $test = $args{plackTestObj};
 
     my $expected =
       '<h1 id="Welcome_to_the_Main_web">  Welcome to the Main web </h1>

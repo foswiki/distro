@@ -6,10 +6,8 @@ use v5.14;
 use Foswiki qw(%regex expandStandardEscapes);
 use Foswiki::Attrs ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 use Assert;
 
@@ -473,10 +471,6 @@ sub _processMacros {
                     $stackTop .=
                       $this->_processMacros( $e, $tagf, $topicObject,
                         $depth - 1 );
-                    ASSERT(
-                        $stackTop !~ /Foswiki::Macr/,
-                        "Foswiki::Macros for $tag"
-                    );
                 }
                 else {
 

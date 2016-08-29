@@ -47,8 +47,10 @@ around prepareTestClientList => sub {
             ],
             initRequest => sub {
                 my $this = shift;
-                $this->app->cfg->data->{Validation}{Method} = 'none';
-                $this->app->cfg->data->{DisableAllPlugins} = 1;
+                my %args = @_;
+                my $app  = $args{serverApp};
+                $app->cfg->data->{Validation}{Method} = 'none';
+                $app->cfg->data->{DisableAllPlugins} = 1;
             },
         },
     );
@@ -60,7 +62,7 @@ sub _test_attach_simple {
     my %args = @_;
 
     my $app  = $this->app;
-    my $test = $args{testObject};
+    my $test = $args{plackTestObj};
 
     my $web   = ( keys %{ $args{testParams}{testWebs} } )[0];
     my $topic = ( keys %{ $args{testParams}{testWebs}{$web} } )[0];
