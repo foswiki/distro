@@ -296,7 +296,7 @@ sub transmute {
       if DEBUG;
     if ( ref($e) ) {
         if ( $e->isa('Foswiki::Exception') ) {
-            if ( !$enforce || ( ref($e) eq $class ) ) {
+            if ( !$enforce || $e->isa($class) ) {
                 return $e;
             }
             return $class->new( %$e, @_ );

@@ -1,7 +1,6 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Extensions;
-use v5.14;
 
 use File::Spec     ();
 use IO::Dir        ();
@@ -10,6 +9,7 @@ use Scalar::Util qw(blessed);
 
 use Assert;
 use Try::Tiny;
+use Data::Dumper;
 use Foswiki::Exception;
 
 use Foswiki::Class qw(app);
@@ -23,6 +23,16 @@ use version 0.77; our $VERSION = version->declare("2.99.0");
 # The minimal API version this module supports. If an extension declares API
 # version lower than this it gets rejected.
 our $MIN_VERSION = version->declare("2.99.0");
+
+# --- Static data registered upon extension's module load and to be parsed when
+# extensions are built.
+# NOTE All data stored in globals is raw and must be revalidated before used.
+our @extModules;  # List of the extension modules in the order they were loaded.
+our %loadedModules;    # Modules been loaded previously.
+our %extSubClasses;    # Subclasses registered by extensions.
+our %extDeps;   # Module dependecies. Influences the order of extension objects.
+
+# --- END of static data declarations
 
 has extensions => (
     is      => 'rw',
@@ -40,7 +50,7 @@ has extSubdir => (
 
 ---++ ObjectAttribute extPrefix => string
 
-Extension modules name prefix.
+Extension modules name prefix. Used by =normalizeExtName()= method and for locating extension by their =.pm= files.
 
 Default: Foswiki::Extension.
 
@@ -73,6 +83,9 @@ sub BUILD {
     say STDERR "Initializing extensions" if DEBUG;
 
     $this->load_extensions;
+
+    say STDERR "Ext sub classes: ", Dumper( \%extSubClasses );
+    say STDERR "Ext deps: ",        Dumper( \%extDeps );
 }
 
 sub normalizeExtName {
@@ -130,20 +143,21 @@ sub checkVersion {
     ) if $api_ver > $VERSION;
 }
 
-sub _loadExt {
+sub _loadExtModule {
     my $this = shift;
-    my ($extName) = @_;
+    my ($extModule) = @_;
+
+    return if isLoaded($extModule);
 
     try {
-        if ( $extName = $this->extEnabled($extName) ) {
-            Foswiki::load_class($extName);
-            $this->checkVersion($extName);
-        }
+        Foswiki::load_class($extModule);
+        $this->checkVersion($extModule);
+        registerExtModule($extModule);
     }
     catch {
         Foswiki::Exception::Ext::Load->rethrow(
             $_,
-            extension => $extName,
+            extension => $extModule,
             reason    => Foswiki::Exception::errorStr($_),
         );
     };
@@ -162,16 +176,18 @@ sub load_extensions {
         next if -d $dirEntry || $dirEntry !~ /\.pm$/;
 
         # SMELL $dirEntry is tainted but this we must take care of later.
+        my $extModule;
         try {
             if ( $dirEntry =~
                 /^(\w+)\.pm$/a )    # We match against ASCII symbols only.
             {
-                $this->_loadExt($1);
+                $extModule = $this->normalizeExtName($1);
+                $this->_loadExtModule($extModule);
             }
             else {
-           # SMELL Bad extension file name, shall we do something about it? Note
-           # that loggins isn't possible yet. But we can rely upon server
-           # logging perhaps.
+                # SMELL Bad extension file name, shall we do something about it?
+                # Note that loggins isn't possible yet. But we can rely upon
+                # server logging perhaps.
                 Foswiki::Exception::Ext::BadName->throw(
                     extension => $dirEntry );
             }
@@ -180,7 +196,10 @@ sub load_extensions {
             # We don't really fail upon extension load because this ain't fatal
             # in neither way. What bad could unloaded extension cause?
             push @{ $this->_errors },
-              Foswiki::Exception::Ext->transmute( $_, 0 );
+              Foswiki::Exception::Ext::Load->transmute( $_, 1,
+                extension => $extModule );
+            say STDERR "Extension $extModule problem: \n",
+              Foswiki::Exception::errorStr( $this->_errors->[-1] );
         };
     }
 }
@@ -222,6 +241,35 @@ sub listDisabledExtensions {
         @list = split /,/, $disabled;
     }
     return @list;
+}
+
+sub registerSubClass {
+    my ( $extModule, $class, $subClass ) = @_;
+
+    push @{ $extSubClasses{$class} },
+      {
+        extension => $extModule,
+        subClass  => $subClass
+      };
+}
+
+sub registerExtModule {
+    my ($extModule) = @_;
+
+    push @extModules, $extModule;
+    $loadedModules{$extModule} = 1;
+}
+
+sub registerDeps {
+    my $extModule = shift;
+
+    push @{ $extDeps{$extModule} }, @_;
+}
+
+sub isLoaded {
+    my ($extModule) = @_;
+
+    return $loadedModules{$extModule} // 0;
 }
 
 1;

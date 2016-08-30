@@ -35,8 +35,6 @@ our $UNICODE = 1;  # flag that extensions can use to test if the core is unicode
 our $TRUE    = 1;
 our $FALSE   = 0;
 our $TranslationToken = "\0";    # Do not deprecate - used in many plugins
-our $system_message;             # Important broadcast message from the system
-my $bootstrap_message = '';      # Bootstrap message.
 
 # Note: the following marker is used in text to mark RENDERZONE
 # macros that have been hoisted from the source text of a page. It is
@@ -907,6 +905,30 @@ sub saveFile {
 
 =begin TML
 
+---++ StaticMethod getNS( $module ) => $globRef
+
+Returns GLOB pointing to namespace of a module. Returns undef if module isn't
+loaded.
+
+=cut
+
+sub getNS {
+    my ($module) = @_;
+
+    my @keys = split /::/, $module;
+
+    my $ref = \%::;
+    while (@keys) {
+        my $key = shift @keys;
+        my $sym = "$key\:\:";
+        return undef unless defined $ref->{$sym};
+        $ref = $ref->{$sym};
+    }
+    return $ref;
+}
+
+=begin TML
+
 ---++ StaticMethod fetchGlobal($fullName) => $value
 
 Fetches a variable value by it's full name. 'Full' means it includes type of
@@ -915,7 +937,7 @@ returned.
 
 The purpose of this function is to avoid use of =no strict 'refs'= in the code.
 
-*Example:* fetchVar('$Foswiki::Extension::Sample::API_VERSION');
+*Example:* fetchGlobal('$Foswiki::Extension::Sample::API_VERSION');
 
 =cut
 
@@ -923,35 +945,38 @@ sub fetchGlobal {
     my ($fullName) = @_;
 
     $fullName =~ s/^([\$%@&])//
-      or Foswiki::Exception::Fatal->throw( text =>
-          "Incorrect variable name `$fullName' in a call to Foswiki::fetchVar()"
-      );
+      or Foswiki::Exception::Fatal->throw(
+        text => "Foswiki::fetchGlobal(): Invalid sigil in `$fullName'" );
     my $sigil = $1;
 
-    if ( $sigil eq '&' ) {
-        $fullName =~ /^(.+)::([^:]+)$/;
-        my ( $pkg, $func ) = ( $1, $2 );
-        return $pkg->can($func);
-    }
+    my @keys   = split /::/, $fullName;
+    my $symbol = pop @keys;
+    my $module = join( '::', @keys );
 
-    my @keys = split /::/, $fullName;
+    my $ns = getNS($module);
 
-    my $ref = \%::;
-    while ( @keys > 1 ) {
-        my $key = shift @keys;
-        $ref = $ref->{ $key . "::" };
-    }
-    my $varName = shift @keys;
+    Foswiki::Exception::Fatal->throw( text => "Module $module not found" )
+      unless defined $ns;
 
-    state $sigilMap = {
+    state $sigilSub = {
         '$' => sub { return ${ $_[0] } },
         '%' => sub { return %{ $_[0] } },
         '@' => sub { return @{ $_[0] } },
+        '&' => sub { return *{ $_[0] }{CODE} },
+    };
+    state $sigilKey = {
+        '$' => 'SCALAR',
+        '%' => 'HASH',
+        '@' => 'ARRAY',
+        '&' => 'CODE',
     };
 
-    say STDERR ${ $ref->{$varName} };
+    Foswiki::Exception::Fatal->throw(
+        text => "$sigil$symbol not declared in " . $ns )
+      unless defined $ns->{$symbol}
+      && *{ $ns->{$symbol} }{ $sigilKey->{$sigil} };
 
-    return $sigilMap->{$sigil}->( $ref->{$varName} );
+    return $sigilSub->{$sigil}->( $ns->{$symbol} );
 }
 
 1;

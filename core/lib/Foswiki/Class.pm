@@ -78,10 +78,13 @@ manually by the class using =with=.
 
 use Carp;
 
+require Foswiki;
 require Moo::Role;
 require Moo;
 require namespace::clean;
 use B::Hooks::EndOfScope 'on_scope_end';
+
+use constant DEFAULT_FEATURESET => ':5.14';
 
 our @ISA = qw(Moo);
 
@@ -99,13 +102,26 @@ sub import {
             # Keywords exported with this option.
             keywords => [qw(callback_names)],
         },
-        app => { use => 0, },
+        app       => { use => 0, },
+        extension => {
+            use      => 0,
+            keywords => [qw(extClass extAfter extBefore plugBefore)],
+        },
+        extensible => {
+            use      => 0,
+            keywords => [qw(pluggable)],
+        },
     );
 
     my @p;
-    my @noNsClean = qw(meta);
+    my @noNsClean  = qw(meta);
+    my $featureSet = DEFAULT_FEATURESET;
     while (@_) {
         my $param = shift;
+        if ( $param =~ /^:/ ) {
+            $featureSet = $param;
+            next;
+        }
         if ( exists $options{$param} ) {
             my $opt = $options{$param};
             $opt->{use} = 1;
@@ -127,6 +143,8 @@ sub import {
         $class->_apply_roles;
     };
 
+    feature->import($featureSet);
+
     namespace::clean->import(
         -cleanee => $target,
         -except  => \@noNsClean,
@@ -139,11 +157,9 @@ sub import {
 # Actually we're duplicating Moo::_install_coderef here in a way. But we better
 # avoid using a module's internalls.
 sub _inject_code {
-    my ( $name, $code ) = @_;
+    my ( $target, $name, $code ) = @_;
 
-    no strict "refs";
-    *{$name} = $code;
-    use strict "refs";
+    Foswiki::getNS($target)->{$name} = $code;
 }
 
 sub _apply_roles {
@@ -165,10 +181,10 @@ sub _install_callbacks {
     my ( $class, $target ) = @_;
 
     _assign_role( $target, 'Foswiki::Aux::Callbacks' );
-    _inject_code( "${target}::callback_names", \&_handler_callbacks );
+    _inject_code( $target, "callback_names", \&_handler_callbacks );
 }
 
-sub _handler_callbacks {
+sub _handler_callbacks (@) {
     my $target = caller;
     Foswiki::Aux::Callbacks::registerCallbackNames( $target, @_ );
 }
@@ -176,6 +192,39 @@ sub _handler_callbacks {
 sub _install_app {
     my ( $class, $target ) = @_;
     _assign_role( $target, 'Foswiki::AppObject' );
+}
+
+sub _handler_plugBefore ($&) {
+    my ( $plug, $code ) = @_;
+    say STDERR "Replacing plug $plug with $code";
+}
+
+sub _handler_extClass ($$) {
+    my ( $class, $subClass ) = @_;
+    my $target = caller;
+
+    Foswiki::Extensions::registerSubClass( $target, $class, $subClass );
+}
+
+sub _handler_extAfter (@) {
+    my $target = caller;
+
+    Foswiki::Extensions::registerDeps( $target, @_ );
+}
+
+sub _handler_extBefore (@) {
+    my $target = caller;
+
+    Foswiki::Extensions::registerDeps( $_, $target ) foreach @_;
+}
+
+sub _install_extension {
+    my ( $class, $target ) = @_;
+
+    _inject_code( $target, 'plugBefore', \&_handler_plugBefore );
+    _inject_code( $target, 'extClass',   \&_handler_extClass );
+    _inject_code( $target, 'extAfter',   \&_handler_extAfter );
+    _inject_code( $target, 'extBefore',  \&_handler_extBefore );
 }
 
 1;
