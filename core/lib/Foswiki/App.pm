@@ -94,6 +94,11 @@ has env => (
     is       => 'rw',
     required => 1,
 );
+has extensions => (
+    is      => 'ro',
+    lazy    => 1,
+    builder => '_prepareExtensions',
+);
 has forms => (
     is      => 'ro',
     lazy    => 1,
@@ -319,6 +324,8 @@ sub BUILD {
     my $params = shift;
 
     $Foswiki::app = $this;
+
+    ASSERT( defined $this->extensions, "Extensions failed to initialize" );
 
     unless ( $this->cfg->data->{isVALID} ) {
         $this->cfg->bootstrapSystemSettings;
@@ -1535,6 +1542,11 @@ sub _prepareUser {
 
     #return $this->users->initialiseUser( $this->remoteUser );
     return undef;
+}
+
+sub _prepareExtensions {
+    my $this = shift;
+    return $this->create('Foswiki::Extensions');
 }
 
 # If the X-Foswiki-Tickle header is present, this request is an attempt to

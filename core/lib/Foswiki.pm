@@ -1,3 +1,4 @@
+# See bottom of file for license and copyright information
 
 package Foswiki;
 use v5.14;    # First version to accept v-numbers.
@@ -902,6 +903,55 @@ sub saveFile {
     }
     print $FILE $text;
     close($FILE);
+}
+
+=begin TML
+
+---++ StaticMethod fetchGlobal($fullName) => $value
+
+Fetches a variable value by it's full name. 'Full' means it includes type of
+variable data ($, %, @, or &) and package name. For & a coderef will be
+returned.
+
+The purpose of this function is to avoid use of =no strict 'refs'= in the code.
+
+*Example:* fetchVar('$Foswiki::Extension::Sample::API_VERSION');
+
+=cut
+
+sub fetchGlobal {
+    my ($fullName) = @_;
+
+    $fullName =~ s/^([\$%@&])//
+      or Foswiki::Exception::Fatal->throw( text =>
+          "Incorrect variable name `$fullName' in a call to Foswiki::fetchVar()"
+      );
+    my $sigil = $1;
+
+    if ( $sigil eq '&' ) {
+        $fullName =~ /^(.+)::([^:]+)$/;
+        my ( $pkg, $func ) = ( $1, $2 );
+        return $pkg->can($func);
+    }
+
+    my @keys = split /::/, $fullName;
+
+    my $ref = \%::;
+    while ( @keys > 1 ) {
+        my $key = shift @keys;
+        $ref = $ref->{ $key . "::" };
+    }
+    my $varName = shift @keys;
+
+    state $sigilMap = {
+        '$' => sub { return ${ $_[0] } },
+        '%' => sub { return %{ $_[0] } },
+        '@' => sub { return @{ $_[0] } },
+    };
+
+    say STDERR ${ $ref->{$varName} };
+
+    return $sigilMap->{$sigil}->( $ref->{$varName} );
 }
 
 1;

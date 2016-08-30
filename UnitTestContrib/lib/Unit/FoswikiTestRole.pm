@@ -484,7 +484,6 @@ sub setupDirs {
 
 =begin TML
 
-#setupAdminUser
 ---++ ObjectMethod setupAdminUser(%userData)
 
 Sets this test administrator user data. The =%userData= hash may have the
@@ -508,6 +507,7 @@ sub setupAdminUser {
 }
 
 =begin TML
+
 ---++ ObjectMethod setupUserRegistration
 
 Configures components needed to register new users so as to avoid polluting the
@@ -577,6 +577,8 @@ sub _fixupAppObjects {
                 || ( $this->$attr->app != $app ) )
           )
         {
+            # NOTE app object attribute must be 'rwp' for this code to work
+            # properly.
             $this->$attr->_set_app($app);
         }
     }
@@ -606,6 +608,7 @@ sub createNewFoswikiApp {
 }
 
 =begin TML
+
 ---++ ObjectMethod testWebName($baseName) -> $webName
 
 Returns a standard test web name formed with test suite name and =$baseName=.
