@@ -683,6 +683,14 @@ sub _handleDirtyArea {
         $prefs->popTopicContext();
     };
 
+    my $request = $session->{request};
+    my $context = $request->url( -full => 1, -path => 1, -query => 1 ) . time();
+    my $cgis    = $session->{users}->getCGISession();
+    my $usingStrikeOne = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
+
+    $text =~
+s/<input type='hidden' name='validation_key' value='(\?.*?)' \/>/Foswiki::Validation::updateValidationKey($cgis, $context, $usingStrikeOne, $1)/gei;
+
     #Foswiki::Func::writeDebug("out text='$text'") if TRACE;
     return $text;
 }
