@@ -17,7 +17,6 @@ Method create() is imported from Foswiki::App class.
 =cut
 
 use Assert;
-use Foswiki::Exception;
 
 require Foswiki::Object;
 

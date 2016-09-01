@@ -1,3 +1,4 @@
+# See bottom of file for license and copyright information
 
 package Foswiki;
 use v5.14;    # First version to accept v-numbers.
@@ -34,8 +35,6 @@ our $UNICODE = 1;  # flag that extensions can use to test if the core is unicode
 our $TRUE    = 1;
 our $FALSE   = 0;
 our $TranslationToken = "\0";    # Do not deprecate - used in many plugins
-our $system_message;             # Important broadcast message from the system
-my $bootstrap_message = '';      # Bootstrap message.
 
 # Note: the following marker is used in text to mark RENDERZONE
 # macros that have been hoisted from the source text of a page. It is
@@ -902,6 +901,82 @@ sub saveFile {
     }
     print $FILE $text;
     close($FILE);
+}
+
+=begin TML
+
+---++ StaticMethod getNS( $module ) => $globRef
+
+Returns GLOB pointing to namespace of a module. Returns undef if module isn't
+loaded.
+
+=cut
+
+sub getNS {
+    my ($module) = @_;
+
+    my @keys = split /::/, $module;
+
+    my $ref = \%::;
+    while (@keys) {
+        my $key = shift @keys;
+        my $sym = "$key\:\:";
+        return undef unless defined $ref->{$sym};
+        $ref = $ref->{$sym};
+    }
+    return $ref;
+}
+
+=begin TML
+
+---++ StaticMethod fetchGlobal($fullName) => $value
+
+Fetches a variable value by it's full name. 'Full' means it includes type of
+variable data ($, %, @, or &) and package name. For & a coderef will be
+returned.
+
+The purpose of this function is to avoid use of =no strict 'refs'= in the code.
+
+*Example:* fetchGlobal('$Foswiki::Extension::Sample::API_VERSION');
+
+=cut
+
+sub fetchGlobal {
+    my ($fullName) = @_;
+
+    $fullName =~ s/^([\$%@&])//
+      or Foswiki::Exception::Fatal->throw(
+        text => "Foswiki::fetchGlobal(): Invalid sigil in `$fullName'" );
+    my $sigil = $1;
+
+    my @keys   = split /::/, $fullName;
+    my $symbol = pop @keys;
+    my $module = join( '::', @keys );
+
+    my $ns = getNS($module);
+
+    Foswiki::Exception::Fatal->throw( text => "Module $module not found" )
+      unless defined $ns;
+
+    state $sigilSub = {
+        '$' => sub { return ${ $_[0] } },
+        '%' => sub { return %{ $_[0] } },
+        '@' => sub { return @{ $_[0] } },
+        '&' => sub { return *{ $_[0] }{CODE} },
+    };
+    state $sigilKey = {
+        '$' => 'SCALAR',
+        '%' => 'HASH',
+        '@' => 'ARRAY',
+        '&' => 'CODE',
+    };
+
+    Foswiki::Exception::Fatal->throw(
+        text => "$sigil$symbol not declared in " . $ns )
+      unless defined $ns->{$symbol}
+      && *{ $ns->{$symbol} }{ $sigilKey->{$sigil} };
+
+    return $sigilSub->{$sigil}->( $ns->{$symbol} );
 }
 
 1;

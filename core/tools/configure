@@ -45,8 +45,8 @@ binmode( STDIN, ':crlf' );
 use Assert;
 
 use Foswiki;
-use Foswiki::App;
 use Foswiki::Configure::Query;
+use Foswiki::App;
 
 {
 

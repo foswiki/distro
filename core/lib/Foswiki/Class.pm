@@ -78,10 +78,13 @@ manually by the class using =with=.
 
 use Carp;
 
+require Foswiki;
 require Moo::Role;
 require Moo;
 require namespace::clean;
 use B::Hooks::EndOfScope 'on_scope_end';
+
+use constant DEFAULT_FEATURESET => ':5.14';
 
 our @ISA = qw(Moo);
 
@@ -103,9 +106,14 @@ sub import {
     );
 
     my @p;
-    my @noNsClean = qw(meta);
+    my @noNsClean  = qw(meta);
+    my $featureSet = DEFAULT_FEATURESET;
     while (@_) {
         my $param = shift;
+        if ( $param =~ /^:/ ) {
+            $featureSet = $param;
+            next;
+        }
         if ( exists $options{$param} ) {
             my $opt = $options{$param};
             $opt->{use} = 1;
@@ -127,6 +135,8 @@ sub import {
         $class->_apply_roles;
     };
 
+    feature->import($featureSet);
+
     namespace::clean->import(
         -cleanee => $target,
         -except  => \@noNsClean,
@@ -139,11 +149,9 @@ sub import {
 # Actually we're duplicating Moo::_install_coderef here in a way. But we better
 # avoid using a module's internalls.
 sub _inject_code {
-    my ( $name, $code ) = @_;
+    my ( $target, $name, $code ) = @_;
 
-    no strict "refs";
-    *{$name} = $code;
-    use strict "refs";
+    Foswiki::getNS($target)->{$name} = $code;
 }
 
 sub _apply_roles {
@@ -164,17 +172,19 @@ sub _assign_role {
 sub _install_callbacks {
     my ( $class, $target ) = @_;
 
+    Foswiki::load_package('Foswiki::Aux::Callbacks');
     _assign_role( $target, 'Foswiki::Aux::Callbacks' );
-    _inject_code( "${target}::callback_names", \&_handler_callbacks );
+    _inject_code( $target, "callback_names", \&_handler_callbacks );
 }
 
-sub _handler_callbacks {
+sub _handler_callbacks (@) {
     my $target = caller;
     Foswiki::Aux::Callbacks::registerCallbackNames( $target, @_ );
 }
 
 sub _install_app {
     my ( $class, $target ) = @_;
+    Foswiki::load_package('Foswiki::AppObject');
     _assign_role( $target, 'Foswiki::AppObject' );
 }
 

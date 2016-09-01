@@ -20,10 +20,8 @@ use Assert;
 use Scalar::Util ();
 use Unicode::Normalize;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 use constant HTTP_COMPLIANT => undef;    # This is a generic class.
 
