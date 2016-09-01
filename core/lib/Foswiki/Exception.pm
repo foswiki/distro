@@ -289,7 +289,7 @@ sub transmute {
       if DEBUG;
     if ( ref($e) ) {
         if ( $e->isa('Foswiki::Exception') ) {
-            if ( !$enforce || ( ref($e) eq $class ) ) {
+            if ( !$enforce || $e->isa($class) ) {
                 return $e;
             }
             return $class->new( %$e, @_ );
@@ -390,13 +390,14 @@ extends qw(Foswiki::Exception);
 # For informational exceptions.
 
 package Foswiki::Exception::Fatal;
+use Assert;
 use Foswiki::Class;
 extends qw(Foswiki::Exception);
 
 sub BUILD {
     my $this = shift;
 
-    say STDERR $this->stringify, $this->stacktrace;
+    say STDERR $this->stringify, $this->stacktrace if DEBUG;
 }
 
 # To cover perl/system errors.
