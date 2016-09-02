@@ -12,6 +12,11 @@ use Try::Tiny;
 use Data::Dumper;
 use Foswiki::Exception;
 
+# Constants for topological sorting.
+use constant NODE_TEMP_MARK => 0;
+use constant NODE_PERM_MARK => 1;
+use constant NODE_DISABLED  => -1;
+
 use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
 
@@ -27,9 +32,10 @@ our $MIN_VERSION = version->declare("2.99.0");
 # --- Static data registered upon extension's module load and to be parsed when
 # extensions are built.
 # NOTE All data stored in globals is raw and must be revalidated before used.
-our @extModules;  # List of the extension modules in the order they were loaded.
-our %loadedModules;    # Modules been loaded previously.
-our %extSubClasses;    # Subclasses registered by extensions.
+our @extModules
+  ; # List of the extension modules in the order they were registered with registerExtModule().
+our %registeredModules;    # Modules registered with registerExtModule().
+our %extSubClasses;        # Subclasses registered by extensions.
 our %extDeps;   # Module dependecies. Influences the order of extension objects.
 
 # --- END of static data declarations
@@ -61,20 +67,64 @@ has extPrefix => (
     default => 'Foswiki::Extension',
 );
 
+=begin TML
+
+---++ ObjectAttribute dependecies => hashref
+
+Keys: extension module names
+Values: list of extensions modules required by the key's module.
+
+=cut
+
+has dependencies => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => 'prepareDependencies',
+);
+
+=begin TML
+
+---++ ObjectAttribute orderedList => arrayref
+
+List of extensions presorted to confirm with their dependencies.
+
+=cut
+
+has orderedList => (
+    is      => 'ro',
+    lazy    => 1,
+    clearer => 1,
+    builder => 'prepareOrderedList',
+);
+
+=begin TML
+
+---++ ObjectAttribute registeredClasses => hashref
+
+Map of core classes into list of overriding subclasses.
+
+=cut
+
+has registeredClasses => (
+    is      => 'ro',
+    lazy    => 1,
+    clearer => 1,
+    builder => 'prepareRegisteredClasses',
+);
+
 has _errors => (
     is      => 'rw',
     lazy    => 1,
     default => sub { [] },
 );
+
+# Hashref of disabled extensions. Keys are extension names, values – reason
+# descriptions.
 has _disabledExtensions => (
     is      => 'ro',
     lazy    => 1,
     clearer => 1,
-    default => sub {
-        my $this = shift;
-        return { map { $this->normalizeExtName($_) => 1 }
-              $this->listDisabledExtensions };
-    },
+    builder => 'prepareDisabledExtensions',
 );
 
 sub BUILD {
@@ -83,6 +133,7 @@ sub BUILD {
     say STDERR "Initializing extensions" if DEBUG;
 
     $this->load_extensions;
+    $this->registeredClasses;
 
     say STDERR "Ext sub classes: ", Dumper( \%extSubClasses );
     say STDERR "Ext deps: ",        Dumper( \%extDeps );
@@ -105,7 +156,7 @@ sub extEnabled {
 
     $extName = $this->normalizeExtName($extName);
 
-    return $this->_disabledExtensions->{$extName} ? undef : $extName;
+    return defined $this->_disabledExtensions->{$extName} ? undef : $extName;
 }
 
 sub checkVersion {
@@ -147,7 +198,7 @@ sub _loadExtModule {
     my $this = shift;
     my ($extModule) = @_;
 
-    return if isLoaded($extModule);
+    return if isRegistered($extModule);
 
     try {
         Foswiki::load_class($extModule);
@@ -204,6 +255,101 @@ sub load_extensions {
     }
 }
 
+sub _extVisit {
+    my $this   = shift;
+    my %params = @_;
+
+    my $marked    = $params{marked};
+    my $depHash   = $params{depHash};
+    my $extName   = $params{extName};
+    my $visitPath = $params{_visitPath} // [];
+
+    my @list;
+
+    if (
+        defined $marked->{$extName}
+        && (   $marked->{$extName} == NODE_TEMP_MARK
+            || $marked->{$extName} == NODE_DISABLED )
+      )
+    {
+        state $nType = {
+            &NODE_TEMP_MARK => "Circular dependecy found for",
+            &NODE_DISABLED  => "Disabled extension",
+        };
+
+        my $disableMsg =
+            $nType->{ $marked->{$extName} } . " "
+          . $extName
+          . " in dependecy chain: "
+          . join( " -> ", @$visitPath, $extName );
+
+        # Disable all problematic extensions.
+        foreach my $disabledExt ( @$visitPath, $extName ) {
+            $marked->{$disabledExt} = NODE_DISABLED;
+            $this->disableExtension( $disabledExt, $disableMsg );
+        }
+
+        return ();
+    }
+
+    unless ( $marked->{$extName} ) {
+        $marked->{$extName} = NODE_TEMP_MARK;
+        my @subList;
+        foreach my $depExt ( @{ $depHash->{$extName} } ) {
+            @subList = $this->_extVisit(
+                marked     => $marked,
+                depHash    => $depHash,
+                extName    => $depExt,
+                _visitPath => [ @$visitPath, $extName ],
+                _level     => ( $params{_level} // 0 ) + 1,
+            );
+            push @list, @subList;
+        }
+        unless ( $marked->{$extName} == NODE_DISABLED ) {
+            $marked->{$extName} = NODE_PERM_MARK;
+            push @list, $extName;
+        }
+    }
+
+    return @list;
+}
+
+sub _topoSort {
+    my $this = shift;
+    my ( $order, $depHash ) = @_;
+
+    # Marked nodes:
+    # undef – not visited yet.
+    # defined – NODE_* constants.
+    my %marked;
+
+    my @list;
+    foreach my $node (@$order) {
+
+        # At this stage there must be no temporary marks.
+        Foswiki::Exception::Fatal->throw(
+            text => "Temp. mark for node $node is impossible here" )
+          if defined $marked{$node} && $marked{$node} == NODE_TEMP_MARK;
+        next if $marked{$node};
+        push @list,
+          $this->_extVisit(
+            marked  => \%marked,
+            depHash => $depHash,
+            extName => $node
+          );
+    }
+    return @list;
+}
+
+sub prepareOrderedList {
+    my $this = shift;
+
+    my @orderedExtList =
+      $this->_topoSort( [ map { $this->normalizeExtName($_) } @extModules ],
+        $this->dependencies );
+    return \@orderedExtList;
+}
+
 sub prepareExtSubdir {
     my $this = shift;
 
@@ -217,30 +363,112 @@ sub prepareExtSubdir {
 
 =begin TML
 
+---++ ObjectMethod disableExtension( $extName, $reason )
+
+Marks extension =$extName= as disable because of =$reason=.
+
+=cut
+
+sub disableExtension {
+    my $this = shift;
+    my ( $extName, $reason ) = @_;
+
+    ASSERT(
+        defined $extName,
+        "Undefined extension name in call to "
+          . ref($this)
+          . "::disableExtension method"
+    );
+    ASSERT(
+        defined $reason,
+        "Undefined reason in call to "
+          . ref($this)
+          . "::disableExtension method"
+    );
+
+    $this->_disabledExtensions->{ $this->normalizeExtName($extName) } = $reason;
+}
+
+=begin TML
+
 ---++ ObjectMethod listDisabledExtensions => @list
 
 Returns a list of extensions disabled for this installation or host.
 
 =cut
 
-sub listDisabledExtensions {
+sub prepareDisabledExtensions {
     my $this     = shift;
     my $env      = $this->app->env;
     my $envVar   = 'FOSWIKI_DISABLED_EXTENSIONS';
     my $disabled = $env->{$envVar} // '';
-    my @list;
+    my %list;
     if ( my $reftype = ref($disabled) ) {
         Foswiki::Exception::Fatal->throw(
                 text => "Environment variable $envVar is a ref to "
               . $reftype
               . " but ARRAY excepted" )
           unless $reftype eq 'ARRAY';
-        @list = @$disabled;
     }
     else {
-        @list = split /,/, $disabled;
+        $disabled = [ split /,/, $disabled ];
     }
-    return @list;
+
+    %list =
+      map { $_ => "Disabled by $envVar environment variable." } @$disabled;
+
+    return \%list;
+}
+
+sub prepareDependencies {
+    my $this = shift;
+
+    my %nDeps;    # Normalized dependecy hash.
+    foreach my $ext ( keys %extDeps ) {
+        my $extName = $this->normalizeExtName($ext);
+
+        my @deps = map { $this->normalizeExtName($_) } @{ $extDeps{$ext} };
+        push @{ $nDeps{$extName} }, @deps;
+    }
+
+    return \%nDeps;
+}
+
+# Build mapping of core classes into overriding classes based on the ordered
+# extension list.
+sub prepareRegisteredClasses {
+    my $this = shift;
+    my %classMap;
+
+    my %ext2class;
+    foreach my $coreClass ( keys %extSubClasses ) {
+        foreach my $registration ( @{ $extSubClasses{$coreClass} } ) {
+            my $extName =
+              $this->extEnabled(
+                $this->normalizeExtName( $registration->{extension} ) );
+
+            next unless defined $extName;
+
+            if ( defined $ext2class{$extName}{$coreClass} ) {
+
+                # That's not something we'd tolerate.
+                $this->disableExtension( $extName,
+"$extName attepted double-registration for core class $coreClass"
+                );
+                next;
+            }
+
+            $ext2class{$extName}{$coreClass} = $registration->{subClass};
+        }
+    }
+
+    foreach my $extName ( @{ $this->orderedList } ) {
+        foreach my $coreClass ( keys %{ $ext2class{$extName} } ) {
+            push @{ $classMap{$coreClass} }, $ext2class{$extName}{$coreClass};
+        }
+    }
+
+    return \%classMap;
 }
 
 sub registerSubClass {
@@ -257,7 +485,7 @@ sub registerExtModule {
     my ($extModule) = @_;
 
     push @extModules, $extModule;
-    $loadedModules{$extModule} = 1;
+    $registeredModules{$extModule} = 1;
 }
 
 sub registerDeps {
@@ -266,10 +494,10 @@ sub registerDeps {
     push @{ $extDeps{$extModule} }, @_;
 }
 
-sub isLoaded {
+sub isRegistered {
     my ($extModule) = @_;
 
-    return $loadedModules{$extModule} // 0;
+    return $registeredModules{$extModule} // 0;
 }
 
 1;

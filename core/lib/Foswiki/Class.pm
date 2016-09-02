@@ -143,6 +143,7 @@ sub import {
         $class->_apply_roles;
     };
 
+    require feature;
     feature->import($featureSet);
 
     namespace::clean->import(
