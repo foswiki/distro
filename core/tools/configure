@@ -31,6 +31,7 @@ use Getopt::Long;
 use Storable qw(dclone);
 use Pod::Usage   ();
 use Data::Dumper ();
+use Try::Tiny;
 
 # Assume we are in the tools dir, and we can find bin and lib from there
 use FindBin;
@@ -45,8 +46,9 @@ binmode( STDIN, ':crlf' );
 use Assert;
 
 use Foswiki;
-use Foswiki::Configure::Query;
 use Foswiki::App;
+use Foswiki::Exception;
+require Foswiki::Configure::Query;
 
 {
 
@@ -97,7 +99,7 @@ use Foswiki::App;
         $orig->( $this, $k );
 
         print Encode::encode_utf8(
-            "\$Foswiki::cfg$k = " . $this->changes->{$k} . ";\n");
+            "\$Foswiki::cfg$k = " . $this->changes->{$k} . ";\n" );
     };
 
     around WIZARD => sub {
@@ -258,7 +260,24 @@ sub _prompt {
 #$Foswiki::Configure::LoadSpec::RAW_VALS = 1;
 
 # Initialise
-my $app = Foswiki::App->new( env => dclone( \%ENV ), );
+
+$SIG{__DIE__} = sub {
+
+    # Somehow overriding of __DIE__ clashes with remote perl debugger in
+    # Komodo unless we die again instantly.
+    die $_[0] if (caller)[0] =~ /^DB::/;
+    Foswiki::Exception::Fatal->rethrow( $_[0] );
+};
+
+my $app;
+try {
+    $app = Foswiki::App->new( env => dclone( \%ENV ), );
+}
+catch {
+    my $e = $_;
+    say STDERR "App creation failed:", Foswiki::Exception::errorStr($e);
+    exit 1;
+};
 
 # Force config re-read to be independant of any possible variations in config
 # constructor.

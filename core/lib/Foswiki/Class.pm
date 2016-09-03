@@ -117,7 +117,8 @@ sub import {
         if ( exists $options{$param} ) {
             my $opt = $options{$param};
             $opt->{use} = 1;
-            push @noNsClean, @{ $opt->{keywords} } if defined $opt->{keywords};
+
+            #push @noNsClean, @{ $opt->{keywords} } if defined $opt->{keywords};
         }
         else {
             push @p, $param;
@@ -138,6 +139,7 @@ sub import {
     require feature;
     feature->import($featureSet);
 
+    require namespace::clean;
     namespace::clean->import(
         -cleanee => $target,
         -except  => \@noNsClean,
@@ -170,17 +172,17 @@ sub _assign_role {
     push @{ $_assignedRoles{$class} }, $role;
 }
 
+sub _handler_callbacks {
+    my $target = caller;
+    Foswiki::Aux::Callbacks::registerCallbackNames( $target, @_ );
+}
+
 sub _install_callbacks {
     my ( $class, $target ) = @_;
 
     Foswiki::load_package('Foswiki::Aux::Callbacks');
     _assign_role( $target, 'Foswiki::Aux::Callbacks' );
-    _inject_code( $target, "callback_names", \&_handler_callbacks );
-}
-
-sub _handler_callbacks (@) {
-    my $target = caller;
-    Foswiki::Aux::Callbacks::registerCallbackNames( $target, @_ );
+    _inject_code( $target, "callback_names", *_handler_callbacks );
 }
 
 sub _install_app {

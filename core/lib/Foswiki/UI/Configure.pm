@@ -13,8 +13,8 @@ use v5.14;
 
 use Assert;
 
-use Foswiki                  ();
-use Foswiki::Configure::Auth ();
+use Foswiki ();
+require Foswiki::Configure::Auth;
 
 use Moo;
 use namespace::clean;

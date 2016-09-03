@@ -60,10 +60,8 @@ to a user.
 use Foswiki::AggregateIterator ();
 use Foswiki::LoginManager      ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 use Assert;
 
@@ -135,7 +133,7 @@ sub BUILD {
     my $app = $this->app;
 
     # making basemapping
-    my $implBaseUserMappingManager = $Foswiki::cfg{BaseUserMappingManager}
+    my $implBaseUserMappingManager = $app->cfg->data->{BaseUserMappingManager}
       || 'Foswiki::Users::BaseUserMapping';
     Foswiki::load_package($implBaseUserMappingManager);
 
@@ -143,7 +141,8 @@ sub BUILD {
     #Foswiki::Exception::Fatal->throw( text => $@ ) if $@;
     $this->basemapping( $this->create($implBaseUserMappingManager) );
 
-    my $implUserMappingManager = $Foswiki::cfg{UserMappingManager} || 'none';
+    my $implUserMappingManager = $app->cfg->data->{UserMappingManager}
+      || 'none';
     $implUserMappingManager = 'Foswiki::Users::TopicUserMapping'
       if ( $implUserMappingManager eq 'none' );
 
