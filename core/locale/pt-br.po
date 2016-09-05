@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-02-15 20:01+0200\n"
+"PO-Revision-Date: 2016-09-05 05:25+0200\n"
 "Last-Translator: Carlinhos  Cecconi <carlinux@terra.com.br>\n"
-"Language-Team: Portuguese (Brazil) <http://translate.foswiki.org/projects/"
-"foswiki/distribution-master/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) "
+"<http://translate.foswiki.org/projects/foswiki/distribution-master/pt_BR/>\n"
 "Language: pt-br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.1\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2.4\n"
 
 #: core/data/System/WikiName.txt:3
 msgid "!WikiName"
@@ -1064,13 +1064,12 @@ msgid "Categories"
 msgstr "Categorias"
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:99
-#, fuzzy
 msgid ""
 "Caution: The password system is currently read only. Users will not be added "
 "to the Password file."
 msgstr ""
-"Desculpe, mas o sistema de senhas atualmente é somente para leitura. Entre "
-"em contato com %1"
+"Atenção: o sistema de senhas atualmente é somente para leitura. Usuários não "
+"serão adicionados no arquivo de senhas."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
@@ -2313,6 +2312,9 @@ msgid ""
 "register are known to the password manager, then bulk registration may still "
 "be useful.  Please contact %1 if you are unsure."
 msgstr ""
+"Se o seu wiki usa um gerenciador de senhas externo, e os usuários que "
+"pretende registrar são conhecidos para este gerenciador, então registo em "
+"bloco ainda pode ser útil. Entre em contato %1 se não tiver certeza."
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
@@ -3014,7 +3016,6 @@ msgid "Numbered list"
 msgstr "Lista numerada"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
-#, fuzzy
 msgid "OEmbed"
 msgstr "OEmbed"
 
@@ -3444,38 +3445,36 @@ msgstr "Registro"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 msgid "Registered e-mail addresses for currently logged in user"
-msgstr ""
+msgstr "Endereços de e-mail registrados para usuário conectado no momento."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:124
 #: NatEditPlugin/templates/edit.natedit.tmpl:155
-#, fuzzy
 msgid "Registered users"
-msgstr "Registro"
+msgstr "Usuários registrados"
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:22
 msgid "Registration"
 msgstr "Registro"
 
 #: core/lib/Foswiki/UI/Register.pm:736
-#, fuzzy
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
-msgstr "O envio de e-mail foi desativado para essa instalação do Foswiki"
+msgstr ""
+"Registro não pode ser concluído: Email foi desativado para esta instalação "
+"de Foswiki"
 
 #: core/templates/registermessages.tmpl:82
 msgid "Registration codes can only be used once."
 msgstr "Os códigos para registo podem ser utilizados somente uma vez."
 
 #: core/templates/registerdenied.tmpl:9
-#, fuzzy
 msgid "Registration for %1 has been denied"
-msgstr "Desculpe-nos, o registro está temporariamente desativado."
+msgstr "Registro para %1 foi negado"
 
 #: core/templates/registermessages.tmpl:55
-#, fuzzy
 msgid "Registration has been denied"
-msgstr "Desculpe-nos, o registro está temporariamente desativado."
+msgstr "Registro foi negado"
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:47
 msgid ""
@@ -3483,24 +3482,23 @@ msgid ""
 "{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
+"O registro está desativado ou por definição de configuração "
+"{EnableNewUserRegistration}, ou devido a erros com o sistema de senha. "
+"Verifique se há erros."
 
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "Busca com expressões regulares"
 
 #: core/data/System/UserName.txt:44
-#, fuzzy
 msgid "Related Topics for Administrators:"
-msgstr ""
-"Não foi possível enviar um e-mail. Por favor, notifique o administrador do "
-"%1, %2"
+msgstr "Tópicos relacionados para Administradores:"
 
 #: core/data/System/SiteTools.txt:149
 #: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:329
-#, fuzzy
 msgid "Related Topics:"
-msgstr "Tópicos Relacionados"
+msgstr "Tópicos Relacionados:"
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:123
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
@@ -3518,46 +3516,41 @@ msgstr "Tópicos relacionados:"
 
 #: PatternSkin/templates/login.pattern.tmpl:13
 msgid "Remember me"
-msgstr ""
+msgstr "Lembrar-me"
 
 #: core/templates/login.tmpl:73
 msgid "Remember me on this computer"
 msgstr "Lembre-me nesse computador"
 
 #: core/templates/registermessages.tmpl:301
-#, fuzzy
 msgid ""
 "Remember to update your user topic [[%1]] if you want your e-mail change to "
 "be reflected there as well."
 msgstr ""
-"Lembre-se de atualizar sua página de usuário se quiser que essa alteração de "
-"e-mail esteja apontada lá também."
+"Lembre-se de atualizar sua página de usuário [[%1]]  se quiser que essa "
+"alteração de e-mail esteja apontada lá também."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Remember your password?"
 msgstr "Lembrar sua senha?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
-#, fuzzy
 msgid "Remove Members from %1"
-msgstr "Remover usuários desse grupo"
+msgstr "Remover usuários de %1"
 
 #: core/data/Main/GroupViewTemplate.txt:165
-#, fuzzy
 msgid "Remove members..."
-msgstr "Remover usuário..."
+msgstr "Remover usuários..."
 
 #: core/templates/registermessages.tmpl:355
 msgid "Remove of user account other than your own is denied"
 msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:239
-#, fuzzy
 msgid "Remove selected members"
 msgstr "Remover usuários selecionados"
 
 #: core/templates/registermessages.tmpl:295
-#, fuzzy
 msgid "Remove the member from the group(s) %1 first."
 msgstr "Remova primeiro o usuário do(s) grupo(s) %1."
 
@@ -3592,13 +3585,12 @@ msgstr "Renomear/Mover"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
-msgstr ""
+msgstr "Estilo renderização"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
-#, fuzzy
 msgid "Replace"
-msgstr "Trocar formulário..."
+msgstr "Substituir"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
