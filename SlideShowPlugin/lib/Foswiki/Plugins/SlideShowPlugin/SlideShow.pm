@@ -34,7 +34,6 @@ sub init {
     $this->{params} = \%params;
 
     my $request = Foswiki::Func::getRequestObject();
-    $this->{queryString} = $request->queryString;
 
     my @params;
     foreach my $name ( $request->multi_param ) {
@@ -287,7 +286,7 @@ sub _urlEncode {
     my $text = shift;
 
     $text = Encode::encode_utf8($text) if $Foswiki::UNICODE;
-    $text =~ s/([^0-9a-zA-Z-_.:~!*'()\/%])/'%'.sprintf('%02x',ord($1))/ge;
+    $text =~ s/([^0-9a-zA-Z-_.:~!*()\/%])/'%'.sprintf('%02x',ord($1))/ge;
     $text =~ s/\%20/+/g;
     return $text;
 }
