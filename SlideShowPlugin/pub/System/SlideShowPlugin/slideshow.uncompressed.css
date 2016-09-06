@@ -79,7 +79,7 @@ html {
     page-break-after:initial;
   }
   .slideShowFooter {
-    position:initial;
+    position:static;
   }
   .slideShowNum {
     position:absolute;

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1460168492" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1473151677" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Slide Show Plugin
 
@@ -172,6 +172,7 @@ The part between the rulers defines the default format of a slide:
 ---++ Plugin info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  06 Sep 2016: (2.32) | Foswikitask:Item14125: fix encoding of url parms of "start presentation" button |
 |  08 Apr 2016: (2.31) | Foswikitask:Item14022: Change all foswiki.org links to https. |
 |  08 Sep 2015: (2.30) | Foswikitask:Item13685: add support for scrolling slides |
 |  03 Mar 2015: (2.21) | Foswikitask:Item13281: improved printout |
@@ -207,6 +208,7 @@ The part between the rulers defines the default format of a slide:
 %META:FIELD{name="Author" title="Author" value="Foswiki:Main.EugenMayer, Foswiki:Main.ArthurClemens, Foswiki:Main.MichaelDaum"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Copyright" title="Copyright" value="Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and Foswiki Contributors; 2008-2015 Foswiki Contributors"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
