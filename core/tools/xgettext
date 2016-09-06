@@ -3,6 +3,7 @@
 # Script to extract strings from Foswiki sources and templates
 
 use strict;
+use v5.14;
 
 # force the use from the root
 -d 'core'
@@ -11,7 +12,12 @@ use strict;
   );
 
 use File::Spec;
+use Try::Tiny;
 
+use Foswiki::App       ();
+use Foswiki::Exception ();
+
+$ENV{PATH};
 my $cwd = `pwd`;
 chomp($cwd);
 unshift( @INC, File::Spec->catfile( $cwd, 'core/lib' ) );
@@ -80,7 +86,9 @@ sub extract {
     my ( $target, @sources ) = @_;
     print "I: Extracting strings into $target.\n";
 
-    my $extractor = new Foswiki::I18N::Extract;
+    local %ENV = %ENV;
+    my $app = Foswiki::App->new( env => \%ENV );
+    my $extractor = $app->create('Foswiki::I18N::Extract');
     die(
 "Could not create an extractor. Is Locale::Maketext installed? (see above messages)"
     ) unless $extractor;
@@ -123,7 +131,13 @@ if ( $ARGV[0] eq '--list' ) {
 }
 
 # extract the strings to the template POT file.
-extract( $newpotfile, @sources );
+try {
+    extract( $newpotfile, @sources );
+}
+catch {
+    say STDERR Foswiki::Exception::errorStr($_);
+    exit 1;
+};
 
 # merge with old POT file
 if ( -e $potfile ) {

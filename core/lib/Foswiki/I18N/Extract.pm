@@ -12,9 +12,11 @@ Depends on Locale::Maketext::Extract (part of CPAN::Locale::Maketext::Lexicon).
 package Foswiki::I18N::Extract;
 use v5.14;
 
-use Moo;
+use Assert;
+use Try::Tiny;
+
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 our $initError;
 
@@ -58,7 +60,7 @@ around BUILDARGS => sub {
     my $orig = shift;
 
     try {
-        Foswiki::load_package('Local::Maketext::Extract');
+        Foswiki::load_package('Locale::Maketext::Extract');
     }
     catch {
         $initError = ref($_) ? $_->stringify : $_;

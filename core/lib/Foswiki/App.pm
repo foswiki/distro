@@ -1510,10 +1510,7 @@ sub _prepareDispatcher {
             status => 404,
             header => 'Not Found',
             text   => 'The requested URL '
-              . (
-                $this->engine->request->uri
-                  // 'action:' . $this->engine->pathData->{action}
-              )
+              . ( $this->request->uri // 'action:' . $this->request->action )
               . ' was not found on this server.',
         );
     }
