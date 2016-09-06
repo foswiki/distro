@@ -208,7 +208,7 @@ sub renderSlideNav {
     $theButtons =~ s/%BUTTON_PREV%/%TMPL:P{"BUTTON_PREV" %params%}%/g;
     $theButtons =~ s/%BUTTON_NEXT%/%TMPL:P{"BUTTON_NEXT" %params%}%/g;
     $theButtons =~ s/%BUTTON_EXIT%/%TMPL:P{"BUTTON_EXIT" %params%}%/g;
-    $theButtons =~ s/%BUTTON_END%/%TMPL:P{"BUTTON_END% %params%}%/g;
+    $theButtons =~ s/%BUTTON_END%/%TMPL:P{"BUTTON_END" %params%}%/g;
 
     # SMELL: this one isn't using the definitions in the template as it is not loadable individually
     $theButtons =~
