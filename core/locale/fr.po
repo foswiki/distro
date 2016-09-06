@@ -596,7 +596,7 @@ msgstr ""
 "hexadécimaux ; exemple : =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1309
+#: core/lib/Foswiki/UI/Register.pm:1318
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Un e-mail de confirmation a été envoyé à %1"
 
@@ -1743,6 +1743,11 @@ msgstr "Intégrer objet externe"
 msgid "Emoticon"
 msgstr "Émoticône"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:26
+#, fuzzy
+msgid "End presentation"
+msgstr "Démarrer présentation"
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
 msgstr "Agrandir le cadre d&&#39;édition"
@@ -1840,7 +1845,7 @@ msgstr "Quitter"
 msgid "External"
 msgstr "Externe"
 
-#: core/lib/Foswiki/Plugins.pm:459
+#: core/lib/Foswiki/Plugins.pm:455
 msgid "Failed plugins"
 msgstr "Plugins en erreur"
 
@@ -1972,7 +1977,7 @@ msgstr ""
 msgid "Foswiki password reset for %1"
 msgstr "Réinitialisation du mot de passe Foswiki pour %1"
 
-#: PatternSkin/templates/view.pattern.tmpl:74
+#: PatternSkin/templates/view.pattern.tmpl:73
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
 msgid "Get a fresh version <a href='%1'>here</a>."
 msgstr "Obtenir une version actualisée <a href='%1'>ici</a>."
@@ -2253,8 +2258,7 @@ msgstr ""
 msgid "If you enter a different name, make sure the topic exists."
 msgstr "Si vous entrez un nom différent, assurez vous que la page existe."
 
-#: core/templates/registerconfirm.tmpl:14
-#: core/templates/registernotify.tmpl:24
+#: core/templates/registerconfirm.tmpl:14 core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
 "using your mail address %3. Contact %4 if this is in error."
@@ -2275,8 +2279,7 @@ msgid "If you have any questions, please contact %1"
 msgstr "Si vous avez des questions, vous pouvez contacter %1"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/data/System/VarMAKETEXT.txt:13
-#: core/templates/mailresetpassword.tmpl:18
+#: core/data/System/VarMAKETEXT.txt:13 core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
 msgstr "Si vous avez des questions, vous pouvez contacter %1."
 
@@ -3337,7 +3340,7 @@ msgstr ""
 "Veuillez vous rendre sur la page %1 pour choisir un mot de passe dont vous "
 "vous rappellerez plus facilement."
 
-#: core/lib/Foswiki/Plugins.pm:505
+#: core/lib/Foswiki/Plugins.pm:501
 msgid "Plugin handlers"
 msgstr "Connecteurs de plugin"
 
@@ -3485,7 +3488,7 @@ msgstr "Utilisateurs inscrits"
 msgid "Registration"
 msgstr "Inscription"
 
-#: core/lib/Foswiki/UI/Register.pm:736
+#: core/lib/Foswiki/UI/Register.pm:745
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3924,7 +3927,7 @@ msgstr ""
 msgid "See changes since:"
 msgstr "Voir les changements depuis :"
 
-#: core/lib/Foswiki/Plugins.pm:300
+#: core/lib/Foswiki/Plugins.pm:296
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr "Voyez le paramètre DISABLEDPLUGINS."
 
@@ -4110,7 +4113,7 @@ msgstr ""
 "Indiquez =all= pour tous les Webs, ou une liste de Webs séparés par des "
 "virgules parmi : %1"
 
-#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:215
 #: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr "Démarrer présentation"
@@ -4427,7 +4430,7 @@ msgstr ""
 "le bouton \"Retour\" du navigateur après avoir sauvegardé une page. Foswiki "
 "utilise alors une approche \"mieux vaut prévenir que guérir\"."
 
-#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
+#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:409
 msgid ""
 "The details about REST Handlers are only available to users with Admin "
 "authority."
@@ -4795,7 +4798,7 @@ msgstr ""
 "logiciel qui fait fonctionner ce site, met en œuvre pour sécuriser le site "
 "contre des attaquants."
 
-#: PatternSkin/templates/view.pattern.tmpl:72
+#: PatternSkin/templates/view.pattern.tmpl:71
 #: PatternSkin/templates/view.pattern01x01.tmpl:74
 msgid "This page was cached on %1."
 msgstr "Cette page a été mise en cache le %1."
@@ -4979,7 +4982,7 @@ msgstr "Page mère :"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:68
+#: PatternSkin/templates/view.pattern.tmpl:67
 #: PatternSkin/templates/view.pattern01x01.tmpl:44
 #: PatternSkin/templates/view.pattern01x01.tmpl:70
 #: core/templates/viewprint.tmpl:15
@@ -5378,11 +5381,11 @@ msgstr "Attention : la page %1.%2 est introuvable"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Attention : le Web %1 pour la page %2 est introuvable"
 
-#: core/lib/Foswiki/UI/Register.pm:1302
+#: core/lib/Foswiki/UI/Register.pm:1311
 msgid "Warning: Could not send confirmation email"
 msgstr "Attention : l'e-mail de confirmation n'a pas pu être envoyé"
 
-#: core/lib/Foswiki/UI/Register.pm:1314
+#: core/lib/Foswiki/UI/Register.pm:1323
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Attention : l'e-mail de confirmation n'a pas pu être envoyé, la "

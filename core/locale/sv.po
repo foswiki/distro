@@ -603,7 +603,7 @@ msgstr ""
 "En färg börjar med #-tecknet, följt av 6 hexadecimala tal, t ex =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1309
+#: core/lib/Foswiki/UI/Register.pm:1318
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Ett e-postmeddelande med bekräftelse har sänts till %1"
 
@@ -1783,6 +1783,10 @@ msgstr ""
 msgid "Emoticon"
 msgstr ""
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:26
+msgid "End presentation"
+msgstr ""
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
 msgstr "Förstora redigeringsruta"
@@ -1883,7 +1887,7 @@ msgstr ""
 msgid "External"
 msgstr ""
 
-#: core/lib/Foswiki/Plugins.pm:459
+#: core/lib/Foswiki/Plugins.pm:455
 msgid "Failed plugins"
 msgstr ""
 
@@ -2015,7 +2019,7 @@ msgstr ""
 msgid "Foswiki password reset for %1"
 msgstr "Foswiki-lösenord nollställt för %1"
 
-#: PatternSkin/templates/view.pattern.tmpl:74
+#: PatternSkin/templates/view.pattern.tmpl:73
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
 msgid "Get a fresh version <a href='%1'>here</a>."
 msgstr ""
@@ -2283,8 +2287,7 @@ msgstr "Om du inte får en bekräftelse per e-post inom den närmaste timmen,"
 msgid "If you enter a different name, make sure the topic exists."
 msgstr "Om du matar in ett annat namn, se till att det inte redan finns."
 
-#: core/templates/registerconfirm.tmpl:14
-#: core/templates/registernotify.tmpl:24
+#: core/templates/registerconfirm.tmpl:14 core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
 "using your mail address %3. Contact %4 if this is in error."
@@ -2303,8 +2306,7 @@ msgid "If you have any questions, please contact %1"
 msgstr "Kontakta %1 om du har frågor"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/data/System/VarMAKETEXT.txt:13
-#: core/templates/mailresetpassword.tmpl:18
+#: core/data/System/VarMAKETEXT.txt:13 core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
 msgstr "Kontakta %1 om du har frågor."
 
@@ -3405,7 +3407,7 @@ msgstr ""
 "Gå till sidan %1 för att byta till ett lösenord som är lättare att komma "
 "ihåg."
 
-#: core/lib/Foswiki/Plugins.pm:505
+#: core/lib/Foswiki/Plugins.pm:501
 msgid "Plugin handlers"
 msgstr ""
 
@@ -3559,7 +3561,7 @@ msgstr "Registrera dig"
 msgid "Registration"
 msgstr "Registrering"
 
-#: core/lib/Foswiki/UI/Register.pm:736
+#: core/lib/Foswiki/UI/Register.pm:745
 #, fuzzy
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -4011,7 +4013,7 @@ msgstr "Se nedan för hjälp om att redigera denna sida."
 msgid "See changes since:"
 msgstr "Senast ändrade sidor"
 
-#: core/lib/Foswiki/Plugins.pm:300
+#: core/lib/Foswiki/Plugins.pm:296
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr ""
 
@@ -4197,7 +4199,7 @@ msgstr ""
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
 
-#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:215
 #: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr ""
@@ -4505,7 +4507,7 @@ msgid ""
 "\"."
 msgstr ""
 
-#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
+#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:409
 msgid ""
 "The details about REST Handlers are only available to users with Admin "
 "authority."
@@ -4827,7 +4829,7 @@ msgid ""
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
 
-#: PatternSkin/templates/view.pattern.tmpl:72
+#: PatternSkin/templates/view.pattern.tmpl:71
 #: PatternSkin/templates/view.pattern01x01.tmpl:74
 #, fuzzy
 msgid "This page was cached on %1."
@@ -5014,7 +5016,7 @@ msgstr "Sidans förälder:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:68
+#: PatternSkin/templates/view.pattern.tmpl:67
 #: PatternSkin/templates/view.pattern01x01.tmpl:44
 #: PatternSkin/templates/view.pattern01x01.tmpl:70
 #: core/templates/viewprint.tmpl:15
@@ -5414,11 +5416,11 @@ msgstr "Varning: Kan inte hitta sidan %1.%2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Varning: Kan inte hitta sidan %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:1302
+#: core/lib/Foswiki/UI/Register.pm:1311
 msgid "Warning: Could not send confirmation email"
 msgstr "Varning: Kunde inte skicka bekräftelse med e-post"
 
-#: core/lib/Foswiki/UI/Register.pm:1314
+#: core/lib/Foswiki/UI/Register.pm:1323
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Varning: Kunde inte skicka bekräftelse med e-post eftersom e-postfunktionen "

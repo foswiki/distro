@@ -590,7 +590,7 @@ msgstr ""
 "hexadecimal mI&&#39;mey, yIbuS: =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1309
+#: core/lib/Foswiki/UI/Register.pm:1318
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "%1vaD &&#39;olmeH QIn ngelu&&#39;pu&&#39;"
 
@@ -1737,6 +1737,11 @@ msgstr "Hur Doch lan"
 msgid "Emoticon"
 msgstr "qabHom Degh"
 
+#: SlideShowPlugin/templates/view.slideshow.tmpl:26
+#, fuzzy
+msgid "End presentation"
+msgstr "much tagh"
+
 #: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
 msgstr "choHwI&&#39; meyrI&&#39; <nop>tInmoH"
@@ -1836,7 +1841,7 @@ msgstr "bup"
 msgid "External"
 msgstr "&&#39;Internet <nop>QaH"
 
-#: core/lib/Foswiki/Plugins.pm:459
+#: core/lib/Foswiki/Plugins.pm:455
 msgid "Failed plugins"
 msgstr "Qaghbogh <nop>janHommey"
 
@@ -1969,7 +1974,7 @@ msgstr ""
 msgid "Foswiki password reset for %1"
 msgstr "%1vaD Foswiki chaw&&#39; ngoq chu&&#39;moHlu&&#39;pu&&#39;"
 
-#: PatternSkin/templates/view.pattern.tmpl:74
+#: PatternSkin/templates/view.pattern.tmpl:73
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
 msgid "Get a fresh version <a href='%1'>here</a>."
 msgstr "<a href='%1'>naDev</a> nav chu&&#39; yISuq."
@@ -2246,8 +2251,7 @@ msgstr ""
 "latlh pong <nop>DaghItlhchugh, vaj ghItlhvam tu&&#39;lu&&#39; &&#39;e&&#39; "
 "yI&&#39;ol."
 
-#: core/templates/registerconfirm.tmpl:14
-#: core/templates/registernotify.tmpl:24
+#: core/templates/registerconfirm.tmpl:14 core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
 "using your mail address %3. Contact %4 if this is in error."
@@ -2267,8 +2271,7 @@ msgid "If you have any questions, please contact %1"
 msgstr "vay&&#39; Daghel <nop>DaneHchugh, vaj %1 yIrI&&#39;"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/data/System/VarMAKETEXT.txt:13
-#: core/templates/mailresetpassword.tmpl:18
+#: core/data/System/VarMAKETEXT.txt:13 core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
 msgstr "vay&&#39; Daghel <nop>DaneHchugh vaj %1 yIrI&&#39;."
 
@@ -3310,7 +3313,7 @@ msgid ""
 "Please visit %1 to change your password to something more memorable for you."
 msgstr ""
 
-#: core/lib/Foswiki/Plugins.pm:505
+#: core/lib/Foswiki/Plugins.pm:501
 msgid "Plugin handlers"
 msgstr "Plugin raQwI&&#39;mey"
 
@@ -3456,7 +3459,7 @@ msgstr "muvta&&#39;bogh lo&&#39;wI&&#39;pu&&#39;&&#39;e&&#39;"
 msgid "Registration"
 msgstr "muvmeH mIw"
 
-#: core/lib/Foswiki/UI/Register.pm:736
+#: core/lib/Foswiki/UI/Register.pm:745
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3890,7 +3893,7 @@ msgstr "ghItlhvam choHmeH bIngDaq <nop>QaH <nop>DaSam."
 msgid "See changes since:"
 msgstr "&&#39;ar poH ret choHmey &&#39;ang:"
 
-#: core/lib/Foswiki/Plugins.pm:300
+#: core/lib/Foswiki/Plugins.pm:296
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr "DISABLEDPLUGINS <nop>DuHmey tI&&#39;ol."
 
@@ -4071,7 +4074,7 @@ msgstr ""
 "Hoch mIchmey Da&&#39;angmeH, =all= yIghItlh, pagh mIchmey&&#39;e&&#39; "
 "wavbogh <nop>DoDmey tetlh yIchenmoH: %1"
 
-#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:215
 #: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr "much tagh"
@@ -4370,7 +4373,7 @@ msgid ""
 "\"."
 msgstr ""
 
-#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
+#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:409
 msgid ""
 "The details about REST Handlers are only available to users with Admin "
 "authority."
@@ -4694,7 +4697,7 @@ msgid ""
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
 
-#: PatternSkin/templates/view.pattern.tmpl:72
+#: PatternSkin/templates/view.pattern.tmpl:71
 #: PatternSkin/templates/view.pattern01x01.tmpl:74
 msgid "This page was cached on %1."
 msgstr "%1 ghItlhvam velqa&&#39; pollu&&#39;."
@@ -4867,7 +4870,7 @@ msgstr "ghItlh qup:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:68
+#: PatternSkin/templates/view.pattern.tmpl:67
 #: PatternSkin/templates/view.pattern01x01.tmpl:44
 #: PatternSkin/templates/view.pattern01x01.tmpl:70
 #: core/templates/viewprint.tmpl:15
@@ -5245,11 +5248,11 @@ msgstr "Qu&&#39;vatlh: ghItlh %1.%2 <nop>vISamlaHbe&&#39;"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Qu&&#39;vatlh: ghItlh %2mo&&#39; mIch %1 <nop>vISamlaHbe&&#39;"
 
-#: core/lib/Foswiki/UI/Register.pm:1302
+#: core/lib/Foswiki/UI/Register.pm:1311
 msgid "Warning: Could not send confirmation email"
 msgstr "Qu&&#39;vatlh: &&#39;olmeH QIn ngeHlaHbe&&#39;"
 
-#: core/lib/Foswiki/UI/Register.pm:1314
+#: core/lib/Foswiki/UI/Register.pm:1323
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Qu&&#39;vatlh: &&#39;olmeH QIn ngeHlaHbe&&#39;, QInmey chu&&#39;Ha&&#39;"
