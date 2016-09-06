@@ -3,7 +3,7 @@ use v5.14;
 
 package Foswiki::Exception::RTInfo;
 
-use Moo;
+use Foswiki::Class;
 extends qw(Foswiki::Exception);
 
 has template => ( is => 'rw', );
@@ -20,7 +20,6 @@ use diagnostics;
 #Uncomment to isolate
 #our @TESTS = qw(notest_registerVerifyOk); #notest_UnregisteredUser);
 
-use Foswiki::UI::Register();
 use Data::Dumper;
 use FileHandle();
 use File::Copy();
@@ -32,8 +31,7 @@ use Try::Tiny;
 # Note that the FoswikiFnTestCase needs to use the registration code to work,
 # so this is a bit arse before tit. However we need some pre-registered users
 # for this to work sensibly, so we just have to bite the bullet.
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw( FoswikiFnTestCase );
 
 has regUI => (
@@ -189,7 +187,7 @@ EOF
         Foswiki::Exception::Fatal->rethrow($_);
     };
 
-    @FoswikiFnTestCase::mails = ();
+    @Unit::FoswikiTestRole::mails = ();
 
     return;
 };
@@ -262,7 +260,7 @@ sub registerAccount {
     );
     $cfgData = $this->app->cfg->data;
 
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->regUI->_action_verify;
@@ -274,9 +272,10 @@ sub registerAccount {
                 $this->assert_str_equals( $REG_TMPL, $e->template,
                     $e->stringify() );
                 $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
-                $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
+                $this->assert_equals( 2,
+                    scalar(@Unit::FoswikiTestRole::mails) );
                 my $done = '';
-                foreach my $mail (@FoswikiFnTestCase::mails) {
+                foreach my $mail (@Unit::FoswikiTestRole::mails) {
                     if ( $mail->header('Subject') =~ m/Registration for/m ) {
                         my $new_user_email = $this->new_user_email;
                         if ( $mail->header('To') =~ m/\b$new_user_email\b/m ) {
@@ -295,7 +294,7 @@ qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
                     }
                 }
                 $this->assert($done);
-                @FoswikiFnTestCase::mails = ();
+                @Unit::FoswikiTestRole::mails = ();
             }
             else {
                 $e->rethrow;
@@ -707,7 +706,7 @@ sub registerVerifyOk {
         callbacks => { handleRequestException => \&_cbHRE },
     );
     $cfgData = $this->app->cfg->data;
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -751,7 +750,7 @@ sub registerVerifyOk {
 
     $cfgData = $this->app->cfg->data;
     $this->app->heap->{DebugVerificationCode} = $code;
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     $code = $this->app->request->param('code');
     my $data = $this->regUI->_loadPendingRegistration($code);
@@ -759,9 +758,9 @@ sub registerVerifyOk {
     $this->assert_equals( $data->{VerificationCode}, $code );
     $this->assert( $data->{Email} );
 
-    $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
+    $this->assert_equals( 1, scalar(@Unit::FoswikiTestRole::mails) );
     my $done = '';
-    foreach my $mail (@FoswikiFnTestCase::mails) {
+    foreach my $mail (@Unit::FoswikiTestRole::mails) {
         my $body = $mail->body();
         if ( $body =~ m/Your verification code is /m ) {
             $this->assert( !$done, $done . "\n---------\n" . $body );
@@ -773,7 +772,7 @@ sub registerVerifyOk {
         #}
     }
     $this->assert($done);
-    @FoswikiFnTestCase::mails = ();
+    @Unit::FoswikiTestRole::mails = ();
 
     # We're sitting with a valid verification code waiting for the next step
     # i.e. need to _verify
@@ -830,7 +829,7 @@ sub _registerBadVerify {
     );
     $cfgData = $this->app->cfg->data;
 
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
     try {
         $this->captureWithKey(
             register => sub { return $this->app->handleRequest; }, );
@@ -869,7 +868,7 @@ sub _registerBadVerify {
     );
 
     $cfgData = $this->app->cfg->data;
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->regUI->_action_verify;
@@ -892,8 +891,8 @@ sub _registerBadVerify {
                 text => "Expected a redirect but received: " . $e );
         }
     };
-    $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
-    my $mess = $FoswikiFnTestCase::mails[0];
+    $this->assert_equals( 1, scalar(@Unit::FoswikiTestRole::mails) );
+    my $mess = $Unit::FoswikiTestRole::mails[0];
     $this->assert_matches(
         qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
         $mess->header('From') );
@@ -960,7 +959,7 @@ sub _registerNoVerifyOk {
         callbacks => { handleRequestException => \&_cbHRE },
     );
 
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -972,9 +971,9 @@ sub _registerNoVerifyOk {
             $this->assert_str_equals( $REG_TMPL, $e->template,
                 $e->stringify() );
             $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
-            $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
+            $this->assert_equals( 2, scalar(@Unit::FoswikiTestRole::mails) );
             my $done = '';
-            foreach my $mail (@FoswikiFnTestCase::mails) {
+            foreach my $mail (@Unit::FoswikiTestRole::mails) {
                 if ( $mail->header('Subject') =~ m/^.*Registration for/m ) {
                     my $new_user_email = $this->new_user_email;
                     if ( $mail->header('To') =~ m/^.*\b$new_user_email\b/m ) {
@@ -994,7 +993,7 @@ qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
                 }
             }
             $this->assert($done);
-            @FoswikiFnTestCase::mails = ();
+            @Unit::FoswikiTestRole::mails = ();
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "
@@ -1043,7 +1042,7 @@ sub verify_rejectShortPassword {
         },
         callbacks => { handleRequestException => \&_cbHRE },
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1056,8 +1055,8 @@ sub verify_rejectShortPassword {
                 $e->stringify() );
             $this->assert_str_equals( "bad_password", $e->def,
                 $e->stringify() );
-            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-            @FoswikiFnTestCase::mails = ();
+            $this->assert_equals( 0, scalar(@Unit::FoswikiTestRole::mails) );
+            @Unit::FoswikiTestRole::mails = ();
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "
@@ -1107,7 +1106,7 @@ sub verify_userTopictemplate {
         },
         callbacks => { handleRequestException => \&_cbHRE },
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1120,8 +1119,8 @@ sub verify_userTopictemplate {
                 $e->stringify() );
             $this->assert_str_equals( "bad_templatetopic", $e->def,
                 $e->stringify() );
-            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-            @FoswikiFnTestCase::mails = ();
+            $this->assert_equals( 0, scalar(@Unit::FoswikiTestRole::mails) );
+            @Unit::FoswikiTestRole::mails = ();
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "
@@ -1157,7 +1156,7 @@ sub verify_userTopictemplate {
         },
         callbacks => { handleRequestException => \&_cbHRE },
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1236,7 +1235,7 @@ sub verify_rejectDuplicateEmail {
         },
         callbacks => { handleRequestException => \&_cbHRE },
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1248,9 +1247,9 @@ sub verify_rejectDuplicateEmail {
             $this->assert_str_equals( $REG_TMPL, $e->template,
                 $e->stringify() );
             $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
-            $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
+            $this->assert_equals( 2, scalar(@Unit::FoswikiTestRole::mails) );
             my $done = '';
-            foreach my $mail (@FoswikiFnTestCase::mails) {
+            foreach my $mail (@Unit::FoswikiTestRole::mails) {
                 if ( $mail->header('Subject') =~ m/^.*Registration for/m ) {
                     if ( $mail->header('To') =~ m/^.*\bjoe\@gooddomain.net\b/m )
                     {
@@ -1270,7 +1269,7 @@ qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
                 }
             }
             $this->assert($done);
-            @FoswikiFnTestCase::mails = ();
+            @Unit::FoswikiTestRole::mails = ();
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "
@@ -1305,7 +1304,7 @@ qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
         },
         callbacks => { handleRequestException => \&_cbHRE },
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1317,8 +1316,8 @@ qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
             $this->assert_str_equals( $REG_TMPL, $e->template,
                 $e->stringify() );
             $this->assert_str_equals( "dup_email", $e->def, $e->stringify() );
-            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-            @FoswikiFnTestCase::mails = ();
+            $this->assert_equals( 0, scalar(@Unit::FoswikiTestRole::mails) );
+            @Unit::FoswikiTestRole::mails = ();
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "
@@ -1368,7 +1367,7 @@ sub verify_rejectDuplicatePendingEmail {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1382,7 +1381,7 @@ sub verify_rejectDuplicatePendingEmail {
             $this->assert_str_equals( "confirm", $e->def, $e->stringify() );
             $this->assert_matches( 'joe@dupdomain.net', $e->params->[0],
                 $e->stringify() );
-            @FoswikiFnTestCase::mails = ();
+            @Unit::FoswikiTestRole::mails = ();
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "
@@ -1409,7 +1408,7 @@ sub verify_rejectDuplicatePendingEmail {
     #
     #$query->path_info( "/" . $this->users_web . "/UserRegistration" );
     #$this->createNewFoswikiSession( $cfgData->{DefaultUserLogin}, $query );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
     $cfgData->{Register}{NeedVerification} = 1;
     $cfgData->{Register}{UniqueEmail}      = 1;
 
@@ -1427,8 +1426,8 @@ sub verify_rejectDuplicatePendingEmail {
             $this->assert_str_equals( $REG_TMPL, $e->template,
                 $e->stringify() );
             $this->assert_str_equals( "dup_email", $e->def, $e->stringify() );
-            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-            @FoswikiFnTestCase::mails = ();
+            $this->assert_equals( 0, scalar(@Unit::FoswikiTestRole::mails) );
+            @Unit::FoswikiTestRole::mails = ();
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "
@@ -1480,7 +1479,7 @@ sub verify_rejectFilteredEmail {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1492,8 +1491,8 @@ sub verify_rejectFilteredEmail {
             $this->assert_str_equals( $REG_TMPL, $e->template,
                 $e->stringify() );
             $this->assert_str_equals( "rej_email", $e->def, $e->stringify() );
-            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-            @FoswikiFnTestCase::mails = ();
+            $this->assert_equals( 0, scalar(@Unit::FoswikiTestRole::mails) );
+            @Unit::FoswikiTestRole::mails = ();
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "
@@ -1528,7 +1527,7 @@ sub verify_rejectFilteredEmail {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1540,9 +1539,9 @@ sub verify_rejectFilteredEmail {
             $this->assert_str_equals( $REG_TMPL, $e->template,
                 $e->stringify() );
             $this->assert_str_equals( "thanks", $e->def, $e->stringify() );
-            $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
+            $this->assert_equals( 2, scalar(@Unit::FoswikiTestRole::mails) );
             my $done = '';
-            foreach my $mail (@FoswikiFnTestCase::mails) {
+            foreach my $mail (@Unit::FoswikiTestRole::mails) {
                 if ( $mail->header('Subject') =~ m/^.*Registration for/m ) {
                     if ( $mail->header('To') =~ m/^.*\bjoe\@gooddomain.net\b/m )
                     {
@@ -1562,7 +1561,7 @@ qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
                 }
             }
             $this->assert($done);
-            @FoswikiFnTestCase::mails = ();
+            @Unit::FoswikiTestRole::mails = ();
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "
@@ -1611,7 +1610,7 @@ sub verify_rejectEvilContent {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1624,7 +1623,7 @@ sub verify_rejectEvilContent {
 
             $this->assert_matches(
 qr/.*Comment: &#60;blah&#62;.*Organization: &#60;script&#62;Bad stuff&#60;\/script&#62;/ms,
-                $FoswikiFnTestCase::mails[0]->body()
+                $Unit::FoswikiTestRole::mails[0]->body()
             );
 
             my ($meta) = Foswiki::Func::readTopic( $cfgData->{UsersWebName},
@@ -1681,7 +1680,7 @@ sub verify_shortPassword {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1699,10 +1698,10 @@ sub verify_shortPassword {
                 $e->stringify() );
             $this->assert_str_equals( "bad_password", $e->def,
                 $e->stringify() );
-            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+            $this->assert_equals( 0, scalar(@Unit::FoswikiTestRole::mails) );
 
-# don't check the FoswikiFnTestCase::mails in this test case - this is done elsewhere
-            @FoswikiFnTestCase::mails = ();
+# don't check the Unit::FoswikiTestRole::mails in this test case - this is done elsewhere
+            @Unit::FoswikiTestRole::mails = ();
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "
@@ -1748,7 +1747,7 @@ sub verify_duplicateActivation {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
     try {
         $this->captureWithKey(
             register => sub { return $this->app->handleRequest; }, );
@@ -1793,7 +1792,7 @@ sub verify_duplicateActivation {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1814,7 +1813,7 @@ sub verify_duplicateActivation {
     };
 
     # and now for something completely different: Do it all over again
-    @FoswikiFnTestCase::mails = ();
+    @Unit::FoswikiTestRole::mails = ();
 
     $this->createNewFoswikiApp(
         requestParams => {
@@ -1833,7 +1832,7 @@ sub verify_duplicateActivation {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
-    $this->app->net->setMailHandler( \&sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1846,7 +1845,7 @@ sub verify_duplicateActivation {
                 $e->stringify() );
             $this->assert_str_equals( "duplicate_activation", $e->def,
                 $e->stringify() );
-            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+            $this->assert_equals( 0, scalar(@Unit::FoswikiTestRole::mails) );
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "
@@ -1854,7 +1853,7 @@ sub verify_duplicateActivation {
             $e->rethrow;
         }
     };
-    @FoswikiFnTestCase::mails = ();
+    @Unit::FoswikiTestRole::mails = ();
 
     return;
 }
@@ -1899,7 +1898,7 @@ sub verify_resetPasswordOkay {
         },
         callbacks => { handleRequestException => \&_cbHRE },
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1918,8 +1917,8 @@ sub verify_resetPasswordOkay {
             $e->rethrow;
         }
     };
-    $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
-    my $mess = $FoswikiFnTestCase::mails[0];
+    $this->assert_equals( 1, scalar(@Unit::FoswikiTestRole::mails) );
+    my $mess = $Unit::FoswikiTestRole::mails[0];
     $this->assert_matches(
         qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
         $mess->header('From') );
@@ -1958,7 +1957,7 @@ sub verify_resetPasswordNoSuchUser {
         },
         callbacks => { handleRequestException => \&_cbHRE },
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1977,7 +1976,7 @@ sub verify_resetPasswordNoSuchUser {
             $e->rethrow;
         }
     };
-    $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+    $this->assert_equals( 0, scalar(@Unit::FoswikiTestRole::mails) );
 
     return;
 }
@@ -2007,7 +2006,7 @@ sub verify_resetPasswordNeedPrivilegeForMultipleReset {
         },
         callbacks => { handleRequestException => \&_cbHRE },
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -2027,7 +2026,7 @@ sub verify_resetPasswordNeedPrivilegeForMultipleReset {
             $e->rethrow;
         }
     };
-    $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+    $this->assert_equals( 0, scalar(@Unit::FoswikiTestRole::mails) );
 
     return;
 }
@@ -2063,7 +2062,7 @@ sub verify_resetPasswordNoPassword {
         },
         callbacks => { handleRequestException => \&_cbHRE },
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -2084,8 +2083,8 @@ sub verify_resetPasswordNoPassword {
     };
 
     # If the user is not in htpasswd, there's can't be an email
-    $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
-    @FoswikiFnTestCase::mails = ();
+    $this->assert_equals( 0, scalar(@Unit::FoswikiTestRole::mails) );
+    @Unit::FoswikiTestRole::mails = ();
 
     return;
 }
@@ -2131,7 +2130,7 @@ sub verify_UnregisteredUser {
     };
 
     # $this->assert_null( UnregisteredUser::reloadUserContext($code));
-    $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+    $this->assert_equals( 0, scalar(@Unit::FoswikiTestRole::mails) );
 
     return;
 }
@@ -2208,7 +2207,7 @@ sub verify_buildRegistrationEmail {
 
     $this->createNewFoswikiApp( engineParams =>
           { initialAttributes => { user => $cfgData->{DefaultUserLogin}, }, } );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     my $actual =
       $this->regUI->_buildConfirmationEmail( \%data,
@@ -2234,7 +2233,7 @@ sub verify_buildRegistrationEmail {
     $this->assert( $actual =~ m/^\s*\*\s*Name:\s*$new_user_fullname$/,
         $actual );
 
-    $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+    $this->assert_equals( 0, scalar(@Unit::FoswikiTestRole::mails) );
 
     return;
 }
@@ -2290,7 +2289,7 @@ sub verify_disabled_registration {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -2349,7 +2348,7 @@ sub test_PendingRegistrationManualCleanup {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -2422,7 +2421,7 @@ sub test_PendingRegistrationAutoCleanup {
 
     );
     $cfgData = $this->app->cfg->data;
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -2452,12 +2451,12 @@ sub test_PendingRegistrationAutoCleanup {
     utime( $mtime, $mtime, $file )
       || $this->assert( 0, "couldn't touch $file: $!" );
 
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
-        no strict 'refs';
         $this->captureWithKey(
             register => sub { return $this->app->handleRequest; }, );
+        $this->reCreateFoswikiApp;
         $this->captureWithKey(
             register => sub { return $this->app->handleRequest; }, );
     }
@@ -2514,7 +2513,7 @@ sub test_Item12205 {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -2584,7 +2583,7 @@ sub test_3951 {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -2648,7 +2647,7 @@ sub test_4061 {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     $this->assert(
         open( my $fh, "<:encoding(utf-8)", $cfgData->{Htpasswd}{FileName} ) );
@@ -2768,7 +2767,7 @@ sub verify_resetPassword_NoWikiUsersEntry {
         callbacks => { handleRequestException => \&_cbHRE },
 
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -2787,8 +2786,8 @@ sub verify_resetPassword_NoWikiUsersEntry {
             $e->rethrow;
         }
     };
-    $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
-    my $mess = $FoswikiFnTestCase::mails[0];
+    $this->assert_equals( 1, scalar(@Unit::FoswikiTestRole::mails) );
+    my $mess = $Unit::FoswikiTestRole::mails[0];
     $this->assert_matches(
         qr/$cfgData->{WebMasterName} <$cfgData->{WebMasterEmail}>/,
         $mess->header('From') );
@@ -2832,7 +2831,7 @@ sub registerUserException {
         },
         callbacks => { handleRequestException => \&_cbHRE },
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
     my $exception;
     try {
         $this->captureWithKey(
@@ -2867,7 +2866,7 @@ sub registerUserException {
 
     # Reload caches
     $this->reCreateFoswikiApp;
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     return $exception;
 }
@@ -3085,7 +3084,7 @@ sub verify_registerVerifyOKApproved {
     # setting was established, and will always have a LoginName
     $this->registerUserException( 'asdf', 'Rego', 'Approver',
         'approve@example.com' );
-    @FoswikiFnTestCase::mails = ();
+    @Unit::FoswikiTestRole::mails = ();
 
     $cfgData->{Register}{NeedVerification} = 1;
 
@@ -3111,7 +3110,7 @@ sub verify_registerVerifyOKApproved {
 
     );
     $cfgData = $this->app->cfg->data;
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     $cfgData->{Register}{NeedApproval} = 1;
     $cfgData->{Register}{Approvers}    = 'RegoApprover';
@@ -3124,8 +3123,8 @@ sub verify_registerVerifyOKApproved {
             $this->assert_str_equals( $REG_TMPL, $e->template,
                 $e->stringify() );
             $this->assert_str_equals( "approve", $e->def );
-            $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
-            foreach my $mail (@FoswikiFnTestCase::mails) {
+            $this->assert_equals( 1, scalar(@Unit::FoswikiTestRole::mails) );
+            foreach my $mail (@Unit::FoswikiTestRole::mails) {
                 $this->assert_matches( qr/registration approval required/m,
                     $mail->header('Subject') );
                 $this->assert_matches( qr/RegoApprover <approve\@example.com>/m,
@@ -3141,7 +3140,7 @@ sub verify_registerVerifyOKApproved {
                 $this->assert_equals( $this->app->heap->{DebugVerificationCode},
                     $1 );
             }
-            @FoswikiFnTestCase::mails = ();
+            @Unit::FoswikiTestRole::mails = ();
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "
@@ -3166,8 +3165,11 @@ sub verify_registerVerifyOKApproved {
         },
         callbacks => { handleRequestException => \&_cbHRE },
 
-        # Preserve the heap data.
-        heap => $this->_cloneData( $this->app->heap, 'heap' ),
+        # Preserve the heap data Debug.* keys.
+        heap => {
+            map { $_ => $this->app->heap->{$_} }
+            grep { /^Debug/ } keys %{ $this->app->heap }
+        },
     );
 
     # Make sure we get bounced unless we are logged in
@@ -3195,9 +3197,14 @@ sub verify_registerVerifyOKApproved {
             },
         },
         callbacks => { handleRequestException => \&_cbHRE },
-        heap => $this->_cloneData( $this->app->heap, 'heap' ),
+
+        # Preserve the heap data Debug.* keys.
+        heap => {
+            map { $_ => $this->app->heap->{$_} }
+            grep { /^Debug/ } keys %{ $this->app->heap }
+        },
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->regUI->_action_approve;
@@ -3212,8 +3219,8 @@ sub verify_registerVerifyOKApproved {
             $this->assert_str_equals( "rego_approved", $e->def );
 
        # Make sure the confirmations are sent; one to the user, one to the admin
-            $this->assert_equals( 2, scalar(@FoswikiFnTestCase::mails) );
-            foreach my $mail (@FoswikiFnTestCase::mails) {
+            $this->assert_equals( 2, scalar(@Unit::FoswikiTestRole::mails) );
+            foreach my $mail (@Unit::FoswikiTestRole::mails) {
                 if ( $mail->header('To') =~ m/^Wiki/m ) {
                     $this->assert_matches( qr/^Wiki Administrator/m,
                         $mail->header('To') );
@@ -3226,7 +3233,7 @@ sub verify_registerVerifyOKApproved {
                     qr/^Foswiki - Registration for WalterPigeon/m,
                     $mail->header('Subject') );
             }
-            @FoswikiFnTestCase::mails = ();
+            @Unit::FoswikiTestRole::mails = ();
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "
@@ -3255,7 +3262,7 @@ sub verify_registerVerifyOKDisapproved {
     # setting was established, and will always have a LoginName
     $this->registerUserException( 'asdf', 'Rego', 'Approver',
         'approve@example.com' );
-    @FoswikiFnTestCase::mails = ();
+    @Unit::FoswikiTestRole::mails = ();
 
     $cfgData->{Register}{NeedVerification} = 1;
 
@@ -3281,7 +3288,7 @@ sub verify_registerVerifyOKDisapproved {
 
     );
     $cfgData = $this->app->cfg->data;
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     $cfgData->{Register}{NeedApproval} = 1;
     $cfgData->{Register}{Approvers}    = 'RegoApprover';
@@ -3294,8 +3301,8 @@ sub verify_registerVerifyOKDisapproved {
             $this->assert_str_equals( $REG_TMPL, $e->template,
                 $e->stringify() );
             $this->assert_str_equals( "approve", $e->def );
-            $this->assert_equals( 1, scalar(@FoswikiFnTestCase::mails) );
-            foreach my $mail (@FoswikiFnTestCase::mails) {
+            $this->assert_equals( 1, scalar(@Unit::FoswikiTestRole::mails) );
+            foreach my $mail (@Unit::FoswikiTestRole::mails) {
                 $this->assert_matches( qr/^.* registration approval required/m,
                     $mail->header('Subject') );
                 $this->assert_matches(
@@ -3312,7 +3319,7 @@ sub verify_registerVerifyOKDisapproved {
                 $this->assert_equals( $this->app->heap->{DebugVerificationCode},
                     $1 );
             }
-            @FoswikiFnTestCase::mails = ();
+            @Unit::FoswikiTestRole::mails = ();
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "
@@ -3338,7 +3345,7 @@ sub verify_registerVerifyOKDisapproved {
         },
         callbacks => { handleRequestException => \&_cbHRE },
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->regUI->_action_disapprove;
@@ -3353,7 +3360,7 @@ sub verify_registerVerifyOKDisapproved {
             $this->assert_str_equals( "rego_denied", $e->def );
 
             # Make sure no mails are sent (yet)
-            $this->assert_equals( 0, scalar(@FoswikiFnTestCase::mails) );
+            $this->assert_equals( 0, scalar(@Unit::FoswikiTestRole::mails) );
         }
         else {
             $e->_set_text( "expected an oops redirect but received: "

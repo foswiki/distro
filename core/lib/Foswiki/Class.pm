@@ -172,7 +172,7 @@ sub _assign_role {
     push @{ $_assignedRoles{$class} }, $role;
 }
 
-sub _handler_callbacks {
+sub _handler_callback_names {
     my $target = caller;
     Foswiki::Aux::Callbacks::registerCallbackNames( $target, @_ );
 }
@@ -182,7 +182,7 @@ sub _install_callbacks {
 
     Foswiki::load_package('Foswiki::Aux::Callbacks');
     _assign_role( $target, 'Foswiki::Aux::Callbacks' );
-    _inject_code( $target, "callback_names", *_handler_callbacks );
+    _inject_code( $target, "callback_names", *_handler_callback_names );
 }
 
 sub _install_app {

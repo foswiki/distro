@@ -577,7 +577,6 @@ sub handleRequest {
     };
 
     my $return = $res->as_array;
-    $res->outputHasStarted(1);
     $rc = $this->engine->finalizeReturn($return);
 
     # Clean up sessions before we finish.

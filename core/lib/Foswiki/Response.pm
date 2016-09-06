@@ -15,15 +15,13 @@ Fields:
 =cut
 
 package Foswiki::Response;
-use v5.14;
+
 use Assert;
-
 use CGI::Util ();
+use Carp      ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -75,7 +73,15 @@ cannot be changed (though the body can be modified)
 
 =cut
 
-has outputHasStarted => ( is => 'rw', lazy => 1, default => 0, );
+has _outputStartedAt => ( is => 'rw', lazy => 1, default => '', );
+has outputHasStarted => (
+    is      => 'rw',
+    lazy    => 1,
+    default => 0,
+    trigger => sub {
+        $_[0]->_outputStartedAt( Carp::longmess('') ) if DEBUG;
+    },
+);
 
 =begin TML
 
@@ -105,8 +111,7 @@ has status => (
     is      => 'rw',
     default => 200,
     trigger => sub {
-        ASSERT( !$_[0]->outputHasStarted, 'Too late to change status' )
-          if DEBUG;
+        $_[0]->_checkStartedOutput('Too late to change status');
     },
     coerce => sub {
         $_[0] =~ m/^(\d{3})/ ? int($1) : undef;
@@ -118,8 +123,7 @@ has headers => (
     default => sub { {} },
     trigger => sub {
         my $this = shift;
-        ASSERT( !$this->outputHasStarted, 'Too late to change headers' )
-          if DEBUG;
+        $this->_checkStartedOutput('Too late to change headers');
         my $headers = $this->headers;
         if ( defined $headers->{'Set-Cookie'} ) {
             my @cookies =
@@ -169,7 +173,7 @@ sub header {
     my ( $this, @p ) = @_;
     my (@header);
 
-    ASSERT( !$this->outputHasStarted, 'Too late to change headers' ) if DEBUG;
+    $this->_checkStartedOutput('Too late to change headers');
 
     # Ugly hack to avoid html escape in CGI::Util::rearrange
     local $CGI::Q = { escape => 0 };
@@ -390,7 +394,7 @@ Deletes headers whose names are passed.
 sub deleteHeader {
     my $this = shift;
 
-    ASSERT( !$this->outputHasStarted, 'Too late to change headers' ) if DEBUG;
+    $this->_checkStartedOutput('Too late to change headers');
 
     foreach (@_) {
         ( my $hdr = $_ ) =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
@@ -409,7 +413,7 @@ Adds $value to list of values associated with header $name.
 sub pushHeader {
     my ( $this, $hdr, $value ) = @_;
 
-    ASSERT( !$this->outputHasStarted, 'Too late to change headers' ) if DEBUG;
+    $this->_checkStartedOutput('Too late to change headers');
 
     $hdr =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
     my $cur = $this->headers->{$hdr};
@@ -430,8 +434,7 @@ sub pushHeader {
 sub cookies {
     my $this = shift;
     if (@_) {
-        ASSERT( !$this->outputHasStarted, 'Too late to change cookies' )
-          if DEBUG;
+        $this->_checkStartedOutput('Too late to change cookies');
         $this->setCookies(@_) if @_;
     }
     return @{ $this->getCookies };
@@ -454,7 +457,7 @@ CGI Compatibility Note: It doesn't support -target or -nph
 
 sub redirect {
     my ( $this, @p ) = @_;
-    ASSERT( !$this->outputHasStarted, 'Too late to redirect' ) if DEBUG;
+    $this->_checkStartedOutput('Too late to redirect');
     my ( $url, $status, $cookies ) = CGI::Util::rearrange(
         [ [qw(LOCATION URL URI)], 'STATUS', [qw(COOKIE COOKIES)], ], @p );
 
@@ -571,6 +574,26 @@ sub as_array {
     $rc[2] = [ $this->body // '' ];
 
     return \@rc;
+}
+
+# See if output has already been started and fail in DEBUG mode.
+sub _checkStartedOutput {
+    my $this = shift;
+    my ($msg) = @_;
+
+    if (DEBUG) {
+        ASSERT(
+            !$this->outputHasStarted,
+            $msg
+              . (
+                $this->_outputStartedAt
+                ? "\n---<<<Output started "
+                  . $this->_outputStartedAt
+                  . ">>>---"
+                : ''
+              )
+        );
+    }
 }
 
 1;

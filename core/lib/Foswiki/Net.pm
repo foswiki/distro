@@ -21,10 +21,8 @@ use URI;
 
 use Foswiki::IP qw/:regexp :info $IPv6Avail/;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -302,7 +300,7 @@ sub getExternalResource {
         }
     }
     catch {
-        my $message = ref($_) ? $_->stringify : $_;
+        my $message = Foswiki::Exception::errorStr($_);
         $response =
           $this->create( 'Foswiki::Net::HTTPResponse', message => $message );
     };
@@ -350,6 +348,8 @@ sub _logMailError {
     my $this  = shift;
     my $level = shift;
 
+    my $cfgData = $this->app->cfg->data;
+
     my $msg = join( '', @_ );
     chomp $msg;
 
@@ -361,7 +361,7 @@ sub _logMailError {
         $die = 1;
     }
 
-    if ( $Foswiki::cfg{SMTP}{Debug} ) {
+    if ( $cfgData->{SMTP}{Debug} ) {
         _throwMsg( $level, $msg ) if ($die);
         chomp $msg;
         $msg =~ s,\n,\n -- ,g;
@@ -374,7 +374,7 @@ sub _logMailError {
         $logger = $this->app->logger;
     }
     else {
-        $logger = $Foswiki::cfg{Log}{Implementation};
+        $logger = $cfgData->{Log}{Implementation};
         if ($logger) {
             eval "require $logger;";
             die "Can't load $logger: $!\n" if ($@);
@@ -462,7 +462,7 @@ sub _installMailHandler {
         }
     }
 
-    if ( !$handler && $Foswiki::cfg{MailProgram} ) {
+    if ( !$handler && $this->app->cfg->data->{MailProgram} ) {
         $handler = \&_sendEmailBySendmail;
 
 #_logMailError('debug', "Set EMAIL HANDLER to $this->{MAIL_METHOD} $Foswiki::cfg{MailProgram}" );
@@ -486,6 +486,7 @@ alternative mail handling method.
 
 sub setMailHandler {
     my ( $this, $fnref ) = @_;
+    ASSERT( $fnref, "Mail handler code ref must not be undef" ) if DEBUG;
     $this->mailHandler($fnref);
 }
 
@@ -507,7 +508,7 @@ sub sendEmail {
 
     #_logMailError('debug', "sendEmail Entered");
 
-    unless ( $Foswiki::cfg{EnableEmail} ) {
+    unless ( $this->app->cfg->data->{EnableEmail} ) {
         return 'Cannot send mail: Foswiki email is disabled';
     }
 
@@ -614,14 +615,16 @@ sub _slurpFile( $$ ) {
 sub _smimeSignMessage {
     my $this = shift;
 
+    my $cfgData = $this->app->cfg->data;
+
     my ( $certFile, $keyFile ) = (
-        $Foswiki::cfg{Email}{SmimeCertificateFile},
-        $Foswiki::cfg{Email}{SmimeKeyFile}
+        $cfgData->{Email}{SmimeCertificateFile},
+        $cfgData->{Email}{SmimeKeyFile}
     );
     unless ( $certFile && $keyFile ) {
         ( $certFile, $keyFile ) = (
-            "$Foswiki::cfg{DataDir}/SmimeCertificate.pem",
-            "$Foswiki::cfg{DataDir}/SmimePrivateKey.pem"
+            $cfgData->{DataDir} . "/SmimeCertificate.pem",
+            $cfgData->{DataDir} . "/SmimePrivateKey.pem"
         );
 
         unless ( $certFile && $keyFile && -r $certFile && -r $keyFile ) {
@@ -645,8 +648,8 @@ sub _smimeSignMessage {
 
     # Decrypt key if password specified and file has encryption header.
 
-    if (   exists $Foswiki::cfg{Email}{SmimeKeyPassword}
-        && length $Foswiki::cfg{Email}{SmimeKeyPassword}
+    if (   exists $cfgData->{Email}{SmimeKeyPassword}
+        && length $cfgData->{Email}{SmimeKeyPassword}
         && $key =~ m/^-----BEGIN RSA PRIVATE KEY-----\n(?:(.*?\n)\n)?/s )
     {
         my %h;
@@ -670,12 +673,12 @@ sub _smimeSignMessage {
 #>>>
             $key = $pem->decode(
                 Content  => $key,
-                Password => $Foswiki::cfg{Email}{SmimeKeyPassword}
+                Password => $cfgData->{Email}{SmimeKeyPassword}
             );
             unless ($key) {
                 $this->_logMailError( 'die',
                         "Unable to decrypt "
-                      . $Foswiki::cfg{Email}{SmimeKeyFile} . ": "
+                      . $cfgData->{Email}{SmimeKeyFile} . ": "
                       . $pem->errstr
                       . ".  Mail will not be sent." );
                 return;
@@ -731,10 +734,12 @@ sub _fixEmail {
     require POSIX;
     POSIX->import(qw(locale_h));
 
+    my $cfgData = $this->app->cfg->data;
+
     my $old_locale = POSIX::setlocale( LC_TIME() );
     POSIX::setlocale( LC_TIME(), 'C' );
     my $dateStr;
-    if ( $Foswiki::cfg{Email}{Servertime} ) {
+    if ( $cfgData->{Email}{Servertime} ) {
         $dateStr = POSIX::strftime( '%a, %d %b %Y %T %z', localtime(time) );
     }
     else {
@@ -749,7 +754,7 @@ sub _fixEmail {
         $email->header_str_set( $header, $email->header($header) );
     }
 
-    if ( $Foswiki::cfg{Email}{EnableSMIME} ) {
+    if ( $cfgData->{Email}{EnableSMIME} ) {
 
         # TODO That would be much better to teach _smimeSignMessage to work
         # with pre-parsed email object. So far – this hack will do the job.
@@ -764,14 +769,16 @@ sub _fixEmail {
 sub _sendEmailBySendmail {
     my ( $this, $email ) = @_;
 
+    my $cfgData = $this->app->cfg->data;
+
     # With feedback, unsaved values are tainted.
     # We don't have special priveleges (or shouldn't), and
     # MailProgram allows specifying an arbitrary command - e.g. rm.
     # So there's not much point in trying to be defensive here.
 
-    my $mailer = $Foswiki::cfg{MailProgram} || '';
-    $mailer .= ' ' . ( $Foswiki::cfg{SMTP}{DebugFlags} || '' )
-      if ( $Foswiki::cfg{SMTP}{Debug} && $Foswiki::cfg{SMTP}{DebugFlags} );
+    my $mailer = $cfgData->{MailProgram} || '';
+    $mailer .= ' ' . ( $cfgData->{SMTP}{DebugFlags} || '' )
+      if ( $cfgData->{SMTP}{Debug} && $cfgData->{SMTP}{DebugFlags} );
     $mailer =~ m/^(.*)$/;
     $mailer = $1;
 
@@ -808,7 +815,9 @@ sub _sendEmailByNetSMTP {
     # XXX Check if our'ing of this has any impact on the functionality.
     my ( $this, $email ) = @_;
 
-    my $debug = $Foswiki::cfg{SMTP}{Debug} || 0;
+    my $cfgData = $this->app->cfg->data;
+
+    my $debug = $cfgData->{SMTP}{Debug} || 0;
 
     my $from = '';
     my @to   = ();
@@ -934,7 +943,7 @@ sub _sendEmailByNetSMTP {
     $smtp->startTLS( $this, $host ) if ($starttls);
 
     my ( $username, $password ) =
-      ( $Foswiki::cfg{SMTP}{Username}, $Foswiki::cfg{SMTP}{Password} );
+      ( $cfgData->{SMTP}{Username}, $cfgData->{SMTP}{Password} );
     $username = '' unless ( defined $username );
     $password = '' unless ( defined $password );
 

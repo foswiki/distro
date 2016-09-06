@@ -384,6 +384,9 @@ around stringifyHeaders => sub {
 around write => sub {
     my $orig = shift;
     my ( $this, $buffer ) = @_;
+
+    # This is the only location where we know EXACTLY that output has started.
+    $this->response->outputHasStarted(1);
     print $buffer;
 };
 

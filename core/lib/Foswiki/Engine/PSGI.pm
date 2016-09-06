@@ -17,8 +17,7 @@ use Assert;
 use Plack::Request;
 use Unicode::Normalize;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Engine);
 
 use constant HTTP_COMPLIANT => 1;
