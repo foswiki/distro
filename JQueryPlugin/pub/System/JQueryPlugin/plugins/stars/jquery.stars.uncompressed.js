@@ -1,5 +1,5 @@
 /*
- * jQuery Stars plugin 2.00
+ * jQuery Stars plugin 2.01
  *
  * Copyright (c) 2014-2016 Foswiki Contributors http://foswiki.org
  *
@@ -105,7 +105,7 @@
       // event handler
       self.container.on("mousemove", function(ev) {
         if (!self.blockMouseMove) {
-          self.displayAtIndex((ev.clientX - self.container.position().left) / self.widthStar);
+          self.displayAtIndex((ev.pageX - self.container.offset().left) / self.widthStar);
         }
       });
 
@@ -128,7 +128,7 @@
       });
 
       self.container.on("click", function(ev) {
-        self.displayAtIndex((ev.clientX - self.container.position().left) / self.widthStar);
+        self.displayAtIndex((ev.pageX - self.container.offset().left) / self.widthStar);
         self.container.addClass("jqStarsSelected");
         self.blockMouseMove = true;
         self.selectAtIndex(self._tmpIndex);

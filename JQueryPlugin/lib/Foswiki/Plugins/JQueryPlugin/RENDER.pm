@@ -56,8 +56,10 @@ sub restTmpl {
 
     if ( $result eq "" ) {
         $response->header( -status => 500 );
-        $app->writeCompletePage( "ERROR: template '$name' not found",
-            undef, $contentType );
+        $app->writeCompletePage(
+            "ERROR: template '" . Foswiki::entityEncode($name) . "' not found",
+            undef, $contentType
+       );
     }
     else {
         $response->header( -"Cache-Control" => $cacheControl ) if $cacheControl;

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1473163832" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+!! %TOPIC%
 
@@ -74,7 +74,7 @@ See how this works out:
   </p>
 </script>
 
-<script>
+%ADDTOZONE{"script" requires="JQUERYPLUGIN::RENDER" id="%TOPIC%::PERSONS" text="<script type='text/javascript'>
 var arrayOfPersons = [
    {
       firstName:'David',
@@ -99,9 +99,9 @@ var arrayOfPersons = [
 ];
 
 jQuery(function($) {
-   $("#container1").html($("#personTemplate1").render(arrayOfPersons));
+   $('#container1').html($('#personTemplate1').render(arrayOfPersons));
 });
-</script>
+</script>"}%
 
 Whenever you'd like to use a different layout for the same data just use a different template. No big deal.
 Imagine doing the same using DOM plumbing...
@@ -118,11 +118,11 @@ Imagine doing the same using DOM plumbing...
   <li>{{:firstName}} {{:lastName}}</li>
 </script>
 
-<script>
+%ADDTOZONE{"script" requires="JQUERYPLUGIN::RENDER" id="%TOPIC%::INIT" text="<script type='text/javascript'>
 jQuery(function($) {
-   $("#container2").html($("#personTemplate2").render(arrayOfPersons));
+   $('#container2').html($('#personTemplate2').render(arrayOfPersons));
 });
-</script>
+</script>"}%
 
 ---++ Further reading
 
@@ -160,4 +160,4 @@ and return the rendered template.
 | ={{<nop>!-- ... --}}= | comments to templates, or commenting out sections of a template | ={{!-- this is a comment --}}= |
 
 
-%META:FILEATTACHMENT{name="logo-jsr.png" attr="h" comment="" date="1456220586" size="1241" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo-jsr.png" attr="h" comment="" date="1473163859" size="1241" user="ProjectContributor" version="1"}%
