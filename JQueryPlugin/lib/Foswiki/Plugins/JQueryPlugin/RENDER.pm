@@ -59,7 +59,7 @@ sub restTmpl {
         $app->writeCompletePage(
             "ERROR: template '" . Foswiki::entityEncode($name) . "' not found",
             undef, $contentType
-       );
+        );
     }
     else {
         $response->header( -"Cache-Control" => $cacheControl ) if $cacheControl;
