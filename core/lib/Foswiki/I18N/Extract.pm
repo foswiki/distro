@@ -7,16 +7,16 @@
 Support translatable strings extraction from Foswiki topics and templates.
 Depends on Locale::Maketext::Extract (part of CPAN::Locale::Maketext::Lexicon).
 
+SMELL: This is purely an offline extractor that is run by the tools/xgettext
+utility.  There is no reason that it needs to be part of the Foswiki class
+hierarchy.   it does not use any other Foswiki classes.
+
 =cut
 
 package Foswiki::I18N::Extract;
-use v5.14;
 
-use Assert;
-use Try::Tiny;
-
-use Foswiki::Class qw(app);
-extends qw(Foswiki::Object);
+use strict;
+use warnings;
 
 our $initError;
 
@@ -35,46 +35,30 @@ BEGIN {
     }
 }
 
-has extractor => (
-    is      => 'rw',
-    lazy    => 1,
-    default => sub {
-        return new Locale::Maketext::Extract;
-    },
-    handles => [qw(extract_file compile write_po)],
-);
-
 ##########################################################
 
 =begin TML
 
----++ ClassMethod new ( app => $app ) -> $extract
+---++ ClassMethod new ( $session ) -> $extract
 
-Constructor. Creates a fresh new Extract object. A $app object, instance of
+Constructor. Creates a fresh new Extract object. A $session object, instance of
 the Foswiki class, is optional: if it's available, it'll be used for printing
 warnings.
 
 =cut
 
-around BUILDARGS => sub {
-    my $orig = shift;
-
-    try {
-        Foswiki::load_package('Locale::Maketext::Extract');
-    }
-    catch {
-        $initError = ref($_) ? $_->stringify : $_;
-    };
-
-    return $orig->(@_);
-};
-
-sub BUILD {
-    my $this = shift;
+sub new {
+    my $class   = shift;
+    my $session = shift;
 
     if ( defined $initError ) {
-        $this->app->logger->log( 'warning', $initError );
+        print STDERR $initError;
+        return;
     }
+
+    my $self = new Locale::Maketext::Extract;
+    $self->{session} = $session;
+    return bless( $self, $class );
 }
 
 =begin TML
@@ -85,18 +69,18 @@ Extract the strings from =$text=,m using =$file= as the name of the current
 file being read (for comments in PO file, for example). Overrides the base
 class method but calls it so the base behavior is preserved.
 
-As in base class, extracted strings are just stored in the =$this='s internal
+As in base class, extracted strings are just stored in the =$self='s internal
 table for further use (e.g. creating/updating a PO file). Nothing is returned.
 
 =cut
 
 sub extract {
-    my $this = shift;
+    my $self = shift;
     my $file = shift;
     local $_ = shift;
 
     # do existing extraction
-    $this->extractor->extract( $file, $_ ) unless ( $file =~ m/\.(txt|tmpl)$/ );
+    $self->SUPER::extract( $file, $_ ) unless ( $file =~ m/\.(txt|tmpl)$/ );
 
     my $line;
     my $doublequoted = '"(\\\"|[^"])*"';
@@ -109,7 +93,7 @@ sub extract {
         while (m/%MAKETEXT\{\s*(string=)?($doublequoted)/gm) {
             my $str = substr( $2, 1, -1 );
             $str =~ s/\\"/"/g;
-            $this->add_entry( $str, [ $file, $line, '' ] );
+            $self->add_entry( $str, [ $file, $line, '' ] );
         }
         $line++;
     }
@@ -140,7 +124,7 @@ sub extract {
             $str =~ s/\\"/"/g;
 
             # collect the string:
-            $this->add_entry( $str, [ $file, $line, '' ] );
+            $self->add_entry( $str, [ $file, $line, '' ] );
         }
         $line++;
     }
