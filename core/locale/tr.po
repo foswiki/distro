@@ -551,7 +551,7 @@ msgid ""
 msgstr ""
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1367
+#: core/lib/Foswiki/UI/Register.pm:1376
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "%1 adresine onay/doğrulama için bir e-mail gönderilmiştir"
 
@@ -1574,12 +1574,12 @@ msgid "Each preference has the syntax"
 msgstr ""
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/data/System/VarMAKETEXT.txt:12
+#: core/data/System/VarMAKETEXT.txt:13
 #: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Düzenle"
 
-#: core/data/System/VarMAKETEXT.txt:42
+#: core/data/System/VarMAKETEXT.txt:50
 #, fuzzy
 msgid "Edit %*(%1,file)"
 msgstr "%*(%1,dakika) "
@@ -1664,6 +1664,10 @@ msgstr ""
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:94
 msgid "Emoticon"
+msgstr ""
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:26
+msgid "End presentation"
 msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:83
@@ -1759,7 +1763,7 @@ msgstr ""
 msgid "External"
 msgstr ""
 
-#: core/lib/Foswiki/Plugins.pm:459
+#: core/lib/Foswiki/Plugins.pm:455
 msgid "Failed plugins"
 msgstr ""
 
@@ -1886,7 +1890,7 @@ msgstr ""
 msgid "Foswiki password reset for %1"
 msgstr "%1 için Foswiki Şifre Sıfırlama"
 
-#: PatternSkin/templates/view.pattern.tmpl:74
+#: PatternSkin/templates/view.pattern.tmpl:73
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
 msgid "Get a fresh version <a href='%1'>here</a>."
 msgstr ""
@@ -2135,8 +2139,7 @@ msgstr ""
 msgid "If you enter a different name, make sure the topic exists."
 msgstr ""
 
-#: core/templates/registerconfirm.tmpl:15
-#: core/templates/registernotify.tmpl:24
+#: core/templates/registerconfirm.tmpl:15 core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
 "using your mail address %3. Contact %4 if this is in error."
@@ -2153,8 +2156,7 @@ msgid "If you have any questions, please contact %1"
 msgstr "Herhangi bir sorunuz varsa  %1 ile iletişime geçiniz"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/data/System/VarMAKETEXT.txt:13
-#: core/templates/mailresetpassword.tmpl:18
+#: core/data/System/VarMAKETEXT.txt:14 core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
 msgstr "Herhangi bir sorunuz varsa  %1 ile iletişime geçiniz."
 
@@ -3211,7 +3213,7 @@ msgstr ""
 "Lütfen %1 adresini ziyaret ederek sistem tarafından oluşturulmuş bu "
 "şifrenizi değiştiriniz."
 
-#: core/lib/Foswiki/Plugins.pm:505
+#: core/lib/Foswiki/Plugins.pm:501
 msgid "Plugin handlers"
 msgstr ""
 
@@ -3363,7 +3365,7 @@ msgstr "Kayıt Ol"
 msgid "Registration"
 msgstr "Kayıt"
 
-#: core/lib/Foswiki/UI/Register.pm:794
+#: core/lib/Foswiki/UI/Register.pm:803
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3789,7 +3791,7 @@ msgstr ""
 msgid "See changes since:"
 msgstr "Değişiklikleri görebileceğiniz adres: "
 
-#: core/lib/Foswiki/Plugins.pm:300
+#: core/lib/Foswiki/Plugins.pm:296
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr ""
 
@@ -3964,7 +3966,7 @@ msgstr ""
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
 
-#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:215
 #: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr ""
@@ -4255,7 +4257,7 @@ msgid ""
 "\"."
 msgstr ""
 
-#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
+#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:409
 msgid ""
 "The details about REST Handlers are only available to users with Admin "
 "authority."
@@ -4556,7 +4558,7 @@ msgid ""
 "that runs this site, performs to secure this site from attackers."
 msgstr ""
 
-#: PatternSkin/templates/view.pattern.tmpl:72
+#: PatternSkin/templates/view.pattern.tmpl:71
 #: PatternSkin/templates/view.pattern01x01.tmpl:74
 msgid "This page was cached on %1."
 msgstr ""
@@ -4730,7 +4732,7 @@ msgstr "Bu konunun bağlanacağı üst konu:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:68
+#: PatternSkin/templates/view.pattern.tmpl:67
 #: PatternSkin/templates/view.pattern01x01.tmpl:44
 #: PatternSkin/templates/view.pattern01x01.tmpl:70
 #: core/templates/viewprint.tmpl:15
@@ -5112,11 +5114,11 @@ msgstr ""
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Register.pm:1360
+#: core/lib/Foswiki/UI/Register.pm:1369
 msgid "Warning: Could not send confirmation email"
 msgstr ""
 
-#: core/lib/Foswiki/UI/Register.pm:1372
+#: core/lib/Foswiki/UI/Register.pm:1381
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 
