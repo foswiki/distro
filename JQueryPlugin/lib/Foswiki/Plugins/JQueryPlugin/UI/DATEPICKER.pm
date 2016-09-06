@@ -24,8 +24,8 @@ Constructor
 
 our %pluginParams = (
     name         => 'UI::Datepicker',
-    version      => '1.10.4',
-    puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
+    version      => '1.12.0',
+    puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ui',
     author       => 'see http://jqueryui.com/about',
     homepage     => 'http://api.jqueryui.com/datepicker/',
     javascript   => ['jquery.ui.datepicker.init.js'],
@@ -52,7 +52,7 @@ around init => sub {
     my $langTag = $app->i18n->language();
     my $messagePath =
         $cfgData->{SystemWebName}
-      . '/JQueryPlugin/i18n/jquery.ui.datepicker-'
+      . '/JQueryPlugin/plugins/ui/i18n/datepicker-'
       . $langTag . '.js';
 
     my $messageFile = $cfgData->{PubDir} . '/' . $messagePath;

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-02-15 20:01+0200\n"
+"PO-Revision-Date: 2016-09-05 05:25+0200\n"
 "Last-Translator: Carlinhos  Cecconi <carlinux@terra.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://translate.foswiki.org/projects/"
 "foswiki/distribution-master/pt_BR/>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.1\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2.4\n"
 
 #: core/data/System/WikiName.txt:3
 msgid "!WikiName"
@@ -595,7 +595,7 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1367
+#: core/lib/Foswiki/UI/Register.pm:1376
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Um e-mail de confirmação foi enviado para %1"
 
@@ -1064,13 +1064,12 @@ msgid "Categories"
 msgstr "Categorias"
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
-#, fuzzy
 msgid ""
 "Caution: The password system is currently read only. Users will not be added "
 "to the Password file."
 msgstr ""
-"Desculpe, mas o sistema de senhas atualmente é somente para leitura. Entre "
-"em contato com %1"
+"Atenção: o sistema de senhas atualmente é somente para leitura. Usuários não "
+"serão adicionados no arquivo de senhas."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
@@ -1644,12 +1643,12 @@ msgid "Each preference has the syntax"
 msgstr "Cada preferência tem sua sintaxe"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/data/System/VarMAKETEXT.txt:12
+#: core/data/System/VarMAKETEXT.txt:13
 #: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Editar"
 
-#: core/data/System/VarMAKETEXT.txt:42
+#: core/data/System/VarMAKETEXT.txt:50
 msgid "Edit %*(%1,file)"
 msgstr "Editar %*(%1,arquivo)"
 
@@ -1733,6 +1732,10 @@ msgstr "Incorporar objeto externo"
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:94
 msgid "Emoticon"
 msgstr "Emoticon"
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:26
+msgid "End presentation"
+msgstr ""
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
@@ -1829,7 +1832,7 @@ msgstr "Sair"
 msgid "External"
 msgstr "Externo"
 
-#: core/lib/Foswiki/Plugins.pm:459
+#: core/lib/Foswiki/Plugins.pm:455
 msgid "Failed plugins"
 msgstr "Falhas em plugins"
 
@@ -1959,7 +1962,7 @@ msgstr ""
 msgid "Foswiki password reset for %1"
 msgstr "Restaurar senha no Foswiki para %1"
 
-#: PatternSkin/templates/view.pattern.tmpl:74
+#: PatternSkin/templates/view.pattern.tmpl:73
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
 msgid "Get a fresh version <a href='%1'>here</a>."
 msgstr "Pegue uma nova versão <a href='%1'>aqui</a>."
@@ -2233,8 +2236,7 @@ msgid "If you enter a different name, make sure the topic exists."
 msgstr ""
 "Se você digitar um nome diferente, certifique-se de que o tópico existe."
 
-#: core/templates/registerconfirm.tmpl:15
-#: core/templates/registernotify.tmpl:24
+#: core/templates/registerconfirm.tmpl:15 core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
 "using your mail address %3. Contact %4 if this is in error."
@@ -2254,8 +2256,7 @@ msgid "If you have any questions, please contact %1"
 msgstr "Se você tiver qualquer dúvida, contate %1"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/data/System/VarMAKETEXT.txt:13
-#: core/templates/mailresetpassword.tmpl:18
+#: core/data/System/VarMAKETEXT.txt:14 core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
 msgstr "Se você tiver qualquer dúvida, contate %1."
 
@@ -2314,6 +2315,9 @@ msgid ""
 "register are known to the password manager, then bulk registration may still "
 "be useful.  Please contact %1 if you are unsure."
 msgstr ""
+"Se o seu wiki usa um gerenciador de senhas externo, e os usuários que "
+"pretende registrar são conhecidos para este gerenciador, então registo em "
+"bloco ainda pode ser útil. Entre em contato %1 se não tiver certeza."
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
@@ -3015,7 +3019,6 @@ msgid "Numbered list"
 msgstr "Lista numerada"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
-#, fuzzy
 msgid "OEmbed"
 msgstr "OEmbed"
 
@@ -3308,7 +3311,7 @@ msgstr ""
 "Por favor, visite %1 para mudar sua senha para alguma coisa que você possa "
 "lembrar melhor."
 
-#: core/lib/Foswiki/Plugins.pm:505
+#: core/lib/Foswiki/Plugins.pm:501
 #, fuzzy
 msgid "Plugin handlers"
 msgstr "Plugin handlers"
@@ -3445,38 +3448,36 @@ msgstr "Registro"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
 msgid "Registered e-mail addresses for currently logged in user"
-msgstr ""
+msgstr "Endereços de e-mail registrados para usuário conectado no momento."
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:124
 #: NatEditPlugin/templates/edit.natedit.tmpl:155
-#, fuzzy
 msgid "Registered users"
-msgstr "Registro"
+msgstr "Usuários registrados"
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:22
 msgid "Registration"
 msgstr "Registro"
 
-#: core/lib/Foswiki/UI/Register.pm:794
-#, fuzzy
+#: core/lib/Foswiki/UI/Register.pm:803
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
-msgstr "O envio de e-mail foi desativado para essa instalação do Foswiki"
+msgstr ""
+"Registro não pode ser concluído: Email foi desativado para esta instalação "
+"de Foswiki"
 
 #: core/templates/registermessages.tmpl:82
 msgid "Registration codes can only be used once."
 msgstr "Os códigos para registo podem ser utilizados somente uma vez."
 
 #: core/templates/registerdenied.tmpl:9
-#, fuzzy
 msgid "Registration for %1 has been denied"
-msgstr "Desculpe-nos, o registro está temporariamente desativado."
+msgstr "Registro para %1 foi negado"
 
 #: core/templates/registermessages.tmpl:55
-#, fuzzy
 msgid "Registration has been denied"
-msgstr "Desculpe-nos, o registro está temporariamente desativado."
+msgstr "Registro foi negado"
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:47
 msgid ""
@@ -3484,24 +3485,23 @@ msgid ""
 "{EnableNewUserRegistration}, or due to errors with the password system. "
 "Check the configuration for errors."
 msgstr ""
+"O registro está desativado ou por definição de configuração "
+"{EnableNewUserRegistration}, ou devido a erros com o sistema de senha. "
+"Verifique se há erros."
 
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "Busca com expressões regulares"
 
 #: core/data/System/UserName.txt:44
-#, fuzzy
 msgid "Related Topics for Administrators:"
-msgstr ""
-"Não foi possível enviar um e-mail. Por favor, notifique o administrador do "
-"%1, %2"
+msgstr "Tópicos relacionados para Administradores:"
 
 #: core/data/System/SiteTools.txt:149
 #: core/data/System/SkinTemplateTokens.txt:180
 #: core/data/System/UserAuthentication.txt:329
-#, fuzzy
 msgid "Related Topics:"
-msgstr "Tópicos Relacionados"
+msgstr "Tópicos Relacionados:"
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
@@ -3519,46 +3519,41 @@ msgstr "Tópicos relacionados:"
 
 #: PatternSkin/templates/login.pattern.tmpl:13
 msgid "Remember me"
-msgstr ""
+msgstr "Lembrar-me"
 
 #: core/templates/login.tmpl:73
 msgid "Remember me on this computer"
 msgstr "Lembre-me nesse computador"
 
 #: core/templates/registermessages.tmpl:301
-#, fuzzy
 msgid ""
 "Remember to update your user topic [[%1]] if you want your e-mail change to "
 "be reflected there as well."
 msgstr ""
-"Lembre-se de atualizar sua página de usuário se quiser que essa alteração de "
-"e-mail esteja apontada lá também."
+"Lembre-se de atualizar sua página de usuário [[%1]]  se quiser que essa "
+"alteração de e-mail esteja apontada lá também."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:34
 msgid "Remember your password?"
 msgstr "Lembrar sua senha?"
 
 #: core/data/Main/GroupViewTemplate.txt:225
-#, fuzzy
 msgid "Remove Members from %1"
-msgstr "Remover usuários desse grupo"
+msgstr "Remover usuários de %1"
 
 #: core/data/Main/GroupViewTemplate.txt:165
-#, fuzzy
 msgid "Remove members..."
-msgstr "Remover usuário..."
+msgstr "Remover usuários..."
 
 #: core/templates/registermessages.tmpl:355
 msgid "Remove of user account other than your own is denied"
 msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:239
-#, fuzzy
 msgid "Remove selected members"
 msgstr "Remover usuários selecionados"
 
 #: core/templates/registermessages.tmpl:295
-#, fuzzy
 msgid "Remove the member from the group(s) %1 first."
 msgstr "Remova primeiro o usuário do(s) grupo(s) %1."
 
@@ -3593,13 +3588,12 @@ msgstr "Renomear/Mover"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:74
 msgid "Render style"
-msgstr ""
+msgstr "Estilo renderização"
 
 #: NatEditPlugin/templates/editdialog.natedit.tmpl:18
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:130
-#, fuzzy
 msgid "Replace"
-msgstr "Trocar formulário..."
+msgstr "Substituir"
 
 #: PatternSkin/templates/form.pattern.tmpl:1 core/templates/form.tmpl:1
 msgid "Replace form..."
@@ -3905,7 +3899,7 @@ msgstr "Veja abaixo a ajuda em como editar esta página."
 msgid "See changes since:"
 msgstr "Ver alterações desde:"
 
-#: core/lib/Foswiki/Plugins.pm:300
+#: core/lib/Foswiki/Plugins.pm:296
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr "Veja a configuração da variável DISABLEDPLUGINS."
 
@@ -4091,7 +4085,7 @@ msgstr ""
 msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
 
-#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:215
 #: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr ""
@@ -4400,7 +4394,7 @@ msgid ""
 "\"."
 msgstr ""
 
-#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
+#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:409
 msgid ""
 "The details about REST Handlers are only available to users with Admin "
 "authority."
@@ -4728,7 +4722,7 @@ msgstr ""
 "Esta página explica uma das medidas de segurança do Foswiki (o software "
 "executado nesse servidor) para prevenir ataques."
 
-#: PatternSkin/templates/view.pattern.tmpl:72
+#: PatternSkin/templates/view.pattern.tmpl:71
 #: PatternSkin/templates/view.pattern01x01.tmpl:74
 msgid "This page was cached on %1."
 msgstr ""
@@ -4919,7 +4913,7 @@ msgstr "Tópico pai:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:68
+#: PatternSkin/templates/view.pattern.tmpl:67
 #: PatternSkin/templates/view.pattern01x01.tmpl:44
 #: PatternSkin/templates/view.pattern01x01.tmpl:70
 #: core/templates/viewprint.tmpl:15
@@ -5319,11 +5313,11 @@ msgstr "Aviso: tópico %1.%2 não encontrado"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Aviso: tópico %1.%2 não encontrado"
 
-#: core/lib/Foswiki/UI/Register.pm:1360
+#: core/lib/Foswiki/UI/Register.pm:1369
 msgid "Warning: Could not send confirmation email"
 msgstr "Atenção: Não foi possível enviar e-mail de confirmação"
 
-#: core/lib/Foswiki/UI/Register.pm:1372
+#: core/lib/Foswiki/UI/Register.pm:1381
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Atenção: Não foi possível enviar e-mail de confirmação, pois o envio de e-"

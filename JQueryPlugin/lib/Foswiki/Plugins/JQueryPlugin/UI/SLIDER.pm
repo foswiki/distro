@@ -24,8 +24,8 @@ Constructor
 
 our %pluginParams = (
     name         => 'UI::Slider',
-    version      => '1.10.4',
-    puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/ui',
+    version      => '1.12.0',
+    puburl       => '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ui',
     author       => 'see http://jqueryui.com/about',
     homepage     => 'http://api.jqueryui.com/slider/',
     javascript   => ['jquery.ui.slider.init.js'],

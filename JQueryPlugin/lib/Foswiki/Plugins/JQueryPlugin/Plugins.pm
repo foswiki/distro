@@ -234,7 +234,7 @@ sub registerTheme {
     my $normalizedName = lc($themeName);
 
     $url ||= $Foswiki::cfg{JQueryPlugin}{Themes}{$themeName}{Url}
-      || '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/'
+      || '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/plugins/ui/themes/'
       . $normalizedName
       . '/jquery-ui.css';
 

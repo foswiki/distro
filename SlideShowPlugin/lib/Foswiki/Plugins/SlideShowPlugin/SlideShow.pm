@@ -34,7 +34,6 @@ sub init {
     $this->{params} = \%params;
 
     my $request = Foswiki::Func::getRequestObject();
-    $this->{queryString} = $request->queryString;
 
     my @params;
     foreach my $name ( $request->multi_param ) {
@@ -209,9 +208,11 @@ sub renderSlideNav {
     $theButtons =~ s/%BUTTON_PREV%/%TMPL:P{"BUTTON_PREV" %params%}%/g;
     $theButtons =~ s/%BUTTON_NEXT%/%TMPL:P{"BUTTON_NEXT" %params%}%/g;
     $theButtons =~ s/%BUTTON_EXIT%/%TMPL:P{"BUTTON_EXIT" %params%}%/g;
-    $theButtons =~ s/%BUTTON_EXIT%/%TMPL:P{"BUTTON_EXIT" %params%}%/g;
+    $theButtons =~ s/%BUTTON_END%/%TMPL:P{"BUTTON_END" %params%}%/g;
+
+    # SMELL: this one isn't using the definitions in the template as it is not loadable individually
     $theButtons =~
-s/%BUTTON_START%/%BUTTON{"%MAKETEXT{"Start presentation"}%" class="slideShowStart" href="$viewUrl$queryString#GoSlide1" icon="image"}%/g;
+s/%BUTTON_START%/%BUTTON{"%MAKETEXT{"Start presentation"}%" class="slideShowStart" href="$viewUrl$queryString#GoSlide1" icon="fa-television"}%/g;
 
     $theButtons =~
 s/%params%/max="$max" next="$next" prev="$prev" viewurl="$viewUrl" querystring="$queryString"/g;
@@ -287,7 +288,7 @@ sub _urlEncode {
     my $text = shift;
 
     $text = Encode::encode_utf8($text) if $Foswiki::UNICODE;
-    $text =~ s/([^0-9a-zA-Z-_.:~!*'()\/%])/'%'.sprintf('%02x',ord($1))/ge;
+    $text =~ s/([^0-9a-zA-Z-_.:~!*()\/%])/'%'.sprintf('%02x',ord($1))/ge;
     $text =~ s/\%20/+/g;
     return $text;
 }

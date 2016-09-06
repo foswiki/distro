@@ -581,7 +581,7 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1367
+#: core/lib/Foswiki/UI/Register.pm:1376
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Potvrzovací e-mail byl odeslán %1"
 
@@ -1622,12 +1622,12 @@ msgid "Each preference has the syntax"
 msgstr "Každá preference má syntaxi"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/data/System/VarMAKETEXT.txt:12
+#: core/data/System/VarMAKETEXT.txt:13
 #: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Změň"
 
-#: core/data/System/VarMAKETEXT.txt:42
+#: core/data/System/VarMAKETEXT.txt:50
 msgid "Edit %*(%1,file)"
 msgstr "Edituj %*(%1,soubor)"
 
@@ -1710,6 +1710,11 @@ msgstr "Vlož externí objekt"
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:94
 msgid "Emoticon"
 msgstr "Emotikon"
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:26
+#, fuzzy
+msgid "End presentation"
+msgstr "Spusť prezentaci"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
@@ -1806,7 +1811,7 @@ msgstr "Ukončit"
 msgid "External"
 msgstr "Externí"
 
-#: core/lib/Foswiki/Plugins.pm:459
+#: core/lib/Foswiki/Plugins.pm:455
 msgid "Failed plugins"
 msgstr "Zhavarované pluginy"
 
@@ -1936,7 +1941,7 @@ msgstr ""
 msgid "Foswiki password reset for %1"
 msgstr "Foswiki znovunastavení hesla pro %1"
 
-#: PatternSkin/templates/view.pattern.tmpl:74
+#: PatternSkin/templates/view.pattern.tmpl:73
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
 #, fuzzy
 msgid "Get a fresh version <a href='%1'>here</a>."
@@ -2207,8 +2212,7 @@ msgstr "Jestliže neobdržíte verifikační email v následující hodině, "
 msgid "If you enter a different name, make sure the topic exists."
 msgstr "Pokud vložíte rozdílné jméno, ujistěte se, že článek existuje."
 
-#: core/templates/registerconfirm.tmpl:15
-#: core/templates/registernotify.tmpl:24
+#: core/templates/registerconfirm.tmpl:15 core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
 "using your mail address %3. Contact %4 if this is in error."
@@ -2227,8 +2231,7 @@ msgid "If you have any questions, please contact %1"
 msgstr "Pokud máte jakékoliv otázky, kontaktujte prosím %1"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/data/System/VarMAKETEXT.txt:13
-#: core/templates/mailresetpassword.tmpl:18
+#: core/data/System/VarMAKETEXT.txt:14 core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
 msgstr "Pokud máte libovolné otázky, kontaktujte prosím %1."
 
@@ -3279,7 +3282,7 @@ msgid ""
 msgstr ""
 "Přejděte prosím na %1 a změňte Vaše heslo na něco, co si snáže zapamatujete."
 
-#: core/lib/Foswiki/Plugins.pm:505
+#: core/lib/Foswiki/Plugins.pm:501
 msgid "Plugin handlers"
 msgstr "Držátka pluginů :)"
 
@@ -3426,7 +3429,7 @@ msgstr "Registrovaní uživatelé"
 msgid "Registration"
 msgstr "Registrace"
 
-#: core/lib/Foswiki/UI/Register.pm:794
+#: core/lib/Foswiki/UI/Register.pm:803
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3857,7 +3860,7 @@ msgstr "Viz nápověda níže pro editaci této stránky."
 msgid "See changes since:"
 msgstr "Viz změny od:"
 
-#: core/lib/Foswiki/Plugins.pm:300
+#: core/lib/Foswiki/Plugins.pm:296
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr "Viz volba nastavení DISABLEDPLUGINS."
 
@@ -4036,7 +4039,7 @@ msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
 "Uveďte =all= pro všechny weby, nebo čárkou oddělený seznam webů  od: %1"
 
-#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:215
 #: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr "Spusť prezentaci"
@@ -4342,7 +4345,7 @@ msgstr ""
 "Foswiki se poté chová stylem \"better safe than sorry - lepe je předcházet "
 "problémům\"."
 
-#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
+#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:409
 msgid ""
 "The details about REST Handlers are only available to users with Admin "
 "authority."
@@ -4671,7 +4674,7 @@ msgstr ""
 "Tato stránka vysvětluje jedno z bezpečnostních opatření jež Foswiki, "
 "software na kterém běží tato stránky, provádí k ochraně před útočníky."
 
-#: PatternSkin/templates/view.pattern.tmpl:72
+#: PatternSkin/templates/view.pattern.tmpl:71
 #: PatternSkin/templates/view.pattern01x01.tmpl:74
 msgid "This page was cached on %1."
 msgstr "Tato stránka byla uložena do cache dne %1."
@@ -4853,7 +4856,7 @@ msgstr "Nadřízený článek:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:68
+#: PatternSkin/templates/view.pattern.tmpl:67
 #: PatternSkin/templates/view.pattern01x01.tmpl:44
 #: PatternSkin/templates/view.pattern01x01.tmpl:70
 #: core/templates/viewprint.tmpl:15
@@ -5244,11 +5247,11 @@ msgstr "Varování: Nemohu najít článek %1.%2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Varování: Nemohu najít web %1 pro článek %2"
 
-#: core/lib/Foswiki/UI/Register.pm:1360
+#: core/lib/Foswiki/UI/Register.pm:1369
 msgid "Warning: Could not send confirmation email"
 msgstr "Varování: Nemohu odeslat potvrzovací email"
 
-#: core/lib/Foswiki/UI/Register.pm:1372
+#: core/lib/Foswiki/UI/Register.pm:1381
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "Varování: Nemohu zaslat potvrzovací email, zasílání emailů je vypnuté"
 
