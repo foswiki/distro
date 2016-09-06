@@ -20,8 +20,7 @@ use Foswiki::Request         ();
 use Foswiki::Request::Upload ();
 use Foswiki::Response        ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Engine);
 
 use constant HTTP_COMPLIANT => 0;
@@ -123,6 +122,8 @@ around _preparePath => sub {
         $path_info = $this->pathInfo;
         $this->clear_pathInfo;
     }
+    $action = 'view'
+      unless defined $this->app->cfg->data->{SwitchBoard}{$action};
     return {
         action    => $action,
         path_info => $path_info,

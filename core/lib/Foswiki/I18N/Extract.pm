@@ -15,9 +15,8 @@ use v5.14;
 use Assert;
 use Try::Tiny;
 
-use Moo;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 our $initError;
 
