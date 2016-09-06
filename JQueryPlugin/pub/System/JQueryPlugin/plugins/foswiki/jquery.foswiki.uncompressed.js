@@ -1,6 +1,6 @@
 /**
  * jQuery-foswiki: javascript base for foswiki
- * Version: 2.11
+ * Version: 2.12
  */
 
 /*global XMLHttpRequest:false, StrikeOne:false */
@@ -94,11 +94,12 @@ var foswiki = foswiki || {
     if (useServer) {
 
       $.ajax({
-        url: foswiki.getScriptUrl(1, "view", foswiki.getPreference("SYSTEMWEB"), "JQueryAjaxHelper"),
+        url: foswiki.getScriptUrl("view", foswiki.getPreference("SYSTEMWEB"), "JQueryAjaxHelper"),
         data: {
           skin: 'text',
           section: 'expand',
-          expression: key
+          expression: key,
+          scope: foswiki.getPreference("WEB") + "." + foswiki.getPreference("TOPIC")
         },
         async: false,
         dataType: 'text',
