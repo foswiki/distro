@@ -237,7 +237,7 @@ around BUILDARGS => sub {
 
 Constructor. Gets the language object corresponding to the current users
 language. If $app is not a Foswiki::App object reference, just calls
-Local::Maketext::new (the superclass constructor)
+Locale::Maketext::new (the superclass constructor)
 
 =cut
 
