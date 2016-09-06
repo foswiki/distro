@@ -154,6 +154,19 @@ around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
 
+    if ( ( @_ % 2 == 1 ) && ( scalar(@_) > 1 || ref( $_[0] ) ne 'HASH' ) ) {
+
+        # Add 'template' key to make arguments a valid key/value list.
+        # I.e. we suppose that the old calling format has been used with
+        # template name as the first positional argument.
+        # The old calling format also means that there is no `app' key. We
+        # add it manually. Sorry if won't always work as excepted, but
+        # there is no valid solution for this situation. `app' is added to
+        # the start of the list so that user provided key will override our
+        # default.
+        unshift @_, app => $Foswiki::app, 'template';
+    }
+
     my %params = @_;
 
     if ( defined $params{params} && !( ref( $params{params} ) eq 'ARRAY' ) ) {
@@ -175,19 +188,6 @@ sub BUILD {
     # Foswiki::Exception.
     $this->_set_text( $this->stringify );
 }
-
-around BUILDARGS => sub {
-    my $orig  = shift;
-    my $class = shift;
-
-    # Check if we have received a valid key/value pair parameters including
-    # template => 'tmpl'.
-    if ( ( @_ % 2 == 1 ) && ( scalar(@_) > 1 || ref( $_[0] ) ne 'HASH' ) ) {
-        my $template = shift;
-        return $orig->( $class, template => $template, @_ );
-    }
-    return $orig->( $class, @_ );
-};
 
 =begin TML
 

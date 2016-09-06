@@ -113,7 +113,7 @@ sub registerCallbacks {
     $this->_cbRegistered(1);
 }
 
-before _prepareConfig => sub {
+before BUILD => sub {
     my $this = shift;
 
     $this->registerCallbacks;

@@ -225,7 +225,7 @@ sub _registerUserException {
             },
         },
     );
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
     my $exception;
     try {
         $this->captureWithKey(
@@ -252,7 +252,7 @@ sub _registerUserException {
 
     # Reload caches
     $this->createNewFoswikiApp;
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     return $exception;
 }
@@ -814,7 +814,7 @@ sub verify_resetEmailOkay {
         callbacks => { handleRequestException => \&_cbHRE, },
     );
 
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
     try {
         $this->captureWithKey(
             manage => sub {
@@ -923,7 +923,7 @@ EOM
         callbacks => { handleRequestException => \&_cbHRE, },
     );
 
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     # SMELL We've set path_info, web and topic must be set from it.
     #$req->topic($regTopic);
@@ -1071,7 +1071,7 @@ EOM
         callbacks => { handleRequestException => \&_cbHRE, },
     );
 
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         my ($text) = $this->captureWithKey(
@@ -1133,7 +1133,7 @@ sub verify_deleteUser {
         callbacks => { handleRequestException => \&_cbHRE, },
     );
 
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         $this->captureWithKey(
@@ -1454,7 +1454,7 @@ sub test_createDefaultWeb {
         callbacks => { handleRequestException => \&_cbHRE, },
     );
 
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         my ( $stdout, $stderr, $result ) =
@@ -1837,7 +1837,7 @@ sub test_createEmptyWeb {
         callbacks => { handleRequestException => \&_cbHRE, },
     );
 
-    $this->app->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->app->net->setMailHandler( $this->can('sentMail') );
 
     try {
         my ( $stdout, $stderr, $result ) =

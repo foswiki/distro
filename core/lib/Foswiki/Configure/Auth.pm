@@ -2,9 +2,11 @@
 
 package Foswiki::Configure::Auth;
 
+use strict;
+use warnings;
+
 use Foswiki::Func;
 use Foswiki::AccessControlException;
-use Foswiki::Contrib::JsonRpcContrib::Error;
 
 =begin TML
 
@@ -13,9 +15,6 @@ use Foswiki::Contrib::JsonRpcContrib::Error;
 Implements authorization checking for access to configure.
 
 =cut
-
-use strict;
-use warnings;
 
 =begin TML
 
@@ -53,6 +52,12 @@ sub checkAccess {
         }
         unless ($authorized) {
             if ($json) {
+
+                # NOTE Don't pre-load this module because it'll break
+                # tools/configure when JsonRpcContrib isn't installed
+                # (yet).
+                Foswiki::load_package(
+                    "Foswiki::Contrib::JsonRpcContrib::Error");
                 throw Foswiki::Contrib::JsonRpcContrib::Error( -32600,
 'Access to configure denied by {FeatureAccess}{Configure} Setting'
                 );
@@ -71,6 +76,8 @@ sub checkAccess {
     else {
         unless ( Foswiki::Func::isAnAdmin() ) {
             if ($json) {
+                Foswiki::load_package(
+                    "Foswiki::Contrib::JsonRpcContrib::Error");
                 throw Foswiki::Contrib::JsonRpcContrib::Error( -32600,
                     'Access to configure denied for non-admin users' );
             }

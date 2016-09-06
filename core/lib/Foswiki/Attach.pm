@@ -15,10 +15,8 @@ use Assert;
 use Unicode::Normalize;
 use Foswiki qw(expandStandardEscapes);
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {

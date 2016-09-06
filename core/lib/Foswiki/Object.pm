@@ -87,7 +87,7 @@ has __id => (
 has __clone_heap =>
   ( is => 'rw', clearer => 1, lazy => 1, default => sub { {} }, );
 
-around BUILDARGS {
+around BUILDARGS => sub {
     my $orig = shift;
     my ( $class, @params ) = @_;
 
@@ -101,6 +101,7 @@ around BUILDARGS {
 
     my $paramHash;
 
+    Carp::confess("Undefined \$class") unless defined $class;
     no strict 'refs';
     if ( defined *{ $class . '::_newParameters' }{ARRAY} ) {
         my @newParameters = @{ $class . '::_newParameters' };

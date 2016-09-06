@@ -31,8 +31,7 @@ use Foswiki::UI::Register();
 use Try::Tiny;
 use Carp qw(cluck);
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(FoswikiTestCase);
 
 has test_user_forename => ( is => 'rw', );

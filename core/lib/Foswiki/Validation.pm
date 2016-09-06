@@ -92,6 +92,15 @@ sub addValidationKey {
     return "<input type='hidden' name='validation_key' value='?$nonce' />";
 }
 
+sub updateValidationKey {
+    my ( $cgis, $context, $strikeone, $oldKey ) = @_;
+
+    # expire old key
+    expireValidationKeys( $cgis, $oldKey );
+
+    return addValidationKey( $cgis, $context, $strikeone );
+}
+
 =begin TML
 
 ---++ StaticMethod generateValidationKey( $cgis, $context, $strikeone ) -> $nonce

@@ -59,13 +59,6 @@ with 'Throwable';
 
 our $EXCEPTION_TRACE = 0;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 =begin TML
 
 ---++ ObjectAttribute file
@@ -509,10 +502,7 @@ Attributes:
 
 package Foswiki::Exception::HTTPResponse;
 use Foswiki::Class;
-use namespace::clean;
 extends qw(Foswiki::Exception);
-
-our @_newParameters = qw(status reason response);
 
 has status =>
   ( is => 'ro', lazy => 1, default => sub { $_[0]->response->status, }, );
@@ -562,7 +552,6 @@ use CGI ();
 use Assert;
 
 use Foswiki::Class;
-use namespace::clean;
 extends qw(Foswiki::Exception::HTTPResponse);
 
 has header => ( is => 'rw', default => '' );
