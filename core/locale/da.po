@@ -598,7 +598,7 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1367
+#: core/lib/Foswiki/UI/Register.pm:1376
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "En e-mail med en bekræftelse er sendt til %1"
 
@@ -1639,12 +1639,12 @@ msgid "Each preference has the syntax"
 msgstr "Alle præferencer har syntaksen"
 
 #: NatEditPlugin/templates/previewtoolbar.natedit.tmpl:14
-#: core/data/System/VarMAKETEXT.txt:12
+#: core/data/System/VarMAKETEXT.txt:13
 #: core/templates/viewtopicactionbuttons.tmpl:48
 msgid "Edit"
 msgstr "Editér"
 
-#: core/data/System/VarMAKETEXT.txt:42
+#: core/data/System/VarMAKETEXT.txt:50
 msgid "Edit %*(%1,file)"
 msgstr "Editér %*(%1,fil)"
 
@@ -1731,6 +1731,11 @@ msgstr "Indlejr eksternt objekt"
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:94
 msgid "Emoticon"
 msgstr "Humørikon"
+
+#: SlideShowPlugin/templates/view.slideshow.tmpl:26
+#, fuzzy
+msgid "End presentation"
+msgstr "Start præsentation"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
@@ -1827,7 +1832,7 @@ msgstr "Afslut"
 msgid "External"
 msgstr "Ekstern"
 
-#: core/lib/Foswiki/Plugins.pm:459
+#: core/lib/Foswiki/Plugins.pm:455
 msgid "Failed plugins"
 msgstr "Fejlede plugins"
 
@@ -1956,7 +1961,7 @@ msgstr ""
 msgid "Foswiki password reset for %1"
 msgstr "Nulstilling af Foswiki-adgangskoden for %1"
 
-#: PatternSkin/templates/view.pattern.tmpl:74
+#: PatternSkin/templates/view.pattern.tmpl:73
 #: PatternSkin/templates/view.pattern01x01.tmpl:75
 msgid "Get a fresh version <a href='%1'>here</a>."
 msgstr "Få en opdateret version <a href='%1'>her</a>."
@@ -2225,8 +2230,7 @@ msgid "If you enter a different name, make sure the topic exists."
 msgstr ""
 "Hvis du indtaster et nyt sidenavn, vær da sikker på at siden eksisterer."
 
-#: core/templates/registerconfirm.tmpl:15
-#: core/templates/registernotify.tmpl:24
+#: core/templates/registerconfirm.tmpl:15 core/templates/registernotify.tmpl:24
 msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
 "using your mail address %3. Contact %4 if this is in error."
@@ -2247,8 +2251,7 @@ msgid "If you have any questions, please contact %1"
 msgstr "Hvis du har spørgsmål, så kontakt venligst %1"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:36
-#: core/data/System/VarMAKETEXT.txt:13
-#: core/templates/mailresetpassword.tmpl:18
+#: core/data/System/VarMAKETEXT.txt:14 core/templates/mailresetpassword.tmpl:18
 msgid "If you have any questions, please contact %1."
 msgstr "Hvis du har spørgsmål, så kontakt venligst %1."
 
@@ -3301,7 +3304,7 @@ msgstr ""
 "Besøg venligst siden %1 for at ændre din adgangskode til et der er lettere "
 "at huske."
 
-#: core/lib/Foswiki/Plugins.pm:505
+#: core/lib/Foswiki/Plugins.pm:501
 msgid "Plugin handlers"
 msgstr "Plugin håndtering"
 
@@ -3447,7 +3450,7 @@ msgstr "Registrerede brugere"
 msgid "Registration"
 msgstr "Registrering"
 
-#: core/lib/Foswiki/UI/Register.pm:794
+#: core/lib/Foswiki/UI/Register.pm:803
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
 "installation"
@@ -3874,7 +3877,7 @@ msgstr "Se nedenfor for hjælp til at editere denne side."
 msgid "See changes since:"
 msgstr "Se ændringer siden:"
 
-#: core/lib/Foswiki/Plugins.pm:300
+#: core/lib/Foswiki/Plugins.pm:296
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr "Se DISABLEDPLUGINS indstillinger."
 
@@ -4055,7 +4058,7 @@ msgid "Specify =all= for all webs, or a comma separated list of webs from: %1"
 msgstr ""
 "Angiv =all= for alle webs, eller en kommasepareret liste af webs fra: %1"
 
-#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:214
+#: SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin/SlideShow.pm:215
 #: SlideShowPlugin/templates/view.slideshow.tmpl:25
 msgid "Start presentation"
 msgstr "Start præsentation"
@@ -4363,7 +4366,7 @@ msgstr ""
 "eks. når du klikker på Tilbage knappen efter at du har gemt en side. Så "
 "bruger Foswiki forsigtighedsprincippet."
 
-#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
+#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:409
 msgid ""
 "The details about REST Handlers are only available to users with Admin "
 "authority."
@@ -4711,7 +4714,7 @@ msgstr ""
 "Denne side beskriver en af de sikkerheds-mekanismer som Foswiki, programmet "
 "som kører denne site, udfører for a sikre dette site imod hackere."
 
-#: PatternSkin/templates/view.pattern.tmpl:72
+#: PatternSkin/templates/view.pattern.tmpl:71
 #: PatternSkin/templates/view.pattern01x01.tmpl:74
 msgid "This page was cached on %1."
 msgstr "Denne side er cached på %1."
@@ -4892,7 +4895,7 @@ msgstr "Side-forælder:"
 
 #: PatternSkin/templates/rdiff.pattern.tmpl:16
 #: PatternSkin/templates/view.pattern.tmpl:44
-#: PatternSkin/templates/view.pattern.tmpl:68
+#: PatternSkin/templates/view.pattern.tmpl:67
 #: PatternSkin/templates/view.pattern01x01.tmpl:44
 #: PatternSkin/templates/view.pattern01x01.tmpl:70
 #: core/templates/viewprint.tmpl:15
@@ -5288,11 +5291,11 @@ msgstr "Advarsel: Kan ikke finde siden %1.%2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Advarsel: Kan ikke finde web %1 for siden %2"
 
-#: core/lib/Foswiki/UI/Register.pm:1360
+#: core/lib/Foswiki/UI/Register.pm:1369
 msgid "Warning: Could not send confirmation email"
 msgstr "Advarsel: Kunne ikke sende bekræftelses-e-mail"
 
-#: core/lib/Foswiki/UI/Register.pm:1372
+#: core/lib/Foswiki/UI/Register.pm:1381
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Advarsel: Kunne ikke sende bekræftelses-e-mail, e-mail er ikke slået til"
