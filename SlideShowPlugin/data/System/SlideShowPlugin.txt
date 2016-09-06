@@ -172,7 +172,7 @@ The part between the rulers defines the default format of a slide:
 ---++ Plugin info
 
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  06 Sep 2016: (2.32) | Foswikitask:Item14125: fix encoding of url parms of "start presentation" button |
+|  06 Sep 2016: (2.32) | Foswikitask:Item14125: fix encoding of url parms of "start presentation" button; Foswikitask:Item14170: improved button layout |
 |  08 Apr 2016: (2.31) | Foswikitask:Item14022: Change all foswiki.org links to https. |
 |  08 Sep 2015: (2.30) | Foswikitask:Item13685: add support for scrolling slides |
 |  03 Mar 2015: (2.21) | Foswikitask:Item13281: improved printout |

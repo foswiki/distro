@@ -17,10 +17,10 @@
 %ADDTOZONE{"head" id="SLIDESHOWPLUGIN::CSS" text="%TMPL:P{"slideshow::css"}%"}%
 %TMPL:END%
 
-%TMPL:DEF{"BUTTON_FIRST"}%%BUTTON{"%MAKETEXT{"First"}%" class="simple slideShowFirst" icon="control_start_blue" href="%viewurl%%querystring%#GoSlide1"}%%TMPL:END%
-%TMPL:DEF{"BUTTON_LAST"}%%BUTTON{"%MAKETEXT{"Last"}%" class="simple slideShowLast" icon="control_end_blue" href="%viewurl%%querystring%#GoSlide%max%"}%%TMPL:END%
-%TMPL:DEF{"BUTTON_PREV"}%%BUTTON{"%MAKETEXT{"Previous"}%" class="simple slideShowPrev" icon="control_rewind" href="%viewurl%%querystring%#GoSlide%prev%"}%%TMPL:END%
-%TMPL:DEF{"BUTTON_NEXT"}%%BUTTON{"%MAKETEXT{"Next"}%" class="simple slideShowNext" icon="control_fastforward_blue" href="%viewurl%%querystring%#GoSlide%next%"}%%TMPL:END%
-%TMPL:DEF{"BUTTON_EXIT"}%%BUTTON{"%MAKETEXT{"Exit"}%" class="simple slideShowExit" target="%BASEWEB%.%BASETOPIC%" icon="cross"}%%TMPL:END%
-%TMPL:DEF{"BUTTON_START"}%%BUTTON{"%MAKETEXT{"Start presentation"}%" class="slideShowStart" href="%viewurl%%querystring%#GoSlide1" icon="image"}%%TMPL:END%
-%TMPL:DEF{"BUTTON_END"}%%%BUTTON{"End presentation" icon="cross" class="slideShowEnd" href="%viewurl%%querystring%#StartPresentation"}%%TMPL:END%
+%TMPL:DEF{"BUTTON_FIRST"}%%BUTTON{"%MAKETEXT{"First"}%" class="simple slideShowFirst" icon="fa-step-backward" href="%viewurl%%querystring%#GoSlide1"}%%TMPL:END%
+%TMPL:DEF{"BUTTON_LAST"}%%BUTTON{"%MAKETEXT{"Last"}%" class="simple slideShowLast" icon="fa-step-forward" href="%viewurl%%querystring%#GoSlide%max%"}%%TMPL:END%
+%TMPL:DEF{"BUTTON_PREV"}%%BUTTON{"%MAKETEXT{"Previous"}%" class="simple slideShowPrev" icon="fa-backward" href="%viewurl%%querystring%#GoSlide%prev%"}%%TMPL:END%
+%TMPL:DEF{"BUTTON_NEXT"}%%BUTTON{"%MAKETEXT{"Next"}%" class="simple slideShowNext" icon="fa-forward" href="%viewurl%%querystring%#GoSlide%next%"}%%TMPL:END%
+%TMPL:DEF{"BUTTON_EXIT"}%%BUTTON{"%MAKETEXT{"Exit"}%" class="simple slideShowExit" target="%BASEWEB%.%BASETOPIC%" icon="fa-times"}%%TMPL:END%
+%TMPL:DEF{"BUTTON_START"}%%BUTTON{"%MAKETEXT{"Start presentation"}%" class="slideShowStart" href="%viewurl%%querystring%#GoSlide1" icon="fa-television"}%%TMPL:END%
+%TMPL:DEF{"BUTTON_END"}%%%BUTTON{"%MAKETEXT{"End presentation"}%" class="slideShowEnd" href="%viewurl%%querystring%#StartPresentation" icon="fa-times"}%%TMPL:END%
