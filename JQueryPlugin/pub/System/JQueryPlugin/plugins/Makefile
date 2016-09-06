@@ -1,5 +1,5 @@
 SUBDIRS=\
-  loader \
+  animate \
   autocomplete \
   bgiframe \
   blockui \
@@ -23,6 +23,7 @@ SUBDIRS=\
   imagesloaded \
   innerfade \
   livequery \
+  loader \
   localscroll \
   maskedinput \
   masonry \
@@ -35,12 +36,14 @@ SUBDIRS=\
   popupwindow \
   queryobject \
   rating \
+  render \
   scrollto \
   serialscroll \
   shrinkurls \
   simplemodal \
-  sprintf \
   slimbox \
+  sprintf \
+  stars \
   superfish \
   supersubs \
   tabpane \
@@ -48,10 +51,8 @@ SUBDIRS=\
   tmpl \
   tooltip \
   treeview \
+  ui \
   validate \
   wikiword  \
-  render \
-  stars \
-  animate
 
 -include ../Makefile.include
