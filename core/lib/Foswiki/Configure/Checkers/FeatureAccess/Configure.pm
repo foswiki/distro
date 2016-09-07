@@ -27,6 +27,16 @@ sub check_current_value {
         return;
     }
 
+    ( $Foswiki::cfg{FeatureAccess}{Configure} )
+      ? $reporter->NOTE('The users listedin this field have configure access.')
+      : $reporter->NOTE(
+"This field is empty. Configure access is granted members of the $Foswiki::cfg{SuperAdminGroup} by default."
+      );
+    ( $Foswiki::cfg{Password} )
+      ? $reporter->NOTE(
+        'The _internal admin_ user always has access to configure.')
+      : $reporter->NOTE('There is no _internal admin_ user configured.');
+
     my $it = Foswiki::Func::eachGroupMember( $Foswiki::cfg{SuperAdminGroup} );
     my @admins;
 
@@ -39,8 +49,8 @@ sub check_current_value {
         push( @admins, $admin ) if $admin;
     }
     $reporter->WARN(
-"$Foswiki::cfg{SuperAdminGroup} contains no users except for the _internal admin_ $Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) and the _internal admin_ password is not set ( =\$Foswiki::cfg{Password}= )
-You should either set the _internal admin_ password, or add users to this list who are permitted to access configure."
+"$Foswiki::cfg{SuperAdminGroup} contains no users and the _internal admin_ password is not set ( =\$Foswiki::cfg{Password}= ).
+$Foswiki::cfg{AdminUserWikiName} ($Foswiki::cfg{AdminUserLogin}) cannot be used.  You should either set the _internal admin_ password, or add users to this list who are permitted to access configure."
       )
       if ( scalar(@admins) lt 2
         && !$Foswiki::cfg{Password}
@@ -49,22 +59,24 @@ You should either set the _internal admin_ password, or add users to this list w
     my @Authorized = split( /[,\s]/, $Foswiki::cfg{FeatureAccess}{Configure} );
     my $passed = '';   # Set to true if current user is allowed to use configure
 
-    my $curuser = Foswiki::Func::getCanonicalUserID();
+    my $cUID    = Foswiki::Func::getCanonicalUserID();
+    my $curuser = Foswiki::Func::getWikiName($cUID);
 
-    unless ( $Foswiki::cfg{isBOOTSTRAPPING}
-        || !$Foswiki::cfg{FeatureAccess}{Configure}
-        || ( $curuser eq 'BaseUserMapping_333' ) )
-    {
+    if ( scalar @Authorized ) {
         foreach my $user (@Authorized) {
-            if ( $user eq Foswiki::Func::getCanonicalUserID() ) {
+            if ( $user eq $curuser ) {
                 $passed = 1;
-                last;
+            }
+            if ( $user =~ m/Group$/ ) {
+                $reporter->WARN(
+"If $user is a group, it will be ignored. Configure does not use WikiGroups for access control. Only WikiNames are valid in this field."
+                );
             }
         }
-        $reporter->ERROR(
-"Current user not in this list, and is locked out, If you save the configuration, you'll lose access to configure!"
-        ) unless ( $passed || $curuser eq 'BaseUserMapping_333' );
     }
+    $reporter->ERROR(
+"Current user $curuser  not in this list, and is locked out, If you save the configuration, you'll lose access to configure!"
+    ) if ( !$passed && $cUID ne 'BaseUserMapping_333' );
 
 }
 
@@ -72,7 +84,7 @@ You should either set the _internal admin_ password, or add users to this list w
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2015-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
