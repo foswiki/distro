@@ -116,7 +116,10 @@ s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
             && $showSmells )
         {
             $howSmelly++;
-            $pod .= "<blockquote class=\"foswikiAlert\">$line</blockquote>";
+            $pod .=
+                "<blockquote class=\"foswikiAlert\">"
+              . Foswiki::entityEncode($line)
+              . "</blockquote>";
         }
     }
     close($PMFILE);
