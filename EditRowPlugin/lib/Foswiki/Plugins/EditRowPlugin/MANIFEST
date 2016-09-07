@@ -24,12 +24,16 @@ lib/Foswiki/Plugins/EditRowPlugin/TableCell.pm 0644
 lib/Foswiki/Plugins/EditRowPlugin/TableParser.pm 0644
 lib/Foswiki/Plugins/EditRowPlugin/TableRow.pm 0644
 lib/Foswiki/Plugins/EditRowPlugin/View.pm 0644
+pub/System/EditRowPlugin/Makefile 0644
 pub/System/EditRowPlugin/TableSort.js 0644
+pub/System/EditRowPlugin/TableSort.js.gz 0644
 pub/System/EditRowPlugin/TableSort.uncompressed.js 0644
 pub/System/EditRowPlugin/clock.gif 0644
 pub/System/EditRowPlugin/erp.css 0644
+pub/System/EditRowPlugin/erp.css.gz 0644
 pub/System/EditRowPlugin/erp.uncompressed.css 0644
 pub/System/EditRowPlugin/erp.js 0644
+pub/System/EditRowPlugin/erp.js.gz 0644
 pub/System/EditRowPlugin/erp.uncompressed.js 0644
 pub/System/EditRowPlugin/example3.png 0644
 pub/System/EditRowPlugin/example4.png 0644
