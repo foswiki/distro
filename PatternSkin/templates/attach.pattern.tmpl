@@ -60,13 +60,21 @@ class="foswikiHelp"
 <input class="foswikiInputField" type="text" name="filecomment" value="%FILECOMMENT%" size="70" />
 </div>%TMPL:END%
 
-%TMPL:DEF{"properties"}%<div class="foswikiFormStep">
----+++ %MAKETEXT{"Properties"}%
+%TMPL:DEF{"properties"}%<div class="foswikiFormStep">%TMPL:P{"properties::content"}%</div>%TMPL:P{"changepropertiesaction"}%%TMPL:END%
 
-<input type="checkbox" class="foswikiCheckbox" id="createlink" name="createlink" %ATTACHLINKBOX% /><label for="createlink">%MAKETEXT{"Create a link to the attached file"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Images will be displayed, for other attachments a link will be created."}%</span>
+%TMPL:DEF{"properties::content"}%
+%TMPL:P{"properties::title"}%
+%TMPL:P{"properties::createlink"}%
+%TMPL:P{"properties::hidefile"}%
+%TMPL:END%
 
-<input type="checkbox" class="foswikiCheckbox" id="hidefile" name="hidefile" %HIDEFILE% /><label for="hidefile">%MAKETEXT{"Do not show attachment in table"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Attachments will not be shown in topic view page."}%</span>
-</div>%TMPL:P{"changepropertiesaction"}%%TMPL:END%
+%TMPL:DEF{"properties::title"}%---+++ %MAKETEXT{"Properties"}%%TMPL:END%
+
+%TMPL:DEF{"properties::createlink"}%
+<input type="checkbox" class="foswikiCheckbox" id="createlink" name="createlink" %ATTACHLINKBOX% /><label for="createlink">%MAKETEXT{"Create a link to the attached file"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Images will be displayed, for other attachments a link will be created."}%</span>%TMPL:END%
+
+%TMPL:DEF{"properties::hidefile"}%
+<input type="checkbox" class="foswikiCheckbox" id="hidefile" name="hidefile" %HIDEFILE% /><label for="hidefile">%MAKETEXT{"Do not show attachment in table"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Attachments will not be shown in topic view page."}%</span>%TMPL:END%
 
 
 %TMPL:DEF{"attachformend"}%%TMPL:END%
