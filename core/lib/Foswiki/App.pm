@@ -23,6 +23,7 @@ use Storable qw(dclone);
 # shortcut functions. Must be replaced with something more reasonable.
 use CGI ();
 use Compress::Zlib;
+use Foswiki::Extensions;
 use Foswiki::Engine;
 use Foswiki::Templates;
 use Foswiki::Exception;
@@ -77,6 +78,7 @@ has cache => (
 );
 
 =begin TML
+
 ---++ ObjectAttribute cfg
 
 This attribute stores application configuration object - a =Foswiki::Config=
@@ -610,7 +612,7 @@ sub create {
     my $this  = shift;
     my $class = shift;
 
-    $class = ref($class) if ref($class);
+    $class = $this->extensions->mapClass($class);
 
     Foswiki::load_class($class);
 
@@ -1542,7 +1544,9 @@ sub _prepareUser {
 
 sub _prepareExtensions {
     my $this = shift;
-    return $this->create('Foswiki::Extensions');
+
+    # Don't use create() here because the latter depends on extensions.
+    return Foswiki::Extensions->new( app => $this );
 }
 
 # If the X-Foswiki-Tickle header is present, this request is an attempt to
@@ -2241,7 +2245,7 @@ sub eachMembership {
 
 =begin TML
 
----+++ eachGroupMember($group) -> $iterator
+---+++ ObjectMethod eachGroupMember($group) -> $iterator
 Get an iterator over all the members of the named group. Returns undef if
 $group is not a valid group.  Nested groups are expanded unless the
 expand option is set to false.
@@ -2282,7 +2286,7 @@ sub eachGroupMember {
 
 =begin TML
 
----+++ addUserToGroup( $id, $group, $create ) -> $boolean
+---+++ ObjectMethod addUserToGroup( $id, $group, $create ) -> $boolean
 
    * $id can be a login name or a WikiName
 
@@ -2304,7 +2308,7 @@ sub addUserToGroup {
 
 =begin TML
 
----+++ removeUserFromGroup( $group, $id ) -> $boolean
+---+++ ObjectMethod removeUserFromGroup( $group, $id ) -> $boolean
 
    * $id can be a login name or a WikiName
 

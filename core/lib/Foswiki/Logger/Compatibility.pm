@@ -16,8 +16,7 @@ BEGIN {
 
 # Internal class for Logfile iterators.
 # So we don't break encapsulation of file handles.  Open / Close in same file.
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Iterator::EventIterator);
 
 has logLocked => (

@@ -133,10 +133,11 @@ sub BUILD {
     say STDERR "Initializing extensions" if DEBUG;
 
     $this->load_extensions;
-    $this->registeredClasses;
 
-    say STDERR "Ext sub classes: ", Dumper( \%extSubClasses );
-    say STDERR "Ext deps: ",        Dumper( \%extDeps );
+    #$this->registeredClasses;
+    #
+    #say STDERR "Ext sub classes: ", Dumper( \%extSubClasses );
+    #say STDERR "Ext deps: ",        Dumper( \%extDeps );
 }
 
 sub normalizeExtName {
@@ -391,9 +392,28 @@ sub disableExtension {
 
 =begin TML
 
----++ ObjectMethod listDisabledExtensions => @list
+---++ ObjectMethod mapClass($class) => $replacement
 
-Returns a list of extensions disabled for this installation or host.
+Maps a core class name into replacement class name.
+
+=cut
+
+sub mapClass {
+    my $this = shift;
+    my ($class) = @_;
+
+    $class = ref($class) || $class;
+
+    my $replClass = $this->registeredClasses->{$class};
+    return $replClass || $class;
+}
+
+=begin TML
+
+---++ ObjectMethod prepareDisabledExtensions => \%disabled
+
+Returns extensions disabled for this installation or host. %disabled hash keys
+are extension names, values are text reasons for disabling the extension.
 
 =cut
 
@@ -462,14 +482,32 @@ sub prepareRegisteredClasses {
         }
     }
 
-    foreach my $extName ( @{ $this->orderedList } ) {
+    # Build inheritance order. Use reverse to conform with the way overriden
+    # methods are getting called.
+    my %inheritance;
+    foreach my $extName ( reverse @{ $this->orderedList } ) {
         foreach my $coreClass ( keys %{ $ext2class{$extName} } ) {
-            push @{ $classMap{$coreClass} }, $ext2class{$extName}{$coreClass};
+            push @{ $inheritance{$coreClass} },
+              $ext2class{$extName}{$coreClass};
         }
+    }
+
+    # Build actual replacement classes.
+    foreach my $coreClass ( keys %inheritance ) {
+        ( my $crypticName = $coreClass ) =~ s/::/__/;
+        $classMap{$coreClass} =
+          Moo::Role->create_class_with_roles( $coreClass,
+            @{ $inheritance{$coreClass} } );
     }
 
     return \%classMap;
 }
+
+=begin TML
+
+---++ Static methods
+
+=cut
 
 sub registerSubClass {
     my ( $extModule, $class, $subClass ) = @_;
@@ -498,6 +536,18 @@ sub isRegistered {
     my ($extModule) = @_;
 
     return $registeredModules{$extModule} // 0;
+}
+
+sub genClassName {
+    my ($nameTmpl) = @_;
+
+    state $seqNum = 0;
+
+    my $nameFmt = $nameTmpl // 'Foswiki::Class::_AutoXXXXX';
+
+    $nameFmt =~ s/(X{3,})/"%0" . length($1) . "d"/e;
+
+    return sprintf( $nameFmt, $seqNum );
 }
 
 1;
