@@ -612,69 +612,6 @@ around BUILDARGS => sub {
     return $orig->( $class, %params );
 };
 
-package Foswiki::Exception::Ext;
-use Foswiki::Class;
-extends qw(Foswiki::Exception);
-
-=begin TML
----++ package Foswiki::Exception::Ext
-
-Base class for Foswiki::Extensions-related exceptions.
-
-Generic. Must not be used directly.
-
-=cut
-
-=begin TML
-
----++ ObjectAttribute extension => string
-
-Extension name.
-
-=cut
-
-has extension => (
-    is       => 'ro',
-    required => 1,
-);
-
-around prepareText => sub {
-    my $orig = shift;
-    my $this = shift;
-
-    return "Failed extension: " . $this->extension;
-};
-
-package Foswiki::Exception::Ext::BadName;
-use Foswiki::Class;
-extends qw(Foswiki::Exception::Ext);
-
-around prepareText => sub {
-    my $orig = shift;
-    my $this = shift;
-
-    return "Bad extension name: '" . $this->extension . "'";
-};
-
-package Foswiki::Exception::Ext::Load;
-use Foswiki::Class;
-extends qw(Foswiki::Exception::Ext);
-
-has reason => (
-    is       => 'rw',
-    required => 1,
-);
-
-around prepareText => sub {
-    my $orig = shift;
-    my $this = shift;
-
-    return
-        "Failed to load extension '"
-      . $this->extension . "': "
-      . $this->reason;
-};
-
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

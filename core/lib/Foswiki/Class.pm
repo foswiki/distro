@@ -102,15 +102,7 @@ sub import {
             # Keywords exported with this option.
             keywords => [qw(callback_names)],
         },
-        app       => { use => 0, },
-        extension => {
-            use      => 0,
-            keywords => [qw(extClass extAfter extBefore plugBefore)],
-        },
-        extensible => {
-            use      => 0,
-            keywords => [qw(pluggable)],
-        },
+        app => { use => 0, },
     );
 
     my @p;
@@ -197,39 +189,6 @@ sub _install_app {
     my ( $class, $target ) = @_;
     Foswiki::load_package('Foswiki::AppObject');
     _assign_role( $target, 'Foswiki::AppObject' );
-}
-
-sub _handler_plugBefore ($&) {
-    my ( $plug, $code ) = @_;
-    say STDERR "Replacing plug $plug with $code";
-}
-
-sub _handler_extClass ($$) {
-    my ( $class, $subClass ) = @_;
-    my $target = caller;
-
-    Foswiki::Extensions::registerSubClass( $target, $class, $subClass );
-}
-
-sub _handler_extAfter (@) {
-    my $target = caller;
-
-    Foswiki::Extensions::registerDeps( $target, @_ );
-}
-
-sub _handler_extBefore (@) {
-    my $target = caller;
-
-    Foswiki::Extensions::registerDeps( $_, $target ) foreach @_;
-}
-
-sub _install_extension {
-    my ( $class, $target ) = @_;
-
-    _inject_code( $target, 'plugBefore', \&_handler_plugBefore );
-    _inject_code( $target, 'extClass',   \&_handler_extClass );
-    _inject_code( $target, 'extAfter',   \&_handler_extAfter );
-    _inject_code( $target, 'extBefore',  \&_handler_extBefore );
 }
 
 1;

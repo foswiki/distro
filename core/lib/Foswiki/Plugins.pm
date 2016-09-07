@@ -1,8 +1,5 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Plugins;
-use v5.14;
-
 =begin TML
 
 ---+ package Foswiki::Plugins
@@ -15,11 +12,16 @@ handler calls to registered plugins.
 
 =cut
 
+package Foswiki::Plugins;
+use v5.14;
+
 use Foswiki qw(findCallerByPrefix);
 use Foswiki::Plugin ();
 
-use Foswiki::Class qw(app);
+use Moo;
+use namespace::clean;
 extends qw(Foswiki::Object);
+with qw(Foswiki::AppObject);
 
 use Assert;
 
