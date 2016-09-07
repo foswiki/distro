@@ -80,6 +80,8 @@ HERE
     }
 
     my $cgiver = $CGI::VERSION;
+    $cgiver =~ s/_.*$//;
+
     if ( "$cgiver" =~ m/^(2\.89|3\.37|3\.43|3\.47)$/ ) {
         $contents .= $this->setting( '', $this->WARN( <<HERE ) );
 You are using a version of \$CGI that is known to have issues with Foswiki.
@@ -91,7 +93,7 @@ HERE
 # CGI.pm version, on some platforms - actually need CGI 2.93 for
 # mod_perl 2.0 and CGI 2.90 for Cygwin Perl 5.8.0.  See
 # http://perl.apache.org/products/apache-modules.html#Porting_CPAN_modules_to_mod_perl_2_0_Status
-    if ( $CGI::VERSION < 2.93 ) {
+    if ( $cgiver < 2.93 ) {
         if ( $Config::Config{osname} eq 'cygwin' && $] >= 5.008 ) {
 
             # Recommend CGI.pm upgrade if using Cygwin Perl 5.8.0
