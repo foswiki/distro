@@ -230,6 +230,7 @@ sub queryString {
     my $this = shift;
     my @params;
     foreach my $name ( $this->param ) {
+        next if $name eq 'POSTDATA';
         my $key = Foswiki::urlEncode($name);
         push @params,
           map { $key . "=" . Foswiki::urlEncode( defined $_ ? $_ : '' ) }
