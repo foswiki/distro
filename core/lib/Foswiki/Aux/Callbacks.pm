@@ -87,11 +87,13 @@ my %_cbNameIndex;
 
 use Moo::Role;
 
-has _registeredCB => (
-    is      => 'rw',
-    lazy    => 1,
-    default => sub { {} },
-);
+around BUILD => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    $this->callbacksInit;
+    return $orig->( $this, @_ );
+};
 
 # Splits full callback name into namespace and short name.
 sub _splitCBName {
@@ -134,6 +136,19 @@ sub _guessCallbackName {
     );
 
     return $ns[0] . '::' . $name;
+}
+
+=begin TML
+
+---++ ObjectMethod callbacksInit()
+
+This method is virtual. Can be overriden by classes to which this role has been
+applied. It is guaranteed to be called before any actual callback is called by
+an object of the class.
+
+=cut
+
+sub callbacksInit {
 }
 
 =begin TML
@@ -214,6 +229,15 @@ sub callback {
 
     return;
 }
+
+=begin TML
+
+---++ StaticMethod registerCallbackNames($namespace, @cbNames)
+
+Registers callback names on name space =$namespace=. Called by =Foswiki::Class=
+exported =callback_names=.
+
+=cut
 
 sub registerCallbackNames {
     my $namespace = shift;
