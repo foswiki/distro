@@ -113,10 +113,12 @@ sub registerCallbacks {
     $this->_cbRegistered(1);
 }
 
-before BUILD => sub {
+around callbacksInit => sub {
+    my $orig = shift;
     my $this = shift;
 
     $this->registerCallbacks;
+    return $orig->( $this, @_ );
 };
 
 around _prepareRequest => sub {
