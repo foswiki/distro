@@ -433,8 +433,19 @@ sub bootstrapWebSettings {
 
     my $protocol = $ENV{HTTPS} ? 'https' : 'http';
 
-    # Figure out the DefaultUrlHost
-    if ( $ENV{HTTP_HOST} ) {
+# Figure out the DefaultUrlHost - First check if there is a proxy forwarding requests
+# SMELL: This doesn't detect use of HTTPS vs HTTP on the original request. It also
+# fails to account for multiple proxies where the forwarded_host is a list of proxies.
+    if ( $ENV{HTTP_X_FORWARDED_HOST} ) {
+        $Foswiki::cfg{DefaultUrlHost} =
+          "$protocol://" . $ENV{HTTP_X_FORWARDED_HOST};
+        print STDERR "AUTOCONFIG: Set DefaultUrlHost "
+          . $Foswiki::cfg{DefaultUrlHost}
+          . " from HTTP_X_FORWARDED_HOST "
+          . $ENV{HTTP_X_FORWARDED_HOST} . " \n"
+          if (TRAUTO);
+    }
+    elsif ( $ENV{HTTP_HOST} ) {
         $Foswiki::cfg{DefaultUrlHost} = "$protocol://$ENV{HTTP_HOST}";
         print STDERR
 "AUTOCONFIG: Set DefaultUrlHost $Foswiki::cfg{DefaultUrlHost} from HTTP_HOST $ENV{HTTP_HOST} \n"

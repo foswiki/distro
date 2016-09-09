@@ -75,6 +75,9 @@ DONE
         # HTTP headers & SSL data
         grep( /^(?:HTTP|SSL)_/, keys %ENV ),
 
+        # Custom X_ headers (used in proxies, etc.)
+        grep( /^X_/, keys %ENV ),
+
         # Other
         qw/PATH MOD_PERL MOD_PERL_API_VERSION/,
     );
