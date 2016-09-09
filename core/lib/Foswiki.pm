@@ -362,7 +362,8 @@ BEGIN {
         $Foswiki::cfg{isVALID} = 1;
     }
     else {
-        $bootstrap_message = Foswiki::Configure::Load::bootstrapConfig();
+        require Foswiki::Configure::Bootstrap;
+        $bootstrap_message = Foswiki::Configure::Bootstrap::bootstrapConfig();
         eval 'require Foswiki::Plugins::ConfigurePlugin';
         die
 "LocalSite.cfg load failed, and ConfigurePlugin could not be loaded: $@"
@@ -2073,7 +2074,8 @@ sub new {
     # has been parsed.
     if ( $Foswiki::cfg{isBOOTSTRAPPING} ) {
         my $phase2_message =
-          Foswiki::Configure::Load::bootstrapWebSettings( $query->action() );
+          Foswiki::Configure::Bootstrap::bootstrapWebSettings(
+            $query->action() );
         unless ($system_message) {    # Don't do this more than once.
             $system_message =
               ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} !~ /CLI/i )
