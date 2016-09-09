@@ -121,6 +121,8 @@ settings for operation when a LocalSite.cfg could not be found.
 
 sub bootstrapConfig {
 
+    local $Data::Dumper::Sortkeys = 1;
+    local $Data::Dumper::Varname  = 'ENV';
     print STDERR "AUTOCONFIG: Bootstrap Phase 1: "
       . Data::Dumper::Dumper( \%ENV )
       if (TRAUTO);
@@ -416,6 +418,8 @@ Called by bootstrapConfig.  This handles the web environment specific settings o
 sub bootstrapWebSettings {
     my $script = shift;
 
+    local $Data::Dumper::Sortkeys = 1;
+    local $Data::Dumper::Varname  = 'ENV';
     print STDERR "AUTOCONFIG: Bootstrap Phase 2: "
       . Data::Dumper::Dumper( \%ENV )
       if (TRAUTO);
