@@ -555,7 +555,14 @@ sub bootstrapWebSettings {
 
         # This might not work, depending on the websrver config,
         # but it's the best we can do
-        $Foswiki::cfg{PubUrlPath} = "$1/../pub";
+        my $lslash = rindex( $1, '/' );
+        if ( $lslash >= 0 ) {
+            $Foswiki::cfg{PubUrlPath} = $1;
+            substr( $Foswiki::cfg{PubUrlPath}, $lslash + 1 ) = 'pub';
+        }
+        else {
+            $Foswiki::cfg{PubUrlPath} = "$1/../pub";
+        }
     }
     else {
         print STDERR "AUTOCONFIG: Building Short URL paths using prefix $pfx \n"
