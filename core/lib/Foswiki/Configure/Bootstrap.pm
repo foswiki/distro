@@ -383,8 +383,12 @@ sub _bootstrapStoreSettings {
     # Detect the NFC / NDF normalization of the file system, and set
     # NFCNormalizeFilenames if needed.
     # SMELL: Really this should be done per web, both in data and pub.
-    my $nfcok =
-      Foswiki::Configure::FileUtil::canNfcFilenames( $Foswiki::cfg{DataDir} );
+    my $nfcok;
+    if ( Foswiki::Configure::FileUtil->can('canNfcFilenames') ) {
+        $nfcok =
+          Foswiki::Configure::FileUtil::canNfcFilenames(
+            $Foswiki::cfg{DataDir} );
+    }
     if ( defined $nfcok && $nfcok == 1 ) {
         print STDERR "AUTOCONFIG: Data Storage allows NFC filenames\n"
           if (TRAUTO);
