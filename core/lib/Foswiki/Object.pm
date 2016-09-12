@@ -289,6 +289,8 @@ sub clone {
         my $destAttr = $attr;
         if ( $destAttr =~ /^__/ ) {
 
+            next unless $destAttr =~ /^__orig_/;
+
             # Debug attributes would be preserved but those coming from the
             # source object would be kinda pushed on a stack by adding extra __
             # prefix. This way we could trace object's history.
