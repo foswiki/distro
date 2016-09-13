@@ -54,6 +54,10 @@ has _cbRegistered => (
     default => 0,
 );
 
+before BUILDARGS => sub {
+
+};
+
 around BUILDARGS => sub {
     my $orig = shift;
     my $this = shift;
@@ -95,7 +99,9 @@ sub cloneEnv {
     my $this = shift;
 
     # SMELL Use Foswiki::Object internals.
-    return $this->_cloneData( $this->env, 'env' );
+    my $clonedEnv = $this->_cloneData( $this->env, 'env' );
+    $this->_clear__clone_heap;
+    return $clonedEnv;
 }
 
 sub registerCallbacks {

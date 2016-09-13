@@ -87,7 +87,7 @@ has basemapping => (
         'basemapping', 'Foswiki::Object', does => 'Foswiki::UserMapping',
     ),
 );
-has loginManager => ( is => 'rw', );
+has loginManager => ( is => 'rw', predicate => 1, );
 has login2cUID => (
     is      => 'rw',
     lazy    => 1,

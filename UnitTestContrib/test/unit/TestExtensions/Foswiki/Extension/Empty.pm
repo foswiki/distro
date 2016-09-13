@@ -8,9 +8,27 @@ extends qw(Foswiki::Extension);
 use version 0.77; our $VERSION = version->declare(0.0.1);
 our $API_VERSION = version->declare("2.99.0");
 
-extAfter qw(Sample);
+#extAfter qw(Sample);
 
-extBefore qw(Test1 Foswiki::Extension::Test2);
+#extBefore qw(Test1 Foswiki::Extension::Test2);
+
+plugAfter 'Foswiki::Config::plugMethod' => sub {
+    my $this = shift;
+    my ($params) = @_;
+
+    $this->_traceMsg(
+        "This is plugMethod after processing. ",
+        "The return value is ",
+        (
+            exists $params->{rc}
+            ? ( defined $params->{rc} ? $params->{rc} : '*undef*' )
+            : '*missing*'
+        )
+    );
+    if ( defined $params->{rc} && ref( $params->{rc} ) eq 'ARRAY' ) {
+        push @{ $params->{rc} }, 'Additional from ', __PACKAGE__;
+    }
+};
 
 1;
 __END__

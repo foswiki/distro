@@ -675,6 +675,61 @@ around prepareText => sub {
       . $this->reason;
 };
 
+package Foswiki::Exception::Ext::Flow;
+use Foswiki::Class;
+extends qw(Foswiki::Exception::Ext);
+
+=begin TML
+
+---+ package Foswiki::Exception::Ext::Flow
+
+Base class of extension flow control events. Pure virtual, makes no sense on its
+own.
+
+=cut
+
+package Foswiki::Exception::Ext::Last;
+use Foswiki::Class;
+extends qw(Foswiki::Exception::Ext::Flow);
+
+=begin TML
+
+---+ package Foswiki::Exception::Ext::Last
+
+Subclass of =Foswiki::Exception::Ext::Flow=.
+
+Inidicates that an extension is requesting to be the last in the execution line.
+
+=cut
+
+=begin TML
+
+---++ ObjectAttribute rc
+
+Return value of a method call.
+
+=cut
+
+has rc => ( is => 'rw', required => 1, );
+
+package Foswiki::Exception::Ext::Restart;
+use Foswiki::Class;
+extends qw(Foswiki::Exception::Ext::Flow);
+
+=begin TML
+
+---+ package Foswiki::Exception::Ext::Restart
+
+Subclass of =Foswiki::Exception::Ext::Flow=.
+
+Inidicates that an extensions is requesting the execution line to be restarted
+from the beginning. Calling parameters would be preserved in their state at the
+moment when this exception was raised.
+
+Highly experimental feature. Might be removed upon consideration.
+
+=cut
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

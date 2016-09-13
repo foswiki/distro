@@ -1,7 +1,6 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Config;
-use v5.14;
 
 =begin TML
 
@@ -22,7 +21,7 @@ use Try::Tiny;
 use Foswiki qw(urlEncode urlDecode make_params);
 use Foswiki::Configure::FileUtil;
 
-use Foswiki::Class qw(app);
+use Foswiki::Class qw(app extensible);
 extends qw(Foswiki::Object);
 with qw(Foswiki::Aux::Localize);
 
@@ -155,6 +154,11 @@ sub BUILD {
         $this->noLocal, );
 
     $this->_setupGlobals;
+}
+
+sub DEMOLISH {
+    my $this = shift;
+    $this->unAssignGLOB;
 }
 
 sub _workOutOS {
@@ -1758,6 +1762,17 @@ sub assignGLOB {
     # Alias ::cfg for compatibility. Though $app->cfg should be preferred
     # way of accessing config.
     *Foswiki::cfg = $data;
+}
+
+sub unAssignGLOB {
+    my $this = shift;
+
+    my $glob = Foswiki::getNS('Foswiki');
+
+    if ( *{ $glob->{cfg} }{HASH} eq $this->data ) {
+        my %empty;
+        *Foswiki::cfg = \%empty;
+    }
 }
 
 # Check if $Foswiki::cfg is an alias to this object's data attribute. Useful for

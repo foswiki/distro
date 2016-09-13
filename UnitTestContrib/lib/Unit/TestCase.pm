@@ -20,8 +20,7 @@ use Foswiki::Exception ();
 use Text::Diff         ();
 require File::Temp;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends 'Foswiki::Object';
 
 $Carp::Verbose = 1;

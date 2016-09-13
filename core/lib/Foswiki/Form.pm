@@ -29,7 +29,6 @@ of possible values.
 # intelligence is in the individual field types.
 
 package Foswiki::Form;
-use v5.14;
 
 use Assert;
 
@@ -42,8 +41,7 @@ use Foswiki::OopsException             ();
 use Foswiki::Func                      ();
 use Try::Tiny;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw( Foswiki::Meta );
 
 BEGIN {
@@ -822,8 +820,12 @@ sub _extractPseudoFieldDefs {
 1;
 
 package Foswiki::Form::ParseFinished;
-use Moo;
+use Foswiki::Class;
 extends qw( Foswiki::Exception );
+
+around prepareText => sub {
+    return "parsing done";
+};
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

@@ -37,6 +37,7 @@ test/unit/EmptyTests.pm 0644
 test/unit/EngineTests.pm 0644
 test/unit/ExampleTests.pm 0644
 test/unit/ExceptionTests.pm 0644
+test/unit/ExtensionsTests.pm 0644
 test/unit/ExpandMacrosTests.pm 0644
 test/unit/ExtensionInstallerTests.pm 0644
 test/unit/Fn_ENCODE.pm 0644
@@ -110,6 +111,9 @@ test/unit/TableReaderTests.pm 0644
 test/unit/TableTests.pm 0644
 test/unit/TOCTests.pm 0644
 test/unit/TemplatesTests.pm 0644
+test/unit/TestExtensions/Foswiki/Extension/Empty.pm 0644
+test/unit/TestExtensions/Foswiki/Extension/Sample.pm 0644
+test/unit/TestExtensions/Foswiki/Extension/Sample/Config.pm 0644
 test/unit/TimeTests.pm 0644
 test/unit/UIFnCompileTests.pm 0644
 test/unit/UTF8Tests.pm 0644

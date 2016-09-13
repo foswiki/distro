@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use v5.14;
 
-use Assert;
 use Try::Tiny;
 use FindBin;
 use Cwd        ();
@@ -30,8 +29,8 @@ sub _findRelativeTo {
 BEGIN {
     if ( not defined $ENV{FOSWIKI_ASSERTS} or $ENV{FOSWIKI_ASSERTS} eq 'soft' )
     {
-        print
-"exporting FOSWIKI_ASSERTS=1 for extra checking; disable by exporting FOSWIKI_ASSERTS=0\n";
+        say STDERR
+"exporting FOSWIKI_ASSERTS=1 for extra checking; disable by exporting FOSWIKI_ASSERTS=0";
         $ENV{FOSWIKI_ASSERTS} = 1;
     }
 

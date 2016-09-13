@@ -24,14 +24,14 @@ use Scalar::Util qw(blessed);
 require Digest::MD5;
 require Foswiki::Validation;
 
-use Foswiki();
-use Foswiki::Meta();
-use Foswiki::Plugins();
-use Foswiki::Store();
+use Foswiki          ();
+use Foswiki::Meta    ();
+use Foswiki::Plugins ();
+use Foswiki::Store   ();
 
 #use Unit::Response();
 use Try::Tiny;
-use Storable();
+use Storable ();
 
 use constant SINGLE_SINGLETONS => 0;
 use constant TRACE             => 0;
@@ -44,8 +44,7 @@ my $cleanup = $ENV{FOSWIKI_DEBUG_KEEP} ? 0 : 1;
 
 our $didOnlyOnceChecks = 0;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Unit::TestCase);
 with qw(Foswiki::Aux::Localize Unit::FoswikiTestRole);
 

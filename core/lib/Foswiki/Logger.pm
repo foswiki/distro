@@ -1,4 +1,5 @@
 # See bottom of file for license and copyright information
+
 package Foswiki::Logger;
 use v5.14;
 

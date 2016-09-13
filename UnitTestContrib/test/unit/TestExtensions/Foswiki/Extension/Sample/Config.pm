@@ -4,10 +4,10 @@ package Foswiki::Extension::Sample::TiedConfig;
 use Assert;
 
 sub TIEHASH {
-    my $class = shift;
-    my ($cfgObject) = @_;
+    my $class     = shift;
+    my $cfgObject = shift;
 
-    my $thisHash = { cfg => $cfgObject, };
+    my $thisHash = { cfg => $cfgObject, _trace => 0, @_ };
 
     return bless $thisHash, $class;
 }
@@ -73,6 +73,7 @@ sub UNTIE {
 sub setTrace {
     my $this = shift;
     $this->{_trace} = shift;
+    say STDERR "Setting _trace to ", $this->{_trace};
 }
 
 sub trace {
@@ -84,15 +85,25 @@ sub trace {
 
 package Foswiki::Extension::Sample::Config;
 
+use Carp;
 use Moo::Role;
 
 around assignGLOB => sub {
     my $orig = shift;
     my $this = shift;
 
-    say STDERR "This is a replacement assignGLOB method.";
-
     tie %Foswiki::cfg, 'Foswiki::Extension::Sample::TiedConfig', $this;
+};
+
+around unAssignGLOB => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $tied = tied(%Foswiki::cfg);
+
+    if ( $tied && $tied == $this ) {
+        untie %Foswiki::cfg;
+    }
 };
 
 1;

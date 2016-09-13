@@ -94,6 +94,8 @@ sub import {
     my ($class) = shift;
     my $target = caller;
 
+    $SIG{__DIE__} = sub { Carp::confess(@_) };
+
     # Define options we would provide for classes.
     my %options = (
         callbacks => {
@@ -104,8 +106,9 @@ sub import {
         },
         app       => { use => 0, },
         extension => {
-            use      => 0,
-            keywords => [qw(extClass extAfter extBefore plugBefore)],
+            use => 0,
+            keywords =>
+              [qw(extClass extAfter extBefore plugBefore plugAfter plugAround)],
         },
         extensible => {
             use      => 0,
@@ -200,8 +203,21 @@ sub _install_app {
 }
 
 sub _handler_plugBefore ($&) {
+    my $target = caller;
     my ( $plug, $code ) = @_;
-    say STDERR "Replacing plug $plug with $code";
+    Foswiki::Extensions::registerPlugMethod( $target, 'before', $plug, $code );
+}
+
+sub _handler_plugAround ($&) {
+    my $target = caller;
+    my ( $plug, $code ) = @_;
+    Foswiki::Extensions::registerPlugMethod( $target, 'around', $plug, $code );
+}
+
+sub _handler_plugAfter ($&) {
+    my $target = caller;
+    my ( $plug, $code ) = @_;
+    Foswiki::Extensions::registerPlugMethod( $target, 'after', $plug, $code );
 }
 
 sub _handler_extClass ($$) {
@@ -227,9 +243,25 @@ sub _install_extension {
     my ( $class, $target ) = @_;
 
     _inject_code( $target, 'plugBefore', \&_handler_plugBefore );
+    _inject_code( $target, 'plugAround', \&_handler_plugAround );
+    _inject_code( $target, 'plugAfter',  \&_handler_plugAfter );
     _inject_code( $target, 'extClass',   \&_handler_extClass );
     _inject_code( $target, 'extAfter',   \&_handler_extAfter );
     _inject_code( $target, 'extBefore',  \&_handler_extBefore );
+}
+
+sub _handler_pluggable ($&) {
+    my $target = caller;
+    my ( $method, $code ) = @_;
+
+    Foswiki::Extensions::registerPluggable( $target, $method, $code );
+}
+
+sub _install_extensible {
+    my ( $class, $target ) = @_;
+
+    _assign_role( $target, 'Foswiki::Aux::_ExtensibleRole' );
+    _inject_code( $target, 'pluggable', \&_handler_pluggable );
 }
 
 1;
