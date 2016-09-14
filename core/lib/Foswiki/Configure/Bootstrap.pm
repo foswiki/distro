@@ -497,6 +497,8 @@ sub bootstrapWebSettings {
     print STDERR "AUTOCONFIG: REQUEST_URI is "
       . ( $ENV{REQUEST_URI} || '(undef)' ) . "\n"
       if (TRAUTO);
+
+    # SCRIPT_URI is only present when mod_rewrite is enabled.
     print STDERR "AUTOCONFIG: SCRIPT_URI  is "
       . ( $ENV{SCRIPT_URI} || '(undef)' ) . " \n"
       if (TRAUTO);
@@ -519,24 +521,42 @@ sub bootstrapWebSettings {
 
     my $pfx;
 
+# Detect any unwanted trailing path info,  to be stripped.  eg. bin/view/Main/WebHome
     my $suffix =
-      ( defined $ENV{SCRIPT_URL}
-          && length( $ENV{SCRIPT_URL} ) < length($path_info) )
-      ? $ENV{SCRIPT_URL}
+      ( defined $ENV{REQUEST_URI}
+          && length( $ENV{REQUEST_URI} ) < length($path_info) )
+      ? $ENV{REQUEST_URI}
       : $path_info;
 
+    print STDERR "AUTOCONFIG: Detected suffix ($suffix)\n" if (TRAUTO);
+
     # Try to Determine the prefix of the script part of the URI.
-    if ( $ENV{SCRIPT_URI} && $ENV{SCRIPT_URL} ) {
+    if ( $ENV{SCRIPT_URI} ) {
         if ( index( $ENV{SCRIPT_URI}, $Foswiki::cfg{DefaultUrlHost} ) eq 0 ) {
             $pfx =
               substr( $ENV{SCRIPT_URI},
                 length( $Foswiki::cfg{DefaultUrlHost} ) );
-            $pfx =~ s#$suffix$##;
-            print STDERR
-"AUTOCONFIG: Calculated prefix $pfx from SCRIPT_URI and SCRIPT_URL\n"
+            print STDERR "AUTOCONFIG: Calculated prefix $pfx from SCRIPT_URI\n"
               if (TRAUTO);
         }
     }
+
+    # SCRIPT_URI is not set when mod_rewrite is not enabled
+    elsif ( index( $ENV{REQUEST_URI}, $script ) == -1 ) {
+        $pfx = $ENV{REQUEST_URI};
+        print STDERR
+          "AUTOCONFIG: Short URLs: Calculated Prefix $pfx from REQUEST_URI\n"
+          if (TRAUTO);
+    }
+    else {
+        $pfx =
+          substr( $ENV{REQUEST_URI}, 0,
+            length( $ENV{REQUEST_URI} ) - length($path_info) );
+        print STDERR
+          "AUTOCONFIG: Full URLs: Setting Prefix $pfx from REQUEST_URI \n"
+          if (TRAUTO);
+    }
+    $pfx =~ s#\Q$suffix\E$## if ( defined $pfx );    # Strip any path_info
 
     unless ( defined $pfx ) {
         if ( my $idx = index( $ENV{REQUEST_URI}, $path_info ) ) {
