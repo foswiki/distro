@@ -632,8 +632,10 @@ sub _execMethodList {
     my $restart;
     do {
         $restart = 0;
-      EXECUTION_LINE:
-        foreach my $mEntry (@$mList) {
+        my $lastIteration = 0;
+        my ( $mIdx, $mEntry );
+        values @$mList;  # Explicitly reset previous iterations over this array.
+        while ( !$lastIteration && ( ( $mIdx, $mEntry ) = each @$mList ) ) {
             try {
                 $mEntry->{code}
                   ->( $extensions->{ $mEntry->{extension} }, $callParams );
@@ -654,13 +656,12 @@ sub _execMethodList {
                         $callParams->{rc} = $e->rc;
                         $callParams->{execAborted} =
                           { extension => $mEntry->{extension}, };
-                        last EXECUTION_LINE;
+                        $lastIteration = 1;
                     }
                     elsif ( $e->isa('Foswiki::Exception::Ext::Restart') ) {
                         $callParams->{execRestarted} =
                           { extension => $mEntry->{extension}, };
-                        $restart = 1;
-                        last EXECUTION_LINE;
+                        $lastIteration = $restart = 1;
                     }
                     else {
                         Foswiki::Exception::Fatal->throw(
@@ -678,6 +679,9 @@ sub _execMethodList {
                     $e->rethrow;
                 }
             };
+
+            # NOTE If any code would be needed at this point it must remember
+            # about $lastIteration.
         }
     } while ($restart);
 }

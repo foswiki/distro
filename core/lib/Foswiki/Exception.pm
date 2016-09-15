@@ -636,6 +636,9 @@ Extension name.
 has extension => (
     is       => 'ro',
     required => 1,
+
+    # Coerce a ref into class name.
+    coerce => sub { ref( $_[0] ) // $_[0] },
 );
 
 around prepareText => sub {

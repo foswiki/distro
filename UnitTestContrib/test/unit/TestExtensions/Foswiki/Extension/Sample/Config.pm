@@ -1,85 +1,86 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Extension::Sample::TiedConfig;
-use Assert;
+package Foswiki::Extension::Sample::TiedConfig {
+    use Assert;
 
-sub TIEHASH {
-    my $class     = shift;
-    my $cfgObject = shift;
+    sub TIEHASH {
+        my $class     = shift;
+        my $cfgObject = shift;
 
-    my $thisHash = { cfg => $cfgObject, _trace => 0, @_ };
+        my $thisHash = { cfg => $cfgObject, _trace => 0, @_ };
 
-    return bless $thisHash, $class;
-}
+        return bless $thisHash, $class;
+    }
 
-sub FETCH {
-    my ( $this, $key ) = @_;
-    ASSERT( defined $this->{cfg} ) if DEBUG;
-    $this->trace("FETCH{$key}");
-    return $this->{cfg}->data->{$key};
-}
+    sub FETCH {
+        my ( $this, $key ) = @_;
+        ASSERT( defined $this->{cfg} ) if DEBUG;
+        $this->trace("FETCH{$key}");
+        return $this->{cfg}->data->{$key};
+    }
 
-sub STORE {
-    my ( $this, $key, $value ) = @_;
-    ASSERT( defined $this->{cfg} ) if DEBUG;
-    $this->trace("STORE{$key}");
-    $this->{cfg}->data->{$key} = $value;
-}
+    sub STORE {
+        my ( $this, $key, $value ) = @_;
+        ASSERT( defined $this->{cfg} ) if DEBUG;
+        $this->trace("STORE{$key}");
+        $this->{cfg}->data->{$key} = $value;
+    }
 
-sub DELETE {
-    my ( $this, $key ) = @_;
-    ASSERT( defined $this->{cfg} ) if DEBUG;
-    $this->trace("DELETE{$key}");
-    delete $this->{cfg}->data->{$key};
-}
+    sub DELETE {
+        my ( $this, $key ) = @_;
+        ASSERT( defined $this->{cfg} ) if DEBUG;
+        $this->trace("DELETE{$key}");
+        delete $this->{cfg}->data->{$key};
+    }
 
-sub CLEAR {
-    my ($this) = @_;
-    ASSERT( defined $this->{cfg} ) if DEBUG;
-    $this->{cfg}->clear_data;
-}
+    sub CLEAR {
+        my ($this) = @_;
+        ASSERT( defined $this->{cfg} ) if DEBUG;
+        $this->{cfg}->clear_data;
+    }
 
-sub EXISTS {
-    my ( $this, $key ) = @_;
-    ASSERT( defined $this->{cfg} ) if DEBUG;
-    return exists $this->{cfg}->data->{$key};
-}
+    sub EXISTS {
+        my ( $this, $key ) = @_;
+        ASSERT( defined $this->{cfg} ) if DEBUG;
+        return exists $this->{cfg}->data->{$key};
+    }
 
-sub FIRSTKEY {
-    my ($this) = @_;
-    ASSERT( defined $this->{cfg} ) if DEBUG;
-    my $_ignore = keys %{ $this->{cfg}->data };
-    return each %{ $this->{cfg}->data };
-}
+    sub FIRSTKEY {
+        my ($this) = @_;
+        ASSERT( defined $this->{cfg} ) if DEBUG;
+        my $_ignore = keys %{ $this->{cfg}->data };
+        return each %{ $this->{cfg}->data };
+    }
 
-sub NEXTKEY {
-    my ($this) = @_;
-    ASSERT( defined $this->{cfg} ) if DEBUG;
-    return each %{ $this->{cfg}->data };
-}
+    sub NEXTKEY {
+        my ($this) = @_;
+        ASSERT( defined $this->{cfg} ) if DEBUG;
+        return each %{ $this->{cfg}->data };
+    }
 
-sub SCALAR {
-    my ($this) = @_;
-    ASSERT( defined $this->{cfg} ) if DEBUG;
-    return scalar %{ $this->{cfg}->data };
-}
+    sub SCALAR {
+        my ($this) = @_;
+        ASSERT( defined $this->{cfg} ) if DEBUG;
+        return scalar %{ $this->{cfg}->data };
+    }
 
-sub UNTIE {
-    my ($this) = @_;
+    sub UNTIE {
+        my ($this) = @_;
 
-    undef $this->{cfg};
-}
+        undef $this->{cfg};
+    }
 
-sub setTrace {
-    my $this = shift;
-    $this->{_trace} = shift;
-    say STDERR "Setting _trace to ", $this->{_trace};
-}
+    sub setTrace {
+        my $this = shift;
+        $this->{_trace} = shift;
+        say STDERR "Setting _trace to ", $this->{_trace};
+    }
 
-sub trace {
-    my $this = shift;
-    if ( $this->{_trace} ) {
-        say STDERR @_;
+    sub trace {
+        my $this = shift;
+        if ( $this->{_trace} ) {
+            say STDERR @_;
+        }
     }
 }
 
