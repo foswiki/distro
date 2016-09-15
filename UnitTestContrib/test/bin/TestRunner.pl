@@ -72,14 +72,11 @@ while ( scalar(@ARGV) && $ARGV[0] =~ /^-/ ) {
 my ( $app, $cfg );
 local %ENV = %ENV;
 try {
-    my $env = \%ENV;
-    $env->{FOSWIKI_ACTION} =
+    $ENV{FOSWIKI_ACTION} =
       'view';    # SMELL Shan't we add a 'test' action to the SwitchBoard?
-    $env->{FOSWIKI_ENGINE} = 'Foswiki::Engine::Test';
-    $app = Unit::TestApp->new(
-        env          => $env,
-        engineParams => { initialAttributes => { action => 'view', }, },
-    );
+    $ENV{FOSWIKI_ENGINE} = 'Foswiki::Engine::Test';
+    my $env = { map { $_ => $ENV{$_} } keys %ENV };
+    $app = Unit::TestApp->new( env => $env, );
     $cfg = $app->cfg;
 }
 catch {

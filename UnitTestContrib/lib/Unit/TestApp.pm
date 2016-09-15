@@ -41,6 +41,13 @@ has engineParams => (
     default => sub { {} },
 );
 
+# cfgParams hash is used to initialize a new cfg object.
+has cfgParams => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { {} },
+);
+
 # Hash of the test callbacks to be registered on the app object.
 has callbacks => (
     is        => 'rw',
@@ -53,10 +60,6 @@ has _cbRegistered => (
     is      => 'rw',
     default => 0,
 );
-
-before BUILDARGS => sub {
-
-};
 
 around BUILDARGS => sub {
     my $orig = shift;
@@ -139,6 +142,14 @@ around _prepareEngine => sub {
     my $this = shift;
 
     return $orig->( $this, %{ $this->engineParams } );
+};
+
+around _prepareConfig => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $cfg = $this->create( 'Foswiki::Config', %{ $this->cfgParams } );
+    return $cfg;
 };
 
 around handleRequest => sub {

@@ -166,39 +166,34 @@ sub extEnabled {
     return defined $this->disabledExtensions->{$extName} ? undef : $extName;
 }
 
-sub checkVersion {
+sub isBadVersion {
     my $this = shift;
     my ($extName) = @_;
 
     my @apiScalar = grep { /::API_VERSION$/ } Devel::Symdump->scalars($extName);
 
-    Foswiki::Exception::Ext::Load->throw(
-        extension => $extName,
-        reason    => "No \$API_VERSION scalar defined in $extName",
-    ) unless @apiScalar;
+    return "No \$API_VERSION scalar defined in $extName"
+      unless @apiScalar;
 
     my $api_ver = Foswiki::fetchGlobal( '$' . $apiScalar[0] );
 
-    Foswiki::Exception::Ext::Load->throw(
-        extension => $extName,
-        reason    => "Failed to fetch \$API_VERSION",
-    ) unless defined $api_ver;
+    return "Failed to fetch \$API_VERSION"
+      unless defined $api_ver;
 
-    Foswiki::Exception::Ext::Load->throw(
-        extension => $extName,
-        reason    => "Declared API version "
-          . $api_ver
-          . " is lower than supported "
-          . $MIN_VERSION,
-    ) if $api_ver < $MIN_VERSION;
+    return
+        "Declared API version "
+      . $api_ver
+      . " is lower than supported "
+      . $MIN_VERSION
+      if $api_ver < $MIN_VERSION;
 
-    Foswiki::Exception::Ext::Load->throw(
-        extension => $extName,
-        reason    => "Declared API version "
-          . $api_ver
-          . " is higher than supported "
-          . $VERSION,
-    ) if $api_ver > $VERSION;
+    return
+        "Declared API version "
+      . $api_ver
+      . " is higher than supported "
+      . $VERSION
+      if $api_ver > $VERSION;
+    return '';
 }
 
 sub _loadExtModule {
@@ -209,7 +204,6 @@ sub _loadExtModule {
 
     try {
         Foswiki::load_class($extModule);
-        $this->checkVersion($extModule);
         registerExtModule($extModule);
     }
     catch {
@@ -254,7 +248,7 @@ sub _loadFromSubDir {
             }
         }
         catch {
-            # We don't really fail upon extension load because this ain't fatal
+            # We don't really fail upon extension load because this isn't fatal
             # in neither way. What bad could unloaded extension cause?
             push @{ $this->_errors },
               Foswiki::Exception::Ext::Load->transmute( $_, 1,
@@ -480,12 +474,12 @@ are extension names, values are text reasons for disabling the extension.
 =cut
 
 sub prepareDisabledExtensions {
-    my $this     = shift;
-    my $env      = $this->app->env;
-    my $envVar   = 'FOSWIKI_DISABLED_EXTENSIONS';
-    my $disabled = $env->{$envVar} // '';
-    my %list;
-    if ( my $reftype = ref($disabled) ) {
+    my $this        = shift;
+    my $env         = $this->app->env;
+    my $envVar      = 'FOSWIKI_DISABLED_EXTENSIONS';
+    my $envDisabled = $env->{$envVar} // '';
+    my %disabled;
+    if ( my $reftype = ref($envDisabled) ) {
         Foswiki::Exception::Fatal->throw(
                 text => "Environment variable $envVar is a ref to "
               . $reftype
@@ -493,13 +487,31 @@ sub prepareDisabledExtensions {
           unless $reftype eq 'ARRAY';
     }
     else {
-        $disabled = [ split /,/, $disabled ];
+        $envDisabled = [ split /,/, $envDisabled ];
     }
 
-    %list =
-      map { $_ => "Disabled by $envVar environment variable." } @$disabled;
+    %disabled =
+      map {
+        $this->normalizeExtName($_) =>
+          "Disabled by $envVar environment variable."
+      } @$envDisabled;
 
-    return \%list;
+    foreach my $ext (@extModules) {
+        my $extMod = $this->normalizeExtName($ext);
+        my $reason;
+
+        unless ( $disabled{$extMod} ) {
+
+            # Disable API-incompatible modules
+            $reason = $this->isBadVersion($extMod);
+
+            if ($reason) {
+                $disabled{$extMod} = $reason;
+            }
+        }
+    }
+
+    return \%disabled;
 }
 
 sub prepareDependencies {
@@ -525,11 +537,9 @@ sub prepareRegisteredClasses {
     my %ext2class;
     foreach my $coreClass ( keys %extSubClasses ) {
         foreach my $registration ( @{ $extSubClasses{$coreClass} } ) {
-            my $extName =
-              $this->extEnabled(
-                $this->normalizeExtName( $registration->{extension} ) );
+            my $extName = $this->extEnabled( $registration->{extension} );
 
-            next unless defined $extName;
+            next unless $extName;
 
             if ( defined $ext2class{$extName}{$coreClass} ) {
 

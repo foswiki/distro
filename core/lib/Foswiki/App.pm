@@ -1593,7 +1593,7 @@ sub _checkReqCache {
         # implicit untaint required, because $cache may be used in a
         # filename. Note that the cache serialises the method and path_info,
         # which will be restored.
-        Foswiki::Request::Cache->new->load( $1, $req );
+        $this->create('Foswiki::Request::Cache')->load( $1, $req );
     }
 }
 

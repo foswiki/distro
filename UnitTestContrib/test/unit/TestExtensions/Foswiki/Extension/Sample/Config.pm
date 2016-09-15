@@ -15,6 +15,9 @@ package Foswiki::Extension::Sample::TiedConfig {
     sub FETCH {
         my ( $this, $key ) = @_;
         ASSERT( defined $this->{cfg} ) if DEBUG;
+        if ( $key eq '.version' ) {
+            return $Foswiki::Extension::Sample::Config::VERSION;
+        }
         $this->trace("FETCH{$key}");
         return $this->{cfg}->data->{$key};
     }
@@ -88,6 +91,8 @@ package Foswiki::Extension::Sample::Config;
 
 use Carp;
 use Moo::Role;
+
+use version; our $VERSION = version->declare("v0.0.1");
 
 around assignGLOB => sub {
     my $orig = shift;

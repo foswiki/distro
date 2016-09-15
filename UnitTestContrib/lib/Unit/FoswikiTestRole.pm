@@ -47,10 +47,8 @@ has app => (
     clearer   => 1,
     isa => Foswiki::Object::isaCLASS( 'app', 'Unit::TestApp', noUndef => 1, ),
     default => sub {
-        if ( defined $Foswiki::app ) {
-            return $Foswiki::app;
-        }
-        return Unit::TestApp->new( env => \%ENV );
+        return Unit::TestApp->new( env => { map { $_ => $ENV{$_} } keys %ENV },
+        );
     },
     handles => [qw(create)],
 );
@@ -593,7 +591,9 @@ sub createNewFoswikiApp {
     $app->cfg->data->{Store}{Implementation} ||= 'Foswiki::Store::PlainFile';
 
     $params{env} //= $app->cloneEnv;
-    my $newApp = Unit::TestApp->new( cfg => $app->cfg->clone, %params );
+    my $cfgData = $app->cfg->clone->data;
+    my $newApp =
+      Unit::TestApp->new( cfgParams => { data => $cfgData, }, %params );
 
     $this->app($newApp);
     $this->_fixupAppObjects;

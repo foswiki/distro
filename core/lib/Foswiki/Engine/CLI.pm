@@ -119,8 +119,8 @@ around _preparePath => sub {
         $action = ( File::Spec->splitpath($0) )[2];
     }
     if ( $this->has_path_info ) {
-        $path_info = $this->pathInfo;
-        $this->clear_pathInfo;
+        $path_info = $this->path_info;
+        $this->clear_path_info;
     }
     $action = 'view'
       unless defined $this->app->cfg->data->{SwitchBoard}{$action};
