@@ -39,6 +39,7 @@ our @extModules
 our %registeredModules;    # Modules registered with registerExtModule().
 our %extSubClasses;        # Subclasses registered by extensions.
 our %extDeps;   # Module dependecies. Influences the order of extension objects.
+our %extTags;   # Tags registered by extensions.
 our %pluggables;     # Pluggable methods
 our %plugMethods;    # Extension registered plug methods.
 
@@ -142,8 +143,6 @@ sub BUILD {
     my $this = shift;
 
     $this->loadExtensions;
-
-    $this->initializeExtensions;
 }
 
 sub normalizeExtName {
@@ -159,16 +158,28 @@ sub normalizeExtName {
 
 sub extEnabled {
     my $this = shift;
-    my ($extName) = @_;
+    my ($ext) = @_;
 
-    $extName = $this->normalizeExtName($extName);
+    my $extName = $this->normalizeExtName($ext);
 
     return defined $this->disabledExtensions->{$extName} ? undef : $extName;
+}
+
+sub extObject {
+    my $this = shift;
+    my ($ext) = @_;
+
+    my $extName = $this->normalizeExtName($ext);
+
+    return $this->extensions->{$extName};
 }
 
 sub isBadVersion {
     my $this = shift;
     my ($extName) = @_;
+
+    return "Extension module $extName not a subclass of Foswiki::Extension"
+      unless $extName->isa('Foswiki::Extension');
 
     my @apiScalar = grep { /::API_VERSION$/ } Devel::Symdump->scalars($extName);
 
@@ -267,8 +278,16 @@ sub loadExtensions {
     }
 }
 
-sub initializeExtensions {
+sub initialize {
     my $this = shift;
+
+    # Register macro tag handlers for enabled extensions.
+    foreach my $tag ( keys %extTags ) {
+        if ( $this->extEnabled( $extTags{$tag}{extension} ) ) {
+            my $handler = $extTags{$tag}{class} // $extTags{$tag}{extension};
+            $this->app->macros->registerTagHandler( $tag, $handler );
+        }
+    }
 }
 
 sub _extVisit {
@@ -483,7 +502,7 @@ sub prepareDisabledExtensions {
         Foswiki::Exception::Fatal->throw(
                 text => "Environment variable $envVar is a ref to "
               . $reftype
-              . " but ARRAY excepted" )
+              . " but ARRAY or scalar string expected" )
           unless $reftype eq 'ARRAY';
     }
     else {
@@ -760,6 +779,20 @@ sub _callPluggable {
     return $origCode->( $params{object}, @{ $params{args} } );
 }
 
+# Universal methods supporting static, on class, and object calls.
+sub extName {
+    shift if ref( $_[0] ) && $_[0]->isa('Foswiki::Extensions');
+    my ($extName) = @_;
+
+    my $name = Foswiki::fetchGlobal( "\$" . $extName . "::NAME" );
+
+    unless ($name) {
+        ( $name = $extName ) =~ s/^Foswiki::Extension:://;
+    }
+
+    return $name // '';
+}
+
 =begin TML
 
 ---++ Static methods
@@ -781,6 +814,15 @@ sub registerExtModule {
 
     push @extModules, $extModule;
     $registeredModules{$extModule} = 1;
+}
+
+sub registerExtTagHandler {
+    my ( $extModule, $tagName, $tagClass ) = @_;
+
+    $extTags{$tagName} = {
+        extension => $extModule,
+        ( defined $tagClass ? ( class => $tagClass ) : () ),
+    };
 }
 
 sub registerDeps {

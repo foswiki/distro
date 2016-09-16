@@ -239,6 +239,26 @@ sub _handler_extBefore (@) {
     Foswiki::Extensions::registerDeps( $_, $target ) foreach @_;
 }
 
+sub _handler_tagHandler ($;$) {
+    my $target = caller;
+
+    # Handler could be a class name doing Foswiki::Macro role or a sub to be
+    # installed as target's hadnling method.
+    my ( $tagName, $tagHandler ) = @_;
+
+    if ( ref($tagHandler) eq 'CODE' ) {
+
+        # If second argument is a code ref then we install method with the same
+        # name as macro name.
+        _inject_code( $target, $tagName, $tagHandler );
+        Foswiki::Extensions::registerExtTagHandler( $target, $tagName );
+    }
+    else {
+        Foswiki::Extensions::registerExtTagHandler( $target, $tagName,
+            $tagHandler );
+    }
+}
+
 sub _install_extension {
     my ( $class, $target ) = @_;
 
@@ -248,6 +268,7 @@ sub _install_extension {
     _inject_code( $target, 'extClass',   \&_handler_extClass );
     _inject_code( $target, 'extAfter',   \&_handler_extAfter );
     _inject_code( $target, 'extBefore',  \&_handler_extBefore );
+    _inject_code( $target, 'tagHandler', \&_handler_tagHandler );
 }
 
 sub _handler_pluggable ($&) {

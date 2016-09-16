@@ -1,5 +1,7 @@
 # See bottom of file for license and copyright information
 
+package Foswiki::Meta;
+
 =begin TML
 
 ---+ package Foswiki::Meta
@@ -103,9 +105,6 @@ The _date_ indicates the latest date at which Foswiki releases still supported
 the function or parameter.
 
 =cut
-
-package Foswiki::Meta;
-use v5.14;
 
 use Try::Tiny;
 use Assert;

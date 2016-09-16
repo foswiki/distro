@@ -4,7 +4,6 @@ package Foswiki::Macro;
 use v5.14;
 
 use Moo::Role;
-use namespace::clean;
 
 requires 'expand';
 

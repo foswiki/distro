@@ -1,7 +1,6 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Macros;
-use v5.14;
 
 use Foswiki qw(%regex expandStandardEscapes);
 use Foswiki::Attrs ();
@@ -84,9 +83,12 @@ sub registerTagHandler {
     $this->app->logger->log( 'warning', "Re-registering existing tag " . $tag, )
       if exists $this->registered->{$tag};
 
-    Foswiki::Exception::Fatal->throw(
-        text => "Tag handler object doesn't do Foswiki::Macro role" )
-      unless ref($handler) eq 'CODE' || $handler->does('Foswiki::Macro');
+    Foswiki::Exception::Fatal->throw( text =>
+"Invalid tag handler object: must be a code, a Foswiki::Macro, or a Foswiki::Extension"
+      )
+      unless ref($handler) eq 'CODE'
+      || $handler->does('Foswiki::Macro')
+      || $handler->isa('Foswiki::Extension');
 
     $this->registered->{$tag} = $handler;
     if ( $syntax && $syntax eq 'context-free' ) {
@@ -663,6 +665,9 @@ sub execMacro {
     my $this = shift;
     my ( $macroName, $attrs, $topicObject, @macroArgs ) = @_;
 
+    my $app        = $this->app;
+    my $extensions = $app->extensions;
+
     my $rc;
 
     # vrurg Macro could either be a reference to an object or a sub. Though
@@ -686,22 +691,44 @@ sub execMacro {
     if ( ref( $this->registered->{$macroName} ) eq 'CODE' ) {
         $rc =
           $this->registered->{$macroName}
-          ->( $this->app, $attrs, $topicObject, @macroArgs );
+          ->( $app, $attrs, $topicObject, @macroArgs );
     }
     else {
         # Create macro object unless it already exists.
-        unless ( defined $this->_macros->{$macroName} ) {
-            $this->_macros->{$macroName} =
-              $this->create( $this->registered->{$macroName} );
-            ASSERT( $this->_macros->{$macroName}->does('Foswiki::Macro'),
-                    "Invalid macro module "
-                  . $this->registered->{$macroName}
-                  . "; must do Foswiki::Macro role" )
-              if DEBUG;
+        my $macroObj;
+        my $macroClass = $this->registered->{$macroName};
+        my $methodName = 'expand';
+
+        if ( UNIVERSAL::isa( $macroClass, 'Foswiki::Extension' ) ) {
+            if ( $extensions->extEnabled($macroClass) ) {
+                $macroObj   = $this->app->extensions->extObject($macroClass);
+                $methodName = $macroName;
+            }
+            else {
+                # SMELL Some better way to report macro from a disabled
+                # extension? Anyway, this must not happen unless an extension
+                # has been disabled manually after extensions have been
+                # initialized.
+                $rc = "$macroName disabled, check extension "
+                  . $extensions->extName($macroClass);
+            }
         }
-        $rc =
-          $this->_macros->{$macroName}
-          ->expand( $attrs, $topicObject, @macroArgs );
+        else {
+            if ( defined $this->_macros->{$macroName} ) {
+                $macroObj = $this->_macros->{$macroName};
+            }
+            else {
+                $macroObj = $this->_macros->{$macroName} =
+                  $this->create( $this->registered->{$macroName} );
+                ASSERT( $this->_macros->{$macroName}->does('Foswiki::Macro'),
+                        "Invalid macro module "
+                      . $this->registered->{$macroName}
+                      . "; must do Foswiki::Macro role" )
+                  if DEBUG;
+            }
+        }
+        $rc = $macroObj->$methodName( $attrs, $topicObject, @macroArgs )
+          if defined $macroObj;
     }
 
     return $rc;

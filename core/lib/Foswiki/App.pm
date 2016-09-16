@@ -402,6 +402,7 @@ sub BUILD {
     }
     else {
         my $plogin = $this->plugins->load;
+        $this->extensions->initialize;
         $this->engine->user($plogin) if $plogin;
     }
 
@@ -1192,6 +1193,7 @@ sub systemMessage {
     my $this = shift;
     if (@_) {
         push @{ $this->system_messages }, @_;
+        return;
     }
 
     # SMELL Something better than %BR% shall be used here.

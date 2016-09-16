@@ -425,6 +425,101 @@ CFG_EXT
     );
 }
 
+sub test_tag_handlers {
+    my $this = shift;
+
+    # Testing three macros registered by the same extension using three
+    # different approaches:
+    #   1. A macro to be handled by an extension method with the same name as
+    #      macro's.
+    #   2. Similar to above but method code is declared as tagHandler's second
+    #      parameter.
+    #   3. A macro class with Foswiki::Macro role.
+    # All three are refering the same extension object and it's autoincementing
+    # counter attribute. But as long as the first two approaches are extension's
+    # methods and rely upon valid $this parameter the class is obtaining
+    # extension's object by requesting application's extensions attribute.
+
+    my ($ext) = $this->_genExtModules( 1, <<'TAGH');
+    
+has counter => (
+    is => 'rw',
+    lazy => 1,
+    default => 0,
+);
+
+around counter => sub {
+    my $orig = shift;
+    my $this = shift;
+    my $val = $orig->($this);
+    $orig->( $this, $val + 1 );
+    return sprintf( '%03d', $val );
+};
+
+tagHandler 'TEST_EXT_MACRO1';
+
+tagHandler TEST_EXT_MACRO2 => sub {
+    my $this = shift;
+    
+    return 'TEST_EXT_MACRO2_' . $this->counter;
+};
+
+tagHandler TEST_CLASS_MACRO => 'Foswiki::Macros::TEST_CLASS_MACRO';
+
+sub TEST_EXT_MACRO1 {
+    my $this = shift;
+    return "TEST_EXT_MACRO1_" . $this->counter;
+}
+TAGH
+
+    my $macroPackage = <<MPKG;
+package Foswiki::Macros::TEST_CLASS_MACRO;
+    use Foswiki::Class qw(app);
+    extends qw(Foswiki::Object);
+    with qw(Foswiki::Macro);
+
+    sub expand {
+        my \$this = shift;
+
+        my \$myExt = \$this->app->extensions->extObject('$ext');
+
+        return "TEST_CLASS_MACRO_" . \$myExt->counter;
+    }
+1;
+MPKG
+
+    if ( !eval($macroPackage) || $@ ) {
+        Foswiki::Exception::Fatal->throw(
+            text => "Failed to compile macro class: " . $@ );
+    }
+
+    $this->reCreateFoswikiApp;
+
+    $this->test_topicObject->text('%TEST_EXT_MACRO1%');
+
+    $this->assert_str_equals( 'TEST_EXT_MACRO1_000',
+        $this->test_topicObject->expandMacros('%TEST_EXT_MACRO1%') );
+    $this->assert_str_equals( 'TEST_EXT_MACRO1_001',
+        $this->test_topicObject->expandMacros('%TEST_EXT_MACRO1%') );
+    $this->assert_str_equals( 'TEST_CLASS_MACRO_002',
+        $this->test_topicObject->expandMacros('%TEST_CLASS_MACRO%') );
+    $this->assert_str_equals( 'TEST_EXT_MACRO2_003',
+        $this->test_topicObject->expandMacros('%TEST_EXT_MACRO2%') );
+}
+
+sub test_extName_method {
+    my $this = shift;
+
+    my ($ext) = $this->_genExtModules( 1, <<'SNEXT');
+our $NAME = "AutoGenExt";
+SNEXT
+
+    $this->reCreateFoswikiApp;
+
+    $this->assert_str_equals( 'AutoGenExt',
+        $this->app->extensions->extName($ext) );
+}
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
