@@ -77,6 +77,7 @@ manually by the class using =with=.
 # _handler_someword - function which implements exported keyword `someword'
 
 use Carp;
+use Class::Method::Modifiers qw(install_modifier);
 
 require Foswiki;
 require Moo::Role;
@@ -144,6 +145,15 @@ sub import {
     }
 
     on_scope_end {
+        if ( $options{callbacks}{use} ) {
+            my $ns = Foswiki::getNS($target);
+
+            # Install BUILD method if callbacks feature requested.
+            # Otherwise Foswiki::Aux::Callbacks fails to apply cleanly.
+            unless ( defined $ns->{BUILD} && defined *{ $ns->{BUILD} }{CODE} ) {
+                install_modifier( $target, fresh => BUILD => sub { } );
+            }
+        }
         $class->_apply_roles;
     };
 
@@ -259,16 +269,23 @@ sub _handler_tagHandler ($;$) {
     }
 }
 
+sub _handler_callbackHandler ($&) {
+    my $target = caller;
+
+    Foswiki::Extensions::registerExtCallback( $target, @_ );
+}
+
 sub _install_extension {
     my ( $class, $target ) = @_;
 
-    _inject_code( $target, 'plugBefore', \&_handler_plugBefore );
-    _inject_code( $target, 'plugAround', \&_handler_plugAround );
-    _inject_code( $target, 'plugAfter',  \&_handler_plugAfter );
-    _inject_code( $target, 'extClass',   \&_handler_extClass );
-    _inject_code( $target, 'extAfter',   \&_handler_extAfter );
-    _inject_code( $target, 'extBefore',  \&_handler_extBefore );
-    _inject_code( $target, 'tagHandler', \&_handler_tagHandler );
+    _inject_code( $target, 'plugBefore',      \&_handler_plugBefore );
+    _inject_code( $target, 'plugAround',      \&_handler_plugAround );
+    _inject_code( $target, 'plugAfter',       \&_handler_plugAfter );
+    _inject_code( $target, 'extClass',        \&_handler_extClass );
+    _inject_code( $target, 'extAfter',        \&_handler_extAfter );
+    _inject_code( $target, 'extBefore',       \&_handler_extBefore );
+    _inject_code( $target, 'tagHandler',      \&_handler_tagHandler );
+    _inject_code( $target, 'callbackHandler', \&_handler_callbackHandler );
 }
 
 sub _handler_pluggable ($&) {

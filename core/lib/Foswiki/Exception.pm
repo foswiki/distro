@@ -442,36 +442,6 @@ around prepareText => sub {
     return $!;    # text attribute to be set from last file operation error.
 };
 
-package Foswiki::Exception::CB;
-use Foswiki::Class;
-extends qw(Foswiki::Exception);
-
-=begin TML
-
----+ Exception Foswiki::Exception::CB::Last
-
-Must be raised by a callback code to signal it wants to be the last on the
-execution chain.
-
-=cut
-
-package Foswiki::Exception::CB::Last;
-use Foswiki::Class;
-extends qw(Foswiki::Exception::CB);
-
-=begin TML
-
----++ ObjectAttribute returnValue
-
-The value to be returned by =Foswiki::Aux::Callbacks::callback()= method.
-
-=cut
-
-has returnValue => (
-    is        => 'ro',
-    predicate => 1,
-);
-
 =begin TML
 
 ---+ Exception Foswiki::Exception::Cfg::InvalidKeyName
@@ -634,8 +604,8 @@ Extension name.
 =cut
 
 has extension => (
-    is       => 'ro',
-    required => 1,
+    is        => 'ro',
+    predicate => 1,
 
     # Coerce a ref into class name.
     coerce => sub { ref( $_[0] ) // $_[0] },
@@ -645,7 +615,9 @@ around prepareText => sub {
     my $orig = shift;
     my $this = shift;
 
-    return "Failed extension: " . $this->extension;
+    return $this->has_extension
+      ? "Reported extension: " . $this->extension
+      : "No reported extension";
 };
 
 package Foswiki::Exception::Ext::BadName;
@@ -713,7 +685,7 @@ Return value of a method call.
 
 =cut
 
-has rc => ( is => 'rw', required => 1, );
+has rc => ( is => 'rw', predicate => 1, );
 
 package Foswiki::Exception::Ext::Restart;
 use Foswiki::Class;

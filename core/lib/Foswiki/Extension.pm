@@ -2,7 +2,7 @@
 
 package Foswiki::Extension;
 
-use Foswiki::Class qw(app);
+use Foswiki::Class qw(app callbacks);
 extends qw(Foswiki::Object);
 
 1;

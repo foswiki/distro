@@ -108,9 +108,12 @@ sub _getApp {
     my $this = shift;
 
     return (
-          $this->isa('Foswiki::App')
-        ? $this
-        : ( $this->does('Foswiki::AppObject') ? $this->app : $Foswiki::app )
+        $this->isa('Foswiki::App') ? $this
+        : (
+            $this->does('Foswiki::AppObject') ? $this->app
+            : (      $this->does('Foswiki::Aux::_ExtensibleRole')
+                  && $this->_has__appObj ? $this->__appObj : $Foswiki::app )
+        )
     );
 }
 
@@ -197,34 +200,50 @@ sub callback {
 
     return unless $cbList;
 
-    foreach my $cbInfo (@$cbList) {
-        try {
-            $cbInfo->{code}
-              ->( $this, data => $cbInfo->{data}, params => $params, );
-        }
-        catch {
-            my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
-            if ( $e->isa('Foswiki::Exception::CB') ) {
-                if ( $e->isa('Foswiki::Exception::CB::Last') ) {
-                    $lastException = $e;
+    my $restart;
+    do {
+        $restart = 0;
+        my $lastIteration = 0;
+        my ( $cbIdx, $cbInfo );
+        values @$cbList;
+        while (!$lastIteration
+            && !$lastException
+            && ( ( $cbIdx, $cbInfo ) = each @$cbList ) )
+        {
+            try {
+                $cbInfo->{code}
+                  ->( $this, data => $cbInfo->{data}, params => $params, );
+            }
+            catch {
+                my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+                if ( $e->isa('Foswiki::Exception::Ext::Flow') ) {
+                    if ( $e->isa('Foswiki::Exception::Ext::Last') ) {
+                        $lastException = $e;
+                    }
+                    elsif ( $e->isa('Foswiki::Exception::Ext::Restart') ) {
+                        $params->{execRestarted} = {
+                            code => $cbInfo->{code},
+                            data => $cbInfo->{data},
+                        };
+                        $lastIteration = $restart = 1;
+                    }
+                    else {
+                        Foswiki::Exception::Fatal->throw(
+                                text => "Unknown callback exception "
+                              . ref($e)
+                              . "; the exception data is following:\n"
+                              . $e->stringify, );
+                    }
                 }
                 else {
-                    Foswiki::Exception::Fatal->throw(
-                            text => "Unknown callback exception "
-                          . ref($e)
-                          . "; the exception data is following:\n"
-                          . $e->stringify, );
+                    $e->rethrow;
                 }
-            }
-            else {
-                $e->rethrow;
-            }
-        };
-        last if $lastException;
-    }
+            };
+        }
+    } while ($restart);
 
-    if ( $lastException && $lastException->has_returnValue ) {
-        return $lastException->returnValue;
+    if ( $lastException && $lastException->has_rc ) {
+        return $lastException->rc;
     }
 
     return;

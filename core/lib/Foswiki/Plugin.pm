@@ -13,8 +13,7 @@ use Foswiki::AccessControlException ();
 use Foswiki::OopsException          ();
 use Foswiki::ValidationException    ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 with qw(Foswiki::AppObject);
 

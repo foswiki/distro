@@ -19,7 +19,7 @@ use constant NODE_TEMP_MARK => 0;
 use constant NODE_PERM_MARK => 1;
 use constant NODE_DISABLED  => -1;
 
-use Foswiki::Class qw(app);
+use Foswiki::Class qw(app callbacks);
 extends qw(Foswiki::Object);
 
 # This is the version to be matched agains extension's API version declaration.
@@ -36,12 +36,13 @@ our $MIN_VERSION = version->declare("2.99.0");
 # NOTE All data stored in globals is raw and must be revalidated before used.
 our @extModules
   ; # List of the extension modules in the order they were registered with registerExtModule().
-our %registeredModules;    # Modules registered with registerExtModule().
-our %extSubClasses;        # Subclasses registered by extensions.
-our %extDeps;   # Module dependecies. Influences the order of extension objects.
-our %extTags;   # Tags registered by extensions.
-our %pluggables;     # Pluggable methods
-our %plugMethods;    # Extension registered plug methods.
+our %registeredModules;   # Modules registered with registerExtModule().
+our %extSubClasses;       # Subclasses registered by extensions.
+our %extDeps;             # Module dependecies; defines the order of extensions.
+our %extTags;             # Tags registered by extensions.
+our %extCallbacks;        # Callbacks registered by extensions.
+our %pluggables;          # Pluggable methods
+our %plugMethods;         # Extension registered plug methods.
 
 # --- END of static data declarations
 
@@ -288,6 +289,31 @@ sub initialize {
             $this->app->macros->registerTagHandler( $tag, $handler );
         }
     }
+
+    # Register callback handlers for enabled extensions.
+    foreach my $cbName ( keys %extCallbacks ) {
+        foreach my $cbData ( @{ $extCallbacks{$cbName} } ) {
+            $this->registerCallback(
+                $cbName,
+                \&_cbDispatch,
+                {
+                    extension => $cbData->{extension},
+                    app       => $this->app,
+                    userCode  => $cbData->{code},
+                }
+            );
+        }
+    }
+}
+
+sub _cbDispatch {
+    my $cbObj  = shift;    # The object initiated the callback.
+    my %params = @_;
+
+    my $app    = $params{data}{app};
+    my $extObj = $app->extensions->extObject( $params{data}{extension} );
+
+    return $params{data}{userCode}->( $extObj, $cbObj, $params{params} );
 }
 
 sub _extVisit {
@@ -682,7 +708,7 @@ sub _execMethodList {
 
                 if ( $e->isa('Foswiki::Exception::Ext::Flow') ) {
                     if ( $e->isa('Foswiki::Exception::Ext::Last') ) {
-                        $callParams->{rc} = $e->rc;
+                        $callParams->{rc} = $e->rc if $e->has_rc;
                         $callParams->{execAborted} =
                           { extension => $mEntry->{extension}, };
                         $lastIteration = 1;
@@ -823,6 +849,16 @@ sub registerExtTagHandler {
         extension => $extModule,
         ( defined $tagClass ? ( class => $tagClass ) : () ),
     };
+}
+
+sub registerExtCallback {
+    my ( $extModule, $cbName, $cbCode ) = @_;
+
+    push @{ $extCallbacks{$cbName} },
+      {
+        extension => $extModule,
+        code      => $cbCode,
+      };
 }
 
 sub registerDeps {

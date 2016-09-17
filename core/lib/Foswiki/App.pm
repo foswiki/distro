@@ -327,7 +327,7 @@ sub BUILD {
 
     $Foswiki::app = $this;
 
-    ASSERT( defined $this->extensions, "Extensions failed to initialize" );
+    $this->extensions->initialize;
 
     unless ( $this->cfg->data->{isVALID} ) {
         $this->cfg->bootstrapSystemSettings;
@@ -402,7 +402,6 @@ sub BUILD {
     }
     else {
         my $plogin = $this->plugins->load;
-        $this->extensions->initialize;
         $this->engine->user($plogin) if $plogin;
     }
 

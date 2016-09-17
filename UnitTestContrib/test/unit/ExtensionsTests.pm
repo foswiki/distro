@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::ExtensionsTests::SampleClass;
+use utf8;
 
 use Foswiki::Class qw(extensible);
 extends qw(Foswiki::Object);
@@ -87,6 +88,7 @@ sub _genExtModules {
         my $code    = shift @extCode // '';
         my $ret     = eval <<EXT;
 package $extName;
+use Assert;
 use Foswiki::Class qw(extension);
 extends qw(Foswiki::Extension);
 
@@ -428,6 +430,8 @@ CFG_EXT
 sub test_tag_handlers {
     my $this = shift;
 
+    $this->_disableAllCurrentExtensions;
+
     # Testing three macros registered by the same extension using three
     # different approaches:
     #   1. A macro to be handled by an extension method with the same name as
@@ -510,6 +514,8 @@ MPKG
 sub test_extName_method {
     my $this = shift;
 
+    $this->_disableAllCurrentExtensions;
+
     my ($ext) = $this->_genExtModules( 1, <<'SNEXT');
 our $NAME = "AutoGenExt";
 SNEXT
@@ -518,6 +524,144 @@ SNEXT
 
     $this->assert_str_equals( 'AutoGenExt',
         $this->app->extensions->extName($ext) );
+}
+
+sub test_callbacks {
+    my $this = shift;
+
+    $this->_disableAllCurrentExtensions;
+
+    my $cbTestClassName = 'Foswiki::Extension::Test::CBTest';
+    my $cbTestClass     = <<CBMOD;
+package $cbTestClassName;
+
+use Foswiki::Class qw(callbacks);
+extends qw(Foswiki::Object);
+
+callback_names qw(LongEnoughNotToMakeAConflict);
+
+sub sampleSingleCallBack {
+    my \$this = shift;
+    
+    my \$cbParam = {
+        param1 => 'This is param1',
+        param2 => 3.14,
+        param3 => 'І ще трохи, на пробу',
+    };
+    
+    \$this->callback('LongEnoughNotToMakeAConflict', \$cbParam);
+    
+    return \$cbParam->{rcIExpect} // '*unexpected undef*';
+}
+
+sub sampleCBChain {
+    my \$this = shift;
+    
+    my \$cbParam = {
+        param1 => 'This is param1',
+        param2 => 3.14,
+        param3 => 'І ще трохи, на пробу',
+    };
+    
+    my \$cbReturn = \$this->callback('LongEnoughNotToMakeAConflict', \$cbParam);
+    
+    return {
+        rc => \$cbParam->{rcIExpect},
+        cbReturn => \$cbReturn,
+    };
+}
+
+1;
+CBMOD
+
+    if ( !eval($cbTestClass) || $@ ) {
+        Foswiki::Exception::Fatal->throw(
+            text => "Failed to compile callbacks test class: " . $@ );
+    }
+
+    my @ext = $this->_genExtModules( 1, <<EXT);
+callbackHandler LongEnoughNotToMakeAConflict => sub {
+    my \$this = shift;
+    my (\$obj, \$params) = \@_;
+    
+    ASSERT(defined \$obj, "Callback initiator is not defined");
+    ASSERT(\$obj->isa('$cbTestClassName' ),
+      "Callback initiator of a wrong class" );
+
+    \$params->{rcIExpect} =
+        \$params->{param3}
+      . ' щоб не був повний '
+      . \$params->{param2} . '-ць';
+};
+EXT
+
+    $this->reCreateFoswikiApp;
+
+    my $cbObj = $this->create($cbTestClassName);
+
+    my $rc = $cbObj->sampleSingleCallBack;
+
+    $this->assert_str_equals(
+'І ще трохи, на пробу щоб не був повний 3.14-ць',
+        $rc
+    );
+
+    $this->_disableAllCurrentExtensions;
+
+    @ext = $this->_genExtModules( 3, <<EXT1, <<EXT2, <<EXT3);
+    
+callbackHandler LongEnoughNotToMakeAConflict => sub {
+    my \$this = shift;
+    my (\$obj, \$params) = \@_;
+    
+    \$params->{rcIExpect} = 'This is from ext1';
+};
+EXT1
+
+has beTheHighlander => ( is => 'rw', default => 0, );
+
+callbackHandler LongEnoughNotToMakeAConflict => sub {
+    my \$this = shift;
+    Foswiki::Exception::Ext::Last->throw(
+        extension => \$this,
+        rc => 'This is from ext2',
+    ) if \$this->beTheHighlander;
+};
+EXT2
+
+callbackHandler LongEnoughNotToMakeAConflict => sub {
+    my \$this = shift;
+    my (\$obj, \$params) = \@_;
+    
+    \$params->{rcIExpect} = 'А це вже з ext3';
+};
+EXT3
+
+    $this->_setExtDependencies(
+        $ext[1] => $ext[0],
+        $ext[2] => $ext[1],
+    );
+
+    $this->reCreateFoswikiApp;
+
+    $rc = $cbObj->sampleCBChain;
+
+    $this->assert( ref($rc) eq 'HASH',
+        "sampleCBChain did not return hashref?" );
+    $this->assert_str_equals( 'А це вже з ext3', $rc->{rc} );
+    $this->assert_null( $rc->{cbReturn},
+        "The callback call must have returned undef" );
+
+    $this->app->extensions->extObject( $ext[1] )->beTheHighlander(1);
+
+    $rc = $cbObj->sampleCBChain;
+
+    $this->assert( ref($rc) eq 'HASH',
+        "sampleCBChain did not return hashref?" );
+    $this->assert_str_equals( 'This is from ext1', $rc->{rc} );
+    $this->assert_not_null( $rc->{cbReturn},
+        "The callback call must have returned a value from exception" );
+    $this->assert_str_equals( $rc->{cbReturn}, 'This is from ext2' );
 }
 
 1;
