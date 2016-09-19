@@ -4,18 +4,24 @@ use v5.14;
 use Cwd;
 use File::Spec;
 
-my $root = $ENV{FOSWIKI_HOME};
-if ( !$root ) {
-    # Try to guess our root dir by looking into %INC
-    my $incKey = ( grep { /\/foswiki.*\.psgi$/ } keys %INC )[0];
-    my $scriptFile = $INC{$incKey};
-    my ( $volume, $scriptDir ) = File::Spec->splitpath($scriptFile);
-    $root =
-      File::Spec->catpath( $volume,
-        File::Spec->catdir( $scriptDir, File::Spec->updir ), "" );
+my $root;
+
+BEGIN {
+    $root = $ENV{FOSWIKI_HOME};
+    if ( !$root ) {
+
+        # Try to guess our root dir by looking into %INC
+        my $incKey = ( grep { /\/foswiki.*\.psgi$/ } keys %INC )[0];
+        my $scriptFile = $INC{$incKey};
+        my ( $volume, $scriptDir ) = File::Spec->splitpath($scriptFile);
+        $root =
+          File::Spec->catpath( $volume,
+            File::Spec->catdir( $scriptDir, File::Spec->updir ), "" );
+    }
+
+    push @INC, File::Spec->catdir( $root, "lib" );
 }
 
-use lib Cwd::abs_path( File::Spec->catdir( $root, "lib" ) );
 use Plack::Builder;
 use Foswiki::App;
 
