@@ -1,8 +1,22 @@
 #!/usr/bin/env perl
 # See bottom of file for license and copyright information
 use Cwd;
-use lib Cwd::abs_path("../lib"),
-  ( $ENV{FOSWIKI_HOME} ? $ENV{FOSWIKI_HOME} . "/lib" : () );
+use File::Spec;
+
+my $root = $ENV{FOSWIKI_HOME};
+if ( !$root ) {
+
+    # Try to guess our root dir by looking into %INC
+    my $incKey = ( grep { /\/foswiki.*\.psgi$/ } keys %INC )[0];
+    my $scriptFile = $INC{$incKey};
+    my ( $volume, $scriptDir ) = File::Spec->splitpath($scriptFile);
+    $root =
+      File::Spec->catpath( $volume,
+        File::Spec->catdir( $scriptDir, File::Spec->updir ), "" );
+}
+
+use lib Cwd::abs_path( File::Spec->catdir( $root, "lib" ) );
+use Plack::Builder;
 use Foswiki::App;
 use HTTP::Server::PSGI;
 
@@ -19,9 +33,9 @@ BEGIN {
 
 my $app = sub {
     my $env = shift;
-    
+
     Devel::Leak::Object::checkpoint if CHECKLEAK;
-    
+
     my $rc = Foswiki::App->run( env => $env, );
 
     if (CHECKLEAK) {
@@ -42,7 +56,14 @@ my $server = HTTP::Server::PSGI->new(
     timeout => 120,
 );
 
-$server->run($app);
+$server->run(
+    builder {
+        enable 'Plack::Middleware::Static',
+          path => qr/^\/pub\//,
+          root => $root;
+        $app;
+    }
+);
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 

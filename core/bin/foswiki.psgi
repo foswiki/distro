@@ -1,12 +1,34 @@
 #!/usr/bin/env perl
 # See bottom of file for license and copyright information
+use v5.14;
 use Cwd;
-use lib Cwd::abs_path("../lib");
+use File::Spec;
+
+my $root = $ENV{FOSWIKI_HOME};
+if ( !$root ) {
+    # Try to guess our root dir by looking into %INC
+    my $incKey = ( grep { /\/foswiki.*\.psgi$/ } keys %INC )[0];
+    my $scriptFile = $INC{$incKey};
+    my ( $volume, $scriptDir ) = File::Spec->splitpath($scriptFile);
+    $root =
+      File::Spec->catpath( $volume,
+        File::Spec->catdir( $scriptDir, File::Spec->updir ), "" );
+}
+
+use lib Cwd::abs_path( File::Spec->catdir( $root, "lib" ) );
+use Plack::Builder;
 use Foswiki::App;
 
 my $app = sub {
     return Foswiki::App->run( env => shift, );
 };
+
+builder {
+    enable 'Plack::Middleware::Static',
+      path => qr/^\/pub\//,
+      root => $root;
+    $app;
+}
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
