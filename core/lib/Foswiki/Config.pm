@@ -21,7 +21,7 @@ use Try::Tiny;
 use Foswiki qw(urlEncode urlDecode make_params);
 use Foswiki::Configure::FileUtil;
 
-use Foswiki::Class qw(app extensible);
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
 with qw(Foswiki::Aux::Localize);
 
