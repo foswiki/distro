@@ -160,7 +160,6 @@ sub import {
     require feature;
     feature->import($featureSet);
 
-    require namespace::clean;
     namespace::clean->import(
         -cleanee => $target,
         -except  => \@noNsClean,

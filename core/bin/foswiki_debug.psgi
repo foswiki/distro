@@ -5,22 +5,32 @@ use Cwd;
 use File::Spec;
 use Data::Dumper;
 
-my $root;
+my ( $rootDir, $scriptDir );
 
 BEGIN {
-    $root = $ENV{FOSWIKI_HOME};
-    if ( !$root ) {
+    $rootDir   = $ENV{FOSWIKI_HOME};
+    $scriptDir = $ENV{FOSWIKI_SCRIPTS};
 
-        # Try to guess our root dir by looking into %INC
-        my $incKey = ( grep { /\/foswiki.*\.psgi$/ } keys %INC )[0];
-        my $scriptFile = $INC{$incKey};
-        my ( $volume, $scriptDir ) = File::Spec->splitpath($scriptFile);
-        $root =
-          File::Spec->catpath( $volume,
-            File::Spec->catdir( $scriptDir, File::Spec->updir ), "" );
+    unless ($scriptDir) {
+        my $script = __FILE__;
+
+        # Try to guess our root dir by looking into %INC if __FILE__ isn't
+        # there.
+        $script = ( grep { /\/foswiki.*\.psgi$/ } keys %INC )[0]
+          if defined $INC{$script};
+
+        # If scipt is executed directly it won't be found in %INC. Use the
+        # guessed script name then.
+        my $scrFileName = $INC{$script} || $script;
+        my ( $volume, $sdir ) = File::Spec->splitpath($scrFileName);
+        $scriptDir = File::Spec->catpath( $volume, $sdir, "" );
     }
 
-    push @INC, File::Spec->catdir( $root, "lib" );
+    unless ($rootDir) {
+        $rootDir = File::Spec->catdir( $scriptDir, File::Spec->updir );
+    }
+
+    push @INC, File::Spec->catdir( $rootDir, "lib" );
 }
 use Plack::Builder;
 use Foswiki::App;
@@ -42,6 +52,8 @@ my $app = sub {
     my $env = shift;
 
     Devel::Leak::Object::checkpoint if CHECKLEAK;
+    
+    $env->{FOSWIKI_SCRIPTS} = $scriptDir unless $env->{FOSWIKI_SCRIPTS};
 
     my $rc = Foswiki::App->run( env => $env, );
 
@@ -50,7 +62,7 @@ my $app = sub {
         eval {
             require Devel::MAT::Dumper;
             Devel::MAT::Dumper::dump(
-                $root . "/working/logs/foswiki_debug_psgi.pmat" );
+                $rootDir . "/working/logs/foswiki_debug_psgi.pmat" );
         };
     }
 
@@ -60,7 +72,7 @@ my $app = sub {
 builder {
     enable 'Plack::Middleware::Static',
       path => qr/^\/pub\//,
-      root => $root;
+      root => $rootDir;
     $app;
 };
 __END__
