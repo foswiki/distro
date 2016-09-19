@@ -95,7 +95,9 @@ sub cloneEnv {
     my $this = shift;
 
     # SMELL Use Foswiki::Object internals.
-    return $this->_cloneData( $this->env, 'env' );
+    my $clonedEnv = $this->_cloneData( $this->env, 'env' );
+    $this->_clear__clone_heap;
+    return $clonedEnv;
 }
 
 sub registerCallbacks {

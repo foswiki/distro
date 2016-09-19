@@ -1,7 +1,6 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Object;
-use v5.14;
 
 =begin TML
 
@@ -440,6 +439,16 @@ sub isaCLASS {
           . ( $opts{does} ? ' || !$_[0]->does("' . $opts{does} . '")' : '' )
           . ')' . '); }'
     );
+}
+
+sub _traceMsg {
+    my $this = shift;
+
+    if (DEBUG) {
+        my ( $pkg, $file, $line ) = caller;
+
+        say STDERR $pkg, "(line ", $line, ", obj ", $this, "): ", @_;
+    }
 }
 
 1;

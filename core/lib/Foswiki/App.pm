@@ -406,8 +406,10 @@ sub DEMOLISH {
     my $this = shift;
     my ($in_global) = @_;
 
-    $this->users->loginManager->complete;
-
+    # Make sure not to do this if incomplete initialization happened or we're
+    # doomed for "(in cleanup)" messages.
+    $this->users->loginManager->complete
+      if $this->has_users && $this->users->has_loginManager;
 }
 
 =begin TML
@@ -607,13 +609,8 @@ sub create {
 
     Foswiki::load_class($class);
 
-    my $object;
-    if ( $class->does('Foswiki::AppObject') ) {
-        $object = $class->new( app => $this, @_ );
-    }
-    else {
-        $object = $class->new(@_);
-    }
+    my $object = $class->new( app => $this, @_ );
+
     return $object;
 }
 

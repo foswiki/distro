@@ -62,9 +62,11 @@ use Try::Tiny;
 
 use Assert;
 use Exporter qw(import);
-our @EXPORT_OK =
-  qw(%regex urlEncode urlDecode make_params load_package load_class
-  expandStandardEscapes findCaller findCallerByPrefix isTrue);
+our @EXPORT_OK = qw(
+  %regex urlEncode urlDecode make_params load_package load_class
+  expandStandardEscapes findCaller findCallerByPrefix isTrue
+  fetchGlobal getNS
+);
 
 sub SINGLE_SINGLETONS       { 0 }
 sub SINGLE_SINGLETONS_TRACE { 0 }
