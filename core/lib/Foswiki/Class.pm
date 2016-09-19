@@ -102,7 +102,15 @@ sub import {
             # Keywords exported with this option.
             keywords => [qw(callback_names)],
         },
-        app => { use => 0, },
+        app       => { use => 0, },
+        extension => {
+            use      => 0,
+            keywords => [qw(extClass extAfter extBefore plugBefore)],
+        },
+        extensible => {
+            use      => 0,
+            keywords => [qw(pluggable)],
+        },
     );
 
     my @p;
@@ -139,7 +147,6 @@ sub import {
     require feature;
     feature->import($featureSet);
 
-    require namespace::clean;
     namespace::clean->import(
         -cleanee => $target,
         -except  => \@noNsClean,
