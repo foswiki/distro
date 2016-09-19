@@ -1,10 +1,31 @@
 #!/usr/bin/env perl
 # See bottom of file for license and copyright information
+use v5.14;
 use Cwd;
-use lib Cwd::abs_path("../lib"),
-  ( $ENV{FOSWIKI_HOME} ? $ENV{FOSWIKI_HOME} . "/lib" : () );
+use File::Spec;
+use Data::Dumper;
+
+my $root;
+
+BEGIN {
+    $root = $ENV{FOSWIKI_HOME};
+    if ( !$root ) {
+
+        # Try to guess our root dir by looking into %INC
+        my $incKey = ( grep { /\/foswiki.*\.psgi$/ } keys %INC )[0];
+        my $scriptFile = $INC{$incKey};
+        my ( $volume, $scriptDir ) = File::Spec->splitpath($scriptFile);
+        $root =
+          File::Spec->catpath( $volume,
+            File::Spec->catdir( $scriptDir, File::Spec->updir ), "" );
+    }
+
+    push @INC, File::Spec->catdir( $root, "lib" );
+}
+use Plack::Builder;
 use Foswiki::App;
-use HTTP::Server::PSGI;
+use Devel::Leak;
+use Devel::Leak::Object;
 
 use constant CHECKLEAK => 0;
 
@@ -19,9 +40,9 @@ BEGIN {
 
 my $app = sub {
     my $env = shift;
-    
+
     Devel::Leak::Object::checkpoint if CHECKLEAK;
-    
+
     my $rc = Foswiki::App->run( env => $env, );
 
     if (CHECKLEAK) {
@@ -29,20 +50,19 @@ my $app = sub {
         eval {
             require Devel::MAT::Dumper;
             Devel::MAT::Dumper::dump(
-                $starting_root . "/working/logs/foswiki_debug_psgi.pmat" );
+                $root . "/working/logs/foswiki_debug_psgi.pmat" );
         };
     }
 
     return $rc;
 };
 
-my $server = HTTP::Server::PSGI->new(
-    host    => "127.0.0.1",
-    port    => 5000,
-    timeout => 120,
-);
-
-$server->run($app);
+builder {
+    enable 'Plack::Middleware::Static',
+      path => qr/^\/pub\//,
+      root => $root;
+    $app;
+};
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
