@@ -127,6 +127,7 @@ sub TOC {
         next if ( $name eq 'topic' );
         next if ( $name eq 'text' );
         next if ( $name eq 'refresh' );
+        next if ( $name eq 'POSTDATA' );
         push( @qparams, $name => scalar( $query->param($name) ) );
     }
 

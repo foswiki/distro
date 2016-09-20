@@ -1828,8 +1828,6 @@ a.ui-state-highlight.ui-state-hover,
 ----------------------------------*/
 .ui-button {
   padding: 0.2307em 0.6153em; /* 3px 8px */
-  margin-right:0.7em;
-  margin-bottom:0.7em;
 }
 .ui-button-icon-space {
   margin-right:1px;

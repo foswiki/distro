@@ -333,9 +333,11 @@ sub view {
     }
 
     # Show revisions around the one being displayed.
-    $tmpl =~ s/%REVISIONS%/
+    if ( index( $tmpl, '%REVISIONS%' ) >= 0 ) {
+        $tmpl =~ s/%REVISIONS%/
       $this->revisionsAround(
           $topicObject, $requestedRev, $showRev, $maxRev)/e;
+    }
 
     ## SMELL: This is also used in Foswiki::_TOC. Could insert a tag in
     ## TOC and remove all those here, finding the parameters only once
@@ -542,7 +544,7 @@ sub revisionsAround {
         my $showIndex = $#revs;
         my $left      = 0;
         my $right     = $Foswiki::cfg{NumberOfRevisions};
-        if ($requestedRev) {
+        if ( $requestedRev && $showIndex >= 0 ) {
             while ( $showIndex && $revs[$showIndex] != $showRev ) {
                 $showIndex--;
             }
