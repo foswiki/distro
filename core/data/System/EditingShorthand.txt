@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1474573775" format="1.1" version="1"}%
 ---+ Editing Shorthand
 %STARTINCLUDE%
 %TABLE{}%
@@ -562,7 +562,6 @@ Some characters are reserved for use by TML
    * Display them in your output by using the HTML entities. 
    * Use HTML entities to display characters that are not supported by your site character set (e.g. special mathematical symbols). There's a complete list of named entities in [[http://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references][Wikipedia]]
    * Use numerical entities to display any unicode character (e.g. Chinese script).
-   * To prevent Foswiki from treating ! as an escape,  escape it with =&lt;nop&gt;=, or use the =&amp;#33;= entity
 </td>
 <td>
 <verbatim>
@@ -583,23 +582,39 @@ A <nop>!= B &#33;= C
 </tr>
 <tr valign="top">
 <td>
-*Escaping Macros* %BR%
-Prevent a Macro from being expanded by prepending it with an exclamation point.
-
-%T% To expand the macro, but escape any wikiword it expands into, use the &lt;nop&gt; tag.
-</td><td>
-<verbatim class="tml">
-!%TOPIC%
-
-<nop>%TOPIC%
-</verbatim>
-</td><td>
-
-!%TOPIC%
-
-<nop>%TOPIC%
+*Escapes* %BR%
+Escapes are used to prevent a "default action" from occuring.  They are used in many places when composing topics and writing Foswiki macros.
+   $ ==!==: The exclamation point will block expansion of macros, prevents automatic linking of WikiWords, email addresses, URLs, and ![[explicit links]].
+      * To expand a macro, but escape any wikiword it expands into, use the &lt;nop&gt; tag.
+      * To prevent Foswiki from treating ! as an escape,  escape it with =&lt;nop&gt;=, or use the =&amp;#33;= entity
+   $ ==\==: The backslash is used to prevent normal interpretation of a character, allowing inclusion of quotes inside a quoted string.  It can also be used to \
+continue a line (escapes the "newline"). When used as a "continue" it must be the very last character prior to the newline.
+   $ ==&lt;nop&gt;==: The =nop= (no operation) is used to prevent linking of !WikiWords, email addresses, URLs,  but _not_ Macros or ![[explicit links]]
 </td>
-</tr>
+<td>
+<verbatim class="tml">
+!WikiWord %BR%
+!%TOPIC% %BR%
+<nop>%TOPIC% %BR%
+<nop>%WIKIWEBMASTER% %BR%
+<nop>!%TOPIC% %BR%
+!here &#33;here <nop>!here %BR%
+%TOP\
+IC%
+
+</verbatim>
+</td>
+<td>
+%BR%
+!WikiWord %BR%
+!%TOPIC% %BR%
+<nop>%TOPIC% %BR%
+<nop>%WIKIWEBMASTER% %BR%
+<nop>!%TOPIC% %BR%
+!here &#33;here <nop>!here %BR%
+%TOP\
+IC%
+</td>
 <tr valign="top">
 <td>
 *Controlling how content is rendered:* %BR%

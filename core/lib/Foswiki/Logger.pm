@@ -115,7 +115,6 @@ This routine assigns values to some common fields that are useful in logs.
 In the older Logging API, these were only provided by the Foswiki::writeEvent()
 method for "info" level events.
 
-| =$fhash->{agent}= | The user agent |
 | =$fhash->{timestamp}= | The time of the event |
 | =$fhash->{user}= | The logged in user, if any |
 | =$fhash->{webTopic}= | The current topic |
@@ -131,26 +130,6 @@ sub setCommonFields {
     my $login;
     $login = $users->getLoginName($user) if ($users);
     $_[0]->{user} = $login if $login;
-
-    unless ( defined $_[0]->{agent} ) {
-        my $agent    = '';
-        my $cgiQuery = $Foswiki::app->request;
-        if ($cgiQuery) {
-            my $agentStr = $cgiQuery->user_agent();
-            if ($agentStr) {
-                if ( $agentStr =~
-m/(MSIE 6|MSIE 7|MSIE 8|MSI 9|Firefox|Opera|Konqueror|Chrome|Safari)/
-                  )
-                {
-                    $_[0]->{agent} = $1;
-                }
-                else {
-                    $agentStr =~ m/([\w]+)/;
-                    $_[0]->{agent} = $1;
-                }
-            }
-        }
-    }
 
     unless ( defined $_[0]->{remoteAddr} ) {
         $_[0]->{remoteAddr} = $Foswiki::app->request->remoteAddress || ''

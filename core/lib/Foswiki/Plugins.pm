@@ -38,7 +38,11 @@ if you have a recent enough version.
 
 =cut
 
-use version 0.77; our $VERSION = version->parse("2.4");
+use version 0.77; our $VERSION = version->parse("2.5");
+
+# 2.5 - Foswiki::Request subtypes of Rest, JSON, Attachment, ...
+# 2.4 - Template names suport unicode characters
+# 2.3 - Added registrationValidationHandler
 
 my %onlyOnceHandlers = (
     registrationHandler           => 1,
