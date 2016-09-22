@@ -7,32 +7,42 @@ use v5.14;
 
 ---+!! Module Foswiki::Class
 
-This is a wrapper package for Moo/Moose. It is intended for automatic applying
-of some functionality to a class and for simplifying switching from Moo to any
-other compatible OO framework would this decision ever be made.
+This is a wrapper package for Moo and intended to be used as a replacement and
+a shortcut for a bunch lines of code like:
+
+<verbatim>
+use v5.14;
+use Moo;
+use namespace::clean;
+with qw(Foswiki::AppObject);
+</verbatim>
+
+The above could be replaced with a single line of:
+
+<verbatim>
+use Foswiki::Class qw(app);
+</verbatim>
 
 ---++ Usage
 
-To use this module it is sufficient to replace any occurence of
-
-<verbatim>
-use Moo;
-</verbatim>
-
-with
-
-<verbatim>
-use Foswiki::Class;
-</verbatim>
+A set of features is exported to the calling module is defined by =use=
+parameter keywords. If no parameters defined then all it does is applies
+=[[CPAN:Moo][Moo]]=, ':5.14'
+[[http://perldoc.perl.org/feature.html#FEATURE-BUNDLES][feature]] bundle, and
+cleans namespace with =[[CPAN:namespace::clean][namespace::clean]]=.
 
 ---++ Parameters
 
 The following parameters are support by this module:
 
 | *Parameter* | *Description* |
+| =app= | Class being created will have =Foswiki::AppObject= role applied. |
 | =callbacks= | Provide support for callbacks |
+| =extension= | Declares class to be an extension. See =Foswiki::Extenion::Empty= for more information. |
+| =extensible= | Makes class an extensible. |
+| =:5.XX= | A string prefixed with colon is treated as a feature bundle name and passed over to the =feature= module as is. This allows to override the ':5.14' default. |
 
----++ Callbacks support.
+---++ Callbacks
 
 When =callbacks= parameter is used:
 
@@ -41,14 +51,15 @@ use Foswiki::Class qw(callbacks);
 </verbatim>
 
 a subroutine =callback_names= is exported into a class' namespace and
-=Foswiki::Aux::Callbacks= role gets applied. For example:
+=Foswiki::Aux::Callbacks= role gets applied. =callback_names= accepts a list
+and registers names from the list as callbacks supported by the class.
+
+For example:
 
 <verbatim>
 package Foswiki::SomeClass;
 
-use Foswiki::Class qw(callbacks);
-use namespace::clean;
-extends qw(Foswiki::AppObject);
+use Foswiki::Class qw(app callbacks);
 
 callback_names qw(callback1 callback2);
 
@@ -64,11 +75,20 @@ Here we get two callbacks registered: =Foswiki::SomeClass::callback1= and
 
 See =Foswiki::Aux::Callbacks=.
 
-*NOTE* Applying a role by =Foswiki::Class= has a side effect of polluting a
-class namespace with =Moo='s subroutimes like =extends=, =with=, =has=, etc.
-By polluting it is meant that these subs are visible to the outside world as
-object methods. If this is undesirable behaviour than role must be applied
-manually by the class using =with=.
+---++ Extensions
+
+Extension support is provided by exporting subroutines =callbackHandler,
+extBefore, extAfter, extClass, plugBefore, plugAround, plugAfter, tagHandler=.
+
+See more in =Foswiki::Extension::Empty=.
+
+---++ Extensible
+
+A core class called extensible if it allows overriding one or more of it's
+methods by extensions. This is a lightweight version of subclassing through
+reimplementing or extending only key method(s).
+
+See more in =Foswiki::Extension::Empty=.
 
 =cut
 
@@ -99,12 +119,7 @@ sub import {
 
     # Define options we would provide for classes.
     my %options = (
-        callbacks => {
-            use => 0,
-
-            # Keywords exported with this option.
-            keywords => [qw(callback_names)],
-        },
+        callbacks => { use => 0, },
         app       => { use => 0, },
         extension => {
             use => 0,
@@ -151,7 +166,12 @@ sub import {
             # Install BUILD method if callbacks feature requested.
             # Otherwise Foswiki::Aux::Callbacks fails to apply cleanly.
             unless ( defined $ns->{BUILD} && defined *{ $ns->{BUILD} }{CODE} ) {
+                say STDERR "Installing BUILD";
                 install_modifier( $target, fresh => BUILD => sub { } );
+            }
+            else {
+                say STDERR "BUILD exists for $target: ", $ns->{BUILD}, "//",
+                  *{ $ns->{BUILD} }{CODE};
             }
         }
         $class->_apply_roles;
@@ -180,6 +200,8 @@ sub _inject_code {
 sub _apply_roles {
     my $class = shift;
     foreach my $target ( keys %_assignedRoles ) {
+        say STDERR "Applying to $target: ", join ",",
+          map { "{$_}" } @{ $_assignedRoles{$target} };
         Moo::Role->apply_roles_to_package( $target,
             @{ $_assignedRoles{$target} } );
         $class->_maybe_reset_handlemoose($target);
