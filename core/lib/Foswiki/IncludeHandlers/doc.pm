@@ -84,13 +84,13 @@ sub INCLUDE {
             $inPod = 0;
         }
         elsif ($inPod) {
-            if ( $line =~ m/^---\+(!!)?\s+package\s+\S+\s*$/ ) {
+            if ( $line =~ m/^---\+(!!)?\s+(?i:package|class)\s+\S+\s*$/ ) {
                 if ($isa) {
                     $line .= $isa;
                     $isa = undef;
                 }
                 $line =~
-s/^---\+(?:!!)?\s+package\s*(.*)/---+ =$visibility package= $1/;
+s/^---\+(?:!!)?\s+(?i:package|class)\s*(.*)/---+ =$visibility package= $1/;
             }
             else {
                 # Check for module names not prefixed with colon or left square
@@ -236,7 +236,7 @@ sub _getPackSummary ($) {
                 chomp($line);
                 push @summary, $line;
             }
-            if ( $line =~ m/^---\+(!!)?\s+package\s+\S+\s*$/ ) {
+            if ( $line =~ m/^---\+(!!)?\s+(?i:package|class)\s+\S+\s*$/ ) {
                 $inPackage = 1;
             }
         }
@@ -264,7 +264,7 @@ sub _getPackSummary ($) {
 sub _loadPublishedAPI {
     my $app = shift;
     my ( $meta, $text ) =
-      $app->readTopic( $Foswiki::cfg{SystemWebName}, PUBLISHED_API_TOPIC );
+      $app->readTopic( $app->cfg->data->{SystemWebName}, PUBLISHED_API_TOPIC );
     my @ret;
     for my $line ( split /\r?\n/, $text ) {
 
