@@ -90,7 +90,10 @@ sub INCLUDE {
                     $isa = undef;
                 }
                 $line =~
-s/^---\+(?:!!)?\s+(?i:package|class)\s*(.*)/---+ =$visibility package= $1/;
+s/^---\+(?:!!)?\s+((?i)package|class)\s*(.*)/---+ =$visibility $1= $2/;
+                $app->prefs->setSessionPreferences( 'DOC_TITLE',
+                    "---++ !! =$visibility $1= "
+                      . _renderTitle( $app, $class ) );
             }
             else {
                 # Check for module names not prefixed with colon or left square
@@ -291,6 +294,7 @@ sub _renderTitle {
 sub _doclink ($) {
     my $app    = shift;
     my $module = $_[0];
+    $module =~ /^/; # Do it to reset $n match variables.
     $module =~ s/^_(.+)(_)$/$1/;
     my $formatChar = $2 // '';
     my $title = $_[1] || $module;
