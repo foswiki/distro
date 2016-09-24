@@ -294,7 +294,7 @@ sub _renderTitle {
 sub _doclink ($) {
     my $app    = shift;
     my $module = $_[0];
-    $module =~ /^/; # Do it to reset $n match variables.
+    $module =~ /^/;                # Do it to reset $n match variables.
     $module =~ s/^_(.+)(_)$/$1/;
     my $formatChar = $2 // '';
     my $title = $_[1] || $module;

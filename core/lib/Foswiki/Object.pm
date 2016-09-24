@@ -69,6 +69,8 @@ This limitation will remain actual until constructor are no more called with pos
 
 has __orig_file  => ( is => 'rw', clearer => 1, );
 has __orig_line  => ( is => 'rw', clearer => 1, );
+has __orig_pkg   => ( is => 'rw', clearer => 1, );
+has __orig_sub   => ( is => 'rw', clearer => 1, );
 has __orig_stack => ( is => 'rw', clearer => 1, );
 
 has __id => (
@@ -153,8 +155,7 @@ sub BUILD {
             ( $pkg, $file, $line ) = caller( ++$sFrame );
           } while (
             $pkg =~ /^(Foswiki::Object|Moo::|Method::Generate::Constructor)/ );
-        $this->__orig_file($file);
-        $this->__orig_line($line);
+        $this->__orig;
         $this->__orig_stack( Carp::longmess('') );
     }
 }
@@ -312,6 +313,50 @@ sub clone {
     $this->_clear__clone_heap;
 
     return $newObj;
+}
+
+# Fixed __orig_file and __orig_line to bypass ::create() and point directly to
+# where it was called.
+# $level parameter – how many stack frames to skip.
+sub __orig {
+    my $this = shift;
+    my ($level) = @_;
+
+    my @frame;
+    if ( defined $level ) {
+
+        # Skip our own frame.
+        $level++;
+    }
+    else {
+        @frame = caller(1);
+
+        # If called from BUILD then skip additional frame.
+        $level = $frame[3] =~ /::BUILD$/ ? 2 : 1;
+    }
+
+    my (@foundFrame);
+    my $waitForNew = 1;
+    while ( @frame = caller($level) ) {
+        if ( $frame[3] =~ /::(?:create|new)$/ ) {
+            $waitForNew = 0;
+            @foundFrame = @frame;
+        }
+        else {
+            last unless $waitForNew;
+        }
+        $level++;
+    }
+
+   # Support static method call. Don't try to set object attributes if called as
+   # Foswiki::Object->__orig or Foswiki::Object::__orig.
+    if ( @foundFrame && @_ && ref($this) ) {
+        $this->__orig_pkg( $foundFrame[0] // '' );
+        $this->__orig_file( $foundFrame[1] );
+        $this->__orig_line( $foundFrame[2] );
+        $this->__orig_sub( $foundFrame[3] // '' );
+    }
+    return @foundFrame;
 }
 
 sub _normalizeAttributeName {

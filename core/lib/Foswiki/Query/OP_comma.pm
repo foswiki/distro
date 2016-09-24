@@ -8,10 +8,8 @@ List-building n-ary operator.
 =cut
 
 package Foswiki::Query::OP_comma;
-use v5.14;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Infix::OP);
 with qw(Foswiki::Query::OP);
 

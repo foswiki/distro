@@ -5,7 +5,7 @@ use v5.14;
 
 =begin TML
 
----+ package Foswiki::Exception
+---+ Class Foswiki::Exception
 
 Base class for all Foswiki exceptions. This is still a concept only.
 

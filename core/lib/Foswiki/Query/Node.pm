@@ -34,8 +34,10 @@ use Foswiki::Meta        ();
 use Foswiki::Infix::Node ();
 use Scalar::Util         ();
 
-use Moo;
-use namespace::clean;
+require Foswiki::Query::OP_empty;
+require Foswiki::Query::OP_comma;
+
+use Foswiki::Class;
 extends qw(Foswiki::Infix::Node);
 
 use constant MONITOR_EVAL => 0;
@@ -75,11 +77,17 @@ This hash is maintained by Foswiki::Meta and is *strictly read-only*
 our $emptyExprOp;
 our $commaOp;
 
-BEGIN {
-    require Foswiki::Query::OP_empty;
-    $emptyExprOp = Foswiki::Query::OP_empty->new();
-    require Foswiki::Query::OP_comma;
-    $commaOp = Foswiki::Query::OP_comma->new();
+sub BUILD {
+    my $this = shift;
+
+    # Simulate singletons. The first created node object would initialize
+    # $emptyExprOp and $commaOp. Though see the SMELL commend for these two.
+    unless ( defined $emptyExprOp ) {
+        $emptyExprOp = Foswiki::Query::OP_empty->new();
+    }
+    unless ( defined $commaOp ) {
+        $commaOp = Foswiki::Query::OP_comma->new();
+    }
 }
 
 sub emptyExpression {

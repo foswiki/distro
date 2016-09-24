@@ -5,7 +5,8 @@ use Cwd;
 use File::Spec;
 use Data::Dumper;
 
-my ( $rootDir, $scriptDir );
+my ( $rootDir,       $scriptDir );
+my ( $checkpointSub, $statusSub );
 
 BEGIN {
     $rootDir   = $ENV{FOSWIKI_HOME};
@@ -37,33 +38,44 @@ use Foswiki::App;
 use Devel::Leak;
 use Devel::Leak::Object;
 
-use constant CHECKLEAK => 0;
+use constant CHECKLEAK => $ENV{FOSWIKI_CHECKLEAK} // 1;
 
 BEGIN {
     if (CHECKLEAK) {
-        eval "use Devel::Leak::Object qw{ GLOBAL_bless };";
-        die $@ if $@;
-        $Devel::Leak::Object::TRACKSOURCELINES = 1;
-        $Devel::Leak::Object::TRACKSTACK       = 1;
+        foreach my $class (qw(Unit::Leak::Object Devel::Leak::Object)) {
+            eval "use $class qw{ GLOBAL_bless };";
+            if ($@) {
+                say STDERR "!!! Failed to load $class\n", $@;
+            }
+            else {
+                eval "
+                \$${class}::TRACKSOURCELINES = 1;
+                \$${class}::TRACKSTACK       = 1;";
+                $checkpointSub = $class->can('checkpoint');
+                $statusSub     = $class->can('status');
+                last;
+            }
+        }
     }
 }
 
 my $app = sub {
     my $env = shift;
 
-    Devel::Leak::Object::checkpoint if CHECKLEAK;
-    
+    &$checkpointSub if CHECKLEAK;
+
     $env->{FOSWIKI_SCRIPTS} = $scriptDir unless $env->{FOSWIKI_SCRIPTS};
 
     my $rc = Foswiki::App->run( env => $env, );
 
     if (CHECKLEAK) {
-        Devel::Leak::Object::status;
+        &$statusSub;
         eval {
             require Devel::MAT::Dumper;
             Devel::MAT::Dumper::dump(
                 $rootDir . "/working/logs/foswiki_debug_psgi.pmat" );
         };
+        $env->{'psgix.harakiri.commit'} = 1 if $env->{'psgix.harakiri'};
     }
 
     return $rc;
