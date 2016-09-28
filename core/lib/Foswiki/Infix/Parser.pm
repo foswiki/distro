@@ -31,8 +31,7 @@ use Try::Tiny;
 use Foswiki::Infix::Error ();
 use Foswiki::Infix::Node  ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 
 # Set to 1 for debug

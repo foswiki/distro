@@ -9,8 +9,7 @@
 package Foswiki::Query::OP_lt;
 use v5.14;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Query::ConditionalOP);
 with qw(Foswiki::Query::OP);
 

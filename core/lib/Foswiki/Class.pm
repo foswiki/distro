@@ -166,12 +166,7 @@ sub import {
             # Install BUILD method if callbacks feature requested.
             # Otherwise Foswiki::Aux::Callbacks fails to apply cleanly.
             unless ( defined $ns->{BUILD} && defined *{ $ns->{BUILD} }{CODE} ) {
-                say STDERR "Installing BUILD";
                 install_modifier( $target, fresh => BUILD => sub { } );
-            }
-            else {
-                say STDERR "BUILD exists for $target: ", $ns->{BUILD}, "//",
-                  *{ $ns->{BUILD} }{CODE};
             }
         }
         $class->_apply_roles;
@@ -200,8 +195,6 @@ sub _inject_code {
 sub _apply_roles {
     my $class = shift;
     foreach my $target ( keys %_assignedRoles ) {
-        say STDERR "Applying to $target: ", join ",",
-          map { "{$_}" } @{ $_assignedRoles{$target} };
         Moo::Role->apply_roles_to_package( $target,
             @{ $_assignedRoles{$target} } );
         $class->_maybe_reset_handlemoose($target);

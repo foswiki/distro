@@ -1,8 +1,16 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Extensions;
-use strict;
-use warnings;
+
+=begin TML
+
+---++!! Class Foswiki::Extensions
+
+[[https://foswiki.org/Development/OONewPluginModel][Foswiki OONewPluginModel topic]]
+could serve as a temporary explanasion of why this module extists and what
+functionality it is expected to provide.
+
+=cut
 
 use File::Spec     ();
 use IO::Dir        ();
@@ -516,6 +524,10 @@ sub mapClass {
 Returns extensions disabled for this installation or host. %disabled hash keys
 are extension names, values are text reasons for disabling the extension.
 
+*NOTE* Extension =Foswiki::Extension::Empty= is hard coded into the list of
+disabled extensions because its purpose is to be a template for developing
+functional extensions.
+
 =cut
 
 sub prepareDisabledExtensions {
@@ -534,6 +546,9 @@ sub prepareDisabledExtensions {
     else {
         $envDisabled = [ split /,/, $envDisabled ];
     }
+
+    # Never enable extension Empty. It's purpose is to serve as a template only.
+    push @$envDisabled, 'Empty';
 
     %disabled =
       map {
@@ -924,6 +939,14 @@ sub isRegistered {
 
     return $registeredModules{$extModule} // 0;
 }
+
+=begin TML
+
+---++ SEE ALSO
+
+=Foswiki::Extension::Empty=, =Foswiki::Class=.
+
+=cut
 
 1;
 __END__

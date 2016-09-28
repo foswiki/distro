@@ -5,13 +5,13 @@ use v5.14;
 
 =begin TML
 
----+ package Foswiki::Exception
+---+ Class Foswiki::Exception
 
 Base class for all Foswiki exceptions. This is still a concept only.
 
 Basic principles behind exceptions:
 
-   1. Exceptions are using =CPAN:Try::Tiny=. Use of =CPAN:Error= module is no longer
+   1. Exceptions are using =Try::Tiny=. Use of =CPAN:Error= module is no longer
       recommended.
    1. Exception classes are inheriting from =Foswiki::Exception=.
    1. =Foswiki::Exception= is an integral part of Fowiki's OO system and inheriting from =Foswiki::Object=.

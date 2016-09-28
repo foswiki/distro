@@ -14,8 +14,6 @@ Foswiki::Infix::Node)
 
 package Foswiki::Query::Parser;
 
-use strict;
-use warnings;
 use Assert;
 
 BEGIN {
@@ -66,8 +64,7 @@ use Foswiki::Query::OP_int    ();    # 1000
 
 use Foswiki::Query::OP_ob ();        # 1100
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends 'Foswiki::Infix::Parser';
 
 has words => (

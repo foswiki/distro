@@ -1,9 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Infix::OP;
-use v5.14;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 
 =begin TML

@@ -65,8 +65,7 @@ sub expand {
         return '';
     }
     unless ($evalParser) {
-        require Foswiki::Query::Parser;
-        $evalParser = new Foswiki::Query::Parser();
+        $evalParser = $this->app->create('Foswiki::Query::Parser');
     }
 
     $this->evaluatingEval->{$expr}++;
