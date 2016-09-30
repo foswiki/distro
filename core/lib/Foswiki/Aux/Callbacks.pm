@@ -31,7 +31,7 @@ will work only when the name is used only in one namespace. Otherwise an
 exception (ASSERT) with error will be raised.
 
 Callback is a coderef (a sub) which gets called at certain moments of a class
-life cycle. A callback sub is called with the following arguments:
+life cycle. A callback sub is supplied with the following arguments:
 
    1 Reference to the object which is calling the callback.
    1 A list of key/value pairs where the following keys are defined:
@@ -40,12 +40,12 @@ life cycle. A callback sub is called with the following arguments:
       
 A named callback may have more than one handler. In this case all handlers are
 executed in the order they were registerd. No return values are respecred. If a
-handler wants to be the last it must raise =Foswiki::Exception::CB::Last=
-exception. If set, exception's =returnValue= attribute contains what is returned
-by =callback()= method then.
+handler wants to be the last it must raise =Foswiki::Exception::Ext::Last=
+exception. If set, exception's =rc= attribute contains what is returned by
+=callback()= method then.
 
 If a callback handler raises any other exception besides of
-=Foswiki::Exception::CB::*= then that exception is rethrown further up the call
+=Foswiki::Exception::Ext::*= then that exception is rethrown further up the call
 stack.
 
 Example callback handler may look like:
@@ -67,7 +67,7 @@ sub cbHandler {
     
     # Suppose that $rc is set when the 
     if (defined $rc) {
-        Foswiki::Exception::CB::Last->throw( returnValue => $rc );
+        Foswiki::Exception::Ext::Last->throw( rc => $rc );
     }
 }
 </verbatim>
