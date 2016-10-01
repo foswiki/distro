@@ -566,6 +566,7 @@ sub _fixupAppObjects {
 
     my $app = $this->app;
 
+    # SMELL FIXME Doesn't deal with Foswiki::Aux::_ExtensibleRole.
     foreach my $attr ( keys %$this ) {
         if (
                blessed( $this->{$attr} )

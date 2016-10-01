@@ -256,7 +256,7 @@ plugBefore 'Foswiki::ExtensionsTests::SampleClass::testPluggableMethod' => sub {
     my $this = shift;
     my ($params) = @_;
     
-    # We expect at least to parameters to be passed in.
+    # We expect at least two parameters to be passed in.
     $params->{args}[1] = "ext1ArgFromBefore";
 };
 EXT1

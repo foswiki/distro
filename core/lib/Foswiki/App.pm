@@ -602,11 +602,14 @@ sub handleRequest {
 
 --++ ObjectMethod create($className, %initArgs)
 
-Creates a new object of class =$className=. If the class does =Foswiki::App=
-role then constructor gets called with =app= key pointing to the Foswiki::App
-object.
+Creates a new object of class =$className=. This method must always be used for
+creating new objects of classes rooted on =Foswiki::Object=.
 
-This method loads class module automatically.
+This methods does the following:
+
+   1. Loads =$className= module.
+   1. Maps =$className= into a replacement class if an extension registered for class overriding.
+   1. Adds =app= parameter key pointing to the application object to class constructor arguments.
 
 =cut
 
@@ -614,9 +617,11 @@ sub create {
     my $this  = shift;
     my $class = shift;
 
-    $class = $this->extensions->mapClass($class);
+    $class = ref($class) || $class;
 
     Foswiki::load_class($class);
+
+    $class = $this->extensions->mapClass($class);
 
     my $object = $class->new( app => $this, @_ );
 

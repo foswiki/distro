@@ -49,6 +49,13 @@ This is an important rule for some of [[#ExportedSubs][exported subroutines]].
 =Foswiki::Extensions= module has its own =$VERSION= global var. It represents
 %WIKITOOLNAME% API version and is used to check an extension compatibility.
 
+---++ Extensions loading
+
+Upon startup the extensions object created by the application scans a directory
+(usually it is _$ENV{FOSWIKI_HOME}/lib/Foswiki/Extension_ but additional subdirs
+can be defined by FOSWIKI_EXTLIBS environment variable) for =.pm= files and
+tries to load them all in the order as returned by Perl =readdir()= function.
+
 ---++ Starting a new extension module
 
 Choose a name for an extension. Check if it's not alredy used. Start the module
@@ -82,6 +89,7 @@ subroutines to simplify and improve readibility of some of extensions
 functionality. As such, their use is similar to =CPAN:Moo=
 [[https://metacpan.org/pod/Moo#IMPORTED-SUBROUTINES][subroutines]].
 
+#ExtDeps
 ---+++ Extension dependencies
 
 An extension can claim to be located before or after another one in the list of
@@ -100,7 +108,8 @@ The following subs implement this functionality:
 | =extAfter @nameList= | Extension must be placed after extensions in =@nameList= |
 
 What these do is define a directed graph of extensions. When all extensions are
-loaded and registered the graph gets sorted using topoligical sort.
+loaded and registered the graph gets sorted using topoligical sort. The resulting
+order is stored in =Foswiki::Extensions= =orderedList= attribute.
 
 The final order of extensions is not guaranteed. For example, =Ext2= could
 require to be placed before =Ext1= but it doesn't mean that it will directly
@@ -118,7 +127,7 @@ Ext1 %M% Ext2 %M% Ext3 %M% Ext4 %M% Ext5 %M% Ext3
 
 then not only =Ext[3,4,5]= are disabled but =Ext1= and =Ext2= too.
 
-This behaviour is considered questionable and may change later.
+_NOTE:_ This behaviour is considered questionable and may change in the future.
 
 =cut
 
@@ -164,7 +173,7 @@ the reference.
 =cut
 
 tagHandler EMPTYMACRO => sub {
-    my $this = shfit;
+    my $this = shift;
     return __PACKAGE__ . " version is " . $VERSION;
 };
 
@@ -207,7 +216,7 @@ callbackHandler postConfig => sub {
       @_;    # Foswiki::App::postConfig callback doesn't supply any params.
 };
 
-callbackHandler 'Foswiki::App::handleRequestException' => sub {
+callbackHandler 'Foswiki::App::handleRequestException', sub {
     my $this = shift;
     my ( $app, $params ) = @_;
 
@@ -219,9 +228,202 @@ callbackHandler 'Foswiki::App::handleRequestException' => sub {
 
 =begin TML
 
+#PluggableMethods
+---+++ Method overriding
+
+A core class may declare some of its methods as pluggable – i.e. let an
+extension to have _before_, _around_, and _after_ handlers for the method –
+similar (but not the same) to analogous functionality of [[CPAN:Moo][=Moo=]]
+or [[CPAN:Moose][Moose]] but without subclassing of the core class. This feature
+is provided by =plugBefore=, =plugAround=, and =plugAfter= subroutines
+correspondingly.
+
+To allow support for this feature by a core class it must add =extensible=
+parameter to =use Foswiki::Class=. This will implicitly apply
+=Foswiki::Aux::_ExtensibleRole= role to the class and export =pluggable=
+subroutine to declare pluggable methods:
+
+<verbatim>
+package Foswiki::CoreClass;
+use Foswiki::Class qw(extensible);
+extends qw(Foswiki::Object);
+
+...
+
+pluggable someMethod => sub {
+    my $this = shift;
+    
+    ...
+};
+
+1;
+</verbatim>
+
+---++++ Notes on implementation details
+
+Method overriding can only work within properly initialized %WIKITOOLNAME%
+application environment. I.e. it requires initialized extensions on application
+object. On the other hand not only classes with =Foswiki::AppObject= role
+applied can use this feature. This is because =Foswiki::Aux::_ExtensibleRole=
+implicitly adds =__appObj= attribute to the class it is applied to. In
+distinction of =Foswiki::AppObject= =app= attribute =__appObj= is not required
+and can remain undefined.
+
+For a non-<nop>=Foswiki::AppObject= class to allow the feature during runtime it
+is mandatory to create objects of this class using =Foswiki::App= or
+=Foswiki::AppObject= =create()= methods.
+
+---++++ plugBefore, plugAround, plugAfter
+
+In terms of =Moo= these subroutines are modifiers. But contrary to =Moo='s
+implementation where, say, a _before_ modifier may not be called under cetain
+conditions, all registered =plug*= modifiers are guaranteed to be executed
+unless the execution flow gets interrupted by a modifier code. Those nuances
+will be explained later in this documentation.
+
+When a pluggable method is called the extensions framework first executes all
+_before_ methods; then _around_ ones; then _after_. Within each group methods
+are called using the order defined by =Foswiki::Extensions= =orderedList=
+attribute (see the [[#ExtDeps][dependecies section]]).
+
+__NOTE:__ It is commonplace for _after_ methods to be called in reverse order.
+But =plugAfter= order is straight, same as for =plugBefore= and =plugAround=.
+This is a subject for discussion and is very likely to change in the future.
+
+Contrary to =Moo='s modifiers, methods registered with =plug*= modifiers are all
+executed as _extenion_ methods, not as methods of an object of a core class. The
+object is passed as a key =object= of parameters hashref in the second argument.
+All keys of the hashref are in the followin table:
+
+| *Key* | *Type* | *Description* |
+| =object= | blessed ref | The object on which the method is called. |
+| =class= | string | The class which has registered the pluggable method. Might be different from the above object's class if object was created using a subclass. |
+| =method= | string | Name of the pluggable method registered by the class above. Can useful for cases when same extension method is used to handle few different pluggable methods. |
+| =stage= | string | _before_, _around_, or _after_. |
+| =args= | array ref | Reference to arguments array =@_= passed to the pluggable method. The array content can be changed by extension methods but the ref itself must remain the same. If a method changes it the extensions framework will restore the original value discarding all changes done by the method. Because this key points to =@_= then modification of =$n='th element has the same effect as modification of =$_[$n]=. |
+| =wantarray= | scalar | =wantarray= function value for the pluggable method. |
+| =rc= | anything | Pluggable method's return value. The original pluggable method won't be executed if any of _around_ methods sets this key to whatever (including =undef=) value. It's not allowed to be set by a _before_ method; if set then the framework will clean it up. |
+
+Methods can use the parameters hashref to communicate to each other by storing
+necessary information in it using a unique key names. Generally it is
+recommended for an extension to take measures as to avoid clashing with other
+extensions. Not being the most handy but the most reliable method would be to
+use extension's name as a key where all extension-specific data is stored.
+
+---++++ Execution flow control
+
+A method can have influence over the execution flow by raising
+=Foswiki::Exception::Ext::Last= or =Foswiki::Exception::Ext::Restart=
+exceptions.
+
+=Last= will stop the current group execution and pass the control over to the
+ext group. I.e. if raised for _before_ chain then _around_ will be started; for
+_around_ it'll be _after_. And for _after_ it will return to the calling code.
+If the exception was supplied with =rc= parameter:
+
+<verbatim>
+Foswiki::Exception::Ext::Last->throw( rc => 0, );
+</verbatim>
+
+the parameter will be used to set the =rc= key of method parameters hash. Same
+rules about the _before_ methods and =rc= apply.
+
+=Restart= exception signals the extensions framework to interrupt the current
+flow and start it again. The method parameters hash is then left in the same
+state it was on the moment when exception was raised. This feature must be used
+with great care as it may have unpredictable side effects.
+
+=cut
+
+plugBefore 'Foswiki::CoreClass::someMethod' => sub {
+    my $this = shift;
+    my ($params) = @_;
+
+    # Pass some information to other methods.
+    $params->{__PACKAGE__}{myFlag} = rand() < 0.5 ? "don't!" : "do it!";
+};
+
+plugAround 'Foswiki::CoreClass::someMethod' => sub {
+    my $this = shift;
+    my ($params) = @_;
+
+    if ( $params->{__PACKAGE__}{myFlag} =~ /do it/ ) {
+        Foswiki::Exception::Ext::Last->throw(
+            rc => 'Hello from extension Empty!', );
+    }
+    else {
+        $params->{args}[0] = 'modified argument';
+    }
+};
+
+plugAfter 'Foswiki::CoreClass::someMethod' => sub {
+    my $this = shift;
+    my ($params) = @_;
+
+    if ( $params->{rc} =~ /Hello.*Empty/ ) {
+        $params->{rc} = length( $params->{rc} );
+    }
+};
+
+=begin TML
+
+---+++ Subclassing
+
+An extension can request to subclass a core class by using =extClass=
+subroutine. This is perhaps the most powerful feature of the extensions
+framework. Consider the following line of code:
+
+<verbatim>
+extClass 'Foswiki::Config' => 'Foswiki::Extension::Empty::DBConfig';
+</verbatim>
+
+Every time the =create()= method is request to create an object of some class it
+first consults the extensions framework if there is a subclass registered for
+it. And if there is one it is used instead of the original.
+
+Subclasses are created by the framework using the registrations from extensions.
+Because it is possible for more than one extension to register a subclass for
+the same core class the order of inheritance cannot be determined at the moment
+of registration. For this reason all extensions are first loaded into memory and
+then the framework analyses them and builds subclasses for every extension
+registered core class.
+
+Due to the way =Moo= works a registered subclass module in fact must be a
+=Moo::Role=. What the framework actually does then it creates a new class with
+all registered subclasses being applied as roles in the order reverse to
+=orderedList= attribute defined (think of the way inherited methods are called).
+See
+[[CPAN:Role::Tiny#create_class_with_roles][Role::Tiny::create_class_with_roles
+method]]. The core class is used as the base.
+
+What could be done using this feature is limited by once imagination only.
+=Foswiki::Extension::Empty::DBConfig= is used as an example subclass to give an
+idea of storing the =LocalSite.cfg= in a database of some kind. While rewriting
+the core class might be much of a burden somebody can simple create an extension
+and implement this functionality. All an administrator of a wiki would have to
+do then is to install the extension. And - voilà! – his configuration can now be
+shared across multpile installations or even help to clusterize the setup. If
+same extensions creator would then decide to implement a =Foswiki::Store= with
+database support then it's one more step close to scalable %WIKITOOLNAME%.
+
+See =UnitTestContrib/test/unit/TestExtensions/Foswiki/Extension/Sample/Config.pm=
+for an example of subclassing. Or test_subClassing= in =ExtensionsTests= test
+suite.
+
+=cut
+
+#extClass 'Foswiki::Config' => 'Foswiki::Extension::Empty::DBConfig';
+
+=begin TML
+
+
 ---++ SEE ALSO
 
-=Foswiki::Extensions=, =Foswiki::Extension=, =Foswiki::Class=.
+=Foswiki::Extensions=, =Foswiki::Extension=, =Foswiki::Class=, and
+=ExtensionsTests= test suite.
+
+Check out [[Foswiki:Development.OONewPluginModel][Foswiki topic]] where all this
+once originated from.
 
 =cut
 
