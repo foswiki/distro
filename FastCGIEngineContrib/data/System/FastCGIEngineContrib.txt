@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1434332843" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1475638628" format="1.1" version="1"}%
 ---+!! <nop>FastCGI Engine Contrib
 %$SHORTDESCRIPTION%
 
@@ -21,6 +21,10 @@ Some !FastCGI features:
    * Besides the [[http://www.fastcgi.com/drupal/node/6?q=node/22#S6.2][responder]] [[http://www.fastcgi.com/drupal/node/6?q=node/22#S6][role]], equivalent of classic CGI scripts, there is the [[http://www.fastcgi.com/drupal/node/6?q=node/22#S6.3][authorizer]], that can be used to add access checks to attachments with less overhead and resource usage than [[System/CommandAndCGIScripts#viewfile][viewfile]] script. -->
 
 ---++ Installation Instructions
+
+<div class="foswikiHelp">%T% We recommend that you use the thoroughly tested Foswiki:Support.ApacheConfigGenerator for creating your apache configuration.  It can generate a comprehensive Apache configuration for your installation.
+</div>
+
 <!--
    * Set URL = %URLPARAM{"foswikiUrl" default="/foswiki/bin"}%
    * Set ROOT = %URLPARAM{"foswikiRoot" default="/var/www/foswiki"}%
@@ -30,7 +34,7 @@ Some !FastCGI features:
 <div class="foswikiFormSteps">
   <h2>Configure</h2>
   <div class="foswikiFormStep">
-    <h3> Foswiki bin </h3>
+    <h3> Foswiki script URL path </h3>
     <input type="text" name="foswikiUrl" value="%URL%" size="100" /> 
   </div>
   <div class="foswikiFormStep">
@@ -57,17 +61,17 @@ This section is about how to configure FastCGIEngineContrib, considering many po
 
 
 ---+++ Installation of the FCGI CPAN library
+<noautolink>
+FastCGIEngineContrib uses a CPAN library called FCGI which is not normally distributed with Perl. Version of FCGI should be 0.67 or later.
+See SystemRequirements (Foswiki:System.SystemRequirements) for a detailed requiremments by server distribution.
 
-!FastCGIEngineContrib uses a CPAN library called FCGI which is not normally distributed with Perl. Version of FCGI should be 0.67 or later
-
-Generic CPAN references as well as the most popular distribution packages are listed below
-
-   * CPAN  - http://search.cpan.org/dist/FCGI/ (generic CPAN installation  =perl -MCPAN -e 'install FCGI'=)
-   * !RedHat/Centos RPM from Dag - http://dag.wieers.com/rpm/packages/perl-FCGI/
-   * Mandriva/Suse/Fedora/Redhat RPM from Dries - http://dries.ulyssis.org/ayo/packages/perl-FCGI/info.html
-   * Debian - http://packages.debian.org/search?searchon=names&keywords=libfcgi-perl
-   * Ubuntu - http://packages.ubuntu.com/search?searchon=names&keywords=libfcgi-perl
-
+   * Debian / Ubuntu:  =apt-get install libfcgi-perl=
+   * RedHat / Centos:  =yum install perl-FCGI= 
+   * SuSE: =zypper install  perl-FCGI=
+   * Gentoo: =emerge dev-perl/FCGI=
+   * FreeBSD: =pkg install p5-FCGI=
+   * CPAN: =cpanm FCGI=
+</noautolink>
 ---+++ Apache
 
 ---++++ Apache Module
@@ -77,7 +81,9 @@ There are two options that basicly do the same thing
    * mod_fastcgi which is the oldest implementation. It is released under a custom non-free license but it is free of charge.
    * mod_fcgid which is the newer implementation released under the GPL license and now part of the Apache Foundation.
    
-It is difficult to recommend one or the other. In some cases one will work and the other will not. Most positive reports have been with mod_fcgidbut both have been tested and work with standard out-of-the-box Apache and Foswiki setups. mod_fcgid is easier to find as package because of its GPL license so it may be the best place to start. Fedora has mod_fcgid on the installation DVD now.
+It is difficult to recommend one or the other. In some cases one will work and the other will not. Most positive reports have been with mod_fcgid but
+both have been tested and work with standard out-of-the-box Apache and Foswiki setups. mod_fcgid is easier to find as package because of its GPL license
+so it may be the best place to start. Fedora has mod_fcgid on the installation DVD now.
 
 Below are some resources for the most common Linux distributions. The actual versions of the latest packages may have changed since this documentation was written.
 
@@ -125,17 +131,11 @@ Options +ExecCGI
 
 RewriteEngine On
 
-# configure script is a special case, it must run as a CGI script:
-RewriteCond %{REQUEST_URI} !/configure 
-
-# avoid loops:
+# avoid loops:s
 RewriteCond %{REQUEST_URI} !/foswiki.fcgi
 
 RewriteRule ^(.*) %URL%/foswiki.fcgi/$1
 
-&lt;Files configure&gt;
-    SetHandler cgi-script
-&lt;/Files&gt;
 </pre>
 
 ---++++++ Using mod_actions:
@@ -147,10 +147,6 @@ Options +ExecCGI
 
 Action foswiki-fcgid %URL%/foswiki.fcgi
 SetHandler foswiki-fcgid
-
-&lt;Files configure&gt;
-    SetHandler cgi-script
-&lt;/Files&gt;
 
 &lt;Files foswiki.fcgi&gt;
    SetHandler fcgid-script
@@ -174,11 +170,8 @@ Direct access to Apache configuration files open more possibilities than with =.
 
 We can use _static_ or _dynamic_ servers: static servers are initialized with Apache itself and exists as long Apache is running. Dynamic servers are loaded on demand and killed if the aren't needed anymore.
 
-See [[http://www.fastcgi.com/mod_fastcgi/docs/mod_fastcgi.html][mod_fastcgi documentation]] for more options.
-
 <pre class="bash">
 # Simple and traditional example.
-Alias %URL%/configure %ROOT%/bin/configure
 Alias %URL%   %ROOT%/bin/foswiki.fcgi
 
 # Commenting the next line makes foswiki to be a dynamic server, loaded on demand
@@ -186,9 +179,6 @@ FastCgiServer %ROOT%/bin/foswiki.fcgi -processes 3
 
 &lt;Directory %ROOT%/bin&gt;
    Options +ExecCGI
-    &lt;Files configure&gt;
-        SetHandler cgi-script
-    &lt;/Files&gt;
     &lt;Files foswiki.fcgi&gt;
         SetHandler fastcgi-script
     &lt;/Files&gt;
@@ -200,7 +190,6 @@ Refer to [[%TOPIC%#Tuning][tuning]] section below for a little discussion about 
 <pre class="bash">
 # External server: could be running at another machine and/or a different user from the webserver
 
-Alias %URL%/configure %ROOT%/bin/configure
 Alias %URL%   %ROOT%/bin/foswiki.fcgi
 
 # Running an external server on the same machine:
@@ -211,9 +200,6 @@ FastCgiExternalServer %ROOT%/bin/foswiki.fcgi -host example.com:8080
 
 &lt;Directory %ROOT%/bin&gt;
     Options +ExecCGI
-    &lt;Files configure&gt;
-        SetHandler cgi-script
-    &lt;/Files&gt;
     &lt;Files foswiki.fcgi&gt;
         SetHandler fastcgi-script
     &lt;/Files&gt;
@@ -242,14 +228,10 @@ Comparison to =mod_fastcgi=:
 
 <pre class="bash">
 # Simple and traditional example.
-Alias %URL%/configure %ROOT%/bin/configure
 Alias %URL%   %ROOT%/bin/foswiki.fcgi
 
 &lt;Directory %ROOT%/bin&gt;
    Options +ExecCGI
-    &lt;Files configure&gt;
-        SetHandler cgi-script
-    &lt;/Files&gt;
     &lt;Files foswiki.fcgi&gt;
         SetHandler fcgid-script
     &lt;/Files&gt;
@@ -271,14 +253,10 @@ If you use =ApacheLogin= instead of =TemplateLogin= you'll need to add something
 
 ---+++ Lighttpd
 
-You need to load both [[http://redmine.lighttpd.net/wiki/lighttpd/Docs:ModCGI][mod_cgi]] and [[http://redmine.lighttpd.net/wiki/lighttpd/Docs:ModFastCGI][mod_fastcgi]]. The first is used to run [[System.CommandAndCGIScripts#configure][configure script]]. From what I understood from the documentation, lighttpd doesn't support dynamic servers.
+You need to load [[http://redmine.lighttpd.net/wiki/lighttpd/Docs:ModFastCGI][mod_fastcgi]].
 
 <pre class="bash">
 # Example with FastCGI processes launched by the webserver
-$HTTP["url"] =~ "^%URL%/configure" {
-    alias.url += ( "%URL%" => "%ROOT%/bin" )
-    cgi.assign = ( "" => "" )
-}
 
 $HTTP["url"] =~ "^%URL%/" {
     alias.url += ( "%URL%" => "%ROOT%/bin/foswiki.fcgi" )
@@ -295,10 +273,6 @@ $HTTP["url"] =~ "^%URL%/" {
 
 <pre class="bash">
 # Example with external FastCGI processes (running on the same host, with another user or at a remote machine)
-$HTTP["url"] =~ "^%URL%/configure" {
-    alias.url += ( "%URL%" => "%ROOT%/bin" )
-    cgi.assign = ( "" => "" )
-}
 
 $HTTP["url"] =~ "^%URL%/" {
     alias.url += ( "%URL%" => "%ROOT%/bin/foswiki.fcgi" )
@@ -368,10 +342,14 @@ server {
 
 Next, to integrate the =foswiki.fgi= process into the system's init process use the two helper scripts in the =tools= directory:
 
-   * =foswiki.init-script=: copy this to =/etc/init.d/foswiki=; make the file executable using =chmod +x /etc/init.d/foswiki=
-   * =foswiki.defaults=: copy this to =/etc/defaults/foswiki= and make appropriate adjustmenst; make sure the process uses the same socket as configured in nginx (see above, defaults to =127.0.0.1:9000=)
+   * =foswiki.init-script=: copy this to =/etc/init.d/foswiki=; make the file executable using =chmod +x /etc/init.d/foswiki=, and ensure that it is assigned to user/group root.
+   * =foswiki.defaults=: copy this to =/etc/default/foswiki= and make appropriate adjustmenst; make sure the process uses the same socket as configured in nginx (see above, defaults to =127.0.0.1:9000=)
 
-You should now be able to control the backend processes using =service foswiki start/stop/reload/restart/status=.
+If your system uses =systemd=, then you will need to trigger a re-read of the init scripts by running (as root): =systemctl daemon-reload=
+
+You should now be able to control the backend processes using either:
+   * =service foswiki start/stop/reload/restart/status=. _or_
+   * =/etc/init.d/foswiki start/stop/reload/restart/status=
 
 Finally, add the service to the runlevels using =update-rc.d foswiki defaults= to make sure the service is started on system startup time.
 
@@ -388,7 +366,6 @@ Dynamic servers are more useful when Foswiki access load on the server is low an
 <div class="foswikiHelp">
 %X% This is a persistent engine, so you need to restart the web server after some configuration update is performed. However, there is an auto-reload mechanism that apply changes without a web server restart. Unfortunately, there is a delay: after the update, each process will still serve one more request before reloading itself (e.g. if you're using 3 processes, the next 3 requests after the update will not be affected. The update will take effect on the requests made after the initial 3). This reloading mechanism works only on operating systems that have the =exec(2)= system call, like Linux and other POSIX compliant systems.
 
-%X% All examples above have an exception to =configure= script. This script *needs* to run as a plain CGI script. There are some legacy extensions (not updated to Foswiki:Development/FoswikiStandAlone design) that adds scripts to the =bin/= directory. You need to add exceptions for these scripts as well.
 
 %X% !FastCGI support on IIS 6.0 (and maybe other versions) is *broken* with respect to the =STDERR= stream. This may cause problems.
 </div>
@@ -396,6 +373,7 @@ Dynamic servers are more useful when Foswiki access load on the server is low an
 ---++ Info
 
 | Change History: | |
+|  04 Oct 2016 | (1.03) Foswikitask:Item13883 - Documentation updates. |
 |  14 Jun 2015 | (1.02) Foswikitask:Item10751 - Prepare for Unicode core. |
 |  29 Mar 2015 | (1.01) Foswikitask:Item13342 - Add missing dependency, don't re-init back end after every transaction while bootstrapping. |
 |  14 Jan 2015 | (1.00) Foswikitask:Item13010 - make checking =LocalSite.cfg= for changes optional so that it can be disabled for improved stability on high traffic sites |
@@ -413,7 +391,7 @@ Dynamic servers are more useful when Foswiki access load on the server is low an
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="[[Foswiki:Main.GilmarSantosJr][Gilmar Santos Jr]]"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2015 Gilmar Santos Jr and Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2008-2016 Gilmar Santos Jr and Foswiki Contributors"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%$ROOTMODULE%"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/copyleft/gpl.html][GPL (Gnu General Public License)]]"}%
 %META:FIELD{name="Release" title="Release" value="%$RELEASE%"}%
