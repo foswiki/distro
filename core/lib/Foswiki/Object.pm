@@ -35,14 +35,14 @@ use Assert;
 Converts positional constructor parameters to named ones. Tries to detect if constructor is already being called using named notation.
 
 The =BUILDARGS()= uses array =@_newParameters= declared statically on a class to get information about the order of parameters.
-For example, for =Foswiki::Class=:
+For example, for a =Foswiki::SampleClass=:
 
 <verbatim>
-package Foswiki::Class;
-use Moo;
+package Foswiki::SampleClass;
+use Foswiki::Class;
+extends qw(Foswiki::Obejct);
 
 our @_newParameters = qw( param1 param2 );
-use namespace::clean;
 
 has param1 => (is => 'rw');
 has param2 => (is => 'ro');
@@ -53,22 +53,24 @@ has param3 => (is => 'rw');
 
 the following notations are valid:
 
-<verbtaim>
-my $object1 = Foswiki::Class->new($param1, $param2);
-my $object2 = Foswiki::Class->new($param1);
-my $object3 = Foswiki::Class->new(param1 => 1, param2 => '2', param3 => 'additional');
-my $object3 = Foswiki::Class->new({param1 => 1, param2 => '2', param3 => 'additional'});
+<verbatim>
+my $object1 = Foswiki::SampleClass->new($param1, $param2);
+my $object2 = Foswiki::SampleClass->new($param1);
+my $object3 = Foswiki::SampleClass->new(param1 => 1, param2 => '2', param3 => 'additional');
+my $object3 = Foswiki::SampleClass->new({param1 => 1, param2 => '2', param3 => 'additional'});
 </verbatim>
 
 Note that for =$object2= the =BUILD()= method will be called with no param2 key.
 
 Key/value pairs as in =$object3= example are valid as soon as at least one key is mentioned in =@_newParameters=.
-This limitation will remain actual until constructor are no more called with positional parameters.
+This limitation will remain actual until constructors are called with positional parameters no more.
 
 =cut
 
 has __orig_file  => ( is => 'rw', clearer => 1, );
 has __orig_line  => ( is => 'rw', clearer => 1, );
+has __orig_pkg   => ( is => 'rw', clearer => 1, );
+has __orig_sub   => ( is => 'rw', clearer => 1, );
 has __orig_stack => ( is => 'rw', clearer => 1, );
 
 has __id => (
@@ -145,6 +147,7 @@ around BUILDARGS => sub {
 
 sub BUILD {
     my $this = shift;
+    my ($args) = @_;
 
     if (DEBUG) {
         my ( $pkg, $file, $line );
@@ -153,9 +156,12 @@ sub BUILD {
             ( $pkg, $file, $line ) = caller( ++$sFrame );
           } while (
             $pkg =~ /^(Foswiki::Object|Moo::|Method::Generate::Constructor)/ );
-        $this->__orig_file($file);
-        $this->__orig_line($line);
+        $this->__orig;
         $this->__orig_stack( Carp::longmess('') );
+
+        # Copy non-attribute __orig_ keys from constructor's profile or they'd
+        # be lost.
+        $this->{$_} = $args->{$_} foreach grep { /^(?:__)+orig_/ } keys %$args;
     }
 }
 
@@ -175,7 +181,7 @@ sub DEMOLISH {
     }
     if (DEBUG) {
         foreach my $key ( keys %{$this} ) {
-            unless ( $this->can($key) ) {
+            unless ( $key =~ /^(?:__)+orig_/ || $this->can($key) ) {
                 say STDERR "Key $key on ", ref($this),
                   " isn't a valid attribute.";
                 if ( UNIVERSAL::isa( $this->{key}, 'Foswiki::Object' ) ) {
@@ -272,9 +278,43 @@ sub _cloneData {
     return $cloned;
 }
 
+=begin TML
+
+---++ ObjectMethod clone() -> $clonedObject
+
+This method tries to do it's best to create an exact copy of existing object.
+For that purpose this method considers a object as a data structure and
+traverses it recursively creating a profile for new object's constructor. All
+keys on object's hash are considered as attributes to be inserted into the
+profile. In other words it means then if we have an object with keys =key1=, =key2=, and =key3=
+then new object's constructor will get the following profile:
+
+<verbatim>
+my @profile = (
+    key1 => $this->_cloneData( $this->{key1} ),  
+    key2 => $this->_cloneData( $this->{key2} ),  
+    key3 => $this->_cloneData( $this->{key3} ),  
+);
+my $newObj = ref($this)->new( @profile );
+</verbatim>
+
+Actually the process is a bit more complicated than this example. It is guided by the following rules:
+
+   1. If a key name begins with =__[__[...]]orig_= prefix it is used for debugging needs and keeps object's creation history. To preserve the history such keys are prefixed with additional =__= prefix. So, a clone of clone would have three kopies of such keys prefixed with =__orig_=, =____orig_=, and =______orig_=.
+   1. All other attributes with =__= prefixed names are ignored and not duplicated.
+   1. If a class wants to take care of cloning of an attribute it can define a =_clone_<attribute_name>()= method (say, =_clone_key2()= for the above example; or =_clone__attr()= for private attribute =_attr=). In this case the attribute value won't be traversed and return from the =_clone_<attribute_name>()= method would be used.
+   1. For blessed references discovered during traversal their =clone()= method is used to create a copy if their respective classes have this method defined.
+   1. For objects without =clone()= method they're copied as a hash which is then blessed into the object's class. *NOTE* This won't work for non-hash blessed references. They're must be taken care by the class the attribute belongs to.
+   1. Regexp's refs are just copied into destination.
+   1. Attributes containing references of *ARRAY*, *HASH*, and *SCALAR* types are cloned; refs of other types are just copied into destination.
+   1. If a reference is weakened it's clone is weakened too.
+   1. If same reference found at two or more locations of cloned object's structure then destination object will have identical cloned references at same locations; i.e. if =$this->attr1 == $this->attr2->subattr->[3]= then =$cloned->attr1 == $cloned->attr2->subattr->[3]= too.
+   1. Circular dependecies are raising =Foswiki::Exception::Fatal=.
+
+=cut
+
 # XXX Experimental.
 # clone works on low-level bypassing Moo's accessor methods.
-
 sub clone {
     my $this = shift;
 
@@ -288,7 +328,7 @@ sub clone {
         my $destAttr = $attr;
         if ( $destAttr =~ /^__/ ) {
 
-            next unless $destAttr =~ /^__orig_/;
+            next unless $destAttr =~ /^(?:__)+orig_/;
 
             # Debug attributes would be preserved but those coming from the
             # source object would be kinda pushed on a stack by adding extra __
@@ -307,11 +347,56 @@ sub clone {
         push @profile, $destAttr, $attrVal;
     }
 
+# SMELL Should it be better to use same approach as in _cloneData - just bless a profile hash?
     my $newObj = ref($this)->new(@profile);
 
     $this->_clear__clone_heap;
 
     return $newObj;
+}
+
+# Fixes __orig_file and __orig_line to bypass ::create() and point directly to
+# where it was called.
+# $level parameter – how many stack frames to skip.
+sub __orig {
+    my $this = shift;
+    my ($level) = @_;
+
+    my @frame;
+    if ( defined $level ) {
+
+        # Skip our own frame.
+        $level++;
+    }
+    else {
+        @frame = caller(1);
+
+        # If called from BUILD then skip additional frame.
+        $level = $frame[3] =~ /::BUILD$/ ? 2 : 1;
+    }
+
+    my (@foundFrame);
+    my $waitForNew = 1;
+    while ( @frame = caller($level) ) {
+        if ( $frame[3] =~ /::(?:create|new)$/ ) {
+            $waitForNew = 0;
+            @foundFrame = @frame;
+        }
+        else {
+            last unless $waitForNew;
+        }
+        $level++;
+    }
+
+   # Support static method call. Don't try to set object attributes if called as
+   # Foswiki::Object->__orig or Foswiki::Object::__orig.
+    if ( @foundFrame && @_ && ref($this) ) {
+        $this->__orig_pkg( $foundFrame[0] // '' );
+        $this->__orig_file( $foundFrame[1] );
+        $this->__orig_line( $foundFrame[2] );
+        $this->__orig_sub( $foundFrame[3] // '' );
+    }
+    return @foundFrame;
 }
 
 sub _normalizeAttributeName {

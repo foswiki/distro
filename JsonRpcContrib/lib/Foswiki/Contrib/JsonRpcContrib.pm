@@ -1,13 +1,11 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Contrib::JsonRpcContrib;
-use v5.14;
 
 use Foswiki::Request                         ();
 use Foswiki::Contrib::JsonRpcContrib::Server ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::UI);
 
 #BEGIN {
@@ -50,8 +48,14 @@ sub BUILD {
     $SERVER = $this->server;
 }
 
+sub DEMOLISH {
+    undef $SERVER;
+}
+
 sub registerMethod {
-    $Foswiki::app->create(__PACKAGE__) unless $SERVER;
+    $Foswiki::app->heap->{JsonRpcContrib}{object} =
+      $Foswiki::app->create(__PACKAGE__)
+      unless $SERVER;
     $SERVER->registerMethod(@_);
 }
 

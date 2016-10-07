@@ -29,6 +29,7 @@ has _INCLUDES => (
 # Apply a pattern on included text to extract a subset
 # Package-private; used by IncludeHandlers.
 sub applyPatternToIncludedText {
+    my $this = shift;
     my ( $text, $pattern ) = @_;
 
     $pattern =
@@ -182,6 +183,10 @@ sub _includeProtocol {
     try {
         Foswiki::load_package($handlerModule);
         my $handlerSub = $handlerModule->can('INCLUDE');
+        if ( !defined $handlerSub ) {
+            Foswiki::Exception::Fatal->throw(
+                text => $handlerModule . " doesn't define method INCLUDE", );
+        }
         $rc = $handlerSub->( $this, $control, $params );
     }
     catch {
@@ -355,7 +360,8 @@ sub _includeTopic {
             # If there were no interesting sections, restore the whole text
             $text = $ntext unless $interesting;
 
-            $text = applyPatternToIncludedText( $text, $control->{pattern} )
+            $text =
+              $this->applyPatternToIncludedText( $text, $control->{pattern} )
               if ( $control->{pattern} );
 
             # Do not show TOC in included topic if TOC_HIDE_IF_INCLUDED

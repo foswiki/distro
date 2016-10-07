@@ -5,10 +5,8 @@ use v5.14;
 use Foswiki::Serialise ();
 use Try::Tiny;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 with qw(Foswiki::Macro);
 
 BEGIN {
@@ -18,7 +16,11 @@ BEGIN {
     }
 }
 
-our $evalParser;    # could share $ifParser from IF.pm
+has evalParser => (
+    is      => 'rw',
+    lazy    => 1,
+    default => sub { return $_[0]->create('Foswiki::Query::Parser'); },
+);
 
 has evaluatingEval => (
     is      => 'rw',
@@ -64,13 +66,10 @@ sub expand {
         delete $this->evaluatingEval->{$expr};
         return '';
     }
-    unless ($evalParser) {
-        $evalParser = $this->app->create('Foswiki::Query::Parser');
-    }
 
     $this->evaluatingEval->{$expr}++;
     try {
-        my $node = $evalParser->parse($expr);
+        my $node = $this->evalParser->parse($expr);
         $result = $node->evaluate( tom => $topicObject, data => $topicObject );
         $result = Foswiki::Serialise::serialise( $result, $style );
     }

@@ -1,15 +1,12 @@
 # See bottom of file for license and copyright information
 package Foswiki::Macros::IF;
-use v5.14;
 
 use Foswiki;
 use Foswiki::If::Parser ();
 use Try::Tiny;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 with qw(Foswiki::Macro);
 
 BEGIN {
@@ -22,7 +19,7 @@ BEGIN {
 has ifParser => (
     is      => 'rw',
     lazy    => 1,
-    default => sub { return Foswiki::If::Parser->new; },
+    default => sub { return $_[0]->create('Foswiki::If::Parser'); },
 );
 has evaluating_if => (
     is      => 'rw',

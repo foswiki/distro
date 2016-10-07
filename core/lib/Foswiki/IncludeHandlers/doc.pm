@@ -19,14 +19,8 @@ use warnings;
 use File::Spec ();
 use Foswiki    ();
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 use constant PUBLISHED_API_TOPIC => 'PublishedAPI';
+use constant USE_LEXICAL_PARSER  => 1;
 
 # Include embedded doc in a core module
 sub INCLUDE {
@@ -66,67 +60,252 @@ sub INCLUDE {
     local $/ = undef;
     my $perl = <$PMFILE>;
     my $isa;
-    my $inSuppressedMethod;
+    state $extendsRx = qr/(?<=;)\s*(?:extends\s+|our\s+\@ISA\s*=\s*)/;
+    state $withRx    = qr/(?<=;)\s*with\s+(?=q|\()/;
+    state $fwClassRx = qr/(?<=;)\s*use\s+Foswiki::Class\s+/;
+    my %baseType2Text = (
+        extends    => 'IS A',
+        with       => 'ROLES',
+        classAttrs => _doclink( $app, 'Foswiki::Class' ) . ' ATTRIBUTES',
+    );
+    my %classAttributes2Roles = (
+        app       => 'Foswiki::AppObject',
+        callbacks => 'Foswiki::Aux::Callbacks',
+    );
 
-    if (   $perl =~ m/our\s+\@ISA\s*=\s*\(\s*['"](.*?)['"]\s*\)/
-        || $perl =~ m/extends\s+(?:qw\(|'|")(.+?)(?:\)|'|");/ )
-    {
-        $isa = " ==is a== $1";
-        $isa =~ s#\s(\w+?(?:::[A-Z]\w+)+)#' ' . _doclink($app, $1)#ge;
-    }
-    $perl = Foswiki::takeOutBlocks( $perl, 'verbatim', \%removedblocks );
-    foreach my $line ( split( /\r?\n/, $perl ) ) {
-        if ( $line =~ m/^=(begin (twiki|TML|html)|pod)/ ) {
-            $inPod              = 1;
-            $inSuppressedMethod = 0;
+    if (USE_LEXICAL_PARSER) {
+        my %modInfo
+          ;    # Here we keep base classes, roles and other perl-class info.
+        my $suppressedMethodLevel =
+          0;    # 1+ means we're in suppressed private method.
+
+        my $paramsRx = '(?<params>[^;]+);';
+        my $ctxCode  = _makeCtx(
+            $perl,
+            {
+                _Package =>
+                  '(?:(?<=\n)\bpackage|\Apackage)\s+(?<packageName>[\w:]+);',
+                _Doc =>
+'\n=(?:begin(?:\h+(?:twiki|TML|html))?|pod)\h*\n(?<docText>.+?\n)=cut\h*?(?=\n)',
+                _Extends      => $extendsRx . $paramsRx,
+                _With         => $withRx . $paramsRx,
+                _FoswikiClass => $fwClassRx . $paramsRx,
+                (
+                    $publicOnly # Don't even parse FIXME comments if public only mode.
+                    ? ()
+                    : ( _FixmeComment =>
+'\n\h*?(?<commentLine>#\h*?(?<commentType>SMELL|TODO|FIXME)\h+?)(?=\n)'
+                    )
+                ),
+            },
+        );
+
+        my ( $curPackage, $curMethod );
+        my $docRaw = '';
+        pos($perl) = 0;
+        while ( _nextLexeme($ctxCode) ) {
+            my $lType = $ctxCode->{type};
+            if ( $lType eq '_Package' ) {
+                $curPackage = $ctxCode->{lexemes}{packageName};
+                $modInfo{$curPackage} = {};
+            }
+            elsif ( $lType =~ '^_(Extends|With)$' ) {
+                Foswiki::Exception::Fatal->throw( text =>
+                      'Found class modifiers before a package declaration.' )
+                  if !defined($curPackage);
+                my $miKey     = lc($1);
+                my $params    = $ctxCode->{lexemes}{params};
+                my @classList = eval($params);
+                push @classList, $@ if $@;
+                push @{ $modInfo{$curPackage}{$miKey} }, @classList;
+            }
+            elsif ( $lType eq '_FoswikiClass' ) {
+                my @attrs = eval $ctxCode->{lexemes}{params};
+                push @attrs, $@ if $@;
+                push @{ $modInfo{$curPackage}{with} },
+                  ( $classAttributes2Roles{$_} // () )
+                  foreach @attrs;
+                $modInfo{$curPackage}{classAttrs} = \@attrs;
+            }
+            elsif ( $lType eq '_FixmeComment' ) {
+                $howSmelly++;
+                $docRaw .=
+                    "<blockquote class=\"foswikiAlert\">"
+                  . $ctxCode->{lexemes}{commentLine}
+                  . "</blockquote>\n\n";
+            }
+            elsif ( $lType eq '_Doc' ) {
+                $docRaw .= $ctxCode->{lexemes}{docText};
+            }
         }
-        elsif ( $line =~ m/^=cut/ ) {
-            $inPod = 0;
-        }
-        elsif ($inPod) {
-            if ( $line =~ m/^---\+(!!)?\s+(?i:package|class)\s+\S+\s*$/ ) {
-                if ($isa) {
-                    $line .= $isa;
-                    $isa = undef;
+
+        $docRaw =
+          Foswiki::takeOutBlocks( $docRaw, 'verbatim', \%removedblocks );
+
+        my $ctxDoc = _makeCtx(
+            $docRaw,
+            {
+                _Section =>
+'(?<secPrefix>\n|\A)(?<secLine>(?<secDef>---(?<secDepth>\++))(?:!!)?\h+(.+?))(?=\n)',
+            }
+        );
+
+      DOC_SECTION:
+        while ( _nextLexeme($ctxDoc) ) {
+            my $dType = $ctxDoc->{type};
+            $pod .= _modLink( $app, $ctxDoc->{lexemes}{skipped} // '' )
+              unless $suppressedMethodLevel;
+            if ( $dType eq '_Section' ) {
+                my ( $secPrefix, $secLine, $secDef ) =
+                  @{ $ctxDoc->{lexemes} }{qw(secPrefix secLine secDef)};
+                my $secDepth = length( $ctxDoc->{lexemes}{secDepth} );
+
+                my $ctxSection = _makeCtx(
+                    $secLine,
+                    {
+                        _package =>
+'^(?:---\++)(?:!!)?\h+(?<pkgType>(?i:package|class|role))\h+(?<pkgName>.+?)\h*?$',
+                        _method =>
+'^(---\++\h+(?<methodAccess>Object|Static|Class)(?<methodType>Method|Attribute)\h+(?<methodName>(?<methodPriv>_?).+?))\h*?$',
+                    },
+                );
+                if ( _nextLexeme($ctxSection) ) {
+                    my $secType = $ctxSection->{type};
+                    if ( $secType eq '_package' ) {
+                        my ( $pkgType, $pkgName ) =
+                          @{ $ctxSection->{lexemes} }{qw(pkgType pkgName)};
+                        if ( defined $modInfo{$pkgName} ) {
+                            $pkgType = ucfirst $pkgType;
+                            $visibility =
+                              exists $publicPackages{$class}
+                              ? 'public'
+                              : 'internal';
+                            $pod .=
+                              "\n$secDef =$visibility $pkgType= $pkgName\n";
+                            foreach my $baseType (qw(extends with classAttrs)) {
+                                my $baseText = $baseType2Text{$baseType};
+                                if ( my $classList =
+                                    $modInfo{$pkgName}{$baseType} )
+                                {
+                                    $pod .= "|*$baseText*|"
+                                      . join(
+                                        ", ",
+                                        map { "=" . _doclink( $app, $_ ) . "=" }
+                                          @$classList
+                                      ) . "|\n";
+                                }
+                            }
+                            $app->prefs->setSessionPreferences( 'DOC_TITLE',
+                                "---+ !! =$visibility $pkgType= "
+                                  . _renderTitle( $app, $class ) )
+                              if $class eq $pkgName;
+                        }
+                    }
+                    elsif ( $secType eq '_method' ) {
+                        my (
+                            $methodAccess, $methodType,
+                            $methodName,   $methodPriv
+                          )
+                          = @{ $ctxSection->{lexemes} }
+                          {qw(methodAccess methodType methodName methodPriv)};
+                        if ( $publicOnly && $methodPriv ) {
+                            $suppressedMethodLevel = $secDepth;
+                        }
+                        else {
+                            # Starting a non-suppressed method section.
+                            $suppressedMethodLevel = 0;
+                            $pod .=
+"\n$secDef =$methodAccess$methodType= ==$methodName==\n";
+                        }
+                    }
+                    else {    # Just plain simple heading.
+                        if ( $secDepth <= $suppressedMethodLevel ) {
+
+                            # It is not a sub-heading of a supressed method.
+                            $suppressedMethodLevel = 0;
+                        }
+                        $pod .= "\n$secLine\n"
+                          unless $suppressedMethodLevel;
+                    }
                 }
-                $line =~
-s/^---\+(?:!!)?\s+((?i)package|class)\s*(.*)/---+ =$visibility $1= $2/;
-                $app->prefs->setSessionPreferences( 'DOC_TITLE',
-                    "---++ !! =$visibility $1= "
-                      . _renderTitle( $app, $class ) );
+                else {
+                    Foswiki::Exception::Fatal->throw(
+                            text => 'Failed to get lexemes for section line `'
+                          . $secLine
+                          . "'" );
+                }
             }
             else {
-                # Check for module names not prefixed with colon or left square
-                # bracket.
-                $line =~
-                  s#(?<![\[:])\b(\w+?(?:::[A-Z]\w+)+)#_doclink($app, $1)#ge;
+              # For unhandled lexemes just pass over their text into the output.
+                $pod .= $ctxDoc->{text} // '';
             }
-            if ( $line =~ s/^(---\++\s+)(\w+(?:Method|Attribute))\s+/$1=$2= / )
-            {
-                $line =~ s/\s+[-=]>\s+/ &rarr; /;
-                if ( $publicOnly && $line =~ m/Method=\s+_/ ) {
-                    $inSuppressedMethod = 1;
-                }
-            }
-            elsif ( $line =~ m/^---/ ) {
+        }
+
+        Foswiki::putBackBlocks( \$pod, \%removedblocks, 'verbatim',
+            'verbatim' );
+    }
+    else {    # Use the old parsing method.
+        my $inSuppressedMethod;
+
+        if (   $perl =~ m/our\s+\@ISA\s*=\s*\(\s*['"](.*?)['"]\s*\)/
+            || $perl =~ m/extends\s+(?:qw\(|'|")(.+?)(?:\)|'|");/ )
+        {
+            $isa = " ==is a== $1";
+            $isa =~ s#\s(\w+?(?:::[A-Z]\w+)+)#' ' . _doclink($app, $1)#ge;
+        }
+        $perl = Foswiki::takeOutBlocks( $perl, 'verbatim', \%removedblocks );
+        foreach my $line ( split( /\r?\n/, $perl ) ) {
+            if ( $line =~ m/^=(begin (twiki|TML|html)|pod)/ ) {
+                $inPod              = 1;
                 $inSuppressedMethod = 0;
             }
-            $pod .= "$line\n"
-              unless $inSuppressedMethod;
+            elsif ( $line =~ m/^=cut/ ) {
+                $inPod = 0;
+            }
+            elsif ($inPod) {
+                if ( $line =~ m/^---\+(!!)?\s+(?i:package|class)\s+\S+\s*$/ ) {
+                    if ($isa) {
+                        $line .= $isa;
+                        $isa = undef;
+                    }
+                    $line =~
+s/^---\+(?:!!)?\s+((?i)package|class)\s*(.*)/---+ =$visibility $1= $2/;
+                    $app->prefs->setSessionPreferences( 'DOC_TITLE',
+                        "---++ !! =$visibility $1= "
+                          . _renderTitle( $app, $class ) );
+                }
+                else {
+                 # Check for module names not prefixed with colon or left square
+                 # bracket.
+                    $line =~
+                      s#(?<![\[:])\b(\w+?(?:::[A-Z]\w+)+)#_doclink($app, $1)#ge;
+                }
+                if ( $line =~
+                    s/^(---\++\s+)(\w+(?:Method|Attribute))\s+/$1=$2= / )
+                {
+                    $line =~ s/\s+[-=]>\s+/ &rarr; /;
+                    if ( $publicOnly && $line =~ m/Method=\s+_/ ) {
+                        $inSuppressedMethod = 1;
+                    }
+                }
+                elsif ( $line =~ m/^---/ ) {
+                    $inSuppressedMethod = 0;
+                }
+                $pod .= "$line\n"
+                  unless $inSuppressedMethod;
+            }
+            if (  !$inSuppressedMethod
+                && $line =~ m/(SMELL|FIXME|TODO)/
+                && $showSmells )
+            {
+                $howSmelly++;
+                $pod .= "<blockquote class=\"foswikiAlert\">$line</blockquote>";
+            }
         }
-        if (  !$inSuppressedMethod
-            && $line =~ m/(SMELL|FIXME|TODO)/
-            && $showSmells )
-        {
-            $howSmelly++;
-            $pod .=
-                "<blockquote class=\"foswikiAlert\">"
-              . Foswiki::entityEncode($line)
-              . "</blockquote>";
-        }
+        close($PMFILE);
+        Foswiki::putBackBlocks( \$pod, \%removedblocks, 'verbatim',
+            'verbatim' );
     }
-    close($PMFILE);
-    Foswiki::putBackBlocks( \$pod, \%removedblocks, 'verbatim', 'verbatim' );
 
     $pod =~ s/.*?%STARTINCLUDE%//s;
     $pod =~ s/%(?:END|STOP)INCLUDE%.*//s;
@@ -154,6 +333,42 @@ s/^---\+(?:!!)?\s+((?i)package|class)\s*(.*)/---+ =$visibility $1= $2/;
         $pod     =~ s/^---$minhead/---$newroot/gm;
     }
     return $pod;
+}
+
+sub _makeCtx {
+    my ( $source, $ctxRxStrings ) = @_;
+
+    my %ctxData = ( source => $source, );
+
+    my $rxStr = "(?<lexText>"
+      . join( "|",
+        map { "(?:" . $ctxRxStrings->{$_} . ")(?{\$ctxData{type} = '$_';})" }
+          keys %$ctxRxStrings )
+      . "|(?:\\Z)(?{\$ctxData{type} = '_EOF_';}))(?{\@ctxData{qw(pos text)} = (pos(\$_), \$+{lexText}); \$ctxData{lexemes} = {\%+};})";
+    $ctxData{regex} = eval "qr/$rxStr/s";
+    Foswiki::Exception::Fatal->throw( text => 'Failed to compile regex: /'
+          . $rxStr . "/\n"
+          . Foswiki::Exception::errorStr($@) )
+      if $@;
+    return \%ctxData;
+}
+
+sub _nextLexeme {
+    my ($ctx) = @_;
+
+    @{$ctx}{qw(type pos text lexemes )} = ( '_NONE_', -1, undef, {} );
+
+    my $regex = $ctx->{regex};
+
+    #say STDERR "POS(source):", (pos($ctx->{source}) // '*undef*');
+
+    return scalar( $ctx->{source} =~ /\G(?<skipped>.*?)$regex/gcs );
+}
+
+sub _modLink {
+    my ( $app, $txt ) = @_;
+    $txt =~ s/(?<![\[:])(\b\w+(?:::\w+)+)/_doclink($app, $1)/gse;
+    return $txt;
 }
 
 sub _getPmFile {
@@ -294,7 +509,7 @@ sub _renderTitle {
     return $packageTitle;
 }
 
-sub _doclink ($) {
+sub _doclink {
     my $app    = shift;
     my $module = $_[0];
     $module =~ /^/;                # Do it to reset $n match variables.
@@ -303,6 +518,9 @@ sub _doclink ($) {
     my $title = $_[1] || $module;
 
     my $pmfile = _getPmFile( $app, $module );
+
+    return "$formatChar$module$formatChar"
+      unless $module !~ /^Foswiki:/ || $pmfile;
 
     # SMELL relying on TML to set publicOnly
     return $formatChar

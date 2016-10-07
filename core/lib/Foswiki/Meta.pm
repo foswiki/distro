@@ -118,13 +118,6 @@ extends qw(Foswiki::Object);
 
 #use Foswiki::Iterator::NumberRangeIterator;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 our $VERSION = 1.2;
 
 our $reason;

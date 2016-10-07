@@ -13,9 +13,7 @@ package Foswiki::Infix::Node;
 
 use Assert;
 
-use Moo;
-use namespace::clean;
-
+use Foswiki::Class;
 extends 'Foswiki::Object';
 
 BEGIN {
