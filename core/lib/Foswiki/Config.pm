@@ -54,7 +54,7 @@ my %remap = (
 );
 
 =begin TML
----++ Attribute data
+---++ ObjectAttribute data
 
 Contains configuration hash. =%Foswiki::cfg= is an alias to this attribute.
 
@@ -78,7 +78,7 @@ has data => (
 );
 
 =begin TML
----++ Attribute files
+---++ ObjectAttribute files
 
 What files we read the config from in the order of reading.
 
@@ -111,7 +111,7 @@ has lscFile => (
 
 =begin TML
 
----++ Attribute failedConfig
+---++ ObjectAttribute failedConfig
 
 Keeps the name of the failed config or spec file.
 
@@ -1074,6 +1074,7 @@ sub get {
 $app->cfg->set([qw(Root Branch Leaf)], $value);
 $app->cfg->set("Root.Branch.Leaf", $value);
 $app->cfg->set("{Root}{Branch}{Leaf}", $value);
+
 =cut
 
 sub set {

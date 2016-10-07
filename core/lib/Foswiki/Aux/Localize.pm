@@ -175,7 +175,7 @@ sub doLocalize {
 
 =begin TML
 
----++ ObjectMethod ObjectMethod restore()
+---++ ObjectMethod restore()
 
 This method shall restore a object to its state before the last call to the
 =localize()= method.
