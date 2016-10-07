@@ -53,7 +53,9 @@ sub DEMOLISH {
 }
 
 sub registerMethod {
-    $Foswiki::app->create(__PACKAGE__) unless $SERVER;
+    $Foswiki::app->heap->{JsonRpcContrib}{object} =
+      $Foswiki::app->create(__PACKAGE__)
+      unless $SERVER;
     $SERVER->registerMethod(@_);
 }
 
