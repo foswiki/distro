@@ -352,28 +352,22 @@ See http://blog.fox.geek.nz/2010/11/searching-design-spec-for-ultimate.html for 
 
 =cut
 
-# _package_defined checks if package is present in the global symbol table.
-sub _package_defined {
-    my $fullname = shift;
-
-    # See if package is already defined in the main symbol table.
-    my ( $namePref, $nameSuff ) = ( $fullname =~ /^(.+::)?([^:]+)$/ );
-    $namePref //= '::';
-    no strict 'refs';
-    my $pkgLoaded = defined $namePref->{"${nameSuff}::"};
-    use strict 'refs';
-    return $pkgLoaded;
-}
-
 # SMELL Wouldn't it be more reliable to use Module::Load? Or Class::Load? Though
 # the latter requires additional CPAN module installed.
 sub load_package {
     my $fullname = shift;
     my %params   = @_;
 
-    my $defined = _package_defined($fullname);
-    my $loaded  = $defined;
-    if ( $defined && $params{method} ) {
+    my $loaded;
+    my $pkgNS = getNS($fullname);
+    state $flagSym = '__foswiki_loaded_this_package';
+    if ( defined $pkgNS ) {
+        if ( $pkgNS->{$flagSym} && ${ $pkgNS->{$flagSym} } ) {
+            $loaded = 1;
+        }
+    }
+
+    if ( $loaded && $params{method} ) {
 
         # Check if loaded package can do a method. If it can't we assume that
         # the entry in the symbol table was autovivified.
@@ -396,8 +390,15 @@ sub load_package {
 
     #say STDERR "Loading $fullname from $filename";
 
-    local $SIG{__DIE__};
-    require $filename;
+    #local $SIG{__DIE__};
+    try {
+        require $filename;
+        ${ $pkgNS->{$flagSym} } = 1;    # Mark package as loaded.
+    }
+    catch {
+        my $e = Foswiki::Exception::transmute( $_, 0 );
+        $e->rethrow;
+    };
 }
 
 sub load_class {
@@ -835,7 +836,7 @@ sub findCallerByPrefix {
 
 =begin TML
 
----+++ StaticMethod readFile( $filename, $unicode ) -> $text
+---++ StaticMethod readFile( $filename, $unicode ) -> $text
 
 Read file, low level. Used for Plugin workarea.
    * =$filename= - Full path name of file
@@ -870,7 +871,7 @@ sub readFile {
 
 =begin TML
 
----+++ StaticMethod saveFile( $filename, $text, $unicode )
+---++ StaticMethod saveFile( $filename, $text, $unicode )
 
 Save file, low level. Used for Plugin workarea.
    * =$filename= - Full path name of file
@@ -907,7 +908,7 @@ sub saveFile {
 
 =begin TML
 
----++ StaticMethod getNS( $module ) => $globRef
+---++ StaticMethod getNS( $module ) -> $globRef
 
 Returns GLOB pointing to namespace of a module. Returns undef if module isn't
 loaded.
@@ -931,7 +932,7 @@ sub getNS {
 
 =begin TML
 
----++ StaticMethod fetchGlobal($fullName) => $value
+---++ StaticMethod fetchGlobal($fullName) -> $value
 
 Fetches a variable value by it's full name. 'Full' means it includes type of
 variable data ($, %, @, or &) and package name. For & a coderef will be
