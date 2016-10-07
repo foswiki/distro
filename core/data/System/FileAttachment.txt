@@ -90,7 +90,7 @@ Attachment names are stored directly in the server native file system, so filena
          * Any standard [[FormatTokens][formatting tokens]]: =$n=, =$comma=, =$lt=, etc.
          * Any standard [[VarGMTIME][time format specifiers]]: =$year=, =$hours=, etc. 
          * =$name=: (deprecated, should no longer be used)
-      * Additionally, standard FormatTokens and [[Macros]] are expanded.
+         * [[Macros][Standard variables]]: =%<nop>WIKIUSER%=, etc.
 
 ---++ Downloading files
 
