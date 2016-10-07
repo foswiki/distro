@@ -37,14 +37,18 @@ use Foswiki::App;
 use Devel::Leak;
 use Devel::Leak::Object;
 
-use constant CHECKLEAK => 0;
+use constant CHECKLEAK => $ENV{FOSWIKI_CHECKLEAK} // 0;
 
 BEGIN {
     if (CHECKLEAK) {
         eval "use Devel::Leak::Object qw{ GLOBAL_bless };";
-        die $@ if $@;
-        $Devel::Leak::Object::TRACKSOURCELINES = 1;
-        $Devel::Leak::Object::TRACKSTACK       = 1;
+        if ($@) {
+            say STDERR "!!! Failed to load Devel::Leak::Object\n", $@;
+        }
+        else {
+            $Devel::Leak::Object::TRACKSOURCELINES = 1;
+            $Devel::Leak::Object::TRACKSTACK       = 1;
+        }
     }
 }
 
@@ -52,7 +56,7 @@ my $app = sub {
     my $env = shift;
 
     Devel::Leak::Object::checkpoint if CHECKLEAK;
-    
+
     $env->{FOSWIKI_SCRIPTS} = $scriptDir unless $env->{FOSWIKI_SCRIPTS};
 
     my $rc = Foswiki::App->run( env => $env, );
