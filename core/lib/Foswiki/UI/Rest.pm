@@ -94,30 +94,6 @@ sub rest {
     # Referer is useful for logging REST request errors
     my $referer = ( defined $ENV{HTTP_REFERER} ) ? $ENV{HTTP_REFERER} : '';
 
-    # Must define topic param in the query to avoid plugins being
-    # passed the path_info when the are initialised. We can't affect
-    # the path_info, but we *can* persuade Foswiki to ignore it.
-    my $topic = $req->param('topic');
-    if ($topic) {
-        unless ( $topic =~ m/\.|\// ) {
-            $res->header( -type => 'text/html', -status => '400' );
-            $err = 'ERROR: (400) Invalid REST invocation'
-              . " - Invalid topic parameter $topic\n";
-            $res->print($err);
-            $session->logger->log( 'warning', "REST rejected: " . $err,
-                " - $referer", );
-            throw Foswiki::EngineException( 400, $err, $res );
-        }
-    }
-    else {
-
-        # No topic specified, but we still have to set a topic to stop
-        # plugins being passed the subject and verb in place of a topic.
-        Foswiki::Func::popTopicContext();
-        Foswiki::Func::pushTopicContext( $Foswiki::cfg{UsersWebName},
-            $Foswiki::cfg{HomeTopicName} );
-    }
-
     return
       if $session->satisfiedByCache( 'rest', $session->{webName},
         $session->{topicName} );
@@ -126,16 +102,17 @@ sub rest {
         "computing REST for $session->{webName}.$session->{topicName}")
       if Foswiki::PageCache::TRACE();
 
-    my $pathInfo = Foswiki::urlDecode( $req->path_info() );
-
     # Foswiki rest invocations are defined as having a subject (pluginName)
     # and verb (restHandler in that plugin). Make sure the path_info is
     # well-structured.
-    unless ( $pathInfo =~ m#/(.*?)[./]([^/]*)# ) {
+
+    if ( $req->invalidSubject() ) {
 
         $res->header( -type => 'text/html', -status => '400' );
         $err =
-          "ERROR: (400) Invalid REST invocation - $pathInfo is malformed\n";
+            "ERROR: (400) Invalid REST invocation - "
+          . $req->invalidSubject()
+          . " is malformed\n";
         $res->print($err);
         $session->logger->log( 'warning', "REST rejected: " . $err,
             " - $referer", );
@@ -143,23 +120,66 @@ sub rest {
         throw Foswiki::EngineException( 400, $err, $res );
     }
 
-    # Implicit untaint OK - validated later
-    my ( $subject, $verb ) = ( $1, $2 );
+    if ( $req->invalidVerb() ) {
 
-    my $record = $restDispatch{$subject}{$verb};
+        $res->header( -type => 'text/html', -status => '400' );
+        $err =
+            "ERROR: (400) Invalid REST invocation - Verb: "
+          . $req->invalidVerb()
+          . " is malformed\n";
+        $res->print($err);
+        $session->logger->log( 'warning', "REST rejected: " . $err,
+            " - $referer", );
+        _listHandlers($res) if $session->inContext('command_line');
+        throw Foswiki::EngineException( 400, $err, $res );
+    }
+
+    my $subject = $req->subject();
+    my $verb    = $req->verb();
+    my $record  = $restDispatch{$subject}{$verb};
 
     # Check we have this handler
     unless ($record) {
+
         $res->header( -type => 'text/html', -status => '404' );
         $err =
             'ERROR: (404) Invalid REST invocation - '
-          . $pathInfo
+          . "$subject/$verb"
           . ' does not refer to a known handler';
         _listHandlers($res) if $session->inContext('command_line');
         $session->logger->log( 'warning', "REST rejected: " . $err,
             " - $referer", );
         $res->print($err);
         throw Foswiki::EngineException( 404, $err, $res );
+    }
+
+    # SMELL: The SubscribePlugin abuses the topic= url param, passing
+    # in an asterisk wildcard to requst subscription to all topics.
+    # The plugin should use a subscribe_topic parameter rather than
+    # abusing the system parsed topic parameter.
+
+    #if ( $req->invalidTopic() ) {
+    #    $res->header( -type => 'text/html', -status => '400' );
+    #    $err =
+    #        'ERROR: (400) Invalid REST invocation'
+    #      . " - Invalid topic parameter "
+    #      . $req->invalidTopic() . "\n";
+    #    $res->print($err);
+    #    $session->logger->log( 'warning', "REST rejected: " . $err,
+    #        " - $referer", );
+    #    throw Foswiki::EngineException( 400, $err, $res );
+    #}
+
+    if ( $req->invalidWeb() ) {
+        $res->header( -type => 'text/html', -status => '400' );
+        $err =
+            'ERROR: (400) Invalid REST invocation'
+          . " - Invalid topic parameter Web part: "
+          . $req->invalidWeb() . "\n";
+        $res->print($err);
+        $session->logger->log( 'warning', "REST rejected: " . $err,
+            " - $referer", );
+        throw Foswiki::EngineException( 400, $err, $res );
     }
 
     # Log warnings if defaults are needed.
@@ -212,7 +232,7 @@ sub rest {
             || $Foswiki::cfg{LoginManager} eq 'none' )
         {
             $res->header( -type => 'text/html', -status => '401' );
-            $err = "ERROR: (401) $pathInfo requires you to be logged in";
+            $err = "ERROR: (401) $subject/$verb requires you to be logged in";
             $session->logger->log(
                 'warning',
                 "REST rejected: " . $err,
@@ -345,7 +365,7 @@ sub _listHandlers {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2012 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

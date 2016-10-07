@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1460294027" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1473163788" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,13 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  06 Sep 2016: | (7.10) - Item14121: reimplement jquery.stars using SVGs now; \
+                         - Item14120: remove outdate compression tools; \
+                         - Item13206: upgrade to jquery-ui; added jQuery-1.12.4 / jQuery-2.2.4; \
+                         - Item14122: upgrade to fontawesome 4.6.3; \
+                         - Item14123: fixed =foswiki.getPubUrlPath()= using an uninitialized parameter; \
+                         - Item14124: make skin of a jquery.loader backend configurable; \
+                         - Item14171: fix encoding of error message in jquery.render |
 |  10 Apr 2016: | (7.04) - Item14042: it's jquery-1.12.3 not jquey-1.12.3 |
 |  06 Apr 2016: | (7.03) - Item14042: added jQuery-1.12.3 / jQuery-2.2.3 |
 |  04 Apr 2016: | (7.02) - Item14024: fix issue with JSON::XS 3.02 in some environments |
@@ -358,7 +365,7 @@ required for Foswiki 1.1 or later.
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2007-2016 Foswiki Contributors http://foswiki.org"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2007-2016 Foswiki Contributors https://foswiki.org"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="GPL"}%

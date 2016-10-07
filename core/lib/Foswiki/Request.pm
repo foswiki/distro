@@ -23,6 +23,10 @@ Fields:
                files
    * =uri= the request uri
 
+The following fields are parsed from the path_info
+   * =web= the requested web.  Access using web method
+   * =topic= the requested topic. Access using topic
+
 =cut
 
 package Foswiki::Request;
@@ -36,7 +40,10 @@ use Assert;
 use Error    ();
 use IO::File ();
 use CGI::Util qw(rearrange);
-use Time::HiRes ();
+use Time::HiRes      ();
+use Foswiki::Sandbox ();
+
+use constant TRACE => 0;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -87,6 +94,11 @@ sub new {
         start_time     => [Time::HiRes::gettimeofday],
         uploads        => {},
         uri            => '',
+        _pathParsed    => undef,
+        web            => undef,
+        invalidWeb     => undef,
+        topic          => undef,
+        invalidTopic   => undef,
     };
 
     bless $this, $class;
@@ -230,6 +242,7 @@ sub queryString {
     my $this = shift;
     my @params;
     foreach my $name ( $this->param ) {
+        next if $name eq 'POSTDATA';
         my $key = Foswiki::urlEncode($name);
         push @params,
           map { $key . "=" . Foswiki::urlEncode( defined $_ ? $_ : '' ) }
@@ -467,7 +480,7 @@ sub param {
 # http://blog.gerv.net/2014.10/new-class-of-vulnerability-in-perl-web-applications
     if ( DEBUG && wantarray ) {
         my ( $package, $filename, $line ) = caller;
-        if ( $package ne 'Foswiki::Request' ) {
+        if ( substr( $package, 0, 16 ) ne 'Foswiki::Request' ) {
             ASSERT( 0,
 "Foswiki::Request::param called in list context from package $package, $filename line $line, declare as scalar, or call multi_param. "
             );
@@ -817,12 +830,336 @@ Convenience method to get Referer uri.
 
 sub referer { shift->header('Referer') }
 
+=begin TML
+
+---++ ObjectMethod web() -> $baseweb
+
+Gets the complete Web path parsed from the query path, or the topic=
+query param.  This either returns a valid parsed web path, or undef.
+
+   * It does not filter out any illegal characters.
+   * It does not set a default web.
+
+This is read only.
+
+=cut
+
+sub web {
+    my $this = shift;
+
+    unless ( $this->{_pathParsed} ) {
+        $this->_establishAddress();
+    }
+
+    print STDERR "Request->web() returns " . ( $this->{web} || 'undef' ) . "\n"
+      if TRACE;
+    return $this->{web};
+
+}
+
+=begin TML
+
+---++ ObjectMethod topic() -> $basetopic
+
+Gets the complete topic name parsed from the query path, or the topic=
+queryparam.  This either returns a valid parsed topic name, or undef.
+
+   * It does not filter out any illegal characters.
+   * It does not set a default topic.
+
+This is read only.
+
+=cut
+
+sub topic {
+    my $this = shift;
+
+    unless ( $this->{_pathParsed} ) {
+        $this->_establishAddress();
+    }
+
+    print STDERR "Request->topic() returns "
+      . ( $this->{topic} || 'undef' ) . "\n"
+      if TRACE;
+    return $this->{topic};
+
+}
+
+=begin TML
+
+---++ ObjectMethod invalidWeb() -> "Invalid path component
+
+Returns the bad part of the path, or the entire bad path, depending upon
+the parsing process.  Returns undef when the requested web is valid.
+
+   * It does not filter out or encode any illegal characters. Use caution when returning this string to the UI.
+
+This is read only.
+
+=cut
+
+sub invalidWeb {
+    my $this = shift;
+    return $this->{invalidWeb};
+}
+
+=begin TML
+
+---++ ObjectMethod invalidTopic() -> "Invalid requested topic"
+
+Returns the invalid topic name, when the parser is able to identify it as a topic.
+Returns undef when the requested topic is valid.
+
+   * It does not filter out or encode any illegal characters. Use caution when returning this string to the UI.
+
+This is read only.
+
+=cut
+
+sub invalidTopic {
+    my $this = shift;
+    return $this->{invalidTopic};
+}
+
+=begin TML
+
+---++ private objectMethod _establishAddress() ->  n/a
+
+Used internally by the web() and topic() methods to trigger parsing of the url and/or topic= parameter
+and set object variables with the results.
+
+=cut
+
+sub _establishAddress {
+    my $this = shift;
+
+    # Allow topic= query param to override the path
+    my $topicParam = $this->param('topic');
+
+    my $parse =
+      Foswiki::Request::parse( $topicParam
+          || Foswiki::urlDecode( $this->path_info() ) );
+
+    # Item3270 - here's the appropriate place to enforce spec
+    # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270
+    $this->{topic} = ucfirst( $parse->{topic} )
+      if ( defined $parse->{topic} );
+
+    if ( $topicParam && !$parse->{web} ) {
+        $parse =
+          Foswiki::Request::parse( Foswiki::urlDecode( $this->path_info() ) )
+          ;    # Didn't get a web, so try the path
+    }
+
+    # Note that Web can still be undefined.  Caller then determines if the
+    # defaultweb query param, or the HomeWeb config parameter should be used.
+
+    $this->{web}          = $parse->{web};
+    $this->{invalidWeb}   = $parse->{invalidWeb};
+    $this->{invalidTopic} = $parse->{invalidTopic};
+    $this->{_pathParsed}  = 1;
+}
+
+=begin TML
+
+---++ staticMethod parse($query_path, $topic_flag) ->
+    { web          => $web,
+      topic        => $topic,
+      invalidWeb   => optional,
+      invalidTopic => optional }
+
+Parses the rquests query_path and returns a hash of web and topic names.
+If passed a query string, it will parse it and return the extracted
+web / topic.
+
+*This method cannot set the web and topic parsed from the query path.*
+
+Slash (/) can separate webs, subwebs and topics.
+Dot (.) can *only* separate a web path from a topic.
+Trailing slash disambiguates a topic from a subweb when both exist with same name.
+Leading slash disambiguates a web from a topic with a single part request.
+  /blah   is assumed to be a web
+  blah    is assumed to be a topic
+
+If any illegal characters are present, then web and/or topic are undefined.   The original bad
+components are returned in the invalidWeb or invalidTopic entries.
+
+webExists and topicExists may be called to disambiguate between subwebs and topics
+however the returned web and topic names do not necessarily exist.
+
+This routine returns two variables when encountering invalid input:
+   * {invalidWeb}  contains original invalid web / pathinfo content when validation fails.
+   * {invalidTopic} Same function but for topic name
+
+Ths following paths are supported:
+   * /Main            Extracts webname, topic is undef
+   * /Main/Somename   Extracts webname. Somename might be a subweb if it exixsts, or a topic.
+   * /Main.Somename   Extracts webname and topic.
+   * /Main/Somename/  Forces Somename to be a web, if it also exists as a topic
+   * Word             Extracts as a topic name
+   * Word/Somename    Extracts as a webname. Somename might be a subweb if it exists.
+
+  SMELL:   It would be better to throw an exception here, but it's too early
+  in initialization.  throwing an oops exception mostly works but the display
+  has unexpanded macros, and broken links, and no skinning. So for now keep the
+  old architecture.
+
+=cut
+
+sub parse {
+    my $query_path = shift;
+
+    return {} unless defined $query_path && length($query_path);
+
+    print STDERR "Processing path ($query_path)\n" if TRACE;
+    my $topic_flag;
+
+    $query_path =~ s{^/+}{/}g;    # Remove duplicate leading slashes
+
+# SMELL:  The leading slash is *always* present in the pathInfo, but should
+# not be there in the topic=blah  query param.   So if the leading slash is missing,
+# then we assume we are parsing a topic= parameter, and not the URI.
+
+    if ( index( $query_path, '/' ) == 0 ) {
+        substr $query_path, 0, 1, "";    # remove first character
+        $topic_flag = 0;
+    }
+    else {
+        $topic_flag = 1;
+    }
+
+    # trailingSlash Flag - hint that you want the web even if the topic exists
+    my $trailingSlash = ( $query_path =~ s/\/$// );
+
+    my @parts = split( /[\/.]+/, $query_path );   # split the path, dot or slash
+
+    # Single component.  It's a web unless the $topic_flag is set.
+    if ( scalar(@parts) eq 1 ) {
+        print STDERR "Checking single component: $query_path \n" if TRACE;
+        my $resp = {};
+        if ($topic_flag) {
+            $resp->{topic} =
+              Foswiki::Sandbox::untaint( $parts[0],
+                \&Foswiki::Sandbox::validateTopicName );
+            $resp->{invalidTopic} = $parts[0] unless defined $resp->{topic};
+        }
+        else {
+            $resp->{web} =
+              Foswiki::Sandbox::untaint( $parts[0],
+                \&Foswiki::Sandbox::validateWebName );
+            $resp->{invalidWeb} = $parts[0] unless defined $resp->{web};
+        }
+        return $resp;
+    }
+
+    my $temptopic;
+    my @webs;
+
+    foreach (@parts) {
+        print STDERR "Checking $_\n" if TRACE;
+
+        my $lastpart = ( \$_ eq \$parts[-1] );
+
+        # Lax check on name to eliminate evil characters.
+        my $p = Foswiki::Sandbox::untaint( $_,
+            \&Foswiki::Sandbox::validateTopicName );
+
+        # If we have evil, just report the invalid web or topic.
+        unless ($p) {
+
+            my $resp = {};
+            if ( $lastpart && !$trailingSlash ) {
+                $resp->{topic} = undef, $resp->{invalidTopic} = $_;
+            }
+            else {
+                $resp->{web} = undef, $resp->{invalidWeb} = $_;
+            }
+            return $resp;
+        }
+
+        # Not evil, now need to figure out if it's a topic or web.
+        if ($lastpart) {    # This is the last part of path
+            print STDERR "Testing last part web "
+              . join( '/', @webs )
+              . "topic $p \n"
+              if TRACE;
+
+            if ( $trailingSlash
+                && $Foswiki::Plugins::SESSION->webExists(
+                    join( '/', @webs, $p ) ) )
+            {
+                print STDERR "Web Exists, Trailing slash, don't check topic: "
+                  . join( '/', @webs, $p ) . "\n"
+                  if TRACE;
+
+                # It exists in Store as a web
+                push @webs, $p;
+            }
+            elsif (
+                $Foswiki::Plugins::SESSION->topicExists(
+                    join( '/', @webs ), $p
+                )
+              )
+            {
+
+                print STDERR "Topic Exists"
+                  . join( '/', @webs )
+                  . "topic  $p \n"
+                  if TRACE;
+
+                $temptopic = $p || '';
+            }
+            elsif (
+                $Foswiki::Plugins::SESSION->webExists( join( '/', @webs, $p ) )
+              )
+            {
+
+                print STDERR "Web Exists " . join( '/', @webs, $p ) . "\n"
+                  if TRACE;
+
+                # It exists in Store as a web
+                push @webs, $p;
+            }
+            elsif ($trailingSlash) {
+                print STDERR "$p: Not a topic,  trailingSlash - treat as web\n"
+                  if TRACE;
+                push @webs, $p;
+            }
+            else {
+                print STDERR " $p: Just a topic. " . scalar @webs . "\n"
+                  if TRACE;
+                $temptopic = $p;
+            }
+        }
+        else {
+            $p = Foswiki::Sandbox::untaint( $_,
+                \&Foswiki::Sandbox::validateWebName );
+            unless ($p) {
+                my $resp = {
+                    web        => undef,
+                    topic      => undef,
+                    invalidWeb => $_
+                };
+                return $resp;
+            }
+            else {
+                push @webs, $p;
+            }
+        }
+    }
+    my $resp = { web => join( '/', @webs ), topic => $temptopic };
+
+    #print STDERR Data::Dumper::Dumper( \$resp ) if TRACE;
+    return $resp;
+
+}
+
 1;
 __END__
 
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2016 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root of this
 distribution. NOTE: Please extend that file, not this notice.
 

@@ -15,7 +15,8 @@
  *
  */
 
-;(function($, window, document) {
+"use strict";
+(function($, window, document) {
 
   // Create the defaults once
   var pluginName = "Empty",
@@ -50,7 +51,7 @@
         $.data(this, pluginName, new Plugin(this, options)); 
       } 
     }); 
-  } 
+  };
 
   // Enable declarative widget instanziation 
   $(".jq"+pluginName).livequery(function() {

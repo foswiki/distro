@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 BEGIN {
     unshift @INC, split( /:/, $ENV{FOSWIKI_LIBS} );
 }

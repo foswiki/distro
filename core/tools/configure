@@ -72,7 +72,7 @@ require Foswiki::Configure::Query;
 
         # Take out active elements
         $text =~ s/<(button|select|option|textarea).*?<\/\1>//g;
-        print $text;
+        print Encode::encode_utf8($text);
     }
 
     sub WARN {
@@ -93,7 +93,8 @@ require Foswiki::Configure::Query;
         my ( $this, $k ) = @_;
         $this->SUPER::CHANGED($k);
 
-        print "\$Foswiki::cfg$k = $this->{changes}->{$k};\n";
+        print Encode::encode_utf8(
+            "\$Foswiki::cfg$k = $this->{changes}->{$k};\n");
     }
 
     sub WIZARD {

@@ -411,7 +411,9 @@ sub isCacheable {
     $isCacheable = 0 if $session->inContext('command_line');
 
     # check for errors parsing the url path
-    $isCacheable = 0 if $session->{invalidWeb} || $session->{invalidTopic};
+    $isCacheable = 0
+      if $session->{request}->invalidWeb()
+      || $session->{request}->invalidTopic();
 
     # POSTs and HEADs aren't cacheable
     if ($isCacheable) {
@@ -680,6 +682,14 @@ sub _handleDirtyArea {
     finally {
         $prefs->popTopicContext();
     };
+
+    my $request = $session->{request};
+    my $context = $request->url( -full => 1, -path => 1, -query => 1 ) . time();
+    my $cgis    = $session->{users}->getCGISession();
+    my $usingStrikeOne = $Foswiki::cfg{Validation}{Method} eq 'strikeone';
+
+    $text =~
+s/<input type='hidden' name='validation_key' value='(\?.*?)' \/>/Foswiki::Validation::updateValidationKey($cgis, $context, $usingStrikeOne, $1)/gei;
 
     #Foswiki::Func::writeDebug("out text='$text'") if TRACE;
     return $text;

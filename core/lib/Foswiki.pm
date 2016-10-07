@@ -1775,187 +1775,6 @@ sub load_package {
 
 =begin TML
 
----++ Private _parsePath( $this, $webtopic, $defaultweb, $topicOverride )
-
-Parses the Web/Topic path parameters to safely establish a valid web and topic,
-or assign safe defaults.
-
-   * $webtopic - A "web/topic" path.  It might have originated from the query path_info,
-   or from the topic= URL parameter. (only when the topic param contained a web component)
-   * $defaultweb - The default web to use if the web part of webtopic is missing or invalid.
-   This can be from the default UsersWebName,  or from the url parameter defaultweb.
-   * $topicOverride - A topic name to use instead of any topic provided in the pathinfo.
-
-Note if $webtopic ends with a trailing slash, it provides a hint that the last component should be
-considered web.  This allows disambiguation between a topic and subweb with the same name.
-Trailing slash forces it to be recognized as a webname, otherwise the topic is shown.
-Note. If the web doesn't exist, the force will be ignored.  It's not possible to create a missing web
-by referencing it in a URL.
-
-This routine sets two variables when encountering invalid input:
-   * $this->{invalidWeb}  contains original invalid web / pathinfo content when validation fails.
-   * $this->{invalidTopic} Same function but for topic name
-When invalid / illegal characters are encountered, the session {webName} and {topicName} will be
-defaulted to safe defaults.  Scripts using those fields should also test if the corresponding
-invalid* versions are defined, and should throw an oops exception rathern than allowing execution
-to proceed with defaulted values.
-
-The topic name will always have the first character converted to upper case, to prevent creation of
-or access to invalid topics.
-
-=cut
-
-sub _parsePath {
-    my $this          = shift;
-    my $webtopic      = shift;
-    my $defaultweb    = shift;
-    my $topicOverride = shift;
-
-    #print STDERR "_parsePath called WT ($webtopic) DEF ($defaultweb)\n";
-
-    my $trailingSlash = ( $webtopic =~ s/\/$// );
-
-    #print STDERR "TRAILING = $trailingSlash\n";
-
-    # Remove any leading slashes or dots.
-    $webtopic =~ s/^[\/.]+//;
-
-    my @parts = split /[\/.]+/, $webtopic;
-    my $cur = 0;
-    my @webs;         # Collect valid webs from path
-    my @badpath;      # Collect all webs, including illegal
-    my $temptopic;    # Candidate topicname extracted from path, defaults.
-
-    foreach (@parts) {
-
-        # Lax check on name to eliminate evil characters.
-        my $p = Foswiki::Sandbox::untaint( $_,
-            \&Foswiki::Sandbox::validateTopicName );
-        unless ($p) {
-            push @badpath, $_;
-            next;
-        }
-
-        if ( \$_ == \$parts[-1] ) {    # This is the last part of path
-
-            if ( $this->topicExists( join( '/', @webs ) || $defaultweb, $p )
-                && !$trailingSlash )
-            {
-
-                #print STDERR "Exists and no trailing slash\n";
-
-                # It exists in Store as a topic and there is no trailing slash
-                $temptopic = $p || '';
-            }
-            elsif ( $this->webExists( join( '/', @webs, $p ) ) ) {
-
-                #print STDERR "Web Exists " . join( '/', @webs, $p ) . "\n";
-
-                # It exists in Store as a web
-                push @badpath, $p;
-                push @webs,    $p;
-            }
-            elsif ($trailingSlash) {
-
-                #print STDERR "Web forced ...\n";
-                if ( !$this->webExists( join( '/', @webs, $p ) )
-                    && $this->topicExists( join( '/', @webs ) || $defaultweb,
-                        $p ) )
-                {
-
-                    #print STDERR "Forced, but no such web, and topic exists";
-                    $temptopic = $p;
-                }
-                else {
-
-                    #print STDERR "Append it to the webs\n";
-                    $p = Foswiki::Sandbox::untaint( $p,
-                        \&Foswiki::Sandbox::validateWebName );
-
-                    unless ($p) {
-                        push @badpath, $_;
-                        next;
-                    }
-                    else {
-                        push @badpath, $p;
-                        push @webs,    $p;
-                    }
-                }
-            }
-            else {
-                #print STDERR "Just a topic. " . scalar @webs . "\n";
-                $temptopic = $p;
-            }
-        }
-        else {
-            $p = Foswiki::Sandbox::untaint( $p,
-                \&Foswiki::Sandbox::validateWebName );
-            unless ($p) {
-                push @badpath, $_;
-                next;
-            }
-            else {
-                push @badpath, $p;
-                push @webs,    $p;
-            }
-        }
-    }
-
-    my $web    = join( '/', @webs );
-    my $badweb = join( '/', @badpath );
-
-    # Set the requestedWebName before applying defaults - used by statistics
-    # generation.   Note:  This is validated using Topic name rules to permit
-    # names beginning with lower case.
-    $this->{requestedWebName} =
-      Foswiki::Sandbox::untaint( $badweb,
-        \&Foswiki::Sandbox::validateTopicName );
-
-    #print STDERR "Set requestedWebName to $this->{requestedWebName} \n"
-    #  if $this->{requestedWebName};
-
-    if ( length($web) != length($badweb) ) {
-
-        #print STDERR "RESULTS:\nPATH: $web\nBAD:  $badweb\n";
-        $this->{invalidWeb} = $badweb;
-    }
-
-    unless ($web) {
-        $web = Foswiki::Sandbox::untaint( $defaultweb,
-            \&Foswiki::Sandbox::validateWebName );
-        unless ($web) {
-            $this->{invalidWeb} = $defaultweb;
-            $web = $Foswiki::cfg{UsersWebName};
-        }
-    }
-
-    # Override topicname if urlparam $topic is provided.
-    $temptopic = $topicOverride if ($topicOverride);
-
-    # Provide a default topic if none specified
-    $temptopic = $Foswiki::cfg{HomeTopicName} unless defined($temptopic);
-
-    # Item3270 - here's the appropriate place to enforce spec
-    # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270
-    my $topic =
-      Foswiki::Sandbox::untaint( ucfirst($temptopic),
-        \&Foswiki::Sandbox::validateTopicName );
-
-    unless ($topic) {
-        $this->{invalidTopic} = $temptopic;
-        $topic = $Foswiki::cfg{HomeTopicName};
-
-        #print STDERR "RESULTS:\nTOPIC  $topic\nBAD:  $temptopic\n";
-        $this->{invalidTopic} = $temptopic;
-    }
-
-    #print STDERR "PARSE returns web $web topic $topic\n";
-
-    return ( $web, $topic );
-}
-
-=begin TML
-
 ---++ ClassMethod new( $defaultUser, $query, \%initialContext )
 
 Constructs a new Foswiki session object. A unique session object exists for
@@ -2192,55 +2011,19 @@ sub new {
         $this->{scriptUrlPath} = $1;
     }
 
-    # The web/topic can be provided by either the query path_info,
-    # or by URL Parameters:
-    # topic:       Specifies web.topic or topic.
-    #              Overrides the path given in the URL
-    # defaultweb:  Overrides the default web, for use when topic=
-    #              does not provide a web.
-    # path_info    Defaults to the Users web Home topic
-
-    # Note that the jsonrpc script does none of these. A default
-    # web/topic is part of the posted json request.
-
     # Set the default for web
     # Development.AddWebParamToAllCgiScripts: enables
     # bin/script?topic=WebPreferences;defaultweb=Sandbox
-    my $defaultweb = $query->param('defaultweb') || $Foswiki::cfg{UsersWebName};
+    my $defaultweb =
+      Foswiki::Sandbox::untaint( $query->param('defaultweb')
+          || $Foswiki::cfg{UsersWebName},
+        \&Foswiki::Sandbox::validateWebName );
 
-    # rest doesn't use web/topic path, but pick up a default.
-    my $webtopic = '';
+    # See Foswiki::Request for parsing of the path
 
-   # SMELL: It is completely bogus that we do this for the jsonrpc script.
-   # But we must, because jsonrpc depends upon the bogus path_info to trigger
-   # a bug in core which results in an unassigned default BASEWEB and BASETOPIC.
-   # If jsonrpc gets a default web/topic, it will pick up settings for the
-   # wrong topic and fail.
-    unless ( $query->action() eq 'rest' ) {
-        $webtopic = urlDecode( $query->path_info() || '' );
-    }
-
-    my $topicOverride = '';
-    my $topic         = $query->param('topic');
-    if ( defined $topic ) {
-        if ( $topic =~ m/[\/.]+/ ) {
-            $webtopic = $topic;
-
-           #print STDERR "candidate webtopic set to $webtopic by query param\n";
-        }
-        else {
-            $topicOverride = $topic;
-
-            #print STDERR
-            #  "candidate topic set to $topicOverride by query param\n";
-        }
-    }
-
-    ( my $web, $topic ) =
-      $this->_parsePath( $webtopic, $defaultweb, $topicOverride );
-
-    $this->{topicName} = $topic;
-    $this->{webName}   = $web;
+    $this->{topicName} = $query->topic()
+      || $Foswiki::cfg{HomeTopicName};
+    $this->{webName} = $query->web() || $defaultweb;
 
     if (   !$Foswiki::cfg{Sessions}{EnableGuestSessions}
         && defined $Foswiki::cfg{Sessions}{TopicsRequireGuestSessions}
@@ -2559,8 +2342,6 @@ sub finish {
     undef $this->{topic};
     undef $this->{webName};
     undef $this->{topicName};
-    undef $this->{invalidWeb};
-    undef $this->{invalidTopic};
     undef $this->{_ICONSPACE};
     undef $this->{_EXT2ICON};
     undef $this->{_KNOWNICON};

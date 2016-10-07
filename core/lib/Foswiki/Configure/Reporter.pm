@@ -188,7 +188,7 @@ If =$value= is given, the previous value is returned.
 sub hint {
     my ( $this, $hint, $value ) = @_;
 
-    my $curval = $this->{$hint};
+    my $curval = $this->{hints}{$hint};
     if ( defined $value ) {
         $this->{hints}{$hint} = $value;
     }

@@ -149,7 +149,8 @@ sub id {
 
 ##############################################################################
 sub param {
-    my ( $this, $key, $value ) = @_;
+    my ( $this, @p )     = @_;
+    my ( $key,  $value ) = @p;
 
     return unless $key;
 

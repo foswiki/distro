@@ -14,6 +14,9 @@ lib/Unit/Eavesdrop.pm 0644
 lib/Unit/ExternalEngine.pm 0644
 lib/Unit/HTMLDiffer.pm 0644
 lib/Unit/Request.pm 0644
+lib/Unit/Request/Attachment.pm 0644
+lib/Unit/Request/JSON.pm 0644
+lib/Unit/Request/Rest.pm 0644
 lib/Unit/Response.pm 0644
 lib/Unit/TestCase.pm 0644
 lib/Unit/TestRunner.pm 0644
@@ -96,6 +99,7 @@ test/unit/RequestTests.pm 0644
 test/unit/ResponseTests.pm 0644
 test/unit/RobustnessTests.pm 0644
 test/unit/SaveScriptTests.pm 0644
+test/unit/SecurityTests.pm 0644
 test/unit/SeleniumConfigTests.pm 0644
 test/unit/SemiAutomaticTestCaseTests.pm 0644
 test/unit/SerialiseTests.pm 0644
