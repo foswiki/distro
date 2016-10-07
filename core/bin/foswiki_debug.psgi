@@ -38,7 +38,7 @@ use Foswiki::App;
 use Devel::Leak;
 use Devel::Leak::Object;
 
-use constant CHECKLEAK => $ENV{FOSWIKI_CHECKLEAK} // 1;
+use constant CHECKLEAK => $ENV{FOSWIKI_CHECKLEAK} // 0;
 
 BEGIN {
     if (CHECKLEAK) {
