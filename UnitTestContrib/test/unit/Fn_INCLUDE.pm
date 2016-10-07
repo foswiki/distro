@@ -810,7 +810,25 @@ sub test_docInclude {
 
     my $class = 'Foswiki::IncludeHandlers::doc';
     my $text  = $this->test_topicObject->expandMacros("%INCLUDE{doc:$class}%");
-    my $expected = <<"EXPECTED";
+    my $expected;
+
+    # Use eval to avoid pre-declaration of the module or Foswiki::load_package
+    # would detect it as already loaded.
+    if ( eval "&Foswiki::IncludeHandlers::doc::USE_LEXICAL_PARSER" ) {
+        $expected = <<"EXPECTED";
+
+---+ =internal Package= Foswiki::IncludeHandlers::doc
+
+
+This package is designed to be lazy-loaded when Foswiki sees
+an INCLUDE macro with the doc: protocol. It implements a single
+method INCLUDE which generates perl documentation for a Foswiki class.
+
+EXPECTED
+
+    }
+    else {
+        $expected = <<"EXPECTED";
 
 ---+ =internal package= Foswiki::IncludeHandlers::doc
 
@@ -819,6 +837,7 @@ an INCLUDE macro with the doc: protocol. It implements a single
 method INCLUDE which generates perl documentation for a Foswiki class.
 
 EXPECTED
+    }
     $this->assert_str_equals( $expected, $text );
 
     # Add a pattern
