@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1463146583" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1457496285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ File Attachments
@@ -85,9 +85,7 @@ Attachment names are stored directly in the server native file system, so filena
          * =$filename=: the name of the file
          * =$fileext=: the filename extension (string following the last period, if present) or an empty string.
          * =$fileurl=: URL encoded version of the filename
-         * =$comment=: the file comment from the upload dialog or an empty string
-         * =$commentorfilename=: the file comment from the upload dialog (= =$comment=)
-           or if not present, the name of the file (= =$filename=)
+         * =$comment=: the file comment from the upload dialog
          * =$size=: the filesize (=%<nop>ATTACHEDIMAGEFORMAT%= only)
          * Any standard [[FormatTokens][formatting tokens]]: =$n=, =$comma=, =$lt=, etc.
          * Any standard [[VarGMTIME][time format specifiers]]: =$year=, =$hours=, etc. 

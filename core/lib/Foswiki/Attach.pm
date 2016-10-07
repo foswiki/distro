@@ -364,11 +364,11 @@ sub getAttachmentLink {
     my ( $this, $topicObject, $attName ) = @_;
 
     my $att         = $topicObject->get( 'FILEATTACHMENT', $attName );
-    my $fileComment = $att->{comment} || '';
+    my $fileComment = $att->{comment};
     my $fileTime    = $att->{date} || 0;
+    $fileComment = $attName unless ($fileComment);
     my ($fileExt) = $attName =~ m/(?:.*\.)*([^.]*)/;
     $fileExt ||= '';
-    my $commentOrFilename = $fileComment || $attName;
 
     my $fileLink = '';
     my $imgSize  = '';
@@ -423,7 +423,6 @@ sub getAttachmentLink {
     # in the comment) - TWikibug:Item4581
     $fileLink =~ s/\\t/\t/g;
     $fileLink =~ s/\\n/\n/g;
-    $fileLink =~ s/\$commentorfilename/$commentOrFilename/g;
     $fileLink =~ s/\$comment/$fileComment/g;
     $fileLink =~ s/\$size/$imgSize/g;
     $fileLink =~ s/([^\n])$/$1\n/;
