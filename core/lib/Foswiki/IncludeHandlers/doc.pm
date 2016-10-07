@@ -210,6 +210,7 @@ sub INCLUDE {
                           )
                           = @{ $ctxSection->{lexemes} }
                           {qw(methodAccess methodType methodName methodPriv)};
+                        $methodName = Foswiki::entityEncode($methodName);
                         if ( $publicOnly && $methodPriv ) {
                             $suppressedMethodLevel = $secDepth;
                         }
@@ -217,7 +218,7 @@ sub INCLUDE {
                             # Starting a non-suppressed method section.
                             $suppressedMethodLevel = 0;
                             $pod .=
-"\n$secDef =$methodAccess$methodType= ==$methodName==\n";
+"\n$secDef =[[$methodAccess$methodType]]= ==$methodName==\n";
                         }
                     }
                     else {    # Just plain simple heading.
