@@ -3,13 +3,6 @@ package Foswiki::Iterator::EventIterator;
 use v5.14;
 use Assert;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 =begin TML
 
 ---++ =Foswiki::Iterator::EventIterator=
@@ -22,7 +15,7 @@ Private subclass of LineIterator that
 
 =cut
 
-use Moo;
+use Foswiki::Class;
 extends qw(Foswiki::LineIterator);
 
 use constant TRACE => 0;

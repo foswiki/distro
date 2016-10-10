@@ -23,16 +23,8 @@ use Foswiki::Sandbox ();
 use Try::Tiny;
 use Foswiki::Exception;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Request);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has subject => (
     is      => 'rw',

@@ -18,17 +18,8 @@ use Foswiki::Iterator::FilterIterator();
 use Foswiki::Iterator::ProcessIterator();
 use Foswiki::Iterator::PagerIterator();
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 use constant MONITOR => 0;
 

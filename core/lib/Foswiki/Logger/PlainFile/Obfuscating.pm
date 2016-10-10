@@ -7,15 +7,7 @@ use Assert;
 use Foswiki::Configure::Load;
 use Digest::MD5 qw( md5_hex );
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Logger::PlainFile);
 
 has '+acceptsHash' => (

@@ -18,13 +18,6 @@ package Foswiki::Engine::Legacy;
 use strict;
 use warnings;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 my ( $request, $response );
 
 BEGIN {

@@ -13,19 +13,10 @@ use Foswiki::AccessControlException ();
 use Foswiki::OopsException          ();
 use Foswiki::ValidationException    ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 use Assert;
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 our @registrableHandlers = (    # Foswiki::Plugins::VERSION:
     'afterAttachmentSaveHandler',       # 1.022 DEPRECATED

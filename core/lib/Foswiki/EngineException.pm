@@ -14,15 +14,8 @@ following fields:
 package Foswiki::EngineException;
 use v5.14;
 
-use Moo;
+use Foswiki::Class;
 extends qw(Foswiki::Exception);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 =begin TML
 

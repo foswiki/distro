@@ -164,13 +164,6 @@ Hashref of headers.
 
 has headers => ( is => 'rw', lazy => 1, builder => '_prepareHeaders', );
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 =begin TML
 ---++ ClassMethod start(env => \%env)
 

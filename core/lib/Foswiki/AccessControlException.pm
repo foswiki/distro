@@ -84,16 +84,8 @@ use v5.14;
 
 use Assert;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Exception);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 #our @_newParameters = qw( mode user web topic reason );
 

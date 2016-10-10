@@ -5,16 +5,8 @@
 package Foswiki::I18N::Fallback;
 use v5.14;
 
-use Moo;
-extends qw(Foswiki::Object);
+use Foswiki::Class;
 with qw(Foswiki::I18N::LanguageHandler);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 sub maketext {
     my ( $this, $text, @args ) = @_;

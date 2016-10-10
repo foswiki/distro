@@ -5,18 +5,9 @@ use v5.14;
 use Foswiki::Store ();
 use Foswiki::Meta  ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 with qw(Foswiki::Macro);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has _ffCache => (
     is      => 'rw',

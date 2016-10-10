@@ -115,11 +115,6 @@ BEGIN {
     use version 0.77; $VERSION = version->declare('v2.99.0');
     $RELEASE = 'Foswiki-2.99.0';
 
-    #if ( $Foswiki::cfg{UseLocale} ) {
-    #    require locale;
-    #    import locale();
-    #}
-
     # Set environment var FOSWIKI_NOTAINT to disable taint checks even
     # if Taint::Runtime is installed
     if ( DEBUG && !$ENV{FOSWIKI_NOTAINT} ) {

@@ -31,13 +31,6 @@ use Assert;
 
 use constant MONITOR => 0;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 has metacache => (
     is      => 'ro',
     lazy    => 1,

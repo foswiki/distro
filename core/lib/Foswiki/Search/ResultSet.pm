@@ -19,17 +19,9 @@ use v5.14;
 use Foswiki::Search::InfoCache;
 use Assert;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Iterator);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has Itr_list => (
     is       => 'rw',

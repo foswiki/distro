@@ -2,20 +2,11 @@
 package Foswiki::Macros::ICON;
 use v5.14;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 use Try::Tiny;
 use Assert;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 with qw(Foswiki::Macro);
 
 has ICONSPACE => (

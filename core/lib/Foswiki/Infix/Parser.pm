@@ -19,20 +19,12 @@ Escapes are supported in strings, using backslash.
 
 package Foswiki::Infix::Parser;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 use Assert;
 use Try::Tiny;
 use Foswiki::Infix::Error ();
 use Foswiki::Infix::Node  ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 
 # Set to 1 for debug

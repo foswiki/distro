@@ -18,13 +18,6 @@ use strict;
 use warnings;
 use Assert;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 use Foswiki::Query::Node ();
 
 #             operator name           precedence
@@ -66,8 +59,7 @@ use Foswiki::Query::OP_int    ();    # 1000
 
 use Foswiki::Query::OP_ob ();        # 1100
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends 'Foswiki::Infix::Parser';
 
 has words => (

@@ -42,16 +42,8 @@ use Foswiki::OopsException             ();
 use Foswiki::Func                      ();
 use Try::Tiny;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw( Foswiki::Meta );
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 # The following are reserved as URL parameters to scripts and may not be
 # used as field names in forms.

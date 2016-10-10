@@ -7,13 +7,6 @@ use Assert;
 
 #our $SEARCHTERMS = qr/\$(web|topic|parent|text|locked|date|isodate|rev|username|wikiname|wikiusername|createdate|createusername|createwikiname|createwikiusername|summary|changes|formname|formfield|pattern|count|ntopics|nhots|pager)\b/;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 sub FORMAT {
     my ( $app, $params, $topicObject ) = @_;
     my $list_str = defined $params->{_DEFAULT} ? $params->{_DEFAULT} : '';

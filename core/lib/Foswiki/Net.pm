@@ -24,13 +24,6 @@ use Foswiki::IP qw/:regexp :info $IPv6Avail/;
 use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 our $LWPAvailable;
 our $noHTTPResponse;    # if set, forces local impl of HTTP::Response
 our $SSLAvailable;      # Set to defined false to prevent using SSL

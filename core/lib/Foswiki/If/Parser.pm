@@ -22,18 +22,10 @@ use Foswiki::If::OP_isempty ();
 use Foswiki::If::OP_istopic ();
 use Foswiki::If::OP_isweb   ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends 'Foswiki::Query::Parser';
 
 use Assert;
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 # Additional operators specific to IF statements (not available in other
 # query types)

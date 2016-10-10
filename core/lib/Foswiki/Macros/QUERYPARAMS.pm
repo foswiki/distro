@@ -4,13 +4,6 @@ package Foswiki::Macros;
 use strict;
 use warnings;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 sub QUERYPARAMS {
     my ( $this, $params ) = @_;
     return '' unless $this->request;

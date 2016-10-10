@@ -9,15 +9,7 @@
 package Foswiki::If::OP_isweb;
 use v5.14;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Query::UnaryOP);
 with qw(Foswiki::Query::OP);
 

@@ -9,13 +9,6 @@ use Foswiki::Render::Parent ();
 use Foswiki::Meta           ();
 use Foswiki::Func           ();
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 # See System.VarMETA
 # Before calling, ensure the topicObject is loaded with the version of the
 # topic you intend to display!

@@ -5,13 +5,6 @@ use v5.14;
 use Foswiki       ();
 use Foswiki::Meta ();
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 =begin TML
 
 ---++ StaticMethod render($app, $url [, $alt]) -> $html

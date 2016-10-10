@@ -2,8 +2,7 @@
 package Foswiki::Infix::OP;
 use v5.14;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 
 =begin TML
@@ -36,13 +35,6 @@ names in the hash starting with =InfixParser_= are reserved for use
 by the parser.
 
 =cut
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has name                => ( is => 'rw', );
 has prec                => ( is => 'rw', );

@@ -22,15 +22,10 @@ use warnings;
 use CGI::Session ();
 our @ISA = ('CGI::Session');
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 *VERSION = \$CGI::Session::VERSION;
 *NAME    = \$CGI::Session::NAME;
+
+# SMELL To be replaced with some PSGI session middleware.
 
 sub load {
     my $this = shift;

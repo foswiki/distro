@@ -91,19 +91,11 @@ package Foswiki::OopsException;
 use v5.14;
 
 use Assert;
-use Moo;
-use namespace::clean;
+
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Exception);
-with qw(Foswiki::AppObject);
 
 #our @_newParameters = qw( template );
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has template => (
     is       => 'rwp',

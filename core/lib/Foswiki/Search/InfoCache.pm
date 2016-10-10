@@ -7,17 +7,8 @@ use Foswiki::Func                     ();
 use Foswiki::Meta                     ();
 use Foswiki::Iterator::FilterIterator ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::ListIterator);
-with qw(Foswiki::AppObject);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 =begin TML
 

@@ -55,19 +55,10 @@ use Foswiki::Sandbox ();
 use CGI::Session     ();
 require Foswiki::AccessControlException;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 use Assert;
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 # Marker chars
 our $M1 = chr(5);

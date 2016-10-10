@@ -17,15 +17,8 @@ and should not be used for anything else.
 package Foswiki::Prefs::Web;
 use v5.14;
 
-use Moo;
+use Foswiki::Class;
 extends qw( Foswiki::Object );
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 #our @_newParameters = qw( stack level );
 

@@ -9,17 +9,9 @@
 package Foswiki::If::OP_context;
 use v5.14;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Query::UnaryOP);
 with qw(Foswiki::Query::OP);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 around BUILDARGS => sub {
     my $orig  = shift;

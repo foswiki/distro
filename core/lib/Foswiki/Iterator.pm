@@ -26,13 +26,6 @@ use Moo::Role;
 #debug Iterators
 use constant MONITOR => 0;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 has list => (
     is        => 'rw',
     lazy      => 1,

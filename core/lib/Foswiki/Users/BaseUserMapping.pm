@@ -35,17 +35,9 @@ use Foswiki::Exception ();
 use Digest::MD5 qw(md5_hex);
 use Crypt::PasswdMD5 qw(apache_md5_crypt);
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject Foswiki::UserMapping);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
+with qw(Foswiki::UserMapping);
 
 our $DEFAULT_USER_CUID = 'BaseUserMapping_666';
 our $UNKNOWN_USER_CUID = 'BaseUserMapping_999';

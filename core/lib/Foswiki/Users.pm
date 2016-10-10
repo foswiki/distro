@@ -68,13 +68,6 @@ use Assert;
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users');
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 has mapping => (
     is  => 'rw',
     isa => Foswiki::Object::isaCLASS(

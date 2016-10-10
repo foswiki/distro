@@ -6,13 +6,6 @@ use warnings;
 use Try::Tiny;
 use Assert;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 sub SEARCH {
     my ( $app, $params, $topicObject ) = @_;
 

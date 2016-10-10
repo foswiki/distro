@@ -61,17 +61,8 @@ use Foswiki::Sandbox ();
 use HTML::Entities   ();
 use Unicode::Normalize qw(NFC);
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has heap => (
     is      => 'ro',

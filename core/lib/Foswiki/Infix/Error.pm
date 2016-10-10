@@ -10,8 +10,8 @@ Class of errors used with Foswiki::Infix::Parser
 
 package Foswiki::Infix::Error;
 use Foswiki::Exception ();
-use Moo;
-use namespace::clean;
+
+use Foswiki::Class;
 extends 'Foswiki::Exception';
 
 has expr => (
@@ -25,13 +25,6 @@ has at => (
     predicate => 1,
 );
 our @_newParameters = qw(text expr at);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 # SMELL To be replaced by stringify() method.
 around text => sub {

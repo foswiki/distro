@@ -12,13 +12,6 @@ use Error qw(:try);
 
 use Unicode::Normalize;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 my @curTable;
 my $translationToken;
 my $insideTABLE;

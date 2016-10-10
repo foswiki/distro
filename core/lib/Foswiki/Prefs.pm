@@ -70,19 +70,10 @@ use Foswiki::Prefs::Web   ();
 use Scalar::Util          ();
 use Foswiki qw(findCaller);
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 #our @_newParameters = qw( session );
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has main => (
     is      => 'rw',
@@ -92,7 +83,7 @@ has main => (
         'main', 'Foswiki::Prefs::Stack', noUndef => 1
     ),
     default => sub {
-        return Foswiki::Prefs::Stack->new;
+        return $_[0]->create('Foswiki::Prefs::Stack');
     }
 );
 has paths => (
@@ -198,7 +189,8 @@ sub _getBackend {
     my $path = $metaObject->getPath;
     unless ( exists $this->paths->{$path} ) {
         $this->paths->{$path} =
-          $Foswiki::cfg{Store}{PrefsBackend}->new( topicObject => $metaObject );
+          $this->create( $Foswiki::cfg{Store}{PrefsBackend},
+            topicObject => $metaObject );
     }
     return $this->paths->{$path};
 }
@@ -262,7 +254,7 @@ sub _getWebPrefsObj {
     }
 
     my $part;
-    $stack = Foswiki::Prefs::Stack->new;
+    $stack = $this->create('Foswiki::Prefs::Stack');
     my @path = split /[\/\.]+/, $web;
     my @websToAdd = ( pop @path );
     while ( @path > 0 ) {
@@ -284,8 +276,11 @@ sub _getWebPrefsObj {
     foreach (@websToAdd) {
         $part .= '/' if $part;
         $part .= $_;
-        $this->webprefs->{$part} =
-          Foswiki::Prefs::Web->new( stack => $stack, level => $level++ );
+        $this->webprefs->{$part} = $this->create(
+            'Foswiki::Prefs::Web',
+            stack => $stack,
+            level => $level++
+        );
     }
     return $this->webprefs->{$web};
 }
@@ -313,9 +308,8 @@ sub loadPreferences {
     my $obj;
 
     if ( $topicObject->has_topic ) {
-        $obj =
-          $Foswiki::cfg{Store}{PrefsBackend}
-          ->new( topicObject => $topicObject );
+        $obj = $this->create( $Foswiki::cfg{Store}{PrefsBackend},
+            topicObject => $topicObject );
     }
     elsif ( $topicObject->has_web ) {
         $obj = $this->_getWebPrefsObj( $topicObject->web );
@@ -365,7 +359,7 @@ sub pushTopicContext {
     }
     $back = $this->_getBackend( $web, $topic );
     $stack->newLevel($back);
-    $stack->newLevel( Foswiki::Prefs::HASH->new );
+    $stack->newLevel( $this->create('Foswiki::Prefs::HASH') );
 
     while ( my ( $k, $v ) = each %{ $this->internals } ) {
         $stack->insert( 'Set', $k, $v );

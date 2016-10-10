@@ -18,13 +18,6 @@ use Foswiki qw(expandStandardEscapes);
 use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 our $MARKER = "\0";
 
 =begin TML

@@ -18,16 +18,8 @@ use Assert;
 use Try::Tiny;
 use Fcntl qw( :DEFAULT :flock );
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Users::Password);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 our ( $GlobalCache, $GlobalTimestamp );
 

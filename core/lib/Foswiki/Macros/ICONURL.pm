@@ -6,13 +6,6 @@ use warnings;
 
 use Foswiki::Macros::ICON ();
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 =begin TML
 
 ---++ ObjectMethod ICONURL($params) -> $html

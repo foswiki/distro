@@ -39,16 +39,8 @@ use Foswiki::Iterator::ProcessIterator();
 
 use Foswiki::Store::Interfaces::QueryAlgorithm;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Store::Interfaces::QueryAlgorithm);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 use constant MONITOR => 0;
 

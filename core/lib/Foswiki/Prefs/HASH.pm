@@ -15,19 +15,11 @@ hash.
 package Foswiki::Prefs::HASH;
 use v5.14;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 with qw( Foswiki::Prefs::BaseBackend );
 
-our @_newParameters = qw(values);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
+#our @_newParameters = qw(values);
 
 has _values => (
     is        => 'ro',

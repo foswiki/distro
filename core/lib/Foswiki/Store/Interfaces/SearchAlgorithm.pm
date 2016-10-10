@@ -10,16 +10,8 @@ use Foswiki::Sandbox   ();
 use Foswiki::WebFilter ();
 use Foswiki::Meta      ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Store::Interfaces::QueryAlgorithm);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 =begin TML
 

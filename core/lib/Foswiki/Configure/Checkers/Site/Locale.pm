@@ -2,7 +2,7 @@
 package Foswiki::Configure::Checkers::Site::Locale;
 use v5.14;
 
-use Moo;
+use Foswiki::Class;
 extends qw(Foswiki::Configure::Checker);
 
 my @required = (
@@ -13,6 +13,7 @@ sub check_current_value {
     my ( $this, $reporter ) = @_;
 
     if ( $Foswiki::cfg{UseLocale} ) {
+        $reporter->WARN("POSIX locales are not supported anymore.");
         eval("use locale;use POSIX");
         if ($@) {
             return $this->WARN( 'Locales cannot be used. Error was: '

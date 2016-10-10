@@ -11,16 +11,8 @@ Node class for the result of an If statement parse
 package Foswiki::If::Node;
 use v5.14;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Query::Node);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 # Used wherever a plain string is expected, this method
 # suppresses automatic lookup of names in meta-data

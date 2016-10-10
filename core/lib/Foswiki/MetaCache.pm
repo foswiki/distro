@@ -27,13 +27,6 @@ extends qw(Foswiki::Object);
 
 use constant TRACE => 0;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 =begin TML
 
 ---++ ClassMethod new( app => $app )
