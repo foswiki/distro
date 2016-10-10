@@ -140,7 +140,7 @@ sub rest {
         throw Foswiki::EngineException( 400, $err, $res );
     }
 
-    my $record  = $restDispatch{$subject}{$verb};
+    my $record = $restDispatch{$subject}{$verb};
 
     # Check we have this handler
     unless ($record) {
