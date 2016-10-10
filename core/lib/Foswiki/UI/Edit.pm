@@ -19,16 +19,8 @@ use Foswiki::OopsException ();
 use Foswiki::Form          ();
 use Foswiki::Serialise     ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::UI);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 =begin TML
 
@@ -152,6 +144,7 @@ sub init_edit {
                     # use a 'keep' redirect to ensure we pass parameter
                     # values in the query on to the oops script
                     Foswiki::OopsException->throw(
+                        app      => $app,
                         template => 'leaseconflict',
                         def      => $def,
                         web      => $web,
@@ -169,6 +162,7 @@ sub init_edit {
 
         # Topic exists and user requested oops if it exists
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'attention',
             def      => 'topic_exists',
             web      => $web,
@@ -184,6 +178,7 @@ sub init_edit {
 
         # do not allow non-wikinames
         Foswiki::OopsException->throw(
+            app      => $app,
             template => 'attention',
             def      => 'not_wikiword',
             web      => $web,
@@ -258,6 +253,7 @@ sub init_edit {
 
             unless ( $templateWeb && $templateTopic ) {
                 Foswiki::OopsException->throw(
+                    app      => $app,
                     template => 'accessdenied',
                     status   => 403,
                     def      => 'no_such_topic_template',
@@ -285,6 +281,7 @@ sub init_edit {
         }
         else {
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'accessdenied',
                 status   => 403,
                 def      => 'no_such_topic_template',
@@ -386,6 +383,7 @@ sub init_edit {
 
         unless ( $users->isAdmin($user) ) {
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'accessdenied',
                 def      => 'topic_access',
                 web      => $web,
@@ -396,6 +394,7 @@ sub init_edit {
 
         unless ( $adminCmd =~ m/^(rep|del)Rev$/ ) {
             Foswiki::OopsException->throw(
+                app      => $app,
                 template => 'attention',
                 def      => 'unrecognized_action',
                 web      => $web,
