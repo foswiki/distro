@@ -179,9 +179,18 @@ sub test_Request_parse {
     my $tn = 0;
     foreach my $set (@paths) {
         $tn++;
-        my $req = new Foswiki::Request( $set->[1] );
-        $req->pathInfo( $set->[0] );
-        $this->createNewFoswikiSession( 'AdminUser', $req );
+
+        $this->createNewFoswikiApp(
+            requestParams => { initializer => $set->[1], },
+            engineParams  => {
+                initialAttributes => {
+                    path_info => $set->[0],
+                    user      => 'AdminUser',
+                },
+            },
+        );
+
+        my $req = $this->app->request;
 
         #print STDERR $req->pathInfo() . " web "
         #  . ( ( defined $req->web() ) ? $req->web() : 'undef' )
