@@ -16,14 +16,15 @@ around set_up => sub {
     my $this = shift;
     $orig->( $this, @_ );
 
-    $this->_saved->{AllowRedirectUrl} = $Foswiki::cfg{AllowRedirectUrl};
-    $this->_saved->{DefaultUrlHost}   = $Foswiki::cfg{DefaultUrlHost};
+    $this->_saved->{AllowRedirectUrl} =
+      $this->app->cfg->data->{AllowRedirectUrl};
+    $this->_saved->{DefaultUrlHost} = $this->app->cfg->data->{DefaultUrlHost};
     $this->_saved->{PermittedRedirectHostUrls} =
-      $Foswiki::cfg{PermittedRedirectHostUrls};
+      $this->app->cfg->data->{PermittedRedirectHostUrls};
 
-    $Foswiki::cfg{AllowRedirectUrl}          = 0;
-    $Foswiki::cfg{DefaultUrlHost}            = 'http://wiki.server';
-    $Foswiki::cfg{PermittedRedirectHostUrls} = 'http://other.wiki';
+    $this->app->cfg->data->{AllowRedirectUrl}          = 0;
+    $this->app->cfg->data->{DefaultUrlHost}            = 'http://wiki.server';
+    $this->app->cfg->data->{PermittedRedirectHostUrls} = 'http://other.wiki';
 
     return;
 };
@@ -32,9 +33,10 @@ around tear_down => sub {
     my $orig = shift;
     my $this = shift;
 
-    $Foswiki::cfg{AllowRedirectUrl} = $this->_saved->{AllowRedirectUrl};
-    $Foswiki::cfg{DefaultUrlHost}   = $this->_saved->{DefaultUrlHost};
-    $Foswiki::cfg{PermittedRedirectHostUrls} =
+    $this->app->cfg->data->{AllowRedirectUrl} =
+      $this->_saved->{AllowRedirectUrl};
+    $this->app->cfg->data->{DefaultUrlHost} = $this->_saved->{DefaultUrlHost};
+    $this->app->cfg->data->{PermittedRedirectHostUrls} =
       $this->_saved->{PermittedRedirectHostUrls};
 
     $orig->($this);
@@ -306,34 +308,36 @@ sub test_header {
 sub test_isRedirectSafe {
     my ($this) = @_;
 
-    $this->assert( not Foswiki::_isRedirectSafe('http://slashdot.org') );
-    $this->assert( Foswiki::_isRedirectSafe('/relative') );
+    my $app = $this->app;
 
-    #$Foswiki::cfg{DefaultUrlHost} based
-    my $baseUrlMissingSlash = $Foswiki::cfg{DefaultUrlHost};
+    $this->assert( not $app->_isRedirectSafe('http://slashdot.org') );
+    $this->assert( $app->_isRedirectSafe('/relative') );
+
+    #$this->app->cfg->data->{DefaultUrlHost} based
+    my $baseUrlMissingSlash = $this->app->cfg->data->{DefaultUrlHost};
 
     #http://wiki.server.com (missing trailing slash)
     $baseUrlMissingSlash =~ s/(.*)\/$/$1/;
     my $url = $baseUrlMissingSlash;
-    $this->assert( Foswiki::_isRedirectSafe($url) );
+    $this->assert( $app->_isRedirectSafe($url) );
     $url = $baseUrlMissingSlash . '?somestuff=12';
-    $this->assert( Foswiki::_isRedirectSafe($url) );
+    $this->assert( $app->_isRedirectSafe($url) );
     $url = $baseUrlMissingSlash . '#header';
-    $this->assert( Foswiki::_isRedirectSafe($url) );
+    $this->assert( $app->_isRedirectSafe($url) );
 
-    $Foswiki::cfg{DefaultUrlHost} = 'http://wiki.server';
-    $Foswiki::cfg{PermittedRedirectHostUrls} =
+    $this->app->cfg->data->{DefaultUrlHost} = 'http://wiki.server';
+    $this->app->cfg->data->{PermittedRedirectHostUrls} =
       'http://wiki.other,http://other.wiki';
 
-    $this->assert( Foswiki::_isRedirectSafe('/wiki.server') );
-    $this->assert( Foswiki::_isRedirectSafe('http://wiki.server') );
-    $this->assert( Foswiki::_isRedirectSafe('http://wiki.server/') );
-    $this->assert( Foswiki::_isRedirectSafe('http://other.wiki') );
-    $this->assert( Foswiki::_isRedirectSafe('http://other.wiki/') );
-    $this->assert( Foswiki::_isRedirectSafe('http://wiki.other') );
-    $this->assert( Foswiki::_isRedirectSafe('http://wiki.other/') );
-    $this->assert( not Foswiki::_isRedirectSafe('http://slashdot.org') );
-    $this->assert( not Foswiki::_isRedirectSafe('http://slashdot.org/') );
+    $this->assert( $app->_isRedirectSafe('/wiki.server') );
+    $this->assert( $app->_isRedirectSafe('http://wiki.server') );
+    $this->assert( $app->_isRedirectSafe('http://wiki.server/') );
+    $this->assert( $app->_isRedirectSafe('http://other.wiki') );
+    $this->assert( $app->_isRedirectSafe('http://other.wiki/') );
+    $this->assert( $app->_isRedirectSafe('http://wiki.other') );
+    $this->assert( $app->_isRedirectSafe('http://wiki.other/') );
+    $this->assert( not $app->_isRedirectSafe('http://slashdot.org') );
+    $this->assert( not $app->_isRedirectSafe('http://slashdot.org/') );
 
     return;
 }

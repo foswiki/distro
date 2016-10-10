@@ -835,7 +835,7 @@ sub redirect {
     # prevent phishing by only allowing redirect to configured host
     # do this check as late as possible to catch _any_ last minute hacks
     # TODO: this should really use URI
-    if ( !Foswiki::_isRedirectSafe($url) ) {
+    if ( !$this->_isRedirectSafe($url) ) {
 
         # goto oops if URL is trying to take us somewhere dangerous
         $url = $this->cfg->getScriptUrl(
@@ -895,7 +895,7 @@ sub redirectto {
     if ( $redirecturl =~ m#^$regex{linkProtocolPattern}://# ) {
 
         # assuming URL
-        return $redirecturl if Foswiki::_isRedirectSafe($redirecturl);
+        return $redirecturl if $this->_isRedirectSafe($redirecturl);
         return;
     }
 
@@ -1699,6 +1699,42 @@ sub _validateWTA {
     die 'Invalid topic'      if ( defined $topic      && !defined $t );
     die 'Invalid attachment' if ( defined $attachment && !defined $a );
     return ( $w, $t, $a );
+}
+
+# Tests if the $redirect is an external URL, returning false if
+# AllowRedirectUrl is denied
+sub _isRedirectSafe {
+    my $this     = shift;
+    my $redirect = shift;
+
+    my $cfgData = $this->cfg->data;
+
+    return 1 if ( $cfgData->{AllowRedirectUrl} );
+
+    # relative URL - OK
+    return 1 if $redirect =~ m#^/#;
+
+    #TODO: this should really use URI
+    # Compare protocol, host name and port number
+    if ( $redirect =~ m!^(.*?://[^/?#]*)! ) {
+
+        # implicit untaints OK because result not used. uc retaints
+        # if use locale anyway.
+        my $target = uc($1);
+
+        $cfgData->{DefaultUrlHost} =~ m!^(.*?://[^/]*)!;
+        return 1 if ( $target eq uc($1) );
+
+        if ( $cfgData->{PermittedRedirectHostUrls} ) {
+            foreach my $red (
+                split( /\s*,\s*/, $cfgData->{PermittedRedirectHostUrls} ) )
+            {
+                $red =~ m!^(.*?://[^/]*)!;
+                return 1 if ( $target eq uc($1) );
+            }
+        }
+    }
+    return 0;
 }
 
 =begin TML

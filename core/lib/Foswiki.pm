@@ -167,39 +167,6 @@ BEGIN {
 #use Foswiki::Plugins  ();
 #use Foswiki::Users    ();
 
-# Tests if the $redirect is an external URL, returning false if
-# AllowRedirectUrl is denied
-sub _isRedirectSafe {
-    my $redirect = shift;
-
-    return 1 if ( $Foswiki::cfg{AllowRedirectUrl} );
-
-    # relative URL - OK
-    return 1 if $redirect =~ m#^/#;
-
-    #TODO: this should really use URI
-    # Compare protocol, host name and port number
-    if ( $redirect =~ m!^(.*?://[^/?#]*)! ) {
-
-        # implicit untaints OK because result not used. uc retaints
-        # if use locale anyway.
-        my $target = uc($1);
-
-        $Foswiki::cfg{DefaultUrlHost} =~ m!^(.*?://[^/]*)!;
-        return 1 if ( $target eq uc($1) );
-
-        if ( $Foswiki::cfg{PermittedRedirectHostUrls} ) {
-            foreach my $red (
-                split( /\s*,\s*/, $Foswiki::cfg{PermittedRedirectHostUrls} ) )
-            {
-                $red =~ m!^(.*?://[^/]*)!;
-                return 1 if ( $target eq uc($1) );
-            }
-        }
-    }
-    return 0;
-}
-
 =begin TML
 
 ---++ StaticMethod splitAnchorFromUrl( $url ) -> ( $url, $anchor )
