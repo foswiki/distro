@@ -14,6 +14,7 @@ use strict;
 use warnings;
 use Assert;
 use Error qw( :try );
+use Storable;
 
 use Foswiki                ();
 use Foswiki::LoginManager  ();
@@ -679,22 +680,8 @@ sub _requireConfirmation {
     # SMELL: used for Register unit tests
     $session->{DebugVerificationCode} = $data->{"${type}Code"};
 
-    require Data::Dumper;
-
     my $file = _codeFile( $data->{"${type}Code"} );
-    my $F;
-    open( $F, '>', $file )
-      or throw Error::Simple( 'Failed to open file: ' . $! );
-    print $F "# $type code\n";
-
-    # SMELL: wierd jiggery-pokery required, otherwise Data::Dumper screws
-    # up the form fields when it saves. Perl bug? Probably to do with
-    # chucking around arrays, instead of references to them.
-    my $form = $data->{form};
-    $data->{form} = undef;
-    print $F Data::Dumper->Dump( [ $data, $form ], [ 'data', 'form' ] );
-    $data->{form} = $form;
-    close($F);
+    store( $data, $file );
 
     $session->logger->log(
         {
@@ -2051,15 +2038,19 @@ sub _loadPendingRegistration {
         );
     }
 
-    $data = undef;
-    $form = undef;
-    do $file;
-    $data->{form} = $form if $form;
-    throw Foswiki::OopsException(
-        'register',
-        def    => 'bad_ver_code',
-        params => [ $code, 'Bad activation code' ]
-    ) if $!;
+    try {
+        $data = retrieve($file);
+    }
+    catch Error with {
+        my $e = shift;
+        require Data::Dumper;
+        print STDERR Data::Dumper::Dumper( \$e );
+        throw Foswiki::OopsException(
+            'register',
+            def    => 'internal_error',
+            params => [ $code, 'Retrieve of stored registration failed' ]
+        );
+    };
 
     return $data;
 }
@@ -2165,8 +2156,7 @@ sub _checkPendingRegistrations {
                 }
                 if ($check) {
                     local $data;
-                    local $form;
-                    eval 'do $regFile';
+                    $data = retrieve($regFile);
                     next unless defined $data;
                     push @pending, $data->{WikiName} . '(pending)'
                       if ( $check eq $data->{Email} );
