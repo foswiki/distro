@@ -13,6 +13,7 @@ use v5.14;
 
 use Assert;
 use Try::Tiny;
+use Storable;
 
 use Foswiki                ();
 use Foswiki::Form          ();
@@ -798,20 +799,7 @@ sub _requireConfirmation {
     $app->heap->{DebugVerificationCode} = $data->{"${type}Code"};
 
     my $file = $this->_codeFile( $data->{"${type}Code"} );
-    my $F;
-    open( $F, '>', $file )
-      or
-      Foswiki::Exception::Fatal->throw( text => 'Failed to open file: ' . $! );
-    print $F "# $type code\n";
-
-    # SMELL: wierd jiggery-pokery required, otherwise Data::Dumper screws
-    # up the form fields when it saves. Perl bug? Probably to do with
-    # chucking around arrays, instead of references to them.
-    my $form = $data->{form};
-    $data->{form} = undef;
-    print $F Data::Dumper->Dump( [ $data, $form ], [ 'data', 'form' ] );
-    $data->{form} = $form;
-    close($F);
+    store( $data, $file );
 
     $app->logger->log(
         {
@@ -2308,16 +2296,19 @@ sub _loadPendingRegistration {
         );
     }
 
-    $data = undef;
-    $form = undef;
-    do $file;
-    $data->{form} = $form if $form;
-    Foswiki::OopsException->throw(
-        app      => $app,
-        template => 'register',
-        def      => 'bad_ver_code',
-        params   => [ $code, 'Bad activation code' ]
-    ) if $!;
+    try {
+        $data = retrieve($file);
+    }
+    catch {
+        my $e = shift;
+        require Data::Dumper;
+        print STDERR Data::Dumper::Dumper( \$e );
+        throw Foswiki::OopsException(
+            'register',
+            def    => 'internal_error',
+            params => [ $code, 'Retrieve of stored registration failed' ]
+        );
+    };
 
     return $data;
 }
@@ -2427,8 +2418,7 @@ sub _checkPendingRegistrations {
                 }
                 if ($check) {
                     local $data;
-                    local $form;
-                    eval 'do $regFile';
+                    $data = retrieve($regFile);
                     next unless defined $data;
                     push @pending, $data->{WikiName} . '(pending)'
                       if ( $check eq $data->{Email} );

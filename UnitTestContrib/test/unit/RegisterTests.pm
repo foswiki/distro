@@ -2106,9 +2106,12 @@ sub verify_UnregisteredUser {
     };
 
     my $file = $this->regUI->_codeFile( $regSave->{VerificationCode} );
-    $this->assert( open( my $F, '>', $file ) );
-    print $F Data::Dumper->Dump( [ $regSave, undef ], [ 'data', 'form' ] );
-    $this->assert( close $F );
+    use Storable;
+    store( $regSave, $file );
+
+    #$this->assert( open( my $F, '>', $file ) );
+    #print $F Data::Dumper->Dump( [ $regSave, undef ], [ 'data', 'form' ] );
+    #$this->assert( close $F );
 
     my $result2 = $this->regUI->_loadPendingRegistration("GitWit.0");
     $this->assert_deep_equals( $result2, $regSave );
