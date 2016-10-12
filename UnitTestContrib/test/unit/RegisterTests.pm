@@ -1879,9 +1879,12 @@ sub verify_UnregisteredUser {
     };
 
     my $file = Foswiki::UI::Register::_codeFile( $regSave->{VerificationCode} );
-    $this->assert( open( my $F, '>', $file ) );
-    print $F Data::Dumper->Dump( [ $regSave, undef ], [ 'data', 'form' ] );
-    $this->assert( close $F );
+    use Storable;
+    store( $regSave, $file );
+
+    #$this->assert( open( my $F, '>', $file ) );
+    #print $F Data::Dumper->Dump( [ $regSave, undef ], [ 'data', 'form' ] );
+    #$this->assert( close $F );
 
     my $result2 =
       Foswiki::UI::Register::_loadPendingRegistration( $this->{session},
