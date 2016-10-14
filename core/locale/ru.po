@@ -76,7 +76,7 @@ msgstr "%1 - Регистрация для %2 (%3)"
 msgid "%1 Web"
 msgstr "Раздел %1"
 
-#: core/templates/registermessages.tmpl:396
+#: core/templates/registermessages.tmpl:403
 #, fuzzy
 msgid "%1 added to the %2 group."
 msgstr "%1 перемещена из %2 в %3 пользователем %4"
@@ -92,7 +92,7 @@ msgstr "%1 перемещена из %2 в %3 пользователем %4"
 msgid "%1 denied the registration."
 msgstr "Спасибо за регистрацию"
 
-#: core/templates/registermessages.tmpl:403
+#: core/templates/registermessages.tmpl:410
 msgid "%1 group topic upgraded."
 msgstr ""
 
@@ -145,7 +145,7 @@ msgstr "%1 имеет текущее значение %2"
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 редактирует %2."
 
-#: core/templates/registermessages.tmpl:293
+#: core/templates/registermessages.tmpl:300
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 входит как минимум в одну группу и не может быть удален"
 
@@ -182,7 +182,7 @@ msgstr "Регистрация новых пользователей отклю�
 msgid "%1 registration denied"
 msgstr "Регистрация новых пользователей отключена"
 
-#: core/templates/registermessages.tmpl:445
+#: core/templates/registermessages.tmpl:452
 #, fuzzy
 msgid "%1 removed from the %2 group."
 msgstr "%1 перемещена из %2 в %3 пользователем %4"
@@ -232,7 +232,7 @@ msgstr "История"
 msgid "&Sequential"
 msgstr "Последовательно"
 
-#: core/templates/registermessages.tmpl:228
+#: core/templates/registermessages.tmpl:235
 #, fuzzy
 msgid "'%1' is not a valid [[%2][login username]]."
 msgstr "'%1' неправильный %2 "
@@ -254,7 +254,7 @@ msgstr "(%1 login)"
 msgid "(%1 vs. %2)"
 msgstr "(%1 в сравнении с %2)"
 
-#: core/templates/registermessages.tmpl:148
+#: core/templates/registermessages.tmpl:155
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr ""
 "(*Подсказка:* Может быть стоит разместить своё фото на личной странице?)"
@@ -388,11 +388,11 @@ msgstr "(редакция %1)"
 msgid "(save error)"
 msgstr "(ошибка сохранения)"
 
-#: core/templates/registermessages.tmpl:121
+#: core/templates/registermessages.tmpl:128
 msgid "(single character first name)"
 msgstr "(одна буква из имени)"
 
-#: core/templates/registermessages.tmpl:120
+#: core/templates/registermessages.tmpl:127
 msgid "(single character last name)"
 msgstr "(одна буква из фамилии)"
 
@@ -611,7 +611,7 @@ msgstr ""
 "шестнадцатиричных цифр, например, =#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1318
+#: core/lib/Foswiki/UI/Register.pm:1305
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "Письмо подтверждения отправлено по электронной почте: %1"
 
@@ -690,6 +690,15 @@ msgstr "Действие %1: %2."
 #, fuzzy
 msgid "Actions"
 msgstr "Действие"
+
+#: core/templates/registermessages.tmpl:91
+#, fuzzy
+msgid "Activation Failed"
+msgstr "Неверный код активации"
+
+#: core/templates/registermessages.tmpl:92
+msgid "Activation for code %1 failed with an internal error."
+msgstr ""
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:452
@@ -797,7 +806,7 @@ msgstr "Во всех общедоступных разделах"
 msgid "Allow only <nop>WikiWord for the new topic name"
 msgstr "Разрешить не <nop>ВикиСлово для названия новой темы"
 
-#: core/templates/registermessages.tmpl:207
+#: core/templates/registermessages.tmpl:214
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
@@ -923,7 +932,7 @@ msgstr "Вложения %1"
 msgid "Attachments of %1"
 msgstr "Вложения %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:77 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "Вложения не будут показаны на странице темы."
 
@@ -976,7 +985,7 @@ msgstr "Обратные ссылки на %1 во всех разделах"
 msgid "Backlinks:"
 msgstr "Обратные ссылки"
 
-#: core/templates/registermessages.tmpl:235
+#: core/templates/registermessages.tmpl:242
 msgid "Bad password"
 msgstr "Плохой пароль"
 
@@ -1036,7 +1045,7 @@ msgstr ""
 msgid "Cache =refresh=all= denied for non-admin users."
 msgstr ""
 
-#: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:287
+#: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:294
 msgid "Can't find user %1"
 msgstr "Не удалось найти пользователя %1"
 
@@ -1337,8 +1346,8 @@ msgstr "Конфликт"
 #: core/templates/messages.tmpl:420 core/templates/messages.tmpl:425
 #: core/templates/messages.tmpl:462 core/templates/messages.tmpl:475
 #: core/templates/messages.tmpl:482 core/templates/messages.tmpl:491
-#: core/templates/registermessages.tmpl:109
-#: core/templates/registermessages.tmpl:132
+#: core/templates/registermessages.tmpl:116
+#: core/templates/registermessages.tmpl:139
 msgid "Contact %1 if you have any questions."
 msgstr "Свяжитесь с %1 если у Вас есть вопросы."
 
@@ -1438,7 +1447,7 @@ msgstr "Создать новую тему"
 msgid "Create New Topic in %1 Web"
 msgstr "Создать новую тему в разделе %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:74 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "Создать ссылку на прикреплённый файл."
 
@@ -1468,8 +1477,8 @@ msgstr "Создать новую тему"
 msgid "Create new topic"
 msgstr "Создать новую тему"
 
-#: core/templates/registermessages.tmpl:414
-#: core/templates/registermessages.tmpl:420
+#: core/templates/registermessages.tmpl:421
+#: core/templates/registermessages.tmpl:427
 msgid "Create not specified and group does not exist"
 msgstr ""
 
@@ -1585,7 +1594,7 @@ msgstr "Дочерние темы в разделе %1"
 msgid "Details in separate window"
 msgstr "Подробнее в отдельном окне"
 
-#: core/templates/registermessages.tmpl:365
+#: core/templates/registermessages.tmpl:372
 msgid "Details:"
 msgstr ""
 
@@ -1597,7 +1606,7 @@ msgstr ""
 "Вы правильно набрали имя топика? Помните, имя топика чувствительно к  "
 "регистру."
 
-#: core/templates/registermessages.tmpl:205
+#: core/templates/registermessages.tmpl:212
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Вы хотите [[%1][сбросить пароль %2]]?"
 
@@ -1619,7 +1628,7 @@ msgstr ""
 msgid "Do not forget to save your changes"
 msgstr "не забудьте сохранить ваши изменения"
 
-#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:77 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "Не показывать список прикрепленных файлов в виде таблицы"
 
@@ -1678,7 +1687,7 @@ msgstr ""
 "Во время сохранения %1 система управления версиями обнаружила ошибку. "
 "Пожалуйста, известите об этом Вашего администратора %2."
 
-#: core/templates/registermessages.tmpl:299
+#: core/templates/registermessages.tmpl:306
 msgid "E-mail changed successfully!"
 msgstr "Адрес электронной почты успешно изменён!"
 
@@ -1853,11 +1862,11 @@ msgstr "Сначала удалите пользователя из групп(�
 msgid "Error encountered loading the plugin. See errors below."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:91
+#: core/templates/registermessages.tmpl:98
 msgid "Error registering new user"
 msgstr "Ошибка регистрации нового пользователя"
 
-#: core/templates/registermessages.tmpl:192
+#: core/templates/registermessages.tmpl:199
 msgid "Error registering user %1"
 msgstr "Ошибка регистрации пользователя %1"
 
@@ -1885,12 +1894,12 @@ msgstr "Ошибка: Не поддерживаемый протокол. (До�
 msgid "Errors"
 msgstr "Ошибки"
 
-#: core/templates/registermessages.tmpl:383
+#: core/templates/registermessages.tmpl:390
 #, fuzzy
 msgid "Errors adding members to group"
 msgstr "Ошибка сохранения страницы"
 
-#: core/templates/registermessages.tmpl:432
+#: core/templates/registermessages.tmpl:439
 #, fuzzy
 msgid "Errors removing members from groups"
 msgstr "Ошибка сохранения страницы"
@@ -2074,7 +2083,7 @@ msgid "Globe"
 msgstr "Закрыть"
 
 #: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
-#: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:378
+#: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:385
 msgid "Go back"
 msgstr "Вернуться"
 
@@ -2095,7 +2104,7 @@ msgid ""
 "trying again"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:117
+#: core/templates/registermessages.tmpl:124
 msgid "Good examples:"
 msgstr "Хорошие примеры:"
 
@@ -2308,7 +2317,7 @@ msgstr ""
 msgid "If you came here by clicking on a question mark link"
 msgstr "Если Вы попали сюда кликнув на знак вопроса"
 
-#: core/templates/registermessages.tmpl:97
+#: core/templates/registermessages.tmpl:104
 msgid "If you don't receive a verification email within the next hour, "
 msgstr "Если вы не получите подтверждение по почте в течение следующего часа,"
 
@@ -2409,7 +2418,7 @@ msgstr ""
 msgid "Image %1 of %2"
 msgstr "Раздел %1 не существует"
 
-#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:74 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr ""
 "(Изображения будут отображены, для остальных прикрепленных файлов будет "
@@ -2442,27 +2451,27 @@ msgstr ""
 msgid "Including"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:309
+#: core/templates/registermessages.tmpl:316
 msgid "Incorrect Password"
 msgstr "Неверный пароль"
 
-#: core/templates/registermessages.tmpl:316
+#: core/templates/registermessages.tmpl:323
 #, fuzzy
 msgid "Incorrect Prefix"
 msgstr "Неверное %1"
 
-#: core/templates/registermessages.tmpl:114
+#: core/templates/registermessages.tmpl:121
 #, fuzzy
 msgid "Incorrect [[%1][WikiName]]"
 msgstr "Неверные %1.WikiNames:"
 
-#: core/templates/registermessages.tmpl:117
+#: core/templates/registermessages.tmpl:124
 #, fuzzy
 msgid "Incorrect [[%1][WikiNames:]]"
 msgstr "Неверные %1.WikiNames:"
 
-#: core/templates/registermessages.tmpl:220
 #: core/templates/registermessages.tmpl:227
+#: core/templates/registermessages.tmpl:234
 #, fuzzy
 msgid "Incorrect [[%1][username]]"
 msgstr "Неверные %1.WikiNames:"
@@ -2471,7 +2480,7 @@ msgstr "Неверные %1.WikiNames:"
 msgid "Incorrect parameters to the =%1= script"
 msgstr "Неверные параметры в скрипте =%1="
 
-#: core/templates/registermessages.tmpl:127
+#: core/templates/registermessages.tmpl:134
 msgid "Incorrect topic name provided for the templatetopic parameter."
 msgstr ""
 
@@ -2569,11 +2578,11 @@ msgstr "Неверный код активации"
 msgid "Invalid Input"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:242
-#: core/templates/registermessages.tmpl:251
-#: core/templates/registermessages.tmpl:260
-#: core/templates/registermessages.tmpl:269
-#: core/templates/registermessages.tmpl:278
+#: core/templates/registermessages.tmpl:249
+#: core/templates/registermessages.tmpl:258
+#: core/templates/registermessages.tmpl:267
+#: core/templates/registermessages.tmpl:276
+#: core/templates/registermessages.tmpl:285
 msgid "Invalid e-mail address"
 msgstr "Неверный адрес электронной почты"
 
@@ -3016,8 +3025,8 @@ msgstr "(изменения)"
 msgid "No child topics found."
 msgstr "Нет дочерних тем"
 
-#: core/templates/registermessages.tmpl:375
-#: core/templates/registermessages.tmpl:426
+#: core/templates/registermessages.tmpl:382
+#: core/templates/registermessages.tmpl:433
 msgid "No group name specified"
 msgstr ""
 
@@ -3048,11 +3057,11 @@ msgstr "Переместить тему в раздел:"
 msgid "No topics to update."
 msgstr "Переместить тему в раздел:"
 
-#: core/templates/messages.tmpl:324 core/templates/registermessages.tmpl:408
+#: core/templates/messages.tmpl:324 core/templates/registermessages.tmpl:415
 msgid "No username specified"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:176
+#: core/templates/registermessages.tmpl:183
 msgid "No users to reset passwords for."
 msgstr "Некому сбрасывать пароли."
 
@@ -3140,9 +3149,9 @@ msgstr ""
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
 #: core/templates/foswiki.tmpl:113 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
-#: core/templates/registermessages.tmpl:327
-#: core/templates/registermessages.tmpl:335
-#: core/templates/registermessages.tmpl:346 core/templates/validate.tmpl:52
+#: core/templates/registermessages.tmpl:334
+#: core/templates/registermessages.tmpl:342
+#: core/templates/registermessages.tmpl:353 core/templates/validate.tmpl:52
 msgid "OK"
 msgstr "OK"
 
@@ -3167,7 +3176,7 @@ msgid ""
 msgstr ""
 "Однажды зарегистрировавшись, Вы сможете заходить используя Ваши %1 и пароль."
 
-#: core/templates/registermessages.tmpl:356
+#: core/templates/registermessages.tmpl:363
 #, fuzzy
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "Только членам %1 позволено выполнить это действие."
@@ -3250,19 +3259,19 @@ msgstr ""
 msgid "Password"
 msgstr "Пароль"
 
-#: core/templates/registermessages.tmpl:339
+#: core/templates/registermessages.tmpl:346
 msgid "Password changed successfully!"
 msgstr "Пароль успешно изменен!"
 
-#: core/templates/registermessages.tmpl:331
+#: core/templates/registermessages.tmpl:338
 msgid "Password could not be changed"
 msgstr "Пароль не может быть изменён"
 
-#: core/templates/registermessages.tmpl:175
+#: core/templates/registermessages.tmpl:182
 msgid "Password reset failed"
 msgstr "Не удалось сбросить пароль"
 
-#: core/templates/registermessages.tmpl:180
+#: core/templates/registermessages.tmpl:187
 #, fuzzy
 msgid "Password reset failed."
 msgstr "Не удалось сбросить пароль"
@@ -3273,12 +3282,12 @@ msgstr "Не удалось сбросить пароль"
 msgid "Password:"
 msgstr "Пароль"
 
-#: core/templates/registermessages.tmpl:136
+#: core/templates/registermessages.tmpl:143
 #, fuzzy
 msgid "Passwords disabled"
 msgstr "Не удалось сбросить пароль"
 
-#: core/templates/registermessages.tmpl:185
+#: core/templates/registermessages.tmpl:192
 msgid "Passwords do not match"
 msgstr "Пароли не совпадают"
 
@@ -3306,8 +3315,8 @@ msgstr "Место для удаленных файлов"
 msgid "Placeholder for trashed attachments"
 msgstr "Место для удаленных файлов"
 
-#: core/templates/registermessages.tmpl:387
-#: core/templates/registermessages.tmpl:436
+#: core/templates/registermessages.tmpl:394
+#: core/templates/registermessages.tmpl:443
 msgid "Please check to ensure you have permission to modify the group."
 msgstr ""
 
@@ -3316,17 +3325,17 @@ msgstr ""
 msgid "Please confirm your password."
 msgstr "Ваш пароль:"
 
-#: core/templates/registermessages.tmpl:209
+#: core/templates/registermessages.tmpl:216
 #: core/templates/registermessages.tmpl:87
 msgid "Please contact %1 if you have any questions."
 msgstr "Если у Вас есть вопросы, свяжитесь с %1."
 
+#: core/templates/registermessages.tmpl:105
 #: core/templates/registermessages.tmpl:11
-#: core/templates/registermessages.tmpl:140
-#: core/templates/registermessages.tmpl:196
+#: core/templates/registermessages.tmpl:147
+#: core/templates/registermessages.tmpl:203
 #: core/templates/registermessages.tmpl:21
 #: core/templates/registermessages.tmpl:35
-#: core/templates/registermessages.tmpl:98
 msgid "Please contact %1."
 msgstr "Пожалуйста, свяжитесь с %1."
 
@@ -3405,20 +3414,20 @@ msgstr ""
 #: core/templates/messages.tmpl:172 core/templates/messages.tmpl:179
 #: core/templates/messages.tmpl:38 core/templates/messages.tmpl:43
 #: core/templates/messages.tmpl:52 core/templates/messages.tmpl:92
-#: core/templates/messages.tmpl:99 core/templates/registermessages.tmpl:123
-#: core/templates/registermessages.tmpl:131
-#: core/templates/registermessages.tmpl:188
-#: core/templates/registermessages.tmpl:216
+#: core/templates/messages.tmpl:99 core/templates/registermessages.tmpl:130
+#: core/templates/registermessages.tmpl:138
+#: core/templates/registermessages.tmpl:195
 #: core/templates/registermessages.tmpl:223
-#: core/templates/registermessages.tmpl:231
+#: core/templates/registermessages.tmpl:230
 #: core/templates/registermessages.tmpl:238
-#: core/templates/registermessages.tmpl:247
-#: core/templates/registermessages.tmpl:256
-#: core/templates/registermessages.tmpl:265
-#: core/templates/registermessages.tmpl:274
-#: core/templates/registermessages.tmpl:283
-#: core/templates/registermessages.tmpl:312
+#: core/templates/registermessages.tmpl:245
+#: core/templates/registermessages.tmpl:254
+#: core/templates/registermessages.tmpl:263
+#: core/templates/registermessages.tmpl:272
+#: core/templates/registermessages.tmpl:281
+#: core/templates/registermessages.tmpl:290
 #: core/templates/registermessages.tmpl:319
+#: core/templates/registermessages.tmpl:326
 msgid "Please go back in your browser and try again."
 msgstr ""
 "Вернитесь, пожалуйста, <a href=\"javascript:history.go(-1)\">назад</a> и "
@@ -3432,7 +3441,7 @@ msgstr ""
 "страницу</a>, используя стандартные средства навигации Вашего браузера, и "
 "попробуйте ввести другое имя."
 
-#: core/templates/registermessages.tmpl:288
+#: core/templates/registermessages.tmpl:295
 #, fuzzy
 msgid ""
 "Please make sure you spelled the [[%1][username]] correctly and try again. "
@@ -3519,7 +3528,7 @@ msgstr ""
 msgid "Printable version of this topic (p)"
 msgstr "title='Версия для печати этой темы' accesskey='p'>Версия для печати"
 
-#: PatternSkin/templates/attach.pattern.tmpl:64
+#: PatternSkin/templates/attach.pattern.tmpl:71
 msgid "Properties"
 msgstr "Свойства"
 
@@ -3612,7 +3621,7 @@ msgstr "Зарегистрироваться"
 msgid "Registration"
 msgstr "Регистрация"
 
-#: core/lib/Foswiki/UI/Register.pm:745
+#: core/lib/Foswiki/UI/Register.pm:732
 #, fuzzy
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -3680,7 +3689,7 @@ msgstr ""
 msgid "Remember me on this computer"
 msgstr "Запомнить меня на этом компьютере"
 
-#: core/templates/registermessages.tmpl:301
+#: core/templates/registermessages.tmpl:308
 #, fuzzy
 msgid ""
 "Remember to update your user topic [[%1]] if you want your e-mail change to "
@@ -3703,7 +3712,7 @@ msgstr "Сначала удалите пользователя из групп(�
 msgid "Remove members..."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:355
+#: core/templates/registermessages.tmpl:362
 msgid "Remove of user account other than your own is denied"
 msgstr ""
 
@@ -3711,7 +3720,7 @@ msgstr ""
 msgid "Remove selected members"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:295
+#: core/templates/registermessages.tmpl:302
 #, fuzzy
 msgid "Remove the member from the group(s) %1 first."
 msgstr "Сначала удалите пользователя из групп(ы) %1."
@@ -3840,17 +3849,17 @@ msgstr "Результаты по разделу \"%1\"."
 msgid "Results from %1 web:"
 msgstr "Результаты по разделу \"%1\"."
 
-#: core/templates/registermessages.tmpl:357
-#: core/templates/registermessages.tmpl:371
+#: core/templates/registermessages.tmpl:364
+#: core/templates/registermessages.tmpl:378
 #, fuzzy
 msgid "Return to %1"
 msgstr "Вернуться к %1."
 
-#: core/templates/registermessages.tmpl:351
+#: core/templates/registermessages.tmpl:358
 msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:305
+#: core/templates/registermessages.tmpl:312
 msgid "Return to %1."
 msgstr "Вернуться к %1."
 
@@ -4024,7 +4033,7 @@ msgstr "Найдено:"
 msgid "Security Note:"
 msgstr "Примечание по безопасности:"
 
-#: core/templates/registermessages.tmpl:290
+#: core/templates/registermessages.tmpl:297
 msgid "See %1 for a list of existing users or register as new user in %2."
 msgstr ""
 "Смотрите в %1 список существующих пользователей или зарегистрируйтесь как "
@@ -4034,11 +4043,11 @@ msgstr ""
 msgid "See %1 for information about Form Definitions."
 msgstr "Смотрите %1 для информации об Определениях Форм"
 
-#: core/templates/registermessages.tmpl:389
-#: core/templates/registermessages.tmpl:398
+#: core/templates/registermessages.tmpl:396
 #: core/templates/registermessages.tmpl:405
-#: core/templates/registermessages.tmpl:438
-#: core/templates/registermessages.tmpl:447
+#: core/templates/registermessages.tmpl:412
+#: core/templates/registermessages.tmpl:445
+#: core/templates/registermessages.tmpl:454
 msgid "See %MAINWEB%.WikiGroups to see the result."
 msgstr ""
 
@@ -4282,7 +4291,7 @@ msgstr ""
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
 #: core/data/System/FrequentlyAskedQuestions.txt:81
-#: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:161
+#: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:168
 msgid "Submit"
 msgstr "Применить"
 
@@ -4327,12 +4336,12 @@ msgstr ""
 msgid "Subwebs"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:394
+#: core/templates/registermessages.tmpl:401
 #, fuzzy
 msgid "Success adding members to group"
 msgstr "Ошибка сохранения страницы"
 
-#: core/templates/registermessages.tmpl:443
+#: core/templates/registermessages.tmpl:450
 #, fuzzy
 msgid "Success removing members from group"
 msgstr "Сначала удалите пользователя из групп(ы) %1."
@@ -4401,9 +4410,9 @@ msgstr "Спасибо за регистрацию"
 msgid "Thank you for denying this registration"
 msgstr "Спасибо за регистрацию"
 
-#: core/templates/registermessages.tmpl:146
-#: core/templates/registermessages.tmpl:154
-#: core/templates/registermessages.tmpl:167
+#: core/templates/registermessages.tmpl:153
+#: core/templates/registermessages.tmpl:161
+#: core/templates/registermessages.tmpl:174
 msgid "Thank you for registering"
 msgstr "Спасибо за регистрацию"
 
@@ -4424,7 +4433,7 @@ msgstr ""
 "Спасибо, что Вы зарегистрировались на информационном ресурсе %1, платформе "
 "для совместного творчества и работы. Ваш код подтверждения %2."
 
-#: core/templates/registermessages.tmpl:103
+#: core/templates/registermessages.tmpl:110
 #, fuzzy
 msgid "That user has already been activated"
 msgstr "Этот пользователь уже был активирован "
@@ -4473,7 +4482,7 @@ msgstr "Скрипт =%1= можно вызвать только методом 
 msgid "The Administrator has disabled new user registration."
 msgstr "Администратор отключил регистрацию новых пользователей."
 
-#: core/templates/registermessages.tmpl:138
+#: core/templates/registermessages.tmpl:145
 #, fuzzy
 msgid "The Administrator has disabled password changes."
 msgstr "Администратор отключил регистрацию новых пользователей."
@@ -4492,7 +4501,7 @@ msgstr ""
 "Внимание: Невозможно ВЛОЖИТЬ '%1', путь не задан или содержит недопустимые "
 "символы."
 
-#: core/templates/registermessages.tmpl:115
+#: core/templates/registermessages.tmpl:122
 #, fuzzy
 msgid ""
 "The [[%1][WikiName]] field must be your first and last name written as a "
@@ -4502,13 +4511,13 @@ msgstr ""
 "В поле %1 обязательно укажите Ваше имя и фамилию в %2, то есть ИмяФамилия, с "
 "большой буквы и без пробелов. "
 
-#: core/templates/registermessages.tmpl:214
+#: core/templates/registermessages.tmpl:221
 msgid ""
 "The [[%1][login username]] (%2) is not allowed for this installation. "
 "Registration rejected."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:221
+#: core/templates/registermessages.tmpl:228
 msgid ""
 "The [[%1][login username]] is a required parameter. Registration rejected."
 msgstr ""
@@ -4528,10 +4537,11 @@ msgid ""
 msgstr ""
 
 #: core/templates/renameattachmentdelete.tmpl:43
+#, fuzzy
 msgid ""
-"The attachment may have to be renamed if an attachment called '%FILENAME%' "
-"already exists in the target topic."
-msgstr ""
+"The attachment may have to be renamed if an attachment called '%1' already "
+"exists in the target topic."
+msgstr "Файл уже на странице новой темы."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
@@ -4568,20 +4578,20 @@ msgid ""
 "authority."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:252
-#: core/templates/registermessages.tmpl:270
+#: core/templates/registermessages.tmpl:259
+#: core/templates/registermessages.tmpl:277
 #, fuzzy
 msgid "The e-mail address for this account has been rejected."
 msgstr "У этой учетной записи неверный адрес электронной почты."
 
-#: core/templates/registermessages.tmpl:261
-#: core/templates/registermessages.tmpl:279
+#: core/templates/registermessages.tmpl:268
+#: core/templates/registermessages.tmpl:286
 #, fuzzy
 msgid ""
 "The e-mail address for this account is already registered to another user."
 msgstr "У этой учетной записи неверный адрес электронной почты."
 
-#: core/templates/registermessages.tmpl:243
+#: core/templates/registermessages.tmpl:250
 msgid "The e-mail address for this account is not valid."
 msgstr "У этой учетной записи неверный адрес электронной почты."
 
@@ -4641,7 +4651,7 @@ msgstr "Имя темы не может быть пустым."
 msgid "The name of the topic must not be empty."
 msgstr "Имя темы не может быть пустым."
 
-#: core/templates/registermessages.tmpl:128
+#: core/templates/registermessages.tmpl:135
 msgid ""
 "The name provided is either invalid, or the named topic is not found. The "
 "templatetopic must be an existing new user template topic in the %USERSWEB% "
@@ -4665,11 +4675,11 @@ msgstr "Выбираемая новая тема должна существов
 msgid "The new web has been created"
 msgstr "Создан новый раздел"
 
-#: core/templates/registermessages.tmpl:310
+#: core/templates/registermessages.tmpl:317
 msgid "The password you entered in the *old password* field is incorrect."
 msgstr "Введенный пароль в поле *старый пароль* неверен."
 
-#: core/templates/registermessages.tmpl:317
+#: core/templates/registermessages.tmpl:324
 msgid ""
 "The prefix you entered for the deleted user is not valid as a topic name."
 msgstr ""
@@ -4688,15 +4698,15 @@ msgstr ""
 msgid "The topic is in an old format"
 msgstr "Тема в старом формате"
 
-#: core/templates/registermessages.tmpl:186
+#: core/templates/registermessages.tmpl:193
 msgid "The two passwords you entered do not match."
 msgstr "Два введенных Вами пароля не совпадают."
 
-#: core/templates/registermessages.tmpl:105
+#: core/templates/registermessages.tmpl:112
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr "Пользователь %1 уже активирован и должен иметь возможность войти."
 
-#: core/templates/registermessages.tmpl:363
+#: core/templates/registermessages.tmpl:370
 #, fuzzy
 msgid "The user has been removed from the Authentication System."
 msgstr "Ваше имя пользователя было удалено из Системы Аутентификации."
@@ -4729,7 +4739,7 @@ msgstr ""
 msgid "There are problems with renaming this web:"
 msgstr "Возникли проблемы с переименованием раздела:"
 
-#: core/templates/registermessages.tmpl:194
+#: core/templates/registermessages.tmpl:201
 msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 "Возникла проблема с добавлением Вашего идентификатора пользователя в систему "
@@ -4753,11 +4763,11 @@ msgstr ""
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Здесь должна быть строка, включающая %1, ищите %2 (или %3)"
 
-#: core/templates/registermessages.tmpl:385
+#: core/templates/registermessages.tmpl:392
 msgid "There were errors adding to the %2 group. %1 "
 msgstr ""
 
-#: core/templates/registermessages.tmpl:434
+#: core/templates/registermessages.tmpl:441
 #, fuzzy
 msgid "There were errors removing %1 from the %2 group."
 msgstr "%1 перемещена из %2 в %3 пользователем %4"
@@ -4778,7 +4788,7 @@ msgstr "Это может быть автоматически обновлено
 msgid "This could be for several reasons:"
 msgstr "Это могло произойти по следующим причинам:"
 
-#: core/templates/registermessages.tmpl:130
+#: core/templates/registermessages.tmpl:137
 msgid ""
 "This field is not normally user provided. This may be a Foswiki "
 "configuration error."
@@ -4839,6 +4849,12 @@ msgstr "Это автоматическое уведомление от %1."
 #: core/templates/registernotifyadmin.tmpl:9
 msgid "This is an automated e-mail notification of user registration in %1."
 msgstr "Это автоматическое уведомление о регистрации пользователя в %1."
+
+#: core/templates/registermessages.tmpl:94
+msgid ""
+"This is an internal error.  You can try to register again, or contact %1 to "
+"report the error."
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:128
 #, fuzzy
@@ -4901,7 +4917,7 @@ msgstr "Необходимо, чтобы было представлено оп�
 msgid "This site is powered by Foswiki"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:236
+#: core/templates/registermessages.tmpl:243
 msgid "This site requires at least %1 character passwords"
 msgstr "Требуется ввести пароль длиной не менее %1 символов"
 
@@ -5190,7 +5206,7 @@ msgstr ""
 msgid "Unsubscribe from this topic (s)"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:213
+#: core/templates/registermessages.tmpl:220
 #, fuzzy
 msgid "Unsupported [[%1][username]]"
 msgstr "Неверные %1.WikiNames:"
@@ -5219,7 +5235,7 @@ msgstr ""
 msgid "Upgrade group topic..."
 msgstr "Скопировать тему"
 
-#: core/templates/registermessages.tmpl:401
+#: core/templates/registermessages.tmpl:408
 #, fuzzy
 msgid "Upgraded group"
 msgstr "Создать новую тему"
@@ -5288,11 +5304,11 @@ msgstr ""
 msgid "User %1 not in group, cannot be removed"
 msgstr "%1 входит как минимум в одну группу и не может быть удален"
 
-#: core/templates/registermessages.tmpl:362
+#: core/templates/registermessages.tmpl:369
 msgid "User Account %1 Deleted"
 msgstr "Учетная запись %1 удалена"
 
-#: core/templates/registermessages.tmpl:350
+#: core/templates/registermessages.tmpl:357
 #, fuzzy
 msgid "User Account was not supplied"
 msgstr "Учетная запись %1 удалена"
@@ -5350,7 +5366,7 @@ msgstr ""
 msgid "Users who may view:"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:325
+#: core/templates/registermessages.tmpl:332
 msgid ""
 "Users with automatically generated passwords should proceed immediately to "
 "[[%1][change password]] to change their password to something memorable."
@@ -5478,11 +5494,11 @@ msgstr "Внимание: Не могу найти тему %1.%2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Внимание: Не могу найти тему %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:1311
+#: core/lib/Foswiki/UI/Register.pm:1298
 msgid "Warning: Could not send confirmation email"
 msgstr "Внимание: Не удалось послать подтверждение по электронной почте"
 
-#: core/lib/Foswiki/UI/Register.pm:1323
+#: core/lib/Foswiki/UI/Register.pm:1310
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
 "Внимание: Не удалось послать подтверждение по электронной почте, почта была "
@@ -5554,7 +5570,7 @@ msgstr ""
 msgid "Welcome to the %1 web"
 msgstr "Добро пожаловать в раздел %1"
 
-#: core/templates/registermessages.tmpl:93
+#: core/templates/registermessages.tmpl:100
 msgid "While attempting to email <noautolink>%1</noautolink>."
 msgstr "При попытке послать почту на <noautolink>%1</noautolink>."
 
@@ -5609,12 +5625,12 @@ msgstr ""
 "зарегистрированных Вами адресов электронной почты не правилен и Вы забыли "
 "свой пароль, пишите %1."
 
-#: core/templates/registermessages.tmpl:202
+#: core/templates/registermessages.tmpl:209
 #, fuzzy
 msgid "You are already registered."
 msgstr "Вы уже зарегистрированы"
 
-#: core/templates/registermessages.tmpl:149
+#: core/templates/registermessages.tmpl:156
 msgid "You are also listed in the %1 topic"
 msgstr "Вы также перечислены на странице %1"
 
@@ -5704,8 +5720,8 @@ msgstr "Вы можете изменить свой пароль при помо
 msgid "You can give this web a different name."
 msgstr "Вы можете дать этому разделу другое имя."
 
-#: core/templates/registermessages.tmpl:416
-#: core/templates/registermessages.tmpl:422
+#: core/templates/registermessages.tmpl:423
+#: core/templates/registermessages.tmpl:429
 msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
@@ -5723,7 +5739,7 @@ msgid ""
 "your browser."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:203
+#: core/templates/registermessages.tmpl:210
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr "Вы не можете зарегистрироваться дважды, имя %1 уже зарегистрировано."
 
@@ -5735,7 +5751,7 @@ msgid ""
 msgstr ""
 
 #: core/templates/registermessages.tmpl:13
-#: core/templates/registermessages.tmpl:198
+#: core/templates/registermessages.tmpl:205
 #: core/templates/registermessages.tmpl:23
 #: core/templates/registermessages.tmpl:37
 msgid "You have *not* been registered."
@@ -5749,7 +5765,7 @@ msgstr ""
 "Вы можете попробовать попросить Вашего администратора Wiki изменить "
 "настройки если они не подходят Вашему окружению."
 
-#: core/templates/registermessages.tmpl:107
+#: core/templates/registermessages.tmpl:114
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -5757,7 +5773,7 @@ msgstr ""
 "Возможно, вы нажали не ссылку подтверждения регистрации, по которой вы  уже "
 "приходили."
 
-#: core/templates/registermessages.tmpl:343
+#: core/templates/registermessages.tmpl:350
 msgid "You may need to close your browser to make this change take effect."
 msgstr ""
 "Возможно, Вам придется закрыть окно Вашего браузера чтобы эти изменения "
@@ -5773,11 +5789,11 @@ msgstr ""
 msgid "You must pass a topic name."
 msgstr "Вы должны передать имя темы."
 
-#: core/templates/registermessages.tmpl:376
+#: core/templates/registermessages.tmpl:383
 msgid "You need to specify a valid group name to add members to a group."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:427
+#: core/templates/registermessages.tmpl:434
 msgid "You need to specify a valid group name to remove members from a group."
 msgstr ""
 
@@ -5785,7 +5801,7 @@ msgstr ""
 msgid "You need to specify a valid member to add to a group."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:410
+#: core/templates/registermessages.tmpl:417
 msgid "You need to specify a valid member to remove from a group."
 msgstr ""
 
@@ -5802,7 +5818,7 @@ msgstr ""
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "Возможно Вы должны попросить администратора, %1, сделать это."
 
-#: core/templates/registermessages.tmpl:171
+#: core/templates/registermessages.tmpl:178
 msgid "You will receive an e-mail when your registration has been approved."
 msgstr ""
 
@@ -5817,7 +5833,7 @@ msgstr ""
 msgid "Your [[%1][username]]:"
 msgstr "Неверные %1.WikiNames:"
 
-#: core/templates/registermessages.tmpl:156
+#: core/templates/registermessages.tmpl:163
 msgid ""
 "Your activation code has been sent to %1.  Either click on the link in your "
 "e-mail or enter the code in the box below to activate your membership. (This "
@@ -5848,7 +5864,7 @@ msgstr ""
 msgid "Your password has been changed to %1."
 msgstr "Ваш пароль изменен на %1."
 
-#: core/templates/registermessages.tmpl:142
+#: core/templates/registermessages.tmpl:149
 #, fuzzy
 msgid "Your password has not been changed."
 msgstr "Ваш пароль изменен на %1."
@@ -5872,11 +5888,11 @@ msgstr ""
 "Ваша персональная страница %1 расположена в %2. Вы можете изменить её по "
 "своему усмотрению:"
 
-#: core/templates/registermessages.tmpl:147
+#: core/templates/registermessages.tmpl:154
 msgid "Your personal Foswiki topic %1 has been created"
 msgstr "Выша личная тема Foswiki %1 была создана"
 
-#: core/templates/registermessages.tmpl:303
+#: core/templates/registermessages.tmpl:310
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
@@ -5890,11 +5906,11 @@ msgid ""
 "notifications of password changes."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:169
+#: core/templates/registermessages.tmpl:176
 msgid "Your registration is pending approval by the system administrators."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:95
+#: core/templates/registermessages.tmpl:102
 msgid ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
@@ -5910,7 +5926,7 @@ msgstr "Ваша подпись для копирования/вставки"
 msgid "Your signature to copy/paste:"
 msgstr "Ваша подпись для копирования/вставки:"
 
-#: core/templates/registermessages.tmpl:333
+#: core/templates/registermessages.tmpl:340
 msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
@@ -5923,7 +5939,7 @@ msgid ""
 "Your user registration failed because it did not pass the validation tests."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:229
+#: core/templates/registermessages.tmpl:236
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
