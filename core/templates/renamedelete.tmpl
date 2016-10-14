@@ -25,7 +25,7 @@
 
 %TMPL:DEF{"newtopic"}%<p><input name="newtopic" class="foswikiInputField" value="%NEW_TOPIC%" size="36" /> %TMPL:P{"namehelp"}%</p>%TMPL:P{"onlywikiname"}% %TMPL:END%
 
-%TMPL:DEF{"newattachment"}%<p><input name="newattachment" class="foswikiInputField" value="%NEW_FILENAME%" size="36" /> %TMPL:P{"namehelp"}%</p>%TMPL:END%
+%TMPL:DEF{"newattachment"}%<p><input name="newattachment" class="foswikiInputField" value="%ENCODE{"%NEW_FILENAME%"}%" size="36" /> %TMPL:P{"namehelp"}%</p>%TMPL:END%
 
 
 %TMPL:DEF{"namehelp"}%<span>%MAKETEXT{"This name has been chosen so it doesn't conflict with any other topics already in the [_1] web." args="%NEW_WEB%"}%</span>%TMPL:END%
@@ -37,4 +37,4 @@
 %TMPL:DEF{"updatenote"}%%MAKETEXT{"Checked topics will be updated to point to the new topic location."}% <span class="foswikiAlert" style="font-weight:bold;">%MAKETEXT{"Not recommended when deleting a topic."}%</span>%TMPL:END%
 
 
-%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Delete"}%' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Delete"}%' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%%{ end }%

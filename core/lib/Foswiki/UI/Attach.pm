@@ -89,16 +89,16 @@ sub attach {
     }
     $tmpl =~ s/%ATTACHTABLE%/$atext/g;
     $tmpl =~ s/%FILEUSER%/$fileWikiUser/g;
-    $args->{name} = Foswiki::entityEncode( $args->{name} );
-    $tmpl =~ s/%FILENAME%/$args->{name}/g;
-    $tmpl = $topicObject->expandMacros($tmpl);
-    $tmpl = $topicObject->renderTML($tmpl);
+    $tmpl =~ s/%FILENAME%/$fileName/g;
     $tmpl =~ s/%HIDEFILE%/$isHideChecked/g;
 
-    my $filePath = Foswiki::entityEncode( $args->{path} ) || $args->{name};
+    my $filePath = $args->{path} || $fileName;
     $tmpl =~ s/%FILEPATH%/$filePath/g;
     $args->{comment} = Foswiki::entityEncode( $args->{comment} );
     $tmpl =~ s/%FILECOMMENT%/$args->{comment}/g;
+
+    $tmpl = $topicObject->expandMacros($tmpl);
+    $tmpl = $topicObject->renderTML($tmpl);
 
     $app->writeCompletePage($tmpl);
 }
@@ -107,7 +107,7 @@ sub attach {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
