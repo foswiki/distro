@@ -985,8 +985,9 @@ sub populateNewWeb {
 
     if ($templateWeb) {
         my $tWebObject = $this->create( $this, web => $templateWeb );
-        require Foswiki::WebFilter;
-        my $sys = Foswiki::WebFilter->new('template')->ok( $app, $templateWeb );
+        my $sys =
+          $this->create( 'Foswiki::WebFilter', 'template' )
+          ->ok( $app, $templateWeb );
         my $it = $tWebObject->eachTopic();
         while ( $it->hasNext() ) {
             my $topic = $it->next();
@@ -1004,6 +1005,7 @@ sub populateNewWeb {
                     comment => $sfa->{comment}
                 };
             }
+
             $to->saveAs(
                 web              => $this->web,
                 topic            => $topic,
@@ -1129,7 +1131,7 @@ sub eachTopic {
     if ( !$this->web ) {
 
         # Root
-        return Foswiki::ListIterator->new( list => [] );
+        return $this->create( 'Foswiki::ListIterator', list => [] );
     }
     return $this->app->store->eachTopic($this);
 }

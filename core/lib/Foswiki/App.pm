@@ -609,7 +609,14 @@ sub create {
 
     Foswiki::load_class($class);
 
-    my $object = $class->new( app => $this, @_ );
+    my $object;
+
+    if ( $class->isa('Foswiki::Object') ) {
+        $object = $class->new( app => $this, @_ );
+    }
+    else {
+        $object = $class->new(@_);
+    }
 
     return $object;
 }
@@ -1577,7 +1584,7 @@ sub _checkReqCache {
         # implicit untaint required, because $cache may be used in a
         # filename. Note that the cache serialises the method and path_info,
         # which will be restored.
-        Foswiki::Request::Cache->new->load( $1, $req );
+        $this->create('Foswiki::Request::Cache')->load( $1, $req );
     }
 }
 

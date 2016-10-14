@@ -113,7 +113,8 @@ sub parse {
           split( /\s+/, $searchString ); # split on spaces
     }
 
-    my $result = Foswiki::Search::Node->new(
+    my $result = $this->create(
+        'Foswiki::Search::Node',
         search  => $searchString,
         tokens  => \@tokens,
         options => $options

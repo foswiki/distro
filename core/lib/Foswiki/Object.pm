@@ -89,60 +89,68 @@ has __clone_heap =>
   ( is => 'rw', clearer => 1, lazy => 1, default => sub { {} }, );
 
 around BUILDARGS => sub {
-    my $orig = shift;
-    my ( $class, @params ) = @_;
+    my $orig   = shift;
+    my $class  = shift;
+    my @params = @_;
 
-    # Skip processing if already have passed with a hash ref.
-    return $params[0] if @params == 1 && ref( $params[0] ) eq 'HASH';
+    if (0) {
 
-    # Take care of clone-like methods.
-    if ( ref($class) ) {
-        $class = ref($class);
-    }
+        # No more support for @_newParameters.
 
-    my $paramHash;
+        # Skip processing if already have passed with a hash ref.
+        return $params[0] if @params == 1 && ref( $params[0] ) eq 'HASH';
 
-    Carp::confess("Undefined \$class") unless defined $class;
-    no strict 'refs';
-    if ( defined *{ $class . '::_newParameters' }{ARRAY} ) {
-        my @newParameters = @{ $class . '::_newParameters' };
-        my $isHash        = 0;
+        # Take care of clone-like methods.
+        if ( ref($class) ) {
+            $class = ref($class);
+        }
+
+        my $paramHash;
+
+        Carp::confess("Undefined \$class") unless defined $class;
+
+        no strict 'refs';
+        if ( defined *{ $class . '::_newParameters' }{ARRAY} ) {
+            my @newParameters = @{ $class . '::_newParameters' };
+            my $isHash        = 0;
 
         # If there are even number of parameters passed suspect key/value pairs.
         # Note: at least one key has to be in @_newParameters for this to work.
-        if ( ( @params % 2 ) == 0 ) {
-            my $prop_re = '^(' . join( '|', @newParameters ) . ')$';
+            if ( ( @params % 2 ) == 0 ) {
+                my $prop_re = '^(' . join( '|', @newParameters ) . ')$';
 
       # Check for potential keys if any of them is mentioned in @_newParameters.
       # Not key/value form if any single suspected-to-be-key is undef.
-            for ( my $i = 0 ; !$isHash && $i < @params ; $i += 2 ) {
-                next unless defined $params[$i];
-                $isHash = ( $params[$i] =~ $prop_re );
+                for ( my $i = 0 ; !$isHash && $i < @params ; $i += 2 ) {
+                    next unless defined $params[$i];
+                    $isHash = ( $params[$i] =~ $prop_re );
+                }
             }
-        }
-        unless ($isHash) {
-            ASSERT(
-                scalar(@params) <= scalar(@newParameters),
+            unless ($isHash) {
+                ASSERT(
+                    scalar(@params) <= scalar(@newParameters),
 "object constructor for class $class has received more parameters than defined in \@_newParameters"
-            ) if DEBUG;
-            while (@params) {
-                $paramHash->{ shift @newParameters } = shift @params;
+                ) if DEBUG;
+                while (@params) {
+                    $paramHash->{ shift @newParameters } = shift @params;
+                }
             }
         }
-    }
 
 # If $paramHash is undef at this point then either @params is a key/value pairs array or no @_newParameters array defined.
 # SMELL XXX Number of elements in @params has to be checked and an exception thrown if it's inappropriate.
-    unless ( defined $paramHash ) {
-        Foswiki::Exception::Fatal->throw(
-            text => "Odd number of elements in $class parameters hash" )
-          if ( @params % 2 ) == 1;
-        $paramHash = {@params};
+        unless ( defined $paramHash ) {
+            Foswiki::Exception::Fatal->throw(
+                text => "Odd number of elements in $class parameters hash" )
+              if ( @params % 2 ) == 1;
+            $paramHash = {@params};
+        }
+
+        use strict 'refs';
+        return $paramHash;
     }
 
-    use strict 'refs';
-
-    return $paramHash;
+    return $orig->( $class, @_ );
 };
 
 sub BUILD {

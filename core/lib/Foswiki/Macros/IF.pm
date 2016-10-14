@@ -55,7 +55,7 @@ sub expand {
                 $params->stringify(), '}:', $_->text );
         }
         else {
-            $_->throw;
+            Foswiki::Exception::Fatal->rethrow($_);
         }
     }
     finally {

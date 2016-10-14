@@ -38,8 +38,12 @@ sub render {
     # called when a regex matches a valid wikiword
     $web   = Foswiki::Sandbox::untaintUnchecked($web);
     $topic = Foswiki::Sandbox::untaintUnchecked($topic);
-    my $topicObject =
-      Foswiki::Meta->new( app => $app, web => $web, topic => $topic );
+    my $topicObject = $app->create(
+        'Foswiki::Meta',
+        app   => $app,
+        web   => $web,
+        topic => $topic
+    );
 
     my $info = $topicObject->getRevisionInfo();
     $tooltip =~ s/\$web/<nop>$web/g;

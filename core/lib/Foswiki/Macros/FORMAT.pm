@@ -44,7 +44,8 @@ sub FORMAT {
         my $listIterator;
 
         if ( $type eq 'string' ) {
-            $listIterator = Foswiki::ListIterator->new( list => \@list );
+            $listIterator =
+              $app->create( 'Foswiki::ListIterator', list => \@list );
         }
         else {
 

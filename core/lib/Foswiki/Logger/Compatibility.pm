@@ -65,8 +65,7 @@ use Foswiki::Time qw(-nofoswiki);
 use Foswiki::Configure::Load ();
 use Fcntl qw(:flock);
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Logger);
 
 use constant TRACE => 0;
@@ -204,7 +203,8 @@ sub eachEventSince {
             $logfile =~ s/%DATE%/$logTime/g;
             my $fh;
             if ( -f $logfile && open( $fh, '<:encoding(utf-8)', $logfile ) ) {
-                my $logIt = Foswiki::Logger::Compatibility::EventIterator->new(
+                my $logIt = $this->create(
+                    'Foswiki::Logger::Compatibility::EventIterator',
                     fileHandle => $fh,
                     threshold  => $time,
                     level      => $reqLevel,
@@ -231,7 +231,7 @@ sub eachEventSince {
             }
         }
         push @mergeIterators,
-          Foswiki::Iterator::AggregateEventIterator->new(
+          $this->create( 'Foswiki::Iterator::AggregateEventIterator',
             iterators => \@iterators );
     }
 
@@ -241,7 +241,7 @@ sub eachEventSince {
           . Data::Dumper::Dumper( \@mergeIterators );
     }
 
-    return Foswiki::Iterator::MergeEventIterator->new(
+    return $this->create( 'Foswiki::Iterator::MergeEventIterator',
         list => \@mergeIterators );
 }
 

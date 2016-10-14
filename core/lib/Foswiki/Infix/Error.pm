@@ -24,18 +24,32 @@ has at => (
     lazy      => 1,
     predicate => 1,
 );
-our @_newParameters = qw(text expr at);
+has msg => (
+    is        => 'rw',
+    lazy      => 1,
+    predicate => 1,
+    required  => 1,
+);
 
-# SMELL To be replaced by stringify() method.
-around text => sub {
+#our @_newParameters = qw(text expr at);
+
+around prepareText => sub {
     my $orig = shift;
     my $this = shift;
-    my $text = $orig->( $this, @_ );
-    if ( $this->expr ) {
-        $text .= " in '" . $this->expr . "'";
+
+    my $text;
+
+    if ( $this->has_msg ) {
+        $text = $this->msg;
+        if ( $this->expr ) {
+            $text .= " in '" . $this->expr . "'";
+        }
+        if ( $this->at ) {
+            $text .= " at '" . $this->at . "'";
+        }
     }
-    if ( $this->at ) {
-        $text .= " at '" . $this->at . "'";
+    else {
+        $text = $orig->( $this, @_ );
     }
     return $text;
 };

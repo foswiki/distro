@@ -289,33 +289,32 @@ sub expireValidationKeys {
 
 =begin TML
 
----++ StaticMethod validate($session)
+---++ StaticMethod validate($app)
 
 Generate (or check) the "Suspicious request" verification screen for the
-given session. This screen is generated when a validation fails, as a
+given app. This screen is generated when a validation fails, as a
 response to a ValidationException.
 
 =cut
 
 sub validate {
-    my ($session) = @_;
-    my $query     = $session->{request};
-    my $web       = $session->{webName};
-    my $topic     = $session->{topicName};
-    my $cgis      = $session->getCGISession();
+    my ($app) = @_;
+    my $req   = $app->request;
+    my $web   = $req->web;
+    my $topic = $req->topic;
+    my $cgis  = $app->users->getCGISession();
 
-    my $tmpl = $session->templates->readTemplate('validate');
+    my $tmpl = $app->templates->readTemplate('validate');
 
-    if ( $query->param('response') ) {
-        my $cacheUID = $query->param('foswikioriginalquery');
-        $query->delete('foswikioriginalquery');
+    if ( $req->param('response') ) {
+        my $cacheUID = $req->param('foswikioriginalquery');
+        $req->delete('foswikioriginalquery');
         my $url;
-        if ( $query->param('response') eq 'OK'
-            && isValidNonce( $cgis, scalar( $query->param('validation_key') ) )
-          )
+        if ( $req->param('response') eq 'OK'
+            && isValidNonce( $cgis, scalar( $req->param('validation_key') ) ) )
         {
             if ( !$cacheUID ) {
-                $url = $session->getScriptUrl( 0, 'view', $web, $topic );
+                $url = $app->cfg->getScriptUrl( 0, 'view', $web, $topic );
             }
             else {
 
@@ -323,27 +322,28 @@ sub validate {
                 # When the redirect is validated it should pass, because
                 # it will now be using the validation code from the
                 # confirmation screen that brought us here.
-                require Foswiki::Request::Cache;
-                Foswiki::Request::Cache->new()->load( $cacheUID, $query );
-                $url = $query->url();
+                Foswiki::load_class('Foswiki::Request::Cache');
+                $app->create('Foswiki::Request::Cache')
+                  ->load( $cacheUID, $req );
+                $url = $req->url();
             }
 
             # Complete the query by passing the query on
             # with passthrough
             print STDERR "WV: CONFIRMED; POST to $url\n" if TRACE;
-            $session->redirect( $url, 1 );
+            $app->redirect( $url, 1 );
         }
         else {
             print STDERR "V: CONFIRMATION REJECTED\n" if TRACE;
 
             # Validation failed; redirect to view (302)
-            $url = $session->getScriptUrl( 0, 'view', $web, $topic );
-            $session->redirect( $url, 0 );    # no passthrough
+            $url = $app->cfg->getScriptUrl( 0, 'view', $web, $topic );
+            $app->redirect( $url, 0 );    # no passthrough
         }
     }
     else {
 
-        print STDERR "V: PROMPTING FOR CONFIRMATION " . $query->uri() . "\n"
+        print STDERR "V: PROMPTING FOR CONFIRMATION " . $req->url() . "\n"
           if TRACE;
 
         # Prompt for user verification - code 419 chosen by foswiki devs.
@@ -356,18 +356,18 @@ sub validate {
         # as we need this page to arrive intact to the user, otherwise
         # they won't be able to do anything. 419 is a placebo, and if it
         # is ever defined can be replaced by any other undefined 4xx code.
-        $session->{response}->status(419);
+        $app->response->status(419);
 
-        my $topicObject = Foswiki::Meta->new(
-            session => $session,
-            web     => $web,
-            topic   => $topic
+        my $topicObject = $app->create(
+            'Foswiki::Meta',
+            web   => $web,
+            topic => $topic
         );
         $tmpl = $topicObject->expandMacros($tmpl);
         $tmpl = $topicObject->renderTML($tmpl);
         $tmpl =~ s/<nop>//g;
 
-        $session->writeCompletePage($tmpl);
+        $app->writeCompletePage($tmpl);
     }
 }
 

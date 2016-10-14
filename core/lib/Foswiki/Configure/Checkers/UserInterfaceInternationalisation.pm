@@ -4,8 +4,7 @@ use v5.14;
 
 use Foswiki::Configure::Dependency ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Configure::Checker);
 
 my $maketext_minver = 1.23;

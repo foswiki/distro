@@ -35,8 +35,7 @@ use Foswiki::Configure::Load       ();
 use Foswiki::Configure::Dependency ();
 use Foswiki::Exception;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 
 use constant GUESSED_MESSAGE => <<'HERE';

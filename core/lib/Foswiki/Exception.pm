@@ -97,7 +97,13 @@ throwing the exception then it must generate it using other attributes.
 
 =cut
 
-has text => ( is => 'rwp', lazy => 1, builder => 'prepareText', );
+has text => (
+    is        => 'rwp',
+    lazy      => 1,
+    builder   => 'prepareText',
+    clearer   => 1,
+    predicate => 1,
+);
 
 =begin TML
 

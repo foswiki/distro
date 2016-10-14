@@ -1085,7 +1085,7 @@ sub getAnchorNames {
     my $id = $topicObject->getPath();
     my $a  = $this->_anchorNames->{$id};
     unless ($a) {
-        $a = Foswiki::Render::Anchors->new;
+        $a = $this->create('Foswiki::Render::Anchors');
         $this->_anchorNames->{$id} = $a;
     }
     return $a;

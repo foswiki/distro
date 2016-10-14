@@ -131,7 +131,8 @@ around prepareUploads => sub {
     #SMELL: CLI and CGI appear to support multiple uploads
     # but Foswiki::UI::Upload only processes a single upload.
     foreach my $fname ( @{ $req->_param->{filepath} } ) {
-        $uploads{$fname} = Foswiki::Request::Upload->new(
+        $uploads{$fname} = $this->create(
+            'Foswiki::Request::Upload',
             headers => {},
             tmpname => $fname
         );

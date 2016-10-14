@@ -197,7 +197,7 @@ sub fetchUsers {
     my $db    = $this->_readPasswd(1);
     my @users = sort keys %$db;
     require Foswiki::ListIterator;
-    return Foswiki::ListIterator->new( list => \@users );
+    return $this->create( 'Foswiki::ListIterator', list => \@users );
 }
 
 # Lock the htpasswd semaphore file (create if it does not exist)

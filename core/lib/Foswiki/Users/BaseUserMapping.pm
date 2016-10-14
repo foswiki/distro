@@ -299,7 +299,7 @@ sub eachUser {
 
     my @list = keys( %{ $this->U2W } );
     require Foswiki::ListIterator;
-    return Foswiki::ListIterator->new( list => \@list );
+    return $this->create( 'Foswiki::ListIterator', list => \@list );
 }
 
 =begin TML
@@ -322,7 +322,7 @@ sub eachGroupMember {
     #print STDERR "eachGroupMember($group): ".join(',', @{$members});
 
     require Foswiki::ListIterator;
-    return Foswiki::ListIterator->new( list => $members );
+    return $this->create( 'Foswiki::ListIterator', list => $members );
 }
 
 =begin TML
@@ -354,7 +354,7 @@ sub eachGroup {
     my @groups = keys( %{ $this->GROUPS } );
 
     require Foswiki::ListIterator;
-    return Foswiki::ListIterator->new( list => \@groups );
+    return $this->create( 'Foswiki::ListIterator', list => \@groups );
 }
 
 =begin TML

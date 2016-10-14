@@ -197,7 +197,7 @@ sub _initLanguageHandler {
     else {
         Foswiki::load_package('Foswiki::I18N::Fallback');
 
-        $lh = Foswiki::I18N::Fallback->new;
+        $lh = $this->create('Foswiki::I18N::Fallback');
 
         # we couldn't initialise 'optional' I18N infrastructure, warn that we
         # can only use English if I18N has been requested with configure

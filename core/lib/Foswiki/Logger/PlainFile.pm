@@ -57,8 +57,7 @@ This logger implementation maps groups of levels to a single logfile, viz.
 
 use Foswiki::Time qw(-nofoswiki);
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Logger);
 
 use constant TRACE => 0;
@@ -228,7 +227,8 @@ sub eachEventSince {
 
             my $fh;
             if ( open( $fh, '<:encoding(utf-8)', $logfile ) ) {
-                my $logIt = Foswiki::Logger::PlainFile::EventIterator->new(
+                my $logIt = $this->create(
+                    'Foswiki::Logger::PlainFile::EventIterator',
                     handle    => $fh,
                     threshold => $time,
                     level     => $reqLevel,
@@ -252,7 +252,7 @@ sub eachEventSince {
         }
 
         push @mergeIterators,
-          Foswiki::Iterator::AggregateEventIterator->new(
+          $this->create( 'Foswiki::Iterator::AggregateEventIterator',
             iterators => \@iterators );
     }
 
@@ -262,7 +262,7 @@ sub eachEventSince {
           . Data::Dumper::Dumper( \@mergeIterators );
     }
 
-    return Foswiki::Iterator::MergeEventIterator->new(
+    return $this->create( 'Foswiki::Iterator::MergeEventIterator',
         list => \@mergeIterators );
 }
 

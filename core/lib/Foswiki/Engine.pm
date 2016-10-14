@@ -179,8 +179,9 @@ corresponding class. The environment is been detected by:
 sub start {
     my %params = @_;
 
-    my $cfg = $Foswiki::app->cfg;
-    my $env = $Foswiki::app->env;
+    my $app = $params{app} // $Foswiki::app;
+    my $cfg = $app->cfg;
+    my $env = $app->env;
     my $engine;
     $engine //= $cfg->data->{Engine};
     $engine //= $env->{FOSWIKI_ENGINE};
@@ -201,7 +202,7 @@ sub start {
 
     if ($engine) {
         Foswiki::load_class($engine);
-        return $engine->new(%params);
+        return $app->create( $engine, %params );
     }
     else {
         return undef;
@@ -290,7 +291,7 @@ sub __deprecated_prepare {
         {
             my $res = $e->response;
             unless ( defined $res ) {
-                $res = Foswiki::Response->new;
+                $res = $this->create('Foswiki::Response');
                 $res->header( -type => 'text/html', -status => $e->status );
                 my $html = CGI::start_html( $e->status . ' Bad Request' );
                 $html .= CGI::h1( {}, 'Bad Request' );
@@ -302,7 +303,7 @@ sub __deprecated_prepare {
             return $e->status;
         }
         else {    # Not Foswiki::EngineException
-            my $res = Foswiki::Response->new();
+            my $res = $this->create('Foswiki::Response');
             my $mess =
                 $e->can('stringify')
               ? $e->stringify()

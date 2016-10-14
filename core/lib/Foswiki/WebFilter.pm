@@ -38,7 +38,7 @@ sub ok {
 
     return 0 if !$app->store->webExists($web);
 
-    my $webObject = Foswiki::Meta->new( app => $app, web => $web );
+    my $webObject = $app->create( 'Foswiki::Meta', app => $app, web => $web );
     my $thisWebNoSearchAll =
       Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
 

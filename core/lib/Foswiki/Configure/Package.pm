@@ -8,8 +8,7 @@ use v5.14;
 
 use File::Spec;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 
 # $super - Foswiki::Configure::Reporter to pass all reports to
@@ -152,8 +151,7 @@ sub changes {
 package _SpecChecker;
 
 use Assert;
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Configure::Visitor);
 
 has reporter => (
@@ -243,8 +241,7 @@ use Foswiki::Configure::FileUtil   ();
 use Foswiki::Configure::Root       ();
 use Foswiki::Plugins               ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 
 our $FALSE = 0;

@@ -144,7 +144,8 @@ sub _webQuery {
             web                 => $web,
         };
         my @filter      = @{ $hoistedREs->{text} };
-        my $searchQuery = Foswiki::Search::Node->new(
+        my $searchQuery = $this->create(
+            'Foswiki::Search::Node',
             search  => $query->toString(),
             tokens  => \@filter,
             options => $searchOptions

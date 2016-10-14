@@ -43,7 +43,7 @@ has queryParser => (
     lazy    => 1,
     default => sub {
         Foswiki::load_class('Foswiki::Query::Parser');
-        return Foswiki::Query::Parser->new;
+        return $_[0]->create('Foswiki::Query::Parser');
     },
 );
 has searchParser => (

@@ -73,7 +73,7 @@ sub expand {
                 $params->stringify(), '}:', $_->text );
         }
         else {
-            Foswiki::Exception->rethrow($_);
+            Foswiki::Exception::Fatal->rethrow($_);
         }
     }
     finally {
