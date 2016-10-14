@@ -6,7 +6,7 @@
 %TMPL:DEF{"webaction"}% *%MAKETEXT{"Move file attachment"}%* %TMPL:END%
 
 
-%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Move attachment [_1]" args="[[%ATTACHURL%/%ENCODE{"%FILENAME%"}%][%FILENAME%]]"}% %TMPL:END%
+%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Move attachment [_1]" args="[[%ATTACHURL%/%ENCODE{"%FILENAME%"}%][%ENCODE{"%FILENAME%" type="entity"}%]]"}% %TMPL:END%
 
 
 %TMPL:DEF{"renameformsteps"}%<div class="foswikiFormSteps">
@@ -25,7 +25,7 @@
 
 %TMPL:DEF{"attachmenthelp"}%<p>%MAKETEXT{"The attachment may be renamed (by appending a number to the name) if an attachment of that name already exists in the target topic."}%</p>%TMPL:END%
 
-%TMPL:DEF{"newweb"}%<p><select class="foswikiSelect" name="newweb" onchange="if (document.rename.newweb.value == 'Trash') { document.rename.newtopic.value = 'TrashAttachment'; }"> %WEBLIST{"<option $marker value=$qname>$name</option>" webs="%TRASHWEB%,public" selection="%WEB%" separator=" "}%  </select><input type="hidden" name="attachment" value="%FILENAME%" /></p>%TMPL:END%
+%TMPL:DEF{"newweb"}%<p><select class="foswikiSelect" name="newweb" onchange="if (document.rename.newweb.value == 'Trash') { document.rename.newtopic.value = 'TrashAttachment'; }"> %WEBLIST{"<option $marker value=$qname>$name</option>" webs="%TRASHWEB%,public" selection="%WEB%" separator=" "}%  </select><input type="hidden" name="attachment" value="%ENCODE{"%FILENAME%"}%" /></p>%TMPL:END%
 
 
 %TMPL:DEF{"towebtitle"}%---+++ %MAKETEXT{"Move to web:"}%%TMPL:END%
@@ -60,4 +60,4 @@
 
 
 
-%TMPL:DEF{"updatenote"}%%TMPL:END%
+%TMPL:DEF{"updatenote"}%%TMPL:END%%{ end }%
