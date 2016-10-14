@@ -322,7 +322,6 @@ sub validate {
                 # When the redirect is validated it should pass, because
                 # it will now be using the validation code from the
                 # confirmation screen that brought us here.
-                Foswiki::load_class('Foswiki::Request::Cache');
                 $app->create('Foswiki::Request::Cache')
                   ->load( $cacheUID, $req );
                 $url = $req->url();
