@@ -14,19 +14,10 @@ use Try::Tiny;
 
 use Foswiki::Search::Node ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 use Assert;
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 our $MARKER = "\0";
 
@@ -122,7 +113,8 @@ sub parse {
           split( /\s+/, $searchString ); # split on spaces
     }
 
-    my $result = Foswiki::Search::Node->new(
+    my $result = $this->create(
+        'Foswiki::Search::Node',
         search  => $searchString,
         tokens  => \@tokens,
         options => $options

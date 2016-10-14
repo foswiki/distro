@@ -137,11 +137,12 @@ EOF
 #  check there too!
 #
 sub test_Request_parse {
-    my $this = shift;
-    my @paths = my @comparisons = (
+    my $this       = shift;
+    my $defaultWeb = $Foswiki::cfg{UsersWebName};
+    my @paths      = my @comparisons = (
 
         #Query Path  Params,     Web     topic,   invalidWeb,   invalidTopic
-        [ '/', undef, '', undef, undef, undef ],
+        [ '/', undef, $defaultWeb, 'WebHome', undef, undef ],
         [ '/', { topic => 'Main.WebHome' }, 'Main', 'WebHome', undef, undef ],
 
         # topic= overrides any pathinfo
@@ -154,24 +155,29 @@ sub test_Request_parse {
 # defaultweb is not processed by the request object, so web is unset by the Request.
         [
             '/', { defaultweb => 'Sandbox', topic => 'WebHome' },
-            '', 'WebHome', undef, undef
+            'Sandbox', 'WebHome', undef, undef
         ],
 
-        [ '/Main/WebHome',   undef, 'Main',    'WebHome', undef,  undef ],
-        [ '//Main//WebHome', undef, 'Main',    'WebHome', undef,  undef ],
-        [ '//Sandbox///',    undef, 'Sandbox', undef,     undef,  undef ],
-        [ '/Main..WebHome',  undef, 'Main',    'WebHome', undef,  undef ],
-        [ '/blah/asdf',      undef, undef,     undef,     'blah', undef ],
-        [ '/Main.WebHome',   undef, 'Main',    'WebHome', undef,  undef ],
+        [ '/Main/WebHome',   undef, 'Main',      'WebHome', undef,  undef ],
+        [ '//Main//WebHome', undef, 'Main',      'WebHome', undef,  undef ],
+        [ '//Sandbox///',    undef, 'Sandbox',   'WebHome', undef,  undef ],
+        [ '/Main..WebHome',  undef, 'Main',      'WebHome', undef,  undef ],
+        [ '/blah/asdf',      undef, $defaultWeb, 'WebHome', 'blah', undef ],
+        [ '/Main.WebHome',   undef, 'Main',      'WebHome', undef,  undef ],
         [ '/Web/SubWeb.WebHome', undef, 'Web/SubWeb', 'WebHome', undef, undef ],
         [ '/Web/SubWeb/WebHome', undef, 'Web/SubWeb', 'WebHome', undef, undef ],
         [ '/Web.Subweb.WebHome', undef, 'Web/Subweb', 'WebHome', undef, undef ],
         [
-            '/Web.Subweb.Webhome/', undef, 'Web/Subweb/Webhome', undef,
+            '/Web.Subweb.Webhome/', undef,
+            'Web/Subweb/Webhome',   'WebHome',
             undef,                  undef
         ],
-        [ '/3#/blah',          undef, undef, undef, '3#',  undef ],
-        [ '/Web.a<script>lah', undef, undef, undef, undef, 'a<script>lah' ],
+        [ '/3#/blah', undef, $defaultWeb, 'WebHome', '3#', undef ],
+        [
+            '/Web.a<script>lah', undef,
+            $defaultWeb,         'WebHome',
+            undef,               'a<script>lah'
+        ],
 
         # This next one  works because of auto fix-up of lower case topic name
         [ '/Blah/asdf', undef, 'Blah', 'Asdf', undef, undef ],
@@ -179,9 +185,18 @@ sub test_Request_parse {
     my $tn = 0;
     foreach my $set (@paths) {
         $tn++;
-        my $req = new Foswiki::Request( $set->[1] );
-        $req->pathInfo( $set->[0] );
-        $this->createNewFoswikiSession( 'AdminUser', $req );
+
+        $this->createNewFoswikiApp(
+            requestParams => { initializer => $set->[1], },
+            engineParams  => {
+                initialAttributes => {
+                    path_info => $set->[0],
+                    user      => 'AdminUser',
+                },
+            },
+        );
+
+        my $req = $this->app->request;
 
         #print STDERR $req->pathInfo() . " web "
         #  . ( ( defined $req->web() ) ? $req->web() : 'undef' )

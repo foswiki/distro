@@ -52,17 +52,11 @@ use Foswiki::Meta                   ();
 use Foswiki::Serialise              ();
 use Foswiki::Users::BaseUserMapping ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 
 # use the locale if required to ensure sort order is correct
 BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-
     *_decode = \&Foswiki::Store::decode;
     *_encode = \&Foswiki::Store::encode;
     *_stat   = \&Foswiki::Store::Rcs::Store::_stat;

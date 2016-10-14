@@ -14,17 +14,8 @@ use v5.14;
 use Assert;
 use Try::Tiny;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has _enabled_languages => (
     is      => 'rw',
@@ -206,7 +197,7 @@ sub _initLanguageHandler {
     else {
         Foswiki::load_package('Foswiki::I18N::Fallback');
 
-        $lh = Foswiki::I18N::Fallback->new;
+        $lh = $this->create('Foswiki::I18N::Fallback');
 
         # we couldn't initialise 'optional' I18N infrastructure, warn that we
         # can only use English if I18N has been requested with configure

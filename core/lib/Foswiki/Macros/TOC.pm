@@ -4,13 +4,6 @@ package Foswiki::Macros;
 use strict;
 use warnings;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 # Extract headings from $text and render them as a TOC table.
 #    * =$text= - the text to extract the TOC from.
 #    * =$topicObject= - the topic that is the context we are going to

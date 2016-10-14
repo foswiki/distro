@@ -6,13 +6,6 @@ use warnings;
 
 use Foswiki::Macros::SCRIPTURLPATH;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 sub SCRIPTURL {
     my ( $this, $params, $topicObject, $relative ) = @_;
     my ( $web, $topic, $script );

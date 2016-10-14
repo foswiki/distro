@@ -14,16 +14,8 @@ use Assert;
 use Foswiki::Func           ();
 use Foswiki::Tables::Parser ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has table => (
     is       => 'rw',

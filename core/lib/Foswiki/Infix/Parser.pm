@@ -19,13 +19,6 @@ Escapes are supported in strings, using backslash.
 
 package Foswiki::Infix::Parser;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 use Assert;
 use Try::Tiny;
 use Foswiki::Infix::Error ();
@@ -223,7 +216,7 @@ sub parse {
 sub _parse {
     my ( $this, $expr, $input, $term ) = @_;
 
-    Foswiki::Infix::Error->throw("Empty expression")
+    Foswiki::Infix::Error->throw( msg => "Empty expression" )
       unless defined($expr);
     $$input = "()" unless $$input =~ m/\S/;
 
@@ -335,7 +328,11 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x\{[a-fA-F0-9]+\}|n|t|\\|$q)/eval('"\\'.$1
                 last;
             }
             else {
-                Foswiki::Infix::Error->throw( 'Syntax error', $expr, $$input );
+                Foswiki::Infix::Error->throw(
+                    msg  => 'Syntax error',
+                    expr => $expr,
+                    at   => $$input
+                );
             }
         }
         _apply( $this, 0, \@opers, \@opands );
@@ -345,12 +342,12 @@ s/(?<!\\)\\(0[0-7]{2}|x[a-fA-F0-9]{2}|x\{[a-fA-F0-9]+\}|n|t|\\|$q)/eval('"\\'.$1
     };
 
     Foswiki::Infix::Error->throw(
-        text => 'Missing operator',
+        msg  => 'Missing operator',
         expr => $expr,
         at   => $$input
     ) unless scalar(@opands) == 1;
     Foswiki::Infix::Error->throw(
-        text => 'Excess operators ('
+        msg => 'Excess operators ('
           . join( ' ', map { $_->name } @opers ) . ')',
         expr => $expr,
         at   => $$input
@@ -379,7 +376,7 @@ sub _apply {
 
             # Should never get thrown, but just in case...
             Foswiki::Infix::Error->throw(
-                "Missing operand to '" . $op->name . "'" )
+                msg => "Missing operand to '" . $op->name . "'" )
               unless $prams[0];
         }
         if (MONITOR_PARSER) {

@@ -18,16 +18,8 @@ use Assert;
 use Try::Tiny;
 use Fcntl qw( :DEFAULT :flock );
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Users::Password);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 our ( $GlobalCache, $GlobalTimestamp );
 
@@ -205,7 +197,7 @@ sub fetchUsers {
     my $db    = $this->_readPasswd(1);
     my @users = sort keys %$db;
     require Foswiki::ListIterator;
-    return Foswiki::ListIterator->new( list => \@users );
+    return $this->create( 'Foswiki::ListIterator', list => \@users );
 }
 
 # Lock the htpasswd semaphore file (create if it does not exist)

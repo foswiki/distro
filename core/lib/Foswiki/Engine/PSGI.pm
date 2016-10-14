@@ -16,6 +16,8 @@ use v5.14;
 use Assert;
 use Plack::Request;
 use Unicode::Normalize;
+use File::Spec ();
+use Encode     ();
 
 use Foswiki::Class;
 extends qw(Foswiki::Engine);
@@ -185,11 +187,16 @@ around _prepareUploads => sub {
     my @uploads;
     my $psgi = $this->psgi;
     foreach my $key ( keys %{ $psgi->uploads } ) {
-        my $upload = $psgi->upload($key);
+        my $upload   = $psgi->upload($key);
+        my $filename = Encode::decode_utf8( $upload->filename );
+        my $basename = ( File::Spec->splitpath($filename) )[2];
+
+        # SMELL Not only filenames but all data should be passed thru
+        # decode_utf8.
         push @uploads,
           {
-            filename    => $upload->filename,
-            basename    => $upload->basename,
+            filename    => $filename,
+            basename    => $basename,
             tmpname     => $upload->path,
             headers     => $upload->headers,
             contentType => $upload->content_type,

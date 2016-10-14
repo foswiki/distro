@@ -16,16 +16,8 @@ use warnings;
 use Assert;
 use Try::Tiny;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::UI);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 our $MARKER = "\02\03";
 
@@ -327,9 +319,9 @@ sub _renameTopicOrAttachment {
             my $meta = Foswiki::Meta->load( $app, $new->web, $new->topic );
             my $parent = $meta->get('TOPICPARENT');
             my ( $parentWeb, $parentTopic );
-            if ( $parent && defined $parent->name ) {
+            if ( $parent && defined $parent->{name} ) {
                 ( $parentWeb, $parentTopic ) =
-                  $req->normalizeWebTopicName( $oldWeb, $parent->name );
+                  $req->normalizeWebTopicName( $oldWeb, $parent->{name} );
             }
             if (   $parentTopic
                 && !( $parentWeb eq $oldWeb && $parentTopic eq $oldTopic )

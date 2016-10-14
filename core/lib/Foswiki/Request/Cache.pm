@@ -29,10 +29,8 @@ use Fcntl;    # File control constants e.g. O_EXCL
 use Foswiki::Request::Upload ();
 use Foswiki::Sandbox         ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 use constant TRACE_CACHE => 0;
 
@@ -258,7 +256,7 @@ sub _loadUpload {
     $info->{tmpname} .= '_' while ( -e $info->{tmpname} );
 
     # Construct the new object, and move the data file into place
-    my $upload = Foswiki::Request::Upload->new(%$info);
+    my $upload = $this->create( 'Foswiki::Request::Upload', %$info );
     File::Copy::move( $dfn, $upload->tmpFileName ) if ( -e $dfn );
 
     return $upload;

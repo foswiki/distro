@@ -18,13 +18,6 @@ use warnings;
 use Foswiki::IncludeHandlers::http ();
 our @ISA = qw( Foswiki::IncludeHandlers::http );
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 1;
 
 __END__

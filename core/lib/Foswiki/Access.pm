@@ -13,19 +13,10 @@ use v5.14;
 
 use Assert;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 use constant MONITOR => 0;
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has failure => (
     is      => 'rw',

@@ -9,17 +9,9 @@
 package Foswiki::Query::OP_match;
 use v5.14;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Query::ConditionalOP);
 with qw(Foswiki::Query::OP);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 around BUILDARGS => sub {
     my $orig  = shift;
@@ -38,7 +30,8 @@ sub evaluate {
             my $regex;
             eval { $regex = qr/$_[1]/ };
             if ($@) {
-                throw Foswiki::Infix::Error("Bad regular expression '$_[1]'");
+                Foswiki::Infix::Error->throw(
+                    msg => "Bad regular expression '$_[1]'" );
             }
             defined( $_[0] )
               && defined( $_[1] )

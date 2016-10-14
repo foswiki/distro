@@ -39,16 +39,8 @@ use Foswiki::Iterator::ProcessIterator();
 
 use Foswiki::Store::Interfaces::QueryAlgorithm;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Store::Interfaces::QueryAlgorithm);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 use constant MONITOR => 0;
 
@@ -152,7 +144,8 @@ sub _webQuery {
             web                 => $web,
         };
         my @filter      = @{ $hoistedREs->{text} };
-        my $searchQuery = Foswiki::Search::Node->new(
+        my $searchQuery = $this->create(
+            'Foswiki::Search::Node',
             search  => $query->toString(),
             tokens  => \@filter,
             options => $searchOptions

@@ -24,13 +24,6 @@ use Foswiki::IP qw/:regexp :info $IPv6Avail/;
 use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 our $LWPAvailable;
 our $noHTTPResponse;    # if set, forces local impl of HTTP::Response
 our $SSLAvailable;      # Set to defined false to prevent using SSL
@@ -264,7 +257,8 @@ sub getExternalResource {
         $req .= "\r\n";
         $req .= $options{content} if defined $options{content};
 
-        my $sock = $sclass->new(
+        my $sock = $this->create(
+            $sclass,
             PeerAddr => $uri->host(),
             PeerPort => $uri->port(),
             Proto    => 'tcp',
@@ -329,8 +323,11 @@ sub _GETUsingLWP {
     my $pass;
     ( $user, $pass ) = split( ':', $uri->userinfo(), 2 )
       if $uri->userinfo;
-    my $ua =
-      Foswiki::Net::UserCredAgent->new( user => $user, password => $pass );
+    my $ua = $this->create(
+        'Foswiki::Net::UserCredAgent',
+        user     => $user,
+        password => $pass
+    );
     $ua->proxy( [ 'http', 'https' ], $puri->as_string() ) if $puri;
     my $response = $ua->request($request);
     return $response;
@@ -374,11 +371,9 @@ sub _logMailError {
         $logger = $this->app->logger;
     }
     else {
-        $logger = $cfgData->{Log}{Implementation};
-        if ($logger) {
-            eval "require $logger;";
-            die "Can't load $logger: $!\n" if ($@);
-            $logger = $logger->new();
+        my $loggerClass = $cfgData->{Log}{Implementation};
+        if ($loggerClass) {
+            $logger = $this->create($loggerClass);
         }
     }
     if ($logger) {
@@ -933,12 +928,14 @@ sub _sendEmailByNetSMTP {
     # the TCP connection - then write to it.
     local $SIG{PIPE} = 'IGNORE';
 
-    $smtp = Foswiki::Net::Mail->new(@options)
-      or $this->_logMailError( 'die',
-            "Failed to connect to '"
+    $smtp = $this->create( 'Foswiki::Net::Mail', @options )
+      or $this->_logMailError(
+        'die',
+        "Failed to connect to '"
           . $this->MAIL_HOST
           . "' using "
-          . $this->MAIL_METHOD );
+          . $this->MAIL_METHOD
+      );
 
     $smtp->startTLS( $this, $host ) if ($starttls);
 

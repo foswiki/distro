@@ -20,16 +20,8 @@ use Assert;
 use Foswiki::Attrs          ();
 use Foswiki::Tables::Parser ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 # Foswiki 1.1.9 didn't define findFirstOccurenceAttrs. Monkey-patch it.
 unless ( defined &Foswiki::Attrs::findFirstOccurenceAttrs ) {

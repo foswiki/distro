@@ -9,16 +9,8 @@ use Try::Tiny;
 use Foswiki       ();
 use Foswiki::Time ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::UI);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 # Command handler for changes command
 sub changes {

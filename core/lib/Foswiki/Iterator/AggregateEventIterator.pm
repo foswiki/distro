@@ -3,13 +3,6 @@ package Foswiki::Iterator::AggregateEventIterator;
 use v5.14;
 use Assert;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 =begin TML
 
 ---++ =Foswiki::Iterator::AggregateEventIterator=
@@ -18,8 +11,7 @@ Private subclass of Foswiki::AggregateIterator that implements the snoopNext met
 =cut
 
 # Private subclass of AggregateIterator that can snoop Events.
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::AggregateIterator);
 
 =begin TML

@@ -27,17 +27,12 @@ use Try::Tiny;
 
 use CGI;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Engine);
 
 use constant HTTP_COMPLIANT => 1;
 
 BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
 
     unless ( CGI->can('multi_param') ) {
         no warnings 'redefine';

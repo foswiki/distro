@@ -68,13 +68,6 @@ use Assert;
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users');
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 has mapping => (
     is  => 'rw',
     isa => Foswiki::Object::isaCLASS(
@@ -820,7 +813,8 @@ sub eachUser {
     my $this = shift;
     my @list =
       ( $this->basemapping->eachUser(@_), $this->mapping->eachUser(@_) );
-    return Foswiki::AggregateIterator->new(
+    return $this->create(
+        'Foswiki::AggregateIterator',
         iterators  => \@list,
         uniqueOnly => 1
     );
@@ -838,7 +832,8 @@ sub eachGroup {
     my $this = shift;
     my @list =
       ( $this->basemapping->eachGroup(@_), $this->mapping->eachGroup(@_) );
-    return Foswiki::AggregateIterator->new(
+    return $this->create(
+        'Foswiki::AggregateIterator',
         iterators  => \@list,
         uniqueOnly => 1
     );
@@ -863,7 +858,8 @@ sub eachGroupMember {
         $this->basemapping->eachGroupMember(@_),
         $this->mapping->eachGroupMember(@_)
     );
-    return Foswiki::AggregateIterator->new(
+    return $this->create(
+        'Foswiki::AggregateIterator',
         iterators  => \@list,
         uniqueOnly => 1
     );
@@ -931,7 +927,7 @@ sub eachMembership {
 
     #stop if the user has no wikiname (generally means BugsItem4771)
     unless ( defined($wikiname) ) {
-        return Foswiki::ListIterator->new( list => [] );
+        return $this->create( 'Foswiki::ListIterator', list => [] );
     }
 
     my $otherMapping =
@@ -946,7 +942,8 @@ sub eachMembership {
 
     my @list =
       ( $mapping->eachMembership($cUID), $otherMapping->eachMembership($cUID) );
-    return Foswiki::AggregateIterator->new(
+    return $this->create(
+        'Foswiki::AggregateIterator',
         iterators  => \@list,
         uniqueOnly => 1
     );

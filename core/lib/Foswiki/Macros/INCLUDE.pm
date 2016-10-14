@@ -4,20 +4,12 @@ use v5.14;
 
 use Try::Tiny;
 
-use Foswiki::Class;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 with qw(Foswiki::Macro);
 
 use Foswiki::Render;
 use Foswiki::Func;
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has _INCLUDES => (
     is      => 'rw',

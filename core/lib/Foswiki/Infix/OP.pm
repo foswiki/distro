@@ -35,13 +35,6 @@ by the parser.
 
 =cut
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 has name                => ( is => 'rw', );
 has prec                => ( is => 'rw', );
 has arity               => ( is => 'rw', );

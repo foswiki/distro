@@ -94,8 +94,7 @@ use Foswiki::Store   ();
 use Foswiki::Sandbox ();
 use Foswiki::Exception();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Store::Rcs::Handler);
 
 # SMELL: This code uses the log field for the checkin comment. This field is alongside the actual text
@@ -125,11 +124,6 @@ use constant CAN_IGNORE_COMMENT => 0;    # 1
 #
 
 BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-
     *_decode = \&Foswiki::Store::decode;
     *_encode = \&Foswiki::Store::encode;
 }

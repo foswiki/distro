@@ -5,17 +5,8 @@ use v5.14;
 
 use Assert;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 =begin TML
 
@@ -102,7 +93,8 @@ requested level will be returned if any of the collapsed levels is selected.
 
 # Default behaviour is an empty iteration
 sub eachEventSince {
-    return Foswiki::ListIterator->new( list => [] );
+    my $this = shift;
+    return $this->create( 'Foswiki::ListIterator', list => [] );
 }
 
 =begin TML

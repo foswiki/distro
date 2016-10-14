@@ -21,16 +21,8 @@ use Assert;
 use IO::File         ();
 use Foswiki::Sandbox ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Request);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has filename => (
     is      => 'rw',

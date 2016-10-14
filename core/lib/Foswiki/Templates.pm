@@ -35,17 +35,8 @@ use Assert;
 
 use Foswiki::Attrs ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 # Enable TRACE to get HTML comments in the output showing where templates
 # (both DEFs and files) open and close. Will probably bork the output, so

@@ -16,13 +16,6 @@ package Foswiki::Query::Parser;
 
 use Assert;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 use Foswiki::Query::Node ();
 
 #             operator name           precedence

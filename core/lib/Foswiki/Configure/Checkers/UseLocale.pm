@@ -16,6 +16,8 @@ sub check_current_value {
 
     return unless $Foswiki::cfg{UseLocale};
 
+    $reporter->WARN("POSIX locales are not supported any more.");
+
     Foswiki::Configure::Dependency::checkPerlModules(@required);
     foreach my $mod (@required) {
         if ( !$mod->{ok} && !$mod->{optional} ) {

@@ -37,15 +37,6 @@ my $sitePattern;
 my $pagePattern;
 my %interSiteTable;
 
-BEGIN {
-
-    # 'Use locale' for internationalisation of Perl sorting and searching -
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 # Read preferences and get all InterWiki Site->URL mappings
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;

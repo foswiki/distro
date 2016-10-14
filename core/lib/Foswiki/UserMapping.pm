@@ -36,13 +36,6 @@ use Assert;
 use Foswiki::Exception ();
 use Foswiki::Func;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 use Moo::Role;
 
 has mapping_id => (

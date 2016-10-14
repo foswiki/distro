@@ -18,17 +18,8 @@ use Foswiki::Iterator::FilterIterator();
 use Foswiki::Iterator::ProcessIterator();
 use Foswiki::Iterator::PagerIterator();
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 use constant MONITOR => 0;
 
@@ -83,7 +74,8 @@ sub query {
     if ( $query->isEmpty() )
     {    #TODO: does this do anything in a type=query context?
          #Note: Must return an empty results set, including pager, to avoid crash. Item13383
-        my $resultset = Foswiki::Search::ResultSet->new(
+        my $resultset = $this->create(
+            'Foswiki::Search::ResultSet',
             iterators => [],
             partition => $options->{groupby},
             sortby    => $options->{order},
@@ -103,7 +95,8 @@ sub query {
     my $webItr = $this->getWebIterator( $app, $options );
 
     #do the search
-    my $queryItr = Foswiki::Iterator::ProcessIterator->new(
+    my $queryItr = $this->create(
+        'Foswiki::Iterator::ProcessIterator',
         iterator => $webItr,
         process  => sub {
             my $web    = shift;
@@ -131,7 +124,8 @@ sub query {
     my @resultCacheList = $queryItr->all();
 
 #and thus if the ResultSet could be created using an unevaluated process itr, which would somehow rely on........ eeeeek
-    my $resultset = Foswiki::Search::ResultSet->new(
+    my $resultset = $this->create(
+        'Foswiki::Search::ResultSet',
         iterators => \@resultCacheList,
         partition => $options->{groupby},
         sortby    => $options->{order},
@@ -154,7 +148,8 @@ sub addPager {
     my $options   = shift;
 
     if ( $options->{paging_on} ) {
-        $resultset = Foswiki::Iterator::PagerIterator->new(
+        $resultset = $this->create(
+            'Foswiki::Iterator::PagerIterator',
             iterator => $resultset,
             pagesize => $options->{pagesize},
             showpage => $options->{showpage}
@@ -170,7 +165,8 @@ sub addACLFilter {
     my $options   = shift;
 
     #add filtering for ACL test - probably should make it a seperate filter
-    $resultset = Foswiki::Iterator::FilterIterator->new(
+    $resultset = $this->create(
+        'Foswiki::Iterator::FilterIterator',
         iterator => $resultset,
         filter   => sub {
             my $listItem = shift;
@@ -218,8 +214,9 @@ sub getWebIterator {
     my @webs =
       Foswiki::Store::Interfaces::QueryAlgorithm::getListOfWebs( $webNames,
         $recurse, $searchAllFlag );
-    my $rawWebIter = Foswiki::ListIterator->new( list => \@webs );
-    my $webItr = Foswiki::Iterator::FilterIterator->new(
+    my $rawWebIter = $this->create( 'Foswiki::ListIterator', list => \@webs );
+    my $webItr = $this->create(
+        'Foswiki::Iterator::FilterIterator',
         iterator => $rawWebIter,
         filter   => sub {
             my $web    = shift;

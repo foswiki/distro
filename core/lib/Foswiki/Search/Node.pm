@@ -13,15 +13,7 @@ Refactoring mid-step that contains a set of SEARCH tokens and options.
 use Assert;
 use Try::Tiny;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 
 # Some day this may usefully be an infix node

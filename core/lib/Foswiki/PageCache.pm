@@ -62,22 +62,13 @@ use Foswiki::Plugins ();
 use Try::Tiny;
 use CGI::Util ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 has webDeps => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
 has deps         => ( is => 'rw', lazy => 1, default => sub { {} }, );
 has _isCacheable => ( is => 'rw', lazy => 1, default => sub { {} }, );
 has variationKey => ( is => 'rw', );
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 # Enable output
 use constant TRACE => 0;

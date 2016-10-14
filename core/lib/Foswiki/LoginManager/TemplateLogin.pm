@@ -21,16 +21,8 @@ use Assert;
 use Unicode::Normalize;
 use Encode ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::LoginManager);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has forcedAuth => ( is => 'rw', lazy => 1, default => 0, );
 

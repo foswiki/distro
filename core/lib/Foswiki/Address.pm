@@ -64,9 +64,8 @@ use Assert;
 use Foswiki::Func();
 use Foswiki::Meta();
 
-use Moo;
-use namespace::clean;
-extends 'Foswiki::Object';
+use Foswiki::Class;
+extends qw(Foswiki::Object);
 
 #use Data::Dumper;
 use constant TRACE                     => 0;  # Don't forget to uncomment dumper
@@ -75,13 +74,6 @@ use constant TRACEVALID                => 0;
 use constant TRACEATTACH               => 0;
 use constant STRINGIFIED_WEB_SEPARATOR => '/';
 use constant STRINGIFIED_TOPIC_SEPARATOR => '.';
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 my $EXISTASLIST_DEFAULT = [qw(attachment topic)];
 my $EXISTAS_DEFAULT     = { attachment => 1, topic => 1 };

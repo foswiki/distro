@@ -20,17 +20,8 @@ use Assert;
 use CGI ();
 use Foswiki qw(expandStandardEscapes);
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw( Foswiki::Object );
-with qw(Foswiki::AppObject);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has name        => ( is => 'ro', lazy => 1, default => '', );
 has attributes  => ( is => 'ro', lazy => 1, default => '', );

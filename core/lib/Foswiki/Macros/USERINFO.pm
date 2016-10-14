@@ -5,13 +5,6 @@ use v5.14;
 use strict;
 use warnings;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 # Set to true if user details should be cloaked.   Selected tokens will return an empty string.
 my $USERINFO_cloak = 0;
 

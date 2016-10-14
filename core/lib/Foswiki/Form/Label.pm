@@ -2,15 +2,8 @@
 package Foswiki::Form::Label;
 use v5.14;
 
-use Moo;
+use Foswiki::Class;
 extends qw(Foswiki::Form::FieldDefinition);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 sub isEditable {
     return 0;

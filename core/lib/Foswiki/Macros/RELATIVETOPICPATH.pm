@@ -4,13 +4,6 @@ package Foswiki::Macros;
 use strict;
 use warnings;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 sub RELATIVETOPICPATH {
     my ( $this, $params, $topicObject ) = @_;
     my $topic = $params->{_DEFAULT};

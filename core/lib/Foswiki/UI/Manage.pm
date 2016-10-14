@@ -21,16 +21,8 @@ use Foswiki::Meta          ();
 use Foswiki::OopsException ();
 use Foswiki::Sandbox       ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::UI);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 =begin TML
 

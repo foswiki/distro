@@ -15,8 +15,7 @@ use Assert;
 
 use IO::File ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 
 has headers     => ( is => 'ro', );

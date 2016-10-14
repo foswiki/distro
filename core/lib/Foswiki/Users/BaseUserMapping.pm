@@ -35,17 +35,9 @@ use Foswiki::Exception ();
 use Digest::MD5 qw(md5_hex);
 use Crypt::PasswdMD5 qw(apache_md5_crypt);
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject Foswiki::UserMapping);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
+with qw(Foswiki::UserMapping);
 
 our $DEFAULT_USER_CUID = 'BaseUserMapping_666';
 our $UNKNOWN_USER_CUID = 'BaseUserMapping_999';
@@ -307,7 +299,7 @@ sub eachUser {
 
     my @list = keys( %{ $this->U2W } );
     require Foswiki::ListIterator;
-    return Foswiki::ListIterator->new( list => \@list );
+    return $this->create( 'Foswiki::ListIterator', list => \@list );
 }
 
 =begin TML
@@ -330,7 +322,7 @@ sub eachGroupMember {
     #print STDERR "eachGroupMember($group): ".join(',', @{$members});
 
     require Foswiki::ListIterator;
-    return Foswiki::ListIterator->new( list => $members );
+    return $this->create( 'Foswiki::ListIterator', list => $members );
 }
 
 =begin TML
@@ -362,7 +354,7 @@ sub eachGroup {
     my @groups = keys( %{ $this->GROUPS } );
 
     require Foswiki::ListIterator;
-    return Foswiki::ListIterator->new( list => \@groups );
+    return $this->create( 'Foswiki::ListIterator', list => \@groups );
 }
 
 =begin TML

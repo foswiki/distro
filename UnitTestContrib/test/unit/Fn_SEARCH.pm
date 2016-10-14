@@ -27,8 +27,7 @@ use HTML::Entities;
 use File::Spec qw(case_tolerant)
   ; #TODO: this really should be in the Store somehow - but its not worth doing now, as we should really obliterate the issue
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw( FoswikiFnTestCase );
 
 use Assert;
@@ -189,14 +188,17 @@ sub loadExtraConfig {
     return;
 }
 
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;    # the Test::Unit::TestCase object
 
-    $this->SUPER::tear_down(@_);
+    $orig->( $this, @_ );
+
+    my $cfgData = $this->app->cfg->data;
 
     #need to clear the web every test?
-    if (   ( $Foswiki::cfg{Store}{SearchAlgorithm} =~ m/MongoDB/ )
-        or ( $Foswiki::cfg{Store}{QueryAlgorithm} =~ m/MongoDB/ ) )
+    if (   ( $cfgData->{Store}{SearchAlgorithm} =~ m/MongoDB/ )
+        or ( $cfgData->{Store}{QueryAlgorithm} =~ m/MongoDB/ ) )
     {
         require Foswiki::Plugins::MongoDBPlugin;
         Foswiki::Plugins::MongoDBPlugin::getMongoDB()
@@ -204,7 +206,7 @@ sub tear_down {
     }
 
     return;
-}
+};
 
 sub verify_simple {
     my $this = shift;

@@ -87,6 +87,13 @@
 %MAKETEXT{"Please contact [_1] if you have any questions." args="<a href='mailto:%WIKIWEBMASTER%'>%WIKIWEBMASTER%</a>"}%
 %TMPL:END%
 %{==============================================================================}%
+%TMPL:DEF{"internal_error"}%
+---+++ %MAKETEXT{"Activation Failed"}%
+%MAKETEXT{"Activation for code [_1] failed with an internal error." args="'<code>%PARAM1%</code>'"}% %PARAM2%
+
+%MAKETEXT{"This is an internal error.  You can try to register again, or contact [_1] to report the error." args="<a href='mailto:%WIKIWEBMASTER%'>%WIKIWEBMASTER%</a>"}%
+%TMPL:END%
+%{==============================================================================}%
 %TMPL:DEF{"registration_mail_failed"}%
 ---+++ %MAKETEXT{"Error registering new user"}%
 

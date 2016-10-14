@@ -31,13 +31,6 @@ use Assert;
 
 use constant MONITOR => 0;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 has metacache => (
     is      => 'ro',
     lazy    => 1,
@@ -50,7 +43,7 @@ has queryParser => (
     lazy    => 1,
     default => sub {
         Foswiki::load_class('Foswiki::Query::Parser');
-        return Foswiki::Query::Parser->new;
+        return $_[0]->create('Foswiki::Query::Parser');
     },
 );
 has searchParser => (

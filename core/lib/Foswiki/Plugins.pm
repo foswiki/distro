@@ -22,13 +22,6 @@ extends qw(Foswiki::Object);
 
 use Assert;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 =begin TML
 
 ---++ PUBLIC constant $VERSION

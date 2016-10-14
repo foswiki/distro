@@ -12,16 +12,9 @@ package Foswiki::Iterator::PagerIterator;
 use v5.14;
 use Assert;
 
-use Moo;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Iterator);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 has iterator => (
     is       => 'rw',

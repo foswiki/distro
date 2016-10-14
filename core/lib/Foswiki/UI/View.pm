@@ -23,16 +23,8 @@ use Foswiki::Store         ();
 use Foswiki::Serialise     ();
 use Foswiki::PageCache     ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::UI);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 =begin TML
 
@@ -263,7 +255,7 @@ sub view {
         $viewTemplate = 'TopicDoesNotExistView';
         $logEntry .= ' (not exist)';
         $raw = '';    # There is no raw view of a topic that doesn't exist
-        $revIt = Foswiki::ListIterator->new( list => [1] );
+        $revIt = $this->create( 'Foswiki::ListIterator', list => [1] );
     }
 
     if ($raw) {

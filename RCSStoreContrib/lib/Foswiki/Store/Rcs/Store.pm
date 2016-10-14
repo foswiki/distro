@@ -41,8 +41,7 @@ use Foswiki::Sandbox   ();
 use Foswiki::Serialise ();
 use Foswiki::Exception ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Store);
 
 has searchFn       => ( is => 'rw', );
@@ -50,12 +49,6 @@ has queryObj       => ( is => 'rw', );
 has searchQueryObj => ( is => 'rw', );
 
 BEGIN {
-
-    # Do a dynamic 'use locale' for this module
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
 
     # The RCS Handler code works on bytes, so we have to mediate
     if ($Foswiki::UNICODE) {

@@ -5,13 +5,6 @@ use Foswiki::Macros::ENCODE ();
 use strict;
 use warnings;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 *URLENCODE = \&Foswiki::Macros::ENCODE;
 
 1;

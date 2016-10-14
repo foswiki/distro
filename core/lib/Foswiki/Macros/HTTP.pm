@@ -4,13 +4,6 @@ package Foswiki::Macros;
 use strict;
 use warnings;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 # $https flag set when HTTPS macro is requested.
 
 sub HTTP {

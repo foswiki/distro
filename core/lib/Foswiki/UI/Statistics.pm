@@ -24,16 +24,8 @@ use Foswiki::Time                   ();
 use Foswiki::Meta                   ();
 use Foswiki::AccessControlException ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::UI);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 =begin TML
 

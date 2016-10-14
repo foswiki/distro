@@ -19,17 +19,8 @@ use Foswiki::Time            ();
 use Foswiki::Sandbox         ();
 use Foswiki::Render::Anchors ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 # Counter used to generate unique placeholders for when we lift blocks
 # (such as <verbatim> out of the text during rendering.
@@ -1094,7 +1085,7 @@ sub getAnchorNames {
     my $id = $topicObject->getPath();
     my $a  = $this->_anchorNames->{$id};
     unless ($a) {
-        $a = Foswiki::Render::Anchors->new;
+        $a = $this->create('Foswiki::Render::Anchors');
         $this->_anchorNames->{$id} = $a;
     }
     return $a;

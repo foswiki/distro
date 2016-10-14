@@ -4,13 +4,6 @@ package Foswiki::Macros;
 use strict;
 use warnings;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 sub SPACEOUT {
     my ( $this, $params ) = @_;
     my $spaceOutTopic = $params->{_DEFAULT};

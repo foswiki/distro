@@ -19,16 +19,8 @@ use Foswiki::Meta           ();
 use Foswiki::OopsException  ();
 use Foswiki::Prefs::Request ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::UI);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 # Used by save and preview
 sub buildNewTopic {

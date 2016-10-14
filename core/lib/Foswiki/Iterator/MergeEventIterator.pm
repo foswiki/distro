@@ -4,13 +4,6 @@ use v5.14;
 
 use Assert;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 =begin TML
 
 ---++ =Foswiki::Iterator::MergeEventIterator=
@@ -22,7 +15,7 @@ Private subclass of Foswiki::Iterator that
 
 =cut
 
-use Moo;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 with qw(Foswiki::Iterator);
 

@@ -46,6 +46,7 @@ HERE
         }
 
         if ( $Foswiki::cfg{UseLocale} ) {
+            $reporter->WARN("POSIX locales are not supported anymore.");
 
             # Extract the character set from locale for consistency check
             my $charset;

@@ -10,8 +10,8 @@ Class of errors used with Foswiki::Infix::Parser
 
 package Foswiki::Infix::Error;
 use Foswiki::Exception ();
-use Moo;
-use namespace::clean;
+
+use Foswiki::Class;
 extends 'Foswiki::Exception';
 
 has expr => (
@@ -24,25 +24,32 @@ has at => (
     lazy      => 1,
     predicate => 1,
 );
-our @_newParameters = qw(text expr at);
+has msg => (
+    is        => 'rw',
+    lazy      => 1,
+    predicate => 1,
+    required  => 1,
+);
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
+#our @_newParameters = qw(text expr at);
 
-# SMELL To be replaced by stringify() method.
-around text => sub {
+around prepareText => sub {
     my $orig = shift;
     my $this = shift;
-    my $text = $orig->( $this, @_ );
-    if ( $this->expr ) {
-        $text .= " in '" . $this->expr . "'";
+
+    my $text;
+
+    if ( $this->has_msg ) {
+        $text = $this->msg;
+        if ( $this->expr ) {
+            $text .= " in '" . $this->expr . "'";
+        }
+        if ( $this->at ) {
+            $text .= " at '" . $this->at . "'";
+        }
     }
-    if ( $this->at ) {
-        $text .= " at '" . $this->at . "'";
+    else {
+        $text = $orig->( $this, @_ );
     }
     return $text;
 };

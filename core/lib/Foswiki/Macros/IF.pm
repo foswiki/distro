@@ -9,13 +9,6 @@ use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
 with qw(Foswiki::Macro);
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 has ifParser => (
     is      => 'rw',
     lazy    => 1,
@@ -62,7 +55,7 @@ sub expand {
                 $params->stringify(), '}:', $_->text );
         }
         else {
-            $_->throw;
+            Foswiki::Exception::Fatal->rethrow($_);
         }
     }
     finally {

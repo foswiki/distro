@@ -7,17 +7,8 @@ use Foswiki::Func                     ();
 use Foswiki::Meta                     ();
 use Foswiki::Iterator::FilterIterator ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::ListIterator);
-with qw(Foswiki::AppObject);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 =begin TML
 
@@ -483,6 +474,8 @@ sub getOptionFilter {
 sub getTopicListIterator {
     my ( $webObject, $options ) = @_;
 
+    my $app = $webObject->app;    # This is Foswiki::Meta which is an AppObject.
+
     my $casesensitive =
       defined( $options->{casesensitive} ) ? $options->{casesensitive} : 1;
 
@@ -496,15 +489,16 @@ sub getTopicListIterator {
         # topic list without wildcards
         # convert pattern into a topic list
         my @list =
-          grep { $Foswiki::app->store->topicExists( $webObject->web, $_ ) }
+          grep { $app->store->topicExists( $webObject->web, $_ ) }
           split( /,\s*|\|/, $options->{includeTopics} );
-        $it = new Foswiki::ListIterator( \@list );
+        $it = $app->create( 'Foswiki::ListIterator', \@list );
     }
     else {
         $it = $webObject->eachTopic();
     }
 
-    return Foswiki::Iterator::FilterIterator->new(
+    return $app->create(
+        'Foswiki::Iterator::FilterIterator',
         iterator => $it,
         filter   => getOptionFilter($options)
     );

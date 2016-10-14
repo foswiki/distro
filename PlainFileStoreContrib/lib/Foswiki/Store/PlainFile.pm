@@ -68,8 +68,7 @@ use Foswiki::Serialise                     ();
 use Try::Tiny;
 use Unicode::Normalize;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Store);
 
 # Web Preferences topic *file* name
@@ -78,12 +77,6 @@ my $wptn = "/$Foswiki::cfg{WebPrefsTopicName}.txt";
 our $json = JSON->new->pretty(0);
 
 BEGIN {
-
-    # Import the locale for sorting
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
 
     if ($Foswiki::UNICODE) {
         require Encode;

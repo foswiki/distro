@@ -13,17 +13,10 @@ use v5.14;
 
 use Assert;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Access::TopicACLAccess);
-use constant MONITOR => 0;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
+use constant MONITOR => 0;
 
 =begin TML
 

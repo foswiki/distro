@@ -2,13 +2,6 @@
 package Foswiki::WebFilter;
 use v5.14;
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 # PH made these lazy getters rather than globals in Item11349
 my $public;
 my $user;
@@ -45,7 +38,7 @@ sub ok {
 
     return 0 if !$app->store->webExists($web);
 
-    my $webObject = Foswiki::Meta->new( app => $app, web => $web );
+    my $webObject = $app->create( 'Foswiki::Meta', app => $app, web => $web );
     my $thisWebNoSearchAll =
       Foswiki::isTrue( $webObject->getPreference('NOSEARCHALL') );
 

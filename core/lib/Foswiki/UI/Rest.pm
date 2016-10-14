@@ -15,16 +15,8 @@ use Foswiki ();
 use Try::Tiny;
 use Foswiki::PageCache ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::UI);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 our %restDispatch;
 
@@ -148,7 +140,7 @@ sub rest {
         throw Foswiki::EngineException( 400, $err, $res );
     }
 
-    my $record  = $restDispatch{$subject}{$verb};
+    my $record = $restDispatch{$subject}{$verb};
 
     # Check we have this handler
     unless ($record) {

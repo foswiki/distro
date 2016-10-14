@@ -13,17 +13,9 @@ use v5.14;
 use Assert;
 use Foswiki::Meta ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Infix::OP);
 with qw(Foswiki::Query::OP);
-
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
 
 around BUILDARGS => sub {
     my $orig  = shift;

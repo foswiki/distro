@@ -29,13 +29,6 @@ has path_info => ( is => 'rw', clearer => 1, predicate => 1, );
 has plist => ( is => 'rw', lazy => 1, clearer => 1, default => sub { [] }, );
 has params => ( is => 'rw', lazy => 1, clearer => 1, default => sub { {} }, );
 
-BEGIN {
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-}
-
 # CLI is the last resort engine. Thus – always return true on probe.
 sub probe { 1; }
 
@@ -138,7 +131,8 @@ around prepareUploads => sub {
     #SMELL: CLI and CGI appear to support multiple uploads
     # but Foswiki::UI::Upload only processes a single upload.
     foreach my $fname ( @{ $req->_param->{filepath} } ) {
-        $uploads{$fname} = Foswiki::Request::Upload->new(
+        $uploads{$fname} = $this->create(
+            'Foswiki::Request::Upload',
             headers => {},
             tmpname => $fname
         );
