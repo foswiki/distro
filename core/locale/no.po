@@ -69,7 +69,7 @@ msgstr "%1 - Registrering for %2 (%3)"
 msgid "%1 Web"
 msgstr "%1 Web"
 
-#: core/templates/registermessages.tmpl:396
+#: core/templates/registermessages.tmpl:403
 msgid "%1 added to the %2 group."
 msgstr "%1 lagt til i %2 gruppen."
 
@@ -82,7 +82,7 @@ msgstr "%1 kan ikke fjernes fra %2"
 msgid "%1 denied the registration."
 msgstr "%1 nektet registreringen."
 
-#: core/templates/registermessages.tmpl:403
+#: core/templates/registermessages.tmpl:410
 msgid "%1 group topic upgraded."
 msgstr "%1 gruppe side oppgradert."
 
@@ -132,7 +132,7 @@ msgstr "%1 er satt til %2"
 msgid "%1 is editing [[%2][%3]]."
 msgstr "%1 redigerer [[%2][%3]]."
 
-#: core/templates/registermessages.tmpl:293
+#: core/templates/registermessages.tmpl:300
 msgid "%1 is in at least one group and cannot be removed"
 msgstr "%1 er medlem av minst en gruppe og kan ikke fjernes"
 
@@ -164,7 +164,7 @@ msgstr "%1 registreringen må godkjennes"
 msgid "%1 registration denied"
 msgstr "%1 registrering nektet"
 
-#: core/templates/registermessages.tmpl:445
+#: core/templates/registermessages.tmpl:452
 msgid "%1 removed from the %2 group."
 msgstr "%1 fjernet fra %2 gruppen."
 
@@ -211,7 +211,7 @@ msgstr "&Historikk"
 msgid "&Sequential"
 msgstr "&Sekvensiell"
 
-#: core/templates/registermessages.tmpl:228
+#: core/templates/registermessages.tmpl:235
 msgid "'%1' is not a valid [[%2][login username]]."
 msgstr "'%1' er ikke et gyldig [[%2][login brukernavn]]."
 
@@ -231,7 +231,7 @@ msgstr "(%1 bekreftelse)"
 msgid "(%1 vs. %2)"
 msgstr "(%1 vs. %2)"
 
-#: core/templates/registermessages.tmpl:148
+#: core/templates/registermessages.tmpl:155
 msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr "(*Forslag:* Hva med å laste opp ditt bilde til din side?)"
 
@@ -361,11 +361,11 @@ msgstr "(revisjon %1)"
 msgid "(save error)"
 msgstr "(lagringsfeil)"
 
-#: core/templates/registermessages.tmpl:121
+#: core/templates/registermessages.tmpl:128
 msgid "(single character first name)"
 msgstr "(enkelt bokstav fornavn)"
 
-#: core/templates/registermessages.tmpl:120
+#: core/templates/registermessages.tmpl:127
 msgid "(single character last name)"
 msgstr "(enkelt bokstav etternavn)"
 
@@ -582,7 +582,7 @@ msgstr ""
 "=#FFFF00=."
 
 #. ($data->{Email})
-#: core/lib/Foswiki/UI/Register.pm:1376
+#: core/lib/Foswiki/UI/Register.pm:1363
 msgid "A confirmation e-mail has been sent to %1"
 msgstr "En bekreftelses epost har blitt sent til %1"
 
@@ -656,6 +656,15 @@ msgstr "Valg %1: %2 av bruker %3."
 #: core/data/Main/WikiGroups.txt:64
 msgid "Actions"
 msgstr "Valg"
+
+#: core/templates/registermessages.tmpl:91
+#, fuzzy
+msgid "Activation Failed"
+msgstr "Ugyldig aktiveringskode"
+
+#: core/templates/registermessages.tmpl:92
+msgid "Activation for code %1 failed with an internal error."
+msgstr ""
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:452
@@ -754,7 +763,7 @@ msgstr "Alle offentige web"
 msgid "Allow only <nop>WikiWord for the new topic name"
 msgstr "Tillat kun <nop>WikiOrd for det nye sidenavnet"
 
-#: core/templates/registermessages.tmpl:207
+#: core/templates/registermessages.tmpl:214
 msgid ""
 "Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
 "a different username."
@@ -867,7 +876,7 @@ msgstr "Vedlegg %1"
 msgid "Attachments of %1"
 msgstr "Vedlegg i %1"
 
-#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:77 core/templates/attach.tmpl:45
 msgid "Attachments will not be shown in topic view page."
 msgstr "Vedlegg vises ikke i teksten på siden."
 
@@ -919,7 +928,7 @@ msgstr "Referanser til %1 i alle webs"
 msgid "Backlinks:"
 msgstr "Tilbakelenker:"
 
-#: core/templates/registermessages.tmpl:235
+#: core/templates/registermessages.tmpl:242
 msgid "Bad password"
 msgstr "Ugyldig passord"
 
@@ -979,7 +988,7 @@ msgstr "ENDRING ikke tillatt for %1 av %2"
 msgid "Cache =refresh=all= denied for non-admin users."
 msgstr ""
 
-#: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:287
+#: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:294
 msgid "Can't find user %1"
 msgstr "Kan ikke finne bruker %1"
 
@@ -1264,8 +1273,8 @@ msgstr "Konflikt"
 #: core/templates/messages.tmpl:420 core/templates/messages.tmpl:425
 #: core/templates/messages.tmpl:462 core/templates/messages.tmpl:475
 #: core/templates/messages.tmpl:482 core/templates/messages.tmpl:491
-#: core/templates/registermessages.tmpl:109
-#: core/templates/registermessages.tmpl:132
+#: core/templates/registermessages.tmpl:116
+#: core/templates/registermessages.tmpl:139
 msgid "Contact %1 if you have any questions."
 msgstr "Kontakt %1 dersom du har spørsmål."
 
@@ -1366,7 +1375,7 @@ msgstr "Lag Ny Side"
 msgid "Create New Topic in %1 Web"
 msgstr "Lag Ny Side i %1 web"
 
-#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:74 core/templates/attach.tmpl:37
 msgid "Create a link to the attached file"
 msgstr "Lag link til vedlagte fil"
 
@@ -1391,8 +1400,8 @@ msgstr "Lag gruppe"
 msgid "Create new topic"
 msgstr "Lag ny side"
 
-#: core/templates/registermessages.tmpl:414
-#: core/templates/registermessages.tmpl:420
+#: core/templates/registermessages.tmpl:421
+#: core/templates/registermessages.tmpl:427
 msgid "Create not specified and group does not exist"
 msgstr "Opprett ikke spesifisert og gruppe finnes ikke"
 
@@ -1505,7 +1514,7 @@ msgstr "Detaljert sideliste for %1 weben"
 msgid "Details in separate window"
 msgstr "Detaljer i eget vindu"
 
-#: core/templates/registermessages.tmpl:365
+#: core/templates/registermessages.tmpl:372
 msgid "Details:"
 msgstr "Detaljer:"
 
@@ -1517,7 +1526,7 @@ msgstr ""
 "Stavet du sidenavnet riktig? Husk at sidenavn skiller mellom store og små "
 "bokstaver."
 
-#: core/templates/registermessages.tmpl:205
+#: core/templates/registermessages.tmpl:212
 msgid "Did you want to [[%1][reset %2's password]]?"
 msgstr "Ville du [[%1][sette %2's passord]]?"
 
@@ -1538,7 +1547,7 @@ msgstr "Oppdag detaljene og hvordan du kan starte ditt eget Foswiki sted"
 msgid "Do not forget to save your changes"
 msgstr "Ikke glem å lagre dine endringer"
 
-#: PatternSkin/templates/attach.pattern.tmpl:68 core/templates/attach.tmpl:45
+#: PatternSkin/templates/attach.pattern.tmpl:77 core/templates/attach.tmpl:45
 msgid "Do not show attachment in table"
 msgstr "Ikke vis vedlegg i tabell"
 
@@ -1590,7 +1599,7 @@ msgstr ""
 "Under lagring av %1 ble en feil funnet av revisjonskontroll systemet. "
 "Vennligst informer din %2 administrator."
 
-#: core/templates/registermessages.tmpl:299
+#: core/templates/registermessages.tmpl:306
 msgid "E-mail changed successfully!"
 msgstr "Epost ble endret!"
 
@@ -1752,11 +1761,11 @@ msgstr "Skriv inn brukere eller grupper for å legge til denne gruppen"
 msgid "Error encountered loading the plugin. See errors below."
 msgstr "Feil ved lasting av plugin tillegg. Se feilmelding under."
 
-#: core/templates/registermessages.tmpl:91
+#: core/templates/registermessages.tmpl:98
 msgid "Error registering new user"
 msgstr "Feil ved registrering av ny bruker"
 
-#: core/templates/registermessages.tmpl:192
+#: core/templates/registermessages.tmpl:199
 msgid "Error registering user %1"
 msgstr "Feil ved registrering av bruker %1"
 
@@ -1784,11 +1793,11 @@ msgstr "Feil: Usupportert protokoll. (Må være 'http://domene/...')"
 msgid "Errors"
 msgstr "Feil"
 
-#: core/templates/registermessages.tmpl:383
+#: core/templates/registermessages.tmpl:390
 msgid "Errors adding members to group"
 msgstr "Problemer med å legge til brukere i gruppe"
 
-#: core/templates/registermessages.tmpl:432
+#: core/templates/registermessages.tmpl:439
 msgid "Errors removing members from groups"
 msgstr "Feil ved fjerning av medlemmer fra grupper"
 
@@ -1812,7 +1821,7 @@ msgstr "Avslutt"
 msgid "External"
 msgstr "Ekstern"
 
-#: core/lib/Foswiki/Plugins.pm:455
+#: core/lib/Foswiki/Plugins.pm:459
 msgid "Failed plugins"
 msgstr "Feilede plugins"
 
@@ -1966,7 +1975,7 @@ msgid "Globe"
 msgstr "Globus"
 
 #: core/templates/foswiki.tmpl:115 core/templates/messages.tmpl:328
-#: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:378
+#: core/templates/messages.tmpl:489 core/templates/registermessages.tmpl:385
 msgid "Go back"
 msgstr "Gå tilbake"
 
@@ -1990,7 +1999,7 @@ msgstr ""
 "Gå tilbake til den forrige siden og skru på meldingskapsler (coockies) og !"
 "Javascript før du forsøker på nytt"
 
-#: core/templates/registermessages.tmpl:117
+#: core/templates/registermessages.tmpl:124
 msgid "Good examples:"
 msgstr "Gode eksempler:"
 
@@ -2195,7 +2204,7 @@ msgstr "Hvis du er usikker på hva dette betyr, les: %1"
 msgid "If you came here by clicking on a question mark link"
 msgstr "Dersom du kom hit ved å klikke på et spørsmålstegn-link"
 
-#: core/templates/registermessages.tmpl:97
+#: core/templates/registermessages.tmpl:104
 msgid "If you don't receive a verification email within the next hour, "
 msgstr "Dersom du ikke mottar en bekreftelses epost innen en time, "
 
@@ -2290,7 +2299,7 @@ msgstr ""
 msgid "Image %1 of %2"
 msgstr "Bilde %1 av %2"
 
-#: PatternSkin/templates/attach.pattern.tmpl:66 core/templates/attach.tmpl:37
+#: PatternSkin/templates/attach.pattern.tmpl:74 core/templates/attach.tmpl:37
 msgid "Images will be displayed, for other attachments a link will be created."
 msgstr "Bilder vil vises, andre vedlegg får en link."
 
@@ -2321,24 +2330,24 @@ msgstr ""
 msgid "Including"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:309
+#: core/templates/registermessages.tmpl:316
 msgid "Incorrect Password"
 msgstr "Feil Passord"
 
-#: core/templates/registermessages.tmpl:316
+#: core/templates/registermessages.tmpl:323
 msgid "Incorrect Prefix"
 msgstr "Feil Prefiks"
 
-#: core/templates/registermessages.tmpl:114
+#: core/templates/registermessages.tmpl:121
 msgid "Incorrect [[%1][WikiName]]"
 msgstr "Feil [[%1][WikiNavn]]"
 
-#: core/templates/registermessages.tmpl:117
+#: core/templates/registermessages.tmpl:124
 msgid "Incorrect [[%1][WikiNames:]]"
 msgstr "Feil [[%1][WikiNavn:]]"
 
-#: core/templates/registermessages.tmpl:220
 #: core/templates/registermessages.tmpl:227
+#: core/templates/registermessages.tmpl:234
 msgid "Incorrect [[%1][username]]"
 msgstr "Feil [[%1][brukernavn]]"
 
@@ -2346,7 +2355,7 @@ msgstr "Feil [[%1][brukernavn]]"
 msgid "Incorrect parameters to the =%1= script"
 msgstr "Feil parametere til =%1= skriptet"
 
-#: core/templates/registermessages.tmpl:127
+#: core/templates/registermessages.tmpl:134
 msgid "Incorrect topic name provided for the templatetopic parameter."
 msgstr ""
 
@@ -2442,11 +2451,11 @@ msgstr "Ugyldig aktiveringskode"
 msgid "Invalid Input"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:242
-#: core/templates/registermessages.tmpl:251
-#: core/templates/registermessages.tmpl:260
-#: core/templates/registermessages.tmpl:269
-#: core/templates/registermessages.tmpl:278
+#: core/templates/registermessages.tmpl:249
+#: core/templates/registermessages.tmpl:258
+#: core/templates/registermessages.tmpl:267
+#: core/templates/registermessages.tmpl:276
+#: core/templates/registermessages.tmpl:285
 msgid "Invalid e-mail address"
 msgstr "Ugyldig epostadresse"
 
@@ -2864,8 +2873,8 @@ msgstr "Ingen endringer"
 msgid "No child topics found."
 msgstr "Ingen undersider"
 
-#: core/templates/registermessages.tmpl:375
-#: core/templates/registermessages.tmpl:426
+#: core/templates/registermessages.tmpl:382
+#: core/templates/registermessages.tmpl:433
 msgid "No group name specified"
 msgstr "Gruppenavn er ikke spesifisert"
 
@@ -2894,11 +2903,11 @@ msgstr "Ingen sider å abonnere på"
 msgid "No topics to update."
 msgstr "Ingen sider å oppdatere."
 
-#: core/templates/messages.tmpl:324 core/templates/registermessages.tmpl:408
+#: core/templates/messages.tmpl:324 core/templates/registermessages.tmpl:415
 msgid "No username specified"
 msgstr "Brukernavn ikke oppgitt"
 
-#: core/templates/registermessages.tmpl:176
+#: core/templates/registermessages.tmpl:183
 msgid "No users to reset passwords for."
 msgstr "Ingen brukere å tilbakestille passordet for."
 
@@ -2986,9 +2995,9 @@ msgstr ""
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:37
 #: core/templates/foswiki.tmpl:113 core/templates/oopsaccessdenied.tmpl:7
 #: core/templates/oopsredirectdenied.tmpl:7 core/templates/oopssaveerr.tmpl:13
-#: core/templates/registermessages.tmpl:327
-#: core/templates/registermessages.tmpl:335
-#: core/templates/registermessages.tmpl:346 core/templates/validate.tmpl:52
+#: core/templates/registermessages.tmpl:334
+#: core/templates/registermessages.tmpl:342
+#: core/templates/registermessages.tmpl:353 core/templates/validate.tmpl:52
 msgid "OK"
 msgstr "OK"
 
@@ -3013,7 +3022,7 @@ msgstr ""
 "På dette systemet kan du også logge inn med epostadressen din når du først "
 "er registrert."
 
-#: core/templates/registermessages.tmpl:356
+#: core/templates/registermessages.tmpl:363
 msgid "Only administrators are allowed to remove other accounts."
 msgstr "Kun administratorer har lov til å fjerne andre kontoer."
 
@@ -3091,19 +3100,19 @@ msgstr ""
 msgid "Password"
 msgstr "Passord"
 
-#: core/templates/registermessages.tmpl:339
+#: core/templates/registermessages.tmpl:346
 msgid "Password changed successfully!"
 msgstr "Passord ble endret!"
 
-#: core/templates/registermessages.tmpl:331
+#: core/templates/registermessages.tmpl:338
 msgid "Password could not be changed"
 msgstr "Passordet kunne ikke endres"
 
-#: core/templates/registermessages.tmpl:175
+#: core/templates/registermessages.tmpl:182
 msgid "Password reset failed"
 msgstr "Tilbakestilling av passord feilet"
 
-#: core/templates/registermessages.tmpl:180
+#: core/templates/registermessages.tmpl:187
 msgid "Password reset failed."
 msgstr "Tilbakestilling av passord feilet."
 
@@ -3112,11 +3121,11 @@ msgstr "Tilbakestilling av passord feilet."
 msgid "Password:"
 msgstr "Passord:"
 
-#: core/templates/registermessages.tmpl:136
+#: core/templates/registermessages.tmpl:143
 msgid "Passwords disabled"
 msgstr "Passord deaktivert"
 
-#: core/templates/registermessages.tmpl:185
+#: core/templates/registermessages.tmpl:192
 msgid "Passwords do not match"
 msgstr "Passordene er ulike"
 
@@ -3141,8 +3150,8 @@ msgstr "Plassholder for slettede sider og vedlegg."
 msgid "Placeholder for trashed attachments"
 msgstr "Plassholder for slettede vedlegg"
 
-#: core/templates/registermessages.tmpl:387
-#: core/templates/registermessages.tmpl:436
+#: core/templates/registermessages.tmpl:394
+#: core/templates/registermessages.tmpl:443
 msgid "Please check to ensure you have permission to modify the group."
 msgstr "Vennligst sjekk at du har rettigheter til å endre gruppen."
 
@@ -3150,17 +3159,17 @@ msgstr "Vennligst sjekk at du har rettigheter til å endre gruppen."
 msgid "Please confirm your password."
 msgstr "Vennligst bekreft ditt passord."
 
-#: core/templates/registermessages.tmpl:209
+#: core/templates/registermessages.tmpl:216
 #: core/templates/registermessages.tmpl:87
 msgid "Please contact %1 if you have any questions."
 msgstr "Vennligst kontakt %1 hvis du har spørsmål."
 
+#: core/templates/registermessages.tmpl:105
 #: core/templates/registermessages.tmpl:11
-#: core/templates/registermessages.tmpl:140
-#: core/templates/registermessages.tmpl:196
+#: core/templates/registermessages.tmpl:147
+#: core/templates/registermessages.tmpl:203
 #: core/templates/registermessages.tmpl:21
 #: core/templates/registermessages.tmpl:35
-#: core/templates/registermessages.tmpl:98
 msgid "Please contact %1."
 msgstr "Vennligst kontakt %1."
 
@@ -3230,20 +3239,20 @@ msgstr ""
 #: core/templates/messages.tmpl:172 core/templates/messages.tmpl:179
 #: core/templates/messages.tmpl:38 core/templates/messages.tmpl:43
 #: core/templates/messages.tmpl:52 core/templates/messages.tmpl:92
-#: core/templates/messages.tmpl:99 core/templates/registermessages.tmpl:123
-#: core/templates/registermessages.tmpl:131
-#: core/templates/registermessages.tmpl:188
-#: core/templates/registermessages.tmpl:216
+#: core/templates/messages.tmpl:99 core/templates/registermessages.tmpl:130
+#: core/templates/registermessages.tmpl:138
+#: core/templates/registermessages.tmpl:195
 #: core/templates/registermessages.tmpl:223
-#: core/templates/registermessages.tmpl:231
+#: core/templates/registermessages.tmpl:230
 #: core/templates/registermessages.tmpl:238
-#: core/templates/registermessages.tmpl:247
-#: core/templates/registermessages.tmpl:256
-#: core/templates/registermessages.tmpl:265
-#: core/templates/registermessages.tmpl:274
-#: core/templates/registermessages.tmpl:283
-#: core/templates/registermessages.tmpl:312
+#: core/templates/registermessages.tmpl:245
+#: core/templates/registermessages.tmpl:254
+#: core/templates/registermessages.tmpl:263
+#: core/templates/registermessages.tmpl:272
+#: core/templates/registermessages.tmpl:281
+#: core/templates/registermessages.tmpl:290
 #: core/templates/registermessages.tmpl:319
+#: core/templates/registermessages.tmpl:326
 msgid "Please go back in your browser and try again."
 msgstr "Vennligst gå tilbake i nettleseren og forsøk på nytt."
 
@@ -3252,7 +3261,7 @@ msgstr "Vennligst gå tilbake i nettleseren og forsøk på nytt."
 msgid "Please go back in your browser and upload using a different filename."
 msgstr "Vennligst gå tilbake i nettleseren og forsøk et nytt navn."
 
-#: core/templates/registermessages.tmpl:288
+#: core/templates/registermessages.tmpl:295
 #, fuzzy
 msgid ""
 "Please make sure you spelled the [[%1][username]] correctly and try again. "
@@ -3275,7 +3284,7 @@ msgid ""
 "Please visit %1 to change your password to something more memorable for you."
 msgstr "Vennligst besøk %1 for å endre ditt passord til noe du husker enklere."
 
-#: core/lib/Foswiki/Plugins.pm:501
+#: core/lib/Foswiki/Plugins.pm:505
 msgid "Plugin handlers"
 msgstr "Plugin behandlere"
 
@@ -3338,7 +3347,7 @@ msgstr ""
 "title='Vis utskriftsvennlig versjon av siden' accesskey='p'>Utskriftsvennlig "
 "versjon (&p)"
 
-#: PatternSkin/templates/attach.pattern.tmpl:64
+#: PatternSkin/templates/attach.pattern.tmpl:71
 msgid "Properties"
 msgstr "Egenskaper"
 
@@ -3429,7 +3438,7 @@ msgstr "Registrer"
 msgid "Registration"
 msgstr "Registrering"
 
-#: core/lib/Foswiki/UI/Register.pm:803
+#: core/lib/Foswiki/UI/Register.pm:790
 #, fuzzy
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -3495,7 +3504,7 @@ msgstr ""
 msgid "Remember me on this computer"
 msgstr "Husk meg på denne maskinen"
 
-#: core/templates/registermessages.tmpl:301
+#: core/templates/registermessages.tmpl:308
 #, fuzzy
 msgid ""
 "Remember to update your user topic [[%1]] if you want your e-mail change to "
@@ -3518,7 +3527,7 @@ msgstr "Fjern brukere fra denne gruppen"
 msgid "Remove members..."
 msgstr "Fjern bruker..."
 
-#: core/templates/registermessages.tmpl:355
+#: core/templates/registermessages.tmpl:362
 msgid "Remove of user account other than your own is denied"
 msgstr ""
 
@@ -3527,7 +3536,7 @@ msgstr ""
 msgid "Remove selected members"
 msgstr "Fjern valgte brukere"
 
-#: core/templates/registermessages.tmpl:295
+#: core/templates/registermessages.tmpl:302
 #, fuzzy
 msgid "Remove the member from the group(s) %1 first."
 msgstr "Fjern brukeren fra gruppe(ne) %1 først."
@@ -3655,17 +3664,17 @@ msgstr "Resultater fra %1 web'en"
 msgid "Results from %1 web:"
 msgstr "Resultater fra %1 web'en:"
 
-#: core/templates/registermessages.tmpl:357
-#: core/templates/registermessages.tmpl:371
+#: core/templates/registermessages.tmpl:364
+#: core/templates/registermessages.tmpl:378
 #, fuzzy
 msgid "Return to %1"
 msgstr "Tilbake til %1."
 
-#: core/templates/registermessages.tmpl:351
+#: core/templates/registermessages.tmpl:358
 msgid "Return to %1 and supply a [[%2][WikiName]] or [[%3][username]]."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:305
+#: core/templates/registermessages.tmpl:312
 msgid "Return to %1."
 msgstr "Tilbake til %1."
 
@@ -3836,7 +3845,7 @@ msgstr "Søkt:"
 msgid "Security Note:"
 msgstr "Sikkerhetsvarsel:"
 
-#: core/templates/registermessages.tmpl:290
+#: core/templates/registermessages.tmpl:297
 msgid "See %1 for a list of existing users or register as new user in %2."
 msgstr ""
 "Se %1 for en liste over eksisterende brukere eller registrer deg som ny "
@@ -3846,11 +3855,11 @@ msgstr ""
 msgid "See %1 for information about Form Definitions."
 msgstr "Se %1 for informasjon om Skjemadefinisjoner."
 
-#: core/templates/registermessages.tmpl:389
-#: core/templates/registermessages.tmpl:398
+#: core/templates/registermessages.tmpl:396
 #: core/templates/registermessages.tmpl:405
-#: core/templates/registermessages.tmpl:438
-#: core/templates/registermessages.tmpl:447
+#: core/templates/registermessages.tmpl:412
+#: core/templates/registermessages.tmpl:445
+#: core/templates/registermessages.tmpl:454
 msgid "See %MAINWEB%.WikiGroups to see the result."
 msgstr "Se i %MAINWEB%.WikiGroups for resultater."
 
@@ -3875,7 +3884,7 @@ msgstr "Se under for hjelp om å redigere denne siden."
 msgid "See changes since:"
 msgstr "Gjennomse nylige endringer i:"
 
-#: core/lib/Foswiki/Plugins.pm:296
+#: core/lib/Foswiki/Plugins.pm:300
 msgid "See the DISABLEDPLUGINS preference setting."
 msgstr ""
 
@@ -4091,7 +4100,7 @@ msgstr ""
 #: PatternSkin/data/System/PatternSkinElements.txt:415
 #: PatternSkin/data/System/PatternSkinElements.txt:424
 #: core/data/System/FrequentlyAskedQuestions.txt:81
-#: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:161
+#: core/data/System/PerlDoc.txt:18 core/templates/registermessages.tmpl:168
 msgid "Submit"
 msgstr "Send"
 
@@ -4136,12 +4145,12 @@ msgstr ""
 msgid "Subwebs"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:394
+#: core/templates/registermessages.tmpl:401
 #, fuzzy
 msgid "Success adding members to group"
 msgstr "Vellykket lagring av brukere i gruppe"
 
-#: core/templates/registermessages.tmpl:443
+#: core/templates/registermessages.tmpl:450
 #, fuzzy
 msgid "Success removing members from group"
 msgstr "Vellykket fjerning av brukere fra gruppe"
@@ -4209,9 +4218,9 @@ msgstr "Takk for at du registrerte deg"
 msgid "Thank you for denying this registration"
 msgstr "Takk for at du registrerte deg"
 
-#: core/templates/registermessages.tmpl:146
-#: core/templates/registermessages.tmpl:154
-#: core/templates/registermessages.tmpl:167
+#: core/templates/registermessages.tmpl:153
+#: core/templates/registermessages.tmpl:161
+#: core/templates/registermessages.tmpl:174
 msgid "Thank you for registering"
 msgstr "Takk for at du registrerte deg"
 
@@ -4231,7 +4240,7 @@ msgstr ""
 "Takk for at du registrerte deg i %1 samarbeidsplattformen. Din "
 "bekreftelseskode er %2."
 
-#: core/templates/registermessages.tmpl:103
+#: core/templates/registermessages.tmpl:110
 #, fuzzy
 msgid "That user has already been activated"
 msgstr "Den brukeren er allerede aktivert "
@@ -4280,7 +4289,7 @@ msgstr "Skriptet =%1= kan kun kalles med metoden POST."
 msgid "The Administrator has disabled new user registration."
 msgstr "Administratoren har deaktivert registrering av nye brukere."
 
-#: core/templates/registermessages.tmpl:138
+#: core/templates/registermessages.tmpl:145
 #, fuzzy
 msgid "The Administrator has disabled password changes."
 msgstr "Administratoren har deaktiver registrering av nye brukere"
@@ -4298,7 +4307,7 @@ msgstr ""
 "Advarsel: Kan ikke bruke INCLUDE '%1', stien er tom eller inneholder "
 "ulovlige tegn."
 
-#: core/templates/registermessages.tmpl:115
+#: core/templates/registermessages.tmpl:122
 #, fuzzy
 msgid ""
 "The [[%1][WikiName]] field must be your first and last name written as a "
@@ -4308,13 +4317,13 @@ msgstr ""
 "Feltet %1 må være ditt fornavn og etternavn i %2, e.g. fornavn og etternavn "
 "med store forbokstaver og uten mellomrom."
 
-#: core/templates/registermessages.tmpl:214
+#: core/templates/registermessages.tmpl:221
 msgid ""
 "The [[%1][login username]] (%2) is not allowed for this installation. "
 "Registration rejected."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:221
+#: core/templates/registermessages.tmpl:228
 msgid ""
 "The [[%1][login username]] is a required parameter. Registration rejected."
 msgstr ""
@@ -4336,9 +4345,10 @@ msgstr ""
 "samme navn allerede finnes på siden."
 
 #: core/templates/renameattachmentdelete.tmpl:43
+#, fuzzy
 msgid ""
-"The attachment may have to be renamed if an attachment called '%FILENAME%' "
-"already exists in the target topic."
+"The attachment may have to be renamed if an attachment called '%1' already "
+"exists in the target topic."
 msgstr ""
 "Navnet på vedlegget må kanskje endres dersom et vedlegg kalt '%FILENAME%' "
 "allerede finnes på siden."
@@ -4373,26 +4383,26 @@ msgid ""
 "\"."
 msgstr ""
 
-#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:409
+#: core/data/System/InstalledPlugins.txt:45 core/lib/Foswiki/Plugins.pm:413
 msgid ""
 "The details about REST Handlers are only available to users with Admin "
 "authority."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:252
-#: core/templates/registermessages.tmpl:270
+#: core/templates/registermessages.tmpl:259
+#: core/templates/registermessages.tmpl:277
 #, fuzzy
 msgid "The e-mail address for this account has been rejected."
 msgstr "Epostadressen for denne kontoen er ikke gyldig."
 
-#: core/templates/registermessages.tmpl:261
-#: core/templates/registermessages.tmpl:279
+#: core/templates/registermessages.tmpl:268
+#: core/templates/registermessages.tmpl:286
 #, fuzzy
 msgid ""
 "The e-mail address for this account is already registered to another user."
 msgstr "Epostadressen for denne kontoen er ikke gyldig."
 
-#: core/templates/registermessages.tmpl:243
+#: core/templates/registermessages.tmpl:250
 msgid "The e-mail address for this account is not valid."
 msgstr "Epostadressen for denne kontoen er ikke gyldig."
 
@@ -4452,7 +4462,7 @@ msgstr "Sidenavnet kan ikke være tomt."
 msgid "The name of the topic must not be empty."
 msgstr "Sidenavnet kan ikke være tomt."
 
-#: core/templates/registermessages.tmpl:128
+#: core/templates/registermessages.tmpl:135
 msgid ""
 "The name provided is either invalid, or the named topic is not found. The "
 "templatetopic must be an existing new user template topic in the %USERSWEB% "
@@ -4477,11 +4487,11 @@ msgstr "Den nye siden som er valgt må finnes fra før."
 msgid "The new web has been created"
 msgstr "Den nye web'en er opprettet"
 
-#: core/templates/registermessages.tmpl:310
+#: core/templates/registermessages.tmpl:317
 msgid "The password you entered in the *old password* field is incorrect."
 msgstr "Passordet du skrev i *gammelt passord* feltet stemmer ikke."
 
-#: core/templates/registermessages.tmpl:317
+#: core/templates/registermessages.tmpl:324
 msgid ""
 "The prefix you entered for the deleted user is not valid as a topic name."
 msgstr "Prefikset du skrev for den slettede brukeren er ikke gyldig sidenavn."
@@ -4498,15 +4508,15 @@ msgstr "Det valgte brukersystemet tilbyr ikke registrering av nye brukere."
 msgid "The topic is in an old format"
 msgstr "Siden er i et gamnmelt format"
 
-#: core/templates/registermessages.tmpl:186
+#: core/templates/registermessages.tmpl:193
 msgid "The two passwords you entered do not match."
 msgstr "De to passordene du skrev inn er ikke like."
 
-#: core/templates/registermessages.tmpl:105
+#: core/templates/registermessages.tmpl:112
 msgid "The user %1 has already been activated, and should be able to log in."
 msgstr "Brukeren %1 er allerede aktivert og burde kunne logge inn."
 
-#: core/templates/registermessages.tmpl:363
+#: core/templates/registermessages.tmpl:370
 #, fuzzy
 msgid "The user has been removed from the Authentication System."
 msgstr "Ditt brukernavn har blitt fjernet fra autentiserings systemet."
@@ -4543,7 +4553,7 @@ msgstr ""
 msgid "There are problems with renaming this web:"
 msgstr "Det er problemer med å navngi denne web'en:"
 
-#: core/templates/registermessages.tmpl:194
+#: core/templates/registermessages.tmpl:201
 msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
 "Det var et problem med å legge til din brukeridentitet til passordsystemet."
@@ -4566,12 +4576,12 @@ msgstr ""
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Der burde være en linje som inkliderer %1, se for %2 (eller %3)"
 
-#: core/templates/registermessages.tmpl:385
+#: core/templates/registermessages.tmpl:392
 #, fuzzy
 msgid "There were errors adding to the %2 group. %1 "
 msgstr "Det oppsted feil ved lagring av %1 i gruppen %2. "
 
-#: core/templates/registermessages.tmpl:434
+#: core/templates/registermessages.tmpl:441
 #, fuzzy
 msgid "There were errors removing %1 from the %2 group."
 msgstr "Det oppstod feil ved fjerning av %1 fra gruppen %2. "
@@ -4593,7 +4603,7 @@ msgstr "Dette kan automatisk oppgraderes ved:"
 msgid "This could be for several reasons:"
 msgstr "Dette kan ha flere årsaker:"
 
-#: core/templates/registermessages.tmpl:130
+#: core/templates/registermessages.tmpl:137
 msgid ""
 "This field is not normally user provided. This may be a Foswiki "
 "configuration error."
@@ -4652,6 +4662,12 @@ msgstr "Dette er en automatisk epost fra %1."
 #: core/templates/registernotifyadmin.tmpl:9
 msgid "This is an automated e-mail notification of user registration in %1."
 msgstr "Dette er en automatisk epost varsling om brukerregistrering i %1."
+
+#: core/templates/registermessages.tmpl:94
+msgid ""
+"This is an internal error.  You can try to register again, or contact %1 to "
+"report the error."
+msgstr ""
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:128
 #, fuzzy
@@ -4717,7 +4733,7 @@ msgstr "Dette krever at skjemadefinisjonen er tilstede."
 msgid "This site is powered by Foswiki"
 msgstr "Dette nettstedet kjøres på Foswiki"
 
-#: core/templates/registermessages.tmpl:236
+#: core/templates/registermessages.tmpl:243
 msgid "This site requires at least %1 character passwords"
 msgstr "Denne webløsningen krever minst %1 tegns passord"
 
@@ -5000,7 +5016,7 @@ msgstr ""
 msgid "Unsubscribe from this topic (s)"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:213
+#: core/templates/registermessages.tmpl:220
 #, fuzzy
 msgid "Unsupported [[%1][username]]"
 msgstr "Feil %1.WikiNavn:"
@@ -5030,7 +5046,7 @@ msgstr "Gruppe Oppgradert"
 msgid "Upgrade group topic..."
 msgstr "Oppgrader gruppesiden"
 
-#: core/templates/registermessages.tmpl:401
+#: core/templates/registermessages.tmpl:408
 #, fuzzy
 msgid "Upgraded group"
 msgstr "Gruppe Oppgradert"
@@ -5098,11 +5114,11 @@ msgstr ""
 msgid "User %1 not in group, cannot be removed"
 msgstr "%1 er medlem av minst en gruppe og kan ikke fjernes"
 
-#: core/templates/registermessages.tmpl:362
+#: core/templates/registermessages.tmpl:369
 msgid "User Account %1 Deleted"
 msgstr "Brukerkonto %1 Slettet"
 
-#: core/templates/registermessages.tmpl:350
+#: core/templates/registermessages.tmpl:357
 #, fuzzy
 msgid "User Account was not supplied"
 msgstr "Brukerkonto %1 Slettet"
@@ -5160,7 +5176,7 @@ msgstr ""
 msgid "Users who may view:"
 msgstr ""
 
-#: core/templates/registermessages.tmpl:325
+#: core/templates/registermessages.tmpl:332
 msgid ""
 "Users with automatically generated passwords should proceed immediately to "
 "[[%1][change password]] to change their password to something memorable."
@@ -5285,11 +5301,11 @@ msgstr "Advarsel: Kan ikke finne siden %1.%2"
 msgid "Warning: Can't find web %1 for topic %2"
 msgstr "Advarsel: Kan ikke finne siden %1.%2"
 
-#: core/lib/Foswiki/UI/Register.pm:1369
+#: core/lib/Foswiki/UI/Register.pm:1356
 msgid "Warning: Could not send confirmation email"
 msgstr "Advarsel: Kunne ikke sende bekreftelses epost"
 
-#: core/lib/Foswiki/UI/Register.pm:1381
+#: core/lib/Foswiki/UI/Register.pm:1368
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr "Advarsel: Kunne ikke sende bekreftekses epost, epost er deaktivert"
 
@@ -5359,7 +5375,7 @@ msgstr "Velkomme til %1 ... treff folk på dette stedet"
 msgid "Welcome to the %1 web"
 msgstr "Welkommen til %1 web'en"
 
-#: core/templates/registermessages.tmpl:93
+#: core/templates/registermessages.tmpl:100
 msgid "While attempting to email <noautolink>%1</noautolink>."
 msgstr "Under forsøk på å sende epost <noautolink>%1</noautolink>."
 
@@ -5413,12 +5429,12 @@ msgstr ""
 "ditt passord. Hvis ingen av dine registrerte epostadresser er gyldige, og du "
 "har glemt ditt passord, kontakt %1."
 
-#: core/templates/registermessages.tmpl:202
+#: core/templates/registermessages.tmpl:209
 #, fuzzy
 msgid "You are already registered."
 msgstr "Du er allerede registrert"
 
-#: core/templates/registermessages.tmpl:149
+#: core/templates/registermessages.tmpl:156
 msgid "You are also listed in the %1 topic"
 msgstr "Du er også listet på %1 siden"
 
@@ -5504,8 +5520,8 @@ msgstr "Du kan endre ditt passord via %1"
 msgid "You can give this web a different name."
 msgstr "Du kan gi denne web'en et annet navn."
 
-#: core/templates/registermessages.tmpl:416
-#: core/templates/registermessages.tmpl:422
+#: core/templates/registermessages.tmpl:423
+#: core/templates/registermessages.tmpl:429
 msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
@@ -5523,7 +5539,7 @@ msgid ""
 "your browser."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:203
+#: core/templates/registermessages.tmpl:210
 msgid "You cannot register twice, the name %1 is already registered."
 msgstr ""
 "Du kan ikke registrere deg to ganger, navnet %1 er allerede registrert."
@@ -5538,7 +5554,7 @@ msgstr ""
 "brukerside. Hvis dette feltet ikke finnes søkes det etter en linje som dette:"
 
 #: core/templates/registermessages.tmpl:13
-#: core/templates/registermessages.tmpl:198
+#: core/templates/registermessages.tmpl:205
 #: core/templates/registermessages.tmpl:23
 #: core/templates/registermessages.tmpl:37
 msgid "You have *not* been registered."
@@ -5552,7 +5568,7 @@ msgstr ""
 "Du kan få din Wiki administrator til å endre innstillingene dersom de er "
 "hensiktsmessige for ditt miljø."
 
-#: core/templates/registermessages.tmpl:107
+#: core/templates/registermessages.tmpl:114
 msgid ""
 "You may have clicked a registration verification link that you had already "
 "visited."
@@ -5560,7 +5576,7 @@ msgstr ""
 "Du kan ha klikket på en registrerings-bekreftelses link som du allerede har "
 "besøkt."
 
-#: core/templates/registermessages.tmpl:343
+#: core/templates/registermessages.tmpl:350
 msgid "You may need to close your browser to make this change take effect."
 msgstr ""
 "Det kan hende du må starte nettleseren på nytt for at endringen skal tre i "
@@ -5576,12 +5592,12 @@ msgstr ""
 msgid "You must pass a topic name."
 msgstr "Du må sende et sidenavn."
 
-#: core/templates/registermessages.tmpl:376
+#: core/templates/registermessages.tmpl:383
 #, fuzzy
 msgid "You need to specify a valid group name to add members to a group."
 msgstr "Du må angi et gyldig gruppenavn for å legge til brukere i en gruppe."
 
-#: core/templates/registermessages.tmpl:427
+#: core/templates/registermessages.tmpl:434
 #, fuzzy
 msgid "You need to specify a valid group name to remove members from a group."
 msgstr "Du må angi et gyldig gruppenavn for å fjerne brukere fra en gruppe."
@@ -5591,7 +5607,7 @@ msgstr "Du må angi et gyldig gruppenavn for å fjerne brukere fra en gruppe."
 msgid "You need to specify a valid member to add to a group."
 msgstr "Du må angi en gyldig bruker for å legge til en gruppe."
 
-#: core/templates/registermessages.tmpl:410
+#: core/templates/registermessages.tmpl:417
 #, fuzzy
 msgid "You need to specify a valid member to remove from a group."
 msgstr "Du må angi en gyldig bruker for å fjerne fra en gruppe."
@@ -5608,7 +5624,7 @@ msgstr ""
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "Du må trolig spørre din administrator, %1, om å få gjøre dette."
 
-#: core/templates/registermessages.tmpl:171
+#: core/templates/registermessages.tmpl:178
 msgid "You will receive an e-mail when your registration has been approved."
 msgstr ""
 
@@ -5623,7 +5639,7 @@ msgstr ""
 msgid "Your [[%1][username]]:"
 msgstr "Feil %1.WikiNavn:"
 
-#: core/templates/registermessages.tmpl:156
+#: core/templates/registermessages.tmpl:163
 msgid ""
 "Your activation code has been sent to %1.  Either click on the link in your "
 "e-mail or enter the code in the box below to activate your membership. (This "
@@ -5654,7 +5670,7 @@ msgstr ""
 msgid "Your password has been changed to %1."
 msgstr "Ditt passord er endret til %1."
 
-#: core/templates/registermessages.tmpl:142
+#: core/templates/registermessages.tmpl:149
 #, fuzzy
 msgid "Your password has not been changed."
 msgstr "Ditt passord er endret til %1."
@@ -5677,11 +5693,11 @@ msgid ""
 msgstr ""
 "Din personlige %1 side finner på %2. Du kan tilpasse den som du ønsker:"
 
-#: core/templates/registermessages.tmpl:147
+#: core/templates/registermessages.tmpl:154
 msgid "Your personal Foswiki topic %1 has been created"
 msgstr "Din personlige Foswiki side %1 er lagd"
 
-#: core/templates/registermessages.tmpl:303
+#: core/templates/registermessages.tmpl:310
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
@@ -5694,11 +5710,11 @@ msgid ""
 "notifications of password changes."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:169
+#: core/templates/registermessages.tmpl:176
 msgid "Your registration is pending approval by the system administrators."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:95
+#: core/templates/registermessages.tmpl:102
 msgid ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
@@ -5714,7 +5730,7 @@ msgstr "Din signatur for å kopiere og lime inn"
 msgid "Your signature to copy/paste:"
 msgstr "Din signatur for å kopiere og lime inn:"
 
-#: core/templates/registermessages.tmpl:333
+#: core/templates/registermessages.tmpl:340
 msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
@@ -5727,7 +5743,7 @@ msgid ""
 "Your user registration failed because it did not pass the validation tests."
 msgstr ""
 
-#: core/templates/registermessages.tmpl:229
+#: core/templates/registermessages.tmpl:236
 msgid ""
 "[[%1][Click here]] for guidance on creating a valid username for this site."
 msgstr ""
