@@ -1,0 +1,3 @@
+# ---+ Extensions
+# ---++ %$MODULE%
+1;

@@ -414,6 +414,12 @@ sub isContrib {
     return $module =~ /(Contrib|Skin|AddOn|^core)$/;
 }
 
+sub isExtension {
+    my ($module) = @_;
+
+    return $module =~ /(Extension)$/;
+}
+
 sub installModuleByName {
     my $module = shift;
     my $subdir = 'Plugins';
@@ -427,7 +433,8 @@ sub installModuleByName {
 
     $module =~ s#/+$##;    #remove trailing slashes
     print "Processing $module\n";
-    $subdir = 'Contrib' if isContrib($module);
+    $subdir = 'Contrib'   if isContrib($module);
+    $subdir = 'Extension' if isExtension($module);
 
     if ( $module eq 'core' ) {
 
@@ -497,7 +504,7 @@ sub ListGitExtensions {
 
     foreach my $r (@rp) {
         my $rname = $r->{'name'};
-        next unless $rname =~ m/(Plugin|Contrib|AddOn|Skin)$/;
+        next unless $rname =~ m/(Plugin|Contrib|AddOn|Skin|Extension)$/;
         if ($filter) {
             next unless $rname =~ m/$filter/i;
         }
@@ -753,6 +760,11 @@ sub installFromMANIFEST {
         close $lsc;
         if ( !$spec && isContrib($module) ) {
             $spec = File::Spec->catfile( $basedir, 'lib', 'Foswiki', 'Contrib',
+                $module, 'Config.spec' );
+        }
+        elsif ( !$spec && isExtension($module) ) {
+            $spec =
+              File::Spec->catfile( $basedir, 'lib', 'Foswiki', 'Extension',
                 $module, 'Config.spec' );
         }
         if ( ( $enabled || isContrib($module) ) && $spec && -f $spec ) {
