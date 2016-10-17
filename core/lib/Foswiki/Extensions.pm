@@ -239,11 +239,11 @@ sub _loadFromSubDir {
     my $this = shift;
     my ($subDir) = @_;
 
-    my $extDir =
-      IO::Dir->new(
-        File::Spec->catdir( $subDir, split( /::/, $this->extPrefix ) ) );
+    my $extDirPath =
+      File::Spec->catdir( $subDir, split( /::/, $this->extPrefix ) );
+    my $extDir = IO::Dir->new($extDirPath);
     Foswiki::Exception::FileOp->throw(
-        file => $subDir,
+        file => $extDirPath,
         op   => "opendir",
     ) unless defined $extDir;
 
