@@ -52,8 +52,8 @@ sub logon {
     my $app  = $this->app;
     my $req  = $app->request;
 
-    if ( defined $Foswiki::cfg{LoginManager}
-        && $Foswiki::cfg{LoginManager} eq 'none' )
+    if ( defined $app->cfg->data->{LoginManager}
+        && $app->cfg->data->{LoginManager} eq 'none' )
     {
         throw Foswiki::OopsException(
             app      => $app,
@@ -99,7 +99,7 @@ sub checkWebExists {
             status   => 404,
             def      => 'bad_web_name',
             web      => $webName,
-            topic    => $Foswiki::cfg{WebPrefsTopicName},
+            topic    => $app->cfg->data->{WebPrefsTopicName},
             params   => [ $op, $app->request->invalidWeb ]
         );
     }
@@ -110,7 +110,7 @@ sub checkWebExists {
             status   => 404,
             def      => 'bad_web_name',
             web      => $webName,
-            topic    => $Foswiki::cfg{WebPrefsTopicName},
+            topic    => $app->cfg->data->{WebPrefsTopicName},
             params   => [$op]
         );
     }
@@ -122,7 +122,7 @@ sub checkWebExists {
             status   => 404,
             def      => 'no_such_web',
             web      => $webName,
-            topic    => $Foswiki::cfg{WebPrefsTopicName},
+            topic    => $app->cfg->data->{WebPrefsTopicName},
             params   => [$op]
         );
     }
@@ -255,7 +255,7 @@ sub checkValidationKey {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

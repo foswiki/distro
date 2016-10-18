@@ -531,7 +531,8 @@ sub diff {
 
     # Limit the total number of diffs to avoid DoS
     my $step =
-      int( ( $olderi - $neweri ) / $Foswiki::cfg{MaxRevisionsInADiff} + 0.5 );
+      int(
+        ( $olderi - $neweri ) / $app->cfg->data->{MaxRevisionsInADiff} + 0.5 );
     $step = 1 if $step < 1;
 
     $before =~ s/%REVTITLE1%/$revTitleHigh/g;
@@ -554,11 +555,11 @@ sub diff {
 
     # If we are applying control to the raw view:
     if (   $renderStyle eq 'debug'
-        && defined $Foswiki::cfg{FeatureAccess}{AllowRaw}
-        && $Foswiki::cfg{FeatureAccess}{AllowRaw} ne 'all' )
+        && defined $app->cfg->data->{FeatureAccess}{AllowRaw}
+        && $app->cfg->data->{FeatureAccess}{AllowRaw} ne 'all' )
     {
 
-        if ( $Foswiki::cfg{FeatureAccess}{AllowRaw} eq 'authenticated' ) {
+        if ( $app->cfg->data->{FeatureAccess}{AllowRaw} eq 'authenticated' ) {
             Foswiki::AccessControlException->throw(
                 mode   => 'authenticated',
                 user   => $app->user,
@@ -574,11 +575,12 @@ sub diff {
     }
 
     # If we are applying control to the revisions:
-    if ( defined $Foswiki::cfg{FeatureAccess}{AllowHistory}
-        && $Foswiki::cfg{FeatureAccess}{AllowHistory} ne 'all' )
+    if ( defined $app->cfg->data->{FeatureAccess}{AllowHistory}
+        && $app->cfg->data->{FeatureAccess}{AllowHistory} ne 'all' )
     {
 
-        if ( $Foswiki::cfg{FeatureAccess}{AllowHistory} eq 'authenticated' ) {
+        if ( $app->cfg->data->{FeatureAccess}{AllowHistory} eq 'authenticated' )
+        {
             Foswiki::AccessControlException->throw(
                 mode   => 'authenticated',
                 user   => $app->user,

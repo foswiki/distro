@@ -47,7 +47,7 @@ sub configure {
 
     Foswiki::Configure::Auth::checkAccess($app);
 
-    unless ( $Foswiki::cfg{Plugins}{ConfigurePlugin}{Enabled} ) {
+    unless ( $app->cfg->data->{Plugins}{ConfigurePlugin}{Enabled} ) {
         $tmplData =
             CGI::start_html()
           . CGI::h1( {}, 'Error' )
@@ -74,14 +74,14 @@ MESSAGE
 
     my $meta = $this->create(
         'Foswiki::Meta',
-        web   => $Foswiki::cfg{SystemWebName},
-        topic => $Foswiki::cfg{SitePrefsTopicName}
+        web   => $app->cfg->data->{SystemWebName},
+        topic => $app->cfg->data->{SitePrefsTopicName}
     );
 
     $tmplData = $meta->expandMacros($tmplData);
 
     # Expand JS bootsrap flag
-    my $bs = $Foswiki::cfg{isBOOTSTRAPPING} ? 'true' : 'false';
+    my $bs = $app->cfg->data->{isBOOTSTRAPPING} ? 'true' : 'false';
     $tmplData =~ s/%BOOTSTRAPPED%/$bs/gs;
 
     $app->writeCompletePage($tmplData);
@@ -91,7 +91,7 @@ MESSAGE
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2014-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

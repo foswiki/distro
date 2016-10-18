@@ -529,17 +529,18 @@ sub test_nested_web_secured_topic_filename_param {
 
 sub test_MIME_types {
     my $this = shift;
+    my $app  = $this->app;
 
     $this->assert_equals(
         'application/vnd.adobe.air-application-installer-package+zip',
-        Foswiki::UI::Viewfile::_suffixToMimeType('blah.air')
+        Foswiki::UI::Viewfile::_suffixToMimeType( $app, 'blah.air' )
     );
     $this->assert_equals( 'text/h323',
-        Foswiki::UI::Viewfile::_suffixToMimeType('blah.323') );
+        Foswiki::UI::Viewfile::_suffixToMimeType( $app, 'blah.323' ) );
     $this->assert_equals( 'application/octet-stream',
-        Foswiki::UI::Viewfile::_suffixToMimeType('blah.w02') );
+        Foswiki::UI::Viewfile::_suffixToMimeType( $app, 'blah.w02' ) );
     $this->assert_equals( 'text/plain',
-        Foswiki::UI::Viewfile::_suffixToMimeType('blah.wibble') );
+        Foswiki::UI::Viewfile::_suffixToMimeType( $app, 'blah.wibble' ) );
 
     return;
 }
