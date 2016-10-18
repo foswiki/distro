@@ -30,9 +30,10 @@ around set_up => sub {
 
     my $it = Foswiki::Func::getPreferencesValue('ICONTOPIC');
     $it =~ s/\./\//;
-    $this->reliconurl( $Foswiki::cfg{PubUrlPath} . '/'
+    $this->reliconurl( $this->app->cfg->data->{PubUrlPath} . '/'
           . Foswiki::Func::expandCommonVariables($it) );
-    $this->absiconurl( $Foswiki::cfg{DefaultUrlHost} . $this->reliconurl );
+    $this->absiconurl(
+        $this->app->cfg->data->{DefaultUrlHost} . $this->reliconurl );
 
 };
 

@@ -7,7 +7,7 @@ use warnings;
 use Locale::Maketext;
 
 sub MAKETEXT {
-    my ( $this, $params ) = @_;
+    my ( $app, $params ) = @_;
 
     my $str = $params->{_DEFAULT} || $params->{string} || "";
     return "" unless $str;
@@ -35,7 +35,7 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, $max, $min, $param_erro
 
     # Escape any escapes.
     $str =~ s#\\#\\\\#g
-      if ( $Foswiki::cfg{UserInterfaceInternationalisation}
+      if ( $app->cfg->data->{UserInterfaceInternationalisation}
         && $Locale::Maketext::VERSION
         && $Locale::Maketext::VERSION < 1.23 );    # escape any escapes
 
@@ -56,7 +56,7 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ _validate($1, $2, $max, $min, $param_erro
     }
 
     # do the magic:
-    my $result = $this->i18n->maketext( $str, @args );
+    my $result = $app->i18n->maketext( $str, @args );
 
     # replace accesskeys:
     $result =~
@@ -92,7 +92,7 @@ sub _validate {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

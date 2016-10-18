@@ -7,9 +7,9 @@ use warnings;
 # $https flag set when HTTPS macro is requested.
 
 sub HTTP {
-    my ( $this, $params, $topicObject ) = @_;
+    my ( $app, $params, $topicObject ) = @_;
     my $res;
-    my $req = _validateRequest( $params->{_DEFAULT} );
+    my $req = _validateRequest( $app, $params->{_DEFAULT} );
 
     my $https = ( substr( ( caller() )[1], -8 ) eq "HTTPS.pm" );
 
@@ -19,7 +19,7 @@ sub HTTP {
             !defined $req      # Requesting secure flag
             || length($req)    # or requesting a specific header
           );
-        $res = $this->request->https($req);
+        $res = $app->request->https($req);
     }
     else {
         return ''
@@ -27,7 +27,7 @@ sub HTTP {
             defined $req       # Specifc header requested
             && length($req)    # and passed validation
           );
-        $res = $this->request->http($req);
+        $res = $app->request->http($req);
     }
     $res = '' unless defined($res);
     return $res;
@@ -35,13 +35,15 @@ sub HTTP {
 
 sub _validateRequest {
 
+    my $app = shift;
+
     # Permit undef - used by HTTPS variant
     return $_[0] unless defined $_[0];
 
     # Nothing allowed if AccessibleHeaders is not defined
-    return '' unless ( scalar @{ $Foswiki::cfg{AccessibleHeaders} } );
+    return '' unless ( scalar @{ $app->cfg->data->{AccessibleHeaders} } );
 
-    foreach my $hdr ( @{ $Foswiki::cfg{AccessibleHeaders} } ) {
+    foreach my $hdr ( @{ $app->cfg->data->{AccessibleHeaders} } ) {
         return $hdr if ( lc( $_[0] ) eq lc($hdr) );
     }
 
@@ -53,7 +55,7 @@ sub _validateRequest {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

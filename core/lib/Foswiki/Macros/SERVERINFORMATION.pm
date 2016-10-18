@@ -22,25 +22,27 @@ sub SERVERINFORMATION {
     if ( ( !defined $params->{_DEFAULT} )
         || $params->{_DEFAULT} eq 'environment' )
     {
-        $report .= _report_environment();
+        $report .= _report_environment($app);
     }
 
     if ( ( !defined $params->{_DEFAULT} )
         || $params->{_DEFAULT} eq 'execution' )
     {
-        $report .= _report_execution();
+        $report .= _report_execution($app);
     }
 
     if ( ( !defined $params->{_DEFAULT} )
         || $params->{_DEFAULT} eq 'modules' )
     {
-        $report .= _report_modules();
+        $report .= _report_modules($app);
     }
 
     return $report;
 }
 
 sub _report_environment {
+
+    my $app = shift;
 
     my $report = <<DONE;
 <noautolink>
@@ -102,6 +104,8 @@ DONE
 
 sub _report_execution {
 
+    my $app = shift;
+
     my $report = <<DONE;
 <noautolink>
 %TABLE{sort="off"}%
@@ -113,7 +117,7 @@ DONE
     # report the umask
     my $pUmask = sprintf( '%03o', umask() );
     my $override =
-      ( $Foswiki::cfg{Store}{overrideUmask} )
+      ( $app->cfg->data->{Store}{overrideUmask} )
       ? ' (Overridden by LocalSite.cfg)'
       : '';
     $report .= "| UMASK | $pUmask $override |\n";
@@ -153,13 +157,15 @@ DONE
         "| File System | Case "
       . ( ( File::Spec->case_tolerant() ) ? 'Insensitive' : 'Sensitive' )
       . " |\n";
-    $report .= "| Engine | =$Foswiki::cfg{Engine}=  |\n";
+    $report .= "| Engine | =$app->cfg->data->{Engine}=  |\n";
     $report .= '</noautolink>';
 
     return $report;
 }
 
 sub _report_modules {
+
+    my $app = shift;
 
     my $report = <<DONE;
 <noautolink>
