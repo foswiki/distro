@@ -96,7 +96,7 @@ sub INCLUDE {
                     $publicOnly # Don't even parse FIXME comments if public only mode.
                     ? ()
                     : ( _FixmeComment =>
-'\n\h*?(?<commentLine>#\h*?(?<commentType>SMELL|TODO|FIXME)\h+?)(?=\n)'
+'\n\h*?(?<commentLine>#\h*?(?<commentType>SMELL|TODO|FIXME)\b\h*(?<commentText>.+?))(?=\n)'
                     )
                 ),
             },
