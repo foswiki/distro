@@ -1,36 +1,18 @@
 #! /usr/bin/env perl
 # See bottom of file for license and copyright information
-use strict;
-use warnings;
+use Cwd;
+use lib Cwd::abs_path("../lib");
+use Foswiki::App;
+use Plack::Loader;
 
-use File::Spec;
-
-BEGIN {
-    if ( defined $ENV{GATEWAY_INTERFACE} || defined $ENV{MOD_PERL} ) {
-        $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
-        use CGI::Carp qw(fatalsToBrowser);
-        $SIG{__DIE__} = \&CGI::Carp::confess;
-    }
-    else {
-        $Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
-        require Carp;
-        $SIG{__DIE__} = \&Carp::confess;
-    }
-    my ( $volume, $binDir, $action ) = File::Spec->splitpath(__FILE__);
-    my $setlib = File::Spec->catpath( $volume, $binDir, 'setlib.cfg' );
-    @INC = ( '.', grep { $_ ne '.' } @INC ) unless $binDir;
-    require $setlib;
-    $action =~ s/\..*$//;    # Remove eventual file extension
-    $ENV{FOSWIKI_ACTION} = $action;
-}
-
-use Foswiki     ();
-use Foswiki::UI ();
-$Foswiki::engine->run();
+my $app = sub {
+    return Foswiki::App->run( env => shift, );
+};
+Plack::Loader->auto->run($app);
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
