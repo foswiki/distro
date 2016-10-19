@@ -2,29 +2,33 @@
 # Author: Crawford Currie
 
 package JsonrpcTests;
-use strict;
-use warnings;
-use FoswikiFnTestCase();
-our @ISA = qw( FoswikiFnTestCase );
+use v5.14;
 
 use Assert;
 use Foswiki();
 use Foswiki::Func();
 use Foswiki::EngineException();
 use Carp();
-use Error ':try';
+use Try::Tiny;
+
+use Moo;
+use namespace::clean;
+extends qw( FoswikiFnTestCase );
 
 use Unit::Request::JSON;
 
 our $UI_FN;
 
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::set_up();
-    $UI_FN ||= $this->getUIFn('jsonrpc');
+    $orig->($this);
+
+    Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
+        \&json_handler );
 
     return;
-}
+};
 
 # A simple REST handler
 sub json_handler {
@@ -77,22 +81,55 @@ sub json_authtest {
 # Simple jsonrpc, using posted data
 sub test_simple_postdata {
     my $this = shift;
-    Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
-        \&json_handler );
 
-    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $query->param( 'POSTDATA',
+    my $response;
+
+    try {
+        ($response) = $this->capture(
+            sub {
+
+                $this->createNewFoswikiApp(
+                    requestParams => {
+                        initializer => {
+                            action    => ['jsonrpc'],
+                            uri       => '/' . __PACKAGE__ . '/trial',
+                            path_info => '/' . __PACKAGE__ . '/trial',
+                        },
+                    },
+                    engineParams => {
+                        initialAttributes => {
+                            uri       => '/' . __PACKAGE__ . "/trial",
+                            path_info => '/' . __PACKAGE__ . "/trial",
+                            method    => 'post',
+                            action    => 'jsonrpc',
+                        },
+                    },
+                );
+                $this->app->request->param(
+                    -name => 'POSTDATA',
+                    -value =>
 '{"jsonrpc":"2.0","method":"trial","params":{"wizard":"ScriptHash","method":"verify","keys":"{ScriptUrlPaths}{view}","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}'
-    );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ( $response, $result, $out, $err ) =
-      $this->capture( $UI_FN, $this->{session} );
+                );
+
+                return $this->app->handleRequest;
+            },
+        );
+    }
+    catch {
+        my $e = $_;
+        if ( ref($e) && $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 401, $e->status, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
+    };
 
     $this->assert_matches( qr/"result" : "SUCCESS"/, $response );
     return;
 }
+1;
+__END__
 
 # Simple jsonrpc, using query params
 sub test_simple_query_params {

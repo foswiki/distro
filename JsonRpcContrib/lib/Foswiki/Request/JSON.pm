@@ -81,11 +81,12 @@ has jsonerror => (
         'jsonerror', 'Foswiki::Contrib::JsonRpcContrib::Error'
     ),
 );
-has _jsondata => (
+has jsondata => (
     is        => 'rw',
     lazy      => 1,
     predicate => 1,
-    isa       => Foswiki::Object::isaHASH( '_jsondata', noUndef => 1, ),
+    isa       => Foswiki::Object::isaHASH( 'jsondata', noUndef => 1, ),
+    clearer   => 1,
     builder   => '_establishJSON',
 );
 
@@ -129,12 +130,12 @@ around param => sub {
 
     # Intercept POSTDATA assignment, and process the JSON data
     if ( $key eq 'POSTDATA' && scalar @value ) {
-        $this->_clear_jsondata;
+        $this->clear_jsondata;
     }
 
     # If key doesn't exist in json data,  the fall back to CGI.
-    return $this->_jsondata->{params}{$key}
-      if ( defined $this->_jsondata->{params}{$key} );
+    return $this->jsondata->{params}{$key}
+      if ( defined $this->jsondata->{params}{$key} );
 
     # Process
     return $orig->( $this, @p );
@@ -206,7 +207,7 @@ sub parseJSON {
 =begin TML
 ---++ private objectMethod initFromString() -> %jsondata 
 
-Initializes the _jsondata hash by processing the POSTDATA from the request.
+Initializes the jsondata hash by processing the POSTDATA from the request.
 
 =cut
 
@@ -223,7 +224,7 @@ sub initFromString {
         my $error = Foswiki::Exception::errorStr(
             Foswiki::Exception::Fatal->transmute( $_, 0 ) );
         $error =~ s/,? +at.*$//s;
-        $this->_jsonerror(
+        $this->jsonerror(
             new Foswiki::Contrib::JsonRpcContrib::Error(
                 code => -32700,
                 text => "Parse error - invalid json-rpc request: $error"
@@ -280,8 +281,8 @@ sub jsonparam {
     my ( $this, $key, $value ) = @_;
 
     return unless defined $key;
-    $this->_jsondata->{params}{$key} = $value if defined $value;
-    return $this->_jsondata->{params}{$key};
+    $this->jsondata->{params}{$key} = $value if defined $value;
+    return $this->jsondata->{params}{$key};
 }
 
 =begin TML
@@ -295,8 +296,8 @@ the version string is replaced.
 sub version {
     my ( $this, $value ) = @_;
 
-    $this->_jsondata->{jsonrpc} = $value if defined $value;
-    return $this->_jsondata->{jsonrpc} || '';
+    $this->jsondata->{jsonrpc} = $value if defined $value;
+    return $this->jsondata->{jsonrpc} || '';
 }
 
 =begin TML
@@ -310,8 +311,8 @@ the id is replaced.
 sub id {
     my ( $this, $value ) = @_;
 
-    $this->_jsondata->{id} = $value if defined $value;
-    return $this->_jsondata->{id} || '';
+    $this->jsondata->{id} = $value if defined $value;
+    return $this->jsondata->{id} || '';
 }
 
 =begin TML
@@ -321,7 +322,7 @@ Returns the parameters hash from the parsed JSON data.
 =cut
 
 sub params {
-    return $_[0]->_jsondata->{params};
+    return $_[0]->jsondata->{params};
 }
 
 =begin TML
@@ -395,7 +396,7 @@ around _trigger_method => sub {
     my $this    = shift;
     my ($value) = @_;
 
-    if ( defined $value && $this->_has_jsondata && lc($value) ne 'post' ) {
+    if ( defined $value && $this->_hasjsondata && lc($value) ne 'post' ) {
         $this->jsonerror(
             new Foswiki::Contrib::JsonRpcContrib::Error(
                 code => -32600,
@@ -408,7 +409,7 @@ around _trigger_method => sub {
 sub _trigger_jsonmethod {
     my $this = shift;
     my ($value) = @_;
-    $this->_jsondata->{method} = $value;
+    $this->jsondata->{method} = $value;
 
     # SMELL method and jsonmethod must not be mixed up!
     #$this->method($value);
@@ -416,7 +417,7 @@ sub _trigger_jsonmethod {
 
 sub _establishJSONMethod {
     my $this = shift;
-    return $this->_jsondata->{method};
+    return $this->jsondata->{method};
 }
 
 sub _establishNamespace {
