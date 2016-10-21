@@ -1,0 +1,28 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1476996032" format="1.1"  version="1"}%
+Copy this topic to %USERSWEB%.PendingRegistrationsTemplate for customized display.
+
+---++ Templates for "Pending Approval" registrations
+<verbatim>
+%TMPL:DEF{"ApprovalHeader"}%<noautolink>
+| *WikiName* | *Email* | *LastName* | *FirstName* | *LoginName* | *Code* | *Action* |
+%TMPL:END%
+
+%TMPL:DEF{"Approval"}%| $WikiName | $Email | $LastName | $FirstName | $LoginName | $ApprovalCode |\
+[[%SCRIPTURLPATH{"register" action="approve" code="$ApprovalCode" referee="%WIKINAME%"}%][%MAKETEXT{"Approve"}%]] / \
+[[%SCRIPTURLPATH{"register" action="disapprove" code="$ApprovalCode" referee="%WIKINAME%"}%][%MAKETEXT{"Reject"}%]] |
+%TMPL:END%
+</verbatim>
+
+---++ Templates for "Pending Verification" registrations
+<verbatim>
+%TMPL:DEF{"VerificationHeader"}%<noautolink>
+| *WikiName* | *Email* | *LastName* | *FirstName* | *LoginName* | *Code* | 
+%TMPL:END%
+
+%TMPL:DEF{"Verification"}%| $WikiName | $Email | $LastName | $FirstName | $LoginName | $VerificationCode |%TMPL:END%
+</verbatim>
+
+---++ Common templates
+<verbatim>
+%TMPL:DEF{"accessdenied"}%<div class="foswikiAlert">%MAKETEXT{"Access to pending registrations is restricted to administrators"}%</div>%TMPL:END%
+</verbatim>
