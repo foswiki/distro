@@ -58,7 +58,7 @@ sub _checkPendingRegistrations {
         foreach my $f ( grep { /^.*\.[0-9]{1,8}$/ } readdir $d ) {
             my $regFile = Foswiki::Sandbox::untaintUnchecked("$dir$f");
 
-            my $data = retrieve($regFile);
+            my $data = Storable::retrieve($regFile);
             next unless defined $data;
             next unless $data->{ $check . 'Code' };
             $report .= _reportPending( $data, $check );
@@ -76,18 +76,17 @@ sub _reportPending {
     my $hashref = shift;
     my $check   = shift;
 
-    my $tmpl = Foswiki::Func::expandTemplate($check);
+    my $tmpl = Foswiki::Func::expandTemplate( $check . 'Row' );
 
     my $report = '';
     foreach my $field ( sort { lc($a) cmp lc($b) } keys %$hashref ) {
         next if $field eq 'form';
-        next if $field eq 'Confirm';
+        next if $field eq 'Confirm';    # Never show a user's password
         next if $field eq 'Password';
+        $field =~ s/\$/&#36;/g;    # Encode any $, so they are not removed later
         $tmpl =~ s/\$$field/$hashref->{$field}/g;
-
-        #$report .=  "$field: $hashref->{$field}\n";
     }
-    print STDERR Data::Dumper::Dumper( \$hashref );
+    $tmpl =~ s/\$\w+//g;           # Remove any unused fields
     return "$tmpl";
 }
 

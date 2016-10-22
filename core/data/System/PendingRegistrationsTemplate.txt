@@ -1,5 +1,16 @@
 %META:TOPICINFO{author="ProjectContributor" comment="" date="1476996032" format="1.1"  version="1"}%
-Copy this topic to %USERSWEB%.PendingRegistrationsTemplate for customized display.
+---+!! Pending Registrations Template
+%TOC%
+---++ Tailoring instructions:
+The contents of the Pending Registrations report can be modified to report any fields collected on a customized UserRegistration form.  Each formfield name
+is substituted with the similarly named token in the row definition:  For example,  if your User Registration form includes the =Organization= field, it can
+be included by adding =$Organization= to the below !ApprovalRow and !VerificationRow templates.
+
+Both this topic, and the PendingRegistrations topic must be in the same web for the override to work:
+   1 Copy this template topic to %IF{"istopic '%USERSWEB%.PendingRegistrationsTemplate'" else="!$percntUSERSWEB$percnt.PendingRegistrationsTemplate" then="[[$percntUSERSWEB$percnt.PendingRegistrationsTemplate]] ...done"}%
+   1 Edit %IF{"istopic '%USERSWEB%.PendingRegistrationsTemplate'" else="!$percntUSERSWEB$percnt.PendingRegistrationsTemplate" then="[[$percntUSERSWEB$percnt.PendingRegistrationsTemplate]]"}% and make the desired changes.
+   1 Copy %SYSTEMWEB%.PendingRegistrations to %IF{"istopic '%USERSWEB%.PendingRegistrations'" else="!$percntUSERSWEB$percnt.PendingRegistrations" then="[[$percntUSERSWEB$percnt.PendingRegistrations]] ...done"}%.
+   1 %USERSWEB%.PendingRegistrations will now generate a report using your tailored layout.
 
 ---++ Templates for "Pending Approval" registrations
 <verbatim>
@@ -7,7 +18,7 @@ Copy this topic to %USERSWEB%.PendingRegistrationsTemplate for customized displa
 | *WikiName* | *Email* | *LastName* | *FirstName* | *LoginName* | *Code* | *Action* |
 %TMPL:END%
 
-%TMPL:DEF{"Approval"}%| $WikiName | $Email | $LastName | $FirstName | $LoginName | $ApprovalCode |\
+%TMPL:DEF{"ApprovalRow"}%| $WikiName | $Email | $LastName | $FirstName | $LoginName | $ApprovalCode |\
 [[%SCRIPTURLPATH{"register" action="approve" code="$ApprovalCode" referee="%WIKINAME%"}%][%MAKETEXT{"Approve"}%]] / \
 [[%SCRIPTURLPATH{"register" action="disapprove" code="$ApprovalCode" referee="%WIKINAME%"}%][%MAKETEXT{"Reject"}%]] |
 %TMPL:END%
@@ -19,7 +30,7 @@ Copy this topic to %USERSWEB%.PendingRegistrationsTemplate for customized displa
 | *WikiName* | *Email* | *LastName* | *FirstName* | *LoginName* | *Code* | 
 %TMPL:END%
 
-%TMPL:DEF{"Verification"}%| $WikiName | $Email | $LastName | $FirstName | $LoginName | $VerificationCode |%TMPL:END%
+%TMPL:DEF{"VerificationRow"}%| $WikiName | $Email | $LastName | $FirstName | $LoginName | $VerificationCode |%TMPL:END%
 </verbatim>
 
 ---++ Common templates
