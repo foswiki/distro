@@ -165,13 +165,21 @@ m/^(_.*|VALIDATION|REMEMBER|FOSWIKISTRIKEONE.*|VALID_ACTIONS.*|BREADCRUMB_TRAIL|
 
     # get cache_ignore pattern
     my @ignoreParams = $request->multi_param("cache_ignore");
-    push @ignoreParams,
-      (
-        "cache_expire",           "cache_ignore",
-        "_.*",                    "refresh",
-        "foswiki_redirect_cache", "logout",
-        "topic"
-      );
+    if ( defined $Foswiki::cfg{Cache}{ParamFilterList} ) {
+        push @ignoreParams,
+          split( /\s*,\s*/, $Foswiki::cfg{Cache}{ParamFilterList} );
+    }
+    else {
+        # Defaults for older foswiki
+        push @ignoreParams,
+          (
+            "cache_expire",           "cache_ignore",
+            "_.*",                    "refresh",
+            "foswiki_redirect_cache", "logout",
+            "validation_key",         "topic",
+            "redirectedfrom"
+          );
+    }
     my $ignoreParams = join( "|", @ignoreParams );
 
     foreach my $key ( sort $request->multi_param() ) {
@@ -443,6 +451,42 @@ sub isCacheable {
 
 =begin TML
 
+---++ ObjectMethod addTopicRef($web, $topic)
+
+Add a reference to a web.topic to the dependencies of the current page.
+
+Topic references, unlike hard dependencies, may cause internal links - WikiWords
+to render incorrectly unless the cache is cleared when the topic changes.
+(i.e, link to a missing topic, or render as a "new link" for a newly existing topic).
+
+This routine is configurable using {Cache}{TrackInternalLinks}.  By default, it treats
+all topic references as simple dependencies.  If disabled, link references are ignored,
+but if set to authenticated, links are tracked only for logged in users.
+
+=cut
+
+sub addTopicRef {
+    my ( $this, $webRef, $topicRef ) = @_;
+
+    #Foswiki::Func::writeDebug( "addTopicRef $webRef.$topicRef\n" ) if TRACE;
+
+    if ( defined $Foswiki::cfg{Cache}{TrackInternalLinks} ) {
+
+        return if ( $Foswiki::cfg{Cache}{TrackInternalLinks} eq 'off' );
+
+        my $session = $Foswiki::Plugins::SESSION;
+        return
+          unless (
+            ( $Foswiki::cfg{Cache}{TrackInternalLinks} eq 'authenticated' )
+            && $session->inContext('authenticated') );
+    }
+
+    return $this->addDependency( $webRef, $topicRef );
+
+}
+
+=begin TML
+
 ---++ ObjectMethod addDependency($web, $topic)
 
 Add a web.topic to the dependencies of the current page
@@ -470,7 +514,7 @@ sub addDependency {
     }
     else {
 
-        #Foswiki::Func::writeDebug("addDependency($depWeb.$depTopic)") if TRACE;
+#Foswiki::Func::writeDebug("addDependency($depWeb.$depTopic) by" . ( caller() )[1] ) if TRACE;
     }
 
     # collect them; defer writing them to the database til we cache this page
