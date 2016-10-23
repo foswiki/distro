@@ -1623,6 +1623,22 @@ $Foswiki::cfg{Cache}{RootDir} = '$Foswiki::cfg{WorkingDir}/cache';
 $Foswiki::cfg{Cache}{WebDependencies} =
   'WebRss, WebAtom, WebTopicList, WebIndex, WebSearch, WebSearchAdvanced';
 
+# **SELECT 'on','authenticated','off' LABEL="Track Topic Links" DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'"**
+# Select whether links to other topics should also be added to the page dependencies. Choose one of the following:
+#
+#    * Set to =on= - the default - to record all topic links as dependencies
+#    * Set to =authenticated= to record links for logged in users but ignore them for guests (and bots).
+#    * Set to =off= to ignore all links (not recommended).
+# If a referenced topic is not added as a dependency, links may not reflect the correct status for missing or existing topics.
+# If you run a public wiki exposed to search bots, setting this to =authenticated= will reduce the size of the =foswiki_cache_deps= table.
+$Foswiki::cfg{Cache}{TrackInternalLinks} = 'on';
+
+# **STRING 80 LABEL="Query Param Filter" DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'"**
+# Comma-separated list of query params that should be ignored when building the cache key.
+# Common query parameters that do not effect the page content should be added to this list.
+# Entries in the list can contain regular expression meta characters. For example, the =_.*= entry matches any parameter beginning with underscore.
+$Foswiki::cfg{Cache}{ParamFilterList} = '_.*, cache_expire, cache_ignore, foswiki_redirect_cache, logout, redirectedfrom, refresh, topic, validation_key';
+
 # **REGEX LABEL="Dependency Filter" DISPLAY_IF="{Cache}{Enabled}" CHECK="iff:'{Cache}{Enabled}'"**
 # Exclude topics that match this regular expression from the dependency
 # tracker.
