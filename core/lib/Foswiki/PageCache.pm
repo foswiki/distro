@@ -468,19 +468,18 @@ sub addTopicRef {
 
     #Foswiki::Func::writeDebug( "addTopicRef $webRef.$topicRef\n" ) if TRACE;
 
-    if ( defined $Foswiki::cfg{Cache}{TrackInternalLinks} ) {
+    my $session = $Foswiki::Plugins::SESSION;
 
-        return if ( $Foswiki::cfg{Cache}{TrackInternalLinks} eq 'off' );
+    return $this->addDependency( $webRef, $topicRef )
+      if ( !defined $Foswiki::cfg{Cache}{TrackInternalLinks}
+        || ( $Foswiki::cfg{Cache}{TrackInternalLinks} eq 'on' )
+        || ( $Foswiki::cfg{Cache}{TrackInternalLinks} eq 'authenticated' )
+        && $session->inContext('authenticated') );
 
-        my $session = $Foswiki::Plugins::SESSION;
-        return
-          unless (
-            ( $Foswiki::cfg{Cache}{TrackInternalLinks} eq 'authenticated' )
-            && $session->inContext('authenticated') );
-    }
-
-    return $this->addDependency( $webRef, $topicRef );
-
+    # If we reach here, either:
+    #   - It is a guest session and TrackInternalLinks was set to authenticated
+    #   - TrackInternalLinks is set to off (or some unexpected value.
+    return;
 }
 
 =begin TML
