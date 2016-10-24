@@ -57,6 +57,8 @@ use Foswiki::Class;
 extends qw(Foswiki::Object);
 with 'Throwable';
 
+use overload '""' => 'stringify';
+
 our $EXCEPTION_TRACE = 0;
 
 =begin TML
