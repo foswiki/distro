@@ -111,6 +111,7 @@ use File::Spec ();
 use File::Path qw(make_path);
 
 our ( $rootDir, @messages, $OK );
+my $DEBUG = $ENV{FOSWIKI_ASSERTS};
 
 sub import {
     my $target = shift;
@@ -185,6 +186,11 @@ sub import {
 
 sub _msg {
     push @messages, @_;
+}
+
+sub _dbg {
+    return unless $DEBUG;
+    print STDERR @_;
 }
 
 sub _say {
@@ -753,6 +759,8 @@ sub installDependencies {
         my $extOptional = !( $extName && $profile->{mandatoryExt}{$extName} );
         my $optional    = ( $depEntry->{fromExt} && $extOptional )
           || $depEntry->{description} !~ /^required/i;
+
+        _dbg("Checking for $depEntry->{module} from $depEntry->{source}\n");
 
         # NOTE Only dependencies of the core or those defined by depFileList
         # profile key are considered really required. If a dependency was picked
