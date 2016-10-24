@@ -32,14 +32,18 @@ BEGIN {
     push @INC, File::Spec->catdir( $rootDir, "lib" );
 }
 
+use Foswiki::Aux::Dependencies rootDir => $rootDir, firstRunCheck => 1;
+if (@Foswiki::Aux::Dependencies::messages) {
+    say STDERR join( "\n", @Foswiki::Aux::Dependencies::messages );
+}
 use Plack::Builder;
-use Foswiki::App;
 
 my $app = sub {
     my $env = shift;
 
     $env->{FOSWIKI_SCRIPTS} = $scriptDir unless $env->{FOSWIKI_SCRIPTS};
 
+    require Foswiki::App;
     return Foswiki::App->run( env => $env, );
 };
 
