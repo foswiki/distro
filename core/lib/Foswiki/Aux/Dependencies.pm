@@ -750,7 +750,7 @@ sub installDependencies {
         my $version = $depEntry->{version};
         $version ||= 0;
         my $extName     = $profile->{_dep2Ext}{ $depEntry->{source} };
-        my $extOptional = !$profile->{mandatoryExt}{$extName};
+        my $extOptional = !( $extName && $profile->{mandatoryExt}{$extName} );
         my $optional    = ( $depEntry->{fromExt} && $extOptional )
           || $depEntry->{description} !~ /^required/i;
 
