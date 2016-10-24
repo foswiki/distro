@@ -471,10 +471,10 @@ sub run {
 
         my $errStr = Foswiki::Exception::errorStr($e);
 
+        $errStr = '<pre>' . Foswiki::entityEncode($errStr) . '</pre>';
+
         # Low-level report of errors to user.
         if ( defined $app && $app->has_engine ) {
-
-            $errStr = '<pre>' . Foswiki::entityEncode($errStr) . '</pre>';
 
             # Send error output to user using the initialized engine.
             $rc = $app->engine->finalizeReturn(
@@ -490,7 +490,17 @@ sub run {
         }
         else {
             # Propagade the error using the most primitive way.
-            die $errStr;
+            my $errBody = join( '',
+                '<html>', '<head>',  '</head>', '<body>',
+                $errStr,  '</body>', '</html>', );
+            $rc = [
+                500,
+                [
+                    'Content-Type'   => 'text/html; charset=utf-8',
+                    'Content-Length' => length($errStr),
+                ],
+                [$errBody],
+            ];
         }
     };
     return $rc;
