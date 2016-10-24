@@ -103,6 +103,7 @@ if (Foswiki::Aux::Dependencies::isFirstRun) {
 | *Key* | *Default* | *Description* |
 | =rootDir= | _undef_ | Foswiki root dir as defined in FOSWIKI_HOME shell environment variable |
 | =firstRunCheck = | _FALSE_ | Boolean, check if it's the first run of the application on this server; in other words, check if there is no .checksum file in =$FOSWIKI_HOME/perl5=. |
+| =requiredExtensions= | [] | List (arrayref) of extensions required for this app to start. |
 
 =cut
 
@@ -144,12 +145,25 @@ sub import {
         if ( Foswiki::Aux::Dependencies::isFirstRun() ) {
             my $noPerlBin = 1
               ; # Must be dynamically checked later for, say, mod_perl environment.
-            $OK = Foswiki::Aux::Dependencies::checkDependencies(
-                rootDir        => $rootDir,
-                doUpgrade      => 0,
-                withExtensions => 0,
-                inlineExec     => $noPerlBin,
+            my $withExtensions = 0;
+            my @profile        = (
+                rootDir    => $rootDir,
+                doUpgrade  => 0,
+                inlineExec => $noPerlBin,
             );
+            if ( defined $profile{requiredExtensions} ) {
+                if ( ref( $profile{requiredExtensions} ) eq 'ARRAY' ) {
+                    $withExtensions = 1;
+                    push @profile,
+                      requiredExtensions => $profile{requiredExtensions};
+                }
+                else {
+                    _msg( "requiredExtensions is not an array ref but "
+                          . ref( $profile{requiredExtensions} ) );
+                }
+            }
+            $profile{withExtensions} = $withExtensions;
+            $OK = Foswiki::Aux::Dependencies::checkDependencies(@profile);
         }
     }
 
@@ -196,6 +210,7 @@ sub _say {
 | =depFileList= | _empty_ | Manually define DEPENDENCIES files to be processed. If =withExtensions= is true then added to this list. |
 | =retries= | 5 | Number of times to retry a failed installation. Reasonable if cause of failure is a network issue. |
 | =retryPause= | 1 | Number of seconds to wait between retries |
+| =requiredExtensions= | [] | List (arrayref) of extensions required for this app to start. |
 
 =cut
 
@@ -273,6 +288,16 @@ sub _presets {
     my $mainDepFile = $profile->{depFile}
       || File::Spec->catfile( $profile->{contribDir}, "DEPENDENCIES" );
     $profile->{depFiles}{$mainDepFile} = {};
+
+    if ( $profile->{requiredExtensions} ) {
+        if ( ref( $profile->{requiredExtensions} ) eq 'ARRAY' ) {
+            $profile->{mandatoryExt} =
+              { map { $_ => 1 } @{ $profile->{requiredExtensions} } };
+        }
+        else {
+            _msg("requiredExtensions key is expected to be an array");
+        }
+    }
 
     return 1;
 }
@@ -374,12 +399,16 @@ sub validChecksum {
     return $newSum eq $profile->{checkSums}{$depFile};
 }
 
+# Gets a directory and returns a list of found DEPENDENCIES files.
 sub _scanDirs {
     my $profile = shift;
     my ( $dir, $params ) = @_;
 
+    # The *SubDir keys are expected to start with path separator. The inExtDir
+    # flag is ON only when we're at the top of Plugins/Contrib directory
+    # structure.
     $params->{inExtDir} ||= $dir =~
-      /(?:\Q$profile->{_pluginsSubDir}\E|\Q$profile->{_contribSubDir}\E)/;
+      /(?:\Q$profile->{_pluginsSubDir}\E|\Q$profile->{_contribSubDir}\E)$/;
 
     my @found;
 
@@ -397,7 +426,11 @@ sub _scanDirs {
             push @found, _scanDirs( $profile, $fullDir, $params );
         }
         elsif ( $params->{inExtDir} && $entry eq 'DEPENDENCIES' ) {
-            push @found, File::Spec->catfile( $dir, $entry );
+            my $depFile = File::Spec->catfile( $dir, $entry );
+            push @found, $depFile;
+
+            # $entry is equivalent to extension name.
+            $profile->{_dep2Ext}{$depFile} = $entry;
         }
     }
 
@@ -409,8 +442,11 @@ sub _findExtDependecies {
     my $profile = shift;
 
     my $rootDir = $profile->{rootDir};
-    $profile->{_pluginsSubDir} = File::Spec->catdir( 'Foswiki', 'Plugins' );
-    $profile->{_contribSubDir} = File::Spec->catdir( 'Foswiki', 'Contrib' );
+
+    # The trick with '' is here to get subdir strings delimited with path
+    # separator in the beginning and end of the string.
+    $profile->{_pluginsSubDir} = File::Spec->catdir( '', 'Foswiki', 'Plugins' );
+    $profile->{_contribSubDir} = File::Spec->catdir( '', 'Foswiki', 'Contrib' );
 
     my @depFileList = _scanDirs( $profile, $rootDir );
     $profile->{depFiles}{$_} = { fromExt => 1, } foreach @depFileList;
@@ -713,7 +749,9 @@ sub installDependencies {
     foreach my $depEntry ( @{ $profile->{dependencies} } ) {
         my $version = $depEntry->{version};
         $version ||= 0;
-        my $optional = $depEntry->{fromExt}
+        my $extName     = $profile->{_dep2Ext}{ $depEntry->{source} };
+        my $extOptional = !$profile->{mandatoryExt}{$extName};
+        my $optional    = ( $depEntry->{fromExt} && $extOptional )
           || $depEntry->{description} !~ /^required/i;
 
         # NOTE Only dependencies of the core or those defined by depFileList

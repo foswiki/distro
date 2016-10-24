@@ -32,11 +32,23 @@ BEGIN {
     }
 
     push @INC, File::Spec->catdir( $rootDir, "lib" );
+
 }
+
+use Foswiki::Aux::Dependencies
+  rootDir            => $rootDir,
+  firstRunCheck      => 1,
+  requiredExtensions => [qw(JsonRpcContrib JQueryPlugin)],
+  ;
+if (@Foswiki::Aux::Dependencies::messages) {
+    say STDERR
+      join( "\n", map { ">$_" } @Foswiki::Aux::Dependencies::messages );
+}
+
 use Plack::Builder;
 use Foswiki::App;
-use Devel::Leak;
-use Devel::Leak::Object;
+
+die $@ if $@;
 
 use constant CHECKLEAK => $ENV{FOSWIKI_CHECKLEAK} // 0;
 
