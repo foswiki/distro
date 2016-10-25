@@ -115,9 +115,9 @@ my $DEBUG = $ENV{FOSWIKI_ASSERTS};
 
 sub import {
     my $target = shift;
-    my (%profile) = @_;
+    my (%params) = @_;
 
-    $rootDir = $profile{rootDir} // $ENV{FOSWIKI_HOME};
+    $rootDir = $params{rootDir} // $ENV{FOSWIKI_HOME};
 
     if ( !$rootDir ) {
 
@@ -142,7 +142,7 @@ sub import {
 
     $OK = 1;
 
-    if ( $profile{firstRunCheck} ) {
+    if ( $params{firstRunCheck} ) {
         if ( Foswiki::Aux::Dependencies::isFirstRun() ) {
             my $noPerlBin = 1
               ; # Must be dynamically checked later for, say, mod_perl environment.
@@ -152,20 +152,20 @@ sub import {
                 doUpgrade  => 0,
                 inlineExec => $noPerlBin,
             );
-            if ( defined $profile{requiredExtensions} ) {
-                if ( ref( $profile{requiredExtensions} ) eq 'ARRAY' ) {
+            if ( defined $params{requiredExtensions} ) {
+                if ( ref( $params{requiredExtensions} ) eq 'ARRAY' ) {
                     _dbg( "Mandatory extensions: ",
-                        join( ",", @{ $profile{requiredExtensions} } ) );
+                        join( ",", @{ $params{requiredExtensions} } ) );
                     $withExtensions = 1;
                     push @profile,
-                      requiredExtensions => $profile{requiredExtensions};
+                      requiredExtensions => $params{requiredExtensions};
                 }
                 else {
                     _msg( "requiredExtensions is not an array ref but "
-                          . ref( $profile{requiredExtensions} ) );
+                          . ref( $params{requiredExtensions} ) );
                 }
             }
-            $profile{withExtensions} = $withExtensions;
+            push @profile, withExtensions => $withExtensions;
             _dbg( "Collecting DEPENDENCIES ",
                 ( $withExtensions ? "with extensions" : "for core only" ) );
             $OK = Foswiki::Aux::Dependencies::checkDependencies(@profile);
