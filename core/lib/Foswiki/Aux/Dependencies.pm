@@ -154,6 +154,8 @@ sub import {
             );
             if ( defined $profile{requiredExtensions} ) {
                 if ( ref( $profile{requiredExtensions} ) eq 'ARRAY' ) {
+                    _dbg( "Mandatory extensions: ",
+                        join( ",", @{ $profile{requiredExtensions} } ) );
                     $withExtensions = 1;
                     push @profile,
                       requiredExtensions => $profile{requiredExtensions};
@@ -164,6 +166,8 @@ sub import {
                 }
             }
             $profile{withExtensions} = $withExtensions;
+            _dbg( "Collecting DEPENDENCIES ",
+                ( $withExtensions ? "with extensions" : "for core only" ) );
             $OK = Foswiki::Aux::Dependencies::checkDependencies(@profile);
         }
     }
