@@ -192,9 +192,13 @@ sub _msg {
     push @messages, @_;
 }
 
-sub _dbg {
+sub _dbg_print {
     return unless $DEBUG;
     print STDERR @_;
+}
+
+sub _dbg {
+    _dbg_print @_, "\n";
 }
 
 sub _say {
@@ -472,6 +476,7 @@ sub readDependencies {
     }
 
     if ( $profile->{withExtensions} ) {
+        _dbg("Scanning for extensions.");
         _findExtDependecies($profile);
     }
 
@@ -764,7 +769,7 @@ sub installDependencies {
         my $optional    = ( $depEntry->{fromExt} && $extOptional )
           || $depEntry->{description} !~ /^required/i;
 
-        _dbg("Checking for $depEntry->{module} from $depEntry->{source}\n");
+        _dbg("Checking for $depEntry->{module} from $depEntry->{source}");
 
         # NOTE Only dependencies of the core or those defined by depFileList
         # profile key are considered really required. If a dependency was picked
