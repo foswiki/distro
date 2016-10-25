@@ -24,21 +24,21 @@ around set_up => sub {
     my $this = shift;
     $orig->($this);
 
-    Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
-        \&json_handler );
-
     return;
 };
 
 # A simple REST handler
 sub json_handler {
-    my ( $session, $request ) = @_;
-    die "No Foswiki Session"     unless $session->isa('Foswiki');
-    die "Not a JSON Request"     unless $request->isa('Unit::Request::JSON');
+    my ( $app, $request ) = @_;
+    die "No Foswiki Session"     unless $app->isa('Foswiki::App');
+    die "Not a JSON Request"     unless $request->isa('Foswiki::Request::JSON');
     die "incorrect jsonmethod()" unless $request->jsonmethod() eq 'trial';
-    die "incorrect method()"     unless $request->method() eq 'trial';
-    die "Incorrect topic"        unless $session->{topicName} eq 'WebChanges';
-    die "Incorrect web"          unless $session->{webName} eq 'System';
+
+    # The old method() was jsonmethod alias.
+    #die "incorrect method()"     unless $request->method() eq 'trial';
+    die "incorrect method()" unless $request->method     eq 'post';
+    die "Incorrect topic"    unless $app->request->topic eq 'WebChanges';
+    die "Incorrect web"      unless $app->request->web   eq 'System';
     return 'SUCCESS';
 }
 
@@ -102,14 +102,13 @@ sub test_simple_postdata {
                             path_info => '/' . __PACKAGE__ . "/trial",
                             method    => 'post',
                             action    => 'jsonrpc',
+                            postData =>
+'{"jsonrpc":"2.0","method":"trial","params":{"wizard":"ScriptHash","method":"verify","keys":"{ScriptUrlPaths}{view}","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}',
                         },
                     },
                 );
-                $this->app->request->param(
-                    -name => 'POSTDATA',
-                    -value =>
-'{"jsonrpc":"2.0","method":"trial","params":{"wizard":"ScriptHash","method":"verify","keys":"{ScriptUrlPaths}{view}","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}'
-                );
+                Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__,
+                    'trial', \&json_handler );
 
                 return $this->app->handleRequest;
             },
