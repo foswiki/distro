@@ -174,8 +174,8 @@ sub import {
 
     if ($OK) {
         my %inc = map { $_ => 1 } @INC;
-        _presets( \%profile );
-        my $localLib = File::Spec->catdir( $profile{libDir}, "lib", "perl5" );
+        _presets( \%params );
+        my $localLib = File::Spec->catdir( $params{libDir}, "lib", "perl5" );
 
         # Isert lib path to the beginning prefer locally installed modules over
         # system ones.
