@@ -198,7 +198,7 @@ sub _dbg_print {
 }
 
 sub _dbg {
-    _dbg_print @_, "\n";
+    _dbg_print( @_, "\n" );
 }
 
 sub _say {
