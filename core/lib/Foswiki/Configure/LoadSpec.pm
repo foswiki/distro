@@ -4,7 +4,7 @@
 # parse. They are expanded to section blocks at the end.
 package SectionMarker;
 use v5.14;
-use Moo;
+use Foswiki::Class;
 extends qw(Foswiki::Configure::Item);
 
 has Depth    => ( is => 'rw', );

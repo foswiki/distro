@@ -28,8 +28,7 @@ use v5.14;
 use Foswiki::Configure::LoadSpec ();
 use Foswiki::Exception           ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 
 has attrs => (

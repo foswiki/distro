@@ -59,8 +59,7 @@ use Assert;
 use Foswiki::Configure::FileUtil ();
 use Foswiki::Configure::Reporter ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Configure::Item);
 
 # Legal options for a CHECK. The number indicates the number of expected
