@@ -396,7 +396,7 @@ around _trigger_method => sub {
     my $this    = shift;
     my ($value) = @_;
 
-    if ( defined $value && $this->_hasjsondata && lc($value) ne 'post' ) {
+    if ( defined $value && $this->_has_jsondata && lc($value) ne 'post' ) {
         $this->jsonerror(
             new Foswiki::Contrib::JsonRpcContrib::Error(
                 code => -32600,
