@@ -601,7 +601,7 @@ sub handleRequest {
 
 =begin TML
 
---++ ObjectMethod create($className, %initArgs)
+---++ ObjectMethod create($className, %initArgs)
 
 Creates a new object of class =$className=. If the class does =Foswiki::App=
 role then constructor gets called with =app= key pointing to the Foswiki::App
@@ -1925,6 +1925,7 @@ sub popTopicContext {
 
 =begin TML
 
+---++ API Methods - User related
 ---+++ ObjectMethod getDefaultUserName -> $loginName
 Get default user name as defined in the configuration as =DefaultUserLogin=
 
@@ -2182,6 +2183,7 @@ sub isAnAdmin {
 
 =begin TML
 
+---++ API Methods - Group related
 ---+++ ObjectMethod isGroupMember( $group, $id, $options ) -> $boolean
 
 Find out if $id is in the named group.  The expand option controls whether or not nested groups are searched.
@@ -2279,7 +2281,7 @@ sub eachMembership {
 
 =begin TML
 
----+++ eachGroupMember($group) -> $iterator
+---+++ ObjectMethod eachGroupMember($group) -> $iterator
 Get an iterator over all the members of the named group. Returns undef if
 $group is not a valid group.  Nested groups are expanded unless the
 expand option is set to false.
@@ -2320,7 +2322,7 @@ sub eachGroupMember {
 
 =begin TML
 
----+++ addUserToGroup( $id, $group, $create ) -> $boolean
+---+++ ObjectMethod addUserToGroup( $id, $group, $create ) -> $boolean
 
    * $id can be a login name or a WikiName
 
@@ -2342,7 +2344,7 @@ sub addUserToGroup {
 
 =begin TML
 
----+++ removeUserFromGroup( $group, $id ) -> $boolean
+---+++ ObjectMethod removeUserFromGroup( $group, $id ) -> $boolean
 
    * $id can be a login name or a WikiName
 
@@ -2365,6 +2367,7 @@ sub removeUserFromGroup {
 
 =begin TML
 
+---++ API Methods - Web / Topic / Attachment - reading
 ---+++ ObjectMethod checkAccessPermission( $type, $id, $text, $topic, $web, $meta ) -> $boolean
 
 Check access permission for a topic based on the
@@ -2790,7 +2793,7 @@ sub readAttachment {
 
 =begin TML
 
----++ Manipulating
+---++ API Methods - Web / Topic / Attachment - Manipulating
 
 =cut
 
@@ -3799,7 +3802,7 @@ sub writeEvent {
 
 =begin TML
 
----+++ ObjectMethof writeWarning( $text )
+---+++ ObjectMethod writeWarning( $text )
 
 Log a warning that may require admin intervention to the warnings log (=data/warn*.txt=)
    * =$text= - Text to write; timestamp gets added
