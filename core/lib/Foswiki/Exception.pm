@@ -57,7 +57,7 @@ use Foswiki::Class;
 extends qw(Foswiki::Object);
 with 'Throwable';
 
-use overload '""' => 'stringify';
+use overload '""' => 'to_str';
 
 our $EXCEPTION_TRACE = 0;
 
@@ -183,6 +183,16 @@ sub stringify {
         ? "\n" . $this->stacktrace
         : ' at ' . $this->file . ' line ' . $this->line
       );
+}
+
+sub to_str {
+    my $this = shift;
+
+    my $boundary = '-' x 60;
+    my $msg      = join( "\n",
+        $boundary, map( { "    " . $_ } split /\n/, $this->stringify ),
+        $boundary );
+    return $msg;
 }
 
 # We must not get into this. But if we do then let's not hide a error but let it
@@ -402,11 +412,11 @@ use Assert;
 use Foswiki::Class;
 extends qw(Foswiki::Exception);
 
-sub BUILD {
-    my $this = shift;
-
-    say STDERR $this->stringify, $this->stacktrace if DEBUG;
-}
+#sub BUILD {
+#    my $this = shift;
+#
+#    say STDERR $this->stringify, $this->stacktrace if DEBUG;
+#}
 
 # To cover perl/system errors.
 
