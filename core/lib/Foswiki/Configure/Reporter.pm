@@ -7,8 +7,7 @@ use Assert;
 use JSON         ();
 use Data::Dumper ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Object);
 
 # Number of levels of a stack trace to keep
