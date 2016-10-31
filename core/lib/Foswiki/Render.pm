@@ -1308,7 +1308,7 @@ sub _renderWikiWord {
 
         # add a dependency so that the page gets invalidated as soon as the
         # topic is deleted
-        $this->{session}->{cache}->addTopicRef( $web, $topic )
+        $this->{session}->{cache}->addDependencyForLink( $web, $topic )
           if $Foswiki::cfg{Cache}{Enabled};
 
         return _renderExistingWikiWord( $this, $web, $topic, $linkText, $anchor,
@@ -1324,7 +1324,7 @@ sub _renderWikiWord {
         # add a dependency so that the page gets invalidated as soon as the
         # WikiWord comes into existance
         # Note we *ignore* the params if the target topic does not exist
-        $this->{session}->{cache}->addTopicRef( $web, $topic )
+        $this->{session}->{cache}->addDependencyForLink( $web, $topic )
           if $Foswiki::cfg{Cache}{Enabled};
 
         return _renderNonExistingWikiWord( $this, $web, $topic, $linkText );
