@@ -451,7 +451,7 @@ sub isCacheable {
 
 =begin TML
 
----++ ObjectMethod addTopicRef($web, $topic)
+---++ ObjectMethod addDependencyForLink($web, $topic)
 
 Add a reference to a web.topic to the dependencies of the current page.
 
@@ -465,10 +465,10 @@ but if set to authenticated, links are tracked only for logged in users.
 
 =cut
 
-sub addTopicRef {
+sub addDependencyForLink {
     my ( $this, $webRef, $topicRef ) = @_;
 
-    #Foswiki::Func::writeDebug( "addTopicRef $webRef.$topicRef\n" ) if TRACE;
+#Foswiki::Func::writeDebug( "addDependencyForLink $webRef.$topicRef\n" ) if TRACE;
 
     my $session = $Foswiki::Plugins::SESSION;
 
