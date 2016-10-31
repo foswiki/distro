@@ -49,7 +49,7 @@ has invalidVerb => (
 
 =begin TML
 
----++ private objectMethod _establishAddress() ->  n/a
+---++ private objectMethod _establishAttributes() ->  n/a
 
 Used internally by the web(), topic() and attachment() methods to trigger parsing of the url and/or topic= parameter
 and set object variables with the results.  Attachment requests have to also accommodate redirect requests 

@@ -1250,9 +1250,15 @@ sub _establishParamList {
 
 sub _establishWeb {
     my $this = shift;
-    return ( $this->_pathParsed->{web}
-          || $this->param('defaultweb')
-          || $this->app->cfg->data->{UsersWebName} );
+
+    if ( $this->_pathParsed->{web} ) {
+        return $this->_pathParsed->{web};
+    }
+    elsif ( $this->param('defaultweb') ) {
+        return Foswiki::Sandbox::untaint( $this->param('defaultweb'),
+            \&Foswiki::Sandbox::validateWebName );
+    }
+    return $this->app->cfg->data->{UsersWebName};
 }
 
 sub _establishTopic {

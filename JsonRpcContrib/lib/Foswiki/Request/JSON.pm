@@ -167,9 +167,13 @@ sub parseJSON {
 
     $data = ( ref($foo) eq 'ARRAY' ) ? shift @$foo : $foo;
 
+    my $minimal = ($data) ? 0 : 1;
     $data ||= '{"jsonrpc":"2.0"}';    # Minimal setup
 
     $jsondata = $this->initFromString($data);
+
+    # If the parse failed, give up here.
+    return $jsondata if $this->jsonerror;
 
     # some basic checks if this is a proper json-rpc 2.0 request
 
@@ -183,13 +187,16 @@ sub parseJSON {
         );
     }
 
-    # must have a json method
+ # must have a json method
+ # SMELL:  This error is suppressed for simple query param type json requests.
+ # It's a processing order issue.  The method is there in the query path, but it
+ # has not been parsed yet.
     $this->jsonerror(
         new Foswiki::Contrib::JsonRpcContrib::Error(
             code => -32600,
             text => "Invalid JSON-RPC request - no method"
         )
-    ) unless defined $jsondata->{method};
+    ) unless $minimal || defined $jsondata->{method};
 
     # must not have any other keys other than these
     foreach my $key ( keys %{$jsondata} ) {
@@ -239,7 +246,7 @@ sub initFromString {
 
 =begin TML
 
----++ private objectMethod _establishAddress() ->  n/a
+---++ private objectMethod _establishAttributes() ->  n/a
 
 Used internally by the web() and topic() methods to trigger parsing of the JSON topic parameter
 or the CGI topic parameer, and set object variables with the results.
@@ -261,6 +268,15 @@ around _establishAttributes => sub {
     # http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3270
     $parse->{topic} = ucfirst( $parse->{topic} )
       if ( defined $parse->{topic} );
+
+    # SMELL.   This isn't working.  Test still fails with wrong web
+    unless ( defined $parse->{web} ) {
+        if ( defined $this->param('defaultweb') ) {
+            $parse->{web} =
+              Foswiki::Sandbox::untaint( $this->param('defaultweb'),
+                \&Foswiki::Sandbox::validateWebName );
+        }
+    }
 
     # Note that Web can still be undefined.  Caller then determines if the
     # defaultweb query param, or the HomeWeb config parameter should be used.
@@ -433,7 +449,7 @@ sub _establishNamespace {
         $this->jsonerror(
             new Foswiki::Contrib::JsonRpcContrib::Error(
                 code => -32600,
-                text => "Invalid Namespace / method"
+                text => "Invalid Namespace / method FOO"
             )
         );
         return;
