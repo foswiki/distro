@@ -11,8 +11,7 @@ use Foswiki::EngineException();
 use Carp();
 use Try::Tiny;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw( FoswikiFnTestCase );
 
 use Unit::Request::JSON;
@@ -294,7 +293,7 @@ sub test_post_required {
     };
 
     $this->assert_matches( qr/"code" : -32600/,                   $response );
-    $this->assert_matches( qr/"message" : "Method must be POST"/, $response );
+    $this->assert_matches( qr/"message" : "Method must be POST,/, $response );
 
     return;
 }
