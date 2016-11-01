@@ -188,7 +188,7 @@ sub beforeSaveHandler {
     $tester->assert_str_equals($tester->{test_web}, $_[2], "THREE $_[2]");
     $tester->assert($_[3]->isa('Foswiki::Meta'), "FOUR $_[3]");
     $tester->assert_str_equals('Wibble', $_[3]->get('WIBBLE')->{wibble});
-    Foswiki::Func::pushTopicContext( $this->{test_web}, 'Tropic' );
+    Foswiki::Func::pushTopicContext( $tester->{test_web}, 'Tropic' );
     $tester->assert_str_equals( "BEFORE",
             $_[3]->getPreference("BLAH"));
             #Foswiki::Func::getPreferencesValue("BLAH") );
@@ -833,8 +833,9 @@ HERE
         my $hashRef = eval
 "\$Foswiki::Plugins::$this->{plugin_name}::called->{renderWikiWordHandlerLinks}";
         use Data::Dumper;
-        print STDERR "------ $html\n";
-        print STDERR "------ " . Dumper($hashRef) . "\n";
+
+        #print STDERR "------ $html\n";
+        #print STDERR "------ " . Dumper($hashRef) . "\n";
 
 #this is what we have - and it shows that you need to call expandMacros before calling renderText
         $this->assert_deep_equals(
