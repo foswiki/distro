@@ -40,7 +40,7 @@ sub fixture_groups {
         [ 'Suffix', 'Nosuffix', ],
         [ 'FullURLs', 'ShortURLs', 'MinimumURLs' ],
         [ 'HTTP',     'HTTPS', ],
-        [ 'Apache',    'Lighttpd', 'Nginx', 'WinApache' ],
+        [ 'Apache',    'ApacheNoRewrite', 'Lighttpd', 'Nginx', 'WinApache' ],
         [ 'EngineCGI', 'EngineFastCGI', ],
     );
 }
@@ -242,6 +242,21 @@ sub Apache {
         PATH_INFO   => $this->{testURL},
         REQUEST_URI => $this->{testURL},
         SCRIPT_URI  => $this->{protocol} . $this->{host} . $this->{testURL},
+        SCRIPT_URL  => $this->{testURL},
+        SCRIPT_NAME => $this->{script},
+        PATH_INFO   => $this->{pathinfo},
+        HTTPS       => $this->{https},
+    };
+    return;
+}
+
+sub ApacheNoRewrite {
+    my $this = shift;
+
+    $this->{ENV} = {
+        HTTP_HOST   => $this->{host},
+        PATH_INFO   => $this->{testURL},
+        REQUEST_URI => $this->{testURL},
         SCRIPT_URL  => $this->{testURL},
         SCRIPT_NAME => $this->{script},
         PATH_INFO   => $this->{pathinfo},
