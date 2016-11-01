@@ -204,11 +204,11 @@ sub dispatch {
     my $url;
 
     if ( $code == 0 && defined $redirectto ) {
-        $url = $session->redirectto($redirectto);
+        $url = $app->redirectto($redirectto);
     }
 
     if ($url) {
-        $session->redirect($url);
+        $app->redirect($url);
     }
     else {
         Foswiki::Contrib::JsonRpcContrib::Response->print(
