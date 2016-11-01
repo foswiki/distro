@@ -269,7 +269,8 @@ unless ( $Foswiki::cfg{isVALID} ) {
       . Foswiki::Configure::Reporter::stripStacktrace($@);
 
     # Run the bootstrap process. This guesses all the critical path settings.
-    Foswiki::Configure::Load::bootstrapConfig();
+    require Foswiki::Configure::Bootstrap;
+    Foswiki::Configure::Bootstrap::bootstrapConfig();
 
 #SMELL: Another way to do this would be to loop through $Foswiki::cfg{BOOTSTRAP} array
 #       of config keys, But this allows customized prompts and defaults.  Anything prompted
