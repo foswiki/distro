@@ -225,7 +225,7 @@ sub test_redirectto_Anchor {
     Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
         \&json_handler );
 
-    my $query = Unit::Request->new(
+    my $query = Unit::Request::JSON->new(
         {
             action     => ['jsonrpc'],
             redirectto => "$this->{test_web}/$this->{test_topic}#MyAnch",

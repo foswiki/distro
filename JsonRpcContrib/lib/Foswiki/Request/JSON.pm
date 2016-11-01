@@ -199,6 +199,8 @@ sub _establishJSON {
 
     $this->initFromString($data);
 
+    return if ( $this->{_jsonerror} );
+
     # some basic checks if this is a proper json-rpc 2.0 request
 
     # must have a version tag
