@@ -147,9 +147,9 @@ sub test_invalid_request {
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     my ( $response, $result, $out, $err ) =
       $this->capture( $UI_FN, $this->{session} );
-    $this->assert_matches( qr/"code" : -32600/, $response );
+    $this->assert_matches( qr/"code" : -32700/, $response );
     $this->assert_matches(
-        qr/"message" : "Invalid JSON-RPC request - must be jsonrpc: '2.0'"/,
+        qr/"message" : "Parse error - invalid json-rpc request: , or }/,
         $response );
 
     return;
@@ -220,20 +220,25 @@ sub test_redirectto {
 }
 
 # Test the redirectto parameter with anchor
-sub future_test_redirectto_Anchor {
+sub test_redirectto_Anchor {
     my $this = shift;
-    Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
+    Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
+        \&json_handler );
 
-    my $query = Unit::Request::JSON->new(
+    my $query = Unit::Request->new(
         {
-            action     => ['rest'],
+            action     => ['jsonrpc'],
             redirectto => "$this->{test_web}/$this->{test_topic}#MyAnch",
         }
     );
     $query->path_info( '/' . __PACKAGE__ . '/trial' );
     $query->method('post');
+    $query->param( 'topic',      'System.WebChanges' );
+    $query->param( 'defaultweb', 'System' );
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    my ( $text, $result, $out, $err ) =
+      $this->capture( $UI_FN, $this->{session} );
+
     $this->assert_matches( qr#^Status: 302#m, $text );
     $this->assert_matches(
         qr#^Location:.*$this->{test_web}/$this->{test_topic}\#MyAnch\s*$#m,

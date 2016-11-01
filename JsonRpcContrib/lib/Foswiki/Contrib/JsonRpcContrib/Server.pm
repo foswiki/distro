@@ -190,16 +190,13 @@ sub dispatch {
 
     # finally
     my $redirectto = $request->param('redirectto');
+    my $url;
+
     if ( $code == 0 && defined $redirectto ) {
-        my $url;
-        if ( $redirectto =~ /^https?:/ ) {
-            $url = $redirectto;
-        }
-        else {
-            $url =
-              $session->getScriptUrl( 1, 'view', $session->{webName},
-                $redirectto );
-        }
+        $url = $session->redirectto($redirectto);
+    }
+
+    if ($url) {
         $session->redirect($url);
     }
     else {
