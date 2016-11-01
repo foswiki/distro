@@ -29,6 +29,7 @@ test/unit/AddToHeadTests.pm 0644
 test/unit/AddressTests.pm 0644
 test/unit/AdminOnlyAccessControlTests.pm 0644
 test/unit/AttrsTests.pm 0644
+test/unit/BootstrapTests.pm 0644
 test/unit/CacheTests.pm 0644
 test/unit/ClientTests.pm 0644
 test/unit/ConfigureQueryTests.pm 0644

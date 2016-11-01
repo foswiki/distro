@@ -75,13 +75,24 @@ DONE
         # HTTP headers & SSL data
         grep( /^(?:HTTP|SSL)_/, keys %ENV ),
 
+        # Custom X_ headers (used in proxies, etc.)
+        grep( /^X_/, keys %ENV ),
+
         # Other
         qw/PATH MOD_PERL MOD_PERL_API_VERSION/,
     );
 
+    # Yes this duplicates the keys,  but it lets the code
+    # report "undef" for variables which might be important.
+    push @cgivars, keys %ENV;
+
+    my $lastkey = '';
     foreach my $key ( sort @cgivars ) {
 
-        #foreach my $key ( sort keys %ENV ) {
+        # Don't report duplicates
+        next if $key eq $lastkey;
+        $lastkey = $key;
+
         my $value   = $ENV{$key};
         my $decoded = '';
         if ( $key eq 'HTTP_COOKIE' && $value ) {
