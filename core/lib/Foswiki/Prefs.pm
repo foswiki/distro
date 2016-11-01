@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright information
 use strict;
 use warnings;
+use Error;
 
 BEGIN {
     if ( $Foswiki::cfg{UseLocale} ) {
@@ -250,6 +251,25 @@ sub loadPreferences {
     }
 
     return $obj;
+}
+
+sub invalidatePath {
+    my $this = shift;
+    my $path;
+    if ( ref( $_[0] ) ) {
+        ASSERT( $_[0]->isa('Foswiki::Meta') ) if DEBUG;
+        $path = $_[0]->getPath;
+    }
+    else {
+        $path = $_[0];
+    }
+
+    if ( $this->{paths}->{$path} ) {
+
+        #print STDERR "INVALIDATED: $this->{paths}->{$path}\n";
+        delete $this->{paths}->{$path};
+    }
+
 }
 
 =begin TML

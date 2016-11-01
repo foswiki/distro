@@ -1188,6 +1188,7 @@ sub text {
     _assertIsTopic($this) if DEBUG;
     if ( defined($val) ) {
         $this->{_text} = $val;
+        $this->{_session}->{prefs}->invalidatePath($this);
     }
     else {
 
