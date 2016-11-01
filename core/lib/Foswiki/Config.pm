@@ -117,7 +117,7 @@ Keeps the name of the failed config or spec file.
 
 =cut
 
-has failedConfig     => ( is => 'rw', );
+has failedConfig => ( is => 'rw', );
 
 =begin TML
 
@@ -141,7 +141,7 @@ See [[#ObjectMethodNew][constructor new()]].
 
 =cut
 
-has noExpand         => ( is => 'rw', default => 0, );
+has noExpand => ( is => 'rw', default => 0, );
 
 =begin TML
 
@@ -154,7 +154,7 @@ See [[#ObjectMethodNew][constructor new()]].
 
 =cut
 
-has noSpec           => ( is => 'rw', default => 0, );
+has noSpec => ( is => 'rw', default => 0, );
 
 =begin TML
 
@@ -167,7 +167,7 @@ See [[#ObjectMethodNew][constructor new()]].
 
 =cut
 
-has configSpec       => ( is => 'rw', default => 0, );
+has configSpec => ( is => 'rw', default => 0, );
 
 =begin TML
 
@@ -180,7 +180,7 @@ See [[#ObjectMethodNew][constructor new()]].
 
 =cut
 
-has noLocal          => ( is => 'rw', default => 0, );
+has noLocal => ( is => 'rw', default => 0, );
 
 # Configuration shortcut attributes.
 
