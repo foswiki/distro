@@ -201,17 +201,14 @@ sub dispatch {
 
     # finally
     my $redirectto = $request->param('redirectto');
+    my $url;
+
     if ( $code == 0 && defined $redirectto ) {
-        my $url;
-        if ( $redirectto =~ /^https?:/ ) {
-            $url = $redirectto;
-        }
-        else {
-            $url =
-              $app->cfg->getScriptUrl( 1, 'view', $app->request->web,
-                $redirectto );
-        }
-        $app->redirect($url);
+        $url = $session->redirectto($redirectto);
+    }
+
+    if ($url) {
+        $session->redirect($url);
     }
     else {
         Foswiki::Contrib::JsonRpcContrib::Response->print(
