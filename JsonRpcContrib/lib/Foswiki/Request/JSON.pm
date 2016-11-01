@@ -449,7 +449,7 @@ sub _establishNamespace {
         $this->jsonerror(
             new Foswiki::Contrib::JsonRpcContrib::Error(
                 code => -32600,
-                text => "Invalid Namespace / method FOO"
+                text => "Invalid Namespace / method"
             )
         );
         return;
@@ -458,7 +458,8 @@ sub _establishNamespace {
     my $namespace = $1;
     my $method    = $2;
 
-    if ( defined $method ) {
+    # Don't set the method if it has already been established by POSTDATA
+    if ( defined $method && !$this->jsonmethod ) {
         $this->jsonmethod($method);
     }
 
