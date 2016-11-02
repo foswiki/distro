@@ -212,7 +212,7 @@ sub getExternalResource {
             $uri->scheme( $puri->scheme() );
             $uri->host( $puri->host() );
             $uri->port( $puri->port() );
-            if ( $puri->userinfo() ) {
+            if ( $puri->can("userinfo") && defined $puri->userinfo() ) {
                 require MIME::Base64;
                 my $base64 =
                   MIME::Base64::encode_base64( $puri->userinfo(), '' );
@@ -220,7 +220,7 @@ sub getExternalResource {
             }
         }
 
-        if ( $uri->userinfo() ) {
+        if ( $uri->can("userinfo") && defined $uri->userinfo() ) {
             require MIME::Base64;
             my $base64 = MIME::Base64::encode_base64( $uri->userinfo(), '' );
             $req .= "Authorization: Basic $base64\r\n";
@@ -308,7 +308,7 @@ sub _GETUsingLWP {
     my $user;
     my $pass;
     ( $user, $pass ) = split( ':', $uri->userinfo(), 2 )
-      if ( $uri->userinfo() );
+      if ( $uri->can("userinfo") && defined $uri->userinfo() );
     my $ua = new Foswiki::Net::UserCredAgent( $user, $pass );
     $ua->proxy( [ 'http', 'https' ], $puri->as_string() ) if $puri;
     my $response = $ua->request($request);
