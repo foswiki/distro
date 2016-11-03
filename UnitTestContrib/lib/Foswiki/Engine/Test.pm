@@ -191,7 +191,7 @@ sub initFromEnv {
     return \%initHash;
 }
 
-around _preparePath => sub {
+around preparePath => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -200,7 +200,7 @@ around _preparePath => sub {
     return $this->initFromEnv(qw(action path_info uri));
 };
 
-around _prepareConnection => sub {
+around prepareConnection => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -212,7 +212,7 @@ around _prepareConnection => sub {
     return $connData;
 };
 
-around _prepareQueryParameters => sub {
+around prepareQueryParameters => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -223,7 +223,7 @@ around _prepareQueryParameters => sub {
     return [];
 };
 
-around _prepareHeaders => sub {
+around prepareHeaders => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -249,14 +249,14 @@ around _prepareHeaders => sub {
     return $headers;
 };
 
-around _prepareUser => sub {
+around prepareUser => sub {
     my $orig     = shift;
     my $this     = shift;
     my $initHash = $this->initFromEnv(qw(user remote_user));
     return $initHash->{user} // $initHash->{remote_user};
 };
 
-around _preparePostData => sub {
+around preparePostData => sub {
     my $orig     = shift;
     my $this     = shift;
     my $initHash = $this->initFromEnv(qw(postData));

@@ -83,7 +83,7 @@ The =uri= key can be undef under certain circumstances.
 
 =cut
 
-has pathData => ( is => 'rw', lazy => 1, builder => '_preparePath', );
+has pathData => ( is => 'rw', lazy => 1, builder => 'preparePath', );
 
 =begin TML
 
@@ -100,7 +100,7 @@ connectionData attribute is a hash with the following keys:
 =cut
 
 has connectionData =>
-  ( is => 'rw', lazy => 1, builder => '_prepareConnection', );
+  ( is => 'rw', lazy => 1, builder => 'prepareConnection', );
 
 =begin TML
 
@@ -116,13 +116,13 @@ has queryParameters => (
     is      => 'rw',
     lazy    => 1,
     isa     => Foswiki::Object::isaARRAY( 'queryParameters', noUndef => 1 ),
-    builder => '_prepareQueryParameters',
+    builder => 'prepareQueryParameters',
 );
 has bodyParameters => (
     is      => 'rw',
     lazy    => 1,
     isa     => Foswiki::Object::isaARRAY( 'bodyParameters', noUndef => 1 ),
-    builder => '_prepareBodyParameters',
+    builder => 'prepareBodyParameters',
 );
 
 =begin TML
@@ -136,7 +136,7 @@ Containts raw, non-decoded, POST data.
 has postData => (
     is      => 'ro',
     lazy    => 1,
-    builder => '_preparePostData',
+    builder => 'preparePostData',
 );
 
 =begin TML
@@ -148,7 +148,7 @@ Hash of =$filename => \%uploadInfo= pairs.
 =cut
 
 has uploads =>
-  ( is => 'rw', lazy => 1, clearer => 1, builder => '_prepareUploads', );
+  ( is => 'rw', lazy => 1, clearer => 1, builder => 'prepareUploads', );
 
 =begin TML
 
@@ -177,7 +177,7 @@ Suggested username.
 
 =cut
 
-has user => ( is => 'rw', lazy => 1, builder => '_prepareUser', );
+has user => ( is => 'rw', lazy => 1, builder => 'prepareUser', );
 
 =begin TML
 
@@ -187,7 +187,7 @@ Hashref of headers.
 
 =cut
 
-has headers => ( is => 'rw', lazy => 1, builder => '_prepareHeaders', );
+has headers => ( is => 'rw', lazy => 1, builder => 'prepareHeaders', );
 
 =begin TML
 
@@ -237,17 +237,17 @@ sub start {
 
 =begin TML
 
----++ ObjectMethod _prepareConnection
+---++ ObjectMethod prepareConnection
 
 Initializer method of =connectionData= attribute.
 
 =cut
 
 # SMELL Must be non-private as well as other initializers.
-sub _prepareConnection { }
+sub prepareConnection { }
 
 # Initializer for queryParameters attribute.
-sub _prepareQueryParameters {
+sub prepareQueryParameters {
     my $this = shift;
     my ($queryString) = @_;
 
@@ -275,17 +275,17 @@ sub _prepareQueryParameters {
 
 =begin TML
 
----++ ObjectMethod _prepareHeaders
+---++ ObjectMethod prepareHeaders
 
 Abstract initializer for the =headers= object attribute.
 
 =cut
 
-sub _prepareHeaders { return {}; }
+sub prepareHeaders { return {}; }
 
 =begin TML
 
----++ ObjectMethod _prepareUser
+---++ ObjectMethod prepareUser
 
 Initializer for the =user= object attribute.
 
@@ -294,33 +294,30 @@ Returns =$req= - Foswiki::Request object, populated with the action and the path
 
 =cut
 
-sub _prepareUser { return shift->env->{REMOTE_USER}; }
+sub prepareUser { return shift->env->{REMOTE_USER}; }
 
 =begin TML
 
----++ ObjectMethod _preparePostData
+---++ ObjectMethod preparePostData
 
 Abstract initializer for the =postData= object attribute.
 
 =cut
 
-sub _preparePostData { }
+sub preparePostData { }
 
 =begin TML
 
----++ ObjectMethod _preparePath( )
+---++ ObjectMethod preparePath( )
 
 Initializer method of =pathData=.
 
 =cut
 
-sub _preparePath { }
+sub preparePath { }
 
 # Abstract initializer for bodyParameters
-sub _prepareBodyParameters { return []; }
-
-# Abstract initializer for uploads
-sub _prepareUploads { return []; }
+sub prepareBodyParameters { return []; }
 
 =begin TML
 
@@ -328,14 +325,12 @@ sub _prepareUploads { return []; }
 
 Abstract method, must be defined by inherited classes.
 
-Should fill $req's {uploads} field. This is a hashref whose keys are
-upload names and values Foswiki::Request::Upload objects.
-
 Implementations must convert upload names to unicode.
 
 =cut
 
-sub prepareUploads { }
+# Abstract initializer for uploads
+sub prepareUploads { return []; }
 
 =begin TML
 

@@ -41,7 +41,7 @@ sub probe {
     return defined $params{env}{'psgi.version'};
 }
 
-around _prepareConnection => sub {
+around prepareConnection => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -55,7 +55,7 @@ around _prepareConnection => sub {
     };
 };
 
-around _prepareHeaders => sub {
+around prepareHeaders => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -65,13 +65,13 @@ around _prepareHeaders => sub {
     return \%hdrHash;
 };
 
-around _prepareUser => sub {
+around prepareUser => sub {
     my $orig = shift;
     my $this = shift;
     return $this->psgi->user;
 };
 
-around _preparePath => sub {
+around preparePath => sub {
     my $orig = shift;
     my ($this) = @_;
 
@@ -132,7 +132,7 @@ around _preparePath => sub {
     };
 };
 
-around _prepareBodyParameters => sub {
+around prepareBodyParameters => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -154,7 +154,7 @@ around _prepareBodyParameters => sub {
     return \@params;
 };
 
-around _prepareQueryParameters => sub {
+around prepareQueryParameters => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -174,13 +174,13 @@ around _prepareQueryParameters => sub {
     return \@params;
 };
 
-around _preparePostData => sub {
+around preparePostData => sub {
     my $orig = shift;
     my $this = shift;
     return $this->psgi->raw_body;
 };
 
-around _prepareUploads => sub {
+around prepareUploads => sub {
     my $orig = shift;
     my ( $this, $req ) = @_;
 
