@@ -54,7 +54,7 @@ sub INCLUDE {
     return '' unless $pmfile;
 
     my $PMFILE;
-    open( $PMFILE, '<', $pmfile ) || return '';
+    open( $PMFILE, '<:utf8', $pmfile ) || return '';
     my $inPod      = 0;
     my $pod        = '';
     my $howSmelly  = 0;
