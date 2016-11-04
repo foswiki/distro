@@ -3,17 +3,12 @@
 package CommentPluginTests;
 use v5.14;
 
-use Unit::Request();
-use Unit::Request::Rest();
-use Unit::Response();
-use Foswiki();
-use Foswiki::UI::Save();
+use Foswiki;
 use Foswiki::Plugins::CommentPlugin();
 use Foswiki::Plugins::CommentPlugin::Comment();
-use CGI;
+use Try::Tiny;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw( FoswikiFnTestCase );
 
 has target_web   => ( is => 'rw', );
@@ -32,11 +27,14 @@ around set_up => sub {
     undef $webObject;
 
     Foswiki::Func::getContext()->{view} = 1;
-    $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
-    $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 1;
-    $Foswiki::cfg{Plugins}{CommentPlugin}{TestMode}        = 1;
-    $Foswiki::cfg{Sessions}{TopicsRequireGuestSessions} =
+    $this->app->cfg->data->{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
+    $this->app->cfg->data->{Plugins}{CommentPlugin}{GuestCanComment} = 1;
+    $this->app->cfg->data->{Plugins}{CommentPlugin}{TestMode}        = 1;
+    $this->app->cfg->data->{Sessions}{TopicsRequireGuestSessions} =
 '(CommentPluginTestsTarget|CommentPluginTests|Registration|RegistrationParts|ResetPassword)$';
+
+    # Do it manually because normally this is done in $app->handleRequest.
+    $this->app->plugins->enable;
 };
 
 around tear_down => sub {
@@ -45,6 +43,13 @@ around tear_down => sub {
     $this->removeWeb( $this->target_web );
     $orig->($this);
 };
+
+# Foswiki::App handleRequestException callback function.
+sub _cbHRE {
+    my $obj  = shift;
+    my %args = @_;
+    $args{params}{exception}->rethrow;
+}
 
 sub fixture_groups {
     return ( [ 'viewContext', 'staticContext' ], );
@@ -243,30 +248,40 @@ HERE
         $html );
 
     # Compose the query
-    my $comm  = "This is the comment";
-    my $query = Unit::Request->new(
-        initializer => {
-            'comment_action' => 'save',
-            'comment_type'   => $type,
-            'comment'        => $comm,
-            'topic'          => "$web.$topic",
-        }
-    );
-    $query->path_info("/CommentPlugin/comment");
+    my $comm = "This is the comment";
+
+    my @reqParams;
     if ($anchor) {
-        $query->param( -name => 'comment_anchor', -value => $anchor );
+        push @reqParams, 'comment_anchor', $anchor;
     }
     elsif ($location) {
-        $query->param( -name => 'comment_location', -value => $location );
+        push @reqParams, 'comment_location', $location;
     }
     else {
-        $query->param( -name => 'comment_index', -value => $eidx );
+        push @reqParams, 'comment_index', $eidx;
     }
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'comment_action' => 'save',
+                'comment_type'   => $type,
+                'comment'        => $comm,
+                'topic'          => "$web.$topic",
+                @reqParams,
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                action    => 'rest',
+                path_info => "/CommentPlugin/comment",
+                user      => $this->app->cfg->data->{DefaultUserLogin},
+            },
+        },
+    );
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->session );
+    $this->captureWithKey( rest => sub { $this->app->handleRequest; }, );
 
     my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
     $this->assert_matches( qr/$comm/, $text, "$web.$topic: $text" );
@@ -461,7 +476,7 @@ qr/<input ([^>]*name="redirectto" value="$test_web.WebPreferences\?blah=01#AnchO
     ) unless ( Foswiki::Func::getContext()->{static} );
 
     # Redirect with fully qualified web.topic?uri#anchor
-    my $systemweb = $Foswiki::cfg{SystemWebName};
+    my $systemweb = $this->app->cfg->data->{SystemWebName};
     $html = Foswiki::Func::expandCommonVariables(
             "%COMMENT{type=\"bottom\" target=\""
           . $this->test_web
@@ -529,22 +544,29 @@ HERE
     }
 
     # Compose the query
-    my $comm  = "This is the comment";
-    my $query = Unit::Request->new(
-        initializer => {
-            'comment_action' => 'save',
-            'comment_type'   => 'above',
-            'comment'        => $comm,
-            'comment_nopost' => 'on',
-            'topic'          => $this->test_web . "." . $this->test_topic
-        }
-    );
-    $query->path_info("/CommentPlugin/comment");
+    my $comm = "This is the comment";
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'comment_action' => 'save',
+                'comment_type'   => 'above',
+                'comment'        => $comm,
+                'comment_nopost' => 'on',
+                'topic'          => $this->test_web . "." . $this->test_topic,
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                action    => 'rest',
+                path_info => "/CommentPlugin/comment",
+                user      => $this->app->cfg->data->{DefaultUserLogin},
+            },
+        },
+    );
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->session );
+    $this->captureWithKey( rest => sub { $this->app->handleRequest; }, );
 
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
@@ -578,23 +600,30 @@ HERE
     }
 
     # Compose the query
-    my $comm  = "This is the comment";
-    my $query = Unit::Request->new(
-        initializer => {
-            'comment_action' => 'save',
-            'comment_type'   => 'above',
-            'comment'        => $comm,
-            'comment_remove' => '0',
-            'comment_index'  => '99',
-            'topic'          => $this->test_web . "/" . $this->test_topic,
-        }
-    );
-    $query->path_info("/CommentPlugin/comment");
+    my $comm = "This is the comment";
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'comment_action' => 'save',
+                'comment_type'   => 'above',
+                'comment'        => $comm,
+                'comment_remove' => '0',
+                'comment_index'  => '99',
+                'topic'          => $this->test_web . "/" . $this->test_topic,
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                action    => 'rest',
+                path_info => "/CommentPlugin/comment",
+                user      => $this->app->cfg->data->{DefaultUserLogin},
+            },
+        },
+    );
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->session );
+    $this->captureWithKey( rest => sub { $this->app->handleRequest; }, );
 
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
@@ -658,22 +687,29 @@ HERE
     }
 
     # Compose the query
-    my $comm  = "This is the comment";
-    my $query = Unit::Request->new(
-        initializer => {
-            'comment_action' => 'save',
-            'comment_type'   => 'above',
-            'comment'        => $comm,
-            'comment_anchor' => '#LatestComment',
-            'topic'          => $this->test_web . "." . $this->test_topic,
-        }
-    );
-    $query->path_info("/CommentPlugin/comment");
+    my $comm = "This is the comment";
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'comment_action' => 'save',
+                'comment_type'   => 'above',
+                'comment'        => $comm,
+                'comment_anchor' => '#LatestComment',
+                'topic'          => $this->test_web . "." . $this->test_topic,
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                action    => 'rest',
+                path_info => "/CommentPlugin/comment",
+                user      => $this->app->cfg->data->{DefaultUserLogin},
+            },
+        },
+    );
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->session );
+    $this->captureWithKey( rest => sub { $this->app->handleRequest; }, );
 
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
@@ -719,22 +755,29 @@ HERE
     }
 
     # Compose the query
-    my $comm  = "This is the comment";
-    my $query = Unit::Request->new(
-        initializer => {
-            'comment_action' => 'save',
-            'comment_type'   => 'below',
-            'comment'        => $comm,
-            'comment_anchor' => '#LatestComment',
-            'topic'          => $this->test_web . "." . $this->test_topic,
-        }
-    );
-    $query->path_info("/CommentPlugin/comment");
+    my $comm = "This is the comment";
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'comment_action' => 'save',
+                'comment_type'   => 'below',
+                'comment'        => $comm,
+                'comment_anchor' => '#LatestComment',
+                'topic'          => $this->test_web . "." . $this->test_topic,
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                action    => 'rest',
+                path_info => "/CommentPlugin/comment",
+                user      => $this->app->cfg->data->{DefaultUserLogin},
+            },
+        },
+    );
 
     # invoke the save handler
-    $this->captureWithKey( rest => $this->getUIFn('rest'), $this->session );
+    $this->captureWithKey( rest => sub { $this->app->handleRequest; }, );
 
     my ( $meta, $text ) =
       Foswiki::Func::readTopic( $this->test_web, $this->test_topic );
@@ -759,7 +802,7 @@ HERE
 sub verify_acl_COMMENT {
     my $this = shift;
 
-    $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 0;
+    $this->app->cfg->data->{Plugins}{CommentPlugin}{GuestCanComment} = 0;
 
     my $test_user_wikiname = $this->test_user_wikiname;
     my $sample             = <<HERE;
@@ -772,49 +815,75 @@ HERE
         $sample );
 
     # Compose the query
-    my $comm  = "This is the comment";
-    my $query = Unit::Request->new(
-        initializer => {
-            'comment_action' => 'save',
-            'comment_type'   => 'above',
-            'comment'        => $comm,
-            topic            => $this->test_web . "." . $this->test_topic,
-        }
-    );
-    $query->path_info("/CommentPlugin/comment");
+    my $comm = "This is the comment";
 
-    $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
+    $this->app->cfg->data->{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
 
     my ( $responseText, $result, $stdout, $stderr );
 
     # First make sure we can't *change* it
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'comment_action' => 'save',
+                'comment_type'   => 'above',
+                'comment'        => $comm,
+                topic            => $this->test_web . "." . $this->test_topic,
+            },
+        },
+        engineParams => {
+            action    => 'rest',
+            path_info => "/CommentPlugin/comment",
+            user      => $this->test_user_login,
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
+    );
 
     # invoke the save handler
-    eval {
-        ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
-            rest => $this->getUIFn('rest'),
-            $this->session
-        );
+    try {
+        ( $responseText, $result, $stdout, $stderr ) =
+          $this->captureWithKey( rest => sub { $this->app->handleRequest; }, );
+        $this->assert( 0, "Change request unexpectedly passed." );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        $this->assert( $e->isa('Foswiki::AccessControlException'), $e );
     };
-
-    #print STDERR ( $responseText || '' ), ' )', ( $stdout || '' ), ' E',
-    #  ( $stderr || '' ) . "\n";
-    $this->assert_matches( qr"AccessControlException", $@ );
 
     # Now make sure we *can* change it, given COMMENT access
-    $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'COMMENT';
+    $this->app->cfg->data->{Plugins}{CommentPlugin}{RequiredForSave} =
+      'COMMENT';
 
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'comment_action' => 'save',
+                'comment_type'   => 'above',
+                'comment'        => $comm,
+                topic            => $this->test_web . "." . $this->test_topic,
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                action    => 'rest',
+                path_info => "/CommentPlugin/comment",
+                user      => $this->test_user_login,
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
+    );
 
     # invoke the save handler
-    eval {
-        ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
-            rest => $this->getUIFn('rest'),
-            $this->session
-        );
+    try {
+        ( $responseText, $result, $stdout, $stderr ) =
+          $this->captureWithKey( rest => sub { $this->app->handleRequest; }, );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        $this->assert( 0, "Change request failed: " . $e );
     };
-    $this->assert( !$@, $@ );
+
     $this->assert_matches( qr/Status: 302/, $responseText );
 
     my ( $meta, $text ) =
@@ -844,24 +913,28 @@ HERE
         $sample );
 
     # other tests have already covered the non-ajax, no endpoint mode
-    my $query = Unit::Request->new(
-        initializer => {
-            'comment_action' => 'save',
-            'comment_type'   => 'above',
-            'comment'        => "Arfle barfle gloop",
-            topic            => $this->test_web . "." . $this->test_topic,
-        }
-    );
-    $query->header( 'X-Requested-With' => 'XMLHttpRequest' );
-    $query->path_info("/CommentPlugin/comment");
     my ( $responseText, $result, $stdout, $stderr );
-    $this->createNewFoswikiSession( undef, $query );
-    eval {
-        ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
-            rest => $this->getUIFn('rest'),
-            $this->session
-        );
-    };
+
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'comment_action' => 'save',
+                'comment_type'   => 'above',
+                'comment'        => "Arfle barfle gloop",
+                topic            => $this->test_web . "." . $this->test_topic,
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                action    => 'rest',
+                path_info => "/CommentPlugin/comment",
+                headers   => { 'X-Requested-With' => 'XMLHttpRequest', },
+            },
+        },
+    );
+
+    ( $responseText, $result, $stdout, $stderr ) =
+      $this->captureWithKey( rest => sub { $this->app->handleRequest; }, );
     $this->assert_matches( qr/Status: 404/, $responseText );
 
 }
@@ -909,34 +982,44 @@ qr/<input type="hidden" name="redirectto" value="$test_web.$test_topic\?tab=disc
         $html
     );
 
-    my $warningLog = "$Foswiki::cfg{TempfileDir}/CommentPluginTestsWarnings";
+    my $warningLog =
+      $this->app->cfg->data->{TempfileDir} . "/CommentPluginTestsWarnings";
     unlink "$warningLog"
       if ( -f "$warningLog" );
-    $Foswiki::cfg{WarningFileName} = "$warningLog";
-    $Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::Compatibility';
+    $this->app->cfg->data->{WarningFileName} = "$warningLog";
+    $this->app->cfg->data->{Log}{Implementation} =
+      'Foswiki::Logger::Compatibility';
 
     # Compose the query
-    my $comm  = "This is the comment";
-    my $query = Unit::Request->new(
-        initializer => {
-            'comment_action' => 'save',
-            'comment_type'   => 'returntab',
-            'redirectto'     => $this->test_web . "."
-              . $this->test_topic
-              . "\?tab=discuss",
-            'comment' => $comm,
-            'topic'   => $this->test_web . "." . $this->test_topic
-        }
-    );
-    $query->path_info("/CommentPlugin/comment");
+    my $comm = "This is the comment";
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'comment_action' => 'save',
+                'comment_type'   => 'returntab',
+                'redirectto'     => $this->test_web . "."
+                  . $this->test_topic
+                  . "\?tab=discuss",
+                'comment' => $comm,
+                'topic'   => $this->test_web . "." . $this->test_topic
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/CommentPlugin/comment",
+                user      => $this->app->cfg->data->{DefaultUserLogin},
+                action    => 'rest',
+            },
+        },
+    );
+
     my $text = "Ignore this text";
 
     # invoke the save handler
     # $responseText, $result, $stdout, $stderr
     my ( $response, $result, $stdout, $stderr ) =
-      $this->captureWithKey( rest => $this->getUIFn('rest'), $this->session );
+      $this->captureWithKey( rest => sub { $this->app->handleRequest; }, );
 
     $this->assert_matches( qr/^Status: 302/ms, $response );
     $this->assert_matches(
@@ -948,7 +1031,7 @@ qr/<input type="hidden" name="redirectto" value="$test_web.$test_topic\?tab=disc
 sub test_comment_encoding_notguest {
     my $this = shift;
 
-    $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 1;
+    $this->app->cfg->data->{Plugins}{CommentPlugin}{GuestCanComment} = 1;
 
     my $test_user_wikiname = $this->test_user_wikiname;
     my $sample             = <<HERE;
@@ -961,34 +1044,45 @@ HERE
         $sample );
 
     # Compose the query
-    my $comm  = "This is the %TOPIC% comment";
-    my $query = Unit::Request->new(
-        initializer => {
-            'comment_action' => 'save',
-            'comment_type'   => 'above',
-            'comment'        => $comm,
-            topic            => $this->test_web . "." . $this->test_topic,
-        }
-    );
-    $query->path_info("/CommentPlugin/comment");
+    my $comm = "This is the %TOPIC% comment";
 
-    $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
+    $this->app->cfg->data->{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
 
     my ( $responseText, $result, $stdout, $stderr );
 
     # Now make sure we *can* change it, given COMMENT access
-    $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'COMMENT';
+    $this->app->cfg->data->{Plugins}{CommentPlugin}{RequiredForSave} =
+      'COMMENT';
 
-    $this->createNewFoswikiSession( $this->test_user_login, $query );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'comment_action' => 'save',
+                'comment_type'   => 'above',
+                'comment'        => $comm,
+                topic            => $this->test_web . "." . $this->test_topic,
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                action    => 'rest',
+                path_info => "/CommentPlugin/comment",
+                user      => $this->test_user_login,
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
+    );
 
     # invoke the save handler
-    eval {
-        ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
-            rest => $this->getUIFn('rest'),
-            $this->session
-        );
+    try {
+        ( $responseText, $result, $stdout, $stderr ) =
+          $this->captureWithKey( rest => sub { $this->app->handleRequest; }, );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        $this->assert( 0, $e );
     };
-    $this->assert( !$@, $@ );
+
     $this->assert_matches( qr/Status: 302/, $responseText );
 
     my ( $meta, $text ) =
@@ -1011,7 +1105,7 @@ HERE
 sub test_comment_encoding_guest {
     my $this = shift;
 
-    $Foswiki::cfg{Plugins}{CommentPlugin}{GuestCanComment} = 1;
+    $this->app->cfg->data->{Plugins}{CommentPlugin}{GuestCanComment} = 1;
 
     my $test_user_wikiname = $this->test_user_wikiname;
     my $sample             = <<HERE;
@@ -1024,34 +1118,45 @@ HERE
         $sample );
 
     # Compose the query
-    my $comm  = "This is the %TOPIC% comment";
-    my $query = Unit::Request->new(
-        initializer => {
-            'comment_action' => 'save',
-            'comment_type'   => 'above',
-            'comment'        => $comm,
-            topic            => $this->test_web . "." . $this->test_topic,
-        }
-    );
-    $query->path_info("/CommentPlugin/comment");
+    my $comm = "This is the %TOPIC% comment";
 
-    $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
+    $this->app->cfg->data->{Plugins}{CommentPlugin}{RequiredForSave} = 'CHANGE';
 
     my ( $responseText, $result, $stdout, $stderr );
 
     # Now make sure we *can* change it, given COMMENT access
-    $Foswiki::cfg{Plugins}{CommentPlugin}{RequiredForSave} = 'COMMENT';
+    $this->app->cfg->data->{Plugins}{CommentPlugin}{RequiredForSave} =
+      'COMMENT';
 
-    $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                'comment_action' => 'save',
+                'comment_type'   => 'above',
+                'comment'        => $comm,
+                topic            => $this->test_web . "." . $this->test_topic,
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                action    => 'rest',
+                path_info => "/CommentPlugin/comment",
+                user      => $this->app->cfg->data->{DefaultUserLogin},
+            },
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
+    );
 
     # invoke the save handler
-    eval {
-        ( $responseText, $result, $stdout, $stderr ) = $this->captureWithKey(
-            rest => $this->getUIFn('rest'),
-            $this->session
-        );
+    try {
+        ( $responseText, $result, $stdout, $stderr ) =
+          $this->captureWithKey( rest => sub { $this->app->handleRequest; }, );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        $this->assert( 0, $e );
     };
-    $this->assert( !$@, $@ );
+
     $this->assert_matches( qr/Status: 302/, $responseText );
 
     my ( $meta, $text ) =
