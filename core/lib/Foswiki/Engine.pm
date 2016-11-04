@@ -2,7 +2,7 @@
 
 =begin TML
 
----+!! package Foswiki::Engine
+---+!! Class Foswiki::Engine
 
 Engine is a mediator between the 'outside' world (i.e. – user side browser or a test
 unit code) and %WIKITOOLNAME% core; in particular – =Foswiki::Request= object.
@@ -334,7 +334,7 @@ sub prepareUploads { return []; }
 
 =begin TML
 
----++ ObjectMethod stringifyHeaders(\@psgiReturnArray) => $headersText
+---++ ObjectMethod stringifyHeaders(\@psgiReturnArray) -> $headersText
 
 Converts headers from PSGI format to string in HTTP response format.
 
@@ -357,7 +357,7 @@ sub stringifyHeaders {
 
 =begin TML
 
----++ ObjectMethod stringifyBody(\@psgiReturnArray) => $bodyText
+---++ ObjectMethod stringifyBody(\@psgiReturnArray) -> $bodyText
 
 =cut
 
@@ -399,7 +399,7 @@ sub _writeBody {
 
 =begin TML
 
----++ ObjectMethod finalizeReturn(\@rc) => $rc
+---++ ObjectMethod finalizeReturn(\@rc) -> $rc
 
 Abstract method, must be defined by inherited classes.
 

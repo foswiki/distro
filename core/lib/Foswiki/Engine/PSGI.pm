@@ -2,7 +2,7 @@
 
 =begin TML
 
----+!! package Foswiki::Engine::PSGI
+---+!! Class Foswiki::Engine::PSGI
 
 Class that implements default PSGI behavior.
 

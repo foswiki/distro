@@ -2,7 +2,7 @@
 
 =begin TML
 
----+!! package Foswiki::Engine::CLI
+---+!! Class Foswiki::Engine::CLI
 
 Class that implements CGI scripts functionality when called from
 command line or cron job

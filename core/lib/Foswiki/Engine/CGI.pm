@@ -2,7 +2,7 @@
 
 =begin TML
 
----+!! package Foswiki::Engine::CGI
+---+!! Class Foswiki::Engine::CGI
 
 Class that implements default CGI behavior.
 
