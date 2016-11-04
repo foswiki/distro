@@ -107,7 +107,7 @@ sub viewfile {
 
     my $fh = $topicObject->openAttachment( $fileName, '<', version => $rev );
 
-    my $type = _suffixToMimeType($fileName);
+    my $type = _suffixToMimeType( $app, $fileName );
 
     #re-set to 200, in case this was a 404 or other redirect
     $app->response->status(200);
@@ -129,12 +129,12 @@ sub viewfile {
 }
 
 sub _suffixToMimeType {
-    my ($attachment) = @_;
+    my ( $app, $attachment ) = @_;
 
     my $mimeType = 'text/plain';
     if ( $attachment && $attachment =~ m/\.([^.]+)$/ ) {
         my $suffix = $1;
-        if ( open( my $fh, '<', $Foswiki::cfg{MimeTypesFileName} ) ) {
+        if ( open( my $fh, '<', $app->cfg->data->{MimeTypesFileName} ) ) {
             local $/ = undef;
             my $types = <$fh>;
             close($fh);
@@ -153,7 +153,7 @@ sub _suffixToMimeType {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

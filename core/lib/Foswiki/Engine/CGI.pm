@@ -2,7 +2,7 @@
 
 =begin TML
 
----+!! package Foswiki::Engine::CGI
+---+!! Class Foswiki::Engine::CGI
 
 Class that implements default CGI behavior.
 
@@ -167,7 +167,7 @@ sub probe {
 #    };
 #};
 
-around _prepareConnection => sub {
+around prepareConnection => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -186,14 +186,14 @@ around _prepareConnection => sub {
 
 # XXX The base class method now fetches QUERY_STRING on its own. So, why wasting
 # time on extra call?
-#around _prepareQueryParameters => sub {
+#around prepareQueryParameters => sub {
 #    my $orig = shift;
 #    my ( $this, $req ) = @_;
 #    $orig->( $this, $req, $this->env->{QUERY_STRING} )
 #      if $this->env->{QUERY_STRING};
 #};
 
-around _prepareHeaders => sub {
+around prepareHeaders => sub {
     my $orig    = shift;
     my $this    = shift;
     my $headers = $orig->($this);
@@ -205,13 +205,13 @@ around _prepareHeaders => sub {
     return $headers;
 };
 
-around _prepareUser => sub {
+around prepareUser => sub {
     my $orig = shift;
     my $this = shift;
     return $this->env->{REMOTE_USER};
 };
 
-around _preparePath => sub {
+around preparePath => sub {
     my $orig = shift;
     my ($this) = @_;
 
@@ -280,7 +280,7 @@ around _preparePath => sub {
     };
 };
 
-sub _prepareCGI {
+sub prepareCGI {
     my ($this) = @_;
 
     return unless $this->env->{CONTENT_LENGTH};
@@ -301,7 +301,7 @@ sub _prepareCGI {
     return $cgi;
 }
 
-around _prepareBodyParameters => sub {
+around prepareBodyParameters => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -348,7 +348,7 @@ around prepareUploads => sub {
     $req->uploads( \%uploads );
 };
 
-around _preparePostData => sub {
+around preparePostData => sub {
     my $orig = shift;
     my $this = shift;
 

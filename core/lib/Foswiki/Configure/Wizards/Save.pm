@@ -21,8 +21,7 @@ use Foswiki::Configure::LoadSpec ();
 use Foswiki::Configure::Checker  ();
 use Foswiki::Configure::FileUtil ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Configure::Wizard);
 
 use constant TRACE_SAVE => 0;

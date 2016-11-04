@@ -290,7 +290,7 @@ sub _includeTopic {
 
         # prevent dirty areas in included topics from being parsed
         $text = Foswiki::takeOutBlocks( $text, 'dirtyarea', $dirtyAreas )
-          if $Foswiki::cfg{Cache}{Enabled};
+          if $app->cfg->data->{Cache}{Enabled};
 
         # handle sections
         my ( $ntext, $sections ) = $app->macros->parseSections($text);
@@ -430,7 +430,7 @@ sub _includeTopic {
 
         # restoring dirty areas
         Foswiki::putBackBlocks( \$text, $dirtyAreas, 'dirtyarea' )
-          if $Foswiki::cfg{Cache}{Enabled};
+          if $app->cfg->data->{Cache}{Enabled};
 
         my @context = $app->prefs->popTopicContext();
         $req->web( $context[0] );
@@ -472,7 +472,8 @@ sub expand {
     }
 
     # Filter out '..' from path to prevent includes of '../../file'
-    elsif ( $Foswiki::cfg{DenyDotDotInclude} && $control{_DEFAULT} =~ m/\.\./ )
+    elsif ($app->cfg->data->{DenyDotDotInclude}
+        && $control{_DEFAULT} =~ m/\.\./ )
     {
         $text =
           $this->_includeWarning( $control{warn}, 'bad_include_path',
@@ -519,7 +520,7 @@ sub expand {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

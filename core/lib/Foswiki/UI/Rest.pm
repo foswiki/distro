@@ -195,7 +195,7 @@ sub rest {
         || !defined $record->{validate} )
     {
         my $msg;
-        if ( $Foswiki::cfg{LegacyRESTSecurity} ) {
+        if ( $app->cfg->data->{LegacyRESTSecurity} ) {
             $msg =
 'WARNING: This REST handler does not specify http_allow, validate and/or authenticate.   LegacyRESTSecurity is enabled.  This handler may be insecure and should be examined:';
         }
@@ -240,7 +240,7 @@ sub rest {
 
         # no need to exempt cli.  LoginManager sets authenticated correctly.
         unless ( $app->inContext('authenticated')
-            || $Foswiki::cfg{LoginManager} eq 'none' )
+            || $app->cfg->data->{LoginManager} eq 'none' )
         {
             $res->header( -type => 'text/html', -status => '401' );
             $err =
@@ -269,7 +269,7 @@ sub rest {
     # an XHR.  Also, the common routine throws a ValidationException
     # and we want a simple engine exception here.
     if (   $record->{validate}
-        && $Foswiki::cfg{Validation}{Method} ne 'none'
+        && $app->cfg->data->{Validation}{Method} ne 'none'
         && !$app->inContext('command_line')
         && uc( $req->method() eq 'POST' ) )
     {

@@ -132,11 +132,12 @@ sub view {
 
         # If we are applying control to the raw view:
         if (   $raw
-            && defined $Foswiki::cfg{FeatureAccess}{AllowRaw}
-            && $Foswiki::cfg{FeatureAccess}{AllowRaw} ne 'all' )
+            && defined $app->cfg->data->{FeatureAccess}{AllowRaw}
+            && $app->cfg->data->{FeatureAccess}{AllowRaw} ne 'all' )
         {
 
-            if ( $Foswiki::cfg{FeatureAccess}{AllowRaw} eq 'authenticated' ) {
+            if ( $app->cfg->data->{FeatureAccess}{AllowRaw} eq 'authenticated' )
+            {
                 Foswiki::AccessControlException->throw(
                     mode   => 'raw',
                     user   => $app->user,
@@ -153,11 +154,12 @@ sub view {
 
         # If we are applying control to the revisions:
         if (   $requestedRev
-            && defined $Foswiki::cfg{FeatureAccess}{AllowHistory}
-            && $Foswiki::cfg{FeatureAccess}{AllowHistory} ne 'all' )
+            && defined $app->cfg->data->{FeatureAccess}{AllowHistory}
+            && $app->cfg->data->{FeatureAccess}{AllowHistory} ne 'all' )
         {
 
-            if ( $Foswiki::cfg{FeatureAccess}{AllowHistory} eq 'authenticated' )
+            if ( $app->cfg->data->{FeatureAccess}{AllowHistory} eq
+                'authenticated' )
             {
                 Foswiki::AccessControlException->throw(
                     mode   => 'history',
@@ -315,7 +317,7 @@ sub view {
     $tmpl =~ s/%REVARG%/$revArg/g;
 
     if (   $indexableView
-        && $Foswiki::cfg{AntiSpam}{RobotsAreWelcome}
+        && $app->cfg->data->{AntiSpam}{RobotsAreWelcome}
         && !$query->param() )
     {
 
@@ -523,29 +525,29 @@ sub revisionsAround {
 
     my $app = $this->app;
 
-    my $revsToShow = $Foswiki::cfg{NumberOfRevisions} + 1;
+    my $revsToShow = $app->cfg->data->{NumberOfRevisions} + 1;
 
     # Soak up the revision iterator
     my $revIt          = $topicObject->getRevisionHistory();
     my @revs           = $revIt->all();
     my $maxRevDisjoint = 0;
 
-    if ( $Foswiki::cfg{NumberOfRevisions} ) {
+    if ( $app->cfg->data->{NumberOfRevisions} ) {
 
         # Locate the preferred rev in the array
         my $showIndex = $#revs;
         my $left      = 0;
-        my $right     = $Foswiki::cfg{NumberOfRevisions};
+        my $right     = $app->cfg->data->{NumberOfRevisions};
         if ( $requestedRev && $showIndex >= 0 ) {
             while ( $showIndex && $revs[$showIndex] != $showRev ) {
                 $showIndex--;
             }
-            $right = $showIndex + $Foswiki::cfg{NumberOfRevisions} - 1;
+            $right = $showIndex + $app->cfg->data->{NumberOfRevisions} - 1;
             $right = scalar(@revs) if $right > scalar(@revs);
-            $left  = $right - $Foswiki::cfg{NumberOfRevisions};
+            $left  = $right - $app->cfg->data->{NumberOfRevisions};
             if ( $left < 0 ) {
                 $left  = 0;
-                $right = $Foswiki::cfg{NumberOfRevisions};
+                $right = $app->cfg->data->{NumberOfRevisions};
             }
         }
         splice( @revs, $right ) if ( $right < scalar(@revs) );
@@ -604,7 +606,7 @@ sub revisionsAround {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -3,6 +3,20 @@
 package Unit::TestApp;
 use v5.14;
 
+=begin TML
+
+---+ Class Unit::TestApp
+
+This is the default application class for unit tests. It provides additional
+functionality to support testing while offloading it from the parent
+=Foswiki::App= class to reduce %WIKITOOLNAME% memory footprint and probably
+avoid some slowdown by handling cases which are not gonna be met outside of
+the testing environment.
+
+Alongside to this class one must also study =Foswiki::Engine::Test=.
+
+=cut
+
 use Assert;
 
 use Scalar::Util qw(blessed weaken refaddr);
@@ -11,30 +25,54 @@ use Try::Tiny;
 use Foswiki::Class qw(callbacks);
 extends qw(Foswiki::App);
 
+=begin TML
+
+---++ Callbacks
+
+This class defines the following callbacks (see =Foswiki::Aux::Callbacks=):
+
+| *name* | *Description* |
+| =testPreHandleRequest= | Executed before control is passed over to =Foswiki::App= =handleRequest()= method. |
+| =testPostHandleRequest= | Executed right after =Foswiki::App= =handleRequest()= method finishes. |
+
+See [[#AttrCallbacks][=callbacks= attribute]].
+
+---+++ Callback testPreHandleRequest
+
+No =params= are sent to the handler.
+
+---+++ Callback testPostHandleRequest
+
+=params= contains one key: =rc= with =handleRequest= method return value.
+
+=cut
+
 callback_names qw(testPreHandleRequest testPostHandleRequest);
 
-#with qw(Foswiki::Aux::Localize);
+=begin TML
 
-#sub setLocalizableAttributes {
-#    return
-#        qw(
-#          access attach cache cfg env forms
-#          logger engine heap i18n plugins prefs
-#          renderer request requestParams response
-#          search store templates macros context
-#          ui remoteUser user users zones _dispatcherAttrs
-#          )
-#    ;
-#}
+---++ ObjectAttribute requestParams -> hash
 
-# requestParams hash is used to initialize a new request object.
+This is a hash of parameters to be passed over to =Foswiki::Request=
+constructor.
+
+=cut
+
 has requestParams => (
     is      => 'rwp',
     lazy    => 1,
     default => sub { {} },
 );
 
-# engineParams hash is used to initialize a new engine object.
+=begin TML
+
+---++ ObjectAttribute engineParams -> hash
+
+This is a hash of parameters to be passed over to =Foswiki::Engine=
+constructor.
+
+=cut
+
 has engineParams => (
     is      => 'rw',
     lazy    => 1,
@@ -48,7 +86,16 @@ has cfgParams => (
     default => sub { {} },
 );
 
-# Hash of the test callbacks to be registered on the app object.
+=begin TML
+
+#AttrCallbacks
+---++ ObjectAttribute callbacks -> hash
+
+A hash of =callback =&gt; \&handler= pairs. Handlers are registered for their
+respective callbacks. Each handler =data= parameter is a hash whith the only 
+key =app= containing reference to the application object.
+
+=cut
 has callbacks => (
     is        => 'rw',
     lazy      => 1,
@@ -56,6 +103,7 @@ has callbacks => (
     isa       => Foswiki::Object::isaHASH('callbacks'),
     default   => sub { {} },
 );
+
 has _cbRegistered => (
     is      => 'rw',
     default => 0,
@@ -171,13 +219,82 @@ around handleRequest => sub {
     return $rc;
 };
 
+=begin TML
+
+---++ Examples
+
+---+++ A test case code
+
+This code demonstrates a sample case of testing a request. Take a note that
+tests are using =Foswiki::Engine::Test= engine.
+
+What is demonstrated here is:
+
+   * Handling of application's internal exceptions. Useful for cases when we expect an exception and test success depends on it. It would be then easier to get the exception itself instead of analyzing HTML output.
+   * Passing of new application parameters via =createNewFoswikiApp= method.
+   * Defining basic request parameters as engine constructor parameters.
+
+<verbatim>
+sub _cbHRE {
+    my $obj  = shift;
+    my %args = @_;
+    $args{params}{exception}->rethrow;
+}
+
+sub test_someTest {
+    my $this = shift;
+    
+    ...
+    
+    $this->createNewFoswikiApp(
+        requestParams => {
+            initializer => {
+                templatetopic => $this->test_web . ".TemplateTopic",
+            },
+        },
+        engineParams => {
+            initialAttributes => {
+                path_info => "/" . $this->test_web . "/" . $this->test_topic,
+                user      => $this->app->cfg->data->{AdminUserLogin},
+                action    => 'view',
+                method    => 'GET',
+            },
+            simulate => 'psgi',
+        },
+        callbacks => { handleRequestException => \&_cbHRE, },
+    );
+    
+    try {
+        my ($text) = $this->capture(
+            sub {
+                return $this->app->handleRequest;
+            }
+        );
+    } catch {
+        my $e = Foswiki::Exception::Fatal->transmute($_, 0);
+        
+        # Handle any application exception here.
+        unless ( $e->isa('Foswiki::OopsException') ) {
+            # Assume that we expected an oops.
+            $e->rethrow;
+        }
+        
+        ...
+    }
+}
+</verbatim>
+
+---++ See also
+
+=Unit::FoswikiTestRole=, =Foswiki::Engine::Test=
+
+=cut
+
 1;
 
-__DATA__
+__END__
 
-Author: Crawford Currie, http://c-dot.co.uk
-
-Copyright (C) 2007-2016 Foswiki Contributors
+Copyright (C) 2016 Foswiki Contributors
 All Rights Reserved.
 
 This program is free software; you can redistribute it and/or

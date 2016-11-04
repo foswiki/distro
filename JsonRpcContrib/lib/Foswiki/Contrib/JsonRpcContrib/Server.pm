@@ -82,16 +82,20 @@ sub dispatch {
         return;
     }
 
+    # ---------- OBSOLETE BEGIN ----------
+    # XXX This code is obsolete since the request object is handling this logic
+    # now and provides valid defined web.topic for the application.
     # get topic parameter and set the location overriding any
     #  other value derived from the namespace param
-    my $topic = $request->param('topic')
-      || $Foswiki::cfg{HomeTopicName};
-    my ( $jsrpcWeb, $jsrpcTopic ) =
-      Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
-        $topic );
-    $app->request->web($jsrpcWeb);
-    $app->request->topic($jsrpcTopic);
-    $this->writeDebug("topic=$topic") if TRACE;
+    #my $topic = $request->param('topic')
+    #  || $Foswiki::cfg{HomeTopicName};
+    #my ( $jsrpcWeb, $jsrpcTopic ) =
+    #  Foswiki::Func::normalizeWebTopicName( $Foswiki::cfg{UsersWebName},
+    #    $topic );
+    #$app->request->web($jsrpcWeb);
+    #$app->request->topic($jsrpcTopic);
+    #$this->writeDebug("topic=$topic") if TRACE;
+    # ---------- OBSOLETE END ---------
 
     # get handler for this namespace
     my $handler = $this->getHandler($request);
@@ -197,16 +201,13 @@ sub dispatch {
 
     # finally
     my $redirectto = $request->param('redirectto');
+    my $url;
+
     if ( $code == 0 && defined $redirectto ) {
-        my $url;
-        if ( $redirectto =~ /^https?:/ ) {
-            $url = $redirectto;
-        }
-        else {
-            $url =
-              $app->cfg->getScriptUrl( 1, 'view', $app->request->web,
-                $redirectto );
-        }
+        $url = $app->redirectto($redirectto);
+    }
+
+    if ($url) {
         $app->redirect($url);
     }
     else {

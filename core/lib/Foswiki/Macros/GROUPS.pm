@@ -6,28 +6,30 @@ use warnings;
 
 # Legacy
 sub GROUPS {
-    my ( $this, $params ) = @_;
+    my ( $app, $params ) = @_;
 
-    my $groups = $this->users->eachGroup;
+    my $groups = $app->users->eachGroup;
     my @table;
     while ( $groups->hasNext() ) {
         my $group = $groups->next();
-        next unless ( $this->users->groupAllowsView($group) );
+        next unless ( $app->users->groupAllowsView($group) );
 
         # Nop it to prevent wikiname expansion unless the topic exists.
         my $groupLink = "<nop>$group";
-        $groupLink = '[[' . $Foswiki::cfg{UsersWebName} . ".$group][$group]]"
+        $groupLink =
+          '[[' . $app->cfg->data->{UsersWebName} . ".$group][$group]]"
           if (
-            $this->store->topicExists( $Foswiki::cfg{UsersWebName}, $group ) );
+            $app->store->topicExists( $app->cfg->data->{UsersWebName}, $group )
+          );
         my $descr        = "| $groupLink |";
-        my $it           = $this->users->eachGroupMember($group);
+        my $it           = $app->users->eachGroupMember($group);
         my $limit_output = 32;
         while ( $it->hasNext() ) {
             my $user = $it->next();
-            next unless ( $this->users->groupAllowsView($user) );
+            next unless ( $app->users->groupAllowsView($user) );
             $descr .= ' [['
-              . $this->users->webDotWikiName($user) . ']['
-              . $this->users->getWikiName($user) . ']]';
+              . $app->users->webDotWikiName($user) . ']['
+              . $app->users->getWikiName($user) . ']]';
             if ( $limit_output == 0 ) {
                 $descr .= '<div>%MAKETEXT{"user list truncated"}%</div>';
                 last;
@@ -44,7 +46,7 @@ sub GROUPS {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

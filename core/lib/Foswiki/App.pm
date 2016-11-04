@@ -600,7 +600,7 @@ sub handleRequest {
 
 =begin TML
 
---++ ObjectMethod create($className, %initArgs)
+---++ ObjectMethod create($className, %initArgs)
 
 Creates a new object of class =$className=. This method must always be used for
 creating new objects of classes rooted on =Foswiki::Object=.
@@ -1937,6 +1937,7 @@ sub popTopicContext {
 
 =begin TML
 
+---++ API Methods - User related
 ---+++ ObjectMethod getDefaultUserName -> $loginName
 Get default user name as defined in the configuration as =DefaultUserLogin=
 
@@ -2194,6 +2195,7 @@ sub isAnAdmin {
 
 =begin TML
 
+---++ API Methods - Group related
 ---+++ ObjectMethod isGroupMember( $group, $id, $options ) -> $boolean
 
 Find out if $id is in the named group.  The expand option controls whether or not nested groups are searched.
@@ -2377,6 +2379,7 @@ sub removeUserFromGroup {
 
 =begin TML
 
+---++ API Methods - Web / Topic / Attachment - reading
 ---+++ ObjectMethod checkAccessPermission( $type, $id, $text, $topic, $web, $meta ) -> $boolean
 
 Check access permission for a topic based on the
@@ -2802,7 +2805,7 @@ sub readAttachment {
 
 =begin TML
 
----++ Manipulating
+---++ API Methods - Web / Topic / Attachment - Manipulating
 
 =cut
 
@@ -3811,7 +3814,7 @@ sub writeEvent {
 
 =begin TML
 
----+++ ObjectMethof writeWarning( $text )
+---+++ ObjectMethod writeWarning( $text )
 
 Log a warning that may require admin intervention to the warnings log (=data/warn*.txt=)
    * =$text= - Text to write; timestamp gets added

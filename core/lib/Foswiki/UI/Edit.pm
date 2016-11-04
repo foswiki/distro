@@ -117,9 +117,9 @@ sub init_edit {
 
                     # The lease has expired, but see if we are still
                     # expected to issue a "less forceful' warning
-                    if (   $Foswiki::cfg{LeaseLengthLessForceful} < 0
+                    if (   $app->cfg->data->{LeaseLengthLessForceful} < 0
                         || $t < $lease->{expires} +
-                        $Foswiki::cfg{LeaseLengthLessForceful} )
+                        $app->cfg->data->{LeaseLengthLessForceful} )
                     {
                         $def = 'lease_old';
                         $past =
@@ -270,7 +270,7 @@ sub init_edit {
             if ( !$store->topicExists( $templateWeb, $templateTopic ) ) {
 
                 # System default template
-                $templateWeb = $Foswiki::cfg{SystemWebName};
+                $templateWeb = $app->cfg->data->{SystemWebName};
             }
         }
         if ( $store->topicExists( $templateWeb, $templateTopic ) ) {
@@ -528,7 +528,7 @@ sub finalize_edit {
     $text = Foswiki::entityEncode($text);
     $tmpl =~ s/%TEXT%/$text/g;
 
-    $topicObject->setLease( $Foswiki::cfg{LeaseLength} );
+    $topicObject->setLease( $app->cfg->data->{LeaseLength} );
 
     $app->writeCompletePage( $tmpl, 'edit', $cgiAppType );
 }
@@ -537,7 +537,7 @@ sub finalize_edit {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2010 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

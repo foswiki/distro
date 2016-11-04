@@ -52,7 +52,7 @@ sub INCLUDE {
     return '' unless $pmfile;
 
     my $PMFILE;
-    open( $PMFILE, '<', $pmfile ) || return '';
+    open( $PMFILE, '<:utf8', $pmfile ) || return '';
     my $inPod      = 0;
     my $pod        = '';
     my $howSmelly  = 0;
@@ -91,11 +91,11 @@ sub INCLUDE {
                 _With         => $withRx . $paramsRx,
                 _FoswikiClass => $fwClassRx . $paramsRx,
                 (
-                    $publicOnly # Don't even parse FIXME comments if public only mode.
-                    ? ()
-                    : ( _FixmeComment =>
-'\n\h*?(?<commentLine>#\h*?(?<commentType>SMELL|TODO|FIXME)\h+?)(?=\n)'
-                    )
+                    $showSmells # Don't even parse FIXME comments to non-admin users.
+                    ? ( _FixmeComment =>
+'\n\h*?(?<commentLine>#\h*?(?<commentType>SMELL|TODO|FIXME)\b\h*(?<commentText>.+?))(?=\n)'
+                      )
+                    : ()
                 ),
             },
         );
@@ -351,6 +351,7 @@ sub _makeCtx {
           . $rxStr . "/\n"
           . Foswiki::Exception::errorStr($@) )
       if $@;
+
     return \%ctxData;
 }
 

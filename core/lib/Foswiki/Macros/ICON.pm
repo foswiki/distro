@@ -168,7 +168,7 @@ sub _getIconURL {
     my $a   = $1;
     my $app = $this->app;
     my ( $w, $t ) =
-      $app->request->normalizeWebTopicName( $Foswiki::cfg{SystemWebName},
+      $app->request->normalizeWebTopicName( $app->cfg->data->{SystemWebName},
         $path );
     return $app->cfg->getPubURL( $w, $t, $a, %$params );
 }
@@ -223,7 +223,7 @@ sub expand {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2009-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2009-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

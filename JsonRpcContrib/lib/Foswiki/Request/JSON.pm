@@ -81,11 +81,12 @@ has jsonerror => (
         'jsonerror', 'Foswiki::Contrib::JsonRpcContrib::Error'
     ),
 );
-has _jsondata => (
+has jsondata => (
     is        => 'rw',
     lazy      => 1,
     predicate => 1,
-    isa       => Foswiki::Object::isaHASH( '_jsondata', noUndef => 1, ),
+    isa       => Foswiki::Object::isaHASH( 'jsondata', noUndef => 1, ),
+    clearer   => 1,
     builder   => '_establishJSON',
 );
 
@@ -129,12 +130,12 @@ around param => sub {
 
     # Intercept POSTDATA assignment, and process the JSON data
     if ( $key eq 'POSTDATA' && scalar @value ) {
-        $this->_clear_jsondata;
+        $this->clear_jsondata;
     }
 
     # If key doesn't exist in json data,  the fall back to CGI.
-    return $this->_jsondata->{params}{$key}
-      if ( defined $this->_jsondata->{params}{$key} );
+    return $this->jsondata->{params}{$key}
+      if ( defined $this->jsondata->{params}{$key} );
 
     # Process
     return $orig->( $this, @p );
@@ -166,9 +167,13 @@ sub parseJSON {
 
     $data = ( ref($foo) eq 'ARRAY' ) ? shift @$foo : $foo;
 
+    my $minimal = ($data) ? 0 : 1;
     $data ||= '{"jsonrpc":"2.0"}';    # Minimal setup
 
     $jsondata = $this->initFromString($data);
+
+    # If the parse failed, give up here.
+    return $jsondata if $this->jsonerror;
 
     # some basic checks if this is a proper json-rpc 2.0 request
 
@@ -182,13 +187,16 @@ sub parseJSON {
         );
     }
 
-    # must have a json method
+ # must have a json method
+ # SMELL:  This error is suppressed for simple query param type json requests.
+ # It's a processing order issue.  The method is there in the query path, but it
+ # has not been parsed yet.
     $this->jsonerror(
         new Foswiki::Contrib::JsonRpcContrib::Error(
             code => -32600,
             text => "Invalid JSON-RPC request - no method"
         )
-    ) unless defined $jsondata->{method};
+    ) unless $minimal || defined $jsondata->{method};
 
     # must not have any other keys other than these
     foreach my $key ( keys %{$jsondata} ) {
@@ -206,7 +214,7 @@ sub parseJSON {
 =begin TML
 ---++ private objectMethod initFromString() -> %jsondata 
 
-Initializes the _jsondata hash by processing the POSTDATA from the request.
+Initializes the jsondata hash by processing the POSTDATA from the request.
 
 =cut
 
@@ -223,7 +231,7 @@ sub initFromString {
         my $error = Foswiki::Exception::errorStr(
             Foswiki::Exception::Fatal->transmute( $_, 0 ) );
         $error =~ s/,? +at.*$//s;
-        $this->_jsonerror(
+        $this->jsonerror(
             new Foswiki::Contrib::JsonRpcContrib::Error(
                 code => -32700,
                 text => "Parse error - invalid json-rpc request: $error"
@@ -238,7 +246,7 @@ sub initFromString {
 
 =begin TML
 
----++ private objectMethod _establishAddress() ->  n/a
+---++ private objectMethod _establishAttributes() ->  n/a
 
 Used internally by the web() and topic() methods to trigger parsing of the JSON topic parameter
 or the CGI topic parameer, and set object variables with the results.
@@ -261,6 +269,15 @@ around _establishAttributes => sub {
     $parse->{topic} = ucfirst( $parse->{topic} )
       if ( defined $parse->{topic} );
 
+    # SMELL.   This isn't working.  Test still fails with wrong web
+    unless ( defined $parse->{web} ) {
+        if ( defined $this->param('defaultweb') ) {
+            $parse->{web} =
+              Foswiki::Sandbox::untaint( $this->param('defaultweb'),
+                \&Foswiki::Sandbox::validateWebName );
+        }
+    }
+
     # Note that Web can still be undefined.  Caller then determines if the
     # defaultweb query param, or the HomeWeb config parameter should be used.
 
@@ -280,8 +297,8 @@ sub jsonparam {
     my ( $this, $key, $value ) = @_;
 
     return unless defined $key;
-    $this->_jsondata->{params}{$key} = $value if defined $value;
-    return $this->_jsondata->{params}{$key};
+    $this->jsondata->{params}{$key} = $value if defined $value;
+    return $this->jsondata->{params}{$key};
 }
 
 =begin TML
@@ -295,8 +312,8 @@ the version string is replaced.
 sub version {
     my ( $this, $value ) = @_;
 
-    $this->_jsondata->{jsonrpc} = $value if defined $value;
-    return $this->_jsondata->{jsonrpc} || '';
+    $this->jsondata->{jsonrpc} = $value if defined $value;
+    return $this->jsondata->{jsonrpc} || '';
 }
 
 =begin TML
@@ -310,8 +327,8 @@ the id is replaced.
 sub id {
     my ( $this, $value ) = @_;
 
-    $this->_jsondata->{id} = $value if defined $value;
-    return $this->_jsondata->{id} || '';
+    $this->jsondata->{id} = $value if defined $value;
+    return $this->jsondata->{id} || '';
 }
 
 =begin TML
@@ -321,7 +338,7 @@ Returns the parameters hash from the parsed JSON data.
 =cut
 
 sub params {
-    return $_[0]->_jsondata->{params};
+    return $_[0]->jsondata->{params};
 }
 
 =begin TML
@@ -395,11 +412,11 @@ around _trigger_method => sub {
     my $this    = shift;
     my ($value) = @_;
 
-    if ( defined $value && $this->_has_jsondata && lc($value) ne 'post' ) {
+    if ( defined $value && $this->has_jsondata && lc($value) ne 'post' ) {
         $this->jsonerror(
             new Foswiki::Contrib::JsonRpcContrib::Error(
                 code => -32600,
-                text => "Method must be POST, not " . $value
+                text => "Method must be POST, not " . uc($value)
             )
         );
     }
@@ -408,7 +425,7 @@ around _trigger_method => sub {
 sub _trigger_jsonmethod {
     my $this = shift;
     my ($value) = @_;
-    $this->_jsondata->{method} = $value;
+    $this->jsondata->{method} = $value;
 
     # SMELL method and jsonmethod must not be mixed up!
     #$this->method($value);
@@ -416,7 +433,7 @@ sub _trigger_jsonmethod {
 
 sub _establishJSONMethod {
     my $this = shift;
-    return $this->_jsondata->{method};
+    return $this->jsondata->{method};
 }
 
 sub _establishNamespace {
@@ -441,7 +458,8 @@ sub _establishNamespace {
     my $namespace = $1;
     my $method    = $2;
 
-    if ( defined $method ) {
+    # Don't set the method if it has already been established by POSTDATA
+    if ( defined $method && !$this->jsonmethod ) {
         $this->jsonmethod($method);
     }
 

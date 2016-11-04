@@ -286,6 +286,8 @@ sub getExternalResource {
         eval 'require HTTP::Response' unless ($noHTTPResponse);
         if ( $@ || $noHTTPResponse ) {
 
+            Foswiki::load_class('Foswiki::Net::HTTPResponse');
+
             # Nope, no HTTP::Response, have to do things the hard way :-(
             $response = Foswiki::Net::HTTPResponse->parse($result);
         }

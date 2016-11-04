@@ -5,25 +5,26 @@ use strict;
 use warnings;
 
 sub ENV {
-    my ( $this, $params ) = @_;
+    my ( $app, $params ) = @_;
 
-    my $key = $params->{_DEFAULT};
+    my $key        = $params->{_DEFAULT};
+    my $accessible = $app->cfg->data->{AccessibleENV};
     return ''
       unless $key
-      && defined $Foswiki::cfg{AccessibleENV}
-      && $key =~ m/$Foswiki::cfg{AccessibleENV}/;
+      && defined $accessible
+      && $key =~ m/$accessible/;
     my $val;
     if ( $key =~ m/^HTTPS?_(\w+)/ ) {
-        $val = $this->request->header($1);
+        $val = $app->request->header($1);
     }
     elsif ( $key eq 'REQUEST_METHOD' ) {
-        $val = $this->request->method;
+        $val = $app->request->method;
     }
     elsif ( $key eq 'REMOTE_USER' ) {
-        $val = $this->request->remoteUser;
+        $val = $app->request->remoteUser;
     }
     elsif ( $key eq 'REMOTE_ADDR' ) {
-        $val = $this->request->remoteAddress;
+        $val = $app->request->remoteAddress;
     }
     elsif ( $key eq 'PATH_INFO' ) {
         $val = $ENV{$key};
@@ -47,7 +48,7 @@ sub ENV {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

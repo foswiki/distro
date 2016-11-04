@@ -2,7 +2,7 @@
 
 =begin TML
 
----+!! package Foswiki::Engine::CLI
+---+!! Class Foswiki::Engine::CLI
 
 Class that implements CGI scripts functionality when called from
 command line or cron job
@@ -62,7 +62,7 @@ around BUILDARGS => sub {
     return $orig->( $class, %params );
 };
 
-around _prepareConnection => sub {
+around prepareConnection => sub {
     my $orig = shift;
     my $this = shift;
     return {
@@ -71,7 +71,7 @@ around _prepareConnection => sub {
     };
 };
 
-around _prepareQueryParameters => sub {
+around prepareQueryParameters => sub {
     my $orig = shift;
     my ( $this, $req ) = @_;
     my @params;
@@ -85,7 +85,7 @@ around _prepareQueryParameters => sub {
 
 # This initializer will be called only when no =user= parameter is set by the
 # object constructor.
-around _prepareUser => sub {
+around prepareUser => sub {
     my $orig = shift;
     my $this = shift;
     my $user = $orig->($this);
@@ -100,7 +100,7 @@ around _prepareUser => sub {
     return $user;
 };
 
-around _preparePath => sub {
+around preparePath => sub {
     my $orig   = shift;
     my ($this) = @_;
     my $env    = $this->env;

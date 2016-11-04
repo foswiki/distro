@@ -2,7 +2,7 @@
 package CommentPluginSuite;
 use v5.14;
 
-use Moo;
+use Foswiki::Class;
 extends qw(Unit::TestSuite);
 
 sub include_tests { return 'CommentPluginTests' }
