@@ -118,12 +118,13 @@ Generate a summary string. This is mainly for debugging.
 
 =cut
 
-around stringify => sub {
-    my $orig  = shift;
-    my $this  = shift;
+sub _accessText {
+    my $this = shift;
+
     my $topic = $this->topic
       || '';   # Access checks of Web objects causes uninitialized string errors
     my $web = $this->web // '*UNDEF*';
+
     return
         "AccessControlException: Access to "
       . $this->mode . " "
@@ -131,8 +132,20 @@ around stringify => sub {
       . ".$topic for "
       . $this->user
       . " is denied. "
-      . $this->reason
-      . ( DEBUG ? $this->stacktrace : "" );
+      . $this->reason;
+}
+
+around stringify => sub {
+    my $orig = shift;
+    my $this = shift;
+    return $this->_accessText . ( DEBUG ? $this->stacktrace : "" );
+};
+
+around prepareText => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    return $this->_accessText;
 };
 
 1;
