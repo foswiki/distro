@@ -5,7 +5,7 @@ use v5.14;
 
 =begin TML
 
----+!! package Foswiki::Engine::Test
+---+!! Class Foswiki::Engine::Test
 
 This is unit tests support engine which is supposed to simulate real-life
 environment for test cases.
@@ -141,6 +141,7 @@ Additionally the following keys are used:
 | *Key* | *Initialized attribute* | *Comment* |
 | =user=, =remote_user= | =user= | =user= takes precedence |
 | =postData= | =postData= | What is defined by the key would end up in engine's =postData= attribute as is, with no modification and will be validated by a request object. |
+| =headers= | =headers= | Hash of header => value pairs |
 
 =cut
 
