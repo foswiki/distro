@@ -28,19 +28,36 @@ Guess the locations of SSL Certificate files.
 sub guess_locations {
     my ( $this, $reporter ) = @_;
 
-    # See if we can use LWP or Crypt::SSLEay's defaults
+    my @CERT_FILES = (
+        "/etc/ssl/certs/ca-certificates.crt",    #Debian/Ubuntu/Gentoo etc.
+        "/etc/pki/tls/certs/ca-bundle.crt",      #Fedora/RHEL
+        "/etc/ssl/ca-bundle.pem",                #OpenSUSE
+        "/etc/pki/tls/cacert.pem",               #OpenELEC
+            #"/system/etc/security/cacerts",       #Android
+    );
 
-    my ( $file, $path ) = @ENV{qw/PERL_LWP_SSL_CA_FILE PERL_LWP_SSL_CA_PATH/};
+    my @CERT_DIRS = (
+        "/etc/ssl/certs",          #Debian/Ubuntu/Gentoo etc.
+        "/var/ssl/certs",          #AIX
+        "/usr/local/ssl/certs",    #Openssl tarball default
+    );
+
+    my ( $file, $path );
     my $guessed = 0;
+
+    # See if we can use LWP or Crypt::SSLEay's defaults per ENV variables
+    ( $file, $path ) = @ENV{qw/PERL_LWP_SSL_CA_FILE PERL_LWP_SSL_CA_PATH/};
     if ( $file || $path ) {
         $reporter->NOTE("Guessed from LWP settings");
         $guessed = 1;
+        _setLocations( $reporter, $file, $path );
     }
     else {
         ( $file, $path ) = @ENV{qw/HTTPS_CA_FILE HTTPS_CA_DIR/};
         if ( $file || $path ) {
             $reporter->NOTE("Guessed from Crypt::SSLEay's settings");
             $guessed = 1;
+            _setLocations( $reporter, $file, $path );
         }
         else {
             if ( eval('require Mozilla::CA;') ) {
@@ -48,22 +65,57 @@ sub guess_locations {
                 if ($file) {
                     $reporter->NOTE("Obtained from Mozilla::CA");
                     $guessed = 1;
+                    _setLocations( $reporter, $file, $path );
                 }
                 else {
-                    $reporter->ERROR(
-                        "Mozilla::CA is installed but has no file");
+                    $reporter->WARN("Mozilla::CA is installed but has no file");
                 }
             }
         }
     }
-    if ($guessed) {
-        $reporter->WARN(Foswiki::Configure::Checker::GUESSED_MESSAGE);
-        $Foswiki::cfg{Email}{SSLCaFile} = $file || '';
-        $reporter->CHANGED('{Email}{SSLCaFile}');
-        $Foswiki::cfg{Email}{SSLCaPath} = $path || '';
-        $reporter->CHANGED('{Email}{SSLCaPath}');
+    return undef if ($guessed);
+
+    # Check for common bundle files:
+    foreach $file (@CERT_FILES) {
+        if ( -e $file && -r $file ) {
+            $guessed = 1;
+            $reporter->NOTE("Guessed $file as the CA certificate bundle.");
+            _setLocations( $reporter, $file, $path );
+            last;
+        }
+    }
+
+    # First see if the linux default path work
+    foreach $path (@CERT_DIRS) {
+        if ( -d $path && -r $path ) {
+            $reporter->NOTE("Guessed $path as the certificate directory.");
+            $guessed = 1;
+            _setLocations( $reporter, $file, $path );
+        }
+    }
+
+    unless ($guessed) {
+        $reporter->ERROR("Unable to guess SSL file locations");
+        $reporter->NOTE(
+"Unable to find ENV settings for =PERL_LWP_SSL_CA_FILE=, =PERL_LWP_SSL_CA_PATH=, =HTTPS_CA_FILE=, or =HTTPS_CA_DIR=, and =Mozilla::CA= does not appear to be installed."
+        );
     }
     return undef;
+}
+
+sub _setLocations {
+
+    # my ( $reporter, $file, $path ) = @_
+    #$_[0]->WARN(Foswiki::Configure::Checker::GUESSED_MESSAGE);
+    if ( $_[1] ) {
+        $Foswiki::cfg{Email}{SSLCaFile} = $_[1];
+        $_[0]->CHANGED('{Email}{SSLCaFile}');
+    }
+    if ( $_[2] ) {
+        $Foswiki::cfg{Email}{SSLCaPath} = $_[2];
+        $_[0]->CHANGED('{Email}{SSLCaPath}');
+    }
+    return;
 }
 
 =begin TML
@@ -140,15 +192,20 @@ sub validate {
 
     if ($certs) {
         my $m = "Found $certs unique certificate";
-        $m .= 's' if ( $m != 1 );
+        $m .= 's' if ( $certs != 1 );
         if ( $certs eq $chashes ) {
             $m .=
 ", all of which seem to have a hash. (The hash values were not computed.)";
             $reporter->NOTE($m);
         }
-        else {
-            $reporter->ERROR(
-                ", but only $chashes hash" . ( $chashes = 1 ? '' : 'es' ) );
+        elsif ( $chashes > $certs ) {
+            $m .=
+", and $chashes hashes. More hashes than certificates is unusual.";
+            $reporter->WARN($m);
+        }
+        elsif ( $chashes < $certs ) {
+            $m .= ", but only $chashes hash" . ( $chashes = 1 ? '' : 'es' );
+            $reporter->ERROR($m);
         }
     }
     elsif ($creq) {
@@ -196,7 +253,7 @@ sub _fileType {
     while (<$fh>) {
         if (/^-----BEGIN (.*)-----/) {
             my $hdr = $1;
-            if ( $hdr =~ m/^(X509 |TRUSTED |)CERTIFICATE$/ ) {
+            if ( $hdr =~ m/^(X509 |TRUSTED |)?CERTIFICATE$/ ) {
                 $cert = 1;
                 last if ($crl);
             }

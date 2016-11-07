@@ -17,8 +17,9 @@ sub check_current_value {
 
     my $file = $this->checkExpandedValue($reporter);
     if ($file) {
-        unless ( $file =~ m,^([\w_./]+)$, ) {
-            return $this->ERROR("Invalid characters in $file");
+        unless ( $file =~ m,^([\w_./-]+)$, ) {
+            $reporter->ERROR("Invalid characters in $file");
+            return;
         }
         $file = $1;
 
