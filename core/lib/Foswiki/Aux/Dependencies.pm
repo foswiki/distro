@@ -1,77 +1,5 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Aux::Dependencies::MuteOut;
-use v5.14;
-use strict;
-use warnings;
-use Config;
-
-sub new {
-    my $class  = shift;
-    my %params = @_;
-
-    $class = ref($class) || $class;
-
-    my ( $oldOut, $oldErr, $rc );
-
-    my $outFile = $params{outFile} // File::Spec->devnull;
-    my $errFile = $params{errFile} // File::Spec->devnull;
-
-    unless ( open $oldOut, ">&", STDOUT ) {
-        Foswiki::Aux::Dependencies::_msg( "Cannot dup STDOUT: " . $! );
-        return undef;
-    }
-    unless ( open $oldErr, ">&", STDERR ) {
-        Foswiki::Aux::Dependencies::_msg( "Cannot dup STDERR: " . $! );
-        return undef;
-    }
-    unless ( open STDOUT, ">", $outFile ) {
-        Foswiki::Aux::Dependencies::_msg( "Failed to redirect STDOUT: " . $! );
-    }
-    unless ( open STDERR, ">", $errFile ) {
-        Foswiki::Aux::Dependencies::_msg( "Failed to redirect STDERR: " . $! );
-    }
-
-    my $obj = bless {
-        oldOut  => $oldOut,
-        oldErr  => $oldErr,
-        outFile => $outFile,
-        errFile => $errFile,
-    }, $class;
-
-    return $obj;
-}
-
-sub exec {
-    my $this = shift;
-    my ($sub) = shift;
-
-    my @rc;
-    my $wantarray = wantarray;
-    if ($wantarray) {
-        @rc = $sub->(@_);
-    }
-    elsif ( defined $wantarray ) {
-        $rc[0] = $sub->(@_);
-    }
-    else {
-        $sub->(@_);
-    }
-
-    return $wantarray ? @rc : $rc[0];
-}
-
-sub DESTROY {
-    my $this = shift;
-
-    unless ( open STDOUT, ">&", $this->{oldOut} ) {
-        Foswiki::Aux::Dependencies::_msg( "Failed to restore STDOUT: " . $! );
-    }
-    unless ( open STDERR, ">&", $this->{oldErr} ) {
-        Foswiki::Aux::Dependencies::_msg( "Failed to restore STDERR: " . $! );
-    }
-}
-
 package Foswiki::Aux::Dependencies;
 use v5.14;
 use strict;
@@ -643,7 +571,7 @@ sub _muteExec {
     my $errFile = File::Spec->catfile( $profile->{libDir}, ".stderr" );
 
     {
-        my $muter = Foswiki::Aux::Dependencies::MuteOut->new(
+        my $muter = Foswiki::Aux::MuteOut->new(
             outFile => $outFile,
             errFile => $errFile,
         );
