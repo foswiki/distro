@@ -231,12 +231,26 @@ sub _say {
 | =retryPause= | 1 | Number of seconds to wait between retries |
 | =requiredExtensions= | [] | List (arrayref) of extensions required for this app to start. |
 
+---+++ HOW TO BLOCK THE CHECKS
+
+=checkDependencies()= function will do nothing if either of two conditions are met:
+
+   * Either there is =NOCPAN= file exists in =lib= subdirectory of the =rootDir=.
+   * Or FOSWIKI_NOCPAN environment variable exists.
+   
+The block is administrativly mandatory; i.e. there is no way to get around it
+until these conditions are fullfilled and there is no flag/option of suppres
+their effect.
+
 =cut
 
 sub checkDependencies {
     my %profile = @_;
 
     return 0 unless _presets( \%profile );
+
+    return 1
+      if -e $profile{rootDir} . "/lib/NOCPAN" || exists $ENV{FOSWIKI_NOCPAN};
 
     $ENV{PERL_CPANM_HOME} = $profile{cpanmHomeDir};
 
