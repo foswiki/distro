@@ -118,6 +118,10 @@ sub import {
     my (%params) = @_;
 
     $rootDir = $params{rootDir} // $ENV{FOSWIKI_HOME};
+    $DEBUG //= $params{debug};
+
+    _dbg( "IMPORTING ", __PACKAGE__ );
+    _dbg( "PARAMS:", join( ", ", map { "$_ => $params{$_}" } keys %params ) );
 
     if ( !$rootDir ) {
 
@@ -146,8 +150,8 @@ sub import {
         if ( Foswiki::Aux::Dependencies::isFirstRun() ) {
             my $noPerlBin = 1
               ; # Must be dynamically checked later for, say, mod_perl environment.
-            my $withExtensions = 0;
-            my @profile        = (
+            my $withExtensions = $params{withExtensions} // 0;
+            my @profile = (
                 rootDir    => $rootDir,
                 doUpgrade  => 0,
                 inlineExec => $noPerlBin,
@@ -179,9 +183,10 @@ sub import {
 
         # Isert lib path to the beginning prefer locally installed modules over
         # system ones.
-        unshift @INC, $localLib unless $inc{$localLib};
+        _dbg( "Adding ", $localLib, " to \@INC" );
+        push @INC, $localLib unless $inc{$localLib};
     }
-    else {
+    if ( !$OK || $DEBUG ) {
         say STDERR
           join( "\n", "---MESSAGES BEGIN---", @messages, "---MESSAGES END---" );
     }
