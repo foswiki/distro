@@ -117,17 +117,76 @@ Keeps the name of the failed config or spec file.
 
 =cut
 
-has failedConfig     => ( is => 'rw', );
+has failedConfig => ( is => 'rw', );
+
+=begin TML
+
+---++ ObjectAttribute bootstrapMessage
+
+If there is something to inform user about bootstrapping stage – the message
+will be here.
+
+=cut
+
 has bootstrapMessage => ( is => 'rw', );
-has noExpand         => ( is => 'rw', default => 0, );
-has noSpec           => ( is => 'rw', default => 0, );
-has configSpec       => ( is => 'rw', default => 0, );
-has noLocal          => ( is => 'rw', default => 0, );
+
+=begin TML
+
+---++ ObjectAttribute noExpand -> Bool
+
+Default for =readConfig()= method =$noExpand= parameter when called by
+constructor. Not used otherwise.
+
+See [[#ObjectMethodNew][constructor new()]].
+
+=cut
+
+has noExpand => ( is => 'rw', default => 0, );
+
+=begin TML
+
+---++ ObjectAttribute noSpec -> Bool
+
+Default for =readConfig()= method =$noSpec= parameter when called by
+constructor. Not used otherwise.
+
+See [[#ObjectMethodNew][constructor new()]].
+
+=cut
+
+has noSpec => ( is => 'rw', default => 0, );
+
+=begin TML
+
+---++ ObjectAttribute configSpec -> Bool
+
+Default for =readConfig()= method =$configSpec= parameter when called by
+constructor. Not used otherwise.
+
+See [[#ObjectMethodNew][constructor new()]].
+
+=cut
+
+has configSpec => ( is => 'rw', default => 0, );
+
+=begin TML
+
+---++ ObjectAttribute noLocal -> Bool
+
+Default for =readConfig()= method =$noLocal= parameter when called by
+constructor. Not used otherwise.
+
+See [[#ObjectMethodNew][constructor new()]].
+
+=cut
+
+has noLocal => ( is => 'rw', default => 0, );
 
 # Configuration shortcut attributes.
 
 =begin TML
 
+#ObjectMethodNew
 ---++ ClassMethod new([noExpand => 0/1][, noSpec => 0/1][, configSpec => 0/1][, noLoad => 0/1])
    
    * =noExpand= - suppress expansion of $Foswiki vars embedded in
@@ -232,7 +291,7 @@ around doLocalize => sub {
 
 =begin TML
 
----++ ObjectMethod readConfig
+---++ ObjectMethod readConfig( $noExpand, $noSpec, $configSpec, $noLocal )
 
 In normal Foswiki operations as a web server this method is called by the
 =BEGIN= block of =Foswiki.pm=.  However, when benchmarking/debugging it can be

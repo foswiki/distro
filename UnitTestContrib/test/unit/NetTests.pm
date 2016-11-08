@@ -4,7 +4,7 @@ use v5.14;
 
 use Foswiki::Net;
 
-use Moo;
+use Foswiki::Class;
 extends qw( FoswikiTestCase );
 
 our $expectedHeader;

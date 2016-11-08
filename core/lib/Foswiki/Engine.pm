@@ -2,13 +2,14 @@
 
 =begin TML
 
----+!! package Foswiki::Engine
+---+!! Class Foswiki::Engine
 
-The engine class is a singleton that implements details about Foswiki's
-execution mode. This is the base class and implements basic behavior.
+Engine is a mediator between the 'outside' world (i.e. – user side browser or a test
+unit code) and %WIKITOOLNAME% core; in particular – =Foswiki::Request= object.
 
-Each engine should inherits from this and overload methods necessary
-to achieve correct behavior.
+This is the base class and implements only some basic functionality. Each engine
+should inherit from this and overload methods necessary to achieve correct
+behavior.
 
 =cut
 
@@ -25,11 +26,31 @@ extends qw(Foswiki::Object);
 
 use constant HTTP_COMPLIANT => undef;    # This is a generic class.
 
+=begin TML
+
+---++ ObjectAttribute env -> hash
+
+Hashref of environment variables. Depending on engine might be fetched from
+different sources. For example, for PSGI it's application sub argument.
+
+Default: application object =env= attribute.
+
+=cut 
+
 has env => (
     is  => 'rw',
     isa => Foswiki::Object::isaHASH( 'env', noUndef => 1, ),
     default => sub { $_[0]->app->env },
 );
+
+=begin TML
+
+---++ ObjectMethod gzipAccepted -> bool
+
+True if client accepts gzip compression.
+
+=cut
+
 has gzipAccepted => (
     is      => 'ro',
     lazy    => 1,
@@ -50,19 +71,23 @@ has gzipAccepted => (
 
 =begin TML
 
----++ ObjectAttribute pathData
+---++ ObjectAttribute pathData -> hash
 
-pathData attribute is a hash with the following keys: =action=, =path_info=, =uri=.
+pathData attribute is a hash with the following keys:
+
+   * =action=
+   * =path_info=
+   * =uri=
 
 The =uri= key can be undef under certain circumstances.
 
 =cut
 
-has pathData => ( is => 'rw', lazy => 1, builder => '_preparePath', );
+has pathData => ( is => 'rw', lazy => 1, builder => 'preparePath', );
 
 =begin TML
 
----++ ObjectAttribute connectionData
+---++ ObjectAttribute connectionData -> hash
 
 connectionData attribute is a hash with the following keys:
 
@@ -75,7 +100,7 @@ connectionData attribute is a hash with the following keys:
 =cut
 
 has connectionData =>
-  ( is => 'rw', lazy => 1, builder => '_prepareConnection', );
+  ( is => 'rw', lazy => 1, builder => 'prepareConnection', );
 
 =begin TML
 
@@ -91,13 +116,13 @@ has queryParameters => (
     is      => 'rw',
     lazy    => 1,
     isa     => Foswiki::Object::isaARRAY( 'queryParameters', noUndef => 1 ),
-    builder => '_prepareQueryParameters',
+    builder => 'prepareQueryParameters',
 );
 has bodyParameters => (
     is      => 'rw',
     lazy    => 1,
     isa     => Foswiki::Object::isaARRAY( 'bodyParameters', noUndef => 1 ),
-    builder => '_prepareBodyParameters',
+    builder => 'prepareBodyParameters',
 );
 
 =begin TML
@@ -111,7 +136,7 @@ Containts raw, non-decoded, POST data.
 has postData => (
     is      => 'ro',
     lazy    => 1,
-    builder => '_preparePostData',
+    builder => 'preparePostData',
 );
 
 =begin TML
@@ -123,7 +148,7 @@ Hash of =$filename => \%uploadInfo= pairs.
 =cut
 
 has uploads =>
-  ( is => 'rw', lazy => 1, clearer => 1, builder => '_prepareUploads', );
+  ( is => 'rw', lazy => 1, clearer => 1, builder => 'prepareUploads', );
 
 =begin TML
 
@@ -152,7 +177,7 @@ Suggested username.
 
 =cut
 
-has user => ( is => 'rw', lazy => 1, builder => '_prepareUser', );
+has user => ( is => 'rw', lazy => 1, builder => 'prepareUser', );
 
 =begin TML
 
@@ -162,9 +187,10 @@ Hashref of headers.
 
 =cut
 
-has headers => ( is => 'rw', lazy => 1, builder => '_prepareHeaders', );
+has headers => ( is => 'rw', lazy => 1, builder => 'prepareHeaders', );
 
 =begin TML
+
 ---++ ClassMethod start(env => \%env)
 
 Determines the type of environment we're running in and creates an instance of
@@ -211,142 +237,17 @@ sub start {
 
 =begin TML
 
----++ ClassMethod new() -> $engine
-
-Constructs an engine object.
-
-=cut
-
-=begin TML
-
----++ Obsolete ObjectMethod run()
-
-Start point to Runtime Engines.
-
-=cut
-
-#sub run {
-#    my $this = shift;
-#    my $req  = $this->prepare();
-#    if ( ref($req) ) {
-#        my $res = Foswiki::UI::handleRequest($req);
-#        $this->finalize( $res, $req );
-#    }
-#}
-
-=begin TML
-
----++ Obsolete ObjectMethod prepare() -> $req
-
-Initialize a Foswiki::Request object by calling many preparation methods
-and returns it, or a status code in case of error.
-
-The actual request object is created in preparePath.
-
-=cut
-
-sub __deprecated_prepare {
-    my $this = shift;
-    my $req;
-
-    if ( $Foswiki::cfg{Store}{overrideUmask} && $Foswiki::cfg{OS} ne 'WINDOWS' )
-    {
-
-# Note: The addition of zero is required to force dirPermission and filePermission
-# to be numeric.   Without the additition, certain values of the permissions cause
-# runtime errors about illegal characters in subtraction.   "and" with 777 to prevent
-# sticky-bits from breaking the umask.
-        my $oldUmask = umask(
-            (
-                oct(777) - (
-                    (
-                        $Foswiki::cfg{Store}{dirPermission} + 0 |
-                          $Foswiki::cfg{Store}{filePermission} + 0
-                    )
-                ) & oct(777)
-            )
-        );
-
-#my $umask = sprintf('%04o', umask() );
-#$oldUmask = sprintf('%04o', $oldUmask );
-#my $dirPerm = sprintf('%04o', $Foswiki::cfg{Store}{dirPermission}+0 );
-#my $filePerm = sprintf('%04o', $Foswiki::cfg{Store}{filePermission}+0 );
-#print STDERR " ENGINE changes $oldUmask to  $umask  from $dirPerm and $filePerm \n";
-    }
-
-    try {
-        $req = $this->create('Foswiki::Request');
-        $this->prepareUploads($req);
-    }
-    catch {
-        # SMELL returns within Try::Tiny try/catch block doesn't return from the
-        # calling sub but from the try/catch block itself.
-        my $e = $_;
-        unless ( ref($e) ) {
-            Foswiki::Exception::Fatal->rethrow($e);
-        }
-
-        if (   $e->isa('Foswiki::EngineException')
-            || $e->isa('Foswiki::Exception::Engine') )
-        {
-            my $res = $e->response;
-            unless ( defined $res ) {
-                $res = $this->create('Foswiki::Response');
-                $res->header( -type => 'text/html', -status => $e->status );
-                my $html = CGI::start_html( $e->status . ' Bad Request' );
-                $html .= CGI::h1( {}, 'Bad Request' );
-                $html .= CGI::p( {}, $e->reason );
-                $html .= CGI::end_html();
-                $res->print($html);
-            }
-            $this->finalizeError( $res, $req );
-            return $e->status;
-        }
-        else {    # Not Foswiki::EngineException
-            my $res = $this->create('Foswiki::Response');
-            my $mess =
-                $e->can('stringify')
-              ? $e->stringify()
-              : 'Unknown ' . ref($e) . ' exception: ' . $@;
-            $res->header( -type => 'text/plain', -status => '500' );
-            if (DEBUG) {
-
-                # output the full message and stacktrace to the browser
-                $res->print($mess);
-            }
-            else {
-                print STDERR $mess;
-
-                # tell the browser where to look for more help
-                my $text =
-'Foswiki detected an internal error - please check your Foswiki logs and webserver logs for more information.'
-                  . "\n\n";
-                $mess =~ s/ at .*$//s;
-
-                # cut out pathnames from public announcement
-                $mess =~ s#/[\w./]+#path#g;
-                $text .= $mess;
-                $res->print($text);
-            }
-            $this->finalizeError( $res, $req );
-            return 500;    # Internal server error
-        }
-    };
-    return $req;
-}
-
-=begin TML
-
----++ ObjectMethod _prepareConnection
+---++ ObjectMethod prepareConnection
 
 Initializer method of =connectionData= attribute.
 
 =cut
 
-sub _prepareConnection { }
+# SMELL Must be non-private as well as other initializers.
+sub prepareConnection { }
 
 # Initializer for queryParameters attribute.
-sub _prepareQueryParameters {
+sub prepareQueryParameters {
     my $this = shift;
     my ($queryString) = @_;
 
@@ -374,17 +275,17 @@ sub _prepareQueryParameters {
 
 =begin TML
 
----++ ObjectMethod _prepareHeaders
+---++ ObjectMethod prepareHeaders
 
 Abstract initializer for the =headers= object attribute.
 
 =cut
 
-sub _prepareHeaders { return {}; }
+sub prepareHeaders { return {}; }
 
 =begin TML
 
----++ ObjectMethod _prepareUser
+---++ ObjectMethod prepareUser
 
 Initializer for the =user= object attribute.
 
@@ -393,33 +294,30 @@ Returns =$req= - Foswiki::Request object, populated with the action and the path
 
 =cut
 
-sub _prepareUser { return shift->env->{REMOTE_USER}; }
+sub prepareUser { return shift->env->{REMOTE_USER}; }
 
 =begin TML
 
----++ ObjectMethod _preparePostData
+---++ ObjectMethod preparePostData
 
 Abstract initializer for the =postData= object attribute.
 
 =cut
 
-sub _preparePostData { }
+sub preparePostData { }
 
 =begin TML
 
----++ ObjectMethod _preparePath( )
+---++ ObjectMethod preparePath( )
 
 Initializer method of =pathData=.
 
 =cut
 
-sub _preparePath { }
+sub preparePath { }
 
 # Abstract initializer for bodyParameters
-sub _prepareBodyParameters { return []; }
-
-# Abstract initializer for uploads
-sub _prepareUploads { return []; }
+sub prepareBodyParameters { return []; }
 
 =begin TML
 
@@ -427,18 +325,18 @@ sub _prepareUploads { return []; }
 
 Abstract method, must be defined by inherited classes.
 
-Should fill $req's {uploads} field. This is a hashref whose keys are
-upload names and values Foswiki::Request::Upload objects.
-
 Implementations must convert upload names to unicode.
 
 =cut
 
-sub prepareUploads { }
+# Abstract initializer for uploads
+sub prepareUploads { return []; }
 
 =begin TML
 
----++ ObjectMethod stringifyHeaders(\@psgiReturnArray) => $headersText
+---++ ObjectMethod stringifyHeaders(\@psgiReturnArray) -> $headersText
+
+Converts headers from PSGI format to string in HTTP response format.
 
 =cut
 
@@ -459,7 +357,7 @@ sub stringifyHeaders {
 
 =begin TML
 
----++ ObjectMethod stringifyBody(\@psgiReturnArray) => $bodyText
+---++ ObjectMethod stringifyBody(\@psgiReturnArray) -> $bodyText
 
 =cut
 
@@ -501,7 +399,7 @@ sub _writeBody {
 
 =begin TML
 
----++ ObjectMethod finalizeReturn(\@rc) => $rc
+---++ ObjectMethod finalizeReturn(\@rc) -> $rc
 
 Abstract method, must be defined by inherited classes.
 

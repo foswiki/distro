@@ -1250,9 +1250,15 @@ sub _establishParamList {
 
 sub _establishWeb {
     my $this = shift;
-    return ( $this->_pathParsed->{web}
-          || $this->param('defaultweb')
-          || $this->app->cfg->data->{UsersWebName} );
+
+    if ( $this->_pathParsed->{web} ) {
+        return $this->_pathParsed->{web};
+    }
+    elsif ( $this->param('defaultweb') ) {
+        return Foswiki::Sandbox::untaint( $this->param('defaultweb'),
+            \&Foswiki::Sandbox::validateWebName );
+    }
+    return $this->app->cfg->data->{UsersWebName};
 }
 
 sub _establishTopic {
@@ -1262,8 +1268,13 @@ sub _establishTopic {
 }
 
 sub _establishMethod {
-    my $this = shift;
-    return $this->app->engine->connectionData->{method};
+    my $this   = shift;
+    my $method = $this->app->engine->connectionData->{method};
+
+    # Call it manually because triggers are not called for default/build.
+    $this->_trigger_method($method);
+
+    return $method;
 }
 
 sub _establishUploads {

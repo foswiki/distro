@@ -150,6 +150,14 @@ around tear_down => sub {
     $orig->( $this, @_ );
 };
 
+=begin TML
+
+---++ ObjectMethod prepareUsersWeb
+
+Initializer method for =users_web= attribute.
+
+=cut
+
 sub prepareUsersWeb {
     return $TEST_WEB_PREFIX . $_[0]->testSuite . 'UsersWeb';
 }
@@ -443,7 +451,7 @@ s/((\$Foswiki::cfg\{.*?\})\s*=.*?;)(?:\n|$)/push(@moreConfig, $1) unless (eval "
 =begin TML
 ---++ ObjectMethod setupDirs
 
-Takes measures as to avoid polluting the base directory with test data and logs.
+Takes measures as to avoid polluting the base (=FOSWIKI_HOME=) directory with test data and logs.
 
 =cut
 
@@ -555,9 +563,26 @@ sub setupUserRegistration {
 
 cleans up the existing Foswiki object, and creates a new one
 
-=%params= are passed directly to the =Foswiki::App= constructor.
+=%params= are passed directly to the application object constructor. Note that for most test cases this would be =Unit::TestApp= class instead of its parent =Foswiki::App=.
 
-typically called to force a full re-initialisation either with new preferences, topics, users, groups or CFG
+Typically called to force a full re-initialisation with new preferences, topics, users, groups or config.
+
+A new application is created with environment and config (parameters =env= and
+=cfg= respectively) being cloned from the currently active application object
+unless corresponding parameters are supplied by user. The new application object
+is completely replacing the previously active one by being stored in
+=$Foswiki::app= and test case =app= attribute.
+
+In addition this method traverses down the data structure of the current object
+by looking for blessed references and checks if they're suspects to have an
+=rwp= =app= attribute. If found then the attribute is set to point to the new
+application with =_set_app()= method.
+
+*NOTE* No responsibility is taken if a reference to the application is stored in
+any other attribute or object's hash key. To make sure that a instance of your
+class is handled properly by this core apply =Foswiki::AppObject= role.
+
+See also: =Unit::TestApp=
 
 =cut
 
@@ -573,6 +598,7 @@ sub _fixupAppObjects {
                blessed( $this->{$attr} )
             && $this->$attr->isa('Foswiki::Object')
             && $this->$attr->can('_set_app')
+            && $this->$attr->can('app')
             && ( !defined( $this->$attr->app )
                 || ( $this->$attr->app != $app ) )
           )
@@ -591,7 +617,8 @@ sub createNewFoswikiApp {
     $app->cfg->data->{Store}{Implementation} ||= 'Foswiki::Store::PlainFile';
 
     $params{env} //= $app->cloneEnv;
-    my $newApp = Unit::TestApp->new( cfg => $app->cfg->clone, %params );
+    $params{cfg} //= $app->cfg->clone;
+    my $newApp = Unit::TestApp->new(%params);
 
     $this->app($newApp);
     $this->_fixupAppObjects;
@@ -606,6 +633,7 @@ sub createNewFoswikiApp {
 }
 
 =begin TML
+
 ---++ ObjectMethod testWebName($baseName) -> $webName
 
 Returns a standard test web name formed with test suite name and =$baseName=.
@@ -733,6 +761,7 @@ was called.
 
 =cut
 
+# SMELL Make it support Unit::Leak::Object
 sub leakDetectCheckpoint {
     my $this = shift;
     my ($dumpName) = @_;
@@ -762,6 +791,7 @@ Do nothing unless =Unit::TestRunner::CHECKLEAK= is true.
 
 =cut
 
+# SMELL Make it support Unit::Leak::Object
 sub leakDetectDump {
     my $this = shift;
     my ($dumpName) = @_;

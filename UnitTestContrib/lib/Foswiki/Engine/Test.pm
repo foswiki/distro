@@ -5,36 +5,115 @@ use v5.14;
 
 =begin TML
 
----+!! package Foswiki::Engine::Test
+---+!! Class Foswiki::Engine::Test
 
 This is unit tests support engine which is supposed to simulate real-life
 environment for test cases.
 
-A instance of this class initialize itself using the following sources of data:
+---++ Object Initialization
 
-   * Key =__foswikiEngineTestInit= on =env= attribute hash. This key must be a
-     hashref which is passed to the parent constructor as a hash of defaults
-     alongside with user supplied parameters in =new()= call. User parameters
-     has preference over the defaults.
-   * For both defaults and user parameters =setUrl= key of =initialAttributes=
-     hash may be used to set those parameters which are not set implicitly by
-     corresponding source.
-   * =FOSWIKI_TEST_= prefixed =env= attribute hash keys for individual keys of
-     =*Data= attributes. For example, =$engine->pathData->{path_info}= would be
-     set from =FOSWIKI_TEST_PATH_INFO=. These are used only when corresponding
-     =*Data= attribute is not initialized at object construction stage.
-   * Similar to other engines =FOSWIKI_ACTION= might be used if none of the
-     above sources provided a value for the =pathData->{action}= key.
-   * =FOSWIKI_TEST_QUERY_STRING= is used for setting =queryParameters=
-     attribute.
+A instance of this class initialize itself using the following sources of data
+(in the order from higher to lower priority):
+
+   1. Constructor stage:
+      * User supplied parameters.
+      * =setUrl= key of =initialAttributes= constuctor parameter.
+      * Key =__foswikiEngineTestInit= on =env= constructor parameter. This key
+        must be a hashref and it defines the defaults for constructor
+        parameters.
+      * =setUrl= key of =initialAttributes= parameter from
+        =__foswikiEngineTestInit=.
+   1. Run-time stage:
+      * =initialAttributes= object attribute. For example,
+        =$engine->pathData->{path_info}= would be fetched from
+        =$engine->initialAttributes->{path_info}=.
+      * =FOSWIKI_TEST_= prefixed keys of the =env= attribute hash for individual
+        keys of =*Data= attributes (see =Foswiki::Engine=). For example,
+        =$engine->pathData->{path_info}= would be set from
+        =FOSWIKI_TEST_PATH_INFO=. These are used only when corresponding =*Data=
+        attribute is not initialized at object construction stage.
+      * Similar to other engines =FOSWIKI_ACTION= might be used if none of the
+        above sources provides a value for the =$engine->pathData->{action}=
+        key.
+      * =FOSWIKI_TEST_QUERY_STRING= is used for setting =queryParameters=
+        attribute.
+      
+*NOTE* Most of the time constructor parameter and object attribute are the
+same thing - see CPAN:Moo. But remember that when 'constructor parameter'
+is used it means at this stage attributes are not initialized yet. Or attribute
+may differ from constructor parameter value.
+
+*NOTE* on =__foswikiEngineTestInit=: it is a global default for all newly
+created engine objects. So that instead of duplicating a call like this:
+
+<verbatim>
+$engine = Foswiki::Engine::Test->new(
+    initialAttributes => {
+        path_info => '/Web/TopicName',
+    },
+);
+</verbatim>
+
+or in terms of =Unit::FoswikiTestRole= =createNewFoswikiApp= method:
+
+<verbatim>
+# This is way more common throughout the tests code.
+$testCase->createNewFoswikiApp(
+    engineParams => {
+        initialAttributes => {
+            path_info => '/Web/TopicName',
+        },
+    },
+);
+</verbatim>
+
+it would be easier to define the parameter once within =set_up= method:
+
+<verbatim>
+around set_up => sub {
+    my $orig = shift;
+    my $this = shift;
+    
+    $orig->($this, @_);
+    
+    $this->app->env->{__foswikiEngineTestInit} = {
+        initialAttributes => {
+            path_info => '/Web/TopicName',
+        },
+    };
+};
+</verbatim>
+
+Since the =env= attribute is cloned by the =createNewFoswikiApp()= method from
+previously active application object the key will be propagaded and all newly
+created engines will use it as the default. Similar effect would be achieved
+by setting =FOSWIKI_TEST_PATH_INFO= key of =env=. But whereas =FOSWIKI_TEST_*=
+are used to setup request parameters, =__foswikiEngineTestInit= can define
+any engine constructor parameter. For example:
+
+<verbatim>
+$this->app->env->{__foswikiEngineTestInit} = {
+    simulate => 'cgi',    
+};
+</verbatim>
 
 =cut
 
 use Assert;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw(Foswiki::Engine);
+
+=begin TML
+
+---++ ObjectAttribute simulate -> [psgi|cgi]
+
+The only valid values for this attribute are either 'psgi' or 'cgi'. It defines
+how this engine communicates with the 'outside' worlds: either in PSGI way by
+returning a three element array; or in CGI way by sending HTTP response to
+stdout.
+
+=cut
 
 has simulate => (
     is      => 'rw',
@@ -47,6 +126,25 @@ has simulate => (
         return $method;
     },
 );
+
+=begin TML
+
+---++ ObjectAttribute initialAttributes
+
+This is a hashref for initializing =Foswiki::Engine= =*Data= attributes. It is
+used by =initFromEnv= method as described in the _Initialization_ section of
+this document.
+
+See =Foswiki::Engine= =pathData=, =connectionData= for the list of of keys.
+Additionally the following keys are used:
+
+| *Key* | *Initialized attribute* | *Comment* |
+| =user=, =remote_user= | =user= | =user= takes precedence |
+| =postData= | =postData= | What is defined by the key would end up in engine's =postData= attribute as is, with no modification and will be validated by a request object. |
+| =headers= | =headers= | Hash of header => value pairs |
+
+=cut
+
 has initialAttributes => ( is => 'rw', default => sub { { headers => {}, } }, );
 
 around BUILDARGS => sub {
@@ -67,8 +165,18 @@ around BUILDARGS => sub {
     return $orig->( $class, %params );
 };
 
-# Form a data hash using keys either from initialAttributes (higher prio) or
-# from env.
+=begin TML
+
+---++ ObjectMethod initFromEnv(@keys)
+
+Forms a data hash using keys either from initialAttributes (higher prio) or from
+=env=. See the _Initialization_ section of this document. Requested keys are
+defined by this method arguments.
+
+Returns a hashref.
+
+=cut
+
 sub initFromEnv {
     my $this      = shift;
     my $initAttrs = $this->initialAttributes;
@@ -84,7 +192,7 @@ sub initFromEnv {
     return \%initHash;
 }
 
-around _preparePath => sub {
+around preparePath => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -93,7 +201,7 @@ around _preparePath => sub {
     return $this->initFromEnv(qw(action path_info uri));
 };
 
-around _prepareConnection => sub {
+around prepareConnection => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -105,7 +213,7 @@ around _prepareConnection => sub {
     return $connData;
 };
 
-around _prepareQueryParameters => sub {
+around prepareQueryParameters => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -116,7 +224,7 @@ around _prepareQueryParameters => sub {
     return [];
 };
 
-around _prepareHeaders => sub {
+around prepareHeaders => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -142,19 +250,95 @@ around _prepareHeaders => sub {
     return $headers;
 };
 
-around _prepareUser => sub {
+around prepareUser => sub {
     my $orig     = shift;
     my $this     = shift;
     my $initHash = $this->initFromEnv(qw(user remote_user));
     return $initHash->{user} // $initHash->{remote_user};
 };
 
-around _preparePostData => sub {
+around preparePostData => sub {
     my $orig     = shift;
     my $this     = shift;
     my $initHash = $this->initFromEnv(qw(postData));
     return $initHash->{postData};
 };
+
+=begin TML
+
+---++ ObjectMethod mergeAttrs(\%attrs1 [, \%attrs2 [, ...]])
+
+Gets a list of hashrefs and deep merges them. The first one is the destination
+hash which will contain the result of the merge.
+
+By deep merge it is meant that any if more than one hash has a key SomeKey at
+Nth depth level and the keys in turn contain hashrefs then those hashes are
+merged too.
+
+For example:
+
+<verbatim>
+my %attr1 = (
+    A => B,
+    Lev1 => {
+        Lev2 => {
+            A2 => B2,
+            Lev3 => {
+                C3 => D3,
+            }
+        }
+    },
+);
+my %attr2 = (
+    Lev1 => {
+        A1 => B1,
+        Lev2 => {
+            A2 => Bb2,
+            Lev3 => {
+                A3 => B3,
+            }
+        }
+    },
+);
+my %attr3 = (
+    Lev1 => {
+        A1 => Bb1,
+        C1 => D1,
+        Lev2 => {
+            Lev3 => {
+                A3 => Bb3,
+                E3 => F3,
+            }
+        }
+    },
+);
+
+mergeAttrs(\%attr1, \%attr2, \%attr3);
+</verbatim>
+
+This code will result in the following content in =%attr1=:
+<verbatim>
+(
+    A => B,
+    Lev1 => {
+        A1 => B1,
+        C1 => D1,
+        Lev2 => {
+            A2 => B2,
+            Lev3 => {
+                C3 => D3,
+                A3 => B3,
+                E3 => F3,
+            }
+        }
+    }
+)
+</verbatim>
+
+Keys =A2= from =%attr2=, =A3= and =A1= from =%attr3= are dropped due to lower
+priority of these hashes.
+
+=cut
 
 sub mergeAttrs {
     my @hashes = @_;
@@ -185,6 +369,18 @@ sub mergeAttrs {
         }
     }
 }
+
+=begin TML
+
+---++ ObjectMethod parseURL($queryString) -> \%attrs
+
+This method parses =$queryString= with complete URL and returns constructor-compatible attribute hash
+where =initialAttributes= constructor parameter is initialized from the query string. The following keys
+are set: =secure=, =headers= (_Host_ header), =query_string=, and =path_info=.
+
+Returns attributes hash suitable to be used by the constructor method.
+
+=cut
 
 sub parseURL {
     my ($queryString) = @_;

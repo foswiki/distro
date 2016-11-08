@@ -5,8 +5,7 @@ use Data::Dumper;
 use Benchmark qw(:hireswallclock);
 use constant TRACE => 0;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends 'FoswikiTestCase';
 
 my $test_web = 'Temporary' . __PACKAGE__ . 'TestWeb';

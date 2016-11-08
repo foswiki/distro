@@ -22,10 +22,8 @@ use Assert;
 use Compress::Zlib ();
 use JSON           ();
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
-with qw(Foswiki::AppObject);
 
 use constant TRACE => 0;    # toggle me
 
@@ -107,7 +105,7 @@ sub encode {
         $message = {
             jsonrpc => "2.0",
             error   => {
-                code    => $code,
+                code => $code + 0,  # Sometimes code comes as a string, not int.
                 message => $message,
             },
         };

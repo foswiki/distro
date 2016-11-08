@@ -20,6 +20,8 @@ use Foswiki::Exception ();
 use Text::Diff         ();
 require File::Temp;
 
+use Assert;
+
 use Foswiki::Class;
 extends 'Foswiki::Object';
 
@@ -269,7 +271,10 @@ sub assert {
     return 1 if $bool;
     $mess ||= "Assertion failed";
     $mess = join( "\n", @{ $this->annotations } ) . "\n" . $mess;
-    $mess = Carp::longmess($mess);
+
+    # When DEBUG is on don't use long message format because the exception will
+    # have the stack trace.
+    $mess = DEBUG ? $mess : Carp::longmess($mess);
     Foswiki::Exception::ASSERT->throw( text => $mess, object => $this );
 }
 

@@ -11,8 +11,7 @@ use Foswiki::EngineException();
 use Carp();
 use Try::Tiny;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw( FoswikiFnTestCase );
 
 use Unit::Request::JSON;
@@ -27,6 +26,17 @@ around set_up => sub {
     return;
 };
 
+around loadExtraConfig => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    $orig->( $this, @_ );
+
+    my $cfgData = $this->app->cfg->data;
+    $cfgData->{PermittedRedirectHostUrls} = 'http://lolcats.com';
+
+};
+
 # A simple REST handler
 sub json_handler {
     my ( $app, $request ) = @_;
@@ -35,14 +45,15 @@ sub json_handler {
     die "incorrect jsonmethod()" unless $request->jsonmethod() eq 'trial';
 
     # The old method() was jsonmethod alias.
-    #die "incorrect method()"     unless $request->method() eq 'trial';
-    die "incorrect method()" unless $request->method     eq 'post';
-    die "Incorrect topic"    unless $app->request->topic eq 'WebChanges';
-    die "Incorrect web"      unless $app->request->web   eq 'System';
+    die "incorrect method()" unless $request->jsonmethod() eq 'trial';
+    die "incorrect method()" unless $request->method       eq 'post';
+    die "Incorrect topic"    unless $app->request->topic   eq 'WebChanges';
+    die "Incorrect web " . $app->request->web
+      unless $app->request->web eq 'System';
     return 'SUCCESS';
 }
 
-# A simple REST handler with error
+# A simple JSON handler with error
 sub json_and_be_thankful {
     my ( $session, $subject, $verb ) = @_;
 
@@ -89,16 +100,8 @@ sub test_simple_postdata {
             sub {
 
                 $this->createNewFoswikiApp(
-                    requestParams => {
-                        initializer => {
-                            action    => ['jsonrpc'],
-                            uri       => '/' . __PACKAGE__ . '/trial',
-                            path_info => '/' . __PACKAGE__ . '/trial',
-                        },
-                    },
                     engineParams => {
                         initialAttributes => {
-                            uri       => '/' . __PACKAGE__ . "/trial",
                             path_info => '/' . __PACKAGE__ . "/trial",
                             method    => 'post',
                             action    => 'jsonrpc',
@@ -115,8 +118,8 @@ sub test_simple_postdata {
         );
     }
     catch {
-        my $e = $_;
-        if ( ref($e) && $e->isa('Foswiki::EngineException') ) {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::EngineException') ) {
             $this->assert_equals( 401, $e->status, $e->stringify );
         }
         else {
@@ -127,157 +130,444 @@ sub test_simple_postdata {
     $this->assert_matches( qr/"result" : "SUCCESS"/, $response );
     return;
 }
-1;
-__END__
+
+# -32600: Invalid Request - The JSON sent is not a valid Request object.
+sub test_invalid_request {
+    my $this = shift;
+
+    #$query->path_info( '/' . __PACKAGE__ . '/saywhat' );
+    #
+    my $response;
+
+    # This first test has a syntax error - missing {
+    try {
+        ($response) = $this->capture(
+            sub {
+
+                $this->createNewFoswikiApp(
+                    engineParams => {
+                        initialAttributes => {
+                            path_info => '/' . __PACKAGE__ . "/trial",
+                            method    => 'post',
+                            action    => 'jsonrpc',
+                            postData =>
+'{"jsonrpc":"1.0","method":"trial","params":"wizard":"ScriptHash","method":"verify","keys":"{ScriptUrlPaths}{view}","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}'
+                        },
+                    },
+                );
+                Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__,
+                    'trial', \&json_handler );
+
+                return $this->app->handleRequest;
+            },
+        );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 401, $e->status, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
+    };
+
+    $this->assert_matches( qr/"code" : -32700/, $response );
+    $this->assert_matches(
+        qr/"message" : "Parse error - invalid json-rpc request:/, $response );
+
+    # Now test with an invalid version
+    try {
+        ($response) = $this->capture(
+            sub {
+
+                $this->createNewFoswikiApp(
+                    engineParams => {
+                        initialAttributes => {
+                            path_info => '/' . __PACKAGE__ . "/trial",
+                            method    => 'post',
+                            action    => 'jsonrpc',
+                            postData =>
+'{"jsonrpc":"1.0","method":"trial","params":{"wizard":"ScriptHash","method":"verify","keys":"{ScriptUrlPaths}{view}","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}',
+                        },
+                    },
+                );
+                Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__,
+                    'trial', \&json_handler );
+
+                return $this->app->handleRequest;
+            },
+        );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 401, $e->status, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
+    };
+
+    $this->assert_matches( qr/"code" : -32600/, $response );
+    $this->assert_matches( qr/"message" : "Invalid JSON-RPC request/,
+        $response );
+
+    return;
+}
 
 # Simple jsonrpc, using query params
 sub test_simple_query_params {
     my $this = shift;
-    Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
-        \&json_handler );
 
-    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $query->param( 'topic',      'WebChanges' );
-    $query->param( 'defaultweb', 'System' );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ( $response, $result, $out, $err ) =
-      $this->capture( $UI_FN, $this->{session} );
+    my $response;
+
+    try {
+        ($response) = $this->capture(
+            sub {
+
+                $this->createNewFoswikiApp(
+                    requestParams => {
+                        initializer => {
+                            action     => ['jsonrpc'],
+                            uri        => '/' . __PACKAGE__ . '/trial',
+                            path_info  => '/' . __PACKAGE__ . '/trial',
+                            topic      => 'WebChanges',
+                            defaultweb => 'System',
+                        },
+                    },
+                    engineParams => {
+                        initialAttributes => {
+                            uri       => '/' . __PACKAGE__ . "/trial",
+                            path_info => '/' . __PACKAGE__ . "/trial",
+                            method    => 'post',
+                            action    => 'jsonrpc',
+                        },
+                    },
+                );
+                Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__,
+                    'trial', \&json_handler );
+
+                return $this->app->handleRequest;
+            },
+        );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 401, $e->status, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
+    };
 
     $this->assert_matches( qr/"result" : "SUCCESS"/, $response );
+    return;
+}
+
+sub test_post_required {
+    my $this = shift;
+
+    my $response;
+
+    try {
+        ($response) = $this->capture(
+            sub {
+
+                $this->createNewFoswikiApp(
+                    engineParams => {
+                        initialAttributes => {
+                            path_info => '/' . __PACKAGE__ . "/trial",
+                            method    => 'get',
+                            action    => 'jsonrpc',
+                            postData =>
+'{"jsonrpc":"2.0","method":"trial","params":{"wizard":"ScriptHash","method":"verify","keys":"{ScriptUrlPaths}{view}","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}',
+                        },
+                    },
+                );
+                Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__,
+                    'trial', \&json_handler );
+
+                return $this->app->handleRequest;
+            },
+        );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 401, $e->status, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
+    };
+
+    $this->assert_matches( qr/"code" : -32600/,                   $response );
+    $this->assert_matches( qr/"message" : "Method must be POST,/, $response );
+
     return;
 }
 
 # -32601: Method not found - The method does not exist / is not available.
 sub test_method_missing {
     my $this = shift;
-    Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
-        \&json_handler );
+    my $response;
 
-    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
-    $query->path_info( '/' . __PACKAGE__ . '/saywhat' );
-    $query->method('post');
-    $query->param( 'topic',      'WebChanges' );
-    $query->param( 'defaultweb', 'System' );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ( $response, $result, $out, $err ) =
-      $this->capture( $UI_FN, $this->{session} );
+    # Test as part of query path
+    try {
+        ($response) = $this->capture(
+            sub {
+
+                $this->createNewFoswikiApp(
+                    engineParams => {
+                        initialAttributes => {
+                            path_info => '/' . __PACKAGE__ . "/saywhat",
+                            method    => 'post',
+                            action    => 'jsonrpc',
+                        },
+                    },
+                );
+                Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__,
+                    'trial', \&json_handler );
+
+                return $this->app->handleRequest;
+            },
+        );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 401, $e->status, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
+    };
 
     $this->assert_matches( qr/"code" : -32601/, $response );
-
-    return;
-}
-
-# -32600: Invalid Request - The JSON sent is not a valid Request object.
-sub test_invalid_request {
-    my $this = shift;
-    Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
-        \&json_handler );
-
-    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
-    $query->path_info( '/' . __PACKAGE__ . '/saywhat' );
-    $query->param( 'POSTDATA',
-'{"jsonrpc":"2.0","method":"trial","params":"wizard":"ScriptHash","method":"verify","keys":"{ScriptUrlPaths}{view}","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}'
-    );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ( $response, $result, $out, $err ) =
-      $this->capture( $UI_FN, $this->{session} );
-    $this->assert_matches( qr/"code" : -32600/, $response );
     $this->assert_matches(
-        qr/"message" : "Invalid JSON-RPC request - must be jsonrpc: '2.0'"/,
-        $response );
-
-    return;
-}
-
-sub test_post_required {
-    my $this = shift;
-    Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
-        \&json_handler );
-
-    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
-    $query->method('get');
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->param( 'POSTDATA',
-'{"jsonrpc":"2.0","method":"trial","params":{"wizard":"ScriptHash","method":"verify","keys":"{ScriptUrlPaths}{view}","set":{},"topic":"WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}'
+qr/"message" : "Invalid invocation - unknown handler for JsonrpcTests.saywhat"/,
+        $response
     );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ( $response, $result, $out, $err ) =
-      $this->capture( $UI_FN, $this->{session} );
 
-    $this->assert_matches( qr/"code" : -32600/,                   $response );
-    $this->assert_matches( qr/"message" : "Method must be POST"/, $response );
+    # Test as part of json data
+    try {
+        ($response) = $this->capture(
+            sub {
 
+                $this->createNewFoswikiApp(
+                    engineParams => {
+                        initialAttributes => {
+                            path_info => '/' . __PACKAGE__ . "/",
+                            method    => 'post',
+                            action    => 'jsonrpc',
+                            postData =>
+'{"jsonrpc":"2.0","method":"saywhat","params":{"wizard":"ScriptHash","method":"verify","keys":"{ScriptUrlPaths}{view}","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}',
+                        },
+                    },
+                );
+                Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__,
+                    'trial', \&json_handler );
+
+                return $this->app->handleRequest;
+            },
+        );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 401, $e->status, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
+    };
+
+    $this->assert_matches( qr/"code" : -32601/, $response );
+    $this->assert_matches(
+qr/"message" : "Invalid invocation - unknown handler for JsonrpcTests.saywhat"/,
+        $response
+    );
     return;
 }
 
 # Test the handler that dies
 sub test_500 {
     my $this = shift;
-    Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
-        \&json_and_be_thankful );
+    my $response;
 
-    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    &$UI_FN( $this->{session} );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
+    try {
+        ($response) = $this->capture(
+            sub {
 
-    $this->assert_matches( qr#^Status: 500#m, $text );
-    $this->assert_matches( qr#"code" : 1#,    $text );  # Code 1 if handler dies
+                $this->createNewFoswikiApp(
+                    engineParams => {
+                        initialAttributes => {
+                            path_info => '/' . __PACKAGE__ . "/",
+                            method    => 'post',
+                            action    => 'jsonrpc',
+                            postData =>
+'{"jsonrpc":"2.0","method":"json_and_be_thankful","params":{"wizard":"ScriptHash","method":"verify","keys":"{ScriptUrlPaths}{view}","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}',
+                        },
+                    },
+                );
+                Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__,
+                    'json_and_be_thankful', \&json_and_be_thankful );
+
+                return $this->app->handleRequest;
+            },
+        );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        $e->rethrow;
+    };
+
+    $this->assert_matches( qr#^Status: 500#m, $response );
+    $this->assert_matches( qr#"code" : 1#, $response ); # Code 1 if handler dies
+    $this->assert_matches(
+        qr# "message" : "meistersinger at JsonRpcContrib/JsonrpcTests.pm#,
+        $response );
+    return;
+}
+
+# Test the redirectto parameter with a URL
+sub test_redirectto_URL {
+    my $this = shift;
+    my $response;
+
+    try {
+        ($response) = $this->capture(
+            sub {
+
+                $this->createNewFoswikiApp(
+                    requestParams => {
+                        initializer => {
+                            action     => ['jsonrpc'],
+                            uri        => '/' . __PACKAGE__ . '/trial',
+                            path_info  => '/' . __PACKAGE__ . '/trial',
+                            topic      => 'WebChanges',
+                            defaultweb => 'System',
+                            redirectto =>
+                              "http://lolcats.com/funny?pussy=cat#MyAnch",
+                        },
+                    },
+                    engineParams => {
+                        initialAttributes => {
+                            uri       => '/' . __PACKAGE__ . "/trial",
+                            path_info => '/' . __PACKAGE__ . "/trial",
+                            method    => 'post',
+                            action    => 'jsonrpc',
+                        },
+                    },
+                );
+                Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__,
+                    'trial', \&json_handler );
+
+                return $this->app->handleRequest;
+            },
+        );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        if ( $e->isa('Foswiki::EngineException') ) {
+            $this->assert_equals( 401, $e->status, $e->stringify );
+        }
+        else {
+            $e->rethrow;
+        }
+    };
+
+    $this->assert_matches( qr#^Status: 302#m, $response );
+    $this->assert_matches(
+        qr#^Location: http://lolcats.com/funny\?pussy=cat\#MyAnch\s*$#m,
+        $response );
+
     return;
 }
 
 # Test the redirectto parameter as a json param
-sub test_redirectto {
+sub test_redirectto_JSON {
     my $this = shift;
-    Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__, 'trial',
-        \&json_handler );
 
-    my $query = Unit::Request::JSON->new( { action => ['jsonrpc'], } );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $query->param( 'POSTDATA',
-'{"jsonrpc":"2.0","method":"trial","params":{"wizard":"ScriptHash","method":"verify","redirectto":"'
-          . "$this->{test_web}/$this->{test_topic}"
-          . '","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}'
-    );
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ( $response, $result, $out, $err ) =
-      $this->capture( $UI_FN, $this->{session} );
+    my $response;
+
+    try {
+        ($response) = $this->capture(
+            sub {
+
+                $this->createNewFoswikiApp(
+                    engineParams => {
+                        initialAttributes => {
+                            path_info => '/' . __PACKAGE__ . "/trial",
+                            method    => 'post',
+                            action    => 'jsonrpc',
+                            postData =>
+qq#{"jsonrpc":"2.0","method":"trial","params":{"wizard":"ScriptHash","method":"verify","redirectto":"$this->{test_web}.$this->{test_topic}","keys":"{ScriptUrlPaths}{view}","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}#,
+                        },
+                    },
+                );
+                Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__,
+                    'trial', \&json_handler );
+
+                return $this->app->handleRequest;
+            },
+        );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        $e->rethrow;
+    };
 
     $this->assert_matches( qr#^Status: 302#m, $response );
     $this->assert_matches(
         qr#^Location:.*$this->{test_web}/$this->{test_topic}\s*$#m, $response );
-
     return;
 }
 
 # Test the redirectto parameter with anchor
-sub future_test_redirectto_Anchor {
+sub test_redirectto_Anchor {
     my $this = shift;
+    my $response;
+    try {
+        ($response) = $this->capture(
+            sub {
+
+                $this->createNewFoswikiApp(
+                    engineParams => {
+                        initialAttributes => {
+                            path_info => '/' . __PACKAGE__ . "/trial",
+                            method    => 'post',
+                            action    => 'jsonrpc',
+                            postData =>
+qq~{"jsonrpc":"2.0","method":"trial","params":{"wizard":"ScriptHash","method":"verify","redirectto":"$this->{test_web}.$this->{test_topic}#MyAnch","keys":"{ScriptUrlPaths}{view}","set":{},"topic":"System.WebChanges","cfgpassword":"xxxxxxx"},"id":"iCall-verify_6"}~,
+                        },
+                    },
+                );
+                Foswiki::Contrib::JsonRpcContrib::registerMethod( __PACKAGE__,
+                    'trial', \&json_handler );
+
+                return $this->app->handleRequest;
+            },
+        );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+        $e->rethrow;
+    };
     Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
 
-    my $query = Unit::Request::JSON->new(
-        {
-            action     => ['rest'],
-            redirectto => "$this->{test_web}/$this->{test_topic}#MyAnch",
-        }
-    );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
-    $this->assert_matches( qr#^Status: 302#m, $text );
+    $this->assert_matches( qr#^Status: 302#m, $response );
     $this->assert_matches(
         qr#^Location:.*$this->{test_web}/$this->{test_topic}\#MyAnch\s*$#m,
-        $text );
+        $response );
 
     return;
 }
 
+1;
+__END__
 ## Test the authentication methods
 sub future_test_authmethods {
     my $this = shift;
@@ -526,30 +816,6 @@ sub future_test_authenticate {
     # Make sure a request with session authentication is OK
     $this->createNewFoswikiSession( $this->{test_user_login}, $query );
     $this->capture( $UI_FN, $this->{session} );
-
-    return;
-}
-
-# Test the redirectto parameter with a URL
-sub future_test_redirectto_URL {
-    my $this = shift;
-    Foswiki::Func::registerRESTHandler( 'trial', \&json_handler );
-    $Foswiki::cfg{PermittedRedirectHostUrls} = 'http://lolcats.com';
-
-    my $query = Unit::Request::JSON->new(
-        {
-            action     => ['rest'],
-            redirectto => "http://lolcats.com/funny?pussy=cat",
-        }
-    );
-    $query->path_info( '/' . __PACKAGE__ . '/trial' );
-    $query->method('post');
-    $this->createNewFoswikiSession( $this->{test_user_login}, $query );
-    &$UI_FN( $this->{session} );
-    my ($text) = $this->capture( $UI_FN, $this->{session} );
-    $this->assert_matches( qr#^Status: 302#m, $text );
-    $this->assert_matches(
-        qr#^Location: http://lolcats.com/funny\?pussy=cat\s*$#m, $text );
 
     return;
 }
