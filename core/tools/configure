@@ -64,7 +64,7 @@ require Foswiki::Configure::Query;
 
     sub NOTE {
         my $this = shift;
-        my $text = join( "\n", @_ ) . "\n";
+        my $text = join( "\n", @_ ) . "\n" if ( scalar @_ );
         $this->{notes}++;
 
         # Take out block formatting tags

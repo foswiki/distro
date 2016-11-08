@@ -254,7 +254,13 @@ NOCERT
     my $err;
 
     if ( $Foswiki::cfg{SMTP}{MAILHOST} ) {
-        ( $ok, $out, $err ) = _muteExec( \&_autoconfigSMTP, $reporter );
+
+        if ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} !~ m/FastCGI$/ ) {
+            ( $ok, $out, $err ) = _muteExec( \&_autoconfigSMTP, $reporter );
+        }
+        else {
+            $ok = _autoconfigSMTP($reporter);
+        }
         unless ($ok) {
             $reporter->WARN(
 "SMTP configuration using $Foswiki::cfg{SMTP}{MAILHOST} failed. Falling back to mail program"
@@ -267,14 +273,17 @@ NOCERT
         );
     }
 
-    $reporter->NOTE($out);
+    $reporter->NOTE($out) if defined $out;
+
     if ($err) {
+        if ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} !~ m/CLI$/ ) {
 
-        # Double-space the debug output so that it doesn't wrap.
-        $err =~ s/\n/\n\n/sg;
-        $err =~ s/\n$//g;
+            # Double-space the debug output so that it doesn't wrap.
+            $err =~ s#\n#<br/>#sg;
+            $err =~ s/\n$//g;
+        }
 
-        $reporter->NOTE( <<OUT );
+        $reporter->NOTE( <<OUT ) if ($err);
 =======  DEBUG MESSAGES ====
 $err
 OUT

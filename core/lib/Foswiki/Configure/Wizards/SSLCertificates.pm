@@ -85,6 +85,8 @@ sub guess_locations {
         }
     }
 
+    return undef if ($guessed);
+
     # First see if the linux default path work
     foreach $path (@CERT_DIRS) {
         if ( -d $path && -r $path ) {
@@ -111,7 +113,7 @@ sub _setLocations {
         $Foswiki::cfg{Email}{SSLCaFile} = $_[1];
         $_[0]->CHANGED('{Email}{SSLCaFile}');
     }
-    if ( $_[2] ) {
+    elsif ( $_[2] ) {
         $Foswiki::cfg{Email}{SSLCaPath} = $_[2];
         $_[0]->CHANGED('{Email}{SSLCaPath}');
     }
