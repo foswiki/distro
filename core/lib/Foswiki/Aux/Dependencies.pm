@@ -155,6 +155,7 @@ sub import {
                 rootDir    => $rootDir,
                 doUpgrade  => 0,
                 inlineExec => $noPerlBin,
+                firstRunCheck => 1,
             );
             if ( defined $params{requiredExtensions} ) {
                 if ( ref( $params{requiredExtensions} ) eq 'ARRAY' ) {
@@ -270,7 +271,7 @@ sub checkDependencies {
     }
 
     # Dependencies must be rechecked.
-    return 0 unless installDependencies( \%profile );
+    return 0 unless _installDependencies( \%profile );
     writeChecksums( \%profile );
     return 1;
 }
@@ -635,6 +636,8 @@ sub _muteExec {
     my $profile = shift;
     my $sub     = shift;
 
+    my $wantArray = wantarray;
+
     my $rc;
     my $outFile = File::Spec->catfile( $profile->{libDir}, ".stdout" );
     my $errFile = File::Spec->catfile( $profile->{libDir}, ".stderr" );
@@ -648,13 +651,20 @@ sub _muteExec {
         $rc = $muter->exec( $sub, @_ );
     }
 
-    my $out = _slurpFile($outFile);
-    my $err = _slurpFile($errFile);
+    my @capturedContent;
+
+    if ($wantArray) {
+        foreach my $captureFile ( $outFile, $errFile ) {
+            push @capturedContent,
+              _slurpFile($captureFile)
+              // '*** Failed to slurp from ' . $captureFile . ': ' . $!;
+        }
+    }
 
     unlink $outFile;
     unlink $errFile;
 
-    return wantarray ? ( $rc, $out, $err ) : $rc;
+    return $wantArray ? ( $rc, @capturedContent ) : $rc;
 }
 
 sub _testModule {
@@ -757,7 +767,7 @@ sub _verifyModule {
     return 1;
 }
 
-sub installDependencies {
+sub _installDependencies {
     my $profile = shift;
 
     unless ( -d $profile->{libDir} ) {
@@ -787,6 +797,9 @@ sub installDependencies {
         my $extOptional = !( $extName && $profile->{mandatoryExt}{$extName} );
         my $optional    = ( $depEntry->{fromExt} && $extOptional )
           || $depEntry->{description} !~ /^required/i;
+          
+        # To reduce the first time startup time we ignore optional dependencies.
+        next if $optional && $profile->{firstRunCheck};
 
         _dbg("Checking for $depEntry->{module} from $depEntry->{source}");
 
