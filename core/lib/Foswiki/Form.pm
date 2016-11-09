@@ -672,8 +672,11 @@ define the field.
 
 sub getField {
     my ( $this, $name ) = @_;
-    foreach my $fieldDef ( @{ $this->{fields} } ) {
-        return $fieldDef if ( $fieldDef->{name} && $fieldDef->{name} eq $name );
+    if ( defined $this->{fields} ) {
+        foreach my $fieldDef ( @{ $this->{fields} } ) {
+            return $fieldDef
+              if ( $fieldDef->{name} && $fieldDef->{name} eq $name );
+        }
     }
     return;
 }
