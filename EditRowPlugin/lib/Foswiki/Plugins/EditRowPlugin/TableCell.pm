@@ -102,7 +102,7 @@ sub render {
                       0 + ( ( $tattrs->{initdirection} || 'down' ) eq 'up' );
                     $sort->{col} =
                         $tattrs->{initsort}
-                      ? $tattrs->{initsort} + $table->{dead_cols}
+                      ? $tattrs->{initsort} + ( $table->{dead_cols} || 0 )
                       : 0;
                     $attrs->{"data-sort"} = $json->encode($sort);
                 }
