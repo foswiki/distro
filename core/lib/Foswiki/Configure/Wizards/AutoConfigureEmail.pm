@@ -487,6 +487,8 @@ our (
 );
 our $pad = ' ' x length('Net::SMTpXXX ');
 
+my @Net_SMTP_default_ISA;
+
 # Return 0 on failure
 sub _autoconfigSMTP {
     my ($reporter) = @_;
@@ -504,6 +506,9 @@ sub _autoconfigSMTP {
             return 0;
         }
     }
+
+    # Kinda simulate state variables.
+    @Net_SMTP_default_ISA = @Net::SMTP::ISA unless @Net_SMTP_default_ISA;
 
     my $trySSL = 1;
 
@@ -538,7 +543,7 @@ sub _autoconfigSMTP {
 
         # Enable IPv6 if it's available
         @Net::SMTP::ISA = (
-            grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net::SMTP::ISA ),
+            grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net_SMTP_default_ISA ),
             'IO::Socket::IP'
         );
     }
@@ -623,7 +628,7 @@ sub _autoconfigSMTP {
     # Configuration data for each method.  Ports in priority order.
 
     my $sockSSLisa = [
-        grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net::SMTP::ISA ),
+        grep( $_ !~ /^IO::Socket::I(?:NET|P)$/, @Net_SMTP_default_ISA ),
         'IO::Socket::SSL'
     ];
 
@@ -631,7 +636,7 @@ sub _autoconfigSMTP {
         starttls => {
             ports    => [qw/submission(587) smtp(25)/],
             method   => 'Net::SMTP (STARTTLS)',
-            isa      => [@Net::SMTP::ISA],
+            isa      => [@Net_SMTP_default_ISA],
             ssl      => [ SSL_version => 'TLSv1' ],
             starttls => 1,
         },
@@ -650,7 +655,7 @@ sub _autoconfigSMTP {
         smtp => {
             ports  => [qw/submission(587) smtp(25)/],
             method => 'Net::SMTP',
-            isa    => [@Net::SMTP::ISA],
+            isa    => [@Net_SMTP_default_ISA],
         },
     );
     @Net::SMTP::ISA = 'Foswiki::Configure::Wizards::AutoConfigureEmail::SSL';
@@ -778,6 +783,7 @@ sub _autoconfigSMTP {
             $tlsSsl  = 0
               if ( $startTls = $cfg->{starttls} );
 
+            @Foswiki::Configure::Wizards::AutoConfigureEmail::SSL::ISA = ();
             @Foswiki::Configure::Wizards::AutoConfigureEmail::SSL::ISA =
               @{ $cfg->{isa} };
 
