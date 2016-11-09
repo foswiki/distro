@@ -220,7 +220,7 @@ sub prepareBody {
     # as breaking uploads (though cdot believes this is because of the
     # deprecated dual nature of param delivering lightweight file handles,
     # and it would probably work in Foswiki. Just not tried it)
-    my $cgi = new CGI();
+    my $cgi = new CGI( $this->{fhIN} );
     my $err = $cgi->cgi_error;
     throw Foswiki::EngineException( $1, $2 )
       if defined $err && $err =~ m/\s*(\d{3})\s*(.*)/;
