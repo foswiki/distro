@@ -676,6 +676,10 @@ msgstr "Быстрые клавиши"
 msgid "Access keys:"
 msgstr "Быстрые клавиши"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Access to pending registrations is restricted to administrators"
+msgstr ""
+
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
@@ -853,6 +857,10 @@ msgid ""
 msgstr ""
 "Все изменения, которые вы внесли в темы, перед тем, как попасть на эту "
 "страницу, сохранены."
+
+#: core/data/System/PendingRegistrationsTemplate.txt:22
+msgid "Approve"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3292,6 +3300,11 @@ msgstr "Не удалось сбросить пароль"
 msgid "Passwords do not match"
 msgstr "Пароли не совпадают"
 
+#: core/data/System/PendingRegistrations.txt:2
+#, fuzzy
+msgid "Pending Registrations"
+msgstr "Регистрация новых пользователей не поддерживается"
+
 #: core/templates/registermessages.tmpl:41
 #, fuzzy
 msgid "Pending registration not found"
@@ -3650,9 +3663,22 @@ msgid ""
 "Check the configuration for errors."
 msgstr ""
 
+#: core/data/System/PendingRegistrations.txt:3
+msgid "Registrations awaiting Email verification"
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:7
+#, fuzzy
+msgid "Registrations awaiting approval"
+msgstr "Регистрация новых пользователей отключена"
+
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "С использованием регулярных выражений"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:23
+msgid "Reject"
+msgstr ""
 
 #: core/data/System/UserName.txt:44
 #, fuzzy
@@ -5720,6 +5746,12 @@ msgstr "Вы можете изменить свой пароль при помо
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "Вы можете дать этому разделу другое имя."
+
+#: core/data/System/PendingRegistrations.txt:9
+msgid ""
+"You can use the \"approve\" or \"reject\" links to approve or reject these "
+"registrations"
+msgstr ""
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429

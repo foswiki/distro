@@ -660,6 +660,13 @@ msgstr "Raccourcis clavier"
 msgid "Access keys:"
 msgstr "Raccourcis clavier :"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+#, fuzzy
+msgid "Access to pending registrations is restricted to administrators"
+msgstr ""
+"Votre inscription est en attente d'approbation par les administrateurs du "
+"système."
+
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
@@ -825,6 +832,10 @@ msgid ""
 msgstr ""
 "Les modifications que vous avez effectuées sur la page avant d'arriver ici "
 "seront préservées."
+
+#: core/data/System/PendingRegistrationsTemplate.txt:22
+msgid "Approve"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3202,6 +3213,11 @@ msgstr "Mots de passe désactivés"
 msgid "Passwords do not match"
 msgstr "Les mots de passe ne concordent pas"
 
+#: core/data/System/PendingRegistrations.txt:2
+#, fuzzy
+msgid "Pending Registrations"
+msgstr "Inscription en cours non trouvée"
+
 #: core/templates/registermessages.tmpl:41
 msgid "Pending registration not found"
 msgstr "Inscription en cours non trouvée"
@@ -3529,9 +3545,22 @@ msgstr ""
 "{EnableNewUserRegistration}, soit en raison d'erreurs affectant le système "
 "de mot de passe. Vérifiez la présence d'erreurs dans la configuration."
 
+#: core/data/System/PendingRegistrations.txt:3
+msgid "Registrations awaiting Email verification"
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:7
+#, fuzzy
+msgid "Registrations awaiting approval"
+msgstr "Inscription %1 à valider"
+
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "Recherche par expression rationnelle"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:23
+msgid "Reject"
+msgstr ""
 
 #: core/data/System/UserName.txt:44
 msgid "Related Topics for Administrators:"
@@ -5627,6 +5656,12 @@ msgstr "Vous pouvez changer de mot de passe via %1"
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "Vous pouvez renommer ce web."
+
+#: core/data/System/PendingRegistrations.txt:9
+msgid ""
+"You can use the \"approve\" or \"reject\" links to approve or reject these "
+"registrations"
+msgstr ""
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429

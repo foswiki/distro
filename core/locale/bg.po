@@ -669,6 +669,10 @@ msgstr "Клавиши за достъп"
 msgid "Access keys:"
 msgstr "Клавиши за достъп"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Access to pending registrations is restricted to administrators"
+msgstr ""
+
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
@@ -842,6 +846,10 @@ msgid ""
 msgstr ""
 "Всички промени, направени от вас по страницата преди да дойдете на тази "
 "страница , са запазени."
+
+#: core/data/System/PendingRegistrationsTemplate.txt:22
+msgid "Approve"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3241,6 +3249,11 @@ msgstr "Връщането на старата парола се провали"
 msgid "Passwords do not match"
 msgstr "Паролите не съвпадат"
 
+#: core/data/System/PendingRegistrations.txt:2
+#, fuzzy
+msgid "Pending Registrations"
+msgstr "Регистрация на нови потребители не се поддържа"
+
 #: core/templates/registermessages.tmpl:41
 #, fuzzy
 msgid "Pending registration not found"
@@ -3578,9 +3591,22 @@ msgid ""
 "Check the configuration for errors."
 msgstr ""
 
+#: core/data/System/PendingRegistrations.txt:3
+msgid "Registrations awaiting Email verification"
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:7
+#, fuzzy
+msgid "Registrations awaiting approval"
+msgstr "Регистрацията на нови потребители е изключена"
+
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "Търсене с регулярни изрази"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:23
+msgid "Reject"
+msgstr ""
 
 #: core/data/System/UserName.txt:44
 #, fuzzy
@@ -5543,6 +5569,12 @@ msgstr ""
 
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:9
+msgid ""
+"You can use the \"approve\" or \"reject\" links to approve or reject these "
+"registrations"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:423

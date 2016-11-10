@@ -654,6 +654,10 @@ msgstr "Sneltoetsen"
 msgid "Access keys:"
 msgstr "Sneltoetsen:"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Access to pending registrations is restricted to administrators"
+msgstr ""
+
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
@@ -816,6 +820,10 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr ""
 "Alle wijzigingen die je hebt gedaan voor je op deze pagina kwam zijn bewaard."
+
+#: core/data/System/PendingRegistrationsTemplate.txt:22
+msgid "Approve"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3163,6 +3171,11 @@ msgstr "Wachtwoorden uitgeschakeld"
 msgid "Passwords do not match"
 msgstr "Wachtwoorden komen niet overeen"
 
+#: core/data/System/PendingRegistrations.txt:2
+#, fuzzy
+msgid "Pending Registrations"
+msgstr "Registreren"
+
 #: core/templates/registermessages.tmpl:41
 msgid "Pending registration not found"
 msgstr ""
@@ -3485,9 +3498,22 @@ msgstr ""
 "{EnableNewUserRegistration} of door fouten met het wachtwoordsysteem. "
 "Controleer de configuratie op foutmeldingen."
 
+#: core/data/System/PendingRegistrations.txt:3
+msgid "Registrations awaiting Email verification"
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:7
+#, fuzzy
+msgid "Registrations awaiting approval"
+msgstr "Registraties op %1 moeten bevestigd worden"
+
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "Regular expression zoeken"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:23
+msgid "Reject"
+msgstr ""
 
 #: core/data/System/UserName.txt:44
 msgid "Related Topics for Administrators:"
@@ -5485,6 +5511,12 @@ msgstr "Je kunt je wachtwoord wijzigen via %1"
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "Je kunt dit web hernoemen naar iets anders."
+
+#: core/data/System/PendingRegistrations.txt:9
+msgid ""
+"You can use the \"approve\" or \"reject\" links to approve or reject these "
+"registrations"
+msgstr ""
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429

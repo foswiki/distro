@@ -654,6 +654,10 @@ msgstr "ghunmeH leQmey"
 msgid "Access keys:"
 msgstr "ghunmeH leQmey:"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Access to pending registrations is restricted to administrators"
+msgstr ""
+
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
@@ -818,6 +822,10 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr ""
 "navvam Da&&#39;elpa&&#39;, Hoch ghItlh choHmey <nop>DachoHbogh lupollu&&#39;."
+
+#: core/data/System/PendingRegistrationsTemplate.txt:22
+msgid "Approve"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3178,6 +3186,11 @@ msgstr "chaw&&#39; ngoqmey chu&&#39;Ha&&#39;lu&&#39;"
 msgid "Passwords do not match"
 msgstr "nIbbe&&#39; chaw&&#39; ngoqmey"
 
+#: core/data/System/PendingRegistrations.txt:2
+#, fuzzy
+msgid "Pending Registrations"
+msgstr "loSbogh muvmoHwI&&#39; Samlu&&#39;be&&#39;"
+
 #: core/templates/registermessages.tmpl:41
 msgid "Pending registration not found"
 msgstr "loSbogh muvmoHwI&&#39; Samlu&&#39;be&&#39;"
@@ -3500,9 +3513,22 @@ msgstr ""
 "{EnableNewUserRegistration}, chaq Qagh chaw&&#39; ngoq pat. <nop>SeHlawDaq "
 "Qaghmey tI&&#39;ol."
 
+#: core/data/System/PendingRegistrations.txt:3
+msgid "Registrations awaiting Email verification"
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:7
+#, fuzzy
+msgid "Registrations awaiting approval"
+msgstr "%1 <nop>DamuvmeH <nop>DalajnISlu&&#39;"
+
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "mu&&#39;tlhegh nejwI&&#39; (Regex)"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:23
+msgid "Reject"
+msgstr ""
 
 #: core/data/System/UserName.txt:44
 msgid "Related Topics for Administrators:"
@@ -5487,6 +5513,12 @@ msgstr "%1Daq chaw&&#39; ngoqlIj <nop>DachoHlaH"
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "mIchvamvaD latlh pong <nop>DaponglaH."
+
+#: core/data/System/PendingRegistrations.txt:9
+msgid ""
+"You can use the \"approve\" or \"reject\" links to approve or reject these "
+"registrations"
+msgstr ""
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429

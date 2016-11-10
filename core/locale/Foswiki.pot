@@ -593,6 +593,10 @@ msgstr ""
 msgid "Access keys:"
 msgstr ""
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Access to pending registrations is restricted to administrators"
+msgstr ""
+
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
@@ -740,6 +744,10 @@ msgstr ""
 #: core/templates/changeform.tmpl:27
 msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
+msgstr ""
+
+#: core/data/System/PendingRegistrationsTemplate.txt:22
+msgid "Approve"
 msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
@@ -2963,6 +2971,10 @@ msgstr ""
 msgid "Passwords do not match"
 msgstr ""
 
+#: core/data/System/PendingRegistrations.txt:2
+msgid "Pending Registrations"
+msgstr ""
+
 #: core/templates/registermessages.tmpl:41
 msgid "Pending registration not found"
 msgstr ""
@@ -3271,8 +3283,20 @@ msgid ""
 "Check the configuration for errors."
 msgstr ""
 
+#: core/data/System/PendingRegistrations.txt:3
+msgid "Registrations awaiting Email verification"
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:7
+msgid "Registrations awaiting approval"
+msgstr ""
+
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
+msgstr ""
+
+#: core/data/System/PendingRegistrationsTemplate.txt:23
+msgid "Reject"
 msgstr ""
 
 #: core/data/System/UserName.txt:44
@@ -5132,6 +5156,12 @@ msgstr ""
 
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:9
+msgid ""
+"You can use the \"approve\" or \"reject\" links to approve or reject these "
+"registrations"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:423

@@ -644,6 +644,11 @@ msgstr "Přístupový klíč"
 msgid "Access keys:"
 msgstr "Přístupové klíče:"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+#, fuzzy
+msgid "Access to pending registrations is restricted to administrators"
+msgstr "Vaše registrace čeká na schválení administrátorem."
+
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
@@ -805,6 +810,10 @@ msgid ""
 msgstr ""
 "Všechny změny provedené v článku před příchodem na tuto stránku zůstanou "
 "zachovány."
+
+#: core/data/System/PendingRegistrationsTemplate.txt:22
+msgid "Approve"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3144,6 +3153,11 @@ msgstr "Hesla jsou vypnutá"
 msgid "Passwords do not match"
 msgstr "Hesla si neodpovídají"
 
+#: core/data/System/PendingRegistrations.txt:2
+#, fuzzy
+msgid "Pending Registrations"
+msgstr "Probíhající registrace nenalezena"
+
 #: core/templates/registermessages.tmpl:41
 msgid "Pending registration not found"
 msgstr "Probíhající registrace nenalezena"
@@ -3468,9 +3482,22 @@ msgstr ""
 "Registrace není povolena buď z důvodu nastavení {EnableNewUserRegistration}, "
 "nebo kůli chybě autentifikačního systému. Zkontrolujte konfiguraci."
 
+#: core/data/System/PendingRegistrations.txt:3
+msgid "Registrations awaiting Email verification"
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:7
+#, fuzzy
+msgid "Registrations awaiting approval"
+msgstr "%1 je vyžadováno povolení k registraci"
+
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "Hledání pomocí regulárních výrazů"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:23
+msgid "Reject"
+msgstr ""
 
 #: core/data/System/UserName.txt:44
 msgid "Related Topics for Administrators:"
@@ -5482,6 +5509,12 @@ msgstr "Můžete změnit Vaše heslo přes %1"
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "Webu můžete dát jiné jméno."
+
+#: core/data/System/PendingRegistrations.txt:9
+msgid ""
+"You can use the \"approve\" or \"reject\" links to approve or reject these "
+"registrations"
+msgstr ""
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429

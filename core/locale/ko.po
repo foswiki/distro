@@ -626,6 +626,10 @@ msgstr "접근 키"
 msgid "Access keys:"
 msgstr "접근 키"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Access to pending registrations is restricted to administrators"
+msgstr ""
+
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
@@ -787,6 +791,10 @@ msgstr ""
 msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "이 페이지로 접근하기 전에 변경한 내용은 보존되었습니다."
+
+#: core/data/System/PendingRegistrationsTemplate.txt:22
+msgid "Approve"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3113,6 +3121,11 @@ msgstr "비밀번호 초기화가 실패했습니다."
 msgid "Passwords do not match"
 msgstr "비밀번호가 일치하지 않습니다."
 
+#: core/data/System/PendingRegistrations.txt:2
+#, fuzzy
+msgid "Pending Registrations"
+msgstr "등록"
+
 #: core/templates/registermessages.tmpl:41
 msgid "Pending registration not found"
 msgstr ""
@@ -3442,9 +3455,22 @@ msgid ""
 "Check the configuration for errors."
 msgstr ""
 
+#: core/data/System/PendingRegistrations.txt:3
+msgid "Registrations awaiting Email verification"
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:7
+#, fuzzy
+msgid "Registrations awaiting approval"
+msgstr "등록"
+
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "정규 표현식 검색"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:23
+msgid "Reject"
+msgstr ""
 
 #: core/data/System/UserName.txt:44
 #, fuzzy
@@ -5386,6 +5412,12 @@ msgstr ""
 
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:9
+msgid ""
+"You can use the \"approve\" or \"reject\" links to approve or reject these "
+"registrations"
 msgstr ""
 
 #: core/templates/registermessages.tmpl:423

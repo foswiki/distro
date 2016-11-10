@@ -660,6 +660,11 @@ msgstr "Tastatur-genveje"
 msgid "Access keys:"
 msgstr "Tastatur-genveje:"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+#, fuzzy
+msgid "Access to pending registrations is restricted to administrators"
+msgstr "Din registrering afventer godkendelse af system administratorerne."
+
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
@@ -821,6 +826,10 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr ""
 "Alle ændringer, som du har lavet før du skiftede til denne side er gemt."
+
+#: core/data/System/PendingRegistrationsTemplate.txt:22
+msgid "Approve"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3163,6 +3172,11 @@ msgstr "Adgangskoder er deaktiveret"
 msgid "Passwords do not match"
 msgstr "Adgangskoder stemmer ikke overens"
 
+#: core/data/System/PendingRegistrations.txt:2
+#, fuzzy
+msgid "Pending Registrations"
+msgstr "Eksisterende brugerregistrering ikke fundet"
+
 #: core/templates/registermessages.tmpl:41
 msgid "Pending registration not found"
 msgstr "Eksisterende brugerregistrering ikke fundet"
@@ -3490,9 +3504,22 @@ msgstr ""
 "{EnableNewUserRegistration}, eller på grund af fejl i opsætningen af "
 "systemet der håndterer adgangkoder. Kontrollér konfigurationen for fejl."
 
+#: core/data/System/PendingRegistrations.txt:3
+msgid "Registrations awaiting Email verification"
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:7
+#, fuzzy
+msgid "Registrations awaiting approval"
+msgstr "%1 validering af brugerregistrering er påkrævet"
+
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "Søg med regulære udtryk"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:23
+msgid "Reject"
+msgstr ""
 
 #: core/data/System/UserName.txt:44
 msgid "Related Topics for Administrators:"
@@ -5529,6 +5556,12 @@ msgstr "Du kan skifte din adgangskode v.h.a. %1"
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "Du kan omdøbe dette web til et nyt navn."
+
+#: core/data/System/PendingRegistrations.txt:9
+msgid ""
+"You can use the \"approve\" or \"reject\" links to approve or reject these "
+"registrations"
+msgstr ""
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429

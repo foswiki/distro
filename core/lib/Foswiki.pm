@@ -271,6 +271,7 @@ BEGIN {
         META                 => undef,                              # deprecated
         METASEARCH           => undef,                              # deprecated
         NONCE                => undef,
+        PENDINGREGISTRATIONS => undef,
         PERLDEPENDENCYREPORT => undef,
         NOP =>
 
