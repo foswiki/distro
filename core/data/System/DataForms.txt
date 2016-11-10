@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1478801122" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+!! Data Forms
@@ -109,7 +109,7 @@ One form field is defined by each row in the table.
 | Values | For checkboxes, radio buttons and dropdown lists: predefined input to select from. More advanced: this can be a dynamically generated list of values. |
 | Description | A message that describes the field. |
 | Attributes | Attributes controlling how the field is displayed. |
-| Default | %NEW% if there is a =default= column, its value (or lack of value) is used as the default for new fields. This allows you to default the value of =select=, =radio= and =checkbox= to something other than the first =values= element |
+| Default | %N% if there is a =default= column, its value (or lack of value) is used as the default for new fields. This allows you to default the value of =select=, =radio= and =checkbox= to something other than the first =values= element |
 
 #FormFieldAttributes
 ---+++ Form field attributes
