@@ -654,6 +654,10 @@ msgstr "快捷键"
 msgid "Access keys:"
 msgstr "快捷键"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Access to pending registrations is restricted to administrators"
+msgstr ""
+
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
@@ -819,6 +823,10 @@ msgstr "并使用基本子网的主题"
 msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "显示本页前，您对对本主题的任何修改都已保留。"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:22
+msgid "Approve"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3182,6 +3190,11 @@ msgstr "密码重设失败"
 msgid "Passwords do not match"
 msgstr "密码不相同"
 
+#: core/data/System/PendingRegistrations.txt:2
+#, fuzzy
+msgid "Pending Registrations"
+msgstr "不支援新用户注册"
+
 #: core/templates/registermessages.tmpl:41
 #, fuzzy
 msgid "Pending registration not found"
@@ -3520,9 +3533,22 @@ msgid ""
 "Check the configuration for errors."
 msgstr ""
 
+#: core/data/System/PendingRegistrations.txt:3
+msgid "Registrations awaiting Email verification"
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:7
+#, fuzzy
+msgid "Registrations awaiting approval"
+msgstr "禁止新用户注册"
+
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "正则运算式搜寻"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:23
+msgid "Reject"
+msgstr ""
 
 #: core/data/System/UserName.txt:44
 #, fuzzy
@@ -5514,6 +5540,12 @@ msgstr "您可利用 %1 修改密码"
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "您能为本子网改名。"
+
+#: core/data/System/PendingRegistrations.txt:9
+msgid ""
+"You can use the \"approve\" or \"reject\" links to approve or reject these "
+"registrations"
+msgstr ""
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429

@@ -672,6 +672,10 @@ msgstr "アクセスキー"
 msgid "Access keys:"
 msgstr "アクセスキー"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Access to pending registrations is restricted to administrators"
+msgstr ""
+
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
@@ -844,6 +848,10 @@ msgstr "また、ベースウェブより構成されました"
 msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "このページに移動する前にトピックへのすべての変更を保存しました。"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:22
+msgid "Approve"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3249,6 +3257,11 @@ msgstr "パスワードの変更に失敗しました"
 msgid "Passwords do not match"
 msgstr "パスワードが違います"
 
+#: core/data/System/PendingRegistrations.txt:2
+#, fuzzy
+msgid "Pending Registrations"
+msgstr "フォーム定義%1が失われました"
+
 #: core/templates/registermessages.tmpl:41
 #, fuzzy
 msgid "Pending registration not found"
@@ -3590,9 +3603,22 @@ msgid ""
 "Check the configuration for errors."
 msgstr ""
 
+#: core/data/System/PendingRegistrations.txt:3
+msgid "Registrations awaiting Email verification"
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:7
+#, fuzzy
+msgid "Registrations awaiting approval"
+msgstr "登録コードは一回だけ利用できます。"
+
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "正規表現検索"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:23
+msgid "Reject"
+msgstr ""
 
 #: core/data/System/UserName.txt:44
 #, fuzzy
@@ -5619,6 +5645,12 @@ msgstr "%1を通じてパスワードを変更することができます"
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "このウェブをほかの名前に変更することができます。"
+
+#: core/data/System/PendingRegistrations.txt:9
+msgid ""
+"You can use the \"approve\" or \"reject\" links to approve or reject these "
+"registrations"
+msgstr ""
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429

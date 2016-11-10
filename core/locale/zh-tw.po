@@ -628,6 +628,11 @@ msgstr "快捷鍵"
 msgid "Access keys:"
 msgstr "快捷鍵："
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+#, fuzzy
+msgid "Access to pending registrations is restricted to administrators"
+msgstr "您的註冊尚需等待系統管理者確認。"
+
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
@@ -779,6 +784,10 @@ msgstr "並使用基本子網的主題"
 msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "顯示本頁前，您對對本主題的任何修改都已保留。"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:22
+msgid "Approve"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3029,6 +3038,11 @@ msgstr "禁用密碼"
 msgid "Passwords do not match"
 msgstr "密碼不相同"
 
+#: core/data/System/PendingRegistrations.txt:2
+#, fuzzy
+msgid "Pending Registrations"
+msgstr "無等待註冊"
+
 #: core/templates/registermessages.tmpl:41
 msgid "Pending registration not found"
 msgstr "無等待註冊"
@@ -3343,9 +3357,22 @@ msgstr ""
 "禁止註冊是因為設定 {EnableNewUserRegistration} ，或是密碼系統錯誤。請檢查設"
 "定。"
 
+#: core/data/System/PendingRegistrations.txt:3
+msgid "Registrations awaiting Email verification"
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:7
+#, fuzzy
+msgid "Registrations awaiting approval"
+msgstr "%1 註冊需要認證"
+
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "正則運算式搜尋"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:23
+msgid "Reject"
+msgstr ""
 
 #: core/data/System/UserName.txt:44
 msgid "Related Topics for Administrators:"
@@ -5265,6 +5292,12 @@ msgstr "您可利用 %1 修改密碼"
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "您能為本子網改名。"
+
+#: core/data/System/PendingRegistrations.txt:9
+msgid ""
+"You can use the \"approve\" or \"reject\" links to approve or reject these "
+"registrations"
+msgstr ""
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429

@@ -657,6 +657,10 @@ msgstr "Teclas de acceso"
 msgid "Access keys:"
 msgstr "Teclas de acceso:"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Access to pending registrations is restricted to administrators"
+msgstr ""
+
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
@@ -832,6 +836,10 @@ msgid ""
 msgstr ""
 "Cualquier cambio que usted hizo al tema antes de venir a esta página será "
 "preservado."
+
+#: core/data/System/PendingRegistrationsTemplate.txt:22
+msgid "Approve"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3263,6 +3271,11 @@ msgstr "Fallo en reinicialización de contraseña"
 msgid "Passwords do not match"
 msgstr "Las contraseñas no coinciden"
 
+#: core/data/System/PendingRegistrations.txt:2
+#, fuzzy
+msgid "Pending Registrations"
+msgstr "Registro de usuarios nuevos no disponible"
+
 #: core/templates/registermessages.tmpl:41
 #, fuzzy
 msgid "Pending registration not found"
@@ -3614,9 +3627,22 @@ msgid ""
 "Check the configuration for errors."
 msgstr ""
 
+#: core/data/System/PendingRegistrations.txt:3
+msgid "Registrations awaiting Email verification"
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:7
+#, fuzzy
+msgid "Registrations awaiting approval"
+msgstr "Disculpe, el registro fue deshabilitado temporalmente"
+
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "Búsqueda de expresión regular"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:23
+msgid "Reject"
+msgstr ""
 
 #: core/data/System/UserName.txt:44
 #, fuzzy
@@ -5693,6 +5719,12 @@ msgstr "Puede cambiar su contraseña por %1"
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "Puede darle a esta web un nombre diferente."
+
+#: core/data/System/PendingRegistrations.txt:9
+msgid ""
+"You can use the \"approve\" or \"reject\" links to approve or reject these "
+"registrations"
+msgstr ""
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429

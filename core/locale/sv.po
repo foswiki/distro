@@ -667,6 +667,10 @@ msgstr "Tangentbordsgenvägar"
 msgid "Access keys:"
 msgstr "Tangentbordsgenvägar:"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Access to pending registrations is restricted to administrators"
+msgstr ""
+
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
 msgid "Action"
@@ -838,6 +842,10 @@ msgstr "Och populerad med sidor från basavdelningen"
 msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "Alla ändringar du gjort innan du kom till denna sida bevaras."
+
+#: core/data/System/PendingRegistrationsTemplate.txt:22
+msgid "Approve"
+msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3253,6 +3261,11 @@ msgstr "Misslyckades att nollställa lösenord"
 msgid "Passwords do not match"
 msgstr "Lösenorden är inte samma"
 
+#: core/data/System/PendingRegistrations.txt:2
+#, fuzzy
+msgid "Pending Registrations"
+msgstr "Registrering av nya användare stöds inte"
+
 #: core/templates/registermessages.tmpl:41
 #, fuzzy
 msgid "Pending registration not found"
@@ -3598,9 +3611,22 @@ msgid ""
 "Check the configuration for errors."
 msgstr ""
 
+#: core/data/System/PendingRegistrations.txt:3
+msgid "Registrations awaiting Email verification"
+msgstr ""
+
+#: core/data/System/PendingRegistrations.txt:7
+#, fuzzy
+msgid "Registrations awaiting approval"
+msgstr "Registrering av nya användare avstängd"
+
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
 msgstr "Sök med reguljära uttryck"
+
+#: core/data/System/PendingRegistrationsTemplate.txt:23
+msgid "Reject"
+msgstr ""
 
 #: core/data/System/UserName.txt:44
 #, fuzzy
@@ -5654,6 +5680,12 @@ msgstr "Du kan byta lösenord via %1"
 #: core/templates/renameweb.tmpl:20
 msgid "You can give this web a different name."
 msgstr "Du kan ge denna avdelning ett nytt namn."
+
+#: core/data/System/PendingRegistrations.txt:9
+msgid ""
+"You can use the \"approve\" or \"reject\" links to approve or reject these "
+"registrations"
+msgstr ""
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429
