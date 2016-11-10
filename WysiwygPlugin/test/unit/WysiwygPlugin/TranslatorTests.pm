@@ -490,6 +490,22 @@ HERE
 
     {
         exec => ROUNDTRIP,
+        name => 'HRFollowinglist',
+        tml  => <<'HERE',
+   * List entry
+---
+New para
+HERE
+        finaltml => <<'HERE',
+   * List entry
+---
+
+New para
+HERE
+    },
+
+    {
+        exec => ROUNDTRIP,
         name => 'centering',
         html => <<'HERE',
 <center>Center Text</center><br /> <div style="text-align:center">TEST Centered text.</div> 
