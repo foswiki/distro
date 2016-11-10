@@ -36,7 +36,6 @@ data/Main/AdminGroup.txt 0644
 data/Main/AdminUser.txt 0644
 data/Main/AdminUserLeftBar.txt 0644
 data/Main/GroupViewTemplate.txt 0644
-data/Main/PendingRegistrations.txt 0644
 data/Main/ProjectContributor.txt 0644
 data/Main/SitePreferences.txt 0644
 data/Main/UnknownUser.txt 0644
@@ -133,6 +132,7 @@ data/System/ObjectMethod.txt 0644
 data/System/PackageForm.txt 0644
 data/System/PageCaching.txt 0644
 data/System/ParentList.txt 0644
+data/System/PendingRegistrations.txt 0644
 data/System/PendingRegistrationsTemplate.txt 0644
 data/System/PerlDependencyReport.txt 0644
 data/System/PerlDoc.txt 0644
