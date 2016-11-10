@@ -36,6 +36,7 @@ data/Main/AdminGroup.txt 0644
 data/Main/AdminUser.txt 0644
 data/Main/AdminUserLeftBar.txt 0644
 data/Main/GroupViewTemplate.txt 0644
+data/Main/PendingRegistrations.txt 0644
 data/Main/ProjectContributor.txt 0644
 data/Main/SitePreferences.txt 0644
 data/Main/UnknownUser.txt 0644
@@ -132,6 +133,7 @@ data/System/ObjectMethod.txt 0644
 data/System/PackageForm.txt 0644
 data/System/PageCaching.txt 0644
 data/System/ParentList.txt 0644
+data/System/PendingRegistrationsTemplate.txt 0644
 data/System/PerlDependencyReport.txt 0644
 data/System/PerlDoc.txt 0644
 data/System/PlainSkin.txt 0644
@@ -560,6 +562,7 @@ lib/Foswiki/Macros/MAKETEXT.pm 0444
 lib/Foswiki/Macros/META.pm 0444
 lib/Foswiki/Macros/METASEARCH.pm 0444
 lib/Foswiki/Macros/NONCE.pm 0444
+lib/Foswiki/Macros/PENDINGREGISTRATIONS.pm 0444
 lib/Foswiki/Macros/PERLDEPENDENCYREPORT.pm 0444 Configuration
 lib/Foswiki/Macros/PUBURL.pm 0444
 lib/Foswiki/Macros/PUBURLPATH.pm 0444
