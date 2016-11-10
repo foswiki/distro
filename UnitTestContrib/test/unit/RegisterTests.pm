@@ -2921,6 +2921,16 @@ sub verify_registerVerifyOKApproved {
         }
     );
     $query->path_info("/$this->{users_web}/UserRegistration");
+
+    # Registration should be listed under verification
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $query );
+    my $regReport = Foswiki::Func::expandCommonVariables(
+        '%PENDINGREGISTRATIONS{verification}%');
+    $this->assert_matches( qr/^\| WalterPigeon \|/ms, $regReport );
+    $regReport =
+      Foswiki::Func::expandCommonVariables('%PENDINGREGISTRATIONS{approval}%');
+    $this->assert_str_equals( '', $regReport );
+
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
@@ -2977,6 +2987,16 @@ sub verify_registerVerifyOKApproved {
         }
     );
     $query->path_info("/$this->{users_web}/UserRegistration");
+
+    # Registration should be listed under approval
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $query );
+    $regReport = Foswiki::Func::expandCommonVariables(
+        '%PENDINGREGISTRATIONS{verification}%');
+    $this->assert_str_equals( '', $regReport );
+    $regReport =
+      Foswiki::Func::expandCommonVariables('%PENDINGREGISTRATIONS{approval}%');
+    $this->assert_matches( qr/\Q| WalterPigeon | \E/ms, $regReport );
+
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
 
     # Make sure we get bounced unless we are logged in
@@ -3028,6 +3048,15 @@ sub verify_registerVerifyOKApproved {
     otherwise {
         $this->assert( 0, "expected an oops redirect" );
     };
+
+    # Registration reports should be empty.
+    $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $query );
+    $regReport = Foswiki::Func::expandCommonVariables(
+        '%PENDINGREGISTRATIONS{verification}%');
+    $this->assert_str_equals( '', $regReport );
+    $regReport =
+      Foswiki::Func::expandCommonVariables('%PENDINGREGISTRATIONS{approval}%');
+    $this->assert_str_equals( '', $regReport );
 
     $this->assert(
         $this->{session}->topicExists(
