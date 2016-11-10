@@ -745,7 +745,6 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         elsif ($inList
             && $line =~ s/^([ \t]+)/$this->_hideWhitespace("\n$1")/e )
         {
-
             # Extend text of previous list item by dropping through
             $result[-1] .= $line;
             $line = '';
@@ -753,7 +752,9 @@ s/((^|(?<=[-*\s(]))$Foswiki::regex{linkProtocolPattern}:[^\s<>"]+[^\s*.,!?;:)<])
         }
         elsif ( $line =~ /^<hr class="TMLhr"/ ) {
             push( @result, '</p>' ) if $inParagraph;
+            $this->_addListItem( \@result, '', '', '' ) if $inList;
             $inParagraph = 0;
+            $inList      = 0;
         }
         elsif ( $line eq $tableAndMacrosDivStart ) {
             push( @result, '</p>' ) if $inParagraph;
