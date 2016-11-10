@@ -1924,7 +1924,9 @@ sub _validateRegistration {
         my @missing = ();
         foreach my $fd ( sort { $a->{name} cmp $b->{name} } @{ $data->{form} } )
         {
-            if ( ( $fd->{required} ) && ( !$fd->{value} ) ) {
+            if (   ( $fd->{required} )
+                && ( !defined $fd->{value} || length( $fd->{value} ) == 0 ) )
+            {
                 push( @missing, $fd->{name} );
             }
         }
