@@ -11,6 +11,9 @@ use warnings;
 use LWP::Simple;
 use Data::Dumper;
 
+my %items;
+my %seen;
+
 sub clean {
     map { s/^[\s\*]*\s// } @_;
     map { s/\s*$// } @_;
@@ -18,52 +21,73 @@ sub clean {
 }
 
 sub descr {
+
     #print "DESCR for @_\n";
     $_ = `git config branch.@_.description`;
     s/\s*$//;
     return $_;
-};
+}
 
 sub summary {
+    my $it = shift;
+
     #print "SUMMARY for @_\n";
-    my $url   = "http://foswiki.org/Tasks/ItemSummaryQuery?item=@_;skin=text";
+    return $items{$it} if $items{$it};
+    my $url = "http://foswiki.org/Tasks/ItemSummaryQuery?item=$it;skin=text";
     my $description = get $url;
     $description =~ s#<b>.*</b>\n##;
+    $items{$it} = $description;
     return $description;
 }
-    
+
 sub indent {
     $_ = shift;
     s/^/      /mg;
     return $_;
-};
+}
 
 my @branches = clean `git branch --color=never --list --all`;
+
 #print Data::Dumper::Dumper( \@branches );
 my %merged = map { $_ => 1 } clean `git branch --color=never --merged`;
+
 #print Data::Dumper::Dumper( \%merged );
 
 for my $branch (@branches) {
+
     next if $branch =~ /HEAD/;
+
+    # Don't display upstream branches that we already have locally
+    $seen{$branch} = 1;
+    my ($remote) = $branch =~ m/remotes\/origin\/(.*)/;
+    next if ( $remote && $seen{$remote} );
+
     $branch =~ s#^remotes/##;
     my $asis = `git branch --list -a --color=always $branch`;
     $asis =~ s/\s*$//;
+
+    # Get the upstream status - gone, ahead or behind
+    my $status = `git branch --list -a -vv $branch`;
+    my ($upstream) = $status =~ m/.*?\[([^\]]+)\]/;
+    my ($state) = $upstream =~ m/:\s(.*)$/ if ($upstream);
+
     print "  $asis";
-    print " \033[33m(merged)\033[0m" if ($merged{$branch} and $branch ne "master");
+    print " \033[33m(merged)\033[0m"
+      if ( $merged{$branch} and $branch ne "master" );
+    print " \033[104m($state)\033[0m" if $state;
     print "\n";
     next if $branch =~ m/Release/;
     my $desc = descr $branch;
-    print indent $desc."\n" if $desc;
+    print indent $desc. "\n" if $desc;
     if ( $branch =~ m/(Item(?:[0-9]){3,5})/ ) {
         print indent summary $1;
     }
-    elsif ($desc =~  m/(Item(?:[0-9]){3,5})/ ) {
+    elsif ( $desc =~ m/(Item(?:[0-9]){3,5})/ ) {
         print indent summary $1;
     }
-    
+
     print "\n";
 }
-
 
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
