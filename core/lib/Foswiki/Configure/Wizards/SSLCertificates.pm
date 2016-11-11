@@ -29,17 +29,20 @@ sub guess_locations {
     my ( $this, $reporter ) = @_;
 
     my @CERT_FILES = (
-        "/etc/ssl/certs/ca-certificates.crt",    #Debian/Ubuntu/Gentoo etc.
-        "/etc/pki/tls/certs/ca-bundle.crt",      #Fedora/RHEL
-        "/etc/ssl/ca-bundle.pem",                #OpenSUSE
-        "/etc/pki/tls/cacert.pem",               #OpenELEC
+        "/etc/pki/tls/certs/ca-bundle.crt",          #Fedora/RHEL
+        "/etc/ssl/certs/ca-certificates.crt",        #Debian/Ubuntu/Gentoo etc.
+        "/var/lib/ca-certificates/ca-bundle.pem",    #OpenSuSE
+        "/etc/ssl/ca-bundle.pem",                    #OpenSuSE
+        "/etc/pki/tls/cacert.pem",                   #OpenELEC
             #"/system/etc/security/cacerts",       #Android
     );
 
     my @CERT_DIRS = (
-        "/etc/ssl/certs",          #Debian/Ubuntu/Gentoo etc.
-        "/var/ssl/certs",          #AIX
-        "/usr/local/ssl/certs",    #Openssl tarball default
+        "/etc/pki/tls/certs",          #Fedora/RHEL
+        "/etc/ssl/certs",              #Debian/Ubuntu/Gentoo etc.
+        "/var/ssl/certs",              #AIX
+        "/var/lib/ca-certificates",    # OpenSuSE
+        "/usr/local/ssl/certs",        #Openssl tarball default
     );
 
     my ( $file, $path );
@@ -85,7 +88,9 @@ sub guess_locations {
         }
     }
 
-    return undef if ($guessed);
+# SMELL: I've seen some errors that suggest that only File or Path should be specified
+# but IO::Socket::SSL docs clearly state both are acceptable.
+#return undef if ($guessed);
 
     # First see if the linux default path work
     foreach $path (@CERT_DIRS) {
@@ -113,7 +118,7 @@ sub _setLocations {
         $Foswiki::cfg{Email}{SSLCaFile} = $_[1];
         $_[0]->CHANGED('{Email}{SSLCaFile}');
     }
-    elsif ( $_[2] ) {
+    if ( $_[2] ) {
         $Foswiki::cfg{Email}{SSLCaPath} = $_[2];
         $_[0]->CHANGED('{Email}{SSLCaPath}');
     }
