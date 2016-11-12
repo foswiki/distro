@@ -1810,13 +1810,13 @@ $Foswiki::cfg{WebMasterEmail} = '';
 # Used as part of the From: email address and defaults to ={WebMasterName}= if not configured.
 # For use in mails sent by Foswiki. For example: "Wiki Gnome".  This value is displayed using the
 # =<nop>%WIKIAGENTNAME%= macro.
-$Foswiki::cfg{WikiAgentName} = '';
+$Foswiki::cfg{Email}{WikiAgentName} = '';
 
 # **EMAILADDRESS 30 LABEL="Wiki Agent Email" EXPERT**
 # Email address used by Foswiki as the From: address for email messages, such as messages from the 
 # RegistrationAgent. The ={WebMasterEmail}= is used if this item is not configured.
 # Configure this entry if your email server refuses to accept messages from and too the same address.
-$Foswiki::cfg{WikiAgentEmail} = '';
+$Foswiki::cfg{Email}{WikiAgentEmail} = '';
 
 # **STRING 30 LABEL="SMTP Host"\
 #         FEEDBACK="icon='ui-icon-mail-closed';label='Auto-configure Email';\
