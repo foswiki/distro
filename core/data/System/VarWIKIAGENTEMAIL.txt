@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="ProjectContributor" date="1478916373" format="1.1" version="1"}%
+%META:TOPICPARENT{name="Macros"}%
+---+ WIKIAGENTEMAIL -- From: email address in emails sent by Foswiki.
+---++ Examples
+   * =%<nop>WIKIAGENTEMAIL%= expands to =%WIKIAGENTEMAIL%=
+%STOPINCLUDE%
+---++ Related
+[[VarWIKIAGENTNAME][WIKIAGENTNAME]], [[VarWIKIWEBMASTER][WIKIWEBMASTER]], [[VarWIKIWEBMASTERNAME][WIKIWEBMASTERNAME]]
+

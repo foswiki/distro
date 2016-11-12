@@ -282,6 +282,8 @@ data/System/VarVAR.txt 0644
 data/System/VarWEB.txt 0644
 data/System/VarWEBLIST.txt 0644
 data/System/VarWEBPREFSTOPIC.txt 0644
+data/System/VarWIKIAGENTEMAIL.txt 0644
+data/System/VarWIKIAGENTNAME.txt 0644
 data/System/VarWIKIHOMEURL.txt 0644
 data/System/VarWIKINAME.txt 0644
 data/System/VarWIKIPREFSTOPIC.txt 0644

@@ -99,8 +99,13 @@ SMIME
         my $smimePlainText = $smimeHTMLText;
         $smimePlainText =~ s/<[^>]*>//g;
 
+        my $fromName = $Foswiki::cfg{WikiAgentName}
+          || $Foswiki::cfg{WebMasterName};
+        my $fromAddr = $Foswiki::cfg{WikiAgentEmail}
+          || $Foswiki::cfg{WebMasterEmail};
+
         my $msg = << "MAILTEST";
-From: "$Foswiki::cfg{WebMasterName}" <$Foswiki::cfg{WebMasterEmail}>
+From: "$fromName" <$fromAddr>
 To: $addrs
 Subject: Test of Foswiki e-mail to $addrs
 Auto-Submitted: auto-generated
