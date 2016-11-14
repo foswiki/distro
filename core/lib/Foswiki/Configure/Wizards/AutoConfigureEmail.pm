@@ -1,77 +1,4 @@
 # See bottom of file for license and copyright information
-package Foswiki::Configure::Wizards::AutoConfigureEmail::MuteOut;
-use strict;
-use warnings;
-use File::Temp;
-use File::Spec;
-
-sub new {
-    my $class  = shift;
-    my %params = @_;
-
-    $class = ref($class) || $class;
-
-    my ( $oldOut, $oldErr, $rc );
-
-    my $outFile = $params{outFile} || File::Spec->devnull;
-    my $errFile = $params{errFile} || File::Spec->devnull;
-    my $reporter = $params{reporter};
-
-    unless ( open $oldOut, ">&", STDOUT ) {
-        $reporter->ERROR( "Cannot dup STDOUT: " . $! );
-        return undef;
-    }
-    unless ( open $oldErr, ">&", STDERR ) {
-        $reporter->ERROR( "Cannot dup STDERR: " . $! );
-        return undef;
-    }
-    unless ( open STDOUT, ">", $outFile ) {
-        $reporter->ERROR( "Failed to redirect STDOUT: " . $! );
-    }
-    unless ( open STDERR, ">", $errFile ) {
-        $reporter->ERROR( "Failed to redirect STDERR: " . $! );
-    }
-
-    my $obj = bless {
-        oldOut   => $oldOut,
-        oldErr   => $oldErr,
-        outFile  => $outFile,
-        errFile  => $errFile,
-        reporter => $reporter,
-    }, $class;
-
-    return $obj;
-}
-
-sub exec {
-    my $this = shift;
-    my ($sub) = shift;
-
-    my @rc;
-    my $wantarray = wantarray;
-    if ($wantarray) {
-        @rc = $sub->(@_);
-    }
-    elsif ( defined $wantarray ) {
-        $rc[0] = $sub->(@_);
-    }
-    else {
-        $sub->(@_);
-    }
-
-    return $wantarray ? @rc : $rc[0];
-}
-
-sub DESTROY {
-    my $this = shift;
-
-    unless ( open STDOUT, ">&", $this->{oldOut} ) {
-        $this->reporter->ERROR( "Failed to restore STDOUT: " . $! );
-    }
-    unless ( open STDERR, ">&", $this->{oldErr} ) {
-        $this->reporter->ERROR( "Failed to restore STDOUT: " . $! );
-    }
-}
 
 package Foswiki::Configure::Wizards::AutoConfigureEmail;
 
@@ -87,6 +14,9 @@ use strict;
 use warnings;
 
 use Foswiki::Configure::Wizard ();
+use Foswiki::Aux::MuteOut      ();
+use File::Temp                 ();
+
 our @ISA = ('Foswiki::Configure::Wizard');
 
 use constant DEBUG_SSL => 1;
@@ -183,12 +113,11 @@ sub _muteExec {
     close $fh2;
 
     {
-        my $muter =
-          Foswiki::Configure::Wizards::AutoConfigureEmail::MuteOut->new(
+        my $muter = Foswiki::Aux::MuteOut->new(
             outFile  => $outFile,
             errFile  => $errFile,
             reporter => $reporter,
-          );
+        );
 
         $rc = $muter->exec( $sub, @_ );
     }
