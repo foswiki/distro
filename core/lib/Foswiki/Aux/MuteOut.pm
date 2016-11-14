@@ -57,8 +57,10 @@ sub new {
 
     my ( $oldOut, $oldErr, $rc );
 
-    my $outFile = $params{outFile} // File::Spec->devnull;
-    my $errFile = $params{errFile} // File::Spec->devnull;
+    my $outFile =
+      ( defined $params{outFile} ) ? $params{outFile} : File::Spec->devnull;
+    my $errFile =
+      ( defined $params{errFile} ) ? $params{errFile} : File::Spec->devnull;
 
     unless ( open $oldOut, ">&", STDOUT ) {
         Foswiki::Aux::Dependencies::_msg( "Cannot dup STDOUT: " . $! );
