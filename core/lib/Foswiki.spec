@@ -1906,17 +1906,15 @@ $Foswiki::cfg{SMTP}{SENDERHOST} = '';
 # This verifies the identity of the server to which mail is sent.
 $Foswiki::cfg{Email}{SSLVerifyServer} = $FALSE;
 
-# **PATH EXPERT LABEL="Certificate Authorities Filename" \
+# **PATH LABEL="Certificate Authorities Filename" \
 #               FEEDBACK="icon='ui-icon-shuffle';label='Guess certificate locations'; wizard='SSLCertificates'; method='guess_locations'"\
 #               DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
 # Specify the file used to verify the server certificate trust chain.
 # This is the list of root Certificate authorities that you trust to issue
 # certificates. You do not need to include intermediate CAs in this file.
-# If you do not specify this or {Email}{SSLCaPath}, system defaults will
-# be used.
 $Foswiki::cfg{Email}{SSLCaFile} = '';
 
-# **PATH LABEL="Certificate Authorities Directory" EXPERT \
+# **PATH LABEL="Certificate Authorities Directory" \
 #               FEEDBACK="icon='ui-icon-shuffle';label='Guess certificate locations'; wizard='SSLCertificates'; method='guess_locations'"\
 #               FEEDBACK='label="Validate Contents"; wizard="SSLCertificates"; method="validate";\
 #               title="Examines every file in the directory and verifies \
@@ -1925,7 +1923,6 @@ $Foswiki::cfg{Email}{SSLCaFile} = '';
 # Specify the directory used to verify the server certificate trust chain.
 # This is the list of root Certificate authorities that you trust to issue
 # certificates. You do not need to include intermediate CAs in this directory.
-# If you do not specify this or {Email}{SSLCaFile}, system defaults will be used.
 # Refer to the openssl documentation for the format of this directory.
 # Note that it can also contain Certificate Revocation Lists.
 $Foswiki::cfg{Email}{SSLCaPath} = '';

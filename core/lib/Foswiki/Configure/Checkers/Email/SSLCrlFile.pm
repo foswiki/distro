@@ -58,9 +58,6 @@ sub check_current_value {
     my $file = $value;
 
     if ($file) {
-        return $reporter->ERROR("Invalid characters in $file")
-          unless $file =~ m,^([\w_./]+)$,;
-        $file = $1;
 
         if ( -r $file ) {
             $reporter->NOTE( "File was last modified "

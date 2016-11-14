@@ -64,7 +64,7 @@ require Foswiki::Configure::Query;
 
     sub NOTE {
         my $this = shift;
-        my $text = join( "\n", @_ ) . "\n";
+        my $text = join( "\n", @_ ) . "\n" if ( scalar @_ );
         $this->{notes}++;
 
         # Take out block formatting tags
@@ -187,7 +187,7 @@ foreach my $a (@methods) {
 }
 
 if ( scalar( keys %uniq ) > 1 ) {
-    print STDERR "Only one of "
+    print "Only one of "
       . join( ' ', map { $_ =~ /(\w+)$/; "-$1" } keys %uniq )
       . " allowed\n";
     exit 1;
@@ -198,7 +198,7 @@ if ( !scalar( keys %uniq ) && !$actions{save} ) {
 }
 
 if ( $action =~ /^get/ && scalar( keys %{ $params->{set} } ) ) {
-    print STDERR "-set doesn't work with -$action\n";
+    print "-set doesn't work with -$action\n";
     exit 1;
 }
 
@@ -243,7 +243,7 @@ sub _prompt {
     return if ( $opt && $reply eq 'none' );
     eval "\$Foswiki::cfg$keys='$reply'";
     if ($@) {
-        print STDERR "Failed to set $keys: "
+        print "Failed to set $keys: "
           . Foswiki::Configure::Reporter::stripStacktrace($@);
     }
 }
@@ -265,7 +265,7 @@ if ( $reporter->has_level('errors') ) {
 
 unless ( $Foswiki::cfg{isVALID} ) {
     %Foswiki::cfg = ();
-    print STDERR "LocalSite.cfg load failed\n"
+    print "LocalSite.cfg load failed\n"
       . Foswiki::Configure::Reporter::stripStacktrace($@);
 
     # Run the bootstrap process. This guesses all the critical path settings.
@@ -387,19 +387,19 @@ if ($action) {
             $params->{set} = $response->{changes};
         }
         else {
-            print STDERR
+            print
 "Changes made by $params->{wizard} wizard, but -save option not requested.  Nothing saved.\n";
-            print STDERR
+            print
 "Rerun the $params->{wizard} with the -save option to update the configuration.\n";
 
-            #print STDERR Data::Dumper::Dumper( \$response->{changes} );
+            #print  Data::Dumper::Dumper( \$response->{changes} );
         }
     }
 
     if ( $action =~ /(?:::getcfg|::getspec|search)$/ ) {
         my $out = Data::Dumper::Dumper( \$response );
         $out =~ s/^\$VAR1 = \\/          /;
-        print STDERR $out;
+        print $out;
     }
     elsif ( $action =~ /::check_current_value/ ) {
         _printResponse( $response, $params->{verbose} );
@@ -412,7 +412,7 @@ if ( $actions{save} ) {
     # -save is functionally equivalent to -wizard Save -method save
     # (except of course you can have another wizard call)
     if ( $reporter->has_level('errors') ) {
-        print STDERR "Save aborted due to errors\n";
+        print "Save aborted due to errors\n";
         exit 1;
     }
     $params->{wizard} = 'Save';
@@ -432,9 +432,7 @@ sub _printResponse {
         foreach my $msg (@$report) {
             next if ( $msg->{level} eq 'notes' && !$verbose );
             if ( !$header ) {
-                print STDERR "\nChecking:"
-                  . join( ' -> ', @$path )
-                  . ":  $keys\n";
+                print "\nChecking:" . join( ' -> ', @$path ) . ":  $keys\n";
                 $header = 1;
             }
             print 'WARNING: '    if $msg->{level} eq 'warnings';
@@ -457,7 +455,7 @@ sub _set_logger {
         else {
             eval "require $Foswiki::cfg{Log}{Implementation}";
             if ($@) {
-                print STDERR "Logger load failed: $@";
+                print "Logger load failed: $@";
                 $params->{logger} = Foswiki::Logger->new();
             }
             else {
