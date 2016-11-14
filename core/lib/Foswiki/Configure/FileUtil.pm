@@ -712,14 +712,19 @@ sub _getTar {
 
         # Trying to find gnutar in order to keep as much compatibility with
         # linux as we can.
-        my $gnutar = `which gnutar`;
-        if ( $? == 0 && $gnutar ) {
-            chomp $gnutar;
-            if ( _getTarFamily($gnutar) eq 'gnu' ) {
-                $tarCmd    = $gnutar;
-                $tarFamily = 'gnu';
-            }
+        my $gnutar;
+      TAR_UTIL:
+        foreach my $utilname (qw(gtar gnutar)) {
+            $gnutar = `which $utilname`;
+            if ( $? == 0 && $gnutar ) {
+                chomp $gnutar;
+                if ( _getTarFamily($gnutar) eq 'gnu' ) {
+                    $tarCmd    = $gnutar;
+                    $tarFamily = 'gnu';
+                    last TAR_UTIL;
+                }
 
+            }
         }
 
     }
