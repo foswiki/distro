@@ -6,15 +6,15 @@ msgstr ""
 "Project-Id-Version: Foswiki $ld\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-10-15 01:45+0200\n"
+"PO-Revision-Date: 2016-11-14 21:19+0200\n"
 "Last-Translator: Vadim Belman <vrurg@lflat.org>\n"
 "Language-Team: <translation@linux.org.ua>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.4\n"
 "X-Poedit-Language: Ukrainian\n"
 "X-Poedit-Country: UKRAINE\n"
@@ -652,9 +652,8 @@ msgid "Access keys:"
 msgstr "Швидкі клавіші:"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:38
-#, fuzzy
 msgid "Access to pending registrations is restricted to administrators"
-msgstr "Ваша реєстрація очікує на підтвердження від адміністраторів системи."
+msgstr "Тільки адміністратори мають доступ до відкладених реєстрацій"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -822,7 +821,7 @@ msgstr ""
 
 #: core/data/System/PendingRegistrationsTemplate.txt:22
 msgid "Approve"
-msgstr ""
+msgstr "Підтвердити"
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3153,9 +3152,8 @@ msgid "Passwords do not match"
 msgstr "Паролі не співпадають"
 
 #: core/data/System/PendingRegistrations.txt:2
-#, fuzzy
 msgid "Pending Registrations"
-msgstr "Очікувана реєстрація не знайдена"
+msgstr "Відкладені реєстрації"
 
 #: core/templates/registermessages.tmpl:41
 msgid "Pending registration not found"
@@ -3482,12 +3480,11 @@ msgstr ""
 
 #: core/data/System/PendingRegistrations.txt:3
 msgid "Registrations awaiting Email verification"
-msgstr ""
+msgstr "Реєстрації, що очікують на перевірку Email"
 
 #: core/data/System/PendingRegistrations.txt:7
-#, fuzzy
 msgid "Registrations awaiting approval"
-msgstr "%1 потребує підтвердження реєстрації"
+msgstr "Реєстрації, що очікують на підтвердження"
 
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
@@ -3495,7 +3492,7 @@ msgstr "Пошук з регулярними виразами"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:23
 msgid "Reject"
-msgstr ""
+msgstr "Відмовити"
 
 #: core/data/System/UserName.txt:44
 msgid "Related Topics for Administrators:"
@@ -5530,6 +5527,8 @@ msgid ""
 "You can use the \"approve\" or \"reject\" links to approve or reject these "
 "registrations"
 msgstr ""
+"Використовуйте посилання \"підтвердити\" або \"відмовити\" для відповідних "
+"дій над цими реєстраціями"
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429
