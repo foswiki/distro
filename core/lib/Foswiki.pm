@@ -419,6 +419,12 @@ BEGIN {
     $macros{WIKIUSERSTOPIC}    = sub { $Foswiki::cfg{UsersTopicName} };
     $macros{WIKIWEBMASTER}     = sub { $Foswiki::cfg{WebMasterEmail} };
     $macros{WIKIWEBMASTERNAME} = sub { $Foswiki::cfg{WebMasterName} };
+    $macros{WIKIAGENTEMAIL}    = sub {
+        $Foswiki::cfg{Email}{WikiAgentEmail} || $Foswiki::cfg{WebMasterEmail};
+    };
+    $macros{WIKIAGENTNAME} = sub {
+        $Foswiki::cfg{Email}{WikiAgentName} || $Foswiki::cfg{WebMasterName};
+    };
 
     # locale setup
     #

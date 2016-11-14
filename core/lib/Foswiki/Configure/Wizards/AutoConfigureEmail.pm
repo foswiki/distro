@@ -1433,8 +1433,9 @@ sub testServer {
     # authentication is not required.
     # The session is reset so no mail is actually sent.
 
-    my ( $fromTestAddr, $toTestAddr ) =
-      (qw/postmaster@example.net postmaster@example.com/);
+    my $fromTestAddr = $Foswiki::cfg{Email}{WikiAgentEmail}
+      || $Foswiki::cfg{WebMasterEmail};
+    my $toTestAddr = $Foswiki::cfg{WebMasterEmail};
     my ( @code, $requires );
 
     my $noAuthOk = $smtp->mail($fromTestAddr) && $smtp->to($toTestAddr);
