@@ -1,10 +1,8 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Aux::MuteOut;
-use v5.14;
 use strict;
 use warnings;
-use Config;
 
 =begin TML
 
@@ -22,7 +20,7 @@ use Foswiki::Aux::MuteOut;
 
 sub proc {
     my ($dir) = @_;
-    
+
     my $rc = system "ls -la $dir";
     print STDERR "RC=", $rc;
 }
