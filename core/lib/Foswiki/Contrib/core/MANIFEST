@@ -282,6 +282,8 @@ data/System/VarVAR.txt 0644
 data/System/VarWEB.txt 0644
 data/System/VarWEBLIST.txt 0644
 data/System/VarWEBPREFSTOPIC.txt 0644
+data/System/VarWIKIAGENTEMAIL.txt 0644
+data/System/VarWIKIAGENTNAME.txt 0644
 data/System/VarWIKIHOMEURL.txt 0644
 data/System/VarWIKINAME.txt 0644
 data/System/VarWIKIPREFSTOPIC.txt 0644
@@ -356,6 +358,7 @@ lib/Foswiki/AccessControlException.pm 0444
 lib/Foswiki/AggregateIterator.pm 0444
 lib/Foswiki/Attach.pm 0444
 lib/Foswiki/Attrs.pm 0444
+lib/Foswiki/Aux/MuteOut.pm 0444
 lib/Foswiki/Compatibility.pm 0444
 lib/Foswiki/Configure/Auth.pm 0444
 lib/Foswiki/Configure/Bootstrap.pm 0444

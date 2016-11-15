@@ -1798,13 +1798,25 @@ $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 #                   title='Long running: Probes the possible email servers to find most secure connection';\
 #                   wizard='AutoConfigureEmail'; method='autoconfigure'"\
 #         FEEDBACK="icon='ui-icon-mail-closed';label='Send Test Email';wizard='SendTestEmail'; method='send'"**
-# Wiki administrator (webmaster) e-mail address, used as the sender address
-# in emails sent by Foswiki. For example =webmaster@example.com=
-# Must be a single valid email address.
-# This value is displayed using the =<nop>%WIKIWEBMASTER%= macro.
+# Wiki administrator (webmaster) e-mail address.  It's used as the "Contact" address on web pages and
+# is also optionally used as the sender address in emails sent by Foswiki. For example =webmaster@example.com=
+# If the Expert setting. ={WikiAgentEmail} is configured, it will be used as the From: address.
+# Must be a single valid email address. This value is displayed using the =<nop>%WIKIWEBMASTER%= macro.
 # <br/>
 # If your server is already configured to send email, press Auto-configure email. If it works, email will be enabled.  You can then send a test email to further verify operation.
 $Foswiki::cfg{WebMasterEmail} = '';
+
+# **STRING 30 LABEL="Wiki Agent Name" EXPERT**
+# Used as part of the From: email address and defaults to ={WebMasterName}= if not configured.
+# For use in mails sent by Foswiki. For example: "Wiki Gnome".  This value is displayed using the
+# =<nop>%WIKIAGENTNAME%= macro.
+$Foswiki::cfg{Email}{WikiAgentName} = '';
+
+# **EMAILADDRESS 30 LABEL="Wiki Agent Email" EXPERT**
+# Email address used by Foswiki as the From: address for email messages, such as messages from the 
+# RegistrationAgent. The ={WebMasterEmail}= is used if this item is not configured.
+# Configure this entry if your email server refuses to accept messages from and too the same address.
+$Foswiki::cfg{Email}{WikiAgentEmail} = '';
 
 # **STRING 30 LABEL="SMTP Host"\
 #         FEEDBACK="icon='ui-icon-mail-closed';label='Auto-configure Email';\
@@ -1906,17 +1918,15 @@ $Foswiki::cfg{SMTP}{SENDERHOST} = '';
 # This verifies the identity of the server to which mail is sent.
 $Foswiki::cfg{Email}{SSLVerifyServer} = $FALSE;
 
-# **PATH EXPERT LABEL="Certificate Authorities Filename" \
+# **PATH LABEL="Certificate Authorities Filename" \
 #               FEEDBACK="icon='ui-icon-shuffle';label='Guess certificate locations'; wizard='SSLCertificates'; method='guess_locations'"\
 #               DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
 # Specify the file used to verify the server certificate trust chain.
 # This is the list of root Certificate authorities that you trust to issue
 # certificates. You do not need to include intermediate CAs in this file.
-# If you do not specify this or {Email}{SSLCaPath}, system defaults will
-# be used.
 $Foswiki::cfg{Email}{SSLCaFile} = '';
 
-# **PATH LABEL="Certificate Authorities Directory" EXPERT \
+# **PATH LABEL="Certificate Authorities Directory" \
 #               FEEDBACK="icon='ui-icon-shuffle';label='Guess certificate locations'; wizard='SSLCertificates'; method='guess_locations'"\
 #               FEEDBACK='label="Validate Contents"; wizard="SSLCertificates"; method="validate";\
 #               title="Examines every file in the directory and verifies \
@@ -1925,7 +1935,6 @@ $Foswiki::cfg{Email}{SSLCaFile} = '';
 # Specify the directory used to verify the server certificate trust chain.
 # This is the list of root Certificate authorities that you trust to issue
 # certificates. You do not need to include intermediate CAs in this directory.
-# If you do not specify this or {Email}{SSLCaFile}, system defaults will be used.
 # Refer to the openssl documentation for the format of this directory.
 # Note that it can also contain Certificate Revocation Lists.
 $Foswiki::cfg{Email}{SSLCaPath} = '';
