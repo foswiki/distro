@@ -28,8 +28,8 @@ use Foswiki::Contrib::MailerContrib::WebNotify ();
 use Foswiki::Contrib::MailerContrib::Change    ();
 use Foswiki::Contrib::MailerContrib::UpData    ();
 
-our $VERSION          = '2.82';
-our $RELEASE          = '2.82';
+our $VERSION          = '2.83';
+our $RELEASE          = '2.83';
 our $SHORTDESCRIPTION = 'Supports email notification of changes';
 
 # PROTECTED STATIC ensure the contrib is internally initialised
@@ -225,19 +225,19 @@ sub _processWeb {
         return '';
     }
 
-    print "Processing $web\n" if $options->{verbose};
+    _UTF8print("Processing $web\n") if $options->{verbose};
 
     # Read the webnotify and load subscriptions
     my $wn =
       Foswiki::Contrib::MailerContrib::WebNotify->new( $web,
         $Foswiki::cfg{NotifyTopicName}, 0 );
     if ( $wn->isEmpty() ) {
-        print "\t$web has no subscribers\n" if $options->{verbose};
+        _UTF8print("\t$web has no subscribers\n") if $options->{verbose};
     }
     else {
 
         # create a DB object for parent pointers
-        print $wn->stringify(1) if $options->{verbose};
+        _UTF8print( $wn->stringify(1) ) if $options->{verbose};
         my $db = Foswiki::Contrib::MailerContrib::UpData->new($web);
         _processSubscriptions( $web, $wn, $db, $options );
     }
@@ -260,8 +260,9 @@ sub _processSubscriptions {
     }
 
     if ( $options->{verbose} ) {
-        print "\tLast notification was at "
-          . Foswiki::Time::formatTime( $timeOfLastNotify, 'iso' ) . "\n";
+        _UTF8print( "\tLast notification was at "
+              . Foswiki::Time::formatTime( $timeOfLastNotify, 'iso' )
+              . "\n" );
     }
 
     my $timeOfLastChange = 0;
@@ -293,9 +294,9 @@ sub _processSubscriptions {
 
         $timeOfLastChange = $change->{time} unless ($timeOfLastChange);
 
-        print "\tChange to $change->{topic} at "
-          . Foswiki::Time::formatTime( $change->{time}, 'iso' )
-          . ". New revision is $change->{revision}\n"
+        _UTF8print( "\tChange to $change->{topic} at "
+              . Foswiki::Time::formatTime( $change->{time}, 'iso' )
+              . ". New revision is $change->{revision}\n" )
           if ( $options->{verbose} );
 
         # Formulate a change record, irrespective of
@@ -458,19 +459,20 @@ sub _sendChangesMails {
             $error = Foswiki::Func::sendEmail( $mail, 5 );
         }
         else {
-            print $mail if $options->{verbose};
+            _UTF8print($mail) if $options->{verbose};
         }
 
         if ($error) {
             print STDERR "Error sending mail for $web: $error\n";
-            print "$error\n";
+            _UTF8print("$error\n");
         }
         else {
-            print "Notified $email of changes in $web\n" if $options->{verbose};
+            _UTF8print("Notified $email of changes in $web\n")
+              if $options->{verbose};
             $sentMails++;
         }
     }
-    print "\t$sentMails change notifications from $web\n"
+    _UTF8print("\t$sentMails change notifications from $web\n")
       if $options->{verbose};
 }
 
@@ -647,20 +649,20 @@ sub _sendNewsletterMail {
             $error = Foswiki::Func::sendEmail( $mail, 5 );
         }
         else {
-            print $mail if $options->{verbose};
+            _UTF8print($mail) if $options->{verbose};
         }
 
         if ($error) {
             print STDERR "Error sending mail for $web: $error\n";
-            print "$error\n";
+            _UTF8print("$error\n");
         }
         else {
-            print "Sent newsletter $web.$topic to $email\n"
+            _UTF8print("Sent newsletter $web.$topic to $email\n")
               if $options->{verbose};
             $sentMails++;
         }
     }
-    print "\t$sentMails newsletters from $web\n";
+    _UTF8print("\t$sentMails newsletters from $web\n");
 
     Foswiki::Func::popTopicContext();
 
@@ -675,11 +677,20 @@ sub _sendNewsletterMail {
     }
 }
 
+sub _UTF8print {
+    if ($Foswiki::UNICODE) {
+        print Foswiki::encode_utf8( $_[0] );
+    }
+    else {
+        print $_[0];
+    }
+}
+
 1;
 __END__
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2008-2016 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root
 of this distribution. NOTE: Please extend that file, not this notice.
 
