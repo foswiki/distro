@@ -35,7 +35,11 @@ sub _restNotify {
         # Don't use the $response; we want to see things happening
         local $| = 1;    # autoflush on
         require CGI;
-        print CGI::header( -status => 200, -type => 'text/plain' );
+        print CGI::header(
+            -status  => 200,
+            -type    => 'text/plain',
+            -charset => $Foswiki::cfg{Site}{CharSet},
+        );
 
         my $query   = Foswiki::Func::getCgiQuery();
         my %options = (
@@ -76,7 +80,7 @@ sub _restNotify {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
