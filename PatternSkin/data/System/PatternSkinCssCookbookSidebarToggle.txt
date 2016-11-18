@@ -1,0 +1,34 @@
+%META:TOPICINFO{author="ProjectContributor" date="1479429261" format="1.1"  version="1"}%
+%META:TOPICPARENT{name="System.PatternSkinCssCookbook"}%
+<!--
+   * Set NOWYSIWYG = 1
+-->
+---+!! System.PatternSkinCssCookbook Recipe: Left Sidebar Toggle
+(currently this Topic is in the Web [[Sandbox.StefanKrüger.WebHome][Sandbox.StefanKrüger]])
+
+Idea/Target:
+currently the Sidebar is hidden for screens with width < 870px
+this mod shoud allow to toggle the sidebar at small screens..
+
+<div class="foswikiHelp">
+This line loads the extra style definition:
+<verbatim class="tml">
+   * Set USERSTYLEURL = %PUBURLPATH{topic="Sandbox.StefanKrüger.PatternSkinCssCookbookSidebarToggle" "SidebarToggle.css"}%
+</verbatim>
+You can write these lines in %SYSTEMWEB%.%WIKIPREFSTOPIC%, in %LOCALSITEPREFS%, in %WEBPREFSTOPIC%, in your user topic, or on a single page.
+
+To Add the Button to the Sidebar do the following:
+Add a Macro 
+<verbatim class="tml">
+   * Set SIDEBARTOGGLEBUTTON = <button class="sidebartoggle-button" onclick="$('body').toggleClass('showsidebar');">toggle</button>
+</verbatim>
+then you can use this in a topic or in the System.WebLeftBarWebsList to add it globaly.<br>
+the formating/positioning is done in the css. if the button is part of the sidbar it will be positioned absolute so it 
+</div>
+<!-- %JQREQUIRE{"chili"}% -->
+
+test button: %SIDEBARTOGGLEBUTTON% <br>
+this button only works if the sidebar is hidden (screen-width < 870px)
+
+(this is based on [[System.PatternSkinCssCookbookNoLeftBar]])
+%META:FILEATTACHMENT{name="SidebarToggle.css" attachment="SidebarToggle.css" attr="" comment="StyleSheet to toggle left Sidebar in the PatternSkin" date="1479429261" size="784" user="ProjectContributor" version="1"}%
