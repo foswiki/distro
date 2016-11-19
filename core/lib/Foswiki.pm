@@ -223,11 +223,12 @@ BEGIN {
         ADDTOHEAD => undef,
 
         # deprecated, use ADDTOZONE instead
-        ADDTOZONE     => undef,
-        ALLVARIABLES  => sub { $_[0]->{prefs}->stringify() },
-        ATTACHURL     => undef,
-        ATTACHURLPATH => undef,
-        DATE          => sub {
+        ADDTOZONE            => undef,
+        ALLVARIABLES         => sub { $_[0]->{prefs}->stringify() },
+        ATTACHMENTNAMEFILTER => $Foswiki::cfg{AttachmentNameFilter},
+        ATTACHURL            => undef,
+        ATTACHURLPATH        => undef,
+        DATE                 => sub {
             Foswiki::Time::formatTime(
                 time(),
                 $Foswiki::cfg{DefaultDateFormat},
@@ -270,6 +271,7 @@ BEGIN {
         MAKETEXT             => undef,
         META                 => undef,                              # deprecated
         METASEARCH           => undef,                              # deprecated
+        NAMEFILTER           => $Foswiki::cfg{NameFilter},
         NONCE                => undef,
         PENDINGREGISTRATIONS => undef,
         PERLDEPENDENCYREPORT => undef,
@@ -336,6 +338,7 @@ BEGIN {
         'TMPL:P'            => sub { $_[0]->templates->tmplP( $_[1] ) },
         TOPICLIST           => undef,
         URLENCODE           => undef,
+        URLHOST             => sub { $_[0]->{urlHost} },
         URLPARAM            => undef,
         USERINFO            => undef,
         USERNAME            => undef,

@@ -74,16 +74,22 @@ sub init {
           if $Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled};
     }
 
-    # init NAMEFILTER
+    # init NAMEFILTER - Keep for backwards compatibiltiy
     unless ( Foswiki::Func::getPreferencesValue('NAMEFILTER') ) {
         Foswiki::Func::setPreferencesValue( 'NAMEFILTER',
             $Foswiki::cfg{NameFilter} );
     }
 
-    # init ATTACHMENTNAMEFILTER
+    # init ATTACHMENTNAMEFILTER - Keep for backwards compatibiltiy
     unless ( Foswiki::Func::getPreferencesValue('ATTACHMENTNAMEFILTER') ) {
         Foswiki::Func::setPreferencesValue( 'ATTACHMENTNAMEFILTER',
             $Foswiki::cfg{AttachmentNameFilter} );
+    }
+
+    # init URLHOST - Keep for backwards compatibiltiy
+    unless ( Foswiki::Func::getPreferencesValue('URLHOST') ) {
+        Foswiki::Func::setPreferencesValue( 'URLHOST',
+            Foswiki::Func::getUrlHost() );
     }
 
     # add exported preferences to head
@@ -99,9 +105,6 @@ sub init {
     if ( defined $Foswiki::cfg{ScriptUrlPaths} ) {
         %{ $prefs{"SCRIPTURLPATHS"} } = %{ $Foswiki::cfg{ScriptUrlPaths} };
     }
-
-    $prefs{"URLHOST"} =
-      Foswiki::Func::getUrlHost();    #URLHOST is not a default variable.
 
     my $text =
         "<script class='\$zone \$id foswikiPreferences' type='text/json'>"
