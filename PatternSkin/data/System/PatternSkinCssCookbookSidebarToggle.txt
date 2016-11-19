@@ -1,34 +1,28 @@
-%META:TOPICINFO{author="ProjectContributor" date="1479429261" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1479575910" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="System.PatternSkinCssCookbook"}%
 <!--
    * Set NOWYSIWYG = 1
 -->
 ---+!! System.PatternSkinCssCookbook Recipe: Left Sidebar Toggle
-(currently this Topic is in the Web [[Sandbox.StefanKrüger.WebHome][Sandbox.StefanKrüger]])
 
-Idea/Target:
-currently the Sidebar is hidden for screens with width < 870px
-this mod shoud allow to toggle the sidebar at small screens..
+The Sidebar is hidden for screens with width < 870px.  This makes the main page content more readable on small devices, but blocks access to some important links, such as the Login link.
+This cookbook shows how to add a button that will toggle the sidebar when it is hidden on  small screen.
+
+This button is configured in any of %LOCALSITEPREFS%, in %WEBPREFSTOPIC% (for a single web), in your %WIKIUSERNAME% topic, or on a single page.
 
 <div class="foswikiHelp">
 This line loads the extra style definition:
 <verbatim class="tml">
-   * Set USERSTYLEURL = %PUBURLPATH{topic="Sandbox.StefanKrüger.PatternSkinCssCookbookSidebarToggle" "SidebarToggle.css"}%
+   * Set USERSTYLEURL = %PUBURLPATH{topic="%SYSTEMWEB%.PatternSkinCssCookbookSidebarToggle" "SidebarToggle.css"}%
 </verbatim>
-You can write these lines in %SYSTEMWEB%.%WIKIPREFSTOPIC%, in %LOCALSITEPREFS%, in %WEBPREFSTOPIC%, in your user topic, or on a single page.
 
-To Add the Button to the Sidebar do the following:
-Add a Macro 
+To activate the button in the sidebar, also add the following to the preferences: (Be sure to escape any double-quotes (\")  if you modiy this statement.)
 <verbatim class="tml">
-   * Set SIDEBARTOGGLEBUTTON = <button class="sidebartoggle-button" onclick="$('body').toggleClass('showsidebar');">toggle</button>
+   * Set PATTERNSIDEBARTOGGLE = <button class='sidebartoggle-button' title='Reveal/Hide Sidebar' onclick=\"$('body').toggleClass('showsidebar');\">%JQICON{"fa-bars"}%</button>
 </verbatim>
-then you can use this in a topic or in the System.WebLeftBarWebsList to add it globaly.<br>
-the formating/positioning is done in the css. if the button is part of the sidbar it will be positioned absolute so it 
+
+The formating and positioning is done in the css. When the sidebar is hidden, the button will appear in the lower left corner of the screen, appearing as the "hamburg" icon: ... %JQICON{fa-bars}%.
 </div>
 <!-- %JQREQUIRE{"chili"}% -->
 
-test button: %SIDEBARTOGGLEBUTTON% <br>
-this button only works if the sidebar is hidden (screen-width < 870px)
-
-(this is based on [[System.PatternSkinCssCookbookNoLeftBar]])
-%META:FILEATTACHMENT{name="SidebarToggle.css" attachment="SidebarToggle.css" attr="" comment="StyleSheet to toggle left Sidebar in the PatternSkin" date="1479429261" size="784" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SidebarToggle.css" attachment="SidebarToggle.css" attr="" comment="StyleSheet to toggle left Sidebar in the PatternSkin" date="1479575910" size="784" user="ProjectContributor" version="1"}%

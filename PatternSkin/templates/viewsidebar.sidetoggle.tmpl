@@ -1,0 +1,7 @@
+%{ to include a side bar on a page, just include this template in the page template }%
+%TMPL:INCLUDE{"viewsidebar"}%
+
+%TMPL:DEF{"sidebar"}%<div id="patternSideBar"><div id="patternClearHeaderLeft"></div>
+<div id="patternSideBarContents">%TMPL:P{"websidebar"}%
+<button class='sidebartoggle-button' title='Reveal/Hide Sidebar' onclick="$('body').toggleClass('showsidebar');">%JQICON{"fa-bars"}%</button> 
+</div></div>%TMPL:END%
