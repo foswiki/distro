@@ -50,6 +50,10 @@ sub new {
 
 Initialize this plugin by adding the required static files to the html header
 
+*This module should be kept in sync with %SYSTEMWEB%.DefaultPreferences EXPORTEDPREFERENCES setting!*  In order to add a preference:
+   * Add the preference to the EXPORTEDPREFERENCES list.
+   * Add any exception processing here if the macro does not expand correclty or may be missing.
+
 =cut
 
 sub init {
@@ -85,15 +89,19 @@ sub init {
     # add exported preferences to head
     my %prefs = ();
     foreach my $pref ( split( /\s*,\s*/, $prefs ) ) {
+        next
+          if ( $pref eq 'SCRIPTURLPATHS' );   # Skip - needs special formatting!
         $prefs{$pref} =
           Foswiki::Func::expandCommonVariables( '%' . $pref . '%' );
     }
 
-    # add {ScriptUrlPaths}
+# add {ScriptUrlPaths} (Needs special processing, and is not a default variable.)
     if ( defined $Foswiki::cfg{ScriptUrlPaths} ) {
         %{ $prefs{"SCRIPTURLPATHS"} } = %{ $Foswiki::cfg{ScriptUrlPaths} };
     }
-    $prefs{"URLHOST"} = Foswiki::Func::getUrlHost();
+
+    $prefs{"URLHOST"} =
+      Foswiki::Func::getUrlHost();    #URLHOST is not a default variable.
 
     my $text =
         "<script class='\$zone \$id foswikiPreferences' type='text/json'>"

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1479575910" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminToolsCategory"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
@@ -242,7 +242,7 @@ Note, this feature also must be enabled on the UserRegistration page by adding
     Foswiki::Func::setPreferencesValue(
         'EXPORTEDPREFERENCES', join(',', @list));
     </verbatim>
-   * Set EXPORTEDPREFERENCES = PUBURL, PUBURLPATH, SCRIPTSUFFIX, SCRIPTURL, SCRIPTURLPATH, SERVERTIME, SKIN, SYSTEMWEB, TOPIC, USERNAME, USERSWEB, WEB, WIKINAME, WIKIUSERNAME, NAMEFILTER
+   * Set EXPORTEDPREFERENCES = ATTACHMENTNAMEFILTER, NAMEFILTER, PUBURL, PUBURLPATH, SCRIPTSUFFIX, SCRIPTURL, SCRIPTURLPATH, SCRIPTURLPATHS, SERVERTIME, SKIN, SYSTEMWEB, TOPIC, URLHOST, USERNAME, USERSWEB, WEB, WIKINAME, WIKIUSERNAME
 
 ---+++ PatternSkin
 
