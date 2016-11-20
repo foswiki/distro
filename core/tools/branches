@@ -58,22 +58,30 @@ for my $branch (@branches) {
     next if $branch =~ /HEAD/;
 
     # Don't display upstream branches that we already have locally
-    $seen{$branch} = 1;
-    my ($remote) = $branch =~ m/remotes\/origin\/(.*)/;
-    next if ( $remote && $seen{$remote} );
+    my ($remotebr) = $branch =~ m/remotes\/(.*)/;
+    next if ( $remotebr && $seen{$remotebr} );
 
-    $branch =~ s#^remotes/##;
+    $branch =~ s#\bremotes/##;
     my $asis = `git branch --list -a --color=always $branch`;
     $asis =~ s/\s*$//;
 
     # Get the upstream status - gone, ahead or behind
     my $status = `git branch --list -a -vv $branch`;
     my ($upstream) = $status =~ m/.*?\[([^\]]+)\]/;
-    my ($state) = $upstream =~ m/:\s(.*)$/ if ($upstream);
+    $upstream ||= '';
+
+    my ( $remote, $state ) = split( /:/, $upstream );
+
+    if ( defined $remote ) {
+        $seen{$remote} = 1;
+    }
+    else {
+        $state = "no remote" unless $remotebr;
+    }
 
     print "  $asis";
     print " \033[33m(merged)\033[0m"
-      if ( $merged{$branch} and $branch ne "master" );
+      if ( $merged{$branch} and $asis !~ /^\*/ );
     print " \033[104m($state)\033[0m" if $state;
     print "\n";
     next if $branch =~ m/Release/;
