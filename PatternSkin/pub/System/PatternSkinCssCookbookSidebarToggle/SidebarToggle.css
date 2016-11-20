@@ -1,0 +1,39 @@
+/* Sidebar Toggle */
+
+button.sidebartoggle-button {
+	/* here comes some default formating */
+}
+
+/* if button is in sidebar and display is wide enough hide it. */
+#patternSideBar button.sidebartoggle-button {
+	display: none;
+}
+
+/* for nice smooth effects: */
+#patternSideBar {
+	display:block;
+}
+#patternOuter {
+	transition: margin-left ease-in-out 0.5s;
+}
+
+/* only active if normally hidden: */
+@media(max-width:870px) {
+	body.showsidebar #patternOuter {
+		margin-left: 16em;
+		transition: margin-left ease-in-out 0.5s;
+	}
+
+	/* show button */
+	#patternSideBar button.sidebartoggle-button {
+		display: block;
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		width: 2em;
+		height: 2em;
+		border-radius: 0.5em;
+		border: solid 2px rgba(0,0,0, 0.4);
+		background-color: rgba(0,0,0, 0.2);
+	}
+}
