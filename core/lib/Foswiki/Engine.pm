@@ -34,7 +34,7 @@ BEGIN {
 
 Constructs an engine object.
 
-The default object has three initialized keys on it: =fhIN=, =fhOUT=, =fhERR=.
+The default object has three initialized keys on it: =fhOUT=, =fhERR=.
 Those are filehandles used to communicate with HTTP server/environment and by
 default they're set to =STDIN=, =STDOUT=, and =STDERR= correspondingly. It is
 recommended to use =$engine->{fhERR}= instead of STDERR in order to get error
@@ -58,7 +58,6 @@ sub new {
 
         # Standard file handles to support engines/environments where
         # communication is based on custom sockets.
-        fhIN  => \*STDIN,
         fhOUT => \*STDOUT,
         fhERR => \*STDERR,
     };
