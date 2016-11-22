@@ -241,8 +241,8 @@ var bottomBarHeight = -1;
     data = self.tabs[newTabId];
 
     // before click handler
-    if (typeof(data.beforeHandler) == "function") {
-      data.beforeHandler.call(this, oldTabId, newTabId);
+    if (typeof(data.beforeHandler) !== "undefined") {
+      window[data.beforeHandler].call(self, oldTabId, newTabId);
     }
 
     $newContainer = $newTab.find('.jqTabContents:first');
@@ -305,9 +305,8 @@ var bottomBarHeight = -1;
       $(window).trigger("resize");
 
       // after click handler
-      if (typeof(data.afterHandler) == "function") {
-        //$.log("exec "+data.afterHandler);
-        data.afterHandler.call(this, oldTabId, newTabId);
+      if (typeof(data.afterHandler) !== "undefined") {
+        window[data.afterHandler].call(self, oldTabId, newTabId);
       }
 
       self.currentTabId = newTabId;
@@ -316,9 +315,8 @@ var bottomBarHeight = -1;
     // async loader
     if (typeof(data.url) != "undefined") {
       $innerContainer.load(data.url, undefined, function() {
-        if (typeof(data.afterLoadHandler) == "function") {
-          //$.log("after load handler "+command);
-          data.afterLoadHandler.call(this, oldTabId, newTabId);
+        if (typeof(data.afterLoadHandler) !== "undefined") {
+          window[data.afterLoadHandler].call(self, oldTabId, newTabId);
         }
         _finally();
       });
