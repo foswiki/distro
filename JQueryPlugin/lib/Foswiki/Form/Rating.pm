@@ -132,7 +132,9 @@ sub getDisplayValue {
     my @htmlAttrs = ();
 
     return
-"<input type='hidden' disabled autocomplete='off' name='$this->{name}' value='$value' class='jqStars {$this->{attributes}}' "
+"<input type='hidden' disabled autocomplete='off' name='$this->{name}' value='"
+      . ( $value // '' )
+      . "' class='jqStars {$this->{attributes}}' "
       . "data-num-stars='"
       . $this->{size} . "' "
       . $this->getDataValues() . ">";
