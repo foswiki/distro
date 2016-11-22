@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1479816293" format="1.1" version="1"}%
 %META:TOPICPARENT{name="JQueryPlugin"}%
 ---+ %TOPIC%
 
@@ -39,6 +39,23 @@ It does match JQueryButton in terms of look & feel.
 
 %INCLUDE{"VarTAB"}%
 %INCLUDE{"VarENDTAB"}%
+
+---++ <nop>JavaScript API
+
+Each =.jqTabPane= DOM node has got an instance of the =TabPane= javascript class attached to it that implements its behaviour.
+This instance can be accessed via the HTML5 data attribute =tabPane=:
+
+<verbatim class="js">
+var tb = $(".jqTabPane").data("tabPane");
+</verbatim>
+
+The returned object =tb= can then be used directly to control the related =.jqTabPane= DOM. The most useful methods are listed below:
+
+| *Method* | *Description* | 
+| =getNextTab([selector])= | get the next tab following the current one or the one specified by =selector= |
+| =hideTab([selector])= | hide the current tab or the one specified by =selector= |
+| =showTab([selector])= | show the current tab or the one specified by =selector= |
+| =switchTab(selectorOrObject)= | switch to the tab specified by a selector or a tab object |
 
 ---++ Examples
 %TABPANE%
@@ -121,7 +138,7 @@ erat bibendum blandit. Proin enim nunc, rutrum et, congue mattis, ultrices at,
 
 %STARTSECTION{"foo"}%
 ---+++!! Foo
-%TABPANE{animate="on"}%
+%TABPANE{animate="on" class="plain"}%
 %TAB{"Later"}%
 tristique ligula suscipit suscipit. Donec et tortor. Integer eros eros, commodo
 in, aliquam sit amet, facilisis et, magna. Sed nisl. Pellentesque mattis, quam

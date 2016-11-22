@@ -35,7 +35,7 @@ sub new {
             tags         => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
             css          => ['jquery.tabpane.css'],
             javascript   => ['jquery.tabpane.js'],
-            dependencies => [ 'metadata', 'livequery', 'easing' ],
+            dependencies => [ 'livequery', 'easing' ],
         ),
         $class
     );
@@ -70,7 +70,7 @@ sub handleTabPane {
     }
 
     return
-"<div class=\"jqTabPane $class {select:'$select', autoMaxExpand:$autoMaxExpand, animate:$animate, minHeight:$minHeight}\">";
+"<div class='jqTabPane $class' data-select='$select' data-auto-max-expand='$autoMaxExpand' data-animate='$animate' data-min-height='$minHeight'>";
 }
 
 =begin TML
@@ -95,33 +95,27 @@ sub handleTab {
     my $width            = $params->{width};
     my $tabId = 'jqTab' . Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
 
-    my @metaData = ();
+    my @html5Data = ();
     if ($beforeHandler) {
-
-        #    $beforeHandler =~ s/'/\\'/go;
-        push @metaData,
-          "beforeHandler: function(oldTabId, newTabId) {$beforeHandler}";
+        push @html5Data,
+"data-before-handler=\"function(oldTabId, newTabId) {$beforeHandler}\"";
     }
     if ($afterHandler) {
-
-        #    $afterHandler =~ s/'/\\'/go;
-        push @metaData,
-          "afterHandler: function(oldTabId, newTabId) {$afterHandler}";
+        push @html5Data,
+          "data-after-handler=\"function(oldTabId, newTabId) {$afterHandler}\"";
     }
     if ($afterLoadHandler) {
-
-        #    $afterLoadHandler =~ s/'/\\'/go;
-        push @metaData,
-          "afterLoadHandler: function(oldTabId, newTabId) {$afterLoadHandler}";
+        push @html5Data,
+"data-after-load-handler=\"function(oldTabId, newTabId) {$afterLoadHandler}\"";
     }
     if ($container) {
-        push @metaData, "container: '$container'";
+        push @html5Data, "data-container=\"$container\"";
     }
     if ($url) {
-        push @metaData, "url: '$url'";
+        push @html5Data, "data-url=\"$url\"";
         $tabClass .= ' jqAjaxTab';
     }
-    my $metaData = scalar(@metaData) ? ' {' . join( ',', @metaData ) . '}' : '';
+    my $html5Data = scalar(@html5Data) ? ' ' . join( ' ', @html5Data ) : '';
 
     my $style = '';
     $style .= "height:$height;" if defined $height;
@@ -129,7 +123,7 @@ sub handleTab {
     $style = "style='$style'" if $style;
 
     return
-"<!-- TAB --><div id='$tabId' class=\"$tabClass jqTab$metaData\">\n<h2 class='jqTabLabel'>$theName</h2>\n<div class='jqTabContents' $style>";
+"<div id='$tabId' class='$tabClass jqTab'$html5Data style='display:none'>\n<h2 class='jqTabLabel'>$theName</h2>\n<div class='jqTabContents' $style>";
 }
 
 =begin TML

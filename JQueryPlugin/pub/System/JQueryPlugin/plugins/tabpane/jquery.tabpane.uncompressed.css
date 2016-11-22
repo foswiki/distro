@@ -1,12 +1,15 @@
 .foswikiFormSteps .jqTabPane {
   margin:0px;
 }
+.jqTabLabel {
+  display:none;
+}
 .jqTabPane form {
   margin:0px;
   padding:0px;
 }
 .jqTab {
-  display:none; /* switched on by plugin */
+  display:none;
   border:1px solid #BDBEC5;
   padding:0px;
   margin:0px;
@@ -16,7 +19,7 @@
   border:none;
 }
 .jqTab.current {
-  display:block;
+  display:block !important;
 }
 .jqTabContents {
   padding:1em;
@@ -108,7 +111,7 @@ ul.jqTabGroup a {
 
 /* limitted support for printouts */
 .jqTabPane.jqStatic .jqTab {
-  display:block;
+  display:block!important;
   border:0;
   padding:0;
 }
@@ -120,11 +123,12 @@ ul.jqTabGroup a {
 }
 .jqTabPane.jqStatic .jqTabLabel {
   margin:1em 0;
+  display:block;
 }
 
 @media print {
   .jqTabPane .jqTab {
-    display:block;
+    display:block!important;
     border:0;
     padding:0;
   }
@@ -136,6 +140,7 @@ ul.jqTabGroup a {
   }
   .jqTabLabel {
     margin:1em 0;
+    display:block;
   }
 }
 
