@@ -30,12 +30,15 @@ sub descr {
 
 sub summary {
     my $it = shift;
+    my $br = shift;
+    ($br) = $br =~ m/(Item\d+)/;
 
     #print "SUMMARY for @_\n";
     return $items{$it} if $items{$it};
     my $url = "http://foswiki.org/Tasks/ItemSummaryQuery?item=$it;skin=text";
     my $description = get $url;
     $description =~ s#<b>.*</b>\n##;
+    $description =~ s#^$br:## if $br;
     $items{$it} = $description;
     return $description;
 }
@@ -88,10 +91,10 @@ for my $branch (@branches) {
     my $desc = descr $branch;
     print indent $desc. "\n" if $desc;
     if ( $branch =~ m/(Item(?:[0-9]){3,5})/ ) {
-        print indent summary $1;
+        print indent summary( $1, $branch );
     }
     elsif ( $desc =~ m/(Item(?:[0-9]){3,5})/ ) {
-        print indent summary $1;
+        print indent summary( $1, $branch );
     }
 
     print "\n";
