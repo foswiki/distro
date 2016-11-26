@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-09-08 12:00+0200\n"
+"PO-Revision-Date: 2016-11-26 23:37+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
-"foswiki/distribution-master/zh_TW/>\n"
+"Language-Team: Traditional Chinese "
+"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -629,9 +629,8 @@ msgid "Access keys:"
 msgstr "快捷鍵："
 
 #: core/data/System/PendingRegistrationsTemplate.txt:38
-#, fuzzy
 msgid "Access to pending registrations is restricted to administrators"
-msgstr "您的註冊尚需等待系統管理者確認。"
+msgstr "只有系統管理者才能存取註冊未完成資料"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -647,14 +646,12 @@ msgid "Actions"
 msgstr "功能"
 
 #: core/templates/registermessages.tmpl:91
-#, fuzzy
 msgid "Activation Failed"
-msgstr "啟動碼錯誤"
+msgstr "啟動失敗"
 
 #: core/templates/registermessages.tmpl:92
-#, fuzzy
 msgid "Activation for code %1 failed with an internal error."
-msgstr "操作 %1 因内部錯誤而失敗"
+msgstr "啟動碼 %1 因内部錯誤而失敗。"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:452
@@ -787,7 +784,7 @@ msgstr "顯示本頁前，您對對本主題的任何修改都已保留。"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:22
 msgid "Approve"
-msgstr ""
+msgstr "確認"
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -3039,9 +3036,8 @@ msgid "Passwords do not match"
 msgstr "密碼不相同"
 
 #: core/data/System/PendingRegistrations.txt:2
-#, fuzzy
 msgid "Pending Registrations"
-msgstr "無等待註冊"
+msgstr "註冊未完成資料"
 
 #: core/templates/registermessages.tmpl:41
 msgid "Pending registration not found"
@@ -3359,12 +3355,11 @@ msgstr ""
 
 #: core/data/System/PendingRegistrations.txt:3
 msgid "Registrations awaiting Email verification"
-msgstr ""
+msgstr "等待電子郵件確認的註冊資料"
 
 #: core/data/System/PendingRegistrations.txt:7
-#, fuzzy
 msgid "Registrations awaiting approval"
-msgstr "%1 註冊需要認證"
+msgstr "等待確認的註冊資料"
 
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
@@ -3372,7 +3367,7 @@ msgstr "正則運算式搜尋"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:23
 msgid "Reject"
-msgstr ""
+msgstr "駁回"
 
 #: core/data/System/UserName.txt:44
 msgid "Related Topics for Administrators:"
@@ -4187,11 +4182,10 @@ msgid ""
 msgstr "若目標主題中已有相同檔名的附件，附件可能改名（在檔名後加上一個數字）。"
 
 #: core/templates/renameattachmentdelete.tmpl:43
-#, fuzzy
 msgid ""
 "The attachment may have to be renamed if an attachment called '%1' already "
 "exists in the target topic."
-msgstr "若目標主題中已有相同檔名 '%FILENAME%' 的附件，本附件可能已被改名。"
+msgstr "本附件可能被改名，若目標主題中已有相同檔名 '%1' 的附件。"
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
@@ -4492,7 +4486,7 @@ msgstr "這是用戶在 %1 註冊的自動電子郵件通知。"
 msgid ""
 "This is an internal error.  You can try to register again, or contact %1 to "
 "report the error."
-msgstr ""
+msgstr "這是一個内部錯誤。你能再註冊一次，或聯絡 %1 報告這個錯誤。"
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:128
 msgid "This is not a valid WikiName."
@@ -5297,7 +5291,7 @@ msgstr "您能為本子網改名。"
 msgid ""
 "You can use the \"approve\" or \"reject\" links to approve or reject these "
 "registrations"
-msgstr ""
+msgstr "你能使用「確認」或「駁回」連結來確認或駁回這些註冊資料"
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429
