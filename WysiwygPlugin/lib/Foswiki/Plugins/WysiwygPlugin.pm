@@ -39,8 +39,8 @@ BEGIN {
 our $SHORTDESCRIPTION  = 'Translator framework for WYSIWYG editors';
 our $NO_PREFS_IN_TOPIC = 1;
 
-our $VERSION = '1.33';
-our $RELEASE = '08 Apr 2016';
+our $VERSION = '1.34';
+our $RELEASE = '26 Nov 2016';
 
 our %xmltag;
 
