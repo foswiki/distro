@@ -76,7 +76,7 @@ foreach my $ext ( sort @extensions ) {
             my $taskinfo = get_task_info($item);
             print "WARNING: Wrong state: $taskinfo\n"
               unless $taskinfo =~ m/Waiting for Release/;
-            next if $topicText =~ m/\b$item\b/;
+            next if $topicText =~ m/$item\b/;
             print "MISSING: from change log: $taskinfo\n";
 
         }
@@ -211,10 +211,10 @@ sub get_ext_topic {
     my $file = "$ext/data/System/$ext.txt";
 
     open( my $mf, '<', "$file" ) or die "Unable to open $file";
-    local $/ = undef;
+    local $/;
     my $topicText = <$mf>;
     close $mf;
-    return $mf;
+    return $topicText;
 }
 
 sub get_ext_info {
