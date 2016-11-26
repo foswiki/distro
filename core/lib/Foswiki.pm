@@ -118,6 +118,7 @@ BEGIN {
     # Set environment var FOSWIKI_NOTAINT to disable taint checks even
     # if Taint::Runtime is installed
     if ( DEBUG && !$ENV{FOSWIKI_NOTAINT} ) {
+        local $SIG{__DIE__};
         eval { require Taint::Runtime; };
         if ($@) {
             print STDERR
