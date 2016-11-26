@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1460168492" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1480180352" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Contribs"}%
 ---+!! !TopicUserMappingContrib
 <!--
@@ -64,6 +64,8 @@ It's a part of the default distribution of the Foswiki Core.
 
 |  Contrib Author(s): | Copyright (C) 2007-2016 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  4.55 (26 Nov 2016) | Release with foswiki-2.1.3<br/>\
+                        Foswikitask:Item13936: Add alternate from= email sender address for registration messages. |
 |  4.54 (8 Apr 2016) | Release with Foswiki 2.1.1<br/>\
                         Foswikitask:Item975: Allow bulk registration to work when Apache login is enabled.<br/>\
                         Foswikitask:Item13883: Improve bulk registration documentation.<br/>\
