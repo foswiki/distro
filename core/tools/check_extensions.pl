@@ -12,6 +12,7 @@ use LWP::Simple;
 use JSON;
 
 my $extension = shift;
+my %items;    # Hash to cache item # & descriptions.
 
 my $start = `git describe --tags --abbrev=0`;
 unless ($start) {
@@ -62,12 +63,25 @@ else {
 
 foreach my $ext ( sort @extensions ) {
     chomp $ext;
+    print "\n========== $ext ============\n";
+    my @itemlist;
     my $gitlog = `git log --oneline $start..HEAD $ext`;
     if ($gitlog) {
-        print
-"\n========================================================\ngit log --oneline $start..HEAD $ext\n";
-        print "$gitlog\n";
+        @itemlist = $gitlog =~ m/(Item\d+):/g;
+        my $topicText = get_ext_topic($ext);
+        my $last      = '';
+        foreach my $item ( sort @itemlist ) {
+            next if $item eq $last;
+            $last = $item;
+            my $taskinfo = get_task_info($item);
+            print "WARNING: Wrong state: $taskinfo\n"
+              unless $taskinfo =~ m/Waiting for Release/;
+            next if $topicText =~ m/\b$item\b/;
+            print "MISSING: from change log: $taskinfo\n";
+
+        }
     }
+
     else {
         print "No changes since last release\n";
     }
@@ -82,7 +96,7 @@ foreach my $ext ( sort @extensions ) {
     print
       "$ext - Last release: $ov, Uploaded $exthash->{version}, Module: $lv\n";
 
-    if ( $ov eq $lv && $gitlog ) {
+    if ( ( $ov eq $lv || $exthash->{version} eq $lv ) && $gitlog ) {
         print
 "ERROR: $ext: Identical versions, but commits logged since last release\n";
     }
@@ -192,6 +206,17 @@ sub extractModuleVersion {
     return $mod_version;
 }
 
+sub get_ext_topic {
+    my $ext  = shift;
+    my $file = "$ext/data/System/$ext.txt";
+
+    open( my $mf, '<', "$file" ) or die "Unable to open $file";
+    local $/ = undef;
+    my $topicText = <$mf>;
+    close $mf;
+    return $mf;
+}
+
 sub get_ext_info {
     my $ext = shift;
 
@@ -203,12 +228,19 @@ sub get_ext_info {
         die
 "ERROR: GET on Tasks.ItemStatusQuery failed.  Check https://foswiki.org/Tasks/ItemStatusQuery\n";
     }
-
     my $jsonarray = decode_json($jsondata);
     my $json      = shift @{$jsonarray};
-
-    #print Data::Dumper::Dumper( \$json );
-
     return $json;
+}
+
+sub get_task_info {
+    my $it = shift;
+
+    return $items{$it} if $items{$it};
+    my $url = "http://foswiki.org/Tasks/ItemSummaryQuery?item=$it;skin=text";
+    my $description = get $url;
+    $description =~ s#<b>.*</b>\n##;
+    $items{$it} = $description;
+    return $description;
 }
 
