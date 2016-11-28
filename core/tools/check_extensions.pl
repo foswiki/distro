@@ -22,6 +22,8 @@ unless ($start) {
 chomp $start;
 print "checking for changes since $start\n";
 
+my @changed;
+
 # Prints some "helpful" messages
 sub help {
     print <<"END";
@@ -63,10 +65,14 @@ else {
 
 foreach my $ext ( sort @extensions ) {
     chomp $ext;
-    print "\n========== $ext ============\n";
     my @itemlist;
     my $gitlog = `git log --oneline $start..HEAD $ext`;
+    next
+      unless
+      $gitlog;    # Comment this to get verbose report of unmodified extensions.
+    print "\n========== $ext ============\n";
     if ($gitlog) {
+        push @changed, $ext;
         @itemlist = $gitlog =~ m/(Item\d+):/g;
         my $topicText = get_ext_topic($ext);
         my $last      = '';
@@ -102,7 +108,9 @@ foreach my $ext ( sort @extensions ) {
     }
 }
 
-chdir $root;
+print "\n\nChanged extensions: " . join( ', ', @changed ) . "\n";
+
+#chdir $root;
 
 # Search the current working directory and its parents
 # for a directory called like the first parameter
