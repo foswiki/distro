@@ -16,11 +16,11 @@ BEGIN {
     }
 }
 
-our $VERSION = '4.44';
+our $VERSION = '4.45';
 
 # Please note that the second is now two digit.
 # Someone increased 4.22 to 4.3 which is not correct.
-our $RELEASE = '4.44';
+our $RELEASE = '28 Nov 2016';
 
 our $pluginName        = 'EditTablePlugin';
 our $ENCODE_START      = '--EditTableEncodeStart--';
