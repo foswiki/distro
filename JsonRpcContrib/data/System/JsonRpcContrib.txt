@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1459777187" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1480189276" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -216,6 +216,8 @@ If a namespace, method, or parameters are specified as part of a JSON-RPC reques
 %$DEPENDENCIES%
 
 ---++ Change History
+|  26 Nov 2016: (2.27) | Released with Foswiki 2.1.3.<br>\
+                         Foswikitask:Item14204: redirectto incorrectly encodes Anchors. |
 |  04 Apr 2016: (2.26) | Foswikitask:Item14025: Fix issues with JSON::XS 3.02 in some environments. |
 |  18 Mar 2016: (2.25) | Foswikitask:Item14011: Make sure HTTP2 is always compressing. |
 |  03 Feb 2016: (2.24) | Foswikitask:Item13405: Add NFC normalization of Unicode strings. |
