@@ -422,7 +422,7 @@ sub DEMOLISH {
     # Make sure not to do this if incomplete initialization happened or we're
     # doomed for "(in cleanup)" messages.
     $this->users->loginManager->complete
-      if $this->has_users && $this->users->has_loginManager;
+      if $this->users && $this->users->has_loginManager;
 }
 
 =begin TML
