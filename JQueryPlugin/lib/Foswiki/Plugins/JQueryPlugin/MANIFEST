@@ -679,6 +679,13 @@ pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.js.gz 0644
 pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.uncompressed.css 0644
 pub/System/JQueryPlugin/plugins/treeview/jquery.treeview.uncompressed.js 0644
 pub/System/JQueryPlugin/plugins/treeview/Makefile 0644
+pub/System/JQueryPlugin/plugins/tmpl/Makefile
+pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl-loader.js
+pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl-loader.js.gz
+pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl-loader.uncompressed.js
+pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl.js
+pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl.js.gz
+pub/System/JQueryPlugin/plugins/tmpl/jquery.tmpl.uncompressed.js
 pub/System/JQueryPlugin/plugins/ui/i18n/datepicker-af.js 0644
 pub/System/JQueryPlugin/plugins/ui/i18n/datepicker-ar-DZ.js 0644
 pub/System/JQueryPlugin/plugins/ui/i18n/datepicker-ar.js 0644
