@@ -1,11 +1,8 @@
 # See bottom of file for license and copyright information
 package EmptyPluginSuite;
 
-use strict;
-use warnings;
-
-use Unit::TestSuite;
-our @ISA = 'Unit::TestSuite';
+use Foswiki::Class;
+extends 'Unit::TestSuite';
 
 sub name { 'EmptyPluginSuite' }
 

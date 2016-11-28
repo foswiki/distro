@@ -6,8 +6,7 @@ use v5.14;
 use Foswiki;
 use Try::Tiny;
 
-use Moo;
-use namespace::clean;
+use Foswiki::Class;
 extends qw( FoswikiTestCase );
 
 around set_up => sub {
