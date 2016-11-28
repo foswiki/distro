@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1473233286" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1480360746" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Configure Plugin
 %FORMFIELD{"Description"}%
@@ -42,6 +42,7 @@ The plugin uses the =JsonRpcContrib=, which must be installed.
 
 ---++ Change History
 
+|  28 Nov 2016: | (1.06) Foswikitask:Item13206: Upgrade to latest jquery-ui |
 |  11 Apr 2016: | (1.05) Foswikitask:Item14049: fixed jsonrpc endpoint |
 |  03 Feb 2016: | (1.04) Foswikitask:Item13917: Regex type doesn't correctly compare default value |
 |  14 Oct 2015: | (1.03) fixed base use of =console= not supported by all browsers |
