@@ -41,7 +41,7 @@
     });
 
     // dynamically translate all i18n elements 
-    $(".i18n").livequery(function() {
+    $(".i18n:not(.i18nTranslated)").livequery(function() {
       self.translateElement(this);
     });
 
@@ -95,7 +95,7 @@
   I18N.prototype.translateAllElements = function() {
     var self = this;
 
-    $(".i18n").each(function() {
+    $(".i18n:not(.i18nTranslated)").each(function() {
       self.translateElement(this);
     });
   };
@@ -106,18 +106,29 @@
         $elem = $(elem),
         data = $elem.data(),
         message = data.i18nMessage,
+        translation,
         params = {};
 
-      $.each(data, function(key, val) {
-        if (key.match(/^i18n(.*)$/) && key !== 'i18nMessage') {
-          key = RegExp.$1.toLowerCase();
-          params[key] = val;
-        }
-      });
-
-      if (typeof(message) !== 'undefined') {
-        $elem.html(self.translate(message, params));
+    $.each(data, function(key, val) {
+      if (key.match(/^i18n(.*)$/) && key !== 'i18nMessage') {
+        key = RegExp.$1.toLowerCase();
+        params[key] = val;
       }
+    });
+
+    if (typeof(message) === 'undefined') {
+      message = $elem.text();
+    }
+    if (typeof(message) !== 'undefined') {
+      translation = self.translate(message, params);
+      if (translation !== message) {
+        $elem.html(translation).addClass("i18nTranslated");
+
+        //console.log("translating ",message,"to",translation);
+      }
+    }
+
+    return $elem;
   };
 
   // translate a string

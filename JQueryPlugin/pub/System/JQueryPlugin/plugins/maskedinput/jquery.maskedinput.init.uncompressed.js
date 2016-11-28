@@ -1,8 +1,10 @@
+"use strict";
 jQuery(function($) {
-  $("input[mask]:not(.jqInitedMaskedInput)").livequery(function() {
-    var $this = $(this);
-    $this.addClass(".jqInitedMaskedInput");
-    var opts = $.extend({}, $this.metadata());
-    $this.mask($this.attr('mask'), opts);
+  $(".jqMaskedInput:not(.jqInitedMaskedInput)").livequery(function() {
+    var $this = $(this), 
+        mask = $this.attr("mask"),
+        opts = $.extend({mask: mask}, $this.data(), $this.metadata());
+
+    $this.addClass("jqInitedMaskedInput").mask(opts.mask, opts);
   });
 });

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456220586" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1479816293" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ TABPANE -- tabpane widget
 This macro starts the tabpane, containing a series of TAB...ENDTABs and ends with ENDTABPANE. A complete tabpane normally looks like this:
@@ -36,7 +36,7 @@ This macro starts the tabpane, containing a series of TAB...ENDTABs and ends wit
      | =select= | number or id of tab to select | =1= |
      | =automaxexpand= | resizes the tabpane to the maximum height to fit into the window | =off= |
      | =minheight= | when automaxexpand is enabled, this is the minimum size a tab is allowed to be resized | 230 |
-     | =class= | extra class: use =simple= for a non-3D tabpane | | 
+     | =class= | extra class: use =simple= for a non-3D tabpane; use=plain= for a no-frame look&feel | | 
      | =animate= | enables/disables animation of switching tabs | =off= |
 ---++ Examples
 see JQueryTabpane for more examples

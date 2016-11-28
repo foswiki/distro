@@ -29,13 +29,13 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name         => 'Tabpane',
-            version      => '1.23',
+            version      => '2.00',
             author       => 'Michael Daum',
             homepage     => 'http://foswiki.org/Extensions/JQueryPlugin',
             tags         => 'TABPABNE, ENDTABPANE, TAB, ENDTAB',
             css          => ['jquery.tabpane.css'],
             javascript   => ['jquery.tabpane.js'],
-            dependencies => [ 'metadata', 'livequery', 'easing' ],
+            dependencies => [ 'livequery', 'easing' ],
         ),
         $class
     );
@@ -70,7 +70,7 @@ sub handleTabPane {
     }
 
     return
-"<div class=\"jqTabPane $class {select:'$select', autoMaxExpand:$autoMaxExpand, animate:$animate, minHeight:$minHeight}\">";
+"<div class='jqTabPane $class' data-select='$select' data-auto-max-expand='$autoMaxExpand' data-animate='$animate' data-min-height='$minHeight'>";
 }
 
 =begin TML
@@ -93,35 +93,39 @@ sub handleTab {
     my $tabClass         = $params->{id}        || '';
     my $height           = $params->{height};
     my $width            = $params->{width};
-    my $tabId = 'jqTab' . Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
 
-    my @metaData = ();
+    my $rand  = Foswiki::Plugins::JQueryPlugin::Plugins::getRandom();
+    my $tabId = "jqTab$rand";
+
+    my @callbacks = ();
+    my @html5Data = ();
+
     if ($beforeHandler) {
-
-        #    $beforeHandler =~ s/'/\\'/go;
-        push @metaData,
-          "beforeHandler: function(oldTabId, newTabId) {$beforeHandler}";
+        my $fnName = "beforeHandler$rand";
+        push @callbacks,
+          "function $fnName(oldTabId, newTabId) {$beforeHandler}";
+        push @html5Data, "data-before-handler=\"$fnName\"";
     }
     if ($afterHandler) {
-
-        #    $afterHandler =~ s/'/\\'/go;
-        push @metaData,
-          "afterHandler: function(oldTabId, newTabId) {$afterHandler}";
+        my $fnName = "afterHandler$rand";
+        push @callbacks, "function $fnName(oldTabId, newTabId) {$afterHandler}";
+        push @html5Data, "data-after-handler=\"$fnName\"";
     }
     if ($afterLoadHandler) {
-
-        #    $afterLoadHandler =~ s/'/\\'/go;
-        push @metaData,
-          "afterLoadHandler: function(oldTabId, newTabId) {$afterLoadHandler}";
+        my $fnName = "afterLoadHandler$rand";
+        push @callbacks,
+          "function $fnName(oldTabId, newTabId) {$afterLoadHandler}";
+        push @html5Data, "data-after-load-handler=\"$fnName\"";
     }
+
     if ($container) {
-        push @metaData, "container: '$container'";
+        push @html5Data, "data-container=\"$container\"";
     }
     if ($url) {
-        push @metaData, "url: '$url'";
+        push @html5Data, "data-url=\"$url\"";
         $tabClass .= ' jqAjaxTab';
     }
-    my $metaData = scalar(@metaData) ? ' {' . join( ',', @metaData ) . '}' : '';
+    my $html5Data = scalar(@html5Data) ? ' ' . join( ' ', @html5Data ) : '';
 
     my $style = '';
     $style .= "height:$height;" if defined $height;
@@ -129,7 +133,10 @@ sub handleTab {
     $style = "style='$style'" if $style;
 
     return
-"<!-- TAB --><div id='$tabId' class=\"$tabClass jqTab$metaData\">\n<h2 class='jqTabLabel'>$theName</h2>\n<div class='jqTabContents' $style>";
+        "<literal><script type='text/javascript'>"
+      . ( join( "\n", @callbacks ) )
+      . "</script></literal>\n"
+      . "<div id='$tabId' class='$tabClass jqTab'$html5Data style='display:none'>\n<h2 class='jqTabLabel'>$theName</h2>\n<div class='jqTabContents' $style>";
 }
 
 =begin TML

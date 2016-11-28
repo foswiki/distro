@@ -686,4 +686,14 @@
     $(function() {
         instrument($(document));
     });
+
+    $(window).load(function() {
+        var btn  = $(".erp-edittable");
+        var link = $(btn).parent();
+        var href = $(link).attr("href");
+        $(btn).click(function() {
+            window.location.assign(href);
+        });
+    });
+
 })(jQuery);

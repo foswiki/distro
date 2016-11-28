@@ -16,7 +16,7 @@ sub new {
         $class->SUPER::new(
             $session,
             name       => 'Render',
-            version    => '0.9.73',
+            version    => '0.9.83',
             author     => 'Boris Moore',
             homepage   => 'http://www.jsviews.com',
             javascript => [ 'jquery.render.js', 'jquery.template-loader.js' ],
