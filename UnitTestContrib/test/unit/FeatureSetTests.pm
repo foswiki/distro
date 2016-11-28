@@ -14,12 +14,12 @@ extends qw( FoswikiTestCase );
 sub str2ver(@);
 sub ver2str($);
 
-has test_version => (
+has tst_version => (
     is     => 'rw',
     coerce => sub { ( str2ver $_[0] )[0] },
 );
-has test_verKey => ( is => 'rw', );
-has test_callProfile => (
+has tst_verKey => ( is => 'rw', );
+has tst_callProfile => (
     is      => 'rw',
     clearer => 1,
 );
@@ -29,7 +29,7 @@ has ver2features => (
     clearer => 1,
     default => sub { {} },
 );
-has test_namespaces => (
+has tst_namespaces => (
     is      => 'rw',
     clearer => 1,
     lazy    => 1,
@@ -95,8 +95,8 @@ around set_up => sub {
 
     $orig->( $this, @_ );
 
-    $this->clear_test_namespaces;
-    $this->clear_test_callProfile;
+    $this->clear_tst_namespaces;
+    $this->clear_tst_callProfile;
     $this->clear_comply_map;
     $this->clear_context_map;
 
@@ -157,8 +157,8 @@ sub fixture_groups {
 $line_pragma
 sub $subName {
     my \$this = shift;
-    \$this->test_version( q/$ver/ );
-    \$this->test_verKey( "$verKey" );
+    \$this->tst_version( q/$ver/ );
+    \$this->tst_verKey( "$verKey" );
 }
 SUB
         Foswiki::Exception::Fatal->throw(
@@ -176,19 +176,19 @@ sub callProfile {
     my $this    = shift;
     my %profile = @_;
 
-    $this->test_callProfile( \%profile );
+    $this->tst_callProfile( \%profile );
 }
 
 sub callProfileWithVersion {
     my $this = shift;
 
-    $this->callProfile( -version => $this->test_version, );
+    $this->callProfile( -version => $this->tst_version, );
 }
 
 sub callProfileWithoutVersion {
     my $this = shift;
 
-    $Foswiki::VERSION = str2ver $this->test_version;
+    $Foswiki::VERSION = str2ver $this->tst_version;
 
     $this->callProfile;
 }
@@ -196,7 +196,7 @@ sub callProfileWithoutVersion {
 sub prepare_featureset {
     my $this = shift;
 
-    foreach my $ns ( @{ $this->test_namespaces } ) {
+    foreach my $ns ( @{ $this->tst_namespaces } ) {
         my @options;
         my $fPrefix = '';
         if ($ns) {
@@ -262,7 +262,7 @@ sub prepare_featureset {
 sub NSDefault {
     my $this = shift;
 
-    $this->clear_test_namespaces;
+    $this->clear_tst_namespaces;
 
     $this->prepare_featureset;
 }
@@ -270,15 +270,15 @@ sub NSDefault {
 sub NSSingle {
     my $this = shift;
 
-    $this->test_namespaces( ['Single'] );
+    $this->tst_namespaces( ['Single'] );
     $this->prepare_featureset;
 }
 
 sub NSBoth {
     my $this = shift;
 
-    $this->clear_test_namespaces;
-    push @{ $this->test_namespaces }, 'Secondary';
+    $this->clear_tst_namespaces;
+    push @{ $this->tst_namespaces }, 'Secondary';
     $this->prepare_featureset;
 }
 
@@ -315,7 +315,7 @@ sub test_register {
 
     $this->_registerStandardCORE;
 
-    my @fsList = allNsFeatures;
+    my @fsList = getNSFeatures;
 
     $this->assert_deep_equals(
         [
@@ -411,12 +411,9 @@ sub test_namespace_features {
       TEST_FEATURE => [ undef, undef, undef ],
       ;
 
-    my @nsList = featureNamespaces;
+    my @nsList = getFSNamespaces;
 
-    $this->assert_deep_equals(
-        [qw(CORE Test::NS1 Test::NS2)],
-        [ sort @nsList ],
-    );
+    $this->assert_deep_equals( [qw(Test::NS1 Test::NS2)], [ sort @nsList ], );
 }
 
 sub test_badVersion {
@@ -459,7 +456,7 @@ sub test_duplicate_feature {
 sub test_duplicate_NS_feature {
     my $this = shift;
 
-    $this->test_namespaces( ['NS::Dup'] );
+    $this->tst_namespaces( ['NS::Dup'] );
     $this->prepare_featureset;
 
     # Will pass because prepare_featureset will register in NS::Dup only.
@@ -621,14 +618,14 @@ sub check_fs_status {
     my $this    = shift;
     my %profile = @_;
 
-    foreach my $ns ( @{ $this->test_namespaces } ) {
+    foreach my $ns ( @{ $this->tst_namespaces } ) {
         my %fs_map =
           map { $_ => 1 }
           $profile{sub}
-          ->( $this->test_callProfile->{-version}, -namespace => $ns, );
+          ->( $this->tst_callProfile->{-version}, -namespace => $ns, );
 
-        my $ver = ver2str( $this->test_version );
-        my @allFeatures = allNsFeatures( -namespace => $ns );
+        my $ver = ver2str( $this->tst_version );
+        my @allFeatures = getNSFeatures( -namespace => $ns );
 
         foreach my $feature (@allFeatures) {
             my $expected_status =
@@ -668,7 +665,7 @@ sub verify_deprecated {
 sub verify_comply {
     my $this = shift;
 
-    my $vstr = ver2str $this->test_version;
+    my $vstr = ver2str $this->tst_version;
 
     foreach my $ns ( keys %{ $this->comply_map } ) {
         my $compNsMap      = $this->comply_map->{$ns};
@@ -682,25 +679,34 @@ sub verify_comply {
 
         $this->assert(
             featuresComply(
-                %{ $this->test_callProfile },
+                %{ $this->tst_callProfile },
                 -features  => \@comply,
                 -namespace => $ns,
             ),
             "The set ("
               . join( ", ", @comply )
               . ") must comply to version "
-              . $this->test_version
+              . $this->tst_version
         );
         $this->assert(
             !featuresComply(
-                %{ $this->test_callProfile },
+                %{ $this->tst_callProfile },
                 -features  => \@noncomply,
                 -namespace => $ns,
             ),
             "The set ("
               . join( ", ", @noncomply )
               . ") must not comply to version "
-              . $this->test_version
+              . $this->tst_version
+        );
+        $this->assert(
+            !featuresComply(
+                %{ $this->tst_callProfile },
+                -features  => [ @comply, 'THIS_FEATURE_DOESNT_EXISTS' ],
+                -namespace => $ns,
+            ),
+            "A set with non-existing feature must not comply to version "
+              . $this->tst_version
         );
     }
 }
@@ -708,10 +714,10 @@ sub verify_comply {
 sub verify_fs2context {
     my $this = shift;
 
-    my %context = features2Context( %{ $this->test_callProfile } );
+    my %context = features2Context( %{ $this->tst_callProfile } );
 
     $this->assert_deep_equals(
-        $this->context_map->{ ver2str $this->test_version },
+        $this->context_map->{ ver2str $this->tst_version },
         \%context, "Generated context doesn't match expected" );
 }
 
