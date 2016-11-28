@@ -1,13 +1,11 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Plugins::EmptyJQueryPlugin::YOUR;
-use strict;
-use warnings;
 
-use Foswiki::Plugins::JQueryPlugin::Plugin;
-our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
+use Foswiki::Plugins::EmptyJQueryPlugin ();    # for version information
 
-use Foswiki::Plugins::EmptyJQueryPlugin (); # for version information
+use Foswiki::Class;
+extends qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 =begin TML
 
@@ -25,31 +23,31 @@ Constructor
 
 =cut
 
-sub new {
-    my $class = shift;
-    my $session = shift || $Foswiki::Plugins::SESSION;
+around BUILDARGS => sub {
+    my $orig   = shift;
+    my $class  = shift;
+    my %params = @_;
 
-    my $this = bless(
-        $class->SUPER::new(
-            $session,
-            name          => 'your',
-	    # Use the version number from the Foswiki plugin; this keeps the
-	    # version number in lock-step between the JQuery plugin and
-	    # the Foswiki plugin.
-            version       => $Foswiki::Plugins::EmptyJQueryPlugin::VERSION,
-            author        => $Foswiki::Plugins::EmptyJQueryPlugin::AUTHOR,
-            homepage      => 'JQuery module\'s URL',
-            documentation => "$Foswiki::cfg{SystemWebName}.JQueryYour",
-            puburl        => '%PUBURLPATH%/%SYSTEMWEB%/EmptyJQueryPlugin/your',
-            javascript    => ['jquery.your.js']
+    my $app = $params{app};
 
-              #    ,css => ['jquery.your.css']
-        ),
-        $class
+    return $orig->(
+        $class,
+        @_,
+        name => 'your',
+
+        # Use the version number from the Foswiki plugin; this keeps the
+        # version number in lock-step between the JQuery plugin and
+        # the Foswiki plugin.
+        version       => $Foswiki::Plugins::EmptyJQueryPlugin::VERSION,
+        author        => $Foswiki::Plugins::EmptyJQueryPlugin::AUTHOR,
+        homepage      => 'JQuery module\'s URL',
+        documentation => $app->cfg->data->{SystemWebName} . ".JQueryYour",
+        puburl        => '%PUBURLPATH%/%SYSTEMWEB%/EmptyJQueryPlugin/your',
+        javascript    => ['jquery.your.js']
+
+          #    ,css => ['jquery.your.css']
     );
-
-    return $this;
-}
+};
 
 1;
 

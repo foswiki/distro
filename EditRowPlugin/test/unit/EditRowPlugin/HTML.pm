@@ -2,7 +2,7 @@
 package HTML;
 use v5.14;
 
-use Moo;
+use Foswiki::Class;
 extends qw(FoswikiFnTestCase);
 
 around loadExtraConfig => sub {
@@ -10,9 +10,9 @@ around loadExtraConfig => sub {
     my $this = shift;
 
     $orig->( $this, @_ );
-    $Foswiki::cfg{Plugins}{EditRowPlugin}{Enabled}   = 1;
-    $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro}     = 'EDITTABLE';
-    $Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled} = 0;
+    $this->app->cfg->data->{Plugins}{EditRowPlugin}{Enabled}   = 1;
+    $this->app->cfg->data->{Plugins}{EditRowPlugin}{Macro}     = 'EDITTABLE';
+    $this->app->cfg->data->{Plugins}{EditTablePlugin}{Enabled} = 0;
 };
 
 around createNewFoswikiApp => sub {

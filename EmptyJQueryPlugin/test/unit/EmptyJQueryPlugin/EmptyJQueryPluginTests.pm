@@ -1,37 +1,27 @@
 # See bottom of file for license and copyright information
-use strict;
-use warnings;
 
 package EmptyJQueryPluginTests;
 
-use FoswikiTestCase;
-our @ISA = qw( FoswikiTestCase );
-
-use strict;
-use warnings;
 use Foswiki;
 use CGI;
 
-my $foswiki;
-
-sub new {
-    my $self = shift()->SUPER::new(@_);
-    return $self;
-}
+use Foswiki::Class;
+extends qw( FoswikiTestCase );
 
 # Set up the test fixture
-sub set_up {
+around set_up => sub {
+    my $orig = shift;
     my $this = shift;
 
-    $this->SUPER::set_up();
+    $orig->( $this, @_ );
+};
 
-    $Foswiki::Plugins::SESSION = $foswiki;
-}
-
-sub tear_down {
+around tear_down => sub {
+    my $orig = shift;
     my $this = shift;
-    $this->SUPER::tear_down();
-}
+
+    $orig->( $this, @_ );
+};
 
 sub test_self {
     my $this = shift;

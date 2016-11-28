@@ -24,6 +24,7 @@ use Storable qw(dclone);
 use CGI ();
 use Compress::Zlib;
 use Foswiki::Extensions;
+use Foswiki::FeatureSet qw(:all);
 use Foswiki::Engine;
 use Foswiki::Templates;
 use Foswiki::Exception;
@@ -36,6 +37,18 @@ use Foswiki::Class qw(callbacks);
 extends qw(Foswiki::Object);
 
 callback_names qw(handleRequestException postConfig);
+
+features_provided
+  MOO => [
+    2.99, undef, undef,
+    -proposal => 'ImproveOOModel',
+    -desc     => 'Support for Moo-based OO core',
+  ],
+  PARA_INDENT   => [ undef, undef, undef ],
+  PREF_SET_URLS => [ undef, undef, undef ],
+  PSGI          => [ 2.99,  undef, undef, -desc => 'PSGI support', ],
+  UNICODE       => [ 2.0,   undef, undef, -desc => 'Unicode core', ],
+  ;
 
 has access => (
     is        => 'ro',
@@ -1399,16 +1412,17 @@ BOGUS
 
 sub _prepareContext {
     my $this = shift;
-    my $context = $this->_dispatcherAttrs->{context} // {};
-    $context->{SUPPORTS_PARA_INDENT}   = 1;
-    $context->{SUPPORTS_PREF_SET_URLS} = 1;
+
+    my %context =
+      ( %{ $this->_dispatcherAttrs->{context} // {} }, features2Context );
+
     if ( $this->cfg->data->{Password} ) {
-        $context->{admin_available} = 1;
+        $context{admin_available} = 1;
     }
     if ( $this->engine->isa('Foswiki::Engine::CLI') ) {
-        $context->{command_line} = 1;
+        $context{command_line} = 1;
     }
-    return $context;
+    return \%context;
 }
 
 sub _prepareEngine {

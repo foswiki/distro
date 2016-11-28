@@ -22,7 +22,6 @@ use Scalar::Util ();
 use Unicode::Normalize;
 
 use Foswiki::Class qw(app);
-extends qw(Foswiki::Object);
 
 use constant HTTP_COMPLIANT => undef;    # This is a generic class.
 
