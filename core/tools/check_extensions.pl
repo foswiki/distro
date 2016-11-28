@@ -63,10 +63,13 @@ else {
     close $man;
 }
 
+#my $dir = cwd();
+
 foreach my $ext ( sort @extensions ) {
     chomp $ext;
+    chdir "$root/$ext";
     my @itemlist;
-    my $gitlog = `git log --oneline $start..HEAD $ext`;
+    my $gitlog = `git log --oneline $start..HEAD .`;
     next
       unless
       $gitlog;    # Comment this to get verbose report of unmodified extensions.
@@ -95,10 +98,16 @@ foreach my $ext ( sort @extensions ) {
     my $class = ( $ext =~ m/Plugin/ ) ? 'Plugins' : 'Contrib';
     my $origsrc = `git show $start:$ext/lib/Foswiki/$class/$ext.pm`;
 
-    my $ov = extractModuleVersion( "$ext/lib/Foswiki/$class/$ext", $origsrc );
-    my $lv = extractModuleVersion("$ext/lib/Foswiki/$class/$ext");
+    my $mancheck = `../core/tools/check_manifest.pl`;
+    chomp $mancheck;
+    $mancheck =~ s/^Processing manifest .*\/MANIFEST$//g;
+    print "\n\n$mancheck" if ($mancheck);
+
+    my $ov      = extractModuleVersion( "lib/Foswiki/$class/$ext", $origsrc );
+    my $lv      = extractModuleVersion("lib/Foswiki/$class/$ext");
     my $exthash = get_ext_info($ext);
 
+    print "\n\n";
     print
       "$ext - Last release: $ov, Uploaded $exthash->{version}, Module: $lv\n";
 
@@ -216,7 +225,7 @@ sub extractModuleVersion {
 
 sub get_ext_topic {
     my $ext  = shift;
-    my $file = "$ext/data/System/$ext.txt";
+    my $file = "data/System/$ext.txt";
 
     open( my $mf, '<', "$file" ) or die "Unable to open $file";
     local $/;
