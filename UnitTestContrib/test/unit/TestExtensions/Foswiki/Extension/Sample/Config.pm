@@ -98,7 +98,12 @@ around assignGLOB => sub {
     my $orig = shift;
     my $this = shift;
 
-    tie %Foswiki::cfg, 'Foswiki::Extension::Sample::TiedConfig', $this;
+    my $class = 'Foswiki::Extension::Sample::TiedConfig';
+    my $tieObj = tie %Foswiki::cfg, $class, $this;
+
+    Foswiki::Exception::Fatal->throw(
+        text => 'Failed to tie \%Foswiki::cfg to ' . $class, )
+      unless $tieObj;
 };
 
 around unAssignGLOB => sub {

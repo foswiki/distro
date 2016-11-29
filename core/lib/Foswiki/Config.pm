@@ -422,13 +422,13 @@ CODE
     if ( $^O eq 'MSWin32' ) {
 
         #force paths to use '/'
-        $this->data->{PubDir}      =~ s|\\|/|g;
-        $this->data->{DataDir}     =~ s|\\|/|g;
-        $this->data->{ToolsDir}    =~ s|\\|/|g;
-        $this->data->{ScriptDir}   =~ s|\\|/|g;
+        $this->data->{PubDir} =~ s|\\|/|g;
+        $this->data->{DataDir} =~ s|\\|/|g;
+        $this->data->{ToolsDir} =~ s|\\|/|g;
+        $this->data->{ScriptDir} =~ s|\\|/|g;
         $this->data->{TemplateDir} =~ s|\\|/|g;
-        $this->data->{LocalesDir}  =~ s|\\|/|g;
-        $this->data->{WorkingDir}  =~ s|\\|/|g;
+        $this->data->{LocalesDir} =~ s|\\|/|g;
+        $this->data->{WorkingDir} =~ s|\\|/|g;
     }
 
     # Add explicit {Site}{CharSet} for older extensions. Default to utf-8.
@@ -1851,6 +1851,31 @@ sub _validateBindings {
         $Foswiki::cfg{$testKey} eq $this->data->{$testKey},
         "Foswiki::Config data attribute is not mapped to the %Foswiki::cfg hash"
     );
+}
+
+sub tieData {
+    my $this = shift;
+
+    return if tied %{ $this->data };
+
+    my $app       = $this->app;
+    my $hashClass = $app->extensions->mapClass('Foswiki::Config::DataHash');
+    Foswiki::load_class($hashClass);
+
+    my %newData;
+    my $tieObj = tie %newData, $hashClass, app => $this->app, _trace => 0,;
+    %newData = %{ $this->data };
+    $this->data( \%newData );
+}
+
+sub untieData {
+    my $this = shift;
+
+    return unless tied %{ $this->data };
+
+    my %newData = %{ $this->data };
+
+    $this->data( \%newData );
 }
 
 1;
