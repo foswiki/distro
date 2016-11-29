@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1479575910" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1480387012" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="System.PatternSkinCssCookbook"}%
 <!--
    * Set NOWYSIWYG = 1
@@ -16,13 +16,17 @@ This line loads the extra style definition:
    * Set USERSTYLEURL = %PUBURLPATH{topic="%SYSTEMWEB%.PatternSkinCssCookbookSidebarToggle" "SidebarToggle.css"}%
 </verbatim>
 
-To activate the button in the sidebar, also add the following to the preferences: (Be sure to escape any double-quotes (\")  if you modiy this statement.)
-<verbatim class="tml">
-   * Set PATTERNSIDEBARTOGGLE = <button class='sidebartoggle-button' title='Reveal/Hide Sidebar' onclick=\"$('body').toggleClass('showsidebar');\">%JQICON{"fa-bars"}%</button>
-</verbatim>
+To activate the button in the sidebar, override the =viewsidebar.pattern.tmpl= using the supplied =viewsidebar.sidetoggle.tmpl= by adding it to the front of
+the SKIN setting. 
+
+Your current SKIN setting is =%SKIN%=
+Change it to
+<pre>
+    * Set SKIN=sidetoggle,%SKIN% 
+</pre>
 
 The formating and positioning is done in the css. When the sidebar is hidden, the button will appear in the lower left corner of the screen, appearing as the "hamburg" icon: ... %JQICON{fa-bars}%.
 </div>
 <!-- %JQREQUIRE{"chili"}% -->
 
-%META:FILEATTACHMENT{name="SidebarToggle.css" attachment="SidebarToggle.css" attr="" comment="StyleSheet to toggle left Sidebar in the PatternSkin" date="1479575910" size="784" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="SidebarToggle.css" attachment="SidebarToggle.css" attr="" comment="StyleSheet to toggle left Sidebar in the PatternSkin" date="1480387012" size="784" user="ProjectContributor" version="1"}%
