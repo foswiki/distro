@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1457496285" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1480472285" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.0.3
 
@@ -916,7 +916,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item10461][Item10461]] | SEARCH Speedup: ACL checks (and Paging) using iterator filters that can be optimized by Store implemetations. |
 | [[%BUGS%/Item10490][Item10490]] | Document how to use Foswiki::Func::saveTopic to create a new topic.  |
 | [[%BUGS%/Item10520][Item10520]] | QuerySearch for \"SomeText\" ONLY refers to a FieldName, and no longer also a FormName. |
-| [[%BUGS%/Item10678][Item10678]] | Allow SEARCH on CREATEINFO. |
+|<strike> [[%BUGS%/Item10678][Item10678]]</strike> | <strike>Allow SEARCH on CREATEINFO.  </strike> |
 | [[%BUGS%/Item10684][Item10684]] | Allow default skin to also have famfamfam topic actions in top bar. |
 | [[%BUGS%/Item10686][Item10686]] | Report the registered restHandlers to command-line when rest called with a unknown handler. |
 | [[%BUGS%/Item10741][Item10741]] | Enhance GROUPINFO to handle Main.GroupName. |

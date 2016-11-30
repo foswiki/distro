@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1475953888" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1480472285" format="1.1" version="1"}%
 %META:TOPICPARENT{name="UserDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Query Search
@@ -37,10 +37,6 @@ All meta-data in a topic is referenced according to a simple plan.
       * =date=
       * =format=
       * =version= - topic version (integer)
-   * =META:CREATEINFO= - version info for the first version of the topic
-      * =author=
-      * =date=
-      * =version= - topic version (integer)
    * =META:TOPICMOVED=
       * =by=
       * =date=
@@ -74,7 +70,6 @@ Most things at the top level of the plan - =META:TOPICPARENT=, =META:TOPICINFO= 
 It's a bit clumsy having to type =META:FILEATTACHMENT= every time you want to refer to the array of attachments in a topic, so there are some predefined aliases that make it a bit less typing:
    * =attachments= means the same as =META:FILEATTACHMENT=
    * =info= means the same as =META:TOPICINFO=
-   * =createinfo= means the same as =META:CREATEINFO=
    * =parent= means the same as =META:TOPICPARENT=. *Note:* =parent= is itself a map; use =parent.name= to access the name of the parent topic
    * =moved= means the same as =META:TOPICMOVED=
    * =form= means the same as =META:FORM=, so to test if a topic has a form named 'UserForm' you test for ="form.name ~ '*.UserForm'"=
