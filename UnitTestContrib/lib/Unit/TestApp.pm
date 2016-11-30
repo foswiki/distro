@@ -81,6 +81,21 @@ has engineParams => (
 
 =begin TML
 
+---++ ObjectAttribute cfgParams -> hash
+
+This is a hash of parameters to be passed over to =Foswiki::Config=
+constructor.
+
+=cut
+
+has cfgParams => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => 'prepareCfgParams',
+);
+
+=begin TML
+
 #AttrCallbacks
 ---++ ObjectAttribute callbacks -> hash
 
@@ -185,6 +200,13 @@ around _prepareEngine => sub {
     return $orig->( $this, %{ $this->engineParams } );
 };
 
+around _prepareConfig => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    return $this->create( 'Foswiki::Config', %{ $this->cfgParams }, );
+};
+
 around handleRequest => sub {
     my $orig = shift;
     my $this = shift;
@@ -203,6 +225,10 @@ around handleRequest => sub {
 
     return $rc;
 };
+
+sub prepareCfgParams {
+    return {};
+}
 
 =begin TML
 
