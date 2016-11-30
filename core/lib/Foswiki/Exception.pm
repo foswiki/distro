@@ -57,7 +57,7 @@ use Foswiki::Class;
 extends qw(Foswiki::Object);
 with 'Throwable';
 
-use overload '""' => 'to_str';
+#use overload '""' => 'to_str';
 
 our $EXCEPTION_TRACE = 0;
 
@@ -185,7 +185,7 @@ sub stringify {
       );
 }
 
-sub to_str {
+around to_str => sub {
     my $this = shift;
 
     my $boundary = '-' x 60;
@@ -193,7 +193,7 @@ sub to_str {
         $boundary, map( { "    " . $_ } split /\n/, $this->stringify ),
         $boundary );
     return $msg;
-}
+};
 
 # We must not get into this. But if we do then let's not hide a error but let it
 # thru to the end user via JsonRPC interfaces.
