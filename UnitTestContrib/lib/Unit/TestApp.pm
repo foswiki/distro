@@ -79,11 +79,19 @@ has engineParams => (
     default => sub { {} },
 );
 
-# cfgParams hash is used to initialize a new cfg object.
+=begin TML
+
+---++ ObjectAttribute cfgParams -> hash
+
+This is a hash of parameters to be passed over to =Foswiki::Config=
+constructor.
+
+=cut
+
 has cfgParams => (
     is      => 'rw',
     lazy    => 1,
-    default => sub { {} },
+    builder => 'prepareCfgParams',
 );
 
 =begin TML
@@ -96,6 +104,7 @@ respective callbacks. Each handler =data= parameter is a hash whith the only
 key =app= containing reference to the application object.
 
 =cut
+
 has callbacks => (
     is        => 'rw',
     lazy      => 1,
@@ -103,7 +112,6 @@ has callbacks => (
     isa       => Foswiki::Object::isaHASH('callbacks'),
     default   => sub { {} },
 );
-
 has _cbRegistered => (
     is      => 'rw',
     default => 0,
@@ -196,8 +204,7 @@ around _prepareConfig => sub {
     my $orig = shift;
     my $this = shift;
 
-    my $cfg = $this->create( 'Foswiki::Config', %{ $this->cfgParams } );
-    return $cfg;
+    return $this->create( 'Foswiki::Config', %{ $this->cfgParams }, );
 };
 
 around handleRequest => sub {
@@ -218,6 +225,10 @@ around handleRequest => sub {
 
     return $rc;
 };
+
+sub prepareCfgParams {
+    return {};
+}
 
 =begin TML
 
