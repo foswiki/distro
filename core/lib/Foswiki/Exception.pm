@@ -57,8 +57,6 @@ use Foswiki::Class;
 extends qw(Foswiki::Object);
 with 'Throwable';
 
-#use overload '""' => 'to_str';
-
 our $EXCEPTION_TRACE = 0;
 
 =begin TML
@@ -174,18 +172,23 @@ sub BUILD {
       if DEBUG && $EXCEPTION_TRACE;
 }
 
-sub stringify {
+sub stringifyPostfix {
     my $this = shift;
-
-    return $this->text
-      . (
+    return (
         DEBUG
         ? "\n" . $this->stacktrace
         : ' at ' . $this->file . ' line ' . $this->line
-      );
+    );
+}
+
+sub stringify {
+    my $this = shift;
+
+    return $this->text . $this->stringifyPostfix;
 }
 
 around to_str => sub {
+    my $orig = shift;
     my $this = shift;
 
     my $boundary = '-' x 60;
@@ -563,7 +566,7 @@ around stringify => sub {
         $res->print( $this->status . " "
               . $this->header . "\n\n"
               . $this->text
-              . ( DEBUG ? $this->stacktrace : '' ) );
+              . $this->stringifyPostfix );
     }
 
     return $orig->($this);
