@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1459801632" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1480385562" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Skins"}%
 %STARTINCLUDE%
 ---+!! Pattern skin
@@ -189,6 +189,10 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern][Preview with this skin]] |
 |  Base Name: | pattern |
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  28 Nov 2016 | v.6.07: Foswikitask:Item14069: Improve sanitization of attach filename<br/>\
+                         Foswikitask:Item14092: Add hook to attach.pattern.tmpl to support attachment properties.<br/>\
+                         Foswikitask:Item14145: Deprecation of beforetext/aftertext templates breaks compatibility with other skins.<br/>\
+                         Foswikitask:Item14219: Add WebSideBar toggle cookbook. |
 |  04 Apr 2016 | V.6.06: Foswikitask:Item13950: Remove refresh cache links for guests<br/> \
                   Foswikitask:Item14039: SkinBrowser is too slow, searches are too broad. |
 |  03 Feb 2016 | V.6.05: Foswikitask:Item13880: Malformed HTML in WebCreateNewTopic |
@@ -262,20 +266,20 @@ Leave remarks, suggestions and other feedback in http://foswiki.org/Support/%TOP
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="print.css.gz" attr="h" comment="" date="1459801632" size="786" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header3.gif" attr="h" comment="" date="1459801632" size="33112" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="patternskin_screenshot.png" attr="h" comment="" date="1459801632" size="129505" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01_src.js" attr="h" comment="" date="1459801632" size="2618" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header1.gif" attr="h" comment="" date="1459801632" size="20605" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pattern.js" attr="h" comment="" date="1459801632" size="1305" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header2.gif" attr="h" comment="" date="1459801632" size="41616" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header5.gif" attr="h" comment="" date="1459801632" size="20639" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pattern_src.js" attr="h" comment="" date="1459801632" size="1732" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01.js.gz" attr="h" comment="" date="1459801632" size="474" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="pattern.js.gz" attr="h" comment="" date="1459801632" size="620" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="print.css" attr="h" comment="" date="1459801632" size="3869" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="headers.psd" attr="h" comment="" date="1459801632" size="8499470" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="header4.gif" attr="h" comment="" date="1459801632" size="92238" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="patternskin_screenshot_full.png" attr="h" comment="" date="1459801632" size="177943" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="foswiki_edit_01x01.js" attr="h" comment="" date="1459801632" size="1007" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="print_src.css" attr="h" comment="" date="1459801632" size="5545" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="print.css.gz" attr="h" comment="" date="1480385562" size="786" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header3.gif" attr="h" comment="" date="1480385562" size="33112" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="patternskin_screenshot.png" attr="h" comment="" date="1480385562" size="129505" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01_src.js" attr="h" comment="" date="1480385562" size="2618" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header1.gif" attr="h" comment="" date="1480385562" size="20605" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pattern.js" attr="h" comment="" date="1480385562" size="1305" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header2.gif" attr="h" comment="" date="1480385562" size="41616" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header5.gif" attr="h" comment="" date="1480385562" size="20639" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pattern_src.js" attr="h" comment="" date="1480385562" size="1732" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01.js.gz" attr="h" comment="" date="1480385562" size="474" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="pattern.js.gz" attr="h" comment="" date="1480385562" size="620" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="print.css" attr="h" comment="" date="1480385562" size="3869" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="headers.psd" attr="h" comment="" date="1480385562" size="8499470" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="header4.gif" attr="h" comment="" date="1480385562" size="92238" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="patternskin_screenshot_full.png" attr="h" comment="" date="1480385562" size="177943" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki_edit_01x01.js" attr="h" comment="" date="1480385562" size="1007" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="print_src.css" attr="h" comment="" date="1480385562" size="5545" user="ProjectContributor" version="1"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1479139667" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1480385562" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! %SYSTEMWEB%.PatternSkin CSS Cookbook
 
@@ -58,6 +58,10 @@ The rest of this topic shows examples of small CSS changes.
 ---+++ Hide the left bar
 
 See example at: PatternSkinCssCookbookNoLeftBar
+
+---+++ Toggle the left bar on small screen
+
+See example at: PatternSkinCssCookbookSidebarToggle
 
 ---+++ Use different fonts
 

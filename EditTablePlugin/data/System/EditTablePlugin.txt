@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1442714732" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1480362286" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Edit Table Plugin
 
@@ -200,6 +200,8 @@ Test if the Plugin is correctly installed:
 |  Version: | %$VERSION% |
 |  Release: | %$RELEASE% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  28 Nov 2016: | 4.45: Released with Foswiki 2.1.3<br/>\
+                  Foswikitask:Item14236: Include compressed and gziped versions of css and js. |
 |  19 Sep 2015: | 4.44: Foswikitask:Item13730: EditTablePlugin uses unescaped braces and calls CGI::param in list context. |
 |  28 Nov 2012: | 4.43: Foswikitask:Item11267: Convert to perl version strings.  Release with Foswiki 1.1.6 |
 |  06 Apr 2012: | 4.42: Foswikitask:Item11445: References to =Sandbox= should use %<nop>SANDBOXWEB% macro. Release with Foswiki 1.1.5. |
@@ -267,15 +269,15 @@ Test if the Plugin is correctly installed:
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
-%META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1442714732" size="7823" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h" comment="Screenshot" date="1442714732" size="2017" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="ScreenshotEditCell2.gif" attr="h" comment="Screenshot" date="1442714732" size="3199" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="img.gif" attr="h" comment="Component of Mishoo DHTML calendar" date="1442714732" size="145" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="menuarrow.gif" attr="h" comment="Component of Mishoo DHTML calendar" date="1442714732" size="68" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.gif" attr="h" comment="Edit table image button" date="1442714732" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_move.gif" attr="h" comment="Javascript button: move row" date="1442714732" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_delete.gif" attr="h" comment="Javascript button: delete row" date="1442714732" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="btn_delete_disabled.gif" attr="h" comment="Javascript button: delete (disabled)" date="1442714732" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.css" attr="h" comment="Plugin Style Sheet" date="1442714732" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="edittable.js" attr="h" comment="Javascript for table editing without page refresh" date="1442714732" size="298" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="move_done_bg_anim.gif" attr="h" comment="Background animation to show a row move has been completed" date="1442714732" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1480362286" size="7823" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h" comment="Screenshot" date="1480362286" size="2017" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="ScreenshotEditCell2.gif" attr="h" comment="Screenshot" date="1480362286" size="3199" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="img.gif" attr="h" comment="Component of Mishoo DHTML calendar" date="1480362286" size="145" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="menuarrow.gif" attr="h" comment="Component of Mishoo DHTML calendar" date="1480362286" size="68" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.gif" attr="h" comment="Edit table image button" date="1480362286" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_move.gif" attr="h" comment="Javascript button: move row" date="1480362286" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_delete.gif" attr="h" comment="Javascript button: delete row" date="1480362286" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="btn_delete_disabled.gif" attr="h" comment="Javascript button: delete (disabled)" date="1480362286" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.css" attr="h" comment="Plugin Style Sheet" date="1480362286" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.js" attr="h" comment="Javascript for table editing without page refresh" date="1480362286" size="298" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="move_done_bg_anim.gif" attr="h" comment="Background animation to show a row move has been completed" date="1480362286" size="298" user="ProjectContributor" version="1"}%
