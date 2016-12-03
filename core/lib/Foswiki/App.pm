@@ -98,9 +98,10 @@ instance.
 =cut
 
 has cfg => (
-    is      => 'rw',
-    lazy    => 1,
-    builder => '_prepareConfig',
+    is        => 'rw',
+    lazy      => 1,
+    predicate => 1,
+    builder   => '_prepareConfig',
     isa => Foswiki::Object::isaCLASS( 'cfg', 'Foswiki::Config', noUndef => 1, ),
 );
 has env => (
@@ -421,8 +422,13 @@ sub DEMOLISH {
 
     # Make sure not to do this if incomplete initialization happened or we're
     # doomed for "(in cleanup)" messages.
+    # Skip it over global destruction stage too.
     $this->users->loginManager->complete
-      if $this->users && $this->users->has_loginManager;
+      if !$in_global
+      && $this->has_users
+      && $this->users
+      && $this->users->has_loginManager
+      && $this->users->loginManager;
 }
 
 =begin TML
