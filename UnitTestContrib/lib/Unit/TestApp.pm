@@ -104,6 +104,7 @@ respective callbacks. Each handler =data= parameter is a hash whith the only
 key =app= containing reference to the application object.
 
 =cut
+
 has callbacks => (
     is        => 'rw',
     lazy      => 1,

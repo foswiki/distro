@@ -30,6 +30,7 @@ test/unit/AdminOnlyAccessControlTests.pm 0644
 test/unit/AttrsTests.pm 0644
 test/unit/CacheTests.pm 0644
 test/unit/ClientTests.pm 0644
+test/unit/ConfigTests.pm 0644
 test/unit/ConfigureQueryTests.pm 0644
 test/unit/ConfigureSaveTests.pm 0644
 test/unit/ConfigureTestCase.pm 0644

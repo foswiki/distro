@@ -1,5 +1,118 @@
 # See bottom of file for license and copyright information
 
+package Foswiki::Config::SpecDef {
+
+    use Foswiki::Exception::Config;
+
+    use Foswiki::Class;
+    extends qw(Foswiki::Object);
+
+    has specDef => (
+        is       => 'rw',
+        required => 1,
+        isa      => Foswiki::Object::isaARRAY( 'specDef', noUndef => 1, ),
+    );
+
+    has cursor => (
+        is      => 'rw',
+        default => 0,
+    );
+
+    # The source of the specs.
+    has source => (
+        is       => 'ro',
+        required => 1,
+    );
+
+    has section => (
+        is       => 'ro',
+        weak_ref => 1,
+        isa =>
+          Foswiki::Object::isaCLASS( 'section', 'Foswiki::Config::Section' ),
+    );
+
+    has keyPath => (
+        is      => 'ro',
+        default => sub { [] },
+    );
+
+    # Last fetched spec element.
+    has _lastFetch => ( is => 'rw', );
+
+    sub fetch {
+        my $this = shift;
+
+        Foswiki::Exception::Config::NoNextDef->throw(
+            text => "No more elements in the queue", )
+          unless $this->hasNext;
+
+        my $elem = $this->specDef->[ $this->cursor ];
+
+        $this->_lastFetch($elem);
+
+        $this->cursor( $this->cursor + 1 );
+
+        return $elem;
+    }
+
+    sub count {
+        my $this = shift;
+
+        return scalar( @{ $this->specDef } ) - $this->cursor;
+    }
+
+    sub hasNext {
+        my $this = shift;
+
+        return @{ $this->specDef } > $this->cursor;
+    }
+
+    # Returns undef if element is ok to be used as a subspec. Otherwise returns
+    # error text about elem type suitable to be used in a error message.
+    sub badSubSpecElem {
+        my $this = shift;
+        my $elem = shift;
+        return (
+            defined $elem
+            ? (
+                ref($elem) =~ /^(?:HASH|ARRAY)$/
+                ? undef
+                : "element of type " . ( ref($elem) // 'SCALAR' )
+              )
+            : "undefined element"
+        );
+    }
+
+    sub subSpecs {
+        my $this    = shift;
+        my %profile = @_;
+
+        my @subProfile;
+
+        unless ( $profile{specDef} ) {
+            my $lastElem = $this->_lastFetch;
+
+            my $badElemTxt = $this->badSubSpecElem($lastElem);
+            Foswiki::Exception::BadSpecData->throw( text =>
+                  "Cannot create specs definitions list from $badElemTxt" )
+              if $badElemTxt;
+
+            push @subProfile,
+              specDef => [ ref($lastElem) eq 'HASH' ? %$lastElem : @$lastElem ];
+        }
+
+        push @subProfile, section => $this->section
+          unless ( $profile{section} );
+
+        my $subSpecs = ref($this)->new(
+            source => $this->source,
+            @subProfile,
+            @_,
+        );
+        return $subSpecs;
+    }
+}
+
 package Foswiki::Config;
 
 =begin TML
@@ -65,12 +178,7 @@ has data => (
     lazy    => 1,
     clearer => 1,
     isa     => Foswiki::Object::isaHASH( 'data', noUndef => 1, ),
-    default => sub {
-        my $this = shift;
-        my $data = {};
-        $this->assignGLOB($data);
-        return $data;
-    },
+    builder => 'prepareData',
     trigger => sub {
         my $this = shift;
         $this->assignGLOB;
@@ -181,6 +289,25 @@ See [[#ObjectMethodNew][constructor new()]].
 =cut
 
 has noLocal => ( is => 'rw', default => 0, );
+
+=begin TML
+
+---++ ObjectAttribute rootSection => $rootSectionObject
+
+The root section object. Holds a list of first-level sections in the order,
+defined by specs.
+
+=cut
+
+has rootSection => (
+    is      => 'rw',
+    builder => 'prepareRootSection',
+    lazy    => 1,
+    clearer => 1,
+    isa     => Foswiki::Object::isaCLASS(
+        'rootSection', 'Foswiki::Config::Section', noUndef => 1,
+    ),
+);
 
 # Configuration shortcut attributes.
 
@@ -422,13 +549,13 @@ CODE
     if ( $^O eq 'MSWin32' ) {
 
         #force paths to use '/'
-        $this->data->{PubDir} =~ s|\\|/|g;
-        $this->data->{DataDir} =~ s|\\|/|g;
-        $this->data->{ToolsDir} =~ s|\\|/|g;
-        $this->data->{ScriptDir} =~ s|\\|/|g;
+        $this->data->{PubDir}      =~ s|\\|/|g;
+        $this->data->{DataDir}     =~ s|\\|/|g;
+        $this->data->{ToolsDir}    =~ s|\\|/|g;
+        $this->data->{ScriptDir}   =~ s|\\|/|g;
         $this->data->{TemplateDir} =~ s|\\|/|g;
-        $this->data->{LocalesDir} =~ s|\\|/|g;
-        $this->data->{WorkingDir} =~ s|\\|/|g;
+        $this->data->{LocalesDir}  =~ s|\\|/|g;
+        $this->data->{WorkingDir}  =~ s|\\|/|g;
     }
 
     # Add explicit {Site}{CharSet} for older extensions. Default to utf-8.
@@ -1069,25 +1196,30 @@ sub _validateCfgKey {
 
 sub _arg2keys {
     my $this = shift;
+    my @path = @_;
     my @keys;
 
-    if ( @_ == 1 ) {
-        if ( ref( $_[0] ) ) {
+    return () if @_ < 1;
+
+    if ( @path == 1 ) {
+        if ( ref( $path[0] ) ) {
             Foswiki::Exception::Fatal->throw(
                 text => "Reference passed is not an arrayref but "
-                  . ref( $_[0] ), )
-              unless ref( $_[0] ) eq 'ARRAY';
-            @keys = @{ $_[0] };
+                  . ref( $path[0] ), )
+              unless ref( $path[0] ) eq 'ARRAY';
+            @path = @{ $path[0] };
+            return () unless @path;
         }
-        elsif ( $_[0] =~ /^(?:{[^{}]+})+$/ ) {
-            @keys = $_[0] =~ /{([^{}]+)}/g;
+        elsif ( $path[0] =~ /^(?:{[^{}]+})+$/ ) {
+            @keys = $path[0] =~ /{([^{}]+)}/g;
         }
         else {
-            @keys = split '.', $_[0];
+            @keys = split /\./, $path[0];
         }
     }
-    elsif ( @_ > 1 ) {
-        @keys = @_;
+
+    if ( !@keys && @path > 1 ) {
+        @keys = map { $this->_arg2keys($_) } @path;
     }
 
     Foswiki::Exception::Fatal->throw(
@@ -1099,6 +1231,20 @@ sub _arg2keys {
     return @keys;
 }
 
+sub normalizeKeyPath {
+    my $this    = shift;
+    my $keyPath = shift;
+    my %params  = @_;
+
+    my @keys = $this->_arg2keys($keyPath);
+
+    my ( $prefix, $joint, $suffix ) =
+      $params{asHash} ? qw({ }{ }) : ( '', '.', '' );
+    return $prefix . join( $joint, @keys ) . $suffix;
+}
+
+# Returns subhash of the config data where key is stored. The key name is
+# returned as second element.
 sub _getSubHash {
     my $this = shift;
     my @keys = @_;
@@ -1110,9 +1256,7 @@ sub _getSubHash {
         my $key = shift @keys;
         $cfgPath = defined $cfgPath ? "$cfgPath.$key" : $key;
         $subHash = $subHash->{$key};
-        Foswiki::Exception::Fatal->throw(
-            text => "Not a hash ref value in $cfgPath", )
-          unless ref($subHash) eq 'HASH';
+        return () unless ref($subHash) eq 'HASH';
     }
 
     return ( $subHash, $keys[0] );
@@ -1802,6 +1946,9 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
     # to safe mode
     $this->data->{ForceUnsafeRegexes} = 0
       unless defined $this->data->{ForceUnsafeRegexes};
+
+    $Foswiki::regex{optionNameRegex} =
+      qr/^-([$Foswiki::regex{mixedAlpha}][$Foswiki::regex{mixedAlphaNum}]*)$/;
 }
 
 =begin TML
@@ -1873,9 +2020,290 @@ sub untieData {
 
     return unless tied %{ $this->data };
 
-    my %newData = %{ $this->data };
+    my $newData = $this->_cloneData( $this->data, 'data' );
 
-    $this->data( \%newData );
+    $this->data($newData);
+}
+
+sub getKeyObject {
+    my $this = shift;
+    my @keys = $this->_arg2keys(@_);
+
+    my $dataObj;
+    return undef unless $dataObj = tied %{ $this->data };
+
+    return $dataObj->getKeyObject(@keys);
+}
+
+sub getKeyNode {
+    my $this = shift;
+    my @keys = $this->_arg2keys(@_);
+
+    return undef unless @keys;
+
+    my $nodeKey = pop @keys;
+
+    my $keyObj = $this->getKeyObject(@keys);
+
+    return undef unless defined $keyObj;
+
+    return $keyObj->nodes->{$nodeKey};
+}
+
+sub spec {
+    my $this   = shift;
+    my $source = shift;
+
+    Foswiki::Exception::Fatal->throw(
+        text => "Spec source parameter is required and cannot be empty", )
+      unless defined($source) && length($source);
+
+    $this->tieData;
+
+    my $specs = $this->create(
+        'Foswiki::Config::SpecDef',
+        specDef => \@_,
+        source  => $source,
+        section => $this->rootSection,
+    );
+    try {
+        $this->_processSpec( specs => $specs, source => $source, );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+
+        if ( $e->isa('Foswiki::Exception::Config::NoNextDef') ) {
+            Foswiki::Exception::Config::BadSpecData->throw(
+                text => "Incomlete spec data", );
+        }
+
+        $e->rethrow;
+    };
+}
+
+sub prepareData {
+    my $this = shift;
+    my $data = {};
+    $this->assignGLOB($data);
+    return $data;
+}
+
+sub prepareRootSection {
+    my $this = shift;
+
+    return $this->create( 'Foswiki::Config::Section', name => 'Root' );
+}
+
+my @validSecOptions = qw(text);
+my $secOptRx = '(' . join( '|', @validSecOptions ) . ')';
+
+sub _specSection {
+    my $this   = shift;
+    my %params = @_;
+
+    my $specs   = $params{specs};
+    my $section = $specs->section;
+
+    Foswiki::Exception::Config::BadSpecData->throw(
+        text    => "Bad section definition: no name defined",
+        section => $section,
+    ) unless $specs->hasNext;
+
+    my @secProfile;
+    my $secName = $specs->fetch;
+
+    Foswiki::Exception::Config::BadSpecData->throw(
+        text => "Section name must be a plain string, not "
+          . ref($secName)
+          . " reference",
+        section => $section,
+    ) if ref($secName);
+
+    my $secDefined = 0;
+    until ($secDefined) {
+        Foswiki::Exception::Config::BadSpecData->throw(
+            text => "Incomplete section '$secName' definition: no data defined",
+            section => $section,
+        ) unless $specs->hasNext;
+
+        my $elem = $specs->fetch;
+
+        if ( $elem =~ /^-$secOptRx$/ ) {
+            my $secOpt = $1;
+
+            Foswiki::Exception::Config::BadSpecData->throw(
+                text =>
+"Section '$secName' option $secOpt is incomplete, missing value",
+                section => $section,
+            ) unless $specs->hasNext;
+
+            push @secProfile, $secOpt => $specs->fetch;
+        }
+        elsif ( ref($elem) eq 'ARRAY' ) {
+            my $subSect = $section->subSection( $secName, @secProfile );
+            my $subSpecs = $specs->subSpecs( section => $subSect );
+            $this->_processSpec( specs => $subSpecs, );
+            $secDefined = 1;
+        }
+        else {
+            Foswiki::Exception::Config::BadSpecData->throw(
+                text =>
+                  "Bad format of section '$secName': unexpected element $elem",
+                section => $section,
+            );
+        }
+    }
+}
+
+sub _specModprefix {
+    my $this   = shift;
+    my %params = @_;
+
+    my $specs   = $params{specs};
+    my $section = $specs->section;
+
+    Foswiki::Exception::Config::BadSpecData->throw(
+        text    => "Incomplete -modprefix option, missing value",
+        section => $section,
+
+    ) unless $specs->hasNext;
+
+    my $prefix = $specs->fetch;
+
+    $section->modprefix($prefix);
+}
+
+my @leafKeyOpts = qw(type label default wizard checker);
+my $leafKeyOptsRx = '(?:' . join( '|', @leafKeyOpts ) . ')';
+
+sub _specCfgKey {
+    my $this = shift;
+    my ( $key, %params ) = @_;
+
+    my $specs   = $params{specs};
+    my $section = $specs->section;
+
+    my @keyPath = $this->_arg2keys( $specs->keyPath, $key );
+    my $keyFullName = $this->normalizeKeyPath( \@keyPath );
+
+    # Cut off this key name off the full path.
+    my $keyName = pop @keyPath;
+
+    Foswiki::Exception::Config::BadSpecData->throw(
+        text    => "Incomplete key '$keyFullName': missing value",
+        section => $section,
+    ) unless $specs->hasNext;
+
+    my $value = $specs->fetch;
+
+    my $badValTypeTxt = $specs->badSubSpecElem($value);
+    Foswiki::Exception::Config::BadSpecData->throw(
+        text => "Cannot create key '$keyFullName' spec from $badValTypeTxt", )
+      if $badValTypeTxt;
+
+    my $keySpecs = $specs->subSpecs;
+    my $keyNode = $this->getKeyNode( @keyPath, $keyName );
+
+    # Undef until we decide if the key we're working with is leaf – i.e.
+    # defines a key storing value, not other keys.
+    # The node is non-leaf if it hold a hash ref. For a newly created node
+    # its value is undefined and thus
+    my $isLeafKey = defined $keyNode ? $keyNode->isLeaf : undef;
+    my ( @keyProfile, @subKeyElems );
+    while ( $keySpecs->hasNext ) {
+        my $elem = $keySpecs->fetch;
+
+        Foswiki::Exception::Config::BadSpecData->throw(
+            text => "Unexpected reference to "
+              . ref($elem)
+              . " where scalar is expected for key '$keyFullName'",
+            section => $section,
+        ) if ref($elem);
+
+        if ( $elem =~ $Foswiki::regex{optionNameRegex} ) {
+            my $option = $1;
+
+            my $isLeafOption = $option =~ /^$leafKeyOptsRx$/;
+
+            if ($isLeafOption) {
+                if ( defined $isLeafKey ) {
+                    Foswiki::Exception::Config::BadSpecData->throw(
+                        text => "Leaf-only option '"
+                          . $elem
+                          . "' cannot be declared in a non-leaf definition",
+                        section => $section,
+                        key     => $keyFullName,
+                    ) if !$isLeafKey;
+                }
+                else {
+                    # We didn't know if key is a leaf until now.
+                    $isLeafKey = $TRUE;
+                }
+            }
+
+            push @keyProfile, ( $option, $keySpecs->fetch );
+        }
+        else {
+            Foswiki::Exception::Config::BadSpecData->throw(
+                text => "Subkey '"
+                  . $elem
+                  . "' cannot be declared in a leaf key definition",
+                section => $section,
+                key     => $keyFullName,
+            ) if $isLeafKey;
+
+            $isLeafKey = 0;
+
+            push @subKeyElems, $elem, $keySpecs->fetch;
+        }
+    }
+
+    my $keyObject = $this->getKeyObject(@keyPath);
+    push @keyProfile, isLeaf => $isLeafKey if defined $isLeafKey;
+    $keyNode = $keyObject->makeNode( $keyName, @keyProfile,
+        section => $keySpecs->section, );
+
+    unless ($isLeafKey) {
+        my $subSpecs = $specs->subSpecs(
+            specDef => \@subKeyElems,
+            keyPath => [ @keyPath, $keyName ],
+        );
+        $this->_processSpec( specs => $subSpecs );
+    }
+}
+
+my %spec_opts = (
+    section   => { handler => \&_specSection, },
+    modprefix => { handler => \&_specModprefix, },
+);
+
+sub _processSpec {
+    my $this   = shift;
+    my %params = @_;
+
+    my $specs = $params{specs};
+
+    while ( $specs->hasNext ) {
+        my $keyword = $specs->fetch;
+
+        if ( $keyword =~ $Foswiki::regex{optionNameRegex} ) {
+            my $option = $1;
+
+            if ( $spec_opts{$option} ) {
+                $spec_opts{$option}{handler}->( $this, specs => $specs, );
+            }
+            else {
+                # Unknown option.
+                Foswiki::Exception::Config::BadSpecData->throw(
+                    text => "Unknown spec option " . $option );
+            }
+        }
+        else {
+            # LSC key found.
+
+            $this->_specCfgKey( $keyword, specs => $specs, );
+        }
+    }
 }
 
 1;
