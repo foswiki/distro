@@ -42,6 +42,28 @@ The following parameters are support by this module:
 | =extensible= | Makes class an extensible. |
 | =:5.XX= | A string prefixed with colon is treated as a feature bundle name and passed over to the =feature= module as is. This allows to override the ':5.14' default. |
 
+---++ Standard helpers
+
+Standard helpers are installed automatically and provide some commonly used
+functionality in an attempt to simplify routine operations.
+
+---+++ stubMethods @methodList
+
+This helper installs empty methods named after elements of it's parameters. A stub method
+is a sub which does nothing; in other words, instead of having a number of lines like:
+
+<verbatim>
+sub method1 {}
+sub method2 {}
+sub method3 {}
+</verbatim>
+
+One could simply do:
+
+<verbatim>
+stubMethods qw(method1 method2 method3);
+</verbatim>
+
 ---++ Callbacks
 
 When =callbacks= parameter is used:
@@ -144,8 +166,6 @@ sub import {
         if ( exists $options{$param} ) {
             my $opt = $options{$param};
             $opt->{use} = 1;
-
-            #push @noNsClean, @{ $opt->{keywords} } if defined $opt->{keywords};
         }
         else {
             push @p, $param;
@@ -180,6 +200,9 @@ sub import {
         -except  => \@noNsClean,
     );
 
+    # Install some common helpers.
+    _inject_code( $target, 'stubMethods', \&_handler_stubMethods );
+
     @_ = ( $class, @p );
     goto &Moo::import;
 }
@@ -205,6 +228,14 @@ sub _apply_roles {
 sub _assign_role {
     my ( $class, $role ) = @_;
     push @{ $_assignedRoles{$class} }, $role;
+}
+
+sub _handler_stubMethods (@) {
+    my $target = caller;
+    my $stubCode = sub { };
+    foreach my $methodName (@_) {
+        _inject_code( $target, $methodName, $stubCode );
+    }
 }
 
 sub _handler_callback_names {
@@ -312,6 +343,7 @@ sub _handler_pluggable ($&) {
 sub _install_extensible {
     my ( $class, $target ) = @_;
 
+    Foswiki::load_package('Foswiki::Aux::_ExtensibleRole');
     _assign_role( $target, 'Foswiki::Aux::_ExtensibleRole' );
     _inject_code( $target, 'pluggable', \&_handler_pluggable );
 }
