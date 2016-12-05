@@ -115,11 +115,8 @@ sub _muteExec {
     {
         # Don't try to capture STDERR on FastCGI systems. it won't work.
         my $muter = Foswiki::Aux::MuteOut->new(
-            outFile => $outFile,
-            errFile => (
-                defined $Foswiki::cfg{Engine}
-                  && $Foswiki::cfg{Engine} =~ m/FastCGI$/
-              ) ? undef : $errFile,
+            outFile  => $outFile,
+            errFile  => $errFile,
             reporter => $reporter,
         );
 
@@ -192,8 +189,11 @@ NOCERT
             $reporter->WARN(
 'Debug log not captured in FCGI environments. Check web server error log for debugging information'
             );
+            $ok = _autoconfigSMTP($reporter);
         }
-        ( $ok, $out, $err ) = _muteExec( \&_autoconfigSMTP, $reporter );
+        else {
+            ( $ok, $out, $err ) = _muteExec( \&_autoconfigSMTP, $reporter );
+        }
         $err =~ s/AUTH\s([^\s]+)\s.*$/AUTH $1 xxxxxxxxxxxxxxxx/mg if $err;
 
         unless ($ok) {
