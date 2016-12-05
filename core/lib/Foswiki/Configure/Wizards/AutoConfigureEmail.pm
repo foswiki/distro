@@ -113,9 +113,13 @@ sub _muteExec {
     close $fh2;
 
     {
+        # Don't try to capture STDERR on FastCGI systems. it won't work.
         my $muter = Foswiki::Aux::MuteOut->new(
-            outFile  => $outFile,
-            errFile  => $errFile,
+            outFile => $outFile,
+            errFile => (
+                defined $Foswiki::cfg{Engine}
+                  && $Foswiki::cfg{Engine} =~ m/FastCGI$/
+              ) ? undef : $errFile,
             reporter => $reporter,
         );
 
@@ -184,12 +188,14 @@ NOCERT
 
     if ( $Foswiki::cfg{SMTP}{MAILHOST} ) {
 
-        if ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} !~ m/FastCGI$/ ) {
-            ( $ok, $out, $err ) = _muteExec( \&_autoconfigSMTP, $reporter );
+        if ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} =~ m/FastCGI$/ ) {
+            $reporter->WARN(
+'Debug log not captured in FCGI environments. Check web server error log for debugging information'
+            );
         }
-        else {
-            $ok = _autoconfigSMTP($reporter);
-        }
+        ( $ok, $out, $err ) = _muteExec( \&_autoconfigSMTP, $reporter );
+        $err =~ s/AUTH\s([^\s]+)\s.*$/AUTH $1 xxxxxxxxxxxxxxxx/mg if $err;
+
         unless ($ok) {
             $reporter->WARN(
 "SMTP configuration using $Foswiki::cfg{SMTP}{MAILHOST} failed. Falling back to mail program"
