@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 
-# cruise back up the tree until we find lib and data subdirs
 use Cwd;
 use File::Spec;
 use File::Find;
@@ -13,6 +12,9 @@ use JSON;
 
 my $extension = shift;
 my %items;    # Hash to cache item # & descriptions.
+
+# Tasks that are typically left open and not documented in release notes,  eg. Documentation, Translation, etc.
+my @omit = (qw(Item13883 Item13884 Item13504));
 
 my $start = `git describe --tags --abbrev=0`;
 unless ($start) {
@@ -81,6 +83,9 @@ foreach my $ext ( sort @extensions ) {
         my $last      = '';
         foreach my $item ( sort @itemlist ) {
             next if $item eq $last;
+
+#SMELL: SmartMatch is experimental.  But had to give it a try.  Will  be changed in upcoming perl.
+            next if $item ~~ @omit;
             $last = $item;
             my $taskinfo = get_task_info($item);
             print "WARNING: Wrong state: $taskinfo\n"

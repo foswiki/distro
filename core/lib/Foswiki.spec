@@ -1920,6 +1920,7 @@ $Foswiki::cfg{Email}{SSLVerifyServer} = $FALSE;
 
 # **PATH LABEL="Certificate Authorities Filename" \
 #               FEEDBACK="icon='ui-icon-shuffle';label='Guess certificate locations'; wizard='SSLCertificates'; method='guess_locations'"\
+#               CHECK_ON_CHANGE="{Email}{SSLCaPath}" CHECK="also:{Email}{SSLCaPath}" \
 #               DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
 # Specify the file used to verify the server certificate trust chain.
 # This is the list of root Certificate authorities that you trust to issue
@@ -1931,6 +1932,7 @@ $Foswiki::cfg{Email}{SSLCaFile} = '';
 #               FEEDBACK='label="Validate Contents"; wizard="SSLCertificates"; method="validate";\
 #               title="Examines every file in the directory and verifies \
 #               that the contents look like certificates/and/or CRLs"' \
+#               CHECK_ON_CHANGE="{Email}{SSLCaFile}" CHECK="also:{Email}{SSLCaFile}" \
 #               DISPLAY_IF="{EnableEmail} && /^Net::SMTP/.test({Email}{MailMethod}) && {Email}{SSLVerifyServer}"**
 # Specify the directory used to verify the server certificate trust chain.
 # This is the list of root Certificate authorities that you trust to issue

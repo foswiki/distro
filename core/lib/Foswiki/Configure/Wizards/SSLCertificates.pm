@@ -28,6 +28,24 @@ Guess the locations of SSL Certificate files.
 sub guess_locations {
     my ( $this, $reporter ) = @_;
 
+    my $supportBoth = 1;    # Support both CA File and CA Path.
+
+# SMELL: Versions of IO::Socket::SSL before 1.973 will croak if both CaFile and CaPath are set.
+    my @mods = (
+        {
+            name => 'IO::Socket::SSL',
+            usage =>
+'Required if both ={Email}{SSLCaFile}= and ={Email}{SSLCaPath}= are set. Clear one or the other.',
+            minimumVersion => 1.973
+        }
+    );
+    Foswiki::Configure::Dependency::checkPerlModules(@mods);
+    foreach my $mod (@mods) {
+        if ( !$mod->{ok} ) {
+            $supportBoth = 0;
+        }
+    }
+
     my @CERT_FILES = (
         "/etc/pki/tls/certs/ca-bundle.crt",          #Fedora/RHEL
         "/etc/ssl/certs/ca-certificates.crt",        #Debian/Ubuntu/Gentoo etc.
@@ -53,14 +71,14 @@ sub guess_locations {
     if ( $file || $path ) {
         $reporter->NOTE("Guessed from LWP settings");
         $guessed = 1;
-        _setLocations( $reporter, $file, $path );
+        _setLocations( $reporter, $file, $path, $supportBoth );
     }
     else {
         ( $file, $path ) = @ENV{qw/HTTPS_CA_FILE HTTPS_CA_DIR/};
         if ( $file || $path ) {
             $reporter->NOTE("Guessed from Crypt::SSLEay's settings");
             $guessed = 1;
-            _setLocations( $reporter, $file, $path );
+            _setLocations( $reporter, $file, $path, $supportBoth );
         }
         else {
             if ( eval('require Mozilla::CA;') ) {
@@ -68,7 +86,7 @@ sub guess_locations {
                 if ($file) {
                     $reporter->NOTE("Obtained from Mozilla::CA");
                     $guessed = 1;
-                    _setLocations( $reporter, $file, $path );
+                    _setLocations( $reporter, $file, $path, $supportBoth );
                 }
                 else {
                     $reporter->WARN("Mozilla::CA is installed but has no file");
@@ -83,21 +101,19 @@ sub guess_locations {
         if ( -e $file && -r $file ) {
             $guessed = 1;
             $reporter->NOTE("Guessed $file as the CA certificate bundle.");
-            _setLocations( $reporter, $file, $path );
+            _setLocations( $reporter, $file, $path, $supportBoth );
             last;
         }
     }
 
-# SMELL: I've seen some errors that suggest that only File or Path should be specified
-# but IO::Socket::SSL docs clearly state both are acceptable.
-#return undef if ($guessed);
+    return undef if ( $guessed && !$supportBoth );
 
     # First see if the linux default path work
     foreach $path (@CERT_DIRS) {
         if ( -d $path && -r $path ) {
             $reporter->NOTE("Guessed $path as the certificate directory.");
             $guessed = 1;
-            _setLocations( $reporter, $file, $path );
+            _setLocations( $reporter, $file, $path, $supportBoth );
         }
     }
 
@@ -114,10 +130,36 @@ sub _setLocations {
 
     # my ( $reporter, $file, $path ) = @_
     #$_[0]->WARN(Foswiki::Configure::Checker::GUESSED_MESSAGE);
+
+    if (
+        !$_[3]
+        && (   $Foswiki::cfg{Email}{SSLCaFile}
+            || $Foswiki::cfg{Email}{SSLCaPath} )
+      )
+    {
+        $_[0]->WARN(
+'Obsolete version of IO::Socket::SSL installed: ={Email}{SSLCaFile}= and ={Email}{SSLCaPath}= must not both be set.'
+        );
+        return;
+    }
+
     if ( $_[1] ) {
         $Foswiki::cfg{Email}{SSLCaFile} = $_[1];
         $_[0]->CHANGED('{Email}{SSLCaFile}');
     }
+
+    if (
+        !$_[3]
+        && (   $Foswiki::cfg{Email}{SSLCaFile}
+            || $Foswiki::cfg{Email}{SSLCaPath} )
+      )
+    {
+        $_[0]->WARN(
+'Obsolete version of IO::Socket::SSL installed: ={Email}{SSLCaFile}= and ={Email}{SSLCaPath}= must not both be set.'
+        );
+        return;
+    }
+
     if ( $_[2] ) {
         $Foswiki::cfg{Email}{SSLCaPath} = $_[2];
         $_[0]->CHANGED('{Email}{SSLCaPath}');
