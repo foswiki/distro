@@ -184,9 +184,7 @@ NOCERT
 
     if ( $Foswiki::cfg{SMTP}{MAILHOST} ) {
 
-        if ( 1
-            || $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} !~ m/FastCGI$/ )
-        {
+        if ( $Foswiki::cfg{Engine} && $Foswiki::cfg{Engine} !~ m/FastCGI$/ ) {
             ( $ok, $out, $err ) = _muteExec( \&_autoconfigSMTP, $reporter );
         }
         else {

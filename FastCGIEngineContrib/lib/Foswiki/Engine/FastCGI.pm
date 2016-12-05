@@ -65,13 +65,7 @@ sub run {
           or die "Failed to create FastCGI socket: $!";
     }
     $args ||= {};
-    
-    # Prepare output handles for FastCGI.
-    $this->{$_} = IO::Handle->new foreach qw(fhIN fhOUT fhERR);
-    # This is a little trick to make all `print STDERR' clauses send their
-    # output to the log file. May not work for spawned processes.
-    STDERR->fdopen($this->{fhERR}->fileno, "w");
-    my $r = FCGI::Request( $this->{fhIN}, $this->{fhOUT}, $this->{fhERR}, \%ENV, $sock,
+    my $r = FCGI::Request( \*STDIN, \*STDOUT, \*STDERR, \%ENV, $sock,
         &FCGI::FAIL_ACCEPT_ON_INTR );
     my $manager;
 
@@ -193,8 +187,7 @@ sub preparePath {
 }
 
 sub write {
-    my $this = shift;
-    syswrite $this->{fhOUT}, $_[0];
+    syswrite STDOUT, $_[1];
 }
 
 sub closeSocket {
