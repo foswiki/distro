@@ -197,7 +197,7 @@ sub getKeyObject {
 
             # Auto-vivify key if doesn't exists. We always create a non-leaf
             # here because this is what this method is supposed to do.
-            $node = $this->makeNode( $key, isLeaf => 0, );
+            $node = $keyObj->makeNode( $key, isLeaf => 0, );
 
             Foswiki::Exception::Fatal->throw(
                 text => "Failed to auto-vivify key '$key' on "
@@ -212,7 +212,7 @@ sub getKeyObject {
 
             # If node doesn't have a value assigned or is not explicitly defined
             # as a leaf then make it a non-leaf and assign subhash.
-            $this->tieNode($key);
+            $keyObj->tieNode($key);
         }
 
         $keyObj = tied( %{ $node->value } );
@@ -259,7 +259,10 @@ sub tieNode {
 
     my %newHash;
     my $class = ref($this);
-    my $tieObj = tie %newHash, $class, name => $key, parent => $this, @_;
+    my $tieObj = tie %newHash, $class,
+      name   => $key,
+      parent => $node->parent,
+      @_;
 
     Foswiki::Exception::Fatal->throw(
         text => "Failed to create a tied " . $class . " hash", )

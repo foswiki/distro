@@ -113,7 +113,11 @@ sub test_specSimple {
                     Setting => {
                         -type     => 'SELECT',
                         -variants => [qw(one two three)],
-                    }
+                    },
+                    'Sub.Setting.Deep' => [
+                        'Opt.K1' => { -type => 'TEXT', },
+                        'Opt.K2' => { -type => 'NUMBER', },
+                    ],
                 ],
                 -modprefix             => 'Foswiki::Extension::OtherExt',
                 'Extensions.SampleExt' => [
@@ -130,6 +134,10 @@ sub test_specSimple {
             ],
         ],
     );
+
+    my $cfgData = $this->app->cfg->data;
+
+    return;
 }
 
 1;
