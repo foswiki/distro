@@ -2328,7 +2328,7 @@ msgstr "Kysymyksiisi vastaa %1"
 msgid "If you have any questions, please contact %1."
 msgstr "Kysymyksiisi vastaa %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:256
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:263
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -3062,7 +3062,7 @@ msgstr ""
 "tämän toiminnon jälkeen."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:261
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:13
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -4154,7 +4154,7 @@ msgstr ""
 msgid "Size"
 msgstr "Koko"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:247
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "Lisää aikataulu infoa ja lomahuomautus."
@@ -4173,7 +4173,7 @@ msgstr ""
 "kun klikkaat linkkiä. Jos teit tämän, on mahdollista että *olet* "
 "rekisteröinyt onnistuneesti."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:246
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4260,7 +4260,7 @@ msgstr ""
 msgid "Submit"
 msgstr "Lähetä"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:258
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:265
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -5666,7 +5666,7 @@ msgstr ""
 "olive(=oliivin vihreä), yellow(=keltainen), navy(=tumman sininen), "
 "blue(=sininen), teal(=tavi), tai aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:255
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:262
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "Voit vaihtaa salasanaasi myös sivun %1 kautta"
@@ -5842,7 +5842,7 @@ msgstr "Tämä sivusto vaatii vähintään %1 merkkkiä pitkän salasanan"
 msgid "Your password:"
 msgstr "Uusi salasana:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:244
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
