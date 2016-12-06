@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1471367578" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1481034944" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.1
 
@@ -54,6 +54,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.0 was built on 02 Feb 2016. It is a release that contains 37 fixes and 14 enhancements. It closes 7 Feature Requests.
    * Foswiki 2.1.1 was built on 30 Apr 2016. It is a release that contains 36 fixes and 21 enhancements.
    * Foswiki 2.1.2 was built on 2 May 2016. It is a release that contains 1 fix.
+   * Foswiki 2.1.3 was built on ...   It is a release that contains 42 fixes and 20 enhancements.
 
 
 ---++ Pre-installed Extensions
@@ -79,16 +80,31 @@ However the TinyMCEPlugin is still unable to render image links while editing a 
 
 See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
 
+---++ Important changes in Foswiki 2.1.3
+
+---+++ User Registration
+
+The stored format of pending registrations has been changed to perl "Storable" in order to better support Unicode user names and other registration fields.
+As this format is binary and not generally human readable, a new report: [[System.PendingRegistrations]] has been added.  It shows registrations that are
+awating email verification and registrations awating approval.  Registrations awaiting approval can be directly approved from the new page.
+
+Any existing pending registrations should be resolved prior to upgrading to Foswiki 2.1.3.  Existing submissions will be lost.
+
+---+++ Usability on small screens
+
+A user contributed !WebSideBar toggle button can be enabled.  This renders a small "hamburg" icon to restore the side bar when viewing
+Foswiki on a small device.  See [[System.PatternSkinCssCookbookSidebarToggle]].
+
+---+++ JQuery
+This release updates to a newer maintenance version of JQuery.  You should
+visit =bin/configure= and select the updated versions of JQuery.
+
 ---++ Important changes in Foswiki 2.1.1
 ---+++ Page Caching
 The Foswiki PageCache has added another index on the dependencies table.
 After installing this update, you should issue the =refresh=all= option to
 drop the foswiki cache tables, and allow them to be recreated.  This will
 create the new index.
-
----+++ JQuery
-This release updates to a newer maintenance version of JQuery.  You should
-visit =bin/configure= and select the updated versions of JQuery.
 
 ---+++ New CPAN dependency, and foswiki.org changes
 Due to upstream changes, the Perl LWP package has been split into two
@@ -311,6 +327,74 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 ---+++ Fixes
 
 | [[%BUGS%/Item14061][Item14061]] | Non-admin users are unable to refresh the page cache using the =refresh= query param. It's silently ignored. |
+
+---++ Foswiki Release 2.1.3 Details
+---+++ Fixes
+
+| [[%BUGS%/Item11548][Item11548]] | INCLUDE{warn="custom"} only works for topic-missing warnings. |
+| [[%BUGS%/Item13206][Item13206]] | Upgrade to latest jquery-ui. |
+| [[%BUGS%/Item13882][Item13882]] | Foswiki 1.1 webTopicCreator incompatible with latest JQuery |
+| [[%BUGS%/Item13928][Item13928]] | Mistypes to be fixed in the core. |
+| [[%BUGS%/Item13929][Item13929]] | FileUtil doesn't work correctly with BSD tar. |
+| [[%BUGS%/Item13963][Item13963]] | Foswiki::Form::getField() might generate 'use of undefined value' warnings. |
+| [[%BUGS%/Item13986][Item13986]] | Any changes to a topic text made after pushing the topic to the context stack are ignored even changes are related to topic-level preferences.  |
+| [[%BUGS%/Item14063][Item14063]] | Bootstrap fails to correctly detect path when mod_rewrite engine is disabled.  |
+| [[%BUGS%/Item14064][Item14064]] | Bad link in index.html in 2.1.0 and 2.1.2. |
+| [[%BUGS%/Item14068][Item14068]] | Excessive calls of getPreferences(LINKTOOLTIP) causes performance issues. |
+| [[%BUGS%/Item14069][Item14069]] | Attach filename parameter needs further sanitization. |
+| [[%BUGS%/Item14071][Item14071]] | Register script reports zero values as missing registration fields. |
+| [[%BUGS%/Item14077][Item14077]] | INCLUDE{"topic,list"} fails if first topic is access denied. |
+| [[%BUGS%/Item14078][Item14078]] | Wysiwyg merges horizontal rules (---) into a preceeding list and looses the TML markup. |
+| [[%BUGS%/Item14098][Item14098]] | Approve User Registration should not require Verify User Registration. |
+| [[%BUGS%/Item14102][Item14102]] | Documentation suggest a Short URL configuration (renaming view script to xview) which is no longer supported. |
+| [[%BUGS%/Item14104][Item14104]] | Plain text password is sent by email in registration approval request. |
+| [[%BUGS%/Item14125][Item14125]] | "Start Presentation" button needs further sanitization. |
+| [[%BUGS%/Item14128][Item14128]] | WebTopicEditTemplate not readable in restricted system web. |
+| [[%BUGS%/Item14139][Item14139]] | debugenableplugins not correctly handled. |
+| [[%BUGS%/Item14146][Item14146]] | Configure permissions checker fails to check some files, excessively checks others and crashes trying to report utf8 names. |
+| [[%BUGS%/Item14150][Item14150]] | Reload of a page in the cache fails to recompute strikeone keys. |
+| [[%BUGS%/Item14169][Item14169]] | Verification for {FeatureAccess}{Configure} in configure fails to handle login names. |
+| [[%BUGS%/Item14171][Item14171]] | Error message of jquery.render needs sanitization. |
+| [[%BUGS%/Item14172][Item14172]] | jquery.stars width incorrect in modal dialogs. |
+| [[%BUGS%/Item14173][Item14173]] | Invalid call to foswiki.getScriptUrl() in foswiki.getPreference(). |
+| [[%BUGS%/Item14174][Item14174]] | Missing files in MANIFEST of EditRowPlugin. |
+| [[%BUGS%/Item14176][Item14176]] | Don't add POSTDATA to TOC or QUERYSTRING. |
+| [[%BUGS%/Item14195][Item14195]] | Loop in Foswiki::UI::View::revisionsAround under some conditions. |
+| [[%BUGS%/Item14199][Item14199]] | Registration confirmation process corrupts utf-8 wiki names. |
+| [[%BUGS%/Item14202][Item14202]] | PageCache tweaks to control dependency growth. |
+| [[%BUGS%/Item14204][Item14204]] | Port JsonRpcContrib unit tests from master to Release02x01 - and fix error with redirectto revealed by test. |
+| [[%BUGS%/Item14205][Item14205]] | Autoconfig Email failing with recent versions of IO::Socket::SSL. |
+| [[%BUGS%/Item14209][Item14209]] | Email wizard for SSLCaFile and SSLCaPath  don't return any results. |
+| [[%BUGS%/Item14211][Item14211]] | System.DataForms topic use the NEW macro. Should be N. |
+| [[%BUGS%/Item14213][Item14213]] | EditRowPlugin: "Use of uninitialized value in addition" warning when clicking on Edit button. |
+| [[%BUGS%/Item14216][Item14216]] | MailerContrib mailnotify fails with wide character print when run from Web when unicode webnames are in use. |
+| [[%BUGS%/Item14218][Item14218]] | EditRowPlugin: edit button does not work when using Internet Explorer. |
+| [[%BUGS%/Item14227][Item14227]] | Potential use of uninitialized value in a rating formfield. |
+| [[%BUGS%/Item14236][Item14236]] | EditTablePlugin doesn't create compressed / gzipped css and js. |
+| [[%BUGS%/Item14238][Item14238]] | Documentation for the reverted META:CREATEINFO is still in the release. |
+
+---+++ Enhancements
+
+| [[%BUGS%/Item10918][Item10918]] | Improve javascript api to address individual tabs. |
+| [[%BUGS%/Item13578][Item13578]] | Configure guesses relative path names with .. in them. |
+| [[%BUGS%/Item13936][Item13936]] | Need an altenate from address for wiki generated email. |
+| [[%BUGS%/Item14092][Item14092]] | =attach.pattern.tmpl= needs a hook for plugins to add properties. |
+| [[%BUGS%/Item14120][Item14120]] | Remove outdated yuicompressor tool. |
+| [[%BUGS%/Item14121][Item14121]] | Use svg in jquery.stars. |
+| [[%BUGS%/Item14122][Item14122]] | Upgrade to fontawesome 4.7.0. |
+| [[%BUGS%/Item14123][Item14123]] | foswiki.getPubUrlPath() fails with an uninitialized parameter. |
+| [[%BUGS%/Item14124][Item14124]] | Make skin of a jquery.loader backend configurable. |
+| [[%BUGS%/Item14143][Item14143]] | Configure should recommend setting SafeEnvPath  for improved security. |
+| [[%BUGS%/Item14145][Item14145]] | PatternSkin deprecation of beforetext/aftertext templates breaks compatibility with other skins. |
+| [[%BUGS%/Item14170][Item14170]] | Improve slideshow navigation - increase size of buttons. |
+| [[%BUGS%/Item14180][Item14180]] | Bootstrap enhancements and refactoring. |
+| [[%BUGS%/Item14181][Item14181]] | Bootstrap selects Proxy host instead of public facing host when behind a proxy. |
+| [[%BUGS%/Item14201][Item14201]] | Add Pending Registrations report. |
+| [[%BUGS%/Item14219][Item14219]] | Add a contributed WebSideBar toggle cookbook. |
+| [[%BUGS%/Item14226][Item14226]] | Performance improvements to $.i18n(). |
+| [[%BUGS%/Item14228][Item14228]] | Upgrade JQueryPlugin to blockui 2.70. |
+| [[%BUGS%/Item14229][Item14229]] | Upgrade JQueryPlugin to jsrender 0.9.83. |
+| [[%BUGS%/Item14230][Item14230]] | jquery.maskedinput initializer does not match documentation. |
 
 </noautolink>
 
