@@ -68,11 +68,11 @@ sub test_getNode {
     return;
 }
 
-sub test_TieUntie {
+sub test_triggerConfigMode {
     my $this = shift;
 
-    $this->app->cfg->tieData;
-    $this->app->cfg->untieData;
+    $this->app->cfg->specsMode;
+    $this->app->cfg->dataMode;
 
     my $cfgData = $this->app->cfg->data;
     $this->assert( !tied %$cfgData, "Config data must not be tied." );

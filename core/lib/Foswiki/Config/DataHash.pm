@@ -1,5 +1,36 @@
 # See bottom of file for license and copyright information
 
+=begin TML
+
+---+ Class Foswiki::Config::DataHash
+
+Container class for config specs. The config attribute =data= hash is tied to
+this class when config is in specs mode.
+
+---++ DESCRIPTION
+
+This is only a container class. Actual specs are stored in a node data defined by
+=Foswiki::Config::Node= class. Node data is kept in =nodes= hash. For example:
+
+<verbatim>
+$app->cfg->data->{Email}{MailMethod} = 'Net::SMTP';
+</verbatim>
+
+is actually represented by four objects: root =DataHash= stores a branch =Node=
+in key _Email_ on =nodes= attribute. This node =value= attribute is a reference
+to a hash tied to =DataHash= object named _Email_. _MailMethod_ key of the
+=nodes= attribute contains a =Node= object which value is _Net::SMTP_.
+
+Though this structure may seem a bit complicated but it serves two purposes:
+
+   1. Use of tied hash keeps the structure transparent for code using config
+      data. The code would deal with config data hash as usual and don't care
+      whether it's a plain data hash or specs loaded in memory.
+   1. Separate actual container from specs data. Mostly it should be sufficient
+      to request a spec data using full config path like _Email.MailMethod_.
+
+=cut
+
 package Foswiki::Config::DataHash;
 
 use Assert;
@@ -10,8 +41,16 @@ extends qw(Foswiki::Object);
 
 use constant NODE_CLASS => 'Foswiki::Config::Node';
 
-# Hash nodes. Each key in the hash either doesn't exists or is a
-# Foswiki::Config::Node object.
+=begin TML
+
+---+++ ObjectAttribute nodes -> \%nodes
+
+Hash nodes. Each key in the hash either doesn't exists or is a
+=Foswiki::Config::Node= object. No other values like a scalar value or a non
+=Foswiki::Config::Node= object are allowed.
+
+=cut
+
 has nodes => (
     is      => 'rw',
     builder => 'prepareNodes',
@@ -19,7 +58,14 @@ has nodes => (
     clearer => 1,
 );
 
-# Parent DataHash object.
+=begin TML
+
+---+++ ObjectAttribute parent
+
+Parent container object.
+
+=cut
+
 has parent => (
     is        => 'rw',
     predicate => 1,
@@ -31,18 +77,44 @@ has parent => (
     ),
 );
 
-# Key name in parent's hash. Non-existant for the root object.
+=begin TML
+
+---+++ ObjectAttribute name
+
+This container name – same as the key name on the parent's =nodes= hash.
+Undefined for the root node - the one stored directly on
+=$app-&gt;cfg-&gt;data=.
+
+=cut
+
 has name => (
     is        => 'rw',
     predicate => 1,
 );
 
-# Depth level of this has, 0 for the root.
+=begin TML
+
+---+++ ObjectAttribute level
+
+Depth level of this hash, 0 for the root.
+
+=cut
+
 has level => (
     is      => 'rw',
     lazy    => 1,
     builder => 'prepareLevel',
 );
+
+=begin TML
+
+---+++ ObjectAttribute fullPath -> \@cfgPath
+
+List of keys on the path from the root to this node. I.e. for a key in
+normalized form _JQueryPlugin.Plugins.BlockUI.Enabled_ the path would consist of
+all elements from _JQueryPlugin_ to _Enabled_. 
+
+=cut
 
 has fullPath => (
     is      => 'ro',
@@ -50,11 +122,27 @@ has fullPath => (
     builder => 'prepareFullPath',
 );
 
+=begin TML
+
+---+++ ObjectAttribute fullName
+
+Normalized full name of this node – see example in =fullPath= above.
+
+=cut
+
 has fullName => (
     is      => 'ro',
     lazy    => 1,
     builder => 'prepareFullName',
 );
+
+=begin TML
+
+---+++ ObjectAttribute _trace -> bool
+
+Turns on debug tracing of all hash operations.
+
+=cut
 
 has _trace => (
     is      => 'rw',
@@ -87,7 +175,7 @@ sub FETCH {
 
     $this->trace("FETCH($key)");
 
-    return exists $this->nodes->{$key} ? $this->nodes->{$key}->value : undef;
+    return exists $this->nodes->{$key} ? $this->nodes->{$key}->getValue : undef;
 }
 
 sub STORE {
@@ -169,20 +257,52 @@ sub UNTIE {
     my ($this) = @_;
 }
 
+=begin TML
+
+---+++ ObjectMethod trace(\@msg)
+
+Prints a debug message formatted to take intou account current key nested level
+as defined in =level= attribute.
+
+=cut
+
 sub trace {
     my $this = shift;
 
     if ( $this->_trace ) {
         my $prefix = "  " x $this->_level;
         my @msg = map { $prefix . $_ . "\n" } split /\n/, join( '', @_ );
+
+        # SMELL Replace with $app logging facilities.
         print STDERR @msg;
     }
 }
 
-# getKeyObject(@keyPath)
-# Returns the object tied to a subhash. Note that if key path refers to a leaf
-# node – i.e. to a leaf – no object could be returned.
-# @keyPath must be an array of simple scalars.
+=begin TML
+
+---+++ ObjectMethod getKeyObject(@keyPath) -> $keyObject
+
+Returns the object tied to a subhash. Note that if key path refers to a leaf
+node then no object could be returned. For the example from =fullPath= attribute
+this method would return a =Foswiki::Config::DataHash= object for
+_JQueryPlugin.Plugins.BlockUI_ but will return undefined value for
+_JQueryPlugin.Plugins.BlockUI.Enabled_ because _Enabled_ is a leaf and it's
+=value= attribute is a boolean, not a tied hash ref.
+
+If say key _JQueryPlugin_ already exists and _Plugins_ doesn't then the latter
+and _BlockUI_ will be auto-vivified and their type will be set to branch. This
+is because this method is expected to do it's best to return a container object.
+This behaivor may has a side-effect in case the full path including _Enabled_ is
+requested. In this case _Enabled_ will be auto-vivified as a branch node and
+this might have unpredictable side effects.
+
+=@keyPath= must be an array of simple scalars. If there is a non-scalar object
+in the array it'll be stringified.
+
+This is a low-level API method. See =Foswiki::Config= for the high-level analog.
+
+=cut
+
 sub getKeyObject {
     my $this = shift;
 
@@ -220,6 +340,24 @@ sub getKeyObject {
     return $keyObj;
 }
 
+=begin TML
+
+---+++ ObjectMehtod makeNode( $key, @nodeProfile ) -> $node
+
+This method initializes and returns a node under key =$key= in =nodes= attribute
+hash. A new node is created with this class' =create()= method and =@nodeProfile=
+used as new object's initializer (i.e. =@nodeProfile= is supplied to the constructor
+as it's arguments list).
+
+If the node already exists then =@nodeProfile= is treated as a attribute/value
+pair list and for each attribute from the list it is initialized with the value.
+
+*NOTE* In some cases a node object might behave differently for cases when attributes
+are initialized by node's constructur or re-initialized through their respective
+accessors. The nuances could be caused by the ways Moo works with attributes.
+
+=cut
+
 sub makeNode {
     my $this = shift;
     my $key  = shift;
@@ -237,12 +375,26 @@ sub makeNode {
         }
     }
     else {
-        $nodes->{$key} = $node = $this->create( NODE_CLASS, @_ );
+        $nodes->{$key} = $node = $this->createNode(@_);
         $this->tieNode($key) if $node->isBranch;
     }
 
     return $node;
 }
+
+=begin TML
+
+---+++ ObjectMethod tieNode($node) => $nodeObj
+
+Node could be either a node object or key name on =nodes= attribute hash.
+
+Sets node type to branch by assigning it's =value= to a hash tied to
+=Foswiki::Config::DataHash= and setting node's =isLeaf= attribute to =FALSE=.
+
+This method is considered an assign operation and therefore if the node
+was a leaf and had a value then the value is lost.
+
+=cut
 
 # The first param could either be an existing node object or key name.
 sub tieNode {
@@ -278,7 +430,38 @@ sub tieNode {
     return $node;
 }
 
+=begin TML
+
+---+++ ObjectMethod createNode(@nodeProfile) -> $nodeObject
+
+Creates a new =Foswiki::Config::Node= object using =@nodeProfile=.
+
+=cut
+
+sub createNode {
+    my $orig = shift;
+    my $this = shift;
+
+    return $orig->( $this, NODE_CLASS, parent => $this, @_ );
+}
+
+=begin TML
+
+---+++ ObjectMethod prepareNodes
+
+Initializer of =nodes= attribute.
+
+=cut
+
 sub prepareNodes { {} }
+
+=begin TML
+
+---+++ ObjectMethod prepareLevel
+
+Initializer of =level= attribute.
+
+=cut
 
 sub prepareLevel {
     my $this = shift;
@@ -287,6 +470,14 @@ sub prepareLevel {
     }
     return 0;
 }
+
+=begin TML
+
+---+++ ObjectMethod prepareFullPath
+
+Initializer of =fullPath= attribute.
+
+=cut
 
 sub prepareFullPath {
     my $this = shift;
@@ -304,25 +495,32 @@ sub prepareFullPath {
     return [ reverse @keys ];
 }
 
+=begin TML
+
+---+++ ObjectMethod prepareFullName
+
+Initializer of =fullName= attribute.
+
+=cut
+
 sub prepareFullName {
     my $this = shift;
 
     return $this->app->cfg->normalizeKeyPath( $this->fullPath );
 }
 
+=begin TML
+
+---+++ ObjectMethod _prepareTrace
+
+Initializer of =_trace= attribute.
+
+=cut
+
 sub _prepareTrace {
     my $this = shift;
     return $this->has_parent ? $this->parent->_trace : 0;
 }
-
-# Submit parent parameter by default.
-around create => sub {
-    my $orig  = shift;
-    my $this  = shift;
-    my $class = shift;
-
-    return $orig->( $this, $class, parent => $this, @_ );
-};
 
 1;
 __END__

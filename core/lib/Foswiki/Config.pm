@@ -1161,17 +1161,6 @@ sub setBootstrap {
     push( @{ $this->data->{BOOTSTRAP} }, @BOOTSTRAP );
 }
 
-=begin TML
-
----++ ObjectMethod get()
-
-$app->cfg->get(Root => Branch => Leaf =>);
-$app->cfg->get([qw(Root Branch Leaf)]);
-$app->cfg->get("Root.Branch.Leaf");
-$app->cfg->get("{Root}{Branch}{Leaf}");
-
-=cut
-
 sub _validateCfgKey {
     my $this = shift;
     my ($keyName) = @_;
@@ -1231,18 +1220,6 @@ sub _arg2keys {
     return @keys;
 }
 
-sub normalizeKeyPath {
-    my $this    = shift;
-    my $keyPath = shift;
-    my %params  = @_;
-
-    my @keys = $this->_arg2keys($keyPath);
-
-    my ( $prefix, $joint, $suffix ) =
-      $params{asHash} ? qw({ }{ }) : ( '', '.', '' );
-    return $prefix . join( $joint, @keys ) . $suffix;
-}
-
 # Returns subhash of the config data where key is stored. The key name is
 # returned as second element.
 sub _getSubHash {
@@ -1262,12 +1239,62 @@ sub _getSubHash {
     return ( $subHash, $keys[0] );
 }
 
+=begin TML
+
+---++ ObjectMethod get()
+
+$app->cfg->get(Root => Branch => Leaf =>);
+$app->cfg->get([qw(Root Branch Leaf)]);
+$app->cfg->get("Root.Branch.Leaf");
+$app->cfg->get("{Root}{Branch}{Leaf}");
+
+=cut
+
 sub get {
     my $this = shift;
 
     my ( $subHash, $leafName ) = $this->_getSubHash( $this->_arg2keys(@_) );
 
     return $subHash->{$leafName};
+}
+
+=begin TML
+
+---++ ObjectMethod normalizeKeyPath($keyPath, %params) -> $normalizedPathString
+
+Takes a =$keyPath= in any form and returns it's normalized stringified form.
+Ususally it means a dotted notation but if =$params{asHash}= is true then Perl'ish
+hash notation with curly braces is used. 
+
+The =$keyPath= may consist of data of any format allowed to
+define keys:
+
+    1. A scalar with path string.
+    1. An array refs containing:
+       1. Strings containing path strings.
+       1. Array refs defining paths on their own (yes, recursion).
+    
+For example, the following:
+
+<verbatim>
+['A.B', 'C', ['{D}{E}', ['F', 'G'], 'H', []], 'I']
+</verbatim>
+
+is actually what one is expecting to be: a path _A.B.C.D.E.F.G.H.I_ in
+dot-normilized form.
+
+=cut
+
+sub normalizeKeyPath {
+    my $this    = shift;
+    my $keyPath = shift;
+    my %params  = @_;
+
+    my @keys = $this->_arg2keys($keyPath);
+
+    my ( $prefix, $joint, $suffix ) =
+      $params{asHash} ? qw({ }{ }) : ( '', '.', '' );
+    return $prefix . join( $joint, @keys ) . $suffix;
 }
 
 =begin TML
@@ -1953,7 +1980,7 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
 
 =begin TML
 
----++ ObjectMethod assignGLOB()
+---++ ObjectMethod assignGLOB
 
 Sets the global =%Foswiki::cfg= hash to be an alias to the config's object
 =data= attribute.
@@ -1970,6 +1997,15 @@ sub assignGLOB {
     # way of accessing config.
     *Foswiki::cfg = $data;
 }
+
+=begin TML
+
+---++ ObjectMethod unAssignGLOB
+
+Does opposite to the =assignGLOB= method: assigns global =%Foswiki::cfg= to an
+empty hash.
+
+=cut
 
 sub unAssignGLOB {
     my $this = shift;
@@ -2000,7 +2036,20 @@ sub _validateBindings {
     );
 }
 
-sub tieData {
+=begin TML
+
+---++ ObjectMethod specsMode
+
+Converts =data= attribute from plain data hash into specs mode by tieing it
+to =Foswiki::Config::DataHash=. The original data is preserved.
+
+*NOTE* Current implementation is incomplete as before restoring the original
+data specs must be re-read from the disk. Otherwise this operation may result in
+inconsistent data no complying with specs requirements.
+
+=cut
+
+sub specsMode {
     my $this = shift;
 
     return if tied %{ $this->data };
@@ -2015,7 +2064,16 @@ sub tieData {
     $this->data( \%newData );
 }
 
-sub untieData {
+=begin TML
+
+---++ ObjectMethod dataMode
+
+Does the opposite to =specsMode()= method – assigns plain hash to the =data=
+attribute. The data is preserved.
+
+=cut
+
+sub dataMode {
     my $this = shift;
 
     return unless tied %{ $this->data };
@@ -2024,6 +2082,17 @@ sub untieData {
 
     $this->data($newData);
 }
+
+=begin TML
+
+---++ ObjectMethod getKeyObject(@path) -> $keyObject
+
+Returns a container object of =Foswiki::Config::DataHash= class. =@path= is a
+full path to the key (see =normalizeKeyPath= method).
+
+See also =getKeyObject()= method of =Foswiki::Config::DataHash=.
+
+=cut
 
 sub getKeyObject {
     my $this = shift;
@@ -2034,6 +2103,15 @@ sub getKeyObject {
 
     return $dataObj->getKeyObject(@keys);
 }
+
+=begin TML
+
+---++ ObjectMethod getKeyNode(@path) -> $nodeObject
+
+Returns =Foswiki::Config::Node= object defined by =@path= (see
+=normalizeKeyPath= method).
+
+=cut
 
 sub getKeyNode {
     my $this = shift;
@@ -2050,6 +2128,19 @@ sub getKeyNode {
     return $keyObj->nodes->{$nodeKey};
 }
 
+=begin TML
+
+---++ ObjectMethod spec($source, @specs)
+
+Register specs defined in =$source=. =$source= could be any string unquily defining
+where the specs are coming from. Generally it is expected to be a file name where
+specs are defined but could also be a test case name.
+
+Specs data format is currently described in
+[[https://foswiki.org/Development/OOConfigSpecsFormat][OOConfigSpecsFormat&nbsp;proposal]].
+
+=cut
+
 sub spec {
     my $this   = shift;
     my $source = shift;
@@ -2058,7 +2149,7 @@ sub spec {
         text => "Spec source parameter is required and cannot be empty", )
       unless defined($source) && length($source);
 
-    $this->tieData;
+    $this->specsMode;
 
     my $specs = $this->create(
         'Foswiki::Config::SpecDef',
@@ -2081,12 +2172,28 @@ sub spec {
     };
 }
 
+=begin TML
+
+---++ ObjectMethod prepareData
+
+Initializer of =data= attribute.
+
+=cut
+
 sub prepareData {
     my $this = shift;
     my $data = {};
     $this->assignGLOB($data);
     return $data;
 }
+
+=begin TML
+
+---++ ObjectMethod prepareRootSection
+
+Initializer of =rootSection= attribute.
+
+=cut
 
 sub prepareRootSection {
     my $this = shift;
