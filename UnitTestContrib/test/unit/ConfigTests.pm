@@ -59,7 +59,7 @@ around tear_down => sub {
 sub test_getNode {
     my $this = shift;
 
-    $this->app->cfg->tieData;
+    $this->app->cfg->specsMode;
 
     my $node = $this->app->cfg->getKeyNode('ConfigTests.SubKey1.Key2');
 

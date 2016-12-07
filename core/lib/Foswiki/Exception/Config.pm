@@ -25,7 +25,7 @@ has key => (
     predicate => 1,
     builder   => 'prepareKey',
 );
-has specObject => (
+has nodeObject => (
     is        => 'rw',
     predicate => 1,
 );
@@ -46,16 +46,16 @@ around stringify => sub {
 sub prepareSection {
     my $this = shift;
 
-    if ( $this->has_specObject ) {
-        return $this->specObject->section;
+    if ( $this->has_nodeObject ) {
+        return $this->nodeObject->section;
     }
 }
 
 sub prepareKey {
     my $this = shift;
 
-    if ( $this->has_specObject ) {
-        return $this->specObject->fullName;
+    if ( $this->has_nodeObject ) {
+        return $this->nodeObject->fullName;
     }
 }
 

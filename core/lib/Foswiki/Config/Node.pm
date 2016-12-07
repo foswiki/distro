@@ -55,19 +55,6 @@ has value => (
 
 =begin TML
 
----+++ ObjectAttribute default
-
-Node's default value as defined by spec.
-
-=cut
-
-has default => (
-    is        => 'rw',
-    predicate => 1,
-);
-
-=begin TML
-
 ---+++ ObjectAttribute parent
 
 Parent container object of class =Foswiki::Config::DataHash=. 
@@ -110,9 +97,73 @@ Defines if this is a leaf node, or branch, or type of this node is undefined yet
 
 =cut
 
-has isLeaf => ( is => 'rw', );
+has isLeaf => ( is => 'rw', builder => 'prepareIsLeaf', );
 
-stubMethods qw(prepareParent prepareSection prepareValue);
+=begin TML
+
+---++ Spec option attributes
+
+The following object attributes are valid spec options.
+
+=cut
+
+=begin TML
+
+---+++ ObjectAttribute default
+
+Node's default value as defined by spec.
+
+=cut
+
+has default => (
+    is        => 'rw',
+    predicate => 1,
+    builder   => 'prepareDefault',
+);
+
+=begin TML
+
+---+++ ObjectAttribute type
+
+Key data type like _NUMBER_ or _TEXT_.
+
+=cut
+
+has type => ( is => 'rw', predicate => 1, builder => 'prepareType', );
+
+=begin TML
+
+---+++ ObjectAttribute label
+
+Text label attached to the config key.
+
+=cut
+
+has label => ( is => 'rw', predicate => 1, builder => 'prepareLabel', );
+
+=begin TML
+
+---+++ Empty prepare methods
+
+The following methods are empty initializers of their respective attributes:
+
+   * prepareParent
+   * prepareSection
+   * prepareValue
+   * prepareDefault
+   * prepareIsLeaf
+   * prepareLabel
+   
+These methods do nothing but could be overriden by subclasses.
+
+=cut
+
+stubMethods qw(prepareParent prepareSection prepareValue prepareDefault
+  prepareIsLeaf prepareLabel);
+
+my @validSpecAttrs = qw(
+  default type label isLeaf
+);
 
 =begin TML
 
@@ -155,6 +206,40 @@ sub getValue {
     return $this->has_value
       ? $this->value
       : ( $this->has_default ? $this->default : undef );
+}
+
+=begin TML
+
+---+++ ClassMethod invalidSpecAttr(@attrList) -> $attrName
+
+Returns first invalid spec attribute found in the list. Returns undef otherwise.
+
+This method is dual: it is class and object method at the same time.
+
+=cut
+
+my $attrRx = '(?:' . join( '|', @validSpecAttrs ) . ')';
+
+sub invalidSpecAttr {
+    my $class = shift;
+
+    foreach my $attr (@_) {
+        return $attr unless $attr =~ /^$attrRx$/;
+    }
+
+    return;
+}
+
+=begin TML
+
+---+++ ObjectMethod prepareType -> 'TEXT'
+
+Initializer of =type= attribute.
+
+=cut
+
+sub prepareType {
+    return 'TEXT';
 }
 
 =begin TML

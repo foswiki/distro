@@ -1191,6 +1191,7 @@ sub _arg2keys {
     return () if @_ < 1;
 
     if ( @path == 1 ) {
+        return () unless defined $path[0];
         if ( ref( $path[0] ) ) {
             Foswiki::Exception::Fatal->throw(
                 text => "Reference passed is not an arrayref but "

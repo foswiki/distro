@@ -35,6 +35,7 @@ package Foswiki::Config::DataHash;
 
 use Assert;
 use Foswiki::Exception;
+use Foswiki ();
 
 use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
@@ -166,6 +167,8 @@ sub TIEHASH {
     }
 
     my $this = $class->new( @profile, @_ );
+
+    Foswiki::load_class(NODE_CLASS);
 
     return $this;
 }
@@ -359,14 +362,24 @@ accessors. The nuances could be caused by the ways Moo works with attributes.
 =cut
 
 sub makeNode {
-    my $this = shift;
-    my $key  = shift;
+    my $this    = shift;
+    my $key     = shift;
+    my %profile = @_;
 
     my $nodes = $this->nodes;
-    my $node;
+    my $node  = $nodes->{$key};
+    my $section;
 
-    if ( defined $nodes->{$key} ) {
-        my %profile = @_;
+    my $invalidAttr = &NODE_CLASS->invalidSpecAttr( keys %profile );
+    $section = $node ? $node->section : ( $profile{section} // undef )
+      if $invalidAttr;
+    Foswiki::Exception::Config::BadSpecData->throw(
+        text => "Unknown spec attribute '$invalidAttr' found",
+        key  => $this->app->cfg->normalizeKeyPath( [ $this->fullPath, $key ] ),
+        ( defined $section ? ( section => $section ) : () ),
+    ) if $invalidAttr;
+
+    if ($node) {
 
         $node = $nodes->{$key};
 
@@ -439,10 +452,9 @@ Creates a new =Foswiki::Config::Node= object using =@nodeProfile=.
 =cut
 
 sub createNode {
-    my $orig = shift;
     my $this = shift;
 
-    return $orig->( $this, NODE_CLASS, parent => $this, @_ );
+    return $this->create( NODE_CLASS, parent => $this, @_ );
 }
 
 =begin TML
