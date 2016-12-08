@@ -465,20 +465,6 @@ around prepareText => sub {
 
 =begin TML
 
----+ Exception Foswiki::Exception::Cfg::InvalidKeyName
-
-If configuration key doesn't pass validation.
-
-=cut
-
-package Foswiki::Exception::Cfg::InvalidKeyName;
-use Foswiki::Class;
-extends qw(Foswiki::Exception::Fatal);
-
-has keyName => ( is => 'rw', required => 1, );
-
-=begin TML
-
 ---+ Exception Foswiki::Exception::HTTPResponse
 
 Used to send HTTP status responses to the user.

@@ -161,9 +161,13 @@ These methods do nothing but could be overriden by subclasses.
 stubMethods qw(prepareParent prepareSection prepareValue prepareDefault
   prepareIsLeaf prepareLabel);
 
-my @validSpecAttrs = qw(
-  default type label isLeaf
-);
+my @leafOnlyAttrs  = qw(type default wizard checker);
+my @dualModeAttrs  = qw(label);
+my @validSpecAttrs = ( @leafOnlyAttrs, @dualModeAttrs );
+
+our $leafAttrRegex     = '(' . join( '|', @leafOnlyAttrs ) . ')';
+our $dualModeAttrRegex = '(' . join( '|', @dualModeAttrs ) . ')';
+our $validAttrRegex    = '(' . join( '|', @validSpecAttrs ) . ')';
 
 =begin TML
 
@@ -210,21 +214,24 @@ sub getValue {
 
 =begin TML
 
----+++ ClassMethod invalidSpecAttr(@attrList) -> $attrName
+---+++ ClassMethod invalidSpecAttr(@attrList) -> $attrName [, $attrName [, ...] ]
 
-Returns first invalid spec attribute found in the list. Returns undef otherwise.
+Depending on call context (scalar or list) returns only first or all invalid
+spec attributes found in the list. Undef or empty list are returned otherwise.
 
 This method is dual: it is class and object method at the same time.
 
 =cut
 
-my $attrRx = '(?:' . join( '|', @validSpecAttrs ) . ')';
-
-sub invalidSpecAttr {
+sub invalidSpecAttrs {
     my $class = shift;
 
+    if (wantarray) {
+        return grep { /^$validAttrRegex$/ } @_;
+    }
+
     foreach my $attr (@_) {
-        return $attr unless $attr =~ /^$attrRx$/;
+        return $attr unless $attr =~ /^$validAttrRegex$/;
     }
 
     return;

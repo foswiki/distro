@@ -362,28 +362,23 @@ accessors. The nuances could be caused by the ways Moo works with attributes.
 =cut
 
 sub makeNode {
-    my $this    = shift;
-    my $key     = shift;
-    my %profile = @_;
+    my $this = shift;
+    my $key  = shift;
+
+    #my %profile = @_;
 
     my $nodes = $this->nodes;
     my $node  = $nodes->{$key};
     my $section;
 
-    my $invalidAttr = &NODE_CLASS->invalidSpecAttr( keys %profile );
-    $section = $node ? $node->section : ( $profile{section} // undef )
-      if $invalidAttr;
-    Foswiki::Exception::Config::BadSpecData->throw(
-        text => "Unknown spec attribute '$invalidAttr' found",
-        key  => $this->app->cfg->normalizeKeyPath( [ $this->fullPath, $key ] ),
-        ( defined $section ? ( section => $section ) : () ),
-    ) if $invalidAttr;
-
     if ($node) {
 
         $node = $nodes->{$key};
 
-        while ( my ( $key, $val ) = each %profile ) {
+        my $i = 0;
+
+        while ( $i < @_ ) {
+            my ( $key, $val ) = ( $_[ $i++ ], $_[ $i++ ] );
             $node->$key($val);
         }
     }

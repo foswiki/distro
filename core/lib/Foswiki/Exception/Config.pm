@@ -69,6 +69,20 @@ package Foswiki::Exception::Config::BadSpecValue;
 use Foswiki::Class;
 extends qw(Foswiki::Exception::Config::BadSpec);
 
+=begin TML
+
+---+ Exception Foswiki::Exception::Config::InvalidKeyName
+
+If configuration key doesn't pass validation.
+
+=cut
+
+package Foswiki::Exception::Config::InvalidKeyName;
+use Foswiki::Class;
+extends qw(Foswiki::Exception::Fatal);
+
+has keyName => ( is => 'rw', required => 1, );
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/

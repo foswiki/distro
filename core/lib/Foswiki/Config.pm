@@ -1,116 +1,114 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Config::SpecDef {
+package Foswiki::Config::SpecDef;
 
-    use Foswiki::Exception::Config;
+use Foswiki::Exception::Config;
 
-    use Foswiki::Class;
-    extends qw(Foswiki::Object);
+use Foswiki::Class;
+extends qw(Foswiki::Object);
 
-    has specDef => (
-        is       => 'rw',
-        required => 1,
-        isa      => Foswiki::Object::isaARRAY( 'specDef', noUndef => 1, ),
+has specDef => (
+    is       => 'rw',
+    required => 1,
+    isa      => Foswiki::Object::isaARRAY( 'specDef', noUndef => 1, ),
+);
+
+has cursor => (
+    is      => 'rw',
+    default => 0,
+);
+
+# The source of the specs.
+has source => (
+    is       => 'ro',
+    required => 1,
+);
+
+has section => (
+    is       => 'ro',
+    weak_ref => 1,
+    isa => Foswiki::Object::isaCLASS( 'section', 'Foswiki::Config::Section' ),
+);
+
+has keyPath => (
+    is      => 'ro',
+    default => sub { [] },
+);
+
+# Last fetched spec element.
+has _lastFetch => ( is => 'rw', );
+
+sub fetch {
+    my $this = shift;
+
+    Foswiki::Exception::Config::NoNextDef->throw(
+        text => "No more elements in the queue", )
+      unless $this->hasNext;
+
+    my $elem = $this->specDef->[ $this->cursor ];
+
+    $this->_lastFetch($elem);
+
+    $this->cursor( $this->cursor + 1 );
+
+    return $elem;
+}
+
+sub count {
+    my $this = shift;
+
+    return scalar( @{ $this->specDef } ) - $this->cursor;
+}
+
+sub hasNext {
+    my $this = shift;
+
+    return @{ $this->specDef } > $this->cursor;
+}
+
+# Returns undef if element is ok to be used as a subspec. Otherwise returns
+# error text about elem type suitable to be used in a error message.
+sub badSubSpecElem {
+    my $this = shift;
+    my $elem = shift;
+    return (
+        defined $elem
+        ? (
+            ref($elem) =~ /^(?:HASH|ARRAY)$/
+            ? undef
+            : "element of type " . ( ref($elem) // 'SCALAR' )
+          )
+        : "undefined element"
     );
+}
 
-    has cursor => (
-        is      => 'rw',
-        default => 0,
-    );
+sub subSpecs {
+    my $this    = shift;
+    my %profile = @_;
 
-    # The source of the specs.
-    has source => (
-        is       => 'ro',
-        required => 1,
-    );
+    my @subProfile;
 
-    has section => (
-        is       => 'ro',
-        weak_ref => 1,
-        isa =>
-          Foswiki::Object::isaCLASS( 'section', 'Foswiki::Config::Section' ),
-    );
+    unless ( $profile{specDef} ) {
+        my $lastElem = $this->_lastFetch;
 
-    has keyPath => (
-        is      => 'ro',
-        default => sub { [] },
-    );
+        my $badElemTxt = $this->badSubSpecElem($lastElem);
+        Foswiki::Exception::BadSpecData->throw(
+            text => "Cannot create specs definitions list from $badElemTxt" )
+          if $badElemTxt;
 
-    # Last fetched spec element.
-    has _lastFetch => ( is => 'rw', );
-
-    sub fetch {
-        my $this = shift;
-
-        Foswiki::Exception::Config::NoNextDef->throw(
-            text => "No more elements in the queue", )
-          unless $this->hasNext;
-
-        my $elem = $this->specDef->[ $this->cursor ];
-
-        $this->_lastFetch($elem);
-
-        $this->cursor( $this->cursor + 1 );
-
-        return $elem;
+        push @subProfile,
+          specDef => [ ref($lastElem) eq 'HASH' ? %$lastElem : @$lastElem ];
     }
 
-    sub count {
-        my $this = shift;
+    push @subProfile, section => $this->section
+      unless ( $profile{section} );
 
-        return scalar( @{ $this->specDef } ) - $this->cursor;
-    }
-
-    sub hasNext {
-        my $this = shift;
-
-        return @{ $this->specDef } > $this->cursor;
-    }
-
-    # Returns undef if element is ok to be used as a subspec. Otherwise returns
-    # error text about elem type suitable to be used in a error message.
-    sub badSubSpecElem {
-        my $this = shift;
-        my $elem = shift;
-        return (
-            defined $elem
-            ? (
-                ref($elem) =~ /^(?:HASH|ARRAY)$/
-                ? undef
-                : "element of type " . ( ref($elem) // 'SCALAR' )
-              )
-            : "undefined element"
-        );
-    }
-
-    sub subSpecs {
-        my $this    = shift;
-        my %profile = @_;
-
-        my @subProfile;
-
-        unless ( $profile{specDef} ) {
-            my $lastElem = $this->_lastFetch;
-
-            my $badElemTxt = $this->badSubSpecElem($lastElem);
-            Foswiki::Exception::BadSpecData->throw( text =>
-                  "Cannot create specs definitions list from $badElemTxt" )
-              if $badElemTxt;
-
-            push @subProfile,
-              specDef => [ ref($lastElem) eq 'HASH' ? %$lastElem : @$lastElem ];
-        }
-
-        push @subProfile, section => $this->section
-          unless ( $profile{section} );
-
-        my $subSpecs = ref($this)->new(
-            source => $this->source,
-            @subProfile,
-            @_,
-        );
-        return $subSpecs;
-    }
+    my $subSpecs = ref($this)->new(
+        source => $this->source,
+        @subProfile,
+        @_,
+    );
+    return $subSpecs;
 }
 
 package Foswiki::Config;
@@ -1165,25 +1163,25 @@ sub _validateCfgKey {
     my $this = shift;
     my ($keyName) = @_;
 
-    Foswiki::Exception::Cfg::InvalidKeyName->throw(
+    Foswiki::Exception::Config::InvalidKeyName->throw(
         text    => "Key name cannot be undef",
         keyName => undef,
     ) unless defined($keyName);
 
-    Foswiki::Exception::Cfg::InvalidKeyName->throw(
+    Foswiki::Exception::Config::InvalidKeyName->throw(
         text => "Key name must be a scalar value, not "
           . ref($keyName)
           . " reference",
         keyName => $keyName,
     ) if ref($keyName);
 
-    Foswiki::Exception::Cfg::InvalidKeyName->throw(
+    Foswiki::Exception::Config::InvalidKeyName->throw(
         text    => "Invalid config key name `$keyName`",
         keyName => $keyName,
     ) unless $keyName =~ /^[[:alnum:]_]+$/;
 }
 
-sub _arg2keys {
+sub parseKeys {
     my $this = shift;
     my @path = @_;
     my @keys;
@@ -1193,12 +1191,12 @@ sub _arg2keys {
     if ( @path == 1 ) {
         return () unless defined $path[0];
         if ( ref( $path[0] ) ) {
-            Foswiki::Exception::Fatal->throw(
+            Foswiki::Exception::Config::InvalidKeyName->throw(
                 text => "Reference passed is not an arrayref but "
-                  . ref( $path[0] ), )
-              unless ref( $path[0] ) eq 'ARRAY';
-            @path = @{ $path[0] };
-            return () unless @path;
+                  . ref( $path[0] ),
+                keyName => $path[0],
+            ) unless ref( $path[0] ) eq 'ARRAY';
+            @keys = $this->parseKeys( @{ $path[0] } );
         }
         elsif ( $path[0] =~ /^(?:{[^{}]+})+$/ ) {
             @keys = $path[0] =~ /{([^{}]+)}/g;
@@ -1209,8 +1207,17 @@ sub _arg2keys {
     }
 
     if ( !@keys && @path > 1 ) {
-        @keys = map { $this->_arg2keys($_) } @path;
+        @keys = map { $this->parseKeys($_) } @path;
     }
+
+    return @keys;
+}
+
+# Wrapper around parseKeys. It checks if parse result is valid.
+sub arg2keys {
+    my $this = shift;
+
+    my @keys = $this->parseKeys(@_);
 
     Foswiki::Exception::Fatal->throw(
         text => "No valid config keys found in the method arguments" )
@@ -1254,7 +1261,7 @@ $app->cfg->get("{Root}{Branch}{Leaf}");
 sub get {
     my $this = shift;
 
-    my ( $subHash, $leafName ) = $this->_getSubHash( $this->_arg2keys(@_) );
+    my ( $subHash, $leafName ) = $this->_getSubHash( $this->arg2keys(@_) );
 
     return $subHash->{$leafName};
 }
@@ -1291,7 +1298,7 @@ sub normalizeKeyPath {
     my $keyPath = shift;
     my %params  = @_;
 
-    my @keys = $this->_arg2keys($keyPath);
+    my @keys = $this->arg2keys($keyPath);
 
     my ( $prefix, $joint, $suffix ) =
       $params{asHash} ? qw({ }{ }) : ( '', '.', '' );
@@ -1313,7 +1320,7 @@ sub set {
     my ( $cfgPath, $value ) = @_;
 
     my ( $subHash, $leafName ) =
-      $this->_getSubHash( $this->_arg2keys($cfgPath) );
+      $this->_getSubHash( $this->arg2keys($cfgPath) );
 
     $subHash->{$leafName} = $value;
 }
@@ -2097,7 +2104,7 @@ See also =getKeyObject()= method of =Foswiki::Config::DataHash=.
 
 sub getKeyObject {
     my $this = shift;
-    my @keys = $this->_arg2keys(@_);
+    my @keys = $this->parseKeys(@_);
 
     my $dataObj;
     return undef unless $dataObj = tied %{ $this->data };
@@ -2116,7 +2123,7 @@ Returns =Foswiki::Config::Node= object defined by =@path= (see
 
 sub getKeyNode {
     my $this = shift;
-    my @keys = $this->_arg2keys(@_);
+    my @keys = $this->arg2keys(@_);
 
     return undef unless @keys;
 
@@ -2281,9 +2288,6 @@ sub _specModprefix {
     $section->modprefix($prefix);
 }
 
-my @leafKeyOpts = qw(type label default wizard checker);
-my $leafKeyOptsRx = '(?:' . join( '|', @leafKeyOpts ) . ')';
-
 sub _specCfgKey {
     my $this = shift;
     my ( $key, %params ) = @_;
@@ -2291,7 +2295,7 @@ sub _specCfgKey {
     my $specs   = $params{specs};
     my $section = $specs->section;
 
-    my @keyPath = $this->_arg2keys( $specs->keyPath, $key );
+    my @keyPath = $this->arg2keys( $specs->keyPath, $key );
     my $keyFullName = $this->normalizeKeyPath( \@keyPath );
 
     # Cut off this key name off the full path.
@@ -2331,7 +2335,14 @@ sub _specCfgKey {
         if ( $elem =~ $Foswiki::regex{optionNameRegex} ) {
             my $option = $1;
 
-            my $isLeafOption = $option =~ /^$leafKeyOptsRx$/;
+            Foswiki::Exception::Config::BadSpecData->throw(
+                text    => "Unknown key option '$option'",
+                section => $keySpecs->section,
+                key     => $keyFullName,
+            ) if Foswiki::Config::Node->invalidSpecAttrs($option);
+
+            my $isLeafOption =
+              $option =~ /^$Foswiki::Config::Node::leafAttrRegex$/;
 
             if ($isLeafOption) {
                 if ( defined $isLeafKey ) {
