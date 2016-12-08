@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1481034944" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1481073552" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.1
 
@@ -333,6 +333,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item13986][Item13986]] | Any changes to a topic text made after pushing the topic to the context stack are ignored even changes are related to topic-level preferences.  |
 | [[%BUGS%/Item14063][Item14063]] | Bootstrap fails to correctly detect path when mod_rewrite engine is disabled.  |
 | [[%BUGS%/Item14064][Item14064]] | Bad link in index.html in 2.1.0 and 2.1.2. |
+| [[%BUGS%/Item14066][Item14066]] | Performance issue sorting list based on NFKD. |
 | [[%BUGS%/Item14068][Item14068]] | Excessive calls of getPreferences(LINKTOOLTIP) causes performance issues. |
 | [[%BUGS%/Item14069][Item14069]] | Attach filename parameter needs further sanitization. |
 | [[%BUGS%/Item14071][Item14071]] | Register script reports zero values as missing registration fields. |
@@ -365,12 +366,14 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14227][Item14227]] | Potential use of uninitialized value in a rating formfield. |
 | [[%BUGS%/Item14236][Item14236]] | EditTablePlugin doesn't create compressed / gzipped css and js. |
 | [[%BUGS%/Item14238][Item14238]] | Documentation for the reverted META:CREATEINFO is still in the release. |
+| [[%BUGS%/Item14249][Item14249]] | Foswiki::Net uses userinfo functions not available in older versions of LWP. |
 
 ---+++ Enhancements
 
 | [[%BUGS%/Item10918][Item10918]] | Improve javascript api to address individual tabs. |
 | [[%BUGS%/Item13578][Item13578]] | Configure guesses relative path names with .. in them. |
 | [[%BUGS%/Item13936][Item13936]] | Need an altenate from address for wiki generated email. |
+| [[%BUGS%/Item14086][Item14086]] | FCGI Service file is needed for systemd systems. |
 | [[%BUGS%/Item14092][Item14092]] | =attach.pattern.tmpl= needs a hook for plugins to add properties. |
 | [[%BUGS%/Item14120][Item14120]] | Remove outdated yuicompressor tool. |
 | [[%BUGS%/Item14121][Item14121]] | Use svg in jquery.stars. |

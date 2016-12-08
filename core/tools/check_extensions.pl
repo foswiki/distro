@@ -65,21 +65,17 @@ else {
     close $man;
 }
 
-#my $dir = cwd();
-
-foreach my $ext ( sort @extensions ) {
-    chomp $ext;
-    chdir "$root/$ext";
+if ( $extensions[0] =~ m/^Release/ ) {
+    my $release = $extensions[0];
     my @itemlist;
     my $gitlog = `git log --oneline $start..HEAD .`;
     next
       unless
       $gitlog;    # Comment this to get verbose report of unmodified extensions.
-    print "\n========== $ext ============\n";
+    print "\n========== $release ============\n";
     if ($gitlog) {
-        push @changed, $ext;
         @itemlist = $gitlog =~ m/(Item\d+):/g;
-        my $topicText = get_ext_topic($ext);
+        my $topicText = get_rel_notes($release);
         my $last      = '';
         foreach my $item ( sort @itemlist ) {
             next if $item eq $last;
@@ -96,33 +92,67 @@ foreach my $ext ( sort @extensions ) {
         }
     }
 
-    else {
-        print "No changes since last release\n";
-    }
-
-    my $class = ( $ext =~ m/Plugin/ ) ? 'Plugins' : 'Contrib';
-    my $origsrc = `git show $start:$ext/lib/Foswiki/$class/$ext.pm`;
-
-    my $mancheck = `../core/tools/check_manifest.pl`;
-    chomp $mancheck;
-    $mancheck =~ s/^Processing manifest .*\/MANIFEST$//g;
-    print "\n\n$mancheck" if ($mancheck);
-
-    my $ov      = extractModuleVersion( "lib/Foswiki/$class/$ext", $origsrc );
-    my $lv      = extractModuleVersion("lib/Foswiki/$class/$ext");
-    my $exthash = get_ext_info($ext);
-
-    print "\n\n";
-    print
-      "$ext - Last release: $ov, Uploaded $exthash->{version}, Module: $lv\n";
-
-    if ( ( $ov eq $lv || $exthash->{version} eq $lv ) && $gitlog ) {
-        print
-"ERROR: $ext: Identical versions, but commits logged since last release\n";
-    }
 }
+else {
 
-print "\n\nChanged extensions: " . join( ', ', @changed ) . "\n";
+    foreach my $ext ( sort @extensions ) {
+        chomp $ext;
+        chdir "$root/$ext";
+        my @itemlist;
+        my $gitlog = `git log --oneline $start..HEAD .`;
+        next
+          unless $gitlog
+          ;    # Comment this to get verbose report of unmodified extensions.
+        print "\n========== $ext ============\n";
+        if ($gitlog) {
+            push @changed, $ext;
+            @itemlist = $gitlog =~ m/(Item\d+):/g;
+            my $topicText = get_ext_topic($ext);
+            my $last      = '';
+            foreach my $item ( sort @itemlist ) {
+                next if $item eq $last;
+
+#SMELL: SmartMatch is experimental.  But had to give it a try.  Will  be changed in upcoming perl.
+                next if $item ~~ @omit;
+                $last = $item;
+                my $taskinfo = get_task_info($item);
+                print "WARNING: Wrong state: $taskinfo\n"
+                  unless $taskinfo =~ m/Waiting for Release/;
+                next if $topicText =~ m/$item\b/;
+                print "MISSING: from change log: $taskinfo\n";
+
+            }
+        }
+
+        else {
+            print "No changes since last release\n";
+        }
+
+        my $class = ( $ext =~ m/Plugin/ ) ? 'Plugins' : 'Contrib';
+        my $origsrc = `git show $start:$ext/lib/Foswiki/$class/$ext.pm`;
+
+        my $mancheck = `../core/tools/check_manifest.pl`;
+        chomp $mancheck;
+        $mancheck =~ s/^Processing manifest .*\/MANIFEST$//g;
+        print "\n\n$mancheck" if ($mancheck);
+
+        my $ov = extractModuleVersion( "lib/Foswiki/$class/$ext", $origsrc );
+        my $lv = extractModuleVersion("lib/Foswiki/$class/$ext");
+        my $exthash = get_ext_info($ext);
+
+        print "\n\n";
+        print
+"$ext - Last release: $ov, Uploaded $exthash->{version}, Module: $lv\n";
+
+        if ( ( $ov eq $lv || $exthash->{version} eq $lv ) && $gitlog ) {
+            print
+"ERROR: $ext: Identical versions, but commits logged since last release\n";
+        }
+    }
+
+    print "\n\nChanged extensions: " . join( ', ', @changed ) . "\n";
+
+}
 
 #chdir $root;
 
@@ -231,6 +261,18 @@ sub extractModuleVersion {
 sub get_ext_topic {
     my $ext  = shift;
     my $file = "data/System/$ext.txt";
+
+    open( my $mf, '<', "$file" ) or die "Unable to open $file";
+    local $/;
+    my $topicText = <$mf>;
+    close $mf;
+    return $topicText;
+}
+
+sub get_rel_notes {
+    my $release = shift;
+    $release =~ s/^Release/ReleaseNotes/;
+    my $file = "core/data/System/$release.txt";
 
     open( my $mf, '<', "$file" ) or die "Unable to open $file";
     local $/;
