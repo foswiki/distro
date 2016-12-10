@@ -1,5 +1,4 @@
 package ConfigTests;
-use v5.14;
 
 use Foswiki;
 use Try::Tiny;
@@ -364,6 +363,14 @@ sub test_arg2keys {
                   . ( $e->keyName // '*undef*' ) );
         };
     }
+}
+
+sub test_specFilesAttribute {
+    my $this = shift;
+
+    my $sf = $this->app->cfg->specFiles;
+
+    my $list = $sf->list;
 }
 
 1;

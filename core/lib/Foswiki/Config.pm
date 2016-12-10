@@ -307,6 +307,26 @@ has rootSection => (
     ),
 );
 
+=begin TML
+
+---++ ObjectAttribute specFiles
+
+And object of =Foswiki::Config::Spec::Files= class. List of specs found.
+
+=cut
+
+#has specFiles => (
+#    is      => 'rw',
+#    lazy    => 1,
+#    clearer => 1,
+#    isa     => Foswiki::Object::isaCLASS(
+#        'specFiles',
+#        'Foswiki::Config::Spec::Files',
+#        noUndef => 1,
+#    ),
+#    builder => 'prepareSpecFiles',
+#);
+
 # Configuration shortcut attributes.
 
 =begin TML
@@ -2207,6 +2227,20 @@ sub prepareRootSection {
     my $this = shift;
 
     return $this->create( 'Foswiki::Config::Section', name => 'Root' );
+}
+
+=begin TML
+
+---++ ObjectMethod prepareSpecFiles
+
+Initializer of =specFiles= attribute.
+
+=cut
+
+sub prepareSpecFiles {
+    my $this = shift;
+
+    return $this->create('Foswiki::Config::Spec::Files');
 }
 
 my @validSecOptions = qw(text);

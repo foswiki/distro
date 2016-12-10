@@ -431,9 +431,15 @@ extends qw(Foswiki::Exception::Fatal);
 
 =begin TML
 
----++ Exception Foswiki::Exception::CB
+---++ Exception Foswiki::Exception::FileOp
 
-Root of callback support exception tree.
+Base exception for failed file operations.
+
+Attributes:
+
+| *Name* | *Description* | *Required* |
+| =file= | File name | _yes_ |
+| =op= | Operation caused the failure, single verb like 'read' | _yes' |
 
 =cut
 
@@ -441,8 +447,9 @@ package Foswiki::Exception::FileOp;
 use Foswiki::Class;
 extends qw(Foswiki::Exception::Fatal);
 
-has file => ( is => 'rw', required => 1, );
-has op   => ( is => 'rw', required => 1, );
+has file  => ( is => 'rw', required => 1, );
+has op    => ( is => 'rw', required => 1, );
+has errno => ( is => 'rw', builder  => 'prepareErrno', );
 
 around stringify => sub {
     my $orig = shift;
@@ -462,6 +469,10 @@ around prepareText => sub {
 
     return $!;    # text attribute to be set from last file operation error.
 };
+
+sub prepareErrno {
+    return int($!);
+}
 
 =begin TML
 

@@ -1,7 +1,6 @@
 # See bottom of file for license and copyright
 
 package Unit::TestApp;
-use v5.14;
 
 =begin TML
 
@@ -187,21 +186,21 @@ around callbacksInit => sub {
     return $orig->( $this, @_ );
 };
 
-around _prepareRequest => sub {
+around prepareRequest => sub {
     my $orig = shift;
     my $this = shift;
 
     return $orig->( $this, %{ $this->requestParams } );
 };
 
-around _prepareEngine => sub {
+around prepareEngine => sub {
     my $orig = shift;
     my $this = shift;
 
     return $orig->( $this, %{ $this->engineParams } );
 };
 
-around _prepareConfig => sub {
+around prepareCfg => sub {
     my $orig = shift;
     my $this = shift;
 

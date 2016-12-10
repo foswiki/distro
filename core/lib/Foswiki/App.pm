@@ -1,7 +1,6 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::App;
-use v5.14;
 
 =begin TML
 
@@ -103,7 +102,7 @@ has cfg => (
     is        => 'rw',
     lazy      => 1,
     predicate => 1,
-    builder   => '_prepareConfig',
+    builder   => 'prepareCfg',
     isa => Foswiki::Object::isaCLASS( 'cfg', 'Foswiki::Config', noUndef => 1, ),
 );
 has env => (
@@ -113,7 +112,7 @@ has env => (
 has extensions => (
     is      => 'ro',
     lazy    => 1,
-    builder => '_prepareExtensions',
+    builder => 'prepareExtensions',
 );
 has forms => (
     is      => 'ro',
@@ -140,7 +139,7 @@ has engine => (
     is        => 'rw',
     lazy      => 1,
     predicate => 1,
-    builder   => '_prepareEngine',
+    builder   => 'prepareEngine',
     isa =>
       Foswiki::Object::isaCLASS( 'engine', 'Foswiki::Engine', noUndef => 1, ),
 );
@@ -184,7 +183,7 @@ has prefs => (
     lazy      => 1,
     predicate => 1,
     clearer   => 1,
-    builder   => '_preparePrefs',
+    builder   => 'preparePrefs',
 );
 has renderer => (
     is        => 'ro',
@@ -198,7 +197,7 @@ has renderer => (
 has request => (
     is      => 'rw',
     lazy    => 1,
-    builder => '_prepareRequest',
+    builder => 'prepareRequest',
     isa =>
       Foswiki::Object::isaCLASS( 'request', 'Foswiki::Request', noUndef => 1, ),
 );
@@ -253,7 +252,7 @@ has context => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    builder => '_prepareContext',
+    builder => 'prepareContext',
 );
 has ui => (
     is      => 'rw',
@@ -283,7 +282,7 @@ has remoteUser => (
 has user => (
     is      => 'rw',
     lazy    => 1,
-    builder => '_prepareUser',
+    builder => 'prepareUser',
 );
 has users => (
     is        => 'rw',
@@ -1416,7 +1415,7 @@ BOGUS
     }
 }
 
-sub _prepareContext {
+sub prepareContext {
     my $this = shift;
 
     my %context =
@@ -1431,7 +1430,7 @@ sub _prepareContext {
     return \%context;
 }
 
-sub _prepareEngine {
+sub prepareEngine {
     my $this = shift;
     my @args = @_;
     my $env  = $this->env;
@@ -1446,7 +1445,7 @@ sub _prepareEngine {
     return $engine;
 }
 
-sub _preparePrefs {
+sub preparePrefs {
     my $this = shift;
 
     my $prefs = $this->create('Foswiki::Prefs');
@@ -1492,7 +1491,7 @@ sub _readPrefs {
 }
 
 # The request attribute default method.
-sub _prepareRequest {
+sub prepareRequest {
     my $this = shift;
     my @args = @_;
 
@@ -1500,7 +1499,7 @@ sub _prepareRequest {
 
     if ($preparing) {
         Foswiki::Exception::Fatal->throw(
-            text => 'Circular call to _prepareRequest' );
+            text => 'Circular call to prepareRequest' );
     }
     $preparing = 1;
 
@@ -1523,7 +1522,7 @@ sub _prepareRequest {
     return $request;
 }
 
-sub _prepareConfig {
+sub prepareCfg {
     my $this = shift;
     my $cfg  = $this->create('Foswiki::Config');
     return $cfg;
@@ -1565,14 +1564,14 @@ sub _prepareDispatcher {
     $this->_dispatcherAttrs($dispatcher);
 }
 
-sub _prepareUser {
+sub prepareUser {
     my $this = shift;
 
     #return $this->users->initialiseUser( $this->remoteUser );
     return undef;
 }
 
-sub _prepareExtensions {
+sub prepareExtensions {
     my $this = shift;
 
     # Don't use create() here because the latter depends on extensions.
@@ -1656,7 +1655,7 @@ sub _checkActionAccess {
     if (   UNIVERSAL::isa( $this->engine, 'Foswiki::Engine::CLI' )
         || UNIVERSAL::isa( $this->engine, 'Foswiki::Engine::Test' ) )
     {
-        # Done in _prepareContext
+        # Done in prepareContext
         #$dispatcherAttrs->{context}{command_line} = 1;
     }
     elsif (
@@ -3869,6 +3868,31 @@ sub writeDebug {
             extra => \@_
         }
     );
+}
+
+=begin TML
+
+---+++ ObjectMethod readFile($filename, %params) -> ($content, %response)
+
+
+Params keys:
+
+| *Name* | *Description* | *Default* |
+| =unicode= | Read file as unicode | 1 (true) |
+| =raiseError= | Raise =Foswiki::Exception::FileOp= on error | 0 |
+
+=cut
+
+sub readFile {
+    my $this     = shift;
+    my $filename = shift;
+    my %params   = @_;
+
+    $params{unicode}    //= 1;
+    $params{raiseError} //= 0;
+
+    my $file = $this->create( 'Foswiki::File', %params );
+    return $file->content;
 }
 
 1;
