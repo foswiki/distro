@@ -43,6 +43,7 @@ test/unit/ExtensionsTests.pm 0644
 test/unit/ExpandMacrosTests.pm 0644
 test/unit/ExtensionInstallerTests.pm 0644
 test/unit/FeatureSetTests.pm 0644
+test/unit/FileClassTests.pm 0644
 test/unit/Fn_ENCODE.pm 0644
 test/unit/Fn_FORMAT.pm 0644
 test/unit/Fn_FORMFIELD.pm 0644
