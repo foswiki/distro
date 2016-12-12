@@ -134,7 +134,7 @@ table.foswikiDiffOptions img {
 id="cssFoswikiDiffOptions"}%%TMPL:END%
 
 %TMPL:DEF{"revision"}%<h2>%MAKETEXT{"Revisions"}%</h2>
-%IF{"$ maxrev='0'" then="<!--" else="<h3>%MAKETEXT{"View previous topic revision"}% (1 ... %URLPARAM{maxrev}%)" }%</h3>
+%IF{"$ maxrev='0'" then="<!--" else="<h3>%MAKETEXT{"View previous topic revision"}% (1 ... <nop>%URLPARAM{"maxrev" type="html"}%)" }%</h3>
 <form name="main" action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%" method="post">
 <div class="foswikiFormSteps">
 <div class="foswikiFormStep">
@@ -177,7 +177,7 @@ id="cssFoswikiDiffOptions"}%%TMPL:END%
 "$maxrev='1'"
 then="%MAKETEXT{"Restoring is disabled because this topic is at revision 1."}%"
 else="<p>
-%MAKETEXT{"Latest revision: [_1]" args="%URLPARAM{maxrev}%"}%
+%MAKETEXT{"Latest revision: [_1]" args="<nop>%URLPARAM{"maxrev" type="html"}%"}%
 </p>
 </div>
 <div class='foswikiFormStep'><p>

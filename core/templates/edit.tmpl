@@ -33,11 +33,11 @@
 <input type="hidden" name="newtopic" value="%NEWTOPIC%" />
 <input type="hidden" name="nowysiwyg" value="%URLPARAM{"nowysiwyg"}%" />
 <input type="hidden" name="originalrev" value="%ORIGINALREV%" />
-<input type="hidden" name="redirectto" value="%REDIRECTTO%" />
+<input type="hidden" name="redirectto" value="%ENCODE{"%REDIRECTTO%" type="safe"}%" />
 <input type="hidden" name="rev" value="%URLPARAM{"rev"}%" />
 <input type="hidden" name="skin" value="%URLPARAM{"skin"}%" />
-<input type="hidden" name="templatetopic" value="%TEMPLATETOPIC%" />
-<input type="hidden" name="topicparent" value="%TOPICPARENT%" />%TMPL:END%
+<input type="hidden" name="templatetopic" value="%ENCODE{"%TEMPLATETOPIC%" type="safe"}%" />
+<input type="hidden" name="topicparent" value="%ENCODE{"%TOPICPARENT%" type="safe"}%" />%TMPL:END%
 %{----------------------------------------------------------------------}%
 %TMPL:DEF{"sig"}%<div><div class="foswikiLeft"><label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste:"}%&nbsp;&nbsp;</label><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="%SIGNATUREFORMAT%" /></div><div class="foswikiClear"></div></div>%TMPL:END%
 %{----------------------------------------------------------------------}%
