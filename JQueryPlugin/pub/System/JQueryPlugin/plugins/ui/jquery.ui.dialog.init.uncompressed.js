@@ -1,19 +1,17 @@
 // initializer for the ui-dialog plugin
+"use strict";
 jQuery(function($) {
-'use strict';
 
   var dialogDefaults = {
     width: 300,
-    cached:false,
     autoOpen:false,
     draggable:false,
     resizable:false,
     closeOnEscape:false,
-    show:'fade'
-  }, 
-
-  dialogLinkDefaults = {
-    cache: true
+    show:'fade',
+    close: function() {
+      $(this).dialog("destroy").remove();
+    }
   };
 
   // dialog
@@ -21,13 +19,6 @@ jQuery(function($) {
     var $this = $(this), 
         opts = $.extend({}, dialogDefaults, $this.data(), $this.metadata()),
         buttons = [];
-
-    if (!opts.cached) {
-      opts.close = function() {
-        $this.dialog("destroy");
-        $this.remove();
-      }
-    }
 
     $this.find(".jqUIDialogButton").each(function() {
       var $button = $(this), 
@@ -109,25 +100,14 @@ jQuery(function($) {
   $(document).on("click", ".jqUIDialogLink", function() {
     var $this = $(this), 
         href = $this.attr("href"),
-        opts = $.extend({}, dialogLinkDefaults, $this.data(), $this.metadata());
+        opts = $.extend({}, $this.data(), $this.metadata());
 
     if (href.match(/^(https?:)|\//)) {
       // this is a link to remote data
       $.ajax({
         url: href, 
         success: function(content) { 
-          var $content = $(content),
-              id = $content.attr('id');
-          if (!id) {
-            id = 'dialog-'+foswiki.getUniqueID();
-            $content.attr('id', id);
-          }
-          if (opts.cache) {
-            $this.attr("href", "#"+id);
-            $content.data("cached", true);
-          } else {
-            $content.data("cached", false);
-          }
+          var $content = $(content);
           $content.hide();
           $("body").append($content);
           $content.data("autoOpen", true);
