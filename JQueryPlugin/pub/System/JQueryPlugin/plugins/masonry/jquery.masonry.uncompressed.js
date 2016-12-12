@@ -3188,7 +3188,7 @@ return Outlayer;
 'use strict';
 jQuery(function($) {
   var defaults = {
-    waitForImages: false
+    waitForImages: true
   };
 
   $(".jqMasonry:not(.jqInitedMasonry)").livequery(function() {
