@@ -47,8 +47,8 @@ Dialogs can be created inline or loaded on demand. The basic skeleton of a dialo
 
   ...
 
-  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-circle-check'}">%MAKETEXT{"Ok"}%</a>
-  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose" data-icon="ui-icon-circle-check">%MAKETEXT{"Ok"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose" data-icon="ui-icon-cancel">%MAKETEXT{"Cancel"}%</a>
 </div>
 </verbatim>
 
@@ -81,15 +81,15 @@ When the button is clicked:
 
 ---++ Parameters 
 
-Parameters can be set using JQueryMetadata.
+Parameters can be set using HTML5 data (data-&lt;name>)
 
 | *Name* | *Description* | *Default* |
 | width | width of the dialog | 300 |
 | height | height of the dialog | auto |
-| autoOpen | boolean flag to either open the dialog when loaded (true) or delay opening it until the user says so (false) | false |
+| auto-open | boolean flag to either open the dialog when loaded (true) or delay opening it until the user says so (false) | false |
 | draggable | boolean flag to make the dialog draggable | false |
 | resizable | boolean flag to make the dialog resizable | false |
-| closeOnEscape | boolean flag to let the user close the dialog using the ESC key | false |
+| close-on-escape | boolean flag to let the user close the dialog using the ESC key | false |
 | show | animation to be used to display the dialog | fade |
 | hide | animation to be used to hide the dialog |  |
 | modal | If set to true, the dialog will have modal behavior; other items on the page will be disabled (i.e. cannot be interacted with). Modal dialogs create an overlay below the dialog but above other page elements. | false |
@@ -148,8 +148,8 @@ $("#mydialog").bind("dialogclose", function() {
       <td><input type="password" size="50" name="password" class="foswikiInputField" /></td>
     </tr>
   </table>
-  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-circle-check'}">%MAKETEXT{"Come on in"}%</a>
-  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Never mind"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose" data-icon="ui-icon-circle-check">%MAKETEXT{"Come on in"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose" data-icon="ui-icon-cancel">%MAKETEXT{"Never mind"}%</a>
 </div>
 
 ---+++ Dialog fetched asynchronously
@@ -162,8 +162,8 @@ $("#mydialog").bind("dialogclose", function() {
   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
   et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
   ex ea commodo consequat.
-  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-circle-check'}">%MAKETEXT{"Ok"}%</a>
-  <a class="jqUIDialogButton jqUIDialogClose {icon:'ui-icon-cancel'}">%MAKETEXT{"Cancel"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose" data-icon="ui-icon-circle-check">%MAKETEXT{"Ok"}%</a>
+  <a class="jqUIDialogButton jqUIDialogClose" data-icon="ui-icon-cancel">%MAKETEXT{"Cancel"}%</a>
 </div>
 %ENDSECTION{"dialog"}%
 </verbatim>
