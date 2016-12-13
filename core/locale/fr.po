@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-04-14 11:51+0200\n"
+"PO-Revision-Date: 2016-12-13 13:29+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -661,11 +661,8 @@ msgid "Access keys:"
 msgstr "Raccourcis clavier :"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:38
-#, fuzzy
 msgid "Access to pending registrations is restricted to administrators"
-msgstr ""
-"Votre inscription est en attente d'approbation par les administrateurs du "
-"système."
+msgstr "L'accès aux inscriptions en attente est restreint aux administrateurs"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -681,14 +678,12 @@ msgid "Actions"
 msgstr "Actions"
 
 #: core/templates/registermessages.tmpl:91
-#, fuzzy
 msgid "Activation Failed"
-msgstr "Code de validation erroné"
+msgstr "Échec de l'activation"
 
 #: core/templates/registermessages.tmpl:92
-#, fuzzy
 msgid "Activation for code %1 failed with an internal error."
-msgstr "L'opération %1 a échoué en raison d'une erreur interne"
+msgstr "L'activation pour le code %1 a échoué en raison d'une erreur interne."
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:452
@@ -835,7 +830,7 @@ msgstr ""
 
 #: core/data/System/PendingRegistrationsTemplate.txt:22
 msgid "Approve"
-msgstr ""
+msgstr "Approuver"
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -1765,9 +1760,8 @@ msgid "Emoticon"
 msgstr "Émoticône"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:26
-#, fuzzy
 msgid "End presentation"
-msgstr "Démarrer présentation"
+msgstr "Finir présentation"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
@@ -2360,6 +2354,10 @@ msgid ""
 "register are known to the password manager, then bulk registration may still "
 "be useful.  Please contact %1 if you are unsure."
 msgstr ""
+"Si votre wiki utilise un gestionnaire de mots de passe externe, et que les "
+"utilisateurs que vous voulez enregistrer sont connus du gestionnaire de mots "
+"de passe, alors l'enregistrement en masse (bulk registration) peut toujours "
+"être utile. Veuillez contacter %1 si vous n'êtes pas sûr."
 
 #: UpdatesPlugin/templates/updatesplugin.tmpl:6
 msgid "Ignore for 7 days"
@@ -3213,9 +3211,8 @@ msgid "Passwords do not match"
 msgstr "Les mots de passe ne concordent pas"
 
 #: core/data/System/PendingRegistrations.txt:2
-#, fuzzy
 msgid "Pending Registrations"
-msgstr "Inscription en cours non trouvée"
+msgstr "Inscriptions en cours"
 
 #: core/templates/registermessages.tmpl:41
 msgid "Pending registration not found"
@@ -3546,12 +3543,11 @@ msgstr ""
 
 #: core/data/System/PendingRegistrations.txt:3
 msgid "Registrations awaiting Email verification"
-msgstr ""
+msgstr "Inscriptions en attente de vérification par e-mail"
 
 #: core/data/System/PendingRegistrations.txt:7
-#, fuzzy
 msgid "Registrations awaiting approval"
-msgstr "Inscription %1 à valider"
+msgstr "Inscriptions en attente de validation"
 
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
@@ -3559,7 +3555,7 @@ msgstr "Recherche par expression rationnelle"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:23
 msgid "Reject"
-msgstr ""
+msgstr "Refuser"
 
 #: core/data/System/UserName.txt:44
 msgid "Related Topics for Administrators:"
@@ -4425,13 +4421,12 @@ msgstr ""
 "destination."
 
 #: core/templates/renameattachmentdelete.tmpl:43
-#, fuzzy
 msgid ""
 "The attachment may have to be renamed if an attachment called '%1' already "
 "exists in the target topic."
 msgstr ""
 "Le fichier attaché sera éventuellement renommé s'il existe déjà un fichier "
-"attaché appelé '%FILENAME%' dans la page de destination."
+"attaché appelé '%1' dans la page de destination."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
@@ -4794,6 +4789,8 @@ msgid ""
 "This is an internal error.  You can try to register again, or contact %1 to "
 "report the error."
 msgstr ""
+"Il s'agit d'une erreur interne. Vous pouvez tenter l'inscription de nouveau, "
+"ou contacter %1 pour signaler l'erreur."
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:128
 msgid "This is not a valid WikiName."
@@ -4938,11 +4935,12 @@ msgstr ""
 "[ici]]."
 
 #: core/templates/messages.tmpl:398
-#, fuzzy
 msgid ""
 "To refresh the cache for just this topic, <a href='%1' rel='nofollow' > "
 "click here </a> "
-msgstr "Obtenir une version actualisée <a href='%1' rel='nofollow'>ici</a>."
+msgstr ""
+"Pour actualiser le cache pour cette page seulement, <a href='%1' rel="
+"'nofollow' > cliquez ici </a> "
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
@@ -5661,6 +5659,8 @@ msgid ""
 "You can use the \"approve\" or \"reject\" links to approve or reject these "
 "registrations"
 msgstr ""
+"Vous pouvez utiliser les liens \"approuver\" ou \"refuser\" pour approuver "
+"ou refuser ces inscriptions"
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429
@@ -5735,6 +5735,8 @@ msgid ""
 "You must be the =%1= super user, or a member of the %2, to clear the global "
 "cache for all topics."
 msgstr ""
+"Vous devez être le super-utilisateur =%1= , ou un membre de %2, pour purger "
+"le cache global pour toutes les pages."
 
 #: core/templates/messages.tmpl:89
 msgid "You must pass a topic name."
