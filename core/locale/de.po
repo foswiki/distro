@@ -1042,7 +1042,7 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:166
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
@@ -1263,7 +1263,7 @@ msgstr "Farbe %1 hat ein ungültiges Format"
 msgid "Columns"
 msgstr "Spalten"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Come on in"
 msgstr "Treten Sie ein"
 
@@ -2313,7 +2313,7 @@ msgstr "Wenn Sie Fragen haben, wenden Sie sich bitte an %1"
 msgid "If you have any questions, please contact %1."
 msgstr "Wenn Sie Fragen haben, wenden Sie sich bitte an %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:256
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:263
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -2705,7 +2705,7 @@ msgstr "Anmelden, um fortzufahren."
 msgid "Log on to %1"
 msgstr "Anmelden bei %1"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:140
 #: core/templates/foswiki.tmpl:20
 msgid "Login"
 msgstr "Login"
@@ -2872,7 +2872,7 @@ msgstr "Name der Kopie"
 msgid "Name of new web is missing"
 msgstr "Der Name des neuen Webs fehlt"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:143
 msgid "Name:"
 msgstr "Name:"
 
@@ -2880,7 +2880,7 @@ msgstr "Name:"
 msgid "Navigate to a similar topic"
 msgstr "Zu einem ähnlichen Topic navigieren"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Never mind"
 msgstr "Doch nicht"
 
@@ -3018,7 +3018,7 @@ msgstr ""
 "Verschieben nicht mehr funktionieren."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:261
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3087,7 +3087,7 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr "OK, das bin immer noch ich!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:165
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
 msgstr "OK"
@@ -3198,7 +3198,7 @@ msgstr "Das Zurücksetzen des Passwortes ist fehlgeschlagen"
 msgid "Password reset failed."
 msgstr "Das Zurücksetzen des Passworts ist fehlgeschlagen."
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 msgid "Password:"
 msgstr "Passwort:"
@@ -4077,7 +4077,7 @@ msgstr "Signatur"
 msgid "Size"
 msgstr "Größe"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:247
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "Einen Zeitplan und Urlaubsnotizen."
@@ -4097,7 +4097,7 @@ msgstr ""
 "der Fall ist, könnte es sein, dass Sie bereits erfolgreich registriert "
 "wurden."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:246
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4185,7 +4185,7 @@ msgstr "Durchgestrichener Text"
 msgid "Submit"
 msgstr "Abschicken"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:258
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:265
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -5620,7 +5620,7 @@ msgstr ""
 "gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, "
 "blue, teal, oder aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:255
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:262
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "Sie können ihr Passwort über %1 ändern"
@@ -5814,7 +5814,7 @@ msgstr "Diese Seite benötigt ein Passwort mit mindestens %1 Zeichen."
 msgid "Your password:"
 msgstr "Ihr Passwort:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:244
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"

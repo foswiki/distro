@@ -1011,7 +1011,7 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:166
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
@@ -1229,7 +1229,7 @@ msgstr "Barva %1 má nesprávný formát"
 msgid "Columns"
 msgstr "Sloupce"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Come on in"
 msgstr "Přejdi k"
 
@@ -2253,7 +2253,7 @@ msgstr "Pokud máte jakékoliv otázky, kontaktujte prosím %1"
 msgid "If you have any questions, please contact %1."
 msgstr "Pokud máte libovolné otázky, kontaktujte prosím %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:256
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:263
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -2643,7 +2643,7 @@ msgstr "Pro pokračování se přihlaste."
 msgid "Log on to %1"
 msgstr "Přihlásit k %1"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:140
 #: core/templates/foswiki.tmpl:20
 msgid "Login"
 msgstr "Přihlásit"
@@ -2813,7 +2813,7 @@ msgstr "Jméno kopie"
 msgid "Name of new web is missing"
 msgstr "Chybí jméno nového webu"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:143
 msgid "Name:"
 msgstr "Jméno:"
 
@@ -2821,7 +2821,7 @@ msgstr "Jméno:"
 msgid "Navigate to a similar topic"
 msgstr "Naviguj k podobnému článku"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Never mind"
 msgstr "Nevadí"
 
@@ -2963,7 +2963,7 @@ msgstr ""
 "tomto přesunu."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:261
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3031,7 +3031,7 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr "OK, toto jsem stále já!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:165
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
 msgstr "Ok"
@@ -3140,7 +3140,7 @@ msgstr "Znovunastavení hesla bylo neúspěšné"
 msgid "Password reset failed."
 msgstr "Resetování hesla selhalo."
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 msgid "Password:"
 msgstr "Heslo:"
@@ -4003,7 +4003,7 @@ msgstr "Podpis"
 msgid "Size"
 msgstr "Velikost"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:247
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "Někdo přidal informace o rozvrhu a poznámky o volnu."
@@ -4022,7 +4022,7 @@ msgstr ""
 "že zašlou ten samý požadavek dvakrát když kliknete na odkaz. Jestliže se vám "
 "toto přihodí, je možné že jste se již úspěšně *zaregistrovali*."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:246
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4109,7 +4109,7 @@ msgstr "Přeškrtnuto"
 msgid "Submit"
 msgstr "Potvrdit"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:258
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:265
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -5501,7 +5501,7 @@ msgstr ""
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
 "teal, or aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:255
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:262
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "Můžete změnit Vaše heslo přes %1"
@@ -5683,7 +5683,7 @@ msgstr "Vaše heslo musí být nejméně %1 znaků dlouhé."
 msgid "Your password:"
 msgstr "Vaše heslo:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:244
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"

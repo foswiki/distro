@@ -1047,7 +1047,7 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:166
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
@@ -1272,7 +1272,7 @@ msgstr "Färgen %1 har ogiltigt format"
 msgid "Columns"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Come on in"
 msgstr ""
 
@@ -2328,7 +2328,7 @@ msgstr "Kontakta %1 om du har frågor"
 msgid "If you have any questions, please contact %1."
 msgstr "Kontakta %1 om du har frågor."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:256
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:263
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -2728,7 +2728,7 @@ msgstr ""
 msgid "Log on to %1"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:140
 #: core/templates/foswiki.tmpl:20
 msgid "Login"
 msgstr "Logga in"
@@ -2905,7 +2905,7 @@ msgstr "Namn på kopian:"
 msgid "Name of new web is missing"
 msgstr "Namnet på den nya avdelningen saknas"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:143
 msgid "Name:"
 msgstr ""
 
@@ -2913,7 +2913,7 @@ msgstr ""
 msgid "Navigate to a similar topic"
 msgstr "Navigera till en liknande sida"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Never mind"
 msgstr ""
 
@@ -3062,7 +3062,7 @@ msgstr ""
 "externa sidor) inte kommer att fungera efter flytten."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:261
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3129,7 +3129,7 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:165
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
 msgstr ""
@@ -3247,7 +3247,7 @@ msgstr "Misslyckades att nollställa lösenord"
 msgid "Password reset failed."
 msgstr "Misslyckades att nollställa lösenord"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #, fuzzy
 msgid "Password:"
@@ -4163,7 +4163,7 @@ msgstr ""
 msgid "Size"
 msgstr "Storlek"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:247
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "Vissa lägger till schema- eller semesterinformation."
@@ -4182,7 +4182,7 @@ msgstr ""
 "gånger när du klickar på en länk. Det är därför möjligt att du faktisk *har "
 "lyckats* registrera dig."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:246
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4269,7 +4269,7 @@ msgstr ""
 msgid "Submit"
 msgstr "Skicka"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:258
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:265
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -5673,7 +5673,7 @@ msgstr ""
 "white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
 "teal, eller aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:255
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:262
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "Du kan byta lösenord via %1"
@@ -5845,7 +5845,7 @@ msgstr "På denna webbplats måste lösenord vara minst %1 tecken långa"
 msgid "Your password:"
 msgstr "Ditt lösenord:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:244
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"

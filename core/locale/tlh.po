@@ -1022,7 +1022,7 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:166
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
@@ -1243,7 +1243,7 @@ msgstr "qarbe&&#39;ba&&#39; %1 nguvmoHmeH ngoq"
 msgid "Columns"
 msgstr "tutmey"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Come on in"
 msgstr "yI&&#39;el"
 
@@ -2294,7 +2294,7 @@ msgstr "vay&&#39; Daghel <nop>DaneHchugh, vaj %1 yIrI&&#39;"
 msgid "If you have any questions, please contact %1."
 msgstr "vay&&#39; Daghel <nop>DaneHchugh vaj %1 yIrI&&#39;."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:256
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:263
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -2679,7 +2679,7 @@ msgstr "<nop>bIruchmeH <nop>yI&&#39;el."
 msgid "Log on to %1"
 msgstr "%1<nop>Daq &&#39;el"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:140
 #: core/templates/foswiki.tmpl:20
 msgid "Login"
 msgstr "&&#39;el"
@@ -2846,7 +2846,7 @@ msgstr "velqa&&#39; pong"
 msgid "Name of new web is missing"
 msgstr "Hutlh mIch chu&&#39; pong"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:143
 msgid "Name:"
 msgstr "pong:"
 
@@ -2854,7 +2854,7 @@ msgstr "pong:"
 msgid "Navigate to a similar topic"
 msgstr "pongvam rurbogh ghItlhDaq ghoS"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Never mind"
 msgstr "<nop>HIbuSQo&&#39;"
 
@@ -2993,7 +2993,7 @@ msgstr ""
 "SIqbogh URLmey."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:261
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3061,7 +3061,7 @@ msgstr "luq"
 msgid "OK, this is still me!"
 msgstr "qar, jIHbej!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:165
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
 msgstr "luq"
@@ -3173,7 +3173,7 @@ msgstr "Qagh chaw&&#39; ngoq chu&&#39;moHmeH mIw"
 msgid "Password reset failed."
 msgstr "Qagh chaw&&#39; ngoq chu&&#39;moHmeH mIw."
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 msgid "Password:"
 msgstr "chaw&&#39; ngoq:"
@@ -4036,7 +4036,7 @@ msgstr "qI&&#39;meH pong"
 msgid "Size"
 msgstr "ngI&&#39;"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:247
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "&&#39;ISjaH, jey De&&#39; qoj luchel &&#39;op."
@@ -4055,7 +4055,7 @@ msgstr ""
 "rarwI&&#39;Daq &&#39;uylu&&#39;chugh &&#39;<nop>oH <nop>ngeHmeH. bI&&#39;"
 "uyta&&#39;chugh, vaj chaq *Qapchu&&#39;qu&&#39;* <nop>muvmeH <nop>mIwlIj."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:246
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4145,7 +4145,7 @@ msgstr "Degh botlh tlhegh"
 msgid "Submit"
 msgstr "ngeH"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:258
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:265
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -5505,7 +5505,7 @@ msgstr ""
 "(black, silver, gray, white, maroon, red, purple, fuchsia, green, lime, "
 "olive, yellow, navy, blue, teal, aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:255
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:262
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "%1Daq chaw&&#39; ngoqlIj <nop>DachoHlaH"
@@ -5673,7 +5673,7 @@ msgstr "%1 Deghmey ghaj chaw&&#39; ngoqlIj net poQ."
 msgid "Your password:"
 msgstr "chaw&&#39; ngoqlIj:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:244
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"

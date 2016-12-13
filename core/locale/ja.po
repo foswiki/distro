@@ -1055,7 +1055,7 @@ msgstr " %1 のメールアドレスが確認できません(パスワードの�
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:166
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
@@ -1277,7 +1277,7 @@ msgstr "色 %1に無効なフォーマットが含まれています"
 msgid "Columns"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Come on in"
 msgstr ""
 
@@ -2321,7 +2321,7 @@ msgstr "何か疑問がございましたら、%1までご連絡ください。"
 msgid "If you have any questions, please contact %1."
 msgstr "何か疑問がございましたら、%1までご連絡ください。"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:256
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:263
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -2727,7 +2727,7 @@ msgstr "%1にログインします"
 msgid "Log on to %1"
 msgstr "%1にログインします"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:140
 #: core/templates/foswiki.tmpl:20
 msgid "Login"
 msgstr "ログイン"
@@ -2904,7 +2904,7 @@ msgstr "トピック数:"
 msgid "Name of new web is missing"
 msgstr "新ウェブ名が失われました"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:143
 msgid "Name:"
 msgstr ""
 
@@ -2913,7 +2913,7 @@ msgstr ""
 msgid "Navigate to a similar topic"
 msgstr "関連トピックを速やかに見たいですか？"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Never mind"
 msgstr ""
 
@@ -3059,7 +3059,7 @@ msgid ""
 msgstr "注意：この添付ファイルを参照すると、どんなURLであっても切断されます"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:261
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3127,7 +3127,7 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:165
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
 msgstr ""
@@ -3243,7 +3243,7 @@ msgstr "パスワードの変更に失敗しました"
 msgid "Password reset failed."
 msgstr "パスワードの変更に失敗しました"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 #, fuzzy
 msgid "Password:"
@@ -4151,7 +4151,7 @@ msgstr ""
 msgid "Size"
 msgstr "サイズ"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:247
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "いくつかの追加スケジュールと休暇自動通知"
@@ -4171,7 +4171,7 @@ msgstr ""
 "あったとすれば、それはあなたが既に確実に登録に成功したことを意味するのかもし"
 "れません。"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:246
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4254,7 +4254,7 @@ msgstr ""
 msgid "Submit"
 msgstr "確定"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:258
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:265
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -5638,7 +5638,7 @@ msgstr ""
 "fuchsia, green, lime, olive, yellow, navy, blue, teal, or aqua)を使うこともで"
 "きます"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:255
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:262
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "%1を通じてパスワードを変更することができます"
@@ -5807,7 +5807,7 @@ msgstr "パスワードには %1 以上の文字が必要です"
 msgid "Your password:"
 msgstr "あなたのパスワード:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:244
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
