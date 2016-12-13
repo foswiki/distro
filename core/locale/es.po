@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 21:42+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2016-12-13 13:42+0200\n"
+"Last-Translator: Javier Martí Pintanel <jmartipi@gmail.com>\n"
 "Language-Team: \n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.1\n"
+"X-Generator: Weblate 2.4\n"
 
 #: core/data/System/WikiName.txt:3
 msgid "!WikiName"
@@ -51,11 +51,11 @@ msgstr "%1"
 
 #: core/templates/searchformat.tmpl:24
 msgid "%1 %2 Page %3 of %4 %5 %6"
-msgstr ""
+msgstr "%1 %2 Página %3 de %4 %5 %6"
 
 #: core/data/System/SiteChanges.txt:84
 msgid "%1 (default)"
-msgstr ""
+msgstr "%1 (por defecto)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
