@@ -1022,7 +1022,7 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:166
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
@@ -1244,7 +1244,7 @@ msgstr "Kleur %1 heeft een ongeldig formaat"
 msgid "Columns"
 msgstr "Kolommen"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Come on in"
 msgstr "Kom binnen"
 
@@ -2665,7 +2665,7 @@ msgstr "Log in om verder te gaan."
 msgid "Log on to %1"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:140
 #: core/templates/foswiki.tmpl:20
 msgid "Login"
 msgstr "Inloggen"
@@ -2832,7 +2832,7 @@ msgstr "Naam van de kopie"
 msgid "Name of new web is missing"
 msgstr "Naam van het nieuwe web ontbreekt"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:143
 msgid "Name:"
 msgstr "Naam:"
 
@@ -2840,7 +2840,7 @@ msgstr "Naam:"
 msgid "Navigate to a similar topic"
 msgstr "Ga naar een vergelijkbare pagina"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Never mind"
 msgstr "Laat maar"
 
@@ -3045,7 +3045,7 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr "OK, ik ben het nog steeds!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:165
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
 msgstr "OK"
@@ -3157,7 +3157,7 @@ msgstr "Wachtwoord opnieuw instellen niet gelukt"
 msgid "Password reset failed."
 msgstr "Wachtwoord opnieuw instellen niet gelukt."
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 msgid "Password:"
 msgstr "Wachtwoord:"

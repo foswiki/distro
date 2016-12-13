@@ -1021,7 +1021,7 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:166
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
@@ -1235,7 +1235,7 @@ msgstr "Колір %1 має неправильний формат"
 msgid "Columns"
 msgstr "Стовпчики"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Come on in"
 msgstr "Давай, заходь"
 
@@ -2649,7 +2649,7 @@ msgstr "Увійдіть щоб продовжити."
 msgid "Log on to %1"
 msgstr "Увійти до %1"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:140
 #: core/templates/foswiki.tmpl:20
 msgid "Login"
 msgstr "Увійти"
@@ -2816,7 +2816,7 @@ msgstr "Ім'я копії"
 msgid "Name of new web is missing"
 msgstr "Відсутнє ім'я нового розділу"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:143
 msgid "Name:"
 msgstr "Ім'я:"
 
@@ -2824,7 +2824,7 @@ msgstr "Ім'я:"
 msgid "Navigate to a similar topic"
 msgstr "Перейти до схожої теми"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Never mind"
 msgstr "Проїхали"
 
@@ -3028,7 +3028,7 @@ msgstr "Гаразд"
 msgid "OK, this is still me!"
 msgstr "Гаразд, це все ще я!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:165
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
 msgstr "Гаразд"
@@ -3137,7 +3137,7 @@ msgstr "Не вдалося скинути пароль"
 msgid "Password reset failed."
 msgstr "Не вдалося скинути пароль."
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 msgid "Password:"
 msgstr "Пароль:"

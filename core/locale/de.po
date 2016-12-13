@@ -1042,7 +1042,7 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:166
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
@@ -1263,7 +1263,7 @@ msgstr "Farbe %1 hat ein ungültiges Format"
 msgid "Columns"
 msgstr "Spalten"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Come on in"
 msgstr "Treten Sie ein"
 
@@ -2704,7 +2704,7 @@ msgstr "Anmelden, um fortzufahren."
 msgid "Log on to %1"
 msgstr "Anmelden bei %1"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:140
 #: core/templates/foswiki.tmpl:20
 msgid "Login"
 msgstr "Login"
@@ -2871,7 +2871,7 @@ msgstr "Name der Kopie"
 msgid "Name of new web is missing"
 msgstr "Der Name des neuen Webs fehlt"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:143
 msgid "Name:"
 msgstr "Name:"
 
@@ -2879,7 +2879,7 @@ msgstr "Name:"
 msgid "Navigate to a similar topic"
 msgstr "Zu einem ähnlichen Topic navigieren"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Never mind"
 msgstr "Doch nicht"
 
@@ -3086,7 +3086,7 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr "OK, das bin immer noch ich!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:165
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
 msgstr "OK"
@@ -3197,7 +3197,7 @@ msgstr "Das Zurücksetzen des Passwortes ist fehlgeschlagen"
 msgid "Password reset failed."
 msgstr "Das Zurücksetzen des Passworts ist fehlgeschlagen."
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 msgid "Password:"
 msgstr "Passwort:"

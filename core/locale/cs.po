@@ -1011,7 +1011,7 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:166
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
@@ -1229,7 +1229,7 @@ msgstr "Barva %1 má nesprávný formát"
 msgid "Columns"
 msgstr "Sloupce"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Come on in"
 msgstr "Přejdi k"
 
@@ -2642,7 +2642,7 @@ msgstr "Pro pokračování se přihlaste."
 msgid "Log on to %1"
 msgstr "Přihlásit k %1"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:140
 #: core/templates/foswiki.tmpl:20
 msgid "Login"
 msgstr "Přihlásit"
@@ -2812,7 +2812,7 @@ msgstr "Jméno kopie"
 msgid "Name of new web is missing"
 msgstr "Chybí jméno nového webu"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:143
 msgid "Name:"
 msgstr "Jméno:"
 
@@ -2820,7 +2820,7 @@ msgstr "Jméno:"
 msgid "Navigate to a similar topic"
 msgstr "Naviguj k podobnému článku"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Never mind"
 msgstr "Nevadí"
 
@@ -3030,7 +3030,7 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr "OK, toto jsem stále já!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:165
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
 msgstr "Ok"
@@ -3139,7 +3139,7 @@ msgstr "Znovunastavení hesla bylo neúspěšné"
 msgid "Password reset failed."
 msgstr "Resetování hesla selhalo."
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 msgid "Password:"
 msgstr "Heslo:"

@@ -1008,7 +1008,7 @@ msgstr "Kan ikke finne epost adresse for %1 (nødvendig for å resette passord)"
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:166
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
@@ -1228,7 +1228,7 @@ msgstr "Farge %1 har ugyldig format"
 msgid "Columns"
 msgstr "Kolonner"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Come on in"
 msgstr "Kom inn"
 
@@ -2625,7 +2625,7 @@ msgstr ""
 msgid "Log on to %1"
 msgstr ""
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:140
 #: core/templates/foswiki.tmpl:20
 msgid "Login"
 msgstr "Logg Inn"
@@ -2795,7 +2795,7 @@ msgstr "Navn på kopi"
 msgid "Name of new web is missing"
 msgstr "Navn på ny web mangler"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:143
 msgid "Name:"
 msgstr ""
 
@@ -2803,7 +2803,7 @@ msgstr ""
 msgid "Navigate to a similar topic"
 msgstr "Gå til en liknende side"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Never mind"
 msgstr ""
 
@@ -3012,7 +3012,7 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr "OK, dette er fortsatt meg!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:165
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
 msgstr ""
@@ -3123,7 +3123,7 @@ msgstr "Tilbakestilling av passord feilet"
 msgid "Password reset failed."
 msgstr "Tilbakestilling av passord feilet."
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 msgid "Password:"
 msgstr "Passord:"

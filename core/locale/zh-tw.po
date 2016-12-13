@@ -977,7 +977,7 @@ msgstr "無法找到 %1 的電子郵件位址（用於密碼重置時）"
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:166
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
@@ -1189,7 +1189,7 @@ msgstr "顏色 %1包含無效格式"
 msgid "Columns"
 msgstr "欄"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Come on in"
 msgstr "來吧"
 
@@ -2540,7 +2540,7 @@ msgstr "登入並繼續。"
 msgid "Log on to %1"
 msgstr "登入至 %1"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:140
 #: core/templates/foswiki.tmpl:20
 msgid "Login"
 msgstr "登入"
@@ -2705,7 +2705,7 @@ msgstr "複本名稱"
 msgid "Name of new web is missing"
 msgstr "新子網名稱遺失"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:143
 msgid "Name:"
 msgstr "名:"
 
@@ -2713,7 +2713,7 @@ msgstr "名:"
 msgid "Navigate to a similar topic"
 msgstr "查看相關主題"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Never mind"
 msgstr "別介意"
 
@@ -2915,7 +2915,7 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr "OK，這仍是我！"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:165
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
 msgstr "好"
@@ -3022,7 +3022,7 @@ msgstr "密碼重設失敗"
 msgid "Password reset failed."
 msgstr "密碼重設失敗。"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 msgid "Password:"
 msgstr "密碼:"

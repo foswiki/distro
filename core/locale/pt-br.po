@@ -1030,7 +1030,7 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:166
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
@@ -1249,7 +1249,7 @@ msgstr "A cor %1 tem um formato inválido"
 msgid "Columns"
 msgstr "Colunas"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Come on in"
 msgstr "Entre"
 
@@ -2673,7 +2673,7 @@ msgstr "Faça log in para continuar."
 msgid "Log on to %1"
 msgstr "Log on para %1"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:140
 #: core/templates/foswiki.tmpl:20
 msgid "Login"
 msgstr "Login"
@@ -2840,7 +2840,7 @@ msgstr "Nome da cópia"
 msgid "Name of new web is missing"
 msgstr "Nome da nova web faltando"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:143
 msgid "Name:"
 msgstr "Nome:"
 
@@ -2848,7 +2848,7 @@ msgstr "Nome:"
 msgid "Navigate to a similar topic"
 msgstr "Navegar para um tópico similar"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Never mind"
 msgstr "Nunca lembrar"
 
@@ -3054,7 +3054,7 @@ msgstr "OK"
 msgid "OK, this is still me!"
 msgstr "OK, isso é comigo!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:165
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
 msgstr "Ok"
@@ -3166,7 +3166,7 @@ msgstr "A ação de Restaurar senha falhou"
 msgid "Password reset failed."
 msgstr "A ação de Restaurar senha falhou."
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 msgid "Password:"
 msgstr "Senha:"

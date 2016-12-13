@@ -1022,7 +1022,7 @@ msgstr ""
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:987
 #: JQueryPlugin/data/System/JQueryButton.txt:27
 #: JQueryPlugin/data/System/JQuerySimpleModal.txt:104
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:176
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:166
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:51
 #: JQueryPlugin/data/System/VarBUTTON.txt:33
 #: JQueryPlugin/data/System/VarBUTTON.txt:43
@@ -1243,7 +1243,7 @@ msgstr "qarbe&&#39;ba&&#39; %1 nguvmoHmeH ngoq"
 msgid "Columns"
 msgstr "tutmey"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:159
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
 msgid "Come on in"
 msgstr "yI&&#39;el"
 
@@ -2678,7 +2678,7 @@ msgstr "<nop>bIruchmeH <nop>yI&&#39;el."
 msgid "Log on to %1"
 msgstr "%1<nop>Daq &&#39;el"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:148
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:140
 #: core/templates/foswiki.tmpl:20
 msgid "Login"
 msgstr "&&#39;el"
@@ -2845,7 +2845,7 @@ msgstr "velqa&&#39; pong"
 msgid "Name of new web is missing"
 msgstr "Hutlh mIch chu&&#39; pong"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:151
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:143
 msgid "Name:"
 msgstr "pong:"
 
@@ -2853,7 +2853,7 @@ msgstr "pong:"
 msgid "Navigate to a similar topic"
 msgstr "pongvam rurbogh ghItlhDaq ghoS"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:160
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:152
 msgid "Never mind"
 msgstr "<nop>HIbuSQo&&#39;"
 
@@ -3060,7 +3060,7 @@ msgstr "luq"
 msgid "OK, this is still me!"
 msgstr "qar, jIHbej!"
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:175
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:165
 #: JQueryPlugin/data/System/JQueryUIDialog.txt:50
 msgid "Ok"
 msgstr "luq"
@@ -3172,7 +3172,7 @@ msgstr "Qagh chaw&&#39; ngoq chu&&#39;moHmeH mIw"
 msgid "Password reset failed."
 msgstr "Qagh chaw&&#39; ngoq chu&&#39;moHmeH mIw."
 
-#: JQueryPlugin/data/System/JQueryUIDialog.txt:155
+#: JQueryPlugin/data/System/JQueryUIDialog.txt:147
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:38
 msgid "Password:"
 msgstr "chaw&&#39; ngoq:"
