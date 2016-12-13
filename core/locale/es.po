@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-12-13 13:45+0200\n"
-"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
+"PO-Revision-Date: 2016-12-13 13:46+0200\n"
+"Last-Translator: Gabriel Izquierdo <gizqmo@hotmail.com>\n"
 "Language-Team: \n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -164,9 +164,8 @@ msgid "%1 recent changes in %2 Web"
 msgstr "%1 cambios recientes en la Web %2"
 
 #: core/templates/registerapprove.tmpl:3
-#, fuzzy
 msgid "%1 registration approval required"
-msgstr "Disculpe, el registro fue deshabilitado temporalmente"
+msgstr "%1 se requiere aprobación para el registro"
 
 #: core/templates/registerdenied.tmpl:3
 #, fuzzy
