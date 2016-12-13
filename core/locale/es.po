@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2015-06-01 21:40+0200\n"
-"Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
+"PO-Revision-Date: 2016-12-13 14:40+0200\n"
+"Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: \n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.1\n"
+"X-Generator: Weblate 2.4\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
@@ -46,9 +46,8 @@ msgid "%1"
 msgstr "%1"
 
 #: core/data/System/SiteChanges.txt:64
-#, fuzzy
 msgid "%1 (default)"
-msgstr "(borrar)"
+msgstr "%1 (por defecto)"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
@@ -71,9 +70,8 @@ msgstr "%1 fue agregado al grupo %2. "
 
 #. ((                $Foswiki::cfg{AdminUserWikiName}, $Foswiki::cfg{SuperAdminGroup})
 #: TopicUserMappingContrib/lib/Foswiki/Users/TopicUserMapping.pm:1099
-#, fuzzy
 msgid "%1 cannot be removed from %2"
-msgstr "%1 fue eliminado del grupo %2."
+msgstr "%1 no puede ser eliminado del grupo %2."
 
 #: core/templates/messages.tmpl:525
 msgid "%1 group topic upgraded. "
@@ -93,8 +91,8 @@ msgid ""
 "%1 has been editing the topic for %2 and the lease is still active for "
 "another %3."
 msgstr ""
-"%1 ha sido editando el tema por %2 y el arrendamiento aún esta activo por "
-"otro(s) %3."
+"%1 ha estado editando el tema durante %2 y el arrendamiento aún esta activo "
+"durante %3."
 
 #: core/templates/registerfailednotremoved.tmpl:10
 #: core/templates/registernotifyadmin.tmpl:10
@@ -272,9 +270,8 @@ msgid "(delete)"
 msgstr "(borrar)"
 
 #: core/templates/messages.tmpl:725
-#, fuzzy
 msgid "(disabled)"
-msgstr "Editar tabla"
+msgstr "(desactivado)"
 
 #: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
 msgid "(edit form)"
@@ -322,9 +319,8 @@ msgid "(raw view)"
 msgstr "(ver código)"
 
 #: core/templates/oopsredirectdenied.tmpl:4
-#, fuzzy
 msgid "(redirect denied)"
-msgstr "(acceso denegado)"
+msgstr "(redirección denegada)"
 
 #: core/templates/rename.tmpl:3 core/templates/renameconfirm.tmpl:3
 #: core/templates/renameweb.tmpl:3 core/templates/renamewebconfirm.tmpl:3
@@ -4261,9 +4257,8 @@ msgid "Warning: table definition in \\'include\\' topic %1 does not exist!"
 msgstr "¡Advertencia: tema \\'incluido\\' no existe!"
 
 #: core/data/System/SiteChanges.txt:45
-#, fuzzy
 msgid "Web"
-msgstr "Webs"
+msgstr "Web"
 
 #: core/data/System/WebNotify.txt:3
 msgid "Web Changes notification service"
