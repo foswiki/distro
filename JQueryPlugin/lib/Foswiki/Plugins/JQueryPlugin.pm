@@ -25,7 +25,7 @@ BEGIN {
 }
 
 our $VERSION           = '7.20';
-our $RELEASE           = '22 Nov 2016';
+our $RELEASE           = '12 Dec 2016';
 our $SHORTDESCRIPTION  = 'jQuery <nop>JavaScript library for Foswiki';
 our $NO_PREFS_IN_TOPIC = 1;
 

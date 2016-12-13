@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1473163788" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1481600913" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,16 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  12 Dec 2016: | (7.20) - Item10918: Improve javascript api to address individual tabs. \
+                         - Item14172: jquery.stars width incorrect in modal dialogs. \
+                         - Item14173: Invalid call foswiki.getScriptUrl() in foswiki.getPreference(). \
+                         - Item14226: Performance improvements to $.i18n(). \
+                         - Item14227: Potential use of uninitialized value in a rating formfield. \
+                         - Item14228: Upgrade JQueryPlugin to blockui 2.70. \
+                         - Item14229: Upgrade JQueryPlugin to jsrender 0.9.83. \
+                         - Item14230: jquery.maskedinput initializer does not match documentation. \
+                         - Item14250: wait for images by default in jquery.masonry. \
+                         - Item14251: Remove non-functional caching of dialogs loaded via ajax. |
 |  06 Sep 2016: | (7.10) - Item14121: reimplement jquery.stars using SVGs now; \
                          - Item14120: remove outdate compression tools; \
                          - Item13206: upgrade to jquery-ui; added jQuery-1.12.4 / jQuery-2.2.4; \
