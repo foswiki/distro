@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2016-12-15 07:55+0200\n"
-"Last-Translator: Paolo Romero <paolo.romero@gmail.com>\n"
+"Last-Translator: Emanuele Zeppieri <emazep@gmail.com>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
 "Language: it\n"
@@ -682,7 +682,7 @@ msgstr "Attivazione Fallita"
 
 #: core/templates/registermessages.tmpl:92
 msgid "Activation for code %1 failed with an internal error."
-msgstr "L'attivazione del codice %1 è fallita per un errore interno."
+msgstr "Attivazione per il codice %1 fallita con un errore interno"
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:452
