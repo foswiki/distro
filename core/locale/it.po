@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-04-25 14:25+0200\n"
+"PO-Revision-Date: 2016-12-15 07:54+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
@@ -625,11 +625,13 @@ msgstr ""
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:21
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
 msgstr ""
-"Una pagina con questo nome esisteva ma è stata rinominata o spostata in %1."
+"Una pagina con questo nome esisteva, ma è stata rinominata o spostata in %1."
 
 #: core/templates/registerapprove.tmpl:9
 msgid "A user requires your approval to complete their registration"
-msgstr "Un utente richiede la tua approvazione per completare la registrazione"
+msgstr ""
+"Un utente richiede la tua approvazione per completare la propria "
+"registrazione"
 
 #: core/data/System/WebSearch.txt:89
 msgid "A-Z"
@@ -637,7 +639,7 @@ msgstr "A-Z"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:191
 msgid "Abandon changes and exit"
-msgstr "Annulla le modifiche ed esce"
+msgstr "Annulla le modifiche ed esci"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -4455,7 +4457,7 @@ msgstr "Utente collegato con il nome"
 
 #: core/templates/messages.tmpl:111
 msgid "The new parent web (%1) may not be the same as the old or new web name."
-msgstr "Il nuovo genitore Web (%1) pon può essere uguale al precedente."
+msgstr "Il nuovo Web padre (%1) non può avere lo stesso nome del precedente."
 
 #: core/templates/moveattachment.tmpl:24
 msgid "The new topic chosen must already exist."
@@ -4774,8 +4776,8 @@ msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
 msgstr ""
-"Per visualizzare i risultati della ricerca di cui sopra in una pagina, copia-"
-"incolla il seguente codice:"
+"Per visualizzare i risultati della ricerca di cui sopra in una pagina, copia "
+"e incolla il seguente codice:"
 
 #: core/templates/oopsleaseconflict.tmpl:20
 msgid "To edit the topic anyway, click "
