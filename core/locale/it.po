@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2016-12-15 07:50+0200\n"
-"Last-Translator: Emanuele Zeppieri <emazep@gmail.com>\n"
+"Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
 "Language: it\n"
@@ -3189,7 +3189,7 @@ msgstr "Le password non corrispondono"
 
 #: core/data/System/PendingRegistrations.txt:2
 msgid "Pending Registrations"
-msgstr "Registrazioni pendenti"
+msgstr "Registrazioni Pendenti"
 
 #: core/templates/registermessages.tmpl:41
 msgid "Pending registration not found"
