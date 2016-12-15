@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1481600913" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1481823857" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.1
 
@@ -94,6 +94,12 @@ Any existing pending registrations should be resolved prior to upgrading to Fosw
 
 A user contributed !WebSideBar toggle button can be enabled.  This renders a small "hamburg" icon to restore the side bar when viewing
 Foswiki on a small device.  See [[System.PatternSkinCssCookbookSidebarToggle]].
+
+---+++ Configuration bootstrap
+
+Bootstrap should be able to detect operation behind a proxy server, and will hopefully get the protocol (HTTP or HTTPS) and the hostname used by the user
+correct.  If bootstrap fails to properly set up a proxy configuration, we would appreciate bug reports that will help us improve operation.  Note that 
+operation behind a chain of multiple proxy servers is not currently detected.
 
 ---+++ JQuery
 This release updates to a newer maintenance version of JQuery.  You should
@@ -394,7 +400,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14145][Item14145]] | PatternSkin deprecation of beforetext/aftertext templates breaks compatibility with other skins. |
 | [[%BUGS%/Item14170][Item14170]] | Improve slideshow navigation - increase size of buttons. |
 | [[%BUGS%/Item14180][Item14180]] | Bootstrap enhancements and refactoring. |
-| [[%BUGS%/Item14181][Item14181]] | Bootstrap selects Proxy host instead of public facing host when behind a proxy. |
+| [[%BUGS%/Item14181][Item14181]] | Bootstrap detects incorrect hostname, and may mis-detect https when behind a proxy. |
 | [[%BUGS%/Item14201][Item14201]] | Add Pending Registrations report. |
 | [[%BUGS%/Item14219][Item14219]] | Add a contributed WebSideBar toggle cookbook. |
 | [[%BUGS%/Item14226][Item14226]] | Performance improvements to $.i18n(). |
