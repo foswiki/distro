@@ -450,7 +450,7 @@ sub bootstrapWebSettings {
 # Detect if HTTPS in use.  Browsers appear to set the UPGRADE flag, and the json requests
 # for configure all come in with a https referer.
         if (
-            $ENV{HTTP_UPGRADE_INSECURE_REQUESTS}
+            ( $ENV{QUERY_STRING} && $ENV{QUERY_STRING} =~ m/\bSSL=1\b/i )
             || (   $ENV{HTTP_REFERER}
                 && $ENV{HTTP_REFERER} =~
                 m#^https://\Q$ENV{HTTP_X_FORWARDED_HOST}\E# )

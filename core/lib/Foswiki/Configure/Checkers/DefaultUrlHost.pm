@@ -31,10 +31,11 @@ sub check_current_value {
         $host = $ENV{HTTP_X_FORWARDED_HOST};
 
         if (
-            $ENV{HTTP_UPGRADE_INSECURE_REQUESTS}
-            || (   $ENV{HTTP_REFERER}
+            (
+                   $ENV{HTTP_REFERER}
                 && $ENV{HTTP_REFERER} =~
-                m#^https://\Q$ENV{HTTP_X_FORWARDED_HOST}\E#i )
+                m#^https://\Q$ENV{HTTP_X_FORWARDED_HOST}\E#i
+            )
           )
         {
             # Browser is asking for https, so override protcol
@@ -43,7 +44,8 @@ sub check_current_value {
     }
 
     if ( $host && $Foswiki::cfg{DefaultUrlHost} !~ m#$protocol://$host#i ) {
-        $reporter->WARN( 'Current setting does not match HTTP_HOST ', $host );
+        $reporter->WARN(
+            "Current setting does not match URL =$protocol://$host=");
         $reporter->NOTE(
                 'If the URL hostname is correct, set this to =http://'
               . $host
