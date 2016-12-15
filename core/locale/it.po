@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-04-25 14:02+0200\n"
+"PO-Revision-Date: 2016-12-15 07:54+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/it/>\n"
@@ -579,7 +579,7 @@ msgstr ""
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:21
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
 msgstr ""
-"Una pagina con questo nome esisteva ma è stata rinominata o spostata in %1."
+"Una pagina con questo nome esisteva, ma è stata rinominata o spostata in %1."
 
 #: core/data/System/WebSearch.txt:91
 msgid "A-Z"
@@ -3797,8 +3797,8 @@ msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
 msgstr ""
-"Per visualizzare i risultati della ricerca di cui sopra in una pagina, copia-"
-"incolla il seguente codice:"
+"Per visualizzare i risultati della ricerca di cui sopra in una pagina, copia "
+"e incolla il seguente codice:"
 
 #: core/templates/oopsleaseconflict.tmpl:20
 msgid "To edit the topic anyway, click "
