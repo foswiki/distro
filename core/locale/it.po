@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-12-15 07:43+0200\n"
+"PO-Revision-Date: 2016-12-15 07:57+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
 "Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/it/>\n"
@@ -625,11 +625,13 @@ msgstr ""
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:21
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
 msgstr ""
-"Una pagina con questo nome esisteva ma è stata rinominata o spostata in %1."
+"Una pagina con questo nome esisteva, ma è stata rinominata o spostata in %1."
 
 #: core/templates/registerapprove.tmpl:9
 msgid "A user requires your approval to complete their registration"
-msgstr "Un utente richiede la tua approvazione per completare la registrazione"
+msgstr ""
+"Un utente richiede la tua approvazione per completare la propria "
+"registrazione"
 
 #: core/data/System/WebSearch.txt:89
 msgid "A-Z"
@@ -637,7 +639,7 @@ msgstr "A-Z"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:191
 msgid "Abandon changes and exit"
-msgstr "Annulla le modifiche ed esce"
+msgstr "Annulla le modifiche ed esci"
 
 #: core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -659,8 +661,7 @@ msgstr "Tasti di accesso:"
 #: core/data/System/PendingRegistrationsTemplate.txt:38
 msgid "Access to pending registrations is restricted to administrators"
 msgstr ""
-"La tua registrazione è in attesa di approvazione da parte degli "
-"amministratori del sistema"
+"L'accesso alle registrazioni in sospeso è consentito ai soli amministratori"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -681,7 +682,7 @@ msgstr "Attivazione Fallita"
 
 #: core/templates/registermessages.tmpl:92
 msgid "Activation for code %1 failed with an internal error."
-msgstr "Operazione %1 fallita con un errore interno."
+msgstr "Attivazione per il codice %1 fallita con un errore interno."
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:452
@@ -1759,7 +1760,7 @@ msgstr "Faccina"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:26
 msgid "End presentation"
-msgstr "Fine presentazione"
+msgstr "Termina la presentazione"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
@@ -3523,7 +3524,7 @@ msgstr "Le iscrizioni in attesa di verifica E-mail"
 
 #: core/data/System/PendingRegistrations.txt:7
 msgid "Registrations awaiting approval"
-msgstr "Le iscrizioni in attesa di approvazione"
+msgstr "Registrazioni in attesa di approvazione"
 
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
@@ -3531,7 +3532,7 @@ msgstr "Ricerca via espressioni regolari"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:23
 msgid "Reject"
-msgstr "Rifiutato"
+msgstr "Rifiuta"
 
 #: core/data/System/UserName.txt:44
 msgid "Related Topics for Administrators:"
@@ -4383,8 +4384,8 @@ msgid ""
 "The attachment may have to be renamed if an attachment called '%1' already "
 "exists in the target topic."
 msgstr ""
-"L'allegato può essere rinominato se un allegato chiamato '%1' esiste già "
-"nella pagina di destinazione."
+"L'allegato verrà rinominato se un allegato con nome '%1' già esiste nella "
+"pagina di destinazione."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
@@ -4528,7 +4529,7 @@ msgstr "Utente collegato con il nome"
 
 #: core/templates/messages.tmpl:111
 msgid "The new parent web (%1) may not be the same as the old or new web name."
-msgstr "Il nuovo padre Web (%1) pon può essere uguale al precedente."
+msgstr "Il nuovo Web padre (%1) non può avere lo stesso nome del precedente."
 
 #: core/templates/moveattachment.tmpl:24
 msgid "The new topic chosen must already exist."
@@ -4730,8 +4731,8 @@ msgid ""
 "This is an internal error.  You can try to register again, or contact %1 to "
 "report the error."
 msgstr ""
-"Si tratta di un errore interno. Si può provare a registrare di nuovo, oppure "
-"contattare %1 per segnalare l'errore."
+"Si è verificato un errore interno. Puoi provare a registrarti di nuovo, o "
+"puoi contattare %1 per segnalare l'errore."
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:128
 msgid "This is not a valid WikiName."
@@ -4862,8 +4863,8 @@ msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
 msgstr ""
-"Per visualizzare i risultati della ricerca di cui sopra in una pagina, copia-"
-"incolla il seguente codice:"
+"Per visualizzare i risultati della ricerca di cui sopra in una pagina, copia "
+"e incolla il seguente codice:"
 
 #: core/templates/oopsleaseconflict.tmpl:20
 msgid "To edit the topic anyway, click "
@@ -5592,8 +5593,8 @@ msgid ""
 "You can use the \"approve\" or \"reject\" links to approve or reject these "
 "registrations"
 msgstr ""
-"È possibile utilizzare i link \"approva\" o \"rifiuta\" per approvare o "
-"respingere queste registrazioni"
+"Per approvare o respingere queste registrazioni, usare rispettivamente i "
+"link \"Approva\" o \"Respingi\" "
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429
