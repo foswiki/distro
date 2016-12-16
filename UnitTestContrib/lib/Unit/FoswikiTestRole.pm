@@ -618,7 +618,12 @@ sub createNewFoswikiApp {
     $app->cfg->data->{Store}{Implementation} ||= 'Foswiki::Store::PlainFile';
 
     $params{env} //= $app->cloneEnv;
-    $params{cfg} //= $app->cfg->clone;
+    unless ( exists $params{cfgParams} ) {
+        my %cfgData = %{ $app->cfg->clone };
+        delete $cfgData{app};
+        $params{cfgParams} = \%cfgData;
+    }
+
     my $newApp = Unit::TestApp->new(%params);
 
     $this->app($newApp);

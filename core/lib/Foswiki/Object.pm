@@ -22,9 +22,11 @@ features.
 require Carp;
 require Foswiki::Exception;
 use Try::Tiny;
-use Scalar::Util qw(blessed refaddr weaken isweak);
+use Scalar::Util qw(blessed refaddr reftype weaken isweak);
 
 use Foswiki::Class;
+
+use overload fallback => 1, '""' => 'to_str';
 
 use Assert;
 
@@ -239,8 +241,24 @@ sub _cloneData {
                     # cloning as a hash and blessing the resulting hashref into
                     # $val's class.
                     # SMELL Pretty much unreliable for complex classes.
-                    $cloned =
-                      $this->_cloneData( {%$val}, "$attr.blessed($class)" );
+                    my $reftype = reftype($val);
+                    if ( $reftype eq 'HASH' ) {
+                        $cloned =
+                          $this->_cloneData( {%$val}, "$attr.blessed($class)" );
+                    }
+                    elsif ( $reftype eq 'ARRAY' ) {
+                        $cloned =
+                          $this->_cloneData( [@$val], "$attr.blessed($class)" );
+                    }
+                    elsif ( $reftype eq 'SCALAR' ) {
+                        $cloned =
+                          $this->_cloneData( \$$val, "$attr.blessed($class)" );
+                    }
+                    else {
+                        # Cannot clone unknown datatypes, just copy the original
+                        # ref.
+                        $cloned = $val;
+                    }
                     bless $cloned, ref($val)
                       if $cloned != $val;
                 }
@@ -361,6 +379,23 @@ sub clone {
     $this->_clear__clone_heap;
 
     return $newObj;
+}
+
+=begin TML
+
+---++ ObjectMethod to_str => $string
+
+This method is used to overload stringification operator "" (see
+[[CPAN:overload][=perldoc overload=]]).
+
+The default is to return object itself in order to preserve system default
+behavior.
+
+=cut
+
+sub to_str {
+    my @c = caller;
+    return $_[0];
 }
 
 # Fixes __orig_file and __orig_line to bypass ::create() and point directly to
