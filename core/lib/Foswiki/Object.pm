@@ -22,7 +22,7 @@ features.
 require Carp;
 require Foswiki::Exception;
 use Try::Tiny;
-use Scalar::Util qw(blessed refaddr weaken isweak);
+use Scalar::Util qw(blessed refaddr reftype weaken isweak);
 
 use Foswiki::Class;
 
@@ -241,8 +241,24 @@ sub _cloneData {
                     # cloning as a hash and blessing the resulting hashref into
                     # $val's class.
                     # SMELL Pretty much unreliable for complex classes.
-                    $cloned =
-                      $this->_cloneData( {%$val}, "$attr.blessed($class)" );
+                    my $reftype = reftype($val);
+                    if ( $reftype eq 'HASH' ) {
+                        $cloned =
+                          $this->_cloneData( {%$val}, "$attr.blessed($class)" );
+                    }
+                    elsif ( $reftype eq 'ARRAY' ) {
+                        $cloned =
+                          $this->_cloneData( [@$val], "$attr.blessed($class)" );
+                    }
+                    elsif ( $reftype eq 'SCALAR' ) {
+                        $cloned =
+                          $this->_cloneData( \$$val, "$attr.blessed($class)" );
+                    }
+                    else {
+                        # Cannot clone unknown datatypes, just copy the original
+                        # ref.
+                        $cloned = $val;
+                    }
                     bless $cloned, ref($val)
                       if $cloned != $val;
                 }
