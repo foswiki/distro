@@ -110,9 +110,10 @@ has env => (
     required => 1,
 );
 has extensions => (
-    is      => 'ro',
-    lazy    => 1,
-    builder => 'prepareExtensions',
+    is        => 'ro',
+    lazy      => 1,
+    predicate => 1,
+    builder   => 'prepareExtensions',
 );
 has forms => (
     is      => 'ro',

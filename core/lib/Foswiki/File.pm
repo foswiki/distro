@@ -15,8 +15,13 @@ has path => (
 );
 
 has unicode => (
-    is      => 'rw',
+    is      => 'ro',
     builder => 'prepareUnicode',
+);
+
+has binary => (
+    is      => 'ro',
+    builder => 'prepareBinary',
 );
 
 has content => (
@@ -84,7 +89,7 @@ sub prepareStat {
     unless ( -r $path ) {
         $this->exception(
             $this->_createException(
-                'Foswiki::Exception::FileOp',
+                exception => 'Foswiki::Exception::FileOp',
                 text => "Don't have read access to " . $path . ", cannot stat",
                 op   => "stat",
             )
@@ -101,6 +106,10 @@ sub prepareRaiseError {
 
 sub prepareUnicode {
     return 1;
+}
+
+sub prepareBinary {
+    return 0;
 }
 
 sub prepareAutoWrite {
@@ -122,7 +131,8 @@ sub _trigger_content {
 sub _openmode {
     my $this = shift;
     my ($mode) = @_;
-    return $mode . ( $this->unicode ? ":encoding(utf-8)" : "" );
+    return $mode
+      . ( !$this->binary && $this->unicode ? ":encoding(utf-8)" : "" );
 }
 
 sub slurp {
@@ -133,6 +143,8 @@ sub slurp {
     try {
         open( $fh, $this->_openmode("<"), $this->path )
           or $this->throwFileOp( op => "open", );
+
+        binmode($fh) if $this->binary;
 
         local $/ = undef;
 
@@ -158,6 +170,8 @@ sub flush {
     try {
         open( $fh, $this->_openmode(">"), $this->path )
           or $this->throwFileOp( op => "open", );
+
+        binmode($fh) if $this->binary;
 
         print $fh $this->content
           or $this->throwFileOp( op => "write", );

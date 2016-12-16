@@ -37,6 +37,19 @@ use constant DATAHASH_CLASS => 'Foswiki::Config::DataHash';
 
 =begin TML
 
+---+++ ObjectAttribute name
+
+Key name of this node in parent's nodes hash.
+
+=cut
+
+has name => (
+    is       => 'ro',
+    required => 1,
+);
+
+=begin TML
+
 ---+++ ObjectAttribute value
 
 Node's assigned value.
@@ -70,7 +83,6 @@ has parent => (
         ? ( isa => Foswiki::Object::isaCLASS( 'parent', DATAHASH_CLASS ) )
         : ()
     ),
-    handles => [qw(fullPath fullName)],
 );
 
 =begin TML
@@ -86,6 +98,22 @@ has section => (
     weak_ref => 1,
     builder  => 'prepareSection',
     isa => Foswiki::Object::isaCLASS( 'section', 'Foswiki::Config::Section', ),
+);
+
+=begin TML
+
+---+++ ObjectAttribute source -> \@list
+
+List of sources where definitions of this node exists. Source could be a string
+or a =Foswiki::File= object.
+
+=cut
+
+has sources => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => 'prepareSources',
+    isa     => Foswiki::Object::isaARRAY('sources'),
 );
 
 =begin TML
@@ -140,6 +168,18 @@ Text label attached to the config key.
 =cut
 
 has label => ( is => 'rw', predicate => 1, builder => 'prepareLabel', );
+
+has fullPath => (
+    is      => 'ro',
+    lazy    => 1,
+    builder => 'prepareFullPath',
+);
+
+has fullName => (
+    is      => 'ro',
+    lazy    => 1,
+    builder => 'prepareFullName',
+);
 
 =begin TML
 
@@ -239,6 +279,49 @@ sub invalidSpecAttrs {
 
 =begin TML
 
+---+++ ObjectMethod addSource($source)
+
+Adds a new entry to the attribute =sources= list. 
+
+=cut
+
+sub addSource {
+    my $this = shift;
+    my ($source) = @_;
+
+    push @{ $this->sources }, $source;
+}
+
+=begin TML
+
+---+++ ObjectMethod prepareFullPath
+
+Initializer of =fullPath= attribute.
+
+=cut
+
+sub prepareFullPath {
+    my $this = shift;
+
+    return [ @{ $this->parent->fullPath }, $this->name ];
+}
+
+=begin TML
+
+---+++ ObjectMethod prepareFullName
+
+Initializer of =fullName= attribute.
+
+=cut
+
+sub prepareFullName {
+    my $this = shift;
+
+    return $this->parent->cfg->normalizeKeyPath( $this->fullPath );
+}
+
+=begin TML
+
 ---+++ ObjectMethod prepareType -> 'TEXT'
 
 Initializer of =type= attribute.
@@ -247,6 +330,18 @@ Initializer of =type= attribute.
 
 sub prepareType {
     return 'TEXT';
+}
+
+=begin TML
+
+---+++ ObjectMethod prepareSources
+
+Initializer of =sources= attribute.
+
+=cut
+
+sub prepareSources {
+    return [];
 }
 
 =begin TML

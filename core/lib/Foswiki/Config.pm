@@ -1,116 +1,5 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Config::SpecDef;
-
-use Foswiki::Exception::Config;
-
-use Foswiki::Class;
-extends qw(Foswiki::Object);
-
-has specDef => (
-    is       => 'rw',
-    required => 1,
-    isa      => Foswiki::Object::isaARRAY( 'specDef', noUndef => 1, ),
-);
-
-has cursor => (
-    is      => 'rw',
-    default => 0,
-);
-
-# The source of the specs.
-has source => (
-    is       => 'ro',
-    required => 1,
-);
-
-has section => (
-    is       => 'ro',
-    weak_ref => 1,
-    isa => Foswiki::Object::isaCLASS( 'section', 'Foswiki::Config::Section' ),
-);
-
-has keyPath => (
-    is      => 'ro',
-    default => sub { [] },
-);
-
-# Last fetched spec element.
-has _lastFetch => ( is => 'rw', );
-
-sub fetch {
-    my $this = shift;
-
-    Foswiki::Exception::Config::NoNextDef->throw(
-        text => "No more elements in the queue", )
-      unless $this->hasNext;
-
-    my $elem = $this->specDef->[ $this->cursor ];
-
-    $this->_lastFetch($elem);
-
-    $this->cursor( $this->cursor + 1 );
-
-    return $elem;
-}
-
-sub count {
-    my $this = shift;
-
-    return scalar( @{ $this->specDef } ) - $this->cursor;
-}
-
-sub hasNext {
-    my $this = shift;
-
-    return @{ $this->specDef } > $this->cursor;
-}
-
-# Returns undef if element is ok to be used as a subspec. Otherwise returns
-# error text about elem type suitable to be used in a error message.
-sub badSubSpecElem {
-    my $this = shift;
-    my $elem = shift;
-    return (
-        defined $elem
-        ? (
-            ref($elem) =~ /^(?:HASH|ARRAY)$/
-            ? undef
-            : "element of type " . ( ref($elem) // 'SCALAR' )
-          )
-        : "undefined element"
-    );
-}
-
-sub subSpecs {
-    my $this    = shift;
-    my %profile = @_;
-
-    my @subProfile;
-
-    unless ( $profile{specDef} ) {
-        my $lastElem = $this->_lastFetch;
-
-        my $badElemTxt = $this->badSubSpecElem($lastElem);
-        Foswiki::Exception::BadSpecData->throw(
-            text => "Cannot create specs definitions list from $badElemTxt" )
-          if $badElemTxt;
-
-        push @subProfile,
-          specDef => [ ref($lastElem) eq 'HASH' ? %$lastElem : @$lastElem ];
-    }
-
-    push @subProfile, section => $this->section
-      unless ( $profile{section} );
-
-    my $subSpecs = ref($this)->new(
-        source => $this->source,
-        @subProfile,
-        @_,
-    );
-    return $subSpecs;
-}
-
 package Foswiki::Config;
 
 =begin TML
@@ -163,6 +52,8 @@ my %remap = (
     '{RCS}{filePermission}' => '{Store}{filePermission}',
     '{RCS}{WorkAreaDir}'    => '{Store}{WorkAreaDir}'
 );
+
+$Foswiki::regex{optionNameRegex} = qr/^-([[:alpha:]][[:alnum:]]*)$/;
 
 =begin TML
 ---++ ObjectAttribute data
@@ -315,17 +206,31 @@ And object of =Foswiki::Config::Spec::Files= class. List of specs found.
 
 =cut
 
-#has specFiles => (
-#    is      => 'rw',
-#    lazy    => 1,
-#    clearer => 1,
-#    isa     => Foswiki::Object::isaCLASS(
-#        'specFiles',
-#        'Foswiki::Config::Spec::Files',
-#        noUndef => 1,
-#    ),
-#    builder => 'prepareSpecFiles',
-#);
+has specFiles => (
+    is      => 'rw',
+    lazy    => 1,
+    clearer => 1,
+    isa     => Foswiki::Object::isaCLASS(
+        'specFiles',
+        'Foswiki::Config::Spec::Files',
+        noUndef => 1,
+    ),
+    builder => 'prepareSpecFiles',
+);
+
+has dataHashClass => (
+    is      => 'ro',
+    lazy    => 1,
+    clearer => 1,
+    builder => 'prepareDataHashClass',
+);
+
+has _specParsers => (
+    is      => 'ro',
+    lazy    => 1,
+    clearer => 1,
+    builder => '_prepareSpecParsers',
+);
 
 # Configuration shortcut attributes.
 
@@ -434,6 +339,61 @@ around doLocalize => sub {
     $this->assignGLOB;
 };
 
+sub _createSpecParser {
+    my $this   = shift;
+    my $format = shift;
+
+    my $fmtClass = "Foswiki::Config::Spec::Format::" . $format;
+
+    return $this->create( $fmtClass, cfg => $this, @_ );
+}
+
+sub getSpecParser {
+    my $this   = shift;
+    my $format = shift;
+
+    my $parsers = $this->_specParsers;
+
+    return if exists $parsers->{$format} && !$parsers->{$format};
+
+    my $parser;
+
+    try {
+        $parser = $this->_createSpecParser($format);
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+
+        # SMELL Error messages must be somehow buffered. An API must be
+        # considered on Foswiki::App.
+        say STDERR "Cannot load parser for spec format '" . $format . "': "
+          . $e;
+    };
+
+    $parsers->{$format} = $parser;
+
+    return unless $parser;
+}
+
+sub fetchDefaults {
+    my $this = shift;
+
+    state $called = 0;
+    if ($called) {
+        die "Circular dependecy in call to fetchDefaults!";
+    }
+    $called = 1;
+    foreach my $specFile ( @{ $this->specFiles->list } ) {
+        say STDERR "Checking cache of ", $specFile->path;
+        $specFile->refreshCache;
+
+        foreach my $pair ( @{ $specFile->cacheFile->entries } ) {
+            $this->set(%$pair);
+        }
+    }
+    $called = 0;
+}
+
 =begin TML
 
 ---++ ObjectMethod readConfig( $noExpand, $noSpec, $configSpec, $noLocal )
@@ -470,10 +430,17 @@ sub readConfig {
     # Old configs might not bootstrap the OS settings, so set if needed.
     $this->_workOutOS unless ( $this->data->{OS} && $this->data->{DetailedOS} );
 
+    # BEGIN of new specs code
+    # SMELL It's here for testing only.
+    $this->fetchDefaults;
+
+    # END of new specs code
+
     unless ($noSpec) {
         push @{ $this->files }, 'Foswiki.spec';
     }
     if ( !$noSpec && $configSpec ) {
+
         foreach my $dir (@INC) {
             foreach my $subdir ( 'Foswiki/Plugins', 'Foswiki/Contrib' ) {
                 my $d;
@@ -1248,44 +1215,6 @@ sub arg2keys {
     return @keys;
 }
 
-# Returns subhash of the config data where key is stored. The key name is
-# returned as second element.
-sub _getSubHash {
-    my $this = shift;
-    my @keys = @_;
-
-    my $subHash = $this->data;
-    my $cfgPath;
-
-    while ( @keys > 1 ) {
-        my $key = shift @keys;
-        $cfgPath = defined $cfgPath ? "$cfgPath.$key" : $key;
-        $subHash = $subHash->{$key};
-        return () unless ref($subHash) eq 'HASH';
-    }
-
-    return ( $subHash, $keys[0] );
-}
-
-=begin TML
-
----++ ObjectMethod get()
-
-$app->cfg->get(Root => Branch => Leaf =>);
-$app->cfg->get([qw(Root Branch Leaf)]);
-$app->cfg->get("Root.Branch.Leaf");
-$app->cfg->get("{Root}{Branch}{Leaf}");
-
-=cut
-
-sub get {
-    my $this = shift;
-
-    my ( $subHash, $leafName ) = $this->_getSubHash( $this->arg2keys(@_) );
-
-    return $subHash->{$leafName};
-}
-
 =begin TML
 
 ---++ ObjectMethod normalizeKeyPath($keyPath, %params) -> $normalizedPathString
@@ -1325,6 +1254,48 @@ sub normalizeKeyPath {
     return $prefix . join( $joint, @keys ) . $suffix;
 }
 
+# Returns subhash of the config data where key is stored. The key name is
+# returned as second element.
+sub _getSubHash {
+    my $this   = shift;
+    my $key    = shift;
+    my %params = @_;
+
+    my @keys = $this->arg2keys($key);
+
+    my $subHash = $this->data;
+
+    while ( @keys > 1 ) {
+        my $key = shift @keys;
+        unless ( exists( $subHash->{$key} ) || !$params{autoVivify} ) {
+            $subHash->{$key} = {};
+        }
+        $subHash = $subHash->{$key};
+        return () unless ref($subHash) eq 'HASH';
+    }
+
+    return ( $subHash, $keys[0] );
+}
+
+=begin TML
+
+---++ ObjectMethod get()
+
+$app->cfg->get(Root => Branch => Leaf =>);
+$app->cfg->get([qw(Root Branch Leaf)]);
+$app->cfg->get("Root.Branch.Leaf");
+$app->cfg->get("{Root}{Branch}{Leaf}");
+
+=cut
+
+sub get {
+    my $this = shift;
+
+    my ( $subHash, $leafName ) = $this->_getSubHash( \@_ );
+
+    return $subHash->{$leafName};
+}
+
 =begin TML
 
 ---++ ObjectMethod set($cfgPath => $value)
@@ -1340,7 +1311,7 @@ sub set {
     my ( $cfgPath, $value ) = @_;
 
     my ( $subHash, $leafName ) =
-      $this->_getSubHash( $this->arg2keys($cfgPath) );
+      $this->_getSubHash( $cfgPath, autoVivify => 1, );
 
     $subHash->{$leafName} = $value;
 }
@@ -2001,9 +1972,6 @@ qr(AERO|ARPA|ASIA|BIZ|CAT|COM|COOP|EDU|GOV|INFO|INT|JOBS|MIL|MOBI|MUSEUM|NAME|NE
     # to safe mode
     $this->data->{ForceUnsafeRegexes} = 0
       unless defined $this->data->{ForceUnsafeRegexes};
-
-    $Foswiki::regex{optionNameRegex} =
-      qr/^-([$Foswiki::regex{mixedAlpha}][$Foswiki::regex{mixedAlphaNum}]*)$/;
 }
 
 =begin TML
@@ -2064,6 +2032,25 @@ sub _validateBindings {
     );
 }
 
+sub makeSpecsHash {
+    my $this   = shift;
+    my %params = @_;
+
+    Foswiki::Exception::Fatal->throw( text => "'data' must be a hash ref", )
+      if $params{data} && ref( $params{data} ) ne 'HASH';
+
+    my %newData;
+    my $tieObj = tie %newData, $this->dataHashClass,
+      app    => $this->app,
+      cfg    => $this,
+      _trace => 0,
+      ;
+
+    %newData = %{ $params{data} } if $params{data};
+
+    return \%newData;
+}
+
 =begin TML
 
 ---++ ObjectMethod specsMode
@@ -2073,7 +2060,7 @@ to =Foswiki::Config::DataHash=. The original data is preserved.
 
 *NOTE* Current implementation is incomplete as before restoring the original
 data specs must be re-read from the disk. Otherwise this operation may result in
-inconsistent data no complying with specs requirements.
+inconsistent data not complying with specs requirements.
 
 =cut
 
@@ -2082,14 +2069,9 @@ sub specsMode {
 
     return if tied %{ $this->data };
 
-    my $app       = $this->app;
-    my $hashClass = $app->extensions->mapClass('Foswiki::Config::DataHash');
-    Foswiki::load_class($hashClass);
+    my $newData = $this->makeSpecsHash( data => $this->data );
 
-    my %newData;
-    my $tieObj = tie %newData, $hashClass, app => $this->app, _trace => 0,;
-    %newData = %{ $this->data };
-    $this->data( \%newData );
+    $this->data($newData);
 }
 
 =begin TML
@@ -2158,11 +2140,17 @@ sub getKeyNode {
 
 =begin TML
 
----++ ObjectMethod spec($source, @specs)
+---++ ObjectMethod spec(%params)
 
-Register specs defined in =$source=. =$source= could be any string unquily defining
-where the specs are coming from. Generally it is expected to be a file name where
-specs are defined but could also be a test case name.
+Params keys are the following:
+
+| *Key* | *Description* |
+| =source= | Where specs are defined. Could be a string or a =Foswiki::File= object. |
+| =specs= | Array ref of specs. |
+| =data= | An instance of =Foswiki::Config::DataHash= class. The one behind the =data= attribute is used if this key is not defined. |
+
+Note that if =data= key is defined then =spec()= method doesn't turn =specMode=
+on.
 
 Specs data format is currently described in
 [[https://foswiki.org/Development/OOConfigSpecsFormat][OOConfigSpecsFormat&nbsp;proposal]].
@@ -2171,22 +2159,46 @@ Specs data format is currently described in
 
 sub spec {
     my $this   = shift;
-    my $source = shift;
+    my %params = @_;
 
     Foswiki::Exception::Fatal->throw(
         text => "Spec source parameter is required and cannot be empty", )
-      unless defined($source) && length($source);
+      unless defined( $params{source} ) && length( $params{source} );
 
-    $this->specsMode;
+    my ( $data, $section );
+
+    if ( $params{data} ) {
+        Foswiki::Exception::Fatal->throw(
+            text => "The data key must be a Foswiki::Config::DataHash instance",
+        ) unless UNIVERSAL::isa( $params{data}, 'Foswiki::Config::DataHash' );
+
+        Foswiki::Exception::Fatal->throw(
+            text => "The section key must be defined when data key is used", )
+          unless defined $params{section};
+
+        Foswiki::Exception::Fatal->throw( text =>
+              "The section key must be a Foswiki::Config::Section instance", )
+          unless UNIVERSAL::isa( $params{section}, 'Foswiki::Config::Section' );
+
+        $data    = $params{data};
+        $section = $params{section};
+    }
+    else {
+        $this->specsMode;
+
+        $data    = tied( %{ $this->data } );
+        $section = $this->rootSection;
+    }
 
     my $specs = $this->create(
         'Foswiki::Config::SpecDef',
-        specDef => \@_,
-        source  => $source,
-        section => $this->rootSection,
+        specDef => $params{specs},
+        source  => $params{source},
+        section => $section,
+        data    => $data,
     );
     try {
-        $this->_processSpec( specs => $specs, source => $source, );
+        $this->_processSpec( specs => $specs, );
     }
     catch {
         my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
@@ -2215,6 +2227,22 @@ sub prepareData {
     return $data;
 }
 
+sub prepareDataHashClass {
+    my $this = shift;
+
+    my $hashClass = 'Foswiki::Config::DataHash';
+
+    # Map the class only if app's extensions attribute is initialized. Otherwise
+    # avoid autovivification. This code would make sense when very early config
+    # loading would be implemented.
+    $hashClass = $this->app->extensions->mapClass($hashClass)
+      if $this->app->has_extensions;
+
+    Foswiki::load_class($hashClass);
+
+    return $hashClass;
+}
+
 =begin TML
 
 ---++ ObjectMethod prepareRootSection
@@ -2240,7 +2268,11 @@ Initializer of =specFiles= attribute.
 sub prepareSpecFiles {
     my $this = shift;
 
-    return $this->create('Foswiki::Config::Spec::Files');
+    return $this->create( 'Foswiki::Config::Spec::Files', cfg => $this, );
+}
+
+sub _prepareSpecParsers {
+    return {};
 }
 
 my @validSecOptions = qw(text);
@@ -2328,6 +2360,7 @@ sub _specCfgKey {
 
     my $specs   = $params{specs};
     my $section = $specs->section;
+    my $data    = $specs->data || $this->data;
 
     my @keyPath = $this->arg2keys( $specs->keyPath, $key );
     my $keyFullName = $this->normalizeKeyPath( \@keyPath );
@@ -2411,10 +2444,11 @@ sub _specCfgKey {
         }
     }
 
-    my $keyObject = $this->getKeyObject(@keyPath);
+    my $keyObject = $data->getKeyObject( $this->parseKeys(@keyPath) );
     push @keyProfile, isLeaf => $isLeafKey if defined $isLeafKey;
     $keyNode = $keyObject->makeNode( $keyName, @keyProfile,
         section => $keySpecs->section, );
+    $keyNode->addSource( $keySpecs->source );
 
     unless ($isLeafKey) {
         my $subSpecs = $specs->subSpecs(

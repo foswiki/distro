@@ -856,6 +856,8 @@ sub _registerDefaultMacros {
         FORMAT            => undef,
         FORMFIELD         => undef,
         FOSWIKI_BROADCAST => sub {
+
+            # SMELL XXX $Foswiki::system_message doesn't exists anymore!
             $_[0]->systemMessage || $Foswiki::system_message || '';
         },
         GMTIME => sub {

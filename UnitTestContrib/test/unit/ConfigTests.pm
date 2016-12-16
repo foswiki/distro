@@ -2,6 +2,7 @@ package ConfigTests;
 
 use Foswiki;
 use Try::Tiny;
+use Data::Dumper;
 
 use Foswiki::Class;
 extends qw( FoswikiTestCase );
@@ -93,48 +94,50 @@ sub test_specRegister {
     $cfg->clear_data;
 
     $cfg->spec(
-        __FILE__,
-        -section => Extensions => -text => "Just extensions" => [
-            -section => TestExt => -text => "Test extension" => [
-                -modprefix          => 'Foswiki::Extension::TestExt',
-                'ANewKey.NewSubKey' => [
-                    Valid => { -type => 'BOOL', },
-                    Text  => { -type => 'TEXT', },
-                ],
-                'Extensions.TestExt' => {
-                    Sample => { -type => 'INTEGER', },
-                    StrKey => { -type => 'TEXT(32)', }
-                },
-            ],
-            -section => SampleExt => -text => "Sample extension" => [
-                -modprefix             => 'Foswiki::Extension::SampleExt',
-                'Extensions.SampleExt' => [
-                    Option => {
-                        -type    => 'BOOL',
-                        -default => 0,
-                    },
-                    Setting => {
-                        -type => 'SELECT',
-
-                        #-variants => [qw(one two three)],
-                    },
-                    'Sub.Setting.Deep' => [
-                        'Opt.K1' => { -type => 'TEXT', },
-                        'Opt.K2' => { -type => 'NUMBER', },
+        source => __FILE__,
+        specs  => [
+            -section => Extensions => -text => "Just extensions" => [
+                -section => TestExt => -text => "Test extension" => [
+                    -modprefix          => 'Foswiki::Extension::TestExt',
+                    'ANewKey.NewSubKey' => [
+                        Valid => { -type => 'BOOL', },
+                        Text  => { -type => 'TEXT', },
                     ],
+                    'Extensions.TestExt' => {
+                        Sample => { -type => 'INTEGER', },
+                        StrKey => { -type => 'TEXT(32)', }
+                    },
                 ],
-                -modprefix             => 'Foswiki::Extension::OtherExt',
-                'Extensions.SampleExt' => [
-                    Param => {
-                        -type    => 'NUMBER',
-                        -default => 3.14,
-                    },
-                    OneOf => {
-                        -type    => 'PERL',
-                        -default => { a => 1, b => 2, c => 3, },
+                -section => SampleExt => -text => "Sample extension" => [
+                    -modprefix             => 'Foswiki::Extension::SampleExt',
+                    'Extensions.SampleExt' => [
+                        Option => {
+                            -type    => 'BOOL',
+                            -default => 0,
+                        },
+                        Setting => {
+                            -type => 'SELECT',
 
-                        #-expert  => 1,
-                    },
+                            #-variants => [qw(one two three)],
+                        },
+                        'Sub.Setting.Deep' => [
+                            'Opt.K1' => { -type => 'TEXT', },
+                            'Opt.K2' => { -type => 'NUMBER', },
+                        ],
+                    ],
+                    -modprefix             => 'Foswiki::Extension::OtherExt',
+                    'Extensions.SampleExt' => [
+                        Param => {
+                            -type    => 'NUMBER',
+                            -default => 3.14,
+                        },
+                        OneOf => {
+                            -type    => 'PERL',
+                            -default => { a => 1, b => 2, c => 3, },
+
+                            #-expert  => 1,
+                        },
+                    ],
                 ],
             ],
         ],
@@ -179,16 +182,58 @@ sub test_specRegister {
     return;
 }
 
+sub test_specOnLocalData {
+    my $this = shift;
+
+    Foswiki::load_class('Foswiki::Config::DataHash');
+
+    my %data;
+
+    my $dataObj = tie %data, 'Foswiki::Config::DataHash', app => $this->app;
+
+    my $cfg = $this->app->cfg;
+
+    my $section = $this->create( 'Foswiki::Config::Section', name => 'Root', );
+
+    $cfg->spec(
+        source  => __FILE__,
+        data    => $dataObj,
+        section => $section,
+        specs   => [
+            -section => Section => [
+                'Test1.Key1' => [
+                    -type    => 'TEXT',
+                    -default => 'Default Key1',
+                ],
+                'Test2.Key2' => [
+                    -type    => 'NUMBER',
+                    -default => 3.1415926,
+                ],
+            ]
+        ],
+    );
+
+    $this->assert_deep_equals(
+        {
+            Test1 => { Key1 => 'Default Key1', },
+            Test2 => { Key2 => 3.1415926, },
+        },
+        \%data
+    );
+}
+
 sub test_unknownKeyOption {
     my $this = shift;
 
     try {
         $this->app->cfg->spec(
-            __FILE__,
-            -section => Section => [
-                'Test.Key' => [
-                    -type      => 'NUMBER',
-                    -badOption => 'Value matters not...',
+            source => __FILE__,
+            specs  => [
+                -section => Section => [
+                    'Test.Key' => [
+                        -type      => 'NUMBER',
+                        -badOption => 'Value matters not...',
+                    ],
                 ],
             ],
         );
@@ -216,17 +261,21 @@ sub test_defaultValue {
     my $holder = $cfg->localize;
     $cfg->clear_data;
 
+    my $defStr = "This is default";
+
     $cfg->spec(
-        __FILE__,
-        -section => Section => [
-            TestKey => [
-                Key1 => [
-                    -type    => 'TEXT',
-                    -default => "This is default",
-                ],
-                Key2 => [
-                    -type    => 'NUMBER',
-                    -default => 3.1415926,
+        source => __FILE__,
+        specs  => [
+            -section => Section => [
+                TestKey => [
+                    Key1 => [
+                        -type    => 'TEXT',
+                        -default => $defStr,
+                    ],
+                    Key2 => [
+                        -type    => 'NUMBER',
+                        -default => 3.1415926,
+                    ],
                 ],
             ],
         ],
@@ -236,15 +285,28 @@ sub test_defaultValue {
 
     my $keyNode = $cfg->getKeyNode('TestKey.Key1');
 
-    $this->assert_equals( "This is default", $cfgData->{TestKey}{Key1} );
-    $this->assert_equals( "This is default", $keyNode->default );
-    $this->assert_equals( 3.1415926,         $cfgData->{TestKey}{Key2} );
+    $this->assert_equals( $defStr,   $cfgData->{TestKey}{Key1} );
+    $this->assert_equals( $defStr,   $keyNode->default );
+    $this->assert_equals( 3.1415926, $cfgData->{TestKey}{Key2} );
 
     $cfg->data->{TestKey}{Key1} = "This is changed";
     $this->assert_equals( "This is changed", $cfgData->{TestKey}{Key1} );
 
-    $this->assert_equals( "This is default", $keyNode->default );
+    $this->assert_equals( $defStr,           $keyNode->default );
     $this->assert_equals( "This is changed", $keyNode->value );
+
+    $keyNode->clear_value;
+
+    $this->assert_equals( $defStr, $cfgData->{TestKey}{Key1} );
+
+    $cfg->dataMode;
+
+    $this->assert_equals( $defStr, $cfg->data->{TestKey}{Key1},
+"The value of TestKey.Key1 doesn't match spec's default after switching to data mode."
+    );
+    $this->assert_equals( 3.1415926, $cfg->data->{TestKey}{Key2},
+"The value of TestKey.Key2 doesn't match spec's default after switching to data mode."
+    );
 }
 
 my %keyStructs = (
@@ -370,7 +432,11 @@ sub test_specFilesAttribute {
 
     my $sf = $this->app->cfg->specFiles;
 
-    my $list = $sf->list;
+    foreach my $sfile ( @{ $sf->list } ) {
+        say STDERR $sfile->fmt, " -- ", $sfile->cacheFile->path;
+    }
+
+    return;
 }
 
 1;

@@ -69,6 +69,30 @@ package Foswiki::Exception::Config::BadSpecValue;
 use Foswiki::Class;
 extends qw(Foswiki::Exception::Config::BadSpec);
 
+package Foswiki::Exception::Config::BadSpecSrc;
+
+use Foswiki::Class;
+extends qw(Foswiki::Exception::Fatal);
+
+has file => (
+    is       => 'ro',
+    required => 1,
+);
+
+around stringify => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $errMsg = $orig->( $this, @_ );
+
+    my $file = $this->file;
+    if ( UNIVERSAL::isa( $file, 'Foswiki::File' ) ) {
+        $file = $file->path;
+    }
+
+    return "Failed to parse specs file " . $file . ": " . $errMsg;
+};
+
 =begin TML
 
 ---+ Exception Foswiki::Exception::Config::InvalidKeyName

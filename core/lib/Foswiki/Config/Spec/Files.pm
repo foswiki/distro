@@ -4,15 +4,29 @@ package Foswiki::Config::Spec::Files;
 
 use Foswiki    ();
 use File::Spec ();
+use File::Path qw(make_path);
 
 use Foswiki::Class qw(app callbacks extensible);
 extends qw(Foswiki::Object);
+with qw(Foswiki::Config::CfgObject);
+
+has baseDir => (
+    is      => 'ro',
+    lazy    => 1,
+    builder => 'prepareBaseDir'
+);
+
+has cacheDir => (
+    is      => 'rw',
+    lazy    => 1,
+    builder => 'prepareCacheDir',
+);
 
 has list => (
     is      => 'rw',
     lazy    => 1,
     clearer => 1,
-    isa     => Foswiki::Object::isaHASH( 'list', noUndef => 1, ),
+    isa     => Foswiki::Object::isaARRAY( 'list', noUndef => 1, ),
     builder => 'prepareList',
 );
 
@@ -46,8 +60,14 @@ sub _scanDir {
         next DIR_ENTRY unless $entry =~ /(?:^Spec\.[^.]+|\.spec)$/;
 
         push @specFiles,
-          $this->create( 'Foswiki::Config::File', path => $fullpath );
+          $this->create(
+            'Foswiki::Config::Spec::File',
+            path => $fullpath,
+            cfg  => $this->cfg,
+          );
     }
+
+    return @specFiles;
 }
 
 sub collectSpecs {
@@ -57,11 +77,14 @@ sub collectSpecs {
 
     my @subDirs = qw(Plugins Contrib Extension);
 
-    my ( $vol, $dir ) = File::Spec->splitpath( $INC{'Foswiki.pm'} );
+    my $baseDir = $this->baseDir;
 
-    my $baseDir = File::Spec->catpath( $vol, $dir );
-
-    push @specFileList, File::Spec->catfile( $baseDir, 'Foswiki.spec' );
+    push @specFileList,
+      $this->create(
+        'Foswiki::Config::Spec::File',
+        path => File::Spec->catfile( $baseDir, 'Foswiki.spec' ),
+        cfg  => $this->cfg,
+      );
 
     foreach my $subDir (@subDirs) {
         my $specDir = File::Spec->catdir( $baseDir, 'Foswiki', $subDir );
@@ -75,6 +98,38 @@ sub prepareList {
     my $this = shift;
 
     return [ $this->collectSpecs ];
+}
+
+sub prepareBaseDir {
+    my $this = shift;
+
+    # Even in case we get extensions modules spread acroos the filesystem at
+    # some point the spec files are expected to be located where Foswiki.pm is.
+    my ( $vol, $dir ) = File::Spec->splitpath( $INC{'Foswiki.pm'} );
+
+    return File::Spec->catpath( $vol, $dir );
+}
+
+sub prepareCacheDir {
+    my $this = shift;
+
+    my $cacheDir = File::Spec->catdir( $this->baseDir, ".specCache" );
+
+    unless ( -d $cacheDir ) {
+        my $err;
+        my $rc =
+          make_path( $cacheDir,
+            { mode => 0760, error => \$err, verbose => 0, } );
+        unless ($rc) {
+            foreach my $item (@$err) {
+                $this->app->logger->error(
+                    "Cannot create cache dir " . $_ . ": " . $item->{$_} )
+                  foreach keys %$item;
+            }
+        }
+    }
+
+    return $cacheDir;
 }
 
 1;

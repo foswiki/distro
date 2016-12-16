@@ -39,6 +39,7 @@ use Foswiki ();
 
 use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
+with qw(Foswiki::Config::CfgObject);
 
 use constant NODE_CLASS => 'Foswiki::Config::Node';
 
@@ -383,7 +384,7 @@ sub makeNode {
         }
     }
     else {
-        $nodes->{$key} = $node = $this->createNode(@_);
+        $nodes->{$key} = $node = $this->createNode( @_, name => $key, );
         $this->tieNode($key) if $node->isBranch;
     }
 
@@ -420,6 +421,7 @@ sub tieNode {
     my %newHash;
     my $class = ref($this);
     my $tieObj = tie %newHash, $class,
+      cfg    => $this->cfg,
       name   => $key,
       parent => $node->parent,
       @_;
@@ -450,6 +452,31 @@ sub createNode {
     my $this = shift;
 
     return $this->create( NODE_CLASS, parent => $this, @_ );
+}
+
+=begin TML
+
+---+++ ObjectMethod getLeftNodes => @nodes
+
+Returns all leaf nodes stored in this hash and all subhashes.
+
+=cut
+
+sub getLeafNodes {
+    my $this = shift;
+
+    my @leafs;
+
+    foreach my $node ( values %{ $this->nodes } ) {
+        if ( $node->isLeaf ) {
+            push @leafs, $node;
+        }
+        elsif ( $node->isBranch ) {
+            push @leafs, tied( %{ $node->value } )->getLeafNodes;
+        }
+    }
+
+    return @leafs;
 }
 
 =begin TML
@@ -513,7 +540,7 @@ Initializer of =fullName= attribute.
 sub prepareFullName {
     my $this = shift;
 
-    return $this->app->cfg->normalizeKeyPath( $this->fullPath );
+    return $this->cfg->normalizeKeyPath( $this->fullPath );
 }
 
 =begin TML
