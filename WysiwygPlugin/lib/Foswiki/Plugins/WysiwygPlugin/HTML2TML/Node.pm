@@ -1534,7 +1534,7 @@ sub _handleA {
 
         #print STDERR "TEXT ($text) HREF ($href)\n";
         if ( $text eq $href ) {
-            return ( 0, $WC::CHECKw . '[' . $nop . '[' . $href . ']]' );
+            return ( 0, '[' . $nop . '[' . $href . ']]' );
         }
 
         # we must quote square brackets in [[...][...]] notation
@@ -1543,8 +1543,7 @@ sub _handleA {
         $href =~ s/[[]/%5B/g;
         $href =~ s/[]]/%5D/g;
 
-        return ( 0,
-            $WC::CHECKw . '[' . $nop . '[' . $href . '][' . $text . ']]' );
+        return ( 0, '[' . $nop . '[' . $href . '][' . $text . ']]' );
     }
     elsif ( $this->{attrs}->{name} ) {
 

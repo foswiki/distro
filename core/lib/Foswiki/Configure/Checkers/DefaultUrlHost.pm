@@ -14,15 +14,38 @@ sub check_current_value {
     return unless $d;
     $this->SUPER::check_current_value($reporter);
 
-    if ( $Foswiki::cfg{DefaultUrlHost} =~ m/^\s+/ ) {
+    if (   $Foswiki::cfg{DefaultUrlHost} =~ m/^\s+/
+        || $Foswiki::cfg{DefaultUrlHost} =~ m/\s+$/ )
+    {
         $reporter->ERROR(
-'Current setting appears to contain leading spaces. Remove leading spaces.'
+'Current setting appears to contain leading or trailing spaces. They should be removed.'
         );
     }
 
     my $host = $ENV{HTTP_HOST};
-    if ( $host && $Foswiki::cfg{DefaultUrlHost} !~ m,https?://$host,i ) {
-        $reporter->WARN( 'Current setting does not match HTTP_HOST ', $host );
+    my $protocol = $ENV{HTTPS} ? 'https' : 'http';
+
+    if ( $ENV{HTTP_X_FORWARDED_HOST} ) {
+
+        # Probably behind a proxy, override the host
+        $host = $ENV{HTTP_X_FORWARDED_HOST};
+
+        if (
+            (
+                   $ENV{HTTP_REFERER}
+                && $ENV{HTTP_REFERER} =~
+                m#^https://\Q$ENV{HTTP_X_FORWARDED_HOST}\E#i
+            )
+          )
+        {
+            # Browser is asking for https, so override protcol
+            $protocol = 'https';
+        }
+    }
+
+    if ( $host && $Foswiki::cfg{DefaultUrlHost} !~ m#$protocol://$host#i ) {
+        $reporter->WARN(
+            "Current setting does not match URL =$protocol://$host=");
         $reporter->NOTE(
                 'If the URL hostname is correct, set this to =http://'
               . $host
@@ -37,7 +60,7 @@ sub check_current_value {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

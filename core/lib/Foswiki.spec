@@ -1482,6 +1482,14 @@ $Foswiki::cfg{Store}{filePermission} = 0644;
 # Settings that control the available form fields types. Extensions may extend
 # the set of available types.
 
+# **BOOLEAN LABEL="Enable Legacy Formfield Naming" EXPERT**
+# Enable legacy naming scheme for formfield names. Starting with Foswiki-2.0 formfield names are
+# allowed to contain unicode characters. Before, formfield names have been normalized
+# by stripping these off. If you are upgrading Foswiki from an engine previous to 2.x
+# and your DataForm definitions do contain unicode characters then 
+# you might strongly consider enabling this flag in order to prevent data loss.
+$Foswiki::cfg{LegacyFormfieldNames} = $FALSE;
+
 # **PERL LABEL="Form Types"**
 # This setting is automatically updated by configure to list all the installed
 # FormField types. If you install an extension that adds new Form Field types,

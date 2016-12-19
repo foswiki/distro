@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1461596274" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1481826890" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
@@ -40,6 +40,11 @@ Here's the quick version of the instructions, for *those that are already comfor
       * =http<nop>://yoursite.com/foswiki/bin/view=
    1 Follow the link in the Bootstrap banner of the returned page to the bin/configure tool, address any warnings and save your configuration.
    1 Return from configure (button at top of page), and register your first user.
+
+<div class='foswikiHelp'>Note: If you are using SSL (=https<nop>://=), and access Foswiki via a proxy server, you may need to give bootstrap a "hint" that SSL is in use. Add
+=SSL=1= to the URL,  eg: =https<nop>://yoursite.com?SSL=1=.  From there, bootstrap should function correctly.  You only need to do this if the initial view screen displays without any
+styling and the links on the page point to non-SSL =http= locations.
+</div>
 
 That's it! You Foswiki should now be installed. Browse to =/bin/view= and start editing!
 

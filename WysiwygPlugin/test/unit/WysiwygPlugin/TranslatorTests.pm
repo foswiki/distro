@@ -1271,6 +1271,16 @@ LinkingTopic
 EVERYWHERE
     },
     {
+        # Item14253 Extra spaces before links
+        exec => ROUNDTRIP,
+        name => 'Item14253LinkSpaces',
+        tml  => <<"HERE",
+Text "[[WebHome][This is a link]]" Follows
+
+More "[[WebHome]]" Follows
+HERE
+    },
+    {
 
         # Item12278 Sync Wikiword to link
         exec => TML2HTML | ROUNDTRIP,

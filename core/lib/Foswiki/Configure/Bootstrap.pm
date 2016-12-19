@@ -101,7 +101,7 @@ sub setBootstrap {
 
     # Bootstrap works out the correct values of these keys
     my @BOOTSTRAP =
-      qw( {DataDir} {DefaultUrlHost} {DetailedOS} {OS} {PubUrlPath} {ToolsDir} {WorkingDir}
+      qw( {DataDir} {DefaultUrlHost} {ForceDefaultUrlHost} {DetailedOS} {OS} {PubUrlPath} {ToolsDir} {WorkingDir}
       {PubDir} {TemplateDir} {ScriptDir} {ScriptUrlPath} {ScriptUrlPaths}{view}
       {ScriptSuffix} {LocalesDir} {Store}{Implementation} {NFCNormalizeFilenames}
       {Store}{SearchAlgorithm} {Site}{Locale} );
@@ -413,6 +413,7 @@ sub _bootstrapStoreSettings {
 Called by bootstrapConfig.  This handles the web environment specific settings only:
 
    * ={DefaultUrlHost}=
+   * ={ForceDefaultUrlHost}=
    * ={ScriptUrlPath}=
    * ={ScriptUrlPaths}{view}=
    * ={PubUrlPath}=
@@ -440,16 +441,34 @@ sub bootstrapWebSettings {
     }
 
     my $protocol = $ENV{HTTPS} ? 'https' : 'http';
+    $Foswiki::cfg{ForceDefaultUrlHost} = 0;
 
 # Figure out the DefaultUrlHost - First check if there is a proxy forwarding requests
-# SMELL: This doesn't detect use of HTTPS vs HTTP on the original request. It also
-# fails to account for multiple proxies where the forwarded_host is a list of proxies.
+# SMELL: This fails to account for multiple proxies where the forwarded_host is a list of proxies.
     if ( $ENV{HTTP_X_FORWARDED_HOST} ) {
+
+# Detect if HTTPS in use.  Browsers appear to set the UPGRADE flag, and the json requests
+# for configure all come in with a https referer.
+        if (
+            ( $ENV{QUERY_STRING} && $ENV{QUERY_STRING} =~ m/\bSSL=1\b/i )
+            || (   $ENV{HTTP_REFERER}
+                && $ENV{HTTP_REFERER} =~
+                m#^https://\Q$ENV{HTTP_X_FORWARDED_HOST}\E# )
+          )
+        {
+        # Browser is asking for https or refered from https, so override protcol
+            $protocol = 'https';
+            print STDERR "AUTOCONFIG: Detected HTTPS\n";
+        }
+
         $Foswiki::cfg{DefaultUrlHost} =
           "$protocol://" . $ENV{HTTP_X_FORWARDED_HOST};
-        print STDERR "AUTOCONFIG: Set DefaultUrlHost "
+        $Foswiki::cfg{ForceDefaultUrlHost} =
+          1;    # Force the URL host when behind a proxy
+
+        print STDERR "AUTOCONFIG: Forcing DefaultUrlHost "
           . $Foswiki::cfg{DefaultUrlHost}
-          . " from HTTP_X_FORWARDED_HOST "
+          . " from Proxy HTTP_X_FORWARDED_HOST "
           . $ENV{HTTP_X_FORWARDED_HOST} . " \n"
           if (TRAUTO);
     }
