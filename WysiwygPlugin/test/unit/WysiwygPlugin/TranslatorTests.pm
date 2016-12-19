@@ -1276,6 +1276,8 @@ EVERYWHERE
         name => 'Item14253LinkSpaces',
         tml  => <<"HERE",
 Text "[[WebHome][This is a link]]" Follows
+
+More "[[WebHome]]" Follows
 HERE
     },
     {
