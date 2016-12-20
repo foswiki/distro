@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1481823857" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1482207308" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.1
 
@@ -81,6 +81,27 @@ However the TinyMCEPlugin is still unable to render image links while editing a 
 See [[%BUGS%/Item13696][Item13696]] for up-to-date details.
 
 ---++ Important changes in Foswiki 2.1.3
+
+---+++ Possible data loss in DataForms
+
+A possible data loss issue was discovered in DataForms migrated from Foswiki 1.x. A new configuration setting (={LegacyFormfieldNames}=) was added to restore the old Foswiki 1.x behavior.
+
+If your site uses DataForms that use non-Ascii field names, the form data will require manual migration, or you must enable ={LegacyFormfieldNames}= in
+the configuration.
+   * Releases prior to Foswiki 2.0 stripped characters other than A-Z, a-z, 0-9 and _.  So a field named =F&uuml;hler= would be stored as =Fhler=.
+   * The same DataForms definition on Foswiki 2.0 would be stored as =F&uuml;hler=.
+With the mismatch of field name, the form field will be lost when the topic is saved.
+
+If you do not enable ={LegacyFormfieldNames}=, then you will need to find and update the =META:FIELD= definitions in the topics. This would need to be done external to Foswiki.
+<pre>
+  %<nop>META:FIELD{name="Fhler" title="F&uuml;hler" value="123"}%
+</pre>
+would need to be changed to
+<pre>
+  %<nop>META:FIELD{name="F&uuml;hler" title="F&uuml;hler" value="123"}%
+</pre>
+
+See [[%BUGS%/Item14256][Item14256]] for more details.
 
 ---+++ User Registration
 
@@ -383,6 +404,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14249][Item14249]] | Foswiki::Net uses userinfo functions not available in older versions of LWP. |
 | [[%BUGS%/Item14250][Item14250]] | Wait for images by default in jquery.masonry. |
 | [[%BUGS%/Item14251][Item14251]] | Remove non-functional caching of dialogs loaded via ajax. |
+| [[%BUGS%/Item14256][Item14256]] | Data loss of certain formfield names when moving content from 1.x to 2.x. |
 
 ---+++ Enhancements
 
