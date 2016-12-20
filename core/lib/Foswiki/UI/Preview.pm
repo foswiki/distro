@@ -141,22 +141,6 @@ sub preview {
     # note: preventing linkage in rendered form can only happen in templates
     # see formtables.tmpl
 
-    $tmpl = $topicObject->expandMacros($tmpl);
-    $tmpl = $topicObject->renderTML($tmpl);
-    $tmpl =~ s/%TEXT%/$displayText/g;
-
-    # write the hidden form fields
-    $tmpl =~ s/%FORMFIELDS%/$formFields/g;
-
-    # SMELL: this should be done using CGI::hidden
-    $text = Foswiki::entityEncode( $text, "\n" );
-
-    $tmpl =~ s/%HIDDENTEXT%/$text/g;
-
-    $tmpl =~ s/<\/?(nop|noautolink)\/?>//gis;
-
-    # I don't know _where_ these should be done,
-    # so I'll do them as late as possible
     my $originalrev = $query->param('originalrev');    # rev edit started on
          #ASSERT($originalrev ne '%ORIGINALREV%') if DEBUG;
     $tmpl =~ s/%ORIGINALREV%/$originalrev/g if ( defined($originalrev) );
@@ -172,6 +156,23 @@ sub preview {
 
     #ASSERT($newtopic ne '%NEWTOPIC%') if DEBUG;
     $tmpl =~ s/%NEWTOPIC%/$newtopic/g if ( defined($newtopic) );
+
+# CAUTION: Once expandMacros executes, any template tokens that are expanded
+# inside a %ENCODE will be corrupted.  So do token substitution before this point.
+    $tmpl = $topicObject->expandMacros($tmpl);
+    $tmpl = $topicObject->renderTML($tmpl);
+    $tmpl =~ s/%TEXT%/$displayText/g;
+
+    # write the hidden form fields
+    $tmpl =~ s/%FORMFIELDS%/$formFields/g;
+
+    # SMELL: this should be done using CGI::hidden
+    $text = Foswiki::entityEncode( $text, "\n" );
+
+    $tmpl =~ s/%HIDDENTEXT%/$text/g;
+
+    $tmpl =~ s/<\/?(nop|noautolink)\/?>//gis;
+
 ###
     $session->writeCompletePage($tmpl);
 }
