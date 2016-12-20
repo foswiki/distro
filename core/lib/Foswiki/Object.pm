@@ -190,15 +190,17 @@ sub DEMOLISH {
         $this->finish;
     }
     if (DEBUG) {
+        my %validAttrs =
+          map { $_ => 1 } $this->classAttributes( ref($this) );
         foreach my $key ( keys %{$this} ) {
-            unless ( $key =~ /^(?:__)+orig_/ || $this->can($key) ) {
+            unless ( $validAttrs{$key} || $key =~ /^(?:__)+orig_/ ) {
                 say STDERR "Key $key on ", ref($this),
-                  " isn't a valid attribute.";
+                  " isn't an attribute declared with Moo::has.",
+                  ( join( ", ", sort keys %validAttrs ) );
                 if ( UNIVERSAL::isa( $this->{key}, 'Foswiki::Object' ) ) {
                     say STDERR "    $key is a Foswiki::Object created in ",
                       $this->{key}->__orig_file, ":", $this->{key}->__orig_line;
                 }
-
             }
         }
     }
@@ -306,14 +308,42 @@ sub _cloneData {
 
 =begin TML
 
+---++ ClassMethod classAttributes -> \@attributes
+
+A convenience shortcat to =Foswiki::Class::getClassAttributes()=.
+
+Returns a list of names of class attributes.
+
+This method could be used both as class and object method:
+
+<verbatim>
+
+my @attrs = $obj->classAttributes;
+
+@attrs = Foswiki::Object->classAttributes;
+
+</verbatim>
+
+=cut
+
+sub classAttributes {
+    my $class = shift;
+
+    # Make both class and object method style calls possible.
+    $class = ref($class) || $class;
+    return Foswiki::Class::getClassAttributes($class);
+}
+
+=begin TML
+
 ---++ ObjectMethod clone() -> $clonedObject
 
 This method tries to do it's best to create an exact copy of existing object.
 For that purpose this method considers a object as a data structure and
 traverses it recursively creating a profile for new object's constructor. All
 keys on object's hash are considered as attributes to be inserted into the
-profile. In other words it means then if we have an object with keys =key1=, =key2=, and =key3=
-then new object's constructor will get the following profile:
+profile. In other words it means then if we have an object with keys =key1=,
+=key2=, and =key3= then new object's constructor will get the following profile:
 
 <verbatim>
 my @profile = (
@@ -324,17 +354,35 @@ my @profile = (
 my $newObj = ref($this)->new( @profile );
 </verbatim>
 
-Actually the process is a bit more complicated than this example. It is guided by the following rules:
+Actually the process is a bit more complicated than this example. It is guided
+by the following rules:
 
-   1. If a key name begins with =__[__[...]]orig_= prefix it is used for debugging needs and keeps object's creation history. To preserve the history such keys are prefixed with additional =__= prefix. So, a clone of clone would have three kopies of such keys prefixed with =__orig_=, =____orig_=, and =______orig_=.
+   1. If a key name begins with =__[__[...]]orig_= prefix it is used for
+      debugging needs and keeps object's creation history. To preserve the
+      history such keys are prefixed with additional =__= prefix. So, a clone of
+      clone would have three kopies of such keys prefixed with =__orig_=,
+      =____orig_=, and =______orig_=.
    1. All other attributes with =__= prefixed names are ignored and not duplicated.
-   1. If a class wants to take care of cloning of an attribute it can define a =_clone_<attribute_name>()= method (say, =_clone_key2()= for the above example; or =_clone__attr()= for private attribute =_attr=). In this case the attribute value won't be traversed and return from the =_clone_<attribute_name>()= method would be used.
-   1. For blessed references discovered during traversal their =clone()= method is used to create a copy if their respective classes have this method defined.
-   1. For objects without =clone()= method they're copied as a hash which is then blessed into the object's class. *NOTE* This won't work for non-hash blessed references. They're must be taken care by the class the attribute belongs to.
+   1. If a class wants to take care of cloning of an attribute it can define a
+      =_clone_<attribute_name>()= method (say, =_clone_key2()= for the above
+      example; or =_clone__attr()= for private attribute =_attr=). In this case
+      the attribute value won't be traversed and return from the
+      =_clone_<attribute_name>()= method would be used.
+   1. For blessed references discovered during traversal their =clone()= method
+      is used to create a copy if their respective classes have this method
+      defined.
+   1. For objects without =clone()= method they're copied as a hash which is
+      then blessed into the object's class. *NOTE* This won't work for non-hash
+      blessed references. They're must be taken care by the class the attribute
+      belongs to.
    1. Regexp's refs are just copied into destination.
-   1. Attributes containing references of *ARRAY*, *HASH*, and *SCALAR* types are cloned; refs of other types are just copied into destination.
+   1. Attributes containing references of *ARRAY*, *HASH*, and *SCALAR* types
+      are cloned; refs of other types are just copied into destination.
    1. If a reference is weakened it's clone is weakened too.
-   1. If same reference found at two or more locations of cloned object's structure then destination object will have identical cloned references at same locations; i.e. if =$this->attr1 == $this->attr2->subattr->[3]= then =$cloned->attr1 == $cloned->attr2->subattr->[3]= too.
+   1. If same reference found at two or more locations of cloned object's
+      structure then destination object will have identical cloned references at
+      same locations; i.e. if =$this->attr1 == $this->attr2->subattr->[3]= then
+      =$cloned->attr1 == $cloned->attr2->subattr->[3]= too.
    1. Circular dependecies are raising =Foswiki::Exception::Fatal=.
 
 =cut
@@ -373,7 +421,8 @@ sub clone {
         push @profile, $destAttr, $attrVal;
     }
 
-# SMELL Should it be better to use same approach as in _cloneData - just bless a profile hash?
+    # SMELL Should it be better to use same approach as in _cloneData - just
+    # bless a profile hash?
     my $newObj = ref($this)->new(@profile);
 
     $this->_clear__clone_heap;
