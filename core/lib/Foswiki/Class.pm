@@ -91,7 +91,73 @@ use constant DEFAULT_FEATURESET => ':5.14';
 
 our @ISA = qw(Moo);
 
-my %_assignedRoles;
+my ( %_assignedRoles, %_registeredAttrs, %_ISA, %_WITH );
+
+# BEGIN Install wrappers for Moo's has/with/extends to record basic object information. Works only when $ENV{FOSWIKI_ASSERTS} is true.
+sub _fw_has {
+    my $target = shift;
+    my ($attr) = @_;
+
+    #say STDERR "Registering attr $attr on $target";
+
+    push @{ $_registeredAttrs{$target}{list} },
+      { attr => $attr, options => [ @_[ 1 .. $#_ ] ] };
+}
+
+sub _fw_with {
+    my $target = shift;
+
+    #say STDERR "$target WITH ", join( ", ", @_ );
+    push @{ $_WITH{$target} }, @_;
+}
+
+sub _fw_extends {
+    my $target = shift;
+
+    #say STDERR "$target EXTENDS ", join( ", ", @_ );
+    push @{ $_ISA{$target} }, @_;
+}
+
+if ( $ENV{FOSWIKI_ASSERTS} ) {
+
+    # Moo doesn't provide a clean way to get all object's attributes. The only
+    # really clean way to distinguish between a key on object's hash and an
+    # attribute is to record what is passed to Moo's sub 'has'. Since Moo
+    # generates it for each class separately (as well as other 'keywords') and
+    # since Moo::Role does it on its own too then the only really clean way to
+    # catch everything is to tap into Moo's guts. And the best way to do so is
+    # to intercept calls to _install_tracked() as this sub is used to register
+    # every single Moo-generated code ref. Though this is a hacky way on its own
+    # but the rest approaches seem to be even more hacky and no doubt
+    # unreliable.
+    foreach my $module (qw(Moo Moo::Role)) {
+        my $ns               = Foswiki::getNS($module);
+        my $_install_tracked = *{ $ns->{'_install_tracked'} }{CODE};
+        _inject_code(
+            $module,
+            '_install_tracked',
+            sub {
+                my $ovCode;
+                my $target    = $_[0];
+                my $codeName  = $_[1];
+                my $ovSubName = "_fw_" . $_[1];
+                $ovCode = __PACKAGE__->can($ovSubName);
+                if ($ovCode) {
+
+                    #say STDERR "Installing wrapper $codeName on $target";
+                    my $origCode = $_[2];
+                    $_[2] = sub {
+                        $ovCode->( $target, @_ );
+                        goto &$origCode;
+                    };
+                }
+                goto &$_install_tracked;
+            }
+        );
+    }
+}
+
+# END of has/with/extends wrappers.
 
 sub import {
     my ($class) = shift;
@@ -146,6 +212,44 @@ sub import {
     goto &Moo::import;
 }
 
+sub _getAllAttrs {
+    foreach my $class (@_) {
+        my @classAttrs;
+        if ( defined $_registeredAttrs{$class} ) {
+            if ( defined $_registeredAttrs{$class}{cached} ) {
+
+                # Skip the class if already cached.
+                next;
+            }
+            if ( defined $_registeredAttrs{$class}{list} ) {
+                push @classAttrs,
+                  map { $_->{attr} } @{ $_registeredAttrs{$class}{list} };
+            }
+        }
+        if ( defined $_ISA{$class} ) {
+            push @classAttrs, _getAllAttrs( @{ $_ISA{$class} } );
+        }
+        if ( defined $_WITH{$class} ) {
+            push @classAttrs, _getAllAttrs( @{ $_WITH{$class} } );
+        }
+        $_registeredAttrs{$class}{cached} = \@classAttrs;
+    }
+    return map { @{ $_registeredAttrs{$_}{cached} } } @_;
+}
+
+sub getClassAttributes {
+    my $class = shift;
+
+    #require Data::Dumper;
+
+    #say STDERR Data::Dumper->Dump(
+    #    [ \%_registeredAttrs, \%_ISA, \%_WITH ],
+    #    [qw(%_registeredAttrs %_ISA %_WITH)]
+    #);
+
+    return _getAllAttrs($class);
+}
+
 # Actually we're duplicating Moo::_install_coderef here in a way. But we better
 # avoid using a module's internalls.
 sub _inject_code {
@@ -157,6 +261,12 @@ sub _inject_code {
 sub _apply_roles {
     my $class = shift;
     foreach my $target ( keys %_assignedRoles ) {
+
+        #say STDERR "Applying roles ",
+        #  join( ", ", @{ $_assignedRoles{$target} } ), " to $target";
+
+        push @{ $_WITH{$target} }, @{ $_assignedRoles{$target} };
+
         Moo::Role->apply_roles_to_package( $target,
             @{ $_assignedRoles{$target} } );
         $class->_maybe_reset_handlemoose($target);
