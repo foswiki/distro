@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1478799688" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1482207308" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
@@ -364,6 +364,22 @@ The following two options are also available, but are not yet recommended.
    $ Convert ALL settings into META settings, not just ACLs, for the Sandbox and Customer webs: =perl tools/convertTopicSettings.pl -fixdeny -convert -all -update Sandbox Customer=
 
 When =convertTopicSettings= saves the modified topics, they will be saved by user _UnknownUser_.
+
+---+++ DataForms Applications
+
+If your site uses DataForms that used non-Ascii field names, the form data will require manual migration, or you must enable ={LegacyFormfieldNames}= in
+the configuration.
+   * Releases prior to Foswiki 2.0 stripped characters other than A-Z, a-z, 0-9 and _.  So a field named =F&uuml;hler= would be stored as =Fhler=.
+   * The same DataForms definition on Foswiki 2.0 would be stored as =F&uuml;hler=.
+
+If you do not enable ={LegacyFormfieldNames}=, then you will need to find and update the =META:FIELD= definitions in the topics. This would need to be done external to Foswiki.
+<pre>
+  %<nop>META:FIELD{name="Fhler" title="F&uuml;hler" value="123"}%
+</pre>
+would need to be changed to
+<pre>
+  %<nop>META:FIELD{name="F&uuml;hler" title="F&uuml;hler" value="123"}%
+</pre>
 
 ---+++ Apply preferences from old installation
 
