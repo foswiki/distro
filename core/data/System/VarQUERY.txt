@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1437230349" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1482207453" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Macros"}%
 ---+ QUERY -- get the value of meta-data
 Uses the query syntax described in [[%SYSTEMWEB%.QuerySearch][QuerySearch]] to get information about meta-data from one specified topic.
@@ -32,10 +32,7 @@ See !QuerySearch for more details of how to write queries
 
       Get configuration setting {NameFilter}:
       %<nop>QUERY{"{NameFilter}"}%
-
-      List all the installed DataForm field types {FormTypes}:
-      %<nop>QUERY{"{FormTypes}[].types"}%
-        </pre>
+</pre>
 Plain strings (such as field values) are returned _without_ quotes. Simple arrays of scalars are also returned without quotes, in a comma-separated list (beware of values that contain commas!).
 
 More complex data structures (e.g. arrays of hashes) will only be returned if =style="perl"= or =style="json"= are set - else will return a string containing 'undef'.
