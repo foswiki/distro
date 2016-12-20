@@ -90,6 +90,14 @@ reimplementing or extending only key method(s).
 
 See more in =Foswiki::Extension::Empty=.
 
+---++ Class attributes recording
+
+When =FOSWIKI_ASSERTS= environment variable is set to true =Foswiki::Class=
+records attributes declared with Moo's =has= directive. Subroutine
+=getClassAttributes()= can be used to retrieve a list of declared attributes for
+a specific class. Attributes of class' parent classes and all applied roles are
+included.
+
 =cut
 
 # Naming conventions for this module:
