@@ -397,6 +397,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14249][Item14249]] | Foswiki::Net uses userinfo functions not available in older versions of LWP. |
 | [[%BUGS%/Item14250][Item14250]] | Wait for images by default in jquery.masonry. |
 | [[%BUGS%/Item14251][Item14251]] | Remove non-functional caching of dialogs loaded via ajax. |
+| [[%BUGS%/Item14253][Item14253]] | WysiwygPlugin inserts extra spaces in front of square bracket links. |
 | [[%BUGS%/Item14256][Item14256]] | Data loss of certain formfield names when moving content from 1.x to 2.x. |
 
 ---+++ Enhancements
