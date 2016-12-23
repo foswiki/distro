@@ -25,7 +25,7 @@
 %TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value=' %MAKETEXT{"Delete"}% ' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%
 
 
-%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Delete attachment [_1]" args="[[%ATTACHURL%/%ENCODE{"%FILENAME%"}%][%ENCODE{"%FILENAME%" type="entity"}%]]"}%%TMPL:END%
+%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Delete attachment [_1]" args="[[%ATTACHURL%/%FILENAME%][%FILENAME%]]"}%%TMPL:END%
 
 
 
@@ -33,14 +33,14 @@
 
 %TMPL:DEF{"toattachmenttitle"}%---+++ %MAKETEXT{"Optionally enter a different attachment name:"}%%TMPL:END%
 
-%TMPL:DEF{"newattachment"}%<p><input name="newattachment" class="foswikiInputField" value="%ENCODE{"%NEW_FILENAME%"}%" size="36" /><input type="hidden" name="attachment" value="%ENCODE{"%FILENAME%"}%" /></p>%TMPL:P{"attachmenthelp"}%%TMPL:END%
+%TMPL:DEF{"newattachment"}%<p><input name="newattachment" class="foswikiInputField" value="%NEW_FILENAME%" size="36" /><input type="hidden" name="attachment" value="%FILENAME%" /></p>%TMPL:P{"attachmenthelp"}%%TMPL:END%
 
 %TMPL:DEF{"newtopic"}%<p><input name="newtopic" class="foswikiInputField" value="%URLPARAM{"newtopic" default="TrashAttachment"}%" size="36" /><input type="hidden" name="onlywikiname" value="on" /></p>%TMPL:P{"namehelp"}%%TMPL:END%
 
 
 %TMPL:DEF{"namehelp"}%<p>%MAKETEXT{"[_1] is the default topic for deleted attachments." args="[[%TRASHWEB%.TrashAttachment][TrashAttachment]]"}% %MAKETEXT{"If you enter a different name, make sure the topic exists."}%</p>%TMPL:END%
 
-%TMPL:DEF{"attachmenthelp"}%<p>%MAKETEXT{"The attachment may have to be renamed if an attachment called '[_1]' already exists in the target topic." args="%ENCODE{"%FILENAME%" type="entity"}%"}%</p>%TMPL:END%
+%TMPL:DEF{"attachmenthelp"}%<p>%MAKETEXT{"The attachment may have to be renamed if an attachment called '[_1]' already exists in the target topic." args="%FILENAME%"}%</p>%TMPL:END%
 
 %TMPL:DEF{"toolbar"}%%TMPL:END%
 %TMPL:DEF{"pagehelp"}%%TMPL:END%

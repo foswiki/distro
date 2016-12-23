@@ -1,10 +1,10 @@
 %TMPL:INCLUDE{"attachagain"}%
 %TMPL:INCLUDE{"attachtables"}%
-%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Update attachment [_1] on [_2]" args="[[%ATTACHURLPATH%/%ENCODE{"%FILENAME%"}%][%ENCODE{"%FILENAME%" type="entity"}%]],[[%TOPIC%]]"}%%TMPL:END%
+%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Update attachment [_1] on [_2]" args="[[%ATTACHURLPATH%/%FILENAME%][%FILENAME%]],[[%TOPIC%]]"}%%TMPL:END%
 
 
 
-%TMPL:DEF{"versions"}%---++ %MAKETEXT{"Version history of [_1]" args="<nop>%ENCODE{"%FILENAME%" type="entity"}%"}%
+%TMPL:DEF{"versions"}%---++ %MAKETEXT{"Version history of [_1]" args="<nop>%FILENAME%"}%
 <div class="foswikiAttachments">
 %TABLE{%TMPL:P{"commonattachtableattributes"}% summary="%MAKETEXT{"Version history"}%" caption="%MAKETEXT{"Version history"}%"}%
 %ATTACHTABLE%</div>%TMPL:END%
@@ -15,14 +15,14 @@
 
 
 
-%TMPL:DEF{"previous"}%<p>%MAKETEXT{"Select a new local file to update attachment"}% <code>%ENCODE{"%FILENAME%" type="entity"}%</code> <span class="foswikiGrayText">%TMPL:P{"fileuser"}%</span></p>%TMPL:END%
+%TMPL:DEF{"previous"}%<p>%MAKETEXT{"Select a new local file to update attachment"}% <code>%FILENAME%</code> <span class="foswikiGrayText">%TMPL:P{"fileuser"}%</span></p>%TMPL:END%
 
 
 
 %TMPL:DEF{"movedelete"}%<div class="patternMoveAttachment foswikiUnvisited">
-%MAKETEXT{"More actions for [_1]:" args="=%ENCODE{"%FILENAME%" type="entity"}%="}%
-%BUTTON{ href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?template=moveattachment&attachment=%ENCODE{"%FILENAME%"}%" value=" %MAKETEXT{"Move"}% "}%
-%BUTTON{ href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?newweb=%TRASHWEB%;newtopic=TrashAttachment;template=renameattachmentdelete;attachment=%ENCODE{"%FILENAME%"}%" value=" %MAKETEXT{"Delete"}% "}%
+%MAKETEXT{"More actions for [_1]:" args="=%FILENAME%="}%
+%BUTTON{ href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?template=moveattachment&attachment=%FILENAME%" value=" %MAKETEXT{"Move"}% "}%
+%BUTTON{ href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?newweb=%TRASHWEB%;newtopic=TrashAttachment;template=renameattachmentdelete;attachment=%FILENAME%" value=" %MAKETEXT{"Delete"}% "}%
 </input></div>
 %TMPL:END%
 

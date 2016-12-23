@@ -93,7 +93,9 @@ sub attach {
 
         # must come after templates have been read
         $atext .= $session->attach->formatVersions( $topicObject, %$args );
+        $fileName = Foswiki::entityEncode($fileName);
     }
+
     $tmpl =~ s/%ATTACHTABLE%/$atext/g;
     $tmpl =~ s/%FILEUSER%/$fileWikiUser/g;
     $tmpl =~ s/%FILENAME%/$fileName/g;
