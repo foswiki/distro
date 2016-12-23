@@ -106,11 +106,10 @@ sub preview {
     else {
         $tmpl =~ s/%FORCENEWREVISIONCHECKBOX%//g;
     }
-    my $saveCmd = $query->param('cmd') || '';
+    my $saveCmd = Foswiki::entityEncode( $query->param('cmd') || '' );
     $tmpl =~ s/%CMD%/$saveCmd/g;
 
-    my $redirectTo = $query->param('redirectto') || '';
-    $redirectTo =~ s/['"]//g if $redirectTo;
+    my $redirectTo = Foswiki::entityEncode( $query->param('redirectto') || '' );
     $tmpl =~ s/%REDIRECTTO%/$redirectTo/g;
 
     $formName ||= '';
@@ -142,25 +141,25 @@ sub preview {
     # note: preventing linkage in rendered form can only happen in templates
     # see formtables.tmpl
 
-    my $originalrev = $query->param('originalrev');    # rev edit started on
-    $originalrev =~ s/['"]//g if $originalrev;
+    my $originalrev =
+      Foswiki::entityEncode( $query->param('originalrev') || '' )
+      ;    # rev edit started on
 
     #ASSERT($originalrev ne '%ORIGINALREV%') if DEBUG;
-    $tmpl =~ s/%ORIGINALREV%/$originalrev/g if ( defined($originalrev) );
+    $tmpl =~ s/%ORIGINALREV%/$originalrev/g;
 
-    my $templatetopic = $query->param('templatetopic');
-    $templatetopic =~ s/['"]//g if $templatetopic;
+    my $templatetopic =
+      Foswiki::entityEncode( $query->param('templatetopic') || '' );
 
     #ASSERT($templatetopic ne '%TEMPLATETOPIC%') if DEBUG;
-    $tmpl =~ s/%TEMPLATETOPIC%/$templatetopic/g if ( defined($templatetopic) );
+    $tmpl =~ s/%TEMPLATETOPIC%/$templatetopic/g;
 
     #this one's worrying, its special, and not set much at all
     #$tmpl =~ s/%SETTINGSTOPIC%/$settingstopic/g;
-    my $newtopic = $query->param('newtopic');
-    $newtopic =~ s/['"]//g if $newtopic;
+    my $newtopic = Foswiki::entityEncode( $query->param('newtopic') || '' );
 
     #ASSERT($newtopic ne '%NEWTOPIC%') if DEBUG;
-    $tmpl =~ s/%NEWTOPIC%/$newtopic/g if ( defined($newtopic) );
+    $tmpl =~ s/%NEWTOPIC%/$newtopic/g;
 
 # CAUTION: Once expandMacros executes, any template tokens that are expanded
 # inside a %ENCODE will be corrupted.  So do token substitution before this point.
