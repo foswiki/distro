@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1479234842" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1482950646" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ Manage Users
@@ -63,39 +63,7 @@ If external authentication is used and you want to change the login username:
 
 ---++ Removing User Accounts
 
-The following API can be used by administrators to delete a user's account.
-   * The user is removed from the user database.
-   * The user's topic is moved to the trash web
-   * The user is removed from any groups
-
-<!-- %JQREQUIRE{"ui, ui::autocomplete"}% -->
-<form name="admin" action="%SCRIPTURLPATH{manage}%/%WEB%/%TOPIC%" method="post">
-<div class="foswikiFormSteps">
-<div class="foswikiFormStep">
----++++!! Enter user to be removed
-%INCLUDE{"%SYSTEMWEB%.JQueryAjaxHelper" section="userselector" INPUT_NAME="user" MULTI="false"}%
-<hr />
----++++!! Remove user topic?
-<input type="checkbox" id="removeTopic" name="removeTopic" checked="checked" class="foswikiCheckbox" /> _(Check to remove topic)_ 
-Prefix for deleted topic: <input type="text" name="topicPrefix" class="foswikiInputField" value="DeletedUser" /> _(Follow topic naming rules)_
-<hr />
-<input type="hidden" name="action" value="deleteUserAccount" />
-<input type="submit" class="foswikiSubmit" value="Remove User" />
-</form>
-</div>
-</div>
-
-
-*Note:* Consider leaving the user topic file in place so their past signatures and revision author entries don't end up looking like AnUncreatedTopic.
-If you want to make it clear the user is no longer around, replace the topic content with a note to that effect.
-The existence of the <nop>UserName topic should also prevent that username from being re-used, sealing the potential security hole regarding inherited permissions.
-
-<div class="foswikiHelp">
-%T% See the [[http://foswiki.org/Extensions/AntiWikiSpamPlugin][AntiWikiSpamPlugin]] extension for another method of removing users.  It provides a =rest= handler to:
-   * Move the user topic to the Trash web.
-   * Remove the user from the password / mapper
-   * Remove the user from any groups.
-</div>
+%INCLUDE{"RemoveUser"}%
 
 ---++ Configuring User Registration
 
