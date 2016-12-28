@@ -651,8 +651,9 @@ msgstr "Швидкі клавіші"
 msgid "Access keys:"
 msgstr "Швидкі клавіші:"
 
-#: core/data/System/PendingRegistrationsTemplate.txt:38
-msgid "Access to pending registrations is restricted to administrators"
+#: core/data/System/PendingRegistrationsTemplate.txt:45
+#, fuzzy
+msgid "Access to pending registrations is restricted to administrators."
 msgstr "Тільки адміністратори мають доступ до відкладених реєстрацій"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -819,7 +820,7 @@ msgstr ""
 "Усі зміни, що Ви внесли до теми до того, як попали на цю сторінку, було "
 "збережено."
 
-#: core/data/System/PendingRegistrationsTemplate.txt:22
+#: core/data/System/PendingRegistrationsTemplate.txt:27
 msgid "Approve"
 msgstr "Підтвердити"
 
@@ -1725,6 +1726,10 @@ msgstr "Адреса електронної пошти:"
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "Електронна пошта заборонена на цьому сайті Foswiki"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Email verification is not enabled."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
 msgstr "Вбудувати зовнішній об'єкт"
@@ -2255,7 +2260,7 @@ msgstr "Якщо маєте питання то зв'яжіться, будь л
 msgid "If you have any questions, please contact %1."
 msgstr "Якщо у Вас є будь які питання, будь ласка, пишіть %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:263
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:231
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr "Якщо Ви не задали пароль або хочете його скинути, перейдіть до %1"
@@ -2919,6 +2924,11 @@ msgstr "Немає прав для перегляду %1"
 msgid "No previous revision exists."
 msgstr "Нема попередньої редакції."
 
+#: core/data/System/PendingRegistrationsTemplate.txt:46
+#, fuzzy
+msgid "No registrations are pending."
+msgstr "%1 відмовлено у реєстрації"
+
 #: SubscribePlugin/templates/subscribe.tmpl:17
 msgid "No topic to subscribe to"
 msgstr "Нема теми для спостереження"
@@ -2961,7 +2971,7 @@ msgstr ""
 "переміщення."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:261
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:229
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:13
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3447,6 +3457,11 @@ msgstr "Зареєстровані користувачі"
 msgid "Registration"
 msgstr "Реєстрація"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:21
+#, fuzzy
+msgid "Registration approval is not enabled."
+msgstr "%1 потребує підтвердження реєстрації"
+
 #: core/lib/Foswiki/UI/Register.pm:732
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -3481,7 +3496,7 @@ msgstr ""
 msgid "Registrations awaiting Email verification"
 msgstr "Реєстрації, що очікують на перевірку Email"
 
-#: core/data/System/PendingRegistrations.txt:7
+#: core/data/System/PendingRegistrations.txt:9
 msgid "Registrations awaiting approval"
 msgstr "Реєстрації, що очікують на підтвердження"
 
@@ -3489,7 +3504,7 @@ msgstr "Реєстрації, що очікують на підтверджен�
 msgid "Regular expression search"
 msgstr "Пошук з регулярними виразами"
 
-#: core/data/System/PendingRegistrationsTemplate.txt:23
+#: core/data/System/PendingRegistrationsTemplate.txt:28
 msgid "Reject"
 msgstr "Відмовити"
 
@@ -3506,6 +3521,7 @@ msgstr "Пов'язані теми:"
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:123
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
+#: TopicUserMappingContrib/data/System/RemoveUser.txt:56
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:693
@@ -3540,6 +3556,11 @@ msgstr "Пам'ятаєте Ваш пароль?"
 #: core/data/Main/GroupViewTemplate.txt:225
 msgid "Remove Members from %1"
 msgstr "Вилучити членів з %1"
+
+#: TopicUserMappingContrib/data/System/RemoveUser.txt:3
+#, fuzzy
+msgid "Remove User"
+msgstr "Вилучити членів..."
 
 #: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
@@ -3993,7 +4014,7 @@ msgstr "Підпис"
 msgid "Size"
 msgstr "Розмір"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:222
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "Деякі додають зведення про свій розклад та повідомлення про відпустки."
@@ -4012,7 +4033,7 @@ msgstr ""
 "запит двічі коли ви клікаєте на посилання. Якщо Ви це вже зробили, то "
 "ймовірно, що насправді Вас *вже* зареєстровано."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:221
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4099,7 +4120,7 @@ msgstr "Перекреслено"
 msgid "Submit"
 msgstr "Застосувати"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:265
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:233
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -5512,7 +5533,7 @@ msgstr ""
 "silver,  gray, white, maroon, red, purple, fuchsia, green, lime, olive, "
 "yellow, navy, blue, teal или aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:262
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:230
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "Ви можете змінити свій пароль за допомогою %1"
@@ -5521,7 +5542,7 @@ msgstr "Ви можете змінити свій пароль за допомо
 msgid "You can give this web a different name."
 msgstr "Ви можете дати цьому розділу інше ім'я."
 
-#: core/data/System/PendingRegistrations.txt:9
+#: core/data/System/PendingRegistrationsTemplate.txt:23
 msgid ""
 "You can use the \"approve\" or \"reject\" links to approve or reject these "
 "registrations"
@@ -5692,7 +5713,7 @@ msgstr "Ваш пароль має бути щонайменше %1 символ
 msgid "Your password:"
 msgstr "Ваш пароль:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:219
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"

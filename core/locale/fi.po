@@ -662,8 +662,8 @@ msgstr "Pääsyavaimet"
 msgid "Access keys:"
 msgstr "Pääsyavaimet"
 
-#: core/data/System/PendingRegistrationsTemplate.txt:38
-msgid "Access to pending registrations is restricted to administrators"
+#: core/data/System/PendingRegistrationsTemplate.txt:45
+msgid "Access to pending registrations is restricted to administrators."
 msgstr ""
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -841,7 +841,7 @@ msgstr ""
 "Kaikki muutokset, jotka olet tehnyt aiheeseen ennen saapumistasi tälle "
 "sivulle on säilytetty."
 
-#: core/data/System/PendingRegistrationsTemplate.txt:22
+#: core/data/System/PendingRegistrationsTemplate.txt:27
 msgid "Approve"
 msgstr ""
 
@@ -1791,6 +1791,10 @@ msgstr "Sähköpostiosoite:"
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "Sähköposti on poistettu käytöstä tässä Foswiki asennuksessa"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Email verification is not enabled."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
 msgstr ""
@@ -2328,7 +2332,7 @@ msgstr "Kysymyksiisi vastaa %1"
 msgid "If you have any questions, please contact %1."
 msgstr "Kysymyksiisi vastaa %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:263
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:231
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -3017,6 +3021,11 @@ msgstr "Ei oikeuksia näyttää %1"
 msgid "No previous revision exists."
 msgstr "Aikaisempaa versiota ei ole olemassa."
 
+#: core/data/System/PendingRegistrationsTemplate.txt:46
+#, fuzzy
+msgid "No registrations are pending."
+msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
+
 #: SubscribePlugin/templates/subscribe.tmpl:17
 #, fuzzy
 msgid "No topic to subscribe to"
@@ -3062,7 +3071,7 @@ msgstr ""
 "tämän toiminnon jälkeen."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:261
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:229
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:13
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3581,6 +3590,11 @@ msgstr "Rekisteröidy"
 msgid "Registration"
 msgstr "Rekisteröinti"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:21
+#, fuzzy
+msgid "Registration approval is not enabled."
+msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
+
 #: core/lib/Foswiki/UI/Register.pm:732
 #, fuzzy
 msgid ""
@@ -3613,7 +3627,7 @@ msgstr ""
 msgid "Registrations awaiting Email verification"
 msgstr ""
 
-#: core/data/System/PendingRegistrations.txt:7
+#: core/data/System/PendingRegistrations.txt:9
 #, fuzzy
 msgid "Registrations awaiting approval"
 msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
@@ -3622,7 +3636,7 @@ msgstr "Uuden käyttäjän rekisteröinti poistettu käytöstä"
 msgid "Regular expression search"
 msgstr "Säännöllinen lauseke etsintä"
 
-#: core/data/System/PendingRegistrationsTemplate.txt:23
+#: core/data/System/PendingRegistrationsTemplate.txt:28
 msgid "Reject"
 msgstr ""
 
@@ -3641,6 +3655,7 @@ msgstr "Liittyvät aiheet"
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:123
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
+#: TopicUserMappingContrib/data/System/RemoveUser.txt:56
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:693
@@ -3677,6 +3692,10 @@ msgstr "Muistatko salasanasi?"
 #, fuzzy
 msgid "Remove Members from %1"
 msgstr "Muista minut"
+
+#: TopicUserMappingContrib/data/System/RemoveUser.txt:3
+msgid "Remove User"
+msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
@@ -4154,7 +4173,7 @@ msgstr ""
 msgid "Size"
 msgstr "Koko"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:222
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "Lisää aikataulu infoa ja lomahuomautus."
@@ -4173,7 +4192,7 @@ msgstr ""
 "kun klikkaat linkkiä. Jos teit tämän, on mahdollista että *olet* "
 "rekisteröinyt onnistuneesti."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:221
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4260,7 +4279,7 @@ msgstr ""
 msgid "Submit"
 msgstr "Lähetä"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:265
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:233
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -5666,7 +5685,7 @@ msgstr ""
 "olive(=oliivin vihreä), yellow(=keltainen), navy(=tumman sininen), "
 "blue(=sininen), teal(=tavi), tai aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:262
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:230
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "Voit vaihtaa salasanaasi myös sivun %1 kautta"
@@ -5675,7 +5694,7 @@ msgstr "Voit vaihtaa salasanaasi myös sivun %1 kautta"
 msgid "You can give this web a different name."
 msgstr "Voit antaa tälle verkolle toisen nimen."
 
-#: core/data/System/PendingRegistrations.txt:9
+#: core/data/System/PendingRegistrationsTemplate.txt:23
 msgid ""
 "You can use the \"approve\" or \"reject\" links to approve or reject these "
 "registrations"
@@ -5842,7 +5861,7 @@ msgstr "Tämä sivusto vaatii vähintään %1 merkkkiä pitkän salasanan"
 msgid "Your password:"
 msgstr "Uusi salasana:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:219
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"

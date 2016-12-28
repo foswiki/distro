@@ -607,8 +607,8 @@ msgstr ""
 msgid "Access keys:"
 msgstr "Erişim Engellendi"
 
-#: core/data/System/PendingRegistrationsTemplate.txt:38
-msgid "Access to pending registrations is restricted to administrators"
+#: core/data/System/PendingRegistrationsTemplate.txt:45
+msgid "Access to pending registrations is restricted to administrators."
 msgstr ""
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -773,7 +773,7 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr ""
 
-#: core/data/System/PendingRegistrationsTemplate.txt:22
+#: core/data/System/PendingRegistrationsTemplate.txt:27
 msgid "Approve"
 msgstr ""
 
@@ -1674,6 +1674,10 @@ msgstr "E-Posta adresi"
 msgid "Email has been disabled for this Foswiki installation"
 msgstr ""
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Email verification is not enabled."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
 msgstr ""
@@ -2176,7 +2180,7 @@ msgstr "Herhangi bir sorunuz varsa  %1 ile iletişime geçiniz"
 msgid "If you have any questions, please contact %1."
 msgstr "Herhangi bir sorunuz varsa  %1 ile iletişime geçiniz."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:263
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:231
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -2842,6 +2846,11 @@ msgstr ""
 msgid "No previous revision exists."
 msgstr ""
 
+#: core/data/System/PendingRegistrationsTemplate.txt:46
+#, fuzzy
+msgid "No registrations are pending."
+msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
+
 #: SubscribePlugin/templates/subscribe.tmpl:17
 msgid "No topic to subscribe to"
 msgstr ""
@@ -2883,7 +2892,7 @@ msgid ""
 msgstr ""
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:261
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:229
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:13
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3386,6 +3395,11 @@ msgstr "Kayıt Ol"
 msgid "Registration"
 msgstr "Kayıt"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:21
+#, fuzzy
+msgid "Registration approval is not enabled."
+msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
+
 #: core/lib/Foswiki/UI/Register.pm:732
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -3417,7 +3431,7 @@ msgstr ""
 msgid "Registrations awaiting Email verification"
 msgstr ""
 
-#: core/data/System/PendingRegistrations.txt:7
+#: core/data/System/PendingRegistrations.txt:9
 #, fuzzy
 msgid "Registrations awaiting approval"
 msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
@@ -3426,7 +3440,7 @@ msgstr "Yeni Kullanıcı Kaydı kapatılmıştır"
 msgid "Regular expression search"
 msgstr ""
 
-#: core/data/System/PendingRegistrationsTemplate.txt:23
+#: core/data/System/PendingRegistrationsTemplate.txt:28
 msgid "Reject"
 msgstr ""
 
@@ -3444,6 +3458,7 @@ msgstr "İlgili Konular:"
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:123
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
+#: TopicUserMappingContrib/data/System/RemoveUser.txt:56
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:693
@@ -3477,6 +3492,11 @@ msgstr "Şifrenizi hatırladınız mı?"
 #, fuzzy
 msgid "Remove Members from %1"
 msgstr "Kullanıcıları bu gruptan çıkart"
+
+#: TopicUserMappingContrib/data/System/RemoveUser.txt:3
+#, fuzzy
+msgid "Remove User"
+msgstr "Seçilmiş kullanıcıyı kaldır..."
 
 #: core/data/Main/GroupViewTemplate.txt:165
 #, fuzzy
@@ -3934,7 +3954,7 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:222
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "İş planınızı, görev tanımınızı paylaşabilirsiniz."
@@ -3950,7 +3970,7 @@ msgid ""
 "actually *have* registered successfully."
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:221
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4034,7 +4054,7 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:265
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:233
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -5339,7 +5359,7 @@ msgid ""
 "teal, or aqua)"
 msgstr ""
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:262
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:230
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "%1 adresinden mevcut parolanızı değiştirebilirsiniz"
@@ -5348,7 +5368,7 @@ msgstr "%1 adresinden mevcut parolanızı değiştirebilirsiniz"
 msgid "You can give this web a different name."
 msgstr ""
 
-#: core/data/System/PendingRegistrations.txt:9
+#: core/data/System/PendingRegistrationsTemplate.txt:23
 msgid ""
 "You can use the \"approve\" or \"reject\" links to approve or reject these "
 "registrations"
@@ -5501,7 +5521,7 @@ msgstr "Şifreniz  %1 oalrak değiştirilmiştir."
 msgid "Your password:"
 msgstr "Şimdiki Şifreniz"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:219
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
