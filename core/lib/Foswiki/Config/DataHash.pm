@@ -152,6 +152,23 @@ has _trace => (
     builder => '_prepareTrace',
 );
 
+around BUILDARGS => sub {
+    my $orig   = shift;
+    my $class  = shift;
+    my %params = @_;
+
+    my @profile;
+
+    # Simplify object creation by using app's cfg for required attribute cfg
+    # from Foswiki::Config::CfgObject. Won't work during app's construction
+    # stage.
+    if ( !$params{cfg} && $params{app} && $params{app}->has_cfg ) {
+        push @profile, cfg => $params{app}->cfg;
+    }
+
+    return $orig->( $class, @profile, @_ );
+};
+
 sub TIEHASH {
     my $class  = shift;
     my %params = @_;

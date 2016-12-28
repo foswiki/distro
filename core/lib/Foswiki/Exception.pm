@@ -503,6 +503,8 @@ has response => (
           : Foswiki::Response->new;
     },
 );
+
+# SMELL To be replaced by prepareText() overriding.
 has '+text' => (
     is      => 'ro',
     lazy    => 1,

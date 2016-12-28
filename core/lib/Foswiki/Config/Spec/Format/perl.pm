@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-package Foswiki::Config::Spec::Format::data;
+package Foswiki::Config::Spec::Format::perl;
 
 use Foswiki::Exception::Config;
 
@@ -12,15 +12,17 @@ sub parse {
     my $this     = shift;
     my $specFile = shift;
 
-    my $specSrc  = $specFile->content;
+    my $specSrc = $specFile->content;
+
     my $specCode = <<SPECCODE;
-(
+sub {
+    my \$this = shift;
 #line 1 "spec data"
     $specSrc
-);
+}
 SPECCODE
 
-    my @specs = eval $specCode;
+    my $sub = eval $specCode;
 
     if ($@) {
         Foswiki::Exception::Config::BadSpecSrc->throw(
@@ -29,7 +31,7 @@ SPECCODE
         );
     }
 
-    return @specs;
+    return $sub->($this);
 }
 
 1;

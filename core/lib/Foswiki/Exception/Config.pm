@@ -78,6 +78,7 @@ has file => (
     is       => 'ro',
     required => 1,
 );
+has line => ( is => 'ro', );
 
 around stringify => sub {
     my $orig = shift;
@@ -88,6 +89,9 @@ around stringify => sub {
     my $file = $this->file;
     if ( UNIVERSAL::isa( $file, 'Foswiki::File' ) ) {
         $file = $file->path;
+    }
+    if ( defined $this->line ) {
+        $file .= ":" . $this->line;
     }
 
     return "Failed to parse specs file " . $file . ": " . $errMsg;

@@ -102,6 +102,8 @@ sub refreshCache {
 
     return if $this->validCache;
 
+    say STDERR "Invalided cache for ", $this->path if DEBUG;
+
     my $cfg = $this->cfg;
 
     my $parser = $cfg->getSpecParser( $this->fmt );
@@ -117,8 +119,8 @@ sub refreshCache {
         section => $this->section,
         specs   => \@specs,
     );
-    
-    $this->cacheFile->store($dataObj->getLeafNodes);
+
+    $this->cacheFile->store( $dataObj->getLeafNodes );
 
     return;
 }

@@ -19,7 +19,9 @@ use Unicode::Normalize;
 use Cwd qw( abs_path );
 use Try::Tiny;
 use Foswiki qw(urlEncode urlDecode make_params);
+
 use Foswiki::Configure::FileUtil;
+use Foswiki::Exception::Config;
 
 use Foswiki::Class qw(app extensible);
 extends qw(Foswiki::Object);
@@ -31,7 +33,7 @@ use constant TRAUTO => 1;
 # This should be the one place in Foswiki that knows the syntax of valid
 # configuration item keys. Only simple scalar hash keys are supported.
 #
-my $ITEMREGEX = qr/(?:\{(?:'(?:\\.|[^'])+'|"(?:\\.|[^"])+"|[A-Za-z0-9_]+)\})+/;
+our $ITEMREGEX = qr/(?:\{(?:'(?:\\.|[^'])+'|"(?:\\.|[^"])+"|[A-Za-z0-9_]+)\})+/;
 
 # Generic booleans, used in some older LSC's
 our $TRUE  = 1;
@@ -54,6 +56,12 @@ my %remap = (
 );
 
 $Foswiki::regex{optionNameRegex} = qr/^-([[:alpha:]][[:alnum:]]*)$/;
+
+# Hash of parser_format => Parser::Module format. If parser module doesn't load
+# the corresponding key would then exists but be undefined.
+# This info is ok to share across different application instances as a module
+# would be loaded only once per address space.
+my %parserModules;
 
 =begin TML
 ---++ ObjectAttribute data
@@ -345,6 +353,8 @@ sub _createSpecParser {
 
     my $fmtClass = "Foswiki::Config::Spec::Format::" . $format;
 
+    $parserModules{$format} = $fmtClass;
+
     return $this->create( $fmtClass, cfg => $this, @_ );
 }
 
@@ -368,6 +378,8 @@ sub getSpecParser {
         # considered on Foswiki::App.
         say STDERR "Cannot load parser for spec format '" . $format . "': "
           . $e;
+
+        $parserModules{$format} = undef;
     };
 
     $parsers->{$format} = $parser;
@@ -1254,16 +1266,45 @@ sub normalizeKeyPath {
     return $prefix . join( $joint, @keys ) . $suffix;
 }
 
-# Returns subhash of the config data where key is stored. The key name is
-# returned as second element.
-sub _getSubHash {
+=begin TML
+
+---++ ObjectMethod getSubHash($keyPath, %params) -> (\%subHash, $keyName)
+
+Returns subhash of a config data where key defined by =$keyPath= is stored. The
+key short name (the last element of key path) is returned as second element.
+
+The =%params= hash keys are:
+
+| *Name* | *Description* | *Default* |
+| =data= | Data hash ref | =$app->cfg->data= |
+| =autoVivify= | Automatically create non-existing subhashes. | _FALSE_ |
+
+The method either returns an empty list if the key path doesn't refer to
+a valid subhash. For example, for the following data structure:
+
+<verbatim>
+{
+    Key1 => {
+        Key2 => 'Value',
+    }
+}
+</verbatim>
+
+_Key1.Key2_ would be a valid path but _Key1.Key2.Key3_ is incorrect.
+Alternatively, if =autoVivify= is true the latter keypath would still be
+incorrect while _Key1.NewKey.Key3_ would create a subhash for NewKey and return
+it to the caller. The subhash will be empty meaning that _Key3_ doesn't exists.
+
+=cut
+
+sub getSubHash {
     my $this   = shift;
     my $key    = shift;
     my %params = @_;
 
     my @keys = $this->arg2keys($key);
 
-    my $subHash = $this->data;
+    my $subHash = $params{data} || $this->data;
 
     while ( @keys > 1 ) {
         my $key = shift @keys;
@@ -1291,7 +1332,7 @@ $app->cfg->get("{Root}{Branch}{Leaf}");
 sub get {
     my $this = shift;
 
-    my ( $subHash, $leafName ) = $this->_getSubHash( \@_ );
+    my ( $subHash, $leafName ) = $this->getSubHash( \@_ );
 
     return $subHash->{$leafName};
 }
@@ -1311,7 +1352,7 @@ sub set {
     my ( $cfgPath, $value ) = @_;
 
     my ( $subHash, $leafName ) =
-      $this->_getSubHash( $cfgPath, autoVivify => 1, );
+      $this->getSubHash( $cfgPath, autoVivify => 1, );
 
     $subHash->{$leafName} = $value;
 }
@@ -2272,7 +2313,12 @@ sub prepareSpecFiles {
 }
 
 sub _prepareSpecParsers {
-    return {};
+
+    # Keep track of previously failed modules.
+    return {
+        map { $_ => undef }
+        grep { !defined $parserModules{$_} } keys %parserModules
+    };
 }
 
 my @validSecOptions = qw(text);

@@ -29,9 +29,9 @@ sub store {
 
 sub prepareEntries {
     my $this = shift;
-    
+
     my $content = $this->content;
-    
+
     return [] unless $content;
 
     return thaw( $this->content );

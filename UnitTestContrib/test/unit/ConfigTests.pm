@@ -11,6 +11,11 @@ around set_up => sub {
     my $orig = shift;
     my $this = shift;
 
+    say STDERR "My attrs: ",
+      join( ", ", Foswiki::Class::getClassAttributes( ref($this) ) );
+
+    $this->{_this_keys_isnt_valid_attr} = 1;
+
     $orig->( $this, @_ );
 
     # You can now safely modify $Foswiki::cfg
@@ -435,6 +440,20 @@ sub test_specFilesAttribute {
     foreach my $sfile ( @{ $sf->list } ) {
         say STDERR $sfile->fmt, " -- ", $sfile->cacheFile->path;
     }
+
+    return;
+}
+
+sub test_legacyParse {
+    my $this = shift;
+
+    my $cfg = $this->app->cfg;
+    my ($specFile) =
+      ( grep { $_->path =~ /UnitTestContrib/ } @{ $cfg->specFiles->list } );
+
+    my $parser = $cfg->getSpecParser( $specFile->fmt );
+
+    my @specs = $parser->parse($specFile);
 
     return;
 }
