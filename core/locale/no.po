@@ -324,10 +324,10 @@ msgstr "(flytt vedlegg)"
 msgid "(no parent, orphaned topic)"
 msgstr "(ingen foreldre, foreldreløs side)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1124 core/lib/Foswiki/UI/Rename.pm:1140
-#: core/lib/Foswiki/UI/Rename.pm:1197 core/lib/Foswiki/UI/Rename.pm:1200
-#: core/lib/Foswiki/UI/Rename.pm:1203 core/lib/Foswiki/UI/Rename.pm:1238
-#: core/lib/Foswiki/UI/Rename.pm:1261 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1127 core/lib/Foswiki/UI/Rename.pm:1143
+#: core/lib/Foswiki/UI/Rename.pm:1200 core/lib/Foswiki/UI/Rename.pm:1203
+#: core/lib/Foswiki/UI/Rename.pm:1206 core/lib/Foswiki/UI/Rename.pm:1241
+#: core/lib/Foswiki/UI/Rename.pm:1264 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -369,7 +369,7 @@ msgstr "(enkelt bokstav fornavn)"
 msgid "(single character last name)"
 msgstr "(enkelt bokstav etternavn)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1112
+#: core/lib/Foswiki/UI/Rename.pm:1115
 msgid "(skipped)"
 msgstr "(oversett)"
 
@@ -1518,7 +1518,7 @@ msgstr "Beskrivelse"
 msgid "Detailed topic list for %1 Web"
 msgstr "Detaljert sideliste for %1 weben"
 
-#: core/lib/Foswiki/Form.pm:425
+#: core/lib/Foswiki/Form.pm:430
 msgid "Details in separate window"
 msgstr "Detaljer i eget vindu"
 
@@ -2772,7 +2772,7 @@ msgstr "Flytt til web:"
 msgid "Move topic to web:"
 msgstr "Flytt side til web:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1210
+#: core/lib/Foswiki/UI/Rename.pm:1213
 msgid "Move/Rename"
 msgstr "Flytt/Navngi"
 
@@ -3426,7 +3426,7 @@ msgstr ""
 
 #: HistoryPlugin/templates/oopshistory.tmpl:107
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1209
+#: core/lib/Foswiki/UI/Rename.pm:1212
 msgid "Refresh"
 msgstr "Oppdater"
 

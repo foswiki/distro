@@ -1,0 +1,60 @@
+%META:TOPICINFO{author="ProjectContributor" date="1482953205" format="1.1" version="1"}%
+%META:TOPICPARENT{name="AdminToolsCategory"}%
+---+ %MAKETEXT{"Remove User"}%
+
+Utility for removing registered users, when supported by the User Mapper.
+%STARTINCLUDE%
+The following form can be used by administrators to delete a user's account:
+   * The user is removed from the user database.
+   * The user's topic is moved to the trash web.
+   * The user is removed from any groups.
+   * Other topics like the users !LeftBar are _not_ removed.
+
+*Note:* Consider leaving the user topic file in place so their past signatures and revision author entries don't end up looking like AnUncreatedTopic.
+If you want to make it clear the user is no longer around, replace the topic content with a note to that effect.
+The existence of the <nop>UserName topic should also prevent that username from being re-used, sealing the potential security hole regarding inherited permissions.
+
+%IF{
+  "context isadmin"
+  then="$percentINCLUDE{\"%TOPIC%\" section=\"removeUser\"}$percent"
+  else="<div class='foswikiAlert'>Remove user is only available to administrators.</div>"
+}%
+
+<!--
+<verbatim class="foswikiHidden">
+%STARTSECTION{"removeUser"}%
+<!-- %JQREQUIRE{"ui, ui::autocomplete"}% -->
+<form name="admin" action="%SCRIPTURLPATH{manage}%/%BASEWEB%/%BASETOPIC%" method="post">
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+---++++!! Enter user to be removed
+%INCLUDE{"%SYSTEMWEB%.JQueryAjaxHelper" section="userselector" INPUT_NAME="user" MULTI="false"}%
+<hr />
+---++++!! Remove user topic?
+<input type="checkbox" id="removeTopic" name="removeTopic" checked="checked" class="foswikiCheckbox" /> _(Check to remove topic)_ 
+Prefix for deleted topic: <input type="text" name="topicPrefix" class="foswikiInputField" value="DeletedUser" /> _(Follow topic naming rules)_
+<hr />
+<input type="hidden" name="action" value="deleteUserAccount" />
+<input type="submit" class="foswikiSubmit" value="Remove User" />
+</form>
+</div>
+</div>
+%ENDSECTION{"removeUser"}%
+</verbatim>
+-->
+
+
+<div class="foswikiHelp">
+%T% For Foswiki versions prior to Foswiki 2.0, see the [[http://foswiki.org/Extensions/AntiWikiSpamPlugin][AntiWikiSpamPlugin]] extension for another method of removing users.  It provides a =rest= handler to:
+   * Move the user topic to the Trash web.
+   * Remove the user from the password / mapper
+   * Remove the user from any groups.
+</div>
+%STOPINCLUDE%
+
+---
+*%MAKETEXT{"Related topics:"}%* ResetPassword, ChangeEmailAddress, UserToolsCategory, AdminToolsCategory
+
+<!--
+   * Set DENYTOPICVIEW = WikiGuest
+-->

@@ -9,8 +9,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2016-12-13 13:29+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
-"Language-Team: French <http://translate.foswiki.org/projects/foswiki"
-"/distribution-master/fr/>\n"
+"Language-Team: French <http://translate.foswiki.org/projects/foswiki/"
+"distribution-master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -330,10 +330,10 @@ msgstr "(déplacer le fichier attaché)"
 msgid "(no parent, orphaned topic)"
 msgstr "(pas de parent, page orpheline)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1124 core/lib/Foswiki/UI/Rename.pm:1140
-#: core/lib/Foswiki/UI/Rename.pm:1197 core/lib/Foswiki/UI/Rename.pm:1200
-#: core/lib/Foswiki/UI/Rename.pm:1203 core/lib/Foswiki/UI/Rename.pm:1238
-#: core/lib/Foswiki/UI/Rename.pm:1261 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1127 core/lib/Foswiki/UI/Rename.pm:1143
+#: core/lib/Foswiki/UI/Rename.pm:1200 core/lib/Foswiki/UI/Rename.pm:1203
+#: core/lib/Foswiki/UI/Rename.pm:1206 core/lib/Foswiki/UI/Rename.pm:1241
+#: core/lib/Foswiki/UI/Rename.pm:1264 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -375,7 +375,7 @@ msgstr "(un seul caractère pour le prénom)"
 msgid "(single character last name)"
 msgstr "(un seul caractère pour le nom de famille)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1112
+#: core/lib/Foswiki/UI/Rename.pm:1115
 msgid "(skipped)"
 msgstr "(ignoré)"
 
@@ -1543,7 +1543,7 @@ msgstr "Description"
 msgid "Detailed topic list for %1 Web"
 msgstr "Liste détaillée des pages pour le web %1"
 
-#: core/lib/Foswiki/Form.pm:425
+#: core/lib/Foswiki/Form.pm:430
 msgid "Details in separate window"
 msgstr "Cliquez pour avoir plus de détails, dans une autre fenêtre"
 
@@ -2847,7 +2847,7 @@ msgstr "Vers le web: %1"
 msgid "Move topic to web:"
 msgstr "Déplacer la page vers le web :"
 
-#: core/lib/Foswiki/UI/Rename.pm:1210
+#: core/lib/Foswiki/UI/Rename.pm:1213
 msgid "Move/Rename"
 msgstr "Déplacer/Renommer"
 
@@ -3488,7 +3488,7 @@ msgstr "Refaire le changement précédent"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:107
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1209
+#: core/lib/Foswiki/UI/Rename.pm:1212
 msgid "Refresh"
 msgstr "Rafraîchir"
 
@@ -4940,8 +4940,8 @@ msgid ""
 "To refresh the cache for just this topic, <a href='%1' rel='nofollow' > "
 "click here </a> "
 msgstr ""
-"Pour actualiser le cache pour cette page seulement, <a href='%1' rel="
-"'nofollow' > cliquez ici </a> "
+"Pour actualiser le cache pour cette page seulement, <a href='%1' "
+"rel='nofollow' > cliquez ici </a> "
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "

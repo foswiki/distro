@@ -324,10 +324,10 @@ msgstr "(přesun přílohy)"
 msgid "(no parent, orphaned topic)"
 msgstr "(bez rodiče, osiřelý článek)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1124 core/lib/Foswiki/UI/Rename.pm:1140
-#: core/lib/Foswiki/UI/Rename.pm:1197 core/lib/Foswiki/UI/Rename.pm:1200
-#: core/lib/Foswiki/UI/Rename.pm:1203 core/lib/Foswiki/UI/Rename.pm:1238
-#: core/lib/Foswiki/UI/Rename.pm:1261 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1127 core/lib/Foswiki/UI/Rename.pm:1143
+#: core/lib/Foswiki/UI/Rename.pm:1200 core/lib/Foswiki/UI/Rename.pm:1203
+#: core/lib/Foswiki/UI/Rename.pm:1206 core/lib/Foswiki/UI/Rename.pm:1241
+#: core/lib/Foswiki/UI/Rename.pm:1264 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -369,7 +369,7 @@ msgstr "(první písmeno křestního jména)"
 msgid "(single character last name)"
 msgstr "(první písmeno přijmení)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1112
+#: core/lib/Foswiki/UI/Rename.pm:1115
 msgid "(skipped)"
 msgstr "(přeskočeno)"
 
@@ -1517,7 +1517,7 @@ msgstr "Popis"
 msgid "Detailed topic list for %1 Web"
 msgstr "Detailní seznam článků webu %1"
 
-#: core/lib/Foswiki/Form.pm:425
+#: core/lib/Foswiki/Form.pm:430
 msgid "Details in separate window"
 msgstr "Klikněte pro zobrazení detailů v odděleném okně"
 
@@ -2789,7 +2789,7 @@ msgstr "Přesun do:"
 msgid "Move topic to web:"
 msgstr "Přesun článku do:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1210
+#: core/lib/Foswiki/UI/Rename.pm:1213
 msgid "Move/Rename"
 msgstr "Přesunout/Přejmenovat"
 
@@ -3428,7 +3428,7 @@ msgstr "Opakuj předchozí změnu"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:107
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1209
+#: core/lib/Foswiki/UI/Rename.pm:1212
 msgid "Refresh"
 msgstr "Obnov"
 

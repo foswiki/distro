@@ -330,10 +330,10 @@ msgstr "(mover archivo adjunto)"
 msgid "(no parent, orphaned topic)"
 msgstr "(sin tema padre, tema huérfano)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1124 core/lib/Foswiki/UI/Rename.pm:1140
-#: core/lib/Foswiki/UI/Rename.pm:1197 core/lib/Foswiki/UI/Rename.pm:1200
-#: core/lib/Foswiki/UI/Rename.pm:1203 core/lib/Foswiki/UI/Rename.pm:1238
-#: core/lib/Foswiki/UI/Rename.pm:1261 core/lib/Foswiki/UI/Rename.pm:612
+#: core/lib/Foswiki/UI/Rename.pm:1127 core/lib/Foswiki/UI/Rename.pm:1143
+#: core/lib/Foswiki/UI/Rename.pm:1200 core/lib/Foswiki/UI/Rename.pm:1203
+#: core/lib/Foswiki/UI/Rename.pm:1206 core/lib/Foswiki/UI/Rename.pm:1241
+#: core/lib/Foswiki/UI/Rename.pm:1264 core/lib/Foswiki/UI/Rename.pm:612
 #: core/lib/Foswiki/UI/Rename.pm:616 core/lib/Foswiki/UI/Rename.pm:620
 #: core/lib/Foswiki/UI/Rename.pm:624
 msgid "(none)"
@@ -375,7 +375,7 @@ msgstr "(letra inicial del nombre)"
 msgid "(single character last name)"
 msgstr "(letra inicial del apellido)"
 
-#: core/lib/Foswiki/UI/Rename.pm:1112
+#: core/lib/Foswiki/UI/Rename.pm:1115
 msgid "(skipped)"
 msgstr "(obviado)"
 
@@ -1570,7 +1570,7 @@ msgstr "Consulta"
 msgid "Detailed topic list for %1 Web"
 msgstr "Temas hijo en la web %1"
 
-#: core/lib/Foswiki/Form.pm:425
+#: core/lib/Foswiki/Form.pm:430
 msgid "Details in separate window"
 msgstr "Detalles en ventana separada"
 
@@ -2891,7 +2891,7 @@ msgstr "Mover a la web:"
 msgid "Move topic to web:"
 msgstr "Mover tema a la web:"
 
-#: core/lib/Foswiki/UI/Rename.pm:1210
+#: core/lib/Foswiki/UI/Rename.pm:1213
 msgid "Move/Rename"
 msgstr "Mover/Renombrar"
 
@@ -3571,7 +3571,7 @@ msgstr "Revisar cambios recientes en:"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:107
 #: JQueryPlugin/data/System/JQueryLoader.txt:99
-#: core/lib/Foswiki/UI/Rename.pm:1209
+#: core/lib/Foswiki/UI/Rename.pm:1212
 msgid "Refresh"
 msgstr "Recargar"
 

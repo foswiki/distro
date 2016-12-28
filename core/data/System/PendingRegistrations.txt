@@ -1,11 +1,13 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1478750101" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1482950646" format="1.1" version="1"}%
 ---+ %MAKETEXT{"Pending Registrations"}%
 ---++ %MAKETEXT{"Registrations awaiting Email verification"}%
 
+<dirtyarea>
 %PENDINGREGISTRATIONS{"Verification"}%
+</dirtyarea>
 
 ---++ %MAKETEXT{"Registrations awaiting approval"}%
 
-%MAKETEXT{"You can use the \"approve\" or \"reject\" links to approve or reject these registrations"}%
-
+<dirtyarea>
 %PENDINGREGISTRATIONS{"Approval"}%
+</dirtyarea>

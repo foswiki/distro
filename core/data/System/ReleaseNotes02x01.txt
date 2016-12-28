@@ -1,6 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" date="1482207308" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1482554511" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
----+!! Foswiki Release 2.1.1
+---+!! Foswiki Release 2.1.3
 
 %TWISTY{showlink="Table of Contents..." hidelink="hide TOC"}%
 %TOC%
@@ -54,7 +54,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.0 was built on 02 Feb 2016. It is a release that contains 37 fixes and 14 enhancements. It closes 7 Feature Requests.
    * Foswiki 2.1.1 was built on 30 Apr 2016. It is a release that contains 36 fixes and 21 enhancements.
    * Foswiki 2.1.2 was built on 2 May 2016. It is a release that contains 1 fix.
-   * Foswiki 2.1.3 was built on ...   It is a release that contains 49 fixes and 21 enhancements.
+   * Foswiki 2.1.3-Beta1 was built on 23 Dec 2016. It is a release that contains 50 fixes and 21 enhancements.
 
 
 ---++ Pre-installed Extensions
