@@ -668,9 +668,9 @@ msgstr "Funktionstasten"
 msgid "Access keys:"
 msgstr "Funktionstasten:"
 
-#: core/data/System/PendingRegistrationsTemplate.txt:38
+#: core/data/System/PendingRegistrationsTemplate.txt:45
 #, fuzzy
-msgid "Access to pending registrations is restricted to administrators"
+msgid "Access to pending registrations is restricted to administrators."
 msgstr ""
 "Ihre Registrierung muss von den Systemadministratoren freigeschaltet werden."
 
@@ -840,7 +840,7 @@ msgstr ""
 "Alle Änderungen, die Sie an dem Topic vollzogen haben, bevor Sie auf diese "
 "Seite gelangten, bleiben erhalten."
 
-#: core/data/System/PendingRegistrationsTemplate.txt:22
+#: core/data/System/PendingRegistrationsTemplate.txt:27
 msgid "Approve"
 msgstr ""
 
@@ -1766,6 +1766,10 @@ msgstr "E-Mail-Adresse:"
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "E-Mail wurde für diese Foswiki-Installation deaktiviert"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Email verification is not enabled."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
 msgstr "Externes Objekt einbinden"
@@ -2313,7 +2317,7 @@ msgstr "Wenn Sie Fragen haben, wenden Sie sich bitte an %1"
 msgid "If you have any questions, please contact %1."
 msgstr "Wenn Sie Fragen haben, wenden Sie sich bitte an %1."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:263
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:231
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr ""
@@ -2976,6 +2980,11 @@ msgstr "Keine Erlaubnis, %1 zu sehen"
 msgid "No previous revision exists."
 msgstr "Es existiert keine vorherige Revision."
 
+#: core/data/System/PendingRegistrationsTemplate.txt:46
+#, fuzzy
+msgid "No registrations are pending."
+msgstr "Registrierung für %1 abgewiesen"
+
 #: SubscribePlugin/templates/subscribe.tmpl:17
 msgid "No topic to subscribe to"
 msgstr "Kein Topic zum Abonnieren"
@@ -3018,7 +3027,7 @@ msgstr ""
 "Verschieben nicht mehr funktionieren."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:261
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:229
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3519,6 +3528,11 @@ msgstr "Registrierte Benutzer"
 msgid "Registration"
 msgstr "Registrierung"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:21
+#, fuzzy
+msgid "Registration approval is not enabled."
+msgstr "Registrierungen auf %1 müssen manuell freigeschaltet werden"
+
 #: core/lib/Foswiki/UI/Register.pm:790
 msgid ""
 "Registration cannot be completed: Email has been disabled for this Foswiki "
@@ -3553,7 +3567,7 @@ msgstr ""
 msgid "Registrations awaiting Email verification"
 msgstr ""
 
-#: core/data/System/PendingRegistrations.txt:7
+#: core/data/System/PendingRegistrations.txt:9
 #, fuzzy
 msgid "Registrations awaiting approval"
 msgstr "Registrierungen auf %1 müssen manuell freigeschaltet werden"
@@ -3562,7 +3576,7 @@ msgstr "Registrierungen auf %1 müssen manuell freigeschaltet werden"
 msgid "Regular expression search"
 msgstr "Mit regulären Ausdrücken suchen"
 
-#: core/data/System/PendingRegistrationsTemplate.txt:23
+#: core/data/System/PendingRegistrationsTemplate.txt:28
 msgid "Reject"
 msgstr ""
 
@@ -3579,6 +3593,7 @@ msgstr "Verwandte Topics:"
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
+#: TopicUserMappingContrib/data/System/RemoveUser.txt:56
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:695
@@ -3613,6 +3628,11 @@ msgstr "Sie kennen Ihr Passwort?"
 #: core/data/Main/GroupViewTemplate.txt:225
 msgid "Remove Members from %1"
 msgstr "Mitglieder aus %1 entfernen"
+
+#: TopicUserMappingContrib/data/System/RemoveUser.txt:3
+#, fuzzy
+msgid "Remove User"
+msgstr "Mitglieder entfernen..."
 
 #: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
@@ -4077,7 +4097,7 @@ msgstr "Signatur"
 msgid "Size"
 msgstr "Größe"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:222
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "Einen Zeitplan und Urlaubsnotizen."
@@ -4097,7 +4117,7 @@ msgstr ""
 "der Fall ist, könnte es sein, dass Sie bereits erfolgreich registriert "
 "wurden."
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:221
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4185,7 +4205,7 @@ msgstr "Durchgestrichener Text"
 msgid "Submit"
 msgstr "Abschicken"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:265
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:233
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -5620,7 +5640,7 @@ msgstr ""
 "gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, "
 "blue, teal, oder aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:262
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:230
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "Sie können ihr Passwort über %1 ändern"
@@ -5629,7 +5649,7 @@ msgstr "Sie können ihr Passwort über %1 ändern"
 msgid "You can give this web a different name."
 msgstr "Sie können diesem Web einen anderen Namen geben."
 
-#: core/data/System/PendingRegistrations.txt:9
+#: core/data/System/PendingRegistrationsTemplate.txt:23
 msgid ""
 "You can use the \"approve\" or \"reject\" links to approve or reject these "
 "registrations"
@@ -5814,7 +5834,7 @@ msgstr "Diese Seite benötigt ein Passwort mit mindestens %1 Zeichen."
 msgid "Your password:"
 msgstr "Ihr Passwort:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:219
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"

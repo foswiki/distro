@@ -654,8 +654,8 @@ msgstr "快捷键"
 msgid "Access keys:"
 msgstr "快捷键"
 
-#: core/data/System/PendingRegistrationsTemplate.txt:38
-msgid "Access to pending registrations is restricted to administrators"
+#: core/data/System/PendingRegistrationsTemplate.txt:45
+msgid "Access to pending registrations is restricted to administrators."
 msgstr ""
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
@@ -824,7 +824,7 @@ msgid ""
 "Any changes you made to the topic before coming to this page are preserved."
 msgstr "显示本页前，您对对本主题的任何修改都已保留。"
 
-#: core/data/System/PendingRegistrationsTemplate.txt:22
+#: core/data/System/PendingRegistrationsTemplate.txt:27
 msgid "Approve"
 msgstr ""
 
@@ -1743,6 +1743,10 @@ msgstr "电子邮件位址:"
 msgid "Email has been disabled for this Foswiki installation"
 msgstr "本网站不开放电子邮件使用。"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:38
+msgid "Email verification is not enabled."
+msgstr ""
+
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
 msgstr ""
@@ -2268,7 +2272,7 @@ msgstr "任何问题，请联系 %1。"
 msgid "If you have any questions, please contact %1."
 msgstr "任何问题，请联系 %1。"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:263
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:231
 #: core/templates/registernotify.tmpl:26
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr "若您尚未设定密码，或想重设密码，请到: %1"
@@ -2950,6 +2954,11 @@ msgstr "无浏览 %1 的权限"
 msgid "No previous revision exists."
 msgstr "前一个版本不存在。"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:46
+#, fuzzy
+msgid "No registrations are pending."
+msgstr "禁止新用户注册"
+
 #: SubscribePlugin/templates/subscribe.tmpl:17
 #, fuzzy
 msgid "No topic to subscribe to"
@@ -2993,7 +3002,7 @@ msgid ""
 msgstr "移动后，任何引用此附件的 URL 都将失效。"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:16
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:261
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:229
 #: core/templates/messages.tmpl:241 core/templates/registerconfirm.tmpl:14
 #: core/templates/registermessages.tmpl:84
 #: core/templates/registernotify.tmpl:23
@@ -3506,6 +3515,11 @@ msgstr "注册"
 msgid "Registration"
 msgstr "注册"
 
+#: core/data/System/PendingRegistrationsTemplate.txt:21
+#, fuzzy
+msgid "Registration approval is not enabled."
+msgstr "禁止新用户注册"
+
 #: core/lib/Foswiki/UI/Register.pm:790
 #, fuzzy
 msgid ""
@@ -3538,7 +3552,7 @@ msgstr ""
 msgid "Registrations awaiting Email verification"
 msgstr ""
 
-#: core/data/System/PendingRegistrations.txt:7
+#: core/data/System/PendingRegistrations.txt:9
 #, fuzzy
 msgid "Registrations awaiting approval"
 msgstr "禁止新用户注册"
@@ -3547,7 +3561,7 @@ msgstr "禁止新用户注册"
 msgid "Regular expression search"
 msgstr "正则运算式搜寻"
 
-#: core/data/System/PendingRegistrationsTemplate.txt:23
+#: core/data/System/PendingRegistrationsTemplate.txt:28
 msgid "Reject"
 msgstr ""
 
@@ -3566,6 +3580,7 @@ msgstr "相关主题"
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:119
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:71
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:46
+#: TopicUserMappingContrib/data/System/RemoveUser.txt:56
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
 #: core/data/System/CommandAndCGIScripts.txt:695
@@ -3600,6 +3615,10 @@ msgstr "记住密码?"
 #, fuzzy
 msgid "Remove Members from %1"
 msgstr "请先将用户从 %1 群组删除。"
+
+#: TopicUserMappingContrib/data/System/RemoveUser.txt:3
+msgid "Remove User"
+msgstr ""
 
 #: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
@@ -4074,7 +4093,7 @@ msgstr ""
 msgid "Size"
 msgstr "大小"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:254
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:222
 #: core/templates/registernotify.tmpl:16
 msgid "Some add schedule information and vacation notice."
 msgstr "加上某些时间表资讯和假期通知。"
@@ -4092,7 +4111,7 @@ msgstr ""
 "有些邮件工具会在您点击同一个连结后，错误地连续发送 2 次相同的请求 。若已如此"
 "操作，您可能*已经*注册成功。"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:253
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:221
 #: core/templates/registernotify.tmpl:15
 msgid ""
 "Some people turn it into a personal portal with favorite links, what they "
@@ -4177,7 +4196,7 @@ msgstr ""
 msgid "Submit"
 msgstr "提交"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:265
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:233
 #: core/templates/registerfailednotremoved.tmpl:15
 #: core/templates/registerfailedremoved.tmpl:16
 #: core/templates/registernotify.tmpl:19
@@ -5533,7 +5552,7 @@ msgstr ""
 "您能使用标准 HTML 颜色的名称：(black, silver, gray, white, maroon, red, "
 "purple, fuchsia, green, lime, olive, yellow, navy, blue, teal, or aqua)"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:262
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:230
 #: core/templates/registernotify.tmpl:25
 msgid "You can change your password at via %1"
 msgstr "您可利用 %1 修改密码"
@@ -5542,7 +5561,7 @@ msgstr "您可利用 %1 修改密码"
 msgid "You can give this web a different name."
 msgstr "您能为本子网改名。"
 
-#: core/data/System/PendingRegistrations.txt:9
+#: core/data/System/PendingRegistrationsTemplate.txt:23
 msgid ""
 "You can use the \"approve\" or \"reject\" links to approve or reject these "
 "registrations"
@@ -5700,7 +5719,7 @@ msgstr "本站的密码至少要 %1 个字元"
 msgid "Your password:"
 msgstr "您的密码:"
 
-#: TopicUserMappingContrib/data/System/ManagingUsers.txt:251
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:219
 #: core/templates/registernotify.tmpl:13
 msgid ""
 "Your personal %1 topic is located at %2. You can customize it as you like:"
