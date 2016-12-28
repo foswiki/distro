@@ -17,16 +17,30 @@ sub PENDINGREGISTRATIONS {
 
     my $report;
 
+    unless ( $this->_checkAccess() ) {
+        return Foswiki::Func::expandTemplate('accessdenied');
+    }
+
     if ( ( !defined $params->{_DEFAULT} )
         || lc( $params->{_DEFAULT} ) eq 'approval' )
     {
-        $report .= $this->_checkPendingRegistrations('Approval');
+        if ( $Foswiki::cfg{Register}{NeedApproval} ) {
+            $report .= $this->_checkPendingRegistrations('Approval');
+        }
+        else {
+            $report .= Foswiki::Func::expandTemplate('verifyNotEnabled');
+        }
     }
 
     if ( ( !defined $params->{_DEFAULT} )
         || lc( $params->{_DEFAULT} ) eq 'verification' )
     {
-        $report .= $this->_checkPendingRegistrations('Verification');
+        if ( $Foswiki::cfg{Register}{NeedVerification} ) {
+            $report .= $this->_checkPendingRegistrations('Verification');
+        }
+        else {
+            $report .= Foswiki::Func::expandTemplate('approvalNotEnabled');
+        }
     }
 
     return $report;
@@ -48,10 +62,6 @@ sub _checkPendingRegistrations {
     my $check  = shift;
     my $report = '';
 
-    unless ( $this->_checkAccess() ) {
-        return Foswiki::Func::expandTemplate('accessdenied');
-    }
-
     my $dir = "$Foswiki::cfg{WorkingDir}/registration_approvals/";
 
     if ( opendir( my $d, "$dir" ) ) {
@@ -68,6 +78,9 @@ sub _checkPendingRegistrations {
     my $header = '';
     if ($report) {
         $header = Foswiki::Func::expandTemplate( $check . 'Header' );
+    }
+    else {
+        $report = Foswiki::Func::expandTemplate('nothingPending');
     }
     return $header . $report;
 }
@@ -87,7 +100,7 @@ sub _reportPending {
         $tmpl =~ s/\$$field/$hashref->{$field}/g;
     }
     $tmpl =~ s/\$\w+//g;           # Remove any unused fields
-    return "$tmpl";
+    return "$tmpl\n";
 }
 
 1;

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1476996032" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1482950646" format="1.1"  version="1"}%
 ---+!! Pending Registrations Template
 %TOC%
 ---++ Tailoring instructions:
@@ -18,6 +18,11 @@ Both this topic, and the PendingRegistrations topic must be in the same web for 
 | *WikiName* | *Email* | *LastName* | *FirstName* | *LoginName* | *Code* | *Action* |
 %TMPL:END%
 
+%TMPL:DEF{"approvalNotEnabled"}%<div class="foswikiAlert">%MAKETEXT{"Registration approval is not enabled."}%</div>%TMPL:END%
+%TMPL:DEF{"approveAction"}%
+%MAKETEXT{"You can use the \"approve\" or \"reject\" links to approve or reject these registrations"}%
+%TMPL:END%
+
 %TMPL:DEF{"ApprovalRow"}%| $WikiName | $Email | $LastName | $FirstName | $LoginName | $ApprovalCode |\
 [[%SCRIPTURLPATH{"register" action="approve" code="$ApprovalCode" referee="%WIKINAME%"}%][%MAKETEXT{"Approve"}%]] / \
 [[%SCRIPTURLPATH{"register" action="disapprove" code="$ApprovalCode" referee="%WIKINAME%"}%][%MAKETEXT{"Reject"}%]] |
@@ -30,10 +35,13 @@ Both this topic, and the PendingRegistrations topic must be in the same web for 
 | *WikiName* | *Email* | *LastName* | *FirstName* | *LoginName* | *Code* | 
 %TMPL:END%
 
+%TMPL:DEF{"verifyNotEnabled"}%<div class="foswikiAlert">%MAKETEXT{"Email verification is not enabled."}%</div>%TMPL:END%
+
 %TMPL:DEF{"VerificationRow"}%| $WikiName | $Email | $LastName | $FirstName | $LoginName | $VerificationCode |%TMPL:END%
 </verbatim>
 
 ---++ Common templates
 <verbatim>
-%TMPL:DEF{"accessdenied"}%<div class="foswikiAlert">%MAKETEXT{"Access to pending registrations is restricted to administrators"}%</div>%TMPL:END%
+%TMPL:DEF{"accessdenied"}%<div class="foswikiAlert">%MAKETEXT{"Access to pending registrations is restricted to administrators."}%</div>%TMPL:END%
+%TMPL:DEF{"nothingPending"}%<div class="foswikiAlert">%MAKETEXT{"No registrations are pending."}%</div>%TMPL:END%
 </verbatim>
