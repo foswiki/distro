@@ -39,7 +39,7 @@ sub PENDINGREGISTRATIONS {
             $report .= $this->_checkPendingRegistrations('Verification');
         }
         else {
-            $report .= Foswiki::Func::expandTemplate('veriyNotEnabled');
+            $report .= Foswiki::Func::expandTemplate('verifyNotEnabled');
         }
     }
 
