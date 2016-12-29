@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-11-26 23:37+0200\n"
+"PO-Revision-Date: 2016-12-29 15:23+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
-"Language-Team: Traditional Chinese <http://translate.foswiki.org/projects/"
-"foswiki/distribution-master/zh_TW/>\n"
+"Language-Team: Traditional Chinese "
+"<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
 "Language: zh-tw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -629,9 +629,8 @@ msgid "Access keys:"
 msgstr "快捷鍵："
 
 #: core/data/System/PendingRegistrationsTemplate.txt:45
-#, fuzzy
 msgid "Access to pending registrations is restricted to administrators."
-msgstr "只有系統管理者才能存取註冊未完成資料"
+msgstr "只有系統管理者才能存取未完成的註冊。"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -1662,7 +1661,7 @@ msgstr "本 Foswiki 網站禁止使用電子郵件"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:38
 msgid "Email verification is not enabled."
-msgstr ""
+msgstr "未啟用電子郵件驗證。"
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
@@ -2815,9 +2814,8 @@ msgid "No previous revision exists."
 msgstr "前一個版本不存在。"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:46
-#, fuzzy
 msgid "No registrations are pending."
-msgstr "%1 禁止註冊"
+msgstr "無未完成的註冊。"
 
 #: SubscribePlugin/templates/subscribe.tmpl:17
 msgid "No topic to subscribe to"
@@ -3338,9 +3336,8 @@ msgid "Registration"
 msgstr "註冊"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:21
-#, fuzzy
 msgid "Registration approval is not enabled."
-msgstr "%1 註冊需要認證"
+msgstr "未啟用註冊批准。"
 
 #: core/lib/Foswiki/UI/Register.pm:790
 msgid ""
@@ -3433,9 +3430,8 @@ msgid "Remove Members from %1"
 msgstr "將用戶自 %1 中刪除"
 
 #: TopicUserMappingContrib/data/System/RemoveUser.txt:3
-#, fuzzy
 msgid "Remove User"
-msgstr "移除使用者…"
+msgstr "移除使用者"
 
 #: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
