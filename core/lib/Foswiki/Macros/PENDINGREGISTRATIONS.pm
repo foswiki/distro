@@ -28,7 +28,7 @@ sub PENDINGREGISTRATIONS {
             $report .= $this->_checkPendingRegistrations('Approval');
         }
         else {
-            $report .= Foswiki::Func::expandTemplate('verifyNotEnabled');
+            $report .= Foswiki::Func::expandTemplate('approvalNotEnabled');
         }
     }
 
@@ -39,7 +39,7 @@ sub PENDINGREGISTRATIONS {
             $report .= $this->_checkPendingRegistrations('Verification');
         }
         else {
-            $report .= Foswiki::Func::expandTemplate('approvalNotEnabled');
+            $report .= Foswiki::Func::expandTemplate('veriyNotEnabled');
         }
     }
 
