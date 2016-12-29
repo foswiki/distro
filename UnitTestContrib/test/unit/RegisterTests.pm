@@ -2929,7 +2929,10 @@ sub verify_registerVerifyOKApproved {
     $this->assert_matches( qr/^\| WalterPigeon \|/ms, $regReport );
     $regReport =
       Foswiki::Func::expandCommonVariables('%PENDINGREGISTRATIONS{approval}%');
-    $this->assert_str_equals( '', $regReport );
+    $this->assert_str_equals(
+        '<div class="foswikiAlert">Registration approval is not enabled.</div>',
+        $regReport
+    );
 
     $this->createNewFoswikiSession( $Foswiki::cfg{DefaultUserLogin}, $query );
     $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
@@ -2992,7 +2995,9 @@ sub verify_registerVerifyOKApproved {
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $query );
     $regReport = Foswiki::Func::expandCommonVariables(
         '%PENDINGREGISTRATIONS{verification}%');
-    $this->assert_str_equals( '', $regReport );
+    $this->assert_str_equals(
+        '<div class="foswikiAlert">No registrations are pending.</div>',
+        $regReport );
     $regReport =
       Foswiki::Func::expandCommonVariables('%PENDINGREGISTRATIONS{approval}%');
     $this->assert_matches( qr/\Q| WalterPigeon | \E/ms, $regReport );
@@ -3053,10 +3058,14 @@ sub verify_registerVerifyOKApproved {
     $this->createNewFoswikiSession( $Foswiki::cfg{AdminUserLogin}, $query );
     $regReport = Foswiki::Func::expandCommonVariables(
         '%PENDINGREGISTRATIONS{verification}%');
-    $this->assert_str_equals( '', $regReport );
+    $this->assert_str_equals(
+        '<div class="foswikiAlert">No registrations are pending.</div>',
+        $regReport );
     $regReport =
       Foswiki::Func::expandCommonVariables('%PENDINGREGISTRATIONS{approval}%');
-    $this->assert_str_equals( '', $regReport );
+    $this->assert_str_equals(
+        '<div class="foswikiAlert">No registrations are pending.</div>',
+        $regReport );
 
     $this->assert(
         $this->{session}->topicExists(
