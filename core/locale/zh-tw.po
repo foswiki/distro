@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-01-15 13:27+0200\n"
+"PO-Revision-Date: 2016-12-30 01:48+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.1\n"
+"X-Generator: Weblate 2.4\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 #. ($days)
@@ -363,9 +363,7 @@ msgstr "(忽略)"
 msgid ""
 "*Administrators:* You can change user's e-mail address using this form. "
 "Enter the users Login or WikiName and the new e-mail address."
-msgstr ""
-"*管理者：* 你能使用此表更改使用者的電郵。輸入使用者登錄名或 WikiName 與新的電"
-"郵。"
+msgstr "*管理者：* 你能使用此表變更使用者的電郵。輸入使用者登錄名或 WikiName 與新的電郵。"
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
@@ -618,7 +616,7 @@ msgstr "為本主題增加使用者管理設定。"
 
 #: core/data/Main/GroupViewTemplate.txt:236
 msgid "Add users or groups to this group"
-msgstr "增加使用者或群組到此群組中"
+msgstr "增加使用者或群組到這個群組"
 
 #: core/templates/messages.tmpl:404
 msgid "Adding a %1 preference in WebPreferences"
