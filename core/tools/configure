@@ -488,6 +488,8 @@ Use -save to save a new configuration.
 
 Use -json and -trace to control the output of this script.
 
+If any command line arguments are utf-8 characters, be sure to run configure using the B<perl -CA tools/configure ...> command.
+
 =head1 OPTIONS
 
 =over 8
