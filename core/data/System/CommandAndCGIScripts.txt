@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1456765822" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1483547096" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -41,6 +41,15 @@ $ cd /usr/local/foswiki/bin
 $ save topic=MyWeb.MyTopic user=admin action=save text="New text of the topic"
 </verbatim>
 All parameters require a value, even if that is the empty string. Note that parameters passed on the command-line should *not* be URL-encoded.
+
+*Note:* If any of the arguments will contain utf-8 strings, (ie. when entering a Unicode topic name), you must run the command
+using the perlrun argument =-CA=.  For example:
+<pre class="bash">
+$ cd /usr/local/foswiki/bin
+$ perl -CA ./save -topic MyWeb.My&Uuml;tf8T&ouml;pic -user admin -action save -text "Text with &raquo;&Auml;&euml;&iuml;&ouml;&uuml;&laquo; utf8 characters."
+</pre>
+
+For more details on the perl command line arguments, see [[http://perldoc.perl.org/perlrun.html]].
 
 ---+++++ "Authentication" in the command line environment
 
@@ -595,8 +604,8 @@ Uploads an attachment to a topic. The HTTP request is expected to be in =multipa
    * You can use a tool like =curl= to upload files from the command line using this script.
    * You can call upload easily from !XmlHttpRequest in Javascript.
    * You can directly invoke upload from the CLI script.__New with Foswiki 2.1__
-      * You must use the Perl CLI options  '-CA' if the filename contains non-ASCII characters.
-      * ex. Run from the bin directory: =perl -CA ./upload filepath="/path/and/filename.dat" filename="attachname.dat" topic=Sandbox.ExistingTopic=
+      * You must use the Perl CLI options  '-CA' if the filename or any other arguments contains utf-8 (non-ASCII) characters.
+      * ex. Run from the bin directory: =perl -CA ./upload filepath="/path/and/filename.dat" filename="&Atilde;ttachname.dat" topic=Sandbox.Existing&Uuml;tf8Topic=
 
 <div class="foswikiHelp"> 
 *%X% Note:* The =upload= script can only be called via HTTP POST method. Make sure you specify =method="post"= if you call the =upload= script via a form action. It is not possible to call =upload= from an =&lt;a href ...&gt;= link.
