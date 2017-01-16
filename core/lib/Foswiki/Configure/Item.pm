@@ -190,7 +190,7 @@ sub _parseOptions {
             && !$Foswiki::Configure::LoadSpec::RAW_VALS )
         {
             my $fn = $spec->{handler};
-            $this->{key} = $this->$fn( $val, $key );
+            $this->$fn( $val, $key );    # Process with delegate
         }
         else {
             $this->{$key} = $val;
