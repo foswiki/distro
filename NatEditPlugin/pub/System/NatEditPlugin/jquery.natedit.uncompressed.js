@@ -791,8 +791,12 @@ $.NatEditor.prototype.hideMessages = function() {
 $.NatEditor.prototype.extractErrorMessage = function(text) {
   var self = this;
 
-  if (text.match(/^<!DOCTYPE/)) {
+  if (text && text.match(/^<!DOCTYPE/)) {
     text = $(text).find(".natErrorMessage").text().replace(/\s+/g, ' ').replace(/^\s+/, '') || '';
+  }
+
+  if (text === "error") {
+    text = "Error: save failed. Please save your content locally and reload this page.";
   }
 
   return text;
@@ -919,7 +923,7 @@ $.NatEditor.prototype.initForm = function() {
                 });
               },
               error: function(xhr, textStatus, errorThrown) {
-                var message = self.extractErrorMessage(xhr.responseText) || textStatus;
+                var message = self.extractErrorMessage(xhr.responseText || textStatus);
                 self.showMessage("error", message);
               },
               complete: function(xhr, textStatus) {
@@ -969,7 +973,7 @@ $.NatEditor.prototype.initForm = function() {
           });
         },
         error: function(xhr, textStatus, errorThrown) {
-          var message = self.extractErrorMessage(xhr.responseText) || textStatus;
+          var message = self.extractErrorMessage(xhr.responseText || textStatus);
           $.unblockUI();
           self.showMessage("error", message);
         },
