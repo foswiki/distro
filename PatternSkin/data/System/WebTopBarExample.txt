@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1484554777" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 <table border="0" cellpadding="0" cellspacing="0" style="width:100%" summary="">
 <tr><td valign="middle"><span id="foswikiLogo" class="foswikiImage"><a href="%WEBLOGOURL%"><img src="%WEBLOGOIMG%" border="0" alt="%WEBLOGOALT%" style="border:none;" /></a></span></td>
@@ -8,6 +8,6 @@
    </form>
    * <form name="quickSearchForm" action="%SCRIPTURLPATH{view}%/%BASEWEB%/WebSearch"><input type="text" class="foswikiInputField foswikiDefaultText" title="%MAKETEXT{"Search"}%" id="quickSearchBox" name="search" value="%URLPARAM{search}%" size="18" /><input type="hidden" name="scope" value="all" /><input type="hidden" name="web" value="%BASEWEB%" /><noscript>&nbsp;<input type="submit" size="5" class="foswikiButton" name="submit" value="%MAKETEXT{"Search"}%" />&nbsp;</noscript>
    </form>
-%IF{"context i18n_enabled" then='   * %INCLUDE{%SYSTEMWEB%.LanguageSelector}%'}%
+%IF{"context i18n_enabled" then='   * $percntINCLUDE{%SYSTEMWEB%.LanguageSelector}$percnt'}%
 </noautolink></td></tr></table>
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%

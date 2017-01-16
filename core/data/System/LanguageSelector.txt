@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1484554777" format="1.1" version="1"}%
 %META:TOPICPARENT{name="TimeSpecifications"}%
 ---+!! Language selection dropdown
 
@@ -18,23 +18,22 @@ Result:
    then="$percentINCLUDE{\"%TOPIC%\" section=\"selector\"}$percent"
 }%%STOPINCLUDE%
 
-<!-- %JQREQUIRE{"chili"}% <verbatim class="tml">
-%STARTSECTION{"selector"}%<form name="changeLanguage"\
-    action="%SCRIPTURLPATH{"oops"}%/%BASEWEB%/%BASETOPIC%" method="get">
+<verbatim class="foswikiHidden">
+%STARTSECTION{"selector"}%<form action="%SCRIPTURLPATH{"oops"}%/%BASEWEB%/%BASETOPIC%" method="get">
     <input type="hidden" name="redirectto" value="%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%?%QUERYPARAMS{encoding="url" separator=";"}%" />
-    <select name="language" class="foswikiSelect"\
-        onchange="document.changeLanguage.submit()">
+    <select name="language" class="foswikiSelect" onchange="this.form.submit()">
+      <option value='default'>%MAKETEXT{"Default"}%</option>
     %LANGUAGES{
-         format="<option $marker value=\"$langtag\">$langname</option>"
+         format="<option $marker value='$langtag'>$langname</option>"
          selection="%LANGUAGE%"
          separator=" "
-         marker="selected=\"selected\""
+         marker="selected='selected'"
     }%</select>
     <input type="hidden" name="template" value="oopslanguagechanged" />
     <noscript>
-        <input class="foswikiButton" type="submit"\
-            value="%MAKETEXT{"Change language"}%" />
+        <input class="foswikiButton" type="submit" value="%MAKETEXT{"Change language"}%" />
     </noscript>
  </form>%ENDSECTION{"selector"}%
-</verbatim> -->
+</verbatim>
+
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%
