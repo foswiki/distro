@@ -241,7 +241,10 @@ sub _prompt {
 
     $reply = '' unless ( defined $reply );
     return if ( $opt && $reply eq 'none' );
-    eval "\$Foswiki::cfg$keys='$reply'";
+
+    # Add keys to the params to be processed by the Save wizard.
+    # This invokes all needed handlers like ONSAVE vs. modifying the config directly
+    eval "\$params->{set}{'$keys'} = '$reply'";
     if ($@) {
         print "Failed to set $keys: "
           . Foswiki::Configure::Reporter::stripStacktrace($@);
@@ -280,7 +283,9 @@ unless ( $Foswiki::cfg{isVALID} ) {
     unless ( $params->{expert} || $params->{noprompt} ) {
 
         # Ask for missing parameters that cannot bootstrap in CLI
-        print "** Enter values for critical configuration items.\n";
+        print "\n** Enter values for critical configuration items.\n";
+        print
+"** If any input will use utf-8 data (non-ASCII), run as 'perl -CAS tools/configure ...'\n";
         print
 "** type a new value or hit return to accept the value in brackets.\n";
     }
@@ -342,6 +347,9 @@ unless ( $Foswiki::cfg{isVALID} ) {
 "You should now run tools/configure -check to validate your new configuration!\n";
     }
 
+}
+else {
+       print "** Be sure to run as 'perl -CA tools/configure' if any settings will use utf-8 data\n";
 }
 
 if ( $reporter->has_level('errors') ) {

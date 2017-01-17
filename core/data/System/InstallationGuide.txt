@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1481826890" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1484611418" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 <noautolink>
 ---+!! Installation Guide
@@ -344,6 +344,14 @@ Foswiki 2.0 includes a shell based configuration tool that can be run from a
 server command-line login.  It will bootstrap the configuration, and prompt
 for settings as required.   Here is an example of using it for an interactive
 command line bootstrap:
+<div class="foswikiHelp">
+*Note*: If any of your configuration settings use utf-8 characters, (eg.  &Uuml;nic&ouml;de) be sure to
+run configure with the perl =-CAS= option so that all prompted input is properly encoded.
+<verbatim class='bash'>
+$ perl -CAS tools/configure -save
+</verbatim>
+</div>
+
 <verbatim class='bash'>
 $ tools/configure -save
 
@@ -383,13 +391,13 @@ for more information on setting up Foswiki to use shorter script URLs.
 
 It can also be run in a non-interactive mode, for use in automated deployment
 systems.
-<verbatim class='bash'>
+<pre class='bash'>
 tools/configure -save -noprompt
 tools/configure -save -set {DefaultUrlHost}='http://mysite.com'
 tools/configure -save -set {ScriptUrlPath}='/bin'
 tools/configure -save -set {ScriptUrlPaths}{view}=''
 tools/configure -save -set {PubUrlPath}='/pub'
-tools/configure -save -set {Password}='adminpass' </verbatim>
+perl -CA tools/configure -save -set {Password}='&Auml;dm&icirc;nP&auml;ss' </pre>
 
 Any configuration keys may be set using this tool.
 
