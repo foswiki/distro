@@ -24,7 +24,7 @@ In the CGI environment parameters are passed to the scripts via the URL and URL 
 ---++++ Command-line
 You *must* be have the =bin= directory on the perl path to run the scripts from the command line.
 
-<div class="foswikiHelp">%T% To avoid issues with file permissions, *run the scripts as the web server user such as =nobody=, ==www-data= or =www=*. %BR%
+<div class="foswikiHelp">%T% To avoid issues with file permissions, *run the scripts as the web server user such as =nobody=, =www-data= or =www=.* %BR%
 If running scripts under the control of cron, install the crontab under the
 web server user.</div>
 
