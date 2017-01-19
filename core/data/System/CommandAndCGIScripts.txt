@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1483547096" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1484612966" format="1.1" version="1"}%
 %META:TOPICPARENT{name="DeveloperDocumentationCategory"}%
 %STARTINCLUDE%
 ---+ CGI and Command Line Scripts
@@ -24,7 +24,7 @@ In the CGI environment parameters are passed to the scripts via the URL and URL 
 ---++++ Command-line
 You *must* be have the =bin= directory on the perl path to run the scripts from the command line.
 
-<div class="foswikiHelp">%T% To avoid issues with file permissions, *run the scripts as the web server user such as =nobody=, ==www-data= or =www=*. %BR%
+<div class="foswikiHelp">%T% To avoid issues with file permissions, *run the scripts as the web server user such as =nobody=, =www-data= or =www=.* %BR%
 If running scripts under the control of cron, install the crontab under the
 web server user.</div>
 
@@ -649,10 +649,11 @@ This is a fully functional command line interface to the Foswiki configuration. 
 
 =tools/configure [-search] [-getspec] [-getcfg] [-check] [-wizard] [-method] [-save] [-json] [-trace] [-help] [-noprompt] [-expert]=
 
-Note: if you need to pass in international characters, it needs to be run with the =perl -CA= command argument.
+Note: if you need to pass in international characters, it needs to be run with the =perl -CA= command argument. (=perl -CAS= when running a new configuration bootstrap)
 
 | *Function* | *Usage* |
 | Bootstrap a new install without helptext | =tools/configure -save -expert= |
+| Bootstrap an installation containing international characters | =perl -CAS tools/configure -save= |
 | Set multiple variables | =tools/configure -save -set {Password}='newadminpassword' -set {WebMasterEmail}='newadmin@yourco.com'= |
 | Check a setting or section of settings. | =tools/configure -check Internationalisation= |
 | Run a wizard | =tools/configure -wizard Email -method send_test_email= |
