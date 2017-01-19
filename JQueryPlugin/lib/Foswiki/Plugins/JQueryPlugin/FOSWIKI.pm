@@ -93,6 +93,11 @@ sub init {
     if ( defined $Foswiki::cfg{ScriptUrlPaths} ) {
         %{ $prefs{"SCRIPTURLPATHS"} } = %{ $Foswiki::cfg{ScriptUrlPaths} };
     }
+
+    # add {Sessions}{CookieRealm}
+    if ( defined $Foswiki::cfg{Sessions}{CookieRealm} ) {
+        $prefs{"COOKIEREALM"} = $Foswiki::cfg{Sessions}{CookieRealm};
+    }
     $prefs{"URLHOST"} = Foswiki::Func::getUrlHost();
 
     my $text =

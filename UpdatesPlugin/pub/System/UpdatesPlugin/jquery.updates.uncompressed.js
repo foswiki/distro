@@ -16,7 +16,10 @@
     delay: 1000, // number of seconds to delay contacting f.o.
     timeout: 5000, // number of seconds a jsonp call is considered failure
     cookieName: "FOSWIKI_UPDATESPLUGIN", // name of the cookie
-    cookieExpires: 7 // number of days the cookie takes to expire
+    cookieExpires: 7, // number of days the cookie takes to expire
+    cookieSecure: '0', // If secure cookies are needed (https)
+    cookieDomain: ''   // Override domain if requested.
+
   }, foswikiUpdates; // singleton
 
   // class constructor
@@ -47,6 +50,9 @@
       self.options.endpointUrl = foswiki.getScriptUrl("rest", "UpdatesPlugin", "check");
     }
 
+    self.options.cookieDomain = foswiki.getPreference('COOKIEREALM'); // Allow domain override
+    self.options.cookieSecure = (foswiki.getPreference('URLHOST').startsWith('https://')) ? '1' : '0';
+
     // events
     $(document).bind("refresh.foswikiUpdates", function() {
       //console.log("BIND refresh.foswikiUpdates calling loadPluginInfo.");
@@ -55,7 +61,12 @@
 
     $(document).bind("forceRefresh.foswikiUpdates", function() {
       //console.log("BIND forceRefresh.foswikiUpdates calling loadPluginInfo.");
-      $.cookie(self.options.cookieName, null, {expires: -1, path:'/'});
+      $.cookie(self.options.cookieName, null, {
+        expires: -1,
+        path:'/',
+        domain:self.options.cookieDomain,
+        secure:self.options.cookieSecure
+      });
       self.loadPluginInfo(1);
     });
 
@@ -69,7 +80,9 @@
       //console.log("BIND click entered ");
       $.cookie(self.options.cookieName, 0, {
         expires: self.options.cookieExpires, 
-        path: "/"
+        path: "/",
+        domain:self.options.cookieDomain,
+        secure:self.options.cookieSecure
       });
       $(".foswikiUpdatesMessage").fadeOut();
       return false;
@@ -100,7 +113,9 @@
             // zero explicitly can either mean: everything up-to-date or ignore pending updates
             $.cookie(self.options.cookieName, self.numberOutdatedPlugins, {
               expires: self.options.cookieExpires, 
-              path: "/"
+              path: "/",
+              domain:self.options.cookieDomain,
+              secure:self.options.cookieSecure
             });
 
             //console.log("Forced: " + forced);
@@ -113,7 +128,9 @@
             // remember the error state
             $.cookie(self.options.cookieName, -1, {
               expires: self.options.cookieExpires, 
-              path: "/"
+              path: "/",
+              domain:self.options.cookieDomain,
+              secure:self.options.cookieSecure
             });
           }
         });

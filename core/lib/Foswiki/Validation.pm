@@ -203,6 +203,8 @@ sub getCookie {
         -value => $secret,
         -path  => '/',
         -httponly => 0,    # we *want* JS to be able to read it!
+        -domain => $Foswiki::cfg{Sessions}{CookieRealm} || '',
+        -secure => $Foswiki::Plugins::SESSION->{request}->secure,
     );
 
     return $cookie;
