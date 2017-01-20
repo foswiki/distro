@@ -3560,7 +3560,7 @@ msgstr "rurbogh ghItlhmey:"
 #: TopicUserMappingContrib/data/System/RemoveUser.txt:56
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:695
+#: core/data/System/CommandAndCGIScripts.txt:705
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -5767,7 +5767,7 @@ msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 msgstr "[3 Deghmey chIm] * [chIm] Set [chIm] VARIABLENAME [chIm] = [Doch]"
 
-#: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
+#: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:45
 #: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "tlhIngan Hol"
