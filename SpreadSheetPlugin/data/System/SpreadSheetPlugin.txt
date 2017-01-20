@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1460168492" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1484879481" format="1.1" version="1"}%
 %META:TOPICPARENT{name="Plugins"}%
 ---+!! Foswiki Spreadsheet Plugin
 %FORMFIELD{"Description"}%
@@ -38,6 +38,8 @@ The action of this Plugin is triggered two macros:
    * The ==%<nop>CALC{"..."}%== macro, which gets rendered according to the built-in function(s) found between the quotes.  This macro processes tables above it on the page, but must not span multiple lines.
    * The ==%<nop>CALCULATE{"..."}%== macro can span multiple lines, but does not process tables on the page.
 
+Unless there is a requirement to process table rows, =%<nop>CALCULATE{"..."}%= is the preferred form of the macro.
+
 For both macros:
    * Built-in function are of format ==$FUNCNAME(parameter)==
    * Functions may be nested, e.g. ==%<nop>CALC{"$SUM( R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0) )"}%==
@@ -47,7 +49,8 @@ For both macros:
    * Strings can be triple-quoted =='''some, string'''==.   This allows commas, parenthesis and newlines to be processed literally, rather than as part of the function syntax.
       * e.g. ==%<nop>CALCULATE{$SUBSTITUTE('''(Almost), every day''', Almost, Mostly)}%== evaluates to:
       * ==%CALCULATE{$SUBSTITUTE('''(Almost), every day''', Almost, Mostly)}%==
-   * Formulae can be placed in a FormattedSearch, but the CALC needs to be escaped. Learn how to [[#CalcInFormattedSearch][use a CALC in a formatted search]]
+   * Formulae can be placed in a FormattedSearch, but the CALCULATE needs to be escaped. Learn how to [[#CalcInFormattedSearch][use a CALCULATE in a formatted search]]
+      * Use of CALCULATE is preferred over CALC in formatted search results unless a table is being generated.
 
    For the ==%<nop>CALC{"..."}%== macro only:
    * A table cell can be addressed as ==R1:C1==. Table address matrix:
@@ -919,13 +922,18 @@ Each integer is treated as true/false and then logically xor'd together.  The ac
 ---++ FAQ
 
 #CalcInFormattedSearch
----+++ Can I use CALC in a formatted search?
+---+++ Can I use CALCULATE in a formatted search?
 
 Specifically, how can I output some conditional text in a %SYSTEMWEB%.FormattedSearch?
 
-You need to escape the CALC so that it executes once per search hit. This can be done by escaping the =%= signs of =%<nop>CALC{...}%= with =$percnt=. For example, to execute =$IF($EXACT($formfield(Tested), Yes), %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-yes.gif, %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-no.gif)= in the =format=""= parameter, write this:
+You need to escape the CALCULATE macro so that it executes once per search hit. This can be done by escaping the =%= signs of =%<nop>CALCULATE{...}%= with =$percnt=. 
+For example, to execute =$IF($EXACT($formfield(Tested), Yes), %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-yes.gif, %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-no.gif)= in the =format=""= parameter, write this:
 
-=%<nop>SEARCH{ .... format="| $topic | $percntCALC{$IF($EXACT($formfield(Tested), Yes), %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-yes.gif, %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-no.gif)}$percnt |" }%=
+=%<nop>SEARCH{ .... format="| $topic | $percntCALCULATE{$IF($EXACT($formfield(Tested), Yes), %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-yes.gif, %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/choice-no.gif)}$percnt |" }%=
+
+<div class='foswikiHelp'>%T% CALC can also be used, but under some conditions
+the macro might not be expanded. For best results, use CALCULATE. CALC would
+only be recommended if the SEARCH was also outputting a Table.</div>
 
 ---+++ How can I easily repeat a formula in a table?
 
@@ -995,6 +1003,8 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
    * Test if the "Total" in the first table in this topic is correct.
 
 ---++ Change History
+|  20 Jan 2017: (1.23) | Released with Foswiki 2.1.3<br />\
+                         Foswikitask:Item13892: Clarify documentation on CALC vs. CALCULATE |
 |  08 Apr 2016: (1.22) | Foswikitask:Item13883: Fix typo in documentation. |
 |  15 Oct 2015: (1.21) | Foswikitask:Item13811: Fixed memory leak using CALCULATE in a persistent perl environment.<br />\
                          Foswikitask:Item13796: Encode &lt; and &gt; when emitted by CALC or CALCULATE. |
