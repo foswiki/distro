@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-12-15 07:57+0200\n"
+"PO-Revision-Date: 2017-01-20 08:05+0200\n"
 "Last-Translator: Guido Brugnara <gdo@leader.it>\n"
-"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/it/>\n"
+"Language-Team: Italian <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -659,10 +659,9 @@ msgid "Access keys:"
 msgstr "Tasti di accesso:"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:45
-#, fuzzy
 msgid "Access to pending registrations is restricted to administrators."
 msgstr ""
-"L'accesso alle registrazioni in sospeso è consentito ai soli amministratori"
+"L'accesso alle registrazioni in sospeso è consentito ai soli amministratori."
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -1752,7 +1751,7 @@ msgstr ""
 
 #: core/data/System/PendingRegistrationsTemplate.txt:38
 msgid "Email verification is not enabled."
-msgstr ""
+msgstr "La verifica e-mail non è abilitata."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
@@ -2959,9 +2958,8 @@ msgid "No previous revision exists."
 msgstr "Non esistono versioni precedenti."
 
 #: core/data/System/PendingRegistrationsTemplate.txt:46
-#, fuzzy
 msgid "No registrations are pending."
-msgstr "Negata registrazione di %1"
+msgstr "Sospensione delle iscrizioni attiva."
 
 #: SubscribePlugin/templates/subscribe.tmpl:17
 msgid "No topic to subscribe to"
@@ -3498,9 +3496,8 @@ msgid "Registration"
 msgstr "Registrazione"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:21
-#, fuzzy
 msgid "Registration approval is not enabled."
-msgstr "La registrazione %1 richiede approvazione"
+msgstr "Approvazione della registrazione non abilitata."
 
 #: core/lib/Foswiki/UI/Register.pm:732
 msgid ""
@@ -3598,9 +3595,8 @@ msgid "Remove Members from %1"
 msgstr "Rimuove i membri da %1"
 
 #: TopicUserMappingContrib/data/System/RemoveUser.txt:3
-#, fuzzy
 msgid "Remove User"
-msgstr "Rimuovi membri..."
+msgstr "Rimuove Utente"
 
 #: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
