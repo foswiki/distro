@@ -1156,7 +1156,7 @@ msgstr "Αλλαγή από:"
 msgid "Change from"
 msgstr "Αλλαγή από:"
 
-#: core/data/System/LanguageSelector.txt:36
+#: core/data/System/LanguageSelector.txt:34
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Αλλαγή γλώσσας"
@@ -1539,6 +1539,7 @@ msgstr "Debug"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:114
 #: NatEditPlugin/templates/edit.natedit.tmpl:150
+#: core/data/System/LanguageSelector.txt:25
 #, fuzzy
 msgid "Default"
 msgstr "Προεπιλεγμένο πρότυπο"
@@ -3693,7 +3694,7 @@ msgstr "Σχετιζόμενα θέματα"
 #: TopicUserMappingContrib/data/System/RemoveUser.txt:56
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:693
+#: core/data/System/CommandAndCGIScripts.txt:703
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -5866,7 +5867,7 @@ msgstr ""
 msgid "Your email address will be kept confidential."
 msgstr ""
 
-#: core/templates/oopslanguagechanged.tmpl:14
+#: core/templates/oopslanguagechanged.tmpl:17
 #, fuzzy
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
 msgstr "Ο κωδικός σας έχει αλλάξει σε %1."
@@ -5979,7 +5980,7 @@ msgid ""
 msgstr ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 
-#: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
+#: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:45
 #: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "Ελληνικά"

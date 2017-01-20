@@ -1118,7 +1118,7 @@ msgstr "Ændre formular"
 msgid "Change from"
 msgstr "Ændre fra"
 
-#: core/data/System/LanguageSelector.txt:36
+#: core/data/System/LanguageSelector.txt:34
 #: core/templates/oopslanguagechanged.tmpl:5
 msgid "Change language"
 msgstr "Skift sprog"
@@ -1488,6 +1488,7 @@ msgstr "Debug"
 
 #: NatEditPlugin/templates/edit.natedit.tmpl:114
 #: NatEditPlugin/templates/edit.natedit.tmpl:150
+#: core/data/System/LanguageSelector.txt:25
 msgid "Default"
 msgstr "Standard"
 
@@ -3553,7 +3554,7 @@ msgstr "Relaterede sider:"
 #: TopicUserMappingContrib/data/System/RemoveUser.txt:56
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:693
+#: core/data/System/CommandAndCGIScripts.txt:703
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -5728,7 +5729,7 @@ msgstr ""
 msgid "Your email address will be kept confidential."
 msgstr "Din e-mail-adresse vil blive holdt fortrolig."
 
-#: core/templates/oopslanguagechanged.tmpl:14
+#: core/templates/oopslanguagechanged.tmpl:17
 msgid "Your language has been changed to %1. [[%2][click to proceed]]."
 msgstr "Sproget er ændret til %1. [[%2][Klik for at fortsætte]]."
 
@@ -5840,7 +5841,7 @@ msgstr ""
 "[3 mellemrum (et antal gange)] * [mellemrum] Set [mellemrum] VARIABELNAVN "
 "[mellemrum] = [værdi]"
 
-#: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
+#: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:45
 #: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "Dansk"
