@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2017-01-20 09:19+0200\n"
+"PO-Revision-Date: 2017-01-20 09:20+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/fr/>\n"
@@ -662,7 +662,7 @@ msgstr "Raccourcis clavier :"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:45
 msgid "Access to pending registrations is restricted to administrators."
-msgstr "L'accès aux inscriptions en attente est restreint aux administrateurs"
+msgstr "L'accès aux inscriptions en attente est restreint aux administrateurs."
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
