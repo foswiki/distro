@@ -1,11 +1,13 @@
-%META:TOPICINFO{author="ProjectContributor" date="1426281132" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1485108858" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkinFatwillyTheme"}%
 ---+!! <nop>PatternSkin theme: Foswiki "Fat Willy" Site Skin - Navigation
 
 Include main navigation with:
 <verbatim class="tml">
-%INCLUDE{"PatternSkinThemeFatWillyNavigation" section="main"}%
+%INCLUDE{"%SYSTEMWEB%.PatternSkinThemeFatWillyNavigation" section="main"}%
 </verbatim>
+This is done automatically in the templates by setting in the %USERSWEB%.SitePreferences:
+   * #Set PATTERNSKIN_NAVIGATION_TOPIC = %SYSTEMWEB%.PatternSkinThemeFatWillyNavigation
 
 Include meta navigation with:
 <verbatim class="tml">
@@ -17,39 +19,39 @@ Include meta navigation with:
 <verbatim class="tml">
 %STARTSECTION{"main"}%<div id="patternTopBarButtons" class="clear"><ul>
 %INCLUDE{
-    "PatternSkinNavigation" section="topbarbutton"
+    "%SYSTEMWEB%.PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="About" DESTTOPIC="%HOMETOPIC%" LABEL="About"
 }%
 %INCLUDE{
-    "PatternSkinNavigation" section="topbarbutton"
+    "%SYSTEMWEB%.PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="Blog" DESTTOPIC="%HOMETOPIC%" LABEL="Blog"
 }%
 %INCLUDE{
-    "PatternSkinNavigation" section="topbarbutton"
+    "%SYSTEMWEB%.PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="Extensions" DESTTOPIC="%HOMETOPIC%" LABEL="Extensions"
 }%
 %INCLUDE{
-    "PatternSkinNavigation" section="topbarbutton"
+    "%SYSTEMWEB%.PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="%SYSTEMWEB%" DESTTOPIC="%HOMETOPIC%" LABEL="Documentation"
 }%
 %INCLUDE{
-    "PatternSkinNavigation" section="topbarbutton"
+    "%SYSTEMWEB%.PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="Community" DESTTOPIC="%HOMETOPIC%" LABEL="Community"
 }%
 %INCLUDE{
-    "PatternSkinNavigation" section="topbarbutton"
+    "%SYSTEMWEB%.PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="Development" DESTTOPIC="%HOMETOPIC%" LABEL="Development"
 }%
 %INCLUDE{
-    "PatternSkinNavigation" section="topbarbutton"
+    "%SYSTEMWEB%.PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="Tasks" DESTTOPIC="%HOMETOPIC%" LABEL="Tasks"
 }%
 %INCLUDE{
-    "PatternSkinNavigation" section="topbarbutton"
+    "%SYSTEMWEB%.PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="Download" DESTTOPIC="%HOMETOPIC%" LABEL="Download"
 }%
 %INCLUDE{
-    "PatternSkinNavigation" section="topbarbutton"
+    "%SYSTEMWEB%.PatternSkinNavigation" section="topbarbutton"
     ID="" DESTWEB="Support" DESTTOPIC="%HOMETOPIC%" LABEL="Support"
 }%
 </ul></div>%ENDSECTION{"main"}%
@@ -74,3 +76,4 @@ Include meta navigation with:
 }%<li>[[%USERSWEB%.%WIKIUSERSTOPIC%][Users]]</li></ul></div>%ENDSECTION{"meta"}%
 </verbatim>
 <!-- %JQREQUIRE{"chili"}% -->
+%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="*"}%
