@@ -379,7 +379,13 @@ function _id_ify(id) {
         $div.html(TML.render_reports(results.messages));
         if (results.changes) {
             $.each(results.changes, function(key, value) {
-                $div.append('<div class="changes">' + key + ' = ' + value + '</div>');
+                // Taken from render_tml.uncompressed.js - render verbatim blocks.
+                var str = value;
+                str = str.toString()
+                         .replace(/&/g, "&amp;")
+                         .replace(/</g, "&lt;")
+                         .replace(/>/g, "&gt;");
+                $div.append('<div class="changes">' + key + ' = ' + str + '</div>');
             });
         }
 
