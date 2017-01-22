@@ -51,7 +51,7 @@
     }
 
     self.options.cookieDomain = foswiki.getPreference('COOKIEREALM'); // Allow domain override
-    self.options.cookieSecure = (foswiki.getPreference('URLHOST').startsWith('https://')) ? '1' : '0';
+    self.options.cookieSecure = foswiki.getPreference('URLHOST').startsWith('https://');
 
     // events
     $(document).bind("refresh.foswikiUpdates", function() {
