@@ -52,20 +52,24 @@ sub test_changecfg {
 
     # Check report
     my %expected = (
-        "| {OS} | ('') | \'$Foswiki::cfg{OS}\' |"     => 'notes',
-        '| {\'Test-Key\'} | undef | \'newtestkey\' |' => 'notes',
-        '| {TestA} | undef | \'Shingle\' |'           => 'notes',
-'| {TestB}{Sit} | undef | "\x{628}\x{6cc}\x{679}\x{6be}\x{646}\x{627}" |'
+"| {OS} | <verbatim>('')</verbatim> | <verbatim>\'$Foswiki::cfg{OS}\'</verbatim> |"
           => 'notes',
-        '| {UnitTestContrib}{Configure}{NUMBER} | (666) | \'99\' |', => 'notes',
-        '| {UnitTestContrib}{Configure}{PERL_ARRAY} | [5,6] | [3,4] |' =>
-          'notes',
-'| {UnitTestContrib}{Configure}{PERL_HASH} | {\'a\' => 5,\'b\' => 6} | {\'pootle\' => 1} |'
+'| {\'Test-Key\'} | <verbatim>undef</verbatim> | <verbatim>\'newtestkey\'</verbatim> |'
           => 'notes',
-q<| {UnitTestContrib}{Configure}{REGEX} | ('^regex$') | '(black&#124;white)+' |>
+'| {TestA} | <verbatim>undef</verbatim> | <verbatim>\'Shingle\'</verbatim> |'
           => 'notes',
-        '| {UnitTestContrib}{Configure}{undefok} | \'value\' | undef |' =>
-          'notes',
+'| {TestB}{Sit} | <verbatim>undef</verbatim> | <verbatim>"\x{628}\x{6cc}\x{679}\x{6be}\x{646}\x{627}"</verbatim> |'
+          => 'notes',
+'| {UnitTestContrib}{Configure}{NUMBER} | <verbatim>(666)</verbatim> | <verbatim>\'99\'</verbatim> |'
+        , => 'notes',
+'| {UnitTestContrib}{Configure}{PERL_ARRAY} | <verbatim>[5,6]</verbatim> | <verbatim>[3,4]</verbatim> |'
+          => 'notes',
+'| {UnitTestContrib}{Configure}{PERL_HASH} | <verbatim>{\'a\' => 5,\'b\' => 6}</verbatim> | <verbatim>{\'pootle\' => 1}</verbatim> |'
+          => 'notes',
+q<| {UnitTestContrib}{Configure}{REGEX} | <verbatim>('^regex$')</verbatim> | <verbatim>'(black&#124;white)+'</verbatim> |>
+          => 'notes',
+'| {UnitTestContrib}{Configure}{undefok} | <verbatim>\'value\'</verbatim> | <verbatim>undef</verbatim> |'
+          => 'notes',
     );
     my $ms = $reporter->messages();
 
