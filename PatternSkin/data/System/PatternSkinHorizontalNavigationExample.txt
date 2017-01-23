@@ -1,17 +1,19 @@
-%META:TOPICINFO{author="ProjectContributor" date="1447730097" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1485108858" format="1.1" version="1"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 ---+!! <nop>PatternSkin horizontal navigation example
 
 Include main navigation with:
 <verbatim class="tml">
-%INCLUDE{"HorizontalNavigationExample" section="main"}%
+%INCLUDE{"PatternSkinHorizontalNavigationExample" section="main"}%
 </verbatim>
+This is done automatically in the templates by setting in the %USERSWEB%.SitePreferences:
+   * #Set PATTERNSKIN_NAVIGATION_TOPIC = %SYSTEMWEB%.PatternSkinHorizontalNavigationExample
 
 ---++ Include sections
 <verbatim class="tml">
-%STARTSECTION{"main"}%<div id="patternTopBarButtons"><ul class="clear">
+%STARTSECTION{"main"}%<div id="patternTopBarButtons" class="clear"><ul>
 %INCLUDE{
-    "PatternSkinNavigation"
+    "%SYSTEMWEB%.PatternSkinNavigation"
     section="topbarbutton"
     ID=""
     DESTWEB="%USERSWEB%"
@@ -19,7 +21,7 @@ Include main navigation with:
     LABEL="%USERSWEB%"
 }%
 %INCLUDE{
-    "PatternSkinNavigation"
+    "%SYSTEMWEB%.PatternSkinNavigation"
     section="topbarbutton"
     ID=""
     DESTWEB="%SYSTEMWEB%"
@@ -27,7 +29,7 @@ Include main navigation with:
     LABEL="%SYSTEMWEB%"
 }%
 %INCLUDE{
-    "PatternSkinNavigation"
+    "%SYSTEMWEB%.PatternSkinNavigation"
     section="topbarbutton"
     ID=""
     DESTWEB="%SANDBOXWEB%"

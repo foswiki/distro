@@ -1,7 +1,7 @@
 /*
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2010-2014 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2010-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
@@ -62,8 +62,9 @@ This is an example of a simple AJAX comment submission.
                 relto = $('*:contains("' + form.comment.location.value
                           + '")')[0];
             } else if (form.comment_anchor) {
-                relto = $("a[name='" + form.comment_anchor.value
-                          + "']");
+				var anchor = form.comment_anchor.value.slice(1);
+                relto = $("a[name='" + anchor
+                          + "'],*[id='" + anchor + "']");
             } else {
                 relto = $(".commentPluginForm")[form.comment_index.value];
                 if (relto)

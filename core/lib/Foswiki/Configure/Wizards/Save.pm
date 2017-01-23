@@ -501,7 +501,11 @@ sub _logAndReport {
     $new =~ s/\|/&#124;/g;
 
     if ($report) {
-        push( @$report, "| $keypath | $old | $new |" );
+
+        # Verbatim blocks so no HTML in settings is rendered.
+        push( @$report,
+"| $keypath | <verbatim>$old</verbatim> | <verbatim>$new</verbatim> |"
+        );
     }
 }
 

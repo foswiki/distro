@@ -3676,7 +3676,7 @@ msgstr "Temas relacionados"
 #: TopicUserMappingContrib/data/System/RemoveUser.txt:56
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:44
 #: core/data/Main/GroupViewTemplate.txt:34
-#: core/data/System/CommandAndCGIScripts.txt:695
+#: core/data/System/CommandAndCGIScripts.txt:705
 #: core/data/System/FormattedSearch.txt:401
 #: core/data/System/GlossaryOfTerms.txt:27
 #: core/data/System/SkinTemplateViewTemplate.txt:9
@@ -5998,7 +5998,7 @@ msgstr ""
 "[espacio] = [valor]"
 
 # please enter the name of your language here (written in the native language):
-#: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:44
+#: core/lib/Foswiki/Configure/Checkers/LANGUAGE.pm:45
 #: core/lib/Foswiki/I18N.pm:353
 msgid "_language_name"
 msgstr "Español"
