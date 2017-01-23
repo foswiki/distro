@@ -1,4 +1,4 @@
-# Copyright (C) 2007-2015 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2007-2016 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -30,8 +30,8 @@ BEGIN {
     }
 }
 
-our $VERSION           = '9.07';
-our $RELEASE           = '06 Jan 2016';
+our $VERSION           = '9.9';
+our $RELEASE           = '23 Jan 2017';
 our $NO_PREFS_IN_TOPIC = 1;
 our $SHORTDESCRIPTION  = 'A Wikiwyg Editor';
 our $baseWeb;
@@ -106,6 +106,15 @@ sub beforeSaveHandler {
     my ( $text, $topic, $web, $meta ) = @_;
 
     writeDebug("called beforeSaveHandler($web, $topic)");
+
+    my $session   = $Foswiki::Plugins::SESSION;
+    my $baseWeb   = $session->{webName};
+    my $baseTopic = $session->{topicName};
+
+    if ( $web ne $baseWeb || $topic ne $baseTopic ) {
+        writeDebug("not operating on the base topic");
+        return;
+    }
 
     # find out if we received a TopicTitle
     my $request = Foswiki::Func::getCgiQuery();

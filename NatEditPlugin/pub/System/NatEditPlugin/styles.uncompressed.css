@@ -13,11 +13,13 @@
   overflow-y:auto;
 }
 
-#EditForm .ui-natedit textarea {
+.ui-natedit textarea {
   /* working around IE8 textarea bugs: make it think it gets a fixed width but then junk in min and max width 100% */
+/*
   width:500px !important; 
   min-width:100%;
   max-width:100%;
+*/
 }
 .ui-natedit textarea {
   -webkit-box-sizing: border-box;
@@ -34,11 +36,11 @@
   margin:5px 0 0;
 }
 
-.ui-natedit-menu-button,
+.ui-button.ui-natedit-menu-button,
 .ui-natedit-button,
 .ui-natedit-buttons {
-  margin-right:10px;
-  margin-bottom:10px;
+  margin-right:0.7em;
+  margin-bottom:0.7em;
   float:left;
 }
 
@@ -47,9 +49,38 @@
   margin-bottom:0;
 }
 
-.ui-natedit-toolbar,
-.ui-natedit-toolbar .fa {
-  line-height:17px;
+.ui-natedit-menu .ui-menu-item.ui-natedit-active, 
+.ui-natedit-buttons .ui-button.ui-natedit-active { 
+  /* SMELL: copied over from ui-state-active */
+  color:#fff;
+  text-shadow:0px 0px #0055b5;
+  border-color:#004696;
+  
+  /* http://colorzilla.com/gradient-editor/#629edd+0,0055b5+100;Custom */
+  background:#0055b5;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzYyOWVkZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDU1YjUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+); /* I9 */
+  background: -moz-linear-gradient(top, #629edd 0%, #0055b5 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#629edd), color-stop(100%,#0055b5));
+  background: -webkit-linear-gradient(top, #629edd 0%,#0055b5 100%);
+  background: -o-linear-gradient(top, #629edd 0%,#0055b5 100%);
+  background: -ms-linear-gradient(top, #629edd 0%,#0055b5 100%);
+  background: linear-gradient(top, #629edd 0%,#0055b5 100%);
+}
+.ui-natedit-uploader-button {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.ui-natedit-uploader-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  -ms-filter: 'alpha(opacity=0)';
+  font-size: 200px !important;
+  direction: ltr;
+  cursor: pointer;
 }
 
 .ui-natedit .ui-natedit-menu {
@@ -133,7 +164,7 @@
 
 /* helper used for auto-expand feature */
 .ui-natedit-auto-expand-helper {
-  top:-999px; 
+  top:-9999999px; 
   left:0; 
   right:auto; 
   bottom:auto; 
@@ -205,9 +236,6 @@
 .revComment label {
   font-weight:bold;
 }
-.revComment input {
-  width:80%;
-}
 .natEditDoneButton img,
 .natEditCancelButton  img {
   border:0px;
@@ -254,4 +282,10 @@ table.mceToolbar {
 .patternEditPage #EditForm h2 {
   margin-top:0;
   font-size:127%;
+}
+
+/* prosemirror */
+.ui-natedit .ProseMirror {
+  resize: none;
+  overflow-x:hidden;
 }

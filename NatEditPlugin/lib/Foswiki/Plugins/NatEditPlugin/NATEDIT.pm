@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2006-2015 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2006-2016 Michael Daum, http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -43,14 +43,15 @@ sub new {
     my $this = bless(
         $class->SUPER::new(
             name          => 'NatEdit',
-            version       => '4.01',
+            version       => '4.99',
             author        => 'Michael Daum',
             homepage      => 'http://foswiki.org/Extensions/NatEditPlugin',
             puburl        => '%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin',
             css           => ['styles.css'],
             documentation => "$Foswiki::cfg{SystemWebName}.NatEditPlugin",
-            javascript    => ['jquery.natedit.js'],
-            dependencies  => [
+            javascript    => [ 'jquery.natedit.js', 'engine/base/engine.js' ],
+            i18n => $Foswiki::cfg{SystemWebName} . "/NatEditPlugin/i18n",
+            dependencies => [
                 'JQUERYPLUGIN::FOSWIKI::PREFERENCES', 'textboxlist',
                 'pnotify',                            'fontawesome',
                 'form',                               'validate',
@@ -59,7 +60,7 @@ sub new {
                 'ui::autocomplete',                   'ui::button',
                 'button',                             'loader',
                 'JQUERYPLUGIN::UPLOADER',             'blockui',
-                'render',
+                'render',                             'imagesloaded'
             ],
         ),
         $class
@@ -81,11 +82,19 @@ sub init {
 
     return unless $this->SUPER::init();
 
+    my $request = Foswiki::Func::getRequestObject();
+    my $engine =
+         $request->param("natedit_engine")
+      || Foswiki::Func::getPreferencesValue("NATEDIT_ENGINE")
+      || $Foswiki::cfg{NatEditPlugin}{DefaultEngine}
+      || 'raw';
+
     Foswiki::Func::addToZone(
         "script", "NATEDIT::PREFERENCES",
-        <<'HERE', "JQUERYPLUGIN::FOSWIKI::PREFERENCES" );
-<script class='$zone $id foswikiPreferences' type='text/json'>{ 
+        <<"HERE", "JQUERYPLUGIN::FOSWIKI::PREFERENCES" );
+<script class='\$zone \$id foswikiPreferences' type='text/json'>{ 
   "NatEditPlugin": {
+    "Engine": "$engine",
     "MathEnabled": %IF{"context MathModePluginEnabled or context MathJaxPluginEnabled" then="true" else="false"}%,
     "ImagePluginEnabled": %IF{"context ImagePluginEnabled" then="true" else="false"}%,
     "TopicInteractionPluginEnabled": %IF{"context TopicInteractionPluginEnabled" then="true" else="false"}%,

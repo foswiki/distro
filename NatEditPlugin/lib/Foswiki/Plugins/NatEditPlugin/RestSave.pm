@@ -1,4 +1,4 @@
-# Copyright (C) 2013-2015 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2013-2016 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,6 +17,7 @@ use warnings;
 use Foswiki::UI::Save      ();
 use Foswiki::OopsException ();
 use Foswiki::Validation    ();
+use Foswiki::Func          ();
 use Encode                 ();
 use Error qw( :try );
 
@@ -47,6 +48,10 @@ sub handle {
     # do a normal save
     my $error;
     my $status = 200;
+
+    # enter save context
+    Foswiki::Func::getContext()->{save} = 1;
+
     try {
         Foswiki::UI::Save::save($session);
 
@@ -116,7 +121,7 @@ sub stringifyError {
 sub toSiteCharSet {
     my $string = shift;
 
-    return $string unless $string;
+    return unless defined $string;
 
     return $string if $Foswiki::UNICODE;
 

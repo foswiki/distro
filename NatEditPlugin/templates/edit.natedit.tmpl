@@ -13,13 +13,14 @@
 %TMPL:DEF{"pagetitlestylewrapper"}%<!-- -->%TMPL:END%
 %TMPL:DEF{"contenttitle"}%<h1 class="natEditTitle">%IF{
   "istopic '%WEB%.%TOPIC%'" 
-  then="[[%WEB%.%TOPIC%][%URLPARAM{"TopicTitle" default="$percntTMPL:P{\\"topictitle\\" hideautoinc=\\"off\\"}$percnt"}%]]" 
-  else="<nop>%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle" hideautoinc="off"}%"}%"
+  then="[[%WEB%.%TOPIC%][%URLPARAM{"%TMPL:P{"topictitle_field"}%" default="$percntTMPL:P{\\"topictitle\\" hideautoinc=\\"off\\"}$percnt"}%]]" 
+  else="<nop>%URLPARAM{"%TMPL:P{"topictitle_field"}%" default="%TMPL:P{"topictitle" hideautoinc="off"}%"}%"
 }% (%TMPL:P{"titleaction"}%)</h1>%TMPL:END%
 %TMPL:DEF{"windowtitle"}%<title>(%TMPL:P{"titleaction"}%) <nop>%BASETOPIC%%TMPL:P{"titlesep"}%%BASEWEB%%TMPL:P{"titlesep"}%<nop>%WIKITOOLNAME%</title>%TMPL:END%
 
+%TMPL:DEF{"topictitle_field"}%%TOPICTITLE_FIELD{default="TopicTitle"}%%TMPL:END%
 %TMPL:DEF{"topictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="topictitle_dbcache" else="topictitle_default" hideautoinc="%hideautoinc%"}%%TMPL:END%
-%TMPL:DEF{"topictitle_default"}%%TOPICTITLE{default="%FORMFIELD{"TopicTitle" alttext="%BASETOPIC%" default="%BASETOPIC%"}%"}%%TMPL:END%
+%TMPL:DEF{"topictitle_default"}%%TOPICTITLE{default="%FORMFIELD{"%TMPL:P{"topictitle_field"}%" alttext="%BASETOPIC%" default="%BASETOPIC%"}%"}%%TMPL:END%
 %TMPL:DEF{"topictitle_dbcache"}%%GETTOPICTITLE{"%WEB%.%TOPIC%" encode="entity" hideautoinc="%hideautoinc%"}%%TMPL:END%
 %TMPL:DEF{"sig_textareabuttons"}%%TMPL:END%
 
@@ -48,7 +49,7 @@
 <input type="hidden" name="editaction" value="%IF{"$'action'='form'" then="form" else=""}%" />
 <input type="hidden" name="action_save" value="" />%TMPL:END%
 
-%TMPL:DEF{"textarea"}%<textarea id="topic" class="foswikiTextarea foswikiWysiwygEdit natedit" data-rest-params="?%NONCE%" data-auto-max-expand="true" data-min-height="230" data-min-height="300" %TMPL:P{"natedit::options"}% name="text">%TEXT%</textarea>%TMPL:END%
+%TMPL:DEF{"textarea"}%<textarea id="topic" rows="25" cols="80" style='width:100%' class="foswikiTextarea foswikiWysiwygEdit natedit" data-rest-params="?%NONCE%" data-auto-max-expand="true" data-min-height="230" %TMPL:P{"natedit::options"}% name="text">%TEXT%</textarea>%TMPL:END%
 
 %TMPL:DEF{"formend"}%</form></div>%TMPL:END%
 
@@ -71,17 +72,18 @@
 
 %TMPL:DEF{"formfields"}%%FORMFIELDS%%TMPL:END%
 
-%TMPL:DEF{"topicmeta"}%<div class="natEditTopicInfo"><literal>
+%TMPL:DEF{"topicmeta"}%%IF{"defined TOPICTITLE_FIELD" 
+  then="<div class='natEditTopicInfo'>
   <table>
   <tr>
     <th>%MAKETEXT{"Title:"}%</th>
-    <td><input class="foswikiInputField" type="text" name="TopicTitle" size="75" value="%URLPARAM{"TopicTitle" default="%TMPL:P{"topictitle" hideautoinc="on"}%" encode="quote"}%" /></td>
+    <td><input class='foswikiInputField' type='text' name='%TMPL:P{"topictitle_field"}%' size='75' value='%URLPARAM{"%TMPL:P{"topictitle_field"}%" default="%TMPL:P{"topictitle" hideautoinc="on"}%" encode="safe"}%' /></td>
   </tr>
   </table>
-</literal></div>%TMPL:END%
+</div>"}%%TMPL:END%
 
 %TMPL:DEF{"firsttab"}%%TAB{"%MAKETEXT{"Text"}%" id="text"}%
-%TMPL:P{"textarea"}%%ENDTAB%%TMPL:END%
+%TMPL:P{"topicmeta"}%%TMPL:P{"textarea"}%%ENDTAB%%TMPL:END%
 
 %TMPL:DEF{"helptab"}%%TAB{"%MAKETEXT{"Help"}%" 
   id="help"

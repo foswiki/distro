@@ -49,30 +49,30 @@
 %{ ################################################################################ }%
 %TMPL:DEF{"edittoolbar::typomenu"}%<!-- -->
   <ul class="ui-natedit-menu ui-natedit-more-typo-menu">
-    <li><a href="#" data-markup="strikeMarkup"><i class="ui-icon fa fa-strikethrough"></i> %MAKETEXT{"Strikethrough"}%</a></li>
-    <li><a href="#" data-markup="superscriptMarkup"><i class="ui-icon fa fa-superscript"></i> %MAKETEXT{"Superscript"}%</a></li>
-    <li><a href="#" data-markup="subscriptMarkup"><i class="ui-icon fa fa-subscript"></i> %MAKETEXT{"Subscript"}%</a></li>
-    <li><a href="#" data-markup="monoMarkup"> Monospace</a></li>
+    <li><a class="ui-natedit-strike" href="#" data-markup="strikeMarkup"><i class="ui-icon fa fa-strikethrough"></i> %MAKETEXT{"Strikethrough"}%</a></li>
+    <li><a class="ui-natedit-super" href="#" data-markup="superscriptMarkup"><i class="ui-icon fa fa-superscript"></i> %MAKETEXT{"Superscript"}%</a></li>
+    <li><a class="ui-natedit-sub" href="#" data-markup="subscriptMarkup"><i class="ui-icon fa fa-subscript"></i> %MAKETEXT{"Subscript"}%</a></li>
+    <li><a class="ui-natedit-mono" href="#" data-markup="monoMarkup"> Monospace</a></li>
   </ul>
 <!-- -->%TMPL:END%
 
 %{ ################################################################################ }%
 %TMPL:DEF{"edittoolbar::alignbuttons"}%<!-- -->
   <div class="ui-natedit-buttons ui-natedit-align-buttons">
-    <a href="#" title="%MAKETEXT{"Align left"}%" data-markup="leftMarkup"><i class="fa fa-align-left"></i></a>
-    <a href="#" title="%MAKETEXT{"Center align"}%" data-markup="centerMarkup"><i class="fa fa-align-center"></i></a>
-    <a href="#" title="%MAKETEXT{"Justify text"}%" data-markup="justifyMarkup"><i class="fa fa-align-justify"></i></a>
-    <a href="#" title="%MAKETEXT{"Align right"}%" data-markup="rightMarkup"><i class="fa fa-align-right"></i></a>
+    <a class="ui-natedit-left" href="#" title="%MAKETEXT{"Align left"}%" data-markup="leftMarkup"><i class="fa fa-align-left"></i></a>
+    <a class="ui-natedit-center" href="#" title="%MAKETEXT{"Center align"}%" data-markup="centerMarkup"><i class="fa fa-align-center"></i></a>
+    <a class="ui-natedit-justify" href="#" title="%MAKETEXT{"Justify text"}%" data-markup="justifyMarkup"><i class="fa fa-align-justify"></i></a>
+    <a class="ui-natedit-right" href="#" title="%MAKETEXT{"Align right"}%" data-markup="rightMarkup"><i class="fa fa-align-right"></i></a>
   </div>
 <!-- -->%TMPL:END%
 
 %{ ################################################################################ }%
 %TMPL:DEF{"edittoolbar::listbuttons"}%<!-- -->
   <div class="ui-natedit-buttons ui-natedit-list-buttons">
-    <a href="#" title="%MAKETEXT{"Numbered list"}%" data-markup="numberedListMarkup" data-type="line"><i class="fa fa-list-ol"></i></a>
-    <a href="#" title="%MAKETEXT{"Bullet list"}%" data-markup="bulletListMarkup" data-type="line"><i class="fa fa-list-ul"></i></a>
-    <a href="#" title="%MAKETEXT{"Indent"}%" data-markup="indentMarkup" data-type="line"><i class="fa fa-indent"></i></a>
-    <a href="#" title="%MAKETEXT{"Outdent"}%" data-markup="outdentMarkup" data-type="line"><i class="fa fa-outdent"></i></a>
+    <a class="ui-natedit-numbered" href="#" title="%MAKETEXT{"Numbered list"}%" data-markup="numberedListMarkup" data-type="line"><i class="fa fa-list-ol"></i></a>
+    <a class="ui-natedit-bullet" href="#" title="%MAKETEXT{"Bullet list"}%" data-markup="bulletListMarkup" data-type="line"><i class="fa fa-list-ul"></i></a>
+    <a class="ui-natedit-indent" href="#" title="%MAKETEXT{"Indent"}%" data-markup="indentMarkup" data-type="line"><i class="fa fa-indent"></i></a>
+    <a class="ui-natedit-outdent" href="#" title="%MAKETEXT{"Outdent"}%" data-markup="outdentMarkup" data-type="line"><i class="fa fa-outdent"></i></a>
   </div>
 <!-- -->%TMPL:END%
 
@@ -127,7 +127,7 @@
   <ul class="ui-natedit-menu ui-natedit-tools-menu">
     <li><a href="#" title="%MAKETEXT{"Sort selected lines ascending"}%" data-handler="handleSortAscending"><i class="ui-icon fa fa-sort-amount-asc"></i> %MAKETEXT{"Sort ascending"}%</a></li>
     <li><a href="#" title="%MAKETEXT{"Sort selected lines descending"}%" data-handler="handleSortDescending"><i class="ui-icon fa fa-sort-amount-desc"></i> %MAKETEXT{"Sort descending"}%</a></li>
-    <li><a href="#" data-dialog="searchreplace" data-modal="false" data-okay-text="%MAKETEXT{"Replace"}%" data-cancel-text="%MAKETEXT{"Close"}%" data-okay-handler="handleSearchReplace"><i class="ui-icon fa fa-search"></i> %MAKETEXT{"Search && Replace"}%</a></li>
+    <li><a class="ui-natedit-search-replace" href="#" data-dialog="searchreplace" data-modal="false" data-okay-text="%MAKETEXT{"Replace"}%" data-cancel-text="%MAKETEXT{"Close"}%" data-okay-handler="handleSearchReplace"><i class="ui-icon fa fa-search"></i> %MAKETEXT{"Search && Replace"}%</a></li>
     <li><a href="#" data-handler="handleEscapeTML"><i class="ui-icon fa fa-usd"></i> %MAKETEXT{"Escape markup"}%</a></li>
     <li><a href="#" data-handler="handleUnescapeTML"><i class="ui-icon fa">%</i> %MAKETEXT{"Unescape markup"}%</a></li>
   </ul>

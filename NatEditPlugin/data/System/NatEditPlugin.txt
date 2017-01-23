@@ -1,5 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1452118054" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1485156553" format="1.1" version="1"}%
 ---+!! Natural Edit Plugin
+%FORMFIELD{"Description"}%
+
 %TOC%
 
 ---++ Description
@@ -46,18 +48,15 @@ No extra configuration steps are needed in case you are using <nop>NatSkin.
 
 is sufficient.
 
-<!--
-   * Set STUB = %$STUB%
-   * Set SHORTDESCRIPTION = A Wikiwyg Editor
--->
-
----++ Plugin Installation Instructions
+---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
-|  Copyright &copy;: | 2007-2015 Michael Daum http://michaeldaumconsulting.com |
-|  Change History: | |
+---++ Dependencies
+%$DEPENDENCIES%
+
+---++ Change History
 |  06 Jan 2016 | Add helper to insert a data form table header. |
-|  08 Sep 2015 | Remove RevCommentPlugin hooks from templates,  Hide TopicTitle when unused. |
+|  08 Sep 2015 | Remove RevCommentPlugin hooks from templates,  Hide ToipcTitle when unused. |
 |  30 Aug 2015 | fixed default implementation for =topictitle= |
 |  29 Jul 2015 | added missing image in documentation |
 |  06 Mar 2015 | fixed permissions editor |
@@ -167,16 +166,16 @@ is sufficient.
 |  03 Apr 2007 | added NATEDIT_HELPTEXT variable; \
                   be backwards compatible to <nop>PatternSkin |
 |  31 Mar 2007 | Initial version |
-|  Dependencies: | %$DEPENDENCIES% |
-|  Perl Version: | - |
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Michael Daum"}%
-%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Home" title="Home" value="https://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="Foswiki Contributors, All Rights Reserved"}%
-%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1452118054" size="64487" user="ProjectContributor" version="1"}%
+%META:FIELD{name="Support" title="Support" value="https://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1485156553" size="64487" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1485156553" size="64487" user="ProjectContributor" version="1"}%

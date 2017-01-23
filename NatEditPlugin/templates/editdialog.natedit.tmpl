@@ -29,6 +29,24 @@
 </div>
 
 %{ ################################################################################ }%
+%TMPL:DEF{"searchdialog"}%<div class="ui-natedit-dialog-content ui-natedit-search-dialog-content" data-title="%MAKETEXT{"Search"}%">
+<form>
+  <table class="foswikiLayoutTable">
+    <tr>
+      <th>%MAKETEXT{"Search"}%</th>
+      <td><input type="text" name="search" class="foswikiInputField" value="{{:selection}}" size="30" /></td>
+    </tr>
+    <tr>
+      <th></th>
+      <td>
+        <label><input type="checkbox" name="ignorecase" class="foswikiRadioButton" value="1" checked /> %MAKETEXT{"ignore case"}%</label>
+      </td>
+    </tr>
+  </table>
+</form>
+</div>
+
+%{ ################################################################################ }%
 %TMPL:DEF{"inserttable"}%<div class="ui-natedit-dialog-content ui-natedit-insert-table-content" data-title="%MAKETEXT{"Create a new table"}%">
 <form>
   <table class="foswikiLayoutTable">
@@ -123,9 +141,9 @@
       <th>%MAKETEXT{"File"}%</th>
       <td><input type="text" size="50" name="file" class="foswikiInputField natEditAttachmentSelector" value="{{:file}}" />
         %IF{"context 'TopicInteractionPluginEnabled'"
-          then="<span class='ui-natedit-uploader jqUITooltip' data-theme='info' data-position='top' data-arrow='true'>
-                  <a href='#' class='ui-natedit-uploader-button' style='vertical-align:middle' title='%MAKETEXT{"Upload a file"}%'>%JQICON{"add"}%</a>
-                  <a href='#' class='ui-natedit-uploader-cancel' style='vertical-align:middle;display:none' title='%MAKETEXT{"Cancel upload"}%'>%JQICON{"delete"}%</a>
+          then="<span class='ui-natedit-uploader jqUITooltip' data-theme='info' data-position='top' data-arrow='true' title='%MAKETEXT{"Upload a file"}%'>
+                  <span class='ui-natedit-uploader-button' style='vertical-align:middle' >%JQICON{"add"}%<input type='file' name='files[]' /></span>
+                  <span class='ui-natedit-uploader-cancel' style='vertical-align:middle;display:none'>%JQICON{"delete"}%</span>
                </span>"
         }%</td>
     </tr>
