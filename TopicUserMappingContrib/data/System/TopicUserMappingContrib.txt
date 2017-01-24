@@ -22,6 +22,7 @@ It includes the topics that are used when registering and managing users and gro
       * %SYSTEMWEB%.ChangeEmailAddress
       * %SYSTEMWEB%.BulkRegistration
       * %SYSTEMWEB%.BulkResetPassword
+      * %SYSTEMWEB%.RemoveUser
    * Documentation topics
       * %SYSTEMWEB%.ManagingUsers
       * %SYSTEMWEB%.UserToolsCategory
