@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1485184197" format="1.1"  version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1485233581" format="1.1"  version="1"}%
 %META:TOPICPARENT{name="ReleaseHistory"}%
 ---+!! Foswiki Release 2.1.3
 
@@ -54,7 +54,7 @@ Foswiki is released under the GNU General Public License.
    * Foswiki 2.1.0 was built on 02 Feb 2016. It is a release that contains 37 fixes and 14 enhancements. It closes 7 Feature Requests.
    * Foswiki 2.1.1 was built on 30 Apr 2016. It is a release that contains 36 fixes and 21 enhancements.
    * Foswiki 2.1.2 was built on 2 May 2016. It is a release that contains 1 fix.
-   * Foswiki 2.1.3-Beta1 was built on 23 Dec 2016. It is a release that contains 50 fixes and 21 enhancements.
+   * Foswiki 2.1.3-Beta2 was built on 24 Jan 2017. It is a release that contains 60 fixes and 21 enhancements.
 
 
 ---++ Pre-installed Extensions
@@ -359,11 +359,13 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 
 | [[%BUGS%/Item11548][Item11548]] | INCLUDE{warn="custom"} only works for topic-missing warnings. |
 | [[%BUGS%/Item13206][Item13206]] | Upgrade to latest jquery-ui. |
-| [[%BUGS%/Item13882][Item13882]] | Foswiki 1.1 webTopicCreator incompatible with latest JQuery |
+| [[%BUGS%/Item13831][Item13831]] | JS error in !System.LanguageSelector |
+| [[%BUGS%/Item13892][Item13892]] | CALC doesn't work in %SEARCH despite of what documention says. |
 | [[%BUGS%/Item13928][Item13928]] | Mistypes to be fixed in the core. |
 | [[%BUGS%/Item13929][Item13929]] | FileUtil doesn't work correctly with BSD tar. |
 | [[%BUGS%/Item13963][Item13963]] | Foswiki::Form::getField() might generate 'use of undefined value' warnings. |
 | [[%BUGS%/Item13986][Item13986]] | Any changes to a topic text made after pushing the topic to the context stack are ignored even changes are related to topic-level preferences.  |
+| [[%BUGS%/Item14009][Item14009]] | Comment plugin does not properly identify location to insert comment. |
 | [[%BUGS%/Item14063][Item14063]] | Bootstrap fails to correctly detect path when mod_rewrite engine is disabled.  |
 | [[%BUGS%/Item14064][Item14064]] | Bad link in index.html in 2.1.0 and 2.1.2. |
 | [[%BUGS%/Item14066][Item14066]] | Performance issue sorting list based on NFKD. |
@@ -375,6 +377,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14098][Item14098]] | Approve User Registration should not require Verify User Registration. |
 | [[%BUGS%/Item14102][Item14102]] | Documentation suggest a Short URL configuration (renaming view script to xview) which is no longer supported. |
 | [[%BUGS%/Item14104][Item14104]] | Plain text password is sent by email in registration approval request. |
+| [[%BUGS%/Item14107][Item14107]] | Cancel doesn't undo add/delete row or move row actions. Document the restriction. |
 | [[%BUGS%/Item14125][Item14125]] | "Start Presentation" button needs further sanitization. |
 | [[%BUGS%/Item14128][Item14128]] | WebTopicEditTemplate not readable in restricted system web. |
 | [[%BUGS%/Item14139][Item14139]] | debugenableplugins not correctly handled. |
@@ -391,7 +394,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14202][Item14202]] | PageCache tweaks to control dependency growth. |
 | [[%BUGS%/Item14204][Item14204]] | Port JsonRpcContrib unit tests from master to Release02x01 - and fix error with redirectto revealed by test. |
 | [[%BUGS%/Item14205][Item14205]] | Autoconfig Email failing with recent versions of IO::Socket::SSL. |
-| [[%BUGS%/Item14209][Item14209]] | Email wizard for SSLCaFile and SSLCaPath  don't return any results. |
+| [[%BUGS%/Item14209][Item14209]] | Email wizard for SSLCaFile and SSLCaPath doesn't return any results. |
 | [[%BUGS%/Item14211][Item14211]] | System.DataForms topic use the NEW macro. Should be N. |
 | [[%BUGS%/Item14213][Item14213]] | EditRowPlugin: "Use of uninitialized value in addition" warning when clicking on Edit button. |
 | [[%BUGS%/Item14216][Item14216]] | MailerContrib mailnotify fails with wide character print when run from Web when unicode webnames are in use. |
@@ -406,6 +409,14 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14253][Item14253]] | WysiwygPlugin inserts extra spaces in front of square bracket links. |
 | [[%BUGS%/Item14256][Item14256]] | Data loss of certain formfield names when moving content from 1.x to 2.x. |
 | [[%BUGS%/Item14258][Item14258]] | EditRowPlugin will crash with empty column format. |
+| [[%BUGS%/Item14263][Item14263]] | Mistype in Foswiki::Configure::Item |
+| [[%BUGS%/Item14265][Item14265]] | NatEdit plugin leaves UI blocked after some save errors |
+| [[%BUGS%/Item14266][Item14266]] | Error enabling internationalization and languages |
+| [[%BUGS%/Item14279][Item14279]] | CLI =tools/configure= fails to encode Password when run in prompting mode |
+| [[%BUGS%/Item14281][Item14281]] | Cookie related changes. Inconsistent use of the domain and secure flags. |
+| [[%BUGS%/Item14285][Item14285]] | Don't try to action upon disabled toobar buttons |
+| [[%BUGS%/Item14286][Item14286]] | PatternSkin*Navigation topics are broken, and difficult to tailor. |
+| [[%BUGS%/Item14287][Item14287]] | Configure needs to encode reported configuration values. |
 
 ---+++ Enhancements
 

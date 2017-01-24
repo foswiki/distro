@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1481600913" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1485233581" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -125,6 +125,7 @@ required for Foswiki 1.1 or later.
 
 ---++ Change History
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  23 Jan 2017: | (7.21) - Item14281: Cookie related changes. Inconsistent use of the domain and secure flags. |
 |  12 Dec 2016: | (7.20) - Item10918: Improve javascript api to address individual tabs. \
                          - Item14172: jquery.stars width incorrect in modal dialogs. \
                          - Item14173: Invalid call foswiki.getScriptUrl() in foswiki.getPreference(). \
@@ -375,7 +376,7 @@ required for Foswiki 1.1 or later.
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="ProjectContributor"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2007-2016 Foswiki Contributors https://foswiki.org"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2007-2017 Foswiki Contributors https://foswiki.org"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Home" title="Home" value="Foswiki:Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="License" title="License" value="GPL"}%
