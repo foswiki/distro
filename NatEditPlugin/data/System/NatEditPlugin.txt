@@ -55,6 +55,10 @@ is sufficient.
 %$DEPENDENCIES%
 
 ---++ Change History
+|  Copyright &copy;: | 2007-2015 Michael Daum http://michaeldaumconsulting.com |
+|  Change History: | |
+|  20 Jan 2017 | Foswikitask:Item14265: NatEdit plugin leaves UI blocked after some save errors<br/>\
+                 Foswikitask:Item14285: fixed error clicking on disabled toolbar buttons |
 |  06 Jan 2016 | Add helper to insert a data form table header. |
 |  08 Sep 2015 | Remove RevCommentPlugin hooks from templates,  Hide ToipcTitle when unused. |
 |  30 Aug 2015 | fixed default implementation for =topictitle= |
@@ -177,5 +181,4 @@ is sufficient.
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
 %META:FIELD{name="Support" title="Support" value="https://foswiki.org/Support/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1485156553" size="64487" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="screenshot1.png" attr="h" comment="" date="1485156553" size="64487" user="ProjectContributor" version="1"}%

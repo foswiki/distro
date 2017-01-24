@@ -533,7 +533,8 @@ sub cookie {
         -value => $value,
         -path  => $path || '/',
         -secure  => $secure  || $this->secure,
-        -expires => $expires || abs( $Foswiki::cfg{Sessions}{ExpireAfter} )
+        -expires => $expires || abs( $Foswiki::cfg{Sessions}{ExpireAfter} ),
+        -domain => $Foswiki::cfg{Sessions}{CookieRealm} || '',
     );
 }
 
