@@ -283,6 +283,22 @@ $Foswiki::cfg{Sessions}{IDsInURLs} = 0;
 # If empty, this defaults to the current host.
 $Foswiki::cfg{Sessions}{CookieRealm} = '';
 
+# **STRING 20 LABEL="Cookie Path" EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="undefok emptyok iff:'{UseClientSessions}'"**
+# By default, the foswiki cookies live at the root of the path.  If foswiki shares
+# with other applications on the web server, it may be useful to set this to =/foswiki=
+# or another path appropriate for your site.
+#
+# If empty, the cookie will be at the '/' root.
+$Foswiki::cfg{Sessions}{CookiePath} = '/';
+
+# **STRING 20 LABEL="Cookie Name Prefix" EXPERT DISPLAY_IF="{UseClientSessions}" CHECK="undefok emptyok iff:'{UseClientSessions}'"**
+# With multiple Foswiki installations on the same host, it may be necessary to use unique names
+# for the cookies to avoid collisions.  This is especially true if the CookieRealm has been 
+# configured as a wildcard domain.
+#
+# If empty, no prefix is added.
+$Foswiki::cfg{Sessions}{CookieNamePrefix} = '';
+
 # **BOOLEAN LABEL="Use IP Matching" DISPLAY_IF="{UseClientSessions}" CHECK="iff:'{UseClientSessions}'" EXPERT**
 # Enable this option to prevent a session from being accessed by
 # more than one IP Address. This gives some protection against session
