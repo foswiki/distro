@@ -3315,7 +3315,7 @@ msgstr "重做前入改變"
 msgid "Refresh"
 msgstr "更新"
 
-#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
 #: core/templates/foswiki.tmpl:148
@@ -5667,7 +5667,7 @@ msgstr "新"
 msgid "now %1"
 msgstr "現在 %1"
 
-#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:148
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25

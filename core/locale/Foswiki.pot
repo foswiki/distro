@@ -3246,7 +3246,7 @@ msgstr ""
 msgid "Refresh"
 msgstr ""
 
-#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
 #: PatternSkin/data/System/WebLeftBarLogin.txt:16
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:296
 #: core/templates/foswiki.tmpl:148
@@ -5530,7 +5530,7 @@ msgstr ""
 msgid "now %1"
 msgstr ""
 
-#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:72
+#: PatternSkin/data/System/PatternSkinThemeFatWillyNavigation.txt:74
 #: core/templates/changeform.tmpl:12 core/templates/foswiki.tmpl:148
 #: core/templates/moveattachment.tmpl:55 core/templates/preview.tmpl:18
 #: core/templates/rename.tmpl:21 core/templates/renameattachmentdelete.tmpl:25
