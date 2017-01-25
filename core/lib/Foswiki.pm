@@ -211,8 +211,8 @@ BEGIN {
 
     # DO NOT CHANGE THE FORMAT OF $VERSION.
     # Use $RELEASE for a descriptive version.
-    use version 0.77; $VERSION = version->declare('v2.1.2_001');
-    $RELEASE = 'Foswiki-2.1.3-Beta1';
+    use version 0.77; $VERSION = version->declare('v2.1.2_002');
+    $RELEASE = 'Foswiki-2.1.3-Beta2';
 
     # Default handlers for different %TAGS%
     # Where an entry is set as 'undef', the tag will be demand-loaded
@@ -3704,7 +3704,7 @@ sub getApproxRevTime {
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2008-2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2008-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
