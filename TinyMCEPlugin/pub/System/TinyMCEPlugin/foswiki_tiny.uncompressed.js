@@ -426,9 +426,6 @@ var FoswikiTiny = {
 			tinyMCE.PluginManager.load(p, url);
 		}
 	    });
-        } else {
-            alert(
-'Unable to install TinyMCE: could not read "TINYMCEPLUGIN_INIT" from init parameters');
         }
     },
 
