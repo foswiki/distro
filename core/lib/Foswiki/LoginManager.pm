@@ -122,6 +122,10 @@ sub makeLoginManager {
         else {
             $sessionname = 'FOSWIKISID';
         }
+        if ( $Foswiki::cfg{Sessions}{CookieNamePrefix} ) {
+            $sessionname =
+              $Foswiki::cfg{Sessions}{CookieNamePrefix} . $sessionname;
+        }
         if ( $Foswiki::LoginManager::Session::VERSION eq '4.10' ) {
 
             # 4.10 is broken; see Item1989
@@ -1126,7 +1130,7 @@ sub _addSessionCookieToResponse {
     my $cookie = CGI::Cookie->new(
         -name     => $Foswiki::LoginManager::Session::NAME,
         -value    => $this->{_cgisession}->id(),
-        -path     => '/',
+        -path     => $Foswiki::cfg{Sessions}{CookiePath} || '/',
         -domain   => $Foswiki::cfg{Sessions}{CookieRealm} || '',
         -httponly => 1,
         -secure   => $this->{session}->{request}->secure,
@@ -1160,7 +1164,7 @@ sub _delSessionCookieFromResponse {
     my $cookie = CGI::Cookie->new(
         -name     => $Foswiki::LoginManager::Session::NAME,
         -value    => '',
-        -path     => '/',
+        -path     => $Foswiki::cfg{Sessions}{CookiePath} || '/',
         -domain   => $Foswiki::cfg{Sessions}{CookieRealm} || '',
         -httponly => 1,
         -secure   => $this->{session}->{request}->secure,
