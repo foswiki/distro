@@ -784,7 +784,8 @@ sub extractModuleVersion {
                     my $exp = $1;
                     $exp =~ s/\$RELEASE/\$mod_release/g;
                     eval("\$mod_version =~ $exp;");
-                    die "1-Failed to eval $1 from $_ in $file at line $.: $@\n"
+                    print STDERR
+"Dependency.pm 1-Failed to eval $1 from $_ in $file at line $.: $@\n"
                       if ($@);
                     last;
                 }
@@ -800,7 +801,8 @@ sub extractModuleVersion {
                   )
                 {
                     eval( "\$mod_" . lc($1) . " = $2;" );
-                    die "2-Failed to eval $2 from $_ in $file at line $.: $@\n"
+                    print STDERR
+"Dependency.pm 2-Failed to eval $2 from $_ in $file at line $.: $@\n"
                       if ($@);
                     next;
                 }
