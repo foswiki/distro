@@ -15,7 +15,7 @@
     debug: false,
     delay: 1000, // number of seconds to delay contacting f.o.
     timeout: 5000, // number of seconds a jsonp call is considered failure
-    cookieName: "FOSWIKI_UPDATESPLUGIN", // name of the cookie
+    cookieNameSuffix: "FOSWIKI_UPDATESPLUGIN", // name of the cookie
     cookieExpires: 7, // number of days the cookie takes to expire
     cookieSecure: '0', // If secure cookies are needed (https)
     cookieDomain: ''   // Override domain if requested.
@@ -50,6 +50,7 @@
       self.options.endpointUrl = foswiki.getScriptUrl("rest", "UpdatesPlugin", "check");
     }
 
+    self.options.cookieName   = foswiki.getPreference('COOKIENAMEPREFIX') + self.options.cookieNameSuffix;
     self.options.cookieDomain = foswiki.getPreference('COOKIEREALM'); // Allow domain override
     self.options.cookieSecure = foswiki.getPreference('URLHOST').startsWith('https://');
 
