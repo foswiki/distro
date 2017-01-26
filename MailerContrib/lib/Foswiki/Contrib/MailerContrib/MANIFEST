@@ -15,5 +15,5 @@ data/System/MailerContribPlugin.txt 0644
 tools/mailnotify 0555
 templates/mailnotify.tmpl 0444
 templates/newsletter.tmpl 0444
-pub/System/MailerContrib/wikiringlogo20x20.png 0660
-pub/System/MailerContrib/logo.gif 0660
+pub/System/MailerContrib/wikiringlogo20x20.png 0644
+pub/System/MailerContrib/logo.gif 0644
