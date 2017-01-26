@@ -586,6 +586,17 @@ sub test_compare_extension_versions {
         [ 1, '1.2.3', undef,   '>', '7429' ],
         [ 1, '1.2.3', undef,   '<', '13213' ],
 
+       # svn installed, tuple requested - svn is obsolete, so always return true
+       # Except when the "tuple" is a simple integer.
+        [ 1, '2.4.1', '$Rev: 15237 (2012-07-31) $', '<', 2.50 ],
+        [ 1, '2.4.1', '$Rev: 15237 (2012-07-31) $', '>', 2.50 ],
+        [ 1, '2.4.1', '$Rev: 15237 (2012-07-31) $', '<', 16000 ],
+        [ 0, '2.4.1', '$Rev: 15237 (2012-07-31) $', '<', 13000 ],
+
+        # Special case, even though "Release" 2.4.1 is > 2.4.0
+        # the VERSION string is the authority.
+        [ 1, '2.4.1', '$Rev: 15237 (2012-07-31) $', '<', '2.4.0' ],
+
         # Decimal rev installed, compared to svn rev requested
         # Always true - assume migration from rev to triplet
         [ 1, '1.2', '1.2', '>', '7429' ],
