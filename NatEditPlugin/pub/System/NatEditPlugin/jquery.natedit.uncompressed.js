@@ -1377,7 +1377,6 @@ $.NatEditor.prototype.dialog = function(opts) {
               if (ev.keyCode == 13) {
                 ev.preventDefault();
                 $this.dialog("close");
-                dfd.resolve($this[0]);
               }
             }
           });
@@ -1385,6 +1384,7 @@ $.NatEditor.prototype.dialog = function(opts) {
           opts.open.call(self, this, opts.data);
         },
         close: function(event, ui) {
+          dfd.resolve(this);
           $(this).remove();
         },
         show: 'fade',
