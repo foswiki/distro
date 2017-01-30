@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-12-30 01:48+0200\n"
+"PO-Revision-Date: 2017-01-30 17:13+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -1008,7 +1008,7 @@ msgstr "在 %1 子網內的子主題"
 
 #: core/templates/changeform.tmpl:6
 msgid "Choose a new form for %1"
-msgstr "為 %1 選個新表單"
+msgstr "為 %1 選一個新表單"
 
 #: PatternSkin/templates/renamebase.pattern.tmpl:19
 #: core/lib/Foswiki/Form/Checkbox.pm:105
@@ -1217,7 +1217,7 @@ msgstr "目前父主題："
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:25
 msgid "Current password"
-msgstr "目前密碼"
+msgstr "目前的密碼"
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 msgid "Date"
@@ -1982,9 +1982,8 @@ msgid "Keyword search"
 msgstr "關鍵字搜尋"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:21
-#, fuzzy
 msgid "Last"
-msgstr "姓"
+msgstr "最後"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:31
 msgid "Last edited by"
@@ -2289,9 +2288,8 @@ msgid "Not sure this is right, please confirm!"
 msgstr "不確定是否正確，請確認！"
 
 #: SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin.pm:140
-#, fuzzy
 msgid "Notation"
-msgstr "通知"
+msgstr "注釋"
 
 #: core/templates/moveattachment.tmpl:50
 msgid ""
@@ -2816,7 +2814,7 @@ msgstr "回到 %1。"
 
 #: TopicUserMappingContrib/data/System/ChangePassword.txt:27
 msgid "Retype new password"
-msgstr "重新輸入新密碼"
+msgstr "再次輸入新密碼"
 
 #: core/templates/messages.tmpl:27
 msgid "Rev %1 was saved by %2, while you were still editing."
@@ -2913,7 +2911,6 @@ msgid "Search result"
 msgstr "搜尋結果"
 
 #: core/data/System/WebSearch.txt:240
-#, fuzzy
 msgid "Search results"
 msgstr "搜尋結果"
 
