@@ -8,10 +8,7 @@ jQuery(function($) {
     draggable:false,
     resizable:false,
     closeOnEscape:false,
-    show:'fade',
-    close: function() {
-      $(this).dialog("destroy").remove();
-    }
+    show:'fade'
   };
 
   // dialog
