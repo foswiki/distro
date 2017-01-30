@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2017-01-30 17:13+0200\n"
+"PO-Revision-Date: 2017-01-30 17:17+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-"
@@ -154,7 +154,7 @@ msgstr "子網 %2 的近期更新 %1"
 # $by)
 #: core/templates/messages.tmpl:568
 msgid "%1 removed from the %2 group. "
-msgstr "%1 由群組 %2 移出。"
+msgstr "%1 由群組 %2 移出。 "
 
 #: core/templates/messages.tmpl:22
 msgid "%1 to create another web"
@@ -186,7 +186,7 @@ msgstr "%4 將 %3 的 %2 更名或移到 %1"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:37
 msgid "%1.LoginName"
-msgstr "%1.LoginName"
+msgstr "%1.登入名稱"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:16
 msgid "&Cancel"
@@ -202,7 +202,7 @@ msgstr "連續(&S)"
 
 #: core/templates/messages.tmpl:302
 msgid "'%1' is not a valid %2 "
-msgstr "'%1' 不是個合法的 %2"
+msgstr "'%1' 不是個有效的 %2 "
 
 #: core/data/System/WebTopicCreator.txt:3
 msgid "'Create New Topic' page has moved"
@@ -1523,7 +1523,7 @@ msgstr "必填標為 %1 的欄位"
 
 #: TopicUserMappingContrib/data/System/DefaultUserRegistration.txt:42
 msgid "Fields marked <span class='required'>*</span> are required"
-msgstr "必填標 <span class='required'>*</span> 的欄位"
+msgstr "標為必填 <span class='required'>*</span> 的欄位"
 
 #: core/templates/messages.tmpl:409
 msgid "File has been uploaded with different name"
@@ -1889,7 +1889,7 @@ msgstr "不正確的 %1"
 
 #: core/templates/messages.tmpl:311
 msgid "Incorrect %1.WikiNames:"
-msgstr "不正確的 %1.WikiNames"
+msgstr "不正確的 %1.WikiNames:"
 
 #: core/templates/messages.tmpl:105
 msgid "Incorrect Password"
@@ -2491,9 +2491,7 @@ msgstr "請返回瀏覽器的上一頁，再檢查一次。"
 msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or check the allow non-Wiki Word box"
-msgstr ""
-"請返回瀏覽器，並選擇 [[%SYSTEMWEB%.WikiWord][WikiWord]]  為主題名，或是開啟允"
-"許非 WikiWord 選項。"
+msgstr "請返回瀏覽器，並選擇 [[%SYSTEMWEB%.WikiWord][WikiWord]]  為主題名，或是開啟允許非 WikiWord 選項"
 
 #: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
 #: core/templates/messages.tmpl:119 core/templates/messages.tmpl:131
@@ -3213,7 +3211,7 @@ msgstr "謝謝您在 %1 合作平臺註冊。您的校驗碼是 %2。"
 
 #: core/templates/messages.tmpl:690
 msgid "That user has already been activated "
-msgstr "該使用者已經啟動"
+msgstr "該使用者已經啟用 "
 
 #: core/templates/messages.tmpl:309
 msgid ""
@@ -3450,7 +3448,7 @@ msgstr "加入群組 %2 時發生錯誤。%1 "
 
 #: core/templates/messages.tmpl:556
 msgid "There were errors removing %1 from the %2 group. "
-msgstr "將 %1 自 %2 群組移除時發生錯誤。"
+msgstr "將 %1 自 %2 群組移除時發生錯誤。 "
 
 #: core/templates/messages.tmpl:401
 msgid "This can be automatically upgraded by:"
@@ -4042,9 +4040,7 @@ msgid ""
 "You *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "
 "have forgotten your password, contact %1"
-msgstr ""
-"您 *必須* 至少有一個有效的註冊電子信箱才能重設密碼。若您忘記密碼且註冊用的電"
-"子信箱已失效，後請聯繫 %1。"
+msgstr "您 *必須* 至少有一個有效的註冊電子信箱才能重設密碼。若您忘記密碼且註冊用的電子信箱已失效，後請聯繫 %1"
 
 #: core/templates/messages.tmpl:291
 msgid "You are already registered"
