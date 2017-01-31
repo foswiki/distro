@@ -25,24 +25,30 @@ sub QUERY {
     }
     $style = Foswiki::Sandbox::untaintUnchecked($style);
 
-    my $rev = $params->{rev};
+    # Config key queries don't need / care about topic versions.
+    if ( $expr !~ m/^\{.*\}$/ ) {
 
-    # FORMFIELD does its own caching.
-    # Either the home-made cache there should go into Meta so that both
-    # FORMFIELD and QUERY benefit, or the store should be made a lot smarter.
+        my $rev = $params->{rev};
 
-    if ( defined $rev ) {
-        my $crev = $topicObject->getLoadedRev();
-        if ( defined $crev && $crev != $rev ) {
+       # FORMFIELD does its own caching.
+       # Either the home-made cache there should go into Meta so that both
+       # FORMFIELD and QUERY benefit, or the store should be made a lot smarter.
+
+        if ( defined $rev && length($rev) ) {
+            my $crev = $topicObject->getLoadedRev();
+            if ( defined $crev && $crev != $rev ) {
+                $topicObject =
+                  Foswiki::Meta->load( $topicObject->session, $topicObject->web,
+                    $topicObject->topic, $rev );
+            }
+        }
+        elsif ( !$topicObject->latestIsLoaded() ) {
+
+            # load latest rev
             $topicObject =
               Foswiki::Meta->load( $topicObject->session, $topicObject->web,
-                $topicObject->topic, $rev );
+                $topicObject->topic );
         }
-    }
-    elsif ( !$topicObject->latestIsLoaded() ) {
-
-        # load latest rev
-        $topicObject = $topicObject->load();
     }
 
     # Recursion block.
