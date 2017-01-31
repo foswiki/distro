@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2017-01-30 17:13+0200\n"
+"PO-Revision-Date: 2017-01-31 09:15+0200\n"
 "Last-Translator: CH yang <dr3939@gmail.com>\n"
 "Language-Team: Traditional Chinese "
 "<http://translate.foswiki.org/projects/foswiki/distribution-master/zh_TW/>\n"
@@ -229,7 +229,7 @@ msgstr "'%1' 不是個合法的 [[%2][登入使用者]]。"
 
 #: core/data/System/WebTopicCreator.txt:3
 msgid "'Create New Topic' page has moved"
-msgstr "\"建立新主題\" 頁已被移走"
+msgstr "'建新主題' 頁已被移走"
 
 #: core/templates/login.tmpl:10
 msgid "(%1 login)"
@@ -1299,7 +1299,7 @@ msgstr "建立新的熱門問答主題"
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:5
 #: core/data/Sandbox/WebHome.txt:9
 msgid "Create New Topic"
-msgstr "建立新主題"
+msgstr "建新主題"
 
 #: PatternSkin/data/System/WebCreateNewTopicTemplate.txt:13
 msgid "Create New Topic in %1 Web"
@@ -1328,7 +1328,7 @@ msgstr "建立群組"
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:30
 #: FamFamFamContrib/templates/view.famfamfam.tmpl:31
 msgid "Create new topic"
-msgstr "建立新主題"
+msgstr "建新主題"
 
 #: core/templates/registermessages.tmpl:405
 #: core/templates/registermessages.tmpl:411
@@ -5646,7 +5646,7 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:10
 msgid "title='Edit Wiki text' accesskey='w'>Edit &wiki text"
-msgstr "title='編輯 Wiki 格式' accesskey='w'>編輯 &wiki 格式"
+msgstr "title='編輯維基格式' accesskey='w'>編輯維基格式(&W)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:8
 msgid "title='Edit this topic text' >Edit"
@@ -5658,7 +5658,7 @@ msgstr "title='編輯主題' accesskey='e'>編輯(&E)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:74
 msgid "title='Interwoven' accesskey='i'>&interwoven"
-msgstr "title='交織' accesskey='i'>&interwoven 交織"
+msgstr "title='交織' accesskey='i'>交織(&I)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:23
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
@@ -5667,7 +5667,7 @@ msgstr "title='列印本主題' accesskey='p' >列印(&P)"
 #: core/templates/viewtopicactionbuttons.tmpl:30
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
-msgstr "title='搜尋所有子網中連結至此的主題' accesskey='l'>全站 (A&ll) 搜尋"
+msgstr "title='搜尋所有子網中連結至此的主題' accesskey='l'>全站搜尋(&L)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:32
 msgid ""
@@ -5678,24 +5678,24 @@ msgstr "title='搜尋 %1 子網中連結至此的主題' accesskey='b'>反向連
 #: core/templates/viewtopicactionbuttons.tmpl:28
 msgid ""
 "title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
-msgstr "title='搜尋 %1 子網中連結至此的主題' accesskey='b'>子網 (We&b) 搜尋"
+msgstr "title='搜尋 %1 子網中連結至此的主題' accesskey='b'>子網搜尋 (&B)"
 
 #: CompareRevisionsAddOn/templates/compare.tmpl:71
 msgid "title='Side by side' accesskey='s'>&side by side"
-msgstr "title='並列瀏覽' accesskey='s'>&s 並列"
+msgstr "title='並列瀏覽' accesskey='s'>並列(&S)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Subscribe to this topic' accesskey='s'>&Subscribe"
-msgstr "title='訂閱主題' accesskey='s'>&S 訂閱"
+msgstr "title='訂閱主題' accesskey='s'>訂閱(&S)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid "title='Unsubscribe from this topic' accesskey='s'>Un&subscribe"
-msgstr "title='退訂主題' accesskey='s' >&s 退訂"
+msgstr "title='退訂主題' accesskey='s' >退訂(&S)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:35
 #: core/templates/viewtopicactionbuttons.tmpl:37
 msgid "title='View complete topic history' accesskey='h'>&History"
-msgstr "title='瀏覽完整主題歷史' accesskey='h'>&H 歷史"
+msgstr "title='瀏覽完整主題歷史' accesskey='h'>歷史(&H)"
 
 #: HistoryPlugin/templates/oopshistory.tmpl:122
 #: core/templates/viewtopicactionbuttons.tmpl:12
@@ -5704,7 +5704,7 @@ msgstr "title='瀏覽主題' accesskey='v'>瀏覽(&V)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:41
 msgid "title='View without formatting' accesskey='v'>&View wiki text"
-msgstr "title='檢視源碼' accesskey='v'>&V 檢視源碼"
+msgstr "title='檢視源碼' accesskey='v'>檢視源碼(&V)"
 
 #: core/lib/Foswiki/Macros/GROUPS.pm:38
 msgid "user list truncated"
