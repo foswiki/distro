@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-01-13 11:08+0200\n"
+"PO-Revision-Date: 2017-02-01 09:38+0200\n"
 "Last-Translator: Raul F Rodriguez <raulfrodriguez10@gmail.com>\n"
 "Language-Team: French <http://translate.foswiki.org/projects/foswiki"
 "/distribution-release-11/fr/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.1\n"
+"X-Generator: Weblate 2.4\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:482
@@ -357,7 +357,7 @@ msgid ""
 msgstr ""
 "*Administrateurs:* vous pouvez changer l'adresse e-mail de l'utilisateur en "
 "utilisant ce formulaire. Entrez le Nom de connexion ou [[WikiName][NomWiki]] "
-"et la nouvelle adresse e-mail."
+"de l'utilisateur et la nouvelle adresse e-mail."
 
 #: core/templates/attachagain.tmpl:18
 msgid ""
