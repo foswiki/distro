@@ -41,10 +41,11 @@ use strict;
 use warnings;
 use Error qw(:try);
 use File::stat;    # Need to import functions!
-use File::Copy ();
-use File::Spec ();
-use File::Path ();
-use File::Temp ();
+use File::Copy            ();
+use File::Copy::Recursive ();
+use File::Spec            ();
+use File::Path            ();
+use File::Temp            ();
 use Assert;
 use Foswiki::Configure::Dependency ();
 use Foswiki::Configure::FileUtil   ();
@@ -764,6 +765,11 @@ sub _install {
 
     $reporter->NOTE( "---+++ Installing " . $this->module() );
 
+    unless ($Foswiki::Plugins::SESSION) {
+        $reporter->NOTE(" Creating a SESSION");
+        Foswiki->new('admin');    # Create admin session for topic checkins
+    }
+
     my $err;
     my $ext       = '';
     my $installer = '';
@@ -935,9 +941,9 @@ sub _install {
             my $web   = $1;
             my $topic = $2;
             my ( $tweb, $ttopic ) = _getMappedWebTopic($file);
+            my $session = $Foswiki::Plugins::SESSION;
 
-            #SMELL  Should not try to check in if target web is missing?
-            if (1) {    #Foswiki::Func::webExists($tweb) ) {
+            if ( Foswiki::Func::webExists($tweb) ) {
                 my %opts;
                 $opts{forcenewrevision} = 1;
 
@@ -965,15 +971,47 @@ sub _install {
                         "> ${simulated}Checked in: $file  as $tweb.$ttopic")
                       if DEBUG;
                     $checkedIn++;
-                    my $meta = Foswiki::Meta->new( $Foswiki::Plugins::SESSION,
-                        $tweb, $ttopic, $contents );
 
-                    $ok = 0
-                      unless $this->_installAttachments( $reporter, $dir,
-                        "$web/$topic", "$tweb/$ttopic", $meta, $attached );
-                    $meta->saveAs(%opts) unless $this->option('SIMULATE');
+                    # This process is derived from Foswiki::Meta::saveTopicText
+
+                    my $topicObject =
+                      Foswiki::Meta->new( $session, $tweb, $ttopic );
+                    $topicObject->remove('FILEATTACHMENT');
+
+                    my $oldMeta = Foswiki::Meta->load( $session, $web, $topic );
+                    $topicObject->copyFrom( $oldMeta, 'FILEATTACHMENT' );
+
+                    require Foswiki::Serialise;
+                    Foswiki::Serialise::deserialise( $contents, 'Embedded',
+                        $topicObject );
+
+                    unless ( $this->option('SIMULATE') ) {
+                        $topicObject->setLoadStatus( $topicObject->getLoadedRev,
+                            1 );
+                        my $newRev = $topicObject->saveAs(%opts);
+                        $session->logger->log(
+                            {
+                                level    => 'info',
+                                action   => 'save',
+                                webTopic => "$tweb.$ttopic",
+                                extra    => "r$newRev - configure installed "
+                                  . $this->module(),
+                            }
+                        );
+
+                        $ok = 0
+                          unless $this->_installAttachments( $reporter, $dir,
+                            "$web/$topic", "$tweb/$ttopic", $topicObject,
+                            $attached );
+
+                    }
                 }
                 next;
+            }
+            else {
+                $reporter->ERROR(
+                    "Install of $tweb.$ttopic failed - $tweb does not exist!");
+                $ok = 0;
             }
         }
 
@@ -1177,7 +1215,7 @@ sub _createBackup {
                 my $mode = $fstat->mode;
 
                 #( stat($file) )[2];    # File::Copy doesn't copy permissions
-                File::Copy::copy( $file, "$pkgstore/$tofile" )
+                File::Copy::Recursive::rcopy( $file, "$pkgstore/$tofile" )
                   unless ( $this->option('SIMULATE') );
                 chmod( $mode, "$pkgstore/$tofile" )
                   unless ( $this->option('SIMULATE') );
@@ -1244,6 +1282,11 @@ sub _listFiles {
             my $target = _mapTarget( $this->{_root}, $key );
             push( @files, $target )     if ( -f $target );
             push( @files, "$target,v" ) if ( -f "$target,v" );
+            if ( $target =~ m/\.txt$/ ) {
+                my $pfv = $target;
+                $pfv =~ s/\.txt$/,pfv/;
+                push( @files, $pfv ) if ( -e $pfv );
+            }
         }
         else {
             push( @files, $key );
@@ -1333,6 +1376,14 @@ sub uninstall {
             if ( -f "$target,v" ) {
                 my $n = unlink "$target,v";
                 push( @removed, "$target,v" ) if ( $n == 1 );
+            }
+            if ( $target =~ m/\.txt$/ ) {
+                my $pfv = $target;
+                $pfv =~ s/\.txt$/,pfv/;
+                if ( -e "$pfv" ) {
+                    my $n = File::Path::remove_tree("$pfv");
+                    push( @removed, "$pfv" ) if ( $n >= 1 );
+                }
             }
         }
     }
