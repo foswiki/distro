@@ -1,10 +1,11 @@
+# See bottom of file for license and copyright information
 package Foswiki::Contrib::JEditableContrib;
 
 use strict;
 use warnings;
 
-our $VERSION = '1.71';
-our $RELEASE = '1.7.1';    # keep in synch with jquery.jeditable.js
+our $VERSION = '1.72';
+our $RELEASE = '06 Feb 2017';
 our $SHORTDESCRIPTION =
   'The JQuery "JEditable" plugin, packaged for use in Foswiki';
 
@@ -39,7 +40,7 @@ Author: Crawford Currie http://c-dot.co.uk
 
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2011-2015 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2011-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

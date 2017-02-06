@@ -1,9 +1,6 @@
-%META:TOPICINFO{author="ProjectContributor" comment="" date="1437500521" format="1.1" version="1"}%
----+!! !%TOPIC%
-<!--
-   * Set SHORTDESCRIPTION = %$SHORTDESCRIPTION%
--->
-%SHORTDESCRIPTION%
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1486386256" format="1.1" version="1"}%
+---+!! %TOPIC%
+%FORMFIELD{"Description"}%
 
 %TOC%
 
@@ -16,25 +13,23 @@ See http://www.appelsiini.net/projects/jeditable for more information.
 
 %$INSTALL_INSTRUCTIONS%
 
-With JQueryPlugin versions *before* 4.02, you will have to enable the JEditableContribPlugin.
+---++ Dependencies
+%$DEPENDENCIES%
 
----++ Info
+---++ Change History
 
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
-| 1.71 | Foswikitask:Item12864: Use simple decimal VERSION strings |
+%TABLE{columnwidths="7em" tablewidth="100%"}%
+| 1.72 | Foswikitask:Item14317 - fixed packaging, removed bogus <nop>JEditableContribPlugin |
+| 1.71 | Foswikitask:Item12864 - Use simple decimal VERSION strings |
 | 1.7.1 | Initial release |
-|  Dependencies: | %$DEPENDENCIES% |
-
-<!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
 
 %META:FORM{name="PackageForm"}%
 %META:FIELD{name="Author" title="Author" value="Crawford Currie http://c-dot.co.uk"}%
 %META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/distro"}%
-%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2011-2015 Foswiki Contributors"}%
+%META:FIELD{name="Copyright" title="Copyright" value="&copy; 2011-2017 Foswiki Contributors"}%
 %META:FIELD{name="License" title="License" value="[[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]]"}%
-%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/JEditableContrib"}%
-%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/JEditableContrib"}%
-%META:FILEATTACHMENT{name="jquery.jeditable.js" attr="h" comment="" date="1437500521" size="7945" user="ProjectContributor" version="1"}%
-%META:FILEATTACHMENT{name="jquery.jeditable_src.js" attr="h" comment="" date="1437500521" size="24351" user="ProjectContributor" version="1"}%
+%META:FIELD{name="Home" title="Home" value="https://foswiki.org/Extensions/JEditableContrib"}%
+%META:FIELD{name="Support" title="Support" value="https://foswiki.org/Support/JEditableContrib"}%
