@@ -1,0 +1,52 @@
+%META:TOPICINFO{author="ProjectContributor" comment="" date="1486602810" format="1.1"  version="1"}%
+%META:TOPICPARENT{name="WebHome"}%
+---+!! %TOPIC%
+
+Description: A manual test case for invalid or outdated links.
+
+   * [[Wikipedia:Fork_(software_development)]] - Bracketed link
+   * Wikipedia:'Fork_(software_development)' - Quoted link
+
+Each of the below examples should go to the corresponding site, and not
+redirect from http to https.
+
+---+++ General Inter-Site Links
+
+<noautolink>
+
+| *Alias:* | *URL:* | *Tooltip Text:* | *Test Example* |
+| Acronym | http://www.acronymfinder.com/af-query.asp?Acronym=$page&String=exact | Look up '$page' on Acronym Finder site | Acronym:ASAP |
+| CPAN | https://metacpan.org/module/ | CPAN perl repository | CPAN:LWP |
+| Dictionary | http://www.dictionary.com/cgi-bin/dict.pl?term= | Look up '$page' at Dictionary.com | Dictionary:awesome |
+| Google | http://google.com/search?q= | Search for '$page' on Google | Google:foswiki |
+| Group | https://groups.google.com/forum/#!search/ | News group '$page' at Google.com | Group:perl.perl5.porters |
+| ISBN | http://www.bookfinder.com/search/?st=sr;ac=qr;isbn= | Book with ISBN $page | ISBN:978-0-06-123858-1 |
+| News | http://news.google.com/news?q= | Search for '$page' on Google news | News:Environment |
+| RFC | http://www.faqs.org/rfcs/rfc$page.html | IETF RFC #$page | RFC:1925 |
+</noautolink>
+
+---+++ Inter-Wiki Links
+
+<noautolink>
+
+| *Alias:* | *URL:* | *Tooltip Text:* | *Format override:* | *Test Example* |
+| Advogato | http://www.advogato.org/article/$page.html | '$page' on Advogato community site (with peer review) | | Advogato:1103 |
+| C2find | http://c2.com/cgi/wiki?FindPage&value= | Search '$page' on the original 'WikiWikiWeb' site | | C2find:wiki |
+| DokuWiki | http://dokuwiki.org/ | '$page' on Doku Wiki site | | DokuWiki:changes |
+| Foswiki | https://foswiki.org/ | '$page' on foswiki.org | | Foswiki:Download |
+| Foswikitask | https://foswiki.org/Tasks/ | '$page' on the 'Foswiki' issue tracking site | | Foswikitask:Item12345 |
+| Foswikirev | %REV2REF{$page}% | revision $page of 'Foswiki' on Github | $url | Foswikirev:12345 |
+| FoxWiki | http://fox.wikis.com/wc.dll?Wiki~ | '$page' on Fox Wiki site | | FoxWiki:VFP |
+| HammondWiki | http://www.dairiki.org/HammondWiki/ | '$page' on 'HammondWiki' site | | HammondWiki:RecentChanges |
+| MeatBall | http://www.usemod.com/cgi-bin/mb.pl? | '$page' on 'MeatBall' site, a 'UseMod' Wiki variant | | MeatBall:MeatballForWikipedians |
+| MoinMoin | https://moinmo.in/ | '$page' on 'MoinMoin' Wiki site | | MoinMoin:DesktopEdition |
+| PPR | http://c2.com/cgi/wiki? | '$page' on the original 'PortlandPatternRepository' site | | PPR:PeopleProjectsAndPatterns |
+| Squeak | http://wiki.squeak.org/squeak/ | '$page' on Squeak Smalltalk Wiki | | Squeak:30 |
+| TWiki | http://twiki.org/cgi-bin/view/ | '$page' on TWiki.org | | TWiki:Support |
+| TWikibug | http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/ | '$page' on the TWiki issue tracking site | | TWikibug:Item1234 |
+| TWikirev | http://develop.twiki.org/trac/changeset/ | revision $page of TWiki svn | | TWikirev:14234 |
+| UseMod | http://www.usemod.com/cgi-bin/wiki.pl? | '$page' on 'UseMod' Wiki site | | UseMod:SiteList |
+| Wiki | http://c2.com/cgi/wiki? | '$page' on the original 'WikiWikiWeb' site | | Wiki:WikiSquatting |
+| Wikipedia | https://en.wikipedia.org/wiki/ | '$page' on 'Wikipedia' | | Wikipedia:Foswiki |
+| ZWiki | http://zwiki.org/ | '$page' on Zope's Wiki | | ZWiki:PageHierarchy |
+</noautolink>
