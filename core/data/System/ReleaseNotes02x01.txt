@@ -430,7 +430,7 @@ Foswiki thanks the Translators for their efforts.  If you are interesting in hel
 | [[%BUGS%/Item14309][Item14309]] | Old SVN based extensions don't compare as older than new Decimal versioned extensions. |
 | [[%BUGS%/Item14312][Item14312]] | Don't destroy dialogs on close. |
 | [[%BUGS%/Item14315][Item14315]] | ASSERT in Meta.pm when viewing prior revisions of topics with attachments. |
-| [[%BUGS%/Item14317][Item14317]] | Under some conditions, JEditableContrib attempts to load an <code>.uncompressed.js</code> source, which is not in the distribution.
+| [[%BUGS%/Item14317][Item14317]] | Under some conditions, JEditableContrib attempts to load an <code>.uncompressed.js</code> source, which is not in the distribution. |
 | [[%BUGS%/Item14321][Item14321]] | Some InterwikiPlugin links are out of date. |
 
 ---+++ Enhancements
