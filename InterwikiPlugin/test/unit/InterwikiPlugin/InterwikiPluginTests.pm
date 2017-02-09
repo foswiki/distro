@@ -36,7 +36,7 @@ sub tear_down {
 sub test_link_from_default_rules_topic {
     my $this = shift;
     $this->assert_html_equals(
-'<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Perl" title="\'Perl\' on \'Wikipedia\'"><noautolink>Wikipedia:Perl</noautolink></a>',
+'<a class="interwikiLink" href="https://en.wikipedia.org/wiki/Perl" title="\'Perl\' on \'Wikipedia\'"><noautolink>Wikipedia:Perl</noautolink></a>',
         Foswiki::Func::renderText( "Wikipedia:Perl", $this->{test_web} )
     );
 }
@@ -98,7 +98,7 @@ HERE
 
     # default rule
     $this->assert_html_equals(
-'<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Perl" title="\'Perl\' on \'Wikipedia\'"><noautolink>Wikipedia:Perl</noautolink></a>',
+'<a class="interwikiLink" href="https://en.wikipedia.org/wiki/Perl" title="\'Perl\' on \'Wikipedia\'"><noautolink>Wikipedia:Perl</noautolink></a>',
         Foswiki::Func::renderText( "Wikipedia:Perl", $this->{test_web} ),
         'default rule'
     );
@@ -154,7 +154,7 @@ sub test_link_format {
 sub test_link_with_url {
     my $this = shift;
     $this->assert_html_equals(
-'<a class="interwikiLink" href="http://en.wikipedia.org/wiki/http://www.google.com/search?q=foswiki&foo=bar" title="\'http://www.google.com/search?q=foswiki&foo=bar\' on \'Wikipedia\'"><noautolink>Wikipedia:http://www.google.com/search?q=foswiki&foo=bar</noautolink></a>',
+'<a class="interwikiLink" href="https://en.wikipedia.org/wiki/http://www.google.com/search?q=foswiki&foo=bar" title="\'http://www.google.com/search?q=foswiki&foo=bar\' on \'Wikipedia\'"><noautolink>Wikipedia:http://www.google.com/search?q=foswiki&foo=bar</noautolink></a>',
         Foswiki::Func::renderText(
             "Wikipedia:http://www.google.com/search?q=foswiki&foo=bar",
             $this->{test_web}
@@ -167,7 +167,7 @@ sub test_link_with_url {
 sub test_link_with_complex_url {
     my $this = shift;
     $this->assert_html_equals(
-'<a class="interwikiLink" href="http://en.wikipedia.org/wiki/http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'" title="\'http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'\' on \'Wikipedia\'"><noautolink>Wikipedia:http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'</noautolink></a>',
+'<a class="interwikiLink" href="https://en.wikipedia.org/wiki/http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'" title="\'http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'\' on \'Wikipedia\'"><noautolink>Wikipedia:http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'</noautolink></a>',
         Foswiki::Func::renderText(
 'Wikipedia:http://www.google.com/search?q=foswiki&foo="bar"/\'baz.\'',
             $this->{test_web}
@@ -268,13 +268,13 @@ sub test_link_with_parentheses {
 # If you want to link to a topic with parenthesis, you
 # will need to writ it as [[Wikipedia:Fork_(software_development)]]
 #$this->assert_html_equals(
-#'<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Fork_(software_development)" title="\'Fork_(software_development)\' on \'Wikipedia\'"><noautolink>Wikipedia:Fork_(software_development)</noautolink></a>',
+#'<a class="interwikiLink" href="https://en.wikipedia.org/wiki/Fork_(software_development)" title="\'Fork_(software_development)\' on \'Wikipedia\'"><noautolink>Wikipedia:Fork_(software_development)</noautolink></a>',
 #Foswiki::Func::renderText( "Wikipedia:Fork_(software_development)", $this->{test_web} )
 #);
 
     # ref in [[ref]]
     $this->assert_html_equals(
-'<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Fork_(software_development)" title="\'Fork_(software_development)\' on \'Wikipedia\'"><noautolink>Wikipedia:Fork_(software_development)</noautolink></a>',
+'<a class="interwikiLink" href="https://en.wikipedia.org/wiki/Fork_(software_development)" title="\'Fork_(software_development)\' on \'Wikipedia\'"><noautolink>Wikipedia:Fork_(software_development)</noautolink></a>',
         Foswiki::Func::renderText(
             "[[Wikipedia:Fork_(software_development)]]",
             $this->{test_web}
@@ -283,7 +283,7 @@ sub test_link_with_parentheses {
 
     # ref in [[ref][foo]]
     $this->assert_html_equals(
-'<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Fork_(software_development)" title="\'Fork_(software_development)\' on \'Wikipedia\'"><noautolink>foo</noautolink></a>',
+'<a class="interwikiLink" href="https://en.wikipedia.org/wiki/Fork_(software_development)" title="\'Fork_(software_development)\' on \'Wikipedia\'"><noautolink>foo</noautolink></a>',
         Foswiki::Func::renderText(
             "[[Wikipedia:Fork_(software_development)][foo]]",
             $this->{test_web}
@@ -420,7 +420,7 @@ HERE
 
     # Quoted with special characters
     $this->assert_html_equals(
-'<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Fork_%28software_development%29" title="\'Fork_(software_development)\' on \'Wikipedia\'"><noautolink>Wikipedia:Fork_(software_development)</noautolink></a>',
+'<a class="interwikiLink" href="https://en.wikipedia.org/wiki/Fork_%28software_development%29" title="\'Fork_(software_development)\' on \'Wikipedia\'"><noautolink>Wikipedia:Fork_(software_development)</noautolink></a>',
         Foswiki::Func::renderText(
             "Wikipedia:'Fork_(software_development)'",
             $this->{test_web}
@@ -515,7 +515,7 @@ HERE
     );
 
     $this->assert_html_matches(
-qq{<a class="interwikiLink" href="http://en.wikipedia.org/wiki/Exponential_growth" title="'Exponential_growth' on 'Wikipedia'">},
+qq{<a class="interwikiLink" href="https://en.wikipedia.org/wiki/Exponential_growth" title="'Exponential_growth' on 'Wikipedia'">},
         Foswiki::Func::renderText(
             Foswiki::Func::expandCommonVariables(
 "%INCLUDE{\"$this->{other_web}.$otherTopic\" section=\"Exponential growth\"}%"
