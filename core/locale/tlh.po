@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-02-17 13:56+0200\n"
+"PO-Revision-Date: 2017-02-10 12:40+0200\n"
 "Last-Translator: Lieven L. Litaer <qephom@gmx.de>\n"
 "Language-Team: none\n"
 "Language: tlh\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.1\n"
+"X-Generator: Weblate 2.4\n"
 
 #: core/data/System/WikiName.txt:3
 msgid "!WikiName"
@@ -656,7 +656,7 @@ msgstr "ghunmeH leQmey:"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:45
 msgid "Access to pending registrations is restricted to administrators."
-msgstr ""
+msgstr "muvbogh jeSqangwI&&#39;pu&&#39; leghlaH loHwI&&#39; neH."
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -672,14 +672,12 @@ msgid "Actions"
 msgstr "ta&&#39;mey"
 
 #: core/templates/registermessages.tmpl:91
-#, fuzzy
 msgid "Activation Failed"
 msgstr "chu&&#39;meH ngoq qarHa&&#39;"
 
 #: core/templates/registermessages.tmpl:92
-#, fuzzy
 msgid "Activation for code %1 failed with an internal error."
-msgstr "Qaghmo&&#39; Qapbe&&#39; %1 Qu&&#39;"
+msgstr "qoD Qaghmo&&#39; Qapbe&&#39; %1 ngoq chu&&#39;meH Qu&&#39;."
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:452
@@ -825,7 +823,7 @@ msgstr ""
 
 #: core/data/System/PendingRegistrationsTemplate.txt:27
 msgid "Approve"
-msgstr ""
+msgstr "laj"
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -1008,6 +1006,7 @@ msgstr "%1 choHmey (CHANGE) chaw&&#39;be&&#39; %2"
 #: core/templates/messages.tmpl:394
 msgid "Cache =refresh=all= denied for non-admin users."
 msgstr ""
+"<nop>loHwI&&#39; <nop>SoHbe&&#39;chugh vaj Qapbe&&#39; Cache =refresh=all=."
 
 #: core/templates/messages.tmpl:377 core/templates/registermessages.tmpl:294
 msgid "Can't find user %1"
@@ -1074,13 +1073,12 @@ msgid "Categories"
 msgstr "Seghmey"
 
 #: TopicUserMappingContrib/data/System/BulkRegistration.txt:96
-#, fuzzy
 msgid ""
 "Caution: The password system is currently read only. Users will not be added "
 "to the Password file."
 msgstr ""
-"Do&&#39;Ha&&#39;, <nop>DaHjaj laDlaH neH chaw&&#39; ngoq pat. <nop>DaH %1 "
-"yIrI&&#39;"
+"Do&&#39;Ha&&#39;, <nop>DaHjaj laDlaH neH chaw&&#39; ngoq pat. chaw&&#39; "
+"ngoq <nop>tetlhDaq lo&&#39;wI&&#39; chellu&&#39;be&&#39;."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:63
 msgid "Center align"
@@ -1750,7 +1748,7 @@ msgstr "Foswiki janvamvaD QInmey luchu&&#39;Ha&&#39;lu&&#39;"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:38
 msgid "Email verification is not enabled."
-msgstr ""
+msgstr "jabbI'&&#39;ID &&#39;olwI&&#39; chu&&#39;lu&&#39;be&&#39;."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
@@ -1761,9 +1759,8 @@ msgid "Emoticon"
 msgstr "qabHom Degh"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:26
-#, fuzzy
 msgid "End presentation"
-msgstr "much tagh"
+msgstr "much rInmoH"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
@@ -1771,7 +1768,7 @@ msgstr "choHwI&&#39; meyrI&&#39; <nop>tInmoH"
 
 #: core/templates/more.tmpl:102
 msgid "Enter __none__ to clear the topic parent"
-msgstr ""
+msgstr "ghItlh qup <nop>qIlmeH __none__ <nop>yIwIv"
 
 #: core/templates/login.tmpl:7
 msgid "Enter a new username and password to change identity"
@@ -2237,6 +2234,8 @@ msgid ""
 "If that's not the problem, it may be because you have a setting of %1 that "
 "is pointing to a template that doesn't exist."
 msgstr ""
+"qay&&#39;wI&&#39; &&#39;oHbe&&#39;chugh <nop>ngoDvam, vaj chaq <nop>ghantoH "
+"tu&&#39;be&&#39;lu&&#39;boghDaq Qeq %1 <nop>DuHlIj."
 
 #: core/templates/messages.tmpl:222
 msgid "If this line isn't present see _upgrade_ section below"
@@ -2310,6 +2309,8 @@ msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
 "the topic, [[%1][cancel save]] to go to %2."
 msgstr ""
+"<nop>ghItlhvam Qeqbogh rarwI&&#39; <nop>DaHevta&&#39;chugh pagh &&#39;oH "
+"Dalegh <nop>DaneHchugh neH, vaj [[%1][polbe&&#39;]] yIwIv %2 <nop>DaghoSmeH."
 
 #: core/templates/messages.tmpl:459
 msgid "If you want to create the topic"
@@ -2320,6 +2321,8 @@ msgid ""
 "If you want to search for a word in the stop word list, prefix the word with "
 "a plus sign"
 msgstr ""
+"mevmu&&#39; <nop>tetlhDaq mu&&#39; Danej <nop>DaneHchugh vaj mu&&#39; <nop>"
+"tlhopDaq chelwI&&#39; ngutlh yIghItlh"
 
 #: core/templates/messages.tmpl:454
 msgid "If you would like to create this web"
@@ -2330,6 +2333,8 @@ msgid ""
 "If you would like to send an email and give them feedback, please type it "
 "below and hit 'Send mail'"
 msgstr ""
+"<nop>jabbI&&#39;<nop>IDDaq <nop>vuDlIj Daja&&#39; <nop>DaneHchugh, vaj <nop>"
+"bIngDaq &&#39;oH <nop>yIghItlh &&#39;ej 'QIn ngeH' yI&&#39;uy&&#39;"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:17
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:59
@@ -2371,6 +2376,9 @@ msgid ""
 "visit a page on http<nop>://crime.org, which has some clever javascript on "
 "it."
 msgstr ""
+"ghu&&#39;vam qIt <nop>yIbuS: <nop>DutojmeH <nop>SoHvaD rarwI&&#39; "
+"ngeHta&&#39; vay&&#39;, chaq http<nop>://HeSwI&&#39;.tlh &&#39;oH, &&#39;ej "
+"pa&&#39; javascript mIw qab tu&&#39;lu&&#39;."
 
 #: PatternSkin/templates/attach.pattern.tmpl:52
 msgid "In case of a zip file, attach all included files to this topic"
@@ -2422,6 +2430,7 @@ msgstr "=%1= ngoqDaq ghunmeH mu&&#39;mey qab tu&&#39;lu&&#39;"
 #: core/templates/registermessages.tmpl:134
 msgid "Incorrect topic name provided for the templatetopic parameter."
 msgstr ""
+"<nop>ghantoHghItlh <nop>DuHmeyvaD ghItlh pong <nop>QaQHa&&#39; noblu&&#39;."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:74
 msgid "Indent"
@@ -2956,9 +2965,8 @@ msgid "No previous revision exists."
 msgstr "nungbogh Dotlh tu&&#39;lu&&#39;be&&#39;."
 
 #: core/data/System/PendingRegistrationsTemplate.txt:46
-#, fuzzy
 msgid "No registrations are pending."
-msgstr "%1 muvmeH mIw lajHa&&#39;lu&&#39;"
+msgstr "loStaH pagh muvmeH mIw lajHa&&#39;lu&&#39;bogh."
 
 #: SubscribePlugin/templates/subscribe.tmpl:17
 msgid "No topic to subscribe to"
@@ -3196,9 +3204,8 @@ msgid "Passwords do not match"
 msgstr "nIbbe&&#39; chaw&&#39; ngoqmey"
 
 #: core/data/System/PendingRegistrations.txt:2
-#, fuzzy
 msgid "Pending Registrations"
-msgstr "loSbogh muvmoHwI&&#39; Samlu&&#39;be&&#39;"
+msgstr "<nop>loSbogh <nop>jeSqangwI&&#39;"
 
 #: core/templates/registermessages.tmpl:41
 msgid "Pending registration not found"
@@ -3296,6 +3303,9 @@ msgid ""
 "Please go back in your browser and choose a topic name that is a [[%SYSTEMWEB"
 "%.WikiWord][WikiWord]] or clear the only-WikiWord box"
 msgstr ""
+"<nop>weQmoQnaQ <nop>nIqHomDaq yIchegh &&#39;ej "
+"[[%SYSTEMWEB%.WikiWord][WikiWord]] rurbogh pong <nop>yIwIv pagh <nop>"
+"WikiWord meyrI&&#39; yIchu&&#39;Ha&&#39;"
 
 #: core/templates/messages.tmpl:116 core/templates/messages.tmpl:124
 #: core/templates/messages.tmpl:139 core/templates/messages.tmpl:144
@@ -3345,6 +3355,8 @@ msgstr "<nop>DaH yI&&#39;ol"
 msgid ""
 "Please visit %1 to change your password to something more memorable for you."
 msgstr ""
+"%1Daq yIchegh &&#39;ej chu&&#39;bogh ngoq pegh <nop>DaqawlaHchu&&#39;bogh "
+"yIwIv."
 
 #: core/lib/Foswiki/Plugins.pm:505
 msgid "Plugin handlers"
@@ -3424,7 +3436,7 @@ msgstr "<nop>yu&&#39;<nop>wI&&#39;:"
 #: EditTablePlugin/data/System/EditTablePlugin.txt:166
 #: EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin/Core.pm:975
 msgid "Quiet save"
-msgstr ""
+msgstr "pol &&#39;ej tam"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:12
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:11
@@ -3439,6 +3451,8 @@ msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
 "more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
+"%1 <nop>yIlaD <nop>ghItlhmeH mIwvam nom <nop>DayajmeH. latlh Daghojqangchugh "
+"vaj TwentyMinuteTutorial yIbuS je."
 
 #: TipsContrib/data/System/TipsOfTheDayInclude.txt:57
 msgid "Read on"
@@ -3493,9 +3507,8 @@ msgid "Registration"
 msgstr "muvmeH mIw"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:21
-#, fuzzy
 msgid "Registration approval is not enabled."
-msgstr "%1 <nop>DamuvmeH <nop>DalajnISlu&&#39;"
+msgstr "<nop>muvmeH lajwI&&#39; chu&&#39;lu&&#39;be&&#39;."
 
 #: core/lib/Foswiki/UI/Register.pm:790
 msgid ""
@@ -3529,12 +3542,11 @@ msgstr ""
 
 #: core/data/System/PendingRegistrations.txt:3
 msgid "Registrations awaiting Email verification"
-msgstr ""
+msgstr "jabbI&&#39;ID lajwI&&#39; <nop>loSbogh muvqangwI&&#39;"
 
 #: core/data/System/PendingRegistrations.txt:9
-#, fuzzy
 msgid "Registrations awaiting approval"
-msgstr "%1 <nop>DamuvmeH <nop>DalajnISlu&&#39;"
+msgstr "lajlu&&#39;meH <nop>loStaHbogh <nop>muvqangwI&&#39;"
 
 #: core/data/System/WebSearch.txt:201
 msgid "Regular expression search"
@@ -3542,7 +3554,7 @@ msgstr "mu&&#39;tlhegh nejwI&&#39; (Regex)"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:28
 msgid "Reject"
-msgstr ""
+msgstr "lajHa&&#39;"
 
 #: core/data/System/UserName.txt:44
 msgid "Related Topics for Administrators:"
@@ -3594,9 +3606,8 @@ msgid "Remove Members from %1"
 msgstr "%1vo&&#39; jeSwI&&#39; teq"
 
 #: TopicUserMappingContrib/data/System/RemoveUser.txt:3
-#, fuzzy
 msgid "Remove User"
-msgstr "jeSwI&&#39; teq..."
+msgstr "lo&&#39;wI&&#39; teq"
 
 #: core/data/Main/GroupViewTemplate.txt:165
 msgid "Remove members..."
@@ -4283,6 +4294,8 @@ msgid ""
 "Thank you for registering in the %1 collaboration platform. Please save this "
 "e-mail for future reference."
 msgstr ""
+"%1 Damuvmo&&#39; <nop>maQuchqu&&#39;. De&&#39; potlh <nop>DaSammeH <nop>"
+"QInvam yIpol."
 
 #: core/templates/registerconfirm.tmpl:10
 msgid ""
@@ -4349,6 +4362,7 @@ msgid ""
 "The Web/Topic path: '%1' has missing components, or contains invalid "
 "characters."
 msgstr ""
+"&&#39;ay&&#39;mey ngutlhmey <nop>QaQ ghap Hutlhlaw&&#39; mIch/ghItlh '%1'."
 
 #: core/templates/registermessages.tmpl:122
 msgid ""
@@ -4393,13 +4407,12 @@ msgstr ""
 "&&#39;oHvaD latlh pong ponglu&&#39; (roD pongDaq mI&&#39; chellu&&#39;)."
 
 #: core/templates/renameattachmentdelete.tmpl:43
-#, fuzzy
 msgid ""
 "The attachment may have to be renamed if an attachment called '%1' already "
 "exists in the target topic."
 msgstr ""
-"<nop>DoS ghItlhDaq tep '%FILENAME%' tu&&#39;lu&&#39;chugh, vaj &&#39;oHvaD "
-"latlh pong pongnISlu&&#39;."
+"<nop>DoS ghItlhDaq tep '%1' tu&&#39;lu&&#39;chugh, vaj &&#39;oHvaD latlh "
+"pong pongnISlu&&#39;."
 
 #: core/data/System/FAQWhyYouAreAskedToConfirm.txt:6
 msgid ""
@@ -4435,7 +4448,7 @@ msgstr ""
 msgid ""
 "The details about REST Handlers are only available to users with Admin "
 "authority."
-msgstr ""
+msgstr "REST Handler <nop>ngoDHommey <nop>leghlaH loHwI&&#39; <nop>neH."
 
 #: core/templates/registermessages.tmpl:259
 #: core/templates/registermessages.tmpl:277
@@ -4459,6 +4472,9 @@ msgid ""
 "topic to add an address.  It does not have to be the same as the address "
 "used internally by Foswiki."
 msgstr ""
+"roD lo&&#39;wI&&#39; <nop>ghItlhDaq <nop>QInQuv cha&&#39;lu&&#39;be&&#39;. "
+"<nop>QInQuvlIj Da&&#39;ang <nop>DaneHchugh, vaj pa&&#39; &&#39;oH <nop>"
+"DaghItlhlaHbej. Foswiki Quv <nop>rurnISbe&&#39; Quvvetlh chu&&#39;."
 
 #: core/templates/messages.tmpl:375
 msgid "The entry for user %1 was missing in the password system."
@@ -4517,6 +4533,12 @@ msgid ""
 "web.  If not provided, the default topic is [[%USERSWEB%.NewUserTemplate]], "
 "or if that does not exist. [[%SYSTEMWEB%.NewUserTemplate]]."
 msgstr ""
+"<nop>QaQHa&&#39; pong <nop>DawIvta&&#39;bogh, pagh ghItlhvetlh "
+"tu&&#39;be&&#39;lu&&#39;. %USERSWEB% mIchDaq lo&&#39;wI&&#39; ghItlh "
+"chu&&#39; &&#39;oHnIS ghantoHghItlh&&#39;e&&#39;.\n"
+"pongbe&&#39;lu&&#39;chugh vaj [[%USERSWEB%.NewUserTemplate]] &&#39;oH ghItlh "
+"motlh&&#39;e&&#39;. taHbe&&#39;chugh ghItlhvetlh vaj "
+"[[%SYSTEMWEB%.NewUserTemplate]] &&#39;oH."
 
 #: core/data/System/UserName.txt:3
 msgid "The name you log in with"
@@ -4579,7 +4601,7 @@ msgstr "&&#39;olmeH patvo&&#39; lo&&#39;wI&&#39;vam teqlu&&#39;."
 
 #: core/templates/registermessages.tmpl:45
 msgid "The user has probably been already verified and/or approved."
-msgstr ""
+msgstr "ghaytan lo&&#39;wI&&#39; lajlu&&#39;law&&#39; <nop>rIntaH."
 
 #: core/data/System/UserName.txt:17
 msgid ""
@@ -4608,6 +4630,8 @@ msgstr "qay&&#39;taH mIchvam pongqa&&#39;meH mIw:"
 #: core/templates/registermessages.tmpl:201
 msgid "There has been a problem adding your user id to the Password system."
 msgstr ""
+"ngoq pegh patDaq lo&&#39;wI&&#39; <nop>ponglIj <nop>cheltaHvIS Qapbe&&#39; "
+"De&&#39;wI&&#39;."
 
 #: core/templates/validate.tmpl:35
 msgid ""
@@ -4620,6 +4644,8 @@ msgid ""
 "There is no _internal admin_ password set.  See [[%1][Installation Guide "
 "section on the internal admin]] for further help."
 msgstr ""
+"_internal admin_ ngoq pegh tu&&#39;lu&&#39;be&&#39;. [[%1][internal admin "
+"<nop>DuHmey <nop>QIjwI&&#39;]] yIlaD mIwvam <nop>DayajmeH."
 
 #: core/templates/messages.tmpl:221
 msgid "There should be a line that includes %1, look for %2 (or %3)"
@@ -4655,6 +4681,7 @@ msgid ""
 "This field is not normally user provided. This may be a Foswiki "
 "configuration error."
 msgstr ""
+"roD De&&#39;vam <nop>leghlaHbe&&#39; lo&&#39;wI&&#39;.chaq Qagh Foswiki."
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:14
 msgid ""
@@ -4713,6 +4740,8 @@ msgid ""
 "This is an internal error.  You can try to register again, or contact %1 to "
 "report the error."
 msgstr ""
+"pat Qagh &&#39;oH Qaghvam&&#39;e&&#39;. <nop>yInIDqa&&#39;, pagh %1vaD "
+"Qaghvam <nop>yIDel."
 
 #: TopicUserMappingContrib/data/System/UserRegistrationParts.txt:128
 msgid "This is not a valid WikiName."
@@ -5144,7 +5173,7 @@ msgstr "lo&&#39;wI&&#39; ta %1 polHa&&#39;lu&&#39;"
 
 #: core/templates/registermessages.tmpl:357
 msgid "User Account was not supplied"
-msgstr ""
+msgstr "lo&&#39;wI&&#39; ta noblu&&#39;be&&#39;"
 
 #: PatternSkin/data/System/WebLeftBarExample.txt:17
 msgid "User Reference"
@@ -5539,12 +5568,16 @@ msgid ""
 "You can use the \"approve\" or \"reject\" links to approve or reject these "
 "registrations"
 msgstr ""
+"<nop>muvqangwI&&#39;pu&&#39;vam <nop>DalajmeH &&#39;ej <nop>DalajHa&&#39;meH "
+"leQ <nop>DapoQbogh yI&&#39;uy neH"
 
 #: core/templates/registermessages.tmpl:423
 #: core/templates/registermessages.tmpl:429
 msgid ""
 "You cannot add users to a missing group unless the create option is set."
 msgstr ""
+"Hutlhbogh <nop>ghomDaq lo&&#39;wI&&#39;pu&&#39; <nop>DachellaHbe&&#39; "
+"chu&&#39;lu&&#39;be&&#39;chugh create-option."
 
 #: core/data/System/UserName.txt:15
 msgid ""
@@ -5612,18 +5645,25 @@ msgstr "ghItlh pong <nop>DaghItlhnIS."
 #: core/templates/registermessages.tmpl:383
 msgid "You need to specify a valid group name to add members to a group."
 msgstr ""
+"ghomvaD&&#39; <nop>jeSwI&&#39; <nop>DachelmeH, ghom pong QaQ <nop>DawIvnIS."
 
 #: core/templates/registermessages.tmpl:434
 msgid "You need to specify a valid group name to remove members from a group."
 msgstr ""
+"ghomvo&&#39; <nop>jeSwI&&#39; <nop>DateqmeH, ghom pong <nop>QaQ "
+"<nop>DawIvnIS."
 
 #: core/templates/messages.tmpl:326
 msgid "You need to specify a valid member to add to a group."
 msgstr ""
+"<nop>ghomvaD&&#39; <nop>jeSwI&&#39; <nop>DachelmeH, jeSwI&&#39;na&&#39; "
+"<nop>DawIvnIS."
 
 #: core/templates/registermessages.tmpl:417
 msgid "You need to specify a valid member to remove from a group."
 msgstr ""
+"ghomvo&&#39; <nop>jeSwI&&#39; <nop>DateqmeH, jeSwI&&#39;na&&#39; "
+"<nop>DawIvnIS."
 
 #: core/templates/registerconfirm.tmpl:12
 msgid ""
@@ -5719,7 +5759,7 @@ msgstr ""
 
 #: core/templates/registermessages.tmpl:176
 msgid "Your registration is pending approval by the system administrators."
-msgstr ""
+msgstr "<nop>muvmeH <nop>mIwlIj <nop>lajnIS pat <nop>loHwI&&#39;."
 
 #: core/templates/registermessages.tmpl:102
 msgid ""
