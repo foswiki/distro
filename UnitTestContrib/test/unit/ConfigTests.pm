@@ -101,9 +101,12 @@ sub test_specRegister {
     $cfg->spec(
         source => __FILE__,
         specs  => [
-            -section => Extensions => -text => "Just extensions" => [
-                -section => TestExt => -text => "Test extension" => [
+            -section => Extensions => [
+                -text    => "Just extensions",
+                -section => TestExt => [
+                    -text               => "Test extension",
                     -modprefix          => 'Foswiki::Extension::TestExt',
+                    -expert             => 1,
                     'ANewKey.NewSubKey' => [
                         Valid => { -type => 'BOOL', },
                         Text  => { -type => 'TEXT', },
@@ -113,7 +116,8 @@ sub test_specRegister {
                         StrKey => { -type => 'TEXT(32)', }
                     },
                 ],
-                -section => SampleExt => -text => "Sample extension" => [
+                -section => SampleExt => [
+                    -text                  => "Sample extension",
                     -modprefix             => 'Foswiki::Extension::SampleExt',
                     'Extensions.SampleExt' => [
                         Option => {

@@ -115,17 +115,22 @@ Fetches the next item from the specs.
 sub fetch {
     my $this = shift;
 
+    my $count = @_ ? shift : 1;
+
+    return () unless $count;
+
     Foswiki::Exception::Config::NoNextDef->throw(
         text => "No more elements in the queue", )
-      unless $this->hasNext;
+      unless $this->hasNext($count);
 
-    my $elem = $this->specDef->[ $this->cursor ];
+    my $cur = $this->cursor;
+    my @elems = @{ $this->specDef }[ $cur .. ( $cur + $count - 1 ) ];
 
-    $this->_lastFetch($elem);
+    $this->_lastFetch( $elems[-1] );
 
-    $this->cursor( $this->cursor + 1 );
+    $this->cursor( $cur + $count );
 
-    return $elem;
+    return wantarray ? @elems : ( $count == 1 ? $elems[0] : \@elems );
 }
 
 =begin TML
@@ -152,15 +157,17 @@ Returns true if there're still specs to fetch.
 
 sub hasNext {
     my $this = shift;
+    my ($count) = @_ ? shift : 1;
 
-    return @{ $this->specDef } > $this->cursor;
+    return @{ $this->specDef } >= ( $this->cursor + $count );
 }
 
 =begin TML
 
+---+++ ObjectMethod badSubSpecElem
 
-# Returns undef if element is ok to be used as a subspec. Otherwise returns
-# error text about elem type suitable to be used in a error message.
+Returns undef if element is ok to be used as a subspec. Otherwise returns
+error text about elem type suitable to be used in a error message.
 =cut
 
 sub badSubSpecElem {
@@ -169,9 +176,9 @@ sub badSubSpecElem {
     return (
         defined $elem
         ? (
-            ref($elem) =~ /^(?:HASH|ARRAY)$/
+            ref($elem) eq 'ARRAY'
             ? undef
-            : "element of type " . ( ref($elem) // 'SCALAR' )
+            : "element of type '" . ( ref($elem) // 'SCALAR' ) . "'"
           )
         : "undefined element"
     );

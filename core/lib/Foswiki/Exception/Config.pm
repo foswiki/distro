@@ -28,16 +28,42 @@ has key => (
 has nodeObject => (
     is        => 'rw',
     predicate => 1,
+    trigger   => 1,
 );
+
+sub BUILD {
+    my $this = shift;
+
+    $this->_setFromNodeObject;
+}
 
 around stringify => sub {
     my $orig = shift;
     my $this = shift;
 
-    my $keyInfo = $this->has_key ? "key '" . $this->key . "' is " : "";
+    my $nodeObject = $this->has_nodeObject ? $this->nodeObject : undef;
+
+    # TODO Report sources too.
+    my $keyInfo = $this->has_key
+      || $nodeObject ? "key '" . $this->key . "' is " : "";
+
+    my $sourceObject =
+      defined $nodeObject
+      ? $nodeObject
+      : ( $this->has_section ? $this->section : undef );
+    my $sourceInfo = '';
+    if ( $sourceObject && @{ $sourceObject->sources } > 0 ) {
+        $sourceInfo = " at "
+          . join( ", ",
+            map { $_->{file} . ( defined $_->{line} ? ":" . $_->{line} : "" ) }
+              @{ $sourceObject->sources } );
+    }
+
     my $sectionInfo =
-      $this->has_section
-      ? " (${keyInfo}part of section '" . $this->section . "')"
+      $this->has_section || $this->has_nodeObject
+      ? " (${keyInfo}defined in section '"
+      . $this->section . "'"
+      . $sourceInfo . ")"
       : '';
 
     return $this->text . $sectionInfo . $this->stringifyPostfix;
@@ -57,6 +83,31 @@ sub prepareKey {
     if ( $this->has_nodeObject ) {
         return $this->nodeObject->fullName;
     }
+}
+
+# Sets key and section from nodeObject
+sub _setFromNodeObject {
+    my $this = shift;
+
+    if ( $this->has_nodeObject ) {
+
+        # Set section and key attrs manually if not set by user. This is to get
+        # around a problem where exception is propagaded out of scope where
+        # nodeObject's parent is defined making its fullName/fullPath methods
+        # useless.
+        unless ( $this->has_key ) {
+            $this->key( $this->nodeObject->fullName );
+        }
+        unless ( $this->has_section ) {
+            $this->section( $this->nodeObject->section );
+        }
+    }
+}
+
+sub _trigger_nodeObject {
+    my $this = shift;
+
+    $this->_setFromNodeObject;
 }
 
 package Foswiki::Exception::Config::BadSpecData;
@@ -80,7 +131,7 @@ has file => (
 );
 has line => ( is => 'ro', );
 
-around stringify => sub {
+around stringifyText => sub {
     my $orig = shift;
     my $this = shift;
 
@@ -110,6 +161,20 @@ use Foswiki::Class;
 extends qw(Foswiki::Exception::Fatal);
 
 has keyName => ( is => 'rw', required => 1, );
+
+around stringifyText => sub {
+    my $orig   = shift;
+    my $this   = shift;
+    my ($text) = @_;
+
+    my $errMsg = $orig->( $this, @_ );
+    my $key = $this->keyName;
+
+    $errMsg .= " (the key is:"
+      . ( defined $key ? ( ref($key) || $key ) : '*undef*' ) . ")";
+
+    return $errMsg;
+};
 
 1;
 __END__

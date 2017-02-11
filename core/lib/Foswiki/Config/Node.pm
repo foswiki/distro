@@ -29,24 +29,15 @@ package Foswiki::Config::Node;
 
 use Assert;
 use Foswiki::Exception;
+use Foswiki::Exception::Config;
+use Try::Tiny;
 
 use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
+with qw(Foswiki::Config::ItemRole);
 
 use constant DATAHASH_CLASS => 'Foswiki::Config::DataHash';
-
-=begin TML
-
----+++ ObjectAttribute name
-
-Key name of this node in parent's nodes hash.
-
-=cut
-
-has name => (
-    is       => 'ro',
-    required => 1,
-);
+use constant ROLE_NAMESPACE => 'Foswiki::Config::Role::Node::';
 
 =begin TML
 
@@ -68,25 +59,6 @@ has value => (
 
 =begin TML
 
----+++ ObjectAttribute parent
-
-Parent container object of class =Foswiki::Config::DataHash=. 
-
-=cut
-
-has parent => (
-    is       => 'rw',
-    weak_ref => 1,
-    builer   => 'prepareParent',
-    (
-        DEBUG
-        ? ( isa => Foswiki::Object::isaCLASS( 'parent', DATAHASH_CLASS ) )
-        : ()
-    ),
-);
-
-=begin TML
-
 ---+++ ObjectAttribute section
 
 Config section this node belongs to.
@@ -102,72 +74,20 @@ has section => (
 
 =begin TML
 
----+++ ObjectAttribute source -> \@list
-
-List of sources where definitions of this node exists. Source could be a string
-or a =Foswiki::File= object.
-
-=cut
-
-has sources => (
-    is      => 'rw',
-    lazy    => 1,
-    builder => 'prepareSources',
-    isa     => Foswiki::Object::isaARRAY('sources'),
-);
-
-=begin TML
-
----+++ ObjectAttribute isLeaf => bool
+---+++ ObjectAttribute leafState => bool
 
 Defines if this is a leaf node, or branch, or type of this node is undefined yet
 (if attribute's value is undef). 
 
 =cut
 
-has isLeaf => ( is => 'rw', builder => 'prepareIsLeaf', );
-
-=begin TML
-
----++ Spec option attributes
-
-The following object attributes are valid spec options.
-
-=cut
-
-=begin TML
-
----+++ ObjectAttribute default
-
-Node's default value as defined by spec.
-
-=cut
-
-has default => (
+has leafState => (
     is        => 'rw',
+    lazy      => 1,
     predicate => 1,
-    builder   => 'prepareDefault',
+    clearer   => 1,
+    builder   => 'prepareLeafState',
 );
-
-=begin TML
-
----+++ ObjectAttribute type
-
-Key data type like _NUMBER_ or _TEXT_.
-
-=cut
-
-has type => ( is => 'rw', predicate => 1, builder => 'prepareType', );
-
-=begin TML
-
----+++ ObjectAttribute label
-
-Text label attached to the config key.
-
-=cut
-
-has label => ( is => 'rw', predicate => 1, builder => 'prepareLabel', );
 
 has fullPath => (
     is      => 'ro',
@@ -181,33 +101,84 @@ has fullName => (
     builder => 'prepareFullName',
 );
 
+# Hash of option => 1 pairs of options valid for leaf nodes only.
+has _leafOnlyOpts => (
+    is      => 'ro',
+    clearer => 1,
+    lazy    => 1,
+    isa     => Foswiki::Object::isaHASH( '_leafOnlyOpts', noUndef => 1, ),
+    builder => '_prepareLeafOnlyOpts',
+);
+
+# Hash of option => 1 pairs of options valid for both node kinds.
+has _dualModeOpts => (
+    is      => 'ro',
+    clearer => 1,
+    lazy    => 1,
+    isa     => Foswiki::Object::isaHASH( '_dualModeOpts', noUndef => 1, ),
+    builder => '_prepareDualModeOpts',
+);
+
 =begin TML
 
 ---+++ Empty prepare methods
 
 The following methods are empty initializers of their respective attributes:
 
-   * prepareParent
    * prepareSection
    * prepareValue
-   * prepareDefault
-   * prepareIsLeaf
-   * prepareLabel
    
 These methods do nothing but could be overriden by subclasses.
 
 =cut
 
-stubMethods qw(prepareParent prepareSection prepareValue prepareDefault
-  prepareIsLeaf prepareLabel);
+stubMethods qw( prepareSection prepareValue );
 
-my @leafOnlyAttrs  = qw(type default wizard checker);
-my @dualModeAttrs  = qw(label);
-my @validSpecAttrs = ( @leafOnlyAttrs, @dualModeAttrs );
+my %optMaps;
+my %types = (
+    STRING       => { roles => ['Size'], },
+    NUMBER       => { roles => ['Size'], },
+    URL          => { roles => ['Size'], },
+    URLPATH      => { roles => ['Size'], },
+    REGEX        => { roles => ['Size'], },
+    COMMAND      => { roles => ['Size'], },
+    PASSWORD     => { roles => ['Size'], },
+    PATH         => { roles => ['Size'], },
+    EMAILADDRESS => { roles => ['Size'], },
 
-our $leafAttrRegex     = '(' . join( '|', @leafOnlyAttrs ) . ')';
-our $dualModeAttrRegex = '(' . join( '|', @dualModeAttrs ) . ')';
-our $validAttrRegex    = '(' . join( '|', @validSpecAttrs ) . ')';
+    SELECT      => { roles => ['Select'], },
+    SELECTCLASS => { roles => ['Select'], },
+    BOOLGROUP   => { roles => ['Select'], },
+
+    BOOLEAN  => {},
+    LANGUAGE => {},
+    OCTAL    => {},
+    PERL     => {},
+    DATE     => {},
+    URILIST  => {},
+);
+
+# Resets only if leafState is undef. This will enforce re-check for the
+# attribute.
+sub _reset_leafState {
+    my $this = shift;
+    $this->clear_leafState
+      unless $this->has_leafState && defined $this->leafState;
+}
+
+=begin TML
+
+---+++ ObjectMethod isLeaf => bool
+
+Returns true if node is a leaf.
+
+=cut
+
+sub isLeaf {
+    my $this = shift;
+    $this->_reset_leafState;
+    return defined $this->leafState && $this->leafState;
+}
 
 =begin TML
 
@@ -219,20 +190,22 @@ Returns true if node is a branch.
 
 sub isBranch {
     my $this = shift;
-    return defined $this->isLeaf && !$this->isLeaf;
+    $this->_reset_leafState;
+    return defined $this->leafState && !$this->leafState;
 }
 
 =begin TML
 
 ---+++ ObjectMethod isVague => bool
 
-Returns true if node type is yet undetermined.
+Returns true if node type is yet undetermined. Note that if this method returns
+_true_ then =isLeaf= and =isBranch= both would return _false_.
 
 =cut
 
 sub isVague {
     my $this = shift;
-    return !defined $this->isLeaf;
+    return !( $this->has_leafState && defined $this->leafState );
 }
 
 =begin TML
@@ -247,9 +220,81 @@ assigned or =default= otherwise.
 sub getValue {
     my $this = shift;
 
-    return $this->has_value
-      ? $this->value
-      : ( $this->has_default ? $this->default : undef );
+    return $this->has_value ? $this->value : $this->getOpt('default');
+}
+
+sub setOpt_type {
+    my $this = shift;
+    my ( $opt, $val ) = @_;
+
+    Foswiki::Exception::Config::BadSpecData->throw(
+        text       => "Node type is not defined",
+        nodeObject => $this,
+    ) unless defined $val;
+
+    my $opts = $this->options;
+
+    if ( defined $opts->{$opt} ) {
+        return if $opts->{$opt} eq $val;
+
+        Foswiki::Exception::Config::BadSpecData->throw(
+            text => "Node type change from "
+              . $opts->{$opt} . " to "
+              . $val
+              . " is not allowed",
+            nodeObject => $this,
+        );
+    }
+
+    return 1;
+}
+
+sub defaultOpt_type {
+    return 'STRING';
+}
+
+around setOpt => sub {
+    my $orig = shift;
+    my $this = shift;
+    my @args = @_;
+
+    try {
+        $orig->( $this, @args );
+    }
+    catch {
+        $this->_completeException($_);
+    };
+};
+
+around validateOpt => sub {
+    my $orig  = shift;
+    my $this  = shift;
+    my @args  = @_;
+    my ($opt) = $args[0];
+
+    try {
+        $orig->( $this, @args );
+    }
+    catch {
+        $this->_completeException($_);
+    };
+
+    if (   $this->_leafOnlyOpts->{$opt}
+        && $this->isBranch )
+    {
+        Foswiki::Exception::Config::BadSpecData->throw(
+            text => "Leaf-only option '"
+              . $opt
+              . "' cannot be used with a non-leaf key",
+            nodeObject => $this,
+        );
+    }
+};
+
+# Just a shortcut for a commonly used option.
+sub default {
+    my $this = shift;
+    return $this->getOpt('default');
 }
 
 =begin TML
@@ -257,39 +302,94 @@ sub getValue {
 ---+++ ClassMethod invalidSpecAttr(@attrList) -> $attrName [, $attrName [, ...] ]
 
 Depending on call context (scalar or list) returns only first or all invalid
-spec attributes found in the list. Undef or empty list are returned otherwise.
+spec attributes found in the list. Undef or empty list returned otherwise.
 
 This method is dual: it is class and object method at the same time.
 
 =cut
 
-sub invalidSpecAttrs {
-    my $class = shift;
+sub invalidSpecOpts {
+    my $this = shift;
 
     if (wantarray) {
-        return grep { /^$validAttrRegex$/ } @_;
+        return grep { !$this->isValidOpt($_) } @_;
     }
 
-    foreach my $attr (@_) {
-        return $attr unless $attr =~ /^$validAttrRegex$/;
+    foreach my $opt (@_) {
+        return $opt unless $this->isValidOpt($opt);
     }
 
     return;
 }
 
-=begin TML
+# This method attepts to pre-load type class modules (for example, for type
+# STRING it tries to load Foswiki::Config::Node::STRING). If a type has roles to
+# apply then a new class with the roles applied is created. A type can be
+# preloaded once only. If a type has been added dynamically over the application
+# lifetime and this method is called afterwards then only this type would be
+# preloaded when the method is called next time (and it HAS to be called after
+# dynamic type registration).
+sub preloadTypes {
+    my $class = shift;
 
----+++ ObjectMethod addSource($source)
+    foreach my $type ( keys %types ) {
+        next if defined $types{$type}{_class};
 
-Adds a new entry to the attribute =sources= list. 
+        my $baseClass = __PACKAGE__ . "::" . $type;
 
-=cut
+        my $modLoaded;
 
-sub addSource {
-    my $this = shift;
-    my ($source) = @_;
+        try {
+            Foswiki::load_class($baseClass);
+            $modLoaded = 1;
+        }
+        catch {
+            $modLoaded = 0;
+        };
 
-    push @{ $this->sources }, $source;
+        my $class = $modLoaded ? $baseClass : __PACKAGE__;
+        if ( $types{$type}{roles} ) {
+
+            # Cache of short role -> role class name mapping.
+            state $roleMap;
+
+            my @roles =
+              map { $roleMap->{$_} || ( $roleMap->{$_} = ROLE_NAMESPACE . $_ ) }
+              @{ $types{$type}{roles} };
+
+            $class = Moo::Role->create_class_with_roles( $class, @roles );
+        }
+
+        $types{$type}{_class} = $class;
+    }
+}
+
+sub getAllTypes {
+    my $class = shift;
+
+    $class->preloadTypes;
+
+    return keys %types;
+}
+
+sub knownType {
+    my $class = shift;
+    my $type  = shift;
+
+    return defined $types{$type};
+}
+
+sub type2class {
+    my $class = shift;
+    my ($type) = shift;
+
+    return undef unless defined $type && exists $types{$type};
+
+    $class->preloadTypes unless defined $types{$type}{_class};
+
+    my $typeClass = $types{$type}{_class};
+
+    return $typeClass;
 }
 
 =begin TML
@@ -303,7 +403,8 @@ Initializer of =fullPath= attribute.
 sub prepareFullPath {
     my $this = shift;
 
-    return [ @{ $this->parent->fullPath }, $this->name ];
+    return [ ( $this->has_parent ? @{ $this->parent->fullPath } : () ),
+        $this->name ];
 }
 
 =begin TML
@@ -322,26 +423,50 @@ sub prepareFullName {
 
 =begin TML
 
----+++ ObjectMethod prepareType -> 'TEXT'
+---+++ ObjectMethod prepareLeafState
 
-Initializer of =type= attribute.
+Initializer of =leafState= attribute.
 
 =cut
 
-sub prepareType {
-    return 'TEXT';
+sub prepareLeafState {
+    my $this = shift;
+
+    foreach my $opt ( keys %{ $this->options } ) {
+        return 1 if $this->_leafOnlyOpts->{$opt};
+    }
+
+    return undef;
 }
 
 =begin TML
 
----+++ ObjectMethod prepareSources
+---+++ ObjectMethod prepareParent
 
-Initializer of =sources= attribute.
+Initializer for =Foswiki::Config::ItemRole= =parent= attribute.
 
 =cut
 
-sub prepareSources {
-    return [];
+# Cannot use =stubMethods= for prepareParent because role is being applied before
+# =stubMethods= gets called.
+sub prepareParent { }
+
+sub _prepareLeafOnlyOpts {
+    my $this = shift;
+
+    $optMaps{leafOnly} = { map { $_ => 1 } $this->leafOnlyOptions }
+      unless $optMaps{leafOnly};
+
+    return $optMaps{leafOnly};
+}
+
+sub _prepareDualModeOpts {
+    my $this = shift;
+
+    $optMaps{dualMode} = { map { $_ => 1 } $this->dualModeOptions }
+      unless $optMaps{dualMode};
+
+    return $optMaps{dualMode};
 }
 
 =begin TML
@@ -356,7 +481,7 @@ sub _trigger_value {
     my $this = shift;
     my $val  = shift;
 
-    if ( defined $this->isLeaf ) {
+    unless ( $this->isVague ) {
 
         my $tiedVal =
           ref($val) eq 'HASH' && UNIVERSAL::isa( tied(%$val), DATAHASH_CLASS );
@@ -366,9 +491,9 @@ sub _trigger_value {
         Foswiki::Exception::Config::BadSpecValue->throw(
             text => "Only hashes tied to "
               . DATAHASH_CLASS
-              . " can be assigned to non-leaf keys",
+              . " can be assigned to branch keys",
             specObject => $this,
-        ) if !$this->isLeaf && !$tiedVal;
+        ) if $this->isBranch && !$tiedVal;
 
         Foswiki::Exception::Config::BadSpecValue->throw(
             text => "Attempt to assign hash tied to "
@@ -377,6 +502,60 @@ sub _trigger_value {
             specObject => $this,
         ) if $this->isLeaf && $tiedVal;
     }
+}
+
+sub leafOnlyOptions {
+    my $this    = shift;
+    my $optDefs = $this->optDefs;
+    return grep { $optDefs->{$_}{leaf} } keys %$optDefs;
+}
+
+sub dualModeOptions {
+    my $this    = shift;
+    my $optDefs = $this->optDefs;
+    return grep { $optDefs->{$_}{dual} } keys %$optDefs;
+}
+
+around optionDefinitions => sub {
+    my $orig  = shift;
+    my $class = shift;
+
+    return (
+        $orig->( $class, @_ ),
+        check           => { arity => 1, leaf => 1, },
+        checker         => { arity => 1, leaf => 1, },
+        check_on_change => { arity => 1, leaf => 1, },
+        default         => { arity => 1, leaf => 1, },
+        display_if      => { arity => 1, leaf => 1, },
+        feedback        => { arity => 1, leaf => 1, },
+        hidden          => { arity => 0, leaf => 1, },
+        label           => { arity => 1, dual => 1, },
+        onsave          => { arity => 1, leaf => 1, },
+        optional        => { arity => 0, leaf => 1, },
+        source          => { arity => 1, dual => 1, },
+        sources         => { arity => 1, dual => 1, },
+        spellcheck      => { arity => 0, dual => 1, },
+        type            => { arity => 1, leaf => 1, },
+        wizard          => { arity => 1, leaf => 1, },
+
+        # Even though expert is a boolean option we cannot make it's arity 0
+        # because of legacy format partser limitation.
+        expert => { arity => 1, leaf => 1, },
+    );
+};
+
+# The Foswiki::Config::ItemRole::setOpt throws raw BadSpecData exception because
+# it generaly knows nothing about the object it's ran against. We shall complete
+# the exception information to provide user with more details about the problem.
+sub _completeException {
+    my $this = shift;
+    my $e = Foswiki::Exception::Fatal->transmute( $_[0], 0 );
+
+    if ( $e->isa('Foswiki::Exception::Config::BadSpec') ) {
+        $e->nodeObject($this);
+    }
+
+    $e->rethrow;
 }
 
 1;

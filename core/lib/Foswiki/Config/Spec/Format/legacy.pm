@@ -5,6 +5,8 @@
 
 package Foswiki::Config::Spec::Format::legacy::SpecItem;
 
+use Foswiki;
+
 use Foswiki::Class;
 extends qw(Foswiki::Object);
 
@@ -12,12 +14,23 @@ has data => (
     is      => 'ro',
     lazy    => 1,
     clearer => 1,
-    builder => 'prepapreData',
+    builder => 'prepareData',
 );
 
 has name => (
     is      => 'rw',
     builder => 'prepareName',
+);
+
+has optSpecs => (
+    is      => 'ro',
+    isa     => Foswiki::Object::isaHASH( 'optSpecs', noUndef => 1, ),
+    builder => 'prepareOptSpecs',
+);
+
+has optionsStr => (
+    is      => 'rw',
+    builder => 'prepareOptionsStr',
 );
 
 has dataIdx => (
@@ -28,12 +41,39 @@ has dataIdx => (
     builder   => 'prepareDataIdx',
 );
 
+# Hash of arities of item options. Each successor must define this attribute.
+has itemOptArities => (
+    is      => 'ro',
+    builder => 'prepareItemOptArities',
+);
+
 sub prepareData {
     my $this = shift;
     return [];
 }
 
 sub prepareName {
+    return undef;
+}
+
+sub prepareOptSpecs {
+    return {};
+}
+
+sub prepareOptionsStr {
+    return '';
+}
+
+sub prepareDataIdx {
+    my $this = shift;
+
+    # Map list of options into a hash.
+    my $data = $this->data;
+    return { map { my $idx = $_ * 2; $data->[$idx] => $idx }
+          0 .. ( $#{ $this->data } / 2 ) };
+}
+
+sub prepareItemOptArities {
     return undef;
 }
 
@@ -54,41 +94,167 @@ sub opt {
     my $optName = shift;
     my $idx     = $this->dataIdx->{$optName};
     return undef unless defined $idx;
-    return $this->data->[$idx];
+    return $this->data->[ $idx + 1 ];
 }
 
 # Adds text to the text option.
 sub appendText {
     my $this = shift;
 
-    my $idx = $this->dataIdx->{text};
+    my $idx = $this->dataIdx->{-text};
     my $text = join( '', @_ );
 
     if ( defined $idx ) {
         $this->data->[ $idx + 1 ] .= "\n" . $text;
     }
     else {
-        $this->addOpts( text => $text );
+        $this->addOpts( -text => $text );
     }
 }
 
-sub prepareDataIdx {
+sub data2spec {
     my $this = shift;
 
-    # Map list of options into a hash.
-    my $data = $this->data;
-    return { map { my $idx = $_ * 2; $data->[$idx] => $idx }
-          0 .. ( $#{ $this->data } / 2 ) };
+    my @specData;
+    my $arities = $this->itemOptArities;
+
+    if ( defined $arities ) {
+        my $data = $this->data;
+        my @sData;
+        foreach my $i ( 0 .. ( @$data / 2 - 1 ) ) {
+            my $idx = $i * 2;
+            my ( $opt, $val ) = @{$data}[ $idx, $idx + 1 ];
+            if ( defined $arities->{$opt} && $arities->{$opt} == 0 ) {
+                $opt =~ s/^-/-no/ unless $val;
+                push @sData, $opt;
+            }
+            else {
+                push @sData, $opt, $val;
+            }
+        }
+        push @specData, \@sData;
+    }
+    else {
+        # If class is not defined then use data as-is. Most likely it would
+        # produce an acceptable definition for a key.
+        push @specData, $this->data;
+    }
+
+    return @specData;
 }
 
-# Return a list suitable to be pushed onto the specs list.
+# Returns a list suitable to be pushed onto the specs list.
 sub asSpec {
     my $this = shift;
 
-    return ( $this->name, $this->data );
+    $this->parseOptions;
+
+    return ( $this->name, $this->data2spec );
+}
+
+sub preParseOptions {
+    my $this = shift;
+    my ($options) = @_;
+    return $options;
+}
+
+sub parseOptions {
+    my $this = shift;
+
+    my $options = $this->optionsStr;
+
+    return unless defined($options) && length($options);
+
+    my ( $file, $line ) = @{ $this->opt('-source') }{qw(file line)};
+
+    $options = $this->preParseOptions($options);
+
+    my @opts;
+
+    while ( $options =~ s/^\s*(?<keyName>[A-Za-z0-9_]+)// ) {
+        my $key       = $+{keyName};
+        my $optSpecs  = $this->optSpecs;
+        my $boolValue = !( $key =~ s/^NO// );
+
+        # Process aliases. Aliases could be chained.
+        while ( $optSpecs->{$key} && !ref( $optSpecs->{$key} ) ) {
+            $key = $optSpecs->{$key};
+        }
+
+        Foswiki::Exception::Config::Spec::Format::legacy::BadOption->throw(
+            text => "Unknown option '$key' in definition of '"
+              . $this->name . "'",
+            file => $file,
+            line => $line,
+        ) unless defined $optSpecs->{$key};
+
+        my $optSpec = $optSpecs->{$key};
+        my $optVal;
+
+        if ( $options =~ s/^\s*=// ) {
+            if (
+                $options =~ s{
+                    ^\s*
+                    (?:
+                        (["'])(?<val>.*?[^\\])\1 # =string
+                        |
+                        (?<val>[A-Z0-9]+) # =keyword or number
+                    )
+                }
+                []x
+              )
+            {
+
+                $optVal = $+{val};
+            }
+            else {
+                Foswiki::Exception::Config::Spec::Format::legacy::BadOption
+                  ->throw(
+                    text => "Parse error of option '" . $key . "': bad value",
+                    file => $file,
+                    line => $line,
+                  );
+            }
+        }
+        elsif ( $optSpec->{openclose} ) {
+            $options =~ s/^(?<val>.*?)(\/$key|$)//;
+            $optVal = $+{val};
+        }
+        else {
+            $optVal = $boolValue;
+        }
+
+        if ( $optSpec->{handler} ) {
+            my $fn = $optSpec->{handler};
+
+            # See if checker defined by its symbolic name, not code ref.
+            unless ( ref($fn) ) {
+                $fn = $this->can($fn);
+            }
+
+            Foswiki::Exception::Fatal->throw(
+                text => "Cannot find handler method for spec option '$key'" )
+              unless $fn;
+
+            $optVal = $fn->( $this, $key, $optVal );
+        }
+
+        my $optName = '-' . lc($key);
+        push @opts, $optName, $optVal;
+    }
+
+    Foswiki::Exception::Fatal->throw(
+            text => "Incompletely parsed options, left-over string: '"
+          . $options
+          . "'", )
+      if defined($options) && length($options);
+
+    $this->addOpts(@opts);
 }
 
 package Foswiki::Config::Spec::Format::legacy::Section;
+
+require Foswiki::Config::Section;
 
 use Foswiki::Class;
 extends qw(Foswiki::Config::Spec::Format::legacy::SpecItem);
@@ -104,6 +270,327 @@ around asSpec => sub {
 
     return ( -section => $orig->( $this, @_ ) );
 };
+
+around prepareOptSpecs => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    return {
+        %{ $orig->( $this, @_ ) },
+        EXPERT => {},
+        SORTED => {},
+    };
+};
+
+around prepareItemOptArities => sub {
+    my %arities = Foswiki::Config::Section->optArities;
+    return \%arities;
+};
+
+package Foswiki::Config::Spec::Format::legacy::Value;
+
+require Foswiki::Config::Node;
+use Foswiki::Config::DataHash;
+
+use Foswiki::Class;
+extends qw(Foswiki::Config::Spec::Format::legacy::SpecItem);
+
+around prepareOptSpecs => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    return {
+        %{ $orig->( $this, @_ ) },
+        CHECK           => { handler   => '_CHECK' },
+        CHECKER         => {},
+        CHECK_ON_CHANGE => {},
+        DISPLAY_IF      => { openclose => 1 },
+        ENABLE_IF       => { openclose => 1 },
+        EXPERT          => {},
+        FEEDBACK        => { handler   => '_FEEDBACK' },
+        HIDDEN          => {},
+        MULTIPLE        => {},         # Allow multiple select
+        SPELLCHECK      => {},
+        LABEL           => {},
+        ONSAVE          => {},         # Call Checker->onSave() when set.
+
+        # Rename single character options (legacy)
+        H => 'HIDDEN',
+        M => { handler => '_MANDATORY' },
+    };
+};
+
+around prepareItemOptArities => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $type = $this->opt('-type');
+
+    my $nodeClass = Foswiki::Config::DataHash::NODE_CLASS;
+    my $itemClass = $nodeClass->type2class($type) // $nodeClass;
+    my %arities   = $itemClass->optArities if $itemClass;
+
+    return \%arities;
+};
+
+around preParseOptions => sub {
+    my $orig = shift;
+    my $this = shift;
+    my ($options) = $orig->( $this, @_ );
+
+    my $type = $this->opt('-type');
+
+    Foswiki::Exception::Config::Spec::Format::legacy::BadOption->throw(
+        text => 'Attempt to parse options on incomplete legacy spec item',
+        %{ $this->opt('-source') },
+    ) unless $type;
+
+    my $preParser = 'preparse_' . $type;
+
+    if ( $this->can($preParser) ) {
+        $options = $this->$preParser($options);
+    }
+
+    return $options;
+};
+
+my %rename_options = ( nullok => 'undefok' );
+
+# Legal options for a CHECK. The number indicates the number of expected
+# parameters; -1 means '0 or more'
+my %CHECK_options = (
+    also     => -1,    # List of other items to check when this is changed
+    authtype => 1,     # for URLs
+    filter   => 1,     # filter exclude files when checking file permissions
+    iff      => 1,     # perl condition controlling when to check
+    max      => 1,     # max value
+    min      => 1,     # min value
+    trail    => 0,     # ignore trailing / when checking URL
+    undefok  => 0,     # is undef OK?
+    emptyok  => 0,     # is '' OK?
+    parts    => -1,    # for URL
+    partsreq => -1,    # for URL
+    perms    => -1,    # file permissions
+    schemes  => -1,    # for URL
+    user     => -1,    # for URL
+    pass     => -1,    # for URL
+);
+
+# Return a list suitable to be pushed onto the specs list.
+around data2spec => sub {
+    my $orig = shift;
+    my $this = shift;
+
+    my $type = $this->opt('-type') || 'STRING';
+
+    return ( $type, $orig->( $this, @_ ) );
+};
+
+sub _CHECK {
+    my $this = shift;
+    my ( $key, $val ) = @_;
+
+    my $opts = $val;
+    $opts =~ s/^(["'])\s*(.*?)\s*\1$/$2/;
+
+    my ( $file, $line ) = @{ $this->opt('-source') }{qw(file line)};
+
+    my %checkOpts;
+    while ( $opts =~ s/^\s*(?<name>[a-zA-Z][a-zA-Z0-9]*)// ) {
+        my $name = $+{name};
+        my $set = !( $name =~ s/^no// );
+
+        $name = $rename_options{$name} if exists $rename_options{$name};
+        Foswiki::Exception::Config::Spec::Format::legacy::BadOption->throw(
+            text => "Parse of '$key' failed: unrecognized option '$name'",
+            file => $file,
+            line => $line,
+        ) unless defined $CHECK_options{$name};
+
+        my @opts;
+        if ( $opts =~ s/^\s*:\s*// ) {
+            do {
+                if (
+                    $opts =~ s{
+                        ^(?:
+                          (?<quot>["'])(?<opt>.*?[^\\])\g{quot}
+                          |
+                          (?<opt>[-+]?\d+)
+                          |
+                          (?<opt>(?i)[a-z_{}]+)
+                        )
+                    }
+                    []x
+                  )
+                {
+                    push @opts, $+{opt};
+                }
+                else {
+                    Foswiki::Exception::Config::Spec::Format::legacy::BadOption
+                      ->throw(
+                        text =>
+                          "'$key' parse failed: not a list at $opts in $val",
+                        file => $file,
+                        line => $line,
+                      );
+                }
+            } while ( $opts =~ s/^\s*,\s*// );
+        }
+
+        if ( $CHECK_options{$name} >= 0
+            && scalar(@opts) != $CHECK_options{$name} )
+        {
+            Foswiki::Exception::Config::Spec::Format::legacy::BadOption->throw(
+                text => "'$key' parse failed: wrong number of params to '"
+                  . $name
+                  . "' (expected $CHECK_options{$name}, saw "
+                  . scalar @opts . ")",
+                file => $file,
+                line => $line,
+            );
+        }
+        if ( !$set && scalar(@opts) != 0 ) {
+            Foswiki::Exception::Config::Spec::Format::legacy::BadOption->throw(
+                text => "'$key' parse failed: 'no$name' is not allowed",
+                file => $file,
+                line => $line,
+            );
+        }
+
+        if ( !@opts ) {
+            $checkOpts{$name} = $set;
+        }
+        else {
+            $checkOpts{$name} = \@opts;
+        }
+    }
+    Foswiki::Exception::Config::Spec::Format::legacy::BadOption->throw(
+        text => "'$key' parse failed, expected name at '$opts' in $val",
+        file => $file,
+        line => $line,
+    ) if $opts !~ /^\s*$/;
+
+    return \%checkOpts;
+}
+
+sub _FEEDBACK {
+    my $this = shift;
+    my ( $key, $val ) = @_;
+
+    my $opts = $val;
+
+    my %fb;
+    while ( $opts =~ s/^\s*(?<attr>[a-z]+)\s*=\s*// ) {
+
+        my $attr = $+{attr};
+
+        if (
+            $opts =~ s{
+                ^(?:
+                  (?<opt>\d+)  # name=number
+                  |
+                  (?<quot>["'])(?<opt>.*?[^\\])\g{quot} # name=string
+                 )
+                }
+                []x
+          )
+        {
+            $fb{$attr} = $+{opt};
+        }
+
+        last unless $opts =~ s/^\s*;//;
+    }
+
+    Foswiki::Exception::Config::Spec::Format::legacy::BadOption->throw(
+        text => "'$key' parse failed, at '$opts' in $val",
+        %{ $this->opt('-source') },
+    ) unless $opts =~ m/^\s*$/;
+
+    return \%fb;
+}
+
+sub _preparse_length {
+    my $this    = shift;
+    my $options = shift;
+
+    if ( $options =~ s/^\s*(\d+(?:x\d+)?)// ) {
+        $this->addOpts( -size => $1 );
+    }
+    return $options;
+}
+
+sub _preparse_selectlist {
+    my $this    = shift;
+    my $options = shift;
+
+    my @picks;
+    do {
+        if ( $options =~ s/^(["'])(.*?)\1// ) {
+            push( @picks, $2 );
+        }
+        elsif ( $options =~ s/^([-A-Za-z0-9:.*]+)// || $options =~ m/(\s)*,/ ) {
+            my $v = $1;
+            $v = '' unless defined $v;
+            if ( $v =~ m/\*/ && $this->opt('-type') eq 'SELECTCLASS' ) {
+
+                # Rely upon the Configure code for a while.
+                Foswiki::load_package('Foswiki::Configure::FileUtil');
+
+                # Populate the class list
+                push( @picks, Foswiki::Configure::FileUtil::findPackages($v) );
+            }
+            else {
+                push( @picks, $v );
+            }
+        }
+        else {
+            Foswiki::Exception::Fatal->throw(
+                text => "Illegal .spec at '$options'" );
+        }
+    } while ( $options =~ s/\s*,\s*// );
+    $this->addOpts( -select_from => \@picks );
+
+    return $options;
+}
+
+# Setup pre-parse subs for each type corresponding to roles it does. Type
+# definitions are taken from node class.
+my $nodeClass     = Foswiki::Config::DataHash::NODE_CLASS;
+my $roleNS        = $nodeClass->ROLE_NAMESPACE;
+my %role2preparse = (
+    $roleNS . 'Size'   => \&_preparse_length,
+    $roleNS . 'Select' => \&_preparse_selectlist,
+);
+foreach my $type ( sort $nodeClass->getAllTypes ) {
+    my $typeClass = $nodeClass->type2class($type);
+    my $preSub;
+    foreach my $role ( keys %role2preparse ) {
+        if ( $typeClass->does($role) ) {
+            $preSub = $role2preparse{$role};
+            last;
+        }
+    }
+
+    if ($preSub) {
+        no strict 'refs';
+        *{ "preparse_" . $type } = $preSub;
+        use strict 'refs';
+    }
+}
+
+#foreach my $type (
+#    qw(COMMAND PASSWORD PATH REGEX STRING NUMBER EMAILADDRESS URL URLPATH PERL))
+#{
+#    no strict 'refs';
+#    *{ "preparse_" . $type } = \&_preparse_length;
+#    use strict 'refs';
+#}
+#
+#foreach my $type (qw(SELECT BOOLGROUP SELECTCLASS)) {
+#    no strict 'refs';
+#    *{ "preparse_" . $type } = \&_preparse_selectlist;
+#    use strict 'refs';
+#}
 
 # Exception names look scary but this is to keep their uniqueness guaranteed.
 
@@ -132,9 +619,16 @@ package Foswiki::Exception::Config::Spec::Format::legacy::Last;
 use Foswiki::Class;
 extends qw(Foswiki::Exception::Config::Spec::Format::legacy::Flow);
 
+# Unknown option in a spec definition.
+package Foswiki::Exception::Config::Spec::Format::legacy::BadOption;
+
+use Foswiki::Class;
+extends qw(Foswiki::Exception::Config::BadSpecSrc);
+
 package Foswiki::Config::Spec::Format::legacy;
 
 use Try::Tiny;
+use Foswiki qw($TRUE $FALSE);
 
 use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
@@ -223,13 +717,13 @@ sub _makeItem {
 
     $profile{data} //= [];
 
-    unshift @{ $profile{data} },
-      file => $this->_specFile->path,
+    unshift @{ $profile{data} }, -source => {
+        file => $this->_specFile->path,
 
-      # Make it human-readable base-1. For aux items created before any
-      # processing started line -1 would mean exactly this.
-      line => ( $this->recordedLine // -2 ) + 1,
-      ;
+        # Make it human-readable base-1. For aux items created before any
+        # processing started line -1 would mean exactly this.
+        line => ( $this->recordedLine // -2 ) + 1,
+    };
 
     my $item = $this->create( $class, %profile, );
 
@@ -252,7 +746,12 @@ sub _addItem2Specs {
         # We've just pushed a new section to the specs and hit a declaration
         # which belongs to this section.
         $this->restoreLine;
-        $this->_sectionParse( section => $specItem, );
+
+        # The last item of specs array is always section subspecs at this point.
+        $this->_sectionParse(
+            section => $specItem,
+            specs   => $status->{specs}->[-1],
+        );
         Foswiki::Exception::Config::Spec::Format::legacy::Repeat->throw;
     }
 
@@ -301,7 +800,7 @@ sub _checkItemComplete {
     my $status = shift;
 
     if ( $status->{specItem} && !$status->{isEnhancing} ) {
-        unless ( $status->{nextSection} ) {
+        unless ( $status->{nextSection} || $this->_isSectionItem($status) ) {
 
             # SMELL or TBD Must be replaced with a non-destructive messaging. A
             # broken spec must not break the app. Though we might consider
@@ -390,18 +889,29 @@ sub _sectionParse {
                     # the spec could have been defined. It is up to the Config
                     # core to determine if we really deal with enhancing.
                     $status->{specItem} = $this->_makeItem(
-                        'SpecItem',
+                        'Value',
                         name => $opts,
-                        data => [ type => $type ],
+                        data => [ -type => $type ],
                     );
-                    $status->{isEnhancing} = 1;
+                    $status->{isEnhancing} = $TRUE;
                 }
                 else {
+                    unless (
+                        Foswiki::Config::DataHash->NODE_CLASS->knownType($type)
+                      )
+                    {
+                        Foswiki::Exception::Config::BadSpecSrc->throw(
+                            file => $this->_specFile,
+                            line => $this->nextLine,
+                            text => "Unknown spec type '" . $type . "'",
+                        );
+                    }
+
                     $status->{specItem} =
-                      $this->_makeItem( 'SpecItem', data => [ type => $type ] );
+                      $this->_makeItem( 'Value', data => [ -type => $type ] );
                 }
 
-                $status->{specItem}->addOpts( options => $opts );
+                $status->{specItem}->optionsStr($opts);
             }
             elsif ( $l =~
 m/^(?<optional>#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg(?<keyPath>[^=\s]*)\s*=\s*(.*?)$/
@@ -424,7 +934,7 @@ m/^(?<optional>#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg(?<keyPath>[^=\s]*)\s*=\s*(.*?)$/
                     $this->_addItem2Specs($status);
                 }
                 elsif ( !$status->{specItem} ) {
-                    $status->{specItem} = $this->_makeItem('SpecItem');
+                    $status->{specItem} = $this->_makeItem('Value');
                 }
 
                 # XXX LoadSpec checks for entries added by pluggables. Seems
@@ -436,19 +946,34 @@ m/^(?<optional>#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg(?<keyPath>[^=\s]*)\s*=\s*(.*?)$/
 
                 my $specItem = $status->{specItem};
 
-                my ( $subHash, $key ) =
-                  $cfg->getSubHash( $keyPath, data => $specDef );
+                my ( $subHash, $key );
+                try {
+                    ( $subHash, $key ) = $cfg->getSubHash(
+                        $keyPath,
+                        data       => $specDef,
+                        autoVivify => 1,
+                    );
+                }
+                catch {
+                    my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+
+                    Foswiki::Exception::Config::BadSpecSrc->throw(
+                        text => $e->stringifyText,
+                        file => $this->_specFile,
+                        line => $this->nextLine,
+                    );
+                };
 
                 my $defaultVal = $subHash->{$key};
 
-                my $itemType = $specItem->opt('type');
+                my $itemType = $specItem->opt('-type');
 
                 if ( $itemType && $itemType eq 'REGEX' ) {
                     if ( $defaultVal =~ m/^qr(.)(.*)\1$/
                         || ref($defaultVal) eq 'Regexp' )
                     {
                         # Convert a qr// into a quoted string
-                        $defaultVal = $1;
+                        $defaultVal = ref($defaultVal) ? '' . $defaultVal : $1;
 
                         # Strip off useless furniture (?^: ... )
                         while ( $defaultVal =~ s/^\(\?\^:(.*)\)$/$1/ ) {
@@ -466,8 +991,8 @@ m/^(?<optional>#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg(?<keyPath>[^=\s]*)\s*=\s*(.*?)$/
                 }
 
                 $specItem->addOpts(
-                    default => $defaultVal,
-                    ( $optional ? ( optional => 1 ) : () )
+                    -default => $defaultVal,
+                    ( $optional ? ( -optional => 1 ) : () )
                 );
                 $specItem->name( $cfg->normalizeKeyPath($keyPath) );
 
@@ -477,21 +1002,28 @@ m/^(?<optional>#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg(?<keyPath>[^=\s]*)\s*=\s*(.*?)$/
                 else {
                     $this->_addItem2Specs($status);
                 }
-                $status->{isEnhancing} = 0;
+                $status->{isEnhancing} = $FALSE;
             }
             elsif ( $l =~ m/^#\s*\*([A-Z]+)\*/ ) {
 
                 my $name = $1;
 
-# SMELL LoadSpec does a lot of work on checking on enhancing and
-# section/value checks. Not sure if it could be reproduced here. Not even sure if it makes any sense.
+                # SMELL LoadSpec does a lot of work on checking on enhancing and
+                # section/value checks. Not sure if it could be reproduced here.
+                # Not even sure if it makes any sense.
 
                 $this->_checkItemComplete($status);
 
                 push @{ $status->{specs} }, -pluggable => $name;
             }
-            elsif ( $l =~ m/^#\s*---(?<subLevel>\++)\s*(?<section>.*?)$/ ) {
-                my ( $subLevel, $section ) = @+{qw(subLevel section)};
+            elsif (
+                $l =~ /^\#\s*---(?<subLevel>\++)\s*
+                                    (?<section>.*?)
+                                    (?:(?:\s+--\s+)(?<options>.*?))?$ /x
+              )
+            {
+                my ( $subLevel, $section, $options ) =
+                  @+{qw(subLevel section options)};    # %+
                 $subLevel = length($subLevel);
 
                 $status->{nextSection} = $this->_makeItem(
@@ -503,13 +1035,17 @@ m/^(?<optional>#)?\s*\$(?:(?:Fosw|TW)iki::)?cfg(?<keyPath>[^=\s]*)\s*=\s*(.*?)$/
                 $this->_checkItemComplete($status);
 
                 $status->{specItem} = $status->{nextSection};
+                $status->{specItem}->optionsStr($options)
+                  if $options;
                 delete $status->{nextSection};
 
             }
             elsif ( $l =~ m/^#\s?(.*)$/ ) {
 
                 # Bog standard comment
-                $status->{specItem}->appendText($1);
+                # Just skip if no specItem yet – this is just file-level
+                # comments.
+                $status->{specItem}->appendText($1) if $status->{specItem};
             }
 
         }
@@ -557,12 +1093,12 @@ sub parse {
 
     my (@specs);
 
-   # It seems as it was initially thought to make some items optional. Though
-   # it's never made its way into the final implementation (look for $optional
-   # use in LoadSpec.pm – it's never been used) but commented out defaults are
-   # not ignored. For this purpose we simply remove single comment char in
-   # front of $Foswiki::cfg declarations. To make them real comments one must
-   # double the sharp symbol.
+    # It seems as it was initially thought to make some items optional. Though
+    # it's never made its way into the final implementation (look for $optional
+    # use in LoadSpec.pm – it's not used) but commented out defaults are not
+    # ignored. For this purpose we simply remove single comment char in front of
+    # $Foswiki::cfg declarations. To make them real comments one must double the
+    # sharp symbol.
     $specCode =~ s/^#?\s*\$(?:(?:Fosw|TW)iki::)cfg/\$this->_specDef->/mg;
 
     eval $specCode;
@@ -591,11 +1127,12 @@ sub _trigger_specSrc {
     $this->clear_nextLine;
     $this->clear_recordedLine;
 }
+
 1;
 __END__
 Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
-Copyright (C) 2016 Foswiki Contributors. Foswiki Contributors
+Copyright (C) 2016-2017 Foswiki Contributors. Foswiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

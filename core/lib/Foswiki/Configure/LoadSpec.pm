@@ -178,6 +178,14 @@ sub _extractSections {
         if ( $item->isa('SectionMarker') ) {
             my $opts     = '';
             my $headline = $item->Headline;
+
+            # SMELL This regexp would cause trouble for the following section
+            # headline:
+            # ---+ Section text OPT_A &lt;---&gt; OPT_B and added text.
+            # -&gt; above doesn't look like an option; neither do other words
+            # following it.
+            # Suggested correct regexp would be:
+            # s/^(.*?)\s+--\s+(.*?)\s*$/$1/
             if ( $headline =~ s/^(.*?)\s*--\s*(.*?)\s*$/$1/ ) {
                 $opts = $2;
                 $item->Headline($headline);

@@ -5,6 +5,7 @@ package Foswiki::Config::Spec::File;
 
 use File::stat;
 use File::Spec;
+use Assert;
 use Digest::SHA qw(sha1_hex);
 
 use constant CACHE_SUBDIR => '.specCache';

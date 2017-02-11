@@ -161,14 +161,14 @@ sub _fw_extends {
 if ( $ENV{FOSWIKI_ASSERTS} ) {
 
     # Moo doesn't provide a clean way to get all object's attributes. The only
-    # really clean way to distinguish between a key on object's hash and an
+    # really good way to distinguish between a key on object's hash and an
     # attribute is to record what is passed to Moo's sub 'has'. Since Moo
     # generates it for each class separately (as well as other 'keywords') and
-    # since Moo::Role does it on its own too then the only really clean way to
-    # catch everything is to tap into Moo's guts. And the best way to do so is
-    # to intercept calls to _install_tracked() as this sub is used to register
-    # every single Moo-generated code ref. Though this is a hacky way on its own
-    # but the rest approaches seem to be even more hacky and no doubt
+    # since Moo::Role does it on its own too then the only correct approach to
+    # intercept everything is to tap into Moo's guts. And the best way to do so
+    # is to intercept calls to _install_tracked() as this sub is used to
+    # register every single Moo-generated code ref. Though this is a hacky way
+    # on its own but the rest approaches seem to be even more hacky and no doubt
     # unreliable.
     foreach my $module (qw(Moo Moo::Role)) {
         my $ns               = Foswiki::getNS($module);

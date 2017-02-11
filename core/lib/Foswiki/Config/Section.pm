@@ -2,22 +2,13 @@
 
 package Foswiki::Config::Section;
 
+use Try::Tiny;
+
 use Foswiki::Class qw(app);
 extends qw(Foswiki::Object);
+with qw(Foswiki::Config::ItemRole);
 
 use overload '""' => 'to_str';
-
-has name => (
-    is       => 'ro',
-    required => 1,
-);
-
-has text => (
-    is        => 'rw',
-    lazy      => 1,
-    predicate => 1,
-    builder   => 'prepareText',
-);
 
 has sections => (
     is        => 'rw',
@@ -33,11 +24,10 @@ has nodes => (
     builder => 'prepareNodes',
 );
 
-# Default prefix for checkers, wizards and similar modules.
-has modprefix => (
-    is        => 'rw',
-    predicate => 1,
-    clearer   => 1,
+has level => (
+    is      => 'ro',
+    lazy    => 1,
+    builder => 'prepareLevel',
 );
 
 has _secIndex => (
@@ -46,16 +36,6 @@ has _secIndex => (
     builder => 'prepareSecIndex',
     isa     => Foswiki::Object::isaHASH( '_secIndex', noUndef => 1, ),
 );
-
-has parent => (
-    is       => 'rw',
-    lazy     => 1,
-    weak_ref => 1,
-    builder  => 'prepareParent',
-    isa => Foswiki::Object::isaCLASS( 'parent', 'Foswiki::Config::Section' ),
-);
-
-stubMethods qw(prepareText prepareParent);
 
 sub prepareSecIndex {
     return {};
@@ -69,7 +49,31 @@ sub prepareNodes {
     return [];
 }
 
-# Creates a new section or returns existing one
+=begin TML
+
+---+++ ObjectMethod prepareParent
+
+Initializer for =Foswiki::Config::ItemRole= =parent= attribute.
+
+=cut
+
+# Cannot use =stubMethods= for prepareParent because role is being applied before
+# =stubMethods= gets called.
+sub prepareParent {
+    return undef;
+}
+
+sub prepareLevel {
+    my $this = shift;
+
+    if ( $this->parent ) {
+        return $this->parent->level + 1;
+    }
+
+    return 0;
+}
+
+# Creates a new child section or returns existing one
 # $section->subSection('Extensions', text => 'Description',);
 sub subSection {
     my $this = shift;
@@ -100,16 +104,79 @@ sub subSection {
     return $secObj;
 }
 
-sub addText {
+# Returns section object with name $name. If $level defined then it must match
+# object's level too.
+sub find {
     my $this = shift;
+    my ( $name, $level ) = @_;
 
-    $this->text( join( "\n\n", $this->text, map { $_ // '' } @_ ) );
+    my $secIdx = $this->_secIndex;
+
+    if ( defined $level ) {
+        my $myLevel = $this->level;
+
+        return undef if $myLevel > $level;
+        return $this if ( $myLevel == $level ) && $name eq $this->name;
+
+        # Check against children if they're at requested level.
+        return $secIdx->{$name} if ( $myLevel + 1 ) == $level;
+    }
+    else {
+        return $this if $name eq $this->name;
+    }
+
+    # If we've got at this point then it's up to our children to find the
+    # suspect.
+    foreach my $child ( @{ $this->sections } ) {
+        my $suspect = $child->find(@_);
+        return $suspect if defined $suspect;
+    }
+
+    # Section not found at this branch.
+    return undef;
 }
 
 around to_str => sub {
     my $orig = shift;
     my $this = shift;
     return $this->name;
+};
+
+around setOpt => sub {
+    my $orig = shift;
+    my $this = shift;
+    my @args = @_;
+
+    try {
+        $orig->( $this, @args );
+    }
+    catch {
+        my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
+
+        # The Foswiki::Config::ItemRole::setOpt throws raw BadSpecData exception
+        # because it generaly knows nothing about the object it's ran against.
+        # We shall complete the exception information to provide user with more
+        # details about the problem.
+        if (   $e->isa('Foswiki::Exception::Config::BadSpec')
+            && $this->parent
+            && $this->parent->level > 0 )
+        {
+            $e->section( $this->parent );
+        }
+
+        $e->rethrow;
+    };
+};
+
+around optionDefinitions => sub {
+    my $orig = shift;
+    return (
+        $orig->(@_),
+        expert    => { arity => 0, },
+        modprefix => { arity => 1, },
+        pluggable => { arity => 1, },
+        section   => { arity => 2, },
+    );
 };
 
 1;

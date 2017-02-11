@@ -206,12 +206,12 @@ sub STORE {
 
     my $nodes = $this->nodes;
 
-    my $node = $this->makeNode($key);
+    my $node = $this->makeNode( key => $key, );
 
-   # Check if node is a leaf. If it is then the hash being assigned
-   # isn't a LSC subhash but actual key value. Though not really affecting
-   # $app->cfg functionality but is much cleaner and sometimes may even speed up
-   # operations too.
+    # Check if node is a leaf. If it is then the hash being assigned isn't a LSC
+    # subhash but actual key value. Though not really affecting $app->cfg
+    # functionality but is much cleaner and sometimes may even speed up
+    # operations too.
     if ( !$node->isLeaf && ref($value) eq 'HASH' && !tied(%$value) ) {
 
         $this->tieNode($key);
@@ -338,7 +338,10 @@ sub getKeyObject {
 
             # Auto-vivify key if doesn't exists. We always create a non-leaf
             # here because this is what this method is supposed to do.
-            $node = $keyObj->makeNode( $key, isLeaf => 0, );
+            $node = $keyObj->makeNode(
+                key         => $key,
+                nodeProfile => { isLeaf => 0, },
+            );
 
             Foswiki::Exception::Fatal->throw(
                 text => "Failed to auto-vivify key '$key' on "
@@ -363,25 +366,33 @@ sub getKeyObject {
 
 =begin TML
 
----+++ ObjectMehtod makeNode( $key, @nodeProfile ) -> $node
+---+++ ObjectMehtod makeNode( %params ) -> $node
 
-This method initializes and returns a node under key =$key= in =nodes= attribute
-hash. A new node is created with this class' =create()= method and =@nodeProfile=
-used as new object's initializer (i.e. =@nodeProfile= is supplied to the constructor
-as it's arguments list).
+This method initializes and returns a node in =nodes= attribute hash. The following keys are
+expected in =%params= hash:
 
-If the node already exists then =@nodeProfile= is treated as a attribute/value
-pair list and for each attribute from the list it is initialized with the value.
+| *Key* | *Description* |
+| =key= | Node key name. |
+| =nodeType= | Type of the new node. The types are defined in =Foswiki::Config::Node=. If key is ommited or undefined then =Foswiki::Config::Node= it used as node class. |
+| =nodeProfile= | Defined a profile for the new node constructor method. |
 
-*NOTE* In some cases a node object might behave differently for cases when attributes
-are initialized by node's constructur or re-initialized through their respective
-accessors. The nuances could be caused by the ways Moo works with attributes.
+If the node already exists then =nodeProfile= is treated as an attribute/value
+pair list and for each attribute from the list it is set to the value.
+
+*NOTE* In some cases a node object might behave differently for situations when
+attributes are initialized by node's constructur or re-initialized through their
+respective accessors. The nuances could be caused by the ways Moo works with
+attributes.
 
 =cut
 
 sub makeNode {
-    my $this = shift;
-    my $key  = shift;
+    my $this   = shift;
+    my %params = @_;
+
+    my ( $key, $type, $profile ) = @params{qw(key nodeType nodeProfile)};
+
+    $profile = [%$profile] if ref($profile) eq 'HASH';
 
     #my %profile = @_;
 
@@ -395,13 +406,14 @@ sub makeNode {
 
         my $i = 0;
 
-        while ( $i < @_ ) {
+        while ( $i < @$profile ) {
             my ( $key, $val ) = ( $_[ $i++ ], $_[ $i++ ] );
             $node->$key($val);
         }
     }
     else {
-        $nodes->{$key} = $node = $this->createNode( @_, name => $key, );
+        $nodes->{$key} = $node =
+          $this->createNode( $type, @$profile, name => $key, );
         $this->tieNode($key) if $node->isBranch;
     }
 
@@ -459,16 +471,23 @@ sub tieNode {
 
 =begin TML
 
----+++ ObjectMethod createNode(@nodeProfile) -> $nodeObject
+---+++ ObjectMethod createNode($type, @nodeProfile) -> $nodeObject
 
-Creates a new =Foswiki::Config::Node= object using =@nodeProfile=.
+Creates a new =Foswiki::Config::Node= object of type =$type= using =@nodeProfile=.
 
 =cut
 
 sub createNode {
     my $this = shift;
+    my $type = shift;
 
-    return $this->create( NODE_CLASS, parent => $this, @_ );
+    my $nodeClass = NODE_CLASS;
+
+    if ( defined $type ) {
+        $nodeClass = $nodeClass->type2class($type);
+    }
+
+    return $this->create( $nodeClass, parent => $this, @_ );
 }
 
 =begin TML

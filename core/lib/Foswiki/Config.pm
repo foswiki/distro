@@ -55,7 +55,7 @@ my %remap = (
     '{RCS}{WorkAreaDir}'    => '{Store}{WorkAreaDir}'
 );
 
-$Foswiki::regex{optionNameRegex} = qr/^-([[:alpha:]][[:alnum:]]*)$/;
+$Foswiki::regex{optionNameRegex} = qr/^-(?<option>[[:alpha:]_][[:alnum:]_]*)$/;
 
 # Hash of parser_format => Parser::Module format. If parser module doesn't load
 # the corresponding key would then exists but be undefined.
@@ -240,6 +240,22 @@ has _specParsers => (
     builder => '_prepareSpecParsers',
 );
 
+# Hash of optionName => arity
+has _keyOptArity => (
+    is      => 'ro',
+    lazy    => 1,
+    clearer => 1,
+    builder => '_prepareKeyOptArity',
+);
+
+# Hash of optionName => arity
+has _secOptArity => (
+    is      => 'ro',
+    lazy    => 1,
+    clearer => 1,
+    builder => '_prepareSecOptArity',
+);
+
 # Configuration shortcut attributes.
 
 =begin TML
@@ -271,6 +287,8 @@ sub BUILD {
         $this->noLocal, );
 
     $this->_setupGlobals;
+
+    return;
 }
 
 sub DEMOLISH {
@@ -1158,26 +1176,36 @@ sub setBootstrap {
     push( @{ $this->data->{BOOTSTRAP} }, @BOOTSTRAP );
 }
 
+sub _isBadCfgKey {
+    my $this = shift;
+    my ($keyName) = @_;
+
+    return "Key name cannot be undef" unless defined($keyName);
+
+    return
+        "Key name must be a scalar value, not "
+      . ref($keyName)
+      . " reference"
+      if ref($keyName);
+
+    return "Invalid config key name"
+      unless $keyName =~ /^[^\.]+$/;
+
+    return undef;
+}
+
 sub _validateCfgKey {
     my $this = shift;
     my ($keyName) = @_;
 
-    Foswiki::Exception::Config::InvalidKeyName->throw(
-        text    => "Key name cannot be undef",
-        keyName => undef,
-    ) unless defined($keyName);
+    my $errText = $this->_isBadCfgKey($keyName);
 
-    Foswiki::Exception::Config::InvalidKeyName->throw(
-        text => "Key name must be a scalar value, not "
-          . ref($keyName)
-          . " reference",
-        keyName => $keyName,
-    ) if ref($keyName);
-
-    Foswiki::Exception::Config::InvalidKeyName->throw(
-        text    => "Invalid config key name `$keyName`",
-        keyName => $keyName,
-    ) unless $keyName =~ /^[[:alnum:]_]+$/;
+    if ($errText) {
+        Foswiki::Exception::Config::InvalidKeyName->throw(
+            text    => $errText,
+            keyName => $keyName,
+        );
+    }
 }
 
 sub parseKeys {
@@ -2239,7 +2267,7 @@ sub spec {
         data    => $data,
     );
     try {
-        $this->_processSpec( specs => $specs, );
+        $this->_specSectionBody( specs => $specs, );
     }
     catch {
         my $e = Foswiki::Exception::Fatal->transmute( $_, 0 );
@@ -2321,8 +2349,95 @@ sub _prepareSpecParsers {
     };
 }
 
-my @validSecOptions = qw(text);
-my $secOptRx = '(' . join( '|', @validSecOptions ) . ')';
+sub _prepareKeyOptArity {
+    my $this = shift;
+
+    my %arity;
+
+    my $nodeClass = $this->dataHashClass->NODE_CLASS;
+    my @types     = $nodeClass->getAllTypes;
+
+    foreach my $type (@types) {
+        my $typeClass = $nodeClass->type2class($type);
+        %arity = ( %arity, $typeClass->optArities );
+    }
+
+    return \%arity;
+}
+
+sub _prepareSecOptArity {
+    my $this = shift;
+
+    return { Foswiki::Config::Section->optArities };
+}
+
+sub _specSectionBody {
+    my $this   = shift;
+    my %params = @_;
+
+    my $specs   = $params{specs};
+    my $section = $specs->section;
+
+    # Defines number of arguments for an option. 0 is for boolean ones, 1 is for
+    # others. More than 1 argument is only possible for special cases like
+    # 'section' which are handled manually. Actually, 'section' is the only such
+    # option so far.
+    # It also defines valid section options.
+    my $secOptionArity = $this->_secOptArity;
+
+    while ( $specs->hasNext ) {
+        my $elem = $specs->fetch;
+
+        if ( $elem =~ $Foswiki::regex{optionNameRegex} ) {
+            my $option = $+{option};
+
+            my $isTRUE = 1;
+
+            unless ( exists $secOptionArity->{$option}
+                || $option !~ /^no(?<option>.*)$/ )
+            {
+                $option = $+{option};
+                $isTRUE = 1;
+            }
+
+            my $optValue;
+
+            if ( exists $secOptionArity->{$option} ) {
+                if ( my $argCount = $secOptionArity->{$option} ) {
+
+                    Foswiki::Exception::Config::BadSpecData(
+                        text    => "Incomplete option '" . $option . "'",
+                        section => $section,
+                    ) unless $specs->hasNext($argCount);
+
+                    if ( $option eq 'section' ) {
+                        $this->_specSection( specs => $specs );
+                    }
+                    else {
+                        $optValue = $specs->fetch;
+                    }
+                }
+                else {
+                    # 0 arity means a flag or boolen option
+                    $optValue = $isTRUE;
+                }
+
+                $section->setOpt( $option, $optValue );
+            }
+            else {
+                Foswiki::Exception::Config::BadSpecData->throw(
+                    text => "Don't know how to handle section option '"
+                      . $option . "'",
+                    section => $section,
+                );
+            }
+        }
+        else {
+            # Processing a key definition.
+            $this->_specCfgKey( $elem, specs => $specs, );
+        }
+    }
+}
 
 sub _specSection {
     my $this   = shift;
@@ -2336,7 +2451,7 @@ sub _specSection {
         section => $section,
     ) unless $specs->hasNext;
 
-    my @secProfile;
+    my ( @secProfile, @subSecElems );
     my $secName = $specs->fetch;
 
     Foswiki::Exception::Config::BadSpecData->throw(
@@ -2346,40 +2461,26 @@ sub _specSection {
         section => $section,
     ) if ref($secName);
 
-    my $secDefined = 0;
-    until ($secDefined) {
-        Foswiki::Exception::Config::BadSpecData->throw(
-            text => "Incomplete section '$secName' definition: no data defined",
-            section => $section,
-        ) unless $specs->hasNext;
+    my $value         = $specs->fetch;
+    my $badValTypeTxt = $specs->badSubSpecElem($value);
+    Foswiki::Exception::Config::BadSpecData->throw(
+        text => "Cannot create section '$secName' from $badValTypeTxt", )
+      if $badValTypeTxt;
 
-        my $elem = $specs->fetch;
+    my $secLevel = $section->level + 1;
 
-        if ( $elem =~ /^-$secOptRx$/ ) {
-            my $secOpt = $1;
+    my $subSection = $this->rootSection->find( $secName, $secLevel );
 
-            Foswiki::Exception::Config::BadSpecData->throw(
-                text =>
-"Section '$secName' option $secOpt is incomplete, missing value",
-                section => $section,
-            ) unless $specs->hasNext;
-
-            push @secProfile, $secOpt => $specs->fetch;
-        }
-        elsif ( ref($elem) eq 'ARRAY' ) {
-            my $subSect = $section->subSection( $secName, @secProfile );
-            my $subSpecs = $specs->subSpecs( section => $subSect );
-            $this->_processSpec( specs => $subSpecs, );
-            $secDefined = 1;
-        }
-        else {
-            Foswiki::Exception::Config::BadSpecData->throw(
-                text =>
-                  "Bad format of section '$secName': unexpected element $elem",
-                section => $section,
-            );
-        }
+    unless ($subSection) {
+        $subSection = $section->subSection($secName);
     }
+
+    # Set subsection modprefix to that of parent's section.
+    $subSection->setOpt( modprefix => $section->getOpt('modprefix') );
+
+    my $secSpecs = $specs->subSpecs( section => $subSection, );
+
+    $this->_specSectionBody( specs => $secSpecs, );
 }
 
 sub _specModprefix {
@@ -2397,7 +2498,17 @@ sub _specModprefix {
 
     my $prefix = $specs->fetch;
 
-    $section->modprefix($prefix);
+    $section->setOpt( modprefix => $prefix );
+}
+
+sub _isCompleteKeyDef {
+    my $this = shift;
+    my ( $specs, $section, $keyName ) = @_;
+
+    Foswiki::Exception::Config::BadSpecData->throw(
+        text    => "Incomplete key '$keyName': missing definition",
+        section => $section,
+    ) unless $specs->hasNext;
 }
 
 sub _specCfgKey {
@@ -2408,33 +2519,46 @@ sub _specCfgKey {
     my $section = $specs->section;
     my $data    = $specs->data || $this->data;
 
+    my $arity = $this->_keyOptArity;
+
     my @keyPath = $this->arg2keys( $specs->keyPath, $key );
     my $keyFullName = $this->normalizeKeyPath( \@keyPath );
 
-    # Cut off this key name off the full path.
+    # Cut off this key name of the full path.
     my $keyName = pop @keyPath;
 
-    Foswiki::Exception::Config::BadSpecData->throw(
-        text    => "Incomplete key '$keyFullName': missing value",
-        section => $section,
-    ) unless $specs->hasNext;
+    $this->_isCompleteKeyDef( $specs, $section, $keyFullName );
 
     my $value = $specs->fetch;
 
+    my $keyType;
+    unless ( ref($value) ) {
+        $keyType = $value;
+        $this->_isCompleteKeyDef( $specs, $section, $keyFullName );
+        $value = $specs->fetch;
+    }
+
     my $badValTypeTxt = $specs->badSubSpecElem($value);
     Foswiki::Exception::Config::BadSpecData->throw(
-        text => "Cannot create key '$keyFullName' spec from $badValTypeTxt", )
+        text => "Cannot create spec key '$keyFullName' from $badValTypeTxt", )
       if $badValTypeTxt;
 
     my $keySpecs = $specs->subSpecs;
     my $keyNode = $this->getKeyNode( @keyPath, $keyName );
 
-    # Undef until we decide if the key we're working with is leaf – i.e.
-    # defines a key storing value, not other keys.
+    # $isLeafKey is undef until we decide if the key we're working with is leaf
+    # – i.e. defines a key storing value, not other keys.
     # The node is non-leaf if it hold a hash ref. For a newly created node
     # its value is undefined and thus
-    my $isLeafKey = defined $keyNode ? $keyNode->isLeaf : undef;
-    my ( @keyProfile, @subKeyElems );
+    my $isLeafKey;
+
+    if ( defined $keyNode ) {
+        $isLeafKey = $keyNode->isVague ? undef : $keyNode->isLeaf;
+        $keyType //= $keyNode->getOpt('type');
+    }
+
+    my ( @keyProfile, @keyOptions, @subKeyElems, @keySources );
+
     while ( $keySpecs->hasNext ) {
         my $elem = $keySpecs->fetch;
 
@@ -2446,34 +2570,31 @@ sub _specCfgKey {
         ) if ref($elem);
 
         if ( $elem =~ $Foswiki::regex{optionNameRegex} ) {
-            my $option = $1;
+            my $option = $+{option};
 
-            Foswiki::Exception::Config::BadSpecData->throw(
-                text    => "Unknown key option '$option'",
-                section => $keySpecs->section,
-                key     => $keyFullName,
-            ) if Foswiki::Config::Node->invalidSpecAttrs($option);
+            # SMELL Obscure exception could be thrown if no more specs to fetch.
+            # Additional check is required to have this fixed.
+            my $optVal = $keySpecs->fetch;
 
-            my $isLeafOption =
-              $option =~ /^$Foswiki::Config::Node::leafAttrRegex$/;
-
-            if ($isLeafOption) {
-                if ( defined $isLeafKey ) {
+            if ( $option eq 'type' ) {
+                if ( defined $keyType ) {
                     Foswiki::Exception::Config::BadSpecData->throw(
-                        text => "Leaf-only option '"
-                          . $elem
-                          . "' cannot be declared in a non-leaf definition",
+                        text =>
+"Another key type found which differs from the earlier one: '"
+                          . $optVal
+                          . "' vs '"
+                          . $keyType
+                          . "' respectively",
                         section => $section,
                         key     => $keyFullName,
-                    ) if !$isLeafKey;
+                    ) if $optVal ne $keyType;
                 }
                 else {
-                    # We didn't know if key is a leaf until now.
-                    $isLeafKey = $TRUE;
+                    $keyType = $optVal;
                 }
             }
 
-            push @keyProfile, ( $option, $keySpecs->fetch );
+            push @keyOptions, ( $option, $optVal );
         }
         else {
             Foswiki::Exception::Config::BadSpecData->throw(
@@ -2491,51 +2612,25 @@ sub _specCfgKey {
     }
 
     my $keyObject = $data->getKeyObject( $this->parseKeys(@keyPath) );
-    push @keyProfile, isLeaf => $isLeafKey if defined $isLeafKey;
-    $keyNode = $keyObject->makeNode( $keyName, @keyProfile,
-        section => $keySpecs->section, );
+    push @keyProfile, leafState => $isLeafKey if defined $isLeafKey;
+    $keyNode = $keyObject->makeNode(
+        key         => $keyName,
+        nodeType    => $keyType,
+        nodeProfile => [ @keyProfile, section => $keySpecs->section, ],
+    );
+    $keyNode->setOpt(@keyOptions);
     $keyNode->addSource( $keySpecs->source );
 
-    unless ($isLeafKey) {
+    if ( $keyNode->isBranch ) {
         my $subSpecs = $specs->subSpecs(
             specDef => \@subKeyElems,
             keyPath => [ @keyPath, $keyName ],
         );
-        $this->_processSpec( specs => $subSpecs );
-    }
-}
 
-my %spec_opts = (
-    section   => { handler => \&_specSection, },
-    modprefix => { handler => \&_specModprefix, },
-);
-
-sub _processSpec {
-    my $this   = shift;
-    my %params = @_;
-
-    my $specs = $params{specs};
-
-    while ( $specs->hasNext ) {
-        my $keyword = $specs->fetch;
-
-        if ( $keyword =~ $Foswiki::regex{optionNameRegex} ) {
-            my $option = $1;
-
-            if ( $spec_opts{$option} ) {
-                $spec_opts{$option}{handler}->( $this, specs => $specs, );
-            }
-            else {
-                # Unknown option.
-                Foswiki::Exception::Config::BadSpecData->throw(
-                    text => "Unknown spec option " . $option );
-            }
-        }
-        else {
-            # LSC key found.
-
-            $this->_specCfgKey( $keyword, specs => $specs, );
-        }
+        # We can safely call _processSpec here without worrying about it would
+        # incorrectly process section-only options likfe -section or -modprefix
+        # because $subSpecs is formed of subkeys only.
+        $this->_specCfgKey( $keyName, specs => $subSpecs );
     }
 }
 

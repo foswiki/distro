@@ -17,6 +17,18 @@ use CGI          ();    # Always required to get html generation tags;
 use Digest::MD5  ();    # For passthru and validation
 use Scalar::Util ();
 
+use Try::Tiny;
+use Assert;
+
+use Exporter qw(import);
+
+our @EXPORT_OK = qw(
+  %regex urlEncode urlDecode make_params load_package load_class
+  expandStandardEscapes findCaller findCallerByPrefix isTrue
+  fetchGlobal getNS
+  $TRUE $FALSE
+);
+
 # Item13331 - use CGI::ENCODE_ENTITIES introduced in CGI>=4.14 to restrict encoding
 # in CGI's html rendering code to only these; note that CGI's default values
 # still breaks some unicode byte strings
@@ -53,20 +65,6 @@ our $CC      = "\0-->";
 # It is provided so that modules can detect unit test mode to avoid
 # corrupting data spaces.
 our $inUnitTestMode = 0;
-
-use Try::Tiny;
-
-#use Moo;
-#use namespace::clean;
-#extends qw( Foswiki::Object );
-
-use Assert;
-use Exporter qw(import);
-our @EXPORT_OK = qw(
-  %regex urlEncode urlDecode make_params load_package load_class
-  expandStandardEscapes findCaller findCallerByPrefix isTrue
-  fetchGlobal getNS
-);
 
 sub SINGLE_SINGLETONS       { 0 }
 sub SINGLE_SINGLETONS_TRACE { 0 }

@@ -181,10 +181,16 @@ sub stringifyPostfix {
     );
 }
 
+sub stringifyText {
+    my $this = shift;
+    my $text = shift;
+    return $text;
+}
+
 sub stringify {
     my $this = shift;
 
-    return $this->text . $this->stringifyPostfix;
+    return $this->stringifyText( $this->text ) . $this->stringifyPostfix;
 }
 
 around to_str => sub {
@@ -421,7 +427,7 @@ extends qw(Foswiki::Exception);
 #    say STDERR $this->stringify, $this->stacktrace if DEBUG;
 #}
 
-# To cover perl/system errors.
+# To cover perl/system/core errors.
 
 package Foswiki::Exception::ASSERT;
 use Foswiki::Class;
