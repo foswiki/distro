@@ -189,7 +189,8 @@ For further troubleshooting and feedback, go to http://foswiki.org/Support/%TOPI
 |  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern][Preview with this skin]] |
 |  Base Name: | pattern |
 |  History: | <!-- specify latest version first -->&nbsp; |
-|  8 Feb 2017 | v.6.09:  Foswikitask:Item14315: Attachment count always shows latest revision when viewing prior versions. |
+|  8 Feb 2017 | v.6.09:  Foswikitask:Item14315: Attachment count always shows latest revision when viewing prior versions.<br/>\
+                         Foswikitask:Item14235: Sanitize some template fields. |
 |  23 Jan 2017 | v.6.08: Foswikitask:Item13831: JS error in System.LanguageSelector<br/>\
                          Foswikitask:Item14281: Cookie related changes. Inconsistent use of the domain and secure flags.<br/>\
                          Foswikitask:Item14286: PatternSkin*Navigation topics are broken, and difficult to tailor. |

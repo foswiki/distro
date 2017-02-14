@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1459790135" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1486929101" format="1.1" version="1"}%
 %META:TOPICPARENT{name="AdminDocumentationCategory"}%
 ---+!! Page Caching
 How to get the best from HTML Caching.
@@ -359,6 +359,21 @@ Example:
 
 This will add !MyOwnProtectedTopic to the set of default topics to be refreshed
 on every change in the web it is in.
+
+---++++ Controlling growth of topic dependencies table
+By default, Foswiki will track every linked topic mentioned on a page as a dependency of
+that page.  This can result in very rapid growth of the cache dependencies
+table, especially when the !WebLeftBar uses the =WEBLIST= macro, or links to a
+large number of pages.  These are tracked so that when a topic is added or
+removed, the referencing pages will be refreshed to get the correct link to
+the topic.
+
+An optional (expert) configuration parameter ={Cache}{TrackInternalLinks}=
+can be set to disable tracking these links for guests or for everyone.  For
+sites exposed to the Internet and search bot traffic, change this setting
+from =on= to =authenticated= to ignore links in topics viewed by
+guests.  The setting =off= will disable all topic reference tracking, and is
+_not_ recommended.
 
 ---++++ HTTP Compression
 Modern browsers can decompress content encoded using gzip compression. You can
