@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2016-04-17 09:23+0200\n"
-"Last-Translator: Kenneth <kenneth@lavrsen.dk>\n"
-"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki/"
-"distribution-master/da/>\n"
+"PO-Revision-Date: 2017-02-14 06:39+0200\n"
+"Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
+"Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
+"/distribution-master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -661,9 +661,9 @@ msgid "Access keys:"
 msgstr "Tastatur-genveje:"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:45
-#, fuzzy
 msgid "Access to pending registrations is restricted to administrators."
-msgstr "Din registrering afventer godkendelse af system administratorerne."
+msgstr ""
+"Adgang til igangværende registreringer er begrænset til administratorerne."
 
 #: core/templates/attachtables.tmpl:4 core/templates/attachtables.tmpl:43
 #: core/templates/changeform.tmpl:9
@@ -679,14 +679,12 @@ msgid "Actions"
 msgstr "Handlinger"
 
 #: core/templates/registermessages.tmpl:91
-#, fuzzy
 msgid "Activation Failed"
-msgstr "Forkert aktiveringskode"
+msgstr "Aktivering fejlede"
 
 #: core/templates/registermessages.tmpl:92
-#, fuzzy
 msgid "Activation for code %1 failed with an internal error."
-msgstr "Operationen %1 fejlede ved en intern fejl"
+msgstr "Aktivering for kode %1 fejlede ved en intern fejl."
 
 #: JQueryPlugin/data/System/JQueryButton.txt:29
 #: PatternSkin/data/System/PatternSkinElements.txt:452
@@ -829,7 +827,7 @@ msgstr ""
 
 #: core/data/System/PendingRegistrationsTemplate.txt:27
 msgid "Approve"
-msgstr ""
+msgstr "Godkend"
 
 #: core/templates/viewtopicactionbuttons.tmpl:69
 msgid "Attach"
@@ -1745,7 +1743,7 @@ msgstr "E-mail er slået fra i denne Foswiki-installation"
 
 #: core/data/System/PendingRegistrationsTemplate.txt:38
 msgid "Email verification is not enabled."
-msgstr ""
+msgstr "Email verificering er ikke aktiveret."
 
 #: NatEditPlugin/templates/edittoolbar.natedit.tmpl:99
 msgid "Embed external object"
@@ -1756,9 +1754,8 @@ msgid "Emoticon"
 msgstr "Humørikon"
 
 #: SlideShowPlugin/templates/view.slideshow.tmpl:26
-#, fuzzy
 msgid "End presentation"
-msgstr "Start præsentation"
+msgstr "Stop præsentation"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:83
 msgid "Enlarge edit box"
