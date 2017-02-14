@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: foswiki-svn@lists.sourceforge.net\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2017-02-14 06:45+0200\n"
-"Last-Translator: Tommy T <tommythmn@gmail.com>\n"
+"PO-Revision-Date: 2017-02-14 07:24+0200\n"
+"Last-Translator: Martin Dahlem <martin@dahlem.dk>\n"
 "Language-Team: Danish <http://translate.foswiki.org/projects/foswiki"
 "/distribution-master/da/>\n"
 "Language: da\n"
@@ -3182,9 +3182,8 @@ msgid "Passwords do not match"
 msgstr "Adgangskoder stemmer ikke overens"
 
 #: core/data/System/PendingRegistrations.txt:2
-#, fuzzy
 msgid "Pending Registrations"
-msgstr "Eksisterende brugerregistrering ikke fundet"
+msgstr "Igangværende registreringer"
 
 #: core/templates/registermessages.tmpl:41
 msgid "Pending registration not found"
